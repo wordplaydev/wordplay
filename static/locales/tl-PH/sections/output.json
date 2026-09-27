@@ -1917,117 +1917,117 @@
             }
         },
         "Image": {
-            "doc": "$?I'm a grid of colors, drawn as a picture. Give me a list of rows, each a list of @Color, and I'll paint one square for each. Give me a /glyph/ and I'll draw text in each square instead.",
-            "names": ["$?🖼", "$?Image"],
+            "doc": "$~Ako ay isang grid ng mga kulay, iginuhit bilang isang larawan. Bigyan ako ng listahan ng mga hanay, bawat isa ay listahan ng @Color, at magpipinta ako ng isang parisukat para sa bawat isa. Bigyan ako ng /glyph/ at maglalagay ako ng teksto sa bawat parisukat sa halip.",
+            "names": ["$~Larawan"],
             "colors": {
-                "doc": "$?My rows of colors, the top row first. Every row should be the same length.",
-                "names": "$?colors"
+                "doc": "$~Ang aking mga hanay ng kulay, ang pinakaitaas na hanay ang una. Dapat magkasing-haba ang bawat hanay.",
+                "names": "$~mgaKulay"
             },
             "description": {
-                "doc": "$?What I show, for anyone who can't see me. I ask for this because a grid of colors has no words of its own to fall back on.",
-                "names": "$?description"
+                "doc": "$~Ang ipinapakita ko, para sa sinumang hindi ako makita. Hinihingi ko ito dahil ang isang grid ng mga kulay ay walang sariling mga salita na magagamit bilang panapos.",
+                "names": "$~paglalarawan"
             },
             "width": {
-                "doc": "$?How wide I should be. If you give me only a height, I take my width from my shape; if you give me both, my squares stretch to fit.",
-                "names": "$?width"
+                "doc": "$~Kung gaano ako kalapad. Kung taas lang ang ibinigay mo, kukunin ko ang aking lapad mula sa aking hugis; kung parehong ibinigay mo, iaakma ang aking mga parisukat para umangkop.",
+                "names": "$~lapad"
             },
             "height": {
-                "doc": "$?How tall I should be. If you give me only a width, I take my height from my shape.",
-                "names": "$?height"
+                "doc": "$~Kung gaano ako kataas. Kung lapad lang ang ibinigay mo, kukunin ko ang aking taas mula sa aking hugis.",
+                "names": "$~taas"
             },
             "glyph": {
-                "doc": "$?A function from one of my colors to the text I should draw in its place. Without one I paint plain squares.",
-                "names": "$?glyph"
+                "doc": "$~Isang function mula sa isa sa aking mga kulay patungo sa tekstong dapat kong iguhit sa lugar nito. Kung wala nito, nagpipinta ako ng mga simpleng parisukat.",
+                "names": "$~guhit"
             },
             "recolor": {
-                "doc": "$?A function from one of my colors to the color I should draw instead. Useful for turning a picture into fewer colors.",
-                "names": "$?recolor"
+                "doc": "$~Isang function mula sa isa sa aking mga kulay patungo sa kulay na dapat kong iguhit sa halip. Kapaki-pakinabang para gawing mas kaunti ang kulay ng isang larawan.",
+                "names": "$~kulayangMuli"
             },
             "pixel": {
-                "doc": "$?One of my colors, which is what /glyph/ and /recolor/ are each given.",
-                "names": "$?pixel"
+                "doc": "$~Isa sa aking mga kulay, na siyang ibinibigay sa /glyph/ at /recolor/.",
+                "names": "$~piksel"
             },
             "glyphs": {
-                "doc": "$?What I draw in each square, worked out from /glyph/. Nothing, if you gave me no /glyph/.",
-                "names": "$?glyphs"
+                "doc": "$~Ang iginuguhit ko sa bawat parisukat, base sa /glyph/. Wala, kung hindi mo binigyan ako ng /glyph/.",
+                "names": "$~mgaGuhit"
             },
             "palette": {
-                "doc": "$?The colors I actually draw, worked out from /recolor/. My own colors, if you gave me no /recolor/.",
-                "names": "$?palette"
+                "doc": "$~Ang mga kulay na talagang iginuguhit ko, base sa /recolor/. Ang sarili kong mga kulay, kung hindi mo binigyan ako ng /recolor/.",
+                "names": "$~paleta"
             },
             "face": {
-                "doc": "$?The name of the font face my glyphs should be drawn in. If I don't have one, I use whatever contains me.",
-                "names": "$?face"
+                "doc": "$~Ang pangalan ng font face na dapat gamitin sa pagguhit ng aking mga glyph. Kung wala ako nito, ginagamit ko ang anumang naglalaman sa akin.",
+                "names": "$~mukha"
             },
             "place": {
-                "doc": "$?The place on stage where I should be.",
+                "doc": "$~Ang lugar sa entablado kung saan ako dapat naroroon.",
                 "names": "$~lugar"
             },
             "name": {
-                "doc": "$?I'm the name you can use, for animations and @Collision.",
-                "names": "$?name"
+                "doc": "$~Ako ang pangalan na maaari mong gamitin, para sa mga animation at @Collision.",
+                "names": "$~pangalan"
             },
             "selectable": {
-                "doc": "$?Whether I can be selected as part of @Choice.",
-                "names": "$?selectable"
+                "doc": "$~Kung maaari akong piliin bilang bahagi ng @Choice.",
+                "names": "$~mapipili"
             },
             "color": {
-                "doc": "$?A color to tint me with.",
+                "doc": "$~Isang kulay para sa aking mga glyph. Kung wala nito, kinukuha ng bawat glyph ang kulay ng parisukat na kinakatawan nito; kung mayroon, lahat sila ay magbabahagi nito, na siyang kailangan sa pagguhit gamit ng mga titik. Hindi ko ito pinapansin kung wala akong /glyph/, dahil kung gayon ang aking mga parisukat na ang siyang aking mga kulay.",
                 "names": "$~kulay"
             },
             "background": {
-                "doc": "$?The color behind me.",
-                "names": "$?background"
+                "doc": "$~Ang kulay sa likod ko.",
+                "names": "$~likuran"
             },
             "opacity": {
-                "doc": "$?How opaque I should be.",
-                "names": "$?opacity"
+                "doc": "$~Kung gaano ako kaopako.",
+                "names": "$~kalabuan"
             },
             "offset": {
-                "doc": "$?How far to move me from my place, after I'm placed.",
-                "names": "$?offset"
+                "doc": "$~Gaano kalayo ako dapat ilipat mula sa aking lugar, matapos akong ilagay.",
+                "names": "$~agwat"
             },
             "rotation": {
-                "doc": "$?How much to rotate me.",
-                "names": "$?rotation"
+                "doc": "$~Gaano ako dapat i-ikot.",
+                "names": "$~pagIkot"
             },
             "scale": {
-                "doc": "$?How much to scale me.",
-                "names": "$?scale"
+                "doc": "$~Gaano ako dapat palakihin o paliitin.",
+                "names": "$~sukat"
             },
             "flipx": {
-                "doc": "$?Whether to flip me horizontally.",
-                "names": "$?flipx"
+                "doc": "$~Kung dapat ba akong ibaligtad nang pahalang.",
+                "names": "$~baligtadx"
             },
             "flipy": {
-                "doc": "$?Whether to flip me vertically.",
-                "names": "$?flipy"
+                "doc": "$~Kung dapat ba akong ibaligtad nang patayo.",
+                "names": "$~baligtady"
             },
             "entering": {
-                "doc": "$?The @Pose or @Sequence I should do when entering @Stage.",
-                "names": "$?entering"
+                "doc": "$~Ang @Pose o @Sequence na dapat kong gawin kapag pumapasok sa @Stage.",
+                "names": "$~pumapasok"
             },
             "resting": {
-                "doc": "$?The @Pose or @Sequence I should do when I'm not moving.",
-                "names": "$?resting"
+                "doc": "$~Ang @Pose o @Sequence na dapat kong gawin kapag hindi ako gumagalaw.",
+                "names": "$~nakapahinga"
             },
             "moving": {
-                "doc": "$?The @Pose or @Sequence I should do when I'm moving.",
-                "names": "$?moving"
+                "doc": "$~Ang @Pose o @Sequence na dapat kong gawin kapag gumagalaw ako.",
+                "names": "$~gumagalaw"
             },
             "exiting": {
-                "doc": "$?The @Pose or @Sequence I should do when leaving @Stage.",
-                "names": "$?exiting"
+                "doc": "$~Ang @Pose o @Sequence na dapat kong gawin kapag umaalis sa @Stage.",
+                "names": "$~lumalabas"
             },
             "duration": {
-                "doc": "$?How long my animations should take if they are a single @Pose.",
-                "names": "$?duration"
+                "doc": "$~Gaano dapat tagal ang aking mga animation kung isa lang ang @Pose nito.",
+                "names": "$~tagal"
             },
             "style": {
-                "doc": "$?The animation style I should use.",
-                "names": "$?style"
+                "doc": "$~Ang estilo ng animation na dapat kong gamitin.",
+                "names": "$~estilo"
             },
-            "defaultDescription": "$?$description, a picture $columns by $rows"
+            "defaultDescription": "$~$description, isang larawan na $columns by $rows"
         }
     }
 }

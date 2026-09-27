@@ -154,7 +154,7 @@
                     "tip": "$~کپی پروژه در حافظهٔ موقت به‌صورت متن",
                     "label": "$~کپی به‌صورت متن"
                 },
-                "addSource": "$!یک @Source دیگر بسازید، تا بتوانید داده‌ها یا کد شریک‌ساخته‌شده را در فایل خودش نگه دارید",
+                "addSource": "$~@Source دیگری اضافه کن: یکی خالی، یا یکی ساخته‌شده از یک عکس یا یک آهنگ",
                 "remix": {
                     "tip": "$~برای تغییر دادن، یک کپی از این پروژه برای خودت بساز",
                     "label": "$~بازآمیزی"
@@ -280,7 +280,7 @@
                 "controls": "$~این /کنترل‌ها/ در پایین صفحه، به *کل پروژه* مربوط‌اند، فرقی نمی‌کند در کدام بخش کار می‌کنید.",
                 "name": "$~فیلد /نام/ همان نام پروژهٔ شماست. نام‌ها در نمای *پروژه* و *نگارخانه* نشان داده می‌شوند.",
                 "sourceToggle": "$~این /کلید تعویض/ فایل منبع را نشان یا پنهان می‌کند. *کلیدهای تعویض دیگر* در همین ردیف، همین کار را برای بخش‌های دیگر انجام می‌دهند.",
-                "addSource": "$!برخی پروژه‌ها از *چند* فایل منبع سود می‌برند، جایی که داده‌ها در یکی ذخیره و به فایل *اصلی* وارد می‌شوند. دکمهٔ /افزودن منبع/ یکی نو می‌سازد.",
+                "addSource": "$~بعضی پروژه‌ها از *چند* فایل منبع سود می‌برند، جایی که داده در یکی ذخیره می‌شود و به منبع *اصلی* وارد می‌شود. دکمهٔ /افزودن منبع/ راه‌های ساختن یکی را پیشنهاد می‌دهد: یک فایل خالی، یک عکس، یک آهنگ، یا مقداری داده.",
                 "share": "$~گفتگوی /هم‌رسانی/ به شما اجازه می‌دهد پروژه‌تان را با *نگارخانه‌ها*، با *همگان* هم‌رسانی کنید، یا آن را به‌صورت *متن* برای هم‌رسانی در جای دیگر کپی کنید.",
                 "languages": "$~دکمهٔ /زبان‌ها/ نشان می‌دهد پروژهٔ شما به چه زبان‌هایی نوشته شده، به شما اجازه می‌دهد زبانی اضافه یا حذف کنید، و می‌تواند *نام‌ها*، *متن* و *مستندسازی* پروژهٔ شما را به زبانی نو *ترجمه* کند.",
                 "checkpoints": "$~پنل /نسخه‌ها/ به شما اجازه می‌دهد به نسخه‌های *پیشین* پروژه‌تان *بازگردید*، و از نسخه‌هایی که می‌خواهید به‌خاطر بسپارید *نقطهٔ ذخیره* بسازید."
@@ -886,92 +886,92 @@
                 "closed": "$~نمای دوم $name بسته شد"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~افزودن کد",
+                "explanation": "$~یک پروژه می‌تواند بیش از یک فایل کد داشته باشد. یکی خالی بساز تا در آن بنویسی، یا یکی از روی عکس یا آهنگ بساز. می‌توانی از ارزش‌ها با @Borrow استفاده کنی.",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~یک فایل خالی، برای کدی که می‌خواهی از کد اصلی‌ات جدا نگه‌داری.",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~افزودن",
+                        "tip": "$~یک فایل خالی از کد اضافه کن"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~رنگ‌ها",
+                        "tip": "$~تعداد رنگ‌های سراسر عکس چند می‌شود"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows رنگ، حدود $size کیلوبایت، $percent از ظرفیت پروژه",
+                    "tooBig": "$~رنگ‌های خیلی زیاد برای فضای باقی‌ماندهٔ این پروژه",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~افزودن",
+                        "tip": "$~این رنگ‌ها را به‌عنوان یک فایل کد اضافه کن"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name، $columns × $rows رنگ",
+                    "cameraDoc": "$~یک عکس دوربین، $columns × $rows رنگ",
+                    "added": "$~$name اضافه شد، $#count[یک رنگ|$count رنگ]",
+                    "name": "$~رنگ‌ها",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~آنچه دوربینت می‌بیند",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~عکس‌گیری به‌عنوان منبع",
+                            "tip": "$~عکسی را که حالا نشان داده می‌شود ذخیره کن"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~دوباره",
+                            "tip": "$~به عکس زنده برگرد"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~دوربین در حال روشن شدن…",
+                        "denied": "$~نمی‌توانیم به دوربینت دسترسی پیدا کنیم. بررسی کن که این صفحه اجازهٔ استفاده از آن را داشته باشد."
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~فایل نو فهرستی از ردیف‌های @Color است، یکی برای هر مربع عکس. آن را قرض بگیر و به یک @Image بده تا آن را بکشد، یا از رنگ‌ها برای هر کار دیگری استفاده کن.",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~عکس از کجا می‌آید",
+                        "labels": ["$~این دستگاه", "$~دوربین"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~یک فایل تصویر روی این دستگاه",
+                            "$~چیزی که دوربین شما همین حالا می‌بیند"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~پهنا",
+                            "tip": "$~چقدر از پهنای تصویر نگه داشته شود"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~بلندا",
+                            "tip": "$~چقدر از بلندای تصویر نگه داشته شود"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~جعبه را بکشید تا جابه‌جا شود، یا یکی از گوشه‌هایش را بکشید تا اندازه‌اش تغییر کند. لغزنده‌های *پهنا* و *بلندا* هم همین کار را می‌کنند، و لغزندهٔ *رنگ‌ها* تعیین می‌کند تصویر چند رنگ داشته باشد. با صفحه‌کلید، *اینتر* را بزنید تا جابه‌جا کردن جعبه آغاز شود، سپس از کلیدهای *جهت‌نما* استفاده کنید، و وقتی کارتان تمام شد دوباره *اینتر* را بزنید."
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~یک فایل میدی — با پسوند .mid یا .midi، تا ۲ مگابایت — به یک فایل نو تبدیل می‌شود که نت‌هایش را در خود دارد، و برنامهٔ شما یک @Music می‌گیرد که آن‌ها را می‌نوازد. تا ۱۰٬۰۰۰ نت و ۱۲۸ مسیر پذیرفته می‌شود؛ هر چیزی که در @Music جا نشود، پس از وارد کردن فهرست می‌شود."
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~کد نو از چه چیزی ساخته شده",
+                    "labels": ["$~خالی", "$~تصویر", "$~جدول", "$~آهنگ"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~یک فایل که هنوز چیزی درونش نیست",
+                        "$~رنگ‌های یک تصویر، یا آنچه دوربین شما می‌بیند",
+                        "$~ارزش‌های جدا شده با کاما (CSV) که از یک صفحهٔ گسترده جای‌گذاری شده",
+                        "$~نت‌های یک فایل میدی روی این دستگاه"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~ردیف‌ها",
+                    "explanation": "$~ارزش‌های جدا شده با کاما (CSV)، مانند ردیف‌های کپی‌شده از یک صفحهٔ گسترده، را جای‌گذاری کنید تا به یک @Table تبدیل شوند که می‌توانید بخوانید و تغییر دهید. ردیف نخست نام ستون‌ها را مشخص می‌کند.",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~ارزش‌های جدا شده با کاما (CSV)",
+                        "placeholder": "$~نام، پاها\nگربه، ۴\nپرنده، ۲"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$#rows[یک ردیف|$rows ردیف] از $columns ستون",
+                    "notTable": "$~که هنوز ارزش‌های جدا شده با کاما (CSV) نیست",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~افزودن",
+                        "tip": "$~این ردیف‌ها را به عنوان یک فایل کد اضافه کن"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$#rows[یک ردیف|$rows ردیف] از $columns ستون",
+                    "added": "$~$name اضافه شد، $#rows[یک ردیف|$rows ردیف]"
                 }
             }
         },
@@ -2397,7 +2397,7 @@
                 "added": "$~نت $degree در ضرب $beat افزوده شد، اکنون $#count[$#count نت|$#count نت]",
                 "removed": "$~نت $degree در ضرب $beat حذف شد، اکنون $#count[$#count نت|$#count نت]",
                 "moved": "$~نت $degree، ضرب $beat",
-                "choose": "$?choose a song"
+                "choose": "$~یک آهنگ انتخاب کن"
             },
             "field": {
                 "coordinate": "$~ویرایش مختصات",
@@ -2932,7 +2932,7 @@
             },
             "crop": {
                 "label": "$~جعبهٔ برش",
-                "tip": "$!مربعی از تصویر که باید نگه‌داشته شود"
+                "tip": "$~بخشی از تصویر که باید نگه داشته شود"
             },
             "preview": "$~چه چیزی اضافه خواهد شد",
             "feedback": {

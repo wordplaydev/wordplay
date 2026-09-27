@@ -151,7 +151,7 @@
                     "tip": "$~העתקת הפרויקט ללוח כטקסט",
                     "label": "$~העתק כטקסט"
                 },
-                "addSource": "$!ליצור @Source נוסף, כדי לשמור נתונים או קוד משותף בקובץ נפרד משלו",
+                "addSource": "$~הוספת @Source נוסף: קובץ ריק, או אחד שנוצר מתמונה או משיר",
                 "revert": "$~חזרה לקוד המקורי",
                 "focusOutput": "$~פוקוס מקלדת על הבמה",
                 "focusSource": "$~להתמקד במקור הבא",
@@ -269,7 +269,7 @@
                 "controls": "$~ה-/controls/ האלה בתחתית חלים על *הפרויקט בכללותו*, לא משנה באיזה אריח אתם עובדים.",
                 "name": "$~השדה /name/ הוא השֵׁם של הפּרוֹיֶקט שלך. שמות מופיעים בתצוגות של ה*פּרוֹיֶקט* ושל ה*גלריה*.",
                 "sourceToggle": "$~הפעולה /toggle/ מציגה או מסתירה את *קובץ המקור*. ה*מתגים האחרים* בשורה זו עושים את אותו הדבר עבור שאר האריחים.",
-                "addSource": "$!חלק מהפרויקטים נהנים מקבצי מקור *מספר*, שבהם הנתונים מאוחסנים בקובץ אחד ומיובאים למקור *הראשי*. כפתור /הוסף מקור/ יוצר קובץ חדש.",
+                "addSource": "$~פרויקטים מסוימים נעזרים ב*כמה* קובצי מקור, כשמידע נשמר באחד ומיובא אל המקור ה*ראשי*. הכפתור /הוספת מקור/ מציע דרכים ליצור אחד: קובץ ריק, תמונה, שיר, או מידע כלשהו.",
                 "share": "$~תיבת הדו-שיח /share/ מאפשרת לך לשתף את הפרויקט שלך עם *גלריות*, עם *הציבור*, או להעתיק אותו כ*טקסט* לשיתוף במקום אחר.",
                 "checkpoints": "$~החלונית /revisions/ מאפשרת לך לחזור *לחזור* לגרסאות קודמות של הפרויקט שלך, ולגרסאות *snapshot* שברצונך לזכור.",
                 "languages": "$~הכפתור /languages/ מראה באילו שפות כתוב הפּרוֹיֶקט שלכם, מאפשר להוסיף או להסיר שָׂפָה, ויכול *לתרגם* את ה*שמות*, ה*טקסט* וה*תיעוד* של הפּרוֹיֶקט שלכם לשָׂפָה חדשה."
@@ -865,92 +865,92 @@
                 "closed": "$~התצוגה השנייה של $name נסגרה"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~הוספת קוד",
+                "explanation": "$~פרויקט יכול להכיל יותר מקובץ קוד אחד. אפשר ליצור קובץ ריק לכתיבה, או ליצור אחד מתוך תמונה או שיר. אפשר להשתמש בערכים עם @Borrow.",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~קובץ ריק, לקוד שרוצים לשמור בנפרד מהקוד הראשי.",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~הוספה",
+                        "tip": "$~הוספת קובץ קוד ריק"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~צבעים",
+                        "tip": "$~כמה צבעים יש לאורך התמונה"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows צבעים, בערך $size קילובייט, $percent ממה שפרויקט יכול להכיל",
+                    "tooBig": "$~יותר מדי צבעים לשטח שנשאר לפרויקט הזה",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~הוספה",
+                        "tip": "$~הוספת הצבעים האלה כקובץ קוד"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name, $columns × $rows צבעים",
+                    "cameraDoc": "$~תמונת מצלמה, $columns × $rows צבעים",
+                    "added": "$~נוסף $name, $#count[צבע אחד|שני צבעים|$count צבעים]",
+                    "name": "$~צבעים",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~מה שהמצלמה שלך רואה",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~צילום כמקור",
+                            "tip": "$~שמירת התמונה המוצגת כעת"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~שוב",
+                            "tip": "$~חזרה לתמונה החיה"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~מפעיל את המצלמה…",
+                        "denied": "$~אי אפשר להגיע למצלמה שלך. בדקו שהדף הזה מורשה להשתמש בה."
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~הקובץ החדש הוא רשימה של שורות של @Color, אחת לכל ריבוע בתמונה. שאלו אותו ותנו אותו ל-@Image כדי לצייר אותו, או השתמשו בצבעים לכל דבר אחר.",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~מאיפה מגיעה התמונה",
+                        "labels": ["$~המכשיר הזה", "$~מצלמה"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~קובץ תמונה במכשיר הזה",
+                            "$~מה שהמצלמה שלך רואה עכשיו"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~רוחב",
+                            "tip": "$~כמה רחב יהיה החלק בתמונה שנשמור"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~גובה",
+                            "tip": "$~כמה גבוה יהיה החלק בתמונה שנשמור"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~גררו את התיבה כדי להזיז אותה, או גררו אחת מהפינות שלה כדי לשנות את הגודל. המחוונים *רוחב* ו*גובה* עושים את אותו הדבר, והמחוון *צבעים* בוחר לכמה צבעים היא תהפוך. במקלדת, לחצו *Enter* כדי להתחיל להזיז את התיבה, השתמשו במקשי ה*חצים*, ולחצו *Enter* שוב כשתסיימו."
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~קובץ MIDI — ‎.mid או ‎.midi, בגודל של עד 2 מגה-בייט — הופך לקובץ חדש שמכיל את התווים שלו, והתוכנית שלכם מקבלת @Music שמנגן אותם. עד 10,000 תווים ו-128 ערוצים; כל מה שלא נכנס ב-@Music יופיע ברשימה אחרי הייבוא."
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~ממה מורכב הקוד החדש",
+                    "labels": ["$~ריק", "$~תמונה", "$~טבלה", "$~שיר"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~קובץ שאין בו עדיין שום דבר",
+                        "$~הצבעים של תמונה, או של מה שהמצלמה שלך רואה",
+                        "$~ערכים מופרדים בפסיקים (CSV) שהודבקו מגליון אלקטרוני",
+                        "$~התווים של קובץ MIDI במכשיר הזה"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~שורות",
+                    "explanation": "$~הדביקו ערכים מופרדים בפסיקים (CSV), כמו שורות שהועתקו מגליון אלקטרוני, והם יהפכו ל-@Table שאפשר לקרוא ולשנות. השורה הראשונה נותנת שמות לעמודות.",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~ערכים מופרדים בפסיקים (CSV)",
+                        "placeholder": "$~שם, רגליים\nחתול, 4\nציפור, 2"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$#rows[שורה אחת|שתי שורות|$rows שורות] של $columns עמודות",
+                    "notTable": "$~שזה עדיין לא ערכים מופרדים בפסיקים (CSV)",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~הוספה",
+                        "tip": "$~הוספת השורות האלה כקובץ קוד"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$#rows[שורה אחת|שתי שורות|$rows שורות] של $columns עמודות",
+                    "added": "$~נוסף $name, $#rows[שורה אחת|שתי שורות|$rows שורות]"
                 }
             }
         },
@@ -2334,7 +2334,7 @@
                 },
                 "report": "$~מה שייבאתי",
                 "reportExplanation": "$~@Music יכול להכיל את רוב מה שקובץ MIDI מתאר, אבל לא את הכול. הנה מה שהשתנה בדרך פנימה.",
-                "choose": "$?choose a song"
+                "choose": "$~בחרו שיר"
             },
             "toolbar": {
                 "label": "$~הוסף פלט",
@@ -2923,7 +2923,7 @@
             },
             "crop": {
                 "label": "$~תיבת חיתוך",
-                "tip": "$!הריבוע של התמונה שיישאר"
+                "tip": "$~החלק בתמונה שיש לשמור"
             },
             "preview": "$~מה שיתווסף",
             "feedback": {

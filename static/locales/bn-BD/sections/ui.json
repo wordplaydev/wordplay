@@ -152,7 +152,7 @@
                     "tip": "$~প্রকল্পটি টেক্সট হিসেবে ক্লিপবোর্ডে কপি করো",
                     "label": "$~টেক্সট হিসেবে কপি করো"
                 },
-                "addSource": "$!আরেকটা @Source তৈরি করো, যাতে তুমি তথ্য বা ভাগ করা কোড নিজের আলাদা ফাইলে রাখতে পারো",
+                "addSource": "$~আরেকটি @Source যোগ করো: একটি খালি, অথবা একটি ছবি বা গান থেকে তৈরি একটি",
                 "revert": "$~মূল কোডে ফিরে যাও",
                 "focusOutput": "$~কীবোর্ডকে মঞ্চে কেন্দ্রীভূত করো",
                 "focusSource": "$~পরবর্তী উৎসে কেন্দ্রীভূত করো",
@@ -269,7 +269,7 @@
                 "controls": "$~নিচের এই /নিয়ন্ত্রণগুলো* *পুরো প্রকল্পের উপর* প্রযোজ্য, তুমি যে টাইলেই কাজ করো না কেন।",
                 "name": "$~/নাম/ ক্ষেত্রটি তোমার প্রকল্পের নাম। নামগুলো *প্রকল্প* এবং *গ্যালারি* দৃশ্যে দেখা যায়।",
                 "sourceToggle": "$~এই /টগল/ *সোর্স ফাইল* দেখায় বা লুকায়। এই সারির *অন্য টগলগুলো* অন্য টাইলের জন্য একই কাজ করে।",
-                "addSource": "$!কিছু প্রকল্প *একাধিক* সোর্স ফাইল থেকে উপকার পায়, যেখানে ডেটা একটিতে রাখা হয় আর *প্রধান* সোর্সে আনা হয়। /add source/ বোতাম নতুন একটি তৈরি করে।",
+                "addSource": "$~কিছু প্রকল্পের জন্য *একাধিক* উৎস ফাইল দরকার হয়, যেখানে তথ্য একটিতে রাখা হয় এবং *প্রধান* উৎসে আনা হয়। /উৎস যোগ করো/ বোতাম একটি বানানোর উপায়গুলো দেখায়: একটি খালি ফাইল, একটি ছবি, একটি গান, অথবা কিছু তথ্য।",
                 "share": "$~/share/ ডায়ালগ তোমাকে *গ্যালারির* সাথে, *সবার* সাথে তোমার প্রকল্প ভাগ করতে দেয়, অথবা অন্য জায়গায় ভাগ করার জন্য *টেক্সট* হিসেবে কপি করতে দেয়।",
                 "checkpoints": "$~/revisions/ প্যানেল তোমাকে তোমার প্রকল্পের আগের সংস্করণে *ফিরে* যেতে দেয়, আর তুমি যে সংস্করণ মনে রাখতে চাও তার *স্ন্যাপশট* নিতে দেয়।",
                 "languages": "$~/languages/ বোতামটি দেখায় তোমার প্রকল্প কোন কোন ভাষায় লেখা হয়েছে, একটি ভাষা যোগ বা সরাতে দেয়, আর তোমার প্রকল্পের *নাম*, *লেখা*, আর *ডকুমেন্টেশন* একটি নতুন ভাষায় *অনুবাদ* করতে পারে।"
@@ -872,92 +872,92 @@
                 "closed": "$~$name এর দ্বিতীয় ভিউ বন্ধ করা হয়েছে"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~কোড যোগ করো",
+                "explanation": "$~একটি প্রকল্পে একের বেশি কোড ফাইল থাকতে পারে। লেখার জন্য একটি খালি ফাইল বানাও, অথবা একটি ছবি বা গান থেকে একটি বানাও। তুমি @Borrow দিয়ে সেই মানগুলো ব্যবহার করতে পারো।",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~একটি খালি ফাইল, যে কোড তুমি তোমার প্রধান কোড থেকে আলাদা রাখতে চাও তার জন্য।",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~যোগ করো",
+                        "tip": "$~কোডের একটি খালি ফাইল যোগ করো"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~রং",
+                        "tip": "$~ছবি জুড়ে কতগুলো রং হয়ে যায়"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows রং, প্রায় $size কেবি, একটি প্রকল্প যা ধরে রাখতে পারে তার $percent",
+                    "tooBig": "$~এই প্রকল্পের জন্য যতটুকু জায়গা বাকি আছে তার তুলনায় অনেক বেশি রং",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~যোগ করো",
+                        "tip": "$~এই রংগুলোকে কোডের একটি ফাইল হিসেবে যোগ করো"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name, $columns × $rows রং",
+                    "cameraDoc": "$~একটি ক্যামেরা ছবি, $columns × $rows রং",
+                    "added": "$~$name যোগ করা হলো, $#count[একটি রং|$count টি রং]",
+                    "name": "$~রং",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~তোমার ক্যামেরা যা দেখে",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~উৎস হিসেবে ছবি তোলো",
+                            "tip": "$~এখন দেখানো ছবিটি সংরক্ষণ করো"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~আবার",
+                            "tip": "$~সরাসরি ছবিতে ফিরে যাও"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~ক্যামেরা চালু হচ্ছে…",
+                        "denied": "$~আমরা তোমার ক্যামেরায় পৌঁছাতে পারছি না। এই পাতাটি এটি ব্যবহার করার অনুমতি পেয়েছে কিনা তা পরীক্ষা করো।"
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~নতুন ফাইলটি @Color-এর সারিগুলোর একটি তালিকা, ছবির প্রতিটি বর্গের জন্য একটি করে। এটি ধার নাও এবং আঁকার জন্য একটি @Image-কে দাও, অথবা রংগুলো অন্য যেকোনো কিছুর জন্য ব্যবহার করো।",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~ছবিটি কোথা থেকে এসেছে",
+                        "labels": ["$~এই ডিভাইস", "$~ক্যামেরা"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~এই ডিভাইসের একটি ছবি ফাইল",
+                            "$~এখন তোমার ক্যামেরা যা দেখছে"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~প্রস্থ",
+                            "tip": "$~ছবির কতটা প্রস্থ রাখতে হবে"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~উচ্চতা",
+                            "tip": "$~ছবির কতটা উচ্চতা রাখতে হবে"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~বাক্সটি সরাতে টেনে নাও, অথবা এর আকার বদলাতে কোনো কোণ টেনে নাও। *প্রস্থ* এবং *উচ্চতা* স্লাইডারও একই কাজ করে, আর *রং* স্লাইডার ঠিক করে এটি কত রঙে পরিণত হবে। কিবোর্ড দিয়ে করতে চাইলে, বাক্স সরানো শুরু করতে *enter* চাপো, তারপর *তীর* চিহ্নিত কি (arrow keys) ব্যবহার করো, আর কাজ শেষ হলে আবার *enter* চাপো।"
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~একটি MIDI ফাইল — .mid বা .midi, সর্বোচ্চ ২ এমবি — নতুন একটি ফাইলে পরিণত হয় যাতে তার সুরগুলো থাকে, আর তোমার প্রোগ্রাম একটি @Music পায় যা সেগুলো বাজায়। সর্বোচ্চ ১০,০০০টি সুর আর ১২৮টি ট্র্যাক পর্যন্ত রাখা যায়; একটি @Music-এ যা রাখা যায় না, তা আমদানির পরে তালিকাভুক্ত করা হয়।"
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~নতুন কোড কী দিয়ে তৈরি",
+                    "labels": ["$~খালি", "$~ছবি", "$~টেবিল", "$~গান"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~এখনো কিছু নেই এমন একটি ফাইল",
+                        "$~একটি ছবির রং, অথবা তোমার ক্যামেরা যা দেখছে তার রং",
+                        "$~একটি স্প্রেডশিট থেকে কপি করা কমা-বিভক্ত মান (CSV)",
+                        "$~এই ডিভাইসের একটি MIDI ফাইলের সুরগুলো"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~সারি",
+                    "explanation": "$~স্প্রেডশিট থেকে কপি করা সারির মতো কমা-বিভক্ত মান (CSV) পেস্ট করো, আর সেগুলো একটি @Table-এ পরিণত হবে যা তুমি পড়তে ও বদলাতে পারবে। প্রথম সারিতে কলামগুলোর নাম থাকে।",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~কমা-বিভক্ত মান (CSV)",
+                        "placeholder": "$~নাম, পা\nবিড়াল, ৪\nপাখি, ২"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$columns কলামের $#rows[একটি সারি|$rows সারি]",
+                    "notTable": "$~যা এখনো কমা-বিভক্ত মান (CSV) নয়",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~যোগ করো",
+                        "tip": "$~এই সারিগুলো একটি কোড ফাইল হিসেবে যোগ করো"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$columns কলামের $#rows[একটি সারি|$rows সারি]",
+                    "added": "$~$name যোগ করা হয়েছে, $#rows[একটি সারি|$rows সারি]"
                 }
             }
         },
@@ -2346,7 +2346,7 @@
                 },
                 "report": "$~আমি যা আমদানি করেছি",
                 "reportExplanation": "$~একটি @Music একটি MIDI ফাইল যা বর্ণনা করে তার বেশিরভাগ ধরে রাখতে পারে, তবে সবটুকু নয়। ভেতরে আনার সময় যা যা বদলেছে তা এখানে দেওয়া হলো।",
-                "choose": "$?choose a song"
+                "choose": "$~একটি গান বেছে নাও"
             },
             "toolbar": {
                 "label": "$~আউটপুট যোগ করো",
@@ -2927,7 +2927,7 @@
             },
             "crop": {
                 "label": "$~ক্রপ বক্স",
-                "tip": "$!ছবির যে বর্গটি রাখতে হবে"
+                "tip": "$~ছবির যে অংশটা রাখতে হবে"
             },
             "preview": "$~কী যোগ করা হবে",
             "feedback": {

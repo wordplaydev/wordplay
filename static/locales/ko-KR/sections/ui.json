@@ -144,7 +144,7 @@
                     "tip": "$~프로젝트를 텍스트로 클립보드에 복사",
                     "label": "$~텍스트로 복사"
                 },
-                "addSource": "$!데이터나 공유 코드를 별도의 파일에 담아둘 수 있도록 또 다른 @Source 만들기",
+                "addSource": "$~다른 @Source 추가하기: 빈 것으로 하거나, 사진이나 노래로 만든 것으로",
                 "revert": "$~원래 코드로 되돌리기",
                 "focusOutput": "$~무대에 키보드 집중",
                 "focusSource": "$~다음 소스에 집중하세요",
@@ -269,7 +269,7 @@
                 "controls": "$~아래쪽의 이러한 제어 설정은 어떤 타일에서 작업하든 상관없이 *프로젝트 전체*에 적용됩니다.",
                 "name": "$~/name/ 필드는 프로젝트의 이름입니다. 이름은 *프로젝트*와 *갤러리* 화면에 나타납니다.",
                 "sourceToggle": "$~이 토글 버튼은 *원본 파일*을 표시하거나 숨깁니다. 이 행의 *다른 토글 버튼*은 다른 타일에 대해 동일한 기능을 수행합니다.",
-                "addSource": "$!일부 프로젝트에서는 데이터를 하나의 소스 파일에 저장하고 이를 메인 소스 파일로 가져오는 방식으로 여러 개의 소스 파일을 사용하는 것이 유용합니다. '소스 추가' 버튼을 클릭하면 새 소스 파일이 생성됩니다.",
+                "addSource": "$~어떤 프로젝트는 소스 파일이 *여러 개*일 때 더 편리합니다. 데이터를 한 소스에 저장하고 *메인* 소스로 가져오는 방식입니다. /소스 추가/ 버튼을 누르면 소스를 만드는 여러 방법이 나옵니다. 빈 파일, 사진, 노래, 데이터 중 하나를 고를 수 있습니다.",
                 "share": "$~/공유/ 대화 상자를 사용하면 프로젝트를 갤러리, 일반 사용자와 공유하거나 텍스트 파일로 복사하여 다른 곳에서 공유할 수 있습니다.",
                 "checkpoints": "$~/수정 내역/ 패널을 사용하면 프로젝트의 이전 버전으로 *되돌아갈* 수 있고, 기억해 두고 싶은 버전을 *스냅샷*으로 저장할 수 있습니다.",
                 "languages": "$~/언어/ 단추는 여러분의 프로젝트가 어떤 언어로 쓰였는지 보여주고, 언어를 추가하거나 제거하게 해주며, 프로젝트의 *이름*, *텍스트*, *선적 서류 비치*를 새로운 언어로 *번역*할 수 있습니다."
@@ -602,92 +602,92 @@
                 "closed": "$~$name 의 두 번째 보기가 닫힘"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~코드 추가하기",
+                "explanation": "$~프로젝트는 코드 파일을 여러 개 가질 수 있습니다. 빈 파일을 만들어 직접 글을 쓰거나, 사진이나 노래로 파일을 만들 수 있습니다. 이 값들은 @Borrow와 함께 사용할 수 있습니다.",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~메인 코드와 따로 두고 싶은 코드를 위한 빈 파일입니다.",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~추가하기",
+                        "tip": "$~빈 코드 파일 추가하기"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~색",
+                        "tip": "$~사진 전체에서 색이 몇 개가 되는지"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows 색, 약 $size KB, 프로젝트 용량의 $percent",
+                    "tooBig": "$~이 프로젝트에 남은 공간에 비해 색이 너무 많습니다",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~추가하기",
+                        "tip": "$~이 색들을 코드 파일로 추가하기"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name, $columns × $rows 색",
+                    "cameraDoc": "$~카메라 사진, $columns × $rows 색",
+                    "added": "$~$name 추가됨, $#count[색 $count개]",
+                    "name": "$~색상",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~카메라에 보이는 것",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~소스로 찍기",
+                            "tip": "$~지금 보이는 사진 저장하기"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~다시",
+                            "tip": "$~실시간 사진으로 돌아가기"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~카메라를 켜는 중…",
+                        "denied": "$~카메라에 연결할 수 없습니다. 이 페이지가 카메라를 사용할 수 있도록 허용되어 있는지 확인하세요."
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~새 파일은 사진의 각 칸마다 하나씩, @Color들이 담긴 행의 목록입니다. 이것을 빌려서 @Image에게 주면 그려낼 수 있고, 다른 용도로 색을 사용할 수도 있습니다.",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~사진이 어디서 오는지",
+                        "labels": ["$~이 기기", "$~카메라"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~이 기기에 있는 사진 파일",
+                            "$~지금 카메라가 보고 있는 것"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~너비",
+                            "tip": "$~그림에서 남길 부분의 너비"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~높이",
+                            "tip": "$~그림에서 남길 부분의 높이"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~상자를 드래그해서 움직이거나, 모서리 중 하나를 드래그해서 크기를 바꾸세요. *너비*와 *높이* 슬라이더도 같은 일을 하고, *colors* 슬라이더는 몇 가지 색이 될지 정합니다. 키보드로는 *enter*를 눌러 상자 움직이기를 시작하고, *arrow* 키를 사용한 다음, 끝나면 다시 *enter*를 누르세요."
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~MIDI 파일(.mid 또는 .midi, 최대 2MB)은 그 안의 음표를 담은 새 파일이 되고, 여러분의 프로그램은 그 음표들을 재생하는 @Music 을 얻습니다. 최대 10,000개의 음표와 128개의 트랙까지 담을 수 있으며, @Music 이 담을 수 없는 것은 가져오기 뒤에 목록으로 나옵니다."
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~새 코드가 무엇으로 이루어지는지",
+                    "labels": ["$~비어 있음", "$~이미지", "$~표", "$~노래"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~아직 아무 내용도 없는 파일",
+                        "$~사진의 색, 또는 카메라가 보고 있는 것의 색",
+                        "$~스프레드시트에서 붙여넣은 쉼표로 구분된 값(CSV)",
+                        "$~이 기기에 있는 MIDI 파일의 음표"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~행",
+                    "explanation": "$~스프레드시트에서 복사한 행처럼, 쉼표로 구분된 값(CSV)을 붙여넣으면 읽고 바꿀 수 있는 @Table 이 됩니다. 첫 번째 행이 열의 이름이 됩니다.",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~쉼표로 구분된 값(CSV)",
+                        "placeholder": "$~name, legs\ncat, 4\nbird, 2"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$#rows[$rows개의 행] · $columns개의 열",
+                    "notTable": "$~아직 쉼표로 구분된 값(CSV)이 아닌 것",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~추가하기",
+                        "tip": "$~이 행들을 코드 파일로 추가하기"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$#rows[$rows개의 행] · $columns개의 열",
+                    "added": "$~$name 추가됨, $#rows[$rows개의 행]"
                 }
             }
         },
@@ -1932,7 +1932,7 @@
                 },
                 "report": "$~내가 가져온 것",
                 "reportExplanation": "$~@Music은 MIDI 파일이 설명하는 내용의 대부분을 담을 수 있지만, 전부는 아닙니다. 가져오는 과정에서 바뀐 내용은 다음과 같습니다.",
-                "choose": "$?choose a song"
+                "choose": "$~노래를 골라 주세요"
             },
             "toolbar": {
                 "label": "$~출력 추가",
@@ -2919,7 +2919,7 @@
             },
             "crop": {
                 "label": "$~자르기 상자",
-                "tip": "$!남길 이미지의 네모 영역"
+                "tip": "$~이미지에서 남길 부분"
             },
             "preview": "$~추가될 내용",
             "feedback": {

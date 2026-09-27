@@ -3,22 +3,24 @@
 يخبر @Camera تدفق طريقة رائعة للحصول على شبكة من الألوان من العالم من حولنا. 
 ماذا لو أردنا رؤية تلك الألوان، وإعادة رسم الصورة التي @Camera يراها؟
 
-يمكننا استخدام تخطيط @Grid لـ @Group، ودالة @List/combine لتحويل الألوان إلى قائمة من @Phrase نعطيها إلى @Grid.
+يأخذ @Image شبكة من الألوان ويرسمها كصورة واحدة، حتى نستطيع أن نعطيه ألوان @Camera مباشرةً.
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" لون: ⬚ مدة: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- يبني هذا المثال قائمة من العبارات، ويحوّل كل لون إلى دائرة بذلك اللون.
+ كل @Image يحتاج إلى وصف، لأن شبكة الألوان لا تحمل كلمات خاصة بها لمن لا يستطيع رؤيتها.
 
-كن حذرًا مع @Camera مصادر البيانات: فهي تنتج كمية كبيرة من الدخل! ستحتاج إلى الحفاظ على عرض وارتفاع الصورة صغيرين.
+نستطيع أن نرسم الصورة بحروف بدلاً من مربعات، بأن نعطيه /محرف/، وهو دالة تحوّل كل لون إلى النص الذي يمثّله.
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m محرف: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

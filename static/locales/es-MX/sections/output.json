@@ -1917,117 +1917,117 @@
             }
         },
         "Image": {
-            "doc": "$?I'm a grid of colors, drawn as a picture. Give me a list of rows, each a list of @Color, and I'll paint one square for each. Give me a /glyph/ and I'll draw text in each square instead.",
-            "names": ["$?🖼", "$?Image"],
+            "doc": "$~soy una cuadrícula de colores, dibujada como una imagen. Dame una lista de filas, cada una una lista de @Color, y pintaré un cuadrado por cada una. Dame un /glyph/ y dibujaré texto en cada cuadrado en su lugar.",
+            "names": ["$~Imagen"],
             "colors": {
-                "doc": "$?My rows of colors, the top row first. Every row should be the same length.",
-                "names": "$?colors"
+                "doc": "$~mis filas de colores, con la fila de arriba primero. Todas las filas deben tener el mismo largo.",
+                "names": "$~colores"
             },
             "description": {
-                "doc": "$?What I show, for anyone who can't see me. I ask for this because a grid of colors has no words of its own to fall back on.",
-                "names": "$?description"
+                "doc": "$~lo que muestro, para quien no pueda verme. Pido esto porque una cuadrícula de colores no tiene palabras propias en las que apoyarse.",
+                "names": "$~descripción"
             },
             "width": {
-                "doc": "$?How wide I should be. If you give me only a height, I take my width from my shape; if you give me both, my squares stretch to fit.",
-                "names": "$?width"
+                "doc": "$~qué tan ancha debo ser. Si me das solo una altura, tomo mi ancho de mi forma; si me das ambas, mis cuadrados se estiran para ajustarse.",
+                "names": "$~ancho"
             },
             "height": {
-                "doc": "$?How tall I should be. If you give me only a width, I take my height from my shape.",
-                "names": "$?height"
+                "doc": "$~qué tan alta debo ser. Si me das solo un ancho, tomo mi altura de mi forma.",
+                "names": "$~alto"
             },
             "glyph": {
-                "doc": "$?A function from one of my colors to the text I should draw in its place. Without one I paint plain squares.",
-                "names": "$?glyph"
+                "doc": "$~una función que va de uno de mis colores al texto que debo dibujar en su lugar. Sin ella, pinto cuadrados simples.",
+                "names": "$~glifo"
             },
             "recolor": {
-                "doc": "$?A function from one of my colors to the color I should draw instead. Useful for turning a picture into fewer colors.",
-                "names": "$?recolor"
+                "doc": "$~una función que va de uno de mis colores al color que debo dibujar en su lugar. Es útil para convertir una imagen en menos colores.",
+                "names": "$~recolorear"
             },
             "pixel": {
-                "doc": "$?One of my colors, which is what /glyph/ and /recolor/ are each given.",
-                "names": "$?pixel"
+                "doc": "$~uno de mis colores, que es lo que reciben /glyph/ y /recolor/.",
+                "names": "$~pixel"
             },
             "glyphs": {
-                "doc": "$?What I draw in each square, worked out from /glyph/. Nothing, if you gave me no /glyph/.",
-                "names": "$?glyphs"
+                "doc": "$~lo que dibujo en cada cuadrado, calculado a partir de /glyph/. Nada, si no me diste /glyph/.",
+                "names": "$~glifos"
             },
             "palette": {
-                "doc": "$?The colors I actually draw, worked out from /recolor/. My own colors, if you gave me no /recolor/.",
-                "names": "$?palette"
+                "doc": "$~los colores que en verdad dibujo, calculados a partir de /recolor/. Mis propios colores, si no me diste /recolor/.",
+                "names": "$~paleta"
             },
             "face": {
-                "doc": "$?The name of the font face my glyphs should be drawn in. If I don't have one, I use whatever contains me.",
-                "names": "$?face"
+                "doc": "$~el nombre de la tipografía en la que deben dibujarse mis glifos. Si no tengo una, uso la de lo que me contiene.",
+                "names": "$~cara"
             },
             "place": {
-                "doc": "$?The place on stage where I should be.",
+                "doc": "$~el lugar del escenario donde debo estar.",
                 "names": "lugar"
             },
             "name": {
-                "doc": "$?I'm the name you can use, for animations and @Collision.",
-                "names": "$?name"
+                "doc": "$~soy el nombre que puedes usar, para animaciones y @Collision.",
+                "names": "$~nombre"
             },
             "selectable": {
-                "doc": "$?Whether I can be selected as part of @Choice.",
-                "names": "$?selectable"
+                "doc": "$~si puedo ser seleccionada como parte de @Choice.",
+                "names": "$~seleccionable"
             },
             "color": {
-                "doc": "$?A color to tint me with.",
-                "names": "$?color"
+                "doc": "$~un color para mis glifos. Sin uno, cada glifo toma el color del cuadrado que representa; con uno, todos lo comparten, que es lo que se necesita para dibujar con letras. Lo ignoro si no tengo /glyph/, ya que entonces mis cuadrados son mis colores.",
+                "names": "$~color"
             },
             "background": {
-                "doc": "$?The color behind me.",
-                "names": "$?background"
+                "doc": "$~el color detrás de mí.",
+                "names": "$~fondo"
             },
             "opacity": {
-                "doc": "$?How opaque I should be.",
-                "names": "$?opacity"
+                "doc": "$~qué tan opaca debo ser.",
+                "names": "$~opacidad"
             },
             "offset": {
-                "doc": "$?How far to move me from my place, after I'm placed.",
-                "names": "$?offset"
+                "doc": "$~qué tanto moverme desde mi lugar, después de que me colocan.",
+                "names": "$~desplazamiento"
             },
             "rotation": {
-                "doc": "$?How much to rotate me.",
-                "names": "$?rotation"
+                "doc": "$~cuánto rotarme.",
+                "names": "$~rotación"
             },
             "scale": {
-                "doc": "$?How much to scale me.",
-                "names": "$?scale"
+                "doc": "$~cuánto escalarme.",
+                "names": "$~escala"
             },
             "flipx": {
-                "doc": "$?Whether to flip me horizontally.",
-                "names": "$?flipx"
+                "doc": "$~si debo voltearme horizontalmente.",
+                "names": "$~voltearx"
             },
             "flipy": {
-                "doc": "$?Whether to flip me vertically.",
-                "names": "$?flipy"
+                "doc": "$~si debo voltearme verticalmente.",
+                "names": "$~volteary"
             },
             "entering": {
-                "doc": "$?The @Pose or @Sequence I should do when entering @Stage.",
-                "names": "$?entering"
+                "doc": "$~el @Pose o @Sequence que debo hacer al entrar a @Stage.",
+                "names": "$~entrando"
             },
             "resting": {
-                "doc": "$?The @Pose or @Sequence I should do when I'm not moving.",
-                "names": "$?resting"
+                "doc": "$~El @Pose o @Sequence que debo hacer cuando no me estoy moviendo.",
+                "names": "$~reposando"
             },
             "moving": {
-                "doc": "$?The @Pose or @Sequence I should do when I'm moving.",
-                "names": "$?moving"
+                "doc": "$~El @Pose o @Sequence que debo hacer cuando me estoy moviendo.",
+                "names": "$~moviendo"
             },
             "exiting": {
-                "doc": "$?The @Pose or @Sequence I should do when leaving @Stage.",
-                "names": "$?exiting"
+                "doc": "$~El @Pose o @Sequence que debo hacer al salir de @Stage.",
+                "names": "$~saliendo"
             },
             "duration": {
-                "doc": "$?How long my animations should take if they are a single @Pose.",
-                "names": "$?duration"
+                "doc": "$~Cuánto deben durar mis animaciones si son un solo @Pose.",
+                "names": "$~duración"
             },
             "style": {
-                "doc": "$?The animation style I should use.",
-                "names": "$?style"
+                "doc": "$~El estilo de animación que debo usar.",
+                "names": "$~estilo"
             },
-            "defaultDescription": "$?$description, a picture $columns by $rows"
+            "defaultDescription": "$~$description, una imagen de $columns por $rows"
         }
     }
 }

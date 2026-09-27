@@ -148,7 +148,7 @@
                     "tip": "$~skopiuj projekt do schowka jako tekst",
                     "label": "$~skopiuj jako tekst"
                 },
-                "addSource": "$!utwórz kolejne @Source, aby móc trzymać dane lub udostępniony kod we własnym pliku",
+                "addSource": "$~dodaj kolejne @Source: puste albo zrobione ze zdjęcia lub piosenki",
                 "revert": "$~powrót do oryginalnego kodu",
                 "focusOutput": "$~skup klawiaturę na scenie",
                 "focusSource": "$~skup się na następnym źródle",
@@ -269,7 +269,7 @@
                 "controls": "$~Te /elementy sterujące/ na dole dotyczą *całego projektu*, niezależnie od tego, w którym kafelku pracujesz.",
                 "name": "$~Pole /name/ to nazwa twojego projektu. Nazwy pokazują się w widokach *projektu* i *galerii*.",
                 "sourceToggle": "$~Ten przełącznik pokazuje lub ukrywa *plik źródłowy*. *Pozostałe przełączniki* w tym wierszu działają tak samo dla pozostałych kafelków.",
-                "addSource": "$!Niektóre projekty korzystają z *wielu* plików źródłowych, gdzie dane są przechowywane w jednym i importowane do *głównego* źródła. Przycisk /dodaj źródło/ tworzy nowe źródło.",
+                "addSource": "$~Niektóre projekty korzystają z *wielu* plików źródłowych, gdzie dane są przechowywane w jednym, a potem wczytywane do *głównego* źródła. Przycisk /dodaj źródło/ pokazuje sposoby, jak je zrobić: pusty plik, zdjęcie, piosenkę albo dane.",
                 "share": "$~Okno dialogowe /share/ umożliwia udostępnianie projektu w *galeriach*, *publicznie* lub kopiowanie go jako *tekst* w celu udostępnienia gdzie indziej.",
                 "checkpoints": "$~Panel /revisions/ umożliwia powrót do poprzednich wersji projektu oraz zapisanie *migawek* wersji, które chcesz zapamiętać.",
                 "languages": "$~Przycisk /języki/ pokazuje, w jakich językach napisany jest twój projekt, pozwala dodać lub usunąć język i może *przetłumaczyć* *nazwy*, *tekst* i *dokumentację* twojego projektu na nowy język."
@@ -626,92 +626,92 @@
                 "closed": "$~zamknięto drugi widok $name"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~dodaj kod",
+                "explanation": "$~Projekt może mieć więcej niż jeden plik kodu. Zrób pusty plik, żeby coś w nim napisać, albo zrób go ze zdjęcia lub piosenki. Możesz używać wartości razem z @Borrow.",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~Pusty plik na kod, który chcesz trzymać osobno od głównego kodu.",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~dodaj",
+                        "tip": "$~dodaj pusty plik kodu"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~kolory",
+                        "tip": "$~ile kolorów na całym zdjęciu powstanie"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows kolorów, około $size KB, $percent tego, co może pomieścić projekt",
+                    "tooBig": "$~za dużo kolorów jak na miejsce, które zostało dla tego projektu",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~dodaj",
+                        "tip": "$~dodaj te kolory jako plik kodu"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name, $columns × $rows kolorów",
+                    "cameraDoc": "$~zdjęcie z kamery, $columns × $rows kolorów",
+                    "added": "$~dodano $name, $#count[jeden kolor|$count kolory|$count kolorów|$count koloru]",
+                    "name": "$~kolory",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~co widzi twoja kamera",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~zrób zdjęcie jako źródło",
+                            "tip": "$~zapisz obraz widoczny teraz"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~jeszcze raz",
+                            "tip": "$~wróć do obrazu na żywo"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~Uruchamianie kamery…",
+                        "denied": "$~Nie możemy połączyć się z twoją kamerą. Sprawdź, czy ta strona ma pozwolenie na jej używanie."
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~Nowy plik to lista rzędów z @Color, po jednym dla każdego kwadratu na zdjęciu. Pożycz go i przekaż do @Image, żeby go narysować, albo użyj tych kolorów do czegoś innego.",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~skąd pochodzi obraz",
+                        "labels": ["$~to urządzenie", "$~aparat"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~plik ze zdjęciem na tym urządzeniu",
+                            "$~to, co widzi teraz twój aparat"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~szerokość",
+                            "tip": "$~jak szeroki ma być zachowany fragment zdjęcia"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~wysokość",
+                            "tip": "$~jak wysoki ma być zachowany fragment zdjęcia"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~Przeciągnij ramkę, żeby ją przesunąć, albo przeciągnij jeden z jej rogów, żeby zmienić jej rozmiar. Suwaki *szerokość* i *wysokość* robią to samo, a suwak *kolory* wybiera, ile kolorów zostanie użytych. Za pomocą klawiatury naciśnij *enter*, aby zacząć przesuwać ramkę, potem użyj klawiszy *strzałek*, a na koniec znów naciśnij *enter*."
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~Plik MIDI — .mid lub .midi, o rozmiarze do 2 MB — zamienia się w nowy plik zawierający jego nuty, a twój program otrzymuje @Music, który je odtwarza. Można zachować do 10 000 nut i 128 ścieżek; wszystko, czego nie zmieści @Music, zostanie wypisane po zaimportowaniu."
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~z czego zbudowany jest nowy kod",
+                    "labels": ["$~puste", "$~obraz", "$~tabela", "$~utwór"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~plik, w którym jeszcze nic nie ma",
+                        "$~kolory zdjęcia albo tego, co widzi twój aparat",
+                        "$~wartości oddzielone przecinkami (CSV) wklejone z arkusza kalkulacyjnego",
+                        "$~nuty pliku MIDI na tym urządzeniu"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~wiersze",
+                    "explanation": "$~Wklej wartości oddzielone przecinkami (CSV), na przykład wiersze skopiowane z arkusza kalkulacyjnego, a staną się @Table, które możesz odczytać i zmienić. Pierwszy wiersz zawiera nazwy kolumn.",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~wartości oddzielone przecinkami (CSV)",
+                        "placeholder": "$~nazwa, nogi\nkot, 4\nptak, 2"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$#rows[jeden wiersz|$rows wiersze|$rows wierszy|$rows wiersza], kolumny: $columns",
+                    "notTable": "$~to, co jeszcze nie jest wartościami oddzielonymi przecinkami (CSV)",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~dodaj",
+                        "tip": "$~dodaj te wiersze jako plik z kodem"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$#rows[jeden wiersz|$rows wiersze|$rows wierszy|$rows wiersza], kolumny: $columns",
+                    "added": "$~dodano $name, $#rows[jeden wiersz|$rows wiersze|$rows wierszy|$rows wiersza]"
                 }
             }
         },
@@ -2096,7 +2096,7 @@
                 },
                 "report": "$~Co zaimportowałem",
                 "reportExplanation": "$~@Music może pomieścić większość tego, co opisuje plik MIDI, ale nie wszystko. Oto, co zmieniło się po drodze.",
-                "choose": "$?choose a song"
+                "choose": "$~wybierz piosenkę"
             },
             "toolbar": {
                 "label": "$~dodaj wynik",
@@ -2929,7 +2929,7 @@
             },
             "crop": {
                 "label": "$~pole przycinania",
-                "tip": "$!kwadrat obrazu do zachowania"
+                "tip": "$~część obrazu do zachowania"
             },
             "preview": "$~co zostanie dodane",
             "feedback": {

@@ -3,22 +3,24 @@ Skapa en video från kameran
 Den @Camera ström är ett bra sätt att få ett rutnät med färger från världen. 
 Tänk om vi vill se de färgerna, och skapa om bilden som @Camera ser?
 
-Vi kan använda @Grid layouten för en @Group, och funktionen @List/combine för att omvandla färgerna till en lista med @Phrase som vi ger till @Grid.
+En @Image tar ett rutnät av färger och ritar det som en enda bild, så vi kan ge den @Camera s färger direkt.
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" färg: ⬚ varaktighet: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- Det här exemplet bygger en lista med fraser och gör om varje färg till en cirkel med just den färgen.
+ Varje @Image behöver en beskrivning, eftersom ett rutnät av färger inte har några egna ord för den som inte kan se det.
 
-Var försiktig med @Camera -strömmar: de skapar mycket indata! Du bör hålla bildens bredd och höjd liten.
+Vi kan rita bilden med bokstäver istället för rutor genom att ge den en /tecken/, en funktion som omvandlar en färg till texten som står för den.
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m tecken: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

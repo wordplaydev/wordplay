@@ -152,7 +152,7 @@
                     "tip": "$~copiază proiectul în clipboard ca text",
                     "label": "$~copiază ca text"
                 },
-                "addSource": "$!creează o altă @Source, ca să poți păstra date sau cod partajat în propriul fișier",
+                "addSource": "$~adaugă un alt @Source: unul gol, sau unul făcut dintr-o poză sau un cântec",
                 "revert": "$~reveniți la codul original",
                 "focusOutput": "$~tastatură concentrată pe scenă",
                 "focusSource": "$~concentrați-vă pe următoarea sursă",
@@ -269,7 +269,7 @@
                 "controls": "$~Aceste /comenzi/ din partea de jos se aplică întregului *proiect*, indiferent de dala în care lucrați.",
                 "name": "$~Câmpul /name/ este numele proiectului tău. Numele apar în vizualizările *project* și *gallery*.",
                 "sourceToggle": "$~Această /comutare/ afișează sau ascunde *fișierul sursă*. *Celelalte comenzi* de pe acest rând fac același lucru și pentru celelalte plăci.",
-                "addSource": "$!Unele proiecte beneficiază de fișiere sursă *mai multe*, unde datele sunt stocate într-unul singur și importate în sursa *principală*. Butonul /adăugați sursă/ creează una nouă.",
+                "addSource": "$~Unele proiecte au nevoie de *mai multe* fișiere sursă, unde datele sunt păstrate într-unul și importate în sursa *principală*. Butonul /adaugă sursă/ oferă moduri de a face unul: un fișier gol, o poză, un cântec sau niște date.",
                 "share": "$~Caseta de dialog /share/ vă permite să partajați proiectul cu *galerii*, cu *publicul* sau să îl copiați ca *text* pentru a-l partaja în altă parte.",
                 "checkpoints": "$~Panoul /revisions/ vă permite să *reveniți* la versiunile anterioare ale proiectului și la versiunile *snapshot* pe care doriți să le rețineți.",
                 "languages": "$~Butonul /limbi/ arată în ce limbi este scris proiectul tău, îți permite să adaugi sau să elimini una și poate *traduce* *numele*, *textul* și *documentarea* proiectului tău într-o limbă nouă."
@@ -872,92 +872,92 @@
                 "closed": "$~a închis a doua fereastră pentru $name"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~adaugă cod",
+                "explanation": "$~Un proiect poate avea mai mult de un fișier de cod. Fă unul gol în care să scrii, sau fă unul dintr-o poză sau un cântec. Poți folosi valorile cu @Borrow.",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~Un fișier gol, pentru codul pe care vrei să îl ții separat de codul principal.",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~adaugă",
+                        "tip": "$~adaugă un fișier gol de cod"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~culori",
+                        "tip": "$~câte culori din poză devin"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows culori, aproximativ $size KB, $percent din cât poate ține un proiect",
+                    "tooBig": "$~prea multe culori pentru spațiul rămas pentru acest proiect",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~adaugă",
+                        "tip": "$~adaugă aceste culori ca fișier de cod"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name, $columns × $rows culori",
+                    "cameraDoc": "$~o poză de la cameră, $columns × $rows culori",
+                    "added": "$~s-a adăugat $name, $#count[o culoare|$#count culori|$count culori]",
+                    "name": "$~culori",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~ce vede camera ta",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~fotografiază ca sursă",
+                            "tip": "$~salvează poza afișată acum"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~din nou",
+                            "tip": "$~înapoi la poza live"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~Se pornește camera…",
+                        "denied": "$~Nu putem ajunge la camera ta. Verifică dacă această pagină are voie să o folosească."
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~Noul fișier este o listă de rânduri de @Color, câte unul pentru fiecare pătrat al pozei. Împrumută-l și dă-l unui @Image pentru a-l desena, sau folosește culorile pentru orice altceva.",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~de unde vine poza",
+                        "labels": ["$~acest dispozitiv", "$~camera"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~un fișier cu o poză de pe acest dispozitiv",
+                            "$~ce vede camera ta chiar acum"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~lățime",
+                            "tip": "$~cât de lată să fie partea din poză pe care o păstrezi"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~înălțime",
+                            "tip": "$~cât de înaltă să fie partea din poză pe care o păstrezi"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~Trage cutia ca s-o muți, sau trage unul din colțurile ei ca să-i schimbi mărimea. Cursoarele *lățime* și *înălțime* fac același lucru, iar cursorul *culori* alege în câte culori se transformă. Cu tastatura, apasă *enter* ca să începi să miști cutia, apoi folosește tastele *săgeți*, și apasă din nou *enter* când ai terminat."
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~Un fișier MIDI — .mid sau .midi, de până la 2 MB — devine un fișier nou care conține notele lui, iar programul tău primește un @Music care le redă. Până la 10.000 de note și 128 de piste; tot ce nu încape într-un @Music este afișat după import."
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~din ce este făcut noul cod",
+                    "labels": ["$~gol", "$~imagine", "$~tabel", "$~melodie"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~un fișier care nu are încă nimic în el",
+                        "$~culorile unei poze, sau ale a ceea ce vede camera ta",
+                        "$~valori separate prin virgulă (CSV) lipite dintr-o foaie de calcul",
+                        "$~notele unui fișier MIDI de pe acest dispozitiv"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~rânduri",
+                    "explanation": "$~Lipește valori separate prin virgulă (CSV), cum ar fi rânduri copiate dintr-o foaie de calcul, și ele devin un @Table pe care îl poți citi și schimba. Primul rând denumește coloanele.",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~valori separate prin virgulă (CSV)",
+                        "placeholder": "$~nume, picioare\npisică, 4\npasăre, 2"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$#rows[un rând|$#rows rânduri|$rows de rânduri] din $columns coloane",
+                    "notTable": "$~care nu este încă valori separate prin virgulă (CSV)",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~adaugă",
+                        "tip": "$~adaugă aceste rânduri ca un fișier de cod"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$#rows[un rând|$#rows rânduri|$rows de rânduri] din $columns coloane",
+                    "added": "$~a adăugat $name, $#rows[un rând|$#rows rânduri|$rows de rânduri]"
                 }
             }
         },
@@ -2351,7 +2351,7 @@
                 },
                 "report": "$~Ce am importat",
                 "reportExplanation": "$~Un @Music poate păstra cea mai mare parte din ce descrie un fișier MIDI, dar nu chiar totul. Iată ce s-a schimbat la intrare.",
-                "choose": "$?choose a song"
+                "choose": "$~alege un cântec"
             },
             "toolbar": {
                 "label": "$~adaugă ieșire",
@@ -2935,7 +2935,7 @@
             },
             "crop": {
                 "label": "$~chenar de decupare",
-                "tip": "$!pătratul imaginii de păstrat"
+                "tip": "$~partea din imagine care trebuie păstrată"
             },
             "preview": "$~ce se va adăuga",
             "feedback": {

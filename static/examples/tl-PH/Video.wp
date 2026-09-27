@@ -1,32 +1,27 @@
 📹
 Video
 ===
-¶Ang iyong feed mula sa camera, ginuhit ulit nang live: bilang makulay na mga letra, bilang ASCII shading, o bilang makulay na mga parisukat. Pumili ng estilo gamit ang mga pindutan sa ibaba.¶
+¶Ang iyong camera feed, ipininta muli nang live: bilang mga kulay na letra, bilang ASCII shading, o bilang mga kulay na parisukat. Pumili ng estilo gamit ang mga buton sa ibaba.¶
 
-¶Kung aling pindutan ng estilo ang pinakahuling na-click. Sinasabi ng Choice ang pangalan ng mapipiling phrase na pinili ng manonood, at pinapanatili ng estilo ang huling narinig nito.¶
-pagpili: Pagpipilian()
-estilo2: 'letters' … ∆ pagpili … pagpili
+¶Kung aling buton ng estilo ang huling na-click. Iniuulat ng Choice ang pangalan ng napiling phrase na pinili ng manonood, at pinapanatili ng estilo kung ano ang huling narinig nito.¶
+pinili: Pagpipilian()
+estilo2: 'letters' … ∆ pinili … pinili
 
-¶Malaki ang mga emoji, kaya ang estilong emoji ay gumagamit ng mas magaspang na grid. Parehong sumasaklaw ang dalawang grid sa 16 na metro bawat 12 metro, kaya ang pagpapalit ng estilo ay hindi nagbabago sa laki ng larawan o naglilipat ng camera.¶
+¶Malalaki ang mga emoji, kaya kumukuha ang estilong emoji ng mas magaspang na grid. Nananatiling parehong laki ang larawan sa dalawang paraan, kaya ang pagpapalit ng estilo ay hindi kailanman nagpapalit ng laki nito o gumagalaw sa camera — ang mga parisukat lang na bumubuo dito ang lumalaki.¶
 mgaHaligi: (estilo2 = 'emoji') ? 16 32
 mgaHanay: (estilo2 = 'emoji') ? 12 24
-selula2: (estilo2 = 'emoji') ? 1m 0.5m
 
-¶Ang gitna ng grid, kung saan ang larawan ay naka-sentro.¶
-gitnangHaligi: (mgaHaligi + 1) ÷ 2
-gitnangHanay: (mgaHanay + 1) ÷ 2
-
-¶Isang kulay sa bawat selula, direkta mula sa camera.¶
+¶Isang kulay bawat selula, direkta mula sa camera.¶
 mgaKulay: Kamera((mgaHaligi × 1px) (mgaHanay × 1px) 33ms)
 
-¶Sampung karakter mula madilim hanggang maliwanag. Pumipili ang estilong ASCII ng isa batay sa kailiwanag ng pixel.¶
+¶Sampung character mula madilim hanggang maliwanag. Pumipili ang estilong ASCII ng isa batay sa kung gaano kaliwanag ang pixel.¶
 hagdan: "@%#*+=-:. " → []
 
-¶Dalawampu't-apat na banda ng 15° sa palibot ng bilog ng kulay, kaya ang bawat pixel ay tumutugma sa pinakamalapit na parisukat sa kulay nito.¶
+¶Dalawampu't-apat na 15° na banda sa palibot ng hue circle, kaya ang bawat pixel ay kumukuha ng pinakamalapit na parisukat sa kulay nito.¶
 mgaParisukat: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
 
-¶Kung ano ang hitsura ng isang pixel sa kasalukuyang estilo. Ang pixel na halos walang kulay ay walang kulay na sapat na ipakita, kaya bumabalik ito sa isang maliwanag o madilim na parisukat.¶
-ƒ glyph(kulay2•Kulay)
+¶Kung ano ang itsura ng isang pixel sa kasalukuyang estilo. Ang isang pixel na halos walang kulay ay walang hue na sulit ipakita, kaya bumabalik ito sa isang maliwanag o madilim na parisukat.¶
+ƒ glyph2(kulay2•Kulay)
 	(estilo2 = 'ascii') ?
 		"\hagdan[((kulay2.kagaanan × 9).bilog()) + 1]\"
 		((estilo2 = 'emoji') ?
@@ -34,31 +29,23 @@ mgaParisukat: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦�
 						((kulay2.kagaanan < 50%) ? "⬛" "⬜")
 						"\mgaParisukat[(((kulay2.kulay ÷ 1°) ÷ 15).roundDown(
 							)) + 1]\")
-				'isang')
+				'a')
 
-¶Ang larawan: isang phrase bawat pixel, inilatag mula sa gitna palabas, para may parehong larawan ang camera na iikuwadro anuman ang kagaspangan ng grid, at sinalamin nang kaliwa-kanan para mabasa ito ayon sa paraan ng salamin.¶
-larawan: mgaKulay.pinagsama(
-		[]
-		ƒ(mgaParirala•[Parirala] hanay•[Kulay] y2•#)
-			mgaParirala.kasamaangListahan(
-				hanay.isalin(
-					ƒ(kulay3•Kulay x2•#)
-						Parirala(
-							glyph(kulay3)
-							lugar: Lugar(
-								((gitnangHaligi - x2) × selula2)
-								((gitnangHanay - y2) × selula2)
-							)
-							tagal: 0s
-							laki: (estilo2 = 'ascii') ? 0.75m ((estilo2 = 'emoji') ? 1.15m 1m)
-							mukha: (estilo2 = 'ascii') ? "Noto Sans Mono"/en ø
-							kulay: (estilo2 = 'letters') ? kulay3 ø
-						)
-				)
-			)
+¶Ang larawan. Iginuguhit ng isang @Image ang buong grid bilang isang output, kaya ang isang frame ay nagkakahalaga ng isang larawan sa halip na isang phrase bawat pixel — na sa 32 by 24 ay 768 nito, muling binubuo tatlumpung beses kada segundo. Ang /flipx/ ay sumasalamin dito para mabasa ito sa paraan ng salamin.
+
+Iniiwan ng estilong /letters/ ang bawat glyph sa kulay ng parisukat na kinakatawan nito, na siyang ginagawa ng isang @Image na walang sariling kulay. Ang dalawang iba pa ay binibigyan ito ng isang kulay, dahil ang isang letra ay nababasa bilang shading lamang kapag walang sinasabi ang kulay nito, at ang isang kulay na parisukat na emoji ay mayroon nang sariling kulay.¶
+larawan: Image(
+		mgaKulay
+		"camera video drawn with \estilo2\"
+		16m
+		guhit: glyph2
+		kulay: (estilo2 = 'letters') ? ø Kulay(0% 0 0°)
+		mukha: (estilo2 = 'ascii') ? "Noto Sans Mono"/en ø
+		baligtadx: ⊤
+		tagal: 0s
 	)
 
-¶Isang pindutan ng estilo, maliwanag kapag ito ang estilong ipinapakita. Ang pangalan ay ang sinasabi ng Choice kapag na-click ang pindutan o napili gamit ang keyboard.¶
+¶Isang buton ng estilo, maliwanag kapag ito ang estilong ipinapakita. Ang pangalan ay ang iniuulat ng Choice kapag na-click ang buton o napili gamit ang keyboard.¶
 ƒ buton(id2•'')
 	Parirala(
 		id2
@@ -70,17 +57,17 @@ larawan: mgaKulay.pinagsama(
 			)
 	)
 
-¶Ang isang hanay ay pinapanatiling pantay ang distansya ng mga pindutan at nakahanay anuman ang haba ng mga salita nito, at dahil walang sariling lugar, nananatili ang hanay sa gitna, kaya ang offset lang ang kailangan para ilagay ito sa ibaba ng screen. May dala itong sariling background, dahil ang mga salita sa ibabaw ng video ay mababasa lamang kung swerte.¶
-mgaPindutan: Grupo(
+¶Pinananatili ng isang row ang mga buton na pantay-pantay ang agwat at nakahanay kahit gaano kahaba ang kanilang mga salita, at dahil walang sarili nitong lugar, ang row ay nasa gitna, kaya ang offset lamang ang kailangan para ibaba ito sa ilalim ng screen. May dala itong sariling backing, dahil ang mga salita sa ibabaw ng video ay nababasa lamang kung swerte.¶
+mgaButon: Grupo(
 		Hilera(padding: 0.5m)
 		[buton('letters') buton('ascii') buton('emoji')]
 		background: Kulay(100% 0 0°)
 		offset: Lugar(0m -4.5m)
 	)
 
-¶Ang mga pindutan ay nakasakay sa overlay ng entablado, na naka-pin nang patag sa screen: pareho ang laki at posisyon nito kung paano man na-frame ang larawan, at ang larawan ay na-frame na kung wala silang nakita.¶
+¶Nakasakay ang mga buton sa overlay ng entablado, na nakatakda nang patag sa screen: nananatili silang parehong laki at lugar kahit paano naka-frame ang larawan, at ang larawan ay naka-frame na parang wala sila roon.¶
 Entablado(
-	larawan
+	[larawan]
 	paglalarawan: "camera video drawn with \estilo2\"
-	pangIbabaw: [mgaPindutan]
+	pangIbabaw: [mgaButon]
 )

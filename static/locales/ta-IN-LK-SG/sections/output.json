@@ -1917,117 +1917,117 @@
             }
         },
         "Image": {
-            "doc": "$?I'm a grid of colors, drawn as a picture. Give me a list of rows, each a list of @Color, and I'll paint one square for each. Give me a /glyph/ and I'll draw text in each square instead.",
-            "names": ["$?🖼", "$?Image"],
+            "doc": "$~நான் வண்ணங்களின் கட்டம், ஒரு படமாக வரையப்பட்டவள். எனக்கு வரிசைகளின் பட்டியல் ஒன்று கொடு, ஒவ்வொன்றும் @Color இன் பட்டியலாக இருக்கும், நான் ஒவ்வொரு சதுரத்திற்கும் வண்ணம் தீட்டுவேன். எனக்கு ஒரு /glyph/ கொடு, அப்போது நான் ஒவ்வொரு சதுரத்திலும் அதற்குப் பதிலாக எழுத்தை வரைவேன்.",
+            "names": ["$~படம்"],
             "colors": {
-                "doc": "$?My rows of colors, the top row first. Every row should be the same length.",
-                "names": "$?colors"
+                "doc": "$~எனது வண்ண வரிசைகள், மேல் வரிசை முதலில். ஒவ்வொரு வரிசையும் ஒரே நீளத்தில் இருக்க வேண்டும்.",
+                "names": "$~நிறங்கள்"
             },
             "description": {
-                "doc": "$?What I show, for anyone who can't see me. I ask for this because a grid of colors has no words of its own to fall back on.",
-                "names": "$?description"
+                "doc": "$~என்னைப் பார்க்க முடியாத யாருக்காகவும் நான் காட்டுவது இது. வண்ணங்களின் கட்டத்திற்குத் தானாகச் சொல்லிக்கொள்ள வார்த்தைகள் இல்லாததால் இதைக் கேட்கிறேன்.",
+                "names": "$~விளக்கம்"
             },
             "width": {
-                "doc": "$?How wide I should be. If you give me only a height, I take my width from my shape; if you give me both, my squares stretch to fit.",
-                "names": "$?width"
+                "doc": "$~நான் எவ்வளவு அகலமாக இருக்க வேண்டும். எனக்கு உயரம் மட்டும் கொடுத்தால், என் அகலத்தை என் வடிவத்திலிருந்து எடுத்துக்கொள்வேன்; இரண்டையும் கொடுத்தால், என் சதுரங்கள் பொருந்துமாறு நீளும்.",
+                "names": "$~அகலம்"
             },
             "height": {
-                "doc": "$?How tall I should be. If you give me only a width, I take my height from my shape.",
-                "names": "$?height"
+                "doc": "$~நான் எவ்வளவு உயரமாக இருக்க வேண்டும். எனக்கு அகலம் மட்டும் கொடுத்தால், என் உயரத்தை என் வடிவத்திலிருந்து எடுத்துக்கொள்வேன்.",
+                "names": "$~உயரம்"
             },
             "glyph": {
-                "doc": "$?A function from one of my colors to the text I should draw in its place. Without one I paint plain squares.",
-                "names": "$?glyph"
+                "doc": "$~என் வண்ணங்களில் ஒன்றிலிருந்து, அதற்குப் பதிலாக நான் வரைய வேண்டிய எழுத்துக்குச் செல்லும் ஒரு FunctionDefinition. இது இல்லாமல் நான் வெற்று சதுரங்களை வரைவேன்.",
+                "names": "$~எழுத்துரு"
             },
             "recolor": {
-                "doc": "$?A function from one of my colors to the color I should draw instead. Useful for turning a picture into fewer colors.",
-                "names": "$?recolor"
+                "doc": "$~என் வண்ணங்களில் ஒன்றிலிருந்து, அதற்குப் பதிலாக நான் வரைய வேண்டிய வண்ணத்திற்குச் செல்லும் ஒரு FunctionDefinition. ஒரு படத்தை குறைவான வண்ணங்களாக மாற்றுவதற்கு இது பயனுள்ளது.",
+                "names": "$~மறுநிறமிடு"
             },
             "pixel": {
-                "doc": "$?One of my colors, which is what /glyph/ and /recolor/ are each given.",
-                "names": "$?pixel"
+                "doc": "$~என் வண்ணங்களில் ஒன்று, இதுவே /glyph/ மற்றும் /recolor/ ஒவ்வொன்றுக்கும் கொடுக்கப்படுவது.",
+                "names": "$~படத்துகள்"
             },
             "glyphs": {
-                "doc": "$?What I draw in each square, worked out from /glyph/. Nothing, if you gave me no /glyph/.",
-                "names": "$?glyphs"
+                "doc": "$~நான் ஒவ்வொரு சதுரத்திலும் வரைவது, /glyph/ இலிருந்து கண்டறியப்பட்டது. நீ எனக்கு /glyph/ கொடுக்கவில்லை என்றால், எதுவும் இல்லை.",
+                "names": "$~எழுத்துருக்கள்"
             },
             "palette": {
-                "doc": "$?The colors I actually draw, worked out from /recolor/. My own colors, if you gave me no /recolor/.",
-                "names": "$?palette"
+                "doc": "$~நான் உண்மையில் வரையும் வண்ணங்கள், /recolor/ இலிருந்து கண்டறியப்பட்டவை. நீ எனக்கு /recolor/ கொடுக்கவில்லை என்றால், அவை எனது சொந்த வண்ணங்களே.",
+                "names": "$~வண்ணத்தட்டு"
             },
             "face": {
-                "doc": "$?The name of the font face my glyphs should be drawn in. If I don't have one, I use whatever contains me.",
-                "names": "$?face"
+                "doc": "$~என் எழுத்துருக்கள் வரையப்பட வேண்டிய எழுத்துரு முகத்தின் பெயர். எனக்கு ஒன்று இல்லையென்றால், என்னைக் கொண்டிருப்பது எதுவோ அதைப் பயன்படுத்துவேன்.",
+                "names": "$~முகம்"
             },
             "place": {
-                "doc": "$?The place on stage where I should be.",
+                "doc": "$~நான் இருக்க வேண்டிய மேடையிலுள்ள இடம்.",
                 "names": "$~இடம்"
             },
             "name": {
-                "doc": "$?I'm the name you can use, for animations and @Collision.",
-                "names": "$?name"
+                "doc": "$~அசைவூட்டங்களுக்கும் @Collision இற்கும் நீ பயன்படுத்தக்கூடிய பெயர் இது.",
+                "names": "$~பெயர்"
             },
             "selectable": {
-                "doc": "$?Whether I can be selected as part of @Choice.",
-                "names": "$?selectable"
+                "doc": "$~@Choice இன் ஒரு பகுதியாக என்னைத் தேர்ந்தெடுக்க முடியுமா என்பது.",
+                "names": "$~தேர்ந்தெடுக்கக்கூடியது"
             },
             "color": {
-                "doc": "$?A color to tint me with.",
+                "doc": "$~என் எழுத்துக்களுக்கான ஒரு வண்ணம். இது இல்லாமல் ஒவ்வொரு எழுத்தும் அது குறிக்கும் சதுரத்தின் வண்ணத்தை எடுத்துக்கொள்ளும்; இது இருந்தால் அவை அனைத்தும் அதைப் பகிர்ந்துகொள்ளும், இதுவே எழுத்துக்களால் வரைவதற்குத் தேவைப்படுவது. எனக்கு /glyph/ இல்லையென்றால் நான் இதைப் புறக்கணிப்பேன், ஏனெனில் அப்போது என் சதுரங்களே எனது வண்ணங்கள்.",
                 "names": "$~நிறம்"
             },
             "background": {
-                "doc": "$?The color behind me.",
-                "names": "$?background"
+                "doc": "$~என் பின்னால் இருக்கும் வண்ணம்.",
+                "names": "$~பின்னணி"
             },
             "opacity": {
-                "doc": "$?How opaque I should be.",
-                "names": "$?opacity"
+                "doc": "$~நான் எவ்வளவு ஒளிபுகா நிலையில் இருக்க வேண்டும்.",
+                "names": "$~ஒளிபுகாநிலை"
             },
             "offset": {
-                "doc": "$?How far to move me from my place, after I'm placed.",
-                "names": "$?offset"
+                "doc": "$~நான் வைக்கப்பட்ட பிறகு, என் இடத்திலிருந்து என்னை எவ்வளவு தூரம் நகர்த்த வேண்டும்.",
+                "names": "$~இடைவெளி"
             },
             "rotation": {
-                "doc": "$?How much to rotate me.",
-                "names": "$?rotation"
+                "doc": "$~என்னை எவ்வளவு சுழற்ற வேண்டும்.",
+                "names": "$~சுழற்சி"
             },
             "scale": {
-                "doc": "$?How much to scale me.",
-                "names": "$?scale"
+                "doc": "$~என்னை எவ்வளவு அளவு மாற்ற வேண்டும்.",
+                "names": "$~அளவு"
             },
             "flipx": {
-                "doc": "$?Whether to flip me horizontally.",
-                "names": "$?flipx"
+                "doc": "$~என்னை கிடைமட்டமாகப் புரட்ட வேண்டுமா.",
+                "names": "$~கிடைமட்டமாகப்புரட்டு"
             },
             "flipy": {
-                "doc": "$?Whether to flip me vertically.",
-                "names": "$?flipy"
+                "doc": "$~என்னை செங்குத்தாகப் புரட்ட வேண்டுமா.",
+                "names": "$~செங்குத்தாகப்புரட்டு"
             },
             "entering": {
-                "doc": "$?The @Pose or @Sequence I should do when entering @Stage.",
-                "names": "$?entering"
+                "doc": "$~@Stage இற்குள் நுழையும் போது நான் செய்ய வேண்டிய @Pose அல்லது @Sequence.",
+                "names": "$~நுழைகிறது"
             },
             "resting": {
-                "doc": "$?The @Pose or @Sequence I should do when I'm not moving.",
-                "names": "$?resting"
+                "doc": "$~நான் நகராமல் இருக்கும்போது செய்ய வேண்டிய @Pose அல்லது @Sequence.",
+                "names": "$~ஓய்வில்"
             },
             "moving": {
-                "doc": "$?The @Pose or @Sequence I should do when I'm moving.",
-                "names": "$?moving"
+                "doc": "$~நான் நகரும்போது செய்ய வேண்டிய @Pose அல்லது @Sequence.",
+                "names": "$~நகர்கிறது"
             },
             "exiting": {
-                "doc": "$?The @Pose or @Sequence I should do when leaving @Stage.",
-                "names": "$?exiting"
+                "doc": "$~@Stage இலிருந்து வெளியேறும்போது செய்ய வேண்டிய @Pose அல்லது @Sequence.",
+                "names": "$~வெளியேறுகிறது"
             },
             "duration": {
-                "doc": "$?How long my animations should take if they are a single @Pose.",
-                "names": "$?duration"
+                "doc": "$~என் அசைவூட்டங்கள் ஒரே ஒரு @Pose ஆக இருந்தால் எவ்வளவு நேரம் எடுக்க வேண்டும்.",
+                "names": "$~காலஅளவு"
             },
             "style": {
-                "doc": "$?The animation style I should use.",
-                "names": "$?style"
+                "doc": "$~நான் பயன்படுத்த வேண்டிய அசைவூட்ட பாணி.",
+                "names": "$~பாணி"
             },
-            "defaultDescription": "$?$description, a picture $columns by $rows"
+            "defaultDescription": "$~$description, $columns கு $rows அளவுள்ள ஒரு படம்"
         }
     }
 }

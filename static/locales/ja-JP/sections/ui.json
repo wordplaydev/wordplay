@@ -148,7 +148,7 @@
                     "tip": "$~プロジェクトをテキストとしてクリップボードにコピーする",
                     "label": "$~テキストとしてコピーする"
                 },
-                "addSource": "$!もう1つ@Sourceを作って、データや共有コードを別のファイルに保つ",
+                "addSource": "$~別の@Sourceを追加する：空のものか、写真や曲から作られたもの",
                 "revert": "$~元のコードに戻す",
                 "focusOutput": "$~キーボードの操作をステージに合わせる",
                 "focusSource": "$~次のソースに合わせる",
@@ -269,7 +269,7 @@
                 "controls": "$~下にあるこれらの/操作/は、どのタイルで作業していても*プロジェクト全体*に効きます。",
                 "name": "$~/名前/フィールドはあなたのプロジェクトの名前です。名前は*プロジェクト*と*ギャラリー*の表示に出てきます。",
                 "sourceToggle": "$~この/切り替え/は*ソースファイル*を表示したり隠したりします。この行の*他の切り替え*は他のタイルに同じことをします。",
-                "addSource": "$!一部のプロジェクトは*複数の*ソースファイルがあると役に立ちます。そこではデータをひとつに保存し、*メイン*のソースに読み込みます。/ソース追加/ボタンで新しいものを作れます。",
+                "addSource": "$~プロジェクトの中には、データを1つのソースに保存して、それを*メインの*ソースに取り込む方が便利な場合があります。これには*複数の*ソースファイルを使います。「ソースを追加」ボタンを押すと、作り方を選べます。空のファイル、写真、曲、データのいずれかです。",
                 "share": "$~/共有/ダイアログでは、プロジェクトを*ギャラリー*や*一般の人*と共有したり、*テキスト*としてコピーして別の場所で共有したりできます。",
                 "checkpoints": "$~/履歴/パネルを使うと、プロジェクトの前のバージョンに*戻る*ことができます。また、覚えておきたいバージョンを*スナップショット*として保存できます。",
                 "languages": "$~/言語/ ボタンは、あなたのプロジェクトで使っている言語を表示し、追加や削除ができ、プロジェクトの *名前*、*テキスト*、*ドキュメント* を新しい言語に *翻訳* することもできます。"
@@ -626,92 +626,92 @@
                 "closed": "$~$name の2つ目のビューを閉じた"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~コードを追加",
+                "explanation": "$~プロジェクトには、コードのファイルを複数入れることができます。書き込むための空のファイルを作るか、写真や曲からファイルを作ることができます。値は@Borrowと一緒に使えます。",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~メインのコードとは別に置いておきたいコードのための、空のファイルです。",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~追加",
+                        "tip": "$~空のコードファイルを追加する"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~色",
+                        "tip": "$~写真全体でいくつの色になるか"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows 色、約 $size KB、プロジェクトが保持できる容量の $percent",
+                    "tooBig": "$~このプロジェクトに残っている容量に対して、色が多すぎます",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~追加",
+                        "tip": "$~これらの色をコードのファイルとして追加する"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name、$columns × $rows 色",
+                    "cameraDoc": "$~カメラの写真、$columns × $rows 色",
+                    "added": "$~$name を追加しました、$#count[$count 色]",
+                    "name": "$~色",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~あなたのカメラに映っているもの",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~ソースとして撮影する",
+                            "tip": "$~今表示されている写真を保存する"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~もう一度",
+                            "tip": "$~ライブ映像に戻る"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~カメラを起動しています…",
+                        "denied": "$~あなたのカメラに接続できません。このページがカメラを使うことを許可されているか確認してください。"
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~新しいファイルは、@Colorの行のリストで、写真の各マスごとに1行あります。これを借りて@Imageに渡して描画させることも、色を他の用途に使うこともできます。",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~写真の出どころ",
+                        "labels": ["$~この機器", "$~カメラ"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~この機器にある画像ファイル",
+                            "$~今、あなたのカメラに映っているもの"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~幅",
+                            "tip": "$~残す部分の幅"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~高さ",
+                            "tip": "$~残す部分の高さ"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~箱をドラッグすると動かせます。角をドラッグすると大きさを変えられます。*幅*と*高さ*のスライダーでも同じことができます。*色*のスライダーでは、色の数を選べます。キーボードでは、*enter*キーを押すと箱を動かせるようになります。*矢印*キーで動かし、終わったらもう一度*enter*キーを押してください。"
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~MIDIファイル（.midまたは.midi、2MBまで）は、音符を含む新しいファイルになります。あなたのプログラムには、それらを再生する@Musicが渡されます。音符は最大10,000個、トラックは最大128個までです。@Musicに入りきらないものは、取り込みのあとに一覧で表示されます。"
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~新しいコードが何でできているか",
+                    "labels": ["$~空", "$~画像", "$~テーブル", "$~曲"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~まだ何も入っていないファイル",
+                        "$~画像の色、またはあなたのカメラに映っているものの色",
+                        "$~表計算ソフトからコピーした、カンマ区切りの値（CSV）",
+                        "$~この機器にあるMIDIファイルの音符"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~行",
+                    "explanation": "$~表計算ソフトからコピーした行など、カンマ区切りの値（CSV）を貼り付けると、読み書きできる@Tableになります。1行目が列の名前になります。",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~カンマ区切りの値（CSV）",
+                        "placeholder": "$~名前, 脚の数\n猫, 4\n鳥, 2"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$#rows[$columns列の$rows行]",
+                    "notTable": "$~まだカンマ区切りの値（CSV）になっていないもの",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~追加",
+                        "tip": "$~これらの行をコードのファイルとして追加する"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$#rows[$columns列の$rows行]",
+                    "added": "$~$nameを追加しました。$#rows[$rows行]"
                 }
             }
         },
@@ -2092,7 +2092,7 @@
                 },
                 "report": "$~取り込んだもの",
                 "reportExplanation": "$~@Musicは、MIDIファイルが表すもののほとんどを持つことができますが、すべてではありません。取り込むときに変わったものはこちらです。",
-                "choose": "$?choose a song"
+                "choose": "$~曲を選ぶ"
             },
             "toolbar": {
                 "label": "$~出力を追加",
@@ -2922,7 +2922,7 @@
             },
             "crop": {
                 "label": "$~切り取り枠",
-                "tip": "$!残す画像の四角い部分"
+                "tip": "$~画像の残す部分"
             },
             "preview": "$~追加されるもの",
             "feedback": {

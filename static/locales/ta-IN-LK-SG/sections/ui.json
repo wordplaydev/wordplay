@@ -148,7 +148,7 @@
                     "tip": "$~திட்டத்தை கிளிப்போர்டுக்கு உரையாக நகலெடுக்கவும்.",
                     "label": "$~உரையாக நகலெடுக்கவும்"
                 },
-                "addSource": "$!மற்றொரு @Source உருவாக்கவும், அதனால் தரவு அல்லது பகிரப்பட்ட குறியீட்டை அதன் சொந்த கோப்பில் வைத்திருக்கலாம்",
+                "addSource": "$~இன்னொரு @Source சேர்க்கவும்: காலியானது, அல்லது ஒரு படத்திலிருந்தோ பாடலிலிருந்தோ செய்யப்பட்டது",
                 "revert": "$~அசல் குறியீட்டிற்கு மாற்றவும்",
                 "focusOutput": "$~மேடையில் விசைப்பலகையை மையப்படுத்தவும்",
                 "focusSource": "$~அடுத்த ஆதாரத்தில் கவனம் செலுத்துங்கள்",
@@ -269,7 +269,7 @@
                 "controls": "$~கீழே உள்ள இந்தக் கட்டுப்பாடுகள், நீங்கள் எந்த டைலில் பணிபுரிந்தாலும், *திட்டம் முழுவதற்கும்* பொருந்தும்.",
                 "name": "$~/name/ புலம் உங்கள் திட்டத்தின் பெயர். பெயர்கள் *project* மற்றும் *gallery* காட்சிகளில் தோன்றும்.",
                 "sourceToggle": "$~இந்த நிலைமாற்றி, மூலக் கோப்பைக் காண்பிக்கிறது அல்லது மறைக்கிறது. இந்த வரிசையில் உள்ள மற்ற நிலைமாற்றிகள், மற்ற டைல்களுக்கும் இதே வேலையைச் செய்கின்றன.",
-                "addSource": "$!சில திட்டங்களுக்குப் பல மூலக் கோப்புகள் இருப்பது நன்மை பயக்கும்; அவற்றில் தரவுகள் ஒரு கோப்பில் சேமிக்கப்பட்டு, பிரதான மூலக் கோப்பிற்கு இறக்குமதி செய்யப்படும். /add source/ பொத்தான் ஒரு புதிய கோப்பை உருவாக்கும்.",
+                "addSource": "$~சில திட்டங்களுக்கு *பல* மூலங்கள் இருப்பது நல்லது, அங்கு தரவு ஒன்றில் சேமிக்கப்பட்டு *முதன்மை* மூலத்தில் இறக்குமதி செய்யப்படுகிறது. /மூலம் சேர்/ பொத்தான் ஒன்றை உருவாக்கும் வழிகளை வழங்குகிறது: காலி கோப்பு, ஒரு படம், ஒரு பாடல், அல்லது சில தரவு.",
                 "share": "$~/share/ உரையாடல் பெட்டியானது, உங்கள் படைப்பைக் கலைக்கூடங்களில் பகிரவும், பொதுமக்களுடன் பகிரவும், அல்லது அதனை உரையாக நகலெடுத்து மற்ற இடங்களில் பகிரவும் உதவுகிறது.",
                 "checkpoints": "$~/revisions/ பேனல், உங்கள் திட்டத்தின் முந்தைய பதிப்புகளுக்குத் *திரும்பிச் செல்லவும்*, நீங்கள் நினைவில் கொள்ள விரும்பும் பதிப்புகளின் *ஸ்னாப்ஷாட்* எடுக்கவும் உங்களை அனுமதிக்கிறது.",
                 "languages": "$~/languages/ பொத்தான் உங்கள் திட்டம் எழுதப்பட்டுள்ள மொழிகளைக் காட்டுகிறது, ஒன்றைச் சேர்க்கவோ நீக்கவோ அனுமதிக்கிறது, மேலும் உங்கள் திட்டத்தின் *பெயர்கள்*, *உரை*, மற்றும் *ஆவணங்களை* புதிய மொழிக்கு *மொழிபெயர்க்க* முடியும்."
@@ -631,92 +631,92 @@
                 "closed": "$~$name-இன் இரண்டாவது காட்சி மூடப்பட்டது"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~குறியீடு சேர்",
+                "explanation": "$~ஒரு திட்டத்தில் ஒன்றுக்கு மேற்பட்ட குறியீடு கோப்புகள் இருக்கலாம். எழுத ஒரு காலி கோப்பை உருவாக்கவும், அல்லது ஒரு படத்திலிருந்தோ பாடலிலிருந்தோ ஒன்றை உருவாக்கவும். மதிப்புகளை @Borrow உடன் பயன்படுத்தலாம்.",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~உங்கள் முதன்மை குறியீட்டிலிருந்து தனியாக வைக்க விரும்பும் குறியீட்டுக்கான காலி கோப்பு.",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~சேர்",
+                        "tip": "$~காலியான குறியீட்டு கோப்பு ஒன்றைச் சேர்"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~நிறங்கள்",
+                        "tip": "$~படம் முழுவதும் எத்தனை நிறங்கள் இருக்கும்"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows நிறங்கள், சுமார் $size கே.பி., திட்டம் கொள்ளக்கூடியதில் $percent",
+                    "tooBig": "$~இந்த திட்டத்திற்கு மீதமுள்ள இடத்திற்கு நிறைய நிறங்கள் அதிகம்",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~சேர்",
+                        "tip": "$~இந்த நிறங்களை குறியீட்டு கோப்பாக சேர்"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name, $columns × $rows நிறங்கள்",
+                    "cameraDoc": "$~கேமரா படம் ஒன்று, $columns × $rows நிறங்கள்",
+                    "added": "$~$name சேர்க்கப்பட்டது, $#count[ஒரு நிறம்|$count நிறங்கள்]",
+                    "name": "$~நிறங்கள்",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~உங்கள் கேமரா என்ன பார்க்கிறது",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~மூலமாக படம் எடு",
+                            "tip": "$~இப்போது காட்டும் படத்தைச் சேமி"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~மீண்டும்",
+                            "tip": "$~நேரடி படத்திற்குத் திரும்பு"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~கேமரா தொடங்கப்படுகிறது…",
+                        "denied": "$~உங்கள் கேமராவை எங்களால் அணுக முடியவில்லை. இந்தப் பக்கத்தை பயன்படுத்த அனுமதி உள்ளதா என்று சரிபார்க்கவும்."
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~புதிய கோப்பு @Color வரிசைகளின் பட்டியல், படத்தின் ஒவ்வொரு சதுரத்திற்கும் ஒன்று. அதை கடன் வாங்கி, வரைய ஒரு @Image-க்கு கொடுக்கவும், அல்லது நிறங்களை வேறு எதற்காகவும் பயன்படுத்தவும்.",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~படம் எங்கிருந்து வருகிறது",
+                        "labels": ["$~இந்தச் சாதனம்", "$~கேமரா"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~இந்தச் சாதனத்திலுள்ள ஒரு படக் கோப்பு",
+                            "$~உங்கள் கேமரா இப்போது காண்பது"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~அகலம்",
+                            "tip": "$~படத்தின் எவ்வளவு அகலமான பகுதியை வைத்திருக்க வேண்டும்"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~உயரம்",
+                            "tip": "$~படத்தின் எவ்வளவு உயரமான பகுதியை வைத்திருக்க வேண்டும்"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~பெட்டியை நகர்த்த அதை இழுக்கவும், அல்லது அதன் அளவை மாற்ற ஒரு மூலையை இழுக்கவும். *அகலம்* மற்றும் *உயரம்* சறுக்கிகளும் இதையே செய்யும், மேலும் *நிறங்கள்* சறுக்கி அது எத்தனை நிறங்களாக மாறும் என்பதைத் தேர்ந்தெடுக்கும். விசைப்பலகையுடன், பெட்டியை நகர்த்தத் தொடங்க *enter* ஐ அழுத்தவும், பின்னர் *அம்பு* விசைகளைப் பயன்படுத்தவும், முடிந்தவுடன் மீண்டும் *enter* ஐ அழுத்தவும்."
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~ஒரு MIDI கோப்பு — .mid அல்லது .midi, 2 MB வரை — அதன் குறிப்புகளைக் கொண்ட ஒரு புதிய கோப்பாக மாறும், மேலும் உங்கள் நிரலுக்கு அவற்றை இசைக்கும் ஒரு @Music கிடைக்கும். 10,000 குறிப்புகள் மற்றும் 128 தடங்கள் வரை; ஒரு @Music கொள்ளமுடியாதவை இறக்குமதிக்குப் பிறகு பட்டியலிடப்படும்."
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~புதிய குறியீடு எதனால் ஆனது",
+                    "labels": ["$~காலி", "$~படம்", "$~அட்டவணை", "$~பாடல்"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~இன்னும் எதுவும் இல்லாத ஒரு கோப்பு",
+                        "$~ஒரு படத்தின் நிறங்கள், அல்லது உங்கள் கேமரா காண்பதின் நிறங்கள்",
+                        "$~ஒரு விரிதாளிலிருந்து ஒட்டப்பட்ட காற்புள்ளியால் பிரிக்கப்பட்ட மதிப்புகள் (CSV)",
+                        "$~இந்தச் சாதனத்திலுள்ள ஒரு MIDI கோப்பின் குறிப்புகள்"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~வரிசைகள்",
+                    "explanation": "$~காற்புள்ளியால் பிரிக்கப்பட்ட மதிப்புகளை (CSV) ஒட்டவும், அதாவது ஒரு விரிதாளிலிருந்து நகலெடுக்கப்பட்ட வரிசைகள் போன்றவை, அவை நீங்கள் படித்து மாற்றக்கூடிய ஒரு @Table ஆக மாறும். முதல் வரிசை நெடுவரிசைகளுக்குப் பெயரிடுகிறது.",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~காற்புள்ளியால் பிரிக்கப்பட்ட மதிப்புகள் (CSV)",
+                        "placeholder": "$~பெயர், கால்கள்\nபூனை, 4\nபறவை, 2"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$columns நெடுவரிசைகளின் $#rows[ஒரு வரிசை|$rows வரிசைகள்]",
+                    "notTable": "$~இது இன்னும் காற்புள்ளியால் பிரிக்கப்பட்ட மதிப்புகள் (CSV) இல்லை",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~சேர்",
+                        "tip": "$~இந்த வரிசைகளை குறியீட்டு கோப்பாகச் சேர்"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$columns நெடுவரிசைகளின் $#rows[ஒரு வரிசை|$rows வரிசைகள்]",
+                    "added": "$~$name சேர்க்கப்பட்டது, $#rows[ஒரு வரிசை|$rows வரிசைகள்]"
                 }
             }
         },
@@ -2102,7 +2102,7 @@
                 },
                 "report": "$~நான் இறக்குமதி செய்தது",
                 "reportExplanation": "$~ஒரு MIDI கோப்பு விவரிக்கும் பெரும்பாலானவற்றை ஒரு @Music வைத்திருக்க முடியும், ஆனால் அனைத்தையும் அல்ல. உள்ளே வரும் வழியில் மாறியது இதோ.",
-                "choose": "$?choose a song"
+                "choose": "$~ஒரு பாடலைத் தேர்ந்தெடு"
             },
             "toolbar": {
                 "label": "$~வெளியீடு சேர்",
@@ -2935,7 +2935,7 @@
             },
             "crop": {
                 "label": "$~வெட்டும் பெட்டி",
-                "tip": "$!படத்தில் வைத்திருக்க வேண்டிய சதுரம்"
+                "tip": "$~படத்தில் வைத்திருக்க வேண்டிய பகுதி"
             },
             "preview": "$~என்ன சேர்க்கப்படும்",
             "feedback": {

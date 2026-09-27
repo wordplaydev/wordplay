@@ -76,9 +76,9 @@
     },
     {
         "id": "video-grid",
-        "title": "יוצרים סרטון מהמצלמה",
+        "title": "יצירת סרטון מהמצלמה",
         "category": "video",
-        "body": "ה @Camera הזרם הוא דרך מצוינת לקבל רשת של צבעים מהעולם. \nמה אם נרצה לראות את הצבעים האלה, וליצור מחדש את התמונה שה- @Camera רואה?\n\nאפשר להשתמש בפריסת @Grid עבור @Group, ובפונקציה @List/combine כדי להמיר את הצבעים לרשימה של @Phrase שנותנים ל @Grid.\n\n\\\nwidth: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row ↦ Phrase(\"⬤\" צבע: ⬚ משך: 0s)\n\t\t\t\t\t]))\n\t])\n\\\n\n הדוגמה הזו בונה רשימה של ביטויים, וממירה כל צבע לעיגול בצבע המסוים הזה.\n\nצריך להיזהר עם זרמי @Camera : הם מייצרים המון קלט! כדאי לשמור על רוחב וגובה קטנים לתמונה.",
+        "body": "ה @Camera הוא דרך מצוינת לקבל רשת של צבעים מהעולם. \nמה אם נרצה לראות את הצבעים האלה, וליצור מחדש את התמונה שה @Camera רואה?\n\nא @Image לוקח רשת של צבעים ומצייר אותה כתמונה אחת, כך שאפשר למסור לו את @Camera הצבעים ישירות.\n\n\\\nwidth: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([Image(colors \"what the camera sees\" 12m)])\n\\\n\n כל @Image זקוק לתיאור, כי לרשת של צבעים אין מילים משלה עבור מי שלא יכול לראות אותה.\n\nאפשר לצייר את התמונה עם אותיות במקום ריבועים, על ידי מתן לה /סימן/, פונקציה שהופכת כל צבע לטקסט שמייצג אותו.\n\n\\\nwidth: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([Image(colors \"the camera, drawn with dark and light circles\" 12m סימן: ƒ(color•Color) (color.lightness < 50%) ? \"⬤\" \"◯\")])\n\\",
         "related": ["interactive-scene"]
     },
     {

@@ -1917,117 +1917,117 @@
             }
         },
         "Image": {
-            "doc": "$?I'm a grid of colors, drawn as a picture. Give me a list of rows, each a list of @Color, and I'll paint one square for each. Give me a /glyph/ and I'll draw text in each square instead.",
-            "names": ["$?🖼", "$?Image"],
+            "doc": "$~Tôi là một lưới các màu sắc, được vẽ như một bức tranh. Hãy đưa cho tôi một danh sách các hàng, mỗi hàng là một danh sách @Color, và tôi sẽ tô một ô vuông cho mỗi cái. Hãy đưa cho tôi một /glyph/ và tôi sẽ vẽ chữ trong mỗi ô vuông thay vì tô màu.",
+            "names": ["$~HìnhẢnh"],
             "colors": {
-                "doc": "$?My rows of colors, the top row first. Every row should be the same length.",
-                "names": "$?colors"
+                "doc": "$~Các hàng màu của tôi, hàng trên cùng đứng trước. Mỗi hàng nên có cùng độ dài.",
+                "names": ["$~lướiMàu"]
             },
             "description": {
-                "doc": "$?What I show, for anyone who can't see me. I ask for this because a grid of colors has no words of its own to fall back on.",
-                "names": "$?description"
+                "doc": "$~Điều tôi hiển thị, dành cho ai không thể nhìn thấy tôi. Tôi hỏi điều này vì một lưới màu sắc không có lời nào để thay thế cho chính nó.",
+                "names": "$~môTả"
             },
             "width": {
-                "doc": "$?How wide I should be. If you give me only a height, I take my width from my shape; if you give me both, my squares stretch to fit.",
-                "names": "$?width"
+                "doc": "$~Tôi nên rộng bao nhiêu. Nếu bạn chỉ cho tôi chiều cao, tôi sẽ lấy chiều rộng theo hình dạng của mình; nếu bạn cho cả hai, các ô vuông của tôi sẽ giãn ra cho vừa.",
+                "names": "$~chiềuRộng"
             },
             "height": {
-                "doc": "$?How tall I should be. If you give me only a width, I take my height from my shape.",
-                "names": "$?height"
+                "doc": "$~Tôi nên cao bao nhiêu. Nếu bạn chỉ cho tôi chiều rộng, tôi sẽ lấy chiều cao theo hình dạng của mình.",
+                "names": "$~chiềuCao"
             },
             "glyph": {
-                "doc": "$?A function from one of my colors to the text I should draw in its place. Without one I paint plain squares.",
-                "names": "$?glyph"
+                "doc": "$~Một hàm @variable một trong các màu của tôi thành chữ tôi nên vẽ ở vị trí đó. Nếu không có, tôi sẽ tô các ô vuông trơn.",
+                "names": "$~kýTự"
             },
             "recolor": {
-                "doc": "$?A function from one of my colors to the color I should draw instead. Useful for turning a picture into fewer colors.",
-                "names": "$?recolor"
+                "doc": "$~Một hàm @variable một trong các màu của tôi thành màu tôi nên vẽ thay thế. Hữu ích để biến một bức tranh thành ít màu hơn.",
+                "names": "$~tôLạiMàu"
             },
             "pixel": {
-                "doc": "$?One of my colors, which is what /glyph/ and /recolor/ are each given.",
-                "names": "$?pixel"
+                "doc": "$~Một trong các màu của tôi, chính là thứ được đưa cho /glyph/ và /recolor/.",
+                "names": "$~điểmẢnh"
             },
             "glyphs": {
-                "doc": "$?What I draw in each square, worked out from /glyph/. Nothing, if you gave me no /glyph/.",
-                "names": "$?glyphs"
+                "doc": "$~Điều tôi vẽ trong mỗi ô vuông, được tính ra từ /glyph/. Không có gì, nếu bạn không cho tôi /glyph/.",
+                "names": "$~cácKýTự"
             },
             "palette": {
-                "doc": "$?The colors I actually draw, worked out from /recolor/. My own colors, if you gave me no /recolor/.",
-                "names": "$?palette"
+                "doc": "$~Các màu tôi thực sự vẽ, được tính ra từ /recolor/. Là màu gốc của tôi, nếu bạn không cho tôi /recolor/.",
+                "names": "$~bảngMàu"
             },
             "face": {
-                "doc": "$?The name of the font face my glyphs should be drawn in. If I don't have one, I use whatever contains me.",
-                "names": "$?face"
+                "doc": "$~Tên của kiểu chữ mà các ký tự của tôi nên được vẽ theo. Nếu tôi không có tên nào, tôi dùng bất cứ kiểu chữ nào chứa tôi.",
+                "names": "$~mặtChữ"
             },
             "place": {
-                "doc": "$?The place on stage where I should be.",
+                "doc": "$~Vị trí trên sân khấu nơi tôi nên đứng.",
                 "names": "$~vịTrí"
             },
             "name": {
-                "doc": "$?I'm the name you can use, for animations and @Collision.",
-                "names": "$?name"
+                "doc": "$~Tôi là tên bạn có thể dùng, cho các hoạt ảnh và @Collision.",
+                "names": "$~tên"
             },
             "selectable": {
-                "doc": "$?Whether I can be selected as part of @Choice.",
-                "names": "$?selectable"
+                "doc": "$~Liệu tôi có thể được chọn như một phần của @Choice hay không.",
+                "names": "$~cóThểChọn"
             },
             "color": {
-                "doc": "$?A color to tint me with.",
+                "doc": "$~Một màu cho các ký tự của tôi. Nếu không có màu này, mỗi ký tự sẽ lấy màu của ô vuông mà nó đại diện; nếu có, tất cả sẽ cùng dùng chung một màu, điều mà việc vẽ bằng chữ cái cần đến. Tôi bỏ qua điều này nếu không có /glyph/, vì khi đó các ô vuông của tôi chính là màu của tôi.",
                 "names": "$~màusắc"
             },
             "background": {
-                "doc": "$?The color behind me.",
-                "names": "$?background"
+                "doc": "$~Màu ở phía sau tôi.",
+                "names": "$~nền"
             },
             "opacity": {
-                "doc": "$?How opaque I should be.",
-                "names": "$?opacity"
+                "doc": "$~Tôi nên mờ đục đến mức nào.",
+                "names": "$~độMờ"
             },
             "offset": {
-                "doc": "$?How far to move me from my place, after I'm placed.",
-                "names": "$?offset"
+                "doc": "$~Cần di chuyển tôi bao xa khỏi vị trí của mình, sau khi tôi được đặt vào.",
+                "names": "$~độDịch"
             },
             "rotation": {
-                "doc": "$?How much to rotate me.",
-                "names": "$?rotation"
+                "doc": "$~Cần xoay tôi bao nhiêu.",
+                "names": "$~độXoay"
             },
             "scale": {
-                "doc": "$?How much to scale me.",
-                "names": "$?scale"
+                "doc": "$~Cần phóng to hoặc thu nhỏ tôi bao nhiêu.",
+                "names": "$~tỉLệ"
             },
             "flipx": {
-                "doc": "$?Whether to flip me horizontally.",
-                "names": "$?flipx"
+                "doc": "$~Có nên lật tôi theo chiều ngang hay không.",
+                "names": "$~lậtx"
             },
             "flipy": {
-                "doc": "$?Whether to flip me vertically.",
-                "names": "$?flipy"
+                "doc": "$~Có nên lật tôi theo chiều dọc hay không.",
+                "names": "$~lậty"
             },
             "entering": {
-                "doc": "$?The @Pose or @Sequence I should do when entering @Stage.",
-                "names": "$?entering"
+                "doc": "$~@Pose hoặc @Sequence tôi nên thực hiện khi bước vào @Stage.",
+                "names": "$~đangVào"
             },
             "resting": {
-                "doc": "$?The @Pose or @Sequence I should do when I'm not moving.",
-                "names": "$?resting"
+                "doc": "$~@Pose hoặc @Sequence mà tôi nên làm khi không di chuyển.",
+                "names": "$~đangNghỉ"
             },
             "moving": {
-                "doc": "$?The @Pose or @Sequence I should do when I'm moving.",
-                "names": "$?moving"
+                "doc": "$~@Pose hoặc @Sequence mà tôi nên làm khi đang di chuyển.",
+                "names": "$~đangDiChuyển"
             },
             "exiting": {
-                "doc": "$?The @Pose or @Sequence I should do when leaving @Stage.",
-                "names": "$?exiting"
+                "doc": "$~@Pose hoặc @Sequence mà tôi nên làm khi rời khỏi @Stage.",
+                "names": "$~đangThoát"
             },
             "duration": {
-                "doc": "$?How long my animations should take if they are a single @Pose.",
-                "names": "$?duration"
+                "doc": "$~Hoạt ảnh của tôi nên kéo dài bao lâu nếu chỉ có một @Pose.",
+                "names": "$~thờiLượng"
             },
             "style": {
-                "doc": "$?The animation style I should use.",
-                "names": "$?style"
+                "doc": "$~Kiểu hoạt ảnh mà tôi nên dùng.",
+                "names": "$~kiểuDáng"
             },
-            "defaultDescription": "$?$description, a picture $columns by $rows"
+            "defaultDescription": "$~$description, một bức ảnh $columns nhân $rows"
         }
     }
 }

@@ -151,7 +151,7 @@
                     "tip": "$~ಯೋಜನೆಯನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ಪಠ್ಯವಾಗಿ ನಕಲಿಸಿ",
                     "label": "$~ಪಠ್ಯದಂತೆ ನಕಲಿಸಿ"
                 },
-                "addSource": "$!ಇನ್ನೊಂದು @Source ರಚಿಸಿ, ಇದರಿಂದ ದತ್ತಾಂಶ ಅಥವಾ ಹಂಚಿಕೊಂಡ ಕೋಡ್ ಅನ್ನು ಅದರದೇ ಪ್ರತ್ಯೇಕ ಕಡತದಲ್ಲಿ ಇಡಬಹುದು",
+                "addSource": "$~ಇನ್ನೊಂದು @Source ಸೇರಿಸಿ: ಖಾಲಿಯಾದದ್ದು, ಅಥವಾ ಚಿತ್ರ ಇಲ್ಲವೇ ಹಾಡಿನಿಂದ ಮಾಡಿದ್ದು",
                 "revert": "$~ಮೂಲ ಕೋಡ್‌ಗೆ ಹಿಂತಿರುಗಿ",
                 "focusOutput": "$~ಕೀಬೋರ್ಡ್ ಅನ್ನು ವೇದಿಕೆಯ ಮೇಲೆ ಕೇಂದ್ರೀಕರಿಸಿ",
                 "focusSource": "$~ಮುಂದಿನ ಮೂಲದ ಮೇಲೆ ಕೇಂದ್ರೀಕರಿಸಿ",
@@ -269,7 +269,7 @@
                 "controls": "$~ನೀವು ಯಾವುದೇ ಟೈಲ್‌ನಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದರೂ, ಕೆಳಭಾಗದಲ್ಲಿರುವ ಈ /ನಿಯಂತ್ರಣಗಳು/ *ಇಡೀ ಯೋಜನೆಗೆ* ಅನ್ವಯಿಸುತ್ತವೆ.",
                 "name": "$~/name/ ಎಂಬ ಕ್ಷೇತ್ರವು ನಿಮ್ಮ ಯೋಜನೆಯ ಹೆಸರು. ಹೆಸರುಗಳು *ಯೋಜನೆ* ಮತ್ತು *ಸಂಗ್ರಹಾಲಯ* ನೋಟಗಳಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ.",
                 "sourceToggle": "$~ಇದು /toggle/ *ಮೂಲ ಫೈಲ್* ಅನ್ನು ತೋರಿಸುತ್ತದೆ ಅಥವಾ ಮರೆಮಾಡುತ್ತದೆ. ಈ ಸಾಲಿನಲ್ಲಿರುವ *ಇತರ ಟಾಗಲ್‌ಗಳು* ಇತರ ಟೈಲ್‌ಗಳಿಗೂ ಅದೇ ರೀತಿ ಮಾಡುತ್ತವೆ.",
-                "addSource": "$!ಕೆಲವು ಯೋಜನೆಗಳು *ಬಹು* ಮೂಲ ಫೈಲ್‌ಗಳಿಂದ ಪ್ರಯೋಜನ ಪಡೆಯುತ್ತವೆ, ಅಲ್ಲಿ ಡೇಟಾವನ್ನು ಒಂದರಲ್ಲಿ ಸಂಗ್ರಹಿಸಲಾಗುತ್ತದೆ ಮತ್ತು *ಮುಖ್ಯ* ಮೂಲಕ್ಕೆ ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗುತ್ತದೆ. /ಮೂಲವನ್ನು ಸೇರಿಸಿ/ ಬಟನ್ ಹೊಸದನ್ನು ರಚಿಸುತ್ತದೆ.",
+                "addSource": "$~ಕೆಲವು ಯೋಜನೆಗಳಿಗೆ *ಹಲವಾರು* ಮೂಲ ಕಡತಗಳಿಂದ ಪ್ರಯೋಜನವಿದೆ, ಅಲ್ಲಿ ದತ್ತಾಂಶವನ್ನು ಒಂದರಲ್ಲಿ ಇಟ್ಟು *ಮುಖ್ಯ* ಮೂಲಕ್ಕೆ ಆಮದು ಮಾಡಲಾಗುತ್ತದೆ. /ಮೂಲ ಸೇರಿಸಿ/ ಗುಂಡಿಯು ಮೂಲ ಮಾಡುವ ವಿಧಾನಗಳನ್ನು ನೀಡುತ್ತದೆ: ಖಾಲಿ ಕಡತ, ಚಿತ್ರ, ಹಾಡು, ಅಥವಾ ಕೆಲವು ದತ್ತಾಂಶ.",
                 "share": "$~/share/ ಸಂವಾದವು ನಿಮ್ಮ ಪ್ರಾಜೆಕ್ಟ್ ಅನ್ನು *ಗ್ಯಾಲರಿಗಳೊಂದಿಗೆ*, *ಸಾರ್ವಜನಿಕರೊಂದಿಗೆ* ಹಂಚಿಕೊಳ್ಳಲು ಅಥವಾ ಬೇರೆಡೆ ಹಂಚಿಕೊಳ್ಳಲು *ಪಠ್ಯ*ವಾಗಿ ನಕಲಿಸಲು ಅನುಮತಿಸುತ್ತದೆ.",
                 "checkpoints": "$~/revisions/ ಫಲಕವು ನಿಮ್ಮ ಯೋಜನೆಯ ಹಿಂದಿನ ಆವೃತ್ತಿಗಳಿಗೆ *ಹಿಂತಿರುಗಿ* ಹೋಗಲು ಮತ್ತು ನೀವು ನೆನಪಿಟ್ಟುಕೊಳ್ಳಲು ಬಯಸುವ *ಸ್ನ್ಯಾಪ್‌ಶಾಟ್* ಆವೃತ್ತಿಗಳಿಗೆ ಹೋಗಲು ಅನುಮತಿಸುತ್ತದೆ.",
                 "languages": "$~/languages/ ಗುಂಡಿ ನಿಮ್ಮ ಯೋಜನೆ ಬರೆದಿರುವ ಭಾಷೆಗಳನ್ನು ತೋರಿಸುತ್ತದೆ, ಒಂದನ್ನು ಸೇರಿಸಲು ಅಥವಾ ತೆಗೆಯಲು ಅನುಮತಿಸುತ್ತದೆ, ಮತ್ತು ನಿಮ್ಮ ಯೋಜನೆಯ *ಹೆಸರುಗಳು*, *ಪಠ್ಯ* ಮತ್ತು *ದಸ್ತಾವೇಜೀಕರಣ*ವನ್ನು ಹೊಸ ಭಾಷೆಗೆ *ಅನುವಾದಿಸಬಹುದು*."
@@ -839,92 +839,92 @@
                 "closed": "$~$name ನ ಎರಡನೇ ನೋಟವನ್ನು ಮುಚ್ಚಲಾಗಿದೆ"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~ಕೋಡ್ ಸೇರಿಸಿ",
+                "explanation": "$~ಒಂದು ಯೋಜನೆಯು ಒಂದಕ್ಕಿಂತ ಹೆಚ್ಚು ಕೋಡ್ ಕಡತಗಳನ್ನು ಹೊಂದಿರಬಹುದು. ಬರೆಯಲು ಖಾಲಿ ಕಡತವೊಂದನ್ನು ಮಾಡಿ, ಅಥವಾ ಚಿತ್ರ ಇಲ್ಲವೇ ಹಾಡಿನಿಂದ ಒಂದನ್ನು ಮಾಡಿ. ಆ ಮೌಲ್ಯಗಳನ್ನು @Borrow ಜೊತೆ ಬಳಸಬಹುದು.",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~ನಿಮ್ಮ ಮುಖ್ಯ ಕೋಡ್‌ನಿಂದ ಪ್ರತ್ಯೇಕವಾಗಿ ಇಡಬೇಕಾದ ಕೋಡ್‌ಗಾಗಿ ಒಂದು ಖಾಲಿ ಕಡತ.",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~ಸೇರಿಸಿ",
+                        "tip": "$~ಖಾಲಿ ಕೋಡ್ ಕಡತ ಸೇರಿಸಿ"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~ಬಣ್ಣಗಳು",
+                        "tip": "$~ಚಿತ್ರದ ಉದ್ದಗಲಕ್ಕೂ ಎಷ್ಟು ಬಣ್ಣಗಳಾಗುತ್ತವೆ"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows ಬಣ್ಣಗಳು, ಸುಮಾರು $size ಕೆಬಿ, ಯೋಜನೆಯು ಹಿಡಿದಿಡಬಹುದಾದ್ದರ $percent ರಷ್ಟು",
+                    "tooBig": "$~ಈ ಯೋಜನೆಗೆ ಉಳಿದಿರುವ ಸ್ಥಳಕ್ಕಿಂತ ಬಣ್ಣಗಳು ಹೆಚ್ಚಾಗಿವೆ",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~ಸೇರಿಸಿ",
+                        "tip": "$~ಈ ಬಣ್ಣಗಳನ್ನು ಕೋಡ್ ಕಡತವಾಗಿ ಸೇರಿಸಿ"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name, $columns × $rows ಬಣ್ಣಗಳು",
+                    "cameraDoc": "$~ಕ್ಯಾಮೆರಾ ಚಿತ್ರ, $columns × $rows ಬಣ್ಣಗಳು",
+                    "added": "$~$name ಸೇರಿಸಲಾಗಿದೆ, $#count[ಒಂದು ಬಣ್ಣ|$count ಬಣ್ಣಗಳು]",
+                    "name": "$~ಬಣ್ಣಗಳು",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~ನಿಮ್ಮ ಕ್ಯಾಮೆರಾ ಏನನ್ನು ನೋಡುತ್ತಿದೆ",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~ಮೂಲವಾಗಿ ಸೆರೆಹಿಡಿಯಿರಿ",
+                            "tip": "$~ಈಗ ತೋರಿಸುತ್ತಿರುವ ಚಿತ್ರವನ್ನು ಉಳಿಸಿ"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~ಮತ್ತೆ",
+                            "tip": "$~ನೇರ ಚಿತ್ರಕ್ಕೆ ಹಿಂತಿರುಗಿ"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~ಕ್ಯಾಮೆರಾ ಪ್ರಾರಂಭಿಸಲಾಗುತ್ತಿದೆ…",
+                        "denied": "$~ನಾವು ನಿಮ್ಮ ಕ್ಯಾಮೆರಾವನ್ನು ತಲುಪಲಾಗುತ್ತಿಲ್ಲ. ಈ ಪುಟಕ್ಕೆ ಅದನ್ನು ಬಳಸಲು ಅನುಮತಿ ಇದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ."
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~ಹೊಸ ಕಡತವು @Color ಸಾಲುಗಳ ಪಟ್ಟಿಯಾಗಿದೆ, ಚಿತ್ರದ ಪ್ರತಿ ಚೌಕಕ್ಕೂ ಒಂದರಂತೆ. ಅದನ್ನು ಎರವಲು ಪಡೆದು ಬಿಡಿಸಲು @Image ಗೆ ಕೊಡಿ, ಅಥವಾ ಆ ಬಣ್ಣಗಳನ್ನು ಬೇರೆ ಯಾವುದಕ್ಕಾದರೂ ಬಳಸಿ.",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~ಚಿತ್ರ ಎಲ್ಲಿಂದ ಬರುತ್ತದೆ",
+                        "labels": ["$~ಈ ಸಾಧನ", "$~ಕ್ಯಾಮೆರಾ"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~ಈ ಸಾಧನದಲ್ಲಿರುವ ಒಂದು ಚಿತ್ರ ಕಡತ",
+                            "$~ನಿಮ್ಮ ಕ್ಯಾಮೆರಾ ಈಗ ಕಾಣುತ್ತಿರುವುದು"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~ಅಗಲ",
+                            "tip": "$~ಚಿತ್ರದ ಎಷ್ಟು ಭಾಗವನ್ನು ಅಗಲವಾಗಿ ಉಳಿಸಿಕೊಳ್ಳಬೇಕು"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~ಎತ್ತರ",
+                            "tip": "$~ಚಿತ್ರದ ಎಷ್ಟು ಭಾಗವನ್ನು ಎತ್ತರವಾಗಿ ಉಳಿಸಿಕೊಳ್ಳಬೇಕು"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~ಪೆಟ್ಟಿಗೆಯನ್ನು ಸರಿಸಲು ಎಳೆಯಿರಿ, ಅಥವಾ ಅದರ ಗಾತ್ರ ಬದಲಿಸಲು ಅದರ ಒಂದು ಮೂಲೆಯನ್ನು ಎಳೆಯಿರಿ. *ಅಗಲ* ಮತ್ತು *ಎತ್ತರ* ಜಾರುಪಟ್ಟಿಗಳು ಅದೇ ಕೆಲಸ ಮಾಡುತ್ತವೆ, ಮತ್ತು *ಬಣ್ಣಗಳು* ಜಾರುಪಟ್ಟಿ ಅದು ಎಷ್ಟು ಬಣ್ಣಗಳಾಗಿ ಬದಲಾಗುತ್ತದೆ ಎಂಬುದನ್ನು ಆಯ್ಕೆಮಾಡುತ್ತದೆ. ಕೀಲಿಮಣೆಯೊಂದಿಗೆ, ಪೆಟ್ಟಿಗೆಯನ್ನು ಸರಿಸಲು ಪ್ರಾರಂಭಿಸಲು *enter* ಒತ್ತಿ, ನಂತರ *arrow* ಕೀಲಿಗಳನ್ನು ಬಳಸಿ, ಮುಗಿದಾಗ ಮತ್ತೆ *enter* ಒತ್ತಿ."
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~MIDI ಕಡತ — .mid ಅಥವಾ .midi, 2 MB ವರೆಗೆ — ಇದರ ಸ್ವರಗಳನ್ನು ಹೊಂದಿದ ಹೊಸ ಕಡತವಾಗುತ್ತದೆ, ಮತ್ತು ನಿಮ್ಮ ಪ್ರೋಗ್ರಾಂಗೆ ಅವುಗಳನ್ನು ನುಡಿಸುವ @Music ಸಿಗುತ್ತದೆ. 10,000 ಸ್ವರಗಳವರೆಗೆ ಮತ್ತು 128 ಟ್ರ್ಯಾಕ್‌ಗಳವರೆಗೆ; @Music ಹಿಡಿದಿಡಲಾಗದ್ದನ್ನು ಆಮದಿನ ನಂತರ ಪಟ್ಟಿ ಮಾಡಲಾಗುತ್ತದೆ."
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~ಹೊಸ ಕೋಡ್ ಯಾವುದರಿಂದ ಮಾಡಲ್ಪಟ್ಟಿದೆ",
+                    "labels": ["$~ಖಾಲಿ", "$~ಚಿತ್ರ", "$~ಕೋಷ್ಟಕ", "$~ಹಾಡು"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~ಇನ್ನೂ ಏನೂ ಇಲ್ಲದ ಕಡತ",
+                        "$~ಒಂದು ಚಿತ್ರದ ಬಣ್ಣಗಳು, ಅಥವಾ ನಿಮ್ಮ ಕ್ಯಾಮೆರಾ ಕಾಣುತ್ತಿರುವುದರ ಬಣ್ಣಗಳು",
+                        "$~ಸ್ಪ್ರೆಡ್‌ಶೀಟ್‌ನಿಂದ ಅಂಟಿಸಿದ ಅಲ್ಪವಿರಾಮದಿಂದ-ಬೇರ್ಪಡಿಸಿದ ಮೌಲ್ಯಗಳು (CSV)",
+                        "$~ಈ ಸಾಧನದಲ್ಲಿರುವ MIDI ಕಡತದ ಸ್ವರಗಳು"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~ಸಾಲುಗಳು",
+                    "explanation": "$~ಸ್ಪ್ರೆಡ್‌ಶೀಟ್‌ನಿಂದ ನಕಲಿಸಿದ ಸಾಲುಗಳಂತಹ ಅಲ್ಪವಿರಾಮದಿಂದ-ಬೇರ್ಪಡಿಸಿದ ಮೌಲ್ಯಗಳನ್ನು (CSV) ಅಂಟಿಸಿ, ಅವು ನೀವು ಓದಬಹುದಾದ ಮತ್ತು ಬದಲಿಸಬಹುದಾದ @Table ಆಗುತ್ತವೆ. ಮೊದಲ ಸಾಲು ಕಾಲಮ್‌ಗಳಿಗೆ ಹೆಸರಿಡುತ್ತದೆ.",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~ಅಲ್ಪವಿರಾಮದಿಂದ-ಬೇರ್ಪಡಿಸಿದ ಮೌಲ್ಯಗಳು (CSV)",
+                        "placeholder": "$~ಹೆಸರು, ಕಾಲುಗಳು\nಬೆಕ್ಕು, 4\nಹಕ್ಕಿ, 2"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$columns ಕಾಲಮ್‌ಗಳ $#rows[ಒಂದು ಸಾಲು|$rows ಸಾಲುಗಳು]",
+                    "notTable": "$~ಇನ್ನೂ ಅಲ್ಪವಿರಾಮದಿಂದ-ಬೇರ್ಪಡಿಸಿದ ಮೌಲ್ಯಗಳಲ್ಲ (CSV)",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~ಸೇರಿಸಿ",
+                        "tip": "$~ಈ ಸಾಲುಗಳನ್ನು ಕೋಡ್ ಕಡತವಾಗಿ ಸೇರಿಸಿ"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$columns ಕಾಲಮ್‌ಗಳ $#rows[ಒಂದು ಸಾಲು|$rows ಸಾಲುಗಳು]",
+                    "added": "$~$name ಸೇರಿಸಲಾಗಿದೆ, $#rows[ಒಂದು ಸಾಲು|$rows ಸಾಲುಗಳು]"
                 }
             }
         },
@@ -2310,7 +2310,7 @@
                 },
                 "report": "$~ನಾನು ಆಮದು ಮಾಡಿಕೊಂಡದ್ದು",
                 "reportExplanation": "$~ಒಂದು MIDI ಫೈಲ್ ವಿವರಿಸುವ ಹೆಚ್ಚಿನದನ್ನು ಒಂದು @Music ಹಿಡಿದಿಟ್ಟುಕೊಳ್ಳಬಲ್ಲದು, ಆದರೆ ಎಲ್ಲವನ್ನೂ ಅಲ್ಲ. ಒಳಗೆ ಬರುವಾಗ ಏನು ಬದಲಾಯಿತು ಎಂಬುದು ಇಲ್ಲಿದೆ.",
-                "choose": "$?choose a song"
+                "choose": "$~ಒಂದು ಹಾಡನ್ನು ಆರಿಸಿ"
             },
             "toolbar": {
                 "label": "$~ಔಟ್‌ಪುಟ್ ಸೇರಿಸಿ",
@@ -2930,7 +2930,7 @@
             },
             "crop": {
                 "label": "$~ಕ್ರಾಪ್ ಪೆಟ್ಟಿಗೆ",
-                "tip": "$!ಇಟ್ಟುಕೊಳ್ಳಬೇಕಾದ ಚಿತ್ರದ ಚೌಕ"
+                "tip": "$~ಚಿತ್ರದ ಯಾವ ಭಾಗವನ್ನು ಉಳಿಸಿಕೊಳ್ಳಬೇಕು"
             },
             "preview": "$~ಏನು ಸೇರಿಸಲಾಗುವುದು",
             "feedback": {

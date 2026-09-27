@@ -148,7 +148,7 @@
                     "tip": "$~projeyi metin olarak panoya kopyala",
                     "label": "$~metin olarak kopyala"
                 },
-                "addSource": "$!verileri veya paylaşılan kodu kendi dosyasında tutabilmen için başka bir @Source oluştur",
+                "addSource": "$~başka bir @Source ekle: boş bir tane, ya da bir resimden veya bir şarkıdan yapılmış bir tane",
                 "revert": "$~orijinal koda geri dön",
                 "focusOutput": "$~sahnede klavyeye odaklan",
                 "focusSource": "$~bir sonraki kaynağa odaklan",
@@ -269,7 +269,7 @@
                 "controls": "$~Alttaki bu kontroller, hangi kutucukta çalışıyor olursanız olun, *projenin tamamı* için geçerlidir.",
                 "name": "$~/isim/ alanı projenizin ismidir. İsimler *proje* ve *galeri* görünümlerinde görünür.",
                 "sourceToggle": "$~Bu /toggle/ düğmesi *kaynak dosyayı* gösterir veya gizler. Bu satırdaki *diğer /toggle/ düğmeleri* diğer kutucuklar için de aynı işlevi görür.",
-                "addSource": "$!Bazı projeler, verilerin birinde saklandığı ve *ana* kaynağa aktarıldığı *birden fazla* kaynak dosyasından faydalanır. \"/Kaynak ekle/\" düğmesi yeni bir dosya oluşturur.",
+                "addSource": "$~Bazı projeler *birden fazla* kaynak dosyasından yararlanır. Bu dosyalardan birinde veriler saklanır ve *ana* kaynağa aktarılır. /kaynak ekle/ düğmesi, bunu yapmanın yollarını sunar: boş bir dosya, bir resim, bir şarkı ya da bazı veriler.",
                 "share": "$~/paylaş/ iletişim kutusu, projenizi *galerilerle*, *herkesle* paylaşmanıza veya başka bir yerde paylaşmak üzere *metin* olarak kopyalamanıza olanak tanır.",
                 "checkpoints": "$~/revisions/ paneli, projenizin önceki sürümlerine *geri dönmenizi* ve hatırlamak istediğiniz sürümlerin *anlık görüntüsünü* almanızı sağlar.",
                 "languages": "$~/diller/ düğmesi projenin hangi dillerde yazıldığını gösterir, bir dil eklemene veya kaldırmana izin verir ve projenin *isimlerini*, *metnini* ve *dokümantasyonunu* yeni bir dile *çevirebilir*."
@@ -631,92 +631,92 @@
                 "closed": "$~$name için ikinci görünüm kapatıldı"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~kod ekle",
+                "explanation": "$~Bir proje birden fazla kod dosyası tutabilir. Yazmak için boş bir dosya oluşturabilir, ya da bir resimden veya bir şarkıdan bir dosya yapabilirsin. Değerleri @Borrow ile kullanabilirsin.",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~Ana kodundan ayrı tutmak istediğin kod için boş bir dosya.",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~ekle",
+                        "tip": "$~boş bir kod dosyası ekle"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~renkler",
+                        "tip": "$~resmin genelinde kaç renk olduğu"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows renk, yaklaşık $size KB, bir projenin tutabileceğinin $percent kadarı",
+                    "tooBig": "$~bu proje için kalan alana göre çok fazla renk var",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~ekle",
+                        "tip": "$~bu renkleri bir kod dosyası olarak ekle"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name, $columns × $rows renk",
+                    "cameraDoc": "$~bir kamera resmi, $columns × $rows renk",
+                    "added": "$~$name eklendi, $#count[1 renk|$count renk]",
+                    "name": "$~renkler",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~kameranın gördüğü şey",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~kaynak olarak çek",
+                            "tip": "$~şu anda görünen resmi kaydet"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~tekrar",
+                            "tip": "$~canlı resme geri dön"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~Kamera başlatılıyor…",
+                        "denied": "$~Kameranıza ulaşamıyoruz. Bu sayfanın kamerayı kullanmasına izin verildiğinden emin olun."
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~Yeni dosya, resmin her karesi için bir tane olmak üzere @Color satırlarından oluşan bir listedir. Onu ödünç al ve çizmesi için bir @Image'e ver, ya da renkleri başka bir şey için kullan.",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~resmin nereden geldiği",
+                        "labels": ["$~bu cihaz", "$~kamera"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~bu cihazdaki bir resim dosyası",
+                            "$~kameranın şu anda gördüğü şey"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~genişlik",
+                            "tip": "$~resmin ne kadar genişlikte bir kısmının tutulacağı"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~yükseklik",
+                            "tip": "$~resmin ne kadar yükseklikte bir kısmının tutulacağı"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~Kutuyu taşımak için sürükle, boyutunu değiştirmek için köşelerinden birini sürükle. *genişlik* ve *yükseklik* kaydırıcıları da aynı işi yapar, *renkler* kaydırıcısı ise kaç renge dönüşeceğini seçer. Klavyeyle, kutuyu taşımaya başlamak için *enter*'a bas, sonra *ok* tuşlarını kullan, bitirdiğinde tekrar *enter*'a bas."
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~Bir MIDI dosyası — .mid veya .midi, en fazla 2 MB — notalarını tutan yeni bir dosya olur ve programın bunları çalan bir @Music elde eder. En fazla 10.000 nota ve 128 parça olabilir; bir @Music öğesinin tutamadığı her şey içe aktarımdan sonra listelenir."
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~yeni kodun neyden yapıldığı",
+                    "labels": ["$~boş", "$~resim", "$~tablo", "$~şarkı"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~içinde henüz hiçbir şey olmayan bir dosya",
+                        "$~bir resmin ya da kameranın gördüğü şeyin renkleri",
+                        "$~bir hesap tablosundan yapıştırılmış, virgülle ayrılmış değerler (CSV)",
+                        "$~bu cihazdaki bir MIDI dosyasının notaları"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~satırlar",
+                    "explanation": "$~Bir hesap tablosundan kopyalanan satırlar gibi, virgülle ayrılmış değerleri (CSV) yapıştır; bunlar okuyup değiştirebileceğin bir @Table olur. İlk satır kolonların isimlerini verir.",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~virgülle ayrılmış değerler (CSV)",
+                        "placeholder": "$~isim, bacak\nkedi, 4\nkuş, 2"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$columns kolonun $#rows[1 satırı|$rows satırı]",
+                    "notTable": "$~henüz virgülle ayrılmış değerler (CSV) olmayan",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~ekle",
+                        "tip": "$~bu satırları bir kod dosyası olarak ekle"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$columns kolonun $#rows[1 satırı|$rows satırı]",
+                    "added": "$~$name eklendi, $#rows[1 satır|$rows satır]"
                 }
             }
         },
@@ -2097,7 +2097,7 @@
                 },
                 "report": "$~Neyi içe aktardım",
                 "reportExplanation": "$~Bir @Music, bir MIDI dosyasının anlattığı şeylerin çoğunu tutabilir ama hepsini tutamaz. İşte içe aktarma sırasında değişen şeyler.",
-                "choose": "$?choose a song"
+                "choose": "$~bir şarkı seç"
             },
             "toolbar": {
                 "label": "$~çıktı ekle",
@@ -2927,7 +2927,7 @@
             },
             "crop": {
                 "label": "$~kırpma kutusu",
-                "tip": "$!saklanacak görsel karesi"
+                "tip": "$~görüntünün korunacak bölümü"
             },
             "preview": "$~eklenecek olan şey",
             "feedback": {

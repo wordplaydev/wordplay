@@ -3,22 +3,24 @@ Gumawa ng video mula sa kamera
 Ang @Camera agos ay isang mahusay na paraan para makakuha ng isang grid ng mga kulay mula sa mundo. 
 Paano kung gusto nating makita ang mga kulay na iyon, at muling gawin ang larawang nakikita ng @Camera ?
 
-Puwede nating gamitin ang @Grid na layout para sa isang @Group, at @List/combine na function para gawing listahan ng @Phrase ang mga kulay na ibibigay natin sa @Grid.
+Ang isang @Image ay kumukuha ng isang grid ng mga kulay at iginuguhit ito bilang isang larawan, kaya maibibigay natin dito ang mga kulay ng @Camera nang direkta.
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" kulay: ⬚ tagal: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- Ang halimbawang ito ay gumagawa ng listahan ng mga parirala, na ginagawang bilog ang bawat kulay gamit ang tiyak na kulay nito.
+ Bawat @Image ay nangangailangan ng paglalarawan, dahil ang isang grid ng mga kulay ay walang sariling mga salita para sa taong hindi ito makita.
 
-Mag-ingat sa @Camera na mga stream: marami silang input na nililikha! Kailangan mong panatilihing maliit ang lapad at taas ng larawan.
+Maaari nating iguhit ang larawan gamit ang mga titik sa halip na mga parisukat, sa pamamagitan ng pagbibigay dito ng isang /guhit/, isang function mula sa isang kulay patungo sa tekstong kumakatawan dito.
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m guhit: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

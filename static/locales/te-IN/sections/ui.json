@@ -151,7 +151,7 @@
                     "tip": "$~ప్రాజెక్ట్‌ను క్లిప్‌బోర్డ్‌కు టెక్స్ట్‌గా కాపీ చేయండి",
                     "label": "$~టెక్స్ట్‌గా కాపీ చేయండి"
                 },
-                "addSource": "$!మరో @Sourceను సృష్టించండి, తద్వారా మీరు డేటాను లేదా పంచుకున్న కోడ్‌ను దాని సొంత ఫైల్‌లో ఉంచుకోవచ్చు",
+                "addSource": "$~మరో @Source చేర్చండి: ఖాళీది, లేదా ఒక చిత్రం లేదా పాట నుండి తయారు చేసినది",
                 "revert": "$~అసలు కోడ్‌కు తిరిగి వెళ్ళు",
                 "focusOutput": "$~కీబోర్డ్‌ను వేదికపై కేంద్రీకరించండి",
                 "focusSource": "$~తదుపరి మూలంపై దృష్టి పెట్టండి",
@@ -269,7 +269,7 @@
                 "controls": "$~దిగువన ఉన్న ఈ /నియంత్రణలు/ మీరు ఏ టైల్‌లో పని చేస్తున్నా సరే, *ప్రాజెక్ట్ మొత్తానికి* వర్తిస్తాయి.",
                 "name": "$~/name/ ఫీల్డ్ మీ ప్రాజెక్ట్ పేరు. పేర్లు *project* మరియు *gallery* వీక్షణలలో కనిపిస్తాయి.",
                 "sourceToggle": "$~ఈ /టాగల్/ *సోర్స్ ఫైల్‌ను* చూపిస్తుంది లేదా దాచిపెడుతుంది. ఈ వరుసలోని *ఇతర టాగల్స్* కూడా మిగిలిన టైల్స్‌కు అదే పని చేస్తాయి.",
-                "addSource": "$!కొన్ని ప్రాజెక్ట్‌లకు బహుళ సోర్స్ ఫైల్స్ ప్రయోజనకరంగా ఉంటాయి, వీటిలో డేటా ఒక ఫైల్‌లో నిల్వ చేయబడి, ప్రధాన సోర్స్ ఫైల్‌లోకి ఇంపోర్ట్ చేయబడుతుంది. /add source/ బటన్ ఒక కొత్త ఫైల్‌ను సృష్టిస్తుంది.",
+                "addSource": "$~కొన్ని ప్రాజెక్ట్‌లకు *బహుళ* మూలం ఫైళ్ల వల్ల ప్రయోజనం ఉంటుంది, అక్కడ డేటా ఒకదానిలో నిల్వ చేయబడి *ప్రధాన* మూలంలోకి దిగుమతి చేయబడుతుంది. /మూలం చేర్చు/ బటన్ ఒకదాన్ని తయారు చేసే మార్గాలను అందిస్తుంది: ఖాళీ ఫైల్, చిత్రం, పాట, లేదా కొంత డేటా.",
                 "share": "$~/share/ డైలాగ్ ద్వారా మీరు మీ ప్రాజెక్ట్‌ను *గ్యాలరీలతో*, *ప్రజలతో* పంచుకోవచ్చు లేదా దానిని *టెక్స్ట్‌గా* కాపీ చేసి వేరే చోట పంచుకోవచ్చు.",
                 "checkpoints": "$~/రివిజన్స్/ ప్యానెల్ మీ ప్రాజెక్ట్ యొక్క మునుపటి వెర్షన్‌లకు *తిరిగి* వెళ్లడానికి, మరియు మీరు గుర్తుంచుకోవాలనుకుంటున్న వెర్షన్‌ల *స్నాప్‌షాట్* తీసుకోవడానికి మిమ్మల్ని అనుమతిస్తుంది.",
                 "languages": "$~/languages/ బటన్ మీ ప్రాజెక్ట్ ఏ భాషలలో రాయబడిందో చూపిస్తుంది, ఒకదాన్ని జోడించడానికి లేదా తీసివేయడానికి అనుమతిస్తుంది, మరియు మీ ప్రాజెక్ట్ యొక్క *పేర్లు*, *టెక్స్ట్*, మరియు *డాక్యుమెంటేషన్*ను కొత్త భాషలోకి *అనువదించగలదు*."
@@ -844,92 +844,92 @@
                 "closed": "$~$name యొక్క రెండో వీక్షణ మూసివేయబడింది"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~కోడ్ చేర్చు",
+                "explanation": "$~ఒక ప్రాజెక్ట్‌లో ఒకటి కంటే ఎక్కువ కోడ్ ఫైళ్లు ఉండవచ్చు. రాయడానికి ఖాళీది తయారు చేయండి, లేదా చిత్రం లేదా పాట నుండి ఒకటి తయారు చేయండి. @Borrowతో ఆ విలువలను వాడుకోవచ్చు.",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~మీ ప్రధాన కోడ్ నుండి వేరుగా ఉంచాలనుకునే కోడ్ కోసం ఖాళీ ఫైల్.",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~చేర్చు",
+                        "tip": "$~కోడ్ యొక్క ఖాళీ ఫైల్ చేర్చు"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~రంగులు",
+                        "tip": "$~చిత్రం మొత్తంలో ఎన్ని రంగులు అవుతాయి"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows రంగులు, సుమారు $size కేబీ, ఒక ప్రాజెక్ట్ ఉంచగలిగిన దానిలో $percent",
+                    "tooBig": "$~ఈ ప్రాజెక్ట్‌కు మిగిలిన స్థలానికి రంగులు చాలా ఎక్కువగా ఉన్నాయి",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~చేర్చు",
+                        "tip": "$~ఈ రంగులను కోడ్ ఫైల్‌గా చేర్చు"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name, $columns × $rows రంగులు",
+                    "cameraDoc": "$~ఒక కెమెరా చిత్రం, $columns × $rows రంగులు",
+                    "added": "$~$name చేర్చబడింది, $#count[ఒక రంగు|$count రంగులు]",
+                    "name": "$~రంగులు",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~మీ కెమెరా ఏమి చూస్తుంది",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~మూలంగా తీయండి",
+                            "tip": "$~ఇప్పుడు చూపిస్తున్న చిత్రాన్ని భద్రపరచండి"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~మళ్ళీ",
+                            "tip": "$~ప్రత్యక్ష చిత్రానికి తిరిగి వెళ్ళండి"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~కెమెరా ప్రారంభమవుతోంది…",
+                        "denied": "$~మేము మీ కెమెరాను చేరుకోలేకపోతున్నాము. ఈ పేజీకి దాన్ని వాడే అనుమతి ఉందో లేదో చూడండి."
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~కొత్త ఫైల్ @Color వరుసల జాబితా, చిత్రంలోని ప్రతి చతురస్రానికి ఒకటి చొప్పున. దాన్ని అరువు తీసుకుని గీయడానికి ఒక @Imageకు ఇవ్వండి, లేదా ఆ రంగులను మరి దేనికైనా వాడండి.",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~చిత్రం ఎక్కడ నుండి వస్తుంది",
+                        "labels": ["$~ఈ పరికరం", "$~కెమెరా"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~ఈ పరికరంలో ఉన్న ఒక చిత్రం ఫైలు",
+                            "$~మీ కెమెరా ఇప్పుడు చూస్తున్నది"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~వెడల్పు",
+                            "tip": "$~చిత్రంలో ఉంచవలసిన భాగం ఎంత వెడల్పుగా ఉండాలి"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~ఎత్తు",
+                            "tip": "$~చిత్రంలో ఉంచవలసిన భాగం ఎంత ఎత్తుగా ఉండాలి"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~పెట్టెను జరపడానికి దాన్ని లాగండి, లేదా దాని పరిమాణాన్ని మార్చడానికి దాని మూలల్లో ఒకదాన్ని లాగండి. *వెడల్పు* మరియు *ఎత్తు* స్లయిడర్లు కూడా అదే పని చేస్తాయి, మరియు *రంగులు* స్లయిడర్ అది ఎన్ని రంగులుగా మారుతుందో ఎంచుకుంటుంది. కీబోర్డుతో, పెట్టెను కదిలించడం ప్రారంభించడానికి *ఎంటర్* నొక్కండి, తర్వాత *బాణం* కీలను వాడండి, మీ పని పూర్తయ్యాక మళ్ళీ *ఎంటర్* నొక్కండి."
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~ఒక MIDI ఫైలు — .mid లేదా .midi, 2 MB వరకు — దాని స్వరాలను కలిగి ఉన్న కొత్త ఫైలుగా మారుతుంది, మరియు మీ ప్రోగ్రామ్‌కు వాటిని వాయించే ఒక @Music లభిస్తుంది. 10,000 స్వరాల వరకు మరియు 128 ట్రాక్‌ల వరకు; ఒక @Music ఉంచలేని ఏదైనా దిగుమతి తర్వాత జాబితా చేయబడుతుంది."
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~కొత్త కోడ్ దేనితో తయారవుతుంది",
+                    "labels": ["$~ఖాళీ", "$~చిత్రం", "$~పట్టిక", "$~పాట"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~ఇంకా ఏమీ లేని ఫైలు",
+                        "$~ఒక చిత్రం యొక్క రంగులు, లేదా మీ కెమెరా చూస్తున్నది యొక్క రంగులు",
+                        "$~స్ప్రెడ్‌షీట్ నుండి అతికించిన కామాతో వేరు చేసిన విలువలు (CSV)",
+                        "$~ఈ పరికరంలో ఉన్న MIDI ఫైలు యొక్క స్వరాలు"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~వరుసలు",
+                    "explanation": "$~కామాతో వేరు చేసిన విలువలను (CSV), అంటే స్ప్రెడ్‌షీట్ నుండి కాపీ చేసిన వరుసల వంటివి, అతికించండి, అవి మీరు చదవగలిగే మరియు మార్చగలిగే @Tableగా మారతాయి. మొదటి వరుస కాలమ్‌లకు పేర్లు పెడుతుంది.",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~కామాతో వేరు చేసిన విలువలు (CSV)",
+                        "placeholder": "$~పేరు, కాళ్ళు\nపిల్లి, 4\nపిచ్చుక, 2"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$columns కాలమ్‌లతో $#rows[ఒక వరుస|$rows వరుసలు]",
+                    "notTable": "$~అది ఇంకా కామాతో వేరు చేసిన విలువలు (CSV) కాదు",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~చేర్చు",
+                        "tip": "$~ఈ వరుసలను కోడ్ ఫైలుగా చేర్చండి"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$columns కాలమ్‌లతో $#rows[ఒక వరుస|$rows వరుసలు]",
+                    "added": "$~$name చేర్చబడింది, $#rows[ఒక వరుస|$rows వరుసలు]"
                 }
             }
         },
@@ -2322,7 +2322,7 @@
                 },
                 "report": "$~నేను దిగుమతి చేసినది",
                 "reportExplanation": "$~ఒక @Music MIDI ఫైల్ వివరించే చాలా భాగాన్ని పట్టుకోగలదు, కానీ మొత్తం కాదు. లోపలికి వచ్చే దారిలో మారినది ఇక్కడ ఉంది.",
-                "choose": "$?choose a song"
+                "choose": "$~ఒక పాటను ఎంచుకోండి"
             },
             "toolbar": {
                 "label": "$~అవుట్‌పుట్ చేర్చండి",
@@ -2942,7 +2942,7 @@
             },
             "crop": {
                 "label": "$~క్రాప్ బాక్స్",
-                "tip": "$!ఉంచవలసిన చిత్రపు చతురస్రం"
+                "tip": "$~ఉంచవలసిన చిత్రం భాగం"
             },
             "preview": "$~ఏమి చేర్చబడుతుంది",
             "feedback": {

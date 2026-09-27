@@ -144,7 +144,7 @@
                     "tip": "$~把项目作为文字复制到剪贴板",
                     "label": "$~作为文字复制"
                 },
-                "addSource": "$!创建另一个@Source，这样你就能把数据或共享代码放进它自己的文件里",
+                "addSource": "$~再加一个@Source：可以是空的，也可以用一张图片或一首歌曲做成",
                 "revert": "恢复到原始代码",
                 "focusOutput": "聚焦舞台上的键盘乐器",
                 "focusSource": "聚焦到下一个源",
@@ -269,7 +269,7 @@
                 "controls": "$~底部的这些/控件/作用于*整个项目*，无论你在哪个磁贴上工作。",
                 "name": "$~/名字/字段是你项目的名字。名字会显示在*项目*和*作品库*视图中。",
                 "sourceToggle": "$~这个/切换按钮/会显示或隐藏*源文件*。这一行上的*其他切换按钮*对其他磁贴起同样的作用。",
-                "addSource": "$!有些项目用*多个*源文件会更好，把数据存放在一个文件里，再导入到*主*源文件中。/添加源文件/按钮可以新建一个。",
+                "addSource": "$~有些项目用*多个*源文件会更方便：数据存放在一个源文件里，再导入到*主*源文件中。“/添加源文件/”按钮提供了几种创建方式：空文件、图片、歌曲，或一些数据。",
                 "share": "$~/分享/对话框让你把项目分享到*作品库*、分享给*公众*，或把它复制成*文本*以便在别处分享。",
                 "checkpoints": "$~/修订/面板让你*回到*项目以前的版本，并*快照*你想记住的版本。",
                 "languages": "$~/languages/ 按钮会显示你项目使用了哪些语言，让你添加或移除某种语言，还能把你项目的*名字*、*文本*和*文档* *翻译*成一种新语言。"
@@ -602,92 +602,92 @@
                 "closed": "$~关闭了 $name 的第二个视图"
             },
             "add": {
-                "header": "$?add code",
-                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "header": "$~添加代码",
+                "explanation": "$~一个项目可以包含不止一个代码文件。你可以新建一个空文件来写代码，也可以用一张图片或一首歌曲做一个。你可以用@Borrow来使用这些值。",
                 "blank": {
-                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "explanation": "$~一个空文件，用来存放你想和主代码分开的代码。",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add an empty file of code"
+                        "label": "$~添加",
+                        "tip": "$~添加一个空的代码文件"
                     }
                 },
                 "image": {
                     "size": {
-                        "label": "$?colors",
-                        "tip": "$?how many colors across the picture becomes"
+                        "label": "$~颜色",
+                        "tip": "$~这张图片里一共有多少种颜色"
                     },
-                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
-                    "tooBig": "$?too many colors for what is left of this project",
+                    "budget": "$~$columns × $rows 种颜色，约 $size KB，占项目容量的 $percent",
+                    "tooBig": "$~颜色太多了，这个项目剩余的空间放不下",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these colors as a file of code"
+                        "label": "$~添加",
+                        "tip": "$~把这些颜色添加为一个代码文件"
                     },
-                    "doc": "$?$name, $columns × $rows colors",
-                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
-                    "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors",
+                    "doc": "$~$name，$columns × $rows 种颜色",
+                    "cameraDoc": "$~一张摄像头图片，$columns × $rows 种颜色",
+                    "added": "$~已添加 $name，$#count[$count 种颜色]",
+                    "name": "$~颜色",
                     "camera": {
-                        "feed": "$?what your camera sees",
+                        "feed": "$~你的摄像头看到的画面",
                         "capture": {
-                            "label": "$?keep",
-                            "tip": "$?keep the picture showing now"
+                            "label": "$~拍下来做源文件",
+                            "tip": "$~保存现在显示的图片"
                         },
                         "retake": {
-                            "label": "$?again",
-                            "tip": "$?go back to the live picture"
+                            "label": "$~再来一次",
+                            "tip": "$~回到实时画面"
                         },
-                        "starting": "$?Starting the camera…",
-                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                        "starting": "$~正在启动摄像头……",
+                        "denied": "$~我们无法访问你的摄像头。请检查这个网页是否被允许使用摄像头。"
                     },
-                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "explanation": "$~这个新文件是一份 @Color 的行列表，图片上每一格对应一行。把它借用过来，交给一个@Image去画出来，或者把这些颜色用在别的地方。",
                     "source": {
-                        "label": "$?where the picture comes from",
-                        "labels": ["$?this device", "$?camera"],
+                        "label": "$~图片是从哪里来的",
+                        "labels": ["$~这台设备", "$~摄像头"],
                         "tips": [
-                            "$?a picture file on this device",
-                            "$?what your camera sees right now"
+                            "$~这台设备上的图片文件",
+                            "$~你的摄像头现在看到的画面"
                         ]
                     },
                     "crop": {
                         "width": {
-                            "label": "$?width",
-                            "tip": "$?how wide a part of the picture to keep"
+                            "label": "$~宽度",
+                            "tip": "$~要保留图片的哪一部分宽度"
                         },
                         "height": {
-                            "label": "$?height",
-                            "tip": "$?how tall a part of the picture to keep"
+                            "label": "$~高度",
+                            "tip": "$~要保留图片的哪一部分高度"
                         }
                     },
-                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
+                    "instructions": "$~拖动方框来移动它，或者拖动它的一个角来改变大小。*width* 和 *height* 滑块也能做到同样的事，*colors* 滑块用来选择它会变成多少种颜色。如果用键盘，按 *enter* 开始移动方框，然后用 *方向* 键移动，完成后再按一次 *enter*。"
                 },
                 "song": {
-                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                    "explanation": "$~一个 MIDI 文件——.mid 或 .midi 格式，最大 2 MB——会变成一个装着它的音符的新文件，你的程序会得到一个 @Music 来播放这些音符。最多支持 10,000 个音符和 128 条音轨；如果有内容超出了 @Music 能容纳的范围，会在导入后列出来。"
                 },
                 "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "label": "$~新代码由什么组成",
+                    "labels": ["$~空", "$~图片", "$~表格", "$~歌曲"],
                     "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture, or of what your camera sees",
-                        "$?comma-separated values (CSV) pasted from a spreadsheet",
-                        "$?the notes of a MIDI file on this device"
+                        "$~一个还没有任何内容的文件",
+                        "$~一张图片的颜色，或者你的摄像头看到的颜色",
+                        "$~从电子表格中粘贴过来的逗号分隔值（CSV）",
+                        "$~这台设备上一个 MIDI 文件里的音符"
                     ]
                 },
                 "table": {
-                    "name": "$?rows",
-                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "name": "$~行",
+                    "explanation": "$~粘贴逗号分隔值（CSV），比如从电子表格里复制的行，它们会变成一个你可以读取和修改的 @Table。第一行会作为列的名字。",
                     "paste": {
-                        "label": "$?comma-separated values (CSV)",
-                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
+                        "label": "$~逗号分隔值（CSV）",
+                        "placeholder": "$~名字, 腿的数量\n猫, 4\n鸟, 2"
                     },
-                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
+                    "summary": "$~$#rows[$rows 行]，共 $columns 列",
+                    "notTable": "$~这还不是逗号分隔值（CSV）",
                     "button": {
-                        "label": "$?add",
-                        "tip": "$?add these rows as a file of code"
+                        "label": "$~添加",
+                        "tip": "$~把这些行添加为一个代码文件"
                     },
-                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "added": "$?added $name, $#rows[one row|$rows rows]"
+                    "doc": "$~$#rows[$rows 行]，共 $columns 列",
+                    "added": "$~已添加 $name，$#rows[$rows 行]"
                 }
             }
         },
@@ -1908,7 +1908,7 @@
                 },
                 "report": "$~我导入的内容",
                 "reportExplanation": "$~一个 @Music 可以保存 MIDI 文件描述的大部分内容，但不是全部。以下是导入时发生变化的内容。",
-                "choose": "$?choose a song"
+                "choose": "$~选一首歌"
             },
             "toolbar": {
                 "label": "$~添加输出",
@@ -2893,7 +2893,7 @@
             },
             "crop": {
                 "label": "$~裁剪框",
-                "tip": "$!要保留的图片方框区域"
+                "tip": "$~要保留的图片部分"
             },
             "preview": "$~将要添加的内容",
             "feedback": {

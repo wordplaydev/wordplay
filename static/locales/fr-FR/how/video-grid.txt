@@ -3,22 +3,24 @@ Créer une vidéo à partir de la caméra
 Le @Camera flux est un excellent moyen d'obtenir une grille de couleurs venant du monde. 
 Et si on voulait voir ces couleurs, en recréant l'image que @Camera voit ?
 
-On peut utiliser la disposition @Grid pour un @Group, et la fonction @List/combine pour convertir les couleurs en une liste de @Phrase qu'on donne au @Grid.
+Un @Image prend une grille de couleurs et la dessine comme une seule image, pour qu'on puisse lui donner directement les couleurs du @Camera.
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" couleur: ⬚ durée: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- Cet exemple construit une liste de phrases, en transformant chaque couleur en un cercle de cette couleur.
+ Chaque @Image a besoin d'une description, parce qu'une grille de couleurs n'a pas de mots pour quelqu'un qui ne peut pas la voir.
 
-Fais attention avec les flux @Camera : ils produisent beaucoup d'entrées ! Il vaut mieux garder la largeur et la hauteur de l'image petites.
+On peut dessiner l'image avec des lettres au lieu de carrés, en lui donnant un /glyphe/, une fonction qui transforme une couleur en le texte qui la représente.
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m glyphe: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

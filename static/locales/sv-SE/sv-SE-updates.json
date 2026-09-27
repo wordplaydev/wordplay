@@ -991,6 +991,19 @@
         "e794f84f1c313": "$~Nu kan du öppna en projektfil på sidan <Projekt@https://wordplay.dev/projects>, antingen genom att välja den eller genom att dra den till sidan. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~Du kan dra en projektfil till ett projekt du redan har för att ersätta innehållet, och vi frågar dig först. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e33984a013993": "$~Ett galleri som är offentligt och godkänt kan nu ha ett kort namn i sin länk, till exempel konst-klubb. Det gör det lättare att dela och säga högt. Gamla länkar fungerar fortfarande, men du kan lämna dem. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "e125eafd6c116": "$~Vi har lagt till ett nytt exempel som heter Magiska Ord i <gallerierna@https://wordplay.dev/galleries>. Om du säger röd, glad eller snurra högt, ändras färgen, ansiktet och rörelsen på scenen. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)"
+        "e125eafd6c116": "$~Vi har lagt till ett nytt exempel som heter Magiska Ord i <gallerierna@https://wordplay.dev/galleries>. Om du säger röd, glad eller snurra högt, ändras färgen, ansiktet och rörelsen på scenen. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)",
+        "ec866ebdd8956": "$~Vi lade till @Image, som ritar en lista med färger som en enda bild, och som kan rita varje färg som en bokstav eller emoji istället. (<471@https://github.com/wordplaydev/wordplay/issues/471>)",
+        "e33f4d8fa2618": "$~Vi lade till ett sätt att skapa en ny kodfil utifrån en bild, din kamera, eller rader klistrade in från ett kalkylblad, med hjälp av +-knappen i ett projekt. (<559@https://github.com/wordplaydev/wordplay/issues/559>, <560@https://github.com/wordplaydev/wordplay/issues/560>)",
+        "e85ba7ce6a911": "$~Video-exemplet i <galleriet@https://wordplay.dev/galleries> ritar nu kameran med @Image, så att den hänger med istället för att fastna.",
+        "e5bdd3060cd77": "$~Att importera en låt sker nu på samma sätt som med alla andra filtyper, med +-knappen, istället för i paletten. (<559@https://github.com/wordplaydev/wordplay/issues/559>)",
+        "e54863a421e13": "$~En lång lista med listor, till exempel färgerna i en importerad bild, öppnas nu hopfälld, så att filen visas direkt istället för efter en lång stund.",
+        "ee1b9cdfe999b": "$~En funktion som ges till en annan funktion kan nu anropas och jämföras, istället för att stoppa programmet med ett förvirrande fel. (<1425@https://github.com/wordplaydev/wordplay/issues/1425>)",
+        "eb717e891aa82": "$~En struktur som får ett värde från en ström, som en @Camera, ändras nu med strömmen istället för att behålla det första den såg. (<1427@https://github.com/wordplaydev/wordplay/issues/1427>)",
+        "ef9334b339650": "$~En låt du importerar, eller en fil ditt program sparar med @Source, får nu direkt sin egen knapp i projektlisten, istället för först efter att du laddat om sidan.",
+        "ec6c0cabd625c": "$~En funktion du ger till något annat, som den en @Image ritar varje färg med, ser nu nya värden istället för att upprepa sitt första svar för alltid.",
+        "eda0b3c8dcd02": "$~Det nya konturalternativet i @Matter gör att en @Phrase stöter emot saker efter formen på sina bokstäver, så att en liten bokstav kan sätta sig in i en stor bokstavs böj. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
+        "e12253979005f": "$~Vi lade till ett nytt exempel som heter Bokstavshög i <galleriet@https://wordplay.dev/galleries>, där fotbollar regnar ner på en hög med stora bokstäver och lägger sig i deras böjar. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
+        "e49a3791305c4": "$~Arabiska har nu egna ord för 120 namn som fortfarande var på engelska, till exempel indata till @Matter, @Stage och @Phrase, samt delarna i list- och textfunktioner.",
+        "e4c085dce5e87": "$~En @Phrase som en @Motion flyttar stannar inte längre mitt i luften när dess ord eller storlek ändras."
     }
 }

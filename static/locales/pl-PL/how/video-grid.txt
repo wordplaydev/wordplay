@@ -3,22 +3,24 @@ Utwórz wideo z kamery
 Właściwość @Camera strumień to świetny sposób, by pobrać siatkę kolorów ze świata. 
 A co, jeśli chcemy zobaczyć te kolory i odtworzyć obraz, który widzi @Camera ?
 
-Możemy użyć układu @Grid dla @Group, oraz funkcji @List/combine , aby zamienić kolory na listę @Phrase , którą przekazujemy do @Grid.
+„ @Image ” bierze siatkę kolorów i rysuje ją jako jeden obraz, więc możemy przekazać mu kolory z @Camera bezpośrednio.
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" kolor: ⬚ czastrwania: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- Ten przykład tworzy listę fraz, zamieniając każdy kolor na kółko o tym konkretnym kolorze.
+ Każdy @Image potrzebuje opisu, bo siatka kolorów nie ma żadnych słów dla kogoś, kto jej nie widzi.
 
-Uważaj ze strumieniami @Camera : dają dużo danych wejściowych! Warto zachować małą szerokość i wysokość obrazu.
+Możemy narysować obraz literami zamiast kwadratów, dając mu /znak/, czyli funkcję, która zamienia jeden kolor na tekst, który go reprezentuje.
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m znak: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

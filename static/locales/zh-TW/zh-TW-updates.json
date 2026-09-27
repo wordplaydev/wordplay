@@ -991,6 +991,19 @@
         "e794f84f1c313": "$~你現在可以在<工程@https://wordplay.dev/projects>頁面開啟工程檔案，選取它或把它拖到頁面上都可以。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
         "e5382816343d1": "$~你可以把工程檔案拖到你已經有的工程上，來取代裡面的內容，我們會先問你一次。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
         "e33984a013993": "$~公開且已核准的作品集現在可以有一個短名稱作為連結，像是 art-club，這樣分享或唸出來都更容易。舊的連結還能繼續用，但你也可以放棄它們。（<180@https://github.com/wordplaydev/wordplay/issues/180>）",
-        "e125eafd6c116": "$~我們在<作品集@https://wordplay.dev/galleries>新增了一個範例，叫做「魔法詞」（Magic Words）。只要大聲說出 red、happy 或 spin，舞台上的顏色、表情和動作就會跟著改變。（<1077@https://github.com/wordplaydev/wordplay/issues/1077>）"
+        "e125eafd6c116": "$~我們在<作品集@https://wordplay.dev/galleries>新增了一個範例，叫做「魔法詞」（Magic Words）。只要大聲說出 red、happy 或 spin，舞台上的顏色、表情和動作就會跟著改變。（<1077@https://github.com/wordplaydev/wordplay/issues/1077>）",
+        "ec866ebdd8956": "$~我們新增了 @Image，可以把一串顏色畫成一張圖，也能改成用字母或表情符號來畫每個顏色。（<471@https://github.com/wordplaydev/wordplay/issues/471>）",
+        "e33f4d8fa2618": "$~我們新增了一種方式，可以用圖片、相機拍照，或是從試算表貼上的資料列，做出一份新的程式碼文件，只要在工程裡按下 + 按鈕就可以。（<559@https://github.com/wordplaydev/wordplay/issues/559>、<560@https://github.com/wordplaydev/wordplay/issues/560>）",
+        "e85ba7ce6a911": "$~<galleries@https://wordplay.dev/galleries>裡的影片範例，現在改用 @Image 來畫相機畫面，所以會順順地跟上，而不會卡住。",
+        "e5bdd3060cd77": "$~匯入歌曲現在跟匯入其他檔案一樣，用 + 按鈕就能做到，不用再從調色盤裡找。（<559@https://github.com/wordplaydev/wordplay/issues/559>）",
+        "e54863a421e13": "$~一長串清單的清單，像是匯入圖片的顏色資料，現在打開時會先摺疊起來，所以檔案會馬上顯示，不用等很久。",
+        "ee1b9cdfe999b": "$~傳給另一個函式的函式，現在可以被呼叫和比較，不會再讓程式因為看不懂的錯誤而停下來。（<1425@https://github.com/wordplaydev/wordplay/issues/1425>）",
+        "eb717e891aa82": "$~從串流取得值的結構，像是 @Camera，現在會隨著串流一起改變，不會只停在第一次看到的值。（<1427@https://github.com/wordplaydev/wordplay/issues/1427>）",
+        "ef9334b339650": "$~你匯入的歌曲，或是程式用 @Source 儲存的檔案，現在會馬上在工程列出現自己的按鈕，不用重新整理頁面才看得到。",
+        "ec6c0cabd625c": "$~你交給別的東西使用的函式，像是 @Image 用來畫每個顏色的那個函式，現在會看到新的值，不會永遠只重複第一個答案。",
+        "eda0b3c8dcd02": "$~@Matter 新增的外框選項，可以讓 @Phrase 依照字母的形狀去碰撞，所以小字母可以剛好嵌進大字母的彎曲處。（<170@https://github.com/wordplaydev/wordplay/issues/170>）",
+        "e12253979005f": "$~我們在<galleries@https://wordplay.dev/galleries>新增了一個叫做「字母堆」的新範例，足球會像雨一樣落在一堆大字母上，嵌進它們的彎曲處。（<170@https://github.com/wordplaydev/wordplay/issues/170>）",
+        "e49a3791305c4": "$~阿拉伯語現在有了 120 個原本還是英文名稱的專屬詞彙，像是 @Matter、@Stage、@Phrase 的輸入項目，還有清單和文字函式的各個部分。",
+        "e4c085dce5e87": "$~當 @Motion 正在移動的 @Phrase 改變文字或大小時，不會再卡在半空中不動了。"
     }
 }

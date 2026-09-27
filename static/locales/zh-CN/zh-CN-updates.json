@@ -991,6 +991,19 @@
         "e794f84f1c313": "$~你现在可以在你的 <Projects@https://wordplay.dev/projects> 页面打开一个项目文件，方法是选择它，或者把它拖到页面上。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
         "e5382816343d1": "$~你可以把一个项目文件拖到你已有的项目上，用它替换里面的内容，我们会先问你一遍。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
         "e33984a013993": "$~公开并通过审核的作品库现在可以有一个短名字放在链接里，比如 art-club，这样分享和读出来都更方便。旧链接依然能用，但你也可以放弃它们。（<180@https://github.com/wordplaydev/wordplay/issues/180>）",
-        "e125eafd6c116": "$~我们在<作品库@https://wordplay.dev/galleries>里新增了一个例子，叫“魔法词语”。大声说出红色、开心或旋转，舞台上的颜色、表情和动作就会跟着变化。（<1077@https://github.com/wordplaydev/wordplay/issues/1077>）"
+        "e125eafd6c116": "$~我们在<作品库@https://wordplay.dev/galleries>里新增了一个例子，叫“魔法词语”。大声说出红色、开心或旋转，舞台上的颜色、表情和动作就会跟着变化。（<1077@https://github.com/wordplaydev/wordplay/issues/1077>）",
+        "ec866ebdd8956": "$~我们新增了 @Image，它可以把一组颜色画成一张图，也可以把每种颜色画成一个字母或表情符号。（<471@https://github.com/wordplaydev/wordplay/issues/471>）",
+        "e33f4d8fa2618": "$~我们新增了一种方式：可以用图片、你的摄像头，或者从表格里粘贴的行来创建一个新的代码文件，只要在项目里点击 + 按钮就行。（<559@https://github.com/wordplaydev/wordplay/issues/559>、<560@https://github.com/wordplaydev/wordplay/issues/560>）",
+        "e85ba7ce6a911": "$~<galleries@https://wordplay.dev/galleries> 里的 Video 示例现在用 @Image 来绘制摄像头画面，这样画面就能跟上，而不会卡住。",
+        "e5bdd3060cd77": "$~导入歌曲现在和添加其他所有类型的文件一样，都用 + 按钮，而不再放在调色板里了。（<559@https://github.com/wordplaydev/wordplay/issues/559>）",
+        "e54863a421e13": "$~一长串的列表的列表，比如一张导入图片的颜色列表，现在会默认折叠打开，这样它的文件能马上显示出来，而不用久等。",
+        "ee1b9cdfe999b": "$~传给另一个函数的函数，现在可以被调用和比较了，不会再让程序因为一个令人困惑的错误而停止运行。（<1425@https://github.com/wordplaydev/wordplay/issues/1425>）",
+        "eb717e891aa82": "$~一个从流里取值的结构，比如 @Camera，现在会随着流的变化而变化，而不再只保留它最初看到的那个值。（<1427@https://github.com/wordplaydev/wordplay/issues/1427>）",
+        "ef9334b339650": "$~你导入的歌曲，或者你的程序用 @Source 保存的文件，现在会立刻在项目栏里获得自己的按钮，不用等到重新加载页面之后才出现。",
+        "ec6c0cabd625c": "$~你传给别的东西的函数，比如 @Image 用来画每种颜色的那个函数，现在能看到新的值了，不会再永远重复它第一次给出的答案。",
+        "eda0b3c8dcd02": "$~@Matter 里新增的轮廓选项，可以让 @Phrase 按照字母的形状去碰撞其他东西，这样一个小字母就能刚好嵌进一个大字母的弯曲处。（<170@https://github.com/wordplaydev/wordplay/issues/170>）",
+        "e12253979005f": "$~我们在 <galleries@https://wordplay.dev/galleries> 里新增了一个叫“字母堆”的示例：足球像雨点一样落到一堆大字母上，并嵌进它们的弯曲处。（<170@https://github.com/wordplaydev/wordplay/issues/170>）",
+        "e49a3791305c4": "$~阿拉伯语现在为 120 个原本还是英文的名字添加了自己的词，比如 @Matter、@Stage 和 @Phrase 的输入，以及列表和文本函数的各个部分。",
+        "e4c085dce5e87": "$~当一个 @Motion 正在移动的 @Phrase 改变文字或大小时，它不会再停在半空中了。"
     }
 }

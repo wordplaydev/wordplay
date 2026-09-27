@@ -1917,117 +1917,117 @@
             }
         },
         "Image": {
-            "doc": "$?I'm a grid of colors, drawn as a picture. Give me a list of rows, each a list of @Color, and I'll paint one square for each. Give me a /glyph/ and I'll draw text in each square instead.",
-            "names": ["$?🖼", "$?Image"],
+            "doc": "$~Είμαι ένα πλέγμα χρωμάτων, ζωγραφισμένο σαν εικόνα. Δώσε μου μια λίστα από σειρές, καθεμία λίστα από @Color, και θα ζωγραφίσω ένα τετράγωνο για καθεμία. Δώσε μου ένα /glyph/ και θα σχεδιάσω κείμενο σε κάθε τετράγωνο αντί για αυτό.",
+            "names": ["$~Εικόνα"],
             "colors": {
-                "doc": "$?My rows of colors, the top row first. Every row should be the same length.",
-                "names": "$?colors"
+                "doc": "$~Οι σειρές μου από χρώματα, με την πάνω σειρά πρώτη. Κάθε σειρά πρέπει να έχει το ίδιο μήκος.",
+                "names": "$~χρώματα"
             },
             "description": {
-                "doc": "$?What I show, for anyone who can't see me. I ask for this because a grid of colors has no words of its own to fall back on.",
-                "names": "$?description"
+                "doc": "$~Αυτό που δείχνω, για όποιον δεν μπορεί να με δει. Ζητάω αυτό επειδή ένα πλέγμα χρωμάτων δεν έχει δικά του λόγια για εναλλακτική περιγραφή.",
+                "names": "$~περιγραφή"
             },
             "width": {
-                "doc": "$?How wide I should be. If you give me only a height, I take my width from my shape; if you give me both, my squares stretch to fit.",
-                "names": "$?width"
+                "doc": "$~Πόσο πλατύ πρέπει να είμαι. Αν μου δώσεις μόνο ύψος, παίρνω το πλάτος μου από το σχήμα μου· αν μου δώσεις και τα δύο, τα τετράγωνά μου τεντώνονται για να χωρέσουν.",
+                "names": "$~πλάτος"
             },
             "height": {
-                "doc": "$?How tall I should be. If you give me only a width, I take my height from my shape.",
-                "names": "$?height"
+                "doc": "$~Πόσο ψηλό πρέπει να είμαι. Αν μου δώσεις μόνο πλάτος, παίρνω το ύψος μου από το σχήμα μου.",
+                "names": "$~ύψος"
             },
             "glyph": {
-                "doc": "$?A function from one of my colors to the text I should draw in its place. Without one I paint plain squares.",
-                "names": "$?glyph"
+                "doc": "$~Μια συνάρτηση από ένα από τα χρώματά μου στο κείμενο που πρέπει να σχεδιάσω στη θέση του. Χωρίς αυτή ζωγραφίζω απλά τετράγωνα.",
+                "names": "$~σύμβολο"
             },
             "recolor": {
-                "doc": "$?A function from one of my colors to the color I should draw instead. Useful for turning a picture into fewer colors.",
-                "names": "$?recolor"
+                "doc": "$~Μια συνάρτηση από ένα από τα χρώματά μου στο χρώμα που πρέπει να σχεδιάσω αντ' αυτού. Χρήσιμο για να μετατρέψεις μια εικόνα σε λιγότερα χρώματα.",
+                "names": "$~ξαναχρωμάτισε"
             },
             "pixel": {
-                "doc": "$?One of my colors, which is what /glyph/ and /recolor/ are each given.",
-                "names": "$?pixel"
+                "doc": "$~Ένα από τα χρώματά μου, που δίνεται σε καθένα από τα /glyph/ και /recolor/.",
+                "names": "$~εικονοστοιχείο"
             },
             "glyphs": {
-                "doc": "$?What I draw in each square, worked out from /glyph/. Nothing, if you gave me no /glyph/.",
-                "names": "$?glyphs"
+                "doc": "$~Αυτό που σχεδιάζω σε κάθε τετράγωνο, υπολογισμένο από το /glyph/. Τίποτα, αν δεν μου έδωσες /glyph/.",
+                "names": "$~σύμβολα"
             },
             "palette": {
-                "doc": "$?The colors I actually draw, worked out from /recolor/. My own colors, if you gave me no /recolor/.",
-                "names": "$?palette"
+                "doc": "$~Τα χρώματα που πραγματικά σχεδιάζω, υπολογισμένα από το /recolor/. Τα δικά μου χρώματα, αν δεν μου έδωσες /recolor/.",
+                "names": "$~παλέτα"
             },
             "face": {
-                "doc": "$?The name of the font face my glyphs should be drawn in. If I don't have one, I use whatever contains me.",
-                "names": "$?face"
+                "doc": "$~Το όνομα της γραμματοσειράς με την οποία πρέπει να σχεδιάζονται τα γράμματά μου. Αν δεν έχω κάποια, χρησιμοποιώ όποια περιέχει εμένα.",
+                "names": "$~γραμματοσειρά"
             },
             "place": {
-                "doc": "$?The place on stage where I should be.",
+                "doc": "$~Η θέση στη σκηνή όπου πρέπει να βρίσκομαι.",
                 "names": "$~θέση"
             },
             "name": {
-                "doc": "$?I'm the name you can use, for animations and @Collision.",
-                "names": "$?name"
+                "doc": "$~Είμαι το όνομα που μπορείς να χρησιμοποιήσεις, για κινούμενες εικόνες και @Collision.",
+                "names": "$~όνομα"
             },
             "selectable": {
-                "doc": "$?Whether I can be selected as part of @Choice.",
-                "names": "$?selectable"
+                "doc": "$~Αν μπορώ να επιλεγώ ως μέρος του @Choice.",
+                "names": "$~επιλέξιμο"
             },
             "color": {
-                "doc": "$?A color to tint me with.",
+                "doc": "$~Ένα χρώμα για τα γράμματά μου. Χωρίς αυτό, κάθε γράμμα παίρνει το χρώμα του τετραγώνου που αντιπροσωπεύει· με αυτό, όλα το μοιράζονται, κάτι που χρειάζεται όταν σχεδιάζεις με γράμματα. Το αγνοώ αν δεν έχω /glyph/, γιατί τότε τα τετράγωνά μου είναι τα χρώματά μου.",
                 "names": "$~χρώμα"
             },
             "background": {
-                "doc": "$?The color behind me.",
-                "names": "$?background"
+                "doc": "$~Το χρώμα πίσω μου.",
+                "names": "$~φόντο"
             },
             "opacity": {
-                "doc": "$?How opaque I should be.",
-                "names": "$?opacity"
+                "doc": "$~Πόσο αδιαφανές πρέπει να είμαι.",
+                "names": "$~αδιαφάνεια"
             },
             "offset": {
-                "doc": "$?How far to move me from my place, after I'm placed.",
-                "names": "$?offset"
+                "doc": "$~Πόσο μακριά να με μετακινήσεις από τη θέση μου, αφού τοποθετηθώ.",
+                "names": "$~μετατόπιση"
             },
             "rotation": {
-                "doc": "$?How much to rotate me.",
-                "names": "$?rotation"
+                "doc": "$~Πόσο να με περιστρέψεις.",
+                "names": "$~περιστροφή"
             },
             "scale": {
-                "doc": "$?How much to scale me.",
-                "names": "$?scale"
+                "doc": "$~Πόσο να με μεγεθύνεις ή να με σμικρύνεις.",
+                "names": "$~κλίμακα"
             },
             "flipx": {
-                "doc": "$?Whether to flip me horizontally.",
-                "names": "$?flipx"
+                "doc": "$~Αν πρέπει να αναποδογυριστώ οριζόντια.",
+                "names": "$~αναστροφήx"
             },
             "flipy": {
-                "doc": "$?Whether to flip me vertically.",
-                "names": "$?flipy"
+                "doc": "$~Αν πρέπει να αναποδογυριστώ κάθετα.",
+                "names": "$~αναστροφήy"
             },
             "entering": {
-                "doc": "$?The @Pose or @Sequence I should do when entering @Stage.",
-                "names": "$?entering"
+                "doc": "$~Το @Pose ή @Sequence που πρέπει να κάνω όταν μπαίνω στο @Stage.",
+                "names": "$~εισέρχεται"
             },
             "resting": {
-                "doc": "$?The @Pose or @Sequence I should do when I'm not moving.",
-                "names": "$?resting"
+                "doc": "$~Το @Pose ή @Sequence που πρέπει να κάνω όταν δεν κινούμαι.",
+                "names": "$~ακινητεί"
             },
             "moving": {
-                "doc": "$?The @Pose or @Sequence I should do when I'm moving.",
-                "names": "$?moving"
+                "doc": "$~Το @Pose ή @Sequence που πρέπει να κάνω όταν κινούμαι.",
+                "names": "$~κινείται"
             },
             "exiting": {
-                "doc": "$?The @Pose or @Sequence I should do when leaving @Stage.",
-                "names": "$?exiting"
+                "doc": "$~Το @Pose ή @Sequence που πρέπει να κάνω όταν φεύγω από @Stage.",
+                "names": "$~εξέρχεται"
             },
             "duration": {
-                "doc": "$?How long my animations should take if they are a single @Pose.",
-                "names": "$?duration"
+                "doc": "$~Πόση ώρα πρέπει να διαρκούν τα κινούμενα σχέδιά μου, αν είναι ένα μόνο @Pose.",
+                "names": "$~διάρκεια"
             },
             "style": {
-                "doc": "$?The animation style I should use.",
-                "names": "$?style"
+                "doc": "$~Το στιλ κίνησης που πρέπει να χρησιμοποιώ.",
+                "names": "$~στυλ"
             },
-            "defaultDescription": "$?$description, a picture $columns by $rows"
+            "defaultDescription": "$~$description, μια εικόνα $columns επί $rows"
         }
     }
 }

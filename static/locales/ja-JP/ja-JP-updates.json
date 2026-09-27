@@ -991,6 +991,19 @@
         "e794f84f1c313": "$~<プロジェクト@https://wordplay.dev/projects>ページで、プロジェクトファイルを選ぶか、ページの上にドラッグすることで開けるようになりました。(<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~プロジェクトファイルを、すでに持っているプロジェクトの上にドラッグすると、その中身を置き換えられます。置き換える前に、必ず確認します。(<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e33984a013993": "$~公開されて承認されたギャラリーは、リンクの中に art-club のような短い名前を持てるようになりました。だから共有したり声に出して言ったりするのが、もっと簡単になります。古いリンクもそのまま使えますが、手放すこともできます。(<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "e125eafd6c116": "$~<galleries@https://wordplay.dev/galleries>に「魔法の言葉」という新しい例を追加しました。声に出して「red」「happy」「spin」などと言うと、ステージの色や顔、動きが変わります。（<1077@https://github.com/wordplaydev/wordplay/issues/1077>）"
+        "e125eafd6c116": "$~<galleries@https://wordplay.dev/galleries>に「魔法の言葉」という新しい例を追加しました。声に出して「red」「happy」「spin」などと言うと、ステージの色や顔、動きが変わります。（<1077@https://github.com/wordplaydev/wordplay/issues/1077>）",
+        "ec866ebdd8956": "$~@Imageを追加しました。色のリストを1枚の絵として描き、それぞれの色を文字や絵文字として描くこともできます。（<471@https://github.com/wordplaydev/wordplay/issues/471>）",
+        "e33f4d8fa2618": "$~絵やカメラ、または表計算ソフトから貼り付けた行から、新しいコードファイルを作る方法を追加しました。プロジェクトの＋ボタンから使えます。（<559@https://github.com/wordplaydev/wordplay/issues/559>、<560@https://github.com/wordplaydev/wordplay/issues/560>）",
+        "e85ba7ce6a911": "$~<galleries@https://wordplay.dev/galleries>のVideoの例は、今では@Imageを使ってカメラを描くようになったので、止まらずについていけます。",
+        "e5bdd3060cd77": "$~曲を読み込むときも、他のすべての種類のファイルと同じように、＋ボタンから追加できるようになりました。パレットからではありません。（<559@https://github.com/wordplaydev/wordplay/issues/559>）",
+        "e54863a421e13": "$~読み込んだ絵の色のような、リストのリストが長い場合、今は折りたたまれた状態で開くので、長く待たされることなく、そのファイルがすぐに表示されます。",
+        "ee1b9cdfe999b": "$~別の関数に渡された関数を、呼び出したり比較したりできるようになりました。以前はプログラムが分かりにくいエラーで止まっていました。（<1425@https://github.com/wordplaydev/wordplay/issues/1425>）",
+        "eb717e891aa82": "$~@Cameraのように、ストリームから値を受け取る構造は、今ではストリームの変化に合わせて変わるようになりました。以前は最初に見た値のままでした。（<1427@https://github.com/wordplaydev/wordplay/issues/1427>）",
+        "ef9334b339650": "$~読み込んだ曲や、プログラムが@Sourceで保存したファイルは、今ではすぐにプロジェクトバーに専用のボタンが表示されます。以前はページを読み込み直さないと表示されませんでした。",
+        "ec6c0cabd625c": "$~別のものに渡す関数、例えば@Imageが各色を描くために使う関数は、今では新しい値を受け取るようになりました。以前は最初の答えをずっと繰り返していました。",
+        "eda0b3c8dcd02": "$~@Matterの新しい輪郭オプションを使うと、@Phraseは文字の形に合わせて他のものにぶつかるようになります。小さい文字が大きい文字の曲線にぴったり収まることもできます。（<170@https://github.com/wordplaydev/wordplay/issues/170>）",
+        "e12253979005f": "$~<galleries@https://wordplay.dev/galleries>に「Letter Pile」という新しい例を追加しました。サッカーボールが大きな文字の山に降り注ぎ、その曲線にすっぽり収まります。（<170@https://github.com/wordplaydev/wordplay/issues/170>）",
+        "e49a3791305c4": "$~アラビア語には、まだ英語のままだった120個の名前に、独自の単語が付きました。例えば@Matter、@Stage、@Phraseの入力や、リストとテキストの関数の各部分です。",
+        "e4c085dce5e87": "$~@Motionが動かしている@Phraseは、文字や大きさが変わっても、空中で止まることがなくなりました。"
     }
 }

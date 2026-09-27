@@ -3,32 +3,27 @@ Wideo
 ===
 ¶Obraz z twojej kamery, przemalowany na żywo: jako kolorowe litery, jako cieniowanie ASCII albo jako kolorowe kwadraty. Wybierz styl przyciskami na dole.¶
 
-¶Który przycisk stylu został kliknięty jako ostatni. $Choice podaje nazwę wybieranej frazy, którą wybrała osoba patrząca, a styl zapamiętuje to, co usłyszał ostatnio.¶
+¶Który przycisk stylu był kliknięty ostatnio. Wybór podaje nazwę wybieralnej frazy, którą wskazała osoba oglądająca, a styl zapamiętuje to, co usłyszał jako ostatnie.¶
 wybór: Wybór()
 styl2: 'letters' … ∆ wybór … wybór
 
-¶Emotikony są duże, więc styl z emotikonami korzysta z grubszej siatki. Obie siatki obejmują ten sam obszar 16 na 12 metrów, więc zmiana stylu nigdy nie zmienia rozmiaru obrazu ani nie przesuwa kamery.¶
+¶Emotikony są duże, więc styl emotikon próbkuje z grubszej siatki. Obraz zachowuje ten sam rozmiar niezależnie od stylu, więc zmiana stylu nigdy go nie powiększa ani nie przesuwa kamery — po prostu kwadraty, z których jest zbudowany, robią się większe.¶
 kolumny2: (styl2 = 'emoji') ? 16 32
 rzędy: (styl2 = 'emoji') ? 12 24
-komórka2: (styl2 = 'emoji') ? 1m 0.5m
-
-¶Środek siatki, w którym wyśrodkowany jest obraz.¶
-środkowaKolumna: (kolumny2 + 1) ÷ 2
-środkowyRząd: (rzędy + 1) ÷ 2
 
 ¶Jeden kolor na komórkę, prosto z kamery.¶
 kolory: Kamera((kolumny2 × 1px) (rzędy × 1px) 33ms)
 
-¶Dziesięć znaków od ciemnego do jasnego. Styl ASCII wybiera jeden z nich w zależności od jasności piksela.¶
-pasmo: "@%#*+=-:. " → []
+¶Dziesięć znaków od ciemnego do jasnego. Styl ASCII wybiera jeden znak zależnie od jasności piksela.¶
+rampa: "@%#*+=-:. " → []
 
-¶Dwadzieścia cztery pasma po 15° wokół kręgu barw, tak że każdy piksel dostaje kwadrat najbliższy jego kolorowi.¶
+¶Dwadzieścia cztery pasma po 15° wokół koła barw, więc każdy piksel trafia do kwadratu najbliższego jego kolorowi.¶
 kwadraty: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
 
-¶Jak wygląda jeden piksel w aktualnym stylu. Piksel z niewielką ilością koloru nie ma barwy warty pokazania, więc wtedy zamiast niej pojawia się jasny lub ciemny kwadrat.¶
-ƒ glif(kolor2•Kolor)
+¶Jak wygląda jeden piksel w bieżącym stylu. Piksel niemal bez koloru nie ma odcienia wartego pokazania, więc zamiast tego pokazuje jasny lub ciemny kwadrat.¶
+ƒ znak(kolor2•Kolor)
 	(styl2 = 'ascii') ?
-		"\pasmo[((kolor2.lekkość × 9).okrągły()) + 1]\"
+		"\rampa[((kolor2.lekkość × 9).okrągły()) + 1]\"
 		((styl2 = 'emoji') ?
 				((kolor2.barwa < 8) ?
 						((kolor2.lekkość < 50%) ? "⬛" "⬜")
@@ -36,29 +31,21 @@ kwadraty: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦�
 							)) + 1]\")
 				'a')
 
-¶Obraz: jedna fraza na piksel, ułożona od środka na zewnątrz, tak że kamera ma ten samobraz do ukazania, niezależnie od tego, jak gruba jest siatka, i odbita w lewo-prawo, taby czytało się go tak jak w zwierciadle.¶
-obraz: kolory.łączny(
-		[]
-		ƒ(frazy•[Wyrażenie] rząd•[Kolor] y2•#)
-			frazy.zListą(
-				rząd.tłumaczyć(
-					ƒ(kolor3•Kolor x2•#)
-						Wyrażenie(
-							glif(kolor3)
-							miejsce: Miejsce(
-								((środkowaKolumna - x2) × komórka2)
-								((środkowyRząd - y2) × komórka2)
-							)
-							czastrwania: 0s
-							rozmiar: (styl2 = 'ascii') ? 0.75m ((styl2 = 'emoji') ? 1.15m 1m)
-							twarz: (styl2 = 'ascii') ? "Noto Sans Mono"/en ø
-							kolor: (styl2 = 'letters') ? kolor3 ø
-						)
-				)
-			)
+¶Obraz. @Image rysuje całą siatkę jako jedno wyjście, więc jedna klatka kosztuje jeden obraz, a nie jedną frazę na piksel — a przy 32 na 24 było ich 768, odtwarzanych na nowo trzydzieści razy na sekundę. /flipx/ odbija go w lustrzanym odbiciu, tak jak robi to lustro.
+
+Styl /letters/ zostawia każdemu glifowi kolor kwadratu, który reprezentuje, co robi @Image bez własnego koloru. Pozostałe dwa style nadają mu kolor, bo litera czyta się jako cieniowanie tylko wtedy, gdy jej kolor nic nie mówi, a kolorowa emotikona-kwadrat już niesie swój własny kolor.¶
+obraz: Image(
+		kolory
+		"camera video drawn with \styl2\"
+		16m
+		znak: znak
+		kolor: (styl2 = 'letters') ? ø Kolor(0% 0 0°)
+		krój: (styl2 = 'ascii') ? "Noto Sans Mono"/en ø
+		odbicieX: ⊤
+		czasTrwania: 0s
 	)
 
-¶Jeden przycisk stylu, jasny, gdy jest to styl aktualnie wyświetlany. Nazwa to to, co $Choice podaje, gdy przycisk zostanie kliknięty albo wybrany klawiaturą.¶
+¶Jeden przycisk stylu, jasny, gdy to on jest aktualnie pokazywanym stylem. Nazwa to to, co zgłasza Wybór, gdy przycisk zostanie kliknięty lub wybrany klawiaturą.¶
 ƒ przycisk(id2•'')
 	Wyrażenie(
 		id2
@@ -70,7 +57,7 @@ obraz: kolory.łączny(
 			)
 	)
 
-¶Rząd rozmieszcza przyciski równomiernie i wyrównuje je niezależnie od długości ich słów, a nie mając własnego miejsca, rząd znajduje się na środku, więc samo przesunięcie wystarcza, by opuścić go na dół ekranu. Ma swoje własne tło, bo słowa na filmie są czytelne tylko przez przypadek.¶
+¶Rząd trzyma przyciski równo rozstawione i wyrównane, niezależnie od długości ich słów, a bez własnego miejsca rząd zostaje pośrodku, więc samo przesunięcie wystarcza, by opuścić go na dół ekranu. Ma własne tło, bo słowa na wideo są czytelne tylko przez przypadek.¶
 przyciski: Grupa(
 		Wiersz(wyściółka: 0.5m)
 		[
@@ -82,9 +69,9 @@ przyciski: Grupa(
 		zrównoważyć: Miejsce(0m -4.5m)
 	)
 
-¶Przyciski znajdują się na nakładce scены, która jest przypięta płasko do ekranu: zachowują ten sam rozmiar i miejsce niezależnie od tego, jak ukazany jest obraz, a obraz jest ukazany tak, jakby ich tam nie było.¶
+¶Przyciski jadą na nakładce sceny, przypiętej płasko do ekranu: zachowują ten sam rozmiar i miejsce niezależnie od kadrowania obrazu, a obraz jest kadrowany tak, jakby ich tam nie było.¶
 Scena(
-	obraz
+	[obraz]
 	opis: "camera video drawn with \styl2\"
 	nakładka: [przyciski]
 )
