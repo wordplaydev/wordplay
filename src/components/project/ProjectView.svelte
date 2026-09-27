@@ -132,12 +132,7 @@
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import Drawing from '@components/output/Drawing.svelte.ts';
     import type { OutputInfoSet } from '@output/animation/Animator';
-    import {
-        get,
-        writable,
-        type Readable,
-        type Writable,
-    } from 'svelte/store';
+    import { get, writable, type Readable, type Writable } from 'svelte/store';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,

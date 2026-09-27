@@ -180,11 +180,16 @@ async function locales(): Promise<string[]> {
 }
 
 export default function watchLocales(): Plugin {
-    // Serve only: `vitest.config.ts` merges this config into all three test projects, and
-    // `vite build` already runs `locales-assemble` ahead of it.
+    // The dev server only. `vite build` already runs `locales-assemble` ahead of it, and
+    // `vitest.config.ts` merges this config into all three test projects, where Vitest runs
+    // its own server in *serve* mode: there `tsImport` put tsx's loader into the test process,
+    // which on Node 22.23 fails every run at startup resolving `node:os`.
     return {
         name: 'wordplay-watch-locales',
-        apply: 'serve',
+        apply: (_config, env) =>
+            env.command === 'serve' &&
+            env.mode !== 'test' &&
+            process.env.VITEST === undefined,
         async configureServer(server: ViteDevServer) {
             const rebuilt = await assembleStale(await locales()).catch(
                 (error: unknown) => {
