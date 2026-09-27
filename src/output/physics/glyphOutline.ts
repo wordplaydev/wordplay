@@ -175,12 +175,15 @@ export function glyphColliderDesc(
         }
     }
 
-    // Null for a degenerate outline; the caller falls back to the box.
+    // Null for a degenerate outline; the caller falls back to the box. Without
+    // FIX_INTERNAL_EDGES, the seams between convex parts are ledges that stop
+    // a body sliding across a letter's flat top.
     return (
         rapier.ColliderDesc.convexDecomposition(
             vertices,
             indices,
             DecompositionParameters,
+            rapier.CompoundFlags.FIX_INTERNAL_EDGES,
         ) ?? undefined
     );
 }
