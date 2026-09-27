@@ -1261,7 +1261,7 @@
             },
             "thanks": {
                 "header": "$~Gracias",
-                "intro": "$~¡Gracias a nuestra *$#count[colaboradora|colaboradoras|colaboradoras]* por contribuir al diseño, el desarrollo, la localización y el contenido de @wordplay! Y gracias a las muchas maestras y jóvenes que han guiado nuestro diseño en grupos de enfoque, sesiones de diseño y salones de clase, a quienes no mencionamos aquí para cuidar su privacidad.\n\nEste proyecto ha recibido el apoyo de la National Science Foundation con los premios 2318257, 2031265, 2100296 y 2122950, de la University of Washington, y de generosos <regalos//donate> de personas como tú.",
+                "intro": "$~¡Gracias a *$#count[nuestra colaboradora|nuestras $count colaboradoras|nuestras $count colaboradoras]* por contribuir al diseño, el desarrollo, la localización y el contenido de @wordplay! Y gracias a las muchas maestras y jóvenes que han guiado nuestro diseño en grupos de enfoque, sesiones de diseño y salones de clase, a quienes no mencionamos aquí para cuidar su privacidad.\n\nEste proyecto ha recibido el apoyo de la National Science Foundation con los premios 2318257, 2031265, 2100296 y 2122950, de la University of Washington, y de generosos <regalos//donate> de personas como tú.",
                 "teachers": "$~Maestras",
                 "contributors": "$~Colaboradoras"
             },

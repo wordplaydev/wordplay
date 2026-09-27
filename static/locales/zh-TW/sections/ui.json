@@ -2914,9 +2914,9 @@
                 "unreadable": "$~我們無法把這個檔案讀取為圖片。"
             },
             "announce": {
-                "cropped": "$~裁切框位於 $x $y",
                 "moving": "$~移動裁切框",
-                "done": "$~裁切框已放置"
+                "done": "$~裁切框已放置",
+                "cropped": "$~裁切框寬 $width%、高 $height%，位於水平 $x%、垂直 $y% 的位置"
             }
         }
     }

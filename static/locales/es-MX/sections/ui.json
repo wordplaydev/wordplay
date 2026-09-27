@@ -2946,9 +2946,9 @@
                 "unreadable": "$~No pudimos leer ese archivo como imagen."
             },
             "announce": {
-                "cropped": "$~caja de recorte en $x $y",
                 "moving": "$~moviendo la caja de recorte",
-                "done": "$~caja de recorte colocada"
+                "done": "$~caja de recorte colocada",
+                "cropped": "$~caja de recorte de $width% de ancho y $height% de alto, a $x% de un lado y $y% de arriba"
             }
         }
     }

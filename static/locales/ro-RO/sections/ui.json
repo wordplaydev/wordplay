@@ -2943,9 +2943,9 @@
                 "unreadable": "$~Nu am putut citi acel fișier ca imagine."
             },
             "announce": {
-                "cropped": "$~chenar de decupare la $x $y",
                 "moving": "$~mutarea chenarului de decupare",
-                "done": "$~chenar de decupare plasat"
+                "done": "$~chenar de decupare plasat",
+                "cropped": "$~casetă de decupare lată de $width% și înaltă de $height%, poziționată la $x% pe orizontală și $y% pe verticală"
             }
         }
     }

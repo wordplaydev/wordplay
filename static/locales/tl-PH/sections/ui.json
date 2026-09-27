@@ -2948,9 +2948,9 @@
                 "unreadable": "$~Hindi namin nabasa ang file na iyon bilang larawan."
             },
             "announce": {
-                "cropped": "$~kahon ng pag-crop sa $x $y",
                 "moving": "$~inilipat ang kahon ng pag-crop",
-                "done": "$~inilagay ang kahon ng pag-crop"
+                "done": "$~inilagay ang kahon ng pag-crop",
+                "cropped": "$~kahon ng pagputol na $width% ang lapad at $height% ang taas, sa $x% pahalang at $y% pababa"
             }
         }
     }

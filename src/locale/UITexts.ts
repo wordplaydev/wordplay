@@ -1325,8 +1325,8 @@ type UITexts = {
         /** A live region only speaks when its text changes, so where the box is rides
          *  along: it is the only thing that differs between two consecutive moves. */
         announce: {
-            /** [formatted] Where the crop box is now */
-            cropped: Template<['x', 'y']>;
+            /** [formatted] Where the crop box is now and how big, each a percentage of the picture */
+            cropped: Template<['x', 'y', 'width', 'height']>;
             /** [plain] When the crop box enters move mode */
             moving: string;
             /** [plain] When the crop box leaves move mode */

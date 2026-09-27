@@ -1168,7 +1168,7 @@
                 "unreadable": "We couldn't read that file as an image."
             },
             "announce": {
-                "cropped": "crop box at $x $y",
+                "cropped": "crop box $width% wide and $height% tall, at $x% across and $y% down",
                 "moving": "moving the crop box",
                 "done": "crop box placed"
             }

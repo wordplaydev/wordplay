@@ -2937,9 +2937,9 @@
                 "unreadable": "$~Vi kunde inte läsa den filen som en bild."
             },
             "announce": {
-                "cropped": "$~beskärningsruta vid $x $y",
                 "moving": "$~flyttar beskärningsrutan",
-                "done": "$~beskärningsruta placerad"
+                "done": "$~beskärningsruta placerad",
+                "cropped": "$~beskärningsruta $width% bred och $height% hög, $x% från vänster och $y% nedåt"
             }
         }
     }

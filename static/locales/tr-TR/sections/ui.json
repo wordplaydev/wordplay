@@ -2935,9 +2935,9 @@
                 "unreadable": "$~Bu dosyayı görsel olarak okuyamadık."
             },
             "announce": {
-                "cropped": "$~kırpma kutusu $x $y konumunda",
                 "moving": "$~kırpma kutusu taşınıyor",
-                "done": "$~kırpma kutusu yerleştirildi"
+                "done": "$~kırpma kutusu yerleştirildi",
+                "cropped": "$~kırpma kutusu $width% genişliğinde ve $height% yüksekliğinde, yatayda $x% ve dikeyde $y% konumunda"
             }
         }
     }

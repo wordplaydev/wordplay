@@ -2937,9 +2937,9 @@
                 "unreadable": "$~Nie udało się odczytać tego pliku jako obrazu."
             },
             "announce": {
-                "cropped": "$~pole przycinania na $x $y",
                 "moving": "$~przesuwanie pola przycinania",
-                "done": "$~pole przycinania umieszczone"
+                "done": "$~pole przycinania umieszczone",
+                "cropped": "$~kadr o szerokości $width%, wysokości $height%, w poziomie na $x% i w pionie na $y%"
             }
         }
     }

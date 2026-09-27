@@ -21500,8 +21500,8 @@
                                     "description": "A live region only speaks when its text changes, so where the box is rides along: it is the only thing that differs between two consecutive moves.",
                                     "properties": {
                                         "cropped": {
-                                            "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%5D%3E",
-                                            "description": "[formatted] Where the crop box is now"
+                                            "$ref": "#/definitions/Template%3C%5B%22x%22%2C%22y%22%2C%22width%22%2C%22height%22%5D%3E",
+                                            "description": "[formatted] Where the crop box is now and how big, each a percentage of the picture"
                                         },
                                         "done": {
                                             "description": "[plain] When the crop box leaves move mode",
@@ -32151,6 +32151,9 @@
             "type": "string"
         },
         "Template<[\"version\"]>": {
+            "type": "string"
+        },
+        "Template<[\"x\",\"y\",\"width\",\"height\"]>": {
             "type": "string"
         },
         "Template<[\"x\",\"y\"]>": {

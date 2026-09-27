@@ -2938,9 +2938,9 @@
                 "unreadable": "$~Kami tidak dapat membaca berkas itu sebagai gambar."
             },
             "announce": {
-                "cropped": "$~kotak potong di $x $y",
                 "moving": "$~memindahkan kotak potong",
-                "done": "$~kotak potong ditempatkan"
+                "done": "$~kotak potong ditempatkan",
+                "cropped": "$~kotak potong selebar $width%, setinggi $height%, pada posisi $x% dari kiri dan $y% dari atas"
             }
         }
     }

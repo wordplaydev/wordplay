@@ -2946,9 +2946,9 @@
                 "unreadable": "$~Nous n'avons pas pu lire ce fichier comme une image."
             },
             "announce": {
-                "cropped": "$~cadre de recadrage à $x $y",
                 "moving": "$~déplacement du cadre de recadrage",
-                "done": "$~cadre de recadrage placé"
+                "done": "$~cadre de recadrage placé",
+                "cropped": "$~boîte de recadrage large de $width%, haute de $height%, à $x% de gauche et $y% du haut"
             }
         }
     }

@@ -8,6 +8,7 @@
     import Characters from '../../lore/BasisCharacters';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { getConflicts, getEvaluation } from '@components/project/Contexts';
+    import paintColors from '@components/output/paintColors';
     import { toColorGrid } from '@output/Output/Image';
     import type Value from '@values/Value';
 
@@ -45,15 +46,8 @@
         const element = thumbnail;
         const grid = picture;
         if (element === undefined || grid === undefined) return;
-        const ctx = element.getContext('2d');
-        if (ctx === null) return;
-        ctx.clearRect(0, 0, element.width, element.height);
-        // Kept as authored, like the picture's own pixels on stage.
-        for (const [y, row] of grid.entries())
-            for (const [x, color] of row.entries()) {
-                ctx.fillStyle = color.toCSS(false);
-                ctx.fillRect(x, y, 1, 1);
-            }
+        // Drawn exactly as the stage draws it, dark mode included.
+        paintColors(element, grid);
     });
 
     /** Whether the source's own name is worth showing. With one source there's nothing

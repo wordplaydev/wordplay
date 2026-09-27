@@ -2940,9 +2940,9 @@
                 "unreadable": "$~Chúng tôi không thể đọc tệp đó như một hình ảnh."
             },
             "announce": {
-                "cropped": "$~khung cắt tại $x $y",
                 "moving": "$~đang di chuyển khung cắt",
-                "done": "$~đã đặt khung cắt"
+                "done": "$~đã đặt khung cắt",
+                "cropped": "$~khung cắt rộng $width%, cao $height%, cách ngang $x% và cách dọc $y%"
             }
         }
     }

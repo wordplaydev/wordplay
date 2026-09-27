@@ -2936,9 +2936,9 @@
                 "unreadable": "$~Não foi possível ler esse ficheiro como imagem."
             },
             "announce": {
-                "cropped": "$~caixa de recorte em $x $y",
                 "moving": "$~a mover a caixa de recorte",
-                "done": "$~caixa de recorte colocada"
+                "done": "$~caixa de recorte colocada",
+                "cropped": "$~caixa de recorte com $width% de largura e $height% de altura, a $x% à direita e $y% abaixo"
             }
         }
     }

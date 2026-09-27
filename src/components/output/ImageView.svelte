@@ -1,4 +1,5 @@
 <script lang="ts">
+    import paintColors from '@components/output/paintColors';
     /**
      * A grid of colors, drawn as one output.
      *
@@ -138,26 +139,14 @@
 
     let canvas = $state<HTMLCanvasElement | undefined>(undefined);
 
-    /**
-     * Paint one square per color at the grid's own size, then let CSS scale it up.
-     *
-     * Never adapted to a dark canvas, unlike every other color on stage. Adapting inverts
-     * lightness, which keeps a designed palette's contrasts but turns a photograph into
-     * its negative: a picture's colors are what it is of, not a scheme to re-light. The
-     * image's own `color` and `background` are styling and still adapt.
-     */
+    /** Paint one square per color at the grid's own size, then let CSS scale it up. A
+     *  picture's own colors are never adapted to a dark canvas; see `paintColors`. The
+     *  image's own `color` and `background` are styling, and still adapt. */
     $effect(() => {
         const element = canvas;
         const grid = image.colors;
         if (element === undefined || image.glyphs !== undefined) return;
-        const ctx = element.getContext('2d');
-        if (ctx === null) return;
-        ctx.clearRect(0, 0, element.width, element.height);
-        for (const [y, row] of grid.entries())
-            for (const [x, color] of row.entries()) {
-                ctx.fillStyle = color.toCSS(false);
-                ctx.fillRect(x, y, 1, 1);
-            }
+        paintColors(element, grid);
     });
 
     let selected = $derived(

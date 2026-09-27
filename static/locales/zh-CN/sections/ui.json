@@ -2901,9 +2901,9 @@
                 "unreadable": "$~我们无法把那个文件当作图片来读取。"
             },
             "announce": {
-                "cropped": "$~裁剪框位于 $x $y",
                 "moving": "$~正在移动裁剪框",
-                "done": "$~裁剪框已放置"
+                "done": "$~裁剪框已放置",
+                "cropped": "$~裁剪框宽 $width%，高 $height%，横向 $x%，纵向 $y%"
             }
         }
     }

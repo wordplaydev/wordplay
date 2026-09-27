@@ -2942,9 +2942,9 @@
                 "unreadable": "$~Wir konnten diese Datei nicht als Bild lesen."
             },
             "announce": {
-                "cropped": "$~Zuschneiderahmen bei $x $y",
                 "moving": "$~Zuschneiderahmen wird bewegt",
-                "done": "$~Zuschneiderahmen platziert"
+                "done": "$~Zuschneiderahmen platziert",
+                "cropped": "$~Zuschnittfeld $width% breit und $height% hoch, bei $x% von links und $y% von oben"
             }
         }
     }

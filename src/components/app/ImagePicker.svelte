@@ -288,15 +288,22 @@
         crop = clampRect(held, source.width, source.height);
     }
 
-    /** Say where the box is. The position rides along because it is the only
-     *  thing that differs between two consecutive moves, and a live region repeating
-     *  itself is heard once and then not at all. */
+    /** Say where the box is and how big, as percentages of the picture like the size
+     *  sliders. Both ride along because either may be the only thing that differs between
+     *  two consecutive changes (a resize from the far corner keeps the position), and a
+     *  live region repeating itself is heard once and then not at all. Tenths, so a
+     *  one-pixel step is still a different sentence. */
     function announceCrop() {
+        if (source === null) return;
+        const percent = (part: number, whole: number) =>
+            Math.round((part / whole) * 1000) / 10;
         announce(
             $locales
                 .concretize((l) => l.ui.image.announce.cropped, {
-                    x: crop.x,
-                    y: crop.y,
+                    x: percent(crop.x, source.width),
+                    y: percent(crop.y, source.height),
+                    width: percent(crop.width, source.width),
+                    height: percent(crop.height, source.height),
                 })
                 .toText(),
         );

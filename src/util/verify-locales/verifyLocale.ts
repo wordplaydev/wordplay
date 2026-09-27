@@ -25,6 +25,7 @@ import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import repairGlossaryWords from '@util/verify-locales/checkGlossaryWords';
 import checkExampleNames from '@util/verify-locales/checkExampleNames';
 import checkPointedNames from '@util/verify-locales/checkPointedNames';
+import checkSiblingNames from '@util/verify-locales/checkSiblingNames';
 import checkTypedInputNames from '@util/verify-locales/checkTypedInputNames';
 import checkDegenerateNames from '@util/verify-locales/checkDegenerateNames';
 import checkNames from '@util/verify-locales/checkNames';
@@ -37,6 +38,7 @@ import checkExampleDocs from '@util/verify-locales/checkExampleDocs';
 import checkUntranslated from '@util/verify-locales/checkUntranslated';
 import checkReducedTemplates from '@util/verify-locales/checkReducedTemplates';
 import checkOppositeStrings from '@util/verify-locales/checkOppositeStrings';
+import checkPluralArmInputs from '@util/verify-locales/checkPluralArmInputs';
 import classifyLocalePath, {
     classifyPair,
     isEmotionPath,
@@ -195,9 +197,9 @@ export async function verifyLocale(
     if (locale !== 'en-US')
         revisedText = checkUntranslated(log, DefaultLocale, revisedText, fix);
 
-    // Translations that dropped the words around their input, and pairs of opposites that ended
-    // up saying the same thing. After checkAnnotations, which is what guarantees a single
-    // leading write-status for both to read, and before the translation pass below, so the `$!`
+    // Translations that dropped the words around their input, pairs of opposites that ended
+    // up saying the same thing, and plural arms saying another input's number. After checkAnnotations, which is what guarantees a single
+    // leading write-status for each to read, and before the translation pass below, so the `$!`
     // these mark is honored by the same run.
     if (locale !== 'en-US') {
         revisedText = checkReducedTemplates(
@@ -207,6 +209,12 @@ export async function verifyLocale(
             fix,
         );
         revisedText = checkOppositeStrings(log, revisedText, fix);
+        revisedText = checkPluralArmInputs(
+            log,
+            DefaultLocale,
+            revisedText,
+            fix,
+        );
     }
 
     // The same question of an example's own documentation, which is localized
@@ -238,6 +246,10 @@ export async function verifyLocale(
     // identifier no creator can enter.
     if (locale !== 'en-US')
         revisedText = checkPointedNames(log, revisedText, fix);
+
+    // After the strip, which can make two names one. Every locale, en-US included: a word
+    // shared by two members of one definition reaches only one of them.
+    checkSiblingNames(log, locale, revisedText);
 
     // Then the type/input agreement, which reads the names the strip just settled.
     if (locale !== 'en-US')

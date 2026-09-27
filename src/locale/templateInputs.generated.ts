@@ -742,7 +742,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.howto.announce.moveActivated': ['target'],
     'ui.howto.galleryView.subheader': ['#total', 'new'],
     'ui.howto.viewer.usedBy.countDisplay': ['#count'],
-    'ui.image.announce.cropped': ['x', 'y'],
+    'ui.image.announce.cropped': ['x', 'y', 'width', 'height'],
     'ui.image.feedback.tooBig': ['size', 'limit'],
     'ui.localize.glossary.alreadyUsed': ['term'],
     'ui.localize.glossary.otherWord': ['term'],

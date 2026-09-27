@@ -244,28 +244,38 @@
     {@const fits = bytes <= room}
     <!-- The keyboard's way to crop. The box starts as the whole picture, so until it is
          made smaller there is nowhere for the arrow keys to move it; these are what make
-         it smaller, and change its shape, without a pointer. -->
+         it smaller, and change its shape, without a pointer. In percent of the picture,
+         because the box is measured in pixels of a working copy nobody ever sees, and
+         "25" of those means nothing to the person choosing. -->
     <Slider
         label={(l) => l.ui.source.add.image.crop.width.label}
         tip={(l) => l.ui.source.add.image.crop.width.tip}
-        min={Math.min(MinimumCrop, whole.width)}
-        max={whole.width}
-        increment={1}
+        min={Math.min(1, MinimumCrop / whole.width)}
+        max={1}
+        increment={0.01}
         precision={0}
-        unit={''}
-        value={rect.width}
-        change={(value) => setRect({ ...rect, width: value.toNumber() })}
+        unit={'%'}
+        value={rect.width / whole.width}
+        change={(value) =>
+            setRect({
+                ...rect,
+                width: Math.round(value.toNumber() * whole.width),
+            })}
     ></Slider>
     <Slider
         label={(l) => l.ui.source.add.image.crop.height.label}
         tip={(l) => l.ui.source.add.image.crop.height.tip}
-        min={Math.min(MinimumCrop, whole.height)}
-        max={whole.height}
-        increment={1}
+        min={Math.min(1, MinimumCrop / whole.height)}
+        max={1}
+        increment={0.01}
         precision={0}
-        unit={''}
-        value={rect.height}
-        change={(value) => setRect({ ...rect, height: value.toNumber() })}
+        unit={'%'}
+        value={rect.height / whole.height}
+        change={(value) =>
+            setRect({
+                ...rect,
+                height: Math.round(value.toNumber() * whole.height),
+            })}
     ></Slider>
     <Slider
         label={(l) => l.ui.source.add.image.size.label}
