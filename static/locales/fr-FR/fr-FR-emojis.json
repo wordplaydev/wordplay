@@ -17429,6 +17429,15 @@
         "rochers",
         "tremblement de terre"
     ],
+    "1F6D9": [
+        "phare",
+        "lumière",
+        "mer",
+        "navigation",
+        "repère",
+        "signal",
+        "tour"
+    ],
     "1F6DC": [
         "sans fil",
         "connexion",
@@ -24651,6 +24660,32 @@
         "orchestre"
     ],
     "1FA8A": ["trombone à coulisse", "cuivre", "instrument", "jazz", "musique"],
+    "1FA8B": [
+        "météorite",
+        "apocalypse",
+        "boule de feu",
+        "chute",
+        "espace",
+        "étoile",
+        "gravité",
+        "roche"
+    ],
+    "1FA8C": [
+        "gomme",
+        "annuler",
+        "dessin",
+        "effacer",
+        "erreur",
+        "oups",
+        "supprimer"
+    ],
+    "1FA8D": [
+        "filet avec manche",
+        "attraper",
+        "capturer",
+        "épuisette",
+        "piège"
+    ],
     "1FA8E": [
         "coffre au trésor",
         "argent",
@@ -25258,6 +25293,14 @@
         "sasquatch",
         "yéti"
     ],
+    "1FACC": [
+        "monarque",
+        "chenille",
+        "fragile",
+        "insecte",
+        "métamorphose",
+        "papillon"
+    ],
     "1FACD": ["orque", "baleine", "marin", "océan"],
     "1FACE": [
         "élan",
@@ -25370,6 +25413,7 @@
         "navet",
         "racine"
     ],
+    "1FADD": ["cornichon", "condiment", "pickle", "saumure", "vinaigre"],
     "1FADF": ["éclaboussure", "holi", "peinture", "tache"],
     "1FAE0": [
         "visage qui fond",
@@ -25469,6 +25513,16 @@
         "panique",
         "surprise",
         "vulnérabilité"
+    ],
+    "1FAEB": [
+        "visage craquelé",
+        "craquer",
+        "effondrement",
+        "masquer",
+        "résilience",
+        "révéler",
+        "tension",
+        "transformation"
     ],
     "1FAEF": [
         "nuage de colère",
@@ -26309,5 +26363,111 @@
         "stop",
         "tape m’en cinq",
         "top là"
+    ],
+    "1FAF9": [
+        "pouce vers la gauche",
+        "ça",
+        "gauche",
+        "neutre",
+        "poing",
+        "stop"
+    ],
+    "1FAF9 1F3FB": [
+        "pouce vers la gauche : peau claire",
+        "ça",
+        "gauche",
+        "neutre",
+        "peau claire",
+        "poing",
+        "stop"
+    ],
+    "1FAF9 1F3FC": [
+        "pouce vers la gauche : peau moyennement claire",
+        "ça",
+        "gauche",
+        "neutre",
+        "peau moyennement claire",
+        "poing",
+        "stop"
+    ],
+    "1FAF9 1F3FD": [
+        "pouce vers la gauche : peau légèrement mate",
+        "ça",
+        "gauche",
+        "neutre",
+        "peau légèrement mate",
+        "poing",
+        "stop"
+    ],
+    "1FAF9 1F3FE": [
+        "pouce vers la gauche : peau mate",
+        "ça",
+        "gauche",
+        "neutre",
+        "peau mate",
+        "poing",
+        "stop"
+    ],
+    "1FAF9 1F3FF": [
+        "pouce vers la gauche : peau foncée",
+        "ça",
+        "gauche",
+        "neutre",
+        "peau foncée",
+        "poing",
+        "stop"
+    ],
+    "1FAFA": [
+        "pouce vers la droite",
+        "ça",
+        "droite",
+        "neutre",
+        "poing",
+        "stop"
+    ],
+    "1FAFA 1F3FB": [
+        "pouce vers la droite : peau claire",
+        "ça",
+        "droite",
+        "neutre",
+        "peau claire",
+        "poing",
+        "stop"
+    ],
+    "1FAFA 1F3FC": [
+        "pouce vers la droite : peau moyennement claire",
+        "ça",
+        "droite",
+        "neutre",
+        "peau moyennement claire",
+        "poing",
+        "stop"
+    ],
+    "1FAFA 1F3FD": [
+        "pouce vers la droite : peau légèrement mate",
+        "ça",
+        "droite",
+        "neutre",
+        "peau légèrement mate",
+        "poing",
+        "stop"
+    ],
+    "1FAFA 1F3FE": [
+        "pouce vers la droite : peau mate",
+        "ça",
+        "droite",
+        "neutre",
+        "peau mate",
+        "poing",
+        "stop"
+    ],
+    "1FAFA 1F3FF": [
+        "pouce vers la droite : peau foncée",
+        "ça",
+        "droite",
+        "neutre",
+        "peau foncée",
+        "poing",
+        "stop"
     ]
 }

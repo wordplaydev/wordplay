@@ -111,7 +111,9 @@
             loading overlay waits on before revealing the app (see +layout.svelte,
             which gates the reveal on `document.fonts.load('… "Noto Sans"')`). URLs
             must match the @font-face rules in /fonts.css exactly — including the
-            crossorigin attribute — for the browser to reuse the preloaded bytes.
+            ?v= fonts version and the crossorigin attribute — for the browser to
+            reuse the preloaded bytes. Every /fonts/ URL carries that version
+            because /fonts/** is cached as immutable (scripts/fonts/version.ts).
 
             The all-in-one Noto Emoji file (471 KB, font-display: block) is
             deliberately NOT preloaded: the overlay no longer waits on it, and
@@ -122,23 +124,29 @@
         -->
         <link
             rel="preload"
-            href="/fonts/NotoSans/NotoSans-400-7.woff2"
+            href="/fonts/NotoSans/NotoSans-400-7.woff2?v=%wordplay.fontsversion%"
             as="font"
             type="font/woff2"
             crossorigin
         />
         <link
             rel="preload"
-            href="/fonts/NotoSans/NotoSans-700-7.woff2"
+            href="/fonts/NotoSans/NotoSans-700-7.woff2?v=%wordplay.fontsversion%"
             as="font"
             type="font/woff2"
             crossorigin
         />
 
-        <link rel="stylesheet" href="/fonts/fonts.css" />
+        <link
+            rel="stylesheet"
+            href="/fonts/fonts.css?v=%wordplay.fontsversion%"
+        />
         <!-- Lazy per-script Noto fallback faces; browsers download a slice
              only when rendered text intersects its unicode-range. -->
-        <link rel="stylesheet" href="/fonts/fonts-fallback.css" />
+        <link
+            rel="stylesheet"
+            href="/fonts/fonts-fallback.css?v=%wordplay.fontsversion%"
+        />
 
         <style>
             :root {

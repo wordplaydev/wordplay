@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Slice the Safari OT-SVG color-emoji font (NotoColorEmoji.svg.ttf) into
-per-block files so Safari lazily downloads only the emoji it renders instead of
-the whole ~3.3 MB font.
+per-block WOFF2 files so Safari lazily downloads only the emoji it renders
+instead of the whole ~3.3 MB font.
+
+nanoemoji gzips each SVG document inside the font (picosvgz), which brotli can't
+compress further, so each slice stores its documents uncompressed and lets WOFF2
+compress the file whole — about 28% smaller over the wire.
 
 The partition mirrors the Chromium COLRv1 slices (NotoColorEmoji-400-N.woff2)
 declared in src/basis/faces/emoji-faces.css, so both branches stay aligned and
@@ -66,7 +70,7 @@ def chromium_ranges():
     chrom = css[css.find("@supports not"):]
     out = {}
     for m in re.finditer(
-        r"NotoColorEmoji-400-(\d)\.woff2.*?unicode-range:\s*([^;]+);", chrom, re.S
+        r"NotoColorEmoji-400-(\d+)\.woff2.*?unicode-range:\s*([^;]+);", chrom, re.S
     ):
         n = m.group(1)
         rng = re.sub(r"\s+", " ", m.group(2)).strip()
@@ -86,6 +90,20 @@ def main():
         f["head"].created = f["head"].modified = 0
         f.save(path)
 
+    def to_woff2(ttf, out, names=()):
+        # Store the SVG documents plain (see the module docstring), write WOFF2,
+        # and drop the intermediate TrueType subset.
+        f = TTFont(ttf, recalcTimestamp=False)
+        f["head"].created = f["head"].modified = 0
+        for doc in f["SVG "].docList:
+            doc.compressed = False
+        for nid, val in names:
+            f["name"].setName(val, nid, 3, 1, 0x409)  # Windows
+            f["name"].setName(val, nid, 1, 0, 0)  # Mac
+        f.flavor = "woff2"
+        f.save(out)
+        os.remove(ttf)
+
     ranges = chromium_ranges()
     whole_cmap = set(TTFont(WHOLE).getBestCmap())
     coverage = {cp for cp in whole_cmap if in_ranges(cp, BLOCKS)}
@@ -103,23 +121,30 @@ def main():
     # every slice are deterministic across nanoemoji rebuilds.
     zero_timestamps(WHOLE)
 
+    # Remove every previous slice first, so a partition that shrinks (or a
+    # change of format) leaves no orphaned file behind to be served or committed.
+    for name in os.listdir(FONT_DIR):
+        if re.fullmatch(r"NotoColorEmoji\.svg-[\w]+\.(ttf|woff2)", name):
+            os.remove(os.path.join(FONT_DIR, name))
+
     pyft = os.path.join(os.path.dirname(sys.executable), "pyftsubset")
     for n, rng in sorted(ranges.items()):
         unicodes = rng
         if n == GAP_SLICE and gap:
             unicodes += "," + ",".join("U+%X" % c for c in gap)
-        out = os.path.join(FONT_DIR, f"NotoColorEmoji.svg-{n}.ttf")
+        subset = os.path.join(FONT_DIR, f"NotoColorEmoji.svg-{n}.subset.ttf")
+        out = os.path.join(FONT_DIR, f"NotoColorEmoji.svg-{n}.woff2")
         subprocess.run(
             [pyft, WHOLE, "--unicodes=" + unicodes, "--layout-features=*",
-             "--output-file=" + out],
+             "--output-file=" + subset],
             check=True,
         )
-        zero_timestamps(out)
+        to_woff2(subset, out)
         print(f"slice {n}: {os.path.getsize(out) // 1024} KB")
 
     # Dedicated keycap face file. Safari binds a given font file to a SINGLE
     # @font-face family, so when 'Noto Emoji Keycap' and 'Noto Color Emoji'
-    # slice 2 both point at svg-2.ttf, Safari serves it only as the keycap face
+    # slice 2 both point at svg-2.woff2, Safari serves it only as the keycap face
     # (narrow range) and every OTHER slice-2 emoji (e.g. 💬 U+1F4AC) falls back
     # to the system Apple emoji. So the keycap face gets its own file: a subset
     # of the whole font to just the keycap/legacy codepoints, keeping the ccmp
@@ -130,22 +155,22 @@ def main():
     keycap_unicodes = (
         "U+23,U+2A,U+30-39,U+A9,U+AE,U+203C,U+2049,U+2122,U+2139,U+FE0F,U+20E3"
     )
-    keycap_out = os.path.join(FONT_DIR, "NotoColorEmoji.svg-keycap.ttf")
+    keycap_subset = os.path.join(FONT_DIR, "NotoColorEmoji.svg-keycap.subset.ttf")
+    keycap_out = os.path.join(FONT_DIR, "NotoColorEmoji.svg-keycap.woff2")
     subprocess.run(
         [pyft, WHOLE, "--unicodes=" + keycap_unicodes,
-         "--layout-features=*", "--output-file=" + keycap_out],
+         "--layout-features=*", "--output-file=" + keycap_subset],
         check=True,
     )
-    kf = TTFont(keycap_out, recalcTimestamp=False)
-    kf["head"].created = kf["head"].modified = 0
-    for nid, val in (
-        (1, "Noto Emoji Keycap"),
-        (4, "Noto Emoji Keycap"),
-        (6, "NotoEmojiKeycap-Regular"),
-    ):
-        kf["name"].setName(val, nid, 3, 1, 0x409)  # Windows
-        kf["name"].setName(val, nid, 1, 0, 0)  # Mac
-    kf.save(keycap_out)
+    to_woff2(
+        keycap_subset,
+        keycap_out,
+        (
+            (1, "Noto Emoji Keycap"),
+            (4, "Noto Emoji Keycap"),
+            (6, "NotoEmojiKeycap-Regular"),
+        ),
+    )
     print(f"keycap slice: {os.path.getsize(keycap_out) // 1024} KB")
 
 

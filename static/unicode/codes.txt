@@ -64726,6 +64726,7 @@ FFFD;So;
 1F6D6;So;;tr;pb
 1F6D7;So;;ob;hu
 1F6D8;So;;tr;pl
+1F6D9;So;;tr;tw
 1F6DC;So;;sy;av
 1F6DD;So;;tr;pt
 1F6DE;So;;tr;tg
@@ -65989,6 +65990,9 @@ FFFD;So;
 1FA88;So;;ob;mi
 1FA89;So;;ob;mi
 1FA8A;So;;ob;mi
+1FA8B;So;;tr;sw
+1FA8C;So;;ob;wr
+1FA8D;So;;ob;to
 1FA8E;So;;ob;mo
 1FA8F;So;;ob;to
 1FA90;So;;tr;sw
@@ -66062,6 +66066,7 @@ FFFD;So;
 1FAC5 1F3FF;So;;pe;po
 1FAC6;So;;pe;py
 1FAC8;So;;pe;pf
+1FACC;So;;an;au
 1FACD;So;;an;ar
 1FACE;So;;an;am
 1FACF;So;;an;am
@@ -66078,6 +66083,7 @@ FFFD;So;
 1FADA;So;;fo;fv
 1FADB;So;;fo;fv
 1FADC;So;;fo;fv
+1FADD;So;;fo;fv
 1FADF;So;;sy;os
 1FAE0;So;;sm;fm
 1FAE1;So;;sm;fh
@@ -66090,6 +66096,7 @@ FFFD;So;
 1FAE8;So;;sm;fs
 1FAE9;So;;sm;fp
 1FAEA;So;;sm;fc
+1FAEB;So;;sm;fm
 1FAEF;So;;sm;em
 1FAF0;So;;pe;hp
 1FAF0 1F3FB;So;;pe;hp
@@ -66165,6 +66172,18 @@ FFFD;So;
 1FAF8 1F3FD;So;;pe;ho
 1FAF8 1F3FE;So;;pe;ho
 1FAF8 1F3FF;So;;pe;ho
+1FAF9;So;;pe;hc
+1FAF9 1F3FB;So;;pe;hc
+1FAF9 1F3FC;So;;pe;hc
+1FAF9 1F3FD;So;;pe;hc
+1FAF9 1F3FE;So;;pe;hc
+1FAF9 1F3FF;So;;pe;hc
+1FAFA;So;;pe;hc
+1FAFA 1F3FB;So;;pe;hc
+1FAFA 1F3FC;So;;pe;hc
+1FAFA 1F3FD;So;;pe;hc
+1FAFA 1F3FE;So;;pe;hc
+1FAFA 1F3FF;So;;pe;hc
 1FB00;So;
 1FB01;So;
 1FB02;So;

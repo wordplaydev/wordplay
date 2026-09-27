@@ -17,7 +17,7 @@ npm run emoji-update -- --check # is an update even due? (reports, changes nothi
 | B   | Per-locale emoji **names**         | `static/locales/*/{locale}-emojis.json`                                           | Unicode CLDR (`npm run locales-emojis`)                   |
 | C   | **Mono** emoji font                | `NotoEmoji-400.woff2` (Regular static)                                            | Google Fonts download endpoint (`download-mono-emoji.py`) |
 | D   | **Chromium** color font (COLRv1)   | `NotoColorEmoji-400-N.woff2` slices + their `unicode-range`s in `emoji-faces.css` | Google Fonts css2 (`downloadColorEmoji.ts`)               |
-| E   | **Safari** color font (OT-SVG)     | `NotoColorEmoji.svg-N.ttf` slices (ranges derived from D's CSS)                   | nanoemoji + `slice-emoji-svg.py` (`notocolor.sh`)         |
+| E   | **Safari** color font (OT-SVG)     | `NotoColorEmoji.svg-N.woff2` slices (ranges derived from D's CSS)                 | nanoemoji + `slice-emoji-svg.py` (`notocolor.sh`)         |
 | F   | Finalize + verify                  | hashes/lockfile, `faces.generated.ts`, `fonts.css`, `renderable.generated.ts`     | `npm run fonts-fix` + `fonts -- --deep`                   |
 
 > **Note:** the mono font (C) comes from Google Fonts' **download endpoint**
@@ -73,7 +73,9 @@ There is no headless Safari, and OT-SVG subset correctness has to be eyeballed.
 After a fonts run, `emoji-update` prints a checklist. Before committing, open a
 project in Safari (and a WebKit/iPad build) and confirm:
 
-- only the matching `NotoColorEmoji.svg-N.ttf` slices download (not the whole font),
+- only the matching `NotoColorEmoji.svg-N.woff2` slices download (not the whole font),
+- emoji render from the WOFF2 slices at all (OT-SVG inside WOFF2 is a combination
+  this pipeline adopted for Emoji 18),
 - ZWJ sequences (families, professions, flags), skin-tone modifiers, and keycaps
   (2️⃣ #️⃣ ©️) render with **no tofu**,
 - coverage matches the Chromium build.
@@ -92,8 +94,18 @@ they can't drift apart on an update:
   those codepoints on the dedicated `.emoji-keycap` face. The trim is encoded as
   data, so a Noto update only changes _ranges_, never the trim policy. The same
   run also re-derives the **mono** face's range from its cmap (see above).
-- `slice-emoji-svg.py` reads the Chromium ranges to cut the Safari `.svg-N.ttf`
-  slice files.
+- `notocolor.sh` builds the whole OT-SVG font with nanoemoji from the
+  noto-emoji repo's `2D/svg/` sources, cloned at the **release tag** `--check`
+  reported (never `main`, which moved the sources out of `svg/` underneath this
+  script for Emoji 18). The clone is sparse, checking out only `2D/svg/`: the
+  repo's `3D/fonts` are Git LFS files, and a full checkout fails without
+  `git-lfs` installed. The whole font stays `picosvgz` (gzipped SVG documents)
+  because it is committed and never served.
+- `slice-emoji-svg.py` reads the Chromium ranges to cut the Safari
+  `.svg-N.woff2` slice files. Each slice stores its SVG documents
+  **uncompressed** before WOFF2 encoding: brotli can't compress already-gzipped
+  documents, and compressing the file whole is about 28% smaller over the wire
+  (3.44 MB → 2.49 MB across all slices at Unicode 17).
 - `downloadColorEmoji.ts --fold-safari-gaps` runs **after** the rebuild: the
   OT-SVG font has a few standalone glyphs the Chromium partition omits (ZWJ
   sequences there, e.g. 👪), knowable only from the built font's cmap, so this
@@ -116,7 +128,11 @@ its font's glyphs and that the slices together drop nothing.
 
 - **Google changes the slice count.** Everything downstream reads the count from the
   CSS (`slice-emoji-svg.py`, `emojiRange.test.ts`, the lockfile), so a re-partition
-  needs no hand-edit — just re-run `emoji-update` and re-verify.
+  needs no hand-edit — just re-run `emoji-update` and re-verify. (Emoji 18 took it
+  from 10 to 11, which is how the slicer's single-digit slice pattern was found.)
+- **noto-emoji changes its layout.** `notocolor.sh` stops rather than building
+  from nothing if `2D/svg/` is missing at the tag; find the new SVG directory and
+  update `SVG_DIR`.
 
 ## What to commit
 

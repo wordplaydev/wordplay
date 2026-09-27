@@ -10414,6 +10414,7 @@
     "1F6D6": ["choza"],
     "1F6D7": ["↑↑↑", "ascensor"],
     "1F6D8": ["↑↑↑"],
+    "1F6D9": ["↑↑↑"],
     "1F6DC": ["↑↑↑"],
     "1F6DD": ["↑↑↑"],
     "1F6DE": ["↑↑↑"],
@@ -14780,6 +14781,9 @@
         "orquesta"
     ],
     "1FA8A": ["↑↑↑"],
+    "1FA8B": ["↑↑↑"],
+    "1FA8C": ["↑↑↑"],
+    "1FA8D": ["↑↑↑"],
     "1FA8E": ["↑↑↑"],
     "1FA8F": ["↑↑↑", "agujero", "cavar", "pala"],
     "1FA90": ["↑↑↑"],
@@ -15008,6 +15012,7 @@
     ],
     "1FAC6": ["↑↑↑"],
     "1FAC8": ["↑↑↑"],
+    "1FACC": ["↑↑↑"],
     "1FACD": ["↑↑↑"],
     "1FACE": ["↑↑↑"],
     "1FACF": ["↑↑↑"],
@@ -15031,6 +15036,7 @@
         "remolacha",
         "verdura"
     ],
+    "1FADD": ["↑↑↑"],
     "1FADF": ["↑↑↑", "derrame", "holi", "mancha", "pintura", "salpicadura"],
     "1FAE0": ["↑↑↑"],
     "1FAE1": ["↑↑↑"],
@@ -15057,6 +15063,7 @@
         "somnoliento"
     ],
     "1FAEA": ["↑↑↑"],
+    "1FAEB": ["↑↑↑"],
     "1FAEF": ["↑↑↑"],
     "1FAF0": ["↑↑↑"],
     "1FAF0 1F3FB": [
@@ -15660,6 +15667,108 @@
         "mano empujando hacia la derecha",
         "rechazar",
         "stop",
+        "tono de piel oscuro"
+    ],
+    "1FAF9": ["↑↑↑"],
+    "1FAF9 1F3FB": [
+        "pulgar hacia la izquierda: tono de piel claro",
+        "agarrar",
+        "eso",
+        "esto",
+        "izquierda",
+        "neutral",
+        "señalar",
+        "tono de piel claro"
+    ],
+    "1FAF9 1F3FC": [
+        "pulgar hacia la izquierda: tono de piel claro medio",
+        "agarrar",
+        "eso",
+        "esto",
+        "izquierda",
+        "neutral",
+        "señalar",
+        "tono de piel claro medio"
+    ],
+    "1FAF9 1F3FD": [
+        "pulgar hacia la izquierda: tono de piel medio",
+        "agarrar",
+        "eso",
+        "esto",
+        "izquierda",
+        "neutral",
+        "señalar",
+        "tono de piel medio"
+    ],
+    "1FAF9 1F3FE": [
+        "pulgar hacia la izquierda: tono de piel oscuro medio",
+        "agarrar",
+        "eso",
+        "esto",
+        "izquierda",
+        "neutral",
+        "señalar",
+        "tono de piel oscuro medio"
+    ],
+    "1FAF9 1F3FF": [
+        "pulgar hacia la izquierda: tono de piel oscuro",
+        "agarrar",
+        "eso",
+        "esto",
+        "izquierda",
+        "neutral",
+        "señalar",
+        "tono de piel oscuro"
+    ],
+    "1FAFA": ["↑↑↑"],
+    "1FAFA 1F3FB": [
+        "pulgar hacia la derecha: tono de piel claro",
+        "agarrar",
+        "derecha",
+        "eso",
+        "esto",
+        "neutral",
+        "señalar",
+        "tono de piel claro"
+    ],
+    "1FAFA 1F3FC": [
+        "pulgar hacia la derecha: tono de piel claro medio",
+        "agarrar",
+        "derecha",
+        "eso",
+        "esto",
+        "neutral",
+        "señalar",
+        "tono de piel claro medio"
+    ],
+    "1FAFA 1F3FD": [
+        "pulgar hacia la derecha: tono de piel medio",
+        "agarrar",
+        "derecha",
+        "eso",
+        "esto",
+        "neutral",
+        "señalar",
+        "tono de piel medio"
+    ],
+    "1FAFA 1F3FE": [
+        "pulgar hacia la derecha: tono de piel oscuro medio",
+        "agarrar",
+        "derecha",
+        "eso",
+        "esto",
+        "neutral",
+        "señalar",
+        "tono de piel oscuro medio"
+    ],
+    "1FAFA 1F3FF": [
+        "pulgar hacia la derecha: tono de piel oscuro",
+        "agarrar",
+        "derecha",
+        "eso",
+        "esto",
+        "neutral",
+        "señalar",
         "tono de piel oscuro"
     ]
 }

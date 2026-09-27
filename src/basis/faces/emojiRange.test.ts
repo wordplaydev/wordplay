@@ -135,7 +135,7 @@ const css = fs.readFileSync(path.join('static', 'fonts', 'fonts.css'), 'utf8');
  * here, matching how slice-emoji-svg.py reads its count from the same CSS. */
 const SVG_SLICES = [
     ...new Set(
-        [...css.matchAll(/NotoColorEmoji\.svg-(\d+)\.ttf/g)].map((m) =>
+        [...css.matchAll(/NotoColorEmoji\.svg-(\d+)\.woff2/g)].map((m) =>
             Number(m[1]),
         ),
     ),
@@ -163,11 +163,11 @@ describe('emoji @font-face ranges match the fonts glyph coverage', () => {
         'Safari SVG slice %i declares no codepoint its file lacks',
         async (n) => {
             const expected = await preciseCodepoints(
-                `static/fonts/NotoColorEmoji/NotoColorEmoji.svg-${n}.ttf`,
+                `static/fonts/NotoColorEmoji/NotoColorEmoji.svg-${n}.woff2`,
             );
             const declared = declaredCodepoints(
                 css,
-                `NotoColorEmoji.svg-${n}.ttf`,
+                `NotoColorEmoji.svg-${n}.woff2`,
             );
             const overClaimed = [...declared].filter((cp) => !expected.has(cp));
             expect(overClaimed.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
@@ -187,10 +187,10 @@ describe('emoji @font-face ranges match the fonts glyph coverage', () => {
             .map((m) => m[1]!)
             .find((b) => b.includes("'Noto Emoji Keycap'"));
         expect(face).toBeDefined();
-        const file = face!.match(/NotoColorEmoji\.(svg-[\w-]+)\.ttf/);
+        const file = face!.match(/NotoColorEmoji\.(svg-[\w-]+)\.woff2/);
         expect(file).not.toBeNull();
         const cmap = await rawCodepoints(
-            `static/fonts/NotoColorEmoji/NotoColorEmoji.${file![1]}.ttf`,
+            `static/fonts/NotoColorEmoji/NotoColorEmoji.${file![1]}.woff2`,
         );
         // The digit/#/* keycap bases must have glyphs. (FE0F is a zero-width
         // selector the OT-SVG font intentionally lacks, so it's not required.)
@@ -203,7 +203,7 @@ describe('emoji @font-face ranges match the fonts glyph coverage', () => {
         expect(missing.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
     });
 
-    // No under-claim across the split: the 10 slices' declared ranges together
+    // No under-claim across the split: the slices' declared ranges together
     // must cover every emoji GLYPH the whole SVG font has, so slicing drops none.
     // Zero-width FORMAT chars (ZWJ, VS, flag tags) are excluded — they carry no
     // glyph and each slice declares only the ones its sequences actually use.
@@ -217,7 +217,7 @@ describe('emoji @font-face ranges match the fonts glyph coverage', () => {
         for (const n of SVG_SLICES)
             for (const cp of declaredCodepoints(
                 css,
-                `NotoColorEmoji.svg-${n}.ttf`,
+                `NotoColorEmoji.svg-${n}.woff2`,
             ))
                 union.add(cp);
         const dropped = [...whole].filter(
@@ -229,7 +229,7 @@ describe('emoji @font-face ranges match the fonts glyph coverage', () => {
     test('no emoji face claims the broad U+1F000-1FFFF block', () => {
         const needles = [
             'NotoEmoji-400.woff2',
-            ...SVG_SLICES.map((n) => `NotoColorEmoji.svg-${n}.ttf`),
+            ...SVG_SLICES.map((n) => `NotoColorEmoji.svg-${n}.woff2`),
         ];
         for (const srcNeedle of needles) {
             const declared = declaredCodepoints(css, srcNeedle);
