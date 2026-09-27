@@ -22,7 +22,8 @@ import { beforeAll, expect, test } from 'vitest';
  * depends on, so an engine upgrade shows up as a failing number instead of a
  * project that "feels wrong". The measured values in each comment came from
  * @dimforge/rapier2d-compat 0.20.0, with the 0.19.3 numbers alongside where
- * they differ; assertions are deliberately behavioral claims with tolerances,
+ * they differ. 0.21.0 reproduced every one of them to the printed precision
+ * except the bouncy body's settling, 157 steps rather than 156; assertions are deliberately behavioral claims with tolerances,
  * not float snapshots, so they survive a bump that doesn't change the feel.
  */
 

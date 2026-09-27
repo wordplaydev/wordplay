@@ -120,6 +120,68 @@ test('a ball settles inside the bowl rather than on its rim', () => {
     expect(Math.abs(rest.x)).toBeLessThan(1 * PX_PER_METER);
 });
 
+/** An `m`: a flat top over three legs, so its decomposition splits into parts
+ *  whose seams cross that top. Ink is 1em square. */
+const ArchLoops: OutlineLoops = [
+    [
+        { x: 0, y: 0 },
+        { x: 0.2, y: 0 },
+        { x: 0.2, y: 0.6 },
+        { x: 0.4, y: 0.6 },
+        { x: 0.4, y: 0 },
+        { x: 0.6, y: 0 },
+        { x: 0.6, y: 0.6 },
+        { x: 0.8, y: 0.6 },
+        { x: 0.8, y: 0 },
+        { x: 1, y: 0 },
+        { x: 1, y: 1 },
+        { x: 0, y: 1 },
+    ],
+];
+
+test('a box slides across a glyph without catching on the seams between its parts', () => {
+    // Without FIX_INTERNAL_EDGES, a box at this speed stopped dead at the first
+    // seam and never crossed; a ball hopped ~4px there and lost speed.
+    const rapier = getRapier();
+    const world = new rapier.World({ x: 0, y: 390.6 });
+    world.lengthUnit = PX_PER_METER;
+    world.timestep = FIXED_STEP_MS / 1000;
+    const desc = glyphColliderDesc(rapier, ArchLoops, 4, 4, 4, 4);
+    if (desc === undefined) throw new Error('expected a collider');
+    // Frictionless throughout, so the only thing that can slow the box is
+    // the shape it slides on.
+    world.createCollider(
+        desc.setFriction(0),
+        world.createRigidBody(rapier.RigidBodyDesc.fixed()),
+    );
+    // At 4m the top of the ink is 2m above center.
+    const top = -2 * PX_PER_METER;
+    const half = 16;
+    const speed = 200;
+    const box = world.createRigidBody(
+        rapier.RigidBodyDesc.dynamic()
+            .setTranslation(-1.8 * PX_PER_METER, top - half - 0.5)
+            .setLinvel(speed, 0)
+            .lockRotations(),
+    );
+    world.createCollider(
+        rapier.ColliderDesc.cuboid(half, half).setFriction(0),
+        box,
+    );
+
+    let slowest = speed;
+    for (let step = 0; step < 120; step++) {
+        world.step();
+        if (box.translation().x > 1.8 * PX_PER_METER) break;
+        slowest = Math.min(slowest, box.linvel().x);
+    }
+
+    expect(box.translation().x).toBeGreaterThan(1.8 * PX_PER_METER);
+    expect(slowest).toBeGreaterThan(speed * 0.95);
+    // And it stays on the top rather than hopping over each seam.
+    expect(box.translation().y).toBeCloseTo(top - half, 0);
+});
+
 test('a counter is filled in, which is the approximation this makes', () => {
     // The decomposition voxelizes the region the outline bounds and never
     // carves the hole back out, at any tolerance — so the counter of an `o` is
