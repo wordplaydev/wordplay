@@ -18375,6 +18375,18 @@
         "mudslide",
         "rocks"
     ],
+    "1F6D9": [
+        "lighthouse",
+        "beacon",
+        "enlightenment",
+        "guidance",
+        "hope",
+        "light",
+        "maritime",
+        "navigation",
+        "sea",
+        "signal"
+    ],
     "1F6DC": [
         "wireless",
         "broadband",
@@ -25358,6 +25370,30 @@
         "sad",
         "slide"
     ],
+    "1FA8B": [
+        "meteor",
+        "apocalypse",
+        "falling",
+        "fireball",
+        "gravity",
+        "rock",
+        "space",
+        "star"
+    ],
+    "1FA8C": [
+        "eraser",
+        "correction",
+        "delete",
+        "drawing",
+        "erase",
+        "error",
+        "mistake",
+        "remove",
+        "rub",
+        "undo",
+        "writing"
+    ],
+    "1FA8D": ["net with handle", "catch", "collect", "mesh", "trap"],
     "1FA8E": [
         "treasure chest",
         "gem",
@@ -25945,6 +25981,17 @@
         "woodwose",
         "yeti"
     ],
+    "1FACC": [
+        "monarch butterfly",
+        "caterpillar",
+        "change",
+        "fragile",
+        "hope",
+        "insect",
+        "metamorphosis",
+        "migration",
+        "transformation"
+    ],
     "1FACD": ["orca", "marine", "ocean", "whale"],
     "1FACE": ["moose", "alces", "animal", "antlers", "elk", "mammal"],
     "1FACF": [
@@ -26038,6 +26085,16 @@
         "turnip",
         "vegetable",
         "vegetarian"
+    ],
+    "1FADD": [
+        "pickle",
+        "brine",
+        "condiment",
+        "cucumber",
+        "ferment",
+        "gherkin",
+        "relish",
+        "trouble"
     ],
     "1FADF": [
         "splatter",
@@ -26210,6 +26267,16 @@
         "shocked",
         "surprised",
         "vulnerable"
+    ],
+    "1FAEB": [
+        "cracking face",
+        "breaking",
+        "crumbling",
+        "masking",
+        "resilience",
+        "reveal",
+        "tension",
+        "transformation"
     ],
     "1FAEF": [
         "fight cloud",
@@ -27180,5 +27247,123 @@
         "slap",
         "stop",
         "wait"
+    ],
+    "1FAF9": [
+        "leftwards thumb sign",
+        "grip",
+        "left",
+        "neutral",
+        "point",
+        "that",
+        "this"
+    ],
+    "1FAF9 1F3FB": [
+        "leftwards thumb sign: light skin tone",
+        "grip",
+        "left",
+        "light skin tone",
+        "neutral",
+        "point",
+        "that",
+        "this"
+    ],
+    "1FAF9 1F3FC": [
+        "leftwards thumb sign: medium-light skin tone",
+        "grip",
+        "left",
+        "medium-light skin tone",
+        "neutral",
+        "point",
+        "that",
+        "this"
+    ],
+    "1FAF9 1F3FD": [
+        "leftwards thumb sign: medium skin tone",
+        "grip",
+        "left",
+        "medium skin tone",
+        "neutral",
+        "point",
+        "that",
+        "this"
+    ],
+    "1FAF9 1F3FE": [
+        "leftwards thumb sign: medium-dark skin tone",
+        "grip",
+        "left",
+        "medium-dark skin tone",
+        "neutral",
+        "point",
+        "that",
+        "this"
+    ],
+    "1FAF9 1F3FF": [
+        "leftwards thumb sign: dark skin tone",
+        "dark skin tone",
+        "grip",
+        "left",
+        "neutral",
+        "point",
+        "that",
+        "this"
+    ],
+    "1FAFA": [
+        "rightwards thumb sign",
+        "grip",
+        "neutral",
+        "point",
+        "right",
+        "that",
+        "this"
+    ],
+    "1FAFA 1F3FB": [
+        "rightwards thumb sign: light skin tone",
+        "grip",
+        "light skin tone",
+        "neutral",
+        "point",
+        "right",
+        "that",
+        "this"
+    ],
+    "1FAFA 1F3FC": [
+        "rightwards thumb sign: medium-light skin tone",
+        "grip",
+        "medium-light skin tone",
+        "neutral",
+        "point",
+        "right",
+        "that",
+        "this"
+    ],
+    "1FAFA 1F3FD": [
+        "rightwards thumb sign: medium skin tone",
+        "grip",
+        "medium skin tone",
+        "neutral",
+        "point",
+        "right",
+        "that",
+        "this"
+    ],
+    "1FAFA 1F3FE": [
+        "rightwards thumb sign: medium-dark skin tone",
+        "grip",
+        "medium-dark skin tone",
+        "neutral",
+        "point",
+        "right",
+        "that",
+        "this"
+    ],
+    "1FAFA 1F3FF": [
+        "rightwards thumb sign: dark skin tone",
+        "dark skin tone",
+        "grip",
+        "neutral",
+        "point",
+        "right",
+        "that",
+        "this"
     ]
 }

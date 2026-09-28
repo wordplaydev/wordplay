@@ -15940,6 +15940,18 @@
         "mudslide",
         "panganib"
     ],
+    "1F6D9": [
+        "parola",
+        "dagat",
+        "gabay",
+        "ilaw",
+        "liwanag",
+        "ningas",
+        "pag-asa",
+        "pagdaragat",
+        "paglalayag",
+        "signal"
+    ],
     "1F6DC": ["wireless", "computer", "internet", "network"],
     "1F6DD": ["padulas sa playground", "laro", "playground", "slide"],
     "1F6DE": ["gulong", "bilog", "goma", "kotse", "sasakyan"],
@@ -21763,6 +21775,30 @@
         "musika",
         "slide"
     ],
+    "1FA8B": [
+        "meteor",
+        "apocalypse",
+        "bato",
+        "bituin",
+        "bola ng apoy",
+        "gravity",
+        "kalawakan",
+        "nahuhulog"
+    ],
+    "1FA8C": [
+        "pambura",
+        "alisin",
+        "burahin",
+        "guhit",
+        "ibalik",
+        "kuskos",
+        "mali",
+        "pagkakamali",
+        "pagsulat",
+        "pagwawasto",
+        "tanggalin"
+    ],
+    "1FA8D": ["lambat", "hulihin", "kolektahin", "patibong"],
     "1FA8E": [
         "kaban ng kayamanan",
         "alahas",
@@ -22094,6 +22130,17 @@
         "woodwose",
         "yeti"
     ],
+    "1FACC": [
+        "monarch butterfly",
+        "higad",
+        "insekto",
+        "marupok",
+        "metamorphosis",
+        "pag-asa",
+        "pagbabago",
+        "pagbabagong-anyo",
+        "pagdayo"
+    ],
     "1FACD": ["orca", "balyena", "dagat", "marine"],
     "1FACE": ["moose", "antler", "elk", "hayop", "mamalya"],
     "1FACF": ["asno", "burro", "hayop", "mamalya", "matigas ang ulo", "mule"],
@@ -22148,6 +22195,16 @@
         "pod"
     ],
     "1FADC": ["ugat na gulay", "beet", "gulay", "hardin", "turnip", "ugat"],
+    "1FADD": [
+        "atsara",
+        "brine",
+        "ferment",
+        "gherkin",
+        "pampalasa",
+        "pipino",
+        "problema",
+        "sawsawan"
+    ],
     "1FADF": ["tilamsik", "holi", "mantsa", "natapon", "pintura"],
     "1FAE0": [
         "natutunaw na mukha",
@@ -22233,6 +22290,15 @@
         "marupok",
         "nasurpresa",
         "panic"
+    ],
+    "1FAEB": [
+        "nababasag na mukha",
+        "katatagan",
+        "nababasag",
+        "nadudurog",
+        "pagbabago",
+        "pagbunyag",
+        "tensyon"
     ],
     "1FAEF": [
         "cloud ng away",
@@ -23038,5 +23104,123 @@
         "tanggi",
         "tigil",
         "tulak"
+    ],
+    "1FAF9": [
+        "pakaliwang thumb sign",
+        "ito",
+        "iyon",
+        "kaliwa",
+        "kapit",
+        "neutral",
+        "turo"
+    ],
+    "1FAF9 1F3FB": [
+        "pakaliwang thumb sign: light na kulay ng balat",
+        "ito",
+        "iyon",
+        "kaliwa",
+        "kapit",
+        "light na kulay ng balat",
+        "neutral",
+        "turo"
+    ],
+    "1FAF9 1F3FC": [
+        "pakaliwang thumb sign: katamtamang light na kulay ng balat",
+        "ito",
+        "iyon",
+        "kaliwa",
+        "kapit",
+        "katamtamang light na kulay ng balat",
+        "neutral",
+        "turo"
+    ],
+    "1FAF9 1F3FD": [
+        "pakaliwang thumb sign: katamtamang kulay ng balat",
+        "ito",
+        "iyon",
+        "kaliwa",
+        "kapit",
+        "katamtamang kulay ng balat",
+        "neutral",
+        "turo"
+    ],
+    "1FAF9 1F3FE": [
+        "pakaliwang thumb sign: katamtamang dark na kulay ng balat",
+        "ito",
+        "iyon",
+        "kaliwa",
+        "kapit",
+        "katamtamang dark na kulay ng balat",
+        "neutral",
+        "turo"
+    ],
+    "1FAF9 1F3FF": [
+        "pakaliwang thumb sign: dark na kulay ng balat",
+        "dark na kulay ng balat",
+        "ito",
+        "iyon",
+        "kaliwa",
+        "kapit",
+        "neutral",
+        "turo"
+    ],
+    "1FAFA": [
+        "pakanang thumb sign",
+        "ito",
+        "iyon",
+        "kanan",
+        "kapit",
+        "neutral",
+        "turo"
+    ],
+    "1FAFA 1F3FB": [
+        "pakanang thumb sign: light na kulay ng balat",
+        "ito",
+        "iyon",
+        "kanan",
+        "kapit",
+        "light na kulay ng balat",
+        "neutral",
+        "turo"
+    ],
+    "1FAFA 1F3FC": [
+        "pakanang thumb sign: katamtamang light na kulay ng balat",
+        "ito",
+        "iyon",
+        "kanan",
+        "kapit",
+        "katamtamang light na kulay ng balat",
+        "neutral",
+        "turo"
+    ],
+    "1FAFA 1F3FD": [
+        "pakanang thumb sign: katamtamang kulay ng balat",
+        "ito",
+        "iyon",
+        "kanan",
+        "kapit",
+        "katamtamang kulay ng balat",
+        "neutral",
+        "turo"
+    ],
+    "1FAFA 1F3FE": [
+        "pakanang thumb sign: katamtamang dark na kulay ng balat",
+        "ito",
+        "iyon",
+        "kanan",
+        "kapit",
+        "katamtamang dark na kulay ng balat",
+        "neutral",
+        "turo"
+    ],
+    "1FAFA 1F3FF": [
+        "pakanang thumb sign: dark na kulay ng balat",
+        "dark na kulay ng balat",
+        "ito",
+        "iyon",
+        "kanan",
+        "kapit",
+        "neutral",
+        "turo"
     ]
 }

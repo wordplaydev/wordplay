@@ -17356,6 +17356,18 @@
         "longsor lumpur",
         "musibah"
     ],
+    "1F6D9": [
+        "mercusuar",
+        "bimbingan",
+        "cahaya",
+        "harapan",
+        "laut",
+        "maritim",
+        "navigasi",
+        "pencerahan",
+        "sinyal",
+        "suar"
+    ],
     "1F6DC": [
         "nirkabel",
         "daring",
@@ -24707,6 +24719,34 @@
         "musik",
         "sedih"
     ],
+    "1FA8B": [
+        "meteor",
+        "batu",
+        "bintang",
+        "bola api",
+        "gravitasi",
+        "jatuh",
+        "kiamat",
+        "luar angkasa"
+    ],
+    "1FA8C": [
+        "penghapus",
+        "gambar",
+        "gosok",
+        "hapus",
+        "kekeliruan",
+        "kesalahan",
+        "koreksi",
+        "tulisan",
+        "urungkan"
+    ],
+    "1FA8D": [
+        "jaring dengan gagang",
+        "menangkap",
+        "mengumpulkan",
+        "menjebak",
+        "menjerat"
+    ],
     "1FA8E": [
         "peti harta karun",
         "barang berharga",
@@ -25446,6 +25486,17 @@
         "sasquatch",
         "yeti"
     ],
+    "1FACC": [
+        "kupu-kupu raja",
+        "harapan",
+        "metamorfosis",
+        "migrasi",
+        "perubahan",
+        "rapuh",
+        "serangga",
+        "transformasi",
+        "ulat"
+    ],
     "1FACD": ["orca", "laut", "paus", "samudra"],
     "1FACE": [
         "rusa besar",
@@ -25544,6 +25595,15 @@
         "soya"
     ],
     "1FADC": ["sayuran umbi", "akar", "bit", "kebun", "lobak", "sayur", "umbi"],
+    "1FADD": [
+        "acar ketimun",
+        "air garam",
+        "bumbu",
+        "fermentasi",
+        "ketimun",
+        "masalah",
+        "saus"
+    ],
     "1FADF": ["percikan", "cat", "holi", "noda", "tumpahan"],
     "1FAE0": [
         "wajah meleleh",
@@ -25674,6 +25734,16 @@
         "rentan",
         "syok",
         "terkejut"
+    ],
+    "1FAEB": [
+        "wajah retak",
+        "ketahanan",
+        "ketegangan",
+        "mengungkapkan",
+        "menutupi",
+        "pecah",
+        "runtuh",
+        "transformasi"
     ],
     "1FAEF": [
         "awan duel",
@@ -26613,6 +26683,124 @@
         "tolak",
         "tos",
         "tunggu",
+        "warna kulit gelap"
+    ],
+    "1FAF9": [
+        "isyarat jempol ke kiri",
+        "genggaman",
+        "ini",
+        "itu",
+        "kiri",
+        "netral",
+        "tunjuk"
+    ],
+    "1FAF9 1F3FB": [
+        "isyarat jempol ke kiri: warna kulit cerah",
+        "genggaman",
+        "ini",
+        "itu",
+        "kiri",
+        "netral",
+        "tunjuk",
+        "warna kulit cerah"
+    ],
+    "1FAF9 1F3FC": [
+        "isyarat jempol ke kiri: warna kulit cerah-sedang",
+        "genggaman",
+        "ini",
+        "itu",
+        "kiri",
+        "netral",
+        "tunjuk",
+        "warna kulit cerah-sedang"
+    ],
+    "1FAF9 1F3FD": [
+        "isyarat jempol ke kiri: warna kulit sedang",
+        "genggaman",
+        "ini",
+        "itu",
+        "kiri",
+        "netral",
+        "tunjuk",
+        "warna kulit sedang"
+    ],
+    "1FAF9 1F3FE": [
+        "isyarat jempol ke kiri: warna kulit gelap-sedang",
+        "genggaman",
+        "ini",
+        "itu",
+        "kiri",
+        "netral",
+        "tunjuk",
+        "warna kulit gelap-sedang"
+    ],
+    "1FAF9 1F3FF": [
+        "isyarat jempol ke kiri: warna kulit gelap",
+        "genggaman",
+        "ini",
+        "itu",
+        "kiri",
+        "netral",
+        "tunjuk",
+        "warna kulit gelap"
+    ],
+    "1FAFA": [
+        "isyarat jempol ke kanan",
+        "genggaman",
+        "ini",
+        "itu",
+        "kanan",
+        "netral",
+        "tunjuk"
+    ],
+    "1FAFA 1F3FB": [
+        "isyarat jempol ke kanan: warna kulit cerah",
+        "genggaman",
+        "ini",
+        "itu",
+        "kanan",
+        "netral",
+        "tunjuk",
+        "warna kulit cerah"
+    ],
+    "1FAFA 1F3FC": [
+        "isyarat jempol ke kanan: warna kulit cerah-sedang",
+        "genggaman",
+        "ini",
+        "itu",
+        "kanan",
+        "netral",
+        "tunjuk",
+        "warna kulit cerah-sedang"
+    ],
+    "1FAFA 1F3FD": [
+        "isyarat jempol ke kanan: warna kulit sedang",
+        "genggaman",
+        "ini",
+        "itu",
+        "kanan",
+        "netral",
+        "tunjuk",
+        "warna kulit sedang"
+    ],
+    "1FAFA 1F3FE": [
+        "isyarat jempol ke kanan: warna kulit gelap-sedang",
+        "genggaman",
+        "ini",
+        "itu",
+        "kanan",
+        "netral",
+        "tunjuk",
+        "warna kulit gelap-sedang"
+    ],
+    "1FAFA 1F3FF": [
+        "isyarat jempol ke kanan: warna kulit gelap",
+        "genggaman",
+        "ini",
+        "itu",
+        "kanan",
+        "netral",
+        "tunjuk",
         "warna kulit gelap"
     ]
 }

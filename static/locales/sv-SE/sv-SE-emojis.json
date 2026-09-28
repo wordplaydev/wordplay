@@ -10754,6 +10754,14 @@
     "1F6D6": ["koja", "hydda", "kåta"],
     "1F6D7": ["hiss", "lift", "tillgång", "vinsch"],
     "1F6D8": ["jordskred", "berg", "fallande", "fara", "ras", "stenar"],
+    "1F6D9": [
+        "fyr",
+        "hopp",
+        "navigering",
+        "signal",
+        "upplysning",
+        "vägledning"
+    ],
     "1F6DC": [
         "trådlös",
         "bredband",
@@ -15301,6 +15309,16 @@
     ],
     "1FA89": ["harpa", "amor", "instrument", "musik", "orkester", "romantik"],
     "1FA8A": ["trombon", "bleckblås", "instrument", "jazz", "musik", "sorgen"],
+    "1FA8B": [
+        "meteor",
+        "apokalyps",
+        "eldkula",
+        "faller",
+        "gravitation",
+        "rymden"
+    ],
+    "1FA8C": ["suddgummi", "ångra", "fel", "gnugga", "misstag", "radera"],
+    "1FA8D": ["håv", "fånga", "nät", "samla"],
     "1FA8E": ["skattkista", "ädelstenar", "guld", "pengar", "pris", "rikedom"],
     "1FA8F": [
         "spade",
@@ -15587,6 +15605,14 @@
         "sasquatch",
         "yeti"
     ],
+    "1FACC": [
+        "monarkfjäril",
+        "förändring",
+        "insekt",
+        "larv",
+        "metamorfos",
+        "skör"
+    ],
     "1FACD": ["späckhuggare", "hav", "ocean", "val"],
     "1FACE": [
         "älg",
@@ -15627,6 +15653,7 @@
         "sojaböna"
     ],
     "1FADC": ["rotfrukt", "grönsak", "rödbeta", "rova", "trädgård"],
+    "1FADD": ["smörgåsgurka", "cornichon", "inlagd", "picklad", "primör"],
     "1FADF": ["stänk", "färg", "fläck", "holi", "utspill"],
     "1FAE0": [
         "smältande ansikte",
@@ -15745,6 +15772,14 @@
         "panik",
         "rädd",
         "vettskrämd"
+    ],
+    "1FAEB": [
+        "ansikte som spricker",
+        "avslöja",
+        "bryter",
+        "krackelerar",
+        "sönder",
+        "trasig"
     ],
     "1FAEF": [
         "slagsmål",
@@ -16508,5 +16543,87 @@
         "till höger",
         "trycka",
         "vänta"
+    ],
+    "1FAF9": ["tumme åt vänster", "där", "dit", "grepp", "peka"],
+    "1FAF9 1F3FB": [
+        "tumme åt vänster: ljus hy",
+        "där",
+        "dit",
+        "grepp",
+        "ljus hy",
+        "peka"
+    ],
+    "1FAF9 1F3FC": [
+        "tumme åt vänster: mellanljus hy",
+        "där",
+        "dit",
+        "grepp",
+        "mellanljus hy",
+        "peka"
+    ],
+    "1FAF9 1F3FD": [
+        "tumme åt vänster: mellanfärgad hy",
+        "där",
+        "dit",
+        "grepp",
+        "mellanfärgad hy",
+        "peka"
+    ],
+    "1FAF9 1F3FE": [
+        "tumme åt vänster: mellanmörk hy",
+        "där",
+        "dit",
+        "grepp",
+        "mellanmörk hy",
+        "peka"
+    ],
+    "1FAF9 1F3FF": [
+        "tumme åt vänster: mörk hy",
+        "där",
+        "dit",
+        "grepp",
+        "mörk hy",
+        "peka"
+    ],
+    "1FAFA": ["tumme åt höger", "där", "dit", "grepp", "peka"],
+    "1FAFA 1F3FB": [
+        "tumme åt höger: ljus hy",
+        "där",
+        "dit",
+        "grepp",
+        "ljus hy",
+        "peka"
+    ],
+    "1FAFA 1F3FC": [
+        "tumme åt höger: mellanljus hy",
+        "där",
+        "dit",
+        "grepp",
+        "mellanljus hy",
+        "peka"
+    ],
+    "1FAFA 1F3FD": [
+        "tumme åt höger: mellanfärgad hy",
+        "där",
+        "dit",
+        "grepp",
+        "mellanfärgad hy",
+        "peka"
+    ],
+    "1FAFA 1F3FE": [
+        "tumme åt höger: mellanmörk hy",
+        "där",
+        "dit",
+        "grepp",
+        "mellanmörk hy",
+        "peka"
+    ],
+    "1FAFA 1F3FF": [
+        "tumme åt höger: mörk hy",
+        "där",
+        "dit",
+        "grepp",
+        "mörk hy",
+        "peka"
     ]
 }

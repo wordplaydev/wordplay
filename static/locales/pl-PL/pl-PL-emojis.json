@@ -17217,6 +17217,17 @@
         "skały",
         "trzęsienie ziemi"
     ],
+    "1F6D9": [
+        "latarnia morska",
+        "kierować",
+        "morska",
+        "morze",
+        "nadzieja",
+        "nawigacja",
+        "oświecenie",
+        "światło",
+        "sygnał"
+    ],
     "1F6DC": [
         "bezprzewodowy",
         "bezprzewodowe",
@@ -24605,6 +24616,30 @@
         "smutek",
         "suwak"
     ],
+    "1FA8B": [
+        "meteor",
+        "apokalipsa",
+        "grawitacja",
+        "gwiazda",
+        "kula ognia",
+        "przestrzeń",
+        "skała",
+        "spadać"
+    ],
+    "1FA8C": [
+        "gumka",
+        "błąd",
+        "cofnąć",
+        "kasować",
+        "pisanie",
+        "pomyłka",
+        "poprawka",
+        "rysunek",
+        "usuwać",
+        "wycierać",
+        "zmazać"
+    ],
+    "1FA8D": ["siatka z rączką", "łapać", "pułapka", "siatka", "zbierać"],
     "1FA8E": [
         "skrzynia skarbów",
         "bogactwo",
@@ -25284,6 +25319,18 @@
         "włochate",
         "yeti"
     ],
+    "1FACC": [
+        "monarcha",
+        "delikatność",
+        "gąsienica",
+        "metamorfoza",
+        "migracja",
+        "motyl",
+        "nadzieja",
+        "owad",
+        "transformacja",
+        "zmiana"
+    ],
     "1FACD": ["orka", "morski", "ocean", "wieloryb"],
     "1FACE": ["łoś", "poroże", "ssak", "zwierzę"],
     "1FACF": ["osioł", "muł", "osiołek", "ssak", "uparty", "zwierzę"],
@@ -25406,6 +25453,16 @@
         "rzepa",
         "warzywo"
     ],
+    "1FADD": [
+        "ogórek kiszony",
+        "fermentacja",
+        "korniszon",
+        "ogórek",
+        "przyprawa",
+        "przyprawiać",
+        "sezon ogórkowy",
+        "solanka"
+    ],
     "1FADF": ["rozbryzg", "farba", "holi", "plama", "rozlanie"],
     "1FAE0": [
         "roztapiająca się twarz",
@@ -25516,6 +25573,16 @@
         "panika",
         "szok",
         "zaskoczenie"
+    ],
+    "1FAEB": [
+        "popękana twarz",
+        "maskowanie",
+        "napięcie",
+        "odporność",
+        "pokruszona",
+        "połamana",
+        "transformacja",
+        "ujawniać"
     ],
     "1FAEF": [
         "chmura walki",
@@ -26368,5 +26435,123 @@
         "stop",
         "w prawo",
         "wstrzymać"
+    ],
+    "1FAF9": [
+        "gest kciuka w lewo",
+        "chwyt",
+        "lewo",
+        "neutralny",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAF9 1F3FB": [
+        "gest kciuka w lewo: karnacja jasna",
+        "chwyt",
+        "karnacja jasna",
+        "lewo",
+        "neutralny",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAF9 1F3FC": [
+        "gest kciuka w lewo: karnacja średnio jasna",
+        "chwyt",
+        "karnacja średnio jasna",
+        "lewo",
+        "neutralny",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAF9 1F3FD": [
+        "gest kciuka w lewo: karnacja średnia",
+        "chwyt",
+        "karnacja średnia",
+        "lewo",
+        "neutralny",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAF9 1F3FE": [
+        "gest kciuka w lewo: karnacja średnio ciemna",
+        "chwyt",
+        "karnacja średnio ciemna",
+        "lewo",
+        "neutralny",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAF9 1F3FF": [
+        "gest kciuka w lewo: karnacja ciemna",
+        "chwyt",
+        "karnacja ciemna",
+        "lewo",
+        "neutralny",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAFA": [
+        "gest kciuka w prawo",
+        "chwyt",
+        "neutralny",
+        "prawo",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAFA 1F3FB": [
+        "gest kciuka w prawo: karnacja jasna",
+        "chwyt",
+        "karnacja jasna",
+        "neutralny",
+        "prawo",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAFA 1F3FC": [
+        "gest kciuka w prawo: karnacja średnio jasna",
+        "chwyt",
+        "karnacja średnio jasna",
+        "neutralny",
+        "prawo",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAFA 1F3FD": [
+        "gest kciuka w prawo: karnacja średnia",
+        "chwyt",
+        "karnacja średnia",
+        "neutralny",
+        "prawo",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAFA 1F3FE": [
+        "gest kciuka w prawo: karnacja średnio ciemna",
+        "chwyt",
+        "karnacja średnio ciemna",
+        "neutralny",
+        "prawo",
+        "punkt",
+        "ten",
+        "to"
+    ],
+    "1FAFA 1F3FF": [
+        "gest kciuka w prawo: karnacja ciemna",
+        "chwyt",
+        "karnacja ciemna",
+        "neutralny",
+        "prawo",
+        "punkt",
+        "ten",
+        "to"
     ]
 }

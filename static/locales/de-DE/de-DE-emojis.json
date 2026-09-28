@@ -14680,6 +14680,17 @@
         "Murgang",
         "Schlammlawine"
     ],
+    "1F6D9": [
+        "Leuchtturm",
+        "Hoffnung",
+        "Leuchtfeuer",
+        "Licht",
+        "Meer",
+        "Orientierung",
+        "Schiffe",
+        "Seefahrt",
+        "Wegweiser"
+    ],
     "1F6DC": [
         "WLAN",
         "Computer",
@@ -21984,6 +21995,25 @@
         "traurig",
         "ziehen"
     ],
+    "1FA8B": [
+        "Meteor",
+        "Atmosphäre",
+        "Feuerkugel",
+        "Gestein",
+        "Sternschnuppe",
+        "verglühen"
+    ],
+    "1FA8C": [
+        "Radiergummi",
+        "ausradieren",
+        "Bleistift",
+        "Fehler",
+        "radieren",
+        "Radierer",
+        "Ratzefummel",
+        "wegradieren"
+    ],
+    "1FA8D": ["Kescher", "einsammeln", "fangen", "herausholen", "keschern"],
     "1FA8E": [
         "Schatztruhe",
         "Beute",
@@ -22709,6 +22739,17 @@
         "Woodwose",
         "Yeti"
     ],
+    "1FACC": [
+        "Monarchfalter",
+        "Hoffnung",
+        "Insekt",
+        "Metamorphose",
+        "Raupe",
+        "Veränderung",
+        "Verwandlung",
+        "Wechsel",
+        "zart"
+    ],
     "1FACD": [
         "Orca",
         "Meer",
@@ -22868,6 +22909,7 @@
         "Rübe",
         "Wurzel"
     ],
+    "1FADD": ["Saure Gurke", "eingelegt", "Essig", "Gewürzgurke", "Gurke"],
     "1FADF": ["Spritzer", "Farbe", "Fleck", "Holi", "Klecks", "Tinte"],
     "1FAE0": [
         "schmelzendes Gesicht",
@@ -23017,6 +23059,14 @@
         "panisch",
         "schockiert",
         "überrascht"
+    ],
+    "1FAEB": [
+        "Zerbrechendes Gesicht",
+        "Spannung",
+        "Verwandlung",
+        "widerstandsfähig",
+        "zerbrechend",
+        "zerfallend"
     ],
     "1FAEF": [
         "Kampfwolke",
@@ -23997,5 +24047,87 @@
         "Stopp",
         "warte mal",
         "warten"
+    ],
+    "1FAF9": ["Daumen nach links", "geschlossene Finger", "neutral", "zeigen"],
+    "1FAF9 1F3FB": [
+        "Daumen nach links: helle Hautfarbe",
+        "Daumen nach links",
+        "geschlossene Finger",
+        "helle Hautfarbe",
+        "neutral",
+        "zeigen"
+    ],
+    "1FAF9 1F3FC": [
+        "Daumen nach links: mittelhelle Hautfarbe",
+        "Daumen nach links",
+        "geschlossene Finger",
+        "mittelhelle Hautfarbe",
+        "neutral",
+        "zeigen"
+    ],
+    "1FAF9 1F3FD": [
+        "Daumen nach links: mittlere Hautfarbe",
+        "Daumen nach links",
+        "geschlossene Finger",
+        "mittlere Hautfarbe",
+        "neutral",
+        "zeigen"
+    ],
+    "1FAF9 1F3FE": [
+        "Daumen nach links: mitteldunkle Hautfarbe",
+        "Daumen nach links",
+        "geschlossene Finger",
+        "mitteldunkle Hautfarbe",
+        "neutral",
+        "zeigen"
+    ],
+    "1FAF9 1F3FF": [
+        "Daumen nach links: dunkle Hautfarbe",
+        "Daumen nach links",
+        "dunkle Hautfarbe",
+        "geschlossene Finger",
+        "neutral",
+        "zeigen"
+    ],
+    "1FAFA": ["Daumen nach rechts", "geschlossene Finger", "neutral", "zeigen"],
+    "1FAFA 1F3FB": [
+        "Daumen nach rechts: helle Hautfarbe",
+        "Daumen nach rechts",
+        "geschlossene Finger",
+        "helle Hautfarbe",
+        "neutral",
+        "zeigen"
+    ],
+    "1FAFA 1F3FC": [
+        "Daumen nach rechts: mittelhelle Hautfarbe",
+        "Daumen nach rechts",
+        "geschlossene Finger",
+        "mittelhelle Hautfarbe",
+        "neutral",
+        "zeigen"
+    ],
+    "1FAFA 1F3FD": [
+        "Daumen nach rechts: mittlere Hautfarbe",
+        "Daumen nach rechts",
+        "geschlossene Finger",
+        "mittlere Hautfarbe",
+        "neutral",
+        "zeigen"
+    ],
+    "1FAFA 1F3FE": [
+        "Daumen nach rechts: mitteldunkle Hautfarbe",
+        "Daumen nach rechts",
+        "geschlossene Finger",
+        "mitteldunkle Hautfarbe",
+        "neutral",
+        "zeigen"
+    ],
+    "1FAFA 1F3FF": [
+        "Daumen nach rechts: dunkle Hautfarbe",
+        "Daumen nach rechts",
+        "dunkle Hautfarbe",
+        "geschlossene Finger",
+        "neutral",
+        "zeigen"
     ]
 }

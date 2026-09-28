@@ -11,6 +11,7 @@ import { buildFaces, buildFallback } from './faces';
 import { readMetrics, writeMetrics } from './metrics';
 import type { FaceRecord } from './faces';
 import { emitFontsCss, emitFontsFallbackCss } from './stylesheets';
+import { fontsVersion, withFontsVersion } from './version';
 import { writeRenderableGenerated } from './renderableSet';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
 import { must } from '@util/nullable.ts';
@@ -89,7 +90,10 @@ export async function emojiRanges(): Promise<Record<string, string>> {
  * for tests only; shipping its ~145 KB of range data would just duplicate
  * static/fonts/fonts-fallback.css, which is what actually drives fallback glyph
  * loading. */
-export async function emitFacesGenerated(lock: Lockfile): Promise<string> {
+export async function emitFacesGenerated(
+    lock: Lockfile,
+    version: string,
+): Promise<string> {
     const faces = buildFaces(lock, await emojiRanges(), await readMetrics());
     const fallback = buildFallback(lock);
 
@@ -110,6 +114,10 @@ export async function emitFacesGenerated(lock: Lockfile): Promise<string> {
  * reads those fields (fallback glyph loading is driven by fonts-fallback.css).
  */
 import type { Face } from './Fonts';
+
+/** The content version every font URL carries as \`?v=\` (see
+ * scripts/fonts/version.ts), so /fonts/** can be cached as immutable. */
+export const FontsVersion = '${version}';
 
 export const Faces: Record<string, Face> = {
 ${facesBody}
@@ -181,12 +189,21 @@ ${UNCOVERED_SCRIPTS.map((s) => `    '${s}',`).join('\n')}
  * untouched here. */
 export async function build(): Promise<void> {
     const lock = readLock();
-    fs.writeFileSync(GENERATED, await emitFacesGenerated(lock));
+    const fontsCss = emitFontsCss(lock);
+    const fallbackCss = emitFontsFallbackCss(
+        lock,
+        await baseFallbackCoverage(),
+    );
+    const version = fontsVersion(lock, [fontsCss, fallbackCss]);
+    fs.writeFileSync(GENERATED, await emitFacesGenerated(lock, version));
     fs.writeFileSync(FALLBACK_GENERATED, emitFallbackGenerated(lock));
-    fs.writeFileSync('static/fonts/fonts.css', emitFontsCss(lock));
+    fs.writeFileSync(
+        'static/fonts/fonts.css',
+        withFontsVersion(fontsCss, version),
+    );
     fs.writeFileSync(
         'static/fonts/fonts-fallback.css',
-        emitFontsFallbackCss(lock, await baseFallbackCoverage()),
+        withFontsVersion(fallbackCss, version),
     );
 }
 

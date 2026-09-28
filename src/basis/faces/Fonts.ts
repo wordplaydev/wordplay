@@ -14,7 +14,7 @@ import type { Font as FontkitFont } from 'fontkit';
 // fonts.lock.json by `npm run fonts-fix`. This module owns the
 // loading/measurement logic; the data lives in faces.generated.ts. (The
 // structured fallback table is test-only — see faces.fallback.generated.ts.)
-import { Faces } from './faces.generated';
+import { Faces, FontsVersion } from './faces.generated';
 export { Faces };
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
@@ -449,10 +449,18 @@ export function getFaceDescription(locales: Locales, name: string, face: Face) {
     return `${name}${words.length > 0 ? ` — ${words}` : ''} [${scripts}]`;
 }
 
-/** Build the static file URL for a specific font file (weight/italic/range), or
- * undefined if the face isn't supported. Mirrors the path scheme used by
- * FontManager.registerFontFace. */
+/** The URL to fetch a specific font file (weight/italic/range) from, or
+ * undefined if the face isn't supported. Carries the fonts version, since
+ * /fonts/** is cached as immutable and an unversioned URL would pin a stale
+ * file (see scripts/fonts/version.ts). */
 export function getFontFileURL(font: Font): string | undefined {
+    const filePath = getFontFilePath(font);
+    return filePath === undefined ? undefined : `${filePath}?v=${FontsVersion}`;
+}
+
+/** The static file path for a specific font file (weight/italic/range), or
+ * undefined if the face isn't supported. Mirrors scripts/fonts/files.ts. */
+export function getFontFilePath(font: Font): string | undefined {
     const face = Faces[font.name];
     if (face === undefined) return undefined;
     const rangeIndex =

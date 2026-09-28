@@ -23,7 +23,7 @@ function getFallbackFaceForScript(script: Script): FallbackFace | undefined {
 }
 
 /** The URLs of the font file(s) declared for the given face and range index,
- *  one per weight file, mirroring the naming scheme of getFontFileURL. */
+ *  one per weight file, mirroring the naming scheme of getFontFilePath. */
 function getFallbackFontFileURLs(
     face: FallbackFace,
     rangeIndex: number,
@@ -200,7 +200,7 @@ describe('CSS and TS artifacts stay in sync', () => {
             const body = block[1]!;
             const family = body.match(/font-family:\s*'([^']+)';/)?.[1];
             const weight = body.match(/font-weight:\s*([^;]+);/)?.[1]?.trim();
-            const url = body.match(/src:\s*url\(([^)]+)\)/)?.[1];
+            const url = body.match(/src:\s*url\(([^)?]+)/)?.[1];
             const range = body
                 .match(/unicode-range:\s*([^;]+);/)?.[1]
                 ?.replaceAll(/\s+/g, ' ')

@@ -9,10 +9,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - 🤝 You can now share a how-to in another gallery you curate, and it stays one how-to, so edits, reactions, and comments show up everywhere it is shared. (#1065)
+- 🫝 You can now use the nine new emoji from Unicode 18, like 🪌 eraser, 🪋 meteor, and 🫝 pickle, and find them by name in every language.
 
 ### Changed
 
 - 📖 An open how-to now shows who wrote it, then the answers, then reactions and comments, then where it is shared, with each part in its own section.
+- 🪌 The eraser tool and the clear buttons in the character editor now show an eraser, and the Catch example now shows a net.
+- ⚡ Emoji now load faster in Safari, and your browser now keeps fonts between visits instead of fetching them again.
 
 ### Fixed
 

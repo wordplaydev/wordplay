@@ -55,7 +55,8 @@ export function parseCssRanges(): Map<string, string> {
         for (const block of css.matchAll(/@font-face\s*\{([^}]*)\}/g)) {
             // The pattern's only group is not optional.
             const body = must(block[1], 'a @font-face body');
-            const url = body.match(/src:\s*url\(([^)]+)\)/)?.[1];
+            // Stop at `?`: served URLs carry the fonts version (version.ts).
+            const url = body.match(/src:\s*url\(([^)?]+)/)?.[1];
             const range = body
                 .match(/unicode-range:\s*([^;]+);/)?.[1]
                 ?.replaceAll(/\s+/g, ' ')

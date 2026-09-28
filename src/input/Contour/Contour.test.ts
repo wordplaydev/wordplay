@@ -2,7 +2,8 @@ import { expect, test } from 'vitest';
 import type { PathCommand } from 'fontkit';
 import { must } from '@util/nullable';
 import { glyphPathToPlaces } from '@input/Contour/Contour';
-import { Faces, getFontFileURL } from '@basis/faces/Fonts';
+import { Faces, getFontFilePath, getFontFileURL } from '@basis/faces/Fonts';
+import { FontsVersion } from '@basis/faces/faces.generated';
 import evaluateCode from '@runtime/evaluate';
 
 test('Contour evaluates to an empty list with no fonts loaded', () => {
@@ -97,10 +98,10 @@ test('glyphPathToPlaces traces the closing edge back to the start', () => {
     expect(points[points.length - 1]).toEqual({ x: 0, y: 0 });
 });
 
-test('getFontFileURL builds fixed-weight, italic, and range file paths', () => {
+test('getFontFilePath builds fixed-weight, italic, and range file paths', () => {
     // Fixed single weight, no range.
     expect(
-        getFontFileURL({
+        getFontFilePath({
             name: 'Pacifico',
             weight: 400,
             italic: false,
@@ -111,7 +112,7 @@ test('getFontFileURL builds fixed-weight, italic, and range file paths', () => {
 
     // Italic adds the -italic suffix.
     expect(
-        getFontFileURL({
+        getFontFilePath({
             name: 'Pacifico',
             weight: 400,
             italic: true,
@@ -124,7 +125,7 @@ test('getFontFileURL builds fixed-weight, italic, and range file paths', () => {
     const ranges = must(Faces['Noto Sans'], 'the Noto Sans face').ranges;
     const range = Array.isArray(ranges) ? ranges[7] : undefined;
     expect(
-        getFontFileURL({
+        getFontFilePath({
             name: 'Noto Sans',
             weight: 400,
             italic: false,
@@ -134,9 +135,9 @@ test('getFontFileURL builds fixed-weight, italic, and range file paths', () => {
     ).toBe('/fonts/NotoSans/NotoSans-400-7.woff2');
 });
 
-test('getFontFileURL uses -all for variable-weight faces', () => {
+test('getFontFilePath uses -all for variable-weight faces', () => {
     expect(
-        getFontFileURL({
+        getFontFilePath({
             name: 'Quicksand',
             weight: 400,
             italic: false,
@@ -144,4 +145,18 @@ test('getFontFileURL uses -all for variable-weight faces', () => {
             range: undefined,
         }),
     ).toBe('/fonts/Quicksand/Quicksand-all.woff2');
+});
+
+test('getFontFileURL is the file path plus the fonts version', () => {
+    // /fonts/** is served immutable, so a fetched URL must carry the version.
+    expect(FontsVersion).toMatch(/^[0-9a-f]{12}$/);
+    expect(
+        getFontFileURL({
+            name: 'Pacifico',
+            weight: 400,
+            italic: false,
+            format: 'woff2',
+            range: undefined,
+        }),
+    ).toBe(`/fonts/Pacifico/Pacifico-400.woff2?v=${FontsVersion}`);
 });
