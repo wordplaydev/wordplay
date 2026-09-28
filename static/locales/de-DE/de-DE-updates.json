@@ -1011,6 +1011,7 @@
         "eb608399ee8ad": "$~Das Radierwerkzeug und die Löschen-Knöpfe im Zeicheneditor zeigen jetzt einen Radiergummi, und das Fang-Beispiel zeigt jetzt ein Netz.",
         "e982ffd8b3a0b": "$~Emojis laden jetzt schneller in Safari, und dein Browser behält Schriftarten zwischen Besuchen, statt sie erneut herunterzuladen.",
         "e2222194ec679": "$~Eine Wie-man-Anleitung nennt die Person, die sie geschrieben hat, nicht mehr doppelt.",
-        "ea64e28744d1d": "$~Emojis stoßen jetzt anhand ihrer Form an Dinge an, wenn @Matter nach einem Umriss fragt, und Text liegt jetzt auf dem auf, was er berührt, statt einzusinken. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "ea64e28744d1d": "$~Emojis stoßen jetzt anhand ihrer Form an Dinge an, wenn @Matter nach einem Umriss fragt, und Text liegt jetzt auf dem auf, was er berührt, statt einzusinken. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Buchstaben, die sich an ihrer Umrisslinie berühren, haben jetzt Platz im Inneren. So können kleine Dinge in einem O herumhüpfen. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

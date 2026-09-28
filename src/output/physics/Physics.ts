@@ -29,7 +29,7 @@ import {
     getGlyphOutline,
     glyphColliderDesc,
     outlineKey,
-    type OutlineLoops,
+    type OutlineMesh,
 } from '@output/physics/glyphOutline';
 import { layoutToCSS } from '@locale/Scripts';
 import { splitCharacterRefs } from '@output/Output/splitCharacterRefs';
@@ -1072,7 +1072,7 @@ const ShapeInteractionGroups =
 /** What a body needs in order to collide by its glyph outline. */
 type GlyphOutline = {
     key: string;
-    loops: OutlineLoops;
+    mesh: OutlineMesh;
     /** The phrase's em size, in meters: what the outline's em units scale by. */
     size: number;
     /** Distance from the top of the bounding box down to the baseline as
@@ -1124,8 +1124,8 @@ function glyphOutlineFor(
         return undefined;
 
     const face = phrase.face ?? info.context.face;
-    const loops = getGlyphOutline(text.text, face, PlainWeight, false);
-    if (loops === undefined) return undefined;
+    const mesh = getGlyphOutline(text.text, face, PlainWeight, false);
+    if (mesh === undefined) return undefined;
 
     const { height } = phrase.getLayout(info.context);
     const aboveBottom = phrase.getBaselineOffset(info.context);
@@ -1133,7 +1133,7 @@ function glyphOutlineFor(
 
     return {
         key: outlineKey(text.text, face, PlainWeight, false),
-        loops,
+        mesh,
         size: phrase.size ?? info.context.size,
         baseline: height - aboveBottom,
     };
@@ -1330,7 +1330,7 @@ export class OutputBody {
                     ((outline
                         ? glyphColliderDesc(
                               RAPIER,
-                              outline.loops,
+                              outline.mesh,
                               outline.size,
                               width,
                               height,

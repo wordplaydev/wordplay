@@ -1011,6 +1011,7 @@
         "eb608399ee8ad": "$~Narzędzie gumki i przyciski czyszczenia w edytorze znaków pokazują teraz gumkę, a przykład Catch pokazuje teraz siatkę.",
         "e982ffd8b3a0b": "$~Emoji wczytują się teraz szybciej w Safari, a przeglądarka zapamiętuje teraz czcionki między odwiedzinami, zamiast pobierać je ponownie.",
         "e2222194ec679": "$~Poradnik „jak” nie pokazuje już dwa razy osoby, która go napisała.",
-        "ea64e28744d1d": "$~Emoji zderzają się teraz ze sobą według swojego kształtu, gdy @Matter prosi o kontur, a tekst teraz opiera się na tym, czego dotyka, zamiast się w to zapadać. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "ea64e28744d1d": "$~Emoji zderzają się teraz ze sobą według swojego kształtu, gdy @Matter prosi o kontur, a tekst teraz opiera się na tym, czego dotyka, zamiast się w to zapadać. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Litery, które stykają się swoim konturem, mają teraz miejsce w środku, więc małe rzeczy mogą odbijać się wewnątrz litery O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

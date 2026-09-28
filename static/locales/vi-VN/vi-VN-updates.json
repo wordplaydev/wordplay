@@ -1011,6 +1011,7 @@
         "eb608399ee8ad": "$~Công cụ tẩy và các nút xóa trong trình soạn thảo ký tự giờ đây hiển thị hình cục tẩy, và ví dụ Catch giờ đây hiển thị hình một cái lưới.",
         "e982ffd8b3a0b": "$~Biểu tượng cảm xúc giờ đây tải nhanh hơn trên Safari, và trình duyệt của bạn giờ đây giữ lại phông chữ giữa các lần truy cập thay vì tải lại chúng.",
         "e2222194ec679": "$~Một làm cách nào để không còn liệt kê người viết nó hai lần nữa.",
-        "ea64e28744d1d": "$~Biểu tượng cảm xúc giờ đây va chạm với các vật khác theo đúng hình dạng của chúng khi @Matter yêu cầu đường viền, và văn bản giờ đây nằm lên trên thứ nó chạm vào thay vì chìm vào trong. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "ea64e28744d1d": "$~Biểu tượng cảm xúc giờ đây va chạm với các vật khác theo đúng hình dạng của chúng khi @Matter yêu cầu đường viền, và văn bản giờ đây nằm lên trên thứ nó chạm vào thay vì chìm vào trong. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Các chữ cái va chạm theo đường viền của chúng giờ đây có khoảng trống bên trong, nên những vật nhỏ có thể nảy qua nảy lại bên trong chữ O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

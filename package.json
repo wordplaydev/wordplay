@@ -136,6 +136,7 @@
         "decimal.js": "^10",
         "dexie": "^4",
         "dotenv": "^18",
+        "earcut": "^3.2.3",
         "firebase": "^12",
         "fontkit": "^2",
         "highlight.js": "^11",

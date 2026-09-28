@@ -1011,6 +1011,7 @@
         "eb608399ee8ad": "$~Unealta radieră și butoanele de ștergere din editorul de caractere arată acum o radieră, iar exemplul Catch arată acum o plasă.",
         "e982ffd8b3a0b": "$~Emoji se încarcă acum mai repede în Safari, iar browserul tău păstrează acum fonturile între vizite, în loc să le descarce din nou.",
         "e2222194ec679": "$~Niște instrucțiuni nu mai arată de două ori numele persoanei care le-a scris.",
-        "ea64e28744d1d": "$~Emoji se lovesc acum de alte lucruri după forma lor atunci când @Matter cere un contur, iar textul stă acum deasupra a ceea ce atinge, în loc să se scufunde în el. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "ea64e28744d1d": "$~Emoji se lovesc acum de alte lucruri după forma lor atunci când @Matter cere un contur, iar textul stă acum deasupra a ceea ce atinge, în loc să se scufunde în el. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Literele care se ating prin conturul lor au acum spațiu în interior, astfel încât lucruri mici pot să sară în interiorul unui O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

@@ -1011,6 +1011,7 @@
         "eb608399ee8ad": "$~Suddgummi-verktyget och rensa-knapparna i teckenredigeraren visar nu ett suddgummi, och exemplet Catch visar nu ett nät.",
         "e982ffd8b3a0b": "$~Emojier laddas nu snabbare i Safari, och din webbläsare sparar nu typsnitt mellan besök istället för att hämta dem på nytt.",
         "e2222194ec679": "$~En hur man visar inte längre personen som skrev den två gånger.",
-        "ea64e28744d1d": "$~Emojier stöter nu emot saker efter sin form när @Matter ber om en kontur, och text vilar nu på det den rör vid istället för att sjunka in i det. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "ea64e28744d1d": "$~Emojier stöter nu emot saker efter sin form när @Matter ber om en kontur, och text vilar nu på det den rör vid istället för att sjunka in i det. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Bokstäver som stöter mot varandra med sin kontur har nu plats inuti sig, så små saker kan studsa runt inuti ett O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

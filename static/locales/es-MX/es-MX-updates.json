@@ -1011,6 +1011,7 @@
         "eb608399ee8ad": "$~La herramienta de borrador y los botones de limpiar en el editor de caracteres ahora muestran un borrador, y el ejemplo de Atrapar ahora muestra una red.",
         "e982ffd8b3a0b": "$~Los emoji ahora cargan más rápido en Safari, y tu navegador ahora guarda las fuentes entre visitas en lugar de descargarlas otra vez.",
         "e2222194ec679": "$~Una guía práctica ya no muestra dos veces a la persona que la escribió.",
-        "ea64e28744d1d": "$~Los emoji ahora chocan con las cosas según su forma cuando @Matter pide un contorno, y el texto ahora se apoya sobre lo que toca en lugar de hundirse. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "ea64e28744d1d": "$~Los emoji ahora chocan con las cosas según su forma cuando @Matter pide un contorno, y el texto ahora se apoya sobre lo que toca en lugar de hundirse. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Las letras que chocan por su contorno ahora tienen espacio adentro, así que las cosas pequeñas pueden rebotar dentro de una O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

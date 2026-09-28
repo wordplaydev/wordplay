@@ -1011,6 +1011,7 @@
         "eb608399ee8ad": "$~L'outil gomme et les boutons d'effacement dans l'éditeur de caractères montrent maintenant une gomme, et l'exemple Attrape montre maintenant un filet.",
         "e982ffd8b3a0b": "$~Les émojis se chargent maintenant plus vite dans Safari, et votre navigateur garde maintenant les polices d'une visite à l'autre au lieu de les retélécharger.",
         "e2222194ec679": "$~Un comment faire n'indique plus deux fois le nom de la personne qui l'a écrit.",
-        "ea64e28744d1d": "$~Les émojis se cognent maintenant contre les objets selon leur forme quand @Matter demande un contour, et le texte repose maintenant sur ce qu'il touche au lieu de s'y enfoncer. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "ea64e28744d1d": "$~Les émojis se cognent maintenant contre les objets selon leur forme quand @Matter demande un contour, et le texte repose maintenant sur ce qu'il touche au lieu de s'y enfoncer. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Les lettres qui se touchent par leur contour ont maintenant de la place à l'intérieur, alors de petites choses peuvent rebondir à l'intérieur d'un O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

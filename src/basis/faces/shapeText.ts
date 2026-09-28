@@ -28,6 +28,9 @@ export type ShapedGlyph = {
     xEm: number;
     /** Vertical position of this glyph's origin, in em, y-up from the baseline. */
     yEm: number;
+    /** Whether this came from the emoji face, whose outline is a line drawing
+     *  of a picture the stage paints solid. */
+    emoji: boolean;
 };
 
 /** The face emoji outlines come from. It is monochrome with real `glyf`
@@ -173,6 +176,7 @@ export async function shapeTextGlyphs(
                 unitsPerEm,
                 xEm: penEm + position.xOffset / unitsPerEm,
                 yEm: position.yOffset / unitsPerEm,
+                emoji: run.face === OutlineEmojiFace,
             });
             penEm += position.xAdvance / unitsPerEm;
         }

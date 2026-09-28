@@ -1,11 +1,27 @@
 ⚽
 "Letter Pile"/en
 === start
-¶Five big letters tumble into a pile, then hearts and soccer balls rain down
-and settle into their bowls and hooks. The letters and hearts collide by the
-shape of their outlines rather than by the rectangles around them, which is
-what lets a ball come to rest inside the bowl of a letter instead of floating
-above it, and a heart wedge its point between two letters.¶
+¶A giant serif U is the bucket. Five big letters tumble into it, then hearts
+and soccer balls rain down and settle into their bowls and hooks. Everything
+collides by the shape of its outline rather than by the rectangle around it,
+which is what lets the U hold anything at all, a ball come to rest inside the
+bowl of a letter instead of floating above it, and a heart wedge its point
+between two letters.¶
+
+¶The bucket is a letter like the rest, in a serif face so its arms end in
+ledges. It needs a Motion to be solid, and so much mass that nothing landing
+in it can push it around. It stands on the floor between two walls that just
+touch its sides: its bottom is round, so without them it would rock over as
+the pile grows.¶
+cup: Phrase(
+	'U'
+	22m
+	face: "Merriweather"
+	name: "cup"
+	place: Motion(Place(-8.1m -11m))
+	color: Color(85% 10 250°)
+	matter: Matter(mass: 5000kg friction: 0.9 outline: ⊤)
+)
 
 ¶A heavy display face, because a fat letter has a bowl wide enough to catch a
 ball. The letters are chosen for their hooks and bowls.¶
@@ -23,11 +39,11 @@ pile: letters.translate(
 	ƒ(letter•'' index•#)
 		Phrase(
 			letter
-			4m
+			3m
 			face
 			name: "letter\index\"
 			place: Motion(
-				Place(((index × 0.6m) - 1.5m) ((index × 6m) + 1m))
+				Place(((index × 0.5m) - 2m) ((index × 5m) + 8m))
 			)
 			color: Color(75% 80 (index × 62°))
 			matter: Matter(mass: 60kg friction: 0.9 outline: ⊤)
@@ -43,7 +59,7 @@ hearts: ['🧡' '💛' '💚' '💙' '💜' '🩷'].translate(
 			2m
 			name: "heart\index\"
 			place: Motion(
-				Place(((index × 0.9m) - 2.5m) ((index × 1.5m) + 27m))
+				Place(((index × 0.6m) - 2.2m) ((index × 1.5m) + 34m))
 			)
 			matter: Matter(mass: 20kg friction: 0.8 outline: ⊤)
 		)
@@ -59,7 +75,7 @@ balls: 18 → [].translate(
 			1.1m
 			name: "ball\number\"
 			place: Motion(
-				Place(Random(-3m 3m) ((number × 1.8m) + 34m))
+				Place(Random(-2m 2m) ((number × 1.8m) + 44m))
 				Velocity(Random(-1m/s 1m/s) 0m/s)
 			)
 			matter: Matter(bounciness: 0.3 friction: 0.4 roundedness: 0.5)
@@ -68,18 +84,16 @@ balls: 18 → [].translate(
 
 Stage(
 	[
-		¶A shallow valley to settle in, and two walls. The floor is a Path
-		rather than a Rectangle because a barrier is always slippery — it keeps
-		the friction Matter.js gave it — so a flat one would let the pile slide
-		into a corner instead of gathering under the falling balls.¶
-		Shape(Path([Place(-6m -2.5m) Place(0m -5.5m) Place(6m -2.5m)]))
-		Shape(Rectangle(-7m 10m -6m -6m))
-		Shape(Rectangle(6m 10m 7m -6m))
+		¶A floor, and two walls against the bucket's sides.¶
+		Shape(Rectangle(-10m -11m 10m -12m))
+		Shape(Rectangle(-8.8m 12m -7.8m -11m))
+		Shape(Rectangle(7.8m 12m 8.8m -11m))
+		cup
 		:pile
 		:hearts
 		:balls
 	]
 	gravity: 9.8m/s^2
-	place: Place(0m 1m -10m)
+	place: Place(0m -1m -17m)
 	background: Color(25% 20 250°)
 )
