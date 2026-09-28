@@ -10,8 +10,9 @@ import { PX_PER_METER } from '@output/Output/outputToCSS';
 
 /** A glyph outline as closed contours, in **em units**, y-up from the baseline
  *  with x measured from the text's origin. Em units so one cache entry serves
- *  every size the same text is drawn at. The outer contour of an `o` and its
- *  counter are two separate loops, which is what keeps the counter hollow. */
+ *  every size the same text is drawn at. Only a glyph's outermost loops are
+ *  kept, since the decomposition fills a counter anyway (see
+ *  {@link outermostLoops}). */
 export type OutlineLoops = OutlinePoint[][];
 
 /** How far apart outline samples are, in em. A 1/64 em step is about 4px on a
@@ -44,7 +45,7 @@ const DecompositionParameters = { concavity: 0.01, resolution: 128 };
 export const glyphOutlinesGeneration = writable(0);
 
 /** Resolved outlines, keyed by outlineKey. `null` records a face/text that has
- *  no usable outline — a color emoji font, an unreachable file — so we ask for
+ *  no usable outline — an uncovered character, an unreachable file — so we ask for
  *  it once rather than on every sync. */
 const outlines = new Map<string, OutlineLoops | null>();
 
@@ -100,22 +101,22 @@ async function load(
             const all: OutlineLoops = [];
             let points = 0;
             for (const glyph of shaped) {
-                for (const loop of flattenGlyphLoops(
+                const loops = flattenGlyphLoops(
                     glyph.commands,
                     // Font units to em, so the loops are size-independent.
                     1 / glyph.unitsPerEm,
                     SPACING_EM,
                     glyph.xEm,
                     glyph.yEm,
-                )) {
                     // A loop of fewer than three points encloses nothing.
-                    if (loop.length < 3) continue;
+                ).filter((loop) => loop.length >= 3);
+                for (const loop of outermostLoops(loops)) {
                     points += loop.length;
                     all.push(loop);
                 }
             }
-            // No outline at all is a color emoji or an uncovered character;
-            // too many points is a phrase too long to be worth decomposing.
+            // No outline at all is an uncovered character; too many points is
+            // a phrase too long to be worth decomposing.
             if (all.length > 0 && points <= MAX_POINTS) loops = all;
         }
     } catch {
@@ -128,6 +129,41 @@ async function load(
     glyphOutlinesGeneration.update((generation) => generation + 1);
 }
 
+/** Whether a point lies inside a closed loop, by even-odd ray casting. */
+function insideLoop(point: OutlinePoint, loop: OutlinePoint[]): boolean {
+    let inside = false;
+    for (let i = 0, j = loop.length - 1; i < loop.length; j = i++) {
+        const a = loop[i];
+        const b = loop[j];
+        if (a === undefined || b === undefined) continue;
+        if (
+            a.y > point.y !== b.y > point.y &&
+            point.x < ((b.x - a.x) * (point.y - a.y)) / (b.y - a.y) + a.x
+        )
+            inside = !inside;
+    }
+    return inside;
+}
+
+/**
+ * The loops of one glyph that no other loop of it encloses. The decomposition
+ * fills every counter anyway, so a loop inside another shapes nothing; dropping
+ * them is what keeps an emoji — whose eyes, mouth and details are all loops —
+ * inside the point budget.
+ */
+export function outermostLoops(loops: OutlineLoops): OutlineLoops {
+    return loops.filter((loop, index) => {
+        const start = loop[0];
+        return (
+            start === undefined ||
+            !loops.some(
+                (other, otherIndex) =>
+                    otherIndex !== index && insideLoop(start, other),
+            )
+        );
+    });
+}
+
 /**
  * A collider matching the glyph outline, or undefined if it can't be built.
  *
@@ -137,7 +173,8 @@ async function load(
  * through itself. The decomposition is a compound of convex parts, which has
  * volume and collides with anything.
  *
- * `loops` are in em; `size`, `width`, `height` and `ascent` are in meters, and
+ * `loops` are in em; `size`, `width`, `height` and `baseline` (the painted
+ * baseline's depth below the box top) are in meters, and
  * the result is in the collider's local frame — engine pixels, y-down, centered
  * on the bounding box, which is where `OutputBody` puts every other collider.
  */
@@ -147,7 +184,7 @@ export function glyphColliderDesc(
     size: number,
     width: number,
     height: number,
-    ascent: number,
+    baseline: number,
 ): RAPIER.ColliderDesc | undefined {
     let count = 0;
     for (const loop of loops) count += loop.length;
@@ -162,11 +199,11 @@ export function glyphColliderDesc(
         const base = vertex;
         for (const point of loop) {
             vertices[vertex * 2] = (point.x * size - width / 2) * PX_PER_METER;
-            // The baseline sits `ascent` below the box top and the box center
-            // `height / 2` below it, so the baseline is `ascent - height / 2`
+            // The baseline sits `baseline` below the box top and the box center
+            // `height / 2` below it, so the baseline is `baseline - height / 2`
             // below center; a point `y` em above the baseline rises from there.
             vertices[vertex * 2 + 1] =
-                (ascent - height / 2 - point.y * size) * PX_PER_METER;
+                (baseline - height / 2 - point.y * size) * PX_PER_METER;
             indices[segment * 2] = vertex;
             indices[segment * 2 + 1] =
                 vertex + 1 === base + loop.length ? base : vertex + 1;

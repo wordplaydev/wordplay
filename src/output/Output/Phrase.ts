@@ -134,6 +134,15 @@ export type Metrics = {
     descent: number;
 };
 
+/** A phrase's metrics, plus how far its ink reaches above and below the
+ *  baseline in pixels. The box is not the ink: its height is the tallest single
+ *  word, and the text is painted by font metrics within it, so physics reads
+ *  these to collide with what is drawn. */
+export type PhraseMetrics = Metrics & {
+    inkAscent: number;
+    inkDescent: number;
+};
+
 export default class Phrase extends Output {
     readonly text: TextValue | MarkupValue;
     /** The localized name of the effect to play when the text changes, or undefined for an instant change. */
@@ -147,7 +156,7 @@ export default class Phrase extends Output {
     readonly aura: Aura | undefined;
     readonly bubble: Bubble | undefined;
 
-    private _metrics: Metrics | undefined = undefined;
+    private _metrics: PhraseMetrics | undefined = undefined;
     /** The effective layout the cached metrics were computed for, so we can
      *  recompute when an inherited (undefined-direction) layout changes. */
     private _metricsLayout: WritingLayout | undefined = undefined;
@@ -236,7 +245,7 @@ export default class Phrase extends Output {
         this._metrics = undefined;
     }
 
-    getMetrics(context: RenderContext, parsed = true) {
+    getMetrics(context: RenderContext, parsed = true): PhraseMetrics {
         // The effective layout: the Phrase's explicit one, or the render
         // context's inherited layout (the resolved writingLayout setting).
         const layout = this.direction
@@ -301,7 +310,7 @@ export default class Phrase extends Output {
         });
 
         let { width, height } = measured;
-        let { ascent, descent } = measured;
+        let { ascent, descent, inkAscent, inkDescent } = measured;
 
         // Wrapping? The width is specified; we just need to compute the height.
         if (maxWidth !== undefined) {
@@ -327,9 +336,18 @@ export default class Phrase extends Output {
             height = horizontal ? line : line / 2;
             ascent = height;
             descent = 0;
+            inkAscent = height;
+            inkDescent = 0;
         }
 
-        const dimensions = { width, height, ascent, descent };
+        const dimensions = {
+            width,
+            height,
+            ascent,
+            descent,
+            inkAscent,
+            inkDescent,
+        };
         // Cache the metrics with the layout and font load generation they
         // were computed at; if fonts were still downloading, the next
         // loadingdone event invalidates this cache and they recompute.

@@ -3,6 +3,7 @@ import { PX_PER_METER } from '@output/Output/outputToCSS';
 import { FIXED_STEP_MS } from '@output/physics/Physics';
 import {
     glyphColliderDesc,
+    outermostLoops,
     type OutlineLoops,
 } from '@output/physics/glyphOutline';
 import { must } from '@util/nullable';
@@ -56,8 +57,8 @@ const RingLoops: OutlineLoops = [
 
 /** A world holding one fixed body with the given loops as its collider, at the
  *  given em size. The box is the ink exactly — 1em square with the baseline at
- *  its bottom, so ascent is the full height — which puts the baseline half a
- *  box below center and the top of the ink half a box above it.
+ *  its bottom, so the baseline is the full height below the top — which puts
+ *  it half a box below center and the top of the ink half a box above it.
  *
  *  Engine y is negated stage y, so it grows downward and gravity is positive. */
 function glyphWorld(loops: OutlineLoops, size: number) {
@@ -196,6 +197,35 @@ test('a counter is filled in, which is the approximation this makes', () => {
     // the collider worth having.
     expect(collider.containsPoint({ x: 0, y: -1.5 * PX_PER_METER })).toBe(true);
     expect(collider.containsPoint({ x: 0, y: -3 * PX_PER_METER })).toBe(false);
+});
+
+test('only outermost loops are kept, since a counter is filled either way', () => {
+    // An emoji's eyes and mouth are loops inside its face; keeping them would
+    // put two or three emoji over the point budget for no change in shape.
+    expect(outermostLoops(RingLoops)).toEqual([RingLoops[0]]);
+    const whole = glyphWorld(RingLoops, 4).world.colliders.getAll()[0];
+    const outer = glyphWorld(
+        outermostLoops(RingLoops),
+        4,
+    ).world.colliders.getAll()[0];
+    for (const point of [
+        { x: 0, y: 0 },
+        { x: 0, y: -1.5 * PX_PER_METER },
+        { x: 0, y: -3 * PX_PER_METER },
+    ])
+        expect(must(outer, 'outer').containsPoint(point)).toBe(
+            must(whole, 'whole').containsPoint(point),
+        );
+});
+
+test('loops side by side are all outermost', () => {
+    const square = (x: number) => [
+        { x, y: 0 },
+        { x: x + 1, y: 0 },
+        { x: x + 1, y: 1 },
+        { x, y: 1 },
+    ];
+    expect(outermostLoops([square(0), square(2)])).toHaveLength(2);
 });
 
 test('an outline with nothing in it builds no collider', () => {

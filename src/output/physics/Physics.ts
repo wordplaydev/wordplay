@@ -437,7 +437,8 @@ export default class Physics {
                         shape === undefined ||
                         shape.width !== info.width ||
                         shape.height !== info.height ||
-                        shape.outlineKey !== wantedOutline
+                        shape.outlineKey !== wantedOutline ||
+                        shape.inkKey !== inkKey(inkBoxFor(info))
                     ) {
                         // Get the world for this z depth
                         const world = this.getWorldAtZ(info.global.z);
@@ -947,6 +948,7 @@ export default class Physics {
             // arrived. Its key travels with the body so sync can tell that this
             // one was built before the outline existed.
             glyphOutlineFor(info, matter),
+            inkBoxFor(info),
         );
     }
 
@@ -1073,9 +1075,11 @@ type GlyphOutline = {
     loops: OutlineLoops;
     /** The phrase's em size, in meters: what the outline's em units scale by. */
     size: number;
-    /** Distance from the top of the bounding box down to the baseline, in
-     *  meters, which is what places the outline inside the box. */
-    ascent: number;
+    /** Distance from the top of the bounding box down to the baseline as
+     *  PhraseView paints it, in meters, which is what places the outline
+     *  inside the box. Not the font's ascent: the box is only as tall as the
+     *  ink, so its negative half-leading raises the baseline above that. */
+    baseline: number;
 };
 
 /** Plain text measures with no weight or slant of its own (see Phrase's
@@ -1123,12 +1127,57 @@ function glyphOutlineFor(
     const loops = getGlyphOutline(text.text, face, PlainWeight, false);
     if (loops === undefined) return undefined;
 
+    const { height } = phrase.getLayout(info.context);
+    const aboveBottom = phrase.getBaselineOffset(info.context);
+    if (aboveBottom === undefined) return undefined;
+
     return {
         key: outlineKey(text.text, face, PlainWeight, false),
         loops,
         size: phrase.size ?? info.context.size,
-        ascent: phrase.getLayout(info.context).ascent,
+        baseline: height - aboveBottom,
     };
+}
+
+/** Where a phrase's ink sits in its box, in meters: how tall it is, and how far
+ *  its center lies below the box's center. */
+type InkBox = { height: number; offset: number };
+
+/**
+ * The box a phrase's ink occupies, when that differs from its layout box.
+ *
+ * The layout box is as tall as the tallest single word, but PhraseView paints
+ * the text by font metrics inside it, so the ink hangs below it by up to a
+ * tenth of an em, and a phrase whose words split the ascender and descender
+ * between them has ink taller than the box. Colliding with the ink is what
+ * stops text sinking into what it rests on. Only one upright line is measured
+ * this way; a wrapped or vertical phrase keeps its layout box.
+ */
+function inkBoxFor(info: OutputInfo): InkBox | undefined {
+    const phrase = info.output;
+    if (!(phrase instanceof Phrase) || phrase.wrap !== undefined)
+        return undefined;
+    const aboveBottom = phrase.getBaselineOffset(info.context);
+    if (aboveBottom === undefined) return undefined;
+    const { height, inkAscent, inkDescent } = phrase.getMetrics(info.context);
+    const inkHeight = (inkAscent + inkDescent) / PX_PER_METER;
+    if (inkHeight <= 0) return undefined;
+    const boxHeight = height / PX_PER_METER;
+    const baselineFromTop = boxHeight - aboveBottom;
+    return {
+        height: inkHeight,
+        offset:
+            baselineFromTop +
+            (inkDescent - inkAscent) / 2 / PX_PER_METER -
+            boxHeight / 2,
+    };
+}
+
+/** Identifies an ink box, so sync can tell when a body was built around a
+ *  different one — fonts arriving change the ink without always changing the
+ *  box. */
+function inkKey(ink: InkBox | undefined) {
+    return ink === undefined ? undefined : `${ink.height}:${ink.offset}`;
 }
 
 /** A rounded rectangle collider matching the old Matter chamfer: the border
@@ -1229,6 +1278,8 @@ export class OutputBody {
     /** Which glyph outline this body was built with, if any. Compared in sync
      *  so a body built before its outline arrived is rebuilt with it. */
     readonly outlineKey: string | undefined;
+    /** Which ink box this body was built around, if any; see inkBoxFor. */
+    readonly inkKey: string | undefined;
     constructor(
         world: RAPIER.World,
         name: string,
@@ -1242,6 +1293,7 @@ export class OutputBody {
         detectable: boolean,
         form: Form | undefined,
         outline: GlyphOutline | undefined,
+        ink: InkBox | undefined = undefined,
     ) {
         // Constructed only from Physics.createOutputBody, past the load gate.
         const RAPIER = getRapier();
@@ -1282,10 +1334,17 @@ export class OutputBody {
                               outline.size,
                               width,
                               height,
-                              outline.ascent,
+                              outline.baseline,
                           )
                         : undefined) ??
-                    roundCuboidDesc(RAPIER, width, height, corner));
+                    (ink
+                        ? roundCuboidDesc(
+                              RAPIER,
+                              width,
+                              ink.height,
+                              corner,
+                          ).setTranslation(0, ink.offset * PX_PER_METER)
+                        : roundCuboidDesc(RAPIER, width, height, corner)));
 
         this.collider = world.createCollider(
             desc
@@ -1314,6 +1373,7 @@ export class OutputBody {
         this.width = width;
         this.height = height;
         this.outlineKey = outline?.key;
+        this.inkKey = inkKey(ink);
     }
 
     /** Convert a Place position into an engine position (bounding-box center). */

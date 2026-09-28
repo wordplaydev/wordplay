@@ -1,5 +1,6 @@
 import type { PathCommand } from 'fontkit';
 import { asPathOp } from '@input/pathCommands';
+import { hasColorCombo, hasEmoji } from '@unicode/emoji';
 import {
     Faces,
     getContourFont,
@@ -29,6 +30,84 @@ export type ShapedGlyph = {
     yEm: number;
 };
 
+/** The face emoji outlines come from. It is monochrome with real `glyf`
+ *  outlines, and its `ccmp` ligates ZWJ, flag and keycap sequences into single
+ *  glyphs; the color faces have no outlines fontkit can read (COLRv1 and OT-SVG
+ *  both draw their pictures outside `glyf`). */
+const OutlineEmojiFace = 'Noto Emoji';
+
+/** A run of text that one font file shapes. */
+export type ShapeRun = {
+    face: string;
+    range: string | undefined;
+    text: string;
+};
+
+/** The range file of `face` covering this codepoint: the range string for a
+ *  face split across several files, `undefined` for a face that is one file,
+ *  and `false` when the face doesn't cover it. */
+function rangeFor(face: string, codepoint: number): string | undefined | false {
+    const ranges = Faces[face]?.ranges;
+    if (Array.isArray(ranges))
+        return ranges.find((r) => rangeContains(r, codepoint)) ?? false;
+    if (typeof ranges === 'string')
+        return rangeContains(ranges, codepoint) ? undefined : false;
+    return undefined;
+}
+
+/**
+ * Group text into runs that one font file can shape (with kerning), mirroring
+ * the browser's fallback closely enough that the outline sits where the text
+ * is drawn. An emoji the face doesn't draw falls to the monochrome emoji face,
+ * a whole grapheme at a time so a sequence stays one ligature; a keycap or
+ * text-presentation emoji always does, since the stage draws both from that
+ * face's stacks. Anything else the face doesn't cover is skipped.
+ */
+export function planShapeRuns(text: string, face: string): ShapeRun[] {
+    // The color face's files have no outlines, and it has no single file at
+    // the path its string range implies, so trace its silhouettes instead.
+    if (face === 'Noto Color Emoji') face = OutlineEmojiFace;
+
+    const runs: ShapeRun[] = [];
+    const add = (runFace: string, range: string | undefined, part: string) => {
+        const last = runs.at(-1);
+        if (last !== undefined && last.face === runFace && last.range === range)
+            last.text += part;
+        else runs.push({ face: runFace, range, text: part });
+    };
+
+    const segmenter = new Intl.Segmenter(undefined, {
+        granularity: 'grapheme',
+    });
+    for (const { segment } of segmenter.segment(text)) {
+        const first = segment.codePointAt(0);
+        if (first === undefined) continue;
+        const forced =
+            hasColorCombo(segment) ||
+            (segment.includes('︎') && hasEmoji(segment));
+        const covered = rangeFor(face, first) !== false;
+        const emoji =
+            forced ||
+            (face === OutlineEmojiFace
+                ? covered
+                : !covered && rangeFor(OutlineEmojiFace, first) !== false);
+        if (emoji) {
+            add(OutlineEmojiFace, undefined, segment);
+            continue;
+        }
+        // Per codepoint, as before: a grapheme's marks may live in another of
+        // the face's range files.
+        for (const char of Array.from(segment)) {
+            const codepoint = char.codePointAt(0);
+            if (codepoint === undefined) continue;
+            const range = rangeFor(face, codepoint);
+            if (range === false) continue;
+            add(face, range, char);
+        }
+    }
+    return runs;
+}
+
 /**
  * Shape text into positioned glyph outlines, applying each font's own kerning.
  *
@@ -38,11 +117,10 @@ export type ShapedGlyph = {
  * reports `unsupported`/`uncovered` — three things only it wants, and folding
  * them in here would make one function answer two contracts.
  *
- * Characters are grouped into runs by the range file that covers them, so each
- * run is shaped by a single font; characters the face doesn't cover are
- * skipped, as are runs whose font isn't loadable here (no browser). A load
- * *failure* is returned so a caller that reports font errors can, and a caller
- * that would rather degrade silently can ignore it.
+ * Runs come from {@link planShapeRuns}; runs whose font isn't loadable here (no
+ * browser) contribute nothing. A load *failure* is returned so a caller that
+ * reports font errors can, and a caller that would rather degrade silently can
+ * ignore it.
  */
 export async function shapeTextGlyphs(
     text: string,
@@ -50,42 +128,18 @@ export async function shapeTextGlyphs(
     weight: number,
     italics: boolean,
 ): Promise<ShapedGlyph[] | ShapeTextError> {
-    const faceData = Faces[face];
-    if (faceData === undefined) return [];
-
-    const useItalic = italics && faceData.italic;
-    const useWeight = resolveWeight(faceData, weight);
-
-    // Group consecutive characters by the range file that covers them, so each
-    // run can be shaped (with kerning) by a single font. Characters the face
-    // doesn't cover are skipped.
-    const runs: { range: string | undefined; text: string }[] = [];
-    for (const char of Array.from(text)) {
-        const codepoint = char.codePointAt(0);
-        if (codepoint === undefined) continue;
-
-        let range: string | undefined;
-        if (Array.isArray(faceData.ranges)) {
-            const found = faceData.ranges.find((r) =>
-                rangeContains(r, codepoint),
-            );
-            if (found === undefined) continue;
-            range = found;
-        }
-
-        const last = runs.at(-1);
-        if (last !== undefined && last.range === range) last.text += char;
-        else runs.push({ range, text: char });
-    }
+    if (Faces[face] === undefined) return [];
 
     const glyphs: ShapedGlyph[] = [];
     let penEm = 0;
 
-    for (const run of runs) {
+    for (const run of planShapeRuns(text, face)) {
+        const faceData = Faces[run.face];
+        if (faceData === undefined) continue;
         const font = await getContourFont(
-            face,
-            useWeight,
-            useItalic,
+            run.face,
+            resolveWeight(faceData, weight),
+            italics && faceData.italic,
             run.range,
         );
         // Nothing to load (no browser / unsupported): contribute no glyphs.

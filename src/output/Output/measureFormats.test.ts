@@ -1,12 +1,15 @@
 import { expect, test, vi } from 'vitest';
 
 // These run in node, which has no canvas. Ten pixels per character makes the
-// wrapping arithmetic checkable by hand. Precedent: contacts.test.ts.
+// wrapping arithmetic checkable by hand. Precedent: contacts.test.ts. 'T' and
+// 'y' carry their own ink: a cap with no descender, and a descender under an
+// x-height, so a phrase can hold ink taller than any one of its words.
+const Ink: Record<string, [number, number]> = { T: [12, 0], y: [6, 4] };
 vi.mock('@output/Output/getTextMetrics', () => ({
     default: (text: string) => ({
         width: text.length * 10,
-        actualBoundingBoxAscent: 8,
-        actualBoundingBoxDescent: 2,
+        actualBoundingBoxAscent: Ink[text.trim()]?.[0] ?? 8,
+        actualBoundingBoxDescent: Ink[text.trim()]?.[1] ?? 2,
         fontBoundingBoxAscent: 10,
         fontBoundingBoxDescent: 3,
     }),
@@ -72,4 +75,13 @@ test('a run with no text at all measures nothing', () => {
     expect(m.width).toBe(0);
     expect(m.lines).toBe(1);
     expect(m.longestLine).toBe(0);
+});
+
+test('ink spans the tallest and deepest words, which the height can understate', () => {
+    // 'T ' rises 12 and 'y' falls 4, so the ink is 16 tall, while the height is
+    // the tallest single word: 12. Physics collides with the ink.
+    const m = measure('T y', undefined);
+    expect(m.height).toBe(12);
+    expect(m.inkAscent).toBe(12);
+    expect(m.inkDescent).toBe(4);
 });

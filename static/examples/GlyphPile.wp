@@ -1,10 +1,11 @@
 ⚽
 "Letter Pile"/en
 === start
-¶Five big letters tumble into a pile, then soccer balls rain down and settle
-into their bowls and hooks. The letters collide by the shape of their outlines
-rather than by the rectangles around them, which is what lets a ball come to
-rest inside the bowl of the U instead of floating above it.¶
+¶Five big letters tumble into a pile, then hearts and soccer balls rain down
+and settle into their bowls and hooks. The letters and hearts collide by the
+shape of their outlines rather than by the rectangles around them, which is
+what lets a ball come to rest inside the bowl of a letter instead of floating
+above it, and a heart wedge its point between two letters.¶
 
 ¶A heavy display face, because a fat letter has a bowl wide enough to catch a
 ball. The letters are chosen for their hooks and bowls.¶
@@ -33,10 +34,24 @@ pile: letters.translate(
 		)
 )
 
+¶The hearts fall next. An emoji can ask for its outline too, so each heart
+collides by its shape: its point slips into the gaps a box would sit on top of.¶
+hearts: ['🧡' '💛' '💚' '💙' '💜' '🩷'].translate(
+	ƒ(heart•'' index•#)
+		Phrase(
+			heart
+			2m
+			name: "heart\index\"
+			place: Motion(
+				Place(((index × 0.9m) - 2.5m) ((index × 1.5m) + 27m))
+			)
+			matter: Matter(mass: 20kg friction: 0.8 outline: ⊤)
+		)
+)
+
 ¶The balls start above everything, so they arrive after the pile has settled.
-An emoji has no outline to trace — it is a little picture, not a letterform —
-so it keeps its rectangle, and rounding that rectangle all the way is what
-makes it roll.¶
+They don't ask for an outline: their rectangle, rounded all the way, is what
+makes them roll.¶
 balls: 18 → [].translate(
 	ƒ(number)
 		Phrase(
@@ -61,6 +76,7 @@ Stage(
 		Shape(Rectangle(-7m 10m -6m -6m))
 		Shape(Rectangle(6m 10m 7m -6m))
 		:pile
+		:hearts
 		:balls
 	]
 	gravity: 9.8m/s^2

@@ -1803,7 +1803,7 @@
                 "names": "pull"
             },
             "outline": {
-                "doc": "Whether to bump by the shape of my letters instead of by the rectangle around them. ⊤ means a small @Phrase can settle into the hook of a big one. Letters that have no shape to trace, like colorful emoji, keep their rectangle.",
+                "doc": "Whether to bump by the shape of my letters instead of by the rectangle around them. ⊤ means a small @Phrase can settle into the hook of a big one. Emoji bump by their shape too.",
                 "names": "outline"
             }
         },
