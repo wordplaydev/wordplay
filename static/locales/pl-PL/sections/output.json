@@ -1107,7 +1107,7 @@
                 "names": "$~ciągnij"
             },
             "outline": {
-                "doc": "$~Czy przesuwać na podstawie kształtu moich liter, a nie na podstawie prostokąta wokół nich. ⊤ znaczy, że małe @Phrase może wsunąć się w zakrzywienie dużej litery. Litery bez kształtu do naśladowania, @how kolorowe emoji, zachowują swój prostokąt.",
+                "doc": "$~Czy przesuwać na podstawie kształtu moich liter, a nie na podstawie prostokąta wokół nich. ⊤ znaczy, że małe @Phrase może wsunąć się w zakrzywienie dużej litery. To działa też z emoji.",
                 "names": "$~kontur"
             }
         },

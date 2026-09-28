@@ -1221,7 +1221,7 @@
                 "names": "$~tirer"
             },
             "outline": {
-                "doc": "$~Choisis si les collisions suivent la forme de mes lettres, plutôt que le rectangle autour d'elles. ⊤ veut dire qu'un petit @Phrase peut se glisser dans le creux d'un grand. Les lettres sans forme à tracer, comme les émojis colorés, gardent leur rectangle.",
+                "doc": "$~Choisis si les collisions suivent la forme de mes lettres, plutôt que le rectangle autour d'elles. ⊤ veut dire qu'un petit @Phrase peut se glisser dans le creux d'un grand. Cela marche aussi pour les émojis.",
                 "names": "$~contour"
             }
         },

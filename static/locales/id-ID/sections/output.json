@@ -1162,7 +1162,7 @@
                 "names": "$~tarik"
             },
             "outline": {
-                "doc": "$~Menentukan apakah tabrakan diukur dari bentuk huruf, bukan dari kotak yang mengelilinginya. ⊤ berarti huruf kecil seperti @Phrase bisa masuk ke ceruk huruf besar. Huruf yang tidak punya bentuk untuk dilacak, seperti emoji berwarna, tetap memakai bentuk kotaknya.",
+                "doc": "$~Menentukan apakah tabrakan diukur dari bentuk huruf, bukan dari kotak yang mengelilinginya. ⊤ berarti huruf kecil seperti @Phrase bisa masuk ke ceruk huruf besar. Ini juga berlaku untuk emoji.",
                 "names": "$~garisLuar"
             }
         },

@@ -1107,7 +1107,7 @@
                 "names": "$~jalar"
             },
             "outline": {
-                "doc": "$~Si el desplazamiento debe seguir la forma de mis letras en lugar del rectángulo que las rodea. ⊤ significa que una @Phrase pequeña puede acomodarse en el gancho de una grande. Las letras que no tienen forma que trazar, como los emoji de colores, conservan su rectángulo.",
+                "doc": "$~Si el desplazamiento debe seguir la forma de mis letras en lugar del rectángulo que las rodea. ⊤ significa que una @Phrase pequeña puede acomodarse en el gancho de una grande. Esto también funciona con emojis.",
                 "names": "$~contorno"
             }
         },
