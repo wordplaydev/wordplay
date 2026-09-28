@@ -1004,6 +1004,13 @@
         "eda0b3c8dcd02": "$~@Matter'deki yeni dış hat seçeneği, bir @Phrase'ın harflerinin şekline göre başka nesnelere çarpmasını sağlıyor. Böylece küçük bir harf, büyük bir harfin kıvrımına yerleşebiliyor. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e12253979005f": "$~<galleries@https://wordplay.dev/galleries> galerisine Harf Yığını adında yeni bir örnek ekledik. Bu örnekte futbol topları büyük harflerden oluşan bir yığının üzerine yağıyor ve kıvrımlarına yerleşiyor. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e49a3791305c4": "$~Arapça artık hâlâ İngilizce olan 120 isim için kendi kelimelerine sahip. Bunlar arasında @Matter, @Stage ve @Phrase'nin girdileri ile liste ve metin fonksiyonlarının parçaları da var.",
-        "e4c085dce5e87": "$~Bir @Motion'in hareket ettirdiği bir @Phrase, sözcükleri ya da boyutu değiştiğinde artık havada durup kalmıyor."
+        "e4c085dce5e87": "$~Bir @Motion'in hareket ettirdiği bir @Phrase, sözcükleri ya da boyutu değiştiğinde artık havada durup kalmıyor.",
+        "e64b889fc88a2": "$~Artık bir nasıl'ı hazırladığın başka bir galeride de paylaşabilirsin. Bu durumda tek bir nasıl olarak kalır, böylece yapılan düzenlemeler, tepkiler ve yorumlar paylaşıldığı her yerde görünür. (<1065@https://github.com/wordplaydev/wordplay/issues/1065>)",
+        "ee2200430309f": "$~Artık Unicode 18'den gelen dokuz yeni emojiyi kullanabilirsin: 🪌 silgi, 🪋 meteor ve 🫝 turşu gibi. Bunları her dilde isimleriyle bulabilirsin.",
+        "e6ccf73e4bbb9": "$~Açılan bir nasıl artık önce onu yazan kişiyi, sonra cevapları, sonra tepkileri ve yorumları, ardından nerede paylaşıldığını gösterir. Her bölüm kendi kısmında yer alır.",
+        "eb608399ee8ad": "$~Silgi aracı ve karakter düzenleyicideki temizle düğmeleri artık bir silgi gösteriyor, Catch örneği ise artık bir ağ gösteriyor.",
+        "e982ffd8b3a0b": "$~Emojiler artık Safari'de daha hızlı yükleniyor. Tarayıcın da yazı tiplerini artık her ziyaretinde yeniden indirmek yerine saklıyor.",
+        "e2222194ec679": "$~Bir nasıl artık onu yazan kişiyi iki kez listelemiyor.",
+        "ea64e28744d1d": "$~@Matter bir taslak istediğinde emojiler artık şekillerine göre nesnelere çarpıyor, metin ise artık değdiği şeye batmak yerine üzerinde duruyor. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

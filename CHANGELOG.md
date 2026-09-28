@@ -20,6 +20,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🐛 A how-to no longer lists the person who wrote it twice.
+- 🧲 Emoji now bump into things by their shape when @Matter asks for an outline, and text now rests on what it touches instead of sinking in. (#1435)
 
 ## 0.38.0 - 2026-09-22
 

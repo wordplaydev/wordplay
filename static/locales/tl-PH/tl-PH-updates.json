@@ -1004,6 +1004,13 @@
         "eda0b3c8dcd02": "$~Ang bagong pagpipiliang outline sa @Matter ay ginagawang bumangga ang @Phrase sa mga bagay ayon sa hugis ng mga titik nito, kaya ang isang maliit na titik ay maaaring umangkop sa kurba ng isang malaking titik. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e12253979005f": "$~Nagdagdag kami ng bagong halimbawa na tinatawag na Letter Pile sa <galleries@https://wordplay.dev/galleries>, kung saan umuulan ang mga bolang soccer sa ibabaw ng bunton ng malalaking titik at umaangkop sa mga kurba nito. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e49a3791305c4": "$~Ang Arabic ay may sarili na ngayong mga salita para sa 120 pangalan na nasa Ingles pa rin, tulad ng mga input ng @Matter, @Stage, at @Phrase, at ang mga bahagi ng mga function ng listahan at teksto.",
-        "e4c085dce5e87": "$~Ang isang @Phrase na ginagalaw ng isang @Motion ay hindi na tumitigil sa gitna ng hangin kapag nagbago ang mga salita o laki nito."
+        "e4c085dce5e87": "$~Ang isang @Phrase na ginagalaw ng isang @Motion ay hindi na tumitigil sa gitna ng hangin kapag nagbago ang mga salita o laki nito.",
+        "e64b889fc88a2": "$~Puwede mo na ngayong ibahagi ang isang kung paano gawin sa ibang gallery na inaalagaan mo, at mananatili itong iisang kung paano gawin, kaya ang mga pagbabago, reaksyon, at komento ay lalabas sa lahat ng lugar kung saan ito ibinahagi. (<1065@https://github.com/wordplaydev/wordplay/issues/1065>)",
+        "ee2200430309f": "$~Puwede mo na ngayong gamitin ang siyam na bagong emoji mula sa Unicode 18, tulad ng 🪌 pambura, 🪋 meteor, at 🫝 pickle, at hanapin ang mga ito sa pangalan sa bawat wika.",
+        "e6ccf73e4bbb9": "$~Ang bukas na kung paano gawin ay nagpapakita na ngayon kung sino ang sumulat nito, pagkatapos ang mga sagot, pagkatapos ang mga reaksyon at komento, pagkatapos kung saan ito ibinahagi, na ang bawat bahagi ay nasa sarili nitong seksyon.",
+        "eb608399ee8ad": "$~Ang kagamitang pambura at ang mga butones na malinis sa patnugutan ng karakter ay nagpapakita na ngayon ng isang pambura, at ang halimbawang Catch ay nagpapakita na ngayon ng isang lambat.",
+        "e982ffd8b3a0b": "$~Mas mabilis na ngayong lumo-load ang mga emoji sa Safari, at ang iyong browser ay itinatago na ngayon ang mga font sa pagitan ng mga pagbisita sa halip na kunin ulit ang mga ito.",
+        "e2222194ec679": "$~Hindi na ngayon nakalista nang dalawang beses sa isang kung paano gawin ang taong sumulat nito.",
+        "ea64e28744d1d": "$~Ang mga emoji ay bumabangga na ngayon sa mga bagay ayon sa hugis ng mga ito kapag humihingi ng balangkas si @Matter, at ang teksto ay dumadapo na ngayon sa kung ano ang hinahawakan nito sa halip na lumulubog dito. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

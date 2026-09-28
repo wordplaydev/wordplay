@@ -1004,6 +1004,13 @@
         "eda0b3c8dcd02": "$~A nova opção de contorno em @Matter faz com que um @Phrase esbarre nas coisas pela forma das suas letras, para que uma letra pequena se possa encaixar na curva de uma letra grande. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e12253979005f": "$~Adicionámos um novo exemplo chamado Monte de Letras à <galeria@https://wordplay.dev/galleries>, onde bolas de futebol caem sobre um monte de letras grandes e se encaixam nas suas curvas. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e49a3791305c4": "$~O árabe tem agora palavras próprias para 120 nomes que ainda estavam em inglês, como os parâmetros de @Matter, @Stage e @Phrase, e as partes das funções de listas e de texto.",
-        "e4c085dce5e87": "$~Um @Phrase que um @Motion está a mover já não para no ar quando as suas palavras ou o seu tamanho mudam."
+        "e4c085dce5e87": "$~Um @Phrase que um @Motion está a mover já não para no ar quando as suas palavras ou o seu tamanho mudam.",
+        "e64b889fc88a2": "$~Agora pode partilhar um como noutra galeria que também gere, e este mantém-se como um só como, de modo que as edições, reações e comentários aparecem em todos os locais onde é partilhado. (<1065@https://github.com/wordplaydev/wordplay/issues/1065>)",
+        "ee2200430309f": "$~Agora pode usar os nove novos emojis do Unicode 18, como 🪌 borracha, 🪋 meteoro e 🫝 pepino, e encontrá-los pelo nome em qualquer idioma.",
+        "e6ccf73e4bbb9": "$~Um como aberto mostra agora quem o escreveu, depois as respostas, depois as reações e comentários, e por fim onde está partilhado, cada parte na sua própria secção.",
+        "eb608399ee8ad": "$~A ferramenta de borracha e os botões de limpar no editor de carateres mostram agora uma borracha, e o exemplo Apanhar mostra agora uma rede.",
+        "e982ffd8b3a0b": "$~Os emojis carregam agora mais depressa no Safari, e o seu navegador mantém agora os tipos de letra entre visitas em vez de os voltar a obter.",
+        "e2222194ec679": "$~Um como já não mostra duas vezes a pessoa que o escreveu.",
+        "ea64e28744d1d": "$~Os emojis embatem agora em coisas de acordo com a sua forma quando @Matter pede um contorno, e o texto assenta agora sobre o que toca em vez de afundar. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }
