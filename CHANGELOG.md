@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - 🤝 You can now share a how-to in another gallery you curate, and it stays one how-to, so edits, reactions, and comments show up everywhere it is shared. (#1065)
+- 🧲 Letters that bump by their outline now have room inside them, so small things can bounce around inside an O. (#1435)
 - 🫝 You can now use the nine new emoji from Unicode 18, like 🪌 eraser, 🪋 meteor, and 🫝 pickle, and find them by name in every language.
 
 ### Changed
@@ -20,6 +21,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🐛 A how-to no longer lists the person who wrote it twice.
+- 🧲 Emoji now bump into things by their shape when @Matter asks for an outline, and text now rests on what it touches instead of sinking in. (#1435)
 
 ## 0.38.0 - 2026-09-22
 

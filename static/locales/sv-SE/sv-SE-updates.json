@@ -1004,6 +1004,14 @@
         "eda0b3c8dcd02": "$~Det nya konturalternativet i @Matter gör att en @Phrase stöter emot saker efter formen på sina bokstäver, så att en liten bokstav kan sätta sig in i en stor bokstavs böj. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e12253979005f": "$~Vi lade till ett nytt exempel som heter Bokstavshög i <galleriet@https://wordplay.dev/galleries>, där fotbollar regnar ner på en hög med stora bokstäver och lägger sig i deras böjar. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e49a3791305c4": "$~Arabiska har nu egna ord för 120 namn som fortfarande var på engelska, till exempel indata till @Matter, @Stage och @Phrase, samt delarna i list- och textfunktioner.",
-        "e4c085dce5e87": "$~En @Phrase som en @Motion flyttar stannar inte längre mitt i luften när dess ord eller storlek ändras."
+        "e4c085dce5e87": "$~En @Phrase som en @Motion flyttar stannar inte längre mitt i luften när dess ord eller storlek ändras.",
+        "e64b889fc88a2": "$~Nu kan du dela en hur man i ett annat galleri du sköter, och den förblir samma hur man. Det gör att ändringar, reaktioner och kommentarer visas överallt där den delas. (<1065@https://github.com/wordplaydev/wordplay/issues/1065>)",
+        "ee2200430309f": "$~Nu kan du använda de nio nya emojierna från Unicode 18, som 🪌 suddgummi, 🪋 meteor och 🫝 saltgurka, och hitta dem via namn på alla språk.",
+        "e6ccf73e4bbb9": "$~En öppnad hur man visar nu vem som skrev den, sedan svaren, sedan reaktioner och kommentarer, och slutligen var den är delad, med varje del i sin egen sektion.",
+        "eb608399ee8ad": "$~Suddgummi-verktyget och rensa-knapparna i teckenredigeraren visar nu ett suddgummi, och exemplet Catch visar nu ett nät.",
+        "e982ffd8b3a0b": "$~Emojier laddas nu snabbare i Safari, och din webbläsare sparar nu typsnitt mellan besök istället för att hämta dem på nytt.",
+        "e2222194ec679": "$~En hur man visar inte längre personen som skrev den två gånger.",
+        "ea64e28744d1d": "$~Emojier stöter nu emot saker efter sin form när @Matter ber om en kontur, och text vilar nu på det den rör vid istället för att sjunka in i det. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Bokstäver som stöter mot varandra med sin kontur har nu plats inuti sig, så små saker kan studsa runt inuti ett O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

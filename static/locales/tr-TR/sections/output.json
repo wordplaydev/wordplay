@@ -1107,7 +1107,7 @@
                 "names": "$~çek"
             },
             "outline": {
-                "doc": "$~Yer değiştirmenin, harflerin etrafındaki dikdörtgene göre mi yoksa harflerin kendi şekline göre mi yapılacağını belirler. ⊤ demek, küçük bir @Phrase'ın büyük bir harfin kancasına yerleşebileceği anlamına gelir. Renkli emojiler gibi çizilecek bir şekli olmayan harfler, dikdörtgenlerini korur.",
+                "doc": "$~Yer değiştirmenin, harflerin etrafındaki dikdörtgene göre mi yoksa harflerin kendi şekline göre mi yapılacağını belirler. ⊤ demek, küçük bir @Phrase'ın büyük bir harfin kancasına yerleşebileceği anlamına gelir. Bu, emoji için de geçerlidir.",
                 "names": "$~anahat"
             }
         },

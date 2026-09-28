@@ -23,6 +23,12 @@ export type FormatMetrics = {
     height: number;
     ascent: number;
     descent: number;
+    /** How far the last line's ink rises above and falls below its baseline:
+     *  the tallest and deepest of its segments, which `height` (the tallest
+     *  single segment) can understate when one word has the ascender and
+     *  another the descender. */
+    inkAscent: number;
+    inkDescent: number;
     /** The widest line produced, which is what a shrink-to-fit box measures. */
     longestLine: number;
     /** How many lines the run wrapped onto; at least 1. */
@@ -61,6 +67,8 @@ export default function measureFormats(
     let height = 0;
     let ascent = 0;
     let descent = 0;
+    let inkAscent = 0;
+    let inkDescent = 0;
     let totalHeight = 0;
     let longestLine = 0;
     let lines = 1;
@@ -90,6 +98,14 @@ export default function measureFormats(
                           metrics.actualBoundingBoxDescent,
                       height,
                   );
+            inkAscent = Math.max(
+                inkAscent,
+                isCharacter ? ascent : metrics.actualBoundingBoxAscent,
+            );
+            inkDescent = Math.max(
+                inkDescent,
+                isCharacter ? 0 : metrics.actualBoundingBoxDescent,
+            );
 
             if (maxWidth === undefined) {
                 width += metrics.width;
@@ -104,6 +120,8 @@ export default function measureFormats(
                         metrics.fontBoundingBoxAscent +
                         metrics.fontBoundingBoxDescent;
                     height = 0;
+                    inkAscent = 0;
+                    inkDescent = 0;
                     lines++;
                 }
                 width += metrics.width;
@@ -129,6 +147,8 @@ export default function measureFormats(
                         metrics.fontBoundingBoxAscent +
                         metrics.fontBoundingBoxDescent;
                     height = 0;
+                    inkAscent = 0;
+                    inkDescent = 0;
                     lines++;
                 }
                 width += metrics.width;
@@ -139,5 +159,15 @@ export default function measureFormats(
 
     longestLine = Math.max(longestLine, lineInk);
 
-    return { width, height, ascent, descent, longestLine, lines, totalHeight };
+    return {
+        width,
+        height,
+        ascent,
+        descent,
+        inkAscent,
+        inkDescent,
+        longestLine,
+        lines,
+        totalHeight,
+    };
 }

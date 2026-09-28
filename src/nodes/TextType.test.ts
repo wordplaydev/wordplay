@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { expect, test } from 'vitest';
+import { beforeAll, expect, test } from 'vitest';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import Project from '@db/projects/Project';
 import concretize from '@locale/concretize';
@@ -46,6 +46,19 @@ const es: LocaleText = JSON.parse(
 const zh: LocaleText = JSON.parse(
     readFileSync('static/locales/zh-CN/zh-CN.json', 'utf8'),
 );
+
+// The first project in these three locales builds each one's basis, which is
+// cached thereafter and takes seconds on a busy CI runner; build it here, under
+// the hook's budget, so the first case isn't timed on it.
+beforeAll(() => {
+    Project.make(
+        null,
+        'warm',
+        new Source('warm', ''),
+        [],
+        [en, es, zh],
+    ).analyze();
+});
 
 // Repro of github.com/wordplaydev/wordplay/issues/541: when a project's locales
 // have accumulated en + es + zh, the IncompatibleInput explanation for the

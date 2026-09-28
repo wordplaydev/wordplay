@@ -1221,7 +1221,7 @@
                 "names": "$~ziehen"
             },
             "outline": {
-                "doc": "$~Ob beim Stoßen die Form meiner Buchstaben genutzt wird statt des Rechtecks um sie herum. ⊤ bedeutet, dass sich ein kleines @Phrase in den Haken eines großen Buchstabens einfügen kann. Buchstaben ohne nachzeichenbare Form, wie bunte Emojis, behalten ihr Rechteck.",
+                "doc": "$~Ob beim Stoßen die Form meiner Buchstaben genutzt wird statt des Rechtecks um sie herum. ⊤ bedeutet, dass sich ein kleines @Phrase in den Haken eines großen Buchstabens einfügen kann. Das funktioniert auch bei Emojis.",
                 "names": "$~Umriss"
             }
         },

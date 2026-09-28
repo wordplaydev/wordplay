@@ -1107,7 +1107,7 @@
                 "names": "$~dra"
             },
             "outline": {
-                "doc": "$~Om bokstäverna ska knuffas efter formen på mina bokstäver istället för rektangeln runt dem. ⊤ betyder att en liten @Phrase kan sätta sig in i kroken på en stor bokstav. Bokstäver som saknar en form att följa, som färgglada emoji, håller kvar sin rektangel.",
+                "doc": "$~Om bokstäverna ska knuffas efter formen på mina bokstäver istället för rektangeln runt dem. ⊤ betyder att en liten @Phrase kan sätta sig in i kroken på en stor bokstav. Detta fungerar även för emoji.",
                 "names": "$~kontur"
             }
         },

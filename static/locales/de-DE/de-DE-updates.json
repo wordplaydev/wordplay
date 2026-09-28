@@ -1004,6 +1004,14 @@
         "eda0b3c8dcd02": "$~Die neue Umriss-Option in @Matter lässt einen @Phrase an der Form seiner Buchstaben anstoßen, sodass sich ein kleiner Buchstabe in die Rundung eines großen einfügen kann. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e12253979005f": "$~Wir haben ein neues Beispiel namens Buchstabenhaufen zu den <Galerien@https://wordplay.dev/galleries> hinzugefügt. Dort regnen Fußbälle auf einen Haufen großer Buchstaben und schmiegen sich in ihre Rundungen. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e49a3791305c4": "$~Arabisch hat jetzt eigene Wörter für 120 Namen, die noch auf Englisch waren, wie die Eingaben von @Matter, @Stage und @Phrase, sowie Teile von Listen- und Text-Funktionen.",
-        "e4c085dce5e87": "$~Ein @Phrase, das ein @Motion bewegt, bleibt jetzt nicht mehr mitten in der Luft stehen, wenn sich seine Wörter oder seine Größe ändern."
+        "e4c085dce5e87": "$~Ein @Phrase, das ein @Motion bewegt, bleibt jetzt nicht mehr mitten in der Luft stehen, wenn sich seine Wörter oder seine Größe ändern.",
+        "e64b889fc88a2": "$~Du kannst jetzt eine Wie-man-Anleitung auch in einer anderen Galerie teilen, die du betreust. Sie bleibt trotzdem eine einzige Anleitung. So erscheinen Änderungen, Reaktionen und Kommentare überall dort, wo sie geteilt wird. (<1065@https://github.com/wordplaydev/wordplay/issues/1065>)",
+        "ee2200430309f": "$~Du kannst jetzt die neun neuen Emojis aus Unicode 18 nutzen, wie 🪌 Radiergummi, 🪋 Meteor und 🫝 Gurke, und sie in jeder Sprache über ihren Namen finden.",
+        "e6ccf73e4bbb9": "$~Eine geöffnete Wie-man-Anleitung zeigt jetzt zuerst, wer sie geschrieben hat, dann die Antworten, dann Reaktionen und Kommentare, und schließlich, wo sie geteilt wird. Jeder Teil hat seinen eigenen Abschnitt.",
+        "eb608399ee8ad": "$~Das Radierwerkzeug und die Löschen-Knöpfe im Zeicheneditor zeigen jetzt einen Radiergummi, und das Fang-Beispiel zeigt jetzt ein Netz.",
+        "e982ffd8b3a0b": "$~Emojis laden jetzt schneller in Safari, und dein Browser behält Schriftarten zwischen Besuchen, statt sie erneut herunterzuladen.",
+        "e2222194ec679": "$~Eine Wie-man-Anleitung nennt die Person, die sie geschrieben hat, nicht mehr doppelt.",
+        "ea64e28744d1d": "$~Emojis stoßen jetzt anhand ihrer Form an Dinge an, wenn @Matter nach einem Umriss fragt, und Text liegt jetzt auf dem auf, was er berührt, statt einzusinken. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Buchstaben, die sich an ihrer Umrisslinie berühren, haben jetzt Platz im Inneren. So können kleine Dinge in einem O herumhüpfen. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

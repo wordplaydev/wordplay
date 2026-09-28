@@ -1004,6 +1004,14 @@
         "eda0b3c8dcd02": "$~La nueva opción de contorno en @Matter hace que una @Phrase choque con las cosas según la forma de sus letras, así una letra pequeña puede acomodarse en la curva de una letra grande. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e12253979005f": "$~Agregamos un nuevo ejemplo llamado Montón de Letras a las <galerías@https://wordplay.dev/galleries>, donde caen balones de fútbol como lluvia sobre un montón de letras grandes y se acomodan en sus curvas. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e49a3791305c4": "$~El árabe ahora tiene sus propias palabras para 120 nombres que aún estaban en inglés, como las entradas de @Matter, @Stage y @Phrase, y las partes de las funciones de listas y texto.",
-        "e4c085dce5e87": "$~Una @Phrase que una @Motion está moviendo ya no se detiene en el aire cuando cambian sus palabras o su tamaño."
+        "e4c085dce5e87": "$~Una @Phrase que una @Motion está moviendo ya no se detiene en el aire cuando cambian sus palabras o su tamaño.",
+        "e64b889fc88a2": "$~Ahora puedes compartir una guía práctica en otra galería que cures, y sigue siendo una sola guía práctica, así que las ediciones, reacciones y comentarios aparecen en todos los lugares donde se comparte. (<1065@https://github.com/wordplaydev/wordplay/issues/1065>)",
+        "ee2200430309f": "$~Ahora puedes usar los nueve emoji nuevos de Unicode 18, como 🪌 borrador, 🪋 meteoro y 🫝 pepinillo, y encontrarlos por nombre en cualquier idioma.",
+        "e6ccf73e4bbb9": "$~Una guía práctica abierta ahora muestra quién la escribió, luego las respuestas, luego las reacciones y comentarios, y después dónde se comparte, cada parte en su propia sección.",
+        "eb608399ee8ad": "$~La herramienta de borrador y los botones de limpiar en el editor de caracteres ahora muestran un borrador, y el ejemplo de Atrapar ahora muestra una red.",
+        "e982ffd8b3a0b": "$~Los emoji ahora cargan más rápido en Safari, y tu navegador ahora guarda las fuentes entre visitas en lugar de descargarlas otra vez.",
+        "e2222194ec679": "$~Una guía práctica ya no muestra dos veces a la persona que la escribió.",
+        "ea64e28744d1d": "$~Los emoji ahora chocan con las cosas según su forma cuando @Matter pide un contorno, y el texto ahora se apoya sobre lo que toca en lugar de hundirse. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Las letras que chocan por su contorno ahora tienen espacio adentro, así que las cosas pequeñas pueden rebotar dentro de una O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

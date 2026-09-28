@@ -1004,6 +1004,14 @@
         "eda0b3c8dcd02": "$~Pilihan garis luar baru di @Matter membuat @Phrase menabrak benda mengikuti bentuk hurufnya, sehingga huruf kecil bisa masuk ke lengkungan huruf besar. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e12253979005f": "$~Kami menambahkan contoh baru bernama Tumpukan Huruf ke <galeri@https://wordplay.dev/galleries>, tempat bola sepak berjatuhan ke tumpukan huruf besar dan meringkuk di lengkungannya. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e49a3791305c4": "$~Bahasa Arab kini punya kata sendiri untuk 120 nama yang masih dalam bahasa Inggris, seperti masukan untuk @Matter, @Stage, dan @Phrase, serta bagian dari fungsi daftar dan teks.",
-        "e4c085dce5e87": "$~@Phrase yang sedang digerakkan oleh @Motion kini tidak lagi berhenti di tengah udara saat kata atau ukurannya berubah."
+        "e4c085dce5e87": "$~@Phrase yang sedang digerakkan oleh @Motion kini tidak lagi berhenti di tengah udara saat kata atau ukurannya berubah.",
+        "e64b889fc88a2": "$~Sekarang kamu bisa membagikan sebuah cara di galeri lain yang kamu susun, dan cara itu tetap satu, jadi suntingan, reaksi, dan komentar muncul di semua tempat cara itu dibagikan. (<1065@https://github.com/wordplaydev/wordplay/issues/1065>)",
+        "ee2200430309f": "$~Sekarang kamu bisa memakai sembilan emoji baru dari Unicode 18, seperti 🪌 penghapus, 🪋 meteor, dan 🫝 acar, dan menemukannya lewat nama dalam bahasa apa pun.",
+        "e6ccf73e4bbb9": "$~Sebuah cara yang dibuka kini menampilkan siapa yang menulisnya, lalu jawaban-jawabannya, lalu reaksi dan komentar, lalu di mana cara itu dibagikan, masing-masing bagian dalam bagiannya sendiri.",
+        "eb608399ee8ad": "$~Alat penghapus dan tombol hapus di editor karakter kini menampilkan gambar penghapus, dan contoh Catch kini menampilkan gambar jaring.",
+        "e982ffd8b3a0b": "$~Emoji kini dimuat lebih cepat di Safari, dan peramban kamu kini menyimpan font di antara kunjungan, alih-alih mengambilnya lagi setiap kali.",
+        "e2222194ec679": "$~Sebuah cara tidak lagi menampilkan nama penulisnya dua kali.",
+        "ea64e28744d1d": "$~Emoji kini bertabrakan dengan benda lain sesuai bentuknya saat @Matter meminta garis luar, dan teks kini bertumpu pada apa yang disentuhnya, bukan tenggelam ke dalamnya. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Huruf yang bertabrakan berdasarkan bentuk luarnya kini punya ruang di dalam, jadi benda kecil bisa memantul-mantul di dalam huruf O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

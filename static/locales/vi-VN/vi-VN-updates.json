@@ -1004,6 +1004,14 @@
         "eda0b3c8dcd02": "$~Tùy chọn đường viền mới trong @Matter giúp một @Phrase va chạm với những thứ khác theo đúng hình dạng các chữ cái của nó, để một chữ cái nhỏ có thể lọt vào đường cong của một chữ cái lớn. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e12253979005f": "$~Chúng tôi đã thêm một ví dụ mới tên là Đống Chữ Cái vào <phòng trưng bày@https://wordplay.dev/galleries>, nơi những quả bóng đá rơi xuống thành một đống chữ cái to và lọt vào các đường cong của chúng. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e49a3791305c4": "$~Tiếng Ả Rập giờ đây có từ riêng cho 120 tên vẫn còn bằng tiếng Anh, như các đầu vào của @Matter, @Stage, và @Phrase, cùng các phần của các hàm danh sách và văn bản.",
-        "e4c085dce5e87": "$~Một @Phrase mà một @Motion đang di chuyển không còn dừng lại giữa chừng khi chữ hoặc kích thước của nó thay đổi."
+        "e4c085dce5e87": "$~Một @Phrase mà một @Motion đang di chuyển không còn dừng lại giữa chừng khi chữ hoặc kích thước của nó thay đổi.",
+        "e64b889fc88a2": "$~Giờ đây bạn có thể chia sẻ một làm cách nào để trong một phòng trưng bày khác mà bạn phụ trách, và nó vẫn là một làm cách nào để duy nhất, nên các chỉnh sửa, phản ứng và bình luận sẽ hiện ra ở mọi nơi nó được chia sẻ. (<1065@https://github.com/wordplaydev/wordplay/issues/1065>)",
+        "ee2200430309f": "$~Giờ đây bạn có thể dùng chín biểu tượng cảm xúc mới từ bộ Unicode 18, như 🪌 cục tẩy, 🪋 sao băng, và 🫝 dưa chua, và tìm chúng theo tên bằng mọi ngôn ngữ.",
+        "e6ccf73e4bbb9": "$~Một làm cách nào để khi mở ra giờ đây hiển thị người viết nó trước, rồi đến các câu trả lời, rồi đến phản ứng và bình luận, rồi đến nơi nó được chia sẻ, mỗi phần nằm trong mục riêng của mình.",
+        "eb608399ee8ad": "$~Công cụ tẩy và các nút xóa trong trình soạn thảo ký tự giờ đây hiển thị hình cục tẩy, và ví dụ Catch giờ đây hiển thị hình một cái lưới.",
+        "e982ffd8b3a0b": "$~Biểu tượng cảm xúc giờ đây tải nhanh hơn trên Safari, và trình duyệt của bạn giờ đây giữ lại phông chữ giữa các lần truy cập thay vì tải lại chúng.",
+        "e2222194ec679": "$~Một làm cách nào để không còn liệt kê người viết nó hai lần nữa.",
+        "ea64e28744d1d": "$~Biểu tượng cảm xúc giờ đây va chạm với các vật khác theo đúng hình dạng của chúng khi @Matter yêu cầu đường viền, và văn bản giờ đây nằm lên trên thứ nó chạm vào thay vì chìm vào trong. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Các chữ cái va chạm theo đường viền của chúng giờ đây có khoảng trống bên trong, nên những vật nhỏ có thể nảy qua nảy lại bên trong chữ O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

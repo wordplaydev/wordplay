@@ -1004,6 +1004,14 @@
         "eda0b3c8dcd02": "$~Nowa opcja konturu w @Matter sprawia, że @Phrase zderza się z rzeczami zgodnie z kształtem swoich liter. Dzięki temu mała litera może wpasować się w wygięcie dużej litery. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e12253979005f": "$~Dodaliśmy nowy przykład o nazwie Stos Liter do <galerii@https://wordplay.dev/galleries>, gdzie piłki nożne spadają deszczem na stos wielkich liter i wpasowują się w ich wygięcia. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
         "e49a3791305c4": "$~Język arabski ma teraz własne słowa dla 120 nazw, które wciąż były po angielsku, na przykład wejść do @Matter, @Stage i @Phrase, oraz części funkcji list i tekstu.",
-        "e4c085dce5e87": "$~@Phrase, który porusza @Motion, nie zatrzymuje się już w powietrzu, gdy zmienią się jego słowa lub rozmiar."
+        "e4c085dce5e87": "$~@Phrase, który porusza @Motion, nie zatrzymuje się już w powietrzu, gdy zmienią się jego słowa lub rozmiar.",
+        "e64b889fc88a2": "$~Możesz teraz udostępnić poradnik „jak” w innej galerii, którą prowadzisz, a mimo to zostaje on jednym poradnikiem. Dzięki temu zmiany, reakcje i komentarze widać wszędzie tam, gdzie jest udostępniony. (<1065@https://github.com/wordplaydev/wordplay/issues/1065>)",
+        "ee2200430309f": "$~Możesz teraz używać dziewięciu nowych emoji z Unicode 18, takich jak 🪌 gumka, 🪋 meteor i 🫝 ogórek, i znajdować je po nazwie w każdym języku.",
+        "e6ccf73e4bbb9": "$~Otwarty poradnik „jak” pokazuje teraz najpierw, kto go napisał, potem odpowiedzi, potem reakcje i komentarze, a na końcu miejsca, gdzie jest udostępniony. Każda część ma teraz swoją sekcję.",
+        "eb608399ee8ad": "$~Narzędzie gumki i przyciski czyszczenia w edytorze znaków pokazują teraz gumkę, a przykład Catch pokazuje teraz siatkę.",
+        "e982ffd8b3a0b": "$~Emoji wczytują się teraz szybciej w Safari, a przeglądarka zapamiętuje teraz czcionki między odwiedzinami, zamiast pobierać je ponownie.",
+        "e2222194ec679": "$~Poradnik „jak” nie pokazuje już dwa razy osoby, która go napisała.",
+        "ea64e28744d1d": "$~Emoji zderzają się teraz ze sobą według swojego kształtu, gdy @Matter prosi o kontur, a tekst teraz opiera się na tym, czego dotyka, zamiast się w to zapadać. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "effb062f72059": "$~Litery, które stykają się swoim konturem, mają teraz miejsce w środku, więc małe rzeczy mogą odbijać się wewnątrz litery O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
     }
 }

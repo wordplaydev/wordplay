@@ -95,8 +95,9 @@ export function glyphPathToPlaces(
 
 /**
  * Fetch the necessary font file(s), extract glyph outlines for the given text,
- * and return the sampled outline points (meters, y-up). Glyphs the face doesn't
- * cover or that have no outline (e.g. color emoji) simply contribute no points.
+ * and return the sampled outline points (meters, y-up). Emoji are traced from
+ * the monochrome emoji face; other glyphs the face doesn't cover simply
+ * contribute no points.
  * Returns an error kind instead if a font can't be loaded or read, so the caller
  * can report it rather than silently showing nothing.
  */

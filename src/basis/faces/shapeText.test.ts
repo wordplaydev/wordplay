@@ -1,7 +1,13 @@
 import type { PathCommand } from 'fontkit';
+import { create } from 'fontkit';
+import { readFileSync } from 'node:fs';
 import { expect, test } from 'vitest';
 import { must } from '@util/nullable';
-import { flattenGlyphLoops, shapeTextGlyphs } from '@basis/faces/shapeText';
+import {
+    flattenGlyphLoops,
+    planShapeRuns,
+    shapeTextGlyphs,
+} from '@basis/faces/shapeText';
 
 test('a subpath becomes a loop, and two subpaths become two', () => {
     const commands: PathCommand[] = [
@@ -63,3 +69,52 @@ test('an unknown face yields no glyphs', async () => {
         shapeTextGlyphs('A', 'Not A Real Face', 400, false),
     ).resolves.toEqual([]);
 });
+
+/** Each run as [face, text], which is all a test of the routing cares about. */
+function runs(text: string, face: string) {
+    return planShapeRuns(text, face).map((run) => [run.face, run.text]);
+}
+
+test('an emoji the face does not draw is traced from the monochrome emoji face', () => {
+    // Before, the emoji was skipped and took no space, so "there" was traced
+    // on top of where the emoji is drawn.
+    expect(runs('hi😀there', 'Noto Sans')).toEqual([
+        ['Noto Sans', 'hi'],
+        ['Noto Emoji', '😀'],
+        ['Noto Sans', 'there'],
+    ]);
+});
+
+test.each(['👩‍💻', '👍🏽', '🇯🇵', '1⃣', '😀︎'])(
+    '%s stays one run, so the emoji face can ligate it',
+    (emoji) => {
+        expect(runs(emoji, 'Noto Sans')).toEqual([['Noto Emoji', emoji]]);
+    },
+);
+
+test('the color emoji face is traced from the monochrome one', () => {
+    // Its files have no outlines, and its string range names a file that does
+    // not exist.
+    expect(runs('😀1⃣', 'Noto Color Emoji')).toEqual([['Noto Emoji', '😀1⃣']]);
+});
+
+test('a character neither face covers is still skipped', () => {
+    expect(runs('a\uE000b', 'Noto Sans')).toEqual([['Noto Sans', 'ab']]);
+});
+
+test.each(['😀', '👩‍💻', '👍🏽', '🇯🇵', '1⃣', '🩷'])(
+    'the monochrome emoji font shapes %s into one outlined glyph',
+    (emoji) => {
+        // Guards an emoji update: routing a sequence as one run is only right
+        // while this font still ligates it and still has outlines.
+        const font = create(
+            readFileSync('static/fonts/NotoEmoji/NotoEmoji-400.woff2'),
+        );
+        const face = 'fonts' in font ? must(font.fonts[0], 'a font') : font;
+        const glyphs = face.layout(emoji).glyphs;
+        expect(glyphs).toHaveLength(1);
+        expect(
+            must(glyphs[0], 'the glyph').path.commands.length,
+        ).toBeGreaterThan(0);
+    },
+);

@@ -1122,7 +1122,7 @@
                 "names": "$~puxar"
             },
             "outline": {
-                "doc": "$~Se a colisão deve seguir a forma das minhas letras em vez do retângulo em volta delas. ⊤ significa que um @Phrase pequeno pode encaixar no gancho de um grande. As letras que não têm forma para traçar, @how os emojis coloridos, mantêm o seu retângulo.",
+                "doc": "$~Se a colisão deve seguir a forma das minhas letras em vez do retângulo em volta delas. ⊤ significa que um @Phrase pequeno pode encaixar no gancho de um grande. Isto também funciona com emojis.",
                 "names": "$~contorno"
             }
         },

@@ -1107,7 +1107,7 @@
                 "names": "$~kéo"
             },
             "outline": {
-                "doc": "$~Có nên va vào theo hình dạng của các chữ cái thay vì theo hình chữ nhật quanh chúng hay không. ⊤ nghĩa là một @Phrase nhỏ có thể nằm lọt vào chỗ móc của một chữ lớn. Những chữ không có hình dạng để vẽ theo, như biểu tượng cảm xúc nhiều màu, vẫn giữ hình chữ nhật của chúng.",
+                "doc": "$~Có nên va vào theo hình dạng của các chữ cái thay vì theo hình chữ nhật quanh chúng hay không. ⊤ nghĩa là một @Phrase nhỏ có thể nằm lọt vào chỗ móc của một chữ lớn. Cách này cũng dùng được cho biểu tượng cảm xúc.",
                 "names": "$~đườngViền"
             }
         },
