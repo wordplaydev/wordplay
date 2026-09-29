@@ -64,20 +64,22 @@
             "emotion": "eager",
             "doc": [
                 "$~Ben bir @language etiketiyim ve @Name ile @Doc ile çalışırım!",
-                "Bir metnin hangi dilde yazıldığını *çok net* göstermekte gerçekten iyiyimdir. Küçük bir eğik çizgi ve birkaç harf yeterli, artık kimse bir metnin hangi dilde olduğu konusunda kafası karışık kalmaz.",
-                "Örneğin, \"Dil\" demek istiyorsan ama bunun İngilizce olduğunu belirtmek istiyorsan:",
+                "Bir şeyin hangi dilde yazıldığını *çok net* göstermekte gerçekten iyiyim. Küçük bir eğik çizgi ve birkaç harf yeterli; artık hiç kimse bir metnin hangi dilde olduğunu merak etmez.",
+                "Örneğin \"Language\" demek istiyorsan ama bunun İngilizce olduğunu belirtmek istiyorsan:",
                 "\\'Dil'/tr\\",
                 "Bunu bir @Name için yapabilirsin:",
                 "\\ses2: 'miyav'\\🪲",
                 "…ya da bir @Doc için:",
                 "\\¶Yansıma Sözcük¶\nses2: 'miyav'\\🪲",
-                "Bazen bir metin tek bir dilde olmaz — *karışık* olur. İspanyolca ile İngilizcenin karıştığı Spanglish gibi. Böyle durumlarda, her dili aralarına alt çizgi koyarak listele. İlki *asıl* dildir — bir seçim yapmam gerektiğinde (örneğin hangi tırnak işaretini kullanacağıma karar verirken) kullandığım dil odur.",
+                "Bazen metin tek bir dilde olmaz — bir *karışım* olur. İspanyolca ile İngilizcenin karıştığı Spanglish gibi. Bu durumlarda her dili aralarına alt çizgi koyarak sırayla yaz. İlk yazılan *birincil* dildir — seçim yapmam gerektiğinde (örneğin hangi tırnak işaretini kullanacağıma karar verirken) kullandığım dil odur.",
                 "\\\"Hola gentleman!\"/es_en\\",
-                "\\¶İki dilli bir selamlama¶\nhello/es_en: 'Hola gentleman!'\\🪲",
-                "Tek bir dilde olduğu gibi, bir tire koyduktan sonra tek bir @region de ekleyebilirsin:",
+                "\\¶İki dilli bir selamlama¶\nmerhaba: 'Hola centilmen!'\\🪲",
+                "Karışık bir etiket, metnin tamamının bir karışım olduğunu söyler; böylece bir ekran okuyucu ya da @Say tüm metni birincil dilde okur. Her kelimenin kendi dilinde okunmasını istiyorsan, kelimeleri ayrı ayrı etiketleyip birleştir:",
+                "\\\"Hola \"/es + 'centilmen!'/tr\\",
+                "Tek bir dilde olduğu gibi, bir tireden sonra tek bir @region da ekleyebilirsin:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
-                "Kaç dil listeleyebileceğinin bir sınırı yoktur — sadece aynı dili iki kez yazma; eğer yaparsan sana haber veririm.",
-                "Bir dili <2 harfli kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ile ya da *ismiyle* yazabilirsin, o dilde ya da İngilizce olarak — `/es`, `/Español` ve `/Spanish` hepsi aynı şeyi @expression eder, aynı şekilde `/es-MX`, `/es-México` ve `/es-Mexico` de öyle. Büyük harfler ve aksanlar önemli değildir, yani `/ESPANOL` da çalışır. İçinde boşluk olan bir isim, boşluksuz yazılır, örneğin `/BahasaIndonesia`, çünkü bir etiket tek bir kelime olmalıdır. Eğer bir dili ya da bölgeyi tanımıyorsam, sana haber veririm."
+                "Kaç dil listeleyebileceğinin bir sınırı yok — sadece aynı dili iki kez yazma; eğer yazarsan sana haber veririm.",
+                "Bir dili <2 harfli koduyla@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ya da *adıyla* yazabilirsin, o dilin kendisinde veya İngilizce olarak — `/es`, `/Español` ve `/Spanish` hepsi aynı anlama gelir, aynı şekilde `/es-MX`, `/es-México` ve `/es-Mexico` da aynıdır. Büyük harfler ve aksanlar önemli değildir, bu yüzden `/ESPANOL` da çalışır. İçinde boşluk olan bir isim, boşluksuz yazılır, örneğin `/BahasaIndonesia`, çünkü bir etiket tek bir kelime olmalıdır. Bir dili veya bölgeyi tanımazsam sana haber veririm."
             ],
             "conflict": {
                 "UnknownLanguage": {

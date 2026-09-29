@@ -10,7 +10,7 @@ import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
-import TextValue from '@values/TextValue';
+import TextValue, { sameLanguage, type TextPart } from '@values/TextValue';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Locales from '@locale/Locales';
 import { Emotion } from '../lore/Emotion';
@@ -213,7 +213,10 @@ export default class TextLiteral extends Literal {
         const segments = translation.segments;
 
         // Build the string in reverse, accounting for the reversed stack of values.
+        // An interpolated text keeps its own language as a part, so a Spanish
+        // name inside an English sentence is still read in Spanish (#111).
         let text = '';
+        let parts: TextPart[] | undefined = undefined;
         for (let i = segments.length - 1; i >= 0; i--) {
             const segment = segments[i];
             let next: string;
@@ -226,8 +229,30 @@ export default class TextLiteral extends Literal {
                 next = segment.getCodepoint() ?? segment.concept.getText();
             } else {
                 const value = evaluator.popValue(this);
-                if (value instanceof TextValue) next = value.text;
-                else {
+                if (value instanceof TextValue) {
+                    next = value.text;
+                    if (
+                        value.parts !== undefined ||
+                        (value.language !== undefined &&
+                            !sameLanguage(value.language, translation.language))
+                    )
+                        parts = [
+                            ...value.getParts().map((part) => ({
+                                text: part.text,
+                                language: part.language ?? translation.language,
+                            })),
+                            ...(parts ?? [
+                                { text, language: translation.language },
+                            ]),
+                        ];
+                    else if (parts !== undefined)
+                        parts.unshift({
+                            text: next,
+                            language: translation.language,
+                        });
+                    text = next + text;
+                    continue;
+                } else {
                     // Localize an interpolated number for output (#1196), using
                     // this text's own locale when tagged, else the active output
                     // locale. Only numbers localize; other types fall back to
@@ -240,10 +265,12 @@ export default class TextLiteral extends Literal {
             }
             // Assemble in reverse order
             text = next + text;
+            if (parts !== undefined)
+                parts.unshift({ text: next, language: translation.language });
         }
 
         // Construct the text value, carrying the translation's locale node.
-        return new TextValue(this, text, translation.language);
+        return new TextValue(this, text, translation.language, parts);
     }
 
     /** Retrieve or compute and cache the text version of the static token text. */

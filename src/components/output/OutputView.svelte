@@ -90,6 +90,8 @@
     import SpeechStream from '@input/Speech/Speech';
     import Volume from '@input/Volume/Volume';
     import concretize from '@locale/concretize';
+    import { toBCP47 } from '@locale/Locale';
+    import sayUtterances from '@output/Speech/sayUtterances';
     import getConceptName from '@locale/getConceptName';
     import type LocaleText from '@locale/LocaleText';
     import Evaluate from '@nodes/Evaluate';
@@ -1138,7 +1140,7 @@
             const body = exception
                 ? `${exception.getExceptionDescription($locales).toText()}: ${exception.getExplanation($locales).toText()}`
                 : output !== undefined
-                  ? output.getDescription($locales)
+                  ? output.getDescription($locales, true)
                   : colorValue !== undefined
                     ? describeColorLocalized(
                           $locales,
@@ -2487,22 +2489,22 @@
         // Resetting the signature means the same text can be spoken again later.
         if (currentSays.length === 0) return;
 
-        const lang = $locales.getLanguages()[0];
+        // Untagged text is in the language the program chose its text in, and
+        // only failing that the reader's (#111).
+        const evaluationLocale = evaluator.getLocaleIDs()[0];
+        const lang =
+            evaluationLocale !== undefined
+                ? toBCP47(evaluationLocale)
+                : $locales.getLanguages()[0];
 
         // The bus chains these itself and cancels what this source had
         // pending, which is what the hand-rolled `onend` chain here used to do
         // — except that it cancelled every other source's speech along with it.
         speech.speak(
             SaySource,
-            currentSays.map(({ say, captioned }) => ({
-                source: SaySource,
-                text: say.text.text,
-                lang: say.text.language?.getBCP47() ?? lang,
-                rate: 1,
-                volume: 1,
-                priority: 'flow' as const,
-                captioned,
-            })),
+            currentSays.flatMap(({ say, captioned }) =>
+                sayUtterances(SaySource, say.text, captioned, lang),
+            ),
         );
     });
 

@@ -23,7 +23,12 @@ import { getRandomPool } from '@output/animation/textEffectPool';
  * at rest). Text transitions morph between these.
  */
 export function reprOf(value: TextValue | Markup): string | Markup {
-    return value instanceof TextValue ? value.text : value.asLine();
+    if (value instanceof TextValue) return value.text;
+    // The line reuses the segments, so their languages still apply (#111).
+    const languages = value.metadata?.segmentLanguages;
+    return languages === undefined
+        ? value.asLine()
+        : value.asLine().withSegmentLanguages(languages);
 }
 
 /** The plain-text key used to detect a real text change (ignoring formatting). */

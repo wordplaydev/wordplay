@@ -366,13 +366,22 @@ test('stage output is described once, by the stage', async ({ page }) => {
     // Both describers used to speak on every stage change — OutputView's
     // `value` summary and StageView's `stage-*` delta said the same thing with
     // different prefixes, one after the other.
-    const read = await playing(page, 'Phrase(Key())');
+    // Tagged Spanish, so the same run also shows the phrase's words being read
+    // in their own language inside an English description (#111).
+    const read = await playing(page, String.raw`Phrase('\Key()\'/es)`);
     const kinds = await kindsDuring(page, async () => {
         for (const key of ['a', 'b']) {
             await page.keyboard.press(key);
             await page.waitForTimeout(1500);
         }
     });
+    await expect(
+        page.locator('.announcements.paced [lang="es"]'),
+        "the phrase's words should be their own Spanish run",
+    ).toHaveCount(1);
+    // And the phrase's label, a sentence in the reader's language, must not be
+    // read in the text's.
+    await expect(page.locator('.phrase[aria-label][lang="es"]')).toHaveCount(0);
     expect(
         kinds.filter((kind) => kind.startsWith('stage-')).length,
         'the stage should describe itself',

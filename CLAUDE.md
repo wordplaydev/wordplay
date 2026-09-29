@@ -699,6 +699,13 @@ if (announce && $announce) {
 
 Announcement text is **primary-locale-only** — use `getPrimaryPlainText`, matching the region's `lang`. `aria-label` on a focused element is still appropriate for focus-time labeling; use Announcer for change-time announcements.
 
+**A creator's words are read in their own language, and the boundary travels inside the string** (#111). The sentence around them is the reader's language; the words are the program's. [spokenLanguage.ts](src/locale/spokenLanguage.ts) wraps them in private-use marks (`markLanguage`, `spokenText` for a value), and `Announcement` turns the marks into `<span lang>` runs. Load-bearing:
+- Mark only strings bound for the Announcer. `Output.getDescription(locales, spoken)` and `getShortDescription` take a `spoken` flag for this reason: the same description is an `aria-label`, and a mark in a label is a stray glyph.
+- An accessible name has no internal language runs in any browser, so a focused phrase's label is read in one voice. `PhraseView` therefore puts the text's `lang` on an inner `display: contents` span, never on the element carrying the UI-language `aria-label`.
+- A `lang` for text shown in a locale other than the primary comes from `Locales.getLocaleOf`/`getLanguageAttributes`, never from `getLocale()`: a string not yet translated is shown in whichever locale answered, usually en-US.
+- Use `getBCP47()` for `lang` and speech, never `getTagString()` (`en_es` is not a valid tag) or `getLanguageCode()` (drops the region).
+- `TextValue.parts` is `undefined` unless the text holds more than one language (or one other than its tag), so ordinary text allocates nothing. `language` stays the union because a runtime value's tag must equal the one `TextType.acceptsAll` expects; narrowing a Spanish word segmented out of `/en_es` text to `/es` would fail type checks, which is why the part says so instead.
+
 ### Svelte MCP server
 
 The project configures the official Svelte MCP server ([.mcp.json](.mcp.json), mirrored in [.vscode/mcp.json](.vscode/mcp.json)) for current Svelte 5 / SvelteKit 2 docs and a `svelte-autofixer`. Its suggestions are **advisory** and blind to this repo's conventions (immutability outside `Evaluator`/`Database`, centralized `Announcer`, `LocalizedText`/`MarkupHTMLView`). When they conflict, repo conventions win; `npm run check:now` + `npm test` are the source of truth.

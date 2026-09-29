@@ -14,6 +14,7 @@ import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import StructureValue from '@values/StructureValue';
 import TableValue from '@values/TableValue';
 import TextValue from '@values/TextValue';
+import { spokenText } from '@locale/spokenLanguage';
 import type Value from '@values/Value';
 
 /**
@@ -105,7 +106,8 @@ export function renderValueForSpeech(locales: Locales, value: Value): string {
 }
 
 function render(locales: Locales, terms: SpeechTerms, value: Value): string {
-    if (value instanceof TextValue) return value.text;
+    // In its own language's voice (#111); this module only feeds the Announcer.
+    if (value instanceof TextValue) return spokenText(value);
     if (value instanceof NumberValue) return renderNumber(terms, value);
     if (value instanceof BoolValue) return value.bool ? terms.yes : terms.no;
     if (value instanceof NoneValue) return terms.nothing;

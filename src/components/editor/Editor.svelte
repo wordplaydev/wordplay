@@ -160,6 +160,7 @@
     import type Revision from '@edit/revision/Revision';
     import type Locale from '@locale/Locale';
     import { localeToString } from '@locale/Locale';
+    import { markLanguage } from '@locale/spokenLanguage';
     import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
     import { getLanguageLocalDescription } from '@locale/LocaleText';
     import Locales from '@locale/Locales';
@@ -1224,7 +1225,7 @@
             if (!$announce) return;
             $announce(
                 'selection',
-                $caret.getLanguage(),
+                $locales.getLanguages()[0],
                 $caret.getDescription(
                     caretExpressionType,
                     conflictsOfInterest,
@@ -1253,6 +1254,13 @@
                 (l) => l.ui.source.cursor.echo.tab,
             );
         return key;
+    }
+
+    /** An echo whose character, unlike the name of a space or break, is the
+     *  literal's own, and so is read in the literal's language (#111). */
+    function spokenEchoFor(key: string): string {
+        const echo = echoTextFor(key);
+        return echo === key ? markLanguage(echo, $caret.getLanguage()) : echo;
     }
 
     /** Announce what a command just did, when the command declares feedback.
@@ -1288,7 +1296,7 @@
         if (reason && $announce)
             $announce(
                 'ignored',
-                $caret.getLanguage(),
+                $locales.getLanguages()[0],
                 $locales.getPrimaryPlainText(reason),
             );
         // Flip back to unignored after the animation so we can give more feedback.
@@ -2526,19 +2534,22 @@
                     if (!skipNextInput)
                         $announce(
                             'type',
-                            $caret.getLanguage(),
-                            echoTextFor(deleted),
+                            $locales.getLanguages()[0],
+                            spokenEchoFor(deleted),
                         );
                 } else
                     $announce(
                         'command',
-                        $caret.getLanguage(),
+                        $locales.getLanguages()[0],
                         $locales
                             .concretize((l) => l.ui.feedback.deleted, {
                                 text:
                                     deleted.trim().length === 0
                                         ? removed
-                                        : deleted,
+                                        : markLanguage(
+                                              deleted,
+                                              $caret.getLanguage(),
+                                          ),
                             })
                             .toText(),
                     );
@@ -2914,7 +2925,7 @@
                     if ($announce)
                         $announce(
                             'type',
-                            $caret.getLanguage(),
+                            $locales.getLanguages()[0],
                             echoTextFor('\t'),
                         );
                     handleEdit(
@@ -3542,7 +3553,9 @@
             untrack(() => {
                 $announce(
                     'caret',
-                    $caret.getLanguage(),
+                    // The description is the reader's language; a tagged
+                    // literal's words inside it carry their own (#111).
+                    $locales.getLanguages()[0],
                     // The diff clause is appended to the position description
                     // rather than announced on its own, because a bare "removed
                     // since" never changes and a live region that doesn't

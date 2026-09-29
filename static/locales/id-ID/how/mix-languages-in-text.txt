@@ -1,13 +1,21 @@
 Sapa audiens yang multibahasa
 
-A  @Phrase  Menampilkan terjemahan yang tepat untuk setiap pemirsa berdasarkan bahasa yang telah mereka pilih. Jika audiens Anda berbicara bahasa Spanyol, Anda dapat berbicara bahasa Spanyol kepada mereka; jika mereka berbicara bahasa Spanyol dan Inggris — Spanglish! — Anda dapat mencampurnya.
+A @Phrase Menampilkan terjemahan yang tepat untuk setiap pemirsa berdasarkan bahasa yang telah mereka pilih. Jika audiens Anda berbicara bahasa Spanyol, Anda dapat berbicara bahasa Spanyol kepada mereka; jika mereka berbicara bahasa Spanyol dan Inggris — Spanglish! — Anda dapat mencampurnya.
 
-Berikan  @TextLiteral  beberapa terjemahan, termasuk terjemahan multibahasa, dan @wordplay memilih yang paling sesuai untuk setiap pemirsa:
+Berikan @TextLiteral beberapa terjemahan, termasuk terjemahan multibahasa, dan @wordplay memilih yang paling sesuai untuk setiap pemirsa:
 
-\Phrase("hola"/es"Halo"/en"Halo Tuan-tuan"/es_en)\
+\
+Phrase("hola"/es"Halo"/en"Halo Tuan-tuan"/es_en)
+\
 
-Seorang pemirsa yang bahasa pilihannya hanya bahasa Spanyol melihat /halo/Seorang pemirsa yang lebih menyukai bahasa Inggris saja melihat /Halo/Seorang pemirsa yang lebih menyukai bahasa Spanyol dan Inggris melihat /Halo Tuan-tuan/ — versi Spanglish.
+ Seorang pemirsa yang bahasa pilihannya hanya bahasa Spanyol melihat / halo / Seorang pemirsa yang lebih menyukai bahasa Inggris saja melihat / Halo / Seorang pemirsa yang lebih menyukai bahasa Spanyol dan Inggris melihat / Halo Tuan-tuan / — versi Spanglish.
 
 Permainan kata mengutamakan kecocokan yang paling spesifik, jadi terjemahan monolingual selalu lebih unggul daripada terjemahan multilingual ketika keduanya bisa diterapkan.
+
+Versi Spanglish dibacakan semuanya dalam bahasa Spanyol, karena itu bahasa pertamanya. Agar setiap kata dibaca sesuai bahasanya sendiri, tandai setiap bagian secara terpisah lalu gabungkan:
+
+\
+Phrase("hola "/es + "gentleman"/en)
+\
 
 styling-text

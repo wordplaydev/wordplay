@@ -408,11 +408,12 @@
         },
         "Say": {
             "doc": [
-                "$~Rostesc textul cu voce tare în loc să îl arăt pe @Stage. Salut!",
-                "Doar dă-mi ceva de spus și voi spune ori de câte ori se schimbă textul pe care mi-l dai:",
+                "$~Eu spun textul cu voce tare în loc să-l afișez pe @Stage. Salut!",
+                "Doar dă-mi ceva de spus, și îl voi spune de fiecare dată când textul primit se schimbă:",
                 "\\Cuvânt('bla bla bla')\\",
-                "Voi folosi @Language a @TextLiteral dacă are una, altfel voi folosi @language selectată.",
-                "Poți alege o voce în setări."
+                "Spun textul în @language cu care este etichetat, iar textul neetichetat în limba pe care programul tău a ales-o. Dacă unești text în limbi diferite, spun fiecare parte în limba ei:",
+                "\\Cuvânt('hola '/es + 'prieten'/ro)\\",
+                "Poți alege o voce din setări."
             ],
             "names": ["$~Cuvânt"],
             "text": {

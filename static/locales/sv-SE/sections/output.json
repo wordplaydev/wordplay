@@ -1289,10 +1289,11 @@
         },
         "Say": {
             "doc": [
-                "$~Jag säger text högt istället för att visa den på @Stage. Hej!",
+                "$~Jag pratar text högt istället för att visa den på @Stage. Hej!",
                 "Ge mig bara något att säga, så säger jag det varje gång texten jag får ändras:",
                 "\\Säga('bla bla bla')\\",
-                "Jag använder @Language av @TextLiteral om den har en, annars använder jag den valda @language.",
+                "Jag säger text på det @language den är taggad med, och otaggad text på det språk ditt program valde. Om du fogar ihop text på olika språk säger jag varje del på sitt eget:",
+                "\\Säga('hola '/es + 'vän'/sv)\\",
                 "Du kan välja en röst i inställningarna."
             ],
             "names": ["$~Säga"],

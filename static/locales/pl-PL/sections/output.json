@@ -1289,10 +1289,11 @@
         },
         "Say": {
             "doc": [
-                "$~Mówię tekst na głos, zamiast pokazywać go na @Stage. Cześć!",
-                "Po prostu daj mi coś do powiedzenia, a powiem to za każdym razem, gdy zmieni się dany mi tekst:",
+                "$~Mówię tekst na głos zamiast pokazywać go na @Stage. Cześć!",
+                "Daj mi coś do powiedzenia, a powiem to za każdym razem, gdy tekst, który dostanę, się zmieni:",
                 "\\Mowić('bla bla bla')\\",
-                "Użyję @Language z @TextLiteral, jeśli je ma, w przeciwnym razie użyję wybranego @language.",
+                "Mówię tekst w @language, którym jest oznaczony, a nieoznaczony tekst w języku, który wybrał twój program. Jeśli połączysz teksty w różnych językach, wypowiem każdą część w jej własnym języku:",
+                "\\Mowić('hola '/es + 'przyjacielu'/pl)\\",
                 "Głos możesz wybrać w ustawieniach."
             ],
             "names": ["$~Mowić"],

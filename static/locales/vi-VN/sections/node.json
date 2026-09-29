@@ -63,21 +63,23 @@
             "description": "$~ngôn ngữ $language[$language|chưa xác định]$region[, vùng đất $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Tôi là một thẻ @language và tôi làm việc với @Name và @Doc!",
-                "Tôi rất giỏi trong việc làm cho *rõ ràng như pha lê* một thứ được viết bằng ngôn ngữ nào. Chỉ cần một dấu gạch chéo nhỏ và vài chữ cái, không ai sẽ nhầm lẫn về ngôn ngữ của một đoạn văn bản nữa.",
-                "Ví dụ, nếu bạn muốn nói \"Ngôn ngữ\" nhưng muốn làm rõ đó là tiếng Anh:",
+                "$~Tôi là thẻ @language và tôi làm việc với @Name và @Doc!",
+                "Tôi rất giỏi làm cho *rõ ràng như pha lê* một đoạn văn bản viết bằng ngôn ngữ nào. Chỉ cần một dấu gạch chéo nhỏ và vài chữ cái, và không ai còn thắc mắc đoạn văn bản đó viết bằng ngôn ngữ nào nữa.",
+                "Ví dụ, nếu bạn muốn viết \"Language\" nhưng muốn nói rõ đó là tiếng Anh:",
                 "\\'Ngôn ngữ'/vi\\",
-                "Bạn có thể làm điều này cho một @Name:",
+                "Bạn có thể làm vậy với một @Name:",
                 "\\âmThanh: 'meo meo'\\🪲",
                 "…hoặc một @Doc:",
                 "\\¶Từ tượng thanh¶\nâmThanh: 'meo meo'\\🪲",
-                "Đôi khi văn bản không chỉ là một ngôn ngữ — mà là một *sự pha trộn*. Giống như Spanglish, nơi tiếng Tây Ban Nha và tiếng Anh hòa lẫn vào nhau. Với những trường hợp đó, hãy liệt kê từng ngôn ngữ với dấu gạch dưới ở giữa. Ngôn ngữ đầu tiên là ngôn ngữ *chính* — đó là ngôn ngữ tôi dùng khi phải chọn (ví dụ, để chọn loại dấu ngoặc kép nào sẽ dùng).",
+                "Đôi khi văn bản không chỉ có một ngôn ngữ — mà là một *sự pha trộn*. Giống như tiếng Spanglish, khi tiếng Tây Ban Nha và tiếng Anh trộn lẫn với nhau. Với những trường hợp đó, hãy liệt kê từng ngôn ngữ, cách nhau bằng dấu gạch dưới. Ngôn ngữ đầu tiên là ngôn ngữ *chính* — đó là ngôn ngữ tôi dùng khi phải chọn một (ví dụ, để chọn loại dấu ngoặc kép nào).",
                 "\\\"Hola gentleman!\"/es_en\\",
-                "\\¶Một lời chào bằng hai ngôn ngữ¶\nhello/es_en: 'Xin chào quý ông!'\\🪲",
+                "\\¶Một lời chào bằng hai ngôn ngữ¶\nxinChào: 'Xin chào quý ông!'\\🪲",
+                "Một thẻ pha trộn nói rằng toàn bộ văn bản là một sự pha trộn, vì vậy trình đọc màn hình hoặc @Say sẽ đọc tất cả bằng ngôn ngữ chính. Để mỗi từ được đọc bằng ngôn ngữ riêng của nó, hãy gắn thẻ từng từ riêng biệt rồi ghép chúng lại:",
+                "\\\"Hola \"/es + 'quý ông!'/vi\\",
                 "Bạn cũng có thể thêm một @region duy nhất, sau một dấu gạch ngang, giống như với một ngôn ngữ duy nhất:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
-                "Không có giới hạn về số lượng ngôn ngữ bạn có thể liệt kê — chỉ đừng lặp lại cùng một ngôn ngữ hai lần; tôi sẽ báo cho bạn biết nếu bạn làm vậy.",
-                "Bạn có thể viết một ngôn ngữ bằng <mã 2 chữ cái@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> hoặc bằng *tên* của nó, viết bằng chính ngôn ngữ đó hoặc bằng tiếng Anh — `/es`, `/Español`, và `/Spanish` đều có nghĩa giống nhau, và `/es-MX`, `/es-México`, và `/es-Mexico` cũng vậy. Chữ hoa và dấu không quan trọng, nên `/ESPANOL` cũng dùng được. Một tên có khoảng trắng sẽ được viết không có khoảng trắng, như `/BahasaIndonesia`, vì thẻ luôn là một từ liền. Nếu tôi không nhận ra một ngôn ngữ hoặc một vùng đất, tôi sẽ báo cho bạn biết."
+                "Không có giới hạn về số ngôn ngữ bạn có thể liệt kê — chỉ cần đừng ghi trùng cùng một ngôn ngữ hai lần; tôi sẽ báo cho bạn biết nếu bạn làm vậy.",
+                "Bạn có thể viết một ngôn ngữ bằng <mã 2 chữ cái@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> của nó hoặc bằng *tên* của nó, viết bằng chính ngôn ngữ đó hoặc bằng tiếng Anh — `/es`, `/Español`, và `/Spanish` đều có nghĩa giống nhau, và `/es-MX`, `/es-México`, và `/es-Mexico` cũng vậy. Chữ hoa và dấu không quan trọng, vì vậy `/ESPANOL` cũng dùng được. Một tên có khoảng trắng sẽ được viết không có khoảng trắng, như `/BahasaIndonesia`, vì một thẻ luôn là một từ duy nhất. Nếu tôi không nhận ra một ngôn ngữ hay một vùng đất, tôi sẽ báo cho bạn biết."
             ],
             "conflict": {
                 "UnknownLanguage": {

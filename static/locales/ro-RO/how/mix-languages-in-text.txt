@@ -1,13 +1,21 @@
 Salutați un public multilingv
 
-O  @Phrase  afișează traducerea corectă fiecărui spectator în funcție de limbile alese. Dacă publicul vorbește spaniolă, le poți vorbi în spaniolă; dacă vorbește atât spaniolă, cât și engleză — Spanglish! — poți combina limbile.
+O @Phrase afișează traducerea corectă fiecărui spectator în funcție de limbile alese. Dacă publicul vorbește spaniolă, le poți vorbi în spaniolă; dacă vorbește atât spaniolă, cât și engleză — Spanglish! — poți combina limbile.
 
-Dă o  @TextLiteral  mai multe traduceri, inclusiv una multilingvă, iar @wordplay o alege pe cea mai potrivită pentru fiecare spectator:
+Dă o @TextLiteral mai multe traduceri, inclusiv una multilingvă, iar @wordplay o alege pe cea mai potrivită pentru fiecare spectator:
 
-\Phrase("hola"/es"Buna ziua"/en"salut domnilor"/es_en)\
+\
+Phrase("hola"/es"Buna ziua"/en"salut domnilor"/es_en)
+\
 
-Un spectator a cărui limbă preferată este doar spaniola vede /salut/Un telespectator care preferă doar engleza vede /Buna ziua/Un telespectator care preferă atât spaniola, cât și engleza vede /salut domnilor/ — versiunea în limba spanglish.
+ Un spectator a cărui limbă preferată este doar spaniola vede / salut / Un telespectator care preferă doar engleza vede / Buna ziua / Un telespectator care preferă atât spaniola, cât și engleza vede / salut domnilor / — versiunea în limba spanglish.
 
 Jocul de cuvinte favorizează potrivirea cea mai specifică, așa că o traducere monolingvă câștigă întotdeauna față de una multilingvă atunci când ambele se pot aplica.
+
+Versiunea spanglish este citită cu voce tare integral în spaniolă, prima ei limbă. Pentru ca fiecare cuvânt să fie citit în limba lui, marchează bucățile separat și unește-le:
+
+\
+Phrase("hola "/es + "gentleman"/en)
+\
 
 styling-text

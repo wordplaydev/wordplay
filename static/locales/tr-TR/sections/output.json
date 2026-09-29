@@ -1290,9 +1290,10 @@
         "Say": {
             "doc": [
                 "$~Metni @Stage üzerinde göstermek yerine sesli okurum. Merhaba!",
-                "Bana söyleyecek bir şey ver, ben de verdiğin metin her değiştiğinde onu söylerim:",
-                "\\Söylemek('falan filan falan')\\",
-                "Eğer varsa @TextLiteral öğesinin @Language değerini kullanırım, yoksa seçili @language öğesini kullanırım.",
+                "Bana söylenecek bir şey ver, sana verilen metin değiştikçe onu söylerim:",
+                "\\Söylemek('falan filan')\\",
+                "Metni, etiketlendiği @language ile söylerim; etiketlenmemiş metni ise programının seçtiği dille söylerim. Farklı dillerdeki metinleri birleştirirsen, her bir parçayı kendi dilinde söylerim:",
+                "\\Söylemek('hola '/es + 'arkadaş'/tr)\\",
                 "Ayarlardan bir ses seçebilirsin."
             ],
             "names": ["$~Söylemek"],

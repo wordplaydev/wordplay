@@ -177,7 +177,7 @@ class Speech {
                 ? undefined
                 : {
                       source: current.utterance.source,
-                      text: current.utterance.text,
+                      text: current.utterance.caption ?? current.utterance.text,
                       captioned: current.utterance.captioned !== false,
                   },
         );

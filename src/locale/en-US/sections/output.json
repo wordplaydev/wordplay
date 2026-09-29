@@ -524,7 +524,8 @@
                 "I speak text aloud instead of showing it on @Stage. Hi!",
                 "Just give me something to say, and I'll say it whenever the text I'm given changes:",
                 "\\Say('blah blah blah')\\",
-                "I'll use the @Language of the @TextLiteral if it has one, otherwise I'll use the selected @language.",
+                "I say text in the @language it's tagged with, and untagged text in the language your program chose. If you join text in different languages, I say each part in its own:",
+                "\\Say('hola '/es + 'friend'/en)\\",
                 "You can select a voice in settings."
             ],
             "names": ["🔊", "Say"],

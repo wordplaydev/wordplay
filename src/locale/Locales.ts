@@ -15,7 +15,7 @@ import {
     getLanguageScripts,
     getLanguageVerticalLayout,
 } from '@locale/LanguageCode';
-import { localeToString } from '@locale/Locale';
+import { localeToString, toBCP47, type Locale } from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import {
     isUnwritten,
@@ -83,6 +83,27 @@ export type MultilingualMarkup = {
  *  must never use this either; it styles each locale instead (see LocalizedText /
  *  MarkupHTMLView / Hint). */
 export const MULTILINGUAL_SEPARATOR = ' · ';
+
+/** Whether a locale's answer to an accessor is written: not a placeholder
+ *  string, not a list that opens with one, and not an object with an unwritten
+ *  string among its values (emotions excepted, which are never "unwritten"). */
+function isWritten(text: unknown): boolean {
+    // A locale missing the key entirely answers nothing.
+    if (text === undefined) return false;
+    if (typeof text === 'string') return !isUnwritten(text);
+    else if (
+        Array.isArray(text) &&
+        typeof text[0] === 'string' &&
+        !isUnwritten(text[0])
+    )
+        return true;
+    else if (text !== null && typeof text === 'object')
+        return !Object.entries(text).some(
+            ([key, t]) =>
+                typeof t === 'string' && isUnwritten(t) && key !== 'emotion',
+        );
+    else return true;
+}
 
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
 export default class Locales {
@@ -180,42 +201,72 @@ export default class Locales {
         return this.getLanguages().includes(lang);
     }
 
+    /** The first preferred locale with a written answer for the accessor, or the
+     *  fallback locale when none has one. `get` annotates what this chooses;
+     *  `getLocaleOf` reports whose language it is. */
+    private choose<Kind>(accessor: (locale: LocaleText) => Kind): {
+        match: Kind;
+        source: LocaleText;
+        fallback: boolean;
+    } {
+        for (const locale of this.locales) {
+            const text = accessor(locale);
+            if (isWritten(text))
+                return { match: text, source: locale, fallback: false };
+        }
+        return {
+            match: accessor(this.fallback),
+            source: this.fallback,
+            fallback: true,
+        };
+    }
+
+    /**
+     * The locale whose text the accessor will actually show: the primary when
+     * written there, but otherwise whichever preferred locale, or the fallback,
+     * answered. Text tagged with a language it isn't in is read by a screen
+     * reader in the wrong voice (#111), so `lang` must come from here.
+     */
+    getLocaleOf(accessor: (locale: LocaleText) => unknown): Locale {
+        return this.choose(accessor).source;
+    }
+
+    /**
+     * The `lang` and `dir` to stamp on the accessor's text when it is shown in a
+     * language other than the primary locale's, which the page already
+     * declares; undefined otherwise, so the common case adds nothing to the DOM.
+     */
+    getLanguageAttributes(
+        accessor: (locale: LocaleText) => unknown,
+    ): { lang: string; dir: WritingDirection } | undefined {
+        return this.getAttributesFor(this.getLocaleOf(accessor));
+    }
+
+    /** `getLanguageAttributes` for text already known to be a placeholder, which
+     *  is always the fallback locale's words (`$?` marks untranslated English). */
+    getFallbackLanguageAttributes():
+        { lang: string; dir: WritingDirection } | undefined {
+        return this.getAttributesFor(this.fallback);
+    }
+
+    private getAttributesFor(
+        shown: Locale,
+    ): { lang: string; dir: WritingDirection } | undefined {
+        const lang = toBCP47(shown);
+        return lang === toBCP47(this.getLocale())
+            ? undefined
+            : { lang, dir: getLanguageDirection(shown.language) };
+    }
+
     /**
      * Get the most preferred non-placeholder string given the accessor.
      * This is private, because everything must do something with the annotations on the strings, either removing them
      * or converting then to plain text, or converting them to a UI.
      * */
     private get<Kind>(accessor: (locale: LocaleText) => Kind): Kind {
-        let fallback = false;
-        let match = this.locales
-            .map((l) => accessor(l))
-            .find((text) => {
-                // Placeholder string? Don't choose this one.
-                if (typeof text === 'string') return !isUnwritten(text);
-                // Array of strings that starts with a placeholder string?
-                else if (
-                    Array.isArray(text) &&
-                    typeof text[0] === 'string' &&
-                    !isUnwritten(text[0])
-                )
-                    return true;
-                // Object of strings by key? See if any of the values have placeholders (other than emotions, which don't count as unwritten).
-                else if (text !== null && typeof text === 'object')
-                    return !Object.entries(text).some(
-                        ([key, t]) =>
-                            typeof t === 'string' &&
-                            isUnwritten(t) &&
-                            key !== 'emotion',
-                    );
-                // Otherwise, just choose it
-                else return true;
-            });
-
-        // If we didn't find a match, fall back to the fallback locale.
-        if (match === undefined) {
-            fallback = true;
-            match = accessor(this.fallback);
-        }
+        const chosen = this.choose(accessor);
+        const fallback = chosen.fallback;
+        let match = chosen.match;
 
         // If the thing we got is a nested object, clean all the objects.
         if (typeof match === 'object' && match !== null) {
@@ -281,7 +332,10 @@ export default class Locales {
 
         // Primary is always included so single-locale output is identical to today.
         const primary = this.get(accessor);
-        if (typeof primary === 'string') push(this.getLocale(), primary);
+        // Tagged with the locale that actually answered, which is not the
+        // primary when the primary hasn't written this string yet (#111).
+        if (typeof primary === 'string')
+            push(this.choose(accessor).source, primary);
 
         for (const view of this.getSecondaryLocaleViews()) {
             const text = view.getWithAnnotations(accessor);

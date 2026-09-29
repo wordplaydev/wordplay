@@ -1289,11 +1289,12 @@
         },
         "Say": {
             "doc": [
-                "$~Ich lese Text laut vor, statt ihn auf @Stage zu zeigen. Hallo!",
-                "Gib mir einfach etwas zu sagen, und ich sage es, sobald sich der Text ändert, den ich bekomme:",
+                "$~Ich spreche Text laut, statt ihn auf der @Stage anzuzeigen. Hallo!",
+                "Gib mir einfach etwas zu sagen, und ich sage es, wann immer sich der Text ändert, den ich bekomme:",
                 "\\Sagen('bla bla bla')\\",
-                "Ich benutze die @Language von @TextLiteral, wenn es eine hat, sonst benutze ich die gewählte @language.",
-                "Du kannst eine Stimme in den Einstellungen wählen."
+                "Ich spreche Text in der @language, mit der er getaggt ist, und ungetaggten Text in der Sprache, die dein Programm gewählt hat. Wenn du Text in verschiedenen Sprachen verbindest, spreche ich jeden Teil in seiner eigenen Sprache:",
+                "\\Sagen('hola '/es + 'Freund'/de)\\",
+                "Du kannst eine Stimme in den Einstellungen auswählen."
             ],
             "names": ["$~Sagen"],
             "text": {

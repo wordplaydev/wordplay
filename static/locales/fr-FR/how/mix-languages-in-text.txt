@@ -1,13 +1,21 @@
 Saluer un public multilingue
 
-UN  @Phrase  L'application affiche la traduction appropriée à chaque spectateur en fonction de la langue qu'il a choisie. Si votre public parle espagnol, vous pouvez lui parler en espagnol ; s'il parle à la fois espagnol et anglais (le spanglish !), vous pouvez mélanger les deux.
+UN @Phrase L'application affiche la traduction appropriée à chaque spectateur en fonction de la langue qu'il a choisie. Si votre public parle espagnol, vous pouvez lui parler en espagnol ; s'il parle à la fois espagnol et anglais (le spanglish !), vous pouvez mélanger les deux.
 
-Donnez un  @TextLiteral  plusieurs traductions, dont une multilingue, et @wordplay choisit celle qui convient le mieux à chaque spectateur :
+Donnez un @TextLiteral plusieurs traductions, dont une multilingue, et @wordplay choisit celle qui convient le mieux à chaque spectateur :
 
-\Phrase("hola"/es"Bonjour"/en"Salut messieurs"/es_en)\
+\
+Phrase("hola"/es"Bonjour"/en"Salut messieurs"/es_en)
+\
 
-Un téléspectateur dont la langue préférée est uniquement l'espagnol voit /hola/Un téléspectateur qui préfère uniquement l'anglais voit /Bonjour/Un téléspectateur qui préfère à la fois l'espagnol et l'anglais voit /Salut messieurs/ — la version spanglish.
+ Un téléspectateur dont la langue préférée est uniquement l'espagnol voit / hola / Un téléspectateur qui préfère uniquement l'anglais voit / Bonjour / Un téléspectateur qui préfère à la fois l'espagnol et l'anglais voit / Salut messieurs / — la version spanglish.
 
 Les jeux de mots privilégient la correspondance la plus précise ; une traduction monolingue l'emporte donc toujours sur une traduction multilingue lorsque les deux pourraient convenir.
+
+La version en espanglish est lue à voix haute entièrement en espagnol, sa première langue. Pour que chaque mot soit lu dans sa propre langue, marque chaque partie séparément et assemble-les :
+
+\
+Phrase("hola "/es + "gentleman"/en)
+\
 
 styling-text

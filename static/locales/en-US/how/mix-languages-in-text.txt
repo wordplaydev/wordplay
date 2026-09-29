@@ -12,4 +12,10 @@ A viewer whose preferred language is just Spanish sees /hola/. A viewer who pref
 
 Wordplay favors the most specific match, so a monolingual translation always wins over a multilingual one when both could apply.
 
+The Spanglish version is read aloud all in Spanish, its first language. To have each word read in its own, tag the pieces separately and join them:
+
+\
+Phrase("hola "/es + "gentleman"/en)
+\
+
 styling-text

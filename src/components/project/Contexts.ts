@@ -30,7 +30,6 @@ import type Step from '@runtime/Step';
 import type { User } from 'firebase/auth';
 import { createContext, getContext, setContext } from 'svelte';
 import { derived, type Readable, type Writable } from 'svelte/store';
-import type LanguageCode from '@locale/LanguageCode';
 import type { AnnouncementKind } from '@components/project/announcerQueue';
 import type {
     CommandContext,
@@ -103,7 +102,9 @@ export const [getLinkLocalize, setLinkLocalize] =
 export type AnnouncerContext =
     | ((
           kind: AnnouncementKind,
-          language: LanguageCode | undefined,
+          /** BCP 47. A creator's words inside `message` may carry their own
+           *  language as marks (see spokenLanguage.ts). */
+          language: string | undefined,
           message: string,
       ) => void)
     | undefined;

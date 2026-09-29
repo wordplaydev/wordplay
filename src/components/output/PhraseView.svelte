@@ -120,6 +120,10 @@
     // from the language's dominant script). Null when the value is untagged.
     let textLanguage = $derived(phrase.text.language);
     let textLang = $derived(textLanguage?.getBCP47() ?? null);
+    // A bubble's words are in their own language, whatever the speaker's are.
+    let bubbleLang = $derived(
+        phrase.bubble?.text.language?.getBCP47() ?? textLang,
+    );
     let textDir = $derived.by(() => {
         const code = textLanguage?.getLanguageCode();
         return code ? getLanguageDirection(code) : null;
@@ -401,7 +405,6 @@
         data-node-id={phrase.value.creator.id}
         data-name={phrase.getName()}
         data-selectable={selectable}
-        lang={textLang}
         dir={textDir}
         class:entered
         ondblclick={editable && interactive ? handleDoubleClick : null}
@@ -467,6 +470,7 @@
                     bubbleSide ?? phrase.bubble.getSide() ?? FallbackSide
                 ]}"
                 class:thought={phrase.bubble.isThought()}
+                lang={bubbleLang}
                 aria-hidden="true"
                 transition:scale|local={{
                     duration: $animationDuration,
@@ -511,6 +515,7 @@
             <!-- Stop propagation on key down so that only the input handles it when focused. -->
             <input
                 type="text"
+                lang={textLang}
                 value={editableText}
                 bind:this={input}
                 oninput={handleInput}
@@ -523,20 +528,30 @@
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else}<AnimatedText
-                {text}
-                changing={phrase.changing}
-                duration={phrase.duration}
-                style={phrase.style}
-                animationFactor={localContext.animationFactor}
-                language={effectLanguage}
-                region={effectRegion}
-                adapting={localContext.adapting}
-            />{/if}
+        {:else}<!-- The text's language goes here, not on the phrase: that
+             element's aria-label is a sentence in the reader's language, and
+             a screen reader reads a label in its element's language (#111).
+             display: contents, so the phrase's metrics-exact box is unchanged. -->
+            <span class="text-language" lang={textLang}
+                ><AnimatedText
+                    {text}
+                    changing={phrase.changing}
+                    duration={phrase.duration}
+                    style={phrase.style}
+                    animationFactor={localContext.animationFactor}
+                    language={effectLanguage}
+                    region={effectRegion}
+                    adapting={localContext.adapting}
+                /></span
+            >{/if}
     </div>
 {/if}
 
 <style>
+    .text-language {
+        display: contents;
+    }
+
     /* A speech bubble is a decoration, not layout: like an aura, it is absent
        from getMetrics and getLayout, so a phrase occupies exactly the box its
        own text does and nothing on stage moves when someone starts talking.

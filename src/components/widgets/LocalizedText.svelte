@@ -118,6 +118,14 @@
               ? resolveString(path, extras)
               : '',
     );
+    // The language the primary text is actually in, when that isn't the
+    // primary locale's: a string not yet translated shows another locale's
+    // text, and a screen reader should read it in that language's voice (#111).
+    const shownLanguage = $derived(
+        path !== undefined && overrideKey === undefined
+            ? $locales.getLanguageAttributes(path)
+            : undefined,
+    );
     const isMT = $derived(isMachineTranslated(text));
     const withoutAnnotationsText = $derived(withoutAnnotations(text));
     // Display-only: `$term` word-list references expanded. Kept separate from
@@ -322,8 +330,12 @@
         {/if}
     </span>
 {:else}
-    <span class="localized"
-        >{#if markup}<MarkupHTMLView markup={text}
+    <span class="localized" lang={shownLanguage?.lang} dir={shownLanguage?.dir}
+        >{#if markup}<MarkupHTMLView
+                markup={text}
+                lang={shownLanguage?.lang}
+                dir={shownLanguage?.dir}
+
             ></MarkupHTMLView>{:else}{displayText}{/if}{#if isMT}<MachineTranslatedAnnotation
             />{/if}</span
     >{#each secondaryEntries as entry, i}<span

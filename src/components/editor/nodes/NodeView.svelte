@@ -73,6 +73,7 @@
     import { locales, spaceIndicator, wrap } from '@db/Database';
     import { InsertionPoint } from '@edit/drag/Drag';
     import Block from '@nodes/Block';
+    import { LanguageTagged } from '@nodes/LanguageTagged';
     import type Definition from '@nodes/Definition';
     import type { LanguageDeriver } from '@nodes/DerivedLanguage';
     import Expression from '@nodes/Expression';
@@ -344,6 +345,15 @@
     let ComponentView = $derived(view ? view.component : undefined);
     let style = $derived(view ? view.style : undefined);
 
+    // A tagged text, formatted text, or doc is in its own language, which picks
+    // its glyphs (Han variants, say) and its voice in a screen reader's reading
+    // mode (#111). Only these nodes pay for it, never every token.
+    let language = $derived(
+        renderNode instanceof LanguageTagged
+            ? (renderNode.language?.getBCP47() ?? null)
+            : null,
+    );
+
     // The root Block is structural — it always exists and can't be removed,
     // so it shouldn't carry the visible block chrome (background, padding, shadow).
     let isRootBlock = $derived(
@@ -525,6 +535,7 @@
                     style?.kind,
                 ]}
                 data-uiid={renderNode.getDescriptor()}
+                lang={language}
                 data-id={renderNode.id}
                 id={`node-${renderNode.id}`}
                 aria-hidden={hide ? 'true' : null}

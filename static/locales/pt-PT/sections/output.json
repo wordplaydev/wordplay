@@ -408,10 +408,11 @@
         },
         "Say": {
             "doc": [
-                "$~Digo o texto em voz alta em vez de o mostrar no @Stage. Olá!",
-                "Basta dar-me algo para dizer, e digo-o sempre que o texto que me é dado muda:",
-                "\\Dizer('bla bla bla')\\",
-                "Vou usar o @Language do @TextLiteral se tiver um, caso contrário vou usar o @language selecionado.",
+                "$~Eu digo o texto em voz alta em vez de o mostrar no @Stage. Olá!",
+                "Basta dar-me algo para dizer, e eu digo-o sempre que o texto que me for dado mudar:",
+                "\\Dizer('blá blá blá')\\",
+                "Eu digo o texto no @language com que está etiquetado, e o texto sem etiqueta no idioma escolhido pelo seu programa. Se juntar texto em idiomas diferentes, eu digo cada parte no seu próprio idioma:",
+                "\\Dizer('hola '/es + 'amigo'/pt)\\",
                 "Pode selecionar uma voz nas definições."
             ],
             "names": ["Dizer"],

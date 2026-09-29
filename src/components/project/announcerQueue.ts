@@ -1,4 +1,3 @@
-import type LanguageCode from '@locale/LanguageCode';
 import { writable, type Writable } from 'svelte/store';
 import Announcement from './Announcement';
 
@@ -283,7 +282,7 @@ export class AnnouncerQueue {
 
     announce(
         kind: AnnouncementKind,
-        language: LanguageCode | undefined,
+        language: string | undefined,
         text: string,
     ) {
         const announcement = new Announcement(kind, language, text);
@@ -325,9 +324,9 @@ export class AnnouncerQueue {
                 this.cancelHold();
                 break;
             case 'queued':
-                if (text !== this.lastQueuedText) {
+                if (announcement.text !== this.lastQueuedText) {
                     this.queued.push(announcement);
-                    this.lastQueuedText = text;
+                    this.lastQueuedText = announcement.text;
                 }
                 break;
             case 'coalesce':

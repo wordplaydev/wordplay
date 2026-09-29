@@ -63,21 +63,23 @@
             "description": "$~bahasa $language[$language|tidak ditentukan]$region[, wilayah $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Aku label @language, dan aku bekerja dengan @Name dan @Doc!",
-                "Aku sangat pandai membuat *jelas sekali* bahasa apa yang dipakai dalam suatu tulisan. Cukup dengan garis miring dan beberapa huruf, tidak akan ada yang bingung lagi tentang bahasa apa yang dipakai dalam suatu teks.",
-                "Misalnya, jika kamu ingin menulis \"Language\" tapi ingin memperjelas bahwa itu dalam bahasa Inggris:",
+                "$~Aku adalah tanda @language dan aku bekerja dengan @Name dan @Doc!",
+                "Aku sangat pandai membuatnya *sangat jelas* dalam bahasa apa sesuatu ditulis. Cukup satu garis miring dan beberapa huruf, dan tidak akan ada yang bingung lagi tentang bahasa apa yang dipakai suatu teks.",
+                "Misalnya, jika kamu ingin menulis \"Language\" tapi ingin menunjukkan itu bahasa Inggris:",
                 "\\'Bahasa'/id\\",
-                "Kamu bisa melakukan ini untuk @Name:",
+                "Kamu bisa melakukan ini untuk sebuah @Name:",
                 "\\suara2: 'meong'\\🪲",
-                "…atau untuk @Doc:",
+                "…atau sebuah @Doc:",
                 "\\¶Onomatope¶\nsuara2: 'meong'\\🪲",
-                "Kadang teks bukan hanya satu bahasa — tapi *campuran*. Seperti Spanglish, di mana bahasa Spanyol dan Inggris bercampur. Untuk itu, tuliskan setiap bahasa dengan garis bawah di antaranya. Bahasa pertama adalah yang *utama* — itulah yang kupakai kalau aku harus memilih (misalnya, untuk menentukan tanda kutip mana yang dipakai).",
+                "Kadang teks bukan hanya satu bahasa saja — teks itu bisa *campuran*. Seperti Spanglish, campuran bahasa Spanyol dan bahasa Inggris. Untuk kasus seperti itu, tuliskan setiap bahasa dengan garis bawah di antaranya. Bahasa pertama adalah bahasa *utama* — itulah yang aku pakai kalau harus memilih satu (misalnya, untuk memilih tanda kutip mana yang dipakai).",
                 "\\\"Hola gentleman!\"/es_en\\",
-                "\\¶Salam dua bahasa¶\nhello/es_en: 'Hola gentleman!'\\🪲",
-                "Kamu juga bisa menambahkan satu @region, setelah tanda hubung, sama seperti dengan satu bahasa:",
+                "\\¶Salam dua bahasa¶\nhalo: 'Hola gentleman!'\\🪲",
+                "Tanda campuran menunjukkan bahwa seluruh teks adalah campuran, jadi pembaca layar atau @Say akan membacanya semua dalam bahasa utama. Agar setiap kata dibaca dalam bahasanya masing-masing, beri tanda pada tiap kata secara terpisah lalu gabungkan:",
+                "\\\"Hola \"/es + 'gentleman!'/en\\",
+                "Kamu juga bisa menambahkan satu @region, setelah tanda hubung, sama seperti dengan satu bahasa saja:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
-                "Tidak ada batas berapa banyak bahasa yang bisa kamu daftarkan — asal jangan mengulang bahasa yang sama dua kali; aku akan memberitahumu kalau kamu melakukannya.",
-                "Kamu bisa menulis bahasa dengan <kode 2-huruf@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>-nya atau dengan *nama*-nya, dalam bahasa itu sendiri atau dalam bahasa Inggris — `/es`, `/Español`, dan `/Spanish` artinya sama, begitu juga `/es-MX`, `/es-México`, dan `/es-Mexico`. Huruf besar dan tanda aksen tidak berpengaruh, jadi `/ESPANOL` juga berfungsi. Nama yang mengandung spasi ditulis tanpa spasi, seperti `/BahasaIndonesia`, karena label itu harus jadi satu kata. Jika aku tidak mengenali suatu bahasa atau wilayah, aku akan memberitahumu."
+                "Tidak ada batas berapa banyak bahasa yang bisa kamu tuliskan — asal jangan mengulang bahasa yang sama dua kali; aku akan memberitahumu kalau itu terjadi.",
+                "Kamu bisa menuliskan bahasa dengan <kode 2 huruf@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>-nya atau dengan *nama*-nya, dalam bahasa itu sendiri atau dalam bahasa Inggris — `/es`, `/Español`, dan `/Spanish` semuanya berarti sama, begitu juga `/es-MX`, `/es-México`, dan `/es-Mexico`. Huruf besar-kecil dan aksen tidak berpengaruh, jadi `/ESPANOL` juga bisa dipakai. Nama yang mengandung spasi ditulis tanpa spasi, seperti `/BahasaIndonesia`, karena sebuah tanda harus satu kata utuh. Kalau aku tidak mengenali suatu bahasa atau wilayah, aku akan memberitahumu."
             ],
             "conflict": {
                 "UnknownLanguage": {
