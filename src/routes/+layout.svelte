@@ -56,6 +56,7 @@
         markAsked,
     } from '@components/settings/localePrompt';
     import { getLanguageDirection } from '@locale/LanguageCode';
+    import { toBCP47 } from '@locale/Locale';
 
     interface Props {
         children: Snippet;
@@ -83,8 +84,9 @@
     /** Keep the page's language and direction up to date. */
     $effect(() => {
         if (typeof document !== 'undefined') {
-            const language = $locales.getLocale().language;
-            document.documentElement.setAttribute('lang', language);
+            const locale = $locales.getLocale();
+            const language = locale.language;
+            document.documentElement.setAttribute('lang', toBCP47(locale));
             document.documentElement.setAttribute(
                 'dir',
                 getLanguageDirection(language),
@@ -380,7 +382,7 @@
     style:--animation-factor={$animationFactor}
     style:--wordplay-app-font={appFaces}
     style:--wordplay-code-font={codeFonts}
-    lang={$locales.getLocale().language}
+    lang={toBCP47($locales.getLocale())}
     ontouchstart={() => hint.hide()}
 >
     <!-- App-wide transient banner for one-off action failures (e.g. a delete

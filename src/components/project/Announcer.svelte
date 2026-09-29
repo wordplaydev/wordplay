@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte';
-    import type LanguageCode from '@locale/LanguageCode';
     import type Announcement from '@components/project/Announcement';
     import {
         AnnouncerQueue,
@@ -20,7 +19,7 @@
     /** A function we expose to other components to announce things with this component. */
     export function announce(
         kind: AnnouncementKind,
-        language: LanguageCode | undefined,
+        language: string | undefined,
         message: string,
     ) {
         queue.announce(kind, language, message);
@@ -65,9 +64,11 @@
     aria-atomic="true"
     data-kind={current?.kind}
 >
-    {#key current}{#if current}<span lang={current.language}>
-                {current.text}
-            </span>{/if}{/key}
+    {#key current}{#if current}<span lang={current.language}
+                >{#if current.runs}{#each current.runs as run}<span
+                            lang={run.language}>{run.text}</span
+                        >{/each}{:else}{current.text}{/if}</span
+            >{/if}{/key}
 </div>
 <!-- Assertive, knowingly. VoiceOver plays its system alert sound for every
      assertive announcement (with or without role="alert"), so everything here
@@ -82,9 +83,11 @@
     aria-atomic="true"
     data-kind={immediate?.kind}
 >
-    {#key immediate}{#if immediate}<span lang={immediate.language}>
-                {immediate.text}
-            </span>{/if}{/key}
+    {#key immediate}{#if immediate}<span lang={immediate.language}
+                >{#if immediate.runs}{#each immediate.runs as run}<span
+                            lang={run.language}>{run.text}</span
+                        >{/each}{:else}{immediate.text}{/if}</span
+            >{/if}{/key}
 </div>
 
 <style>

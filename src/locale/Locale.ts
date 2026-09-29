@@ -21,6 +21,16 @@ export function localeToString(locale: Locale) {
     return `${languages.join('_')}${locale.regions.map((r) => `-${r}`).join('')}`;
 }
 
+/** A valid BCP 47 tag for an HTML `lang` attribute or a speech utterance: the
+ *  primary language and first region only, since `lang` allows neither the
+ *  multilingual `_` join nor several regions (`ta-IN-LK-SG` → `ta-IN`). */
+export function toBCP47(locale: Locale): string {
+    const region = locale.regions[0];
+    return region === undefined
+        ? locale.language
+        : `${locale.language}-${region}`;
+}
+
 export function stringToLocale(localeString: string): Locale | undefined {
     const languages = getLocaleLanguages(localeString);
     if (!isNonEmpty(languages)) return undefined;

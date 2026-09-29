@@ -6,6 +6,7 @@ import type Output from '@output/Output/Output';
 import Say from '@output/Output/Say';
 import Sequence from '@output/animation/Sequence';
 import describeDirection, { describePlace } from './direction';
+import { spokenText } from '@locale/spokenLanguage';
 
 /**
  * How many changed outputs are listed individually before we summarize them
@@ -29,7 +30,10 @@ function describable(output: Output): boolean {
  * their way, and the views already honor it for their aria-labels (#555).
  */
 function nameOf(output: Output, locales: Locales): string {
-    return output.description?.text ?? output.getDescription(locales);
+    // Spoken, so a creator's words are read in their own language (#111).
+    return output.description
+        ? spokenText(output.description)
+        : output.getDescription(locales, true);
 }
 
 /** A description of output that has entered the scene, computed after still. */
@@ -147,10 +151,10 @@ export function describeMovedOutput(locales: Locales, moved: Moved) {
         const direction = describeDirection(locales, prior, present);
         descriptions.push(
             direction === undefined
-                ? output.getShortDescription(locales)
+                ? output.getShortDescription(locales, true)
                 : locales
                       .concretize((l) => l.ui.output.moved, {
-                          name: output.getShortDescription(locales),
+                          name: output.getShortDescription(locales, true),
                           direction,
                           // Where it landed, so two moves the same way don't
                           // produce identical text a screen reader won't

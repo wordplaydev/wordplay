@@ -408,10 +408,11 @@
         },
         "Say": {
             "doc": [
-                "$~Aku mengucapkan teks dengan suara alih-alih menampilkannya di @Stage. Hai!",
-                "Cukup berikan aku sesuatu untuk diucapkan, dan aku akan mengucapkannya setiap kali teks yang diberikan padaku berubah:",
-                "\\Mengatakan('blah blah blah')\\",
-                "Aku akan memakai @Language dari @TextLiteral jika ada, jika tidak aku akan memakai @language yang dipilih.",
+                "$~Aku membacakan teks dengan suara, bukan menampilkannya di @Stage. Hai!",
+                "Cukup beri aku sesuatu untuk diucapkan, dan aku akan mengucapkannya setiap kali teks yang diberikan padaku berubah:",
+                "\\Mengatakan('bla bla bla')\\",
+                "Aku mengucapkan teks dalam @language yang menjadi tandanya, dan teks tanpa tanda dalam bahasa yang dipilih programmu. Jika kamu menggabungkan teks dari bahasa yang berbeda, aku akan mengucapkan tiap bagian dalam bahasanya masing-masing:",
+                "\\Mengatakan('hola '/es + 'teman'/id)\\",
                 "Kamu bisa memilih suara di pengaturan."
             ],
             "names": ["$~Mengatakan"],

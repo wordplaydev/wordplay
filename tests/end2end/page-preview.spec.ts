@@ -170,3 +170,21 @@ test('the sitemap lists public content and omits private content', async ({
     expect(xml).toContain('/guide');
     expect(xml).not.toContain(PRIVATE_ID);
 });
+
+test('a prerendered page declares its own language before any script runs', async ({
+    request,
+}) => {
+    // A screen reader reads a page in the voice of <html lang>, which used to be
+    // English on every prerendered page until hydration corrected it (#111).
+    for (const { route, lang, dir } of [
+        { route: '/es-MX', lang: 'es-MX', dir: 'ltr' },
+        { route: '/ar-SA', lang: 'ar-SA', dir: 'rtl' },
+        { route: '/', lang: 'en-US', dir: 'ltr' },
+    ]) {
+        const response = await request.get(route);
+        expect(response.status(), route).toBe(200);
+        expect(await response.text(), route).toContain(
+            `<html lang="${lang}" dir="${dir}">`,
+        );
+    }
+});

@@ -12,6 +12,7 @@ import { getBind } from '@locale/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import MarkupValue from '@values/MarkupValue';
 import TextValue from '@values/TextValue';
+import { spokenText } from '@locale/spokenLanguage';
 import type Value from '@values/Value';
 import { describeColorLocalized } from '@output/Color/BasicColors';
 import { describeFaceWithName } from '@basis/faces/faceWords';
@@ -177,6 +178,7 @@ export default class Phrase extends Output {
     private _bubbleGeneration = -1;
 
     private _description: string | undefined = undefined;
+    private _spokenDescription: string | undefined = undefined;
 
     constructor(
         value: StructureValue,
@@ -459,80 +461,82 @@ export default class Phrase extends Output {
         } else return this.text.markup;
     }
 
-    getShortDescription() {
+    getShortDescription(_?: Locales, spoken = false) {
+        if (spoken) return spokenText(this.text);
         const textOrDoc = this.getLocalizedTextOrDoc();
         return textOrDoc instanceof TextValue
             ? textOrDoc.text
             : (textOrDoc?.toText() ?? '');
     }
 
-    getDescription(locales: Locales) {
-        if (this._description === undefined) {
-            const text = this.getShortDescription();
+    getDescription(locales: Locales, spoken = false) {
+        if (spoken)
+            return (this._spokenDescription ??= this.describe(locales, true));
+        return (this._description ??= this.describe(locales, false));
+    }
 
-            // Check all animation states for sequence descriptions first
-            let animationDescription = '';
-            const animations = [
-                this.entering,
-                this.resting,
-                this.moving,
-                this.exiting,
-            ];
-            for (const animation of animations) {
-                if (animation instanceof Sequence) {
-                    const seqDescription = animation.getDescription(locales);
-                    if (seqDescription && seqDescription.trim() !== '') {
-                        animationDescription = seqDescription;
-                        break;
-                    }
+    private describe(locales: Locales, spoken: boolean): string {
+        const text = this.getShortDescription(locales, spoken);
+
+        // Check all animation states for sequence descriptions first
+        let animationDescription = '';
+        const animations = [
+            this.entering,
+            this.resting,
+            this.moving,
+            this.exiting,
+        ];
+        for (const animation of animations) {
+            if (animation instanceof Sequence) {
+                const seqDescription = animation.getDescription(locales);
+                if (seqDescription && seqDescription.trim() !== '') {
+                    animationDescription = seqDescription;
+                    break;
                 }
             }
-
-            // If no sequence description found, use pose description
-            if (!animationDescription) {
-                animationDescription =
-                    this.resting instanceof Pose
-                        ? this.resting.getDescription(locales)
-                        : this.pose.getDescription(locales);
-            }
-
-            const color = this.pose.color;
-            const colorDescription = color
-                ? describeColorLocalized(
-                      locales,
-                      color.lightness.toNumber(),
-                      color.chroma.toNumber(),
-                      color.hue.toNumber(),
-                  )
-                : undefined;
-            this._description = locales
-                .concretize((l) => l.output.Phrase.defaultDescription, {
-                    text: text,
-                    name:
-                        this.name instanceof TextValue
-                            ? this.name.text
-                            : undefined,
-                    size: this.size,
-                    // The face's own words, not just its family name: a creator
-                    // who can't see the stage has no other way to learn what
-                    // "Creepster" looks like. Falls back to the bare name for a
-                    // face we have no words for.
-                    face: describeFaceWithName(locales, this.face),
-                    animation: animationDescription,
-                    color: colorDescription,
-                    // A spoken bubble is left out: speech synthesis already
-                    // voices it, and two describers of one line are heard as
-                    // the same sentence twice, in two different voices. The
-                    // same bail `OutputDescriptions.describable` makes for `Say`.
-                    bubble:
-                        this.bubble && this.bubble.say === undefined
-                            ? this.bubble.getShortDescription()
-                            : undefined,
-                })
-                .toText()
-                .trim();
         }
-        return this._description;
+
+        // If no sequence description found, use pose description
+        if (!animationDescription) {
+            animationDescription =
+                this.resting instanceof Pose
+                    ? this.resting.getDescription(locales)
+                    : this.pose.getDescription(locales);
+        }
+
+        const color = this.pose.color;
+        const colorDescription = color
+            ? describeColorLocalized(
+                  locales,
+                  color.lightness.toNumber(),
+                  color.chroma.toNumber(),
+                  color.hue.toNumber(),
+              )
+            : undefined;
+        return locales
+            .concretize((l) => l.output.Phrase.defaultDescription, {
+                text: text,
+                name:
+                    this.name instanceof TextValue ? this.name.text : undefined,
+                size: this.size,
+                // The face's own words, not just its family name: a creator
+                // who can't see the stage has no other way to learn what
+                // "Creepster" looks like. Falls back to the bare name for a
+                // face we have no words for.
+                face: describeFaceWithName(locales, this.face),
+                animation: animationDescription,
+                color: colorDescription,
+                // A spoken bubble is left out: speech synthesis already
+                // voices it, and two describers of one line are heard as
+                // the same sentence twice, in two different voices. The
+                // same bail `OutputDescriptions.describable` makes for `Say`.
+                bubble:
+                    this.bubble && this.bubble.say === undefined
+                        ? this.bubble.getShortDescription(spoken)
+                        : undefined,
+            })
+            .toText()
+            .trim();
     }
 
     getBubbleSay() {

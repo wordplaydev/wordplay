@@ -39,8 +39,8 @@ import type {
 } from '@components/editor/commands/Commands';
 import type Conflict from '@conflicts/Conflict';
 import Project from '@db/projects/Project';
-import type LanguageCode from '@locale/LanguageCode';
 import NodeRef from '@locale/NodeRef';
+import { markLanguage } from '@locale/spokenLanguage';
 import Bind from '@nodes/Bind';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import Context from '@nodes/Context';
@@ -2884,21 +2884,44 @@ export default class Caret {
                 tokenPosition === undefined
                     ? undefined
                     : this.position - tokenPosition;
+            // Text in a tagged literal is read in its own language (#111); the
+            // sentence around it stays in the reader's.
+            const language = this.getLanguage();
+            const inputs =
+                this.tokenExcludingSpace.getDescriptionInputs(locales);
+            const before = relativeIndex
+                ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
+                : undefined;
+            const after = relativeIndex
+                ? this.tokenExcludingSpace.text.at(relativeIndex)
+                : undefined;
             return locales
                 .concretize((l) => l.ui.edit.inside, {
-                    token: new NodeRef(
-                        this.tokenExcludingSpace,
-                        locales,
-                        context,
-                    ),
+                    token:
+                        language !== undefined &&
+                        typeof inputs.text === 'string'
+                            ? locales.concretize(
+                                  (l) => l.node.Token.description,
+                                  {
+                                      label: inputs.label,
+                                      text: markLanguage(inputs.text, language),
+                                  },
+                              )
+                            : new NodeRef(
+                                  this.tokenExcludingSpace,
+                                  locales,
+                                  context,
+                              ),
                     // Character before cursor, if there is one
-                    before: relativeIndex
-                        ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
-                        : undefined,
+                    before:
+                        before === undefined
+                            ? undefined
+                            : markLanguage(before, language),
                     // Character after cursor, if there is one
-                    after: relativeIndex
-                        ? this.tokenExcludingSpace.text.at(relativeIndex)
-                        : undefined,
+                    after:
+                        after === undefined
+                            ? undefined
+                            : markLanguage(after, language),
                 })
                 .toText();
         }
@@ -2945,8 +2968,10 @@ export default class Caret {
         );
     }
 
-    /** Gets the language code of the current content, if a language tagged token, or inside one */
-    getLanguage(): LanguageCode | undefined {
+    /** The BCP 47 language of the literal the caret is in, if it is tagged. Only
+     *  the literal's own words are in it; describe everything else in the
+     *  reader's language and mark the words (see spokenLanguage.ts). */
+    getLanguage(): string | undefined {
         if (this.position instanceof Node) return undefined;
         const token =
             this.tokenExcludingSpace ?? this.tokenIncludingSpace ?? undefined;
@@ -2955,7 +2980,7 @@ export default class Caret {
         const text = ancestors.find(
             (a): a is LanguageTagged => a instanceof LanguageTagged,
         );
-        return text?.language?.getLanguageCode();
+        return text?.language?.getBCP47();
     }
 
     /** Toggles an elision at the current position */

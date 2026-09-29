@@ -31,6 +31,9 @@
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import ConceptLink from '@nodes/ConceptLink';
     import Markup from '@nodes/Markup';
+    import type Language from '@nodes/Language';
+    import { toBCP47 } from '@locale/Locale';
+    import { getLanguageDirection } from '@locale/LanguageCode';
     import Paragraph from '@nodes/Paragraph';
     import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
     import type Spaces from '@parser/Spaces';
@@ -123,57 +126,107 @@
      *  they must resolve terms here. */
     const rt = (text: string) => $locales.resolveTerms(text);
 
-    /* Convert the markup into a Markup node. */
-    let parsed = $derived.by(() => {
-        // If markup was given, just pass it back and render it.
-        if (markup instanceof Markup) return markup;
-        // A per-locale resolver: render the primary locale's Markup.
-        else if (isPerLocale(markup))
-            return markup.perLocale($locales) ?? Markup.words('?');
-        // If markup was given as an accessor and inputs, concretize it with the inputs
-        else if (isTemplate(markup)) {
-            const [accessor, inputs] = markup;
-            const words = $locales.getWithAnnotations(accessor);
-            return (
-                Markup.words(
-                    rt(Array.isArray(words) ? words.join('\n\n') : words),
-                ).concretize($locales, inputs) ?? Markup.words('?')
-            );
-        }
-        // If an accessor function was given, get the corresponding locale text and render it as markup,
-        // automatically adding newlines to create multiple paragraphs.
-        else if (markup instanceof Function) {
-            const text = $locales.getWithAnnotations(markup);
-            return Markup.words(
-                rt(Array.isArray(text) ? text.join('\n\n') : text),
-            );
-        }
-        // If it's a list of strings, join them with newlines to create multiple paragraphs, and render that as markup.
-        else if (Array.isArray(markup))
-            return Markup.words(rt(markup.join('\n\n')));
-        // Does it start with a docs symbol? Pull out the relevant markup matching
-        // the preferred locale.
-        else if (markup.startsWith(DOCS_SYMBOL)) {
-            const docs = parseDocs(toTokens(rt(markup)));
-            return (
-                docs.getLanguage($locales.getLocale().language)?.markup ??
-                // A parsed docs string always holds at least one doc.
-                must(docs.docs[0], 'a doc').markup
-            );
-        }
-        // Does it start with a formatted symbol? Pull out the relevant markup matching
-        // the preferred locale.
-        if (markup.startsWith(FORMATTED_SYMBOL)) {
-            const formatted = parseFormattedLiteral(toTokens(rt(markup)));
-            return (
-                formatted.getLanguage($locales.getLocale().language)?.markup ??
-                // A parsed formatted literal always holds at least one text.
-                must(formatted.texts[0], 'a formatted text').markup
-            );
-        }
-        // Otherwise, just render the string as a single paragraph of markup.
-        return Markup.words(rt(markup));
-    });
+    /* Convert the markup into a Markup node, keeping the language tag of the
+       doc or translation chosen from a multilingual string, since the one
+       chosen may not be in the primary locale's language. */
+    let resolved = $derived.by(
+        (): { markup: Markup; language?: Language | undefined } => {
+            // If markup was given, just pass it back and render it.
+            if (markup instanceof Markup) return { markup };
+            // A per-locale resolver: render the primary locale's Markup.
+            else if (isPerLocale(markup))
+                return {
+                    markup: markup.perLocale($locales) ?? Markup.words('?'),
+                };
+            // If markup was given as an accessor and inputs, concretize it with the inputs
+            else if (isTemplate(markup)) {
+                const [accessor, inputs] = markup;
+                const words = $locales.getWithAnnotations(accessor);
+                return {
+                    markup:
+                        Markup.words(
+                            rt(
+                                Array.isArray(words)
+                                    ? words.join('\n\n')
+                                    : words,
+                            ),
+                        ).concretize($locales, inputs) ?? Markup.words('?'),
+                };
+            }
+            // If an accessor function was given, get the corresponding locale text and render it as markup,
+            // automatically adding newlines to create multiple paragraphs.
+            else if (markup instanceof Function) {
+                const text = $locales.getWithAnnotations(markup);
+                return {
+                    markup: Markup.words(
+                        rt(Array.isArray(text) ? text.join('\n\n') : text),
+                    ),
+                };
+            }
+            // If it's a list of strings, join them with newlines to create multiple paragraphs, and render that as markup.
+            else if (Array.isArray(markup))
+                return { markup: Markup.words(rt(markup.join('\n\n'))) };
+            // Does it start with a docs symbol? Pull out the relevant markup matching
+            // the preferred locale.
+            else if (markup.startsWith(DOCS_SYMBOL)) {
+                const docs = parseDocs(toTokens(rt(markup)));
+                const doc =
+                    docs.getLanguage($locales.getLocale().language) ??
+                    // A parsed docs string always holds at least one doc.
+                    must(docs.docs[0], 'a doc');
+                return { markup: doc.markup, language: doc.language };
+            }
+            // Does it start with a formatted symbol? Pull out the relevant markup matching
+            // the preferred locale.
+            if (markup.startsWith(FORMATTED_SYMBOL)) {
+                const formatted = parseFormattedLiteral(toTokens(rt(markup)));
+                const text =
+                    formatted.getLanguage($locales.getLocale().language) ??
+                    // A parsed formatted literal always holds at least one text.
+                    must(formatted.texts[0], 'a formatted text');
+                return { markup: text.markup, language: text.language };
+            }
+            // Otherwise, just render the string as a single paragraph of markup.
+            return { markup: Markup.words(rt(markup)) };
+        },
+    );
+
+    let parsed = $derived(resolved.markup);
+    // Formatted text joined from several languages says which segment is in
+    // which (#111); only inline rendering, which is how output shows it, uses it.
+    let segmentLanguages = $derived(parsed.metadata?.segmentLanguages);
+
+    /** The language the primary rendering is actually in, when it differs from
+     *  the primary locale's: an untranslated string shows another locale's
+     *  text, and a multilingual string may hold no doc in the primary language.
+     *  Screen readers pick their voice from this (#111). */
+    let shown = $derived.by(
+        (): { lang: string; dir: WritingDirection } | undefined => {
+            const language = resolved.language ?? resolved.markup.getLanguage();
+            if (language !== undefined) {
+                const tag = language.getBCP47();
+                const code = language.getLanguageCode();
+                return tag === undefined ||
+                    code === undefined ||
+                    tag === toBCP47($locales.getLocale())
+                    ? undefined
+                    : { lang: tag, dir: getLanguageDirection(code) };
+            }
+            const accessor =
+                markup instanceof Function
+                    ? markup
+                    : isTemplate(markup)
+                      ? markup[0]
+                      : resolved.markup.source?.accessor;
+            return accessor !== undefined
+                ? $locales.getLanguageAttributes(accessor)
+                : // Placeholder text (a `$?` tutorial line, say) is untranslated
+                  // English whatever locale it sits in.
+                  resolved.markup.metadata?.unwritten
+                  ? $locales.getFallbackLanguageAttributes()
+                  : undefined;
+        },
+    );
 
     let spaces = $derived(parsed.spaces);
 
@@ -564,9 +617,27 @@
     </span>
 {:else if spaces}
     {#if inline}
-        {#each parsed.asLine().paragraphs[0]?.segments ?? [] as segment}
-            <SegmentHTMLView {segment} {spaces} alone={false} />
-        {/each}{#each secondaryMarkups as entry, i}{#if entry.markup.spaces}<span
+        {#if lang !== undefined || shown !== undefined}<span
+                lang={lang ?? shown?.lang}
+                dir={dir ?? shown?.dir}
+                >{#each parsed.asLine().paragraphs[0]?.segments ?? [] as segment}<SegmentHTMLView
+                        {segment}
+                        {spaces}
+                        alone={false}
+                    />{/each}</span
+            >{:else}{#each parsed.asLine().paragraphs[0]?.segments ?? [] as segment}{@const segmentLanguage =
+                    segmentLanguages?.get(segment)}{#if segmentLanguage}<span
+                        lang={segmentLanguage.getBCP47()}
+                        ><SegmentHTMLView
+                            {segment}
+                            {spaces}
+                            alone={false}
+                        /></span
+                    >{:else}<SegmentHTMLView
+                        {segment}
+                        {spaces}
+                        alone={false}
+                    />{/if}{/each}{/if}{#each secondaryMarkups as entry, i}{#if entry.markup.spaces}<span
                     class="secondary-inline"
                     lang={entry.language}
                     dir={entry.direction}
@@ -586,8 +657,8 @@
             <div
                 class="markup"
                 class:note
-                lang={lang ?? $locales.getLocale().language}
-                dir={dir ?? $locales.getDirection()}
+                lang={lang ?? shown?.lang ?? $locales.getLocale().language}
+                dir={dir ?? shown?.dir ?? $locales.getDirection()}
                 >{@render paragraphsView(
                     paragraphsAndLists,
                     spaces,

@@ -1289,10 +1289,11 @@
         },
         "Say": {
             "doc": [
-                "$~Tôi nói văn bản thành tiếng thay vì hiển thị nó trên @Stage. Xin chào!",
-                "Chỉ cần cho tôi điều gì đó để nói, và tôi sẽ nói nó mỗi khi văn bản tôi nhận được thay đổi:",
-                "\\Nói('blah blah blah')\\",
-                "Tôi sẽ dùng @Language của @TextLiteral nếu nó có, nếu không tôi sẽ dùng @language được chọn.",
+                "$~Tôi đọc to văn bản thay vì hiển thị nó trên @Stage. Chào bạn!",
+                "Chỉ cần đưa cho tôi thứ gì đó để nói, và tôi sẽ nói mỗi khi văn bản được giao cho tôi thay đổi:",
+                "\\Nói('lải nhải lải nhải')\\",
+                "Tôi nói văn bản bằng @language mà nó được gắn thẻ, và văn bản không gắn thẻ thì tôi nói bằng ngôn ngữ mà chương trình của bạn đã chọn. Nếu bạn ghép văn bản từ các ngôn ngữ khác nhau, tôi sẽ nói từng phần bằng ngôn ngữ riêng của nó:",
+                "\\Nói('hola '/es + 'bạn'/vi)\\",
                 "Bạn có thể chọn một giọng nói trong phần cài đặt."
             ],
             "names": ["$~Nói"],

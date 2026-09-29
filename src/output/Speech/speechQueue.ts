@@ -48,6 +48,12 @@ export type Utterance = {
      * floor caption of it would show the same line twice.
      */
     captioned?: boolean;
+    /**
+     * The words a caption shows, when this utterance is one language's part
+     * of a longer line (#111); defaults to `text`. The caption shows the whole
+     * line throughout, rather than flickering from part to part.
+     */
+    caption?: string;
 };
 
 /**

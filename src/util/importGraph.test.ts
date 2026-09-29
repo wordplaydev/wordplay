@@ -953,12 +953,20 @@ test('resolving a color needs no basis', () => {
 // `HowToDatabase.svelte.ts`, the repost predicates in `howToAccess.ts`, and the
 // strings in en-US.json — all in files every page already carries.
 
+// Reading each language in its own voice (#111) is **+1 file on the layout** and
+// moves every byte budget by one to three hundredths. The file is
+// `spokenLanguage.ts`, a leaf — its only imports are types — that the
+// Announcer needs to turn a message's language marks into `lang` runs, and the
+// Announcer is on every page. The per-part bookkeeping lives in `TextValue.ts`
+// and `MarkupValue.ts` rather than modules of its own, since every graph that
+// renders output already carries both; the bytes are that bookkeeping.
+
 test.each([
-    ['src/routes/+layout.svelte', 535, 4.12],
-    ['src/components/app/Page.svelte', 559, 4.38],
-    ['src/routes/[[locale]]/+page.svelte', 574, 4.47],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.48],
-    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.51],
+    ['src/routes/+layout.svelte', 536, 4.15],
+    ['src/components/app/Page.svelte', 559, 4.4],
+    ['src/routes/[[locale]]/+page.svelte', 574, 4.49],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.5],
+    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.54],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

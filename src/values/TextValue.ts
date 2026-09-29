@@ -17,8 +17,16 @@ export default class TextValue extends SimpleValue {
     /** The locale of this text, held as a Language node (not a string) to avoid
      *  drift with the node-level locale semantics. Undefined when untagged. */
     readonly language: Language | undefined;
+    /** Which words are in which language, when there are several (see
+     *  `TextPart`); undefined for text in one language, which is nearly all. */
+    readonly parts: readonly TextPart[] | undefined;
 
-    constructor(creator: Expression, text: string, language?: Language) {
+    constructor(
+        creator: Expression,
+        text: string,
+        language?: Language,
+        parts?: readonly TextPart[],
+    ) {
         super(creator);
 
         // We normalize all strings to ensure they are comparable.
@@ -28,6 +36,38 @@ export default class TextValue extends SimpleValue {
             language !== undefined && language.getTagString() !== undefined
                 ? language
                 : undefined;
+        this.parts =
+            parts === undefined
+                ? undefined
+                : keepParts(this.text, parts, this.language);
+    }
+
+    /** This text's parts, or the whole of it as one part in its own language. */
+    getParts(): readonly TextPart[] {
+        return this.parts ?? [{ text: this.text, language: this.language }];
+    }
+
+    /** Whether joining with another text would mix languages, and so needs parts. */
+    private mixesWith(text: TextValue) {
+        return (
+            this.parts !== undefined ||
+            text.parts !== undefined ||
+            (this.language !== undefined &&
+                text.language !== undefined &&
+                !sameLanguage(this.language, text.language))
+        );
+    }
+
+    /** Parts for these graphemes of this text, taken in any order. */
+    private partsOf(indices: readonly number[]): TextPart[] | undefined {
+        if (this.parts === undefined) return undefined;
+        const graphemes = this.graphemes();
+        const starts = graphemeStarts(graphemes);
+        return partsOfGraphemes(
+            this.parts,
+            indices.map((index) => graphemes[index] ?? ''),
+            indices.map((index) => starts[index] ?? 0),
+        );
     }
 
     getType() {
@@ -52,25 +92,55 @@ export default class TextValue extends SimpleValue {
     }
 
     repeat(requestor: Expression, count: number) {
-        return new TextValue(requestor, this.text.repeat(count), this.language);
+        const parts = this.parts;
+        return new TextValue(
+            requestor,
+            this.text.repeat(count),
+            this.language,
+            parts === undefined
+                ? undefined
+                : Array.from(
+                      { length: Math.max(0, count) },
+                      () => parts,
+                  ).flat(),
+        );
+    }
+
+    /** Each part cased under its own language, which may differ between parts
+     *  (Turkish dotted i beside English, say). */
+    private cased(
+        requestor: Expression,
+        casing: (text: string, locale: string | undefined) => string,
+    ) {
+        if (this.parts === undefined)
+            return new TextValue(
+                requestor,
+                casing(this.text, this.language?.getBCP47()),
+                this.language,
+            );
+        const parts = this.parts.map((part) => ({
+            text: casing(
+                part.text,
+                (part.language ?? this.language)?.getBCP47(),
+            ),
+            language: part.language,
+        }));
+        return new TextValue(
+            requestor,
+            parts.map((part) => part.text).join(''),
+            this.language,
+            parts,
+        );
     }
 
     /** Casing follows this text's own locale tag, since only the tag says what
      *  language the letters are in; untagged text uses Unicode's root mapping. */
     uppercase(requestor: Expression) {
-        return new TextValue(
-            requestor,
-            upperCase(this.text, this.language?.getBCP47()),
-            this.language,
-        );
+        return this.cased(requestor, upperCase);
     }
 
     lowercase(requestor: Expression) {
-        return new TextValue(
-            requestor,
-            lowerCase(this.text, this.language?.getBCP47()),
-            this.language,
-        );
+        return this.cased(requestor, lowerCase);
     }
 
     /** A slice of the text, in graphemes. Mirrors List.subsequence exactly —
@@ -80,14 +150,18 @@ export default class TextValue extends SimpleValue {
         const graphemes = this.graphemes();
         const from = Math.max(1, start);
         const to = Math.min(graphemes.length, end ?? graphemes.length);
-        const slice = graphemes.slice(
-            Math.min(from, to) - 1,
-            Math.max(from, to),
-        );
+        const first = Math.min(from, to) - 1;
+        const slice = graphemes.slice(first, Math.max(from, to));
+        const indices = slice.map((_, index) => first + index);
+        if (from > to) {
+            slice.reverse();
+            indices.reverse();
+        }
         return new TextValue(
             requestor,
-            (from > to ? slice.reverse() : slice).join(''),
+            slice.join(''),
             this.language,
+            this.partsOf(indices),
         );
     }
 
@@ -107,42 +181,88 @@ export default class TextValue extends SimpleValue {
      *  way combine does, since the replacement's own words end up in the result.
      *  Replacing nothing is a no-op rather than splicing between every symbol. */
     replace(requestor: Expression, of: TextValue, replacement: TextValue) {
+        if (of.text.length === 0)
+            return new TextValue(
+                requestor,
+                this.text,
+                Language.union(this.language, replacement.language),
+                this.parts,
+            );
+        // UnicodeString.split matches whole graphemes, so this can't cut into
+        // the middle of an emoji the way String.split can.
+        const pieces = new UnicodeString(this.text).split(of.text);
+        const language = Language.union(this.language, replacement.language);
+        if (!this.mixesWith(replacement))
+            return new TextValue(
+                requestor,
+                pieces.join(replacement.text),
+                language,
+            );
+        // Each piece keeps its own parts, and the replacement brings its own.
+        const own = this.getParts();
+        const parts: TextPart[] = [];
+        let offset = 0;
+        pieces.forEach((piece, index) => {
+            if (index > 0) parts.push(...replacement.getParts());
+            parts.push(...sliceParts(own, offset, offset + piece.length));
+            offset += piece.length + of.text.length;
+        });
         return new TextValue(
             requestor,
-            of.text.length === 0
-                ? this.text
-                : // UnicodeString.split matches whole graphemes, so this can't
-                  // cut into the middle of an emoji the way String.split can.
-                  new UnicodeString(this.text)
-                      .split(of.text)
-                      .join(replacement.text),
-            Language.union(this.language, replacement.language),
+            pieces.join(replacement.text),
+            language,
+            parts,
         );
     }
 
     /** The text without leading and trailing whitespace. */
     trim(requestor: Expression) {
-        return new TextValue(requestor, this.text.trim(), this.language);
+        const start = this.text.length - this.text.trimStart().length;
+        const end = this.text.trimEnd().length;
+        return new TextValue(
+            requestor,
+            this.text.trim(),
+            this.language,
+            this.parts === undefined
+                ? undefined
+                : sliceParts(this.parts, start, Math.max(start, end)),
+        );
     }
 
     /** The text backwards, by grapheme, so emoji and accents stay whole. */
     reverse(requestor: Expression) {
+        const graphemes = this.graphemes();
         return new TextValue(
             requestor,
-            this.graphemes().reverse().join(''),
+            [...graphemes].reverse().join(''),
             this.language,
+            this.partsOf(graphemes.map((_, index) => index).reverse()),
         );
     }
 
     segment(requestor: Expression, delimiter: TextValue | string) {
+        const separator =
+            typeof delimiter === 'string' ? delimiter : delimiter.text;
+        const parts = this.parts;
+        let offset = 0;
         return new ListValue(
             requestor,
             new UnicodeString(this.text)
-                .split(
-                    typeof delimiter === 'string' ? delimiter : delimiter.text,
-                )
-                // Each fragment inherits the source text's locale.
-                .map((s) => new TextValue(requestor, s, this.language)),
+                .split(separator)
+                // Each fragment inherits the source text's locale, and the
+                // parts of it that fall in the fragment.
+                .map((s) => {
+                    const start = offset;
+                    offset += s.length + separator.length;
+                    return new TextValue(
+                        requestor,
+                        s,
+                        this.language,
+                        parts === undefined
+                            ? undefined
+                            : sliceParts(parts, start, start + s.length),
+                    );
+                }),
         );
     }
 
@@ -153,6 +273,11 @@ export default class TextValue extends SimpleValue {
             requestor,
             this.text + text.text,
             Language.union(this.language, text.language),
+            // Keep which words are in which language, so each is read in its
+            // own voice rather than all in the union's first (#111).
+            this.mixesWith(text)
+                ? [...this.getParts(), ...text.getParts()]
+                : undefined,
         );
     }
 
@@ -195,4 +320,145 @@ export default class TextValue extends SimpleValue {
     getSize() {
         return 1;
     }
+}
+
+/** The parts, when they still line up with this exact text and say more than its tag. */
+function keepParts(
+    text: string,
+    parts: readonly TextPart[],
+    language: Language | undefined,
+): TextPart[] | undefined {
+    const kept = normalizeParts(
+        parts.map((part) => ({
+            text: part.text.normalize(),
+            language: part.language,
+        })),
+        language,
+    );
+    // Normalizing across a part boundary can recompose characters, in which
+    // case the parts no longer line up with the text and are better dropped.
+    return kept !== undefined && kept.map((part) => part.text).join('') === text
+        ? kept
+        : undefined;
+}
+
+/**
+ * A stretch of text in one language (#111). A text value built from texts in
+ * several languages — `'hi'/en + 'hola'/es`, or an interpolation of one inside
+ * another — keeps its parts so that each can be shown and read aloud in its own
+ * language. The value's `language` stays the union, so types and conflicts are
+ * unchanged; the parts only say which words are in which language.
+ */
+export type TextPart = {
+    readonly text: string;
+    /** Undefined when the part is untagged, and so in the surrounding language. */
+    readonly language: Language | undefined;
+};
+
+/** Whether two tags mean the same language, however each is spelled. */
+export function sameLanguage(
+    a: Language | undefined,
+    b: Language | undefined,
+): boolean {
+    if (a === b) return true;
+    if (a === undefined || b === undefined) return false;
+    return a.getBCP47() === b.getBCP47();
+}
+
+/**
+ * The parts worth keeping, given the value's own tag: empty parts dropped and
+ * neighbors in the same language joined. Undefined when the value's tag already
+ * says everything — one language, and the tag's — which is what keeps every
+ * ordinary text value free of this allocation. A single part in another
+ * language is kept: a Spanish word segmented out of `/en_es` text is still
+ * tagged with the union, whose primary language is English.
+ */
+function normalizeParts(
+    parts: readonly TextPart[],
+    language: Language | undefined,
+): TextPart[] | undefined {
+    const merged: TextPart[] = [];
+    for (const part of parts) {
+        if (part.text.length === 0) continue;
+        const last = merged.at(-1);
+        if (last !== undefined && sameLanguage(last.language, part.language))
+            merged[merged.length - 1] = {
+                text: last.text + part.text,
+                language: last.language ?? part.language,
+            };
+        else merged.push(part);
+    }
+    const tagged = new Set<string>();
+    for (const part of merged) {
+        const tag = part.language?.getBCP47();
+        if (tag !== undefined) tagged.add(tag);
+    }
+    const [only] = tagged;
+    return tagged.size > 1 ||
+        (only !== undefined && only !== language?.getBCP47())
+        ? merged
+        : undefined;
+}
+
+/** The parts covering code units [start, end) of their joined text. */
+function sliceParts(
+    parts: readonly TextPart[],
+    start: number,
+    end: number,
+): TextPart[] {
+    const sliced: TextPart[] = [];
+    let offset = 0;
+    for (const part of parts) {
+        const partEnd = offset + part.text.length;
+        const from = Math.max(start, offset);
+        const to = Math.min(end, partEnd);
+        if (from < to)
+            sliced.push({
+                text: part.text.slice(from - offset, to - offset),
+                language: part.language,
+            });
+        offset = partEnd;
+    }
+    return sliced;
+}
+
+/** The language of the part containing code unit `index`, so a grapheme that
+ *  straddles two parts takes the language of the one it starts in. */
+function languageAt(
+    parts: readonly TextPart[],
+    index: number,
+): Language | undefined {
+    let offset = 0;
+    for (const part of parts) {
+        offset += part.text.length;
+        if (index < offset) return part.language;
+    }
+    return parts.at(-1)?.language;
+}
+
+/**
+ * Parts for a sequence of graphemes taken from text with the given parts, in
+ * any order: each grapheme keeps the language of the code unit it started at.
+ * `starts` are those code unit offsets, one per grapheme.
+ */
+function partsOfGraphemes(
+    parts: readonly TextPart[],
+    graphemes: readonly string[],
+    starts: readonly number[],
+): TextPart[] {
+    return graphemes.map((text, index) => ({
+        text,
+        language: languageAt(parts, starts[index] ?? 0),
+    }));
+}
+
+/** Code unit offsets at which each grapheme starts. */
+function graphemeStarts(graphemes: readonly string[]): number[] {
+    const starts: number[] = [];
+    let offset = 0;
+    for (const grapheme of graphemes) {
+        starts.push(offset);
+        offset += grapheme.length;
+    }
+    return starts;
 }

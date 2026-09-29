@@ -74,6 +74,8 @@
                 "Sometimes text isn't just one language — it's a *mix*. Like Spanglish, where Spanish and English blend together. For those, list each language with an underscore between them. The first one is the *primary* — that's the one I use when I have to pick (for example, to choose which quote marks to use).",
                 "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\🪲",
+                "A mixed tag says the whole text is a mix, so a screen reader or @Say reads all of it in the primary language. To have each word read in its own language, tag the words separately and join them:",
+                "\\\"Hola \"/es + \"gentleman!\"/en\\",
                 "You can add a single @region too, after a dash, just like with a single language:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
                 "There's no limit to how many languages you can list — just don't repeat the same one twice; I'll let you know if you do.",

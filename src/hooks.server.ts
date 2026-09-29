@@ -6,6 +6,8 @@ import { getManifestPath, isSupportedLocale } from '@locale/SupportedLocales';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { LocaleAssetHashes } from '@db/locales/localeAssets.generated';
 import { FontsVersion } from '@basis/faces/faces.generated';
+import { stringToLocale, toBCP47 } from '@locale/Locale';
+import { getLanguageDirection } from '@locale/LanguageCode';
 
 type FallbackStrings = {
     wordplay: string;
@@ -157,6 +159,11 @@ export const handle: Handle = async ({ event, resolve }) => {
     // pickLocale already reduced this to a supported code, so it names a
     // manifest the locale generator wrote.
     const manifest = escapeHtml(getManifestPath(locale));
+    // Tag the prerendered page with its own language from the first byte, so a
+    // screen reader reading it before hydration picks the right voice (#111).
+    const parsed = stringToLocale(locale);
+    const lang = escapeHtml(parsed ? toBCP47(parsed) : 'en-US');
+    const dir = parsed ? getLanguageDirection(parsed.language) : 'ltr';
 
     return resolve(event, {
         transformPageChunk: ({ html }) =>
@@ -177,6 +184,8 @@ export const handle: Handle = async ({ event, resolve }) => {
                 )
                 .replaceAll('%wordplay.localeassets%', localeAssetHashes())
                 .replaceAll('%wordplay.fontsversion%', FontsVersion)
-                .replaceAll('%wordplay.system.manifest%', manifest),
+                .replaceAll('%wordplay.system.manifest%', manifest)
+                .replaceAll('%wordplay.lang%', lang)
+                .replaceAll('%wordplay.dir%', dir),
     });
 };

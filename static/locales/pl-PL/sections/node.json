@@ -63,21 +63,23 @@
             "description": "$~język $language[$language|nieokreślony]$region[, region $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Jestem znacznikiem języka i współpracuję z @Name i @Doc!",
-                "Jestem naprawdę dobry w tym, żeby *jasno @how słońce* pokazać, w jakim języku coś jest napisane. Wystarczy mały ukośnik i kilka liter, a nikt już nie będzie miał wątpliwości, w jakim języku jest jakiś tekst.",
-                "Na przykład, jeśli chcesz powiedzieć „Language”, ale zaznaczyć, że to po angielsku:",
+                "$~Jestem znacznikiem @language i działam razem z @Name i @Doc!",
+                "Doskonale radzę sobie z pokazywaniem *bardzo wyraźnie*, w jakim języku coś jest napisane. Wystarczy mały ukośnik i kilka liter, i nikt już nie będzie miał wątpliwości, w jakim języku jest jakiś tekst.",
+                "Na przykład, jeśli chcesz powiedzieć \"Język\", ale pokazać, że to po angielsku:",
                 "\\'Język'/pl\\",
                 "Możesz to zrobić dla @Name:",
                 "\\dźwięk: 'miau'\\🪲",
                 "…albo dla @Doc:",
                 "\\¶Onomatopeja¶\ndźwięk: 'miau'\\🪲",
-                "Czasem tekst nie jest tylko w jednym języku — jest *mieszanką*. Jak Spanglish, gdzie hiszpański i angielski mieszają się razem. Dla takich przypadków wypisz każdy @language, oddzielając je podkreślnikiem. Pierwszy z nich jest *główny* — to ten, którego użyję, gdy muszę wybrać (na przykład, żeby zdecydować, jakich cudzysłowów użyć).",
+                "Czasem tekst to nie tylko jeden język — to *mieszanka*. @how Spanglish, gdzie hiszpański i angielski mieszają się razem. W takim przypadku wypisz każdy język, oddzielając je podkreśleniem. Pierwszy z nich jest *główny* — to ten, którego używam, gdy muszę wybrać (na przykład, jakich cudzysłowów użyć).",
                 "\\\"Hola gentleman!\"/es_en\\",
-                "\\¶Dwujęzyczne powitanie¶\nhello/es_en: 'Hola gentleman!'\\🪲",
-                "Możesz też dodać jeden @region, po myślniku, tak samo jak przy jednym języku:",
+                "\\¶Dwujęzyczne powitanie¶\ncześć: 'Hola gentleman!'\\🪲",
+                "Znacznik mieszany mówi, że cały tekst jest mieszanką, więc czytnik ekranu lub @Say czyta całość w głównym języku. Aby każde słowo było czytane w swoim własnym języku, oznacz słowa osobno i połącz je:",
+                "\\\"Hola \"/es + 'gentleman!'/en\\",
+                "Możesz też dodać pojedynczy @region, po myślniku, tak samo jak przy jednym języku:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
-                "Nie ma ograniczenia co do liczby języków, które możesz wypisać — po prostu nie powtarzaj tego samego dwa razy; dam ci znać, jeśli to zrobisz.",
-                "Język możesz zapisać jego <2-literowym kodem@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> albo jego *nazwą*, w tym języku lub po angielsku — `/es`, `/Español` i `/Spanish` znaczą to samo, podobnie jak `/es-MX`, `/es-México` i `/es-Mexico`. Wielkie litery i akcenty nie mają znaczenia, więc `/ESPANOL` też zadziała. Nazwa ze spacją zapisywana jest bez spacji, na przykład `/BahasaIndonesia`, ponieważ znacznik to jedno słowo. Jeśli nie rozpoznam języka albo regionu, dam ci znać."
+                "Nie ma limitu, ile języków możesz wypisać — tylko nie powtarzaj tego samego dwa razy; jeśli to zrobisz, dam ci znać.",
+                "Możesz zapisać język za pomocą jego <2-literowego kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> albo jego *nazwy*, w tym języku albo po angielsku — `/es`, `/Español` i `/Spanish` znaczą to samo, tak samo jak `/es-MX`, `/es-México` i `/es-Mexico`. Wielkie litery i akcenty nie mają znaczenia, więc `/ESPANOL` też zadziała. Nazwa ze spacją zapisywana jest bez spacji, jak `/BahasaIndonesia`, bo znacznik to jedno słowo. Jeśli nie rozpoznam jakiegoś języka albo regionu, dam ci znać."
             ],
             "conflict": {
                 "UnknownLanguage": {

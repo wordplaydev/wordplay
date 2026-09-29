@@ -21,8 +21,19 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import WebLink from '@nodes/WebLink';
 import Words from '@nodes/Words';
+import type Language from '@nodes/Language';
 
-export type MarkupMetadata = { unwritten: boolean; machineTranslated: boolean };
+export type MarkupMetadata = {
+    unwritten: boolean;
+    machineTranslated: boolean;
+    /** The language a doc chosen from a multilingual group is written in, which
+     *  may not be the reader's; a view tags its rendering with it (#111). */
+    language?: Language | undefined;
+    /** The language of each top-level segment, when formatted text in several
+     *  languages was joined (`\`hi\`/en + \`hola\`/es`); keyed by segment
+     *  identity, which `concat` and `asLine` preserve. */
+    segmentLanguages?: ReadonlyMap<Segment, Language> | undefined;
+};
 
 /**
  * Where a concretized markup came from: the locale accessor whose template produced it, and
@@ -49,8 +60,7 @@ export type MarkupSource = {
 export default class Markup extends Content {
     readonly paragraphs: Paragraph[];
     readonly spaces: Spaces | undefined;
-    readonly metadata:
-        { unwritten: boolean; machineTranslated: boolean } | undefined;
+    readonly metadata: MarkupMetadata | undefined;
     readonly source: MarkupSource | undefined;
 
     constructor(
@@ -451,6 +461,37 @@ export default class Markup extends Content {
 
     withMetadata(metadata: MarkupMetadata) {
         return new Markup(this.paragraphs, this.spaces, metadata, this.source);
+    }
+
+    withLanguage(language: Language | undefined) {
+        return this.withMetadata({
+            ...(this.metadata ?? {
+                unwritten: false,
+                machineTranslated: false,
+            }),
+            language,
+        });
+    }
+
+    getLanguage(): Language | undefined {
+        return this.metadata?.language;
+    }
+
+    withSegmentLanguages(
+        segmentLanguages: ReadonlyMap<Segment, Language> | undefined,
+    ) {
+        return this.withMetadata({
+            ...(this.metadata ?? {
+                unwritten: false,
+                machineTranslated: false,
+            }),
+            segmentLanguages,
+        });
+    }
+
+    /** Every top-level segment, in order, across paragraphs. */
+    getSegments(): Segment[] {
+        return this.paragraphs.flatMap((paragraph) => paragraph.segments);
     }
 
     withSource(source: MarkupSource) {

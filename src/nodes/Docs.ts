@@ -107,7 +107,9 @@ export default class Docs extends Node {
             ...(preferred === undefined ? [] : [preferred]),
             ...this.docs.filter((doc) => doc !== preferred),
         ]
-            .map((doc) => doc.markup.concretize(locales, {}))
+            .map((doc) =>
+                doc.markup.concretize(locales, {})?.withLanguage(doc.language),
+            )
             .filter((m) => m !== undefined);
     }
 

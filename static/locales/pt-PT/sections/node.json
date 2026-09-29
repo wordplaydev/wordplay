@@ -63,21 +63,23 @@
             "description": "$~idioma $language[$language|não especificado]$region[, região $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Sou uma etiqueta de @language e funciono com @Name e @Doc!",
-                "Sou muito boa a tornar *totalmente claro* em que idioma algo está escrito. Basta uma pequena barra e umas letras, e ninguém ficará confuso sobre o idioma de um texto.",
-                "Por exemplo, se quiser escrever \"Language\" mas deixar claro que é em inglês:",
+                "$~Sou uma etiqueta @language e funciono com @Name e @Doc!",
+                "Sou muito boa a deixar *bem claro* em que idioma algo está escrito. Basta uma barra e algumas letras, e ninguém ficará confuso sobre em que idioma um texto está escrito.",
+                "Por exemplo, se quiser dizer \"Idioma\" mas deixar claro que é em inglês:",
                 "\\'Idioma'/pt\\",
-                "Pode fazer isto com um @Name:",
+                "Pode fazer isto para um @Name:",
                 "\\som: 'miau'\\🪲",
-                "…ou com um @Doc:",
+                "…ou para um @Doc:",
                 "\\¶Onomatopeia¶\nsom: 'miau'\\🪲",
-                "Às vezes o texto não está apenas num idioma — é uma *mistura*. @how o espanhol misturado com inglês, onde as duas línguas se juntam. Nesses casos, liste cada idioma com um traço baixo entre eles. O primeiro é o *principal* — é o que uso quando tenho de escolher (por exemplo, para decidir que aspas usar).",
+                "Às vezes, um texto não é apenas um idioma — é uma *mistura*. @how o Espanglês, onde o espanhol e o inglês se misturam. Para esses casos, liste cada idioma separado por um sublinhado. O primeiro é o *principal* — é esse que eu uso quando tenho de escolher (por exemplo, para decidir que tipo de aspas usar).",
                 "\\\"Hola gentleman!\"/es_en\\",
-                "\\¶Uma saudação bilingue¶\nhello/es_en: 'Olá cavalheiro!'\\🪲",
-                "Também pode acrescentar um único @region, depois de um traço, tal como acontece com um único idioma:",
+                "\\¶Uma saudação bilingue¶\nolá: 'Olá cavalheiro!'\\🪲",
+                "Uma etiqueta mista diz que o texto todo é uma mistura, para que um leitor de ecrã ou @Say leia tudo no idioma principal. Para que cada palavra seja lida no seu próprio idioma, etiquete as palavras separadamente e junte-as:",
+                "\\\"Hola \"/es + 'cavalheiro!'/pt\\",
+                "Também pode acrescentar uma @region única, depois de um traço, tal como acontece com um único idioma:",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
-                "Não há limite para quantos idiomas pode listar — só não repita o mesmo duas vezes; se o fizer, eu aviso.",
-                "Pode escrever um idioma pelo seu <código de 2 letras@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ou pelo seu *nome*, nesse idioma ou em inglês — `/es`, `/Español` e `/Spanish` significam todos a mesma coisa, tal como `/es-MX`, `/es-México` e `/es-Mexico`. Maiúsculas e acentos não importam, por isso `/ESPANOL` também funciona. Um nome com espaço é escrito sem o espaço, como `/BahasaIndonesia`, porque uma etiqueta é sempre uma só palavra. Se eu não reconhecer um idioma ou uma região, aviso-o(a)."
+                "Não há limite para quantos idiomas pode listar — só não repita o mesmo idioma duas vezes; se o fizer, eu aviso.",
+                "Pode escrever um idioma pelo seu <código de 2 letras@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ou pelo seu *nome*, nesse idioma ou em inglês — `/es`, `/Español` e `/Spanish` significam todos a mesma coisa, tal como `/es-MX`, `/es-México` e `/es-Mexico`. Maiúsculas e acentos não importam, por isso `/ESPANOL` também funciona. Um nome com um espaço é escrito sem o espaço, como `/BahasaIndonesia`, porque uma etiqueta é sempre uma só palavra. Se eu não reconhecer um idioma ou uma região, eu aviso."
             ],
             "conflict": {
                 "UnknownLanguage": {

@@ -63,21 +63,23 @@
             "description": "$~langue $language[$language|non précisée]$region[, région $region|]",
             "emotion": "eager",
             "doc": [
-                "$~Je suis une étiquette de @language et je fonctionne avec @Name et @Doc !",
-                "Je suis vraiment doué pour montrer *très clairement* dans quelle langue quelque chose est écrit. Juste une petite barre et quelques lettres, et personne ne se demandera jamais dans quelle langue un texte est écrit.",
-                "Par exemple, si tu veux dire « Langue » mais montrer clairement que c'est en anglais :",
+                "$~Je suis une balise @language et je fonctionne avec @Name et @Doc !",
+                "Je suis très douée pour rendre *bien clair* dans quelle langue quelque chose est écrit. Juste une petite barre et quelques lettres, et personne ne sera jamais confus sur la langue d'un texte.",
+                "Par exemple, si tu veux dire « Langue » mais préciser que c'est en français :",
                 "\\'Langue'/fr\\",
                 "Tu peux faire ça pour un @Name :",
                 "\\son: 'miaou'\\🪲",
-                "…ou pour un @Doc :",
+                "…ou un @Doc :",
                 "\\¶Onomatopée¶\nson: 'miaou'\\🪲",
-                "Parfois, un texte n'est pas juste dans une seule langue — c'est un *mélange*. Comme le franglais, où le français et l'anglais se mélangent. Pour ça, liste chaque langue en les séparant par un trait de soulignement. La première est la *principale* — c'est celle que j'utilise quand je dois choisir (par exemple, pour choisir quels guillemets utiliser).",
+                "Parfois un texte n'est pas juste dans une seule langue — c'est un *mélange*. Comme le franglais, où le français et l'anglais se mélangent. Pour ces cas-là, liste chaque langue en les séparant par un trait de soulignement. La première est la *principale* — c'est celle que j'utilise quand je dois choisir (par exemple, pour savoir quels guillemets utiliser).",
                 "\\\"Hola gentleman!\"/es_en\\",
-                "\\¶Une salutation bilingue¶\nhello/es_en: 'Hola gentleman !'\\🪲",
+                "\\¶Une salutation bilingue¶\nbonjour: 'Hola gentleman !'\\🪲",
+                "Une balise mélangée indique que tout le texte est un mélange, donc un lecteur d'écran ou @Say lit tout dans la langue principale. Pour que chaque mot soit lu dans sa propre langue, balise les mots séparément et joins-les :",
+                "\\\"Hola \"/es + 'gentleman!'/en\\",
                 "Tu peux aussi ajouter une seule @region, après un tiret, tout comme avec une seule langue :",
                 "\\\"Hola gentleman!\"/es_en-MX\\",
-                "Il n'y a pas de limite au nombre de langues que tu peux lister — évite juste de répéter la même deux fois ; je te préviendrai si tu le fais.",
-                "Tu peux écrire une langue avec son <code à 2 lettres@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ou avec son *nom*, dans cette langue ou en anglais — `/es`, `/Español`, et `/Spanish` veulent tous dire la même chose, tout comme `/es-MX`, `/es-México`, et `/es-Mexico`. Les majuscules et les accents n'ont pas d'importance, donc `/ESPANOL` fonctionne aussi. Un nom avec une espace s'écrit sans l'espace, comme `/BahasaIndonesia`, parce qu'une étiquette est un seul mot. Si je ne reconnais pas une langue ou une région, je te le dirai."
+                "Il n'y a pas de limite au nombre de langues que tu peux lister — évite juste de répéter deux fois la même ; je te préviendrai si tu le fais.",
+                "Tu peux écrire une langue avec son <code à 2 lettres@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ou avec son *nom*, dans cette langue ou en anglais — `/es`, `/Español` et `/Spanish` veulent tous dire la même chose, tout comme `/es-MX`, `/es-México` et `/es-Mexico`. Les majuscules et les accents n'ont pas d'importance, donc `/ESPANOL` fonctionne aussi. Un nom avec un espace s'écrit sans l'espace, comme `/BahasaIndonesia`, car une balise forme un seul mot. Si je ne reconnais pas une langue ou une région, je te le dirai."
             ],
             "conflict": {
                 "UnknownLanguage": {

@@ -3,6 +3,7 @@ import Caret from '@edit/caret/Caret';
 import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
 import { expect, test } from 'vitest';
+import { toSpokenRuns } from '@locale/spokenLanguage';
 
 /** What a screen reader would be told about the caret at `position` in `code`. */
 function describe(code: string, position: number): string {
@@ -79,4 +80,18 @@ test('an empty source still describes the caret', () => {
     const description = describe('', 0);
     expect(description).not.toContain('undefined');
     expect(description.length).toBeGreaterThan(0);
+});
+
+test('a tagged literal’s words are marked with its language (#111)', () => {
+    // Caret between the "o" and "l" of hola: the words and the characters
+    // either side are Spanish, the sentence around them the reader's.
+    const runs = toSpokenRuns(describe("'hola'/es", 3), 'en');
+    expect(
+        runs?.filter((run) => run.language === 'es').map((r) => r.text),
+    ).toEqual(expect.arrayContaining(['hola']));
+    expect(runs?.some((run) => run.language === 'en')).toBe(true);
+});
+
+test('an untagged literal needs no runs', () => {
+    expect(toSpokenRuns(describe("'hola'", 3), 'en')).toBeUndefined();
 });

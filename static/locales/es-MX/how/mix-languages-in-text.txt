@@ -1,13 +1,21 @@
 Saluda a una audiencia multilingüe.
 
-A  @Phrase  Muestra la traducción correcta a cada espectador según el idioma que haya elegido. Si tu audiencia habla español, puedes hablarles en español; si hablan español e inglés (¡Spanglish!), puedes combinarlos.
+A @Phrase Muestra la traducción correcta a cada espectador según el idioma que haya elegido. Si tu audiencia habla español, puedes hablarles en español; si hablan español e inglés (¡Spanglish!), puedes combinarlos.
 
-Dar un  @TextLiteral  @wordplay ofrece varias traducciones, incluida una multilingüe, y elige la más adecuada para cada espectador:
+Dar un @TextLiteral  @wordplay ofrece varias traducciones, incluida una multilingüe, y elige la más adecuada para cada espectador:
 
-\Phrase("hola"/es"Hola"/en"Hola caballeros"/es_en)\
+\
+Phrase("hola"/es"Hola"/en"Hola caballeros"/es_en)
+\
 
-Un espectador cuyo idioma preferido es solo el español ve /hola/. Un espectador que prefiere solo el inglés ve /Hola/. Un espectador que prefiere tanto el español como el inglés ve /Hola caballeros/ — la versión en spanglish.
+ Un espectador cuyo idioma preferido es solo el español ve / hola /. Un espectador que prefiere solo el inglés ve / Hola /. Un espectador que prefiere tanto el español como el inglés ve / Hola caballeros / — la versión en spanglish.
 
 Los juegos de palabras favorecen la coincidencia más específica, por lo que una traducción monolingüe siempre prevalece sobre una multilingüe cuando ambas podrían aplicarse.
+
+La versión en espanglish se lee en voz alta toda en español, su primer idioma. Para que cada palabra se lea en su propio idioma, etiqueta cada parte por separado y luego únelas:
+
+\
+Phrase("hola "/es + "gentleman"/en)
+\
 
 styling-text

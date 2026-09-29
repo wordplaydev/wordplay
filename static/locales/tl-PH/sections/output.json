@@ -408,11 +408,12 @@
         },
         "Say": {
             "doc": [
-                "$~Binabasa ko nang malakas ang teksto sa halip na ipakita ito sa @Stage. Kumusta!",
-                "Bigyan mo lamang ako ng isang bagay na sasabihin, at sasabihin ko ito sa tuwing magbabago ang tekstong ibinigay sa akin:",
+                "$~Binibigkas ko ang teksto sa halip na ipakita ito sa @Stage. Kumusta!",
+                "Bigyan mo lang ako ng sasabihin, at sasabihin ko ito tuwing nagbabago ang tekstong ibinigay sa akin:",
                 "\\Sabihin('blah blah blah')\\",
-                "Gagamitin ko ang @Language ng @TextLiteral kung mayroon ito, kung hindi ay gagamitin ko ang napiling @language.",
-                "Maaari kang pumili ng boses sa mga setting."
+                "Sinasabi ko ang teksto sa @language na naka-tag dito, at ang tekstong walang tag ay sinasabi ko sa wikang pinili ng iyong programa. Kung pinagsama mo ang teksto sa iba't ibang wika, sinasabi ko ang bawat bahagi sa sarili nitong wika:",
+                "\\Sabihin('hola '/es + 'kaibigan'/tl)\\",
+                "Puwede kang pumili ng tinig sa mga setting."
             ],
             "names": ["$~Sabihin"],
             "text": {

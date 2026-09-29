@@ -6,11 +6,12 @@ import type Expression from '@nodes/Expression';
 import FormattedType from '@nodes/FormattedType';
 import Language from '@nodes/Language';
 import Markup from '@nodes/Markup';
+import type { Segment } from '@nodes/Paragraph';
 import type Type from '@nodes/Type';
 import BoolValue from '@values/BoolValue';
 import NumberValue from '@values/NumberValue';
 import SimpleValue from '@values/SimpleValue';
-import type TextValue from '@values/TextValue';
+import { sameLanguage, type default as TextValue } from '@values/TextValue';
 import type Value from '@values/Value';
 import { lowerCase, upperCase } from '@unicode/casing';
 import UnicodeString from '@unicode/UnicodeString';
@@ -74,10 +75,29 @@ export default class MarkupValue extends SimpleValue {
         // Mirror text: zero or fewer copies is empty. Each copy is cloned so
         // its nodes get fresh IDs (output keys ValueViews by node identity);
         // concat preserves paragraph breaks when the markup is multi-paragraph.
+        const own = this.markup.metadata?.segmentLanguages;
+        const originals = this.markup.getSegments();
+        const languages = new Map<Segment, Language>();
         let result = new Markup([]);
-        for (let i = 0; i < count; i++)
-            result = result.concat(this.markup.clone());
-        return new MarkupValue(requestor, result, this.language);
+        for (let i = 0; i < count; i++) {
+            const clone = this.markup.clone();
+            // A clone's segments are new nodes in the same order, so each takes
+            // its original's language.
+            if (own !== undefined)
+                clone.getSegments().forEach((segment, index) => {
+                    const original = originals[index];
+                    const language =
+                        original === undefined ? undefined : own.get(original);
+                    if (language !== undefined)
+                        languages.set(segment, language);
+                });
+            result = result.concat(clone);
+        }
+        return new MarkupValue(
+            requestor,
+            own === undefined ? result : result.withSegmentLanguages(languages),
+            this.language,
+        );
     }
 
     /** Casing follows this markup's own locale tag, mirroring text; only the
@@ -108,11 +128,46 @@ export default class MarkupValue extends SimpleValue {
     combine(requestor: Expression, markup: MarkupValue) {
         // Concatenate (paragraph-preserving) and union the locales (mirrors
         // TextValue). The operands are distinct nodes, so no cloning is needed.
+        const joined = this.markup.concat(markup.markup);
+        const language = Language.union(this.language, markup.language);
+        // Keep which segments are in which language, so each is shown and read
+        // in its own rather than all in the union's first (#111). Only joining
+        // and repeating keep them; other operations rebuild the words.
+        const mixes =
+            this.markup.metadata?.segmentLanguages !== undefined ||
+            markup.markup.metadata?.segmentLanguages !== undefined ||
+            (this.language !== undefined &&
+                markup.language !== undefined &&
+                !sameLanguage(this.language, markup.language));
+        if (!mixes) return new MarkupValue(requestor, joined, language);
+        const languages = new Map([
+            ...this.getSegmentLanguages(),
+            ...markup.getSegmentLanguages(),
+        ]);
+        const tags = new Set(
+            [...languages.values()].map((tag) => tag.getBCP47()),
+        );
+        const [only] = tags;
         return new MarkupValue(
             requestor,
-            this.markup.concat(markup.markup),
-            Language.union(this.language, markup.language),
+            tags.size > 1 ||
+                (only !== undefined && only !== language?.getBCP47())
+                ? joined.withSegmentLanguages(languages)
+                : joined,
+            language,
         );
+    }
+
+    /** Each tagged top-level segment's language, from this markup's own record
+     *  or else its tag. */
+    private getSegmentLanguages(): [Segment, Language][] {
+        const own = this.markup.metadata?.segmentLanguages;
+        return this.markup
+            .getSegments()
+            .flatMap((segment): [Segment, Language][] => {
+                const language = own?.get(segment) ?? this.language;
+                return language === undefined ? [] : [[segment, language]];
+            });
     }
 
     /**

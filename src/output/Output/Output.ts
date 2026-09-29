@@ -108,8 +108,10 @@ export default abstract class Output extends Valued {
 
     abstract getOutput(): (Output | null)[];
     abstract getBackground(): Color | undefined;
-    abstract getShortDescription(locales: Locales): string;
-    abstract getDescription(locales: Locales): string;
+    /** `spoken` asks for a description bound for the Announcer, in which a
+     *  creator's own words carry language marks (see spokenLanguage.ts). */
+    abstract getShortDescription(locales: Locales, spoken?: boolean): string;
+    abstract getDescription(locales: Locales, spoken?: boolean): string;
 
     abstract getEntryAnimated(): Output[];
 

@@ -1,6 +1,8 @@
 import { expect, test } from 'vitest';
 import evaluateCode from '@runtime/evaluate';
 import MarkupValue from '@values/MarkupValue';
+import { spokenText } from '@locale/spokenLanguage';
+import { toSpokenRuns } from '@locale/spokenLanguage';
 
 /** Evaluate to a MarkupValue (fails the test otherwise). */
 function markup(code: string): MarkupValue {
@@ -83,4 +85,33 @@ test.each([
 test('length counts graphemes, not code points', () => {
     // A family emoji is one symbol built from five code points.
     expect(evaluateCode('`👨‍👩‍👧`.length()')?.toString()).toBe('1');
+});
+
+/** Each spoken run of a markup value as `text/lang`. */
+function spokenRuns(code: string) {
+    return toSpokenRuns(spokenText(markup(code)), 'en-US')?.map(
+        (run) => `${run.text}/${run.language}`,
+    );
+}
+
+test('formatted text in one language needs no segment languages', () => {
+    expect(
+        markup('`hi`/en + ` there`/en').markup.metadata?.segmentLanguages,
+    ).toBeUndefined();
+    expect(
+        markup('`hi` + `hola`').markup.metadata?.segmentLanguages,
+    ).toBeUndefined();
+});
+
+test('joined formatted text keeps each segment’s language (#111)', () => {
+    expect(spokenRuns('`hi `/en + `hola`/es')).toEqual(['hi /en', 'hola/es']);
+});
+
+test('repeating keeps segment languages on the copies', () => {
+    expect(spokenRuns('(`hi `/en + `hola`/es).repeat(2)')).toEqual([
+        'hi /en',
+        'hola/es',
+        'hi /en',
+        'hola/es',
+    ]);
 });

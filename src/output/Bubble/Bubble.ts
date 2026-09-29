@@ -15,6 +15,7 @@ import { toSay } from '@output/Output/Say';
 import type { NameGenerator } from '@output/Output/Stage';
 import { toNumber } from '@output/Output/Stage';
 import Valued, { getOutputInputs } from '@output/Output/Valued';
+import { spokenText } from '@locale/spokenLanguage';
 
 /** The sides a bubble can sit on, as arrows, matching how `Phrase.direction` names layouts. */
 export const BubbleSides = ['↑', '↓', '←', '→'] as const;
@@ -113,10 +114,12 @@ export default class Bubble extends Valued {
         return this.text instanceof TextValue ? this.text : this.text.markup;
     }
 
-    getShortDescription(): string {
-        return this.text instanceof TextValue
-            ? this.text.text
-            : this.text.markup.toText();
+    getShortDescription(spoken = false): string {
+        return spoken
+            ? spokenText(this.text)
+            : this.text instanceof TextValue
+              ? this.text.text
+              : this.text.markup.toText();
     }
 }
 

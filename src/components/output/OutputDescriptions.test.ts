@@ -9,6 +9,7 @@ import { toStage } from '@output/Output/Stage';
 import { createPlace } from '@output/Place/Place';
 import Evaluator from '@runtime/Evaluator';
 import { describe, expect, test } from 'vitest';
+import { toSpokenRuns, withoutLanguageMarks } from '@locale/spokenLanguage';
 import {
     describeEnteredOutput,
     describeMovedOutput,
@@ -389,5 +390,33 @@ describe('custom descriptions and volume (#555)', () => {
             byName(outputs(manyBefore)),
         );
         expect(description).toContain('epsilon');
+    });
+});
+
+describe('language of spoken descriptions (#111)', () => {
+    test('a tagged phrase is marked with its own language', () => {
+        const description = describeEnteredOutput(
+            DefaultLocales,
+            byName(outputs("Phrase('hola'/es)")),
+        );
+        const runs = toSpokenRuns(description ?? '', 'en-US');
+        expect(runs).toContainEqual({ text: 'hola', language: 'es' });
+    });
+
+    test('an untagged phrase needs no runs', () => {
+        const description = describeEnteredOutput(
+            DefaultLocales,
+            byName(outputs("Phrase('hello')")),
+        );
+        expect(toSpokenRuns(description ?? '', 'en-US')).toBeUndefined();
+    });
+
+    test('the displayed description carries no marks', () => {
+        const [phrase] = outputs("Phrase('hola'/es)");
+        expect(phrase?.getDescription(DefaultLocales)).toBe(
+            withoutLanguageMarks(
+                phrase?.getDescription(DefaultLocales, true) ?? '',
+            ),
+        );
     });
 });

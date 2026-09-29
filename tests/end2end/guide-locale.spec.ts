@@ -55,7 +55,7 @@ test('a concept keeps its links when the reader changes locale', async ({
             message: 'the locale never changed',
             timeout: 20000,
         })
-        .toBe('ja');
+        .toBe('ja-JP');
 
     // The concept re-rendered in the new locale rather than keeping the prose
     // its stale, previous-locale self was still carrying.

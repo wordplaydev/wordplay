@@ -1289,11 +1289,12 @@
         },
         "Say": {
             "doc": [
-                "$~Je dis le texte à voix haute au lieu de le montrer sur @Stage. Bonjour !",
-                "Donne-moi simplement quelque chose à dire, et je le dirai chaque fois que le texte qu'on me donne change :",
+                "$~Je dis le texte à voix haute au lieu de le montrer sur @Stage. Salut !",
+                "Donne-moi juste quelque chose à dire, et je le dirai chaque fois que le texte qu'on me donne change :",
                 "\\Dire('bla bla bla')\\",
-                "J'utiliserai la @Language du @TextLiteral s'il en a une, sinon j'utiliserai la @language choisie.",
-                "Tu peux choisir une voix dans les réglages."
+                "Je dis le texte dans la @language avec laquelle il est balisé, et le texte sans balise dans la langue choisie par ton programme. Si tu joins du texte dans différentes langues, je dis chaque partie dans la sienne :",
+                "\\Dire('hola '/es + 'ami'/fr)\\",
+                "Tu peux choisir une voix dans les paramètres."
             ],
             "names": ["$~Dire"],
             "text": {

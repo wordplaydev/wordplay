@@ -1290,9 +1290,10 @@
         "Say": {
             "doc": [
                 "$~Yo digo el texto en voz alta en lugar de mostrarlo en @Stage. ¡Hola!",
-                "Solo dame algo que decir, y lo diré cada vez que el texto que me des cambie:",
-                "\\🔊('bla bla bla')\\",
-                "Usaré el @Language de la @TextLiteral si tiene uno, si no, usaré la @language seleccionada.",
+                "Solo dame algo que decir, y lo diré cada vez que cambie el texto que me des:",
+                "\\decir('bla bla bla')\\",
+                "Digo el texto en el @language con el que está etiquetado, y el texto sin etiquetar en el idioma que eligió tu programa. Si unes texto en distintos idiomas, digo cada parte en el suyo:",
+                "\\decir('hola '/es + 'friend'/en)\\",
                 "Puedes elegir una voz en la configuración."
             ],
             "names": ["$~decir"],

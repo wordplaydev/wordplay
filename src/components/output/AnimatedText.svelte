@@ -63,6 +63,15 @@
     let displayed = $state<string | Markup>(untrack(() => reprOf(text)));
     // The last text value we committed to (null on first render).
     let prev: TextValue | Markup | null = untrack(() => text);
+    // Text in several languages shows each part in its own (#111), but only
+    // once it has settled: a morph's intermediate steps are no one language.
+    let committedParts = $derived(
+        'parts' in text &&
+            typeof displayed === 'string' &&
+            displayed === text.text
+            ? text.parts
+            : undefined,
+    );
     // The in-flight requestAnimationFrame handle, if a transition is animating.
     let rafHandle: number | undefined;
     // Bumped on every text change and on destroy, so an async transition setup
@@ -162,7 +171,10 @@
     });
 </script>
 
-{#if typeof displayed === 'string'}<PlainTextView
+{#if committedParts !== undefined}{#each committedParts as part}<span
+            lang={part.language?.getBCP47()}
+            ><PlainTextView text={part.text} {adapting} /></span
+        >{/each}{:else if typeof displayed === 'string'}<PlainTextView
         text={displayed}
         {adapting}
     />{:else}<MarkupHTMLView markup={displayed} inline />{/if}
