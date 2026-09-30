@@ -42,6 +42,8 @@ function harness() {
     /** Every `onSounding` report, in order, as `music:track:note,…`. */
     const sounding: string[] = [];
     const vibrations: number[] = [];
+    /** Each tick's rumbled notes, as `music:track:note,…`. */
+    const rumbles: string[] = [];
     /** Instruments whose samples haven't arrived; empty means everything can play. */
     const unready = new Set<string>();
     /** Listeners the player registered for readiness changes. */
@@ -62,6 +64,15 @@ function harness() {
                     .join(',')}`,
             ),
         vibrate: (ms) => vibrations.push(ms),
+        rumble: (notes) =>
+            rumbles.push(
+                notes
+                    .map(
+                        (note) =>
+                            `${note.music}:${note.trackIndex}:${note.noteIndex}`,
+                    )
+                    .join(','),
+            ),
         isHidden: () => false,
         ready: (instrument) => !unready.has(instrument),
         observeReady: (listener) => {
@@ -77,6 +88,7 @@ function harness() {
         beats,
         sounding,
         vibrations,
+        rumbles,
         ducking,
         /** Hold an instrument's samples back, as a slow network would. */
         hold(instrument: string) {
@@ -334,6 +346,24 @@ test('beats are emitted when they become audible, not when scheduled', () => {
     expect(h.beats.map((beat) => beat.count)).toEqual([0, 1]);
     // Haptics ride the same emission point.
     expect(h.vibrations).toHaveLength(2);
+});
+
+test('rumble is felt when notes are heard, one effect for every music', () => {
+    const h = harness();
+    h.player.update(
+        [
+            music([track([1, 2])], { name: 'a' }),
+            music([track([5, 6])], { name: 'b' }),
+        ],
+        true,
+    );
+    h.advance(0);
+    expect(h.rumbles).toEqual(['a:0:0,b:0:0']);
+    // Note 1 is scheduled by now but not yet heard.
+    h.advance(0.9);
+    expect(h.rumbles).toHaveLength(1);
+    h.advance(0.2);
+    expect(h.rumbles).toEqual(['a:0:0,b:0:0', 'a:0:1,b:0:1']);
 });
 
 test('a looping music that exits stops; a one-shot finishes', () => {

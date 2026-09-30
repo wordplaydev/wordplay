@@ -63,7 +63,9 @@
         MusicVisualizationIcons,
         MusicVisualizations,
     } from '@db/settings/MusicSettings';
-    import supportsVibration from '@db/settings/supportsVibration';
+    import supportsVibration, {
+        hasRumblingGamepad,
+    } from '@db/settings/supportsVibration';
     import { TAB_SYMBOL } from '@parser/Spaces';
     import {
         BLOCK_EDITING_SYMBOL,
@@ -105,6 +107,20 @@
     /** Resolved on mount, not at module scope, so a prerendered page doesn't
      *  bake in the server's answer of "no". */
     let vibrates = $state(false);
+
+    /** Whether a gamepad that can rumble is connected. Kept current by the
+     *  connection events, since a pad appears only once a button is pressed. */
+    let rumbles = $state(false);
+    $effect(() => {
+        const check = () => (rumbles = hasRumblingGamepad());
+        check();
+        window.addEventListener('gamepadconnected', check);
+        window.addEventListener('gamepaddisconnected', check);
+        return () => {
+            window.removeEventListener('gamepadconnected', check);
+            window.removeEventListener('gamepaddisconnected', check);
+        };
+    });
 
     let devicesRetrieved: boolean | undefined = $state(false);
     let cameras: MediaDeviceInfo[] = $state([]);
@@ -575,10 +591,10 @@
                             )}
                         icons={['🔉', '🔈', '🔇']}
                     />
-                    <!-- Offered only where it can do something: this is the same
-                         condition the vibrate call itself checks, so a device
+                    <!-- Offered only where it can do something: a device that
+                         can vibrate, or a gamepad that can rumble, so a device
                          that would silently no-op never sees the toggle. -->
-                    {#if vibrates}
+                    {#if vibrates || rumbles}
                         <Mode
                             grid
                             modes={(l) => l.ui.dialog.settings.mode.haptics}

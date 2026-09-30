@@ -1528,8 +1528,8 @@
                         "label": "$~vibración",
                         "labels": ["$~apagado", "$~encendido"],
                         "tips": [
-                            "$~no vibrar con el ritmo",
-                            "$~vibrar con el ritmo, cuando el dispositivo lo permita"
+                            "$~No vibrar con la música",
+                            "$~Vibrar con la música, en un teléfono o un control de videojuegos que pueda vibrar"
                         ]
                     },
                     "captionSize": {

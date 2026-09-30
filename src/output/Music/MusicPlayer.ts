@@ -70,6 +70,9 @@ export type PlayerDeps = {
     /** Forget a music's activity when it stops. */
     onSilent?: (music: string) => void;
     vibrate?: (ms: number) => void;
+    /** Feel every note that became audible this tick, across all musics, so
+     *  two playing musics don't preempt each other's rumble. */
+    rumble?: (notes: readonly ScheduledNote[]) => void;
     /** Whether the tab is hidden, for lookahead sizing. */
     isHidden?: () => boolean;
     /**
@@ -462,6 +465,7 @@ export default class MusicPlayer {
             }
             for (const [name, notes] of byMusic)
                 this.deps.onSound?.(name, notes);
+            this.deps.rumble?.(sounding);
             this.soundingNotes.push(...sounding);
         }
 

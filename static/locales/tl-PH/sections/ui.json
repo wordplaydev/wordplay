@@ -1807,8 +1807,8 @@
                         "label": "$~pag-ugoy",
                         "labels": ["$~patay", "$~bukas"],
                         "tips": [
-                            "$~Huwag umugoy kasabay ng ritmo",
-                            "$~Umugoy kasabay ng ritmo, kung sinusuportahan ito ng aparato"
+                            "$~Huwag manginig kasabay ng musika",
+                            "$~Manginig kasabay ng musika, sa isang telepono o gamepad na may kayang mangatog"
                         ]
                     },
                     "captionSize": {
