@@ -483,3 +483,86 @@ test('a machine-translated string is not re-translated, but an unwritten one is'
         shouldStringBeMachineTranslated(`${MachineTranslated}hola`, true),
     ).toBe(true);
 });
+
+/** Translate `node.Paragraph.doc` from `english` over `existing`, sending only
+ *  `stale` paragraphs if given, with a stub that prefixes `X` (or fails). */
+async function translateDoc(
+    english: string[],
+    existing: string[],
+    stale: number[] | undefined,
+    respond: (text: string) => string | null = (text) => `X${text}`,
+) {
+    const source = structuredClone(DefaultLocale);
+    source.node.Paragraph.doc = english;
+    const target = structuredClone(source);
+    target.node.Paragraph.doc = existing;
+    const path = new LocalePath(['node', 'Paragraph'], 'doc', english);
+    const sent: string[] = [];
+    const stub: Translator = {
+        id: 'stub',
+        async translate(_log, text) {
+            sent.push(...text);
+            return text.map(respond);
+        },
+        getTargetLocale: (language) => Promise.resolve(language),
+        getSupportedLocales: () => Promise.resolve<Locale[]>([]),
+    };
+    const revised = await translateLocale(
+        collectingLog().log,
+        source,
+        target,
+        [path],
+        new Set<string>(),
+        stub,
+        undefined,
+        undefined,
+        () => stale,
+    );
+    return { sent, doc: revised.node.Paragraph.doc };
+}
+
+test('a revised markup array re-translates only the paragraphs whose English changed', async () => {
+    const { sent, doc } = await translateDoc(
+        ['A', 'B2', 'C'],
+        ['$!a', 'b', 'c'],
+        [1],
+    );
+    expect(sent).toEqual(['B2']);
+    // The reviewed paragraphs stay exactly as they were, and the doc carries
+    // one write-status.
+    expect(doc).toEqual(['$~a', 'XB2', 'c']);
+});
+
+test('a re-translated paragraph may come back as several', async () => {
+    const { doc } = await translateDoc(
+        ['A', 'B2', 'C'],
+        ['$!a', 'b', 'c'],
+        [1],
+        () => 'one\n\ntwo',
+    );
+    expect(doc).toEqual(['$~a', 'one', 'two', 'c']);
+});
+
+test('a failed paragraph keeps the whole existing doc, re-queued', async () => {
+    const { doc } = await translateDoc(
+        ['A', 'B2', 'C'],
+        ['$!a', 'b', 'c'],
+        [1],
+        () => null,
+    );
+    expect(doc).toEqual(['$!a', 'b', 'c']);
+});
+
+test('a doc whose paragraphs no longer pair with the English is sent whole', async () => {
+    const { sent } = await translateDoc(['A', 'B2', 'C'], ['$!a', 'bc'], [1]);
+    expect(sent).toEqual(['A\n\nB2\n\nC']);
+});
+
+test('a kept paragraph that lost its link sends the doc whole to repair it', async () => {
+    const { sent } = await translateDoc(
+        ['See @Phrase', 'B2'],
+        ['$!Mira', 'b'],
+        [1],
+    );
+    expect(sent).toEqual(['See @Phrase\n\nB2']);
+});

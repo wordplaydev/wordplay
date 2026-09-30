@@ -267,7 +267,7 @@
             "tour": {
                 "launch": "$~Faites le tour des commandes du projet",
                 "controls": "$~Ces /commandes/ en bas s'appliquent à l'*ensemble du projet*, quelle que soit la tuile sur laquelle vous travaillez.",
-                "name": "$~Le champ /name/ est le nom de ton projet. Les noms apparaissent dans les vues *projet* et *galerie*.",
+                "name": "$~Le champ /nom/ est le nom de ton projet. Les noms apparaissent dans les vues *projet* et *galerie*.",
                 "sourceToggle": "$~Ce bouton permet d'afficher ou de masquer le *fichier source*. Les *autres boutons* de cette ligne font de même pour les autres vignettes.",
                 "addSource": "$~Certains projets profitent de *plusieurs* fichiers source, où les données sont stockées dans l’un et importées dans la source *principale*. Le bouton /ajouter une source/ propose différentes façons d’en créer une : un fichier vide, une image, une chanson, ou des données.",
                 "share": "$~La boîte de dialogue /share/ vous permet de partager votre projet avec des *galeries*, avec le *public*, ou de le copier en tant que *texte* pour le partager ailleurs.",
@@ -756,10 +756,10 @@
             },
             "tour": {
                 "launch": "$~faire le tour de la scène",
-                "stage": "$~La fenêtre /stage/ affiche la *valeur actuelle* de votre programme. Cette valeur peut être une *valeur brute* comme un nombre ou une liste, une *sortie visuelle* que vous pouvez voir, ou même un *son* que vous pouvez entendre.",
+                "stage": "$~La fenêtre /Scène/ affiche la *valeur actuelle* de votre programme. Cette valeur peut être une *valeur brute* comme un nombre ou une liste, une *sortie visuelle* que vous pouvez voir, ou même un *son* que vous pouvez entendre.",
                 "reset": "$~Le bouton /réinitialiser/ recommence l'évaluation de ton programme depuis le *début*, dans n'importe quel mode : en ▶️ *lecture*, il rejoue depuis le haut ; en ✏️ *édition*, il fait une pause après la première évaluation pour que tu voies l'effet de tes modifications sur la sortie de départ ; et en ⏸️ *débogage*, il fait une pause à la toute première étape.",
                 "zoom": "$~Les boutons /zoom/ vous permettent de zoomer *en avant* et *en arrière* sur la scène afin de voir votre production plus clairement ou avec plus de détails.",
-                "grid": "$~Le bouton /grid/ affiche une *grille* sur la scène, utile pour placer les éléments avec précision lors de la conception.",
+                "grid": "$~Le bouton /Grille/ affiche une *grille* sur la scène, utile pour placer les éléments avec précision lors de la conception.",
                 "lock": "$~Le bouton /lock/ fige la vue de la scène. Lorsqu'il est *verrouillé*, la scène reste immobile ; lorsqu'il est *déverrouillé*, vous pouvez vous déplacer et zoomer librement.",
                 "animationSpeed": "$~Le paramètre /vitesse d'animation/ détermine la vitesse de lecture des animations. Ce même paramètre se trouve dans les *paramètres*, vous pouvez donc le modifier depuis l'un ou l'autre endroit."
             },
@@ -906,7 +906,7 @@
             "tour": {
                 "timeline": "$~La /chronologie/ te permet d'avancer et de reculer dans l'évaluation de ton programme, une étape à la fois. Elle apparaît dans la barre d'outils de la scène en modes ✏️ *édition* et ⏸️ *débogage*. C'est un très bon moyen de voir *comment* ton programme calcule sa valeur, et de te faire une idée claire de la façon dont les programmes @wordplay s'évaluent, surtout si tu ne vois pas le comportement que tu veux.",
                 "annotations": "$~La fenêtre /annotations/ contient les explications de chaque étape. Au fur et à mesure que vous exécutez votre programme, c'est ici que vous lirez ce qui s'est passé.",
-                "editor": "$~L'éditeur (/editor/) affiche votre code. Lors du débogage pas à pas, la *valeur* de chaque partie de votre programme apparaît à côté de cette partie *après* son évaluation, ce qui vous permet de suivre l'évolution des valeurs au fur et à mesure de l'exécution du programme.",
+                "editor": "$~L'éditeur (/mode d'édition/) affiche votre code. Lors du débogage pas à pas, la *valeur* de chaque partie de votre programme apparaît à côté de cette partie *après* son évaluation, ce qui vous permet de suivre l'évolution des valeurs au fur et à mesure de l'exécution du programme.",
                 "history": "$~L'/historique/ montre chaque *entrée* que ton programme a reçue, comme les touches, les temps qui passent et les clics de pointeur. Il est *déplaçable*, donc tu peux revenir à n'importe quel moment de l'historique d'évaluation du programme juste en le faisant glisser. Si tu préfères *entendre* ces entrées plutôt que les voir, active les /signaux d'évaluation/ dans les réglages, et @wordplay jouera un petit son pour chacune, avec un son différent pour chaque type d'entrée.",
                 "stepControls": "$~Les commandes /step/ permettent de se déplacer précisément dans l'exécution. Vous pouvez accéder au *début* ou à la *fin*, avancer ou reculer d'un pas à la fois, avancer d'une valeur, sortir d'une fonction ou accéder à la partie du code *actuellement sélectionnée*.",
                 "modes": "$~Le /sélecteur de mode/ choisit comment ton programme s'évalue. En mode ✏️ *édition*, le programme s'arrête là où il en est et tu peux le modifier — tes modifications rejouent pour montrer leur effet à cet endroit. En mode ⏸️ *débogage*, le code est en lecture seule, et la *valeur actuelle* de chaque partie de ton programme apparaît à côté d'elle dans l'éditeur et dans la palette. En mode ▶️ *lecture*, ton programme s'exécute en direct depuis où il en est, et répond aux entrées en temps réel. À côté du sélecteur, le bouton /jouer/ — un triangle de lecture entouré de coins plein écran — commence une exécution depuis le haut et remplit l'écran avec la scène, et ↻ réinitialise le programme dans n'importe quel mode."
@@ -1175,9 +1175,9 @@
                 "launch": "$~faire une visite guidée",
                 "guide": "$~Le /guide/ contient la *documentation* pour tous les concepts et *capacités* du *langage de programmation* de @wordplay.",
                 "mode": "$~Utilisez ce bouton /toggle/ pour basculer vous-même entre les sections *code* et *tutoriel*.",
-                "search": "$~La zone /search/ est utile pour *découvrir* des fonctionnalités ou en trouver rapidement une *par son nom*.",
+                "search": "$~La zone /recherche/ est utile pour *découvrir* des fonctionnalités ou en trouver rapidement une *par son nom*.",
                 "code": "$~Voici la section /code/. Elle contient la documentation du *langage de programmation* — les éléments de base que vous pouvez combiner pour créer des programmes.",
-                "howto": "$~Voici la section /how-to/. Elle contient des *modèles utiles* pour obtenir des comportements spécifiques dans vos projets."
+                "howto": "$~Voici la section /Comment faire/. Elle contient des *modèles utiles* pour obtenir des comportements spécifiques dans vos projets."
             },
             "breadcrumb": {
                 "label": "$~historique de navigation",
@@ -1210,7 +1210,7 @@
                         "explanation": "$~Il s'agit du petit glyphe qui représente votre projet dans les listes et les galeries. Le mode automatique sélectionne un glyphe en fonction du contenu de votre projet ; le mode personnalisé vous permet d'épingler un caractère ou un emoji."
                     },
                     "remix": {
-                        "explanation": "$~Un /remix/ est une copie d'un projet que quelqu'un a modifiée pour en faire la sienne. Nous nous souvenons d'où vient un remix, pour que la personne qui a créé l'original reçoive toujours son mérite."
+                        "explanation": "$~Un /remixer/ est une copie d'un projet que quelqu'un a modifiée pour en faire la sienne. Nous nous souvenons d'où vient un remix, pour que la personne qui a créé l'original reçoive toujours son mérite."
                     },
                     "research": {
                         "header": "$~Recherche",

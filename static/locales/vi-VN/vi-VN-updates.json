@@ -1012,6 +1012,11 @@
         "e982ffd8b3a0b": "$~Biểu tượng cảm xúc giờ đây tải nhanh hơn trên Safari, và trình duyệt của bạn giờ đây giữ lại phông chữ giữa các lần truy cập thay vì tải lại chúng.",
         "e2222194ec679": "$~Một làm cách nào để không còn liệt kê người viết nó hai lần nữa.",
         "ea64e28744d1d": "$~Biểu tượng cảm xúc giờ đây va chạm với các vật khác theo đúng hình dạng của chúng khi @Matter yêu cầu đường viền, và văn bản giờ đây nằm lên trên thứ nó chạm vào thay vì chìm vào trong. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
-        "effb062f72059": "$~Các chữ cái va chạm theo đường viền của chúng giờ đây có khoảng trống bên trong, nên những vật nhỏ có thể nảy qua nảy lại bên trong chữ O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "effb062f72059": "$~Các chữ cái va chạm theo đường viền của chúng giờ đây có khoảng trống bên trong, nên những vật nhỏ có thể nảy qua nảy lại bên trong chữ O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "e05d86cc70d38": "$~Âm nhạc giờ làm tay cầm chơi game có thể rung cũng rung theo, nên nốt trầm cảm giác như tiếng thình thịch nặng và nốt cao cảm giác như tiếng rung nhẹ. (<1345@https://github.com/wordplaydev/wordplay/issues/1345>)",
+        "ebd63de5a63f1": "$~Trình đọc màn hình và văn bản đọc thành tiếng giờ đọc từng từ bằng ngôn ngữ của chính nó, nên một từ tiếng Tây Ban Nha trong câu tiếng Anh sẽ được đọc bằng giọng Tây Ban Nha. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
+        "e7914aaea390a": "$~Ở 13 ngôn ngữ, những từ thông thường như \"làm thế nào\" không còn bị biến nhầm thành liên kết gạch chân chấm chấm nữa.",
+        "ed72c4878ae09": "$~Tên của các nút và cài đặt trong phần hướng dẫn và tài liệu giờ dùng từ của chính ngôn ngữ đó thay vì tiếng Anh.",
+        "e42e9e3c1d92a": "$~Những từ có gạch chân chấm chấm không còn hiện các ký hiệu thừa ở phía trước trong một số ngôn ngữ."
     }
 }

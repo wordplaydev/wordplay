@@ -5,7 +5,7 @@
             "doc": [
                 "$~Tayo ay \\⊤\\ at \\⊥\\. Ang \\⊤\\ ay totoo. Ang \\⊥\\ ay mali. Ang \\⊤\\ ay hindi \\⊥\\; ang \\⊥\\ ay hindi \\⊤\\. Ganito ito.",
                 "Paano mo kami ginagawa? \\⊤\\ at \\⊥\\ lang, walang sobra, walang kulang.",
-                "Ang ilan ay gumagamit ng keyboard (/ctrl+9/ para sa \\⊤\\ at /ctrl+0/ para sa \\⊥\\). Ang ilan ay gumagamit ng character search sa ibaba ng editor. O maaari mo kaming i-drag mula rito.",
+                "May ilang tao na tinatype kami gamit ang shortcut sa keyboard; ipinapakita ng listahan ng /Mga Shortcut/ kung aling mga susi ang gagamitin, at puwede mo rin itong baguhin. May ilang gumagamit ng mga button at paghahanap ng karakter sa ibaba ng @editor. O puwede mo kaming i-drag mula rito.",
                 "Tingnan ang aming @FunctionDefinition sa ibaba. Napaka-lohikal ng mga ito."
             ],
             "name": ["$~⊤⊥", "$~Boolean"],

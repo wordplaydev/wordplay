@@ -267,12 +267,12 @@
             "tour": {
                 "launch": "$~ta en rundtur i projektkontrollerna",
                 "controls": "$~Dessa /controls/ längst ner gäller för *projektet som helhet*, oavsett vilken panel du arbetar i.",
-                "name": "$~Fältet /name/ är ditt projekts namn. Namn visas i vyerna för *projekt* och *galleri*.",
+                "name": "$~Fältet /namn/ är ditt projekts namn. Namn visas i vyerna för *projekt* och *galleri*.",
                 "sourceToggle": "$~Denna /toggle/ visar eller döljer *källfilen*. De *andra växlarna* på den här raden gör detsamma för de andra panelerna.",
                 "addSource": "$~Vissa projekt mår bra av *flera* källor, där data sparas i en och hämtas in i *huvud*källan. Knappen /lägg till källa/ ger dig sätten att göra en: en tom fil, en bild, en sång, eller lite data.",
                 "share": "$~I dialogrutan /share/ kan du dela ditt projekt med *gallerier*, med *allmänheten*, eller kopiera det som *text* för att dela det någon annanstans.",
                 "checkpoints": "$~Panelen /revisions/ låter dig gå *tillbaka* till tidigare versioner av ditt projekt och *ögonblicksbilder* av versioner som du vill komma ihåg.",
-                "languages": "$~Knappen /languages/ visar vilka språk ditt projekt är skrivet på, låter dig lägga till eller ta bort ett, och kan *översätta* ditt projekts *namn*, *text* och *dokumentation* till ett nytt språk."
+                "languages": "$~Knappen /Språk/ visar vilka språk ditt projekt är skrivet på, låter dig lägga till eller ta bort ett, och kan *översätta* ditt projekts *namn*, *text* och *dokumentation* till ett nytt språk."
             },
             "options": {
                 "layout": {
@@ -604,7 +604,7 @@
                 "launch": "$~ta en rundtur i redaktören",
                 "editor": "$~All din /kod/ hamnar i *editorn*. Varje @wordplay-program *utvärderas till ett värde*, och det värdet är vad som visas på *scenen*.",
                 "textBlocks": "$~Denna växlingsknapp växlar mellan två sätt att redigera: /text/ och /block/. *Text* är mer flexibelt men lättare att göra misstag i. *Block* är mindre felbenägna men långsammare och mer stela.",
-                "toolbar": "$~Dessa /toolbar/-kontroller låter dig *markera alla*, *zooma in* och *ut*, *ångra*, *göra om*, *klipp ut*, *kopiera* och *klistra in*.",
+                "toolbar": "$~Dessa /verktygsfält/-kontroller låter dig *markera alla*, *zooma in* och *ut*, *ångra*, *göra om*, *klipp ut*, *kopiera* och *klistra in*.",
                 "expand": "$~/expand/-knappen visar fler *avancerade* redigeringsverktyg.",
                 "shortcuts": "$~Knappen /genvägar/ öppnar en lista med *kortkommandon* som du kan använda för att redigera snabbare."
             },
@@ -783,9 +783,9 @@
                 "stage": "$~`/stage/` visar ditt programs *nuvarande värde*. Det värdet kan vara ett *råvärde* som ett tal eller en lista, *visuell utdata* som du kan se, eller till och med *ljud* som du kan höra.",
                 "reset": "$~Knappen /återställ/ startar om ditt programs utvärdering från *början*, i alla lägen: i ▶️ *spela* körs det igen från toppen, i ✏️ *redigera* pausas det efter den första utvärderingen så att du kan se hur dina ändringar påverkar den första utmatningen, och i ⏸️ *felsök* pausas det vid allra första steget.",
                 "zoom": "$~Med /zoom/-knapparna kan du zooma *in* och *ut* på scenen så att du kan se dina resultat tydligare eller mer detaljerat.",
-                "grid": "$~Knappen /grid/ visar ett *rutnät* på scenen, vilket är praktiskt för att placera saker exakt medan du designar.",
+                "grid": "$~Knappen /Rutnät/ visar ett *rutnät* på scenen, vilket är praktiskt för att placera saker exakt medan du designar.",
                 "lock": "$~Knappen /lock/ låser scenens vy. När den är *låst* förblir scenen stilla; när den är *upplåst* kan du panorera och zooma fritt.",
-                "animationSpeed": "$~Kontrollen /animation speed/ ställer in hur snabbt animationer spelas upp. Samma kontroll finns i *inställningar*, så du kan ändra den från båda ställena."
+                "animationSpeed": "$~Kontrollen /animationshastighet/ ställer in hur snabbt animationer spelas upp. Samma kontroll finns i *inställningar*, så du kan ändra den från båda ställena."
             },
             "permission": {
                 "title": "$~Detta projekt behöver tillstånd",
@@ -1200,7 +1200,7 @@
                 "guide": "$~/guiden/ innehåller *dokumentation* för alla @wordplay:s begrepp och *förmågor* i *programmeringsspråket*.",
                 "mode": "$~Använd denna /toggle/ för att själv växla mellan *kod*- och *instruktioner*-avsnitten.",
                 "search": "$~Sökrutan är användbar för att *upptäcka* funktioner, eller för att snabbt hitta en *med namn*.",
-                "code": "$~Detta är /code/-avsnittet. Det innehåller dokumentation för *programmeringsspråk* — byggstenarna du kan kombinera för att skapa program.",
+                "code": "$~Detta är /kod/-avsnittet. Det innehåller dokumentation för *programmeringsspråk* — byggstenarna du kan kombinera för att skapa program.",
                 "howto": "$~Detta är avsnittet /hur-gör-det-själv/. Det innehåller *användbara mönster* för att uppnå specifika beteenden i dina projekt."
             },
             "breadcrumb": {
@@ -1234,7 +1234,7 @@
                         "explanation": "$~Det här är den lilla symbolen som representerar ditt projekt i listor och gallerier. Väljer automatiskt ett tecken baserat på vad ditt projekt visar; Anpassad låter dig fästa ett enskilt tecken eller en emoji."
                     },
                     "remix": {
-                        "explanation": "$~En /remix/ är en kopia av ett projekt som någon ändrade för att göra till sitt eget. Vi kommer ihåg var en remix kom från, så personen som gjorde originalet fortfarande får erkännande."
+                        "explanation": "$~En /remixa/ är en kopia av ett projekt som någon ändrade för att göra till sitt eget. Vi kommer ihåg var en remix kom från, så personen som gjorde originalet fortfarande får erkännande."
                     },
                     "research": {
                         "header": "$~Forskning",
@@ -2032,9 +2032,9 @@
                 "launch": "$~ta en rundtur i paletten",
                 "palette": "$~Du kan använda /paletten/ för att redigera *fraser*, *grupper* och *scenen* i läget ✏️ *redigera*. I andra lägen går dess kontroller bara att läsa, och i läget ⏸️ *felsök* visar varje egenskap också sitt *aktuella värde*.",
                 "text": "$~Alla /egenskaper/ för en fras kan redigeras här. Detta är frasens *text*, men andra egenskaper har sina egna kontroller.",
-                "set": "$~När en egenskap för närvarande använder sitt /default/-värde kan du med *pennan*-knappen ange ett *explicit*-värde för den.",
+                "set": "$~När en egenskap för närvarande använder sitt /standard/-värde kan du med *pennan*-knappen ange ett *explicit*-värde för den.",
                 "unset": "$~När en egenskap har ett /explicit/-värde satt, tar *X*-knappen bort det värdet och återställer egenskapen till dess *standard*.",
-                "editor": "$~Alla ändringar du gör i paletten återspeglas i /code/ som visas i *editorn*.",
+                "editor": "$~Alla ändringar du gör i paletten återspeglas i /kod/ som visas i *editorn*.",
                 "stage": "$~Fraser kan också /flyttas/, /ändras i storlek/ och /roteras/ direkt på *scenen*."
             },
             "music": {

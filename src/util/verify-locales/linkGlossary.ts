@@ -36,7 +36,7 @@ import { must } from '@util/nullable';
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);
 
-const MODEL = 'claude-opus-4-8';
+const MODEL = 'claude-opus-5-5';
 const MAX_TOKENS = 16000;
 const CHUNK = 30;
 
@@ -218,6 +218,9 @@ async function linkTexts(
                 ],
                 output_config: {
                     format: { type: 'json_schema', schema: SCHEMA },
+                    // Opus 5.5 always thinks; low effort keeps this mechanical
+                    // pass inside its output budget and near its old latency.
+                    effort: 'low',
                 },
                 messages: [
                     {

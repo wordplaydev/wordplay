@@ -36,6 +36,7 @@ import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import checkTerms from '@util/verify-locales/checkTerms';
 import checkExampleDocs from '@util/verify-locales/checkExampleDocs';
 import checkUntranslated from '@util/verify-locales/checkUntranslated';
+import checkItalicSpans from '@util/verify-locales/checkItalicSpans';
 import checkReducedTemplates from '@util/verify-locales/checkReducedTemplates';
 import checkOppositeStrings from '@util/verify-locales/checkOppositeStrings';
 import checkPluralArmInputs from '@util/verify-locales/checkPluralArmInputs';
@@ -52,6 +53,7 @@ import LocalePath, {
 import { LocaleValidator } from '@util/verify-locales/LocaleSchema';
 import type Log from '@util/verify-locales/Log';
 import {
+    mismatchedConceptLinks,
     mismatchedDelimiter,
     splitDocParagraphs,
 } from '@util/verify-locales/protect';
@@ -157,6 +159,10 @@ export async function verifyLocale(
     /** Called with a complete, valid locale partway through translation so the
      *  caller can persist progress; see `CHECKPOINT_PATHS`. */
     checkpoint?: (partial: LocaleText) => Promise<void>,
+    /** The paragraphs of each markup array whose English changed while their
+     *  translation didn't, so only those are re-translated; see
+     *  `staleMarkupElements`. Undefined translates markup arrays whole. */
+    markupElements?: (path: LocalePath) => number[] | undefined,
 ): Promise<[LocaleText, boolean]> {
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
@@ -196,6 +202,11 @@ export async function verifyLocale(
     // this marks is honored by the same run.
     if (locale !== 'en-US')
         revisedText = checkUntranslated(log, DefaultLocale, revisedText, fix);
+
+    // Italic names of controls and inputs a translation left in English. Before the
+    // translation pass too, so a machine translation it re-queues is redone this run.
+    if (locale !== 'en-US')
+        revisedText = checkItalicSpans(log, DefaultLocale, revisedText, fix);
 
     // Translations that dropped the words around their input, pairs of opposites that ended
     // up saying the same thing, and plural arms saying another input's number. After checkAnnotations, which is what guarantees a single
@@ -287,6 +298,7 @@ export async function verifyLocale(
         localeFilter,
         translator,
         checkpoint,
+        markupElements,
     );
 
     // Again, because `checkLocale` is where this run's own name translations land: a name
@@ -333,6 +345,8 @@ async function checkLocale(
     translator?: Translator,
     /** Persist partial progress during translation; see verifyLocale. */
     checkpoint?: (partial: LocaleText) => Promise<void>,
+    /** Stale paragraphs of markup arrays; see verifyLocale. */
+    markupElements?: (path: LocalePath) => number[] | undefined,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = structuredClone(original);
@@ -421,6 +435,14 @@ async function checkLocale(
                 translator,
                 itemNeedsTranslation,
                 checkpoint,
+                // An en-US `$!` says every paragraph's meaning changed, and an
+                // override asks for everything again, so both send the doc whole.
+                override
+                    ? undefined
+                    : (path) =>
+                          revisedPathStrings.has(path.toString())
+                              ? undefined
+                              : markupElements?.(path),
             );
         }
     }
@@ -812,8 +834,50 @@ export async function translateLocale(
     /** Called with `revised` after each phase and each slice of the bulk phase,
      *  so a caller can write progress to disk; see `CHECKPOINT_PATHS`. */
     checkpoint?: (partial: LocaleText) => Promise<void>,
+    /** The elements of a markup array whose English changed while their
+     *  translation didn't (see `staleMarkupElements`). Undefined, or undefined
+     *  for a path, translates that markup array whole. */
+    markupElements?: (path: LocalePath) => number[] | undefined,
 ) {
     const revised = structuredClone(target);
+
+    // Which paragraphs of each markup array to send, or undefined to send the
+    // whole document. Memoized for the same lockstep reason as `indicesFor`.
+    // Sending one paragraph keeps every other one exactly as it was read and
+    // reviewed; the whole document is still the answer whenever the paragraphs
+    // can't be trusted to pair with the English by position.
+    const markupIndices = new Map<LocalePath, number[] | undefined>();
+    const markupIndicesFor = (
+        path: LocalePath,
+        match: string[],
+    ): number[] | undefined => {
+        if (markupIndices.has(path)) return markupIndices.get(path);
+        const indices = markupElements?.(path);
+        const existing = path.resolve(revised);
+        const chosen =
+            indices === undefined ||
+            indices.length === 0 ||
+            indices.length >= match.length ||
+            indices.some((index) => index >= match.length) ||
+            !Array.isArray(existing) ||
+            existing.length !== match.length ||
+            isUnwritten(existing[0] ?? '') ||
+            // A kept paragraph that lost a link or an example is damage a
+            // paragraph-only send would preserve; the whole document repairs it.
+            match.some((english, index) => {
+                if (indices.includes(index)) return false;
+                const source = stripMarkers(english);
+                const kept = withoutAnnotations(existing[index] ?? '');
+                return (
+                    mismatchedConceptLinks(source, kept) !== undefined ||
+                    mismatchedDelimiter(source, kept) !== undefined
+                );
+            })
+                ? undefined
+                : indices;
+        markupIndices.set(path, chosen);
+        return chosen;
+    };
 
     // Which element indices of each non-markup array to send, memoized so the
     // request builder and the write-back below consume the translation stream
@@ -872,7 +936,9 @@ export async function translateLocale(
             if (match === undefined) return [];
             if (Array.isArray(match))
                 return classifyPair(path) === 'markup'
-                    ? [match.map(stripMarkers).join('\n\n')]
+                    ? (markupIndicesFor(path, match)?.map((index) =>
+                          stripMarkers(must(match[index], 'a paragraph')),
+                      ) ?? [match.map(stripMarkers).join('\n\n')])
                     : // `indicesFor` answers indices into `match`.
                       indicesFor(path, match).map((index) =>
                           stripMarkers(must(match[index], 'an element')),
@@ -898,7 +964,43 @@ export async function translateLocale(
             const match = path.resolve(source);
             if (match === undefined) continue;
             if (Array.isArray(match)) {
-                if (classifyPair(path) === 'markup') {
+                const paragraphs =
+                    classifyPair(path) === 'markup'
+                        ? markupIndicesFor(path, match)
+                        : undefined;
+                if (paragraphs !== undefined) {
+                    // Only the stale paragraphs were sent. Consume exactly that
+                    // many translations whatever happens, so the paths after this
+                    // one still read their own.
+                    const translated = paragraphs.map(() =>
+                        translations.shift(),
+                    );
+                    const existing = path.resolve(revised);
+                    const kept = Array.isArray(existing) ? existing : [];
+                    const parts = translated.map((t) =>
+                        t == null ? [] : splitDocParagraphs(t),
+                    );
+                    if (parts.every((p) => p.length > 0)) {
+                        // A paragraph may come back as several, which a markup
+                        // array allows; everything unsent stays as it was.
+                        const value = kept.flatMap((paragraph, index) => {
+                            const at = paragraphs.indexOf(index);
+                            return at < 0 ? [paragraph] : (parts[at] ?? []);
+                        });
+                        // The doc has one write-status, on the first element only.
+                        value[0] = `${MachineTranslated}${withoutAnnotations(value[0] ?? '')}`;
+                        path.repair(revised, value);
+                        translatedPaths?.add(path.toString());
+                    } else
+                        path.repair(
+                            revised,
+                            kept.map((s, index) =>
+                                index === 0
+                                    ? keepOrPlacehold(s, match[0] ?? '')
+                                    : s,
+                            ),
+                        );
+                } else if (classifyPair(path) === 'markup') {
                     // Atomic doc: one translation for the whole block; split back
                     // into paragraphs at blank lines outside `\…\` examples, so the
                     // paragraph count may legitimately differ from en-US but no

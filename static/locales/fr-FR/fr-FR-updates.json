@@ -1012,6 +1012,11 @@
         "e982ffd8b3a0b": "$~Les émojis se chargent maintenant plus vite dans Safari, et votre navigateur garde maintenant les polices d'une visite à l'autre au lieu de les retélécharger.",
         "e2222194ec679": "$~Un comment faire n'indique plus deux fois le nom de la personne qui l'a écrit.",
         "ea64e28744d1d": "$~Les émojis se cognent maintenant contre les objets selon leur forme quand @Matter demande un contour, et le texte repose maintenant sur ce qu'il touche au lieu de s'y enfoncer. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
-        "effb062f72059": "$~Les lettres qui se touchent par leur contour ont maintenant de la place à l'intérieur, alors de petites choses peuvent rebondir à l'intérieur d'un O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "effb062f72059": "$~Les lettres qui se touchent par leur contour ont maintenant de la place à l'intérieur, alors de petites choses peuvent rebondir à l'intérieur d'un O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "e05d86cc70d38": "$~La musique fait maintenant vibrer les manettes de jeu compatibles, si bien que les notes graves donnent de gros coups sourds et les notes aiguës de légers bourdonnements. (<1345@https://github.com/wordplaydev/wordplay/issues/1345>)",
+        "ebd63de5a63f1": "$~Les lecteurs d'écran et le texte parlé lisent maintenant chaque mot dans sa propre langue, donc un mot espagnol dans une phrase en français sonne espagnol. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
+        "e7914aaea390a": "$~Dans 13 langues, les mots courants comme \"comment\" ne se transforment plus par erreur en liens soulignés en pointillés.",
+        "ed72c4878ae09": "$~Les noms des boutons et des réglages dans les visites guidées et la documentation utilisent maintenant les mots de chaque langue au lieu de l'anglais.",
+        "e42e9e3c1d92a": "$~Les mots soulignés en pointillés n'affichent plus de symboles en trop devant eux dans certaines langues."
     }
 }

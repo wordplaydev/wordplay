@@ -189,6 +189,21 @@ describe('estimateCost', () => {
         ).toBeCloseTo(14.7);
     });
 
+    test("prices a cache read at the model's own multiplier", () => {
+        // Opus 5.5 reads its cache at 0.05×, not 0.1×: $4 × 0.05 = $0.20.
+        expect(
+            estimateCost({
+                model: 'claude-opus-5-5',
+                requests: 1,
+                inputTokens: 0,
+                outputTokens: 0,
+                cacheReadTokens: 1_000_000,
+                cacheWriteTokens: 0,
+                thinkingTokens: 0,
+            }),
+        ).toBeCloseTo(0.2);
+    });
+
     test('an unpriced model reports no estimate rather than a wrong one', () => {
         expect(
             estimateCost({

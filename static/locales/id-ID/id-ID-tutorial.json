@@ -198,7 +198,7 @@
                             "Program",
                             "serious",
                             "$~Instruksinya bisa dibuat serumit apa pun yang Anda inginkan, tetapi ada beberapa aturan.",
-                            "$~Sebagai contoh, saya menghasilkan satu *@value* dan menampilkan nilai itu di panggung. Satu nilai itu bisa serumit yang kamu mau, dan selama saya tahu @how menampilkannya, saya akan menampilkannya.",
+                            "$~Sebagai contoh, saya menghasilkan satu *@value* dan menampilkan nilai itu di panggung. Satu nilai itu bisa serumit yang kamu mau, dan selama saya tahu cara menampilkannya, saya akan menampilkannya.",
                             "$~Jika kamu memberi saya lebih dari satu @expression, saya akan mengumpulkan nilai-nilainya menjadi *daftar* lalu menampilkannya.",
                             "$~Misalnya, coba tambahkan baris lain lalu ketik kata apa pun yang Anda inginkan, di dalam tanda kutip."
                         ],
@@ -641,7 +641,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Berikut salah satu fungsi favorit saya: @Phrase. Fungsi ini penuh dengan tombol, kenop, dan penggeser yang menyenangkan. Ini adalah @how untuk menampilkan teks di atas panggung dengan gaya, termasuk berbagai font, ukuran, warna, dan animasi.",
+                            "$~Berikut salah satu fungsi favorit saya: @Phrase. Fungsi ini penuh dengan tombol, kenop, dan penggeser yang menyenangkan. Ini adalah cara untuk menampilkan teks di atas panggung dengan gaya, termasuk berbagai font, ukuran, warna, dan animasi.",
                             "$~Berikut adalah evaluasi sederhana dari @Phrase @UI/Evaluate."
                         ],
                         null,
@@ -783,7 +783,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~*@expression* adalah @how kita menciptakan nilai. Semua ekspresi adalah evaluasi dari fungsi yang saya buat. Hasil dari evaluasi suatu ekspresi adalah nilai dari suatu tipe."
+                            "$~*@expression* adalah cara kita menciptakan nilai. Semua ekspresi adalah evaluasi dari fungsi yang saya buat. Hasil dari evaluasi suatu ekspresi adalah nilai dari suatu tipe."
                         ],
                         null,
                         { "fit": "#Symbol 🤔" },
@@ -900,7 +900,7 @@
                         [
                             "Text",
                             "serious",
-                            "$~Sebagai contoh, apakah @FunctionDefinition sudah menunjukkan padamu bagaimana teks tahu @how menambahkan dirinya ke teks lain? Seperti ini: @expression kecil ini mengubah \\7\\ menjadi teks, menambahkannya ke \\'Saya punya'\\, lalu menambahkan \\'apel'\\. Tapi cara ini berantakan dan membuat sulit membaca apa yang sedang terjadi, dan pengubahan menjadi teks terasa sangat tidak perlu."
+                            "$~Sebagai contoh, apakah @FunctionDefinition sudah menunjukkan padamu bagaimana teks tahu cara menambahkan dirinya ke teks lain? Seperti ini: @expression kecil ini mengubah \\7\\ menjadi teks, menambahkannya ke \\'Saya punya'\\, lalu menambahkan \\'apel'\\. Tapi cara ini berantakan dan membuat sulit membaca apa yang sedang terjadi, dan pengubahan menjadi teks terasa sangat tidak perlu."
                         ],
                         { "edit": "'I have' + (7→'') + 'apples'" },
                         null,
@@ -1109,7 +1109,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Wah, senang mendengarnya. Senang bisa bersama Anda lagi. Saya ingin memperkenalkan Anda kepada calon direktur baru kami. Mereka sudah bertemu dengan semua orang, mempelajari @how mementaskan pertunjukan bersama kami. Apakah Anda ingin memberi tahu mereka tentang pekerjaan Anda?"
+                            "$~Wah, senang mendengarnya. Senang bisa bersama Anda lagi. Saya ingin memperkenalkan Anda kepada calon direktur baru kami. Mereka sudah bertemu dengan semua orang, mempelajari cara mementaskan pertunjukan bersama kami. Apakah Anda ingin memberi tahu mereka tentang pekerjaan Anda?"
                         ],
                         ["⊤", "precise", "$~Aku jujur."],
                         ["⊥", "precise", "$~Aku palsu."],
@@ -1633,7 +1633,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Tahukah kamu? @value-nilai di komunitas kita sangat berbeda. @Text dengan dunia budaya mereka yang luas dari dunia manusia… @Boolean dengan visi biner mereka tentang dunia… @Number dengan ketertarikan mereka yang tak berujung pada penghitungan berbagai hal… @None dengan @how tenang mereka mengamati ketiadaan berbagai hal… Dunia kita tidak pernah membosankan!"
+                            "$~Tahukah kamu? @value-nilai di komunitas kita sangat berbeda. @Text dengan dunia budaya mereka yang luas dari dunia manusia… @Boolean dengan visi biner mereka tentang dunia… @Number dengan ketertarikan mereka yang tak berujung pada penghitungan berbagai hal… @None dengan cara tenang mereka mengamati ketiadaan berbagai hal… Dunia kita tidak pernah membosankan!"
                         ],
                         {
                             "fit": "Group(Stack() [Phrase('\"\"') Phrase('⊤⊥') Phrase('#') Phrase('ø')])"
@@ -1743,7 +1743,7 @@
                         [
                             "List",
                             "serious",
-                            "$~Kedua, dan ini penting, saya selalu memulai dengan \\[\\ dan mengakhiri dengan \\]\\. Begitulah @how saya mengetahui awal dan akhir daftar saya. TANDA TANGAN HARUS SELALU BERURUTAN SEPERTI INI. Tidak boleh \\]\\ di awal, tidak boleh \\[\\ di akhir; itu SALAH. Apakah Anda melihat betapa membingungkannya hal ini? Bisakah Anda memperbaikinya?"
+                            "$~Kedua, dan ini penting, saya selalu memulai dengan \\[\\ dan mengakhiri dengan \\]\\. Begitulah cara saya mengetahui awal dan akhir daftar saya. TANDA TANGAN HARUS SELALU BERURUTAN SEPERTI INI. Tidak boleh \\]\\ di awal, tidak boleh \\[\\ di akhir; itu SALAH. Apakah Anda melihat betapa membingungkannya hal ini? Bisakah Anda memperbaikinya?"
                         ],
                         {
                             "edit": "[ 1 2 3 4",
@@ -2061,7 +2061,7 @@
                         [
                             "Map",
                             "excited",
-                            "$~Kemitraan saya dengan @Bind-lah yang membuat saya istimewa! Ini adalah @how saya menghubungkan nilai-nilai dengan nilai-nilai lainnya (Apakah Anda sudah mengenal @Bind? Belum? Ohhh, Anda pasti akan menyukai mereka. Mereka LUAR BIASA.)"
+                            "$~Kemitraan saya dengan @Bind-lah yang membuat saya istimewa! Ini adalah cara saya menghubungkan nilai-nilai dengan nilai-nilai lainnya (Apakah Anda sudah mengenal @Bind? Belum? Ohhh, Anda pasti akan menyukai mereka. Mereka LUAR BIASA.)"
                         ],
                         null,
                         [
@@ -2272,7 +2272,7 @@
                             "Convert",
                             "sad",
                             "$~Yah, bukan seperti apa-apa. Maksudku, kalau kamu beri aku beberapa detik dan minta @Set, apa sih artinya itu?",
-                            "$~Saya akan berusaha sebaik mungkin untuk menemukan caranya... misalnya, di sini, saya tahu @how mengubah angka menjadi @Text dan @Text menjadi @Set, jadi saya akan memberikan Anda himpunan simbol dalam bentuk teks dari angka ini.",
+                            "$~Saya akan berusaha sebaik mungkin untuk menemukan caranya... misalnya, di sini, saya tahu cara mengubah angka menjadi @Text dan @Text menjadi @Set, jadi saya akan memberikan Anda himpunan simbol dalam bentuk teks dari angka ini.",
                             "$~Tapi mungkin bukan itu yang Anda inginkan...",
                             "$~Dan, jika saya tidak tahu bagaimana memberikan apa yang Anda minta, pada dasarnya saya akan menghentikan semuanya."
                         ],
@@ -2345,7 +2345,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Kita telah bertemu dengan begitu banyak jenis @value dalam perjalanan kita sejauh ini dan membicarakan begitu banyak @how untuk bekerja dengan nilai-nilai tersebut. Hanya ada satu lagi yang ingin saya perkenalkan kepada Anda. Nilai-nilai ini sangat istimewa karena merekalah yang membuat penampilan kita begitu dinamis. Mereka disebut @Conditional, dan mereka adalah karakter utama dalam Verse yang membuat *keputusan*."
+                            "$~Kita telah bertemu dengan begitu banyak jenis @value dalam perjalanan kita sejauh ini dan membicarakan begitu banyak cara untuk bekerja dengan nilai-nilai tersebut. Hanya ada satu lagi yang ingin saya perkenalkan kepada Anda. Nilai-nilai ini sangat istimewa karena merekalah yang membuat penampilan kita begitu dinamis. Mereka disebut @Conditional, dan mereka adalah karakter utama dalam Verse yang membuat *keputusan*."
                         ],
                         null,
                         [
@@ -2502,7 +2502,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Aku ingin menunjukkan kepadamu hubungan antara dunia kita dan apa yang bisa mereka wujudkan. Kita menyebutnya *input streams*, dan mereka mungkin jenis input paling ajaib di Verse. Mereka seperti fungsi yang membuat jenis @value khusus yang berubah saat duniamu berubah. Mereka juga tidak bisa berkomunikasi dengan @how yang mungkin biasa kamu kenal. Mereka lebih seperti detak jantung dari dunia lain. Jadi aku akan berusaha sebaik mungkin menjelaskan cara kerjanya karena mereka tidak bisa menjelaskan dirinya sendiri.",
+                            "$~Aku ingin menunjukkan kepadamu hubungan antara dunia kita dan apa yang bisa mereka wujudkan. Kita menyebutnya *input streams*, dan mereka mungkin jenis input paling ajaib di Verse. Mereka seperti fungsi yang membuat jenis @value khusus yang berubah saat duniamu berubah. Mereka juga tidak bisa berkomunikasi dengan cara yang mungkin biasa kamu kenal. Mereka lebih seperti detak jantung dari dunia lain. Jadi aku akan berusaha sebaik mungkin menjelaskan cara kerjanya karena mereka tidak bisa menjelaskan dirinya sendiri.",
                             "$~Apakah Anda siap bertemu dengan salah satunya?"
                         ]
                     ]
@@ -2531,7 +2531,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Lihat itu \\1000ms\\? Itu adalah @Time.frequency yang menyuruh @Time berdetak setiap 1000 milidetik, bukan setiap 33 milidetik seperti biasanya. Sekarang ia seperti penghitung yang berdetak setiap detik. Masukan yang diterima oleh @Time ini seperti pengaturan: mereka memberi tahu @stream @how bekerjanya."
+                            "$~Lihat itu \\1000ms\\? Itu adalah @Time.frequency yang menyuruh @Time berdetak setiap 1000 milidetik, bukan setiap 33 milidetik seperti biasanya. Sekarang ia seperti penghitung yang berdetak setiap detik. Masukan yang diterima oleh @Time ini seperti pengaturan: mereka memberi tahu @stream cara bekerjanya."
                         ],
                         ["Time", "neutral", "$~tik… tik… tik… tik… tik…"],
                         { "edit": "Time(1000ms)" },
@@ -2578,7 +2578,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Jika aku tidak salah, ada benda di duniamu yang disebut “papan ketik”? Itu @how memilih siapa di antara kami yang ingin kamu tampilkan di dokumenmu, benar? Nah, di Verse, kami menerima permintaan ini sebagai stream teks, setiap value teks mewakili @key yang ditekan. Kami menggunakan ini untuk mendengar apa yang diketik orang di duniamu. Stream ini disebut @Key."
+                            "$~Jika aku tidak salah, ada benda di duniamu yang disebut “papan ketik”? Itu cara memilih siapa di antara kami yang ingin kamu tampilkan di dokumenmu, benar? Nah, di Verse, kami menerima permintaan ini sebagai stream teks, setiap value teks mewakili @key yang ditekan. Kami menggunakan ini untuk mendengar apa yang diketik orang di duniamu. Stream ini disebut @Key."
                         ],
                         null,
                         [
@@ -2679,7 +2679,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Menggunakan aliran @Button adalah salah satu @how untuk maju melalui tahap-tahap pertunjukan atau memicu suatu perubahan dalam pertunjukan. Program kecil ini mendengarkan tekanan tombol dan awalnya menampilkan \\'sedih'\\, tetapi ketika aliran @Button berubah menjadi benar, @Conditional menghasilkan @value \\'senang'\\ sebagai gantinya."
+                            "$~Menggunakan aliran @Button adalah salah satu cara untuk maju melalui tahap-tahap pertunjukan atau memicu suatu perubahan dalam pertunjukan. Program kecil ini mendengarkan tekanan tombol dan awalnya menampilkan \\'sedih'\\, tetapi ketika aliran @Button berubah menjadi benar, @Conditional menghasilkan @value \\'senang'\\ sebagai gantinya."
                         ],
                         { "edit": "Phrase(Button(ø) ? 'happy' 'sad')" }
                     ]
@@ -2760,7 +2760,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Terkadang, menyenangkan untuk berinteraksi dengan penonton di tempat kita di @Stage.",
-                            "$~@Placement adalah @how yang bagus untuk melakukan itu! Ini adalah @stream @Place yang merespons tombol panah keyboard, klik, dan ketukan.",
+                            "$~@Placement adalah cara yang bagus untuk melakukan itu! Ini adalah @stream @Place yang merespons tombol panah keyboard, klik, dan ketukan.",
                             "$~Cobalah gunakan itu untuk memindahkan hot dog tersebut."
                         ],
                         null,
@@ -2808,7 +2808,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Berikut @how paling sederhana untuk menggunakannya. Ini membuat aliran @Motion yang dimulai dengan @Phrase ini. Ini akan terus menggerakkan bola berdasarkan *gravitasi*."
+                            "$~Berikut cara paling sederhana untuk menggunakannya. Ini membuat aliran @Motion yang dimulai dengan @Phrase ini. Ini akan terus menggerakkan bola berdasarkan *gravitasi*."
                         ],
                         ["Motion", "excited", "$~/Woosh…/"],
                         null,
@@ -2933,7 +2933,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Ini @how paling sederhana untuk menggunakannya. Kamu mengetik sesuatu lalu panggung menampilkannya karena @value program adalah value dari @Chat."
+                            "$~Ini cara paling sederhana untuk menggunakannya. Kamu mengetik sesuatu lalu panggung menampilkannya karena @value program adalah value dari @Chat."
                         ],
                         null,
                         { "edit": "Chat().has('oo') ? 'choo choo' 'hmm'" },
@@ -2965,7 +2965,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Begini @how kerjanya: Anda cukup memberikan apa yang saya sebut 'URL' kepada kami, dan jika itu adalah halaman HTML, kami akan mengekstrak semua frasa darinya dan memberikannya kepada Anda dalam bentuk @List.",
+                            "$~Begini cara kerjanya: Anda cukup memberikan apa yang saya sebut 'URL' kepada kami, dan jika itu adalah halaman HTML, kami akan mengekstrak semua frasa darinya dan memberikannya kepada Anda dalam bentuk @List.",
                             "$~Seperti di sini: ini beberapa frasa berita."
                         ],
                         null,
@@ -3174,7 +3174,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~Ingat hasil yang saya tunjukkan kepada Anda beberapa waktu lalu, @Phrase? Di situlah pertunjukan sebenarnya dimulai. Mari kita mulai dari sana! Dan kemudian saya akan menunjukkan kepada Anda @how-cara membangun pertunjukan yang lebih menarik dari @blocks bangunan tersebut. Izinkan saya memperkenalkan Anda!"
+                            "$~Ingat hasil yang saya tunjukkan kepada Anda beberapa waktu lalu, @Phrase? Di situlah pertunjukan sebenarnya dimulai. Mari kita mulai dari sana! Dan kemudian saya akan menunjukkan kepada Anda cara-cara membangun pertunjukan yang lebih menarik dari @blocks bangunan tersebut. Izinkan saya memperkenalkan Anda!"
                         ]
                     ]
                 },
@@ -3233,7 +3233,7 @@
                         [
                             "Phrase",
                             "kind",
-                            "$~Itulah, sayangku, @how paling sederhana untuk menyampaikan pesan di atas panggung. Tapi masih banyak lagi! Misalnya, tahukah kamu bahwa kamu bisa menata teks yang kamu berikan kepadaku dengan bekerja sama dengan @FormattedTranslation? Kamu belum mengenal mereka, tetapi yang perlu kamu lakukan hanyalah menambahkan simbol khusus di sekitar teksmu. Lihatlah: tebal!"
+                            "$~Itulah, sayangku, cara paling sederhana untuk menyampaikan pesan di atas panggung. Tapi masih banyak lagi! Misalnya, tahukah kamu bahwa kamu bisa menata teks yang kamu berikan kepadaku dengan bekerja sama dengan @FormattedTranslation? Kamu belum mengenal mereka, tetapi yang perlu kamu lakukan hanyalah menambahkan simbol khusus di sekitar teksmu. Lihatlah: tebal!"
                         ],
                         { "edit": "Phrase(`*hi*`)" },
                         null,
@@ -3524,7 +3524,7 @@
                         [
                             "Sequence",
                             "neutral",
-                            "$~Berikut contoh sederhana @how kerja saya. Ini @Phrase (hai, @Phrase!) dengan kata \"dance\", dan mereka memiliki pose masuk yang merupakan @Sequence, bukan @Pose tunggal. Paham? Urutannya memiliki empat langkah. Lurus, miring ke kiri, miring ke kanan, lurus. Saat @Phrase masuk, mereka melakukan goyangan kecil yang lucu lalu berhenti. Saya bekerja dengan @MapLiteral untuk memetakan persentase ke @Pose. Setiap persentase tersebut menunjukkan seberapa jauh dalam urutan setiap @Pose harus terjadi. Cobalah mengubah persentasenya, terutama dua persentase di tengah. Itu mengubah alur dan gaya goyangannya."
+                            "$~Berikut contoh sederhana cara kerja saya. Ini @Phrase (hai, @Phrase!) dengan kata \"dance\", dan mereka memiliki pose masuk yang merupakan @Sequence, bukan @Pose tunggal. Paham? Urutannya memiliki empat langkah. Lurus, miring ke kiri, miring ke kanan, lurus. Saat @Phrase masuk, mereka melakukan goyangan kecil yang lucu lalu berhenti. Saya bekerja dengan @MapLiteral untuk memetakan persentase ke @Pose. Setiap persentase tersebut menunjukkan seberapa jauh dalam urutan setiap @Pose harus terjadi. Cobalah mengubah persentasenya, terutama dua persentase di tengah. Itu mengubah alur dan gaya goyangannya."
                         ],
                         {
                             "edit": [
@@ -4348,7 +4348,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Semua orang harus bisa berpartisipasi! Jadi, setelah kita membahas @Phrase secara lebih detail, saya ingin menunjukkan satu @stream terakhir, @Choice, yang merupakan aliran nama @Phrase yang telah dipilih, terlepas dari bagaimana @how pemilihannya. Misalnya, audiens mungkin menggunakan mouse untuk mengklik @Phrase, atau mereka mungkin menggunakan keyboard untuk memilihnya, atau mungkin ada perangkat lain yang mereka gunakan. Apa pun yang mereka gunakan, @Choice akan berisi pilihan terbaru mereka."
+                            "$~Semua orang harus bisa berpartisipasi! Jadi, setelah kita membahas @Phrase secara lebih detail, saya ingin menunjukkan satu @stream terakhir, @Choice, yang merupakan aliran nama @Phrase yang telah dipilih, terlepas dari bagaimana cara pemilihannya. Misalnya, audiens mungkin menggunakan mouse untuk mengklik @Phrase, atau mereka mungkin menggunakan keyboard untuk memilihnya, atau mungkin ada perangkat lain yang mereka gunakan. Apa pun yang mereka gunakan, @Choice akan berisi pilihan terbaru mereka."
                         ],
                         null,
                         [
@@ -4404,7 +4404,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Namun tampaknya, sehebat apa pun kita, kita selalu lupa dan akhirnya mengulang diri kita sendiri. Jadi, ada satu kelompok lagi yang ingin saya perkenalkan kepada Anda. Mereka adalah @how kita *mengingat* dan cara kita mengatur ingatan kita. Tanpa mereka, begitu banyak pekerjaan kita harus dilakukan berulang-ulang, dan kita tidak akan pernah bisa menampilkan pertunjukan yang paling menarik."
+                            "$~Namun tampaknya, sehebat apa pun kita, kita selalu lupa dan akhirnya mengulang diri kita sendiri. Jadi, ada satu kelompok lagi yang ingin saya perkenalkan kepada Anda. Mereka adalah cara kita *mengingat* dan cara kita mengatur ingatan kita. Tanpa mereka, begitu banyak pekerjaan kita harus dilakukan berulang-ulang, dan kita tidak akan pernah bisa menampilkan pertunjukan yang paling menarik."
                         ]
                     ]
                 },
@@ -4521,7 +4521,7 @@
                         [
                             "Bind",
                             "curious",
-                            "$~Sekarang bagian yang sulit. Bagaimana @how mengubah ukuran @Phrase? Kita sudah tahu cara mengecek apakah itu huruf ajaib, jadi kita bisa menyalinnya, dan jika itu \\⊤\\, maka buat ukurannya \\2m\\, dan jika tidak, kalau itu \\⊥\\, buat jadi \\1m\\. Itu berhasil, tapi kamu lihat bagaimana kita harus mengevaluasi @expression yang sama dua kali?"
+                            "$~Sekarang bagian yang sulit. Bagaimana cara mengubah ukuran @Phrase? Kita sudah tahu cara mengecek apakah itu huruf ajaib, jadi kita bisa menyalinnya, dan jika itu \\⊤\\, maka buat ukurannya \\2m\\, dan jika tidak, kalau itu \\⊥\\, buat jadi \\1m\\. Itu berhasil, tapi kamu lihat bagaimana kita harus mengevaluasi @expression yang sama dua kali?"
                         ],
                         {
                             "edit": [
@@ -4850,7 +4850,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Kurasa mari kita mulai dari apa yang sudah kamu lihat. Kamu tahu bahwa setiap @value punya fungsi berbeda yang bisa kamu evaluasi? Seperti angka yang tahu @how @Number.add, dan sebuah value teks yang tahu cara memeriksa apakah ia @Text.has suatu teks, atau @Set yang tahu cara memeriksa apakah ia punya value tertentu? Nah, akulah yang mendefinisikan fungsi-fungsi itu. Maksudku, aku tidak punya inspirasi untuk menciptakannya sendiri — itu tugas para sutradara seperti kamu — tetapi aku mendefinisikan input yang diterima sebuah fungsi, nama-nama yang dimilikinya, dan @expression yang memakai input untuk mengevaluasi menjadi sebuah value keluaran."
+                            "$~Kurasa mari kita mulai dari apa yang sudah kamu lihat. Kamu tahu bahwa setiap @value punya fungsi berbeda yang bisa kamu evaluasi? Seperti angka yang tahu cara @Number.add, dan sebuah value teks yang tahu cara memeriksa apakah ia @Text.has suatu teks, atau @Set yang tahu cara memeriksa apakah ia punya value tertentu? Nah, akulah yang mendefinisikan fungsi-fungsi itu. Maksudku, aku tidak punya inspirasi untuk menciptakannya sendiri — itu tugas para sutradara seperti kamu — tetapi aku mendefinisikan input yang diterima sebuah fungsi, nama-nama yang dimilikinya, dan @expression yang memakai input untuk mengevaluasi menjadi sebuah value keluaran."
                         ],
                         null,
                         [
@@ -5055,7 +5055,7 @@
                         [
                             "StructureDefinition",
                             "serious",
-                            "$~Lalu, mereka menghadapi masalah bagaimana pertunjukan itu akan mengingat pesan mana yang sedang ditampilkan. Mereka menyadari bahwa mereka butuh @how untuk mengingat @index dalam daftar. Ini awal yang bagus, tetapi hanya menampilkan pesan pertama."
+                            "$~Lalu, mereka menghadapi masalah bagaimana pertunjukan itu akan mengingat pesan mana yang sedang ditampilkan. Mereka menyadari bahwa mereka butuh cara untuk mengingat @index dalam daftar. Ini awal yang bagus, tetapi hanya menampilkan pesan pertama."
                         ],
                         {
                             "edit": [
@@ -5308,7 +5308,7 @@
                         [
                             "Doc",
                             "happy",
-                            "$~Saya adalah @how agar Anda dapat mengingatkan diri sendiri tentang apa yang dilakukan semua orang, tetapi juga cara untuk menjelaskan kepada orang lain, jika Anda menyutradarai bersama teman atau ingin berbagi penampilan Anda dengan seseorang. Jadi Anda tidak harus bekerja dengan saya, tetapi saya menemukan bahwa setiap penampilan akan sedikit lebih mudah dilakukan dan diubah jika Anda telah meluangkan waktu untuk menjelaskan cara kerjanya."
+                            "$~Saya adalah cara agar Anda dapat mengingatkan diri sendiri tentang apa yang dilakukan semua orang, tetapi juga cara untuk menjelaskan kepada orang lain, jika Anda menyutradarai bersama teman atau ingin berbagi penampilan Anda dengan seseorang. Jadi Anda tidak harus bekerja dengan saya, tetapi saya menemukan bahwa setiap penampilan akan sedikit lebih mudah dilakukan dan diubah jika Anda telah meluangkan waktu untuk menjelaskan cara kerjanya."
                         ],
                         { "fit": "#Symbol ¶About me...¶/en" },
                         null,
@@ -5575,7 +5575,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Aku menciptakan fungsi; kamu mengevaluasinya: itulah @how kita. Tapi harus ada lebih dari sekadar kamu membutuhkanku. Bertemu kembali dengan semua orang telah mengingatkanku betapa kita membutuhkan ruang untuk menjadi diri sendiri, tetapi juga betapa kita perlu mencintai diri sendiri. Aku tidak bisa memberikan semua cinta yang kamu butuhkan. Sebagian dari itu harus datang dari dirimu sendiri."
+                            "$~Aku menciptakan fungsi; kamu mengevaluasinya: itulah cara kita. Tapi harus ada lebih dari sekadar kamu membutuhkanku. Bertemu kembali dengan semua orang telah mengingatkanku betapa kita membutuhkan ruang untuk menjadi diri sendiri, tetapi juga betapa kita perlu mencintai diri sendiri. Aku tidak bisa memberikan semua cinta yang kamu butuhkan. Sebagian dari itu harus datang dari dirimu sendiri."
                         ],
                         null,
                         {

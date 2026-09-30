@@ -173,7 +173,7 @@
             "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
-                "$~Ben bir performansın mümkün olan en küçük parçasıyım; Şiirdeki tüm karakterlerin yapıldığı atomum. Beni @how buldunuz?",
+                "$~Ben bir performansın mümkün olan en küçük parçasıyım; Şiirdeki tüm karakterlerin yapıldığı atomum. Beni nasıl buldunuz?",
                 "Ben, şiirdeki tüm karakterlerin yapıldığı temel maddeyim. Ben, koreografimizin atomik parçacığıyım."
             ]
         },
@@ -452,7 +452,7 @@
                 "Bu, değerlendirme sırasını netleştirmeye yardım eder.",
                 "@Bind da yardım eder.",
                 "\\(\n\tsay: 10\n\tsay ^ say)\\",
-                "@Bind @how \\count\\ yaptı gördün mü? O sadece içimde isimlendirilmiştir. Yani bu işe yaramaz:",
+                "@Bind nasıl \\count\\ yaptı gördün mü? O sadece içimde isimlendirilmiştir. Yani bu işe yaramaz:",
                 "\\(\n\tsay: 10\n\tsay ^ say) + count\\🪲",
                 "Çünkü sayaç sadece içimde isimlendirilmişti.",
                 "Bana bir @expression verirsen, sana sadece onun @value değerini geri veririm:",
@@ -568,7 +568,7 @@
             "doc": [
                 "$~Sana bir @value mı yoksa başka bir @condition mı vereyim, buna bağlı olarak mı karar vereyim? Böyle mi?",
                 "\\sayı: -100\nsayı < 0 ? 'negatif' 'pozitif'\\",
-                "Ama @how karar verdiğimizi hiç düşündün mü?",
+                "Ama nasıl karar verdiğimizi hiç düşündün mü?",
                 "Kararların sadece evet ya da hayır olmaktan daha ince ayrıntılı olması gerektiği gibi görünmüyor mu? Kararlar sadece şunlar arasında seçim yapmaktan mı ibaret: \\⊤\\ ve \\⊥\\ arasında mı hepsi bu?",
                 "Eğer yapabileceğimiz tek karar türü bunlarsa, dünya hakkında önemli bir bağlamı kaçıracağımızdan endişelenmiyor musun?",
                 "Bir şey daha yapıyorum ve bunun için her zaman takdir görmüyorum. @condition bir değerin /ne tür/ bir değer olduğunu sorduğunda, sadece evet ya da hayır demiyorum. Cevabı her bir seçimimin içinde hatırlıyorum.",
@@ -611,7 +611,7 @@
             "doc": [
                 "$~Dostum, ben bir @type türünden başka bir türe dönüşümler tanımlarım! Ben @Block içine giderim, aşağı yukarı böyle:",
                 "\\→ #kitty #cat ⬚ ÷ 2\n6kitty → #cat\\",
-                "Kedicikleri kedilere @how çevirdiğimi gördün mü? Süper!",
+                "Kedicikleri kedilere nasıl çevirdiğimi gördün mü? Süper!",
                 "Orada o \\⬚\\ ne yapıyor diye merak ediyor olabilirsin. O, dönüştürülen @value değerini temsil eder. Onu kullanırım çünkü değerin başka türlü bir ismi yoktur."
             ],
             "start": "$~Harika, yeni bir dönüşüm!",
@@ -831,7 +831,7 @@
                 "\\(ƒ(mesaj•'') mesaj × 5)('merhaba')\\",
                 "Ya da, bir girdi isminden sonra \\…\\ karakterini kullanarak, herhangi bir sayıda girdi alan bir fonksiyon burada.",
                 "\\ƒ evet(mesajlar…•'') mesajlar.olmadan('hayır')\nevet('evet' 'evet' 'hayır' 'evet' 'hayır')\\",
-                "Tüm 'hayır'ları alıp onlardan @how kurtulduğunu gördün mü? Bunun nedeni mesajların bir @List olması, bu yüzden @List.sansAll kullanabildik.",
+                "Tüm 'hayır'ları alıp onlardan nasıl kurtulduğunu gördün mü? Bunun nedeni mesajların bir @List olması, bu yüzden @List.sansAll kullanabildik.",
                 "Bazen hangi tür değeri ürettiğimi netleştirmek isteyebilirsin. Bunu yapmak için, girdiler listesinden sonra bir @Is ekle:",
                 "\\ƒ ekle(x•# y•#)•'' x + y\\🪲",
                 "Bunda bir sorun fark edebilirsin: @Text olarak değerlendirildiğini söylüyor, ama iki @Number alıyor. İşler tutarsız olduğunda sana söyleyebilirim!",
@@ -960,7 +960,7 @@
             "name": "$~harita sabiti",
             "description": "$~$#count[$count anahtar-değer çiftli|$count anahtar-değer çiftli] harita",
             "emotion": "kind",
-            "doc": "$~Anahtarlar ve değerler arasında belirli bir @Map'im. @how yardımcı olabileceğim hakkında daha fazla bilgi edinmek için @Map'e bakın.",
+            "doc": "$~Anahtarlar ve değerler arasında belirli bir @Map'im. Nasıl yardımcı olabileceğim hakkında daha fazla bilgi edinmek için @Map'e bakın.",
             "start": "$~Öncelikle anahtarları ve değerleri değerlendirelim",
             "finish": "$~Herkesi birbirine bağladım, $value",
             "conflict": {
@@ -1015,7 +1015,7 @@
             "name": "$~dahili ifade",
             "description": "$~yerleşik ifade",
             "emotion": "neutral",
-            "doc": "$~Ben yalnızca özgün yaratıcıların kullandığı bir @expression'ım. Beni @how buldun? Benim hakkımda daha çok bilgi almak için onlarla konuşman gerekir.",
+            "doc": "$~Ben yalnızca özgün yaratıcıların kullandığı bir @expression'ım. Beni nasıl buldun? Benim hakkımda daha çok bilgi almak için onlarla konuşman gerekir.",
             "start": "$~Gizli ifade"
         },
         "NoneLiteral": {
@@ -1263,7 +1263,7 @@
             "name": "$~küme sabiti",
             "description": "$~$#count[$count değerli|$count değerli] küme",
             "emotion": "eager",
-            "doc": "$~Ben belirli değerlerden oluşan belirli bir @Set'im. Benimle @how çalışacağını daha çok öğrenmek için @Set'e bak.",
+            "doc": "$~Ben belirli değerlerden oluşan belirli bir @Set'im. Benimle nasıl çalışacağını daha çok öğrenmek için @Set'e bak.",
             "start": "$~Önce değerleri değerlendirelim!",
             "finish": "$~Bir $value değeri belirledim!"
         },
@@ -1312,7 +1312,7 @@
             "name": "$~aktarım",
             "description": "$~akış $name",
             "emotion": "curious",
-            "doc": "$~Yeni türde akışlar tanımlıyorum. Sanırım — dürüst olmak gerekirse, @how yapacağımı hala çözmeye çalışıyorum, bu yüzden şimdilik mevcut akışları kullanın!",
+            "doc": "$~Yeni türde akışlar tanımlıyorum. Sanırım — dürüst olmak gerekirse, nasıl yapacağımı hala çözmeye çalışıyorum, bu yüzden şimdilik mevcut akışları kullanın!",
             "start": "$~Bu yeni tür akışı yaratın"
         },
         "StructureDefinition": {
@@ -1323,7 +1323,7 @@
                 "$~Değerleri ve fonksiyonları depolayan yapılar tanımlarım. Merhaba, nasılsın? Ben mi? Harikayım — bunu bütün gün yapmayı seviyorum.",
                 "Şöyle çalışırım:",
                 "\\•pizza(\n\tmalzemeler•['']\n\tboyut•#in\n) (\n\tƒ maliyet() boyut × 10dollars/in\n)\n\npizza(['sucuk' 'biber'] 12in).maliyet()\\🪲",
-                "Bunun @how çalıştığını gördün mü? Ben \\Pizza\\ tanımladım, ki iki girdisi var, \\ingredients\\ (bir @Text listesi) ve \\size\\ (inç cinsinden bir sayı).",
+                "Bunun nasıl çalıştığını gördün mü? Ben \\Pizza\\ tanımladım, ki iki girdisi var, \\ingredients\\ (bir @Text listesi) ve \\size\\ (inç cinsinden bir sayı).",
                 "İçeride, @FunctionDefinition bir pizzanın maliyetini değerlendiren bir fonksiyon yaptı, inç başına $$10 varsayarak.",
                 "İçimde @FunctionDefinition olmasına gerek yok. Sadece girdiler de olabilirim.",
                 "\\•pizza(\n\tmalzemeler•['']\n\tboyut•#in\n)\\",
@@ -1382,7 +1382,7 @@
             "name": "$~tablo sabiti",
             "description": "$~$#count[$count satırlı|$count satırlı] tablo",
             "emotion": "angry",
-            "doc": "$~Belirli satırları olan belirli bir tabloyum. @how yardımcı olabileceğimi öğrenmek için @Table'a bakın.",
+            "doc": "$~Belirli satırları olan belirli bir tabloyum. Nasıl yardımcı olabileceğimi öğrenmek için @Table'a bakın.",
             "start": "$~İlk önce satırları değerlendirin",
             "finish": "$~Yeni tabloya göre değerlendirildi $value"
         },
@@ -1628,7 +1628,7 @@
             "description": "$~liste tipi$type[ / $type|]",
             "emotion": "cheerful",
             "doc": [
-                "$~@List hakkında /çok/ hayranım. @Bind öğesine @how bir liste olduğunu söyleyebiliyorum! İşte böyle, bunun bir @Number listesi olduğunu söylüyorum:",
+                "$~@List hakkında /çok/ hayranım. @Bind öğesine nasıl bir liste olduğunu söyleyebiliyorum! İşte böyle, bunun bir @Number listesi olduğunu söylüyorum:",
                 "\\şeyler•[#]: [1 2 3 4 5]\\🪲",
                 "Bunu üç farklı şekilde söyleyebilirim. Hiç tip belirtmezsem, bir liste herhangi bir uzunlukta olabilir ve herhangi bir şeyi tutabilir:",
                 "\\şeyler•[]: [1 'iki' ø]\\🪲",

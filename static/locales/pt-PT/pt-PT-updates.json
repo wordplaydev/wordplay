@@ -1012,6 +1012,11 @@
         "e982ffd8b3a0b": "$~Os emojis carregam agora mais depressa no Safari, e o seu navegador mantém agora os tipos de letra entre visitas em vez de os voltar a obter.",
         "e2222194ec679": "$~Um como já não mostra duas vezes a pessoa que o escreveu.",
         "ea64e28744d1d": "$~Os emojis embatem agora em coisas de acordo com a sua forma quando @Matter pede um contorno, e o texto assenta agora sobre o que toca em vez de afundar. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
-        "effb062f72059": "$~As letras que se tocam pelo contorno têm agora espaço no interior, para que coisas pequenas possam saltar dentro de um O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "effb062f72059": "$~As letras que se tocam pelo contorno têm agora espaço no interior, para que coisas pequenas possam saltar dentro de um O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "e05d86cc70d38": "$~A música agora faz vibrar os comandos de jogo que conseguem vibrar, por isso as notas graves parecem pancadas fundas e as notas agudas parecem zumbidos leves. (<1345@https://github.com/wordplaydev/wordplay/issues/1345>)",
+        "ebd63de5a63f1": "$~Os leitores de ecrã e o texto falado agora leem cada palavra no seu próprio idioma, por isso uma palavra em espanhol dentro de uma frase em inglês soa a espanhol. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
+        "e7914aaea390a": "$~Em 13 idiomas, palavras do dia a dia como \"como\" já não se transformam por engano em ligações com sublinhado tracejado.",
+        "ed72c4878ae09": "$~Os nomes dos botões e das definições nas visitas guiadas e na documentação agora usam as palavras de cada idioma em vez do inglês.",
+        "e42e9e3c1d92a": "$~As palavras com um sublinhado ponteado deixam de mostrar símbolos soltos à sua frente em alguns idiomas."
     }
 }

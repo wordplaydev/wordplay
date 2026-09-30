@@ -267,7 +267,7 @@
             "tour": {
                 "launch": "$~ikuti tur kontrol proyek",
                 "controls": "$~Kontrol-kontrol di bagian bawah ini berlaku untuk *proyek secara keseluruhan*, terlepas dari ubin mana yang sedang Anda kerjakan.",
-                "name": "$~Kolom /name/ adalah nama proyekmu. Nama muncul di tampilan *proyek* dan *galeri*.",
+                "name": "$~Kolom /nama/ adalah nama proyekmu. Nama muncul di tampilan *proyek* dan *galeri*.",
                 "sourceToggle": "$~Tombol ini menampilkan atau menyembunyikan *file sumber*. *Tombol lainnya* pada baris ini melakukan hal yang sama untuk ubin lainnya.",
                 "addSource": "$~Beberapa proyek lebih baik memakai *banyak* sumber, di mana data disimpan di satu sumber lalu diambil ke sumber *utama*. Tombol /tambah sumber/ menawarkan beberapa cara membuatnya: berkas kosong, gambar, lagu, atau data.",
                 "share": "$~Dialog /share/ memungkinkan Anda untuk membagikan proyek Anda dengan *galeri*, dengan *publik*, atau menyalinnya sebagai *teks* untuk dibagikan di tempat lain.",
@@ -859,7 +859,7 @@
                 "textBlocks": "$~Tombol ini beralih antara dua cara pengeditan: /teks/ dan /blok/. *Teks* lebih fleksibel tetapi lebih mudah membuat kesalahan. *Blok* lebih kecil kemungkinannya membuat kesalahan tetapi lebih lambat dan lebih kaku.",
                 "toolbar": "$~Kontrol pada bilah alat ini memungkinkan Anda untuk *memilih semua*, *memperbesar* dan *memperkecil*, *membatalkan*, *mengulang*, *memotong*, *menyalin*, dan *menempel*.",
                 "expand": "$~Tombol /expand/ akan menampilkan alat pengeditan yang lebih *canggih*.",
-                "shortcuts": "$~Tombol /shortcuts/ membuka daftar *pintasan keyboard* yang dapat Anda gunakan untuk mengedit lebih cepat."
+                "shortcuts": "$~Tombol /Jalan pintas/ membuka daftar *pintasan keyboard* yang dapat Anda gunakan untuk mengedit lebih cepat."
             },
             "feedback": {
                 "cantDrop": "$~Tidak bisa dijatuhkan di sana:",
@@ -1034,9 +1034,9 @@
             "tour": {
                 "launch": "$~ikuti tur panggung",
                 "stage": "$~Tahap ini menampilkan *nilai saat ini* program Anda. Nilai tersebut bisa berupa *nilai mentah* seperti angka atau daftar, *output visual* yang dapat Anda lihat, atau bahkan *suara* yang dapat Anda dengar.",
-                "reset": "$~Tombol /reset/ memulai kembali evaluasi programmu dari *awal*, di mode mana pun: di ▶️ *play* program berjalan lagi dari atas, di ✏️ *edit* program berhenti setelah evaluasi pertama agar kamu bisa melihat efek suntinganmu pada output awal, dan di ⏸️ *debug* program berhenti tepat di langkah pertama.",
+                "reset": "$~Tombol /mengaturulang/ memulai kembali evaluasi programmu dari *awal*, di mode mana pun: di ▶️ *play* program berjalan lagi dari atas, di ✏️ *edit* program berhenti setelah evaluasi pertama agar kamu bisa melihat efek suntinganmu pada output awal, dan di ⏸️ *debug* program berhenti tepat di langkah pertama.",
                 "zoom": "$~Tombol /zoom/ memungkinkan Anda memperbesar dan memperkecil tampilan panggung sehingga Anda dapat melihat hasil karya Anda dengan lebih jelas atau lebih detail.",
-                "grid": "$~Tombol /grid/ menampilkan *grid* di atas panggung, berguna untuk menempatkan berbagai hal secara tepat saat Anda mendesain.",
+                "grid": "$~Tombol /Jaringan/ menampilkan *grid* di atas panggung, berguna untuk menempatkan berbagai hal secara tepat saat Anda mendesain.",
                 "lock": "$~Tombol /lock/ mengunci tampilan panggung. Saat *terkunci*, panggung tetap diam; saat *tidak terkunci*, Anda dapat menggeser dan memperbesar tampilan dengan bebas.",
                 "animationSpeed": "$~Kontrol /kecepatan animasi/ mengatur seberapa cepat animasi diputar. Kontrol yang sama ada di *pengaturan*, jadi Anda dapat mengubahnya dari kedua tempat tersebut."
             },
@@ -1454,7 +1454,7 @@
             "tour": {
                 "launch": "$~ikuti tur bersama pemandu",
                 "guide": "$~Panduan ini berisi dokumentasi untuk semua konsep dan kemampuan bahasa pemrograman @wordplay.",
-                "code": "$~Ini adalah bagian /code/. Bagian ini berisi dokumentasi *bahasa pemrograman* — blok bangunan yang dapat Anda gabungkan untuk membuat program.",
+                "code": "$~Ini adalah bagian /kode/. Bagian ini berisi dokumentasi *bahasa pemrograman* — blok bangunan yang dapat Anda gabungkan untuk membuat program.",
                 "howto": "$~Ini adalah bagian /cara-cara/. Bagian ini berisi *pola-pola bermanfaat* untuk mencapai perilaku tertentu dalam proyek Anda.",
                 "mode": "$~Gunakan tombol ini untuk beralih sendiri antara bagian *kode* dan *cara*.",
                 "search": "$~Kotak /pencarian/ berguna untuk *menemukan* fitur, atau menemukan fitur dengan cepat *berdasarkan nama*."
@@ -2291,7 +2291,7 @@
                 "launch": "$~jelajahi palet warnanya",
                 "palette": "$~Kamu bisa memakai /palette/ untuk menyunting *frasa*, *grup*, dan *panggung* di mode ✏️ *edit*; di mode lain kontrolnya hanya bisa dibaca, dan di mode ⏸️ *debug* setiap properti juga menampilkan *nilai saat ini*.",
                 "text": "$~Semua properti dari sebuah frasa dapat diedit di sini. Ini adalah teks frasa tersebut, tetapi properti lainnya memiliki kontrol tersendiri.",
-                "set": "$~Saat suatu properti saat ini menggunakan nilai /default/nya, tombol *pensil* memungkinkan Anda untuk mengatur nilai *eksplisit* untuk properti tersebut.",
+                "set": "$~Saat suatu properti saat ini menggunakan nilai /bawaan/nya, tombol *pensil* memungkinkan Anda untuk mengatur nilai *eksplisit* untuk properti tersebut.",
                 "unset": "$~Saat suatu properti memiliki nilai yang /eksplisit/ ditetapkan, tombol *X* akan menghapus nilai tersebut, mengembalikan properti ke nilai *default*.",
                 "editor": "$~Semua perubahan yang Anda buat pada palet akan tercermin dalam /kode/ yang ditampilkan di *editor*.",
                 "stage": "$~Frasa juga dapat /dipindahkan/, /diubah ukurannya/, dan /diputar/ langsung di *panggung*."

@@ -120,7 +120,7 @@
                 "\\Phrase('magnificent!')\\",
                 "Am nevoie @TextLiteral sau @FormattedLiteral pentru a se afișa. Cu @FormattedLiteral , pot folosi elemente precum \\`*bold* and /italic/`\\ sau pot face referire la @ConceptLink personalizat pe care îl creați.",
                 "De asemenea, poți opțional să-mi dai tot ce poate face un @Output , inclusiv să-mi schimbi dimensiunea, fontul, rotația și să fac toate dansurile mele incredibile cu @Pose și @Sequence .",
-                "De asemenea, mă poți selecta pe @Stage și edita cu paleta 🎨 de alături — e o modalitate excelentă de a încerca diferite fonturi și de a alege /face/ potrivit pentru @Text ."
+                "De asemenea, mă poți selecta pe @Stage și edita cu paleta 🎨 de alături — e o modalitate excelentă de a încerca diferite fonturi și de a alege /față/ potrivit pentru @Text ."
             ],
             "names": ["$~Fraza"],
             "text": {
@@ -708,7 +708,7 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Mă înclin înainte și înapoi în jurul centrului unui @Output, ca ceva ce atârnă într-o briză ușoară. Sunt o animație bună de repaus, pentru că un /angle/ mic pare „viu” fără să atragă atenția.",
+                        "$~Mă înclin înainte și înapoi în jurul centrului unui @Output, ca ceva ce atârnă într-o briză ușoară. Sunt o animație bună de repaus, pentru că un /unghi/ mic pare „viu” fără să atragă atenția.",
                         "\\💬('🐈' odihnă: 💃.legănare(10°))\\"
                     ],
                     "names": ["$~legănare"],
@@ -719,7 +719,7 @@
                 },
                 "bounce": {
                     "doc": [
-                        "$~Fac un @Output să sară până la /height/ și să aterizeze, turtindu-se puțin la urcare și la coborâre. Dă-mi un @Phrase care tocmai a sosit și îl voi face să pară că are greutate.",
+                        "$~Fac un @Output să sară până la /înălțime/ și să aterizeze, turtindu-se puțin la urcare și la coborâre. Dă-mi un @Phrase care tocmai a sosit și îl voi face să pară că are greutate.",
                         "\\💬('🐈' odihnă: 💃.sări(3m))\\"
                     ],
                     "names": ["$~sări"],
@@ -765,7 +765,7 @@
                 },
                 "pulse": {
                     "doc": [
-                        "$~Măresc un @Output până la /amount/ și înapoi, o dată. Sunt cea mai liniștită modalitate de a spune „privește aici” fără a muta nimic din loc.",
+                        "$~Măresc un @Output până la /cantitate/ și înapoi, o dată. Sunt cea mai liniștită modalitate de a spune „privește aici” fără a muta nimic din loc.",
                         "\\💬('🐈' odihnă: 💃.puls(1.2))\\"
                     ],
                     "names": ["$~puls"],
@@ -776,7 +776,7 @@
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Dau două bătăi rapide de mărire și apoi mă odihnesc, ritmul unei bătăi de inimă. Sunt mai urgent decât /pulse/-ul unui @Sequence și mai natural decât /flash/.",
+                        "$~Dau două bătăi rapide de mărire și apoi mă odihnesc, ritmul unei bătăi de inimă. Sunt mai urgent decât /puls/-ul unui @Sequence și mai natural decât /bliț/.",
                         "\\💬('🐈' odihnă: 💃.bătaiainimii(1.4 1s))\\"
                     ],
                     "names": ["$~bătaiainimii"],
@@ -810,7 +810,7 @@
                 "flash": {
                     "doc": [
                         "$~Fac un @Output să clipească între vizibil și invizibil de două ori, estompându-mă pe parcurs. Sunt greu de ratat — ceea ce înseamnă și că sunt greu de ignorat, așa că folosește-mă rar.",
-                        "Clipesc repede, așa că un privitor sensibil la clipiri m-ar putea găsi neplăcut. Încetinește-mă cu un /duration/ mai lung dacă mă voi repeta.",
+                        "Clipesc repede, așa că un privitor sensibil la clipiri m-ar putea găsi neplăcut. Încetinește-mă cu un /durată/ mai lung dacă mă voi repeta.",
                         "\\💬('🐈' odihnă: 💃.bliț(1s))\\"
                     ],
                     "names": ["$~bliț"]
@@ -824,7 +824,7 @@
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Fac un @Output să apară estompat în timp ce îl alunec în sus, la locul lui, dintr-o /distance/ de mai jos.",
+                        "$~Fac un @Output să apară estompat în timp ce îl alunec în sus, la locul lui, dintr-o /distanță/ de mai jos.",
                         "\\💬('🐈' intrând: 💃.estomparesus(2m))\\"
                     ],
                     "names": ["estomparesus"],
@@ -835,7 +835,7 @@
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Fac un @Output să apară estompat în timp ce îl alunec în jos, la locul lui, dintr-o /distance/ de mai sus.",
+                        "$~Fac un @Output să apară estompat în timp ce îl alunec în jos, la locul lui, dintr-o /distanță/ de mai sus.",
                         "\\💬('🐈' intrând: 💃.estomparejos(2m))\\"
                     ],
                     "names": ["estomparejos"],
@@ -846,7 +846,7 @@
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Fac un @Output să apară estompat în timp ce îl alunec spre dreapta, la locul lui, dintr-o /distance/ din stânga.",
+                        "$~Fac un @Output să apară estompat în timp ce îl alunec spre dreapta, la locul lui, dintr-o /distanță/ din stânga.",
                         "\\💬('🐈' intrând: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
@@ -857,7 +857,7 @@
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Fac un @Output să apară treptat în timp ce îl aduc spre stânga la locul lui, de la /distance/ spre dreapta.",
+                        "$~Fac un @Output să apară treptat în timp ce îl aduc spre stânga la locul lui, de la /distanță/ spre dreapta.",
                         "\\💬('🐈' intrând: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
@@ -868,7 +868,7 @@
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Rotesc un @Output la locul lui în timp ce îl fac să apară treptat, pornind rotit cu /angle/ și terminând drept.",
+                        "$~Rotesc un @Output la locul lui în timp ce îl fac să apară treptat, pornind rotit cu /unghi/ și terminând drept.",
                         "\\💬('🐈' intrând: 💃.rotație(180°))\\"
                     ],
                     "names": ["$~rotație"],
@@ -886,7 +886,7 @@
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ în sus.",
+                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distanță/ în sus.",
                         "\\💬('🐈' ieșire: 💃.estompareieșiresus(2m))\\"
                     ],
                     "names": ["estompareieșiresus"],
@@ -897,7 +897,7 @@
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ în jos.",
+                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distanță/ în jos.",
                         "\\💬('🐈' ieșire: 💃.fadeoutdown(2m))\\"
                     ],
                     "names": ["$~fadeoutdown"],
@@ -908,7 +908,7 @@
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ spre stânga.",
+                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distanță/ spre stânga.",
                         "\\💬('🐈' ieșire: 💃.estomparelastânga(2m))\\"
                     ],
                     "names": ["$~estomparelastânga"],
@@ -919,7 +919,7 @@
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distance/ spre dreapta.",
+                        "$~Fac un @Output să dispară treptat în timp ce îl aduc /distanță/ spre dreapta.",
                         "\\💬('🐈' ieșire: 💃.estompeazăcomplet(2m))\\"
                     ],
                     "names": ["$~estompeazăcomplet"],
@@ -930,7 +930,7 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Rotesc un @Output pentru a-l îndepărta în timp ce îl fac să dispară treptat, terminând rotit cu /angle/.",
+                        "$~Rotesc un @Output pentru a-l îndepărta în timp ce îl fac să dispară treptat, terminând rotit cu /unghi/.",
                         "\\💬('🐈' ieșire: 💃.rotireieșire(180°))\\"
                     ],
                     "names": ["rotireieșire"],
@@ -942,14 +942,14 @@
                 "rainbow": {
                     "doc": [
                         "$~Trec un @Output prin fiecare nuanță a curcubeului și înapoi la punctul de plecare.",
-                        "Schimb culoarea repede, așa că o persoană sensibilă la lumini care clipesc poate să nu se simtă bine. O /duration/ mai lungă mă face mult mai blând.",
+                        "Schimb culoarea repede, așa că o persoană sensibilă la lumini care clipesc poate să nu se simtă bine. O /durată/ mai lungă mă face mult mai blând.",
                         "\\💬('🐈' odihnă: 💃.curcubeu(3s))\\"
                     ],
                     "names": ["$~curcubeu"]
                 },
                 "swing": {
                     "doc": [
-                        "$~Legăn un @Output ca un pendul, până la /angle/ și apoi înapoi prin arce tot mai mici până se oprește. Spre deosebire de /sway/, eu mă opresc.",
+                        "$~Legăn un @Output ca un pendul, până la /unghi/ și apoi înapoi prin arce tot mai mici până se oprește. Spre deosebire de /legănare/, eu mă opresc.",
                         "\\💬('🐈' odihnă: 💃.leagăn(20°))\\"
                     ],
                     "names": ["$~leagăn"],
@@ -960,7 +960,7 @@
                 },
                 "blink": {
                     "doc": [
-                        "$~Sting un @Output și îl aprind la loc fără estompare între, așa cum clipește un cursor. /flash/ se estompează; eu tai brusc.",
+                        "$~Sting un @Output și îl aprind la loc fără estompare între, așa cum clipește un cursor. /bliț/ se estompează; eu tai brusc.",
                         "\\💬('🐈' odihnă: 💃.clipire(1s))\\"
                     ],
                     "names": ["$~clipire"]
@@ -978,7 +978,7 @@
                 },
                 "dim": {
                     "doc": [
-                        "$~Estompez un @Output până la /amount/ și înapoi la maxim, fără să îl ascund vreodată. Sunt pentru a arăta că ceva așteaptă sau este inactiv.",
+                        "$~Estompez un @Output până la /cantitate/ și înapoi la maxim, fără să îl ascund vreodată. Sunt pentru a arăta că ceva așteaptă sau este inactiv.",
                         "\\💬('🐈' odihnă: 💃.întunecare(20% 2s))\\"
                     ],
                     "names": ["$~întunecare"],
@@ -1011,7 +1011,7 @@
                 },
                 "float": {
                     "doc": [
-                        "$~Eu ridic încet un @Output cu /distance/ și îl las jos. Dă-mi o /duration/ lungă și voi face ceva să pară fără greutate.",
+                        "$~Eu ridic încet un @Output cu /distanță/ și îl las jos. Dă-mi o /durată/ lungă și voi face ceva să pară fără greutate.",
                         "\\💬('🐈' odihnă: 💃.plutire(0.5m 3s))\\"
                     ],
                     "names": ["$~plutire"],
@@ -1022,7 +1022,7 @@
                 },
                 "drift": {
                     "doc": [
-                        "$~Eu mut încet un @Output cu /distance/ într-o parte și înapoi. Sunt /float/, dar lateral.",
+                        "$~Eu mut încet un @Output cu /distanță/ într-o parte și înapoi. Sunt /plutire/, dar lateral.",
                         "\\💬('🐈' odihnă: 💃.deriva(0.5m 3s))\\"
                     ],
                     "names": ["$~deriva"],
@@ -1033,7 +1033,7 @@
                 },
                 "orbit": {
                     "doc": [
-                        "$~Eu port un @Output pe un cerc cu /radius/, aducându-l înapoi de unde a plecat. Sunt singura animație predefinită care urmează o cale în loc să meargă înainte și înapoi.",
+                        "$~Eu port un @Output pe un cerc cu /rază/, aducându-l înapoi de unde a plecat. Sunt singura animație predefinită care urmează o cale în loc să meargă înainte și înapoi.",
                         "\\💬('🐈' odihnă: 💃.orbită(2m 4s))\\"
                     ],
                     "names": ["$~orbită"],
@@ -1044,7 +1044,7 @@
                 },
                 "glow": {
                     "doc": [
-                        "$~Eu luminez un @Output spre /color/ și îl las să revină, ca ceva care se încălzește și se răcește. Spre deosebire de /rainbow/, eu rămân la o singură nuanță.",
+                        "$~Eu luminez un @Output spre /culoare/ și îl las să revină, ca ceva care se încălzește și se răcește. Spre deosebire de /curcubeu/, eu rămân la o singură nuanță.",
                         "\\💬('🐈' odihnă: 💃.strălucire(🌈.portocale 2s))\\"
                     ],
                     "names": ["$~strălucire"],

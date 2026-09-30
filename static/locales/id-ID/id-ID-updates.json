@@ -1012,6 +1012,11 @@
         "e982ffd8b3a0b": "$~Emoji kini dimuat lebih cepat di Safari, dan peramban kamu kini menyimpan font di antara kunjungan, alih-alih mengambilnya lagi setiap kali.",
         "e2222194ec679": "$~Sebuah cara tidak lagi menampilkan nama penulisnya dua kali.",
         "ea64e28744d1d": "$~Emoji kini bertabrakan dengan benda lain sesuai bentuknya saat @Matter meminta garis luar, dan teks kini bertumpu pada apa yang disentuhnya, bukan tenggelam ke dalamnya. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
-        "effb062f72059": "$~Huruf yang bertabrakan berdasarkan bentuk luarnya kini punya ruang di dalam, jadi benda kecil bisa memantul-mantul di dalam huruf O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "effb062f72059": "$~Huruf yang bertabrakan berdasarkan bentuk luarnya kini punya ruang di dalam, jadi benda kecil bisa memantul-mantul di dalam huruf O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "e05d86cc70d38": "$~Musik sekarang membuat pengendali permainan yang bisa bergetar ikut bergemuruh. Nada rendah terasa seperti entakan dalam, dan nada tinggi terasa seperti dengungan ringan. (<1345@https://github.com/wordplaydev/wordplay/issues/1345>)",
+        "ebd63de5a63f1": "$~Pembaca layar dan teks yang diucapkan sekarang membaca setiap kata dalam bahasanya sendiri. Jadi kata bahasa Spanyol di dalam kalimat bahasa Inggris terdengar seperti bahasa Spanyol. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
+        "e7914aaea390a": "$~Dalam 13 bahasa, kata sehari-hari seperti \"bagaimana\" tidak lagi berubah menjadi tautan bergaris bawah bertitik karena kesalahan.",
+        "ed72c4878ae09": "$~Nama tombol dan pengaturan di tur dan dokumentasi sekarang memakai kata dari bahasa masing-masing, bukan bahasa Inggris.",
+        "e42e9e3c1d92a": "$~Kata dengan garis bawah putus-putus tidak lagi menampilkan simbol yang tidak diinginkan di depannya dalam beberapa bahasa."
     }
 }

@@ -5,7 +5,7 @@
             "doc": [
                 "$~Nous sommes \\⊤\\ et \\⊥\\. \\⊤\\ est vrai. \\⊥\\ est faux. \\⊤\\ n'est pas \\⊥\\; \\⊥\\ n'est pas \\⊤\\. C'est comme ça.",
                 "Comment nous faites-vous ? Juste \\⊤\\ et \\⊥\\, rien de plus, rien de moins.",
-                "Certains utilisent le clavier (/ctrl+9/ pour \\⊤\\ et /ctrl+0/ pour \\⊥\\). Certains utilisent la recherche de caractères en bas de l'@editor. Ou vous pouvez nous faire glisser à partir d'ici.",
+                "Certaines personnes nous écrivent avec un raccourci clavier ; la liste /raccourcis/ montre quelles touches utiliser, et vous permet de les changer. D'autres utilisent les boutons et la recherche de caractères en bas de @editor. Vous pouvez aussi nous faire glisser depuis ici.",
                 "Consultez notre @FunctionDefinition ci-dessous. Elles sont très logiques."
             ],
             "name": ["$~Booléen"],

@@ -29,7 +29,7 @@
                             "happy",
                             "$~Çoğu programlama dilinde bir program, bilgisayara ne *yapacağını* söyleyen deyimlerin bir listesidir, örneğin bir değer yazdırmak gibi:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
-                            "$~@wordplay'de programlar, programın /sonucunun/ ne olması gerektiğini söyleyen *ifadelerdir*, sonucu @how üreteceğini değil.",
+                            "$~@wordplay'de programlar, programın /sonucunun/ ne olması gerektiğini söyleyen *ifadelerdir*, sonucu nasıl üreteceğini değil.",
                             "$~Bu program şu değere hesaplanır: \\'merhaba'\\, sonra bu değer sahnede gösterilir. Yazdırma komutu yok, sadece hangi değere hesaplanacağını söyleyen bir @expression var."
                         ],
                         null,
@@ -271,7 +271,7 @@
                             "happy",
                             "$~Çoğu programlama dili, yaratıcıların kodlarındaki sorunları anlamasına ve çözmesine yardımcı olmak için bir tür hata ayıklama aracı sunar. Ama birçoğu, değişkenlerin değerlerini bir konsolda denetlemek için sadece yazdırma deyimleri kullanır:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~@wordplay daha gelişmiş bir hata ayıklama deneyimi sunar. Bu sayede, hesaplanışını *ileri* ve *geri* adım adım izleyebilirsin. Sahnenin üstündeki mod değiştiricide @UI/modeSwitcher ⏸️ hata ayıklama düğmesine bas ve *hata ayıklama* moduna gir: her ifadenin değeri, kodda yanında görünür. @UI/stepControls ise adımları herhangi bir yönde ilerletir. Böylece bir değerin @how oluşturulduğunu izleyebilirsin. İşte hepsini gösteren rehberli bir tur: @Tour/stage",
+                            "$~@wordplay daha gelişmiş bir hata ayıklama deneyimi sunar. Bu sayede, hesaplanışını *ileri* ve *geri* adım adım izleyebilirsin. Sahnenin üstündeki mod değiştiricide @UI/modeSwitcher ⏸️ hata ayıklama düğmesine bas ve *hata ayıklama* moduna gir: her ifadenin değeri, kodda yanında görünür. @UI/stepControls ise adımları herhangi bir yönde ilerletir. Böylece bir değerin nasıl oluşturulduğunu izleyebilirsin. İşte hepsini gösteren rehberli bir tur: @Tour/stage",
                             "$~Diğer kipler de önemlidir: ✏️ *düzenleme* kipinde sahne dururken programı değiştirebilirsin, ▶️ *oynatma* kipi ise programı canlı çalıştırır ve girdilere anında yanıt verir.",
                             "$~Daha fazla rehberlik mi istiyorsun? Sahnenin isminin yanındaki @UI/stageTourLaunch düğmesi, bu kontroller hakkında rehberli bir tur sunar."
                         ]

@@ -1012,6 +1012,11 @@
         "e982ffd8b3a0b": "$~Los emoji ahora cargan más rápido en Safari, y tu navegador ahora guarda las fuentes entre visitas en lugar de descargarlas otra vez.",
         "e2222194ec679": "$~Una guía práctica ya no muestra dos veces a la persona que la escribió.",
         "ea64e28744d1d": "$~Los emoji ahora chocan con las cosas según su forma cuando @Matter pide un contorno, y el texto ahora se apoya sobre lo que toca en lugar de hundirse. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
-        "effb062f72059": "$~Las letras que chocan por su contorno ahora tienen espacio adentro, así que las cosas pequeñas pueden rebotar dentro de una O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "effb062f72059": "$~Las letras que chocan por su contorno ahora tienen espacio adentro, así que las cosas pequeñas pueden rebotar dentro de una O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "e05d86cc70d38": "$~Ahora la música hace vibrar los controles de juego que pueden vibrar. Las notas graves se sienten como golpes profundos y las notas agudas como zumbidos suaves. (<1345@https://github.com/wordplaydev/wordplay/issues/1345>)",
+        "ebd63de5a63f1": "$~Ahora los lectores de pantalla y el texto hablado leen cada palabra en su propio idioma. Así, una palabra en español dentro de una oración en inglés suena en español. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
+        "e7914aaea390a": "$~En 13 idiomas, las palabras de uso diario como \"cómo\" ya no se convierten por error en enlaces con subrayado punteado.",
+        "ed72c4878ae09": "$~Ahora los nombres de botones y configuraciones en los recorridos y en la documentación usan las palabras de cada idioma en lugar del inglés.",
+        "e42e9e3c1d92a": "$~Las palabras con un subrayado punteado ya no muestran símbolos sueltos delante de ellas en algunos idiomas."
     }
 }

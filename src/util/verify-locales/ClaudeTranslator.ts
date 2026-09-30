@@ -4,6 +4,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import { TranslatableLocales } from '@locale/LanguageCode';
 import { getConventionsForPrompt } from '@locale/getConventionsForPrompt';
 import { getGlossaryForPrompt } from '@locale/Glossary';
+import { getItalicLabels, getItalicLabelsForPrompt } from './italicSpans';
 import { getPluralCount, getPluralRulesForPrompt } from '@locale/plurals';
 import { PLAIN_LANGUAGE_GUIDANCE } from '@locale/readingLevel';
 import { chunkUnits } from '@util/chunkUnits';
@@ -26,11 +27,11 @@ import {
     mismatchedPluralBranch,
     mismatchedDelimiter,
     hasResidualLinkMask,
-    protectLinks,
+    protectMarkupUnit,
     repairMentionsPositional,
-    restoreConceptLinks,
+    restoreMarkupUnit,
     restoreReferences,
-    splitMarkupAndCode,
+    type MaskedMarkup,
 } from './protect';
 import type Translator from './Translator';
 import type { TranslatorUsage } from './Translator';
@@ -44,7 +45,7 @@ import { must } from '@util/nullable';
  * caught and retried on the repair model rather than shipped.
  */
 const DEFAULT_MODEL =
-    process.env.WORDPLAY_TRANSLATOR_MODEL ?? 'claude-sonnet-5';
+    process.env.WORDPLAY_TRANSLATOR_MODEL ?? 'claude-sonnet-5-5';
 /**
  * The stronger model, reserved for the work where a mistake is expensive or
  * already happened: per-string retries of strings the default model garbled,
@@ -53,16 +54,22 @@ const DEFAULT_MODEL =
  * of a run's tokens, so the quality is nearly free.
  */
 const REPAIR_MODEL =
-    process.env.WORDPLAY_TRANSLATOR_REPAIR_MODEL ?? 'claude-opus-4-8';
+    process.env.WORDPLAY_TRANSLATOR_REPAIR_MODEL ?? 'claude-opus-5-5';
 
 /**
  * $ per million tokens, from https://platform.claude.com/docs/en/about-claude/pricing
- * (checked 2026-08-19). Cache multipliers per the same page: a 5-minute cache
- * write bills at 1.25× the input price, a cache read at 0.1×. A model missing
- * here reports its tokens with no dollar estimate rather than a wrong one.
+ * (checked 2026-09-29). Cache multipliers per the same page: a 5-minute cache
+ * write bills at 1.25× the input price, a cache read at 0.1× unless `cacheRead`
+ * says otherwise (Opus 5.5 reads at 0.05×). A model missing here reports its
+ * tokens with no dollar estimate rather than a wrong one.
  */
-const PRICES = new Map<string, { input: number; output: number }>([
+const PRICES = new Map<
+    string,
+    { input: number; output: number; cacheRead?: number }
+>([
+    ['claude-sonnet-5-5', { input: 2, output: 10 }],
     ['claude-sonnet-5', { input: 2, output: 10 }],
+    ['claude-opus-5-5', { input: 4, output: 20, cacheRead: 0.05 }],
     ['claude-opus-5', { input: 5, output: 25 }],
     ['claude-opus-4-8', { input: 5, output: 25 }],
     ['claude-haiku-4-5', { input: 1, output: 5 }],
@@ -78,7 +85,7 @@ export function estimateCost(
     return (
         (usage.inputTokens * price.input +
             usage.outputTokens * price.output +
-            usage.cacheReadTokens * price.input * 0.1 +
+            usage.cacheReadTokens * price.input * (price.cacheRead ?? 0.1) +
             usage.cacheWriteTokens * price.input * 1.25) /
         1_000_000
     );
@@ -257,9 +264,9 @@ export function describeClaudeError(error: unknown): string {
  * model raw markup. Localizing an embedded example did exactly that, and a doc
  * whose text carries its own `\code\` came back with the code translated and
  * the backslashes gone, which fails `mismatchedDelimiter` and costs the entire
- * example. Only markup segments are sent; code is passed through untouched and
- * both kinds of link — `@Concept` references and `<label@url>` targets — are
- * masked across the round trip.
+ * example. Each text goes as one unit with its code and both kinds of link —
+ * `@Concept` references and `<label@url>` targets — masked across the round
+ * trip, so the prose around code stays one sentence.
  *
  * An element whose translation failed is returned unchanged, so a partial
  * failure costs a name or a sentence rather than a valid program.
@@ -268,49 +275,31 @@ export async function translateProtectedMarkup(
     texts: string[],
     translateUnits: (units: string[]) => Promise<(string | null)[]>,
 ): Promise<string[]> {
-    const segmented = texts.map(splitMarkupAndCode);
-    const units: string[] = [];
-    const unitLinks: string[][] = [];
-    for (const segments of segmented)
-        for (const segment of segments)
-            if (segment.kind === 'markup' && segment.text.trim().length > 0) {
-                const { masked, links } = protectLinks(segment.text);
-                units.push(masked);
-                unitLinks.push(links);
-            }
+    const masked = texts.map(protectMarkupUnit);
+    const units = masked
+        .filter((unit) => unit.prose)
+        .map((unit) => unit.masked);
     if (units.length === 0) return texts;
     const out = await translateUnits(units);
-    let unit = 0;
-    return segmented.map((segments, index) => {
-        let failed = false;
-        const rebuilt = segments
-            .map((segment) => {
-                if (segment.kind === 'code' || segment.text.trim().length === 0)
-                    return segment.text;
-                const translated = out[unit];
-                const links = unitLinks[unit] ?? [];
-                unit++;
-                if (translated === null || translated === undefined) {
-                    failed = true;
-                    return segment.text;
-                }
-                const restored = restoreConceptLinks(translated, links);
-                // `splitMarkupAndCode` already took every `\…\` and `` `…` ``
-                // out of this unit, so a delimiter in what came back is one the
-                // model invented. Left in, it unbalances the rebuilt example and
-                // the caller discards the whole thing; dropping just this unit
-                // costs one sentence instead.
-                if (mismatchedDelimiter(segment.text, restored))
-                    return segment.text;
-                // Same trade for a link the model lost or rewrote: a dead URL
-                // in an example is worse than one untranslated sentence.
-                if (mismatchedWebLinks(segment.text, restored))
-                    return segment.text;
-                return restored;
-            })
-            .join('');
-        // `segmented` is a map of `texts`, so the index always hits.
-        return failed ? must(texts[index], 'a source text') : rebuilt;
+    let next = 0;
+    return masked.map((unit, index) => {
+        // `masked` is a map of `texts`, so the index always hits.
+        const source = must(texts[index], 'a source text');
+        if (!unit.prose) return source;
+        const translated = out[next++];
+        if (translated === null || translated === undefined) return source;
+        // Code inside an example's own text stays exactly as written.
+        const restored = restoreMarkupUnit(translated, unit, (code) => code);
+        // A delimiter, link, or placeholder that didn't survive would unbalance
+        // or break the rebuilt example, and the caller would discard all of it;
+        // keeping this one text in the source language costs a sentence instead.
+        if (
+            mismatchedDelimiter(source, restored) !== undefined ||
+            mismatchedWebLinks(source, restored) !== undefined ||
+            hasResidualLinkMask(restored)
+        )
+            return source;
+        return restored;
     });
 }
 
@@ -339,6 +328,31 @@ export default class ClaudeTranslator implements Translator {
         return Promise.resolve(TranslatableLocales);
     }
 
+    /** Each target locale's names for what en-US italicizes, computed once so
+     *  the system prompt stays identical across a run and keeps caching. */
+    private readonly interfaceNames = new Map<string, string>();
+
+    /** The prompt block listing this locale's interface names, or nothing when
+     *  there is no locale text to derive them from (the glossary phase). */
+    private getInterfaceNames(
+        targetLocale: string,
+        targetText: LocaleText | undefined,
+    ): string {
+        if (targetText === undefined) return '';
+        let block = this.interfaceNames.get(targetLocale);
+        if (block === undefined) {
+            const lines = getItalicLabelsForPrompt(
+                getItalicLabels(DefaultLocale, targetText),
+            );
+            block =
+                lines.length === 0
+                    ? ''
+                    : `\n- Interface names — what this language already calls each thing the text names in italics:\n${lines}`;
+            this.interfaceNames.set(targetLocale, block);
+        }
+        return block;
+    }
+
     /** The cached system prompt: preservation rules + reading-level target +
      *  glossary + the locale's own conventions. Stable across all batches of a
      *  run (per source/target/glossary) so it caches. `targetText` supplies the
@@ -361,18 +375,19 @@ Rules:
 - Translate the natural-language text only. Preserve Wordplay markup exactly:
   - Keep every @Concept reference verbatim (e.g. @Phrase, @FunctionDefinition) — never translate, transliterate, or alter them.
   - Keep every $name reference verbatim (e.g. $value, $type) — never translate, transliterate, or alter them.
-  - Keep every ⟦0⟧, ⟦1⟧ … placeholder verbatim and in place. Each stands for something that must not change, such as a web address.
+  - Keep every ⟦0⟧, ⟦1⟧ … placeholder verbatim. Each stands for something that must not change, such as a web address or a code example; read it as a word or phrase in the sentence and place it where the target language's grammar needs it.
   - A web link is written <words@⟦0⟧>. The words before the @ are ordinary text: translate them like any other prose, and leave the placeholder alone. Only translate a link's words when they describe where it goes ("the About page", "our source code") — keep a person's name, an organization, or a product name as it is.
-  - Do not add or remove formatting symbols (*, _, \`, backslashes).
+  - Do not add or remove formatting symbols (*, _, /, \`, backslashes).
+  - Text between slashes (/like this/) is italic. It usually names something on screen — a button, list, setting, or mode — or an input. Translate it to the name this language's interface uses for that thing (see "Interface names" below when it lists it) and keep the slashes. Leave key names and key combinations (/ctrl+9/, /Enter/) exactly as written.
 ${getPluralRulesForPrompt(targetLocale)}
 - A blank line separates paragraphs. Keep the text organized into paragraphs — you may merge or re-break them where natural for the target language — but never insert a blank line anywhere except between paragraphs.
 - Translate fully into the target language, written in its own native script. Do NOT leave words in English or merely transliterate them unless the language genuinely has no equivalent — prefer the native word a young learner of that language would recognize. This applies to ordinary text, names, and key terms alike (it does NOT apply to the @Concept and $name references above, which always stay verbatim).
 - Write for young, multilingual learners.
 - Key terms — the glossary below. When one of these words appears as ordinary text (a bare word, NOT a $name mention or @Concept link above), translate it to its listed target-language word and use that same word consistently. Where a line shows only an English word, translate it naturally and keep that choice consistent.
-${getGlossaryForPrompt(targetText)}${
+${getGlossaryForPrompt(targetText)}${this.getInterfaceNames(targetLocale, targetText)}${
             translatingGlossary
                 ? `
-- The strings in THIS request are those glossary terms themselves, one word or phrase each. A bare word has no sentence around it to disambiguate it, so translate each in the sense its definition above gives — not the commonest sense of the English word. ("markup" is formatted text, not a price increase or a page margin.)`
+- The strings in THIS request are those glossary terms themselves, one word or phrase each. A bare word has no sentence around it to disambiguate it, so translate each in the sense its definition above gives — not the commonest sense of the English word. ("markup" is formatted text, not a price increase or a page margin.) Keep each term's part of speech: "how-to" is a noun naming a short guide, never the question word "how". Choose a word that means the term and little else, since each one is linked to its definition wherever it appears in ordinary prose.`
                 : ''
         }
 
@@ -388,7 +403,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
      *  `refusal` or wholly-unparseable reply (after one retry) nulls it. `isRetry`
      *  marks a recovery call so it doesn't itself recurse into more retries.
      *  Throws on a fatal error (caller aborts). */
-    private async translateChunk(
+    protected async translateChunk(
         log: Log,
         chunk: string[],
         system: string,
@@ -405,12 +420,14 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             // writing it (10k of 17k on one Kannada slice) — enough to erase
             // its price advantage over the repair model. Translation here is a
             // mechanical transform whose failures are caught by validators and
-            // escalated, so the bulk path turns thinking off; the repair model
-            // keeps its default, since it gets exactly the strings that needed
-            // more than mechanics.
+            // escalated, so the bulk path turns up-front thinking off
+            // (`between_tools` is Sonnet 5.5's lowest setting; with no tools it
+            // thinks not at all). The repair model always thinks, which is the
+            // point of escalating to it; its effort is stated so a change of
+            // model default can't silently change what a repair costs.
             ...(model === REPAIR_MODEL
                 ? {}
-                : { thinking: { type: 'disabled' } }),
+                : { thinking: { type: 'between_tools' } }),
             system: [
                 {
                     type: 'text',
@@ -418,7 +435,10 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                     cache_control: { type: 'ephemeral' },
                 },
             ],
-            output_config: { format: { type: 'json_schema', schema: SCHEMA } },
+            output_config: {
+                format: { type: 'json_schema', schema: SCHEMA },
+                ...(model === REPAIR_MODEL ? { effort: 'medium' } : {}),
+            },
             messages: [
                 {
                     role: 'user',
@@ -967,34 +987,19 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         // of a run's tokens, and a bad one is a cross-locale name collision.
         const model = options?.names === true ? REPAIR_MODEL : DEFAULT_MODEL;
 
-        // Split each string into markup and code segments. Markup is translated
-        // as text; `\code\` (embedded Wordplay programs) is localized separately
-        // below so each reads natively while staying a valid, conflict-free program.
-        const allSegments = text.map((s) => splitMarkupAndCode(s));
-
-        // Collect the non-empty markup segments to translate, remembering where
-        // each came from so we can reassemble.
+        // Mask each string's examples and links so its prose reaches the model
+        // whole, as one unit. `\code\` (embedded Wordplay programs) is localized
+        // separately below so each reads natively while staying a valid,
+        // conflict-free program, and goes back where its placeholder landed.
+        const masked: MaskedMarkup[] = text.map(protectMarkupUnit);
         const units: string[] = [];
-        const unitLocations: Array<{ string: number; segment: number }> = [];
-        // The links masked out of each unit, so they can go back afterwards.
-        const unitLinks: string[][] = [];
-        allSegments.forEach((segments, stringIndex) =>
-            segments.forEach((seg, segmentIndex) => {
-                if (seg.kind === 'markup' && seg.text.trim().length > 0) {
-                    // Mask both kinds of link before the model ever sees
-                    // them. The system prompt asks for them verbatim and is
-                    // ignored; this is the same move `splitMarkupAndCode` makes
-                    // for code.
-                    const { masked, links } = protectLinks(seg.text);
-                    units.push(masked);
-                    unitLinks.push(links);
-                    unitLocations.push({
-                        string: stringIndex,
-                        segment: segmentIndex,
-                    });
-                }
-            }),
-        );
+        // Which unit holds each string's prose; undefined for a string that is
+        // all code, which has nothing to send.
+        const unitOf = masked.map((unit) => {
+            if (!unit.prose) return undefined;
+            units.push(unit.masked);
+            return units.length - 1;
+        });
 
         const system = this.buildSystem(
             sourceLocale,
@@ -1039,10 +1044,10 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                 ? []
                 : [
                       ...new Set(
-                          allSegments.flatMap((segments) =>
-                              segments
-                                  .filter((seg) => seg.kind === 'code')
-                                  .map((seg) => seg.text),
+                          masked.flatMap((unit) =>
+                              unit.slots.filter((_, index) =>
+                                  unit.code.has(index),
+                              ),
                           ),
                       ),
                   ];
@@ -1156,37 +1161,27 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         // against, since English's two say nothing about what it needs.
         const pluralForms = getPluralCount(targetLocale);
 
-        // Reassemble one string from its translated units, validating it. A
+        // Reassemble one string from its translated unit, validating it. A
         // `null` means the translation is unusable and the caller keeps the
         // source unwritten rather than shipping something broken.
         const reassemble = (
-            segments: { kind: 'markup' | 'code'; text: string }[],
+            unit: MaskedMarkup,
             source: string,
-            unitsFor: (string | null)[],
-            linksFor: string[][],
+            translated: string | null | undefined,
             quiet: boolean,
         ): string | null => {
-            let failed = false;
-            let index = 0;
-            const rebuilt = segments
-                .map((seg) => {
-                    if (seg.kind === 'code')
-                        return codeMap.get(seg.text) ?? seg.text;
-                    if (seg.text.trim().length === 0) return seg.text;
-                    const at = index++;
-                    const unit = unitsFor[at];
-                    if (unit === null) failed = true;
-                    // Put the masked links back where the translation left
-                    // their placeholders — which may not be where they
-                    // started, since grammar reorders sentences.
-                    return unit === null || unit === undefined
-                        ? ''
-                        : restoreConceptLinks(unit, linksFor[at] ?? []);
-                })
-                .join('');
-            // A markup unit couldn't be translated → signal null so the caller
-            // keeps the source unwritten ($?) rather than shipping English.
-            if (failed) return null;
+            // A string with prose needs its translation; one that is all code
+            // restores its own mask, which puts each localized example back.
+            if (unit.prose && (translated === null || translated === undefined))
+                return null;
+            // Put the links and examples back where the translation left their
+            // placeholders — which may not be where they started, since
+            // grammar reorders sentences.
+            const rebuilt = restoreMarkupUnit(
+                translated ?? unit.masked,
+                unit,
+                (code) => codeMap.get(code) ?? code,
+            );
             // Safety belt (cross-backend repair): restore mangled @Concept
             // links and $name mentions. If the `\…\`/`` `…` `` delimiters no
             // longer match the source, the string would break tokenization —
@@ -1260,29 +1255,18 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             return repaired;
         };
 
-        // Reassemble each string: translated markup in place, localized code.
-        let unitIndex = 0;
-        const unitRange: { start: number; count: number }[] = [];
-        const result: (string | null)[] = allSegments.map(
-            (segments, stringIndex) => {
-                const start = unitIndex;
-                const count = segments.filter(
-                    (seg) =>
-                        seg.kind === 'markup' && seg.text.trim().length > 0,
-                ).length;
-                unitIndex += count;
-                unitRange.push({ start, count });
-                return reassemble(
-                    segments,
-                    must(text[stringIndex], 'a source string'),
-                    translatedUnits.slice(start, start + count),
-                    unitLinks.slice(start, start + count),
-                    // Stay quiet on the first attempt: a retry may well fix it,
-                    // and warning twice about one string reads as two problems.
-                    true,
-                );
-            },
-        );
+        // Reassemble each string: translated prose, links, localized code.
+        const result: (string | null)[] = masked.map((unit, stringIndex) => {
+            const at = unitOf[stringIndex];
+            return reassemble(
+                unit,
+                must(text[stringIndex], 'a source string'),
+                at === undefined ? undefined : translatedUnits[at],
+                // Stay quiet on the first attempt: a retry may well fix it,
+                // and warning twice about one string reads as two problems.
+                true,
+            );
+        });
 
         // Retry the strings that came back unusable, one string per request.
         //
@@ -1296,54 +1280,39 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             .map((value, index) => ({ value, index }))
             .filter(
                 ({ value, index }) =>
-                    value === null &&
-                    // One range is pushed per string, in the same pass.
-                    must(unitRange[index], 'a unit range').count > 0,
+                    value === null && unitOf[index] !== undefined,
             );
 
         // A string whose every segment is code — a lone `\…\` example, which is
-        // what a landing-page caption is — has no units to retry, so it is
+        // what a landing-page caption is — has no unit to retry, so it is
         // rightly left out above. But the first pass stayed quiet *because* a
         // retry was coming, so leaving it out is what made it fail in silence:
         // the run reported the example localized and kept the English, and the
         // only way to notice was to read the file. Say it now instead. The
         // second call is only for its complaint; its result is discarded.
-        for (const { index } of result
-            .map((value, index) => ({ value, index }))
-            .filter(
-                ({ value, index }) =>
-                    value === null &&
-                    must(unitRange[index], 'a unit range').count === 0,
-            ))
-            reassemble(
-                must(allSegments[index], 'segments'),
-                must(text[index], 'a source string'),
-                [],
-                [],
-                false,
-            );
+        for (const [index, value] of result.entries())
+            if (value === null && unitOf[index] === undefined)
+                reassemble(
+                    must(masked[index], 'a masked string'),
+                    must(text[index], 'a source string'),
+                    undefined,
+                    false,
+                );
         if (retryable.length > 0) {
             const retryLog = log.pending(
                 `Retrying ${retryable.length} string(s) the model garbled, one at a time`,
             );
             let recovered = 0;
             for (const { index } of retryable) {
-                const { start, count } = must(unitRange[index], 'a unit range');
-                const segments = must(allSegments[index], 'segments');
-                const links = unitLinks.slice(start, start + count);
+                const unit = must(masked[index], 'a masked string');
                 let units: (string | null)[];
                 try {
                     units = await this.translateChunk(
                         log,
-                        // Re-mask from the source so the retry is independent of
-                        // whatever the first attempt did to the placeholders.
-                        segments
-                            .filter(
-                                (seg) =>
-                                    seg.kind === 'markup' &&
-                                    seg.text.trim().length > 0,
-                            )
-                            .map((seg) => protectLinks(seg.text).masked),
+                        // The mask comes from the source, so the retry is
+                        // independent of whatever the first attempt did to the
+                        // placeholders.
+                        [unit.masked],
                         system,
                         sourceLocale,
                         targetLocale,
@@ -1357,10 +1326,9 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                     continue;
                 }
                 const second = reassemble(
-                    segments,
+                    unit,
                     must(text[index], 'a source string'),
-                    units,
-                    links,
+                    units[0],
                     false,
                 );
                 if (second !== null) {

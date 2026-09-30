@@ -587,11 +587,15 @@ function maskLinkTargets(text: string, links: string[]): string {
  * and `<label@url>` web links. Restored by `restoreConceptLinks`, which sees one
  * placeholder list and doesn't care which kind filled each slot.
  */
-export function protectLinks(text: string): {
+export function protectLinks(
+    text: string,
+    /** Placeholders already issued, so a caller masking more than links can
+     *  keep one numbering across everything it masks. */
+    links: string[] = [],
+): {
     masked: string;
     links: string[];
 } {
-    const links: string[] = [];
     // Targets first. `ConceptPattern` is the raw pattern, without the
     // email-boundary rule the tokenizer applies, so it masks the `@x.dev` out of
     // the middle of `<Email us@mailto:hi@x.dev>` — masking the whole target
@@ -706,4 +710,97 @@ export function restoreReferences(
     after = after.replace(/@\P{Letter}/gu, '');
 
     return after;
+}
+
+/** A whole markup string with its examples and links masked, ready to be
+ *  translated as one unit. */
+export type MaskedMarkup = {
+    /** The text the model sees, with every example and link as `⟦n⟧`. */
+    masked: string;
+    /** What each placeholder stands for, by index. */
+    slots: string[];
+    /** The indices of `slots` that are `\…\` examples rather than links. */
+    code: ReadonlySet<number>;
+    /** Whether any prose is left to translate once the masks are in. */
+    prose: boolean;
+};
+
+/**
+ * Mask a markup string's examples as well as its links, so the prose around an
+ * example reaches the model as one sentence rather than as the pieces between
+ * examples.
+ *
+ * Translating those pieces one at a time handed the model fragments like
+ * `" is not "` and `"; "` with nothing around them, and a verb-final language
+ * can't place a negation without its clause: ja-JP came back saying ⊥ is ⊤.
+ * Examples share the links' numbering and brackets, so every existing guard
+ * against a mangled placeholder covers them too, and a dropped or duplicated
+ * example changes the `\` count that `mismatchedDelimiter` compares.
+ */
+export function protectMarkupUnit(text: string): MaskedMarkup {
+    const slots: string[] = [];
+    const code = new Set<number>();
+    let masked = '';
+    let prose = false;
+    for (const segment of splitMarkupAndCode(text)) {
+        if (segment.kind === 'code') {
+            code.add(slots.length);
+            slots.push(segment.text);
+            masked += `${LinkMaskOpen}${slots.length - 1}${LinkMaskClose}`;
+        } else {
+            if (segment.text.trim().length > 0) prose = true;
+            masked += protectLinks(segment.text, slots).masked;
+        }
+    }
+    return { masked, slots, code, prose };
+}
+
+/** A placeholder after `restoreConceptLinks` has canonicalized it. */
+const CanonicalMask = `${LinkMaskOpen}\\d+${LinkMaskClose}`;
+
+/** `tidyAroundLinks`, for the example placeholders that remain once links are
+ *  back: collapse the padding a model leaves around them, and let only `.`/`,`
+ *  lose a preceding space. */
+function tidyAroundPlaceholders(text: string): string {
+    return text
+        .replace(new RegExp(`[^\\S\\n]{2,}(?=${CanonicalMask})`, 'gu'), ' ')
+        .replace(new RegExp(`(?<=${CanonicalMask})[^\\S\\n]{2,}`, 'gu'), ' ')
+        .replace(
+            new RegExp(`(?<=${CanonicalMask})[^\\S\\n]+(?=[.,])`, 'gu'),
+            '',
+        );
+}
+
+/**
+ * Undo `protectMarkupUnit` on a translation: links go back verbatim and each
+ * example becomes whatever `codeFor` says (its localized form, or itself).
+ *
+ * Links are restored first, and that pass also rewrites a roughened example
+ * placeholder (`⟦ ೦ ⟧`) to canonical form, so tidying happens before any code
+ * is present and can never touch whitespace inside an example. A placeholder
+ * whose index names nothing is left as it came, for `hasResidualLinkMask`.
+ */
+export function restoreMarkupUnit(
+    translated: string,
+    unit: MaskedMarkup,
+    codeFor: (code: string) => string,
+): string {
+    const canonical = restoreConceptLinks(
+        translated,
+        unit.slots.map((slot, index) =>
+            unit.code.has(index)
+                ? `${LinkMaskOpen}${index}${LinkMaskClose}`
+                : slot,
+        ),
+    );
+    return tidyAroundPlaceholders(canonical).replace(
+        new RegExp(`${LinkMaskOpen}(\\d+)${LinkMaskClose}`, 'gu'),
+        (placeholder, index: string) => {
+            const at = Number(index);
+            const slot = unit.slots[at];
+            return unit.code.has(at) && slot !== undefined
+                ? codeFor(slot)
+                : placeholder;
+        },
+    );
 }

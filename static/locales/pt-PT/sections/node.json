@@ -7,7 +7,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Sou uma /unidade de medida/!",
-                "Posso ser qualquer unidade padronizada, @how \\1m\\, \\10s\\, \\100g\\, ou qualquer outra unidade científica. Também fico feliz por ser qualquer unidade que queiras inventar, como \\17apple\\.",
+                "Posso ser qualquer unidade padronizada, como \\1m\\, \\10s\\, \\100g\\, ou qualquer outra unidade científica. Também fico feliz por ser qualquer unidade que queiras inventar, como \\17apple\\.",
                 "Posso ser combinada com \\/\\ para criar unidades de proporção como \\17apple/day\\ e com \\^\\ para criar unidades exponenciais como \\9.8m/s^2\\",
                 "Tenho de vir sempre depois de um @Number. Se não vier, posso ser confundida com uma @Reference, o que seria muito embaraçoso!",
                 "Também sou muito boa a encontrar inconsistências entre unidades. Por exemplo, \\1cat + 1dog\\🪲 não faz qualquer sentido!",
@@ -18,7 +18,7 @@
             "name": "explicação",
             "emotion": "serious",
             "doc": [
-                "$~Eu formato coisas de forma rica com @Markup, @how explicações de alguns dos seus @Program, ou até as palavras que coloca no palco com @Phrase.",
+                "$~Eu formato coisas de forma rica com @Markup, como explicações de alguns dos seus @Program, ou até as palavras que coloca no palco com @Phrase.",
                 "Por exemplo, posso vir antes de qualquer @expression:",
                 "\\¶Isto é mesmo suposto ser 7?¶\n7\\",
                 "Por exemplo, pode colocar-me antes de @Bind:",
@@ -71,7 +71,7 @@
                 "\\som: 'miau'\\🪲",
                 "…ou para um @Doc:",
                 "\\¶Onomatopeia¶\nsom: 'miau'\\🪲",
-                "Às vezes, um texto não é apenas um idioma — é uma *mistura*. @how o Espanglês, onde o espanhol e o inglês se misturam. Para esses casos, liste cada idioma separado por um sublinhado. O primeiro é o *principal* — é esse que eu uso quando tenho de escolher (por exemplo, para decidir que tipo de aspas usar).",
+                "Às vezes, um texto não é apenas um idioma — é uma *mistura*. Como o Espanglês, onde o espanhol e o inglês se misturam. Para esses casos, liste cada idioma separado por um sublinhado. O primeiro é o *principal* — é esse que eu uso quando tenho de escolher (por exemplo, para decidir que tipo de aspas usar).",
                 "\\\"Hola gentleman!\"/es_en\\",
                 "\\¶Uma saudação bilingue¶\nolá: 'Olá cavalheiro!'\\🪲",
                 "Uma etiqueta mista diz que o texto todo é uma mistura, para que um leitor de ecrã ou @Say leia tudo no idioma principal. Para que cada palavra seja lida no seu próprio idioma, etiquete as palavras separadamente e junte-as:",
@@ -116,7 +116,7 @@
                 "\\olá: 5\nolá2: 3\\🪲",
                 "Tudo o que tem de fazer para obter o meu valor é ter @Reference ou @PropertyReference a usar o nome. Aqui, @Bind dá-me um nome, e depois @Reference obtêm o valor que me foi dado.",
                 "\\olá: 5\nolá\\",
-                "@how @Bind pode aparecer em tantos lugares, eu também posso aparecer em muitos lugares. Estava numa @Block acima, mas posso estar num @FunctionDefinition. Aqui estou a dar nome a uma mensagem temporariamente:",
+                "Como @Bind pode aparecer em tantos lugares, eu também posso aparecer em muitos lugares. Estava numa @Block acima, mas posso estar num @FunctionDefinition. Aqui estou a dar nome a uma mensagem temporariamente:",
                 "\\ƒ dizer(mensagem•'') mensagem\\",
                 "Sou definido dentro de @FunctionDefinition, e assim que a função termina de avaliar, desapareço.",
                 "Pode usar @Language para indicar em que idioma está o meu nome. Isto é útil quando partilha o seu trabalho com outras pessoas, caso queiram ler o seu programa."
@@ -173,7 +173,7 @@
             "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
-                "$~Sou a menor parte possível de uma performance — o átomo de que são feitas todas as personagens do Verso. @how me encontrou?",
+                "$~Sou a menor parte possível de uma performance — o átomo de que são feitas todas as personagens do Verso. Como me encontrou?",
                 "Eu sou o substrato de que são feitas todas as personagens do Verso. Eu sou a partícula atómica da nossa coreografia."
             ]
         },
@@ -213,7 +213,7 @@
                 "paragraphs": "parágrafos"
             },
             "doc": [
-                "$~Sou uma lista de parágrafos, usando os vários tipos de formatação disponíveis em @Doc, @how @Words, @WebLink, @ConceptLink e @Example.",
+                "$~Sou uma lista de parágrafos, usando os vários tipos de formatação disponíveis em @Doc, como @Words, @WebLink, @ConceptLink e @Example.",
                 "Pode encontrar-me num @Doc, e em @FormattedLiteral:",
                 "\\¶Sou documentação com texto em *negrito*. Posso referir conceitos como @Phrase e posso ligar a <coisas na Internet@https://wordplay.dev>.¶\nFrase(\n\t`Sou a formatação de um(a) @Phrase, e uso *negrito*, /itálico/ e _sublinhado_`\n)\\"
             ]
@@ -246,7 +246,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Sou uma ligação para um carácter da Verse. Ajudo-te quando queres escrever um @Doc e referir-te a um de nós.",
-                "Por exemplo, imagina que querias falar sobre @Evaluate, e sobre @how é fantástico. Podias escrever:",
+                "Por exemplo, imagina que querias falar sobre @Evaluate, e sobre como é fantástico. Podias escrever:",
                 "\\¶Sabes, @Evaluate é muito fixe.¶'olha, uma ligação de personagem!'\\",
                 "Os caracteres também têm números Unicode que lhes correspondem. Por exemplo, @FunctionDefinition é 192. Podes referir-te a qualquer carácter Unicode escrevendo @U/ e o seu número, e ele aparecerá:",
                 "\\`@U/192 é tão simpático!`\\",
@@ -268,7 +268,7 @@
             "doc": [
                 "$~Sou qualquer palavra que queiras num @Doc. Por exemplo:",
                 "\\¶Que a Força esteja convosco.¶\n'Apenas algumas palavras!'\\",
-                "Por vezes, porém, pode querer utilizar os caracteres especiais que o @Doc utiliza /@how/ palavras. Por exemplo:",
+                "Por vezes, porém, pode querer utilizar os caracteres especiais que o @Doc utiliza /como/ palavras. Por exemplo:",
                 "\\¶Os meus amigos usam @@, //, **, || e outros símbolos.¶\n'Utilizando caracteres especiais!'\\",
                 "Se simplesmente repetir estes caracteres especiais, obterá o caractere em vez do seu significado especial."
             ],
@@ -317,7 +317,7 @@
             "emotion": "insecure",
             "doc": [
                 "$~Sou o @Evaluate, mas numa forma mais simples, útil quando se pretende usar uma @FunctionDefinition que recebe duas entradas.",
-                "Por exemplo, veja @how pode usar @Evaluate para somar dois números:",
+                "Por exemplo, veja como pode usar @Evaluate para somar dois números:",
                 "\\1.+(1)\\",
                 "Não parece um pouco estranho? Não está errado: apenas diz para obter a função de adição em 1 e depois avaliá-la.",
                 "Mas é muito mais fácil usar @BinaryEvaluate",
@@ -452,7 +452,7 @@
                 "Isso ajuda a esclarecer a ordem de avaliação.",
                 "@Bind também ajuda.",
                 "\\(\n\tcontar: 10\n\tcontar ^ contar)\\",
-                "Vê @how @Bind criou \\count\\? Só tem nome dentro de mim. Por isso, isto não vai funcionar:",
+                "Vê como @Bind criou \\count\\? Só tem nome dentro de mim. Por isso, isto não vai funcionar:",
                 "\\(\n\tcontagem: 10\n\tcontagem ^ contagem) + count\\🪲",
                 "Porque count só tinha nome dentro de mim.",
                 "Se me der um @expression, apenas lhe devolvo o seu @value:",
@@ -494,7 +494,7 @@
             },
             "doc": [
                 "$~Posso @borrow @Bind que são partilhados por outras @Source na sua performance — basta usar o seu nome e eu trago o seu nome e @value.",
-                "Escreva \\↓\\ e depois o nome da outra @Source. Essa @Source tem de marcar o que partilha com \\↑\\, @how \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+                "Escreva \\↓\\ e depois o nome da outra @Source. Essa @Source tem de marcar o que partilha com \\↑\\, como \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
             ],
             "start": "Emprestando $name de $source",
             "conflict": {
@@ -572,7 +572,7 @@
             "doc": [
                 "$~Devo dar-te um @value ou outro, dependendo de uma @condition? Assim?",
                 "\\número: -100\nnúmero < 0 ? 'negativo' 'positivo'\\",
-                "Mas já pensaste em @how decidimos?",
+                "Mas já pensaste em como decidimos?",
                 "Não parece que as decisões deviam ser mais complexas do que apenas sim ou não? Decidir entre \\⊤\\ e \\⊥\\ é tudo o que existe?",
                 "Não te preocupa que, se estas forem as únicas decisões que podemos tomar, vamos perder algum contexto importante sobre o mundo?",
                 "Há mais uma coisa que faço, e nem sempre me dão crédito por ela. Quando a minha @condition pergunta que /tipo/ de valor algo é, não respondo só sim ou não. Guardo a resposta dentro de cada uma das minhas escolhas.",
@@ -616,7 +616,7 @@
             "doc": [
                 "$~Olha, eu defino conversões de um @type para outro! Fico dentro de @Block, algo assim:",
                 "\\→ #kitty #cat ⬚ ÷ 2\n6kitty → #cat\\",
-                "Vês @how transformei gatinhos em gatos? Fixe!",
+                "Vês como transformei gatinhos em gatos? Fixe!",
                 "Talvez estejas a pensar o que faz aquele \\⬚\\ ali. Isso representa o @value que está a ser convertido. Uso-o porque, de outra forma, o valor não teria nome."
             ],
             "start": "Incrível, uma nova conversão!",
@@ -662,7 +662,7 @@
             "emotion": "angry",
             "doc": [
                 "$~Removo as linhas de uma @Table que correspondem a uma @condition. Às vezes uma tabela TEM COISAS A MAIS!",
-                "@how se tivesse alguns jogadores num jogo e um saísse e só quisesse dizer VAI-TE EMBORA, JOGADOR, SAI DA MINHA TABELA!",
+                "Como se tivesse alguns jogadores num jogo e um saísse e só quisesse dizer VAI-TE EMBORA, JOGADOR, SAI DA MINHA TABELA!",
                 "\\jogadores: ⎡nome•'' equipa•'' pontos•#⎦\n\t⎡'jen' 'vermelho' 8⎦\n\t⎡'joana' 'azul' 11⎦\n\t⎡'jeff' 'vermelho' 9⎦\n\t⎡'janete' 'azul' 7⎦\njogadores ⎡- nome = 'jeff'\\",
                 "Ufa, o Jeff foi-se. ADEUS JEFF. Lembre-se apenas de que não altero a tabela original, faço uma nova, sem o JEFF. Você decide onde ela fica."
             ],
@@ -698,7 +698,7 @@
                 "\\ƒ saudação(mensagem•'')\n\tsaudação('gatinho')\\🪲",
                 "As funções podem vir de qualquer lado. Por exemplo, @Text tem funções. Assim:",
                 "\\'gatinho'.comprimento()\\",
-                "Se uma função tiver um nome de símbolo único, pode escrever-me @how um @BinaryEvaluate.",
+                "Se uma função tiver um nome de símbolo único, pode escrever-me como um @BinaryEvaluate.",
                 "\\'gatinho' ⊆ 'inho'\\",
                 "Isso faz a mesma coisa que isto:",
                 "\\'gatinho'.tem('inho')\\",
@@ -832,7 +832,7 @@
                 "\\ƒ repetir(mensagem•'') mensagem × 5\nrepetir('olá')\\",
                 "Essa função recebe uma entrada, \\message\\, e usa a função @Text.repeat para repetir a mensagem cinco vezes.",
                 "Sou muito útil se quiseres avaliar algo vezes e vezes sem conta, mas com entradas diferentes!",
-                "Tenho muitos outros pequenos truques. Por exemplo, não preciso de ter um nome. Aqui, vou diretamente para @Evaluate @how um @value.",
+                "Tenho muitos outros pequenos truques. Por exemplo, não preciso de ter um nome. Aqui, vou diretamente para @Evaluate como um @value.",
                 "\\(ƒ(mensagem•'') mensagem × 5)('olá')\\",
                 "Ou, aqui está uma função que recebe qualquer número de entradas, usando o caráter \\…\\ depois do nome de uma entrada.",
                 "\\ƒ sim(mensagens…•'') mensagens.exceto('não')\nsim('sim' 'sim' 'não' 'sim' 'não')\\",
@@ -854,7 +854,7 @@
         "Iteration": {
             "name": "função de ordem superior",
             "emotion": "kind",
-            "doc": "Sou um tipo muito especial de @FunctionDefinition que opera sobre listas de coisas. Não precisa de saber nada sobre mim, para além de que eu torno possíveis funções @how @List.translate.",
+            "doc": "Sou um tipo muito especial de @FunctionDefinition que opera sobre listas de coisas. Não precisa de saber nada sobre mim, para além de que eu torno possíveis funções como @List.translate.",
             "start": "Avaliando a função dada",
             "initialize": "Preparar-se para passar pelos itens",
             "next": "passando para o item seguinte",
@@ -880,7 +880,7 @@
                 "$~Adiciono uma nova linha a uma @Table . Sabem quando parece que falta alguma coisa numa tabela? Eu posso adicionar!",
                 "Imagine que tem uma mesa de jogadores num jogo e pretende adicionar um novo jogador:",
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡+ 'jason' 'red' 0⎦\\",
-                "Lembre-se, @how tudo no Verso, não altero uma tabela, reviso-a. Portanto, precisa de descobrir onde deseja colocar a tabela revista que criar. Muito provavelmente, vai querer rever uma tabela numa @Reaction para alguma entrada e armazená-la num @Bind ."
+                "Lembre-se, como tudo no Verso, não altero uma tabela, reviso-a. Portanto, precisa de descobrir onde deseja colocar a tabela revista que criar. Muito provavelmente, vai querer rever uma tabela numa @Reaction para alguma entrada e armazená-la num @Bind ."
             ],
             "start": "Vamos encontrar a tabela para atualizar.",
             "finish": "Criei uma nova tabela com as linhas revistas!",
@@ -963,7 +963,7 @@
             "label": {
                 "values": "par"
             },
-            "doc": "Sou um @Map específico entre chaves e valores. Consulte @Map para saber mais sobre @how posso ser útil.",
+            "doc": "Sou um @Map específico entre chaves e valores. Consulte @Map para saber mais sobre como posso ser útil.",
             "start": "Vamos avaliar primeiro as chaves e os valores.",
             "finish": "Liguei todos, $value",
             "conflict": {
@@ -988,7 +988,7 @@
                 "Se nenhum corresponder, avalio o @expression predefinido que me deres.",
                 "Sou muito útil para converter um de muitos @Number, @Text ou valores mais complexos possíveis noutra coisa.",
                 "Podes usar-me para @Boolean ou @None, mas esses não podem ser assim tantas coisas, por isso não sou tão útil para esses valores simples.",
-                "Tal @how @Conditional, também te digo o que aprendi. Dentro de um caso, sabe-se que o @value que fiz corresponder é esse caso; dentro de um caso posterior, sabe-se que não é nenhum anterior; e na minha predefinição, sabe-se que não é nenhum deles.",
+                "Tal como @Conditional, também te digo o que aprendi. Dentro de um caso, sabe-se que o @value que fiz corresponder é esse caso; dentro de um caso posterior, sabe-se que não é nenhum anterior; e na minha predefinição, sabe-se que não é nenhum deles.",
                 "\\resposta•#|'': 1\nresposta ???\n\t1: resposta + 1\n\t'nenhum'\\",
                 "Posso excluir casos que sejam um @Number, um @None, ou @Text com uma única tradução, e outros casos simples. Mas um caso que avalia algo não exclui nada, por isso a minha predefinição mantém tudo o que o @value ainda possa ser."
             ],
@@ -1014,7 +1014,7 @@
         "InternalExpression": {
             "name": "expressão interna",
             "emotion": "neutral",
-            "doc": "$~Sou uma @expression que só os criadores originais usam. @how me encontrou? Para saber mais sobre mim, terá de falar com eles.",
+            "doc": "$~Sou uma @expression que só os criadores originais usam. Como me encontrou? Para saber mais sobre mim, terá de falar com eles.",
             "start": "Expressão secreta",
             "description": "$~expressão incorporada"
         },
@@ -1045,7 +1045,7 @@
                 "Eu sou o responsável oficial pelos registos do Verso!",
                 "Por exemplo, veja qual era @Time há cinco ticks:",
                 "\\← 5 Time(1000ms)\\",
-                "Vê @how aparece @None durante 5 segundos e, de repente, volta a aparecer um horário anterior?",
+                "Vê como aparece @None durante 5 segundos e, de repente, volta a aparecer um horário anterior?",
                 "Se quiser os últimos valores, mostre-me duas setas e eu interpretarei o número como uma contagem:",
                 "\\←← 5 Time(1000ms)\\",
                 "Vê como são as cinco vezes anteriores, em vez de apenas uma vez?",
@@ -1063,7 +1063,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Sou onde uma atuação começa e termina, contendo todas as outras personagens que orquestram um espetáculo.",
-                "Sabe @how o @Block avalia uma lista de expressões e resulta na última da sua lista?",
+                "Sabe como o @Block avalia uma lista de expressões e resulta na última da sua lista?",
                 "Eu sou igual, mas em vez de dar o meu @value ao @expression em que estou, coloco o valor no @Stage.",
                 "O valor pode ser qualquer coisa: um @Number, @Text ou @Boolean, um @List, @Set, @Map, ou até algo mais complexo, como um @Phrase, @Group ou @Stage.",
                 "Se não me der um valor para mostrar no palco, peço-lhe um.",
@@ -1157,7 +1157,7 @@
             },
             "doc": [
                 "$~Obtenho para si uma das propriedades de um @StructureDefinition @value.",
-                "@how se tivesse uma estrutura sobre cidades, podia obter os seus valores comigo assim:",
+                "Como se tivesse uma estrutura sobre cidades, podia obter os seus valores comigo assim:",
                 "\\•cidade(nome•'' população•#people)\n\nportland: cidade('Portland' 800000people)\n\nportland.população\\"
             ],
             "start": "Primeiro, vamos obter o valor.",
@@ -1175,7 +1175,7 @@
                 "$~Crio um novo @stream que é atualizado sempre que outro fluxo muda. Os fluxos são incríveis!",
                 "Por exemplo, se quisesse que @Time mostrasse o tempo, mas apresentasse palavras em vez de números, poderia fazer algo do género:",
                 "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
-                "É @how dizer \"/começa com a palavra 'início' e, se o tempo mudar, muda para par ou ímpar, dependendo da hora.\"",
+                "É como dizer \"/começa com a palavra 'início' e, se o tempo mudar, muda para par ou ímpar, dependendo da hora.\"",
                 "Portanto, também sou tipo um streamer, só que baseado noutros streamers. Incrível, certo?"
             ],
             "start": "Vamos ver se devemos atualizar o fluxo.",
@@ -1244,7 +1244,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Escolho as linhas de uma @Table que correspondem a uma @condition. Às vezes só quer parte de uma tabela — eu posso obtê-la para si!",
-                "@how se tivesse uma tabela de jogadores num jogo e quisesse encontrar os que têm 10 ou mais pontos para ver quem ganhou:",
+                "Como se tivesse uma tabela de jogadores num jogo e quisesse encontrar os que têm 10 ou mais pontos para ver quem ganhou:",
                 "\\jogadores: ⎡nome•'' equipa•'' pontos•#⎦\n\t⎡'jen' 'vermelho' 8⎦\n\t⎡'joana' 'azul' 11⎦\n\t⎡'jeff' 'vermelho' 9⎦\n\t⎡'janete' 'azul' 7⎦\njogadores ⎡?nome⎦ pontos ≥ 10\\",
                 "É assim mesmo, obtive uma lista de linhas dos vencedores! Lembre-se apenas de que não altero a tabela, faço uma nova. Terá de decidir onde a guardar."
             ],
@@ -1263,7 +1263,7 @@
             "name": "conjunto literal",
             "description": "$~conjunto de $#count[$#count valor|$count valores|$count valores]",
             "emotion": "eager",
-            "doc": "Sou um @Set específico com valores específicos. Consulte @Set para saber mais sobre @how trabalhar comigo.",
+            "doc": "Sou um @Set específico com valores específicos. Consulte @Set para saber mais sobre como trabalhar comigo.",
             "start": "Vamos avaliar primeiro os valores!",
             "finish": "Eu fiz um conjunto $value!"
         },
@@ -1311,7 +1311,7 @@
         "StreamDefinition": {
             "name": "caudal",
             "emotion": "curious",
-            "doc": "$~Defino novos tipos de fluxos. Eu /acho/ — sinceramente, ainda estou a descobrir @how, por isso, por enquanto, usem os fluxos que já existem!",
+            "doc": "$~Defino novos tipos de fluxos. Eu /acho/ — sinceramente, ainda estou a descobrir como, por isso, por enquanto, usem os fluxos que já existem!",
             "start": "Crie este novo tipo de transmissão",
             "description": "$~fluxo $name"
         },
@@ -1326,7 +1326,7 @@
                 "interfaces": "interfaces"
             },
             "doc": [
-                "$~Eu defino estruturas que guardam valores e funções. Olá, @how estás? Eu? Estou ótimo — adoro fazer isto o dia todo.",
+                "$~Eu defino estruturas que guardam valores e funções. Olá, como estás? Eu? Estou ótimo — adoro fazer isto o dia todo.",
                 "Funciono assim:",
                 "\\•piza(\n\tingredientes•['']\n\ttamanho•#in\n) (\n\tƒ custo() tamanho × 10dollars/in\n)\n\npiza(['pepperoni' 'pimentos'] 12in).custo()\\🪲",
                 "Vês como isto funciona? Defini \\Pizza\\, que tem duas entradas, \\ingredients\\ (uma lista de @Text) e \\size\\ (um número em polegadas).",
@@ -1382,7 +1382,7 @@
             "name": "literal de tabela",
             "description": "$~tabela de $#count[$#count linha|$count linhas|$count linhas]",
             "emotion": "angry",
-            "doc": "Sou uma tabela específica com linhas específicas. Consulte @Table para saber @how posso ajudar.",
+            "doc": "Sou uma tabela específica com linhas específicas. Consulte @Table para saber como posso ajudar.",
             "start": "Primeiro, avalie as linhas.",
             "finish": "Avaliado para nova tabela $value"
         },
@@ -1468,7 +1468,7 @@
                 "\\2 … ∆ Tempo(1000ms) … ⬚ × 2\\",
                 "Dentro de um @Translate, sou o item atual a ser mapeado, por isso isto adiciona um a cada valor:",
                 "\\[1 2 3] ↦ ⬚ + 1\\",
-                "E dentro de um @StructureDefinition, sou o próprio valor atual, por isso posso chegar às minhas partes com \\⬚.rank\\🪲, tal @how chego às partes de outro valor com \\other.rank\\🪲:",
+                "E dentro de um @StructureDefinition, sou o próprio valor atual, por isso posso chegar às minhas partes com \\⬚.rank\\🪲, tal como chego às partes de outro valor com \\other.rank\\🪲:",
                 "\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
                 "Não apareço muitas vezes, mas quando apareço, posso mesmo ajudar um valor a sair de um @Bind!"
             ],
@@ -1490,7 +1490,7 @@
                 "input": "entrada"
             },
             "doc": [
-                "$~Avalio uma @FunctionDefinition que recebe um único @value, com o seu nome de um só símbolo escrito mesmo antes da entrada — @how \\-x\\🪲 ou \\~b\\🪲. Sabia que podia fazer isso?",
+                "$~Avalio uma @FunctionDefinition que recebe um único @value, com o seu nome de um só símbolo escrito mesmo antes da entrada — como \\-x\\🪲 ou \\~b\\🪲. Sabia que podia fazer isso?",
                 "Assim:",
                 "\\-(1 + 1)\\",
                 "Ou assim:",
@@ -1593,7 +1593,7 @@
             "name": "$~conversion type",
             "emotion": "serious",
             "doc": [
-                "$~Trabalho com @Bind para indicar que um nome é uma @ConversionDefinition. Provavelmente não precisas de me usar, porque poucas pessoas me passam por aí @how um @value, mas se o fizesses, eu pareceria assim:",
+                "$~Trabalho com @Bind para indicar que um nome é uma @ConversionDefinition. Provavelmente não precisas de me usar, porque poucas pessoas me passam por aí como um @value, mas se o fizesses, eu pareceria assim:",
                 "\\magia•? → '': → ? '' ⬚ ? 'sim' 'não'\\🪲"
             ],
             "description": "$~tipo de conversão"
@@ -1611,7 +1611,7 @@
         "ExceptionType": {
             "name": "exceção",
             "emotion": "neutral",
-            "doc": "Eu represento uma exceção. Não há @how dizer ao bind que sou uma exceção, porque as exceções apenas interrompem o @Program, pelo que não pode usá-las como valores.",
+            "doc": "Eu represento uma exceção. Não há como dizer ao bind que sou uma exceção, porque as exceções apenas interrompem o @Program, pelo que não pode usá-las como valores.",
             "description": "$~exceção"
         },
         "FunctionType": {
@@ -1632,7 +1632,7 @@
                 "\\coisas•[#]: [1 2 3 4 5]\\🪲",
                 "Posso dizê-lo de três maneiras diferentes. Se não indicar nenhum tipo, então uma lista pode ter qualquer comprimento e conter qualquer coisa:",
                 "\\coisas•[]: [1 'dois' ø]\\🪲",
-                "Se indicar um tipo, a lista ainda pode ter qualquer comprimento, mas tudo dentro dela tem de ser esse tipo, @how a lista de @Number ali em cima.",
+                "Se indicar um tipo, a lista ainda pode ter qualquer comprimento, mas tudo dentro dela tem de ser esse tipo, como a lista de @Number ali em cima.",
                 "E se indicar vários tipos, refiro-me a uma lista com exatamente essa quantidade de coisas, com um tipo para cada lugar nela. Esta é uma lista de duas coisas: primeiro um @Number, depois algum @Text.",
                 "\\par•[# '']: [1 'dois']\\🪲",
                 "Essa última é a minha preferida, porque assim toda a gente sabe o que está onde. @ListAccess sabe que a primeira coisa é um @Number e a segunda é @Text, e se me deres o número errado de coisas, ou as puseres na ordem errada, eu digo-o!"
@@ -1661,7 +1661,7 @@
             "description": "$~tipo de estrutura $name",
             "emotion": "curious",
             "doc": [
-                "$~Represento uma @StructureDefinition pelo seu nome. Assim, por exemplo, se tivesse uma estrutura @how esta, poderia criar um @Bind que armazenasse os valores que ela cria.",
+                "$~Represento uma @StructureDefinition pelo seu nome. Assim, por exemplo, se tivesse uma estrutura como esta, poderia criar um @Bind que armazenasse os valores que ela cria.",
                 "\\•Amigo(nome)•''\nmelhor amigo(a)•Amigo(a): Amigo('Jonah')\\🪲"
             ],
             "conflict": {
@@ -1675,7 +1675,7 @@
         "NeverType": {
             "name": "nunca",
             "emotion": "curious",
-            "doc": "$~Represento um @type que é impossível. @how quando pergunta a @Is se algo é um @Number, mas nunca pode ser um número.",
+            "doc": "$~Represento um @type que é impossível. Como quando pergunta a @Is se algo é um @Number, mas nunca pode ser um número.",
             "description": "$~tipo impossível"
         },
         "NoneType": {
@@ -1749,7 +1749,7 @@
         "TypePlaceholder": {
             "name": "espaçoreservado",
             "emotion": "eager",
-            "doc": "$~Espero representar um @type um dia, mais ou menos @how a minha melhor amiga @ExpressionPlaceholder representa um @expression! Ajuda-me a decidir de que tipo?",
+            "doc": "$~Espero representar um @type um dia, mais ou menos como a minha melhor amiga @ExpressionPlaceholder representa um @expression! Ajuda-me a decidir de que tipo?",
             "description": "$~marcador de posição de tipo"
         },
         "UnionType": {
@@ -1767,7 +1767,7 @@
             "description": "$~$unit[unidade $unit|sem unidade]",
             "emotion": "precise",
             "doc": [
-                "$~Represento qualquer unidade que um @Number possa ter, incluindo nenhuma unidade, até à unidade mais complexa que se possa imaginar. @how a gravidade, por exemplo:",
+                "$~Represento qualquer unidade que um @Number possa ter, incluindo nenhuma unidade, até à unidade mais complexa que se possa imaginar. Como a gravidade, por exemplo:",
                 "\\gravidade•m/s^2: 9,8m/s^2\\🪲",
                 "Apareço no @Bind, mas também logo a seguir ao @Number. Ajudo a garantir que os números são do mesmo tipo e, com certeza, avisarei se não são, caso se trate de um erro!"
             ]
@@ -1800,7 +1800,7 @@
             "name": "inesperado",
             "description": "$~não é um $type",
             "emotion": "curious",
-            "doc": "$~Represento um(a) @value cujo(a) @type não é aquele(a) que esperávamos — @how quando @ListAccess precisa de um(a) @Number mas recebe outra coisa."
+            "doc": "$~Represento um(a) @value cujo(a) @type não é aquele(a) que esperávamos — como quando @ListAccess precisa de um(a) @Number mas recebe outra coisa."
         },
         "NoExpressionType": {
             "name": "nenhuma expressão",
@@ -1842,7 +1842,7 @@
                 "\\[1 2 3] ↦ ⬚ + 1\\ dá-te \\[2 3 4]\\. BUM! Cada número, mais um, sem ciclos, sem @FunctionDefinition, sem confusão!",
                 "Sou INCRÍVEL para criar saída @Phrase a partir de dados! Tens uma lista de nomes? \\['Ada' 'Mac' 'Tim'] ↦ Frase(⬚)\\ e agora há uma frase para CADA nome!!",
                 "Funciono com @List, @Set, @Map (mudo os VALORES do mapa — as chaves ficam onde estão!) e até @Table!",
-                "Queres algo mais sofisticado — @how o @index de cada item, ou uma função que podes reutilizar em muitos sítios? Vai visitar os meus primos mais calmos e crescidos, como @List.translate. Mas para mapeamento rápido do dia a dia, estou aqui!!"
+                "Queres algo mais sofisticado — como o @index de cada item, ou uma função que podes reutilizar em muitos sítios? Vai visitar os meus primos mais calmos e crescidos, como @List.translate. Mas para mapeamento rápido do dia a dia, estou aqui!!"
             ],
             "start": "Aguarde um momento, deixe-me apanhar tudo em $expression !",
             "finish": "TA-DA! Aqui está a sua nova coleção: $value",
@@ -1864,7 +1864,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Eu mostro @code com realce de sintaxe escrito noutras linguagens de programação, para que quem já programa possa comparar.",
-                "Escreva uma variante por @language @how uma etiqueta de duas letras, uma barra, e o código, assim \\py| a = 5\\js| let a = 5;\\. Quem lê vê a variante correspondente ao idioma escolhido. São suportados Python (py), JavaScript (js) e Java (jv)."
+                "Escreva uma variante por @language como uma etiqueta de duas letras, uma barra, e o código, assim \\py| a = 5\\js| let a = 5;\\. Quem lê vê a variante correspondente ao idioma escolhido. São suportados Python (py), JavaScript (js) e Java (jv)."
             ]
         },
         "Localized": {
@@ -1890,7 +1890,7 @@
                 "$~Sou um padrão! Descrevo a *forma* do texto em vez de palavras exatas, para que possas verificar texto com \\≈\\ — o texto inteiro encaixa? — ou procurá-lo com \\⌕\\ para encontrar todos os sítios onde a forma aparece. A procura devolve uma lista de @Result.",
                 "Aqui está uma procura em ação — a encontrar as palavras de comida numa frase sobre o pequeno-almoço:",
                 "\\breakfast: 'Ao pequeno-almoço comi ovos, torradas e sumo de laranja'\nbreakfast ⌕ ⣿ \"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
-                "Lê-me da esquerda para a direita. Um @PatternClass corresponde a um caráter de um tipo: \\⣿◌⣿\\ qualquer, \\⣿_⣿\\ uma letra, \\⣿#⣿\\ um algarismo, \\⣿␣⣿\\ um espaço. Texto entre aspas é um @PatternLiteralText que corresponde exatamente, @how \\⣿\"-\"⣿\\. O resto \\⣿…⣿\\ — um @PatternRest — corresponde a qualquer número de carateres.",
+                "Lê-me da esquerda para a direita. Um @PatternClass corresponde a um caráter de um tipo: \\⣿◌⣿\\ qualquer, \\⣿_⣿\\ uma letra, \\⣿#⣿\\ um algarismo, \\⣿␣⣿\\ um espaço. Texto entre aspas é um @PatternLiteralText que corresponde exatamente, como \\⣿\"-\"⣿\\. O resto \\⣿…⣿\\ — um @PatternRest — corresponde a qualquer número de carateres.",
                 "As contagens vêm primeiro. Um @PatternQuantified repete a parte seguinte por um @PatternQuantifier: \\⣿3 #⣿\\ são três algarismos, \\⣿3–5 #⣿\\ três a cinco, \\⣿>0 #⣿\\ um ou mais, \\⣿≥0 #⣿\\ zero ou mais, \\⣿≤1 #⣿\\ opcional.",
                 "Agrupa partes com um @PatternGroup, e oferece escolhas num @PatternSequence, como \\⣿(◌ | #)⣿\\. Ganha a escolha correspondente mais longa.",
                 "Um @PatternSet corresponde a um caráter de um conjunto, e um @PatternRange abrange intervalos de carateres, como \\⣿ {\"a\"–\"z\" #}⣿\\. Nega uma parte com um @PatternComplement, como \\⣿~#⣿\\.",
@@ -1929,7 +1929,7 @@
                 "$~Sou uma fileira de partes padronizadas, combinadas uma após a outra, da esquerda para a direita.",
                 "Por exemplo, observe o formato de um número de telefone — três dígitos, um hífen e depois quatro:",
                 "\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\🪲",
-                "Ofereço opções e escolho a que melhor se adequa, preferindo a mais longa, @how \\⣿\"cat\" | \"dog\"⣿\\ ."
+                "Ofereço opções e escolho a que melhor se adequa, preferindo a mais longa, como \\⣿\"cat\" | \"dog\"⣿\\ ."
             ],
             "conflict": {
                 "OverlappingAlternatives": {
@@ -1946,7 +1946,7 @@
                 "$~Correspondo a um único caráter de um tipo: \\⣿◌⣿\\ qualquer grafema, \\⣿_⣿\\ uma letra, \\⣿#⣿\\ um algarismo, \\⣿␣⣿\\ um espaço.",
                 "Por exemplo, retire cada @code de letra-e-depois-algarismo de uma lista:",
                 "\\códigos: 'a1 b2 c3'\ncódigos ⌕ ⣿ _ #⣿\\",
-                "Conte-me com um quantificador @how \\⣿>0 #⣿\\ (um ou mais algarismos), ou limite-me com um(a) @property como \\⣿ _/greek⣿\\ (uma letra grega)."
+                "Conte-me com um quantificador como \\⣿>0 #⣿\\ (um ou mais algarismos), ou limite-me com um(a) @property como \\⣿ _/greek⣿\\ (uma letra grega)."
             ]
         },
         "PatternProperty": {
@@ -1954,7 +1954,7 @@
             "description": "$~propriedade Unicode",
             "emotion": "curious",
             "doc": [
-                "$~Limito uma classe de carateres a uma @property Unicode. Use um alfabeto, @how \\⣿ _/greek⣿\\, \\⣿ _/han⣿\\, ou \\⣿ _/arabic⣿\\.",
+                "$~Limito uma classe de carateres a uma @property Unicode. Use um alfabeto, como \\⣿ _/greek⣿\\, \\⣿ _/han⣿\\, ou \\⣿ _/arabic⣿\\.",
                 "Por exemplo, encontre a sequência de letras gregas num texto misturado:",
                 "\\texto: 'olá αβγ mundo'\ntexto ⌕ ⣿ >0 _/greek⣿\\",
                 "Ou uma categoria, como \\⣿ ◌/punctuation⣿\\, \\⣿ ◌/currency⣿\\, \\⣿ ◌/Nd⣿\\ (um algarismo), ou \\⣿ _/Lu⣿\\ (uma letra maiúscula).",
@@ -1977,7 +1977,7 @@
                 "$~Digo quantas vezes devo corresponder: exatamente \\⣿3 #⣿\\ , um intervalo \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (exatamente três), \\⣿>0 #⣿\\ (um ou mais), \\⣿≥0 #⣿\\ (zero ou mais), \\⣿<5 #⣿\\ (menos de cinco), \\⣿≤1 #⣿\\ (opcional).",
                 "Por exemplo, encontre todas as sequências de dígitos numa frase:",
                 "\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
-                "Venho sempre antes da parte que conto, @how \\⣿3 #⣿\\ ou \\⣿>0 _⣿\\ ."
+                "Venho sempre antes da parte que conto, como \\⣿3 #⣿\\ ou \\⣿>0 _⣿\\ ."
             ],
             "conflict": {
                 "MalformedQuantifier": {
@@ -1995,7 +1995,7 @@
                 "$~Combino a parte seguinte várias vezes.",
                 "Por exemplo, verifique se um @code postal tem exatamente cinco dígitos:",
                 "\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
-                "Conto uma classe @how \\⣿3 #⣿\\ (três dígitos), um grupo como \\⣿2 (\"ab\")⣿\\ (dois \"ab\") ou um complemento como \\⣿2 ~#⣿\\ (dois não dígitos). Com \\⣿>0 #⣿\\ sou ganancioso — apanho quantos puder."
+                "Conto uma classe como \\⣿3 #⣿\\ (três dígitos), um grupo como \\⣿2 (\"ab\")⣿\\ (dois \"ab\") ou um complemento como \\⣿2 ~#⣿\\ (dois não dígitos). Com \\⣿>0 #⣿\\ sou ganancioso — apanho quantos puder."
             ]
         },
         "PatternCapture": {
@@ -2006,7 +2006,7 @@
                 "$~Nomeio uma parte de uma correspondência para que possa lê-la de volta a partir de cada @Result .",
                 "Por exemplo, extrair o ano, o mês e o dia de uma data:",
                 "\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
-                "Reutilizar o que capturei mais tarde escrevendo novamente o meu nome — ver @PatternBackref — @how \\⣿w:(>0 _) ␣ w⣿\\ para encontrar uma palavra duplicada."
+                "Reutilizar o que capturei mais tarde escrevendo novamente o meu nome — ver @PatternBackref — como \\⣿w:(>0 _) ␣ w⣿\\ para encontrar uma palavra duplicada."
             ],
             "conflict": {
                 "DuplicateCaptureName": {
@@ -2021,7 +2021,7 @@
             "description": "$~correspondência complementar",
             "emotion": "curious",
             "doc": [
-                "$~Eu correspondo a um único grafema que NÃO é o que se segue. Negue uma classe @how \\⣿~#⣿\\ (não é um algarismo), ou um conjunto como \\⣿~{\":\" ␣}⣿\\ (não é dois pontos nem espaço).",
+                "$~Eu correspondo a um único grafema que NÃO é o que se segue. Negue uma classe como \\⣿~#⣿\\ (não é um algarismo), ou um conjunto como \\⣿~{\":\" ␣}⣿\\ (não é dois pontos nem espaço).",
                 "Por exemplo, apanhe o @key e o @value à volta de dois pontos ao corresponder a sequências que não sejam dois pontos nem espaço:",
                 "\\par: 'cor: azul'\npar ⌕ ⣿ >0 ~{\":\" ␣}⣿\\",
                 "Negue um grupo como \\⣿~(◌ | #)⣿\\, ou um @property como \\⣿ ~◌/emoji⣿\\ (não é um emoji).",
@@ -2036,7 +2036,7 @@
                 "$~Agrupo as partes para que uma contagem ou escolha se aplique a todas elas. Nunca capturo; para tal, nomeie uma peça com @PatternCapture .",
                 "Por exemplo, verifique se algum texto contém a sílaba \"ab\" repetida:",
                 "\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
-                "Conte um grupo @how \\⣿2 (\"ab\")⣿\\ (dois \"abs\") ou ofereça uma escolha como \\⣿(◌ | #)⣿\\ (uma letra ou um dígito)."
+                "Conte um grupo como \\⣿2 (\"ab\")⣿\\ (dois \"abs\") ou ofereça uma escolha como \\⣿(◌ | #)⣿\\ (uma letra ou um dígito)."
             ]
         },
         "PatternSet": {
@@ -2047,7 +2047,7 @@
                 "$~Consigo identificar qualquer grafema de entre um conjunto de opções.",
                 "Por exemplo, encontre as vogais numa palavra:",
                 "\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
-                "Misture intervalos e classes, @how \\⣿{\"a\"–\"z\" #}⣿\\ ou \\⣿{# \"a\"–\"f\"}⣿\\ (um dígito hexadecimal). Negue-me com um @PatternComplement , como \\⣿~{\"!\" \"?\"}⣿\\ ."
+                "Misture intervalos e classes, como \\⣿{\"a\"–\"z\" #}⣿\\ ou \\⣿{# \"a\"–\"f\"}⣿\\ (um dígito hexadecimal). Negue-me com um @PatternComplement , como \\⣿~{\"!\" \"?\"}⣿\\ ."
             ]
         },
         "PatternRange": {
@@ -2058,7 +2058,7 @@
                 "$~Combino um grafema entre dois pontos finais por ordem escalar e vivo dentro de um @PatternSet .",
                 "Por exemplo, extraia as palavras em letras minúsculas de um texto:",
                 "\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
-                "Abrange letras @how \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ ou dígitos como \\⣿{\"0\"–\"9\"}⣿\\ , em qualquer escrita, como \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+                "Abrange letras como \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ ou dígitos como \\⣿{\"0\"–\"9\"}⣿\\ , em qualquer escrita, como \\⣿{\"あ\"–\"ん\"}⣿\\ ."
             ]
         },
         "PatternLiteralText": {
@@ -2069,7 +2069,7 @@
                 "$~Reproduzo exatamente o texto entre aspas, sem qualquer significado especial.",
                 "Por exemplo, encontre o @value em dólares numa frase:",
                 "\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
-                "Use-me para partes fixas @how \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , ou uma palavra inteira \\⣿\"cat\"⣿\\ , encadeadas com outras partes, como \\⣿3 # \"-\" 4 #⣿\\ para um número de telefone."
+                "Use-me para partes fixas como \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , ou uma palavra inteira \\⣿\"cat\"⣿\\ , encadeadas com outras partes, como \\⣿3 # \"-\" 4 #⣿\\ para um número de telefone."
             ]
         },
         "PatternAnchor": {
@@ -2080,7 +2080,7 @@
                 "$~Encontro uma fronteira do texto sem consumir nada: \\⣿⊢⣿\\ o início, \\⣿⊣⣿\\ o fim.",
                 "Por exemplo, verifique se uma saudação começa com \"Olá\":",
                 "\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
-                "Posição do alfinete, @how \\⣿⊢ \"Hi\"⣿\\ (começa por \"Olá\"), \\⣿\".\" ⊣⣿\\ (termina com um ponto), ou \\⣿⊢ _ ⊣⣿\\ (todo o texto é exactamente uma letra)."
+                "Posição do alfinete, como \\⣿⊢ \"Hi\"⣿\\ (começa por \"Olá\"), \\⣿\".\" ⊣⣿\\ (termina com um ponto), ou \\⣿⊢ _ ⊣⣿\\ (todo o texto é exactamente uma letra)."
             ]
         },
         "PatternWord": {
@@ -2091,7 +2091,7 @@
                 "$~Eu correspondo a uma palavra inteira, encontrada pelas próprias regras de um @language.",
                 "Por exemplo, liste as palavras numa frase:",
                 "\\frase: 'o gato sentou-se'\nfrase ⌕ ⣿ ▭/en⣿\\",
-                "Dê o nome do idioma, @how \\⣿ ▭/en⣿\\ para inglês ou \\⣿ ▭/zh⣿\\ para chinês, e delimite uma palavra específica com bordas, como \\⣿ ┊/en \"cat\" ┊/en⣿\\."
+                "Dê o nome do idioma, como \\⣿ ▭/en⣿\\ para inglês ou \\⣿ ▭/zh⣿\\ para chinês, e delimite uma palavra específica com bordas, como \\⣿ ┊/en \"cat\" ┊/en⣿\\."
             ],
             "conflict": {
                 "MissingPatternLocale": {
@@ -2106,7 +2106,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Eu correspondo a um limite de palavra para um @language sem consumir nada.",
-                "Por exemplo, encontre \"cat\" @how palavra inteira, e não dentro de \"category\":",
+                "Por exemplo, encontre \"cat\" como palavra inteira, e não dentro de \"category\":",
                 "\\texto: 'um gato numa categoria'\ntexto ⌕ ⣿ ┊/en \"cat\" ┊/en⣿\\",
                 "Envolva uma palavra comigo, como \\⣿ ┊/en \"cat\" ┊/en⣿\\, para que só corresponda inteira."
             ]
@@ -2119,7 +2119,7 @@
                 "$~Verifico o que está imediatamente à frente \\⣿▸(#)⣿\\ ou atrás \\⣿◂(#)⣿\\ sem o consumir, pelo que a parte seguinte ainda corresponde ao mesmo local.",
                 "Por exemplo, encontre cada letra que é imediatamente seguida de um dígito:",
                 "\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
-                "Requer contexto, @how \\⣿_ ▸(#)⣿\\ (uma letra seguida de um dígito) ou \\⣿◂(\"$\") >0 #⣿\\ (dígitos imediatamente a seguir a um \"$\").",
+                "Requer contexto, como \\⣿_ ▸(#)⣿\\ (uma letra seguida de um dígito) ou \\⣿◂(\"$\") >0 #⣿\\ (dígitos imediatamente a seguir a um \"$\").",
                 "Vire-me com um @PatternComplement para proibir o contexto, como \\⣿~▸(#)⣿\\ (não seguido de um dígito)."
             ]
         },
@@ -2131,7 +2131,7 @@
                 "$~Procuro correspondência para o mesmo texto que um @PatternCapture nomeado já encontrou — basta escrever o nome da captura.",
                 "Por exemplo, encontre uma palavra que se repita imediatamente:",
                 "\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
-                "Um nome simples que não é uma captura é uma classe com nome, @how \\⣿linebreak⣿\\ ."
+                "Um nome simples que não é uma captura é uma classe com nome, como \\⣿linebreak⣿\\ ."
             ],
             "conflict": {
                 "UndefinedBackreference": {
@@ -2149,7 +2149,7 @@
                 "$~Sigo o restante texto tanto quanto possível. Sou hábil no final de um padrão.",
                 "Por exemplo, verifique se algum texto é um hashtag — um \"#\" seguido de qualquer outra coisa:",
                 "\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
-                "Use-me após um início fixo, @how \\⣿\"#\" …⣿\\ (um \"#\" seguido de qualquer coisa) ou \\⣿\"Hi \" …⣿\\ (\"Olá \" seguido de tudo o que vier depois)."
+                "Use-me após um início fixo, como \\⣿\"#\" …⣿\\ (um \"#\" seguido de qualquer coisa) ou \\⣿\"Hi \" …⣿\\ (\"Olá \" seguido de tudo o que vier depois)."
             ]
         },
         "PatternCaseFold": {
@@ -2160,7 +2160,7 @@
                 "$~Eu correspondo às minhas partes ignorando maiúsculas e minúsculas.",
                 "Por exemplo, verifique uma palavra ignorando a sua capitalização:",
                 "\\gritar: 'OLÁ'\ngritar ≈ ⣿ Aa(\"hello\")⣿\\",
-                "Envolve as minhas partes @how \\⣿ Aa(\"hi\")⣿\\ (corresponde a \"OLÁ\", \"Olá\" ou \"olá\"). Adiciona um @language para as suas regras, como \\⣿ Aa/tr(\"i\")⣿\\ (i turco), e também defino o @scope de um @PatternBackref, como \\⣿ Aa(w: (2 _) w)⣿\\."
+                "Envolve as minhas partes como \\⣿ Aa(\"hi\")⣿\\ (corresponde a \"OLÁ\", \"Olá\" ou \"olá\"). Adiciona um @language para as suas regras, como \\⣿ Aa/tr(\"i\")⣿\\ (i turco), e também defino o @scope de um @PatternBackref, como \\⣿ Aa(w: (2 _) w)⣿\\."
             ]
         },
         "PatternType": {
@@ -2168,7 +2168,7 @@
             "description": "$~padrão",
             "emotion": "curious",
             "doc": [
-                "$~Sou o @type de um padrão @value, anotado @how \\p•⣿⣿: ⣿ ◌⣿\\🪲.",
+                "$~Sou o @type de um padrão @value, anotado como \\p•⣿⣿: ⣿ ◌⣿\\🪲.",
                 "Por exemplo, guarda um padrão num @name e reutiliza-o em muitos textos:",
                 "\\dígitos: ⣿ >0 #⣿\n'Tenho 3 gatos e 12 peixes' ⌕ dígitos\\",
                 "Depois de guardado, usa-me em qualquer lugar onde um padrão sirva, como \\text ⌕ digits\\🪲 ou \\text ≈ digits\\🪲."

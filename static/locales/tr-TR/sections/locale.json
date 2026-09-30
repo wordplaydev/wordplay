@@ -74,7 +74,7 @@
         },
         "abstraction": {
             "word": "$~soyutlama",
-            "definition": "$~Bir şeyi içeride @how çalıştığını bilmeden kullanabilmen için ayrıntıları gizlemek."
+            "definition": "$~Bir şeyi içeride nasıl çalıştığını bilmeden kullanabilmen için ayrıntıları gizlemek."
         },
         "project": {
             "word": "$~proje",
@@ -89,7 +89,7 @@
             "definition": "$~Bir @tutorial büyük bir bölümü, bir oyundaki perde gibi."
         },
         "how": {
-            "word": "$~nasıl",
+            "word": "$~nasıl yapılır rehberi",
             "definition": "$~Tek bir şeyi nasıl yapacağını gösteren kısa bir @guide."
         },
         "gallery": {

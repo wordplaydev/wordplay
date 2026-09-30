@@ -1012,6 +1012,11 @@
         "e982ffd8b3a0b": "$~Emoji se încarcă acum mai repede în Safari, iar browserul tău păstrează acum fonturile între vizite, în loc să le descarce din nou.",
         "e2222194ec679": "$~Niște instrucțiuni nu mai arată de două ori numele persoanei care le-a scris.",
         "ea64e28744d1d": "$~Emoji se lovesc acum de alte lucruri după forma lor atunci când @Matter cere un contur, iar textul stă acum deasupra a ceea ce atinge, în loc să se scufunde în el. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
-        "effb062f72059": "$~Literele care se ating prin conturul lor au acum spațiu în interior, astfel încât lucruri mici pot să sară în interiorul unui O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "effb062f72059": "$~Literele care se ating prin conturul lor au acum spațiu în interior, astfel încât lucruri mici pot să sară în interiorul unui O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "e05d86cc70d38": "$~Muzica face acum să vibreze controlerele de joc care pot vibra, așa că notele joase se simt ca bufnituri adânci, iar notele înalte se simt ca bâzâituri ușoare. (<1345@https://github.com/wordplaydev/wordplay/issues/1345>)",
+        "ebd63de5a63f1": "$~Cititoarele de ecran și textul vorbit citesc acum fiecare cuvânt în propria lui limbă, așa că un cuvânt spaniol dintr-o propoziție în engleză sună a spaniolă. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
+        "e7914aaea390a": "$~În 13 limbi, cuvinte de zi cu zi precum \"cum\" nu se mai transformă din greșeală în legături cu subliniere punctată.",
+        "ed72c4878ae09": "$~Numele butoanelor și ale setărilor din tururi și din documentare folosesc acum cuvintele fiecărei limbi, în loc de engleză.",
+        "e42e9e3c1d92a": "$~Cuvintele cu subliniere punctată nu mai arată simboluri rătăcite în fața lor în unele limbi."
     }
 }

@@ -32,6 +32,7 @@ import {
     getTutorialSources,
     markStale,
     readJSON,
+    staleMarkupElements,
     type StaleEntry,
 } from '@util/verify-locales/drift';
 import Log from '@util/verify-locales/Log';
@@ -54,6 +55,8 @@ import {
     collectLocaleText,
 } from '@util/verify-locales/checkGlossaryWords';
 import {
+    findHomographTerms,
+    getLinkUnits,
     linkGlossaryInLocale,
     linkGlossaryInTutorial,
 } from '@util/verify-locales/glossaryLinks';
@@ -216,6 +219,19 @@ const localeFolders = Array.from(
 );
 
 // Verify, repair, and translate a locale */
+/** en-US's link units, computed once: every locale is measured against them. */
+let englishLinkUnits: { locale: LocaleText; units: string[] } | undefined;
+function getEnglishLinkUnits() {
+    englishLinkUnits ??= {
+        locale: DefaultLocale,
+        units: getLinkUnits(
+            DefaultLocale,
+            TutorialModes.map((mode) => getDefaultTutorial(mode)),
+        ),
+    };
+    return englishLinkUnits;
+}
+
 async function handleLocale(
     /** This locale's scope; each unit of work below opens its own under it. */
     localeLog: Log,
@@ -234,9 +250,49 @@ async function handleLocale(
     // run hands them.
     let linkedLocale: LocaleText = localeText;
 
+    // Glossary terms whose word here is an everyday word, which the first-use
+    // linker below must leave alone; see `findHomographTerms`.
+    const homographs = findHomographTerms(
+        getEnglishLinkUnits().locale,
+        getEnglishLinkUnits().units,
+        localeText,
+        getLinkUnits(
+            localeText,
+            TutorialModes.flatMap(
+                (mode) => getTutorialJSON(new Log(false), locale, mode) ?? [],
+            ),
+        ),
+    );
+    for (const [id, { word, locale: here, english }] of homographs)
+        localeLog.warning(
+            `The glossary word for "${id}" (${word}) appears in ${here} docs and scenes, against ${english} in en-US, so it is probably an everyday word here; it isn't linked automatically. Choose a word only the term means.`,
+        );
+    const suppressed = new Set(homographs.keys());
+
     if (steps.locale) {
         // Validate, repair, and translate the locale file.
         const localeFileLog = localeLog.scope('Locale file');
+        // Which paragraphs of each markup array changed in English since this
+        // branch left main (or since the last commit, on main), so a
+        // re-translation buys only those. Worked out here rather than in the
+        // drift step because a parallel run's children each translate one
+        // locale and never run that step.
+        const translatingLocale =
+            TranslationRequested && selection.isIncluded('locale');
+        const staleParagraphs =
+            translatingLocale && sourceLocaleText !== undefined
+                ? staleMarkupElements(
+                      getDriftBase() ?? 'HEAD',
+                      LocaleSections.map(
+                          (section) =>
+                              [
+                                  getSectionPath(SourceLocale, section),
+                                  getSectionPath(locale, section),
+                              ] as const,
+                      ),
+                      getCheckablePathKinds(sourceLocaleText),
+                  )
+                : undefined;
         const [revisedLocale, localeChanged] = await verifyLocale(
             localeFileLog,
             locale,
@@ -258,6 +314,9 @@ async function handleLocale(
                 if (await writeLocale(localeFileLog, locale, partial))
                     localeFileLog.good('Saved progress');
             },
+            staleParagraphs === undefined
+                ? undefined
+                : (path) => staleParagraphs.get(path.toString()),
         );
 
         // Introduce a glossary word the first time a doc uses it (#960), on the same
@@ -268,8 +327,10 @@ async function handleLocale(
         let localeLinked = false;
         linkedLocale = revisedLocale;
         {
-            const { locale: linked, changes } =
-                linkGlossaryInLocale(revisedLocale);
+            const { locale: linked, changes } = linkGlossaryInLocale(
+                revisedLocale,
+                suppressed,
+            );
             if (changes.length > 0) {
                 if (FixRequested || TranslationRequested) {
                     linkedLocale = linked;
@@ -420,6 +481,7 @@ async function handleLocale(
                 const { tutorial: linked, changes } = linkGlossaryInTutorial(
                     revisedTutorial,
                     linkedLocale,
+                    suppressed,
                 );
                 if (changes.length > 0) {
                     if (FixRequested || TranslationRequested) {

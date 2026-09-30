@@ -4,8 +4,8 @@
         "Boolean": {
             "doc": [
                 "$~Biz \\⊤\\ ve \\⊥\\'yiz. \\⊤\\ doğrudur. \\⊥\\ yanlıştır. \\⊤\\ \\⊥\\ değildir; \\⊥\\ \\⊤\\ değildir. @state budur.",
-                "Bizi @how yapıyorsunuz? Sadece \\⊤\\ ve \\⊥\\, ne daha fazlası ne de daha azı.",
-                "Bazıları klavyeyi kullanır (\\⊤\\ için /ctrl+9/ ve \\⊥\\ için /ctrl+0/). Bazıları editörün altındaki karakter aramasını kullanır. Ya da bizi buradan sürükleyebilirsiniz.",
+                "Bizi nasıl yapıyorsunuz? Sadece \\⊤\\ ve \\⊥\\, ne daha fazlası ne de daha azı.",
+                "Bazıları bizi klavye kısayoluyla yazar; /Kısayollar/ listesi hangi tuşların kullanıldığını gösterir ve onları değiştirmene izin verir. Bazıları @editor alt kısmındaki düğmeleri ve karakter aramasını kullanır. Ya da bizi buradan sürükleyebilirsin.",
                 "Aşağıdaki @FunctionDefinition'ımıza bakın. Çok mantıklılar."
             ],
             "name": ["$~⊤⊥", "$~Boolean"],
@@ -119,7 +119,7 @@
                 "Bu toplamları ne kadar zarif bir şekilde hesaplayıp @Text içine koyduğumu gördün mü?",
                 "Son bir küçük sırrım var: hepimizin benzersiz bir numarası olduğunu biliyor muydun? Bu doğru! Bize @U/ ve numaramızı yazarak başvurabilirsin. Örneğin, @FunctionDefinition 192'dir:",
                 "\\'@U/192'\\",
-                "@U/192 ifadesinin @how @FunctionDefinition haline geldiğini gördün mü? Bu numaralara 'Unicode' dediğinizi duydum.",
+                "@U/192 ifadesinin nasıl @FunctionDefinition haline geldiğini gördün mü? Bu numaralara 'Unicode' dediğinizi duydum.",
                 "Bunun dışında, @FunctionDefinition kelimelerle her türlü şeyi yapmam için o kadar çok muhteşem işlev yaptı ki!"
             ],
             "name": ["$~Metin"],
@@ -1579,7 +1579,7 @@
                 "\\{1:1 2:2 3:3}\\",
                 "Ama diyelim ki sadece o değerler olmasını istiyorsun; sonuma bir ! ekle, ben de genelleme yapmam. Bu, amaçlamadığın bir değeri almaya çalışıp çalışmadığını anlamana yardımcı olur.",
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
-                "Eşleşmelerimle @how birçok harika şey yapacağımı biliyorum."
+                "Eşleşmelerimle nasıl birçok harika şey yapacağımı biliyorum."
             ],
             "name": ["$~Harita"],
             "key": "$~Anahtar",

@@ -109,7 +109,7 @@
             "description": "$~nama $name[$name|tanpa nama]",
             "emotion": "kind",
             "doc": [
-                "$~Aku menandai sebuah @value, dan aku adalah @how yang berguna untuk memberi label singkat pada sesuatu yang sulit dihitung, atau yang tidak ingin kamu hitung berulang-ulang.",
+                "$~Aku menandai sebuah @value, dan aku adalah cara yang berguna untuk memberi label singkat pada sesuatu yang sulit dihitung, atau yang tidak ingin kamu hitung berulang-ulang.",
                 "@Bind memberiku namaku seperti ini:",
                 "\\hai: 5\\🪲",
                 "Aku hanya pernah mewakili satu nilai, dan begitu aku memilikinya, aku tidak bisa berubah. Misalnya, kalau kamu mencoba melakukan ini dengan @Bind, kami akan mengeluh.",
@@ -307,7 +307,7 @@
             "description": "$~pilihan teks berformat pada $condition",
             "emotion": "serious",
             "doc": [
-                "$~Ini adalah @how untuk memilih antara dua segmen penjelasan berdasarkan apakah @value input penjelasan didefinisikan atau benar.",
+                "$~Ini adalah cara untuk memilih antara dua segmen penjelasan berdasarkan apakah @value input penjelasan didefinisikan atau benar.",
                 "Ini sebagian besar merupakan fitur internal, jadi Anda tidak perlu mengetahuinya."
             ]
         },
@@ -317,7 +317,7 @@
             "emotion": "insecure",
             "doc": [
                 "$~Aku adalah @Evaluate, tapi dalam bentuk yang lebih sederhana, berguna saat kamu mau memakai @FunctionDefinition yang menerima dua masukan.",
-                "Misalnya, begini @how kamu memakai @Evaluate untuk menjumlahkan dua angka:",
+                "Misalnya, begini cara kamu memakai @Evaluate untuk menjumlahkan dua angka:",
                 "\\1.+(1)\\",
                 "Bukankah itu terlihat agak lucu? Itu tidak salah: ia hanya berkata ambil fungsi tambah pada 1 lalu jalankan.",
                 "Tapi jauh lebih mudah memakai @BinaryEvaluate",
@@ -578,7 +578,7 @@
                 "Apakah kamu tidak khawatir bahwa jika hanya jenis keputusan ini yang bisa kita buat, kita akan kehilangan konteks penting tentang dunia?",
                 "Ada satu hal lagi yang aku lakukan, dan aku tidak selalu mendapat penghargaan untuknya. Ketika @condition ku bertanya /jenis/ nilai apa sesuatu itu, aku tidak hanya menjawab ya atau tidak. Aku mengingat jawabannya di dalam setiap pilihanku.",
                 "\\ukuran•#|'': 5\nukuran•# ? ukuran + 1 'terlalu kecil'\\",
-                "Sendirian, nilai itu bisa menjadi sebuah @Number atau beberapa @Text, dan menambahkannya akan menjadi @conflict, karena keduanya ditambahkan dengan @how yang sangat berbeda. Tapi di dalam /ya/ ku, kita baru saja bertanya apakah itu sebuah @Number, jadi di sana itu adalah satu. Di dalam /tidak/ ku, itu adalah @Text.",
+                "Sendirian, nilai itu bisa menjadi sebuah @Number atau beberapa @Text, dan menambahkannya akan menjadi @conflict, karena keduanya ditambahkan dengan cara yang sangat berbeda. Tapi di dalam /ya/ ku, kita baru saja bertanya apakah itu sebuah @Number, jadi di sana itu adalah satu. Di dalam /tidak/ ku, itu adalah @Text.",
                 "Tidak masalah bagaimana kamu bertanya. Sebuah pemeriksaan jenis, perbandingan dengan nilai tertentu, pemeriksaan nilai yang hilang, dan pemeriksaan yang kamu simpan di bawah sebuah nama, semuanya memberitahuku hal yang sama. Dan @Boolean/and, @Boolean/or, serta @Boolean/not menggabungkannya sesuai yang kamu harapkan.",
                 "Ada dua hal yang tidak bisa kuberitahu. Jika kamu membandingkan dengan @Text yang memiliki beberapa terjemahan, aku tidak belajar apa pun, karena terjemahan mana yang kamu dapatkan tergantung pada siapa yang membaca."
             ],
@@ -1263,7 +1263,7 @@
             "name": "$~nilai himpunan",
             "description": "$~himpunan dengan $#count[$count nilai]",
             "emotion": "eager",
-            "doc": "$~Saya adalah @Set spesifik yang berisi @value-nilai tertentu. Lihat @Set untuk mempelajari lebih lanjut tentang @how bekerja dengan saya.",
+            "doc": "$~Saya adalah @Set spesifik yang berisi @value-nilai tertentu. Lihat @Set untuk mempelajari lebih lanjut tentang cara bekerja dengan saya.",
             "start": "$~Mari kita evaluasi nilainya terlebih dahulu!",
             "finish": "$~Saya membuat sebuah set $value !"
         },
@@ -1305,7 +1305,7 @@
             "doc": [
                 "$~Aku adalah jendela bernama di sekitar @Program — aku memberinya nama dan menyimpan @code-nya. Oh, kamu tahu @Program? Aku membantumu menamainya.",
                 "Kamu juga bisa membuat @Source @UI/addSource lain, dengan @Program lain, dan @Borrow hal-hal dari @Program lain itu untuk digunakan di program lain.",
-                "Ini bisa menjadi @how yang bagus untuk mengatur pertunjukan besar menjadi beberapa dokumen terpisah."
+                "Ini bisa menjadi cara yang bagus untuk mengatur pertunjukan besar menjadi beberapa dokumen terpisah."
             ]
         },
         "StreamDefinition": {
@@ -1329,7 +1329,7 @@
                 "$~Aku mendefinisikan struktur yang menyimpan nilai dan fungsi. Halo, apa kabar? Aku? Aku baik-baik saja — aku senang melakukan ini sepanjang hari.",
                 "Aku bekerja seperti ini:",
                 "\\•pizza(\n\tbahan•['']\n\tukuran•#in\n) (\n\tƒ harga() ukuran × 10dollars/in\n)\n\npizza(['pepperoni' 'paprika'] 12in).harga()\\🪲",
-                "Lihat @how kerjanya? Aku mendefinisikan \\Pizza\\, yang punya dua input, \\ingredients\\ (sebuah daftar @Text) dan \\size\\ (sebuah angka dalam inci).",
+                "Lihat cara kerjanya? Aku mendefinisikan \\Pizza\\, yang punya dua input, \\ingredients\\ (sebuah daftar @Text) dan \\size\\ (sebuah angka dalam inci).",
                 "Di dalamnya, @FunctionDefinition membuat fungsi yang menghitung harga sebuah pizza, dengan anggapan $$10 per inci.",
                 "Aku tidak perlu punya @FunctionDefinition di dalamku. Aku bisa hanya berupa input.",
                 "\\•pizza(\n\tingredients•['']\n\tukuran•#in\n)\\",
@@ -1605,14 +1605,14 @@
             "doc": [
                 "$~Aku bekerja dengan @Bind untuk mencatat bahwa sebuah nama adalah @FormattedLiteral @value. Seperti ini:",
                 "\\lapar•`…`: `Aku sangat /keren/!`\\🪲",
-                "Ingin memastikan sesuatu itu nilai @FormattedLiteral? Beginilah @how memastikannya."
+                "Ingin memastikan sesuatu itu nilai @FormattedLiteral? Beginilah cara memastikannya."
             ]
         },
         "ExceptionType": {
             "name": "$~pengecualian",
             "description": "$~pengecualian",
             "emotion": "neutral",
-            "doc": "$~Saya mewakili sebuah pengecualian. Tidak ada @how untuk memberi tahu bind bahwa saya adalah pengecualian, karena pengecualian hanya akan menghentikan @Program, jadi Anda tidak dapat menggunakannya sebagai @value."
+            "doc": "$~Saya mewakili sebuah pengecualian. Tidak ada cara untuk memberi tahu bind bahwa saya adalah pengecualian, karena pengecualian hanya akan menghentikan @Program, jadi Anda tidak dapat menggunakannya sebagai @value."
         },
         "FunctionType": {
             "name": "$~jenis fungsi",
@@ -1630,7 +1630,7 @@
             "doc": [
                 "$~Aku /sangat/ menyukai @List. Aku bisa memberi tahu @Bind jenis list apa mereka! Seperti ini, aku bilang bahwa ini adalah list dari @Number:",
                 "\\benda•[#]: [1 2 3 4 5]\\🪲",
-                "Aku bisa mengatakannya dengan tiga @how berbeda. Jika aku tidak menyebutkan jenis sama sekali, maka sebuah list bisa memiliki panjang berapa pun dan menyimpan apa saja:",
+                "Aku bisa mengatakannya dengan tiga cara berbeda. Jika aku tidak menyebutkan jenis sama sekali, maka sebuah list bisa memiliki panjang berapa pun dan menyimpan apa saja:",
                 "\\barang•[]: [1 'dua' ø]\\🪲",
                 "Jika aku menyebutkan satu jenis, list tetap bisa memiliki panjang berapa pun, tetapi semua di dalamnya harus jenis yang satu itu, seperti list dari @Number di atas.",
                 "Dan jika aku menyebutkan beberapa jenis, artinya sebuah list dengan tepat sejumlah hal itu, dengan satu jenis untuk setiap tempat di dalamnya. Yang ini adalah list dari dua hal: sebuah @Number dulu, lalu beberapa @Text.",

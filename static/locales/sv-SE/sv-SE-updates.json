@@ -1012,6 +1012,11 @@
         "e982ffd8b3a0b": "$~Emojier laddas nu snabbare i Safari, och din webbläsare sparar nu typsnitt mellan besök istället för att hämta dem på nytt.",
         "e2222194ec679": "$~En hur man visar inte längre personen som skrev den två gånger.",
         "ea64e28744d1d": "$~Emojier stöter nu emot saker efter sin form när @Matter ber om en kontur, och text vilar nu på det den rör vid istället för att sjunka in i det. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
-        "effb062f72059": "$~Bokstäver som stöter mot varandra med sin kontur har nu plats inuti sig, så små saker kan studsa runt inuti ett O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "effb062f72059": "$~Bokstäver som stöter mot varandra med sin kontur har nu plats inuti sig, så små saker kan studsa runt inuti ett O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "e05d86cc70d38": "$~Musik får nu spelkontroller som kan vibrera att skaka, så låga toner känns som djupa dunsar och höga toner känns som lätta surrningar. (<1345@https://github.com/wordplaydev/wordplay/issues/1345>)",
+        "ebd63de5a63f1": "$~Skärmläsare och uppläst text läser nu varje ord på sitt eget språk, så ett spanskt ord i en engelsk mening låter spanskt. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
+        "e7914aaea390a": "$~På 13 språk blir vardagliga ord som \"hur\" inte längre av misstag länkar med prickad understrykning.",
+        "ed72c4878ae09": "$~Namn på knappar och inställningar i rundturer och dokumentation använder nu varje språks egna ord i stället för engelska.",
+        "e42e9e3c1d92a": "$~Ord med prickad understrykning visar inte längre lösa symboler framför sig i vissa språk."
     }
 }

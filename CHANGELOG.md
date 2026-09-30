@@ -24,6 +24,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 A how-to no longer lists the person who wrote it twice.
 - 🧲 Emoji now bump into things by their shape when @Matter asks for an outline, and text now rests on what it touches instead of sinking in. (#1435)
 - 🌐 Screen readers and spoken text now read each word in its own language, so a Spanish word inside an English sentence sounds Spanish. (#111)
+- 🌐 Words with a dotted underline no longer show stray symbols in front of them in some languages.
+- 🌐 In 13 languages, everyday words like "how" no longer turn into dotted-underline links by mistake.
+- 🌐 Names of buttons and settings in tours and documentation now use each language's own words instead of English.
 
 ## 0.38.0 - 2026-09-22
 

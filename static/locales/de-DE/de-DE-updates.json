@@ -1012,6 +1012,11 @@
         "e982ffd8b3a0b": "$~Emojis laden jetzt schneller in Safari, und dein Browser behält Schriftarten zwischen Besuchen, statt sie erneut herunterzuladen.",
         "e2222194ec679": "$~Eine Wie-man-Anleitung nennt die Person, die sie geschrieben hat, nicht mehr doppelt.",
         "ea64e28744d1d": "$~Emojis stoßen jetzt anhand ihrer Form an Dinge an, wenn @Matter nach einem Umriss fragt, und Text liegt jetzt auf dem auf, was er berührt, statt einzusinken. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
-        "effb062f72059": "$~Buchstaben, die sich an ihrer Umrisslinie berühren, haben jetzt Platz im Inneren. So können kleine Dinge in einem O herumhüpfen. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "effb062f72059": "$~Buchstaben, die sich an ihrer Umrisslinie berühren, haben jetzt Platz im Inneren. So können kleine Dinge in einem O herumhüpfen. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "e05d86cc70d38": "$~Musik lässt jetzt Spiele-Controller rumpeln, die vibrieren können. Tiefe Töne fühlen sich wie dumpfe Schläge an, hohe Töne wie leichtes Summen. (<1345@https://github.com/wordplaydev/wordplay/issues/1345>)",
+        "ebd63de5a63f1": "$~Bildschirmleser und gesprochener Text lesen jetzt jedes Wort in seiner eigenen Sprache vor. Ein spanisches Wort in einem englischen Satz klingt also spanisch. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
+        "e7914aaea390a": "$~In 13 Sprachen werden alltägliche Wörter wie „wie“ nicht mehr aus Versehen zu Links mit gepunkteter Unterstreichung.",
+        "ed72c4878ae09": "$~Namen von Schaltflächen und Einstellungen in Rundgängen und in der Dokumentation verwenden jetzt die Wörter der jeweiligen Sprache statt Englisch.",
+        "e42e9e3c1d92a": "$~Wörter mit einer gepunkteten Unterstreichung zeigen in manchen Sprachen keine störenden Symbole mehr vor sich."
     }
 }

@@ -640,10 +640,13 @@ export default class Locales {
 
     getTermByID(id: string) {
         // Glossary entries are { word, definition }; the word is the display
-        // term used when an @term reference appears. Iterate entries to look up
-        // by a runtime string id without an unsafe keyof cast.
-        for (const [key, entry] of Object.entries(this.getLocale().glossary))
-            if (key === id) return entry.word;
+        // term used when an @term reference appears. The word is shown to
+        // readers, so its write-status marker must not be, and an unwritten
+        // word falls back like any other string rather than showing blank.
+        for (const locale of this.getLocales())
+            for (const [key, entry] of Object.entries(locale.glossary))
+                if (key === id && !isUnwritten(entry.word))
+                    return withoutAnnotations(entry.word).trim();
         return undefined;
     }
 

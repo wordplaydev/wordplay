@@ -10,7 +10,7 @@ import type Log from '@util/verify-locales/Log';
 export const UsageLineMarker = '[translator-usage] ';
 
 /** One human-readable line for a model's usage, e.g.
- *  "claude-sonnet-5: 412 requests, 1.2M in (94% cached), 310k out ≈ $3.87". */
+ *  "claude-sonnet-5-5: 412 requests, 1.2M in (94% cached), 310k out ≈ $3.87". */
 export function describeUsage(usage: TranslatorUsage): string {
     const count = (n: number): string =>
         n >= 1_000_000

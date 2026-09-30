@@ -37,6 +37,7 @@
  * it in that term's `forms`.
  */
 import { Unwritten } from '@locale/Annotations';
+import { isRevised, isUnwritten } from '@locale/LocaleText';
 import { getGlossaryForms } from '@locale/Glossary';
 import scanLiteralGlossaryTerms from '@locale/glossaryScan';
 import type LocaleText from '@locale/LocaleText';
@@ -45,6 +46,8 @@ import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type { GlossaryWord } from 'shared-types';
 import type Tutorial from '../../tutorial/Tutorial';
 import { must } from '@util/nullable';
+import { splitMarkupAndCode } from '@util/verify-locales/protect';
+import { escapeRegExp } from '@util/verify-locales/markupText';
 
 /**
  * Terms whose word is ordinary English far more often than it is jargon, so a
@@ -107,10 +110,17 @@ const ReferencePattern = /@([\p{L}][\p{L}\p{N}]*)(?:[./][\p{L}\p{N}]+)?/gu;
  * Each locale supplies its own word and `forms`, which is what lets one pass
  * serve 30 languages without translating anything.
  */
-export function getGlossaryWords(locale: LocaleText): GlossaryWord[] {
+export function getGlossaryWords(
+    locale: LocaleText,
+    /** Terms not to link in this locale; see `findHomographTerms`. */
+    suppressed: ReadonlySet<string> = new Set(),
+): GlossaryWord[] {
     const words: GlossaryWord[] = [];
     for (const [id, entry] of Object.entries(locale.glossary)) {
-        if (ExcludedTerms.has(id)) continue;
+        if (ExcludedTerms.has(id) || suppressed.has(id)) continue;
+        // A word queued for translation is about to be replaced, so linking it
+        // now would put the old word's links under the new one.
+        if (isUnwritten(entry.word) || isRevised(entry.word)) continue;
         const word = withoutAnnotations(entry.word).trim();
         if (word.length === 0) continue;
         words.push({ id, word, forms: getGlossaryForms(locale, id) });
@@ -185,8 +195,9 @@ export type GlossaryLinkChange = {
 export function linkGlossaryInTutorial(
     tutorial: Tutorial,
     locale: LocaleText,
+    suppressed?: ReadonlySet<string>,
 ): { tutorial: Tutorial; changes: GlossaryLinkChange[] } {
-    const words = getGlossaryWords(locale);
+    const words = getGlossaryWords(locale, suppressed);
     const changes: GlossaryLinkChange[] = [];
     // Structured clone so a report-only run can compare against the original.
     const revised: Tutorial = structuredClone(tutorial);
@@ -242,11 +253,14 @@ export function linkGlossaryInTutorial(
  * Only `doc` fields: UI labels, conflict explanations, names, and glossary
  * definitions are left alone, the same boundary `linkGlossary.ts` drew.
  */
-export function linkGlossaryInLocale(locale: LocaleText): {
+export function linkGlossaryInLocale(
+    locale: LocaleText,
+    suppressed?: ReadonlySet<string>,
+): {
     locale: LocaleText;
     changes: GlossaryLinkChange[];
 } {
-    const words = getGlossaryWords(locale);
+    const words = getGlossaryWords(locale, suppressed);
     const changes: GlossaryLinkChange[] = [];
     const revised: LocaleText = structuredClone(locale);
 
@@ -279,4 +293,149 @@ export function linkGlossaryInLocale(locale: LocaleText): {
     }
 
     return { locale: revised, changes };
+}
+
+/**
+ * The text of every unit the linker works in — each `doc`, and each tutorial
+ * scene — since a first-use link lands at most once per unit, and so the number
+ * of units a word appears in is the number of links it would get.
+ */
+export function getLinkUnits(
+    locale: LocaleText,
+    tutorials: readonly Tutorial[],
+): string[] {
+    const units: string[] = [];
+    for (const path of getKeyTemplatePairs(locale)) {
+        if (path.key !== 'doc') continue;
+        const value = path.resolve(locale);
+        if (value !== undefined)
+            units.push(Array.isArray(value) ? value.join('\n\n') : value);
+    }
+    for (const tutorial of tutorials)
+        for (const act of tutorial.acts)
+            for (const scene of act.scenes)
+                units.push(
+                    scene.lines
+                        .flatMap((line) =>
+                            Array.isArray(line)
+                                ? line
+                                      .slice(2)
+                                      .filter(
+                                          (paragraph) =>
+                                              typeof paragraph === 'string',
+                                      )
+                                : [],
+                        )
+                        .join('\n\n'),
+                );
+    return units;
+}
+
+/** How many units, per glossary id, use the term — linked or bare. */
+function countTermUnits(
+    locale: LocaleText,
+    units: readonly string[],
+): Map<string, number> {
+    const words = getGlossaryWords(locale);
+    const counts = new Map<string, number>();
+    for (const unit of units) {
+        const used = getLinkedTermIds(unit, words);
+        for (const word of words)
+            if (
+                !used.has(word.id) &&
+                scanLiteralGlossaryTerms(unit, [word]).length > 0
+            )
+                used.add(word.id);
+        for (const id of used) counts.set(id, (counts.get(id) ?? 0) + 1);
+    }
+    return counts;
+}
+
+/** A locale term used in more than this many times as many units as its en-US
+ *  counterpart is almost certainly an everyday word, not the term. */
+export const HomographUnitRatio = 3;
+/** The en-US count is taken as at least this, so a term en-US uses once or
+ *  twice doesn't flag every locale that uses it a handful of times. */
+export const HomographUnitFloor = 5;
+
+/**
+ * The glossary terms whose word, in this locale, is an everyday word — so a
+ * first-use link would land on ordinary prose — with how many units use it
+ * here and in en-US.
+ *
+ * `how` means a how-to guide, and 13 locales translated it as the question word
+ * itself (pt `como`, pl `jak`, tr `nasıl`). The linker then turned the first
+ * "How…?" of hundreds of docs and scenes into `@how`, which reads as the term
+ * and loses the capital. `ExcludedTerms` can't catch this because the word is
+ * fine in English; what gives it away is frequency: en-US uses the term in 2
+ * units and pt-PT's word appears in 205. A flagged term is only left unlinked
+ * and reported. Choosing a better word is a person's call.
+ */
+export function findHomographTerms(
+    source: LocaleText,
+    sourceUnits: readonly string[],
+    target: LocaleText,
+    targetUnits: readonly string[],
+): Map<string, { word: string; locale: number; english: number }> {
+    const english = countTermUnits(source, sourceUnits);
+    const words = new Map(
+        getGlossaryWords(target).map((entry) => [entry.id, entry.word]),
+    );
+    const flagged = new Map<
+        string,
+        { word: string; locale: number; english: number }
+    >();
+    for (const [id, count] of countTermUnits(target, targetUnits)) {
+        const baseline = english.get(id) ?? 0;
+        if (count > HomographUnitRatio * Math.max(baseline, HomographUnitFloor))
+            flagged.set(id, {
+                word: words.get(id) ?? id,
+                locale: count,
+                english: baseline,
+            });
+    }
+    return flagged;
+}
+
+/** Text before a position that puts it at the start of a sentence: the start of
+ *  the text or a line, or sentence-ending punctuation and a space, with any
+ *  opening formatting or quotation in between. */
+const SentenceStart = /(?:^|[\n.!?:։।؟。！？]\s+)[•*_/("«“„¿¡'\s]*$/u;
+
+/**
+ * Put `word` back in place of each `@id` reference in the prose of `text`.
+ *
+ * The undo for a first-use link that landed on an everyday word (see
+ * `findHomographTerms`). A reference renders as the glossary word in lower
+ * case, so the word goes back capitalized where it starts a sentence and lower
+ * case elsewhere; both are right because the words this repairs are ordinary
+ * function words, not names. A `@id/…` how-to link, a `@id.member`, and
+ * anything inside a `\…\` example are left alone.
+ */
+export function unlinkReference(
+    text: string,
+    id: string,
+    word: string,
+    language: string,
+): string {
+    const reference = new RegExp(
+        `(?<![\\p{L}\\p{N}])@${escapeRegExp(id)}(?![\\p{L}\\p{N}])(?![./][\\p{L}\\p{N}])`,
+        'gu',
+    );
+    let before = '';
+    return splitMarkupAndCode(text)
+        .map((segment) => {
+            const start = before;
+            before += segment.text;
+            if (segment.kind === 'code') return segment.text;
+            return segment.text.replace(reference, (_, offset: number) => {
+                const preceding = start + segment.text.slice(0, offset);
+                const [first = '', ...rest] = Array.from(word);
+                const initial = SentenceStart.test(preceding)
+                    ? first.toLocaleUpperCase(language)
+                    : first.toLocaleLowerCase(language);
+                return initial + rest.join('');
+            });
+        })
+        .join('');
 }

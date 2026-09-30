@@ -74,7 +74,7 @@
         },
         "abstraction": {
             "word": "$~abstraksi",
-            "definition": "$~Menyembunyikan rincian agar kamu bisa memakai sesuatu tanpa tahu @how kerjanya di dalam."
+            "definition": "$~Menyembunyikan rincian agar kamu bisa memakai sesuatu tanpa tahu cara kerjanya di dalam."
         },
         "project": {
             "word": "$~proyek",
@@ -89,7 +89,7 @@
             "definition": "$~Bagian besar dari @tutorial, seperti babak dalam sebuah drama."
         },
         "how": {
-            "word": "$~cara",
+            "word": "$~panduan singkat",
             "definition": "$~@guide singkat yang menunjukkan cara melakukan satu hal."
         },
         "gallery": {
