@@ -23,6 +23,7 @@ import { readLocale, writeLocale } from '@util/verify-locales/localeFiles';
 import { getTutorialPath } from '@util/verify-locales/TutorialSchema';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import { unlinkReference } from '@util/verify-locales/glossaryLinks';
+import { escapeRegExp } from '@util/verify-locales/markupText';
 import { TutorialModes } from '../../tutorial/TutorialMode';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
@@ -90,11 +91,18 @@ if (id === undefined || locales.length === 0) {
     process.exit(1);
 }
 
+const english = readLocale(log, 'en-US');
+// Only a term en-US actually defines, so the argument names a glossary id and
+// nothing else; it is escaped below all the same, since it becomes a pattern.
+const glossary = at(english, ['glossary']);
+if (!isRecord(glossary) || !(id in glossary)) {
+    log.bad(`"${id}" is not a glossary term in en-US.`);
+    process.exit(1);
+}
 const linked = new RegExp(
-    `@${id}(?![\\p{L}\\p{N}])(?![./][\\p{L}\\p{N}])`,
+    `@${escapeRegExp(id)}(?![\\p{L}\\p{N}])(?![./][\\p{L}\\p{N}])`,
     'u',
 );
-const english = readLocale(log, 'en-US');
 const englishTutorials = new Map(
     TutorialModes.map((mode) => [
         mode,
