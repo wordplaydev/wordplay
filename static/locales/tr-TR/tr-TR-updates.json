@@ -1012,6 +1012,11 @@
         "e982ffd8b3a0b": "$~Emojiler artık Safari'de daha hızlı yükleniyor. Tarayıcın da yazı tiplerini artık her ziyaretinde yeniden indirmek yerine saklıyor.",
         "e2222194ec679": "$~Bir nasıl artık onu yazan kişiyi iki kez listelemiyor.",
         "ea64e28744d1d": "$~@Matter bir taslak istediğinde emojiler artık şekillerine göre nesnelere çarpıyor, metin ise artık değdiği şeye batmak yerine üzerinde duruyor. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
-        "effb062f72059": "$~Ana hatlarına göre çarpışan harfler artık içlerinde yer bırakıyor, böylece küçük şeyler bir O harfinin içinde zıplayabiliyor. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "effb062f72059": "$~Ana hatlarına göre çarpışan harfler artık içlerinde yer bırakıyor, böylece küçük şeyler bir O harfinin içinde zıplayabiliyor. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "e05d86cc70d38": "$~Müzik artık titreşebilen oyun kollarını sarsıyor. Bu yüzden kalın sesler derin gümbürtüler gibi, ince sesler ise hafif vızıltılar gibi hissedilir. (<1345@https://github.com/wordplaydev/wordplay/issues/1345>)",
+        "ebd63de5a63f1": "$~Ekran okuyucular ve sesli okunan metinler artık her kelimeyi kendi dilinde okuyor. Bu yüzden Türkçe bir cümlenin içindeki İspanyolca bir kelime İspanyolca gibi duyulur. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
+        "e7914aaea390a": "$~13 dilde, \"nasıl\" gibi günlük kelimeler artık yanlışlıkla altı noktalı çizgili bağlantıya dönüşmüyor.",
+        "ed72c4878ae09": "$~Turlardaki ve dokümantasyondaki düğme ve ayar adları artık İngilizce yerine her dilin kendi kelimelerini kullanıyor.",
+        "e42e9e3c1d92a": "$~Altı noktalı çizgili kelimelerin önünde artık bazı dillerde başıboş semboller görünmüyor."
     }
 }

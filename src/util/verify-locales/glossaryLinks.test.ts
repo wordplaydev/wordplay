@@ -2,10 +2,13 @@ import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import {
     ExcludedTerms,
+    findHomographTerms,
     getGlossaryWords,
     getLinkedTermIds,
     linkFirstUse,
+    linkGlossaryInLocale,
     linkGlossaryInTutorial,
+    unlinkReference,
 } from '@util/verify-locales/glossaryLinks';
 import { expect, test } from 'vitest';
 import { isDialog, type Dialog, type Tutorial } from '../../tutorial/Tutorial';
@@ -140,4 +143,108 @@ test('leaves an example nested inside markup alone', () => {
     // delimiters around `'code'` and exposes it; linking there put `@code`
     // inside a code example and broke it in 26 locales.
     expect(link("I can be:\n\\`\\'code'\\`\\")).toBeUndefined();
+});
+
+/** en-US with `how` given a different word, as a translation might. */
+function withHowWord(word: string): LocaleText {
+    return {
+        ...DefaultLocale,
+        glossary: {
+            ...DefaultLocale.glossary,
+            how: { ...DefaultLocale.glossary.how, word },
+        },
+    };
+}
+
+test('a glossary word that is an everyday word in its locale is flagged', () => {
+    // pt-PT translated "how-to" as "como", which is also "how", "as", and "like".
+    const portuguese = withHowWord('como');
+    const units = Array.from({ length: 20 }, (_, index) =>
+        index % 2 === 0 ? 'Como funciona?' : 'Tão simples como isso.',
+    );
+    const flagged = findHomographTerms(
+        DefaultLocale,
+        ['Read the how-to.'],
+        portuguese,
+        units,
+    );
+    expect(flagged.get('how')).toEqual({
+        word: 'como',
+        locale: 20,
+        english: 1,
+    });
+});
+
+test('a term used about as often as in en-US is not flagged', () => {
+    expect(
+        findHomographTerms(
+            DefaultLocale,
+            ['A stream.', 'Another stream.'],
+            DefaultLocale,
+            ['A stream.', 'Another stream.', 'A third stream.'],
+        ).has('stream'),
+    ).toBe(false);
+});
+
+test('a suppressed term is never linked', () => {
+    const portuguese = withHowWord('como');
+    portuguese.node = structuredClone(DefaultLocale.node);
+    portuguese.node.Paragraph.doc = ['Como funciona?'];
+    // Unguarded, this is exactly the damage: the question word becomes the term.
+    expect(linkGlossaryInLocale(portuguese).locale.node.Paragraph.doc).toEqual([
+        '@how funciona?',
+    ]);
+    const { locale } = linkGlossaryInLocale(portuguese, new Set(['how']));
+    expect(locale.node.Paragraph.doc).toEqual(['Como funciona?']);
+});
+
+test('a glossary word queued for translation is never linked', () => {
+    expect(
+        getGlossaryWords(withHowWord('$!como')).some(({ id }) => id === 'how'),
+    ).toBe(false);
+});
+
+test('unlinking restores the word, capitalized where a sentence starts', () => {
+    expect(
+        unlinkReference('@how nos faz? Apenas isso.', 'how', 'como', 'pt'),
+    ).toBe('Como nos faz? Apenas isso.');
+    expect(
+        unlinkReference(
+            'Tão simples @how criar. @how funciona?',
+            'how',
+            'como',
+            'pt',
+        ),
+    ).toBe('Tão simples como criar. Como funciona?');
+});
+
+test('unlinking lowers a capitalized word mid-sentence', () => {
+    expect(
+        unlinkReference(
+            'ich weiß nur, @how Funktionen auswertet',
+            'how',
+            'Wie man',
+            'de',
+        ),
+    ).toBe('ich weiß nur, wie man Funktionen auswertet');
+});
+
+test('unlinking leaves how-to links, members, and examples alone', () => {
+    expect(
+        unlinkReference(
+            'See @how/add-image and \\@how\\.',
+            'how',
+            'como',
+            'pt',
+        ),
+    ).toBe('See @how/add-image and \\@how\\.');
+    expect(unlinkReference('@howto is not @how.', 'how', 'jak', 'pl')).toBe(
+        '@howto is not jak.',
+    );
+});
+
+test('unlinking a caseless script restores the word as is', () => {
+    expect(unlinkReference('@how 만드나요?', 'how', '어떻게', 'ko')).toBe(
+        '어떻게 만드나요?',
+    );
 });

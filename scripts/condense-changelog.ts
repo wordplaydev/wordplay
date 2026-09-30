@@ -47,7 +47,7 @@ const log: Log = new Log(false);
 /** Opus rather than the default Sonnet: this is editing published prose with
  *  judgment about what may be dropped, which is the case CLAUDE.md reserves the
  *  repair model for. The whole pass is under a dollar either way. */
-const MODEL = 'claude-opus-4-8';
+const MODEL = 'claude-opus-5-5';
 const MAX_TOKENS = 16000;
 
 /** Gitignored, and in the repo rather than a temp dir so the review file opens
@@ -189,7 +189,12 @@ async function condenseChunk(bodies: string[]): Promise<Reply[] | undefined> {
                     cache_control: { type: 'ephemeral' },
                 },
             ],
-            output_config: { format: { type: 'json_schema', schema: SCHEMA } },
+            output_config: {
+                format: { type: 'json_schema', schema: SCHEMA },
+                // Opus 5.5 always thinks; stated so the editorial judgment this
+                // pass needs doesn't drift with the model's default.
+                effort: 'medium',
+            },
             messages: [
                 {
                     role: 'user',

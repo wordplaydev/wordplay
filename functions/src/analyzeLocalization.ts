@@ -10,7 +10,7 @@ import type {
 } from 'shared-types';
 import { PLAIN_LANGUAGE_GUIDANCE } from './shared/readingLevel.js';
 
-const MODEL = 'claude-opus-4-8';
+const MODEL = 'claude-opus-5-5';
 const MAX_TOKENS = 16000;
 /** Strings per request, to bound tokens on large bundles. */
 const CHUNK_SIZE = 40;
@@ -203,6 +203,10 @@ export async function analyze(
                 ],
                 output_config: {
                     format: { type: 'json_schema', schema: SCHEMA },
+                    // Opus 5.5 always thinks; low effort keeps a callable
+                    // someone is waiting on inside its output budget and near
+                    // its old latency.
+                    effort: 'low',
                 },
                 messages: [
                     {

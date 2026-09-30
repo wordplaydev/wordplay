@@ -74,7 +74,7 @@
         },
         "abstraction": {
             "word": "$~abstrakcja",
-            "definition": "$~Ukrywanie szczegółów, abyś mógł czegoś używać, nie wiedząc, @how działa w środku."
+            "definition": "$~Ukrywanie szczegółów, abyś mógł czegoś używać, nie wiedząc, jak działa w środku."
         },
         "project": {
             "word": "$~projekt",
@@ -89,7 +89,7 @@
             "definition": "$~Duża część samouczka @tutorial, jak akt w sztuce teatralnej."
         },
         "how": {
-            "word": "$~jak",
+            "word": "$~poradnik",
             "definition": "$~Krótki @guide, który pokazuje, jak zrobić jedną rzecz."
         },
         "gallery": {

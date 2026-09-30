@@ -133,7 +133,7 @@
         "project": {
             "label": "$~proiect",
             "defaults": {
-                "starterCode": "$~¶Bun venit la proiectul tău gol! Acesta este un comentariu. Îl poți folosi pentru a descrie proiectul tău, a lua notițe și a explica ce vrei ca oamenii să știe despre munca ta. Acceptă *bold*, /italic/,<links@https://wordplay.dev> și mai multe.¶ Expresie('hi')"
+                "starterCode": "$~¶Bun venit la proiectul tău gol! Acesta este un comentariu. Îl poți folosi pentru a descrie proiectul tău, a lua notițe și a explica ce vrei ca oamenii să știe despre munca ta. Acceptă *bold*, /cursive/,<links@https://wordplay.dev> și mai multe.¶ Expresie('hi')"
             },
             "error": {
                 "unknown": "$~Acest proiect nu există sau nu aveți acces la el.",
@@ -267,7 +267,7 @@
             "tour": {
                 "launch": "$~faceți un tur al controalelor proiectului",
                 "controls": "$~Aceste /comenzi/ din partea de jos se aplică întregului *proiect*, indiferent de dala în care lucrați.",
-                "name": "$~Câmpul /name/ este numele proiectului tău. Numele apar în vizualizările *project* și *gallery*.",
+                "name": "$~Câmpul /nume/ este numele proiectului tău. Numele apar în vizualizările *project* și *gallery*.",
                 "sourceToggle": "$~Această /comutare/ afișează sau ascunde *fișierul sursă*. *Celelalte comenzi* de pe acest rând fac același lucru și pentru celelalte plăci.",
                 "addSource": "$~Unele proiecte au nevoie de *mai multe* fișiere sursă, unde datele sunt păstrate într-unul și importate în sursa *principală*. Butonul /adaugă sursă/ oferă moduri de a face unul: un fișier gol, o poză, un cântec sau niște date.",
                 "share": "$~Caseta de dialog /share/ vă permite să partajați proiectul cu *galerii*, cu *publicul* sau să îl copiați ca *text* pentru a-l partaja în altă parte.",
@@ -1459,9 +1459,9 @@
             "tour": {
                 "launch": "$~faceți un tur al ghidului",
                 "guide": "$~/Ghidul/ conține *documentație* pentru toate conceptele și *capacitățile* limbajului de programare @wordplay.",
-                "code": "$~Aceasta este secțiunea /code/. Conține documentația *limbajului de programare* — elementele constitutive pe care le puteți combina pentru a crea programe.",
+                "code": "$~Aceasta este secțiunea /cod/. Conține documentația *limbajului de programare* — elementele constitutive pe care le puteți combina pentru a crea programe.",
                 "howto": "$~Aceasta este secțiunea /cum-se/. Conține *modele utile* pentru obținerea anumitor comportamente în proiectele tale.",
-                "mode": "$~Folosește acest buton /toggle/ pentru a comuta între secțiunile *code* și *cum să*.",
+                "mode": "$~Folosește acest buton /comutare/ pentru a comuta între secțiunile *code* și *cum să*.",
                 "search": "$~Caseta /căutare/ este utilă pentru *descoperirea* funcțiilor sau pentru găsirea rapidă a uneia *după nume*."
             },
             "breadcrumb": {
@@ -1495,7 +1495,7 @@
                         "explanation": "$~Aceasta este mica glifă care reprezintă proiectul tău în liste și galerii. Alege automat una în funcție de ceea ce afișează proiectul tău; opțiunea Personalizat îți permite să fixezi un singur caracter sau emoji."
                     },
                     "remix": {
-                        "explanation": "$~Un /remix/ este o copie a unui proiect pe care cineva a schimbat-o pentru a o face a sa. Ținem minte de unde vine un remix, așa că persoana care a făcut originalul primește în continuare credit."
+                        "explanation": "$~Un /remixa/ este o copie a unui proiect pe care cineva a schimbat-o pentru a o face a sa. Ținem minte de unde vine un remix, așa că persoana care a făcut originalul primește în continuare credit."
                     },
                     "research": {
                         "header": "$~Cercetare",

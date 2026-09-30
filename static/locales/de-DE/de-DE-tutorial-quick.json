@@ -40,7 +40,7 @@
                             "$~In anderen Sprachen ist eine @variable ein benannter Behälter für einen value, und sein Wert kann sich ändern:",
                             "\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
                             "$~In @wordplay können sich benannte Werte nie ändern. Sie sind 'unveränderlich', das heißt, ihnen können keine neuen Werte zugewiesen werden. Deshalb nennen wir sie @Bind statt variable, weil sie nicht variieren können.",
-                            "$~Wir sprechen bald darüber, @how interaktive Programme ohne veränderbare variable schreibt."
+                            "$~Wir sprechen bald darüber, wie man interaktive Programme ohne veränderbare variable schreibt."
                         ]
                     ]
                 },

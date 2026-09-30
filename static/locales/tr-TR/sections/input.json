@@ -73,7 +73,7 @@
                 "/tık tık/",
                 "Bunu dene",
                 "\\Anahtar()\\",
-                "Bir tuşa bastığında, tuşun @Stage üzerinde @how belirdiğini görüyor musun? Bir tuşa her basıldığında, akışa basılan tuşu anlatan yeni bir @Text eklenir.",
+                "Bir tuşa bastığında, tuşun @Stage üzerinde nasıl belirdiğini görüyor musun? Bir tuşa her basıldığında, akışa basılan tuşu anlatan yeni bir @Text eklenir.",
                 "Bir karakteri temsil eden bir tuş için, @value o karakter olarak @Text biçiminde olur.",
                 "Özel tuşlar için, örneğin /Escape/ tuşu için, o tuşu anlatan bir @Text olur. Bunun için <önceden tanımlı bir isim@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values> kullanılır. Ne yazık ki bu isim yalnızca İngilizce mevcuttur.",
                 "Sadece belirli bir tuşu öğrenmek istiyorsan, onu verebilirsin:",
@@ -301,7 +301,7 @@
                 "Ona başlangıçta bir @Phrase veriyorsunuz ve ardından yerçekimine bağlı olarak yeni bir konum ve dönüşle onu iyileştiriyor.",
                 "Bu sayede zıplayan emoji oluşturmak gibi gerçekten basit şeyler yapabilirsiniz:",
                 "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
-                "\"O\" harfinin @how zıpladığını görüyor musunuz? İlk değerlendirmede, ona @Stage üzerinde yüksek bir yer veriyorsunuz, ancak daha sonra @None alıyorsunuz; bu da @Motion onu yerçekiminin yerleştireceği herhangi bir konuma değiştirmesine olanak tanıyor.",
+                "\"O\" harfinin nasıl zıpladığını görüyor musunuz? İlk değerlendirmede, ona @Stage üzerinde yüksek bir yer veriyorsunuz, ancak daha sonra @None alıyorsunuz; bu da @Motion onu yerçekiminin yerleştireceği herhangi bir konuma değiştirmesine olanak tanıyor.",
                 "Aşağıda, yapılandırmanın diğer birçok yoluna göz atabilirsiniz."
             ],
             "names": ["$~Hareket"],
@@ -336,7 +336,7 @@
                 "$~İzleyicinin @Output öğesini @Stage üzerindeki bir @Place konumuna sürüklemesine olanak tanır.",
                 "@Stage üzerine @Output yerleştirmenin birçok yolu vardır: onlara açık bir @Place ver, @Motion kullan ve yer çekiminin işini yapmasına izin ver, ya da düzenlenmeleri için onları bir @Group içine koy.",
                 "Ama bazen @Output öğesinin @Stage üzerinde nereye gideceğini /izleyicinin/ kontrol etmesini istersin.",
-                "İşte @how çalıştığı: bir @Placement oluştur ve onu bir @Output öğesinin @Place değerine ver:",
+                "İşte nasıl çalıştığı: bir @Placement oluştur ve onu bir @Output öğesinin @Place değerine ver:",
                 "\\İfadeetmek('merhaba' yer: Atama())\\",
                 "Sonra, izleyici bir ok @key tuşunu kullandığında ya da sahnede tıkladığında veya dokunduğunda, @Placement istenen yönde hareket eden yeni bir @Place oluşturur.",
                 "Bunu programına kopyalamayı ve @Output öğesini işaretçi ya da klavyeyle hareket ettirmeyi dene.",
@@ -561,7 +561,7 @@
                 "@Now.timezone ve @Now.calendar özelliklerim @Moment'in girdilerini yansıtır ve oluşturduğum anları yapılandırır. Örneğin, Japon takvimine göre Tokyo'daki şu anki saati gösteren bir saat burada:",
                 "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
                 "Bu girdiler değişirse — diyelim ki bir tepki bana farklı bir saat dilimi verir — yeni ayarlarla anlar oluşturmaya başlarım.",
-                "@Time'dan @how farklıyım? @Time bir program başladığından beri geçen milisaniyeleri sayar, bu animasyon için iyidir. Ben sana bir takvim ve saat diliminde duvar saati tarihini ve saatini söylerim, bu saatler ve takvimler için iyidir."
+                "@Time'dan nasıl farklıyım? @Time bir program başladığından beri geçen milisaniyeleri sayar, bu animasyon için iyidir. Ben sana bir takvim ve saat diliminde duvar saati tarihini ve saatini söylerim, bu saatler ve takvimler için iyidir."
             ],
             "names": ["$~Şimdi"],
             "frequency": {

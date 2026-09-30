@@ -40,7 +40,7 @@
                             "$~I andra @language är en *variabel* en namngiven behållare för ett @value, och dess värde kan ändras:",
                             "\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
                             "$~I @wordplay kan namngivna värden aldrig ändras. De är 'oföränderliga', vilket betyder att de inte kan tilldelas nya värden. Därför kallar vi dem @Bind istället för @variable, eftersom de inte kan variera.",
-                            "$~Vi pratar snart om @how skriver interaktiva program utan variabler som kan ändras."
+                            "$~Vi pratar snart om hur man skriver interaktiva program utan variabler som kan ändras."
                         ]
                     ]
                 },

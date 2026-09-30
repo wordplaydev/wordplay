@@ -806,7 +806,7 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Ich neige mich hin und her um den Mittelpunkt eines @Output, wie etwas, das in einer leichten Brise hängt. Ich bin eine gute Ruhe-Animation, denn ein kleiner /angle/ wirkt „lebendig“, ohne Aufmerksamkeit auf sich zu ziehen.",
+                        "$~Ich neige mich hin und her um den Mittelpunkt eines @Output, wie etwas, das in einer leichten Brise hängt. Ich bin eine gute Ruhe-Animation, denn ein kleiner /Winkel/ wirkt „lebendig“, ohne Aufmerksamkeit auf sich zu ziehen.",
                         "\\💬('🐈' Ruhen: 💃.wiegen(10°))\\"
                     ],
                     "names": ["$~wiegen"],
@@ -817,7 +817,7 @@
                 },
                 "bounce": {
                     "doc": [
-                        "$~Ich lasse ein @Output bis zur /height/ hüpfen und wieder landen, wobei es sich beim Auf und Ab etwas staucht. Gib mir ein @Phrase, das gerade angekommen ist, und ich lasse es sich schwer anfühlen.",
+                        "$~Ich lasse ein @Output bis zur /Höhe/ hüpfen und wieder landen, wobei es sich beim Auf und Ab etwas staucht. Gib mir ein @Phrase, das gerade angekommen ist, und ich lasse es sich schwer anfühlen.",
                         "\\💬('🐈' Ruhen: 💃.hüpfen(3m))\\"
                     ],
                     "names": ["$~hüpfen"],
@@ -863,7 +863,7 @@
                 },
                 "pulse": {
                     "doc": [
-                        "$~Ich skaliere ein @Output einmal bis zu /amount/ hoch und wieder herunter. Ich bin die leiseste Art zu sagen „schau hier“, ohne etwas zu verschieben.",
+                        "$~Ich skaliere ein @Output einmal bis zu /Menge/ hoch und wieder herunter. Ich bin die leiseste Art zu sagen „schau hier“, ohne etwas zu verschieben.",
                         "\\💬('🐈' Ruhen: 💃.Impuls(1.2))\\"
                     ],
                     "names": ["$~Impuls"],
@@ -874,7 +874,7 @@
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Ich gebe zwei schnelle Skalier-Schläge und ruhe dann, im Rhythmus eines Herzschlags. Ich bin dringlicher als der /pulse/ von @Sequence und natürlicher als /flash/.",
+                        "$~Ich gebe zwei schnelle Skalier-Schläge und ruhe dann, im Rhythmus eines Herzschlags. Ich bin dringlicher als der /Impuls/ von @Sequence und natürlicher als /Blitz/.",
                         "\\💬('🐈' Ruhen: 💃.Herzschlag(1.4 1s))\\"
                     ],
                     "names": ["$~Herzschlag"],
@@ -908,21 +908,21 @@
                 "flash": {
                     "doc": [
                         "$~Ich lasse ein @Output zweimal zwischen sichtbar und unsichtbar blinken und blende dabei aus. Ich bin schwer zu übersehen — was auch heißt, ich bin schwer zu ignorieren, also nutze mich sparsam.",
-                        "Ich blitze schnell, daher könnte mich ein Zuschauer, der empfindlich auf Blinken reagiert, unangenehm finden. Verlangsame mich mit einer längeren /duration/, wenn ich mich wiederholen soll.",
+                        "Ich blitze schnell, daher könnte mich ein Zuschauer, der empfindlich auf Blinken reagiert, unangenehm finden. Verlangsame mich mit einer längeren /Dauer/, wenn ich mich wiederholen soll.",
                         "\\💬('🐈' Ruhen: 💃.Blitz(1s))\\"
                     ],
                     "names": ["$~Blitz"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Ich lasse ein @Output aus dem Nichts auf volle Größe wachsen. Anders als /popup/ schieße ich nicht über — ich bin die schlichtere, ruhigere Ankunft.",
+                        "$~Ich lasse ein @Output aus dem Nichts auf volle Größe wachsen. Anders als /aufspringen/ schieße ich nicht über — ich bin die schlichtere, ruhigere Ankunft.",
                         "\\💬('🐈' Eingabe: 💃.zoomen(0.5s))\\"
                     ],
                     "names": ["$~zoomen"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Ich blende ein @Output ein und lasse es dabei von /distance/ unten an seinen Platz gleiten.",
+                        "$~Ich blende ein @Output ein und lasse es dabei von /Abstand/ unten an seinen Platz gleiten.",
                         "\\💬('🐈' Eingabe: 💃.Einblenden(2m))\\"
                     ],
                     "names": ["$~Einblenden"],
@@ -933,7 +933,7 @@
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Ich blende ein @Output ein und lasse es dabei von /distance/ oben an seinen Platz gleiten.",
+                        "$~Ich blende ein @Output ein und lasse es dabei von /Abstand/ oben an seinen Platz gleiten.",
                         "\\💬('🐈' Eingabe: 💃.einblendenunten(2m))\\"
                     ],
                     "names": ["einblendenunten"],
@@ -944,7 +944,7 @@
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Ich blende ein @Output ein und lasse es dabei von /distance/ links nach rechts an seinen Platz gleiten.",
+                        "$~Ich blende ein @Output ein und lasse es dabei von /Abstand/ links nach rechts an seinen Platz gleiten.",
                         "\\💬('🐈' Eingabe: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
@@ -955,7 +955,7 @@
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Ich lasse ein @Output einblenden und schiebe es dabei von /distance/ rechts an seinen Platz nach links.",
+                        "$~Ich lasse ein @Output einblenden und schiebe es dabei von /Abstand/ rechts an seinen Platz nach links.",
                         "\\💬('🐈' Eingabe: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
@@ -966,7 +966,7 @@
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Ich drehe ein @Output an seinen Platz und blende es dabei ein. Es beginnt um /angle/ gedreht und endet aufrecht.",
+                        "$~Ich drehe ein @Output an seinen Platz und blende es dabei ein. Es beginnt um /Winkel/ gedreht und endet aufrecht.",
                         "\\💬('🐈' Eingabe: 💃.Drehung(180°))\\"
                     ],
                     "names": ["$~Drehung"],
@@ -984,7 +984,7 @@
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach oben.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /Abstand/ nach oben.",
                         "\\💬('🐈' Ausstieg: 💃.ausblendenoben(2m))\\"
                     ],
                     "names": ["ausblendenoben"],
@@ -995,7 +995,7 @@
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach unten.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /Abstand/ nach unten.",
                         "\\💬('🐈' Ausstieg: 💃.ausblendenunten(2m))\\"
                     ],
                     "names": ["ausblendenunten"],
@@ -1006,7 +1006,7 @@
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach links.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /Abstand/ nach links.",
                         "\\💬('🐈' Ausstieg: 💃.Ausblendennachlinks(2m))\\"
                     ],
                     "names": ["$~Ausblendennachlinks"],
@@ -1017,7 +1017,7 @@
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach rechts.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /Abstand/ nach rechts.",
                         "\\💬('🐈' Ausstieg: 💃.ausblendenrechts(2m))\\"
                     ],
                     "names": ["ausblendenrechts"],
@@ -1028,7 +1028,7 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Ich drehe ein @Output weg und blende es dabei aus. Es endet um /angle/ gedreht.",
+                        "$~Ich drehe ein @Output weg und blende es dabei aus. Es endet um /Winkel/ gedreht.",
                         "\\💬('🐈' Ausstieg: 💃.ausdrehen(180°))\\"
                     ],
                     "names": ["$~ausdrehen"],
@@ -1040,14 +1040,14 @@
                 "rainbow": {
                     "doc": [
                         "$~Ich lasse ein @Output durch jeden Farbton des Regenbogens laufen und zurück zum Anfang.",
-                        "Ich wechsle die Farbe schnell. Für jemanden, der auf Blinken empfindlich reagiert, kann das unangenehm sein. Eine längere /duration/ macht mich viel sanfter.",
+                        "Ich wechsle die Farbe schnell. Für jemanden, der auf Blinken empfindlich reagiert, kann das unangenehm sein. Eine längere /Dauer/ macht mich viel sanfter.",
                         "\\💬('🐈' Ruhen: 💃.Regenbogen(3s))\\"
                     ],
                     "names": ["$~Regenbogen"]
                 },
                 "swing": {
                     "doc": [
-                        "$~Ich lasse ein @Output wie ein Pendel schwingen, bis zu /angle/ nach außen und dann in immer kleineren Bögen zurück, bis es zur Ruhe kommt. Anders als /sway/ komme ich zur Ruhe.",
+                        "$~Ich lasse ein @Output wie ein Pendel schwingen, bis zu /Winkel/ nach außen und dann in immer kleineren Bögen zurück, bis es zur Ruhe kommt. Anders als /wiegen/ komme ich zur Ruhe.",
                         "\\💬('🐈' Ruhen: 💃.schwingen(20°))\\"
                     ],
                     "names": ["$~schwingen"],
@@ -1058,7 +1058,7 @@
                 },
                 "blink": {
                     "doc": [
-                        "$~Ich schalte ein @Output aus und wieder an, ohne Überblenden dazwischen, so wie ein Cursor blinkt. /flash/ blendet über; ich schalte hart um.",
+                        "$~Ich schalte ein @Output aus und wieder an, ohne Überblenden dazwischen, so wie ein Cursor blinkt. /Blitz/ blendet über; ich schalte hart um.",
                         "\\💬('🐈' Ruhen: 💃.blinzeln(1s))\\"
                     ],
                     "names": ["$~blinzeln"]
@@ -1076,7 +1076,7 @@
                 },
                 "dim": {
                     "doc": [
-                        "$~Ich lasse ein @Output bis zu /amount/ schwächer werden und wieder voll erscheinen, ohne es je zu verstecken. Ich zeige, dass etwas wartet oder gerade nicht aktiv ist.",
+                        "$~Ich lasse ein @Output bis zu /Menge/ schwächer werden und wieder voll erscheinen, ohne es je zu verstecken. Ich zeige, dass etwas wartet oder gerade nicht aktiv ist.",
                         "\\💬('🐈' Ruhen: 💃.abdunkeln(20% 2s))\\"
                     ],
                     "names": ["$~abdunkeln"],
@@ -1109,7 +1109,7 @@
                 },
                 "float": {
                     "doc": [
-                        "$~Ich lasse ein @Output langsam um /distance/ nach oben und wieder nach unten schweben. Gib mir eine lange /duration/, und ich lasse etwas schwerelos aussehen.",
+                        "$~Ich lasse ein @Output langsam um /Abstand/ nach oben und wieder nach unten schweben. Gib mir eine lange /Dauer/, und ich lasse etwas schwerelos aussehen.",
                         "\\💬('🐈' Ruhen: 💃.schweben(0.5m 3s))\\"
                     ],
                     "names": ["$~schweben"],
@@ -1120,7 +1120,7 @@
                 },
                 "drift": {
                     "doc": [
-                        "$~Ich lasse ein @Output langsam um /distance/ zur Seite und wieder zurück schweben. Ich bin /float/, aber seitwärts.",
+                        "$~Ich lasse ein @Output langsam um /Abstand/ zur Seite und wieder zurück schweben. Ich bin /schweben/, aber seitwärts.",
                         "\\💬('🐈' Ruhen: 💃.treiben(0.5m 3s))\\"
                     ],
                     "names": ["$~treiben"],
@@ -1142,7 +1142,7 @@
                 },
                 "glow": {
                     "doc": [
-                        "$~Ich mache ein @Output heller in Richtung /color/ und lasse es wieder verblassen, wie etwas, das sich erwärmt und wieder abkühlt. Anders als /rainbow/ bleibe ich in einem Farbton.",
+                        "$~Ich mache ein @Output heller in Richtung /Farbe/ und lasse es wieder verblassen, wie etwas, das sich erwärmt und wieder abkühlt. Anders als /Regenbogen/ bleibe ich in einem Farbton.",
                         "\\💬('🐈' Ruhen: 💃.leuchten(🌈.orange 2s))\\"
                     ],
                     "names": ["$~leuchten"],

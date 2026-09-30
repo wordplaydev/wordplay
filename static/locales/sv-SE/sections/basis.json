@@ -5,7 +5,7 @@
             "doc": [
                 "$~Vi är \\⊤\\ och \\⊥\\. \\⊤\\ är sant. \\⊥\\ är falskt. \\⊤\\ är inte \\⊥\\; \\⊥\\ är inte \\⊤\\. Så här är det.",
                 "Hur gör du oss? Bara \\⊤\\ och \\⊥\\, inget mer, inget mindre.",
-                "Vissa använder tangentbordet (/ctrl+9/ för \\⊤\\ och /ctrl+0/ för \\⊥\\). Vissa använder teckensökningen längst ner i editorn. Eller så kan du dra oss härifrån.",
+                "Vissa skriver oss med en kortkommandotangent; listan /genvägar/ visar vilka tangenter och låter dig ändra dem. Vissa använder knapparna och teckensökningen längst ned i @editor. Eller så kan du dra oss härifrån.",
                 "Kolla in vår @FunctionDefinition nedan. De är väldigt logiska."
             ],
             "name": ["$~⊤⊥", "$~Boolean"],
@@ -1576,7 +1576,7 @@
                 "\\{1:1 2:2 3:3}\\",
                 "Men säg att du vill vara säker på att det bara var precis dessa värden; lägg bara till ! i slutet av mig, så generaliserar jag inte. Det hjälper dig att veta om du försöker hämta ett värde du inte tänkte dig.",
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
-                "Jag vet @how gör många underbara saker med mina par."
+                "Jag vet hur man gör många underbara saker med mina par."
             ],
             "name": ["$~Karta"],
             "key": "$~Nyckel",

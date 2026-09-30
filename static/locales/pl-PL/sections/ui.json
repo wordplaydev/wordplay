@@ -267,7 +267,7 @@
             "tour": {
                 "launch": "$~obejrzyj sterowanie projektem",
                 "controls": "$~Te /elementy sterujące/ na dole dotyczą *całego projektu*, niezależnie od tego, w którym kafelku pracujesz.",
-                "name": "$~Pole /name/ to nazwa twojego projektu. Nazwy pokazują się w widokach *projektu* i *galerii*.",
+                "name": "$~Pole /nazwa/ to nazwa twojego projektu. Nazwy pokazują się w widokach *projektu* i *galerii*.",
                 "sourceToggle": "$~Ten przełącznik pokazuje lub ukrywa *plik źródłowy*. *Pozostałe przełączniki* w tym wierszu działają tak samo dla pozostałych kafelków.",
                 "addSource": "$~Niektóre projekty korzystają z *wielu* plików źródłowych, gdzie dane są przechowywane w jednym, a potem wczytywane do *głównego* źródła. Przycisk /dodaj źródło/ pokazuje sposoby, jak je zrobić: pusty plik, zdjęcie, piosenkę albo dane.",
                 "share": "$~Okno dialogowe /share/ umożliwia udostępnianie projektu w *galeriach*, *publicznie* lub kopiowanie go jako *tekst* w celu udostępnienia gdzie indziej.",
@@ -775,10 +775,10 @@
             },
             "tour": {
                 "launch": "$~zwiedzić scenę",
-                "stage": "$~Zmienna /stage/ pokazuje *bieżącą wartość* Twojego programu. Ta wartość może być *surową wartością*, taką jak liczba lub lista, *wynikiem wizualnym*, który możesz zobaczyć, a nawet *dźwiękiem*, który możesz usłyszeć.",
+                "stage": "$~Zmienna /Scena/ pokazuje *bieżącą wartość* Twojego programu. Ta wartość może być *surową wartością*, taką jak liczba lub lista, *wynikiem wizualnym*, który możesz zobaczyć, a nawet *dźwiękiem*, który możesz usłyszeć.",
                 "reset": "$~Przycisk /resetuj/ rozpoczyna wykonywanie twojego programu od *początku*, w każdym trybie: w trybie ▶️ *odtwarzania* program działa znowu od góry, w trybie ✏️ *edycji* zatrzymuje się po pierwszym wykonaniu, więc widzisz wpływ swoich zmian na początkowy wynik, a w trybie ⏸️ *debugowania* zatrzymuje się na samym pierwszym kroku.",
                 "zoom": "$~Przyciski /zoom/ umożliwiają przybliżanie i oddalanie sceny, dzięki czemu możesz zobaczyć swoje wyniki wyraźniej i bardziej szczegółowo.",
-                "grid": "$~Przycisk /grid/ wyświetla na scenie *siatkę*, która ułatwia precyzyjne rozmieszczanie elementów podczas projektowania.",
+                "grid": "$~Przycisk /Siatka/ wyświetla na scenie *siatkę*, która ułatwia precyzyjne rozmieszczanie elementów podczas projektowania.",
                 "lock": "$~Przycisk /lock/ blokuje widok sceny. Po *zablokowaniu* scena pozostaje nieruchoma; po *odblokowaniu* możesz swobodnie przesuwać i powiększać.",
                 "animationSpeed": "$~Kontrolka /szybkość animacji/ ustawia szybkość odtwarzania animacji. Tę samą kontrolkę znajdziesz w *ustawieniach*, więc możesz ją zmienić z dowolnego miejsca."
             },
@@ -1189,7 +1189,7 @@
                 "launch": "$~weź udział w wycieczce z przewodnikiem",
                 "guide": "$~/Przewodnik/ zawiera *dokumentację* wszystkich koncepcji i *możliwości* *języka programowania* @wordplay.",
                 "mode": "$~Użyj tego przełącznika /toggle/, aby samodzielnie przełączać się pomiędzy sekcją *kodu* a sekcją *jak to zrobić*.",
-                "search": "$~Pole wyszukiwania /search/ jest przydatne do *odkrywania* funkcji lub szybkiego znajdowania ich *po nazwie*.",
+                "search": "$~Pole wyszukiwania /szukaj/ jest przydatne do *odkrywania* funkcji lub szybkiego znajdowania ich *po nazwie*.",
                 "code": "$~To jest sekcja /code/. Zawiera dokumentację *języka programowania* — elementy składowe, które można łączyć, aby tworzyć programy.",
                 "howto": "$~To jest sekcja /jak-zrobić/. Zawiera *przydatne wzorce* do osiągnięcia określonych zachowań w Twoich projektach."
             },
@@ -2029,7 +2029,7 @@
                 "launch": "$~obejrzyj paletę barw",
                 "palette": "$~Możesz użyć /palety/, aby edytować *frazy*, *grupy* i *scenę* w trybie ✏️ *edycji*; w innych trybach jej elementy sterujące są tylko do odczytu, a w trybie ⏸️ *debugowania* każda właściwość pokazuje też swoją *bieżącą wartość*.",
                 "text": "$~Tutaj można edytować wszystkie /właściwości/ frazy. To jest *tekst* frazy, ale inne właściwości mają własne kontrolki.",
-                "set": "$~Jeśli właściwość aktualnie używa swojej wartości /default/, przycisk *pencil* umożliwia ustawienie dla niej *jawnej* wartości.",
+                "set": "$~Jeśli właściwość aktualnie używa swojej wartości /domyślny/, przycisk *pencil* umożliwia ustawienie dla niej *jawnej* wartości.",
                 "unset": "$~Jeśli właściwość ma ustawioną wartość /explicit/, przycisk *X* usuwa tę wartość, przywracając właściwość do jej *domyślnej* wartości.",
                 "editor": "$~Wszystkie zmiany wprowadzone na palecie zostaną odzwierciedlone w kodzie /code/ widocznym w *edytorze*.",
                 "stage": "$~Frazy można również /przesuwać/, /zmieniać ich rozmiar/ i /obracać/ bezpośrednio na *scenie*."

@@ -74,7 +74,7 @@
         },
         "abstraction": {
             "word": "$~추상화",
-            "definition": "$~안에서 @how 작동하는지 몰라도 쓸 수 있도록 세부 내용을 숨기는 거예요."
+            "definition": "$~안에서 어떻게 작동하는지 몰라도 쓸 수 있도록 세부 내용을 숨기는 거예요."
         },
         "project": {
             "word": "프로젝트",
@@ -89,7 +89,7 @@
             "definition": "$~@tutorial 의 큰 부분입니다. 연극의 한 막과 같습니다."
         },
         "how": {
-            "word": "$~어떻게",
+            "word": "$~방법 안내",
             "definition": "$~한 가지 일을 하는 방법을 보여 주는 짧은 @guide 입니다."
         },
         "gallery": {

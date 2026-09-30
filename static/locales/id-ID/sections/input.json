@@ -33,7 +33,7 @@
             "doc": [
                 "$~Ini adalah @stream nama yang dipilih audiens Anda dengan mengklik, mengetuk, atau menekan /Enter/ pada @Phrase yang bernama.",
                 "/klik ketuk!/",
-                "Jadi @how terbaik untuk menggunakannya adalah dengan membuat pertunjukan dengan frasa yang dapat dipilih bernama @Phrase , dan kemudian menggunakan @Reaction untuk memutuskan apa yang harus dilakukan ketika nama tersebut dipilih.",
+                "Jadi cara terbaik untuk menggunakannya adalah dengan membuat pertunjukan dengan frasa yang dapat dipilih bernama @Phrase , dan kemudian menggunakan @Reaction untuk memutuskan apa yang harus dilakukan ketika nama tersebut dipilih.",
                 "Berikut contoh paling sederhana:",
                 "\\Group(\nStack() \n[\nPhrase('one' dapatdipilih:⊤ nama:'1') \nPhrase('two' dapatdipilih:⊤ nama:'2') \nPhrase(Choice())\n]\n)\\",
                 "Salin ini ke @editor, lalu pilih salah satu dari dua @Phrase . Anda akan melihat @Phrase ketiga menampilkan nama yang dipilih."
@@ -289,7 +289,7 @@
                 "Secara bawaan, saya berhenti pada output terakhir saya. Beri saya @Scene/loop dan saya kembali ke output pertama saya lagi, yang cocok untuk permainan yang menanyakan @query lain setiap ronde.",
                 "Saya memeriksa @Scene/loop setiap kali programmu berubah, jadi sebuah perulangan bisa berakhir sekaligus dimulai. Di sini saya terus bertanya sampai mereka menjawab dengan benar, lalu berhenti:",
                 "\\tebak: Mengobrol()\nbenar2: tebak = 'cat'\nPemandangan(\n\t[\n\t\tFrasa('Tebak hewannya!' lamanya: 2s)\n\t\t∆ tebak\n\t\tFrasa(benar2 ? 'Ya!' 'Bukan!' lamanya: 2s)\n\t]\n\tperulangan: ~benar2\n)\\",
-                "@Scene/replay membuat saya mulai dari awal lagi, @Scene/pause membuat saya diam di tempat, dan @Scene/go mengirim saya langsung ke salah satu output saya. Atur @Scene/pause ke \\⊤\\ dan saya tidak akan pernah bergerak sendiri, sehingga @Scene/go menjadi satu-satunya hal yang membuat saya lanjut — begitulah @how membuat tayangan slide yang bisa maju /dan/ mundur.",
+                "@Scene/replay membuat saya mulai dari awal lagi, @Scene/pause membuat saya diam di tempat, dan @Scene/go mengirim saya langsung ke salah satu output saya. Atur @Scene/pause ke \\⊤\\ dan saya tidak akan pernah bergerak sendiri, sehingga @Scene/go menjadi satu-satunya hal yang membuat saya lanjut — begitulah cara membuat tayangan slide yang bisa maju /dan/ mundur.",
                 "Dan jika kamu ingin tahu di posisi mana saya berada, untuk menampilkan /3 dari 10/ atau memutar musik berbeda di bagian cerita yang berbeda, itulah gunanya @Spotlight."
             ],
             "names": ["$~Pemandangan"],
@@ -357,7 +357,7 @@
                 "Ini memungkinkan Anda melakukan hal-hal yang sangat sederhana seperti membuat emoji yang memantul:",
                 "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
                 "Lihat bagaimana huruf o memantul? Pada evaluasi pertama, Anda memberinya tempat di posisi tinggi pada @Stage , tetapi kemudian setelah itu, ia mendapatkan @None , yang memungkinkan @Motion untuk mengubahnya ke posisi apa pun yang akan diberikan oleh gravitasi.",
-                "Lihat berbagai @how lain untuk mengkonfigurasinya di bawah ini."
+                "Lihat berbagai cara lain untuk mengkonfigurasinya di bawah ini."
             ],
             "names": ["$~Gerakan"],
             "place": {
@@ -389,7 +389,7 @@
         "Placement": {
             "doc": [
                 "$~Ini memungkinkan penontonmu menyeret @Output ke sebuah @Place di @Stage.",
-                "Ada banyak @how untuk menempatkan @Output di @Stage: berikan mereka @Place yang jelas, gunakan @Motion dan biarkan gravitasi bekerja, atau letakkan mereka dalam sebuah @Group untuk diatur.",
+                "Ada banyak cara untuk menempatkan @Output di @Stage: berikan mereka @Place yang jelas, gunakan @Motion dan biarkan gravitasi bekerja, atau letakkan mereka dalam sebuah @Group untuk diatur.",
                 "Tetapi kadang kamu ingin memberi /penonton/ kendali atas ke mana @Output pergi di @Stage.",
                 "Begini cara kerjanya: buat sebuah @Placement dan berikan pada @Place dari sebuah @Output:",
                 "\\Frasa('hai' tempat: Penempatan())\\",
@@ -473,7 +473,7 @@
         },
         "Rebound": {
             "names": "$~Memantul",
-            "doc": "$~Saya berasal dari @Collision dan mewakili siapa yang bertabrakan dan ke arah mana tabrakan itu terjadi. Gunakan saya untuk memutuskan apakah akan bereaksi terhadap tabrakan dengan @how khusus, selain fisika normal.",
+            "doc": "$~Saya berasal dari @Collision dan mewakili siapa yang bertabrakan dan ke arah mana tabrakan itu terjadi. Gunakan saya untuk memutuskan apakah akan bereaksi terhadap tabrakan dengan cara khusus, selain fisika normal.",
             "direction": {
                 "names": "$~arah",
                 "doc": "$~Arah dan besarnya tumbukan, relatif terhadap objek tumbukan."
@@ -909,7 +909,7 @@
         "Spotlight": {
             "doc": [
                 "$~Aku menyatakan di mana @Scene berada sekarang: output mana yang sedang ditampilkannya, berapa banyak yang dimilikinya, dan apakah ia sedang menunggu seseorang.",
-                "@Scene menampilkan hal-hal; akulah @how program lainnya mengetahui apa yang sedang ditampilkannya. Itulah yang memungkinkanmu meletakkan penghitung di bawah tayangan slide, memutar musik berbeda di bagian-bagian cerita yang berbeda, atau menampilkan petunjuk /tekan tombol apa saja/ hanya saat adegan benar-benar sedang menunggu.",
+                "@Scene menampilkan hal-hal; akulah cara program lainnya mengetahui apa yang sedang ditampilkannya. Itulah yang memungkinkanmu meletakkan penghitung di bawah tayangan slide, memutar musik berbeda di bagian-bagian cerita yang berbeda, atau menampilkan petunjuk /tekan tombol apa saja/ hanya saat adegan benar-benar sedang menunggu.",
                 "\\slide: [Frasa('satu') Frasa('dua') Frasa('tiga')]\ndi: Spotlight()\nPanggung(\n\t[\n\t\tPemandangan(slide perulangan: ⊤)\n\t\tFrasa(\n\t\t\t`\\di.index\\ dari \\di.total\\`\n\t\t\tukuran: 0.3m\n\t\t\ttempat: Tempat(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Aku selalu memiliki @Slate, bahkan sebelum apa pun terjadi, jadi kamu tidak pernah perlu memeriksaku untuk \\ø\\."
             ],

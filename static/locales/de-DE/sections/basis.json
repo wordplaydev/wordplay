@@ -5,7 +5,7 @@
             "doc": [
                 "$~Wir sind \\⊤\\ und \\⊥\\. \\⊤\\ ist wahr. \\⊥\\ ist falsch. \\⊤\\ ist nicht \\⊥\\; \\⊥\\ ist nicht \\⊤\\. So ist es.",
                 "Wie machst du uns? Einfach \\⊤\\ und \\⊥\\, nicht mehr und nicht weniger.",
-                "Manche benutzen die Tastatur (/Strg+9/ für \\⊤\\ und /Strg+0/ für \\⊥\\). Manche benutzen die Zeichensuche unten im @editor. Oder Sie ziehen uns von hier.",
+                "Manche tippen uns mit einem Tastenkürzel. Die Liste unter /Tastenkombinationen/ zeigt, welche Tasten das sind, und lässt dich sie ändern. Manche nutzen die Schaltflächen und die Zeichensuche unten im @editor. Oder du kannst uns von hier aus ziehen.",
                 "Schauen Sie sich unten unsere @FunctionDefinition an. Sie sind sehr logisch."
             ],
             "name": ["$~BoolescherWert"],

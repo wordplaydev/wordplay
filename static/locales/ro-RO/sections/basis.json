@@ -5,7 +5,7 @@
             "doc": [
                 "$~Suntem \\⊤\\ și \\⊥\\. \\⊤\\ este adevărat. \\⊥\\ este fals. \\⊤\\ nu este \\⊥\\; \\⊥\\ nu este \\⊤\\. Așa este.",
                 "Cum ne faci? Doar \\⊤\\ și \\⊥\\, nimic mai mult, nimic mai puțin.",
-                "Unii folosesc tastatura (/ctrl+9/ pentru \\⊤\\ și /ctrl+0/ pentru \\⊥\\). Alții folosesc căutarea de caractere din partea de jos a editorului. Sau ne puteți trage de aici.",
+                "Unii ne scriu cu o scurtătură de la tastatură; lista /comenzi rapide/ arată ce taste se folosesc și îți permite să le schimbi. Alții folosesc butoanele și căutarea de caractere din partea de jos a @editor. Sau ne poți trage de aici.",
                 "Vedeți mai jos @FunctionDefinition. Sunt foarte logice."
             ],
             "name": ["$~⊤⊥", "$~Boolean"],

@@ -121,7 +121,7 @@
                 "\\Frase('¡magnífico!')\\",
                 "Necesito @TextLiteral o @FormattedLiteral para mostrarme. Con @FormattedLiteral, puedo usar cosas como \\`*negritas* y /cursiva/`\\ o referirme a @ConceptLink personalizadas que crees.",
                 "También puedes darme, si quieres, todo lo que puede hacer un @Output, como cambiar mi tamaño, fuente y rotación, y hacer todos mis increíbles bailes con @Pose y @Sequence.",
-                "También puedes seleccionarme en @Stage y editarme con la paleta 🎨 de al lado: es una gran forma de probar diferentes fuentes y elegir la /face/ correcta para tu @Text."
+                "También puedes seleccionarme en @Stage y editarme con la paleta 🎨 de al lado: es una gran forma de probar diferentes fuentes y elegir la /Cara/ correcta para tu @Text."
             ],
             "defaultDescription": "$~$size[$size metro |]frase $text $name[llamada $name|] $face[$face|] $animation $color[$color|] $bubble[diciendo $bubble|]",
             "text": {
@@ -133,7 +133,7 @@
                 "names": "tamaño"
             },
             "face": {
-                "doc": "$~El nombre de la fuente que debo usar. La forma más fácil de elegir una es seleccionarme y abrir la paleta 🎨 de al lado, donde puedes ver las fuentes y elegir una /face/ sin escribir su nombre.",
+                "doc": "$~El nombre de la fuente que debo usar. La forma más fácil de elegir una es seleccionarme y abrir la paleta 🎨 de al lado, donde puedes ver las fuentes y elegir una /Cara/ sin escribir su nombre.",
                 "names": "fuente"
             },
             "place": {
@@ -703,7 +703,7 @@
                 },
                 "bounce": {
                     "doc": [
-                        "$~Yo hago que un @Output salte hasta /height/ y lo dejo caer, aplastándose un poco al subir y bajar. Dame un @Phrase que acaba de llegar y haré que sienta que tiene peso.",
+                        "$~Yo hago que un @Output salte hasta /alto/ y lo dejo caer, aplastándose un poco al subir y bajar. Dame un @Phrase que acaba de llegar y haré que sienta que tiene peso.",
                         "\\Frase('🐈' inmóvil: Secuencia.rebote(3m))\\"
                     ],
                     "names": ["rebote"],
@@ -749,7 +749,7 @@
                 },
                 "pulse": {
                     "doc": [
-                        "$~Yo agrando un @Output hasta /amount/ y lo regreso, una sola vez. Soy la forma más callada de decir “mira aquí” sin mover nada de su lugar.",
+                        "$~Yo agrando un @Output hasta /cantidad/ y lo regreso, una sola vez. Soy la forma más callada de decir “mira aquí” sin mover nada de su lugar.",
                         "\\Frase('🐈' inmóvil: Secuencia.pulsar(1.2))\\"
                     ],
                     "names": ["$~pulsar"],
@@ -760,7 +760,7 @@
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Yo doy dos latidos rápidos de tamaño y luego descanso, el ritmo de un latido del corazón. Soy más urgente que el /pulso/ de @Sequence y más orgánica que /flash/.",
+                        "$~Yo doy dos latidos rápidos de tamaño y luego descanso, el ritmo de un latido del corazón. Soy más urgente que el /pulso/ de @Sequence y más orgánica que /destello/.",
                         "\\Frase('🐈' inmóvil: Secuencia.latido(1.4 1s))\\"
                     ],
                     "names": ["$~latido"],
@@ -794,21 +794,21 @@
                 "flash": {
                     "doc": [
                         "$~Yo parpadeo un @Output entre visible e invisible dos veces, desvaneciéndome poco a poco. Soy difícil de no ver, lo que también significa que soy difícil de ignorar, así que úsame con moderación.",
-                        "Parpadeo rápido, así que alguien sensible a los destellos podría sentirse incómodo conmigo. Ralentízame con una /duration/ más larga si voy a repetirme.",
+                        "Parpadeo rápido, así que alguien sensible a los destellos podría sentirse incómodo conmigo. Ralentízame con una /duracion/ más larga si voy a repetirme.",
                         "\\Frase('🐈' inmóvil: Secuencia.destello(1s))\\"
                     ],
                     "names": ["$~destello"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Yo hago crecer un @Output desde la nada hasta su tamaño completo. A diferencia de /popup/, no me paso del tamaño; soy la llegada más sencilla y tranquila.",
+                        "$~Yo hago crecer un @Output desde la nada hasta su tamaño completo. A diferencia de /surgir/, no me paso del tamaño; soy la llegada más sencilla y tranquila.",
                         "\\Frase('🐈' entrando: Secuencia.acercar(0.5s))\\"
                     ],
                     "names": ["$~acercar"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Yo hago aparecer un @Output mientras lo deslizo hacia arriba a su lugar desde /distance/ más abajo.",
+                        "$~Yo hago aparecer un @Output mientras lo deslizo hacia arriba a su lugar desde /distancia/ más abajo.",
                         "\\Frase('🐈' entrando: Secuencia.aparecerarriba(2m))\\"
                     ],
                     "names": ["$~aparecerarriba"],
@@ -819,7 +819,7 @@
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Hago que un @Output aparezca poco a poco mientras se desliza hacia abajo hasta su lugar desde /distance/ más arriba.",
+                        "$~Hago que un @Output aparezca poco a poco mientras se desliza hacia abajo hasta su lugar desde /distancia/ más arriba.",
                         "\\Frase('🐈' entrando: Secuencia.aparecerabajo(2m))\\"
                     ],
                     "names": ["$~aparecerabajo"],
@@ -830,7 +830,7 @@
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Hago que un @Output aparezca poco a poco mientras se desliza hacia la derecha hasta su lugar desde /distance/ a la izquierda.",
+                        "$~Hago que un @Output aparezca poco a poco mientras se desliza hacia la derecha hasta su lugar desde /distancia/ a la izquierda.",
                         "\\Frase('🐈' entrando: Secuencia.aparecerizquierda(2m))\\"
                     ],
                     "names": ["$~aparecerizquierda"],
@@ -841,7 +841,7 @@
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Hago que un @Output aparezca poco a poco mientras se desliza hacia la izquierda hasta su lugar desde /distance/ a la derecha.",
+                        "$~Hago que un @Output aparezca poco a poco mientras se desliza hacia la izquierda hasta su lugar desde /distancia/ a la derecha.",
                         "\\Frase('🐈' entrando: Secuencia.aparecerderecha(2m))\\"
                     ],
                     "names": ["$~aparecerderecha"],
@@ -852,7 +852,7 @@
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Giro un @Output hasta su lugar mientras aparece poco a poco, comenzando girado /angle/ y terminando derecho.",
+                        "$~Giro un @Output hasta su lugar mientras aparece poco a poco, comenzando girado /ángulo/ y terminando derecho.",
                         "\\Frase('🐈' entrando: Secuencia.girarentrar(180°))\\"
                     ],
                     "names": ["$~girarentrar"],
@@ -870,7 +870,7 @@
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia arriba.",
+                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distancia/ hacia arriba.",
                         "\\Frase('🐈' saliendo: Secuencia.desaparecerarriba(2m))\\"
                     ],
                     "names": ["$~desaparecerarriba"],
@@ -881,7 +881,7 @@
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia abajo.",
+                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distancia/ hacia abajo.",
                         "\\Frase('🐈' saliendo: Secuencia.desaparecerabajo(2m))\\"
                     ],
                     "names": ["$~desaparecerabajo"],
@@ -892,7 +892,7 @@
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia la izquierda.",
+                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distancia/ hacia la izquierda.",
                         "\\Frase('🐈' saliendo: Secuencia.desaparecerizquierda(2m))\\"
                     ],
                     "names": ["$~desaparecerizquierda"],
@@ -903,7 +903,7 @@
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia la derecha.",
+                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distancia/ hacia la derecha.",
                         "\\Frase('🐈' saliendo: Secuencia.desaparecerderecha(2m))\\"
                     ],
                     "names": ["$~desaparecerderecha"],
@@ -914,7 +914,7 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Giro un @Output para que se vaya mientras desaparece poco a poco, terminando girado /angle/.",
+                        "$~Giro un @Output para que se vaya mientras desaparece poco a poco, terminando girado /ángulo/.",
                         "\\Frase('🐈' saliendo: Secuencia.girarsalir(180°))\\"
                     ],
                     "names": ["$~girarsalir"],
@@ -926,14 +926,14 @@
                 "rainbow": {
                     "doc": [
                         "$~Hago que un @Output pase por todos los tonos del arcoíris y regrese al punto donde comencé.",
-                        "Cambio de color rápidamente, así que una persona sensible a los destellos puede sentirse incómoda conmigo. Una /duration/ más larga me hace mucho más suave.",
+                        "Cambio de color rápidamente, así que una persona sensible a los destellos puede sentirse incómoda conmigo. Una /duracion/ más larga me hace mucho más suave.",
                         "\\Frase('🐈' inmóvil: Secuencia.arcoíris(3s))\\"
                     ],
                     "names": ["$~arcoíris"]
                 },
                 "swing": {
                     "doc": [
-                        "$~Balanceo un @Output como un péndulo, hasta /angle/ y luego de regreso con arcos cada vez más pequeños hasta que se detiene. A diferencia de /sway/, yo me detengo.",
+                        "$~Balanceo un @Output como un péndulo, hasta /ángulo/ y luego de regreso con arcos cada vez más pequeños hasta que se detiene. A diferencia de /vaivén/, yo me detengo.",
                         "\\Frase('🐈' inmóvil: Secuencia.columpio(20°))\\"
                     ],
                     "names": ["$~columpio"],
@@ -944,7 +944,7 @@
                 },
                 "blink": {
                     "doc": [
-                        "$~Apago un @Output y lo vuelvo a encender sin ninguna transición, como parpadea un cursor. /flash/ se desvanece; yo corto.",
+                        "$~Apago un @Output y lo vuelvo a encender sin ninguna transición, como parpadea un cursor. /destello/ se desvanece; yo corto.",
                         "\\Frase('🐈' inmóvil: Secuencia.parpadeo(1s))\\"
                     ],
                     "names": ["$~parpadeo"]
@@ -962,7 +962,7 @@
                 },
                 "dim": {
                     "doc": [
-                        "$~Desvanezco un @Output hasta /amount/ y lo regreso a su plenitud, sin ocultarlo nunca. Sirvo para mostrar que algo está esperando o inactivo.",
+                        "$~Desvanezco un @Output hasta /cantidad/ y lo regreso a su plenitud, sin ocultarlo nunca. Sirvo para mostrar que algo está esperando o inactivo.",
                         "\\Frase('🐈' inmóvil: Secuencia.atenuar(20% 2s))\\"
                     ],
                     "names": ["$~atenuar"],
@@ -995,7 +995,7 @@
                 },
                 "float": {
                     "doc": [
-                        "$~Elevo un @Output lentamente por /distance/ y lo bajo de nuevo. Dame una /duration/ larga y haré que algo parezca sin peso.",
+                        "$~Elevo un @Output lentamente por /distancia/ y lo bajo de nuevo. Dame una /duracion/ larga y haré que algo parezca sin peso.",
                         "\\Frase('🐈' inmóvil: Secuencia.flotar(0.5m 3s))\\"
                     ],
                     "names": ["$~flotar"],
@@ -1006,7 +1006,7 @@
                 },
                 "drift": {
                     "doc": [
-                        "$~Muevo un @Output lentamente /distance/ hacia un lado y de regreso. Soy /float/, pero de lado.",
+                        "$~Muevo un @Output lentamente /distancia/ hacia un lado y de regreso. Soy /flotar/, pero de lado.",
                         "\\Frase('🐈' inmóvil: Secuencia.vagar(0.5m 3s))\\"
                     ],
                     "names": ["$~vagar"],
@@ -1017,7 +1017,7 @@
                 },
                 "orbit": {
                     "doc": [
-                        "$~Llevo un @Output alrededor de un círculo de /radius/, regresándolo a donde comenzó. Soy la única animación predefinida que traza un camino en lugar de ir y venir.",
+                        "$~Llevo un @Output alrededor de un círculo de /radio/, regresándolo a donde comenzó. Soy la única animación predefinida que traza un camino en lugar de ir y venir.",
                         "\\Frase('🐈' inmóvil: Secuencia.orbitar(2m 4s))\\"
                     ],
                     "names": ["$~orbitar"],
@@ -1028,7 +1028,7 @@
                 },
                 "glow": {
                     "doc": [
-                        "$~Ilumino un @Output hacia /color/ y dejo que se desvanezca de nuevo, como algo que se calienta y se enfría. A diferencia de /rainbow/, me quedo en un solo tono.",
+                        "$~Ilumino un @Output hacia /color/ y dejo que se desvanezca de nuevo, como algo que se calienta y se enfría. A diferencia de /arcoíris/, me quedo en un solo tono.",
                         "\\Frase('🐈' inmóvil: Secuencia.brillar(🌈.naranja 2s))\\"
                     ],
                     "names": ["$~brillar"],

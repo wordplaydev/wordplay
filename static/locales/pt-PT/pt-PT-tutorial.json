@@ -36,7 +36,7 @@
                             "Que lugar é este?",
                             "Sim, que lugar é este…",
                             "Costumava ser um local de dança, histórias, jogos e brincadeiras…",
-                            "Costumávamos apresentar espetáculos muito bonitos. Por vezes para visitantes @how você, outras vezes apenas por diversão. Era um lugar cheio de vida e surpresas…"
+                            "Costumávamos apresentar espetáculos muito bonitos. Por vezes para visitantes como você, outras vezes apenas por diversão. Era um lugar cheio de vida e surpresas…"
                         ],
                         null,
                         [
@@ -187,7 +187,7 @@
                             "neutral",
                             "Por exemplo, tente escrever \\'olá'\\ no editor que lá está.",
                             "(Não se preocupe em cometer erros, pode sempre reverter para o original com *revert* @UI/revertProject).",
-                            "Digitou alguma coisa? Este é o meu amigo @Text. Já o conheceu? É interpretado @how \\'olá'\\ ou qualquer outro texto que digite, e depois esse texto é apresentado no palco. Experimente mudar o seu texto para outra coisa. Eu mostrarei essa outra coisa. Assim, avaliarei imediatamente o que digitar e mostrarei o resultado."
+                            "Digitou alguma coisa? Este é o meu amigo @Text. Já o conheceu? É interpretado como \\'olá'\\ ou qualquer outro texto que digite, e depois esse texto é apresentado no palco. Experimente mudar o seu texto para outra coisa. Eu mostrarei essa outra coisa. Assim, avaliarei imediatamente o que digitar e mostrarei o resultado."
                         ],
                         null,
                         [
@@ -265,7 +265,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Sim, sou eu. Faz tanto tempo. @how está?"
+                            "Sim, sou eu. Faz tanto tempo. Como está?"
                         ],
                         ["ExpressionPlaceholder", "scared", "Só."],
                         null,
@@ -431,7 +431,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~(Por exemplo, tenta escrever \\]\\. Vês @how não consegues escrevê-lo sem um @conflict? Se estiveres a editar com @blocks 🖱️, não te deixamos escrever \\]\\, e se estiveres a editar com texto ⌨️, isso cria um conflito.)"
+                            "$~(Por exemplo, tenta escrever \\]\\. Vês como não consegues escrevê-lo sem um @conflict? Se estiveres a editar com @blocks 🖱️, não te deixamos escrever \\]\\, e se estiveres a editar com texto ⌨️, isso cria um conflito.)"
                         ],
                         null,
                         { "edit": "]", "conflicts": true, "sidebar": true },
@@ -509,7 +509,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Estou muito entusiasmada para que conheçam o @Evaluate. São realmente os meus melhores amigos. Nós @how que fazemos tudo juntos, de certa forma. Eu crio as regras, eles jogam; somos como manteiga de amendoim e geleia. Mas são muito mais… poderosos do que eu. @Evaluate?"
+                            "Estou muito entusiasmada para que conheçam o @Evaluate. São realmente os meus melhores amigos. Nós como que fazemos tudo juntos, de certa forma. Eu crio as regras, eles jogam; somos como manteiga de amendoim e geleia. Mas são muito mais… poderosos do que eu. @Evaluate?"
                         ],
                         ["Evaluate", "shy", "@FunctionDefinition?"],
                         null,
@@ -756,7 +756,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "… *Valores*? Desculpem, eu sei que devíamos estar nesta grande viagem pelo *Verso*. Só não sei o que fazer com o @Evaluate. Assim… *valores*. Eu ainda não expliquei isso, certo? Hm… @how explicar… Sabe o que são ‘dados’? Tipo números e texto? Os valores são qualquer uma destas coisas. Um @value pode ser tão pequeno como um número ou tão grande como uma cena inteira no palco, cheia de personagens a dançar e a mexer-se. Alguns valores são compostos por muitos outros valores, como grandes e elaboradas estruturas de valores de dados entrelaçadas."
+                            "… *Valores*? Desculpem, eu sei que devíamos estar nesta grande viagem pelo *Verso*. Só não sei o que fazer com o @Evaluate. Assim… *valores*. Eu ainda não expliquei isso, certo? Hm… como explicar… Sabe o que são ‘dados’? Tipo números e texto? Os valores são qualquer uma destas coisas. Um @value pode ser tão pequeno como um número ou tão grande como uma cena inteira no palco, cheia de personagens a dançar e a mexer-se. Alguns valores são compostos por muitos outros valores, como grandes e elaboradas estruturas de valores de dados entrelaçadas."
                         ],
                         null,
                         {
@@ -813,7 +813,7 @@
                         [
                             "Text",
                             "eager",
-                            "Oh, que prazer conhecer-te! Vejo que é uma pessoa criativa e curiosa, provavelmente cheia de ideias interessantes sobre @how nos podemos divertir. Adoro receber visitas. Mas sabem o que eu adoro ainda mais? Palavras! Palavras gloriosas. As curtas, as complexas, as que prendem a atenção e as que escorregam. As palavras são os meus brinquedos favoritos."
+                            "Oh, que prazer conhecer-te! Vejo que é uma pessoa criativa e curiosa, provavelmente cheia de ideias interessantes sobre como nos podemos divertir. Adoro receber visitas. Mas sabem o que eu adoro ainda mais? Palavras! Palavras gloriosas. As curtas, as complexas, as que prendem a atenção e as que escorregam. As palavras são os meus brinquedos favoritos."
                         ],
                         null,
                         [
@@ -986,7 +986,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "Sabes, fico a pensar no @Evaluate e em @how estivemos separados durante tanto tempo. Senti a sua falta, e é óbvio que também sentiu a minha, mas só esperava que este tempo longe os ajudasse a perceber o quão incríveis são."
+                            "Sabes, fico a pensar no @Evaluate e em como estivemos separados durante tanto tempo. Senti a sua falta, e é óbvio que também sentiu a minha, mas só esperava que este tempo longe os ajudasse a perceber o quão incríveis são."
                         ],
                         null,
                         [
@@ -1081,7 +1081,7 @@
                         [
                             "FunctionDefinition",
                             "scared",
-                            "Ui, você assustou-me! Eu sabia que vocês os dois não iriam estar muito tempo separados. @how é que vocês os dois estiveram durante este nosso longo silêncio?"
+                            "Ui, você assustou-me! Eu sabia que vocês os dois não iriam estar muito tempo separados. Como é que vocês os dois estiveram durante este nosso longo silêncio?"
                         ],
                         ["⊤", "precise", "Muito bom!"],
                         ["⊥", "precise", "Nada mal."],
@@ -1384,7 +1384,7 @@
                         [
                             "Number",
                             "excited",
-                            "Ah, sim, a matemática! @FunctionDefinition apresentou-me vários tipos interessantes de aritmética. @how esta."
+                            "Ah, sim, a matemática! @FunctionDefinition apresentou-me vários tipos interessantes de aritmética. Como esta."
                         ],
                         { "edit": "1 + 1" },
                         null,
@@ -1475,7 +1475,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~O outro é parecido mas para negar \\⊤\\ e \\⊥\\: é @how um pequeno risco menos \\~\\ que apenas troca verdadeiro por falso e falso por verdadeiro. Por exemplo, este pequeno @expression avalia \\⊤ | ⊥\\, que é \\⊤\\, depois troca o \\⊤\\ para \\⊥\\. Isto é o mesmo que dizer \\(⊤ | ⊥).não()\\ mas muito mais elegante."
+                            "$~O outro é parecido mas para negar \\⊤\\ e \\⊥\\: é como um pequeno risco menos \\~\\ que apenas troca verdadeiro por falso e falso por verdadeiro. Por exemplo, este pequeno @expression avalia \\⊤ | ⊥\\, que é \\⊤\\, depois troca o \\⊤\\ para \\⊥\\. Isto é o mesmo que dizer \\(⊤ | ⊥).não()\\ mas muito mais elegante."
                         ],
                         { "edit": "~(⊤ | ⊥)" },
                         null,
@@ -1504,7 +1504,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Nós encontrámo-te! Parece bem. @how tem passado este período de silêncio?"
+                            "Nós encontrámo-te! Parece bem. Como tem passado este período de silêncio?"
                         ],
                         ["None", "excited", "…"],
                         null,
@@ -1597,7 +1597,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Cada resultado é um @Structure com o texto correspondente, onde começa e termina, e os grupos que capturaste. E, @how os padrões correspondem por grafema, comportam-se da mesma forma em cada @language e escrita."
+                            "$~Cada resultado é um @Structure com o texto correspondente, onde começa e termina, e os grupos que capturaste. E, como os padrões correspondem por grafema, comportam-se da mesma forma em cada @language e escrita."
                         ]
                     ]
                 }
@@ -1630,7 +1630,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Pode estar a perguntar-se @how eles se relacionam em grupo. Bem, existe todo um outro grupo de pessoas no Verso que se dedica a reunir valores em grupos. Chamamos-lhes *coleções*. As coleções também são *valores*; são compostas por valores mais pequenos ou até mesmo por outras coleções. Por exemplo, pode ter uma lista de @Text, um conjunto de @Number ou até uma lista de listas."
+                            "Pode estar a perguntar-se como eles se relacionam em grupo. Bem, existe todo um outro grupo de pessoas no Verso que se dedica a reunir valores em grupos. Chamamos-lhes *coleções*. As coleções também são *valores*; são compostas por valores mais pequenos ou até mesmo por outras coleções. Por exemplo, pode ter uma lista de @Text, um conjunto de @Number ou até uma lista de listas."
                         ],
                         {
                             "fit": "Group(Row() [Phrase('[') Phrase('\"hi\"') Phrase('⊤') Phrase('42') Phrase('ø') Phrase(']') ])"
@@ -1679,7 +1679,7 @@
                         [
                             "List",
                             "curious",
-                            "Sim, aconteceu. Dia após dia, noite após noite, ninguém. Mas você está aqui. @how? Conte-me o que aconteceu — por ordem!"
+                            "Sim, aconteceu. Dia após dia, noite após noite, ninguém. Mas você está aqui. Como? Conte-me o que aconteceu — por ordem!"
                         ],
                         {
                             "fit": [
@@ -1863,7 +1863,7 @@
                         [
                             "Set",
                             "eager",
-                            "Ah sim, claro. Eu coleciono coisas (Hum, obviamente; eu sou uma coleção). Mas o mais importante é que só coleciono *um de cada tipo* de coisa. Posso reunir o que quiseres e ajudar-te a controlar os valores, mas nunca repetirei um valor. Gosto de me organizar um pouco @how @List, mas com \\{\\ e \\}\\ em vez disso."
+                            "Ah sim, claro. Eu coleciono coisas (Hum, obviamente; eu sou uma coleção). Mas o mais importante é que só coleciono *um de cada tipo* de coisa. Posso reunir o que quiseres e ajudar-te a controlar os valores, mas nunca repetirei um valor. Gosto de me organizar um pouco como @List, mas com \\{\\ e \\}\\ em vez disso."
                         ],
                         { "edit": "{ 1 2 3 4 5 }" },
                         null,
@@ -1955,7 +1955,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Há só mais uma coleção que gostaria de te apresentar. Em alguns aspetos, são um pouco @how os @Set e até usam as mesmas chavetas, mas são diferentes de uma forma importante: são um conector. O seu @name é @Map."
+                            "$~Há só mais uma coleção que gostaria de te apresentar. Em alguns aspetos, são um pouco como os @Set e até usam as mesmas chavetas, mas são diferentes de uma forma importante: são um conector. O seu @name é @Map."
                         ],
                         [
                             "FunctionDefinition",
@@ -2220,7 +2220,7 @@
                         [
                             "Convert",
                             "excited",
-                            "Mas os truques realmente geniais? Encadeamento. @how múltiplas conversões em sequência. Veja só esta. De dias a segundos, de mensagem de texto a lista, tudo numa única cadeia. Temos agora uma lista de dígitos. Sensacional!"
+                            "Mas os truques realmente geniais? Encadeamento. Como múltiplas conversões em sequência. Veja só esta. De dias a segundos, de mensagem de texto a lista, tudo numa única cadeia. Temos agora uma lista de dígitos. Sensacional!"
                         ],
                         { "edit": "1day → #s → '' → []" },
                         null,
@@ -2319,7 +2319,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Para que fique claro, não todas as decisões: eu tenho a minha própria vida, e elas têm as suas. Mas numa atuação, quando estamos a tentar decidir o que fazer a seguir no palco, cabe-lhes a elas seguir a tua orientação @how diretor e decidir o que fazer. Por isso, são uma @key parceira que cria atuações emocionantes."
+                            "$~Para que fique claro, não todas as decisões: eu tenho a minha própria vida, e elas têm as suas. Mas numa atuação, quando estamos a tentar decidir o que fazer a seguir no palco, cabe-lhes a elas seguir a tua orientação como diretor e decidir o que fazer. Por isso, são uma @key parceira que cria atuações emocionantes."
                         ],
                         null,
                         { "fit": "#SpinningInTheDark ?" },
@@ -2470,7 +2470,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Quero mostrar-te a ligação entre os nossos mundos e o que eles tornam possível. Chamamos-lhes *fluxos de entrada* e são talvez o tipo de entrada mais mágico do Verso. São @how funções que criam um tipo especial de @value que muda à medida que o teu mundo muda. Também não conseguem comunicar da forma a que talvez estejas habituado. São mais como batimentos cardíacos de outro mundo. Por isso vou fazer o meu melhor para explicar como funcionam, já que eles não vão conseguir explicar-se a si próprios.",
+                            "$~Quero mostrar-te a ligação entre os nossos mundos e o que eles tornam possível. Chamamos-lhes *fluxos de entrada* e são talvez o tipo de entrada mais mágico do Verso. São como funções que criam um tipo especial de @value que muda à medida que o teu mundo muda. Também não conseguem comunicar da forma a que talvez estejas habituado. São mais como batimentos cardíacos de outro mundo. Por isso vou fazer o meu melhor para explicar como funcionam, já que eles não vão conseguir explicar-se a si próprios.",
                             "Está pronto para conhecer um?"
                         ]
                     ]
@@ -2492,7 +2492,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Carrega no botão de reprodução ▶️ no seletor de modo @UI/modeSwitcher acima do palco para ver o tempo a mover-se. Vês @how o tempo está a mudar? Os fluxos são uma série de valores. Sempre que um fluxo recebe um novo @value, @Program é reavaliado com o novo valor do fluxo. É por isso que este programa continua a contar para cima: criámos um fluxo de tempo que começa no tempo 0 milissegundos e depois continua a atualizar-se sempre que o seu relógio faz tique. Este tempo é o teu tempo, do teu mundo. Quando quiseres mudar o code, volta ao modo de edição ✏️; enquanto editas, o palco fica congelado no momento atual."
+                            "$~Carrega no botão de reprodução ▶️ no seletor de modo @UI/modeSwitcher acima do palco para ver o tempo a mover-se. Vês como o tempo está a mudar? Os fluxos são uma série de valores. Sempre que um fluxo recebe um novo @value, @Program é reavaliado com o novo valor do fluxo. É por isso que este programa continua a contar para cima: criámos um fluxo de tempo que começa no tempo 0 milissegundos e depois continua a atualizar-se sempre que o seu relógio faz tique. Este tempo é o teu tempo, do teu mundo. Quando quiseres mudar o code, volta ao modo de edição ✏️; enquanto editas, o palco fica congelado no momento atual."
                         ],
                         ["Time", "neutral", "tic tac tic tac tic…"],
                         null,
@@ -2546,7 +2546,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Se não me engano, há uma coisa no teu mundo chamada “teclado”? É uma forma de escolher qual de nós queres que apareça nos teus documentos, certo? Bem, no Verso, recebemos estes pedidos @how um @stream de texto, sendo cada @value de texto o @key que foi pressionado. Usamos isto para ouvir o que as pessoas no teu mundo estão a escrever. Este fluxo chama-se @Key."
+                            "$~Se não me engano, há uma coisa no teu mundo chamada “teclado”? É uma forma de escolher qual de nós queres que apareça nos teus documentos, certo? Bem, no Verso, recebemos estes pedidos como um @stream de texto, sendo cada @value de texto o @key que foi pressionado. Usamos isto para ouvir o que as pessoas no teu mundo estão a escrever. Este fluxo chama-se @Key."
                         ],
                         null,
                         [
@@ -2594,7 +2594,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "No seu mundo também existe algo chamado 'rato', para além dos 'trackpads' e dos 'ecrãs tácteis'? No nosso mundo, estes elementos aparecem @how fluxos @Pointer, que é um @stream de lugares no palco."
+                            "No seu mundo também existe algo chamado 'rato', para além dos 'trackpads' e dos 'ecrãs tácteis'? No nosso mundo, estes elementos aparecem como fluxos @Pointer, que é um @stream de lugares no palco."
                         ],
                         null,
                         [
@@ -2631,7 +2631,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "@Button é @how @Key, mas corresponde ao botão principal do ponteiro, como um clique ou toque. É apenas uma sequência de \\⊤\\, indicando quando o botão do ponteiro é premido. Pressione esse botão e observe os eventos a aparecer na linha do tempo."
+                            "@Button é como @Key, mas corresponde ao botão principal do ponteiro, como um clique ou toque. É apenas uma sequência de \\⊤\\, indicando quando o botão do ponteiro é premido. Pressione esse botão e observe os eventos a aparecer na linha do tempo."
                         ],
                         ["Button", "neutral", "clique… clique… clique…"],
                         { "edit": "Button()" },
@@ -2673,7 +2673,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~@Volume pode ser usado para fazer as apresentações responderem ao som do público. Por exemplo, aqui podíamos criar uma pequena visualização de amplitude convertendo o número de amplitude do fluxo num certo número de caracteres \\'o'\\. Vês @how, quando fazes barulho, há mais \\'o'\\s? A amplitude @Volume é dividida por \\10\\, colocando-a no intervalo de \\0\\ a \\10\\. Depois, esse @value é dado à função @Text.repeat, que repete o \\'o'\\ o número de vezes indicado."
+                            "$~@Volume pode ser usado para fazer as apresentações responderem ao som do público. Por exemplo, aqui podíamos criar uma pequena visualização de amplitude convertendo o número de amplitude do fluxo num certo número de caracteres \\'o'\\. Vês como, quando fazes barulho, há mais \\'o'\\s? A amplitude @Volume é dividida por \\10\\, colocando-a no intervalo de \\0\\ a \\10\\. Depois, esse @value é dado à função @Text.repeat, que repete o \\'o'\\ o número de vezes indicado."
                         ],
                         ["Volume", "neutral", "bzzzZZZZzzzzzzZZZZ…"],
                         { "edit": "'o'.repeat(Volume() × 10)" }
@@ -2742,7 +2742,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Existem muitas formas de o personalizar. Por exemplo, se quiser alterar a forma @how se move, pode definir uma distância.",
+                            "Existem muitas formas de o personalizar. Por exemplo, se quiser alterar a forma como se move, pode definir uma distância.",
                             "Veja como definimos o @value inicial como \\0,5\\? Agora, mexe-se um pouco menos. Tente alterar para um número diferente!"
                         ],
                         null,
@@ -2770,7 +2770,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Até agora, todos os *fluxos* de que falámos são sequências de valores simples, @how @Text ou @Number. Alguns fluxos, no entanto, podem produzir valores complexos.",
+                            "Até agora, todos os *fluxos* de que falámos são sequências de valores simples, como @Text ou @Number. Alguns fluxos, no entanto, podem produzir valores complexos.",
                             "O @Motion é um dos mais interessantes. Cria um @stream de @Place."
                         ],
                         null,
@@ -2938,7 +2938,7 @@
                             "FunctionDefinition",
                             "kind",
                             "Funciona assim: forneces-nos aquilo a que eu acho que se chama 'URL', e se for uma página HTML, nós extraímos todas as frases dela e enviamo-las para ti numa @List.",
-                            "Assim @how aqui: estas são algumas frases de notícias."
+                            "Assim como aqui: estas são algumas frases de notícias."
                         ],
                         null,
                         { "edit": "Webpage('https://www.nytimes.com' 'h2')" },
@@ -2977,7 +2977,7 @@
                         [
                             "Reaction",
                             "excited",
-                            "Sim, sim, sim! É o @FunctionDefinition! @how está? Tudo tem @state tão... constante nos últimos tempos. Você percebeu isso?"
+                            "Sim, sim, sim! É o @FunctionDefinition! Como está? Tudo tem @state tão... constante nos últimos tempos. Você percebeu isso?"
                         ],
                         null,
                         { "fit": "Phrase('…' resting:Pose(rotation: 240°))" },
@@ -3139,7 +3139,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Já viste muita saída. Sempre que @Program avalia, resulta num @value e @Program mostra esse valor no palco. Mas até agora só viste coisas @how números, texto e listas. Eu percebo, tu só queres ver espetáculos completos, tal como nós!"
+                            "$~Já viste muita saída. Sempre que @Program avalia, resulta num @value e @Program mostra esse valor no palco. Mas até agora só viste coisas como números, texto e listas. Eu percebo, tu só queres ver espetáculos completos, tal como nós!"
                         ],
                         null,
                         { "fit": "#Symbol 💬" },
@@ -3164,7 +3164,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "Orgulhosa e assumida, minha querida; @how está? Está tão glamourosa hoje! Adorava tê-la em palco um dia destes."
+                            "Orgulhosa e assumida, minha querida; como está? Está tão glamourosa hoje! Adorava tê-la em palco um dia destes."
                         ],
                         null,
                         [
@@ -3454,7 +3454,7 @@
                         [
                             "Sequence",
                             "curious",
-                            "@FunctionDefinition! Está linda. Há quanto tempo? Uma semana? Um mês? Um século? Foi tipo 1, 2, 3 e depois ficou tudo em silêncio. Sinto-me @how se estivesse a dançar sozinha para sempre…"
+                            "@FunctionDefinition! Está linda. Há quanto tempo? Uma semana? Um mês? Um século? Foi tipo 1, 2, 3 e depois ficou tudo em silêncio. Sinto-me como se estivesse a dançar sozinha para sempre…"
                         ],
                         null,
                         [
@@ -3653,7 +3653,7 @@
                         [
                             "Group",
                             "neutral",
-                            "@FunctionDefinition, olá, @how está? Onde anda toda gente? Eu estava tão preocupada! Está bem?"
+                            "@FunctionDefinition, olá, como está? Onde anda toda gente? Eu estava tão preocupada! Está bem?"
                         ],
                         [
                             "FunctionDefinition",
@@ -3925,7 +3925,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Stage é único no seu género e está sempre presente. Na verdade, se deres a @Program um @Phrase ou @Group, @Program mostra um @Stage, mesmo que não os menciones. Mas se os mencionares, podes ser mais específico sobre @how queres que o palco apareça."
+                            "$~@Stage é único no seu género e está sempre presente. Na verdade, se deres a @Program um @Phrase ou @Group, @Program mostra um @Stage, mesmo que não os menciones. Mas se os mencionares, podes ser mais específico sobre como queres que o palco apareça."
                         ],
                         null,
                         [
@@ -4152,7 +4152,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~O @Music ouve-se mas nunca se vê, por isso nada nele é alguma vez *colocado*. Vem junto com o @Stage e enche a sala — e cada pessoa que está a ver escolhe @how, ou se, aparece."
+                            "$~O @Music ouve-se mas nunca se vê, por isso nada nele é alguma vez *colocado*. Vem junto com o @Stage e enche a sala — e cada pessoa que está a ver escolhe como, ou se, aparece."
                         ],
                         [
                             "FunctionDefinition",
@@ -4194,7 +4194,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Aqui está um exemplo. Viu @how fez a contagem decrescente e depois disse \"Buuu!\"? Pode reiniciar para ver de novo."
+                            "Aqui está um exemplo. Viu como fez a contagem decrescente e depois disse \"Buuu!\"? Pode reiniciar para ver de novo."
                         ],
                         null,
                         [
@@ -4312,7 +4312,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Todos devem poder participar! Agora que já falámos sobre @Phrase com mais detalhe, quero mostrar um último @stream, @Choice, que é um fluxo de nomes de @Phrase que foram selecionados, independentemente da forma @how a seleção foi feita. Por exemplo, o público pode utilizar o rato para clicar num @Phrase, o teclado para o selecionar ou outros dispositivos. Seja qual for o dispositivo utilizado, @Choice conterá a seleção mais recente."
+                            "Todos devem poder participar! Agora que já falámos sobre @Phrase com mais detalhe, quero mostrar um último @stream, @Choice, que é um fluxo de nomes de @Phrase que foram selecionados, independentemente da forma como a seleção foi feita. Por exemplo, o público pode utilizar o rato para clicar num @Phrase, o teclado para o selecionar ou outros dispositivos. Seja qual for o dispositivo utilizado, @Choice conterá a seleção mais recente."
                         ],
                         null,
                         [
@@ -4368,7 +4368,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Mas parece que, por mais incríveis que sejamos, esquecemo-nos sempre e acabamos por nos repetir. E é por isso que vos quero apresentar mais um grupo. São a forma @how *nos lembramos* e organizamos as nossas memórias. Sem eles, grande parte do nosso trabalho teria de ser refeito inúmeras vezes, e nunca conseguiríamos apresentar os espetáculos mais entusiasmantes."
+                            "Mas parece que, por mais incríveis que sejamos, esquecemo-nos sempre e acabamos por nos repetir. E é por isso que vos quero apresentar mais um grupo. São a forma como *nos lembramos* e organizamos as nossas memórias. Sem eles, grande parte do nosso trabalho teria de ser refeito inúmeras vezes, e nunca conseguiríamos apresentar os espetáculos mais entusiasmantes."
                         ]
                     ]
                 },
@@ -4420,7 +4420,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Não mencionei aqui nenhum nome para a nossa inspiração, para além dos nomes de todas as personagens que conhecemos. Gostaria de explicar @how funcionam os nomes aqui?"
+                            "Não mencionei aqui nenhum nome para a nossa inspiração, para além dos nomes de todas as personagens que conhecemos. Gostaria de explicar como funcionam os nomes aqui?"
                         ],
                         null,
                         { "fit": "#Symbol :" },
@@ -4639,7 +4639,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Olá, @Block! @how vai?"
+                            "Olá, @Block! Como vai?"
                         ],
                         ["Block", "shy", "… hum, bom?"],
                         null,
@@ -4799,7 +4799,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Eu? Bem, não sou nada de especial. Gosto apenas de estar nos bastidores, a ajudar, a mostrar a todos @how são especiais. Acho que nem tinha pensado em falar de mim. Acho que podemos falar um pouco sobre mim."
+                            "Eu? Bem, não sou nada de especial. Gosto apenas de estar nos bastidores, a ajudar, a mostrar a todos como são especiais. Acho que nem tinha pensado em falar de mim. Acho que podemos falar um pouco sobre mim."
                         ],
                         null,
                         { "fit": "#Symbol ƒ" },
@@ -4902,7 +4902,7 @@
                         [
                             "FunctionDefinition",
                             "sad",
-                            "Há apenas mais algumas personagens que gostaria que conhecesse. O próximo é a personagem mais sofisticada que conheço e, de certa forma, uma espécie de líder. Ajudam-nos a organizar, estabelecem as bases de uma apresentação e, de facto, tornam tudo muito mais organizado. Você é o nosso encenador, claro, mas eles são @how a pessoa a quem todos recorrem para manter o espetáculo em ordem. Acho que podem ser muito importantes em qualquer espetáculo que se monte."
+                            "Há apenas mais algumas personagens que gostaria que conhecesse. O próximo é a personagem mais sofisticada que conheço e, de certa forma, uma espécie de líder. Ajudam-nos a organizar, estabelecem as bases de uma apresentação e, de facto, tornam tudo muito mais organizado. Você é o nosso encenador, claro, mas eles são como a pessoa a quem todos recorrem para manter o espetáculo em ordem. Acho que podem ser muito importantes em qualquer espetáculo que se monte."
                         ],
                         null,
                         {
@@ -5233,7 +5233,7 @@
                         [
                             "Doc",
                             "surprised",
-                            "@FunctionDefinition, és tu? Nunca pensei voltar a ver-te. @how vai? E o @Evaluate?"
+                            "@FunctionDefinition, és tu? Nunca pensei voltar a ver-te. Como vai? E o @Evaluate?"
                         ],
                         null,
                         [
@@ -5526,7 +5526,7 @@
                         [
                             "Evaluate",
                             "curious",
-                            "Que ciclo? Eu amo-te! @how é que isto é um ciclo?"
+                            "Que ciclo? Eu amo-te! Como é que isto é um ciclo?"
                         ],
                         [
                             "FunctionDefinition",

@@ -756,12 +756,12 @@
             },
             "tour": {
                 "launch": "$~Machen Sie einen Rundgang über die Bühne",
-                "stage": "$~Die Variable /stage/ zeigt den *aktuellen Wert* Ihres Programms an. Dieser Wert kann ein *Rohwert* wie eine Zahl oder Liste, eine *visuelle Ausgabe*, die Sie sehen können, oder sogar ein *Ton*, den Sie hören können, sein.",
+                "stage": "$~Die Variable /Bühne/ zeigt den *aktuellen Wert* Ihres Programms an. Dieser Wert kann ein *Rohwert* wie eine Zahl oder Liste, eine *visuelle Ausgabe*, die Sie sehen können, oder sogar ein *Ton*, den Sie hören können, sein.",
                 "reset": "$~Die Schaltfläche /Zurücksetzen/ startet die Auswertung deines Programms wieder von *vorne*, in jedem Modus: In ▶️ *Wiedergabe* läuft es wieder von oben, in ✏️ *Bearbeiten* pausiert es nach der ersten Auswertung, damit du siehst, wie sich deine Änderungen auf die erste Ausgabe auswirken, und in ⏸️ *Fehlersuche* pausiert es beim allerersten Schritt.",
                 "zoom": "$~Mit den /zoom/-Tasten können Sie in die Bühne hinein- und herauszoomen, um Ihre Ausgabe klarer oder detaillierter zu sehen.",
-                "grid": "$~Die Schaltfläche /grid/ zeigt ein *Raster* auf der Bühne an, das beim Entwerfen hilfreich ist, um Elemente präzise zu platzieren.",
+                "grid": "$~Die Schaltfläche /Netz/ zeigt ein *Raster* auf der Bühne an, das beim Entwerfen hilfreich ist, um Elemente präzise zu platzieren.",
                 "lock": "$~Die Schaltfläche „Sperren“ fixiert die Bühnenansicht. Im gesperrten Zustand bleibt die Bühne still; im entsperrten Zustand können Sie frei schwenken und zoomen.",
-                "animationSpeed": "$~Mit dem Regler /animation speed/ legen Sie fest, wie schnell Animationen abgespielt werden. Derselbe Regler befindet sich auch in den *Einstellungen*, sodass Sie ihn an beiden Stellen ändern können."
+                "animationSpeed": "$~Mit dem Regler /Animationsgeschwindigkeit/ legen Sie fest, wie schnell Animationen abgespielt werden. Derselbe Regler befindet sich auch in den *Einstellungen*, sodass Sie ihn an beiden Stellen ändern können."
             },
             "permission": {
                 "title": "$~Für dieses Projekt wird eine Genehmigung benötigt.",

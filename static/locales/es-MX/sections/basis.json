@@ -5,7 +5,7 @@
             "doc": [
                 "$~Somos \\⊤\\ y \\⊥\\. \\⊤\\ es verdadero. \\⊥\\ es falso. \\⊤\\ no es \\⊥\\; \\⊥\\ no es \\⊤\\. Así es como es.",
                 "¿Cómo nos haces? Solo \\⊤\\ y \\⊥\\, nada más, nada menos.",
-                "Algunas usan el teclado (/ctrl+9/ para \\⊤\\ y /ctrl+0/ para \\⊥\\). Algunas usan la búsqueda de caracteres en la parte de abajo del @editor. O puedes arrastrarnos desde aquí.",
+                "Algunas nos escriben con un atajo de teclado; la lista de /atajos/ muestra qué teclas son y te deja cambiarlas. Otras usan los botones y la búsqueda de caracteres que están al final del @editor. O también puedes arrastrarnos desde aquí.",
                 "Mira nuestras @FunctionDefinition abajo. Son muy lógicas."
             ],
             "name": ["Booleano"],

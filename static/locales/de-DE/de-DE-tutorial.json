@@ -674,7 +674,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Oh ja, das ist eine gute Idee. Vieles kann schiefgehen. Zum Beispiel könntest du mir etwas geben, das keine Funktion ist. Schau mal, wie ich den Text \\'hallo'\\ hier als Funktion bekomme und mir zwei Eingaben gegeben werden, \\1\\ und \\2\\ ? Nun, ich weiß nur, @how Funktionen auswertet, und \\'hallo'\\ ist keine Funktion, sondern Text. Das verwirrt mich sehr, also stoppe ich meistens die Vorführung, wenn das passiert."
+                            "$~Oh ja, das ist eine gute Idee. Vieles kann schiefgehen. Zum Beispiel könntest du mir etwas geben, das keine Funktion ist. Schau mal, wie ich den Text \\'hallo'\\ hier als Funktion bekomme und mir zwei Eingaben gegeben werden, \\1\\ und \\2\\ ? Nun, ich weiß nur, wie man Funktionen auswertet, und \\'hallo'\\ ist keine Funktion, sondern Text. Das verwirrt mich sehr, also stoppe ich meistens die Vorführung, wenn das passiert."
                         ],
                         null,
                         {
@@ -956,7 +956,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition hat für mich noch viele weitere spannende Funktionen erschaffen, aber ich erspare dir die Einzelheiten. Du findest mich immer im @guide @UI/docsExpand. Dort bewahren wir alle Informationen über jeden im Verse auf, auch @how mit uns arbeitet und welche Funktionen wir haben. Schau dich dort um, bevor du weitermachst. Ich werde dort auf dich warten. @Tour/docs"
+                            "$~@FunctionDefinition hat für mich noch viele weitere spannende Funktionen erschaffen, aber ich erspare dir die Einzelheiten. Du findest mich immer im @guide @UI/docsExpand. Dort bewahren wir alle Informationen über jeden im Verse auf, auch wie man mit uns arbeitet und welche Funktionen wir haben. Schau dich dort um, bevor du weitermachst. Ich werde dort auf dich warten. @Tour/docs"
                         ],
                         null,
                         [
@@ -1101,7 +1101,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Das ist ja toll zu hören. Es ist schön, wieder bei Ihnen zu sein. Ich wollte Ihnen unseren neuen potenziellen Direktor vorstellen. Sie haben alle kennengelernt und gelernt, @how mit uns Aufführungen macht. Möchten Sie ihnen erzählen, was Sie tun?"
+                            "$~Das ist ja toll zu hören. Es ist schön, wieder bei Ihnen zu sein. Ich wollte Ihnen unseren neuen potenziellen Direktor vorstellen. Sie haben alle kennengelernt und gelernt, wie man mit uns Aufführungen macht. Möchten Sie ihnen erzählen, was Sie tun?"
                         ],
                         ["⊤", "precise", "$~Ich bin ehrlich."],
                         ["⊥", "precise", "$~Ich bin falsch."],
@@ -2260,7 +2260,7 @@
                             "Convert",
                             "sad",
                             "$~Na ja, nicht wirklich irgendetwas. Ich meine, wenn Sie mir Sekunden Zeit geben und nach einem @Set fragen, was soll das überhaupt bedeuten?",
-                            "$~Ich werde mein Bestes tun, um eine Möglichkeit zu finden ... beispielsweise weiß ich, @how Zahlen in @Text und @Text in ein @Set umwandelt. Daher gebe ich Ihnen den Symbolsatz in der Textform dieser Zahl.",
+                            "$~Ich werde mein Bestes tun, um eine Möglichkeit zu finden ... beispielsweise weiß ich, wie man Zahlen in @Text und @Text in ein @Set umwandelt. Daher gebe ich Ihnen den Symbolsatz in der Textform dieser Zahl.",
                             "$~Aber das ist wahrscheinlich nicht, was Sie wollten ...",
                             "$~Und wenn ich nicht weiß, wie ich Ihnen das geben kann, was Sie verlangt haben, werde ich die Sache grundsätzlich beenden."
                         ],
@@ -3289,7 +3289,7 @@
                         [
                             "Phrase",
                             "happy",
-                            "$~Oder vielleicht haben wir ein bisschen Spaß und verknüpfen die Rotation mit @Time! Juhuu! Irgendwelche Vermutungen, @how mich schneller drehen lässt? Mal sehen, ob Sie es herausfinden können …"
+                            "$~Oder vielleicht haben wir ein bisschen Spaß und verknüpfen die Rotation mit @Time! Juhuu! Irgendwelche Vermutungen, wie man mich schneller drehen lässt? Mal sehen, ob Sie es herausfinden können …"
                         ],
                         {
                             "fit": "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) × 1°/ms)"
@@ -4818,7 +4818,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Fangen wir mit dem an, was du schon gesehen hast. Weißt du, dass jeder @value verschiedene Funktionen hat, die du auf ihm ausführen kannst? Zahlen wissen zum Beispiel, @how @Number.add, und ein Textwert weiß, wie man prüft, ob er @Text.has einen bestimmten Text, oder @Set weiß, wie man prüft, ob er einen bestimmten Wert hat? Ich bin derjenige, der diese Funktionen festlegt. Ich meine, ich habe nicht die Eingebung, sie selbst zu erschaffen — das machen Regisseure wie du —, aber ich lege die Eingaben fest, die eine Funktion annimmt, die Namen, die sie hat, und den @expression, der die Eingaben nutzt, um einen Ausgabewert zu ergeben."
+                            "$~Fangen wir mit dem an, was du schon gesehen hast. Weißt du, dass jeder @value verschiedene Funktionen hat, die du auf ihm ausführen kannst? Zahlen wissen zum Beispiel, wie man @Number.add, und ein Textwert weiß, wie man prüft, ob er @Text.has einen bestimmten Text, oder @Set weiß, wie man prüft, ob er einen bestimmten Wert hat? Ich bin derjenige, der diese Funktionen festlegt. Ich meine, ich habe nicht die Eingebung, sie selbst zu erschaffen — das machen Regisseure wie du —, aber ich lege die Eingaben fest, die eine Funktion annimmt, die Namen, die sie hat, und den @expression, der die Eingaben nutzt, um einen Ausgabewert zu ergeben."
                         ],
                         null,
                         [
@@ -5798,7 +5798,7 @@
                         [
                             "StructureDefinition",
                             "sad",
-                            "$~Ich weiß nicht, @how eine Funktion erstellt …"
+                            "$~Ich weiß nicht, wie man eine Funktion erstellt …"
                         ],
                         null,
                         ["Evaluate", "sad", "$~…"],

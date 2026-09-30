@@ -8,7 +8,11 @@ import {
     mismatchedPluralBranch,
     mismatchedWebLinks,
     protectLinks,
+    protectMarkupUnit,
     restoreConceptLinks,
+    restoreMarkupUnit,
+    hasResidualLinkMask,
+    mismatchedDelimiter,
     restoreReferences,
     splitDocParagraphs,
     splitMarkupAndCode,
@@ -329,4 +333,69 @@ test('mismatchedWebLinks compares multisets, so a repeat must stay repeated', ()
     expect(
         mismatchedWebLinks(source, '<c@https://x.dev/1> y <d@https://x.dev/1>'),
     ).toBeUndefined();
+});
+
+test('protectMarkupUnit keeps the prose around examples as one unit', () => {
+    // The regression: split at every example, this went to the model as
+    // " is not " and "; " with nothing around them, and ja-JP lost a negation.
+    const unit = protectMarkupUnit('\\⊤\\ is not \\⊥\\; \\⊥\\ is not \\⊤\\.');
+    expect(unit.masked).toBe('⟦0⟧ is not ⟦1⟧; ⟦2⟧ is not ⟦3⟧.');
+    expect(unit.prose).toBe(true);
+    expect([...unit.code]).toEqual([0, 1, 2, 3]);
+});
+
+test('protectMarkupUnit numbers links and examples together', () => {
+    const unit = protectMarkupUnit('Use \\1 + 1\\ with @Phrase.');
+    expect(unit.masked).toBe('Use ⟦0⟧ with ⟦1⟧.');
+    expect(unit.slots).toEqual(['\\1 + 1\\', '@Phrase']);
+    expect([...unit.code]).toEqual([0]);
+});
+
+test('protectMarkupUnit reports a string that is all code', () => {
+    expect(protectMarkupUnit('\\1 + 1\\').prose).toBe(false);
+});
+
+test('restoreMarkupUnit follows placeholders the translation reordered', () => {
+    const unit = protectMarkupUnit('\\⊥\\ is not \\⊤\\.');
+    expect(
+        restoreMarkupUnit('⟦0⟧ は ⟦1⟧ ではありません。', unit, (code) => code),
+    ).toBe('\\⊥\\ は \\⊤\\ ではありません。');
+    expect(restoreMarkupUnit('⟦1⟧ ではない ⟦0⟧。', unit, (code) => code)).toBe(
+        '\\⊤\\ ではない \\⊥\\。',
+    );
+});
+
+test('restoreMarkupUnit substitutes each example through codeFor', () => {
+    const unit = protectMarkupUnit('Try \\Phrase("hi")\\ now.');
+    expect(
+        restoreMarkupUnit('Prueba ⟦0⟧ ahora.', unit, () => '\\Frase("hola")\\'),
+    ).toBe('Prueba \\Frase("hola")\\ ahora.');
+});
+
+test('restoreMarkupUnit accepts a roughened placeholder and tidies around it', () => {
+    const unit = protectMarkupUnit('Try \\1\\ now.');
+    expect(restoreMarkupUnit('Try 〚 ೦ 〛   .', unit, (code) => code)).toBe(
+        'Try \\1\\.',
+    );
+});
+
+test('restoreMarkupUnit never touches whitespace inside an example', () => {
+    const unit = protectMarkupUnit('See \\a   +   b\\ here.');
+    expect(restoreMarkupUnit('Ver ⟦0⟧ aquí.', unit, (code) => code)).toBe(
+        'Ver \\a   +   b\\ aquí.',
+    );
+});
+
+test('a dropped example placeholder unbalances the delimiters', () => {
+    const source = 'Use \\1\\ and \\2\\.';
+    const unit = protectMarkupUnit(source);
+    const restored = restoreMarkupUnit('Usa ⟦0⟧.', unit, (code) => code);
+    expect(mismatchedDelimiter(source, restored)).toBeDefined();
+});
+
+test('a placeholder naming nothing survives restoration to be caught', () => {
+    const unit = protectMarkupUnit('Use \\1\\.');
+    expect(
+        hasResidualLinkMask(restoreMarkupUnit('Usa ⟦7⟧.', unit, (c) => c)),
+    ).toBe(true);
 });

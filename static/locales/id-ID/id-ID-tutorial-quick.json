@@ -29,7 +29,7 @@
                             "happy",
                             "$~Di kebanyakan @language pemrograman, sebuah program adalah daftar pernyataan yang memberi tahu komputer apa yang harus *dilakukan*, seperti mencetak sebuah @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
-                            "$~Di @wordplay, program adalah *expression* yang menyatakan apa /hasil/ dari program tersebut, bukan bagaimana @how menghasilkannya.",
+                            "$~Di @wordplay, program adalah *expression* yang menyatakan apa /hasil/ dari program tersebut, bukan bagaimana cara menghasilkannya.",
                             "$~Program ini mengevaluasi menjadi value \\'hai'\\, yang kemudian ditampilkan di panggung. Tidak ada perintah cetak, hanya sebuah @expression yang menyatakan value apa yang harus dievaluasi."
                         ],
                         null,
@@ -117,7 +117,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Bahasa pemrograman juga punya @how membuat kumpulan value, seperti daftar, himpunan, dan peta (sering dikenal sebagai kamus atau hash):",
+                            "$~Bahasa pemrograman juga punya cara membuat kumpulan value, seperti daftar, himpunan, dan peta (sering dikenal sebagai kamus atau hash):",
                             "\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
                             "$~@wordplay menggunakan sintaks berbeda untuk kumpulan ini, terutama menggunakan spasi untuk memisahkan value, bukan koma."
                         ],
@@ -211,7 +211,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Kebanyakan bahasa pemrograman punya @how untuk mengambil masukan dari pengguna:",
+                            "$~Kebanyakan bahasa pemrograman punya cara untuk mengambil masukan dari pengguna:",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
                             "$~Masukan @wordplay berasal dari *@stream*, yaitu value khusus yang berubah seiring waktu, sebagai tanggapan atas masukan, dan menyebabkan program Wordplay mengevaluasi ulang dengan value baru dari aliran tersebut.",
                             "$~Program ini, misalnya, menggunakan aliran @Time untuk menggerakkan putaran emoji bola dunia. Setiap kali aliran @Time() berdetak ke @value baru, program mengevaluasi ulang dengan value baru, memperbarui value program di @Stage."

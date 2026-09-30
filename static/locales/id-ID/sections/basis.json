@@ -4,8 +4,8 @@
         "Boolean": {
             "doc": [
                 "$~Kita adalah \\⊤\\ dan \\⊥\\. \\⊤\\ itu benar. \\⊥\\ itu salah. \\⊤\\ bukan \\⊥\\; \\⊥\\ bukan \\⊤\\. Beginilah adanya.",
-                "Bagaimana @how Anda membuat kami? Hanya \\⊤\\ dan \\⊥\\, tidak lebih, tidak kurang.",
-                "Beberapa menggunakan keyboard (/ctrl+9/ untuk \\⊤\\ dan /ctrl+0/ untuk \\⊥\\). Beberapa menggunakan pencarian karakter di bagian bawah @editor. Atau Anda dapat menyeret kami dari sini.",
+                "Bagaimana cara Anda membuat kami? Hanya \\⊤\\ dan \\⊥\\, tidak lebih, tidak kurang.",
+                "Ada yang mengetik kami dengan pintasan papan ketik; daftar /Jalan pintas/ menunjukkan tombol apa saja, dan memungkinkan kamu mengubahnya. Ada juga yang memakai tombol dan pencarian karakter di bagian bawah @editor. Atau kamu bisa menyeret kami dari sini.",
                 "Lihat @FunctionDefinition kami di bawah ini. Penjelasannya sangat logis."
             ],
             "name": ["$~⊤⊥", "$~Boolean"],
@@ -271,7 +271,7 @@
                         "$~Aku membuat @Text baru yang seperti aku, dengan setiap huruf besar semua:",
                         "\\'halo'.hurufBesar()\\",
                         "Huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, jadi teks dalam sistem tulisan yang tidak punya itu, seperti tulisan Jepang atau Arab, tidak berubah.",
-                        "Tanda bahasaku menentukan aturan siapa yang dipakai. @language Turki punya huruf i bertitik dan i tanpa titik, dan hanya teks yang ditandai sebagai bahasa Turki yang diubah menjadi huruf besar dengan @how Turki:",
+                        "Tanda bahasaku menentukan aturan siapa yang dipakai. @language Turki punya huruf i bertitik dan i tanpa titik, dan hanya teks yang ditandai sebagai bahasa Turki yang diubah menjadi huruf besar dengan cara Turki:",
                         "\\'iyi'/tr.hurufBesar()\\",
                         "\\'iyi'.hurufBesar()\\"
                     ],
@@ -282,7 +282,7 @@
                     "doc": [
                         "$~Aku membuat @Text baru yang seperti aku, dengan setiap huruf kecil semua:",
                         "\\'HALO'.hurufKecil()\\",
-                        "Ubah dua teks menjadi huruf kecil untuk membandingkannya tanpa peduli pada huruf besar atau kecil. @how ini tetap menyimpan setiap kata yang dimulai dengan huruf a, baik ditulis dengan huruf besar maupun tidak:",
+                        "Ubah dua teks menjadi huruf kecil untuk membandingkannya tanpa peduli pada huruf besar atau kecil. Cara ini tetap menyimpan setiap kata yang dimulai dengan huruf a, baik ditulis dengan huruf besar maupun tidak:",
                         "\\['Apel' 'aprikot' 'Pisang'].menyaring(\n\tƒ(kata•'') kata.hurufKecil().mulai('a')\n)\\",
                         "Seperti @Text/uppercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
                     ],
@@ -1352,7 +1352,7 @@
                         "\\['Jeruk' 'kiwi' 'Pisang' 'apel'].diurutkan()\\",
                         "Dan jika kamu punya daftar nilai yang bukan @Number atau @Text, kamu bisa memberiku @FunctionDefinition yang mengubah setiap item menjadi @Number atau @Text supaya aku bisa mengurutkannya. Misalnya, di sini ada daftar berisi beberapa daftar dengan panjang berbeda; jika kamu memberiku fungsi yang mengubah setiap daftar menjadi panjangnya, aku bisa mengurutkan berdasarkan panjangnya.",
                         "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar3) daftar3.panjang()\n)\\",
-                        "Fungsi yang membuat @Text adalah @how untuk mengurutkan berdasarkan kata yang kamu hitung sendiri, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
+                        "Fungsi yang membuat @Text adalah cara untuk mengurutkan berdasarkan kata yang kamu hitung sendiri, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama3•'') (nama3 ÷ ' ').terakhir()\n)\\"
                     ],
                     "names": "$~diurutkan",
@@ -1579,7 +1579,7 @@
                 "\\{1:1 2:2 3:3}\\",
                 "Tapi misalnya kamu ingin memastikan bahwa isinya hanya nilai-nilai itu saja; cukup tambahkan ! di ujungku, dan aku tidak akan menggeneralisasi. Itu akan membantumu tahu jika kamu mencoba mengambil nilai yang tidak kamu maksud.",
                 "\\{1:1 2:2 3:3}!{4}\\🪲",
-                "Aku tahu @how melakukan banyak hal menakjubkan dengan pasangan-pasanganku."
+                "Aku tahu cara melakukan banyak hal menakjubkan dengan pasangan-pasanganku."
             ],
             "name": ["$~Peta"],
             "key": "$~Kunci",

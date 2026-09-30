@@ -70,3 +70,16 @@ describe('getLanguageAttributes', () => {
         });
     });
 });
+
+describe('getTermByID', () => {
+    test('shows a machine-translated word without its marker', () => {
+        const pl = localeWith('pl', ['PL'], '$~zacznij');
+        expect(locales(pl).getTermByID('start')).toBe('zacznij');
+    });
+
+    test('falls back past an unwritten word', () => {
+        expect(locales(esUnwritten).getTermByID('start')).toBe(
+            DefaultLocale.glossary.start.word,
+        );
+    });
+});

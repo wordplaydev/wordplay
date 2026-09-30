@@ -11,25 +11,26 @@
  * key, → ConceptLink). Existing `@`-refs, `$`-mentions, and `\code\` are left
  * untouched, and a definition never links a word to its own term.
  *
- * It rewrites `src/locale/en-US.json` and every `static/locales/<loc>/<loc>.json`
- * (write-if-changed, Prettier-formatted), so re-runs don't churn git.
+ * It rewrites each locale's section files and its assembly through `writeLocale`
+ * (write-if-changed, Prettier-formatted), so re-runs don't churn git. It once
+ * wrote only the assembly, which is gitignored and rebuilt from the sections, so
+ * its links vanished on the next `locales-assemble`.
  *
  * Run: npx tsx src/util/verify-locales/linkGlossaryDefinitions.ts
  */
 import fs from 'fs';
 import { isRecord } from '@util/guards';
 import path from 'path';
-import writeFormatted from '@util/verify-locales/writeFormatted';
 import Log from '@util/verify-locales/Log';
+import { readLocale, writeLocale } from '@util/verify-locales/localeFiles';
+import { ExcludedTerms } from '@util/verify-locales/glossaryLinks';
+import { isRevised, isUnwritten } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { protectedRanges, escapeRegExp } from '@util/verify-locales/markupText';
 import { must } from '@util/nullable';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);
-
-/** Glossary ids whose word is almost always an everyday word (not the term). */
-const EXCLUDE_GLOSSARY = new Set(['start']);
 
 /**
  * Concept keys (locale-independent) worth linking from a definition. An
@@ -119,11 +120,6 @@ function linkBody(body: string, candidates: Candidate[]): string {
     return out;
 }
 
-function readJSON(file: string): Record<string, unknown> | undefined {
-    const json: unknown = JSON.parse(fs.readFileSync(file, 'utf8'));
-    return isRecord(json) ? json : undefined;
-}
-
 /** Build the concept-name → key vocabulary for one locale, from allowlisted keys. */
 function conceptVocab(
     json: Record<string, unknown>,
@@ -159,8 +155,12 @@ function linkDefinitions(json: Record<string, unknown>): number {
     // Glossary word → id (annotation-free), minus excluded ids.
     const wordToId = new Map<string, string>();
     for (const [id, entry] of Object.entries(glossary)) {
-        if (EXCLUDE_GLOSSARY.has(id) || !isRecord(entry)) continue;
-        const word = withoutAnnotations(String(entry['word'] ?? '')).trim();
+        // The same everyday words the first-use linker leaves alone, and any
+        // word queued for translation, which is about to be replaced.
+        if (ExcludedTerms.has(id) || !isRecord(entry)) continue;
+        const raw = String(entry['word'] ?? '');
+        if (isUnwritten(raw) || isRevised(raw)) continue;
+        const word = withoutAnnotations(raw).trim();
         if (word.length > 0) wordToId.set(word.toLowerCase(), id);
     }
     const glossaryWords = new Set(wordToId.keys());
@@ -193,27 +193,26 @@ function linkDefinitions(json: Record<string, unknown>): number {
 }
 
 async function run(): Promise<void> {
-    const files = ['src/locale/en-US.json'];
+    const locales = ['en-US'];
     const localesDir = path.join('static', 'locales');
     for (const dir of fs.readdirSync(localesDir, { withFileTypes: true }))
-        if (dir.isDirectory()) {
-            const file = path.join(localesDir, dir.name, `${dir.name}.json`);
-            if (fs.existsSync(file)) files.push(file);
-        }
+        if (dir.isDirectory() && dir.name !== 'en-US') locales.push(dir.name);
 
     let total = 0;
-    const linking = log.pending(`Linking definitions in ${files.length} files`);
-    for (const file of files) {
-        const json = readJSON(file);
-        if (json === undefined) continue;
+    const linking = log.pending(
+        `Linking definitions in ${locales.length} locales`,
+    );
+    for (const locale of locales) {
+        const json = readLocale(log, locale);
+        if (!isRecord(json)) continue;
         const added = linkDefinitions(json);
         if (added > 0) {
-            await writeFormatted(file, JSON.stringify(json, null, 4));
+            await writeLocale(log, locale, json);
             total += added;
         }
-        linking.say(`${file}: linked ${added} definition(s)`);
+        linking.say(`${locale}: linked ${added} definition(s)`);
     }
-    log.good(`Linked ${total} definitions across ${files.length} locales.`);
+    log.good(`Linked ${total} definitions across ${locales.length} locales.`);
 }
 
 await run();

@@ -848,6 +848,77 @@ export function driftSince(
 }
 
 /**
+ * The elements of each markup array whose English changed since `base` while
+ * the locale's translation of that element did not — the paragraphs a
+ * re-translation actually needs, keyed by `LocalePath.toString()`.
+ *
+ * A markup array re-translated whole came back with every paragraph reworded,
+ * including the ones whose English never moved; one of those rewordings turned
+ * "⊥ is not ⊤" into "⊥ is ⊤". Asking also that the locale's element be
+ * unchanged is what keeps this from repeating: once a paragraph has been
+ * re-translated it no longer qualifies, so a doc queued again for some other
+ * reason falls back to being translated whole rather than re-buying the same
+ * paragraph forever. Arrays whose length changed on either side are left out,
+ * since their elements no longer pair up by index.
+ */
+export function staleMarkupElements(
+    base: string,
+    /** Each en-US file with the locale's file that translates it. */
+    files: readonly (readonly [string, string])[],
+    kinds: Map<string, { kind: LocaleStringKind; pair: LocalePath }>,
+    cwd?: string,
+): Map<string, number[]> {
+    const elements = (value: string | undefined): string[] | undefined => {
+        if (value === undefined) return undefined;
+        const parsed: unknown = JSON.parse(value);
+        return Array.isArray(parsed) &&
+            parsed.every((element) => typeof element === 'string')
+            ? parsed
+            : undefined;
+    };
+    const stale = new Map<string, number[]>();
+    for (const [sourceFile, targetFile] of files) {
+        const sourceBefore = valuesAt(base, sourceFile, cwd);
+        const sourceAfter = valuesAt(WorkingTree, sourceFile, cwd);
+        const targetBefore = valuesAt(base, targetFile, cwd);
+        const targetAfter = valuesAt(WorkingTree, targetFile, cwd);
+        if (
+            sourceBefore === undefined ||
+            sourceAfter === undefined ||
+            targetBefore === undefined ||
+            targetAfter === undefined
+        )
+            continue;
+        for (const [id, current] of sourceAfter) {
+            if (kinds.get(id)?.kind !== 'markup') continue;
+            const was = elements(sourceBefore.get(id));
+            const now = elements(current);
+            const translatedWas = elements(targetBefore.get(id));
+            const translatedNow = elements(targetAfter.get(id));
+            if (
+                was === undefined ||
+                now === undefined ||
+                translatedWas === undefined ||
+                translatedNow === undefined ||
+                was.length !== now.length ||
+                translatedWas.length !== now.length ||
+                translatedNow.length !== now.length
+            )
+                continue;
+            const indices = now
+                .map((_, index) => index)
+                .filter(
+                    (index) =>
+                        was[index] !== now[index] &&
+                        translatedWas[index] === translatedNow[index],
+                );
+            if (indices.length > 0) stale.set(id, indices);
+        }
+    }
+    return stale;
+}
+
+/**
  * Translatable en-US pairs whose meaning changed between two git revisions.
  *
  * This is the cheap counterpart to the full census: two blob reads instead of a

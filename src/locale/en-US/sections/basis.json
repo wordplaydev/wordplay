@@ -5,7 +5,7 @@
             "doc": [
                 "We are \\⊤\\ and \\⊥\\. \\⊤\\ is true. \\⊥\\ is false. \\⊤\\ is not \\⊥\\; \\⊥\\ is not \\⊤\\. This is how it is.",
                 "How do you make us? Just \\⊤\\ and \\⊥\\, nothing more, nothing less.",
-                "Some use the keyboard (/ctrl+9/ for \\⊤\\ and /ctrl+0/ for \\⊥\\). Some use the character search at the bottom of the @editor. Or you can drag us from here.",
+                "Some type us with a keyboard shortcut; the /shortcuts/ list shows which keys, and lets you change them. Some use the buttons and character search at the bottom of the @editor. Or you can drag us from here.",
                 "Check out our @FunctionDefinition below. They're very logical."
             ],
             "name": ["⊤⊥", "Boolean"],

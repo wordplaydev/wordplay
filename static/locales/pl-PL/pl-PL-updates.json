@@ -1012,6 +1012,11 @@
         "e982ffd8b3a0b": "$~Emoji wczytują się teraz szybciej w Safari, a przeglądarka zapamiętuje teraz czcionki między odwiedzinami, zamiast pobierać je ponownie.",
         "e2222194ec679": "$~Poradnik „jak” nie pokazuje już dwa razy osoby, która go napisała.",
         "ea64e28744d1d": "$~Emoji zderzają się teraz ze sobą według swojego kształtu, gdy @Matter prosi o kontur, a tekst teraz opiera się na tym, czego dotyka, zamiast się w to zapadać. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
-        "effb062f72059": "$~Litery, które stykają się swoim konturem, mają teraz miejsce w środku, więc małe rzeczy mogą odbijać się wewnątrz litery O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)"
+        "effb062f72059": "$~Litery, które stykają się swoim konturem, mają teraz miejsce w środku, więc małe rzeczy mogą odbijać się wewnątrz litery O. (<1435@https://github.com/wordplaydev/wordplay/issues/1435>)",
+        "e05d86cc70d38": "$~Muzyka wprawia teraz w drgania kontrolery do gier, które potrafią wibrować. Niskie dźwięki czuć jak głębokie uderzenia, a wysokie jak delikatne brzęczenie. (<1345@https://github.com/wordplaydev/wordplay/issues/1345>)",
+        "ebd63de5a63f1": "$~Czytniki ekranu i mowa syntezowana czytają teraz każde słowo w jego własnym języku. Hiszpańskie słowo w angielskim zdaniu brzmi więc po hiszpańsku. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
+        "e7914aaea390a": "$~W 13 językach zwykłe słowa, takie jak „jak”, nie zamieniają się już przez pomyłkę w linki z kropkowanym podkreśleniem.",
+        "ed72c4878ae09": "$~Nazwy przycisków i ustawień w wycieczkach i dokumentacji używają teraz słów z danego języka zamiast angielskich.",
+        "e42e9e3c1d92a": "$~Słowa z kropkowanym podkreśleniem nie pokazują już przed sobą przypadkowych symboli w niektórych językach."
     }
 }

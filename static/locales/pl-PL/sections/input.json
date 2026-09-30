@@ -48,12 +48,12 @@
                 "Ale jeśli /naprawdę/ musisz słuchać przycisku myszy, to jest na to sposób. Zapewni strumień @Boolean, mówiący, czy główny przycisk jest uniesiony \\⊥\\ czy wciśnięty \\⊤\\.",
                 "Oto prosty przykład:",
                 "\\Wyrażenie(Przycisk() → '')\\",
-                "To po prostu tworzy @Phrase, która jest @value strumienia jako tekst. Jeśli skopiujesz to do edytora i klikniesz, zobaczysz, @how przełącza się w przód i w tył między \\⊥\\ a \\⊤\\."
+                "To po prostu tworzy @Phrase, która jest @value strumienia jako tekst. Jeśli skopiujesz to do edytora i klikniesz, zobaczysz, jak przełącza się w przód i w tył między \\⊥\\ a \\⊤\\."
             ],
             "names": ["$~Przycisk"],
             "down": {
                 "names": "$~wdół",
-                "doc": "$~Jeśli @None, @stream będzie dawać zarówno wartości w górę, @how i w dół. Jeśli \\⊤\\, zmieni się tylko po naciśnięciu przycisku. Jeśli podasz \\⊥\\, zmieni się tylko po zwolnieniu przycisku."
+                "doc": "$~Jeśli @None, @stream będzie dawać zarówno wartości w górę, jak i w dół. Jeśli \\⊤\\, zmieni się tylko po naciśnięciu przycisku. Jeśli podasz \\⊥\\, zmieni się tylko po zwolnieniu przycisku."
             }
         },
         "Pointer": {
@@ -61,7 +61,7 @@
                 "$~Śledzi, w które miejsca w @Stage wskaże Twoja publiczność.",
                 "/wrrrrrr/",
                 "Oczywiście, nie jest to dostępny wybór: nie każdy może to zobaczyć lub łatwo wskazać, więc upewnij się, że nie wykluczasz nikogo z uczestnictwa, korzystając z tej transmisji.",
-                "Jeśli masz pewność, że nikt nie został wykluczony, użycie @Pointer jest tak proste, @how utworzenie strumienia:",
+                "Jeśli masz pewność, że nikt nie został wykluczony, użycie @Pointer jest tak proste, jak utworzenie strumienia:",
                 "\\Pointer()\\",
                 "@Place które podaje, będzie odpowiadać miejscu, na które wskazuje wskaźnik na @Stage ."
             ],
@@ -73,7 +73,7 @@
                 "/klikliku/",
                 "Spróbuj tego",
                 "\\Klawisz()\\",
-                "Widzisz, @how gdy piszesz klawisz, pojawia się on na @Stage? Za każdym razem, gdy klawisz zostaje wciśnięty, do strumienia dodawany jest nowy @Text, opisujący naciśnięty klawisz.",
+                "Widzisz, jak gdy piszesz klawisz, pojawia się on na @Stage? Za każdym razem, gdy klawisz zostaje wciśnięty, do strumienia dodawany jest nowy @Text, opisujący naciśnięty klawisz.",
                 "Dla klawisza, który odpowiada znakowi, @value będzie tym znakiem jako @Text.",
                 "Dla klawiszy specjalnych, jak klawisz /Escape/, będzie to @Text opisujący klawisz, używający <wcześniej zdefiniowanej nazwy@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, niestety dostępnej tylko po angielsku.",
                 "Jeśli chcesz wiedzieć tylko o konkretnym klawiszu, możesz go podać:",
@@ -153,7 +153,7 @@
                 "\\Czas()\\",
                 "Jeśli podasz czas jako @Time.frequency, będzie tykać w tym tempie. Na przykład:",
                 "\\Czas(1000ms)\\",
-                "Jest jednak granica, @how małe może to być, ponieważ @Program potrzebuje czasu na obliczenie, zanim będzie mógł zareagować na następne tyknięcie.",
+                "Jest jednak granica, jak małe może to być, ponieważ @Program potrzebuje czasu na obliczenie, zanim będzie mógł zareagować na następne tyknięcie.",
                 "Najmniejszy jest prawdopodobnie około \\20ms\\."
             ],
             "names": ["$~Czas"],
@@ -172,7 +172,7 @@
                 "/bzzzzzzzz/",
                 "Próbkowanie odbywa się z wybraną przez Ciebie częstotliwością. Domyślnie częstotliwość wynosi \\30hz\\ , czyli 30 razy na sekundę, ale możesz ją zmienić na rzadszą.",
                 "\\Volume()\\",
-                "To świetne narzędzie, aby sprawdzić, @how głośna jest publiczność!"
+                "To świetne narzędzie, aby sprawdzić, jak głośna jest publiczność!"
             ],
             "names": ["$~Tom"],
             "frequency": {
@@ -222,7 +222,7 @@
                 "$~Pokazuje @List z @Phrase, @Group lub @Shape po kolei, jeden po drugim, i zatrzymuje się na ostatnim.",
                 "/Boop boop boop/",
                 "Aby kontrolować czas, możesz albo ustawić @Phrase.duration na każdym wyjściu — wtedy będzie pokazywane przez tyle czasu, zanim pojawi się następne — i użyć dowolnych przejść @Phrase.entering lub @Phrase.exiting, jakie ustawiłeś. Jeśli ustawisz je na @Sequence, użyje jego czasu trwania.",
-                "Dzięki temu możesz robić takie rzeczy @how ten mały @Scene, który pokazuje po kolei te trzy frazy:",
+                "Dzięki temu możesz robić takie rzeczy jak ten mały @Scene, który pokazuje po kolei te trzy frazy:",
                 "\\Pokaz(\n\t[\n\t\tWyrażenie('Cześć' czastrwania: 1s)\n\t\tWyrażenie(\n\t\t\t'Jak się masz?'\n\t\t\tczastrwania: 2s\n\t\t\tobrót: 5°\n\t\t\twstępowanie: Poza(obrót: 0°)\n\t\t)\n\t\tWyrażenie('Mam się dobrze')\n\t]\n)\\",
                 "Widzisz, jak pierwsze wyjście pokazuje się przez sekundę, potem następne przez dwie sekundy, ale z animacją obrotu o pięć stopni, a na końcu pokazuje się ostatnie?",
                 "Możesz tworzyć bardzo rozbudowane sekwencje wyjść i animacji za pomocą @Scene, a nawet uczynić ich fragmenty dynamicznymi lub interaktywnymi, tak jak w przypadku każdego innego @Phrase czy @Group.",
@@ -244,20 +244,20 @@
             },
             "loop": {
                 "names": "$~pętla",
-                "doc": "$~Czy wracam do pierwszego wyjścia, gdy skończę ostatnie. Zatrzymuję się na ostatnim, chyba że to jest \\⊤\\. Sprawdzam to przy każdej ocenie, więc możesz zarówno kończyć, @how i zaczynać pętlę."
+                "doc": "$~Czy wracam do pierwszego wyjścia, gdy skończę ostatnie. Zatrzymuję się na ostatnim, chyba że to jest \\⊤\\. Sprawdzam to przy każdej ocenie, więc możesz zarówno kończyć, jak i zaczynać pętlę."
             },
             "replay": {
                 "names": "$~odtwórzPonownie",
                 "doc": [
                     "$~Kiedy to jest \\⊤\\ podczas oceny, zaczynam od nowa od pierwszego wyjścia, niezależnie od tego, gdzie doszedłem, a mój @Slate/lap wraca do 0.",
-                    "Daj mi /chwilowy/ @condition, taki, który jest prawdziwy tylko podczas oceny wywołanej danym zdarzeniem, @how \\∆ Przycisk()\\. Trwały warunek, taki jak \\score > 10\\🪲 pozostaje prawdziwy, gdy raz się nim stanie, więc restartowałby mnie przy każdej kolejnej ocenie."
+                    "Daj mi /chwilowy/ @condition, taki, który jest prawdziwy tylko podczas oceny wywołanej danym zdarzeniem, jak \\∆ Przycisk()\\. Trwały warunek, taki jak \\score > 10\\🪲 pozostaje prawdziwy, gdy raz się nim stanie, więc restartowałby mnie przy każdej kolejnej ocenie."
                 ]
             },
             "pause": {
                 "names": "$~pauza",
                 "doc": [
                     "$~Dopóki to jest \\⊤\\ stoję w miejscu, a gdy wróci do \\⊥\\ ruszam dalej. Wyjście, które odliczało czas, zachowuje to, ile mu jeszcze zostało, więc pauza w środku długiego @Phrase nie zaczyna go od nowa.",
-                    "W przeciwieństwie do @Scene/replay, chcę /trwałego/ @condition, takiego, który pozostaje prawdziwy tak długo, @how chcesz, żebym czekał. Zostaw mnie zapauzowanym na stałe, a nigdy nie ruszę się sam — dokładnie tego potrzebuje pokaz slajdów: wtedy @Scene/go jest jedyną rzeczą, która mnie przesuwa."
+                    "W przeciwieństwie do @Scene/replay, chcę /trwałego/ @condition, takiego, który pozostaje prawdziwy tak długo, jak chcesz, żebym czekał. Zostaw mnie zapauzowanym na stałe, a nigdy nie ruszę się sam — dokładnie tego potrzebuje pokaz slajdów: wtedy @Scene/go jest jedyną rzeczą, która mnie przesuwa."
                 ]
             },
             "go": {
@@ -265,7 +265,7 @@
                 "doc": [
                     "$~Dokąd pójść dalej. Daj mi liczbę, a pokażę to wyjście, licząc od 1; daj mi nazwę, a pokażę to wyjście, któremu nadałeś ten @Phrase/name.",
                     "Liczę tylko wyjścia, nigdy @Boolean pomiędzy nimi, więc wysłanie mnie do 2 oznacza moje drugie @Phrase, bez względu na to, ile warunków stoi na drodze.",
-                    "Tak @how @Scene/replay, to chce /chwilowego/ @condition — czegoś, co jest \\ø\\ poza oceną, podczas której chcesz, żebym się przesunął. Liczba, która by tak została, przypięłaby mnie tam na zawsze.",
+                    "Tak jak @Scene/replay, to chce /chwilowego/ @condition — czegoś, co jest \\ø\\ poza oceną, podczas której chcesz, żebym się przesunął. Liczba, która by tak została, przypięłaby mnie tam na zawsze.",
                     "Wyślij mnie poza dowolny koniec, a zatrzymam się tam, chyba że @Scene/loop jest \\⊤\\, w takim przypadku wracam dookoła. To znaczy, że nigdy nie musisz tego sprawdzać. Tutaj klawisze strzałek przesuwają pokaz slajdów w obie strony:",
                     "Jeśli wolisz powiedzieć /jeden do przodu/ zamiast /numer trzy/, właśnie do tego służy @Scene/step.",
                     "\\slajdy: [\n\t\tWyrażenie('jeden')\n\t\tWyrażenie('dwa')\n\t\tWyrażenie('trzy')\n\t]\nklawisz2: Klawisz()\nw: Spotlight()\nPokaz(\n\tslajdy\n\tpauza: ⊤\n\tstart: ∆ klawisz2 ? ((klawisz2 = 'Strzałka w lewo') ? w.index - 1 (klawisz2 = 'Strzałka w prawo') ? w.index + 1 ø) ø\n)\\"
@@ -288,7 +288,7 @@
                 "names": "$~krok",
                 "doc": [
                     "$~Ile wyjść przesunąć, licząc od miejsca, w którym jestem: \\1\\ to jeden do przodu, a \\-1\\ to jeden do tyłu. To jest @Scene/go wyrażone jako odległość, a nie miejsce.",
-                    "Tak @how @Scene/go, zatrzymuję się na moich końcach, chyba że @Scene/loop jest \\⊤\\, więc nigdy nie musisz tego sprawdzać, a ja chcę /chwilowego/ @condition — czegoś, co jest \\ø\\ z wyjątkiem tego przebiegu, w którym chcesz, żebym się przesunął.",
+                    "Tak jak @Scene/go, zatrzymuję się na moich końcach, chyba że @Scene/loop jest \\⊤\\, więc nigdy nie musisz tego sprawdzać, a ja chcę /chwilowego/ @condition — czegoś, co jest \\ø\\ z wyjątkiem tego przebiegu, w którym chcesz, żebym się przesunął.",
                     "\\slajdy: [\n\t\tWyrażenie('jeden')\n\t\tWyrażenie('dwa')\n\t\tWyrażenie('trzy')\n\t]\nklawisz2: Klawisz()\nPokaz(\n\tslajdy\n\tpauza: ⊤\n\tkrok: ∆ klawisz2 ? ((klawisz2 = 'Strzałka w lewo') ? -1 (klawisz2 = 'Strzałka w prawo') ? 1 ø) ø\n)\\",
                     "Nic tutaj nie musi wiedzieć, który @Phrase jest pokazywany — to jest różnica względem @Scene/go. Zapytaj @Spotlight, jeśli chcesz to pokazać na scenie."
                 ]
@@ -301,7 +301,7 @@
                 "Nadajesz mu początkowe @Phrase , a następnie dopracowuje je, podając nowe miejsce i obrót na podstawie grawitacji.",
                 "Dzięki temu możesz wykonywać naprawdę proste rzeczy, na przykład tworzyć skaczące emotikony:",
                 "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
-                "Widzisz, @how o się odbija? Podczas pierwszej oceny przypisujesz mu miejsce wysoko na @Stage , ale później otrzymuje @None , co pozwala @Motion zmienić jego położenie na dowolne położenie, jakie ustawiłaby grawitacja.",
+                "Widzisz, jak o się odbija? Podczas pierwszej oceny przypisujesz mu miejsce wysoko na @Stage , ale później otrzymuje @None , co pozwala @Motion zmienić jego położenie na dowolne położenie, jakie ustawiłaby grawitacja.",
                 "Sprawdź poniżej, jak jeszcze możesz to skonfigurować."
             ],
             "names": ["$~Ruch"],
@@ -327,7 +327,7 @@
                 "$~To @stream wiadomości @Text wpisywanych przez Twoją publiczność.",
                 "Na przykład ten prosty program sprawdza, czy wiadomość brzmi „hello” i jeśli tak, program interpretuje ją jako „hi”. W przeciwnym razie interpretuje ją jako „huh”?",
                 "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
-                "To wszystko! Możesz tworzyć za jego pomocą wszelkiego rodzaju występy, takie @how boty czatowe, przygody tekstowe czy tekstowe schematy sterowania do innych rodzajów występów."
+                "To wszystko! Możesz tworzyć za jego pomocą wszelkiego rodzaju występy, takie jak boty czatowe, przygody tekstowe czy tekstowe schematy sterowania do innych rodzajów występów."
             ],
             "names": ["$~Pogawędzić"]
         },
@@ -336,7 +336,7 @@
                 "$~Pozwala twojej widowni przeciągać @Output do @Place na @Stage.",
                 "Jest wiele sposobów umieszczania @Output na @Stage: nadaj im wyraźną @Place, użyj @Motion i pozwól, aby grawitacja zrobiła swoje, albo umieść je w @Group, aby je uporządkować.",
                 "Czasem jednak chcesz dać /widowni/ kontrolę nad tym, gdzie @Output trafia na @Stage.",
-                "Oto @how to działa: stwórz @Placement i przekaż go do @Place elementu @Output:",
+                "Oto jak to działa: stwórz @Placement i przekaż go do @Place elementu @Output:",
                 "\\Wyrażenie('cześć' miejsce: Umieszczenie())\\",
                 "Wtedy, za każdym razem, gdy widownia użyje strzałki @key albo kliknie lub dotknie sceny, @Placement stworzy nowy @Place, który porusza się w wybranym kierunku.",
                 "Spróbuj skopiować to do swojego programu i poruszać @Output wskaźnikiem lub klawiaturą.",
@@ -370,7 +370,7 @@
             "doc": [
                 "$~Pobiera tekst z adresu internetowego, który mu podasz.",
                 "Internet jest fascynujący — cały świat połączonych komputerów, które dzielą się ze sobą dokumentami.",
-                "Ten @stream łączy się z nim — podaj mu adres URL, tak @how tutaj:",
+                "Ten @stream łączy się z nim — podaj mu adres URL, tak jak tutaj:",
                 "\\Stronainternetowa('https://wordplay.dev')\\",
                 "I podobno istnieje coś takiego jak <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, co pozwala @query rzeczy na stronie internetowej? Podaj mu zapytanie wyboru CSS, a pobierze tylko tekst pasujący do tego zapytania. Tak jak w tym przykładzie, który pobiera nagłówki pierwszego poziomu.",
                 "\\Stronainternetowa('https://wordplay.dev' 'h1')\\",
@@ -404,7 +404,7 @@
                 "Aby dwa @Output mogły się zauważyć, nadaj im obu nazwy, a potem podaj mi obie te nazwy. Stworzę nowe @Rebound za każdym razem, gdy się dotkną. Nie potrzebują do tego @Matter — sama nazwa wystarczy, żebym mógł coś obserwować.",
                 "Podaj mi zamiast tego jedną nazwę, a powiem ci za każdym razem, gdy ten @Output dotknie czegoś innego w świecie fizycznym. @Output jest w świecie fizycznym, jeśli ma @Matter, jeśli umieścił go @Motion, jeśli jest @Shape bezpośrednio na @Stage, albo jeśli obserwuję też jego nazwę.",
                 "Zauważanie to nie to samo co odbijanie się. @Output popycha inne @Output tylko wtedy, gdy ma @Matter i @Motion, które je porusza. @Output, które umieszcza twój program, idzie dokładnie tam, gdzie je postawisz, więc przechodzi przez wszystko, czego dotknie — mimo to powiem ci o tym dotknięciu.",
-                "@Rebound zawiera nazwy tego, co się dotknęło, oraz kierunek, z którego nastąpiło dotknięcie. Zaraz po tym, @how go stworzę, stworzę też \\ø\\, ponieważ zderzenie kończy się w chwili, gdy się wydarza.",
+                "@Rebound zawiera nazwy tego, co się dotknęło, oraz kierunek, z którego nastąpiło dotknięcie. Zaraz po tym, jak go stworzę, stworzę też \\ø\\, ponieważ zderzenie kończy się w chwili, gdy się wydarza.",
                 "Mogę obserwować tylko @Output umieszczone bezpośrednio na @Stage. Wszystko wewnątrz @Group porusza się we własnej przestrzeni tej grupy, więc tego nie widzę — nadaj @Group nazwę i obserwuj ją zamiast tego."
             ],
             "subject": {
@@ -506,7 +506,7 @@
                 "\\🖋('a' \"Noto Sans\")\\",
                 "Podaj te wartości @Place do @List elementów @Phrase, aby zobaczyć kontur narysowany jako kropki:",
                 "\\🎭(🖋('a' \"Noto Sans\" 10m).tłumaczyć(ƒ(punkt) 💬('•' miejsce: punkt)))\\",
-                "Możesz skalować kontur za pomocą @Number metrów, przesunąć jego początek za pomocą @Place, wybrać grubość pisma, włączyć kursywę i ustawić `spacing` między punktami jako odległość w metrach. Mniejszy `spacing` śledzi kontur dokładniej, z równomiernie rozmieszczonymi punktami zarówno na liniach, @how i na krzywych.",
+                "Możesz skalować kontur za pomocą @Number metrów, przesunąć jego początek za pomocą @Place, wybrać grubość pisma, włączyć kursywę i ustawić `spacing` między punktami jako odległość w metrach. Mniejszy `spacing` śledzi kontur dokładniej, z równomiernie rozmieszczonymi punktami zarówno na liniach, jak i na krzywych.",
                 "Niektóre kształty, jak kolorowe emoji, nie mają konturu, więc nie dodają punktów. Podczas pobierania kroju pisma da ci pustą @List, a potem wypełni ją, gdy będzie gotowa."
             ],
             "names": ["$~Kontur"],
@@ -536,7 +536,7 @@
                     "names": "$~kursywa"
                 },
                 {
-                    "doc": "$~Odległość w metrach między punktami próbkowania wzdłuż konturu, spójna zarówno na liniach prostych, @how i krzywych. Mniejsze wartości pozwalają na dokładniejsze śledzenie, aż do minimum 0,01 metra.",
+                    "doc": "$~Odległość w metrach między punktami próbkowania wzdłuż konturu, spójna zarówno na liniach prostych, jak i krzywych. Mniejsze wartości pozwalają na dokładniejsze śledzenie, aż do minimum 0,01 metra.",
                     "names": "$~rozstaw"
                 },
                 {
@@ -566,15 +566,15 @@
             "names": ["$~Teraz"],
             "frequency": {
                 "names": ["$~częstotliwość"],
-                "doc": "$~@how często tworzę nowy @Moment, w sekundach, minutach lub godzinach. Jeśli \\ø\\, odmierzam co \\1s\\."
+                "doc": "$~jak często tworzę nowy @Moment, w sekundach, minutach lub godzinach. Jeśli \\ø\\, odmierzam co \\1s\\."
             },
             "timezone": {
                 "names": ["$~strefaCzasowa"],
-                "doc": "$~Standardowa nazwa strefy czasowej dla Momentów, które tworzę, złożona z regionu i miasta, @how \\'America/New_York'\\ lub \\'Asia/Tokyo'\\. Nie znasz nazwy? Napisz miasto, które znasz, a ja podpowiem najbliższą strefę czasową. Jeśli \\ø\\, używam strefy czasowej urządzenia, na którym działa program."
+                "doc": "$~Standardowa nazwa strefy czasowej dla Momentów, które tworzę, złożona z regionu i miasta, jak \\'America/New_York'\\ lub \\'Asia/Tokyo'\\. Nie znasz nazwy? Napisz miasto, które znasz, a ja podpowiem najbliższą strefę czasową. Jeśli \\ø\\, używam strefy czasowej urządzenia, na którym działa program."
             },
             "calendar": {
                 "names": ["$~kalendarz"],
-                "doc": "$~Nazwa kalendarza Unicode dla momentów, które tworzę, @how \\'gregory'\\, \\'hebrajski'\\, \\'chiński'\\ lub \\'japoński'\\. Jeśli \\ø\\, używam kalendarza z ustawień regionalnych czytelnika."
+                "doc": "$~Nazwa kalendarza Unicode dla momentów, które tworzę, jak \\'gregory'\\, \\'hebrajski'\\, \\'chiński'\\ lub \\'japoński'\\. Jeśli \\ø\\, używam kalendarza z ustawień regionalnych czytelnika."
             }
         },
         "Moment": {
@@ -586,7 +586,7 @@
                 "\\📅(godzina: 15 minuta: 30) → ''\\",
                 "Jeśli nie podasz mi żadnych części, przekształcam się w bieżącą datę i godzinę, gdziekolwiek program jest uruchomiony. Jeśli pominiesz części, każda część większa od największej, którą podałeś, pochodzi z bieżącej daty i godziny, a mniejsze części zaczynają się od swojego początku: więc \\📅(miesiąc: 12) → ''\\ to 1 grudnia tego roku, o północy. Przekształcając mnie, pokazuję tylko te rodzaje części, które podałeś: części daty tworzą datę, części czasu tworzą godzinę, a obie tworzą oba:",
                 "\\📅() → ''\\",
-                "Moja @Moment.timezone przyjmuje standardową nazwę strefy czasowej IANA, @how \\'America/Los_Angeles'\\ lub \\'Asia/Tokyo'\\; jeśli zostawisz ją \\ø\\, używam strefy czasowej urządzenia, na którym program jest uruchomiony. Mój @Moment.calendar przyjmuje nazwę kalendarza Unicode, jak \\'gregory'\\, \\'hebrajski'\\ lub \\'japoński'\\; jeśli zostawisz go \\ø\\, używam kalendarza z ustawień regionalnych czytelnika. Moje @Moment.year, @Moment.month i @Moment.day są w tym kalendarzu:",
+                "Moja @Moment.timezone przyjmuje standardową nazwę strefy czasowej IANA, jak \\'America/Los_Angeles'\\ lub \\'Asia/Tokyo'\\; jeśli zostawisz ją \\ø\\, używam strefy czasowej urządzenia, na którym program jest uruchomiony. Mój @Moment.calendar przyjmuje nazwę kalendarza Unicode, jak \\'gregory'\\, \\'hebrajski'\\ lub \\'japoński'\\; jeśli zostawisz go \\ø\\, używam kalendarza z ustawień regionalnych czytelnika. Moje @Moment.year, @Moment.month i @Moment.day są w tym kalendarzu:",
                 "\\📅(5786 10 4 kalendarz: 'hebrew') → ''\\",
                 "Przekształcenie mnie w @Text formatuje mnie zgodnie z ustawieniami regionalnymi czytelnika: ta sama chwila Moment wygląda inaczej po angielsku, 中文 czy हिन्दी i zmienia się, gdy zmieniają się ustawienia regionalne czytelnika.",
                 "Moje @Moment.era, @Moment.week i @Moment.weekday mają charakter informacyjny: @Now wypełnia je, gdy tworzy chwile Moment, ale są pomijane podczas formatowania.",
@@ -623,15 +623,15 @@
             },
             "timezone": {
                 "names": ["$~strefaCzasowa"],
-                "doc": "$~Standardowa nazwa strefy czasowej, złożona z regionu i miasta, @how \\'America/New_York'\\, \\'Europa/Paryż'\\, lub \\'Asia/Tokyo'\\. Nie znasz nazwy? Napisz miasto, które znasz, a ja podpowiem najbliższą strefę czasową. Jeśli \\ø\\, używam strefy czasowej urządzenia, na którym działa program."
+                "doc": "$~Standardowa nazwa strefy czasowej, złożona z regionu i miasta, jak \\'America/New_York'\\, \\'Europa/Paryż'\\, lub \\'Asia/Tokyo'\\. Nie znasz nazwy? Napisz miasto, które znasz, a ja podpowiem najbliższą strefę czasową. Jeśli \\ø\\, używam strefy czasowej urządzenia, na którym działa program."
             },
             "calendar": {
                 "names": ["$~kalendarz"],
-                "doc": "$~Nazwa kalendarza Unicode, @how \\'gregory'\\, \\'hebrajski'\\, \\'chiński'\\ lub \\'japoński'\\. Jeśli \\ø\\, kalendarz z ustawień regionalnych czytelnika."
+                "doc": "$~Nazwa kalendarza Unicode, jak \\'gregory'\\, \\'hebrajski'\\, \\'chiński'\\ lub \\'japoński'\\. Jeśli \\ø\\, kalendarz z ustawień regionalnych czytelnika."
             },
             "era": {
                 "names": ["$~era"],
-                "doc": "$~Era, w której jest mój rok, @how \\'ce'\\ lub \\'reiwa'\\. Informacyjna: @Now ją ustawia, a formatowanie ją pomija."
+                "doc": "$~Era, w której jest mój rok, jak \\'ce'\\ lub \\'reiwa'\\. Informacyjna: @Now ją ustawia, a formatowanie ją pomija."
             },
             "week": {
                 "names": ["$~tydzień"],
@@ -675,7 +675,7 @@
                 "/co to jest/",
                 "Podnieś coś do kamery, a @Objects spróbuje to nazwać.",
                 "Za kulisami @Objects używa modelu uczenia maszynowego, który zna 80 rodzajów codziennych rzeczy.",
-                "W każdej klatce @Objects daje ci @List z @Thing, uporządkowaną według tego, @how bardzo model jest pewny, z najpewniejszą na początku. Zajrzyj do @Thing, aby zobaczyć, co mówi ci każda z nich.",
+                "W każdej klatce @Objects daje ci @List z @Thing, uporządkowaną według tego, jak bardzo model jest pewny, z najpewniejszą na początku. Zajrzyj do @Thing, aby zobaczyć, co mówi ci każda z nich.",
                 "Model tylko zgaduje, więc czasem się pomyli albo nic nie zobaczy. Poproś o wyższą @value `confidence`, aby usłyszeć tylko te odpowiedzi, których jest najbardziej pewny.",
                 "Oto przykład, który nazywa wszystko, co widzi kamera:",
                 "\\🎭(📦() ↦ 💬(⬚.nazwa miejsce: ⬚.miejsce))\\",
@@ -697,7 +697,7 @@
                     "names": "$~kategoria"
                 },
                 {
-                    "doc": "$~@how pewny musi być model, zanim wspomnę o rzeczy, od 0 do 1. Wyższa @value oznacza mniej, ale lepszych odpowiedzi.",
+                    "doc": "$~jak pewny musi być model, zanim wspomnę o rzeczy, od 0 do 1. Wyższa @value oznacza mniej, ale lepszych odpowiedzi.",
                     "names": "$~pewność"
                 },
                 {
@@ -821,7 +821,7 @@
             ],
             "names": "$~MocnaMiara",
             "count": {
-                "doc": "$~Ile uderzeń zagrała ta muzyka, zaczynając od \\0\\.\n\nLiczenie zaczyna się, gdy muzyka się /zaczyna/, i zaczyna od nowa, gdy zaczyna się od nowa — @Music/replay, albo zejście ze sceny i powrót. Edycja muzyki podczas grania /nie/ zeruje mnie, i @Music/pause też nie — wstrzymana muzyka przestaje liczyć i podejmuje tam, gdzie skończyła. Zmiana wplata się, a liczenie trwa dalej, co sprawia, że edycja nie brzmi @how ponowne uruchomienie.",
+                "doc": "$~Ile uderzeń zagrała ta muzyka, zaczynając od \\0\\.\n\nLiczenie zaczyna się, gdy muzyka się /zaczyna/, i zaczyna od nowa, gdy zaczyna się od nowa — @Music/replay, albo zejście ze sceny i powrót. Edycja muzyki podczas grania /nie/ zeruje mnie, i @Music/pause też nie — wstrzymana muzyka przestaje liczyć i podejmuje tam, gdzie skończyła. Zmiana wplata się, a liczenie trwa dalej, co sprawia, że edycja nie brzmi jak ponowne uruchomienie.",
                 "names": "$~liczba"
             },
             "instruments": {
@@ -829,7 +829,7 @@
                 "names": "$~instrumenty"
             },
             "words": {
-                "doc": "$~Sylaby śpiewane na to uderzenie, w kolejności ścieżek, lub pusta lista, gdy nic nie jest śpiewane. To skrót dla częstego przypadku, tak @how @Downbeat/instruments; @Downbeat/parts ma szczegóły.",
+                "doc": "$~Sylaby śpiewane na to uderzenie, w kolejności ścieżek, lub pusta lista, gdy nic nie jest śpiewane. To skrót dla częstego przypadku, tak jak @Downbeat/instruments; @Downbeat/parts ma szczegóły.",
                 "names": "$~słowa"
             },
             "name": {
@@ -859,7 +859,7 @@
         },
         "Part": {
             "doc": [
-                "$~Jestem stanem jednej @Track na jednym uderzeniu: tym, co gra, @how głośno i w jakiej skali. @Downbeat niesie po jednym mnie na ścieżkę, żeby wizualizacja mogła narysować każdy głos osobno, a nie miks.",
+                "$~Jestem stanem jednej @Track na jednym uderzeniu: tym, co gra, jak głośno i w jakiej skali. @Downbeat niesie po jednym mnie na ścieżkę, żeby wizualizacja mogła narysować każdy głos osobno, a nie miks.",
                 "Moje wartości to te, których odtwarzacz naprawdę używa, po zastosowaniu każdej wartości domyślnej i zastąpienia — więc moja skala i klawisz to te tej ścieżki, a nie muzyki, gdy ścieżka ustawia własne."
             ],
             "names": "$~Część",
@@ -872,7 +872,7 @@
                 "names": "$~brzmienie"
             },
             "degrees": {
-                "doc": "$~Nuty pokrywające to uderzenie, tak @how zostały zapisane. Puste przy pauzie, i więcej niż jedna przy akordzie.",
+                "doc": "$~Nuty pokrywające to uderzenie, tak jak zostały zapisane. Puste przy pauzie, i więcej niż jedna przy akordzie.",
                 "names": "$~stopnie"
             },
             "pitch": {
@@ -880,7 +880,7 @@
                 "names": "$~wysokość"
             },
             "volume": {
-                "doc": "$~@how głośny jestem na tym uderzeniu — głośność mojej nuty razy mojej ścieżki — od \\0%\\ do \\100%\\, i \\0%\\ przy pauzie. Dobre do ustalania rozmiaru tego, co rysujesz.",
+                "doc": "$~jak głośny jestem na tym uderzeniu — głośność mojej nuty razy mojej ścieżki — od \\0%\\ do \\100%\\, i \\0%\\ przy pauzie. Dobre do ustalania rozmiaru tego, co rysujesz.",
                 "names": "$~głośność"
             },
             "pan": {
@@ -918,7 +918,7 @@
             }
         },
         "Slate": {
-            "doc": "$~Gdzie jest @Scene: co pokazuje, @how daleko doszedł i czy czeka.",
+            "doc": "$~Gdzie jest @Scene: co pokazuje, jak daleko doszedł i czy czeka.",
             "names": "$~Tabliczka",
             "scene": {
                 "names": "$~scena",

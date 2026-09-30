@@ -105,3 +105,21 @@ test('one bad unit does not cost the good ones', async () => {
         mismatchedDelimiter('one \\a\\ two', must(out, 'a translation')),
     ).toBeUndefined();
 });
+
+test('sends a text with several examples as one unit', async () => {
+    const sent: string[][] = [];
+    const record = async (units: string[]) => {
+        sent.push(units);
+        return units;
+    };
+    const source = 'Adds \\a\\ to \\b\\ then \\c\\';
+    expect(await translateProtectedMarkup([source], record)).toEqual([source]);
+    expect(sent).toEqual([['Adds ⟦0⟧ to ⟦1⟧ then ⟦2⟧']]);
+});
+
+test('a unit that loses a placeholder keeps the whole text', async () => {
+    const lose = async (units: string[]) =>
+        units.map((u) => u.replace('⟦1⟧', ''));
+    const source = 'Adds \\a\\ to \\b\\';
+    expect(await translateProtectedMarkup([source], lose)).toEqual([source]);
+});

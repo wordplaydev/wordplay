@@ -177,7 +177,7 @@
                             "Program",
                             "neutral",
                             "$~Jag är den som organiserar programmet för en föreställning. Innan vi börjar ska jag visa dig runt: @Tour/source",
-                            "$~Den rutan där @UI/editor är @editor. Det är där du skriver. Allt du skriver där är en instruktion till mig.",
+                            "$~Den rutan där @UI/editor är @editor. Det är där du skriver. Allt du skriver där är en @how till mig.",
                             "$~Utrymmet där borta @UI/stage är @stage. Vad dina instruktioner än blir till, visar jag det där.",
                             "$~*Regissören* — det är du! — bestämmer vilka instruktioner vi ska följa."
                         ],
@@ -319,7 +319,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~@Program försökte följa instruktionen @ExpressionPlaceholder, men platshållaren säger ännu inte vad den ska göra. Så @Program körde fast, och sa det på @stage @UI/exception.",
-                            "$~När @Program inte kan följa en instruktion, stannar den och visar vad som gick fel. Det kallas ett *undantag*. Det betyder inte att du har förstört något. Det betyder att @Program behöver något mer från dig.",
+                            "$~När @Program inte kan följa en @how, stannar den och visar vad som gick fel. Det kallas ett *undantag*. Det betyder inte att du har förstört något. Det betyder att @Program behöver något mer från dig.",
                             "$~När @Program kan säga i förväg att den kommer att fastna, märker den ut stället med en *@conflict* @UI/conflict som förklarar förvirringen.",
                             "$~Om du markerar @ExpressionPlaceholder, eller flyttar textmarkören över den, kan du se förslag på vad du kan byta ut den med. Du kan också bara skriva över @ExpressionPlaceholder och skriva din egen text. Testa till exempel att skriva \\'hej'\\."
                         ],
@@ -674,7 +674,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Åh, ja, det är en bra idé. Mycket kan gå fel. Till exempel kan du ge mig något som inte är en funktion. Se hur jag får texten \\“hej”\\ här som en funktion och gett mig två ingångar, \\1\\ och \\2\\ ? Tja, jag vet bara @how utvärderar funktioner, och \\“hej”\\ är inte en funktion; det är text. Det är väldigt förvirrande för mig, så jag stoppar i princip föreställningen om detta händer."
+                            "$~Åh, ja, det är en bra idé. Mycket kan gå fel. Till exempel kan du ge mig något som inte är en funktion. Se hur jag får texten \\“hej”\\ här som en funktion och gett mig två ingångar, \\1\\ och \\2\\ ? Tja, jag vet bara hur man utvärderar funktioner, och \\“hej”\\ är inte en funktion; det är text. Det är väldigt förvirrande för mig, så jag stoppar i princip föreställningen om detta händer."
                         ],
                         null,
                         {
@@ -956,7 +956,7 @@
                         [
                             "Text",
                             "eager",
-                            "$~@FunctionDefinition har skapat många fler intressanta funktioner för mig, men jag bespar dig detaljerna. Du kan alltid hitta mig i @guide @UI/docsExpand. Det är där vi håller all information om alla i Versen, inklusive @how arbetar med oss och vilka funktioner vi har. Titta runt där innan du går vidare, jag väntar där inne. @Tour/docs"
+                            "$~@FunctionDefinition har skapat många fler intressanta funktioner för mig, men jag bespar dig detaljerna. Du kan alltid hitta mig i @guide @UI/docsExpand. Det är där vi håller all information om alla i Versen, inklusive hur man arbetar med oss och vilka funktioner vi har. Titta runt där innan du går vidare, jag väntar där inne. @Tour/docs"
                         ],
                         null,
                         [
@@ -1101,7 +1101,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Tja, det är fantastiskt att höra. Det är bra att vara med dig igen. Jag ville presentera dig för vår nya kanske-direktör. De har träffat alla och lärt sig @how kan spela med oss. Vill du berätta för dem vad du gör?"
+                            "$~Tja, det är fantastiskt att höra. Det är bra att vara med dig igen. Jag ville presentera dig för vår nya kanske-direktör. De har träffat alla och lärt sig hur man kan spela med oss. Vill du berätta för dem vad du gör?"
                         ],
                         ["⊤", "precise", "$~Jag är sann."],
                         ["⊥", "precise", "$~Jag är falsk."],
@@ -2252,7 +2252,7 @@
                             "Convert",
                             "sad",
                             "$~Tja, inte som något. Jag menar, om du ger mig sekunder och ber om ett @Set, typ, vad betyder det ens?",
-                            "$~Jag ska göra mitt bästa för att hitta ett sätt... som, här, jag vet @how förvandlar siffror till @Text och @Text till en @Set, så jag ger dig uppsättningen av symboler i textformen för detta antal.",
+                            "$~Jag ska göra mitt bästa för att hitta ett sätt... som, här, jag vet hur man förvandlar siffror till @Text och @Text till en @Set, så jag ger dig uppsättningen av symboler i textformen för detta antal.",
                             "$~Men det var nog inte det du ville...",
                             "$~Och om jag inte vet hur jag ska ge dig det du bad om, kommer jag i princip att stänga av saker och ting."
                         ],
@@ -3309,7 +3309,7 @@
                         [
                             "Phrase",
                             "happy",
-                            "$~Eller så kanske vi har lite kul och länkar rotation till @Time! Wheeeee. Några gissningar på @how får mig att snurra snabbare? Se om du kan lista ut det..."
+                            "$~Eller så kanske vi har lite kul och länkar rotation till @Time! Wheeeee. Några gissningar på hur man får mig att snurra snabbare? Se om du kan lista ut det..."
                         ],
                         {
                             "fit": "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) × 1°/ms)"
@@ -5798,7 +5798,7 @@
                         [
                             "StructureDefinition",
                             "sad",
-                            "$~Jag vet inte @how gör en funktion..."
+                            "$~Jag vet inte hur man gör en funktion..."
                         ],
                         null,
                         ["Evaluate", "sad", "$~…"],

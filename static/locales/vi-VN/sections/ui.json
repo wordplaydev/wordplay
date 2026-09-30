@@ -267,12 +267,12 @@
             "tour": {
                 "launch": "$~Hãy tham quan hệ thống điều khiển dự án.",
                 "controls": "$~Các nút điều khiển ở phía dưới này áp dụng cho *toàn bộ dự án*, bất kể bạn đang làm việc trên ô nào.",
-                "name": "$~Trường /name/ là tên của dự án của bạn. Tên hiện ra trong các chế độ xem *dự án* và *phòng trưng bày*.",
+                "name": "$~Trường /tên/ là tên của dự án của bạn. Tên hiện ra trong các chế độ xem *dự án* và *phòng trưng bày*.",
                 "sourceToggle": "$~Nút /toggle/ này hiển thị hoặc ẩn *tệp nguồn*. *Các nút toggle khác* trên hàng này thực hiện chức năng tương tự đối với các ô khác.",
                 "addSource": "$~Một số dự án cần *nhiều* nguồn, nơi dữ liệu được lưu trong một nguồn và được đưa vào nguồn *chính*. Nút /thêm nguồn/ đưa ra các cách để tạo một nguồn: một tệp trống, một bức ảnh, một bài hát, hoặc một dữ liệu.",
                 "share": "$~Hộp thoại /share/ cho phép bạn chia sẻ dự án của mình với *các thư viện ảnh*, với *công chúng*, hoặc sao chép nó dưới dạng *văn bản* để chia sẻ ở nơi khác.",
                 "checkpoints": "$~Mục /revisions/ cho phép bạn quay lại các phiên bản trước đó của dự án và chụp ảnh màn hình các phiên bản mà bạn muốn lưu lại.",
-                "languages": "$~Nút /languages/ hiển thị dự án của bạn được viết bằng những ngôn ngữ nào, cho phép bạn thêm hoặc xóa một ngôn ngữ, và có thể *dịch* các *tên*, *văn bản* và *tài liệu* của dự án sang một ngôn ngữ mới."
+                "languages": "$~Nút /Ngôn ngữ/ hiển thị dự án của bạn được viết bằng những ngôn ngữ nào, cho phép bạn thêm hoặc xóa một ngôn ngữ, và có thể *dịch* các *tên*, *văn bản* và *tài liệu* của dự án sang một ngôn ngữ mới."
             },
             "options": {
                 "layout": {
@@ -1033,10 +1033,10 @@
             },
             "tour": {
                 "launch": "$~tham quan sân khấu",
-                "stage": "$~Khung /stage/ hiển thị *giá trị hiện tại* của chương trình. Giá trị đó có thể là *giá trị thô* như số hoặc danh sách, *kết quả trực quan* mà bạn có thể nhìn thấy, hoặc thậm chí là *âm thanh* mà bạn có thể nghe thấy.",
+                "stage": "$~Khung /Sânkhấu/ hiển thị *giá trị hiện tại* của chương trình. Giá trị đó có thể là *giá trị thô* như số hoặc danh sách, *kết quả trực quan* mà bạn có thể nhìn thấy, hoặc thậm chí là *âm thanh* mà bạn có thể nghe thấy.",
                 "reset": "$~Nút /đặt lại/ khởi động lại quá trình tính toán của chương trình từ *đầu*, ở bất kỳ chế độ nào: ở chế độ ▶️ *chạy* chương trình thực hiện lại từ đầu, ở chế độ ✏️ *chỉnh sửa* nó tạm dừng sau lần tính toán đầu tiên để bạn thấy tác động của các chỉnh sửa lên kết quả ban đầu, và ở chế độ ⏸️ *gỡ lỗi* nó tạm dừng ngay ở bước đầu tiên.",
                 "zoom": "$~Các nút /zoom/ cho phép bạn phóng to và thu nhỏ khung hình để xem kết quả rõ ràng hơn hoặc chi tiết hơn.",
-                "grid": "$~Nút /grid/ hiển thị một *lưới* trên khung làm việc, hữu ích để đặt các đối tượng một cách chính xác trong quá trình thiết kế.",
+                "grid": "$~Nút /Lưới/ hiển thị một *lưới* trên khung làm việc, hữu ích để đặt các đối tượng một cách chính xác trong quá trình thiết kế.",
                 "lock": "$~Nút /khóa/ khóa khung nhìn của sân khấu. Khi *khóa*, sân khấu sẽ đứng yên; khi *mở khóa*, bạn có thể lia và phóng to thu nhỏ tự do.",
                 "animationSpeed": "$~Nút điều khiển /tốc độ hoạt ảnh/ thiết lập tốc độ phát hoạt ảnh. Nút điều khiển tương tự cũng có trong *cài đặt*, vì vậy bạn có thể thay đổi nó từ cả hai nơi."
             },
@@ -1183,7 +1183,7 @@
             "tour": {
                 "timeline": "$~/dòng thời gian/ cho phép bạn bước *tới* và *lui* qua quá trình tính toán của chương trình, mỗi lần một bước. Nó hiện ra trong thanh công cụ của sân khấu ở chế độ ✏️ *chỉnh sửa* và ⏸️ *gỡ lỗi*, và đây là cách tuyệt vời để thấy chương trình tính giá trị của nó *ra sao*, và để xây dựng một mô hình trong đầu về cách các chương trình @wordplay tính toán, nhất là khi bạn chưa thấy hành vi mà bạn muốn.",
                 "annotations": "$~Cửa sổ /annotations/ là nơi hiển thị giải thích cho từng bước. Khi bạn thực thi chương trình từng bước, đây là nơi bạn sẽ đọc những gì vừa xảy ra.",
-                "editor": "$~Cửa sổ /editor/ hiển thị mã của bạn. Trong quá trình chạy từng bước, *giá trị* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh phần đó *sau* khi nó được đánh giá, vì vậy bạn có thể theo dõi sự tăng lên của các giá trị khi chương trình chạy.",
+                "editor": "$~Cửa sổ /biên tập viên/ hiển thị mã của bạn. Trong quá trình chạy từng bước, *giá trị* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh phần đó *sau* khi nó được đánh giá, vì vậy bạn có thể theo dõi sự tăng lên của các giá trị khi chương trình chạy.",
                 "history": "$~/Lịch sử/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận, như phím bấm, nhịp thời gian, và sự kiện con trỏ. Nó *có thể kéo được*, nên bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử tính toán của chương trình chỉ bằng cách kéo. Nếu bạn muốn *nghe* các đầu vào đó thay vì nhìn, hãy mở /tín hiệu tính toán/ trong phần cài đặt, và @wordplay sẽ phát một âm thanh ngắn cho mỗi đầu vào, với âm thanh khác nhau cho mỗi loại đầu vào.",
                 "stepControls": "$~Các điều khiển /step/ cho phép bạn di chuyển chính xác trong quá trình đánh giá. Bạn có thể nhảy đến *đầu* hoặc *cuối*, tiến *về* hoặc lùi *về* từng bước một, nhảy theo *một đầu vào*, thoát khỏi *một hàm* hoặc nhảy đến phần mã *đang được chọn*.",
                 "modes": "$~/bộ chuyển chế độ/ chọn cách chương trình của bạn tính toán. Ở chế độ ✏️ *chỉnh sửa*, chương trình tạm dừng ở chỗ nó đang chạy và bạn có thể thay đổi nó — các chỉnh sửa của bạn chạy lại để thể hiện tác động tại điểm đó. Ở chế độ ⏸️ *gỡ lỗi*, mã số chỉ được đọc và *giá trị hiện tại* của từng phần trong chương trình hiện ra ngay bên cạnh nó trong trình chỉnh sửa và trong bảng màu. Ở chế độ ▶️ *chạy*, chương trình của bạn chạy trực tiếp từ chỗ nó đang ở, phản hồi các đầu vào theo thời gian thực. Bên cạnh bộ chuyển, nút /biểu diễn/ — một hình tam giác chạy bọc trong các góc toàn màn hình — bắt đầu một buổi biểu diễn từ đầu và lấp đầy màn hình bằng sân khấu, và nút ↻ đặt lại chương trình ở bất kỳ chế độ nào."
@@ -1453,7 +1453,7 @@
                 "guide": "$~Tệp /guide/ chứa *tài liệu* hướng dẫn về tất cả các khái niệm và *khả năng* của *ngôn ngữ lập trình* @wordplay.",
                 "mode": "$~Sử dụng nút /toggle/ này để tự chuyển đổi giữa phần *mã nguồn* và phần *hướng dẫn*.",
                 "search": "$~Hộp tìm kiếm rất hữu ích để *khám phá* các tính năng, hoặc tìm kiếm nhanh một tính năng *theo tên*.",
-                "code": "$~Đây là phần /code/. Nó chứa tài liệu về *ngôn ngữ lập trình* — những khối xây dựng mà bạn có thể kết hợp để tạo ra các chương trình.",
+                "code": "$~Đây là phần /mã số/. Nó chứa tài liệu về *ngôn ngữ lập trình* — những khối xây dựng mà bạn có thể kết hợp để tạo ra các chương trình.",
                 "howto": "$~Đây là phần hướng dẫn. Nó chứa các *mẫu hữu ích* để đạt được các hành vi cụ thể trong dự án của bạn."
             },
             "breadcrumb": {

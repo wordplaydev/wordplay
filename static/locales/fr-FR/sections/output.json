@@ -235,7 +235,7 @@
                 "\\Phrase('magnificent!')\\",
                 "J'ai besoin que @TextLiteral ou @FormattedLiteral s'affichent. Avec @FormattedLiteral , je peux utiliser des éléments comme \\`*bold* and /italic/`\\ ou faire référence à un lien personnalisé @ConceptLink que vous avez créé.",
                 "Vous pouvez également me donner, si vous le souhaitez, tout ce qu'un @Output peut faire, y compris modifier ma taille, ma police, ma rotation et réaliser toutes mes incroyables danses avec @Pose et @Sequence .",
-                "Vous pouvez également me sélectionner sur @Stage et me modifier avec la palette 🎨 juste à côté — c'est un excellent moyen d'essayer différentes polices et de choisir la bonne /face/ pour votre @Text ."
+                "Vous pouvez également me sélectionner sur @Stage et me modifier avec la palette 🎨 juste à côté — c'est un excellent moyen d'essayer différentes polices et de choisir la bonne /Visage/ pour votre @Text ."
             ],
             "description": {
                 "doc": [
@@ -817,7 +817,7 @@
                 },
                 "bounce": {
                     "doc": [
-                        "$~Je fais sauter un @Output jusqu'à /height/ puis je le laisse atterrir, en l'aplatissant un peu à la montée et à la descente. Donne-moi un @Phrase qui vient d'arriver et je lui donnerai l'impression d'avoir du poids.",
+                        "$~Je fais sauter un @Output jusqu'à /hauteur/ puis je le laisse atterrir, en l'aplatissant un peu à la montée et à la descente. Donne-moi un @Phrase qui vient d'arriver et je lui donnerai l'impression d'avoir du poids.",
                         "\\💬('🐈' aurepos: 💃.rebond(3m))\\"
                     ],
                     "names": ["$~rebond"],
@@ -863,7 +863,7 @@
                 },
                 "pulse": {
                     "doc": [
-                        "$~J'agrandis un @Output jusqu'à /amount/ puis je le rapetisse, une seule fois. Je suis la façon la plus discrète de dire « regarde ici » sans rien déplacer.",
+                        "$~J'agrandis un @Output jusqu'à /quantité/ puis je le rapetisse, une seule fois. Je suis la façon la plus discrète de dire « regarde ici » sans rien déplacer.",
                         "\\💬('🐈' aurepos: 💃.impulsion(1.2))\\"
                     ],
                     "names": ["$~impulsion"],
@@ -874,7 +874,7 @@
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Je donne deux battements rapides d'agrandissement puis je me repose, le rythme d'un battement de cœur. Je suis plus pressant que le /pulse/ d'un @Sequence et plus naturel que /flash/.",
+                        "$~Je donne deux battements rapides d'agrandissement puis je me repose, le rythme d'un battement de cœur. Je suis plus pressant que le /impulsion/ d'un @Sequence et plus naturel que /éclair/.",
                         "\\💬('🐈' aurepos: 💃.pulsation(1.4 1s))\\"
                     ],
                     "names": ["$~pulsation"],
@@ -908,14 +908,14 @@
                 "flash": {
                     "doc": [
                         "$~Je fais clignoter un @Output entre visible et invisible deux fois, en m'estompant au passage. Je suis difficile à manquer — ce qui veut aussi dire que je suis difficile à ignorer, alors utilise-moi avec modération.",
-                        "Je clignote rapidement, donc une personne sensible aux clignotements peut me trouver désagréable. Ralentis-moi avec une /duration/ plus longue si je dois me répéter.",
+                        "Je clignote rapidement, donc une personne sensible aux clignotements peut me trouver désagréable. Ralentis-moi avec une /durée/ plus longue si je dois me répéter.",
                         "\\💬('🐈' aurepos: 💃.éclair(1s))\\"
                     ],
                     "names": ["$~éclair"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Je fais grandir un @Output de rien jusqu'à sa taille complète. Contrairement à /popup/, je ne dépasse pas la taille — je suis l'arrivée plus simple et plus calme.",
+                        "$~Je fais grandir un @Output de rien jusqu'à sa taille complète. Contrairement à /apparition/, je ne dépasse pas la taille — je suis l'arrivée plus simple et plus calme.",
                         "\\💬('🐈' entrer: 💃.zoomer(0.5s))\\"
                     ],
                     "names": ["$~zoomer"]
@@ -1040,14 +1040,14 @@
                 "rainbow": {
                     "doc": [
                         "$~Je fais passer un @Output par toutes les teintes de l'arc-en-ciel, puis je reviens à mon point de départ.",
-                        "Je change de couleur très vite. Une personne sensible aux clignotements peut trouver cela gênant. Une /duration/ plus longue me rend beaucoup plus douce.",
+                        "Je change de couleur très vite. Une personne sensible aux clignotements peut trouver cela gênant. Une /durée/ plus longue me rend beaucoup plus douce.",
                         "\\💬('🐈' aurepos: 💃.arcenciel(3s))\\"
                     ],
                     "names": ["$~arcenciel"]
                 },
                 "swing": {
                     "doc": [
-                        "$~Je balance un @Output comme un pendule, jusqu'à /angle/, puis je reviens par des arcs de plus en plus petits jusqu'à ce qu'il s'arrête. Contrairement à /sway/, je m'arrête.",
+                        "$~Je balance un @Output comme un pendule, jusqu'à /angle/, puis je reviens par des arcs de plus en plus petits jusqu'à ce qu'il s'arrête. Contrairement à /balancement/, je m'arrête.",
                         "\\💬('🐈' aurepos: 💃.balancer(20°))\\"
                     ],
                     "names": ["$~balancer"],
@@ -1058,7 +1058,7 @@
                 },
                 "blink": {
                     "doc": [
-                        "$~J'éteins un @Output puis je le rallume sans fondu entre les deux, comme un curseur qui clignote. /flash/ fait des fondus ; moi, je coupe net.",
+                        "$~J'éteins un @Output puis je le rallume sans fondu entre les deux, comme un curseur qui clignote. /éclair/ fait des fondus ; moi, je coupe net.",
                         "\\💬('🐈' aurepos: 💃.clignoter(1s))\\"
                     ],
                     "names": ["$~clignoter"]
@@ -1076,7 +1076,7 @@
                 },
                 "dim": {
                     "doc": [
-                        "$~Je fais baisser un @Output en fondu jusqu'à /amount/, puis je le remonte au complet, sans jamais le cacher. Je sers à montrer qu'une chose attend ou est inactive.",
+                        "$~Je fais baisser un @Output en fondu jusqu'à /quantité/, puis je le remonte au complet, sans jamais le cacher. Je sers à montrer qu'une chose attend ou est inactive.",
                         "\\💬('🐈' aurepos: 💃.atténuer(20% 2s))\\"
                     ],
                     "names": ["$~atténuer"],
@@ -1109,7 +1109,7 @@
                 },
                 "float": {
                     "doc": [
-                        "$~Je fais dériver un @Output lentement vers le haut de /distance/ puis vers le bas. Donne-moi une longue /duration/ et je ferai paraître quelque chose sans poids.",
+                        "$~Je fais dériver un @Output lentement vers le haut de /distance/ puis vers le bas. Donne-moi une longue /durée/ et je ferai paraître quelque chose sans poids.",
                         "\\💬('🐈' aurepos: 💃.flotter(0.5m 3s))\\"
                     ],
                     "names": ["$~flotter"],
@@ -1120,7 +1120,7 @@
                 },
                 "drift": {
                     "doc": [
-                        "$~Je fais dériver un @Output lentement de /distance/ sur le côté puis en arrière. Je suis /float/, mais sur le côté.",
+                        "$~Je fais dériver un @Output lentement de /distance/ sur le côté puis en arrière. Je suis /flotter/, mais sur le côté.",
                         "\\💬('🐈' aurepos: 💃.dériver(0.5m 3s))\\"
                     ],
                     "names": ["$~dériver"],
@@ -1131,7 +1131,7 @@
                 },
                 "orbit": {
                     "doc": [
-                        "$~Je porte un @Output autour d'un cercle de /radius/, en revenant à son point de départ. Je suis la seule animation prédéfinie qui suit un chemin au lieu d'aller et venir.",
+                        "$~Je porte un @Output autour d'un cercle de /rayon/, en revenant à son point de départ. Je suis la seule animation prédéfinie qui suit un chemin au lieu d'aller et venir.",
                         "\\💬('🐈' aurepos: 💃.orbiter(2m 4s))\\"
                     ],
                     "names": ["$~orbiter"],
@@ -1142,7 +1142,7 @@
                 },
                 "glow": {
                     "doc": [
-                        "$~J'illumine un @Output vers /color/ puis je le laisse revenir, comme quelque chose qui se réchauffe puis se refroidit. Contrairement à /rainbow/, je reste dans une seule teinte.",
+                        "$~J'illumine un @Output vers /couleur/ puis je le laisse revenir, comme quelque chose qui se réchauffe puis se refroidit. Contrairement à /arcenciel/, je reste dans une seule teinte.",
                         "\\💬('🐈' aurepos: 💃.briller(🌈.orange 2s))\\"
                     ],
                     "names": ["$~briller"],

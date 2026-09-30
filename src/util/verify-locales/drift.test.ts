@@ -23,6 +23,7 @@ import {
     isMarkable,
     lastChangedTimes,
     markStale,
+    staleMarkupElements,
     withoutLeadingAnnotation,
     type Stale,
 } from '@util/verify-locales/drift';
@@ -647,5 +648,61 @@ describe('tutorial modes', () => {
             'complete',
         );
         expect(quick.get(id)?.pair.resolve(line('quick'))).toBe('quick');
+    });
+});
+
+describe('staleMarkupElements', () => {
+    /** The stale paragraphs of `node.Paragraph.doc`, a markup array. */
+    function stale(fixture: Fixture) {
+        const source = JSON.parse(
+            fs.readFileSync(path.join(fixture.dir, 'en.json'), 'utf8'),
+        );
+        return staleMarkupElements(
+            'HEAD',
+            [['en.json', 'xx.json']],
+            kindsOf(source),
+            fixture.dir,
+        ).get('node.Paragraph.doc');
+    }
+    const doc = (paragraphs: string[]) => ({
+        node: { Paragraph: { doc: paragraphs } },
+    });
+    const write = (fixture: Fixture, file: string, paragraphs: string[]) =>
+        fs.writeFileSync(
+            path.join(fixture.dir, file),
+            JSON.stringify(doc(paragraphs), null, 4),
+        );
+
+    test('names the paragraphs whose English changed and translation did not', () => {
+        const fixture = makeFixture();
+        fixture.commit({
+            'en.json': doc(['A', 'B', 'C']),
+            'xx.json': doc(['a', 'b', 'c']),
+        });
+        write(fixture, 'en.json', ['A', 'B2', 'C']);
+        // Marking the doc for re-translation isn't a change to its words.
+        write(fixture, 'xx.json', ['$!a', 'b', 'c']);
+        expect(stale(fixture)).toEqual([1]);
+    });
+
+    test('forgets a paragraph once its translation has moved too', () => {
+        const fixture = makeFixture();
+        fixture.commit({
+            'en.json': doc(['A', 'B', 'C']),
+            'xx.json': doc(['a', 'b', 'c']),
+        });
+        write(fixture, 'en.json', ['A', 'B2', 'C']);
+        write(fixture, 'xx.json', ['a', 'b2', 'c']);
+        expect(stale(fixture)).toBeUndefined();
+    });
+
+    test('leaves out a doc whose paragraph count changed', () => {
+        const fixture = makeFixture();
+        fixture.commit({
+            'en.json': doc(['A', 'B']),
+            'xx.json': doc(['a', 'b']),
+        });
+        write(fixture, 'en.json', ['A', 'B', 'C']);
+        expect(stale(fixture)).toBeUndefined();
     });
 });

@@ -17,7 +17,7 @@
     },
     "main": "lib/index.js",
     "dependencies": {
-        "@anthropic-ai/sdk": "^0.128",
+        "@anthropic-ai/sdk": "^0.129",
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^14",
         "firebase-functions": "^7",

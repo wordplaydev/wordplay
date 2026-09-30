@@ -34,7 +34,7 @@
         },
         "operator": {
             "word": "$~operador",
-            "definition": "$~Um símbolo, @how + ou -, que combina ou compara valores."
+            "definition": "$~Um símbolo, como + ou -, que combina ou compara valores."
         },
         "condition": {
             "word": "$~condição",
@@ -74,7 +74,7 @@
         },
         "abstraction": {
             "word": "$~abstração",
-            "definition": "$~Esconder detalhes para poderes usar algo sem saber @how funciona por dentro."
+            "definition": "$~Esconder detalhes para poderes usar algo sem saber como funciona por dentro."
         },
         "project": {
             "word": "projeto",
@@ -89,7 +89,7 @@
             "definition": "$~Uma parte grande do @tutorial, como um ato numa peça de teatro."
         },
         "how": {
-            "word": "como",
+            "word": "$~guia prático",
             "definition": "$~Um @guide curto que mostra como fazer uma coisa."
         },
         "gallery": {
@@ -126,7 +126,7 @@
         },
         "markup": {
             "word": "marcação",
-            "definition": "$~Texto com formatação, @how palavras a negrito ou ligações."
+            "definition": "$~Texto com formatação, como palavras a negrito ou ligações."
         },
         "language": {
             "word": "idioma",

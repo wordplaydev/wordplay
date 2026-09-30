@@ -128,7 +128,7 @@
         "vitest": "^5"
     },
     "dependencies": {
-        "@anthropic-ai/sdk": "^0.128",
+        "@anthropic-ai/sdk": "^0.129",
         "@dimforge/rapier2d-compat": "^0.21.0",
         "@mediapipe/tasks-vision": "^1",
         "@types/fontkit": "^2",

@@ -4,8 +4,8 @@
         "Boolean": {
             "doc": [
                 "$~Somos \\⊤\\ e \\⊥\\. \\⊤\\ é verdadeiro. \\⊥\\ é falso. \\⊤\\ não é \\⊥\\; \\⊥\\ não é \\⊤\\. É assim que é.",
-                "@how nos faz? Apenas \\⊤\\ e \\⊥\\, nada mais, nada menos.",
-                "Algumas pessoas utilizam o teclado (/ctrl+9/ para \\⊤\\ e /ctrl+0/ para \\⊥\\). Outras utilizam a pesquisa de caracteres na parte inferior do @editor. Ou pode arrastar-nos daqui.",
+                "Como nos faz? Apenas \\⊤\\ e \\⊥\\, nada mais, nada menos.",
+                "Algumas pessoas escrevem-nos com um atalho de teclado; a lista de /atalhos/ mostra que teclas usar e permite mudá-las. Outras usam os botões e a pesquisa de carateres na parte de baixo do @editor. Ou pode arrastar-nos a partir daqui.",
                 "Confira a nossa @FunctionDefinition abaixo. São muito lógicas."
             ],
             "name": ["Booleano"],
@@ -21,14 +21,14 @@
                     "names": ["e"],
                     "inputs": [
                         {
-                            "doc": "$~O outro @Boolean a verificar. Se o primeiro for \\⊥\\, não importa qual seja este, a função vai dar @how resultado \\⊥\\.",
+                            "doc": "$~O outro @Boolean a verificar. Se o primeiro for \\⊥\\, não importa qual seja este, a função vai dar como resultado \\⊥\\.",
                             "names": "valor"
                         }
                     ]
                 },
                 "or": {
                     "doc": [
-                        "$~Sou avaliado @how \\⊤\\ quando *qualquer um* dos @value for \\⊤\\. Útil para determinar se uma de muitas coisas é verdadeira. Só existem quatro resultados possíveis",
+                        "$~Sou avaliado como \\⊤\\ quando *qualquer um* dos @value for \\⊤\\. Útil para determinar se uma de muitas coisas é verdadeira. Só existem quatro resultados possíveis",
                         "\\⊤ | ⊤\\",
                         "\\⊤ | ⊥\\",
                         "\\⊥ | ⊤\\",
@@ -37,7 +37,7 @@
                     "names": ["ou"],
                     "inputs": [
                         {
-                            "doc": "$~O outro @Boolean a verificar. Se o primeiro for \\⊥\\, a função só vai dar @how resultado \\⊤\\ se este for \\⊤\\.",
+                            "doc": "$~O outro @Boolean a verificar. Se o primeiro for \\⊥\\, a função só vai dar como resultado \\⊤\\ se este for \\⊤\\.",
                             "names": "valor"
                         }
                     ]
@@ -119,7 +119,7 @@
                 "Viu com que elegância avaliei essas somas e as coloquei dentro do @Text?",
                 "Tenho um último pequeno segredo: sabia que todos temos um número único? É verdade! Pode referir-se a nós escrevendo @U/ e o nosso número. Por exemplo, @FunctionDefinition é 192:",
                 "\\'@U/192'\\",
-                "Viu @how @U/192 se transformou em @FunctionDefinition? Ouço-o chamar a estes números 'Unicode'.",
+                "Viu como @U/192 se transformou em @FunctionDefinition? Ouço-o chamar a estes números 'Unicode'.",
                 "De resto, há tantas funções gloriosas que @FunctionDefinition criou para me pôr a fazer todo o tipo de coisas com palavras!"
             ],
             "name": ["Texto"],
@@ -214,7 +214,7 @@
                 },
                 "segment": {
                     "doc": [
-                        "$~Divido-me numa @List de @Text, usando o @Text fornecido @how separador e removendo os separadores. Por exemplo:",
+                        "$~Divido-me numa @List de @Text, usando o @Text fornecido como separador e removendo os separadores. Por exemplo:",
                         "\\'maçãs, laranjas, uvas' ÷ ', '\\",
                         "Se o separador for um @Text vazio, divido-me em caracteres:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
@@ -222,7 +222,7 @@
                     "names": ["segmentado", "segmento"],
                     "inputs": [
                         {
-                            "doc": "O @Text a utilizar @how separador.",
+                            "doc": "O @Text a utilizar como separador.",
                             "names": "delimitador"
                         }
                     ]
@@ -255,7 +255,7 @@
                 },
                 "search": {
                     "doc": [
-                        "$~Encontre todos os locais em que o padrão fornecido corresponde em mim, @how uma lista de @Result .",
+                        "$~Encontre todos os locais em que o padrão fornecido corresponde em mim, como uma lista de @Result .",
                         "\\'a1 b2' ⌕ ⣿_ #⣿\\"
                     ],
                     "names": ["$~pesquisa"],
@@ -270,7 +270,7 @@
                     "doc": [
                         "$~Crio um novo @Text que sou eu, com todas as letras em maiúsculas:",
                         "\\'olá'.maiúsculas()\\",
-                        "As letras só têm maiúsculas e minúsculas em alguns sistemas de escrita, por isso um texto num sistema de escrita sem elas, @how o japonês ou o árabe, não muda.",
+                        "As letras só têm maiúsculas e minúsculas em alguns sistemas de escrita, por isso um texto num sistema de escrita sem elas, como o japonês ou o árabe, não muda.",
                         "A minha etiqueta de @language decide as regras a usar. O turco tem um i com ponto e um i sem ponto, e só o texto marcado como turco fica em maiúsculas à maneira turca:",
                         "\\'iyi'/tr.maiúsculas()\\",
                         "\\'iyi'.maiúsculas()\\"
@@ -284,7 +284,7 @@
                         "\\'OLÁ'.minúsculas()\\",
                         "Transforme dois textos em minúsculas para os comparar sem se preocupar com as maiúsculas. Isto mantém todas as palavras que começam por a, estejam ou não em maiúscula:",
                         "\\['Maçã' 'damasco' 'Banana'].filtro(\n\tƒ(palavra•'') palavra.minúsculas().começa('a')\n)\\",
-                        "Tal @how em @Text/uppercase, as letras só têm maiúsculas e minúsculas em alguns sistemas de escrita, e a minha etiqueta de @language decide as regras a usar."
+                        "Tal como em @Text/uppercase, as letras só têm maiúsculas e minúsculas em alguns sistemas de escrita, e a minha etiqueta de @language decide as regras a usar."
                     ],
                     "names": ["$~minúsculas"],
                     "inputs": []
@@ -295,7 +295,7 @@
                         "\\'olá'.subsequência(2 4)\\",
                         "Deixe a ponta final de fora e eu vou até ao meu último símbolo:",
                         "\\'olá'.subsequência(3)\\",
-                        "Conto os símbolos da forma @how os vê, por isso um emoji feito de várias partes continua a ser um único símbolo e nunca é cortado ao meio:",
+                        "Conto os símbolos da forma como os vê, por isso um emoji feito de várias partes continua a ser um único símbolo e nunca é cortado ao meio:",
                         "\\'🐈📚!'.subsequência(1 2)\\",
                         "Se pedir mais do que aquilo que tenho, dou-lhe o que tenho."
                     ],
@@ -361,7 +361,7 @@
                     "doc": [
                         "$~Faço um novo @Text com os meus símbolos na ordem inversa:",
                         "\\'olá'.invertido()\\",
-                        "Inverto a ordem dos meus símbolos da forma @how os vê, por isso os emojis mantêm-se inteiros e as letras mantêm os seus acentos:",
+                        "Inverto a ordem dos meus símbolos da forma como os vê, por isso os emojis mantêm-se inteiros e as letras mantêm os seus acentos:",
                         "\\'🐈📚'.invertido()\\"
                     ],
                     "names": ["$~invertido", "$~inverter"],
@@ -725,7 +725,7 @@
                 },
                 "range": {
                     "doc": [
-                        "$~Um @Range de mim até ao @Number dado, incluindo ambos. Espalhe-o numa lista com @Spread, pergunte se guarda um número, ou use-o @how chave de @Match:",
+                        "$~Um @Range de mim até ao @Number dado, incluindo ambos. Espalhe-o numa lista com @Spread, pergunte se guarda um número, ou use-o como chave de @Match:",
                         "\\[:1‥5]\\",
                         "\\(1‥10) ∋ 7\\",
                         "Conto para trás quando o meu fim é menor do que o meu início:",
@@ -1169,7 +1169,7 @@
                 },
                 "translate": {
                     "doc": [
-                        "$~Dê-me um @FunctionDefinition que recebe um @value e um @index opcional @how entrada e produz um valor, e vou avaliá-lo em cada um dos meus itens, transformando os meus valores em novos valores.",
+                        "$~Dê-me um @FunctionDefinition que recebe um @value e um @index opcional como entrada e produz um valor, e vou avaliá-lo em cada um dos meus itens, transformando os meus valores em novos valores.",
                         "Por exemplo, imagine que eu era uma lista de @Number e queria duplicar todos:",
                         "\\[2 4 6 8].traduzir(ƒ(núm•#) núm × 2)\\"
                     ],
@@ -1197,7 +1197,7 @@
                 },
                 "filter": {
                     "doc": [
-                        "$~Dê-me um @FunctionDefinition que recebe um @value e um @index opcional @how entrada e produz um @Boolean, e vou criar uma nova lista que só inclui os itens que resultam \\⊤\\.",
+                        "$~Dê-me um @FunctionDefinition que recebe um @value e um @index opcional como entrada e produz um @Boolean, e vou criar uma nova lista que só inclui os itens que resultam \\⊤\\.",
                         "Por exemplo, imagine que eu era uma lista de @Number e só queria os positivos:",
                         "\\[2 -4 8 -16].filtro(ƒ(núm•#) núm ≥ 0)\\"
                     ],
@@ -1225,7 +1225,7 @@
                 },
                 "all": {
                     "doc": [
-                        "$~Dê-me um @FunctionDefinition que recebe um @value @how entrada e produz um @Boolean se corresponder a alguma @condition. Vou criar \\⊤\\ se todos os itens corresponderem à condição.",
+                        "$~Dê-me um @FunctionDefinition que recebe um @value como entrada e produz um @Boolean se corresponder a alguma @condition. Vou criar \\⊤\\ se todos os itens corresponderem à condição.",
                         "Por exemplo, imagine que eu era uma lista de @Number e queria saber se tudo era positivo:",
                         "\\[2 -4 8 -16].tudo(ƒ(num•#) num ≥ 0)\\"
                     ],
@@ -1253,7 +1253,7 @@
                 },
                 "until": {
                     "doc": [
-                        "$~Dá-me uma @FunctionDefinition que recebe um @value @how entrada e produz um @Boolean se corresponder a alguma @condition. Eu crio uma nova @List que contém todos os itens até a condição não ser cumprida.",
+                        "$~Dá-me uma @FunctionDefinition que recebe um @value como entrada e produz um @Boolean se corresponder a alguma @condition. Eu crio uma nova @List que contém todos os itens até a condição não ser cumprida.",
                         "Por exemplo, imagina que eu era uma lista de animais @Text e querias tudo até \\'rato'\\ ser encontrado:",
                         "\\['gato' 'cão' 'ratazana' 'rato' 'pónei'].até(ƒ(animal•'') animal = 'ratazana')\\🪲"
                     ],
@@ -1281,7 +1281,7 @@
                 },
                 "find": {
                     "doc": [
-                        "$~Dá-me uma @FunctionDefinition que recebe um @value @how entrada e produz um @Boolean se corresponder a algum critério, e eu avalio para o item correspondente.",
+                        "$~Dá-me uma @FunctionDefinition que recebe um @value como entrada e produz um @Boolean se corresponder a algum critério, e eu avalio para o item correspondente.",
                         "Por exemplo, imagina que querias encontrar o primeiro animal que tinha a vogal \\'e'\\:",
                         "\\['gato' 'cão' 'ratazana' 'rato' 'pónei'].encontrar(ƒ(animal•'') animal.⊆('e'))\\🪲"
                     ],
@@ -1401,7 +1401,7 @@
                 "Eu avalio-o apenas para \\{1 2 3}\\.",
                 "Se quiser ver se tenho um @value em mim, @SetOrMapAccess pode ajudar:",
                 "\\{'frasco' 'garrafa' 'copo de vidro'}{'chávena'}\\",
-                "Normalmente, se me der um conjunto de valores que sejam de um @type comum, vou assumir que são uma lista desse tipo. @how este conjunto é \\{''}\\, porque é tudo @Text.",
+                "Normalmente, se me der um conjunto de valores que sejam de um @type comum, vou assumir que são uma lista desse tipo. Como este conjunto é \\{''}\\, porque é tudo @Text.",
                 "\\{'olá' 'oi' 'olá'}\\",
                 "Mas pode querer indicar que sou um conjunto /apenas/ desses valores, para que eu possa avisar quando tentar usar um que não é permitido. Se for esse o caso, basta acrescentar um ! no meu fim.",
                 "\\{'olá' 'oi' 'olá'}!{'olá'}\\🪲",
@@ -1567,7 +1567,7 @@
                 "$~Eu junto valores, associando *chaves* a *valores*. Por exemplo:",
                 "\\{\n\t'amy': 6points\n\t'tony': 3points\n\t'shiela': 8points\n}\\",
                 "As minhas chaves podem ser qualquer tipo de @value, e os meus valores podem ser qualquer tipo de valor.",
-                "Algumas pessoas gostam de pensar em mim @how um @index, ou um dicionário, onde tu me dás algo, e eu dou-te aquilo a que está associado.",
+                "Algumas pessoas gostam de pensar em mim como um @index, ou um dicionário, onde tu me dás algo, e eu dou-te aquilo a que está associado.",
                 "Se quiseres verificar a que algo está associado, podes dar a @SetOrMapAccess uma @key, e ela dar-te-á o valor:",
                 "\\{\n\t'amy': 6points\n\t'tony': 3points\n\t'shiela': 8points\n}{'amy'}\\",
                 "Se não houver nenhuma chave correspondente, eu dou-te @None.",
@@ -1727,7 +1727,7 @@
                 "$~Sou um conjunto de linhas de tabela! Posso ajudar a acompanhar grandes coleções de valores que têm a mesma estrutura.",
                 "Por exemplo, imagine que queria acompanhar um monte de pedras:",
                 "\\⎡nome•'' cor•''⎦\n⎡'obsidiana' 'preto'⎦\n⎡'pedra-pomes' 'cinzento'⎦\n⎡'citrino' 'amarelo'⎦\\",
-                "O @Bind pode ajudar a dar-lhe um nome! E depois pode fazer coisas @how criar uma tabela revista com uma nova linha @Insert:",
+                "O @Bind pode ajudar a dar-lhe um nome! E depois pode fazer coisas como criar uma tabela revista com uma nova linha @Insert:",
                 "\\rochas: ⎡nome•'' cor•''⎦\n\t⎡'obsidiana' 'preto'⎦\n\t⎡'pedra-pomes' 'cinzento'⎦\n\t⎡'citrino' 'amarelo'⎦\nrochas ⎡+'quartzo' 'branco'⎦\\",
                 "Ou se quiser encontrar linhas que correspondam, pode @Select linhas que correspondam a uma @condition:",
                 "\\pedras: ⎡nome•'' cor•''⎦\n\t⎡'obsidiana' 'preto'⎦\n\t⎡'pedra-pomes' 'cinzento'⎦\n\t⎡'citrino' 'amarelo'⎦\npedras ⎡?⎦ cor = 'cinzento'\\",
@@ -1798,7 +1798,7 @@
         },
         "Formatted": {
             "doc": [
-                "$~Sou um texto formatado: palavras com estilo, @how negrito, itálico e links. Coloquem-me entre crases:",
+                "$~Sou um texto formatado: palavras com estilo, como negrito, itálico e links. Coloquem-me entre crases:",
                 "\\`I am **bold** and /italic/`\\",
                 "Funciono de forma muito semelhante @Text , mas consigo manter a formatação. Pode combinar-me, repetir-me, verificar o que eu contenha e converter-me num @Text simples."
             ],
@@ -1881,7 +1881,7 @@
                 },
                 "uppercase": {
                     "doc": [
-                        "$~Crio um novo texto formatado que sou eu, com todas as letras em maiúsculas. Só as minhas palavras mudam; a minha formatação, as ligações e os exemplos mantêm-se @how estão:",
+                        "$~Crio um novo texto formatado que sou eu, com todas as letras em maiúsculas. Só as minhas palavras mudam; a minha formatação, as ligações e os exemplos mantêm-se como estão:",
                         "\\`*olá* ali`.maiúsculas()\\",
                         "Tal como em @Text/uppercase, as letras só têm maiúsculas e minúsculas em alguns sistemas de escrita, e a minha etiqueta de @language decide as regras a usar."
                     ],
@@ -1890,7 +1890,7 @@
                 },
                 "lowercase": {
                     "doc": [
-                        "$~Crio um novo texto formatado que sou eu, com todas as letras em minúsculas. Só as minhas palavras mudam; a minha formatação, as ligações e os exemplos mantêm-se @how estão:",
+                        "$~Crio um novo texto formatado que sou eu, com todas as letras em minúsculas. Só as minhas palavras mudam; a minha formatação, as ligações e os exemplos mantêm-se como estão:",
                         "\\`*OLÁ* ALI`.minúsculas()\\",
                         "Tal como em @Text/lowercase, as letras só têm maiúsculas e minúsculas em alguns sistemas de escrita, e a minha etiqueta de @language decide as regras a usar."
                     ],
@@ -1915,7 +1915,7 @@
                 "\\(1‥10) ∋ 7\\",
                 "Espalhe-me numa lista para obter todos os números que guardo:",
                 "\\[:1‥10]\\",
-                "Use-me @how chave de @Match e faço corresponder qualquer número que guarde:",
+                "Use-me como chave de @Match e faço corresponder qualquer número que guarde:",
                 "\\7 ???\n\t1 ‥ 9: 'pequeno'\n\t'grande'\\",
                 "O meu início e fim têm de ter a mesma unidade, tal como acontece nas comparações de @Number."
             ],

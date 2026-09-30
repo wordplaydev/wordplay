@@ -4,8 +4,8 @@
         "Boolean": {
             "doc": [
                 "$~Jesteśmy \\⊤\\ i \\⊥\\. \\⊤\\ jest prawdą. \\⊥\\ jest fałszem. \\⊤\\ nie jest \\⊥\\; \\⊥\\ nie jest \\⊤\\. Tak to jest.",
-                "@how nas tworzysz? Tylko \\⊤\\ i \\⊥\\, nic więcej, nic mniej.",
-                "Niektórzy używają klawiatury (/ctrl+9/ dla \\⊤\\ i /ctrl+0/ dla \\⊥\\). Niektórzy używają wyszukiwania znaków na dole edytora. Albo możesz nas przeciągnąć stąd.",
+                "Jak nas tworzysz? Tylko \\⊤\\ i \\⊥\\, nic więcej, nic mniej.",
+                "Niektórzy wpisują nas skrótem klawiszowym; lista /skróty/ pokazuje, których klawiszy użyć, i pozwala je zmienić. Inni używają przycisków i wyszukiwarki znaków na dole @editor. Możesz też przeciągnąć nas stąd.",
                 "Sprawdź nasze @FunctionDefinition poniżej. Są bardzo logiczne."
             ],
             "name": ["$~Wartośćlogiczna"],
@@ -116,7 +116,7 @@
                 "Możesz mnie też oznaczyć językami, a nawet podać kilka tłumaczeń. Przyjmę @value w tym języku, który jest obecnie wybrany, jeśli istnieje pasujący język.",
                 "Jeśli chcesz mnie stworzyć z jakimiś innymi wartościami, możesz zrobić tak:",
                 "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
-                "Widzisz, @how elegancko obliczyłam te sumy i umieściłam je wewnątrz @Text?",
+                "Widzisz, jak elegancko obliczyłam te sumy i umieściłam je wewnątrz @Text?",
                 "Mam jeszcze jeden mały sekret: czy wiedziałeś, że każde z nas ma swój niepowtarzalny numer? To prawda! Możesz odwołać się do nas, pisząc @U/ i nasz numer. Na przykład @FunctionDefinition to 192:",
                 "\\'@U/192'\\",
                 "Widzisz, jak @U/192 zamienił się w @FunctionDefinition? Słyszę, że nazywacie te liczby „Unicode”.",
@@ -268,7 +268,7 @@
                 },
                 "uppercase": {
                     "doc": [
-                        "$~Tworzę nowy @Text, taki sam @how ja, ale z każdą literą wielką:",
+                        "$~Tworzę nowy @Text, taki sam jak ja, ale z każdą literą wielką:",
                         "\\'cześć'.wielkieLitery()\\",
                         "Wielkość liter istnieje tylko w niektórych systemach pisma, więc tekst w systemie bez niej, jak japoński czy arabski, pozostaje bez zmian.",
                         "Mój znacznik języka decyduje, jakich zasad użyć. Turecki ma i z kropką i bez kropki, i tylko tekst oznaczony jako turecki zamienia je na wielkie litery po turecku:",
@@ -280,7 +280,7 @@
                 },
                 "lowercase": {
                     "doc": [
-                        "$~Tworzę nowy @Text, taki sam @how ja, ale z każdą literą małą:",
+                        "$~Tworzę nowy @Text, taki sam jak ja, ale z każdą literą małą:",
                         "\\'CZEŚĆ'.małeLitery()\\",
                         "Zamień dwa teksty na małe litery, żeby porównać je bez patrzenia na wielkość liter. To zachowuje każde słowo zaczynające się na literę a, niezależnie od tego, czy zaczyna się wielką literą:",
                         "\\['Jabłko' 'morela' 'Banan'].filtr(\n\tƒ(słowo•'') słowo.małeLitery().zaczynasię('a')\n)\\",
@@ -295,7 +295,7 @@
                         "\\'cześć'.podciąg(2 4)\\",
                         "Pomiń koniec, a dojdę do samego ostatniego symbolu:",
                         "\\'cześć'.podciąg(3)\\",
-                        "Liczę symbole tak, @how je widzisz, więc emoji złożone z kilku części to nadal jeden symbol i nigdy nie zostanie przecięte na pół:",
+                        "Liczę symbole tak, jak je widzisz, więc emoji złożone z kilku części to nadal jeden symbol i nigdy nie zostanie przecięte na pół:",
                         "\\'🐈📚!'.podciąg(1 2)\\",
                         "Jeśli poprosisz o więcej, niż mam, dam ci to, co mam."
                     ],
@@ -361,7 +361,7 @@
                     "doc": [
                         "$~Tworzę nowy @Text, w którym moje symbole są w odwrotnej kolejności:",
                         "\\'cześć'.odwrócony()\\",
-                        "Odwracam kolejność moich symboli tak, @how je widzisz, więc emoji pozostają całe, a litery zachowują swoje znaki diakrytyczne:",
+                        "Odwracam kolejność moich symboli tak, jak je widzisz, więc emoji pozostają całe, a litery zachowują swoje znaki diakrytyczne:",
                         "\\'🐈📚'.odwrócony()\\"
                     ],
                     "names": ["$~odwrócony", "$~odwróć"],
@@ -734,7 +734,7 @@
                     "names": ["$~do"],
                     "inputs": [
                         {
-                            "doc": "$~@Number, na której kończy się mój zakres. Musi mieć taką samą jednostkę @how ja.",
+                            "doc": "$~@Number, na której kończy się mój zakres. Musi mieć taką samą jednostkę jak ja.",
                             "names": "$~liczba"
                         }
                     ]
@@ -768,7 +768,7 @@
                             "names": "$~inny"
                         },
                         {
-                            "doc": "$~@how daleko przejść, gdzie 100% oznacza dotarcie na miejsce.",
+                            "doc": "$~jak daleko przejść, gdzie 100% oznacza dotarcie na miejsce.",
                             "names": "$~ilość"
                         }
                     ]
@@ -1144,7 +1144,7 @@
                 },
                 "equals": {
                     "doc": [
-                        "$~\\⊤\\ jeśli moje przedmioty i zamówienie są dokładnie takie same @how podana @List.",
+                        "$~\\⊤\\ jeśli moje przedmioty i zamówienie są dokładnie takie same jak podana @List.",
                         "\\['jabłko' 'banan' 'mango'] = ['jabłko' 'mango' 'banan']\\"
                     ],
                     "names": ["$~równasię"],
@@ -1157,7 +1157,7 @@
                 },
                 "notequals": {
                     "doc": [
-                        "$~\\⊤\\ jeśli moje przedmioty i zamówienie /nie/ są dokładnie takie same @how podana @List.",
+                        "$~\\⊤\\ jeśli moje przedmioty i zamówienie /nie/ są dokładnie takie same jak podana @List.",
                         "\\['jabłko' 'banan' 'mango'] ≠ ['jabłko' 'mango' 'banan']\\"
                     ],
                     "names": ["$~nierówny"],
@@ -1346,7 +1346,7 @@
                 },
                 "sorted": {
                     "doc": [
-                        "$~Mogę wziąć listę i zrobić nową listę z posortowanymi wartościami. Tak @how tutaj:",
+                        "$~Mogę wziąć listę i zrobić nową listę z posortowanymi wartościami. Tak jak tutaj:",
                         "\\[1 5 8 0 2].posortowane()\\",
                         "Mogę to zrobić także dla wartości typu @Text, w porządku alfabetycznym. Wielka litera sortowana jest obok swojej małej wersji, więc słowo nie trafia na koniec listy tylko dlatego, że zaczyna się wielką literą:",
                         "\\['Pomarańcza' 'kiwi' 'Banan' 'jabłko'].posortowane()\\",
@@ -1402,7 +1402,7 @@
                 "Obliczam go po prostu jako \\{1 2 3}\\.",
                 "Jeśli chcesz sprawdzić, czy mam w sobie @value, @SetOrMapAccess może pomóc:",
                 "\\{'słoik' 'butelka' 'szklanka'}{'kubek'}\\",
-                "Zwykle, jeśli dasz mi zbiór wartości, które są wspólnego @type, założę, że są listą tego typu. Tak @how ten zbiór jest \\{''}\\, bo to same @Text.",
+                "Zwykle, jeśli dasz mi zbiór wartości, które są wspólnego @type, założę, że są listą tego typu. Tak jak ten zbiór jest \\{''}\\, bo to same @Text.",
                 "\\{'hej' 'cześć' 'witaj'}\\",
                 "Ale możesz chcieć wskazać, że jestem zbiorem /tylko/ tych wartości, żebym mogła ci powiedzieć, kiedy próbujesz użyć takiej, która jest niedozwolona. Jeśli tak, po prostu dodaj ! na moim końcu.",
                 "\\{'hej' 'cześć' 'witaj'}!{'siema'}\\🪲",
@@ -1568,7 +1568,7 @@
                 "$~Łączę wartości, przypisując *klawisze* do *wartości*. Na przykład:",
                 "\\{'amy': 6points 'tony': 3points 'shiela': 8points}\\",
                 "Moje klawisze mogą być dowolnego rodzaju @value, a moje wartości mogą być dowolnego rodzaju wartością.",
-                "Niektórzy lubią myśleć o mnie @how o @index albo słowniku, gdzie dajesz mi coś, a ja daję ci to, do czego jest to przypisane.",
+                "Niektórzy lubią myśleć o mnie jak o @index albo słowniku, gdzie dajesz mi coś, a ja daję ci to, do czego jest to przypisane.",
                 "Jeśli chcesz sprawdzić, do czego coś jest przypisane, możesz podać @SetOrMapAccess, @key, a on da ci wartość:",
                 "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'amy'}\\",
                 "Jeśli nie ma pasującego klawisza, dam ci @None.",
@@ -1593,7 +1593,7 @@
                 },
                 "equals": {
                     "doc": [
-                        "$~\\{⊤}\\ jeśli moje pary są dokładnie takie same @how pary danego @Map.",
+                        "$~\\{⊤}\\ jeśli moje pary są dokładnie takie same jak pary danego @Map.",
                         "\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
                     "names": ["$~równasię"],
@@ -1606,7 +1606,7 @@
                 },
                 "notequals": {
                     "doc": [
-                        "$~\\{⊤}\\ jeśli moje pary /nie/ są dokładnie takie same @how podane @Map.",
+                        "$~\\{⊤}\\ jeśli moje pary /nie/ są dokładnie takie same jak podane @Map.",
                         "\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
                     "names": ["$~nierówny"],
@@ -1773,7 +1773,7 @@
             "name": ["$~Struktura"],
             "function": {
                 "equals": {
-                    "doc": "$~Sprawdzam, czy moje właściwości mają taką samą nazwę i wartości @how właściwości innej struktury.",
+                    "doc": "$~Sprawdzam, czy moje właściwości mają taką samą nazwę i wartości jak właściwości innej struktury.",
                     "names": ["$~równasię"],
                     "inputs": [
                         {
@@ -1799,7 +1799,7 @@
         },
         "Formatted": {
             "doc": [
-                "$~Jestem sformatowanym tekstem: słowa z klasą, takie @how pogrubienie, kursywa i linki. Umieść mnie między znakami odwrotnego apostrofu:",
+                "$~Jestem sformatowanym tekstem: słowa z klasą, takie jak pogrubienie, kursywa i linki. Umieść mnie między znakami odwrotnego apostrofu:",
                 "\\`I am **bold** and /italic/`\\",
                 "Działam bardzo podobnie @Text , ale mogę obsługiwać formatowanie. Możesz mnie łączyć, powtarzać, sprawdzać, co zawieram, i konwertować na zwykły @Text ."
             ],
@@ -1882,7 +1882,7 @@
                 },
                 "uppercase": {
                     "doc": [
-                        "$~Tworzę nowy sformatowany tekst, taki sam @how ja, ale z każdą literą wielką. Zmieniają się tylko moje słowa; moje formatowanie, linki i przykłady pozostają bez zmian:",
+                        "$~Tworzę nowy sformatowany tekst, taki sam jak ja, ale z każdą literą wielką. Zmieniają się tylko moje słowa; moje formatowanie, linki i przykłady pozostają bez zmian:",
                         "\\`*cześć* tam`.wielkieLitery()\\",
                         "Tak jak @Text/uppercase, wielkość liter istnieje tylko w niektórych systemach pisma, a mój znacznik języka decyduje, jakich zasad użyć."
                     ],
@@ -1891,7 +1891,7 @@
                 },
                 "lowercase": {
                     "doc": [
-                        "$~Tworzę nowy sformatowany tekst, taki sam @how ja, ale z każdą literą małą. Zmieniają się tylko moje słowa; moje formatowanie, linki i przykłady pozostają bez zmian:",
+                        "$~Tworzę nowy sformatowany tekst, taki sam jak ja, ale z każdą literą małą. Zmieniają się tylko moje słowa; moje formatowanie, linki i przykłady pozostają bez zmian:",
                         "\\`*CZEŚĆ* TAM`.małeLitery()\\",
                         "Tak jak @Text/lowercase, wielkość liter istnieje tylko w niektórych systemach pisma, a mój znacznik języka decyduje, jakich zasad użyć."
                     ],
@@ -1918,13 +1918,13 @@
                 "\\[:1‥10]\\",
                 "Użyj mnie jako klucza @Match, a dopasuję każdą liczbę, którą zawieram:",
                 "\\7 ???\n\t1 ‥ 9: 'mały'\n\t'duży'\\",
-                "Mój początek i koniec muszą mieć tę samą jednostkę, tak samo @how w porównaniach @Number."
+                "Mój początek i koniec muszą mieć tę samą jednostkę, tak samo jak w porównaniach @Number."
             ],
             "name": ["$~Zakres"],
             "function": {
                 "equals": {
                     "doc": [
-                        "$~\\⊤\\ jeśli podany @Range ma taki sam początek i koniec @how ja:",
+                        "$~\\⊤\\ jeśli podany @Range ma taki sam początek i koniec jak ja:",
                         "\\(1‥3) = (1‥3)\\"
                     ],
                     "names": ["$~="],

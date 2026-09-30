@@ -19,7 +19,7 @@ import {
  * the model spends most of its output budget reasoning about routine prose and
  * gives back the price advantage entirely.
  */
-const MODEL = 'claude-sonnet-5';
+const MODEL = 'claude-sonnet-5-5';
 const MAX_TOKENS = 16000;
 
 const SCHEMA = {
@@ -107,7 +107,9 @@ export default async function getLLMTranslations(
         const response = await client.messages.create({
             model: MODEL,
             max_tokens: MAX_TOKENS,
-            thinking: { type: 'disabled' },
+            // Sonnet 5.5 refuses `disabled`; `between_tools` is its lowest
+            // setting, and with no tools it thinks not at all.
+            thinking: { type: 'between_tools' },
             system: buildSystem(from, to, projectContext),
             output_config: { format: { type: 'json_schema', schema: SCHEMA } },
             messages: [
