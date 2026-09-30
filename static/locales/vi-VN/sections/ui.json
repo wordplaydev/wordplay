@@ -1799,8 +1799,8 @@
                         "label": "$~rung",
                         "labels": ["$~tắt", "$~bật"],
                         "tips": [
-                            "$~Đừng rung theo nhịp",
-                            "$~Rung theo nhịp, nếu thiết bị hỗ trợ điều đó"
+                            "$~Không rung theo nhạc",
+                            "$~Rung theo nhạc, trên điện thoại hoặc tay cầm chơi game có thể rung"
                         ]
                     },
                     "captionSize": {

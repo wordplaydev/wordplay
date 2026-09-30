@@ -1795,8 +1795,8 @@
                         "label": "$~vibração",
                         "labels": ["$~desligado", "$~ligado"],
                         "tips": [
-                            "$~Não vibrar ao ritmo",
-                            "$~Vibrar ao ritmo, quando o dispositivo o permitir"
+                            "$~Não vibrar com a música",
+                            "$~Vibrar com a música, num telemóvel ou num comando que possa vibrar"
                         ]
                     },
                     "captionSize": {

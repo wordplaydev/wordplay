@@ -1805,8 +1805,8 @@
                         "label": "$~getaran",
                         "labels": ["$~mati", "$~hidup"],
                         "tips": [
-                            "$~Jangan bergetar mengikuti irama",
-                            "$~Bergetar mengikuti irama, jika perangkat mendukungnya"
+                            "$~Jangan bergetar mengikuti musik",
+                            "$~Bergetar mengikuti musik, di ponsel atau gamepad yang bisa bergetar"
                         ]
                     },
                     "captionSize": {

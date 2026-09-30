@@ -13,6 +13,7 @@ import audio from '@output/Music/MusicAudio';
 import { get } from 'svelte/store';
 import { haptics } from '@db/Database';
 import supportsVibration from '@db/settings/supportsVibration';
+import { rumbleFor, rumbleGamepads } from '@output/Music/rumble';
 import { clearActivity, reportActivity } from '@output/Music/activity';
 import {
     clearSounding,
@@ -107,6 +108,11 @@ export function acquireMusicPlayer(
             },
             vibrate: (ms: number) => {
                 if (get(haptics) && supportsVibration()) navigator.vibrate(ms);
+            },
+            rumble: (notes) => {
+                if (!get(haptics)) return;
+                const rumble = rumbleFor(notes);
+                if (rumble !== undefined) rumbleGamepads(rumble);
             },
             ...deps,
         });

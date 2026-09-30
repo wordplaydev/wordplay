@@ -11,6 +11,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🤝 You can now share a how-to in another gallery you curate, and it stays one how-to, so edits, reactions, and comments show up everywhere it is shared. (#1065)
 - 🧲 Letters that bump by their outline now have room inside them, so small things can bounce around inside an O. (#1435)
 - 🫝 You can now use the nine new emoji from Unicode 18, like 🪌 eraser, 🪋 meteor, and 🫝 pickle, and find them by name in every language.
+- 🎮 Music now rumbles game controllers that can vibrate, so low notes feel like deep thumps and high notes feel like light buzzes. (#1345)
 
 ### Changed
 

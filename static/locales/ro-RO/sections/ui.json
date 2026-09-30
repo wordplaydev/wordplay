@@ -1810,8 +1810,8 @@
                         "label": "$~vibrație",
                         "labels": ["$~oprit", "$~pornit"],
                         "tips": [
-                            "$~Nu vibra pe ritm",
-                            "$~Vibrează pe ritm, acolo unde dispozitivul acceptă asta"
+                            "$~Nu vibra odată cu muzica",
+                            "$~Vibrează odată cu muzica, pe un telefon sau un gamepad care poate vibra"
                         ]
                     },
                     "captionSize": {

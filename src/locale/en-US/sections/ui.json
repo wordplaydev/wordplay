@@ -2031,8 +2031,8 @@
                         "label": "vibration",
                         "labels": ["off", "on"],
                         "tips": [
-                            "Don't vibrate on the beat",
-                            "Vibrate on the beat, where the device supports it"
+                            "Don't vibrate with the music",
+                            "Vibrate with the music, on a phone or a gamepad that can rumble"
                         ]
                     },
                     "cues": {

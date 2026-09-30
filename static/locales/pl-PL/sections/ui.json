@@ -1543,8 +1543,8 @@
                         "label": "$~wibracje",
                         "labels": ["$~wyłączone", "$~włączone"],
                         "tips": [
-                            "$~Nie wibruj w rytm",
-                            "$~Wibruj w rytm, jeśli urządzenie to obsługuje"
+                            "$~Nie wibruj razem z muzyką",
+                            "$~Wibruj razem z muzyką, na telefonie lub kontrolerze, który potrafi wibrować"
                         ]
                     },
                     "captionSize": {

@@ -1544,8 +1544,8 @@
                         "label": "$~titreşim",
                         "labels": ["$~kapalı", "$~açık"],
                         "tips": [
-                            "$~Ritimde titreşme",
-                            "$~Cihaz destekliyorsa ritimde titreş"
+                            "$~Müzikle titreşme",
+                            "$~Titreşim yapabilen bir telefon ya da oyun kolunda müzikle birlikte titre"
                         ]
                     },
                     "captionSize": {

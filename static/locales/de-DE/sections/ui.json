@@ -1524,8 +1524,8 @@
                         "label": "$~Vibration",
                         "labels": ["$~aus", "$~an"],
                         "tips": [
-                            "$~Nicht im Takt vibrieren",
-                            "$~Im Takt vibrieren, wenn das Gerät es unterstützt"
+                            "$~Nicht mit der Musik vibrieren",
+                            "$~Mit der Musik vibrieren, auf einem Handy oder einem Gamepad, das rütteln kann"
                         ]
                     },
                     "captionSize": {
