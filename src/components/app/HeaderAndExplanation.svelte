@@ -1,9 +1,9 @@
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import type LocaleText from '@locale/LocaleText';
-    import { type HeaderAndExplanationText } from '@locale/UITexts';
-    import Header from '@components/app/Header.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import { type HeaderAndExplanationText } from '#locale/UITexts.ts';
+    import Header from '#components/app/Header.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
     import type { Snippet } from 'svelte';
 
     interface Props {

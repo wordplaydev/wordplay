@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternClass from '@nodes/PatternClass';
+    import type PatternClass from '#nodes/PatternClass.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** A grapheme class atom (`◌`/`_`/`#`/`␣`) with an optional refining
      *  property (e.g. `_/greek`). */

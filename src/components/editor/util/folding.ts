@@ -1,24 +1,24 @@
-import Node from '@nodes/Node';
-import type Spaces from '@parser/Spaces';
+import Node from '#nodes/Node.ts';
+import type Spaces from '#parser/Spaces.ts';
 import type { Writable } from 'svelte/store';
-import Block from '@nodes/Block';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
-import Conditional from '@nodes/Conditional';
-import Bind from '@nodes/Bind';
-import Reaction from '@nodes/Reaction';
-import Match from '@nodes/Match';
-import Doc from '@nodes/Doc';
-import type Docs from '@nodes/Docs';
-import ListLiteral from '@nodes/ListLiteral';
-import SetLiteral from '@nodes/SetLiteral';
-import MapLiteral from '@nodes/MapLiteral';
-import TableLiteral from '@nodes/TableLiteral';
-import PatternLiteral from '@nodes/PatternLiteral';
-import PatternGroup from '@nodes/PatternGroup';
-import PatternSet from '@nodes/PatternSet';
-import PatternLook from '@nodes/PatternLook';
-import PatternCaseFold from '@nodes/PatternCaseFold';
+import Block from '#nodes/Block.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import Conditional from '#nodes/Conditional.ts';
+import Bind from '#nodes/Bind.ts';
+import Reaction from '#nodes/Reaction.ts';
+import Match from '#nodes/Match.ts';
+import Doc from '#nodes/Doc.ts';
+import type Docs from '#nodes/Docs.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import SetLiteral from '#nodes/SetLiteral.ts';
+import MapLiteral from '#nodes/MapLiteral.ts';
+import TableLiteral from '#nodes/TableLiteral.ts';
+import PatternLiteral from '#nodes/PatternLiteral.ts';
+import PatternGroup from '#nodes/PatternGroup.ts';
+import PatternSet from '#nodes/PatternSet.ts';
+import PatternLook from '#nodes/PatternLook.ts';
+import PatternCaseFold from '#nodes/PatternCaseFold.ts';
 
 /** A container (list/set/map/table) is foldable once it has more than this many
  *  items, even on a single line — replacing NodeSequenceView's old "show more"

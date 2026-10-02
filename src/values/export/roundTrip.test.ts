@@ -1,10 +1,10 @@
-import DefaultLocales from '@locale/DefaultLocales';
-import TableLiteral from '@nodes/TableLiteral';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import evaluateCode from '@runtime/evaluate';
-import { must } from '@util/nullable';
-import { parseCSV } from '@values/export/csv';
-import { serialize } from '@values/export/exportValue';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import TableLiteral from '#nodes/TableLiteral.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import { must } from '#util/nullable.ts';
+import { parseCSV } from '#values/export/csv.ts';
+import { serialize } from '#values/export/exportValue.ts';
 import { expect, test } from 'vitest';
 
 /**

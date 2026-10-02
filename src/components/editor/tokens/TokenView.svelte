@@ -1,10 +1,10 @@
 <script lang="ts">
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
-    import type { Format } from '@components/editor/nodes/NodeView.svelte';
-    import BooleanTokenEditor from '@components/editor/tokens/BooleanTokenEditor.svelte';
-    import InputShorthandEditor from '@components/editor/tokens/InputShorthandEditor.svelte';
-    import { getTokenCategory } from '@components/editor/tokens/TokenCategories';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import MenuTrigger from '#components/editor/menu/MenuTrigger.svelte';
+    import type { Format } from '#components/editor/nodes/NodeView.svelte';
+    import BooleanTokenEditor from '#components/editor/tokens/BooleanTokenEditor.svelte';
+    import InputShorthandEditor from '#components/editor/tokens/InputShorthandEditor.svelte';
+    import { getTokenCategory } from '#components/editor/tokens/TokenCategories.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import {
         getCaret,
         getCaretTokenSummary,
@@ -13,26 +13,29 @@
         getLocalizeTexts,
         getProject,
         getRoot,
-    } from '@components/project/Contexts';
-    import { locales, words } from '@db/Database';
-    import { getOperatorKeyword, getRenderableKeyword } from '@parser/Keywords';
-    import { getCanonicalKeyword } from '@parser/canonicalizeKeywords';
-    import Caret from '@edit/caret/Caret';
-    import BooleanType from '@nodes/BooleanType';
-    import Convert from '@nodes/Convert';
-    import Dimension from '@nodes/Dimension';
-    import Evaluate from '@nodes/Evaluate';
-    import Input from '@nodes/Input';
-    import Language from '@nodes/Language';
-    import getInputShorthand from '@nodes/inputShorthand';
-    import Reference from '@nodes/Reference';
-    import Source from '@nodes/Source';
-    import { Sym } from '@nodes/Sym';
-    import Token from '@nodes/Token';
-    import Unit from '@nodes/Unit';
-    import WebLink from '@nodes/WebLink';
-    import linkHref from '@parser/linkHref';
-    import { emojiRuns, withDefaultColorEmoji } from '@unicode/emoji';
+    } from '#components/project/Contexts.ts';
+    import { locales, words } from '#db/Database.ts';
+    import {
+        getOperatorKeyword,
+        getRenderableKeyword,
+    } from '#parser/Keywords.ts';
+    import { getCanonicalKeyword } from '#parser/canonicalizeKeywords.ts';
+    import Caret from '#edit/caret/Caret.ts';
+    import BooleanType from '#nodes/BooleanType.ts';
+    import Convert from '#nodes/Convert.ts';
+    import Dimension from '#nodes/Dimension.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import Input from '#nodes/Input.ts';
+    import Language from '#nodes/Language.ts';
+    import getInputShorthand from '#nodes/inputShorthand.ts';
+    import Reference from '#nodes/Reference.ts';
+    import Source from '#nodes/Source.ts';
+    import { Sym } from '#nodes/Sym.ts';
+    import Token from '#nodes/Token.ts';
+    import Unit from '#nodes/Unit.ts';
+    import WebLink from '#nodes/WebLink.ts';
+    import linkHref from '#parser/linkHref.ts';
+    import { emojiRuns, withDefaultColorEmoji } from '#unicode/emoji.ts';
 
     interface TokenProps {
         node: Token;

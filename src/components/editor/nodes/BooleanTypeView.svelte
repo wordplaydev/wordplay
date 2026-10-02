@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type BooleanType from '@nodes/BooleanType';
+    import type BooleanType from '#nodes/BooleanType.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: BooleanType;

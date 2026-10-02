@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { bundleTexts } from '@locale/UpdatesBundle';
+import { bundleTexts } from '#locale/UpdatesBundle.ts';
 import {
     BundleFormat,
     parseChangelog,
@@ -8,7 +8,7 @@ import {
     toMarkup,
     textId,
 } from './updates';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 describe('parseEntry', () => {
     test('extracts simple emoji prefix', () => {
@@ -195,6 +195,13 @@ describe('toMarkup', () => {
                 'Read a/b on the [About](https://wordplay.dev/about) page.',
             ),
         ).toBe('Read a//b on the <About@https://wordplay.dev/about> page.');
+    });
+
+    test('leaves the target of a link already in markup form alone', () => {
+        // `://design` became `:////design`, and every translation inherited it.
+        expect(toMarkup('We added a <design system@://design> page.')).toBe(
+            'We added a <design system@://design> page.',
+        );
     });
 
     test('does not turn a URL fragment into an issue link', () => {

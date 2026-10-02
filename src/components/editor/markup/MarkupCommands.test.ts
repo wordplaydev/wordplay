@@ -2,21 +2,21 @@ import {
     Category,
     Visibility,
     type CommandContext,
-} from '@components/editor/commands/Commands';
-import { REDO_SYMBOL, UNDO_SYMBOL } from '@parser/Symbols';
+} from '#components/editor/commands/Commands.ts';
+import { REDO_SYMBOL, UNDO_SYMBOL } from '#parser/Symbols.ts';
 import AllMarkupCommands, {
     MarkupOnlyCommands as MarkupCommands,
     MarkupToolbarGroups,
     VisibleMarkupCommands,
-} from '@components/editor/markup/MarkupCommands';
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
-import { markupToSource } from '@edit/markup/markupSource';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Evaluator from '@runtime/Evaluator';
-import { must } from '@util/nullable';
+} from '#components/editor/markup/MarkupCommands.ts';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
+import { markupToSource } from '#edit/markup/markupSource.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 import {
     chordKey,
@@ -24,7 +24,7 @@ import {
     invalidKeys,
     overlappingChords,
     reservedChords,
-} from '@components/editor/commands/chords';
+} from '#components/editor/commands/chords.ts';
 
 /**
  * The markup editor dispatches its own command list, so the invariants

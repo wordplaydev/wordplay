@@ -1,10 +1,10 @@
-import type Context from '@nodes/Context';
-import Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import StreamDefinition from '@nodes/StreamDefinition';
-import type Evaluator from '@runtime/Evaluator';
-import Initialize from '@runtime/Initialize';
-import type Step from '@runtime/Step';
+import type Context from '#nodes/Context.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Initialize from '#runtime/Initialize.ts';
+import type Step from '#runtime/Step.ts';
 
 /**
  * Compile steps that pre-evaluate every stream-creating call found inside

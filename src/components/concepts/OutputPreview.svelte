@@ -7,12 +7,12 @@
 </script>
 
 <script lang="ts">
-    import OutputView from '@components/output/OutputView.svelte';
-    import StartGate from '@components/output/StartGate.svelte';
+    import OutputView from '#components/output/OutputView.svelte';
+    import StartGate from '#components/output/StartGate.svelte';
     import {
         ContentGate,
         getPhotosensitivityWarnings,
-    } from '@components/output/gate.svelte';
+    } from '#components/output/gate.svelte.ts';
     import {
         IdleKind,
         setAnimatingNodes,
@@ -22,25 +22,25 @@
         setProject,
         setResetKeyboardIdle,
         setSelectedOutput,
-    } from '@components/project/Contexts';
-    import SelectedOutput from '@components/project/SelectedOutput.svelte';
-    import Button from '@components/widgets/Button.svelte';
+    } from '#components/project/Contexts.ts';
+    import SelectedOutput from '#components/project/SelectedOutput.svelte.ts';
+    import Button from '#components/widgets/Button.svelte';
     import {
         makeExampleProject,
         makePreviewEvaluator,
-    } from '@components/concepts/previewEvaluator';
-    import { DB, locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import type Example from '@nodes/Example';
-    import type Node from '@nodes/Node';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import ValueView from '@components/values/ValueView.svelte';
-    import Group from '@output/Output/Group';
-    import type Output from '@output/Output/Output';
-    import Sequence from '@output/animation/Sequence';
-    import Stage, { NameGenerator, toStage } from '@output/Output/Stage';
-    import type Evaluator from '@runtime/Evaluator';
-    import type Value from '@values/Value';
+    } from '#components/concepts/previewEvaluator.ts';
+    import { DB, locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type Example from '#nodes/Example.ts';
+    import type Node from '#nodes/Node.ts';
+    import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+    import ValueView from '#components/values/ValueView.svelte';
+    import Group from '#output/Output/Group.ts';
+    import type Output from '#output/Output/Output.ts';
+    import Sequence from '#output/animation/Sequence.ts';
+    import Stage, { NameGenerator, toStage } from '#output/Output/Stage.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
+    import type Value from '#values/Value.ts';
     import { untrack, type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
 

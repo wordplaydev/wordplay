@@ -1,8 +1,8 @@
-import type LanguageCode from '@locale/LanguageCode';
-import type { RegionCode } from '@locale/Regions';
-import { getLanguageExemplars } from '@unicode/Exemplars';
-import { getCodepoints } from '@unicode/Unicode';
-import { must } from '@util/nullable';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import { getLanguageExemplars } from '#unicode/Exemplars.ts';
+import { getCodepoints } from '#unicode/Unicode.ts';
+import { must } from '#util/nullable.ts';
 
 export type ScriptData = {
     /** Single-codepoint letters and digits per ISO 15924 script. */

@@ -1,39 +1,42 @@
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LanguageCode from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
-import MarkupValue from '@values/MarkupValue';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Start from '#runtime/Start.ts';
+import type Step from '#runtime/Step.ts';
+import MarkupValue from '#values/MarkupValue.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import type Context from '@nodes/Context';
-import Example from '@nodes/Example';
-import type Expression from '@nodes/Expression';
-import FormattedTranslation from '@nodes/FormattedTranslation';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import type Context from '#nodes/Context.ts';
+import Example from '#nodes/Example.ts';
+import type Expression from '#nodes/Expression.ts';
+import FormattedTranslation from '#nodes/FormattedTranslation.ts';
 import FormattedType, {
     registerFormattedDefaultExpression,
-} from '@nodes/FormattedType';
-import { getPreferred } from '@nodes/LanguageTagged';
-import Literal from '@nodes/Literal';
-import type { Grammar, Replacement } from '@nodes/Node';
-import Node, { list, node } from '@nodes/Node';
-import Paragraph, { type Segment } from '@nodes/Paragraph';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import TextLiteral from '@nodes/TextLiteral';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import UnionType from '@nodes/UnionType';
-import { unescaped } from '@nodes/Translation';
-import Words from '@nodes/Words';
-import { first, last, must } from '@util/nullable';
+} from '#nodes/FormattedType.ts';
+import { getPreferred } from '#nodes/LanguageTagged.ts';
+import Literal from '#nodes/Literal.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import Node, { list, node } from '#nodes/Node.ts';
+import Paragraph, { type Segment } from '#nodes/Paragraph.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import UnionType from '#nodes/UnionType.ts';
+import { unescaped } from '#nodes/Translation.ts';
+import Words from '#nodes/Words.ts';
+import { first, last, must } from '#util/nullable.ts';
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];

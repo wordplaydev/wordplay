@@ -1,11 +1,11 @@
 import { describe, expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import selectTranslation from '@locale/selectTranslation';
-import DefaultLocales from '@locale/DefaultLocales';
-import { getDocLocales } from '@locale/getDocLocales';
-import Locales from '@locale/Locales';
-import concretize from '@locale/concretize';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import selectTranslation from '#locale/selectTranslation.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import Locales from '#locale/Locales.ts';
+import concretize from '#locale/concretize.ts';
 
 describe('selectTranslation', () => {
     test('returns the locale value when present', () => {

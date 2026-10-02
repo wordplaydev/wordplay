@@ -1,16 +1,16 @@
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import {
     any,
     node,
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import PatternAtom from '@nodes/PatternAtom';
-import PatternProperty from '@nodes/PatternProperty';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
+} from '#nodes/Node.ts';
+import PatternAtom from '#nodes/PatternAtom.ts';
+import PatternProperty from '#nodes/PatternProperty.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
 
 /**
  * A character-class atom in a pattern: `◌` (any grapheme), `_` (letter),

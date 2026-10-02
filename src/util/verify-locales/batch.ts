@@ -21,21 +21,21 @@
 import { spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { parseCategorySelection } from '@util/verify-locales/contentCategories';
+import { parseCategorySelection } from '#util/verify-locales/contentCategories.ts';
 import Log, {
     resolveColor,
     resolveSymbols,
     stripAnsi,
     type Symbols,
-} from '@util/verify-locales/Log';
+} from '#util/verify-locales/Log.ts';
 import {
     describeUsage,
     isTranslatorUsage,
     sumUsage,
     UsageLineMarker,
     type TranslatorUsage,
-} from '@util/verify-locales/Translator';
-import { must } from '@util/nullable';
+} from '#util/verify-locales/Translator.ts';
+import { must } from '#util/nullable.ts';
 
 /** Commands safe to batch — only ones that translate (per-locale, independent).
  *  verify/fix/ci do cross-locale work and stay on the serial `start.ts`. */

@@ -13,7 +13,7 @@
  * the time, and for a while that spelling was cut off a frame after it began.
  */
 
-import { signatureOf, type MusicData } from '@output/Music/musicData';
+import { signatureOf, type MusicData } from '#output/Music/musicData.ts';
 
 export type Decision =
     | { kind: 'start'; data: MusicData }

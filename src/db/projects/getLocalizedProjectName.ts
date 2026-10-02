@@ -15,13 +15,13 @@
  * states are necessarily transiently broken.
  */
 
-import type Project from '@db/projects/Project';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import type { LocaleTextAccessor } from '@locale/Locales';
-import TextLiteral from '@nodes/TextLiteral';
-import { toExpression } from '@parser/parseExpression';
-import { TextCloseByTextOpen } from '@parser/Tokenizer';
+import type Project from '#db/projects/Project.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import { toExpression } from '#parser/parseExpression.ts';
+import { TextCloseByTextOpen } from '#parser/Tokenizer.ts';
 
 /** Set of opening text delimiters that signal "this name might be a
  *  TextLiteral and should be parsed before display." Keeps us from

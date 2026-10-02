@@ -800,7 +800,7 @@
         "ece63b95df702": "$~Birden fazla ifadeye aynı ismi veren yaratıcıların sayfayı çökertmesine yol açan bir durumu düzelttik.",
         "ea8d89603d821": "$~Karakter isimlerinin boşluk içermeden geçerli olmasını sağladık (<1080@https://github.com/wordplaydev/wordplay/issues/1080>).",
         "e96e925f91727": "$~Portekizce (Portekiz) için bir makine çevirisi ekledik.",
-        "e627530370c9c": "$~Platform için tasarım veya geliştirme üzerinde çalışan herkesin hangi renkleri, yazı tiplerini, boşlukları ve bileşenleri kullanacağına dair daha kolay bir rehbere sahip olması için bir <tasarım sistemi@:////design> sayfası ekledik (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
+        "e627530370c9c": "$~Platform için tasarım veya geliştirme üzerinde çalışan herkesin hangi renkleri, yazı tiplerini, boşlukları ve bileşenleri kullanacağına dair daha kolay bir rehbere sahip olması için bir <tasarım sistemi@://design> sayfası ekledik (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
         "e602448b8ccde": "$~Kullanıcı arayüzü bileşenlerini daha tutarlı, kullanışlı ve görünür hale getirdik.",
         "eb860a453fc88": "$~Daha dikkat çekici bir düğme tasarımı ekledik, ancak henüz hiçbir yerde kullanmıyoruz.",
         "eea4d04e93f44": "$~Uygulama içi yerelleştirme düzenleme özelliğinde daha fazla ilerleme kaydettik, ancak yayınlamaya henüz hazır değil.",

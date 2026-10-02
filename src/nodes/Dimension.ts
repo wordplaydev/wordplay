@@ -1,23 +1,26 @@
-import type { TemplateInput } from '@locale/Locales';
-import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { DOT_SYMBOL, EXPONENT_SYMBOL } from '@parser/Symbols';
-import { Purpose } from '@concepts/Purpose';
-import type Context from '@nodes/Context';
-import type Locales from '@locale/Locales';
+import type { TemplateInput } from '#locale/Locales.ts';
+import { getPossibleDimensions } from '#edit/menu/getPossibleUnits.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { DOT_SYMBOL, EXPONENT_SYMBOL } from '#parser/Symbols.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Context from '#nodes/Context.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import NameToken from '@nodes/NameToken';
+import NameToken from '#nodes/NameToken.ts';
 import Node, {
     any,
     node,
     none,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+} from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;

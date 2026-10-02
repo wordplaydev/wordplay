@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type MatchValue from '@values/MatchValue';
+    import type MatchValue from '#values/MatchValue.ts';
 
     /**
      * The view for a {@link MatchValue} — the scoped state of an in-progress

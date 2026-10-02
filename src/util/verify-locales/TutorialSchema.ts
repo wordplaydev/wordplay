@@ -1,12 +1,12 @@
 import fs from 'fs';
 import { isTutorial, type default as Tutorial } from '../../tutorial/Tutorial';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import {
     DEFAULT_TUTORIAL_MODE,
     type TutorialMode,
 } from '../../tutorial/TutorialMode';
-import { getObjectFromJSONFile } from '@util/verify-locales/getObjectFromJSONFile';
-import Log from '@util/verify-locales/Log';
+import { getObjectFromJSONFile } from '#util/verify-locales/getObjectFromJSONFile.ts';
+import Log from '#util/verify-locales/Log.ts';
 
 // Read the tutorial schema.
 const TutorialSchema = JSON.parse(

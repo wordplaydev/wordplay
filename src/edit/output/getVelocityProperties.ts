@@ -1,10 +1,10 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import type { LocaleTextsAccessor } from '@locale/Locales';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyNumber from '@edit/output/OutputPropertyNumber';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextsAccessor } from '#locale/Locales.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyNumber from '#edit/output/OutputPropertyNumber.ts';
 
 /**
  * A Velocity component: an always-editable compound-unit number field (m/s or °/s). The editable

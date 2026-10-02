@@ -1,14 +1,14 @@
 <script lang="ts">
-    import type FunctionDefinition from '@nodes/FunctionDefinition';
-    import Flow from '@components/editor/blocks/Flow.svelte';
-    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+    import Flow from '#components/editor/blocks/Flow.svelte';
+    import NodeSequenceView from '#components/editor/nodes/NodeSequenceView.svelte';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import { isVerticalList } from '@components/editor/nodes/verticalLayout';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
-    import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import { isVerticalList } from '#components/editor/nodes/verticalLayout.ts';
+    import { isFoldableNode } from '#components/editor/util/folding.ts';
+    import FoldToggle from '#components/editor/util/FoldToggle.svelte';
+    import FoldEllipsis from '#components/editor/util/FoldEllipsis.svelte';
 
     interface Props {
         node: FunctionDefinition;

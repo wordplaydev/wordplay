@@ -1,7 +1,7 @@
-import type LanguageCode from '@locale/LanguageCode';
-import type LocaleText from '@locale/LocaleText';
-import { isLocaleText } from '@locale/isLocaleText';
-import versioned from '@db/locales/versioned';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isLocaleText } from '#locale/isLocaleText.ts';
+import versioned from '#db/locales/versioned.ts';
 
 export async function getLocale(
     language: LanguageCode,

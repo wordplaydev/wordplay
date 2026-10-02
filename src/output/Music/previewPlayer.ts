@@ -14,10 +14,10 @@
  * the piece where it was rather than restarting it.
  */
 
-import audio from '@output/Music/MusicAudio';
-import MusicPlayer from '@output/Music/MusicPlayer';
-import samples from '@output/Music/InstrumentSamples';
-import type { MusicData } from '@output/Music/musicData';
+import audio from '#output/Music/MusicAudio.ts';
+import MusicPlayer from '#output/Music/MusicPlayer.ts';
+import samples from '#output/Music/InstrumentSamples.ts';
+import type { MusicData } from '#output/Music/musicData.ts';
 import { writable, type Readable } from 'svelte/store';
 
 /** True while the editor is playing, so the stage knows to hold still. */

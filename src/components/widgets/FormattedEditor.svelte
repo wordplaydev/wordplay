@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { toShortcut } from '@components/editor/commands/shortcuts';
-    import Button from '@components/widgets/Button.svelte';
-    import Switch from '@components/widgets/Switch.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { BULLET_SYMBOL } from '@parser/Symbols';
+    import Emoji from '#components/app/Emoji.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { toShortcut } from '#components/editor/commands/shortcuts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Switch from '#components/widgets/Switch.svelte';
+    import TextBox from '#components/widgets/TextBox.svelte';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { BULLET_SYMBOL } from '#parser/Symbols.ts';
     import { tick } from 'svelte';
 
     interface Props {
@@ -45,12 +45,12 @@
      * graph of every route — exactly what importGraph.test.ts budgets against.
      */
     let MarkupEditor = $state<
-        | typeof import('@components/editor/markup/MarkupEditor.svelte').default
+        | typeof import('#components/editor/markup/MarkupEditor.svelte').default
         | undefined
     >(undefined);
     $effect(() => {
         if (rich && MarkupEditor === undefined)
-            import('@components/editor/markup/MarkupEditor.svelte').then(
+            import('#components/editor/markup/MarkupEditor.svelte').then(
                 (module) => (MarkupEditor = module.default),
             );
     });

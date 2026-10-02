@@ -1,13 +1,13 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import NodeRef from '@locale/NodeRef';
-import ValueRef from '@locale/ValueRef';
-import type Markup from '@nodes/Markup';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import { getMatchLoop } from '@runtime/pattern/matchSteps';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import ValueRef from '#locale/ValueRef.ts';
+import type Markup from '#nodes/Markup.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { getMatchLoop } from '#runtime/pattern/matchSteps.ts';
 import { expect, test } from 'vitest';
 
 function evaluatorFor(code: string): Evaluator {

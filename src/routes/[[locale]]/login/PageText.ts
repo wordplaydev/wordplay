@@ -1,10 +1,10 @@
-import type { FormattedText, Template } from '@locale/LocaleText';
+import type { FormattedText, Template } from '#locale/LocaleText.ts';
 import type {
     ButtonText,
     FieldText,
     ModeText,
     ToggleText,
-} from '@locale/UITexts';
+} from '#locale/UITexts.ts';
 
 type PageText = {
     /** [plain] Header for the login page when not logged in */

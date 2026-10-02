@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Button, { type Action } from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import Button, { type Action } from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         tip: LocaleTextAccessor;

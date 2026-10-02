@@ -1,5 +1,5 @@
-import { graphemes } from '@output/animation/getTextTransition';
-import { must } from '@util/nullable';
+import { graphemes } from '#output/animation/getTextTransition.ts';
+import { must } from '#util/nullable.ts';
 
 /** Fisher-Yates shuffle with an injectable random source so tests can seed it. */
 function shuffle(list: number[], random: () => number): number[] {

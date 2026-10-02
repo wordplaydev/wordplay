@@ -14,10 +14,10 @@
      * box actually moved. What differs is the shape of the crop and what happens on
      * confirm, so the caller supplies its own controls and takes the sample.
      */
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import { locales } from '@db/Database';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import { locales } from '#db/Database.ts';
     import {
         boxSampleRect,
         clampRect,
@@ -26,8 +26,8 @@
         sampleSize,
         type Corner,
         type Rect,
-    } from '@db/characters/raster';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    } from '#db/characters/raster.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import { untrack, type Snippet } from 'svelte';
 
     /** The picture as it was read, at working size. */

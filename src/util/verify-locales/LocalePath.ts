@@ -1,4 +1,4 @@
-import { last, must } from '@util/nullable';
+import { last, must } from '#util/nullable.ts';
 
 /** Whether a value is something a locale path can descend into: an object or
  *  an array, since a path addresses both. */

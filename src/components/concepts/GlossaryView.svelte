@@ -1,7 +1,7 @@
 <script lang="ts">
-    import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
-    import GlossaryEntry from '@components/concepts/GlossaryEntry.svelte';
-    import { locales } from '@db/Database';
+    import HeaderAndExplanation from '#components/app/HeaderAndExplanation.svelte';
+    import GlossaryEntry from '#components/concepts/GlossaryEntry.svelte';
+    import { locales } from '#db/Database.ts';
 
     /**
      * The Guide's glossary mode: every glossary term (word + definition),

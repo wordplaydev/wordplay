@@ -1,11 +1,11 @@
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import ProgressBar from '@components/widgets/ProgressBar.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import ProgressBar from '#components/widgets/ProgressBar.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
     import {
         budget,
         subscribeTranslationBudget,
-    } from '@db/translationBudget.svelte';
+    } from '#db/translationBudget.svelte.ts';
 
     interface Props {
         /** Render just the bar and a short line, for a tight space like a chat

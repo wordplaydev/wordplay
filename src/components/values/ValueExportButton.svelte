@@ -18,11 +18,11 @@
      * palette and markup all render values through it, and none of them wants a
      * save button on every example on the page.
      */
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type Project from '@db/projects/Project';
-    import { canExport } from '@values/export/canExport';
-    import type Value from '@values/Value';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import type Project from '#db/projects/Project.ts';
+    import { canExport } from '#values/export/canExport.ts';
+    import type Value from '#values/Value.ts';
     import type { Component } from 'svelte';
 
     interface Props {
@@ -48,7 +48,7 @@
         | undefined = $state(undefined);
 
     async function open() {
-        Dialog ??= (await import('@components/values/ValueExportDialog.svelte'))
+        Dialog ??= (await import('#components/values/ValueExportDialog.svelte'))
             .default;
         show = true;
     }

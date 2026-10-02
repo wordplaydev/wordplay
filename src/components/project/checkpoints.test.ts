@@ -1,4 +1,4 @@
-import type { SerializedSourceCheckpoint } from '@db/projects/ProjectSchemas';
+import type { SerializedSourceCheckpoint } from '#db/projects/ProjectSchemas.ts';
 import { describe, expect, test } from 'vitest';
 import {
     getCheckpoint,

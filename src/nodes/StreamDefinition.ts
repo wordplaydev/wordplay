@@ -1,29 +1,29 @@
-import type { TemplateInput } from '@locale/Locales';
-import type Conflict from '@conflicts/Conflict';
-import getConceptName from '@locale/getConceptName';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { STREAM_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import StartFinish from '@runtime/StartFinish';
-import type Step from '@runtime/Step';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { STREAM_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import StartFinish from '#runtime/StartFinish.ts';
+import type Step from '#runtime/Step.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import StreamDefinitionValue from '@values/StreamDefinitionValue';
-import Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import DefinitionExpression from '@nodes/DefinitionExpression';
-import Docs from '@nodes/Docs';
-import EvalCloseToken from '@nodes/EvalCloseToken';
-import EvalOpenToken from '@nodes/EvalOpenToken';
-import Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Names from '@nodes/Names';
-import type Node from '@nodes/Node';
+import StreamDefinitionValue from '#values/StreamDefinitionValue.ts';
+import Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import DefinitionExpression from '#nodes/DefinitionExpression.ts';
+import Docs from '#nodes/Docs.ts';
+import EvalCloseToken from '#nodes/EvalCloseToken.ts';
+import EvalOpenToken from '#nodes/EvalOpenToken.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import Names from '#nodes/Names.ts';
+import type Node from '#nodes/Node.ts';
 import {
     any,
     list,
@@ -32,16 +32,16 @@ import {
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import StreamDefinitionType from '@nodes/StreamDefinitionType';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import type TypeSet from '@nodes/TypeSet';
-import TypeToken from '@nodes/TypeToken';
-import { getEvaluationInputConflicts } from '@nodes/util';
+} from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import StreamDefinitionType from '#nodes/StreamDefinitionType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import TypeToken from '#nodes/TypeToken.ts';
+import { getEvaluationInputConflicts } from '#nodes/util.ts';
 
 export default class StreamDefinition extends DefinitionExpression {
     readonly docs: Docs;

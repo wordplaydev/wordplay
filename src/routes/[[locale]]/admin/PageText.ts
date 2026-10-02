@@ -1,5 +1,5 @@
-import type { FormattedText } from '@locale/LocaleText';
-import type { ButtonText } from '@locale/UITexts';
+import type { FormattedText } from '#locale/LocaleText.ts';
+import type { ButtonText } from '#locale/UITexts.ts';
 
 /**
  * Everyone who holds a privilege, and how to give or take one away.

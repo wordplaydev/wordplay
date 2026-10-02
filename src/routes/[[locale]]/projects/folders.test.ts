@@ -1,16 +1,16 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
-import Project from '@db/projects/Project';
-import type { ProjectFolders } from '@db/settings/ProjectFoldersSetting';
+import Project from '#db/projects/Project.ts';
+import type { ProjectFolders } from '#db/settings/ProjectFoldersSetting.ts';
 import {
     moveDestinations,
     nextDestination,
     nextFolderName,
     resolveFolders,
 } from './folders';
-import sortProjects from '@db/projects/sortProjects';
+import sortProjects from '#db/projects/sortProjects.ts';
 
 const Languages = ['en'];
 

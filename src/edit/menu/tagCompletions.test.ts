@@ -1,11 +1,11 @@
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
-import { getEditsAt } from '@edit/menu/PossibleEdits';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import { MaxTagCompletions } from '@locale/tagNames';
-import Language from '@nodes/Language';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
+import { getEditsAt } from '#edit/menu/PossibleEdits.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import { MaxTagCompletions } from '#locale/tagNames.ts';
+import Language from '#nodes/Language.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

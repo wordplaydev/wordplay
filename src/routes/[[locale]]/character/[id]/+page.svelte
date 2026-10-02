@@ -1,34 +1,34 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { Basis } from '@basis/Basis';
-    import Link from '@components/app/Link.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Page from '@components/app/Page.svelte';
-    import PageHeaderRow from '@components/app/PageHeaderRow.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { Basis } from '#basis/Basis.ts';
+    import Link from '#components/app/Link.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Page from '#components/app/Page.svelte';
+    import PageHeaderRow from '#components/app/PageHeaderRow.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import {
         getAnnouncer,
         getUser,
         isAuthenticated,
-    } from '@components/project/Contexts';
-    import CreatorList from '@components/project/CreatorList.svelte';
-    import RootView from '@components/project/RootView.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import Button from '@components/widgets/Button.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import ColorChooser from '@components/widgets/ColorChooser.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
-    import Labeled from '@components/widgets/Labeled.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Slider from '@components/widgets/Slider.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Title from '@components/widgets/Title.svelte';
+    } from '#components/project/Contexts.ts';
+    import CreatorList from '#components/project/CreatorList.svelte';
+    import RootView from '#components/project/RootView.svelte';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Checkbox from '#components/widgets/Checkbox.svelte';
+    import ColorChooser from '#components/widgets/ColorChooser.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import EmojiChooser from '#components/widgets/GlyphChooser.svelte';
+    import Labeled from '#components/widgets/Labeled.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Slider from '#components/widgets/Slider.svelte';
+    import TextBox from '#components/widgets/TextBox.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Title from '#components/widgets/Title.svelte';
     import {
         canCurve,
         clampToGrid,
@@ -44,7 +44,7 @@
         MaxBrushSize,
         straightenPathPoint,
         transformPathPoints,
-    } from '@db/characters/paths';
+    } from '#db/characters/paths.ts';
     import {
         canRedo,
         canUndo,
@@ -54,7 +54,7 @@
         startHistory,
         undo as undoHistory,
         type History,
-    } from '@db/characters/history';
+    } from '#db/characters/history.ts';
     import {
         CharacterSize,
         characterToSVG,
@@ -71,45 +71,45 @@
         type CharacterRectangle,
         type CharacterShape,
         type Point,
-    } from '@db/characters/Character';
-    import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '@db/limits';
-    import { getUsername } from '@db/creators/handle.svelte';
-    import toValidName from '@util/toValidName';
+    } from '#db/characters/Character.ts';
+    import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '#db/limits.ts';
+    import { getUsername } from '#db/creators/handle.svelte.ts';
+    import toValidName from '#util/toValidName.ts';
     import {
         DB,
         CharactersDB,
         disconnected,
         Galleries,
         locales,
-    } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import ImagePicker from '@components/app/ImagePicker.svelte';
+    } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import OverflowToolbar from '#components/widgets/OverflowToolbar.svelte';
+    import ImagePicker from '#components/app/ImagePicker.svelte';
     import {
         Faces,
         faceSupportsWeight,
         FontWeights,
         getFaceDescription,
         type FontWeight,
-    } from '@basis/faces/Fonts';
-    import FaceName from '@components/settings/FaceName.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import { MaxPaletteColors } from '@components/widgets/ColorChooser.svelte';
-    import { traceGlyph, type GlyphError } from '@db/characters/glyph';
-    import { pixelsFromRGBA, withPixelLayer } from '@db/characters/raster';
-    import { hasEmoji } from '@unicode/emoji';
-    import Locales from '@locale/Locales';
+    } from '#basis/faces/Fonts.ts';
+    import FaceName from '#components/settings/FaceName.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import { MaxPaletteColors } from '#components/widgets/ColorChooser.svelte';
+    import { traceGlyph, type GlyphError } from '#db/characters/glyph.ts';
+    import { pixelsFromRGBA, withPixelLayer } from '#db/characters/raster.ts';
+    import { hasEmoji } from '#unicode/emoji.ts';
+    import Locales from '#locale/Locales.ts';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
         TemplateInput,
-    } from '@locale/Locales';
-    import { controlKeyLabel } from '@components/editor/commands/shortcuts';
-    import type LocaleText from '@locale/LocaleText';
-    import type { Template } from '@locale/LocaleText';
-    import { type ModeText } from '@locale/UITexts';
-    import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-    import { toProgram } from '@parser/parseProgram';
+    } from '#locale/Locales.ts';
+    import { controlKeyLabel } from '#components/editor/commands/shortcuts.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import type { Template } from '#locale/LocaleText.ts';
+    import { type ModeText } from '#locale/UITexts.ts';
+    import ConceptLink, { CharacterName } from '#nodes/ConceptLink.ts';
+    import { toProgram } from '#parser/parseProgram.ts';
     import {
         BORROW_SYMBOL,
         CANCEL_SYMBOL,
@@ -121,10 +121,10 @@
         SELECTION_SYMBOL,
         SHARE_SYMBOL,
         UNDO_SYMBOL,
-    } from '@parser/Symbols';
-    import { NameRegExPattern } from '@parser/Tokenizer';
-    import UnicodeString from '@unicode/UnicodeString';
-    import { localeGoto } from '@util/localeGoto';
+    } from '#parser/Symbols.ts';
+    import { NameRegExPattern } from '#parser/Tokenizer.ts';
+    import UnicodeString from '#unicode/UnicodeString.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
     import { untrack, onMount, tick } from 'svelte';
 
     const DrawingMode = {

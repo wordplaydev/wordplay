@@ -1,15 +1,15 @@
-import Bind from '@nodes/Bind';
-import Block from '@nodes/Block';
-import Conditional from '@nodes/Conditional';
-import type Context from '@nodes/Context';
-import Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Input from '@nodes/Input';
-import Is from '@nodes/Is';
-import ListLiteral from '@nodes/ListLiteral';
-import ListType from '@nodes/ListType';
-import Type from '@nodes/Type';
+import Bind from '#nodes/Bind.ts';
+import Block from '#nodes/Block.ts';
+import Conditional from '#nodes/Conditional.ts';
+import type Context from '#nodes/Context.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Input from '#nodes/Input.ts';
+import Is from '#nodes/Is.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import ListType from '#nodes/ListType.ts';
+import Type from '#nodes/Type.ts';
 
 /**
  * The type an expression is declared to be by whatever it's given to, if anything declares one.

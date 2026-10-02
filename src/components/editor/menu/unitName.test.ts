@@ -1,10 +1,10 @@
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import Dimension from '@nodes/Dimension';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import Dimension from '#nodes/Dimension.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
 import { describe, expect, test } from 'vitest';
 import { getUnitKey, getUnitName, getUnitNameMarkup } from './unitName';
 

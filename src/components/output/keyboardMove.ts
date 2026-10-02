@@ -12,18 +12,18 @@
  * which is gated on playing, and a keyboard move happens while paused.
  */
 
-import moveOutput from '@components/palette/editOutput';
-import type SelectedOutput from '@components/project/SelectedOutput.svelte';
-import type { AnnouncerContext } from '@components/project/Contexts';
-import type { Database } from '@db/Database';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import type Evaluate from '@nodes/Evaluate';
-import type Output from '@output/Output/Output';
-import Shape from '@output/Output/Shape/Shape';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
-import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
-import type { OutputInfoSet } from '@output/animation/Animator';
+import moveOutput from '#components/palette/editOutput.ts';
+import type SelectedOutput from '#components/project/SelectedOutput.svelte.ts';
+import type { AnnouncerContext } from '#components/project/Contexts.ts';
+import type { Database } from '#db/Database.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import type Output from '#output/Output/Output.ts';
+import Shape from '#output/Output/Shape/Shape.ts';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
+import { getOrCreatePlace } from '#output/Place/getOrCreatePlace.ts';
+import type { OutputInfoSet } from '#output/animation/Animator.ts';
 import getAlignmentTargets from './alignmentTargets';
 import {
     SnapIncrement,

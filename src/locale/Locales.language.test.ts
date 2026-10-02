@@ -1,10 +1,10 @@
-import { Unwritten } from '@locale/Annotations';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LanguageCode from '@locale/LanguageCode';
-import type LocaleText from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import type { RegionCode } from '@locale/Regions';
+import { Unwritten } from '#locale/Annotations.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import type { RegionCode } from '#locale/Regions.ts';
 import { describe, expect, test } from 'vitest';
 
 /** A locale like en-US in another language, with `glossary.start.word` set. */

@@ -1,13 +1,13 @@
-import { getBind } from '@locale/getBind';
-import type { EvaluationNode } from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import NumberValue from '@values/NumberValue';
-import type Value from '@values/Value';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import Unit from '@nodes/Unit';
-import StructureValue from '@values/StructureValue';
-import Valued from '@output/Output/Valued';
+import { getBind } from '#locale/getBind.ts';
+import type { EvaluationNode } from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type Value from '#values/Value.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import Unit from '#nodes/Unit.ts';
+import StructureValue from '#values/StructureValue.ts';
+import Valued from '#output/Output/Valued.ts';
 
 export function createDirectionType(locales: Locales) {
     return toStructure(`

@@ -26,61 +26,61 @@
     // Populates the conflict-resolution registry read by getResolutions below.
     // Imported here rather than in the root layout so its ~40 node and conflict
     // classes load with the editor instead of with every page.
-    import '@conflicts/registerTypeResolutions';
-    import getFocusNode from '@components/annotations/getFocusNode';
-    import getMenuNoteMarkup from '@components/editor/menu/menuNote';
-    import { describesOwnType } from '@nodes/conciseRef';
-    import AnyType from '@nodes/AnyType';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import '#conflicts/registerTypeResolutions.ts';
+    import getFocusNode from '#components/annotations/getFocusNode.ts';
+    import getMenuNoteMarkup from '#components/editor/menu/menuNote.ts';
+    import { describesOwnType } from '#nodes/conciseRef.ts';
+    import AnyType from '#nodes/AnyType.ts';
+    import ConceptLinkUI from '#components/concepts/ConceptLinkUI.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import {
         DecrementLiteral,
         IncrementLiteral,
         ShowMenu,
-    } from '@components/editor/commands/Commands';
-    import { toShortcut } from '@components/editor/commands/shortcuts';
-    import Speech from '@components/lore/Speech.svelte';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import Sidebar from '@components/widgets/Sidebar.svelte';
-    import Templates from '@concepts/Templates';
-    import type Conflict from '@conflicts/Conflict';
+    } from '#components/editor/commands/Commands.ts';
+    import { toShortcut } from '#components/editor/commands/shortcuts.ts';
+    import Speech from '#components/lore/Speech.svelte';
+    import CommandButton from '#components/widgets/CommandButton.svelte';
+    import Sidebar from '#components/widgets/Sidebar.svelte';
+    import Templates from '#concepts/Templates.ts';
+    import type Conflict from '#conflicts/Conflict.ts';
     import type {
         ConflictLocaleAccessor,
         Resolution,
-    } from '@conflicts/Conflict';
-    import { UnknownName } from '@conflicts/UnknownName';
-    import type Caret from '@edit/caret/Caret';
-    import { loadLocaleNameIndex } from '@locale/localeNameIndex';
-    import NodeRef from '@locale/NodeRef';
-    import Context from '@nodes/Context';
-    import Expression from '@nodes/Expression';
-    import Node from '@nodes/Node';
-    import Token from '@nodes/Token';
-    import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
-    import type Evaluator from '@runtime/Evaluator';
+    } from '#conflicts/Conflict.ts';
+    import { UnknownName } from '#conflicts/UnknownName.ts';
+    import type Caret from '#edit/caret/Caret.ts';
+    import { loadLocaleNameIndex } from '#locale/localeNameIndex.ts';
+    import NodeRef from '#locale/NodeRef.ts';
+    import Context from '#nodes/Context.ts';
+    import Expression from '#nodes/Expression.ts';
+    import Node from '#nodes/Node.ts';
+    import Token from '#nodes/Token.ts';
+    import { DOCUMENTATION_SYMBOL } from '#parser/Symbols.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
     import { onDestroy, tick } from 'svelte';
     import {
         locales,
         Settings,
         showAnnotations,
         annotationsWidth,
-    } from '@db/Database';
+    } from '#db/Database.ts';
     import {
         ANNOTATIONS_MIN_WIDTH,
         ANNOTATIONS_MAX_WIDTH,
-    } from '@db/settings/AnnotationsSetting';
-    import type Project from '@db/projects/Project';
+    } from '#db/settings/AnnotationsSetting.ts';
+    import type Project from '#db/projects/Project.ts';
     import Characters from '../../lore/BasisCharacters';
-    import type Locales from '@locale/Locales';
-    import type Markup from '@nodes/Markup';
-    import type Source from '@nodes/Source';
+    import type Locales from '#locale/Locales.ts';
+    import type Markup from '#nodes/Markup.ts';
+    import type Source from '#nodes/Source.ts';
     import {
         getConceptIndex,
         getEditors,
         getEmphasizedConflict,
         getEvaluation,
-    } from '@components/project/Contexts';
-    import Annotation from '@components/annotations/Annotation.svelte';
+    } from '#components/project/Contexts.ts';
+    import Annotation from '#components/annotations/Annotation.svelte';
 
     interface Props {
         /** The project for which annotations should be shown */

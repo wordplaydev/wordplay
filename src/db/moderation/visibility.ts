@@ -1,8 +1,8 @@
-import type { Character } from '@db/characters/Character';
-import type { SerializedKit } from '@db/kits/Kit';
-import type Gallery from '@db/galleries/Gallery';
-import type HowTo from '@db/howtos/HowToDatabase.svelte';
-import type Project from '@db/projects/Project';
+import type { Character } from '#db/characters/Character.ts';
+import type { SerializedKit } from '#db/kits/Kit.ts';
+import type Gallery from '#db/galleries/Gallery.ts';
+import type HowTo from '#db/howtos/HowToDatabase.svelte.ts';
+import type Project from '#db/projects/Project.ts';
 import type { Visibility } from 'shared-types';
 
 /**

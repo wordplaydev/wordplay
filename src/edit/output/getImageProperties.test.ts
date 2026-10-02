@@ -1,10 +1,10 @@
 import { test, expect } from 'vitest';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Evaluate from '@nodes/Evaluate';
-import OutputExpression from '@edit/output/OutputExpression';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import OutputExpression from '#edit/output/OutputExpression.ts';
 
 /**
  * A new output type reaches the palette through two ladders in `OutputExpression`, and

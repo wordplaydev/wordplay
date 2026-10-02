@@ -13,7 +13,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { contrast } from '../../src/util/colorContrast';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 const Root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 

@@ -1,4 +1,4 @@
-import { Scripts } from '@locale/Scripts';
+import { Scripts } from '#locale/Scripts.ts';
 
 /**
  * The Unicode property registry for pattern classes (LANGUAGE.md). Resolves a

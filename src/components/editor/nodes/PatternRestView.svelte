@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternRest from '@nodes/PatternRest';
+    import type PatternRest from '#nodes/PatternRest.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** The rest atom (`…`) — match any number of graphemes. */
     interface Props {

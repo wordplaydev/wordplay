@@ -1,11 +1,11 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import type Context from '@nodes/Context';
-import Evaluate from '@nodes/Evaluate';
-import evaluateCode from '@runtime/evaluate';
-import { toPlace } from '@output/Place/Place';
-import { getFormAnchor } from '@edit/output/editShape';
-import { must } from '@util/nullable';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import type Context from '#nodes/Context.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import { toPlace } from '#output/Place/Place.ts';
+import { getFormAnchor } from '#edit/output/editShape.ts';
+import { must } from '#util/nullable.ts';
 
 export function getPlaceExpression(
     project: Project,

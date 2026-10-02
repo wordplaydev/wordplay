@@ -1,5 +1,5 @@
-import type Gallery from '@db/galleries/Gallery';
-import type { GalleryResult } from '@db/galleries/GalleryDatabase.svelte';
+import type Gallery from '#db/galleries/Gallery.ts';
+import type { GalleryResult } from '#db/galleries/GalleryDatabase.svelte.ts';
 
 /**
  * What the how-to page should show for a gallery ID: the gallery, `null` for

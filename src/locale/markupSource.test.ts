@@ -1,15 +1,15 @@
-import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
-import Project from '@db/projects/Project';
-import { getDocLocales } from '@locale/getDocLocales';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import { firstSentenceOf } from '@locale/firstSentence';
-import Markup from '@nodes/Markup';
-import { parseFormattedLiteral } from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
+import { accessorToLocalePath } from '#components/localization/accessorToLocalePath.ts';
+import Project from '#db/projects/Project.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import { firstSentenceOf } from '#locale/firstSentence.ts';
+import Markup from '#nodes/Markup.ts';
+import { parseFormattedLiteral } from '#parser/parseExpression.ts';
+import { toTokens } from '#parser/toTokens.ts';
 import { describe, expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 const pathOf = (markup: Markup | undefined) =>
     markup?.source === undefined

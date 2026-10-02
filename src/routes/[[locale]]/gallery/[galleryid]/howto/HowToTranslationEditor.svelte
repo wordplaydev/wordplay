@@ -4,8 +4,8 @@
      created a bidirectional effect loop that could clobber in-flight edits). -->
 
 <script lang="ts">
-    import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
-    import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import FormattedEditor from '#components/widgets/FormattedEditor.svelte';
+    import HowTo from '#db/howtos/HowToDatabase.svelte.ts';
     import { SvelteSet } from 'svelte/reactivity';
 
     interface Props {

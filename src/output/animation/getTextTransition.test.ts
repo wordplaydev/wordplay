@@ -3,7 +3,7 @@ import {
     getTextTransition,
     getTextTransitionStep,
     getTransitionIndex,
-} from '@output/animation/getTextTransition';
+} from '#output/animation/getTextTransition.ts';
 
 /** True if any UTF-16 unit is an unpaired surrogate (renders as tofu). */
 function hasLoneSurrogate(s: string): boolean {

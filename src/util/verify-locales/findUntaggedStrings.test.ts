@@ -1,4 +1,4 @@
-import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import { expect, test } from 'vitest';
 import findUntaggedStrings from './findUntaggedStrings';
 

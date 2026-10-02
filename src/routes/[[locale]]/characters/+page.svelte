@@ -1,20 +1,20 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import CharacterPreview from '@components/app/CharacterPreview.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import { type Character } from '@db/characters/Character';
-    import { CharactersDB, disconnected } from '@db/Database';
-    import { firestore } from '@db/firebase';
-    import { CANCEL_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
-    import { localeGoto } from '@util/localeGoto';
+    import { browser } from '$app/env';
+    import CharacterPreview from '#components/app/CharacterPreview.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import { type Character } from '#db/characters/Character.ts';
+    import { CharactersDB, disconnected } from '#db/Database.ts';
+    import { firestore } from '#db/firebase.ts';
+    import { CANCEL_SYMBOL, REMIX_SYMBOL } from '#parser/Symbols.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
     import NewCharacterButton from './NewCharacterButton.svelte';
 
     const user = getUser();

@@ -2,21 +2,21 @@ import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
-} from '@basis/Basis';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import Block, { BlockKind } from '@nodes/Block';
-import BooleanType from '@nodes/BooleanType';
-import type Expression from '@nodes/Expression';
-import NumberType from '@nodes/NumberType';
-import RangeType from '@nodes/RangeType';
-import StructureDefinition from '@nodes/StructureDefinition';
-import type Evaluation from '@runtime/Evaluation';
-import BoolValue from '@values/BoolValue';
-import NumberValue from '@values/NumberValue';
-import RangeValue from '@values/RangeValue';
-import type Value from '@values/Value';
+} from '#basis/Basis.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import type Expression from '#nodes/Expression.ts';
+import NumberType from '#nodes/NumberType.ts';
+import RangeType from '#nodes/RangeType.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import BoolValue from '#values/BoolValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import RangeValue from '#values/RangeValue.ts';
+import type Value from '#values/Value.ts';
 
 /**
  * The Range basis: `=`, `≠`, containment (`∋`), and the conversion to a list of the numbers

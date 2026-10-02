@@ -1,8 +1,8 @@
-import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { isRevised } from '@locale/LocaleText';
-import { collectingLog } from '@util/verify-locales/Log';
+import { MachineTranslated, Revised, Unwritten } from '#locale/Annotations.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isRevised } from '#locale/LocaleText.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
 import { expect, test } from 'vitest';
 import checkAnnotations from './checkAnnotations';
 

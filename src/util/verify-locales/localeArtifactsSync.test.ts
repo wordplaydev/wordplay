@@ -1,17 +1,17 @@
-import type LocaleText from '@locale/LocaleText';
-import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
-import generateChoosePrompts from '@util/verify-locales/generateChoosePrompts';
-import generateManifests from '@util/verify-locales/generateManifests';
-import generateNameIndex from '@util/verify-locales/generateNameIndex';
-import { allBundleIds } from '@locale/UpdatesBundle';
-import { getLocalePath } from '@util/verify-locales/LocaleSchema';
+import type LocaleText from '#locale/LocaleText.ts';
+import { buildHowToBundle } from '#util/verify-locales/buildHowTos.ts';
+import generateChoosePrompts from '#util/verify-locales/generateChoosePrompts.ts';
+import generateManifests from '#util/verify-locales/generateManifests.ts';
+import generateNameIndex from '#util/verify-locales/generateNameIndex.ts';
+import { allBundleIds } from '#locale/UpdatesBundle.ts';
+import { getLocalePath } from '#util/verify-locales/LocaleSchema.ts';
 import {
     readStructuralBundle,
     readTranslations,
     updatesFilePath,
-} from '@util/verify-locales/verifyChangelog';
-import { collectingLog } from '@util/verify-locales/Log';
-import { sweepSkipsAllLocaleText } from '@util/verify-locales/exampleFreshness';
+} from '#util/verify-locales/verifyChangelog.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
+import { sweepSkipsAllLocaleText } from '#util/verify-locales/exampleFreshness.ts';
 import fs from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';

@@ -3,10 +3,10 @@
         getAnnouncer,
         getCaret,
         getFolded,
-    } from '@components/project/Contexts';
-    import { toggleFolded } from '@components/editor/util/folding';
-    import { locales } from '@db/Database';
-    import type Node from '@nodes/Node';
+    } from '#components/project/Contexts.ts';
+    import { toggleFolded } from '#components/editor/util/folding.ts';
+    import { locales } from '#db/Database.ts';
+    import type Node from '#nodes/Node.ts';
     import { tick, type Snippet } from 'svelte';
 
     interface Props {

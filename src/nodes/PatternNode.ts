@@ -1,7 +1,7 @@
-import { Purpose } from '@concepts/Purpose';
-import type Conflict from '@conflicts/Conflict';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Conflict from '#conflicts/Conflict.ts';
 import Characters from '../lore/BasisCharacters';
-import Node from '@nodes/Node';
+import Node from '#nodes/Node.ts';
 
 /**
  * Abstract base for the internal nodes of a pattern literal `⣿ … ⣿` (see
@@ -10,7 +10,7 @@ import Node from '@nodes/Node';
  * {@link PatternLiteral} is an expression. Giving each construct a real
  * grammar still gives it structural editing, autocomplete, and localized docs.
  *
- * Matching does not live on these nodes: the matcher in `@runtime/pattern`
+ * Matching does not live on these nodes: the matcher in `#runtime/pattern`
  * walks this AST directly (a generator yielding one step per grapheme probe),
  * driven by the `≈`/`⌕` operators so a match is observable step-by-step.
  */

@@ -20,13 +20,13 @@
  *   (no arg = en-US.json + all static/locales/*; "en" = en-US.json only)
  */
 import fs from 'fs';
-import { isRecord } from '@util/guards';
-import writeFormatted from '@util/verify-locales/writeFormatted';
-import Log from '@util/verify-locales/Log';
+import { isRecord } from '#util/guards.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
+import Log from '#util/verify-locales/Log.ts';
 import {
     DECLARED_INPUTS,
     TERMINOLOGY_NAMES,
-} from '@locale/templateInputs.generated';
+} from '#locale/templateInputs.generated.ts';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);

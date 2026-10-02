@@ -1,7 +1,7 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { type NameAndDoc } from '@locale/LocaleText';
-import { must } from '@util/nullable';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { type NameAndDoc } from '#locale/LocaleText.ts';
+import { must } from '#util/nullable.ts';
 
 /** The animations available as `↑` static functions on the `Sequence` structure. */
 export type AnimationKey = keyof LocaleText['output']['Sequence']['animations'];

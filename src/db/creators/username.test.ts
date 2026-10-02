@@ -1,5 +1,5 @@
-import { ReferenceNameRegExPattern } from '@parser/Tokenizer';
-import ReservedSymbols from '@parser/ReservedSymbols';
+import { ReferenceNameRegExPattern } from '#parser/Tokenizer.ts';
+import ReservedSymbols from '#parser/ReservedSymbols.ts';
 import { describe, expect, test } from 'vitest';
 import {
     foldUsername,

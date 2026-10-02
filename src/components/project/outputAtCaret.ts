@@ -1,6 +1,6 @@
-import type Project from '@db/projects/Project';
-import type Caret from '@edit/caret/Caret';
-import Evaluate from '@nodes/Evaluate';
+import type Project from '#db/projects/Project.ts';
+import type Caret from '#edit/caret/Caret.ts';
+import Evaluate from '#nodes/Evaluate.ts';
 
 /**
  * The innermost output the caret is inside, if any — the output a creator would

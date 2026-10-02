@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
-import Token from '@nodes/Token';
-import { Sym } from '@nodes/Sym';
-import { Purpose } from '@concepts/Purpose';
+import Token from '#nodes/Token.ts';
+import { Sym } from '#nodes/Sym.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 
 /**
  * Token suggestions in the autocomplete menu group by {@link Token.getPurpose}.

@@ -1,22 +1,22 @@
-import { Purpose, type PurposeType } from '@concepts/Purpose';
-import { keysOf } from '@util/nullable';
+import { Purpose, type PurposeType } from '#concepts/Purpose.ts';
+import { keysOf } from '#util/nullable.ts';
 import {
     getLanguageQuoteOpen,
     getLanguageSecondaryQuote,
-} from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
-import type Locales from '@locale/Locales';
-import type { LocaleTextAccessor, TemplateInput } from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Node, { type Grammar, type Replacement } from '@nodes/Node';
-import type Root from '@nodes/Root';
-import { Sym, WildcardSymbols, type SymType } from '@nodes/Sym';
-import type Spaces from '@parser/Spaces';
-import { TextCloseByTextOpen } from '@parser/Tokenizer';
-import UnicodeString from '@unicode/UnicodeString';
+} from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextAccessor, TemplateInput } from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Node, { type Grammar, type Replacement } from '#nodes/Node.ts';
+import type Root from '#nodes/Root.ts';
+import { Sym, WildcardSymbols, type SymType } from '#nodes/Sym.ts';
+import type Spaces from '#parser/Spaces.ts';
+import { TextCloseByTextOpen } from '#parser/Tokenizer.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 import { Emotion } from '../lore/Emotion';
 
 /**

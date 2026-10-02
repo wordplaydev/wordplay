@@ -1,12 +1,12 @@
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type BindConcept from '@concepts/BindConcept';
-    import { locales } from '@db/Database';
-    import AnyType from '@nodes/AnyType';
-    import Speech from '@components/lore/Speech.svelte';
-    import RootView from '@components/project/RootView.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import elideNode from '@components/concepts/elideNode';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import type BindConcept from '#concepts/BindConcept.ts';
+    import { locales } from '#db/Database.ts';
+    import AnyType from '#nodes/AnyType.ts';
+    import Speech from '#components/lore/Speech.svelte';
+    import RootView from '#components/project/RootView.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import elideNode from '#components/concepts/elideNode.ts';
 
     interface Props {
         concept: BindConcept;

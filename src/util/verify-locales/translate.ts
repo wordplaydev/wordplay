@@ -1,7 +1,7 @@
 import Translate from '@google-cloud/translate';
-import type LanguageCode from '@locale/LanguageCode';
-import type { RegionCode } from '@locale/Regions';
-import type Log from '@util/verify-locales/Log';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import type Log from '#util/verify-locales/Log.ts';
 import {
     ConceptPattern,
     decodeHtmlEntities,
@@ -11,7 +11,7 @@ import {
     unwrapProtected,
     wrapProtected,
 } from './protect';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 // Re-export the backend-agnostic protection/repair helpers from their new home
 // so existing importers (and translate.test.ts) keep working unchanged.

@@ -1,8 +1,8 @@
 <script lang="ts">
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import type DocumentedExpression from '@nodes/DocumentedExpression';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import type DocumentedExpression from '#nodes/DocumentedExpression.ts';
 
     interface Props {
         node: DocumentedExpression;

@@ -1,4 +1,4 @@
-import { includesString } from '@util/nullable';
+import { includesString } from '#util/nullable.ts';
 
 /** The tutorial variants the /learn route can present. "complete" is the original,
  * narrative-driven tutorial; "quick" is a short tour for creators who already know another

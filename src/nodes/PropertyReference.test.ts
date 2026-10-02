@@ -1,11 +1,11 @@
-import TextValue from '@values/TextValue';
+import TextValue from '#values/TextValue.ts';
 import { expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import evaluateCode from '@runtime/evaluate';
-import Bind from '@nodes/Bind';
-import PropertyReference from '@nodes/PropertyReference';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import Bind from '#nodes/Bind.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import Source from '#nodes/Source.ts';
 
 test('Test scoping', () => {
     const code = `

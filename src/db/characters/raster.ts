@@ -6,12 +6,12 @@
  * editor rasterizes, and this reaches the full color conversion rather than the
  * small LCH helper Character.ts limits itself to.
  */
-import { RGBtoLCH } from '@output/Color/ColorJS';
+import { RGBtoLCH } from '#output/Color/ColorJS.ts';
 import {
     CharacterSize,
     type CharacterPixel,
     type CharacterShape,
-} from '@db/characters/Character';
+} from '#db/characters/Character.ts';
 
 /**
  * How much of a cell must be covered for it to become a pixel.

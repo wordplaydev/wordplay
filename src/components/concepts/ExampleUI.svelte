@@ -1,19 +1,20 @@
 <script lang="ts">
-    import Annotations from '@components/annotations/Annotations.svelte';
-    import OutputPreview from '@components/concepts/OutputPreview.svelte';
+    import type { AppPath } from '#util/appPath.ts';
+    import Annotations from '#components/annotations/Annotations.svelte';
+    import OutputPreview from '#components/concepts/OutputPreview.svelte';
     import {
         makeExampleProject,
         makePreviewEvaluator,
-    } from '@components/concepts/previewEvaluator';
-    import { toClipboard } from '@components/editor/commands/Clipboard';
+    } from '#components/concepts/previewEvaluator.ts';
+    import { toClipboard } from '#components/editor/commands/Clipboard.ts';
     import {
         StepBack,
         StepForward,
         StepToPresent,
         StepToStart,
         type CommandContext,
-    } from '@components/editor/commands/Commands';
-    import Editor from '@components/editor/Editor.svelte';
+    } from '#components/editor/commands/Commands.ts';
+    import Editor from '#components/editor/Editor.svelte';
     import {
         getConceptIndex,
         getExampleScope,
@@ -29,37 +30,37 @@
         setResetKeyboardIdle,
         setSelectedOutput,
         type EditorState,
-    } from '@components/project/Contexts';
-    import SelectedOutput from '@components/project/SelectedOutput.svelte';
-    import { getTinkerable, getUser } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import { blocks, DB, locales, Settings } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import type Caret from '@edit/caret/Caret';
-    import Example from '@nodes/Example';
-    import type Node from '@nodes/Node';
-    import { ensureScratch } from '@db/projects/scratch';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import openWindow from '@util/openWindow';
-    import { localePath, unlocalePath } from '@util/localeGoto';
+    } from '#components/project/Contexts.ts';
+    import SelectedOutput from '#components/project/SelectedOutput.svelte.ts';
+    import { getTinkerable, getUser } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import CommandButton from '#components/widgets/CommandButton.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import { blocks, DB, locales, Settings } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type Caret from '#edit/caret/Caret.ts';
+    import Example from '#nodes/Example.ts';
+    import type Node from '#nodes/Node.ts';
+    import { ensureScratch } from '#db/projects/scratch.ts';
+    import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+    import openWindow from '#util/openWindow.ts';
+    import { localePath, unlocalePath } from '#util/localeGoto.ts';
     import { page } from '$app/state';
-    import { scratchIDFor } from '@db/projects/scratch';
+    import { scratchIDFor } from '#db/projects/scratch.ts';
     import {
         PROJECT_MODE_EDIT,
         PROJECT_PARAM_FROM,
         PROJECT_PARAM_MODE,
     } from '../../routes/[[locale]]/project/constants';
-    import type Spaces from '@parser/Spaces';
+    import type Spaces from '#parser/Spaces.ts';
     import {
         BLOCK_EDITING_SYMBOL,
         CONFIRM_SYMBOL,
         COPY_SYMBOL,
         REMIX_SYMBOL,
         TEXT_EDITING_SYMBOL,
-    } from '@parser/Symbols';
-    import type Evaluator from '@runtime/Evaluator';
+    } from '#parser/Symbols.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
     import { onMount, untrack } from 'svelte';
     import { writable } from 'svelte/store';
 
@@ -96,8 +97,9 @@
     /** Where the scratch project lives, known before the click so this can be a
      *  real link: the ID is derived from the code itself. `from` is what gets
      *  the reader back to the page they were reading. */
-    let scratchLink = $derived(
-        `/project/${scratchIDFor(code)}?${PROJECT_PARAM_MODE}=${PROJECT_MODE_EDIT}&${PROJECT_PARAM_FROM}=${encodeURIComponent(unlocalePath(page.url.pathname) + page.url.search)}`,
+    let scratchLink = $derived.by(
+        (): AppPath =>
+            `/project/${scratchIDFor(code)}?${PROJECT_PARAM_MODE}=${PROJECT_MODE_EDIT}&${PROJECT_PARAM_FROM}=${encodeURIComponent(unlocalePath(page.url.pathname) + page.url.search)}`,
     );
 
     /** Whether the output preview is currently playing (vs. showing the static

@@ -1,8 +1,8 @@
-import { getUnitCategory, type UnitCategory } from '@basis/UnitConversions';
-import { getUnitKey } from '@components/editor/menu/unitName';
-import Dimension from '@nodes/Dimension';
-import type Node from '@nodes/Node';
-import Unit from '@nodes/Unit';
+import { getUnitCategory, type UnitCategory } from '#basis/UnitConversions.ts';
+import { getUnitKey } from '#components/editor/menu/unitName.ts';
+import Dimension from '#nodes/Dimension.ts';
+import type Node from '#nodes/Node.ts';
+import Unit from '#nodes/Unit.ts';
 
 /** A unit the conversion table doesn't define: a creator's own `1cat`, or one a basis
  *  structure declares, like `beats` or `semitones`. */

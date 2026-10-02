@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type PatternBackref from '@nodes/PatternBackref';
+    import type PatternBackref from '#nodes/PatternBackref.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import MenuTrigger from '#components/editor/menu/MenuTrigger.svelte';
 
     /** A bare-name reference to an earlier capture (or a known class). An
      *  empty-name backref is the parser's placeholder for a missing atom; in

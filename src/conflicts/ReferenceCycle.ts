@@ -1,16 +1,16 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import type Reference from '@nodes/Reference';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import type Reference from '#nodes/Reference.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Node from '@nodes/Node';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Bind from '@nodes/Bind';
-import type Type from '@nodes/Type';
+} from '#conflicts/Conflict.ts';
+import type Node from '#nodes/Node.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import Bind from '#nodes/Bind.ts';
+import type Type from '#nodes/Type.ts';
 
 export default class ReferenceCycle extends Conflict {
     readonly name: Reference;

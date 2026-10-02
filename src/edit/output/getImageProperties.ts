@@ -1,15 +1,15 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
 import {
     getFaceAndPlaceProperties,
     getOutputProperties,
-} from '@edit/output/OutputProperties';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyRange from '@edit/output/OutputPropertyRange';
-import OutputPropertyText from '@edit/output/OutputPropertyText';
-import TextLiteral from '@nodes/TextLiteral';
+} from '#edit/output/OutputProperties.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
+import OutputPropertyText from '#edit/output/OutputPropertyText.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
 
 /**
  * What the palette offers for a picture.

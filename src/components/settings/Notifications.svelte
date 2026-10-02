@@ -8,16 +8,20 @@
 </script>
 
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getAnnouncer, getUser } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import { strikes } from '@db/creators/strikes.svelte';
-    import countPending from '@db/moderation/countPending';
-    import { getFlagDescription, isModerator } from '@db/projects/Moderation';
-    import { isReviewer } from '@db/moderation/reviewer';
+    import type { AppPath } from '#util/appPath.ts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getAnnouncer, getUser } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import { strikes } from '#db/creators/strikes.svelte.ts';
+    import countPending from '#db/moderation/countPending.ts';
+    import {
+        getFlagDescription,
+        isModerator,
+    } from '#db/projects/Moderation.ts';
+    import { isReviewer } from '#db/moderation/reviewer.ts';
     import {
         Chats,
         DB,
@@ -26,14 +30,18 @@
         Settings,
         howToNotifications,
         locales,
-    } from '@db/Database';
-    import noticeLink, { noticeAction } from '@db/moderation/noticeLink';
-    import { dismiss, notices, written } from '@db/moderation/notices.svelte';
-    import { NotificationsIcons } from '@db/settings/HowToNotificationsSetting';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { docToMarkup } from '@locale/LocaleText';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import { localeGoto } from '@util/localeGoto';
+    } from '#db/Database.ts';
+    import noticeLink, { noticeAction } from '#db/moderation/noticeLink.ts';
+    import {
+        dismiss,
+        notices,
+        written,
+    } from '#db/moderation/notices.svelte.ts';
+    import { NotificationsIcons } from '#db/settings/HowToNotificationsSetting.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { docToMarkup } from '#locale/LocaleText.ts';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
     import type { SerializedNotice } from 'shared-types';
     import { untrack } from 'svelte';
     import { SvelteMap } from 'svelte/reactivity';
@@ -459,7 +467,7 @@
      *  that superseded this one, shutting the dialog and leaving the page put.
      *  The trailing close is a no-op once the destination's URL has closed it,
      *  and is what closes it when a notice leads to the page we're already on. */
-    async function go(path: string) {
+    async function go(path: AppPath) {
         await localeGoto(path);
         showDialog = false;
     }

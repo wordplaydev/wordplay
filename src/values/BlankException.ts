@@ -1,8 +1,8 @@
-import type Evaluator from '@runtime/Evaluator';
-import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '@locale/Locales';
-import type { ExceptionText } from '@locale/NodeTexts';
-import type Program from '@nodes/Program';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import type Locales from '#locale/Locales.ts';
+import type { ExceptionText } from '#locale/NodeTexts.ts';
+import type Program from '#nodes/Program.ts';
 
 export default class BlankException extends ExceptionValue {
     readonly program: Program;

@@ -1,9 +1,9 @@
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Context from '@nodes/Context';
-import type Evaluate from '@nodes/Evaluate';
-import type Type from '@nodes/Type';
-import type UnaryEvaluate from '@nodes/UnaryEvaluate';
-import Unit from '@nodes/Unit';
+import type BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type Context from '#nodes/Context.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import type Type from '#nodes/Type.ts';
+import type UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import Unit from '#nodes/Unit.ts';
 
 /** Derives the unit of an operation's result from its operands' units. */
 export type UnitDeriver = (

@@ -1,9 +1,9 @@
 import type { User } from 'firebase/auth';
-import { entriesOf, includesString, keysOf } from '@util/nullable';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { FormattedText } from '@locale/LocaleText';
-import { holdsClaim } from '@db/creators/getClaim';
+import { entriesOf, includesString, keysOf } from '#util/nullable.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { FormattedText } from '#locale/LocaleText.ts';
+import { holdsClaim } from '#db/creators/getClaim.ts';
 import z from 'zod';
 
 /** Ways the platform can respond to a content moderation flag */

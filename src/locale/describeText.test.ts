@@ -1,5 +1,5 @@
-import countWords from '@locale/countWords';
-import previewText, { PreviewLength } from '@locale/previewText';
+import countWords from '#locale/countWords.ts';
+import previewText, { PreviewLength } from '#locale/previewText.ts';
 import { expect, test } from 'vitest';
 
 test('words are counted, not whitespace runs', () => {

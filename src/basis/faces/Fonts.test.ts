@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { describe, expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import Fonts, { Faces, getFontFilePath } from './Fonts';
 
 describe('FontManager outside a browser', () => {

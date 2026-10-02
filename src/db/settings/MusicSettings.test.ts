@@ -3,8 +3,8 @@ import {
     MusicVisualizationIcons,
     MusicVisualizations,
     musicFloorHeight,
-} from '@db/settings/MusicSettings';
-import DefaultLocale from '@locale/DefaultLocale';
+} from '#db/settings/MusicSettings.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('the chooser and the floor rule agree', () => {

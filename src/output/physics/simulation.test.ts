@@ -1,19 +1,19 @@
 import type * as RAPIER from '@dimforge/rapier2d-compat';
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
-import { DefaultGravity } from '@output/Output/Stage';
-import type Matter from '@output/physics/Matter';
-import { toMatter } from '@output/physics/Matter';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
+import { DefaultGravity } from '#output/Output/Stage.ts';
+import type Matter from '#output/physics/Matter.ts';
+import { toMatter } from '#output/physics/Matter.ts';
 import {
     FIXED_STEP_MS,
     GravityPxPerS2PerUnit,
     OutputBody,
     pullAcceleration,
-} from '@output/physics/Physics';
-import Evaluator from '@runtime/Evaluator';
+} from '#output/physics/Physics.ts';
+import Evaluator from '#runtime/Evaluator.ts';
 import { getRapier, loadRapier, onRapierLoaded } from './rapierLoader';
 import { beforeAll, expect, test } from 'vitest';
 

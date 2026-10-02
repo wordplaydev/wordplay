@@ -1,7 +1,7 @@
-import type LocalesDatabase from '@db/locales/LocalesDatabase';
-import type { SerializedProject } from '@db/projects/ProjectSchemas';
-import Project from '@db/projects/Project';
-import { must } from '@util/nullable';
+import type LocalesDatabase from '#db/locales/LocalesDatabase.ts';
+import type { SerializedProject } from '#db/projects/ProjectSchemas.ts';
+import Project from '#db/projects/Project.ts';
+import { must } from '#util/nullable.ts';
 
 // Remember this many project edits.
 const PROJECT_HISTORY_LIMIT = 1000;

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { animationDuration } from '@db/Database';
+    import { animationDuration } from '#db/Database.ts';
     import { tick } from 'svelte';
 
     interface Props {

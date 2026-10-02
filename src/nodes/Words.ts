@@ -1,18 +1,18 @@
-import type Conflict from '@conflicts/Conflict';
-import TermRef from '@locale/TermRef';
-import ConceptRef from '@locale/ConceptRef';
-import { allDefined } from '@util/nullable';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { FontWeight } from '@basis/faces/Fonts';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
-import previewText from '@locale/previewText';
-import ValueRef from '@locale/ValueRef';
+import type Conflict from '#conflicts/Conflict.ts';
+import TermRef from '#locale/TermRef.ts';
+import ConceptRef from '#locale/ConceptRef.ts';
+import { allDefined } from '#util/nullable.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type { FontWeight } from '#basis/faces/Fonts.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import previewText from '#locale/previewText.ts';
+import ValueRef from '#locale/ValueRef.ts';
 import Characters from '../lore/BasisCharacters';
-import { unescapeMarkupSymbols } from '@parser/Tokenizer';
+import { unescapeMarkupSymbols } from '#parser/Tokenizer.ts';
 import {
     BOLD_SYMBOL,
     BULLET_SYMBOL,
@@ -20,14 +20,14 @@ import {
     ITALIC_SYMBOL,
     LIGHT_SYMBOL,
     UNDERSCORE_SYMBOL,
-} from '@parser/Symbols';
-import type { InsertContext } from '@edit/revision/EditContext';
-import { withColorEmoji } from '@unicode/emoji';
-import Branch from '@nodes/Branch';
-import ConceptLink from '@nodes/ConceptLink';
-import Content from '@nodes/Content';
-import Example from '@nodes/Example';
-import Mention from '@nodes/Mention';
+} from '#parser/Symbols.ts';
+import type { InsertContext } from '#edit/revision/EditContext.ts';
+import { withColorEmoji } from '#unicode/emoji.ts';
+import Branch from '#nodes/Branch.ts';
+import ConceptLink from '#nodes/ConceptLink.ts';
+import Content from '#nodes/Content.ts';
+import Example from '#nodes/Example.ts';
+import Mention from '#nodes/Mention.ts';
 import Node, {
     any,
     list,
@@ -35,12 +35,12 @@ import Node, {
     none,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import type { NodeSegment, Segment } from '@nodes/Paragraph';
-import { Sym } from '@nodes/Sym';
-import { resolveCodepoints } from '@nodes/TextLiteral';
-import Token from '@nodes/Token';
-import WebLink from '@nodes/WebLink';
+} from '#nodes/Node.ts';
+import type { NodeSegment, Segment } from '#nodes/Paragraph.ts';
+import { Sym } from '#nodes/Sym.ts';
+import { resolveCodepoints } from '#nodes/TextLiteral.ts';
+import Token from '#nodes/Token.ts';
+import WebLink from '#nodes/WebLink.ts';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 

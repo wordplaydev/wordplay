@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
-import { getDefaultTutorial } from '@util/verify-locales/TutorialSchema';
+import { getDefaultTutorial } from '#util/verify-locales/TutorialSchema.ts';
 import Progress, { hashPerformance } from './Progress';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 const tutorial = getDefaultTutorial('complete');
 const at = (act: number, scene: number, pause: number) =>

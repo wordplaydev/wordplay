@@ -1,12 +1,12 @@
-import type { LocaleTextAccessor } from '@locale/Locales';
-import type Node from '@nodes/Node';
-import PatternLiteral from '@nodes/PatternLiteral';
-import PatternNode from '@nodes/PatternNode';
-import canonicalizeKeywords from '@parser/canonicalizeKeywords';
-import type { KeywordIndex } from '@parser/Keywords';
-import { PATTERN_DELIMITER_SYMBOL } from '@parser/Symbols';
-import type Spaces from '@parser/Spaces';
-import { setInternalClipboard } from '@components/editor/commands/InternalClipboard';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import type Node from '#nodes/Node.ts';
+import PatternLiteral from '#nodes/PatternLiteral.ts';
+import PatternNode from '#nodes/PatternNode.ts';
+import canonicalizeKeywords from '#parser/canonicalizeKeywords.ts';
+import type { KeywordIndex } from '#parser/Keywords.ts';
+import { PATTERN_DELIMITER_SYMBOL } from '#parser/Symbols.ts';
+import type Spaces from '#parser/Spaces.ts';
+import { setInternalClipboard } from '#components/editor/commands/InternalClipboard.ts';
 
 /**
  * A Chromium "web custom format" written alongside text/plain on copy, so paste can recognize Wordplay

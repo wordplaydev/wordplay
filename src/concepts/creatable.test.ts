@@ -1,20 +1,20 @@
-import Templates from '@concepts/Templates';
-import { Purpose } from '@concepts/Purpose';
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
-import { getEditsAt, PossibleNodes } from '@edit/menu/PossibleEdits';
-import Append from '@edit/revision/Append';
-import Assign from '@edit/revision/Assign';
-import Replace from '@edit/revision/Replace';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Docs from '@nodes/Docs';
-import Names from '@nodes/Names';
-import Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import Token from '@nodes/Token';
-import TypeInputs from '@nodes/TypeInputs';
-import TypeVariables from '@nodes/TypeVariables';
+import Templates from '#concepts/Templates.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
+import { getEditsAt, PossibleNodes } from '#edit/menu/PossibleEdits.ts';
+import Append from '#edit/revision/Append.ts';
+import Assign from '#edit/revision/Assign.ts';
+import Replace from '#edit/revision/Replace.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Docs from '#nodes/Docs.ts';
+import Names from '#nodes/Names.ts';
+import Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
+import Token from '#nodes/Token.ts';
+import TypeInputs from '#nodes/TypeInputs.ts';
+import TypeVariables from '#nodes/TypeVariables.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

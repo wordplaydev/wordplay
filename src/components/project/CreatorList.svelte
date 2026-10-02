@@ -6,10 +6,10 @@
      an editable cell per column — is the same table with more attribute cells,
      and it turns pairing off, since its rows are already wide. -->
 <script lang="ts">
-    import PeopleTable from '@components/project/PeopleTable.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import PeopleTable from '#components/project/PeopleTable.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         uids: string[];

@@ -1,5 +1,5 @@
-import type Value from '@values/Value';
-import type StructureValue from '@values/StructureValue';
+import type Value from '#values/Value.ts';
+import type StructureValue from '#values/StructureValue.ts';
 
 /**
  * A base class that represents some part of Stage output.

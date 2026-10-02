@@ -1,4 +1,4 @@
-import type { PathPoint } from '@output/Output/Shape/Path';
+import type { PathPoint } from '#output/Output/Shape/Path.ts';
 
 /**
  * The geometry of drawing a stroke on stage, kept pure so it can be tested without a browser.

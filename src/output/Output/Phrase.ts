@@ -1,4 +1,4 @@
-import { getTypeName } from '@locale/getNameLocales';
+import { getTypeName } from '#locale/getNameLocales.ts';
 import {
     HorizontalLayout,
     VerticalLeftRightLayout,
@@ -7,45 +7,45 @@ import {
     type WritingLayout,
     isWritingLayoutSymbol,
     type WritingLayoutSymbol,
-} from '@locale/Scripts';
-import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import MarkupValue from '@values/MarkupValue';
-import TextValue from '@values/TextValue';
-import { spokenText } from '@locale/spokenLanguage';
-import type Value from '@values/Value';
-import { describeColorLocalized } from '@output/Color/BasicColors';
-import { describeFaceWithName } from '@basis/faces/faceWords';
+} from '#locale/Scripts.ts';
+import { getBind } from '#locale/getBind.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import MarkupValue from '#values/MarkupValue.ts';
+import TextValue from '#values/TextValue.ts';
+import { spokenText } from '#locale/spokenLanguage.ts';
+import type Value from '#values/Value.ts';
+import { describeColorLocalized } from '#output/Color/BasicColors.ts';
+import { describeFaceWithName } from '#basis/faces/faceWords.ts';
 import Fonts, {
     SupportedFontsFamiliesType,
     type FontWeight,
     type SupportedFace,
-} from '@basis/faces/Fonts';
-import toStructure from '@basis/toStructure';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import Markup from '@nodes/Markup';
-import StructureValue from '@values/StructureValue';
-import type Aura from '@output/Aura/Aura';
-import { toAura } from '@output/Aura/Aura';
-import type Bubble from '@output/Bubble/Bubble';
-import { toBubble } from '@output/Bubble/Bubble';
-import type Color from '@output/Color/Color';
-import type Matter from '@output/physics/Matter';
-import { toMatter } from '@output/physics/Matter';
-import Output, { DefaultStyle } from '@output/Output/Output';
-import type Place from '@output/Place/Place';
-import type { DefinitePose } from '@output/animation/Pose';
-import Pose from '@output/animation/Pose';
-import type RenderContext from '@output/RenderContext';
-import Sequence from '@output/animation/Sequence';
-import { toNumber, type NameGenerator } from '@output/Output/Stage';
-import { splitCharacterRefs } from '@output/Output/splitCharacterRefs';
-import { getOutputInput } from '@output/Output/Valued';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
-import { getTypeStyle } from '@output/Output/toOutput';
-import measureFormats from '@output/Output/measureFormats';
-import measureBubble, { type BubbleBox } from '@output/Bubble/bubbleLayout';
+} from '#basis/faces/Fonts.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import Markup from '#nodes/Markup.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Aura from '#output/Aura/Aura.ts';
+import { toAura } from '#output/Aura/Aura.ts';
+import type Bubble from '#output/Bubble/Bubble.ts';
+import { toBubble } from '#output/Bubble/Bubble.ts';
+import type Color from '#output/Color/Color.ts';
+import type Matter from '#output/physics/Matter.ts';
+import { toMatter } from '#output/physics/Matter.ts';
+import Output, { DefaultStyle } from '#output/Output/Output.ts';
+import type Place from '#output/Place/Place.ts';
+import type { DefinitePose } from '#output/animation/Pose.ts';
+import Pose from '#output/animation/Pose.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import Sequence from '#output/animation/Sequence.ts';
+import { toNumber, type NameGenerator } from '#output/Output/Stage.ts';
+import { splitCharacterRefs } from '#output/Output/splitCharacterRefs.ts';
+import { getOutputInput } from '#output/Output/Valued.ts';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
+import { getTypeStyle } from '#output/Output/toOutput.ts';
+import measureFormats from '#output/Output/measureFormats.ts';
+import measureBubble, { type BubbleBox } from '#output/Bubble/bubbleLayout.ts';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`

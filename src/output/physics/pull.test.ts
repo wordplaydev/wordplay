@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { pullAcceleration } from './Physics';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
 
 /**
  * The whole of the attraction math, tested without Rapier or a browser, the way

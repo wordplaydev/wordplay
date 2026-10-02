@@ -4,7 +4,7 @@ import {
     onAnimations,
     reportAnimation,
     type AnimationEvent,
-} from '@output/Cues/animations';
+} from '#output/Cues/animations.ts';
 import { expect, test } from 'vitest';
 
 /** Two stand-ins for evaluators, which the registry only uses as identities. */

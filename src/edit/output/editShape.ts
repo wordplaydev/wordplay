@@ -1,16 +1,16 @@
-import type Project from '@db/projects/Project';
-import type Bind from '@nodes/Bind';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import { must } from '@util/nullable';
-import { getNumber } from '@components/palette/editOutput';
-import type Context from '@nodes/Context';
-import Evaluate from '@nodes/Evaluate';
-import Expression from '@nodes/Expression';
-import type Locales from '@locale/Locales';
-import ListLiteral from '@nodes/ListLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import type Spread from '@nodes/Spread';
-import Unit from '@nodes/Unit';
+import type Project from '#db/projects/Project.ts';
+import type Bind from '#nodes/Bind.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import { must } from '#util/nullable.ts';
+import { getNumber } from '#components/palette/editOutput.ts';
+import type Context from '#nodes/Context.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Expression from '#nodes/Expression.ts';
+import type Locales from '#locale/Locales.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import type Spread from '#nodes/Spread.ts';
+import Unit from '#nodes/Unit.ts';
 
 /**
  * Direct-manipulation of a Shape's form (Rectangle/Circle/Polygon/Path) geometry. A Shape's position

@@ -1,13 +1,13 @@
-import Templates from '@concepts/Templates';
-import type Conflict from '@conflicts/Conflict';
-import type Project from '@db/projects/Project';
+import Templates from '#concepts/Templates.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import type Project from '#db/projects/Project.ts';
 // Type-only: we only call methods on the passed Caret instance, so this stays erased at runtime and
 // can't form a cycle with Caret -> Commands.
-import type Caret from '@edit/caret/Caret';
-import { caretIsInPattern } from '@edit/insertContext';
-import type Locales from '@locale/Locales';
-import type Source from '@nodes/Source';
-import { PATTERN_DELIMITER_SYMBOL } from '@parser/Symbols';
+import type Caret from '#edit/caret/Caret.ts';
+import { caretIsInPattern } from '#edit/insertContext.ts';
+import type Locales from '#locale/Locales.ts';
+import type Source from '#nodes/Source.ts';
+import { PATTERN_DELIMITER_SYMBOL } from '#parser/Symbols.ts';
 import {
     type EditorNotification,
     type EditorNotifier,

@@ -10,11 +10,11 @@ import {
     type UpdateSectionKind,
     type UpdateText,
     type UpdatesBundle,
-} from '@locale/UpdatesBundle';
+} from '#locale/UpdatesBundle.ts';
 import { createHash } from 'crypto';
 import fs from 'fs';
 import path from 'path';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 const changelogPath = path.join(process.cwd(), 'CHANGELOG.md');
 
@@ -199,6 +199,16 @@ export function toMarkup(text: string): string {
     let body = text.replaceAll(/`(.+?)`/g, (_, span) => {
         code.push(span);
         return `${CODE}${code.length - 1}${CODE}`;
+    });
+
+    // An entry may already write a link in Wordplay's own form,
+    // `<design system@://design>`. Its target needs the same mask as a Markdown
+    // link's, or escaping `/` turns `://design` into `:////design`, which every
+    // locale's translation then inherited. Masked first, so the Markdown pass
+    // below never sees a mask it would mask again.
+    body = body.replaceAll(/<([^<>@\n]*)@([^<>\s]+)>/g, (_, label, url) => {
+        urls.push(url);
+        return `<${label}@${URL}${urls.length - 1}${URL}>`;
     });
 
     // A link's target is not prose. Escaping `/` before this ran turned every

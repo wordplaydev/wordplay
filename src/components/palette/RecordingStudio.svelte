@@ -18,15 +18,15 @@
      * is the same ref-counted stream, so a program already listening doesn't
      * open a second one.
      */
-    import Button from '@components/widgets/Button.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import { DB } from '@db/Database';
-    import { acquireAudioSource } from '@input/AudioSource';
-    import { computePitch, PITCH_FFT_SIZE } from '@input/AudioAnalysisMath';
-    import transcribe, { type Frame } from '@output/Music/transcribe';
-    import { glyphFor } from '@output/Music/sheet';
-    import type { NoteData } from '@output/Music/musicData';
+    import Button from '#components/widgets/Button.svelte';
+    import MarkupHtmlView from '#components/concepts/MarkupHTMLView.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import { DB } from '#db/Database.ts';
+    import { acquireAudioSource } from '#input/AudioSource.ts';
+    import { computePitch, PITCH_FFT_SIZE } from '#input/AudioAnalysisMath.ts';
+    import transcribe, { type Frame } from '#output/Music/transcribe.ts';
+    import { glyphFor } from '#output/Music/sheet.ts';
+    import type { NoteData } from '#output/Music/musicData.ts';
     import { PitchDetector } from 'pitchy';
     import { onDestroy } from 'svelte';
 

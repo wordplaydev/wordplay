@@ -1,11 +1,11 @@
-import { MachineTranslated, Unwritten } from '@locale/Annotations';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import Locales, { MULTILINGUAL_SEPARATOR } from '@locale/Locales';
+import { MachineTranslated, Unwritten } from '#locale/Annotations.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales, { MULTILINGUAL_SEPARATOR } from '#locale/Locales.ts';
 import { describe, expect, test } from 'vitest';
-import { must } from '@util/nullable';
-import type LanguageCode from '@locale/LanguageCode';
+import { must } from '#util/nullable.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
 
 /** Build a locale that's like en-US but with a different language and `glossary.start.word`. */
 function localeWith(language: LanguageCode, start: string): LocaleText {

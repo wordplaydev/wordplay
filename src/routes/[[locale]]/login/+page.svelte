@@ -1,15 +1,15 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import { ensureAuth } from '@db/firebase';
+    import { browser } from '$app/env';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import { ensureAuth } from '#db/firebase.ts';
     import type { Auth } from 'firebase/auth';
-    import Feedback from '@components/app/Notice.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import Writing from '@components/app/Writing.svelte';
+    import Feedback from '#components/app/Notice.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import Writing from '#components/app/Writing.svelte';
     import Login from './Login.svelte';
-    import { localeGoto } from '@util/localeGoto';
+    import { localeGoto } from '#util/localeGoto.ts';
 
     let user = getUser();
 

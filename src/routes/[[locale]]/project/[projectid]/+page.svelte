@@ -1,24 +1,24 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
+    import { browser } from '$app/env';
     import { page } from '$app/state';
-    import Loading from '@components/app/Loading.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Page from '@components/app/Page.svelte';
+    import Loading from '#components/app/Loading.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Page from '#components/app/Page.svelte';
     import {
         getUser,
         isAuthenticated,
         setConceptPath,
         setProject,
-    } from '@components/project/Contexts';
-    import ProjectView from '@components/project/ProjectView.svelte';
-    import { DB, Galleries, locales } from '@db/Database';
+    } from '#components/project/Contexts.ts';
+    import ProjectView from '#components/project/ProjectView.svelte';
+    import { DB, Galleries, locales } from '#db/Database.ts';
     import { ExamplePrefix } from '../../../../examples/examples';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
     import { untrack, onMount } from 'svelte';
     import { writable } from 'svelte/store';
-    import Writing from '@components/app/Writing.svelte';
-    import Title from '@components/widgets/Title.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import Title from '#components/widgets/Title.svelte';
 
     let user = getUser();
 

@@ -1,7 +1,7 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { keysOf } from '@util/nullable';
-import { collectingLog } from '@util/verify-locales/Log';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { keysOf } from '#util/nullable.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
 import { expect, test } from 'vitest';
 import checkExampleDocs from './checkExampleDocs';
 

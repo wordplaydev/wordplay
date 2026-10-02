@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { parseColor, serializeColor } from '@output/Color/ColorJS';
+import { parseColor, serializeColor } from '#output/Color/ColorJS.ts';
 
 describe('parseColor', () => {
     test.each([

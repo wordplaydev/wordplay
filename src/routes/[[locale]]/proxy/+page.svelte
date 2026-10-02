@@ -1,15 +1,15 @@
 <!-- Exchanges a one-time token for a read-only session as another creator
      (#1313). Reached only by the new tab /admin opens; never linked. -->
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import { ensureAppCheck, ensureAuth } from '@db/firebase';
-    import { ProxyUntilKey } from '@db/proxySession';
-    import { localeGoto } from '@util/localeGoto';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import { ensureAppCheck, ensureAuth } from '#db/firebase.ts';
+    import { ProxyUntilKey } from '#db/proxySession.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
     import { onMount } from 'svelte';
 
     /** Nothing to show but progress, unless it fails. */

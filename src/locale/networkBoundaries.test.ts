@@ -1,7 +1,7 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import { getLocale } from '@locale/getLocale';
-import { isLocaleText } from '@locale/isLocaleText';
-import { UpdatesBundleSchema } from '@locale/UpdatesBundle';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { getLocale } from '#locale/getLocale.ts';
+import { isLocaleText } from '#locale/isLocaleText.ts';
+import { UpdatesBundleSchema } from '#locale/UpdatesBundle.ts';
 import { afterEach, expect, test, vi } from 'vitest';
 
 /**

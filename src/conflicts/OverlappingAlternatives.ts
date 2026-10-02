@@ -1,7 +1,7 @@
-import { ConflictSeverity } from '@conflicts/Conflict';
-import SimplePatternConflict from '@conflicts/SimplePatternConflict';
-import type LocaleText from '@locale/LocaleText';
-import type PatternSequence from '@nodes/PatternSequence';
+import { ConflictSeverity } from '#conflicts/Conflict.ts';
+import SimplePatternConflict from '#conflicts/SimplePatternConflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type PatternSequence from '#nodes/PatternSequence.ts';
 
 /**
  * Two literal alternatives in the same `|` group where one is a prefix of the

@@ -1,20 +1,20 @@
-import { docToMarkup } from '@locale/LocaleText';
-import { entriesOf } from '@util/nullable';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type Context from '@nodes/Context';
-import NameToken from '@nodes/NameToken';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import NameType from '@nodes/NameType';
-import type Node from '@nodes/Node';
-import StructureDefinition from '@nodes/StructureDefinition';
-import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
-import type Locales from '@locale/Locales';
-import type Markup from '@nodes/Markup';
-import type { MarkupSource } from '@nodes/Markup';
+import { docToMarkup } from '#locale/LocaleText.ts';
+import { entriesOf } from '#util/nullable.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import type Context from '#nodes/Context.ts';
+import NameToken from '#nodes/NameToken.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import NameType from '#nodes/NameType.ts';
+import type Node from '#nodes/Node.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import { PLACEHOLDER_SYMBOL } from '#parser/Symbols.ts';
+import type Locales from '#locale/Locales.ts';
+import type Markup from '#nodes/Markup.ts';
+import type { MarkupSource } from '#nodes/Markup.ts';
 import type { CharacterName } from '../tutorial/Tutorial';
-import Concept from '@concepts/Concept';
-import type { PurposeType } from '@concepts/Purpose';
+import Concept from '#concepts/Concept.ts';
+import type { PurposeType } from '#concepts/Purpose.ts';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;

@@ -1,22 +1,22 @@
-import { getTypeName } from '@locale/getNameLocales';
-import { getBind } from '@locale/getBind';
-import NumberValue from '@values/NumberValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import { getBind } from '#locale/getBind.ts';
+import NumberValue from '#values/NumberValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
 import Decimal from 'decimal.js';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import StructureValue from '@values/StructureValue';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import StructureValue from '#values/StructureValue.ts';
 import {
     isAlignment,
     type default as Alignment,
-} from '@output/Output/Alignment';
-import Arrangement from '@output/Arrangement/Arrangement';
-import type Color from '@output/Color/Color';
-import type Output from '@output/Output/Output';
-import Place from '@output/Place/Place';
-import type RenderContext from '@output/RenderContext';
-import { getOutputInput } from '@output/Output/Valued';
+} from '#output/Output/Alignment.ts';
+import Arrangement from '#output/Arrangement/Arrangement.ts';
+import type Color from '#output/Color/Color.ts';
+import type Output from '#output/Output/Output.ts';
+import Place from '#output/Place/Place.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import { getOutputInput } from '#output/Output/Valued.ts';
 
 export function createStackType(locales: Locales) {
     return toStructure(`

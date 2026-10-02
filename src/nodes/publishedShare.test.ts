@@ -1,13 +1,13 @@
-import type Conflict from '@conflicts/Conflict';
-import UndocumentedShare from '@conflicts/UndocumentedShare';
-import UnexampledKit from '@conflicts/UnexampledKit';
-import UnexampledShare from '@conflicts/UnexampledShare';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import type Conflict from '#conflicts/Conflict.ts';
+import UndocumentedShare from '#conflicts/UndocumentedShare.ts';
+import UnexampledKit from '#conflicts/UnexampledKit.ts';
+import UnexampledShare from '#conflicts/UnexampledShare.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 import { kitExamples, kitExports } from './publishedShare';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /** A project that publishes its only source, which is when these conflicts apply. */
 function published(code: string, supplement?: string) {

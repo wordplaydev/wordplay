@@ -1,18 +1,18 @@
-import type { TemplateInput } from '@locale/Locales';
-import type Locales from '@locale/Locales';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Locales from '#locale/Locales.ts';
 import type Context from './Context';
-import type Conflict from '@conflicts/Conflict';
-import DuplicateLanguage from '@conflicts/DuplicateLanguage';
-import MissingLanguage from '@conflicts/MissingLanguage';
-import UnknownLanguage from '@conflicts/UnknownLanguage';
-import UnknownRegion from '@conflicts/UnknownRegion';
+import type Conflict from '#conflicts/Conflict.ts';
+import DuplicateLanguage from '#conflicts/DuplicateLanguage.ts';
+import MissingLanguage from '#conflicts/MissingLanguage.ts';
+import UnknownLanguage from '#conflicts/UnknownLanguage.ts';
+import UnknownRegion from '#conflicts/UnknownRegion.ts';
 import type {
     EditContext,
     InsertContext,
     ReplaceContext,
-} from '@edit/revision/EditContext';
-import type LanguageCode from '@locale/LanguageCode';
-import { Languages } from '@locale/LanguageCode';
+} from '#edit/revision/EditContext.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import { Languages } from '#locale/LanguageCode.ts';
 import {
     completeLanguageTag,
     completeRegionTag,
@@ -20,21 +20,21 @@ import {
     MaxTagCompletions,
     resolveLanguageCode,
     resolveRegionCode,
-} from '@locale/tagNames';
-import type Locale from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { isRegionCode, type RegionCode } from '@locale/Regions';
-import { SupportedLocales } from '@locale/SupportedLocales';
-import { Purpose } from '@concepts/Purpose';
+} from '#locale/tagNames.ts';
+import type Locale from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { isRegionCode, type RegionCode } from '#locale/Regions.ts';
+import { SupportedLocales } from '#locale/SupportedLocales.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import LanguageToken from '@nodes/LanguageToken';
-import NameToken from '@nodes/NameToken';
-import type { Grammar, Replacement } from '@nodes/Node';
-import Node, { list, node, optional } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import { isDefined } from '@util/nullable';
+import LanguageToken from '#nodes/LanguageToken.ts';
+import NameToken from '#nodes/NameToken.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import Node, { list, node, optional } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import { isDefined } from '#util/nullable.ts';
 
 /** The distinct language and region codes Wordplay ships content for, derived
  *  once from SupportedLocales and reused by tag-extension autocomplete. */

@@ -1,7 +1,7 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
-import { collectingLog } from '@util/verify-locales/Log';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import checkGlossaryForms from '#util/verify-locales/checkGlossaryForms.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
 import { expect, test } from 'vitest';
 
 /** en-US with the `parameter` term's forms replaced. */

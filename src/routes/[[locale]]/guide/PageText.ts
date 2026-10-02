@@ -1,4 +1,4 @@
-import type { FormattedText } from '@locale/LocaleText';
+import type { FormattedText } from '#locale/LocaleText.ts';
 
 type GuideText = {
     /** [plain] The header for the guide page */

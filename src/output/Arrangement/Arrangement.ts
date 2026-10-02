@@ -1,12 +1,12 @@
-import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import type Value from '@values/Value';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import type Output from '@output/Output/Output';
-import type Place from '@output/Place/Place';
-import type RenderContext from '@output/RenderContext';
-import Valued from '@output/Output/Valued';
+import { getBind } from '#locale/getBind.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type Value from '#values/Value.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import type Output from '#output/Output/Output.ts';
+import type Place from '#output/Place/Place.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import Valued from '#output/Output/Valued.ts';
 
 export function createArrangementType(locales: Locales) {
     return toStructure(`

@@ -1,7 +1,7 @@
-import type UnparsableExpression from '@nodes/UnparsableExpression';
-import type Evaluator from '@runtime/Evaluator';
-import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '@locale/Locales';
+import type UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import type Locales from '#locale/Locales.ts';
 
 export default class UnparsableException extends ExceptionValue {
     readonly unparsable: UnparsableExpression;

@@ -2,31 +2,31 @@ import type { FaceLandmarkerResult } from '@mediapipe/tasks-vision';
 import CameraLandmarkStream, {
     DEFAULT_FREQUENCY,
     DEFAULT_RESOLUTION,
-} from '@input/CameraLandmarkStream';
-import faceLandmarker from '@input/Face/FaceLandmarker';
-import createStreamEvaluator from '@input/createStreamEvaluator';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import Bind from '@nodes/Bind';
-import NoneType from '@nodes/NoneType';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NumberType from '@nodes/NumberType';
-import StreamDefinition from '@nodes/StreamDefinition';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import StructureType from '@nodes/StructureType';
-import UnionType from '@nodes/UnionType';
-import Unit from '@nodes/Unit';
+} from '#input/CameraLandmarkStream.ts';
+import faceLandmarker from '#input/Face/FaceLandmarker.ts';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import Bind from '#nodes/Bind.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import NumberType from '#nodes/NumberType.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import StructureType from '#nodes/StructureType.ts';
+import UnionType from '#nodes/UnionType.ts';
+import Unit from '#nodes/Unit.ts';
 import {
     createExpressionStructure,
     type ExpressionState,
-} from '@output/Expression/Expression';
-import { createPlaceStructure } from '@output/Place/Place';
-import type Evaluation from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import NumberValue from '@values/NumberValue';
-import type { StreamKind } from '@values/StreamValue';
-import { must } from '@util/nullable';
+} from '#output/Expression/Expression.ts';
+import { createPlaceStructure } from '#output/Place/Place.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
+import { must } from '#util/nullable.ts';
 
 /** Frames a face may be missing before we revert to the default Expression. */
 const MISSES_TO_LOSE_LOCK = 10;

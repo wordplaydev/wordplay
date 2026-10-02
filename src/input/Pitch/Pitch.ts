@@ -1,24 +1,24 @@
-import type Evaluation from '@runtime/Evaluation';
-import NumberValue from '@values/NumberValue';
+import type Evaluation from '#runtime/Evaluation.ts';
+import NumberValue from '#values/NumberValue.ts';
 import { PitchDetector } from 'pitchy';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import Bind from '@nodes/Bind';
-import NoneType from '@nodes/NoneType';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NumberType from '@nodes/NumberType';
-import StreamDefinition from '@nodes/StreamDefinition';
-import UnionType from '@nodes/UnionType';
-import Unit from '@nodes/Unit';
-import AudioStream from '@input/AudioStream';
-import createStreamEvaluator from '@input/createStreamEvaluator';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import Bind from '#nodes/Bind.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import NumberType from '#nodes/NumberType.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import UnionType from '#nodes/UnionType.ts';
+import Unit from '#nodes/Unit.ts';
+import AudioStream from '#input/AudioStream.ts';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
 import {
     PITCH_FFT_SIZE,
     computePitch,
     createPitchDetector,
-} from '@input/AudioAnalysisMath';
-import type { StreamKind } from '@values/StreamValue';
+} from '#input/AudioAnalysisMath.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
 const DEFAULT_FREQUENCY = 50;
 
 // A helpful article on getting raw data streams:

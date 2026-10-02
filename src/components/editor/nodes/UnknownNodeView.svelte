@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Node from '@nodes/Node';
+    import type Node from '#nodes/Node.ts';
 
     export interface UnknownProps {
         node: Node;

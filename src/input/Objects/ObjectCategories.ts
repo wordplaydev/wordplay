@@ -1,9 +1,9 @@
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import TextType from '@nodes/TextType';
-import type Type from '@nodes/Type';
-import UnionType from '@nodes/UnionType';
-import { first } from '@util/nullable';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import TextType from '#nodes/TextType.ts';
+import type Type from '#nodes/Type.ts';
+import UnionType from '#nodes/UnionType.ts';
+import { first } from '#util/nullable.ts';
 
 /** The object categories MediaPipe's EfficientDet-Lite0 detector can recognize.
  *

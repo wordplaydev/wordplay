@@ -1,7 +1,7 @@
-import type StructureDefinition from '@nodes/StructureDefinition';
-import UnparsableExpression from '@nodes/UnparsableExpression';
-import { parseStructure } from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import { parseStructure } from '#parser/parseExpression.ts';
+import { toTokens } from '#parser/toTokens.ts';
 
 export default function toStructure(wordplay: string): StructureDefinition {
     const def = parseStructure(toTokens(wordplay));

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { UsernameLength, isValidUsername } from '@db/creators/username';
+import { UsernameLength, isValidUsername } from '#db/creators/username.ts';
 import {
     addressOf,
     baseUsername,

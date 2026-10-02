@@ -9,14 +9,14 @@
  * so a pulse that outlasted the next onset would blur the rhythm away.
  */
 
-import { instrumentSpec } from '@output/Music/instruments';
-import type { ScheduledNote } from '@output/Music/schedule';
-import { isPitched, kitIndex } from '@output/Music/synthesis';
+import { instrumentSpec } from '#output/Music/instruments.ts';
+import type { ScheduledNote } from '#output/Music/schedule.ts';
+import { isPitched, kitIndex } from '#output/Music/synthesis.ts';
 import {
     canRumble,
     connectedGamepads,
     type Rumbler,
-} from '@db/settings/supportsVibration';
+} from '#db/settings/supportsVibration.ts';
 
 export type Rumble = {
     /** The heavy motor, 0–1. */

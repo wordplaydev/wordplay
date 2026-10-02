@@ -1,12 +1,12 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import Time from '@input/Time/Time';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import Reaction from '@nodes/Reaction';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import Time from '#input/Time/Time.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import Reaction from '#nodes/Reaction.ts';
 import { expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * Issue #679: Stream creators inside branches that aren't chosen on first

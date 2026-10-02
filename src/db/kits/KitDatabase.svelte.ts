@@ -1,10 +1,14 @@
-import { type Database, type SaveCounts, type SaveError } from '@db/Database';
-import { Domain } from '@db/Domains';
-import { firestore } from '@db/firebase';
-import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
-import supportsIndexedDB from '@db/supportsIndexedDB';
+import {
+    type Database,
+    type SaveCounts,
+    type SaveError,
+} from '#db/Database.ts';
+import { Domain } from '#db/Domains.ts';
+import { firestore } from '#db/firebase.ts';
+import SaveTracker, { type RePush } from '#db/SaveTracker.svelte.ts';
+import supportsIndexedDB from '#db/supportsIndexedDB.ts';
 import { getBuiltinKits } from './builtins';
-import type Locales from '@locale/Locales';
+import type Locales from '#locale/Locales.ts';
 import {
     and,
     doc,
@@ -25,13 +29,13 @@ import {
 import { collection, onSnapshot } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
-import type { SerializedPreviewContent } from '@db/projects/ProjectSchemas';
+import type { SerializedPreviewContent } from '#db/projects/ProjectSchemas.ts';
 import {
     KITS_PAGE,
     nextCursor,
     type KitCursor,
     type KitPage,
-} from '@db/kits/kitPaging';
+} from '#db/kits/kitPaging.ts';
 import {
     findPublishTarget,
     isWithdrawable,

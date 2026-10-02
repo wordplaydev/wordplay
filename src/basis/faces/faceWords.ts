@@ -1,9 +1,9 @@
-import type Locales from '@locale/Locales';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type { Face, SupportedFace } from '@basis/faces/Fonts';
+import type Locales from '#locale/Locales.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import type { Face, SupportedFace } from '#basis/faces/Fonts.ts';
 // The generated registry directly, not Fonts.ts, which imports this module for
 // its own description helper — importing it back would close a cycle.
-import { Faces } from '@basis/faces/faces.generated';
+import { Faces } from '#basis/faces/faces.generated.ts';
 
 /**
  * The words we say a typeface looks like.

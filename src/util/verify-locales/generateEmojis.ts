@@ -20,14 +20,14 @@
 // `generateEmojisForLocale` is also called in-process by the translation pipeline
 // (start.ts) so a translate/override run produces a locale's emojis too.
 import { existsSync, mkdirSync, readFileSync } from 'fs';
-import { isRecord, isStringArray } from '@util/guards';
+import { isRecord, isStringArray } from '#util/guards.ts';
 import path from 'path';
-import { getCLDRCandidates } from '@locale/LanguageCode';
-import { getLocaleLanguage, getLocaleRegions } from '@locale/LocaleText';
-import { SupportedLocales } from '@locale/SupportedLocales';
-import writeFormatted from '@util/verify-locales/writeFormatted';
-import Log from '@util/verify-locales/Log';
-import { must } from '@util/nullable';
+import { getCLDRCandidates } from '#locale/LanguageCode.ts';
+import { getLocaleLanguage, getLocaleRegions } from '#locale/LocaleText.ts';
+import { SupportedLocales } from '#locale/SupportedLocales.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
+import Log from '#util/verify-locales/Log.ts';
+import { must } from '#util/nullable.ts';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);

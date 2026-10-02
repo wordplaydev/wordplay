@@ -1,15 +1,15 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import Evaluate from '@nodes/Evaluate';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Reference from '@nodes/Reference';
-import Unit from '@nodes/Unit';
-import { getOutputProperties } from '@edit/output/OutputProperties';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyText from '@edit/output/OutputPropertyText';
-import Language from '@nodes/Language';
-import TextLiteral from '@nodes/TextLiteral';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Reference from '#nodes/Reference.ts';
+import Unit from '#nodes/Unit.ts';
+import { getOutputProperties } from '#edit/output/OutputProperties.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyText from '#edit/output/OutputPropertyText.ts';
+import Language from '#nodes/Language.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
 
 export default function getShapeProperties(
     project: Project,

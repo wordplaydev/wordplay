@@ -1,7 +1,7 @@
 import {
     mismatchedDelimiter,
     unclosedInCode,
-} from '@util/verify-locales/protect';
+} from '#util/verify-locales/protect.ts';
 
 /**
  * Whether a translation can be safely substituted for its source.

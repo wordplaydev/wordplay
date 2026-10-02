@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /** One folder on the projects page. Membership lives on the project doc
  *  (`Project.folder`); this is the folder itself. */

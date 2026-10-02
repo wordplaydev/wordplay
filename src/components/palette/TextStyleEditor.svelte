@@ -1,39 +1,39 @@
 <script lang="ts">
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import { getConceptIndex } from '@components/project/Contexts';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
-    import { getLanguageQuoteClose } from '@locale/LanguageCode';
-    import Example from '@nodes/Example';
-    import type Expression from '@nodes/Expression';
-    import FormattedLiteral from '@nodes/FormattedLiteral';
-    import { Sym } from '@nodes/Sym';
-    import TextLiteral from '@nodes/TextLiteral';
-    import Token from '@nodes/Token';
-    import Translation from '@nodes/Translation';
-    import { parseFormattedTranslation } from '@parser/parseExpression';
+    import ConceptLinkUI from '#components/concepts/ConceptLinkUI.svelte';
+    import { getConceptIndex } from '#components/project/Contexts.ts';
+    import Checkbox from '#components/widgets/Checkbox.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import OutputPropertyValueSet from '#edit/output/OutputPropertyValueSet.ts';
+    import { getLanguageQuoteClose } from '#locale/LanguageCode.ts';
+    import Example from '#nodes/Example.ts';
+    import type Expression from '#nodes/Expression.ts';
+    import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+    import { Sym } from '#nodes/Sym.ts';
+    import TextLiteral from '#nodes/TextLiteral.ts';
+    import Token from '#nodes/Token.ts';
+    import Translation from '#nodes/Translation.ts';
+    import { parseFormattedTranslation } from '#parser/parseExpression.ts';
     import {
         CODE_SYMBOL,
         DOCUMENTATION_SYMBOL,
         FORMATTED_SYMBOL,
         ITALIC_SYMBOL,
         UNDERSCORE_SYMBOL,
-    } from '@parser/Symbols';
-    import { toTokens } from '@parser/toTokens';
-    import MarkupValue from '@values/MarkupValue';
-    import NamedControl from '@components/palette/NamedControl.svelte';
+    } from '#parser/Symbols.ts';
+    import { toTokens } from '#parser/toTokens.ts';
+    import MarkupValue from '#values/MarkupValue.ts';
+    import NamedControl from '#components/palette/NamedControl.svelte';
     import {
         Faces,
         faceSupportsWeight,
         type FontWeight,
-    } from '@basis/faces/Fonts';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { must } from '@util/nullable';
+    } from '#basis/faces/Fonts.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         project: Project;

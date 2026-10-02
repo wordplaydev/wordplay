@@ -1,11 +1,11 @@
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Block from '@nodes/Block';
-import ListLiteral from '@nodes/ListLiteral';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Block from '#nodes/Block.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import type Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 
 function setup(code: string) {

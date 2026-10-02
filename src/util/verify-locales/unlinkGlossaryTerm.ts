@@ -15,15 +15,15 @@
  * Run: npx tsx src/util/verify-locales/unlinkGlossaryTerm.ts how pt-PT pl-PL …
  */
 import fs from 'fs';
-import { Revised } from '@locale/Annotations';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { isRecord } from '@util/guards';
-import Log from '@util/verify-locales/Log';
-import { readLocale, writeLocale } from '@util/verify-locales/localeFiles';
-import { getTutorialPath } from '@util/verify-locales/TutorialSchema';
-import writeFormatted from '@util/verify-locales/writeFormatted';
-import { unlinkReference } from '@util/verify-locales/glossaryLinks';
-import { escapeRegExp } from '@util/verify-locales/markupText';
+import { Revised } from '#locale/Annotations.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { isRecord } from '#util/guards.ts';
+import Log from '#util/verify-locales/Log.ts';
+import { readLocale, writeLocale } from '#util/verify-locales/localeFiles.ts';
+import { getTutorialPath } from '#util/verify-locales/TutorialSchema.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
+import { unlinkReference } from '#util/verify-locales/glossaryLinks.ts';
+import { escapeRegExp } from '#util/verify-locales/markupText.ts';
 import { TutorialModes } from '../../tutorial/TutorialMode';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */

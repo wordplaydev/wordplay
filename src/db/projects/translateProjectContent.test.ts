@@ -1,14 +1,14 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import { localeToString, stringToLocale } from '@locale/Locale';
-import Source from '@nodes/Source';
-import { first } from '@util/nullable';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { localeToString, stringToLocale } from '#locale/Locale.ts';
+import Source from '#nodes/Source.ts';
+import { first } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
-import Project from '@db/projects/Project';
+import Project from '#db/projects/Project.ts';
 import translateProjectContent, {
     type RawTranslator,
     sanitizeTranslatedName,
 } from './translateProjectContent';
-import { isName } from '@parser/Tokenizer';
+import { isName } from '#parser/Tokenizer.ts';
 
 const en = stringToLocale('en-US');
 const es = stringToLocale('es-ES');

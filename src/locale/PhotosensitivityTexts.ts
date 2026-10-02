@@ -1,5 +1,5 @@
-import type { FormattedText } from '@locale/LocaleText';
-import type { HeaderAndExplanationText } from '@locale/UITexts';
+import type { FormattedText } from '#locale/LocaleText.ts';
+import type { HeaderAndExplanationText } from '#locale/UITexts.ts';
 
 /**
  * Text shown before a read-only project whose static analysis found visual

@@ -1,8 +1,8 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type Markup from '@nodes/Markup';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import type Markup from '#nodes/Markup.ts';
 
 /**
  * A plain-text glossary block for the translation prompt: each en-US term's word

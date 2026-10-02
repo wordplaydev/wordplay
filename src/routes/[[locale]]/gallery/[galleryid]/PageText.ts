@@ -1,4 +1,4 @@
-import type { FormattedText, Template } from '@locale/LocaleText';
+import type { FormattedText, Template } from '#locale/LocaleText.ts';
 import type {
     ButtonText,
     ConfirmText,
@@ -6,7 +6,7 @@ import type {
     HeaderAndExplanationText,
     IconButtonText,
     ModeText,
-} from '@locale/UITexts';
+} from '#locale/UITexts.ts';
 
 type PageText = {
     /** [plain] What to call a gallery by default, before it's given a name */

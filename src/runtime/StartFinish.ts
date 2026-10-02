@@ -1,10 +1,10 @@
-import type Expression from '@nodes/Expression';
-import type Evaluator from '@runtime/Evaluator';
-import type Locales from '@locale/Locales';
-import type Value from '@values/Value';
-import { finish } from '@runtime/Finish';
-import { start } from '@runtime/Start';
-import Step from '@runtime/Step';
+import type Expression from '#nodes/Expression.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Locales from '#locale/Locales.ts';
+import type Value from '#values/Value.ts';
+import { finish } from '#runtime/Finish.ts';
+import { start } from '#runtime/Start.ts';
+import Step from '#runtime/Step.ts';
 
 export default class StartFinish extends Step {
     constructor(node: Expression) {

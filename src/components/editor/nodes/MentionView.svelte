@@ -1,8 +1,8 @@
 <script lang="ts">
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import type Mention from '@nodes/Mention';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import type Mention from '#nodes/Mention.ts';
 
     interface Props {
         node: Mention;

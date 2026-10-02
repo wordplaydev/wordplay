@@ -1,4 +1,4 @@
-import type { WritingLayout } from '@locale/Scripts';
+import type { WritingLayout } from '#locale/Scripts.ts';
 
 let canvas: HTMLCanvasElement | null = null;
 let context: CanvasRenderingContext2D | null = null;

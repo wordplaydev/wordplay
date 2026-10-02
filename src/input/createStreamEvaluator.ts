@@ -1,14 +1,14 @@
 /** Evaluates a basis stream type, given some callbacks */
 
-import type Evaluation from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import ExceptionValue from '@values/ExceptionValue';
-import InternalExpression from '@basis/InternalExpression';
-import Evaluate from '@nodes/Evaluate';
-import Reaction from '@nodes/Reaction';
-import StreamType from '@nodes/StreamType';
-import type Type from '@nodes/Type';
-import type StreamValue from '@values/StreamValue';
+import type Evaluation from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import InternalExpression from '#basis/InternalExpression.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Reaction from '#nodes/Reaction.ts';
+import StreamType from '#nodes/StreamType.ts';
+import type Type from '#nodes/Type.ts';
+import type StreamValue from '#values/StreamValue.ts';
 
 export default function createStreamEvaluator<Kind extends StreamValue>(
     valueType: Type,

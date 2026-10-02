@@ -1,18 +1,18 @@
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import {
     defaultFolds,
     FOLD_BY_DEFAULT_ITEMS,
     isFoldableNode,
-} from '@components/editor/util/folding';
-import Doc from '@nodes/Doc';
-import Docs from '@nodes/Docs';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import ListLiteral from '@nodes/ListLiteral';
-import type Node from '@nodes/Node';
+} from '#components/editor/util/folding.ts';
+import Doc from '#nodes/Doc.ts';
+import Docs from '#nodes/Docs.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import type Node from '#nodes/Node.ts';
 
 function main(code: string) {
     return Project.make(

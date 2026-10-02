@@ -1,4 +1,4 @@
-import retryableLoad from '@util/retryableLoad';
+import retryableLoad from '#util/retryableLoad.ts';
 
 /**
  * The landing page's carousel, loaded only when a visitor asks for it.
@@ -14,5 +14,5 @@ import retryableLoad from '@util/retryableLoad';
  * route/db import cycle and crashes hydration.
  */
 export const loadShowcase = retryableLoad(() =>
-    import('@components/app/Showcase.svelte').then((module) => module.default),
+    import('#components/app/Showcase.svelte').then((module) => module.default),
 );

@@ -1,13 +1,13 @@
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import type Locales from '@locale/Locales';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import type { EvaluationNode } from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import BoolValue from '@values/BoolValue';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
+import toStructure from '#basis/toStructure.ts';
+import { getBind } from '#locale/getBind.ts';
+import type Locales from '#locale/Locales.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type { EvaluationNode } from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import BoolValue from '#values/BoolValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
 import Decimal from 'decimal.js';
 
 export function createSlateType(locales: Locales) {

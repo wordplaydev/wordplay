@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /**
  * Whether to sound a short earcon each time the program re-evaluates, naming

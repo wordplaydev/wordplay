@@ -1,17 +1,17 @@
-import type Context from '@nodes/Context';
-import type ConversionDefinition from '@nodes/ConversionDefinition';
-import Convert from '@nodes/Convert';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import type Node from '@nodes/Node';
-import type Locales from '@locale/Locales';
+import type Context from '#nodes/Context.ts';
+import type ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import Convert from '#nodes/Convert.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import type Node from '#nodes/Node.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
 import { Emotion } from '../lore/Emotion';
-import type Markup from '@nodes/Markup';
+import type Markup from '#nodes/Markup.ts';
 import type { CharacterName } from '../tutorial/Tutorial';
-import Concept from '@concepts/Concept';
-import { Purpose } from '@concepts/Purpose';
-import type StructureConcept from '@concepts/StructureConcept';
-import { CONVERT_SYMBOL } from '@parser/Symbols';
+import Concept from '#concepts/Concept.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type StructureConcept from '#concepts/StructureConcept.ts';
+import { CONVERT_SYMBOL } from '#parser/Symbols.ts';
 
 export default class ConversionConcept extends Concept {
     /** The function this concept represents. */

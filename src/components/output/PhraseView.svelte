@@ -1,5 +1,5 @@
 <script module lang="ts">
-    import getConceptName from '@locale/getConceptName';
+    import getConceptName from '#locale/getConceptName.ts';
     /** Map Wordplay's alignment glyphs to logical CSS text-align values so a
      *  phrase's text aligns to the start/end of its own reading direction —
      *  '<' (start) and '>' (end) flip automatically under an RTL `dir`. */
@@ -11,11 +11,11 @@
 </script>
 
 <script lang="ts">
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import OutputHandles from '@components/output/OutputHandles.svelte';
-    import { layoutToCSS } from '@locale/Scripts';
-    import Evaluate from '@nodes/Evaluate';
-    import TextLiteral from '@nodes/TextLiteral';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import OutputHandles from '#components/output/OutputHandles.svelte';
+    import { layoutToCSS } from '#locale/Scripts.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import TextLiteral from '#nodes/TextLiteral.ts';
     import {
         getColorCSS,
         getFaceCSS,
@@ -23,26 +23,26 @@
         getSizeCSS,
         sizeToPx,
         toOutputTransform,
-    } from '@output/Output/outputToCSS';
+    } from '#output/Output/outputToCSS.ts';
     import {
         BubbleSideNames,
         FallbackSide,
         type BubbleSide,
-    } from '@output/Bubble/Bubble';
-    import type Phrase from '@output/Output/Phrase';
-    import type Place from '@output/Place/Place';
-    import type RenderContext from '@output/RenderContext';
+    } from '#output/Bubble/Bubble.ts';
+    import type Phrase from '#output/Output/Phrase.ts';
+    import type Place from '#output/Place/Place.ts';
+    import type RenderContext from '#output/RenderContext.ts';
     import { tick, untrack } from 'svelte';
     import { scale } from 'svelte/transition';
-    import { animationDuration, DB, locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import TextValue from '@values/TextValue';
-    import { getLanguageDirection } from '@locale/LanguageCode';
-    import { must } from '@util/nullable';
-    import AnimatedText from '@components/output/AnimatedText.svelte';
+    import { animationDuration, DB, locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import TextValue from '#values/TextValue.ts';
+    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import { must } from '#util/nullable.ts';
+    import AnimatedText from '#components/output/AnimatedText.svelte';
     import moveOutputWithKey, {
         arrowMove,
-    } from '@components/output/keyboardMove';
+    } from '#components/output/keyboardMove.ts';
     import {
         getAnnouncer,
         getPaletteOpen,
@@ -51,7 +51,7 @@
         getSelectedOutput,
         getStageGrid,
         getStageScene,
-    } from '@components/project/Contexts';
+    } from '#components/project/Contexts.ts';
 
     interface Props {
         phrase: Phrase;

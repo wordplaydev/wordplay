@@ -1,14 +1,14 @@
-import type Project from '@db/projects/Project';
-import CycleType from '@nodes/CycleType';
-import type Definition from '@nodes/Definition';
-import type Expression from '@nodes/Expression';
-import type Input from '@nodes/Input';
-import type Node from '@nodes/Node';
-import type PropertyReference from '@nodes/PropertyReference';
-import type Reference from '@nodes/Reference';
-import type Source from '@nodes/Source';
-import type Type from '@nodes/Type';
-import UnknownType from '@nodes/UnknownType';
+import type Project from '#db/projects/Project.ts';
+import CycleType from '#nodes/CycleType.ts';
+import type Definition from '#nodes/Definition.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Input from '#nodes/Input.ts';
+import type Node from '#nodes/Node.ts';
+import type PropertyReference from '#nodes/PropertyReference.ts';
+import type Reference from '#nodes/Reference.ts';
+import type Source from '#nodes/Source.ts';
+import type Type from '#nodes/Type.ts';
+import UnknownType from '#nodes/UnknownType.ts';
 
 /** Passed around during type inference and conflict detection to facilitate program analysis and cycle-detection. */
 export default class Context {

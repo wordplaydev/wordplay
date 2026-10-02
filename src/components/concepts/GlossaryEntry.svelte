@@ -1,12 +1,12 @@
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { locales } from '#db/Database.ts';
     import {
         getTermDefinition,
         getTermDefinitionString,
         getTermWordString,
-    } from '@locale/Glossary';
+    } from '#locale/Glossary.ts';
 
     /**
      * One glossary entry: the term's word as a subheader, then its definition.

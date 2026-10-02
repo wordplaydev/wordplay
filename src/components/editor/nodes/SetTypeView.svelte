@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type SetType from '@nodes/SetType';
+    import type SetType from '#nodes/SetType.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: SetType;

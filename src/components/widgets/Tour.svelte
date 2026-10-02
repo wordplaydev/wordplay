@@ -1,18 +1,18 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import Emoji from '@components/app/Emoji.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { getAnnouncer } from '@components/project/Contexts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { placeNearTarget } from '@components/widgets/placeNearTarget';
-    import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { CANCEL_SYMBOL, QUESTION_SYMBOL } from '@parser/Symbols';
-    import type { UIExplanation } from '@components/project/tourSteps';
-    import { must } from '@util/nullable';
+    import { browser } from '$app/env';
+    import Emoji from '#components/app/Emoji.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { placeNearTarget } from '#components/widgets/placeNearTarget.ts';
+    import { locales } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { CANCEL_SYMBOL, QUESTION_SYMBOL } from '#parser/Symbols.ts';
+    import type { UIExplanation } from '#components/project/tourSteps.ts';
+    import { must } from '#util/nullable.ts';
     import { onDestroy, tick, untrack } from 'svelte';
 
     interface Props {

@@ -1,18 +1,18 @@
-import IncompatibleType from '@conflicts/IncompatibleType';
-import { testConflict } from '@conflicts/TestUtilities';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import ListLiteral from '@nodes/ListLiteral';
-import ListType from '@nodes/ListType';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import TextType from '@nodes/TextType';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import parseType from '@parser/parseType';
-import { toTokens } from '@parser/toTokens';
-import evaluateCode from '@runtime/evaluate';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import ListType from '#nodes/ListType.ts';
+import type Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
+import TextType from '#nodes/TextType.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import parseType from '#parser/parseType.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import evaluateCode from '#runtime/evaluate.ts';
 import { expect, test } from 'vitest';
 
 function getContext(code = ''): Context {

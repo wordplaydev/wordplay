@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type Dimension from '@nodes/Dimension';
+    import type Dimension from '#nodes/Dimension.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Dimension;

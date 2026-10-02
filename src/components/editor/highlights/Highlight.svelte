@@ -2,8 +2,8 @@
     import {
         HighlightTypes,
         type HighlightType,
-    } from '@components/editor/highlights/Highlights';
-    import type { Outline } from '@components/editor/highlights/outline';
+    } from '#components/editor/highlights/Highlights.ts';
+    import type { Outline } from '#components/editor/highlights/outline.ts';
 
     /* Slack around the outline for effects that paint outside the path. An SVG root
        clips at its bounds, and the selected output's glow reaches roughly the blur

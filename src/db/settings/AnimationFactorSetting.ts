@@ -1,5 +1,5 @@
-import { withMonoEmoji } from '@unicode/emoji';
-import Setting from '@db/settings/Setting';
+import { withMonoEmoji } from '#unicode/emoji.ts';
+import Setting from '#db/settings/Setting.ts';
 
 export const AnimationIcon = withMonoEmoji('🏃');
 

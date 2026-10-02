@@ -6,7 +6,7 @@ import {
     SideMargin,
     type BubbleCandidate,
     type Rect,
-} from '@output/Bubble/bubbleSides';
+} from '#output/Bubble/bubbleSides.ts';
 
 /** A box from its bottom-left corner, the frame a place is written in. */
 function box(x: number, y: number, width = 1, height = 1): Rect {

@@ -7,14 +7,14 @@
  * stage like the Christmas tree, whose whole behavior is a looping sequence,
  * had nothing for any cue to name.
  *
- * Deliberately free of `@db` and of Web Audio, and type-only in what it imports
+ * Deliberately free of `#db` and of Web Audio, and type-only in what it imports
  * from the animation layer, so nothing here closes a runtime import cycle with
  * `OutputAnimation`.
  */
 
-import type { OutputName } from '@output/animation/Animator';
-import type { AnimationState } from '@output/animation/OutputAnimation';
-import type Transition from '@output/animation/Transition';
+import type { OutputName } from '#output/animation/Animator.ts';
+import type { AnimationState } from '#output/animation/OutputAnimation.ts';
+import type Transition from '#output/animation/Transition.ts';
 
 /** One animation, as it starts. */
 export type AnimationEvent = {

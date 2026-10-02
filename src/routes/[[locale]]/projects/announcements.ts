@@ -1,4 +1,4 @@
-import type Locales from '@locale/Locales';
+import type Locales from '#locale/Locales.ts';
 
 /**
  * What screen readers are told as projects are organized.

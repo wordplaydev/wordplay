@@ -1,37 +1,37 @@
-import type Node from '@nodes/Node';
-import PatternAnchor from '@nodes/PatternAnchor';
-import PatternBackref from '@nodes/PatternBackref';
-import PatternCapture from '@nodes/PatternCapture';
-import PatternCaseFold from '@nodes/PatternCaseFold';
-import PatternClass from '@nodes/PatternClass';
-import PatternComplement from '@nodes/PatternComplement';
-import PatternGroup from '@nodes/PatternGroup';
-import type PatternLiteral from '@nodes/PatternLiteral';
-import PatternLiteralText from '@nodes/PatternLiteralText';
-import PatternLook from '@nodes/PatternLook';
-import PatternNode from '@nodes/PatternNode';
-import PatternQuantified from '@nodes/PatternQuantified';
-import type PatternQuantifier from '@nodes/PatternQuantifier';
-import PatternRange from '@nodes/PatternRange';
-import PatternRest from '@nodes/PatternRest';
-import PatternSequence from '@nodes/PatternSequence';
-import PatternSet from '@nodes/PatternSet';
-import PatternWord from '@nodes/PatternWord';
-import PatternWordEdge from '@nodes/PatternWordEdge';
+import type Node from '#nodes/Node.ts';
+import PatternAnchor from '#nodes/PatternAnchor.ts';
+import PatternBackref from '#nodes/PatternBackref.ts';
+import PatternCapture from '#nodes/PatternCapture.ts';
+import PatternCaseFold from '#nodes/PatternCaseFold.ts';
+import PatternClass from '#nodes/PatternClass.ts';
+import PatternComplement from '#nodes/PatternComplement.ts';
+import PatternGroup from '#nodes/PatternGroup.ts';
+import type PatternLiteral from '#nodes/PatternLiteral.ts';
+import PatternLiteralText from '#nodes/PatternLiteralText.ts';
+import PatternLook from '#nodes/PatternLook.ts';
+import PatternNode from '#nodes/PatternNode.ts';
+import PatternQuantified from '#nodes/PatternQuantified.ts';
+import type PatternQuantifier from '#nodes/PatternQuantifier.ts';
+import PatternRange from '#nodes/PatternRange.ts';
+import PatternRest from '#nodes/PatternRest.ts';
+import PatternSequence from '#nodes/PatternSequence.ts';
+import PatternSet from '#nodes/PatternSet.ts';
+import PatternWord from '#nodes/PatternWord.ts';
+import PatternWordEdge from '#nodes/PatternWordEdge.ts';
 import {
     MEASUREMENT_SYMBOL,
     PATTERN_AHEAD_SYMBOL,
     PATTERN_ANY_SYMBOL,
     PATTERN_END_SYMBOL,
     PATTERN_SPACE_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 import {
     resolveProperty,
     type GraphemePredicate,
-} from '@runtime/pattern/properties';
-import { getWordInfo } from '@runtime/pattern/segment';
-import { lowerCase } from '@unicode/casing';
-import UnicodeString from '@unicode/UnicodeString';
+} from '#runtime/pattern/properties.ts';
+import { getWordInfo } from '#runtime/pattern/segment.ts';
+import { lowerCase } from '#unicode/casing.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 
 /**
  * The pattern matching engine: a possessive PEG over extended grapheme clusters

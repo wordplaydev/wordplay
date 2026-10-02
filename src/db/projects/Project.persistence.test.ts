@@ -1,17 +1,17 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import { must } from '@util/nullable';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 import { z } from 'zod';
 
-import Project from '@db/projects/Project';
-import ProjectCRDT from '@db/projects/ProjectCRDT';
+import Project from '#db/projects/Project.ts';
+import ProjectCRDT from '#db/projects/ProjectCRDT.ts';
 import {
     needsSchemaUpgrade,
     ProjectSchema,
     ProjectSchemaLatestVersion,
     upgradeProject,
-} from '@db/projects/ProjectSchemas';
+} from '#db/projects/ProjectSchemas.ts';
 
 /**
  * Tests that pin the data-level invariants of the persistence pipeline.

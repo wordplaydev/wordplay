@@ -5,11 +5,11 @@
      above this, and a second heading in the refusal would be the page's title
      twice. -->
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import { isAdmin } from '@db/projects/Moderation';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import { isAdmin } from '#db/projects/Moderation.ts';
 
     let { children } = $props();
 

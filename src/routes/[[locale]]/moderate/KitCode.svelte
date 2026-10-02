@@ -4,11 +4,11 @@
      and a decision about code is made by reading it, so it is rendered through `RootView`
      rather than as a wall of monospace. -->
 <script lang="ts">
-    import Spinning from '@components/app/Spinning.svelte';
-    import RootView from '@components/project/RootView.svelte';
-    import { DB } from '@db/Database';
-    import type { SerializedKit } from '@db/kits/Kit';
-    import Source from '@nodes/Source';
+    import Spinning from '#components/app/Spinning.svelte';
+    import RootView from '#components/project/RootView.svelte';
+    import { DB } from '#db/Database.ts';
+    import type { SerializedKit } from '#db/kits/Kit.ts';
+    import Source from '#nodes/Source.ts';
 
     interface Props {
         kit: SerializedKit;

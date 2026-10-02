@@ -1,10 +1,10 @@
 import { expect, test } from 'vitest';
 import type { PathCommand } from 'fontkit';
-import { must } from '@util/nullable';
-import { glyphPathToPlaces } from '@input/Contour/Contour';
-import { Faces, getFontFilePath, getFontFileURL } from '@basis/faces/Fonts';
-import { FontsVersion } from '@basis/faces/faces.generated';
-import evaluateCode from '@runtime/evaluate';
+import { must } from '#util/nullable.ts';
+import { glyphPathToPlaces } from '#input/Contour/Contour.ts';
+import { Faces, getFontFilePath, getFontFileURL } from '#basis/faces/Fonts.ts';
+import { FontsVersion } from '#basis/faces/faces.generated.ts';
+import evaluateCode from '#runtime/evaluate.ts';
 
 test('Contour evaluates to an empty list with no fonts loaded', () => {
     // Under the test runner there is no window/fetch, so the stream never loads

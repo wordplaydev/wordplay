@@ -2,12 +2,12 @@ import type { PathCommand } from 'fontkit';
 import { create } from 'fontkit';
 import { readFileSync } from 'node:fs';
 import { expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import {
     flattenGlyphLoops,
     planShapeRuns,
     shapeTextGlyphs,
-} from '@basis/faces/shapeText';
+} from '#basis/faces/shapeText.ts';
 
 test('a subpath becomes a loop, and two subpaths become two', () => {
     const commands: PathCommand[] = [

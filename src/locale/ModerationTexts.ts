@@ -1,11 +1,11 @@
-import type { FlagDescriptions } from '@db/projects/Moderation';
-import type { FormattedText, Template } from '@locale/LocaleText';
+import type { FlagDescriptions } from '#db/projects/Moderation.ts';
+import type { FormattedText, Template } from '#locale/LocaleText.ts';
 import type {
     ButtonText,
     ConfirmText,
     HeaderAndExplanationText,
     ModeText,
-} from '@locale/UITexts';
+} from '#locale/UITexts.ts';
 
 export type ModerationTexts = {
     /** What to say to warn viewers before showing content with warnings. */

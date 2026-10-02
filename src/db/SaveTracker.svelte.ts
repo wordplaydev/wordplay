@@ -1,16 +1,16 @@
 import { SvelteMap, SvelteSet } from 'svelte/reactivity';
-import type { SyncDomain } from '@db/Domains';
+import type { SyncDomain } from '#db/Domains.ts';
 import {
     SaveFailureReason,
     type SaveCounts,
     type SaveError,
-} from '@db/Database';
-import type { WordplayDexie } from '@db/WordplayDexie';
-import { refreshAuthToken } from '@db/firebase';
+} from '#db/Database.ts';
+import type { WordplayDexie } from '#db/WordplayDexie.ts';
+import { refreshAuthToken } from '#db/firebase.ts';
 import firebaseErrorDetail, {
     isPermanentSaveError,
-} from '@db/firebaseErrorDetail';
-import isQuotaError from '@db/isQuotaError';
+} from '#db/firebaseErrorDetail.ts';
+import isQuotaError from '#db/isQuotaError.ts';
 
 /** The slice of the local cache a tracker touches: the durable dirty table.
  *  Named rather than taking the whole `WordplayDexie` so what the tracker needs

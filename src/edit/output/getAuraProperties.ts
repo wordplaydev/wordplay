@@ -1,12 +1,12 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import Evaluate from '@nodes/Evaluate';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import { createColorLiteral } from '@output/Color/Color';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyRange from '@edit/output/OutputPropertyRange';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import { createColorLiteral } from '#output/Color/Color.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
 
 /**
  * The editable inputs of an Aura: a color (always editable, even when unset/ø) plus blur and

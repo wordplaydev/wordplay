@@ -1,13 +1,13 @@
-import { copyNode } from '@components/editor/commands/Clipboard';
-import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
-import DefaultLocale from '@locale/DefaultLocale';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import PatternClass from '@nodes/PatternClass';
-import Source from '@nodes/Source';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import { PATTERN_DELIMITER_SYMBOL as D } from '@parser/Symbols';
+import { copyNode } from '#components/editor/commands/Clipboard.ts';
+import { getInternalClipboard } from '#components/editor/commands/InternalClipboard.ts';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import PatternClass from '#nodes/PatternClass.ts';
+import Source from '#nodes/Source.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import { PATTERN_DELIMITER_SYMBOL as D } from '#parser/Symbols.ts';
 import { describe, expect, test } from 'vitest';
 import { pasteText } from './Paste';
 

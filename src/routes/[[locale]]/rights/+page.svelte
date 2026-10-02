@@ -1,9 +1,9 @@
 <script lang="ts">
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import { locales } from '@db/Database';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import { locales } from '#db/Database.ts';
 </script>
 
 <Title text={(l) => l.ui.page.rights.header} />

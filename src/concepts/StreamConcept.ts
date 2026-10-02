@@ -1,21 +1,21 @@
-import type Context from '@nodes/Context';
-import { entriesOf } from '@util/nullable';
-import type Node from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import { COMMA_SYMBOL } from '@parser/Symbols';
-import type Locales from '@locale/Locales';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
+import type Context from '#nodes/Context.ts';
+import { entriesOf } from '#util/nullable.ts';
+import type Node from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import { COMMA_SYMBOL } from '#parser/Symbols.ts';
+import type Locales from '#locale/Locales.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
 import { Emotion } from '../lore/Emotion';
-import Evaluate from '@nodes/Evaluate';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import type Markup from '@nodes/Markup';
-import type StreamDefinition from '@nodes/StreamDefinition';
+import Evaluate from '#nodes/Evaluate.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import type Markup from '#nodes/Markup.ts';
+import type StreamDefinition from '#nodes/StreamDefinition.ts';
 import type { CharacterName } from '../tutorial/Tutorial';
-import BindConcept from '@concepts/BindConcept';
-import Concept from '@concepts/Concept';
-import type ConceptIndex from '@concepts/ConceptIndex';
-import { Purpose } from '@concepts/Purpose';
-import StructureConcept from '@concepts/StructureConcept';
+import BindConcept from '#concepts/BindConcept.ts';
+import Concept from '#concepts/Concept.ts';
+import type ConceptIndex from '#concepts/ConceptIndex.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import StructureConcept from '#concepts/StructureConcept.ts';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */

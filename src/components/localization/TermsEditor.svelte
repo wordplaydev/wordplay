@@ -5,23 +5,23 @@
      persist as `terms.<key>` overrides in LocalizationDexie and submit through
      the normal bundle (setAtPath creates the key server-side). -->
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { locales } from '@db/Database';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { locales } from '#db/Database.ts';
     import {
         deleteLocaleEdit,
         localeEdits,
         saveLocaleEdit,
-    } from '@db/locales/LocalizationDexie';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { toLocaleString } from '@locale/LocaleText';
-    import { getAllDeclaredInputNames } from '@locale/templateInputs';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { CANCEL_SYMBOL, REVERT_SYMBOL } from '@parser/Symbols';
+    } from '#db/locales/LocalizationDexie.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { toLocaleString } from '#locale/LocaleText.ts';
+    import { getAllDeclaredInputNames } from '#locale/templateInputs.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+    import { CANCEL_SYMBOL, REVERT_SYMBOL } from '#parser/Symbols.ts';
 
     /** The `terms.<key>` override path for a term. Empty segments are skipped by
      *  the submit walker, so no leading dot is needed (unlike top-level guidance). */

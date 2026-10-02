@@ -1,5 +1,5 @@
-import { getTypeName } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
 
 /** The union member names of what a Stage or Group may hold, in the project's
  *  language, so their declared content types don't read in English. Kept out of

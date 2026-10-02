@@ -1,12 +1,12 @@
-import Dimension from '@nodes/Dimension';
-import type Source from '@nodes/Source';
-import Sym, { type SymType } from '@nodes/Sym';
-import type Token from '@nodes/Token';
+import Dimension from '#nodes/Dimension.ts';
+import type Source from '#nodes/Source.ts';
+import Sym, { type SymType } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
 import {
     Scripts,
     type ScriptMetadata,
     type WritingLayout,
-} from '@locale/Scripts';
+} from '#locale/Scripts.ts';
 
 /**
  * Which writing layouts a source could be set in.

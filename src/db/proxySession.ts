@@ -30,7 +30,7 @@ const ProxyKey = 'wordplay.proxy';
 /** Where the tab remembers when its session stops being able to read, so the
  *  banner can say so across a reload. Here rather than beside the callable that
  *  produces it, so the banner — which the root layout mounts on every page —
- *  needn't reach into `@db/admin` to read one string. */
+ *  needn't reach into `#db/admin` to read one string. */
 export const ProxyUntilKey = 'proxy.until';
 
 /** The route that starts one. Kept here rather than imported, so that the

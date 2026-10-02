@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { describe, expect, test } from 'vitest';
-import { Revised, Unwritten } from '@locale/Annotations';
+import { Revised, Unwritten } from '#locale/Annotations.ts';
 import {
     isDialog,
     isTutorial,
@@ -14,14 +14,14 @@ import {
 import type { ThemeName } from '../../tutorial/ThemeNames';
 import { TutorialModes } from '../../tutorial/TutorialMode';
 import { getTutorialPath } from './TutorialSchema';
-import { align } from '@util/align';
+import { align } from '#util/align.ts';
 import {
     isEmptyReport,
     lineSignature,
     sceneSignature,
     syncTutorialStructure,
 } from './syncTutorialStructure';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 /** Fixture accessors: every tutorial built here has the act, scene, and line
  *  these reach, so the index — not the value — is what decides presence. */
 const act0 = (t: Tutorial) => must(t.acts[0], 'an act');

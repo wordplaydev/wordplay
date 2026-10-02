@@ -1,5 +1,5 @@
-import type { Resolution } from '@conflicts/Conflict';
-import type Node from '@nodes/Node';
+import type { Resolution } from '#conflicts/Conflict.ts';
+import type Node from '#nodes/Node.ts';
 
 /**
  * The node that revealing a conflict should select: the focus node one of its resolutions names, when

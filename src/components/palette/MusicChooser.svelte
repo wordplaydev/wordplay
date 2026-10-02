@@ -10,12 +10,12 @@
      * nothing to choose and the row would be a permanent statement of the
      * obvious.
      */
-    import { getSelectedOutput } from '@components/project/Contexts';
-    import Options from '@components/widgets/Options.svelte';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import readMusic, { musicsIn } from '@edit/output/editableMusic';
-    import type Evaluate from '@nodes/Evaluate';
+    import { getSelectedOutput } from '#components/project/Contexts.ts';
+    import Options from '#components/widgets/Options.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import readMusic, { musicsIn } from '#edit/output/editableMusic.ts';
+    import type Evaluate from '#nodes/Evaluate.ts';
 
     interface Props {
         project: Project;

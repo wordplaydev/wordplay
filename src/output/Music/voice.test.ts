@@ -6,10 +6,10 @@ import {
     VibratoDepth,
     glottalHarmonics,
     tuneFirstFormant,
-} from '@output/Music/voice';
-import { Phonemes } from '@output/Music/phonemes';
-import { semitonesToFrequency } from '@output/Music/degrees';
-import { must } from '@util/nullable';
+} from '#output/Music/voice.ts';
+import { Phonemes } from '#output/Music/phonemes.ts';
+import { semitonesToFrequency } from '#output/Music/degrees.ts';
+import { must } from '#util/nullable.ts';
 
 describe('the glottal source', () => {
     test('carries no DC and falls off with harmonic number', () => {

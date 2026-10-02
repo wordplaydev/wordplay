@@ -2,19 +2,19 @@
      staying on the device it was set on. Signed out there is no account to
      follow, so it reads as inactive and says what signing in would do. -->
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
+    import Emoji from '#components/app/Emoji.svelte';
     import {
         getTip,
         getUser,
         isAuthenticated,
-    } from '@components/project/Contexts';
+    } from '#components/project/Contexts.ts';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
-    import { locales } from '@db/Database';
-    import type LocaleText from '@locale/LocaleText';
-    import { withMonoEmoji } from '@unicode/emoji';
+    } from '#components/widgets/tipTriggers.ts';
+    import { locales } from '#db/Database.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
 
     let hint = getTip();
     let user = getUser();

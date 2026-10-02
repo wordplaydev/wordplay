@@ -1,7 +1,7 @@
-import { getDateTimeDataForLocale } from '@locale/dateTimeData';
-import { formatDateTimeForLocale } from '@locale/dateTimeFormats';
-import type Locale from '@locale/Locale';
-import { substituteDigitsForLocale } from '@locale/numberFormats';
+import { getDateTimeDataForLocale } from '#locale/dateTimeData.ts';
+import { formatDateTimeForLocale } from '#locale/dateTimeFormats.ts';
+import type Locale from '#locale/Locale.ts';
+import { substituteDigitsForLocale } from '#locale/numberFormats.ts';
 
 /**
  * How to present a birthday for entry, in the reader's own conventions (#628).

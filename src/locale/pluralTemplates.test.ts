@@ -1,4 +1,4 @@
-import { getPluralBranches } from '@locale/templateInputs';
+import { getPluralBranches } from '#locale/templateInputs.ts';
 import { expect, test } from 'vitest';
 
 test('a plural branch reports its arm count', () => {

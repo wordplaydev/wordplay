@@ -1,20 +1,20 @@
 <script lang="ts">
-    import { getLocalizing } from '@components/project/Contexts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { CONFIRM_SYMBOL } from '@parser/Symbols';
+    import { getLocalizing } from '#components/project/Contexts.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { locales } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { CONFIRM_SYMBOL } from '#parser/Symbols.ts';
     import { onMount, tick } from 'svelte';
-    import { withMonoEmoji } from '@unicode/emoji';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import caretBoundaryKey, {
         caretBoundarySelection,
-    } from '@components/widgets/caretKeys';
+    } from '#components/widgets/caretKeys.ts';
     import placeValidationMessage, {
         hideMessage,
         showMessage,
         supportsTopLayer,
-    } from '@components/widgets/validationMessage';
+    } from '#components/widgets/validationMessage.ts';
 
     interface Props {
         /** The current text to show */

@@ -13,8 +13,8 @@
  * doesn't explode into one track per note.
  */
 
-import type { MIDINote } from '@output/Music/midi/parseMIDI';
-import { must } from '@util/nullable';
+import type { MIDINote } from '#output/Music/midi/parseMIDI.ts';
+import { must } from '#util/nullable.ts';
 
 /** Notes that sound together for the same span: one entry in a track. */
 export type Simultaneity = {

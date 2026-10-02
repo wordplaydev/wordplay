@@ -1,4 +1,4 @@
-import en from '@locale/en-US.json';
+import en from '#locale/en-US.json';
 import { describe, expect, test } from 'vitest';
 import { CollectionSteps } from './AccountSnapshot';
 

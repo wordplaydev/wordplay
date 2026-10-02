@@ -1,6 +1,6 @@
-import Caret from '@edit/caret/Caret';
-import markupHiddenTokens from '@edit/markup/markupHidden';
-import { getMarkup, markupToSource } from '@edit/markup/markupSource';
+import Caret from '#edit/caret/Caret.ts';
+import markupHiddenTokens from '#edit/markup/markupHidden.ts';
+import { getMarkup, markupToSource } from '#edit/markup/markupSource.ts';
 import { describe, expect, test } from 'vitest';
 
 /** The texts of the tokens prose mode would hide, for markup and a caret position. */

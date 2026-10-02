@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { animationFactor } from '@db/Database';
-    import type Music from '@output/Music/Music';
-    import { signatureOf, type MusicData } from '@output/Music/musicData';
-    import { peekMusicPlayer } from '@output/Music/players';
+    import { animationFactor } from '#db/Database.ts';
+    import type Music from '#output/Music/Music.ts';
+    import { signatureOf, type MusicData } from '#output/Music/musicData.ts';
+    import { peekMusicPlayer } from '#output/Music/players.ts';
     import {
         absoluteBeat,
         advanceCursor,
@@ -21,8 +21,8 @@
         windowStart,
         type Layout,
         type Mark,
-    } from '@output/Music/sheet';
-    import type Evaluator from '@runtime/Evaluator';
+    } from '#output/Music/sheet.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
     import { onDestroy } from 'svelte';
 
     interface Props {

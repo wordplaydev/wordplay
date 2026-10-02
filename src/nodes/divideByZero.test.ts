@@ -1,13 +1,13 @@
 import { test, expect } from 'vitest';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Reaction from '@nodes/Reaction';
-import Templates from '@concepts/Templates';
-import evaluateCode from '@runtime/evaluate';
-import { last, must } from '@util/nullable';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Reaction from '#nodes/Reaction.ts';
+import Templates from '#concepts/Templates.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import { last, must } from '#util/nullable.ts';
 
 function analyze(code: string) {
     const source = new Source('test', code);

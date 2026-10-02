@@ -1,4 +1,4 @@
-import isValidEmail from '@db/creators/isValidEmail';
+import isValidEmail from '#db/creators/isValidEmail.ts';
 
 /**
  * The rules a username must satisfy to be *claimed*, and the fold that decides

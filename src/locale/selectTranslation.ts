@@ -1,5 +1,5 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 
 /**
  * Apply a pure property-access accessor to a locale, falling back to the default

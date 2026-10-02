@@ -1,13 +1,16 @@
-import type { Handle } from '@sveltejs/kit';
-import { isRecord } from '@util/guards';
+import type { Handle } from '@sveltejs/kit/hooks';
+import { isRecord } from '#util/guards.ts';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { getManifestPath, isSupportedLocale } from '@locale/SupportedLocales';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { LocaleAssetHashes } from '@db/locales/localeAssets.generated';
-import { FontsVersion } from '@basis/faces/faces.generated';
-import { stringToLocale, toBCP47 } from '@locale/Locale';
-import { getLanguageDirection } from '@locale/LanguageCode';
+import {
+    getManifestPath,
+    isSupportedLocale,
+} from '#locale/SupportedLocales.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { LocaleAssetHashes } from '#db/locales/localeAssets.generated.ts';
+import { FontsVersion } from '#basis/faces/faces.generated.ts';
+import { stringToLocale, toBCP47 } from '#locale/Locale.ts';
+import { getLanguageDirection } from '#locale/LanguageCode.ts';
 
 type FallbackStrings = {
     wordplay: string;

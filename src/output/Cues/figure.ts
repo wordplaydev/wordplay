@@ -12,15 +12,15 @@
  * its own predicates: the animation needs a DOM and vitest runs in node.
  */
 
-import type { AnimationEvent } from '@output/Cues/animations';
+import type { AnimationEvent } from '#output/Cues/animations.ts';
 import {
     Cues,
     FigureSpacingMs,
     MaxCuesPerFigure,
     MinimumCueMs,
     type AnimationCue,
-} from '@output/Cues/cues';
-import type Pose from '@output/animation/Pose';
+} from '#output/Cues/cues.ts';
+import type Pose from '#output/animation/Pose.ts';
 
 /** One sounded moment of an animation. */
 export type PoseCue = {

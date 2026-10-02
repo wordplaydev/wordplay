@@ -1,7 +1,7 @@
 import {
     buildManifest,
     type ManifestSource,
-} from '@util/verify-locales/generateManifests';
+} from '#util/verify-locales/generateManifests.ts';
 import { expect, test } from 'vitest';
 
 /** State a case as just the fields a manifest is built from. */

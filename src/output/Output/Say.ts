@@ -1,20 +1,20 @@
-import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
+import { getBind } from '#locale/getBind.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
 import Decimal from 'decimal.js';
-import toStructure from '@basis/toStructure';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import Color from '@output/Color/Color';
-import Output, { DefaultStyle } from '@output/Output/Output';
-import { toText } from '@output/Output/Phrase';
-import Place from '@output/Place/Place';
-import { DefinitePose } from '@output/animation/Pose';
-import type RenderContext from '@output/RenderContext';
-import type { NameGenerator } from '@output/Output/Stage';
-import type TextValue from '@values/TextValue';
-import { getOutputInput } from '@output/Output/Valued';
+import toStructure from '#basis/toStructure.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import Color from '#output/Color/Color.ts';
+import Output, { DefaultStyle } from '#output/Output/Output.ts';
+import { toText } from '#output/Output/Phrase.ts';
+import Place from '#output/Place/Place.ts';
+import { DefinitePose } from '#output/animation/Pose.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import type { NameGenerator } from '#output/Output/Stage.ts';
+import type TextValue from '#values/TextValue.ts';
+import { getOutputInput } from '#output/Output/Valued.ts';
 
 export function createSayType(locales: Locales) {
     return toStructure(`
@@ -126,7 +126,7 @@ export default class Say extends Output {
         return undefined;
     }
 
-    gatherFaces(set: Set<import('@basis/faces/Fonts').SupportedFace>) {
+    gatherFaces(set: Set<import('#basis/faces/Fonts.ts').SupportedFace>) {
         return set;
     }
 }

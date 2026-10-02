@@ -1,14 +1,18 @@
-import { BlockKind } from '@nodes/Block';
-import Borrow from '@nodes/Borrow';
-import type Doc from '@nodes/Doc';
-import Docs from '@nodes/Docs';
-import Program from '@nodes/Program';
-import type Reference from '@nodes/Reference';
-import type Token from '@nodes/Token';
-import { Sym } from '@nodes/Sym';
-import type Tokens from '@parser/Tokens';
-import { parseBlock, parseDocs, parseReference } from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
+import { BlockKind } from '#nodes/Block.ts';
+import Borrow from '#nodes/Borrow.ts';
+import type Doc from '#nodes/Doc.ts';
+import Docs from '#nodes/Docs.ts';
+import Program from '#nodes/Program.ts';
+import type Reference from '#nodes/Reference.ts';
+import type Token from '#nodes/Token.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Tokens from '#parser/Tokens.ts';
+import {
+    parseBlock,
+    parseDocs,
+    parseReference,
+} from '#parser/parseExpression.ts';
+import { toTokens } from '#parser/toTokens.ts';
 
 export function toProgram(code: string): Program {
     return parseProgram(toTokens(code));

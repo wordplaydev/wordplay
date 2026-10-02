@@ -1,13 +1,13 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
-import { testConflict } from '@conflicts/TestUtilities';
-import { ExpectedCollection } from '@conflicts/ExpectedCollection';
-import { ExpectedThis } from '@conflicts/ExpectedThis';
-import { MisplacedThis } from '@conflicts/MisplacedThis';
-import Translate from '@nodes/Translate';
-import This from '@nodes/This';
-import ListValue from '@values/ListValue';
-import StructureValue from '@values/StructureValue';
+import evaluateCode from '#runtime/evaluate.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import { ExpectedCollection } from '#conflicts/ExpectedCollection.ts';
+import { ExpectedThis } from '#conflicts/ExpectedThis.ts';
+import { MisplacedThis } from '#conflicts/MisplacedThis.ts';
+import Translate from '#nodes/Translate.ts';
+import This from '#nodes/This.ts';
+import ListValue from '#values/ListValue.ts';
+import StructureValue from '#values/StructureValue.ts';
 
 test.each([
     // Lists

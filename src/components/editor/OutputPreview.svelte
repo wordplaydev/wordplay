@@ -1,11 +1,11 @@
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import OutputView from '@components/output/OutputView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import type Project from '@db/projects/Project';
-    import type Source from '@nodes/Source';
-    import type Evaluator from '@runtime/Evaluator';
-    import ExceptionValue from '@values/ExceptionValue';
+    import Emoji from '#components/app/Emoji.svelte';
+    import OutputView from '#components/output/OutputView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import type Project from '#db/projects/Project.ts';
+    import type Source from '#nodes/Source.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
+    import ExceptionValue from '#values/ExceptionValue.ts';
 
     interface Props {
         /** The project whose source output is previewed. */

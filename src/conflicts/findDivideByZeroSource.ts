@@ -1,6 +1,6 @@
-import type Context from '@nodes/Context';
-import type Expression from '@nodes/Expression';
-import walkTypeSources from '@conflicts/walkTypeSources';
+import type Context from '#nodes/Context.ts';
+import type Expression from '#nodes/Expression.ts';
+import walkTypeSources from '#conflicts/walkTypeSources.ts';
 
 /**
  * If the ø in `given`'s type traces back to a `÷`/`%` whose divisor could be

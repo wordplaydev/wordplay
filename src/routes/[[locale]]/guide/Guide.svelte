@@ -1,28 +1,28 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
+    import { browser } from '$app/env';
     import { afterNavigate } from '$app/navigation';
     import { page } from '$app/state';
-    import type { Crumb } from '@components/app/getBreadcrumbs';
-    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
-    import Header from '@components/app/Header.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Documentation from '@components/concepts/Documentation.svelte';
-    import { DefaultMode, Modes } from '@components/concepts/GuideHistory';
-    import placeLabel from '@components/concepts/placeLabel';
+    import type { Crumb } from '#components/app/getBreadcrumbs.ts';
+    import Breadcrumbs from '#components/app/Breadcrumbs.svelte';
+    import Header from '#components/app/Header.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Documentation from '#components/concepts/Documentation.svelte';
+    import { DefaultMode, Modes } from '#components/concepts/GuideHistory.ts';
+    import placeLabel from '#components/concepts/placeLabel.ts';
     import {
         setConceptIndex,
         setConceptPath,
         setProject,
-    } from '@components/project/Contexts';
-    import type Concept from '@concepts/Concept';
-    import ConceptIndex from '@concepts/ConceptIndex';
+    } from '#components/project/Contexts.ts';
+    import type Concept from '#concepts/Concept.ts';
+    import ConceptIndex from '#concepts/ConceptIndex.ts';
     import {
         currentConcept,
         popTo,
         remapConcepts,
         type GuideHistory,
         type GuidePlace,
-    } from '@components/concepts/GuideHistory';
+    } from '#components/concepts/GuideHistory.ts';
     import {
         getConceptFromURL,
         getEnumFromURL,
@@ -34,19 +34,19 @@
         setConceptInURL,
         setEnumInURL,
         setQueryInURL,
-    } from '@concepts/ConceptParams';
-    import KitView from '@components/concepts/KitView.svelte';
-    import { Purpose } from '@concepts/Purpose';
-    import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
-    import { HowTos, Locales, locales } from '@db/Database';
-    import type GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
-    import Project from '@db/projects/Project';
-    import Source from '@nodes/Source';
+    } from '#concepts/ConceptParams.ts';
+    import KitView from '#components/concepts/KitView.svelte';
+    import { Purpose } from '#concepts/Purpose.ts';
+    import { DOCUMENTATION_SYMBOL } from '#parser/Symbols.ts';
+    import { HowTos, Locales, locales } from '#db/Database.ts';
+    import type GalleryHowTo from '#db/howtos/HowToDatabase.svelte.ts';
+    import Project from '#db/projects/Project.ts';
+    import Source from '#nodes/Source.ts';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
-    import { must } from '@util/nullable';
-    import { localeGoto } from '@util/localeGoto';
-    import { debounced } from '@util/debounce.svelte';
+    import { must } from '#util/nullable.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
 
     // Initialize concept with URL.
     let concept: Concept | undefined = $state(undefined);
@@ -133,7 +133,7 @@
         version: number | undefined = undefined,
     ) {
         localeGoto(name === undefined ? '/guide' : kitURL(name, version), {
-            noScroll: true,
+            reset: false,
         });
     }
 
@@ -364,7 +364,7 @@
             // reader mid-choice. The `kit` guard above is the same bug, found
             // once already. Each setter deletes its own key when absent, so
             // preserving the rest is safe.
-            const newParams = new URLSearchParams(page.url.searchParams);
+            const newParams = new URLSearchParams(page.url.search);
             setConceptInURL(concept ?? undefined, index, newParams);
             setQueryInURL(debouncedSearch.current, newParams);
             setEnumInURL(
@@ -380,16 +380,15 @@
                 Purpose.Outputs,
             );
 
-            const newSearch = newParams.toString()
+            const newSearch: '' | `?${string}` = newParams.toString()
                 ? `?${newParams.toString()}`
                 : '';
             if (window.location.search !== newSearch) {
                 localeGoto(`/guide${newSearch}`, {
-                    replaceState: window.location.search === '',
+                    replace: window.location.search === '',
                     // Keep focus (and scroll) so syncing the URL while the creator
                     // is typing in the search field doesn't steal focus from it.
-                    keepFocus: true,
-                    noScroll: true,
+                    reset: false,
                 });
             }
         }

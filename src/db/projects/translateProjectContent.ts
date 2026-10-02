@@ -1,51 +1,54 @@
-import type Locale from '@locale/Locale';
-import { localeToString, stringToLocale } from '@locale/Locale';
-import type LanguageCode from '@locale/LanguageCode';
-import type LocaleText from '@locale/LocaleText';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import Doc from '@nodes/Doc';
-import Docs from '@nodes/Docs';
-import Evaluate from '@nodes/Evaluate';
-import FormattedLiteral from '@nodes/FormattedLiteral';
-import FormattedTranslation from '@nodes/FormattedTranslation';
-import Input from '@nodes/Input';
-import Language from '@nodes/Language';
-import Markup from '@nodes/Markup';
-import Name from '@nodes/Name';
-import Names from '@nodes/Names';
-import NameType from '@nodes/NameType';
-import type WordplayNode from '@nodes/Node';
-import { getImplicitInputBind } from '@nodes/inputShorthand';
-import Reference from '@nodes/Reference';
-import Sym from '@nodes/Sym';
-import type Definition from '@nodes/Definition';
-import type Source from '@nodes/Source';
-import TextLiteral from '@nodes/TextLiteral';
-import Token from '@nodes/Token';
-import Translation from '@nodes/Translation';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import { getShadowingKeywordWords } from '@parser/Keywords';
-import { isName } from '@parser/Tokenizer';
-import { toMarkup } from '@parser/toMarkup';
-import type Project from '@db/projects/Project';
-import { normalizeSoftBreaks, type RawTranslator } from '@db/translateMarkup';
+import type Locale from '#locale/Locale.ts';
+import { localeToString, stringToLocale } from '#locale/Locale.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import Doc from '#nodes/Doc.ts';
+import Docs from '#nodes/Docs.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+import FormattedTranslation from '#nodes/FormattedTranslation.ts';
+import Input from '#nodes/Input.ts';
+import Language from '#nodes/Language.ts';
+import Markup from '#nodes/Markup.ts';
+import Name from '#nodes/Name.ts';
+import Names from '#nodes/Names.ts';
+import NameType from '#nodes/NameType.ts';
+import type WordplayNode from '#nodes/Node.ts';
+import { getImplicitInputBind } from '#nodes/inputShorthand.ts';
+import Reference from '#nodes/Reference.ts';
+import Sym from '#nodes/Sym.ts';
+import type Definition from '#nodes/Definition.ts';
+import type Source from '#nodes/Source.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import Token from '#nodes/Token.ts';
+import Translation from '#nodes/Translation.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import { getShadowingKeywordWords } from '#parser/Keywords.ts';
+import { isName } from '#parser/Tokenizer.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
+import type Project from '#db/projects/Project.ts';
+import {
+    normalizeSoftBreaks,
+    type RawTranslator,
+} from '#db/translateMarkup.ts';
 import {
     getComparedTextValues,
     shouldTranslateText,
-} from '@db/projects/translatableText';
-import { canonicalizeKeyName } from '@input/Key/Key';
-import { localizeKeyName } from '@input/Key/keyNames';
-import { WellKnownKeys } from '@input/Key/KeyboardKeys';
-import { translationProblem } from '@db/projects/translationGuards';
+} from '#db/projects/translatableText.ts';
+import { canonicalizeKeyName } from '#input/Key/Key.ts';
+import { localizeKeyName } from '#input/Key/keyNames.ts';
+import { WellKnownKeys } from '#input/Key/KeyboardKeys.ts';
+import { translationProblem } from '#db/projects/translationGuards.ts';
 import {
     chooseNameSource,
     chooseTextSource,
-} from '@db/projects/translationSources';
+} from '#db/projects/translationSources.ts';
 
 // Re-exported so existing importers of this path keep working; the type now
 // lives with the reusable markup-translation helpers.
-export type { RawTranslator } from '@db/translateMarkup';
+export type { RawTranslator } from '#db/translateMarkup.ts';
 
 // Convert any camel cased word into space separated words.
 const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;

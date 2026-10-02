@@ -1,6 +1,6 @@
 <script lang="ts" module>
-    import type Spaces from '@parser/Spaces';
-    import type { SourceDiff } from '@edit/diff/sourceDiff';
+    import type Spaces from '#parser/Spaces.ts';
+    import type { SourceDiff } from '#edit/diff/sourceDiff.ts';
 
     export type Format = {
         block: boolean;
@@ -46,15 +46,15 @@
 </script>
 
 <script lang="ts" generics="NodeType extends Node">
-    import EmptyView from '@components/editor/blocks/EmptyView.svelte';
-    import InsertionPointView from '@components/editor/caret/InsertionPointView.svelte';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
-    import getNodeView from '@components/editor/nodes/nodeToView';
-    import ReferenceMarker from '@components/editor/nodes/ReferenceMarker.svelte';
-    import DiffOnlyNowView from '@components/editor/nodes/DiffOnlyNowView.svelte';
-    import Space from '@components/editor/nodes/Space.svelte';
-    import TokenView from '@components/editor/tokens/TokenView.svelte';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
+    import EmptyView from '#components/editor/blocks/EmptyView.svelte';
+    import InsertionPointView from '#components/editor/caret/InsertionPointView.svelte';
+    import MenuTrigger from '#components/editor/menu/MenuTrigger.svelte';
+    import getNodeView from '#components/editor/nodes/nodeToView.ts';
+    import ReferenceMarker from '#components/editor/nodes/ReferenceMarker.svelte';
+    import DiffOnlyNowView from '#components/editor/nodes/DiffOnlyNowView.svelte';
+    import Space from '#components/editor/nodes/Space.svelte';
+    import TokenView from '#components/editor/tokens/TokenView.svelte';
+    import FoldToggle from '#components/editor/util/FoldToggle.svelte';
     import {
         getDragTarget,
         getEffectiveFolded,
@@ -68,28 +68,28 @@
         getReferencedMessages,
         getSpaces,
         getSteppedEvaluation,
-    } from '@components/project/Contexts';
-    import ValueView from '@components/values/ValueView.svelte';
-    import { locales, spaceIndicator, wrap } from '@db/Database';
-    import { InsertionPoint } from '@edit/drag/Drag';
-    import Block from '@nodes/Block';
-    import { LanguageTagged } from '@nodes/LanguageTagged';
-    import type Definition from '@nodes/Definition';
-    import type { LanguageDeriver } from '@nodes/DerivedLanguage';
-    import Expression from '@nodes/Expression';
-    import Node from '@nodes/Node';
-    import type { UnitDeriver } from '@nodes/NumberType';
-    import type Root from '@nodes/Root';
-    import Source from '@nodes/Source';
-    import Token from '@nodes/Token';
+    } from '#components/project/Contexts.ts';
+    import ValueView from '#components/values/ValueView.svelte';
+    import { locales, spaceIndicator, wrap } from '#db/Database.ts';
+    import { InsertionPoint } from '#edit/drag/Drag.ts';
+    import Block from '#nodes/Block.ts';
+    import { LanguageTagged } from '#nodes/LanguageTagged.ts';
+    import type Definition from '#nodes/Definition.ts';
+    import type { LanguageDeriver } from '#nodes/DerivedLanguage.ts';
+    import Expression from '#nodes/Expression.ts';
+    import Node from '#nodes/Node.ts';
+    import type { UnitDeriver } from '#nodes/NumberType.ts';
+    import type Root from '#nodes/Root.ts';
+    import Source from '#nodes/Source.ts';
+    import Token from '#nodes/Token.ts';
     import {
         EXPLICIT_SPACE_TEXT,
         EXPLICIT_TAB_TEXT,
         SPACE_TEXT,
         TAB_TEXT,
-    } from '@parser/Spaces';
-    import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
-    import type KeysOfType from '@util/KeysOfType';
+    } from '#parser/Spaces.ts';
+    import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '#parser/Symbols.ts';
+    import type KeysOfType from '#util/KeysOfType.ts';
 
     interface Props {
         /** The parent node containing the field to render. We take this instead of the field value so we can render a placeholder for empty values in blocks mode. */

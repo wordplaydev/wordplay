@@ -1,12 +1,12 @@
-import type Locales from '@locale/Locales';
-import Evaluate from '@nodes/Evaluate';
-import Reference from '@nodes/Reference';
-import type { Moved, OutputsByName } from '@output/animation/Animator';
-import type Output from '@output/Output/Output';
-import Say from '@output/Output/Say';
-import Sequence from '@output/animation/Sequence';
+import type Locales from '#locale/Locales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Reference from '#nodes/Reference.ts';
+import type { Moved, OutputsByName } from '#output/animation/Animator.ts';
+import type Output from '#output/Output/Output.ts';
+import Say from '#output/Output/Say.ts';
+import Sequence from '#output/animation/Sequence.ts';
 import describeDirection, { describePlace } from './direction';
-import { spokenText } from '@locale/spokenLanguage';
+import { spokenText } from '#locale/spokenLanguage.ts';
 
 /**
  * How many changed outputs are listed individually before we summarize them

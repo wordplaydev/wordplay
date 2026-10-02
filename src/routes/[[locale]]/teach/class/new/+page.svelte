@@ -6,27 +6,27 @@
 </script>
 
 <script lang="ts">
-    import Centered from '@components/app/Centered.svelte';
-    import downloadBytes from '@util/download';
-    import { csvFileBytes, writeCSVRows } from '@values/export/csv';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import CreatorList from '@components/project/CreatorList.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Labeled from '@components/widgets/Labeled.svelte';
-    import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { usernameAvailable } from '@db/creators/usernames';
-    import { UsernameLength } from '@db/creators/username';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import { getFunctionsInstance } from '@db/firebase';
+    import Centered from '#components/app/Centered.svelte';
+    import downloadBytes from '#util/download.ts';
+    import { csvFileBytes, writeCSVRows } from '#values/export/csv.ts';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import CreatorList from '#components/project/CreatorList.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Labeled from '#components/widgets/Labeled.svelte';
+    import LabeledTextbox from '#components/widgets/LabeledTextbox.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { usernameAvailable } from '#db/creators/usernames.ts';
+    import { UsernameLength } from '#db/creators/username.ts';
+    import Checkbox from '#components/widgets/Checkbox.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import { getFunctionsInstance } from '#db/firebase.ts';
     import { httpsCallable } from 'firebase/functions';
     import type {
         ClassSigninMethod,
@@ -41,7 +41,7 @@
         type StudentWithCredentials,
     } from '../credentials';
     import { everyRowHasAnAddress, readRoster } from '../roster';
-    import { localeGoto } from '@util/localeGoto';
+    import { localeGoto } from '#util/localeGoto.ts';
 
     /** The state to store the name of the class. */
     let name = $state('');

@@ -12,13 +12,13 @@
  * not be used for either.
  */
 
-import type Bubble from '@output/Bubble/Bubble';
-import type { SupportedFace } from '@basis/faces/Fonts';
-import TextValue from '@values/TextValue';
-import measureFormats from '@output/Output/measureFormats';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
-import { splitCharacterRefs } from '@output/Output/splitCharacterRefs';
-import type { FormattedText } from '@output/Output/Phrase';
+import type Bubble from '#output/Bubble/Bubble.ts';
+import type { SupportedFace } from '#basis/faces/Fonts.ts';
+import TextValue from '#values/TextValue.ts';
+import measureFormats from '#output/Output/measureFormats.ts';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
+import { splitCharacterRefs } from '#output/Output/splitCharacterRefs.ts';
+import type { FormattedText } from '#output/Output/Phrase.ts';
 
 /** `padding: 0.3em 0.5em` plus `border: 0.06em`, under `box-sizing: border-box`. */
 const HorizontalChrome = 2 * 0.5 + 2 * 0.06;

@@ -1,5 +1,5 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import { getConventionsForPrompt } from '@locale/getConventionsForPrompt';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { getConventionsForPrompt } from '#locale/getConventionsForPrompt.ts';
 import { expect, test } from 'vitest';
 
 test('with no target, contributes nothing', () => {

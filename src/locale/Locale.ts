@@ -1,7 +1,7 @@
-import type LanguageCode from '@locale/LanguageCode';
-import { getLocaleLanguages, getLocaleRegions } from '@locale/LocaleText';
-import type { RegionCode } from '@locale/Regions';
-import { isNonEmpty } from '@util/nullable';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import { getLocaleLanguages, getLocaleRegions } from '#locale/LocaleText.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import { isNonEmpty } from '#util/nullable.ts';
 
 export type Locale = {
     /** An ISO 639-1 language code. For multilingual locales this is the

@@ -1,7 +1,7 @@
-import type Project from '@db/projects/Project';
-import type { ProjectFolders } from '@db/settings/ProjectFoldersSetting';
-import type { ProjectSort } from '@db/settings/ProjectSortSetting';
-import sortProjects from '@db/projects/sortProjects';
+import type Project from '#db/projects/Project.ts';
+import type { ProjectFolders } from '#db/settings/ProjectFoldersSetting.ts';
+import type { ProjectSort } from '#db/settings/ProjectSortSetting.ts';
+import sortProjects from '#db/projects/sortProjects.ts';
 
 /** A folder and the projects filed under it, ready to render. */
 export type ResolvedFolder = {

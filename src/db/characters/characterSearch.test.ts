@@ -1,7 +1,7 @@
-import type { Character } from '@db/characters/Character';
-import { buildCharacterSearch } from '@db/characters/characterSearch';
-import { searchItems } from '@util/search';
-import { must } from '@util/nullable';
+import type { Character } from '#db/characters/Character.ts';
+import { buildCharacterSearch } from '#db/characters/characterSearch.ts';
+import { searchItems } from '#util/search.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 
 const L = 'en';

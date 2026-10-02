@@ -1,6 +1,6 @@
-import evaluateCode from '@runtime/evaluate';
-import sayUtterances from '@output/Speech/sayUtterances';
-import TextValue from '@values/TextValue';
+import evaluateCode from '#runtime/evaluate.ts';
+import sayUtterances from '#output/Speech/sayUtterances.ts';
+import TextValue from '#values/TextValue.ts';
 import { expect, test } from 'vitest';
 
 function text(code: string): TextValue {

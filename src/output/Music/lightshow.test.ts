@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import type { InstrumentActivity } from '@output/Music/activity';
+import type { InstrumentActivity } from '#output/Music/activity.ts';
 import {
     blastFor,
     fall,
@@ -12,7 +12,7 @@ import {
     spectrumBands,
     strike,
     tintToCSS,
-} from '@output/Music/lightshow';
+} from '#output/Music/lightshow.ts';
 
 function sounding(instrument: string, level: number): InstrumentActivity {
     return { instrument, level, degree: 1, pan: 0, track: 0, strike: 1 };

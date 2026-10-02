@@ -1,4 +1,4 @@
-import { Sym, type SymType } from '@nodes/Sym';
+import { Sym, type SymType } from '#nodes/Sym.ts';
 
 const TokenCategoryDelimiter = 'delimiter';
 const TokenCategoryRelation = 'relation';

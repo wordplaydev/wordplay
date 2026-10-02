@@ -1,13 +1,18 @@
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import Node, { list, node, type Grammar, type Replacement } from '@nodes/Node';
-import PatternBackref from '@nodes/PatternBackref';
-import PatternClass from '@nodes/PatternClass';
-import PatternLiteralText from '@nodes/PatternLiteralText';
-import PatternAtom from '@nodes/PatternAtom';
-import PatternRange from '@nodes/PatternRange';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import Node, {
+    list,
+    node,
+    type Grammar,
+    type Replacement,
+} from '#nodes/Node.ts';
+import PatternBackref from '#nodes/PatternBackref.ts';
+import PatternClass from '#nodes/PatternClass.ts';
+import PatternLiteralText from '#nodes/PatternLiteralText.ts';
+import PatternAtom from '#nodes/PatternAtom.ts';
+import PatternRange from '#nodes/PatternRange.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
 
 /**
  * A glyph set `{ … }` in a pattern, matching any one grapheme listed inside.

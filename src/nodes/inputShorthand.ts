@@ -1,13 +1,13 @@
-import Bind from '@nodes/Bind';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import BooleanType from '@nodes/BooleanType';
-import type Context from '@nodes/Context';
-import Evaluate from '@nodes/Evaluate';
-import Input from '@nodes/Input';
-import NoneType from '@nodes/NoneType';
-import Reference from '@nodes/Reference';
-import { Sym } from '@nodes/Sym';
-import type Type from '@nodes/Type';
+import Bind from '#nodes/Bind.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import type Context from '#nodes/Context.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Input from '#nodes/Input.ts';
+import NoneType from '#nodes/NoneType.ts';
+import Reference from '#nodes/Reference.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Type from '#nodes/Type.ts';
 
 /**
  * A bare name among an {@link Evaluate}'s inputs that fills a boolean input of that name.

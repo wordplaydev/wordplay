@@ -1,18 +1,18 @@
 <script lang="ts">
-    import Names from '@nodes/Names';
-    import { Sym } from '@nodes/Sym';
+    import Names from '#nodes/Names.ts';
+    import { Sym } from '#nodes/Sym.ts';
     import {
         BIND_SYMBOL,
         EVAL_CLOSE_SYMBOL,
         EVAL_OPEN_SYMBOL,
-    } from '@parser/Symbols';
-    import type StructureValue from '@values/StructureValue';
-    import { locales } from '@db/Database';
-    import { toColor } from '@output/Color/Color';
-    import { getInteractive } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import SymbolView from '@components/values/SymbolView.svelte';
-    import ValueView from '@components/values/ValueView.svelte';
+    } from '#parser/Symbols.ts';
+    import type StructureValue from '#values/StructureValue.ts';
+    import { locales } from '#db/Database.ts';
+    import { toColor } from '#output/Color/Color.ts';
+    import { getInteractive } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import SymbolView from '#components/values/SymbolView.svelte';
+    import ValueView from '#components/values/ValueView.svelte';
 
     interface Props {
         value: StructureValue;

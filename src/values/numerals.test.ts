@@ -1,12 +1,12 @@
-import NumberLiteral from '@nodes/NumberLiteral';
-import { Sym, type SymType } from '@nodes/Sym';
-import NumberValue from '@values/NumberValue';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import { Sym, type SymType } from '#nodes/Sym.ts';
+import NumberValue from '#values/NumberValue.ts';
 import {
     NumeralSyms,
     numeralDigits,
     renderBase,
     renderNumeral,
-} from '@values/numerals';
+} from '#values/numerals.ts';
 import Decimal from 'decimal.js';
 import { expect, test } from 'vitest';
 

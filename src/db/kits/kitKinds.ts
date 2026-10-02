@@ -13,21 +13,21 @@
  * Computed on the client at publish, because `functions/` cannot reach the parser and a
  * type is unreadable without one. See `kinds` in `Kit.ts` for what that costs.
  */
-import type Context from '@nodes/Context';
-import Bind from '@nodes/Bind';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import ListType from '@nodes/ListType';
-import MapType from '@nodes/MapType';
-import NoneType from '@nodes/NoneType';
-import SetType from '@nodes/SetType';
-import type Source from '@nodes/Source';
-import StructureDefinition from '@nodes/StructureDefinition';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
-import StructureType from '@nodes/StructureType';
-import type Type from '@nodes/Type';
-import UnionType from '@nodes/UnionType';
-import { kitExports } from '@nodes/publishedShare';
+import type Context from '#nodes/Context.ts';
+import Bind from '#nodes/Bind.ts';
+import ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import ListType from '#nodes/ListType.ts';
+import MapType from '#nodes/MapType.ts';
+import NoneType from '#nodes/NoneType.ts';
+import SetType from '#nodes/SetType.ts';
+import type Source from '#nodes/Source.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import StructureDefinitionType from '#nodes/StructureDefinitionType.ts';
+import StructureType from '#nodes/StructureType.ts';
+import type Type from '#nodes/Type.ts';
+import UnionType from '#nodes/UnionType.ts';
+import { kitExports } from '#nodes/publishedShare.ts';
 
 /** A bound on the index, not a curation — see `MAX_WORDS` in `kitEdited.ts`. */
 export const MAX_KINDS = 20;

@@ -12,8 +12,8 @@ import speech, {
     ReadAloudSource,
     speakingBoundary,
     speakingNow,
-} from '@output/Speech/speech';
-import { clampRate, type Utterance } from '@output/Speech/speechQueue';
+} from '#output/Speech/speech.ts';
+import { clampRate, type Utterance } from '#output/Speech/speechQueue.ts';
 import {
     getKeywordWords,
     getSymKey,
@@ -22,8 +22,8 @@ import {
     type Piece,
     type Place,
     type ReadingChunk,
-} from '@components/speech/reading';
-import type { KeywordId } from '@parser/Keywords';
+} from '#components/speech/reading.ts';
+import type { KeywordId } from '#parser/Keywords.ts';
 import { writable, type Readable } from 'svelte/store';
 
 /**

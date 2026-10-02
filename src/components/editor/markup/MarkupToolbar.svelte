@@ -2,11 +2,11 @@
     import {
         MarkupModeCommand,
         MarkupToolbarGroups,
-    } from '@components/editor/markup/MarkupCommands';
-    import Separator from '@components/project/Separator.svelte';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
+    } from '#components/editor/markup/MarkupCommands.ts';
+    import Separator from '#components/project/Separator.svelte';
+    import CommandButton from '#components/widgets/CommandButton.svelte';
+    import OverflowToolbar from '#components/widgets/OverflowToolbar.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
 
     interface Props {
         /** The id of the editor these commands act on. */

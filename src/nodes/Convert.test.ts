@@ -1,9 +1,9 @@
-import { UnknownConversion } from '@conflicts/UnknownConversion';
-import Convert from '@nodes/Convert';
-import { testConflict } from '@conflicts/TestUtilities';
-import { NONE_SYMBOL, THIS_SYMBOL } from '@parser/Symbols';
+import { UnknownConversion } from '#conflicts/UnknownConversion.ts';
+import Convert from '#nodes/Convert.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import { NONE_SYMBOL, THIS_SYMBOL } from '#parser/Symbols.ts';
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
+import evaluateCode from '#runtime/evaluate.ts';
 
 test.each([
     ["⊤→''", '"⊤"'],

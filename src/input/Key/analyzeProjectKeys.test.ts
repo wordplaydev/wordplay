@@ -1,8 +1,8 @@
 import { expect, test, vi } from 'vitest';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
-import { Locales } from '@db/Database';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { Locales } from '#db/Database.ts';
 import { readProjects } from '../../examples/readProjects';
 import analyzeProjectKeys, { type KeyAnalysis } from './analyzeProjectKeys';
 

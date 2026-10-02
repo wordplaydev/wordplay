@@ -2,11 +2,11 @@ import Conflict, {
     ConflictSeverity,
     type ConflictLocaleAccessor,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
 
 /**
  * Shared base for the pattern-sublanguage conflicts (LANGUAGE.md). They all share

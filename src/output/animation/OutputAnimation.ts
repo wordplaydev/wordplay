@@ -1,44 +1,44 @@
-import { getPlacingMotion } from '@input/Motion/Motion';
-import { includesString, keysOf } from '@util/nullable';
+import { getPlacingMotion } from '#input/Motion/Motion.ts';
+import { includesString, keysOf } from '#util/nullable.ts';
 import {
     cancelPoseMusic,
     listeningForPoseMusic,
     reportPoseMusic,
-} from '@output/animation/poseMusicEvents';
+} from '#output/animation/poseMusicEvents.ts';
 import {
     shouldStrike,
     strikesFor,
     type Struck,
-} from '@output/animation/poseMusic';
+} from '#output/animation/poseMusic.ts';
 import {
     cancelAnimation,
     listeningForAnimations,
     reportAnimation,
-} from '@output/Cues/animations';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import { EasingNames, Easings } from '@output/animation/easing';
-import type Animator from '@output/animation/Animator';
-import { getAnimatingNodes } from '@output/animation/animatingNodes';
+} from '#output/Cues/animations.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { EasingNames, Easings } from '#output/animation/easing.ts';
+import type Animator from '#output/animation/Animator.ts';
+import { getAnimatingNodes } from '#output/animation/animatingNodes.ts';
 import type {
     Orientation,
     OutputInfo,
     OutputName,
-} from '@output/animation/Animator';
-import type Node from '@nodes/Node';
-import type Output from '@output/Output/Output';
+} from '#output/animation/Animator.ts';
+import type Node from '#nodes/Node.ts';
+import type Output from '#output/Output/Output.ts';
 import {
     PX_PER_METER,
     sizeToPx,
     toOutputTransform,
-} from '@output/Output/outputToCSS';
-import Phrase from '@output/Output/Phrase';
-import Place from '@output/Place/Place';
-import Pose from '@output/animation/Pose';
-import type RenderContext from '@output/RenderContext';
-import Sequence from '@output/animation/Sequence';
-import Stage from '@output/Output/Stage';
-import Transition from '@output/animation/Transition';
+} from '#output/Output/outputToCSS.ts';
+import Phrase from '#output/Output/Phrase.ts';
+import Place from '#output/Place/Place.ts';
+import Pose from '#output/animation/Pose.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import Sequence from '#output/animation/Sequence.ts';
+import Stage from '#output/Output/Stage.ts';
+import Transition from '#output/animation/Transition.ts';
 
 export const AnimationState = {
     Entering: 'entering',

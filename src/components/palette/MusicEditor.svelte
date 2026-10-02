@@ -13,26 +13,26 @@
      * `TextStyleEditor` is rendered after a phrase's face — a bespoke editor
      * rather than a `property.type`, since what it edits is a list of lists.
      */
-    import { Projects } from '@db/projects/Projects';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import EditableSheet from '@components/palette/EditableSheet.svelte';
-    import PaletteProperty from '@components/palette/PaletteProperty.svelte';
+    import { Projects } from '#db/projects/Projects.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import MarkupHtmlView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import EditableSheet from '#components/palette/EditableSheet.svelte';
+    import PaletteProperty from '#components/palette/PaletteProperty.svelte';
     import {
         getKeyboardEditIdle,
         getResetKeyboardIdle,
         getSelectedOutput,
         IdleKind,
-    } from '@components/project/Contexts';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
+    } from '#components/project/Contexts.ts';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
     import readMusic, {
         isEditable,
         musicSignature,
-    } from '@edit/output/editableMusic';
-    import { getTrackProperties } from '@edit/output/MusicProperties';
+    } from '#edit/output/editableMusic.ts';
+    import { getTrackProperties } from '#edit/output/MusicProperties.ts';
     import {
         inserted,
         moved as movedEntry,
@@ -45,22 +45,22 @@
         withDegreeAt,
         withDuration,
         entryFor,
-    } from '@edit/output/editNotes';
-    import OutputExpression from '@edit/output/OutputExpression';
-    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
-    import Evaluate from '@nodes/Evaluate';
-    import ListLiteral from '@nodes/ListLiteral';
-    import type Node from '@nodes/Node';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
+    } from '#edit/output/editNotes.ts';
+    import OutputExpression from '#edit/output/OutputExpression.ts';
+    import OutputPropertyValueSet from '#edit/output/OutputPropertyValueSet.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import ListLiteral from '#nodes/ListLiteral.ts';
+    import type Node from '#nodes/Node.ts';
+    import NumberLiteral from '#nodes/NumberLiteral.ts';
+    import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
     import {
         ERASE_SYMBOL,
         LIST_CLOSE_SYMBOL,
         LIST_OPEN_SYMBOL,
         MUSIC_SYMBOL,
         TRACK_SYMBOL,
-    } from '@parser/Symbols';
-    import { firstSoundingBeat, noteOnset } from '@output/Music/musicData';
+    } from '#parser/Symbols.ts';
+    import { firstSoundingBeat, noteOnset } from '#output/Music/musicData.ts';
     import {
         isPreviewing,
         pause as pausePreview,
@@ -69,14 +69,14 @@
         revise as revisePreview,
         stop as stopPreview,
         wrapPlayhead,
-    } from '@output/Music/previewPlayer';
-    import type { NoteData } from '@output/Music/musicData';
-    import RecordingStudio from '@components/palette/RecordingStudio.svelte';
-    import Unit from '@nodes/Unit';
-    import { PlainDurations, Quarter } from '@output/Music/durations';
-    import Mode from '@components/widgets/Mode.svelte';
+    } from '#output/Music/previewPlayer.ts';
+    import type { NoteData } from '#output/Music/musicData.ts';
+    import RecordingStudio from '#components/palette/RecordingStudio.svelte';
+    import Unit from '#nodes/Unit.ts';
+    import { PlainDurations, Quarter } from '#output/Music/durations.ts';
+    import Mode from '#components/widgets/Mode.svelte';
     import { get } from 'svelte/store';
-    import { must } from '@util/nullable';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         project: Project;

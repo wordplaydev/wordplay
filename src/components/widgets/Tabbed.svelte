@@ -6,24 +6,24 @@
      content shown below, which is what the tab role and the visual attachment to
      the panel both communicate. -->
 <script lang="ts">
-    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '#components/project/Contexts.ts';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    } from '#components/widgets/tipTriggers.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import {
         getFocusableOption,
         getNextOption,
-    } from '@components/widgets/optionNavigation';
-    import OptionTips from '@components/widgets/OptionTips.svelte';
-    import { locales } from '@db/Database';
-    import { type MultilingualEntry } from '@locale/Locales';
-    import type LocaleText from '@locale/LocaleText';
-    import type { ModeText } from '@locale/UITexts';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { withMonoEmoji } from '@unicode/emoji';
-    import { must } from '@util/nullable';
+    } from '#components/widgets/optionNavigation.ts';
+    import OptionTips from '#components/widgets/OptionTips.svelte';
+    import { locales } from '#db/Database.ts';
+    import { type MultilingualEntry } from '#locale/Locales.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import type { ModeText } from '#locale/UITexts.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
+    import { must } from '#util/nullable.ts';
     import type { Snippet } from 'svelte';
 
     interface Props {

@@ -1,5 +1,5 @@
-import type { Utterance } from '@output/Speech/speechQueue';
-import type TextValue from '@values/TextValue';
+import type { Utterance } from '#output/Speech/speechQueue.ts';
+import type TextValue from '#values/TextValue.ts';
 
 /**
  * What a `Say` asks the speech bus to speak. A line in several languages is one

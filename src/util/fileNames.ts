@@ -1,4 +1,4 @@
-import UnicodeString from '@unicode/UnicodeString';
+import UnicodeString from '#unicode/UnicodeString.ts';
 
 /**
  * Characters no file name may contain: the ASCII controls, DEL, and the nine

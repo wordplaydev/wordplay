@@ -2,7 +2,7 @@ import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
-import { LocaleSections } from '@util/verify-locales/localeFiles';
+import { LocaleSections } from '#util/verify-locales/localeFiles.ts';
 
 /**
  * Guard for the one fragile thing about the section layout: which files in a

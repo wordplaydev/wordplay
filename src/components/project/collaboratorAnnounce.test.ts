@@ -1,10 +1,10 @@
-import DefaultLocales from '@locale/DefaultLocales';
+import DefaultLocales from '#locale/DefaultLocales.ts';
 import { describe, expect, test } from 'vitest';
 
 import {
     privilegeAnnouncement,
     removalAnnouncement,
-} from '@components/project/collaboratorAnnounce';
+} from '#components/project/collaboratorAnnounce.ts';
 
 /**
  * A live region that is handed the same string twice says nothing the second

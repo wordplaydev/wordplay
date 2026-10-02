@@ -1,4 +1,4 @@
-import Caret from '@edit/caret/Caret';
+import Caret from '#edit/caret/Caret.ts';
 import {
     enclosingExample,
     insertConceptLink,
@@ -13,15 +13,15 @@ import {
     moveByWord,
     paragraphAt,
     wordAt,
-} from '@edit/markup/formatOperations';
+} from '#edit/markup/formatOperations.ts';
 import {
     getMarkup,
     markupToSource,
     sourceToMarkup,
-} from '@edit/markup/markupSource';
-import Words from '@nodes/Words';
-import type { Format } from '@nodes/Words';
-import UnicodeString from '@unicode/UnicodeString';
+} from '#edit/markup/markupSource.ts';
+import Words from '#nodes/Words.ts';
+import type { Format } from '#nodes/Words.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

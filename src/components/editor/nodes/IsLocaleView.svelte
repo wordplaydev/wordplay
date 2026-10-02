@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type IsLocale from '@nodes/IsLocale';
+    import type IsLocale from '#nodes/IsLocale.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: IsLocale;

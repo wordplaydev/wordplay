@@ -1,15 +1,15 @@
-import { Revised } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
-import { isRevised, isUnwritten } from '@locale/LocaleText';
+import { Revised } from '#locale/Annotations.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isRevised, isUnwritten } from '#locale/LocaleText.ts';
 import {
     getPluralBranchBodies,
     getTemplateReferences,
-} from '@locale/templateInputs';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
-import { leadingAnnotations } from '@util/verify-locales/protect';
-import { getDeclaredInputs } from '@util/verify-locales/templateInputs';
+} from '#locale/templateInputs.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import { leadingAnnotations } from '#util/verify-locales/protect.ts';
+import { getDeclaredInputs } from '#util/verify-locales/templateInputs.ts';
 
 /**
  * Find plural branches whose number went missing from the translation.

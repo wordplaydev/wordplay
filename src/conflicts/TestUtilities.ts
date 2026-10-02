@@ -1,11 +1,11 @@
-import type Conflict from '@conflicts/Conflict';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Block from '@nodes/Block';
-import Expression from '@nodes/Expression';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import type Type from '@nodes/Type';
+import type Conflict from '#conflicts/Conflict.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Block from '#nodes/Block.ts';
+import Expression from '#nodes/Expression.ts';
+import type Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
+import type Type from '#nodes/Type.ts';
 import { expect } from 'vitest';
 
 /**

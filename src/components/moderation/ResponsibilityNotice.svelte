@@ -10,8 +10,8 @@
      "nobody": a creator deciding whether to share something should learn who
      can review it *before* they post, not after someone reports it. -->
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import getResponsibility from '@db/moderation/responsibility';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import getResponsibility from '#db/moderation/responsibility.ts';
     import type { Visibility } from 'shared-types';
 
     interface Props {

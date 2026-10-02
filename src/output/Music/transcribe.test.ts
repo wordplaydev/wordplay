@@ -7,9 +7,9 @@ import transcribe, {
     toMIDI,
     type Frame,
     MinNoteMs,
-} from '@output/Music/transcribe';
-import { Scales } from '@output/Music/scales';
-import { must } from '@util/nullable';
+} from '#output/Music/transcribe.ts';
+import { Scales } from '#output/Music/scales.ts';
+import { must } from '#util/nullable.ts';
 
 /** Hz for a MIDI note, the inverse of what the detector reports. */
 function hz(midi: number): number {

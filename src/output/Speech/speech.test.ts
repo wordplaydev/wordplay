@@ -41,17 +41,17 @@ class FakeSynth {
 
 let synth: FakeSynth;
 /** Imported fresh per test, since the bus is a module singleton with state. */
-let speech: typeof import('@output/Speech/speech').default;
+let speech: typeof import('#output/Speech/speech.ts').default;
 let SaySource: string;
-let speakingNow: typeof import('@output/Speech/speech').speakingNow;
-let speakingBoundary: typeof import('@output/Speech/speech').speakingBoundary;
+let speakingNow: typeof import('#output/Speech/speech.ts').speakingNow;
+let speakingBoundary: typeof import('#output/Speech/speech.ts').speakingBoundary;
 
 beforeEach(async () => {
     synth = new FakeSynth();
     vi.stubGlobal('speechSynthesis', synth);
     vi.stubGlobal('SpeechSynthesisUtterance', FakeUtterance);
     vi.resetModules();
-    const module = await import('@output/Speech/speech');
+    const module = await import('#output/Speech/speech.ts');
     speech = module.default;
     SaySource = module.SaySource;
     speakingNow = module.speakingNow;
@@ -138,7 +138,7 @@ describe('the shell actually reaches the platform', () => {
         vi.useFakeTimers();
         vi.stubGlobal('speechSynthesis', undefined);
         vi.resetModules();
-        const module = await import('@output/Speech/speech');
+        const module = await import('#output/Speech/speech.ts');
 
         module.default.speak(module.SaySource, [
             utterance('one'),

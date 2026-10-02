@@ -1,8 +1,8 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import ListLiteral from '@nodes/ListLiteral';
-import { getOutputProperties } from '@edit/output/OutputProperties';
-import OutputProperty from '@edit/output/OutputProperty';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import { getOutputProperties } from '#edit/output/OutputProperties.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
 
 export default function getShapeProperties(
     project: Project,

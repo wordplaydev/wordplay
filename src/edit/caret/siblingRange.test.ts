@@ -4,10 +4,10 @@ import {
     rangeIsRemovable,
     siblingOf,
     withoutRun,
-} from '@edit/caret/siblingRange';
-import Block from '@nodes/Block';
-import ListLiteral from '@nodes/ListLiteral';
-import Source from '@nodes/Source';
+} from '#edit/caret/siblingRange.ts';
+import Block from '#nodes/Block.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 
 /** The statements of a program's root block, which is the commonest run. */

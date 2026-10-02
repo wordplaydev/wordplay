@@ -1,10 +1,10 @@
-import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import {
     foldGlossaryForm,
     getGlossaryFormIndex,
     getGlossaryForms,
-} from '@locale/Glossary';
-import type LocaleText from '@locale/LocaleText';
+} from '#locale/Glossary.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 import { expect, test } from 'vitest';
 
 /** en-US, but with one glossary term replaced. */

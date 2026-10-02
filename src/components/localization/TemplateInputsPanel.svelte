@@ -13,16 +13,16 @@
      * Submit-gating lives at the call site (the editor wires `clean` into the
      * Submit button's `active` prop).
      */
-    import { locales } from '@db/Database';
+    import { locales } from '#db/Database.ts';
     import {
         checkPluralBranches,
         checkTemplateInputs,
         getDeclaredInputs,
         getPluralBranches,
         withoutCountMarker,
-    } from '@locale/templateInputs';
-    import { getPluralCategories, getPluralExamples } from '@locale/plurals';
-    import Notice from '@components/app/Notice.svelte';
+    } from '#locale/templateInputs.ts';
+    import { getPluralCategories, getPluralExamples } from '#locale/plurals.ts';
+    import Notice from '#components/app/Notice.svelte';
 
     interface Props {
         /** Dotted locale path being edited, e.g. `node.Bind.conflict.IncompatibleType.explanation`. */

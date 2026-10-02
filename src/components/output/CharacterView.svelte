@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { CharactersDB } from '@db/Database';
-    import { CharacterName } from '@nodes/ConceptLink';
+    import { CharactersDB } from '#db/Database.ts';
+    import { CharacterName } from '#nodes/ConceptLink.ts';
     import {
         characterToSVG,
         unknownCharacterSVG,
         type Character,
-    } from '@db/characters/Character';
+    } from '#db/characters/Character.ts';
 
     let {
         name,

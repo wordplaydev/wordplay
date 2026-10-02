@@ -1,15 +1,15 @@
 import { test, expect } from 'vitest';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
-import concretize from '@locale/concretize';
-import Source from '@nodes/Source';
-import { getLanguageDirection } from '@locale/LanguageCode';
-import evaluateCode from '@runtime/evaluate';
-import MarkupValue from '@values/MarkupValue';
-import TextValue from '@values/TextValue';
-import { createPhraseType, toPhrase } from '@output/Output/Phrase';
-import { NameGenerator } from '@output/Output/Stage';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
+import concretize from '#locale/concretize.ts';
+import Source from '#nodes/Source.ts';
+import { getLanguageDirection } from '#locale/LanguageCode.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import MarkupValue from '#values/MarkupValue.ts';
+import TextValue from '#values/TextValue.ts';
+import { createPhraseType, toPhrase } from '#output/Output/Phrase.ts';
+import { NameGenerator } from '#output/Output/Stage.ts';
 
 /** Build a Phrase from a phrase-producing program. */
 function phraseFrom(code: string) {

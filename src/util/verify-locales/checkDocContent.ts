@@ -10,14 +10,14 @@
  * how to describe where the problem is, and how loudly to complain.
  */
 
-import type LocaleText from '@locale/LocaleText';
-import { parseLocaleDoc } from '@locale/LocaleText';
-import ConceptLink from '@nodes/ConceptLink';
-import analyzeCode from '@util/verify-locales/analyzeCode';
-import isUnresolvableConceptLink from '@util/verify-locales/checkConceptLinks';
+import type LocaleText from '#locale/LocaleText.ts';
+import { parseLocaleDoc } from '#locale/LocaleText.ts';
+import ConceptLink from '#nodes/ConceptLink.ts';
+import analyzeCode from '#util/verify-locales/analyzeCode.ts';
+import isUnresolvableConceptLink from '#util/verify-locales/checkConceptLinks.ts';
 import getDocExamples, {
     type DocExample,
-} from '@util/verify-locales/docExamples';
+} from '#util/verify-locales/docExamples.ts';
 
 export type DocProblem =
     /** References that don't resolve to any concept, glossary term, or character. */

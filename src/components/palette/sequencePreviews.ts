@@ -1,16 +1,19 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import Source from '@nodes/Source';
-import { Animations, SequenceInputs } from '@output/animation/DefaultSequences';
-import { styleToCSSEasing } from '@output/animation/OutputAnimation';
-import type Pose from '@output/animation/Pose';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import Source from '#nodes/Source.ts';
+import {
+    Animations,
+    SequenceInputs,
+} from '#output/animation/DefaultSequences.ts';
+import { styleToCSSEasing } from '#output/animation/OutputAnimation.ts';
+import type Pose from '#output/animation/Pose.ts';
 import Sequence, {
     createSequenceType,
     toSequence,
-} from '@output/animation/Sequence';
-import Evaluator from '@runtime/Evaluator';
-import ListValue from '@values/ListValue';
+} from '#output/animation/Sequence.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import ListValue from '#values/ListValue.ts';
 
 /** A looping animation preview for a single sequence. */
 export type SequencePreview = { keyframes: Keyframe[]; duration: number };

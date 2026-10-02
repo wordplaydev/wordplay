@@ -1,12 +1,12 @@
-import type Conflict from '@conflicts/Conflict';
-import UnrecognizedPatternProperty from '@conflicts/UnrecognizedPatternProperty';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
-import PatternNode from '@nodes/PatternNode';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
-import { isKnownProperty } from '@runtime/pattern/properties';
+import type Conflict from '#conflicts/Conflict.ts';
+import UnrecognizedPatternProperty from '#conflicts/UnrecognizedPatternProperty.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { node, optional, type Grammar, type Replacement } from '#nodes/Node.ts';
+import PatternNode from '#nodes/PatternNode.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
+import { isKnownProperty } from '#runtime/pattern/properties.ts';
 
 /**
  * A Unicode-property qualifier on a class atom, e.g., the `/greek` in `_/greek`

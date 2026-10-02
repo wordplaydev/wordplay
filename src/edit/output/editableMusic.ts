@@ -17,24 +17,24 @@
  * computed property value.
  */
 
-import { getNumber } from '@components/palette/editOutput';
-import type Project from '@db/projects/Project';
-import type Bind from '@nodes/Bind';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import ListLiteral from '@nodes/ListLiteral';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import PropertyReference from '@nodes/PropertyReference';
-import Reference from '@nodes/Reference';
-import SetLiteral from '@nodes/SetLiteral';
-import Source from '@nodes/Source';
-import Spread from '@nodes/Spread';
-import TextLiteral from '@nodes/TextLiteral';
-import { assignWords } from '@output/Music/articulate';
-import { beatsForUnit } from '@output/Music/durations';
-import { instrumentBinds } from '@output/Music/referencedInstruments';
+import { getNumber } from '#components/palette/editOutput.ts';
+import type Project from '#db/projects/Project.ts';
+import type Bind from '#nodes/Bind.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import Reference from '#nodes/Reference.ts';
+import SetLiteral from '#nodes/SetLiteral.ts';
+import Source from '#nodes/Source.ts';
+import Spread from '#nodes/Spread.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import { assignWords } from '#output/Music/articulate.ts';
+import { beatsForUnit } from '#output/Music/durations.ts';
+import { instrumentBinds } from '#output/Music/referencedInstruments.ts';
 import {
     clampBeats,
     clampGain,
@@ -43,8 +43,8 @@ import {
     type MusicData,
     type NoteData,
     type TrackData,
-} from '@output/Music/musicData';
-import { ScaleKeys, Scales, type ScaleKey } from '@output/Music/scales';
+} from '#output/Music/musicData.ts';
+import { ScaleKeys, Scales, type ScaleKey } from '#output/Music/scales.ts';
 
 /** One track as the editor sees it. */
 export type EditableTrack = {

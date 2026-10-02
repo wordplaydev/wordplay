@@ -4,8 +4,8 @@ import {
     PALETTE_SYMBOL,
     SOURCE_SYMBOL,
     STAGE_SYMBOL,
-} from '@parser/Symbols';
-import type { TileKind } from '@components/project/TileKind';
+} from '#parser/Symbols.ts';
+import type { TileKind } from '#components/project/TileKind.ts';
 
 type TileKindMeta = { symbol: string; order: number };
 

@@ -1,4 +1,4 @@
-import DefaultLocales from '@locale/DefaultLocales';
+import DefaultLocales from '#locale/DefaultLocales.ts';
 import { expect, test } from 'vitest';
 import describeMove, {
     describeGuide,

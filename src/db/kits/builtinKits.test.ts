@@ -1,19 +1,19 @@
-import Templates from '@concepts/Templates';
-import { DB } from '@db/Database';
+import Templates from '#concepts/Templates.ts';
+import { DB } from '#db/Database.ts';
 import { KitSchema, KitVersionSchema, MAX_KIT_VERSIONS } from './Kit';
 import { MAX_KINDS } from './kitKinds';
 import { pickKitPreviewExample } from './kitPreview';
 import { checkKit } from './validateKit';
 import { resolveKits } from './resolveKits';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import { kitExports } from '@nodes/publishedShare';
-import evaluateCode from '@runtime/evaluate';
-import Evaluator from '@runtime/Evaluator';
-import ListValue from '@values/ListValue';
-import NumberValue from '@values/NumberValue';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import { kitExports } from '#nodes/publishedShare.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import ListValue from '#values/ListValue.ts';
+import NumberValue from '#values/NumberValue.ts';
 import { readdirSync } from 'node:fs';
 
 /** Where the shipped sources live — under `src/`, not `static/`, because they are

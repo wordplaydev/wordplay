@@ -1,8 +1,8 @@
-import { ConflictSeverity } from '@conflicts/Conflict';
-import SimplePatternConflict from '@conflicts/SimplePatternConflict';
-import type LocaleText from '@locale/LocaleText';
-import type Node from '@nodes/Node';
-import type PatternProperty from '@nodes/PatternProperty';
+import { ConflictSeverity } from '#conflicts/Conflict.ts';
+import SimplePatternConflict from '#conflicts/SimplePatternConflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Node from '#nodes/Node.ts';
+import type PatternProperty from '#nodes/PatternProperty.ts';
 
 /**
  * A `/property` qualifier whose name is not a known registry name, script, or

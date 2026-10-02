@@ -1,8 +1,8 @@
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import { NoteDurations } from '@output/Music/durations';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import { NoteDurations } from '#output/Music/durations.ts';
 import {
     FALSE_SYMBOL,
     FUNCTION_SYMBOL,
@@ -11,8 +11,8 @@ import {
     PATTERN_DELIMITER_SYMBOL,
     QUOTIENT_SYMBOL,
     TRUE_SYMBOL,
-} from '@parser/Symbols';
-import UnicodeString from '@unicode/UnicodeString';
+} from '#parser/Symbols.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 import { describe, expect, test } from 'vitest';
 import Commands, { Category } from './Commands';
 import { offeredInserts } from './offered';

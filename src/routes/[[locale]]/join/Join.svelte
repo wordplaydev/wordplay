@@ -1,37 +1,37 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Options, { type Option } from '@components/widgets/Options.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { ageOfConsent } from '@db/creators/ageOfConsent';
-    import isValidEmail from '@db/creators/isValidEmail';
-    import { joinAccount } from '@db/creators/join';
-    import { isAttestationFailure } from '@db/firebaseErrorDetail';
-    import { isValidUsername } from '@db/creators/username';
-    import { usernameAvailable } from '@db/creators/usernames';
-    import { locales } from '@db/Database';
-    import { ensureAppCheck, ensureAuth } from '@db/firebase';
+    import Header from '#components/app/Header.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Options, { type Option } from '#components/widgets/Options.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import { ageOfConsent } from '#db/creators/ageOfConsent.ts';
+    import isValidEmail from '#db/creators/isValidEmail.ts';
+    import { joinAccount } from '#db/creators/join.ts';
+    import { isAttestationFailure } from '#db/firebaseErrorDetail.ts';
+    import { isValidUsername } from '#db/creators/username.ts';
+    import { usernameAvailable } from '#db/creators/usernames.ts';
+    import { locales } from '#db/Database.ts';
+    import { ensureAppCheck, ensureAuth } from '#db/firebase.ts';
     import {
         birthdayFieldOrder,
         birthdayMonthNames,
         birthdayNumber,
         isRealDate,
         toISODate,
-    } from '@locale/birthdayFields';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { getLocaleRegions } from '@locale/LocaleText';
+    } from '#locale/birthdayFields.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { getLocaleRegions } from '#locale/LocaleText.ts';
     import {
         isRegionCode,
         RegionCodes,
         Regions,
         type RegionCode,
-    } from '@locale/Regions';
-    import { RegionNames } from '@locale/regionNames.generated';
-    import { SEARCH_SYMBOL } from '@parser/Symbols';
-    import { localeGoto } from '@util/localeGoto';
+    } from '#locale/Regions.ts';
+    import { RegionNames } from '#locale/regionNames.generated.ts';
+    import { SEARCH_SYMBOL } from '#parser/Symbols.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
     import { signInWithCustomToken } from 'firebase/auth';
     import isValidPassword from '../login/IsValidPassword';
     import LoginForm from '../login/LoginForm.svelte';

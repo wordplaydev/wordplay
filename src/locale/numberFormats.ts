@@ -1,7 +1,7 @@
-import type Locale from '@locale/Locale';
-import type LanguageCode from '@locale/LanguageCode';
-import { Languages } from '@locale/LanguageCode';
-import type { Script } from '@locale/Scripts';
+import type Locale from '#locale/Locale.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import { Languages } from '#locale/LanguageCode.ts';
+import type { Script } from '#locale/Scripts.ts';
 import {
     bengaliDigits,
     devanagariDigits,
@@ -11,7 +11,7 @@ import {
     tamilDigits,
     teluguDigits,
     thaiDigits,
-} from '@values/numerals';
+} from '#values/numerals.ts';
 
 /**
  * Deterministic, in-repo number formatting for output (#1196). We deliberately

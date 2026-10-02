@@ -1,18 +1,18 @@
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import Bind from '@nodes/Bind';
-import NoneType from '@nodes/NoneType';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StreamType from '@nodes/StreamType';
-import UnionType from '@nodes/UnionType';
-import type Evaluation from '@runtime/Evaluation';
-import BoolValue from '@values/BoolValue';
-import SingletonStreamValue from '@values/SingletonStreamValue';
-import type Locales from '@locale/Locales';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import BooleanType from '@nodes/BooleanType';
-import createStreamEvaluator from '@input/createStreamEvaluator';
-import type { StreamKind } from '@values/StreamValue';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import Bind from '#nodes/Bind.ts';
+import NoneType from '#nodes/NoneType.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StreamType from '#nodes/StreamType.ts';
+import UnionType from '#nodes/UnionType.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import BoolValue from '#values/BoolValue.ts';
+import SingletonStreamValue from '#values/SingletonStreamValue.ts';
+import type Locales from '#locale/Locales.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
 
 export default class Button extends SingletonStreamValue<BoolValue, boolean> {
     readonly kind: StreamKind = 'button';

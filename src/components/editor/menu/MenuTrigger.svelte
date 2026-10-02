@@ -1,16 +1,16 @@
 <script lang="ts">
-    import type { CaretPosition } from '@edit/caret/Caret';
-    import { isFieldPosition, type FieldPosition } from '@nodes/Node';
+    import type { CaretPosition } from '#edit/caret/Caret.ts';
+    import { isFieldPosition, type FieldPosition } from '#nodes/Node.ts';
     import {
         DOCS_SYMBOL,
         DROP_DOWN_SYMBOL,
         LOCALE_SYMBOL,
-    } from '@parser/Symbols';
-    import { getSetMenuAnchor } from '@components/project/Contexts';
+    } from '#parser/Symbols.ts';
+    import { getSetMenuAnchor } from '#components/project/Contexts.ts';
     import {
         isTap,
         type PressPoint,
-    } from '@components/editor/menu/menuPointer';
+    } from '#components/editor/menu/menuPointer.ts';
 
     interface Props {
         anchor: CaretPosition | FieldPosition;

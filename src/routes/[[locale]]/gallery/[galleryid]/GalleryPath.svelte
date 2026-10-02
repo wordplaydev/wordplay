@@ -1,31 +1,31 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { toClipboard } from '@components/editor/commands/Clipboard';
-    import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { disconnected, Galleries } from '@db/Database';
-    import type Gallery from '@db/galleries/Gallery';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { toClipboard } from '#components/editor/commands/Clipboard.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { disconnected, Galleries } from '#db/Database.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
     import {
         isValidGalleryPath,
         repairGalleryPath,
-    } from '@db/galleries/galleryPath';
+    } from '#db/galleries/galleryPath.ts';
     import {
         claimGalleryPath,
         galleryPathAvailable,
         releaseGalleryPath,
-    } from '@db/galleries/galleryPaths';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    } from '#db/galleries/galleryPaths.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
         COPY_SYMBOL,
-    } from '@parser/Symbols';
-    import { localeGoto } from '@util/localeGoto';
+    } from '#parser/Symbols.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
 
     /**
      * Choosing the short name in a gallery's link (#180).

@@ -13,4 +13,4 @@ export {
     resolveTerms,
     withoutCountMarker,
     withoutMentions,
-} from '@locale/templateInputs';
+} from '#locale/templateInputs.ts';

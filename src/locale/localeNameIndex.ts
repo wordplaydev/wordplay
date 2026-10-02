@@ -1,5 +1,5 @@
-import type { SupportedLocale } from '@locale/SupportedLocales';
-import versioned from '@db/locales/versioned';
+import type { SupportedLocale } from '#locale/SupportedLocales.ts';
+import versioned from '#db/locales/versioned.ts';
 
 /**
  * Which locales spell a given word, for every word a project's code can be written with.

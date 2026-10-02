@@ -1,19 +1,19 @@
 <script lang="ts">
-    import type OutputProperty from '@edit/output/OutputProperty';
-    import type OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
-    import Dimension from '@nodes/Dimension';
-    import Evaluate from '@nodes/Evaluate';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import Reference from '@nodes/Reference';
-    import Unit from '@nodes/Unit';
-    import { Projects } from '@db/projects/Projects';
-    import type Bind from '@nodes/Bind';
+    import type OutputProperty from '#edit/output/OutputProperty.ts';
+    import type OutputPropertyValueSet from '#edit/output/OutputPropertyValueSet.ts';
+    import Dimension from '#nodes/Dimension.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import NumberLiteral from '#nodes/NumberLiteral.ts';
+    import Reference from '#nodes/Reference.ts';
+    import Unit from '#nodes/Unit.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Bind from '#nodes/Bind.ts';
     import {
         getProject,
         getSelectedOutput,
-    } from '@components/project/Contexts';
-    import ColorChooser from '@components/widgets/ColorChooser.svelte';
-    import { must } from '@util/nullable';
+    } from '#components/project/Contexts.ts';
+    import ColorChooser from '#components/widgets/ColorChooser.svelte';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         property: OutputProperty;

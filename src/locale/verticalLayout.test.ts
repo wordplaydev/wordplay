@@ -2,16 +2,16 @@ import { describe, expect, test } from 'vitest';
 import {
     getLanguageLayout,
     getLanguageVerticalLayout,
-} from '@locale/LanguageCode';
+} from '#locale/LanguageCode.ts';
 import {
     resolveWritingLayout,
     Scripts,
     type ScriptMetadata,
-} from '@locale/Scripts';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
-import type LanguageCode from '@locale/LanguageCode';
+} from '#locale/Scripts.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
 
 /** A Locales preferring the given languages, which is all getVerticalLayout
  *  reads. Everything else stays en-US. */

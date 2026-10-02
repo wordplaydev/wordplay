@@ -1,12 +1,13 @@
 <script lang="ts">
-    import BigLink from '@components/app/BigLink.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import { locales } from '@db/Database';
+    import type { ExternalURL } from '#util/appPath.ts';
+    import BigLink from '#components/app/BigLink.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import { locales } from '#db/Database.ts';
 
     /** Also written into the section's prose, so someone with no mail client
      *  configured can copy the address instead of following a dead button. */
@@ -19,16 +20,17 @@
     // Unannotated primary text rather than plain text, because this is
     // serialized into a URL rather than displayed: a multilingual join or a
     // machine-translation symbol would end up in the message.
-    let inquiry = $derived(
-        `mailto:${Address}?subject=${encodeURIComponent(
-            $locales.getUnannotatedPrimaryText(
-                (l) => l.ui.page.about.districts.subject,
-            ),
-        )}&body=${encodeURIComponent(
-            $locales
-                .getUnannotatedTexts((l) => l.ui.page.about.districts.body)
-                .join('\n\n'),
-        )}`,
+    let inquiry = $derived.by(
+        (): ExternalURL =>
+            `mailto:${Address}?subject=${encodeURIComponent(
+                $locales.getUnannotatedPrimaryText(
+                    (l) => l.ui.page.about.districts.subject,
+                ),
+            )}&body=${encodeURIComponent(
+                $locales
+                    .getUnannotatedTexts((l) => l.ui.page.about.districts.body)
+                    .join('\n\n'),
+            )}`,
     );
 </script>
 

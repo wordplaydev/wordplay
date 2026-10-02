@@ -113,7 +113,7 @@ jobs:
             # turn a green run red.
             - name: Summarize failed and flaky tests
               if: always()
-              run: node scripts/summarize-playwright.mjs playwright-report.json "${{ inputs.browser }} shard ${{ matrix.shard }}/3"
+              run: npx tsx scripts/summarize-playwright.ts playwright-report.json "${{ inputs.browser }} shard ${{ matrix.shard }}/3"
             - uses: actions/upload-artifact@v6
               if: always()
               with:

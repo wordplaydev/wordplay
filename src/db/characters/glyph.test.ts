@@ -4,15 +4,15 @@ import {
     GlyphPathPattern,
     MaxGlyphPathLength,
     type CharacterGlyph,
-} from '@db/characters/Character';
+} from '#db/characters/Character.ts';
 import {
     commandsToUnitPath,
     findCoveringFace,
     isTraceable,
-} from '@db/characters/glyph';
-import { flipShape, getShapeBounds } from '@db/characters/paths';
-import type { PathOp } from '@input/pathCommands';
-import { must } from '@util/nullable';
+} from '#db/characters/glyph.ts';
+import { flipShape, getShapeBounds } from '#db/characters/paths.ts';
+import type { PathOp } from '#input/pathCommands.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 
 /** A character document wrapping one shape, for schema tests. */

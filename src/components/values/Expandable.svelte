@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getInteractive } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
+    import { getInteractive } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
     import { type Snippet } from 'svelte';
 
     interface Props {

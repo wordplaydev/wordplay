@@ -1,9 +1,9 @@
-import type Caret from '@edit/caret/Caret';
-import MenuAction from '@edit/menu/MenuAction';
-import Expression from '@nodes/Expression';
-import type Evaluator from '@runtime/Evaluator';
-import { canExport } from '@values/export/canExport';
-import type Value from '@values/Value';
+import type Caret from '#edit/caret/Caret.ts';
+import MenuAction from '#edit/menu/MenuAction.ts';
+import Expression from '#nodes/Expression.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import { canExport } from '#values/export/canExport.ts';
+import type Value from '#values/Value.ts';
 
 /**
  * What the menu can do to the selected node, beside changing it.

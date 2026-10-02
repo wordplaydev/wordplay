@@ -6,30 +6,30 @@ import {
     bareCharacterName,
     CharacterSchema,
     type Character,
-} from '@db/characters/Character';
+} from '#db/characters/Character.ts';
 import {
     SaveStatus,
     type Database,
     type SaveCounts,
     type SaveError,
-} from '@db/Database';
-import { Domain } from '@db/Domains';
-import { firestore } from '@db/firebase';
-import isQuotaError from '@db/isQuotaError';
-import type Project from '@db/projects/Project';
-import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
-import supportsIndexedDB from '@db/supportsIndexedDB';
-import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-import type Node from '@nodes/Node';
-import { REMIX_SYMBOL } from '@parser/Symbols';
-import deferToIdle from '@util/deferToIdle';
+} from '#db/Database.ts';
+import { Domain } from '#db/Domains.ts';
+import { firestore } from '#db/firebase.ts';
+import isQuotaError from '#db/isQuotaError.ts';
+import type Project from '#db/projects/Project.ts';
+import SaveTracker, { type RePush } from '#db/SaveTracker.svelte.ts';
+import supportsIndexedDB from '#db/supportsIndexedDB.ts';
+import ConceptLink, { CharacterName } from '#nodes/ConceptLink.ts';
+import type Node from '#nodes/Node.ts';
+import { REMIX_SYMBOL } from '#parser/Symbols.ts';
+import deferToIdle from '#util/deferToIdle.ts';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
-import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
+import { GALLERY_CHUNK_SIZE } from '#db/firestoreLimits.ts';
 // Under projects/ because that is where the sweep was first needed, but the
 // rule it encodes is about any locally-cached thing a listener can stop
 // matching, and it imports nothing.
-import isSweepable from '@db/projects/isSweepable';
+import isSweepable from '#db/projects/isSweepable.ts';
 import {
     and,
     collection,

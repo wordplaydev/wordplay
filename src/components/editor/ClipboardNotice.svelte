@@ -4,12 +4,12 @@
   short line. The close button clears Wordplay's internal clipboard (the OS clipboard is left untouched).
 -->
 <script lang="ts">
-    import { parseClipboardCode } from '@components/editor/clipboardDisplay';
-    import EditorNotice from '@components/editor/EditorNotice.svelte';
-    import RootView from '@components/project/RootView.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import { blocks } from '@db/Database';
+    import { parseClipboardCode } from '#components/editor/clipboardDisplay.ts';
+    import EditorNotice from '#components/editor/EditorNotice.svelte';
+    import RootView from '#components/project/RootView.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import { blocks } from '#db/Database.ts';
 
     interface Props {
         /** The clipboard text to display. */

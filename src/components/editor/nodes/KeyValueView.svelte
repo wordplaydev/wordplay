@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type KeyValue from '@nodes/KeyValue';
+    import type KeyValue from '#nodes/KeyValue.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: KeyValue;

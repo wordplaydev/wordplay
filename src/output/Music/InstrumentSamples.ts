@@ -17,8 +17,8 @@
  * a project start loading when it opens rather than when it sounds.
  */
 
-import { Zones, type Zone } from '@output/Music/samples.generated';
-import { must } from '@util/nullable';
+import { Zones, type Zone } from '#output/Music/samples.generated.ts';
+import { must } from '#util/nullable.ts';
 
 /** Where the build writes the mp3s; served straight out of `static`. */
 const Base = '/instruments/';

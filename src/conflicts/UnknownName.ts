@@ -1,29 +1,29 @@
-import type Refer from '@edit/revision/Refer';
-import { toResolutions } from '@conflicts/Conflict';
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type Locales from '@locale/Locales';
-import type NameType from '@nodes/NameType';
-import Reference from '@nodes/Reference';
+import type Refer from '#edit/revision/Refer.ts';
+import { toResolutions } from '#conflicts/Conflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type Locales from '#locale/Locales.ts';
+import type NameType from '#nodes/NameType.ts';
+import Reference from '#nodes/Reference.ts';
 import Conflict, {
     ConflictSeverity,
     type Explainer,
     type Repair,
     type Resolutions,
-} from '@conflicts/Conflict';
-import { LanguagesDialogID } from '@components/widgets/dialogIDs';
-import { stringToLocale, type Locale } from '@locale/Locale';
-import { getLocaleLanguageName } from '@locale/LocaleText';
+} from '#conflicts/Conflict.ts';
+import { LanguagesDialogID } from '#components/widgets/dialogIDs.ts';
+import { stringToLocale, type Locale } from '#locale/Locale.ts';
+import { getLocaleLanguageName } from '#locale/LocaleText.ts';
 import {
     findLocalesNaming,
     findLocalesWithKeyword,
-} from '@locale/localeNameIndex';
-import { LOCALE_SYMBOL } from '@parser/Symbols';
-import levenshtein from '@util/levenshtein';
+} from '#locale/localeNameIndex.ts';
+import { LOCALE_SYMBOL } from '#parser/Symbols.ts';
+import levenshtein from '#util/levenshtein.ts';
 
 export class UnknownName extends Conflict {
     readonly name: Reference | NameType | Token;

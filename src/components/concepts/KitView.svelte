@@ -5,31 +5,31 @@
      are exactly the ones the guide uses for a borrowed kit's exports, and the concepts
      come from the same `kitShareConcepts`. -->
 <script lang="ts">
-    import KitExportView from '@components/concepts/KitExportView.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import KitExportView from '#components/concepts/KitExportView.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import ConceptPreview from '#components/concepts/ConceptPreview.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import {
         getUser,
         setExampleScope,
         type ExampleScope,
-    } from '@components/project/Contexts';
-    import KitModerationNotice from '@components/moderation/KitModerationNotice.svelte';
-    import Contributors from '@components/app/Contributors.svelte';
-    import { anonymizeContributors } from '@db/creators/attribution';
-    import { kitVisibility } from '@db/moderation/visibility';
-    import ReportButton from '@components/project/ReportButton.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import { kitShareConcepts } from '@concepts/kitConcepts';
-    import { DB, locales } from '@db/Database';
-    import type { SerializedKit, SerializedKitVersion } from '@db/kits/Kit';
-    import Project from '@db/projects/Project';
-    import Source from '@nodes/Source';
-    import { toProgram } from '@parser/parseProgram';
-    import { dependencyKey, parseKitRef } from '@nodes/Borrow';
-    import { BORROW_SYMBOL } from '@parser/Symbols';
+    } from '#components/project/Contexts.ts';
+    import KitModerationNotice from '#components/moderation/KitModerationNotice.svelte';
+    import Contributors from '#components/app/Contributors.svelte';
+    import { anonymizeContributors } from '#db/creators/attribution.ts';
+    import { kitVisibility } from '#db/moderation/visibility.ts';
+    import ReportButton from '#components/project/ReportButton.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import { kitShareConcepts } from '#concepts/kitConcepts.ts';
+    import { DB, locales } from '#db/Database.ts';
+    import type { SerializedKit, SerializedKitVersion } from '#db/kits/Kit.ts';
+    import Project from '#db/projects/Project.ts';
+    import Source from '#nodes/Source.ts';
+    import { toProgram } from '#parser/parseProgram.ts';
+    import { dependencyKey, parseKitRef } from '#nodes/Borrow.ts';
+    import { BORROW_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         /**

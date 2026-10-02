@@ -1,5 +1,5 @@
-import type Locale from '@locale/Locale';
-import type { RawTranslator } from '@db/translateMarkup';
+import type Locale from '#locale/Locale.ts';
+import type { RawTranslator } from '#db/translateMarkup.ts';
 
 /** Which backend answered. `device` is the browser's own model — free, private,
  *  offline; `cloud` is the `getLLMTranslations` callable, which costs a

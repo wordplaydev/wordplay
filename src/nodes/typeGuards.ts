@@ -1,21 +1,21 @@
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Bind from '@nodes/Bind';
-import Block from '@nodes/Block';
-import DocumentedExpression from '@nodes/DocumentedExpression';
-import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
-import type Node from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NoneType from '@nodes/NoneType';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NumberType from '@nodes/NumberType';
-import TextLiteral from '@nodes/TextLiteral';
-import TextType from '@nodes/TextType';
-import Token from '@nodes/Token';
-import TypeSet from '@nodes/TypeSet';
-import { NOT_SYMBOL } from '@parser/Symbols';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Bind from '#nodes/Bind.ts';
+import Block from '#nodes/Block.ts';
+import DocumentedExpression from '#nodes/DocumentedExpression.ts';
+import type Context from '#nodes/Context.ts';
+import Expression from '#nodes/Expression.ts';
+import type Node from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import NumberType from '#nodes/NumberType.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import TextType from '#nodes/TextType.ts';
+import Token from '#nodes/Token.ts';
+import TypeSet from '#nodes/TypeSet.ts';
+import { NOT_SYMBOL } from '#parser/Symbols.ts';
 
 /**
  * The expressions that actually decide a condition, found by walking the logical

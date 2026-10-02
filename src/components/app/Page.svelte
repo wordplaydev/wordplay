@@ -1,27 +1,27 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import Logo from '@components/app/Logo.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Status from '@components/app/Status.svelte';
-    import Localizer from '@components/localization/Localizer.svelte';
+    import CreatorView from '#components/app/CreatorView.svelte';
+    import Emoji from '#components/app/Emoji.svelte';
+    import Logo from '#components/app/Logo.svelte';
+    import Feedback from '#components/app/Feedback.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Status from '#components/app/Status.svelte';
+    import Localizer from '#components/localization/Localizer.svelte';
     import {
         getLocalizing,
         getUser,
         isAuthenticated,
         setFullscreen,
         type FullscreenContext,
-    } from '@components/project/Contexts';
-    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
-    import Notifications from '@components/settings/Notifications.svelte';
-    import Settings from '@components/settings/Settings.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
+    } from '#components/project/Contexts.ts';
+    import LocaleChooser from '#components/settings/LocaleChooser.svelte';
+    import Notifications from '#components/settings/Notifications.svelte';
+    import Settings from '#components/settings/Settings.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import OverflowToolbar from '#components/widgets/OverflowToolbar.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import { Creator } from '#db/creators/CreatorDatabase.ts';
     import {
         DOCUMENTATION_SYMBOL,
         LEARN_SYMBOL,
@@ -29,15 +29,15 @@
         STAGE_SYMBOL,
         SYMBOL_SYMBOL,
         TEACH_SYMBOL,
-    } from '@parser/Symbols';
+    } from '#parser/Symbols.ts';
     import scrollKeyAction, {
         nextScrollTarget,
         scrollBehaviorFor,
         scrollDuration,
         scrollPosition,
-    } from '@components/app/scrollKeys';
-    import { animationFactor } from '@db/Database';
-    import { localeGoto } from '@util/localeGoto';
+    } from '#components/app/scrollKeys.ts';
+    import { animationFactor } from '#db/Database.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
     import { slide } from 'svelte/transition';

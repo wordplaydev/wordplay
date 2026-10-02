@@ -1,12 +1,12 @@
-import { toMarkup } from '@parser/toMarkup';
+import { toMarkup } from '#parser/toMarkup.ts';
 import {
     examplesIn,
     pairHowToUnits,
     paragraphSignature,
     proseRunsIn,
-} from '@util/verify-locales/pairHowTo';
+} from '#util/verify-locales/pairHowTo.ts';
 import { describe, expect, it } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 function markup(text: string) {
     return toMarkup(text)[0];

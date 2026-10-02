@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type WebLink from '@nodes/WebLink';
-    import { getCaret } from '@components/project/Contexts';
-    import linkHref from '@parser/linkHref';
+    import type WebLink from '#nodes/WebLink.ts';
+    import { getCaret } from '#components/project/Contexts.ts';
+    import linkHref from '#parser/linkHref.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: WebLink;

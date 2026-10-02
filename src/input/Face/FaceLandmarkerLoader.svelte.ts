@@ -1,4 +1,4 @@
-import { observeLoading } from '@input/Face/FaceLandmarker';
+import { observeLoading } from '#input/Face/FaceLandmarker.ts';
 
 /**
  * Reactive container for face-tracker loading state. `loading` flips to true

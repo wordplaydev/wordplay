@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import type Tile from '@components/project/Tile';
-    import TileKinds from '@components/project/TileKinds';
+    import Emoji from '#components/app/Emoji.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import type Tile from '#components/project/Tile.ts';
+    import TileKinds from '#components/project/TileKinds.ts';
 
     interface Props {
         project: Project;

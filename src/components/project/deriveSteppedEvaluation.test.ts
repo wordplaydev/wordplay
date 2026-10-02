@@ -1,4 +1,4 @@
-import { deriveSteppedEvaluation } from '@components/project/Contexts';
+import { deriveSteppedEvaluation } from '#components/project/Contexts.ts';
 import { get, writable } from 'svelte/store';
 import { describe, expect, test } from 'vitest';
 

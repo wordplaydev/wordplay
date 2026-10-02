@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type Insert from '@nodes/Insert';
+    import type Insert from '#nodes/Insert.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Insert;

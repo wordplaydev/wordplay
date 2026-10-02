@@ -20,14 +20,14 @@
  */
 
 import fs from 'node:fs';
-import Log from '@util/verify-locales/Log';
-import { getLocalePath } from '@util/verify-locales/LocaleSchema';
+import Log from '#util/verify-locales/Log.ts';
+import { getLocalePath } from '#util/verify-locales/LocaleSchema.ts';
 import {
     LocaleSections,
     getSectionPath,
-} from '@util/verify-locales/localeFiles';
-import type LocaleText from '@locale/LocaleText';
-import writeFormatted from '@util/verify-locales/writeFormatted';
+} from '#util/verify-locales/localeFiles.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
 import {
     censusLocale,
     changedBetween,
@@ -42,8 +42,8 @@ import {
     readJSON,
     summarize,
     type Stale,
-} from '@util/verify-locales/drift';
-import { getTutorialPath } from '@util/verify-locales/TutorialSchema';
+} from '#util/verify-locales/drift.ts';
+import { getTutorialPath } from '#util/verify-locales/TutorialSchema.ts';
 
 async function run(): Promise<void> {
     // Annotated because TS only narrows past a `never`-returning call when the

@@ -6,7 +6,7 @@ import firebaseErrorDetail, {
 } from './firebaseErrorDetail';
 
 /** The codes `Database.isConnectivityError` treats as transient. Repeated here
- *  rather than imported because `@db/Database` drags the whole persistence
+ *  rather than imported because `#db/Database` drags the whole persistence
  *  graph into what is otherwise a pure test; the assertion below is what keeps
  *  the two lists from ever overlapping. */
 const TransientCodes = [

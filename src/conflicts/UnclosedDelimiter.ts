@@ -1,13 +1,13 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import type Token from '@nodes/Token';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import type Token from '#nodes/Token.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
+} from '#conflicts/Conflict.ts';
 
 export default class UnclosedDelimiter extends Conflict {
     readonly open: Token;

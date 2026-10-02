@@ -18,12 +18,12 @@
  * is behind until one translation run clears it. Flipping that flag turns this
  * on, and nothing else has to change.
  */
-import { HowToIDs } from '@concepts/HowTo';
+import { HowToIDs } from '#concepts/HowTo.ts';
 import {
     CoverageExemptions,
     HowToCoverageIsFatal,
     howTosBehindEnglish,
-} from '@util/verify-locales/verifyHowTo';
+} from '#util/verify-locales/verifyHowTo.ts';
 import fs from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';

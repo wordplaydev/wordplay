@@ -1,9 +1,9 @@
 import { expect, test } from 'vitest';
-import Source from '@nodes/Source';
-import Caret from '@edit/caret/Caret';
-import diffSources from '@edit/diff/sourceDiff';
-import describeDiffAtCaret from '@edit/diff/describeDiff';
-import DefaultLocales from '@locale/DefaultLocales';
+import Source from '#nodes/Source.ts';
+import Caret from '#edit/caret/Caret.ts';
+import diffSources from '#edit/diff/sourceDiff.ts';
+import describeDiffAtCaret from '#edit/diff/describeDiff.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
 
 /** A caret on `source` at the first position of the token whose text is `at`. */
 function caretAt(source: Source, at: string): Caret {

@@ -1,26 +1,26 @@
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import { locales } from '@db/Database';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { GLOBE1_SYMBOL } from '@parser/Symbols';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import { locales } from '#db/Database.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+    import { GLOBE1_SYMBOL } from '#parser/Symbols.ts';
     import {
         getBlocks,
         getWarnings,
         type ModerationState,
-    } from '@db/projects/Moderation';
-    import Notice from '@components/app/Notice.svelte';
-    import ResponsibilityNotice from '@components/moderation/ResponsibilityNotice.svelte';
+    } from '#db/projects/Moderation.ts';
+    import Notice from '#components/app/Notice.svelte';
+    import ResponsibilityNotice from '#components/moderation/ResponsibilityNotice.svelte';
     import type { Snippet } from 'svelte';
     import type { Visibility } from 'shared-types';
-    import type LocaleText from '@locale/LocaleText';
-    import type { ModeText } from '@locale/UITexts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import type { ModeText } from '#locale/UITexts.ts';
     import {
         isBanned,
         strikes,
         strikesRemaining,
-    } from '@db/creators/strikes.svelte';
+    } from '#db/creators/strikes.svelte.ts';
 
     interface Props {
         isPublic: boolean;

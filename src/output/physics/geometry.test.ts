@@ -7,7 +7,7 @@ import {
     segment,
     type Point,
     type Polygon,
-} from '@output/physics/geometry';
+} from '#output/physics/geometry.ts';
 
 test.each([
     [segment(0, 0, 0, 0), true],

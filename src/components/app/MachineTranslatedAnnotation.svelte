@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '#components/project/Contexts.ts';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
-    import { locales } from '@db/Database';
-    import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
-    import Emoji from '@components/app/Emoji.svelte';
+    } from '#components/widgets/tipTriggers.ts';
+    import { locales } from '#db/Database.ts';
+    import { MACHINE_TRANSLATED_SYMBOL } from '#parser/Symbols.ts';
+    import Emoji from '#components/app/Emoji.svelte';
 
     let hint = getTip();
     let localize = getLocalizing();

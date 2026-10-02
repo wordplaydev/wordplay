@@ -1,4 +1,4 @@
-import type Output from '@output/Output/Output';
+import type Output from '#output/Output/Output.ts';
 
 /**
  * Every output in a tree, root first.

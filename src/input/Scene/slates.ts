@@ -1,5 +1,5 @@
-import type Evaluator from '@runtime/Evaluator';
-import type StreamValue from '@values/StreamValue';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type StreamValue from '#values/StreamValue.ts';
 import type { SlateState } from './Slate';
 
 /**

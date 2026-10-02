@@ -1,17 +1,17 @@
-import { getTypeName } from '@locale/getNameLocales';
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import { pickReadableName } from '@locale/getConceptName';
-import type Locales from '@locale/Locales';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import { Form } from '@output/Output/Shape/Form';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
-import { toBoolean, toNumber } from '@output/Output/Stage';
-import { getOutputInputs } from '@output/Output/Valued';
-import { must } from '@util/nullable';
-import ListValue from '@values/ListValue';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import toStructure from '#basis/toStructure.ts';
+import { getBind } from '#locale/getBind.ts';
+import { pickReadableName } from '#locale/getConceptName.ts';
+import type Locales from '#locale/Locales.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import { Form } from '#output/Output/Shape/Form.ts';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
+import { toBoolean, toNumber } from '#output/Output/Stage.ts';
+import { getOutputInputs } from '#output/Output/Valued.ts';
+import { must } from '#util/nullable.ts';
+import ListValue from '#values/ListValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
 
 export function createPathType(locales: Locales) {
     return toStructure(`

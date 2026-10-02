@@ -1,5 +1,5 @@
-import type { WritingDirection, WritingLayout } from '@locale/Scripts';
-import { must } from '@util/nullable';
+import type { WritingDirection, WritingLayout } from '#locale/Scripts.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 import createAxes, { ArrowKeys, type ArrowKey, type CaretMotion } from './axes';
 

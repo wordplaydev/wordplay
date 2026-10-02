@@ -1,4 +1,4 @@
-import { observeLoading } from '@input/Objects/ObjectDetector';
+import { observeLoading } from '#input/Objects/ObjectDetector.ts';
 
 /**
  * Reactive container for object-detector loading state, mirroring the hand and

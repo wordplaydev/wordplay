@@ -1,8 +1,8 @@
-import { ConflictSeverity } from '@conflicts/Conflict';
-import SimplePatternConflict from '@conflicts/SimplePatternConflict';
-import type LocaleText from '@locale/LocaleText';
-import type Node from '@nodes/Node';
-import type PatternCapture from '@nodes/PatternCapture';
+import { ConflictSeverity } from '#conflicts/Conflict.ts';
+import SimplePatternConflict from '#conflicts/SimplePatternConflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Node from '#nodes/Node.ts';
+import type PatternCapture from '#nodes/PatternCapture.ts';
 
 /**
  * Two captures in the same pattern share a name (LANGUAGE.md). The second

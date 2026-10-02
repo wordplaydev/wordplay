@@ -7,7 +7,7 @@
  * Edit this to add/change a font, then run `npm run fonts-fix` (whole-file
  * faces) or `npm run fonts-download` (Google-sliced faces).
  */
-import type { Script } from '@locale/Scripts';
+import type { Script } from '#locale/Scripts.ts';
 import type { FontWeight, FontWeightRange } from './Fonts';
 import type { FaceForm, FaceImpression } from './faceWords';
 

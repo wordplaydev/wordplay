@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getTip } from '#components/project/Contexts.ts';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
-    import { locales } from '@db/Database';
-    import { LOCALLY_REVISED_SYMBOL } from '@parser/Symbols';
-    import Emoji from '@components/app/Emoji.svelte';
+    } from '#components/widgets/tipTriggers.ts';
+    import { locales } from '#db/Database.ts';
+    import { LOCALLY_REVISED_SYMBOL } from '#parser/Symbols.ts';
+    import Emoji from '#components/app/Emoji.svelte';
 
     let hint = getTip();
     let annotation: HTMLSpanElement | undefined = undefined;

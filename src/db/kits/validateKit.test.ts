@@ -1,7 +1,7 @@
-import Source from '@nodes/Source';
-import { must } from '@util/nullable';
+import Source from '#nodes/Source.ts';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
-import { kitExports } from '@nodes/publishedShare';
+import { kitExports } from '#nodes/publishedShare.ts';
 import { canPublishKit, checkKit, exportName } from './validateKit';
 
 /**

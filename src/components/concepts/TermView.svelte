@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getTip } from '#components/project/Contexts.ts';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
-    import { locales } from '@db/Database';
-    import { getTermDefinitionString } from '@locale/Glossary';
-    import type TermRef from '@locale/TermRef';
+    } from '#components/widgets/tipTriggers.ts';
+    import { locales } from '#db/Database.ts';
+    import { getTermDefinitionString } from '#locale/Glossary.ts';
+    import type TermRef from '#locale/TermRef.ts';
 
     interface Props {
         term: TermRef;

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type Is from '@nodes/Is';
+    import type Is from '#nodes/Is.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Is;

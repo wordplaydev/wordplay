@@ -3,9 +3,9 @@ import {
     DegreeEpsilon,
     degreeToSemitones,
     degreeVoices,
-} from '@output/Music/degrees';
-import { Scales } from '@output/Music/scales';
-import { must } from '@util/nullable';
+} from '#output/Music/degrees.ts';
+import { Scales } from '#output/Music/scales.ts';
+import { must } from '#util/nullable.ts';
 
 const major = Scales.major;
 

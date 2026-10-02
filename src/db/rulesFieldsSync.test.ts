@@ -1,4 +1,4 @@
-import { first, matchGroups, must } from '@util/nullable';
+import { first, matchGroups, must } from '#util/nullable.ts';
 import { readFileSync } from 'fs';
 import { describe, expect, test } from 'vitest';
 import {

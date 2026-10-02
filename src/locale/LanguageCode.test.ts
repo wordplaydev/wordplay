@@ -4,8 +4,8 @@ import {
     Languages,
     Translatable,
     TranslatableLocales,
-} from '@locale/LanguageCode';
-import { localeToString } from '@locale/Locale';
+} from '#locale/LanguageCode.ts';
+import { localeToString } from '#locale/Locale.ts';
 import { expect, test } from 'vitest';
 
 test('every translatable code is a real language', () => {

@@ -1,12 +1,12 @@
 /** Functions and helper functions for formatting the preceding space of tokens (aka "pretty printing"). */
-import Block from '@nodes/Block';
-import Node from '@nodes/Node';
-import Program from '@nodes/Program';
-import Root from '@nodes/Root';
-import Source from '@nodes/Source';
-import type Token from '@nodes/Token';
-import Spaces, { MAX_LINE_LENGTH, TAB_WIDTH } from '@parser/Spaces';
-import TokenList from '@parser/TokenList';
+import Block from '#nodes/Block.ts';
+import Node from '#nodes/Node.ts';
+import Program from '#nodes/Program.ts';
+import Root from '#nodes/Root.ts';
+import Source from '#nodes/Source.ts';
+import type Token from '#nodes/Token.ts';
+import Spaces, { MAX_LINE_LENGTH, TAB_WIDTH } from '#parser/Spaces.ts';
+import TokenList from '#parser/TokenList.ts';
 
 /** What the spacing decision needs from the tree, resolved once per token so the
  * measuring pass and the spacing pass agree and neither walks the tree twice. */

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { RegionCodes } from '@locale/Regions';
+import { RegionCodes } from '#locale/Regions.ts';
 import * as server from '../../../functions/src/ageOfConsent';
 import * as client from './ageOfConsent';
 

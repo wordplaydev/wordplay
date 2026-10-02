@@ -1,17 +1,17 @@
-import { getBind } from '@locale/getBind';
-import Evaluation from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import NumberValue from '@values/NumberValue';
-import type Value from '@values/Value';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import type Names from '@nodes/Names';
-import Unit from '@nodes/Unit';
-import NoneValue from '@values/NoneValue';
-import StructureValue from '@values/StructureValue';
-import { toNumber } from '@output/Output/Stage';
-import Valued, { getOutputInputs } from '@output/Output/Valued';
-import { must } from '@util/nullable';
+import { getBind } from '#locale/getBind.ts';
+import Evaluation from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type Value from '#values/Value.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import type Names from '#nodes/Names.ts';
+import Unit from '#nodes/Unit.ts';
+import NoneValue from '#values/NoneValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import { toNumber } from '#output/Output/Stage.ts';
+import Valued, { getOutputInputs } from '#output/Output/Valued.ts';
+import { must } from '#util/nullable.ts';
 
 export function createPlaceType(locales: Locales) {
     return toStructure(`

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Value from '@values/Value';
+    import type Value from '#values/Value.ts';
 
     interface Props {
         value: Value;

@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
-import firstSentence from '@locale/firstSentence';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
+import firstSentence from '#locale/firstSentence.ts';
+import Source from '#nodes/Source.ts';
 import { getBasisConcepts, getNodeConcepts } from './DefaultConcepts';
 
 function setup() {

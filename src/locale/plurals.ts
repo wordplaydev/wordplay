@@ -1,4 +1,4 @@
-import { includesString } from '@util/nullable';
+import { includesString } from '#util/nullable.ts';
 
 /**
  * Plural-form selection for localized templates, shared by the runtime (a

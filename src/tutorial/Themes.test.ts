@@ -1,22 +1,22 @@
 import { expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import evaluateCode from '@runtime/evaluate';
-import { NameGenerator, toStage } from '@output/Output/Stage';
-import Evaluator from '@runtime/Evaluator';
-import { DB } from '@db/Database';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import { NameGenerator, toStage } from '#output/Output/Stage.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { DB } from '#db/Database.ts';
 import { performanceSource } from './Performances';
 import { parsePerformance } from './Tutorial';
-import { toMusic } from '@output/Music/Music';
-import { analyzeMusic } from '@output/MusicSafetyAnalysis';
-import { InstrumentKeys } from '@output/Music/instruments';
-import { ScaleKeys } from '@output/Music/scales';
+import { toMusic } from '#output/Music/Music.ts';
+import { analyzeMusic } from '#output/MusicSafetyAnalysis.ts';
+import { InstrumentKeys } from '#output/Music/instruments.ts';
+import { ScaleKeys } from '#output/Music/scales.ts';
 import { Themes, themeSource, type ThemeSpec } from './Themes';
 import { ThemeNames, type ThemeName } from './ThemeNames';
-import { getDefaultTutorial } from '@util/verify-locales/TutorialSchema';
+import { getDefaultTutorial } from '#util/verify-locales/TutorialSchema.ts';
 import { TutorialModes } from './TutorialMode';
-import { entriesOf, must } from '@util/nullable';
+import { entriesOf, must } from '#util/nullable.ts';
 
 const entries: [ThemeName, ThemeSpec][] = entriesOf(Themes);
 

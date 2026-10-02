@@ -1,6 +1,7 @@
 import type Gallery from './Gallery';
 import { foldGalleryPath } from './galleryPath';
 import type { GalleryFailure, GalleryResult } from './GalleryDatabase.svelte';
+import type { AppPath } from '#util/appPath.ts';
 
 /**
  * What `/gallery/<segment>` should show. `redirect` is the one new answer a
@@ -10,7 +11,7 @@ import type { GalleryFailure, GalleryResult } from './GalleryDatabase.svelte';
  */
 export type GalleryPathResult =
     | { kind: 'found'; gallery: Gallery }
-    | { kind: 'redirect'; gallery: Gallery; to: string }
+    | { kind: 'redirect'; gallery: Gallery; to: AppPath }
     | { kind: GalleryFailure };
 
 /** The four ways to go looking, injected so this file stays pure. */

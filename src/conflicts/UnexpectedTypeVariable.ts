@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import type Reference from '@nodes/Reference';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Reference from '#nodes/Reference.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import TypeVariable from '@nodes/TypeVariable';
-import TypeVariables from '@nodes/TypeVariables';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import TypeVariable from '#nodes/TypeVariable.ts';
+import TypeVariables from '#nodes/TypeVariables.ts';
 
 export class UnexpectedTypeVariable extends Conflict {
     readonly name: Reference;

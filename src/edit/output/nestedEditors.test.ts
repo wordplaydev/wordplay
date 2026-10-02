@@ -1,32 +1,32 @@
 import { test, expect } from 'vitest';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Evaluate from '@nodes/Evaluate';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import StructureDefinition from '@nodes/StructureDefinition';
-import type StreamDefinition from '@nodes/StreamDefinition';
-import OutputExpression from '@edit/output/OutputExpression';
-import type OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
-import type { LocaleTextsAccessor } from '@locale/Locales';
-import getMatterProperties from '@edit/output/getMatterProperties';
-import getFormProperties from '@edit/output/getFormProperties';
-import getPlacementProperties from '@edit/output/getPlacementProperties';
-import getArrangementProperties from '@edit/output/getArrangementProperties';
-import getPlaceProperties from '@edit/output/getPlaceProperties';
-import getVelocityProperties from '@edit/output/getVelocityProperties';
-import getAuraProperties from '@edit/output/getAuraProperties';
-import getBubbleProperties from '@edit/output/getBubbleProperties';
-import getStructureProperties from '@edit/output/getStructureProperties';
-import getPhraseProperties from '@edit/output/PhraseProperties';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import type StreamDefinition from '#nodes/StreamDefinition.ts';
+import OutputExpression from '#edit/output/OutputExpression.ts';
+import type OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyValueSet from '#edit/output/OutputPropertyValueSet.ts';
+import type { LocaleTextsAccessor } from '#locale/Locales.ts';
+import getMatterProperties from '#edit/output/getMatterProperties.ts';
+import getFormProperties from '#edit/output/getFormProperties.ts';
+import getPlacementProperties from '#edit/output/getPlacementProperties.ts';
+import getArrangementProperties from '#edit/output/getArrangementProperties.ts';
+import getPlaceProperties from '#edit/output/getPlaceProperties.ts';
+import getVelocityProperties from '#edit/output/getVelocityProperties.ts';
+import getAuraProperties from '#edit/output/getAuraProperties.ts';
+import getBubbleProperties from '#edit/output/getBubbleProperties.ts';
+import getStructureProperties from '#edit/output/getStructureProperties.ts';
+import getPhraseProperties from '#edit/output/PhraseProperties.ts';
 import {
     getMusicProperties,
     getTrackProperties,
-} from '@edit/output/MusicProperties';
-import { first, must } from '@util/nullable';
+} from '#edit/output/MusicProperties.ts';
+import { first, must } from '#util/nullable.ts';
 
 /** Parse code and find the first Evaluate of the given definition. */
 function find(

@@ -1,13 +1,13 @@
 <script lang="ts">
-    import type PatternSet from '@nodes/PatternSet';
+    import type PatternSet from '#nodes/PatternSet.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
-    import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
-    import CollapsedHeader from '@components/editor/util/CollapsedHeader.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import NodeSequenceView from '#components/editor/nodes/NodeSequenceView.svelte';
+    import { isFoldableNode } from '#components/editor/util/folding.ts';
+    import FoldToggle from '#components/editor/util/FoldToggle.svelte';
+    import FoldEllipsis from '#components/editor/util/FoldEllipsis.svelte';
+    import CollapsedHeader from '#components/editor/util/CollapsedHeader.svelte';
 
     /** A character set `{ … }` whose members (literals, ranges, classes) match a
      *  single grapheme. A container, so it folds when multi-line or over the

@@ -1,4 +1,4 @@
-import type { SerializedMessage } from '@db/chats/ChatDatabase.svelte';
+import type { SerializedMessage } from '#db/chats/ChatDatabase.svelte.ts';
 
 /** A conversation sorted into what is said in the room and what is said in a
  *  thread about one of those messages. */

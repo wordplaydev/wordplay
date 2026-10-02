@@ -13,11 +13,11 @@
  * accepts, which makes them additive: adding one can't break a program.
  */
 
-import type { KeyMap } from '@input/Key/KeyboardKeys';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { first, last } from '@util/nullable';
+import type { KeyMap } from '#input/Key/KeyboardKeys.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { first, last } from '#util/nullable.ts';
 
 /** Annotation-stripped key tables, keyed by the raw table object so the strip
  *  runs once per loaded locale rather than on every keystroke. */

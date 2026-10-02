@@ -1,11 +1,11 @@
-import { testConflict } from '@conflicts/TestUtilities';
-import { NotANumber } from '@conflicts/NotANumber';
-import NumberLiteral from '@nodes/NumberLiteral';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import { NotANumber } from '#conflicts/NotANumber.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import evaluateCode from '#runtime/evaluate.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 
 // One case per conflict this node raises, so a conflict reachable from several
 // nodes is covered from each of them; see conflictCoverage.test.ts.

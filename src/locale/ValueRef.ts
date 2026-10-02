@@ -1,6 +1,6 @@
-import type Context from '@nodes/Context';
-import type Value from '@values/Value';
-import type Locales from '@locale/Locales';
+import type Context from '#nodes/Context.ts';
+import type Value from '#values/Value.ts';
+import type Locales from '#locale/Locales.ts';
 
 export default class ValueRef {
     readonly value: Value;

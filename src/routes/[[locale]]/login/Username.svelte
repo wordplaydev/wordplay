@@ -1,14 +1,17 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { getUsername } from '@db/creators/handle.svelte';
-    import { changeUsername, claimUsername } from '@db/creators/signinMethod';
-    import { isValidUsername, repairUsername } from '@db/creators/username';
-    import { usernameAvailable } from '@db/creators/usernames';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { getUsername } from '#db/creators/handle.svelte.ts';
+    import {
+        changeUsername,
+        claimUsername,
+    } from '#db/creators/signinMethod.ts';
+    import { isValidUsername, repairUsername } from '#db/creators/username.ts';
+    import { usernameAvailable } from '#db/creators/usernames.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import type { User } from 'firebase/auth';
 
     /**

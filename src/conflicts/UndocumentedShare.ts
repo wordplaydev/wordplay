@@ -1,6 +1,6 @@
-import PublishedShareConflict from '@conflicts/PublishedShareConflict';
-import type LocaleText from '@locale/LocaleText';
-import type Token from '@nodes/Token';
+import PublishedShareConflict from '#conflicts/PublishedShareConflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Token from '#nodes/Token.ts';
 
 /**
  * A `↑` definition in a published source with nothing explaining it (#8).

@@ -1,16 +1,16 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import type Context from '@nodes/Context';
-import SetType from '@nodes/SetType';
-import UnionType from '@nodes/UnionType';
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
-import BoolValue from '@values/BoolValue';
-import NumberValue from '@values/NumberValue';
-import type Value from '@values/Value';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import SimpleValue from '@values/SimpleValue';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import type Context from '#nodes/Context.ts';
+import SetType from '#nodes/SetType.ts';
+import UnionType from '#nodes/UnionType.ts';
+import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '#parser/Symbols.ts';
+import BoolValue from '#values/BoolValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type Value from '#values/Value.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import SimpleValue from '#values/SimpleValue.ts';
 
 export default class SetValue extends SimpleValue {
     readonly values: Value[];

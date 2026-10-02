@@ -1,7 +1,7 @@
-import { ConflictSeverity } from '@conflicts/Conflict';
-import SimplePatternConflict from '@conflicts/SimplePatternConflict';
-import type LocaleText from '@locale/LocaleText';
-import type PatternBackref from '@nodes/PatternBackref';
+import { ConflictSeverity } from '#conflicts/Conflict.ts';
+import SimplePatternConflict from '#conflicts/SimplePatternConflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type PatternBackref from '#nodes/PatternBackref.ts';
 
 /**
  * A bare name in a pattern that is neither an earlier capture's name nor a

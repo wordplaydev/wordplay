@@ -1,8 +1,8 @@
-import type LocaleText from '@locale/LocaleText';
-import type LocalePath from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
-import { getCheckableLocalePairs } from '@util/verify-locales/verifyLocale';
-import { retargetExamplesInDocument } from '@util/verify-locales/retargetExampleNames';
+import type LocaleText from '#locale/LocaleText.ts';
+import type LocalePath from '#util/verify-locales/LocalePath.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import { getCheckableLocalePairs } from '#util/verify-locales/verifyLocale.ts';
+import { retargetExamplesInDocument } from '#util/verify-locales/retargetExampleNames.ts';
 
 /**
  * Bring every localized `\code\` example's named inputs back in line with the names the

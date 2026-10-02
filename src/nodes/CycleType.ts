@@ -1,7 +1,7 @@
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import type Node from '@nodes/Node';
-import UnknownType from '@nodes/UnknownType';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Node from '#nodes/Node.ts';
+import UnknownType from '#nodes/UnknownType.ts';
 
 export default class CycleType extends UnknownType<Expression> {
     readonly cycle: Node[];

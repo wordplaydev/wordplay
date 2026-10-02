@@ -1,4 +1,4 @@
-import { stringToLocale } from '@locale/Locale';
+import { stringToLocale } from '#locale/Locale.ts';
 import { beforeEach, expect, test } from 'vitest';
 import {
     findLocalTranslationPair,

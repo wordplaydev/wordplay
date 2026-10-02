@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
-import { getGlossaryForPrompt } from '@locale/Glossary';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { getGlossaryForPrompt } from '#locale/Glossary.ts';
 
 test('with no target, lists the en-US word only (no mapping)', () => {
     const out = getGlossaryForPrompt(undefined);

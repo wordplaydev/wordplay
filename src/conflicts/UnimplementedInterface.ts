@@ -1,18 +1,18 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Node from '@nodes/Node';
-import Block, { BlockKind } from '@nodes/Block';
-import EvalOpenToken from '@nodes/EvalOpenToken';
-import EvalCloseToken from '@nodes/EvalCloseToken';
-import NumberLiteral from '@nodes/NumberLiteral';
+} from '#conflicts/Conflict.ts';
+import type Node from '#nodes/Node.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import EvalOpenToken from '#nodes/EvalOpenToken.ts';
+import EvalCloseToken from '#nodes/EvalCloseToken.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
 
 export class UnimplementedInterface extends Conflict {
     readonly structure: StructureDefinition;

@@ -20,9 +20,9 @@ import { expect, test } from 'vitest';
 
 /** The modules a component may import to serialize a value. */
 const Deep = [
-    '@values/export/exportValue',
-    '@values/export/grid',
-    '@values/export/json',
+    '#values/export/exportValue.ts',
+    '#values/export/grid.ts',
+    '#values/export/json.ts',
 ];
 
 /** Components allowed to reach them, and why. */
@@ -52,6 +52,6 @@ test('only the export dialog imports the deep serializers', () => {
 
     expect(
         offenders,
-        'these render in the editor or on stage; import `@values/export/canExport` instead, and serialize behind a dialog',
+        'these render in the editor or on stage; import `#values/export/canExport.ts` instead, and serialize behind a dialog',
     ).toEqual([]);
 });

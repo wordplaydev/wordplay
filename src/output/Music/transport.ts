@@ -16,7 +16,7 @@ import {
     noteOnset,
     type MusicData,
     type TrackData,
-} from '@output/Music/musicData';
+} from '#output/Music/musicData.ts';
 
 export type TrackCursor = {
     /** The next note index to schedule, within the current pass. */

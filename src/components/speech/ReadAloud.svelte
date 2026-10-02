@@ -5,12 +5,12 @@
     static import graph.
 -->
 <script module lang="ts">
-    type Reader = typeof import('@components/speech/readAloud');
+    type Reader = typeof import('#components/speech/readAloud.ts');
     let loading: Promise<Reader> | undefined = undefined;
     let loaded: Reader | undefined = undefined;
     /** Loads the reader once for every button on the page. */
     export function loadReader(): Promise<Reader> {
-        loading ??= import('@components/speech/readAloud').then((module) => {
+        loading ??= import('#components/speech/readAloud.ts').then((module) => {
             loaded = module;
             return module;
         });
@@ -19,8 +19,8 @@
 </script>
 
 <script lang="ts">
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { locales, readAloudRate, voice } from '@db/Database';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import { locales, readAloudRate, voice } from '#db/Database.ts';
     import { onMount } from 'svelte';
 
     interface Props {

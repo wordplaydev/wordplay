@@ -1,5 +1,5 @@
-import type { FormattedText } from '@locale/LocaleText';
-import type { ButtonText, FieldText } from '@locale/UITexts';
+import type { FormattedText } from '#locale/LocaleText.ts';
+import type { ButtonText, FieldText } from '#locale/UITexts.ts';
 
 type PageText = {
     /** [plain] Header for the class page*/

@@ -1,14 +1,14 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import Evaluate from '@nodes/Evaluate';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Reference from '@nodes/Reference';
-import Unit from '@nodes/Unit';
-import { createColorLiteral } from '@output/Color/Color';
-import { createMusicLiteral } from '@output/Music/Music';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyRange from '@edit/output/OutputPropertyRange';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Reference from '#nodes/Reference.ts';
+import Unit from '#nodes/Unit.ts';
+import { createColorLiteral } from '#output/Color/Color.ts';
+import { createMusicLiteral } from '#output/Music/Music.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
 
 export default function getPoseProperties(
     project: Project,

@@ -1,29 +1,32 @@
-import type Node from '@nodes/Node';
-import PatternNode from '@nodes/PatternNode';
-import PatternAtom from '@nodes/PatternAtom';
-import PatternClass from '@nodes/PatternClass';
-import PatternLiteralText from '@nodes/PatternLiteralText';
-import PatternQuantified from '@nodes/PatternQuantified';
-import PatternQuantifier from '@nodes/PatternQuantifier';
-import PatternCapture from '@nodes/PatternCapture';
-import PatternComplement from '@nodes/PatternComplement';
-import PatternGroup from '@nodes/PatternGroup';
-import PatternSet from '@nodes/PatternSet';
-import PatternAnchor from '@nodes/PatternAnchor';
-import PatternLook from '@nodes/PatternLook';
-import PatternWord from '@nodes/PatternWord';
-import PatternWordEdge from '@nodes/PatternWordEdge';
-import PatternRest from '@nodes/PatternRest';
-import PatternBackref from '@nodes/PatternBackref';
-import PatternCaseFold from '@nodes/PatternCaseFold';
-import PatternProperty from '@nodes/PatternProperty';
-import PatternRange from '@nodes/PatternRange';
-import PatternSequence from '@nodes/PatternSequence';
-import PatternLiteral from '@nodes/PatternLiteral';
-import Language from '@nodes/Language';
-import Token from '@nodes/Token';
-import { Sym } from '@nodes/Sym';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import type Node from '#nodes/Node.ts';
+import PatternNode from '#nodes/PatternNode.ts';
+import PatternAtom from '#nodes/PatternAtom.ts';
+import PatternClass from '#nodes/PatternClass.ts';
+import PatternLiteralText from '#nodes/PatternLiteralText.ts';
+import PatternQuantified from '#nodes/PatternQuantified.ts';
+import PatternQuantifier from '#nodes/PatternQuantifier.ts';
+import PatternCapture from '#nodes/PatternCapture.ts';
+import PatternComplement from '#nodes/PatternComplement.ts';
+import PatternGroup from '#nodes/PatternGroup.ts';
+import PatternSet from '#nodes/PatternSet.ts';
+import PatternAnchor from '#nodes/PatternAnchor.ts';
+import PatternLook from '#nodes/PatternLook.ts';
+import PatternWord from '#nodes/PatternWord.ts';
+import PatternWordEdge from '#nodes/PatternWordEdge.ts';
+import PatternRest from '#nodes/PatternRest.ts';
+import PatternBackref from '#nodes/PatternBackref.ts';
+import PatternCaseFold from '#nodes/PatternCaseFold.ts';
+import PatternProperty from '#nodes/PatternProperty.ts';
+import PatternRange from '#nodes/PatternRange.ts';
+import PatternSequence from '#nodes/PatternSequence.ts';
+import PatternLiteral from '#nodes/PatternLiteral.ts';
+import Language from '#nodes/Language.ts';
+import Token from '#nodes/Token.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
 import {
     BIND_SYMBOL,
     EVAL_CLOSE_SYMBOL,
@@ -44,7 +47,7 @@ import {
     PATTERN_WORD_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 
 /**
  * Default-construction of every pattern construct for autocomplete (LANGUAGE.md).

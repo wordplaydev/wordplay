@@ -1,12 +1,12 @@
-import type LocaleText from '@locale/LocaleText';
-import NumberLiteral from '@nodes/NumberLiteral';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
 
 export class NotANumber extends Conflict {
     readonly measurement: NumberLiteral;

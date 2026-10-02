@@ -1,15 +1,15 @@
-import type LocaleText from '@locale/LocaleText';
-import type Bind from '@nodes/Bind';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Token from '@nodes/Token';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Bind from '#nodes/Bind.ts';
+import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Token from '#nodes/Token.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
 
 /** A `↑` somewhere it means nothing (#1373). Its text stays under `node.Bind` though all
  *  three shareable definitions raise it: moving the path would orphan three translated

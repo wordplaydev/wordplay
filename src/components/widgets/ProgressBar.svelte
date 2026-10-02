@@ -18,8 +18,8 @@
      * different indeterminate animation. That is a real difference, not drift —
      * so it keeps its bar and this keeps the three that were identical.
      */
-    import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { locales } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
 
     interface Props {
         /**

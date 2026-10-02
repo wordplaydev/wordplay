@@ -3,11 +3,11 @@
      The decision and its chrome are `ModerationQueue`'s; what is here is the gallery
      itself, which is judged by what it holds. -->
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { locales } from '@db/Database';
-    import { parseGallery } from '@db/galleries/Gallery';
-    import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { locales } from '#db/Database.ts';
+    import { parseGallery } from '#db/galleries/Gallery.ts';
+    import { GalleriesCollection } from '#db/galleries/GalleryDatabase.svelte.ts';
     import GalleryProjects from './GalleryProjects.svelte';
     import ModerationQueue from './ModerationQueue.svelte';
 </script>

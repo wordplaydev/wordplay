@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
-import ExceptionValue from '@values/ExceptionValue';
+import evaluateCode from '#runtime/evaluate.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
 
 /**
  * `Part.pitch` is a `[#semitones]`, and every guide that draws music does

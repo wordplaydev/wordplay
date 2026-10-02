@@ -1,23 +1,23 @@
 import { expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Evaluate from '@nodes/Evaluate';
-import ListLiteral from '@nodes/ListLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import SetLiteral from '@nodes/SetLiteral';
-import Source from '@nodes/Source';
-import TextLiteral from '@nodes/TextLiteral';
-import { NameGenerator } from '@output/Output/Stage';
-import { toMusic } from '@output/Music/Music';
-import evaluateCode from '@runtime/evaluate';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import SetLiteral from '#nodes/SetLiteral.ts';
+import Source from '#nodes/Source.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import { NameGenerator } from '#output/Output/Stage.ts';
+import { toMusic } from '#output/Music/Music.ts';
+import evaluateCode from '#runtime/evaluate.ts';
 import readMusic, {
     isEditable,
     musicSignature,
     musicsIn,
-} from '@edit/output/editableMusic';
-import { Scales } from '@output/Music/scales';
-import { inserted } from '@edit/output/editNotes';
-import { first, must } from '@util/nullable';
+} from '#edit/output/editableMusic.ts';
+import { Scales } from '#output/Music/scales.ts';
+import { inserted } from '#edit/output/editNotes.ts';
+import { first, must } from '#util/nullable.ts';
 
 function projectFrom(code: string) {
     return Project.make(

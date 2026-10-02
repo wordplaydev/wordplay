@@ -1,30 +1,30 @@
 <script lang="ts">
-    import Fonts from '@basis/faces/Fonts';
-    import Emoji from '@components/app/Emoji.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Speech from '@components/lore/Speech.svelte';
+    import Fonts from '#basis/faces/Fonts.ts';
+    import Emoji from '#components/app/Emoji.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Speech from '#components/lore/Speech.svelte';
     import {
         resizedOutput,
         resizeIsIncremental,
         rotatedOutput,
-    } from '@components/output/editHandles';
-    import type { GateBlock, GateWarning } from '@components/output/gate';
-    import SensorMonitor from '@components/output/SensorMonitor.svelte';
-    import { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
-    import StageView from '@components/output/StageView.svelte';
-    import StartGate from '@components/output/StartGate.svelte';
+    } from '#components/output/editHandles.ts';
+    import type { GateBlock, GateWarning } from '#components/output/gate.ts';
+    import SensorMonitor from '#components/output/SensorMonitor.svelte';
+    import { SensorPanelStack } from '#components/output/SensorPanelStack.svelte.ts';
+    import StageView from '#components/output/StageView.svelte';
+    import StartGate from '#components/output/StartGate.svelte';
     import {
         DOMRectCenter,
         DOMRectDistance,
-    } from '@components/output/utilities';
-    import { shouldSample } from '@components/output/drawing';
-    import { withMovedPathPoint } from '@edit/output/editShape';
-    import { SnapIncrement } from '@components/output/snap';
-    import moveOutput from '@components/palette/editOutput';
+    } from '#components/output/utilities.ts';
+    import { shouldSample } from '#components/output/drawing.ts';
+    import { withMovedPathPoint } from '#edit/output/editShape.ts';
+    import { SnapIncrement } from '#components/output/snap.ts';
+    import moveOutput from '#components/palette/editOutput.ts';
     import {
         commitInsertion,
         insertDrawnPath,
-    } from '@components/palette/insertOutput';
+    } from '#components/palette/insertOutput.ts';
     import {
         getAnnouncer,
         getConceptIndex,
@@ -40,132 +40,132 @@
         getDrawing,
         getStageScene,
         setStageScene,
-    } from '@components/project/Contexts';
-    import type Node from '@nodes/Node';
-    import { soundingNotes } from '@output/Music/sounding';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import ValueExportButton from '@components/values/ValueExportButton.svelte';
-    import ValueView from '@components/values/ValueView.svelte';
-    import { default as ButtonUI } from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    } from '#components/project/Contexts.ts';
+    import type Node from '#nodes/Node.ts';
+    import { soundingNotes } from '#output/Music/sounding.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import ValueExportButton from '#components/values/ValueExportButton.svelte';
+    import ValueView from '#components/values/ValueView.svelte';
+    import { default as ButtonUI } from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     // Named to avoid colliding with the Button input stream imported below.
-    import ButtonWidget from '@components/widgets/Button.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
+    import ButtonWidget from '#components/widgets/Button.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
     import {
         adaptingOutput,
         animationFactor,
         DB,
         locales,
         voice,
-    } from '@db/Database';
-    import { removeOutput } from '@components/palette/insertOutput';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import Button from '@input/Button/Button';
-    import Camera from '@input/Camera/Camera';
-    import Chat from '@input/Chat/Chat';
-    import Choice from '@input/Choice/Choice';
-    import Face from '@input/Face/Face';
-    import { prefetch as prefetchFace } from '@input/Face/FaceLandmarker';
-    import { faceLandmarkerStatus } from '@input/Face/FaceLandmarkerLoader.svelte';
-    import Hand from '@input/Hand/Hand';
-    import { prefetch as prefetchHand } from '@input/Hand/HandLandmarker';
-    import { handLandmarkerStatus } from '@input/Hand/HandLandmarkerLoader.svelte';
-    import Key from '@input/Key/Key';
-    import analyzeProjectKeys from '@input/Key/analyzeProjectKeys';
-    import KeyPadView from '@components/output/KeyPadView.svelte';
-    import { TouchSupported } from '@components/util/TouchSupported';
-    import { prefetch as prefetchObjects } from '@input/Objects/ObjectDetector';
-    import { objectDetectorStatus } from '@input/Objects/ObjectDetectorLoader.svelte';
-    import Objects from '@input/Objects/Objects';
+    } from '#db/Database.ts';
+    import { removeOutput } from '#components/palette/insertOutput.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import Button from '#input/Button/Button.ts';
+    import Camera from '#input/Camera/Camera.ts';
+    import Chat from '#input/Chat/Chat.ts';
+    import Choice from '#input/Choice/Choice.ts';
+    import Face from '#input/Face/Face.ts';
+    import { prefetch as prefetchFace } from '#input/Face/FaceLandmarker.ts';
+    import { faceLandmarkerStatus } from '#input/Face/FaceLandmarkerLoader.svelte.ts';
+    import Hand from '#input/Hand/Hand.ts';
+    import { prefetch as prefetchHand } from '#input/Hand/HandLandmarker.ts';
+    import { handLandmarkerStatus } from '#input/Hand/HandLandmarkerLoader.svelte.ts';
+    import Key from '#input/Key/Key.ts';
+    import analyzeProjectKeys from '#input/Key/analyzeProjectKeys.ts';
+    import KeyPadView from '#components/output/KeyPadView.svelte';
+    import { TouchSupported } from '#components/util/TouchSupported.ts';
+    import { prefetch as prefetchObjects } from '#input/Objects/ObjectDetector.ts';
+    import { objectDetectorStatus } from '#input/Objects/ObjectDetectorLoader.svelte.ts';
+    import Objects from '#input/Objects/Objects.ts';
     import {
         consent,
         grantConsent,
         type PermissionName,
-    } from '@input/permissions';
-    import Pitch from '@input/Pitch/Pitch';
-    import Placement from '@input/Placement/Placement';
-    import Pointer from '@input/Pointer/Pointer';
-    import SpeechStream from '@input/Speech/Speech';
-    import Volume from '@input/Volume/Volume';
-    import concretize from '@locale/concretize';
-    import { toBCP47 } from '@locale/Locale';
-    import sayUtterances from '@output/Speech/sayUtterances';
-    import getConceptName from '@locale/getConceptName';
-    import type LocaleText from '@locale/LocaleText';
-    import Evaluate from '@nodes/Evaluate';
-    import { describeColorLocalized } from '@output/Color/BasicColors';
-    import { backgroundInvitesAdaptation } from '@output/Color/adapt';
-    import Color, { toColor } from '@output/Color/Color';
+    } from '#input/permissions.ts';
+    import Pitch from '#input/Pitch/Pitch.ts';
+    import Placement from '#input/Placement/Placement.ts';
+    import Pointer from '#input/Pointer/Pointer.ts';
+    import SpeechStream from '#input/Speech/Speech.ts';
+    import Volume from '#input/Volume/Volume.ts';
+    import concretize from '#locale/concretize.ts';
+    import { toBCP47 } from '#locale/Locale.ts';
+    import sayUtterances from '#output/Speech/sayUtterances.ts';
+    import getConceptName from '#locale/getConceptName.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import { describeColorLocalized } from '#output/Color/BasicColors.ts';
+    import { backgroundInvitesAdaptation } from '#output/Color/adapt.ts';
+    import Color, { toColor } from '#output/Color/Color.ts';
     import {
         PX_PER_METER,
         rootScale,
         screenToStage,
-    } from '@output/Output/outputToCSS';
-    import Say from '@output/Output/Say';
-    import { shouldDuckMusic } from '@output/Music/ducking';
-    import speech, { SaySource } from '@output/Speech/speech';
-    import Caption from '@components/output/Caption.svelte';
-    import { musicVisualization } from '@db/Database';
-    import { musicFloorHeight } from '@db/settings/MusicSettings';
-    import { acquireMusicPlayer } from '@output/Music/players';
-    import { isPreviewing } from '@output/Music/previewPlayer';
-    import samples from '@output/Music/InstrumentSamples';
-    import { instrumentSamplesStatus } from '@output/Music/instrumentSamplesStatus.svelte';
-    import { toInstrumentKey } from '@output/Music/instruments';
+    } from '#output/Output/outputToCSS.ts';
+    import Say from '#output/Output/Say.ts';
+    import { shouldDuckMusic } from '#output/Music/ducking.ts';
+    import speech, { SaySource } from '#output/Speech/speech.ts';
+    import Caption from '#components/output/Caption.svelte';
+    import { musicVisualization } from '#db/Database.ts';
+    import { musicFloorHeight } from '#db/settings/MusicSettings.ts';
+    import { acquireMusicPlayer } from '#output/Music/players.ts';
+    import { isPreviewing } from '#output/Music/previewPlayer.ts';
+    import samples from '#output/Music/InstrumentSamples.ts';
+    import { instrumentSamplesStatus } from '#output/Music/instrumentSamplesStatus.svelte.ts';
+    import { toInstrumentKey } from '#output/Music/instruments.ts';
     import referencedInstruments, {
         instrumentBinds,
-    } from '@output/Music/referencedInstruments';
-    import type Source from '@nodes/Source';
+    } from '#output/Music/referencedInstruments.ts';
+    import type Source from '#nodes/Source.ts';
     import {
         musicInstruments,
         musicReady,
         type MusicData,
-    } from '@output/Music/musicData';
-    import { missedReplays } from '@output/Music/missedReplays';
-    import projectReplaysMusic from '@output/Music/replayBinding';
-    import type Music from '@output/Music/Music';
-    import { stagePoseMusic } from '@output/animation/poseMusic';
-    import { onPoseMusic } from '@output/animation/poseMusicEvents';
-    import audio, { musicSuspended } from '@output/Music/MusicAudio';
-    import { musicDucking, musicVolume } from '@db/Database';
-    import { NameGenerator, toStage } from '@output/Output/Stage';
-    import { toOutput } from '@output/Output/toOutput';
-    import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
-    import exceedsMoveThreshold from '@components/output/moveThreshold';
-    import resolveAcrossProjects from '@db/projects/resolveAcrossProjects';
+    } from '#output/Music/musicData.ts';
+    import { missedReplays } from '#output/Music/missedReplays.ts';
+    import projectReplaysMusic from '#output/Music/replayBinding.ts';
+    import type Music from '#output/Music/Music.ts';
+    import { stagePoseMusic } from '#output/animation/poseMusic.ts';
+    import { onPoseMusic } from '#output/animation/poseMusicEvents.ts';
+    import audio, { musicSuspended } from '#output/Music/MusicAudio.ts';
+    import { musicDucking, musicVolume } from '#db/Database.ts';
+    import { NameGenerator, toStage } from '#output/Output/Stage.ts';
+    import { toOutput } from '#output/Output/toOutput.ts';
+    import { getOrCreatePlace } from '#output/Place/getOrCreatePlace.ts';
+    import exceedsMoveThreshold from '#components/output/moveThreshold.ts';
+    import resolveAcrossProjects from '#db/projects/resolveAcrossProjects.ts';
     import {
         getAlignmentTargetsForCreator,
         type AlignmentTargets,
-    } from '@components/output/alignmentTargets';
+    } from '#components/output/alignmentTargets.ts';
     import {
         SnapTolerancePixels,
         boxAt,
         offsetGuide,
         sameGuides,
         snapPlace,
-    } from '@components/output/snap';
-    import describeMove from '@components/output/snapDescription';
-    import { shapeYOffset } from '@components/output/keyboardMove';
-    import Place, { createPlace } from '@output/Place/Place';
-    import { PAUSE_SYMBOL } from '@parser/Symbols';
-    import type Evaluator from '@runtime/Evaluator';
-    import BoolValue from '@values/BoolValue';
+    } from '#components/output/snap.ts';
+    import describeMove from '#components/output/snapDescription.ts';
+    import { shapeYOffset } from '#components/output/keyboardMove.ts';
+    import Place, { createPlace } from '#output/Place/Place.ts';
+    import { PAUSE_SYMBOL } from '#parser/Symbols.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
+    import BoolValue from '#values/BoolValue.ts';
     import describeValueChange, {
         renderValueForSpeech,
-    } from '@values/describeChange';
-    import ExceptionValue from '@values/ExceptionValue';
-    import NoneValue from '@values/NoneValue';
-    import NumberValue from '@values/NumberValue';
-    import PermissionException from '@values/PermissionException';
-    import StructureValue from '@values/StructureValue';
-    import TextValue from '@values/TextValue';
-    import type Value from '@values/Value';
-    import { must } from '@util/nullable';
+    } from '#values/describeChange.ts';
+    import ExceptionValue from '#values/ExceptionValue.ts';
+    import NoneValue from '#values/NoneValue.ts';
+    import NumberValue from '#values/NumberValue.ts';
+    import PermissionException from '#values/PermissionException.ts';
+    import StructureValue from '#values/StructureValue.ts';
+    import TextValue from '#values/TextValue.ts';
+    import type Value from '#values/Value.ts';
+    import { must } from '#util/nullable.ts';
     import { onDestroy, untrack } from 'svelte';
     import { writable } from 'svelte/store';
-    import type { OutputInfoSet } from '@output/animation/Animator';
+    import type { OutputInfoSet } from '#output/animation/Animator.ts';
 
     interface Props {
         project: Project;

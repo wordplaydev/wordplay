@@ -8,11 +8,11 @@
  * localized concept names, glossary words, and terms substituted.
  */
 
-import { KeywordIds, Keywords } from '@parser/Keywords';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type { KeywordId } from '@parser/Keywords';
-import Sym from '@nodes/Sym';
-import { tokens } from '@parser/Tokenizer';
+import { KeywordIds, Keywords } from '#parser/Keywords.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import type { KeywordId } from '#parser/Keywords.ts';
+import Sym from '#nodes/Sym.ts';
+import { tokens } from '#parser/Tokenizer.ts';
 
 /** One run of rendered content, in reading order. */
 export type Piece<Target> =

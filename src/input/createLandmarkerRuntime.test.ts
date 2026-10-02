@@ -1,4 +1,4 @@
-import { fetchModel } from '@input/createLandmarkerRuntime';
+import { fetchModel } from '#input/createLandmarkerRuntime.ts';
 import { afterEach, expect, test, vi } from 'vitest';
 
 /** A Response whose body streams `chunks`, with an optional Content-Length. */

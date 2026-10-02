@@ -1,32 +1,35 @@
-import type ConceptIndex from '@concepts/ConceptIndex';
-import { isTourID } from '@components/project/tours';
-import { isHowToID } from '@concepts/HowTo';
-import type Conflict from '@conflicts/Conflict';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import DefaultLocale from '@locale/DefaultLocale';
+import type ConceptIndex from '#concepts/ConceptIndex.ts';
+import { isTourID } from '#components/project/tours.ts';
+import { isHowToID } from '#concepts/HowTo.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import {
     foldGlossaryForm,
     getGlossaryFormIndex,
     getTermDefinition,
     type GlossaryFormIndex,
-} from '@locale/Glossary';
-import { findConceptEntry } from '@locale/getConceptName';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import TermRef from '@locale/TermRef';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { Purpose } from '@concepts/Purpose';
+} from '#locale/Glossary.ts';
+import { findConceptEntry } from '#locale/getConceptName.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import TermRef from '#locale/TermRef.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import { LINK_SYMBOL } from '@parser/Symbols';
-import { getCodepointFromString } from '@unicode/getCodepoint';
-import type Context from '@nodes/Context';
-import Content from '@nodes/Content';
-import type Markup from '@nodes/Markup';
-import { node, type Field, type Replacement } from '@nodes/Node';
-import Symbol from '@nodes/Sym';
-import Token from '@nodes/Token';
+import { LINK_SYMBOL } from '#parser/Symbols.ts';
+import { getCodepointFromString } from '#unicode/getCodepoint.ts';
+import type Context from '#nodes/Context.ts';
+import Content from '#nodes/Content.ts';
+import type Markup from '#nodes/Markup.ts';
+import { node, type Field, type Replacement } from '#nodes/Node.ts';
+import Symbol from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 /** True if the given locale entry (a NameAndDoc-like object) has a name or names field
  * that includes the given name, ignoring write-status annotations. */

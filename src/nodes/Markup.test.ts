@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
-import DefaultLocales from '@locale/DefaultLocales';
-import Markup from '@nodes/Markup';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Markup from '#nodes/Markup.ts';
 
 test.each([
     // Multi-sentence first paragraph: only the first sentence.

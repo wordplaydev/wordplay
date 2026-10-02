@@ -2,23 +2,23 @@ import {
     HorizontalLayout,
     VerticalLeftRightLayout,
     VerticalRightLeftLayout,
-} from '@locale/Scripts';
-import Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import FormattedLiteral from '@nodes/FormattedLiteral';
-import Reference from '@nodes/Reference';
-import TextLiteral from '@nodes/TextLiteral';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import type { NameText } from '@locale/LocaleText';
-import Language from '@nodes/Language';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import { getTypeOutputProperties } from '@edit/output/OutputProperties';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
-import OutputPropertyRange from '@edit/output/OutputPropertyRange';
-import OutputPropertyText from '@edit/output/OutputPropertyText';
+} from '#locale/Scripts.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+import Reference from '#nodes/Reference.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import type { NameText } from '#locale/LocaleText.ts';
+import Language from '#nodes/Language.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import { getTypeOutputProperties } from '#edit/output/OutputProperties.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyOptions from '#edit/output/OutputPropertyOptions.ts';
+import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
+import OutputPropertyText from '#edit/output/OutputPropertyText.ts';
 
 export default function getPhraseProperties(
     project: Project,

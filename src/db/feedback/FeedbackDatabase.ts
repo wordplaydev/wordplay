@@ -1,5 +1,5 @@
-import { DB } from '@db/Database';
-import { firestore } from '@db/firebase';
+import { DB } from '#db/Database.ts';
+import { firestore } from '#db/firebase.ts';
 import {
     arrayRemove,
     arrayUnion,

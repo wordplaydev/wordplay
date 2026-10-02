@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import type ConversionDefinition from '@nodes/ConversionDefinition';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Block from '@nodes/Block';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import Block from '#nodes/Block.ts';
 
 export class MisplacedConversion extends Conflict {
     readonly conversion: ConversionDefinition;

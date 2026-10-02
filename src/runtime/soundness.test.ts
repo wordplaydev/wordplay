@@ -1,13 +1,13 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import BooleanType from '@nodes/BooleanType';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import BoolValue from '@values/BoolValue';
-import ExceptionValue from '@values/ExceptionValue';
-import NumberValue from '@values/NumberValue';
-import TextValue from '@values/TextValue';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import BoolValue from '#values/BoolValue.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import TextValue from '#values/TextValue.ts';
 import { expect, test } from 'vitest';
 
 /**

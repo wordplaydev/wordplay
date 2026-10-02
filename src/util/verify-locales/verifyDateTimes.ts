@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { CLDR_VERSION } from '@util/verify-locales/cldr';
+import { CLDR_VERSION } from '#util/verify-locales/cldr.ts';
 import {
     coreOf,
     dateTimesPathFor,
@@ -8,9 +8,9 @@ import {
     rebuildDateTimesCore,
     writeDateTimesForLocale,
     writeTimeZones,
-} from '@util/verify-locales/generateDateTimes';
-import type Log from '@util/verify-locales/Log';
-import Validator from '@util/verify-locales/Validator';
+} from '#util/verify-locales/generateDateTimes.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import Validator from '#util/verify-locales/Validator.ts';
 
 // Compile the DateTimeData schema (generated from the type by
 // `npm run datetime-schema`) so committed data files are shape-checked.

@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Centered from '@components/app/Centered.svelte';
-    import Header from '@components/app/Header.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import { isTeacher } from '@db/projects/Moderation';
+    import Centered from '#components/app/Centered.svelte';
+    import Header from '#components/app/Header.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import { isTeacher } from '#db/projects/Moderation.ts';
 
     let { children } = $props();
 

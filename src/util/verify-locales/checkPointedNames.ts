@@ -1,8 +1,8 @@
-import type LocaleText from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { isNameTextPath } from '@util/verify-locales/classifyLocalePath';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
+import type LocaleText from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { isNameTextPath } from '#util/verify-locales/classifyLocalePath.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import type Log from '#util/verify-locales/Log.ts';
 
 /**
  * Hebrew names shouldn't carry vowel points.

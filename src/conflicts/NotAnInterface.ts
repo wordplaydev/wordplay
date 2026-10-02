@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import type Definition from '@nodes/Definition';
-import type Reference from '@nodes/Reference';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Definition from '#nodes/Definition.ts';
+import type Reference from '#nodes/Reference.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import StructureDefinition from '@nodes/StructureDefinition';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
 
 export default class NotAnInterface extends Conflict {
     readonly def: Definition;

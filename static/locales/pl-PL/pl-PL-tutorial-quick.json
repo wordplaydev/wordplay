@@ -328,7 +328,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Możemy uczynić to jeszcze bardziej interaktywnym, dodając dane wejściowe od użytkownika, aby sterować obrotem, na przykład @Volume z wejścia mikrofonu. To @value między 0 a 1, więc możemy ją przypisać do 360 stopni.",
-                            "$~Tak wygląda większość projektów: deklaracje, potem reakcje, a potem wynik. <Guide//guide> ma sekcję @how pełną przepisów do nauki, kopiowania i edycji.",
+                            "$~Tak wygląda większość projektów: deklaracje, potem reakcje, a potem wynik. <Guide@://guide> ma sekcję @how pełną przepisów do nauki, kopiowania i edycji.",
                             "$~Miłego tworzenia!"
                         ]
                     ]

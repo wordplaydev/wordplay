@@ -1,13 +1,13 @@
 import {
     type SerializedProject,
     type SerializedProjectUnknownVersion,
-} from '@db/projects/ProjectSchemas';
-import type { SerializedGallery } from '@db/galleries/Gallery';
-import type { Character } from '@db/characters/Character';
-import type { HowToDocument } from '@db/howtos/HowToDatabase.svelte';
-import type { SerializedChat } from '@db/chats/ChatDatabase.svelte';
-import type { SyncDomain } from '@db/Domains';
-import type { SerializedKit, SerializedKitVersion } from '@db/kits/Kit';
+} from '#db/projects/ProjectSchemas.ts';
+import type { SerializedGallery } from '#db/galleries/Gallery.ts';
+import type { Character } from '#db/characters/Character.ts';
+import type { HowToDocument } from '#db/howtos/HowToDatabase.svelte.ts';
+import type { SerializedChat } from '#db/chats/ChatDatabase.svelte.ts';
+import type { SyncDomain } from '#db/Domains.ts';
+import type { SerializedKit, SerializedKitVersion } from '#db/kits/Kit.ts';
 import Dexie, { type Observable, type Table, liveQuery } from 'dexie';
 
 /**

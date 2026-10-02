@@ -1,4 +1,4 @@
-import { MachineTranslated, Revised } from '@locale/Annotations';
+import { MachineTranslated, Revised } from '#locale/Annotations.ts';
 import { getCheckablePathKinds, findLostConceptLinks } from './drift';
 import { expect, test } from 'vitest';
 

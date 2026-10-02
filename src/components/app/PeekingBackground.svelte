@@ -1,9 +1,9 @@
 <script lang="ts">
     import { onMount, tick } from 'svelte';
-    import { animationFactor } from '@db/Database';
+    import { animationFactor } from '#db/Database.ts';
     import { Emotion } from '../../lore/Emotion';
-    import { withColorEmoji } from '@unicode/emoji';
-    import Eyes from '@components/lore/Eyes.svelte';
+    import { withColorEmoji } from '#unicode/emoji.ts';
+    import Eyes from '#components/lore/Eyes.svelte';
     import { pickRandom } from './backgroundUtils';
 
     interface Props {

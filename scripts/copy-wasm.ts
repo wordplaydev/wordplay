@@ -8,8 +8,15 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
 
+type Source = {
+    name: string;
+    from: string;
+    to: string;
+    matches: (file: string) => boolean;
+};
+
 /** WASM sources to copy from node_modules into static/. */
-const SOURCES = [
+const SOURCES: Source[] = [
     {
         name: 'MediaPipe Tasks Vision',
         from: join(root, 'node_modules', '@mediapipe', 'tasks-vision', 'wasm'),

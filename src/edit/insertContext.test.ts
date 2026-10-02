@@ -1,8 +1,8 @@
-import Caret from '@edit/caret/Caret';
-import DefaultLocale from '@locale/DefaultLocale';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import UnicodeString from '@unicode/UnicodeString';
+import Caret from '#edit/caret/Caret.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 import { describe, expect, test } from 'vitest';
 import { getInsertContext } from './insertContext';
 

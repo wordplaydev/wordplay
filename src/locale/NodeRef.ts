@@ -1,6 +1,6 @@
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import type Locales from '@locale/Locales';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import type Locales from '#locale/Locales.ts';
 
 export default class NodeRef {
     readonly node: Node;

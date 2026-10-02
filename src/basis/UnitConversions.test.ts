@@ -1,9 +1,9 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import evaluateCode from '@runtime/evaluate';
-import { keysOf } from '@util/nullable';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import { keysOf } from '#util/nullable.ts';
 import Decimal from 'decimal.js';
 import { describe, expect, test } from 'vitest';
 import {
@@ -14,7 +14,7 @@ import {
     getUnitCategory,
     type UnitCategory,
     type UnitKey,
-} from '@basis/UnitConversions';
+} from '#basis/UnitConversions.ts';
 
 /** The Wordplay source text for a unit, e.g. `m/s`. */
 function symbol(key: UnitKey): string {

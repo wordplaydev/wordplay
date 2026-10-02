@@ -1,12 +1,12 @@
 import { expect, test } from 'vitest';
-import type { MusicData, TrackData } from '@output/Music/musicData';
+import type { MusicData, TrackData } from '#output/Music/musicData.ts';
 import type {
     MusicAudioLike,
     PlayerBus,
     PlayingVoice,
-} from '@output/Music/MusicAudio';
-import type { ScheduledNote, BeatTick } from '@output/Music/schedule';
-import MusicPlayer from '@output/Music/MusicPlayer';
+} from '#output/Music/MusicAudio.ts';
+import type { ScheduledNote, BeatTick } from '#output/Music/schedule.ts';
+import MusicPlayer from '#output/Music/MusicPlayer.ts';
 
 /** An audio layer that records instead of sounding, with a manual clock —
  * the announcerQueue test-harness pattern. */

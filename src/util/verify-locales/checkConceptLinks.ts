@@ -12,9 +12,9 @@
  * concepts by way of the basis and its shares, so a name found there always resolves.
  */
 
-import Templates from '@concepts/Templates';
-import type LocaleText from '@locale/LocaleText';
-import type ConceptLink from '@nodes/ConceptLink';
+import Templates from '#concepts/Templates.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type ConceptLink from '#nodes/ConceptLink.ts';
 
 /** Every construct that becomes a browsable concept, computed once. */
 let Templated: Set<string> | undefined;

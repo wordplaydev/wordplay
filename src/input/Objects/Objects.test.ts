@@ -1,9 +1,9 @@
 import type { Detection } from '@mediapipe/tasks-vision';
-import { normalizeBox, selectDetections } from '@input/Objects/Objects';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import { first } from '@util/nullable';
+import { normalizeBox, selectDetections } from '#input/Objects/Objects.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import { first } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 
 /** A detection with one category, at a box in pixels of the detection frame. */

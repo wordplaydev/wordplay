@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
-import { cubicBezier, Easings } from '@output/animation/easing';
-import { styleToEasingFunction } from '@output/animation/OutputAnimation';
-import DefaultLocales from '@locale/DefaultLocales';
+import { cubicBezier, Easings } from '#output/animation/easing.ts';
+import { styleToEasingFunction } from '#output/animation/OutputAnimation.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
 
 test('cubicBezier anchors at its endpoints', () => {
     const ease = cubicBezier(0.42, 0, 0.58, 1); // ease-in-out

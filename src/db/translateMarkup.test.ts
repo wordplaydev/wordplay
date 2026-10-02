@@ -1,5 +1,5 @@
-import { stringToLocale } from '@locale/Locale';
-import { toMarkup } from '@parser/toMarkup';
+import { stringToLocale } from '#locale/Locale.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
 import { expect, test } from 'vitest';
 import {
     markupToText,

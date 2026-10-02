@@ -1,10 +1,10 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { getAllDeclaredInputNames } from '@locale/templateInputs';
-import checkTerms from '@util/verify-locales/checkTerms';
-import { collectingLog } from '@util/verify-locales/Log';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { getAllDeclaredInputNames } from '#locale/templateInputs.ts';
+import checkTerms from '#util/verify-locales/checkTerms.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
 import { expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 function localeWithTerms(terms: Record<string, string>): LocaleText {
     const copy = structuredClone(DefaultLocale);

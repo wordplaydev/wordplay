@@ -4,7 +4,7 @@ import { expect, test, vi } from 'vitest';
 // The ascent and descent are what matter here: they are font constants, while a
 // phrase's box height is its ink, and that difference is the whole reason
 // baseline alignment has to exist. Precedent: src/output/physics/contacts.test.ts.
-vi.mock('@output/Output/getTextMetrics', () => ({
+vi.mock('#output/Output/getTextMetrics.ts', () => ({
     default: (text: string, cssFont: string) => {
         const px = Number(/(\d+(?:\.\d+)?)px/.exec(cssFont)?.[1] ?? 64);
         return {
@@ -18,18 +18,18 @@ vi.mock('@output/Output/getTextMetrics', () => ({
     },
 }));
 
-const { DB } = await import('@db/Database');
-const { default: Project } = await import('@db/projects/Project');
-const { default: DefaultLocale } = await import('@locale/DefaultLocale');
-const { default: Locales } = await import('@locale/Locales');
-const { default: concretize } = await import('@locale/concretize');
-const { default: Source } = await import('@nodes/Source');
-const { default: Evaluator } = await import('@runtime/Evaluator');
-const { default: RenderContext } = await import('@output/RenderContext');
-const { toRow } = await import('@output/Arrangement/Row');
-const { DefaultSize } = await import('@output/Output/Stage');
-const { toStage } = await import('@output/Output/Stage');
-const { default: Phrase } = await import('@output/Output/Phrase');
+const { DB } = await import('#db/Database.ts');
+const { default: Project } = await import('#db/projects/Project.ts');
+const { default: DefaultLocale } = await import('#locale/DefaultLocale.ts');
+const { default: Locales } = await import('#locale/Locales.ts');
+const { default: concretize } = await import('#locale/concretize.ts');
+const { default: Source } = await import('#nodes/Source.ts');
+const { default: Evaluator } = await import('#runtime/Evaluator.ts');
+const { default: RenderContext } = await import('#output/RenderContext.ts');
+const { toRow } = await import('#output/Arrangement/Row.ts');
+const { DefaultSize } = await import('#output/Output/Stage.ts');
+const { toStage } = await import('#output/Output/Stage.ts');
+const { default: Phrase } = await import('#output/Output/Phrase.ts');
 
 const context = new RenderContext(
     DefaultLocale.ui.font.app,

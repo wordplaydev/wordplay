@@ -17,7 +17,7 @@ vi.mock('firebase/firestore', () => ({
 // The provider only uses ProjectsCollection (a const string), so the
 // real database file doesn't need to load. Stub it to avoid pulling in
 // the full Svelte 5 runes runtime under vitest.
-vi.mock('@db/projects/ProjectsDatabase.svelte', () => ({
+vi.mock('#db/projects/ProjectsDatabase.svelte.ts', () => ({
     ProjectsCollection: 'projects',
 }));
 

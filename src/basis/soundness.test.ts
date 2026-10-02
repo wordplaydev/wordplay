@@ -1,7 +1,7 @@
-import { Basis } from '@basis/Basis';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import DefaultLocales from '@locale/DefaultLocales';
-import evaluateCode from '@runtime/evaluate';
+import { Basis } from '#basis/Basis.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
 import { expect, test } from 'vitest';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);

@@ -1,20 +1,20 @@
 <script lang="ts">
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import {
         setConceptPath,
         type ConceptPath,
-    } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import { locales, Settings } from '@db/Database';
-    import loadUpdates from '@db/locales/loadUpdates';
-    import versioned from '@db/locales/versioned';
-    import localeToBCP47 from '@locale/localeToBCP47';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import { locales, Settings } from '#db/Database.ts';
+    import loadUpdates from '#db/locales/loadUpdates.ts';
+    import versioned from '#db/locales/versioned.ts';
+    import localeToBCP47 from '#locale/localeToBCP47.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import {
         updateTextPath,
         UpdateSectionKinds,
@@ -22,7 +22,7 @@
         UpdatesBundleSchema,
         type UpdatesBundle,
         type UpdateText,
-    } from '@locale/UpdatesBundle';
+    } from '#locale/UpdatesBundle.ts';
     import { writable } from 'svelte/store';
     import date from './date.json';
 

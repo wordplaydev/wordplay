@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternCapture from '@nodes/PatternCapture';
+    import type PatternCapture from '#nodes/PatternCapture.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** A named capture (`name:atom`) recording the matched span. */
     interface Props {

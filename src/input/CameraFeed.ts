@@ -1,8 +1,8 @@
-import type { Database } from '@db/Database';
+import type { Database } from '#db/Database.ts';
 import {
     acquireCameraSource,
     type CameraSourceHandle,
-} from '@input/CameraSource';
+} from '#input/CameraSource.ts';
 
 /**
  * A per-consumer view onto the shared camera. The expensive, genuinely-shared

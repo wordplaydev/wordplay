@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import BooleanType from '@nodes/BooleanType';
-import type UnaryEvaluate from '@nodes/UnaryEvaluate';
-import { FALSE_SYMBOL, NOT_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Expression from '@nodes/Expression';
-import type Value from '@values/Value';
-import FunctionException from '@values/FunctionException';
-import SimpleValue from '@values/SimpleValue';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import type UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import { FALSE_SYMBOL, NOT_SYMBOL, TRUE_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Value from '#values/Value.ts';
+import FunctionException from '#values/FunctionException.ts';
+import SimpleValue from '#values/SimpleValue.ts';
 
 export default class BoolValue extends SimpleValue {
     readonly bool: boolean;

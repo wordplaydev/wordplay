@@ -1,43 +1,43 @@
-import type Conflict from '@conflicts/Conflict';
-import { UnknownBorrow } from '@conflicts/UnknownBorrow';
-import { MissingKitVersion } from '@conflicts/MissingKitVersion';
-import { ConflictingKitVersions } from '@conflicts/ConflictingKitVersions';
-import { UnknownKit } from '@conflicts/UnknownKit';
-import { UnavailableKit } from '@conflicts/UnavailableKit';
-import type { EditContext, InsertContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Conflict from '#conflicts/Conflict.ts';
+import { UnknownBorrow } from '#conflicts/UnknownBorrow.ts';
+import { MissingKitVersion } from '#conflicts/MissingKitVersion.ts';
+import { ConflictingKitVersions } from '#conflicts/ConflictingKitVersions.ts';
+import { UnknownKit } from '#conflicts/UnknownKit.ts';
+import { UnavailableKit } from '#conflicts/UnavailableKit.ts';
+import type { EditContext, InsertContext } from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import {
     BIND_SYMBOL,
     BORROW_SYMBOL,
     LINK_SYMBOL,
     PROPERTY_SYMBOL,
-} from '@parser/Symbols';
-import Evaluation from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
-import CycleException from '@values/CycleException';
-import FunctionValue from '@values/FunctionValue';
-import NameException from '@values/NameException';
-import NumberValue from '@values/NumberValue';
-import StructureDefinitionValue from '@values/StructureDefinitionValue';
-import UnimplementedException from '@values/UnimplementedException';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+} from '#parser/Symbols.ts';
+import Evaluation from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Start from '#runtime/Start.ts';
+import type Step from '#runtime/Step.ts';
+import CycleException from '#values/CycleException.ts';
+import FunctionValue from '#values/FunctionValue.ts';
+import NameException from '#values/NameException.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureDefinitionValue from '#values/StructureDefinitionValue.ts';
+import UnimplementedException from '#values/UnimplementedException.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import StreamDefinitionValue from '@values/StreamDefinitionValue';
-import Bind from '@nodes/Bind';
-import DuplicateBorrow from '@conflicts/DuplicateBorrow';
-import KitType from '@nodes/KitType';
-import Names from '@nodes/Names';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Expression from '@nodes/Expression';
-import FunctionDefinition from '@nodes/FunctionDefinition';
+import StreamDefinitionValue from '#values/StreamDefinitionValue.ts';
+import Bind from '#nodes/Bind.ts';
+import DuplicateBorrow from '#conflicts/DuplicateBorrow.ts';
+import KitType from '#nodes/KitType.ts';
+import Names from '#nodes/Names.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Expression from '#nodes/Expression.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
 import {
     any,
     node,
@@ -45,20 +45,20 @@ import {
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import SimpleExpression from '@nodes/SimpleExpression';
-import Source from '@nodes/Source';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import Unit from '@nodes/Unit';
-import KitValue from '@values/KitValue';
-import UnknownNameType from '@nodes/UnknownNameType';
-import KitCannotBorrow from '@conflicts/KitCannotBorrow';
+} from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import SimpleExpression from '#nodes/SimpleExpression.ts';
+import Source from '#nodes/Source.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import Unit from '#nodes/Unit.ts';
+import KitValue from '#values/KitValue.ts';
+import UnknownNameType from '#nodes/UnknownNameType.ts';
+import KitCannotBorrow from '#conflicts/KitCannotBorrow.ts';
 
 export type SharedDefinition =
     Source | Bind | FunctionDefinition | StructureDefinition | StreamDefinition;

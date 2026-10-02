@@ -1,12 +1,12 @@
-import type Context from '@nodes/Context';
-import type Expression from '@nodes/Expression';
-import { getFirstText } from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import type { LocaleTextsAccessor } from '@locale/Locales';
-import type OutputPropertyNumber from '@edit/output/OutputPropertyNumber';
-import type OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
-import type OutputPropertyRange from '@edit/output/OutputPropertyRange';
-import type OutputPropertyText from '@edit/output/OutputPropertyText';
+import type Context from '#nodes/Context.ts';
+import type Expression from '#nodes/Expression.ts';
+import { getFirstText } from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextsAccessor } from '#locale/Locales.ts';
+import type OutputPropertyNumber from '#edit/output/OutputPropertyNumber.ts';
+import type OutputPropertyOptions from '#edit/output/OutputPropertyOptions.ts';
+import type OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
+import type OutputPropertyText from '#edit/output/OutputPropertyText.ts';
 
 type OutputPropertyType =
     | OutputPropertyRange

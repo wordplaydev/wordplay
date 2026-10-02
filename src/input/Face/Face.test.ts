@@ -1,7 +1,7 @@
 import { test, expect } from 'vitest';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 
 // The stream's live behavior (camera → MediaPipe → detection) needs a real
 // browser + webcam and can't run headlessly, but the language-level

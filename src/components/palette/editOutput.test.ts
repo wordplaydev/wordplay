@@ -1,16 +1,16 @@
 import { test, expect } from 'vitest';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
-import Evaluate from '@nodes/Evaluate';
-import { DB } from '@db/Database';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import { DB } from '#db/Database.ts';
 import {
     addStage,
     classifyOutput,
     movedOutput,
     type OutputKind,
-} from '@components/palette/editOutput';
-import DefaultLocales from '@locale/DefaultLocales';
+} from '#components/palette/editOutput.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
 
 /** Build a project from a program string. */
 function make(code: string) {

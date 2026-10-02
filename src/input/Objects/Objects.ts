@@ -5,37 +5,37 @@ import type {
 } from '@mediapipe/tasks-vision';
 import CameraLandmarkStream, {
     DEFAULT_FREQUENCY,
-} from '@input/CameraLandmarkStream';
+} from '#input/CameraLandmarkStream.ts';
 import {
     buildCategoryTypeUnion,
     canonicalizeCategory,
     localizeCategory,
-} from '@input/Objects/ObjectCategories';
-import objectDetector from '@input/Objects/ObjectDetector';
-import createStreamEvaluator from '@input/createStreamEvaluator';
-import { createInputs } from '@locale/createInputs';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import ListType from '@nodes/ListType';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NoneType from '@nodes/NoneType';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NumberType from '@nodes/NumberType';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StreamType from '@nodes/StreamType';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import StructureType from '@nodes/StructureType';
-import UnionType from '@nodes/UnionType';
-import Unit from '@nodes/Unit';
-import { createPlaceStructure } from '@output/Place/Place';
-import { createThingStructure, type ThingState } from '@output/Thing/Thing';
-import type Evaluation from '@runtime/Evaluation';
-import ListValue from '@values/ListValue';
-import NumberValue from '@values/NumberValue';
-import TextValue from '@values/TextValue';
-import type { StreamKind } from '@values/StreamValue';
-import { must } from '@util/nullable';
+} from '#input/Objects/ObjectCategories.ts';
+import objectDetector from '#input/Objects/ObjectDetector.ts';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
+import { createInputs } from '#locale/createInputs.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import ListType from '#nodes/ListType.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import NumberType from '#nodes/NumberType.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StreamType from '#nodes/StreamType.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import StructureType from '#nodes/StructureType.ts';
+import UnionType from '#nodes/UnionType.ts';
+import Unit from '#nodes/Unit.ts';
+import { createPlaceStructure } from '#output/Place/Place.ts';
+import { createThingStructure, type ThingState } from '#output/Thing/Thing.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import ListValue from '#values/ListValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * EfficientDet-Lite0 takes a 320×320 input, so sampling the camera at that size

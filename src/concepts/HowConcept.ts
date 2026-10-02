@@ -1,16 +1,16 @@
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import Words from '@nodes/Words';
-import type Locales from '@locale/Locales';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import Words from '#nodes/Words.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
 import { Emotion } from '../lore/Emotion';
-import type Markup from '@nodes/Markup';
+import type Markup from '#nodes/Markup.ts';
 import type { CharacterName } from '../tutorial/Tutorial';
-import Concept from '@concepts/Concept';
-import type HowTo from '@concepts/HowTo';
-import { pickPreviewExample } from '@concepts/pickPreviewExample';
-import { Purpose } from '@concepts/Purpose';
-import type Example from '@nodes/Example';
+import Concept from '#concepts/Concept.ts';
+import type HowTo from '#concepts/HowTo.ts';
+import { pickPreviewExample } from '#concepts/pickPreviewExample.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Example from '#nodes/Example.ts';
 
 /** Represents how to do something with Wordplay, backed by a how document. */
 export default class HowConcept extends Concept {

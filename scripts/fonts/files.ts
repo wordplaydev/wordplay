@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * Shared model for the font generator: how face names map to on-disk files and

@@ -2,10 +2,10 @@ import {
     checkGlossaryForm,
     getGlossaryWordIndex,
     getReservedFormNames,
-} from '@locale/glossaryFormProblem';
-import type LocaleText from '@locale/LocaleText';
-import { ReservedConceptIDs } from '@nodes/ConceptLink';
-import type Log from '@util/verify-locales/Log';
+} from '#locale/glossaryFormProblem.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { ReservedConceptIDs } from '#nodes/ConceptLink.ts';
+import type Log from '#util/verify-locales/Log.ts';
 
 /**
  * Validate a locale's glossary forms — the extra written forms (plurals,
@@ -20,7 +20,7 @@ import type Log from '@util/verify-locales/Log';
  * a reserved namespace) is dead, and an error rather than a warning: it
  * silently does nothing, and misleads whoever reads the locale.
  *
- * The rules themselves live in `@locale/glossaryFormProblem`, shared with the
+ * The rules themselves live in `#locale/glossaryFormProblem`, shared with the
  * localization workspace's glossary editor so a translator is told about a
  * collision as they type rather than by a red pull request.
  */

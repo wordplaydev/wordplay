@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /**
  * The language a reader has chosen to read chats in, or null for none (#1214).

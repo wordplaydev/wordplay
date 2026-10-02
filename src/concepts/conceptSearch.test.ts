@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { makeSearchable, searchConcepts } from './conceptSearch';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 const L = 'en';
 

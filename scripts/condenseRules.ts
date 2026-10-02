@@ -7,9 +7,9 @@
  * them is a silent edit to the public record.
  */
 
-import { coveredLength } from '@util/verify-locales/verifyChangelog';
+import { coveredLength } from '#util/verify-locales/verifyChangelog.ts';
 import { parseEntry, toMarkup } from './updates';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 /** Why a rewrite was refused. The original is kept in every case. */
 export type Rejection =

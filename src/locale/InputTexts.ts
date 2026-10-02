@@ -1,6 +1,6 @@
-import type { WellKnownKey } from '@input/Key/KeyboardKeys';
-import type { ObjectCategory } from '@input/Objects/ObjectCategories';
-import type { DocText, NameAndDoc } from '@locale/LocaleText';
+import type { WellKnownKey } from '#input/Key/KeyboardKeys.ts';
+import type { ObjectCategory } from '#input/Objects/ObjectCategories.ts';
+import type { DocText, NameAndDoc } from '#locale/LocaleText.ts';
 
 type InputTexts = {
     /** The Random function, which generates random numbers */

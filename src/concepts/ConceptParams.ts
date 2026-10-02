@@ -1,7 +1,8 @@
 /** Reusable functions for getting and setting concepts and search in the page URL */
 
-import type Concept from '@concepts/Concept';
-import type ConceptIndex from '@concepts/ConceptIndex';
+import type Concept from '#concepts/Concept.ts';
+import type ConceptIndex from '#concepts/ConceptIndex.ts';
+import type { AppPath } from '#util/appPath.ts';
 
 export const PARAM_CONCEPT = 'concept';
 export const PARAM_QUERY = 'query';
@@ -23,7 +24,7 @@ export const PARAM_KIT = 'kit';
 export const PARAM_KIT_VERSION = 'version';
 
 /** The kit and version a URL names, if it names one. */
-export function getKitFromURL(params: URLSearchParams):
+export function getKitFromURL(params: Pick<URLSearchParams, 'get'>):
     | {
           name: string;
           version: number | undefined;
@@ -41,7 +42,7 @@ export function getKitFromURL(params: URLSearchParams):
 }
 
 /** The guide URL that shows one kit, which registry tiles and version lists both link to. */
-export function kitURL(name: string, version?: number | undefined): string {
+export function kitURL(name: string, version?: number | undefined): AppPath {
     return `/guide?${PARAM_KIT}=${encodeURIComponent(name)}${
         version === undefined ? '' : `&${PARAM_KIT_VERSION}=${version}`
     }`;
@@ -61,7 +62,7 @@ function isMember<T extends string>(
  * concept type, how-to filter).
  */
 export function getEnumFromURL<T extends string>(
-    params: URLSearchParams,
+    params: Pick<URLSearchParams, 'get'>,
     key: string,
     valid: readonly T[],
     fallback: T,
@@ -82,7 +83,7 @@ export function setEnumInURL(
 }
 
 /** Reads the guide search query from the URL, or '' when absent. */
-export function getQueryFromURL(params: URLSearchParams): string {
+export function getQueryFromURL(params: Pick<URLSearchParams, 'get'>): string {
     return params.get(PARAM_QUERY) ?? '';
 }
 
@@ -95,7 +96,7 @@ export function setQueryInURL(query: string, params: URLSearchParams) {
 
 export function getConceptFromURL(
     index: ConceptIndex,
-    params: URLSearchParams,
+    params: Pick<URLSearchParams, 'get'>,
 ): Concept | undefined {
     const id = params.get(PARAM_CONCEPT);
     if (id === null) return undefined;

@@ -1,11 +1,11 @@
-import Markup from '@nodes/Markup';
-import Paragraph, { type Segment } from '@nodes/Paragraph';
-import Words from '@nodes/Words';
-import Token from '@nodes/Token';
-import { Sym } from '@nodes/Sym';
-import UnicodeString from '@unicode/UnicodeString';
-import { getRewriteEntrySteps } from '@output/animation/getRewriteTransition';
-import { getRandomEntrySteps } from '@output/animation/getRandomTransition';
+import Markup from '#nodes/Markup.ts';
+import Paragraph, { type Segment } from '#nodes/Paragraph.ts';
+import Words from '#nodes/Words.ts';
+import Token from '#nodes/Token.ts';
+import { Sym } from '#nodes/Sym.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import { getRewriteEntrySteps } from '#output/animation/getRewriteTransition.ts';
+import { getRandomEntrySteps } from '#output/animation/getRandomTransition.ts';
 
 /**
  * Truncating a Markup mirrors the plain-text typewriter (see getTextTransition):

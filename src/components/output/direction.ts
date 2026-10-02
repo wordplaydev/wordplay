@@ -1,7 +1,7 @@
-import type Locales from '@locale/Locales';
-import { formatNumberForLocale } from '@locale/numberFormats';
-import type { Orientation } from '@output/animation/Animator';
-import { must } from '@util/nullable';
+import type Locales from '#locale/Locales.ts';
+import { formatNumberForLocale } from '#locale/numberFormats.ts';
+import type { Orientation } from '#output/animation/Animator.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * How far something must move, in metres, before the movement is worth

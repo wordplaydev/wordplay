@@ -1,4 +1,4 @@
-import { adaptPreviewColors } from '@components/app/adaptPreview';
+import { adaptPreviewColors } from '#components/app/adaptPreview.ts';
 import { expect, test } from 'vitest';
 
 const White = 'lch(100% 0 0deg)';

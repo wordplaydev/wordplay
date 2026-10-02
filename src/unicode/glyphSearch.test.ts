@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest';
 import { buildGlyphSearch } from './glyphSearch';
 import type { Codepoint } from './Unicode';
-import type { EmojiMap } from '@db/locales/LocalesDatabase';
-import type { SupportedLocale } from '@locale/SupportedLocales';
-import { searchItems } from '@util/search';
-import { must } from '@util/nullable';
+import type { EmojiMap } from '#db/locales/LocalesDatabase.ts';
+import type { SupportedLocale } from '#locale/SupportedLocales.ts';
+import { searchItems } from '#util/search.ts';
+import { must } from '#util/nullable.ts';
 
 const L = 'en';
 

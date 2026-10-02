@@ -1,14 +1,15 @@
 import { execSync } from 'child_process';
-import { isRecord } from '@util/guards';
-import { messageOf } from '@util/guards';
+import { isRecord } from '#util/guards.ts';
+import { messageOf } from '#util/guards.ts';
 import fs from 'fs';
 import path from 'path';
 import ts from 'typescript';
-import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
-import writeFormatted from '@util/verify-locales/writeFormatted';
-import { DefaultLocale } from '@util/verify-locales/LocaleSchema';
-import Log from '@util/verify-locales/Log';
-import { must } from '@util/nullable';
+import { findUnusedKeys } from '#util/verify-locales/findUnusedKeys.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
+import { DefaultLocale } from '#util/verify-locales/LocaleSchema.ts';
+import Log from '#util/verify-locales/Log.ts';
+import { must } from '#util/nullable.ts';
+import getSubpathImports from '#util/subpathImports.ts';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);
@@ -18,27 +19,6 @@ const log: Log = new Log(false);
 const ROOT_FILE = 'src/locale/LocaleText.ts';
 const ROOT_TYPE = 'LocaleText';
 const EN_US_JSON = 'src/locale/en-US.json';
-
-/** Path-alias mapping mirrored from `svelte.config.js`. We resolve `@locale/X`
- *  to `src/locale/X.ts` so we can follow type imports without a full
- *  TypeChecker. Keep this in sync with the `alias` block in svelte.config.js. */
-const PATH_ALIASES: ReadonlyArray<[string, string]> = [
-    ['@components/', 'src/components/'],
-    ['@nodes/', 'src/nodes/'],
-    ['@runtime/', 'src/runtime/'],
-    ['@values/', 'src/values/'],
-    ['@conflicts/', 'src/conflicts/'],
-    ['@locale/', 'src/locale/'],
-    ['@concepts/', 'src/concepts/'],
-    ['@parser/', 'src/parser/'],
-    ['@input/', 'src/input/'],
-    ['@output/', 'src/output/'],
-    ['@basis/', 'src/basis/'],
-    ['@edit/', 'src/edit/'],
-    ['@db/', 'src/db/'],
-    ['@unicode/', 'src/unicode/'],
-    ['@util/', 'src/util/'],
-];
 
 /** Members of a type literal or interface — what we can search and splice. */
 type Members = ts.NodeArray<ts.TypeElement>;
@@ -111,9 +91,15 @@ function findProperty(
 
 /** Resolve an `import type X from '<specifier>'` to an absolute file path. */
 function resolveImportSpecifier(specifier: string, fromFile: string): string {
-    for (const [alias, real] of PATH_ALIASES) {
-        if (specifier.startsWith(alias))
-            return path.resolve(real + specifier.slice(alias.length) + '.ts');
+    // Subpath imports name their extension; resolving them by hand is what lets
+    // this follow type imports without a full TypeChecker.
+    for (const [prefix, real] of getSubpathImports(process.cwd())) {
+        if (specifier.startsWith(prefix))
+            return path.resolve(
+                real +
+                    specifier.slice(prefix.length).replace(/\.ts$/, '') +
+                    '.ts',
+            );
     }
     if (specifier.startsWith('.'))
         return (

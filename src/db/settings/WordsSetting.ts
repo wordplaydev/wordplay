@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /**
  * Whether built-in keywords (and the three logical connectives) render as localized words (true)

@@ -1,13 +1,13 @@
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { locales } from '#db/Database.ts';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
-    } from '@locale/Locales';
-    import { withMonoEmoji } from '@unicode/emoji';
+    } from '#locale/Locales.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
     import {
         gateItemDescription,
         gateItemEmoji,

@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type OutputProperty from '@edit/output/OutputProperty';
-    import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
-    import BooleanLiteral from '@nodes/BooleanLiteral';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import { getProject } from '@components/project/Contexts';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import { must } from '@util/nullable';
+    import type OutputProperty from '#edit/output/OutputProperty.ts';
+    import type OutputPropertyValues from '#edit/output/OutputPropertyValueSet.ts';
+    import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import { getProject } from '#components/project/Contexts.ts';
+    import Checkbox from '#components/widgets/Checkbox.svelte';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         property: OutputProperty;

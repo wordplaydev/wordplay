@@ -11,13 +11,13 @@
      * rotation load with the prompt, not with every page that mounts the chooser in
      * its footer.
      */
-    import Header from '@components/app/Header.svelte';
-    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
-    import { animationFactor } from '@db/Database';
-    import { getLanguageDirection } from '@locale/LanguageCode';
-    import { ChoosePrompts } from '@locale/choosePrompts.generated';
-    import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
-    import { getLocaleLanguage } from '@locale/LocaleText';
+    import Header from '#components/app/Header.svelte';
+    import LocaleChooser from '#components/settings/LocaleChooser.svelte';
+    import { animationFactor } from '#db/Database.ts';
+    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import { ChoosePrompts } from '#locale/choosePrompts.generated.ts';
+    import { getBestSupportedLocales } from '#locale/getBestSupportedLocales.ts';
+    import { getLocaleLanguage } from '#locale/LocaleText.ts';
 
     interface Props {
         show?: boolean;

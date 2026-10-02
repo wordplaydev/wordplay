@@ -1,9 +1,9 @@
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
-import { toSpokenRuns } from '@locale/spokenLanguage';
+import { toSpokenRuns } from '#locale/spokenLanguage.ts';
 
 /** What a screen reader would be told about the caret at `position` in `code`. */
 function describe(code: string, position: number): string {

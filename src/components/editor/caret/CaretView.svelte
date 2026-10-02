@@ -329,39 +329,39 @@
         targetRowPositionFromSpan,
         type Row,
         type RowMember,
-    } from '@components/editor/caret/rowModel';
+    } from '#components/editor/caret/rowModel.ts';
     import {
         locateCaretRect,
         measureTokenSegment,
         segmentLineRects,
-    } from '@components/editor/highlights/measureTokenSegment';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    } from '#components/editor/highlights/measureTokenSegment.ts';
+    import MenuTrigger from '#components/editor/menu/MenuTrigger.svelte';
     import {
         breakElementPosition,
         elementRowRects,
         getTokenPosition,
         isRendered,
-    } from '@components/editor/pointer/PointerUtilities';
+    } from '#components/editor/pointer/PointerUtilities.ts';
     import {
         editorAxes,
         type Axes,
         type LogicalRect,
-    } from '@components/editor/util/axes';
-    import type { WritingLayout } from '@locale/Scripts';
+    } from '#components/editor/util/axes.ts';
+    import type { WritingLayout } from '#locale/Scripts.ts';
     import {
         getEditor,
         getEffectiveFolded,
         getEvaluation,
         getWindowing,
-    } from '@components/project/Contexts';
-    import { animationDuration, locales } from '@db/Database';
-    import Caret from '@edit/caret/Caret';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Node from '@nodes/Node';
-    import Token from '@nodes/Token';
-    import { TAB_TEXT } from '@parser/Spaces';
-    import UnicodeString from '@unicode/UnicodeString';
-    import { must } from '@util/nullable';
+    } from '#components/project/Contexts.ts';
+    import { animationDuration, locales } from '#db/Database.ts';
+    import Caret from '#edit/caret/Caret.ts';
+    import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+    import Node from '#nodes/Node.ts';
+    import Token from '#nodes/Token.ts';
+    import { TAB_TEXT } from '#parser/Spaces.ts';
+    import UnicodeString from '#unicode/UnicodeString.ts';
+    import { must } from '#util/nullable.ts';
     import { tick, untrack } from 'svelte';
     import { get } from 'svelte/store';
 

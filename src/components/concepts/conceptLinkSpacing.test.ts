@@ -1,6 +1,6 @@
 import { compile } from 'svelte/compiler';
 import fs from 'fs';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

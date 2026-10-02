@@ -9,7 +9,7 @@
  * Deliberately free of `Value` and DOM imports, so the conversion can be tested without
  * either — the same rule `csv.ts` follows for the paste path.
  */
-import { RGBtoLCH } from '@output/Color/ColorJS';
+import { RGBtoLCH } from '#output/Color/ColorJS.ts';
 
 /**
  * How wide a picture may be, in colors.

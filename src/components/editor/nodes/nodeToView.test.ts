@@ -1,9 +1,9 @@
-import getNodeView from '@components/editor/nodes/nodeToView';
-import Templates from '@concepts/Templates';
-import UnknownNodeView from '@components/editor/nodes/UnknownNodeView.svelte';
-import { markupToSource } from '@edit/markup/markupSource';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
+import getNodeView from '#components/editor/nodes/nodeToView.ts';
+import Templates from '#concepts/Templates.ts';
+import UnknownNodeView from '#components/editor/nodes/UnknownNodeView.svelte';
+import { markupToSource } from '#edit/markup/markupSource.ts';
+import type Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 
 /**

@@ -1,14 +1,14 @@
-import type Evaluation from '@runtime/Evaluation';
-import SingletonStreamValue from '@values/SingletonStreamValue';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StreamType from '@nodes/StreamType';
-import TextType from '@nodes/TextType';
-import TextValue from '@values/TextValue';
-import createStreamEvaluator from '@input/createStreamEvaluator';
-import type { StreamKind } from '@values/StreamValue';
+import type Evaluation from '#runtime/Evaluation.ts';
+import SingletonStreamValue from '#values/SingletonStreamValue.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StreamType from '#nodes/StreamType.ts';
+import TextType from '#nodes/TextType.ts';
+import TextValue from '#values/TextValue.ts';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
 
 export default class Chat extends SingletonStreamValue<TextValue, string> {
     readonly kind: StreamKind = 'chat';

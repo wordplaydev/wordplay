@@ -1,9 +1,9 @@
-import Project from '@db/projects/Project';
-import type { SerializedProject } from '@db/projects/ProjectSchemas';
-import Caret from '@edit/caret/Caret';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import UnicodeString from '@unicode/UnicodeString';
+import Project from '#db/projects/Project.ts';
+import type { SerializedProject } from '#db/projects/ProjectSchemas.ts';
+import Caret from '#edit/caret/Caret.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 import { describe, expect, test } from 'vitest';
 import { readProjects } from '../../examples/readProjects';
 

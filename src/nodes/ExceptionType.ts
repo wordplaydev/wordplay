@@ -1,12 +1,12 @@
-import { Purpose } from '@concepts/Purpose';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type ExceptionValue from '@values/ExceptionValue';
-import type { BasisTypeName } from '@basis/BasisConstants';
+import { Purpose } from '#concepts/Purpose.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type ExceptionValue from '#values/ExceptionValue.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import Characters from '../lore/BasisCharacters';
-import { EXCEPTION_SYMBOL } from '@parser/Symbols';
-import Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
+import { EXCEPTION_SYMBOL } from '#parser/Symbols.ts';
+import Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 export default class ExceptionType extends Type {
     readonly exception: ExceptionValue;

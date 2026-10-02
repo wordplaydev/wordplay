@@ -4,7 +4,7 @@ import type {
     NameAndDoc,
     NameText,
     Template,
-} from '@locale/LocaleText';
+} from '#locale/LocaleText.ts';
 
 const Empty = [] as const;
 type EmptyInputs = typeof Empty;

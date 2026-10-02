@@ -20,8 +20,8 @@
         authAttempted,
         SaveStatus,
         status,
-    } from '@db/Database';
-    import { withMonoEmoji } from '@unicode/emoji';
+    } from '#db/Database.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
     import { untrack } from 'svelte';
     import { pickRandom } from './backgroundUtils';
     import { Cast } from './cast';

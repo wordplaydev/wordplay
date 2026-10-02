@@ -1,33 +1,36 @@
-import segmentName from '@locale/segmentName';
-import type Markup from '@nodes/Markup';
-import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
-import { withMonoEmoji } from '@unicode/emoji';
-import type Names from '@nodes/Names';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import { MachineTranslated, Unwritten } from '@locale/Annotations';
-import type ConceptRef from '@locale/ConceptRef';
-import type { Concretizer } from '@locale/concretize';
-import { getGlossaryFormIndex, type GlossaryFormIndex } from '@locale/Glossary';
-import type LanguageCode from '@locale/LanguageCode';
+import segmentName from '#locale/segmentName.ts';
+import type Markup from '#nodes/Markup.ts';
+import { MACHINE_TRANSLATED_SYMBOL } from '#parser/Symbols.ts';
+import { withMonoEmoji } from '#unicode/emoji.ts';
+import type Names from '#nodes/Names.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import { MachineTranslated, Unwritten } from '#locale/Annotations.ts';
+import type ConceptRef from '#locale/ConceptRef.ts';
+import type { Concretizer } from '#locale/concretize.ts';
+import {
+    getGlossaryFormIndex,
+    type GlossaryFormIndex,
+} from '#locale/Glossary.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
 import {
     getLanguageDirection,
     getLanguageLayout,
     getLanguageScripts,
     getLanguageVerticalLayout,
-} from '@locale/LanguageCode';
-import { localeToString, toBCP47, type Locale } from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
+} from '#locale/LanguageCode.ts';
+import { localeToString, toBCP47, type Locale } from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 import {
     isUnwritten,
     toLocaleString,
     type StripCountMarker,
     type Template,
-} from '@locale/LocaleText';
-import type NodeRef from '@locale/NodeRef';
-import type { Script, WritingDirection } from '@locale/Scripts';
-import { resolveTerms } from '@locale/templateInputs';
-import type ValueRef from '@locale/ValueRef';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
+} from '#locale/LocaleText.ts';
+import type NodeRef from '#locale/NodeRef.ts';
+import type { Script, WritingDirection } from '#locale/Scripts.ts';
+import { resolveTerms } from '#locale/templateInputs.ts';
+import type ValueRef from '#locale/ValueRef.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
 
 export type TemplateInput =
     | number

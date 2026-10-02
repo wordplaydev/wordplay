@@ -8,14 +8,14 @@
  * Rather than measure twice, this returns both.
  */
 
-import type { SupportedFace } from '@basis/faces/Fonts';
-import type { WritingLayout } from '@locale/Scripts';
-import { LINK_SYMBOL } from '@parser/Symbols';
-import getTextMetrics from '@output/Output/getTextMetrics';
-import { CSSFallbackFaces } from '@output/Output/Stage';
-import { sizeToPx } from '@output/Output/outputToCSS';
-import segmentWraps from '@output/Output/segmentWraps';
-import type { FormattedText } from '@output/Output/Phrase';
+import type { SupportedFace } from '#basis/faces/Fonts.ts';
+import type { WritingLayout } from '#locale/Scripts.ts';
+import { LINK_SYMBOL } from '#parser/Symbols.ts';
+import getTextMetrics from '#output/Output/getTextMetrics.ts';
+import { CSSFallbackFaces } from '#output/Output/Stage.ts';
+import { sizeToPx } from '#output/Output/outputToCSS.ts';
+import segmentWraps from '#output/Output/segmentWraps.ts';
+import type { FormattedText } from '#output/Output/Phrase.ts';
 
 export type FormatMetrics = {
     /** The accumulated width: the last line's width when wrapping, else the whole run. */

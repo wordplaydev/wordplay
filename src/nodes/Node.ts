@@ -1,31 +1,31 @@
-import type { PurposeType } from '@concepts/Purpose';
-import type Conflict from '@conflicts/Conflict';
-import type { DocText, LocaleText } from '@locale/LocaleText';
+import type { PurposeType } from '#concepts/Purpose.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import type { DocText, LocaleText } from '#locale/LocaleText.ts';
 import type {
     DescriptiveNodeText,
     NodeDescriptor,
     NodeText,
-} from '@locale/NodeTexts';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type Spaces from '@parser/Spaces';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import type { LocaleTextAccessor, TemplateInput } from '@locale/Locales';
+} from '#locale/NodeTexts.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import type Spaces from '#parser/Spaces.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextAccessor, TemplateInput } from '#locale/Locales.ts';
 import type BasisCharacter from '../lore/BasisCharacter';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import type Markup from '@nodes/Markup';
-import type Root from '@nodes/Root';
-import type { SymType } from '@nodes/Sym';
-import type Token from '@nodes/Token';
-import type Type from '@nodes/Type';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import type Markup from '#nodes/Markup.ts';
+import type Root from '#nodes/Root.ts';
+import type { SymType } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
 
 export default abstract class Node {
     /** @deprecated Not a real property — a compile-time signpost for the DOM `Node` name collision (#816), declared first so a missing-import assignability error leads with the fix. `declare` emits nothing at runtime. */
-    declare readonly "🛑 This is a Wordplay AST node — a bare `Node` type is the DOM's; import Node from '@nodes/Node'": undefined;
+    declare readonly "🛑 This is a Wordplay AST node — a bare `Node` type is the DOM's; import Node from '#nodes/Node.ts'": undefined;
 
     /* A unique ID to represent this node in memory. */
     readonly id: number;

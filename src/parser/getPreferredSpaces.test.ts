@@ -1,16 +1,16 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import { parseLocaleDoc, toDocString } from '@locale/LocaleText';
-import Project from '@db/projects/Project';
-import Doc from '@nodes/Doc';
-import Docs from '@nodes/Docs';
-import Evaluate from '@nodes/Evaluate';
-import Reference from '@nodes/Reference';
-import TextLiteral from '@nodes/TextLiteral';
-import Example from '@nodes/Example';
-import Program from '@nodes/Program';
-import Source from '@nodes/Source';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import { toMarkup } from '@parser/toMarkup';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { parseLocaleDoc, toDocString } from '#locale/LocaleText.ts';
+import Project from '#db/projects/Project.ts';
+import Doc from '#nodes/Doc.ts';
+import Docs from '#nodes/Docs.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Reference from '#nodes/Reference.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import Example from '#nodes/Example.ts';
+import Program from '#nodes/Program.ts';
+import Source from '#nodes/Source.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
 import { describe, expect, test } from 'vitest';
 
 /** Format `code` the way the tidy command does. */

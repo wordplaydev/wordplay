@@ -1,14 +1,14 @@
 <script lang="ts">
-    import Spinning from '@components/app/Spinning.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import validEmail from '@db/creators/isValidEmail';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import validEmail from '#db/creators/isValidEmail.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import type { User } from 'firebase/auth';
     import { verifyBeforeUpdateEmail } from 'firebase/auth';
-    import Feedback from '@components/app/Notice.svelte';
-    import { ensureAppCheck } from '@db/firebase';
+    import Feedback from '#components/app/Notice.svelte';
+    import { ensureAppCheck } from '#db/firebase.ts';
     import getLoginErrorDescription from './getAuthErrorDescription';
 
     interface Props {

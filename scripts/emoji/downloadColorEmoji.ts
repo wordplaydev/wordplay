@@ -43,7 +43,7 @@ import {
     readCharacterSet,
     toRangeString,
 } from '../fonts/deriveRange';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 const CSS_PATH = 'src/basis/faces/emoji-faces.css';
 const FONT_DIR = 'static/fonts/NotoColorEmoji';

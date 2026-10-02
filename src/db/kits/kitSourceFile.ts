@@ -1,4 +1,4 @@
-import UnicodeString from '@unicode/UnicodeString';
+import UnicodeString from '#unicode/UnicodeString.ts';
 
 /**
  * Reading and writing a built-in kit's `.wp` file.

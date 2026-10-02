@@ -1,4 +1,4 @@
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 import { getOutlineOfRows, rectsToRows, type Rect } from './outline';
 

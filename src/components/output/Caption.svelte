@@ -7,10 +7,10 @@
      decision, two renderings. The only thing layered on top is how long the
      words linger — see caption.ts. -->
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import { captionFor, CaptionHold } from '@components/output/caption';
-    import { animationDuration, captionSize } from '@db/Database';
-    import { speakingNow } from '@output/Speech/speech';
+    import Emoji from '#components/app/Emoji.svelte';
+    import { captionFor, CaptionHold } from '#components/output/caption.ts';
+    import { animationDuration, captionSize } from '#db/Database.ts';
+    import { speakingNow } from '#output/Speech/speech.ts';
     import { onDestroy } from 'svelte';
     import { fade } from 'svelte/transition';
 

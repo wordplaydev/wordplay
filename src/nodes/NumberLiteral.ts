@@ -1,35 +1,38 @@
-import { Purpose } from '@concepts/Purpose';
-import type Conflict from '@conflicts/Conflict';
-import { NotANumber } from '@conflicts/NotANumber';
-import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import NumberValue from '@values/NumberValue';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import { NotANumber } from '#conflicts/NotANumber.ts';
+import { getPossibleDimensions } from '#edit/menu/getPossibleUnits.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import NumberValue from '#values/NumberValue.ts';
 import Decimal from 'decimal.js';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import type Context from '@nodes/Context';
-import Dimension from '@nodes/Dimension';
-import Literal from '@nodes/Literal';
-import type Node from '@nodes/Node';
-import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
-import NumberType from '@nodes/NumberType';
+import type Context from '#nodes/Context.ts';
+import Dimension from '#nodes/Dimension.ts';
+import Literal from '#nodes/Literal.ts';
+import type Node from '#nodes/Node.ts';
+import { node, optional, type Grammar, type Replacement } from '#nodes/Node.ts';
+import NumberType from '#nodes/NumberType.ts';
 import {
     NumeralSyms,
     numeralDigits,
     renderBase,
     renderNumeral,
-} from '@values/numerals';
-import { Sym, type SymType } from '@nodes/Sym';
-import { NOT_A_NUMBER_SYMBOL } from '@parser/Symbols';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import Unit from '@nodes/Unit';
+} from '#values/numerals.ts';
+import { Sym, type SymType } from '#nodes/Sym.ts';
+import { NOT_A_NUMBER_SYMBOL } from '#parser/Symbols.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import Unit from '#nodes/Unit.ts';
 
 export default class NumberLiteral extends Literal {
     readonly number: Token;

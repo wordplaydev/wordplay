@@ -1,15 +1,15 @@
 import { describe, expect, test, vi } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
-// `HowToDatabase.svelte.ts` reaches `@db/Database` for the singleton, which
+// `HowToDatabase.svelte.ts` reaches `#db/Database` for the singleton, which
 // constructs every domain database at import — the same circular import
 // `HowToDatabase.test.ts` mocks around. Only the `HowTo` wrapper class is under
 // test here, and it needs none of it.
-vi.mock('@db/firebase', () => ({ firestore: undefined }));
-vi.mock('@db/Database', () => ({}));
+vi.mock('#db/firebase.ts', () => ({ firestore: undefined }));
+vi.mock('#db/Database.ts', () => ({}));
 
-import Gallery from '@db/galleries/Gallery';
-import { unknownFlags } from '@db/projects/Moderation';
+import Gallery from '#db/galleries/Gallery.ts';
+import { unknownFlags } from '#db/projects/Moderation.ts';
 import HowTo, { type HowToDocument } from './HowToDatabase.svelte';
 import {
     canConfigureHowToSpace,
@@ -41,7 +41,7 @@ import {
     type RepostAction,
     type RepostActor,
 } from './howToAccessScenarios';
-import { MaxHowToReposts } from '@db/rulesFields';
+import { MaxHowToReposts } from '#db/rulesFields.ts';
 
 /**
  * The client half of #907's permission matrix. `tests/rules/howToRules.test.ts`

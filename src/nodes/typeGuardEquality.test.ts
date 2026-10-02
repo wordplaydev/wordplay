@@ -1,13 +1,13 @@
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import { conflictsIn, testConflict } from '@conflicts/TestUtilities';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import { conflictsIn, testConflict } from '#conflicts/TestUtilities.ts';
 import { expect, test } from 'vitest';
-import type Conflict from '@conflicts/Conflict';
-import Conditional from '@nodes/Conditional';
-import Evaluate from '@nodes/Evaluate';
-import type Node from '@nodes/Node';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import type Conflict from '#conflicts/Conflict.ts';
+import Conditional from '#nodes/Conditional.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Node from '#nodes/Node.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 
 /** The types of a conditional's two branches, as written. */
 function branchTypes(code: string) {

@@ -1,12 +1,12 @@
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Name from '@nodes/Name';
-import type Node from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import Root from '@nodes/Root';
-import Token from '@nodes/Token';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type { KeywordEntry, KeywordIndex } from '@parser/Keywords';
-import type Spaces from '@parser/Spaces';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Name from '#nodes/Name.ts';
+import type Node from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import Root from '#nodes/Root.ts';
+import Token from '#nodes/Token.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import type { KeywordEntry, KeywordIndex } from '#parser/Keywords.ts';
+import type Spaces from '#parser/Spaces.ts';
 
 /**
  * Serialize a node to Wordplay text, but rewrite each localized-keyword word that is used as a

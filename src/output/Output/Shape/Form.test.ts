@@ -1,15 +1,15 @@
 import { test, expect } from 'vitest';
-import DefaultLocales from '@locale/DefaultLocales';
-import evaluateCode from '@runtime/evaluate';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
-import { toCircle } from '@output/Output/Shape/Circle';
-import { toPath } from '@output/Output/Shape/Path';
-import { toPolygon } from '@output/Output/Shape/Polygon';
-import { toRectangle } from '@output/Output/Shape/Rectangle';
-import { must } from '@util/nullable';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import type { Form } from '@output/Output/Shape/Form';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
+import { toCircle } from '#output/Output/Shape/Circle.ts';
+import { toPath } from '#output/Output/Shape/Path.ts';
+import { toPolygon } from '#output/Output/Shape/Polygon.ts';
+import { toRectangle } from '#output/Output/Shape/Rectangle.ts';
+import { must } from '#util/nullable.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
+import type { Form } from '#output/Output/Shape/Form.ts';
 
 /** The converters differ in what they accept — `toRectangle` insists on a
  * structure — so give the tables one shape of converter to tabulate. */

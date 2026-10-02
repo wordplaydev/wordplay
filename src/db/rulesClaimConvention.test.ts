@@ -1,4 +1,4 @@
-import { first } from '@util/nullable';
+import { first } from '#util/nullable.ts';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
 

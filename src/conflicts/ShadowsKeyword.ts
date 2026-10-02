@@ -1,13 +1,13 @@
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import type Context from '@nodes/Context';
-import type Names from '@nodes/Names';
-import type Node from '@nodes/Node';
-import { getKeywordGlyph } from '@parser/Keywords';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import type Context from '#nodes/Context.ts';
+import type Names from '#nodes/Names.ts';
+import type Node from '#nodes/Node.ts';
+import { getKeywordGlyph } from '#parser/Keywords.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
+} from '#conflicts/Conflict.ts';
 
 /**
  * A low-severity advisory: a definition name is spelled like a localized keyword whose construct wins

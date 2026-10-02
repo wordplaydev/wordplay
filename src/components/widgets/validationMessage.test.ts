@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import placeValidationMessage from '@components/widgets/validationMessage';
+import placeValidationMessage from '#components/widgets/validationMessage.ts';
 
 /**
  * The placement rules a validation message obeys, which differ from a

@@ -1,10 +1,10 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte';
-    import type Announcement from '@components/project/Announcement';
+    import type Announcement from '#components/project/Announcement.ts';
     import {
         AnnouncerQueue,
         type AnnouncementKind,
-    } from '@components/project/announcerQueue';
+    } from '#components/project/announcerQueue.ts';
 
     /** All queueing policy — lanes, pacing, dedupe — lives in AnnouncerQueue
      *  (see announcerQueue.ts); this component is just the live regions it

@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Expandable from '@components/values/Expandable.svelte';
-    import { fitCount } from '@components/values/fit';
-    import { must } from '@util/nullable';
-    import SymbolView from '@components/values/SymbolView.svelte';
-    import ValueView from '@components/values/ValueView.svelte';
-    import { Sym } from '@nodes/Sym';
-    import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
-    import type ListValue from '@values/ListValue';
+    import Expandable from '#components/values/Expandable.svelte';
+    import { fitCount } from '#components/values/fit.ts';
+    import { must } from '#util/nullable.ts';
+    import SymbolView from '#components/values/SymbolView.svelte';
+    import ValueView from '#components/values/ValueView.svelte';
+    import { Sym } from '#nodes/Sym.ts';
+    import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '#parser/Symbols.ts';
+    import type ListValue from '#values/ListValue.ts';
 
     interface Props {
         value: ListValue;

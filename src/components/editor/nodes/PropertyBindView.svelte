@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PropertyBind from '@nodes/PropertyBind';
+    import type PropertyBind from '#nodes/PropertyBind.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: PropertyBind;

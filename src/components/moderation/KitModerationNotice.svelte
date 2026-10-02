@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { locales } from '@db/Database';
-    import type { SerializedKit } from '@db/kits/Kit';
-    import { getBlocks, getWarnings } from '@db/projects/Moderation';
+    import Notice from '#components/app/Notice.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { locales } from '#db/Database.ts';
+    import type { SerializedKit } from '#db/kits/Kit.ts';
+    import { getBlocks, getWarnings } from '#db/projects/Moderation.ts';
 
     interface Props {
         kit: SerializedKit;

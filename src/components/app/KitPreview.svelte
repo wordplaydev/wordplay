@@ -6,19 +6,19 @@
      kit itself, so a page of tiles is one query and browsing the registry evaluates
      nothing. -->
 <script lang="ts">
-    import Contributors from '@components/app/Contributors.svelte';
-    import GlyphTile from '@components/app/GlyphTile.svelte';
-    import Link from '@components/app/Link.svelte';
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import { kitURL } from '@concepts/ConceptParams';
-    import { anonymizeContributors } from '@db/creators/attribution';
-    import { locales } from '@db/Database';
-    import { kitVisibility } from '@db/moderation/visibility';
-    import type { SerializedKit } from '@db/kits/Kit';
-    import { localizedConceptName } from '@locale/getConceptName';
-    import { toProgram } from '@parser/parseProgram';
+    import Contributors from '#components/app/Contributors.svelte';
+    import GlyphTile from '#components/app/GlyphTile.svelte';
+    import Link from '#components/app/Link.svelte';
+    import ConceptPreview from '#components/concepts/ConceptPreview.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import { kitURL } from '#concepts/ConceptParams.ts';
+    import { anonymizeContributors } from '#db/creators/attribution.ts';
+    import { locales } from '#db/Database.ts';
+    import { kitVisibility } from '#db/moderation/visibility.ts';
+    import type { SerializedKit } from '#db/kits/Kit.ts';
+    import { localizedConceptName } from '#locale/getConceptName.ts';
+    import { toProgram } from '#parser/parseProgram.ts';
 
     interface Props {
         kit: SerializedKit;

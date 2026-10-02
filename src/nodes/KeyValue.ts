@@ -1,19 +1,19 @@
-import conciseRef from '@nodes/conciseRef';
-import type { TemplateInput } from '@locale/Locales';
-import type Locales from '@locale/Locales';
+import conciseRef from '#nodes/conciseRef.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Locales from '#locale/Locales.ts';
 import type Context from './Context';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import { Purpose } from '@concepts/Purpose';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import BindToken from '@nodes/BindToken';
-import Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import type { Grammar, Replacement } from '@nodes/Node';
-import Node, { node } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
+import BindToken from '#nodes/BindToken.ts';
+import Expression from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import Node, { node } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
 
 export default class KeyValue extends Node {
     readonly key: Expression;

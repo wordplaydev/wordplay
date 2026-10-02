@@ -1,7 +1,7 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import { stringToLocale } from '@locale/Locale';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { stringToLocale } from '#locale/Locale.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 import translateProjectContent, {
     type RawTranslator,

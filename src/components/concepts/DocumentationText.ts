@@ -1,12 +1,12 @@
-import type KitsText from '@components/concepts/KitsText';
-import type { HowToCategories } from '@concepts/HowTo';
-import { Purpose } from '@concepts/Purpose';
-import type { FormattedText, Template } from '@locale/LocaleText';
+import type KitsText from '#components/concepts/KitsText.ts';
+import type { HowToCategories } from '#concepts/HowTo.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type { FormattedText, Template } from '#locale/LocaleText.ts';
 import type {
     ButtonText,
     HeaderAndExplanationText,
     ModeText,
-} from '@locale/UITexts';
+} from '#locale/UITexts.ts';
 
 type DocumentationText = {
     /** Published kits, which are a section of the guide rather than a page of their own. */

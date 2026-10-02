@@ -1,4 +1,4 @@
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * Case-insensitive Levenshtein edit distance between two strings.

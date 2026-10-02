@@ -27,7 +27,7 @@
 //
 // Run all supported locales (`npm run datetimes`) or one (`… <locale>`).
 import { existsSync, mkdirSync, readFileSync } from 'fs';
-import { isRecord } from '@util/guards';
+import { isRecord } from '#util/guards.ts';
 import path from 'path';
 import { Temporal } from 'temporal-polyfill/full';
 import {
@@ -37,19 +37,19 @@ import {
     type DateTimeData,
     type DateTimePart,
     type SupportedCalendar,
-} from '@locale/dateTimeFormats';
-import { getLocaleRegions } from '@locale/LocaleText';
-import { SupportedLocales } from '@locale/SupportedLocales';
+} from '#locale/dateTimeFormats.ts';
+import { getLocaleRegions } from '#locale/LocaleText.ts';
+import { SupportedLocales } from '#locale/SupportedLocales.ts';
 import {
     at,
     cldrDirectoriesFor,
     CLDR_VERSION,
     fetchCLDR,
     patternText,
-} from '@util/verify-locales/cldr';
-import writeFormatted from '@util/verify-locales/writeFormatted';
-import Log from '@util/verify-locales/Log';
-import { must } from '@util/nullable';
+} from '#util/verify-locales/cldr.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
+import Log from '#util/verify-locales/Log.ts';
+import { must } from '#util/nullable.ts';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);

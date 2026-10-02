@@ -1,12 +1,12 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import type Context from '@nodes/Context';
-import type ConversionDefinition from '@nodes/ConversionDefinition';
-import { CONVERT_SYMBOL } from '@parser/Symbols';
-import type Evaluation from '@runtime/Evaluation';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import Value from '@values/Value';
-import SimpleValue from '@values/SimpleValue';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import type Context from '#nodes/Context.ts';
+import type ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import { CONVERT_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import Value from '#values/Value.ts';
+import SimpleValue from '#values/SimpleValue.ts';
 
 export default class ConversionDefinitionValue extends SimpleValue {
     /** The definition from the AST. */

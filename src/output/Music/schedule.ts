@@ -6,21 +6,21 @@
  * deciding advances the cursor and adjacent windows share the transport.
  */
 
-import { degreeToSemitones, degreeVoices } from '@output/Music/degrees';
-import { sung } from '@output/Music/instruments';
+import { degreeToSemitones, degreeVoices } from '#output/Music/degrees.ts';
+import { sung } from '#output/Music/instruments.ts';
 import {
     trackLength,
     type MusicData,
     type NoteData,
     type TrackData,
-} from '@output/Music/musicData';
+} from '#output/Music/musicData.ts';
 import {
     applySplice,
     beatAt,
     timeOfBeat,
     type Transport,
     type TrackCursor,
-} from '@output/Music/transport';
+} from '#output/Music/transport.ts';
 
 export type ScheduledNote = {
     /** The music's reconciliation name. */

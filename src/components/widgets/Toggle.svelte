@@ -1,18 +1,18 @@
 <script lang="ts">
-    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '#components/project/Contexts.ts';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
-    import type LocaleText from '@locale/LocaleText';
-    import type { TemplateInputs } from '@locale/Locales';
+    } from '#components/widgets/tipTriggers.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { locales } from '#db/Database.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import type { TemplateInputs } from '#locale/Locales.ts';
     import { untrack, type Snippet } from 'svelte';
-    import type { ToggleText } from '@locale/UITexts';
+    import type { ToggleText } from '#locale/UITexts.ts';
     // Type-only, so this widget carries no runtime edge to the command table.
-    import type { Command } from '@components/editor/commands/Commands';
-    import { toShortcut } from '@components/editor/commands/shortcuts';
+    import type { Command } from '#components/editor/commands/Commands.ts';
+    import { toShortcut } from '#components/editor/commands/shortcuts.ts';
 
     interface Props {
         tips: (locale: LocaleText) => ToggleText;

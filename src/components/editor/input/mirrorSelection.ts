@@ -1,4 +1,4 @@
-import type Caret from '@edit/caret/Caret';
+import type Caret from '#edit/caret/Caret.ts';
 
 /**
  * The hidden textarea both editors keep in sync is what a screen reader actually

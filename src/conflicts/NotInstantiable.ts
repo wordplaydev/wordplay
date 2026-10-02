@@ -1,19 +1,19 @@
-import type LocaleText from '@locale/LocaleText';
-import type Evaluate from '@nodes/Evaluate';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import Block, { BlockKind } from '@nodes/Block';
-import EvalOpenToken from '@nodes/EvalOpenToken';
-import EvalCloseToken from '@nodes/EvalCloseToken';
-import NumberLiteral from '@nodes/NumberLiteral';
-import type Expression from '@nodes/Expression';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import EvalOpenToken from '#nodes/EvalOpenToken.ts';
+import EvalCloseToken from '#nodes/EvalCloseToken.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import type Expression from '#nodes/Expression.ts';
 
 export default class NotInstantiable extends Conflict {
     readonly evaluate: Evaluate;

@@ -1,13 +1,13 @@
-import DefaultLocales from '@locale/DefaultLocales';
-import evaluateCode from '@runtime/evaluate';
-import { must } from '@util/nullable';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import { must } from '#util/nullable.ts';
 import {
     bytesOf,
     canExport,
     formatsFor,
     serialize,
     type ExportFormat,
-} from '@values/export/exportValue';
+} from '#values/export/exportValue.ts';
 import { expect, test } from 'vitest';
 
 function value(code: string) {

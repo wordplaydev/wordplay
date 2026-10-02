@@ -1,10 +1,10 @@
-import type { Basis } from '@basis/Basis';
-import Bind from '@nodes/Bind';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import type Node from '@nodes/Node';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
+import type { Basis } from '#basis/Basis.ts';
+import Bind from '#nodes/Bind.ts';
+import ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type Node from '#nodes/Node.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
 
 /**
  * Pair every built-in definition in one basis with the same definition in another basis

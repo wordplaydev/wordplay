@@ -1,10 +1,10 @@
 import { test, expect } from 'vitest';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
-import Evaluate from '@nodes/Evaluate';
-import SelectedOutput from '@components/project/SelectedOutput.svelte';
-import { must } from '@util/nullable';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import SelectedOutput from '#components/project/SelectedOutput.svelte.ts';
+import { must } from '#util/nullable.ts';
 
 /** A project with two top-level Phrase outputs, plus those two Evaluates. */
 function setup() {

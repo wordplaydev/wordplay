@@ -1,7 +1,7 @@
 <!-- Holds a preview tile's exact box while its content loads (or when there's
      nothing to show), so lists of previews don't shift as they resolve. -->
 <script lang="ts">
-    import Spinning from '@components/app/Spinning.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
 
     interface Props {
         /** How many rems the square should be; mirrors ProjectPreview's `size`. */

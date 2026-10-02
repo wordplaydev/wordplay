@@ -1,9 +1,9 @@
-import { Sym, type SymType } from '@nodes/Sym';
-import { matchGroups, must } from '@util/nullable';
-import Token from '@nodes/Token';
-import type { KeywordIndex } from '@parser/Keywords';
-import { withoutColorSelector } from '@unicode/emoji';
-import ReservedSymbols from '@parser/ReservedSymbols';
+import { Sym, type SymType } from '#nodes/Sym.ts';
+import { matchGroups, must } from '#util/nullable.ts';
+import Token from '#nodes/Token.ts';
+import type { KeywordIndex } from '#parser/Keywords.ts';
+import { withoutColorSelector } from '#unicode/emoji.ts';
+import ReservedSymbols from '#parser/ReservedSymbols.ts';
 import {
     BIND_SYMBOL,
     BIND_SYMBOL_FULL,
@@ -105,9 +105,9 @@ import {
     TYPE_SYMBOL,
     UNDERSCORE_SYMBOL,
     UPDATE_SYMBOL,
-} from '@parser/Symbols';
-import TokenList from '@parser/TokenList';
-import { toTokens } from '@parser/toTokens';
+} from '#parser/Symbols.ts';
+import TokenList from '#parser/TokenList.ts';
+import { toTokens } from '#parser/toTokens.ts';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
 const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}${PRODUCT_SYMBOL}${DOT_SYMBOL}÷%<≤=≠≥>&|~?\\u2025\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F\\u2315`;

@@ -1,12 +1,12 @@
-import { Faces, faceSupportsWeight } from '@basis/faces/Fonts';
-import UnsupportedFontFormat from '@conflicts/UnsupportedFontFormat';
-import type Conflict from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Evaluate from '@nodes/Evaluate';
-import TextLiteral from '@nodes/TextLiteral';
-import Words from '@nodes/Words';
-import FormattedLiteral from '@nodes/FormattedLiteral';
-import { must } from '@util/nullable';
+import { Faces, faceSupportsWeight } from '#basis/faces/Fonts.ts';
+import UnsupportedFontFormat from '#conflicts/UnsupportedFontFormat.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import Words from '#nodes/Words.ts';
+import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * Static analysis: warn when a @Phrase's markup requests a weight or italic

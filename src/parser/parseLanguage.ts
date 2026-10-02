@@ -1,7 +1,7 @@
-import Language from '@nodes/Language';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
-import type Tokens from '@parser/Tokens';
+import Language from '#nodes/Language.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
+import type Tokens from '#parser/Tokens.ts';
 
 /** LANGUAGE :: /NAME(_NAME)*(-NAME(_NAME)*)?
  *

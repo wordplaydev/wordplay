@@ -1,17 +1,17 @@
-import DuplicateLanguage from '@conflicts/DuplicateLanguage';
-import MissingLanguage from '@conflicts/MissingLanguage';
-import { testConflict } from '@conflicts/TestUtilities';
-import UnknownLanguage from '@conflicts/UnknownLanguage';
-import UnknownRegion from '@conflicts/UnknownRegion';
+import DuplicateLanguage from '#conflicts/DuplicateLanguage.ts';
+import MissingLanguage from '#conflicts/MissingLanguage.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import UnknownLanguage from '#conflicts/UnknownLanguage.ts';
+import UnknownRegion from '#conflicts/UnknownRegion.ts';
 import { describe, expect, test } from 'vitest';
-import parseProgram from '@parser/parseProgram';
-import { toTokens } from '@parser/toTokens';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Project from '@db/projects/Project';
-import Language from '@nodes/Language';
-import Source from '@nodes/Source';
-import TextLiteral from '@nodes/TextLiteral';
+import parseProgram from '#parser/parseProgram.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Project from '#db/projects/Project.ts';
+import Language from '#nodes/Language.ts';
+import Source from '#nodes/Source.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
 
 /** Parse a Language node from a flat tag, e.g. `langFromTag('es_en-MX_US')`. */
 function langFromTag(tag: string): Language {

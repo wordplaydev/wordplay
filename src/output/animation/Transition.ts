@@ -1,5 +1,5 @@
-import type Place from '@output/Place/Place';
-import type Pose from '@output/animation/Pose';
+import type Place from '#output/Place/Place.ts';
+import type Pose from '#output/animation/Pose.ts';
 
 /**
  * Represents a transition between two poses, including a duration and style.

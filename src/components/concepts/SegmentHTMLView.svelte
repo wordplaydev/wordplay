@@ -1,29 +1,30 @@
 <script lang="ts">
-    import ConceptRef from '@locale/ConceptRef';
-    import TermRef from '@locale/TermRef';
-    import ConceptLink from '@nodes/ConceptLink';
-    import ExternalExample from '@nodes/ExternalExample';
-    import type { Segment } from '@nodes/Paragraph';
-    import { Sym } from '@nodes/Sym';
-    import Token from '@nodes/Token';
-    import WebLink from '@nodes/WebLink';
-    import Words from '@nodes/Words';
-    import type Spaces from '@parser/Spaces';
-    import { unescapeMarkupSymbols } from '@parser/Tokenizer';
-    import { BULLET_SYMBOL } from '@parser/Symbols';
-    import Link from '@components/app/Link.svelte';
-    import linkHref from '@parser/linkHref';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import TermView from '@components/concepts/TermView.svelte';
-    import ExternalExampleView from '@components/concepts/ExternalExampleView.svelte';
-    import WebLinkHTMLView from '@components/concepts/WebLinkHTMLView.svelte';
-    import WordsHTMLView from '@components/concepts/WordsHTMLView.svelte';
-    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
+    import { authoredLink } from '#util/appPath.ts';
+    import ConceptRef from '#locale/ConceptRef.ts';
+    import TermRef from '#locale/TermRef.ts';
+    import ConceptLink from '#nodes/ConceptLink.ts';
+    import ExternalExample from '#nodes/ExternalExample.ts';
+    import type { Segment } from '#nodes/Paragraph.ts';
+    import { Sym } from '#nodes/Sym.ts';
+    import Token from '#nodes/Token.ts';
+    import WebLink from '#nodes/WebLink.ts';
+    import Words from '#nodes/Words.ts';
+    import type Spaces from '#parser/Spaces.ts';
+    import { unescapeMarkupSymbols } from '#parser/Tokenizer.ts';
+    import { BULLET_SYMBOL } from '#parser/Symbols.ts';
+    import Link from '#components/app/Link.svelte';
+    import linkHref from '#parser/linkHref.ts';
+    import ConceptLinkUI from '#components/concepts/ConceptLinkUI.svelte';
+    import TermView from '#components/concepts/TermView.svelte';
+    import ExternalExampleView from '#components/concepts/ExternalExampleView.svelte';
+    import WebLinkHTMLView from '#components/concepts/WebLinkHTMLView.svelte';
+    import WordsHTMLView from '#components/concepts/WordsHTMLView.svelte';
+    import EmojisRepaired from '#components/widgets/EmojisRepaired.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
     import {
         isRichSegment,
         loadRichSegment,
-    } from '@components/concepts/richSegment';
+    } from '#components/concepts/richSegment.ts';
 
     interface Props {
         segment: Segment;
@@ -50,7 +51,7 @@
     // email, an internal ://path, and an ordinary URL all resolve the same way
     // — and so nothing renders a link to a scheme we don't allow.
     function getTokenURL(token: Token) {
-        return linkHref(token.getText());
+        return authoredLink(linkHref(token.getText()));
     }
 
     function getTokenText(token: Token) {

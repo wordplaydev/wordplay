@@ -1,13 +1,13 @@
-import type LocaleText from '@locale/LocaleText';
-import Translation from '@nodes/Translation';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import Translation from '#nodes/Translation.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import { ConceptRegExPattern } from '@parser/Tokenizer';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import { ConceptRegExPattern } from '#parser/Tokenizer.ts';
 
 export class CharacterWarning extends Conflict {
     /** The node containing text */

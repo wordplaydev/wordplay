@@ -1,5 +1,5 @@
-import { matchGroups } from '@util/nullable';
-import retryableLoad from '@util/retryableLoad';
+import { matchGroups } from '#util/nullable.ts';
+import retryableLoad from '#util/retryableLoad.ts';
 
 // Load highlight.js lazily and once, using the CORE build plus only the three languages the
 // tutorial's contrast examples actually use (python/javascript/java — see ContrastLanguage.ts).

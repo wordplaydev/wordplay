@@ -1,8 +1,8 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Evaluate from '@nodes/Evaluate';
-import Source from '@nodes/Source';
-import { isTailCall } from '@nodes/tailCall';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Source from '#nodes/Source.ts';
+import { isTailCall } from '#nodes/tailCall.ts';
 import { expect, test } from 'vitest';
 
 /** Find the Evaluate node whose source text matches the given text, ignoring spaces. */

@@ -1,7 +1,7 @@
-import { Languages } from '@locale/LanguageCode';
-import { Regions } from '@locale/Regions';
+import { Languages } from '#locale/LanguageCode.ts';
+import { Regions } from '#locale/Regions.ts';
 import { describe, expect, test } from 'vitest';
-import { stringToLocale } from '@locale/Locale';
+import { stringToLocale } from '#locale/Locale.ts';
 import {
     allLanguageOptions,
     allRegionOptions,

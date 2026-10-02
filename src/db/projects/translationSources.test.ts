@@ -1,8 +1,8 @@
-import { stringToLocale, type Locale } from '@locale/Locale';
-import type Name from '@nodes/Name';
-import Names from '@nodes/Names';
-import Source from '@nodes/Source';
-import TextLiteral from '@nodes/TextLiteral';
+import { stringToLocale, type Locale } from '#locale/Locale.ts';
+import type Name from '#nodes/Name.ts';
+import Names from '#nodes/Names.ts';
+import Source from '#nodes/Source.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
 import { expect, test } from 'vitest';
 import { chooseNameSource, chooseTextSource } from './translationSources';
 

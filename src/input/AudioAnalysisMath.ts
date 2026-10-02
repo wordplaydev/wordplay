@@ -28,7 +28,7 @@ export const PITCH_FFT_SIZE = 1024;
  * Clarity cannot answer this. McLeod's measure is normalized, so it says how
  * *periodic* a window is, not how loud — quiet room noise scores as well as
  * singing. Measured on a real take (see `MinLevel` in
- * `@output/Music/transcribe`): breath and room noise reached clarities up to
+ * `#output/Music/transcribe`): breath and room noise reached clarities up to
  * 0.977 while sitting near 0.008 RMS, and the singing sat near 0.086. This sits
  * in that empty gap, nearer the noise so that quiet singing still counts.
  */

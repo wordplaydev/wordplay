@@ -10,14 +10,14 @@
      pin themselves to the top of it the way a client-written timestamp would let
      them. -->
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { locales } from '@db/Database';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { locales } from '#db/Database.ts';
     import HowTo, {
         HowToSchema,
         HowTosCollection,
         upgradeHowTo,
-    } from '@db/howtos/HowToDatabase.svelte';
+    } from '#db/howtos/HowToDatabase.svelte.ts';
     import ModerationQueue from './ModerationQueue.svelte';
 </script>
 

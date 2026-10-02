@@ -6,36 +6,36 @@ import {
     loadRapier,
     onRapierLoaded,
     rapierLoaded,
-} from '@output/physics/rapierLoader';
+} from '#output/physics/rapierLoader.ts';
 import { get } from 'svelte/store';
-import { animationFactor } from '@db/Database';
-import type { Contact } from '@output/Cues/contacts';
-import { listeningForContacts, reportContacts } from '@output/Cues/contacts';
-import type { ReboundEvent } from '@input/Collision/Collision';
-import Collision, { getWatchedNames } from '@input/Collision/Collision';
-import { getPlacingMotion } from '@input/Motion/Motion';
-import type Evaluator from '@runtime/Evaluator';
-import type { OutputInfo, OutputInfoSet } from '@output/animation/Animator';
-import { Circle } from '@output/Output/Shape/Circle';
-import type { Form } from '@output/Output/Shape/Form';
-import { Path } from '@output/Output/Shape/Path';
-import { Polygon } from '@output/Output/Shape/Polygon';
-import { Rectangle } from '@output/Output/Shape/Rectangle';
-import Group from '@output/Output/Group';
-import type Matter from '@output/physics/Matter';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
-import Phrase from '@output/Output/Phrase';
+import { animationFactor } from '#db/Database.ts';
+import type { Contact } from '#output/Cues/contacts.ts';
+import { listeningForContacts, reportContacts } from '#output/Cues/contacts.ts';
+import type { ReboundEvent } from '#input/Collision/Collision.ts';
+import Collision, { getWatchedNames } from '#input/Collision/Collision.ts';
+import { getPlacingMotion } from '#input/Motion/Motion.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type { OutputInfo, OutputInfoSet } from '#output/animation/Animator.ts';
+import { Circle } from '#output/Output/Shape/Circle.ts';
+import type { Form } from '#output/Output/Shape/Form.ts';
+import { Path } from '#output/Output/Shape/Path.ts';
+import { Polygon } from '#output/Output/Shape/Polygon.ts';
+import { Rectangle } from '#output/Output/Shape/Rectangle.ts';
+import Group from '#output/Output/Group.ts';
+import type Matter from '#output/physics/Matter.ts';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
+import Phrase from '#output/Output/Phrase.ts';
 import {
     getGlyphOutline,
     glyphColliderDesc,
     outlineKey,
     type OutlineMesh,
-} from '@output/physics/glyphOutline';
-import { layoutToCSS } from '@locale/Scripts';
-import { splitCharacterRefs } from '@output/Output/splitCharacterRefs';
-import TextValue from '@values/TextValue';
-import Shape from '@output/Output/Shape/Shape';
-import Stage from '@output/Output/Stage';
+} from '#output/physics/glyphOutline.ts';
+import { layoutToCSS } from '#locale/Scripts.ts';
+import { splitCharacterRefs } from '#output/Output/splitCharacterRefs.ts';
+import TextValue from '#values/TextValue.ts';
+import Shape from '#output/Output/Shape/Shape.ts';
+import Stage from '#output/Output/Stage.ts';
 
 /** Interaction-group membership bits (Rapier packs membership in the high 16
  *  bits and the filter mask in the low 16 bits of a single u32). */

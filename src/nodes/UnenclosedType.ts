@@ -1,6 +1,6 @@
-import type Locales from '@locale/Locales';
-import type This from '@nodes/This';
-import UnknownType from '@nodes/UnknownType';
+import type Locales from '#locale/Locales.ts';
+import type This from '#nodes/This.ts';
+import UnknownType from '#nodes/UnknownType.ts';
 
 export class UnenclosedType extends UnknownType<This> {
     constructor(dis: This) {

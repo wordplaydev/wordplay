@@ -1,16 +1,16 @@
-import DefaultLocales from '@locale/DefaultLocales';
+import DefaultLocales from '#locale/DefaultLocales.ts';
 import Shape, {
     FilledIndex,
     GlyphsIndex,
     StrokedIndex,
     toShape,
-} from '@output/Output/Shape/Shape';
-import { NameGenerator } from '@output/Output/Stage';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import { DB } from '@db/Database';
+} from '#output/Output/Shape/Shape.ts';
+import { NameGenerator } from '#output/Output/Stage.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { DB } from '#db/Database.ts';
 import { expect, test } from 'vitest';
 
 /** Evaluate a program to its Shape. */

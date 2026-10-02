@@ -3,10 +3,10 @@
      follows the subject's visibility, so this button is the same button
      wherever it appears; only what it names changes. -->
 <script lang="ts">
-    import { getAnnouncer } from '@components/project/Contexts';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import { DB, locales } from '@db/Database';
-    import sendReport from '@db/moderation/report';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import { DB, locales } from '#db/Database.ts';
+    import sendReport from '#db/moderation/report.ts';
     import type { ReportSubjectKind } from 'shared-types';
 
     interface Props {

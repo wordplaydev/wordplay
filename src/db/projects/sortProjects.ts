@@ -1,5 +1,5 @@
-import type Project from '@db/projects/Project';
-import type { ProjectSort } from '@db/settings/ProjectSortSetting';
+import type Project from '#db/projects/Project.ts';
+import type { ProjectSort } from '#db/settings/ProjectSortSetting.ts';
 
 /**
  * Order projects by the creator's one global choice.

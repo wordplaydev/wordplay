@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import { CharactersDB, Galleries } from '@db/Database';
-    import { localeGoto } from '@util/localeGoto';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import { CharactersDB, Galleries } from '#db/Database.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
 
     let {
         inline = false,

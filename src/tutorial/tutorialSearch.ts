@@ -5,8 +5,12 @@
  * view turns a {@link TutorialTarget} back into a Progress to navigate.
  */
 
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { foldEntry, type Searchable, type SearchLanguages } from '@util/search';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import {
+    foldEntry,
+    type Searchable,
+    type SearchLanguages,
+} from '#util/search.ts';
 
 /** Where in the tutorial a search result points (1-based, like Progress). */
 export type TutorialTarget = {

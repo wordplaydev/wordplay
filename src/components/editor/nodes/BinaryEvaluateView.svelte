@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type BinaryEvaluate from '@nodes/BinaryEvaluate';
+    import type BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: BinaryEvaluate;

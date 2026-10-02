@@ -1,5 +1,5 @@
-import { isProxySession } from '@db/proxySession';
-import { Domain } from '@db/Domains';
+import { isProxySession } from '#db/proxySession.ts';
+import { Domain } from '#db/Domains.ts';
 import { FirebaseError } from 'firebase/app';
 import {
     collection,
@@ -11,7 +11,7 @@ import {
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
-import { MAX_CONCURRENT_EDITORS } from '@db/projects/Project';
+import { MAX_CONCURRENT_EDITORS } from '#db/projects/Project.ts';
 
 import {
     isPresenceStale,
@@ -19,8 +19,8 @@ import {
     PRESENCE_HEARTBEAT_MS,
     type PresencePayload,
     PresencePayloadSchema,
-} from '@db/projects/ProjectPresence';
-import type { RemoteCaret } from '@db/projects/caretEncoding';
+} from '#db/projects/ProjectPresence.ts';
+import type { RemoteCaret } from '#db/projects/caretEncoding.ts';
 
 /** Throttle for caret-position publishes. Lower than the heartbeat so
  *  typing-induced caret moves are smooth, but high enough to avoid one

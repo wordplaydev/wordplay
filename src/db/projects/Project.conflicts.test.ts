@@ -1,7 +1,7 @@
-import type Conflict from '@conflicts/Conflict';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import type Conflict from '#conflicts/Conflict.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
 /** Reference implementation: the un-optimized batch that re-walks the WHOLE

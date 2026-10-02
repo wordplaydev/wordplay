@@ -1,5 +1,5 @@
-import UnicodeString from '@unicode/UnicodeString';
-import { must } from '@util/nullable';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import { must } from '#util/nullable.ts';
 import BasisCharacters from '../../lore/BasisCharacters';
 
 /** A random element of a non-empty array. Callers check for emptiness first

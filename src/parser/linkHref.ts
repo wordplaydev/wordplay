@@ -1,4 +1,4 @@
-import { isEmail } from '@parser/Tokenizer';
+import { isEmail } from '#parser/Tokenizer.ts';
 
 /** The schemes a link in documentation may point at. Anything else — a
  *  `javascript:` URL above all — is not a link a creator has any reason to

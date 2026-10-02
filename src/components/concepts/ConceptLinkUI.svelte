@@ -1,27 +1,27 @@
 <script lang="ts">
-    import Link from '@components/app/Link.svelte';
+    import Link from '#components/app/Link.svelte';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
-    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
-    import CharacterView from '@components/output/CharacterView.svelte';
+    } from '#components/widgets/tipTriggers.ts';
+    import TutorialHighlight from '#components/app/TutorialHighlight.svelte';
+    import CharacterView from '#components/output/CharacterView.svelte';
     import {
         getConceptIndex,
         getConceptPathOptional,
         getTip,
         getUser,
-    } from '@components/project/Contexts';
-    import Concept from '@concepts/Concept';
+    } from '#components/project/Contexts.ts';
+    import Concept from '#concepts/Concept.ts';
     import {
         currentConcept,
         pushConcept,
-    } from '@components/concepts/GuideHistory';
-    import GalleryHowConcept from '@concepts/GalleryHowConcept';
-    import { locales } from '@db/Database';
-    import ConceptRef from '@locale/ConceptRef';
-    import { localizedConceptName } from '@locale/getConceptName';
-    import type TermRef from '@locale/TermRef';
+    } from '#components/concepts/GuideHistory.ts';
+    import GalleryHowConcept from '#concepts/GalleryHowConcept.ts';
+    import { locales } from '#db/Database.ts';
+    import ConceptRef from '#locale/ConceptRef.ts';
+    import { localizedConceptName } from '#locale/getConceptName.ts';
+    import type TermRef from '#locale/TermRef.ts';
     import ConceptLink, {
         CharacterName,
         CodepointName,
@@ -31,8 +31,8 @@
         HowToName,
         TourName,
         UIName,
-    } from '@nodes/ConceptLink';
-    import { withMonoEmoji } from '@unicode/emoji';
+    } from '#nodes/ConceptLink.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import TourLink from './TourLink.svelte';
     import TermView from './TermView.svelte';

@@ -3,7 +3,7 @@ import {
     hasResidualLinkMask,
     protectConceptLinks,
     restoreConceptLinks,
-} from '@util/verify-locales/protect';
+} from '#util/verify-locales/protect.ts';
 import { describe, expect, test } from 'vitest';
 
 /** Mask, pretend to translate the prose, restore. */

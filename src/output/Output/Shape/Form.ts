@@ -1,8 +1,8 @@
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import type Locales from '@locale/Locales';
-import Valued from '@output/Output/Valued';
+import toStructure from '#basis/toStructure.ts';
+import { getBind } from '#locale/getBind.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type Locales from '#locale/Locales.ts';
+import Valued from '#output/Output/Valued.ts';
 
 /** This is a wrapper class for a Form value, which represents some kind of shape that's used as a collision boundary. */
 export abstract class Form extends Valued {

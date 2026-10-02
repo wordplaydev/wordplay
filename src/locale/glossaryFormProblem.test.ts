@@ -3,7 +3,7 @@ import {
     getGlossaryWordIndex,
     getReservedFormNames,
     type GlossaryFormProblem,
-} from '@locale/glossaryFormProblem';
+} from '#locale/glossaryFormProblem.ts';
 import { expect, test } from 'vitest';
 
 /** A small glossary standing in for a locale's, so the cases read plainly. */

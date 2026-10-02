@@ -1,24 +1,25 @@
 <!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
+    import type { AppPath } from '#util/appPath.ts';
     import { navigating } from '$app/state';
-    import Contributors from '@components/app/Contributors.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import { UncomputablePreview } from '@components/app/previewTypes';
-    import GlyphTile from '@components/app/GlyphTile.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import Note from '@components/widgets/Note.svelte';
-    import { Chats, DB, LoadedProjects, locales } from '@db/Database';
-    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
-    import { isFlagged } from '@db/projects/Moderation';
-    import { isAudience } from '@db/projects/ModerationUtils';
-    import { enqueuePreviewCompute } from '@db/projects/previewQueue';
-    import type Project from '@db/projects/Project';
-    import type { SerializedPreview } from '@db/projects/ProjectSchemas';
-    import Logo from '@components/app/Logo.svelte';
-    import { REMIX_SYMBOL } from '@parser/Symbols';
+    import Contributors from '#components/app/Contributors.svelte';
+    import Emoji from '#components/app/Emoji.svelte';
+    import { UncomputablePreview } from '#components/app/previewTypes.ts';
+    import GlyphTile from '#components/app/GlyphTile.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import Note from '#components/widgets/Note.svelte';
+    import { Chats, DB, LoadedProjects, locales } from '#db/Database.ts';
+    import { getLocalizedProjectName } from '#db/projects/getLocalizedProjectName.ts';
+    import { isFlagged } from '#db/projects/Moderation.ts';
+    import { isAudience } from '#db/projects/ModerationUtils.ts';
+    import { enqueuePreviewCompute } from '#db/projects/previewQueue.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type { SerializedPreview } from '#db/projects/ProjectSchemas.ts';
+    import Logo from '#components/app/Logo.svelte';
+    import { REMIX_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         project: Project;
@@ -28,7 +29,7 @@
         /** How many rems the preview square should be. */
         size?: number;
         /** The link to go to when clicked. If none is provided, goes to the project. */
-        link?: string | undefined;
+        link?: AppPath | undefined;
         children?: import('svelte').Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;

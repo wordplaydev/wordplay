@@ -1,16 +1,16 @@
 <script lang="ts">
-    import { Sym } from '@nodes/Sym';
+    import { Sym } from '#nodes/Sym.ts';
     import {
         BIND_SYMBOL,
         SET_CLOSE_SYMBOL,
         SET_OPEN_SYMBOL,
-    } from '@parser/Symbols';
-    import type MapValue from '@values/MapValue';
-    import Expandable from '@components/values/Expandable.svelte';
-    import { fitCount } from '@components/values/fit';
-    import { must } from '@util/nullable';
-    import SymbolView from '@components/values/SymbolView.svelte';
-    import ValueView from '@components/values/ValueView.svelte';
+    } from '#parser/Symbols.ts';
+    import type MapValue from '#values/MapValue.ts';
+    import Expandable from '#components/values/Expandable.svelte';
+    import { fitCount } from '#components/values/fit.ts';
+    import { must } from '#util/nullable.ts';
+    import SymbolView from '#components/values/SymbolView.svelte';
+    import ValueView from '#components/values/ValueView.svelte';
 
     interface Props {
         value: MapValue;

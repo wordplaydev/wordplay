@@ -2,7 +2,7 @@ import type { ObjectDetector } from '@mediapipe/tasks-vision';
 import createLandmarkerRuntime, {
     fetchModel,
     isWebKit,
-} from '@input/createLandmarkerRuntime';
+} from '#input/createLandmarkerRuntime.ts';
 
 /**
  * EfficientDet-Lite0, float16. The int8 build silently returns no detections on

@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 import { missedReplays, type Snapshot } from './missedReplays';
 import type { MusicData } from './musicData';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 function music(name: string, replay: boolean): MusicData {
     return {

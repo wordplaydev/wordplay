@@ -1,5 +1,5 @@
-import type Locale from '@locale/Locale';
-import { substituteDigitsForLocale } from '@locale/numberFormats';
+import type Locale from '#locale/Locale.ts';
+import { substituteDigitsForLocale } from '#locale/numberFormats.ts';
 
 /**
  * Deterministic, in-repo date and time formatting for Moment values. As with

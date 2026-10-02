@@ -12,18 +12,18 @@
      them is that a proxy session cannot write, which `firestore.rules` enforces
      with no reference to the clock. -->
 <script lang="ts">
-    import Banner from '@components/app/Banner.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import { Creators, locales } from '@db/Database';
-    import { ensureAuth } from '@db/firebase';
+    import Banner from '#components/app/Banner.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '#components/project/Contexts.ts';
+    import { Creators, locales } from '#db/Database.ts';
+    import { ensureAuth } from '#db/firebase.ts';
     import {
         ProxyUntilKey,
         hasEnded,
         isProxySession,
         minutesLeft,
-    } from '@db/proxySession';
+    } from '#db/proxySession.ts';
 
     const user = getUser();
 

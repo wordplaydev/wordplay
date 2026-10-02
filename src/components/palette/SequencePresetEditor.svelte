@@ -2,37 +2,37 @@
     import {
         getProject,
         getSelectedOutput,
-    } from '@components/project/Contexts';
-    import SequencePreview from '@components/palette/SequencePreview.svelte';
+    } from '#components/project/Contexts.ts';
+    import SequencePreview from '#components/palette/SequencePreview.svelte';
     import getSequencePreviews, {
         buildSequencePreview,
-    } from '@components/palette/sequencePreviews';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import Slider from '@components/widgets/Slider.svelte';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import type OutputExpression from '@edit/output/OutputExpression';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import type LocaleText from '@locale/LocaleText';
-    import { createDefaultPosesMap } from '@edit/output/SequenceProperties';
-    import type Bind from '@nodes/Bind';
-    import Evaluate from '@nodes/Evaluate';
-    import Expression from '@nodes/Expression';
-    import MapLiteral from '@nodes/MapLiteral';
-    import type FunctionDefinition from '@nodes/FunctionDefinition';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import NumberType from '@nodes/NumberType';
-    import Input from '@nodes/Input';
-    import PropertyReference from '@nodes/PropertyReference';
-    import Reference from '@nodes/Reference';
-    import Unit from '@nodes/Unit';
-    import { getAnimations } from '@output/animation/Sequence';
-    import { parseNumber } from '@parser/parseExpression';
-    import { toTokens } from '@parser/toTokens';
+    } from '#components/palette/sequencePreviews.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import Slider from '#components/widgets/Slider.svelte';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type OutputExpression from '#edit/output/OutputExpression.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import { createDefaultPosesMap } from '#edit/output/SequenceProperties.ts';
+    import type Bind from '#nodes/Bind.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import Expression from '#nodes/Expression.ts';
+    import MapLiteral from '#nodes/MapLiteral.ts';
+    import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+    import NumberLiteral from '#nodes/NumberLiteral.ts';
+    import NumberType from '#nodes/NumberType.ts';
+    import Input from '#nodes/Input.ts';
+    import PropertyReference from '#nodes/PropertyReference.ts';
+    import Reference from '#nodes/Reference.ts';
+    import Unit from '#nodes/Unit.ts';
+    import { getAnimations } from '#output/animation/Sequence.ts';
+    import { parseNumber } from '#parser/parseExpression.ts';
+    import { toTokens } from '#parser/toTokens.ts';
     import type Decimal from 'decimal.js';
-    import { must } from '@util/nullable';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         project: Project;

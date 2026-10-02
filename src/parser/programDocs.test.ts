@@ -1,13 +1,13 @@
-import Bind from '@nodes/Bind';
-import Docs from '@nodes/Docs';
-import DocumentedExpression from '@nodes/DocumentedExpression';
-import Source from '@nodes/Source';
+import Bind from '#nodes/Bind.ts';
+import Docs from '#nodes/Docs.ts';
+import DocumentedExpression from '#nodes/DocumentedExpression.ts';
+import Source from '#nodes/Source.ts';
 import {
     canRepresent,
     getMarkup,
     isWholeMarkup,
     markupToSource,
-} from '@edit/markup/markupSource';
+} from '#edit/markup/markupSource.ts';
 import { expect, test } from 'vitest';
 
 /**

@@ -4,14 +4,14 @@
  * projects and evaluators — and document the reactivity contract — in one
  * place.
  */
-import type { ExampleScope } from '@components/project/Contexts';
-import type { Database } from '@db/Database';
-import Project from '@db/projects/Project';
-import type LocaleText from '@locale/LocaleText';
-import type Program from '@nodes/Program';
-import Source from '@nodes/Source';
-import type Spaces from '@parser/Spaces';
-import Evaluator from '@runtime/Evaluator';
+import type { ExampleScope } from '#components/project/Contexts.ts';
+import type { Database } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Program from '#nodes/Program.ts';
+import Source from '#nodes/Source.ts';
+import type Spaces from '#parser/Spaces.ts';
+import Evaluator from '#runtime/Evaluator.ts';
 
 /**
  * Make a project for a markup example's program — self-contained by default, which is

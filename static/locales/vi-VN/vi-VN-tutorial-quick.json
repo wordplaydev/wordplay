@@ -328,7 +328,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Ta có thể làm cho cái này tương tác hơn nữa bằng cách thêm đầu vào của người dùng để điều khiển sự xoay, như @Volume của đầu vào micro. Nó là một value giữa 0 và 1, nên ta có thể ánh xạ nó lên 360 độ.",
-                            "$~Đó là hình dạng của hầu hết các project: khai báo, rồi phản ứng, rồi đầu ra. <Guide//guide> có một mục @how đầy các công thức để học, sao chép và chỉnh sửa.",
+                            "$~Đó là hình dạng của hầu hết các project: khai báo, rồi phản ứng, rồi đầu ra. <Guide@://guide> có một mục @how đầy các công thức để học, sao chép và chỉnh sửa.",
                             "$~Chúc bạn sáng tạo vui vẻ!"
                         ]
                     ]

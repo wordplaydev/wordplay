@@ -1,12 +1,12 @@
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import Words from '@nodes/Words';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import Words from '#nodes/Words.ts';
 
 /**
  * A warning emitted when a @Phrase's markup requests a weight or italic style

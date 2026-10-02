@@ -1,4 +1,4 @@
-import type { WritingLayout } from '@locale/Scripts';
+import type { WritingLayout } from '#locale/Scripts.ts';
 import {
     getOutlineOfRows,
     getRoundedBlockOutline,
@@ -10,35 +10,35 @@ import {
     type Outline,
     type Rect,
     type SpaceLineClip,
-} from '@components/editor/highlights/outline';
-import type Project from '@db/projects/Project';
-import type Caret from '@edit/caret/Caret';
+} from '#components/editor/highlights/outline.ts';
+import type Project from '#db/projects/Project.ts';
+import type Caret from '#edit/caret/Caret.ts';
 import {
     AssignmentPoint,
     InsertionPoint,
     isValidDropTarget,
     kindAcceptsDrop,
     targetAnchorNode,
-} from '@edit/drag/Drag';
-import Bind from '@nodes/Bind';
-import DefinitionExpression from '@nodes/DefinitionExpression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Literal from '@nodes/Literal';
-import Name from '@nodes/Name';
-import NameType from '@nodes/NameType';
-import Node from '@nodes/Node';
-import Program from '@nodes/Program';
-import Reference from '@nodes/Reference';
-import type Source from '@nodes/Source';
-import StructureDefinition from '@nodes/StructureDefinition';
-import Token from '@nodes/Token';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import type Evaluator from '@runtime/Evaluator';
-import UnicodeString from '@unicode/UnicodeString';
-import { isNonEmpty, type NonEmpty } from '@util/nullable';
-import type { SearchLanguages } from '@util/search';
-import ExceptionValue from '@values/ExceptionValue';
+} from '#edit/drag/Drag.ts';
+import Bind from '#nodes/Bind.ts';
+import DefinitionExpression from '#nodes/DefinitionExpression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Literal from '#nodes/Literal.ts';
+import Name from '#nodes/Name.ts';
+import NameType from '#nodes/NameType.ts';
+import Node from '#nodes/Node.ts';
+import Program from '#nodes/Program.ts';
+import Reference from '#nodes/Reference.ts';
+import type Source from '#nodes/Source.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import Token from '#nodes/Token.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import { isNonEmpty, type NonEmpty } from '#util/nullable.ts';
+import type { SearchLanguages } from '#util/search.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {

@@ -10,21 +10,21 @@
  * written before defaults were applied.
  */
 
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import type Locales from '@locale/Locales';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import Unit from '@nodes/Unit';
-import type { EvaluationNode } from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
+import toStructure from '#basis/toStructure.ts';
+import { getBind } from '#locale/getBind.ts';
+import type Locales from '#locale/Locales.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import Unit from '#nodes/Unit.ts';
+import type { EvaluationNode } from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
 import Decimal from 'decimal.js';
-import BoolValue from '@values/BoolValue';
-import ListValue from '@values/ListValue';
-import NoneValue from '@values/NoneValue';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import type { PartTick } from '@output/Music/schedule';
+import BoolValue from '#values/BoolValue.ts';
+import ListValue from '#values/ListValue.ts';
+import NoneValue from '#values/NoneValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type { PartTick } from '#output/Music/schedule.ts';
 
 export function createPartType(locales: Locales) {
     return toStructure(`

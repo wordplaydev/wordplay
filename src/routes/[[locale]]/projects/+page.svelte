@@ -1,21 +1,21 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import AddProject from '@components/app/AddProject.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
-    import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import ProjectFolder from '@components/app/ProjectFolder.svelte';
-    import ProjectGroupControls from '@components/app/ProjectGroupControls.svelte';
-    import type { ProjectInteraction } from '@components/app/projectControls';
-    import { getAnnouncer } from '@components/project/Contexts';
+    import { browser } from '$app/env';
+    import AddProject from '#components/app/AddProject.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import PreviewPlaceholder from '#components/app/PreviewPlaceholder.svelte';
+    import ProjectPreviewSet from '#components/app/ProjectPreviewSet.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import ProjectFolder from '#components/app/ProjectFolder.svelte';
+    import ProjectGroupControls from '#components/app/ProjectGroupControls.svelte';
+    import type { ProjectInteraction } from '#components/app/projectControls.ts';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
     import {
         DB,
         LoadedProjects,
@@ -24,8 +24,8 @@
         locales,
         projectFolders,
         projectSort,
-    } from '@db/Database';
-    import type { ProjectSort } from '@db/settings/ProjectSortSetting';
+    } from '#db/Database.ts';
+    import type { ProjectSort } from '#db/settings/ProjectSortSetting.ts';
     import { tick } from 'svelte';
     import { v4 as uuidv4 } from 'uuid';
     import {
@@ -45,17 +45,21 @@
         describeRename,
         describeSelection,
     } from './announcements';
-    import ImportProject from '@components/app/ImportProject.svelte';
-    import importProject from '@db/projects/importProject';
+    import ImportProject from '#components/app/ImportProject.svelte';
+    import importProject from '#db/projects/importProject.ts';
     import { onMount } from 'svelte';
-    import type Project from '@db/projects/Project';
-    import type LocaleText from '@locale/LocaleText';
+    import type Project from '#db/projects/Project.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
     import { searchProjects, type ProjectMatch } from './search';
     import shouldExplainInstalledStorage from './installedStorage';
-    import isStandalone from '@util/isStandalone';
-    import { CANCEL_SYMBOL, EDIT_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
-    import { localeGoto } from '@util/localeGoto';
-    import { debounced } from '@util/debounce.svelte';
+    import isStandalone from '#util/isStandalone.ts';
+    import {
+        CANCEL_SYMBOL,
+        EDIT_SYMBOL,
+        REMIX_SYMBOL,
+    } from '#parser/Symbols.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
 
     const user = getUser();
 

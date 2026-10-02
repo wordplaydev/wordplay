@@ -2,7 +2,7 @@ import {
     CharacterSize,
     type CharacterPixel,
     type CharacterShape,
-} from '@db/characters/Character';
+} from '#db/characters/Character.ts';
 import {
     boxSample,
     clampCrop,
@@ -11,8 +11,8 @@ import {
     resizeRect,
     sampleSize,
     withPixelLayer,
-} from '@db/characters/raster';
-import { must } from '@util/nullable';
+} from '#db/characters/raster.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 
 /** Build an RGBA buffer from a width and a per-pixel color function. */

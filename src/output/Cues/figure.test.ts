@@ -1,17 +1,22 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import type { AnimationEvent } from '@output/Cues/animations';
-import { Cues, FigureSpacingMs, MaxCuesPerFigure } from '@output/Cues/cues';
-import { baseHzOf, figureFor, fingerprintOf, thin } from '@output/Cues/figure';
-import type Pose from '@output/animation/Pose';
-import { toPose } from '@output/animation/Pose';
-import Transition from '@output/animation/Transition';
-import Evaluator from '@runtime/Evaluator';
-import ListValue from '@values/ListValue';
-import { must } from '@util/nullable';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import type { AnimationEvent } from '#output/Cues/animations.ts';
+import { Cues, FigureSpacingMs, MaxCuesPerFigure } from '#output/Cues/cues.ts';
+import {
+    baseHzOf,
+    figureFor,
+    fingerprintOf,
+    thin,
+} from '#output/Cues/figure.ts';
+import type Pose from '#output/animation/Pose.ts';
+import { toPose } from '#output/animation/Pose.ts';
+import Transition from '#output/animation/Transition.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import ListValue from '#values/ListValue.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

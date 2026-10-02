@@ -1,4 +1,4 @@
-import type Color from '@output/Color/Color';
+import type Color from '#output/Color/Color.ts';
 
 /**
  * Paint a grid of colors onto a canvas at one pixel per color, for CSS to scale up.

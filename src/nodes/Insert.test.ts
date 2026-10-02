@@ -1,13 +1,13 @@
-import UnknownColumn from '@conflicts/UnknownColumn';
-import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import InvalidRow from '@conflicts/InvalidRow';
-import MissingCell from '@conflicts/MissingCell';
-import { testConflict } from '@conflicts/TestUtilities';
+import UnknownColumn from '#conflicts/UnknownColumn.ts';
+import IncompatibleCellType from '#conflicts/IncompatibleCellType.ts';
+import InvalidRow from '#conflicts/InvalidRow.ts';
+import MissingCell from '#conflicts/MissingCell.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import DefaultLocales from '@locale/DefaultLocales';
-import evaluateCode from '@runtime/evaluate';
-import Insert from '@nodes/Insert';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import Insert from '#nodes/Insert.ts';
 
 test.each([
     [

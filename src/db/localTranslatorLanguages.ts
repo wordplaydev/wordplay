@@ -1,5 +1,5 @@
-import type Locale from '@locale/Locale';
-import { getCLDRCandidates } from '@locale/LanguageCode';
+import type Locale from '#locale/Locale.ts';
+import { getCLDRCandidates } from '#locale/LanguageCode.ts';
 
 /**
  * The BCP 47 tags to offer the browser for a Wordplay locale, most specific

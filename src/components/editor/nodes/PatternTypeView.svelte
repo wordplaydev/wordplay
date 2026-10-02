@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternType from '@nodes/PatternType';
+    import type PatternType from '#nodes/PatternType.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** The pattern type `•⣿⣿`. */
     interface Props {

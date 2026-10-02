@@ -1,18 +1,18 @@
-import type LocaleText from '@locale/LocaleText';
+import type LocaleText from '#locale/LocaleText.ts';
 import type Tutorial from '../../tutorial/Tutorial';
 import { TutorialModes } from '../../tutorial/TutorialMode';
-import { getLocalePath } from '@util/verify-locales/LocaleSchema';
+import { getLocalePath } from '#util/verify-locales/LocaleSchema.ts';
 import {
     getDefaultTutorial,
     getTutorialPath,
-} from '@util/verify-locales/TutorialSchema';
-import { getCheckableLocalePairs } from '@util/verify-locales/verifyLocale';
+} from '#util/verify-locales/TutorialSchema.ts';
+import { getCheckableLocalePairs } from '#util/verify-locales/verifyLocale.ts';
 import {
     retargetExamplesIn,
     retargetExamplesInDocument,
     retargetTutorialExamples,
-} from '@util/verify-locales/retargetExampleNames';
-import { sweepSkipsLocaleText } from '@util/verify-locales/exampleFreshness';
+} from '#util/verify-locales/retargetExampleNames.ts';
+import { sweepSkipsLocaleText } from '#util/verify-locales/exampleFreshness.ts';
 import fs from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';

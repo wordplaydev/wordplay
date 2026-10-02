@@ -1,5 +1,5 @@
-import Source from '@nodes/Source';
-import UnparsableExpression from '@nodes/UnparsableExpression';
+import Source from '#nodes/Source.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
 
 /** How many top-level statements of a copied sequence the footer preview renders
  * before truncating with a "…". Rendering a very large copied sequence walks the

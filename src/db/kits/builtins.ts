@@ -3,12 +3,12 @@ import { kitVersionID } from './Kit';
 import kitKinds from './kitKinds';
 import { kitDescription } from './kitPreview';
 import { exportName } from './validateKit';
-import { kitExports } from '@nodes/publishedShare';
-import { moderatedFlags } from '@db/projects/Moderation';
-import Project from '@db/projects/Project';
-import type { SerializedPreviewContent } from '@db/projects/ProjectSchemas';
-import type Locales from '@locale/Locales';
-import Source from '@nodes/Source';
+import { kitExports } from '#nodes/publishedShare.ts';
+import { moderatedFlags } from '#db/projects/Moderation.ts';
+import Project from '#db/projects/Project.ts';
+import type { SerializedPreviewContent } from '#db/projects/ProjectSchemas.ts';
+import type Locales from '#locale/Locales.ts';
+import Source from '#nodes/Source.ts';
 import { parseBuiltinKitSource } from './kitSourceFile';
 
 import alphabets1 from './sources/alphabets/1.wp?raw';

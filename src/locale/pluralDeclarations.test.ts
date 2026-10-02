@@ -1,11 +1,11 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import { getPluralCount } from '@locale/plurals';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { getPluralCount } from '#locale/plurals.ts';
 import {
     checkPluralBranches,
     getDeclaredInputs,
     getPluralBranches,
-} from '@locale/templateInputs';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+} from '#locale/templateInputs.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
 import { expect, test } from 'vitest';
 
 /** Every en-US string with its dotted locale path. */

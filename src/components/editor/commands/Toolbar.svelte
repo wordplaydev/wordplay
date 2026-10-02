@@ -1,22 +1,22 @@
 <script lang="ts">
-    import type { Command } from '@components/editor/commands/Commands';
-    import EditorLocaleChooser from '@components/project/EditorLocaleChooser.svelte';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import { blocks, Settings, sourceWriting, wrap } from '@db/Database';
-    import eligibleWritingLayouts from '@edit/eligibleWritingLayouts';
-    import type Project from '@db/projects/Project';
-    import type Source from '@nodes/Source';
-    import type { WritingLayout } from '@locale/Scripts';
-    import type Locale from '@locale/Locale';
+    import type { Command } from '#components/editor/commands/Commands.ts';
+    import EditorLocaleChooser from '#components/project/EditorLocaleChooser.svelte';
+    import CommandButton from '#components/widgets/CommandButton.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import OverflowToolbar from '#components/widgets/OverflowToolbar.svelte';
+    import { blocks, Settings, sourceWriting, wrap } from '#db/Database.ts';
+    import eligibleWritingLayouts from '#edit/eligibleWritingLayouts.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type Source from '#nodes/Source.ts';
+    import type { WritingLayout } from '#locale/Scripts.ts';
+    import type Locale from '#locale/Locale.ts';
     import {
         BLOCK_EDITING_SYMBOL,
         CANCEL_SYMBOL,
         LOCALE_SYMBOL,
         TEXT_EDITING_SYMBOL,
-    } from '@parser/Symbols';
+    } from '#parser/Symbols.ts';
 
     interface Props {
         sourceID: string;

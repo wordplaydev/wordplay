@@ -1,4 +1,4 @@
-import type Locale from '@locale/Locale';
+import type Locale from '#locale/Locale.ts';
 import { describe, expect, test } from 'vitest';
 import chooseSplitLocales from './splitLocales';
 

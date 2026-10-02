@@ -14,31 +14,37 @@
      the chat when it was reported, so reviewing it needs no read access to the
      conversation around it. -->
 <script lang="ts">
-    import ModerationFlags from '@components/moderation/ModerationFlags.svelte';
-    import Header from '@components/app/Header.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { CharactersDB, Creators, DB, HowTos, locales } from '@db/Database';
-    import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import ModerationFlags from '#components/moderation/ModerationFlags.svelte';
+    import Header from '#components/app/Header.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import CreatorView from '#components/app/CreatorView.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import {
+        CharactersDB,
+        Creators,
+        DB,
+        HowTos,
+        locales,
+    } from '#db/Database.ts';
+    import HowTo from '#db/howtos/HowToDatabase.svelte.ts';
     import {
         bareCharacterName,
         characterToSVG,
         type Character,
-    } from '@db/characters/Character';
-    import type { Creator } from '@db/creators/CreatorDatabase';
-    import { firestore } from '@db/firebase';
-    import moderate from '@db/moderation/moderate';
+    } from '#db/characters/Character.ts';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
+    import { firestore } from '#db/firebase.ts';
+    import moderate from '#db/moderation/moderate.ts';
     import {
         isFlagged,
         moderatedFlags,
         type ModerationState,
-    } from '@db/projects/Moderation';
-    import { localeGoto } from '@util/localeGoto';
+    } from '#db/projects/Moderation.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
     import {
         collection,
         getDocs,
@@ -48,7 +54,7 @@
         where,
     } from 'firebase/firestore';
     import type { SerializedReport } from 'shared-types';
-    import type { SerializedKit } from '@db/kits/Kit';
+    import type { SerializedKit } from '#db/kits/Kit.ts';
     import KitCode from './KitCode.svelte';
 
     interface Props {

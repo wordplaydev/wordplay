@@ -20,15 +20,15 @@
  * show it.
  */
 
-import type Project from '@db/projects/Project';
+import type Project from '#db/projects/Project.ts';
 // Type-only, matching Paste.ts: we only call methods on the passed Caret, so
 // this stays erased and can't form a cycle back through Commands.
-import type Caret from '@edit/caret/Caret';
-import Evaluate from '@nodes/Evaluate';
-import Node from '@nodes/Node';
-import PatternLiteral from '@nodes/PatternLiteral';
-import { Sym } from '@nodes/Sym';
-import type Type from '@nodes/Type';
+import type Caret from '#edit/caret/Caret.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Node from '#nodes/Node.ts';
+import PatternLiteral from '#nodes/PatternLiteral.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Type from '#nodes/Type.ts';
 
 /** Where the caret is, as far as inserting a character is concerned. */
 export type InsertContext = {

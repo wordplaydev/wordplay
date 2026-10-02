@@ -1,17 +1,17 @@
 import { expect, test } from 'vitest';
-import { DB } from '@db/Database';
-import DefaultLocale from '@locale/DefaultLocale';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import { toStage } from '@output/Output/Stage';
-import { analyzeMusic } from '@output/MusicSafetyAnalysis';
-import { signatureOf } from '@output/Music/musicData';
-import ExceptionValue from '@values/ExceptionValue';
-import { getDefaultTutorial } from '@util/verify-locales/TutorialSchema';
+import { DB } from '#db/Database.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import { analyzeMusic } from '#output/MusicSafetyAnalysis.ts';
+import { signatureOf } from '#output/Music/musicData.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import { getDefaultTutorial } from '#util/verify-locales/TutorialSchema.ts';
 import { Performances, performanceSource } from './Performances';
 import { isPerformance, parsePerformance } from './Tutorial';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 function stageFrom(code: string) {
     const source = new Source('finale', code);

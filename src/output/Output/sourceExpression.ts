@@ -1,9 +1,9 @@
-import type Project from '@db/projects/Project';
-import Evaluate from '@nodes/Evaluate';
-import Expression from '@nodes/Expression';
-import Input from '@nodes/Input';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
+import type Project from '#db/projects/Project.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Expression from '#nodes/Expression.ts';
+import Input from '#nodes/Input.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
 
 /**
  * The expression an output's own `Evaluate` bound to the input holding the

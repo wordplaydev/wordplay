@@ -1,5 +1,5 @@
-import type { FormattedText } from '@locale/LocaleText';
-import type { ModeText } from '@locale/UITexts';
+import type { FormattedText } from '#locale/LocaleText.ts';
+import type { ModeText } from '#locale/UITexts.ts';
 
 type PageText = {
     /** [plain] How to describe galleries of projects */

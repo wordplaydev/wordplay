@@ -1,15 +1,15 @@
 import { test, expect } from 'vitest';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Evaluate from '@nodes/Evaluate';
-import Bind from '@nodes/Bind';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import OutputExpression from '@edit/output/OutputExpression';
-import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
-import { first, must } from '@util/nullable';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Bind from '#nodes/Bind.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import OutputExpression from '#edit/output/OutputExpression.ts';
+import OutputPropertyValueSet from '#edit/output/OutputPropertyValueSet.ts';
+import { first, must } from '#util/nullable.ts';
 
 /** Build a value set for the Phrase's `size` property from the given source. */
 function sizeValues(code: string) {

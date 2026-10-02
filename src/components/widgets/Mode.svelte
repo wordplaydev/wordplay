@@ -1,24 +1,24 @@
 <script lang="ts">
-    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '#components/project/Contexts.ts';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import OptionTips from '@components/widgets/OptionTips.svelte';
-    import Synced from '@components/widgets/Synced.svelte';
+    } from '#components/widgets/tipTriggers.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import OptionTips from '#components/widgets/OptionTips.svelte';
+    import Synced from '#components/widgets/Synced.svelte';
     import {
         getFocusableOption,
         getNextOption,
-    } from '@components/widgets/optionNavigation';
-    import { locales } from '@db/Database';
-    import type LocaleText from '@locale/LocaleText';
-    import { type MultilingualEntry } from '@locale/Locales';
-    import type { ModeText } from '@locale/UITexts';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { withDefaultMonoEmoji } from '@unicode/emoji';
+    } from '#components/widgets/optionNavigation.ts';
+    import { locales } from '#db/Database.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import { type MultilingualEntry } from '#locale/Locales.ts';
+    import type { ModeText } from '#locale/UITexts.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+    import { withDefaultMonoEmoji } from '#unicode/emoji.ts';
     import type { Component } from 'svelte';
-    import { must } from '@util/nullable';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         /** Localized text for the labels and tooltips */

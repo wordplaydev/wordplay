@@ -1,22 +1,22 @@
 import { describe, expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import type Context from '@nodes/Context';
-import Source from '@nodes/Source';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import TermRef from '@locale/TermRef';
+import Project from '#db/projects/Project.ts';
+import type Context from '#nodes/Context.ts';
+import Source from '#nodes/Source.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import TermRef from '#locale/TermRef.ts';
 import ConceptLink, {
     CharacterName,
     CodepointName,
     ConceptName,
     GlossaryName,
     TourName,
-} from '@nodes/ConceptLink';
-import parseDoc from '@parser/parseDoc';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import { toTokens } from '@parser/toTokens';
+} from '#nodes/ConceptLink.ts';
+import parseDoc from '#parser/parseDoc.ts';
+import { DOCS_SYMBOL } from '#parser/Symbols.ts';
+import { toTokens } from '#parser/toTokens.ts';
 
 /** Build the ConceptLink from an `@ref` written inside a doc. */
 function link(ref: string): ConceptLink {

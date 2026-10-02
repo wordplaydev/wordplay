@@ -1,14 +1,14 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import { DB } from '@db/Database';
-import { Animations } from '@output/animation/DefaultSequences';
-import Sequence, { toSequence } from '@output/animation/Sequence';
-import Pose from '@output/animation/Pose';
-import { must } from '@util/nullable';
-import FunctionDefinition from '@nodes/FunctionDefinition';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { DB } from '#db/Database.ts';
+import { Animations } from '#output/animation/DefaultSequences.ts';
+import Sequence, { toSequence } from '#output/animation/Sequence.ts';
+import Pose from '#output/animation/Pose.ts';
+import { must } from '#util/nullable.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
 import { describe, expect, test } from 'vitest';
 
 function analyzeAndEvaluate(code: string) {

@@ -1,4 +1,4 @@
-import { firestore } from '@db/firebase';
+import { firestore } from '#db/firebase.ts';
 import { doc, onSnapshot, type Unsubscribe } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
 import type { Strikes } from 'shared-types';

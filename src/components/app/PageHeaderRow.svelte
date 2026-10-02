@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type { Crumb } from '@components/app/getBreadcrumbs';
-    import PageHeader from '@components/app/PageHeader.svelte';
+    import type { Crumb } from '#components/app/getBreadcrumbs.ts';
+    import PageHeader from '#components/app/PageHeader.svelte';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
-    } from '@locale/Locales';
+    } from '#locale/Locales.ts';
     import type { Snippet } from 'svelte';
 
     interface Props {

@@ -1,14 +1,14 @@
-import { Unwritten } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { Sym } from '@nodes/Sym';
-import { tokenize } from '@parser/Tokenizer';
-import { isNameTextPath } from '@util/verify-locales/classifyLocalePath';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
-import { leadingAnnotations } from '@util/verify-locales/protect';
-import toValidName from '@util/toValidName';
-import { must } from '@util/nullable';
+import { Unwritten } from '#locale/Annotations.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { Sym } from '#nodes/Sym.ts';
+import { tokenize } from '#parser/Tokenizer.ts';
+import { isNameTextPath } from '#util/verify-locales/classifyLocalePath.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import { leadingAnnotations } from '#util/verify-locales/protect.ts';
+import toValidName from '#util/toValidName.ts';
+import { must } from '#util/nullable.ts';
 
 /** A valid Wordplay identifier: a single name or operator token (plus End). */
 function isValidName(text: string): boolean {

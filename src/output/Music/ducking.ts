@@ -5,8 +5,8 @@
  */
 
 import { derived, type Readable } from 'svelte/store';
-import { announcerPresenting } from '@components/project/announcerQueue';
-import { SaySource, speakingNow } from '@output/Speech/speech';
+import { announcerPresenting } from '#components/project/announcerQueue.ts';
+import { SaySource, speakingNow } from '#output/Speech/speech.ts';
 
 /**
  * True while a standalone `Say` is speaking.

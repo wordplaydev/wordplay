@@ -1,12 +1,13 @@
 import { goto } from '$app/navigation';
 import { page } from '$app/state';
+import type { AppPath } from '#util/appPath.ts';
 
 type GotoOptions = Parameters<typeof goto>[1];
 
 /** Prefix a path with the current locale segment, the way {@link localeGoto}
  *  does. For the rare case that needs the URL rather than the navigation —
  *  opening a new window, say. */
-export function localePath(path: string): string {
+export function localePath(path: AppPath): string {
     const locale = page.params.locale;
     return locale ? `/${locale}${path === '/' ? '' : path}` : path;
 }
@@ -27,7 +28,7 @@ export function unlocalePath(path: string): string {
 
 /** Navigate to path, automatically prefixing with the current locale segment. */
 export function localeGoto(
-    path: string,
+    path: AppPath,
     options?: GotoOptions,
 ): ReturnType<typeof goto> {
     const locale = page.params.locale;

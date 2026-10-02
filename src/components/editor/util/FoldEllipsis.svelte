@@ -1,7 +1,7 @@
 <script lang="ts">
-    import FoldButton from '@components/editor/util/FoldButton.svelte';
-    import { locales } from '@db/Database';
-    import type Node from '@nodes/Node';
+    import FoldButton from '#components/editor/util/FoldButton.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Node from '#nodes/Node.ts';
 
     interface Props {
         node: Node;

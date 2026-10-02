@@ -13,9 +13,9 @@ import {
     toSyllable,
     type Formant,
     type Phoneme,
-} from '@output/Music/phonemes';
-import { GlideSeconds, OnsetSeconds } from '@output/Music/voice';
-import { must } from '@util/nullable';
+} from '#output/Music/phonemes.ts';
+import { GlideSeconds, OnsetSeconds } from '#output/Music/voice.ts';
+import { must } from '#util/nullable.ts';
 
 /** A note's worth of a track's notes, as much as word assignment needs. */
 export type Sounding = { degrees: readonly number[] };

@@ -1,6 +1,6 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { collectingLog } from '@util/verify-locales/Log';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
 import { expect, test } from 'vitest';
 import checkUntranslated from './checkUntranslated';
 

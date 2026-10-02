@@ -1,11 +1,11 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 import { z } from 'zod';
-import type { Path } from '@nodes/Root';
+import type { Path } from '#nodes/Root.ts';
 import {
     CaretSchema,
     PathSchema,
     type SerializedCaret,
-} from '@db/projects/ProjectSchemas';
+} from '#db/projects/ProjectSchemas.ts';
 
 /** Per-project, per-source caret positions, keyed by project ID then source
  *  index. Each value is a {@link SerializedCaret}: a text offset, a [start, end]

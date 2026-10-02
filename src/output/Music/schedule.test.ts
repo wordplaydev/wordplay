@@ -1,10 +1,10 @@
 import { expect, test } from 'vitest';
-import type { MusicData, TrackData } from '@output/Music/musicData';
+import type { MusicData, TrackData } from '#output/Music/musicData.ts';
 import {
     firstSoundingBeat,
     insertionAtBeat,
     signatureOf,
-} from '@output/Music/musicData';
+} from '#output/Music/musicData.ts';
 import {
     beatAt,
     createTransport,
@@ -12,12 +12,12 @@ import {
     requestSplice,
     seekTransport,
     timeOfBeat,
-} from '@output/Music/transport';
-import { pickupNotes, scheduleWindow } from '@output/Music/schedule';
-import { reconcile } from '@output/Music/reconcile';
-import { chooseSteal, type Voice } from '@output/Music/voices';
-import { assignWords } from '@output/Music/articulate';
-import { must } from '@util/nullable';
+} from '#output/Music/transport.ts';
+import { pickupNotes, scheduleWindow } from '#output/Music/schedule.ts';
+import { reconcile } from '#output/Music/reconcile.ts';
+import { chooseSteal, type Voice } from '#output/Music/voices.ts';
+import { assignWords } from '#output/Music/articulate.ts';
+import { must } from '#util/nullable.ts';
 
 /** A track of bare quarter notes on a piano, one beat each. */
 function track(

@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { locales } from '@db/Database';
-    import { Sym } from '@nodes/Sym';
-    import { FUNCTION_SYMBOL } from '@parser/Symbols';
-    import type FunctionValue from '@values/FunctionValue';
-    import SymbolView from '@components/values/SymbolView.svelte';
+    import { locales } from '#db/Database.ts';
+    import { Sym } from '#nodes/Sym.ts';
+    import { FUNCTION_SYMBOL } from '#parser/Symbols.ts';
+    import type FunctionValue from '#values/FunctionValue.ts';
+    import SymbolView from '#components/values/SymbolView.svelte';
 
     interface Props {
         value: FunctionValue;

@@ -1,7 +1,7 @@
-import Expression from '@nodes/Expression';
-import Block from '@nodes/Block';
-import type Node from '@nodes/Node';
-import type { Field } from '@nodes/Node';
+import Expression from '#nodes/Expression.ts';
+import Block from '#nodes/Block.ts';
+import type Node from '#nodes/Node.ts';
+import type { Field } from '#nodes/Node.ts';
 
 export type Path = { type: string; index: number }[];
 type Cache = {

@@ -1,11 +1,11 @@
-import type Conflict from '@conflicts/Conflict';
-import type Bind from '@nodes/Bind';
-import type Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Node from '@nodes/Node';
-import type StreamDefinition from '@nodes/StreamDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
+import type Conflict from '#conflicts/Conflict.ts';
+import type Bind from '#nodes/Bind.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Node from '#nodes/Node.ts';
+import type StreamDefinition from '#nodes/StreamDefinition.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
 
 /** Anything an `Evaluate` can call. */
 export type Callable =

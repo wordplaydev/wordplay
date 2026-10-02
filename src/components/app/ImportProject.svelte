@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import { locales } from '@db/Database';
-    import type { ImportProblem } from '@db/projects/importProject';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import Notice from '#components/app/Notice.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import { locales } from '#db/Database.ts';
+    import type { ImportProblem } from '#db/projects/importProject.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
 
     interface Props {
         /** Handed the text of a chosen file. Reporting the outcome is the

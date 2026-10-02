@@ -1,12 +1,12 @@
-import type { Database } from '@db/Database';
-import type Project from '@db/projects/Project';
-import type Locale from '@locale/Locale';
+import type { Database } from '#db/Database.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locale from '#locale/Locale.ts';
 import analyzeOutput, {
     analyzeSource,
     type PhotosensitivityRisk,
-} from '@output/PhotosensitivityAnalysis';
-import { toStage } from '@output/Output/Stage';
-import Evaluator from '@runtime/Evaluator';
+} from '#output/PhotosensitivityAnalysis.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import Evaluator from '#runtime/Evaluator.ts';
 
 /**
  * Statically detect a project's photosensitivity risks for a read-only viewer,

@@ -1,26 +1,33 @@
-import { Purpose } from '@concepts/Purpose';
-import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type Context from '@nodes/Context';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { DOT_SYMBOL, EXPONENT_SYMBOL, LANGUAGE_SYMBOL } from '@parser/Symbols';
-import NumberValue from '@values/NumberValue';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
+import { Purpose } from '#concepts/Purpose.ts';
+import { getPossibleDimensions } from '#edit/menu/getPossibleUnits.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type Context from '#nodes/Context.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import {
+    DOT_SYMBOL,
+    EXPONENT_SYMBOL,
+    LANGUAGE_SYMBOL,
+} from '#parser/Symbols.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
 import { Emotion } from '../lore/Emotion';
-import Dimension from '@nodes/Dimension';
-import LanguageToken from '@nodes/LanguageToken';
+import Dimension from '#nodes/Dimension.ts';
+import LanguageToken from '#nodes/LanguageToken.ts';
 import Node, {
     list,
     node,
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type TypeSet from '@nodes/TypeSet';
+} from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 /** Backing stores for Unit.Empty and Unit.Any; see the accessors for why these
  *  are built on demand rather than as static fields. */

@@ -1,5 +1,5 @@
-import type { FormattedText, Template } from '@locale/LocaleText';
-import type { ModeText } from '@locale/UITexts';
+import type { FormattedText, Template } from '#locale/LocaleText.ts';
+import type { ModeText } from '#locale/UITexts.ts';
 
 type PageText = {
     /** [plain] The header for the tutorial page */

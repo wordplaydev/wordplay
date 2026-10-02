@@ -1,8 +1,8 @@
-import Project from '@db/projects/Project';
-import type { SerializedProject } from '@db/projects/ProjectSchemas';
-import DefaultLocale from '@locale/DefaultLocale';
-import { Locales } from '@db/Database';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import type { SerializedProject } from '#db/projects/ProjectSchemas.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { Locales } from '#db/Database.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 import { readProjects } from '../../examples/readProjects';
 import projectReplaysMusic from './replayBinding';

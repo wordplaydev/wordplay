@@ -1,30 +1,30 @@
 <script lang="ts">
-    import { UncomputablePreview } from '@components/app/extractPreview';
-    import GlyphTile from '@components/app/GlyphTile.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { UncomputablePreview } from '#components/app/extractPreview.ts';
+    import GlyphTile from '#components/app/GlyphTile.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import {
         getAnnouncer,
         getTip,
         getUser,
         isAuthenticated,
-    } from '@components/project/Contexts';
-    import { pickPreviewExample } from '@concepts/pickPreviewExample';
-    import { DB, HowTos, locales } from '@db/Database';
-    import HowTo from '@db/howtos/HowToDatabase.svelte';
-    import type Gallery from '@db/galleries/Gallery';
-    import { canMoveHowTo } from '@db/howtos/howToAccess';
-    import { HowToFields } from '@db/rulesFields';
-    import { enqueuePreviewCompute } from '@db/projects/previewQueue';
-    import Project from '@db/projects/Project';
-    import type { SerializedPreviewContent } from '@db/projects/ProjectSchemas';
-    import Source from '@nodes/Source';
-    import { toMarkup } from '@parser/toMarkup';
-    import UnicodeString from '@unicode/UnicodeString';
+    } from '#components/project/Contexts.ts';
+    import { pickPreviewExample } from '#concepts/pickPreviewExample.ts';
+    import { DB, HowTos, locales } from '#db/Database.ts';
+    import HowTo from '#db/howtos/HowToDatabase.svelte.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import { canMoveHowTo } from '#db/howtos/howToAccess.ts';
+    import { HowToFields } from '#db/rulesFields.ts';
+    import { enqueuePreviewCompute } from '#db/projects/previewQueue.ts';
+    import Project from '#db/projects/Project.ts';
+    import type { SerializedPreviewContent } from '#db/projects/ProjectSchemas.ts';
+    import Source from '#nodes/Source.ts';
+    import { toMarkup } from '#parser/toMarkup.ts';
+    import UnicodeString from '#unicode/UnicodeString.ts';
     import { untrack } from 'svelte';
     import type { SvelteMap } from 'svelte/reactivity';
     import HowToForm from './HowToForm.svelte';
-    import { getLanguageDirection } from '@locale/LanguageCode';
-    import { toLocaleString } from '@locale/LocaleText';
+    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import { toLocaleString } from '#locale/LocaleText.ts';
     import {
         findHowToPlacement,
         movePermitted,

@@ -1,5 +1,5 @@
-import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-import { ConceptRegExPattern } from '@parser/Tokenizer';
+import ConceptLink, { CharacterName } from '#nodes/ConceptLink.ts';
+import { ConceptRegExPattern } from '#parser/Tokenizer.ts';
 
 /**
  * A chunk of a plain-text string: either literal text or a custom-character

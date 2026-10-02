@@ -1,21 +1,21 @@
 <script lang="ts">
-    import Action from '@components/app/Action.svelte';
-    import BigLink from '@components/app/BigLink.svelte';
-    import LandingStage from '@components/app/LandingStage.svelte';
-    import { getLogoLanguageCycle } from '@components/app/logoGlyph';
-    import Page from '@components/app/Page.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Speech from '@components/lore/Speech.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import { isAdmin, isModerator } from '@db/projects/Moderation';
-    import { isReviewer } from '@db/moderation/reviewer';
-    import Button from '@components/widgets/Button.svelte';
-    import { LocaleDialogID } from '@components/widgets/dialogIDs';
-    import { setDialogInURL } from '@components/widgets/dialogURL';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { animationFactor, DB, Settings } from '@db/Database';
-    import { getLocaleLanguageName } from '@locale/LocaleText';
-    import { SupportedLocales } from '@locale/SupportedLocales';
+    import Action from '#components/app/Action.svelte';
+    import BigLink from '#components/app/BigLink.svelte';
+    import LandingStage from '#components/app/LandingStage.svelte';
+    import { getLogoLanguageCycle } from '#components/app/logoGlyph.ts';
+    import Page from '#components/app/Page.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Speech from '#components/lore/Speech.svelte';
+    import { getUser } from '#components/project/Contexts.ts';
+    import { isAdmin, isModerator } from '#db/projects/Moderation.ts';
+    import { isReviewer } from '#db/moderation/reviewer.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import { LocaleDialogID } from '#components/widgets/dialogIDs.ts';
+    import { setDialogInURL } from '#components/widgets/dialogURL.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { animationFactor, DB, Settings } from '#db/Database.ts';
+    import { getLocaleLanguageName } from '#locale/LocaleText.ts';
+    import { SupportedLocales } from '#locale/SupportedLocales.ts';
     import {
         COLLABORATE_SYMBOL,
         DOCUMENTATION_SYMBOL,
@@ -25,12 +25,12 @@
         SYMBOL_SYMBOL,
         TEACH_SYMBOL,
         VIEW_SYMBOL,
-    } from '@parser/Symbols';
+    } from '#parser/Symbols.ts';
     import Characters from '../../lore/BasisCharacters';
     import { Emotion } from '../../lore/Emotion';
     import Beta from './Beta.svelte';
     import FeatureSection from './FeatureSection.svelte';
-    import { must } from '@util/nullable';
+    import { must } from '#util/nullable.ts';
     import Iconified from './Iconified.svelte';
     import date from './updates/date.json';
 

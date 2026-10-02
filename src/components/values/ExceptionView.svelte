@@ -1,6 +1,6 @@
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import type ExceptionValue from '@values/ExceptionValue';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import type ExceptionValue from '#values/ExceptionValue.ts';
 
     interface Props {
         value: ExceptionValue;

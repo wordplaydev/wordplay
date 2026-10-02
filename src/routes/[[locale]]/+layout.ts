@@ -1,18 +1,13 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import { redirect } from '@sveltejs/kit';
-import { proxyPrefix } from '@db/proxySession';
+import { proxyPrefix } from '#db/proxySession.ts';
 import {
     isSupportedLocale,
     type SupportedLocale,
-} from '@locale/SupportedLocales';
+} from '#locale/SupportedLocales.ts';
+import type { LayoutLoad } from './$types';
 
-export const load = ({
-    params,
-    url,
-}: {
-    params: { locale?: string };
-    url: URL;
-}) => {
+export const load: LayoutLoad = ({ params, url }) => {
     // Don't redirect during SSR / prerender — only the browser can read localStorage.
     if (!browser) return {};
 

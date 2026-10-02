@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
-import { BCTKeys, describeColor, Focals } from '@output/Color/BasicColors';
-import evaluateCode from '@runtime/evaluate';
-import NumberValue from '@values/NumberValue';
+import { BCTKeys, describeColor, Focals } from '#output/Color/BasicColors.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import NumberValue from '#values/NumberValue.ts';
 
 describe('describeColor', () => {
     test('every focal point resolves to its own BCT with no modifier', () => {

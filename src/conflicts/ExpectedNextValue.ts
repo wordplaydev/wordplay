@@ -1,18 +1,18 @@
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import type Context from '@nodes/Context';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import type Node from '@nodes/Node';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import NumberType from '@nodes/NumberType';
-import Reaction from '@nodes/Reaction';
-import Reference from '@nodes/Reference';
-import StreamToken from '@nodes/StreamToken';
-import { RANGE_SYMBOL } from '@parser/Symbols';
+} from '#conflicts/Conflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import type Context from '#nodes/Context.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import type Node from '#nodes/Node.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import NumberType from '#nodes/NumberType.ts';
+import Reaction from '#nodes/Reaction.ts';
+import Reference from '#nodes/Reference.ts';
+import StreamToken from '#nodes/StreamToken.ts';
+import { RANGE_SYMBOL } from '#parser/Symbols.ts';
 
 export default class ExpectedNextValue extends Conflict {
     readonly reaction: Reaction;

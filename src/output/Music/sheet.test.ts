@@ -1,9 +1,9 @@
 import { expect, test } from 'vitest';
-import type { MusicData, TrackData } from '@output/Music/musicData';
-import { Scales } from '@output/Music/scales';
-import { InstrumentKeys } from '@output/Music/instruments';
-import { degreeToSemitones } from '@output/Music/degrees';
-import { must } from '@util/nullable';
+import type { MusicData, TrackData } from '#output/Music/musicData.ts';
+import { Scales } from '#output/Music/scales.ts';
+import { InstrumentKeys } from '#output/Music/instruments.ts';
+import { degreeToSemitones } from '#output/Music/degrees.ts';
+import { must } from '#util/nullable.ts';
 
 /** A stage wide enough for the old fixed thresholds, so tests about layout
  * say what they mean rather than depending on a default. */
@@ -39,7 +39,7 @@ import {
     stepAtPlace,
     stepRangeOf,
     windowStart,
-} from '@output/Music/sheet';
+} from '#output/Music/sheet.ts';
 
 function track(
     notes: { degrees: number[]; beats: number }[],

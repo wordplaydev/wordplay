@@ -1,8 +1,8 @@
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Context from '@nodes/Context';
-import type Evaluate from '@nodes/Evaluate';
-import type Language from '@nodes/Language';
-import type Type from '@nodes/Type';
+import type BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type Context from '#nodes/Context.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import type Language from '#nodes/Language.ts';
+import type Type from '#nodes/Type.ts';
 
 /** Derives the locale of a text/markup operation's result from its operands'
  *  locales, analogous to NumberType's UnitDeriver for units. */

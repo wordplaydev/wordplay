@@ -1,10 +1,10 @@
-import type Caret from '@edit/caret/Caret';
-import Example from '@nodes/Example';
-import type Markup from '@nodes/Markup';
-import type Node from '@nodes/Node';
-import type Token from '@nodes/Token';
-import WebLink from '@nodes/WebLink';
-import Words from '@nodes/Words';
+import type Caret from '#edit/caret/Caret.ts';
+import Example from '#nodes/Example.ts';
+import type Markup from '#nodes/Markup.ts';
+import type Node from '#nodes/Node.ts';
+import type Token from '#nodes/Token.ts';
+import WebLink from '#nodes/WebLink.ts';
+import Words from '#nodes/Words.ts';
 
 /**
  * Which delimiter tokens prose mode hides.

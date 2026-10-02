@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
-import samples from '@output/Music/InstrumentSamples';
-import { Zones } from '@output/Music/samples.generated';
-import { must } from '@util/nullable';
+import samples from '#output/Music/InstrumentSamples.ts';
+import { Zones } from '#output/Music/samples.generated.ts';
+import { must } from '#util/nullable.ts';
 
 /** Wait for the loader to say something, or give up. */
 function settled(done: () => boolean): Promise<void> {

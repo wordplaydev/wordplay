@@ -1,6 +1,6 @@
-import type { EmojiMap } from '@db/locales/LocalesDatabase';
-import type { SupportedLocale } from '@locale/SupportedLocales';
-import { codepointKey } from '@unicode/Unicode';
+import type { EmojiMap } from '#db/locales/LocalesDatabase.ts';
+import type { SupportedLocale } from '#locale/SupportedLocales.ts';
+import { codepointKey } from '#unicode/Unicode.ts';
 
 /**
  * What to call a glyph, in the reader's own language.

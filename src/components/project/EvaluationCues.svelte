@@ -13,17 +13,20 @@
      * program evaluate, not to the autoplaying examples PlayView renders on the
      * landing page and in the tutorial.
      */
-    import { getEvaluation } from '@components/project/Contexts';
+    import { getEvaluation } from '#components/project/Contexts.ts';
     import sound, {
         soundFigure,
         type FigureHandle,
-    } from '@output/Cues/cueAudio';
-    import { onAnimations, type AnimationEvent } from '@output/Cues/animations';
-    import { onContacts } from '@output/Cues/contacts';
-    import { figureFor, fingerprintOf } from '@output/Cues/figure';
-    import CueScheduler, { type CueEvent } from '@output/Cues/cues';
-    import type Evaluator from '@runtime/Evaluator';
-    import type { StreamChange } from '@runtime/Evaluator';
+    } from '#output/Cues/cueAudio.ts';
+    import {
+        onAnimations,
+        type AnimationEvent,
+    } from '#output/Cues/animations.ts';
+    import { onContacts } from '#output/Cues/contacts.ts';
+    import { figureFor, fingerprintOf } from '#output/Cues/figure.ts';
+    import CueScheduler, { type CueEvent } from '#output/Cues/cues.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
+    import type { StreamChange } from '#runtime/Evaluator.ts';
 
     let evaluation = getEvaluation();
 

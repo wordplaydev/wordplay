@@ -7,8 +7,8 @@
  * projects. See {@link galleriesWorthSearching}.
  */
 
-import type Gallery from '@db/galleries/Gallery';
-import type Locales from '@locale/Locales';
+import type Gallery from '#db/galleries/Gallery.ts';
+import type Locales from '#locale/Locales.ts';
 import {
     excerpt,
     foldEntry,
@@ -16,7 +16,7 @@ import {
     type Searchable,
     type SearchField,
     type SearchLanguages,
-} from '@util/search';
+} from '#util/search.ts';
 
 /** Priority tiers: a gallery's name beats its description. */
 const NAME = 1;

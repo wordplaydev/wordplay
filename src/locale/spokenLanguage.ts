@@ -11,8 +11,8 @@
  * only strings bound for an announcement are marked.
  */
 
-import type MarkupValue from '@values/MarkupValue';
-import type TextValue from '@values/TextValue';
+import type MarkupValue from '#values/MarkupValue.ts';
+import type TextValue from '#values/TextValue.ts';
 
 const Open = '';
 const Separator = '';

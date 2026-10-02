@@ -1,6 +1,6 @@
-import type { AnnouncementKind } from '@components/project/announcerQueue';
-import type Locales from '@locale/Locales';
-import type { LocaleTextAccessor, TemplateInput } from '@locale/Locales';
+import type { AnnouncementKind } from '#components/project/announcerQueue.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextAccessor, TemplateInput } from '#locale/Locales.ts';
 
 /**
  * How a successful command invocation is heard by a screen reader user.

@@ -1,30 +1,30 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { toClipboard } from '@components/editor/commands/Clipboard';
-    import ChatView from '@components/app/chat/ChatView.svelte';
-    import Header from '@components/app/Header.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import HowToModerationNotice from '@components/moderation/HowToModerationNotice.svelte';
-    import ReportButton from '@components/project/ReportButton.svelte';
-    import getResponsibility from '@db/moderation/responsibility';
-    import { howToVisibility } from '@db/moderation/visibility';
-    import { getUser } from '@components/project/Contexts';
-    import Contributors from '@components/app/Contributors.svelte';
-    import CreatorList from '@components/project/CreatorList.svelte';
-    import { anonymizeContributors } from '@db/creators/attribution';
-    import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import Labeled from '@components/widgets/Labeled.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Options, { type Option } from '@components/widgets/Options.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import type Chat from '@db/chats/ChatDatabase.svelte';
-    import type { Creator } from '@db/creators/CreatorDatabase';
+    import { toClipboard } from '#components/editor/commands/Clipboard.ts';
+    import ChatView from '#components/app/chat/ChatView.svelte';
+    import Header from '#components/app/Header.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import HowToModerationNotice from '#components/moderation/HowToModerationNotice.svelte';
+    import ReportButton from '#components/project/ReportButton.svelte';
+    import getResponsibility from '#db/moderation/responsibility.ts';
+    import { howToVisibility } from '#db/moderation/visibility.ts';
+    import { getUser } from '#components/project/Contexts.ts';
+    import Contributors from '#components/app/Contributors.svelte';
+    import CreatorList from '#components/project/CreatorList.svelte';
+    import { anonymizeContributors } from '#db/creators/attribution.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import Labeled from '#components/widgets/Labeled.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Options, { type Option } from '#components/widgets/Options.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import type Chat from '#db/chats/ChatDatabase.svelte.ts';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
     import {
         Chats,
         Creators,
@@ -34,7 +34,7 @@
         HowTos,
         Locales,
         locales,
-    } from '@db/Database';
+    } from '#db/Database.ts';
     import {
         canDeleteHowTo,
         canEditHowTo,
@@ -42,28 +42,28 @@
         canSubmitToGuide,
         howToIsReadyForGuide,
         repostDestinations,
-    } from '@db/howtos/howToAccess';
-    import { enqueuePreviewCompute } from '@db/projects/previewQueue';
-    import { HowToFields } from '@db/rulesFields';
-    import Project from '@db/projects/Project';
-    import Source from '@nodes/Source';
-    import { toMarkup } from '@parser/toMarkup';
-    import UnicodeString from '@unicode/UnicodeString';
-    import { pickPreviewExample } from '@concepts/pickPreviewExample';
-    import type Gallery from '@db/galleries/Gallery';
-    import type HowTo from '@db/howtos/HowToDatabase.svelte';
-    import type Locale from '@locale/Locale';
-    import { localeToString, stringToLocale } from '@locale/Locale';
+    } from '#db/howtos/howToAccess.ts';
+    import { enqueuePreviewCompute } from '#db/projects/previewQueue.ts';
+    import { HowToFields } from '#db/rulesFields.ts';
+    import Project from '#db/projects/Project.ts';
+    import Source from '#nodes/Source.ts';
+    import { toMarkup } from '#parser/toMarkup.ts';
+    import UnicodeString from '#unicode/UnicodeString.ts';
+    import { pickPreviewExample } from '#concepts/pickPreviewExample.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import type HowTo from '#db/howtos/HowToDatabase.svelte.ts';
+    import type Locale from '#locale/Locale.ts';
+    import { localeToString, stringToLocale } from '#locale/Locale.ts';
     import {
         getLanguageLocalDescription,
         type LocaleText,
-    } from '@locale/LocaleText';
-    import type { ButtonText } from '@locale/UITexts';
+    } from '#locale/LocaleText.ts';
+    import type { ButtonText } from '#locale/UITexts.ts';
     import { onDestroy, onMount, untrack, type Snippet } from 'svelte';
     import { SvelteMap, SvelteSet } from 'svelte/reactivity';
     import { findHowToPlacement } from './HowToMovement';
     import HowToTranslationEditor from './HowToTranslationEditor.svelte';
-    import { must } from '@util/nullable';
+    import { must } from '#util/nullable.ts';
     import HowToUsedBy from './HowToUsedBy.svelte';
     import HowToReposts from './HowToReposts.svelte';
 

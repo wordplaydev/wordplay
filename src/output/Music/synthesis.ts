@@ -8,9 +8,12 @@
  * to claim coverage of an instrument we haven't recorded.
  */
 
-import { InstrumentKeys, type InstrumentKey } from '@output/Music/instruments';
-import { instrumentSpec } from '@output/Music/instruments';
-import { VoiceGain } from '@output/Music/voice';
+import {
+    InstrumentKeys,
+    type InstrumentKey,
+} from '#output/Music/instruments.ts';
+import { instrumentSpec } from '#output/Music/instruments.ts';
+import { VoiceGain } from '#output/Music/voice.ts';
 
 export type Envelope = {
     /** Seconds to reach full gain. */

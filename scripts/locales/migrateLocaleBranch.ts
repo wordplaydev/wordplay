@@ -16,8 +16,8 @@
  * contributor had added.
  */
 import { execFileSync } from 'child_process';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import classifyLocalePath from '@util/verify-locales/classifyLocalePath';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import classifyLocalePath from '#util/verify-locales/classifyLocalePath.ts';
 
 export type Delta = {
     /** Dotted locale path → the value the branch wants there. */

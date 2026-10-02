@@ -1,12 +1,12 @@
 import {
     isCodepointRenderable,
     loadRenderableRanges,
-} from '@basis/faces/renderable';
-import type LanguageCode from '@locale/LanguageCode';
-import { getLanguageScripts } from '@locale/LanguageCode';
-import { getLocaleLanguage } from '@locale/LocaleText';
-import { Scripts, type ScriptMetadata } from '@locale/Scripts';
-import { SupportedLocales } from '@locale/SupportedLocales';
+} from '#basis/faces/renderable.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import { getLanguageScripts } from '#locale/LanguageCode.ts';
+import { getLocaleLanguage } from '#locale/LocaleText.ts';
+import { Scripts, type ScriptMetadata } from '#locale/Scripts.ts';
+import { SupportedLocales } from '#locale/SupportedLocales.ts';
 import { beforeAll, describe, expect, test } from 'vitest';
 import {
     getLogoCyclePool,

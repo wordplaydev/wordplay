@@ -7,7 +7,7 @@
  *
  * Deliberately import-free plain TypeScript. `vitest.rules.config.ts` declares no
  * `resolve.alias`, so `tests/rules/**` reaches this file by relative path and
- * cannot follow a `@db/...` import out of it.
+ * cannot follow a `#db/...` import out of it.
  */
 
 /** Who is asking. `anon` is signed out; `mod` carries the moderator claim. */

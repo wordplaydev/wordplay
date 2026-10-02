@@ -1,5 +1,5 @@
 import type { TemplateReference } from './Tutorial';
-import { includesString, keysOf } from '@util/nullable';
+import { includesString, keysOf } from '#util/nullable.ts';
 
 /**
  * The named programs a tutorial performance can reference as `#Name args`.

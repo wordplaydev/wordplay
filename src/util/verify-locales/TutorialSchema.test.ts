@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { getTutorialPath } from '@util/verify-locales/TutorialSchema';
+import { getTutorialPath } from '#util/verify-locales/TutorialSchema.ts';
 
 /** Literal forward slashes, not `path.join`: drift passes these paths to git,
  *  which wants `/` on every platform. Building the expectation the same way the

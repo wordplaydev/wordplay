@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { rumbleGamepads } from '@output/Music/rumble';
+import { rumbleGamepads } from '#output/Music/rumble.ts';
 
 const rumble = { strong: 1, weak: 0.5, duration: 100 };
 

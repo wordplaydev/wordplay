@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync, statSync } from 'fs';
 import { join } from 'path';
-import { matchGroups } from '@util/nullable';
+import { matchGroups } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 import type Tutorial from '../../tutorial/Tutorial';
 import { TourIDs, Tours, isTourID, type TourID } from './tours';

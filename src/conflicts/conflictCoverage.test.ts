@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
-import { matchGroups } from '@util/nullable';
+import { matchGroups } from '#util/nullable.ts';
 
 /**
  * Every conflict a node can raise needs a test that raises it *from that node*.

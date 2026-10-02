@@ -1,34 +1,37 @@
-import type Conflict from '@conflicts/Conflict';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import type Value from '@values/Value';
-import type Context from '@nodes/Context';
-import type Expression from '@nodes/Expression';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
+import type Conflict from '#conflicts/Conflict.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Step from '#runtime/Step.ts';
+import type Value from '#values/Value.ts';
+import type Context from '#nodes/Context.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
-import { MisplacedThis } from '@conflicts/MisplacedThis';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import StartFinish from '@runtime/StartFinish';
-import NameException from '@values/NameException';
-import ValueException from '@values/ValueException';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+import { MisplacedThis } from '#conflicts/MisplacedThis.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import StartFinish from '#runtime/StartFinish.ts';
+import NameException from '#values/NameException.ts';
+import ValueException from '#values/ValueException.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import { PROPERTY_SYMBOL, THIS_SYMBOL } from '@parser/Symbols';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import Node, { node, type Grammar, type Replacement } from '@nodes/Node';
-import NumberType from '@nodes/NumberType';
-import Reaction from '@nodes/Reaction';
-import SimpleExpression from '@nodes/SimpleExpression';
-import StructureDefinition from '@nodes/StructureDefinition';
-import StructureType from '@nodes/StructureType';
-import { Sym } from '@nodes/Sym';
-import Translate from '@nodes/Translate';
-import Token from '@nodes/Token';
-import { UnenclosedType } from '@nodes/UnenclosedType';
+import { PROPERTY_SYMBOL, THIS_SYMBOL } from '#parser/Symbols.ts';
+import ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import Node, { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import NumberType from '#nodes/NumberType.ts';
+import Reaction from '#nodes/Reaction.ts';
+import SimpleExpression from '#nodes/SimpleExpression.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import StructureType from '#nodes/StructureType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Translate from '#nodes/Translate.ts';
+import Token from '#nodes/Token.ts';
+import { UnenclosedType } from '#nodes/UnenclosedType.ts';
 
 type ThisStructure =
     StructureDefinition | ConversionDefinition | Reaction | Translate;

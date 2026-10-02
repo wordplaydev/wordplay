@@ -3,7 +3,7 @@ import { expect, test, vi } from 'vitest';
 // No canvas in node. Ten pixels per character at 1m keeps the arithmetic
 // checkable, and reading the size back out of the CSS font string makes the
 // stand-in scale the way a real face does.
-vi.mock('@output/Output/getTextMetrics', () => ({
+vi.mock('#output/Output/getTextMetrics.ts', () => ({
     default: (text: string, cssFont: string) => {
         const px = Number(/(\d+(?:\.\d+)?)px/.exec(cssFont)?.[1] ?? 64);
         return {
@@ -16,10 +16,11 @@ vi.mock('@output/Output/getTextMetrics', () => ({
     },
 }));
 
-const { default: measureBubble } = await import('@output/Bubble/bubbleLayout');
-const { default: Bubble } = await import('@output/Bubble/Bubble');
-const { default: TextValue } = await import('@values/TextValue');
-const { default: TextLiteral } = await import('@nodes/TextLiteral');
+const { default: measureBubble } =
+    await import('#output/Bubble/bubbleLayout.ts');
+const { default: Bubble } = await import('#output/Bubble/Bubble.ts');
+const { default: TextValue } = await import('#values/TextValue.ts');
+const { default: TextLiteral } = await import('#nodes/TextLiteral.ts');
 
 /** A bubble carrying some text, with no evaluation behind it. */
 function bubbleOf(text: string, wrap?: number, thought = false) {

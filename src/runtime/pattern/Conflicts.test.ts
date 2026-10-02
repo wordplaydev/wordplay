@@ -1,14 +1,14 @@
-import DuplicateCaptureName from '@conflicts/DuplicateCaptureName';
-import EmptyPattern from '@conflicts/EmptyPattern';
-import MalformedQuantifier from '@conflicts/MalformedQuantifier';
-import MissingPatternLocale from '@conflicts/MissingPatternLocale';
-import OverlappingAlternatives from '@conflicts/OverlappingAlternatives';
-import UndefinedBackreference from '@conflicts/UndefinedBackreference';
-import UnrecognizedPatternProperty from '@conflicts/UnrecognizedPatternProperty';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import evaluateCode from '@runtime/evaluate';
+import DuplicateCaptureName from '#conflicts/DuplicateCaptureName.ts';
+import EmptyPattern from '#conflicts/EmptyPattern.ts';
+import MalformedQuantifier from '#conflicts/MalformedQuantifier.ts';
+import MissingPatternLocale from '#conflicts/MissingPatternLocale.ts';
+import OverlappingAlternatives from '#conflicts/OverlappingAlternatives.ts';
+import UndefinedBackreference from '#conflicts/UndefinedBackreference.ts';
+import UnrecognizedPatternProperty from '#conflicts/UnrecognizedPatternProperty.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import evaluateCode from '#runtime/evaluate.ts';
 import { describe, expect, test } from 'vitest';
 
 /** The conflict constructor names a pattern program produces. */

@@ -1,9 +1,9 @@
 import { expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import { DB } from '@db/Database';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { DB } from '#db/Database.ts';
 
 /**
  * A supplement nothing borrows is still evaluated, so its own tile can show

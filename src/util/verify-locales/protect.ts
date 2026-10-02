@@ -18,16 +18,16 @@
  * the Google backend and keep only the cross-backend repair helpers shared.
  */
 
-import { getPluralBranches } from '@locale/templateInputs';
+import { getPluralBranches } from '#locale/templateInputs.ts';
 import {
     ConceptRegExPattern,
     MentionRegEx,
     TextCloseByTextOpen,
-} from '@parser/Tokenizer';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import { ExternalExamplePattern } from '@parser/Tokenizer';
-import type Log from '@util/verify-locales/Log';
-import { last, matchGroups, must } from '@util/nullable';
+} from '#parser/Tokenizer.ts';
+import { DOCS_SYMBOL } from '#parser/Symbols.ts';
+import { ExternalExamplePattern } from '#parser/Tokenizer.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import { last, matchGroups, must } from '#util/nullable.ts';
 
 /** Wrap each `$name` mention in a `<span translate="no">` so Google Translate
  *  preserves it verbatim. Returns the wrapped string. The negative lookbehind
@@ -176,7 +176,7 @@ export function hasOutOfExampleBreak(text: string): boolean {
     );
 }
 
-/** The leading annotation markers ($?/$!/$~, see @locale/Annotations) on a
+/** The leading annotation markers ($?/$!/$~, see #locale/Annotations) on a
  *  locale string, or the empty string if unannotated. */
 export function leadingAnnotations(text: string): string {
     return text.match(/^(?:\$[?!~])+/)?.[0] ?? '';
@@ -641,6 +641,113 @@ export function mismatchedWebLinks(
     for (const [url, count] of before) if (after.get(url) !== count) return url;
     for (const [url] of after) if (!before.has(url)) return url;
     return undefined;
+}
+
+/** Every web link target in some text, in order. */
+function linkTargets(text: string): string[] {
+    return Array.from(text.matchAll(WebLinkPattern), (match) =>
+        must(match[2], 'a web link target'),
+    );
+}
+
+/** The items of `from` left over after removing one of each in `remove`, in order. */
+function without(from: string[], remove: string[]): string[] {
+    const pending = [...remove];
+    return from.filter((item) => {
+        const index = pending.indexOf(item);
+        if (index < 0) return true;
+        pending.splice(index, 1);
+        return false;
+    });
+}
+
+/** A `<…>` with no `@`: a web link whose `@` and part of its target were lost. */
+const MangledLinkPattern = /<([^<>@\n]+)>/gu;
+
+/**
+ * Put back the web link targets a translation broke, using its source's.
+ *
+ * Two kinds of damage shipped before `protectLinks` masked targets, and both are
+ * repaired here because both are mechanical. A translation that lost the `@:` of
+ * `<localize@://localize>` left `<localize//localize>`, which renders as literal
+ * text; it is recognized by ending in the path of a target the translation is
+ * missing, and that match is what pairs it. And a translation that translated a
+ * route name (`://rights` became `://droits`) links to a 404; it is repaired by
+ * multiset difference, never by position, because a translation may legitimately
+ * reorder its links (the about page names two universities in either order).
+ *
+ * `translation` is a list so a markup array is repaired element by element while
+ * its links are pooled across the whole document. Whatever is still mismatched
+ * afterwards — a link dropped outright, or one invented — is `unresolved`, for
+ * the caller to queue: nothing in the text says where it belongs.
+ */
+export function restoreLinkTargets(
+    source: string,
+    translation: readonly string[],
+): { text: string[]; repaired: number; unresolved: boolean } {
+    let repaired = 0;
+    const sourceTargets = linkTargets(source);
+    let missing = without(sourceTargets, translation.flatMap(linkTargets));
+
+    // Mangled links, only in prose: a `<` inside an example is code.
+    let text = translation.map((element) =>
+        splitMarkupAndCode(element)
+            .map((segment) =>
+                segment.kind === 'code'
+                    ? segment.text
+                    : segment.text.replace(
+                          MangledLinkPattern,
+                          (whole, inside: string) => {
+                              const target = missing.find((candidate) => {
+                                  const path = candidate.replace(
+                                      /^(?::\/\/|\/)/,
+                                      '',
+                                  );
+                                  return (
+                                      path.length > 0 && inside.endsWith(path)
+                                  );
+                              });
+                              if (target === undefined) return whole;
+                              const path = target.replace(/^(?::\/\/|\/)/, '');
+                              const label = inside
+                                  .slice(0, inside.length - path.length)
+                                  .replace(/[@:/]+$/, '')
+                                  .trimEnd();
+                              if (label === '') return whole;
+                              missing = without(missing, [target]);
+                              repaired++;
+                              return `<${label}@${target}>`;
+                          },
+                      ),
+            )
+            .join(''),
+    );
+
+    // Rewritten targets, paired in order with the targets the translation lacks.
+    missing = without(sourceTargets, text.flatMap(linkTargets));
+    let extra = without(text.flatMap(linkTargets), sourceTargets);
+    if (extra.length > 0 && extra.length === missing.length) {
+        text = text.map((element) =>
+            element.replace(
+                WebLinkPattern,
+                (whole, label: string, url: string) => {
+                    const index = extra.indexOf(url);
+                    if (index < 0) return whole;
+                    const replacement = must(missing[index], 'a paired target');
+                    extra = extra.filter((_, i) => i !== index);
+                    missing = missing.filter((_, i) => i !== index);
+                    repaired++;
+                    return `<${label}@${replacement}>`;
+                },
+            ),
+        );
+    }
+
+    return {
+        text,
+        repaired,
+        unresolved: mismatchedWebLinks(source, text.join('\n\n')) !== undefined,
+    };
 }
 
 /**

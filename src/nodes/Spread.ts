@@ -1,27 +1,30 @@
-import conciseRef from '@nodes/conciseRef';
-import type { TemplateInput } from '@locale/Locales';
-import type Locales from '@locale/Locales';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import getConceptName from '@locale/getConceptName';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import { Purpose } from '@concepts/Purpose';
-import type Conflict from '@conflicts/Conflict';
-import IncompatibleType from '@conflicts/IncompatibleType';
+import conciseRef from '#nodes/conciseRef.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Locales from '#locale/Locales.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
 import Characters from '../lore/BasisCharacters';
-import { BIND_SYMBOL } from '@parser/Symbols';
-import AnyType from '@nodes/AnyType';
-import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import ListType from '@nodes/ListType';
-import RangeType from '@nodes/RangeType';
-import UnionType from '@nodes/UnionType';
-import type { Grammar, Replacement } from '@nodes/Node';
-import Node, { node, optional } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+import { BIND_SYMBOL } from '#parser/Symbols.ts';
+import AnyType from '#nodes/AnyType.ts';
+import type Context from '#nodes/Context.ts';
+import Expression from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import ListType from '#nodes/ListType.ts';
+import RangeType from '#nodes/RangeType.ts';
+import UnionType from '#nodes/UnionType.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import Node, { node, optional } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 /** Inside a list literal, flattens values of a list value — or the numbers of a range — into a new list */
 export default class Spread extends Node {

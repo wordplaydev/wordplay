@@ -1,7 +1,7 @@
 import { test } from 'vitest';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import { testConflict } from '@conflicts/TestUtilities';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import BinaryEvaluate from './BinaryEvaluate';
 import Bind from './Bind';
 import Evaluate from './Evaluate';

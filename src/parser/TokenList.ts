@@ -1,5 +1,5 @@
-import type Token from '@nodes/Token';
-import Spaces from '@parser/Spaces';
+import type Token from '#nodes/Token.ts';
+import Spaces from '#parser/Spaces.ts';
 
 export default class TokenList {
     readonly #tokens: Token[];

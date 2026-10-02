@@ -13,17 +13,17 @@
  * stage's own children, a knowing approximation inside a group.
  */
 
-import type Output from '@output/Output/Output';
-import type Place from '@output/Place/Place';
-import type RenderContext from '@output/RenderContext';
-import type { BubbleSide } from '@output/Bubble/Bubble';
-import { must } from '@util/nullable';
+import type Output from '#output/Output/Output.ts';
+import type Place from '#output/Place/Place.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import type { BubbleSide } from '#output/Bubble/Bubble.ts';
+import { must } from '#util/nullable.ts';
 import {
     bubbleRect,
     resolveSides,
     type BubbleCandidate,
     type Rect,
-} from '@output/Bubble/bubbleSides';
+} from '#output/Bubble/bubbleSides.ts';
 
 /** A child of the container, with the box the container placed it in. */
 export type BubbleChild = {

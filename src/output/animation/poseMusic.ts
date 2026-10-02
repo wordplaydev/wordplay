@@ -15,16 +15,16 @@
  * imports — turns it into a `Music`.
  */
 
-import type Project from '@db/projects/Project';
-import type Music from '@output/Music/Music';
-import { toMusic } from '@output/Music/Music';
-import collectOutputs from '@output/Output/collectOutputs';
-import type Output from '@output/Output/Output';
-import { NameGenerator } from '@output/Output/Stage';
-import { AnimationState } from '@output/animation/OutputAnimation';
-import Pose from '@output/animation/Pose';
-import Sequence from '@output/animation/Sequence';
-import type Transition from '@output/animation/Transition';
+import type Project from '#db/projects/Project.ts';
+import type Music from '#output/Music/Music.ts';
+import { toMusic } from '#output/Music/Music.ts';
+import collectOutputs from '#output/Output/collectOutputs.ts';
+import type Output from '#output/Output/Output.ts';
+import { NameGenerator } from '#output/Output/Stage.ts';
+import { AnimationState } from '#output/animation/OutputAnimation.ts';
+import Pose from '#output/animation/Pose.ts';
+import Sequence from '#output/animation/Sequence.ts';
+import type Transition from '#output/animation/Transition.ts';
 
 /** One sounded moment of an animation. */
 export type PoseStrike = {

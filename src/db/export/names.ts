@@ -1,5 +1,5 @@
-import safeName from '@util/fileNames';
-import { first } from '@util/nullable';
+import safeName from '#util/fileNames.ts';
+import { first } from '#util/nullable.ts';
 import type { Relationship } from './AccountSnapshot';
 
 /**

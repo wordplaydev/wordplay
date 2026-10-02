@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternAnchor from '@nodes/PatternAnchor';
+    import type PatternAnchor from '#nodes/PatternAnchor.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** A pattern start/end anchor (`⊢`/`⊣`) — a single glyph token. */
     interface Props {

@@ -1,69 +1,78 @@
-import type Conflict from '@conflicts/Conflict';
-import ReferenceCycle from '@conflicts/ReferenceCycle';
-import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
-import { UnknownName } from '@conflicts/UnknownName';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import Refer from '@edit/revision/Refer';
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type Evaluator from '@runtime/Evaluator';
-import StartFinish from '@runtime/StartFinish';
-import type Step from '@runtime/Step';
-import NameException from '@values/NameException';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Evaluate from '@nodes/Evaluate';
-import Bind from '@nodes/Bind';
-import Borrow from '@nodes/Borrow';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Delete from '@nodes/Delete';
+import type Conflict from '#conflicts/Conflict.ts';
+import ReferenceCycle from '#conflicts/ReferenceCycle.ts';
+import { UnexpectedTypeVariable } from '#conflicts/UnexpectedTypeVariable.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import Refer from '#edit/revision/Refer.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import StartFinish from '#runtime/StartFinish.ts';
+import type Step from '#runtime/Step.ts';
+import NameException from '#values/NameException.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Bind from '#nodes/Bind.ts';
+import Borrow from '#nodes/Borrow.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Delete from '#nodes/Delete.ts';
 import Expression, {
     canRecordGuard,
     type GuardContext,
-} from '@nodes/Expression';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import FunctionType from '@nodes/FunctionType';
-import getGuards from '@nodes/getGuards';
-import Insert from '@nodes/Insert';
-import NameToken from '@nodes/NameToken';
-import type Node from '@nodes/Node';
-import { any, ListOf, node, type Grammar, type Replacement } from '@nodes/Node';
-import PropertyReference from '@nodes/PropertyReference';
-import Row from '@nodes/Row';
-import Select from '@nodes/Select';
-import TableType from '@nodes/TableType';
-import Update from '@nodes/Update';
-import Reaction from '@nodes/Reaction';
-import SimpleExpression from '@nodes/SimpleExpression';
-import Source from '@nodes/Source';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StreamType, { isStreamBind } from '@nodes/StreamType';
-import StructureDefinition from '@nodes/StructureDefinition';
-import getSuggestionScope from '@nodes/suggestionScope';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import TypeVariable from '@nodes/TypeVariable';
+} from '#nodes/Expression.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import FunctionType from '#nodes/FunctionType.ts';
+import getGuards from '#nodes/getGuards.ts';
+import Insert from '#nodes/Insert.ts';
+import NameToken from '#nodes/NameToken.ts';
+import type Node from '#nodes/Node.ts';
+import {
+    any,
+    ListOf,
+    node,
+    type Grammar,
+    type Replacement,
+} from '#nodes/Node.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import Row from '#nodes/Row.ts';
+import Select from '#nodes/Select.ts';
+import TableType from '#nodes/TableType.ts';
+import Update from '#nodes/Update.ts';
+import Reaction from '#nodes/Reaction.ts';
+import SimpleExpression from '#nodes/SimpleExpression.ts';
+import Source from '#nodes/Source.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StreamType, { isStreamBind } from '#nodes/StreamType.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import getSuggestionScope from '#nodes/suggestionScope.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import TypeVariable from '#nodes/TypeVariable.ts';
 import {
     checksTypes,
     resolveToConstantLeaf,
     guardsTypesAround,
-} from '@nodes/typeGuards';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import UnionType from '@nodes/UnionType';
-import UnknownType from '@nodes/UnknownType';
-import BooleanType from '@nodes/BooleanType';
+} from '#nodes/typeGuards.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import UnionType from '#nodes/UnionType.ts';
+import UnknownType from '#nodes/UnknownType.ts';
+import BooleanType from '#nodes/BooleanType.ts';
 import {
     getImplicitInputBind,
     getShorthandCandidates,
-} from '@nodes/inputShorthand';
-import UnknownNameType from '@nodes/UnknownNameType';
+} from '#nodes/inputShorthand.ts';
+import UnknownNameType from '#nodes/UnknownNameType.ts';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,

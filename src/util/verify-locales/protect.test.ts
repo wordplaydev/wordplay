@@ -10,6 +10,7 @@ import {
     protectLinks,
     protectMarkupUnit,
     restoreConceptLinks,
+    restoreLinkTargets,
     restoreMarkupUnit,
     hasResidualLinkMask,
     mismatchedDelimiter,
@@ -398,4 +399,88 @@ test('a placeholder naming nothing survives restoration to be caught', () => {
     expect(
         hasResidualLinkMask(restoreMarkupUnit('Usa ⟦7⟧.', unit, (c) => c)),
     ).toBe(true);
+});
+
+test('restoreLinkTargets puts back a link that lost its @: (es-MX, ar-SA)', () => {
+    expect(
+        restoreLinkTargets(
+            'Projects only on this device. <Sign in@/login> to save them.',
+            [
+                '$~Proyectos solo en este dispositivo. <Inicia sesiónlogin> para guardarlos.',
+            ],
+        ),
+    ).toEqual({
+        text: [
+            '$~Proyectos solo en este dispositivo. <Inicia sesión@/login> para guardarlos.',
+        ],
+        repaired: 1,
+        unresolved: false,
+    });
+    // A markup array: the link's target is pooled across elements.
+    expect(
+        restoreLinkTargets(
+            '• It comes from the <University of Washington@https://ischool.uw.edu/>.\n\n• <Donations@://donate> pay for it.',
+            [
+                '• يأتي من <جامعة واشنطن@https://ischool.uw.edu/>.',
+                '• <التبرعات//donate> تغطي تكاليف تشغيله.',
+            ],
+        ).text,
+    ).toEqual([
+        '• يأتي من <جامعة واشنطن@https://ischool.uw.edu/>.',
+        '• <التبرعات@://donate> تغطي تكاليف تشغيله.',
+    ]);
+});
+
+test('restoreLinkTargets puts back a route name a translation translated (fr-FR)', () => {
+    const repair = restoreLinkTargets(
+        'If this does not meet our <community standards@://rights>, report it.',
+        [
+            '$~Si ce message ne respecte pas nos <normes communautaires@://droits>.',
+        ],
+    );
+    expect(repair.text).toEqual([
+        '$~Si ce message ne respecte pas nos <normes communautaires@://rights>.',
+    ]);
+    expect(repair.repaired).toBe(1);
+});
+
+test('restoreLinkTargets leaves links a translation reordered alone (es-MX about)', () => {
+    const translation = [
+        'en la <Escuela de Información@https://ischool.uw.edu/> de la <Universidad de Washington@https://washington.edu>.',
+    ];
+    expect(
+        restoreLinkTargets(
+            'at the <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/>.',
+            translation,
+        ),
+    ).toEqual({ text: translation, repaired: 0, unresolved: false });
+});
+
+test('restoreLinkTargets reports what it cannot place, and touches no example', () => {
+    // Dropped outright: nothing says where the link belongs.
+    expect(
+        restoreLinkTargets('Read the <guide@://guide>.', ['Lee la guía.'])
+            .unresolved,
+    ).toBe(true);
+    // A `<…>` inside an example is code, even when it ends like a target.
+    const code = ['Escribe \\a < b > guide\\ aquí.'];
+    expect(
+        restoreLinkTargets(
+            'Write \\a < b > guide\\ here. <guide@://guide>',
+            code,
+        ).text,
+    ).toEqual(code);
+});
+
+test('restoreLinkTargets is idempotent', () => {
+    const source = '<Sign in@/login> or read the <guide@://guide>.';
+    const once = restoreLinkTargets(source, [
+        '<Entrarlogin> o lee la <guía//guide>.',
+    ]);
+    expect(once.text).toEqual(['<Entrar@/login> o lee la <guía@://guide>.']);
+    expect(restoreLinkTargets(source, once.text)).toEqual({
+        text: once.text,
+        repaired: 0,
+        unresolved: false,
+    });
 });

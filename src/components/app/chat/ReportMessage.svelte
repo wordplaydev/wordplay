@@ -5,9 +5,9 @@
      and a single shared `show` boolean in the parent opened every message's
      dialog at once. -->
 <script lang="ts">
-    import Button from '@components/widgets/Button.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import ResponsibilityNotice from '@components/moderation/ResponsibilityNotice.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import ResponsibilityNotice from '#components/moderation/ResponsibilityNotice.svelte';
     import type { Visibility } from 'shared-types';
 
     interface Props {

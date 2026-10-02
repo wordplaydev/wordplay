@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import Notice from '#components/app/Notice.svelte';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
 
     interface Props {
         feedback: LocaleTextAccessor | undefined;

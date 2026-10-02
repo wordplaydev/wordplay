@@ -1,15 +1,15 @@
-import type Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import { COMMA_SYMBOL } from '@parser/Symbols';
-import type Locales from '@locale/Locales';
+import type Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import { COMMA_SYMBOL } from '#parser/Symbols.ts';
+import type Locales from '#locale/Locales.ts';
 import { Emotion } from '../lore/Emotion';
-import type Markup from '@nodes/Markup';
+import type Markup from '#nodes/Markup.ts';
 import type { CharacterName } from '../tutorial/Tutorial';
-import Concept from '@concepts/Concept';
-import type { PurposeType } from '@concepts/Purpose';
+import Concept from '#concepts/Concept.ts';
+import type { PurposeType } from '#concepts/Purpose.ts';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */

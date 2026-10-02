@@ -7,7 +7,7 @@
  * `announcerQueue.ts` is kept out of `Announcer.svelte`, because those are the
  * parts worth testing and a component is the part that isn't.
  */
-import { SaySource, type CurrentSpeech } from '@output/Speech/speech';
+import { SaySource, type CurrentSpeech } from '#output/Speech/speech.ts';
 
 /**
  * The words this band should show for what is being spoken, or undefined when

@@ -1,8 +1,8 @@
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import SetLiteral from '@nodes/SetLiteral';
-import { testConflict } from '@conflicts/TestUtilities';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import SetLiteral from '#nodes/SetLiteral.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
+import evaluateCode from '#runtime/evaluate.ts';
 
 test('set literal with one element', () => {
     expect(evaluateCode('{1}')?.toString()).toBe('{1}');

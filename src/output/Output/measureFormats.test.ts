@@ -5,7 +5,7 @@ import { expect, test, vi } from 'vitest';
 // 'y' carry their own ink: a cap with no descender, and a descender under an
 // x-height, so a phrase can hold ink taller than any one of its words.
 const Ink: Record<string, [number, number]> = { T: [12, 0], y: [6, 4] };
-vi.mock('@output/Output/getTextMetrics', () => ({
+vi.mock('#output/Output/getTextMetrics.ts', () => ({
     default: (text: string) => ({
         width: text.length * 10,
         actualBoundingBoxAscent: Ink[text.trim()]?.[0] ?? 8,
@@ -16,7 +16,7 @@ vi.mock('@output/Output/getTextMetrics', () => ({
 }));
 
 const { default: measureFormats } =
-    await import('@output/Output/measureFormats');
+    await import('#output/Output/measureFormats.ts');
 
 function measure(text: string, maxWidth: number | undefined, exact = false) {
     return measureFormats([{ text, italic: false, weight: undefined }], {

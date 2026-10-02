@@ -1,11 +1,11 @@
-import type Context from '@nodes/Context';
-import type { Field, FieldKind } from '@nodes/Node';
-import type Node from '@nodes/Node';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type UnparsableExpression from '@nodes/UnparsableExpression';
-import type UnparsableType from '@nodes/UnparsableType';
-import type Definition from '@nodes/Definition';
+import type Context from '#nodes/Context.ts';
+import type { Field, FieldKind } from '#nodes/Node.ts';
+import type Node from '#nodes/Node.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import type UnparsableType from '#nodes/UnparsableType.ts';
+import type Definition from '#nodes/Definition.ts';
 
 /**
  * A read-only snapshot of everything around an UnparsableExpression / UnparsableType

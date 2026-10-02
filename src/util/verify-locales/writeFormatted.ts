@@ -1,6 +1,6 @@
 import fs from 'fs';
 import * as prettier from 'prettier';
-import type Log from '@util/verify-locales/Log';
+import type Log from '#util/verify-locales/Log.ts';
 
 /** The Prettier parser for a file extension, or undefined if Prettier has no
  *  parser for it (e.g. the custom how-to text format) — those are written raw. */

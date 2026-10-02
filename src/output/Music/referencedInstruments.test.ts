@@ -1,7 +1,7 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import referencedInstruments from '@output/Music/referencedInstruments';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import referencedInstruments from '#output/Music/referencedInstruments.ts';
 import { describe, expect, test } from 'vitest';
 
 function instrumentsOf(code: string) {

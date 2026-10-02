@@ -1,17 +1,17 @@
 import { expect, test } from 'vitest';
-import { DB } from '@db/Database';
-import DefaultLocale from '@locale/DefaultLocale';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import Beat from '@input/Beat/Beat';
-import StructureValue from '@values/StructureValue';
-import ListValue from '@values/ListValue';
-import NumberValue from '@values/NumberValue';
-import TextValue from '@values/TextValue';
-import BoolValue from '@values/BoolValue';
-import type Value from '@values/Value';
-import { must } from '@util/nullable';
+import { DB } from '#db/Database.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import Beat from '#input/Beat/Beat.ts';
+import StructureValue from '#values/StructureValue.ts';
+import ListValue from '#values/ListValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import TextValue from '#values/TextValue.ts';
+import BoolValue from '#values/BoolValue.ts';
+import type Value from '#values/Value.ts';
+import { must } from '#util/nullable.ts';
 
 function beatStream(code: string) {
     const project = Project.make(

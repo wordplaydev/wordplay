@@ -1,19 +1,19 @@
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import { testConflict } from '@conflicts/TestUtilities';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { describe, expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import evaluateCode from '@runtime/evaluate';
-import parseProgram from '@parser/parseProgram';
-import { toTokens } from '@parser/toTokens';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import FormattedType from '@nodes/FormattedType';
-import Localized from '@nodes/Localized';
-import NumberType from '@nodes/NumberType';
-import Source from '@nodes/Source';
-import TextLiteral from '@nodes/TextLiteral';
-import TextType from '@nodes/TextType';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import parseProgram from '#parser/parseProgram.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import FormattedType from '#nodes/FormattedType.ts';
+import Localized from '#nodes/Localized.ts';
+import NumberType from '#nodes/NumberType.ts';
+import Source from '#nodes/Source.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import TextType from '#nodes/TextType.ts';
 
 test.each([
     // Tagging a computed (parenthesized) text overrides/sets its locale.

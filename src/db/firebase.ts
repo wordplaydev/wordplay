@@ -7,7 +7,7 @@ import {
     PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     PUBLIC_FIREBASE_PROJECT_ID,
     PUBLIC_RECAPTCHA_SITE_KEY,
-} from '$env/static/public';
+} from '$app/env/public';
 // Type-only: the analytics, auth, and functions SDKs are all loaded lazily off
 // the critical path (see initAnalytics / ensureAuth / getFunctionsInstance
 // below), so none of them enters the eager firebase chunk. Only firebase/app +
@@ -15,9 +15,9 @@ import {
 // display (ProjectsDatabase.get falls through to a getDoc).
 import type { Analytics } from 'firebase/analytics';
 import { getApp, getApps, initializeApp, type FirebaseApp } from 'firebase/app';
-import { isProxySession } from '@db/proxySession';
-import deferToIdle from '@util/deferToIdle';
-import lazyWithRetry from '@util/lazyWithRetry';
+import { isProxySession } from '#db/proxySession.ts';
+import deferToIdle from '#util/deferToIdle.ts';
+import lazyWithRetry from '#util/lazyWithRetry.ts';
 import type { Auth } from 'firebase/auth';
 import {
     connectFirestoreEmulator,

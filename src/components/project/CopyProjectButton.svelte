@@ -2,12 +2,12 @@
      dialog's title rather than in its body: it's a single action on the project
      as a whole, not one of the settings the dialog's tabs switch between. -->
 <script lang="ts">
-    import { toClipboard } from '@components/editor/commands/Clipboard';
-    import { getUser } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type Project from '@db/projects/Project';
-    import { CONFIRM_SYMBOL, PASTE_SYMBOL } from '@parser/Symbols';
+    import { toClipboard } from '#components/editor/commands/Clipboard.ts';
+    import { getUser } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import type Project from '#db/projects/Project.ts';
+    import { CONFIRM_SYMBOL, PASTE_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         project: Project;

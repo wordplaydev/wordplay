@@ -86,7 +86,7 @@
                             "• Kendi isimlerin de çok dilli olabilir:\n\\kedi2/tr, gato/es: '🐈'\nİfadeetmek(kedi2)\\",
                             "• Metin bir dil taşır ve izleyicinin okuduğu dili gösterir: \\'merhaba'/tr'hola'/es\\.",
                             "• Sitenin kendisi 29 dilde ve aynı anda birden fazla dil seçebilirsin; metin her dilde görünür.",
-                            "• @wordplay'ı çevirmeye yardımcı olabilirsin, doğrudan uygulama içinde <localize//localize> üzerinden."
+                            "• @wordplay'ı çevirmeye yardımcı olabilirsin, doğrudan uygulama içinde <localize@://localize> üzerinden."
                         ]
                     },
                     "accessible": {
@@ -123,7 +123,7 @@
                         "title": "$~Wordplay tipografidir",
                         "bullets": [
                             "$~• Dünyanın yazı sistemlerini kapsayan yüzlerce yazı tipi.",
-                            "• <özel karakterlerini//characters> çizebilir ve bunları bir emoji kullanılan her yerde kullanabilirsin.",
+                            "• <özel karakterlerini@://characters> çizebilir ve bunları bir emoji kullanılan her yerde kullanabilirsin.",
                             "• Her harfin dış hattı, @Contour ile okuyabileceğin ve canlandırabileceğin bir veridir: \\Kontur('a' 'Noto Sans')\\.",
                             "• Metin, yazıldığı dilin kurallarına göre satır sonlarında bölünür.",
                             "• Sağdan sola ve dikey yazı, olması gerektiği gibi düzenlenir."
@@ -133,7 +133,7 @@
                         "title": "$~Wordplay kendini açıklar",
                         "bullets": [
                             "$~• Dokümantasyon, yanındaki bir yorum değil, @Doc ile dilin bir parçasıdır.",
-                            "• Aranabilir bir <rehber//guide>, her yerleşik özelliği örneklerle açıklar.",
+                            "• Aranabilir bir <rehber@://guide>, her yerleşik özelliği örneklerle açıklar.",
                             "• Her hata, kendi dilinde, meydana geldiği yerde açıklanır.",
                             "• Bir programı ne olduğunu anlamak için ileri /ve/ geri adımlarla izleyebilirsin.",
                             "• Adım adım ilerlerken, her değer onu oluşturan kodun tam içinde gösterilir."
@@ -156,7 +156,7 @@
                             "• Açık kaynaklıdır: nasıl çalıştığını okuyabilir ve onu değiştirmemize yardımcı olabilirsin.",
                             "• <Washington Üniversitesi@https://ischool.uw.edu/> Bilişim Okulu'ndan gelir.",
                             "• Yaratıcılardan, öğretmenlerden ve katkıda bulunanlardan oluşan bir topluluk vardır.",
-                            "• <Bağışlar//donate>, çalıştırma maliyetlerini karşılar."
+                            "• <Bağışlar@://donate>, çalıştırma maliyetlerini karşılar."
                         ]
                     }
                 }
@@ -210,7 +210,7 @@
                 },
                 "error": {
                     "offline": "$~Öğretmen durumunuzu kontrol edemedik. Giriş yaptınız mı?",
-                    "login": "$~Dersleri yönetmek için <giriş yapmanız gerekiyor.",
+                    "login": "$~Sınıfları yönetmek için <giriş yapmış@://login> olmalısın.",
                     "teacher": "$~Sınıfları oluşturmak ve yönetmek için öğretmen ayrıcalıklarına ihtiyacınız var. Bu formu doldurun ve birbirimizi tanıyalım!"
                 },
                 "link": {
@@ -499,7 +499,7 @@
                     "content": [
                         "$~*Wordplay*'in okulunuzda veya bölgenizde kullanılabilir olup olmadığına mı karar veriyorsunuz? İşte neyi söz verebileceğimiz ve neyi veremeyeceğimiz.",
                         "Biz bir şirket değiliz. Kâr amacı gütmeyen bir üniversitede yürütülen, topluluk temelli bir araştırma projesiyiz ve hiçbir gelirimiz yok. Bu, yardım etmeyi ne kadar çok istesek de, imzalayamayacağımız bazı anlaşmalar olduğu anlamına gelir. Bir bölge dava edilirse hukuki masraflarını ödeyeceğimize söz veremeyiz. Bir sorunu belirli bir takvimde çözeceğimize söz veremeyiz. Tutamayacağımız bir sözü imzalamak kimseye yardımcı olmaz, en başta size.",
-                        "İşte size verebileceğimiz söz. Platformu /WCAG 2.2 Seviye AA/ erişilebilirlik standardına uygun tutuyoruz, her değişiklikte bunu otomatik olarak kontrol ediyoruz ve bulduğumuz sorunları bir gönüllü topluluğun yapabileceği en hızlı şekilde düzeltiyoruz. Platformu kullanan insanlar hakkında olabildiğince az bilgi topluyoruz ve bu bilgiyi yalnızca platformu çalıştırmak için kullanıyoruz. <rights//rights> sayfamız tam olarak neyi sakladığımızı anlatır ve <source@https://github.com/wordplaydev/wordplay> herkese açıktır, böylece tüm bunları kendiniz kontrol edebilirsiniz.",
+                        "İşte size verebileceğimiz söz. Platformu /WCAG 2.2 Seviye AA/ erişilebilirlik standardına uygun tutuyoruz, her değişiklikte bunu otomatik olarak kontrol ediyoruz ve bulduğumuz sorunları bir gönüllü topluluğun yapabileceği en hızlı şekilde düzeltiyoruz. Platformu kullanan insanlar hakkında olabildiğince az bilgi topluyoruz ve bu bilgiyi yalnızca platformu çalıştırmak için kullanıyoruz. <rights@://rights> sayfamız tam olarak neyi sakladığımızı anlatır ve <source@https://github.com/wordplaydev/wordplay> herkese açıktır, böylece tüm bunları kendiniz kontrol edebilirsiniz.",
                         "Bu platform sürekli değişiyor, uymanız gereken kurallar da öyle. İhtiyacınız olan ama henüz sunmadığımız bir şey varsa, bize hi@wordplay.dev adresinden yazın ve bize anlatın. Yürütücüler bunu okuyacak ve size geri yazacağız."
                     ],
                     "link": "$~Bize bir gereklilik hakkında yazın",
@@ -1265,7 +1265,7 @@
             },
             "thanks": {
                 "header": "$~Teşekkürler",
-                "intro": "$~@wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkı sağlayan *$#count[$count katkıcımıza|$count katkıcımıza]* teşekkür ederiz! Ayrıca odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza yön veren birçok öğretmene ve gence de teşekkür ederiz; gizliliklerini korumak için onları burada listelemiyoruz.\n\nBu proje, 2318257, 2031265, 2100296 ve 2122950 numaralı ödüllerle Ulusal Bilim Vakfı tarafından, Washington Üniversitesi tarafından ve sizin gibi insanların cömert <bağışları//donate> ile desteklenmiştir.",
+                "intro": "$~@wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkı sağlayan *$#count[$count katkıcımıza|$count katkıcımıza]* teşekkür ederiz! Ayrıca odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza yön veren birçok öğretmene ve gence de teşekkür ederiz; gizliliklerini korumak için onları burada listelemiyoruz.\n\nBu proje, 2318257, 2031265, 2100296 ve 2122950 numaralı ödüllerle Ulusal Bilim Vakfı tarafından, Washington Üniversitesi tarafından ve sizin gibi insanların cömert <bağışları@://donate> ile desteklenmiştir.",
                 "teachers": "$~Öğretmenler",
                 "contributors": "$~Katkıda Bulunanlar"
             },

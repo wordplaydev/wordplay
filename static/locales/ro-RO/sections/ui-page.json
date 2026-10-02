@@ -86,7 +86,7 @@
                             "• Și numele pe care le alegi tu pot fi multilingve:\n\\pisică2/ro, gato/es: '🐈'\nFraza(pisică2)\\",
                             "• Textul poartă o limbă și arată limba pe care publicul tău o citește: \\'salut'/ro'hola'/es\\.",
                             "• Site-ul este disponibil în 29 de limbi și poți alege mai multe deodată; textul apare în fiecare dintre ele.",
-                            "• Poți ajuta la traducerea @wordplay chiar din aplicație, la <localize//localize>."
+                            "• Poți ajuta la traducerea @wordplay chiar din aplicație, la <localize@://localize>."
                         ]
                     },
                     "accessible": {
@@ -123,7 +123,7 @@
                         "title": "$~Wordplay este tipografie",
                         "bullets": [
                             "$~• Sute de fonturi, care acoperă sistemele de scriere ale lumii.",
-                            "• Poți desena <caracterele tale personalizate//characters> și le poți folosi oriunde poți folosi un emoji.",
+                            "• Poți desena <caracterele tale personalizate@://characters> și le poți folosi oriunde poți folosi un emoji.",
                             "• Conturul fiecărei litere este o dată pe care o poți citi și anima, cu @Contour: \\Contur('a' 'Noto Sans')\\.",
                             "• Textul se aranjează pe rânduri după regulile limbii în care este scris.",
                             "• Scrisul de la dreapta la stânga și scrisul vertical sunt aranjate exact cum trebuie."
@@ -133,7 +133,7 @@
                         "title": "$~Wordplay se explică singur",
                         "bullets": [
                             "$~• Documentarea face parte din limbă, cu @Doc, nu este doar un comentariu alăturat.",
-                            "• Un <ghid//guide> căutabil explică fiecare funcție încorporată, cu exemple.",
+                            "• Un <ghid@://guide> căutabil explică fiecare funcție încorporată, cu exemple.",
                             "• Fiecare greșeală este explicată chiar acolo unde a apărut, în limba ta.",
                             "• Poți parcurge un program pas cu pas, înainte /și/ înapoi, ca să vezi ce s-a întâmplat.",
                             "• În timp ce parcurgi codul, fiecare valoare este arătată chiar în codul care a creat-o."
@@ -156,7 +156,7 @@
                             "• Este cu sursă deschisă: poți citi cum funcționează și ne poți ajuta să îl schimbăm.",
                             "• Vine de la Facultatea de Informatică a <Universității din Washington@https://ischool.uw.edu/>.",
                             "• Există o comunitate de creatori, profesori și colaboratori.",
-                            "• <Donațiile//donate> acoperă costurile de funcționare."
+                            "• <Donațiile@://donate> acoperă costurile de funcționare."
                         ]
                     }
                 }
@@ -944,7 +944,7 @@
                     "content": [
                         "$~Te gândești dacă *Wordplay* este potrivit pentru școala sau inspectoratul tău? Iată ce putem și ce nu putem promite.",
                         "Nu suntem o companie. Suntem un proiect de cercetare bazat pe comunitate, găzduit de o universitate non-profit, și nu avem venituri. Asta înseamnă că există acorduri pe care nu le putem semna, oricât de mult am vrea să ajutăm. Nu putem promite să plătim cheltuielile legale ale unui inspectorat dacă este dat în judecată. Nu putem promite să rezolvăm o problemă într-un termen fix. Semnarea unei promisiuni pe care nu o putem respecta nu ar ajuta pe nimeni, cel mai puțin pe tine.",
-                        "Iată ce putem promite. Menținem platforma la standardul de accesibilitate /WCAG 2.2 Nivel AA/, o verificăm automat la fiecare modificare, și rezolvăm ce găsim cât de repede poate o comunitate de voluntari. Adunăm cât mai puține informații despre persoanele care o folosesc, și le folosim doar pentru a face platforma să funcționeze. Pagina noastră <rights//rights> spune exact ce păstrăm, iar <source@https://github.com/wordplaydev/wordplay> a noastră este publică, așa că poți verifica totul singur.",
+                        "Iată ce putem promite. Menținem platforma la standardul de accesibilitate /WCAG 2.2 Nivel AA/, o verificăm automat la fiecare modificare, și rezolvăm ce găsim cât de repede poate o comunitate de voluntari. Adunăm cât mai puține informații despre persoanele care o folosesc, și le folosim doar pentru a face platforma să funcționeze. Pagina noastră <rights@://rights> spune exact ce păstrăm, iar <source@https://github.com/wordplaydev/wordplay> a noastră este publică, așa că poți verifica totul singur.",
                         "Această platformă se schimbă mereu, la fel și regulile pe care trebuie să le respecți. Dacă ai nevoie de ceva ce încă nu oferim, scrie-ne la hi@wordplay.dev și spune-ne despre asta. Persoanele care întrețin platforma vor citi mesajul tău și îți vom răspunde."
                     ],
                     "link": "$~Scrie-ne despre o cerință",
@@ -1369,7 +1369,7 @@
             },
             "thanks": {
                 "header": "$~Mulţumesc",
-                "intro": "$~Mulțumim *$#count[$#count colaboratorului nostru|$count colaboratorilor noștri|$count de colaboratori]* pentru contribuția la designul, dezvoltarea, localizarea și conținutul @wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în grupuri de discuții, sesiuni de design și clase, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea.\n\nAcest proiect a fost sprijinit de National Science Foundation prin premiile 2318257, 2031265, 2100296 și 2122950, de University of Washington și de <daruri//donate> generoase de la oameni ca tine.",
+                "intro": "$~Mulțumim *$#count[$#count colaboratorului nostru|$count colaboratorilor noștri|$count de colaboratori]* pentru contribuția la designul, dezvoltarea, localizarea și conținutul @wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în grupuri de discuții, sesiuni de design și clase, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea.\n\nAcest proiect a fost sprijinit de National Science Foundation prin premiile 2318257, 2031265, 2100296 și 2122950, de University of Washington și de <daruri@://donate> generoase de la oameni ca tine.",
                 "teachers": "$~Profesori",
                 "contributors": "$~Contribuitori"
             },

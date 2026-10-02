@@ -4,9 +4,16 @@
  * src/util/search.ts. A concept's names rank above its documentation.
  */
 
-import { foldEntry, type Searchable, type SearchLanguages } from '@util/search';
+import {
+    foldEntry,
+    type Searchable,
+    type SearchLanguages,
+} from '#util/search.ts';
 
-export { searchItems as searchConcepts, type SearchMatch } from '@util/search';
+export {
+    searchItems as searchConcepts,
+    type SearchMatch,
+} from '#util/search.ts';
 
 /** Priority for a name match (ranks above a documentation match). */
 const NAME_PRIORITY = 1;

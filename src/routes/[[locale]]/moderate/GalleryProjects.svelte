@@ -1,11 +1,11 @@
 <!-- The projects a gallery holds, which is what a listing decision is about (#938). -->
 <script lang="ts">
-    import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import { DB } from '@db/Database';
-    import type Gallery from '@db/galleries/Gallery';
-    import type Project from '@db/projects/Project';
-    import { localeGoto } from '@util/localeGoto';
+    import ProjectPreviewSet from '#components/app/ProjectPreviewSet.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import { DB } from '#db/Database.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
 
     interface Props {
         gallery: Gallery;

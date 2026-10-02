@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type TypePlaceholder from '@nodes/TypePlaceholder';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import type TypePlaceholder from '#nodes/TypePlaceholder.ts';
+    import MenuTrigger from '#components/editor/menu/MenuTrigger.svelte';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: TypePlaceholder;

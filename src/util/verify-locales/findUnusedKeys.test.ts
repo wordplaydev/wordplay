@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { collectUsedPrefixes } from '@util/verify-locales/findUnusedKeys';
+import { collectUsedPrefixes } from '#util/verify-locales/findUnusedKeys.ts';
 
 describe('collectUsedPrefixes', () => {
     test('captures a closure-form locale accessor', () => {

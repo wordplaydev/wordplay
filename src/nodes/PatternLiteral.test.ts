@@ -1,14 +1,14 @@
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import { testConflict } from '@conflicts/TestUtilities';
-import PatternClass from '@nodes/PatternClass';
-import PatternLiteral from '@nodes/PatternLiteral';
-import Source from '@nodes/Source';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import PatternClass from '#nodes/PatternClass.ts';
+import PatternLiteral from '#nodes/PatternLiteral.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 
 /**
  * Parsing/round-trip coverage: every LANGUAGE.md example parses and prints
  * back exactly (the Source preserves the original spacing). Matching behavior
- * is covered by the runtime suites in `@runtime/pattern`.
+ * is covered by the runtime suites in `#runtime/pattern`.
  */
 test.each([
     '\'555-1234\' ≈ ⣿3 # "-" 4 #⣿',

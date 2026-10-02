@@ -1,7 +1,7 @@
-import getFocusNode from '@components/annotations/getFocusNode';
-import type { Resolution } from '@conflicts/Conflict';
-import Markup from '@nodes/Markup';
-import Source from '@nodes/Source';
+import getFocusNode from '#components/annotations/getFocusNode.ts';
+import type { Resolution } from '#conflicts/Conflict.ts';
+import Markup from '#nodes/Markup.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 
 const source = new Source('test', '1 + 2');

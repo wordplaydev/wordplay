@@ -1,5 +1,8 @@
-import type { RawTranslator, TranslationProgress } from '@db/translateMarkup';
-import { findLocalTranslationPair } from '@db/localTranslatorLanguages';
+import type {
+    RawTranslator,
+    TranslationProgress,
+} from '#db/translateMarkup.ts';
+import { findLocalTranslationPair } from '#db/localTranslatorLanguages.ts';
 
 /** How many strings are translated at once. The API has no batch call — one per
  *  string — so this is the only thing between a hundred-message conversation

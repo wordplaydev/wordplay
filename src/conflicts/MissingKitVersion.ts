@@ -1,5 +1,5 @@
-import type LocaleText from '@locale/LocaleText';
-import KitBorrowConflict from '@conflicts/KitBorrowConflict';
+import type LocaleText from '#locale/LocaleText.ts';
+import KitBorrowConflict from '#conflicts/KitBorrowConflict.ts';
 
 /**
  * A kit is borrowed without saying which version, so there is nothing to pin to.

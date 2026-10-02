@@ -1,10 +1,10 @@
 import { expect, test } from 'vitest';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import { buildGlossarySearch } from '@locale/glossarySearch';
-import type LocaleText from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import { searchItems } from '@util/search';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { buildGlossarySearch } from '#locale/glossarySearch.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import { searchItems } from '#util/search.ts';
 
 function toLocales(locale: LocaleText) {
     return new Locales(concretize, [locale], DefaultLocale);

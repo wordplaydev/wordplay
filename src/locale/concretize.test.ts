@@ -1,12 +1,12 @@
-import Markup from '@nodes/Markup';
-import ConceptLink from '@nodes/ConceptLink';
+import Markup from '#nodes/Markup.ts';
+import ConceptLink from '#nodes/ConceptLink.ts';
 import { expect, test } from 'vitest';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import type LanguageCode from '@locale/LanguageCode';
-import Locales, { type TemplateInput } from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import Locales, { type TemplateInput } from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 
 test.each([
     ['', 'TBD', {}],

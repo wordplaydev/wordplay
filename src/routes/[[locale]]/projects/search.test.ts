@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { projectSearchFields } from './search';
-import { searchItems, type Searchable } from '@util/search';
-import { must } from '@util/nullable';
+import { searchItems, type Searchable } from '#util/search.ts';
+import { must } from '#util/nullable.ts';
 
 const L = 'en';
 

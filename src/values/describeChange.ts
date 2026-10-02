@@ -1,21 +1,21 @@
-import type Locales from '@locale/Locales';
-import { formatNumberForLocale } from '@locale/numberFormats';
-import type Locale from '@locale/Locale';
-import BoolValue from '@values/BoolValue';
-import ListValue from '@values/ListValue';
-import MapValue from '@values/MapValue';
-import NoneValue from '@values/NoneValue';
-import NumberValue from '@values/NumberValue';
-import FunctionValue from '@values/FunctionValue';
-import SetValue from '@values/SetValue';
-import StreamDefinitionValue from '@values/StreamDefinitionValue';
-import StreamValue from '@values/StreamValue';
-import StructureDefinitionValue from '@values/StructureDefinitionValue';
-import StructureValue from '@values/StructureValue';
-import TableValue from '@values/TableValue';
-import TextValue from '@values/TextValue';
-import { spokenText } from '@locale/spokenLanguage';
-import type Value from '@values/Value';
+import type Locales from '#locale/Locales.ts';
+import { formatNumberForLocale } from '#locale/numberFormats.ts';
+import type Locale from '#locale/Locale.ts';
+import BoolValue from '#values/BoolValue.ts';
+import ListValue from '#values/ListValue.ts';
+import MapValue from '#values/MapValue.ts';
+import NoneValue from '#values/NoneValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import FunctionValue from '#values/FunctionValue.ts';
+import SetValue from '#values/SetValue.ts';
+import StreamDefinitionValue from '#values/StreamDefinitionValue.ts';
+import StreamValue from '#values/StreamValue.ts';
+import StructureDefinitionValue from '#values/StructureDefinitionValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TableValue from '#values/TableValue.ts';
+import TextValue from '#values/TextValue.ts';
+import { spokenText } from '#locale/spokenLanguage.ts';
+import type Value from '#values/Value.ts';
 
 /**
  * Describes what CHANGED between two values, for screen readers.

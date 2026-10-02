@@ -1,4 +1,4 @@
-import type { WritingDirection, WritingLayout } from '@locale/Scripts';
+import type { WritingDirection, WritingLayout } from '#locale/Scripts.ts';
 
 /**
  * The editor's geometry is not really horizontal — it is *inline-axis* geometry

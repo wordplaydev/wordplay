@@ -1,6 +1,6 @@
-import PublishedShareConflict from '@conflicts/PublishedShareConflict';
-import type LocaleText from '@locale/LocaleText';
-import type Program from '@nodes/Program';
+import PublishedShareConflict from '#conflicts/PublishedShareConflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Program from '#nodes/Program.ts';
 
 /**
  * A published source with no `\…\` example anywhere in it (#8).

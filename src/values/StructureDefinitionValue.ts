@@ -1,17 +1,17 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import Bind from '@nodes/Bind';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import StructureType from '@nodes/StructureType';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import type Evaluation from '@runtime/Evaluation';
-import FunctionValue from '@values/FunctionValue';
-import type Value from '@values/Value';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import SimpleValue from '@values/SimpleValue';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import Bind from '#nodes/Bind.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import StructureType from '#nodes/StructureType.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import FunctionValue from '#values/FunctionValue.ts';
+import type Value from '#values/Value.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import SimpleValue from '#values/SimpleValue.ts';
 
 export default class StructureDefinitionValue extends SimpleValue {
     /** The definition from the AST. */

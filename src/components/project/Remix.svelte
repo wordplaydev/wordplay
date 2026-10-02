@@ -1,11 +1,11 @@
 <script lang="ts">
-    import ProjectPreview from '@components/app/ProjectPreview.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import { isDialogOpenInURL } from '@components/widgets/dialogURL';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
+    import ProjectPreview from '#components/app/ProjectPreview.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import { isDialogOpenInURL } from '#components/widgets/dialogURL.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
     import { ExamplePrefix } from '../../examples/examples';
 
     interface Props {

@@ -1,7 +1,7 @@
-import { Languages } from '@locale/LanguageCode';
-import { getRegionName } from '@locale/tagNames';
-import Language from '@nodes/Language';
-import type Node from '@nodes/Node';
+import { Languages } from '#locale/LanguageCode.ts';
+import { getRegionName } from '#locale/tagNames.ts';
+import Language from '#nodes/Language.ts';
+import type Node from '#nodes/Node.ts';
 
 /**
  * What the locale tag a menu suggestion would insert actually names, e.g. `/es-MX` →

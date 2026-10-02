@@ -1,12 +1,12 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import Expression from '@nodes/Expression';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import Expression from '#nodes/Expression.ts';
 import { describe, expect, test } from 'vitest';
 import {
     resolveCaretPosition,
     serializeCaretPosition,
-} from '@edit/caret/Caret';
+} from '#edit/caret/Caret.ts';
 
 function makeSource(code: string): Source {
     const source = new Source('test', code);

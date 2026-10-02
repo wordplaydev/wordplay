@@ -1,7 +1,7 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import StreamDefinition from '@nodes/StreamDefinition';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
 import { expect, test } from 'vitest';
 
 test('cloning a stream definition with a replacement does not throw', () => {

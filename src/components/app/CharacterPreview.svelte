@@ -7,19 +7,20 @@
      the editor; in a gallery most of them are someone else's, so the tile is
      inert and the controls carry every action. -->
 <script lang="ts">
+    import type { AppPath } from '#util/appPath.ts';
     import type { Snippet } from 'svelte';
-    import Link from '@components/app/Link.svelte';
-    import { locales } from '@db/Database';
+    import Link from '#components/app/Link.svelte';
+    import { locales } from '#db/Database.ts';
     import {
         bareCharacterName,
         characterToSVG,
         type Character,
-    } from '@db/characters/Character';
+    } from '#db/characters/Character.ts';
 
     interface Props {
         character: Character;
         /** Where the tile leads. Omitted for an inert tile. */
-        link?: string | undefined;
+        link?: AppPath | undefined;
         /** The buttons under the drawing. */
         controls?: Snippet;
     }

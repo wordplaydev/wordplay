@@ -1,15 +1,15 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import Conditional from '@nodes/Conditional';
-import type Context from '@nodes/Context';
-import type Type from '@nodes/Type';
-import type Locales from '@locale/Locales';
-import type Reaction from '@nodes/Reaction';
-import type Node from '@nodes/Node';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import Conditional from '#nodes/Conditional.ts';
+import type Context from '#nodes/Context.ts';
+import type Type from '#nodes/Type.ts';
+import type Locales from '#locale/Locales.ts';
+import type Reaction from '#nodes/Reaction.ts';
+import type Node from '#nodes/Node.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
+} from '#conflicts/Conflict.ts';
 
 export default class ExpectedBooleanCondition extends Conflict {
     readonly conditional: Conditional | Reaction;

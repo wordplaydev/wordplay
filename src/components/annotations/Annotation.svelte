@@ -2,24 +2,24 @@
     import {
         getEditors,
         getEmphasizedConflict,
-    } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import type {
         ConflictLocaleAccessor,
         Resolution,
-    } from '@conflicts/Conflict';
-    import type Context from '@nodes/Context';
-    import { setDialogInURL } from '@components/widgets/dialogURL';
-    import { CONFIRM_SYMBOL, DOCUMENTATION_SYMBOL } from '@parser/Symbols';
+    } from '#conflicts/Conflict.ts';
+    import type Context from '#nodes/Context.ts';
+    import { setDialogInURL } from '#components/widgets/dialogURL.ts';
+    import { CONFIRM_SYMBOL, DOCUMENTATION_SYMBOL } from '#parser/Symbols.ts';
     import { fade } from 'svelte/transition';
     import { get } from 'svelte/store';
-    import { animationDuration, locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import { default as MarkupHTMLView } from '@components/concepts/MarkupHTMLView.svelte';
-    import Speech from '@components/lore/Speech.svelte';
-    import getFocusNode from '@components/annotations/getFocusNode';
-    import type { AnnotationInfo } from '@components/annotations/Annotations.svelte';
+    import { animationDuration, locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import { default as MarkupHTMLView } from '#components/concepts/MarkupHTMLView.svelte';
+    import Speech from '#components/lore/Speech.svelte';
+    import getFocusNode from '#components/annotations/getFocusNode.ts';
+    import type { AnnotationInfo } from '#components/annotations/Annotations.svelte';
 
     interface Props {
         annotation: AnnotationInfo;

@@ -1,4 +1,4 @@
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 export type Point = { readonly x: number; readonly y: number };
 export type Velocity = { readonly vx: number; readonly vy: number };

@@ -1,14 +1,14 @@
 <script lang="ts">
-    import StructureInputsEditor from '@components/palette/StructureInputsEditor.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import type Project from '@db/projects/Project';
-    import OutputExpression from '@edit/output/OutputExpression';
-    import getStructureProperties from '@edit/output/getStructureProperties';
-    import Evaluate from '@nodes/Evaluate';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import Unit from '@nodes/Unit';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
+    import StructureInputsEditor from '#components/palette/StructureInputsEditor.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import type Project from '#db/projects/Project.ts';
+    import OutputExpression from '#edit/output/OutputExpression.ts';
+    import getStructureProperties from '#edit/output/getStructureProperties.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import NumberLiteral from '#nodes/NumberLiteral.ts';
+    import Unit from '#nodes/Unit.ts';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
 
     interface Props {
         project: Project;

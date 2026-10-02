@@ -6,9 +6,9 @@
  * markup contents left out, and node bounds in grapheme space.
  */
 
-import Markup from '@nodes/Markup';
-import type Node from '@nodes/Node';
-import type Source from '@nodes/Source';
+import Markup from '#nodes/Markup.ts';
+import type Node from '#nodes/Node.ts';
+import type Source from '#nodes/Source.ts';
 
 /**
  * A source's nodes with everything inside a `Markup` removed, keeping the

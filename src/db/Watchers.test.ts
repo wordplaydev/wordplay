@@ -1,4 +1,4 @@
-import Watchers from '@db/Watchers';
+import Watchers from '#db/Watchers.ts';
 import { expect, test } from 'vitest';
 
 /** A `start` that records how often it ran and how often its stop was called. */

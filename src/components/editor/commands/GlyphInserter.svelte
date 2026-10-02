@@ -1,21 +1,23 @@
 <script lang="ts">
-    import Commands, { Category } from '@components/editor/commands/Commands';
-    import { IdleKind, getEditors } from '@components/project/Contexts';
-    import { offeredInserts } from '@components/editor/commands/offered';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
-    import PhonemeChooser from '@components/widgets/PhonemeChooser.svelte';
-    import { projectHasMusic } from '@output/Music/referencedInstruments';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import type Caret from '@edit/caret/Caret';
-    import FormattedLiteral from '@nodes/FormattedLiteral';
-    import Node from '@nodes/Node';
-    import TextLiteral from '@nodes/TextLiteral';
-    import { SEARCH_SYMBOL } from '@parser/Symbols';
-    import { withColorEmoji } from '@unicode/emoji';
-    import { debounced } from '@util/debounce.svelte';
+    import Commands, {
+        Category,
+    } from '#components/editor/commands/Commands.ts';
+    import { IdleKind, getEditors } from '#components/project/Contexts.ts';
+    import { offeredInserts } from '#components/editor/commands/offered.ts';
+    import CommandButton from '#components/widgets/CommandButton.svelte';
+    import GlyphChooser from '#components/widgets/GlyphChooser.svelte';
+    import PhonemeChooser from '#components/widgets/PhonemeChooser.svelte';
+    import { projectHasMusic } from '#output/Music/referencedInstruments.ts';
+    import OverflowToolbar from '#components/widgets/OverflowToolbar.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import type Caret from '#edit/caret/Caret.ts';
+    import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+    import Node from '#nodes/Node.ts';
+    import TextLiteral from '#nodes/TextLiteral.ts';
+    import { SEARCH_SYMBOL } from '#parser/Symbols.ts';
+    import { withColorEmoji } from '#unicode/emoji.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
 
     interface Props {
         sourceID: string;

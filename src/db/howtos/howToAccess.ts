@@ -1,5 +1,5 @@
-import type Gallery from '@db/galleries/Gallery';
-import { MaxHowToReposts } from '@db/rulesFields';
+import type Gallery from '#db/galleries/Gallery.ts';
+import { MaxHowToReposts } from '#db/rulesFields.ts';
 import type HowTo from './HowToDatabase.svelte';
 
 /**

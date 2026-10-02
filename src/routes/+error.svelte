@@ -1,10 +1,10 @@
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import Speech from '@components/lore/Speech.svelte';
-    import { HOME_SYMBOL } from '@parser/Symbols';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import Speech from '#components/lore/Speech.svelte';
+    import { HOME_SYMBOL } from '#parser/Symbols.ts';
     import Characters from '../lore/BasisCharacters';
 </script>
 

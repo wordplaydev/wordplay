@@ -1,13 +1,13 @@
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import { IncompatibleKey } from '@conflicts/IncompatibleKey';
-import { testConflict } from '@conflicts/TestUtilities';
-import { UnknownName } from '@conflicts/UnknownName';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import { IncompatibleKey } from '#conflicts/IncompatibleKey.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import evaluateCode from '@runtime/evaluate';
-import Evaluate from '@nodes/Evaluate';
-import Reference from '@nodes/Reference';
-import SetOrMapAccess from '@nodes/SetOrMapAccess';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Reference from '#nodes/Reference.ts';
+import SetOrMapAccess from '#nodes/SetOrMapAccess.ts';
 
 test.each([
     [

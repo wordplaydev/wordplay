@@ -1,6 +1,6 @@
 import { get, writable, type Writable } from 'svelte/store';
-import type { Database } from '@db/Database';
-import { proxyPrefix } from '@db/proxySession';
+import type { Database } from '#db/Database.ts';
+import { proxyPrefix } from '#db/proxySession.ts';
 
 /** Represents a specific key value pair persisted in local storage, backed by a store, with facilities for reading and reading with error checking. */
 export default class Setting<Type> {

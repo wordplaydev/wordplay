@@ -1,10 +1,10 @@
-import { UnknownName } from '@conflicts/UnknownName';
-import { testConflict } from '@conflicts/TestUtilities';
-import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import { UnknownTypeName } from '@conflicts/UnknownTypeName';
-import Source from '@nodes/Source';
+import { UnknownName } from '#conflicts/UnknownName.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import UnexpectedTypeInput from '#conflicts/UnexpectedTypeInput.ts';
+import { UnknownTypeName } from '#conflicts/UnknownTypeName.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
-import NameType from '@nodes/NameType';
+import NameType from '#nodes/NameType.ts';
 
 test.each([
     [

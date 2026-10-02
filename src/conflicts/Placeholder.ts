@@ -1,16 +1,16 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import type TypePlaceholder from '@nodes/TypePlaceholder';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import type TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     toResolutions,
     ConflictSeverity,
     type Repair,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
 
 export default class Placeholder extends Conflict {
     readonly placeholder: ExpressionPlaceholder | TypePlaceholder;

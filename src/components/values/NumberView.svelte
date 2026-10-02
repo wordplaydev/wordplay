@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Sym } from '@nodes/Sym';
-    import type NumberValue from '@values/NumberValue';
-    import SymbolView from '@components/values/SymbolView.svelte';
-    import { locales } from '@db/Database';
+    import { Sym } from '#nodes/Sym.ts';
+    import type NumberValue from '#values/NumberValue.ts';
+    import SymbolView from '#components/values/SymbolView.svelte';
+    import { locales } from '#db/Database.ts';
 
     interface Props {
         value: NumberValue;

@@ -1,11 +1,16 @@
-import type Conflict from '@conflicts/Conflict';
-import OverlappingAlternatives from '@conflicts/OverlappingAlternatives';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import Node, { list, node, type Grammar, type Replacement } from '@nodes/Node';
-import PatternLiteralText from '@nodes/PatternLiteralText';
-import PatternNode from '@nodes/PatternNode';
-import { Sym } from '@nodes/Sym';
+import type Conflict from '#conflicts/Conflict.ts';
+import OverlappingAlternatives from '#conflicts/OverlappingAlternatives.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import Node, {
+    list,
+    node,
+    type Grammar,
+    type Replacement,
+} from '#nodes/Node.ts';
+import PatternLiteralText from '#nodes/PatternLiteralText.ts';
+import PatternNode from '#nodes/PatternNode.ts';
+import { Sym } from '#nodes/Sym.ts';
 
 /**
  * A sequence of pattern items inside a pattern literal or group, with optional

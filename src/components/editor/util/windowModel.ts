@@ -11,7 +11,7 @@
  * getBoundingClientRect measurements as statements render.
  */
 
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /** An entry of one of this module's own index arrays. Every index passed here is
  *  derived from that array's own length — a binary-search bound, or a slot index

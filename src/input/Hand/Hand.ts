@@ -5,26 +5,26 @@ import type {
 import CameraLandmarkStream, {
     DEFAULT_FREQUENCY,
     DEFAULT_RESOLUTION,
-} from '@input/CameraLandmarkStream';
-import handLandmarker from '@input/Hand/HandLandmarker';
-import createStreamEvaluator from '@input/createStreamEvaluator';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import Bind from '@nodes/Bind';
-import NoneType from '@nodes/NoneType';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NumberType from '@nodes/NumberType';
-import StreamDefinition from '@nodes/StreamDefinition';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import StructureType from '@nodes/StructureType';
-import UnionType from '@nodes/UnionType';
-import Unit from '@nodes/Unit';
-import { createHandStructure, type HandState } from '@output/Gesture/Hand';
-import { createPlaceStructure } from '@output/Place/Place';
-import type Evaluation from '@runtime/Evaluation';
-import NumberValue from '@values/NumberValue';
-import type { StreamKind } from '@values/StreamValue';
+} from '#input/CameraLandmarkStream.ts';
+import handLandmarker from '#input/Hand/HandLandmarker.ts';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import Bind from '#nodes/Bind.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import NumberType from '#nodes/NumberType.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import StructureType from '#nodes/StructureType.ts';
+import UnionType from '#nodes/UnionType.ts';
+import Unit from '#nodes/Unit.ts';
+import { createHandStructure, type HandState } from '#output/Gesture/Hand.ts';
+import { createPlaceStructure } from '#output/Place/Place.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
 
 /** Frames a hand may be missing before we revert to the default Hand structure. */
 const MISSES_TO_LOSE_LOCK = 10;

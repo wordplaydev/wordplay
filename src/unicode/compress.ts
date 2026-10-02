@@ -36,9 +36,9 @@ import path from 'path';
 import zlib from 'zlib';
 import { fileURLToPath } from 'url';
 
-import { EmojiGroups, EmojiSubgroups } from '@unicode/emoji.ts';
-import { Scripts } from '@locale/Scripts.ts';
-import { must } from '@util/nullable.ts';
+import { EmojiGroups, EmojiSubgroups } from '#unicode/emoji.ts';
+import { Scripts } from '#locale/Scripts.ts';
+import { must } from '#util/nullable.ts';
 // Only enumerate codepoints some bundled font can actually draw — the glyph
 // chooser filters to these anyway, so shipping the ~65k CJK-extension (and
 // other) codepoints no font covers is pure weight. This couples codes.txt to
@@ -46,7 +46,7 @@ import { must } from '@util/nullable.ts';
 import {
     isCodepointRenderable,
     loadRenderableRanges,
-} from '@basis/faces/renderable.ts';
+} from '#basis/faces/renderable.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');

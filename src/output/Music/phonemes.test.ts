@@ -4,8 +4,8 @@ import {
     canSustain,
     neutralVowel,
     toSyllable,
-} from '@output/Music/phonemes';
-import { must } from '@util/nullable';
+} from '#output/Music/phonemes.ts';
+import { must } from '#util/nullable.ts';
 
 /** Every IPA symbol the table claims, so a bad edit to one entry fails here
  * rather than being noticed as a phoneme that stopped making a sound. */

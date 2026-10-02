@@ -1,19 +1,19 @@
-import type { TemplateInput } from '@locale/Locales';
-import type Locales from '@locale/Locales';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Locales from '#locale/Locales.ts';
 import type Context from './Context';
-import type Conflict from '@conflicts/Conflict';
-import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
-import { Purpose } from '@concepts/Purpose';
+import type Conflict from '#conflicts/Conflict.ts';
+import DuplicateTypeVariable from '#conflicts/DuplicateTypeVariable.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '#parser/Symbols.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import type { InsertContext } from '@edit/revision/EditContext';
-import type { Grammar, Replacement } from '@nodes/Node';
-import Node, { list, node } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import TypeVariable from '@nodes/TypeVariable';
+import type { InsertContext } from '#edit/revision/EditContext.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import Node, { list, node } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import TypeVariable from '#nodes/TypeVariable.ts';
 
 export default class TypeVariables extends Node {
     readonly open: Token;

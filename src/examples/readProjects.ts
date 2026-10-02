@@ -1,8 +1,8 @@
-import type { SerializedProject } from '@db/projects/ProjectSchemas';
+import type { SerializedProject } from '#db/projects/ProjectSchemas.ts';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseSerializedProject } from './examples';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 export function readProjects(dir: string): SerializedProject[] {
     const proj: SerializedProject[] = [];

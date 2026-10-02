@@ -11,31 +11,31 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
-    import GalleryPreview from '@components/app/GalleryPreview.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import ProjectPreview from '@components/app/ProjectPreview.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import { authAttempted, DB, Galleries, locales } from '@db/Database';
-    import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
-    import { Domain } from '@db/Domains';
-    import { firestore } from '@db/firebase';
-    import type Gallery from '@db/galleries/Gallery';
-    import { parseGallery } from '@db/galleries/Gallery';
-    import { isDefined } from '@util/nullable';
-    import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
-    import type Project from '@db/projects/Project';
-    import { debounced } from '@util/debounce.svelte';
-    import { localeGoto } from '@util/localeGoto';
+    import GalleryPreview from '#components/app/GalleryPreview.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import ProjectPreview from '#components/app/ProjectPreview.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import PreviewPlaceholder from '#components/app/PreviewPlaceholder.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import { authAttempted, DB, Galleries, locales } from '#db/Database.ts';
+    import { GALLERY_CHUNK_SIZE } from '#db/firestoreLimits.ts';
+    import { Domain } from '#db/Domains.ts';
+    import { firestore } from '#db/firebase.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import { parseGallery } from '#db/galleries/Gallery.ts';
+    import { isDefined } from '#util/nullable.ts';
+    import { GalleriesCollection } from '#db/galleries/GalleryDatabase.svelte.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
     import {
         collection,
         getDocs,
@@ -110,7 +110,7 @@
     // temporarily unavailable rather than be rewritten to the fallback, and an
     // unchosen tab leaves the URL clean so the default still applies on reload.
     $effect(() => {
-        const params = new URLSearchParams(page.url.searchParams);
+        const params = new URLSearchParams(page.url.search);
         if (tab === undefined) params.delete('tab');
         else params.set('tab', tab);
         const search = params.toString();
@@ -123,9 +123,8 @@
         // tabs doesn't jump the page.
         if (search !== current)
             goto(`?${search}`, {
-                replaceState: true,
-                keepFocus: true,
-                noScroll: true,
+                replace: true,
+                reset: false,
             });
     });
 

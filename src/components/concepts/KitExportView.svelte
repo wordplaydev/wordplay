@@ -9,16 +9,16 @@
      Its own component so it can set the heading level for what it contains: a context
      covers the component that sets it, and the kit's own name is a level above. -->
 <script lang="ts">
-    import { setHeadingLevel } from '@components/app/headingLevel.js';
-    import BindConceptView from '@components/concepts/BindConceptView.svelte';
-    import ConceptView from '@components/concepts/ConceptView.svelte';
-    import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
-    import StructureConceptView from '@components/concepts/StructureConceptView.svelte';
-    import BindConcept from '@concepts/BindConcept';
-    import type Concept from '@concepts/Concept';
-    import FunctionConcept from '@concepts/FunctionConcept';
-    import StructureConcept from '@concepts/StructureConcept';
-    import { locales } from '@db/Database';
+    import { setHeadingLevel } from '#components/app/headingLevel.ts';
+    import BindConceptView from '#components/concepts/BindConceptView.svelte';
+    import ConceptView from '#components/concepts/ConceptView.svelte';
+    import FunctionConceptView from '#components/concepts/FunctionConceptView.svelte';
+    import StructureConceptView from '#components/concepts/StructureConceptView.svelte';
+    import BindConcept from '#concepts/BindConcept.ts';
+    import type Concept from '#concepts/Concept.ts';
+    import FunctionConcept from '#concepts/FunctionConcept.ts';
+    import StructureConcept from '#concepts/StructureConcept.ts';
+    import { locales } from '#db/Database.ts';
 
     interface Props {
         concept: Concept;

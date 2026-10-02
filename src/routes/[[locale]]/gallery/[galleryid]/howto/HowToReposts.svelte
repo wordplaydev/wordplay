@@ -1,19 +1,20 @@
 <script lang="ts">
-    import Link from '@components/app/Link.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Options, { type Option } from '@components/widgets/Options.svelte';
-    import { disconnected, Galleries, HowTos, locales } from '@db/Database';
-    import type Gallery from '@db/galleries/Gallery';
-    import type HowTo from '@db/howtos/HowToDatabase.svelte';
+    import type { AppPath } from '#util/appPath.ts';
+    import Link from '#components/app/Link.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import { getUser } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Options, { type Option } from '#components/widgets/Options.svelte';
+    import { disconnected, Galleries, HowTos, locales } from '#db/Database.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import type HowTo from '#db/howtos/HowToDatabase.svelte.ts';
     import {
         canUnrepostHowTo,
         repostDestinations,
-    } from '@db/howtos/howToAccess';
-    import { repostHowTo, unrepostHowTo } from '@db/howtos/howToReposts';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    } from '#db/howtos/howToAccess.ts';
+    import { repostHowTo, unrepostHowTo } from '#db/howtos/howToReposts.ts';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
     import { findHowToPlacement, type Rect } from './HowToMovement';
 
     /**
@@ -89,7 +90,7 @@
     }
 
     /** This how-to, opened in the given gallery's space. */
-    function linkIn(galleryID: string): string {
+    function linkIn(galleryID: string): AppPath {
         return `/gallery/${galleryID}/howto?id=${howTo.getHowToId()}`;
     }
 

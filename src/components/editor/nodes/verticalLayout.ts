@@ -1,5 +1,5 @@
-import type Node from '@nodes/Node';
-import type Spaces from '@parser/Spaces';
+import type Node from '#nodes/Node.ts';
+import type Spaces from '#parser/Spaces.ts';
 
 /** Source length (in characters of the compact representation) above which
     an item is treated as "wide" enough to justify a vertical layout. */

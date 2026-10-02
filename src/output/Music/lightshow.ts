@@ -19,9 +19,9 @@
  * explicit `Stage.background` stays the base.
  */
 
-import type { InstrumentActivity } from '@output/Music/activity';
-import { instrumentSpec } from '@output/Music/instruments';
-import { FlashLuminanceDelta } from '@output/PhotosensitivityAnalysis';
+import type { InstrumentActivity } from '#output/Music/activity.ts';
+import { instrumentSpec } from '#output/Music/instruments.ts';
+import { FlashLuminanceDelta } from '#output/PhotosensitivityAnalysis.ts';
 
 export type Tint = {
     /** Degrees on the colour wheel. */

@@ -1,13 +1,13 @@
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type Context from '@nodes/Context';
-import type Language from '@nodes/Language';
-import type Node from '@nodes/Node';
-import type Token from '@nodes/Token';
+} from '#conflicts/Conflict.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Context from '#nodes/Context.ts';
+import type Language from '#nodes/Language.ts';
+import type Node from '#nodes/Node.ts';
+import type Token from '#nodes/Token.ts';
 
 /** A region in a locale tag that names no ISO 3166 region, by code or by name.
  *  Regions went unvalidated until names made them guessable, and a misspelled

@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { getFolded, getSpaces } from '@components/project/Contexts';
-    import FoldButton from '@components/editor/util/FoldButton.svelte';
+    import { getFolded, getSpaces } from '#components/project/Contexts.ts';
+    import FoldButton from '#components/editor/util/FoldButton.svelte';
     import {
         FOLD_GLYPH,
         FOLD_GLYPH_ROTATION,
-    } from '@components/editor/util/folding';
-    import { blocks, locales } from '@db/Database';
-    import type Node from '@nodes/Node';
+    } from '#components/editor/util/folding.ts';
+    import { blocks, locales } from '#db/Database.ts';
+    import type Node from '#nodes/Node.ts';
 
     interface Props {
         node: Node;

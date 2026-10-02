@@ -1,4 +1,4 @@
-import type { DocText, FormattedText, Template } from '@locale/LocaleText';
+import type { DocText, FormattedText, Template } from '#locale/LocaleText.ts';
 import type { Emotion } from '../lore/Emotion';
 
 export type NodeText = {

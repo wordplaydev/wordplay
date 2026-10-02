@@ -2,15 +2,15 @@
 // HowToDatabase, and importing it before something that initializes Database hits the
 // cycle ("HowToDatabase is not a constructor"). The peer tests in this directory import
 // in this order for the same reason.
-import { getConceptGroups } from '@components/concepts/conceptGroups';
-import ConceptIndex from '@concepts/ConceptIndex';
-import { Purpose } from '@concepts/Purpose';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import { dependencyKey } from '@nodes/Borrow';
-import Source from '@nodes/Source';
-import { must } from '@util/nullable';
+import { getConceptGroups } from '#components/concepts/conceptGroups.ts';
+import ConceptIndex from '#concepts/ConceptIndex.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import { dependencyKey } from '#nodes/Borrow.ts';
+import Source from '#nodes/Source.ts';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 
 const locales = DefaultLocales;

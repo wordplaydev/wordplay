@@ -3,12 +3,12 @@
         faceSupportsWeight,
         type Face,
         type FontWeight,
-    } from '@basis/faces/Fonts';
-    import { describeFaceLocalized } from '@basis/faces/faceWords';
-    import { locales } from '@db/Database';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type LocaleText from '@locale/LocaleText';
-    import { Scripts } from '@locale/Scripts';
+    } from '#basis/faces/Fonts.ts';
+    import { describeFaceLocalized } from '#basis/faces/faceWords.ts';
+    import { locales } from '#db/Database.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import { Scripts } from '#locale/Scripts.ts';
     import { onMount } from 'svelte';
 
     interface Props {

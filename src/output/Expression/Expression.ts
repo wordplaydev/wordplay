@@ -1,13 +1,13 @@
-import { getTypeName } from '@locale/getNameLocales';
-import { getBind } from '@locale/getBind';
-import { FALSE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
-import type Locales from '@locale/Locales';
-import type Evaluator from '@runtime/Evaluator';
-import toStructure from '@basis/toStructure';
-import BoolValue from '@values/BoolValue';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import Unit from '@nodes/Unit';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import { getBind } from '#locale/getBind.ts';
+import { FALSE_SYMBOL, TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type Locales from '#locale/Locales.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import toStructure from '#basis/toStructure.ts';
+import BoolValue from '#values/BoolValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import Unit from '#nodes/Unit.ts';
 
 export function createExpressionType(locales: Locales) {
     const placeName = getTypeName(locales, (l) => l.output.Place.names);

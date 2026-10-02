@@ -86,7 +86,7 @@
                             "• Tên của riêng bạn cũng có thể đa ngôn ngữ:\n\\mèo2/vi, gato/es: '🐈'\nCụmtừ(mèo2)\\",
                             "• Văn bản mang theo một ngôn ngữ, và hiển thị bằng ngôn ngữ mà khán giả của bạn đọc được: \\'xin chào'/vi'hola'/es\\.",
                             "• Trang này có 29 ngôn ngữ và bạn có thể chọn nhiều hơn một lúc; chữ sẽ hiện ra bằng từng ngôn ngữ.",
-                            "• Bạn có thể giúp dịch chính @wordplay, ngay trong ứng dụng tại <localize//localize>."
+                            "• Bạn có thể giúp dịch chính @wordplay, ngay trong ứng dụng tại <localize@://localize>."
                         ]
                     },
                     "accessible": {
@@ -123,7 +123,7 @@
                         "title": "$~Wordplay là chữ nghệ thuật",
                         "bullets": [
                             "$~• Hàng trăm kiểu chữ, phủ khắp các hệ chữ viết trên thế giới.",
-                            "• Bạn có thể vẽ <ký tự riêng//characters> và dùng chúng ở bất cứ đâu biểu tượng cảm xúc có thể dùng.",
+                            "• Bạn có thể vẽ <ký tự riêng@://characters> và dùng chúng ở bất cứ đâu biểu tượng cảm xúc có thể dùng.",
                             "• Đường nét của mỗi chữ cái đều là dữ liệu bạn có thể đọc và làm chuyển động, với @Contour: \\Đườngviền('a' 'Noto Sans')\\.",
                             "• Chữ tự xuống dòng theo quy tắc của ngôn ngữ mà nó được viết ra.",
                             "• Chữ viết từ phải sang trái và chữ viết dọc được sắp xếp đúng như cách chúng cần được trình bày."
@@ -133,7 +133,7 @@
                         "title": "$~Wordplay tự giải thích chính nó",
                         "bullets": [
                             "$~• Tài liệu là một phần của ngôn ngữ, với @Doc, chứ không phải một lời ghi chú bên cạnh.",
-                            "• Một <sổ tay hướng dẫn//guide> có thể tìm kiếm giải thích mọi tính năng có sẵn, kèm ví dụ.",
+                            "• Một <sổ tay hướng dẫn@://guide> có thể tìm kiếm giải thích mọi tính năng có sẵn, kèm ví dụ.",
                             "• Mỗi lỗi sai đều được giải thích ngay tại chỗ xảy ra, bằng ngôn ngữ của bạn.",
                             "• Bạn có thể chạy từng bước một chương trình tới /và/ lui để tìm hiểu chuyện gì đã xảy ra.",
                             "• Khi bạn chạy từng bước, mọi giá trị đều hiện ngay trong đoạn mã số đã tạo ra nó."
@@ -156,7 +156,7 @@
                             "• Đây là mã nguồn mở: bạn có thể đọc cách nó hoạt động và giúp chúng tôi thay đổi nó.",
                             "• Nó ra đời từ Trường Thông tin học của <Đại học Washington@https://ischool.uw.edu/>.",
                             "• Có một cộng đồng gồm những người sáng tạo, giáo viên, và người đóng góp.",
-                            "• <Ủng hộ//donate> giúp trang trải chi phí vận hành."
+                            "• <Ủng hộ@://donate> giúp trang trải chi phí vận hành."
                         ]
                     }
                 }
@@ -210,7 +210,7 @@
                 },
                 "error": {
                     "offline": "$~Chúng tôi không thể kiểm tra trạng thái giáo viên của bạn. Bạn đã đăng nhập chưa?",
-                    "login": "$~Bạn cần đăng nhập vào <địa chỉ email> để quản lý lớp học.",
+                    "login": "$~Bạn cần <đăng nhập@://login> để quản lý các lớp học.",
                     "teacher": "$~Bạn cần có quyền giáo viên để tạo và quản lý lớp học. Hãy điền vào mẫu này và chúng ta cùng làm quen nhé!"
                 },
                 "link": {
@@ -348,7 +348,7 @@
             },
             "projects": {
                 "header": "$~Dự án",
-                "projectprompt": "$~Bạn đã sẵn sàng nói điều gì đó chưa? Hãy tạo một dự án hoặc bắt tay vào thực hiện một dự án. Nếu gặp khó khăn, hãy tiếp tục <học hỏi@://học hỏi>.",
+                "projectprompt": "$~Sẵn sàng để nói điều gì đó chưa? Hãy tạo một dự án hoặc làm tiếp một dự án. Nếu bị kẹt, hãy tiếp tục <học@://learn>.",
                 "archiveprompt": "$~Đây là các dự án bạn đã lưu trữ. Chỉ chủ sở hữu mới có thể xóa hoặc bỏ lưu trữ vĩnh viễn chúng. Các dự án đã lưu trữ sẽ bị xóa vĩnh viễn sau 30 ngày kể từ lần chỉnh sửa cuối cùng.",
                 "subheader": {
                     "shared": "$~Chia sẻ",
@@ -471,7 +471,7 @@
                     "newgallery": "$~phòng trưng bày mới"
                 },
                 "error": {
-                    "nogalleryedits": "$~Bạn phải đăng nhập vào <địa chỉ email> để tạo và chỉnh sửa thư viện ảnh.",
+                    "nogalleryedits": "$~Bạn phải <đăng nhập@://login> để tạo và thay đổi các phòng trưng bày.",
                     "nopublic": "$~Chưa có phòng trưng bày nào được duyệt vào danh sách này. Hãy quay lại kiểm tra sau nhé!"
                 },
                 "search": {
@@ -498,7 +498,7 @@
                 },
                 "error": {
                     "offline": "$~Chúng tôi không thể truy cập vào các nhân vật của bạn được lưu trữ trực tuyến.",
-                    "noauth": "$~Bạn phải đăng nhập vào <địa chỉ email> để xem các nhân vật của mình và tạo nhân vật mới.",
+                    "noauth": "$~Bạn phải <đăng nhập@://login> để xem các nhân vật của mình và tạo nhân vật mới.",
                     "create": "$~Không thể tạo nhân vật mới."
                 },
                 "unnamed": "$~Nhân vật chưa đặt tên"
@@ -777,7 +777,7 @@
                     "end": "$~hoặc nhấn phím Escape.",
                     "loadfail": "$~Đã xảy ra lỗi khi tải ký tự này.",
                     "notfound": "$~Nhân vật này không tồn tại hoặc bạn không nhìn thấy nhân vật này.",
-                    "unauthenticated": "$~Bạn phải đăng nhập vào <địa chỉ email> để chỉnh sửa nhân vật.",
+                    "unauthenticated": "$~Bạn phải <đăng nhập@://login> để chỉnh sửa một nhân vật.",
                     "taken": "$~Bạn đã có một nhân vật với tên này rồi; không lưu lại.",
                     "projecteditfail": "$~Đã xảy ra sự cố khi cập nhật các dự án sử dụng nhân vật này. Các dự án sau cần được sửa chữa:",
                     "untitledproject": "$~Dự án chưa có tiêu đề",
@@ -840,7 +840,7 @@
                     "content": [
                         "$~Bạn đang cân nhắc xem *Wordplay* có phù hợp để dùng trong trường học hay phòng giáo dục của bạn không? Đây là những gì chúng tôi có thể và không thể hứa.",
                         "Chúng tôi không phải là một công ty. Chúng tôi là một dự án nghiên cứu cộng đồng, đặt tại một trường đại học phi lợi nhuận, và chúng tôi không có doanh thu. Điều đó có nghĩa là có những thỏa thuận chúng tôi không thể ký, dù rất muốn giúp đỡ. Chúng tôi không thể hứa trả phí pháp lý cho một phòng giáo dục nếu bị kiện. Chúng tôi không thể hứa sửa một vấn đề theo một lịch trình cố định. Ký một lời hứa mà chúng tôi không thể giữ sẽ chẳng giúp ích được ai, kể cả bạn.",
-                        "Đây là những gì chúng tôi có thể hứa. Chúng tôi giữ nền tảng này theo tiêu chuẩn khả năng tiếp cận /WCAG 2.2 mức AA/, chúng tôi kiểm tra tự động sau mỗi thay đổi, và chúng tôi sửa những gì tìm thấy nhanh nhất có thể với một cộng đồng tình nguyện. Chúng tôi thu thập càng ít thông tin về người dùng càng tốt, và chỉ dùng thông tin đó để vận hành nền tảng. Trang <rights//rights> của chúng tôi ghi rõ những gì chúng tôi lưu trữ, và <source@https://github.com/wordplaydev/wordplay> của chúng tôi là công khai, để bạn có thể tự kiểm tra tất cả những điều này.",
+                        "Đây là những gì chúng tôi có thể hứa. Chúng tôi giữ nền tảng này theo tiêu chuẩn khả năng tiếp cận /WCAG 2.2 mức AA/, chúng tôi kiểm tra tự động sau mỗi thay đổi, và chúng tôi sửa những gì tìm thấy nhanh nhất có thể với một cộng đồng tình nguyện. Chúng tôi thu thập càng ít thông tin về người dùng càng tốt, và chỉ dùng thông tin đó để vận hành nền tảng. Trang <rights@://rights> của chúng tôi ghi rõ những gì chúng tôi lưu trữ, và <source@https://github.com/wordplaydev/wordplay> của chúng tôi là công khai, để bạn có thể tự kiểm tra tất cả những điều này.",
                         "Nền tảng này luôn thay đổi, và các quy định bạn phải tuân theo cũng vậy. Nếu có điều gì bạn cần mà chúng tôi chưa làm được, hãy viết cho chúng tôi tại hi@wordplay.dev và cho chúng tôi biết. Những người quản lý sẽ đọc, và chúng tôi sẽ hồi âm."
                     ],
                     "link": "$~Viết cho chúng tôi về một yêu cầu",
@@ -877,7 +877,7 @@
                 "anonymous": "$~đăng nhập",
                 "prompt": {
                     "login": "$~Đăng nhập để lưu dự án, cộng tác và chia sẻ:",
-                    "join": "$~Hoặc, <tạo tài khoản@://tham gia> để bắt đầu.",
+                    "join": "$~Hoặc <tạo một tài khoản@://join> để bắt đầu.",
                     "forgot": "$~*Quên mật khẩu?* Rất tiếc, chúng tôi không thể khôi phục tài khoản của bạn vì chúng tôi không thu thập thông tin liên hệ.",
                     "enter": "$~Có vẻ như liên kết đăng nhập của bạn đến từ một trình duyệt hoặc thiết bị khác. Bạn có thể nhập lại email của mình để chúng tôi chắc chắn đó là bạn không?",
                     "play": "$~Bạn đã đăng nhập thành công, giờ chúng tôi có thể lưu dự án của bạn trực tuyến rồi! Bạn muốn tạo gì đó không?",
@@ -1265,7 +1265,7 @@
             },
             "thanks": {
                 "header": "$~Cảm ơn",
-                "intro": "$~Xin cảm ơn *$#count[$count người đóng góp]* của chúng tôi đã đóng góp cho thiết kế, phát triển, bản địa hóa và nội dung của @wordplay! Và xin cảm ơn nhiều giáo viên cùng bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, buổi thiết kế và lớp học, những người mà chúng tôi không liệt kê ở đây để giữ sự riêng tư cho họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, cùng những <món quà//donate> hào phóng từ những người như bạn.",
+                "intro": "$~Xin cảm ơn *$#count[$count người đóng góp]* của chúng tôi đã đóng góp cho thiết kế, phát triển, bản địa hóa và nội dung của @wordplay! Và xin cảm ơn nhiều giáo viên cùng bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, buổi thiết kế và lớp học, những người mà chúng tôi không liệt kê ở đây để giữ sự riêng tư cho họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, cùng những <món quà@://donate> hào phóng từ những người như bạn.",
                 "teachers": "$~Giáo viên",
                 "contributors": "$~Người đóng góp"
             },

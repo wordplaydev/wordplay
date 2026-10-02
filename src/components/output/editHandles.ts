@@ -1,10 +1,10 @@
-import type Project from '@db/projects/Project';
-import type Context from '@nodes/Context';
-import Evaluate from '@nodes/Evaluate';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import { scaleForm } from '@edit/output/editShape';
-import { must } from '@util/nullable';
+import type Project from '#db/projects/Project.ts';
+import type Context from '#nodes/Context.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import { scaleForm } from '#edit/output/editShape.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * Type-dispatched revisions for on-stage rotate/resize handles, shared by the continuous drag

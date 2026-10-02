@@ -4,37 +4,37 @@
 </script>
 
 <script lang="ts">
-    import LocallyRevisedAnnotation from '@components/app/LocallyRevisedAnnotation.svelte';
-    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
+    import LocallyRevisedAnnotation from '#components/app/LocallyRevisedAnnotation.svelte';
+    import MachineTranslatedAnnotation from '#components/app/MachineTranslatedAnnotation.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { accessorToLocalePath } from '#components/localization/accessorToLocalePath.ts';
     import {
         getLinkLocalize,
         type LocalizablePath,
         getLocalizing,
-    } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { locales } from '@db/Database';
+    } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { locales } from '#db/Database.ts';
     import {
         deleteLocaleEdit,
         localeEdits,
         saveLocaleEdit,
-    } from '@db/locales/LocalizationDexie';
-    import type LocaleText from '@locale/LocaleText';
+    } from '#db/locales/LocalizationDexie.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
     import {
         isMachineTranslated,
         isUnwritten,
         toLocaleString,
-    } from '@locale/LocaleText';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
+    } from '#locale/LocaleText.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
         EDIT_SYMBOL,
         REVERT_SYMBOL,
         TOOLTIP_SYMBOL,
-    } from '@parser/Symbols';
+    } from '#parser/Symbols.ts';
     import { tick } from 'svelte';
 
     interface Props {

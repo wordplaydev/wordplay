@@ -1,7 +1,7 @@
 import {
     LocaleAssetHashes,
     LocaleAssetsVersion,
-} from '@db/locales/localeAssets.generated';
+} from '#db/locales/localeAssets.generated.ts';
 
 /**
  * Append a cache-bust query param keyed on the asset's own content.

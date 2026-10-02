@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
+import evaluateCode from '#runtime/evaluate.ts';
 
 // `⬚` (This) refers to an implicit value supplied by the nearest enclosing
 // structure, conversion, reaction, or translate. These exercise each context.

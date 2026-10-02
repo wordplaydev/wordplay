@@ -1,10 +1,10 @@
-import type Node from '@nodes/Node';
-import type Source from '@nodes/Source';
-import Token from '@nodes/Token';
-import type Spaces from '@parser/Spaces';
-import { alignAffixed, type Alignment } from '@util/align';
-import { must } from '@util/nullable';
-import fingerprint from '@edit/diff/fingerprint';
+import type Node from '#nodes/Node.ts';
+import type Source from '#nodes/Source.ts';
+import Token from '#nodes/Token.ts';
+import type Spaces from '#parser/Spaces.ts';
+import { alignAffixed, type Alignment } from '#util/align.ts';
+import { must } from '#util/nullable.ts';
+import fingerprint from '#edit/diff/fingerprint.ts';
 
 /**
  * A structural diff between a checkpoint's code and the project's current code,

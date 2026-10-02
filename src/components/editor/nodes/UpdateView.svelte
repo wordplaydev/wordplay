@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type Update from '@nodes/Update';
+    import type Update from '#nodes/Update.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Update;

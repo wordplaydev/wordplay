@@ -1,10 +1,10 @@
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import PatternAtom from '@nodes/PatternAtom';
-import PatternSequence from '@nodes/PatternSequence';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import PatternAtom from '#nodes/PatternAtom.ts';
+import PatternSequence from '#nodes/PatternSequence.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
 
 /**
  * A grouping `( … )` in a pattern. Grouping only — it never captures (use

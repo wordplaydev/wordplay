@@ -1,6 +1,6 @@
 import { parseChangelog, textId, toMarkup } from '../../../scripts/updates';
-import { withoutColorSelector } from '@unicode/emoji';
-import { toMarkup as parseMarkup } from '@parser/toMarkup';
+import { withoutColorSelector } from '#unicode/emoji.ts';
+import { toMarkup as parseMarkup } from '#parser/toMarkup.ts';
 import fs from 'fs';
 import { expect, test } from 'vitest';
 

@@ -1,18 +1,18 @@
-import { Purpose } from '@concepts/Purpose';
-import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
+import { Purpose } from '#concepts/Purpose.ts';
+import { MachineTranslated, Revised, Unwritten } from '#locale/Annotations.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import { UNKNOWN_SYMBOL } from '@parser/Symbols';
-import type Context from '@nodes/Context';
-import type Markup from '@nodes/Markup';
-import type Node from '@nodes/Node';
-import type { Grammar } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
+import { UNKNOWN_SYMBOL } from '#parser/Symbols.ts';
+import type Context from '#nodes/Context.ts';
+import type Markup from '#nodes/Markup.ts';
+import type Node from '#nodes/Node.ts';
+import type { Grammar } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
 
 /** Strip locale annotation markers without trimming surrounding whitespace —
  *  used for compositional locale strings (e.g. the UnknownType connector)

@@ -34,7 +34,7 @@
      *   Contexts.WindowingBridge this component registers (scrollToNode + the
      *   revision counter its caches and outline effects re-run on).
      */
-    import { getScrollContainer } from '@components/editor/caretDescriptionPosition';
+    import { getScrollContainer } from '#components/editor/caretDescriptionPosition.ts';
     import {
         computeWindow,
         estimateSlotHeights,
@@ -43,17 +43,17 @@
         perLineHeight,
         prefixSums,
         unionWindow,
-    } from '@components/editor/util/windowModel';
+    } from '#components/editor/util/windowModel.ts';
     import {
         getEditor,
         getEffectiveFolded,
         getShowLines,
         getWindowing,
-    } from '@components/project/Contexts';
-    import { spaceIndicator, wrap } from '@db/Database';
-    import Node from '@nodes/Node';
-    import Source from '@nodes/Source';
-    import { must } from '@util/nullable';
+    } from '#components/project/Contexts.ts';
+    import { spaceIndicator, wrap } from '#db/Database.ts';
+    import Node from '#nodes/Node.ts';
+    import Source from '#nodes/Source.ts';
+    import { must } from '#util/nullable.ts';
     import { tick, untrack } from 'svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 

@@ -1,5 +1,5 @@
-import Gallery from '@db/galleries/Gallery';
-import type { GalleryResult } from '@db/galleries/GalleryDatabase.svelte';
+import Gallery from '#db/galleries/Gallery.ts';
+import type { GalleryResult } from '#db/galleries/GalleryDatabase.svelte.ts';
 import { expect, test, vi } from 'vitest';
 import resolveGallery from './resolveGallery';
 

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { contrast } from '../../src/util/colorContrast';
 import { buildTheme, Modes, type Mode } from './theme';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * Guards the WCAG 2.2 contrast invariants of the generated VS Code theme, the

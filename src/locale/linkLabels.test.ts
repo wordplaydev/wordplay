@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 import { readdirSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
-import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 
 /**
  * A template input can't be a web link's label.

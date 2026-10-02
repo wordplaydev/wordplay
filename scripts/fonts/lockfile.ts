@@ -8,7 +8,7 @@ import {
     readCharacterSet,
 } from './deriveRange';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 // NB: the generator must NOT import Fonts.ts — it imports the generated
 // faces.generated.ts, which doesn't exist yet on a fresh clone, so importing it
 // here would make `fonts-build` fail to bootstrap those very files.

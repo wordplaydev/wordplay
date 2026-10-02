@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import UnicodeString from '@unicode/UnicodeString';
+import UnicodeString from '#unicode/UnicodeString.ts';
 
 expect(new UnicodeString('🌷🎁💩😜👍🏳️‍🌈').getLength()).toBe(6);
 

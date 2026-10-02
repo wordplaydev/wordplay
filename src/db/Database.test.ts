@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { globSync } from 'glob';
 import { FirebaseError } from 'firebase/app';
 import { get } from 'svelte/store';
-import { includesString, keysOf } from '@util/nullable';
+import { includesString, keysOf } from '#util/nullable.ts';
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import DefaultLocale from '../locale/DefaultLocale';
 import {

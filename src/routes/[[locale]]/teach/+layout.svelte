@@ -1,14 +1,17 @@
 <script lang="ts">
-    import Writing from '@components/app/Writing.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import { firestore } from '@db/firebase';
+    import Writing from '#components/app/Writing.svelte';
+    import { getUser } from '#components/project/Contexts.ts';
+    import { firestore } from '#db/firebase.ts';
     import {
         ClassesCollection,
         ClassSchema,
-    } from '@db/teachers/TeacherDatabase.svelte';
-    // TeachData lives in @db, not this route component, so the teach pages don't
+    } from '#db/teachers/TeacherDatabase.svelte.ts';
+    // TeachData lives in #db, not this route component, so the teach pages don't
     // import from a route node (that cycle crashes WebKit hydration).
-    import { TeachData, TeachDataSymbol } from '@db/teachers/TeachData.svelte';
+    import {
+        TeachData,
+        TeachDataSymbol,
+    } from '#db/teachers/TeachData.svelte.ts';
     import { FirebaseError } from 'firebase/app';
     import type { Unsubscribe } from 'firebase/auth';
     import { collection, onSnapshot, query, where } from 'firebase/firestore';

@@ -1,18 +1,22 @@
-import type Conflict from '@conflicts/Conflict';
-import type { TemplateInput } from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import previewText from '@locale/previewText';
-import { Purpose } from '@concepts/Purpose';
+import type Conflict from '#conflicts/Conflict.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import previewText from '#locale/previewText.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import { CODE_SYMBOL, DEFECT_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
-import Content from '@nodes/Content';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import Program from '@nodes/Program';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import {
+    CODE_SYMBOL,
+    DEFECT_SYMBOL,
+    HIGHLIGHT_SYMBOL,
+} from '#parser/Symbols.ts';
+import Content from '#nodes/Content.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import Program from '#nodes/Program.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 export default class Example extends Content {
     readonly open: Token;

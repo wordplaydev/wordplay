@@ -1,19 +1,19 @@
-import type Evaluation from '@runtime/Evaluation';
-import NumberValue from '@values/NumberValue';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import Bind from '@nodes/Bind';
-import NoneType from '@nodes/NoneType';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NumberType from '@nodes/NumberType';
-import StreamDefinition from '@nodes/StreamDefinition';
-import UnionType from '@nodes/UnionType';
-import Unit from '@nodes/Unit';
-import AudioStream, { DEFAULT_FREQUENCY } from '@input/AudioStream';
-import createStreamEvaluator from '@input/createStreamEvaluator';
-import { VOLUME_FFT_SIZE, computeVolume } from '@input/AudioAnalysisMath';
-import type { StreamKind } from '@values/StreamValue';
+import type Evaluation from '#runtime/Evaluation.ts';
+import NumberValue from '#values/NumberValue.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import Bind from '#nodes/Bind.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import NumberType from '#nodes/NumberType.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import UnionType from '#nodes/UnionType.ts';
+import Unit from '#nodes/Unit.ts';
+import AudioStream, { DEFAULT_FREQUENCY } from '#input/AudioStream.ts';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
+import { VOLUME_FFT_SIZE, computeVolume } from '#input/AudioAnalysisMath.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript

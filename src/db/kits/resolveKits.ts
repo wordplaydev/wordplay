@@ -1,6 +1,6 @@
-import type Project from '@db/projects/Project';
-import { dependencyKey, type Dependency, type KitRef } from '@nodes/Borrow';
-import Source from '@nodes/Source';
+import type Project from '#db/projects/Project.ts';
+import { dependencyKey, type Dependency, type KitRef } from '#nodes/Borrow.ts';
+import Source from '#nodes/Source.ts';
 
 /** What {@link resolveKits} needs from the kit database, so it can be tested without one. */
 export type KitResolver = {

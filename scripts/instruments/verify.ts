@@ -9,7 +9,7 @@
  */
 
 import { existsSync, readFileSync } from 'node:fs';
-import { entriesOf } from '@util/nullable';
+import { entriesOf } from '#util/nullable.ts';
 import path from 'node:path';
 import { hashOf } from './fetch';
 import { LockPath, OutputDir, type Lockfile } from './build';

@@ -1,15 +1,15 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import ExceptionType from '@nodes/ExceptionType';
-import type Node from '@nodes/Node';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import type { ExceptionText } from '@locale/NodeTexts';
-import type Expression from '@nodes/Expression';
-import type Markup from '@nodes/Markup';
-import SimpleValue from '@values/SimpleValue';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import ExceptionType from '#nodes/ExceptionType.ts';
+import type Node from '#nodes/Node.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Step from '#runtime/Step.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import type { ExceptionText } from '#locale/NodeTexts.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Markup from '#nodes/Markup.ts';
+import SimpleValue from '#values/SimpleValue.ts';
 
 export default abstract class ExceptionValue extends SimpleValue {
     readonly evaluator: Evaluator;

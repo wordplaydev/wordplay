@@ -12,15 +12,15 @@
  */
 
 import { writable, type Writable } from 'svelte/store';
-import type { ScheduledNote } from '@output/Music/schedule';
+import type { ScheduledNote } from '#output/Music/schedule.ts';
 import {
     isPitched,
     kitIndex,
     kitSemitones,
     recipeFor,
     type SynthRecipe,
-} from '@output/Music/synthesis';
-import { articulate } from '@output/Music/articulate';
+} from '#output/Music/synthesis.ts';
+import { articulate } from '#output/Music/articulate.ts';
 import {
     Breath,
     ChorusCents,
@@ -30,10 +30,10 @@ import {
     VibratoRate,
     glottalHarmonics,
     tuneFirstFormant,
-} from '@output/Music/voice';
-import { semitonesToFrequency } from '@output/Music/degrees';
-import samples, { setDecodeContext } from '@output/Music/InstrumentSamples';
-import { must } from '@util/nullable';
+} from '#output/Music/voice.ts';
+import { semitonesToFrequency } from '#output/Music/degrees.ts';
+import samples, { setDecodeContext } from '#output/Music/InstrumentSamples.ts';
+import { must } from '#util/nullable.ts';
 
 /** A note that has been handed to the audio graph. */
 export type PlayingVoice = {

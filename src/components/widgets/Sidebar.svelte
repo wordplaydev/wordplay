@@ -8,11 +8,11 @@
      * tooltip. Only the side, the persisted settings, and the content differ —
      * those come in as props and snippets.
      */
-    import { getTip } from '@components/project/Contexts';
-    import Expander from '@components/widgets/Expander.svelte';
-    import ResizeHandle from '@components/widgets/ResizeHandle.svelte';
-    import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { getTip } from '#components/project/Contexts.ts';
+    import Expander from '#components/widgets/Expander.svelte';
+    import ResizeHandle from '#components/widgets/ResizeHandle.svelte';
+    import { locales } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import type { Snippet } from 'svelte';
 
     interface Props {

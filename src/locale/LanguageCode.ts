@@ -1,14 +1,14 @@
-import type Locale from '@locale/Locale';
-import type { RegionCode } from '@locale/Regions';
+import type Locale from '#locale/Locale.ts';
+import type { RegionCode } from '#locale/Regions.ts';
 import {
     Scripts,
     type Script,
     type ScriptMetadata,
     type WritingDirection,
     type WritingLayout,
-} from '@locale/Scripts';
-import { TextCloseByTextOpen } from '@parser/Tokenizer';
-import { entriesOf, type NonEmpty } from '@util/nullable';
+} from '#locale/Scripts.ts';
+import { TextCloseByTextOpen } from '#parser/Tokenizer.ts';
+import { entriesOf, type NonEmpty } from '#util/nullable.ts';
 
 export type LanguageMetadata = {
     /** The language name, in its basis script */

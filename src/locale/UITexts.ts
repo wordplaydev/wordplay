@@ -1,10 +1,10 @@
-import type { SupportedFace } from '@basis/faces/Fonts';
-import type { TileKind } from '@components/project/TileKind';
-import type { FormattedText, NameText, Template } from '@locale/LocaleText';
+import type { SupportedFace } from '#basis/faces/Fonts.ts';
+import type { TileKind } from '#components/project/TileKind.ts';
+import type { FormattedText, NameText, Template } from '#locale/LocaleText.ts';
 
-import type DocumentationText from '@components/concepts/DocumentationText';
-import type CheckpointsText from '@components/project/CheckpointsText';
-import type EditTexts from '@locale/EditTexts';
+import type DocumentationText from '#components/concepts/DocumentationText.ts';
+import type CheckpointsText from '#components/project/CheckpointsText.ts';
+import type EditTexts from '#locale/EditTexts.ts';
 import type ErrorText from '../routes/ErrorText';
 import type LandingPageText from '../routes/[[locale]]/PageText';
 import type AboutPageText from '../routes/[[locale]]/about/PageText';

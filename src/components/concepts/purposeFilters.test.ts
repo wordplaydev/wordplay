@@ -1,6 +1,6 @@
-import { getPurposeIcons } from '@components/concepts/conceptGroups';
-import Purpose from '@concepts/Purpose';
-import DefaultLocale from '@locale/DefaultLocale';
+import { getPurposeIcons } from '#components/concepts/conceptGroups.ts';
+import Purpose from '#concepts/Purpose.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import { expect, test } from 'vitest';
 
 /**

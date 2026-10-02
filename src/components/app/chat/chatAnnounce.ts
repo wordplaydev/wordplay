@@ -1,4 +1,4 @@
-import type Locales from '@locale/Locales';
+import type Locales from '#locale/Locales.ts';
 
 /**
  * What the announcer says as a conversation is replied to, reacted to, and tied

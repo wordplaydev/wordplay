@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import firstSentence from '@locale/firstSentence';
+import firstSentence from '#locale/firstSentence.ts';
 
 test.each([
     // Ordinary sentence ends still end sentences.

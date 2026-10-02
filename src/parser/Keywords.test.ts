@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
-import Sym from '@nodes/Sym';
-import Token from '@nodes/Token';
+import Sym from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 import {
     buildKeywordIndex,
     getOperatorKeyword,
@@ -9,21 +9,21 @@ import {
     KeywordIds,
     type KeywordId,
     type KeywordIndex,
-} from '@parser/Keywords';
-import { toTokens } from '@parser/toTokens';
-import { tokenize } from '@parser/Tokenizer';
-import parseProgram from '@parser/parseProgram';
-import canonicalizeKeywords from '@parser/canonicalizeKeywords';
-import Bind from '@nodes/Bind';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Source from '@nodes/Source';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Evaluator from '@runtime/Evaluator';
-import ListValue from '@values/ListValue';
-import StructureValue from '@values/StructureValue';
+} from '#parser/Keywords.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import { tokenize } from '#parser/Tokenizer.ts';
+import parseProgram from '#parser/parseProgram.ts';
+import canonicalizeKeywords from '#parser/canonicalizeKeywords.ts';
+import Bind from '#nodes/Bind.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Source from '#nodes/Source.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import ListValue from '#values/ListValue.ts';
+import StructureValue from '#values/StructureValue.ts';
 
 test('every KeywordId has a spec and the list and record agree', () => {
     expect(KeywordIds.length).toBe(Object.keys(Keywords).length);

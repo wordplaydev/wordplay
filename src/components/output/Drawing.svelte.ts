@@ -1,5 +1,5 @@
-import { finishStroke, shouldSample } from '@components/output/drawing';
-import type { PathPoint } from '@output/Output/Shape/Path';
+import { finishStroke, shouldSample } from '#components/output/drawing.ts';
+import type { PathPoint } from '#output/Output/Shape/Path.ts';
 
 /**
  * The stage's drawing mode: whether a creator is drawing a path, and the stroke in progress.

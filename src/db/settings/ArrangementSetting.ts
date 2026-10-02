@@ -1,6 +1,6 @@
-import { Arrangement, type ArrangementType } from '@db/settings/Arrangement';
-import { isArrangement } from '@db/settings/Arrangement';
-import Setting from '@db/settings/Setting';
+import { Arrangement, type ArrangementType } from '#db/settings/Arrangement.ts';
+import { isArrangement } from '#db/settings/Arrangement.ts';
+import Setting from '#db/settings/Setting.ts';
 
 export const ArrangementSetting = new Setting<ArrangementType>(
     'arrangement',

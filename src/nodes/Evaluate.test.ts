@@ -1,26 +1,30 @@
-import SeparatedEvaluate from '@conflicts/SeparatedEvaluate';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import MissingInput from '@conflicts/MissingInput';
-import NotInstantiable from '@conflicts/NotInstantiable';
-import { conflictsIn, testConflict, testTypes } from '@conflicts/TestUtilities';
-import UnexpectedInput from '@conflicts/UnexpectedInput';
-import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import UnknownInput from '@conflicts/UnknownInput';
-import { UnknownName } from '@conflicts/UnknownName';
+import SeparatedEvaluate from '#conflicts/SeparatedEvaluate.ts';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import MissingInput from '#conflicts/MissingInput.ts';
+import NotInstantiable from '#conflicts/NotInstantiable.ts';
+import {
+    conflictsIn,
+    testConflict,
+    testTypes,
+} from '#conflicts/TestUtilities.ts';
+import UnexpectedInput from '#conflicts/UnexpectedInput.ts';
+import UnexpectedTypeInput from '#conflicts/UnexpectedTypeInput.ts';
+import UnknownInput from '#conflicts/UnknownInput.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
 import { expect, test } from 'vitest';
-import type Conflict from '@conflicts/Conflict';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import evaluateCode from '@runtime/evaluate';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Evaluate from '@nodes/Evaluate';
-import MapType from '@nodes/MapType';
-import type Node from '@nodes/Node';
-import NumberType from '@nodes/NumberType';
-import Reference from '@nodes/Reference';
-import SetType from '@nodes/SetType';
-import Source from '@nodes/Source';
+import type Conflict from '#conflicts/Conflict.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import MapType from '#nodes/MapType.ts';
+import type Node from '#nodes/Node.ts';
+import NumberType from '#nodes/NumberType.ts';
+import Reference from '#nodes/Reference.ts';
+import SetType from '#nodes/SetType.ts';
+import Source from '#nodes/Source.ts';
 
 test.each([
     // Calling an undefined function — reported as UnknownName on the Reference,

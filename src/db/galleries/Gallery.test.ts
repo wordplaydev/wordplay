@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { unknownFlags } from '@db/projects/Moderation';
+import { unknownFlags } from '#db/projects/Moderation.ts';
 import Gallery, {
     GallerySchema,
     GallerySchemaLatestVersion,

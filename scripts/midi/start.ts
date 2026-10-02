@@ -15,7 +15,7 @@
  */
 
 import chalk from 'chalk';
-import { includesString } from '@util/nullable';
+import { includesString } from '#util/nullable.ts';
 import { readFileSync, writeFileSync } from 'fs';
 import importMIDI, {
     isFormatError,

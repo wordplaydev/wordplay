@@ -1,18 +1,18 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import type Context from '@nodes/Context';
-import ListType from '@nodes/ListType';
-import UnionType from '@nodes/UnionType';
-import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
-import BoolValue from '@values/BoolValue';
-import NoneValue from '@values/NoneValue';
-import NumberValue from '@values/NumberValue';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import SimpleValue from '@values/SimpleValue';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import type Context from '#nodes/Context.ts';
+import ListType from '#nodes/ListType.ts';
+import UnionType from '#nodes/UnionType.ts';
+import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '#parser/Symbols.ts';
+import BoolValue from '#values/BoolValue.ts';
+import NoneValue from '#values/NoneValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import SimpleValue from '#values/SimpleValue.ts';
 
 export default class ListValue extends SimpleValue {
     readonly values: Value[] = [];

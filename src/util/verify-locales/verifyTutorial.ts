@@ -1,42 +1,43 @@
-import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
+import { MachineTranslated, Revised, Unwritten } from '#locale/Annotations.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 import {
     isMachineTranslated,
     isRevised,
     isUnwritten,
     toLocaleString,
-} from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
+} from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
 import ConceptLink, {
     ConceptName,
     getConceptPropertyNames,
-} from '@nodes/ConceptLink';
-import type Node from '@nodes/Node';
-import { DOCS_SYMBOL, LINK_SYMBOL } from '@parser/Symbols';
-import parseDoc from '@parser/parseDoc';
-import { toTokens } from '@parser/toTokens';
-import analyzeCode from '@util/verify-locales/analyzeCode';
+} from '#nodes/ConceptLink.ts';
+import type Node from '#nodes/Node.ts';
+import { DOCS_SYMBOL, LINK_SYMBOL } from '#parser/Symbols.ts';
+import parseDoc from '#parser/parseDoc.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import analyzeCode from '#util/verify-locales/analyzeCode.ts';
 import {
     tutorialTargetMatches,
     type TutorialTarget,
-} from '@util/verify-locales/contentCategories';
-import type LocalePath from '@util/verify-locales/LocalePath';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import { retargetTutorialExamples } from '@util/verify-locales/retargetExampleNames';
-import type Log from '@util/verify-locales/Log';
+} from '#util/verify-locales/contentCategories.ts';
+import type LocalePath from '#util/verify-locales/LocalePath.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import { retargetTutorialExamples } from '#util/verify-locales/retargetExampleNames.ts';
+import type Log from '#util/verify-locales/Log.ts';
 import TutorialSchema, {
     getDefaultTutorial,
-} from '@util/verify-locales/TutorialSchema';
+} from '#util/verify-locales/TutorialSchema.ts';
 import {
+    restoreLinkTargets,
     mismatchedDelimiter,
     unclosedInCode,
-} from '@util/verify-locales/protect';
-import Validator from '@util/verify-locales/Validator';
-import { CHECKPOINT_PATHS } from '@util/verify-locales/verifyLocale';
-import { alignTutorialLines } from '@util/verify-locales/syncTutorialStructure';
-import getTranslator from '@util/verify-locales/getTranslator';
-import { TranslationFailedAdvice } from '@util/verify-locales/getTranslator';
-import type Translator from '@util/verify-locales/Translator';
+} from '#util/verify-locales/protect.ts';
+import Validator from '#util/verify-locales/Validator.ts';
+import { CHECKPOINT_PATHS } from '#util/verify-locales/verifyLocale.ts';
+import { alignTutorialLines } from '#util/verify-locales/syncTutorialStructure.ts';
+import getTranslator from '#util/verify-locales/getTranslator.ts';
+import { TranslationFailedAdvice } from '#util/verify-locales/getTranslator.ts';
+import type Translator from '#util/verify-locales/Translator.ts';
 import { Performances, performanceSource } from '../../tutorial/Performances';
 import { Themes, themeSource } from '../../tutorial/Themes';
 import {
@@ -461,6 +462,31 @@ async function checkTutorial(
                             );
                         }
                     }
+
+                // Web links a translation broke (#921 shipped `<Guide//guide>`
+                // in every locale), repaired from the aligned en-US line. Text
+                // starts at index 2; the first two are the speaker and emotion.
+                if (Array.isArray(defaultLine)) {
+                    const text = line.slice(2).map(String);
+                    const en = defaultLine.slice(2).map(String).join('\n\n');
+                    const links = restoreLinkTargets(en, text);
+                    const where = `act ${actIndex + 1} scene ${sceneIndex + 1}, line ${lineIndex} of ${toLocaleString(locale)}`;
+                    if (links.repaired > 0) {
+                        if (repair) {
+                            links.text.forEach(
+                                (fixed, index) => (line[index + 2] = fixed),
+                            );
+                            log.good(`Repaired a broken web link in ${where}`);
+                        } else
+                            log.bad(
+                                `A broken web link that en-US can repair in ${where}; locales-fix repairs it.`,
+                            );
+                    }
+                    if (links.unresolved)
+                        log.warning(
+                            `A web link differs from en-US in ${where} in a way only a translation can fix.`,
+                        );
+                }
 
                 const defaultLinks = Array.isArray(defaultLine)
                     ? extractConceptLinks(defaultLine)

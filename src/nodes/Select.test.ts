@@ -1,11 +1,11 @@
-import ExpectedSelectName from '@conflicts/ExpectedSelectName';
-import { testConflict } from '@conflicts/TestUtilities';
-import UnknownColumn from '@conflicts/UnknownColumn';
+import ExpectedSelectName from '#conflicts/ExpectedSelectName.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import UnknownColumn from '#conflicts/UnknownColumn.ts';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import DefaultLocales from '@locale/DefaultLocales';
-import evaluateCode from '@runtime/evaluate';
-import Select from '@nodes/Select';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import Select from '#nodes/Select.ts';
 
 test.each([
     [

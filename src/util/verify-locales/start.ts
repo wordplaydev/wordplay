@@ -1,30 +1,30 @@
 // Load .env.local (secrets) + .env (config) before anything reads process.env.
 // Side-effect import kept first so it runs ahead of the others. See loadEnv.ts.
-import '@util/verify-locales/loadEnv';
-import { must } from '@util/nullable';
-import { isLanguageCode } from '@locale/LanguageCode';
-import type LocaleText from '@locale/LocaleText';
+import '#util/verify-locales/loadEnv.ts';
+import { must } from '#util/nullable.ts';
+import { isLanguageCode } from '#locale/LanguageCode.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 import {
     getLocaleLanguage,
     getLocaleRegions,
     isRevised,
     toLocaleString,
-} from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { KeywordIds } from '@parser/Keywords';
-import ReservedSymbols from '@parser/ReservedSymbols';
-import type LocalePath from '@util/verify-locales/LocalePath';
+} from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { KeywordIds } from '#parser/Keywords.ts';
+import ReservedSymbols from '#parser/ReservedSymbols.ts';
+import type LocalePath from '#util/verify-locales/LocalePath.ts';
 import {
     LocaleSections,
     getSectionPath,
     writeLocale,
-} from '@util/verify-locales/localeFiles';
+} from '#util/verify-locales/localeFiles.ts';
 import {
     DefaultLocale,
     readLocaleText,
     getLocalePath,
     LocaleValidator,
-} from '@util/verify-locales/LocaleSchema';
+} from '#util/verify-locales/LocaleSchema.ts';
 import {
     driftSince,
     getCheckablePathKinds,
@@ -34,67 +34,67 @@ import {
     readJSON,
     staleMarkupElements,
     type StaleEntry,
-} from '@util/verify-locales/drift';
-import Log from '@util/verify-locales/Log';
+} from '#util/verify-locales/drift.ts';
+import Log from '#util/verify-locales/Log.ts';
 import {
     getDefaultTutorial,
     getTutorialJSON,
     getTutorialPath,
-} from '@util/verify-locales/TutorialSchema';
+} from '#util/verify-locales/TutorialSchema.ts';
 import {
     describeReport,
     isEmptyReport,
     syncTutorialStructure,
-} from '@util/verify-locales/syncTutorialStructure';
-import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
-import { verifyChangelog } from '@util/verify-locales/verifyChangelog';
-import { verifyKits } from '@util/verify-locales/verifyKits';
-import { verifyExamples } from '@util/verify-locales/verifyExamples';
+} from '#util/verify-locales/syncTutorialStructure.ts';
+import { buildHowToBundle } from '#util/verify-locales/buildHowTos.ts';
+import { verifyChangelog } from '#util/verify-locales/verifyChangelog.ts';
+import { verifyKits } from '#util/verify-locales/verifyKits.ts';
+import { verifyExamples } from '#util/verify-locales/verifyExamples.ts';
 import {
     checkGlossaryWordUsage,
     collectLocaleText,
-} from '@util/verify-locales/checkGlossaryWords';
+} from '#util/verify-locales/checkGlossaryWords.ts';
 import {
     findHomographTerms,
     getLinkUnits,
     linkGlossaryInLocale,
     linkGlossaryInTutorial,
-} from '@util/verify-locales/glossaryLinks';
-import { verifyHowTo } from '@util/verify-locales/verifyHowTo';
+} from '#util/verify-locales/glossaryLinks.ts';
+import { verifyHowTo } from '#util/verify-locales/verifyHowTo.ts';
 import {
     createUnwrittenLocale,
     getCheckableLocalePairs,
     verifyLocale,
-} from '@util/verify-locales/verifyLocale';
+} from '#util/verify-locales/verifyLocale.ts';
 import {
     createUnwrittenTutorial,
     verifyTutorial,
-} from '@util/verify-locales/verifyTutorial';
-import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
-import findUntaggedStrings from '@util/verify-locales/findUntaggedStrings';
-import getTranslator from '@util/verify-locales/getTranslator';
-import type Translator from '@util/verify-locales/Translator';
+} from '#util/verify-locales/verifyTutorial.ts';
+import { findUnusedKeys } from '#util/verify-locales/findUnusedKeys.ts';
+import findUntaggedStrings from '#util/verify-locales/findUntaggedStrings.ts';
+import getTranslator from '#util/verify-locales/getTranslator.ts';
+import type Translator from '#util/verify-locales/Translator.ts';
 import {
     describeUsage,
     UsageLineMarker,
-} from '@util/verify-locales/Translator';
+} from '#util/verify-locales/Translator.ts';
 import type Tutorial from '../../tutorial/Tutorial';
 import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
-import generateEmojisForLocale from '@util/verify-locales/generateEmojis';
-import generateChoosePrompts from '@util/verify-locales/generateChoosePrompts';
-import generateNameIndex from '@util/verify-locales/generateNameIndex';
-import generateManifests from '@util/verify-locales/generateManifests';
-import verifyDateTimes from '@util/verify-locales/verifyDateTimes';
-import writeFormatted from '@util/verify-locales/writeFormatted';
+import generateEmojisForLocale from '#util/verify-locales/generateEmojis.ts';
+import generateChoosePrompts from '#util/verify-locales/generateChoosePrompts.ts';
+import generateNameIndex from '#util/verify-locales/generateNameIndex.ts';
+import generateManifests from '#util/verify-locales/generateManifests.ts';
+import verifyDateTimes from '#util/verify-locales/verifyDateTimes.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
 import {
     localePrefixMatches,
     parseCategorySelection,
     parsePositionals,
     stepsFor,
     type Selection,
-} from '@util/verify-locales/contentCategories';
+} from '#util/verify-locales/contentCategories.ts';
 
 // We're we asked to translate? Let's see if there was a specific locale we're focusing on.
 const TranslationRequested =

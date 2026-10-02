@@ -1,10 +1,10 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyNumber from '@edit/output/OutputPropertyNumber';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyNumber from '#edit/output/OutputPropertyNumber.ts';
 
 /**
  * The editable inputs of a Placement() stream other than its `place` (which the editor edits

@@ -1,11 +1,11 @@
-import type { TemplateInput } from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import PatternAtom from '@nodes/PatternAtom';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import { TextCloseByTextOpen } from '@parser/Tokenizer';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import PatternAtom from '#nodes/PatternAtom.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import { TextCloseByTextOpen } from '#parser/Tokenizer.ts';
 
 /**
  * The literal characters of a raw pattern-text token, with its delimiters

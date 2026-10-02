@@ -1,8 +1,8 @@
-import NodeRef from '@locale/NodeRef';
-import ValueRef from '@locale/ValueRef';
-import Example from '@nodes/Example';
-import type { Segment } from '@nodes/Paragraph';
-import retryableLoad from '@util/retryableLoad';
+import NodeRef from '#locale/NodeRef.ts';
+import ValueRef from '#locale/ValueRef.ts';
+import Example from '#nodes/Example.ts';
+import type { Segment } from '#nodes/Paragraph.ts';
+import retryableLoad from '#util/retryableLoad.ts';
 
 /**
  * Loads the markup segments that render code. Kept apart from

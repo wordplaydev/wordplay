@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { spaceIndicator } from '@db/Database';
-    import type Token from '@nodes/Token';
-    import { EXPLICIT_SPACE_TEXT, SPACE_TEXT } from '@parser/Spaces';
+    import { spaceIndicator } from '#db/Database.ts';
+    import type Token from '#nodes/Token.ts';
+    import { EXPLICIT_SPACE_TEXT, SPACE_TEXT } from '#parser/Spaces.ts';
 
     /** Blocks-mode space rendering only. Text mode inlines its space spans in
      * NodeView's textSpace snippet (one component instance per space-root was a

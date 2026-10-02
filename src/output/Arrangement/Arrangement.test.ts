@@ -1,24 +1,24 @@
 import { test, expect } from 'vitest';
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
-import concretize from '@locale/concretize';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import { toRow } from '@output/Arrangement/Row';
-import { toGrid } from '@output/Arrangement/Grid';
-import Shape, { toShape } from '@output/Output/Shape/Shape';
-import Music, { toMusic } from '@output/Music/Music';
-import Group from '@output/Output/Group';
-import { toStack } from '@output/Arrangement/Stack';
-import type Arrangement from '@output/Arrangement/Arrangement';
-import { NameGenerator, DefaultSize, toStage } from '@output/Output/Stage';
-import RenderContext from '@output/RenderContext';
-import { reflectX } from '@output/Place/Place';
-import type { WritingDirection } from '@locale/Scripts';
-import { must } from '@util/nullable';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
+import concretize from '#locale/concretize.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import type Value from '#values/Value.ts';
+import { toRow } from '#output/Arrangement/Row.ts';
+import { toGrid } from '#output/Arrangement/Grid.ts';
+import Shape, { toShape } from '#output/Output/Shape/Shape.ts';
+import Music, { toMusic } from '#output/Music/Music.ts';
+import Group from '#output/Output/Group.ts';
+import { toStack } from '#output/Arrangement/Stack.ts';
+import type Arrangement from '#output/Arrangement/Arrangement.ts';
+import { NameGenerator, DefaultSize, toStage } from '#output/Output/Stage.ts';
+import RenderContext from '#output/RenderContext.ts';
+import { reflectX } from '#output/Place/Place.ts';
+import type { WritingDirection } from '#locale/Scripts.ts';
+import { must } from '#util/nullable.ts';
 
 /** The nth item of a list a fixture below just built, whose length each test
  *  either asserts or fixes by the children it lays out. */

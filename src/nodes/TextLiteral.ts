@@ -1,39 +1,42 @@
-import { Purpose } from '@concepts/Purpose';
-import { isNonEmpty, type NonEmpty } from '@util/nullable';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LanguageCode from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { ConceptRegExPattern } from '@parser/Tokenizer';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
-import TextValue, { sameLanguage, type TextPart } from '@values/TextValue';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
+import { Purpose } from '#concepts/Purpose.ts';
+import { isNonEmpty, type NonEmpty } from '#util/nullable.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { ConceptRegExPattern } from '#parser/Tokenizer.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Start from '#runtime/Start.ts';
+import type Step from '#runtime/Step.ts';
+import TextValue, { sameLanguage, type TextPart } from '#values/TextValue.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
 import { Emotion } from '../lore/Emotion';
-import type Value from '@values/Value';
-import type Context from '@nodes/Context';
-import ConceptLink, { codepointOfConceptRef } from '@nodes/ConceptLink';
-import Example from '@nodes/Example';
-import type Expression from '@nodes/Expression';
-import { type GuardContext } from '@nodes/Expression';
-import FormattedLiteral from '@nodes/FormattedLiteral';
-import type Language from '@nodes/Language';
-import Node from '@nodes/Node';
-import { getPreferred } from '@nodes/LanguageTagged';
-import Literal from '@nodes/Literal';
-import { list, node, type Grammar, type Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import TextType from '@nodes/TextType';
-import Token from '@nodes/Token';
-import Words from '@nodes/Words';
-import Translation from '@nodes/Translation';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import UnionType from '@nodes/UnionType';
+import type Value from '#values/Value.ts';
+import type Context from '#nodes/Context.ts';
+import ConceptLink, { codepointOfConceptRef } from '#nodes/ConceptLink.ts';
+import Example from '#nodes/Example.ts';
+import type Expression from '#nodes/Expression.ts';
+import { type GuardContext } from '#nodes/Expression.ts';
+import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+import type Language from '#nodes/Language.ts';
+import Node from '#nodes/Node.ts';
+import { getPreferred } from '#nodes/LanguageTagged.ts';
+import Literal from '#nodes/Literal.ts';
+import { list, node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import TextType from '#nodes/TextType.ts';
+import Token from '#nodes/Token.ts';
+import Words from '#nodes/Words.ts';
+import Translation from '#nodes/Translation.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import UnionType from '#nodes/UnionType.ts';
 
 export default class TextLiteral extends Literal {
     /** The translations for the text literal. Never empty: a text with no

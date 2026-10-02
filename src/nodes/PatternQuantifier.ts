@@ -1,7 +1,7 @@
-import type Conflict from '@conflicts/Conflict';
-import MalformedQuantifier from '@conflicts/MalformedQuantifier';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Conflict from '#conflicts/Conflict.ts';
+import MalformedQuantifier from '#conflicts/MalformedQuantifier.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import {
     any,
     node,
@@ -9,10 +9,10 @@ import {
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import PatternNode from '@nodes/PatternNode';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
+} from '#nodes/Node.ts';
+import PatternNode from '#nodes/PatternNode.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
 
 /**
  * A quantifier count in a pattern: `N`, `N–M`, or an inequality `=N` `>N` `≥N`

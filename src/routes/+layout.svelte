@@ -4,39 +4,42 @@
     // the time any annotation asks for resolutions. See the file's header
     // for why it can't be imported by the conflict files directly.
 
-    // Notifications state lives in @db so the databases that write it don't
+    // Notifications state lives in #db so the databases that write it don't
     // import from this route component (that cycle crashes WebKit hydration).
 
-    import { browser } from '$app/environment';
+    import { browser } from '$app/env';
     import { page } from '$app/state';
     import {
         clearUnclaimedDialog,
         mountedDialogIds,
         PARAM_DIALOG,
-    } from '@components/widgets/dialogURL';
-    import Loading from '@components/app/Loading.svelte';
-    import ProxyNotification from '@components/app/ProxyNotification.svelte';
-    import UpdateNotification from '@components/app/UpdateNotification.svelte';
-    import Banner from '@components/app/Banner.svelte';
-    import Announcer from '@components/project/Announcer.svelte';
-    import Hint, { ActiveHint } from '@components/widgets/Hint.svelte';
-    import { firestore } from '@db/firebase';
-    import { FaceSetting } from '@db/settings/FaceSetting';
-    import { type LocaleTextsAccessor } from '@locale/Locales';
-    import { getManifestPath } from '@locale/SupportedLocales';
-    import { isSupportedLocale } from '@locale/SupportedLocales';
+    } from '#components/widgets/dialogURL.ts';
+    import Loading from '#components/app/Loading.svelte';
+    import ProxyNotification from '#components/app/ProxyNotification.svelte';
+    import UpdateNotification from '#components/app/UpdateNotification.svelte';
+    import Banner from '#components/app/Banner.svelte';
+    import Announcer from '#components/project/Announcer.svelte';
+    import Hint, { ActiveHint } from '#components/widgets/Hint.svelte';
+    import { firestore } from '#db/firebase.ts';
+    import { FaceSetting } from '#db/settings/FaceSetting.ts';
+    import { type LocaleTextsAccessor } from '#locale/Locales.ts';
+    import { getManifestPath } from '#locale/SupportedLocales.ts';
+    import { isSupportedLocale } from '#locale/SupportedLocales.ts';
     import type { User } from 'firebase/auth';
     import { onMount, type Snippet } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import Fonts from '@basis/faces/Fonts';
-    import { appFontFamilies, codeFontFamilies } from '@basis/faces/fontChains';
+    import Fonts from '#basis/faces/Fonts.ts';
+    import {
+        appFontFamilies,
+        codeFontFamilies,
+    } from '#basis/faces/fontChains.ts';
     import {
         setAnnouncer,
         setLocalizing,
         setTip,
         setUser,
         type AnnouncerContext,
-    } from '@components/project/Contexts';
+    } from '#components/project/Contexts.ts';
     import {
         animationFactor,
         appBanner,
@@ -49,14 +52,14 @@
         localesReady,
         Settings,
         writingMode,
-    } from '@db/Database';
+    } from '#db/Database.ts';
     import shouldPromptForLocale, {
         hasBeenAsked,
         loadLocalePrompt,
         markAsked,
-    } from '@components/settings/localePrompt';
-    import { getLanguageDirection } from '@locale/LanguageCode';
-    import { toBCP47 } from '@locale/Locale';
+    } from '#components/settings/localePrompt.ts';
+    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import { toBCP47 } from '#locale/Locale.ts';
 
     interface Props {
         children: Snippet;

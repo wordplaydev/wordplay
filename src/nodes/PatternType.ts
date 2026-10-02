@@ -1,17 +1,20 @@
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { PATTERN_ANY_SYMBOL, PATTERN_DELIMITER_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import { Purpose } from '@concepts/Purpose';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import {
+    PATTERN_ANY_SYMBOL,
+    PATTERN_DELIMITER_SYMBOL,
+} from '#parser/Symbols.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import BasisType from '@nodes/BasisType';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import PatternClass from '@nodes/PatternClass';
-import PatternLiteral from '@nodes/PatternLiteral';
-import PatternSequence from '@nodes/PatternSequence';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type TypeSet from '@nodes/TypeSet';
+import BasisType from '#nodes/BasisType.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import PatternClass from '#nodes/PatternClass.ts';
+import PatternLiteral from '#nodes/PatternLiteral.ts';
+import PatternSequence from '#nodes/PatternSequence.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 /** The Pattern type, `•⣿⣿` (see LANGUAGE.md). A value of this type is a compiled
  * pattern that can be applied to text with `≈` (test) or `⌕` (search). */

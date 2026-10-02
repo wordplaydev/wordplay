@@ -1,7 +1,7 @@
-import type Locales from '@locale/Locales';
-import type Example from '@nodes/Example';
-import { kitExamples } from '@nodes/publishedShare';
-import Source from '@nodes/Source';
+import type Locales from '#locale/Locales.ts';
+import type Example from '#nodes/Example.ts';
+import { kitExamples } from '#nodes/publishedShare.ts';
+import Source from '#nodes/Source.ts';
 
 /**
  * The example a kit's registry tile should render (#8): a starred `⭐` one wins, otherwise

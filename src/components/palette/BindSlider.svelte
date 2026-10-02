@@ -1,19 +1,19 @@
 <script lang="ts">
-    import type OutputProperty from '@edit/output/OutputProperty';
-    import type OutputPropertyRange from '@edit/output/OutputPropertyRange';
-    import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
-    import { getFirstText } from '@locale/LocaleText';
-    import { parseNumber } from '@parser/parseExpression';
+    import type OutputProperty from '#edit/output/OutputProperty.ts';
+    import type OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
+    import type OutputPropertyValues from '#edit/output/OutputPropertyValueSet.ts';
+    import { getFirstText } from '#locale/LocaleText.ts';
+    import { parseNumber } from '#parser/parseExpression.ts';
     import type Decimal from 'decimal.js';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import { toTokens } from '@parser/toTokens';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import { toTokens } from '#parser/toTokens.ts';
     import {
         getProject,
         getSelectedOutput,
-    } from '@components/project/Contexts';
-    import Slider from '@components/widgets/Slider.svelte';
-    import { must } from '@util/nullable';
+    } from '#components/project/Contexts.ts';
+    import Slider from '#components/widgets/Slider.svelte';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         property: OutputProperty;

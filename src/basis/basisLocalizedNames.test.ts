@@ -1,13 +1,13 @@
 // Import Database first, for the reason basisDocLocale.test.ts gives: it eagerly
 // constructs the DB singleton, which must finish before anything pulls in the
 // databases behind it.
-import '@db/Database';
-import Project from '@db/projects/Project';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import Source from '@nodes/Source';
+import '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

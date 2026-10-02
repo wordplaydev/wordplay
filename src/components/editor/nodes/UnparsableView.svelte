@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type UnparsableExpression from '@nodes/UnparsableExpression';
-    import type UnparsableType from '@nodes/UnparsableType';
-    import MissingView from '@components/editor/nodes/MissingView.svelte';
-    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
-    import { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import type UnparsableExpression from '#nodes/UnparsableExpression.ts';
+    import type UnparsableType from '#nodes/UnparsableType.ts';
+    import MissingView from '#components/editor/nodes/MissingView.svelte';
+    import NodeSequenceView from '#components/editor/nodes/NodeSequenceView.svelte';
+    import { type Format } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: UnparsableExpression | UnparsableType;

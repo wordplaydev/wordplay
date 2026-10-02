@@ -4,12 +4,12 @@
      while loading. Decorative by default (aria-hidden); pass a label to make
      it meaningful content. -->
 <script lang="ts">
-    import { FallbackFontFamilies } from '@basis/faces/FallbackFonts';
-    import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { hasEmoji } from '@unicode/emoji';
+    import { FallbackFontFamilies } from '#basis/faces/FallbackFonts.ts';
+    import { locales } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { hasEmoji } from '#unicode/emoji.ts';
     import { getLogoGlyphForLanguage } from './logoGlyph';
-    import { must } from '@util/nullable';
+    import { must } from '#util/nullable.ts';
     import {
         LOGO_BUBBLE_PATH,
         LOGO_CENTER_X,

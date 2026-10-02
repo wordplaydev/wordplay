@@ -1,16 +1,16 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import Language from '@nodes/Language';
-import TextType from '@nodes/TextType';
-import BoolValue from '@values/BoolValue';
-import ListValue from '@values/ListValue';
-import NumberValue from '@values/NumberValue';
-import type Value from '@values/Value';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Expression from '@nodes/Expression';
-import { lowerCase, upperCase } from '@unicode/casing';
-import UnicodeString from '@unicode/UnicodeString';
-import SimpleValue from '@values/SimpleValue';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import Language from '#nodes/Language.ts';
+import TextType from '#nodes/TextType.ts';
+import BoolValue from '#values/BoolValue.ts';
+import ListValue from '#values/ListValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type Value from '#values/Value.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Expression from '#nodes/Expression.ts';
+import { lowerCase, upperCase } from '#unicode/casing.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import SimpleValue from '#values/SimpleValue.ts';
 
 export default class TextValue extends SimpleValue {
     readonly text: string;

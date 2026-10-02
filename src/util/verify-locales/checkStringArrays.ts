@@ -1,13 +1,13 @@
-import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
-import { classifyPair } from '@util/verify-locales/classifyLocalePath';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
+import { MachineTranslated, Revised, Unwritten } from '#locale/Annotations.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { classifyPair } from '#util/verify-locales/classifyLocalePath.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import type Log from '#util/verify-locales/Log.ts';
 import {
     hasOutOfExampleBreak,
     leadingAnnotations,
     splitDocParagraphs,
-} from '@util/verify-locales/protect';
+} from '#util/verify-locales/protect.ts';
 
 /**
  * Check the two kinds of string arrays in a locale against their contracts:

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import type MarkupValue from '@values/MarkupValue';
+    import MarkupHtmlView from '#components/concepts/MarkupHTMLView.svelte';
+    import type MarkupValue from '#values/MarkupValue.ts';
 
     interface Props {
         value: MarkupValue;

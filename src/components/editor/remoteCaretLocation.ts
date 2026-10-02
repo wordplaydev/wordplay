@@ -1,4 +1,4 @@
-import type Source from '@nodes/Source';
+import type Source from '#nodes/Source.ts';
 import { measureTokenSegment } from './highlights/measureTokenSegment';
 
 /** Editor-relative coordinates for rendering a floating caret line. */

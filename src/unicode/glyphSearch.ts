@@ -9,14 +9,14 @@
  * loaded emoji maps and a group-label resolver.
  */
 
-import type { EmojiMap } from '@db/locales/LocalesDatabase';
-import type { SupportedLocale } from '@locale/SupportedLocales';
+import type { EmojiMap } from '#db/locales/LocalesDatabase.ts';
+import type { SupportedLocale } from '#locale/SupportedLocales.ts';
 import {
     foldEntry,
     type Searchable,
     type SearchField,
     type SearchLanguages,
-} from '@util/search';
+} from '#util/search.ts';
 import { codepointKey, type Codepoint } from './Unicode';
 
 /** Priority tiers: name beats keywords beats the emoji-group label. */

@@ -5,7 +5,7 @@ import {
     sumUsage,
     type TranslatorUsage,
 } from './Translator';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 const usage = (over: Partial<TranslatorUsage>): TranslatorUsage => ({
     model: 'claude-sonnet-5',

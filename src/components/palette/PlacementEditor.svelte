@@ -1,12 +1,12 @@
 <script lang="ts">
-    import PlaceEditor from '@components/palette/PlaceEditor.svelte';
-    import StructureInputsEditor from '@components/palette/StructureInputsEditor.svelte';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import OutputExpression from '@edit/output/OutputExpression';
-    import getStructureProperties from '@edit/output/getStructureProperties';
-    import Evaluate from '@nodes/Evaluate';
-    import { must } from '@util/nullable';
+    import PlaceEditor from '#components/palette/PlaceEditor.svelte';
+    import StructureInputsEditor from '#components/palette/StructureInputsEditor.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import OutputExpression from '#edit/output/OutputExpression.ts';
+    import getStructureProperties from '#edit/output/getStructureProperties.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         project: Project;

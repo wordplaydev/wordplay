@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type MapType from '@nodes/MapType';
+    import type MapType from '#nodes/MapType.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: MapType;

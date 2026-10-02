@@ -1,5 +1,5 @@
-import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
-import { isRevised, isUnwritten } from '@locale/LocaleText';
+import { MachineTranslated, Revised, Unwritten } from '#locale/Annotations.ts';
+import { isRevised, isUnwritten } from '#locale/LocaleText.ts';
 import { expect, test } from 'vitest';
 import { keepOrPlacehold, stripMarkers } from './verifyLocale';
 

@@ -1,4 +1,4 @@
-import type Project from '@db/projects/Project';
+import type Project from '#db/projects/Project.ts';
 import { parseSerializedProject } from '../../examples/examples';
 
 /**

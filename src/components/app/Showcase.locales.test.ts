@@ -1,6 +1,6 @@
-import { isLocaleText } from '@locale/isLocaleText';
-import type LocaleText from '@locale/LocaleText';
-import { sweepSkipsLocaleText } from '@util/verify-locales/exampleFreshness';
+import { isLocaleText } from '#locale/isLocaleText.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { sweepSkipsLocaleText } from '#util/verify-locales/exampleFreshness.ts';
 import fs from 'fs';
 import path from 'path';
 import { describe, expect, test } from 'vitest';

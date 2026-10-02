@@ -1,6 +1,6 @@
 <script module lang="ts">
-    import Slider from '@components/widgets/Slider.svelte';
-    import { BCTKeys, Focals } from '@output/Color/BasicColors';
+    import Slider from '#components/widgets/Slider.svelte';
+    import { BCTKeys, Focals } from '#output/Color/BasicColors.ts';
 
     /**
      * How many caller-supplied colors the chooser will show.
@@ -61,20 +61,20 @@
 </script>
 
 <script lang="ts">
-    import { getAnnouncer } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { locales } from '@db/Database';
-    import { getFirstText } from '@locale/LocaleText';
-    import { matchGroups, must } from '@util/nullable';
-    import { describeColorLocalized } from '@output/Color/BasicColors';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { locales } from '#db/Database.ts';
+    import { getFirstText } from '#locale/LocaleText.ts';
+    import { matchGroups, must } from '#util/nullable.ts';
+    import { describeColorLocalized } from '#output/Color/BasicColors.ts';
     import {
         LCHtoCSS,
         parseColor,
         RGBtoLCH,
         serializeColor,
-    } from '@output/Color/ColorJS';
+    } from '#output/Color/ColorJS.ts';
 
     interface Props {
         /** a degree (any number remainder 360) */

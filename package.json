@@ -1,7 +1,24 @@
 {
     "name": "wordplay",
-    "version": "0.38.2",
+    "version": "0.38.3",
     "type": "module",
+    "imports": {
+        "#components/*": "./src/components/*",
+        "#nodes/*": "./src/nodes/*",
+        "#runtime/*": "./src/runtime/*",
+        "#values/*": "./src/values/*",
+        "#conflicts/*": "./src/conflicts/*",
+        "#locale/*": "./src/locale/*",
+        "#concepts/*": "./src/concepts/*",
+        "#parser/*": "./src/parser/*",
+        "#input/*": "./src/input/*",
+        "#output/*": "./src/output/*",
+        "#basis/*": "./src/basis/*",
+        "#edit/*": "./src/edit/*",
+        "#db/*": "./src/db/*",
+        "#unicode/*": "./src/unicode/*",
+        "#util/*": "./src/util/*"
+    },
     "scripts": {
         "sync": "svelte-kit sync",
         "postinstall": "run-script-os",
@@ -74,7 +91,7 @@
         "merge": "git checkout main && git merge dev && git push origin main && git checkout dev",
         "outdated": "npx check-outdated --ignore-pre-releases --columns name,type,current,latest,changes",
         "updates": "npx tsx scripts/updates.ts",
-        "mediapipe": "node scripts/copy-wasm.mjs",
+        "mediapipe": "npx tsx scripts/copy-wasm.ts",
         "claims": "node scripts/claims.js ",
         "contributors": "npx tsx functions/src/refresh-contributors-local.ts",
         "wiki": "npx tsx scripts/wiki.ts"
@@ -102,8 +119,8 @@
         "@google-cloud/translate": "^10",
         "@playwright/test": "^1",
         "@resvg/resvg-js": "2.6.2",
-        "@sveltejs/adapter-static": "^3",
-        "@sveltejs/kit": "^2",
+        "@sveltejs/adapter-static": "^4",
+        "@sveltejs/kit": "^3",
         "@sveltejs/vite-plugin-svelte": "^7",
         "@wasm-audio-decoders/flac": "^0.2.10",
         "@wasm-audio-decoders/ogg-vorbis": "^0.1.20",
@@ -146,9 +163,6 @@
         "uuid": "^14",
         "yjs": "^13",
         "zod": "^4.3"
-    },
-    "overrides": {
-        "cookie": "^0.7.0"
     },
     "browserslist": [
         "defaults",

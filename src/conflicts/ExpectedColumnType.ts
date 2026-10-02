@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import Bind from '@nodes/Bind';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import type Locales from '@locale/Locales';
-import type TableType from '@nodes/TableType';
+import type LocaleText from '#locale/LocaleText.ts';
+import Bind from '#nodes/Bind.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import type Locales from '#locale/Locales.ts';
+import type TableType from '#nodes/TableType.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
 
 export default class ExpectedColumnType extends Conflict {
     readonly table: TableType;

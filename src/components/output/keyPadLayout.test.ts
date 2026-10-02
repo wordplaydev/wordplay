@@ -1,4 +1,4 @@
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 import layoutKeyPad, { type KeyPadSection } from './keyPadLayout';
 

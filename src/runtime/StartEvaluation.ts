@@ -1,11 +1,11 @@
-import type PropertyBind from '@nodes/PropertyBind';
-import type Evaluator from '@runtime/Evaluator';
-import type Locales from '@locale/Locales';
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Evaluate from '@nodes/Evaluate';
-import type UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type Value from '@values/Value';
-import Step from '@runtime/Step';
+import type PropertyBind from '#nodes/PropertyBind.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Locales from '#locale/Locales.ts';
+import type BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import type Value from '#values/Value.ts';
+import Step from '#runtime/Step.ts';
 
 type Eval = BinaryEvaluate | UnaryEvaluate | Evaluate | PropertyBind;
 

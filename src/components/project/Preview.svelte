@@ -1,14 +1,14 @@
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
-    import Switch from '@components/widgets/Switch.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { adaptPreviewColors } from '@components/app/adaptPreview';
-    import { adaptingOutput } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import type { SerializedPreview } from '@db/projects/ProjectSchemas';
-    import UnicodeString from '@unicode/UnicodeString';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import GlyphChooser from '#components/widgets/GlyphChooser.svelte';
+    import Switch from '#components/widgets/Switch.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { adaptPreviewColors } from '#components/app/adaptPreview.ts';
+    import { adaptingOutput } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type { SerializedPreview } from '#db/projects/ProjectSchemas.ts';
+    import UnicodeString from '#unicode/UnicodeString.ts';
 
     interface Props {
         project: Project;

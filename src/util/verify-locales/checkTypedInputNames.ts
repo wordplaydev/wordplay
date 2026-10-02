@@ -1,19 +1,19 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import { isRecord } from '@util/guards';
-import type LocaleText from '@locale/LocaleText';
-import { isUnwritten } from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import Project from '@db/projects/Project';
-import NameType from '@nodes/NameType';
-import Source from '@nodes/Source';
-import StructureDefinition from '@nodes/StructureDefinition';
-import StreamDefinition from '@nodes/StreamDefinition';
-import type Type from '@nodes/Type';
-import UnionType from '@nodes/UnionType';
-import LocalePath from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
-import { leadingAnnotations } from '@util/verify-locales/protect';
-import { must } from '@util/nullable';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { isRecord } from '#util/guards.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isUnwritten } from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import Project from '#db/projects/Project.ts';
+import NameType from '#nodes/NameType.ts';
+import Source from '#nodes/Source.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import type Type from '#nodes/Type.ts';
+import UnionType from '#nodes/UnionType.ts';
+import LocalePath from '#util/verify-locales/LocalePath.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import { leadingAnnotations } from '#util/verify-locales/protect.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * A type and the input that holds one should be the same word, as they are in English.

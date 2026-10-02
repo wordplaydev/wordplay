@@ -1,17 +1,17 @@
-import Scene from '@input/Scene/Scene';
-import type Node from '@nodes/Node';
-import type Evaluator from '@runtime/Evaluator';
-import type StreamValue from '@values/StreamValue';
-import type Output from '@output/Output/Output';
+import Scene from '#input/Scene/Scene.ts';
+import type Node from '#nodes/Node.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type StreamValue from '#values/StreamValue.ts';
+import type Output from '#output/Output/Output.ts';
 import OutputAnimation, {
     AnimationState,
-} from '@output/animation/OutputAnimation';
-import Physics from '@output/physics/Physics';
-import Place, { createPlace } from '@output/Place/Place';
-import Pose from '@output/animation/Pose';
-import type RenderContext from '@output/RenderContext';
-import Sequence from '@output/animation/Sequence';
-import Stage from '@output/Output/Stage';
+} from '#output/animation/OutputAnimation.ts';
+import Physics from '#output/physics/Physics.ts';
+import Place, { createPlace } from '#output/Place/Place.ts';
+import Pose from '#output/animation/Pose.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import Sequence from '#output/animation/Sequence.ts';
+import Stage from '#output/Output/Stage.ts';
 
 export type OutputName = string;
 

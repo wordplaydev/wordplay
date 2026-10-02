@@ -1,4 +1,4 @@
-import { includesString } from '@util/nullable';
+import { includesString } from '#util/nullable.ts';
 
 // Content-category targeting for translate/override runs. A run does eight
 // kinds of work per locale (locale strings, complete tutorial, quick tutorial,

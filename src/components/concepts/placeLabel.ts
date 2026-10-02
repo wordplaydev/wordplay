@@ -1,11 +1,11 @@
-import { Modes, type GuidePlace } from '@components/concepts/GuideHistory';
-import { must } from '@util/nullable';
+import { Modes, type GuidePlace } from '#components/concepts/GuideHistory.ts';
+import { must } from '#util/nullable.ts';
 import {
     getLanguageQuoteClose,
     getLanguageQuoteOpen,
-} from '@locale/LanguageCode';
-import type Locales from '@locale/Locales';
-import { SEARCH_SYMBOL } from '@parser/Symbols';
+} from '#locale/LanguageCode.ts';
+import type Locales from '#locale/Locales.ts';
+import { SEARCH_SYMBOL } from '#parser/Symbols.ts';
 
 /**
  * A short, human-readable label for one guide location, shared by the

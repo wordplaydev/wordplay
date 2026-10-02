@@ -1,9 +1,9 @@
-import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import { expect, test } from 'vitest';
 import placeLabel from './placeLabel';
 import { DefaultMode, ModeIcons, Modes } from './GuideHistory';
-import DefaultLocales from '@locale/DefaultLocales';
-import Purpose from '@concepts/Purpose';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Purpose from '#concepts/Purpose.ts';
 
 /**
  * The guide's sections are aligned by position, three ways.

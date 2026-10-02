@@ -1,6 +1,6 @@
-import type LanguageCode from '@locale/LanguageCode';
-import type { RegionCode } from '@locale/Regions';
-import { getCLDRCandidates } from '@locale/LanguageCode';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import { getCLDRCandidates } from '#locale/LanguageCode.ts';
 
 /**
  * Per-language character data: the letters and digits used to write each

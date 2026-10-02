@@ -1,11 +1,11 @@
-import DefaultLocales from '@locale/DefaultLocales';
-import concretize from '@locale/concretize';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import concretize from '#locale/concretize.ts';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import evaluateCode from '@runtime/evaluate';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
 
 /** Load a few locales for testing. */
 const en = DefaultLocale;

@@ -1,19 +1,19 @@
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import NoneValue from '@values/NoneValue';
-import NumberValue from '@values/NumberValue';
-import SetValue from '@values/SetValue';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import Valued, { getOutputInputs } from '@output/Output/Valued';
-import { toNumber } from '@output/Output/Stage';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import { getBind } from '#locale/getBind.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import NoneValue from '#values/NoneValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import SetValue from '#values/SetValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
+import Valued, { getOutputInputs } from '#output/Output/Valued.ts';
+import { toNumber } from '#output/Output/Stage.ts';
 import {
     beatsForUnit,
     degreeType,
     durationTypes,
-} from '@output/Music/durations';
+} from '#output/Music/durations.ts';
 
 export function createNoteType(locales: Locales) {
     return toStructure(`

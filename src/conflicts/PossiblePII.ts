@@ -1,15 +1,15 @@
-import type LocaleText from '@locale/LocaleText';
-import type Context from '@nodes/Context';
-import type { LanguageTagged } from '@nodes/LanguageTagged';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Context from '#nodes/Context.ts';
+import type { LanguageTagged } from '#nodes/LanguageTagged.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Locales from '#locale/Locales.ts';
 import type { PII } from '../pii/getPII';
 import getPII from '../pii/getPII';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
+} from '#conflicts/Conflict.ts';
 
 export class PossiblePII extends Conflict {
     /** The node containing text */

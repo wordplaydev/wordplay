@@ -1,12 +1,12 @@
 /**
  * A how-to document's version constants and its two pure constructors.
  *
- * Separate from HowToDatabase.svelte.ts, which value-imports `@db/Database` and so
+ * Separate from HowToDatabase.svelte.ts, which value-imports `#db/Database` and so
  * cannot be reached from a test that doesn't mock it — the same reason `makeKit`
  * lives in Kit.ts rather than in KitDatabase.svelte.ts. The type comes back the
  * other way as an `import type`, which is erased and so adds no cycle.
  */
-import { unknownFlags } from '@db/projects/Moderation';
+import { unknownFlags } from '#db/projects/Moderation.ts';
 import { v4 as uuidv4 } from 'uuid';
 import type { HowToDocument } from './HowToDatabase.svelte';
 

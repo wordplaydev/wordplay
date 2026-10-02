@@ -9,13 +9,13 @@
      Two people share a row when there is width for it, which is what keeps six
      of them from costing six lines. -->
 <script lang="ts">
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import AddCreator from '@components/project/AddCreator.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import { Creators } from '@db/Database';
-    import type { Creator } from '@db/creators/CreatorDatabase';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import CreatorView from '#components/app/CreatorView.svelte';
+    import AddCreator from '#components/project/AddCreator.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import { Creators } from '#db/Database.ts';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
     import { tick, type Snippet } from 'svelte';
 
     interface Props {

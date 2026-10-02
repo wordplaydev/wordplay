@@ -1,4 +1,4 @@
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import type { User } from 'firebase/auth';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import type { ExportStep } from './AccountSnapshot';
@@ -7,7 +7,7 @@ import type { ReadmeText } from './readme';
 /** Flipped per test, so the same module can answer both ways without the
  *  latched, once-per-page-load answer the real one gives. */
 let proxying = false;
-vi.mock('@db/proxySession', () => ({
+vi.mock('#db/proxySession.ts', () => ({
     isProxySession: () => proxying,
     proxyPrefix: () => '',
 }));
@@ -40,9 +40,9 @@ vi.mock('firebase/firestore', () => ({
     },
 }));
 
-vi.mock('@db/firebase', () => ({ firestore: { fake: true } }));
+vi.mock('#db/firebase.ts', () => ({ firestore: { fake: true } }));
 
-vi.mock('@db/Database', () => ({
+vi.mock('#db/Database.ts', () => ({
     DB: {
         // The real one races a timeout and feeds the reachability banner;
         // here it only has to pass the promise through.
@@ -52,25 +52,25 @@ vi.mock('@db/Database', () => ({
     },
 }));
 
-vi.mock('@db/locales/LocalizationDexie', () => ({
+vi.mock('#db/locales/LocalizationDexie.ts', () => ({
     allLocaleEdits: async () => [],
 }));
 
-vi.mock('@db/creators/handle.svelte', () => ({
+vi.mock('#db/creators/handle.svelte.ts', () => ({
     HandleCollection: 'handles',
     getUsername: () => 'amy',
 }));
 
-vi.mock('@db/creators/CreatorDatabase', () => ({
+vi.mock('#db/creators/CreatorDatabase.ts', () => ({
     CreatorCollection: 'creators',
     Creator: { isUsername: () => true },
 }));
 
-vi.mock('@db/creators/strikes.svelte', () => ({
+vi.mock('#db/creators/strikes.svelte.ts', () => ({
     StrikesCollection: 'strikes',
 }));
 
-vi.mock('@db/moderation/Notice', () => ({ NoticesCollection: 'notices' }));
+vi.mock('#db/moderation/Notice.ts', () => ({ NoticesCollection: 'notices' }));
 
 import exportAccount from './exportAccount';
 

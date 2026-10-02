@@ -1,14 +1,14 @@
-import DuplicateName from '@conflicts/DuplicateName';
-import InputListMustBeLast from '@conflicts/InputListMustBeLast';
-import { MisplacedShare } from '@conflicts/MisplacedShare';
-import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
-import Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Node from '@nodes/Node';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+import DuplicateName from '#conflicts/DuplicateName.ts';
+import InputListMustBeLast from '#conflicts/InputListMustBeLast.ts';
+import { MisplacedShare } from '#conflicts/MisplacedShare.ts';
+import RequiredAfterOptional from '#conflicts/RequiredAfterOptional.ts';
+import Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type Node from '#nodes/Node.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 export function requiredBindAfterOptional(
     inputs: Bind[],

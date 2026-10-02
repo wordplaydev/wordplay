@@ -1,10 +1,10 @@
-import type Expression from '@nodes/Expression';
-import type Evaluator from '@runtime/Evaluator';
-import type Locales from '@locale/Locales';
-import type Value from '@values/Value';
-import Step from '@runtime/Step';
-import ValueRef from '@locale/ValueRef';
-import { PROPERTY_SYMBOL } from '@parser/Symbols';
+import type Expression from '#nodes/Expression.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Locales from '#locale/Locales.ts';
+import type Value from '#values/Value.ts';
+import Step from '#runtime/Step.ts';
+import ValueRef from '#locale/ValueRef.ts';
+import { PROPERTY_SYMBOL } from '#parser/Symbols.ts';
 
 /**
  * The per-item step of a translate (↦): binds `.` to the next item (or jumps to

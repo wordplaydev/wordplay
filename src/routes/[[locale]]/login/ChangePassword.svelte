@@ -1,19 +1,19 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { ensureAuth } from '@db/firebase';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { SEARCH_SYMBOL } from '@parser/Symbols';
+    import Notice from '#components/app/Notice.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import { ensureAuth } from '#db/firebase.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { SEARCH_SYMBOL } from '#parser/Symbols.ts';
     import { FirebaseError } from 'firebase/app';
     import {
         signInWithEmailAndPassword,
         updatePassword,
         type User,
     } from 'firebase/auth';
-    import { ensureAppCheck } from '@db/firebase';
+    import { ensureAppCheck } from '#db/firebase.ts';
     import getLoginErrorDescription from './getAuthErrorDescription';
     import isValidPassword from './IsValidPassword';
 

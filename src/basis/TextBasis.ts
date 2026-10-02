@@ -1,42 +1,42 @@
-import { getDocLocales } from '@locale/getDocLocales';
-import type Bind from '@nodes/Bind';
-import { must } from '@util/nullable';
-import { getNameLocales } from '@locale/getNameLocales';
-import { textToFormatted } from '@basis/FormattedBasis';
-import Block, { BlockKind } from '@nodes/Block';
-import BooleanType from '@nodes/BooleanType';
-import type Expression from '@nodes/Expression';
-import FormattedType from '@nodes/FormattedType';
-import NumberType from '@nodes/NumberType';
-import NoneType from '@nodes/NoneType';
-import NoneLiteral from '@nodes/NoneLiteral';
-import UnionType from '@nodes/UnionType';
-import NoneValue from '@values/NoneValue';
-import NameType from '@nodes/NameType';
-import StructureDefinition from '@nodes/StructureDefinition';
-import { getResultTypeNames } from '@output/Result/Result';
-import Language from '@nodes/Language';
-import TextType from '@nodes/TextType';
-import type Type from '@nodes/Type';
-import BoolValue from '@values/BoolValue';
-import ListValue from '@values/ListValue';
-import MapValue from '@values/MapValue';
-import NumberValue from '@values/NumberValue';
-import { createStructure } from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import type Names from '@nodes/Names';
-import PatternType from '@nodes/PatternType';
-import { getMatchLoop, matchStepBuilder } from '@runtime/pattern/matchSteps';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
-import ListType from '@nodes/ListType';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import type Bind from '#nodes/Bind.ts';
+import { must } from '#util/nullable.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import { textToFormatted } from '#basis/FormattedBasis.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import type Expression from '#nodes/Expression.ts';
+import FormattedType from '#nodes/FormattedType.ts';
+import NumberType from '#nodes/NumberType.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import UnionType from '#nodes/UnionType.ts';
+import NoneValue from '#values/NoneValue.ts';
+import NameType from '#nodes/NameType.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import { getResultTypeNames } from '#output/Result/Result.ts';
+import Language from '#nodes/Language.ts';
+import TextType from '#nodes/TextType.ts';
+import type Type from '#nodes/Type.ts';
+import BoolValue from '#values/BoolValue.ts';
+import ListValue from '#values/ListValue.ts';
+import MapValue from '#values/MapValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import { createStructure } from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import type Names from '#nodes/Names.ts';
+import PatternType from '#nodes/PatternType.ts';
+import { getMatchLoop, matchStepBuilder } from '#runtime/pattern/matchSteps.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { FunctionText, NameAndDoc } from '#locale/LocaleText.ts';
+import ListType from '#nodes/ListType.ts';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
-} from '@basis/Basis';
+} from '#basis/Basis.ts';
 
 const MAX_TEXT_LENGTH = 65536;
 

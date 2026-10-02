@@ -1,14 +1,14 @@
 <script lang="ts">
-    import Evaluate from '@nodes/Evaluate';
-    import Reference from '@nodes/Reference';
-    import Source from '@nodes/Source';
-    import type StreamValue from '@values/StreamValue';
-    import { animationFactor } from '@db/Database';
-    import type Value from '@values/Value';
-    import { getEvaluation } from '@components/project/Contexts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import Reference from '#nodes/Reference.ts';
+    import Source from '#nodes/Source.ts';
+    import type StreamValue from '#values/StreamValue.ts';
+    import { animationFactor } from '#db/Database.ts';
+    import type Value from '#values/Value.ts';
+    import { getEvaluation } from '#components/project/Contexts.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Reference;

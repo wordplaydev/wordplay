@@ -1,15 +1,20 @@
-import { Purpose } from '@concepts/Purpose';
-import type Conflict from '@conflicts/Conflict';
-import { UnparsableConflict } from '@conflicts/UnparsableConflict';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '@basis/BasisConstants';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import { UnparsableConflict } from '#conflicts/UnparsableConflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import Characters from '../lore/BasisCharacters';
-import type Context from '@nodes/Context';
-import Node, { list, node, type Grammar, type Replacement } from '@nodes/Node';
-import type Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import UnparsableExpression from '@nodes/UnparsableExpression';
+import type Context from '#nodes/Context.ts';
+import Node, {
+    list,
+    node,
+    type Grammar,
+    type Replacement,
+} from '#nodes/Node.ts';
+import type Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
 
 export default class UnparsableType extends Type {
     readonly unparsables: Token[];

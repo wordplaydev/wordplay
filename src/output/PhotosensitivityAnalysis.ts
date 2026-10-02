@@ -1,15 +1,15 @@
-import type Project from '@db/projects/Project';
-import collectOutputs from '@output/Output/collectOutputs';
-import type Definition from '@nodes/Definition';
-import Color, { isSaturatedRed, luminanceDelta } from '@output/Color/Color';
-import type Output from '@output/Output/Output';
-import type Place from '@output/Place/Place';
-import Sequence from '@output/animation/Sequence';
-import Image from '@output/Output/Image';
-import Shape from '@output/Output/Shape/Shape';
-import Stage from '@output/Output/Stage';
-import { getAnimations } from '@output/animation/Sequence';
-import type { AnimationKey } from '@output/animation/DefaultSequences';
+import type Project from '#db/projects/Project.ts';
+import collectOutputs from '#output/Output/collectOutputs.ts';
+import type Definition from '#nodes/Definition.ts';
+import Color, { isSaturatedRed, luminanceDelta } from '#output/Color/Color.ts';
+import type Output from '#output/Output/Output.ts';
+import type Place from '#output/Place/Place.ts';
+import Sequence from '#output/animation/Sequence.ts';
+import Image from '#output/Output/Image.ts';
+import Shape from '#output/Output/Shape/Shape.ts';
+import Stage from '#output/Output/Stage.ts';
+import { getAnimations } from '#output/animation/Sequence.ts';
+import type { AnimationKey } from '#output/animation/DefaultSequences.ts';
 
 /**
  * The categories of visual properties that may provoke photosensitive seizures

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { animationFactor, musicVisualization } from '@db/Database';
-    import type Music from '@output/Music/Music';
-    import { musicActivity } from '@output/Music/activity';
-    import { instrumentSpec } from '@output/Music/instruments';
+    import { animationFactor, musicVisualization } from '#db/Database.ts';
+    import type Music from '#output/Music/Music.ts';
+    import { musicActivity } from '#output/Music/activity.ts';
+    import { instrumentSpec } from '#output/Music/instruments.ts';
     import { onDestroy } from 'svelte';
 
     interface Props {

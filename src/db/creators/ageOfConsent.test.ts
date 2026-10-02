@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { Regions } from '@locale/Regions';
+import { Regions } from '#locale/Regions.ts';
 import {
     AgesOfConsent,
     AgeOfConsentReviewed,

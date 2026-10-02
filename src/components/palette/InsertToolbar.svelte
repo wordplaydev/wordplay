@@ -7,22 +7,22 @@
         insertOutput,
         wrappingKinds,
         type InsertKind,
-    } from '@components/palette/insertOutput';
-    import { addStage, getStage } from '@components/palette/editOutput';
+    } from '#components/palette/insertOutput.ts';
+    import { addStage, getStage } from '#components/palette/editOutput.ts';
     import {
         getDrawing,
         getSelectedOutput,
         getStageScene,
-    } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { DB, locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import type Evaluate from '@nodes/Evaluate';
-    import { GROUP_SYMBOL, STAGE_SYMBOL } from '@parser/Symbols';
+    } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import OverflowToolbar from '#components/widgets/OverflowToolbar.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import { DB, locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import type Evaluate from '#nodes/Evaluate.ts';
+    import { GROUP_SYMBOL, STAGE_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         project: Project;

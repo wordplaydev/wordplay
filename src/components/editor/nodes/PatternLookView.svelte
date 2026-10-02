@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type PatternLook from '@nodes/PatternLook';
+    import type PatternLook from '#nodes/PatternLook.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
-    import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
-    import CollapsedHeader from '@components/editor/util/CollapsedHeader.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import { isFoldableNode } from '#components/editor/util/folding.ts';
+    import FoldToggle from '#components/editor/util/FoldToggle.svelte';
+    import FoldEllipsis from '#components/editor/util/FoldEllipsis.svelte';
+    import CollapsedHeader from '#components/editor/util/CollapsedHeader.svelte';
 
     /** A zero-width lookaround `▸( … )` / `◂( … )`. The direction glyph stays
      *  visible when collapsed so the look's polarity reads at a glance. */

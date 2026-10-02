@@ -1,13 +1,13 @@
 // Import Database first: it eagerly constructs the DB singleton, which must finish before
 // ConceptIndex pulls in HowToDatabase (otherwise a circular import leaves it half-defined).
-import '@db/Database';
-import ConceptIndex from '@concepts/ConceptIndex';
-import Project from '@db/projects/Project';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LanguageCode from '@locale/LanguageCode';
-import Locales from '@locale/Locales';
-import Source from '@nodes/Source';
+import '#db/Database.ts';
+import ConceptIndex from '#concepts/ConceptIndex.ts';
+import Project from '#db/projects/Project.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import Locales from '#locale/Locales.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

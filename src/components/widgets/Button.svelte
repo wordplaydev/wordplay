@@ -4,16 +4,16 @@
 </script>
 
 <script lang="ts">
-    import Spinning from '@components/app/Spinning.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
-    import { getLocalizing, getTip } from '@components/project/Contexts';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
-    import { type LocaleTextAccessor } from '@locale/Locales';
-    import { withMonoEmoji } from '@unicode/emoji';
+    } from '#components/widgets/tipTriggers.ts';
+    import { getLocalizing, getTip } from '#components/project/Contexts.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { locales } from '#db/Database.ts';
+    import { type LocaleTextAccessor } from '#locale/Locales.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
 
     interface Props {
         /** Tooltip and ARIA label for the button. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */

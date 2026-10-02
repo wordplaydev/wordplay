@@ -2,8 +2,8 @@ import {
     CaptionSizeIcons,
     CaptionSizes,
     CaptionSizeSetting,
-} from '@db/settings/CaptionSizeSetting';
-import DefaultLocale from '@locale/DefaultLocale';
+} from '#db/settings/CaptionSizeSetting.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('the chooser agrees with itself', () => {

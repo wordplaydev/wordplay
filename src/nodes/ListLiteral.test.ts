@@ -1,9 +1,9 @@
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import ListLiteral from '@nodes/ListLiteral';
-import { testConflict } from '@conflicts/TestUtilities';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { test } from 'vitest';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import Spread from '@nodes/Spread';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import Spread from '#nodes/Spread.ts';
 
 test.each([['num: [1] [1 :num]', 'num: 2 [1 :num]', Spread, IncompatibleType]])(
     '%s => no conflict, %s => conflict',

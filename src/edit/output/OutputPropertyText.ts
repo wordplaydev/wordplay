@@ -1,4 +1,4 @@
-import type { LocaleTextAccessor } from '@locale/Locales';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
 
 export default class OutputPropertyText {
     readonly validator: (text: string) => LocaleTextAccessor | true;

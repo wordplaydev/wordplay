@@ -1,11 +1,11 @@
-import type Locale from '@locale/Locale';
-import type Evaluator from '@runtime/Evaluator';
-import StartFinish from '@runtime/StartFinish';
-import type Step from '@runtime/Step';
-import type Value from '@values/Value';
-import type Context from '@nodes/Context';
-import type Expression from '@nodes/Expression';
-import SimpleExpression from '@nodes/SimpleExpression';
+import type Locale from '#locale/Locale.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import StartFinish from '#runtime/StartFinish.ts';
+import type Step from '#runtime/Step.ts';
+import type Value from '#values/Value.ts';
+import type Context from '#nodes/Context.ts';
+import type Expression from '#nodes/Expression.ts';
+import SimpleExpression from '#nodes/SimpleExpression.ts';
 
 export default abstract class Literal extends SimpleExpression {
     constructor() {

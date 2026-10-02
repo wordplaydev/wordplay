@@ -1,11 +1,11 @@
 import fs from 'fs';
 import { describe, expect, test } from 'vitest';
-import { isMachineTranslated } from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
+import { isMachineTranslated } from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
 import { isTutorial, type Tutorial } from '../../tutorial/Tutorial';
 import { TutorialModes } from '../../tutorial/TutorialMode';
 import { getTutorialPath } from './TutorialSchema';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * Catch a locale whose tutorial is still English while claiming to be translated.

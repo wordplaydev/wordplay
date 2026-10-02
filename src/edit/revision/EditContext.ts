@@ -1,8 +1,8 @@
-import type ConceptIndex from '@concepts/ConceptIndex';
-import type Locales from '@locale/Locales';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import type Type from '@nodes/Type';
+import type ConceptIndex from '#concepts/ConceptIndex.ts';
+import type Locales from '#locale/Locales.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import type Type from '#nodes/Type.ts';
 
 /** The values that are constant across a single getEditsAt invocation, bundled
  *  so the menu helpers can thread them as one object instead of many arguments. */

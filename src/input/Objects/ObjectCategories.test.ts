@@ -1,9 +1,9 @@
-import DefaultLocales from '@locale/DefaultLocales';
+import DefaultLocales from '#locale/DefaultLocales.ts';
 import {
     canonicalizeCategory,
     localizeCategory,
     ObjectCategories,
-} from '@input/Objects/ObjectCategories';
+} from '#input/Objects/ObjectCategories.ts';
 import { expect, test } from 'vitest';
 
 test.each([...ObjectCategories])(

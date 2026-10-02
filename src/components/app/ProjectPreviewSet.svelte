@@ -1,17 +1,17 @@
 <script lang="ts">
     import { type Snippet } from 'svelte';
-    import { disconnected, locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import sortProjects from '@db/projects/sortProjects';
+    import { disconnected, locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import sortProjects from '#db/projects/sortProjects.ts';
     import type {
         ProjectAction,
         ProjectConfirmAction,
         ProjectInteraction,
-    } from '@components/app/projectControls';
-    import type { ProjectSort } from '@db/settings/ProjectSortSetting';
-    import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import ProjectPreview from '@components/app/ProjectPreview.svelte';
+    } from '#components/app/projectControls.ts';
+    import type { ProjectSort } from '#db/settings/ProjectSortSetting.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import ProjectPreview from '#components/app/ProjectPreview.svelte';
 
     interface Props {
         set: Project[];

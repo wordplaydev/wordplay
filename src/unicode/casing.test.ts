@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { lowerCase, toIntlLocale, upperCase } from '@unicode/casing';
+import { lowerCase, toIntlLocale, upperCase } from '#unicode/casing.ts';
 
 test.each([
     // Turkish dotted/dotless i, the canonical locale-sensitive case.

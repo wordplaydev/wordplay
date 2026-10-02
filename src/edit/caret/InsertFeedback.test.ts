@@ -1,8 +1,8 @@
-import Caret from '@edit/caret/Caret';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import type Conflict from '@conflicts/Conflict';
-import Source from '@nodes/Source';
+import Caret from '#edit/caret/Caret.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 
 /** Insert `text` at `position` in `code` and capture any blocks-mode rejection conflicts. */

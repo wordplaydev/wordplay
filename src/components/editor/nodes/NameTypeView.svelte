@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type NameType from '@nodes/NameType';
+    import type NameType from '#nodes/NameType.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: NameType;

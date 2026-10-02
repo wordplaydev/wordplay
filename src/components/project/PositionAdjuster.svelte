@@ -4,10 +4,10 @@
 </script>
 
 <script lang="ts">
-    import type Bounds from '@components/project/Bounds';
-    import type Layout from '@components/project/Layout';
-    import type { Axis } from '@components/project/Layout';
-    import ResizeKnob from '@components/widgets/ResizeKnob.svelte';
+    import type Bounds from '#components/project/Bounds.ts';
+    import type Layout from '#components/project/Layout.ts';
+    import type { Axis } from '#components/project/Layout.ts';
+    import ResizeKnob from '#components/widgets/ResizeKnob.svelte';
 
     interface Props {
         /** The axis that this adjuster is on **/

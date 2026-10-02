@@ -1,11 +1,11 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import Group from '@output/Output/Group';
-import Phrase from '@output/Output/Phrase';
-import { toStage } from '@output/Output/Stage';
-import Evaluator from '@runtime/Evaluator';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import Group from '#output/Output/Group.ts';
+import Phrase from '#output/Output/Phrase.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import Evaluator from '#runtime/Evaluator.ts';
 import { expect, test } from 'vitest';
 
 /**

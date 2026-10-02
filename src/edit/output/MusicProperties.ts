@@ -11,23 +11,23 @@
  * second, worse way to do the same thing.
  */
 
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import type Expression from '@nodes/Expression';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import PropertyReference from '@nodes/PropertyReference';
-import Reference from '@nodes/Reference';
-import TextLiteral from '@nodes/TextLiteral';
-import Unit from '@nodes/Unit';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
-import OutputPropertyRange from '@edit/output/OutputPropertyRange';
-import OutputPropertyText from '@edit/output/OutputPropertyText';
-import { MinTempo } from '@output/Music/musicData';
-import { ScaleKeys, type ScaleKey } from '@output/Music/scales';
-import { InstrumentKeys } from '@output/Music/instruments';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import type Expression from '#nodes/Expression.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import Reference from '#nodes/Reference.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyOptions from '#edit/output/OutputPropertyOptions.ts';
+import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
+import OutputPropertyText from '#edit/output/OutputPropertyText.ts';
+import { MinTempo } from '#output/Music/musicData.ts';
+import { ScaleKeys, type ScaleKey } from '#output/Music/scales.ts';
+import { InstrumentKeys } from '#output/Music/instruments.ts';
 
 const Semitones = () => Unit.create(['semitones']);
 const Beats = () => Unit.create(['beats']);

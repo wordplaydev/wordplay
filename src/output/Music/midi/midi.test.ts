@@ -1,33 +1,36 @@
 import { expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import { DB } from '@db/Database';
-import { toStage } from '@output/Output/Stage';
-import { BORROW_SYMBOL } from '@parser/Symbols';
-import readMusic, { musicsIn } from '@edit/output/editableMusic';
-import ExceptionValue from '@values/ExceptionValue';
-import { degreeToSemitones } from '@output/Music/degrees';
-import { Scales } from '@output/Music/scales';
-import parseMIDI, { MIDIFormatError } from '@output/Music/midi/parseMIDI';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { DB } from '#db/Database.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import { BORROW_SYMBOL } from '#parser/Symbols.ts';
+import readMusic, { musicsIn } from '#edit/output/editableMusic.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import { degreeToSemitones } from '#output/Music/degrees.ts';
+import { Scales } from '#output/Music/scales.ts';
+import parseMIDI, { MIDIFormatError } from '#output/Music/midi/parseMIDI.ts';
 import splitVoices, {
     maxPolyphony,
     toSimultaneities,
-} from '@output/Music/midi/voices';
+} from '#output/Music/midi/voices.ts';
 import convert, {
     degreeForPitch,
     TonicMIDI,
     type Conversion,
-} from '@output/Music/midi/convert';
-import importMIDI, { looksLikeMIDI } from '@output/Music/midi/importMIDI';
+} from '#output/Music/midi/convert.ts';
+import importMIDI, { looksLikeMIDI } from '#output/Music/midi/importMIDI.ts';
 import {
     DefaultBPM,
     dominantTempo,
     tempoRegions,
-} from '@output/Music/midi/tempoMap';
-import { drumPieceForNote, instrumentForProgram } from '@output/Music/midi/gm';
-import { last, must } from '@util/nullable';
+} from '#output/Music/midi/tempoMap.ts';
+import {
+    drumPieceForNote,
+    instrumentForProgram,
+} from '#output/Music/midi/gm.ts';
+import { last, must } from '#util/nullable.ts';
 
 /* ---------------------------------------------------------------- fixtures */
 

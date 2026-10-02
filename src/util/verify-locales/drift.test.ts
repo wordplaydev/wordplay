@@ -3,15 +3,15 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { afterAll, beforeEach, describe, expect, test } from 'vitest';
-import { Revised } from '@locale/Annotations';
-import DefaultLocale from '@locale/DefaultLocale';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import checkStringArrays from '@util/verify-locales/checkStringArrays';
-import { collectingLog } from '@util/verify-locales/Log';
-import { readLocaleText } from '@util/verify-locales/LocaleSchema';
+import { Revised } from '#locale/Annotations.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import checkStringArrays from '#util/verify-locales/checkStringArrays.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
+import { readLocaleText } from '#util/verify-locales/LocaleSchema.ts';
 import type Tutorial from '../../tutorial/Tutorial';
 import { TutorialModes } from '../../tutorial/TutorialMode';
-import { getTutorialPath } from '@util/verify-locales/TutorialSchema';
+import { getTutorialPath } from '#util/verify-locales/TutorialSchema.ts';
 import {
     changedBetween,
     driftSince,
@@ -26,8 +26,8 @@ import {
     staleMarkupElements,
     withoutLeadingAnnotation,
     type Stale,
-} from '@util/verify-locales/drift';
-import { must } from '@util/nullable';
+} from '#util/verify-locales/drift.ts';
+import { must } from '#util/nullable.ts';
 
 /** A throwaway git repo, so the history walk is tested against known history
  *  rather than this repo's, which grows every day. */

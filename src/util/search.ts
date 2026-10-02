@@ -17,9 +17,9 @@
  * are all shared here.
  */
 
-import levenshtein from '@util/levenshtein';
-import UnicodeString from '@unicode/UnicodeString';
-import type LanguageCode from '@locale/LanguageCode';
+import levenshtein from '#util/levenshtein.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
 
 /**
  * The locale language(s) to fold searchable text and queries with — typically

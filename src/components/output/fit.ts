@@ -3,7 +3,7 @@ import {
     PX_PER_METER,
     rootScale,
     stageToScreen,
-} from '@output/Output/outputToCSS';
+} from '#output/Output/outputToCSS.ts';
 
 /**
  * The focus that renders output at its natural size — one metre to `PX_PER_METER`

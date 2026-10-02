@@ -4,8 +4,8 @@ import Log, {
     resolveColor,
     resolveSymbols,
     stripAnsi,
-} from '@util/verify-locales/Log';
-import { must } from '@util/nullable';
+} from '#util/verify-locales/Log.ts';
+import { must } from '#util/nullable.ts';
 
 /** A logger whose `exit` is a spy instead of ending the process. */
 function exitingLog(failOnBad: boolean) {

@@ -1,21 +1,21 @@
-import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import type Value from '@values/Value';
-import { type SupportedFace } from '@basis/faces/Fonts';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import type Color from '@output/Color/Color';
-import type Place from '@output/Place/Place';
-import type Pose from '@output/animation/Pose';
-import type { DefinitePose } from '@output/animation/Pose';
-import type RenderContext from '@output/RenderContext';
-import type Say from '@output/Output/Say';
-import type { BubbleBox } from '@output/Bubble/bubbleLayout';
-import type { BubbleSide } from '@output/Bubble/Bubble';
-import type { Rect } from '@output/Bubble/bubbleSides';
-import Sequence from '@output/animation/Sequence';
-import TextValue from '@values/TextValue';
-import Valued from '@output/Output/Valued';
+import { getBind } from '#locale/getBind.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type Value from '#values/Value.ts';
+import { type SupportedFace } from '#basis/faces/Fonts.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import type Color from '#output/Color/Color.ts';
+import type Place from '#output/Place/Place.ts';
+import type Pose from '#output/animation/Pose.ts';
+import type { DefinitePose } from '#output/animation/Pose.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import type Say from '#output/Output/Say.ts';
+import type { BubbleBox } from '#output/Bubble/bubbleLayout.ts';
+import type { BubbleSide } from '#output/Bubble/Bubble.ts';
+import type { Rect } from '#output/Bubble/bubbleSides.ts';
+import Sequence from '#output/animation/Sequence.ts';
+import TextValue from '#values/TextValue.ts';
+import Valued from '#output/Output/Valued.ts';
 
 export function createOutputType(locales: Locales) {
     return toStructure(`

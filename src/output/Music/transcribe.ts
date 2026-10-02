@@ -16,10 +16,10 @@
  * hear the gap and add it, but a wrong note has to be found first.
  */
 
-import { degreeToSemitones } from '@output/Music/degrees';
-import { ScaleKeys, Scales, type ScaleKey } from '@output/Music/scales';
-import type { NoteData } from '@output/Music/musicData';
-import { must } from '@util/nullable';
+import { degreeToSemitones } from '#output/Music/degrees.ts';
+import { ScaleKeys, Scales, type ScaleKey } from '#output/Music/scales.ts';
+import type { NoteData } from '#output/Music/musicData.ts';
+import { must } from '#util/nullable.ts';
 
 /** One frame of pitch detection. */
 export type Frame = {

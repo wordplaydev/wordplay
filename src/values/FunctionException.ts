@@ -1,14 +1,14 @@
-import NodeRef from '@locale/NodeRef';
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Convert from '@nodes/Convert';
-import type Evaluate from '@nodes/Evaluate';
-import type Token from '@nodes/Token';
-import type UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type Evaluator from '@runtime/Evaluator';
-import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import type Value from '@values/Value';
+import NodeRef from '#locale/NodeRef.ts';
+import type BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type Convert from '#nodes/Convert.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import type Token from '#nodes/Token.ts';
+import type UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Value from '#values/Value.ts';
 
 export default class FunctionException extends ExceptionValue {
     readonly subject: Value | undefined;

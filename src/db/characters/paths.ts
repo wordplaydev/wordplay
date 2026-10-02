@@ -13,7 +13,7 @@ import {
     type PathPoint,
     type PathPoints,
     type Point,
-} from '@db/characters/Character';
+} from '#db/characters/Character.ts';
 
 /** The box a shape occupies on the grid. */
 export type Bounds = {

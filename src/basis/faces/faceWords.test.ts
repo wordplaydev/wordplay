@@ -1,5 +1,5 @@
-import { Faces } from '@basis/faces/faces.generated';
-import { FontManifest } from '@basis/faces/fonts.manifest';
+import { Faces } from '#basis/faces/faces.generated.ts';
+import { FontManifest } from '#basis/faces/fonts.manifest.ts';
 import {
     describeFace,
     describeFaceLocalized,
@@ -10,11 +10,11 @@ import {
     renderFaceDescription,
     ShortLowercase,
     TallLowercase,
-} from '@basis/faces/faceWords';
-import type { Face } from '@basis/faces/Fonts';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import { must } from '@util/nullable';
+} from '#basis/faces/faceWords.ts';
+import type { Face } from '#basis/faces/Fonts.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 
 /** A minimal face to hang measurements on. */

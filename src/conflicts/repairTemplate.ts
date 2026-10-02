@@ -1,21 +1,21 @@
-import Expression from '@nodes/Expression';
-import parseExpression from '@parser/parseExpression';
-import parseBind from '@parser/parseBind';
-import { toTokens } from '@parser/toTokens';
-import UnparsableExpression from '@nodes/UnparsableExpression';
-import UnparsableType from '@nodes/UnparsableType';
-import { Sym, type SymType } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import { LiteralMultiCharTokens } from '@parser/Tokenizer';
-import type RepairContext from '@conflicts/RepairContext';
+import Expression from '#nodes/Expression.ts';
+import parseExpression from '#parser/parseExpression.ts';
+import parseBind from '#parser/parseBind.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import UnparsableType from '#nodes/UnparsableType.ts';
+import { Sym, type SymType } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import { LiteralMultiCharTokens } from '#parser/Tokenizer.ts';
+import type RepairContext from '#conflicts/RepairContext.ts';
 import {
     MisconceptionSubstitutions,
     collectAnchors,
-} from '@conflicts/AnchorSymbols';
-import Reference from '@nodes/Reference';
-import Bind from '@nodes/Bind';
-import levenshtein from '@util/levenshtein';
-import type Node from '@nodes/Node';
+} from '#conflicts/AnchorSymbols.ts';
+import Reference from '#nodes/Reference.ts';
+import Bind from '#nodes/Bind.ts';
+import levenshtein from '#util/levenshtein.ts';
+import type Node from '#nodes/Node.ts';
 
 /** A candidate repair: parsed AST, where it came from, and its cost ranking. */
 export type RepairCandidate = {

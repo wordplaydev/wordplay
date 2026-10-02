@@ -15,50 +15,50 @@
  * repair the divergence instead of queueing a paid re-translation of the doc's prose.
  */
 
-import type LanguageCode from '@locale/LanguageCode';
+import type LanguageCode from '#locale/LanguageCode.ts';
 import { isDialog } from '../../tutorial/Tutorial';
-import type LocaleText from '@locale/LocaleText';
-import { isUnwritten } from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import DefaultLocale from '@locale/DefaultLocale';
-import Project from '@db/projects/Project';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isUnwritten } from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Project from '#db/projects/Project.ts';
 import {
     getComparedTextValues,
     shouldTranslateText,
-} from '@db/projects/translatableText';
-import { canonicalizeKeyName } from '@input/Key/Key';
-import { localizeKeyName } from '@input/Key/keyNames';
-import { WellKnownKeys } from '@input/Key/KeyboardKeys';
+} from '#db/projects/translatableText.ts';
+import { canonicalizeKeyName } from '#input/Key/Key.ts';
+import { localizeKeyName } from '#input/Key/keyNames.ts';
+import { WellKnownKeys } from '#input/Key/KeyboardKeys.ts';
 import {
     endOfNode,
     startOfNode,
     withoutMarkupContents,
-} from '@db/projects/structuralPairing';
-import buildCounterparts from '@basis/counterparts';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type Definition from '@nodes/Definition';
-import Evaluate from '@nodes/Evaluate';
-import Input from '@nodes/Input';
-import { LanguageTagged } from '@nodes/LanguageTagged';
-import Language from '@nodes/Language';
-import Names from '@nodes/Names';
-import TextLiteral from '@nodes/TextLiteral';
-import NameType from '@nodes/NameType';
-import type Node from '@nodes/Node';
-import { getImplicitInputBind } from '@nodes/inputShorthand';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+} from '#db/projects/structuralPairing.ts';
+import buildCounterparts from '#basis/counterparts.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import type Definition from '#nodes/Definition.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Input from '#nodes/Input.ts';
+import { LanguageTagged } from '#nodes/LanguageTagged.ts';
+import Language from '#nodes/Language.ts';
+import Names from '#nodes/Names.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import NameType from '#nodes/NameType.ts';
+import type Node from '#nodes/Node.ts';
+import { getImplicitInputBind } from '#nodes/inputShorthand.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 import type Tutorial from '../../tutorial/Tutorial';
-import { alignTutorialLines } from '@util/verify-locales/syncTutorialStructure';
-import getDocExamples from '@util/verify-locales/docExamples';
+import { alignTutorialLines } from '#util/verify-locales/syncTutorialStructure.ts';
+import getDocExamples from '#util/verify-locales/docExamples.ts';
 import {
     hasUnclosedText,
     mismatchedDelimiter,
-} from '@util/verify-locales/protect';
-import { must } from '@util/nullable';
+} from '#util/verify-locales/protect.ts';
+import { must } from '#util/nullable.ts';
 
 /** How an example's names were left, for a caller deciding what to report. */
 export type RetargetResult =

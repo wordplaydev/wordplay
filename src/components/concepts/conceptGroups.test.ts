@@ -1,19 +1,19 @@
 import {
     canRecycleDraggedNode,
     getConceptGroups,
-} from '@components/concepts/conceptGroups';
-import ConceptIndex from '@concepts/ConceptIndex';
-import { must } from '@util/nullable';
-import NodeConcept from '@concepts/NodeConcept';
-import { Purpose } from '@concepts/Purpose';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Bind from '@nodes/Bind';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Source from '@nodes/Source';
-import parseExpression from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
+} from '#components/concepts/conceptGroups.ts';
+import ConceptIndex from '#concepts/ConceptIndex.ts';
+import { must } from '#util/nullable.ts';
+import NodeConcept from '#concepts/NodeConcept.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Bind from '#nodes/Bind.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Source from '#nodes/Source.ts';
+import parseExpression from '#parser/parseExpression.ts';
+import { toTokens } from '#parser/toTokens.ts';
 import { expect, test } from 'vitest';
 
 function project(code: string) {

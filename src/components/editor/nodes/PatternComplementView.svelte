@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternComplement from '@nodes/PatternComplement';
+    import type PatternComplement from '#nodes/PatternComplement.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** A negated atom (`~atom`) — match a grapheme the atom does not. */
     interface Props {

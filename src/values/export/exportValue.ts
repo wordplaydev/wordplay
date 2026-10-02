@@ -1,10 +1,10 @@
-import type Locales from '@locale/Locales';
-import type Value from '@values/Value';
-import safeName from '@util/fileNames';
-import { canExport } from '@values/export/canExport';
-import { csvFileBytes } from '@values/export/csv';
-import toGrid, { gridToCSV } from '@values/export/grid';
-import toJSON, { type JSONNotes } from '@values/export/json';
+import type Locales from '#locale/Locales.ts';
+import type Value from '#values/Value.ts';
+import safeName from '#util/fileNames.ts';
+import { canExport } from '#values/export/canExport.ts';
+import { csvFileBytes } from '#values/export/csv.ts';
+import toGrid, { gridToCSV } from '#values/export/grid.ts';
+import toJSON, { type JSONNotes } from '#values/export/json.ts';
 
 export { canExport };
 

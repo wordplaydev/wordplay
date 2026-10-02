@@ -1,13 +1,17 @@
-import { HowToIDs, parseHowTo, type HowToBundleEntry } from '@concepts/HowTo';
-import type LocaleText from '@locale/LocaleText';
-import checkDocContent from '@util/verify-locales/checkDocContent';
+import {
+    HowToIDs,
+    parseHowTo,
+    type HowToBundleEntry,
+} from '#concepts/HowTo.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import checkDocContent from '#util/verify-locales/checkDocContent.ts';
 import getDocExamples, {
     type DocExample,
-} from '@util/verify-locales/docExamples';
-import Log from '@util/verify-locales/Log';
-import { toMarkup } from '@parser/toMarkup';
-import { withoutColorSelector } from '@unicode/emoji';
-import writeFormatted from '@util/verify-locales/writeFormatted';
+} from '#util/verify-locales/docExamples.ts';
+import Log from '#util/verify-locales/Log.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
+import { withoutColorSelector } from '#unicode/emoji.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
 import fs from 'fs';
 import path from 'path';
 

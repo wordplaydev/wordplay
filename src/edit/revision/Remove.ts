@@ -1,12 +1,12 @@
-import Caret from '@edit/caret/Caret';
-import { must } from '@util/nullable';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import Program from '@nodes/Program';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '@components/editor/commands/Commands';
-import type Locales from '@locale/Locales';
-import Revision from '@edit/revision/Revision';
+import Caret from '#edit/caret/Caret.ts';
+import { must } from '#util/nullable.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import Program from '#nodes/Program.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import type { Edit } from '#components/editor/commands/Commands.ts';
+import type Locales from '#locale/Locales.ts';
+import Revision from '#edit/revision/Revision.ts';
 
 /**
  * Remove one or more nodes from sequence of nodes in a parent.

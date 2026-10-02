@@ -1,9 +1,9 @@
-import { RegionNames, RegionNamesCLDR } from '@locale/regionNames.generated';
-import { Regions, type RegionCode } from '@locale/Regions';
-import { CLDR_VERSION } from '@util/verify-locales/cldr';
-import { rankRegionLanguages } from '@util/verify-locales/generateRegionNames';
+import { RegionNames, RegionNamesCLDR } from '#locale/regionNames.generated.ts';
+import { Regions, type RegionCode } from '#locale/Regions.ts';
+import { CLDR_VERSION } from '#util/verify-locales/cldr.ts';
+import { rankRegionLanguages } from '#util/verify-locales/generateRegionNames.ts';
 import { describe, expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /** Guards the committed artifact `npm run regions` writes. It reads what is on
  *  disk rather than regenerating — generation fetches CLDR, and the `unit /

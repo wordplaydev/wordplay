@@ -1,10 +1,13 @@
 import chooseTranslator, {
     type TranslationBackend,
-} from '@db/chooseTranslator';
-import getFirebaseTranslator from '@db/getFirebaseTranslator';
-import getLocalTranslator from '@db/getLocalTranslator';
-import type { RawTranslator, TranslationProgress } from '@db/translateMarkup';
-import type Locale from '@locale/Locale';
+} from '#db/chooseTranslator.ts';
+import getFirebaseTranslator from '#db/getFirebaseTranslator.ts';
+import getLocalTranslator from '#db/getLocalTranslator.ts';
+import type {
+    RawTranslator,
+    TranslationProgress,
+} from '#db/translateMarkup.ts';
+import type Locale from '#locale/Locale.ts';
 import type { Functions } from 'firebase/functions';
 
 /**

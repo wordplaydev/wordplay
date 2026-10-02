@@ -1,16 +1,19 @@
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Templates from '@concepts/Templates';
-    import type Project from '@db/projects/Project';
-    import type Source from '@nodes/Source';
-    import { locales } from '@db/Database';
+    import Emoji from '#components/app/Emoji.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Templates from '#concepts/Templates.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type Source from '#nodes/Source.ts';
+    import { locales } from '#db/Database.ts';
     import Characters from '../../lore/BasisCharacters';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { getConflicts, getEvaluation } from '@components/project/Contexts';
-    import paintColors from '@components/output/paintColors';
-    import { toColorGrid } from '@output/Output/Image';
-    import type Value from '@values/Value';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import {
+        getConflicts,
+        getEvaluation,
+    } from '#components/project/Contexts.ts';
+    import paintColors from '#components/output/paintColors.ts';
+    import { toColorGrid } from '#output/Output/Image.ts';
+    import type Value from '#values/Value.ts';
 
     interface Props {
         project: Project;

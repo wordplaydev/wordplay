@@ -1,6 +1,6 @@
-import type { KeywordIndex } from '@parser/Keywords';
-import { tokenize } from '@parser/Tokenizer';
-import Tokens from '@parser/Tokens';
+import type { KeywordIndex } from '#parser/Keywords.ts';
+import { tokenize } from '#parser/Tokenizer.ts';
+import Tokens from '#parser/Tokens.ts';
 
 /**
  * Tokenize source into a {@link Tokens} stream. Pass a {@link KeywordIndex} (built from the program's

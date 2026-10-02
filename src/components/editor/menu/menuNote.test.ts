@@ -1,20 +1,20 @@
 import { describe, expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
-import { getEditsAt } from '@edit/menu/PossibleEdits';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import { docToMarkup } from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import firstSentence from '@locale/firstSentence';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Context from '@nodes/Context';
-import Dimension from '@nodes/Dimension';
-import Evaluate from '@nodes/Evaluate';
-import type Node from '@nodes/Node';
-import PropertyReference from '@nodes/PropertyReference';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
+import { getEditsAt } from '#edit/menu/PossibleEdits.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { docToMarkup } from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import firstSentence from '#locale/firstSentence.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type Context from '#nodes/Context.ts';
+import Dimension from '#nodes/Dimension.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Node from '#nodes/Node.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
 import getMenuNoteMarkup from './menuNote';
 
 function setup(code: string) {

@@ -10,14 +10,14 @@
  * the word it already uses for each one, which the translator is then given and
  * `checkItalicSpans` holds translations to.
  */
-import { isRevised, isUnwritten } from '@locale/LocaleText';
-import type LocaleText from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import Words from '@nodes/Words';
-import { toMarkup } from '@parser/toMarkup';
-import { isNameTextPath } from '@util/verify-locales/classifyLocalePath';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import { protectMarkupUnit } from '@util/verify-locales/protect';
+import { isRevised, isUnwritten } from '#locale/LocaleText.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import Words from '#nodes/Words.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
+import { isNameTextPath } from '#util/verify-locales/classifyLocalePath.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import { protectMarkupUnit } from '#util/verify-locales/protect.ts';
 
 /**
  * The italic spans in a markup string, in order, trimmed. Examples are masked

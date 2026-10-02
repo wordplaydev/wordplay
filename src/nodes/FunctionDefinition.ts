@@ -1,38 +1,41 @@
-import type Conflict from '@conflicts/Conflict';
-import { getKeywordShadowConflicts } from '@conflicts/ShadowsKeyword';
-import NoExpression from '@conflicts/NoExpression';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
-import { OperatorRegEx } from '@parser/Tokenizer';
-import type Evaluator from '@runtime/Evaluator';
-import StartFinish from '@runtime/StartFinish';
-import type Step from '@runtime/Step';
-import FunctionValue from '@values/FunctionValue';
-import InternalException from '@values/InternalException';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import type Locales from '@locale/Locales';
+import type Conflict from '#conflicts/Conflict.ts';
+import { getKeywordShadowConflicts } from '#conflicts/ShadowsKeyword.ts';
+import NoExpression from '#conflicts/NoExpression.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { FUNCTION_SYMBOL, SHARE_SYMBOL } from '#parser/Symbols.ts';
+import { OperatorRegEx } from '#parser/Tokenizer.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import StartFinish from '#runtime/StartFinish.ts';
+import type Step from '#runtime/Step.ts';
+import FunctionValue from '#values/FunctionValue.ts';
+import InternalException from '#values/InternalException.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import AnyType from '@nodes/AnyType';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Bind from '@nodes/Bind';
-import Block from '@nodes/Block';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import DefinitionExpression from '@nodes/DefinitionExpression';
-import Docs from '@nodes/Docs';
-import EvalCloseToken from '@nodes/EvalCloseToken';
-import EvalOpenToken from '@nodes/EvalOpenToken';
-import Evaluate from '@nodes/Evaluate';
-import Expression, { type GuardContext } from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FunctionType from '@nodes/FunctionType';
-import Names from '@nodes/Names';
-import NameType from '@nodes/NameType';
-import type Node from '@nodes/Node';
+import AnyType from '#nodes/AnyType.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Bind from '#nodes/Bind.ts';
+import Block from '#nodes/Block.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import DefinitionExpression from '#nodes/DefinitionExpression.ts';
+import Docs from '#nodes/Docs.ts';
+import EvalCloseToken from '#nodes/EvalCloseToken.ts';
+import EvalOpenToken from '#nodes/EvalOpenToken.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Expression, { type GuardContext } from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import FunctionType from '#nodes/FunctionType.ts';
+import Names from '#nodes/Names.ts';
+import NameType from '#nodes/NameType.ts';
+import type Node from '#nodes/Node.ts';
 import {
     any,
     list,
@@ -40,25 +43,25 @@ import {
     none,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import NumberType from '@nodes/NumberType';
-import PropertyReference from '@nodes/PropertyReference';
-import Reference from '@nodes/Reference';
-import StructureDefinition from '@nodes/StructureDefinition';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import type TypeSet from '@nodes/TypeSet';
-import TypeToken from '@nodes/TypeToken';
-import TypeVariables from '@nodes/TypeVariables';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import Unit from '@nodes/Unit';
+} from '#nodes/Node.ts';
+import NumberType from '#nodes/NumberType.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import Reference from '#nodes/Reference.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import TypeToken from '#nodes/TypeToken.ts';
+import TypeVariables from '#nodes/TypeVariables.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import Unit from '#nodes/Unit.ts';
 import {
     getEvaluationInputConflicts,
     getMisplacedShareConflicts,
-} from '@nodes/util';
-import { getPublishedShareConflicts } from '@nodes/publishedShare';
+} from '#nodes/util.ts';
+import { getPublishedShareConflicts } from '#nodes/publishedShare.ts';
 
 export default class FunctionDefinition extends DefinitionExpression {
     readonly docs: Docs;

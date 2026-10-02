@@ -5,11 +5,12 @@
  * has none, and Playwright's Chromium is already a dependency — adding `sharp`
  * for one resize would be a native build in everyone's install.
  *
- * Usage: node tests/contactsheet/thumbnails.mjs [outDir] [width]
+ * Usage: npx tsx tests/contactsheet/thumbnails.ts [outDir] [width]
  */
 import { chromium } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
+import { z } from 'zod';
 
 const OutDir =
     process.argv[2] ??
@@ -20,6 +21,11 @@ const Width = Number(process.argv[3] ?? 480);
 const shotsDir = path.join(OutDir, 'shots');
 const tilesDir = path.join(OutDir, 'tiles');
 
+/** What capture.spec.ts writes per tile; only `shots` is read, the rest is kept. */
+const Tile = z.looseObject({
+    shots: z.record(z.string(), z.string()).optional(),
+});
+
 if (!fs.existsSync(tilesDir)) {
     console.error(`No tiles in ${tilesDir}. Run the capture first.`);
     process.exit(1);
@@ -28,13 +34,15 @@ if (!fs.existsSync(tilesDir)) {
 const tiles = fs
     .readdirSync(tilesDir)
     .filter((f) => f.endsWith('.json'))
-    .map((f) => JSON.parse(fs.readFileSync(path.join(tilesDir, f), 'utf8')));
+    .map((f) =>
+        Tile.parse(JSON.parse(fs.readFileSync(path.join(tilesDir, f), 'utf8'))),
+    );
 
 const browser = await chromium.launch();
 const page = await browser.newPage();
 
 /** Draw a PNG into a canvas at `Width` and hand back a WebP data URI. */
-async function thumbnail(file) {
+async function thumbnail(file: string): Promise<string | undefined> {
     const full = path.join(shotsDir, file);
     if (!fs.existsSync(full)) return undefined;
     const source = `data:image/png;base64,${fs.readFileSync(full).toString('base64')}`;
@@ -72,34 +80,39 @@ async function thumbnail(file) {
             );
             return canvas.toDataURL('image/webp', 0.72);
         },
-        [source, Width],
+        [source, Width] as const,
     );
 }
 
 let count = 0;
+const sheet = [];
 for (const tile of tiles) {
-    tile.thumbs = {};
+    const thumbs: Record<string, string> = {};
     for (const [variant, file] of Object.entries(tile.shots ?? {})) {
         const uri = await thumbnail(file);
         if (uri !== undefined) {
-            tile.thumbs[variant] = uri;
+            thumbs[variant] = uri;
             count += 1;
         }
     }
+    sheet.push({ ...tile, thumbs });
 }
 
 await browser.close();
 
 fs.writeFileSync(
     path.join(OutDir, 'sheet.json'),
-    JSON.stringify({ generated: new Date().toISOString(), tiles }, null, 2),
+    JSON.stringify(
+        { generated: new Date().toISOString(), tiles: sheet },
+        null,
+        2,
+    ),
 );
 
-const bytes = tiles.reduce(
-    (sum, t) =>
-        sum + Object.values(t.thumbs ?? {}).reduce((s, u) => s + u.length, 0),
+const bytes = sheet.reduce(
+    (sum, t) => sum + Object.values(t.thumbs).reduce((s, u) => s + u.length, 0),
     0,
 );
 console.log(
-    `${count} thumbnails across ${tiles.length} tiles, ${(bytes / 1e6).toFixed(2)}MB of data URI → ${path.join(OutDir, 'sheet.json')}`,
+    `${count} thumbnails across ${sheet.length} tiles, ${(bytes / 1e6).toFixed(2)}MB of data URI → ${path.join(OutDir, 'sheet.json')}`,
 );

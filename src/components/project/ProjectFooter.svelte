@@ -4,72 +4,72 @@
      (full inline → icons inline → full stacked → icons stacked) so
      ProjectView doesn't need to carry the measurement logic. -->
 <script lang="ts">
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
+    import CreatorView from '#components/app/CreatorView.svelte';
+    import Emoji from '#components/app/Emoji.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
     import {
         EnterFullscreen,
         ExitFullscreen,
         ShowKeyboardHelp,
-    } from '@components/editor/commands/Commands';
+    } from '#components/editor/commands/Commands.ts';
     import {
         toAriaKeyshortcuts,
         toShortcut,
-    } from '@components/editor/commands/shortcuts';
-    import { ShortcutsDialogID } from '@components/widgets/dialogIDs';
-    import Checkpoints from '@components/project/Checkpoints.svelte';
-    import type { CheckpointAnchor } from '@components/project/checkpoints';
-    import CopyProjectButton from '@components/project/CopyProjectButton.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import CurrentLayout from '@components/project/CurrentLayout.svelte';
-    import FullscreenIcon from '@components/project/FullscreenIcon.svelte';
-    import Layout from '@components/project/Layout';
-    import NonSourceTileToggle from '@components/project/NonSourceTileToggle.svelte';
-    import Sharing from '@components/project/Sharing.svelte';
-    import { ShareDialogID } from '@components/widgets/dialogIDs';
-    import { SHARING_DIALOG_SYMBOL } from '@parser/Symbols';
-    import Shortcuts from '@components/project/Shortcuts.svelte';
-    import SourceTileToggle from '@components/project/SourceTileToggle.svelte';
+    } from '#components/editor/commands/shortcuts.ts';
+    import { ShortcutsDialogID } from '#components/widgets/dialogIDs.ts';
+    import Checkpoints from '#components/project/Checkpoints.svelte';
+    import type { CheckpointAnchor } from '#components/project/checkpoints.ts';
+    import CopyProjectButton from '#components/project/CopyProjectButton.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import CurrentLayout from '#components/project/CurrentLayout.svelte';
+    import FullscreenIcon from '#components/project/FullscreenIcon.svelte';
+    import Layout from '#components/project/Layout.ts';
+    import NonSourceTileToggle from '#components/project/NonSourceTileToggle.svelte';
+    import Sharing from '#components/project/Sharing.svelte';
+    import { ShareDialogID } from '#components/widgets/dialogIDs.ts';
+    import { SHARING_DIALOG_SYMBOL } from '#parser/Symbols.ts';
+    import Shortcuts from '#components/project/Shortcuts.svelte';
+    import SourceTileToggle from '#components/project/SourceTileToggle.svelte';
     import {
         ProjectModeIcons,
         ProjectModes,
         ProjectModeViewIcons,
         type ProjectMode,
-    } from '@components/project/ProjectMode';
-    import type Tile from '@components/project/Tile';
-    import { TileMode } from '@components/project/Tile';
-    import { TileKind } from '@components/project/TileKind';
-    import Languages from '@components/project/Languages.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import type Chat from '@db/chats/ChatDatabase.svelte';
-    import type { Creator } from '@db/creators/CreatorDatabase';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import { MAX_NAME_LENGTH } from '@db/limits';
+    } from '#components/project/ProjectMode.ts';
+    import type Tile from '#components/project/Tile.ts';
+    import { TileMode } from '#components/project/Tile.ts';
+    import { TileKind } from '#components/project/TileKind.ts';
+    import Languages from '#components/project/Languages.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import OverflowToolbar from '#components/widgets/OverflowToolbar.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import type Chat from '#db/chats/ChatDatabase.svelte.ts';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import { MAX_NAME_LENGTH } from '#db/limits.ts';
     import {
         getLocalizedProjectName,
         getProjectNameCount,
         validateProjectName,
-    } from '@db/projects/getLocalizedProjectName';
-    import { isFlagged } from '@db/projects/Moderation';
-    import type Project from '@db/projects/Project';
+    } from '#db/projects/getLocalizedProjectName.ts';
+    import { isFlagged } from '#db/projects/Moderation.ts';
+    import type Project from '#db/projects/Project.ts';
     import Arrangement, {
         type ArrangementType,
-    } from '@db/settings/Arrangement';
-    import type Locale from '@locale/Locale';
-    import type Source from '@nodes/Source';
+    } from '#db/settings/Arrangement.ts';
+    import type Locale from '#locale/Locale.ts';
+    import type Source from '#nodes/Source.ts';
     import {
         EDIT_SYMBOL,
         INFO_SYMBOL,
         PROJECT_SYMBOL,
         REMIX_SYMBOL,
-    } from '@parser/Symbols';
+    } from '#parser/Symbols.ts';
     import Characters from '../../lore/BasisCharacters';
 
     interface Props {

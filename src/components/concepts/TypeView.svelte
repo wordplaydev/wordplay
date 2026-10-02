@@ -1,16 +1,16 @@
 <script lang="ts">
-    import type StructureConcept from '@concepts/StructureConcept';
-    import { blocks } from '@db/Database';
-    import type Context from '@nodes/Context';
-    import type Type from '@nodes/Type';
-    import { OR_SYMBOL } from '@parser/Symbols';
-    import type FunctionConcept from '@concepts/FunctionConcept';
+    import type StructureConcept from '#concepts/StructureConcept.ts';
+    import { blocks } from '#db/Database.ts';
+    import type Context from '#nodes/Context.ts';
+    import type Type from '#nodes/Type.ts';
+    import { OR_SYMBOL } from '#parser/Symbols.ts';
+    import type FunctionConcept from '#concepts/FunctionConcept.ts';
     import {
         getConceptIndex,
         getConceptPath,
-    } from '@components/project/Contexts';
-    import { pushConcept } from '@components/concepts/GuideHistory';
-    import RootView from '@components/project/RootView.svelte';
+    } from '#components/project/Contexts.ts';
+    import { pushConcept } from '#components/concepts/GuideHistory.ts';
+    import RootView from '#components/project/RootView.svelte';
 
     interface Props {
         type: Type;

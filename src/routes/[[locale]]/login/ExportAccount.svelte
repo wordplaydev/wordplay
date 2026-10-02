@@ -1,16 +1,16 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getAnnouncer } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import type { ExportStep } from '@db/export/AccountSnapshot';
-    import type { ReadmeText } from '@db/export/readme';
-    import { locales } from '@db/Database';
-    import { getUsername } from '@db/creators/handle.svelte';
-    import { isProxySession } from '@db/proxySession';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import downloadBytes from '@util/download';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import type { ExportStep } from '#db/export/AccountSnapshot.ts';
+    import type { ReadmeText } from '#db/export/readme.ts';
+    import { locales } from '#db/Database.ts';
+    import { getUsername } from '#db/creators/handle.svelte.ts';
+    import { isProxySession } from '#db/proxySession.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import downloadBytes from '#util/download.ts';
     import type { User } from 'firebase/auth';
 
     interface Props {
@@ -127,7 +127,7 @@
         // spinner turning with no way back to the button.
         let run;
         try {
-            run = (await import('@db/export/exportAccount')).default;
+            run = (await import('#db/export/exportAccount.ts')).default;
         } catch {
             step = undefined;
             problem = (l) => l.ui.page.login.export.offline;

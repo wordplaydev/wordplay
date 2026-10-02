@@ -6,23 +6,23 @@
      were 38% the same text — including the whole stylesheet. `ReportQueue` stays its own,
      because a report is answered rather than listed. -->
 <script lang="ts" generics="Subject">
-    import ModerationFlags from '@components/moderation/ModerationFlags.svelte';
-    import Header from '@components/app/Header.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import { DB, disconnected } from '@db/Database';
-    import { firestore } from '@db/firebase';
-    import moderate from '@db/moderation/moderate';
+    import ModerationFlags from '#components/moderation/ModerationFlags.svelte';
+    import Header from '#components/app/Header.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import { DB, disconnected } from '#db/Database.ts';
+    import { firestore } from '#db/firebase.ts';
+    import moderate from '#db/moderation/moderate.ts';
     import {
         unknownFlags,
         type ModerationState,
-    } from '@db/projects/Moderation';
+    } from '#db/projects/Moderation.ts';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
-    } from '@locale/Locales';
+    } from '#locale/Locales.ts';
     import {
         collection,
         getDocs,

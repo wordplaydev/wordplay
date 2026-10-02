@@ -1,4 +1,4 @@
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Stub the Firestore SDK so we can intercept the field-level operations the
@@ -29,7 +29,7 @@ vi.mock('firebase/firestore', () => ({
     })),
 }));
 
-vi.mock('@db/firebase', () => ({
+vi.mock('#db/firebase.ts', () => ({
     firestore: { _fake: true },
 }));
 

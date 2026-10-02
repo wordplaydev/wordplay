@@ -1,14 +1,14 @@
-import { Arrangement, type ArrangementType } from '@db/settings/Arrangement';
+import { Arrangement, type ArrangementType } from '#db/settings/Arrangement.ts';
 import {
     isLeft,
     isTop,
     StagePlacement,
     type StagePlacementType,
-} from '@db/settings/StagePlacement';
-import type Bounds from '@components/project/Bounds';
-import Tile, { TileMode } from '@components/project/Tile';
-import { isTileKind, TileKind } from '@components/project/TileKind';
-import TileKinds from '@components/project/TileKinds';
+} from '#db/settings/StagePlacement.ts';
+import type Bounds from '#components/project/Bounds.ts';
+import Tile, { TileMode } from '#components/project/Tile.ts';
+import { isTileKind, TileKind } from '#components/project/TileKind.ts';
+import TileKinds from '#components/project/TileKinds.ts';
 
 export const LAYOUT_ICON_RESPONSIVE = '📐';
 /* Both arrows are bare, with no presentation selector: Mode adds the mono one

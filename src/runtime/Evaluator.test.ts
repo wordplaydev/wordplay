@@ -1,23 +1,23 @@
-import Time from '@input/Time/Time';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Source from '@nodes/Source';
+import Time from '#input/Time/Time.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Source from '#nodes/Source.ts';
 import Evaluator, {
     MAX_CALL_STACK_DEPTH,
     MAX_SOURCE_VALUE_SIZE,
     MAX_STEP_COUNT,
     TAIL_CULPRIT_THRESHOLD,
-} from '@runtime/Evaluator';
+} from '#runtime/Evaluator.ts';
 import { expect, test, vi } from 'vitest';
-import { DB, Locales } from '@db/Database';
+import { DB, Locales } from '#db/Database.ts';
 import { readProjects } from '../examples/readProjects';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import EvaluationLimitException from '@values/EvaluationLimitException';
-import ExceptionValue from '@values/ExceptionValue';
-import NumberValue from '@values/NumberValue';
-import StepLimitException from '@values/StepLimitException';
-import { last, must } from '@util/nullable';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import EvaluationLimitException from '#values/EvaluationLimitException.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StepLimitException from '#values/StepLimitException.ts';
+import { last, must } from '#util/nullable.ts';
 
 test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
     const fib = `

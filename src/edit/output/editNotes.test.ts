@@ -1,18 +1,18 @@
 import { expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import ListLiteral from '@nodes/ListLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import SetLiteral from '@nodes/SetLiteral';
-import Source from '@nodes/Source';
-import Unit from '@nodes/Unit';
-import { Half, NoteDurations, Quarter } from '@output/Music/durations';
-import readMusic, { musicsIn } from '@edit/output/editableMusic';
-import ListLiteralNode from '@nodes/ListLiteral';
-import Evaluate from '@nodes/Evaluate';
-import type { NoteData } from '@output/Music/musicData';
-import Locales from '@locale/Locales';
-import concretize from '@locale/concretize';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import SetLiteral from '#nodes/SetLiteral.ts';
+import Source from '#nodes/Source.ts';
+import Unit from '#nodes/Unit.ts';
+import { Half, NoteDurations, Quarter } from '#output/Music/durations.ts';
+import readMusic, { musicsIn } from '#edit/output/editableMusic.ts';
+import ListLiteralNode from '#nodes/ListLiteral.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type { NoteData } from '#output/Music/musicData.ts';
+import Locales from '#locale/Locales.ts';
+import concretize from '#locale/concretize.ts';
 import {
     bent,
     entryFor,
@@ -27,8 +27,8 @@ import {
     transposed,
     withDegreeAt,
     withDuration,
-} from '@edit/output/editNotes';
-import { first, must } from '@util/nullable';
+} from '#edit/output/editNotes.ts';
+import { first, must } from '#util/nullable.ts';
 
 /** The note entries of the first track of a program. */
 function entriesOf(code: string) {

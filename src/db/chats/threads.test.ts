@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import type { SerializedMessage } from '@db/chats/ChatDatabase.svelte';
-import { groupThreads, replyCount } from '@db/chats/threads';
+import type { SerializedMessage } from '#db/chats/ChatDatabase.svelte.ts';
+import { groupThreads, replyCount } from '#db/chats/threads.ts';
 
 function msg(id: string, time: number, replyTo?: string): SerializedMessage {
     return {

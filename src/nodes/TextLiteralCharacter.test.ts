@@ -1,15 +1,15 @@
-import Project from '@db/projects/Project';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
-import ConceptLink from '@nodes/ConceptLink';
-import Source from '@nodes/Source';
-import TextLiteral from '@nodes/TextLiteral';
-import { toExpression } from '@parser/parseExpression';
-import evaluateCode from '@runtime/evaluate';
-import { getCodepointFromString } from '@unicode/getCodepoint';
+import Project from '#db/projects/Project.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
+import ConceptLink from '#nodes/ConceptLink.ts';
+import Source from '#nodes/Source.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import { toExpression } from '#parser/parseExpression.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import { getCodepointFromString } from '#unicode/getCodepoint.ts';
 import { expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 const loc = new Locales(concretize, [DefaultLocale], DefaultLocale);
 

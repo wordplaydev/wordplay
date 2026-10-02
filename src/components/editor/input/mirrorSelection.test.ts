@@ -1,9 +1,9 @@
 import {
     caretFieldSelection,
     shouldEchoNatively,
-} from '@components/editor/input/mirrorSelection';
-import Caret from '@edit/caret/Caret';
-import Source from '@nodes/Source';
+} from '#components/editor/input/mirrorSelection.ts';
+import Caret from '#edit/caret/Caret.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

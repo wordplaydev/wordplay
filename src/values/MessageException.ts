@@ -1,8 +1,8 @@
-import getConceptName from '@locale/getConceptName';
-import type Expression from '@nodes/Expression';
-import type Evaluator from '@runtime/Evaluator';
-import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '@locale/Locales';
+import getConceptName from '#locale/getConceptName.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import type Locales from '#locale/Locales.ts';
 
 export default class MessageException extends ExceptionValue {
     readonly message: string;

@@ -1,5 +1,5 @@
-import { reconcile, type LiveMusic } from '@output/Music/reconcile';
-import type { MusicData, TrackData } from '@output/Music/musicData';
+import { reconcile, type LiveMusic } from '#output/Music/reconcile.ts';
+import type { MusicData, TrackData } from '#output/Music/musicData.ts';
 import { describe, expect, test } from 'vitest';
 
 function track(): TrackData {

@@ -1,9 +1,9 @@
 <script module lang="ts">
-    import type LanguageCode from '@locale/LanguageCode';
-    import { Languages } from '@locale/LanguageCode';
-    import type { Locale } from '@locale/Locale';
-    import { RegionCodes, Regions, type RegionCode } from '@locale/Regions';
-    import { foldTagName, getRegionName } from '@locale/tagNames';
+    import type LanguageCode from '#locale/LanguageCode.ts';
+    import { Languages } from '#locale/LanguageCode.ts';
+    import type { Locale } from '#locale/Locale.ts';
+    import { RegionCodes, Regions, type RegionCode } from '#locale/Regions.ts';
+    import { foldTagName, getRegionName } from '#locale/tagNames.ts';
 
     /** Filter a list of locale-bearing items by a query that matches an item's
      *  native name, Latin name, region code, or region name. Matching is
@@ -206,8 +206,8 @@
 </script>
 
 <script lang="ts">
-    import TextField from '@components/widgets/TextField.svelte';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import TextField from '#components/widgets/TextField.svelte';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
 
     interface Props {
         /** The current query text; filter items with {@link filterLocalesByQuery}. */

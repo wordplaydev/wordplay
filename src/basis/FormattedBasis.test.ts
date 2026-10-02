@@ -1,4 +1,4 @@
-import evaluateCode from '@runtime/evaluate';
+import evaluateCode from '#runtime/evaluate.ts';
 import { expect, test } from 'vitest';
 
 // Convert results to plain text so we can assert both content and locale via

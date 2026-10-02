@@ -3,15 +3,15 @@
  * (#117). `snap.ts` decides what happens with them; this decides which they are.
  */
 
-import { Free } from '@output/Arrangement/Free';
-import { Row } from '@output/Arrangement/Row';
-import { Stack } from '@output/Arrangement/Stack';
-import Group from '@output/Output/Group';
-import type Node from '@nodes/Node';
-import type Output from '@output/Output/Output';
-import Phrase from '@output/Output/Phrase';
-import Shape from '@output/Output/Shape/Shape';
-import type { OutputInfo, OutputInfoSet } from '@output/animation/Animator';
+import { Free } from '#output/Arrangement/Free.ts';
+import { Row } from '#output/Arrangement/Row.ts';
+import { Stack } from '#output/Arrangement/Stack.ts';
+import Group from '#output/Output/Group.ts';
+import type Node from '#nodes/Node.ts';
+import type Output from '#output/Output/Output.ts';
+import Phrase from '#output/Output/Phrase.ts';
+import Shape from '#output/Output/Shape/Shape.ts';
+import type { OutputInfo, OutputInfoSet } from '#output/animation/Animator.ts';
 import type { Box } from './snap';
 
 export type AlignmentTargets = {

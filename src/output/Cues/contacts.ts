@@ -7,7 +7,7 @@
  * heard however much is happening on stage. Contacts are reported here as
  * well, independently of whether a stream is watching.
  *
- * Deliberately free of `@db` and of Web Audio, so Physics can keep being tested
+ * Deliberately free of `#db` and of Web Audio, so Physics can keep being tested
  * under Node, and keyed by evaluator so a docs page full of previews can never
  * cue a creator's project.
  */

@@ -1,9 +1,9 @@
-import ConceptLink from '@nodes/ConceptLink';
-import { must } from '@util/nullable';
+import ConceptLink from '#nodes/ConceptLink.ts';
+import { must } from '#util/nullable.ts';
 import { FirebaseError } from 'firebase/app';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { Character } from '@db/characters/Character';
-import { CharactersDatabase } from '@db/characters/CharacterDatabase.svelte';
+import type { Character } from '#db/characters/Character.ts';
+import { CharactersDatabase } from '#db/characters/CharacterDatabase.svelte.ts';
 
 // Without this mock, we get a "TypeError: CharactersDatabase is not a constructor" error.
 // Provide the value exports CharacterDatabase imports (SaveFailureReason is used

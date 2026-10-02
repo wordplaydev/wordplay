@@ -1,7 +1,7 @@
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import { getBind } from '@locale/getBind';
-import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import { getBind } from '#locale/getBind.ts';
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '#parser/Symbols.ts';
 
 export function createSourceType(locales: Locales) {
     return toStructure(`

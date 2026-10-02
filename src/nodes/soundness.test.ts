@@ -1,13 +1,13 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import Match from '@nodes/Match';
-import NameToken from '@nodes/NameToken';
-import Node from '@nodes/Node';
-import NumberLiteral from '@nodes/NumberLiteral';
-import { Sym } from '@nodes/Sym';
-import TextLiteral from '@nodes/TextLiteral';
-import Token from '@nodes/Token';
-import parseExpression from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Match from '#nodes/Match.ts';
+import NameToken from '#nodes/NameToken.ts';
+import Node from '#nodes/Node.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import { Sym } from '#nodes/Sym.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import Token from '#nodes/Token.ts';
+import parseExpression from '#parser/parseExpression.ts';
+import { toTokens } from '#parser/toTokens.ts';
 import { expect, test } from 'vitest';
 
 /**

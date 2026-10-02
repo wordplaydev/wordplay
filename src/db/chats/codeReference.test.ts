@@ -1,15 +1,15 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
-import Caret from '@edit/caret/Caret';
+import Caret from '#edit/caret/Caret.ts';
 import {
     referenceLabel,
     referenceTargetOf,
     resolveReference,
     type ResolvedReference,
-} from '@db/chats/codeReference';
+} from '#db/chats/codeReference.ts';
 
 function projectWith(code: string) {
     return Project.make(

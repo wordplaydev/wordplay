@@ -20,7 +20,7 @@
  * long the piece.
  */
 
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /** A tempo in force from a tick onward. */
 export type TempoChange = { ticks: number; bpm: number };

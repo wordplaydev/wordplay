@@ -1,41 +1,41 @@
-import { getDocLocales } from '@locale/getDocLocales';
-import { must } from '@util/nullable';
-import { getNameLocales } from '@locale/getNameLocales';
-import Bind from '@nodes/Bind';
-import Block, { BlockKind } from '@nodes/Block';
-import BooleanType from '@nodes/BooleanType';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NoneType from '@nodes/NoneType';
-import NumberType from '@nodes/NumberType';
-import RangeType from '@nodes/RangeType';
-import StructureDefinition from '@nodes/StructureDefinition';
-import type Type from '@nodes/Type';
-import UnionType from '@nodes/UnionType';
-import Unit from '@nodes/Unit';
-import type Evaluation from '@runtime/Evaluation';
-import BoolValue from '@values/BoolValue';
-import ListValue from '@values/ListValue';
-import NoneValue from '@values/NoneValue';
-import NumberValue from '@values/NumberValue';
-import RangeValue from '@values/RangeValue';
-import TextValue from '@values/TextValue';
-import TypeException from '@values/TypeException';
-import type Value from '@values/Value';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
-import type Expression from '@nodes/Expression';
-import ListType from '@nodes/ListType';
-import Convert from '@nodes/Convert';
-import TextType from '@nodes/TextType';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { must } from '#util/nullable.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import Bind from '#nodes/Bind.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberType from '#nodes/NumberType.ts';
+import RangeType from '#nodes/RangeType.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Type from '#nodes/Type.ts';
+import UnionType from '#nodes/UnionType.ts';
+import Unit from '#nodes/Unit.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import BoolValue from '#values/BoolValue.ts';
+import ListValue from '#values/ListValue.ts';
+import NoneValue from '#values/NoneValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import RangeValue from '#values/RangeValue.ts';
+import TextValue from '#values/TextValue.ts';
+import TypeException from '#values/TypeException.ts';
+import type Value from '#values/Value.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { FunctionText, NameAndDoc } from '#locale/LocaleText.ts';
+import type Expression from '#nodes/Expression.ts';
+import ListType from '#nodes/ListType.ts';
+import Convert from '#nodes/Convert.ts';
+import TextType from '#nodes/TextType.ts';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
-} from '@basis/Basis';
-import InternalExpression from '@basis/InternalExpression';
-import createUnitConversions from '@basis/UnitConversions';
+} from '#basis/Basis.ts';
+import InternalExpression from '#basis/InternalExpression.ts';
+import createUnitConversions from '#basis/UnitConversions.ts';
 
 /** The first input a basis function's locale text declares. Every function
  *  built here has one, so a text without it is a locale that failed

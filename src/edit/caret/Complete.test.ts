@@ -1,12 +1,12 @@
-import Caret, { type CaretPosition } from '@edit/caret/Caret';
-import { completeInsertion } from '@edit/caret/Complete';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Input from '@nodes/Input';
-import type Node from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
+import Caret, { type CaretPosition } from '#edit/caret/Caret.ts';
+import { completeInsertion } from '#edit/caret/Complete.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import Input from '#nodes/Input.ts';
+import type Node from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
 /** Type text at a position in text mode, returning the resulting code. */

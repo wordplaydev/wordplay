@@ -1,25 +1,25 @@
 <script lang="ts">
-    import GroupView from '@components/output/GroupView.svelte';
-    import getConceptName from '@locale/getConceptName';
+    import GroupView from '#components/output/GroupView.svelte';
+    import getConceptName from '#locale/getConceptName.ts';
     import { get } from 'svelte/store';
 
-    import OutputHandles from '@components/output/OutputHandles.svelte';
-    import PhraseView from '@components/output/PhraseView.svelte';
-    import ImageView from '@components/output/ImageView.svelte';
-    import ShapeView from '@components/output/ShapeView.svelte';
-    import moveOutputWithKey from '@components/output/keyboardMove';
+    import OutputHandles from '#components/output/OutputHandles.svelte';
+    import PhraseView from '#components/output/PhraseView.svelte';
+    import ImageView from '#components/output/ImageView.svelte';
+    import ShapeView from '#components/output/ShapeView.svelte';
+    import moveOutputWithKey from '#components/output/keyboardMove.ts';
     import {
         getAnnouncer,
         getProject,
         getSelectedOutput,
         getStageGrid,
         getStageScene,
-    } from '@components/project/Contexts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { DB, locales } from '@db/Database';
-    import Evaluate from '@nodes/Evaluate';
-    import type { Form } from '@output/Output/Shape/Form';
-    import Group from '@output/Output/Group';
+    } from '#components/project/Contexts.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { DB, locales } from '#db/Database.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import type { Form } from '#output/Output/Shape/Form.ts';
+    import Group from '#output/Output/Group.ts';
     import {
         PX_PER_METER,
         getColorCSS,
@@ -28,13 +28,13 @@
         getSizeCSS,
         sizeToPx,
         toOutputTransform,
-    } from '@output/Output/outputToCSS';
-    import Phrase from '@output/Output/Phrase';
-    import type Place from '@output/Place/Place';
-    import type RenderContext from '@output/RenderContext';
-    import Image from '@output/Output/Image';
-    import Shape from '@output/Output/Shape/Shape';
-    import Stage from '@output/Output/Stage';
+    } from '#output/Output/outputToCSS.ts';
+    import Phrase from '#output/Output/Phrase.ts';
+    import type Place from '#output/Place/Place.ts';
+    import type RenderContext from '#output/RenderContext.ts';
+    import Image from '#output/Output/Image.ts';
+    import Shape from '#output/Output/Shape/Shape.ts';
+    import Stage from '#output/Output/Stage.ts';
     import { untrack } from 'svelte';
 
     interface Props {

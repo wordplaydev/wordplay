@@ -1,17 +1,17 @@
-import type { TemplateInput } from '@locale/Locales';
-import type Locales from '@locale/Locales';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Locales from '#locale/Locales.ts';
 import type Context from './Context';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '@concepts/Purpose';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
-import type { Grammar, Replacement } from '@nodes/Node';
-import Node, { list, node, optional } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import Type from '@nodes/Type';
+import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '#parser/Symbols.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import Node, { list, node, optional } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import Type from '#nodes/Type.ts';
 
 export default class TypeInputs extends Node {
     readonly open: Token;

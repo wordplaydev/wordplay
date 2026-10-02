@@ -1,7 +1,7 @@
-import type Conflict from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import type Evaluate from '@nodes/Evaluate';
+import type Conflict from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
 
 /**
  * An analyzer that produces conflicts specific to evaluations of a particular

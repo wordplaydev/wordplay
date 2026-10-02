@@ -1,21 +1,21 @@
-import type { TemplateInput } from '@locale/Locales';
+import type { TemplateInput } from '#locale/Locales.ts';
 import type Context from './Context';
-import type LanguageCode from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { COMMA_SYMBOL } from '@parser/Symbols';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { COMMA_SYMBOL } from '#parser/Symbols.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import { Emotion } from '../lore/Emotion';
-import Language from '@nodes/Language';
-import { getPreferred } from '@nodes/LanguageTagged';
-import Name from '@nodes/Name';
-import NameToken from '@nodes/NameToken';
-import type { Grammar, Replacement } from '@nodes/Node';
-import Node, { list, node } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+import Language from '#nodes/Language.ts';
+import { getPreferred } from '#nodes/LanguageTagged.ts';
+import Name from '#nodes/Name.ts';
+import NameToken from '#nodes/NameToken.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import Node, { list, node } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 export default class Names extends Node {
     readonly names: Name[];

@@ -1,33 +1,36 @@
-import { Purpose } from '@concepts/Purpose';
-import type Conflict from '@conflicts/Conflict';
-import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import { UnknownName } from '@conflicts/UnknownName';
-import { UnknownTypeName } from '@conflicts/UnknownTypeName';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import Refer from '@edit/revision/Refer';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '@basis/BasisConstants';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import UnexpectedTypeInput from '#conflicts/UnexpectedTypeInput.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
+import { UnknownTypeName } from '#conflicts/UnknownTypeName.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import Refer from '#edit/revision/Refer.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import { Emotion } from '../lore/Emotion';
-import type Context from '@nodes/Context';
-import type ConversionDefinition from '@nodes/ConversionDefinition';
-import type Definition from '@nodes/Definition';
-import KitType from '@nodes/KitType';
-import NameToken from '@nodes/NameToken';
-import type Node from '@nodes/Node';
-import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
-import StructureDefinition from '@nodes/StructureDefinition';
-import StructureType from '@nodes/StructureType';
-import { Sym } from '@nodes/Sym';
-import { PROPERTY_SYMBOL } from '@parser/Symbols';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypeInputs from '@nodes/TypeInputs';
-import type TypeSet from '@nodes/TypeSet';
-import TypeVariable from '@nodes/TypeVariable';
-import UnknownNameType from '@nodes/UnknownNameType';
-import VariableType from '@nodes/VariableType';
+import type Context from '#nodes/Context.ts';
+import type ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import type Definition from '#nodes/Definition.ts';
+import KitType from '#nodes/KitType.ts';
+import NameToken from '#nodes/NameToken.ts';
+import type Node from '#nodes/Node.ts';
+import { node, optional, type Grammar, type Replacement } from '#nodes/Node.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import StructureType from '#nodes/StructureType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import { PROPERTY_SYMBOL } from '#parser/Symbols.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import TypeInputs from '#nodes/TypeInputs.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import TypeVariable from '#nodes/TypeVariable.ts';
+import UnknownNameType from '#nodes/UnknownNameType.ts';
+import VariableType from '#nodes/VariableType.ts';
 
 export default class NameType extends Type {
     /** The kit this name is reached through, when it is (#1373): the `colors` of

@@ -1,11 +1,11 @@
-import TokenCategories from '@components/editor/tokens/TokenCategories';
-import { Sym, type SymType } from '@nodes/Sym';
-import { KeywordIds, Keywords } from '@parser/Keywords';
+import TokenCategories from '#components/editor/tokens/TokenCategories.ts';
+import { Sym, type SymType } from '#nodes/Sym.ts';
+import { KeywordIds, Keywords } from '#parser/Keywords.ts';
 import {
     CodeTokenRules,
     MarkupTokenRules,
     PatternTokenRules,
-} from '@parser/Tokenizer';
+} from '#parser/Tokenizer.ts';
 import { readFileSync } from 'node:fs';
 import { describe, expect, test } from 'vitest';
 import {

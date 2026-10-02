@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
-import MarkupValue from '@values/MarkupValue';
-import { spokenText } from '@locale/spokenLanguage';
-import { toSpokenRuns } from '@locale/spokenLanguage';
+import evaluateCode from '#runtime/evaluate.ts';
+import MarkupValue from '#values/MarkupValue.ts';
+import { spokenText } from '#locale/spokenLanguage.ts';
+import { toSpokenRuns } from '#locale/spokenLanguage.ts';
 
 /** Evaluate to a MarkupValue (fails the test otherwise). */
 function markup(code: string): MarkupValue {

@@ -1,22 +1,22 @@
-import { Faces, getFaceDescription, type Face } from '@basis/faces/Fonts';
-import Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import NumberLiteral from '@nodes/NumberLiteral';
-import TextLiteral from '@nodes/TextLiteral';
-import Unit from '@nodes/Unit';
-import { DefaultStyle } from '@output/Output/Output';
-import { createPoseLiteral } from '@output/animation/Pose';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import type { LocaleTextsAccessor } from '@locale/Locales';
-import type { NameText } from '@locale/LocaleText';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import Reference from '@nodes/Reference';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
-import OutputPropertyRange from '@edit/output/OutputPropertyRange';
-import OutputPropertyText from '@edit/output/OutputPropertyText';
-import getPoseProperties from '@edit/output/PoseProperties';
+import { Faces, getFaceDescription, type Face } from '#basis/faces/Fonts.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import { DefaultStyle } from '#output/Output/Output.ts';
+import { createPoseLiteral } from '#output/animation/Pose.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextsAccessor } from '#locale/Locales.ts';
+import type { NameText } from '#locale/LocaleText.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import Reference from '#nodes/Reference.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyOptions from '#edit/output/OutputPropertyOptions.ts';
+import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
+import OutputPropertyText from '#edit/output/OutputPropertyText.ts';
+import getPoseProperties from '#edit/output/PoseProperties.ts';
 
 function getPoseProperty(
     project: Project,

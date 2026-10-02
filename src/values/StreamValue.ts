@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import type Evaluation from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import type { StepNumber } from '@runtime/Evaluator';
-import ListValue from '@values/ListValue';
-import NoneValue from '@values/NoneValue';
-import type Value from '@values/Value';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import type StreamDefinition from '@nodes/StreamDefinition';
-import SimpleValue from '@values/SimpleValue';
-import { must } from '@util/nullable';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type { StepNumber } from '#runtime/Evaluator.ts';
+import ListValue from '#values/ListValue.ts';
+import NoneValue from '#values/NoneValue.ts';
+import type Value from '#values/Value.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import type StreamDefinition from '#nodes/StreamDefinition.ts';
+import SimpleValue from '#values/SimpleValue.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * A stable identifier for what kind of stream a `StreamValue` is.

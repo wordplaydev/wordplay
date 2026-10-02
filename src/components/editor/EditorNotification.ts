@@ -1,5 +1,5 @@
-import type { LocaleTextAccessor } from '@locale/Locales';
-import type Markup from '@nodes/Markup';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import type Markup from '#nodes/Markup.ts';
 
 /**
  * A transient message shown in an editor's footer notification band. Multiple notifications can be

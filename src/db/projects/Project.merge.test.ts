@@ -1,10 +1,10 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { describe, expect, test } from 'vitest';
 
-import Project, { StampedMetadataFields } from '@db/projects/Project';
+import Project, { StampedMetadataFields } from '#db/projects/Project.ts';
 
 function makeBase(): Project {
     return Project.make(

@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Speech from '@components/lore/Speech.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import PeekingBackground from '@components/app/PeekingBackground.svelte';
+    import Header from '#components/app/Header.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Speech from '#components/lore/Speech.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import PeekingBackground from '#components/app/PeekingBackground.svelte';
     import Characters from '../../lore/BasisCharacters';
     import { getTutorialCharacterSymbols } from './backgroundUtils';
     import type { TutorialMode } from '../../tutorial/TutorialMode';

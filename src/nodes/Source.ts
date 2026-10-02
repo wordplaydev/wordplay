@@ -1,46 +1,46 @@
-import type { TemplateInput } from '@locale/Locales';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { KeywordIndex } from '@parser/Keywords';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import { parseNames } from '@parser/parseBind';
-import parseProgram from '@parser/parseProgram';
-import type Spaces from '@parser/Spaces';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type { KeywordIndex } from '#parser/Keywords.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import { parseNames } from '#parser/parseBind.ts';
+import parseProgram from '#parser/parseProgram.ts';
+import type Spaces from '#parser/Spaces.ts';
 import {
     DelimiterCloseByOpen,
     DelimiterOpenByClose,
     tokenize,
-} from '@parser/Tokenizer';
-import { toTokens } from '@parser/toTokens';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import NoneValue from '@values/NoneValue';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
+} from '#parser/Tokenizer.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Step from '#runtime/Step.ts';
+import NoneValue from '#values/NoneValue.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import Tokens from '@parser/Tokens';
-import UnicodeString from '@unicode/UnicodeString';
-import Bind from '@nodes/Bind';
-import type Borrow from '@nodes/Borrow';
-import type { SharedDefinition } from '@nodes/Borrow';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Expression from '@nodes/Expression';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Markup from '@nodes/Markup';
-import Names from '@nodes/Names';
-import KitType from '@nodes/KitType';
-import Node, { node, type Grammar, type Replacement } from '@nodes/Node';
-import Program from '@nodes/Program';
-import Root from '@nodes/Root';
-import StructureDefinition from '@nodes/StructureDefinition';
-import { Sym, type SymType } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import { last, must } from '@util/nullable';
+import Tokens from '#parser/Tokens.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import Bind from '#nodes/Bind.ts';
+import type Borrow from '#nodes/Borrow.ts';
+import type { SharedDefinition } from '#nodes/Borrow.ts';
+import ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Expression from '#nodes/Expression.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Markup from '#nodes/Markup.ts';
+import Names from '#nodes/Names.ts';
+import KitType from '#nodes/KitType.ts';
+import Node, { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import Program from '#nodes/Program.ts';
+import Root from '#nodes/Root.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import { Sym, type SymType } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import { last, must } from '#util/nullable.ts';
 
 /** The structural bracket pairs whose nesting depth we visualize, each mapped to
  * its pair group so depth is counted independently per delimiter type. Excludes

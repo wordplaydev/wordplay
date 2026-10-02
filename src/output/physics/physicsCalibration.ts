@@ -3,7 +3,7 @@
  *
  * These live in their own module (rather than Physics.ts) because Motion needs
  * them as a runtime value: importing them from Physics.ts would make Motion's
- * import of Physics non-type-only, pulling Physics's @db/Database import (and
+ * import of Physics non-type-only, pulling Physics's #db/Database import (and
  * its SvelteKit $env dependency) into non-Vite runtimes like the locale
  * verifier's tsx, and creating a Motion↔Physics module cycle.
  */

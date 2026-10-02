@@ -1,12 +1,12 @@
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import TextLiteral from '@nodes/TextLiteral';
+} from '#conflicts/Conflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
 
 /**
  * A warning emitted when a literal time zone given to @Moment or @Now isn't a

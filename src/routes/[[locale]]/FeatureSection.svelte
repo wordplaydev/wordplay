@@ -8,14 +8,14 @@
     scan than a plain column of blocks.
 -->
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Emoji from '#components/app/Emoji.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
-    } from '@locale/Locales';
-    import { withMonoEmoji } from '@unicode/emoji';
+    } from '#locale/Locales.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
 
     interface Props {
         /** The section's symbol. Not localized: it's a picture, not a word. */

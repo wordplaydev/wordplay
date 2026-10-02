@@ -1,13 +1,13 @@
 <script lang="ts">
     import { untrack } from 'svelte';
-    import Action from '@components/app/Action.svelte';
-    import BigLink from '@components/app/BigLink.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import { Galleries, HowTos } from '@db/Database';
-    import type Gallery from '@db/galleries/Gallery';
-    import type HowTo from '@db/howtos/HowToDatabase.svelte';
-    import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
+    import Action from '#components/app/Action.svelte';
+    import BigLink from '#components/app/BigLink.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '#components/project/Contexts.ts';
+    import { Galleries, HowTos } from '#db/Database.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import type HowTo from '#db/howtos/HowToDatabase.svelte.ts';
+    import { DOCUMENTATION_SYMBOL } from '#parser/Symbols.ts';
     import Iconified from '../../../Iconified.svelte';
 
     interface Props {

@@ -1,8 +1,8 @@
-import type Evaluator from '@runtime/Evaluator';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import type Value from '@values/Value';
-import Step from '@runtime/Step';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Value from '#values/Value.ts';
+import Step from '#runtime/Step.ts';
 
 /** Jumps unless the key on the top of the stack admits the subject beneath it, popping the key
  * only. Used in Match. Admission is equality for every value but a range, which admits any

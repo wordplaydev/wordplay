@@ -1,6 +1,6 @@
-import Name from '@nodes/Name';
+import Name from '#nodes/Name.ts';
 import { expect, test } from 'vitest';
-import { pickReadableName } from '@locale/getConceptName';
+import { pickReadableName } from '#locale/getConceptName.ts';
 
 /**
  * A locale lists a type's glyph first (`["🔳", "Group"]`), so anything reading

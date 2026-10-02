@@ -1,4 +1,4 @@
-import type { FormattedText } from '@locale/LocaleText';
+import type { FormattedText } from '#locale/LocaleText.ts';
 
 type PageText = {
     /** [plain] Header for the design page */

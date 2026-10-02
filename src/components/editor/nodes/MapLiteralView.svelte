@@ -1,15 +1,15 @@
 <script lang="ts">
-    import type MapLiteral from '@nodes/MapLiteral';
-    import Flow from '@components/editor/blocks/Flow.svelte';
-    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import type MapLiteral from '#nodes/MapLiteral.ts';
+    import Flow from '#components/editor/blocks/Flow.svelte';
+    import NodeSequenceView from '#components/editor/nodes/NodeSequenceView.svelte';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import { isVerticalList } from '@components/editor/nodes/verticalLayout';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
-    import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
-    import CollapsedHeader from '@components/editor/util/CollapsedHeader.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import { isVerticalList } from '#components/editor/nodes/verticalLayout.ts';
+    import { isFoldableNode } from '#components/editor/util/folding.ts';
+    import FoldToggle from '#components/editor/util/FoldToggle.svelte';
+    import FoldEllipsis from '#components/editor/util/FoldEllipsis.svelte';
+    import CollapsedHeader from '#components/editor/util/CollapsedHeader.svelte';
 
     interface Props {
         node: MapLiteral;

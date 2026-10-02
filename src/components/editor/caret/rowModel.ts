@@ -20,8 +20,8 @@
  * concerns.
  */
 
-import type { LogicalRect } from '@components/editor/util/axes';
-import { must } from '@util/nullable';
+import type { LogicalRect } from '#components/editor/util/axes.ts';
+import { must } from '#util/nullable.ts';
 
 /** A rendered thing that can host a caret position, plus where it is. */
 export type RowMember<T> = {

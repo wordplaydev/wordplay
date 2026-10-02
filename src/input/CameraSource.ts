@@ -1,4 +1,4 @@
-import type { Database } from '@db/Database';
+import type { Database } from '#db/Database.ts';
 
 /**
  * The genuinely-shared, expensive half of camera access: one `MediaStream`

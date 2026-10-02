@@ -1,11 +1,11 @@
-import ExtraCell from '@conflicts/ExtraCell';
-import ExpectedColumnType from '@conflicts/ExpectedColumnType';
-import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import MissingCell from '@conflicts/MissingCell';
-import { testConflict } from '@conflicts/TestUtilities';
+import ExtraCell from '#conflicts/ExtraCell.ts';
+import ExpectedColumnType from '#conflicts/ExpectedColumnType.ts';
+import IncompatibleCellType from '#conflicts/IncompatibleCellType.ts';
+import MissingCell from '#conflicts/MissingCell.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { test } from 'vitest';
-import TableLiteral from '@nodes/TableLiteral';
-import TableType from '@nodes/TableType';
+import TableLiteral from '#nodes/TableLiteral.ts';
+import TableType from '#nodes/TableType.ts';
 
 test.each([
     ['⎡a•# b•#⎦', '⎡a•# b⎦', TableType, ExpectedColumnType],

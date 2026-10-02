@@ -27,12 +27,12 @@ import {
     Languages,
     PossibleLanguages,
     type LanguageMetadata,
-} from '@locale/LanguageCode';
-import { CLDR_VERSION, fetchCLDR } from '@util/verify-locales/cldr';
-import { isRecord } from '@util/guards';
-import writeFormatted from '@util/verify-locales/writeFormatted';
-import Log from '@util/verify-locales/Log';
-import { must } from '@util/nullable';
+} from '#locale/LanguageCode.ts';
+import { CLDR_VERSION, fetchCLDR } from '#util/verify-locales/cldr.ts';
+import { isRecord } from '#util/guards.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
+import Log from '#util/verify-locales/Log.ts';
+import { must } from '#util/nullable.ts';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);

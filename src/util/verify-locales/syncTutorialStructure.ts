@@ -51,10 +51,10 @@
  * dance twice, once with the music and once without.
  */
 
-import { Revised, Unwritten } from '@locale/Annotations';
+import { Revised, Unwritten } from '#locale/Annotations.ts';
 import { isDialog } from '../../tutorial/Tutorial';
-import { isRevised, isUnwritten } from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
+import { isRevised, isUnwritten } from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
 import type Tutorial from '../../tutorial/Tutorial';
 import {
     isPerformance,
@@ -65,8 +65,8 @@ import {
     type Performance,
     type Scene,
 } from '../../tutorial/Tutorial';
-import { align } from '@util/align';
-import { must } from '@util/nullable';
+import { align } from '#util/align.ts';
+import { must } from '#util/nullable.ts';
 
 export type SyncChange = {
     /** Where it happened, 1-based, the way the tutorial's own URLs count. */

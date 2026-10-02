@@ -1,7 +1,7 @@
-import { Sym, type SymType } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Spaces from '@parser/Spaces';
-import { NOT_SYMBOL } from '@parser/Symbols';
+import { Sym, type SymType } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Spaces from '#parser/Spaces.ts';
+import { NOT_SYMBOL } from '#parser/Symbols.ts';
 
 export default class Tokens {
     /** The tokens that have yet to be read. */
