@@ -1,0 +1,104 @@
+⚽
+Tas de lettres
+=== start
+¶Un U géant à empattements fait office de seau. Cinq grandes lettres y tombent en premier, puis des cœurs et des ballons de football pleuvent et se posent dans leurs creux et leurs crochets. Tout entre en collision selon la forme de son contour plutôt que selon le rectangle qui l'entoure. C'est ce qui permet au U de tout contenir, à un ballon de se poser dans le creux d'une lettre au lieu de flotter au-dessus, et à un cœur de glisser sa pointe entre deux lettres.¶
+
+¶Le seau est une lettre comme les autres, dans une police à empattements, si bien que ses bras se terminent par des rebords. Il lui faut un Motion pour être solide, et une masse si grande que rien de ce qui tombe dedans ne peut le pousser. Il repose sur le sol entre deux murs qui touchent tout juste ses côtés : sa base est arrondie, donc sans eux il basculerait quand le tas grandit.¶
+coupe: Phrase(
+		'U'
+		22m
+		affronter: "Merriweather"
+		nom: 'coupe'
+		lieu: Mouvement(Lieu(-8.1m -11m))
+		couleur: Couleur(85% 10 250°)
+		matière: Matière(
+			masse: 5000kg
+			friction: 0.9
+			contour: ⊤
+		)
+	)
+
+¶Une police d'affichage très épaisse, car une lettre grasse a un creux assez large pour attraper un ballon. Les lettres sont choisies pour leurs crochets et leurs creux.¶
+face2: 'Titan One'
+lettres: ['a' 'b' 'c' 'd' 'e']
+
+¶Les lettres tombent en premier, depuis le même endroit mais à des hauteurs échelonnées, si bien que chacune atterrit sur la précédente et le tas monte peu à peu.
+
+Une lettre n'est solide que parce que sa place est un Motion et qu'elle a de la Matter — la sortie qu'un programme place est un fantôme que tout traverse. Leur masse est ce qui empêche les ballons de disperser le tas, et demander à Matter un contour est ce qui les fait entrer en collision selon la forme de leurs lettres.¶
+tas: lettres.traduire(
+		ƒ(lettre•'' indice2•#)
+			Phrase(
+				lettre
+				3m
+				face2
+				nom: "letter\indice2\"
+				lieu: Mouvement(
+					Lieu(
+						((indice2 × 0.5m) - 2m)
+						((indice2 × 5m) + 8m)
+					)
+				)
+				couleur: Couleur(75% 80 (indice2 × 62°))
+				matière: Matière(
+					masse: 60kg
+					friction: 0.9
+					contour: ⊤
+				)
+			)
+	)
+
+¶Les cœurs tombent ensuite. Un emoji peut lui aussi demander son contour, si bien que chaque cœur entre en collision selon sa forme : sa pointe se glisse dans les espaces où une boîte se poserait simplement par-dessus.¶
+cœurs: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traduire(
+		ƒ(cœur•'' indice3•#)
+			Phrase(
+				cœur
+				2m
+				nom: "heart\indice3\"
+				lieu: Mouvement(
+					Lieu(
+						((indice3 × 0.6m) - 2.2m)
+						((indice3 × 1.5m) + 34m)
+					)
+				)
+				matière: Matière(
+					masse: 20kg
+					friction: 0.8
+					contour: ⊤
+				)
+			)
+	)
+
+¶Les ballons commencent au-dessus de tout, si bien qu'ils arrivent après que le tas s'est stabilisé. Ils ne demandent pas de contour : c'est leur rectangle, arrondi de partout, qui les fait rouler.¶
+ballons: 18 → [].traduire(
+		ƒ(nombre2)
+			Phrase(
+				"⚽"
+				1.1m
+				nom: "ball\nombre2\"
+				lieu: Mouvement(
+					Lieu(Aléatoire(-2m 2m) ((nombre2 × 1.8m) + 44m))
+					Vitesse(Aléatoire(-1m/s 1m/s) 0m/s)
+				)
+				matière: Matière(
+					rebondissement: 0.3
+					friction: 0.4
+					rondeur: 0.5
+				)
+			)
+	)
+
+Scène(
+	[
+		¶Un sol, et deux murs contre les côtés du seau.¶
+		Forme(Rectangle(-10m -11m 10m -12m))
+		Forme(Rectangle(-8.8m 12m -7.8m -11m))
+		Forme(Rectangle(7.8m 12m 8.8m -11m))
+		coupe
+		:tas
+		:cœurs
+		:ballons
+	]
+	pesanteur: 9.8m/s^2
+	lieu: Lieu(0m -1m -17m)
+	arrièreplan: Couleur(25% 20 250°)
+)

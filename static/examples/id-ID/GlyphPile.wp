@@ -1,0 +1,100 @@
+⚽
+Tumpukan Huruf
+=== start
+¶Huruf U raksasa bergaya serif menjadi ember. Lima huruf besar jatuh ke dalamnya, lalu hati dan bola sepak turun seperti hujan dan mengendap di mangkuk dan kaitnya. Semua benda bertabrakan menurut bentuk garis luarnya, bukan menurut kotak di sekelilingnya. Itulah yang membuat huruf U bisa menampung apa saja: sebuah bola berhenti di dalam mangkuk sebuah huruf, bukan melayang di atasnya, dan sebuah hati menyelipkan ujungnya di antara dua huruf.¶
+
+¶Ember itu juga sebuah huruf, seperti yang lain, dengan gaya serif sehingga lengannya berakhir dengan tepian datar. Huruf ini butuh sebuah Motion agar menjadi padat, dan massa yang begitu besar sehingga apa pun yang jatuh di atasnya tidak bisa menggesernya. Ia berdiri di lantai di antara dua dinding yang pas menyentuh sisi-sisinya: bagian bawahnya bulat, jadi tanpa dinding itu ia akan terguling saat tumpukan makin tinggi.¶
+cangkir: Frasa(
+		'U'
+		22m
+		menghadapi: "Merriweather"
+		nama: 'cangkir'
+		tempat: Gerakan(Tempat(-8.1m -11m))
+		warna: Warna(85% 10 250°)
+		urusan: Urusan(massa: 5000kg gesekan: 0.9 garisLuar: ⊤)
+	)
+
+¶Sebuah gaya tampilan yang tebal, karena huruf yang gemuk punya mangkuk yang cukup lebar untuk menangkap bola. Huruf-hurufnya dipilih karena kait dan mangkuknya.¶
+wajah2: 'Titan One'
+huruf: ['a' 'b' 'c' 'd' 'e']
+
+¶Huruf-huruf jatuh lebih dulu, dari tempat yang sama tapi dengan ketinggian berbeda, sehingga masing-masing jatuh di atas yang sebelumnya dan tumpukan makin tinggi.
+
+Sebuah huruf menjadi padat hanya karena posisinya adalah sebuah Motion dan ia memiliki Matter — keluaran yang ditempatkan oleh sebuah program adalah hantu yang bisa dilewati apa saja. Massanya itulah yang mencegah bola-bola mendorong tumpukan sampai terpisah, dan meminta garis luar dari Matter itulah yang membuat mereka bertabrakan menurut bentuk hurufnya.¶
+tumpukan: huruf.menerjemahkan(
+		ƒ(huruf2•'' indeks2•#)
+			Frasa(
+				huruf2
+				3m
+				wajah2
+				nama: "letter\indeks2\"
+				tempat: Gerakan(
+					Tempat(
+						((indeks2 × 0.5m) - 2m)
+						((indeks2 × 5m) + 8m)
+					)
+				)
+				warna: Warna(75% 80 (indeks2 × 62°))
+				urusan: Urusan(
+					massa: 60kg
+					gesekan: 0.9
+					garisLuar: ⊤
+				)
+			)
+	)
+
+¶Hati-hati jatuh berikutnya. Sebuah emoji juga bisa meminta garis luarnya sendiri, jadi setiap hati bertabrakan menurut bentuknya: ujungnya menyelip masuk ke celah-celah yang seharusnya ditempati sebuah kotak.¶
+hati: ['🧡' '💛' '💚' '💙' '💜' '🩷'].menerjemahkan(
+		ƒ(hati2•'' indeks3•#)
+			Frasa(
+				hati2
+				2m
+				nama: "heart\indeks3\"
+				tempat: Gerakan(
+					Tempat(
+						((indeks3 × 0.6m) - 2.2m)
+						((indeks3 × 1.5m) + 34m)
+					)
+				)
+				urusan: Urusan(
+					massa: 20kg
+					gesekan: 0.8
+					garisLuar: ⊤
+				)
+			)
+	)
+
+¶Bola-bola mulai di atas segalanya, jadi mereka tiba setelah tumpukan selesai mengendap. Mereka tidak meminta garis luar: kotak mereka, yang dibulatkan di semua sisi, itulah yang membuat mereka bisa menggelinding.¶
+bola: 18 → [].menerjemahkan(
+		ƒ(angka2)
+			Frasa(
+				"⚽"
+				1.1m
+				nama: "ball\angka2\"
+				tempat: Gerakan(
+					Tempat(Acak(-2m 2m) ((angka2 × 1.8m) + 44m))
+					Kecepatan(Acak(-1m/s 1m/s) 0m/s)
+				)
+				urusan: Urusan(
+					kekenyalan: 0.3
+					gesekan: 0.4
+					kebulatan: 0.5
+				)
+			)
+	)
+
+Panggung(
+	[
+		¶Sebuah lantai, dan dua dinding yang menempel di sisi-sisi ember.¶
+		Bangun(Persegipanjang(-10m -11m 10m -12m))
+		Bangun(Persegipanjang(-8.8m 12m -7.8m -11m))
+		Bangun(Persegipanjang(7.8m 12m 8.8m -11m))
+		cangkir
+		:tumpukan
+		:hati
+		:bola
+	]
+	gayaberat: 9.8m/s^2
+	tempat: Tempat(0m -1m -17m)
+	latarbelakang: Warna(25% 20 250°)
+)

@@ -1,0 +1,100 @@
+⚽
+Bunton ng mga Titik
+=== start
+¶Isang malaking serif na U ang balde. May limang malalaking titik na nahuhulog dito, pagkatapos ay umuulan ang mga puso at bola ng soccer at humahaluk sa kanilang mga mangkok at kawit. Nagbabanggaan ang lahat ayon sa hugis ng kanilang balangkas, hindi ayon sa parihaba na nakapalibot dito. Ito ang dahilan kung bakit kaya ng U na humawak ng kahit ano — isang bola na dumapo sa loob ng mangkok ng isang titik sa halip na lumulutang sa ibabaw nito, at isang puso na sumisiksik ang dulo nito sa pagitan ng dalawang titik.¶
+
+¶Ang balde ay isang titik rin, tulad ng iba, nasa serif na font kaya ang mga braso nito ay nagtatapos sa mga patag na gilid. Kailangan nito ng Motion para maging matatag, at napakalaking masa para hindi ito maitulak ng anumang bumabagsak dito. Nakatayo ito sa sahig sa pagitan ng dalawang pader na dumidikit lamang sa mga gilid nito: bilugan ang ilalim nito, kaya kung wala ang mga pader, tatagilid ito habang lumalaki ang bunton.¶
+tasa: Parirala(
+		'U'
+		22m
+		mukha: "Merriweather"
+		pangalan: 'tasa'
+		lugar: Paggalaw(Lugar(-8.1m -11m))
+		kulay: Kulay(85% 10 250°)
+		materya: Materya(masa: 5000kg alitan: 0.9 balangkas: ⊤)
+	)
+
+¶Isang mabigat na display font, dahil ang isang mataba na titik ay may mangkok na sapat ang lapad para makahuli ng bola. Pinili ang mga titik dahil sa kanilang mga kawit at mangkok.¶
+mukha2: 'Titan One'
+mgaTitik: ['a' 'b' 'c' 'd' 'e']
+
+¶Unang bumabagsak ang mga titik, mula sa parehong lugar pero sa iba't ibang taas, kaya ang bawat isa ay dumadapo sa huling titik at lumalaki pataas ang bunton.
+
+Matatag lamang ang isang titik dahil ang lugar nito ay isang Motion at mayroon itong Matter — ang output na inilalagay ng isang programa ay parang multo na dinadaanan ng lahat. Ang kanilang masa ang nagpapanatili sa mga bola na hindi itulak ang bunton palayo sa isa't isa, at ang paghingi ng balangkas mula sa Matter ang dahilan kung bakit sila nagbabanggaan ayon sa hugis ng kanilang mga titik.¶
+bunton: mgaTitik.isalin(
+		ƒ(titik2•'' indeks2•#)
+			Parirala(
+				titik2
+				3m
+				mukha2
+				pangalan: "letter\indeks2\"
+				lugar: Paggalaw(
+					Lugar(
+						((indeks2 × 0.5m) - 2m)
+						((indeks2 × 5m) + 8m)
+					)
+				)
+				kulay: Kulay(75% 80 (indeks2 × 62°))
+				materya: Materya(
+					masa: 60kg
+					alitan: 0.9
+					balangkas: ⊤
+				)
+			)
+	)
+
+¶Susunod na bumabagsak ang mga puso. Ang isang emoji ay maaari ring humingi ng sarili nitong balangkas, kaya ang bawat puso ay nagbabanggaan ayon sa hugis nito: dumudulas ang dulo nito papasok sa mga puwang na kung saan uupo ang isang kahon.¶
+mgaPuso: ['🧡' '💛' '💚' '💙' '💜' '🩷'].isalin(
+		ƒ(puso•'' indeks3•#)
+			Parirala(
+				puso
+				2m
+				pangalan: "heart\indeks3\"
+				lugar: Paggalaw(
+					Lugar(
+						((indeks3 × 0.6m) - 2.2m)
+						((indeks3 × 1.5m) + 34m)
+					)
+				)
+				materya: Materya(
+					masa: 20kg
+					alitan: 0.8
+					balangkas: ⊤
+				)
+			)
+	)
+
+¶Nagsisimula ang mga bola sa ibabaw ng lahat, kaya dumarating sila pagkatapos humupa ng bunton. Hindi sila humihingi ng balangkas: ang kanilang parihaba, na pabilog sa lahat ng gilid, ang dahilan kung bakit sila gumugulong.¶
+mgaBola: 18 → [].isalin(
+		ƒ(numero2)
+			Parirala(
+				"⚽"
+				1.1m
+				pangalan: "ball\numero2\"
+				lugar: Paggalaw(
+					Lugar(Random(-2m 2m) ((numero2 × 1.8m) + 44m))
+					Bilis(Random(-1m/s 1m/s) 0m/s)
+				)
+				materya: Materya(
+					pagtalbog: 0.3
+					alitan: 0.4
+					pagigingbilugan: 0.5
+				)
+			)
+	)
+
+Entablado(
+	[
+		¶Isang sahig, at dalawang pader laban sa mga gilid ng balde.¶
+		Hugis(Parihaba(-10m -11m 10m -12m))
+		Hugis(Parihaba(-8.8m 12m -7.8m -11m))
+		Hugis(Parihaba(7.8m 12m 8.8m -11m))
+		tasa
+		:bunton
+		:mgaPuso
+		:mgaBola
+	]
+	grabidad: 9.8m/s^2
+	lugar: Lugar(0m -1m -17m)
+	background: Kulay(25% 20 250°)
+)

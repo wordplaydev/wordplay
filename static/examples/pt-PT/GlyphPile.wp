@@ -1,0 +1,100 @@
+⚽
+Pilha de Letras
+=== start
+¶Um U gigante com serifa é o balde. Cinco letras grandes caem lá para dentro, depois corações e bolas de futebol chovem e instalam-se nas suas curvas e ganchos. Tudo colide pela forma do seu contorno e não pelo retângulo à sua volta, e é isso que permite ao U segurar seja o que for, uma bola ficar pousada dentro da curva de uma letra em vez de flutuar por cima dela, e um coração encaixar a sua ponta entre duas letras.¶
+
+¶O balde é uma letra como as outras, numa face com serifa, para que os seus braços terminem em saliências. Precisa de um Movimento para ser sólido, e de tanta massa que nada do que cai lá dentro o consiga deslocar. Fica de pé no chão entre duas paredes que tocam apenas nos seus lados: a sua base é arredondada, por isso, sem elas, acabaria por tombar à medida que a pilha cresce.¶
+copo: Frase(
+		'U'
+		22m
+		fonte: "Merriweather"
+		nome: 'copo'
+		local: Movimento(Local(-8.1m -11m))
+		cor: Cor(85% 10 250°)
+		matéria: Matéria(massa: 5000kg atrito: 0.9 contorno: ⊤)
+	)
+
+¶Uma face de letra pesada, porque uma letra gorda tem uma curva larga o suficiente para apanhar uma bola. As letras são escolhidas pelos seus ganchos e curvas.¶
+face2: 'Titan One'
+letras: ['a' 'b' 'c' 'd' 'e']
+
+¶As letras caem primeiro, a partir do mesmo sítio mas com alturas diferentes, para que cada uma pouse sobre a anterior e a pilha vá crescendo para cima.
+
+Uma letra só é sólida porque o seu lugar é um Movimento e ela tem Matéria — a saída que um programa coloca é um fantasma por onde tudo passa. A sua massa é o que impede as bolas de empurrarem a pilha para os lados, e pedir à Matéria o contorno é o que faz com que colidam pela forma das suas letras.¶
+pilha: letras.traduzir(
+		ƒ(letra•'' índice2•#)
+			Frase(
+				letra
+				3m
+				face2
+				nome: "letter\índice2\"
+				local: Movimento(
+					Local(
+						((índice2 × 0.5m) - 2m)
+						((índice2 × 5m) + 8m)
+					)
+				)
+				cor: Cor(75% 80 (índice2 × 62°))
+				matéria: Matéria(
+					massa: 60kg
+					atrito: 0.9
+					contorno: ⊤
+				)
+			)
+	)
+
+¶Os corações caem a seguir. Um emoji também pode pedir o seu contorno, por isso cada coração colide pela sua forma: a sua ponta desliza para dentro dos espaços onde uma caixa ficaria apenas pousada em cima.¶
+corações: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traduzir(
+		ƒ(coração•'' índice3•#)
+			Frase(
+				coração
+				2m
+				nome: "heart\índice3\"
+				local: Movimento(
+					Local(
+						((índice3 × 0.6m) - 2.2m)
+						((índice3 × 1.5m) + 34m)
+					)
+				)
+				matéria: Matéria(
+					massa: 20kg
+					atrito: 0.8
+					contorno: ⊤
+				)
+			)
+	)
+
+¶As bolas começam por cima de tudo, por isso chegam depois de a pilha já estar assente. Elas não pedem um contorno: é o seu retângulo, todo arredondado, que as faz rolar.¶
+bolas: 18 → [].traduzir(
+		ƒ(número2)
+			Frase(
+				"⚽"
+				1.1m
+				nome: "ball\número2\"
+				local: Movimento(
+					Local(Aleatório(-2m 2m) ((número2 × 1.8m) + 44m))
+					Velocidade(Aleatório(-1m/s 1m/s) 0m/s)
+				)
+				matéria: Matéria(
+					elasticidade: 0.3
+					atrito: 0.4
+					arredondamento: 0.5
+				)
+			)
+	)
+
+Fase(
+	[
+		¶Um chão, e duas paredes encostadas aos lados do balde.¶
+		Figura(Retângulo(-10m -11m 10m -12m))
+		Figura(Retângulo(-8.8m 12m -7.8m -11m))
+		Figura(Retângulo(7.8m 12m 8.8m -11m))
+		copo
+		:pilha
+		:corações
+		:bolas
+	]
+	gravidade: 9.8m/s^2
+	local: Local(0m -1m -17m)
+	fundo: Cor(25% 20 250°)
+)

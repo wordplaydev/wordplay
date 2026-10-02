@@ -1,0 +1,104 @@
+⚽
+Montón de letras
+=== start
+¶Una U gigante con serifa es la cubeta. Cinco letras grandes caen dentro de ella, y luego llueven corazones y pelotas de futbol que se acomodan en sus curvas y ganchos. Todo choca según la forma de su contorno y no según el rectángulo que lo rodea, y eso es lo que permite que la U sostenga cualquier cosa: una pelota se queda quieta dentro de la curva de una letra en vez de flotar encima, y un corazón mete su punta entre dos letras.¶
+
+¶La cubeta es una letra como las demás, en una fuente serif, así que sus brazos terminan en salientes. Necesita un Motion para ser sólida, y tanta masa que nada que caiga dentro pueda empujarla. Se para en el piso entre dos paredes que apenas tocan sus lados: su fondo es redondo, así que sin ellas se voltearía mientras la pila crece.¶
+taza: Frase(
+		'U'
+		22m
+		fuente: "Merriweather"
+		nombre: 'taza'
+		lugar: Movimiento(Lugar(-8.1m -11m))
+		color: Color(85% 10 250°)
+		materia: Materia(
+			masa: 5000kg
+			fricción: 0.9
+			contorno: ⊤
+		)
+	)
+
+¶Una tipografía de pantalla gruesa, porque una letra gorda tiene una curva lo bastante ancha para atrapar una pelota. Las letras se eligen por sus ganchos y curvas.¶
+cara2: 'Titan One'
+letras: ['a' 'b' 'c' 'd' 'e']
+
+¶Las letras caen primero, desde el mismo lugar pero a alturas distintas, así que cada una aterriza sobre la anterior y la pila crece hacia arriba.
+
+Una letra es sólida solo porque su lugar es un Movimiento y tiene Materia: la salida que un programa coloca es un fantasma que todo atraviesa. Su masa es lo que evita que las pelotas empujen la pila y la separen, y pedirle a la Materia un contorno es lo que hace que choquen según la forma de sus letras.¶
+pila: letras.traducir(
+		ƒ(letra•'' índice2•#)
+			Frase(
+				letra
+				3m
+				cara2
+				nombre: "letter\índice2\"
+				lugar: Movimiento(
+					Lugar(
+						((índice2 × 0.5m) - 2m)
+						((índice2 × 5m) + 8m)
+					)
+				)
+				color: Color(75% 80 (índice2 × 62°))
+				materia: Materia(
+					masa: 60kg
+					fricción: 0.9
+					contorno: ⊤
+				)
+			)
+	)
+
+¶Los corazones caen después. Un emoji también puede pedir su contorno, así que cada corazón choca según su forma: su punta se mete en los huecos donde una caja se quedaría encima.¶
+corazones: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traducir(
+		ƒ(corazón•'' índice3•#)
+			Frase(
+				corazón
+				2m
+				nombre: "heart\índice3\"
+				lugar: Movimiento(
+					Lugar(
+						((índice3 × 0.6m) - 2.2m)
+						((índice3 × 1.5m) + 34m)
+					)
+				)
+				materia: Materia(
+					masa: 20kg
+					fricción: 0.8
+					contorno: ⊤
+				)
+			)
+	)
+
+¶Las pelotas comienzan arriba de todo, así que llegan después de que la pila ya se acomodó. Ellas no piden un contorno: su rectángulo, redondeado por completo, es lo que las hace rodar.¶
+pelotas: 18 → [].traducir(
+		ƒ(número2)
+			Frase(
+				"⚽"
+				1.1m
+				nombre: "ball\número2\"
+				lugar: Movimiento(
+					Lugar(Azar(-2m 2m) ((número2 × 1.8m) + 44m))
+					Velocidad(Azar(-1m/s 1m/s) 0m/s)
+				)
+				materia: Materia(
+					elasticidad: 0.3
+					fricción: 0.4
+					redondez: 0.5
+				)
+			)
+	)
+
+Escenario(
+	[
+		¶Un piso, y dos paredes contra los lados de la cubeta.¶
+		Figura(Rectángulo(-10m -11m 10m -12m))
+		Figura(Rectángulo(-8.8m 12m -7.8m -11m))
+		Figura(Rectángulo(7.8m 12m 8.8m -11m))
+		taza
+		:pila
+		:corazones
+		:pelotas
+	]
+	gravedad: 9.8m/s^2
+	lugar: Lugar(0m -1m -17m)
+	fondo: Color(25% 20 250°)
+)

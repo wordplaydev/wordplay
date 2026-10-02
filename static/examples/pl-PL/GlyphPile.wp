@@ -1,0 +1,100 @@
+⚽
+Stos liter
+=== start
+¶Wielkie szeryfowe U to wiadro. Pięć dużych liter wpada do niego, a potem spadają serca i piłki do piłki nożnej, które osiadają w miseczkach i haczykach. Wszystko zderza się według kształtu swojego obrysu, a nie według prostokąta wokół niego. To właśnie dlatego U może pomieścić cokolwiek: piłka ląduje w miseczce litery zamiast unosić się nad nią, a serce wciska swój czubek między dwie litery.¶
+
+¶Wiadro to taka sama litera jak reszta, w kroju szeryfowym, więc jego ramiona kończą się półkami. Potrzebuje Ruchu, żeby być stałe, i tyle masy, by nic, co na nie spadnie, nie mogło go przesunąć. Stoi na podłodze między dwiema ścianami, które ledwo dotykają jego boków: jego spód jest okrągły, więc bez nich przechyliłoby się, gdy stos rośnie.¶
+kubek: Wyrażenie(
+		'U'
+		22m
+		twarz: "Merriweather"
+		nazwa: 'kubek'
+		miejsce: Ruch(Miejsce(-8.1m -11m))
+		kolor: Kolor(85% 10 250°)
+		materiał: Materiał(masa: 5000kg tarcie: 0.9 kontur: ⊤)
+	)
+
+¶Ciężki krój do nagłówków, bo gruba litera ma miseczkę na tyle szeroką, by złapać piłkę. Litery są wybrane ze względu na ich haczyki i miseczki.¶
+krójPisma: 'Titan One'
+litery: ['a' 'b' 'c' 'd' 'e']
+
+¶Litery spadają jako pierwsze, z tego samego miejsca, ale na różnych wysokościach, więc każda ląduje na poprzedniej i stos rośnie w górę.
+
+Litera jest stała tylko dlatego, że jej miejsce to Ruch i ma Materię — wyjście, które umieszcza program, jest widmem, przez które wszystko przechodzi. Ich masa sprawia, że piłki nie rozpychają stosu, a poproszenie Materii o obrys sprawia, że zderzają się według kształtu swoich liter.¶
+stos: litery.tłumaczyć(
+		ƒ(litera•'' indeks2•#)
+			Wyrażenie(
+				litera
+				3m
+				krójPisma
+				nazwa: "letter\indeks2\"
+				miejsce: Ruch(
+					Miejsce(
+						((indeks2 × 0.5m) - 2m)
+						((indeks2 × 5m) + 8m)
+					)
+				)
+				kolor: Kolor(75% 80 (indeks2 × 62°))
+				materiał: Materiał(
+					masa: 60kg
+					tarcie: 0.9
+					kontur: ⊤
+				)
+			)
+	)
+
+¶Następnie spadają serca. Emotikon też może poprosić o swój obrys, więc każde serce zderza się według swojego kształtu: jego czubek wsuwa się w szczeliny, na których prostokąt by tylko leżał.¶
+serca: ['🧡' '💛' '💚' '💙' '💜' '🩷'].tłumaczyć(
+		ƒ(serce•'' indeks3•#)
+			Wyrażenie(
+				serce
+				2m
+				nazwa: "heart\indeks3\"
+				miejsce: Ruch(
+					Miejsce(
+						((indeks3 × 0.6m) - 2.2m)
+						((indeks3 × 1.5m) + 34m)
+					)
+				)
+				materiał: Materiał(
+					masa: 20kg
+					tarcie: 0.8
+					kontur: ⊤
+				)
+			)
+	)
+
+¶Piłki zaczynają nad wszystkim innym, więc docierają na miejsce dopiero, gdy stos już się ułożył. Nie proszą o obrys: to ich prostokąt, zaokrąglony ze wszystkich stron, sprawia, że się toczą.¶
+piłki: 18 → [].tłumaczyć(
+		ƒ(liczba2)
+			Wyrażenie(
+				"⚽"
+				1.1m
+				nazwa: "ball\liczba2\"
+				miejsce: Ruch(
+					Miejsce(Losowy(-2m 2m) ((liczba2 × 1.8m) + 44m))
+					Prędkość(Losowy(-1m/s 1m/s) 0m/s)
+				)
+				materiał: Materiał(
+					sprężystość: 0.3
+					tarcie: 0.4
+					zaokrąglenie: 0.5
+				)
+			)
+	)
+
+Scena(
+	[
+		¶Podłoga i dwie ściany przy bokach wiadra.¶
+		Kształt(Prostokąt(-10m -11m 10m -12m))
+		Kształt(Prostokąt(-8.8m 12m -7.8m -11m))
+		Kształt(Prostokąt(7.8m 12m 8.8m -11m))
+		kubek
+		:stos
+		:serca
+		:piłki
+	]
+	powaga: 9.8m/s^2
+	miejsce: Miejsce(0m -1m -17m)
+	tło: Kolor(25% 20 250°)
+)
