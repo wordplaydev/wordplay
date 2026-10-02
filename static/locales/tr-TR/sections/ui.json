@@ -102,6 +102,10 @@
             "synced": {
                 "saved": "$~Cihazlar arasında kaydedilir",
                 "signedOut": "$~Giriş yaptığında cihazlar arasında kaydedilir"
+            },
+            "readAloud": {
+                "on": "$~sesli okumayı durdur",
+                "off": "$~bunu sesli oku"
             }
         },
         "tile": {
@@ -1604,6 +1608,24 @@
                             "$~sahneyi sağ üste yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir",
                             "$~sahneyi sol alta yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir",
                             "$~sahneyi sağ alta yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~öğreticiyi sesli oku",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Bir öğretici satırını, yalnızca sesli oku düğmesine basıldığında sesli oku",
+                            "$~Her yeni öğretici satırını göründüğü anda sesli oku"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~okuma hızı",
+                        "labels": ["$~¾", "$~1x", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~Daha yavaş sesli oku",
+                            "$~Sesin olağan hızında sesli oku",
+                            "$~Biraz daha hızlı sesli oku",
+                            "$~Daha da hızlı sesli oku"
                         ]
                     }
                 },

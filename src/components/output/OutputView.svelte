@@ -2452,6 +2452,10 @@
      *  said. */
     let lastSpokenPerformance: number | undefined = undefined;
 
+    /** Whether this stage is the one that last spoke. `SaySource` is shared by
+     *  every stage on the page, so a silent preview must not cancel another's. */
+    let spoke = false;
+
     // Speak the queued Say outputs, but only when the text actually changes.
     // Programs driven by streams re-evaluate constantly, so restarting speech
     // on every evaluation would cancel each utterance before it finished.
@@ -2473,9 +2477,12 @@
         // evaluation still populates says. Cancel anything mid-flight when paused and record
         // nothing — recording here is what would break a rewind, since a scrub fires many
         // replays while paused and only the state on resuming play should decide.
-        // (Every other input here guards the same way.)
-        if (!playing) {
-            speech.cancel(SaySource);
+        // (Every other input here guards the same way.) A surface without
+        // `sound` is silent like its music, or every docs example with a Say
+        // would speak as the page loads.
+        if (!playing || !sound) {
+            if (spoke) speech.cancel(SaySource);
+            spoke = false;
             return;
         }
 
@@ -2500,6 +2507,7 @@
         // The bus chains these itself and cancels what this source had
         // pending, which is what the hand-rolled `onend` chain here used to do
         // — except that it cancelled every other source's speech along with it.
+        spoke = true;
         speech.speak(
             SaySource,
             currentSays.flatMap(({ say, captioned }) =>

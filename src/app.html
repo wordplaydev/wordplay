@@ -1230,6 +1230,18 @@
                 --wordplay-link-underline-color: var(--color-orange);
             }
 
+            /* Text being read aloud (#1015): the passage faintly, the word
+               being spoken as a highlight surface, whose black-on-gold pair is
+               the one measured above. Highlights paint over any element, so
+               these can't be scoped to a component. */
+            ::highlight(read-aloud-chunk) {
+                background-color: var(--color-yellow-transparent);
+            }
+            ::highlight(read-aloud-word) {
+                background-color: var(--wordplay-highlight-color);
+                color: var(--black-light);
+            }
+
             /* Two-band focus ring for surfaces the ring can't contrast with.
 
                CSS can't ask what color is painted behind a control, and

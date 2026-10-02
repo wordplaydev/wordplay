@@ -35,6 +35,8 @@
         musicDucking,
         musicVisualization,
         musicVolume,
+        readAloud,
+        readAloudRate,
         Settings,
         showLines,
         stagePlacement,
@@ -58,6 +60,10 @@
         CaptionSizeIcons,
         CaptionSizes,
     } from '@db/settings/CaptionSizeSetting';
+    import {
+        ReadAloudRateIcons,
+        ReadAloudRates,
+    } from '@db/settings/SaySetting';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import {
         MusicVisualizationIcons,
@@ -646,6 +652,28 @@
                         /></Subheader
                     >
                     <div class="header-row-end"></div>
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.readAloud}
+                        choice={$readAloud ? 1 : 0}
+                        select={(choice) => Settings.setReadAloud(choice === 1)}
+                        icons={['◌', '📖']}
+                    />
+                    <!-- No browser lets a page read the system's rate. -->
+                    <Mode
+                        grid
+                        modes={(l) => l.ui.dialog.settings.mode.readAloudRate}
+                        choice={Math.max(
+                            0,
+                            ReadAloudRates.indexOf($readAloudRate),
+                        )}
+                        select={(choice) =>
+                            Settings.setReadAloudRate(
+                                ReadAloudRates[choice] ?? 1,
+                            )}
+                        icons={ReadAloudRateIcons}
+                        modeLabels={false}
+                    />
                     <!-- Driven by the arrays like the rendering chooser above, so
                          adding a size is one entry rather than a hand-written
                          index. Unconditional, unlike the voice chooser below it:

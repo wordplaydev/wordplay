@@ -50,7 +50,7 @@
     });
 </script>
 
-<Speech character={concept.getCharacter($locales)} below={true}>
+<Speech character={concept.getCharacter($locales)} below={true} read>
     {#snippet content()}
         {#if concept.getDocs($locales)[0]}
             <MarkupHTMLView

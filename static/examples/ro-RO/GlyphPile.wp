@@ -1,0 +1,89 @@
+⚽
+Grămadă de litere
+=== start
+¶Un U uriaș cu serife este găleata. Cinci litere mari cad în ea, apoi inimi și mingi de fotbal plouă și se așază în vasele și cârligele lor. Totul se lovește după forma conturului, nu după dreptunghiul din jurul ei, și tocmai asta face ca U-ul să poată ține orice: o minge se oprește în vasul unei litere în loc să plutească deasupra ei, iar o inimă își înfige vârful între două litere.¶
+
+¶Găleata este o literă la fel ca celelalte, într-un font cu serife, așa că brațele ei se termină în muchii plate. Are nevoie de o Mișcare ca să fie solidă și are atâta masă încât nimic din ce cade în ea nu o poate urni. Stă pe podea între doi pereți care îi ating exact marginile: fundul ei e rotund, așa că fără pereți s-ar răsturna pe măsură ce grămada crește.¶
+cupă: Fraza(
+		'U'
+		22m
+		faţă: "Merriweather"
+		nume: 'cupă'
+		loc: Mişcare(Loc(-8.1m -11m))
+		culoare: Culoare(85% 10 250°)
+		materie: Materie(masa: 5000kg frecare: 0.9 contur: ⊤)
+	)
+
+¶Un font gros de afișaj, pentru că o literă groasă are un vas destul de larg ca să prindă o minge. Literele sunt alese pentru cârligele și vasele lor.¶
+față2: 'Titan One'
+litere: ['a' 'b' 'c' 'd' 'e']
+
+¶Literele cad primele, din același loc, dar de la înălțimi diferite, astfel încât fiecare cade peste ultima, iar grămada crește în sus.
+
+O literă este solidă doar pentru că locul ei este o Mișcare și are Materie — o ieșire pe care un program o plasează este o fantomă prin care totul trece. Masa lor este cea care împiedică mingile să împrăștie grămada, iar faptul că cer Materiei un contur este ceea ce le face să se lovească după forma literelor.¶
+grămadă: litere.traduce(
+		ƒ(literă•'' index2•#)
+			Fraza(
+				literă
+				3m
+				față2
+				nume: "letter\index2\"
+				loc: Mişcare(
+					Loc(((index2 × 0.5m) - 2m) ((index2 × 5m) + 8m))
+				)
+				culoare: Culoare(75% 80 (index2 × 62°))
+				materie: Materie(masa: 60kg frecare: 0.9 contur: ⊤)
+			)
+	)
+
+¶Inimile cad apoi. Un emoji poate cere și el conturul lui, așa că fiecare inimă se lovește după forma ei: vârful ei alunecă în golurile peste care o cutie ar sta deasupra.¶
+inimi: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traduce(
+		ƒ(inimă•'' index3•#)
+			Fraza(
+				inimă
+				2m
+				nume: "heart\index3\"
+				loc: Mişcare(
+					Loc(
+						((index3 × 0.6m) - 2.2m)
+						((index3 × 1.5m) + 34m)
+					)
+				)
+				materie: Materie(masa: 20kg frecare: 0.8 contur: ⊤)
+			)
+	)
+
+¶Mingile pornesc deasupra tuturor, așa că ajung după ce grămada s-a așezat. Ele nu cer un contur: dreptunghiul lor, rotunjit peste tot, este cel care le face să se rostogolească.¶
+mingi: 18 → [].traduce(
+		ƒ(număr2)
+			Fraza(
+				"⚽"
+				1.1m
+				nume: "ball\număr2\"
+				loc: Mişcare(
+					Loc(Aleatoriu(-2m 2m) ((număr2 × 1.8m) + 44m))
+					Viteză(Aleatoriu(-1m/s 1m/s) 0m/s)
+				)
+				materie: Materie(
+					elasticitate: 0.3
+					frecare: 0.4
+					rotunjime: 0.5
+				)
+			)
+	)
+
+Etapă(
+	[
+		¶O podea și doi pereți lipiți de marginile găleții.¶
+		Figură(Dreptunghi(-10m -11m 10m -12m))
+		Figură(Dreptunghi(-8.8m 12m -7.8m -11m))
+		Figură(Dreptunghi(7.8m 12m 8.8m -11m))
+		cupă
+		:grămadă
+		:inimi
+		:mingi
+	]
+	gravitaţie: 9.8m/s^2
+	loc: Loc(0m -1m -17m)
+	fundal: Culoare(25% 20 250°)
+)

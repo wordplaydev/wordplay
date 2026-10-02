@@ -30,7 +30,7 @@
                             "$~În majoritatea limbajelor de programare, un program este o listă de @how care îi spun computerului ce să *facă*, cum ar fi afișarea unei valori:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~În @wordplay, programele sunt *expresii* care spun care ar trebui să fie /rezultatul/ programului, nu cum ar trebui să îl producă.",
-                            "$~Acest program se evaluează la valoarea \\'salut'\\, care apoi este arătată pe scenă. Nicio comandă de afișare, doar o @expression care spune la ce @value să se evalueze."
+                            "$~Acest program se evaluează la valoarea \\'salut'\\, care apoi este afișată pe scenă. Nicio comandă de afișare, doar un @expression care spune la ce @value să se ajungă."
                         ],
                         null,
                         { "edit": ["message: 'hi'", "message"] },

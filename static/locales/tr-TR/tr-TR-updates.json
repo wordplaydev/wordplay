@@ -1017,6 +1017,9 @@
         "ebd63de5a63f1": "$~Ekran okuyucular ve sesli okunan metinler artık her kelimeyi kendi dilinde okuyor. Bu yüzden Türkçe bir cümlenin içindeki İspanyolca bir kelime İspanyolca gibi duyulur. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
         "e7914aaea390a": "$~13 dilde, \"nasıl\" gibi günlük kelimeler artık yanlışlıkla altı noktalı çizgili bağlantıya dönüşmüyor.",
         "ed72c4878ae09": "$~Turlardaki ve dokümantasyondaki düğme ve ayar adları artık İngilizce yerine her dilin kendi kelimelerini kullanıyor.",
-        "e42e9e3c1d92a": "$~Altı noktalı çizgili kelimelerin önünde artık bazı dillerde başıboş semboller görünmüyor."
+        "e42e9e3c1d92a": "$~Altı noktalı çizgili kelimelerin önünde artık bazı dillerde başıboş semboller görünmüyor.",
+        "e6f07748bed1c": "$~<Learn@https://wordplay.dev/learn> içindeki dersler ve Rehber'deki açıklamalarda artık metni sesli okuyan ve okunurken her kelimeyi vurgulayan bir düğme var. Ayarlar sayesinde okuma hızını seçebilir ve her yeni ders satırının kendi başına okunmasını sağlayabilirsiniz. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
+        "e4b9091b3c539": "$~<Guide@https://wordplay.dev/guide> içindeki örnekler artık sayfa açılır açılmaz konuşmuyor, yalnızca oynat düğmesine bastığınızda sesleniyor.",
+        "e4b5e128afb9d": "$~Mac'te Chrome ve diğer Chromium tabanlı tarayıcılarda sesli metin artık Albert ya da Bubbles gibi komik bir ses yerine sıradan bir ses kullanıyor."
     }
 }

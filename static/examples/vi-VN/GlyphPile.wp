@@ -1,0 +1,92 @@
+⚽
+Đống Chữ Cái
+=== start
+¶Một chữ U khổng lồ có chân là cái xô. Năm chữ cái lớn rơi vào trong đó, rồi những trái tim và quả bóng đá đổ xuống như mưa, lắng xuống trong lòng chén và móc của chúng. Mọi thứ va chạm theo đúng hình dạng đường viền của nó chứ không theo hình chữ nhật bao quanh nó. Chính điều đó khiến chữ U có thể chứa được bất cứ thứ gì: một quả bóng nằm yên trong lòng chữ cái thay vì lơ lửng bên trên nó, và một trái tim chèn đầu nhọn của nó vào giữa hai chữ cái.¶
+
+¶Cái xô cũng là một chữ cái như những cái khác, viết bằng kiểu chữ chân phương nên các nét của nó kết thúc bằng những gờ bằng. Nó cần một Motion để trở nên cứng chắc, và cần khối lượng lớn đến mức không thứ gì rơi vào có thể đẩy nó đi. Nó đứng trên sàn, kẹp giữa hai bức tường chạm nhẹ vào hai bên: đáy nó tròn, nên nếu không có hai bức tường đó, nó sẽ lật nghiêng khi đống đồ vật chất cao dần.¶
+cốc: Cụmtừ(
+		'U'
+		22m
+		khuônmặt: "Merriweather"
+		tên: 'cốc'
+		vịTrí: Cửđộng(VịTrí(-8.1m -11m))
+		màusắc: Màusắc(85% 10 250°)
+		vấnđề: Vấnđề(khối: 5000kg masát: 0.9 đườngViền: ⊤)
+	)
+
+¶Một kiểu chữ trình bày đậm nét, vì một chữ cái béo có lòng chén đủ rộng để hứng một quả bóng. Các chữ cái được chọn vì có móc và lòng chén.¶
+mặt: 'Titan One'
+chữCái: ['a' 'b' 'c' 'd' 'e']
+
+¶Các chữ cái rơi xuống trước, từ cùng một vị trí nhưng ở độ cao lệch nhau, để mỗi chữ rơi lên trên chữ trước đó và đống cứ cao dần lên.
+
+Một chữ cái chỉ cứng chắc vì vị trí của nó là một Motion và nó có Matter — phần đầu ra mà một chương trình đặt vào vốn chỉ là một bóng ma mà mọi thứ xuyên qua được. Khối lượng của chúng là thứ giữ cho các quả bóng không đẩy đống đồ vật tách rời nhau, và việc yêu cầu Matter cho đường viền chính là điều khiến chúng va chạm theo đúng hình dạng chữ cái.¶
+đống: chữCái.dịch(
+		ƒ(chữCái2•'' chỉMục2•#)
+			Cụmtừ(
+				chữCái2
+				3m
+				mặt
+				tên: "letter\chỉMục2\"
+				vịTrí: Cửđộng(
+					VịTrí(
+						((chỉMục2 × 0.5m) - 2m)
+						((chỉMục2 × 5m) + 8m)
+					)
+				)
+				màusắc: Màusắc(75% 80 (chỉMục2 × 62°))
+				vấnđề: Vấnđề(khối: 60kg masát: 0.9 đườngViền: ⊤)
+			)
+	)
+
+¶Tiếp theo là những trái tim rơi xuống. Một biểu tượng cảm xúc cũng có thể yêu cầu đường viền của nó, nên mỗi trái tim va chạm theo đúng hình dạng của nó: đầu nhọn của nó trượt vào những khe hở mà một hình hộp sẽ chỉ nằm chồng lên trên.¶
+tráiTim: ['🧡' '💛' '💚' '💙' '💜' '🩷'].dịch(
+		ƒ(tráiTim2•'' chỉMục3•#)
+			Cụmtừ(
+				tráiTim2
+				2m
+				tên: "heart\chỉMục3\"
+				vịTrí: Cửđộng(
+					VịTrí(
+						((chỉMục3 × 0.6m) - 2.2m)
+						((chỉMục3 × 1.5m) + 34m)
+					)
+				)
+				vấnđề: Vấnđề(khối: 20kg masát: 0.8 đườngViền: ⊤)
+			)
+	)
+
+¶Các quả bóng bắt đầu ở trên cùng mọi thứ, nên chúng đến sau khi đống đồ vật đã lắng xuống. Chúng không yêu cầu đường viền: chính hình chữ nhật của chúng, được bo tròn hoàn toàn, là thứ khiến chúng lăn được.¶
+quảBóng: 18 → [].dịch(
+		ƒ(số2)
+			Cụmtừ(
+				"⚽"
+				1.1m
+				tên: "ball\số2\"
+				vịTrí: Cửđộng(
+					VịTrí(Ngẫunhiên(-2m 2m) ((số2 × 1.8m) + 44m))
+					Vậntốc(Ngẫunhiên(-1m/s 1m/s) 0m/s)
+				)
+				vấnđề: Vấnđề(
+					độđànhồi: 0.3
+					masát: 0.4
+					độtròn: 0.5
+				)
+			)
+	)
+
+Sânkhấu(
+	[
+		¶Một sàn nhà, và hai bức tường áp sát hai bên cái xô.¶
+		Hìnhdạng(Hìnhchữnhật(-10m -11m 10m -12m))
+		Hìnhdạng(Hìnhchữnhật(-8.8m 12m -7.8m -11m))
+		Hìnhdạng(Hìnhchữnhật(7.8m 12m 8.8m -11m))
+		cốc
+		:đống
+		:tráiTim
+		:quảBóng
+	]
+	trọnglực: 9.8m/s^2
+	vịTrí: VịTrí(0m -1m -17m)
+	lýlịch: Màusắc(25% 20 250°)
+)

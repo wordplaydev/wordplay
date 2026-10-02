@@ -54,6 +54,12 @@ export type Utterance = {
      * line throughout, rather than flickering from part to part.
      */
     caption?: string;
+    /**
+     * The caller's own index for this utterance, reported back while it is
+     * spoken, so a reader that split a passage into pieces knows which piece
+     * a word boundary falls in.
+     */
+    mark?: number;
 };
 
 /**

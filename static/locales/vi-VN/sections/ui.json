@@ -102,6 +102,10 @@
             "synced": {
                 "saved": "$~Được lưu trên mọi thiết bị",
                 "signedOut": "$~Được lưu trên mọi thiết bị khi bạn đăng nhập"
+            },
+            "readAloud": {
+                "on": "$~ngừng đọc to",
+                "off": "$~đọc to đoạn này"
             }
         },
         "tile": {
@@ -1859,6 +1863,24 @@
                             "$~đặt sân khấu ở trên bên phải, và các khối khác ở những vị trí tương ứng xung quanh nó",
                             "$~đặt sân khấu ở dưới bên trái, và các khối khác ở những vị trí tương ứng xung quanh nó",
                             "$~đặt sân khấu ở dưới bên phải, và các khối khác ở những vị trí tương ứng xung quanh nó"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~đọc to bài học",
+                        "labels": ["$~tắt", "$~bật"],
+                        "tips": [
+                            "$~Chỉ đọc to một dòng của bài học khi nút đọc to của nó được bấm",
+                            "$~Đọc to mỗi dòng mới của bài học ngay khi nó xuất hiện"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~tốc độ đọc",
+                        "labels": ["$~¾", "$~1x", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~Đọc to chậm hơn",
+                            "$~Đọc to với tốc độ bình thường của giọng đọc",
+                            "$~Đọc to nhanh hơn một chút",
+                            "$~Đọc to nhanh hơn nữa"
                         ]
                     }
                 },

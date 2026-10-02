@@ -30,7 +30,7 @@
                             "$~Trong hầu hết các @language lập trình, một chương trình là một danh sách các câu lệnh bảo máy tính *làm* gì, như in ra một @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~Trong @wordplay, các chương trình là *expression* nói rằng /kết quả/ của chương trình phải là gì, chứ không phải cách tạo ra nó.",
-                            "$~Chương trình này được tính ra value \\'hi'\\, rồi value đó được hiện lên sân khấu. Không có lệnh in, chỉ có một @expression nói value cần tính ra là gì."
+                            "$~Chương trình này tính ra giá trị \\'chào'\\, rồi giá trị đó được hiện ra trên sân khấu. Không cần lệnh in, chỉ cần một @expression nói cho biết phải tính ra giá trị nào."
                         ],
                         null,
                         { "edit": ["message: 'hi'", "message"] },

@@ -1017,6 +1017,9 @@
         "ebd63de5a63f1": "$~Ahora los lectores de pantalla y el texto hablado leen cada palabra en su propio idioma. Así, una palabra en español dentro de una oración en inglés suena en español. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
         "e7914aaea390a": "$~En 13 idiomas, las palabras de uso diario como \"cómo\" ya no se convierten por error en enlaces con subrayado punteado.",
         "ed72c4878ae09": "$~Ahora los nombres de botones y configuraciones en los recorridos y en la documentación usan las palabras de cada idioma en lugar del inglés.",
-        "e42e9e3c1d92a": "$~Las palabras con un subrayado punteado ya no muestran símbolos sueltos delante de ellas en algunos idiomas."
+        "e42e9e3c1d92a": "$~Las palabras con un subrayado punteado ya no muestran símbolos sueltos delante de ellas en algunos idiomas.",
+        "e6f07748bed1c": "$~Las lecciones en <Aprender@https://wordplay.dev/learn> y las explicaciones en la Guía ahora tienen un botón que las lee en voz alta y resalta cada palabra mientras se dice, y la configuración te permite elegir qué tan rápido va y hacer que cada línea nueva de la lección se lea por separado. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
+        "e4b9091b3c539": "$~Los ejemplos en la <Guía@https://wordplay.dev/guide> ya no hablan apenas se abre la página, y solo hablan después de que presionas su botón de reproducir.",
+        "e4b5e128afb9d": "$~El texto hablado en Chrome y otros navegadores Chromium en una Mac ahora usa una voz común en lugar de una voz graciosa como Albert o Bubbles."
     }
 }

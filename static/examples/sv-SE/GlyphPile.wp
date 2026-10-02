@@ -1,0 +1,97 @@
+⚽
+Bokstavshög
+=== start
+¶Ett jättelikt U med seriffer är hinken. Fem stora bokstäver ramlar ner i den, sedan regnar det hjärtan och fotbollar som lägger sig i sina skålar och krokar. Allt krockar efter formen på sin kontur och inte efter rektangeln runt om, och det är det som gör att U:et kan hålla vad som helst: en boll lägger sig inne i skålen på en bokstav i stället för att sväva ovanför den, och ett hjärta kilar in sin spets mellan två bokstäver.¶
+
+¶Hinken är en bokstav precis som de andra, i ett typsnitt med seriffer så att armarna slutar i avsatser. Den behöver en Motion för att vara fast, och så mycket massa att inget som landar i den kan knuffa den. Den står på golvet mellan två väggar som precis rör vid sidorna: botten är rund, så utan väggarna skulle den välta när högen växer.¶
+kopp: Fras(
+		'U'
+		22m
+		ansikte: "Merriweather"
+		namn: 'kopp'
+		plats: Rörelse(Plats(-8.1m -11m))
+		färg: Färg(85% 10 250°)
+		materia: Materia(massa: 5000kg friktion: 0.9 kontur: ⊤)
+	)
+
+¶Ett tungt skyltsnitt, för en tjock bokstav har en skål som är bred nog att fånga en boll. Bokstäverna är valda för sina krokar och skålar.¶
+ansikte2: 'Titan One'
+bokstäver: ['a' 'b' 'c' 'd' 'e']
+
+¶Bokstäverna faller först, från samma plats men från olika höjder, så att varje bokstav landar på den förra och högen växer uppåt.
+
+En bokstav är bara fast för att dess plats är en Motion och den har Matter — utdata som ett program placerar är annars ett spöke som allt passerar rakt igenom. Deras massa är det som hindrar bollarna från att knuffa isär högen, och att be Matter om en kontur är det som gör att de krockar efter sin bokstavsform.¶
+hög2: bokstäver.översätta(
+		ƒ(bokstav•'' index2•#)
+			Fras(
+				bokstav
+				3m
+				ansikte2
+				namn: "letter\index2\"
+				plats: Rörelse(
+					Plats(((index2 × 0.5m) - 2m) ((index2 × 5m) + 8m))
+				)
+				färg: Färg(75% 80 (index2 × 62°))
+				materia: Materia(
+					massa: 60kg
+					friktion: 0.9
+					kontur: ⊤
+				)
+			)
+	)
+
+¶Hjärtana faller härnäst. En emoji kan också be om sin kontur, så varje hjärta krockar efter sin form: spetsen glider in i springorna som en låda annars bara skulle ligga ovanpå.¶
+hjärtan: ['🧡' '💛' '💚' '💙' '💜' '🩷'].översätta(
+		ƒ(hjärta•'' index3•#)
+			Fras(
+				hjärta
+				2m
+				namn: "heart\index3\"
+				plats: Rörelse(
+					Plats(
+						((index3 × 0.6m) - 2.2m)
+						((index3 × 1.5m) + 34m)
+					)
+				)
+				materia: Materia(
+					massa: 20kg
+					friktion: 0.8
+					kontur: ⊤
+				)
+			)
+	)
+
+¶Bollarna börjar ovanför allt annat, så de kommer fram efter att högen har lagt sig. De ber inte om någon kontur: deras rektangel, rundad hela vägen runt, är det som gör att de rullar.¶
+bollar: 18 → [].översätta(
+		ƒ(tal2)
+			Fras(
+				"⚽"
+				1.1m
+				namn: "ball\tal2\"
+				plats: Rörelse(
+					Plats(Slumpmässig(-2m 2m) ((tal2 × 1.8m) + 44m))
+					Hastighet(Slumpmässig(-1m/s 1m/s) 0m/s)
+				)
+				materia: Materia(
+					studsighet: 0.3
+					friktion: 0.4
+					rundhet: 0.5
+				)
+			)
+	)
+
+Etapp(
+	[
+		¶Ett golv, och två väggar mot hinkens sidor.¶
+		Figur(Rektangel(-10m -11m 10m -12m))
+		Figur(Rektangel(-8.8m 12m -7.8m -11m))
+		Figur(Rektangel(7.8m 12m 8.8m -11m))
+		kopp
+		:hög2
+		:hjärtan
+		:bollar
+	]
+	allvar: 9.8m/s^2
+	plats: Plats(0m -1m -17m)
+	bakgrund: Färg(25% 20 250°)
+)

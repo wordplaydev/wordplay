@@ -30,7 +30,7 @@
                             "In most programming @languages, a program is a list of statements that tell the computer what to *do*, like printing a @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "In @wordplay, programs are *expressions* that say what the /result/ of the program should be, not how it should produce it.",
-                            "This program evalutes to the value \\'hi'\\, which is then shown on stage. No print command, just an @expression that says what value to evaluate to."
+                            "This program evaluates to the value \\'hi'\\, which is then shown on stage. No print command, just an @expression that says what value to evaluate to."
                         ],
                         null,
                         { "edit": ["message: 'hi'", "message"] },

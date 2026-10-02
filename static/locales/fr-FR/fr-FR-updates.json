@@ -1017,6 +1017,9 @@
         "ebd63de5a63f1": "$~Les lecteurs d'écran et le texte parlé lisent maintenant chaque mot dans sa propre langue, donc un mot espagnol dans une phrase en français sonne espagnol. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
         "e7914aaea390a": "$~Dans 13 langues, les mots courants comme \"comment\" ne se transforment plus par erreur en liens soulignés en pointillés.",
         "ed72c4878ae09": "$~Les noms des boutons et des réglages dans les visites guidées et la documentation utilisent maintenant les mots de chaque langue au lieu de l'anglais.",
-        "e42e9e3c1d92a": "$~Les mots soulignés en pointillés n'affichent plus de symboles en trop devant eux dans certaines langues."
+        "e42e9e3c1d92a": "$~Les mots soulignés en pointillés n'affichent plus de symboles en trop devant eux dans certaines langues.",
+        "e6f07748bed1c": "$~Les leçons dans <Apprendre@https://wordplay.dev/learn> et les explications dans le Guide ont maintenant un bouton qui les lit à voix haute et surligne chaque mot pendant qu'il est prononcé. Les réglages permettent de choisir la vitesse et de faire lire chaque nouvelle ligne de leçon séparément. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
+        "e4b9091b3c539": "$~Les exemples dans le <Guide@https://wordplay.dev/guide> ne parlent plus dès l'ouverture de la page, et ne parlent qu'après que vous appuyez sur leur bouton de lecture.",
+        "e4b5e128afb9d": "$~Le texte lu à voix haute dans Chrome et les autres navigateurs Chromium sur un Mac utilise maintenant une voix ordinaire au lieu d'une voix amusante comme Albert ou Bubbles."
     }
 }

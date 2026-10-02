@@ -1017,6 +1017,9 @@
         "ebd63de5a63f1": "$~Binabasa na ngayon ng mga screen reader at binibigkas na teksto ang bawat salita sa sarili nitong wika, kaya ang salitang Espanyol sa loob ng pangungusap na Ingles ay tunog Espanyol. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
         "e7914aaea390a": "$~Sa 13 wika, ang mga pang-araw-araw na salita tulad ng \"paano\" ay hindi na nagiging link na may tuldok-tuldok na guhit sa ilalim nang nagkakamali.",
         "ed72c4878ae09": "$~Ang mga pangalan ng mga button at setting sa mga paglilibot at dokumentasyon ay gumagamit na ngayon ng sariling mga salita ng bawat wika sa halip na Ingles.",
-        "e42e9e3c1d92a": "$~Ang mga salitang may tuldok-tuldok na guhit sa ilalim ay hindi na nagpapakita ng mga naliligaw na simbolo sa harap nila sa ilang wika."
+        "e42e9e3c1d92a": "$~Ang mga salitang may tuldok-tuldok na guhit sa ilalim ay hindi na nagpapakita ng mga naliligaw na simbolo sa harap nila sa ilang wika.",
+        "e6f07748bed1c": "$~Ang mga aralin sa <Learn@https://wordplay.dev/learn> at ang mga paliwanag sa Gabay ay may bagong buton na nagbabasa sa mga ito nang malakas at nagha-highlight sa bawat salita habang binabasa ito. May mga setting din na nagpapahintulot sa iyong piliin kung gaano kabilis ito babasahin, at magpabasa sa bawat bagong linya ng aralin nang nag-iisa. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
+        "e4b9091b3c539": "$~Ang mga halimbawa sa <Guide@https://wordplay.dev/guide> ay hindi na nagsasalita sa sandaling mabuksan ang pahina, at nagsasalita na lamang pagkatapos mong pindutin ang kanilang buton ng pag-play.",
+        "e4b5e128afb9d": "$~Ang binibigkas na teksto sa Chrome at sa iba pang Chromium browser sa isang Mac ay gumagamit na ngayon ng karaniwang tinig sa halip na isang nakakatawang tinig tulad ng Albert o Bubbles."
     }
 }

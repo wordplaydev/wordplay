@@ -43,6 +43,8 @@
          *  character must be identical to the expanded one. Toggling this
          *  animates the bubble in/out. */
         bubble?: boolean;
+        /** Whether to offer to read the bubble's text aloud (#1015). */
+        read?: boolean;
         aside?: Snippet;
         content?: Snippet;
     }
@@ -59,6 +61,7 @@
         big = false,
         eyes = false,
         bubble = true,
+        read = false,
         aside,
         content,
     }: Props = $props();
@@ -82,6 +85,7 @@
     // page is actively scrolling, so a page with many bubbles (e.g. a structure concept's
     // ~27 properties) doesn't contend with the compositor and drop frames on mobile.
     let dialog = $state<HTMLElement>();
+    let message = $state<HTMLElement>();
     let onscreen = $state(true);
     $effect(() => {
         const el = dialog;
@@ -145,7 +149,10 @@
                     active={animate}
                     emotion={emotion ?? Emotion.neutral}
                 />{/if}
-        </div>{@render aside?.()}
+        </div>{#if read && bubble && content}<!-- Loaded on demand: this bubble is on nearly every page, and the
+                 button is not needed to render one. -->{#await import('@components/speech/ReadAloud.svelte') then { default: ReadAloud }}<ReadAloud
+                    content={message}
+                />{/await}{/if}{@render aside?.()}
     </div>
     {#if bubble && content}
         <div
@@ -162,6 +169,7 @@
                 // the reader writes vertically.
                 axis: $writingMode === 'horizontal-tb' ? 'y' : 'x',
             }}
+            bind:this={message}
         >
             {#if scroll}
                 <div class="scroller">{@render content()}</div>

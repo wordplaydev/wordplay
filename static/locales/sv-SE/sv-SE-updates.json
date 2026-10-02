@@ -1017,6 +1017,9 @@
         "ebd63de5a63f1": "$~Skärmläsare och uppläst text läser nu varje ord på sitt eget språk, så ett spanskt ord i en engelsk mening låter spanskt. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
         "e7914aaea390a": "$~På 13 språk blir vardagliga ord som \"hur\" inte längre av misstag länkar med prickad understrykning.",
         "ed72c4878ae09": "$~Namn på knappar och inställningar i rundturer och dokumentation använder nu varje språks egna ord i stället för engelska.",
-        "e42e9e3c1d92a": "$~Ord med prickad understrykning visar inte längre lösa symboler framför sig i vissa språk."
+        "e42e9e3c1d92a": "$~Ord med prickad understrykning visar inte längre lösa symboler framför sig i vissa språk.",
+        "e6f07748bed1c": "$~Lektioner i <Lär dig@https://wordplay.dev/learn> och förklaringar i guiden har nu en knapp som läser dem högt och markerar varje ord medan det läses, och inställningar låter dig välja hur snabbt det går och om varje ny lektionsrad ska läsas för sig. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
+        "e4b9091b3c539": "$~Exempel i <guiden@https://wordplay.dev/guide> pratar inte längre så fort sidan öppnas, utan talar först när du trycker på deras spela-knapp.",
+        "e4b5e128afb9d": "$~Uppläst text i Chrome och andra Chromium-webbläsare på en Mac använder nu en vanlig röst istället för en lustig en, som Albert eller Bubbles."
     }
 }

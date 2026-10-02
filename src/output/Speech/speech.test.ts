@@ -10,6 +10,13 @@ class FakeUtterance {
     voice: unknown = null;
     onend: (() => void) | null = null;
     onerror: (() => void) | null = null;
+    onboundary:
+        | ((event: {
+              name: string;
+              charIndex: number;
+              charLength: number;
+          }) => void)
+        | null = null;
     constructor(text: string) {
         this.text = text;
     }
@@ -37,6 +44,7 @@ let synth: FakeSynth;
 let speech: typeof import('@output/Speech/speech').default;
 let SaySource: string;
 let speakingNow: typeof import('@output/Speech/speech').speakingNow;
+let speakingBoundary: typeof import('@output/Speech/speech').speakingBoundary;
 
 beforeEach(async () => {
     synth = new FakeSynth();
@@ -47,6 +55,7 @@ beforeEach(async () => {
     speech = module.default;
     SaySource = module.SaySource;
     speakingNow = module.speakingNow;
+    speakingBoundary = module.speakingBoundary;
 });
 
 afterEach(() => vi.unstubAllGlobals());
@@ -153,5 +162,39 @@ describe('the shell actually reaches the platform', () => {
         speech.cancel(SaySource);
         speech.speak(SaySource, [utterance('hi')]);
         expect(synth.spoken.map((u) => u.text)).toEqual(['hi']);
+    });
+
+    test('a word boundary names the utterance it falls in', () => {
+        speech.speak(SaySource, [
+            { ...utterance('one two'), mark: 0 },
+            { ...utterance('three'), mark: 1 },
+        ]);
+        expect(get(speakingNow)?.mark).toBe(0);
+        synth.spoken[0]?.onboundary?.({
+            name: 'word',
+            charIndex: 4,
+            charLength: 3,
+        });
+        expect(get(speakingBoundary)).toEqual({
+            source: SaySource,
+            mark: 0,
+            index: 4,
+            length: 3,
+        });
+    });
+
+    test('a boundary does not outlive its utterance', () => {
+        speech.speak(SaySource, [
+            { ...utterance('one'), mark: 0 },
+            { ...utterance('two'), mark: 1 },
+        ]);
+        synth.spoken[0]?.onboundary?.({
+            name: 'word',
+            charIndex: 0,
+            charLength: 0,
+        });
+        expect(get(speakingBoundary)?.length).toBeUndefined();
+        synth.spoken[0]?.onend?.();
+        expect(get(speakingBoundary)).toBeUndefined();
     });
 });

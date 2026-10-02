@@ -1,0 +1,89 @@
+⚽
+Harf Yığını
+=== start
+¶Dev bir serif U, kova görevi görür. Beş büyük harf içine düşer, sonra kalpler ve futbol topları yağmur gibi iner, harflerin kıvrımlarına ve çanaklarına yerleşir. Her şey, çevresindeki dikdörtgene göre değil, kendi dış hattının biçimine göre çarpışır. U'nun her şeyi tutabilmesini sağlayan da budur: bir top, bir harfin üstünde yüzmek yerine onun çanağının içine yerleşir, bir kalp ise ucunu iki harfin arasına sıkıştırır.¶
+
+¶Kova da diğerleri gibi bir harftir, serif bir yüzde yazılmıştır, bu yüzden kolları düz çıkıntılarla biter. Sağlam olabilmesi için bir Motion'a ihtiyacı vardır, ayrıca üstüne düşen hiçbir şeyin onu itip kakamayacağı kadar çok kütleye sahip olmalıdır. İki duvarın arasında, yere basar; duvarlar tam kenarlarına değer: alt kısmı yuvarlak olduğu için, duvarlar olmadan yığın büyüdükçe devrilirdi.¶
+kova: İfadeetmek(
+		'U'
+		22m
+		yüz: "Merriweather"
+		isim: 'kova'
+		yer: Hareket(Yer(-8.1m -11m))
+		renk: Renk(85% 10 250°)
+		konu: Konu(yığın: 5000kg sürtünme: 0.9 anahat: ⊤)
+	)
+
+¶Ağır bir gösterim yüzü, çünkü şişman bir harfin bir topu yakalayacak kadar geniş bir çanağı vardır. Harfler, kıvrımları ve çanakları için seçilmiştir.¶
+yüz2: 'Titan One'
+harfler2: ['a' 'b' 'c' 'd' 'e']
+
+¶Harfler önce düşer, aynı yerden ama farklı yüksekliklerde başlayarak düşerler, böylece her biri bir öncekinin üstüne iner ve yığın yukarı doğru büyür.
+
+Bir harf yalnızca yeri bir Motion olduğu ve Matter'a sahip olduğu için sağlamdır — bir programın yerleştirdiği çıktı, her şeyin içinden geçtiği bir hayalettir. Kütleleri, topların yığını dağıtmasını engeller, Matter'dan bir dış hat istemek ise onların kendi harf biçimlerine göre çarpışmasını sağlar.¶
+yığın2: harfler2.tercümeetmek(
+		ƒ(harf2•'' dizin2•#)
+			İfadeetmek(
+				harf2
+				3m
+				yüz2
+				isim: "letter\dizin2\"
+				yer: Hareket(
+					Yer(((dizin2 × 0.5m) - 2m) ((dizin2 × 5m) + 8m))
+				)
+				renk: Renk(75% 80 (dizin2 × 62°))
+				konu: Konu(yığın: 60kg sürtünme: 0.9 anahat: ⊤)
+			)
+	)
+
+¶Sırada kalpler düşer. Bir emoji de kendi dış hattını isteyebilir, böylece her kalp kendi biçimine göre çarpışır: ucu, bir kutunun üstünde duracağı boşluklara kayarak girer.¶
+kalpler: ['🧡' '💛' '💚' '💙' '💜' '🩷'].tercümeetmek(
+		ƒ(kalp•'' dizin3•#)
+			İfadeetmek(
+				kalp
+				2m
+				isim: "heart\dizin3\"
+				yer: Hareket(
+					Yer(
+						((dizin3 × 0.6m) - 2.2m)
+						((dizin3 × 1.5m) + 34m)
+					)
+				)
+				konu: Konu(yığın: 20kg sürtünme: 0.8 anahat: ⊤)
+			)
+	)
+
+¶Toplar her şeyin üstünden başlar, bu yüzden yığın oturduktan sonra gelirler. Dış hat istemezler: baştan sona yuvarlatılmış dikdörtgen biçimleri, onların yuvarlanmasını sağlayan şeydir.¶
+toplar: 18 → [].tercümeetmek(
+		ƒ(sayı2)
+			İfadeetmek(
+				"⚽"
+				1.1m
+				isim: "ball\sayı2\"
+				yer: Hareket(
+					Yer(Rastgele(-2m 2m) ((sayı2 × 1.8m) + 44m))
+					Hız(Rastgele(-1m/s 1m/s) 0m/s)
+				)
+				konu: Konu(
+					zıplama: 0.3
+					sürtünme: 0.4
+					yuvarlaklık: 0.5
+				)
+			)
+	)
+
+Sahne(
+	[
+		¶Bir zemin ve kovanın kenarlarına yaslanan iki duvar.¶
+		Şekil(Dikdörtgen(-10m -11m 10m -12m))
+		Şekil(Dikdörtgen(-8.8m 12m -7.8m -11m))
+		Şekil(Dikdörtgen(7.8m 12m 8.8m -11m))
+		kova
+		:yığın2
+		:kalpler
+		:toplar
+	]
+	yerçekimi: 9.8m/s^2
+	yer: Yer(0m -1m -17m)
+	arkaplan: Renk(25% 20 250°)
+)

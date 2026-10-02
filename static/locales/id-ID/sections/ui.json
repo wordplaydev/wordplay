@@ -102,6 +102,10 @@
             "synced": {
                 "saved": "$~Tersimpan di semua perangkat",
                 "signedOut": "$~Tersimpan di semua perangkat saat kamu masuk akun"
+            },
+            "readAloud": {
+                "on": "$~hentikan membaca lantang",
+                "off": "$~baca ini dengan lantang"
             }
         },
         "tile": {
@@ -1865,6 +1869,24 @@
                             "$~letakkan panggung di kanan atas, dan ubin lain di tempat yang sesuai di sekitarnya",
                             "$~letakkan panggung di kiri bawah, dan ubin lain di tempat yang sesuai di sekitarnya",
                             "$~letakkan panggung di kanan bawah, dan ubin lain di tempat yang sesuai di sekitarnya"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~baca panduan dengan lantang",
+                        "labels": ["$~mati", "$~nyala"],
+                        "tips": [
+                            "$~Hanya baca satu baris panduan dengan lantang saat tombol baca lantangnya ditekan",
+                            "$~Baca setiap baris baru panduan dengan lantang begitu muncul"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~kecepatan membaca",
+                        "labels": ["$~¾", "$~1x", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~Baca lantang lebih pelan",
+                            "$~Baca lantang dengan kecepatan suara biasa",
+                            "$~Baca lantang sedikit lebih cepat",
+                            "$~Baca lantang lebih cepat lagi"
                         ]
                     }
                 },

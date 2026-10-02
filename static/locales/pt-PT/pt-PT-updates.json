@@ -1017,6 +1017,9 @@
         "ebd63de5a63f1": "$~Os leitores de ecrã e o texto falado agora leem cada palavra no seu próprio idioma, por isso uma palavra em espanhol dentro de uma frase em inglês soa a espanhol. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
         "e7914aaea390a": "$~Em 13 idiomas, palavras do dia a dia como \"como\" já não se transformam por engano em ligações com sublinhado tracejado.",
         "ed72c4878ae09": "$~Os nomes dos botões e das definições nas visitas guiadas e na documentação agora usam as palavras de cada idioma em vez do inglês.",
-        "e42e9e3c1d92a": "$~As palavras com um sublinhado ponteado deixam de mostrar símbolos soltos à sua frente em alguns idiomas."
+        "e42e9e3c1d92a": "$~As palavras com um sublinhado ponteado deixam de mostrar símbolos soltos à sua frente em alguns idiomas.",
+        "e6f07748bed1c": "$~As lições em <Learn@https://wordplay.dev/learn> e as explicações no Guia têm agora um botão que as lê em voz alta e destaca cada palavra à medida que é dita, e as definições permitem escolher a velocidade da leitura e fazer com que cada nova linha da lição seja lida separadamente. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
+        "e4b9091b3c539": "$~Os exemplos no <Guide@https://wordplay.dev/guide> já não falam assim que a página abre, e só falam depois de se premir o botão de reprodução.",
+        "e4b5e128afb9d": "$~A leitura de texto em voz alta no Chrome e noutros navegadores Chromium num Mac usa agora uma voz comum, em vez de uma voz engraçada como Albert ou Bubbles."
     }
 }

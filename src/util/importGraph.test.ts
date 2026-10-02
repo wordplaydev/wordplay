@@ -961,11 +961,17 @@ test('resolving a color needs no basis', () => {
 // and `MarkupValue.ts` rather than modules of its own, since every graph that
 // renders output already carries both; the bytes are that bookkeeping.
 
+// Read aloud (#1015) is **+0 files** and moves one byte budget by a hundredth.
+// The button and the reader are dynamically imported by `Speech`, so neither is
+// on any graph; the bytes are its two device settings in `SaySetting.ts` (kept
+// there rather than in a file of their own, which would have cost a file on
+// every graph), their rows in `Settings.svelte`, and their strings in en-US.json.
+
 test.each([
     ['src/routes/+layout.svelte', 536, 4.15],
     ['src/components/app/Page.svelte', 559, 4.4],
     ['src/routes/[[locale]]/+page.svelte', 574, 4.49],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.5],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.51],
     ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.54],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);

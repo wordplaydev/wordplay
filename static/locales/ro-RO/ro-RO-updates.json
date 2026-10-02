@@ -1017,6 +1017,9 @@
         "ebd63de5a63f1": "$~Cititoarele de ecran și textul vorbit citesc acum fiecare cuvânt în propria lui limbă, așa că un cuvânt spaniol dintr-o propoziție în engleză sună a spaniolă. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
         "e7914aaea390a": "$~În 13 limbi, cuvinte de zi cu zi precum \"cum\" nu se mai transformă din greșeală în legături cu subliniere punctată.",
         "ed72c4878ae09": "$~Numele butoanelor și ale setărilor din tururi și din documentare folosesc acum cuvintele fiecărei limbi, în loc de engleză.",
-        "e42e9e3c1d92a": "$~Cuvintele cu subliniere punctată nu mai arată simboluri rătăcite în fața lor în unele limbi."
+        "e42e9e3c1d92a": "$~Cuvintele cu subliniere punctată nu mai arată simboluri rătăcite în fața lor în unele limbi.",
+        "e6f07748bed1c": "$~Lecțiile din <Învață@https://wordplay.dev/learn> și explicațiile din Ghid au acum un buton care le citește cu voce tare și evidențiază fiecare cuvânt pe măsură ce este rostit, iar setările îți permit să alegi viteza și să faci ca fiecare rând nou dintr-o lecție să fie citit separat. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
+        "e4b9091b3c539": "$~Exemplele din <Ghid@https://wordplay.dev/guide> nu mai vorbesc imediat ce se deschide pagina și vorbesc doar după ce apeși butonul lor de redare.",
+        "e4b5e128afb9d": "$~Textul rostit în Chrome și alte browsere Chromium pe un Mac folosește acum o voce obișnuită, în loc de una amuzantă precum Albert sau Bubbles."
     }
 }

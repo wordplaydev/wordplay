@@ -379,6 +379,8 @@ type UITexts = {
             /** [plain] ARIA label for the overflow panel */
             popup: string;
         };
+        /** The button beside a tutorial line or explanation that reads its text aloud, highlighting each word as it is spoken */
+        readAloud: ToggleText;
     };
     /** Controls for the tiled windows in the project */
     tile: {
@@ -2370,6 +2372,10 @@ type UITexts = {
                 contactCues: ModeText<[string, string]>;
                 /** Whether to sound what an animation is doing as it reaches each pose */
                 animationCues: ModeText<[string, string]>;
+                /** Whether the tutorial reads each new line of dialog aloud as it appears */
+                readAloud: ModeText<[string, string]>;
+                /** How fast read aloud speaks: slower, normal, faster, or fastest */
+                readAloudRate: ModeText<[string, string, string, string]>;
                 /** How big the caption of what Say is speaking is, as a multiple of the standard text size */
                 captionSize: ModeText<[string, string, string, string, string]>;
             };

@@ -96,6 +96,7 @@
                 character={concept.getCharacter($locales)}
                 below={header}
                 eyes={header}
+                read
             >
                 {#snippet content()}
                     {#if concept.getDocs($locales)[0]}

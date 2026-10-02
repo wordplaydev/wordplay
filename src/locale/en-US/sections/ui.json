@@ -154,6 +154,10 @@
                     "off": "show extra controls"
                 },
                 "popup": "Additional controls"
+            },
+            "readAloud": {
+                "on": "stop reading aloud",
+                "off": "read this aloud"
             }
         },
         "tile": {
@@ -2057,6 +2061,24 @@
                         "tips": [
                             "Make no sound when output animates",
                             "Play a short sound each time an animation reaches a pose, with the sound following what the pose does"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "read tutorial aloud",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Only read a tutorial line aloud when its read aloud button is pressed",
+                            "Read each new tutorial line aloud as it appears"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "reading speed",
+                        "labels": ["¾", "1x", "1¼", "1½"],
+                        "tips": [
+                            "Read aloud more slowly",
+                            "Read aloud at the voice's usual speed",
+                            "Read aloud a little faster",
+                            "Read aloud faster still"
                         ]
                     },
                     "captionSize": {

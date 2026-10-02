@@ -32,8 +32,11 @@
         contrastLanguage,
         locales,
         Locales,
+        readAloud,
+        readAloudRate,
         Settings,
         toursTaken,
+        voice,
     } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
     import { moderatedFlags } from '@db/projects/Moderation';
@@ -113,6 +116,12 @@
         // again. Guarded on `musicSuspended`, which is false when no context exists: navigating
         // must never be the reason an AudioContext comes into being.
         if (get(musicSuspended)) void audio.resume();
+        // Likewise speech, which iOS won't start outside a gesture, and the
+        // next line is read after this gesture has ended.
+        if (get(readAloud))
+            void import('@components/speech/readAloud').then((reader) =>
+                reader.prime(),
+            );
         // Navigate to the new progress.
         await navigate(progress);
     }
@@ -236,6 +245,35 @@
         if (announce && $announce)
             for (const part of parts)
                 $announce('tutorial-dialog', $locales.getLanguages()[0], part);
+    });
+
+    /** Read each newly revealed pause aloud when the viewer has asked for
+     *  that (#1015). Like the announcement above, what is already showing
+     *  when the page loads isn't read: there was no gesture to allow it. */
+    let lines = $state<HTMLElement>();
+    let firstTurns = true;
+    $effect(() => {
+        void turns;
+        const reading = $readAloud && dialog !== undefined;
+        if (firstTurns) {
+            firstTurns = false;
+            return;
+        }
+        if (!reading) return;
+        untrack(() => {
+            void Promise.all([
+                import('@components/speech/readAloud'),
+                tick(),
+            ]).then(([reader]) => {
+                if (lines === undefined) return;
+                reader.read([...lines.querySelectorAll('.message')], {
+                    keywords: $locales.getLocale().keyword,
+                    names: $locales.getLocale().token,
+                    rate: $readAloudRate,
+                    voice: $voice ?? undefined,
+                });
+            });
+        });
     });
 
     /** This is bound to the project view's context */
@@ -988,7 +1026,7 @@
                                 bind:view={nextButton}
                             ></Button>
                         </div>
-                        <div class="lines reading-surface">
+                        <div class="lines reading-surface" bind:this={lines}>
                             {#if act === undefined}
                                 <div class="title play"
                                     ><LocalizedText
@@ -1059,6 +1097,7 @@
                                             baseline
                                             scroll={false}
                                             emotion={Emotion[turn.dialog[1]]}
+                                            read
                                         >
                                             {#snippet content()}
                                                 <MarkupHTMLView
