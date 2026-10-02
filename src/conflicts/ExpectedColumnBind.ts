@@ -1,15 +1,15 @@
-import type LocaleText from '@locale/LocaleText';
-import type Expression from '@nodes/Expression';
-import Input from '@nodes/Input';
-import type Locales from '@locale/Locales';
-import type Update from '@nodes/Update';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Expression from '#nodes/Expression.ts';
+import Input from '#nodes/Input.ts';
+import type Locales from '#locale/Locales.ts';
+import type Update from '#nodes/Update.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import TableType from '@nodes/TableType';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import TableType from '#nodes/TableType.ts';
 
 export default class ExpectedColumnBind extends Conflict {
     readonly update: Update;

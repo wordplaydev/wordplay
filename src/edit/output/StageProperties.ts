@@ -1,11 +1,11 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import ListLiteral from '@nodes/ListLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import { getTypeOutputProperties } from '@edit/output/OutputProperties';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyRange from '@edit/output/OutputPropertyRange';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import { getTypeOutputProperties } from '#edit/output/OutputProperties.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
 
 export default function getStageProperties(
     project: Project,

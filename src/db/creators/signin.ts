@@ -1,5 +1,5 @@
-import { getFunctionsInstance } from '@db/firebase';
-import { isAttestationFailure } from '@db/firebaseErrorDetail';
+import { getFunctionsInstance } from '#db/firebase.ts';
+import { isAttestationFailure } from '#db/firebaseErrorDetail.ts';
 import type { SendSigninLinkInputs, SendSigninLinkOutput } from 'shared-types';
 
 /**

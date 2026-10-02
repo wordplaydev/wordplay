@@ -1,5 +1,5 @@
-import { firestore } from '@db/firebase';
-import { Creator } from '@db/creators/CreatorDatabase';
+import { firestore } from '#db/firebase.ts';
+import { Creator } from '#db/creators/CreatorDatabase.ts';
 import type { User } from 'firebase/auth';
 import { doc, onSnapshot, type Unsubscribe } from 'firebase/firestore';
 

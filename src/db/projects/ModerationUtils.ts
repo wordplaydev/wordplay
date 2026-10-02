@@ -1,6 +1,6 @@
-import { isAuthenticated } from '@components/project/Contexts';
+import { isAuthenticated } from '#components/project/Contexts.ts';
 import type { User } from 'firebase/auth';
-import type Project from '@db/projects/Project';
+import type Project from '#db/projects/Project.ts';
 
 export function isAudience(
     user: User | null | undefined,

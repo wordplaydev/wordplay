@@ -1,25 +1,25 @@
-import type InternalExpression from '@basis/InternalExpression';
-import type Locales from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
-import ValueRef from '@locale/ValueRef';
-import type Expression from '@nodes/Expression';
-import type Node from '@nodes/Node';
-import PatternAnchor from '@nodes/PatternAnchor';
-import PatternWordEdge from '@nodes/PatternWordEdge';
-import Check from '@runtime/Check';
-import type Evaluator from '@runtime/Evaluator';
-import Initialize from '@runtime/Initialize';
-import Next from '@runtime/Next';
+import type InternalExpression from '#basis/InternalExpression.ts';
+import type Locales from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import ValueRef from '#locale/ValueRef.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Node from '#nodes/Node.ts';
+import PatternAnchor from '#nodes/PatternAnchor.ts';
+import PatternWordEdge from '#nodes/PatternWordEdge.ts';
+import Check from '#runtime/Check.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Initialize from '#runtime/Initialize.ts';
+import Next from '#runtime/Next.ts';
 import {
     graphemesOf,
     searchGenerator,
     testGenerator,
     type MatchSnapshot,
-} from '@runtime/pattern/match';
-import type Step from '@runtime/Step';
-import MatchValue, { type MatchLoop } from '@values/MatchValue';
-import PatternValue from '@values/PatternValue';
-import TextValue from '@values/TextValue';
+} from '#runtime/pattern/match.ts';
+import type Step from '#runtime/Step.ts';
+import MatchValue, { type MatchLoop } from '#values/MatchValue.ts';
+import PatternValue from '#values/PatternValue.ts';
+import TextValue from '#values/TextValue.ts';
 
 /**
  * Drives the pattern matcher (a generator) one yield per Evaluator step, so a

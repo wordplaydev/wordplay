@@ -1,5 +1,5 @@
-import { isRecord } from '@util/guards';
-import { must } from '@util/nullable';
+import { isRecord } from '#util/guards.ts';
+import { must } from '#util/nullable.ts';
 import { FirebaseError } from 'firebase/app';
 import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -135,14 +135,14 @@ vi.mock('firebase/firestore', () => ({
     }),
 }));
 
-vi.mock('@db/firebase', () => ({
+vi.mock('#db/firebase.ts', () => ({
     firestore: { _fake: true },
 }));
 
-vi.mock('@db/moderation/report', () => ({ default: vi.fn() }));
-vi.mock('@db/moderation/moderate', () => ({ default: vi.fn() }));
+vi.mock('#db/moderation/report.ts', () => ({ default: vi.fn() }));
+vi.mock('#db/moderation/moderate.ts', () => ({ default: vi.fn() }));
 
-vi.mock('@db/Database', () => ({
+vi.mock('#db/Database.ts', () => ({
     HowTos: {},
     Projects: {},
     // SaveTracker reads these when a write fails; without them a failing write
@@ -153,8 +153,8 @@ vi.mock('@db/Database', () => ({
     },
 }));
 
-import sendModerate from '@db/moderation/moderate';
-import sendReport from '@db/moderation/report';
+import sendModerate from '#db/moderation/moderate.ts';
+import sendReport from '#db/moderation/report.ts';
 import {
     getDoc,
     getDocs,

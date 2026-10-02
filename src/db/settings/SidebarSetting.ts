@@ -1,5 +1,5 @@
-import Setting from '@db/settings/Setting';
-import { isRecord } from '@util/guards';
+import Setting from '#db/settings/Setting.ts';
+import { isRecord } from '#util/guards.ts';
 
 /**
  * The persisted state of a collapsible, resizable editor sidebar (e.g. the

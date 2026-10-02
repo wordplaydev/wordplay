@@ -1,10 +1,10 @@
-import Bind from '@nodes/Bind';
-import type Expression from '@nodes/Expression';
-import type Type from '@nodes/Type';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import type { LocaleText, NameAndDoc } from '@locale/LocaleText';
+import Bind from '#nodes/Bind.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Type from '#nodes/Type.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleText, NameAndDoc } from '#locale/LocaleText.ts';
 
 export function createBind(
     locales: Locales,

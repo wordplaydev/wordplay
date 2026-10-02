@@ -5,8 +5,8 @@ import EditorCommands, {
     type Command,
     type CommandContext,
     type CommandResult,
-} from '@components/editor/commands/Commands';
-import Caret from '@edit/caret/Caret';
+} from '#components/editor/commands/Commands.ts';
+import Caret from '#edit/caret/Caret.ts';
 import {
     continueBullet,
     enclosingExample,
@@ -20,10 +20,10 @@ import {
     toggleDefect,
     toggleFormat,
     toggleHighlight,
-} from '@edit/markup/formatOperations';
-import { clampToMarkup, markupBounds } from '@edit/markup/markupSource';
-import type { LocaleTextAccessor } from '@locale/Locales';
-import type { Format } from '@nodes/Words';
+} from '#edit/markup/formatOperations.ts';
+import { clampToMarkup, markupBounds } from '#edit/markup/markupSource.ts';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import type { Format } from '#nodes/Words.ts';
 import {
     ATTENTION_SYMBOL,
     BOLD_SYMBOL,
@@ -38,7 +38,7 @@ import {
     ITALIC_SYMBOL,
     LIGHT_SYMBOL,
     UNDERSCORE_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 
 /**
  * The markup editor's commands: the prose half of the editor's vocabulary.

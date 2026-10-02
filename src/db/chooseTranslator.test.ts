@@ -1,4 +1,4 @@
-import { stringToLocale } from '@locale/Locale';
+import { stringToLocale } from '#locale/Locale.ts';
 import { expect, test } from 'vitest';
 import chooseTranslator, { type TranslationBackend } from './chooseTranslator';
 import type { RawTranslator } from './translateMarkup';

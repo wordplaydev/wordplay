@@ -1,6 +1,9 @@
-import type Project from '@db/projects/Project';
-import type Bind from '@nodes/Bind';
-import { InstrumentKeys, type InstrumentKey } from '@output/Music/instruments';
+import type Project from '#db/projects/Project.ts';
+import type Bind from '#nodes/Bind.ts';
+import {
+    InstrumentKeys,
+    type InstrumentKey,
+} from '#output/Music/instruments.ts';
 
 /**
  * Every instrument a project might play, read from its source rather than from

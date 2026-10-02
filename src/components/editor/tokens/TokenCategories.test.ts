@@ -1,5 +1,5 @@
-import { getTokenCategory } from '@components/editor/tokens/TokenCategories';
-import { Sym } from '@nodes/Sym';
+import { getTokenCategory } from '#components/editor/tokens/TokenCategories.ts';
+import { Sym } from '#nodes/Sym.ts';
 import { expect, test } from 'vitest';
 
 test('a token is coloured by its first Sym', () => {

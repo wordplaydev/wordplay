@@ -13,24 +13,27 @@
  * right length rather than padding to a grid.
  */
 
-import { degreeToSemitones } from '@output/Music/degrees';
-import { instrumentSpec, type InstrumentKey } from '@output/Music/instruments';
-import { MaxTracks } from '@output/Music/musicData';
-import { Scales, type ScaleKey } from '@output/Music/scales';
-import { BORROW_SYMBOL } from '@parser/Symbols';
+import { degreeToSemitones } from '#output/Music/degrees.ts';
+import {
+    instrumentSpec,
+    type InstrumentKey,
+} from '#output/Music/instruments.ts';
+import { MaxTracks } from '#output/Music/musicData.ts';
+import { Scales, type ScaleKey } from '#output/Music/scales.ts';
+import { BORROW_SYMBOL } from '#parser/Symbols.ts';
 import {
     degreeForKitPiece,
     drumPieceForNote,
     instrumentForProgram,
     PercussionChannel,
-} from '@output/Music/midi/gm';
-import type { ParsedMIDI } from '@output/Music/midi/parseMIDI';
+} from '#output/Music/midi/gm.ts';
+import type { ParsedMIDI } from '#output/Music/midi/parseMIDI.ts';
 import {
     dominantTempo,
     tempoRegions,
     tempoScale,
-} from '@output/Music/midi/tempoMap';
-import splitVoices, { maxPolyphony } from '@output/Music/midi/voices';
+} from '#output/Music/midi/tempoMap.ts';
+import splitVoices, { maxPolyphony } from '#output/Music/midi/voices.ts';
 
 /** Degree 1 is middle C at key 0, in every scale (see degrees.ts). */
 export const TonicMIDI = 60;

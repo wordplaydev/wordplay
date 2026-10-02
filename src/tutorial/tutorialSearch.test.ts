@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { buildTutorialSearch, type SearchableTutorial } from './tutorialSearch';
-import { searchItems } from '@util/search';
-import { must } from '@util/nullable';
+import { searchItems } from '#util/search.ts';
+import { must } from '#util/nullable.ts';
 
 const L = 'en';
 

@@ -1,15 +1,15 @@
-import type LocaleText from '@locale/LocaleText';
-import type Bind from '@nodes/Bind';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Bind from '#nodes/Bind.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
-import StreamDefinition from '@nodes/StreamDefinition';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
 
 export default class InputListMustBeLast extends Conflict {
     readonly bind: Bind;

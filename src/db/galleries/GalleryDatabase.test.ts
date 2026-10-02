@@ -1,9 +1,9 @@
-import { isRecord } from '@util/guards';
-import { must } from '@util/nullable';
+import { isRecord } from '#util/guards.ts';
+import { must } from '#util/nullable.ts';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Gallery from './Gallery';
-import type { Character } from '@db/characters/Character';
-import type Project from '@db/projects/Project';
+import type { Character } from '#db/characters/Character.ts';
+import type Project from '#db/projects/Project.ts';
 
 /** A recorded write's fields, checked rather than asserted. */
 function fieldsOf(data: unknown): Record<string, unknown> {
@@ -119,24 +119,24 @@ vi.mock('firebase/firestore', () => ({
     getDocs: vi.fn(async () => ({ docs: [] })),
 }));
 
-vi.mock('@db/firebase', () => ({
+vi.mock('#db/firebase.ts', () => ({
     firestore: { _fake: true },
 }));
 
-vi.mock('@db/Database', () => ({}));
+vi.mock('#db/Database.ts', () => ({}));
 
 vi.mock('../../examples/examples', () => ({
     getExampleGalleries: () => [],
 }));
 
-vi.mock('@db/teachers/TeacherDatabase.svelte', () => ({
+vi.mock('#db/teachers/TeacherDatabase.svelte.ts', () => ({
     ClassesCollection: 'classes',
     ClassSchema: { parse: (x: unknown) => x },
     getClass: vi.fn(),
     setClass: vi.fn(),
 }));
 
-vi.mock('@db/projects/ProjectsDatabase.svelte', () => ({
+vi.mock('#db/projects/ProjectsDatabase.svelte.ts', () => ({
     ProjectsCollection: 'projects',
 }));
 

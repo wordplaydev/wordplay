@@ -12,10 +12,10 @@
      * The table is `Phonemes` itself, in the order it already keeps, which is
      * the order of the IPA chart — so the vowels lead and the clicks trail.
      */
-    import { locales } from '@db/Database';
-    import { Phonemes, type Manner } from '@output/Music/phonemes';
-    import previewPhoneme from '@output/Music/previewPhoneme';
-    import Button from '@components/widgets/Button.svelte';
+    import { locales } from '#db/Database.ts';
+    import { Phonemes, type Manner } from '#output/Music/phonemes.ts';
+    import previewPhoneme from '#output/Music/previewPhoneme.ts';
+    import Button from '#components/widgets/Button.svelte';
 
     interface Props {
         /** Called with the symbol to type at the caret. */

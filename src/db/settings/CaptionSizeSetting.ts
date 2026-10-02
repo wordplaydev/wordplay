@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /**
  * A multiplier on the app's base font size rather than an absolute size, so the

@@ -11,7 +11,7 @@
  */
 
 import { z } from 'zod';
-import { isRecord } from '@util/guards';
+import { isRecord } from '#util/guards.ts';
 import { ModerationStateSchema } from './Moderation';
 
 /** Schema for the cursor position path. Exported because a chat message's code

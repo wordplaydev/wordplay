@@ -1,5 +1,5 @@
-import type { FormattedText, Template } from '@locale/LocaleText';
-import type { ButtonText } from '@locale/UITexts';
+import type { FormattedText, Template } from '#locale/LocaleText.ts';
+import type { ButtonText } from '#locale/UITexts.ts';
 
 /**
  * The queue of reported things, for whoever is responsible for them.

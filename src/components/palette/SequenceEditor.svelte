@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import type OutputExpression from '@edit/output/OutputExpression';
-    import getSequenceProperties from '@edit/output/SequenceProperties';
-    import StructureInputsEditor from '@components/palette/StructureInputsEditor.svelte';
-    import SequencePresetEditor from '@components/palette/SequencePresetEditor.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type OutputExpression from '#edit/output/OutputExpression.ts';
+    import getSequenceProperties from '#edit/output/SequenceProperties.ts';
+    import StructureInputsEditor from '#components/palette/StructureInputsEditor.svelte';
+    import SequencePresetEditor from '#components/palette/SequencePresetEditor.svelte';
 
     interface Props {
         project: Project;

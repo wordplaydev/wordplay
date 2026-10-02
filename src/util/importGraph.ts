@@ -5,32 +5,14 @@
  * The app's route graph is the thing that decides what every page downloads:
  * one stray value import of `Color` or `Commands` in shared chrome pulls the
  * basis, the evaluator, and the output layer into every route's bundle. This
- * resolves imports the way the bundler does — aliases from svelte.config.js,
+ * resolves imports the way the bundler does — package.json's subpath imports,
  * `import type` erased — so a test can assert what a route can reach and print
  * the chain when the answer is wrong.
  */
 
 import { readFileSync, existsSync, statSync } from 'node:fs';
 import { dirname, resolve, relative } from 'node:path';
-
-/** Alias prefixes mirroring svelte.config.js. */
-const Aliases: [string, string][] = [
-    ['@components', 'src/components'],
-    ['@nodes', 'src/nodes'],
-    ['@runtime', 'src/runtime'],
-    ['@values', 'src/values'],
-    ['@conflicts', 'src/conflicts'],
-    ['@locale', 'src/locale'],
-    ['@parser', 'src/parser'],
-    ['@input', 'src/input'],
-    ['@output', 'src/output'],
-    ['@basis', 'src/basis'],
-    ['@edit', 'src/edit'],
-    ['@db', 'src/db'],
-    ['@unicode', 'src/unicode'],
-    ['@concepts', 'src/concepts'],
-    ['@util', 'src/util'],
-];
+import getSubpathImports from './subpathImports';
 
 /** Extensions tried when a specifier has none, in resolution order. */
 const Extensions = ['', '.ts', '.svelte', '.svelte.ts', '/index.ts'];
@@ -88,12 +70,11 @@ export function resolveSpecifier(
     if (specifier.startsWith('.'))
         base = resolve(root, dirname(fromFile), specifier);
     else {
-        const alias = Aliases.find(
-            ([prefix]) =>
-                specifier === prefix || specifier.startsWith(prefix + '/'),
+        const mapping = getSubpathImports(root).find(([prefix]) =>
+            specifier.startsWith(prefix),
         );
-        if (alias === undefined) return undefined;
-        base = resolve(root, alias[1] + specifier.slice(alias[0].length));
+        if (mapping === undefined) return undefined;
+        base = resolve(root, mapping[1] + specifier.slice(mapping[0].length));
     }
     for (const extension of Extensions) {
         const candidate = base + extension;

@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import type TypeVariable from '@nodes/TypeVariable';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import type TypeVariable from '#nodes/TypeVariable.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Node from '@nodes/Node';
-import TypeVariables from '@nodes/TypeVariables';
+} from '#conflicts/Conflict.ts';
+import type Node from '#nodes/Node.ts';
+import TypeVariables from '#nodes/TypeVariables.ts';
 
 export default class DuplicateTypeVariable extends Conflict {
     readonly typeVar: TypeVariable;

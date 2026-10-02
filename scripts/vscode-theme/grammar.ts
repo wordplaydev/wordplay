@@ -15,7 +15,7 @@
  * only part a Sym rename can't catch.
  */
 
-import { Sym, type SymType } from '@nodes/Sym';
+import { Sym, type SymType } from '#nodes/Sym.ts';
 import {
     CodeTokenRules,
     DelimiterCloseByOpen,
@@ -28,16 +28,16 @@ import {
     StrictURLRegEx,
     TextCloseByTextOpen,
     type SerializedTokenRule,
-} from '@parser/Tokenizer';
+} from '#parser/Tokenizer.ts';
 import {
     DOCS_SYMBOL,
     ELISION_SYMBOL,
     FORMATTED_SYMBOL,
     PATTERN_DELIMITER_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 const Root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 

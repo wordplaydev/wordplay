@@ -1,10 +1,10 @@
 <script lang="ts">
-    import LocaleName from '@components/settings/LocaleName.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import { locales } from '@db/Database';
-    import type Locale from '@locale/Locale';
-    import { localeToString, stringToLocale } from '@locale/Locale';
-    import { getLanguageLocalDescription } from '@locale/LocaleText';
+    import LocaleName from '#components/settings/LocaleName.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Locale from '#locale/Locale.ts';
+    import { localeToString, stringToLocale } from '#locale/Locale.ts';
+    import { getLanguageLocalDescription } from '#locale/LocaleText.ts';
 
     let {
         id,

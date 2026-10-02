@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 import LocalePath, {
     getKeyTemplatePairs,
-} from '@util/verify-locales/LocalePath';
-import { must } from '@util/nullable';
+} from '#util/verify-locales/LocalePath.ts';
+import { must } from '#util/nullable.ts';
 
 /** The top-level sections of the locale JSON, derived from the default locale
  *  so a newly-added section can never drift out of sync with this analysis (the

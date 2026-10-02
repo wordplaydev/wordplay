@@ -1,7 +1,7 @@
-import type LocaleText from '@locale/LocaleText';
-import { getAllDeclaredInputNames } from '@locale/templateInputs';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type Log from '@util/verify-locales/Log';
+import type LocaleText from '#locale/LocaleText.ts';
+import { getAllDeclaredInputNames } from '#locale/templateInputs.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import type Log from '#util/verify-locales/Log.ts';
 
 /** A valid term key: Unicode letters and numbers, starting with a letter.
  *  `$name` mentions accept any letter/number run, but an all-digit key would

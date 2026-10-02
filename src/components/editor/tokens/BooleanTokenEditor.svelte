@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { getCaret } from '@components/project/Contexts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import { Sym } from '@nodes/Sym';
-    import Token from '@nodes/Token';
-    import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
+    import { getCaret } from '#components/project/Contexts.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { Sym } from '#nodes/Sym.ts';
+    import Token from '#nodes/Token.ts';
+    import { FALSE_SYMBOL, TRUE_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         node: Token;

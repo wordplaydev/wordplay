@@ -1,19 +1,19 @@
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { blocks, DB } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import Evaluate from '@nodes/Evaluate';
-    import type ListLiteral from '@nodes/ListLiteral';
-    import { CANCEL_SYMBOL, EDIT_SYMBOL } from '@parser/Symbols';
-    import { getSelectedOutput } from '@components/project/Contexts';
-    import RootView from '@components/project/RootView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Note from '@components/widgets/Note.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { blocks, DB } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import type ListLiteral from '#nodes/ListLiteral.ts';
+    import { CANCEL_SYMBOL, EDIT_SYMBOL } from '#parser/Symbols.ts';
+    import { getSelectedOutput } from '#components/project/Contexts.ts';
+    import RootView from '#components/project/RootView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Note from '#components/widgets/Note.svelte';
     import {
         addContent,
         moveContent,
         removeContent,
-    } from '@components/palette/editOutput';
+    } from '#components/palette/editOutput.ts';
 
     interface Props {
         project: Project;

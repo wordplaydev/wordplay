@@ -1,4 +1,4 @@
-import type { TutorialProgress } from '@db/settings/TutorialProgressSetting';
+import type { TutorialProgress } from '#db/settings/TutorialProgressSetting.ts';
 import type Tutorial from './Tutorial';
 import {
     DEFAULT_TUTORIAL_MODE,
@@ -12,7 +12,8 @@ import {
     type Performance,
     type Scene,
 } from './Tutorial';
-import { last, must } from '@util/nullable';
+import { last, must } from '#util/nullable.ts';
+import type { AppPath } from '#util/appPath.ts';
 
 /**
  * A short, stable fingerprint of a step's program, for {@link Progress.getProjectID}.
@@ -253,7 +254,7 @@ export default class Progress {
         );
     }
 
-    getURL(): string {
+    getURL(): AppPath {
         // Omit the tutorial parameter for the default mode so pre-existing /learn URLs (which
         // have no tutorial parameter) remain canonical.
         const modeParam =
@@ -265,7 +266,7 @@ export default class Progress {
 
     static fromURL(
         tutorial: Tutorial,
-        params: URLSearchParams,
+        params: Pick<URLSearchParams, 'get'>,
         // The mode to assume when the URL omits the tutorial parameter. getURL()
         // drops that parameter for the default mode, so a canonical /learn link
         // carries no mode; interpreting it in the active mode (rather than always

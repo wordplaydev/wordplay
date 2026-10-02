@@ -1,15 +1,15 @@
 <script lang="ts">
-    import Spinning from '@components/app/Spinning.svelte';
-    import { proxyPrefix } from '@db/proxySession';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import isValidEmail from '@db/creators/isValidEmail';
-    import { isPlausibleUsername } from '@db/creators/username';
-    import { analytics, ensureAppCheck, ensureAuth } from '@db/firebase';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import Spinning from '#components/app/Spinning.svelte';
+    import { proxyPrefix } from '#db/proxySession.ts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { Creator } from '#db/creators/CreatorDatabase.ts';
+    import isValidEmail from '#db/creators/isValidEmail.ts';
+    import { isPlausibleUsername } from '#db/creators/username.ts';
+    import { analytics, ensureAppCheck, ensureAuth } from '#db/firebase.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import { logEvent } from 'firebase/analytics';
     import { FirebaseError } from 'firebase/app';
     import {
@@ -18,14 +18,14 @@
         signInWithEmailAndPassword,
         signInWithEmailLink,
     } from 'firebase/auth';
-    import { sendSigninLink } from '@db/creators/signin';
-    import { locales } from '@db/Database';
+    import { sendSigninLink } from '#db/creators/signin.ts';
+    import { locales } from '#db/Database.ts';
     import { onMount } from 'svelte';
-    import Header from '@components/app/Header.svelte';
+    import Header from '#components/app/Header.svelte';
     import getAuthErrorDescription from './getAuthErrorDescription';
     import isValidPassword from './IsValidPassword';
     import LoginForm from './LoginForm.svelte';
-    import { localeGoto } from '@util/localeGoto';
+    import { localeGoto } from '#util/localeGoto.ts';
 
     /** The username typed into the text field */
     let username = $state('');

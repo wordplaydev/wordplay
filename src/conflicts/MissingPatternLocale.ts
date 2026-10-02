@@ -1,8 +1,8 @@
-import { ConflictSeverity } from '@conflicts/Conflict';
-import SimplePatternConflict from '@conflicts/SimplePatternConflict';
-import type LocaleText from '@locale/LocaleText';
-import type PatternWord from '@nodes/PatternWord';
-import type PatternWordEdge from '@nodes/PatternWordEdge';
+import { ConflictSeverity } from '#conflicts/Conflict.ts';
+import SimplePatternConflict from '#conflicts/SimplePatternConflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type PatternWord from '#nodes/PatternWord.ts';
+import type PatternWordEdge from '#nodes/PatternWordEdge.ts';
 
 /**
  * A word (`▭`) or word-edge (`┊`) atom with no locale tag. Word segmentation

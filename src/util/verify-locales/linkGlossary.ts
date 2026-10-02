@@ -19,19 +19,19 @@
  * Run: ANTHROPIC_API_KEY must be set.
  *   npx tsx src/util/verify-locales/linkGlossary.ts
  */
-import '@util/verify-locales/loadEnv';
-import { isRecord } from '@util/guards';
+import '#util/verify-locales/loadEnv.ts';
+import { isRecord } from '#util/guards.ts';
 import Anthropic from '@anthropic-ai/sdk';
 import fs from 'fs';
-import writeFormatted from '@util/verify-locales/writeFormatted';
-import Log from '@util/verify-locales/Log';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
+import Log from '#util/verify-locales/Log.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
 import {
     protectedRanges,
     findWholeWord,
-} from '@util/verify-locales/markupText';
-import { must } from '@util/nullable';
+} from '#util/verify-locales/markupText.ts';
+import { must } from '#util/nullable.ts';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);

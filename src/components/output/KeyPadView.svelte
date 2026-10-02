@@ -9,12 +9,12 @@
      * streams, the announcements, the input recording replay depends on — can
      * tell the difference.
      */
-    import { locales } from '@db/Database';
-    import Button from '@components/widgets/Button.svelte';
-    import KeyHold from '@components/output/keyHold';
-    import layoutKeyPad from '@components/output/keyPadLayout';
-    import { localizeKeyName } from '@input/Key/keyNames';
-    import type { KeyAnalysis } from '@input/Key/analyzeProjectKeys';
+    import { locales } from '#db/Database.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import KeyHold from '#components/output/keyHold.ts';
+    import layoutKeyPad from '#components/output/keyPadLayout.ts';
+    import { localizeKeyName } from '#input/Key/keyNames.ts';
+    import type { KeyAnalysis } from '#input/Key/analyzeProjectKeys.ts';
 
     interface Props {
         /** The keys to offer; unbounded projects don't render a pad at all. */

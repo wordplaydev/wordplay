@@ -1,18 +1,18 @@
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import Block, { BlockKind } from '@nodes/Block';
-import StructureDefinition from '@nodes/StructureDefinition';
-import ListValue from '@values/ListValue';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import ListType from '@nodes/ListType';
-import TableType from '@nodes/TableType';
-import TextType from '@nodes/TextType';
-import TypeVariable from '@nodes/TypeVariable';
-import TypeVariables from '@nodes/TypeVariables';
-import TableValue from '@values/TableValue';
-import TextValue from '@values/TextValue';
-import { createBasisConversion, createEqualsFunction } from '@basis/Basis';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import ListValue from '#values/ListValue.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import ListType from '#nodes/ListType.ts';
+import TableType from '#nodes/TableType.ts';
+import TextType from '#nodes/TextType.ts';
+import TypeVariable from '#nodes/TypeVariable.ts';
+import TypeVariables from '#nodes/TypeVariables.ts';
+import TableValue from '#values/TableValue.ts';
+import TextValue from '#values/TextValue.ts';
+import { createBasisConversion, createEqualsFunction } from '#basis/Basis.ts';
 
 export default function bootstrapTable(locales: Locales) {
     /** This type variable represents the StructureDefinition of a row. */

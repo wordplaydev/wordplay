@@ -1,15 +1,15 @@
 import { readFileSync } from 'fs';
 import { beforeAll, expect, test } from 'vitest';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import Project from '@db/projects/Project';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import parseType from '@parser/parseType';
-import { toTokens } from '@parser/toTokens';
-import Source from '@nodes/Source';
-import UnionType from '@nodes/UnionType';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import Project from '#db/projects/Project.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import parseType from '#parser/parseType.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import Source from '#nodes/Source.ts';
+import UnionType from '#nodes/UnionType.ts';
 
 function setup() {
     const source = new Source('untitled', '');

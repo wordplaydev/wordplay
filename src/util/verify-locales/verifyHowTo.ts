@@ -1,29 +1,29 @@
-import { howToToString, parseHowTo } from '@concepts/HowTo';
-import type LanguageCode from '@locale/LanguageCode';
-import type LocaleText from '@locale/LocaleText';
-import { isMachineTranslated } from '@locale/LocaleText';
-import type Translator from '@util/verify-locales/Translator';
-import type { RegionCode } from '@locale/Regions';
-import Example from '@nodes/Example';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import parseDoc from '@parser/parseDoc';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import { toTokens } from '@parser/toTokens';
+import { howToToString, parseHowTo } from '#concepts/HowTo.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isMachineTranslated } from '#locale/LocaleText.ts';
+import type Translator from '#util/verify-locales/Translator.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import Example from '#nodes/Example.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import parseDoc from '#parser/parseDoc.ts';
+import { DOCS_SYMBOL } from '#parser/Symbols.ts';
+import { toTokens } from '#parser/toTokens.ts';
 import fs from 'fs';
 import path from 'path';
-import type Log from '@util/verify-locales/Log';
-import getTranslator from '@util/verify-locales/getTranslator';
-import writeFormatted from '@util/verify-locales/writeFormatted';
-import analyzeCode from '@util/verify-locales/analyzeCode';
-import { retargetExamplesIn } from '@util/verify-locales/retargetExampleNames';
+import type Log from '#util/verify-locales/Log.ts';
+import getTranslator from '#util/verify-locales/getTranslator.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
+import analyzeCode from '#util/verify-locales/analyzeCode.ts';
+import { retargetExamplesIn } from '#util/verify-locales/retargetExampleNames.ts';
 import {
     examplesIn,
     howToCoverage,
     pairHowToUnits,
     proseRunsIn,
     spacingLike,
-} from '@util/verify-locales/pairHowTo';
+} from '#util/verify-locales/pairHowTo.ts';
 
 /**
  * Verify and optionally translate how-to content for a locale

@@ -11,7 +11,7 @@
  * or one note bent off pitch, depending on the track's `mash`.
  */
 
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * How close to a whole degree still counts as whole.

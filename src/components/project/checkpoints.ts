@@ -1,4 +1,4 @@
-import type { SerializedSourceCheckpoint } from '@db/projects/ProjectSchemas';
+import type { SerializedSourceCheckpoint } from '#db/projects/ProjectSchemas.ts';
 
 /**
  * The checkpoint being viewed, identified by its time rather than its position.

@@ -1,12 +1,12 @@
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import NumberValue from '@values/NumberValue';
-import TextValue from '@values/TextValue';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '#parser/Symbols.ts';
+import NumberValue from '#values/NumberValue.ts';
+import TextValue from '#values/TextValue.ts';
 import { expect, test } from 'vitest';
-import { parseNumber } from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
-import evaluateCode from '@runtime/evaluate';
-import type Locale from '@locale/Locale';
-import type LanguageCode from '@locale/LanguageCode';
+import { parseNumber } from '#parser/parseExpression.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import type Locale from '#locale/Locale.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
 
 function loc(language: LanguageCode): Locale {
     return { language, regions: [] };

@@ -1,8 +1,8 @@
-import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
-import { UnknownName } from '@conflicts/UnknownName';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeText, DescriptiveNodeText } from '@locale/NodeTexts';
+import { accessorToLocalePath } from '#components/localization/accessorToLocalePath.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeText, DescriptiveNodeText } from '#locale/NodeTexts.ts';
 import { describe, expect, test } from 'vitest';
 
 const dotted = (

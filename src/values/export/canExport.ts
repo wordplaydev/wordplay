@@ -1,15 +1,15 @@
-import ListValue from '@values/ListValue';
-import MapValue from '@values/MapValue';
-import SetValue from '@values/SetValue';
-import StructureValue from '@values/StructureValue';
-import TableValue from '@values/TableValue';
-import TextValue from '@values/TextValue';
-import BoolValue from '@values/BoolValue';
-import MarkupValue from '@values/MarkupValue';
-import NoneValue from '@values/NoneValue';
-import NumberValue from '@values/NumberValue';
-import type Value from '@values/Value';
-import { first } from '@util/nullable';
+import ListValue from '#values/ListValue.ts';
+import MapValue from '#values/MapValue.ts';
+import SetValue from '#values/SetValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TableValue from '#values/TableValue.ts';
+import TextValue from '#values/TextValue.ts';
+import BoolValue from '#values/BoolValue.ts';
+import MarkupValue from '#values/MarkupValue.ts';
+import NoneValue from '#values/NoneValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type Value from '#values/Value.ts';
+import { first } from '#util/nullable.ts';
 
 /**
  * Whether a value is worth offering a file for — **without walking it**.

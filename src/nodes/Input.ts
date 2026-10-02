@@ -1,30 +1,33 @@
-import type { TemplateInput } from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
-import { Purpose } from '@concepts/Purpose';
-import type Conflict from '@conflicts/Conflict';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import UnionType from '@nodes/UnionType';
-import Refer from '@edit/revision/Refer';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import UnionType from '#nodes/UnionType.ts';
+import Refer from '#edit/revision/Refer.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import Characters from '../lore/BasisCharacters';
-import type Bind from '@nodes/Bind';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import { isBooleanish } from '@nodes/inputShorthand';
-import Reference from '@nodes/Reference';
-import BindToken from '@nodes/BindToken';
-import type Context from '@nodes/Context';
-import Evaluate from '@nodes/Evaluate';
-import type { GuardContext } from '@nodes/Expression';
-import Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Node, { node, type Grammar, type Replacement } from '@nodes/Node';
-import NoExpressionType from '@nodes/NoExpressionType';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
+import type Bind from '#nodes/Bind.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import { isBooleanish } from '#nodes/inputShorthand.ts';
+import Reference from '#nodes/Reference.ts';
+import BindToken from '#nodes/BindToken.ts';
+import type Context from '#nodes/Context.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type { GuardContext } from '#nodes/Expression.ts';
+import Expression from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import Node, { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import NoExpressionType from '#nodes/NoExpressionType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 /** Whether a bind's own default is already ⊤, which is what makes a shorthand for it pointless. */
 function defaultsToTrue(bind: Bind): boolean {

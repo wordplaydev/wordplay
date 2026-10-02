@@ -1,34 +1,34 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import AddProject from '@components/app/AddProject.svelte';
-    import CharacterPreview from '@components/app/CharacterPreview.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Loading from '@components/app/Loading.svelte';
-    import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
-    import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import CreatorList from '@components/project/CreatorList.svelte';
-    import Public from '@components/project/Public.svelte';
+    import AddProject from '#components/app/AddProject.svelte';
+    import CharacterPreview from '#components/app/CharacterPreview.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Loading from '#components/app/Loading.svelte';
+    import HeaderAndExplanation from '#components/app/HeaderAndExplanation.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import PreviewPlaceholder from '#components/app/PreviewPlaceholder.svelte';
+    import ProjectPreviewSet from '#components/app/ProjectPreviewSet.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import CreatorList from '#components/project/CreatorList.svelte';
+    import Public from '#components/project/Public.svelte';
     import {
         characterVisibility,
         galleryVisibility,
-    } from '@db/moderation/visibility';
-    import getResponsibility from '@db/moderation/responsibility';
-    import ReportButton from '@components/project/ReportButton.svelte';
-    import { anonymizeContributors } from '@db/creators/attribution';
+    } from '#db/moderation/visibility.ts';
+    import getResponsibility from '#db/moderation/responsibility.ts';
+    import ReportButton from '#components/project/ReportButton.svelte';
+    import { anonymizeContributors } from '#db/creators/attribution.ts';
     import GalleryModerationNotice from './GalleryModerationNotice.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import TextBox from '#components/widgets/TextBox.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
     import {
         CharactersDB,
         DB,
@@ -36,26 +36,26 @@
         disconnected,
         Galleries,
         locales,
-    } from '@db/Database';
-    import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '@db/limits';
-    import type Gallery from '@db/galleries/Gallery';
-    import type { GalleryFailure } from '@db/galleries/GalleryDatabase.svelte';
-    import type { GalleryPathResult } from '@db/galleries/resolveGalleryPath';
+    } from '#db/Database.ts';
+    import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '#db/limits.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import type { GalleryFailure } from '#db/galleries/GalleryDatabase.svelte.ts';
+    import type { GalleryPathResult } from '#db/galleries/resolveGalleryPath.ts';
     import findGalleryByPath, {
         foldGalleryPath,
-    } from '@db/galleries/findGalleryByPath';
+    } from '#db/galleries/findGalleryByPath.ts';
     import GalleryPath from './GalleryPath.svelte';
     import {
         getClasses,
         type Class,
-    } from '@db/teachers/TeacherDatabase.svelte';
-    import type Project from '@db/projects/Project';
+    } from '#db/teachers/TeacherDatabase.svelte.ts';
+    import type Project from '#db/projects/Project.ts';
     import {
         bareCharacterName,
         type Character,
-    } from '@db/characters/Character';
-    import { toClipboard } from '@components/editor/commands/Clipboard';
-    import Button from '@components/widgets/Button.svelte';
+    } from '#db/characters/Character.ts';
+    import { toClipboard } from '#components/editor/commands/Clipboard.ts';
+    import Button from '#components/widgets/Button.svelte';
     import NewCharacterButton from '../../characters/NewCharacterButton.svelte';
     import {
         CANCEL_SYMBOL,
@@ -63,9 +63,9 @@
         EDIT_SYMBOL,
         PASTE_SYMBOL,
         REMIX_SYMBOL,
-    } from '@parser/Symbols';
+    } from '#parser/Symbols.ts';
     import HowToGalleryView from './howto/HowToGalleryView.svelte';
-    import { localeGoto } from '@util/localeGoto';
+    import { localeGoto } from '#util/localeGoto.ts';
 
     const user = getUser();
 
@@ -117,10 +117,10 @@
                 ? undefined
                 : result.kind;
         // An older name still resolves, and then hands the reader the current
-        // one. replaceState so the name they arrived on doesn't sit in history
+        // one. Replace so the name they arrived on doesn't sit in history
         // and send them back here when they press back.
         if (result.kind === 'redirect')
-            localeGoto(result.to, { replaceState: true });
+            localeGoto(result.to, { replace: true });
     }
 
     let classes = $state<Class[] | undefined>(undefined);

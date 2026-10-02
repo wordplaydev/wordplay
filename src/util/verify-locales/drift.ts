@@ -19,23 +19,23 @@
 
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
-import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
+import { MachineTranslated, Revised, Unwritten } from '#locale/Annotations.ts';
 import {
     classifyPair,
     type LocaleStringKind,
-} from '@util/verify-locales/classifyLocalePath';
-import type LocalePath from '@util/verify-locales/LocalePath';
-import { getLocalePath } from '@util/verify-locales/LocaleSchema';
-import { getTutorialPath } from '@util/verify-locales/TutorialSchema';
+} from '#util/verify-locales/classifyLocalePath.ts';
+import type LocalePath from '#util/verify-locales/LocalePath.ts';
+import { getLocalePath } from '#util/verify-locales/LocaleSchema.ts';
+import { getTutorialPath } from '#util/verify-locales/TutorialSchema.ts';
 import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
-import type Log from '@util/verify-locales/Log';
-import { getCheckableLocalePairs } from '@util/verify-locales/verifyLocale';
-import { mismatchedConceptLinks } from '@util/verify-locales/protect';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { ReservedConceptIDs } from '@nodes/ConceptLink';
-import { getTranslatableTutorialPairs } from '@util/verify-locales/verifyTutorial';
+import type Log from '#util/verify-locales/Log.ts';
+import { getCheckableLocalePairs } from '#util/verify-locales/verifyLocale.ts';
+import { mismatchedConceptLinks } from '#util/verify-locales/protect.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { ReservedConceptIDs } from '#nodes/ConceptLink.ts';
+import { getTranslatableTutorialPairs } from '#util/verify-locales/verifyTutorial.ts';
 import type Tutorial from '../../tutorial/Tutorial';
-import { matchGroups, must } from '@util/nullable';
+import { matchGroups, must } from '#util/nullable.ts';
 
 /** When a path's value last changed, and what it changed from. */
 export type Change = {

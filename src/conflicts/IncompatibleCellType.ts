@@ -1,16 +1,16 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import type Expression from '@nodes/Expression';
-import type Input from '@nodes/Input';
-import type TableType from '@nodes/TableType';
-import type Type from '@nodes/Type';
-import type Locales from '@locale/Locales';
-import type Node from '@nodes/Node';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Input from '#nodes/Input.ts';
+import type TableType from '#nodes/TableType.ts';
+import type Type from '#nodes/Type.ts';
+import type Locales from '#locale/Locales.ts';
+import type Node from '#nodes/Node.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
+} from '#conflicts/Conflict.ts';
 
 export default class IncompatibleCellType extends Conflict {
     readonly type: TableType;

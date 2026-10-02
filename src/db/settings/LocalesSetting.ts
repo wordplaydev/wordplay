@@ -1,8 +1,8 @@
 import {
     isSupportedLocale,
     type SupportedLocale,
-} from '@locale/SupportedLocales';
-import Setting from '@db/settings/Setting';
+} from '#locale/SupportedLocales.ts';
+import Setting from '#db/settings/Setting.ts';
 
 export const LocalesSetting = new Setting<SupportedLocale[]>(
     'locales',

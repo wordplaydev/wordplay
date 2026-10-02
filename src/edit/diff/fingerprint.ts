@@ -1,5 +1,5 @@
-import type Node from '@nodes/Node';
-import Token from '@nodes/Token';
+import type Node from '#nodes/Node.ts';
+import Token from '#nodes/Token.ts';
 
 /**
  * What makes two nodes the same node across two *independent parses*.

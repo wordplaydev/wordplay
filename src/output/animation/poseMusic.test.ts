@@ -1,22 +1,22 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import { toStage } from '@output/Output/Stage';
-import { AnimationState } from '@output/animation/OutputAnimation';
-import Pose, { toPose } from '@output/animation/Pose';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import { AnimationState } from '#output/animation/OutputAnimation.ts';
+import Pose, { toPose } from '#output/animation/Pose.ts';
 import {
     poseMusicOf,
     shouldStrike,
     stagePoseMusic,
     strikesFor,
     type Struck,
-} from '@output/animation/poseMusic';
-import { createMusicLiteral } from '@output/Music/Music';
-import Sequence, { toSequence } from '@output/animation/Sequence';
-import Transition from '@output/animation/Transition';
-import Evaluator from '@runtime/Evaluator';
+} from '#output/animation/poseMusic.ts';
+import { createMusicLiteral } from '#output/Music/Music.ts';
+import Sequence, { toSequence } from '#output/animation/Sequence.ts';
+import Transition from '#output/animation/Transition.ts';
+import Evaluator from '#runtime/Evaluator.ts';
 import { expect, test } from 'vitest';
 
 /** A short, quiet, non-looping piece, spelled the way a creator would. */

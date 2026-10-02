@@ -8,13 +8,13 @@
     which is deliberately not downloaded before then; see showcase.ts.
 -->
 <script lang="ts">
-    import Logo from '@components/app/Logo.svelte';
-    import StageCast from '@components/app/StageCast.svelte';
-    import { loadShowcase } from '@components/app/showcase';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import { animationFactor } from '@db/Database';
+    import Logo from '#components/app/Logo.svelte';
+    import StageCast from '#components/app/StageCast.svelte';
+    import { loadShowcase } from '#components/app/showcase.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import { animationFactor } from '#db/Database.ts';
     import type { Component } from 'svelte';
 
     interface Props {

@@ -1,14 +1,14 @@
-import type Project from '@db/projects/Project';
-import { BaselineAlignment } from '@output/Arrangement/Row';
-import type Locales from '@locale/Locales';
-import type { LocaleTextsAccessor } from '@locale/Locales';
-import Evaluate from '@nodes/Evaluate';
-import NumberLiteral from '@nodes/NumberLiteral';
-import TextLiteral from '@nodes/TextLiteral';
-import Unit from '@nodes/Unit';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyNumber from '@edit/output/OutputPropertyNumber';
-import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
+import type Project from '#db/projects/Project.ts';
+import { BaselineAlignment } from '#output/Arrangement/Row.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextsAccessor } from '#locale/Locales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyNumber from '#edit/output/OutputPropertyNumber.ts';
+import OutputPropertyOptions from '#edit/output/OutputPropertyOptions.ts';
 
 /** A number-in-meters field property. */
 function meters(name: LocaleTextsAccessor, fallback = 0): OutputProperty {

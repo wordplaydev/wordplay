@@ -1,18 +1,18 @@
-import { Purpose } from '@concepts/Purpose';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
+import { Purpose } from '#concepts/Purpose.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import type Spaces from '@parser/Spaces';
-import type Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Node from '@nodes/Node';
-import type StructureType from '@nodes/StructureType';
-import Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
+import type Spaces from '#parser/Spaces.ts';
+import type Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type Node from '#nodes/Node.ts';
+import type StructureType from '#nodes/StructureType.ts';
+import Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 export default class StructureDefinitionType extends Type {
     readonly type: StructureType;

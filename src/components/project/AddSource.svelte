@@ -12,26 +12,26 @@
      * Everything here happens on the device. A picture is decoded, sampled, and
      * dropped; what is kept is the text of its colors.
      */
-    import ImagePicker from '@components/app/ImagePicker.svelte';
-    import MIDIImporter from '@components/project/MIDIImporter.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Note from '@components/app/Notice.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import Slider from '@components/widgets/Slider.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import { MAX_PROJECT_BYTE_SIZE } from '@db/projects/ProjectsDatabase.svelte';
-    import { toTable } from '@components/editor/commands/interpret';
-    import TextBox from '@components/widgets/TextBox.svelte';
-    import freshSourceName from '@edit/freshSourceName';
-    import type LocaleText from '@locale/LocaleText';
-    import type { NameText } from '@locale/LocaleText';
-    import type Node from '@nodes/Node';
-    import type TableLiteral from '@nodes/TableLiteral';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
+    import ImagePicker from '#components/app/ImagePicker.svelte';
+    import MIDIImporter from '#components/project/MIDIImporter.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Note from '#components/app/Notice.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import Slider from '#components/widgets/Slider.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { MAX_PROJECT_BYTE_SIZE } from '#db/projects/ProjectsDatabase.svelte.ts';
+    import { toTable } from '#components/editor/commands/interpret.ts';
+    import TextBox from '#components/widgets/TextBox.svelte';
+    import freshSourceName from '#edit/freshSourceName.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import type { NameText } from '#locale/LocaleText.ts';
+    import type Node from '#nodes/Node.ts';
+    import type TableLiteral from '#nodes/TableLiteral.ts';
+    import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
     import {
         colorsToSource,
         DefaultResolution,
@@ -39,13 +39,13 @@
         MaxResolution,
         MinResolution,
         ResolutionStep,
-    } from '@edit/image/imageToColors';
-    import CameraCapture from '@components/project/CameraCapture.svelte';
-    import type { Working } from '@components/app/ImagePicker.svelte';
-    import { MinimumCrop, type Rect } from '@db/characters/raster';
+    } from '#edit/image/imageToColors.ts';
+    import CameraCapture from '#components/project/CameraCapture.svelte';
+    import type { Working } from '#components/app/ImagePicker.svelte';
+    import { MinimumCrop, type Rect } from '#db/characters/raster.ts';
     import { untrack } from 'svelte';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { first, must } from '@util/nullable';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+    import { first, must } from '#util/nullable.ts';
 
     interface Props {
         project: Project;

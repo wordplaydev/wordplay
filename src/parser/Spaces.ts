@@ -1,7 +1,7 @@
-import type Node from '@nodes/Node';
-import type Source from '@nodes/Source';
-import Token from '@nodes/Token';
-import TokenList from '@parser/TokenList';
+import type Node from '#nodes/Node.ts';
+import type Source from '#nodes/Source.ts';
+import Token from '#nodes/Token.ts';
+import TokenList from '#parser/TokenList.ts';
 
 export const TAB_SYMBOL = '⇥';
 export const TAB_WIDTH = 2;

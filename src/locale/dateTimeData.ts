@@ -1,8 +1,8 @@
-import coreDateTimes from '@locale/datetimes-core.json';
-import { type DateTimeData } from '@locale/dateTimeFormats';
-import enUSDateTimes from '@locale/en-US-datetimes.json';
-import type Locale from '@locale/Locale';
-import { getLocaleLanguage } from '@locale/LocaleText';
+import coreDateTimes from '#locale/datetimes-core.json';
+import { type DateTimeData } from '#locale/dateTimeFormats.ts';
+import enUSDateTimes from '#locale/en-US-datetimes.json';
+import type Locale from '#locale/Locale.ts';
+import { getLocaleLanguage } from '#locale/LocaleText.ts';
 
 /**
  * The registry of per-locale date/time formatting data used by Moment's

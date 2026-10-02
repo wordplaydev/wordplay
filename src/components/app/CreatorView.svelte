@@ -1,10 +1,10 @@
 <script lang="ts">
-    import CreatorSymbolView from '@components/app/CreatorCharacterView.svelte';
-    import Feedback from '@components/app/Notice.svelte';
-    import Text from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
-    import type { Creator } from '@db/creators/CreatorDatabase';
-    import { withMonoEmoji } from '@unicode/emoji';
+    import CreatorSymbolView from '#components/app/CreatorCharacterView.svelte';
+    import Feedback from '#components/app/Notice.svelte';
+    import Text from '#components/widgets/LocalizedText.svelte';
+    import { locales } from '#db/Database.ts';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
 
     interface Props {
         creator: Creator | null;

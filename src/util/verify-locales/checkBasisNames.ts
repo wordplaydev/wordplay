@@ -1,14 +1,14 @@
-import concretize from '@locale/concretize';
-import { isRecord } from '@util/guards';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import Input from '@nodes/Input';
-import Source from '@nodes/Source';
-import { buildKeywordIndex, Keywords } from '@parser/Keywords';
-import createDefaultShares from '@runtime/createDefaultShares';
-import type Log from '@util/verify-locales/Log';
+import concretize from '#locale/concretize.ts';
+import { isRecord } from '#util/guards.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import Input from '#nodes/Input.ts';
+import Source from '#nodes/Source.ts';
+import { buildKeywordIndex, Keywords } from '#parser/Keywords.ts';
+import createDefaultShares from '#runtime/createDefaultShares.ts';
+import type Log from '#util/verify-locales/Log.ts';
 
 /**
  * Three locale-data hazards that silently change what a program *means*, all

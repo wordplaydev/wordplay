@@ -1,9 +1,9 @@
-import Announcement from '@components/project/Announcement';
+import Announcement from '#components/project/Announcement.ts';
 import {
     markLanguage,
     toSpokenRuns,
     withoutLanguageMarks,
-} from '@locale/spokenLanguage';
+} from '#locale/spokenLanguage.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('language marks', () => {

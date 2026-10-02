@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { splitCharacterRefs } from '@output/Output/splitCharacterRefs';
+import { splitCharacterRefs } from '#output/Output/splitCharacterRefs.ts';
 
 test('plain text with no references is a single text chunk', () => {
     expect(splitCharacterRefs('hello world')).toEqual([

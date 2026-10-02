@@ -1,20 +1,20 @@
-import type Context from '@nodes/Context';
-import { entriesOf, isNonEmpty, type NonEmpty } from '@util/nullable';
-import NameType from '@nodes/NameType';
-import type Node from '@nodes/Node';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import StructureType from '@nodes/StructureType';
-import type Type from '@nodes/Type';
-import type Locales from '@locale/Locales';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
+import type Context from '#nodes/Context.ts';
+import { entriesOf, isNonEmpty, type NonEmpty } from '#util/nullable.ts';
+import NameType from '#nodes/NameType.ts';
+import type Node from '#nodes/Node.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import StructureType from '#nodes/StructureType.ts';
+import type Type from '#nodes/Type.ts';
+import type Locales from '#locale/Locales.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
 import { Emotion } from '../lore/Emotion';
-import type Markup from '@nodes/Markup';
+import type Markup from '#nodes/Markup.ts';
 import type { CharacterName } from '../tutorial/Tutorial';
-import BindConcept from '@concepts/BindConcept';
-import Concept from '@concepts/Concept';
-import ConversionConcept from '@concepts/ConversionConcept';
-import FunctionConcept from '@concepts/FunctionConcept';
-import type { PurposeType } from '@concepts/Purpose';
+import BindConcept from '#concepts/BindConcept.ts';
+import Concept from '#concepts/Concept.ts';
+import ConversionConcept from '#concepts/ConversionConcept.ts';
+import FunctionConcept from '#concepts/FunctionConcept.ts';
+import type { PurposeType } from '#concepts/Purpose.ts';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */

@@ -86,7 +86,7 @@
                             "• Auch deine eigenen Namen können mehrsprachig sein:\n\\katze/de, gato/es: '🐈'\nSatzglied(katze)\\",
                             "• Text trägt eine Sprache und zeigt die Sprache, die dein Publikum liest: \\'hallo'/de'hola'/es\\.",
                             "• Die Seite selbst gibt es in 29 Sprachen, und du kannst mehr als eine gleichzeitig wählen; der Text erscheint dann in jeder davon.",
-                            "• Du kannst mithelfen, @wordplay selbst zu übersetzen, direkt in der App unter <localize//localize>."
+                            "• Du kannst mithelfen, @wordplay selbst zu übersetzen, direkt in der App unter <localize@://localize>."
                         ]
                     },
                     "accessible": {
@@ -123,7 +123,7 @@
                         "title": "$~Wordplay ist Typografie",
                         "bullets": [
                             "$~• Hunderte Schriftarten, die die Schriftsysteme der Welt abdecken.",
-                            "• Du kannst deine eigenen <custom characters//characters> zeichnen und sie überall dort nutzen, wo auch ein Emoji hinpasst.",
+                            "• Du kannst deine eigenen <custom characters@://characters> zeichnen und sie überall dort nutzen, wo auch ein Emoji hinpasst.",
                             "• Der Umriss jedes Buchstabens ist ein Wert, den du lesen und animieren kannst, mit @Contour: \\Kontur('a' 'Noto Sans')\\.",
                             "• Text bricht nach den Regeln der Sprache um, in der er geschrieben ist.",
                             "• Rechts-nach-links- und vertikale Schrift werden so dargestellt, wie es sich gehört."
@@ -133,7 +133,7 @@
                         "title": "$~Wordplay erklärt sich selbst",
                         "bullets": [
                             "$~• Dokumentation ist Teil der Sprache, mit @Doc, kein Kommentar daneben.",
-                            "• Ein durchsuchbarer <guide//guide> erklärt jedes eingebaute Merkmal mit Beispielen.",
+                            "• Ein durchsuchbarer <guide@://guide> erklärt jedes eingebaute Merkmal mit Beispielen.",
                             "• Jeder Fehler wird dort erklärt, wo er passiert ist, in deiner Sprache.",
                             "• Du kannst ein Programm vorwärts /und/ rückwärts durchgehen, um herauszufinden, was passiert ist.",
                             "• Während du durchgehst, wird jeder Wert direkt im Code angezeigt, der ihn erzeugt hat."
@@ -156,7 +156,7 @@
                             "• Es ist quelloffen: Du kannst nachlesen, wie es funktioniert, und uns helfen, es zu verändern.",
                             "• Es stammt von der Information School der <University of Washington@https://ischool.uw.edu/>.",
                             "• Es gibt eine Gemeinschaft von Erschaffenden, Lehrkräften und Mitwirkenden.",
-                            "• <Spenden//donate> bezahlen die Kosten für den Betrieb."
+                            "• <Spenden@://donate> bezahlen die Kosten für den Betrieb."
                         ]
                     }
                 }
@@ -355,7 +355,7 @@
                     "content": [
                         "$~Überlegst du, ob *Wordplay* für deine Schule oder deinen Schulbezirk geeignet ist? Hier erfährst du, was wir versprechen können und was nicht.",
                         "Wir sind keine Firma. Wir sind ein gemeinschaftliches Forschungsprojekt an einer gemeinnützigen Universität und haben keine Einnahmen. Das heißt, es gibt Vereinbarungen, die wir nicht unterschreiben können, so gerne wir auch helfen würden. Wir können nicht versprechen, die Anwaltskosten eines Schulbezirks zu zahlen, falls er verklagt wird. Wir können nicht versprechen, ein Problem zu einem festen Termin zu lösen. Ein Versprechen zu unterschreiben, das wir nicht halten können, würde niemandem helfen, dir am wenigsten.",
-                        "Hier ist, was wir versprechen können. Wir halten die Plattform an die Barrierefreiheit nach /WCAG 2.2 Stufe AA/, prüfen das automatisch bei jeder Änderung und beheben Probleme so schnell, wie es eine Gemeinschaft von Freiwilligen kann. Wir sammeln so wenig Daten wie möglich über die Menschen, die die Plattform nutzen, und verwenden diese Daten nur, um die Plattform zu betreiben. Auf unserer <rights//rights>-Seite steht genau, was wir speichern, und unser <source@https://github.com/wordplaydev/wordplay> ist öffentlich einsehbar, damit du das alles selbst prüfen kannst.",
+                        "Hier ist, was wir versprechen können. Wir halten die Plattform an die Barrierefreiheit nach /WCAG 2.2 Stufe AA/, prüfen das automatisch bei jeder Änderung und beheben Probleme so schnell, wie es eine Gemeinschaft von Freiwilligen kann. Wir sammeln so wenig Daten wie möglich über die Menschen, die die Plattform nutzen, und verwenden diese Daten nur, um die Plattform zu betreiben. Auf unserer <rights@://rights>-Seite steht genau, was wir speichern, und unser <source@https://github.com/wordplaydev/wordplay> ist öffentlich einsehbar, damit du das alles selbst prüfen kannst.",
                         "Diese Plattform verändert sich ständig, und genauso ändern sich die Regeln, die du einhalten musst. Wenn du etwas brauchst, das wir noch nicht bieten, schreib uns an hi@wordplay.dev und erzähl uns davon. Die Betreuerinnen und Betreuer lesen deine Nachricht, und wir schreiben dir zurück."
                     ],
                     "link": "$~Schreib uns wegen einer Anforderung",
@@ -1265,7 +1265,7 @@
             },
             "thanks": {
                 "header": "$~Danke",
-                "intro": "$~Danke an unsere *$#count[$count Mitwirkenden|$count Mitwirkenden]* für ihre Hilfe bei Design, Entwicklung, Übersetzung und Inhalten von @wordplay! Und danke an die vielen Lehrkräfte und Jugendlichen, die unser Design in Gruppen, Design-Sitzungen und Klassenzimmern begleitet haben. Wir nennen sie hier nicht, um ihre Privatsphäre zu schützen.\n\nDieses Projekt wurde von der National Science Foundation mit den Förderungen 2318257, 2031265, 2100296 und 2122950 unterstützt, von der University of Washington und durch großzügige <Spenden//donate> von Menschen wie dir.",
+                "intro": "$~Danke an unsere *$#count[$count Mitwirkenden|$count Mitwirkenden]* für ihre Hilfe bei Design, Entwicklung, Übersetzung und Inhalten von @wordplay! Und danke an die vielen Lehrkräfte und Jugendlichen, die unser Design in Gruppen, Design-Sitzungen und Klassenzimmern begleitet haben. Wir nennen sie hier nicht, um ihre Privatsphäre zu schützen.\n\nDieses Projekt wurde von der National Science Foundation mit den Förderungen 2318257, 2031265, 2100296 und 2122950 unterstützt, von der University of Washington und durch großzügige <Spenden@://donate> von Menschen wie dir.",
                 "teachers": "$~Lehrer",
                 "contributors": "$~Mitwirkende"
             },

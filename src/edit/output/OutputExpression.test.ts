@@ -1,11 +1,11 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Project from '@db/projects/Project';
-import Evaluate from '@nodes/Evaluate';
-import Source from '@nodes/Source';
-import OutputExpression from '@edit/output/OutputExpression';
-import { makesSequence } from '@output/animation/Sequence';
-import { first, last, must } from '@util/nullable';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Project from '#db/projects/Project.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Source from '#nodes/Source.ts';
+import OutputExpression from '#edit/output/OutputExpression.ts';
+import { makesSequence } from '#output/animation/Sequence.ts';
+import { first, last, must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 
 /** The last Evaluate in the source — the animation expression in each case below. */

@@ -1,23 +1,23 @@
-import type LocaleText from '@locale/LocaleText';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import Characters from '../lore/BasisCharacters';
-import { FORMATTED_TYPE_SYMBOL } from '@parser/Symbols';
-import BasisType from '@nodes/BasisType';
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Context from '@nodes/Context';
+import { FORMATTED_TYPE_SYMBOL } from '#parser/Symbols.ts';
+import BasisType from '#nodes/BasisType.ts';
+import type BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type Context from '#nodes/Context.ts';
 import {
     concreteLanguageOf,
     type LanguageDeriver,
-} from '@nodes/DerivedLanguage';
-import type Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import Language from '@nodes/Language';
-import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
+} from '#nodes/DerivedLanguage.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import Language from '#nodes/Language.ts';
+import { node, optional, type Grammar, type Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 /** We created this little factory to avoid a cycle in FormattedType's default expression creation. */
 let _defaultFactory: (() => Expression) | undefined;

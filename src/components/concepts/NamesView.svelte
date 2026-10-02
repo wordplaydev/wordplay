@@ -1,7 +1,7 @@
 <script lang="ts">
-    import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
-    import Reference from '@nodes/Reference';
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
+    import HeaderAndExplanation from '#components/app/HeaderAndExplanation.svelte';
+    import Reference from '#nodes/Reference.ts';
+    import ConceptPreview from '#components/concepts/ConceptPreview.svelte';
 
     interface Props {
         names: string[];

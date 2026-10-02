@@ -1,5 +1,5 @@
-import { Unwritten } from '@locale/Annotations';
-import type { LocaleStringKind } from '@util/verify-locales/classifyLocalePath';
+import { Unwritten } from '#locale/Annotations.ts';
+import type { LocaleStringKind } from '#util/verify-locales/classifyLocalePath.ts';
 
 /**
  * Mark a value unwritten, keeping the English after the marker.

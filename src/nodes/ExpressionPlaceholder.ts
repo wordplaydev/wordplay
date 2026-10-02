@@ -1,40 +1,49 @@
-import type { TemplateInput } from '@locale/Locales';
-import type Conflict from '@conflicts/Conflict';
-import Placeholder from '@conflicts/Placeholder';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type { LocaleText } from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import Halt from '@runtime/Halt';
-import type Step from '@runtime/Step';
-import UnimplementedException from '@values/UnimplementedException';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import Placeholder from '#conflicts/Placeholder.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type { LocaleText } from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Halt from '#runtime/Halt.ts';
+import type Step from '#runtime/Step.ts';
+import UnimplementedException from '#values/UnimplementedException.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
 import Characters from '../lore/BasisCharacters';
-import AnyType from '@nodes/AnyType';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import getConcreteExpectedType from '@nodes/Generics';
-import Input from '@nodes/Input';
-import type Node from '@nodes/Node';
-import { any, node, none, type Grammar, type Replacement } from '@nodes/Node';
-import PlaceholderToken from '@nodes/PlaceholderToken';
-import type Root from '@nodes/Root';
-import SimpleExpression from '@nodes/SimpleExpression';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import UnionType from '@nodes/UnionType';
-import type TypeSet from '@nodes/TypeSet';
-import TypeToken from '@nodes/TypeToken';
+import AnyType from '#nodes/AnyType.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import getConcreteExpectedType from '#nodes/Generics.ts';
+import Input from '#nodes/Input.ts';
+import type Node from '#nodes/Node.ts';
+import {
+    any,
+    node,
+    none,
+    type Grammar,
+    type Replacement,
+} from '#nodes/Node.ts';
+import PlaceholderToken from '#nodes/PlaceholderToken.ts';
+import type Root from '#nodes/Root.ts';
+import SimpleExpression from '#nodes/SimpleExpression.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import UnionType from '#nodes/UnionType.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import TypeToken from '#nodes/TypeToken.ts';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token | undefined;

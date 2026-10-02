@@ -1,7 +1,7 @@
-import type { CallGraph } from '@db/projects/Analysis';
-import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
-import type Type from '@nodes/Type';
+import type { CallGraph } from '#db/projects/Analysis.ts';
+import type Context from '#nodes/Context.ts';
+import Expression from '#nodes/Expression.ts';
+import type Type from '#nodes/Type.ts';
 
 /**
  * A candidate root for fixing a type error. Returned by {@link walkTypeSources}:

@@ -1,5 +1,5 @@
-import type Project from '@db/projects/Project';
-import Evaluate from '@nodes/Evaluate';
+import type Project from '#db/projects/Project.ts';
+import Evaluate from '#nodes/Evaluate.ts';
 
 /** `replay`'s position in Music's inputs; see the structure in Music.ts. */
 const ReplayInputIndex = 5;

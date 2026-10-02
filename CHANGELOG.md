@@ -4,6 +4,13 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.38.3 - 2026-10-01
+
+### Fixed
+
+- 🔗 We fixed links in other languages that showed up as broken text or led to missing pages, on the home page, the [About](https://wordplay.dev/about) page, the quick tutorial, and in messages across the site.
+- 🌐 We fixed the music display choices in Turkish settings, which showed each name and description beside the wrong option.
+
 ## 0.38.2 - 2026-10-01
 
 ### Added

@@ -1,13 +1,13 @@
 // A how to is an explanation for how to combine two or more concepts to achieve a particular behavior in a project
 // (e.g., making a phrase spin, moving a phrase with a pointer or keyboard, creating an animated multi-step scene).
 // This is the data structure that defines a how to's content and metadata.
-import { parseLocaleDoc } from '@locale/LocaleText';
-import { isRecord, isStringArray } from '@util/guards';
-import { includesString, keysOf } from '@util/nullable';
-import type Markup from '@nodes/Markup';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type Spaces from '@parser/Spaces';
-import { toMarkup } from '@parser/toMarkup';
+import { parseLocaleDoc } from '#locale/LocaleText.ts';
+import { isRecord, isStringArray } from '#util/guards.ts';
+import { includesString, keysOf } from '#util/nullable.ts';
+import type Markup from '#nodes/Markup.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import type Spaces from '#parser/Spaces.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
 
 // How to category IDs. (The text to describe them live in locale definitions.
 // The order of these categories is the order they appear in the interface.

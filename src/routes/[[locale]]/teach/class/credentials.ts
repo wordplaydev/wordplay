@@ -1,7 +1,10 @@
-import { UsernameLength } from '@db/creators/username';
-import { usernameAvailable, usernamesAvailable } from '@db/creators/usernames';
-import { must } from '@util/nullable';
-import NumberGenerator from '@util/random/NumberGenerator';
+import { UsernameLength } from '#db/creators/username.ts';
+import {
+    usernameAvailable,
+    usernamesAvailable,
+} from '#db/creators/usernames.ts';
+import { must } from '#util/nullable.ts';
+import NumberGenerator from '#util/random/NumberGenerator.ts';
 import type { ClassSigninMethod } from 'shared-types';
 import { addressOf, baseUsername, describingCells } from './roster';
 

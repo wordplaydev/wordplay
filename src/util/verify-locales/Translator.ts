@@ -1,8 +1,8 @@
-import type LanguageCode from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
-import type { RegionCode } from '@locale/Regions';
-import type Log from '@util/verify-locales/Log';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import type Log from '#util/verify-locales/Log.ts';
 
 /** Marker for the machine-readable usage line a child run prints on stdout so
  *  the parallel batch runner can sum usage across locales without scraping the

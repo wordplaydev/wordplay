@@ -1,13 +1,13 @@
-import Name from '@nodes/Name';
-import Names from '@nodes/Names';
-import { Unwritten } from '@locale/Annotations';
-import DefaultLocale from '@locale/DefaultLocale';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import { type NameText } from '@locale/LocaleText';
-import { localeToLanguage } from '@locale/localeToLanguage';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import selectTranslation from '@locale/selectTranslation';
+import Name from '#nodes/Name.ts';
+import Names from '#nodes/Names.ts';
+import { Unwritten } from '#locale/Annotations.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { type NameText } from '#locale/LocaleText.ts';
+import { localeToLanguage } from '#locale/localeToLanguage.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import selectTranslation from '#locale/selectTranslation.ts';
 
 export function getNameLocales(
     locales: Locales,

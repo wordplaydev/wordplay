@@ -1,20 +1,20 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import { Galleries, locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import PII from '@components/project/PII.svelte';
-    import Preview from '@components/project/Preview.svelte';
-    import Public from '@components/project/Public.svelte';
-    import Remix from '@components/project/Remix.svelte';
-    import KitPublisher from '@components/project/KitPublisher.svelte';
-    import { projectVisibility } from '@db/moderation/visibility';
+    import Notice from '#components/app/Notice.svelte';
+    import { Galleries, locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import { getUser } from '#components/project/Contexts.ts';
+    import PII from '#components/project/PII.svelte';
+    import Preview from '#components/project/Preview.svelte';
+    import Public from '#components/project/Public.svelte';
+    import Remix from '#components/project/Remix.svelte';
+    import KitPublisher from '#components/project/KitPublisher.svelte';
+    import { projectVisibility } from '#db/moderation/visibility.ts';
 
     interface Props {
         project: Project;

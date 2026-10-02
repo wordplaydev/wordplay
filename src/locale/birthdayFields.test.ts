@@ -6,11 +6,11 @@ import {
     birthdayNumber,
     isRealDate,
     toISODate,
-} from '@locale/birthdayFields';
-import type Locale from '@locale/Locale';
-import type LanguageCode from '@locale/LanguageCode';
-import type { RegionCode } from '@locale/Regions';
-import type { BirthdayField } from '@locale/birthdayFields';
+} from '#locale/birthdayFields.ts';
+import type Locale from '#locale/Locale.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import type { BirthdayField } from '#locale/birthdayFields.ts';
 
 /** The shape getDateTimeDataForLocale matches on: language + region. */
 const locale = (language: LanguageCode, region: RegionCode): Locale => ({

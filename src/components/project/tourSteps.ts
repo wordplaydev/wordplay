@@ -1,6 +1,6 @@
-import type { LocaleTextsAccessor } from '@locale/Locales';
-import type { TourID } from '@components/project/tours';
-import { Modes, type GuideMode } from '@components/concepts/GuideHistory';
+import type { LocaleTextsAccessor } from '#locale/Locales.ts';
+import type { TourID } from '#components/project/tours.ts';
+import { Modes, type GuideMode } from '#components/concepts/GuideHistory.ts';
 
 /**
  * What each tour actually says, step by step. Separate from `tours.ts` because

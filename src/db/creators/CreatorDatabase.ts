@@ -1,8 +1,8 @@
 import type { UserIdentifier } from 'firebase-admin/auth';
 import { z } from 'zod';
 import type { User } from 'firebase/auth';
-import type { Database } from '@db/Database';
-import { getFunctionsInstance } from '@db/firebase';
+import type { Database } from '#db/Database.ts';
+import { getFunctionsInstance } from '#db/firebase.ts';
 import type { FindCreatorInputs, FindCreatorOutput } from 'shared-types';
 
 export const CreatorCollection = 'creators';

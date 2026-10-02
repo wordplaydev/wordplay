@@ -60,7 +60,7 @@ npm run wiki          # Clone or refresh the contributor wiki into ./wiki
 
 ## Architecture
 
-Wordplay is a web-based programming language IDE where creators write code that produces interactive, animated typography. Built with Svelte 5 + SvelteKit 2, TypeScript (strict, no `any`), Firebase, and Vite.
+Wordplay is a web-based programming language IDE where creators write code that produces interactive, animated typography. Built with Svelte 5 + SvelteKit 3, TypeScript (strict, no `any`), Firebase, and Vite.
 
 ### Core pipeline
 
@@ -330,7 +330,7 @@ Translation tools and script edits produce inconsistent indentation/escapes; pre
 
 **A locale asset's cache key is its content, and `firebase.json` is JSON so the reason lives here.** Locale files are served from `static/`, so their names carry no content hash the way `/_app/immutable/**` does. `versioned()` ([versioned.ts](src/db/locales/versioned.ts)) appends one as a query param, read from [localeAssets.generated.ts](src/db/locales/localeAssets.generated.ts) — a gitignored build artifact written by `npm run locale-assets`, which runs after `updates`/`how` (both write assets it hashes) and before `vite build` (which bundles it). Load-bearing:
 - **The key must be the content, not the build.** It used to be SvelteKit's build version, and since every push to `main` deploys while only about a third of commits touch a locale, two deploys in three made every non-English creator re-download 130-145KB brotli to get back byte-identical text.
-- **The module holds only data.** `versioned` is reachable from `UnknownName` by way of `localeNameIndex`, so the `$app/environment` import it used to carry would put a SvelteKit virtual module on the basis graph and break `npm run locales` under tsx — the rule that shares-reachable modules never value-import `$env`/`$app`. The fallback version is derived from the table instead.
+- **The module holds only data.** `versioned` is reachable from `UnknownName` by way of `localeNameIndex`, so the `$app/env` import it used to carry would put a SvelteKit virtual module on the basis graph and break `npm run locales` under tsx — the rule that shares-reachable modules never value-import `$env`/`$app`. The fallback version is derived from the table instead.
 - **`/locales/**` is served `immutable` for a year** ([firebase.json](firebase.json), which can hold no comment saying so), which is only safe because *every* fetch of one goes through `versioned()`. An unversioned URL would pin stale text in a reader's cache with no way out short of clearing site data, so [localeFetchConvention.test.ts](src/db/locales/localeFetchConvention.test.ts) refuses one. It reads the `fetch(...)` argument, and knows both the literal shape and a local name bound to a locale URL; a path arriving through a method call is beyond it and still needs `versioned()` by hand.
 - **`/fonts/**` is served `immutable` for a year too, versioned by one content hash for all fonts.** Font filenames carry no hash, so every font URL carries `?v=` from [version.ts](scripts/fonts/version.ts) — the lockfile's hashes, the Safari emoji slices (outside the lock), and the stylesheets' own text, since a range can change without a font's bytes changing. One version rather than one per file because fonts change a few times a year and `getFontFileURL` would otherwise ship ~1,200 hashes to build a creator face's URL. `fonts-build` writes it into the generated stylesheets and `FontsVersion` in `faces.generated.ts`; `hooks.server.ts` substitutes it into `app.html`'s preloads and stylesheet links, which must equal the `@font-face` URL, query included, or the preload is a second download. [fontURLConvention.test.ts](src/basis/faces/fontURLConvention.test.ts) refuses an unversioned font URL and any font URL built outside `getFontFileURL`.
 - **`/_app/version.json` is explicitly `no-cache`.** SvelteKit polls it to notice a deploy ([UpdateNotification.svelte](src/components/app/UpdateNotification.svelte)); a cached copy is a stale answer to "is there a new version".
@@ -354,6 +354,12 @@ Translation tools and script edits produce inconsistent indentation/escapes; pre
 - The concept pass skips a match containing the mask delimiter (a Wordplay name may be almost any character, so `@⟦0⟧` lexes as a concept link).
 - An issue link is masked whole (its label is the issue number; digits get transliterated).
 - Other labels stay visible — translating "About" to "Acerca de" is the point.
+
+**A broken link already on disk is repaired from en-US, never by position.** The guards above act only on a string being translated; 300+ shipped broken from before them — `<localize//localize>` (the `@:` lost, rendered as text) in seven strings × 30 locales and every quick tutorial, route names translated into 404s (`://droits`), and `@:////design` in every changelog bundle. `restoreLinkTargets` ([protect.ts](src/util/verify-locales/protect.ts)) runs from [checkLinkTargets.ts](src/util/verify-locales/checkLinkTargets.ts), `verifyTutorial` and `verifyChangelog`'s mend loop. Load-bearing:
+- A mangled `<…>` is paired with a missing en-US target by its text *ending in that target's path*; outside `\…\` only.
+- A rewritten target is restored by **multiset difference**: four locales legitimately reorder the about page's links, and a positional restore would swap them.
+- What cannot be placed (a link dropped or invented) is marked `$!` under `locales-fix`. A positional `[plain]` tuple is checked element by element — a label holding a link is how tr-TR's music options turned out shifted one slot.
+- The changelog cause was `scripts/updates.ts`' `toMarkup`, which escaped `/` inside a target already written in markup form; it now masks those as it masks `[label](url)`.
 
 **Installability is manifest-only — there is deliberately no service worker.** Add-to-Home-Screen / Add-to-Dock need no service worker, and data is already local-first (`WordplayDexie`; see [firebase.ts](src/db/firebase.ts)). Installing matters because WebKit deletes script-written storage after 7 days without interaction and exempts home-screen web apps — installing is the only protection for a signed-out creator's local projects. Offline cold-start is the one thing a SW would add; not worth a second update path beside the version poll + [UpdateNotification.svelte](src/components/app/UpdateNotification.svelte), nor a cache policy per asset kind (`static/` is 223MB vs 7.4MB shell). Two consequences handled explicitly: iOS installed-app storage is a container separate from Safari's, so [installedStorage.ts](src/routes/[[locale]]/projects/installedStorage.ts) gates an explanation for signed-out/empty; and an emailed sign-in link opens in the browser rather than the installed app, so [Login.svelte](src/routes/[[locale]]/login/Login.svelte) accepts a *pasted* link.
 
@@ -449,11 +455,23 @@ Two general bugs fell out: `p.toWordplay()` with no `Spaces` stripped every spac
 - Notices are mailed from where the server *knows*: `deliver` after its transactions commit, `moderate` for warnings and listing decisions (the `*Edited` triggers never write `approved`/`denied`), `howToEdited` for a publish. Chat and the review queue are scheduled sweeps — `chats/{id}` deliberately has no trigger, and `mod` is a custom claim no query reaches.
 - `npm run emails` writes a gitignored preview to `build/emails/` and the committed [EMAILS.md](EMAILS.md), drift-tested by `emailSheet.test.ts`.
 
+### Build configuration and imports
+
+**SvelteKit's configuration is the `sveltekit({...})` call in [vite.config.js](vite.config.js); Kit 3 reads no `svelte.config.js`.** Load-bearing:
+- **Chunking is `output.codeSplitting`, never `manualChunks`.** Kit 3 sets `codeSplitting` itself, and rolldown then ignores `manualChunks` with nothing but a build warning. `vendorChunk` must leave `@sveltejs/kit` to Kit (its entry dynamically imports its runtime as a chunk of its own; grouping them fails with "Could not find the client runtime chunk"), and Kit's `sveltekit-manifest` group is restated beside ours.
+- **App modules are Node subpath imports that name their extension**: `#db/Database.ts`, `#components/app/Link.svelte`. package.json's `imports` is the only alias table; node-side resolvers ([importGraph.ts](src/util/importGraph.ts), [prune.ts](src/util/verify-locales/prune.ts)) read it through [subpathImports.ts](src/util/subpathImports.ts). A convention test that looks for a specifier in source must spell it this way, or it passes vacuously.
+- **Public env vars are declared in [src/env.ts](src/env.ts) with a zod schema**, so a missing or malformed one fails the build rather than the page. `PUBLIC_CONTEXT` is the union `local | dev | prod`.
+
+**An internal link is typed against the routes Kit generates** (`AppPath` in [appPath.ts](src/util/appPath.ts)): `Link`'s `to`, `localeGoto`, and model builders like `Project.getLink`. Kit's own `Path` can't do this, because the optional `[[locale]]` segment puts a bare `${string}` in its union. Load-bearing:
+- `AppPath` is derived at the type level and imports `$app/types` type-only, which is what lets a model on the shares graph return one.
+- A path known only at runtime goes through a guard: `isAppPath` (the `Routes` table, held to the generated routes both ways by `satisfies` and `RoutesListed`), `isExternalURL`, or `authoredLink` for creator markup, where a path naming no route renders as plain text. Translations had translated route names (`/droits`, `/aprender`), and every one was a 404.
+- `ProjectView`'s `from` return path uses `isAppPath` as its open-redirect guard; no route begins `//`.
+
 ### Dependency overrides
 
 `package.json` is JSON, so overrides can't carry comments. Rationale lives here.
 
-**`cookie: ^0.7.0` must not move past `^0.7`.** Patches CVE-2024-47764 (cookie <0.7.0); `npm audit` is clean at 0.7.2. SvelteKit imports `{ parse, serialize }` and `CookieSerializeOptions`; cookie 1.x renamed the type and 2.x removed both functions. Bumping has no security upside and breaks Kit. Revisit only when SvelteKit's own `cookie` range moves.
+**There is no `cookie` override, and SvelteKit 3 needs it gone.** One pinned `cookie` to `^0.7` (CVE-2024-47764) while Kit 2 imported `{ parse, serialize }`. Kit 3 depends on cookie 2, so the override would break it; express under firebase-tools pins `~0.7` itself, so the CVE floor holds without one. Because the *hoisted* copy is express's 0.7, the prerender's bare `cookie` import is bundled (`ssr.noExternal` in vite.config.js) so it resolves Kit's own 2.x. Remove that and `npm run build` dies with `Named export 'parseCookie' not found`.
 
 ### Where a reusable piece of UI lives
 
@@ -654,7 +672,7 @@ Drain priority: interrupt → echo → queued → coalesce. Queued-before-coales
 To announce from any component:
 
 ```ts
-import { getAnnouncer } from '@components/project/Contexts';
+import { getAnnouncer } from '#components/project/Contexts.ts';
 // ...
 const announce = getAnnouncer();
 if (announce && $announce) {
@@ -725,7 +743,7 @@ Announcement text is **primary-locale-only** — use `getPrimaryPlainText`, matc
 
 ### Svelte MCP server
 
-The project configures the official Svelte MCP server ([.mcp.json](.mcp.json), mirrored in [.vscode/mcp.json](.vscode/mcp.json)) for current Svelte 5 / SvelteKit 2 docs and a `svelte-autofixer`. Its suggestions are **advisory** and blind to this repo's conventions (immutability outside `Evaluator`/`Database`, centralized `Announcer`, `LocalizedText`/`MarkupHTMLView`). When they conflict, repo conventions win; `npm run check:now` + `npm test` are the source of truth.
+The project configures the official Svelte MCP server ([.mcp.json](.mcp.json), mirrored in [.vscode/mcp.json](.vscode/mcp.json)) for current Svelte 5 / SvelteKit 3 docs and a `svelte-autofixer`. Its suggestions are **advisory** and blind to this repo's conventions (immutability outside `Evaluator`/`Database`, centralized `Announcer`, `LocalizedText`/`MarkupHTMLView`). When they conflict, repo conventions win; `npm run check:now` + `npm test` are the source of truth.
 
 ### Keep ARCHITECTURE.md in sync
 

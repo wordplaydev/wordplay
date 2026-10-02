@@ -1,15 +1,15 @@
 <script lang="ts">
-    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '#components/project/Contexts.ts';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    } from '#components/widgets/tipTriggers.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { locales } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import Decimal from 'decimal.js';
     import { tick } from 'svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
 
     interface Props {
         value: number | undefined;

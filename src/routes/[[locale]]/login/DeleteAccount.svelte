@@ -1,18 +1,18 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getAnnouncer } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import { getUsername } from '@db/creators/handle.svelte';
-    import { DB, locales } from '@db/Database';
-    import { ensureAppCheck, ensureAuth } from '@db/firebase';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { Creator } from '#db/creators/CreatorDatabase.ts';
+    import { getUsername } from '#db/creators/handle.svelte.ts';
+    import { DB, locales } from '#db/Database.ts';
+    import { ensureAppCheck, ensureAuth } from '#db/firebase.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import { signInWithEmailAndPassword, type User } from 'firebase/auth';
-    import TextField from '@components/widgets/TextField.svelte';
-    import validEmail from '@db/creators/isValidEmail';
+    import TextField from '#components/widgets/TextField.svelte';
+    import validEmail from '#db/creators/isValidEmail.ts';
     import isValidPassword from './IsValidPassword';
 
     interface Props {

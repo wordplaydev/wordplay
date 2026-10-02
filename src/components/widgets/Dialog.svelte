@@ -1,15 +1,15 @@
 <script lang="ts">
-    import { clickOutside } from '@components/app/clickOutside';
-    import Header from '@components/app/Header.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import Button from '@components/widgets/Button.svelte';
-    import Hint from '@components/widgets/Hint.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { clickOutside } from '#components/app/clickOutside.ts';
+    import Header from '#components/app/Header.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Hint from '#components/widgets/Hint.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
-    } from '@locale/Locales';
+    } from '#locale/Locales.ts';
     import { tick } from 'svelte';
     import {
         isDialogOpenInURL,

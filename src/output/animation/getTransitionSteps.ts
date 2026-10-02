@@ -1,21 +1,21 @@
-import type LanguageCode from '@locale/LanguageCode';
-import type { RegionCode } from '@locale/Regions';
-import Markup from '@nodes/Markup';
-import TextValue from '@values/TextValue';
-import { getRandomTransition } from '@output/animation/getRandomTransition';
-import { getRewriteTransition } from '@output/animation/getRewriteTransition';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import Markup from '#nodes/Markup.ts';
+import TextValue from '#values/TextValue.ts';
+import { getRandomTransition } from '#output/animation/getRandomTransition.ts';
+import { getRewriteTransition } from '#output/animation/getRewriteTransition.ts';
 import {
     getTextTransition,
     graphemes,
-} from '@output/animation/getTextTransition';
+} from '#output/animation/getTextTransition.ts';
 import {
     getMarkupRandomTransition,
     getMarkupRewriteTransition,
     getMarkupTransition,
     markupGraphemes,
-} from '@output/animation/markupTransition';
-import type { TextEffect } from '@output/animation/OutputAnimation';
-import { getRandomPool } from '@output/animation/textEffectPool';
+} from '#output/animation/markupTransition.ts';
+import type { TextEffect } from '#output/animation/OutputAnimation.ts';
+import { getRandomPool } from '#output/animation/textEffectPool.ts';
 
 /**
  * The renderable form of a phrase's text: a plain string for plain text, or a

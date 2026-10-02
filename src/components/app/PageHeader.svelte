@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
-    import type { Crumb } from '@components/app/getBreadcrumbs';
-    import Header from '@components/app/Header.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Breadcrumbs from '#components/app/Breadcrumbs.svelte';
+    import type { Crumb } from '#components/app/getBreadcrumbs.ts';
+    import Header from '#components/app/Header.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
-    } from '@locale/Locales';
+    } from '#locale/Locales.ts';
     import type { Snippet } from 'svelte';
 
     interface Props {

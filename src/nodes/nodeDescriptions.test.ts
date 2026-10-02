@@ -1,7 +1,7 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 import type Node from './Node';
 

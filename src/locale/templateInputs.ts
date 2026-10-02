@@ -11,10 +11,10 @@
  * (`MentionRegEx` in `Tokenizer.ts`) is the canonical definition of what
  * counts as a mention; this module accepts the same set.
  */
-import { isUnwritten } from '@locale/LocaleText';
-import { DECLARED_INPUTS } from '@locale/templateInputs.generated';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { matchGroups, must } from '@util/nullable';
+import { isUnwritten } from '#locale/LocaleText.ts';
+import { DECLARED_INPUTS } from '#locale/templateInputs.generated.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { matchGroups, must } from '#util/nullable.ts';
 
 /** Field path -> ordered list of declared input names. */
 type InputsByField = Map<string, string[]>;

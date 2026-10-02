@@ -1,4 +1,4 @@
-import { Domain } from '@db/Domains';
+import { Domain } from '#db/Domains.ts';
 import { z } from 'zod';
 import { FirebaseError } from 'firebase/app';
 import {
@@ -12,7 +12,7 @@ import * as Y from 'yjs';
 import ProjectCRDT, {
     base64ToBytes,
     bytesToBase64,
-} from '@db/projects/ProjectCRDT';
+} from '#db/projects/ProjectCRDT.ts';
 
 /** Debounce window (ms) for batching consecutive keystrokes into a single
  *  Firestore write. Wide enough to fold a burst of typing into one update

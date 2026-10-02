@@ -38,7 +38,7 @@ export function itemInDialogURL(param: string): string | null {
 }
 
 /** Navigate to the current path with `search` as the query, only when it
- *  differs from the current query. Uses replaceState to avoid history clutter
+ *  differs from the current query. Replaces the history entry to avoid clutter
  *  and keeps focus/scroll so opening a dialog doesn't disrupt the page. */
 function replaceSearch(params: URLSearchParams) {
     // Strip the `=` from valueless keys (e.g. `play`, `edit`) so the result
@@ -51,9 +51,8 @@ function replaceSearch(params: URLSearchParams) {
             : page.url.search;
     if (search !== currentSearch)
         goto(search ? `?${search}` : page.url.pathname, {
-            replaceState: true,
-            keepFocus: true,
-            noScroll: true,
+            replace: true,
+            reset: false,
         });
 }
 
@@ -65,7 +64,7 @@ function replaceSearch(params: URLSearchParams) {
  *  must await the navigation first, or this strips the param from the old path
  *  and supersedes it — the dialog shuts and the page stays put. */
 export function setDialogInURL(id: string, open: boolean) {
-    const params = new URLSearchParams(page.url.searchParams);
+    const params = new URLSearchParams(page.url.search);
     if (open) params.set(PARAM_DIALOG, id);
     else if (params.get(PARAM_DIALOG) === id) params.delete(PARAM_DIALOG);
     replaceSearch(params);
@@ -77,7 +76,7 @@ export function setDialogInURL(id: string, open: boolean) {
 export function clearUnclaimedDialog() {
     const current = page.url.searchParams.get(PARAM_DIALOG);
     if (current !== null && !mountedDialogIds.has(current)) {
-        const params = new URLSearchParams(page.url.searchParams);
+        const params = new URLSearchParams(page.url.search);
         params.delete(PARAM_DIALOG);
         replaceSearch(params);
     }

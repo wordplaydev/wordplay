@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { getProject, getRoot } from '@components/project/Contexts';
-    import Evaluate from '@nodes/Evaluate';
-    import Flow from '@components/editor/blocks/Flow.svelte';
-    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import { getProject, getRoot } from '#components/project/Contexts.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import Flow from '#components/editor/blocks/Flow.svelte';
+    import NodeSequenceView from '#components/editor/nodes/NodeSequenceView.svelte';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import { isVerticalList } from '@components/editor/nodes/verticalLayout';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import { isVerticalList } from '#components/editor/nodes/verticalLayout.ts';
 
     interface Props {
         node: Evaluate;

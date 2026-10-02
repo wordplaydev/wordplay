@@ -2,15 +2,15 @@
     import {
         getProject,
         getSelectedOutput,
-    } from '@components/project/Contexts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type Evaluate from '@nodes/Evaluate';
+    } from '#components/project/Contexts.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Evaluate from '#nodes/Evaluate.ts';
     import {
         rotatedOutput,
         resizedOutput,
-    } from '@components/output/editHandles';
+    } from '#components/output/editHandles.ts';
     import { tick } from 'svelte';
 
     interface Props {

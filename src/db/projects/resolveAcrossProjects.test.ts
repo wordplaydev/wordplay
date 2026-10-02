@@ -1,11 +1,11 @@
-import { movedOutput } from '@components/palette/editOutput';
-import Project from '@db/projects/Project';
-import resolveAcrossProjects from '@db/projects/resolveAcrossProjects';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Evaluate from '@nodes/Evaluate';
-import Source from '@nodes/Source';
-import { must } from '@util/nullable';
+import { movedOutput } from '#components/palette/editOutput.ts';
+import Project from '#db/projects/Project.ts';
+import resolveAcrossProjects from '#db/projects/resolveAcrossProjects.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Source from '#nodes/Source.ts';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 
 function make(code: string) {

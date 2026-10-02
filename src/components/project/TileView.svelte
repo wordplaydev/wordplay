@@ -13,27 +13,27 @@
 
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import type Bounds from '@components/project/Bounds';
-    import FullscreenIcon from '@components/project/FullscreenIcon.svelte';
-    import type Layout from '@components/project/Layout';
-    import type Tile from '@components/project/Tile';
-    import { TileMode } from '@components/project/Tile';
-    import TileKinds from '@components/project/TileKinds';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { animationDuration, locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
+    import Emoji from '#components/app/Emoji.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import type Bounds from '#components/project/Bounds.ts';
+    import FullscreenIcon from '#components/project/FullscreenIcon.svelte';
+    import type Layout from '#components/project/Layout.ts';
+    import type Tile from '#components/project/Tile.ts';
+    import { TileMode } from '#components/project/Tile.ts';
+    import TileKinds from '#components/project/TileKinds.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import { animationDuration, locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
     import {
         Arrangement,
         type ArrangementType,
-    } from '@db/settings/Arrangement';
-    import Color from '@output/Color/Color';
-    import { isName } from '@parser/Tokenizer';
+    } from '#db/settings/Arrangement.ts';
+    import Color from '#output/Color/Color.ts';
+    import { isName } from '#parser/Tokenizer.ts';
     import type { Snippet } from 'svelte';
     import { onMount } from 'svelte';
     import Characters from '../../lore/BasisCharacters';

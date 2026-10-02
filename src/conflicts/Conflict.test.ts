@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
-import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import { UnknownName } from '@conflicts/UnknownName';
-import { UnparsableConflict } from '@conflicts/UnparsableConflict';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import ExpectedBooleanCondition from '#conflicts/ExpectedBooleanCondition.ts';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
+import { UnparsableConflict } from '#conflicts/UnparsableConflict.ts';
 
 /**
  * Returns the set of conflict constructor names for a program. Using names

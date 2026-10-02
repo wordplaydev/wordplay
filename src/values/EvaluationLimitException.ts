@@ -1,12 +1,12 @@
-import NodeRef from '@locale/NodeRef';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
-import type { DefinitionNode } from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '@locale/Locales';
-import type Program from '@nodes/Program';
-import StreamDefinition from '@nodes/StreamDefinition';
+import NodeRef from '#locale/NodeRef.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import type { DefinitionNode } from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import type Locales from '#locale/Locales.ts';
+import type Program from '#nodes/Program.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
 
 export default class EvaluationLimitException extends ExceptionValue {
     readonly program: Program;

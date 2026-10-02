@@ -1,4 +1,4 @@
-import { firestore } from '@db/firebase';
+import { firestore } from '#db/firebase.ts';
 import {
     collection,
     getDocs,

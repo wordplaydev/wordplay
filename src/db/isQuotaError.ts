@@ -1,4 +1,4 @@
-import { isRecord } from '@util/guards';
+import { isRecord } from '#util/guards.ts';
 
 /**
  * Whether an error from a local (IndexedDB/Dexie) write is a storage-quota

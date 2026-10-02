@@ -1,6 +1,6 @@
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '#parser/Symbols.ts';
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
+import evaluateCode from '#runtime/evaluate.ts';
 
 test.each([
     ['ø = ø', TRUE_SYMBOL],

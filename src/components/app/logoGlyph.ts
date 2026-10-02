@@ -4,11 +4,11 @@
  * through to convey that the bubble can say anything.
  */
 
-import type LanguageCode from '@locale/LanguageCode';
-import { getLanguageScripts } from '@locale/LanguageCode';
-import { getLocaleLanguage } from '@locale/LocaleText';
-import { Scripts, type ScriptMetadata } from '@locale/Scripts';
-import { SupportedLocales } from '@locale/SupportedLocales';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import { getLanguageScripts } from '#locale/LanguageCode.ts';
+import { getLocaleLanguage } from '#locale/LocaleText.ts';
+import { Scripts, type ScriptMetadata } from '#locale/Scripts.ts';
+import { SupportedLocales } from '#locale/SupportedLocales.ts';
 import { DEFAULT_LOGO_GLYPH } from './logoMark';
 
 /** A few emoji at the end of the cycle pool, saying the bubble can say more

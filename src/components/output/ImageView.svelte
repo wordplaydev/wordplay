@@ -1,5 +1,5 @@
 <script lang="ts">
-    import paintColors from '@components/output/paintColors';
+    import paintColors from '#components/output/paintColors.ts';
     /**
      * A grid of colors, drawn as one output.
      *
@@ -12,27 +12,27 @@
      * no poses and no physics of its own. An image moves, animates and collides as one
      * thing, which is the trade that buys all of that.
      */
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import moveOutputWithKey from '@components/output/keyboardMove';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import moveOutputWithKey from '#components/output/keyboardMove.ts';
     import {
         getAnnouncer,
         getProject,
         getSelectedOutput,
         getStageGrid,
         getStageScene,
-    } from '@components/project/Contexts';
-    import { DB, locales } from '@db/Database';
-    import Evaluate from '@nodes/Evaluate';
-    import type Image from '@output/Output/Image';
+    } from '#components/project/Contexts.ts';
+    import { DB, locales } from '#db/Database.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import type Image from '#output/Output/Image.ts';
     import {
         getColorCSS,
         getFaceCSS,
         getOpacityCSS,
         PX_PER_METER,
         toOutputTransform,
-    } from '@output/Output/outputToCSS';
-    import type Place from '@output/Place/Place';
-    import type RenderContext from '@output/RenderContext';
+    } from '#output/Output/outputToCSS.ts';
+    import type Place from '#output/Place/Place.ts';
+    import type RenderContext from '#output/RenderContext.ts';
     import { untrack } from 'svelte';
 
     interface Props {

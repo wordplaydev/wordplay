@@ -1,16 +1,16 @@
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import Layout, { LayoutIcons } from '@components/project/Layout';
-    import Options from '@components/widgets/Options.svelte';
-    import { locales, Settings } from '@db/Database';
+    import Emoji from '#components/app/Emoji.svelte';
+    import Layout, { LayoutIcons } from '#components/project/Layout.ts';
+    import Options from '#components/widgets/Options.svelte';
+    import { locales, Settings } from '#db/Database.ts';
     import {
         Arrangement,
         ArrangementOrder,
         type ArrangementType,
-    } from '@db/settings/Arrangement';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { withMonoEmoji } from '@unicode/emoji';
-    import { must } from '@util/nullable';
+    } from '#db/settings/Arrangement.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         arrangement: ArrangementType;

@@ -1,58 +1,58 @@
-import Templates from '@concepts/Templates';
-import type Conflict from '@conflicts/Conflict';
-import { Permission, type PermissionName } from '@input/permissions';
-import { resolveCaretPosition, type CaretPosition } from '@edit/caret/Caret';
-import concretize from '@locale/concretize';
-import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
-import type Locale from '@locale/Locale';
-import { localeToString, stringToLocale } from '@locale/Locale';
+import Templates from '#concepts/Templates.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import { Permission, type PermissionName } from '#input/permissions.ts';
+import { resolveCaretPosition, type CaretPosition } from '#edit/caret/Caret.ts';
+import concretize from '#locale/concretize.ts';
+import { getBestSupportedLocales } from '#locale/getBestSupportedLocales.ts';
+import type Locale from '#locale/Locale.ts';
+import { localeToString, stringToLocale } from '#locale/Locale.ts';
 import {
     dependencyKey,
     type Dependency,
     type KitRef,
     type SharedDefinition,
-} from '@nodes/Borrow';
-import type ConversionDefinition from '@nodes/ConversionDefinition';
-import Changed from '@nodes/Changed';
-import Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Doc from '@nodes/Doc';
-import Evaluate from '@nodes/Evaluate';
-import Expression from '@nodes/Expression';
-import Bind from '@nodes/Bind';
-import Block from '@nodes/Block';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Name from '@nodes/Name';
-import Node from '@nodes/Node';
-import type Program from '@nodes/Program';
-import PropertyReference from '@nodes/PropertyReference';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
-import StructureDefinition from '@nodes/StructureDefinition';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import type createDefaultShares from '@runtime/createDefaultShares';
-import { isDefined, must } from '@util/nullable';
+} from '#nodes/Borrow.ts';
+import type ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import Changed from '#nodes/Changed.ts';
+import Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Doc from '#nodes/Doc.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Expression from '#nodes/Expression.ts';
+import Bind from '#nodes/Bind.ts';
+import Block from '#nodes/Block.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Name from '#nodes/Name.ts';
+import Node from '#nodes/Node.ts';
+import type Program from '#nodes/Program.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import { DOCS_SYMBOL } from '#parser/Symbols.ts';
+import type createDefaultShares from '#runtime/createDefaultShares.ts';
+import { isDefined, must } from '#util/nullable.ts';
 import { v4 as uuidv4 } from 'uuid';
-import { Basis } from '@basis/Basis';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { SupportedLocale } from '@locale/SupportedLocales';
-import FunctionType from '@nodes/FunctionType';
-import type { Path } from '@nodes/Root';
-import Root from '@nodes/Root';
-import { parseNames } from '@parser/parseBind';
+import { Basis } from '#basis/Basis.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { SupportedLocale } from '#locale/SupportedLocales.ts';
+import FunctionType from '#nodes/FunctionType.ts';
+import type { Path } from '#nodes/Root.ts';
+import Root from '#nodes/Root.ts';
+import { parseNames } from '#parser/parseBind.ts';
 import {
     buildKeywordIndex,
     KeywordIds,
     Keywords,
     type KeywordIndex,
-} from '@parser/Keywords';
-import Sym, { type SymType } from '@nodes/Sym';
-import { toTokens } from '@parser/toTokens';
+} from '#parser/Keywords.ts';
+import Sym, { type SymType } from '#nodes/Sym.ts';
+import { toTokens } from '#parser/toTokens.ts';
 import { PROJECT_PARAM_MODE } from '../../routes/[[locale]]/project/constants';
-import { type ModerationState, unknownFlags } from '@db/projects/Moderation';
-import { ScratchPrefix } from '@db/projects/ScratchPrefix';
+import { type ModerationState, unknownFlags } from '#db/projects/Moderation.ts';
+import { ScratchPrefix } from '#db/projects/ScratchPrefix.ts';
 import {
     type Analysis,
     type AnalysisInProgress,
@@ -64,7 +64,7 @@ import {
     dedupeConflicts,
     emptyAnalysis,
     mergeConflicts,
-} from '@db/projects/Analysis';
+} from '#db/projects/Analysis.ts';
 import {
     type ProjectID,
     ProjectSchemaLatestVersion,
@@ -76,7 +76,7 @@ import {
     type SerializedSource,
     type SerializedSourceCheckpoint,
     upgradeProject,
-} from '@db/projects/ProjectSchemas';
+} from '#db/projects/ProjectSchemas.ts';
 import {
     bumpField,
     emptyStamps,
@@ -84,7 +84,8 @@ import {
     getStamp,
     mergeField,
     mergeStamps,
-} from '@db/projects/VectorClock';
+} from '#db/projects/VectorClock.ts';
+import type { AppPath } from '#util/appPath.ts';
 
 /**
  * What someone other than the owner may do with a project, most powerful first.
@@ -552,7 +553,7 @@ export default class Project {
         return this.data.id;
     }
 
-    getLink(fullscreen: boolean) {
+    getLink(fullscreen: boolean): AppPath {
         return `/project/${encodeURI(this.getID())}?${PROJECT_PARAM_MODE}=${
             fullscreen ? 'play' : 'edit'
         }`;

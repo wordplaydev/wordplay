@@ -1,4 +1,4 @@
-import { graphemes } from '@output/animation/getTextTransition';
+import { graphemes } from '#output/animation/getTextTransition.ts';
 
 /** Fisher-Yates shuffle with an injectable random source so tests can seed it. */
 function shuffle<Kind>(list: Kind[], random: () => number): Kind[] {

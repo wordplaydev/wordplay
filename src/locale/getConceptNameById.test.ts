@@ -1,8 +1,11 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import { findConceptEntry, getConceptNameById } from '@locale/getConceptName';
-import type LocaleText from '@locale/LocaleText';
-import ConceptLink, { ConceptName } from '@nodes/ConceptLink';
-import { ConceptRegExPattern } from '@parser/Tokenizer';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import {
+    findConceptEntry,
+    getConceptNameById,
+} from '#locale/getConceptName.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import ConceptLink, { ConceptName } from '#nodes/ConceptLink.ts';
+import { ConceptRegExPattern } from '#parser/Tokenizer.ts';
 import fs from 'fs';
 import { expect, test } from 'vitest';
 

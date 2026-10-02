@@ -1,11 +1,11 @@
-import NodeRef from '@locale/NodeRef';
-import ValueRef from '@locale/ValueRef';
-import type Token from '@nodes/Token';
-import type Evaluator from '@runtime/Evaluator';
-import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import Value from '@values/Value';
+import NodeRef from '#locale/NodeRef.ts';
+import ValueRef from '#locale/ValueRef.ts';
+import type Token from '#nodes/Token.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import Value from '#values/Value.ts';
 
 export default class NameException extends ExceptionValue {
     readonly name: Token | undefined;

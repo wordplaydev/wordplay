@@ -9,7 +9,7 @@
     import {
         getHeadingLevel,
         setHeadingLevel,
-    } from '@components/app/headingLevel.js';
+    } from '#components/app/headingLevel.ts';
     import type { Snippet } from 'svelte';
 
     let { children }: { children: Snippet } = $props();

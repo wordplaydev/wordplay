@@ -1,42 +1,46 @@
-import { getTypeName } from '@locale/getNameLocales';
-import { getOutputContentTypeNames } from '@output/Output/outputContentTypeNames';
-import { pickReadableName } from '@locale/getConceptName';
-import { getBind } from '@locale/getBind';
-import { describeColorLocalized } from '@output/Color/BasicColors';
-import { STAGE_SYMBOL } from '@parser/Symbols';
-import BoolValue from '@values/BoolValue';
-import ListValue from '@values/ListValue';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import { getOutputContentTypeNames } from '#output/Output/outputContentTypeNames.ts';
+import { pickReadableName } from '#locale/getConceptName.ts';
+import { getBind } from '#locale/getBind.ts';
+import { describeColorLocalized } from '#output/Color/BasicColors.ts';
+import { STAGE_SYMBOL } from '#parser/Symbols.ts';
+import BoolValue from '#values/BoolValue.ts';
+import ListValue from '#values/ListValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
 import Decimal from 'decimal.js';
 import {
     SupportedFontsFamiliesType,
     type SupportedFace,
-} from '@basis/faces/Fonts';
-import { FallbackFontFamilies } from '@basis/faces/FallbackFonts';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import type Evaluator from '@runtime/Evaluator';
-import Color from '@output/Color/Color';
-import { Form } from '@output/Output/Shape/Form';
-import { toForm } from '@output/Output/Shape/toForm';
-import Group from '@output/Output/Group';
-import Music from '@output/Music/Music';
-import Output, { DefaultStyle } from '@output/Output/Output';
-import Place from '@output/Place/Place';
-import Pose, { DefinitePose } from '@output/animation/Pose';
-import type RenderContext from '@output/RenderContext';
-import Say from '@output/Output/Say';
+} from '#basis/faces/Fonts.ts';
+import { FallbackFontFamilies } from '#basis/faces/FallbackFonts.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Color from '#output/Color/Color.ts';
+import { Form } from '#output/Output/Shape/Form.ts';
+import { toForm } from '#output/Output/Shape/toForm.ts';
+import Group from '#output/Output/Group.ts';
+import Music from '#output/Music/Music.ts';
+import Output, { DefaultStyle } from '#output/Output/Output.ts';
+import Place from '#output/Place/Place.ts';
+import Pose, { DefinitePose } from '#output/animation/Pose.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import Say from '#output/Output/Say.ts';
 import resolveBubbles, {
     type BubbleChild,
-} from '@output/Bubble/resolveBubbles';
-import type Sequence from '@output/animation/Sequence';
-import Shape from '@output/Output/Shape/Shape';
-import { getTypeStyle, toOutput, toOutputList } from '@output/Output/toOutput';
-import { getOutputInput } from '@output/Output/Valued';
-import { must } from '@util/nullable';
+} from '#output/Bubble/resolveBubbles.ts';
+import type Sequence from '#output/animation/Sequence.ts';
+import Shape from '#output/Output/Shape/Shape.ts';
+import {
+    getTypeStyle,
+    toOutput,
+    toOutputList,
+} from '#output/Output/toOutput.ts';
+import { getOutputInput } from '#output/Output/Valued.ts';
+import { must } from '#util/nullable.ts';
 
 export const DefaultGravity = 9.8;
 

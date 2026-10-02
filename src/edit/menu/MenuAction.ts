@@ -1,4 +1,4 @@
-import type LocaleText from '@locale/LocaleText';
+import type LocaleText from '#locale/LocaleText.ts';
 
 /**
  * Something the menu can *do* to the selected node, as opposed to something it

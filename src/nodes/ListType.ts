@@ -1,23 +1,26 @@
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '#parser/Symbols.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
 import Characters from '../lore/BasisCharacters';
-import BasisType from '@nodes/BasisType';
-import type Context from '@nodes/Context';
-import type Unit from '@nodes/Unit';
-import ListLiteral from '@nodes/ListLiteral';
-import { list, node, type Grammar, type Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import UnionType from '@nodes/UnionType';
-import ListValue from '@values/ListValue';
-import type Value from '@values/Value';
+import BasisType from '#nodes/BasisType.ts';
+import type Context from '#nodes/Context.ts';
+import type Unit from '#nodes/Unit.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import { list, node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import UnionType from '#nodes/UnionType.ts';
+import ListValue from '#values/ListValue.ts';
+import type Value from '#values/Value.ts';
 
 export default class ListType extends BasisType {
     readonly open: Token;

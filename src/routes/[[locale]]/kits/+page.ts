@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit';
+import type { PageLoad } from './$types';
 
 /**
  * The kit registry used to be a page of its own; it is now a section of the guide (#8).
@@ -10,6 +11,6 @@ import { redirect } from '@sveltejs/kit';
  */
 export const prerender = false;
 
-export function load() {
+export const load: PageLoad = () => {
     redirect(308, '/guide?section=kits');
-}
+};

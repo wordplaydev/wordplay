@@ -1,4 +1,4 @@
-import type { FormattedText, Template } from '@locale/LocaleText';
+import type { FormattedText, Template } from '#locale/LocaleText.ts';
 
 type EditTexts = {
     /** [formatted] A way to say "on node of type [type], they [description]". $1: node label, $2: type, $3: description */

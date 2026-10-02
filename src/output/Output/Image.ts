@@ -1,33 +1,33 @@
-import { getTypeName } from '@locale/getNameLocales';
+import { getTypeName } from '#locale/getNameLocales.ts';
 import {
     SupportedFontsFamiliesType,
     type SupportedFace,
-} from '@basis/faces/Fonts';
-import toStructure from '@basis/toStructure';
-import type Project from '@db/projects/Project';
-import { getBind } from '@locale/getBind';
-import DefaultLocale from '@locale/DefaultLocale';
-import { getLocaleNames } from '@locale/getInputLocales';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { NameAndDoc } from '@locale/LocaleText';
-import Bind from '@nodes/Bind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import Color, { toColor } from '@output/Color/Color';
-import Output, { DefaultStyle } from '@output/Output/Output';
-import { toFont as toFace, toText } from '@output/Output/Phrase';
-import { toNumber, type NameGenerator } from '@output/Output/Stage';
-import { getStyle } from '@output/Output/toOutput';
-import { getOutputInput } from '@output/Output/Valued';
-import type Place from '@output/Place/Place';
-import { toPlace } from '@output/Place/Place';
-import type Pose from '@output/animation/Pose';
-import type { DefinitePose } from '@output/animation/Pose';
-import type Sequence from '@output/animation/Sequence';
-import ListValue from '@values/ListValue';
-import StructureValue from '@values/StructureValue';
-import type TextValue from '@values/TextValue';
-import type Value from '@values/Value';
+} from '#basis/faces/Fonts.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Project from '#db/projects/Project.ts';
+import { getBind } from '#locale/getBind.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { getLocaleNames } from '#locale/getInputLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NameAndDoc } from '#locale/LocaleText.ts';
+import Bind from '#nodes/Bind.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import Color, { toColor } from '#output/Color/Color.ts';
+import Output, { DefaultStyle } from '#output/Output/Output.ts';
+import { toFont as toFace, toText } from '#output/Output/Phrase.ts';
+import { toNumber, type NameGenerator } from '#output/Output/Stage.ts';
+import { getStyle } from '#output/Output/toOutput.ts';
+import { getOutputInput } from '#output/Output/Valued.ts';
+import type Place from '#output/Place/Place.ts';
+import { toPlace } from '#output/Place/Place.ts';
+import type Pose from '#output/animation/Pose.ts';
+import type { DefinitePose } from '#output/animation/Pose.ts';
+import type Sequence from '#output/animation/Sequence.ts';
+import ListValue from '#values/ListValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
 
 /**
  * How wide a picture is when it's given neither a width nor a height.

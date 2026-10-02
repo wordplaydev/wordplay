@@ -1,17 +1,17 @@
 // Import Database first: it eagerly constructs the DB singleton, which must finish before
 // ConceptIndex pulls in HowToDatabase (otherwise a circular import leaves it half-defined).
-import '@db/Database';
-import type Concept from '@concepts/Concept';
-import ConceptIndex from '@concepts/ConceptIndex';
-import HowConcept from '@concepts/HowConcept';
-import { parseHowTo } from '@concepts/HowTo';
-import NodeConcept from '@concepts/NodeConcept';
-import { Purpose } from '@concepts/Purpose';
-import StructureConcept from '@concepts/StructureConcept';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
+import '#db/Database.ts';
+import type Concept from '#concepts/Concept.ts';
+import ConceptIndex from '#concepts/ConceptIndex.ts';
+import HowConcept from '#concepts/HowConcept.ts';
+import { parseHowTo } from '#concepts/HowTo.ts';
+import NodeConcept from '#concepts/NodeConcept.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import StructureConcept from '#concepts/StructureConcept.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 
 /** A minimal valid how-to whose body contains a single code example. Examples are their own

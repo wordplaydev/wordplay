@@ -1,8 +1,8 @@
-import { getLanguageTagName } from '@components/editor/menu/languageTagName';
-import Language from '@nodes/Language';
-import NumberLiteral from '@nodes/NumberLiteral';
-import parseProgram from '@parser/parseProgram';
-import { toTokens } from '@parser/toTokens';
+import { getLanguageTagName } from '#components/editor/menu/languageTagName.ts';
+import Language from '#nodes/Language.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import parseProgram from '#parser/parseProgram.ts';
+import { toTokens } from '#parser/toTokens.ts';
 import { expect, test } from 'vitest';
 
 function tag(source: string): Language {

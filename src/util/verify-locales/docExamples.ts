@@ -1,8 +1,12 @@
-import Example from '@nodes/Example';
-import { DEFECT_SYMBOL, DOCS_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
-import parseDoc from '@parser/parseDoc';
-import { Sym } from '@nodes/Sym';
-import { toTokens } from '@parser/toTokens';
+import Example from '#nodes/Example.ts';
+import {
+    DEFECT_SYMBOL,
+    DOCS_SYMBOL,
+    HIGHLIGHT_SYMBOL,
+} from '#parser/Symbols.ts';
+import parseDoc from '#parser/parseDoc.ts';
+import { Sym } from '#nodes/Sym.ts';
+import { toTokens } from '#parser/toTokens.ts';
 
 /**
  * A serialized example whose code isn't an analyzable Wordplay program — a parser artifact from a

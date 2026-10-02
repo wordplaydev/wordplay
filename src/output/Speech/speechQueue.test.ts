@@ -9,7 +9,7 @@ import {
     type SpeechPriority,
     type SpeechState,
     type Utterance,
-} from '@output/Speech/speechQueue';
+} from '#output/Speech/speechQueue.ts';
 
 function say(
     source: string,

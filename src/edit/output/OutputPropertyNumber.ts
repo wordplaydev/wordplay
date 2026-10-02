@@ -1,4 +1,4 @@
-import type Unit from '@nodes/Unit';
+import type Unit from '#nodes/Unit.ts';
 
 /**
  * An unbounded numeric property edited via a text field (e.g. a coordinate that can be

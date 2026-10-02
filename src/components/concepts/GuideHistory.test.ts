@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest';
-import Concept from '@concepts/Concept';
-import { Purpose } from '@concepts/Purpose';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
+import Concept from '#concepts/Concept.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import {
     activeSection,
     currentConcept,

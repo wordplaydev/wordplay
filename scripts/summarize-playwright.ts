@@ -13,20 +13,50 @@
  * prints to stdout when that isn't set, so it is runnable by hand).
  */
 import { appendFileSync, readFileSync } from 'node:fs';
+import { z } from 'zod';
+import { messageOf } from '#util/guards.ts';
 
-const [, , reportPath, label = 'Playwright'] = process.argv;
+const [, , reportPath = 'playwright-report.json', label = 'Playwright'] =
+    process.argv;
+
+/** The parts of Playwright's JSON report this reads; the rest passes through. */
+const Spec = z.object({
+    file: z.string(),
+    line: z.number(),
+    title: z.string(),
+    tests: z
+        .array(
+            z.object({
+                status: z.string(),
+                results: z.array(z.unknown()).optional(),
+            }),
+        )
+        .optional(),
+});
+type Suite = {
+    specs?: z.infer<typeof Spec>[] | undefined;
+    suites?: Suite[] | undefined;
+};
+const Suite: z.ZodType<Suite> = z.object({
+    specs: z.array(Spec).optional(),
+    get suites() {
+        return z.array(Suite).optional();
+    },
+});
+
+type Entry = { where: string; attempts: number };
 
 /** Every spec in the report, flattened out of the suite tree. */
-function specsOf(suite) {
+function specsOf(suite: Suite): z.infer<typeof Spec>[] {
     return [
         ...(suite.specs ?? []),
         ...(suite.suites ?? []).flatMap((child) => specsOf(child)),
     ];
 }
 
-function summarize(report) {
-    const failed = [];
-    const flaky = [];
+function summarize(report: Suite): { failed: Entry[]; flaky: Entry[] } {
+    const failed: Entry[] = [];
+    const flaky: Entry[] = [];
     for (const spec of specsOf(report)) {
         for (const test of spec.tests ?? []) {
             // `where` names the file and line so a reader can open it, which is
@@ -40,11 +70,11 @@ function summarize(report) {
     return { failed, flaky };
 }
 
-function render({ failed, flaky }) {
+function render({ failed, flaky }: { failed: Entry[]; flaky: Entry[] }) {
     if (failed.length === 0 && flaky.length === 0)
         return `### ${label}: no failures and nothing flaky\n`;
     const lines = [`### ${label}\n`];
-    const list = (title, entries) => {
+    const list = (title: string, entries: Entry[]) => {
         if (entries.length === 0) return;
         lines.push(`**${title}**\n`);
         for (const { where, attempts } of entries)
@@ -58,13 +88,13 @@ function render({ failed, flaky }) {
     return lines.join('\n');
 }
 
-let report;
+let report: Suite;
 try {
-    report = JSON.parse(readFileSync(reportPath, 'utf8'));
+    report = Suite.parse(JSON.parse(readFileSync(reportPath, 'utf8')));
 } catch (error) {
     // Never fail the job over the summary: the test result is the thing that
     // matters, and a missing report means the run died before writing one.
-    console.error(`Could not read ${reportPath}:`, error.message);
+    console.error(`Could not read ${reportPath}:`, messageOf(error));
     process.exit(0);
 }
 

@@ -1,13 +1,13 @@
-import type { BasisTypeName } from '@basis/BasisConstants';
-import getConceptName from '@locale/getConceptName';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import KitType from '@nodes/KitType';
-import type Source from '@nodes/Source';
-import type Evaluation from '@runtime/Evaluation';
-import SimpleValue from '@values/SimpleValue';
-import type Value from '@values/Value';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import KitType from '#nodes/KitType.ts';
+import type Source from '#nodes/Source.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import SimpleValue from '#values/SimpleValue.ts';
+import type Value from '#values/Value.ts';
 
 /**
  * A borrowed kit at run time, so `colors.sunset` can say which kit it means (#1373).

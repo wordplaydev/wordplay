@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import isSweepable, { type SweepCandidate } from '@db/projects/isSweepable';
+import isSweepable, { type SweepCandidate } from '#db/projects/isSweepable.ts';
 
 /**
  * The cross-listener sweep deletes a local project when no listener's snapshot

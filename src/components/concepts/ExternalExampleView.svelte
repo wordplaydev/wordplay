@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type ExternalExample from '@nodes/ExternalExample';
-    import { contrastLanguage } from '@db/Database';
+    import type ExternalExample from '#nodes/ExternalExample.ts';
+    import { contrastLanguage } from '#db/Database.ts';
     import { getContrastLanguage } from '../../tutorial/ContrastLanguage';
     import { highlightExternal } from './highlightExternal';
 

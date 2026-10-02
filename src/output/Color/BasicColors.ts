@@ -1,6 +1,6 @@
-import type Locales from '@locale/Locales';
-import { includesString, must } from '@util/nullable';
-import { getFirstText } from '@locale/LocaleText';
+import type Locales from '#locale/Locales.ts';
+import { includesString, must } from '#util/nullable.ts';
+import { getFirstText } from '#locale/LocaleText.ts';
 
 /** Cross-language color names anchored in LCH perceptual color space.
  *

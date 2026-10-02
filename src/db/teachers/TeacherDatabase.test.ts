@@ -1,5 +1,5 @@
-import { isRecord } from '@util/guards';
-import { must } from '@util/nullable';
+import { isRecord } from '#util/guards.ts';
+import { must } from '#util/nullable.ts';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Class } from './TeacherDatabase.svelte';
 
@@ -92,7 +92,7 @@ vi.mock('firebase/firestore', () => ({
     getDocs: vi.fn(async () => ({ docs: [] })),
 }));
 
-vi.mock('@db/firebase', () => ({
+vi.mock('#db/firebase.ts', () => ({
     firestore: { _fake: true },
 }));
 
@@ -104,7 +104,7 @@ let lastQueriedFields: string[] = [];
 
 // Galleries facade is exercised by removeTeacher/removeStudent for the
 // curator-side cleanup, which we don't need to assert on here.
-vi.mock('@db/Database', () => ({
+vi.mock('#db/Database.ts', () => ({
     DB: {
         track: vi.fn(<T>(p: Promise<T>) => p),
         write: vi.fn(<T>(p: Promise<T>) => p),
@@ -119,7 +119,7 @@ vi.mock('@db/Database', () => ({
     },
 }));
 
-vi.mock('@db/galleries/GalleryDatabase.svelte', () => ({
+vi.mock('#db/galleries/GalleryDatabase.svelte.ts', () => ({
     GalleriesCollection: 'galleries',
 }));
 

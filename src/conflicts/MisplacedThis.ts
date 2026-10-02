@@ -1,13 +1,13 @@
-import type LocaleText from '@locale/LocaleText';
-import type This from '@nodes/This';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type This from '#nodes/This.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import type Node from '#nodes/Node.ts';
 
 export class MisplacedThis extends Conflict {
     readonly dis: This;

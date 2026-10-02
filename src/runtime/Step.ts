@@ -1,9 +1,9 @@
-import type Expression from '@nodes/Expression';
-import Node from '@nodes/Node';
-import type Evaluator from '@runtime/Evaluator';
-import type Locales from '@locale/Locales';
-import type Markup from '@nodes/Markup';
-import type Value from '@values/Value';
+import type Expression from '#nodes/Expression.ts';
+import Node from '#nodes/Node.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Locales from '#locale/Locales.ts';
+import type Markup from '#nodes/Markup.ts';
+import type Value from '#values/Value.ts';
 
 /** Represents one step a compiled program's execution. */
 export default abstract class Step {

@@ -1,15 +1,15 @@
-import { DB, Locales } from '@db/Database';
-import Project from '@db/projects/Project';
-import Button from '@input/Button/Button';
-import Spotlight from '@input/Spotlight/Spotlight';
-import Key from '@input/Key/Key';
-import DefaultLocale from '@locale/DefaultLocale';
-import Evaluator from '@runtime/Evaluator';
+import { DB, Locales } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import Button from '#input/Button/Button.ts';
+import Spotlight from '#input/Spotlight/Spotlight.ts';
+import Key from '#input/Key/Key.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Evaluator from '#runtime/Evaluator.ts';
 import { parseSerializedProject } from '../../examples/examples';
 import fs from 'fs';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 
 beforeEach(() => vi.useFakeTimers());

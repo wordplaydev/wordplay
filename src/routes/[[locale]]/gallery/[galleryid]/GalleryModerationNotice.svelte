@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { locales } from '@db/Database';
-    import type Gallery from '@db/galleries/Gallery';
-    import { getBlocks, getWarnings } from '@db/projects/Moderation';
+    import Notice from '#components/app/Notice.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import { getBlocks, getWarnings } from '#db/projects/Moderation.ts';
 
     interface Props {
         gallery: Gallery;

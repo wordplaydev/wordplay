@@ -1,9 +1,9 @@
-import IncompatibleType from '@conflicts/IncompatibleType';
-import PropertyBind from '@nodes/PropertyBind';
-import { testConflict } from '@conflicts/TestUtilities';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import PropertyBind from '#nodes/PropertyBind.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { expect, test } from 'vitest';
-import DefaultLocales from '@locale/DefaultLocales';
-import evaluateCode from '@runtime/evaluate';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
 
 test.each([
     ['•Test(n•#)\nb: Test(1).n: 2\nb.n', '2'],

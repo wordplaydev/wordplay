@@ -23,12 +23,12 @@ import fitZ, {
     type Box,
     type Focus,
     type ZoomLimits,
-} from '@components/output/fit';
+} from '#components/output/fit.ts';
 import {
     FOCAL_LENGTH,
     PX_PER_METER,
     rootScale,
-} from '@output/Output/outputToCSS';
+} from '#output/Output/outputToCSS.ts';
 
 /** The scale the camera renders output at when focused at the given z. */
 function scaleAt(z: number | undefined) {

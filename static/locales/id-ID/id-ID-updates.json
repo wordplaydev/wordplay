@@ -800,7 +800,7 @@
         "ece63b95df702": "$~Kami memperbaiki masalah di mana pembuat yang memberi nama sama pada beberapa frasa membuat halaman gagal berfungsi.",
         "ea8d89603d821": "$~Kami memastikan nama karakter valid dan tidak mengandung spasi (<1080@https://github.com/wordplaydev/wordplay/issues/1080>).",
         "e96e925f91727": "$~Kami menambahkan terjemahan mesin bahasa Portugis (Portugal).",
-        "e627530370c9c": "$~Kami menambahkan halaman <sistem desain@:////design> agar siapa pun yang mengerjakan desain atau pengembangan untuk platform ini punya panduan yang lebih mudah tentang warna, huruf, jarak, dan komponen apa yang harus digunakan (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
+        "e627530370c9c": "$~Kami menambahkan halaman <sistem desain@://design> agar siapa pun yang mengerjakan desain atau pengembangan untuk platform ini punya panduan yang lebih mudah tentang warna, huruf, jarak, dan komponen apa yang harus digunakan (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
         "e602448b8ccde": "$~Kami membuat komponen antarmuka pengguna lebih konsisten, mudah digunakan, dan mudah terlihat.",
         "eb860a453fc88": "$~Kami menambahkan desain tombol yang lebih menonjol, tetapi belum kami gunakan di mana pun.",
         "eea4d04e93f44": "$~Kami membuat lebih banyak kemajuan pada fitur pengeditan penerjemahan di dalam aplikasi, meski belum sepenuhnya siap dirilis.",

@@ -36,18 +36,18 @@
  * translation, and a locale that wants a particular inflection linked can list
  * it in that term's `forms`.
  */
-import { Unwritten } from '@locale/Annotations';
-import { isRevised, isUnwritten } from '@locale/LocaleText';
-import { getGlossaryForms } from '@locale/Glossary';
-import scanLiteralGlossaryTerms from '@locale/glossaryScan';
-import type LocaleText from '@locale/LocaleText';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
+import { Unwritten } from '#locale/Annotations.ts';
+import { isRevised, isUnwritten } from '#locale/LocaleText.ts';
+import { getGlossaryForms } from '#locale/Glossary.ts';
+import scanLiteralGlossaryTerms from '#locale/glossaryScan.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
 import type { GlossaryWord } from 'shared-types';
 import type Tutorial from '../../tutorial/Tutorial';
-import { must } from '@util/nullable';
-import { splitMarkupAndCode } from '@util/verify-locales/protect';
-import { escapeRegExp } from '@util/verify-locales/markupText';
+import { must } from '#util/nullable.ts';
+import { splitMarkupAndCode } from '#util/verify-locales/protect.ts';
+import { escapeRegExp } from '#util/verify-locales/markupText.ts';
 
 /**
  * Terms whose word is ordinary English far more often than it is jargon, so a

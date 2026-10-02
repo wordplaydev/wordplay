@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest';
 import { readFileSync, copyFileSync, rmSync } from 'fs';
-import { toDocString } from '@locale/LocaleText';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import getDocExamples from '@util/verify-locales/docExamples';
+import { toDocString } from '#locale/LocaleText.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import getDocExamples from '#util/verify-locales/docExamples.ts';
 import { localizeFile, type Localizer } from './translateReplacedExamples';
 
 const SRC = 'static/locales/de-DE/de-DE.json';

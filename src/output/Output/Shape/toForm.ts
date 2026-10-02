@@ -1,11 +1,11 @@
-import type Project from '@db/projects/Project';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import type { Form } from '@output/Output/Shape/Form';
-import { toRectangle } from '@output/Output/Shape/Rectangle';
-import { toCircle } from '@output/Output/Shape/Circle';
-import { toPath } from '@output/Output/Shape/Path';
-import { toPolygon } from '@output/Output/Shape/Polygon';
+import type Project from '#db/projects/Project.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
+import type { Form } from '#output/Output/Shape/Form.ts';
+import { toRectangle } from '#output/Output/Shape/Rectangle.ts';
+import { toCircle } from '#output/Output/Shape/Circle.ts';
+import { toPath } from '#output/Output/Shape/Path.ts';
+import { toPolygon } from '#output/Output/Shape/Polygon.ts';
 
 /** Turn a shape structure value into its matching {@link Form} wrapper, dispatching by type. */
 export function toForm(

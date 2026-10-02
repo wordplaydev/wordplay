@@ -1,9 +1,9 @@
-import DefaultLocales from '@locale/DefaultLocales';
-import evaluateCode from '@runtime/evaluate';
-import BlankException from '@values/BlankException';
-import ExceptionValue from '@values/ExceptionValue';
-import MessageException from '@values/MessageException';
-import NameException from '@values/NameException';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import BlankException from '#values/BlankException.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import MessageException from '#values/MessageException.ts';
+import NameException from '#values/NameException.ts';
 import { expect, test } from 'vitest';
 
 test.each([

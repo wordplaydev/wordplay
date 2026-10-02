@@ -207,7 +207,7 @@
                     "projectContainsPII": "Estes projetos parecem conter informações pessoais, por isso não os guardamos online. Abra cada um para verificar o que parece ser informação pessoal.",
                     "localProjectStorageFailed": "Este dispositivo ficou sem espaço para guardar, e estes projetos ainda não estão na cloud, pelo que estão em risco.<Sign in@/login> , que as guarda online em vez de apenas neste dispositivo.",
                     "projectTooLarge": "$~Estes projetos são grandes demais para guardar online. Continuam seguros neste dispositivo. Tenta torná-los mais pequenos.",
-                    "noCloudTarget": "$~Estes projetos estão apenas neste dispositivo, porque o @wordplay não tinha onde os guardar online. <Inicia sessãologin> para os guardar.",
+                    "noCloudTarget": "$~Estes projetos estão apenas neste dispositivo, porque o @wordplay não tinha onde os guardar online. <Inicia sessão@/login> para os guardar.",
                     "cloudWriteRefused": "$~A nuvem não aceitou estas alterações, por isso foi usada a cópia que está em linha. Se acha que devia poder alterá-las, pergunte a quem as partilhou consigo."
                 },
                 "projectsNotSavingOnline": "$~Alguns projetos estão apenas neste dispositivo, ainda não estão online."
@@ -691,7 +691,7 @@
                 "• Introduza $symbol e escolha-nos no menu.",
                 "• Introduza-nos utilizando o ⌨️.",
                 "• Navegue pelas <galleries@://galleries> em busca de inspiração.",
-                "Se estiver com dificuldades, <saiba mais@://saiba>."
+                "Se estiver com dificuldades, <saiba mais@://learn>."
             ],
             "confirm": {
                 "delete": {
@@ -2119,7 +2119,7 @@
             },
             "moderation": {
                 "header": "denunciar esta mensagem",
-                "explanation": "Se esta mensagem não estiver de acordo com os nossos <padrões da comunidade@://direitos> ou com o tipo de feedback que solicitou, pode denunciá-la. Ao denunciar esta mensagem, esta será enviada aos curadores da galeria e removida até que possa ser revista.",
+                "explanation": "Se esta mensagem não estiver de acordo com os nossos <padrões da comunidade@://rights> ou com o tipo de feedback que solicitou, pode denunciá-la. Ao denunciar esta mensagem, esta será enviada aos curadores da galeria e removida até que possa ser revista.",
                 "report": {
                     "tip": "denunciar esta mensagem",
                     "label": "relatório"
@@ -2130,7 +2130,7 @@
                 },
                 "pending": "Esta mensagem foi temporariamente removida enquanto aguardamos moderação.",
                 "removed": "Esta mensagem foi removida por violar as diretrizes da comunidade ou as diretrizes de feedback.",
-                "inGallery": "Este chat está numa galeria. Está sujeito à moderação dos curadores da galeria. Pode denunciar mensagens que violem os nossos <padrões da comunidade@://direitos> para moderação."
+                "inGallery": "Este chat está numa galeria. Está sujeito à moderação dos curadores da galeria. Pode denunciar mensagens que violem os nossos <padrões da comunidade@://rights> para moderação."
             },
             "error": {
                 "unowned": "Este projeto não está armazenado online, pelo que não pode ter chat nem colaboradores.",

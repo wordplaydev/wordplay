@@ -2,7 +2,7 @@ import type {
     Axes,
     LogicalPoint,
     LogicalRect,
-} from '@components/editor/util/axes';
+} from '#components/editor/util/axes.ts';
 
 // Grapheme segmentation for locating an offset inside a token view's rendered
 // text. Boundaries are locale-independent, so one shared instance suffices.

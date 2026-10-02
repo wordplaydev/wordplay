@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { getEvaluation } from '@components/project/Contexts';
-    import { animationDuration, locales } from '@db/Database';
-    import Button from '@input/Button/Button';
-    import Key from '@input/Key/Key';
-    import type Evaluator from '@runtime/Evaluator';
-    import BoolValue from '@values/BoolValue';
-    import ExceptionValue from '@values/ExceptionValue';
-    import StructureValue from '@values/StructureValue';
-    import { must } from '@util/nullable';
+    import { getEvaluation } from '#components/project/Contexts.ts';
+    import { animationDuration, locales } from '#db/Database.ts';
+    import Button from '#input/Button/Button.ts';
+    import Key from '#input/Key/Key.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
+    import BoolValue from '#values/BoolValue.ts';
+    import ExceptionValue from '#values/ExceptionValue.ts';
+    import StructureValue from '#values/StructureValue.ts';
+    import { must } from '#util/nullable.ts';
     import { tick, untrack } from 'svelte';
     import { slide } from 'svelte/transition';
 

@@ -3,20 +3,20 @@ import { test, expect, describe } from 'vitest';
 // file in `setupFiles`, but some IDE vitest runners invoke individual test
 // files without honouring that config — the explicit side-effect import keeps
 // the test green regardless of the invocation path.
-import '@conflicts/registerTypeResolutions';
+import '#conflicts/registerTypeResolutions.ts';
 import Conflict, {
     ConflictSeverity,
     registerResolver,
     type Repair,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type LocaleText from '@locale/LocaleText';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import Markup from '@nodes/Markup';
-import Token from '@nodes/Token';
-import { Sym } from '@nodes/Sym';
-import IncompatibleType from '@conflicts/IncompatibleType';
+} from '#conflicts/Conflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import Markup from '#nodes/Markup.ts';
+import Token from '#nodes/Token.ts';
+import { Sym } from '#nodes/Sym.ts';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
 
 /**
  * A real project, for the `Context` and `Project` the resolution types require.
@@ -24,9 +24,9 @@ import IncompatibleType from '@conflicts/IncompatibleType';
  * the registry itself does not depend on them.
  */
 async function fixture() {
-    const { default: Source } = await import('@nodes/Source');
-    const { default: Project } = await import('@db/projects/Project');
-    const { default: DefaultLocale } = await import('@locale/DefaultLocale');
+    const { default: Source } = await import('#nodes/Source.ts');
+    const { default: Project } = await import('#db/projects/Project.ts');
+    const { default: DefaultLocale } = await import('#locale/DefaultLocale.ts');
     const source = new Source('test', `a•'': 5`);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     return { source, project, context: project.getContext(source) };

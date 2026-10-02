@@ -13,13 +13,13 @@
   in ReactionPicker.
 -->
 <script lang="ts">
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
-    import type Chat from '@db/chats/ChatDatabase.svelte';
-    import type { SerializedMessage } from '@db/chats/ChatDatabase.svelte';
-    import { locales } from '@db/Database';
-    import { withDefaultColorEmoji } from '@unicode/emoji';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import EmojisRepaired from '#components/widgets/EmojisRepaired.svelte';
+    import type Chat from '#db/chats/ChatDatabase.svelte.ts';
+    import type { SerializedMessage } from '#db/chats/ChatDatabase.svelte.ts';
+    import { locales } from '#db/Database.ts';
+    import { withDefaultColorEmoji } from '#unicode/emoji.ts';
 
     interface Props {
         chat: Chat;

@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type PatternCaseFold from '@nodes/PatternCaseFold';
+    import type PatternCaseFold from '#nodes/PatternCaseFold.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
-    import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
-    import CollapsedHeader from '@components/editor/util/CollapsedHeader.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import { isFoldableNode } from '#components/editor/util/folding.ts';
+    import FoldToggle from '#components/editor/util/FoldToggle.svelte';
+    import FoldEllipsis from '#components/editor/util/FoldEllipsis.svelte';
+    import CollapsedHeader from '#components/editor/util/CollapsedHeader.svelte';
 
     /** A case-folded scope `Aa( … )` (optionally locale-tagged). The fold glyph
      *  and any language tag stay visible when collapsed. */

@@ -1,23 +1,23 @@
-import ConceptRef from '@locale/ConceptRef';
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import type Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Input from '@nodes/Input';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Token from '@nodes/Token';
-import type UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type Locales from '@locale/Locales';
-import type StreamDefinition from '@nodes/StreamDefinition';
-import type Node from '@nodes/Node';
+import ConceptRef from '#locale/ConceptRef.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type Input from '#nodes/Input.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Token from '#nodes/Token.ts';
+import type UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import type Locales from '#locale/Locales.ts';
+import type StreamDefinition from '#nodes/StreamDefinition.ts';
+import type Node from '#nodes/Node.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
+} from '#conflicts/Conflict.ts';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;

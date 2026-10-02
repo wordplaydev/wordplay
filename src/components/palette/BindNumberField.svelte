@@ -2,18 +2,18 @@
     import {
         getProject,
         getSelectedOutput,
-    } from '@components/project/Contexts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import Note from '@components/widgets/Note.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type OutputProperty from '@edit/output/OutputProperty';
-    import type OutputPropertyNumber from '@edit/output/OutputPropertyNumber';
-    import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
-    import type LocaleText from '@locale/LocaleText';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import NumberValue from '@values/NumberValue';
+    } from '#components/project/Contexts.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import Note from '#components/widgets/Note.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type OutputProperty from '#edit/output/OutputProperty.ts';
+    import type OutputPropertyNumber from '#edit/output/OutputPropertyNumber.ts';
+    import type OutputPropertyValues from '#edit/output/OutputPropertyValueSet.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import NumberLiteral from '#nodes/NumberLiteral.ts';
+    import NumberValue from '#values/NumberValue.ts';
     import { tick } from 'svelte';
 
     interface Props {

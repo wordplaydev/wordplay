@@ -7,9 +7,9 @@
 // byte-identical on every machine and change only on a deliberate version
 // bump. (The emoji-name pipeline is separate by design: it tracks unpinned
 // CLDR XML annotations.)
-import { getCLDRCandidates } from '@locale/LanguageCode';
-import { getLocaleLanguage, getLocaleRegions } from '@locale/LocaleText';
-import { isRecord } from '@util/guards';
+import { getCLDRCandidates } from '#locale/LanguageCode.ts';
+import { getLocaleLanguage, getLocaleRegions } from '#locale/LocaleText.ts';
+import { isRecord } from '#util/guards.ts';
 
 /** The pinned CLDR release all generated data is extracted from. Bumping this
  *  is the only way generated output changes; expect a large, reviewable diff.

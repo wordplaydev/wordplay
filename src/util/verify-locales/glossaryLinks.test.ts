@@ -1,5 +1,5 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 import {
     ExcludedTerms,
     findHomographTerms,
@@ -9,10 +9,10 @@ import {
     linkGlossaryInLocale,
     linkGlossaryInTutorial,
     unlinkReference,
-} from '@util/verify-locales/glossaryLinks';
+} from '#util/verify-locales/glossaryLinks.ts';
 import { expect, test } from 'vitest';
 import { isDialog, type Dialog, type Tutorial } from '../../tutorial/Tutorial';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 const words = getGlossaryWords(DefaultLocale);
 

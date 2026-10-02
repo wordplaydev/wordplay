@@ -798,7 +798,7 @@
         "ece63b95df702": "$~Naprawiliśmy przypadek, w którym twórcy nadający tę samą nazwę wielu frazom powodowali awarię strony.",
         "ea8d89603d821": "$~Zadbaliśmy o to, żeby nazwy postaci były poprawne i nie zawierały spacji (<1080@https://github.com/wordplaydev/wordplay/issues/1080>).",
         "e96e925f91727": "$~Dodaliśmy maszynowe tłumaczenie na portugalski (Portugalia).",
-        "e627530370c9c": "$~Dodaliśmy stronę <systemu projektowania@:////design>, żeby każdy, kto pracuje nad wyglądem lub tworzeniem platformy, miał łatwiejszy przewodnik po tym, jakich kolorów, czcionek, odstępów i elementów używać (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
+        "e627530370c9c": "$~Dodaliśmy stronę <systemu projektowania@://design>, żeby każdy, kto pracuje nad wyglądem lub tworzeniem platformy, miał łatwiejszy przewodnik po tym, jakich kolorów, czcionek, odstępów i elementów używać (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
         "e602448b8ccde": "$~Sprawiliśmy, że elementy interfejsu użytkownika są bardziej spójne, użyteczne i widoczne.",
         "eb860a453fc88": "$~Dodaliśmy bardziej wyrazisty wygląd przycisku, ale jeszcze nigdzie go nie używamy.",
         "eea4d04e93f44": "$~Zrobiliśmy dalsze postępy w pracy nad funkcją edycji tłumaczeń wewnątrz aplikacji, choć nie jest jeszcze gotowa do wydania.",

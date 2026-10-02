@@ -1,38 +1,38 @@
-import { getTypeName } from '@locale/getNameLocales';
-import { getOutputContentTypeNames } from '@output/Output/outputContentTypeNames';
-import { pickReadableName } from '@locale/getConceptName';
-import StructureValue from '@values/StructureValue';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import { getOutputContentTypeNames } from '#output/Output/outputContentTypeNames.ts';
+import { pickReadableName } from '#locale/getConceptName.ts';
+import StructureValue from '#values/StructureValue.ts';
 import {
     SupportedFontsFamiliesType,
     type SupportedFace,
-} from '@basis/faces/Fonts';
-import toStructure from '@basis/toStructure';
-import { describeColorLocalized } from '@output/Color/BasicColors';
-import { getBind } from '@locale/getBind';
-import type Locales from '@locale/Locales';
-import { GROUP_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import Arrangement from '@output/Arrangement/Arrangement';
-import type Color from '@output/Color/Color';
-import Matter, { toMatter } from '@output/physics/Matter';
-import Music from '@output/Music/Music';
-import Output, { DefaultStyle } from '@output/Output/Output';
-import type Place from '@output/Place/Place';
-import type Pose from '@output/animation/Pose';
-import type { DefinitePose } from '@output/animation/Pose';
-import type RenderContext from '@output/RenderContext';
-import Say from '@output/Output/Say';
-import resolveBubbles from '@output/Bubble/resolveBubbles';
-import type Sequence from '@output/animation/Sequence';
-import type { NameGenerator } from '@output/Output/Stage';
-import TextValue from '@values/TextValue';
+} from '#basis/faces/Fonts.ts';
+import toStructure from '#basis/toStructure.ts';
+import { describeColorLocalized } from '#output/Color/BasicColors.ts';
+import { getBind } from '#locale/getBind.ts';
+import type Locales from '#locale/Locales.ts';
+import { GROUP_SYMBOL, TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Value from '#values/Value.ts';
+import Arrangement from '#output/Arrangement/Arrangement.ts';
+import type Color from '#output/Color/Color.ts';
+import Matter, { toMatter } from '#output/physics/Matter.ts';
+import Music from '#output/Music/Music.ts';
+import Output, { DefaultStyle } from '#output/Output/Output.ts';
+import type Place from '#output/Place/Place.ts';
+import type Pose from '#output/animation/Pose.ts';
+import type { DefinitePose } from '#output/animation/Pose.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import Say from '#output/Output/Say.ts';
+import resolveBubbles from '#output/Bubble/resolveBubbles.ts';
+import type Sequence from '#output/animation/Sequence.ts';
+import type { NameGenerator } from '#output/Output/Stage.ts';
+import TextValue from '#values/TextValue.ts';
 import {
     getTypeStyle,
     toArrangement,
     toOutputList,
-} from '@output/Output/toOutput';
-import { getOutputInput } from '@output/Output/Valued';
+} from '#output/Output/toOutput.ts';
+import { getOutputInput } from '#output/Output/Valued.ts';
 
 export function createGroupType(locales: Locales) {
     return toStructure(`

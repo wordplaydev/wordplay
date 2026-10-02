@@ -1,9 +1,9 @@
-import type ConversionDefinition from '@nodes/ConversionDefinition';
-import type Convert from '@nodes/Convert';
-import type Evaluator from '@runtime/Evaluator';
-import type Locales from '@locale/Locales';
-import type Value from '@values/Value';
-import Step from '@runtime/Step';
+import type ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import type Convert from '#nodes/Convert.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Locales from '#locale/Locales.ts';
+import type Value from '#values/Value.ts';
+import Step from '#runtime/Step.ts';
 
 export default class StartConversion extends Step {
     readonly convert: Convert;

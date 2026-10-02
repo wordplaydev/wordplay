@@ -1,45 +1,48 @@
-import type Conflict from '@conflicts/Conflict';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import Refer from '@edit/revision/Refer';
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { PROPERTY_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
-import NameException from '@values/NameException';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import { UnknownName } from '@conflicts/UnknownName';
-import type Locales from '@locale/Locales';
+import type Conflict from '#conflicts/Conflict.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import Refer from '#edit/revision/Refer.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { PROPERTY_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Start from '#runtime/Start.ts';
+import type Step from '#runtime/Step.ts';
+import NameException from '#values/NameException.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import UnimplementedException from '@values/UnimplementedException';
-import Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
+import UnimplementedException from '#values/UnimplementedException.ts';
+import Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
 import Expression, {
     canRecordGuard,
     type GuardContext,
-} from '@nodes/Expression';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import getGuards from '@nodes/getGuards';
-import { guardsTypesAround } from '@nodes/typeGuards';
-import NameType from '@nodes/NameType';
-import type Node from '@nodes/Node';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import KitType from '@nodes/KitType';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
-import StructureType from '@nodes/StructureType';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import TypeVariable from '@nodes/TypeVariable';
-import UnionType from '@nodes/UnionType';
-import UnknownNameType from '@nodes/UnknownNameType';
+} from '#nodes/Expression.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import getGuards from '#nodes/getGuards.ts';
+import { guardsTypesAround } from '#nodes/typeGuards.ts';
+import NameType from '#nodes/NameType.ts';
+import type Node from '#nodes/Node.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import KitType from '#nodes/KitType.ts';
+import StructureDefinitionType from '#nodes/StructureDefinitionType.ts';
+import StructureType from '#nodes/StructureType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import TypeVariable from '#nodes/TypeVariable.ts';
+import UnionType from '#nodes/UnionType.ts';
+import UnknownNameType from '#nodes/UnknownNameType.ts';
 
 /** The definition a property reference's subject type names, if the subject
  *  is a structure. Read once, so the narrowing survives the second use. */

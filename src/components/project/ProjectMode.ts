@@ -4,9 +4,9 @@
  * Debug sits between edit and play because it is a lens on the same paused
  * position edit holds. (The ctrl/meta+Enter toggle deliberately skips it:
  * edit ⇄ play is the constant motion, and debug is a chosen destination.) */
-import DebugIcon from '@components/project/DebugIcon.svelte';
-import PlayIcon from '@components/project/PlayIcon.svelte';
-import { EDIT_SYMBOL, VIEW_SYMBOL } from '@parser/Symbols';
+import DebugIcon from '#components/project/DebugIcon.svelte';
+import PlayIcon from '#components/project/PlayIcon.svelte';
+import { EDIT_SYMBOL, VIEW_SYMBOL } from '#parser/Symbols.ts';
 
 export const ProjectModes = ['edit', 'debug', 'play'] as const;
 

@@ -1,22 +1,22 @@
 <!-- Renders output, and output only -->
 <script lang="ts">
-    import OutputView from '@components/output/OutputView.svelte';
+    import OutputView from '#components/output/OutputView.svelte';
     import {
         ContentGate,
         getMusicWarnings,
         getPhotosensitivityWarnings,
-    } from '@components/output/gate.svelte';
-    import type Project from '@db/projects/Project';
-    import Evaluator from '@runtime/Evaluator';
-    import type Value from '@values/Value';
+    } from '#components/output/gate.svelte.ts';
+    import type Project from '#db/projects/Project.ts';
+    import Evaluator from '#runtime/Evaluator.ts';
+    import type Value from '#values/Value.ts';
     import { onDestroy, untrack } from 'svelte';
     import { writable } from 'svelte/store';
-    import { DB, locales } from '@db/Database';
-    import { consent, refreshConsentFromBrowser } from '@input/permissions';
+    import { DB, locales } from '#db/Database.ts';
+    import { consent, refreshConsentFromBrowser } from '#input/permissions.ts';
     import {
         setEvaluation,
         type EvaluationContext,
-    } from '@components/project/Contexts';
+    } from '#components/project/Contexts.ts';
 
     interface Props {
         project: Project;

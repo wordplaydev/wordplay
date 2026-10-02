@@ -1,10 +1,10 @@
-import type { FormattedText, Template } from '@locale/LocaleText';
+import type { FormattedText, Template } from '#locale/LocaleText.ts';
 import type {
     ButtonText,
     ConfirmText,
     FieldText,
     ModeText,
-} from '@locale/UITexts';
+} from '#locale/UITexts.ts';
 
 type PageText = {
     /** [plain] Header for the projects page */

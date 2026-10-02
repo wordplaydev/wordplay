@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Sym } from '@nodes/Sym';
-    import type StreamValue from '@values/StreamValue';
-    import { locales } from '@db/Database';
-    import SymbolView from '@components/values/SymbolView.svelte';
+    import { Sym } from '#nodes/Sym.ts';
+    import type StreamValue from '#values/StreamValue.ts';
+    import { locales } from '#db/Database.ts';
+    import SymbolView from '#components/values/SymbolView.svelte';
 
     interface Props {
         value: StreamValue;

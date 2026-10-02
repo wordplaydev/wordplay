@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /** When true, long lines in the editor's text mode soft-wrap to the editor width
  *  instead of overflowing horizontally. Defaults to true.

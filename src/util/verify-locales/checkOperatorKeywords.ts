@@ -1,7 +1,7 @@
-import { MachineTranslated, Unwritten } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type Log from '@util/verify-locales/Log';
+import { MachineTranslated, Unwritten } from '#locale/Annotations.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import type Log from '#util/verify-locales/Log.ts';
 
 /** The operator keywords, each of which must also name its Boolean basis function. */
 const OperatorKeywordIds = ['and', 'or', 'not'] as const;

@@ -1,6 +1,8 @@
 import { expect, test } from 'vitest';
-import type { MusicData, TrackData } from '@output/Music/musicData';
-import analyzeMusicSafety, { analyzeMusic } from '@output/MusicSafetyAnalysis';
+import type { MusicData, TrackData } from '#output/Music/musicData.ts';
+import analyzeMusicSafety, {
+    analyzeMusic,
+} from '#output/MusicSafetyAnalysis.ts';
 
 function track(
     notes: { degrees: number[]; beats?: number; volume?: number }[],

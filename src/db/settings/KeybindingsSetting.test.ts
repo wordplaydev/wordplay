@@ -7,7 +7,7 @@ import {
     KeybindingsSetting,
     reservationFor,
     sameChord,
-} from '@db/settings/KeybindingsSetting';
+} from '#db/settings/KeybindingsSetting.ts';
 
 const undo = { id: 'undo', key: 'z', control: true, alt: false, shift: false };
 const redo = { id: 'redo', key: 'z', control: true, alt: false, shift: true };

@@ -1,6 +1,6 @@
-import type LocaleText from '@locale/LocaleText';
+import type LocaleText from '#locale/LocaleText.ts';
 import { FirebaseError } from 'firebase/app';
-import type { LocaleTextAccessor } from '@locale/Locales';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
 
 function getFirebaseErrorCodeDescription(
     code: string,

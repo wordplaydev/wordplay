@@ -1,15 +1,15 @@
-import { getTypeName } from '@locale/getNameLocales';
-import { pickReadableName } from '@locale/getConceptName';
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import type Locales from '@locale/Locales';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import { toNumber } from '@output/Output/Stage';
-import { getOutputInputs } from '@output/Output/Valued';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
-import { Form } from '@output/Output/Shape/Form';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import { pickReadableName } from '#locale/getConceptName.ts';
+import toStructure from '#basis/toStructure.ts';
+import { getBind } from '#locale/getBind.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type Locales from '#locale/Locales.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
+import { toNumber } from '#output/Output/Stage.ts';
+import { getOutputInputs } from '#output/Output/Valued.ts';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
+import { Form } from '#output/Output/Shape/Form.ts';
 
 export function createCircleType(locales: Locales) {
     return toStructure(`

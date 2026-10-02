@@ -71,6 +71,6 @@ test('the guard is actually reachable from the module that exports', () => {
     // `proxyPrefix` alongside, and a regex that pinned the exact import list
     // would fail for a reason that has nothing to do with the rule.
     expect(source).toMatch(
-        /import\s*\{[^}]*\bisProxySession\b[^}]*\}\s*from\s*'@db\/proxySession'/,
+        /import\s*\{[^}]*\bisProxySession\b[^}]*\}\s*from\s*'#db\/proxySession\.ts'/,
     );
 });

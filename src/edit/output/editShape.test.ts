@@ -1,14 +1,14 @@
 import { test, expect } from 'vitest';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
-import Evaluate from '@nodes/Evaluate';
-import { getNumber } from '@components/palette/editOutput';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import { getNumber } from '#components/palette/editOutput.ts';
 import {
     getFormAnchor,
     scaleForm,
     translateFormTo,
-} from '@edit/output/editShape';
+} from '#edit/output/editShape.ts';
 
 /** Build a project from a Shape program and return the form Evaluate + context. */
 function form(code: string) {

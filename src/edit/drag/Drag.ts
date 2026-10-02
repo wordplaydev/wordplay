@@ -1,18 +1,18 @@
-import type Conflict from '@conflicts/Conflict';
-import { must, type NonEmpty } from '@util/nullable';
-import type Project from '@db/projects/Project';
-import Block from '@nodes/Block';
-import Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Node, { type FieldKind, ListOf } from '@nodes/Node';
-import Program from '@nodes/Program';
-import Source from '@nodes/Source';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type Spaces from '@parser/Spaces';
+import type Conflict from '#conflicts/Conflict.ts';
+import { must, type NonEmpty } from '#util/nullable.ts';
+import type Project from '#db/projects/Project.ts';
+import Block from '#nodes/Block.ts';
+import Expression from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import Node, { type FieldKind, ListOf } from '#nodes/Node.ts';
+import Program from '#nodes/Program.ts';
+import Source from '#nodes/Source.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import type Spaces from '#parser/Spaces.ts';
 
 /**
  * Represents a node, list on the node, and index in the list at which to insert a node.

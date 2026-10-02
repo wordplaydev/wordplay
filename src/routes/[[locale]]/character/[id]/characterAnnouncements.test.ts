@@ -1,6 +1,6 @@
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
 import { expect, test } from 'vitest';
 
 /**

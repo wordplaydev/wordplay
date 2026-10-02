@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type Doc from '@nodes/Doc';
+    import type Doc from '#nodes/Doc.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import { isFoldableNode } from '#components/editor/util/folding.ts';
+    import FoldEllipsis from '#components/editor/util/FoldEllipsis.svelte';
 
     interface DocProps {
         node: Doc;

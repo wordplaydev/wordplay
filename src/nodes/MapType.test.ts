@@ -1,6 +1,6 @@
-import { testConflict } from '@conflicts/TestUtilities';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import MapType from '@nodes/MapType';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import MapType from '#nodes/MapType.ts';
 import { test } from 'vitest';
 
 // One case per conflict this node raises, so a conflict reachable from several

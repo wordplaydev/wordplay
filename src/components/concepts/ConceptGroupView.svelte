@@ -1,9 +1,9 @@
 <script lang="ts">
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
-    import Expander from '@components/widgets/Expander.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import type Concept from '@concepts/Concept';
-    import { animationDuration, locales } from '@db/Database';
+    import ConceptPreview from '#components/concepts/ConceptPreview.svelte';
+    import Expander from '#components/widgets/Expander.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import type Concept from '#concepts/Concept.ts';
+    import { animationDuration, locales } from '#db/Database.ts';
     import { slide } from 'svelte/transition';
 
     interface Props {

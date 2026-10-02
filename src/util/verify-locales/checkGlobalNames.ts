@@ -1,13 +1,13 @@
-import concretize from '@locale/concretize';
-import type LocaleText from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import type Definition from '@nodes/Definition';
-import createDefaultShares from '@runtime/createDefaultShares';
-import type Log from '@util/verify-locales/Log';
-import Bind from '@nodes/Bind';
-import Block from '@nodes/Block';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
+import concretize from '#locale/concretize.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import type Definition from '#nodes/Definition.ts';
+import createDefaultShares from '#runtime/createDefaultShares.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import Bind from '#nodes/Bind.ts';
+import Block from '#nodes/Block.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
 
 /**
  * Verify that no two *different* global default-share definitions — output types and input streams

@@ -1,18 +1,18 @@
-import { getTypeName } from '@locale/getNameLocales';
-import { getBind } from '@locale/getBind';
-import NoneValue from '@values/NoneValue';
-import NumberValue from '@values/NumberValue';
-import type Value from '@values/Value';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import StructureValue from '@values/StructureValue';
-import Arrangement from '@output/Arrangement/Arrangement';
-import type Color from '@output/Color/Color';
-import type Output from '@output/Output/Output';
-import Place, { reflectX } from '@output/Place/Place';
-import type RenderContext from '@output/RenderContext';
-import { getOutputInputs } from '@output/Output/Valued';
-import { must } from '@util/nullable';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import { getBind } from '#locale/getBind.ts';
+import NoneValue from '#values/NoneValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type Value from '#values/Value.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import StructureValue from '#values/StructureValue.ts';
+import Arrangement from '#output/Arrangement/Arrangement.ts';
+import type Color from '#output/Color/Color.ts';
+import type Output from '#output/Output/Output.ts';
+import Place, { reflectX } from '#output/Place/Place.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import { getOutputInputs } from '#output/Output/Valued.ts';
+import { must } from '#util/nullable.ts';
 
 export function createGridType(locales: Locales) {
     return toStructure(`

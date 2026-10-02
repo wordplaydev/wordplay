@@ -1,5 +1,5 @@
-import StreamValue from '@values/StreamValue';
-import type Value from '@values/Value';
+import StreamValue from '#values/StreamValue.ts';
+import type Value from '#values/Value.ts';
 
 /**
  * Represents an input source that is singular (e.g., Button, Key, Pointer, Chat),

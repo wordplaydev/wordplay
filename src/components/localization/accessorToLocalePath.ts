@@ -1,6 +1,6 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import LocalePath from '@util/verify-locales/LocalePath';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import LocalePath from '#util/verify-locales/LocalePath.ts';
 
 /**
  * Reflects on an accessor function to extract its locale property path, and converts it

@@ -1,10 +1,10 @@
 import { test, expect } from 'vitest';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import Evaluate from '@nodes/Evaluate';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import { last, must } from '@util/nullable';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import { last, must } from '#util/nullable.ts';
 
 function analyze(code: string) {
     const source = new Source('test', code);

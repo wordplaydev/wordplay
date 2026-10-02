@@ -1,7 +1,7 @@
-import { ConflictSeverity } from '@conflicts/Conflict';
-import SimplePatternConflict from '@conflicts/SimplePatternConflict';
-import type LocaleText from '@locale/LocaleText';
-import type PatternQuantifier from '@nodes/PatternQuantifier';
+import { ConflictSeverity } from '#conflicts/Conflict.ts';
+import SimplePatternConflict from '#conflicts/SimplePatternConflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type PatternQuantifier from '#nodes/PatternQuantifier.ts';
 
 /**
  * A quantifier whose bounds can never be satisfied — e.g. a range `N–M` with

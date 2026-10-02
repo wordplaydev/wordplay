@@ -1,9 +1,9 @@
-import Block from '@nodes/Block';
-import Conditional from '@nodes/Conditional';
-import type Context from '@nodes/Context';
-import type Evaluate from '@nodes/Evaluate';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import type Node from '@nodes/Node';
+import Block from '#nodes/Block.ts';
+import Conditional from '#nodes/Conditional.ts';
+import type Context from '#nodes/Context.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type Node from '#nodes/Node.ts';
 
 /**
  * True if the call's value is necessarily the value of the nearest enclosing

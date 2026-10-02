@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternQuantifier from '@nodes/PatternQuantifier';
+    import type PatternQuantifier from '#nodes/PatternQuantifier.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** A possessive repetition count (`N`, `=N`, `N–M`, `≤K`, `>K`, …). */
     interface Props {

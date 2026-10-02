@@ -1,6 +1,6 @@
-import { Languages } from '@locale/LanguageCode';
-import { RegionNames } from '@locale/regionNames.generated';
-import { isRegionCode, RegionCodes, Regions } from '@locale/Regions';
+import { Languages } from '#locale/LanguageCode.ts';
+import { RegionNames } from '#locale/regionNames.generated.ts';
+import { isRegionCode, RegionCodes, Regions } from '#locale/Regions.ts';
 import {
     completeLanguageTag,
     completeRegionTag,
@@ -11,7 +11,7 @@ import {
     getRegionName,
     resolveLanguageCode,
     resolveRegionCode,
-} from '@locale/tagNames';
+} from '#locale/tagNames.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('folding a written name', () => {

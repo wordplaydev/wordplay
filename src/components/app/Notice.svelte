@@ -3,9 +3,9 @@
      got an empty orange box and no explanation at all. Both branches now say
      the same thing, which is what the two props promised. -->
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { animationDuration } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { animationDuration } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import { type Snippet } from 'svelte';
     import { slide } from 'svelte/transition';
 

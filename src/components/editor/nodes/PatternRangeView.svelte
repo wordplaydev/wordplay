@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternRange from '@nodes/PatternRange';
+    import type PatternRange from '#nodes/PatternRange.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** A scalar range (`"a"–"z"`) inside a set, matching graphemes between the
      *  two endpoints. */

@@ -1,21 +1,21 @@
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import OutputExpression from '@edit/output/OutputExpression';
-    import Evaluate from '@nodes/Evaluate';
-    import type Expression from '@nodes/Expression';
-    import KeyValue from '@nodes/KeyValue';
-    import MapLiteral from '@nodes/MapLiteral';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import Unit from '@nodes/Unit';
-    import { createPoseLiteral } from '@output/animation/Pose';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import Button from '@components/widgets/Button.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import PoseEditor from '@components/palette/PoseEditor.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import OutputExpression from '#edit/output/OutputExpression.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import type Expression from '#nodes/Expression.ts';
+    import KeyValue from '#nodes/KeyValue.ts';
+    import MapLiteral from '#nodes/MapLiteral.ts';
+    import NumberLiteral from '#nodes/NumberLiteral.ts';
+    import Unit from '#nodes/Unit.ts';
+    import { createPoseLiteral } from '#output/animation/Pose.ts';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import PoseEditor from '#components/palette/PoseEditor.svelte';
 
     interface Props {
         project: Project;

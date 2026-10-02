@@ -1,19 +1,19 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Project from '@db/projects/Project';
-import { getFormAnchor } from '@edit/output/editShape';
-import Evaluate from '@nodes/Evaluate';
-import ListLiteral from '@nodes/ListLiteral';
-import Source from '@nodes/Source';
-import { DB } from '@db/Database';
-import { getStage } from '@components/palette/editOutput';
-import readMusic, { musicsIn } from '@edit/output/editableMusic';
-import Convert from '@nodes/Convert';
-import RenderContext from '@output/RenderContext';
-import { toStage } from '@output/Output/Stage';
-import type { OutputInfoSet } from '@output/animation/Animator';
-import Evaluator from '@runtime/Evaluator';
-import { must } from '@util/nullable';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Project from '#db/projects/Project.ts';
+import { getFormAnchor } from '#edit/output/editShape.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import Source from '#nodes/Source.ts';
+import { DB } from '#db/Database.ts';
+import { getStage } from '#components/palette/editOutput.ts';
+import readMusic, { musicsIn } from '#edit/output/editableMusic.ts';
+import Convert from '#nodes/Convert.ts';
+import RenderContext from '#output/RenderContext.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import type { OutputInfoSet } from '#output/animation/Animator.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 import {
     InsertGap,
@@ -27,7 +27,7 @@ import {
     removeOutput,
     wrappingKinds,
     type InsertKind,
-} from '@components/palette/insertOutput';
+} from '#components/palette/insertOutput.ts';
 
 function make(code: string) {
     const source = new Source('test', code);

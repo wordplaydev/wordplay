@@ -1,22 +1,22 @@
-import toStructure from '@basis/toStructure';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import ListValue from '@values/ListValue';
-import NoneValue from '@values/NoneValue';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import type Expression from '@nodes/Expression';
-import { getInputExpression } from '@output/Output/sourceExpression';
-import Valued, { getOutputInputs } from '@output/Output/Valued';
-import { toBoolean, toNumber } from '@output/Output/Stage';
-import type Instrument from '@output/Music/Instrument';
-import { toInstrument } from '@output/Music/Instrument';
-import { toBeats, toDegrees, toDuration, toNote } from '@output/Music/Note';
-import { degreeType, durationTypes } from '@output/Music/durations';
+import toStructure from '#basis/toStructure.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import { getBind } from '#locale/getBind.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import ListValue from '#values/ListValue.ts';
+import NoneValue from '#values/NoneValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import type Expression from '#nodes/Expression.ts';
+import { getInputExpression } from '#output/Output/sourceExpression.ts';
+import Valued, { getOutputInputs } from '#output/Output/Valued.ts';
+import { toBoolean, toNumber } from '#output/Output/Stage.ts';
+import type Instrument from '#output/Music/Instrument.ts';
+import { toInstrument } from '#output/Music/Instrument.ts';
+import { toBeats, toDegrees, toDuration, toNote } from '#output/Music/Note.ts';
+import { degreeType, durationTypes } from '#output/Music/durations.ts';
 
 export function createTrackType(locales: Locales) {
     return toStructure(`

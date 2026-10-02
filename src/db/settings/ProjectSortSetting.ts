@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /** How the projects page orders projects. One global choice: it applies to the
  *  top level and inside every folder, so a creator never has to wonder which

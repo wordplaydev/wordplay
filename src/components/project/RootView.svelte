@@ -1,26 +1,26 @@
 <script lang="ts">
-    import DiffOnlyNowView from '@components/editor/nodes/DiffOnlyNowView.svelte';
-    import NodeView from '@components/editor/nodes/NodeView.svelte';
-    import type Caret from '@edit/caret/Caret';
-    import type { WritingLayout } from '@locale/Scripts';
-    import type Locale from '@locale/Locale';
-    import type Locales from '@locale/Locales';
-    import Docs from '@nodes/Docs';
-    import type { LanguageTagged } from '@nodes/LanguageTagged';
-    import Name from '@nodes/Name';
-    import Names from '@nodes/Names';
-    import type Node from '@nodes/Node';
-    import Root from '@nodes/Root';
-    import Token from '@nodes/Token';
-    import Source from '@nodes/Source';
-    import type { SourceDiff } from '@edit/diff/sourceDiff';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import Spaces from '@parser/Spaces';
-    import { EMOJI_SYMBOL } from '@parser/Symbols';
+    import DiffOnlyNowView from '#components/editor/nodes/DiffOnlyNowView.svelte';
+    import NodeView from '#components/editor/nodes/NodeView.svelte';
+    import type Caret from '#edit/caret/Caret.ts';
+    import type { WritingLayout } from '#locale/Scripts.ts';
+    import type Locale from '#locale/Locale.ts';
+    import type Locales from '#locale/Locales.ts';
+    import Docs from '#nodes/Docs.ts';
+    import type { LanguageTagged } from '#nodes/LanguageTagged.ts';
+    import Name from '#nodes/Name.ts';
+    import Names from '#nodes/Names.ts';
+    import type Node from '#nodes/Node.ts';
+    import Root from '#nodes/Root.ts';
+    import Token from '#nodes/Token.ts';
+    import Source from '#nodes/Source.ts';
+    import type { SourceDiff } from '#edit/diff/sourceDiff.ts';
+    import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+    import Spaces from '#parser/Spaces.ts';
+    import { EMOJI_SYMBOL } from '#parser/Symbols.ts';
     import { SvelteSet } from 'svelte/reactivity';
     import { get, writable } from 'svelte/store';
-    import FormattedLiteral from '@nodes/FormattedLiteral';
-    import TextLiteral from '@nodes/TextLiteral';
+    import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+    import TextLiteral from '#nodes/TextLiteral.ts';
     import {
         getReferencedMessages,
         setCaret,
@@ -31,7 +31,7 @@
         setRoot,
         setShowLines,
         setSpaces,
-    } from '@components/project/Contexts';
+    } from '#components/project/Contexts.ts';
 
     interface Props {
         node: Node;

@@ -1,10 +1,10 @@
 import { expect, test } from 'vitest';
-import Source from '@nodes/Source';
-import Token from '@nodes/Token';
-import { Sym } from '@nodes/Sym';
-import type Node from '@nodes/Node';
-import diffSources, { type SourceDiff } from '@edit/diff/sourceDiff';
-import fingerprint from '@edit/diff/fingerprint';
+import Source from '#nodes/Source.ts';
+import Token from '#nodes/Token.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Node from '#nodes/Node.ts';
+import diffSources, { type SourceDiff } from '#edit/diff/sourceDiff.ts';
+import fingerprint from '#edit/diff/fingerprint.ts';
 
 function diff(before: string, after: string): SourceDiff {
     return diffSources(new Source('test', before), new Source('test', after));

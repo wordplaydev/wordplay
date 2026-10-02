@@ -1,24 +1,24 @@
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import Bind from '@nodes/Bind';
-import NoneType from '@nodes/NoneType';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StreamType from '@nodes/StreamType';
-import UnionType from '@nodes/UnionType';
-import type Evaluation from '@runtime/Evaluation';
-import StreamValue from '@values/StreamValue';
-import type Locales from '@locale/Locales';
-import NoneLiteral from '@nodes/NoneLiteral';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import TextType from '@nodes/TextType';
-import type Type from '@nodes/Type';
-import { createReboundStructure } from '@output/physics/Rebound';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
-import NoneValue from '@values/NoneValue';
-import type StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import createStreamEvaluator from '@input/createStreamEvaluator';
-import type { StreamKind } from '@values/StreamValue';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import Bind from '#nodes/Bind.ts';
+import NoneType from '#nodes/NoneType.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StreamType from '#nodes/StreamType.ts';
+import UnionType from '#nodes/UnionType.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import StreamValue from '#values/StreamValue.ts';
+import type Locales from '#locale/Locales.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import TextType from '#nodes/TextType.ts';
+import type Type from '#nodes/Type.ts';
+import { createReboundStructure } from '#output/physics/Rebound.ts';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
+import NoneValue from '#values/NoneValue.ts';
+import type StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
 
 export type ReboundEvent =
     | {

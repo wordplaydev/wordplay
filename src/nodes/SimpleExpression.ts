@@ -1,7 +1,7 @@
-import type Evaluator from '@runtime/Evaluator';
-import type Locales from '@locale/Locales';
-import type Context from '@nodes/Context';
-import Expression, { ExpressionKind } from '@nodes/Expression';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Locales from '#locale/Locales.ts';
+import type Context from '#nodes/Context.ts';
+import Expression, { ExpressionKind } from '#nodes/Expression.ts';
 
 export default abstract class SimpleExpression extends Expression {
     getFinishExplanations(

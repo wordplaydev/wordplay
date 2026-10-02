@@ -13,7 +13,7 @@
      */
     import ResizeKnob, {
         type ResizeKnobEdge,
-    } from '@components/widgets/ResizeKnob.svelte';
+    } from '#components/widgets/ResizeKnob.svelte';
 
     interface Props {
         /** Which edge the knob sits on. `'right'` grows the sidebar rightward

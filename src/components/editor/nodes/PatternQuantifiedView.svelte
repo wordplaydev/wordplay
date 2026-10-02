@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternQuantified from '@nodes/PatternQuantified';
+    import type PatternQuantified from '#nodes/PatternQuantified.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** An atom repeated by a leading quantifier (e.g. `3 #`). */
     interface Props {

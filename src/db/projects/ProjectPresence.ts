@@ -1,6 +1,6 @@
-import { BCTKeys, type BCTKey } from '@output/Color/BasicColors';
-import { PathSchema } from '@db/projects/ProjectSchemas';
-import { must } from '@util/nullable';
+import { BCTKeys, type BCTKey } from '#output/Color/BasicColors.ts';
+import { PathSchema } from '#db/projects/ProjectSchemas.ts';
+import { must } from '#util/nullable.ts';
 import { z } from 'zod';
 import type { RemoteCaret } from './caretEncoding';
 

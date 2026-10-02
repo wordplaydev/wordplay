@@ -1,18 +1,18 @@
-import TextLiteral from '@nodes/TextLiteral';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import KeyValue from '@nodes/KeyValue';
-import MapLiteral from '@nodes/MapLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import { createPoseLiteral } from '@output/animation/Pose';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import KeyValue from '#nodes/KeyValue.ts';
+import MapLiteral from '#nodes/MapLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import { createPoseLiteral } from '#output/animation/Pose.ts';
 import {
     getDurationProperty,
     getStyleProperty,
-} from '@edit/output/OutputProperties';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyRange from '@edit/output/OutputPropertyRange';
-import OutputPropertyText from '@edit/output/OutputPropertyText';
+} from '#edit/output/OutputProperties.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
+import OutputPropertyText from '#edit/output/OutputPropertyText.ts';
 
 /** The default two-keyframe poses map used when a sequence has no custom poses. */
 export function createDefaultPosesMap(

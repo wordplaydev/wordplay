@@ -9,7 +9,7 @@
  * what puts letters in the order a reader expects.
  */
 
-import { toIntlLocale } from '@unicode/casing';
+import { toIntlLocale } from '#unicode/casing.ts';
 
 /**
  * Root collation, spelled 'en'.

@@ -1,23 +1,23 @@
-import DuplicateName from '@conflicts/DuplicateName';
-import UnexpectedEtc from '@conflicts/UnexpectedEtc';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import { MisplacedShare } from '@conflicts/MisplacedShare';
-import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
-import { testConflict } from '@conflicts/TestUtilities';
-import UnusedBind from '@conflicts/UnusedBind';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Bind from '@nodes/Bind';
-import Changed from '@nodes/Changed';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import NumberType from '@nodes/NumberType';
-import Previous from '@nodes/Previous';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
-import evaluateCode from '@runtime/evaluate';
+import DuplicateName from '#conflicts/DuplicateName.ts';
+import UnexpectedEtc from '#conflicts/UnexpectedEtc.ts';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import { MisplacedShare } from '#conflicts/MisplacedShare.ts';
+import { MissingShareLanguages } from '#conflicts/MissingShareLanguages.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import UnusedBind from '#conflicts/UnusedBind.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Bind from '#nodes/Bind.ts';
+import Changed from '#nodes/Changed.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import NumberType from '#nodes/NumberType.ts';
+import Previous from '#nodes/Previous.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
+import evaluateCode from '#runtime/evaluate.ts';
 import { expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 test.each([
     ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleType],

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { setInteractive } from '@components/project/Contexts';
-    import type Value from '@values/Value';
-    import type Node from '@nodes/Node';
-    import valueToView from '@components/values/valueToView';
+    import { setInteractive } from '#components/project/Contexts.ts';
+    import type Value from '#values/Value.ts';
+    import type Node from '#nodes/Node.ts';
+    import valueToView from '#components/values/valueToView.ts';
 
     interface Props {
         value: Value;

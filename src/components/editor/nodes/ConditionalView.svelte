@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type Conditional from '@nodes/Conditional';
-    import Flow from '@components/editor/blocks/Flow.svelte';
+    import type Conditional from '#nodes/Conditional.ts';
+    import Flow from '#components/editor/blocks/Flow.svelte';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
-    import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import { isFoldableNode } from '#components/editor/util/folding.ts';
+    import FoldToggle from '#components/editor/util/FoldToggle.svelte';
+    import FoldEllipsis from '#components/editor/util/FoldEllipsis.svelte';
 
     interface Props {
         node: Conditional;

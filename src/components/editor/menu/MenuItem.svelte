@@ -1,21 +1,21 @@
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import RootView from '@components/project/RootView.svelte';
-    import Note from '@components/widgets/Note.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import RootView from '#components/project/RootView.svelte';
+    import Note from '#components/widgets/Note.svelte';
     import getMenuNoteMarkup from './menuNote';
     import { getUnitKey, getUnitName, getUnitNameMarkup } from './unitName';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { blocks, locales } from '@db/Database';
-    import Menu, { RevisionSet } from '@edit/menu/Menu';
-    import Replace from '@edit/revision/Replace';
-    import Revision from '@edit/revision/Revision';
-    import type Node from '@nodes/Node';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { blocks, locales } from '#db/Database.ts';
+    import Menu, { RevisionSet } from '#edit/menu/Menu.ts';
+    import Replace from '#edit/revision/Replace.ts';
+    import Revision from '#edit/revision/Revision.ts';
+    import type Node from '#nodes/Node.ts';
+    import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
     import {
         hoverSelects,
         isTap,
         type PressPoint,
-    } from '@components/editor/menu/menuPointer';
+    } from '#components/editor/menu/menuPointer.ts';
 
     interface Props {
         entry: Revision;

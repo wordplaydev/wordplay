@@ -204,7 +204,7 @@
                     "projectContainsPII": "$~Bu projelerde kişisel bilgiler bulunuyor gibi göründüğü için bunları çevrimiçi olarak kaydetmedik. Kişisel bilgi içerip içermediğini kontrol etmek için her birini açın.",
                     "localProjectStorageFailed": "$~Bu cihazda kaydedilecek yer kalmadı ve bu projeler henüz bulutta değil, bu yüzden risk altındalar.<Sign in@/login> Bu sayede veriler yalnızca bu cihazda değil, çevrimiçi olarak da kaydedilir.",
                     "projectTooLarge": "$~Bu projeler çevrimiçi kaydedilemeyecek kadar büyük. Yine de bu cihazda güvende. Onları daha küçük yapmayı deneyin.",
-                    "noCloudTarget": "$~Bu projeler yalnızca bu cihazda, çünkü @wordplay onları çevrimiçi kaydedecek bir yer bulamadı. Kaydetmek için <giriş yapınlogin>.",
+                    "noCloudTarget": "$~Bu projeler yalnızca bu cihazda, çünkü @wordplay onları çevrimiçi kaydedecek bir yer bulamadı. Kaydetmek için <giriş yapın@/login>.",
                     "cloudWriteRefused": "$~Bulut bu değişiklikleri kabul etmedi. Bu yüzden çevrimiçi olan kopyayı kullandık. Bunları değiştirebilmen gerektiğini düşünüyorsan, bunları seninle paylaşan kişiye sor."
                 },
                 "projectsNotSavingOnline": "$~Bazı projeler yalnızca bu cihazda, henüz çevrimiçi değil."
@@ -1512,18 +1512,18 @@
                     "musicVisualization": {
                         "label": "$~görselleştirme",
                         "labels": [
+                            "$~orkestra",
                             "$~ışık gösterisi",
                             "$~ruh hâli",
                             "$~nota kâğıdı",
-                            "$~kapalı",
-                            "$~Müziği çalgılardan oluşan bir orkestra olarak göster"
+                            "$~kapalı"
                         ],
                         "tips": [
+                            "$~Müziği çalgılardan oluşan bir orkestra olarak göster",
                             "$~Müziği değişen ışık olarak göster",
                             "$~Müziği, müziğin duygusuyla değişen bir renk ve şekil bulutu olarak göster",
                             "$~Notaları bir porte üzerine yazılmış müzik olarak göster; çalındıkça kayarak geçsin",
-                            "$~Müziği gösterme",
-                            "$~@wordplay, sana şunları yapma imkânı veren bir programlama dilidir:\n\n• Kelimeleri ve emojileri eğlenceli biçimde canlandır 🤪\n\n• Zamanı 🕦, sesi 🎤, yüzleri 🙂, elleri 🖐️, web sitelerini 🔗 ve fiziği 🌎 kullan\n\n• Metinden konuşmayla konuş 🗣️ ve müzik çal 🎼\n\n• Arkadaşlarınla, gruplarla ya da herkesle paylaş 🤝\n\n• Herhangi bir dünya dilinde kod yaz 🌐\n\n• Fareyle 🖱️, dokunmayla 👆 ve klavyeyle ⌨️ düzenle\n\n• İleri ⏩ ve geri ⏪ hata ayıkla\n\n• Ekranlarla 🖥️ ve ekran okuyucularla 🔊 görüntüle\n\n<Washington Üniversitesi@https://ischool.uw.edu/> tarafından sonsuza dek ücretsiz."
+                            "$~Müziği gösterme"
                         ]
                     },
                     "musicVolume": {
@@ -1875,7 +1875,7 @@
             },
             "moderation": {
                 "header": "$~Bu mesajı bildir",
-                "explanation": "$~Bu mesaj <topluluk standartlarımıza@://haklarımıza> uymuyorsa veya talep ettiğiniz geri bildirim türünü karşılamıyorsa, bildirebilirsiniz. Bu mesajı bildirdiğinizde, galeri küratörlerine gönderilecek ve incelenene kadar yayından kaldırılacaktır.",
+                "explanation": "$~Bu mesaj <topluluk standartlarımıza@://rights> uymuyorsa veya talep ettiğiniz geri bildirim türünü karşılamıyorsa, bildirebilirsiniz. Bu mesajı bildirdiğinizde, galeri küratörlerine gönderilecek ve incelenene kadar yayından kaldırılacaktır.",
                 "report": {
                     "tip": "$~Bu mesajı bildir",
                     "label": "$~rapor"
@@ -1886,7 +1886,7 @@
                 },
                 "pending": "$~Bu mesaj, moderasyon işlemi beklenirken geçici olarak kaldırılmıştır.",
                 "removed": "$~Bu mesaj, topluluk veya geri bildirim kurallarını ihlal ettiği için kaldırılmıştır.",
-                "inGallery": "$~Bu sohbet bir galeride yer almaktadır. Galeri küratörleri tarafından denetlenmektedir. <Topluluk standartlarımızı@://haklarımızı> ihlal eden mesajları denetim için bildirebilirsiniz."
+                "inGallery": "$~Bu sohbet bir galeride yer almaktadır. Galeri küratörleri tarafından denetlenmektedir. <Topluluk standartlarımızı@://rights> ihlal eden mesajları denetim için bildirebilirsiniz."
             },
             "restrictGalleryCreatorAccess": {
                 "mode": {

@@ -1,4 +1,4 @@
-import { describesOwnType } from '@nodes/conciseRef';
+import { describesOwnType } from '#nodes/conciseRef.ts';
 import {
     getSiblingRange,
     nodesInRange,
@@ -7,62 +7,69 @@ import {
     siblingOf,
     withoutRun,
     type SiblingRange,
-} from '@edit/caret/siblingRange';
-import type { LocaleTextAccessor, default as Locales } from '@locale/Locales';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Block from '@nodes/Block';
-import Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import ListLiteral from '@nodes/ListLiteral';
-import Node, { Empty, FieldKind, ListOf, type Field } from '@nodes/Node';
-import NumberType from '@nodes/NumberType';
-import Program from '@nodes/Program';
-import Source from '@nodes/Source';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Unit from '@nodes/Unit';
-import Spaces from '@parser/Spaces';
-import { CODE_SYMBOL, ELISION_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
+} from '#edit/caret/siblingRange.ts';
+import type {
+    LocaleTextAccessor,
+    default as Locales,
+} from '#locale/Locales.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Block from '#nodes/Block.ts';
+import Expression from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import Node, { Empty, FieldKind, ListOf, type Field } from '#nodes/Node.ts';
+import NumberType from '#nodes/NumberType.ts';
+import Program from '#nodes/Program.ts';
+import Source from '#nodes/Source.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Unit from '#nodes/Unit.ts';
+import Spaces from '#parser/Spaces.ts';
+import {
+    CODE_SYMBOL,
+    ELISION_SYMBOL,
+    PROPERTY_SYMBOL,
+} from '#parser/Symbols.ts';
 import {
     DelimiterCloseByOpen,
     DelimiterOpenByClose,
     isName,
     TextOpenByTextClose,
     tokens,
-} from '@parser/Tokenizer';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
+} from '#parser/Tokenizer.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
 import type {
     Edit,
     ProjectRevision,
     Revision,
-} from '@components/editor/commands/Commands';
-import type Conflict from '@conflicts/Conflict';
-import Project from '@db/projects/Project';
-import NodeRef from '@locale/NodeRef';
-import { markLanguage } from '@locale/spokenLanguage';
-import Bind from '@nodes/Bind';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import DefinitionExpression from '@nodes/DefinitionExpression';
-import { LanguageTagged } from '@nodes/LanguageTagged';
-import Literal from '@nodes/Literal';
-import Markup from '@nodes/Markup';
-import Name from '@nodes/Name';
-import NameType from '@nodes/NameType';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Input from '@nodes/Input';
-import Language from '@nodes/Language';
-import Reference from '@nodes/Reference';
-import SetLiteral from '@nodes/SetLiteral';
-import Translation from '@nodes/Translation';
-import Type from '@nodes/Type';
-import TypeVariable from '@nodes/TypeVariable';
-import UnicodeString from '@unicode/UnicodeString';
-import { completeInsertion } from '@edit/caret/Complete';
-import type { Path } from '@nodes/Root';
-import type { SerializedCaret } from '@db/projects/ProjectSchemas';
+} from '#components/editor/commands/Commands.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import Project from '#db/projects/Project.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import { markLanguage } from '#locale/spokenLanguage.ts';
+import Bind from '#nodes/Bind.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import DefinitionExpression from '#nodes/DefinitionExpression.ts';
+import { LanguageTagged } from '#nodes/LanguageTagged.ts';
+import Literal from '#nodes/Literal.ts';
+import Markup from '#nodes/Markup.ts';
+import Name from '#nodes/Name.ts';
+import NameType from '#nodes/NameType.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Input from '#nodes/Input.ts';
+import Language from '#nodes/Language.ts';
+import Reference from '#nodes/Reference.ts';
+import SetLiteral from '#nodes/SetLiteral.ts';
+import Translation from '#nodes/Translation.ts';
+import Type from '#nodes/Type.ts';
+import TypeVariable from '#nodes/TypeVariable.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import { completeInsertion } from '#edit/caret/Complete.ts';
+import type { Path } from '#nodes/Root.ts';
+import type { SerializedCaret } from '#db/projects/ProjectSchemas.ts';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 

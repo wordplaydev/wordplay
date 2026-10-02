@@ -1,11 +1,11 @@
-import type { TemplateInput } from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import PatternNode from '@nodes/PatternNode';
-import { patternLiteralCharacters } from '@nodes/PatternLiteralText';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import PatternNode from '#nodes/PatternNode.ts';
+import { patternLiteralCharacters } from '#nodes/PatternLiteralText.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 /**
  * A range inside a glyph set, e.g., `"a"–"z"`. Endpoints are raw pattern-text

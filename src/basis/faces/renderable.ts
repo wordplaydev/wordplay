@@ -1,4 +1,4 @@
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * Whether some default-chain font can actually draw a codepoint — a binary

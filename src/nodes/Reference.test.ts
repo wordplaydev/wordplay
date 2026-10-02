@@ -1,8 +1,8 @@
-import ReferenceCycle from '@conflicts/ReferenceCycle';
-import { testConflict } from '@conflicts/TestUtilities';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
-import { Sym } from '@nodes/Sym';
+import ReferenceCycle from '#conflicts/ReferenceCycle.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
+import { Sym } from '#nodes/Sym.ts';
 import { expect, test } from 'vitest';
 
 test('a reference to an operator satisfies its own grammar', () => {

@@ -1,14 +1,14 @@
-import Caret from '@edit/caret/Caret';
-import describeMarkupChange from '@edit/markup/describeChange';
+import Caret from '#edit/caret/Caret.ts';
+import describeMarkupChange from '#edit/markup/describeChange.ts';
 import {
     toggleBullet,
     toggleDefect,
     toggleFormat,
     toggleHighlight,
-} from '@edit/markup/formatOperations';
-import { markupToSource } from '@edit/markup/markupSource';
-import DefaultLocales from '@locale/DefaultLocales';
-import type { Format } from '@nodes/Words';
+} from '#edit/markup/formatOperations.ts';
+import { markupToSource } from '#edit/markup/markupSource.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import type { Format } from '#nodes/Words.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

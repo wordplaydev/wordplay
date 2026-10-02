@@ -1,32 +1,32 @@
-import type Conflict from '@conflicts/Conflict';
-import type { InsertContext } from '@edit/revision/EditContext';
-import type LanguageCode from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { type SymType } from '@nodes/Sym';
-import { ExpressionStartKeywordSyms } from '@parser/Keywords';
+import type Conflict from '#conflicts/Conflict.ts';
+import type { InsertContext } from '#edit/revision/EditContext.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { type SymType } from '#nodes/Sym.ts';
+import { ExpressionStartKeywordSyms } from '#parser/Keywords.ts';
 import {
     BasisTypeSymbols,
     COMMA_SYMBOL,
     NOT_SYMBOL,
     SymbolNameRegEx,
-} from '@parser/Symbols';
-import { OperatorRegEx } from '@parser/Tokenizer';
-import { lowerCase } from '@unicode/casing';
-import { EmojiTestRegex } from '@unicode/emoji';
-import { Purpose } from '@concepts/Purpose';
+} from '#parser/Symbols.ts';
+import { OperatorRegEx } from '#parser/Tokenizer.ts';
+import { lowerCase } from '#unicode/casing.ts';
+import { EmojiTestRegex } from '#unicode/emoji.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import { Emotion } from '../lore/Emotion';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Evaluate from '@nodes/Evaluate';
-import Language from '@nodes/Language';
-import { LanguageTagged } from '@nodes/LanguageTagged';
-import NameToken from '@nodes/NameToken';
-import type { Grammar, Replacement } from '@nodes/Node';
-import Node, { node, optional } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Language from '#nodes/Language.ts';
+import { LanguageTagged } from '#nodes/LanguageTagged.ts';
+import NameToken from '#nodes/NameToken.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import Node, { node, optional } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 export default class Name extends LanguageTagged {
     readonly name: Token;

@@ -1,17 +1,17 @@
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import type OutputExpression from '@edit/output/OutputExpression';
-    import getPoseProperties from '@edit/output/PoseProperties';
-    import Evaluate from '@nodes/Evaluate';
-    import KeyValue from '@nodes/KeyValue';
-    import MapLiteral from '@nodes/MapLiteral';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import Reference from '@nodes/Reference';
-    import Button from '@components/widgets/Button.svelte';
-    import StructureInputsEditor from '@components/palette/StructureInputsEditor.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type OutputExpression from '#edit/output/OutputExpression.ts';
+    import getPoseProperties from '#edit/output/PoseProperties.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import KeyValue from '#nodes/KeyValue.ts';
+    import MapLiteral from '#nodes/MapLiteral.ts';
+    import NumberLiteral from '#nodes/NumberLiteral.ts';
+    import Reference from '#nodes/Reference.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import StructureInputsEditor from '#components/palette/StructureInputsEditor.svelte';
 
     interface Props {
         project: Project;

@@ -1,18 +1,18 @@
 <script lang="ts">
-    import { isStringArray } from '@util/guards';
-    import Link from '@components/app/Link.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import TemplateInputsPanel from '@components/localization/TemplateInputsPanel.svelte';
-    import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
-    import { getLocalizing } from '@components/project/Contexts';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Switch from '@components/widgets/Switch.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import { locales } from '@db/Database';
-    import { localeEdits } from '@db/locales/LocalizationDexie';
-    import DefaultLocale from '@locale/DefaultLocale';
-    import { toLocaleString } from '@locale/LocaleText';
+    import { isStringArray } from '#util/guards.ts';
+    import Link from '#components/app/Link.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import TemplateInputsPanel from '#components/localization/TemplateInputsPanel.svelte';
+    import { accessorToLocalePath } from '#components/localization/accessorToLocalePath.ts';
+    import { getLocalizing } from '#components/project/Contexts.ts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Switch from '#components/widgets/Switch.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import { locales } from '#db/Database.ts';
+    import { localeEdits } from '#db/locales/LocalizationDexie.ts';
+    import DefaultLocale from '#locale/DefaultLocale.ts';
+    import { toLocaleString } from '#locale/LocaleText.ts';
 
     let localizing = getLocalizing();
 

@@ -1,12 +1,12 @@
 <script lang="ts">
-    import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
-    import type FunctionConcept from '@concepts/FunctionConcept';
-    import { locales } from '@db/Database';
+    import HeaderAndExplanation from '#components/app/HeaderAndExplanation.svelte';
+    import type FunctionConcept from '#concepts/FunctionConcept.ts';
+    import { locales } from '#db/Database.ts';
     import { onMount } from 'svelte';
-    import type BindConcept from '@concepts/BindConcept';
-    import BindConceptView from '@components/concepts/BindConceptView.svelte';
-    import ConceptView from '@components/concepts/ConceptView.svelte';
-    import Names from '@components/concepts/NamesView.svelte';
+    import type BindConcept from '#concepts/BindConcept.ts';
+    import BindConceptView from '#components/concepts/BindConceptView.svelte';
+    import ConceptView from '#components/concepts/ConceptView.svelte';
+    import Names from '#components/concepts/NamesView.svelte';
 
     interface Props {
         concept: FunctionConcept;

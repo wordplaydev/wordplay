@@ -1,61 +1,74 @@
-import conciseRef from '@nodes/conciseRef';
-import type Node from '@nodes/Node';
-import type Conflict from '@conflicts/Conflict';
-import DuplicateName from '@conflicts/DuplicateName';
-import { getKeywordShadowConflicts } from '@conflicts/ShadowsKeyword';
-import { DuplicateShare } from '@conflicts/DuplicateShare';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
-import UnexpectedEtc from '@conflicts/UnexpectedEtc';
-import UnusedBind from '@conflicts/UnusedBind';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { ETC_SYMBOL, PLACEHOLDER_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import type { StreamCreator } from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Halt from '@runtime/Halt';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
-import ExceptionValue from '@values/ExceptionValue';
-import type Value from '@values/Value';
-import ValueException from '@values/ValueException';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+import conciseRef from '#nodes/conciseRef.ts';
+import type Node from '#nodes/Node.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import DuplicateName from '#conflicts/DuplicateName.ts';
+import { getKeywordShadowConflicts } from '#conflicts/ShadowsKeyword.ts';
+import { DuplicateShare } from '#conflicts/DuplicateShare.ts';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import { MissingShareLanguages } from '#conflicts/MissingShareLanguages.ts';
+import UnexpectedEtc from '#conflicts/UnexpectedEtc.ts';
+import UnusedBind from '#conflicts/UnusedBind.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import {
+    ETC_SYMBOL,
+    PLACEHOLDER_SYMBOL,
+    SHARE_SYMBOL,
+} from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type { StreamCreator } from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Halt from '#runtime/Halt.ts';
+import Start from '#runtime/Start.ts';
+import type Step from '#runtime/Step.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import type Value from '#values/Value.ts';
+import ValueException from '#values/ValueException.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import AnyType from '@nodes/AnyType';
-import BindToken from '@nodes/BindToken';
-import Block from '@nodes/Block';
-import type { CallGraph } from '@db/projects/Analysis';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Docs from '@nodes/Docs';
-import DocumentedExpression from '@nodes/DocumentedExpression';
-import Evaluate from '@nodes/Evaluate';
+import AnyType from '#nodes/AnyType.ts';
+import BindToken from '#nodes/BindToken.ts';
+import Block from '#nodes/Block.ts';
+import type { CallGraph } from '#db/projects/Analysis.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Docs from '#nodes/Docs.ts';
+import DocumentedExpression from '#nodes/DocumentedExpression.ts';
+import Evaluate from '#nodes/Evaluate.ts';
 import Expression, {
     ExpressionKind,
     type GuardContext,
-} from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import FunctionType from '@nodes/FunctionType';
-import { concretizeType } from '@nodes/Generics';
-import ListType from '@nodes/ListType';
-import type Name from '@nodes/Name';
-import Names from '@nodes/Names';
-import NameType from '@nodes/NameType';
-import { any, node, none, type Grammar, type Replacement } from '@nodes/Node';
-import StructureDefinition from '@nodes/StructureDefinition';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import type TypeSet from '@nodes/TypeSet';
-import TypeToken from '@nodes/TypeToken';
-import { getPublishedShareConflicts } from '@nodes/publishedShare';
-import { getMisplacedShareConflicts } from '@nodes/util';
+} from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import FunctionType from '#nodes/FunctionType.ts';
+import { concretizeType } from '#nodes/Generics.ts';
+import ListType from '#nodes/ListType.ts';
+import type Name from '#nodes/Name.ts';
+import Names from '#nodes/Names.ts';
+import NameType from '#nodes/NameType.ts';
+import {
+    any,
+    node,
+    none,
+    type Grammar,
+    type Replacement,
+} from '#nodes/Node.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import TypeToken from '#nodes/TypeToken.ts';
+import { getPublishedShareConflicts } from '#nodes/publishedShare.ts';
+import { getMisplacedShareConflicts } from '#nodes/util.ts';
 
 /** Whether a node makes a stream, decided by descriptor: importing Evaluate
  *  or Reaction here would make an import cycle. */

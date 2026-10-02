@@ -2,18 +2,18 @@
  This chat component enables communication between project collaborators and owners of the gallery that a project is in.
  -->
 <script lang="ts">
-    import ChatView from '@components/app/chat/ChatView.svelte';
-    import Collaborators from '@components/project/Collaborators.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import TileMessage from '@components/project/TileMessage.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import type Chat from '@db/chats/ChatDatabase.svelte';
-    import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Creators, Galleries, locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type Gallery from '@db/galleries/Gallery';
-    import type Project from '@db/projects/Project';
+    import ChatView from '#components/app/chat/ChatView.svelte';
+    import Collaborators from '#components/project/Collaborators.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import TileMessage from '#components/project/TileMessage.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import type Chat from '#db/chats/ChatDatabase.svelte.ts';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
+    import { Creators, Galleries, locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import type Project from '#db/projects/Project.ts';
 
     const {
         project,

@@ -1,13 +1,14 @@
 <svelte:options />
 
 <script lang="ts">
+    import { isExternalURL } from '#util/appPath.ts';
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
-    import Link from '@components/app/Link.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import LocaleName from '@components/settings/LocaleName.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '#components/project/Contexts.ts';
+    import LocaleName from '#components/settings/LocaleName.svelte';
     import LocaleSearch, {
         allLanguageOptions,
         allRegionOptions,
@@ -15,28 +16,31 @@
         filterLocalesByQuery,
         matchLanguages,
         matchRegions,
-    } from '@components/settings/LocaleSearch.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Synced from '@components/widgets/Synced.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import { LocaleDialogID } from '@components/widgets/dialogIDs';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Options from '@components/widgets/Options.svelte';
+    } from '#components/settings/LocaleSearch.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Synced from '#components/widgets/Synced.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import { LocaleDialogID } from '#components/widgets/dialogIDs.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Options from '#components/widgets/Options.svelte';
     import type { Snippet } from 'svelte';
-    import { locales } from '@db/Database';
-    import { getFunctionsInstance } from '@db/firebase';
-    import { localeToString, stringToLocale } from '@locale/Locale';
-    import { getLocaleLanguageName, isLocaleDraft } from '@locale/LocaleText';
+    import { locales } from '#db/Database.ts';
+    import { getFunctionsInstance } from '#db/firebase.ts';
+    import { localeToString, stringToLocale } from '#locale/Locale.ts';
+    import {
+        getLocaleLanguageName,
+        isLocaleDraft,
+    } from '#locale/LocaleText.ts';
     import {
         isSupportedLocale,
         SupportedLocales,
         type SupportedLocale,
-    } from '@locale/SupportedLocales';
+    } from '#locale/SupportedLocales.ts';
     import {
         CANCEL_SYMBOL,
         LOCALE_SYMBOL,
         MACHINE_TRANSLATED_SYMBOL,
-    } from '@parser/Symbols';
+    } from '#parser/Symbols.ts';
 
     interface Props {
         /** Determines whether to show locale menu button (footer vs. speech bubble) */
@@ -382,7 +386,7 @@
                     path={(l) => l.ui.dialog.locale.request.submitting}
                 /></p
             >
-        {:else if requestStatus === 'success' && requestIssueUrl}
+        {:else if requestStatus === 'success' && requestIssueUrl && isExternalURL(requestIssueUrl)}
             <p class="request-status">
                 <Link external to={requestIssueUrl}>
                     {#if requestExisting}

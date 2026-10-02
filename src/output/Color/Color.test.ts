@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
-import { toColor } from '@output/Color/Color';
-import { Focals } from '@output/Color/BasicColors';
+import evaluateCode from '#runtime/evaluate.ts';
+import { toColor } from '#output/Color/Color.ts';
+import { Focals } from '#output/Color/BasicColors.ts';
 
 test('Color.random() returns one of the basic colors', () => {
     const color = toColor(evaluateCode('Color.random()'));

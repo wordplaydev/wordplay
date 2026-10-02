@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase-admin/app';
-import { isRecord } from '@util/guards';
+import { isRecord } from '#util/guards.ts';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import type { Character } from '../src/db/characters/Character';
@@ -8,7 +8,7 @@ import Project from '../src/db/projects/Project';
 import DefaultLocale from '../src/locale/DefaultLocale';
 import Source from '../src/nodes/Source';
 import { SEED_PROJECTS, type SeedProject } from './seedProjects';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
 process.env.FIRESTORE_EMULATOR_HOST = '127.0.0.1:8080';

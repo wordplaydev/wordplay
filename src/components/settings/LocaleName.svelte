@@ -1,12 +1,12 @@
 <script lang="ts">
-    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
-    import { Languages } from '@locale/LanguageCode';
-    import type Locale from '@locale/Locale';
+    import MachineTranslatedAnnotation from '#components/app/MachineTranslatedAnnotation.svelte';
+    import { Languages } from '#locale/LanguageCode.ts';
+    import type Locale from '#locale/Locale.ts';
     import {
         getLocaleLanguages,
         getLocaleRegionNames,
         isLocaleDraft,
-    } from '@locale/LocaleText';
+    } from '#locale/LocaleText.ts';
 
     interface Props {
         locale: string | Locale;

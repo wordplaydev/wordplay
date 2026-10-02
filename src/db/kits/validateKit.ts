@@ -1,10 +1,10 @@
-import type Conflict from '@conflicts/Conflict';
-import type Source from '@nodes/Source';
+import type Conflict from '#conflicts/Conflict.ts';
+import type Source from '#nodes/Source.ts';
 import {
     getSourceShareConflicts,
     kitExports,
     type PublishedShare,
-} from '@nodes/publishedShare';
+} from '#nodes/publishedShare.ts';
 
 /**
  * The name to record for an export, or the arrow for a conversion, which has none.

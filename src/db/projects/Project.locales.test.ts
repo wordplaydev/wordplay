@@ -1,12 +1,12 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { isLocaleText } from '@locale/isLocaleText';
-import Project from '@db/projects/Project';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
-import Sym from '@nodes/Sym';
-import { first, must } from '@util/nullable';
-import { buildKeywordIndex } from '@parser/Keywords';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isLocaleText } from '#locale/isLocaleText.ts';
+import Project from '#db/projects/Project.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
+import Sym from '#nodes/Sym.ts';
+import { first, must } from '#util/nullable.ts';
+import { buildKeywordIndex } from '#parser/Keywords.ts';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
 

@@ -1,7 +1,7 @@
-import type LocaleText from '@locale/LocaleText';
-import { isRecord } from '@util/guards';
-import LocaleSchema from '@util/verify-locales/LocaleSchema';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isRecord } from '#util/guards.ts';
+import LocaleSchema from '#util/verify-locales/LocaleSchema.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
 
 /**
  * Find user-visible string fields whose locale type declaration is missing a

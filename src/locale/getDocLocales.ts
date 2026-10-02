@@ -1,16 +1,16 @@
-import { parseLocaleDoc } from '@locale/LocaleText';
-import Docs from '@nodes/Docs';
-import Doc from '@nodes/Doc';
-import type { MarkupSource } from '@nodes/Markup';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import { toDocString, type DocText } from '@locale/LocaleText';
-import { localeToLanguage } from '@locale/localeToLanguage';
-import selectTranslation from '@locale/selectTranslation';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+import { parseLocaleDoc } from '#locale/LocaleText.ts';
+import Docs from '#nodes/Docs.ts';
+import Doc from '#nodes/Doc.ts';
+import type { MarkupSource } from '#nodes/Markup.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { toDocString, type DocText } from '#locale/LocaleText.ts';
+import { localeToLanguage } from '#locale/localeToLanguage.ts';
+import selectTranslation from '#locale/selectTranslation.ts';
+import { DOCS_SYMBOL } from '#parser/Symbols.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 export function getDocLocales(
     locales: Locales,

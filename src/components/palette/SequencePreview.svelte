@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { SequencePreview } from '@components/palette/sequencePreviews';
+    import type { SequencePreview } from '#components/palette/sequencePreviews.ts';
     import type { Snippet } from 'svelte';
 
     interface Props {

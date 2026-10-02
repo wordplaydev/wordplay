@@ -1,6 +1,6 @@
-import type { SupportedLocale } from '@locale/SupportedLocales';
-import { isRecord } from '@util/guards';
-import versioned from '@db/locales/versioned';
+import type { SupportedLocale } from '#locale/SupportedLocales.ts';
+import { isRecord } from '#util/guards.ts';
+import versioned from '#db/locales/versioned.ts';
 
 /**
  * One locale's changelog translations, keyed by the entry ids in

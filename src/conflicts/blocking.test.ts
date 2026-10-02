@@ -1,6 +1,6 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { expect, test } from 'vitest';

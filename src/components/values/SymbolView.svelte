@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { SymType } from '@nodes/Sym';
-    import TokenCategories from '@components/editor/tokens/TokenCategories';
+    import type { SymType } from '#nodes/Sym.ts';
+    import TokenCategories from '#components/editor/tokens/TokenCategories.ts';
 
     interface Props {
         symbol: string;

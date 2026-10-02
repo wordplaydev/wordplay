@@ -20,17 +20,17 @@
      * a tempo change that can't be kept, a drum with no match — so there is
      * nothing for a creator to choose, only something to know.
      */
-    import ProgressBar from '@components/widgets/ProgressBar.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import freshSourceName from '@edit/freshSourceName';
-    import type Node from '@nodes/Node';
-    import { MUSIC_SYMBOL } from '@parser/Symbols';
+    import ProgressBar from '#components/widgets/ProgressBar.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import MarkupHtmlView from '#components/concepts/MarkupHTMLView.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import freshSourceName from '#edit/freshSourceName.ts';
+    import type Node from '#nodes/Node.ts';
+    import { MUSIC_SYMBOL } from '#parser/Symbols.ts';
 
     /**
      * The arrow on the import button. Deliberately not `BORROW_SYMBOL` (`↓`),
@@ -39,15 +39,15 @@
      * arrow on a file picker reads as a download.
      */
     const UPLOAD_GLYPH = '↑';
-    import readMusic, { musicsIn } from '@edit/output/editableMusic';
-    import type { LocaleTextsAccessor } from '@locale/Locales';
-    import type { TemplateInput } from '@locale/Locales';
+    import readMusic, { musicsIn } from '#edit/output/editableMusic.ts';
+    import type { LocaleTextsAccessor } from '#locale/Locales.ts';
+    import type { TemplateInput } from '#locale/Locales.ts';
     import importMIDI, {
         isFormatError,
         looksLikeMIDI,
-    } from '@output/Music/midi/importMIDI';
-    import type { Finding } from '@output/Music/midi/convert';
-    import { must } from '@util/nullable';
+    } from '#output/Music/midi/importMIDI.ts';
+    import type { Finding } from '#output/Music/midi/convert.ts';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         project: Project;

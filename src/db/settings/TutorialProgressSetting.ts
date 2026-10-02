@@ -1,10 +1,10 @@
 import {
     isLanguageCode,
     type default as LanguageCode,
-} from '@locale/LanguageCode';
-import { isRecord } from '@util/guards';
-import { isRegionCode, type RegionCode } from '@locale/Regions';
-import Setting from '@db/settings/Setting';
+} from '#locale/LanguageCode.ts';
+import { isRecord } from '#util/guards.ts';
+import { isRegionCode, type RegionCode } from '#locale/Regions.ts';
+import Setting from '#db/settings/Setting.ts';
 import {
     parseTutorialMode,
     type TutorialMode,

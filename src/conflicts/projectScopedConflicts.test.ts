@@ -1,11 +1,11 @@
-import { BorrowCycle } from '@conflicts/BorrowCycle';
-import ShadowsKeyword from '@conflicts/ShadowsKeyword';
-import { UnknownBorrow } from '@conflicts/UnknownBorrow';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Borrow from '@nodes/Borrow';
-import Program from '@nodes/Program';
-import Source from '@nodes/Source';
+import { BorrowCycle } from '#conflicts/BorrowCycle.ts';
+import ShadowsKeyword from '#conflicts/ShadowsKeyword.ts';
+import { UnknownBorrow } from '#conflicts/UnknownBorrow.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Borrow from '#nodes/Borrow.ts';
+import Program from '#nodes/Program.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 
 /**

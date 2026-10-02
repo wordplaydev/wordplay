@@ -9,7 +9,7 @@ import CueScheduler, {
     MinimumCueMs,
     type CueEvent,
 } from './cues';
-import { keysOf } from '@util/nullable';
+import { keysOf } from '#util/nullable.ts';
 
 /** A stand-in for an evaluator, which the scheduler only uses as an identity. */
 function evaluator(): object {

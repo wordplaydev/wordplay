@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 import exceedsMoveThreshold, {
     MouseMoveThreshold,
     TouchMoveThreshold,
-} from '@components/output/moveThreshold';
+} from '#components/output/moveThreshold.ts';
 
 describe('exceedsMoveThreshold', () => {
     test('a one-pixel wobble is not a move', () => {

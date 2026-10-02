@@ -1,4 +1,4 @@
-import samples from '@output/Music/InstrumentSamples';
+import samples from '#output/Music/InstrumentSamples.ts';
 
 /**
  * Reactive container for instrument sample loading, so the stage can say what

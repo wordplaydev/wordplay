@@ -1,7 +1,7 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Evaluate from '@nodes/Evaluate';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 import { kitsNeededBy, resolveKits, type KitResolver } from './resolveKits';
 

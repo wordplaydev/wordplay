@@ -11,7 +11,7 @@
  * (which hands over a dropped `File`'s bytes). No `Buffer`, no `fs`.
  */
 
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /** One sounding note, with times still in the file's own tick units. */
 export type MIDINote = {

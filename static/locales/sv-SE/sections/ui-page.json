@@ -86,7 +86,7 @@
                             "• Dina egna namn kan också vara flerspråkiga:\n\\katt2/sv, gato/es: '🐈'\nFras(katt2)\\",
                             "• Text har ett språk, och visas på det språk din publik läser: \\'hej'/sv'hola'/es\\.",
                             "• Själva webbplatsen finns på 29 språk och du kan välja fler än ett åt gången. Texten visas på alla valda språk.",
-                            "• Du kan hjälpa till att översätta @wordplay direkt i appen på <localize//localize>."
+                            "• Du kan hjälpa till att översätta @wordplay direkt i appen på <localize@://localize>."
                         ]
                     },
                     "accessible": {
@@ -123,7 +123,7 @@
                         "title": "$~Wordplay är typografi",
                         "bullets": [
                             "$~• Hundratals typsnitt, som täcker världens skriftsystem.",
-                            "• Du kan rita dina egna <specialtecken//characters> och använda dem var som helst en emoji kan användas.",
+                            "• Du kan rita dina egna <specialtecken@://characters> och använda dem var som helst en emoji kan användas.",
                             "• Konturen av varje bokstav är data du kan läsa och animera, med @Contour: \\Kontur('a' 'Noto Sans')\\.",
                             "• Text bryts enligt reglerna för det språk den är skriven på.",
                             "• Höger-till-vänster-skrift och vertikal skrift läggs upp på rätt sätt."
@@ -133,7 +133,7 @@
                         "title": "$~Wordplay förklarar sig själv",
                         "bullets": [
                             "$~• Dokumentation är en del av språket med @Doc, inte en kommentar vid sidan om.",
-                            "• En sökbar <guide//guide> förklarar varje inbyggd funktion, med exempel.",
+                            "• En sökbar <guide@://guide> förklarar varje inbyggd funktion, med exempel.",
                             "• Varje fel förklaras där det uppstod, på ditt eget språk.",
                             "• Du kan stega igenom ett program framåt /och/ bakåt för att felsöka vad som hände.",
                             "• Medan du stegar visas varje värde direkt i koden som skapade det."
@@ -156,7 +156,7 @@
                             "• Det är öppen källkod: du kan läsa hur det fungerar och du kan hjälpa oss att ändra det.",
                             "• Det kommer från <University of Washington@https://ischool.uw.edu/>, Information School.",
                             "• Det finns en gemenskap av skapare, lärare och bidragsgivare.",
-                            "• <Donationer//donate> betalar för vad det kostar att driva det."
+                            "• <Donationer@://donate> betalar för vad det kostar att driva det."
                         ]
                     }
                 }
@@ -499,7 +499,7 @@
                     "content": [
                         "$~Funderar du på om *Wordplay* går bra att använda i din skola eller kommun? Här är vad vi kan och inte kan lova.",
                         "Vi är inget företag. Vi är ett samhällsbaserat forskningsprojekt som hör hemma på ett icke-vinstdrivande universitet, och vi har inga intäkter. Det betyder att det finns avtal vi inte kan skriva under, hur mycket vi än vill hjälpa till. Vi kan inte lova att betala en kommuns rättegångskostnader om den blir stämd. Vi kan inte lova att lösa ett problem inom en bestämd tid. Att skriva under ett löfte vi inte kan hålla skulle inte hjälpa någon, allra minst dig.",
-                        "Här är vad vi kan lova. Vi håller plattformen enligt tillgänglighetskraven i /WCAG 2.2 nivå AA/, vi kontrollerar det automatiskt vid varje ändring, och vi rättar det vi hittar så snabbt en frivillig gemenskap kan. Vi samlar in så lite som möjligt om de som använder plattformen, och vi använder det bara för att driva plattformen. Vår sida <rights//rights> visar exakt vad vi lagrar, och vår <source@https://github.com/wordplaydev/wordplay> är öppen för alla, så du kan kontrollera allt detta själv.",
+                        "Här är vad vi kan lova. Vi håller plattformen enligt tillgänglighetskraven i /WCAG 2.2 nivå AA/, vi kontrollerar det automatiskt vid varje ändring, och vi rättar det vi hittar så snabbt en frivillig gemenskap kan. Vi samlar in så lite som möjligt om de som använder plattformen, och vi använder det bara för att driva plattformen. Vår sida <rights@://rights> visar exakt vad vi lagrar, och vår <source@https://github.com/wordplaydev/wordplay> är öppen för alla, så du kan kontrollera allt detta själv.",
                         "Denna plattform ändras hela tiden, och det gör även reglerna du måste följa. Om det finns något du behöver som vi ännu inte erbjuder, skriv till oss på hi@wordplay.dev och berätta om det. De som underhåller plattformen läser det, och vi skriver tillbaka."
                     ],
                     "link": "$~Skriv till oss om ett krav",
@@ -1261,7 +1261,7 @@
             },
             "thanks": {
                 "header": "$~Tack",
-                "intro": "$~Tack till våra *$#count[$count bidragsgivare|$count bidragsgivare]* för att ni bidragit till @wordplay design, utveckling, lokalisering och innehåll! Och tack till alla lärare och unga som har väglett vår design i fokusgrupper, designmöten och klassrum, som vi inte listar här för att skydda deras integritet.\n\nDetta projekt har fått stöd av National Science Foundation genom anslagen 2318257, 2031265, 2100296 och 2122950, av University of Washington, och genom generösa <gåvor//donate> från människor som du.",
+                "intro": "$~Tack till våra *$#count[$count bidragsgivare|$count bidragsgivare]* för att ni bidragit till @wordplay design, utveckling, lokalisering och innehåll! Och tack till alla lärare och unga som har väglett vår design i fokusgrupper, designmöten och klassrum, som vi inte listar här för att skydda deras integritet.\n\nDetta projekt har fått stöd av National Science Foundation genom anslagen 2318257, 2031265, 2100296 och 2122950, av University of Washington, och genom generösa <gåvor@://donate> från människor som du.",
                 "teachers": "$~Lärare",
                 "contributors": "$~Bidragsgivare"
             },

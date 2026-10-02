@@ -11,20 +11,20 @@
   a slot" notice replaces the chips.
 -->
 <script lang="ts">
-    import { isBCTKey } from '@output/Color/BasicColors';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import EditorNotice from '@components/editor/EditorNotice.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { getAnnouncer } from '@components/project/Contexts';
-    import { Creators, locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type { Creator } from '@db/creators/CreatorDatabase';
+    import { isBCTKey } from '#output/Color/BasicColors.ts';
+    import CreatorView from '#components/app/CreatorView.svelte';
+    import EditorNotice from '#components/editor/EditorNotice.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
+    import { Creators, locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
     import {
         assignDistinctColors,
         isPresenceStale,
-    } from '@db/projects/ProjectPresence';
-    import type { BCTKey } from '@output/Color/BasicColors';
-    import { Focals } from '@output/Color/BasicColors';
+    } from '#db/projects/ProjectPresence.ts';
+    import type { BCTKey } from '#output/Color/BasicColors.ts';
+    import { Focals } from '#output/Color/BasicColors.ts';
     import { onDestroy, untrack } from 'svelte';
 
     interface Props {

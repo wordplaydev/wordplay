@@ -1,30 +1,30 @@
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import type Menu from '@edit/menu/Menu';
-    import { RevisionSet } from '@edit/menu/Menu';
-    import MenuAction from '@edit/menu/MenuAction';
-    import MenuActionItem from '@components/editor/menu/MenuActionItem.svelte';
-    import Revision from '@edit/revision/Revision';
-    import Node, { isFieldPosition, ListOf } from '@nodes/Node';
+    import Subheader from '#components/app/Subheader.svelte';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import type Menu from '#edit/menu/Menu.ts';
+    import { RevisionSet } from '#edit/menu/Menu.ts';
+    import MenuAction from '#edit/menu/MenuAction.ts';
+    import MenuActionItem from '#components/editor/menu/MenuActionItem.svelte';
+    import Revision from '#edit/revision/Revision.ts';
+    import Node, { isFieldPosition, ListOf } from '#nodes/Node.ts';
     import { tick } from 'svelte';
-    import { locales } from '@db/Database';
-    import Token from '@nodes/Token';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import MenuItem from '@components/editor/menu/MenuItem.svelte';
+    import { locales } from '#db/Database.ts';
+    import Token from '#nodes/Token.ts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import MenuItem from '#components/editor/menu/MenuItem.svelte';
     import {
         menuMaxHeight,
         placeMenu,
         submenuFlips,
         type MenuPosition,
-    } from '@components/editor/menu/menuPlacement';
+    } from '#components/editor/menu/menuPlacement.ts';
     import {
         hoverSelects,
         isTap,
         type PressPoint,
-    } from '@components/editor/menu/menuPointer';
+    } from '#components/editor/menu/menuPointer.ts';
 
     interface Props {
         menu: Menu;

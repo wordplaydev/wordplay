@@ -1,4 +1,4 @@
-import { collectingLog } from '@util/verify-locales/Log';
+import { collectingLog } from '#util/verify-locales/Log.ts';
 import { describe, expect, test } from 'vitest';
 import {
     ConceptPattern,
@@ -12,7 +12,7 @@ import {
     unwrapProtected,
     wrapMentions,
     wrapProtected,
-} from '@util/verify-locales/translate';
+} from '#util/verify-locales/translate.ts';
 
 test.each([
     ['Hello $blah', 'Hola $boo', 'Hola $blah', MentionPattern],

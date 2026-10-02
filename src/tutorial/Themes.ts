@@ -41,8 +41,8 @@
  * the dialogue.
  */
 
-import type { InstrumentKey } from '@output/Music/instruments';
-import type { ScaleKey } from '@output/Music/scales';
+import type { InstrumentKey } from '#output/Music/instruments.ts';
+import type { ScaleKey } from '#output/Music/scales.ts';
 import { ThemeNames, type ThemeName } from './ThemeNames';
 
 /** A degree, a chord, or `null` for a rest. */

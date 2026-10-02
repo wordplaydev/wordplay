@@ -1,16 +1,16 @@
-import type LocaleText from '@locale/LocaleText';
-import type Evaluate from '@nodes/Evaluate';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type NameType from '@nodes/NameType';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Type from '@nodes/Type';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type NameType from '#nodes/NameType.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Type from '#nodes/Type.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
 
 export default class UnexpectedTypeInput extends Conflict {
     readonly evaluate: NameType | Evaluate;

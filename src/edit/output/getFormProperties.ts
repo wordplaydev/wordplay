@@ -1,12 +1,12 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import type { LocaleTextsAccessor } from '@locale/Locales';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import Evaluate from '@nodes/Evaluate';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyNumber from '@edit/output/OutputPropertyNumber';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextsAccessor } from '#locale/Locales.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyNumber from '#edit/output/OutputPropertyNumber.ts';
 
 /** A number-in-meters field property. */
 function meters(name: LocaleTextsAccessor): OutputProperty {

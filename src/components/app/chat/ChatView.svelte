@@ -5,63 +5,63 @@
 </script>
 
 <script lang="ts">
-    import type LocaleText from '@locale/LocaleText';
-    import { isProxySession } from '@db/proxySession';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import TranslationMeter from '@components/app/TranslationMeter.svelte';
-    import { getFunctionsInstance } from '@db/firebase';
-    import getLocalTranslator from '@db/getLocalTranslator';
-    import getPreferredTranslator from '@db/getPreferredTranslator';
-    import type { TranslationBackend } from '@db/chooseTranslator';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import { isProxySession } from '#db/proxySession.ts';
+    import CreatorView from '#components/app/CreatorView.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import TranslationMeter from '#components/app/TranslationMeter.svelte';
+    import { getFunctionsInstance } from '#db/firebase.ts';
+    import getLocalTranslator from '#db/getLocalTranslator.ts';
+    import getPreferredTranslator from '#db/getPreferredTranslator.ts';
+    import type { TranslationBackend } from '#db/chooseTranslator.ts';
     import {
         translateMarkupTexts,
         type MarkupTranslationInput,
-    } from '@db/translateMarkup';
+    } from '#db/translateMarkup.ts';
     import {
         SupportedLocales,
         type SupportedLocale,
-    } from '@locale/SupportedLocales';
-    import { getLanguageDirection } from '@locale/LanguageCode';
+    } from '#locale/SupportedLocales.ts';
+    import { getLanguageDirection } from '#locale/LanguageCode.ts';
     import {
         localesAreEqual,
         localeToString,
         stringToLocale,
         type default as Locale,
-    } from '@locale/Locale';
+    } from '#locale/Locale.ts';
     import {
         getLocaleRegionNames,
         getMultilingualLanguageLabel,
-    } from '@locale/LocaleText';
-    import Loading from '@components/app/Loading.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import TileMessage from '@components/project/TileMessage.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
+    } from '#locale/LocaleText.ts';
+    import Loading from '#components/app/Loading.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import TileMessage from '#components/project/TileMessage.svelte';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import FormattedEditor from '#components/widgets/FormattedEditor.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
     import ReportMessage from './ReportMessage.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import MessageReactions from '@components/app/chat/MessageReactions.svelte';
-    import ReactionPicker from '@components/app/chat/ReactionPicker.svelte';
-    import { localizedNameOfGlyph } from '@unicode/glyphName';
+    import Emoji from '#components/app/Emoji.svelte';
+    import MessageReactions from '#components/app/chat/MessageReactions.svelte';
+    import ReactionPicker from '#components/app/chat/ReactionPicker.svelte';
+    import { localizedNameOfGlyph } from '#unicode/glyphName.ts';
     import {
         foundAnnouncement,
         reactionAnnouncement,
         referenceAnnouncement,
         threadAnnouncement,
-    } from '@components/app/chat/chatAnnounce';
-    import { groupThreads, replyCount } from '@db/chats/threads';
-    import CodeReferenceChip from '@components/app/chat/CodeReferenceChip.svelte';
+    } from '#components/app/chat/chatAnnounce.ts';
+    import { groupThreads, replyCount } from '#db/chats/threads.ts';
+    import CodeReferenceChip from '#components/app/chat/CodeReferenceChip.svelte';
     import {
         linesOfNode,
         referenceLabel,
         referenceTargetOf,
-    } from '@db/chats/codeReference';
+    } from '#db/chats/codeReference.ts';
     import {
         getAnnouncer,
         getEditors,
@@ -69,18 +69,18 @@
         getMessageRequest,
         getResolvedReferences,
         getUser,
-    } from '@components/project/Contexts';
-    import Toggle from '@components/widgets/Toggle.svelte';
+    } from '#components/project/Contexts.ts';
+    import Toggle from '#components/widgets/Toggle.svelte';
     import {
         howToVisibility,
         projectVisibility,
-    } from '@db/moderation/visibility';
-    import type Chat from '@db/chats/ChatDatabase.svelte';
+    } from '#db/moderation/visibility.ts';
+    import type Chat from '#db/chats/ChatDatabase.svelte.ts';
     import {
         type SerializedCodeReference,
         type SerializedMessage,
-    } from '@db/chats/ChatDatabase.svelte';
-    import type { Creator } from '@db/creators/CreatorDatabase';
+    } from '#db/chats/ChatDatabase.svelte.ts';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
     import {
         Chats,
         Galleries,
@@ -88,12 +88,12 @@
         Settings,
         chatThreadsSeen,
         locales,
-    } from '@db/Database';
-    import type Gallery from '@db/galleries/Gallery';
-    import type HowTo from '@db/howtos/HowToDatabase.svelte';
-    import type Project from '@db/projects/Project';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import { localeGoto } from '@util/localeGoto';
+    } from '#db/Database.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import type HowTo from '#db/howtos/HowToDatabase.svelte.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
     import { tick, untrack } from 'svelte';
 
     interface Props {
@@ -1535,7 +1535,7 @@
         {/if}
         <form
             class="new"
-            data-sveltekit-keepfocus
+            data-sveltekit-reset="false"
             onfocusin={() => composing?.(true)}
             onfocusout={(event) => {
                 // Only when focus actually leaves the composer: the editor's toolbar

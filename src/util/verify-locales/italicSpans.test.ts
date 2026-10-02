@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 import checkItalicSpans, { swapItalic } from './checkItalicSpans';
 import {
     getItalicLabels,

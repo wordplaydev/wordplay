@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type ConversionType from '@nodes/ConversionType';
+    import type ConversionType from '#nodes/ConversionType.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: ConversionType;

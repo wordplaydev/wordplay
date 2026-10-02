@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { escapeCSVField, parseCSV, writeCSVRows } from '@values/export/csv';
+import { escapeCSVField, parseCSV, writeCSVRows } from '#values/export/csv.ts';
 
 test.each([
     ['plain', 'plain'],

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import ts from 'typescript';
-import { must } from '@util/nullable';
-import { removeJsonKey, removeProperty } from '@util/verify-locales/prune';
+import { must } from '#util/nullable.ts';
+import { removeJsonKey, removeProperty } from '#util/verify-locales/prune.ts';
 
 /** Parse an inline TypeScript source and return the members of the first
  *  type alias / interface declaration. Lets tests call `removeProperty`

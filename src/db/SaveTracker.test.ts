@@ -1,6 +1,6 @@
 import { FirebaseError } from 'firebase/app';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { SyncDomain } from '@db/Domains';
+import type { SyncDomain } from '#db/Domains.ts';
 import type { Mock } from 'vitest';
 import SaveTracker, {
     type RePush,
@@ -9,7 +9,7 @@ import SaveTracker, {
 
 // SaveTracker imports SaveFailureReason as a value; the real module drags the
 // whole persistence graph in, the same reason CharacterDatabase.test.ts mocks it.
-vi.mock('@db/Database', () => ({
+vi.mock('#db/Database.ts', () => ({
     SaveFailureReason: {
         FirestoreBatchFailed: 'firestore-batch-failed',
         CloudWriteRefused: 'cloud-write-refused',
@@ -17,7 +17,7 @@ vi.mock('@db/Database', () => ({
 }));
 
 const refreshAuthToken = vi.fn(async () => {});
-vi.mock('@db/firebase', () => ({
+vi.mock('#db/firebase.ts', () => ({
     refreshAuthToken: () => refreshAuthToken(),
 }));
 

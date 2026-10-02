@@ -1,20 +1,20 @@
-import type LocaleText from '@locale/LocaleText';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Expression from '@nodes/Expression';
-import FormattedType from '@nodes/FormattedType';
-import Language from '@nodes/Language';
-import Markup from '@nodes/Markup';
-import type { Segment } from '@nodes/Paragraph';
-import type Type from '@nodes/Type';
-import BoolValue from '@values/BoolValue';
-import NumberValue from '@values/NumberValue';
-import SimpleValue from '@values/SimpleValue';
-import { sameLanguage, type default as TextValue } from '@values/TextValue';
-import type Value from '@values/Value';
-import { lowerCase, upperCase } from '@unicode/casing';
-import UnicodeString from '@unicode/UnicodeString';
+import type LocaleText from '#locale/LocaleText.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Expression from '#nodes/Expression.ts';
+import FormattedType from '#nodes/FormattedType.ts';
+import Language from '#nodes/Language.ts';
+import Markup from '#nodes/Markup.ts';
+import type { Segment } from '#nodes/Paragraph.ts';
+import type Type from '#nodes/Type.ts';
+import BoolValue from '#values/BoolValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import SimpleValue from '#values/SimpleValue.ts';
+import { sameLanguage, type default as TextValue } from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import { lowerCase, upperCase } from '#unicode/casing.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 
 export default class MarkupValue extends SimpleValue {
     readonly markup: Markup;

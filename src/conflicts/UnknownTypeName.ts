@@ -1,15 +1,15 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import type NameType from '@nodes/NameType';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import type NameType from '#nodes/NameType.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Node from '@nodes/Node';
-import TypePlaceholder from '@nodes/TypePlaceholder';
+} from '#conflicts/Conflict.ts';
+import type Node from '#nodes/Node.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
 
 export class UnknownTypeName extends Conflict {
     readonly name: NameType;

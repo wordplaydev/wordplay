@@ -1,7 +1,7 @@
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
 
 /**
  * The node whose scope a menu suggestion for a *neighbouring* field should be drawn from.

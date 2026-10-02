@@ -1,65 +1,65 @@
-import type Conflict from '@conflicts/Conflict';
-import { getKeywordShadowConflicts } from '@conflicts/ShadowsKeyword';
-import { DisallowedInputs } from '@conflicts/DisallowedInputs';
-import { IncompleteImplementation } from '@conflicts/IncompleteImplementation';
-import NotAnInterface from '@conflicts/NotAnInterface';
-import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Initialize from '@runtime/Initialize';
-import Start from '@runtime/Start';
-import StartFinish from '@runtime/StartFinish';
-import type Step from '@runtime/Step';
-import InternalException from '@values/InternalException';
-import StructureDefinitionValue from '@values/StructureDefinitionValue';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+import type Conflict from '#conflicts/Conflict.ts';
+import { getKeywordShadowConflicts } from '#conflicts/ShadowsKeyword.ts';
+import { DisallowedInputs } from '#conflicts/DisallowedInputs.ts';
+import { IncompleteImplementation } from '#conflicts/IncompleteImplementation.ts';
+import NotAnInterface from '#conflicts/NotAnInterface.ts';
+import { UnimplementedInterface } from '#conflicts/UnimplementedInterface.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Initialize from '#runtime/Initialize.ts';
+import Start from '#runtime/Start.ts';
+import StartFinish from '#runtime/StartFinish.ts';
+import type Step from '#runtime/Step.ts';
+import InternalException from '#values/InternalException.ts';
+import StructureDefinitionValue from '#values/StructureDefinitionValue.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import { SHARE_SYMBOL } from '@parser/Symbols';
-import Bind from '@nodes/Bind';
-import Block from '@nodes/Block';
-import type Context from '@nodes/Context';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import type Definition from '@nodes/Definition';
-import DefinitionExpression from '@nodes/DefinitionExpression';
-import Docs from '@nodes/Docs';
-import EvalCloseToken from '@nodes/EvalCloseToken';
-import EvalOpenToken from '@nodes/EvalOpenToken';
-import Evaluate from '@nodes/Evaluate';
+import { SHARE_SYMBOL } from '#parser/Symbols.ts';
+import Bind from '#nodes/Bind.ts';
+import Block from '#nodes/Block.ts';
+import type Context from '#nodes/Context.ts';
+import ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import type Definition from '#nodes/Definition.ts';
+import DefinitionExpression from '#nodes/DefinitionExpression.ts';
+import Docs from '#nodes/Docs.ts';
+import EvalCloseToken from '#nodes/EvalCloseToken.ts';
+import EvalOpenToken from '#nodes/EvalOpenToken.ts';
+import Evaluate from '#nodes/Evaluate.ts';
 import Expression, {
     ExpressionKind,
     type GuardContext,
-} from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Names from '@nodes/Names';
-import NameType from '@nodes/NameType';
-import type Node from '@nodes/Node';
+} from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Names from '#nodes/Names.ts';
+import NameType from '#nodes/NameType.ts';
+import type Node from '#nodes/Node.ts';
 import {
     list,
     node,
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
-import StructureType from '@nodes/StructureType';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import TypeToken from '@nodes/TypeToken';
-import TypeVariables from '@nodes/TypeVariables';
+} from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import StructureDefinitionType from '#nodes/StructureDefinitionType.ts';
+import StructureType from '#nodes/StructureType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import TypeToken from '#nodes/TypeToken.ts';
+import TypeVariables from '#nodes/TypeVariables.ts';
 import {
     getEvaluationInputConflicts,
     getMisplacedShareConflicts,
-} from '@nodes/util';
-import { getPublishedShareConflicts } from '@nodes/publishedShare';
-import { must } from '@util/nullable';
+} from '#nodes/util.ts';
+import { getPublishedShareConflicts } from '#nodes/publishedShare.ts';
+import { must } from '#util/nullable.ts';
 
 export default class StructureDefinition extends DefinitionExpression {
     readonly docs: Docs;
@@ -86,7 +86,7 @@ export default class StructureDefinition extends DefinitionExpression {
      *  opt in to a builder that runs once on first static-member access,
      *  with its result cached. */
     staticBuilder?: (
-        evaluator: import('@runtime/Evaluator').default,
+        evaluator: import('#runtime/Evaluator.ts').default,
         def: StructureDefinition,
     ) => Map<Bind, Value>;
 

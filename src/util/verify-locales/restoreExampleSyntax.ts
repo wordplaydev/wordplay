@@ -1,5 +1,5 @@
-import { Sym } from '@nodes/Sym';
-import { tokens } from '@parser/Tokenizer';
+import { Sym } from '#nodes/Sym.ts';
+import { tokens } from '#parser/Tokenizer.ts';
 
 /**
  * Put back the syntax of a changelog entry's code examples, keeping the names a

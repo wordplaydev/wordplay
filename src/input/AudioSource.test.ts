@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
-import { first, must } from '@util/nullable';
+import { first, must } from '#util/nullable.ts';
 import { acquireAudioSource } from './AudioSource';
 
 /**

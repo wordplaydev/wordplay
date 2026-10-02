@@ -1,13 +1,13 @@
 <script lang="ts">
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Centered from '@components/app/Centered.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import { type Class } from '@db/teachers/TeacherDatabase.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getTeachData } from '@db/teachers/TeachData.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Centered from '#components/app/Centered.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import { type Class } from '#db/teachers/TeacherDatabase.svelte.ts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getTeachData } from '#db/teachers/TeachData.svelte.ts';
     import TeachersOnly from './TeachersOnly.svelte';
 
     let teach = getTeachData();

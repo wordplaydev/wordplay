@@ -1,13 +1,13 @@
 <script lang="ts">
-    import ModerationFlags from '@components/moderation/ModerationFlags.svelte';
-    import Header from '@components/app/Header.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Page from '@components/app/Page.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import ProjectView from '@components/project/ProjectView.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import ModerationFlags from '#components/moderation/ModerationFlags.svelte';
+    import Header from '#components/app/Header.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Page from '#components/app/Page.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import ProjectView from '#components/project/ProjectView.svelte';
+    import Checkbox from '#components/widgets/Checkbox.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import {
         FieldPath,
         and,
@@ -26,31 +26,31 @@
     } from 'firebase/firestore';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import { getUser, setConceptPath } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import { DB, disconnected } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import { firestore } from '@db/firebase';
-    import type { ModerationState } from '@db/projects/Moderation';
-    import { Flags, isModerator, withFlag } from '@db/projects/Moderation';
-    import type Project from '@db/projects/Project';
-    import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
-    import moderate from '@db/moderation/moderate';
-    import { curatesAnyGallery, isReviewer } from '@db/moderation/reviewer';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import { getUser, setConceptPath } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import { DB, disconnected } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import { firestore } from '#db/firebase.ts';
+    import type { ModerationState } from '#db/projects/Moderation.ts';
+    import { Flags, isModerator, withFlag } from '#db/projects/Moderation.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { ProjectsCollection } from '#db/projects/ProjectsDatabase.svelte.ts';
+    import moderate from '#db/moderation/moderate.ts';
+    import { curatesAnyGallery, isReviewer } from '#db/moderation/reviewer.ts';
     import {
         StrikesCollection,
         StrikesUntilBanned,
-    } from '@db/creators/strikes.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
+    } from '#db/creators/strikes.svelte.ts';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
     import GalleryQueue from './GalleryQueue.svelte';
     import HowToQueue from './HowToQueue.svelte';
     import KitQueue from './KitQueue.svelte';
     import ReportQueue from './ReportQueue.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import { mayUseEmail } from '@db/creators/handle.svelte';
+    import { Creator } from '#db/creators/CreatorDatabase.ts';
+    import { mayUseEmail } from '#db/creators/handle.svelte.ts';
 
     /** Which queue is showing. Projects first: it's the older and busier one,
      *  and it's the one a platform moderator lands on. Someone who only curates

@@ -1,27 +1,27 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import type Names from '@nodes/Names';
-import StructureDefinition from '@nodes/StructureDefinition';
-import StructureType from '@nodes/StructureType';
-import type Type from '@nodes/Type';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type Names from '#nodes/Names.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import StructureType from '#nodes/StructureType.ts';
+import type Type from '#nodes/Type.ts';
 import {
     BIND_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     TYPE_SYMBOL,
-} from '@parser/Symbols';
-import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import BoolValue from '@values/BoolValue';
-import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
-import FunctionValue from '@values/FunctionValue';
-import NumberValue from '@values/NumberValue';
-import TextValue from '@values/TextValue';
-import Value from '@values/Value';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
+} from '#parser/Symbols.ts';
+import Evaluation, { type EvaluationNode } from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import BoolValue from '#values/BoolValue.ts';
+import type ConversionDefinitionValue from '#values/ConversionDefinitionValue.ts';
+import FunctionValue from '#values/FunctionValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import TextValue from '#values/TextValue.ts';
+import Value from '#values/Value.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
 
 export default class StructureValue extends Value {
     readonly type: StructureDefinition;

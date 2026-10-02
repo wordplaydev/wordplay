@@ -1,8 +1,8 @@
-import type LocaleText from '@locale/LocaleText';
-import type Log from '@util/verify-locales/Log';
-import { docStatus } from '@util/verify-locales/checkStringArrays';
-import { leadingAnnotations } from '@util/verify-locales/protect';
-import { getCheckableLocalePairs } from '@util/verify-locales/verifyLocale';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import { docStatus } from '#util/verify-locales/checkStringArrays.ts';
+import { leadingAnnotations } from '#util/verify-locales/protect.ts';
+import { getCheckableLocalePairs } from '#util/verify-locales/verifyLocale.ts';
 
 /**
  * Check that a plain string carries at most one write-status annotation.

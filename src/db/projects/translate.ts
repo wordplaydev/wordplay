@@ -1,10 +1,10 @@
-import { Locales } from '@db/Database';
+import { Locales } from '#db/Database.ts';
 import getFirebaseTranslator, {
     type TranslationProgress,
-} from '@db/getFirebaseTranslator';
-import type Project from '@db/projects/Project';
-import type Locale from '@locale/Locale';
-import { localeToString } from '@locale/Locale';
+} from '#db/getFirebaseTranslator.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locale from '#locale/Locale.ts';
+import { localeToString } from '#locale/Locale.ts';
 import type { Functions } from 'firebase/functions';
 import translateProjectContent, {
     type TranslationPhase,

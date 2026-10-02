@@ -1,15 +1,15 @@
-import ValueRef from '@locale/ValueRef';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import type Value from '@values/Value';
-import type Locales from '@locale/Locales';
-import type Bind from '@nodes/Bind';
-import type { CallGraph } from '@db/projects/Analysis';
-import type Context from '@nodes/Context';
-import type Markup from '@nodes/Markup';
-import Node from '@nodes/Node';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
+import ValueRef from '#locale/ValueRef.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Step from '#runtime/Step.ts';
+import type Value from '#values/Value.ts';
+import type Locales from '#locale/Locales.ts';
+import type Bind from '#nodes/Bind.ts';
+import type { CallGraph } from '#db/projects/Analysis.ts';
+import type Context from '#nodes/Context.ts';
+import type Markup from '#nodes/Markup.ts';
+import Node from '#nodes/Node.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 export const ExpressionKind = {
     Simple: 'simple',

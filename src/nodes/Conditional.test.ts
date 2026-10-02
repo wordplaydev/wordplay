@@ -1,14 +1,14 @@
-import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import { conflictsIn, testConflict } from '@conflicts/TestUtilities';
-import { UnknownName } from '@conflicts/UnknownName';
+import ExpectedBooleanCondition from '#conflicts/ExpectedBooleanCondition.ts';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import { conflictsIn, testConflict } from '#conflicts/TestUtilities.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
 import { expect, test } from 'vitest';
-import type Conflict from '@conflicts/Conflict';
-import evaluateCode from '@runtime/evaluate';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Conditional from '@nodes/Conditional';
-import type Node from '@nodes/Node';
-import Reference from '@nodes/Reference';
+import type Conflict from '#conflicts/Conflict.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Conditional from '#nodes/Conditional.ts';
+import type Node from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
 
 test.each([
     ['⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition],

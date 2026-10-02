@@ -23,13 +23,13 @@
  * reason — sometimes the glossary is the mistranslation and sometimes the prose
  * is, and only a speaker of the language can say which.
  */
-import type { GlossaryText } from '@locale/GlossaryTexts';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type LocaleText from '@locale/LocaleText';
-import { ExcludedTerms } from '@util/verify-locales/glossaryLinks';
-import type Log from '@util/verify-locales/Log';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import { leadingAnnotations } from '@util/verify-locales/protect';
+import type { GlossaryText } from '#locale/GlossaryTexts.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { ExcludedTerms } from '#util/verify-locales/glossaryLinks.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import { leadingAnnotations } from '#util/verify-locales/protect.ts';
 import type Tutorial from '../../tutorial/Tutorial';
 
 /** Whether a word the prose disagrees with should fail the run. False while the

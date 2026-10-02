@@ -1,15 +1,15 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import { OutputBody } from '@output/physics/Physics';
-import { VelocityPxPerSecond } from '@output/physics/physicsCalibration';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import { OutputBody } from '#output/physics/Physics.ts';
+import { VelocityPxPerSecond } from '#output/physics/physicsCalibration.ts';
 import {
     getRapier,
     loadRapier,
     onRapierLoaded,
-} from '@output/physics/rapierLoader';
-import Evaluator from '@runtime/Evaluator';
+} from '#output/physics/rapierLoader.ts';
+import Evaluator from '#runtime/Evaluator.ts';
 import { beforeAll, expect, test } from 'vitest';
 import Motion from './Motion';
 

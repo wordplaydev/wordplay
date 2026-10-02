@@ -1,15 +1,18 @@
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LanguageCode from '@locale/LanguageCode';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import Doc from '@nodes/Doc';
-import { getPreferred } from '@nodes/LanguageTagged';
-import type { Grammar, Replacement } from '@nodes/Node';
-import Node, { list, node } from '@nodes/Node';
+import Doc from '#nodes/Doc.ts';
+import { getPreferred } from '#nodes/LanguageTagged.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import Node, { list, node } from '#nodes/Node.ts';
 
 export default class Docs extends Node {
     readonly docs: Doc[];

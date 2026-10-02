@@ -1,21 +1,22 @@
 <script module lang="ts">
-    import getConceptName from '@locale/getConceptName';
+    import getConceptName from '#locale/getConceptName.ts';
     /** How long to wait until considering typing idle. */
     export const KeyboardIdleWaitTime = 500;
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
+    import { isAppPath } from '#util/appPath.ts';
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
-    import AddSource from '@components/project/AddSource.svelte';
-    import Annotations from '@components/annotations/Annotations.svelte';
-    import CollaborateView from '@components/app/chat/CollaborateView.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import { extractPreview } from '@components/app/extractPreview';
-    import Documentation from '@components/concepts/Documentation.svelte';
-    import { DefaultMode, Modes } from '@components/concepts/GuideHistory';
-    import { resolveFeedback } from '@components/editor/commands/feedback';
+    import AddSource from '#components/project/AddSource.svelte';
+    import Annotations from '#components/annotations/Annotations.svelte';
+    import CollaborateView from '#components/app/chat/CollaborateView.svelte';
+    import Emoji from '#components/app/Emoji.svelte';
+    import { extractPreview } from '#components/app/extractPreview.ts';
+    import Documentation from '#components/concepts/Documentation.svelte';
+    import { DefaultMode, Modes } from '#components/concepts/GuideHistory.ts';
+    import { resolveFeedback } from '#components/editor/commands/feedback.ts';
     import {
         type Command,
         handleKeyCommand,
@@ -33,30 +34,30 @@
         VisibleModifyCommands,
         VisibleNavigateCommands,
         type CommandContext,
-    } from '@components/editor/commands/Commands';
-    import GlyphInserter from '@components/editor/commands/GlyphInserter.svelte';
-    import Highlight from '@components/editor/highlights/Highlight.svelte';
-    import Menu from '@components/editor/menu/Menu.svelte';
-    import Speech from '@components/lore/Speech.svelte';
+    } from '#components/editor/commands/Commands.ts';
+    import GlyphInserter from '#components/editor/commands/GlyphInserter.svelte';
+    import Highlight from '#components/editor/highlights/Highlight.svelte';
+    import Menu from '#components/editor/menu/Menu.svelte';
+    import Speech from '#components/lore/Speech.svelte';
     import {
         ProjectModeIcons,
         ProjectModes,
         ProjectModeViewIcons,
         type ProjectMode,
-    } from '@components/project/ProjectMode';
-    import { CatchUp } from '@components/project/catchUp';
-    import PerformIcon from '@components/project/PerformIcon.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import Wellspring from '@components/wellspring/Wellspring.svelte';
-    import ValueExportDialog from '@components/values/ValueExportDialog.svelte';
-    import { ShortcutsDialogID } from '@components/widgets/dialogIDs';
-    import { setDialogInURL } from '@components/widgets/dialogURL';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import Tour from '@components/widgets/Tour.svelte';
-    import { Tours, type TourID } from '@components/project/tours';
-    import { TourSteps } from '@components/project/tourSteps';
-    import ConceptIndex from '@concepts/ConceptIndex';
+    } from '#components/project/ProjectMode.ts';
+    import { CatchUp } from '#components/project/catchUp.ts';
+    import PerformIcon from '#components/project/PerformIcon.svelte';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import Wellspring from '#components/wellspring/Wellspring.svelte';
+    import ValueExportDialog from '#components/values/ValueExportDialog.svelte';
+    import { ShortcutsDialogID } from '#components/widgets/dialogIDs.ts';
+    import { setDialogInURL } from '#components/widgets/dialogURL.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import Tour from '#components/widgets/Tour.svelte';
+    import { Tours, type TourID } from '#components/project/tours.ts';
+    import { TourSteps } from '#components/project/tourSteps.ts';
+    import ConceptIndex from '#concepts/ConceptIndex.ts';
     import {
         getConceptFromURL,
         getEnumFromURL,
@@ -67,11 +68,11 @@
         setConceptInURL,
         setEnumInURL,
         setQueryInURL,
-    } from '@concepts/ConceptParams';
-    import { Purpose } from '@concepts/Purpose';
-    import type Conflict from '@conflicts/Conflict';
-    import type Chat from '@db/chats/ChatDatabase.svelte';
-    import type { Creator } from '@db/creators/CreatorDatabase';
+    } from '#concepts/ConceptParams.ts';
+    import { Purpose } from '#concepts/Purpose.ts';
+    import type Conflict from '#conflicts/Conflict.ts';
+    import type Chat from '#db/chats/ChatDatabase.svelte.ts';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
     import {
         arrangement,
         blocks,
@@ -87,51 +88,51 @@
         musicVisualization,
         Settings,
         stagePlacement,
-    } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
+    } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
     import {
         MusicVisualizationIcons,
         MusicVisualizations,
         toMusicVisualization,
-    } from '@db/settings/MusicSettings';
-    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
-    import type Project from '@db/projects/Project';
+    } from '#db/settings/MusicSettings.ts';
+    import { getLocalizedProjectName } from '#db/projects/getLocalizedProjectName.ts';
+    import type Project from '#db/projects/Project.ts';
     import Arrangement, {
         isResizeable,
         type ArrangementType,
-    } from '@db/settings/Arrangement';
-    import { consent, refreshConsentFromBrowser } from '@input/permissions';
-    import type Locale from '@locale/Locale';
-    import { localesAreEqual, stringToLocale } from '@locale/Locale';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import Evaluate from '@nodes/Evaluate';
-    import Node, { isFieldPosition } from '@nodes/Node';
+    } from '#db/settings/Arrangement.ts';
+    import { consent, refreshConsentFromBrowser } from '#input/permissions.ts';
+    import type Locale from '#locale/Locale.ts';
+    import { localesAreEqual, stringToLocale } from '#locale/Locale.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import Node, { isFieldPosition } from '#nodes/Node.ts';
     import {
         linesOfNode,
         referenceLabel,
         resolveReference,
         type ResolvedReference,
-    } from '@db/chats/codeReference';
-    import diffSources from '@edit/diff/sourceDiff';
-    import Source from '@nodes/Source';
+    } from '#db/chats/codeReference.ts';
+    import diffSources from '#edit/diff/sourceDiff.ts';
+    import Source from '#nodes/Source.ts';
     import {
         getCheckpoint,
         type CheckpointAnchor,
-    } from '@components/project/checkpoints';
-    import Color from '@output/Color/Color';
+    } from '#components/project/checkpoints.ts';
+    import Color from '#output/Color/Color.ts';
     import {
         CANCEL_SYMBOL,
         EXCEPTION_SYMBOL,
         INFO_SYMBOL,
-    } from '@parser/Symbols';
-    import { isName } from '@parser/Tokenizer';
-    import Evaluator from '@runtime/Evaluator';
-    import { debounced } from '@util/debounce.svelte';
-    import ExceptionValue from '@values/ExceptionValue';
-    import type Value from '@values/Value';
+    } from '#parser/Symbols.ts';
+    import { isName } from '#parser/Tokenizer.ts';
+    import Evaluator from '#runtime/Evaluator.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
+    import ExceptionValue from '#values/ExceptionValue.ts';
+    import type Value from '#values/Value.ts';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import Drawing from '@components/output/Drawing.svelte.ts';
-    import type { OutputInfoSet } from '@output/animation/Animator';
+    import Drawing from '#components/output/Drawing.svelte.ts';
+    import type { OutputInfoSet } from '#output/animation/Animator.ts';
     import { get, writable, type Readable, type Writable } from 'svelte/store';
     import Characters from '../../lore/BasisCharacters';
     import {
@@ -145,37 +146,37 @@
         remapConcepts,
         sameHistory,
         type GuidePlace,
-    } from '@components/concepts/GuideHistory';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import ClipboardNotice from '@components/editor/ClipboardNotice.svelte';
+    } from '#components/concepts/GuideHistory.ts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import ClipboardNotice from '#components/editor/ClipboardNotice.svelte';
     import {
         clearInternalClipboard,
         ClipboardContents,
-    } from '@components/editor/commands/InternalClipboard';
-    import Toolbar from '@components/editor/commands/Toolbar.svelte';
-    import Editor from '@components/editor/Editor.svelte';
-    import EditorNotice from '@components/editor/EditorNotice.svelte';
+    } from '#components/editor/commands/InternalClipboard.ts';
+    import Toolbar from '#components/editor/commands/Toolbar.svelte';
+    import Editor from '#components/editor/Editor.svelte';
+    import EditorNotice from '#components/editor/EditorNotice.svelte';
     import type {
         EditorNotification,
         EditorNotifier,
-    } from '@components/editor/EditorNotification';
-    import type { HighlightSpec } from '@components/editor/highlights/Highlights';
+    } from '#components/editor/EditorNotification.ts';
+    import type { HighlightSpec } from '#components/editor/highlights/Highlights.ts';
     import getOutlineOf, {
         getUnderlineOf,
-    } from '@components/editor/highlights/outline';
-    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
-    import Timeline from '@components/evaluator/Timeline.svelte';
-    import type { GateBlock, GateWarning } from '@components/output/gate';
+    } from '#components/editor/highlights/outline.ts';
+    import RemoteCarets from '#components/editor/RemoteCarets.svelte';
+    import Timeline from '#components/evaluator/Timeline.svelte';
+    import type { GateBlock, GateWarning } from '#components/output/gate.ts';
     import {
         ContentGate,
         getMusicWarnings,
         getPhotosensitivityWarnings,
-    } from '@components/output/gate.svelte';
-    import { zoomGauge, zoomPercent } from '@components/output/fit';
-    import { withMonoEmoji } from '@unicode/emoji';
-    import OutputView from '@components/output/OutputView.svelte';
-    import Palette from '@components/palette/Palette.svelte';
-    import type Bounds from '@components/project/Bounds';
+    } from '#components/output/gate.svelte.ts';
+    import { zoomGauge, zoomPercent } from '#components/output/fit.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
+    import OutputView from '#components/output/OutputView.svelte';
+    import Palette from '#components/palette/Palette.svelte';
+    import type Bounds from '#components/project/Bounds.ts';
     import {
         getAnnouncer,
         getConceptPath,
@@ -214,51 +215,51 @@
         type EditorState,
         type EmphasizedConflict,
         type KeyModifierState,
-    } from '@components/project/Contexts';
-    import Link from '@components/app/Link.svelte';
-    import EvaluationCues from '@components/project/EvaluationCues.svelte';
-    import RemixButton from '@components/project/RemixButton.svelte';
-    import { PARAM_CONCEPT } from '@concepts/ConceptParams';
+    } from '#components/project/Contexts.ts';
+    import Link from '#components/app/Link.svelte';
+    import EvaluationCues from '#components/project/EvaluationCues.svelte';
+    import RemixButton from '#components/project/RemixButton.svelte';
+    import { PARAM_CONCEPT } from '#concepts/ConceptParams.ts';
     import { PROJECT_PARAM_FROM } from '../../routes/[[locale]]/project/constants';
-    import ReportButton from '@components/project/ReportButton.svelte';
-    import Layout from '@components/project/Layout';
-    import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
-    import PositionAdjuster from '@components/project/PositionAdjuster.svelte';
-    import ProjectFooter from '@components/project/ProjectFooter.svelte';
-    import RootView from '@components/project/RootView.svelte';
-    import SelectedOutput from '@components/project/SelectedOutput.svelte';
-    import chooseSplitLocales from '@components/project/splitLocales';
-    import Tile, { TileMode } from '@components/project/Tile';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { TileKind } from '@components/project/TileKind';
+    import ReportButton from '#components/project/ReportButton.svelte';
+    import Layout from '#components/project/Layout.ts';
+    import OutputLocaleChooser from '#components/project/OutputLocaleChooser.svelte';
+    import PositionAdjuster from '#components/project/PositionAdjuster.svelte';
+    import ProjectFooter from '#components/project/ProjectFooter.svelte';
+    import RootView from '#components/project/RootView.svelte';
+    import SelectedOutput from '#components/project/SelectedOutput.svelte.ts';
+    import chooseSplitLocales from '#components/project/splitLocales.ts';
+    import Tile, { TileMode } from '#components/project/Tile.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { TileKind } from '#components/project/TileKind.ts';
     import TileView, {
         type ResizeDirection,
-    } from '@components/project/TileView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import importProject from '@db/projects/importProject';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import type Gallery from '@db/galleries/Gallery';
-    import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
+    } from '#components/project/TileView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import importProject from '#db/projects/importProject.ts';
+    import CommandButton from '#components/widgets/CommandButton.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import OverflowToolbar from '#components/widgets/OverflowToolbar.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import GalleryHowTo from '#db/howtos/HowToDatabase.svelte.ts';
     import {
         getBlockFlags,
         getUnmoderatedFlags,
         getWarnFlags,
-    } from '@db/projects/Moderation';
-    import { isAudience } from '@db/projects/ModerationUtils';
+    } from '#db/projects/Moderation.ts';
+    import { isAudience } from '#db/projects/ModerationUtils.ts';
     import {
         AnimationFactorIcons,
         AnimationFactors,
         AnimationFactorSetting,
         AnimationIcon,
-    } from '@db/settings/AnimationFactorSetting';
-    import type MenuInfo from '@edit/menu/Menu';
-    import { must } from '@util/nullable';
+    } from '#db/settings/AnimationFactorSetting.ts';
+    import type MenuInfo from '#edit/menu/Menu.ts';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         project: Project;
@@ -466,7 +467,7 @@
 
     /** Determine the initial evaluation mode from the URL: the `mode` param, then the
      * legacy `play`/`edit` params, then play for output-only embeds, then edit. */
-    function parseModeParam(params: URLSearchParams): ProjectMode {
+    function parseModeParam(params: Pick<URLSearchParams, 'get'>): ProjectMode {
         const requested = params.get(PROJECT_PARAM_MODE);
         const known = ProjectModes.find((mode) => mode === requested);
         if (known !== undefined) return known;
@@ -1210,7 +1211,7 @@
 
     /** When the layout or path changes, add or remove query params based on state */
     $effect(() => {
-        const searchParams = new URLSearchParams(page.url.searchParams);
+        const searchParams = new URLSearchParams(page.url.search);
 
         // Reflect the current evaluation mode in the URL so it's restored on load and
         // shareable, migrating away from the legacy play/edit params.
@@ -1263,9 +1264,8 @@
             // Keep focus/scroll so syncing the guide URL while the creator is typing
             // in the docs search field doesn't steal focus from it.
             goto(`?${search}`, {
-                replaceState: true,
-                keepFocus: true,
-                noScroll: true,
+                replace: true,
+                reset: false,
             });
     });
 
@@ -1639,16 +1639,14 @@
      */
     const showModeration = $derived(warn && isAudience($user, project));
 
-    /** Where a scratch project was opened from (#1044). Only ever a same-origin
-     *  path: anything else in the parameter is someone else's link, and
-     *  following it would make this an open redirect. `//host` is a protocol-
-     *  relative URL, so a leading slash alone isn't enough. */
+    /** Where a scratch project was opened from (#1044). Only ever one of the
+     *  app's routes: anything else in the parameter is someone else's link, and
+     *  following it would make this an open redirect. No route begins `//`, so
+     *  a protocol-relative URL is refused with the rest. */
     const returnTo = $derived.by(() => {
         if (!project.isScratch()) return undefined;
         const from = page.url.searchParams.get(PROJECT_PARAM_FROM);
-        return from !== null && from.startsWith('/') && !from.startsWith('//')
-            ? from
-            : undefined;
+        return from !== null && isAppPath(from) ? from : undefined;
     });
 
     /** What to call the place the link goes back to. The guide names the thing

@@ -328,7 +328,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Wir können das noch interaktiver machen, indem wir eine Nutzereingabe hinzufügen, um die Drehung zu steuern, wie die @Volume der Mikrofon-Eingabe. Sie ist ein @value zwischen 0 und 1, also können wir sie auf 360 Grad abbilden.",
-                            "$~So sehen die meisten Projekte aus: erst Festlegungen, dann Reaktionen, dann Ausgabe. Der <Guide//guide> hat einen @how-Abschnitt voller Rezepte zum Studieren, Kopieren und Bearbeiten.",
+                            "$~So sehen die meisten Projekte aus: erst Festlegungen, dann Reaktionen, dann Ausgabe. Der <Guide@://guide> hat einen @how-Abschnitt voller Rezepte zum Studieren, Kopieren und Bearbeiten.",
                             "$~Viel Freude beim Erstellen!"
                         ]
                     ]

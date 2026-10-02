@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type Project from '@db/projects/Project';
-    import Evaluate from '@nodes/Evaluate';
-    import PlaceEditor from '@components/palette/PlaceEditor.svelte';
-    import VelocityEditor from '@components/palette/VelocityEditor.svelte';
-    import { must } from '@util/nullable';
+    import type Project from '#db/projects/Project.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import PlaceEditor from '#components/palette/PlaceEditor.svelte';
+    import VelocityEditor from '#components/palette/VelocityEditor.svelte';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         project: Project;

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { animationFactor } from '@db/Database';
-    import { musicActivity } from '@output/Music/activity';
-    import audio from '@output/Music/MusicAudio';
+    import { animationFactor } from '#db/Database.ts';
+    import { musicActivity } from '#output/Music/activity.ts';
+    import audio from '#output/Music/MusicAudio.ts';
     import {
         blastFor,
         fall,
@@ -9,7 +9,7 @@
         strike,
         tintToCSS,
         type Tint,
-    } from '@output/Music/lightshow';
+    } from '#output/Music/lightshow.ts';
     import { onDestroy } from 'svelte';
 
     interface Props {

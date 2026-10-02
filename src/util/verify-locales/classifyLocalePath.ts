@@ -1,8 +1,8 @@
 import {
     resolveDescription,
     resolveSchemaRefName,
-} from '@util/verify-locales/findUntaggedStrings';
-import type LocalePath from '@util/verify-locales/LocalePath';
+} from '#util/verify-locales/findUntaggedStrings.ts';
+import type LocalePath from '#util/verify-locales/LocalePath.ts';
 
 /**
  * How the tooling should treat a locale string or string array, derived from

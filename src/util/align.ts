@@ -7,7 +7,7 @@
  * how-to pairing, over a handful of acts and paragraphs, and the checkpoint
  * diff, over a node's children.
  */
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * One step of a merge. The vocabulary is the tutorial sync's, where `source` is

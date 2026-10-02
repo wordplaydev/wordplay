@@ -6,22 +6,22 @@
 </script>
 
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
     import {
         getCheckpoint,
         getCheckpointIndex,
         getCheckpointOrder,
         stepCheckpoint,
         type CheckpointAnchor,
-    } from '@components/project/checkpoints';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    } from '#components/project/checkpoints.ts';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
     import { onMount } from 'svelte';
-    import { withMonoEmoji } from '@unicode/emoji';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
 
     let {
         project,

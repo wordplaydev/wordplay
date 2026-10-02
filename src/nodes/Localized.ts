@@ -1,30 +1,33 @@
-import type Conflict from '@conflicts/Conflict';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
-import MarkupValue from '@values/MarkupValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
+import type Conflict from '#conflicts/Conflict.ts';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Start from '#runtime/Start.ts';
+import type Step from '#runtime/Step.ts';
+import MarkupValue from '#values/MarkupValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import type Context from '@nodes/Context';
-import Expression, { type GuardContext } from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FormattedType from '@nodes/FormattedType';
-import Language from '@nodes/Language';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import SimpleExpression from '@nodes/SimpleExpression';
-import TextType from '@nodes/TextType';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import UnionType from '@nodes/UnionType';
+import type Context from '#nodes/Context.ts';
+import Expression, { type GuardContext } from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import FormattedType from '#nodes/FormattedType.ts';
+import Language from '#nodes/Language.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import SimpleExpression from '#nodes/SimpleExpression.ts';
+import TextType from '#nodes/TextType.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import UnionType from '#nodes/UnionType.ts';
 
 /**
  * Applies a locale tag to a computed text value, e.g. `(greeting + name)/en`.

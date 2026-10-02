@@ -800,7 +800,7 @@
         "ece63b95df702": "$~Wir haben einen Fehler behoben, bei dem die Seite abstürzte, wenn Ersteller mehreren Phrasen den gleichen Namen gaben.",
         "ea8d89603d821": "$~Wir haben sichergestellt, dass Figurennamen gültig sind und keine Leerzeichen enthalten (<1080@https://github.com/wordplaydev/wordplay/issues/1080>).",
         "e96e925f91727": "$~Wir haben eine maschinelle Übersetzung für Portugiesisch (Portugal) hinzugefügt.",
-        "e627530370c9c": "$~Wir haben eine Seite <zum Designsystem@:////design> hinzugefügt, damit alle, die an Gestaltung oder Entwicklung für die Plattform arbeiten, einen leichteren Leitfaden dazu haben, welche Farben, Schriftarten, Abstände und Bausteine verwendet werden sollen (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
+        "e627530370c9c": "$~Wir haben eine Seite <zum Designsystem@://design> hinzugefügt, damit alle, die an Gestaltung oder Entwicklung für die Plattform arbeiten, einen leichteren Leitfaden dazu haben, welche Farben, Schriftarten, Abstände und Bausteine verwendet werden sollen (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
         "e602448b8ccde": "$~Wir haben die Bausteine der Benutzeroberfläche einheitlicher, nutzbarer und sichtbarer gemacht.",
         "eb860a453fc88": "$~Wir haben ein auffälligeres Design für Schaltflächen hinzugefügt, verwenden es aber noch nirgendwo.",
         "eea4d04e93f44": "$~Wir sind bei der Funktion zum Bearbeiten von Übersetzungen direkt in der App weiter vorangekommen, auch wenn sie noch nicht ganz veröffentlichungsreif ist.",

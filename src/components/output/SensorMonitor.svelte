@@ -2,27 +2,27 @@
     import {
         acquireAudioSource,
         type AudioSourceHandle,
-    } from '@input/AudioSource';
+    } from '#input/AudioSource.ts';
     import {
         acquireCameraSource,
         type CameraSourceHandle,
-    } from '@input/CameraSource';
-    import { getSensorPanelStack } from '@components/project/Contexts';
-    import Emoji from '@components/app/Emoji.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
+    } from '#input/CameraSource.ts';
+    import { getSensorPanelStack } from '#components/project/Contexts.ts';
+    import Emoji from '#components/app/Emoji.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
     import { onDestroy, untrack } from 'svelte';
-    import type { Database } from '@db/Database';
-    import type Evaluator from '@runtime/Evaluator';
-    import Hand from '@input/Hand/Hand';
-    import Face from '@input/Face/Face';
-    import Objects from '@input/Objects/Objects';
+    import type { Database } from '#db/Database.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
+    import Hand from '#input/Hand/Hand.ts';
+    import Face from '#input/Face/Face.ts';
+    import Objects from '#input/Objects/Objects.ts';
     import {
         VOLUME_FFT_SIZE,
         computeVolume,
         PITCH_FFT_SIZE,
         computePitch,
         createPitchDetector,
-    } from '@input/AudioAnalysisMath';
+    } from '#input/AudioAnalysisMath.ts';
     import { PitchDetector } from 'pitchy';
     import { toPreviewPoint, toPreviewBox } from './cameraPreview';
 

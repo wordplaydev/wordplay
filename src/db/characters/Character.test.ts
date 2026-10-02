@@ -6,7 +6,7 @@ import {
     type Character,
     type CharacterPath,
     type PathPoints,
-} from '@db/characters/Character';
+} from '#db/characters/Character.ts';
 import {
     canCurve,
     clampToGrid,
@@ -21,9 +21,9 @@ import {
     insertPathPoint,
     straightenPathPoint,
     transformPathPoints,
-} from '@db/characters/paths';
-import type { CharacterShape } from '@db/characters/Character';
-import { must } from '@util/nullable';
+} from '#db/characters/paths.ts';
+import type { CharacterShape } from '#db/characters/Character.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 
 function path(points: PathPoints, closed = false): CharacterPath {

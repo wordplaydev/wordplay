@@ -1,6 +1,6 @@
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import { type Snippet } from 'svelte';
 
     interface Props {

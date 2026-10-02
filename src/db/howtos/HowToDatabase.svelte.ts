@@ -1,24 +1,28 @@
 /** This file encapsulates all Firebase how-to functionality and relies on Svelte state to cache how-to documents. */
-import { type Database, type SaveCounts, type SaveError } from '@db/Database';
-import { Domain } from '@db/Domains';
-import exceedsDocLimit from '@db/exceedsDocLimit';
-import { firestore } from '@db/firebase';
-import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
-import Watchers from '@db/Watchers';
-import type { PublicWatchState } from '@db/galleries/GalleryDatabase.svelte';
-import { canCreateHowTo } from '@db/howtos/howToAccess';
-import type Gallery from '@db/galleries/Gallery';
+import {
+    type Database,
+    type SaveCounts,
+    type SaveError,
+} from '#db/Database.ts';
+import { Domain } from '#db/Domains.ts';
+import exceedsDocLimit from '#db/exceedsDocLimit.ts';
+import { firestore } from '#db/firebase.ts';
+import { GALLERY_CHUNK_SIZE } from '#db/firestoreLimits.ts';
+import Watchers from '#db/Watchers.ts';
+import type { PublicWatchState } from '#db/galleries/GalleryDatabase.svelte.ts';
+import { canCreateHowTo } from '#db/howtos/howToAccess.ts';
+import type Gallery from '#db/galleries/Gallery.ts';
 
-import isQuotaError from '@db/isQuotaError';
+import isQuotaError from '#db/isQuotaError.ts';
 import {
     ModerationStateSchema,
     unknownFlags,
     type ModerationState,
-} from '@db/projects/Moderation';
-import { PreviewContentSchema } from '@db/projects/ProjectSchemas';
-import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
-import { HowToServerOwnedFields, type HowToFieldSet } from '@db/rulesFields';
-import supportsIndexedDB from '@db/supportsIndexedDB';
+} from '#db/projects/Moderation.ts';
+import { PreviewContentSchema } from '#db/projects/ProjectSchemas.ts';
+import SaveTracker, { type RePush } from '#db/SaveTracker.svelte.ts';
+import { HowToServerOwnedFields, type HowToFieldSet } from '#db/rulesFields.ts';
+import supportsIndexedDB from '#db/supportsIndexedDB.ts';
 import {
     HowToSchemaLatestVersion,
     HowToSocialSchemaLatestVersion,
@@ -26,9 +30,9 @@ import {
     howToRepostsInitial,
     makeHowTo,
 } from './howToDocument';
-import { SupportedLocales } from '@locale/SupportedLocales';
-import deferToIdle from '@util/deferToIdle';
-import { matchGroups, must } from '@util/nullable';
+import { SupportedLocales } from '#locale/SupportedLocales.ts';
+import deferToIdle from '#util/deferToIdle.ts';
+import { matchGroups, must } from '#util/nullable.ts';
 import { FirebaseError } from 'firebase/app';
 import {
     and,

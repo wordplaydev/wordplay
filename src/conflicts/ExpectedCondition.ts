@@ -1,14 +1,14 @@
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import BooleanType from '@nodes/BooleanType';
-import type Context from '@nodes/Context';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import type Node from '@nodes/Node';
-import Reaction from '@nodes/Reaction';
+} from '#conflicts/Conflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import type Context from '#nodes/Context.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import type Node from '#nodes/Node.ts';
+import Reaction from '#nodes/Reaction.ts';
 
 export default class ExpectedCondition extends Conflict {
     readonly reaction: Reaction;

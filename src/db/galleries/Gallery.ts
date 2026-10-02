@@ -1,12 +1,13 @@
-import { localeToString } from '@locale/Locale';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
+import { localeToString } from '#locale/Locale.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 import {
     ModerationStateSchema,
     unknownFlags,
     type ModerationState,
-} from '@db/projects/Moderation';
+} from '#db/projects/Moderation.ts';
 import z from 'zod';
+import type { AppPath } from '#util/appPath.ts';
 
 export const GallerySchemaLatestVersion = 5;
 
@@ -349,7 +350,7 @@ export default class Gallery {
     }
 
     /** Encoded because a path may be in any script; an id never needed it. */
-    getLink() {
+    getLink(): AppPath {
         return `/gallery/${encodeURIComponent(this.getCanonicalSegment())}`;
     }
 

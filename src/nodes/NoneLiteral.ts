@@ -1,19 +1,19 @@
-import { Purpose } from '@concepts/Purpose';
-import type { ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { NONE_SYMBOL } from '@parser/Symbols';
-import NoneValue from '@values/NoneValue';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
+import { Purpose } from '#concepts/Purpose.ts';
+import type { ReplaceContext } from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { NONE_SYMBOL } from '#parser/Symbols.ts';
+import NoneValue from '#values/NoneValue.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import Literal from '@nodes/Literal';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import NoneType from '@nodes/NoneType';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
+import Literal from '#nodes/Literal.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import NoneType from '#nodes/NoneType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 export default class NoneLiteral extends Literal {
     readonly none: Token;

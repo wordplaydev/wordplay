@@ -13,36 +13,36 @@
  * Pure and free of Svelte, so every decision here is unit-tested.
  */
 
-import type { Database } from '@db/Database';
-import { includesString } from '@util/nullable';
-import type Project from '@db/projects/Project';
-import { Projects } from '@db/projects/Projects';
-import { getFormAnchor, translateFormTo } from '@edit/output/editShape';
-import type Locales from '@locale/Locales';
-import Block from '@nodes/Block';
-import Token from '@nodes/Token';
-import Evaluate from '@nodes/Evaluate';
-import Convert from '@nodes/Convert';
-import type Expression from '@nodes/Expression';
-import Input from '@nodes/Input';
-import ListLiteral from '@nodes/ListLiteral';
-import type Node from '@nodes/Node';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Spread from '@nodes/Spread';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import TextLiteral from '@nodes/TextLiteral';
-import TextType from '@nodes/TextType';
-import Unit from '@nodes/Unit';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type Output from '@output/Output/Output';
-import Stage from '@output/Output/Stage';
-import type { OutputInfoSet } from '@output/animation/Animator';
+import type { Database } from '#db/Database.ts';
+import { includesString } from '#util/nullable.ts';
+import type Project from '#db/projects/Project.ts';
+import { Projects } from '#db/projects/Projects.ts';
+import { getFormAnchor, translateFormTo } from '#edit/output/editShape.ts';
+import type Locales from '#locale/Locales.ts';
+import Block from '#nodes/Block.ts';
+import Token from '#nodes/Token.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Convert from '#nodes/Convert.ts';
+import type Expression from '#nodes/Expression.ts';
+import Input from '#nodes/Input.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import type Node from '#nodes/Node.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Spread from '#nodes/Spread.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import TextType from '#nodes/TextType.ts';
+import Unit from '#nodes/Unit.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import type Output from '#output/Output/Output.ts';
+import Stage from '#output/Output/Stage.ts';
+import type { OutputInfoSet } from '#output/animation/Animator.ts';
 import {
     classifyOutput,
     createPlaceholderPhrase,
     getStage,
-} from '@components/palette/editOutput';
-import { must } from '@util/nullable';
+} from '#components/palette/editOutput.ts';
+import { must } from '#util/nullable.ts';
 
 /** The kinds of content the toolbar can add. */
 export type InsertKind =

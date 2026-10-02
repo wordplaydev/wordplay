@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { resolveExemplars } from '@unicode/Exemplars';
+import { resolveExemplars } from '#unicode/Exemplars.ts';
 
 test('resolveExemplars prefers region-specific variants', () => {
     const data = new Map<string, string[]>([

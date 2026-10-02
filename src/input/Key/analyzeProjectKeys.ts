@@ -12,23 +12,23 @@
  * walks the AST itself. See the note on `getReferencesInSource` for why.
  */
 
-import type Project from '@db/projects/Project';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import Bind from '@nodes/Bind';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Changed from '@nodes/Changed';
-import Evaluate from '@nodes/Evaluate';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Input from '@nodes/Input';
-import ListLiteral from '@nodes/ListLiteral';
-import NoneLiteral from '@nodes/NoneLiteral';
-import PropertyReference from '@nodes/PropertyReference';
-import StructureDefinition from '@nodes/StructureDefinition';
-import TextLiteral from '@nodes/TextLiteral';
-import { EQUALS_SYMBOL, NOT_EQUALS_SYMBOL } from '@parser/Symbols';
-import type Locales from '@locale/Locales';
-import { canonicalizeKeyName } from '@input/Key/Key';
+import type Project from '#db/projects/Project.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import Bind from '#nodes/Bind.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Changed from '#nodes/Changed.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Input from '#nodes/Input.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import { EQUALS_SYMBOL, NOT_EQUALS_SYMBOL } from '#parser/Symbols.ts';
+import type Locales from '#locale/Locales.ts';
+import { canonicalizeKeyName } from '#input/Key/Key.ts';
 
 export type KeyAnalysis =
     /** The project responds to exactly these canonical keys. */

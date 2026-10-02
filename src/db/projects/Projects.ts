@@ -1,5 +1,5 @@
-import { DB } from '@db/Database';
-import ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
+import { DB } from '#db/Database.ts';
+import ProjectsDatabase from '#db/projects/ProjectsDatabase.svelte.ts';
 
 /**
  * The one projects database.
@@ -16,7 +16,7 @@ import ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
  *
  * Constructed at module scope, which is safe precisely because this module is
  * only ever evaluated inside that deferred chunk. Note the import direction:
- * heavy depends on light (`@db/Database`), never the reverse, so the
+ * heavy depends on light (`#db/Database`), never the reverse, so the
  * basis→database cycle the codebase guards against stays open.
  */
 export const Projects = new ProjectsDatabase(DB);

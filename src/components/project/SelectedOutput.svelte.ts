@@ -1,8 +1,8 @@
-import type Project from '@db/projects/Project';
-import Evaluate from '@nodes/Evaluate';
-import type Node from '@nodes/Node';
-import type { Path } from '@nodes/Root';
-import type { Guide } from '@components/output/snap';
+import type Project from '#db/projects/Project.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Node from '#nodes/Node.ts';
+import type { Path } from '#nodes/Root.ts';
+import type { Guide } from '#components/output/snap.ts';
 
 type SelectionOrigin = 'editor' | 'output' | 'palette';
 

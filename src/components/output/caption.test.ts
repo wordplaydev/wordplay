@@ -2,8 +2,8 @@ import {
     captionFor,
     CaptionHold,
     CaptionHoldTime,
-} from '@components/output/caption';
-import { SaySource } from '@output/Speech/speech';
+} from '#components/output/caption.ts';
+import { SaySource } from '#output/Speech/speech.ts';
 import { describe, expect, test } from 'vitest';
 
 /** A manual clock, so the hold's timing is asserted rather than waited out. */

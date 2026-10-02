@@ -3,7 +3,7 @@ import {
     getCollationLocale,
     getCollator,
     getCollatorFor,
-} from '@unicode/collation';
+} from '#unicode/collation.ts';
 
 // Root is spelled 'en' because the obvious spellings of "no locale in
 // particular" — no argument, or 'und' — resolve to the host locale instead,

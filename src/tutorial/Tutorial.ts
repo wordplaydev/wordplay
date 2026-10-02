@@ -1,14 +1,14 @@
-import type { HowToID } from '@concepts/HowTo';
-import { isRecord } from '@util/guards';
-import type InputTexts from '@locale/InputTexts';
-import type NodeTexts from '@locale/NodeTexts';
-import type OutputTexts from '@locale/OutputTexts';
-import type BasisTexts from '@locale/BasisTexts';
-import type LanguageCode from '@locale/LanguageCode';
-import type { RegionCode } from '@locale/Regions';
+import type { HowToID } from '#concepts/HowTo.ts';
+import { isRecord } from '#util/guards.ts';
+import type InputTexts from '#locale/InputTexts.ts';
+import type NodeTexts from '#locale/NodeTexts.ts';
+import type OutputTexts from '#locale/OutputTexts.ts';
+import type BasisTexts from '#locale/BasisTexts.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type { RegionCode } from '#locale/Regions.ts';
 import type { ThemeName } from './ThemeNames';
 import { isEmotion, type Emotion } from '../lore/Emotion';
-import { matchGroups, must } from '@util/nullable';
+import { matchGroups, must } from '#util/nullable.ts';
 
 /** Whether JSON has a tutorial file's top-level shape. Shallow, like
  *  `isLocaleText`: the verifier repairs what the schema finds within. */

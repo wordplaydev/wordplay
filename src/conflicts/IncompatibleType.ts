@@ -1,15 +1,15 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import type Expression from '@nodes/Expression';
-import type Type from '@nodes/Type';
-import type Locales from '@locale/Locales';
-import type Node from '@nodes/Node';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Type from '#nodes/Type.ts';
+import type Locales from '#locale/Locales.ts';
+import type Node from '#nodes/Node.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import findDivideByZeroSource from '@conflicts/findDivideByZeroSource';
+} from '#conflicts/Conflict.ts';
+import findDivideByZeroSource from '#conflicts/findDivideByZeroSource.ts';
 
 export default class IncompatibleType extends Conflict {
     readonly receiver: Node;

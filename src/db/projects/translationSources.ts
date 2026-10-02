@@ -1,7 +1,7 @@
-import type Locale from '@locale/Locale';
-import { localesAreEqual } from '@locale/Locale';
-import type { LanguageTagged } from '@nodes/LanguageTagged';
-import type Name from '@nodes/Name';
+import type Locale from '#locale/Locale.ts';
+import { localesAreEqual } from '#locale/Locale.ts';
+import type { LanguageTagged } from '#nodes/LanguageTagged.ts';
+import type Name from '#nodes/Name.ts';
 
 /** A translatable unit's chosen source: which option carries the words to
  *  translate, and the locale those words are written in. */

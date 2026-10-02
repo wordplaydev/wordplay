@@ -1,19 +1,19 @@
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import Block, { BlockKind } from '@nodes/Block';
-import BooleanType from '@nodes/BooleanType';
-import NoneType from '@nodes/NoneType';
-import StructureDefinition from '@nodes/StructureDefinition';
-import BoolValue from '@values/BoolValue';
-import NoneValue from '@values/NoneValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
-import type Expression from '@nodes/Expression';
-import TextType from '@nodes/TextType';
-import { createBasisConversion, createBasisFunction } from '@basis/Basis';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import NoneType from '#nodes/NoneType.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import BoolValue from '#values/BoolValue.ts';
+import NoneValue from '#values/NoneValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { FunctionText, NameAndDoc } from '#locale/LocaleText.ts';
+import type Expression from '#nodes/Expression.ts';
+import TextType from '#nodes/TextType.ts';
+import { createBasisConversion, createBasisFunction } from '#basis/Basis.ts';
 
 export default function bootstrapNone(locales: Locales) {
     function createNoneFunction(

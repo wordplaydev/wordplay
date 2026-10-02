@@ -1,7 +1,7 @@
-import getResponsibility from '@db/moderation/responsibility';
-import { kitVisibility } from '@db/moderation/visibility';
+import getResponsibility from '#db/moderation/responsibility.ts';
+import { kitVisibility } from '#db/moderation/visibility.ts';
 import { expect, test } from 'vitest';
-import { makeKit, type SerializedKit } from '@db/kits/Kit';
+import { makeKit, type SerializedKit } from '#db/kits/Kit.ts';
 
 /**
  * Who reviews a reported kit (#8). Where a notice about one leads is in

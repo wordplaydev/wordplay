@@ -1,24 +1,24 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import { getPlacingMotion } from '@input/Motion/Motion';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import { getPlacingMotion } from '#input/Motion/Motion.ts';
 import {
     changesOverTime,
     isPlaceOnlyTween,
     sameAnimatingNodes,
-} from '@output/animation/OutputAnimation';
-import type Output from '@output/Output/Output';
-import type Stage from '@output/Output/Stage';
-import { toStage } from '@output/Output/Stage';
-import type Pose from '@output/animation/Pose';
-import { toPose } from '@output/animation/Pose';
-import { createPlace } from '@output/Place/Place';
-import Transition from '@output/animation/Transition';
-import Evaluator from '@runtime/Evaluator';
-import ListValue from '@values/ListValue';
-import { must } from '@util/nullable';
+} from '#output/animation/OutputAnimation.ts';
+import type Output from '#output/Output/Output.ts';
+import type Stage from '#output/Output/Stage.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import type Pose from '#output/animation/Pose.ts';
+import { toPose } from '#output/animation/Pose.ts';
+import { createPlace } from '#output/Place/Place.ts';
+import Transition from '#output/animation/Transition.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import ListValue from '#values/ListValue.ts';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 
 /**

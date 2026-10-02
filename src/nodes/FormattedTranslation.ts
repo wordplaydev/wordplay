@@ -1,23 +1,26 @@
-import type Conflict from '@conflicts/Conflict';
-import { PossiblePII } from '@conflicts/PossiblePII';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { FORMATTED_SYMBOL } from '@parser/Symbols';
-import { Purpose } from '@concepts/Purpose';
+import type Conflict from '#conflicts/Conflict.ts';
+import { PossiblePII } from '#conflicts/PossiblePII.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { FORMATTED_SYMBOL } from '#parser/Symbols.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import type Context from '@nodes/Context';
-import Example from '@nodes/Example';
-import type Locales from '@locale/Locales';
-import Language from '@nodes/Language';
-import { LanguageTagged } from '@nodes/LanguageTagged';
-import Markup from '@nodes/Markup';
-import type { Grammar, Replacement } from '@nodes/Node';
-import { node, optional } from '@nodes/Node';
-import type Paragraph from '@nodes/Paragraph';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Words from '@nodes/Words';
+import type Context from '#nodes/Context.ts';
+import Example from '#nodes/Example.ts';
+import type Locales from '#locale/Locales.ts';
+import Language from '#nodes/Language.ts';
+import { LanguageTagged } from '#nodes/LanguageTagged.ts';
+import Markup from '#nodes/Markup.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import { node, optional } from '#nodes/Node.ts';
+import type Paragraph from '#nodes/Paragraph.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Words from '#nodes/Words.ts';
 
 export default class FormattedTranslation extends LanguageTagged {
     readonly open: Token;

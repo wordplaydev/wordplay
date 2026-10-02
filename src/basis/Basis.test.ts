@@ -1,19 +1,19 @@
-import Templates from '@concepts/Templates';
-import UnusedBind from '@conflicts/UnusedBind';
-import DefaultLocales from '@locale/DefaultLocales';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import UnparsableExpression from '@nodes/UnparsableExpression';
-import UnparsableType from '@nodes/UnparsableType';
+import Templates from '#concepts/Templates.ts';
+import UnusedBind from '#conflicts/UnusedBind.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import UnparsableType from '#nodes/UnparsableType.ts';
 import { expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import Example from '@nodes/Example';
-import { Basis } from '@basis/Basis';
-import Locales, { MULTILINGUAL_SEPARATOR } from '@locale/Locales';
-import concretize from '@locale/concretize';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Example from '#nodes/Example.ts';
+import { Basis } from '#basis/Basis.ts';
+import Locales, { MULTILINGUAL_SEPARATOR } from '#locale/Locales.ts';
+import concretize from '#locale/concretize.ts';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);
 

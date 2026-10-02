@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import { getLocalePath } from '@util/verify-locales/LocaleSchema';
+import type LocaleText from '#locale/LocaleText.ts';
+import { getLocalePath } from '#util/verify-locales/LocaleSchema.ts';
 import {
     retargetSerializedExample,
     type SerializedExampleSource,
-} from '@util/verify-locales/retargetExampleNames';
-import { sweepSkipsLocale } from '@util/verify-locales/exampleFreshness';
+} from '#util/verify-locales/retargetExampleNames.ts';
+import { sweepSkipsLocale } from '#util/verify-locales/exampleFreshness.ts';
 import {
     ExamplesRoot,
     localizedExamplesPath,
-} from '@util/verify-locales/verifyExamples';
+} from '#util/verify-locales/verifyExamples.ts';
 import fs from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';

@@ -1,10 +1,10 @@
-import Borrow from '@nodes/Borrow';
-import Changed from '@nodes/Changed';
-import type Expression from '@nodes/Expression';
-import type Evaluator from '@runtime/Evaluator';
-import type Locales from '@locale/Locales';
-import type Value from '@values/Value';
-import Step from '@runtime/Step';
+import Borrow from '#nodes/Borrow.ts';
+import Changed from '#nodes/Changed.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type Locales from '#locale/Locales.ts';
+import type Value from '#values/Value.ts';
+import Step from '#runtime/Step.ts';
 
 type Action = (evalutor: Evaluator) => Value | undefined;
 

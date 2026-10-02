@@ -1,14 +1,14 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import Image, { DefaultWidth, imageSize } from '@output/Output/Image';
-import { toStage } from '@output/Output/Stage';
-import analyzeOutput from '@output/PhotosensitivityAnalysis';
-import Evaluator from '@runtime/Evaluator';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import Image, { DefaultWidth, imageSize } from '#output/Output/Image.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import analyzeOutput from '#output/PhotosensitivityAnalysis.ts';
+import Evaluator from '#runtime/Evaluator.ts';
 import { expect, test } from 'vitest';
-import { conflictsIn } from '@conflicts/TestUtilities';
+import { conflictsIn } from '#conflicts/TestUtilities.ts';
 
 /** Two rows of three, so nothing square can pass by accident. */
 const grid = `[

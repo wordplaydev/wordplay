@@ -8,18 +8,18 @@
      * elision of reused subtrees, the doc-derived note, the removal's parent —
      * and an action has no code to show. Its words are the whole row.
      */
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import {
         hoverSelects,
         isTap,
         type PressPoint,
-    } from '@components/editor/menu/menuPointer';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { locales } from '@db/Database';
-    import type Menu from '@edit/menu/Menu';
-    import type { RevisionSet } from '@edit/menu/Menu';
-    import type MenuAction from '@edit/menu/MenuAction';
-    import type Revision from '@edit/revision/Revision';
+    } from '#components/editor/menu/menuPointer.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { locales } from '#db/Database.ts';
+    import type Menu from '#edit/menu/Menu.ts';
+    import type { RevisionSet } from '#edit/menu/Menu.ts';
+    import type MenuAction from '#edit/menu/MenuAction.ts';
+    import type Revision from '#edit/revision/Revision.ts';
 
     interface Props {
         entry: MenuAction;

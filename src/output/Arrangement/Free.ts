@@ -1,13 +1,13 @@
-import { getTypeName } from '@locale/getNameLocales';
-import { getBind } from '@locale/getBind';
-import type Value from '@values/Value';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import Arrangement from '@output/Arrangement/Arrangement';
-import type Color from '@output/Color/Color';
-import type Output from '@output/Output/Output';
-import Place from '@output/Place/Place';
-import type RenderContext from '@output/RenderContext';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import { getBind } from '#locale/getBind.ts';
+import type Value from '#values/Value.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import Arrangement from '#output/Arrangement/Arrangement.ts';
+import type Color from '#output/Color/Color.ts';
+import type Output from '#output/Output/Output.ts';
+import Place from '#output/Place/Place.ts';
+import type RenderContext from '#output/RenderContext.ts';
 
 export function createFreeType(locales: Locales) {
     return toStructure(`

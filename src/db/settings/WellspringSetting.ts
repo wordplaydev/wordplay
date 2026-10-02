@@ -1,4 +1,4 @@
-import { makeSidebarSetting } from '@db/settings/SidebarSetting';
+import { makeSidebarSetting } from '#db/settings/SidebarSetting.ts';
 
 /** Minimum sidebar width in CSS pixels — narrower than this and the code previews become unreadable. */
 export const WELLSPRING_MIN_WIDTH = 150;

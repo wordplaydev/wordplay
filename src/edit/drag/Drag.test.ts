@@ -1,17 +1,17 @@
-import Project from '@db/projects/Project';
-import { must } from '@util/nullable';
-import DefaultLocale from '@locale/DefaultLocale';
-import Bind from '@nodes/Bind';
-import Evaluate from '@nodes/Evaluate';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import ListLiteral from '@nodes/ListLiteral';
-import type Node from '@nodes/Node';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Source from '@nodes/Source';
-import TextLiteral from '@nodes/TextLiteral';
-import Token from '@nodes/Token';
-import parseExpression from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
+import Project from '#db/projects/Project.ts';
+import { must } from '#util/nullable.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Bind from '#nodes/Bind.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import type Node from '#nodes/Node.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Source from '#nodes/Source.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import Token from '#nodes/Token.ts';
+import parseExpression from '#parser/parseExpression.ts';
+import { toTokens } from '#parser/toTokens.ts';
 import { expect, test } from 'vitest';
 import {
     dropNodeOnSource,
@@ -22,7 +22,7 @@ import {
     isValidDropTarget,
     resolvePermittedDropTarget,
     resolveStructuralReplacementTarget,
-} from '@edit/drag/Drag';
+} from '#edit/drag/Drag.ts';
 
 test.each([
     // Replace placeholder with rootless expression

@@ -1,8 +1,8 @@
-import type { Explainer } from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Locales from '@locale/Locales';
-import type Markup from '@nodes/Markup';
-import type Node from '@nodes/Node';
+import type { Explainer } from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Locales from '#locale/Locales.ts';
+import type Markup from '#nodes/Markup.ts';
+import type Node from '#nodes/Node.ts';
 
 /**
  * Construct an {@link Explainer} resolution — used when no auto-fix is

@@ -1,4 +1,4 @@
-import { MachineTranslated, Unwritten } from '@locale/Annotations';
+import { MachineTranslated, Unwritten } from '#locale/Annotations.ts';
 import { describe, expect, test } from 'vitest';
 import { changelogNeedsTranslation } from './verifyChangelog';
 

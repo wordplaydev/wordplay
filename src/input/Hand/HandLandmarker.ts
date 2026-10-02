@@ -2,7 +2,7 @@ import type { HandLandmarker } from '@mediapipe/tasks-vision';
 import createLandmarkerRuntime, {
     fetchModel,
     isWebKit,
-} from '@input/createLandmarkerRuntime';
+} from '#input/createLandmarkerRuntime.ts';
 
 const MODEL_URL =
     'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task';

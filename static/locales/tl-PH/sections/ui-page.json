@@ -86,7 +86,7 @@
                             "• Maaari ding maging multilingguwal ang iyong sariling mga pangalan:\n\\pusa2/tl, gato/es: '🐈'\nParirala(pusa2)\\",
                             "• May kalakip na wika ang teksto, at ipinapakita nito ang wikang mababasa ng iyong manonood: \\'kumusta'/tl'hola'/es\\.",
                             "• Ang site mismo ay nasa 29 na wika, at pwede kang pumili ng higit sa isa nang sabay-sabay; lalabas ang teksto sa bawat isa.",
-                            "• Pwede kang tumulong magsalin ng @wordplay mismo, mismo sa loob ng app sa <localize//localize>."
+                            "• Pwede kang tumulong magsalin ng @wordplay mismo, mismo sa loob ng app sa <localize@://localize>."
                         ]
                     },
                     "accessible": {
@@ -123,7 +123,7 @@
                         "title": "$~Ang Wordplay ay typography",
                         "bullets": [
                             "$~• Daan-daang uri ng letra, na sumasaklaw sa mga sistema ng pagsulat sa buong mundo.",
-                            "• Pwede kang gumuhit ng iyong <custom na mga karakter//characters> at gamitin sila kahit saan gamit ang emoji.",
+                            "• Pwede kang gumuhit ng iyong <custom na mga karakter@://characters> at gamitin sila kahit saan gamit ang emoji.",
                             "• Ang balangkas ng bawat letra ay datos na pwede mong basahin at bigyan ng animasyon, gamit ang @Contour: \\Kontur('a' 'Noto Sans')\\.",
                             "• Ang teksto ay nag-wa-wrap ayon sa mga tuntunin ng wikang ginamit dito.",
                             "• Ang pagsulat mula kanan-papuntang-kaliwa at patayo ay inaayos sa tamang paraan."
@@ -133,7 +133,7 @@
                         "title": "$~Ipinapaliwanag ng Wordplay ang sarili nito",
                         "bullets": [
                             "$~• Ang dokumentasyon ay bahagi ng wika sa pamamagitan ng @Doc, hindi isang komento sa tabi nito.",
-                            "• Isang mahahanap na <gabay//guide> ang nagpapaliwanag ng bawat built-in na tampok, na may mga halimbawa.",
+                            "• Isang mahahanap na <gabay@://guide> ang nagpapaliwanag ng bawat built-in na tampok, na may mga halimbawa.",
                             "• Bawat pagkakamali ay ipinapaliwanag kung saan ito nangyari, sa sarili mong wika.",
                             "• Pwede mong dumaan sa isang programa pasulong /at/ paatras para malaman kung ano ang nangyari.",
                             "• Habang ikaw ay dumadaan, ipinapakita ang bawat halaga mismo sa kodigong gumawa nito."
@@ -156,7 +156,7 @@
                             "• Ito ay open source: pwede mong basahin kung paano ito gumagana, at pwede kang tumulong sa amin na baguhin ito.",
                             "• Ito ay mula sa <University of Washington@https://ischool.uw.edu/> Information School.",
                             "• May isang komunidad ng mga tagalikha, guro, at tagatulong.",
-                            "• Ang <Mga Donasyon//donate> ay nagbabayad para sa gastos ng pagpapatakbo nito."
+                            "• Ang <Mga Donasyon@://donate> ay nagbabayad para sa gastos ng pagpapatakbo nito."
                         ]
                     }
                 }
@@ -840,7 +840,7 @@
                     "content": [
                         "$~Nagdedesisyon ka ba kung sang-ayon gamitin ang *Wordplay* sa iyong paaralan o distrito? Narito ang aming maipapangako at hindi maipapangako.",
                         "Hindi kami isang kompanya. Isa kaming pananaliksik na nakabatay sa komunidad, na nakatalaga sa isang unibersidad na hindi pangkalakal, at wala kaming kita. Ibig sabihin nito, may mga kasunduang hindi namin mapipirmahan, gaano man kami gustong tumulong. Hindi namin mapapangako na babayaran namin ang legal na gastos ng isang distrito kung ito ay idemanda. Hindi rin namin mapapangako na aayusin namin ang isang problema sa isang takdang iskedyul. Ang pagpirma sa isang pangakong hindi namin matutupad ay hindi makakatulong kaninuman, lalo na sa iyo.",
-                        "Ito naman ang aming maipapangako. Sinusunod namin ang pamantayan ng /WCAG 2.2 Level AA/ para sa akses, sinusuri namin ito nang awtomatiko sa bawat pagbabago, at inaayos namin ang aming natutuklasan sa pinakamabilis na paraang kaya ng isang komunidad ng boluntaryo. Kinukolekta namin ang kaunti lamang na impormasyon tungkol sa mga gumagamit nito, at ginagamit lamang namin ito para patakbuhin ang plataporma. Sinasabi nang eksakto ng aming pahinang <rights//rights> kung ano ang aming iniimbak, at bukas sa publiko ang aming <source@https://github.com/wordplaydev/wordplay>, kaya't masusuri mo ito mismo.",
+                        "Ito naman ang aming maipapangako. Sinusunod namin ang pamantayan ng /WCAG 2.2 Level AA/ para sa akses, sinusuri namin ito nang awtomatiko sa bawat pagbabago, at inaayos namin ang aming natutuklasan sa pinakamabilis na paraang kaya ng isang komunidad ng boluntaryo. Kinukolekta namin ang kaunti lamang na impormasyon tungkol sa mga gumagamit nito, at ginagamit lamang namin ito para patakbuhin ang plataporma. Sinasabi nang eksakto ng aming pahinang <rights@://rights> kung ano ang aming iniimbak, at bukas sa publiko ang aming <source@https://github.com/wordplaydev/wordplay>, kaya't masusuri mo ito mismo.",
                         "Patuloy na nagbabago ang platapormang ito, at gayundin ang mga tuntuning kailangan mong sundin. Kung may kailangan ka na wala pa kami, sumulat sa amin sa hi@wordplay.dev at sabihin sa amin ang tungkol dito. Babasahin ito ng mga tagapangasiwa, at susulatan ka namin pabalik."
                     ],
                     "link": "$~Sumulat sa amin tungkol sa isang kinakailangan",
@@ -1265,7 +1265,7 @@
             },
             "thanks": {
                 "header": "$~Salamat",
-                "intro": "$~Salamat sa aming *$#count[$count nag-ambag|$count na nag-ambag]* sa pagtulong sa disenyo, pagbuo, lokalisasyon, at nilalaman ng @wordplay! At salamat sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at silid-aralan, na hindi namin nilista dito upang mapanatili ang kanilang privacy.\n\nSinuportahan ang proyektong ito ng National Science Foundation sa ilalim ng mga award na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at ng mga bukas-palad na <gifts//donate> mula sa mga taong tulad mo.",
+                "intro": "$~Salamat sa aming *$#count[$count nag-ambag|$count na nag-ambag]* sa pagtulong sa disenyo, pagbuo, lokalisasyon, at nilalaman ng @wordplay! At salamat sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at silid-aralan, na hindi namin nilista dito upang mapanatili ang kanilang privacy.\n\nSinuportahan ang proyektong ito ng National Science Foundation sa ilalim ng mga award na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at ng mga bukas-palad na <gifts@://donate> mula sa mga taong tulad mo.",
                 "teachers": "$~Mga Guro",
                 "contributors": "$~Mga Kontribyutor"
             },

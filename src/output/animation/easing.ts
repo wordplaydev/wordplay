@@ -1,4 +1,4 @@
-import { keysOf } from '@util/nullable';
+import { keysOf } from '#util/nullable.ts';
 
 /**
  * A cubic Bézier easing evaluator matching the CSS `cubic-bezier()` timing function.

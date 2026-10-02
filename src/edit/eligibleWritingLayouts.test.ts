@@ -1,4 +1,4 @@
-import Source from '@nodes/Source';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 import eligibleWritingLayouts from './eligibleWritingLayouts';
 

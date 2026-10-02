@@ -1,12 +1,12 @@
-import type LocaleText from '@locale/LocaleText';
-import type Context from '@nodes/Context';
-import type Translate from '@nodes/Translate';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Context from '#nodes/Context.ts';
+import type Translate from '#nodes/Translate.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Node from '#nodes/Node.ts';
 
 /** A warning that a translate (↦) body has no `.` referring to the current item. */
 export class ExpectedThis extends Conflict {

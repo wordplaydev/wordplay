@@ -1,12 +1,12 @@
 import { expect, test } from 'vitest';
-import { registerDateTimeData } from '@locale/dateTimeData';
-import type Locale from '@locale/Locale';
+import { registerDateTimeData } from '#locale/dateTimeData.ts';
+import type Locale from '#locale/Locale.ts';
 import {
     cityFromID,
     isSupportedTimeZone,
     suggestTimeZones,
     SupportedTimeZones,
-} from '@locale/timeZones';
+} from '#locale/timeZones.ts';
 
 const English: Locale = { language: 'en', regions: ['US'] };
 const Spanish: Locale = { language: 'es', regions: ['MX'] };

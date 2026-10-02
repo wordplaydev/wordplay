@@ -2,7 +2,7 @@ import type { FaceLandmarker } from '@mediapipe/tasks-vision';
 import createLandmarkerRuntime, {
     fetchModel,
     isWebKit,
-} from '@input/createLandmarkerRuntime';
+} from '#input/createLandmarkerRuntime.ts';
 
 const MODEL_URL =
     'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task';

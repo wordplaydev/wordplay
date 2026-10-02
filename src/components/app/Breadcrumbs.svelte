@@ -1,12 +1,12 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import Emoji from '@components/app/Emoji.svelte';
+    import Emoji from '#components/app/Emoji.svelte';
     import getBreadcrumbTrail, {
         type Crumb,
-    } from '@components/app/getBreadcrumbs';
-    import Link from '@components/app/Link.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
+    } from '#components/app/getBreadcrumbs.ts';
+    import Link from '#components/app/Link.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { locales } from '#db/Database.ts';
     import type { Snippet } from 'svelte';
 
     interface Props {

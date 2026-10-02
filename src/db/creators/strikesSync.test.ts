@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import { describe, expect, test } from 'vitest';
 
-import { StrikesUntilBanned } from '@db/creators/strikes.svelte';
+import { StrikesUntilBanned } from '#db/creators/strikes.svelte.ts';
 
 /**
  * The client mirrors the server's strike limit so it can say "one more" before

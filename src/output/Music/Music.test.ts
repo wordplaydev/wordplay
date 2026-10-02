@@ -1,25 +1,25 @@
 import { expect, test } from 'vitest';
-import { DB, Locales } from '@db/Database';
-import Project from '@db/projects/Project';
+import { DB, Locales } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
 import { readProjects } from '../../examples/readProjects';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import { Sym } from '@nodes/Sym';
-import { tokens } from '@parser/Tokenizer';
-import Evaluator from '@runtime/Evaluator';
-import evaluateCode from '@runtime/evaluate';
-import ListValue from '@values/ListValue';
-import StructureValue from '@values/StructureValue';
-import TypeException from '@values/TypeException';
-import NumberValue from '@values/NumberValue';
-import { toStage } from '@output/Output/Stage';
-import { NameGenerator } from '@output/Output/Stage';
-import Music, { MaxTracks, toMusic } from '@output/Music/Music';
-import { toInstrument } from '@output/Music/Instrument';
-import { degreeToSemitones } from '@output/Music/degrees';
-import { Scales } from '@output/Music/scales';
-import { InstrumentKeys } from '@output/Music/instruments';
-import { must } from '@util/nullable';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import { Sym } from '#nodes/Sym.ts';
+import { tokens } from '#parser/Tokenizer.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import ListValue from '#values/ListValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TypeException from '#values/TypeException.ts';
+import NumberValue from '#values/NumberValue.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import { NameGenerator } from '#output/Output/Stage.ts';
+import Music, { MaxTracks, toMusic } from '#output/Music/Music.ts';
+import { toInstrument } from '#output/Music/Instrument.ts';
+import { degreeToSemitones } from '#output/Music/degrees.ts';
+import { Scales } from '#output/Music/scales.ts';
+import { InstrumentKeys } from '#output/Music/instruments.ts';
+import { must } from '#util/nullable.ts';
 
 /** Build a Music from a music-producing program (the Phrase.test.ts pattern:
  * projects with the same locale share a cached Basis, so type identity holds

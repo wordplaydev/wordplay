@@ -1,4 +1,4 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import Dexie, { type Table } from 'dexie';
 import { writable } from 'svelte/store';
 

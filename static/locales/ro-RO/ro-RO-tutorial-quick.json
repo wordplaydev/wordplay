@@ -328,7 +328,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Putem face acest lucru și mai interactiv adăugând o intrare de la utilizator pentru a controla rotirea, cum ar fi @Volume al intrării de la microfon. Este o @value între 0 și 1, așa că o putem mapa pe 360 de grade.",
-                            "$~Aceasta este forma majorității proiectelor: declarații, apoi reacții, apoi ieșire. <Guide//guide> are o secțiune @how plină de rețete de studiat, copiat și editat.",
+                            "$~Aceasta este forma majorității proiectelor: declarații, apoi reacții, apoi ieșire. <Guide@://guide> are o secțiune @how plină de rețete de studiat, copiat și editat.",
                             "$~Creație plăcută!"
                         ]
                     ]

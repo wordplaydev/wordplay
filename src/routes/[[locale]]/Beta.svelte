@@ -1,5 +1,5 @@
 <script>
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
 </script>
 
 <div class="beta">

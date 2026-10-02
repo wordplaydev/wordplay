@@ -1,11 +1,11 @@
-import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
-import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import { testConflict } from '@conflicts/TestUtilities';
-import UnknownColumn from '@conflicts/UnknownColumn';
+import ExpectedColumnBind from '#conflicts/ExpectedColumnBind.ts';
+import IncompatibleCellType from '#conflicts/IncompatibleCellType.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import UnknownColumn from '#conflicts/UnknownColumn.ts';
 import { expect, test } from 'vitest';
-import DefaultLocales from '@locale/DefaultLocales';
-import evaluateCode from '@runtime/evaluate';
-import Update from '@nodes/Update';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import Update from '#nodes/Update.ts';
 
 test.each([
     // Number assigned to a text column — IncompatibleCellType. (Previously this

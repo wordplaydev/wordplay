@@ -1,10 +1,10 @@
-import { moderatedFlags } from '@db/projects/Moderation';
-import Project from '@db/projects/Project';
-import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
-import type ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
-import { ScratchPrefix } from '@db/projects/ScratchPrefix';
-import type LocaleText from '@locale/LocaleText';
-import Source from '@nodes/Source';
+import { moderatedFlags } from '#db/projects/Moderation.ts';
+import Project from '#db/projects/Project.ts';
+import { PersistenceType } from '#db/projects/ProjectHistory.svelte.ts';
+import type ProjectsDatabase from '#db/projects/ProjectsDatabase.svelte.ts';
+import { ScratchPrefix } from '#db/projects/ScratchPrefix.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Source from '#nodes/Source.ts';
 
 /**
  * A scratch project is a copy of a guide example that someone can edit (#1044).

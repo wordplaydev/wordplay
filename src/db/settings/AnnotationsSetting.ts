@@ -1,4 +1,4 @@
-import { makeSidebarSetting } from '@db/settings/SidebarSetting';
+import { makeSidebarSetting } from '#db/settings/SidebarSetting.ts';
 
 /** Minimum sidebar width in CSS pixels — narrower than this and resolution text becomes unreadable. */
 export const ANNOTATIONS_MIN_WIDTH = 240;

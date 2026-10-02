@@ -800,7 +800,7 @@
         "ece63b95df702": "$~Vi fixade ett fall där skapare som gav flera fraser samma namn fick sidan att krascha.",
         "ea8d89603d821": "$~Vi såg till att karaktärsnamn är giltiga utan mellanslag (<1080@https://github.com/wordplaydev/wordplay/issues/1080>).",
         "e96e925f91727": "$~Vi lade till en portugisisk (Portugal) maskinöversättning.",
-        "e627530370c9c": "$~Vi lade till en sida för <designsystemet@:////design> så att alla som arbetar med design eller utveckling för plattformen lättare kan se vilka färger, typsnitt, avstånd och komponenter som ska användas (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
+        "e627530370c9c": "$~Vi lade till en sida för <designsystemet@://design> så att alla som arbetar med design eller utveckling för plattformen lättare kan se vilka färger, typsnitt, avstånd och komponenter som ska användas (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
         "e602448b8ccde": "$~Vi gjorde användargränssnittets komponenter mer enhetliga, användbara och synliga.",
         "eb860a453fc88": "$~Vi lade till en mer iögonfallande knappdesign, men vi använder den inte någonstans än.",
         "eea4d04e93f44": "$~Vi kom längre med funktionen för att redigera översättningar i appen, men den är inte helt klar för lansering än.",

@@ -1,5 +1,5 @@
-import { stringToLocale } from '@locale/Locale';
-import { last, must } from '@util/nullable';
+import { stringToLocale } from '#locale/Locale.ts';
+import { last, must } from '#util/nullable.ts';
 import { getFunctions } from 'firebase/functions';
 import { beforeEach, expect, test, vi } from 'vitest';
 
@@ -27,9 +27,9 @@ vi.mock('firebase/functions', () => ({
 }));
 
 const { default: getFirebaseTranslator } =
-    await import('@db/getFirebaseTranslator');
+    await import('#db/getFirebaseTranslator.ts');
 const { budget, resetTranslationRefusal } =
-    await import('@db/translationBudget.svelte');
+    await import('#db/translationBudget.svelte.ts');
 
 const en = stringToLocale('en-US');
 const es = stringToLocale('es-ES');

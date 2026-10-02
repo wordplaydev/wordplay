@@ -1,15 +1,16 @@
 <script lang="ts">
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { locales, Logs } from '@db/Database';
+    import { isExternalURL } from '#util/appPath.ts';
+    import MarkupHtmlView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import TextBox from '#components/widgets/TextBox.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { locales, Logs } from '#db/Database.ts';
     import {
         addFeedbackComment,
         createFeedback,
@@ -20,22 +21,22 @@
         voteFeedback,
         type Feedback,
         type FeedbackComment,
-    } from '@db/feedback/FeedbackDatabase';
-    import { isModerator } from '@db/projects/Moderation';
+    } from '#db/feedback/FeedbackDatabase.ts';
+    import { isModerator } from '#db/projects/Moderation.ts';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
         DEFECT_SYMBOL,
         IDEA_SYMBOL,
-    } from '@parser/Symbols';
-    import Link from '@components/app/Link.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
+    } from '#parser/Symbols.ts';
+    import Link from '#components/app/Link.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
     import {
         itemInDialogURL,
         PARAM_FEEDBACK,
-    } from '@components/widgets/dialogURL';
+    } from '#components/widgets/dialogURL.ts';
     import { untrack } from 'svelte';
 
     let mode: 'defect' | 'idea' = $state('defect');
@@ -204,7 +205,7 @@
                 {/if}
             </Subheader>
             <div class="tools">
-                {#if feed.github}
+                {#if feed.github && isExternalURL(feed.github)}
                     <Link to={feed.github} external>GitHub</Link>
                 {/if}
                 <Button

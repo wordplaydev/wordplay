@@ -2,7 +2,7 @@ import {
     toSpokenRuns,
     withoutLanguageMarks,
     type SpokenRun,
-} from '@locale/spokenLanguage';
+} from '#locale/spokenLanguage.ts';
 import type { AnnouncementKind } from './announcerQueue';
 
 export default class Announcement {

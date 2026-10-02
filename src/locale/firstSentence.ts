@@ -1,4 +1,4 @@
-import Markup from '@nodes/Markup';
+import Markup from '#nodes/Markup.ts';
 
 /**
  * The first sentence of some text, segmented in the given BCP-47 locale using

@@ -1,14 +1,14 @@
-import Caret from '@edit/caret/Caret';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Node from '@nodes/Node';
-import Program from '@nodes/Program';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '@components/editor/commands/Commands';
-import type Locales from '@locale/Locales';
-import Bind from '@nodes/Bind';
-import Refer from '@edit/revision/Refer';
-import Revision from '@edit/revision/Revision';
+import Caret from '#edit/caret/Caret.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Node from '#nodes/Node.ts';
+import Program from '#nodes/Program.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import type { Edit } from '#components/editor/commands/Commands.ts';
+import type Locales from '#locale/Locales.ts';
+import Bind from '#nodes/Bind.ts';
+import Refer from '#edit/revision/Refer.ts';
+import Revision from '#edit/revision/Revision.ts';
 
 export default class Append<NodeType extends Node> extends Revision {
     /** The source index where the insertion occurs */

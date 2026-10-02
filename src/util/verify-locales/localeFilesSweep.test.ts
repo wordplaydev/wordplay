@@ -6,7 +6,7 @@ import {
     getMonolithPath,
     LocaleSections,
     splitLocale,
-} from '@util/verify-locales/localeFiles';
+} from '#util/verify-locales/localeFiles.ts';
 
 /**
  * That splitting a locale into section files and putting it back is the

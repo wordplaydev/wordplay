@@ -2,7 +2,7 @@ import { expect, test, vi } from 'vitest';
 
 // No canvas in node, so text measurement is stood in for. Precedent:
 // src/output/physics/contacts.test.ts.
-vi.mock('@output/Output/getTextMetrics', () => ({
+vi.mock('#output/Output/getTextMetrics.ts', () => ({
     default: (text: string, cssFont: string) => {
         const px = Number(/(\d+(?:\.\d+)?)px/.exec(cssFont)?.[1] ?? 64);
         return {
@@ -15,15 +15,15 @@ vi.mock('@output/Output/getTextMetrics', () => ({
     },
 }));
 
-const { DB } = await import('@db/Database');
-const { default: Project } = await import('@db/projects/Project');
-const { default: DefaultLocale } = await import('@locale/DefaultLocale');
-const { default: Source } = await import('@nodes/Source');
-const { toStage } = await import('@output/Output/Stage');
-const { default: Evaluator } = await import('@runtime/Evaluator');
-const { default: RenderContext } = await import('@output/RenderContext');
-const { default: Locales } = await import('@locale/Locales');
-const { default: concretize } = await import('@locale/concretize');
+const { DB } = await import('#db/Database.ts');
+const { default: Project } = await import('#db/projects/Project.ts');
+const { default: DefaultLocale } = await import('#locale/DefaultLocale.ts');
+const { default: Source } = await import('#nodes/Source.ts');
+const { toStage } = await import('#output/Output/Stage.ts');
+const { default: Evaluator } = await import('#runtime/Evaluator.ts');
+const { default: RenderContext } = await import('#output/RenderContext.ts');
+const { default: Locales } = await import('#locale/Locales.ts');
+const { default: concretize } = await import('#locale/concretize.ts');
 
 function layoutOf(code: string) {
     const source = new Source('test', code);

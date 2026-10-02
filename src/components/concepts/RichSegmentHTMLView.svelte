@@ -6,18 +6,18 @@
      * dynamic import in richSegment.ts, rather than in SegmentHTMLView. Every
      * page shows localized markup; only some of them show code.
      */
-    import NodeRef from '@locale/NodeRef';
-    import ValueRef from '@locale/ValueRef';
-    import Example from '@nodes/Example';
-    import type { Segment } from '@nodes/Paragraph';
-    import UnknownType from '@nodes/UnknownType';
-    import type Spaces from '@parser/Spaces';
-    import RootView from '@components/project/RootView.svelte';
-    import ValueView from '@components/values/ValueView.svelte';
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
-    import elideNode from '@components/concepts/elideNode';
-    import ExampleUI from '@components/concepts/ExampleUI.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import NodeRef from '#locale/NodeRef.ts';
+    import ValueRef from '#locale/ValueRef.ts';
+    import Example from '#nodes/Example.ts';
+    import type { Segment } from '#nodes/Paragraph.ts';
+    import UnknownType from '#nodes/UnknownType.ts';
+    import type Spaces from '#parser/Spaces.ts';
+    import RootView from '#components/project/RootView.svelte';
+    import ValueView from '#components/values/ValueView.svelte';
+    import ConceptPreview from '#components/concepts/ConceptPreview.svelte';
+    import elideNode from '#components/concepts/elideNode.ts';
+    import ExampleUI from '#components/concepts/ExampleUI.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
 
     interface Props {
         segment: Segment;

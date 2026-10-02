@@ -48,17 +48,17 @@
 </script>
 
 <script lang="ts" generics="Item extends Option">
-    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '#components/project/Contexts.ts';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
+    } from '#components/widgets/tipTriggers.ts';
 
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { locales } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
 
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import { tick, type Snippet } from 'svelte';
 
     interface Props {

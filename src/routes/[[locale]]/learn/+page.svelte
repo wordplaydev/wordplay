@@ -1,19 +1,19 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
+    import { browser } from '$app/env';
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
-    import Loading from '@components/app/Loading.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import Page from '@components/app/Page.svelte';
-    import TutorialView from '@components/app/TutorialView.svelte';
-    import TutorialChooser from '@components/app/TutorialChooser.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Loading from '#components/app/Loading.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import Page from '#components/app/Page.svelte';
+    import TutorialView from '#components/app/TutorialView.svelte';
+    import TutorialChooser from '#components/app/TutorialChooser.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import Speech from '@components/lore/Speech.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import Speech from '#components/lore/Speech.svelte';
     import {
         Locales,
         Settings,
@@ -21,9 +21,9 @@
         tutorialState,
         tutorialMode,
         animationDuration,
-    } from '@db/Database';
-    import { DefaultProgress } from '@db/settings/TutorialProgressSetting';
-    import { HOME_SYMBOL } from '@parser/Symbols';
+    } from '#db/Database.ts';
+    import { DefaultProgress } from '#db/settings/TutorialProgressSetting.ts';
+    import { HOME_SYMBOL } from '#parser/Symbols.ts';
     import Characters from '../../../lore/BasisCharacters';
     import Progress from '../../../tutorial/Progress';
     import type Tutorial from '../../../tutorial/Tutorial';
@@ -119,7 +119,7 @@
         // its project on that prop's identity, every advance tore down and rebuilt the whole
         // ProjectView twice — once to render the step you were already leaving. The effect below
         // replaces `initial` from the URL as soon as the navigation lands.
-        await goto(newProgress.getURL(), { keepFocus: true });
+        await goto(newProgress.getURL(), { reset: false });
         // After navigation, update the tutorial progress.
         Settings.setTutorialProgress(newProgress);
     }
@@ -132,7 +132,7 @@
             chosen === DEFAULT_TUTORIAL_MODE
                 ? '/learn'
                 : `/learn?tutorial=${chosen}`,
-            { keepFocus: true },
+            { reset: false },
         );
     }
 </script>

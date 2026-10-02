@@ -1,24 +1,24 @@
 import {
     parseBuiltinKitSource,
     serializeBuiltinKitSource,
-} from '@db/kits/kitSourceFile';
-import { kitExports } from '@nodes/publishedShare';
-import Project from '@db/projects/Project';
+} from '#db/kits/kitSourceFile.ts';
+import { kitExports } from '#nodes/publishedShare.ts';
+import Project from '#db/projects/Project.ts';
 import translateProjectContent, {
     type RawTranslator,
-} from '@db/projects/translateProjectContent';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LanguageCode from '@locale/LanguageCode';
-import type { Locale } from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
-import type { RegionCode } from '@locale/Regions';
-import Docs from '@nodes/Docs';
-import Names from '@nodes/Names';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import type Log from '@util/verify-locales/Log';
-import type Translator from '@util/verify-locales/Translator';
-import writeFormatted from '@util/verify-locales/writeFormatted';
+} from '#db/projects/translateProjectContent.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type { Locale } from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import Docs from '#nodes/Docs.ts';
+import Names from '#nodes/Names.ts';
+import type Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import type Translator from '#util/verify-locales/Translator.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
 import fs from 'fs';
 import path from 'path';
 

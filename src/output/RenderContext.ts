@@ -1,6 +1,6 @@
-import type { SupportedFace } from '@basis/faces/Fonts';
-import type Locales from '@locale/Locales';
-import type { WritingLayout } from '@locale/Scripts';
+import type { SupportedFace } from '#basis/faces/Fonts.ts';
+import type Locales from '#locale/Locales.ts';
+import type { WritingLayout } from '#locale/Scripts.ts';
 
 export default class RenderContext {
     /** A single typeface name with no text delimiters */

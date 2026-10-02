@@ -800,7 +800,7 @@
         "ece63b95df702": "$~Corrigimos um caso em que os criadores que davam o mesmo nome a várias frases faziam a página bloquear.",
         "ea8d89603d821": "$~Garantimos que os nomes das personagens são válidos e não têm espaços (<1080@https://github.com/wordplaydev/wordplay/issues/1080>).",
         "e96e925f91727": "$~Adicionámos uma tradução automática para português (Portugal).",
-        "e627530370c9c": "$~Adicionámos uma página do <sistema de design@:////design> para que quem trabalha no design ou no desenvolvimento da plataforma tenha um guia mais fácil sobre que cores, tipos de letra, espaçamentos e componentes usar (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
+        "e627530370c9c": "$~Adicionámos uma página do <sistema de design@://design> para que quem trabalha no design ou no desenvolvimento da plataforma tenha um guia mais fácil sobre que cores, tipos de letra, espaçamentos e componentes usar (<935@https://github.com/wordplaydev/wordplay/issues/935>).",
         "e602448b8ccde": "$~Tornámos os componentes da interface do utilizador mais consistentes, utilizáveis e visíveis.",
         "eb860a453fc88": "$~Adicionámos um estilo de botão mais visível, mas ainda não o estamos a usar em lado nenhum.",
         "eea4d04e93f44": "$~Progredimos mais na funcionalidade de edição de tradução dentro da aplicação, embora ainda não esteja pronta para ser lançada.",

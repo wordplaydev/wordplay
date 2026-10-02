@@ -1,68 +1,69 @@
 <script lang="ts">
-    import { includesString } from '@util/nullable';
-    import { isRecord } from '@util/guards';
-    import Link from '@components/app/Link.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import LocalizationQuality from '@components/localization/LocalizationQuality.svelte';
-    import TemplateInputsPanel from '@components/localization/TemplateInputsPanel.svelte';
-    import GlossaryFormsEditor from '@components/localization/GlossaryFormsEditor.svelte';
-    import TermsEditor from '@components/localization/TermsEditor.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Note from '@components/widgets/Note.svelte';
+    import { isExternalURL } from '#util/appPath.ts';
+    import { includesString } from '#util/nullable.ts';
+    import { isRecord } from '#util/guards.ts';
+    import Link from '#components/app/Link.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import LocalizationQuality from '#components/localization/LocalizationQuality.svelte';
+    import TemplateInputsPanel from '#components/localization/TemplateInputsPanel.svelte';
+    import GlossaryFormsEditor from '#components/localization/GlossaryFormsEditor.svelte';
+    import TermsEditor from '#components/localization/TermsEditor.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Checkbox from '#components/widgets/Checkbox.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import FormattedEditor from '#components/widgets/FormattedEditor.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Note from '#components/widgets/Note.svelte';
     import Options, {
         type Group,
         type Option,
-    } from '@components/widgets/Options.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import { locales } from '@db/Database';
-    import { getFunctionsInstance } from '@db/firebase';
+    } from '#components/widgets/Options.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import TextBox from '#components/widgets/TextBox.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import { locales } from '#db/Database.ts';
+    import { getFunctionsInstance } from '#db/firebase.ts';
     import {
         deleteAllLocaleEdits,
         deleteLocaleEdit,
         localeEdits,
         saveLocaleEdit,
-    } from '@db/locales/LocalizationDexie';
-    import DefaultLocale from '@locale/DefaultLocale';
+    } from '#db/locales/LocalizationDexie.ts';
+    import DefaultLocale from '#locale/DefaultLocale.ts';
     import {
         isMachineTranslated,
         isUnwritten,
         toLocaleString,
-    } from '@locale/LocaleText';
+    } from '#locale/LocaleText.ts';
     import {
         checkPluralBranches,
         checkTemplateInputs,
-    } from '@locale/templateInputs';
-    import { getPluralCount } from '@locale/plurals';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
+    } from '#locale/templateInputs.ts';
+    import { getPluralCount } from '#locale/plurals.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
         MACHINE_TRANSLATED_SYMBOL,
         REVERT_SYMBOL,
-    } from '@parser/Symbols';
-    import { isName } from '@parser/Tokenizer';
-    import { debounced } from '@util/debounce.svelte';
-    import { searchItems } from '@util/search';
-    import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+    } from '#parser/Symbols.ts';
+    import { isName } from '#parser/Tokenizer.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
+    import { searchItems } from '#util/search.ts';
+    import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
     import { httpsCallable } from 'firebase/functions';
     import { onMount, tick } from 'svelte';
     import { Emotion } from '../../../lore/Emotion';
-    import { isUpdatesKey } from '@locale/UpdatesBundle';
+    import { isUpdatesKey } from '#locale/UpdatesBundle.ts';
     import { isTutorialKey } from '../../../tutorial/TutorialPath';
-    import { isDefined } from '@util/nullable';
+    import { isDefined } from '#util/nullable.ts';
     import { localizeFields } from './localizeSearch';
     import parseOverrideKey from './overrideKey';
 
@@ -207,7 +208,7 @@
     }
 
     /** Every leaf path/value pair in the currently active locale, produced by the
-     *  shared `getKeyTemplatePairs` walker from `@util/verify-locales/LocalePath`. */
+     *  shared `getKeyTemplatePairs` walker from `#util/verify-locales/LocalePath.ts`. */
     const allPaths = $derived.by(() => {
         return getKeyTemplatePairs($locales.getLocale());
     });
@@ -1300,7 +1301,7 @@
                                                     .submitSuccess}
                                         />
                                     </p>
-                                    {#if submittedPrUrl !== undefined && submittedPrUrl.startsWith('http')}
+                                    {#if submittedPrUrl !== undefined && isExternalURL(submittedPrUrl)}
                                         <p>
                                             <Link
                                                 to={submittedPrUrl}

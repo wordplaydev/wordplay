@@ -1,5 +1,5 @@
-import type Locale from '@locale/Locale';
-import { localesAreEqual } from '@locale/Locale';
+import type Locale from '#locale/Locale.ts';
+import { localesAreEqual } from '#locale/Locale.ts';
 
 /**
  * Which language each of a source's two views should show when a split is made.

@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /**
  * How a viewer sees music. Choosing a rendering is purely the viewer's: a

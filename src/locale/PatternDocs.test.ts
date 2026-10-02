@@ -1,8 +1,8 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import Example from '@nodes/Example';
-import UnparsableExpression from '@nodes/UnparsableExpression';
-import { toMarkup } from '@parser/toMarkup';
-import { entriesOf } from '@util/nullable';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Example from '#nodes/Example.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
+import { entriesOf } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

@@ -9,15 +9,15 @@
      * three times is the clearest evidence there is that something wanted to be
      * one thing.
      */
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { locales } from '@db/Database';
+    import Checkbox from '#components/widgets/Checkbox.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { locales } from '#db/Database.ts';
     import {
         allFlags,
         getFlagDescription,
         withFlag,
         type ModerationState,
-    } from '@db/projects/Moderation';
+    } from '#db/projects/Moderation.ts';
 
     interface Props {
         /** What is currently ticked. A `null` value is "not decided yet", which

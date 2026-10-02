@@ -1,9 +1,9 @@
 <script lang="ts">
-    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import NodeSequenceView from '#components/editor/nodes/NodeSequenceView.svelte';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import type Branch from '@nodes/Branch';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import type Branch from '#nodes/Branch.ts';
 
     interface Props {
         node: Branch;

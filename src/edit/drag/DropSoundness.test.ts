@@ -1,22 +1,22 @@
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
 import {
     InsertionPoint,
     dropNodeOnSource,
     isDropPermitted,
     isValidDropTarget,
-} from '@edit/drag/Drag';
-import { getEditsAt } from '@edit/menu/PossibleEdits';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Node, { ListOf } from '@nodes/Node';
-import Row from '@nodes/Row';
-import Source from '@nodes/Source';
-import Token from '@nodes/Token';
-import UnparsableExpression from '@nodes/UnparsableExpression';
-import UnparsableType from '@nodes/UnparsableType';
-import parseExpression from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
+} from '#edit/drag/Drag.ts';
+import { getEditsAt } from '#edit/menu/PossibleEdits.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Node, { ListOf } from '#nodes/Node.ts';
+import Row from '#nodes/Row.ts';
+import Source from '#nodes/Source.ts';
+import Token from '#nodes/Token.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import UnparsableType from '#nodes/UnparsableType.ts';
+import parseExpression from '#parser/parseExpression.ts';
+import { toTokens } from '#parser/toTokens.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

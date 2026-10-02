@@ -1,16 +1,16 @@
-import type Conflict from '@conflicts/Conflict';
-import KitCannotBorrow from '@conflicts/KitCannotBorrow';
-import UndocumentedShare from '@conflicts/UndocumentedShare';
-import UnexampledKit from '@conflicts/UnexampledKit';
-import UnexampledShare from '@conflicts/UnexampledShare';
-import Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import type ConversionDefinition from '@nodes/ConversionDefinition';
-import type Docs from '@nodes/Docs';
-import Example from '@nodes/Example';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Source from '@nodes/Source';
-import type StructureDefinition from '@nodes/StructureDefinition';
+import type Conflict from '#conflicts/Conflict.ts';
+import KitCannotBorrow from '#conflicts/KitCannotBorrow.ts';
+import UndocumentedShare from '#conflicts/UndocumentedShare.ts';
+import UnexampledKit from '#conflicts/UnexampledKit.ts';
+import UnexampledShare from '#conflicts/UnexampledShare.ts';
+import Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import type ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import type Docs from '#nodes/Docs.ts';
+import Example from '#nodes/Example.ts';
+import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type Source from '#nodes/Source.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
 
 /** A definition a `↑` can publish: everything a kit can export. */
 export type PublishedShare =

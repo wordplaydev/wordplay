@@ -1,14 +1,14 @@
-import Layout, { mirrorAxes, type Axis } from '@components/project/Layout';
-import Tile, { TileMode } from '@components/project/Tile';
-import { TileKind } from '@components/project/TileKind';
-import Arrangement from '@db/settings/Arrangement';
+import Layout, { mirrorAxes, type Axis } from '#components/project/Layout.ts';
+import Tile, { TileMode } from '#components/project/Tile.ts';
+import { TileKind } from '#components/project/TileKind.ts';
+import Arrangement from '#db/settings/Arrangement.ts';
 import StagePlacement, {
     StagePlacementOrder,
-} from '@db/settings/StagePlacement';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
-import { entriesOf, must } from '@util/nullable';
+} from '#db/settings/StagePlacement.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { entriesOf, must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 
 const Position = { left: 0, top: 0, width: 100, height: 100 };

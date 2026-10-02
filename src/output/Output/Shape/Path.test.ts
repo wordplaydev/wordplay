@@ -1,4 +1,4 @@
-import evaluateCode from '@runtime/evaluate';
+import evaluateCode from '#runtime/evaluate.ts';
 import {
     flattenPath,
     Path,
@@ -7,11 +7,11 @@ import {
     pathSegments,
     toPath,
     type PathPoint,
-} from '@output/Output/Shape/Path';
-import { toCircle } from '@output/Output/Shape/Circle';
-import { toRectangle } from '@output/Output/Shape/Rectangle';
-import { toPolygon } from '@output/Output/Shape/Polygon';
-import StructureValue from '@values/StructureValue';
+} from '#output/Output/Shape/Path.ts';
+import { toCircle } from '#output/Output/Shape/Circle.ts';
+import { toRectangle } from '#output/Output/Shape/Rectangle.ts';
+import { toPolygon } from '#output/Output/Shape/Polygon.ts';
+import StructureValue from '#values/StructureValue.ts';
 import { expect, test } from 'vitest';
 
 const Zigzag =

@@ -1,9 +1,9 @@
-import type Concept from '@concepts/Concept';
-import conceptFor from '@concepts/conceptFor';
-import Purpose from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import type Context from '@nodes/Context';
-import type Source from '@nodes/Source';
+import type Concept from '#concepts/Concept.ts';
+import conceptFor from '#concepts/conceptFor.ts';
+import Purpose from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import type Context from '#nodes/Context.ts';
+import type Source from '#nodes/Source.ts';
 
 /**
  * What a kit offers whoever reads it, as concepts (#8) — only its `↑` exports, since a

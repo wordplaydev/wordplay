@@ -3,8 +3,8 @@ import {
     MinSampleDistance,
     shouldSample,
     simplifyPath,
-} from '@components/output/drawing';
-import type { PathPoint } from '@output/Output/Shape/Path';
+} from '#components/output/drawing.ts';
+import type { PathPoint } from '#output/Output/Shape/Path.ts';
 import { expect, test } from 'vitest';
 
 test('a sample is kept only once the pointer has travelled', () => {

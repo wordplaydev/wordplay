@@ -1,15 +1,15 @@
-import Caret from '@edit/caret/Caret';
-import type LocaleText from '@locale/LocaleText';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Node from '@nodes/Node';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '@components/editor/commands/Commands';
-import type Locales from '@locale/Locales';
-import Markup from '@nodes/Markup';
-import Reference from '@nodes/Reference';
-import Refer from '@edit/revision/Refer';
-import Revision from '@edit/revision/Revision';
+import Caret from '#edit/caret/Caret.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Node from '#nodes/Node.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import type { Edit } from '#components/editor/commands/Commands.ts';
+import type Locales from '#locale/Locales.ts';
+import Markup from '#nodes/Markup.ts';
+import Reference from '#nodes/Reference.ts';
+import Refer from '#edit/revision/Refer.ts';
+import Revision from '#edit/revision/Revision.ts';
 
 export default class Replace<NodeType extends Node> extends Revision {
     readonly parent: Node;

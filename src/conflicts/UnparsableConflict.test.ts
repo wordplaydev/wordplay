@@ -1,21 +1,21 @@
 import { test, expect, describe } from 'vitest';
-import Source from '@nodes/Source';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import { UnparsableConflict } from '@conflicts/UnparsableConflict';
-import UnparsableExpression from '@nodes/UnparsableExpression';
-import Templates from '@concepts/Templates';
-import StructureDefinition from '@nodes/StructureDefinition';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Conditional from '@nodes/Conditional';
-import Convert from '@nodes/Convert';
-import Bind from '@nodes/Bind';
-import Otherwise from '@nodes/Otherwise';
-import Reaction from '@nodes/Reaction';
-import Changed from '@nodes/Changed';
-import Previous from '@nodes/Previous';
-import Match from '@nodes/Match';
-import type Node from '@nodes/Node';
+import Source from '#nodes/Source.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { UnparsableConflict } from '#conflicts/UnparsableConflict.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import Templates from '#concepts/Templates.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Conditional from '#nodes/Conditional.ts';
+import Convert from '#nodes/Convert.ts';
+import Bind from '#nodes/Bind.ts';
+import Otherwise from '#nodes/Otherwise.ts';
+import Reaction from '#nodes/Reaction.ts';
+import Changed from '#nodes/Changed.ts';
+import Previous from '#nodes/Previous.ts';
+import Match from '#nodes/Match.ts';
+import type Node from '#nodes/Node.ts';
 
 function getRepairs(code: string): Node[] {
     const source = new Source('test', code);

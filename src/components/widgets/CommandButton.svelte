@@ -1,28 +1,28 @@
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Emoji from '#components/app/Emoji.svelte';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
     import { tick, type Component } from 'svelte';
-    import { tokenize } from '@parser/Tokenizer';
+    import { tokenize } from '#parser/Tokenizer.ts';
     import {
         resetVisualColumnAfter,
         type Command,
-    } from '@components/editor/commands/Commands';
+    } from '#components/editor/commands/Commands.ts';
     import {
         toAriaKeyshortcuts,
         toShortcut,
-    } from '@components/editor/commands/shortcuts';
-    import { resolveFeedback } from '@components/editor/commands/feedback';
-    import TokenView from '@components/editor/tokens/TokenView.svelte';
+    } from '#components/editor/commands/shortcuts.ts';
+    import { resolveFeedback } from '#components/editor/commands/feedback.ts';
+    import TokenView from '#components/editor/tokens/TokenView.svelte';
     import {
         IdleKind,
         getAnnouncer,
         getEditors,
         getProjectCommandContext,
-    } from '@components/project/Contexts';
-    import { locales } from '@db/Database';
-    import { keyLabelFor } from '@input/Key/keyNames';
-    import { must } from '@util/nullable';
-    import Button from '@components/widgets/Button.svelte';
+    } from '#components/project/Contexts.ts';
+    import { locales } from '#db/Database.ts';
+    import { keyLabelFor } from '#input/Key/keyNames.ts';
+    import { must } from '#util/nullable.ts';
+    import Button from '#components/widgets/Button.svelte';
 
     interface Props {
         /** If source ID isn't provided, then the one with focus is used. */

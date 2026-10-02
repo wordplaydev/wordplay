@@ -9,8 +9,8 @@
  * between two consecutive announcements. See `snapDescription.test.ts`.
  */
 
-import type Locales from '@locale/Locales';
-import { must } from '@util/nullable';
+import type Locales from '#locale/Locales.ts';
+import { must } from '#util/nullable.ts';
 import { describePlace } from './direction';
 import type { Anchor, Axis, Guide } from './snap';
 

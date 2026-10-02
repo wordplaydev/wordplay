@@ -1,28 +1,32 @@
-import Caret from '@edit/caret/Caret';
+import Caret from '#edit/caret/Caret.ts';
 import {
     AssignmentPoint,
     getInsertionPoint,
     InsertionPoint,
     kindAcceptsDrop,
-} from '@edit/drag/Drag';
-import Block from '@nodes/Block';
-import type Context from '@nodes/Context';
-import Node, { ListOf } from '@nodes/Node';
-import type Program from '@nodes/Program';
-import type Source from '@nodes/Source';
-import Token from '@nodes/Token';
-import { TAB_WIDTH } from '@parser/Spaces';
+} from '#edit/drag/Drag.ts';
+import Block from '#nodes/Block.ts';
+import type Context from '#nodes/Context.ts';
+import Node, { ListOf } from '#nodes/Node.ts';
+import type Program from '#nodes/Program.ts';
+import type Source from '#nodes/Source.ts';
+import Token from '#nodes/Token.ts';
+import { TAB_WIDTH } from '#parser/Spaces.ts';
 import {
     buildRows,
     targetRowPositionFromSpan,
     type Row,
     type RowMember,
-} from '@components/editor/caret/rowModel';
+} from '#components/editor/caret/rowModel.ts';
 import {
     graphemeOffsetAt,
     locateCaretRect,
-} from '@components/editor/highlights/measureTokenSegment';
-import type { Axes, LogicalRect, RectLike } from '@components/editor/util/axes';
+} from '#components/editor/highlights/measureTokenSegment.ts';
+import type {
+    Axes,
+    LogicalRect,
+    RectLike,
+} from '#components/editor/util/axes.ts';
 
 /**
  * Given a rendered source, and a pointer event, find the empty list insertion under the

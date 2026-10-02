@@ -4,7 +4,7 @@ import type {
     SerializedNotices,
 } from 'shared-types';
 import { z } from 'zod';
-import { includesString } from '@util/nullable';
+import { includesString } from '#util/nullable.ts';
 import type { ReportSubjectKind } from 'shared-types';
 
 /** Where a creator's inbox lives. Client-readable, server-written. */

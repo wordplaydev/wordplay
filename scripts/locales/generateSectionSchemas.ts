@@ -14,7 +14,7 @@ import {
     LocaleSections,
     sectionFileFor,
     type LocaleSection,
-} from '@util/verify-locales/localeFiles';
+} from '#util/verify-locales/localeFiles.ts';
 
 const SchemaDirectory = path.join('static', 'schemas', 'sections');
 const Source = JSON.parse(

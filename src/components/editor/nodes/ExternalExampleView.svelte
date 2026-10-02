@@ -1,8 +1,8 @@
 <script lang="ts">
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import type ExternalExample from '@nodes/ExternalExample';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import type ExternalExample from '#nodes/ExternalExample.ts';
 
     interface Props {
         node: ExternalExample;

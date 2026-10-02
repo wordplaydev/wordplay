@@ -4,9 +4,9 @@
      Without this queue nothing could ever reach `moderation: 'approved'`, which is half
      of what the registry query requires. -->
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import { KitSchema, upgradeKit } from '@db/kits/Kit';
-    import { KitsCollection } from '@db/kits/KitDatabase.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import { KitSchema, upgradeKit } from '#db/kits/Kit.ts';
+    import { KitsCollection } from '#db/kits/KitDatabase.svelte.ts';
     import KitCode from './KitCode.svelte';
     import ModerationQueue from './ModerationQueue.svelte';
 </script>

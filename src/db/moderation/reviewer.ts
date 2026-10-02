@@ -1,4 +1,4 @@
-import { Galleries } from '@db/Database';
+import { Galleries } from '#db/Database.ts';
 
 /**
  * Whether this creator curates any gallery, and so answers for what is in it.

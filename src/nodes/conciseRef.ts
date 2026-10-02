@@ -1,19 +1,19 @@
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import Block, { BlockKind } from '@nodes/Block';
-import Expression from '@nodes/Expression';
-import ListLiteral from '@nodes/ListLiteral';
-import Literal from '@nodes/Literal';
-import MapLiteral from '@nodes/MapLiteral';
-import type Node from '@nodes/Node';
-import Convert from '@nodes/Convert';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import Reference from '@nodes/Reference';
-import SetLiteral from '@nodes/SetLiteral';
-import TableLiteral from '@nodes/TableLiteral';
-import Type from '@nodes/Type';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import Expression from '#nodes/Expression.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import Literal from '#nodes/Literal.ts';
+import MapLiteral from '#nodes/MapLiteral.ts';
+import type Node from '#nodes/Node.ts';
+import Convert from '#nodes/Convert.ts';
+import ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import Reference from '#nodes/Reference.ts';
+import SetLiteral from '#nodes/SetLiteral.ts';
+import TableLiteral from '#nodes/TableLiteral.ts';
+import Type from '#nodes/Type.ts';
 
 /**
  * A short spoken reference to a child node, for use in node descriptions.

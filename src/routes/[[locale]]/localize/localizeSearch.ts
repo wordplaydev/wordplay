@@ -11,7 +11,7 @@ import {
     foldEntry,
     type SearchField,
     type SearchLanguages,
-} from '@util/search';
+} from '#util/search.ts';
 
 /** Path key tier (ranks first). */
 const PATH = 1;

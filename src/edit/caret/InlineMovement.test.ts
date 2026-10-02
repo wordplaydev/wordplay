@@ -1,5 +1,5 @@
-import Caret from '@edit/caret/Caret';
-import Source from '@nodes/Source';
+import Caret from '#edit/caret/Caret.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

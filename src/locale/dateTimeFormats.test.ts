@@ -2,12 +2,12 @@ import { expect, test } from 'vitest';
 import {
     getDateTimeDataForLocale,
     registerDateTimeData,
-} from '@locale/dateTimeData';
+} from '#locale/dateTimeData.ts';
 import {
     formatDateTimeForLocale,
     type DateTimeFields,
-} from '@locale/dateTimeFormats';
-import type Locale from '@locale/Locale';
+} from '#locale/dateTimeFormats.ts';
+import type Locale from '#locale/Locale.ts';
 
 const English: Locale = { language: 'en', regions: ['US'] };
 const Hindi: Locale = { language: 'hi', regions: ['IN'] };

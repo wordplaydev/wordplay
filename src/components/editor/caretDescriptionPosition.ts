@@ -4,7 +4,7 @@
  *  (the absolute `top`/`left` to set on the description element), or
  *  undefined when measurements aren't yet available. */
 
-import { placeNearTarget } from '@components/widgets/placeNearTarget';
+import { placeNearTarget } from '#components/widgets/placeNearTarget.ts';
 
 /** Walk up to the nearest ancestor that scrolls (overflow auto/scroll/hidden),
  *  or null if there isn't one. Used to find the actual visible area for

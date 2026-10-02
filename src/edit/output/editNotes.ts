@@ -14,17 +14,17 @@
  * didn't ask for.
  */
 
-import { getNumber } from '@components/palette/editOutput';
-import Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import Input from '@nodes/Input';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import type Reference from '@nodes/Reference';
-import SetLiteral from '@nodes/SetLiteral';
-import Unit from '@nodes/Unit';
-import { NoteDurations } from '@output/Music/durations';
-import type { NoteData } from '@output/Music/musicData';
+import { getNumber } from '#components/palette/editOutput.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import Input from '#nodes/Input.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import type Reference from '#nodes/Reference.ts';
+import SetLiteral from '#nodes/SetLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import { NoteDurations } from '#output/Music/durations.ts';
+import type { NoteData } from '#output/Music/musicData.ts';
 
 /**
  * How precisely a bent degree is written.

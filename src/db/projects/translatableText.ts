@@ -1,18 +1,18 @@
-import type Project from '@db/projects/Project';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Docs from '@nodes/Docs';
-import Evaluate from '@nodes/Evaluate';
-import FormattedLiteral from '@nodes/FormattedLiteral';
-import Input from '@nodes/Input';
-import KeyValue from '@nodes/KeyValue';
-import MapLiteral from '@nodes/MapLiteral';
-import Match from '@nodes/Match';
-import type Node from '@nodes/Node';
-import TextLiteral from '@nodes/TextLiteral';
-import TextType from '@nodes/TextType';
-import { isSupportedCalendar } from '@locale/dateTimeFormats';
-import { isSupportedTimeZone } from '@locale/timeZones';
-import { EQUALS_SYMBOL, NOT_EQUALS_SYMBOL } from '@parser/Symbols';
+import type Project from '#db/projects/Project.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Docs from '#nodes/Docs.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+import Input from '#nodes/Input.ts';
+import KeyValue from '#nodes/KeyValue.ts';
+import MapLiteral from '#nodes/MapLiteral.ts';
+import Match from '#nodes/Match.ts';
+import type Node from '#nodes/Node.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import TextType from '#nodes/TextType.ts';
+import { isSupportedCalendar } from '#locale/dateTimeFormats.ts';
+import { isSupportedTimeZone } from '#locale/timeZones.ts';
+import { EQUALS_SYMBOL, NOT_EQUALS_SYMBOL } from '#parser/Symbols.ts';
 
 /**
  * Whether a piece of a project's text should be handed to a translator.

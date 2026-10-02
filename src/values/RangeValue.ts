@@ -1,17 +1,17 @@
-import type { BasisTypeName } from '@basis/BasisConstants';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import Decimal from 'decimal.js';
-import getConceptName from '@locale/getConceptName';
-import type LocaleText from '@locale/LocaleText';
-import type Expression from '@nodes/Expression';
-import ListType from '@nodes/ListType';
-import RangeType from '@nodes/RangeType';
-import { RANGE_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import ConversionException from '@values/ConversionException';
-import ListValue from '@values/ListValue';
-import NumberValue from '@values/NumberValue';
-import SimpleValue from '@values/SimpleValue';
-import type Value from '@values/Value';
+import getConceptName from '#locale/getConceptName.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Expression from '#nodes/Expression.ts';
+import ListType from '#nodes/ListType.ts';
+import RangeType from '#nodes/RangeType.ts';
+import { RANGE_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ConversionException from '#values/ConversionException.ts';
+import ListValue from '#values/ListValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import SimpleValue from '#values/SimpleValue.ts';
+import type Value from '#values/Value.ts';
 
 /**
  * The value of an evaluated range (`1‥10`): two number bounds, inclusive of both. Its unit is

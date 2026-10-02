@@ -1,7 +1,7 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import { findConceptEntry } from '@locale/getConceptName';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { findConceptEntry } from '#locale/getConceptName.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 import kitKinds, { MAX_KINDS } from './kitKinds';
 

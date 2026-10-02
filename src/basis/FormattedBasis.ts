@@ -1,30 +1,30 @@
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import Block, { BlockKind } from '@nodes/Block';
-import BooleanType from '@nodes/BooleanType';
-import type Expression from '@nodes/Expression';
-import FormattedType from '@nodes/FormattedType';
-import Language from '@nodes/Language';
-import Markup from '@nodes/Markup';
-import NumberType from '@nodes/NumberType';
-import StructureDefinition from '@nodes/StructureDefinition';
-import TextType from '@nodes/TextType';
-import type BoolValue from '@values/BoolValue';
-import MarkupValue from '@values/MarkupValue';
-import NumberValue from '@values/NumberValue';
-import ListType from '@nodes/ListType';
-import ListValue from '@values/ListValue';
-import UnicodeString from '@unicode/UnicodeString';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import type Expression from '#nodes/Expression.ts';
+import FormattedType from '#nodes/FormattedType.ts';
+import Language from '#nodes/Language.ts';
+import Markup from '#nodes/Markup.ts';
+import NumberType from '#nodes/NumberType.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import TextType from '#nodes/TextType.ts';
+import type BoolValue from '#values/BoolValue.ts';
+import MarkupValue from '#values/MarkupValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import ListType from '#nodes/ListType.ts';
+import ListValue from '#values/ListValue.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { FunctionText, NameAndDoc } from '#locale/LocaleText.ts';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
-} from '@basis/Basis';
+} from '#basis/Basis.ts';
 
 const MAX_TEXT_LENGTH = 65536;
 

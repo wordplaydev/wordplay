@@ -10,31 +10,31 @@
      array value; the server creates the key when a locale adopts its first form
      and removes it again when the last one goes. -->
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import GlossaryEntry from '@components/concepts/GlossaryEntry.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { locales } from '@db/Database';
+    import Subheader from '#components/app/Subheader.svelte';
+    import GlossaryEntry from '#components/concepts/GlossaryEntry.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { locales } from '#db/Database.ts';
     import {
         deleteLocaleEdit,
         localeEdits,
         saveLocaleEdit,
-    } from '@db/locales/LocalizationDexie';
-    import DefaultLocale from '@locale/DefaultLocale';
-    import { getGlossaryForms } from '@locale/Glossary';
+    } from '#db/locales/LocalizationDexie.ts';
+    import DefaultLocale from '#locale/DefaultLocale.ts';
+    import { getGlossaryForms } from '#locale/Glossary.ts';
     import {
         checkGlossaryForm,
         getGlossaryWordIndex,
         getReservedFormNames,
         type GlossaryFormProblem,
-    } from '@locale/glossaryFormProblem';
-    import { toLocaleString } from '@locale/LocaleText';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { ReservedConceptIDs } from '@nodes/ConceptLink';
-    import { CANCEL_SYMBOL, REVERT_SYMBOL } from '@parser/Symbols';
+    } from '#locale/glossaryFormProblem.ts';
+    import { toLocaleString } from '#locale/LocaleText.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+    import { ReservedConceptIDs } from '#nodes/ConceptLink.ts';
+    import { CANCEL_SYMBOL, REVERT_SYMBOL } from '#parser/Symbols.ts';
 
     /** The override path for a term's whole list of forms. */
     const pathFor = (id: string) => `glossary.${id}.forms`;

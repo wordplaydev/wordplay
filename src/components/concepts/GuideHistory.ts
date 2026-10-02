@@ -1,10 +1,10 @@
-import type Concept from '@concepts/Concept';
-import type { PurposeType } from '@concepts/Purpose';
+import type Concept from '#concepts/Concept.ts';
+import type { PurposeType } from '#concepts/Purpose.ts';
 import {
     BORROW_SYMBOL,
     DOCUMENTATION_SYMBOL,
     IDEA_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 
 /**
  * The guide's top-level sections, in tab order: an escalation in the scope of help, from

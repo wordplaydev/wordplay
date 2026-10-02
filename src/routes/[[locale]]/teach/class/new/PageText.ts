@@ -1,5 +1,5 @@
-import type { FormattedText } from '@locale/LocaleText';
-import type { ButtonText, FieldText, ModeText } from '@locale/UITexts';
+import type { FormattedText } from '#locale/LocaleText.ts';
+import type { ButtonText, FieldText, ModeText } from '#locale/UITexts.ts';
 
 /** The localization strings for the page. */
 type PageText = {

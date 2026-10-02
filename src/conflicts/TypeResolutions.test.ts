@@ -1,25 +1,25 @@
 import { test, expect, describe } from 'vitest';
-import Source from '@nodes/Source';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import { IncompatibleKey } from '@conflicts/IncompatibleKey';
-import IncompatibleCellType from '@conflicts/IncompatibleCellType';
-import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
-import MissingInput from '@conflicts/MissingInput';
-import type { Resolution } from '@conflicts/Conflict';
-import Templates from '@concepts/Templates';
-import type Conflict from '@conflicts/Conflict';
-import type Node from '@nodes/Node';
-import ListLiteral from '@nodes/ListLiteral';
-import Convert from '@nodes/Convert';
-import Otherwise from '@nodes/Otherwise';
-import Conditional from '@nodes/Conditional';
-import Bind from '@nodes/Bind';
-import Evaluate from '@nodes/Evaluate';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import DefaultLocales from '@locale/DefaultLocales';
+import Source from '#nodes/Source.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import { IncompatibleKey } from '#conflicts/IncompatibleKey.ts';
+import IncompatibleCellType from '#conflicts/IncompatibleCellType.ts';
+import ExpectedBooleanCondition from '#conflicts/ExpectedBooleanCondition.ts';
+import MissingInput from '#conflicts/MissingInput.ts';
+import type { Resolution } from '#conflicts/Conflict.ts';
+import Templates from '#concepts/Templates.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import type Node from '#nodes/Node.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import Convert from '#nodes/Convert.ts';
+import Otherwise from '#nodes/Otherwise.ts';
+import Conditional from '#nodes/Conditional.ts';
+import Bind from '#nodes/Bind.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
 
 const TYPE_MISMATCH = (c: Conflict) =>
     c instanceof IncompatibleType ||

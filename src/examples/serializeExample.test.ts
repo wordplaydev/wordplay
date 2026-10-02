@@ -3,7 +3,7 @@ import path from 'node:path';
 import { expect, test } from 'vitest';
 import { parseSerializedProject } from './examples';
 import { serializeExample } from './serializeExample';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 const dir = path.join('static', 'examples');
 const files = readdirSync(dir, { withFileTypes: true })

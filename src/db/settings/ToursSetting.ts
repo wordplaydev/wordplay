@@ -1,5 +1,5 @@
-import Setting from '@db/settings/Setting';
-import { isTourID, type TourID } from '@components/project/tours';
+import Setting from '#db/settings/Setting.ts';
+import { isTourID, type TourID } from '#components/project/tours.ts';
 
 /** The interface tours this creator has taken. The tutorial holds a learner at
  *  the step that offers a tour until it's in here, so it has to be something

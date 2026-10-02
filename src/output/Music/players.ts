@@ -6,20 +6,20 @@
  * releases it.
  */
 
-import type Evaluator from '@runtime/Evaluator';
-import Beat from '@input/Beat/Beat';
-import MusicPlayer, { type PlayerDeps } from '@output/Music/MusicPlayer';
-import audio from '@output/Music/MusicAudio';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Beat from '#input/Beat/Beat.ts';
+import MusicPlayer, { type PlayerDeps } from '#output/Music/MusicPlayer.ts';
+import audio from '#output/Music/MusicAudio.ts';
 import { get } from 'svelte/store';
-import { haptics } from '@db/Database';
-import supportsVibration from '@db/settings/supportsVibration';
-import { rumbleFor, rumbleGamepads } from '@output/Music/rumble';
-import { clearActivity, reportActivity } from '@output/Music/activity';
+import { haptics } from '#db/Database.ts';
+import supportsVibration from '#db/settings/supportsVibration.ts';
+import { rumbleFor, rumbleGamepads } from '#output/Music/rumble.ts';
+import { clearActivity, reportActivity } from '#output/Music/activity.ts';
 import {
     clearSounding,
     reportSounding,
     type SoundingNote,
-} from '@output/Music/sounding';
+} from '#output/Music/sounding.ts';
 
 export type MusicPlayerHandle = {
     readonly player: MusicPlayer;

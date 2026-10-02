@@ -1,22 +1,27 @@
-import type Conflict from '@conflicts/Conflict';
-import { UnparsableConflict } from '@conflicts/UnparsableConflict';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type Evaluator from '@runtime/Evaluator';
-import Halt from '@runtime/Halt';
-import type Step from '@runtime/Step';
-import UnparsableException from '@values/UnparsableException';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+import type Conflict from '#conflicts/Conflict.ts';
+import { UnparsableConflict } from '#conflicts/UnparsableConflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Halt from '#runtime/Halt.ts';
+import type Step from '#runtime/Step.ts';
+import UnparsableException from '#values/UnparsableException.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import type Context from '@nodes/Context';
-import type Expression from '@nodes/Expression';
-import Node, { list, node, type Grammar, type Replacement } from '@nodes/Node';
-import SimpleExpression from '@nodes/SimpleExpression';
-import type Token from '@nodes/Token';
-import type TypeSet from '@nodes/TypeSet';
-import UnparsableType from '@nodes/UnparsableType';
+import type Context from '#nodes/Context.ts';
+import type Expression from '#nodes/Expression.ts';
+import Node, {
+    list,
+    node,
+    type Grammar,
+    type Replacement,
+} from '#nodes/Node.ts';
+import SimpleExpression from '#nodes/SimpleExpression.ts';
+import type Token from '#nodes/Token.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import UnparsableType from '#nodes/UnparsableType.ts';
 
 export default class UnparsableExpression extends SimpleExpression {
     readonly unparsables: Token[];

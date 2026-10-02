@@ -204,7 +204,7 @@
                     "projectContainsPII": "$~Ces fichiers semblent contenir des informations personnelles, nous ne les avons donc pas sauvegardés en ligne. Ouvrez-les un par un pour vérifier quelles informations semblent personnelles.",
                     "localProjectStorageFailed": "$~Cet appareil n'a plus d'espace de stockage et ces projets ne sont pas encore dans le cloud, ils sont donc menacés.<Sign in@/login> , ce qui permet de les enregistrer en ligne et non seulement sur cet appareil.",
                     "projectTooLarge": "$~Ces projets sont trop grands pour être sauvegardés en ligne. Ils restent en sécurité sur cet appareil. Essaie de les rendre plus petits.",
-                    "noCloudTarget": "$~Ces projets ne sont que sur cet appareil, parce que @wordplay n'avait aucun endroit où les sauvegarder en ligne. <Connecte-toilogin> pour les sauvegarder.",
+                    "noCloudTarget": "$~Ces projets ne sont que sur cet appareil, parce que @wordplay n'avait aucun endroit où les sauvegarder en ligne. <Connecte-toi@/login> pour les sauvegarder.",
                     "cloudWriteRefused": "$~Le nuage n'a pas accepté ces changements, alors nous avons utilisé la copie en ligne à la place. Si tu penses que tu devrais pouvoir les changer, demande à la personne qui les a partagés avec toi."
                 },
                 "projectsNotSavingOnline": "$~Certains projets ne sont que sur cet appareil, pas encore en ligne."
@@ -1779,7 +1779,7 @@
                     "idea": "$~Vous n'avez pas trouvé l'idée qui vous vient à l'esprit ? Proposez-la."
                 },
                 "error": {
-                    "login": "$~Vous devez être connecté pour soumettre des commentaires.",
+                    "login": "$~Tu dois être <connecté@://login> pour envoyer des commentaires",
                     "empty": "$~Il n'y a aucun commentaire à afficher.",
                     "url": "$~Ce n'est pas une URL GitHub valide."
                 }
@@ -2088,7 +2088,7 @@
             },
             "moderation": {
                 "header": "$~Signaler ce message",
-                "explanation": "$~Si ce message ne respecte pas nos <normes communautaires@://droits> ou le type de commentaire que vous avez demandé, vous pouvez le signaler. Dans ce cas, il sera transmis aux responsables de la galerie et retiré le temps de son examen.",
+                "explanation": "$~Si ce message ne respecte pas nos <normes communautaires@://rights> ou le type de commentaire que vous avez demandé, vous pouvez le signaler. Dans ce cas, il sera transmis aux responsables de la galerie et retiré le temps de son examen.",
                 "report": {
                     "tip": "$~Signaler ce message",
                     "label": "$~rapport"
@@ -2099,7 +2099,7 @@
                 },
                 "pending": "$~Ce message a été temporairement supprimé en attendant une action de modération.",
                 "removed": "$~Ce message a été supprimé car il enfreignait les règles relatives à la communauté ou aux commentaires.",
-                "inGallery": "$~Cette discussion se déroule dans une galerie. Elle est soumise à la modération des responsables de la galerie. Vous pouvez signaler les messages qui enfreignent nos <normes communautaires@://droits> pour modération."
+                "inGallery": "$~Cette discussion se déroule dans une galerie. Elle est soumise à la modération des responsables de la galerie. Vous pouvez signaler les messages qui enfreignent nos <normes communautaires@://rights> pour modération."
             },
             "restrictGalleryCreatorAccess": {
                 "mode": {

@@ -1,6 +1,6 @@
-import { Sym, type SymType } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Node from '@nodes/Node';
+import { Sym, type SymType } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Node from '#nodes/Node.ts';
 
 /**
  * Symbols whose presence in an unparsable fragment is a strong signal of intent.

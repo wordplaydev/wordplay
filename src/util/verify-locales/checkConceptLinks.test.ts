@@ -1,8 +1,8 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import { parseLocaleDoc } from '@locale/LocaleText';
-import ConceptLink from '@nodes/ConceptLink';
-import checkDocContent from '@util/verify-locales/checkDocContent';
-import isUnresolvableConceptLink from '@util/verify-locales/checkConceptLinks';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { parseLocaleDoc } from '#locale/LocaleText.ts';
+import ConceptLink from '#nodes/ConceptLink.ts';
+import checkDocContent from '#util/verify-locales/checkDocContent.ts';
+import isUnresolvableConceptLink from '#util/verify-locales/checkConceptLinks.ts';
 import { describe, expect, test } from 'vitest';
 
 /** The links in a doc, in order. */

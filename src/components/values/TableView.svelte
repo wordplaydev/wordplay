@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { Sym } from '@nodes/Sym';
-    import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
-    import type TableValue from '@values/TableValue';
-    import { locales } from '@db/Database';
-    import Expandable from '@components/values/Expandable.svelte';
-    import { fitCount } from '@components/values/fit';
-    import { must } from '@util/nullable';
-    import RowView from '@components/values/RowView.svelte';
-    import SymbolView from '@components/values/SymbolView.svelte';
-    import ValueView from '@components/values/ValueView.svelte';
+    import { Sym } from '#nodes/Sym.ts';
+    import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '#parser/Symbols.ts';
+    import type TableValue from '#values/TableValue.ts';
+    import { locales } from '#db/Database.ts';
+    import Expandable from '#components/values/Expandable.svelte';
+    import { fitCount } from '#components/values/fit.ts';
+    import { must } from '#util/nullable.ts';
+    import RowView from '#components/values/RowView.svelte';
+    import SymbolView from '#components/values/SymbolView.svelte';
+    import ValueView from '#components/values/ValueView.svelte';
 
     export let value: TableValue;
     export let inline = true;

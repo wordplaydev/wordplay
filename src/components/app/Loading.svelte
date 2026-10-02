@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
 </script>
 
 <div class="container">

@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /** The timestamp of the last update page check */
 export const UpdatesSetting = new Setting<string | null>(

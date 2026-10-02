@@ -1,6 +1,6 @@
-import type Node from '@nodes/Node';
-import type Source from '@nodes/Source';
-import Token from '@nodes/Token';
+import type Node from '#nodes/Node.ts';
+import type Source from '#nodes/Source.ts';
+import Token from '#nodes/Token.ts';
 
 /** The set of token ids currently rendered in the editor. A token is hidden by a
  *  fold exactly when its id is absent here — folding removes a collapsed node's

@@ -1,11 +1,11 @@
 import { expect, test } from 'vitest';
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import { toStage } from '@output/Output/Stage';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { toStage } from '#output/Output/Stage.ts';
 
 function describe(code: string): string | undefined {
     const source = new Source('test', code);

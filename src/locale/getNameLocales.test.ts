@@ -1,8 +1,8 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
-import concretize from '@locale/concretize';
-import type LocaleText from '@locale/LocaleText';
-import { getNameLocales } from '@locale/getNameLocales';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
+import concretize from '#locale/concretize.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
 import { expect, test } from 'vitest';
 
 /**

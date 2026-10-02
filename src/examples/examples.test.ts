@@ -1,16 +1,16 @@
-import Templates from '@concepts/Templates';
-import Evaluator from '@runtime/Evaluator';
-import UnicodeString from '@unicode/UnicodeString';
-import ExceptionValue from '@values/ExceptionValue';
+import Templates from '#concepts/Templates.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
-import { DB, Locales } from '@db/Database';
-import Project from '@db/projects/Project';
-import type { SerializedProject } from '@db/projects/ProjectSchemas';
-import DefaultLocales from '@locale/DefaultLocales';
-import { builtinKitResolver } from '@db/kits/builtinKitResolver';
-import { kitsNeededBy, resolveKits } from '@db/kits/resolveKits';
+import { DB, Locales } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import type { SerializedProject } from '#db/projects/ProjectSchemas.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import { builtinKitResolver } from '#db/kits/builtinKitResolver.ts';
+import { kitsNeededBy, resolveKits } from '#db/kits/resolveKits.ts';
 import { getExampleGalleries } from './examples';
 import { readProjects } from './readProjects';
 

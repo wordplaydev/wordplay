@@ -1,15 +1,15 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Evaluate from '@nodes/Evaluate';
-import Source from '@nodes/Source';
-import type Output from '@output/Output/Output';
-import { toStage } from '@output/Output/Stage';
-import Sequence from '@output/animation/Sequence';
-import { getAnimatingNodes } from '@output/animation/animatingNodes';
-import Evaluator from '@runtime/Evaluator';
-import { must } from '@util/nullable';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Source from '#nodes/Source.ts';
+import type Output from '#output/Output/Output.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import Sequence from '#output/animation/Sequence.ts';
+import { getAnimatingNodes } from '#output/animation/animatingNodes.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 
 /**

@@ -3,7 +3,7 @@ import {
     choosePool,
     filterPoolByCase,
     type ScriptData,
-} from '@output/animation/textEffectPool';
+} from '#output/animation/textEffectPool.ts';
 
 test('filterPoolByCase matches the sample case', () => {
     const pool = ['a', 'b', 'A', 'B', 'CH', '5', '日'];

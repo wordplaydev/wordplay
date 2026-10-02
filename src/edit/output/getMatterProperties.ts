@@ -1,10 +1,10 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyRange from '@edit/output/OutputPropertyRange';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
 
 /** The editable inputs of a Matter() value: sliders for the physical quantities and
  *  checkboxes for the collision toggles. */

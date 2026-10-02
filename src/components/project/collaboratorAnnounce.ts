@@ -1,5 +1,5 @@
-import type Locales from '@locale/Locales';
-import type { ProjectPrivilege } from '@db/projects/Project';
+import type Locales from '#locale/Locales.ts';
+import type { ProjectPrivilege } from '#db/projects/Project.ts';
 
 /**
  * What the announcer says when a project's people change.

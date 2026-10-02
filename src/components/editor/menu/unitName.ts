@@ -1,11 +1,11 @@
-import { Units, unitFor, type UnitKey } from '@basis/UnitConversions';
-import type Locales from '@locale/Locales';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import Dimension from '@nodes/Dimension';
-import Markup from '@nodes/Markup';
-import type Node from '@nodes/Node';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
+import { Units, unitFor, type UnitKey } from '#basis/UnitConversions.ts';
+import type Locales from '#locale/Locales.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import Dimension from '#nodes/Dimension.ts';
+import Markup from '#nodes/Markup.ts';
+import type Node from '#nodes/Node.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
 
 /**
  * The localized name of the unit a menu suggestion would insert, e.g. `km` → "kilometers".

@@ -1,16 +1,16 @@
 <script lang="ts">
-    import { getProject } from '@components/project/Contexts';
-    import StructureInputsEditor from '@components/palette/StructureInputsEditor.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
-    import getStructureProperties from '@edit/output/getStructureProperties';
-    import Evaluate from '@nodes/Evaluate';
-    import Reference from '@nodes/Reference';
-    import StructureDefinition from '@nodes/StructureDefinition';
-    import { withMonoEmoji } from '@unicode/emoji';
+    import { getProject } from '#components/project/Contexts.ts';
+    import StructureInputsEditor from '#components/palette/StructureInputsEditor.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type OutputPropertyValues from '#edit/output/OutputPropertyValueSet.ts';
+    import getStructureProperties from '#edit/output/getStructureProperties.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import Reference from '#nodes/Reference.ts';
+    import StructureDefinition from '#nodes/StructureDefinition.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
 
     interface Props {
         project: Project;

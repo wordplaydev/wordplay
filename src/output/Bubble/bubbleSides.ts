@@ -10,8 +10,8 @@
  * frame a child's `place` is written in.
  */
 
-import type { BubbleSide } from '@output/Bubble/Bubble';
-import type { ReadonlyNonEmpty } from '@util/nullable';
+import type { BubbleSide } from '#output/Bubble/Bubble.ts';
+import type { ReadonlyNonEmpty } from '#util/nullable.ts';
 
 /** A box in the container's frame. Structurally the same as `fit.ts`'s Box,
  *  declared here so the model layer needn't import from the view layer. */

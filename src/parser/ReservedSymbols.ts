@@ -55,7 +55,7 @@ import {
     TYPE_OPEN_SYMBOL,
     TYPE_OPEN_SYMBOL_FULL,
     TYPE_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 
 const ReservedSymbols = [
     CODE_SYMBOL,

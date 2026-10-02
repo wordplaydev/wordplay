@@ -1,16 +1,16 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import Row from '@nodes/Row';
-import type TableType from '@nodes/TableType';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import Row from '#nodes/Row.ts';
+import type TableType from '#nodes/TableType.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Node from '#nodes/Node.ts';
 
 export default class MissingCell extends Conflict {
     readonly row: Row;

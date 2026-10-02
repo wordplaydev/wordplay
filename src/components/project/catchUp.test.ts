@@ -4,7 +4,7 @@ import {
     catchUpDuration,
     MaxCatchUpMs,
     reactionsDue,
-} from '@components/project/catchUp';
+} from '#components/project/catchUp.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('pacing', () => {

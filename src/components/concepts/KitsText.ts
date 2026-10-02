@@ -1,5 +1,5 @@
-import type { FormattedText } from '@locale/LocaleText';
-import type { Template } from '@locale/LocaleText';
+import type { FormattedText } from '#locale/LocaleText.ts';
+import type { Template } from '#locale/LocaleText.ts';
 
 /** Text for published kits (#8), which are a section of the guide: `ui.docs.kits`. */
 type KitsText = {

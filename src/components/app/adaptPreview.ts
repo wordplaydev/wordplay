@@ -3,7 +3,7 @@ import {
     adaptLightness,
     backgroundInvitesAdaptation,
     lightnessOfCSS,
-} from '@output/Color/adapt';
+} from '#output/Color/adapt.ts';
 
 export type PreviewColors = {
     background: string | null;

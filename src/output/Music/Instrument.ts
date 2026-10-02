@@ -1,15 +1,18 @@
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import { getBind } from '@locale/getBind';
-import { SHARE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
-import type Bind from '@nodes/Bind';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Evaluator from '@runtime/Evaluator';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import Valued, { getOutputInput } from '@output/Output/Valued';
-import { InstrumentKeys, type InstrumentKey } from '@output/Music/instruments';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import { getBind } from '#locale/getBind.ts';
+import { SHARE_SYMBOL, TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type Bind from '#nodes/Bind.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import Valued, { getOutputInput } from '#output/Output/Valued.ts';
+import {
+    InstrumentKeys,
+    type InstrumentKey,
+} from '#output/Music/instruments.ts';
 
 export function createInstrumentType(locales: Locales) {
     // One `↑ <multilingual names>: 🔈('<id>')` static bind per palette entry,

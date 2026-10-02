@@ -204,7 +204,7 @@
                     "projectContainsPII": "$~Te projekty wyglądają, jakby zawierały dane osobowe, więc nie zapisaliśmy ich online. Otwórz każdy z nich, aby sprawdzić, co wygląda na osobiste.",
                     "localProjectStorageFailed": "$~Na tym urządzeniu zabrakło miejsca do zapisania, a te projekty nie znajdują się jeszcze w chmurze, więc są zagrożone.<Sign in@/login> , co pozwala na ich zapisywanie online, a nie tylko na tym urządzeniu.",
                     "projectTooLarge": "$~Te projekty są za duże, aby zapisać je online. Nadal są bezpieczne na tym urządzeniu. Spróbuj je zmniejszyć.",
-                    "noCloudTarget": "$~Te projekty są tylko na tym urządzeniu, ponieważ @wordplay nie miał gdzie zapisać ich online. <Zaloguj sięlogin>, aby je zapisać.",
+                    "noCloudTarget": "$~Te projekty są tylko na tym urządzeniu, ponieważ @wordplay nie miał gdzie zapisać ich online. <Zaloguj się@/login>, aby je zapisać.",
                     "cloudWriteRefused": "$~Chmura nie zaakceptowała tych zmian, więc użyliśmy wersji dostępnej online. Jeśli myślisz, że powinieneś móc to zmieniać, zapytaj osobę, która to z Tobą udostępniła."
                 },
                 "projectsNotSavingOnline": "$~Niektóre projekty są tylko na tym urządzeniu, jeszcze nie online."
@@ -1885,7 +1885,7 @@
                 },
                 "pending": "$~Ta wiadomość została tymczasowo usunięta na czas oczekiwania na decyzję moderacji.",
                 "removed": "$~Wiadomość została usunięta, ponieważ naruszała zasady społeczności lub zasady dotyczące opinii.",
-                "inGallery": "$~Ten czat znajduje się w galerii. Podlega moderacji przez kuratorów galerii. Możesz zgłaszać wiadomości naruszające nasze <standardy społeczności@://prawa> do moderacji."
+                "inGallery": "$~Ten czat znajduje się w galerii. Podlega moderacji przez kuratorów galerii. Możesz zgłaszać wiadomości naruszające nasze <standardy społeczności@://rights> do moderacji."
             },
             "restrictGalleryCreatorAccess": {
                 "mode": {

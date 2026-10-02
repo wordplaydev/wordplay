@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { getFunctionsInstance } from '@db/firebase';
-    import { locales } from '@db/Database';
-    import scanLiteralGlossaryTerms from '@locale/glossaryScan';
-    import { toLocaleString } from '@locale/LocaleText';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
+    import Notice from '#components/app/Notice.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { getFunctionsInstance } from '#db/firebase.ts';
+    import { locales } from '#db/Database.ts';
+    import scanLiteralGlossaryTerms from '#locale/glossaryScan.ts';
+    import { toLocaleString } from '#locale/LocaleText.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
     import type { Functions } from 'firebase/functions';
     import type {
         AnalyzeLocalizationInputs,

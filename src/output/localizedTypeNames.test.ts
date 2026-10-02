@@ -1,12 +1,12 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import Bind from '@nodes/Bind';
-import Doc from '@nodes/Doc';
-import NameType from '@nodes/NameType';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
-import StructureDefinition from '@nodes/StructureDefinition';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Bind from '#nodes/Bind.ts';
+import Doc from '#nodes/Doc.ts';
+import NameType from '#nodes/NameType.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
 

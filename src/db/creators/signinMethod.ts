@@ -1,4 +1,4 @@
-import { getFunctionsInstance } from '@db/firebase';
+import { getFunctionsInstance } from '#db/firebase.ts';
 import type {
     ChangeUsernameInputs,
     ChangeUsernameOutput,

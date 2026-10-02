@@ -1,18 +1,18 @@
 // First, for its side effect on module order. ConceptIndex reaches HowToDatabase, which
 // imports Database, which constructs one of every database at module scope — so reaching that
 // cycle through ConceptIndex first leaves HowToDatabase undefined and the whole file fails to
-// load. Entering through @db resolves it. conceptGroups.test.ts works for the same reason.
-import '@db/projects/Projects';
-import ConceptIndex from '@concepts/ConceptIndex';
-import Project from '@db/projects/Project';
-import { Purpose } from '@concepts/Purpose';
-import Caret from '@edit/caret/Caret';
-import Menu, { RevisionSet } from '@edit/menu/Menu';
-import { getEditsAt } from '@edit/menu/PossibleEdits';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import Unit from '@nodes/Unit';
+// load. Entering through #db resolves it. conceptGroups.test.ts works for the same reason.
+import '#db/projects/Projects.ts';
+import ConceptIndex from '#concepts/ConceptIndex.ts';
+import Project from '#db/projects/Project.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import Caret from '#edit/caret/Caret.ts';
+import Menu, { RevisionSet } from '#edit/menu/Menu.ts';
+import { getEditsAt } from '#edit/menu/PossibleEdits.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import Unit from '#nodes/Unit.ts';
 import { expect, test } from 'vitest';
 
 /** The menu a creator would see at a caret offset in this code. */

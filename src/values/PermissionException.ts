@@ -1,9 +1,9 @@
-import type { PermissionName } from '@input/permissions';
-import type Locales from '@locale/Locales';
-import type { ExceptionText } from '@locale/NodeTexts';
-import type Expression from '@nodes/Expression';
-import type Evaluator from '@runtime/Evaluator';
-import ExceptionValue from '@values/ExceptionValue';
+import type { PermissionName } from '#input/permissions.ts';
+import type Locales from '#locale/Locales.ts';
+import type { ExceptionText } from '#locale/NodeTexts.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
 
 export default class PermissionException extends ExceptionValue {
     readonly permission: PermissionName;

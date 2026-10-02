@@ -1,11 +1,11 @@
-import type Caret from '@edit/caret/Caret';
-import { entriesOf } from '@util/nullable';
-import { enclosingExample, spanOf } from '@edit/markup/formatOperations';
-import type Locales from '@locale/Locales';
-import type { LocaleTextAccessor } from '@locale/Locales';
-import Paragraph from '@nodes/Paragraph';
-import Words, { type Format } from '@nodes/Words';
-import { FormatSymbols } from '@edit/markup/formatOperations';
+import type Caret from '#edit/caret/Caret.ts';
+import { entriesOf } from '#util/nullable.ts';
+import { enclosingExample, spanOf } from '#edit/markup/formatOperations.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import Paragraph from '#nodes/Paragraph.ts';
+import Words, { type Format } from '#nodes/Words.ts';
+import { FormatSymbols } from '#edit/markup/formatOperations.ts';
 
 /**
  * What to say after a markup editing command, derived by comparing the caret

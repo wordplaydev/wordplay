@@ -1,4 +1,4 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import { readable } from 'svelte/store';
 
 /** ms after the last scroll event before we consider scrolling to have stopped. */

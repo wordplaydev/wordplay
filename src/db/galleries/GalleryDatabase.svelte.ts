@@ -1,4 +1,4 @@
-import type { ProjectID } from '@db/projects/ProjectSchemas';
+import type { ProjectID } from '#db/projects/ProjectSchemas.ts';
 import {
     and,
     arrayRemove,
@@ -20,33 +20,37 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { getExampleGalleries } from '../../examples/examples';
-import { localeToString } from '@locale/Locale';
-import type Locales from '@locale/Locales';
-import { type Database, type SaveCounts, type SaveError } from '@db/Database';
-import exceedsDocLimit from '@db/exceedsDocLimit';
-import { firestore } from '@db/firebase';
-import { unknownFlags } from '@db/projects/Moderation';
-import { Domain } from '@db/Domains';
-import isQuotaError from '@db/isQuotaError';
-import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
-import { GalleryServerOwnedFields } from '@db/rulesFields';
-import supportsIndexedDB from '@db/supportsIndexedDB';
-import Watchers from '@db/Watchers';
-import type Project from '@db/projects/Project';
-import type { Character } from '@db/characters/Character';
+import { localeToString } from '#locale/Locale.ts';
+import type Locales from '#locale/Locales.ts';
+import {
+    type Database,
+    type SaveCounts,
+    type SaveError,
+} from '#db/Database.ts';
+import exceedsDocLimit from '#db/exceedsDocLimit.ts';
+import { firestore } from '#db/firebase.ts';
+import { unknownFlags } from '#db/projects/Moderation.ts';
+import { Domain } from '#db/Domains.ts';
+import isQuotaError from '#db/isQuotaError.ts';
+import SaveTracker, { type RePush } from '#db/SaveTracker.svelte.ts';
+import { GalleryServerOwnedFields } from '#db/rulesFields.ts';
+import supportsIndexedDB from '#db/supportsIndexedDB.ts';
+import Watchers from '#db/Watchers.ts';
+import type Project from '#db/projects/Project.ts';
+import type { Character } from '#db/characters/Character.ts';
 
 import {
     ClassesCollection,
     ClassSchema,
     getClass,
     setClass,
-} from '@db/teachers/TeacherDatabase.svelte';
+} from '#db/teachers/TeacherDatabase.svelte.ts';
 import Gallery, {
     deserializeGallery,
     parseGallery,
     GallerySchemaLatestVersion,
     type SerializedGallery,
-} from '@db/galleries/Gallery';
+} from '#db/galleries/Gallery.ts';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = Domain.Galleries;

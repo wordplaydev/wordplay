@@ -1,11 +1,11 @@
-import type Context from '@nodes/Context';
-import type Type from '@nodes/Type';
-import type Evaluator from '@runtime/Evaluator';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import type { LocaleTextAccessor } from '@locale/Locales';
-import type Locale from '@locale/Locale';
-import type Expression from '@nodes/Expression';
+import type Context from '#nodes/Context.ts';
+import type Type from '#nodes/Type.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import type Locale from '#locale/Locale.ts';
+import type Expression from '#nodes/Expression.ts';
 
 /** Used to uniquely distinguish values. */
 let VALUE_ID = 0;

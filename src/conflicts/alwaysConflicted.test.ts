@@ -1,14 +1,14 @@
-import { conflictsIn } from '@conflicts/TestUtilities';
-import Placeholder from '@conflicts/Placeholder';
-import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
-import { UnparsableConflict } from '@conflicts/UnparsableConflict';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import UnparsableExpression from '@nodes/UnparsableExpression';
-import UnparsableType from '@nodes/UnparsableType';
+import { conflictsIn } from '#conflicts/TestUtilities.ts';
+import Placeholder from '#conflicts/Placeholder.ts';
+import { UnexpectedTypeVariable } from '#conflicts/UnexpectedTypeVariable.ts';
+import { UnparsableConflict } from '#conflicts/UnparsableConflict.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import UnparsableType from '#nodes/UnparsableType.ts';
 import { expect, test } from 'vitest';
 
 /**

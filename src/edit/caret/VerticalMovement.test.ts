@@ -1,8 +1,8 @@
-import Caret from '@edit/caret/Caret';
-import type { LocaleTextAccessor } from '@locale/Locales';
-import Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import Token from '@nodes/Token';
+import Caret from '#edit/caret/Caret.ts';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
+import Token from '#nodes/Token.ts';
 import { expect, test } from 'vitest';
 
 /** A caret at a text position in the given code. */

@@ -1,15 +1,15 @@
-import { Purpose } from '@concepts/Purpose';
-import type Conflict from '@conflicts/Conflict';
-import Placeholder from '@conflicts/Placeholder';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '@basis/BasisConstants';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import Placeholder from '#conflicts/Placeholder.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import Characters from '../lore/BasisCharacters';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import PlaceholderToken from '@nodes/PlaceholderToken';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
-import Type from '@nodes/Type';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import PlaceholderToken from '#nodes/PlaceholderToken.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
 
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;

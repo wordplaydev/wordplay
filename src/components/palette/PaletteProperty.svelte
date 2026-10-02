@@ -1,45 +1,45 @@
 <script lang="ts">
-    import RootView from '@components/project/RootView.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import ValueView from '@components/values/ValueView.svelte';
-    import type Value from '@values/Value';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type Project from '@db/projects/Project';
-    import type OutputProperty from '@edit/output/OutputProperty';
-    import OutputPropertyNumber from '@edit/output/OutputPropertyNumber';
-    import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
-    import OutputPropertyRange from '@edit/output/OutputPropertyRange';
-    import OutputPropertyText from '@edit/output/OutputPropertyText';
-    import type OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
-    import Evaluate from '@nodes/Evaluate';
+    import RootView from '#components/project/RootView.svelte';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import ValueView from '#components/values/ValueView.svelte';
+    import type Value from '#values/Value.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import type Project from '#db/projects/Project.ts';
+    import type OutputProperty from '#edit/output/OutputProperty.ts';
+    import OutputPropertyNumber from '#edit/output/OutputPropertyNumber.ts';
+    import OutputPropertyOptions from '#edit/output/OutputPropertyOptions.ts';
+    import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
+    import OutputPropertyText from '#edit/output/OutputPropertyText.ts';
+    import type OutputPropertyValueSet from '#edit/output/OutputPropertyValueSet.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
     import { tick } from 'svelte';
-    import { DB, locales } from '@db/Database';
+    import { DB, locales } from '#db/Database.ts';
     import {
         CANCEL_SYMBOL,
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
-    } from '@parser/Symbols';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import { getConceptIndex } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import ArrangementEditor from '@components/palette/ArrangementEditor.svelte';
-    import BindCheckbox from '@components/palette/BindCheckbox.svelte';
-    import BindColor from '@components/palette/BindColor.svelte';
-    import BindNumberField from '@components/palette/BindNumberField.svelte';
-    import BindOptions from '@components/palette/BindOptions.svelte';
-    import BindSlider from '@components/palette/BindSlider.svelte';
-    import BindText from '@components/palette/BindText.svelte';
-    import ContentEditor from '@components/palette/ContentEditor.svelte';
-    import MotionEditor from '@components/palette/MotionEditor.svelte';
-    import NamedControl from '@components/palette/NamedControl.svelte';
-    import PlaceEditor from '@components/palette/PlaceEditor.svelte';
-    import PlacementEditor from '@components/palette/PlacementEditor.svelte';
-    import PoseEditor from '@components/palette/PoseEditor.svelte';
-    import SequenceEditor from '@components/palette/SequenceEditor.svelte';
-    import { makesSequence } from '@output/animation/Sequence';
-    import SequencePosesEditor from '@components/palette/SequencePosesEditor.svelte';
-    import StructureEditor from '@components/palette/StructureEditor.svelte';
+    } from '#parser/Symbols.ts';
+    import ConceptLinkUI from '#components/concepts/ConceptLinkUI.svelte';
+    import { getConceptIndex } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import ArrangementEditor from '#components/palette/ArrangementEditor.svelte';
+    import BindCheckbox from '#components/palette/BindCheckbox.svelte';
+    import BindColor from '#components/palette/BindColor.svelte';
+    import BindNumberField from '#components/palette/BindNumberField.svelte';
+    import BindOptions from '#components/palette/BindOptions.svelte';
+    import BindSlider from '#components/palette/BindSlider.svelte';
+    import BindText from '#components/palette/BindText.svelte';
+    import ContentEditor from '#components/palette/ContentEditor.svelte';
+    import MotionEditor from '#components/palette/MotionEditor.svelte';
+    import NamedControl from '#components/palette/NamedControl.svelte';
+    import PlaceEditor from '#components/palette/PlaceEditor.svelte';
+    import PlacementEditor from '#components/palette/PlacementEditor.svelte';
+    import PoseEditor from '#components/palette/PoseEditor.svelte';
+    import SequenceEditor from '#components/palette/SequenceEditor.svelte';
+    import { makesSequence } from '#output/animation/Sequence.ts';
+    import SequencePosesEditor from '#components/palette/SequencePosesEditor.svelte';
+    import StructureEditor from '#components/palette/StructureEditor.svelte';
 
     interface Props {
         project: Project;

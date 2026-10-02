@@ -1,16 +1,16 @@
-import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Block from '@nodes/Block';
-import type Expression from '@nodes/Expression';
-import type Reference from '@nodes/Reference';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Block from '#nodes/Block.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Reference from '#nodes/Reference.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
 import {
     EXPONENT_SYMBOL,
     PRODUCT_SYMBOL,
@@ -22,7 +22,7 @@ import {
     NOT_EQUALS_SYMBOL,
     AND_SYMBOL,
     OR_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 
 /** PEMDAS-style precedence for binary operators. Higher number = evaluated
  *  earlier. Operators outside this table fall back to 0. */

@@ -1,8 +1,8 @@
-import { getLocaleLanguage } from '@locale/LocaleText';
+import { getLocaleLanguage } from '#locale/LocaleText.ts';
 import {
     SupportedLocales,
     type SupportedLocale,
-} from '@locale/SupportedLocales';
+} from '#locale/SupportedLocales.ts';
 
 /** Find the best supported locales from the requested raw language codes */
 

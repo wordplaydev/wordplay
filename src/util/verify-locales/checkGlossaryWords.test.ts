@@ -1,7 +1,7 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { collectingLog } from '@util/verify-locales/Log';
-import { getLocalePath } from '@util/verify-locales/LocaleSchema';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
+import { getLocalePath } from '#util/verify-locales/LocaleSchema.ts';
 import fs from 'fs';
 import { expect, test } from 'vitest';
 import repairGlossaryWords, {

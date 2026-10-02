@@ -1,11 +1,11 @@
 <script lang="ts">
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import { Projects } from '@db/projects/Projects';
-    import type Bind from '@nodes/Bind';
-    import type Evaluate from '@nodes/Evaluate';
-    import type Token from '@nodes/Token';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Bind from '#nodes/Bind.ts';
+    import type Evaluate from '#nodes/Evaluate.ts';
+    import type Token from '#nodes/Token.ts';
     import type { Snippet } from 'svelte';
 
     interface Props {

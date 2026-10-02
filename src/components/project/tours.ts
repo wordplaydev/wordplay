@@ -1,5 +1,5 @@
-import type { LocaleTextAccessor } from '@locale/Locales';
-import { includesString } from '@util/nullable';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import { includesString } from '#util/nullable.ts';
 
 /**
  * What each tour of the project view's interface is called. Naming them here

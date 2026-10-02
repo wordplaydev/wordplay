@@ -1,8 +1,8 @@
-import type LocaleText from '@locale/LocaleText';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
-import { splitMarkupAndCode } from '@util/verify-locales/protect';
-import { must } from '@util/nullable';
+import type LocaleText from '#locale/LocaleText.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import { splitMarkupAndCode } from '#util/verify-locales/protect.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * Find an example whose own documentation is still the English.

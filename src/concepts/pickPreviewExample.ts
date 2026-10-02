@@ -1,5 +1,5 @@
-import type Example from '@nodes/Example';
-import type Markup from '@nodes/Markup';
+import type Example from '#nodes/Example.ts';
+import type Markup from '#nodes/Markup.ts';
 
 /**
  * Pick the example that should drive a how-to's preview tile. A how-to

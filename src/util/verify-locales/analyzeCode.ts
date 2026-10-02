@@ -1,7 +1,7 @@
-import type LocaleText from '@locale/LocaleText';
-import { toLocaleString } from '@locale/LocaleText';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
+import type LocaleText from '#locale/LocaleText.ts';
+import { toLocaleString } from '#locale/LocaleText.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
 
 /**
  * Cache of code conflict-analysis results, keyed by locale + source code. Tutorial snippets are

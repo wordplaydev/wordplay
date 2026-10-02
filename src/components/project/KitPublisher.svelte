@@ -1,38 +1,38 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import KitModerationNotice from '@components/moderation/KitModerationNotice.svelte';
-    import ResponsibilityNotice from '@components/moderation/ResponsibilityNotice.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Public from '@components/project/Public.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Link from '@components/app/Link.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { kitURL } from '@concepts/ConceptParams';
-    import { DB, locales } from '@db/Database';
-    import type { SerializedKit, SerializedKitVersion } from '@db/kits/Kit';
-    import type KitDatabase from '@db/kits/KitDatabase.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import KitModerationNotice from '#components/moderation/KitModerationNotice.svelte';
+    import ResponsibilityNotice from '#components/moderation/ResponsibilityNotice.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Public from '#components/project/Public.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import Link from '#components/app/Link.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { kitURL } from '#concepts/ConceptParams.ts';
+    import { DB, locales } from '#db/Database.ts';
+    import type { SerializedKit, SerializedKitVersion } from '#db/kits/Kit.ts';
+    import type KitDatabase from '#db/kits/KitDatabase.svelte.ts';
     import {
         kitDescription,
         kitPreviewSource,
         pickKitPreviewExample,
-    } from '@db/kits/kitPreview';
-    import { isWithdrawable } from '@db/kits/Kit';
-    import kitKinds from '@db/kits/kitKinds';
-    import { checkKit, exportName } from '@db/kits/validateKit';
-    import { kitExports } from '@nodes/publishedShare';
-    import { kitVisibility } from '@db/moderation/visibility';
-    import { nextModeration } from '@db/moderation/nextModeration';
-    import Project from '@db/projects/Project';
-    import { Projects } from '@db/projects/Projects';
-    import { enqueuePreviewCompute } from '@db/projects/previewQueue';
-    import { firstSentenceOf } from '@locale/firstSentence';
-    import type Source from '@nodes/Source';
-    import toValidName from '@util/toValidName';
+    } from '#db/kits/kitPreview.ts';
+    import { isWithdrawable } from '#db/kits/Kit.ts';
+    import kitKinds from '#db/kits/kitKinds.ts';
+    import { checkKit, exportName } from '#db/kits/validateKit.ts';
+    import { kitExports } from '#nodes/publishedShare.ts';
+    import { kitVisibility } from '#db/moderation/visibility.ts';
+    import { nextModeration } from '#db/moderation/nextModeration.ts';
+    import Project from '#db/projects/Project.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import { enqueuePreviewCompute } from '#db/projects/previewQueue.ts';
+    import { firstSentenceOf } from '#locale/firstSentence.ts';
+    import type Source from '#nodes/Source.ts';
+    import toValidName from '#util/toValidName.ts';
 
     interface Props {
         project: Project;

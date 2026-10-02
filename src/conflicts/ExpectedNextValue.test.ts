@@ -1,11 +1,11 @@
-import ExpectedNextValue from '@conflicts/ExpectedNextValue';
-import Project from '@db/projects/Project';
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
-import Source from '@nodes/Source';
+import ExpectedNextValue from '#conflicts/ExpectedNextValue.ts';
+import Project from '#db/projects/Project.ts';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 const locales = new Locales(concretize, [DefaultLocale], DefaultLocale);
 

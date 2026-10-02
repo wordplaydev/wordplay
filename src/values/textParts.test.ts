@@ -1,6 +1,6 @@
-import evaluateCode from '@runtime/evaluate';
-import ListValue from '@values/ListValue';
-import TextValue from '@values/TextValue';
+import evaluateCode from '#runtime/evaluate.ts';
+import ListValue from '#values/ListValue.ts';
+import TextValue from '#values/TextValue.ts';
 import { expect, test } from 'vitest';
 
 /** Each part of a text value as `text/lang`, or just the text when untagged. */

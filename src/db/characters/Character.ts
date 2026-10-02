@@ -11,9 +11,9 @@
  */
 // From the standalone module, not Color: Character is reachable from the
 // database, and Color pulls the whole basis.
-import { adaptLightness } from '@output/Color/adapt';
-import { LCHtoRGB } from '@output/Color/lch';
-import { must } from '@util/nullable';
+import { adaptLightness } from '#output/Color/adapt.ts';
+import { LCHtoRGB } from '#output/Color/lch.ts';
+import { must } from '#util/nullable.ts';
 import z from 'zod';
 
 const PointSchema = z.object({ x: z.number(), y: z.number() });

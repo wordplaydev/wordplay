@@ -1,4 +1,4 @@
-import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import { describe, expect, test } from 'vitest';
 import Project from './Project';
 import importProject, {

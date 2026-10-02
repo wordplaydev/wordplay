@@ -21,7 +21,7 @@
  * whole note, which has no stem, is a single codepoint.
  */
 
-import type Unit from '@nodes/Unit';
+import type Unit from '#nodes/Unit.ts';
 
 /** One writable note value. */
 export type NoteDuration = {

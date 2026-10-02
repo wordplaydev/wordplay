@@ -1,12 +1,15 @@
-import type StreamDefinition from '@nodes/StreamDefinition';
-import type Unit from '@nodes/Unit';
-import type Evaluation from '@runtime/Evaluation';
-import NumberValue from '@values/NumberValue';
-import NumberType from '@nodes/NumberType';
-import TemporalStreamValue from '@values/TemporalStreamValue';
-import PermissionException from '@values/PermissionException';
-import { denyConsent, Permission } from '@input/permissions';
-import { acquireAudioSource, type AudioSourceHandle } from '@input/AudioSource';
+import type StreamDefinition from '#nodes/StreamDefinition.ts';
+import type Unit from '#nodes/Unit.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import NumberValue from '#values/NumberValue.ts';
+import NumberType from '#nodes/NumberType.ts';
+import TemporalStreamValue from '#values/TemporalStreamValue.ts';
+import PermissionException from '#values/PermissionException.ts';
+import { denyConsent, Permission } from '#input/permissions.ts';
+import {
+    acquireAudioSource,
+    type AudioSourceHandle,
+} from '#input/AudioSource.ts';
 
 /** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
 export const DEFAULT_FREQUENCY = 33;

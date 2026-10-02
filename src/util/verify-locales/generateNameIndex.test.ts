@@ -1,18 +1,18 @@
-import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import {
     findLocalesNaming,
     findLocalesWithKeyword,
     isLocaleNameIndexLoaded,
     setLocaleNameIndex,
     type LocaleNameIndex,
-} from '@locale/localeNameIndex';
-import { buildNameIndex } from '@util/verify-locales/generateNameIndex';
-import { readLocaleText } from '@util/verify-locales/LocaleSchema';
-import { collectingLog } from '@util/verify-locales/Log';
+} from '#locale/localeNameIndex.ts';
+import { buildNameIndex } from '#util/verify-locales/generateNameIndex.ts';
+import { readLocaleText } from '#util/verify-locales/LocaleSchema.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { afterEach, expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 const es = must(
     readLocaleText(collectingLog().log, 'es-MX'),

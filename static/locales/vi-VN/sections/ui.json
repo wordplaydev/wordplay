@@ -207,7 +207,7 @@
                     "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân.",
                     "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@/login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này.",
                     "projectTooLarge": "$~Những dự án này quá lớn để lưu trực tuyến. Chúng vẫn an toàn trên thiết bị này. Hãy thử làm cho chúng nhỏ hơn.",
-                    "noCloudTarget": "$~Những dự án này chỉ có trên thiết bị này, vì @wordplay không có nơi để lưu chúng trực tuyến. <Đăng nhậplogin> để lưu chúng.",
+                    "noCloudTarget": "$~Những dự án này chỉ có trên thiết bị này, vì @wordplay không có nơi để lưu chúng trực tuyến. <Đăng nhập@/login> để lưu chúng.",
                     "cloudWriteRefused": "$~Đám mây không chấp nhận những thay đổi này, nên chúng tôi dùng bản đang có trên mạng thay thế. Nếu bạn nghĩ mình phải được phép thay đổi những thứ này, hãy hỏi người đã chia sẻ chúng với bạn."
                 },
                 "projectsNotSavingOnline": "$~Một số dự án chỉ có trên thiết bị này, chưa được lưu trực tuyến."
@@ -484,7 +484,7 @@
                     "tip": "$~Xóa hướng dẫn này khỏi mục đánh dấu trang của bạn"
                 },
                 "empty": "$~Bạn có thể đánh dấu các hướng dẫn mà bạn muốn tham khảo sau này.",
-                "notLoggedIn": "$~Bạn phải đăng nhập vào <địa chỉ email> để sử dụng dấu trang"
+                "notLoggedIn": "$~Bạn phải <đăng nhập@://login> để dùng dấu trang"
             },
             "navigationtooltip": "$~điều hướng đến hướng dẫn",
             "button": {
@@ -2087,7 +2087,7 @@
                     "idea": "$~Tôi không thấy ý tưởng bạn đang nghĩ đến? Hãy đề xuất ý tưởng đó."
                 },
                 "error": {
-                    "login": "$~Bạn phải đăng nhập vào <địa chỉ email> để gửi phản hồi",
+                    "login": "$~Bạn phải <đăng nhập@://login> để gửi phản hồi",
                     "empty": "$~Hiện không có phản hồi nào.",
                     "url": "$~Đây không phải là URL GitHub hợp lệ."
                 }
@@ -2123,7 +2123,7 @@
             },
             "moderation": {
                 "header": "$~Báo cáo tin nhắn này",
-                "explanation": "$~Nếu tin nhắn này không đáp ứng các tiêu chuẩn cộng đồng của chúng tôi hoặc loại phản hồi mà bạn yêu cầu, bạn có thể báo cáo. Khi bạn báo cáo tin nhắn này, nó sẽ được gửi đến người quản lý phòng trưng bày và sẽ bị gỡ xuống cho đến khi được xem xét.",
+                "explanation": "$~Nếu tin nhắn này không phù hợp với <quy tắc cộng đồng@://rights> của chúng tôi hoặc không đúng loại phản hồi mà bạn đã yêu cầu, bạn có thể báo cáo nó. Khi bạn báo cáo tin nhắn này, nó sẽ được gửi đến những người phụ trách phòng trưng bày và bị gỡ xuống cho đến khi được xem xét.",
                 "report": {
                     "tip": "$~báo cáo tin nhắn này",
                     "label": "$~báo cáo"
@@ -2134,7 +2134,7 @@
                 },
                 "pending": "$~Thông báo này tạm thời bị xóa để chờ xử lý kiểm duyệt.",
                 "removed": "$~Tin nhắn này đã bị xóa vì vi phạm các quy định về cộng đồng hoặc phản hồi.",
-                "inGallery": "$~Cuộc trò chuyện này diễn ra trong một thư viện ảnh. Nó sẽ được người quản lý thư viện kiểm duyệt. Bạn có thể báo cáo các tin nhắn vi phạm <tiêu chuẩn cộng đồng@://quyền> của chúng tôi để được kiểm duyệt."
+                "inGallery": "$~Cuộc trò chuyện này diễn ra trong một thư viện ảnh. Nó sẽ được người quản lý thư viện kiểm duyệt. Bạn có thể báo cáo các tin nhắn vi phạm <tiêu chuẩn cộng đồng@://rights> của chúng tôi để được kiểm duyệt."
             },
             "error": {
                 "unowned": "$~Dự án này không được lưu trữ trực tuyến, vì vậy không thể có chức năng trò chuyện hoặc cộng tác viên.",

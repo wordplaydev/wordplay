@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { getRewriteTransition } from '@output/animation/getRewriteTransition';
+import { getRewriteTransition } from '#output/animation/getRewriteTransition.ts';
 
 /** A tiny deterministic linear congruential generator for repeatable tests. */
 function seeded(seed: number): () => number {

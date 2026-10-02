@@ -12,16 +12,16 @@
   and resolving is not free enough to do twice on every keystroke.
 -->
 <script lang="ts">
-    import { getEditors } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type { SerializedCodeReference } from '@db/chats/ChatDatabase.svelte';
+    import { getEditors } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import type { SerializedCodeReference } from '#db/chats/ChatDatabase.svelte.ts';
     import {
         referenceLabel,
         type ResolvedReference,
-    } from '@db/chats/codeReference';
-    import { locales } from '@db/Database';
-    import Layout from '@components/project/Layout';
+    } from '#db/chats/codeReference.ts';
+    import { locales } from '#db/Database.ts';
+    import Layout from '#components/project/Layout.ts';
 
     interface Props {
         /** What the message stored, for the file the reveal has to open. */

@@ -4,16 +4,16 @@
         animationDuration,
         animationFactor,
         writingMode,
-    } from '@db/Database';
-    import { scrolling } from '@db/settings/scrolling';
+    } from '#db/Database.ts';
+    import { scrolling } from '#db/settings/scrolling.ts';
     import { type Snippet } from 'svelte';
     import { slide } from 'svelte/transition';
-    import Concept from '@concepts/Concept';
+    import Concept from '#concepts/Concept.ts';
     import type BasisCharacter from '../../lore/BasisCharacter';
     import { Emotion } from '../../lore/Emotion';
-    import { withColorEmoji } from '@unicode/emoji';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import Eyes from '@components/lore/Eyes.svelte';
+    import { withColorEmoji } from '#unicode/emoji.ts';
+    import ConceptLinkUI from '#components/concepts/ConceptLinkUI.svelte';
+    import Eyes from '#components/lore/Eyes.svelte';
 
     interface Props {
         character: BasisCharacter | Concept;
@@ -150,7 +150,7 @@
                     emotion={emotion ?? Emotion.neutral}
                 />{/if}
         </div>{#if read && bubble && content}<!-- Loaded on demand: this bubble is on nearly every page, and the
-                 button is not needed to render one. -->{#await import('@components/speech/ReadAloud.svelte') then { default: ReadAloud }}<ReadAloud
+                 button is not needed to render one. -->{#await import('#components/speech/ReadAloud.svelte') then { default: ReadAloud }}<ReadAloud
                     content={message}
                 />{/await}{/if}{@render aside?.()}
     </div>

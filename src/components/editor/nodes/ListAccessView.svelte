@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type ListAccess from '@nodes/ListAccess';
+    import type ListAccess from '#nodes/ListAccess.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: ListAccess;

@@ -1,10 +1,10 @@
-import { Purpose } from '@concepts/Purpose';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { NEVER_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '@basis/BasisConstants';
+import { Purpose } from '#concepts/Purpose.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { NEVER_SYMBOL } from '#parser/Symbols.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import Characters from '../lore/BasisCharacters';
-import Type from '@nodes/Type';
+import Type from '#nodes/Type.ts';
 
 export default class NeverType extends Type {
     constructor() {

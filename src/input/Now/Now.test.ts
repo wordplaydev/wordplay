@@ -1,11 +1,11 @@
 import { expect, test } from 'vitest';
-import { frequencyToMilliseconds } from '@input/Now/Now';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Unit from '@nodes/Unit';
-import evaluateCode from '@runtime/evaluate';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
+import { frequencyToMilliseconds } from '#input/Now/Now.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Unit from '#nodes/Unit.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
 
 test('Now evaluates to a Moment structure', () => {
     const value = evaluateCode('Now()');

@@ -1,23 +1,26 @@
 <script lang="ts">
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import OutputPreview from '@components/concepts/OutputPreview.svelte';
-    import TypeView from '@components/concepts/TypeView.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import { copyNode } from '@components/editor/commands/Clipboard';
-    import { getConceptIndex, getDragged } from '@components/project/Contexts';
-    import getScrollParent from '@components/util/getScrollParent';
-    import RootView from '@components/project/RootView.svelte';
-    import type Concept from '@concepts/Concept';
-    import GalleryHowConcept from '@concepts/GalleryHowConcept';
-    import HowConcept from '@concepts/HowConcept';
-    import { blocks, locales } from '@db/Database';
-    import Expression, { ExpressionKind } from '@nodes/Expression';
-    import type Node from '@nodes/Node';
-    import type Type from '@nodes/Type';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import Spaces from '@parser/Spaces';
-    import { CONFIRM_SYMBOL } from '@parser/Symbols';
+    import ConceptLinkUI from '#components/concepts/ConceptLinkUI.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import OutputPreview from '#components/concepts/OutputPreview.svelte';
+    import TypeView from '#components/concepts/TypeView.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import { copyNode } from '#components/editor/commands/Clipboard.ts';
+    import {
+        getConceptIndex,
+        getDragged,
+    } from '#components/project/Contexts.ts';
+    import getScrollParent from '#components/util/getScrollParent.ts';
+    import RootView from '#components/project/RootView.svelte';
+    import type Concept from '#concepts/Concept.ts';
+    import GalleryHowConcept from '#concepts/GalleryHowConcept.ts';
+    import HowConcept from '#concepts/HowConcept.ts';
+    import { blocks, locales } from '#db/Database.ts';
+    import Expression, { ExpressionKind } from '#nodes/Expression.ts';
+    import type Node from '#nodes/Node.ts';
+    import type Type from '#nodes/Type.ts';
+    import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+    import Spaces from '#parser/Spaces.ts';
+    import { CONFIRM_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         node: Node;

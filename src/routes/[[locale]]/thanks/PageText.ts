@@ -1,4 +1,4 @@
-import type { Template } from '@locale/LocaleText';
+import type { Template } from '#locale/LocaleText.ts';
 
 type ThanksPageText = {
     /** [plain] The page heading */

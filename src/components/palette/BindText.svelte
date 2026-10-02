@@ -1,26 +1,26 @@
 <script lang="ts">
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import type OutputProperty from '@edit/output/OutputProperty';
-    import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type OutputProperty from '#edit/output/OutputProperty.ts';
+    import type OutputPropertyValues from '#edit/output/OutputPropertyValueSet.ts';
     import {
         getLanguageQuoteClose,
         getLanguageQuoteOpen,
-    } from '@locale/LanguageCode';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import Language from '@nodes/Language';
-    import TextLiteral from '@nodes/TextLiteral';
-    import { parseFormattedLiteral } from '@parser/parseExpression';
-    import { FORMATTED_SYMBOL } from '@parser/Symbols';
-    import { toTokens } from '@parser/toTokens';
-    import MarkupValue from '@values/MarkupValue';
+    } from '#locale/LanguageCode.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import Language from '#nodes/Language.ts';
+    import TextLiteral from '#nodes/TextLiteral.ts';
+    import { parseFormattedLiteral } from '#parser/parseExpression.ts';
+    import { FORMATTED_SYMBOL } from '#parser/Symbols.ts';
+    import { toTokens } from '#parser/toTokens.ts';
+    import MarkupValue from '#values/MarkupValue.ts';
     import { tick } from 'svelte';
     import {
         getProject,
         getSelectedOutput,
-    } from '@components/project/Contexts';
-    import TextField from '@components/widgets/TextField.svelte';
+    } from '#components/project/Contexts.ts';
+    import TextField from '#components/widgets/TextField.svelte';
 
     interface Props {
         property: OutputProperty;

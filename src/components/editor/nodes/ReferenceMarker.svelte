@@ -14,10 +14,10 @@
   conversation anyway, which is where you are about to be.
 -->
 <script lang="ts">
-    import { getMessageRequest } from '@components/project/Contexts';
-    import Emoji from '@components/app/Emoji.svelte';
-    import { locales } from '@db/Database';
-    import { COLLABORATE_SYMBOL } from '@parser/Symbols';
+    import { getMessageRequest } from '#components/project/Contexts.ts';
+    import Emoji from '#components/app/Emoji.svelte';
+    import { locales } from '#db/Database.ts';
+    import { COLLABORATE_SYMBOL } from '#parser/Symbols.ts';
     import { get } from 'svelte/store';
 
     interface Props {

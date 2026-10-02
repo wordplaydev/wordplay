@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import segmentWraps from '@output/Output/segmentWraps';
+import segmentWraps from '#output/Output/segmentWraps.ts';
 
 test.each([
     // Latin: trailing whitespace stays with the preceding segment so wrapped

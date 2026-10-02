@@ -4,11 +4,11 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import ConceptLinkUI from '#components/concepts/ConceptLinkUI.svelte';
     import CaretView, {
         type CaretBounds,
-    } from '@components/editor/caret/CaretView.svelte';
-    import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
+    } from '#components/editor/caret/CaretView.svelte';
+    import { computeCaretDescriptionPosition } from '#components/editor/caretDescriptionPosition.ts';
     import {
         Category,
         type Command,
@@ -17,18 +17,18 @@
         type ProjectRevision,
         handleKeyCommand,
         resetVisualColumnAfter,
-    } from '@components/editor/commands/Commands';
-    import { resolveFeedback } from '@components/editor/commands/feedback';
-    import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
+    } from '#components/editor/commands/Commands.ts';
+    import { resolveFeedback } from '#components/editor/commands/feedback.ts';
+    import { getInternalClipboard } from '#components/editor/commands/InternalClipboard.ts';
     import {
         DragFeedbackNotification,
         type EditorNotifier,
         LargeDeletionNotification,
         PasteFeedbackNotification,
         TabNotification,
-    } from '@components/editor/EditorNotification';
-    import EditorSearch from '@components/editor/EditorSearch.svelte';
-    import Highlight from '@components/editor/highlights/Highlight.svelte';
+    } from '#components/editor/EditorNotification.ts';
+    import EditorSearch from '#components/editor/EditorSearch.svelte';
+    import Highlight from '#components/editor/highlights/Highlight.svelte';
     import {
         type HighlightSpec,
         Highlights,
@@ -38,22 +38,22 @@
         getRangeOutline,
         getSearchMatches,
         updateOutlines,
-    } from '@components/editor/highlights/Highlights';
+    } from '#components/editor/highlights/Highlights.ts';
     import {
         type Outline,
         OutlinePadding,
         type Rect,
-    } from '@components/editor/highlights/outline';
+    } from '#components/editor/highlights/outline.ts';
     import {
         caretFieldSelection,
         shouldEchoNatively,
-    } from '@components/editor/input/mirrorSelection';
-    import isComposingKeyDown from '@components/editor/isComposingKeyDown';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import getMenuNoteMarkup from '@components/editor/menu/menuNote';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
-    import OutputPreview from '@components/editor/OutputPreview.svelte';
-    import { pasteText } from '@components/editor/Paste';
+    } from '#components/editor/input/mirrorSelection.ts';
+    import isComposingKeyDown from '#components/editor/isComposingKeyDown.ts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import getMenuNoteMarkup from '#components/editor/menu/menuNote.ts';
+    import MenuTrigger from '#components/editor/menu/MenuTrigger.svelte';
+    import OutputPreview from '#components/editor/OutputPreview.svelte';
+    import { pasteText } from '#components/editor/Paste.ts';
     import {
         getBlockInsertionPoint,
         getBreakPosition,
@@ -61,19 +61,19 @@
         getEmptyList,
         getNodeAt,
         getTextInsertionPointsAt,
-    } from '@components/editor/pointer/PointerUtilities';
-    import RemoteCaretOverlay from '@components/editor/RemoteCaretOverlay.svelte';
+    } from '#components/editor/pointer/PointerUtilities.ts';
+    import RemoteCaretOverlay from '#components/editor/RemoteCaretOverlay.svelte';
     import {
         isNodeHidden,
         isStrictlyHidden,
         nearestRenderedAncestor,
         nearestVisibleBoundary,
         renderedTokenIds,
-    } from '@components/editor/util/foldedCaret';
+    } from '#components/editor/util/foldedCaret.ts';
     import {
         defaultFolds,
         isFoldableNode,
-    } from '@components/editor/util/folding';
+    } from '#components/editor/util/folding.ts';
     import {
         type CaretTokenSummary,
         type EditorState,
@@ -104,16 +104,16 @@
         setSetMenuAnchor,
         setSteppedEvaluation,
         setWindowing,
-    } from '@components/project/Contexts';
-    import RootView from '@components/project/RootView.svelte';
-    import TileMessage from '@components/project/TileMessage.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import { canHoverTips } from '@components/widgets/tipTriggers';
-    import Templates from '@concepts/Templates';
-    import type Conflict from '@conflicts/Conflict';
+    } from '#components/project/Contexts.ts';
+    import RootView from '#components/project/RootView.svelte';
+    import TileMessage from '#components/project/TileMessage.svelte';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import { canHoverTips } from '#components/widgets/tipTriggers.ts';
+    import Templates from '#concepts/Templates.ts';
+    import type Conflict from '#conflicts/Conflict.ts';
     import {
         CharactersDB,
         DB,
@@ -126,23 +126,23 @@
         showLines,
         sourceWriting,
         wrap,
-    } from '@db/Database';
-    import { editorAxes } from '@components/editor/util/axes';
-    import eligibleWritingLayouts from '@edit/eligibleWritingLayouts';
-    import type { WritingLayout } from '@locale/Scripts';
-    import { Projects } from '@db/projects/Projects';
+    } from '#db/Database.ts';
+    import { editorAxes } from '#components/editor/util/axes.ts';
+    import eligibleWritingLayouts from '#edit/eligibleWritingLayouts.ts';
+    import type { WritingLayout } from '#locale/Scripts.ts';
+    import { Projects } from '#db/projects/Projects.ts';
     import {
         type RemoteCaret,
         decodeRemoteCaret,
         encodeRemoteCaret,
-    } from '@db/projects/caretEncoding';
-    import Project from '@db/projects/Project';
+    } from '#db/projects/caretEncoding.ts';
+    import Project from '#db/projects/Project.ts';
     import Caret, {
         type CaretPosition,
         isCaretPosition,
         resolveCaretPosition,
         serializeCaretPosition,
-    } from '@edit/caret/Caret';
+    } from '#edit/caret/Caret.ts';
     import {
         AssignmentPoint,
         InsertionPoint,
@@ -153,38 +153,38 @@
         resolvePermittedDropTarget,
         resolveStructuralReplacementTarget,
         targetAnchorNode,
-    } from '@edit/drag/Drag';
-    import Menu, { RevisionSet } from '@edit/menu/Menu';
-    import { getEditsAt } from '@edit/menu/PossibleEdits';
-    import getActionsAt from '@edit/menu/PossibleActions';
-    import type Revision from '@edit/revision/Revision';
-    import type Locale from '@locale/Locale';
-    import { localeToString } from '@locale/Locale';
-    import { markLanguage } from '@locale/spokenLanguage';
-    import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
-    import { getLanguageLocalDescription } from '@locale/LocaleText';
-    import Locales from '@locale/Locales';
-    import DefaultLocale from '@locale/DefaultLocale';
-    import concretize from '@locale/concretize';
-    import { type LocaleTextAccessor } from '@locale/Locales';
-    import Block from '@nodes/Block';
-    import Evaluate from '@nodes/Evaluate';
-    import Expression from '@nodes/Expression';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
-    import Program from '@nodes/Program';
-    import describeDiffAtCaret from '@edit/diff/describeDiff';
-    import type { SourceDiff } from '@edit/diff/sourceDiff';
-    import Source from '@nodes/Source';
-    import { Sym } from '@nodes/Sym';
-    import Token from '@nodes/Token';
-    import TypePlaceholder from '@nodes/TypePlaceholder';
-    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
-    import type Evaluator from '@runtime/Evaluator';
-    import UnicodeString from '@unicode/UnicodeString';
-    import { debounced } from '@util/debounce.svelte';
-    import ExceptionValue from '@values/ExceptionValue';
-    import { must } from '@util/nullable';
+    } from '#edit/drag/Drag.ts';
+    import Menu, { RevisionSet } from '#edit/menu/Menu.ts';
+    import { getEditsAt } from '#edit/menu/PossibleEdits.ts';
+    import getActionsAt from '#edit/menu/PossibleActions.ts';
+    import type Revision from '#edit/revision/Revision.ts';
+    import type Locale from '#locale/Locale.ts';
+    import { localeToString } from '#locale/Locale.ts';
+    import { markLanguage } from '#locale/spokenLanguage.ts';
+    import { getBestSupportedLocales } from '#locale/getBestSupportedLocales.ts';
+    import { getLanguageLocalDescription } from '#locale/LocaleText.ts';
+    import Locales from '#locale/Locales.ts';
+    import DefaultLocale from '#locale/DefaultLocale.ts';
+    import concretize from '#locale/concretize.ts';
+    import { type LocaleTextAccessor } from '#locale/Locales.ts';
+    import Block from '#nodes/Block.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import Expression from '#nodes/Expression.ts';
+    import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+    import Node, { type FieldPosition, isFieldPosition } from '#nodes/Node.ts';
+    import Program from '#nodes/Program.ts';
+    import describeDiffAtCaret from '#edit/diff/describeDiff.ts';
+    import type { SourceDiff } from '#edit/diff/sourceDiff.ts';
+    import Source from '#nodes/Source.ts';
+    import { Sym } from '#nodes/Sym.ts';
+    import Token from '#nodes/Token.ts';
+    import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '#parser/Symbols.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
+    import UnicodeString from '#unicode/UnicodeString.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
+    import ExceptionValue from '#values/ExceptionValue.ts';
+    import { must } from '#util/nullable.ts';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { type Writable, get, writable } from 'svelte/store';
 

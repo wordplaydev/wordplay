@@ -12,10 +12,9 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { tsImport } from 'tsx/esm/api';
 import type { Plugin, ViteDevServer } from 'vite';
-import type * as LocaleFilesModule from '../../src/util/verify-locales/localeFiles.ts';
-import type LogClass from '../../src/util/verify-locales/Log.ts';
+import * as files from '#util/verify-locales/localeFiles.ts';
+import Log from '#util/verify-locales/Log.ts';
 
 /**
  * A changed file's locale, or undefined when it is nothing this rebuilds.
@@ -65,28 +64,6 @@ export function fetchedLocaleOf(file: string): string | undefined {
     return locale;
 }
 
-/** The locale tooling, loaded through tsx because Vite's config bundler does not apply
- *  the app's `@util` alias and `localeFiles` reaches two modules through it. Cached, so
- *  the loader starts once per dev server rather than once per keystroke. */
-let tooling:
-    | Promise<{
-          files: typeof LocaleFilesModule;
-          Log: new () => LogClass;
-      }>
-    | undefined;
-
-function getTooling() {
-    if (tooling === undefined)
-        tooling = Promise.all([
-            tsImport(
-                '../../src/util/verify-locales/localeFiles.ts',
-                import.meta.url,
-            ),
-            tsImport('../../src/util/verify-locales/Log.ts', import.meta.url),
-        ]).then(([files, log]) => ({ files, Log: log.default }));
-    return tooling;
-}
-
 /**
  * Whether every one of this locale's sections is present and currently parses.
  *
@@ -118,7 +95,6 @@ function sectionsReadable(
  *  `writeFormatted` compares against disk and skips an identical write, which is what
  *  keeps this from priming a watcher loop with its own output. */
 async function assemble(locale: string): Promise<boolean> {
-    const { files, Log } = await getTooling();
     const directory = path.join(files.getLocaleDirectory(locale), 'sections');
     if (
         !fs.existsSync(directory) ||
@@ -139,7 +115,6 @@ async function assemble(locale: string): Promise<boolean> {
  * amount of watching notices, because the edit happened while nothing was running.
  */
 async function assembleStale(locales: string[]): Promise<string[]> {
-    const { files } = await getTooling();
     const stale: string[] = [];
     for (const locale of locales) {
         const assembled = files.getMonolithPath(locale);
@@ -171,7 +146,6 @@ async function assembleStale(locales: string[]): Promise<string[]> {
 /** Every locale that has sections to assemble. en-US's live in `src/locale/`, so it is
  *  named rather than discovered. */
 async function locales(): Promise<string[]> {
-    const { files } = await getTooling();
     const directory = path.join('static', 'locales');
     const found = fs.existsSync(directory) ? fs.readdirSync(directory) : [];
     return ['en-US', ...found]
@@ -182,8 +156,7 @@ async function locales(): Promise<string[]> {
 export default function watchLocales(): Plugin {
     // The dev server only. `vite build` already runs `locales-assemble` ahead of it, and
     // `vitest.config.ts` merges this config into all three test projects, where Vitest runs
-    // its own server in *serve* mode: there `tsImport` put tsx's loader into the test process,
-    // which on Node 22.23 fails every run at startup resolving `node:os`.
+    // its own server in *serve* mode and has no reason to watch locale files.
     return {
         name: 'wordplay-watch-locales',
         apply: (_config, env) =>

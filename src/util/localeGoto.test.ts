@@ -11,7 +11,7 @@ vi.mock('$app/state', () => ({
     },
 }));
 
-const { localePath, unlocalePath } = await import('@util/localeGoto');
+const { localePath, unlocalePath } = await import('#util/localeGoto.ts');
 
 describe('localePath / unlocalePath', () => {
     test('round-trips a path through the current locale', () => {
@@ -25,8 +25,9 @@ describe('localePath / unlocalePath', () => {
         // locale got prefixed again on the way back out, giving
         // `/en-US/en-US/guide`.
         params.locale = 'en-US';
-        expect(localePath(unlocalePath('/guide'))).toBe('/en-US/guide');
-        expect(localePath(unlocalePath('/en-US/guide'))).toBe('/en-US/guide');
+        expect(unlocalePath('/guide')).toBe('/guide');
+        expect(unlocalePath('/en-US/guide')).toBe('/guide');
+        expect(localePath('/guide')).toBe('/en-US/guide');
     });
 
     test("doesn't mistake a path that merely starts with the same letters", () => {

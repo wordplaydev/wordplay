@@ -1,12 +1,12 @@
-import Bind from '@nodes/Bind';
-import Name from '@nodes/Name';
-import Names from '@nodes/Names';
-import { Sym } from '@nodes/Sym';
-import { PairedCloseDelimiters } from '@parser/Tokenizer';
-import type Tokens from '@parser/Tokens';
-import parseExpression, { parseDocs } from '@parser/parseExpression';
-import parseLanguage from '@parser/parseLanguage';
-import parseType from '@parser/parseType';
+import Bind from '#nodes/Bind.ts';
+import Name from '#nodes/Name.ts';
+import Names from '#nodes/Names.ts';
+import { Sym } from '#nodes/Sym.ts';
+import { PairedCloseDelimiters } from '#parser/Tokenizer.ts';
+import type Tokens from '#parser/Tokens.ts';
+import parseExpression, { parseDocs } from '#parser/parseExpression.ts';
+import parseLanguage from '#parser/parseLanguage.ts';
+import parseType from '#parser/parseType.ts';
 
 export default function parseBind(tokens: Tokens): Bind {
     const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;

@@ -12,10 +12,10 @@ import {
     type ContourFontError,
     type FontWeight,
     Faces,
-} from '@basis/faces/Fonts';
-import { asPathOp, type PathOp } from '@input/pathCommands';
-import { hasEmoji } from '@unicode/emoji';
-import UnicodeString from '@unicode/UnicodeString';
+} from '#basis/faces/Fonts.ts';
+import { asPathOp, type PathOp } from '#input/pathCommands.ts';
+import { hasEmoji } from '#unicode/emoji.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 
 /** Why tracing a glyph failed, in terms a creator can be told about. */
 export type GlyphError =

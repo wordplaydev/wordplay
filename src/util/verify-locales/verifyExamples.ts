@@ -23,32 +23,32 @@
  *   explicitly with `+example:<Name>` under override.
  */
 
-import Project from '@db/projects/Project';
-import { parseAsMultilingualName } from '@db/projects/getLocalizedProjectName';
+import Project from '#db/projects/Project.ts';
+import { parseAsMultilingualName } from '#db/projects/getLocalizedProjectName.ts';
 import translateProjectContent, {
     type RawTranslator,
-} from '@db/projects/translateProjectContent';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LanguageCode from '@locale/LanguageCode';
-import { stringToLocale, type Locale } from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
-import type { RegionCode } from '@locale/Regions';
-import Source from '@nodes/Source';
-import getTranslator from '@util/verify-locales/getTranslator';
-import type Log from '@util/verify-locales/Log';
+} from '#db/projects/translateProjectContent.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import { stringToLocale, type Locale } from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import Source from '#nodes/Source.ts';
+import getTranslator from '#util/verify-locales/getTranslator.ts';
+import type Log from '#util/verify-locales/Log.ts';
 import {
     hasUnclosedText,
     mismatchedDelimiter,
-} from '@util/verify-locales/protect';
-import { localeExamplesMayHaveChanged } from '@util/verify-locales/exampleFreshness';
-import { retargetSerializedExample } from '@util/verify-locales/retargetExampleNames';
-import type Translator from '@util/verify-locales/Translator';
-import writeFormatted from '@util/verify-locales/writeFormatted';
+} from '#util/verify-locales/protect.ts';
+import { localeExamplesMayHaveChanged } from '#util/verify-locales/exampleFreshness.ts';
+import { retargetSerializedExample } from '#util/verify-locales/retargetExampleNames.ts';
+import type Translator from '#util/verify-locales/Translator.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
 import fs from 'fs';
 import path from 'path';
 import { parseSerializedProject } from '../../examples/examples';
 import { serializeExample } from '../../examples/serializeExample';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /** Where the en-US master examples live; a locale's translations live in a
  *  subdirectory named by its locale code. */

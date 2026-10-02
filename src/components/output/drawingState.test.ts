@@ -1,5 +1,5 @@
-import Drawing from '@components/output/Drawing.svelte.ts';
-import { MinSampleDistance } from '@components/output/drawing';
+import Drawing from '#components/output/Drawing.svelte.ts';
+import { MinSampleDistance } from '#components/output/drawing.ts';
 import { expect, test } from 'vitest';
 
 /**

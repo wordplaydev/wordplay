@@ -1,12 +1,12 @@
 <script lang="ts">
-    import StructureInputsEditor from '@components/palette/StructureInputsEditor.svelte';
-    import type Project from '@db/projects/Project';
-    import type OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
-    import getStructureProperties from '@edit/output/getStructureProperties';
-    import Evaluate from '@nodes/Evaluate';
-    import StreamDefinition from '@nodes/StreamDefinition';
-    import StructureDefinition from '@nodes/StructureDefinition';
-    import { locales } from '@db/Database';
+    import StructureInputsEditor from '#components/palette/StructureInputsEditor.svelte';
+    import type Project from '#db/projects/Project.ts';
+    import type OutputPropertyValueSet from '#edit/output/OutputPropertyValueSet.ts';
+    import getStructureProperties from '#edit/output/getStructureProperties.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import StreamDefinition from '#nodes/StreamDefinition.ts';
+    import StructureDefinition from '#nodes/StructureDefinition.ts';
+    import { locales } from '#db/Database.ts';
 
     interface Props {
         project: Project;

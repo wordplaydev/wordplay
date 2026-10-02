@@ -1,15 +1,18 @@
-import type { RawTranslator, TranslationProgress } from '@db/translateMarkup';
+import type {
+    RawTranslator,
+    TranslationProgress,
+} from '#db/translateMarkup.ts';
 import {
     localZone,
     noteTranslationRefusal,
     type TranslationRefusal,
-} from '@db/translationBudget.svelte';
-import { localeToString } from '@locale/Locale';
+} from '#db/translationBudget.svelte.ts';
+import { localeToString } from '#locale/Locale.ts';
 import {
     BROWSER_CHUNK_CHARACTERS,
     BROWSER_CHUNK_SIZE,
     chunkUnits,
-} from '@util/chunkUnits';
+} from '#util/chunkUnits.ts';
 import type { Functions } from 'firebase/functions';
 import type {
     GetLLMTranslationsInputs,
@@ -19,7 +22,7 @@ import type {
 // Re-exported so existing importers keep working; the type lives with
 // RawTranslator now, since every backend reports progress the same way and
 // importing it from here drags Firebase in with it.
-export type { TranslationProgress } from '@db/translateMarkup';
+export type { TranslationProgress } from '#db/translateMarkup.ts';
 
 /**
  * How long the client waits for one chunk. The callable SDK's default is 70

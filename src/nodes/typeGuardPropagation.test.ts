@@ -1,4 +1,4 @@
-import { conflictsIn } from '@conflicts/TestUtilities';
+import { conflictsIn } from '#conflicts/TestUtilities.ts';
 import { expect, test } from 'vitest';
 
 /**

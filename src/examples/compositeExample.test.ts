@@ -1,11 +1,11 @@
-import { parseAsMultilingualName } from '@db/projects/getLocalizedProjectName';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import { parseAsMultilingualName } from '#db/projects/getLocalizedProjectName.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 import { compositeExample } from './compositeExample';
 import { parseSerializedProject } from './examples';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * Compositing merges per-locale rewrites of one master into one multilingual
@@ -126,12 +126,12 @@ test('a secondary with a different source count is dropped', () => {
 // composite of that file with the master must still start when space is
 // pressed, whichever option the evaluator resolves.
 test('the composited WhatWord starts on a space press', async () => {
-    const { DB } = await import('@db/Database');
-    const { default: Evaluator, Mode } = await import('@runtime/Evaluator');
-    const { default: Key } = await import('@input/Key/Key');
+    const { DB } = await import('#db/Database.ts');
+    const { default: Evaluator, Mode } = await import('#runtime/Evaluator.ts');
+    const { default: Key } = await import('#input/Key/Key.ts');
     const { readFileSync } = await import('node:fs');
-    const { default: Source } = await import('@nodes/Source');
-    const { default: Project } = await import('@db/projects/Project');
+    const { default: Source } = await import('#nodes/Source.ts');
+    const { default: Project } = await import('#db/projects/Project.ts');
 
     const esText = JSON.parse(
         readFileSync('static/locales/es-MX/es-MX.json', 'utf8'),

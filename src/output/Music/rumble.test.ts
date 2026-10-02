@@ -4,8 +4,8 @@ import {
     RumbleFloor,
     ShortestRumble,
     rumbleFor,
-} from '@output/Music/rumble';
-import type { ScheduledNote } from '@output/Music/schedule';
+} from '#output/Music/rumble.ts';
+import type { ScheduledNote } from '#output/Music/schedule.ts';
 
 function note(options: Partial<ScheduledNote> = {}): ScheduledNote {
     return {

@@ -1,25 +1,31 @@
-import type Conflict from '@conflicts/Conflict';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type { ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
+import type Conflict from '#conflicts/Conflict.ts';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import type { ReplaceContext } from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
 import Characters from '../lore/BasisCharacters';
-import BasisType from '@nodes/BasisType';
-import BindToken from '@nodes/BindToken';
-import type Context from '@nodes/Context';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import MapLiteral from '@nodes/MapLiteral';
-import { any, node, none, type Grammar, type Replacement } from '@nodes/Node';
-import SetCloseToken from '@nodes/SetCloseToken';
-import SetOpenToken from '@nodes/SetOpenToken';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import type TypeSet from '@nodes/TypeSet';
+import BasisType from '#nodes/BasisType.ts';
+import BindToken from '#nodes/BindToken.ts';
+import type Context from '#nodes/Context.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import MapLiteral from '#nodes/MapLiteral.ts';
+import {
+    any,
+    node,
+    none,
+    type Grammar,
+    type Replacement,
+} from '#nodes/Node.ts';
+import SetCloseToken from '#nodes/SetCloseToken.ts';
+import SetOpenToken from '#nodes/SetOpenToken.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 export default class MapType extends BasisType {
     readonly open: Token;

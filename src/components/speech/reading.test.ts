@@ -6,8 +6,8 @@ import {
     speakToken,
     toChunks,
     type Piece,
-} from '@components/speech/reading';
-import DefaultLocale from '@locale/DefaultLocale';
+} from '#components/speech/reading.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 
 const keywords = getKeywordWords(DefaultLocale.keyword);
 const words = { keywords, names: DefaultLocale.token };

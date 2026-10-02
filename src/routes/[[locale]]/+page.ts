@@ -1,5 +1,7 @@
-import { SupportedLocales } from '@locale/SupportedLocales';
+import { SupportedLocales } from '#locale/SupportedLocales.ts';
+import type { EntryGenerator } from './$types';
 
 export const prerender = true;
 
-export const entries = () => SupportedLocales.map((locale) => ({ locale }));
+export const entries: EntryGenerator = () =>
+    SupportedLocales.map((locale) => ({ locale }));

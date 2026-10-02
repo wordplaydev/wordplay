@@ -1,6 +1,6 @@
-import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
-import { foldGlossaryForm } from '@locale/Glossary';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
+import { MachineTranslated, Revised, Unwritten } from '#locale/Annotations.ts';
+import { foldGlossaryForm } from '#locale/Glossary.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
 
 /**
  * What is wrong with a glossary form — the extra written forms (plurals,

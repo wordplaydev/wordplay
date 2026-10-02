@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 export const BlocksSetting = new Setting<boolean>(
     'blocks',

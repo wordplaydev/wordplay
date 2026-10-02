@@ -1,13 +1,13 @@
-import type { TemplateInput } from '@locale/Locales';
-import type Conflict from '@conflicts/Conflict';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '@concepts/Purpose';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import Characters from '../lore/BasisCharacters';
-import Content from '@nodes/Content';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
+import Content from '#nodes/Content.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
 
 /** One language variant of an ExternalExample. */
 export type ExternalExampleEntry = { tag: string; code: string };

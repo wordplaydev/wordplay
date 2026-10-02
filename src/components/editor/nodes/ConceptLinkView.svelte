@@ -1,11 +1,11 @@
 <script lang="ts">
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import CharacterView from '@components/output/CharacterView.svelte';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import { locales } from '@db/Database';
-    import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import CharacterView from '#components/output/CharacterView.svelte';
+    import ConceptLinkUI from '#components/concepts/ConceptLinkUI.svelte';
+    import { locales } from '#db/Database.ts';
+    import ConceptLink, { CharacterName } from '#nodes/ConceptLink.ts';
 
     interface Props {
         node: ConceptLink;

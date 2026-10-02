@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
+import evaluateCode from '#runtime/evaluate.ts';
 
 // Part B (#1237 example support): logarithms, exponentials, and the remaining
 // trigonometric functions on the Number basis.

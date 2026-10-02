@@ -1,11 +1,11 @@
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
-import { testConflict } from '@conflicts/TestUtilities';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import { ExpectedEndingExpression } from '#conflicts/ExpectedEndingExpression.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { expect, test } from 'vitest';
-import { UnknownName } from '@conflicts/UnknownName';
-import evaluateCode from '@runtime/evaluate';
-import Block from '@nodes/Block';
-import Reference from '@nodes/Reference';
+import { UnknownName } from '#conflicts/UnknownName.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import Block from '#nodes/Block.ts';
+import Reference from '#nodes/Reference.ts';
 
 test.each([
     ['(1)', '()', Block, ExpectedEndingExpression],

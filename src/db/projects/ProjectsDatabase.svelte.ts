@@ -1,5 +1,5 @@
-import { PossiblePII } from '@conflicts/PossiblePII';
-import { localeToString } from '@locale/Locale';
+import { PossiblePII } from '#conflicts/PossiblePII.ts';
+import { localeToString } from '#locale/Locale.ts';
 import {
     Galleries,
     Locales,
@@ -8,33 +8,33 @@ import {
     type Database,
     type SaveCounts,
     type SaveFailure,
-} from '@db/Database';
-import { Domain } from '@db/Domains';
-import { ensureAuth, firestore } from '@db/firebase';
-import { isProxySession } from '@db/proxySession';
-import firebaseErrorDetail from '@db/firebaseErrorDetail';
-import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
-import type Gallery from '@db/galleries/Gallery';
-import isQuotaError from '@db/isQuotaError';
-import { chunkWrites, serializedByteSize } from '@db/projects/chunkWrites';
-import nextSaveRetryDelay from '@db/projects/saveRetry';
-import { shouldReplayRemotePlainCode } from '@db/projects/crdtFold';
-import { EditFailure } from '@db/projects/EditFailure';
-import { withNameSuffix } from '@db/projects/getLocalizedProjectName';
-import isSweepable from '@db/projects/isSweepable';
-import { unknownFlags } from '@db/projects/Moderation';
-import { buildKeywordIndex } from '@parser/Keywords';
-import { PresenceTracker } from '@db/projects/PresenceTracker.svelte';
-import Project from '@db/projects/Project';
-import { kitsNeededBy, resolveKits } from '@db/kits/resolveKits';
-import { dependencyKey } from '@nodes/Borrow';
+} from '#db/Database.ts';
+import { Domain } from '#db/Domains.ts';
+import { ensureAuth, firestore } from '#db/firebase.ts';
+import { isProxySession } from '#db/proxySession.ts';
+import firebaseErrorDetail from '#db/firebaseErrorDetail.ts';
+import { GALLERY_CHUNK_SIZE } from '#db/firestoreLimits.ts';
+import type Gallery from '#db/galleries/Gallery.ts';
+import isQuotaError from '#db/isQuotaError.ts';
+import { chunkWrites, serializedByteSize } from '#db/projects/chunkWrites.ts';
+import nextSaveRetryDelay from '#db/projects/saveRetry.ts';
+import { shouldReplayRemotePlainCode } from '#db/projects/crdtFold.ts';
+import { EditFailure } from '#db/projects/EditFailure.ts';
+import { withNameSuffix } from '#db/projects/getLocalizedProjectName.ts';
+import isSweepable from '#db/projects/isSweepable.ts';
+import { unknownFlags } from '#db/projects/Moderation.ts';
+import { buildKeywordIndex } from '#parser/Keywords.ts';
+import { PresenceTracker } from '#db/projects/PresenceTracker.svelte.ts';
+import Project from '#db/projects/Project.ts';
+import { kitsNeededBy, resolveKits } from '#db/kits/resolveKits.ts';
+import { dependencyKey } from '#nodes/Borrow.ts';
 import ProjectCRDT, {
     base64ToBytes as decodeCRDTSnapshot,
-} from '@db/projects/ProjectCRDT';
+} from '#db/projects/ProjectCRDT.ts';
 import {
     PersistenceType,
     ProjectHistory,
-} from '@db/projects/ProjectHistory.svelte';
+} from '#db/projects/ProjectHistory.svelte.ts';
 import {
     needsSchemaUpgrade,
     ProjectSchema,
@@ -43,15 +43,15 @@ import {
     type SerializedProject,
     SerializedProjectUnknownVersionSchema,
     type SerializedProjectUnknownVersion,
-} from '@db/projects/ProjectSchemas';
-import YjsFirestoreProvider from '@db/projects/YjsFirestoreProvider';
-import supportsIndexedDB from '@db/supportsIndexedDB';
-import { WordplayDexie } from '@db/WordplayDexie';
-import type LocaleText from '@locale/LocaleText';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import { REMIX_SYMBOL } from '@parser/Symbols';
-import { must } from '@util/nullable';
+} from '#db/projects/ProjectSchemas.ts';
+import YjsFirestoreProvider from '#db/projects/YjsFirestoreProvider.ts';
+import supportsIndexedDB from '#db/supportsIndexedDB.ts';
+import { WordplayDexie } from '#db/WordplayDexie.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
+import { REMIX_SYMBOL } from '#parser/Symbols.ts';
+import { must } from '#util/nullable.ts';
 import { type Observable } from 'dexie';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';

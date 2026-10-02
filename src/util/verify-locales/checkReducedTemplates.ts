@@ -1,14 +1,14 @@
-import { Revised } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
-import { isRevised, isUnwritten } from '@locale/LocaleText';
-import { classifyPair } from '@util/verify-locales/classifyLocalePath';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
-import { leadingAnnotations } from '@util/verify-locales/protect';
+import { Revised } from '#locale/Annotations.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isRevised, isUnwritten } from '#locale/LocaleText.ts';
+import { classifyPair } from '#util/verify-locales/classifyLocalePath.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import { leadingAnnotations } from '#util/verify-locales/protect.ts';
 import {
     getDeclaredInputs,
     withoutMentions,
-} from '@util/verify-locales/templateInputs';
+} from '#util/verify-locales/templateInputs.ts';
 
 /**
  * Find translations that kept only their `$input` and dropped every word around it.

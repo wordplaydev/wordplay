@@ -1,6 +1,6 @@
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import TableLiteral from '@nodes/TableLiteral';
-import { parseCSV } from '@values/export/csv';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import TableLiteral from '#nodes/TableLiteral.ts';
+import { parseCSV } from '#values/export/csv.ts';
 
 /**
  * Whether pasted text looks enough like CSV to try reading it as a table.

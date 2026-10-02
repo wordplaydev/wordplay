@@ -1,8 +1,8 @@
-import { MachineTranslated } from '@locale/Annotations';
-import type LanguageCode from '@locale/LanguageCode';
-import type LocaleText from '@locale/LocaleText';
-import { isMachineTranslated } from '@locale/LocaleText';
-import type { RegionCode } from '@locale/Regions';
+import { MachineTranslated } from '#locale/Annotations.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isMachineTranslated } from '#locale/LocaleText.ts';
+import type { RegionCode } from '#locale/Regions.ts';
 import {
     allBundleIds,
     bundleTexts,
@@ -10,15 +10,16 @@ import {
     type UpdatesBundle,
     UpdatesBundleSchema,
     UpdateTranslationsSchema,
-} from '@locale/UpdatesBundle';
-import { toMarkup } from '@parser/toMarkup';
-import { restoreExampleSyntax } from '@util/verify-locales/restoreExampleSyntax';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { withoutColorSelector } from '@unicode/emoji';
-import getTranslator from '@util/verify-locales/getTranslator';
-import type Log from '@util/verify-locales/Log';
-import type Translator from '@util/verify-locales/Translator';
-import writeFormatted from '@util/verify-locales/writeFormatted';
+} from '#locale/UpdatesBundle.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
+import { restoreExampleSyntax } from '#util/verify-locales/restoreExampleSyntax.ts';
+import { restoreLinkTargets } from '#util/verify-locales/protect.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { withoutColorSelector } from '#unicode/emoji.ts';
+import getTranslator from '#util/verify-locales/getTranslator.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import type Translator from '#util/verify-locales/Translator.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
 import fs from 'fs';
 import path from 'path';
 
@@ -206,6 +207,8 @@ export async function verifyChangelog(
     // right when it renames a definition and wrong when it rewrites anything
     // else, and the entries most likely to carry code are the ones *about*
     // syntax — so this is where a translation quietly loses its own subject.
+    // Web link targets too: an entry's target is not prose, and every locale
+    // carried the mangled one `toMarkup` once made of `<label@://design>`.
     let mended = 0;
     if (fix || translateContent)
         for (const [id, markup] of wanted) {
@@ -213,7 +216,9 @@ export async function verifyChangelog(
             if (value === undefined) continue;
             const repaired = restoreExampleSyntax(
                 markup,
-                withoutAnnotations(value),
+                restoreLinkTargets(markup, [
+                    withoutAnnotations(value),
+                ]).text.join(''),
             );
             if (repaired !== withoutAnnotations(value)) {
                 entries[id] = `${MachineTranslated}${repaired}`;
@@ -221,7 +226,9 @@ export async function verifyChangelog(
             }
         }
     if (mended > 0)
-        log.say(`Restored the code in ${mended} changelog translations.`);
+        log.say(
+            `Restored the code or links in ${mended} changelog translations.`,
+        );
 
     const save = async () =>
         writeFormatted(

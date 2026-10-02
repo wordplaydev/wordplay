@@ -5,13 +5,16 @@
      resolving the character SVG. Sizing (width/height/font-size) is inherited
      from the parent container. -->
 <script lang="ts">
-    import Fonts from '@basis/faces/Fonts';
-    import Spinning from '@components/app/Spinning.svelte';
-    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
-    import { characterToSVG, type Character } from '@db/characters/Character';
-    import { adaptPreviewColors } from '@components/app/adaptPreview';
-    import { adaptingOutput, CharactersDB } from '@db/Database';
-    import type { SerializedPreviewContent } from '@db/projects/ProjectSchemas';
+    import Fonts from '#basis/faces/Fonts.ts';
+    import Spinning from '#components/app/Spinning.svelte';
+    import EmojisRepaired from '#components/widgets/EmojisRepaired.svelte';
+    import {
+        characterToSVG,
+        type Character,
+    } from '#db/characters/Character.ts';
+    import { adaptPreviewColors } from '#components/app/adaptPreview.ts';
+    import { adaptingOutput, CharactersDB } from '#db/Database.ts';
+    import type { SerializedPreviewContent } from '#db/projects/ProjectSchemas.ts';
 
     interface Props {
         /** The preview to render, or null while one is being computed (shows a spinner). */

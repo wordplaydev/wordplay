@@ -1,13 +1,13 @@
-import { ensureAppCheck, ensureAuth, firestore } from '@db/firebase';
+import { ensureAppCheck, ensureAuth, firestore } from '#db/firebase.ts';
 import { FirebaseError } from 'firebase/app';
-import concretize from '@locale/concretize';
-import { type LocaleTextAccessor } from '@locale/Locales';
-import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
+import concretize from '#locale/concretize.ts';
+import { type LocaleTextAccessor } from '#locale/Locales.ts';
+import { getBestSupportedLocales } from '#locale/getBestSupportedLocales.ts';
 import {
     isSupportedLocale,
     type SupportedLocale,
-} from '@locale/SupportedLocales';
-import { resolveWritingLayout } from '@locale/Scripts';
+} from '#locale/SupportedLocales.ts';
+import { resolveWritingLayout } from '#locale/Scripts.ts';
 // Value symbols from firebase/auth are dynamically imported at use so the auth
 // SDK stays out of the eager chunk; only the erased types are imported here.
 import { type Auth, type Unsubscribe, type User } from 'firebase/auth';
@@ -25,32 +25,32 @@ import {
     type Readable,
     type Writable,
 } from 'svelte/store';
-import { prefersDarkScheme } from '@db/settings/prefersDarkScheme';
-import { prefersReducedMotion } from '@db/settings/prefersReducedMotion';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { type FormattedText } from '@locale/LocaleText';
-import { CharactersDatabase } from '@db/characters/CharacterDatabase.svelte';
-import { ChatDatabase } from '@db/chats/ChatDatabase.svelte';
+import { prefersDarkScheme } from '#db/settings/prefersDarkScheme.ts';
+import { prefersReducedMotion } from '#db/settings/prefersReducedMotion.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { type FormattedText } from '#locale/LocaleText.ts';
+import { CharactersDatabase } from '#db/characters/CharacterDatabase.svelte.ts';
+import { ChatDatabase } from '#db/chats/ChatDatabase.svelte.ts';
 import CreatorDatabase, {
     CreatorCollection,
-} from '@db/creators/CreatorDatabase';
-import GalleryDatabase from '@db/galleries/GalleryDatabase.svelte';
-import { HowToDatabase } from '@db/howtos/HowToDatabase.svelte';
-import type KitDatabase from '@db/kits/KitDatabase.svelte';
-import LocalesDatabase from '@db/locales/LocalesDatabase';
-import type ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
-import { Domain, SyncDomains, type SyncDomain } from '@db/Domains';
-import { ProjectSchema } from '@db/projects/ProjectSchemas';
-import { WordplayDexie } from '@db/WordplayDexie';
-import SettingsDatabase from '@db/settings/SettingsDatabase';
-import retryableLoad from '@util/retryableLoad';
-import { isDefined } from '@util/nullable';
-import { forgetTokenRefresh } from '@db/creators/getClaim';
-import { isProxySession, proxyPrefix } from '@db/proxySession';
-import { getUsername, syncHandle } from '@db/creators/handle.svelte';
-import { syncStrikes } from '@db/creators/strikes.svelte';
-import { syncNotices } from '@db/moderation/notices.svelte';
+} from '#db/creators/CreatorDatabase.ts';
+import GalleryDatabase from '#db/galleries/GalleryDatabase.svelte.ts';
+import { HowToDatabase } from '#db/howtos/HowToDatabase.svelte.ts';
+import type KitDatabase from '#db/kits/KitDatabase.svelte.ts';
+import LocalesDatabase from '#db/locales/LocalesDatabase.ts';
+import type ProjectsDatabase from '#db/projects/ProjectsDatabase.svelte.ts';
+import { Domain, SyncDomains, type SyncDomain } from '#db/Domains.ts';
+import { ProjectSchema } from '#db/projects/ProjectSchemas.ts';
+import { WordplayDexie } from '#db/WordplayDexie.ts';
+import SettingsDatabase from '#db/settings/SettingsDatabase.ts';
+import retryableLoad from '#util/retryableLoad.ts';
+import { isDefined } from '#util/nullable.ts';
+import { forgetTokenRefresh } from '#db/creators/getClaim.ts';
+import { isProxySession, proxyPrefix } from '#db/proxySession.ts';
+import { getUsername, syncHandle } from '#db/creators/handle.svelte.ts';
+import { syncStrikes } from '#db/creators/strikes.svelte.ts';
+import { syncNotices } from '#db/moderation/notices.svelte.ts';
 
 // Intercept console.log and console.error
 
@@ -138,8 +138,8 @@ export type SaveError = {
 export type SaveCounts = { device: number; cloud: number; unsaved: number };
 
 // Re-exported (imported at the top) from the single source of truth so existing
-// `@db/Database` importers (Status.svelte, tests) keep working; new code may
-// import from `@db/Domains` directly.
+// `#db/Database` importers (Status.svelte, tests) keep working; new code may
+// import from `#db/Domains.ts` directly.
 export { Domain, SyncDomains, type SyncDomain };
 
 /** A domain's cloud-sync state for the save-status UI: `initializing` (not yet
@@ -325,7 +325,7 @@ export class Database {
      */
     private readonly loadKitsOnce = retryableLoad(async () => {
         const { default: KitDatabase } =
-            await import('@db/kits/KitDatabase.svelte');
+            await import('#db/kits/KitDatabase.svelte.ts');
         this.kits = new KitDatabase(this);
         // Loading can happen long after startSync has finished, so the database brings
         // itself online rather than waiting for a sync pass that already ran.
@@ -631,7 +631,7 @@ export class Database {
      * leave every project view broken for the life of the tab.
      */
     private readonly loadProjectsOnce = retryableLoad(async () => {
-        const { Projects } = await import('@db/projects/Projects');
+        const { Projects } = await import('#db/projects/Projects.ts');
         this.projects = Projects;
         this.projectsStore.set(Projects);
         return Projects;

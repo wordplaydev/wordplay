@@ -1,9 +1,9 @@
-import type LocaleText from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { scopeOf } from '@util/verify-locales/checkPointedNames';
-import { isNameTextPath } from '@util/verify-locales/classifyLocalePath';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
+import type LocaleText from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { scopeOf } from '#util/verify-locales/checkPointedNames.ts';
+import { isNameTextPath } from '#util/verify-locales/classifyLocalePath.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import type Log from '#util/verify-locales/Log.ts';
 
 /**
  * Find two members of one definition that a locale gives the same name.

@@ -1,20 +1,20 @@
-import type LocaleText from '@locale/LocaleText';
-import { toResolutions } from '@conflicts/Conflict';
-import Context from '@nodes/Context';
-import type Evaluate from '@nodes/Evaluate';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import Input from '@nodes/Input';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locales from '@locale/Locales';
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type StreamDefinition from '@nodes/StreamDefinition';
+import type LocaleText from '#locale/LocaleText.ts';
+import { toResolutions } from '#conflicts/Conflict.ts';
+import Context from '#nodes/Context.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Input from '#nodes/Input.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Locales from '#locale/Locales.ts';
+import type BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type StreamDefinition from '#nodes/StreamDefinition.ts';
 import Conflict, {
     ConflictSeverity,
     type Repair,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Node from '@nodes/Node';
-import levenshtein from '@util/levenshtein';
+} from '#conflicts/Conflict.ts';
+import type Node from '#nodes/Node.ts';
+import levenshtein from '#util/levenshtein.ts';
 
 export default class UnknownInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;

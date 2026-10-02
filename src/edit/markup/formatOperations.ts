@@ -1,9 +1,9 @@
-import Caret, { isPosition, isRange } from '@edit/caret/Caret';
-import { clampPosition, markupBounds } from '@edit/markup/markupSource';
-import Example from '@nodes/Example';
-import type Node from '@nodes/Node';
-import type Source from '@nodes/Source';
-import Words, { type Format } from '@nodes/Words';
+import Caret, { isPosition, isRange } from '#edit/caret/Caret.ts';
+import { clampPosition, markupBounds } from '#edit/markup/markupSource.ts';
+import Example from '#nodes/Example.ts';
+import type Node from '#nodes/Node.ts';
+import type Source from '#nodes/Source.ts';
+import Words, { type Format } from '#nodes/Words.ts';
 import {
     ATTENTION_SYMBOL,
     BOLD_SYMBOL,
@@ -19,9 +19,9 @@ import {
     TAG_CLOSE_SYMBOL,
     TAG_OPEN_SYMBOL,
     UNDERSCORE_SYMBOL,
-} from '@parser/Symbols';
-import { getWordInfo } from '@runtime/pattern/segment';
-import UnicodeString from '@unicode/UnicodeString';
+} from '#parser/Symbols.ts';
+import { getWordInfo } from '#runtime/pattern/segment.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 
 /**
  * The formatting commands, as pure functions over a {@link Source} and a caret

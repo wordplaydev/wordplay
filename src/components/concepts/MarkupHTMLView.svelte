@@ -4,39 +4,46 @@
 </script>
 
 <script lang="ts">
-    import LocallyRevisedAnnotation from '@components/app/LocallyRevisedAnnotation.svelte';
-    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
-    import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
-    import LocalizationQuality from '@components/localization/LocalizationQuality.svelte';
-    import { getLocalizing } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { animationDuration, animationFactor, locales } from '@db/Database';
+    import LocallyRevisedAnnotation from '#components/app/LocallyRevisedAnnotation.svelte';
+    import MachineTranslatedAnnotation from '#components/app/MachineTranslatedAnnotation.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import SegmentHTMLView from '#components/concepts/SegmentHTMLView.svelte';
+    import { accessorToLocalePath } from '#components/localization/accessorToLocalePath.ts';
+    import LocalizationQuality from '#components/localization/LocalizationQuality.svelte';
+    import { getLocalizing } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import FormattedEditor from '#components/widgets/FormattedEditor.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import {
+        animationDuration,
+        animationFactor,
+        locales,
+    } from '#db/Database.ts';
     import {
         deleteLocaleEdit,
         localeEdits,
         saveLocaleEdit,
-    } from '@db/locales/LocalizationDexie';
-    import type Locales from '@locale/Locales';
+    } from '#db/locales/LocalizationDexie.ts';
+    import type Locales from '#locale/Locales.ts';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
         TemplateInput,
-    } from '@locale/Locales';
-    import { isUnwritten, toLocaleString } from '@locale/LocaleText';
-    import type { WritingDirection } from '@locale/Scripts';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import ConceptLink from '@nodes/ConceptLink';
-    import Markup from '@nodes/Markup';
-    import type Language from '@nodes/Language';
-    import { toBCP47 } from '@locale/Locale';
-    import { getLanguageDirection } from '@locale/LanguageCode';
-    import Paragraph from '@nodes/Paragraph';
-    import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
-    import type Spaces from '@parser/Spaces';
+    } from '#locale/Locales.ts';
+    import { isUnwritten, toLocaleString } from '#locale/LocaleText.ts';
+    import type { WritingDirection } from '#locale/Scripts.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+    import ConceptLink from '#nodes/ConceptLink.ts';
+    import Markup from '#nodes/Markup.ts';
+    import type Language from '#nodes/Language.ts';
+    import { toBCP47 } from '#locale/Locale.ts';
+    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import Paragraph from '#nodes/Paragraph.ts';
+    import {
+        parseDocs,
+        parseFormattedLiteral,
+    } from '#parser/parseExpression.ts';
+    import type Spaces from '#parser/Spaces.ts';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
@@ -44,10 +51,10 @@
         EDIT_SYMBOL,
         FORMATTED_SYMBOL,
         REVERT_SYMBOL,
-    } from '@parser/Symbols';
-    import { toMarkup } from '@parser/toMarkup';
-    import { toTokens } from '@parser/toTokens';
-    import { must } from '@util/nullable';
+    } from '#parser/Symbols.ts';
+    import { toMarkup } from '#parser/toMarkup.ts';
+    import { toTokens } from '#parser/toTokens.ts';
+    import { must } from '#util/nullable.ts';
     import { tick } from 'svelte';
 
     interface Props {

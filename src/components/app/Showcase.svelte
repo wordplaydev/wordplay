@@ -12,8 +12,8 @@
     caption beside it — and so translation carries the prose and the code together.
 -->
 <script lang="ts">
-    import PlayView from '@components/app/PlayView.svelte';
-    import { makeExampleProject } from '@components/concepts/previewEvaluator';
+    import PlayView from '#components/app/PlayView.svelte';
+    import { makeExampleProject } from '#components/concepts/previewEvaluator.ts';
     import {
         getAnnouncer,
         getTip,
@@ -22,33 +22,36 @@
         setProject,
         setResetKeyboardIdle,
         setSelectedOutput,
-    } from '@components/project/Contexts';
-    import { IdleKind } from '@components/project/Contexts';
-    import SelectedOutput from '@components/project/SelectedOutput.svelte';
-    import RootView from '@components/project/RootView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
+    } from '#components/project/Contexts.ts';
+    import { IdleKind } from '#components/project/Contexts.ts';
+    import SelectedOutput from '#components/project/SelectedOutput.svelte.ts';
+    import RootView from '#components/project/RootView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
     import {
         canFocusTips,
         canHoverTips,
-    } from '@components/widgets/tipTriggers';
+    } from '#components/widgets/tipTriggers.ts';
     import {
         getFocusableOption,
         getNextOption,
         isNavigationKey,
-    } from '@components/widgets/optionNavigation';
-    import { blocks, locales, Settings } from '@db/Database';
-    import type LocaleText from '@locale/LocaleText';
-    import Example from '@nodes/Example';
-    import Markup from '@nodes/Markup';
-    import type Program from '@nodes/Program';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import type Spaces from '@parser/Spaces';
-    import { BLOCK_EDITING_SYMBOL, TEXT_EDITING_SYMBOL } from '@parser/Symbols';
-    import { withMonoEmoji } from '@unicode/emoji';
-    import type Project from '@db/projects/Project';
-    import type Node from '@nodes/Node';
-    import { must } from '@util/nullable';
+    } from '#components/widgets/optionNavigation.ts';
+    import { blocks, locales, Settings } from '#db/Database.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import Example from '#nodes/Example.ts';
+    import Markup from '#nodes/Markup.ts';
+    import type Program from '#nodes/Program.ts';
+    import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+    import type Spaces from '#parser/Spaces.ts';
+    import {
+        BLOCK_EDITING_SYMBOL,
+        TEXT_EDITING_SYMBOL,
+    } from '#parser/Symbols.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type Node from '#nodes/Node.ts';
+    import { must } from '#util/nullable.ts';
     import { writable } from 'svelte/store';
 
     /** The examples, in the order their buttons appear. The icons live here

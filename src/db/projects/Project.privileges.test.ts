@@ -1,8 +1,8 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
-import Project from '@db/projects/Project';
+import Project from '#db/projects/Project.ts';
 
 /**
  * A person has exactly one privilege on a project, even though the three lists

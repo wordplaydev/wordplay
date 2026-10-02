@@ -1,15 +1,15 @@
-import { parseLocaleDoc, isUnwritten } from '@locale/LocaleText';
-import type Doc from '@nodes/Doc';
-import Docs from '@nodes/Docs';
-import Name from '@nodes/Name';
-import Names from '@nodes/Names';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import { toDocString, type NameAndDoc } from '@locale/LocaleText';
-import { localeToLanguage } from '@locale/localeToLanguage';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import selectTranslation from '@locale/selectTranslation';
-import { must } from '@util/nullable';
+import { parseLocaleDoc, isUnwritten } from '#locale/LocaleText.ts';
+import type Doc from '#nodes/Doc.ts';
+import Docs from '#nodes/Docs.ts';
+import Name from '#nodes/Name.ts';
+import Names from '#nodes/Names.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { toDocString, type NameAndDoc } from '#locale/LocaleText.ts';
+import { localeToLanguage } from '#locale/localeToLanguage.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import selectTranslation from '#locale/selectTranslation.ts';
+import { must } from '#util/nullable.ts';
 
 export function getInputLocales(
     locales: Locales,

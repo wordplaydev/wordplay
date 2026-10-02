@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { locales } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import Logo from './Logo.svelte';
 
     interface Props {

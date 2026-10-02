@@ -12,7 +12,7 @@
  * suggestion to anyone willing to skip it.
  */
 
-import type { RegionCode } from '@locale/Regions';
+import type { RegionCode } from '#locale/Regions.ts';
 
 /** Where a region isn't listed: the COPPA threshold, and GDPR Article 8's floor. */
 export const DefaultAgeOfConsent = 13;

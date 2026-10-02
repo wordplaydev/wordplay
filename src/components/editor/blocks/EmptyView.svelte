@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { getProject } from '@components/project/Contexts';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
-    import Caret from '@edit/caret/Caret';
-    import type Node from '@nodes/Node';
-    import { enumerateSymbols } from '@nodes/Node';
-    import Token from '@nodes/Token';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
-    import { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import { getProject } from '#components/project/Contexts.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { locales } from '#db/Database.ts';
+    import Caret from '#edit/caret/Caret.ts';
+    import type Node from '#nodes/Node.ts';
+    import { enumerateSymbols } from '#nodes/Node.ts';
+    import Token from '#nodes/Token.ts';
+    import MenuTrigger from '#components/editor/menu/MenuTrigger.svelte';
+    import { type Format } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         /** The node containing a list of nodes to render */

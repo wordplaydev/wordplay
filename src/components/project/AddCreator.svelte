@@ -6,13 +6,13 @@
      at once — the gallery page has two — and a shared DOM id breaks the label
      and error associations for both. -->
 <script lang="ts">
-    import Spinning from '@components/app/Spinning.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { DB } from '@db/Database';
-    import validEmail from '@db/creators/isValidEmail';
-    import { isPlausibleUsername } from '@db/creators/username';
-    import type LocaleText from '@locale/LocaleText';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { DB } from '#db/Database.ts';
+    import validEmail from '#db/creators/isValidEmail.ts';
+    import { isPlausibleUsername } from '#db/creators/username.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
     import type { Snippet } from 'svelte';
 
     interface Props {

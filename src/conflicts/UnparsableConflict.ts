@@ -1,29 +1,29 @@
-import type LocaleText from '@locale/LocaleText';
-import { toResolutions } from '@conflicts/Conflict';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
-import type Node from '@nodes/Node';
-import { Any, IsA } from '@nodes/Node';
-import Token from '@nodes/Token';
-import UnparsableExpression from '@nodes/UnparsableExpression';
-import type UnparsableType from '@nodes/UnparsableType';
-import parseExpression from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import { toResolutions } from '#conflicts/Conflict.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import Expression from '#nodes/Expression.ts';
+import type Node from '#nodes/Node.ts';
+import { Any, IsA } from '#nodes/Node.ts';
+import Token from '#nodes/Token.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import type UnparsableType from '#nodes/UnparsableType.ts';
+import parseExpression from '#parser/parseExpression.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Repair,
     type Resolutions,
-} from '@conflicts/Conflict';
-import Bind from '@nodes/Bind';
-import RepairContext from '@conflicts/RepairContext';
+} from '#conflicts/Conflict.ts';
+import Bind from '#nodes/Bind.ts';
+import RepairContext from '#conflicts/RepairContext.ts';
 import {
     generateAnchorCandidates,
     generateMergeCandidates,
     selectBestCandidates,
     type RepairCandidate,
-} from '@conflicts/repairTemplate';
+} from '#conflicts/repairTemplate.ts';
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: UnparsableType | UnparsableExpression;

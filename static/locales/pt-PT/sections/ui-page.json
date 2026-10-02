@@ -86,7 +86,7 @@
                             "• Os seus próprios nomes também podem ser multilingues:\n\\gato2/pt, gato/es: '🐈'\nFrase(gato2)\\",
                             "• O texto tem um idioma associado, e mostra o idioma que o seu público lê: \\'olá'/pt'hola'/es\\.",
                             "• O próprio site está em 29 idiomas e pode escolher mais do que um ao mesmo tempo; o texto aparece em cada um deles.",
-                            "• Pode ajudar a traduzir o próprio @wordplay, dentro da aplicação, em <localize//localize>."
+                            "• Pode ajudar a traduzir o próprio @wordplay, dentro da aplicação, em <localize@://localize>."
                         ]
                     },
                     "accessible": {
@@ -123,7 +123,7 @@
                         "title": "$~O Wordplay é tipografia",
                         "bullets": [
                             "$~• Centenas de tipos de letra, cobrindo os sistemas de escrita do mundo.",
-                            "• Pode desenhar os seus próprios <caracteres personalizados//characters> e usá-los onde quer que se use um emoji.",
+                            "• Pode desenhar os seus próprios <caracteres personalizados@://characters> e usá-los onde quer que se use um emoji.",
                             "• O contorno de cada letra é dados que pode ler e animar, com @Contour: \\Contorno('a' 'Noto Sans')\\.",
                             "• O texto muda de linha segundo as regras do idioma em que está escrito.",
                             "• A escrita da direita para a esquerda e a escrita vertical são organizadas da forma correta."
@@ -133,7 +133,7 @@
                         "title": "$~O Wordplay explica-se a si próprio",
                         "bullets": [
                             "$~• A documentação faz parte do idioma, com @Doc, e não é um comentário ao lado.",
-                            "• Um <guia//guide> pesquisável explica cada funcionalidade incorporada, com exemplos.",
+                            "• Um <guia@://guide> pesquisável explica cada funcionalidade incorporada, com exemplos.",
                             "• Cada erro é explicado onde aconteceu, no seu idioma.",
                             "• Pode percorrer um programa para a frente /e/ para trás para depurar o que aconteceu.",
                             "• Enquanto percorre o programa, cada valor é mostrado mesmo no código que o criou."
@@ -156,7 +156,7 @@
                             "• É de código aberto: pode ler como funciona e pode ajudar-nos a mudá-lo.",
                             "• Vem da <Universidade de Washington@https://ischool.uw.edu/>, Escola de Informação.",
                             "• Existe uma comunidade de criadores, professores e colaboradores.",
-                            "• As <Doações//donate> pagam os custos de funcionamento."
+                            "• As <Doações@://donate> pagam os custos de funcionamento."
                         ]
                     }
                 }
@@ -348,7 +348,7 @@
             },
             "projects": {
                 "header": "Projetos",
-                "projectprompt": "Pronto para dizer algo? Crie um projeto ou trabalhe num. Se ficar preso, continue a <aprender@://aprender>.",
+                "projectprompt": "Pronto para dizer algo? Crie um projeto ou trabalhe num. Se ficar preso, continue a <aprender@://learn>.",
                 "archiveprompt": "Estes são projetos que arquivou. Apenas os proprietários podem eliminá-los ou desarquivá-los permanentemente. Os projetos arquivados serão eliminados permanentemente 30 dias após a última edição.",
                 "subheader": {
                     "shared": "Compartilhado",
@@ -822,21 +822,21 @@
             "about": {
                 "header": "Sobre",
                 "content": [
-                    "Alguma vez teve a sensação de que a programação era algo apenas para ocidentais fluentes em inglês, sem deficiência e que tinham crescido com computadores?",
-                    "Sim, nós também.",
-                    "Isto não é por acaso. Desde os primórdios da computação, as linguagens de programação foram concebidas e construídas, na sua maioria, pelo mesmo grupo de pessoas — sobretudo homens brancos, cisgénero e falantes de inglês, ativos no meio académico e na indústria dos EUA e da Europa, e algumas matemáticas excecionais. Realizaram o seu trabalho numa época pós-colonial de poder absoluto, e as linguagens de programação foram uma ferramenta fundamental para garantir esse poder.",
-                    "Esta história levou a uma visão da computação que se concentra principalmente na velocidade, lógica, lucro e domínio.",
-                    "Isto é uma injustiça. Porque a computação, para o bem e para o mal, sustenta agora a vida quotidiana de formas visíveis e invisíveis, e as pessoas que têm acesso para criar com ela são as que mais se assemelham aos seus criadores. O resto da humanidade continua refém deste poder, porque imaginar algo diferente exige literacia, barreiras impostas por barreiras linguísticas, de acessibilidade, económicas e desigualdades no ensino público.",
-                    "*Wordplay* aspira a ajudar a mudar isso. É uma plataforma de programação concebida para ser global, suportando /todos/ os idiomas do mundo, mas sendo também /sobre/ os idiomas do mundo. Uma plataforma na qual todos podem criar, com quaisquer competências que possuam, para partilhar conteúdo interativo que qualquer pessoa possa experimentar. Para jovens e jovens adultos que se querem expressar através de palavras interativas, emojis e tipografia, de forma lúdica e artística. Não com o objetivo de obter poder para si próprios, mas para criar um mundo computacional que reconheça a incrível força e a necessidade das nossas belas diferenças.",
-                    "Somos uma comunidade de designers, educadores e developers que procura dar vida a esta visão. Somos pessoas de cor, trans, queer, com deficiência, imigrantes e refugiados. A nossa sede é na <Universidade de Washington@https://washington.edu> <Escola de Informação@https://ischool.uw.edu/> em Seattle, Washington, EUA, um local que aspira a acolher todos e a desfazer os estragos capacitistas e racistas do colonialismo que persistem até hoje. Criar esta linguagem de programação e plataforma é uma pequena parte desta missão, oferecendo um vislumbre de um futuro da computação onde /todos/ são bem-vindos.",
-                    "Adoraríamos contar com a sua ajuda. Saiba como contribuir, faça um donativo ou acompanhe o nosso progresso. Se tiver alguma dúvida, contacte a nossa organizadora da comunidade, Amy, através do e-mail Amyjko@https://amyjko.phd."
+                    "$~Já sentiu que programar era apenas para ocidentais fluentes em inglês, sem deficiência, que cresceram com computadores?",
+                    "Pois, nós também.",
+                    "Isto não é um acidente. Desde o início da computação, as linguagens de programação foram desenhadas e construídas quase sempre pelo mesmo grupo de pessoas -- sobretudo homens brancos, cis e de língua inglesa, na academia e na indústria dos EUA e da Europa, e algumas mulheres matemáticas incríveis. Fizeram o seu trabalho numa época de poder pós-colonial, em que o vencedor leva tudo, e as linguagens de programação foram uma ferramenta essencial para garantir esse poder.",
+                    "Esta história levou a uma visão da computação que se centra sobretudo na velocidade, na lógica, no lucro e no domínio.",
+                    "Isto é uma injustiça. Hoje, para o bem e para o mal, a computação sustenta a vida diária de formas visíveis e invisíveis, e as pessoas que têm acesso para criar com ela são as mais parecidas com quem a criou. O resto da humanidade continua dependente deste poder, porque imaginar algo diferente exige literacia, e esta está bloqueada por barreiras de idioma, barreiras de acessibilidade, barreiras económicas e desigualdades no ensino público.",
+                    "O *Wordplay* quer ajudar a mudar isto. É uma plataforma de programação pensada para ser global, que apoia /todos/ os idiomas do mundo, mas que também é /sobre/ os idiomas do mundo. Uma plataforma onde todas as pessoas podem criar, com as capacidades que tiverem, e partilhar conteúdo interativo que qualquer pessoa pode viver. É para jovens e jovens adultos que querem exprimir-se com palavras interativas, emojis e tipografia, com brincadeira e arte. O objetivo não é ganhar poder para si, mas criar um mundo da computação que reconhece a força incrível e a necessidade das nossas belas diferenças.",
+                    "Somos uma comunidade de designers, educadores(as) e programadores(as) que tenta dar vida a esta visão. Somos pessoas de cor, somos trans, somos queer, somos pessoas com deficiência, somos imigrantes, somos refugiados(as). Estamos sediados na <Information School@https://ischool.uw.edu/> da <Universidade de Washington@https://washington.edu>, em Seattle, Washington, EUA, um lugar que aspira a acolher todas as pessoas e a desfazer os estragos capacitistas e racistas do colonialismo que continuam hoje. Criar esta linguagem de programação e esta plataforma é uma pequena parte dessa missão e deixa entrever um futuro da computação onde /todos/ pertencem.",
+                    "Gostaríamos da sua ajuda. Saiba <como contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute>, <faça um donativo@://donate> ou acompanhe o nosso <progresso@https://github.com/amyjko/wordplay/milestones>. Escreva à nossa organizadora comunitária, a <Amy@https://amyjko.phd>, se tiver dúvidas."
                 ],
                 "districts": {
                     "header": "$~Para escolas e agrupamentos",
                     "content": [
                         "$~Está a decidir se pode usar o *Wordplay* na sua escola ou no seu agrupamento? Eis o que podemos e não podemos prometer.",
                         "Não somos uma empresa. Somos um projeto de investigação comunitário, sediado numa universidade sem fins lucrativos, e não temos qualquer receita. Isso significa que há acordos que não podemos assinar, por mais que queiramos ajudar. Não podemos prometer pagar as custas legais de um agrupamento se este for processado. Não podemos prometer resolver um problema num prazo fixo. Assinar uma promessa que não podemos cumprir não ajudaria ninguém, muito menos a si.",
-                        "Eis o que podemos prometer. Mantemos a plataforma de acordo com as regras de acessibilidade /WCAG 2.2 Nível AA/, verificamo-la automaticamente a cada alteração, e corrigimos o que encontramos tão depressa quanto uma comunidade de voluntários consegue. Recolhemos o mínimo de informação possível sobre as pessoas que a usam, e usamo-la apenas para manter a plataforma a funcionar. A nossa página de <rights//rights> diz exatamente o que guardamos, e o nosso <source@https://github.com/wordplaydev/wordplay> é público, para que possa verificar tudo isto por si próprio(a).",
+                        "Eis o que podemos prometer. Mantemos a plataforma de acordo com as regras de acessibilidade /WCAG 2.2 Nível AA/, verificamo-la automaticamente a cada alteração, e corrigimos o que encontramos tão depressa quanto uma comunidade de voluntários consegue. Recolhemos o mínimo de informação possível sobre as pessoas que a usam, e usamo-la apenas para manter a plataforma a funcionar. A nossa página de <rights@://rights> diz exatamente o que guardamos, e o nosso <source@https://github.com/wordplaydev/wordplay> é público, para que possa verificar tudo isto por si próprio(a).",
                         "Esta plataforma está sempre a mudar, tal como as regras que tem de seguir. Se houver algo de que precise e que ainda não fazemos, escreva-nos para hi@wordplay.dev e conte-nos. Os responsáveis vão ler a sua mensagem, e nós responderemos."
                     ],
                     "link": "$~Escreva-nos sobre um requisito",
@@ -1373,7 +1373,7 @@
             },
             "thanks": {
                 "header": "$~Obrigado",
-                "intro": "$~Obrigado aos nossos *$#count[$#count colaborador|$count colaboradores|$count colaboradores]* por contribuírem para o design, o desenvolvimento, a localização e o conteúdo do @wordplay! E obrigado aos muitos professores e jovens que orientaram o nosso design em grupos de foco, sessões de design e salas de aula, e que não listamos aqui para proteger a sua privacidade.\n\nEste projeto foi apoiado pela National Science Foundation ao abrigo dos prémios 2318257, 2031265, 2100296 e 2122950, pela University of Washington e por <donativos//donate> generosos de pessoas como tu.",
+                "intro": "$~Obrigado aos nossos *$#count[$#count colaborador|$count colaboradores|$count colaboradores]* por contribuírem para o design, o desenvolvimento, a localização e o conteúdo do @wordplay! E obrigado aos muitos professores e jovens que orientaram o nosso design em grupos de foco, sessões de design e salas de aula, e que não listamos aqui para proteger a sua privacidade.\n\nEste projeto foi apoiado pela National Science Foundation ao abrigo dos prémios 2318257, 2031265, 2100296 e 2122950, pela University of Washington e por <donativos@://donate> generosos de pessoas como tu.",
                 "teachers": "$~Professores",
                 "contributors": "$~Colaboradores"
             },

@@ -1,23 +1,23 @@
 import Anthropic from '@anthropic-ai/sdk';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LanguageCode from '@locale/LanguageCode';
-import { TranslatableLocales } from '@locale/LanguageCode';
-import { getConventionsForPrompt } from '@locale/getConventionsForPrompt';
-import { getGlossaryForPrompt } from '@locale/Glossary';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import { TranslatableLocales } from '#locale/LanguageCode.ts';
+import { getConventionsForPrompt } from '#locale/getConventionsForPrompt.ts';
+import { getGlossaryForPrompt } from '#locale/Glossary.ts';
 import { getItalicLabels, getItalicLabelsForPrompt } from './italicSpans';
-import { getPluralCount, getPluralRulesForPrompt } from '@locale/plurals';
-import { PLAIN_LANGUAGE_GUIDANCE } from '@locale/readingLevel';
-import { chunkUnits } from '@util/chunkUnits';
-import type Locale from '@locale/Locale';
-import { stringToLocale } from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
-import type { RegionCode } from '@locale/Regions';
-import Project from '@db/projects/Project';
+import { getPluralCount, getPluralRulesForPrompt } from '#locale/plurals.ts';
+import { PLAIN_LANGUAGE_GUIDANCE } from '#locale/readingLevel.ts';
+import { chunkUnits } from '#util/chunkUnits.ts';
+import type Locale from '#locale/Locale.ts';
+import { stringToLocale } from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import Project from '#db/projects/Project.ts';
 import translateProjectContent, {
     type RawTranslator,
-} from '@db/projects/translateProjectContent';
-import Source from '@nodes/Source';
-import type Log from '@util/verify-locales/Log';
+} from '#db/projects/translateProjectContent.ts';
+import Source from '#nodes/Source.ts';
+import type Log from '#util/verify-locales/Log.ts';
 import { getLocaleJSON, LocaleValidator } from './LocaleSchema';
 import {
     ConceptPattern,
@@ -35,7 +35,7 @@ import {
 } from './protect';
 import type Translator from './Translator';
 import type { TranslatorUsage } from './Translator';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * The model that carries the bulk of a run — prose, docs, examples — chosen for

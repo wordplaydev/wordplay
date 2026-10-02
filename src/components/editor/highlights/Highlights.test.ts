@@ -1,17 +1,17 @@
 import { describe, expect, test } from 'vitest';
-import { must } from '@util/nullable';
-import Source from '@nodes/Source';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import NumberLiteral from '@nodes/NumberLiteral';
-import type Node from '@nodes/Node';
-import Evaluate from '@nodes/Evaluate';
+import { must } from '#util/nullable.ts';
+import Source from '#nodes/Source.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import type Node from '#nodes/Node.ts';
+import Evaluate from '#nodes/Evaluate.ts';
 import {
     getDragHighlights,
     getProjectHighlights,
     getSearchMatches,
     Highlights,
-} from '@components/editor/highlights/Highlights';
+} from '#components/editor/highlights/Highlights.ts';
 
 /** The matched substrings (sliced from the source code) for `query` over `code`. */
 function matchedSubstrings(code: string, query: string): string[] {

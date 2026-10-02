@@ -1,45 +1,45 @@
 /** Functionality related to automatically completing a text insertion */
 
-import type Project from '@db/projects/Project';
-import { must } from '@util/nullable';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Bind from '@nodes/Bind';
-import Block from '@nodes/Block';
-import Convert from '@nodes/Convert';
-import Evaluate from '@nodes/Evaluate';
-import Example from '@nodes/Example';
-import Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import FunctionType from '@nodes/FunctionType';
-import Input from '@nodes/Input';
-import Is from '@nodes/Is';
-import ListAccess from '@nodes/ListAccess';
-import ListType from '@nodes/ListType';
-import Literal from '@nodes/Literal';
-import MapType from '@nodes/MapType';
-import Names from '@nodes/Names';
-import Node from '@nodes/Node';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NumberType from '@nodes/NumberType';
-import Paragraph, { type Segment } from '@nodes/Paragraph';
-import Program from '@nodes/Program';
-import PropertyReference from '@nodes/PropertyReference';
-import Reference from '@nodes/Reference';
-import This from '@nodes/This';
-import SetOrMapAccess from '@nodes/SetOrMapAccess';
-import SetType from '@nodes/SetType';
-import Source from '@nodes/Source';
-import StreamDefinitionType from '@nodes/StreamDefinitionType';
-import StructureDefinitionType from '@nodes/StructureDefinitionType';
-import StructureType from '@nodes/StructureType';
-import { Sym } from '@nodes/Sym';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import UnparsableExpression from '@nodes/UnparsableExpression';
-import UnparsableType from '@nodes/UnparsableType';
-import WebLink from '@nodes/WebLink';
-import Words from '@nodes/Words';
+import type Project from '#db/projects/Project.ts';
+import { must } from '#util/nullable.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Bind from '#nodes/Bind.ts';
+import Block from '#nodes/Block.ts';
+import Convert from '#nodes/Convert.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Example from '#nodes/Example.ts';
+import Expression from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import FunctionType from '#nodes/FunctionType.ts';
+import Input from '#nodes/Input.ts';
+import Is from '#nodes/Is.ts';
+import ListAccess from '#nodes/ListAccess.ts';
+import ListType from '#nodes/ListType.ts';
+import Literal from '#nodes/Literal.ts';
+import MapType from '#nodes/MapType.ts';
+import Names from '#nodes/Names.ts';
+import Node from '#nodes/Node.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import NumberType from '#nodes/NumberType.ts';
+import Paragraph, { type Segment } from '#nodes/Paragraph.ts';
+import Program from '#nodes/Program.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import Reference from '#nodes/Reference.ts';
+import This from '#nodes/This.ts';
+import SetOrMapAccess from '#nodes/SetOrMapAccess.ts';
+import SetType from '#nodes/SetType.ts';
+import Source from '#nodes/Source.ts';
+import StreamDefinitionType from '#nodes/StreamDefinitionType.ts';
+import StructureDefinitionType from '#nodes/StructureDefinitionType.ts';
+import StructureType from '#nodes/StructureType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import UnparsableType from '#nodes/UnparsableType.ts';
+import WebLink from '#nodes/WebLink.ts';
+import Words from '#nodes/Words.ts';
 import {
     BIND_SYMBOL,
     CODE_SYMBOL,
@@ -61,13 +61,13 @@ import {
     TAG_OPEN_SYMBOL,
     TYPE_SYMBOL,
     RANGE_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 import {
     DelimiterCloseByOpen,
     FormattingSymbols,
     tokens,
-} from '@parser/Tokenizer';
-import type Caret from '@edit/caret/Caret';
+} from '#parser/Tokenizer.ts';
+import type Caret from '#edit/caret/Caret.ts';
 
 type InsertInfo = {
     /** The caret where the insertion is happening */

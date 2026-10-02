@@ -1,16 +1,16 @@
 import { expect, test } from 'vitest';
-import parseExpression from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
-import Bind from '@nodes/Bind';
-import Doc from '@nodes/Doc';
-import NameToken from '@nodes/NameToken';
-import Language from '@nodes/Language';
-import type Node from '@nodes/Node';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Reference from '@nodes/Reference';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import { must } from '@util/nullable';
+import parseExpression from '#parser/parseExpression.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import Bind from '#nodes/Bind.ts';
+import Doc from '#nodes/Doc.ts';
+import NameToken from '#nodes/NameToken.ts';
+import Language from '#nodes/Language.ts';
+import type Node from '#nodes/Node.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Reference from '#nodes/Reference.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import { must } from '#util/nullable.ts';
 
 test.each([
     '1',

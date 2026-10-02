@@ -1,6 +1,6 @@
-import en from '@locale/en-US.json';
-import type LocaleText from '@locale/LocaleText';
-import { isLocaleText } from '@locale/isLocaleText';
+import en from '#locale/en-US.json';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isLocaleText } from '#locale/isLocaleText.ts';
 
 /**
  * The locale every project falls back to, and the source the locale tooling

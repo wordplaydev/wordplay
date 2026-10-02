@@ -1,16 +1,16 @@
-import '@conflicts/registerTypeResolutions';
-import { UnknownName } from '@conflicts/UnknownName';
-import { LanguagesDialogID } from '@components/widgets/dialogIDs';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import type LocaleText from '@locale/LocaleText';
-import { setLocaleNameIndex } from '@locale/localeNameIndex';
-import type Context from '@nodes/Context';
-import Source from '@nodes/Source';
+import '#conflicts/registerTypeResolutions.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
+import { LanguagesDialogID } from '#components/widgets/dialogIDs.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { setLocaleNameIndex } from '#locale/localeNameIndex.ts';
+import type Context from '#nodes/Context.ts';
+import Source from '#nodes/Source.ts';
 import { readFileSync } from 'fs';
 import { afterEach, expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 const es: LocaleText = JSON.parse(
     readFileSync('static/locales/es-MX/es-MX.json', 'utf8'),

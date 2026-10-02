@@ -10,7 +10,7 @@
                 "value": "$~Buat cerita interaktif dengan kata-kata, simbol, emoji, dan kode bersama kami! Mulai sekarang di sini.",
                 "chooseLocales": "$~atau pilih",
                 "beta": [
-                    "$~@wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
+                    "$~@wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di@https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
                 ],
                 "link": {
                     "learn": "$~Pelajari bahasa tersebut dengan deretan karakter yang dramatis.",
@@ -86,7 +86,7 @@
                             "• Namamu sendiri juga bisa berbahasa banyak:\n\\kucing2/id, gato/es: '🐈'\nFrasa(kucing2)\\",
                             "• Teks punya sebuah bahasa, dan menunjukkan bahasa yang dibaca penontonmu: \\'halo'/id'hola'/es\\.",
                             "• Situs ini tersedia dalam 29 bahasa dan kamu bisa memilih lebih dari satu sekaligus; teks akan tampil dalam setiap bahasa yang dipilih.",
-                            "• Kamu bisa membantu menerjemahkan @wordplay sendiri, langsung di dalam aplikasi di <localize//localize>."
+                            "• Kamu bisa membantu menerjemahkan @wordplay sendiri, langsung di dalam aplikasi di <localize@://localize>."
                         ]
                     },
                     "accessible": {
@@ -123,7 +123,7 @@
                         "title": "$~Wordplay adalah tipografi",
                         "bullets": [
                             "$~• Ratusan jenis huruf, mencakup berbagai sistem tulisan di dunia.",
-                            "• Kamu bisa menggambar <karakter buatanmu sendiri//characters> dan memakainya di mana pun emoji bisa dipakai.",
+                            "• Kamu bisa menggambar <karakter buatanmu sendiri@://characters> dan memakainya di mana pun emoji bisa dipakai.",
                             "• Garis luar setiap huruf adalah data yang bisa kamu baca dan animasikan, dengan @Contour: \\Kontur('a' 'Noto Sans')\\.",
                             "• Teks melipat baris sesuai aturan bahasa yang digunakan.",
                             "• Tulisan dari kanan ke kiri dan tulisan vertikal ditata dengan cara yang seharusnya."
@@ -133,7 +133,7 @@
                         "title": "$~Wordplay menjelaskan dirinya sendiri",
                         "bullets": [
                             "$~• Dokumentasi adalah bagian dari bahasa itu sendiri dengan @Doc, bukan sekadar komentar di sampingnya.",
-                            "• <Panduan//guide> yang bisa dicari menjelaskan setiap fitur bawaan, lengkap dengan contoh.",
+                            "• <Panduan@://guide> yang bisa dicari menjelaskan setiap fitur bawaan, lengkap dengan contoh.",
                             "• Setiap kesalahan dijelaskan tepat di tempat kejadiannya, dalam bahasamu sendiri.",
                             "• Kamu bisa menjalankan program langkah demi langkah, maju /maupun/ mundur, untuk melacak apa yang terjadi.",
                             "• Saat kamu menelusuri langkah-langkahnya, setiap nilai ditampilkan tepat di kode yang membuatnya."
@@ -156,7 +156,7 @@
                             "• Ini adalah sumber terbuka: kamu bisa membaca cara kerjanya dan membantu kami mengubahnya.",
                             "• Berasal dari Information School di <University of Washington@https://ischool.uw.edu/>.",
                             "• Ada komunitas pencipta, guru, dan penyumbang.",
-                            "• <Sumbangan//donate> membiayai biaya menjalankan layanan ini."
+                            "• <Sumbangan@://donate> membiayai biaya menjalankan layanan ini."
                         ]
                     }
                 }
@@ -947,7 +947,7 @@
                     "content": [
                         "$~Apakah Anda sedang memutuskan apakah *Wordplay* boleh dipakai di sekolah atau distrik Anda? Ini yang bisa dan tidak bisa kami janjikan.",
                         "Kami bukan perusahaan. Kami adalah proyek penelitian berbasis komunitas yang bernaung di universitas nirlaba, dan kami tidak punya pendapatan. Artinya, ada perjanjian yang tidak bisa kami tanda tangani, walau kami sangat ingin membantu. Kami tidak bisa berjanji membayar biaya hukum sebuah distrik jika digugat. Kami tidak bisa berjanji memperbaiki masalah dalam jadwal tertentu. Menandatangani janji yang tidak bisa kami tepati tidak akan membantu siapa pun, apalagi Anda.",
-                        "Ini yang bisa kami janjikan. Kami menjaga platform ini sesuai standar aksesibilitas /WCAG 2.2 Level AA/, kami memeriksanya secara otomatis setiap ada perubahan, dan kami memperbaiki apa yang kami temukan secepat yang bisa dilakukan komunitas sukarelawan. Kami mengumpulkan data orang yang memakainya sesedikit mungkin, dan kami hanya memakainya untuk menjalankan platform ini. Halaman <rights//rights> kami menjelaskan tepat apa yang kami simpan, dan <source@https://github.com/wordplaydev/wordplay> kami bersifat terbuka, jadi Anda bisa memeriksa semua ini sendiri.",
+                        "Ini yang bisa kami janjikan. Kami menjaga platform ini sesuai standar aksesibilitas /WCAG 2.2 Level AA/, kami memeriksanya secara otomatis setiap ada perubahan, dan kami memperbaiki apa yang kami temukan secepat yang bisa dilakukan komunitas sukarelawan. Kami mengumpulkan data orang yang memakainya sesedikit mungkin, dan kami hanya memakainya untuk menjalankan platform ini. Halaman <rights@://rights> kami menjelaskan tepat apa yang kami simpan, dan <source@https://github.com/wordplaydev/wordplay> kami bersifat terbuka, jadi Anda bisa memeriksa semua ini sendiri.",
                         "Platform ini selalu berubah, begitu juga aturan yang harus Anda ikuti. Jika ada hal yang Anda butuhkan tapi belum kami sediakan, tulis surat kepada kami di hi@wordplay.dev dan ceritakan hal itu. Para pengelola akan membacanya, dan kami akan membalas surat Anda."
                     ],
                     "link": "$~Tulis surat kepada kami tentang suatu persyaratan",
@@ -1372,7 +1372,7 @@
             },
             "thanks": {
                 "header": "$~Terima kasih",
-                "intro": "$~Terima kasih kepada *$#count[$count kontributor]* kami yang telah berkontribusi pada desain, pengembangan, pelokalan, dan konten @wordplay! Dan terima kasih kepada banyak guru serta anak muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka.\n\nProyek ini didukung oleh National Science Foundation melalui penghargaan 2318257, 2031265, 2100296, dan 2122950, University of Washington, serta <hadiah//donate> yang murah hati dari orang-orang seperti Anda.",
+                "intro": "$~Terima kasih kepada *$#count[$count kontributor]* kami yang telah berkontribusi pada desain, pengembangan, pelokalan, dan konten @wordplay! Dan terima kasih kepada banyak guru serta anak muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka.\n\nProyek ini didukung oleh National Science Foundation melalui penghargaan 2318257, 2031265, 2100296, dan 2122950, University of Washington, serta <hadiah@://donate> yang murah hati dari orang-orang seperti Anda.",
                 "teachers": "$~Guru",
                 "contributors": "$~Kontributor"
             },

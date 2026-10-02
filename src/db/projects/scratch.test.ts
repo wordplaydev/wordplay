@@ -1,10 +1,10 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
-import Project from '@db/projects/Project';
-import { ScratchPrefix } from '@db/projects/ScratchPrefix';
-import { scratchIDFor } from '@db/projects/scratch';
+import Project from '#db/projects/Project.ts';
+import { ScratchPrefix } from '#db/projects/ScratchPrefix.ts';
+import { scratchIDFor } from '#db/projects/scratch.ts';
 
 describe('scratchIDFor — #1044', () => {
     test('the same code always gives the same project', () => {

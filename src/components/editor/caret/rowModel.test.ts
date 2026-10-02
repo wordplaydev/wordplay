@@ -7,8 +7,8 @@ import {
     targetRowPositionFromSpan,
     type RowMember,
 } from './rowModel';
-import type { LogicalRect } from '@components/editor/util/axes';
-import { must } from '@util/nullable';
+import type { LogicalRect } from '#components/editor/util/axes.ts';
+import { must } from '#util/nullable.ts';
 
 /** Build a member whose `data` is a string id, for terse assertions. The
  *  arguments are in the logical basis: a span across lines, then a span along

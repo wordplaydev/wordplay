@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest';
 import { readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { isRecord, isStringArray } from '@util/guards';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
+import { isRecord, isStringArray } from '#util/guards.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
 
 /**
  * A key is named what its keycap says, and a function key's cap says `F1`.

@@ -1,11 +1,11 @@
-import type LocaleText from '@locale/LocaleText';
-import { isLocaleText } from '@locale/isLocaleText';
-import { must } from '@util/nullable';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isLocaleText } from '#locale/isLocaleText.ts';
+import { must } from '#util/nullable.ts';
 import fs from 'fs';
 import path from 'path';
-import { getObjectFromJSONFile } from '@util/verify-locales/getObjectFromJSONFile';
-import Log from '@util/verify-locales/Log';
-import Validator from '@util/verify-locales/Validator';
+import { getObjectFromJSONFile } from '#util/verify-locales/getObjectFromJSONFile.ts';
+import Log from '#util/verify-locales/Log.ts';
+import Validator from '#util/verify-locales/Validator.ts';
 
 // Read in and compile the two schema so we can check files.
 const LocaleSchema = JSON.parse(

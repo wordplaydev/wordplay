@@ -1,14 +1,17 @@
-import CameraFeed from '@input/CameraFeed';
-import { denyConsent, Permission } from '@input/permissions';
-import { isWebKit, nextDetectTimestamp } from '@input/createLandmarkerRuntime';
-import type StreamDefinition from '@nodes/StreamDefinition';
-import NumberType from '@nodes/NumberType';
-import type Type from '@nodes/Type';
-import type Evaluation from '@runtime/Evaluation';
-import PermissionException from '@values/PermissionException';
-import type StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import TemporalStreamValue from '@values/TemporalStreamValue';
+import CameraFeed from '#input/CameraFeed.ts';
+import { denyConsent, Permission } from '#input/permissions.ts';
+import {
+    isWebKit,
+    nextDetectTimestamp,
+} from '#input/createLandmarkerRuntime.ts';
+import type StreamDefinition from '#nodes/StreamDefinition.ts';
+import NumberType from '#nodes/NumberType.ts';
+import type Type from '#nodes/Type.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import PermissionException from '#values/PermissionException.ts';
+import type StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
+import TemporalStreamValue from '#values/TemporalStreamValue.ts';
 
 /**
  * 50ms = 20 fps target. MediaPipe landmarkers run comfortably here on most

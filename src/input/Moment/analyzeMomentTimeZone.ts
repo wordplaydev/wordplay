@@ -1,11 +1,11 @@
-import type Conflict from '@conflicts/Conflict';
-import type { EvaluateAnalyzer } from '@conflicts/evaluateAnalyzers';
-import UnknownTimeZone from '@conflicts/UnknownTimeZone';
-import { isSupportedTimeZone, suggestTimeZones } from '@locale/timeZones';
-import type Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import type Evaluate from '@nodes/Evaluate';
-import TextLiteral from '@nodes/TextLiteral';
+import type Conflict from '#conflicts/Conflict.ts';
+import type { EvaluateAnalyzer } from '#conflicts/evaluateAnalyzers.ts';
+import UnknownTimeZone from '#conflicts/UnknownTimeZone.ts';
+import { isSupportedTimeZone, suggestTimeZones } from '#locale/timeZones.ts';
+import type Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
 
 /**
  * Static analysis for Moment and Now (registered per definition via

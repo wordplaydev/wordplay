@@ -1,11 +1,11 @@
 <script lang="ts">
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Speech from '@components/lore/Speech.svelte';
-    import InsertToolbar from '@components/palette/InsertToolbar.svelte';
-    import MusicChooser from '@components/palette/MusicChooser.svelte';
-    import MusicEditor from '@components/palette/MusicEditor.svelte';
-    import PaletteProperty from '@components/palette/PaletteProperty.svelte';
-    import TextStyleEditor from '@components/palette/TextStyleEditor.svelte';
+    import MarkupHtmlView from '#components/concepts/MarkupHTMLView.svelte';
+    import Speech from '#components/lore/Speech.svelte';
+    import InsertToolbar from '#components/palette/InsertToolbar.svelte';
+    import MusicChooser from '#components/palette/MusicChooser.svelte';
+    import MusicEditor from '#components/palette/MusicEditor.svelte';
+    import PaletteProperty from '#components/palette/PaletteProperty.svelte';
+    import TextStyleEditor from '#components/palette/TextStyleEditor.svelte';
     import {
         deriveSteppedEvaluation,
         getConceptIndex,
@@ -13,20 +13,20 @@
         getPaletteOpen,
         getSelectedOutput,
         type EditorState,
-    } from '@components/project/Contexts';
-    import type { ProjectMode } from '@components/project/ProjectMode';
-    import outputAtCaret from '@components/project/outputAtCaret';
-    import Button from '@components/widgets/Button.svelte';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import type Caret from '@edit/caret/Caret';
-    import OutputExpression from '@edit/output/OutputExpression';
-    import type OutputProperty from '@edit/output/OutputProperty';
-    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
-    import Evaluate from '@nodes/Evaluate';
-    import type Expression from '@nodes/Expression';
-    import type Value from '@values/Value';
-    import { PALETTE_SYMBOL } from '@parser/Symbols';
+    } from '#components/project/Contexts.ts';
+    import type { ProjectMode } from '#components/project/ProjectMode.ts';
+    import outputAtCaret from '#components/project/outputAtCaret.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type Caret from '#edit/caret/Caret.ts';
+    import OutputExpression from '#edit/output/OutputExpression.ts';
+    import type OutputProperty from '#edit/output/OutputProperty.ts';
+    import OutputPropertyValueSet from '#edit/output/OutputPropertyValueSet.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import type Expression from '#nodes/Expression.ts';
+    import type Value from '#values/Value.ts';
+    import { PALETTE_SYMBOL } from '#parser/Symbols.ts';
     import { tick, untrack } from 'svelte';
 
     interface Props {

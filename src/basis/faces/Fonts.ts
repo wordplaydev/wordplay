@@ -1,13 +1,13 @@
-import type LocaleText from '@locale/LocaleText';
-import { matchGroups, must } from '@util/nullable';
-import type Locales from '@locale/Locales';
-import { Scripts, type Script } from '@locale/Scripts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { matchGroups, must } from '#util/nullable.ts';
+import type Locales from '#locale/Locales.ts';
+import { Scripts, type Script } from '#locale/Scripts.ts';
 import {
     describeFaceLocalized,
     type FaceForm,
     type FaceImpression,
-} from '@basis/faces/faceWords';
-import { OR_SYMBOL } from '@parser/Symbols';
+} from '#basis/faces/faceWords.ts';
+import { OR_SYMBOL } from '#parser/Symbols.ts';
 import { writable } from 'svelte/store';
 import type { Font as FontkitFont } from 'fontkit';
 // The creator face registry is GENERATED from fonts.manifest.ts +

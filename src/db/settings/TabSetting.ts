@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /** When true, pressing Tab in the editor inserts a tab character instead of
  *  switching keyboard focus. Device-local, like the other editor display

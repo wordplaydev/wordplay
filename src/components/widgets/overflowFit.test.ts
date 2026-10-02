@@ -1,8 +1,8 @@
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 import overflowFit, {
     OverflowHysteresis,
-} from '@components/widgets/overflowFit';
+} from '#components/widgets/overflowFit.ts';
 
 /** A toolbar of five equal items, with room for a toggle. */
 function toolbar(available: number, previous: number, widths?: number[]) {

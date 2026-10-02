@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PropertyReference from '@nodes/PropertyReference';
+    import type PropertyReference from '#nodes/PropertyReference.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: PropertyReference;

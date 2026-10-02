@@ -1,18 +1,18 @@
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
-    import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import type { Option } from '@components/widgets/Options.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { Galleries, locales } from '@db/Database';
-    import Gallery from '@db/galleries/Gallery';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import FormattedEditor from '#components/widgets/FormattedEditor.svelte';
+    import EmojiChooser from '#components/widgets/GlyphChooser.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import type { Option } from '#components/widgets/Options.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { Galleries, locales } from '#db/Database.ts';
+    import Gallery from '#db/galleries/Gallery.ts';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         gallery: Gallery;

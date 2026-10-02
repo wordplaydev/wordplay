@@ -1,11 +1,11 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import Evaluate from '@nodes/Evaluate';
-import ListLiteral from '@nodes/ListLiteral';
-import Reference from '@nodes/Reference';
-import StructureDefinition from '@nodes/StructureDefinition';
-import { getTypeOutputProperties } from '@edit/output/OutputProperties';
-import OutputProperty from '@edit/output/OutputProperty';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import Reference from '#nodes/Reference.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import { getTypeOutputProperties } from '#edit/output/OutputProperties.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
 
 export default function getGroupProperties(
     project: Project,

@@ -328,7 +328,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Podemos tornar isto ainda mais interativo acrescentando entrada do utilizador para controlar a rotação, como o @Volume da entrada do microfone. É um @value entre 0 e 1, por isso podemos mapeá-lo para 360 graus.",
-                            "$~É essa a forma da maioria dos projetos: declarações, depois reações, depois saída. O <Guia//guide> tem uma secção @how cheia de receitas para estudar, copiar e editar.",
+                            "$~É essa a forma da maioria dos projetos: declarações, depois reações, depois saída. O <Guia@://guide> tem uma secção @how cheia de receitas para estudar, copiar e editar.",
                             "$~Boas criações!"
                         ]
                     ]

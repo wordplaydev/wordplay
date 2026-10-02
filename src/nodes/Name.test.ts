@@ -1,10 +1,10 @@
-import { testConflict } from '@conflicts/TestUtilities';
-import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
-import { UnknownName } from '@conflicts/UnknownName';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import { UnexpectedTypeVariable } from '#conflicts/UnexpectedTypeVariable.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
 import { expect, test } from 'vitest';
-import Name from '@nodes/Name';
-import Names from '@nodes/Names';
-import Reference from '@nodes/Reference';
+import Name from '#nodes/Name.ts';
+import Names from '#nodes/Names.ts';
+import Reference from '#nodes/Reference.ts';
 
 test('Test name conflicts', () => {
     testConflict('a: 1\na', 'b: 1\na', Reference, UnknownName);

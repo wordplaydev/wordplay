@@ -7,8 +7,8 @@
  * from `Announcer.svelte`.
  */
 
-import { musicReady, type MusicData } from '@output/Music/musicData';
-import samples from '@output/Music/InstrumentSamples';
+import { musicReady, type MusicData } from '#output/Music/musicData.ts';
+import samples from '#output/Music/InstrumentSamples.ts';
 import {
     beatAt,
     createTransport,
@@ -16,20 +16,20 @@ import {
     requestSplice,
     seekTransport,
     type Transport,
-} from '@output/Music/transport';
+} from '#output/Music/transport.ts';
 import {
     pickupNotes,
     scheduleWindow,
     type BeatTick,
     type ScheduledNote,
-} from '@output/Music/schedule';
-import { reconcile, type LiveMusic } from '@output/Music/reconcile';
-import { chooseSteal, VoiceCap, type Voice } from '@output/Music/voices';
+} from '#output/Music/schedule.ts';
+import { reconcile, type LiveMusic } from '#output/Music/reconcile.ts';
+import { chooseSteal, VoiceCap, type Voice } from '#output/Music/voices.ts';
 import type {
     MusicAudioLike,
     PlayerBus,
     PlayingVoice,
-} from '@output/Music/MusicAudio';
+} from '#output/Music/MusicAudio.ts';
 
 /** How often the scheduler wakes, in milliseconds. */
 export const TickInterval = 25;

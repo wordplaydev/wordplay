@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { getHeadingLevel } from '@components/app/headingLevel.js';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { getHeadingLevel } from '#components/app/headingLevel.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import { type Snippet } from 'svelte';
     interface Props {
         text?: LocaleTextAccessor;

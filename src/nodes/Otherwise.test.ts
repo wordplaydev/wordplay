@@ -1,8 +1,8 @@
-import { ImpossibleType } from '@conflicts/ImpossibleType';
-import Otherwise from '@nodes/Otherwise';
-import { testConflict } from '@conflicts/TestUtilities';
+import { ImpossibleType } from '#conflicts/ImpossibleType.ts';
+import Otherwise from '#nodes/Otherwise.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
+import evaluateCode from '#runtime/evaluate.ts';
 
 test.each([
     ['1 ?? 2', '1'],

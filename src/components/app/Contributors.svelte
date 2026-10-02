@@ -9,9 +9,9 @@
      Capped, and `…` rather than a count: a byline is an attribution, not a roster,
      and the roster is a click away wherever there is one. -->
 <script lang="ts">
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import { Creators } from '@db/Database';
+    import CreatorView from '#components/app/CreatorView.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import { Creators } from '#db/Database.ts';
 
     interface Props {
         /** Whoever made it, or null where a thing is curated rather than authored. */

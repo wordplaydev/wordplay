@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { type Face } from '@basis/faces/Fonts';
-    import FaceName from '@components/settings/FaceName.svelte';
-    import type OutputProperty from '@edit/output/OutputProperty';
-    import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
-    import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import { getProject } from '@components/project/Contexts';
-    import Options from '@components/widgets/Options.svelte';
-    import { must } from '@util/nullable';
+    import { type Face } from '#basis/faces/Fonts.ts';
+    import FaceName from '#components/settings/FaceName.svelte';
+    import type OutputProperty from '#edit/output/OutputProperty.ts';
+    import OutputPropertyOptions from '#edit/output/OutputPropertyOptions.ts';
+    import type OutputPropertyValues from '#edit/output/OutputPropertyValueSet.ts';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import { getProject } from '#components/project/Contexts.ts';
+    import Options from '#components/widgets/Options.svelte';
+    import { must } from '#util/nullable.ts';
 
     /** The one property whose options carry more than a label: a typeface
      *  option previews the face itself. */

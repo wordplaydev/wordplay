@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type NumberLiteral from '@nodes/NumberLiteral';
+    import type NumberLiteral from '#nodes/NumberLiteral.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: NumberLiteral;

@@ -1,11 +1,11 @@
-import DefaultLocales from '@locale/DefaultLocales';
+import DefaultLocales from '#locale/DefaultLocales.ts';
 import { describe, expect, test } from 'vitest';
 import {
     foundAnnouncement,
     reactionAnnouncement,
     referenceAnnouncement,
     threadAnnouncement,
-} from '@components/app/chat/chatAnnounce';
+} from '#components/app/chat/chatAnnounce.ts';
 
 const locales = DefaultLocales;
 

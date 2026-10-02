@@ -1,13 +1,13 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import Loading from '@components/app/Loading.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Page from '@components/app/Page.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Loading from '#components/app/Loading.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Page from '#components/app/Page.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import {
         getAnnouncer,
         getUser,
@@ -16,25 +16,25 @@
         setConceptPath,
         setProject,
         type ConceptPath,
-    } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import Options, { type Option } from '@components/widgets/Options.svelte';
-    import ConceptIndex from '@concepts/ConceptIndex';
+    } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Options, { type Option } from '#components/widgets/Options.svelte';
+    import ConceptIndex from '#concepts/ConceptIndex.ts';
     import {
         authAttempted,
         Galleries,
         HowTos,
         Locales,
         locales,
-    } from '@db/Database';
+    } from '#db/Database.ts';
     import {
         canConfigureHowToSpace,
         canCreateHowTo,
-    } from '@db/howtos/howToAccess';
-    import type Gallery from '@db/galleries/Gallery';
-    import HowTo from '@db/howtos/HowToDatabase.svelte';
-    import Project from '@db/projects/Project';
-    import Source from '@nodes/Source';
+    } from '#db/howtos/howToAccess.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import HowTo from '#db/howtos/HowToDatabase.svelte.ts';
+    import Project from '#db/projects/Project.ts';
+    import Source from '#nodes/Source.ts';
     import { untrack } from 'svelte';
     import { SvelteMap } from 'svelte/reactivity';
     import { writable } from 'svelte/store';
@@ -44,7 +44,7 @@
     import resolveGallery from './resolveGallery';
     import findGalleryByPath, {
         foldGalleryPath,
-    } from '@db/galleries/findGalleryByPath';
+    } from '#db/galleries/findGalleryByPath.ts';
     import retryDelay from './retryDelay';
 
     // The current gallery being viewed. Starts at null, to represent loading state.

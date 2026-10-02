@@ -1,34 +1,34 @@
-import type Bind from '@nodes/Bind';
-import BooleanType from '@nodes/BooleanType';
-import PatternType from '@nodes/PatternType';
-import ConversionType from '@nodes/ConversionType';
-import FormattedType from '@nodes/FormattedType';
-import FunctionType from '@nodes/FunctionType';
-import ListType from '@nodes/ListType';
-import MapType from '@nodes/MapType';
-import NameType from '@nodes/NameType';
-import type Token from '@nodes/Token';
-import NoneType from '@nodes/NoneType';
-import NumberType from '@nodes/NumberType';
-import RangeType from '@nodes/RangeType';
-import SetType from '@nodes/SetType';
-import StreamType from '@nodes/StreamType';
-import { Sym } from '@nodes/Sym';
-import TableType from '@nodes/TableType';
-import TextType from '@nodes/TextType';
-import type Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import UnionType from '@nodes/UnionType';
-import Unit from '@nodes/Unit';
-import UnparsableType from '@nodes/UnparsableType';
-import parseBind, { nextIsBind } from '@parser/parseBind';
+import type Bind from '#nodes/Bind.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import PatternType from '#nodes/PatternType.ts';
+import ConversionType from '#nodes/ConversionType.ts';
+import FormattedType from '#nodes/FormattedType.ts';
+import FunctionType from '#nodes/FunctionType.ts';
+import ListType from '#nodes/ListType.ts';
+import MapType from '#nodes/MapType.ts';
+import NameType from '#nodes/NameType.ts';
+import type Token from '#nodes/Token.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberType from '#nodes/NumberType.ts';
+import RangeType from '#nodes/RangeType.ts';
+import SetType from '#nodes/SetType.ts';
+import StreamType from '#nodes/StreamType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import TableType from '#nodes/TableType.ts';
+import TextType from '#nodes/TextType.ts';
+import type Type from '#nodes/Type.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import UnionType from '#nodes/UnionType.ts';
+import Unit from '#nodes/Unit.ts';
+import UnparsableType from '#nodes/UnparsableType.ts';
+import parseBind, { nextIsBind } from '#parser/parseBind.ts';
 import {
     parseTypeInputs,
     parseTypeVariables,
     parseUnit,
-} from '@parser/parseExpression';
-import parseLanguage from '@parser/parseLanguage';
-import type Tokens from '@parser/Tokens';
+} from '#parser/parseExpression.ts';
+import parseLanguage from '#parser/parseLanguage.ts';
+import type Tokens from '#parser/Tokens.ts';
 
 export default function parseType(tokens: Tokens, isExpression = false): Type {
     let left: Type = tokens.nextIs(Sym.Placeholder)

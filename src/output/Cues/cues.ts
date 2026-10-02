@@ -1,5 +1,5 @@
-import type { Contact } from '@output/Cues/contacts';
-import type { StreamKind } from '@values/StreamValue';
+import type { Contact } from '#output/Cues/contacts.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
 
 /**
  * The policy behind audible re-evaluation cues (#537): what each cue sounds

@@ -1,10 +1,10 @@
 <!-- The projects page's organization controls: how projects are ordered, and
      the folders they're organized into. -->
 <script lang="ts">
-    import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import type { ProjectSort } from '@db/settings/ProjectSortSetting';
+    import Button from '#components/widgets/Button.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import type { ProjectSort } from '#db/settings/ProjectSortSetting.ts';
 
     interface Props {
         sort: ProjectSort;

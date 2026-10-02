@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
-import freshSourceName from '@edit/freshSourceName';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import freshSourceName from '#edit/freshSourceName.ts';
 
 function project(main: string, ...supplements: [string, string][]) {
     return Project.make(

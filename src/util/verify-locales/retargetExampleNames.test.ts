@@ -1,11 +1,11 @@
-import Project from '@db/projects/Project';
-import { localizeKeyName } from '@input/Key/keyNames';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import type { RegionCode } from '@locale/Regions';
-import Source from '@nodes/Source';
-import { getLocalePath } from '@util/verify-locales/LocaleSchema';
-import LocalePath from '@util/verify-locales/LocalePath';
+import Project from '#db/projects/Project.ts';
+import { localizeKeyName } from '#input/Key/keyNames.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import Source from '#nodes/Source.ts';
+import { getLocalePath } from '#util/verify-locales/LocaleSchema.ts';
+import LocalePath from '#util/verify-locales/LocalePath.ts';
 import fs from 'fs';
 import { expect, test } from 'vitest';
 import {
@@ -13,7 +13,7 @@ import {
     retargetExamplesIn,
     retargetSerializedExample,
 } from './retargetExampleNames';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * A localized example spells names that live at *other* locale paths, so re-translating one

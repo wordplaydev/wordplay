@@ -1,13 +1,13 @@
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { isLocaleText } from '@locale/isLocaleText';
-import Locales from '@locale/Locales';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isLocaleText } from '#locale/isLocaleText.ts';
+import Locales from '#locale/Locales.ts';
 import { readFileSync } from 'fs';
 import { describe, expect, test } from 'vitest';
 
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
 import {
     getLocalizedProjectName,
     getProjectNameCount,

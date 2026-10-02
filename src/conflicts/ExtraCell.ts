@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import type Input from '@nodes/Input';
-import type TableType from '@nodes/TableType';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Input from '#nodes/Input.ts';
+import type TableType from '#nodes/TableType.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
 
 export default class ExtraCell extends Conflict {
     readonly cell: Expression | Input;

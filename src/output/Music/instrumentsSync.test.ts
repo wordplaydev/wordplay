@@ -1,8 +1,12 @@
 import { expect, test } from 'vitest';
-import { Zones } from '@output/Music/samples.generated';
-import { InstrumentKeys, Instruments, sung } from '@output/Music/instruments';
-import { Recipes, kitIndex } from '@output/Music/synthesis';
-import { includesString, must } from '@util/nullable';
+import { Zones } from '#output/Music/samples.generated.ts';
+import {
+    InstrumentKeys,
+    Instruments,
+    sung,
+} from '#output/Music/instruments.ts';
+import { Recipes, kitIndex } from '#output/Music/synthesis.ts';
+import { includesString, must } from '#util/nullable.ts';
 import {
     checkHashes,
     checkProvenance,

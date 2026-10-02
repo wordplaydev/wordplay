@@ -1,4 +1,5 @@
 import type { SerializedNotice } from 'shared-types';
+import type { AppPath } from '#util/appPath.ts';
 
 /**
  * Where a notice leads.
@@ -11,7 +12,7 @@ import type { SerializedNotice } from 'shared-types';
  * Returns a locale-less path; callers hand it to `localeGoto`, which adds the
  * reader's locale segment.
  */
-export default function noticeLink(notice: SerializedNotice): string {
+export default function noticeLink(notice: SerializedNotice): AppPath {
     const { kind, id, gallery } = notice.subject;
 
     switch (kind) {
@@ -54,7 +55,7 @@ export default function noticeLink(notice: SerializedNotice): string {
  * review is work rather than news — both belong somewhere other than their
  * subject.
  */
-export function noticeAction(notice: SerializedNotice): string | undefined {
+export function noticeAction(notice: SerializedNotice): AppPath | undefined {
     switch (notice.kind) {
         case 'warning':
             return '/rights';

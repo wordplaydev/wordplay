@@ -1,18 +1,18 @@
-import { Projects } from '@db/projects/Projects';
-import type { CommandFeedback } from '@components/editor/commands/feedback';
-import type { WritingLayout } from '@locale/Scripts';
+import { Projects } from '#db/projects/Projects.ts';
+import type { CommandFeedback } from '#components/editor/commands/feedback.ts';
+import type { WritingLayout } from '#locale/Scripts.ts';
 import {
     editorAxes,
     isArrowKey,
     remapArrowKey,
-} from '@components/editor/util/axes';
-import Caret from '@edit/caret/Caret';
-import type { InsertContext } from '@edit/insertContext';
-import BooleanType from '@nodes/BooleanType';
-import NoneType from '@nodes/NoneType';
-import NumberType from '@nodes/NumberType';
-import type Type from '@nodes/Type';
-import Unit from '@nodes/Unit';
+} from '#components/editor/util/axes.ts';
+import Caret from '#edit/caret/Caret.ts';
+import type { InsertContext } from '#edit/insertContext.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberType from '#nodes/NumberType.ts';
+import type Type from '#nodes/Type.ts';
+import Unit from '#nodes/Unit.ts';
 import {
     Dot,
     Eighth,
@@ -20,8 +20,8 @@ import {
     Quarter,
     Sixteenth,
     Whole,
-} from '@output/Music/durations';
-import Node from '@nodes/Node';
+} from '#output/Music/durations.ts';
+import Node from '#nodes/Node.ts';
 import {
     BORROW_SYMBOL,
     CHANGE_SYMBOL,
@@ -70,55 +70,55 @@ import {
     PERFORM_SYMBOL,
     PLAY_SYMBOL,
     RANGE_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 
-import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
+import { moveVisualVertical } from '#components/editor/caret/CaretView.svelte';
 import {
     copyNode,
     toClipboard,
     WORDPLAY_CLIPBOARD_FORMAT,
-} from '@components/editor/commands/Clipboard';
-import { wasCopiedHere } from '@components/editor/commands/InternalClipboard';
-import interpret from '@components/editor/commands/interpret';
-import type { EditorNotifier } from '@components/editor/EditorNotification';
-import { pasteText } from '@components/editor/Paste';
+} from '#components/editor/commands/Clipboard.ts';
+import { wasCopiedHere } from '#components/editor/commands/InternalClipboard.ts';
+import interpret from '#components/editor/commands/interpret.ts';
+import type { EditorNotifier } from '#components/editor/EditorNotification.ts';
+import { pasteText } from '#components/editor/Paste.ts';
 import {
     expandCaretVisualVertical,
     moveCaretVisualVertical,
-} from '@components/editor/pointer/PointerUtilities';
+} from '#components/editor/pointer/PointerUtilities.ts';
 import {
     isNodeHidden,
     renderedTokenIds,
     skipHiddenIndex,
-} from '@components/editor/util/foldedCaret';
+} from '#components/editor/util/foldedCaret.ts';
 import {
     FOLD_GLYPH,
     FOLD_GLYPH_ROTATION,
-} from '@components/editor/util/folding';
-import { type ProjectMode } from '@components/project/ProjectMode';
-import { TileKind } from '@components/project/TileKind';
-import { TouchSupported } from '@components/util/TouchSupported';
-import { Settings, type Database } from '@db/Database';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import type { LocaleTextAccessor } from '@locale/Locales';
-import Expression from '@nodes/Expression';
-import type Value from '@values/Value';
-import { canExport } from '@values/export/canExport';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Names from '@nodes/Names';
-import Source from '@nodes/Source';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+} from '#components/editor/util/folding.ts';
+import { type ProjectMode } from '#components/project/ProjectMode.ts';
+import { TileKind } from '#components/project/TileKind.ts';
+import { TouchSupported } from '#components/util/TouchSupported.ts';
+import { Settings, type Database } from '#db/Database.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import Expression from '#nodes/Expression.ts';
+import type Value from '#values/Value.ts';
+import { canExport } from '#values/export/canExport.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Names from '#nodes/Names.ts';
+import Source from '#nodes/Source.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 import {
     currentKeybindings,
     effectiveChords,
     type Keybindings,
-} from '@db/settings/KeybindingsSetting';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import { TAB_SYMBOL } from '@parser/Spaces';
-import type Evaluator from '@runtime/Evaluator';
+} from '#db/settings/KeybindingsSetting.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import { TAB_SYMBOL } from '#parser/Spaces.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
 
 export type Command = {
     /** A stable, locale-independent name for this command, used to persist a

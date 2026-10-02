@@ -10,7 +10,7 @@
  * feeds platform events back, so the two hard-to-test things — a browser API
  * and a policy — are never tangled together.
  *
- * Deliberately free of any `@db` import: this is reachable from the music
+ * Deliberately free of any `#db` import: this is reachable from the music
  * player, and modules on that path must not pull in `$env` (see CLAUDE.md).
  * The viewer's preferred voice is pushed in with `prefer` instead.
  */
@@ -25,8 +25,8 @@ import {
     type SpeechEffect,
     type SpeechState,
     type Utterance,
-} from '@output/Speech/speechQueue';
-import { chooseVoice, type VoiceOption } from '@output/Speech/voices';
+} from '#output/Speech/speechQueue.ts';
+import { chooseVoice, type VoiceOption } from '#output/Speech/voices.ts';
 
 /** The source id standalone `Say` outputs speak under. */
 export const SaySource = 'say';

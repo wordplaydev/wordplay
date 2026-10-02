@@ -10,15 +10,15 @@
 import convert, {
     type Conversion,
     type ConvertOptions,
-} from '@output/Music/midi/convert';
-import parseMIDI, { MIDIFormatError } from '@output/Music/midi/parseMIDI';
+} from '#output/Music/midi/convert.ts';
+import parseMIDI, { MIDIFormatError } from '#output/Music/midi/parseMIDI.ts';
 
 export type {
     Conversion,
     ConvertOptions,
     Finding,
-} from '@output/Music/midi/convert';
-export { MIDIFormatError } from '@output/Music/midi/parseMIDI';
+} from '#output/Music/midi/convert.ts';
+export { MIDIFormatError } from '#output/Music/midi/parseMIDI.ts';
 
 /**
  * Convert a Standard MIDI File into a `Music` expression.

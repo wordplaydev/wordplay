@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { align, alignAffixed } from '@util/align';
+import { align, alignAffixed } from '#util/align.ts';
 
 const id = (s: string) => s;
 

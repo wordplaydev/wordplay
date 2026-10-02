@@ -3,8 +3,8 @@ import type {
     NameAndDoc,
     NameText,
     Template,
-} from '@locale/LocaleText';
-import type { ExceptionText } from '@locale/NodeTexts';
+} from '#locale/LocaleText.ts';
+import type { ExceptionText } from '#locale/NodeTexts.ts';
 
 export type TypeTexts = {
     /** How tall characters in a phrase, group, or stage should be */

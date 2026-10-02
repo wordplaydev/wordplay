@@ -1,6 +1,6 @@
-import { DB, Settings } from '@db/Database';
-import type Setting from '@db/settings/Setting';
-import type { ToursTaken } from '@db/settings/ToursSetting';
+import { DB, Settings } from '#db/Database.ts';
+import type Setting from '#db/settings/Setting.ts';
+import type { ToursTaken } from '#db/settings/ToursSetting.ts';
 import { expect, test } from 'vitest';
 
 /**

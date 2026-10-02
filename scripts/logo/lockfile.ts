@@ -1,6 +1,6 @@
 import * as crypto from 'node:crypto';
 import * as fs from 'node:fs';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * The logo lockfile records the content hash of every generated asset, of

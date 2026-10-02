@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import Language from '@nodes/Language';
-import type Token from '@nodes/Token';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import Language from '#nodes/Language.ts';
+import type Token from '#nodes/Token.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
 
 /** Fires when a multilingual language tag (e.g. `/es_en_es`) names the same
  *  language — or the same region — twice, however each is spelled: `/es_Spanish`

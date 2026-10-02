@@ -1,10 +1,10 @@
-import { Unwritten } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
-import type { NameText } from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { BasisTypeSymbols, SymbolNameRegEx } from '@parser/Symbols';
-import { OperatorRegEx } from '@parser/Tokenizer';
-import { EmojiTestRegex } from '@unicode/emoji';
+import { Unwritten } from '#locale/Annotations.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NameText } from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { BasisTypeSymbols, SymbolNameRegEx } from '#parser/Symbols.ts';
+import { OperatorRegEx } from '#parser/Tokenizer.ts';
+import { EmojiTestRegex } from '#unicode/emoji.ts';
 
 /**
  * Maps a former `term` id to the localized name of the documented concept it
@@ -47,7 +47,7 @@ export type ConceptTermId = keyof typeof CONCEPT_NAME;
 
 /** Mirrors `Name.isSymbolic()` (operator | emoji | any other Unicode symbol |
  *  basis-type delimiter) with pure parser/unicode checks. We deliberately avoid
- *  `@nodes/Name`/`Names` here: importing the nodes graph from this locale helper
+ *  `#nodes/Name`/`Names` here: importing the nodes graph from this locale helper
  *  pulls in `Evaluate` → the values graph, forming an init-order cycle with
  *  `ExceptionValue` (a base value class whose `getDescription` calls
  *  `getConceptName`). The `SymbolNameRegEx` clause is shared with `Name` rather

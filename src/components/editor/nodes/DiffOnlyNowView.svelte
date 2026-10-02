@@ -24,9 +24,9 @@
      * It carries no chip: the chip is spoken for by code that would come back,
      * and this is the opposite half of the same decision.
      */
-    import type Node from '@nodes/Node';
-    import type Spaces from '@parser/Spaces';
-    import { SPACE_TEXT, TAB_TEXT } from '@parser/Spaces';
+    import type Node from '#nodes/Node.ts';
+    import type Spaces from '#parser/Spaces.ts';
+    import { SPACE_TEXT, TAB_TEXT } from '#parser/Spaces.ts';
 
     interface Props {
         /** Current-version nodes standing in for code this version doesn't have. */

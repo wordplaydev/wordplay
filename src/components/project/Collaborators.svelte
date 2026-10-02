@@ -7,34 +7,34 @@
      makes the model visible: a person has exactly one privilege, which is what
      `Project.withPrivilegeFor` enforces. -->
 <script lang="ts">
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import PeopleTable from '@components/project/PeopleTable.svelte';
-    import Notice from '@components/app/Notice.svelte';
+    import CreatorView from '#components/app/CreatorView.svelte';
+    import PeopleTable from '#components/project/PeopleTable.svelte';
+    import Notice from '#components/app/Notice.svelte';
     import {
         privilegeAnnouncement,
         removalAnnouncement,
-    } from '@components/project/collaboratorAnnounce';
-    import { getAnnouncer } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import { Chats, Creators, locales } from '@db/Database';
-    import type { Creator } from '@db/creators/CreatorDatabase';
-    import type Gallery from '@db/galleries/Gallery';
-    import type Project from '@db/projects/Project';
+    } from '#components/project/collaboratorAnnounce.ts';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import { Chats, Creators, locales } from '#db/Database.ts';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import type Project from '#db/projects/Project.ts';
     import {
         ProjectPrivileges,
         type ProjectPrivilege,
-    } from '@db/projects/Project';
-    import { Projects } from '@db/projects/Projects';
+    } from '#db/projects/Project.ts';
+    import { Projects } from '#db/projects/Projects.ts';
     import {
         CANCEL_SYMBOL,
         EDIT_SYMBOL,
         OWNER_SYMBOL,
         STAGE_SYMBOL,
         VIEW_SYMBOL,
-    } from '@parser/Symbols';
+    } from '#parser/Symbols.ts';
 
     interface Props {
         project: Project;

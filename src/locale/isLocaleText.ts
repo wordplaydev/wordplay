@@ -1,5 +1,5 @@
-import type LocaleText from '@locale/LocaleText';
-import { isRecord } from '@util/guards';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isRecord } from '#util/guards.ts';
 
 /**
  * Whether JSON has a locale file's top-level shape. Shallow on purpose: the

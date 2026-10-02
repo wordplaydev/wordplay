@@ -4,16 +4,16 @@ import {
     queuedForTranslation,
     repairConceptName,
     translateTutorial,
-} from '@util/verify-locales/verifyTutorial';
+} from '#util/verify-locales/verifyTutorial.ts';
 import { isDialog, type Dialog } from '../../tutorial/Tutorial';
-import { MachineTranslated, Unwritten } from '@locale/Annotations';
-import DefaultLocale from '@locale/DefaultLocale';
-import type Locale from '@locale/Locale';
-import type Translator from '@util/verify-locales/Translator';
-import { collectingLog } from '@util/verify-locales/Log';
-import { CHECKPOINT_PATHS } from '@util/verify-locales/verifyLocale';
+import { MachineTranslated, Unwritten } from '#locale/Annotations.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type Locale from '#locale/Locale.ts';
+import type Translator from '#util/verify-locales/Translator.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
+import { CHECKPOINT_PATHS } from '#util/verify-locales/verifyLocale.ts';
 import type Tutorial from '../../tutorial/Tutorial';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 test.each([
     // A glued translation fragment truncates to the valid property.

@@ -1,18 +1,18 @@
-import { getTypeName } from '@locale/getNameLocales';
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import type Locales from '@locale/Locales';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import Unit from '@nodes/Unit';
-import type { EvaluationNode } from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import toStructure from '#basis/toStructure.ts';
+import { getBind } from '#locale/getBind.ts';
+import type Locales from '#locale/Locales.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import Unit from '#nodes/Unit.ts';
+import type { EvaluationNode } from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
 import Decimal from 'decimal.js';
-import ListValue from '@values/ListValue';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import { createPartStructure } from '@output/Music/Part';
-import type { PartTick } from '@output/Music/schedule';
+import ListValue from '#values/ListValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import { createPartStructure } from '#output/Music/Part.ts';
+import type { PartTick } from '#output/Music/schedule.ts';
 
 export function createDownbeatType(locales: Locales) {
     return toStructure(`

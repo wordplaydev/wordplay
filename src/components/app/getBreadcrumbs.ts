@@ -1,4 +1,5 @@
-import type { LocaleTextAccessor } from '@locale/Locales';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import type { AppPath } from '#util/appPath.ts';
 
 /**
  * The visible content of a breadcrumb: an optional leading emoji, plus either a
@@ -12,7 +13,7 @@ type CrumbBody =
  * A crumb that links to a route. Always has `to`, so a trail of these can be
  * mapped to their destinations.
  */
-export type RouteCrumb = CrumbBody & { to: string };
+export type RouteCrumb = CrumbBody & { to: AppPath };
 
 /** A crumb that runs an in-page action (e.g. jumping the guide's concept path). */
 export type ActionCrumb = CrumbBody & { action: () => void };

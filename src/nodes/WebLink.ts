@@ -1,18 +1,21 @@
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '@concepts/Purpose';
-import type { TemplateInput } from '@locale/Locales';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
 import {
     LINK_SYMBOL,
     TAG_CLOSE_SYMBOL,
     TAG_OPEN_SYMBOL,
-} from '@parser/Symbols';
-import Content from '@nodes/Content';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+} from '#parser/Symbols.ts';
+import Content from '#nodes/Content.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 export default class WebLink extends Content {
     readonly open: Token;

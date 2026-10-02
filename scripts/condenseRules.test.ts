@@ -9,7 +9,7 @@ import {
     rejectRewrite,
     scanCandidates,
 } from './condenseRules';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 describe('countSentences', () => {
     test('counts ordinary sentences', () => {

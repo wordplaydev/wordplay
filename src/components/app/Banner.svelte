@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { getAnnouncer } from '@components/project/Contexts';
-    import type { AnnouncementKind } from '@components/project/announcerQueue';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { animationDuration, locales } from '@db/Database';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
+    import type { AnnouncementKind } from '#components/project/announcerQueue.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { animationDuration, locales } from '#db/Database.ts';
     import { type Snippet } from 'svelte';
     import { slide } from 'svelte/transition';
 

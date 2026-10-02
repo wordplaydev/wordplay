@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 
-import ProjectCRDT from '@db/projects/ProjectCRDT';
-import { shouldReplayRemotePlainCode } from '@db/projects/crdtFold';
+import ProjectCRDT from '#db/projects/ProjectCRDT.ts';
+import { shouldReplayRemotePlainCode } from '#db/projects/crdtFold.ts';
 
 /**
  * Guards the case-(b) decision in ProjectsDatabase.foldRemoteCRDT.

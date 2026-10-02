@@ -1,10 +1,10 @@
-import type Expression from '@nodes/Expression';
-import type Type from '@nodes/Type';
-import { createBind } from '@locale/createBind';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { NameAndDoc } from '@locale/LocaleText';
-import { must } from '@util/nullable';
+import type Expression from '#nodes/Expression.ts';
+import type Type from '#nodes/Type.ts';
+import { createBind } from '#locale/createBind.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NameAndDoc } from '#locale/LocaleText.ts';
+import { must } from '#util/nullable.ts';
 
 export function createInputs(
     locales: Locales,

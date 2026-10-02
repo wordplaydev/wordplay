@@ -6,14 +6,14 @@
  * excerpt snippet.
  */
 
-import type Project from '@db/projects/Project';
-import { parseAsMultilingualName } from '@db/projects/getLocalizedProjectName';
-import type Locales from '@locale/Locales';
-import type Source from '@nodes/Source';
-import Doc from '@nodes/Doc';
-import FormattedTranslation from '@nodes/FormattedTranslation';
-import Translation from '@nodes/Translation';
-import Words from '@nodes/Words';
+import type Project from '#db/projects/Project.ts';
+import { parseAsMultilingualName } from '#db/projects/getLocalizedProjectName.ts';
+import type Locales from '#locale/Locales.ts';
+import type Source from '#nodes/Source.ts';
+import Doc from '#nodes/Doc.ts';
+import FormattedTranslation from '#nodes/FormattedTranslation.ts';
+import Translation from '#nodes/Translation.ts';
+import Words from '#nodes/Words.ts';
 import {
     excerpt,
     foldEntry,
@@ -21,7 +21,7 @@ import {
     type Searchable,
     type SearchField,
     type SearchLanguages,
-} from '@util/search';
+} from '#util/search.ts';
 
 /** A project returned from search, with an optional snippet when the match was in source code. */
 export type ProjectMatch = {

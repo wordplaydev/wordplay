@@ -1,23 +1,23 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
-import OutputPropertyRange from '@edit/output/OutputPropertyRange';
-import OutputPropertyText from '@edit/output/OutputPropertyText';
-import Evaluate from '@nodes/Evaluate';
-import FormattedLiteral from '@nodes/FormattedLiteral';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import TextLiteral from '@nodes/TextLiteral';
-import Unit from '@nodes/Unit';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyOptions from '#edit/output/OutputPropertyOptions.ts';
+import OutputPropertyRange from '#edit/output/OutputPropertyRange.ts';
+import OutputPropertyText from '#edit/output/OutputPropertyText.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import Unit from '#nodes/Unit.ts';
 import {
     BubbleSides,
     DefaultKind,
     DefaultWrap,
     SpeechKind,
     ThoughtKind,
-} from '@output/Bubble/Bubble';
-import { createColorLiteral } from '@output/Color/Color';
+} from '#output/Bubble/Bubble.ts';
+import { createColorLiteral } from '#output/Color/Color.ts';
 
 /**
  * The editable inputs of a speech bubble. All inline, so they render seeded with

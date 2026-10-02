@@ -1,7 +1,7 @@
-import type LanguageCode from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
-import type Language from '@nodes/Language';
-import Node from '@nodes/Node';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
+import type Language from '#nodes/Language.ts';
+import Node from '#nodes/Node.ts';
 
 export abstract class LanguageTagged extends Node {
     readonly language?: Language | undefined;

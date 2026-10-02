@@ -18,9 +18,9 @@ vi.mock('firebase/firestore', () => ({
 
 // The tracker only needs the cap constant; the real Project module drags in
 // the whole node graph.
-vi.mock('@db/projects/Project', () => ({ MAX_CONCURRENT_EDITORS: 4 }));
+vi.mock('#db/projects/Project.ts', () => ({ MAX_CONCURRENT_EDITORS: 4 }));
 
-import { PRESENCE_HEARTBEAT_MS } from '@db/projects/ProjectPresence';
+import { PRESENCE_HEARTBEAT_MS } from '#db/projects/ProjectPresence.ts';
 import { FirebaseError } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { PresenceTracker } from './PresenceTracker.svelte';

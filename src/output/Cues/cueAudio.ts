@@ -6,9 +6,9 @@
  */
 
 import { get } from 'svelte/store';
-import { animationCues, contactCues, cues, haptics } from '@db/Database';
-import supportsVibration from '@db/settings/supportsVibration';
-import audio from '@output/Music/MusicAudio';
+import { animationCues, contactCues, cues, haptics } from '#db/Database.ts';
+import supportsVibration from '#db/settings/supportsVibration.ts';
+import audio from '#output/Music/MusicAudio.ts';
 import {
     Cues,
     gateOf,
@@ -17,7 +17,7 @@ import {
     type CueSpec,
     type ScheduledCue,
 } from './cues';
-import type { PoseCue } from '@output/Cues/figure';
+import type { PoseCue } from '#output/Cues/figure.ts';
 
 /** How long a noise cue's buffer is; longer than any cue, and reused. */
 const NoiseSeconds = 0.25;

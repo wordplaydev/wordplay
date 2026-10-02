@@ -1,4 +1,4 @@
-import Caret from '@edit/caret/Caret';
+import Caret from '#edit/caret/Caret.ts';
 import {
     canRepresent,
     clampToMarkup,
@@ -10,8 +10,8 @@ import {
     sourceToMarkup,
     unwrapMarkup,
     wrapMarkup,
-} from '@edit/markup/markupSource';
-import { withoutColorSelector } from '@unicode/emoji';
+} from '#edit/markup/markupSource.ts';
+import { withoutColorSelector } from '#unicode/emoji.ts';
 import { describe, expect, test } from 'vitest';
 
 /** Markup a creator could plausibly write, including the shapes that make a

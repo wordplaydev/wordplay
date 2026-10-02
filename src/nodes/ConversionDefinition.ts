@@ -1,28 +1,28 @@
-import type Conflict from '@conflicts/Conflict';
-import { MisplacedConversion } from '@conflicts/MisplacedConversion';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { CONVERT_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import StartFinish from '@runtime/StartFinish';
-import type Step from '@runtime/Step';
-import ConversionDefinitionValue from '@values/ConversionDefinitionValue';
-import InternalException from '@values/InternalException';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
+import type Conflict from '#conflicts/Conflict.ts';
+import { MisplacedConversion } from '#conflicts/MisplacedConversion.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { CONVERT_SYMBOL, SHARE_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import StartFinish from '#runtime/StartFinish.ts';
+import type Step from '#runtime/Step.ts';
+import ConversionDefinitionValue from '#values/ConversionDefinitionValue.ts';
+import InternalException from '#values/InternalException.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
 import Characters from '../lore/BasisCharacters';
-import parseType from '@parser/parseType';
-import { toTokens } from '@parser/toTokens';
-import type Value from '@values/Value';
-import Block from '@nodes/Block';
-import type Context from '@nodes/Context';
-import ConversionType from '@nodes/ConversionType';
-import DefinitionExpression from '@nodes/DefinitionExpression';
-import Docs from '@nodes/Docs';
-import Expression, { type GuardContext } from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import type Node from '@nodes/Node';
+import parseType from '#parser/parseType.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import type Value from '#values/Value.ts';
+import Block from '#nodes/Block.ts';
+import type Context from '#nodes/Context.ts';
+import ConversionType from '#nodes/ConversionType.ts';
+import DefinitionExpression from '#nodes/DefinitionExpression.ts';
+import Docs from '#nodes/Docs.ts';
+import Expression, { type GuardContext } from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import type Node from '#nodes/Node.ts';
 import {
     any,
     node,
@@ -30,13 +30,13 @@ import {
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import type TypeSet from '@nodes/TypeSet';
-import { getPublishedShareConflicts } from '@nodes/publishedShare';
+} from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import { getPublishedShareConflicts } from '#nodes/publishedShare.ts';
 
 export default class ConversionDefinition extends DefinitionExpression {
     readonly docs: Docs;

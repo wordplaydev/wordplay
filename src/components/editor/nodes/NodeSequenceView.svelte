@@ -1,22 +1,22 @@
 <script lang="ts" generics="NodeType extends Node">
-    import EmptyView from '@components/editor/blocks/EmptyView.svelte';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import EmptyView from '#components/editor/blocks/EmptyView.svelte';
+    import MenuTrigger from '#components/editor/menu/MenuTrigger.svelte';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import WindowedStatements from '@components/editor/nodes/WindowedStatements.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import WindowedStatements from '#components/editor/nodes/WindowedStatements.svelte';
     import {
         WINDOWING_ENABLED,
         WINDOWING_MIN_STATEMENTS,
-    } from '@components/editor/util/windowModel';
-    import { getDragTarget, getEditor } from '@components/project/Contexts';
-    import { spaceIndicator } from '@db/Database';
-    import { InsertionPoint } from '@edit/drag/Drag';
-    import Block from '@nodes/Block';
-    import Node from '@nodes/Node';
-    import { EXPLICIT_NEWLINE_TEXT } from '@parser/Spaces';
-    import type { Segment } from '@nodes/Paragraph';
-    import type KeysOfType from '@util/KeysOfType';
+    } from '#components/editor/util/windowModel.ts';
+    import { getDragTarget, getEditor } from '#components/project/Contexts.ts';
+    import { spaceIndicator } from '#db/Database.ts';
+    import { InsertionPoint } from '#edit/drag/Drag.ts';
+    import Block from '#nodes/Block.ts';
+    import Node from '#nodes/Node.ts';
+    import { EXPLICIT_NEWLINE_TEXT } from '#parser/Spaces.ts';
+    import type { Segment } from '#nodes/Paragraph.ts';
+    import type KeysOfType from '#util/KeysOfType.ts';
 
     interface Props {
         /** The node containing a list of nodes to render */

@@ -86,7 +86,7 @@ function render(assets: Map<string, string>): string {
  *
  * Content hash per locale asset, read by \`versioned()\`. This module holds only
  * data on purpose: \`versioned\` is reachable from \`UnknownName\` by way of
- * \`localeNameIndex\`, so a \`$app/environment\` import here would put a SvelteKit
+ * \`localeNameIndex\`, so a \`$app/env\` import here would put a SvelteKit
  * virtual module on the basis graph and break \`npm run locales\` under tsx.
  */
 export const LocaleAssetHashes: Record<string, string> = {

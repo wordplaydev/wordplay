@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type Input from '@nodes/Input';
+    import type Input from '#nodes/Input.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Input;

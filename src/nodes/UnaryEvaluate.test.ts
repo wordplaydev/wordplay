@@ -1,10 +1,10 @@
-import MissingInput from '@conflicts/MissingInput';
-import { testConflict } from '@conflicts/TestUtilities';
+import MissingInput from '#conflicts/MissingInput.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Source from '@nodes/Source';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Source from '#nodes/Source.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
 
 test.each([
     ['~(1 > 1)', '~"hi"', UnaryEvaluate, IncompatibleInput],

@@ -32,7 +32,7 @@ import {
     SvgPath,
     outputFiles,
 } from './manifest';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 /** Rasterize an SVG document at the given pixel width. The card font is
  *  always registered; only the card's text uses it. */

@@ -1,16 +1,16 @@
-import MissingInput from '@conflicts/MissingInput';
-import OrderOfOperations from '@conflicts/OrderOfOperations';
-import UnexpectedInput from '@conflicts/UnexpectedInput';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import { testConflict } from '@conflicts/TestUtilities';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import { FALSE_SYMBOL, NOT_SYMBOL, OR_SYMBOL } from '@parser/Symbols';
+import MissingInput from '#conflicts/MissingInput.ts';
+import OrderOfOperations from '#conflicts/OrderOfOperations.ts';
+import UnexpectedInput from '#conflicts/UnexpectedInput.ts';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { FALSE_SYMBOL, NOT_SYMBOL, OR_SYMBOL } from '#parser/Symbols.ts';
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Source from '@nodes/Source';
+import evaluateCode from '#runtime/evaluate.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import Source from '#nodes/Source.ts';
 
 test.each([
     ['1 × 5', '1 × ""', BinaryEvaluate, IncompatibleInput],

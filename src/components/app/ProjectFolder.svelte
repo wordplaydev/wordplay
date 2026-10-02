@@ -1,16 +1,16 @@
 <!-- One folder on the projects page: a header that names it and says how much
      is in it, and either its contents or a preview of them. -->
 <script lang="ts">
-    import ProjectPreview from '@components/app/ProjectPreview.svelte';
-    import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
+    import ProjectPreview from '#components/app/ProjectPreview.svelte';
+    import ProjectPreviewSet from '#components/app/ProjectPreviewSet.svelte';
     import type {
         ProjectAction,
         ProjectConfirmAction,
         ProjectInteraction,
-    } from '@components/app/projectControls';
-    import Button from '@components/widgets/Button.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import type { ProjectSort } from '@db/settings/ProjectSortSetting';
+    } from '#components/app/projectControls.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import type { ProjectSort } from '#db/settings/ProjectSortSetting.ts';
     import type { ResolvedFolder } from '../../routes/[[locale]]/projects/folders';
 
     interface Props {

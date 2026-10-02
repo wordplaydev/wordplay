@@ -1,7 +1,7 @@
-import { isMailableAddress } from '@db/creators/mailableAddress';
-import { repairUsername, UsernameLength } from '@db/creators/username';
-import { must } from '@util/nullable';
-import { parseCSV } from '@values/export/csv';
+import { isMailableAddress } from '#db/creators/mailableAddress.ts';
+import { repairUsername, UsernameLength } from '#db/creators/username.ts';
+import { must } from '#util/nullable.ts';
+import { parseCSV } from '#values/export/csv.ts';
 import type { ClassSigninMethod } from 'shared-types';
 
 /**

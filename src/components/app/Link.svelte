@@ -1,18 +1,20 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
+    import { browser } from '$app/env';
     import { page } from '$app/state';
     import {
         type LocalizablePath,
         getLocalizing,
         setLinkLocalize,
-    } from '@components/project/Contexts';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
+    } from '#components/project/Contexts.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { locales } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import type { AppPath, ExternalURL, StaticPath } from '#util/appPath.ts';
     import getLinkState from './linkState';
 
     interface Props {
-        to: string;
+        /** A route (prefixed with the reader's locale), a file in static/, or an external URL. */
+        to: AppPath | StaticPath | ExternalURL;
         tip?: LocaleTextAccessor | undefined;
         nowrap?: boolean;
         external?: boolean;

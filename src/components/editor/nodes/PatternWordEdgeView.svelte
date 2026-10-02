@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternWordEdge from '@nodes/PatternWordEdge';
+    import type PatternWordEdge from '#nodes/PatternWordEdge.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** A locale-tagged word-edge atom (`┊/lang`) — a zero-width word boundary. */
     interface Props {

@@ -1,5 +1,5 @@
-import type Project from '@db/projects/Project';
-import type { LocaleTextAccessor } from '@locale/Locales';
+import type Project from '#db/projects/Project.ts';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
 
 /** One of the controls a project tile offers — edit, remix, and so on.
  *  `false` means the list this tile is in doesn't offer that control. */

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type Previous from '@nodes/Previous';
+    import type Previous from '#nodes/Previous.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Previous;

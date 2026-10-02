@@ -1,24 +1,28 @@
-import createStreamEvaluator from '@input/createStreamEvaluator';
-import { WellKnownKeys } from '@input/Key/KeyboardKeys';
-import { getKeyMap, getKeyMapOf, localizeKeyName } from '@input/Key/keyNames';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import Bind from '@nodes/Bind';
-import BooleanType from '@nodes/BooleanType';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NoneType from '@nodes/NoneType';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StreamType from '@nodes/StreamType';
-import TextType from '@nodes/TextType';
-import type Type from '@nodes/Type';
-import UnionType from '@nodes/UnionType';
-import type Evaluation from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import BoolValue from '@values/BoolValue';
-import SingletonStreamValue from '@values/SingletonStreamValue';
-import TextValue from '@values/TextValue';
-import type { StreamKind } from '@values/StreamValue';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
+import { WellKnownKeys } from '#input/Key/KeyboardKeys.ts';
+import {
+    getKeyMap,
+    getKeyMapOf,
+    localizeKeyName,
+} from '#input/Key/keyNames.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import Bind from '#nodes/Bind.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NoneType from '#nodes/NoneType.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StreamType from '#nodes/StreamType.ts';
+import TextType from '#nodes/TextType.ts';
+import type Type from '#nodes/Type.ts';
+import UnionType from '#nodes/UnionType.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import BoolValue from '#values/BoolValue.ts';
+import SingletonStreamValue from '#values/SingletonStreamValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
 
 /** Resolve a user-supplied `key` filter (typed by the author in any locale)
  *  back to the canonical English `KeyboardEvent.key` value. Walks every

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import Source from '@nodes/Source';
+import Source from '#nodes/Source.ts';
 
 /** Extract [delimiterText, depth] pairs in token order for the structural
  * brackets the depth map tracks. */

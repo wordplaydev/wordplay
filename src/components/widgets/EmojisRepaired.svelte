@@ -20,7 +20,7 @@
      drops to the system Apple emoji. The stage leaves forceColorEmoji off so
      ordinary emoji keep honoring the creator's chosen face. -->
 <script lang="ts">
-    import { emojiRuns } from '@unicode/emoji';
+    import { emojiRuns } from '#unicode/emoji.ts';
 
     interface Props {
         text: string;

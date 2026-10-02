@@ -1,4 +1,4 @@
-import type { FormattedText } from '@locale/LocaleText';
+import type { FormattedText } from '#locale/LocaleText.ts';
 
 /** One glossary entry: a localized word and a learner-facing definition. */
 export type GlossaryText = {

@@ -1,17 +1,17 @@
-import { getTypeName } from '@locale/getNameLocales';
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import type Locales from '@locale/Locales';
-import Evaluate from '@nodes/Evaluate';
-import Reference from '@nodes/Reference';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import type Project from '@db/projects/Project';
-import type LocaleText from '@locale/LocaleText';
-import type Color from '@output/Color/Color';
-import { toColor } from '@output/Color/Color';
-import { toNumber } from '@output/Output/Stage';
-import Valued, { getOutputInputs } from '@output/Output/Valued';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import toStructure from '#basis/toStructure.ts';
+import { getBind } from '#locale/getBind.ts';
+import type Locales from '#locale/Locales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Reference from '#nodes/Reference.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
+import type Project from '#db/projects/Project.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Color from '#output/Color/Color.ts';
+import { toColor } from '#output/Color/Color.ts';
+import { toNumber } from '#output/Output/Stage.ts';
+import Valued, { getOutputInputs } from '#output/Output/Valued.ts';
 
 export function createAuraType(locales: Locales) {
     return toStructure(`

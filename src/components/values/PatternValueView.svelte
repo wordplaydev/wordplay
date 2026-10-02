@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type PatternValue from '@values/PatternValue';
+    import type PatternValue from '#values/PatternValue.ts';
 
     /**
      * The view for a {@link PatternValue} — a compiled pattern. It renders the

@@ -1,21 +1,21 @@
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
 import {
     canRepresent,
     hasUnclosedDelimiter,
     isWholeMarkup,
     markupToSource,
     sourceToMarkup,
-} from '@edit/markup/markupSource';
-import DefaultLocale from '@locale/DefaultLocale';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { withoutColorSelector } from '@unicode/emoji';
-import UnicodeString from '@unicode/UnicodeString';
+} from '#edit/markup/markupSource.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { withoutColorSelector } from '#unicode/emoji.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 import { readdirSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 import { describe, expect, test } from 'vitest';
-import { RepoRoot } from '@util/testFiles';
-import { messageOf } from '@util/guards';
+import { RepoRoot } from '#util/testFiles.ts';
+import { messageOf } from '#util/guards.ts';
 
 /**
  * @sweep static/locales The markup editor's model must hold for every string the app

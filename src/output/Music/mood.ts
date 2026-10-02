@@ -35,14 +35,14 @@
  * and one analyser per music is the expensive fix its comment rejects.
  */
 
-import type { InstrumentActivity } from '@output/Music/activity';
-import { instrumentSpec } from '@output/Music/instruments';
-import type { MusicData } from '@output/Music/musicData';
-import { analyzeMusic, notesPerSecond } from '@output/MusicSafetyAnalysis';
+import type { InstrumentActivity } from '#output/Music/activity.ts';
+import { instrumentSpec } from '#output/Music/instruments.ts';
+import type { MusicData } from '#output/Music/musicData.ts';
+import { analyzeMusic, notesPerSecond } from '#output/MusicSafetyAnalysis.ts';
 import {
     FlashLuminanceDelta,
     MinFlashHz,
-} from '@output/PhotosensitivityAnalysis';
+} from '#output/PhotosensitivityAnalysis.ts';
 
 /* ------------------------------------------------------------------ *
  * The character of a piece

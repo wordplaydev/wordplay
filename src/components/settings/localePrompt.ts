@@ -1,5 +1,5 @@
-import retryableLoad from '@util/retryableLoad';
-import { proxyPrefix } from '@db/proxySession';
+import retryableLoad from '#util/retryableLoad.ts';
+import { proxyPrefix } from '#db/proxySession.ts';
 
 /**
  * Local-storage key recording that this device has been offered the chooser, whether
@@ -47,7 +47,7 @@ export function markAsked() {
  * and crashes hydration.
  */
 export const loadLocalePrompt = retryableLoad(() =>
-    import('@components/settings/LocalePrompt.svelte').then(
+    import('#components/settings/LocalePrompt.svelte').then(
         (module) => module.default,
     ),
 );

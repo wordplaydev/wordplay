@@ -1,5 +1,5 @@
-import { TranslatableLocales } from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
+import { TranslatableLocales } from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
 
 /**
  * The single, provider-agnostic source of target locales Wordplay offers for

@@ -3,7 +3,7 @@ import {
     chooseVoice,
     primarySubtag,
     type VoiceOption,
-} from '@output/Speech/voices';
+} from '#output/Speech/voices.ts';
 
 const Voices: VoiceOption[] = [
     { lang: 'en-US', uri: 'urn:samantha' },

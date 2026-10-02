@@ -1,10 +1,10 @@
-import { TAB_WIDTH } from '@parser/Spaces';
-import { must } from '@util/nullable';
-import type { WritingLayout } from '@locale/Scripts';
+import { TAB_WIDTH } from '#parser/Spaces.ts';
+import { must } from '#util/nullable.ts';
+import type { WritingLayout } from '#locale/Scripts.ts';
 import {
     measureTokenSegment,
     segmentLineRects,
-} from '@components/editor/highlights/measureTokenSegment';
+} from '#components/editor/highlights/measureTokenSegment.ts';
 
 export type Rect = {
     l: number;

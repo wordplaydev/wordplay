@@ -1,7 +1,7 @@
 import {
     MAX_CLIPBOARD_PREVIEW_STATEMENTS,
     parseClipboardCode,
-} from '@components/editor/clipboardDisplay';
+} from '#components/editor/clipboardDisplay.ts';
 import { expect, test } from 'vitest';
 
 test.each([

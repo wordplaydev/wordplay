@@ -5,10 +5,10 @@
      — it is concept ids, named through the same walk a `@Color` link uses, so the filter
      and the link never disagree about what a colour is called. -->
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { getNextOption } from '@components/widgets/optionNavigation';
-    import { locales } from '@db/Database';
-    import { localizedConceptName } from '@locale/getConceptName';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { getNextOption } from '#components/widgets/optionNavigation.ts';
+    import { locales } from '#db/Database.ts';
+    import { localizedConceptName } from '#locale/getConceptName.ts';
 
     interface Props {
         /** The kinds on offer, already ordered, with how many kits carry each. */

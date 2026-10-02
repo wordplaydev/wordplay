@@ -1,8 +1,8 @@
-import { Purpose, type PurposeType } from '@concepts/Purpose';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import type Node from '@nodes/Node';
-import Type from '@nodes/Type';
+import { Purpose, type PurposeType } from '#concepts/Purpose.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import type Node from '#nodes/Node.ts';
+import Type from '#nodes/Type.ts';
 
 export default abstract class BasisType extends Type {
     constructor() {

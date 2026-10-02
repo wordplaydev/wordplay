@@ -1,6 +1,6 @@
-import Node from '@nodes/Node';
-import type { Path } from '@nodes/Root';
-import type Source from '@nodes/Source';
+import Node from '#nodes/Node.ts';
+import type { Path } from '#nodes/Root.ts';
+import type Source from '#nodes/Source.ts';
 import * as Y from 'yjs';
 import { base64ToBytes, bytesToBase64 } from './ProjectCRDT';
 

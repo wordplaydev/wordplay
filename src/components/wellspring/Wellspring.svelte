@@ -1,34 +1,37 @@
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
+    import Emoji from '#components/app/Emoji.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import ConceptPreview from '#components/concepts/ConceptPreview.svelte';
     import {
         canRecycleDraggedNode,
         getConceptGroups,
         getPurposeIcons,
         recycleDraggedNode,
-    } from '@components/concepts/conceptGroups';
-    import { getConceptIndex, getDragged } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import Sidebar from '@components/widgets/Sidebar.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { Purpose, type PurposeType } from '@concepts/Purpose';
+    } from '#components/concepts/conceptGroups.ts';
+    import {
+        getConceptIndex,
+        getDragged,
+    } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import Sidebar from '#components/widgets/Sidebar.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { Purpose, type PurposeType } from '#concepts/Purpose.ts';
     import {
         locales,
         Settings,
         showWellspring,
         wellspringWidth,
-    } from '@db/Database';
-    import type Project from '@db/projects/Project';
+    } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
     import {
         WELLSPRING_MAX_WIDTH,
         WELLSPRING_MIN_WIDTH,
-    } from '@db/settings/WellspringSetting';
-    import { SEARCH_SYMBOL } from '@parser/Symbols';
-    import { debounced } from '@util/debounce.svelte';
+    } from '#db/settings/WellspringSetting.ts';
+    import { SEARCH_SYMBOL } from '#parser/Symbols.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
 
     interface Props {
         /** The project whose concepts the Wellspring offers and whose source a

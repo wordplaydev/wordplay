@@ -4,7 +4,7 @@
      font. For an arbitrary run of text whose emoji should be left to the ambient
      cascade (and whose keycaps need repair), use EmojisRepaired instead. -->
 <script lang="ts">
-    import { hasEmoji } from '@unicode/emoji';
+    import { hasEmoji } from '#unicode/emoji.ts';
 
     interface Props {
         color?: boolean;

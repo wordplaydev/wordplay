@@ -1,8 +1,8 @@
-import type Expression from '@nodes/Expression';
-import type Locales from '@locale/Locales';
-import type Evaluator from '@runtime/Evaluator';
-import Step from '@runtime/Step';
-import type Value from '@values/Value';
+import type Expression from '#nodes/Expression.ts';
+import type Locales from '#locale/Locales.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Step from '#runtime/Step.ts';
+import type Value from '#values/Value.ts';
 
 /**
  * Pushes a value the compiler already knows, for an expression that has no evaluation of its

@@ -1,10 +1,11 @@
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import Link from '@components/app/Link.svelte';
+    import type { AppPath, ExternalURL } from '#util/appPath.ts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import Link from '#components/app/Link.svelte';
 
     interface Props {
-        to: string;
+        to: AppPath | ExternalURL;
         subtitle?: LocaleTextAccessor | undefined;
         external?: boolean;
         smaller?: boolean;

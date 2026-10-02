@@ -1,15 +1,15 @@
-import type LocaleText from '@locale/LocaleText';
-import type Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import KeyValue from '@nodes/KeyValue';
-import type MapLiteral from '@nodes/MapLiteral';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Expression from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import KeyValue from '#nodes/KeyValue.ts';
+import type MapLiteral from '#nodes/MapLiteral.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
 
 export class NotAKeyValue extends Conflict {
     readonly map: MapLiteral;

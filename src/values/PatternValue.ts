@@ -1,18 +1,18 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Expression from '@nodes/Expression';
-import type PatternLiteral from '@nodes/PatternLiteral';
-import PatternType from '@nodes/PatternType';
-import { searchPattern, testPattern } from '@runtime/pattern/match';
-import type { PatternMatch } from '@runtime/pattern/match';
-import SimpleValue from '@values/SimpleValue';
-import type Value from '@values/Value';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Expression from '#nodes/Expression.ts';
+import type PatternLiteral from '#nodes/PatternLiteral.ts';
+import PatternType from '#nodes/PatternType.ts';
+import { searchPattern, testPattern } from '#runtime/pattern/match.ts';
+import type { PatternMatch } from '#runtime/pattern/match.ts';
+import SimpleValue from '#values/SimpleValue.ts';
+import type Value from '#values/Value.ts';
 
 /**
  * The value of an evaluated {@link PatternLiteral}. Holds the source pattern
  * AST; the `≈`/`⌕` operators on Text apply it by walking that AST in
- * `@runtime/pattern/match.ts`. Walking happens stepwise (one Evaluator step per
+ * `#runtime/pattern/match.ts`. Walking happens stepwise (one Evaluator step per
  * grapheme probe) so a match is observable and single-steppable; see
  * matchSteps.ts. Equality is by source text, so two patterns that read the same
  * are equal.

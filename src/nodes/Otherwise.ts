@@ -1,35 +1,35 @@
-import conciseRef from '@nodes/conciseRef';
-import type { TemplateInput } from '@locale/Locales';
-import type Conflict from '@conflicts/Conflict';
-import { ImpossibleType } from '@conflicts/ImpossibleType';
-import type { ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { COALESCE_SYMBOL } from '@parser/Symbols';
-import Check from '@runtime/Check';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
-import NoneValue from '@values/NoneValue';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+import conciseRef from '#nodes/conciseRef.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import { ImpossibleType } from '#conflicts/ImpossibleType.ts';
+import type { ReplaceContext } from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { COALESCE_SYMBOL } from '#parser/Symbols.ts';
+import Check from '#runtime/Check.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Start from '#runtime/Start.ts';
+import type Step from '#runtime/Step.ts';
+import NoneValue from '#values/NoneValue.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import type Context from '@nodes/Context';
+import type Context from '#nodes/Context.ts';
 import Expression, {
     ExpressionKind,
     type GuardContext,
-} from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import NoneType from '@nodes/NoneType';
-import SimpleExpression from '@nodes/SimpleExpression';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import TypeSet from '@nodes/TypeSet';
-import UnionType from '@nodes/UnionType';
+} from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import NoneType from '#nodes/NoneType.ts';
+import SimpleExpression from '#nodes/SimpleExpression.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import TypeSet from '#nodes/TypeSet.ts';
+import UnionType from '#nodes/UnionType.ts';
 
 export default class Otherwise extends SimpleExpression {
     readonly left: Expression;

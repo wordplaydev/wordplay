@@ -4,18 +4,18 @@ import {
     type Database,
     type SaveCounts,
     type SaveError,
-} from '@db/Database';
-import { Domain } from '@db/Domains';
-import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
-import { firestore } from '@db/firebase';
-import type Gallery from '@db/galleries/Gallery';
-import { howToChatParticipants } from '@db/howtos/howToAccess';
-import HowTo from '@db/howtos/HowToDatabase.svelte';
-import isQuotaError from '@db/isQuotaError';
-import { ChatWritableFields, HowToFields } from '@db/rulesFields';
-import type Project from '@db/projects/Project';
-import supportsIndexedDB from '@db/supportsIndexedDB';
-import deferToIdle from '@util/deferToIdle';
+} from '#db/Database.ts';
+import { Domain } from '#db/Domains.ts';
+import SaveTracker, { type RePush } from '#db/SaveTracker.svelte.ts';
+import { firestore } from '#db/firebase.ts';
+import type Gallery from '#db/galleries/Gallery.ts';
+import { howToChatParticipants } from '#db/howtos/howToAccess.ts';
+import HowTo from '#db/howtos/HowToDatabase.svelte.ts';
+import isQuotaError from '#db/isQuotaError.ts';
+import { ChatWritableFields, HowToFields } from '#db/rulesFields.ts';
+import type Project from '#db/projects/Project.ts';
+import supportsIndexedDB from '#db/supportsIndexedDB.ts';
+import deferToIdle from '#util/deferToIdle.ts';
 import { FirebaseError } from 'firebase/app';
 import type { Unsubscribe, User } from 'firebase/auth';
 import {
@@ -36,10 +36,10 @@ import {
     type Firestore,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
-import sendModerate from '@db/moderation/moderate';
-import sendReport from '@db/moderation/report';
-import { PathSchema } from '@db/projects/ProjectSchemas';
-import { withoutVariationSelectors } from '@unicode/emoji';
+import sendModerate from '#db/moderation/moderate.ts';
+import sendReport from '#db/moderation/report.ts';
+import { PathSchema } from '#db/projects/ProjectSchemas.ts';
+import { withoutVariationSelectors } from '#unicode/emoji.ts';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 

@@ -1,8 +1,9 @@
 <script lang="ts">
-    import type WebLink from '@nodes/WebLink';
-    import type Spaces from '@parser/Spaces';
-    import Link from '@components/app/Link.svelte';
-    import linkHref from '@parser/linkHref';
+    import { authoredLink } from '#util/appPath.ts';
+    import type WebLink from '#nodes/WebLink.ts';
+    import type Spaces from '#parser/Spaces.ts';
+    import Link from '#components/app/Link.svelte';
+    import linkHref from '#parser/linkHref.ts';
 
     interface Props {
         link: WebLink;
@@ -12,8 +13,10 @@
     let { link, spaces }: Props = $props();
 
     // Undefined when the URL points somewhere documentation has no business
-    // pointing; the description then renders as plain text.
-    let url = $derived(link.url ? linkHref(link.url.getText()) : undefined);
+    // pointing, or names no route; the description then renders as plain text.
+    let url = $derived(
+        link.url ? authoredLink(linkHref(link.url.getText())) : undefined,
+    );
 </script>
 
 {#if url !== undefined && link.description}

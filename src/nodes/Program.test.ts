@@ -1,12 +1,12 @@
-import Evaluator from '@runtime/Evaluator';
-import NumberValue from '@values/NumberValue';
+import Evaluator from '#runtime/Evaluator.ts';
+import NumberValue from '#values/NumberValue.ts';
 import { expect, test } from 'vitest';
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import type Value from '@values/Value';
-import Source from '@nodes/Source';
-import { must } from '@util/nullable';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type Value from '#values/Value.ts';
+import Source from '#nodes/Source.ts';
+import { must } from '#util/nullable.ts';
 
 test.each([
     // A single source with 1 should evaluate to 1

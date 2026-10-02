@@ -1,25 +1,25 @@
-import { Projects } from '@db/projects/Projects';
-import { must } from '@util/nullable';
-import Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import type Node from '@nodes/Node';
-import BoolValue from '@values/BoolValue';
-import MarkupValue from '@values/MarkupValue';
-import NumberValue from '@values/NumberValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import type { Database } from '@db/Database';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type Bind from '@nodes/Bind';
-import ListLiteral from '@nodes/ListLiteral';
-import MapLiteral from '@nodes/MapLiteral';
-import type StreamDefinition from '@nodes/StreamDefinition';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type { OutputPropertyValue } from '@edit/output/OutputExpression';
-import OutputExpression from '@edit/output/OutputExpression';
-import type OutputProperty from '@edit/output/OutputProperty';
+import { Projects } from '#db/projects/Projects.ts';
+import { must } from '#util/nullable.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Node from '#nodes/Node.ts';
+import BoolValue from '#values/BoolValue.ts';
+import MarkupValue from '#values/MarkupValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import type { Database } from '#db/Database.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Bind from '#nodes/Bind.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import MapLiteral from '#nodes/MapLiteral.ts';
+import type StreamDefinition from '#nodes/StreamDefinition.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import type { OutputPropertyValue } from '#edit/output/OutputExpression.ts';
+import OutputExpression from '#edit/output/OutputExpression.ts';
+import type OutputProperty from '#edit/output/OutputProperty.ts';
 
 /**
  * Represents one or more equivalent inputs to an output expression.

@@ -4,7 +4,7 @@ import {
     rootScale,
     screenToStage,
     stageToScreen,
-} from '@output/Output/outputToCSS';
+} from '#output/Output/outputToCSS.ts';
 
 const FOCUSES = [
     { x: 0, y: 0, z: -12 },

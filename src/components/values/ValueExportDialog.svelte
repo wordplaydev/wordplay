@@ -14,19 +14,19 @@
      * beside Save because pasting the text back into the editor rebuilds the
      * table, which is the loop this feature exists to close.
      */
-    import { toClipboard } from '@components/editor/commands/Clipboard';
-    import { getAnnouncer } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import { CONFIRM_SYMBOL } from '@parser/Symbols';
-    import downloadBytes from '@util/download';
+    import { toClipboard } from '#components/editor/commands/Clipboard.ts';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { CONFIRM_SYMBOL } from '#parser/Symbols.ts';
+    import downloadBytes from '#util/download.ts';
     import {
         bytesOf,
         extensionOf,
@@ -35,8 +35,8 @@
         mimeTypeOf,
         serialize,
         type ExportFormat,
-    } from '@values/export/exportValue';
-    import type Value from '@values/Value';
+    } from '#values/export/exportValue.ts';
+    import type Value from '#values/Value.ts';
 
     interface Props {
         /** The value to save, or undefined when nothing has asked to save one. */

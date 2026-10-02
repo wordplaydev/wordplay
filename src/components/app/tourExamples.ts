@@ -1,11 +1,11 @@
-import Project from '@db/projects/Project';
-import type LocaleText from '@locale/LocaleText';
-import { isUnwritten, parseLocaleDoc } from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import Doc from '@nodes/Doc';
-import Example from '@nodes/Example';
-import Source from '@nodes/Source';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
+import Project from '#db/projects/Project.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isUnwritten, parseLocaleDoc } from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import Doc from '#nodes/Doc.ts';
+import Example from '#nodes/Example.ts';
+import Source from '#nodes/Source.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
 
 /**
  * The check behind Showcase.test.ts (en-US, in the default suite) and

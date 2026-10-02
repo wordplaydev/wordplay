@@ -1,11 +1,11 @@
-import { getBind } from '@locale/getBind';
-import type Value from '@values/Value';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import StructureValue from '@values/StructureValue';
-import { toBoolean, toNumber } from '@output/Output/Stage';
-import Valued, { getOutputInputs } from '@output/Output/Valued';
+import { getBind } from '#locale/getBind.ts';
+import type Value from '#values/Value.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '#parser/Symbols.ts';
+import StructureValue from '#values/StructureValue.ts';
+import { toBoolean, toNumber } from '#output/Output/Stage.ts';
+import Valued, { getOutputInputs } from '#output/Output/Valued.ts';
 
 export const DefaultBounciness = 0.5;
 

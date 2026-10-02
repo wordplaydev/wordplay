@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { isRecord } from '@util/guards';
-    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
-    import PageHeaderRow from '@components/app/PageHeaderRow.svelte';
-    import PlayView from '@components/app/PlayView.svelte';
-    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Speech from '@components/lore/Speech.svelte';
+    import { isRecord } from '#util/guards.ts';
+    import Breadcrumbs from '#components/app/Breadcrumbs.svelte';
+    import PageHeaderRow from '#components/app/PageHeaderRow.svelte';
+    import PlayView from '#components/app/PlayView.svelte';
+    import TutorialHighlight from '#components/app/TutorialHighlight.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Speech from '#components/lore/Speech.svelte';
     import {
         getConceptPath,
         getAnnouncer,
@@ -17,17 +17,17 @@
         setTourRequest,
         type ConceptIndexContext,
         type TourRequest,
-    } from '@components/project/Contexts';
-    import ProjectView from '@components/project/ProjectView.svelte';
-    import { isTourID, type TourID } from '@components/project/tours';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import type ConceptIndex from '@concepts/ConceptIndex';
+    } from '#components/project/Contexts.ts';
+    import ProjectView from '#components/project/ProjectView.svelte';
+    import { isTourID, type TourID } from '#components/project/tours.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import type ConceptIndex from '#concepts/ConceptIndex.ts';
     import {
         contrastLanguage,
         locales,
@@ -37,29 +37,29 @@
         Settings,
         toursTaken,
         voice,
-    } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
-    import { moderatedFlags } from '@db/projects/Moderation';
-    import Project from '@db/projects/Project';
-    import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
-    import getConceptName from '@locale/getConceptName';
-    import type LanguageCode from '@locale/LanguageCode';
-    import { getLanguageDirection } from '@locale/LanguageCode';
-    import { MULTILINGUAL_SEPARATOR } from '@locale/Locales';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import ConceptLink, { TourName } from '@nodes/ConceptLink';
-    import type Markup from '@nodes/Markup';
-    import type Node from '@nodes/Node';
-    import Source from '@nodes/Source';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import type Spaces from '@parser/Spaces';
-    import { toMarkup } from '@parser/toMarkup';
-    import { debounced } from '@util/debounce.svelte';
-    import { localeGoto } from '@util/localeGoto';
-    import { excerpt, searchItems } from '@util/search';
+    } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import { moderatedFlags } from '#db/projects/Moderation.ts';
+    import Project from '#db/projects/Project.ts';
+    import { PersistenceType } from '#db/projects/ProjectHistory.svelte.ts';
+    import getConceptName from '#locale/getConceptName.ts';
+    import type LanguageCode from '#locale/LanguageCode.ts';
+    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import { MULTILINGUAL_SEPARATOR } from '#locale/Locales.ts';
+    import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+    import ConceptLink, { TourName } from '#nodes/ConceptLink.ts';
+    import type Markup from '#nodes/Markup.ts';
+    import type Node from '#nodes/Node.ts';
+    import Source from '#nodes/Source.ts';
+    import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+    import type Spaces from '#parser/Spaces.ts';
+    import { toMarkup } from '#parser/toMarkup.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
+    import { excerpt, searchItems } from '#util/search.ts';
     import { onMount, tick, untrack } from 'svelte';
     import { get, writable } from 'svelte/store';
-    import audio, { musicSuspended } from '@output/Music/MusicAudio';
+    import audio, { musicSuspended } from '#output/Music/MusicAudio.ts';
     import type BasisCharacter from '../../lore/BasisCharacter';
     import BasisCharacters from '../../lore/BasisCharacters';
     import { Emotion } from '../../lore/Emotion';
@@ -119,7 +119,7 @@
         // Likewise speech, which iOS won't start outside a gesture, and the
         // next line is read after this gesture has ended.
         if (get(readAloud))
-            void import('@components/speech/readAloud').then((reader) =>
+            void import('#components/speech/readAloud.ts').then((reader) =>
                 reader.prime(),
             );
         // Navigate to the new progress.
@@ -262,7 +262,7 @@
         if (!reading) return;
         untrack(() => {
             void Promise.all([
-                import('@components/speech/readAloud'),
+                import('#components/speech/readAloud.ts'),
                 tick(),
             ]).then(([reader]) => {
                 if (lines === undefined) return;

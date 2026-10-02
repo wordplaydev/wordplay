@@ -1,13 +1,13 @@
-import { Creator, CreatorCollection } from '@db/creators/CreatorDatabase';
-import { getUsername, HandleCollection } from '@db/creators/handle.svelte';
-import { StrikesCollection } from '@db/creators/strikes.svelte';
-import { DB } from '@db/Database';
-import { Domain } from '@db/Domains';
-import { firestore } from '@db/firebase';
-import { allLocaleEdits } from '@db/locales/LocalizationDexie';
-import { NoticesCollection } from '@db/moderation/Notice';
-import { isProxySession, proxyPrefix } from '@db/proxySession';
-import { writeZip, ZipTooLarge } from '@util/zip';
+import { Creator, CreatorCollection } from '#db/creators/CreatorDatabase.ts';
+import { getUsername, HandleCollection } from '#db/creators/handle.svelte.ts';
+import { StrikesCollection } from '#db/creators/strikes.svelte.ts';
+import { DB } from '#db/Database.ts';
+import { Domain } from '#db/Domains.ts';
+import { firestore } from '#db/firebase.ts';
+import { allLocaleEdits } from '#db/locales/LocalizationDexie.ts';
+import { NoticesCollection } from '#db/moderation/Notice.ts';
+import { isProxySession, proxyPrefix } from '#db/proxySession.ts';
+import { writeZip, ZipTooLarge } from '#util/zip.ts';
 import type { User } from 'firebase/auth';
 import {
     collection,

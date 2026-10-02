@@ -1,14 +1,14 @@
-import concretize from '@locale/concretize';
+import concretize from '#locale/concretize.ts';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import parseType from '@parser/parseType';
-import { toTokens } from '@parser/toTokens';
-import Source from '@nodes/Source';
-import UnionType from '@nodes/UnionType';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import parseType from '#parser/parseType.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import Source from '#nodes/Source.ts';
+import UnionType from '#nodes/UnionType.ts';
 
 test.each([
     ["'hi'|'hello'", "''"],

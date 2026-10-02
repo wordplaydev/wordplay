@@ -1,9 +1,9 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
 
-import { Chats } from '@db/Database';
-import Project from '@db/projects/Project';
+import { Chats } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
 
 /**
  * Who can see a project's chat is not who can see the project: a viewer can

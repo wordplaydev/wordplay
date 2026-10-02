@@ -1,28 +1,28 @@
-import { Purpose } from '@concepts/Purpose';
-import type Conflict from '@conflicts/Conflict';
-import DuplicateCaptureName from '@conflicts/DuplicateCaptureName';
-import EmptyPattern from '@conflicts/EmptyPattern';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import UndefinedBackreference from '@conflicts/UndefinedBackreference';
-import PatternBackref from '@nodes/PatternBackref';
-import PatternCapture from '@nodes/PatternCapture';
-import { isKnownProperty } from '@runtime/pattern/properties';
-import type Locale from '@locale/Locale';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { PATTERN_DELIMITER_SYMBOL } from '@parser/Symbols';
-import PatternValue from '@values/PatternValue';
-import type Value from '@values/Value';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import DuplicateCaptureName from '#conflicts/DuplicateCaptureName.ts';
+import EmptyPattern from '#conflicts/EmptyPattern.ts';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import UndefinedBackreference from '#conflicts/UndefinedBackreference.ts';
+import PatternBackref from '#nodes/PatternBackref.ts';
+import PatternCapture from '#nodes/PatternCapture.ts';
+import { isKnownProperty } from '#runtime/pattern/properties.ts';
+import type Locale from '#locale/Locale.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { PATTERN_DELIMITER_SYMBOL } from '#parser/Symbols.ts';
+import PatternValue from '#values/PatternValue.ts';
+import type Value from '#values/Value.ts';
 import Characters from '../lore/BasisCharacters';
-import Literal from '@nodes/Literal';
-import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
-import PatternSequence from '@nodes/PatternSequence';
-import PatternType from '@nodes/PatternType';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
+import Literal from '#nodes/Literal.ts';
+import { node, optional, type Grammar, type Replacement } from '#nodes/Node.ts';
+import PatternSequence from '#nodes/PatternSequence.ts';
+import PatternType from '#nodes/PatternType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 /**
  * A pattern literal, e.g., `⣿3 # "-" 4 #⣿` — Wordplay's regular-expression
@@ -31,7 +31,7 @@ import type TypeSet from '@nodes/TypeSet';
  * It is the only pattern node that is an {@link Expression}: it type-checks to
  * the `•⣿⣿` Pattern type and evaluates to a {@link PatternValue} carrying this
  * AST. The `≈`/`⌕` operators on Text then drive the match over that AST,
- * stepwise and observable, via the matcher in `@runtime/pattern` (see the class
+ * stepwise and observable, via the matcher in `#runtime/pattern` (see the class
  * note on {@link PatternValue} and the explanation in matchSteps.ts).
  */
 export default class PatternLiteral extends Literal {

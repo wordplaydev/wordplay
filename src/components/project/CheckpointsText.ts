@@ -1,4 +1,4 @@
-import type { Template } from '@locale/LocaleText';
+import type { Template } from '#locale/LocaleText.ts';
 
 type CheckpointsText = {
     /** [plain] Labels in the checkpoints/revisions panel */

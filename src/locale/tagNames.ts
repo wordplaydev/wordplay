@@ -12,20 +12,20 @@
  * casing.ts gives: a program must mean the same thing to everyone who reads it,
  * and a Turkish-locale machine folds `I` differently.
  */
-import type LanguageCode from '@locale/LanguageCode';
+import type LanguageCode from '#locale/LanguageCode.ts';
 import {
     isLanguageCode,
     Languages,
     PossibleLanguages,
-} from '@locale/LanguageCode';
-import { RegionNames } from '@locale/regionNames.generated';
+} from '#locale/LanguageCode.ts';
+import { RegionNames } from '#locale/regionNames.generated.ts';
 import {
     isRegionCode,
     RegionCodes,
     Regions,
     type RegionCode,
-} from '@locale/Regions';
-import { NameRegExPattern } from '@parser/Tokenizer';
+} from '#locale/Regions.ts';
+import { NameRegExPattern } from '#parser/Tokenizer.ts';
 
 /**
  * The key a written name is matched by: case, accents, spaces, and punctuation

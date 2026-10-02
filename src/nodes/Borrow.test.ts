@@ -1,18 +1,18 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import Choice from '@input/Choice/Choice';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
-import evaluateCode from '@runtime/evaluate';
-import ExceptionValue from '@values/ExceptionValue';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import Choice from '#input/Choice/Choice.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
 import { describe, expect, test } from 'vitest';
-import { dependencyKey, type Dependency } from '@nodes/Borrow';
-import DuplicateBorrow from '@conflicts/DuplicateBorrow';
-import DefaultLocales from '@locale/DefaultLocales';
-import Token from '@nodes/Token';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import { must } from '@util/nullable';
+import { dependencyKey, type Dependency } from '#nodes/Borrow.ts';
+import DuplicateBorrow from '#conflicts/DuplicateBorrow.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Token from '#nodes/Token.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import { must } from '#util/nullable.ts';
 
 test.each([
     [

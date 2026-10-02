@@ -1,9 +1,9 @@
-import type { Flag } from '@db/projects/Moderation';
-import type { PermissionName } from '@input/permissions';
-import { Permission } from '@input/permissions';
-import type { LocaleTextAccessor } from '@locale/Locales';
-import type { MusicRisk } from '@output/MusicSafetyAnalysis';
-import type { PhotosensitivityRisk } from '@output/PhotosensitivityAnalysis';
+import type { Flag } from '#db/projects/Moderation.ts';
+import type { PermissionName } from '#input/permissions.ts';
+import { Permission } from '#input/permissions.ts';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import type { MusicRisk } from '#output/MusicSafetyAnalysis.ts';
+import type { PhotosensitivityRisk } from '#output/PhotosensitivityAnalysis.ts';
 
 /**
  * The reasons the start gate blocks a project from playing on load, unified

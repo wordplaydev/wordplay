@@ -3,11 +3,11 @@ import {
     from,
     startOn,
     wrapPlayhead as wrapped,
-} from '@output/Music/previewPlayer';
-import MusicPlayer from '@output/Music/MusicPlayer';
-import type { MusicAudioLike } from '@output/Music/MusicAudio';
-import type { MusicData, TrackData } from '@output/Music/musicData';
-import { Scales } from '@output/Music/scales';
+} from '#output/Music/previewPlayer.ts';
+import MusicPlayer from '#output/Music/MusicPlayer.ts';
+import type { MusicAudioLike } from '#output/Music/MusicAudio.ts';
+import type { MusicData, TrackData } from '#output/Music/musicData.ts';
+import { Scales } from '#output/Music/scales.ts';
 
 function track(beats: number[]): TrackData {
     return {

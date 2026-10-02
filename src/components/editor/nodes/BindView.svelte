@@ -1,13 +1,13 @@
 <script lang="ts">
-    import AnyType from '@nodes/AnyType';
-    import type Bind from '@nodes/Bind';
-    import Flow from '@components/editor/blocks/Flow.svelte';
+    import AnyType from '#nodes/AnyType.ts';
+    import type Bind from '#nodes/Bind.ts';
+    import Flow from '#components/editor/blocks/Flow.svelte';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
-    import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import { isFoldableNode } from '#components/editor/util/folding.ts';
+    import FoldToggle from '#components/editor/util/FoldToggle.svelte';
+    import FoldEllipsis from '#components/editor/util/FoldEllipsis.svelte';
 
     interface Props {
         node: Bind;

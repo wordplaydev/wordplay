@@ -1,28 +1,28 @@
-import type { TemplateInput } from '@locale/Locales';
-import { BorrowCycle } from '@conflicts/BorrowCycle';
-import type Locale from '@locale/Locale';
-import { localeToString } from '@locale/Locale';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import Block, { BlockKind } from '@nodes/Block';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
-import BlankException from '@values/BlankException';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import ValueRef from '@locale/ValueRef';
+import type { TemplateInput } from '#locale/Locales.ts';
+import { BorrowCycle } from '#conflicts/BorrowCycle.ts';
+import type Locale from '#locale/Locale.ts';
+import { localeToString } from '#locale/Locale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Start from '#runtime/Start.ts';
+import type Step from '#runtime/Step.ts';
+import BlankException from '#values/BlankException.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import ValueRef from '#locale/ValueRef.ts';
 import Characters from '../lore/BasisCharacters';
-import Borrow from '@nodes/Borrow';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Dimension from '@nodes/Dimension';
-import Docs from '@nodes/Docs';
-import Expression, { ExpressionKind } from '@nodes/Expression';
-import Language from '@nodes/Language';
-import type Node from '@nodes/Node';
+import Borrow from '#nodes/Borrow.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Dimension from '#nodes/Dimension.ts';
+import Docs from '#nodes/Docs.ts';
+import Expression, { ExpressionKind } from '#nodes/Expression.ts';
+import Language from '#nodes/Language.ts';
+import type Node from '#nodes/Node.ts';
 import {
     any,
     list,
@@ -31,18 +31,18 @@ import {
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import Unit from '@nodes/Unit';
-import UnexampledKit from '@conflicts/UnexampledKit';
-import { kitExamples } from '@nodes/publishedShare';
-import StructureDefinition from '@nodes/StructureDefinition';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Bind from '@nodes/Bind';
+} from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import Unit from '#nodes/Unit.ts';
+import UnexampledKit from '#conflicts/UnexampledKit.ts';
+import { kitExamples } from '#nodes/publishedShare.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Bind from '#nodes/Bind.ts';
 
 export default class Program extends Expression {
     readonly docs: Docs;

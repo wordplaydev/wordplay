@@ -1,8 +1,8 @@
-import DefaultLocales from '@locale/DefaultLocales';
+import DefaultLocales from '#locale/DefaultLocales.ts';
 import getSequencePreviews, {
     buildSequencePreview,
-} from '@components/palette/sequencePreviews';
-import { Animations } from '@output/animation/DefaultSequences';
+} from '#components/palette/sequencePreviews.ts';
+import { Animations } from '#output/animation/DefaultSequences.ts';
 import { expect, test } from 'vitest';
 
 // The palette builds every preset's preview by evaluating one generated program. A name that

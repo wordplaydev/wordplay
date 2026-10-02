@@ -1,20 +1,20 @@
-import Markup from '@nodes/Markup';
-import Words from '@nodes/Words';
-import ConceptRef from '@locale/ConceptRef';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
-import ValueRef from '@locale/ValueRef';
-import { COUNT_SYMBOL } from '@parser/Symbols';
+import Markup from '#nodes/Markup.ts';
+import Words from '#nodes/Words.ts';
+import ConceptRef from '#locale/ConceptRef.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import ValueRef from '#locale/ValueRef.ts';
+import { COUNT_SYMBOL } from '#parser/Symbols.ts';
 import Characters from '../lore/BasisCharacters';
-import Content from '@nodes/Content';
-import type Node from '@nodes/Node';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+import Content from '#nodes/Content.ts';
+import type Node from '#nodes/Node.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 /**
  * A `$` mention substitutes a template input by name (the `$?`/`$!` placeholders

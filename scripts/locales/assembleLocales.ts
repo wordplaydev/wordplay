@@ -8,12 +8,12 @@
  */
 import fs from 'fs';
 import path from 'path';
-import Log from '@util/verify-locales/Log';
+import Log from '#util/verify-locales/Log.ts';
 import {
     hasSections,
     readLocale,
     writeAssembled,
-} from '@util/verify-locales/localeFiles';
+} from '#util/verify-locales/localeFiles.ts';
 
 const log = new Log();
 const locales = ['en-US', ...fs.readdirSync(path.join('static', 'locales'))]

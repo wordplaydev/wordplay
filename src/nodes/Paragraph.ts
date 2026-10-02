@@ -1,31 +1,34 @@
-import type Conflict from '@conflicts/Conflict';
-import TermRef from '@locale/TermRef';
-import ConceptRef from '@locale/ConceptRef';
-import { allDefined } from '@util/nullable';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import Node, { list, node } from '@nodes/Node';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
-import previewText from '@locale/previewText';
-import ValueRef from '@locale/ValueRef';
+import type Conflict from '#conflicts/Conflict.ts';
+import TermRef from '#locale/TermRef.ts';
+import ConceptRef from '#locale/ConceptRef.ts';
+import { allDefined } from '#util/nullable.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import Node, { list, node } from '#nodes/Node.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import previewText from '#locale/previewText.ts';
+import ValueRef from '#locale/ValueRef.ts';
 import Characters from '../lore/BasisCharacters';
-import { unescapeMarkupSymbols } from '@parser/Tokenizer';
-import { BULLET_SYMBOL } from '@parser/Symbols';
-import Branch from '@nodes/Branch';
-import ConceptLink from '@nodes/ConceptLink';
-import Content from '@nodes/Content';
-import Example from '@nodes/Example';
-import ExternalExample from '@nodes/ExternalExample';
-import Mention from '@nodes/Mention';
-import type { Grammar, Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import WebLink from '@nodes/WebLink';
-import Words, { type Format } from '@nodes/Words';
+import { unescapeMarkupSymbols } from '#parser/Tokenizer.ts';
+import { BULLET_SYMBOL } from '#parser/Symbols.ts';
+import Branch from '#nodes/Branch.ts';
+import ConceptLink from '#nodes/ConceptLink.ts';
+import Content from '#nodes/Content.ts';
+import Example from '#nodes/Example.ts';
+import ExternalExample from '#nodes/ExternalExample.ts';
+import Mention from '#nodes/Mention.ts';
+import type { Grammar, Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import WebLink from '#nodes/WebLink.ts';
+import Words, { type Format } from '#nodes/Words.ts';
 
 export type NodeSegment =
     | Token

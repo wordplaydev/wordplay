@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type PatternGroup from '@nodes/PatternGroup';
+    import type PatternGroup from '#nodes/PatternGroup.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
-    import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
-    import CollapsedHeader from '@components/editor/util/CollapsedHeader.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import { isFoldableNode } from '#components/editor/util/folding.ts';
+    import FoldToggle from '#components/editor/util/FoldToggle.svelte';
+    import FoldEllipsis from '#components/editor/util/FoldEllipsis.svelte';
+    import CollapsedHeader from '#components/editor/util/CollapsedHeader.svelte';
 
     /** A grouping `( … )` that scopes quantifiers and alternation. Folds when its
      *  body spans multiple lines. */

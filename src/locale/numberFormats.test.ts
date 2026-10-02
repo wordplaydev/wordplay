@@ -1,6 +1,6 @@
-import type LanguageCode from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
-import { formatNumberForLocale } from '@locale/numberFormats';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
+import { formatNumberForLocale } from '#locale/numberFormats.ts';
 import { expect, test } from 'vitest';
 
 /** Region is irrelevant to formatting (keyed off language + script), so tests

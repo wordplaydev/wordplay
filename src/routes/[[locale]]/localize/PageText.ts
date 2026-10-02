@@ -1,5 +1,5 @@
-import type { FormattedText, Template } from '@locale/LocaleText';
-import type { ConfirmText, FieldText, ModeText } from '@locale/UITexts';
+import type { FormattedText, Template } from '#locale/LocaleText.ts';
+import type { ConfirmText, FieldText, ModeText } from '#locale/UITexts.ts';
 
 type PageText = {
     /** [plain] The header for the localization workspace page */

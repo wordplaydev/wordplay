@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Sym } from '@nodes/Sym';
-    import type NoneValue from '@values/NoneValue';
-    import SymbolView from '@components/values/SymbolView.svelte';
+    import { Sym } from '#nodes/Sym.ts';
+    import type NoneValue from '#values/NoneValue.ts';
+    import SymbolView from '#components/values/SymbolView.svelte';
 
     interface Props {
         value: NoneValue;

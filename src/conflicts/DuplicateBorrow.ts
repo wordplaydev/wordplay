@@ -1,14 +1,14 @@
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
-import type Borrow from '@nodes/Borrow';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import Reference from '@nodes/Reference';
+} from '#conflicts/Conflict.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Borrow from '#nodes/Borrow.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
 
 /**
  * Two borrows put the same name in a source's scope (#1373).

@@ -1,12 +1,12 @@
 import {
     GoogleTranslateCodeOverrides,
     TranslatableLocales,
-} from '@locale/LanguageCode';
-import type LanguageCode from '@locale/LanguageCode';
-import type Locale from '@locale/Locale';
-import { localeToString } from '@locale/Locale';
-import type { RegionCode } from '@locale/Regions';
-import type Log from '@util/verify-locales/Log';
+} from '#locale/LanguageCode.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
+import { localeToString } from '#locale/Locale.ts';
+import type { RegionCode } from '#locale/Regions.ts';
+import type Log from '#util/verify-locales/Log.ts';
 import type Translator from './Translator';
 import translate, {
     getGoogleTranslateTargetLocale,

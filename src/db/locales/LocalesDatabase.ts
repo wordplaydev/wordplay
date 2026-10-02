@@ -1,37 +1,37 @@
-import Fonts from '@basis/faces/Fonts';
-import { isSupportedLocale } from '@locale/SupportedLocales';
-import { isNonEmpty } from '@util/nullable';
-import { isRecord, isStringArray } from '@util/guards';
-import type HowTo from '@concepts/HowTo';
+import Fonts from '#basis/faces/Fonts.ts';
+import { isSupportedLocale } from '#locale/SupportedLocales.ts';
+import { isNonEmpty } from '#util/nullable.ts';
+import { isRecord, isStringArray } from '#util/guards.ts';
+import type HowTo from '#concepts/HowTo.ts';
 import {
     bundleEntryToHowTo,
     HowToIDs,
     parseHowTo,
     isHowToBundle,
-} from '@concepts/HowTo';
-import type { Database } from '@db/Database';
-import { type Concretizer } from '@locale/concretize';
-import { registerDateTimeData } from '@locale/dateTimeData';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import type LanguageCode from '@locale/LanguageCode';
-import { localeToString } from '@locale/Locale';
-import Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import { isLocaleText } from '@locale/isLocaleText';
-import type { RegionCode } from '@locale/Regions';
+} from '#concepts/HowTo.ts';
+import type { Database } from '#db/Database.ts';
+import { type Concretizer } from '#locale/concretize.ts';
+import { registerDateTimeData } from '#locale/dateTimeData.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
+import { localeToString } from '#locale/Locale.ts';
+import Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isLocaleText } from '#locale/isLocaleText.ts';
+import type { RegionCode } from '#locale/Regions.ts';
 import {
     SupportedLocales,
     type SupportedLocale,
-} from '@locale/SupportedLocales';
+} from '#locale/SupportedLocales.ts';
 import { get, writable, type Writable } from 'svelte/store';
 import type Tutorial from '../../tutorial/Tutorial';
 import {
     DEFAULT_TUTORIAL_MODE,
     type TutorialMode,
 } from '../../tutorial/TutorialMode';
-import type Setting from '@db/settings/Setting';
-import versioned from '@db/locales/versioned';
+import type Setting from '#db/settings/Setting.ts';
+import versioned from '#db/locales/versioned.ts';
 
 /** Per-locale emoji translations, keyed by the codepoint hex (e.g. "1F600",
  * "0023 FE0F 20E3") used in static/unicode/codes.txt. Each value is an

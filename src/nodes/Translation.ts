@@ -1,26 +1,29 @@
-import { CharacterWarning } from '@conflicts/CharacterWarning';
-import type Conflict from '@conflicts/Conflict';
-import { PossiblePII } from '@conflicts/PossiblePII';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '@concepts/Purpose';
+import { CharacterWarning } from '#conflicts/CharacterWarning.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import { PossiblePII } from '#conflicts/PossiblePII.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { Purpose } from '#concepts/Purpose.ts';
 import { Emotion } from '../lore/Emotion';
-import { TextCloseByTextOpen, TextDelimiters } from '@parser/Tokenizer';
-import type Context from '@nodes/Context';
-import ConceptLink, { CharacterName, CodepointName } from '@nodes/ConceptLink';
-import Example from '@nodes/Example';
-import type Expression from '@nodes/Expression';
-import Language from '@nodes/Language';
-import { LanguageTagged } from '@nodes/LanguageTagged';
+import { TextCloseByTextOpen, TextDelimiters } from '#parser/Tokenizer.ts';
+import type Context from '#nodes/Context.ts';
+import ConceptLink, {
+    CharacterName,
+    CodepointName,
+} from '#nodes/ConceptLink.ts';
+import Example from '#nodes/Example.ts';
+import type Expression from '#nodes/Expression.ts';
+import Language from '#nodes/Language.ts';
+import { LanguageTagged } from '#nodes/LanguageTagged.ts';
 import {
     list,
     node,
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
+} from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 

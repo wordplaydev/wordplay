@@ -1,11 +1,11 @@
-import { Languages } from '@locale/LanguageCode';
+import { Languages } from '#locale/LanguageCode.ts';
 import {
     getPluralCategories,
     getPluralCount,
     getPluralExamples,
     PluralCategories,
     selectPluralIndex,
-} from '@locale/plurals';
+} from '#locale/plurals.ts';
 import { expect, test } from 'vitest';
 
 test('categories come back in canonical order, not alphabetical', () => {

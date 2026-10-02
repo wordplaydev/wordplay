@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
-import { CLDR_VERSION } from '@util/verify-locales/cldr';
-import { parseUnicodeSet } from '@util/verify-locales/generateExemplars';
+import { CLDR_VERSION } from '#util/verify-locales/cldr.ts';
+import { parseUnicodeSet } from '#util/verify-locales/generateExemplars.ts';
 
 test('parseUnicodeSet parses the shapes CLDR exemplar sets use', () => {
     // English main: simple space-separated members.

@@ -12,12 +12,12 @@
  * `AnimationEvent` is built at all; sharing the registry would make it
  * permanently true and charge every stage for cues nobody asked for.
  *
- * Deliberately free of `@db` and of Web Audio, and type-only in what it imports
+ * Deliberately free of `#db` and of Web Audio, and type-only in what it imports
  * from the animation layer, so nothing here closes a runtime import cycle.
  */
 
-import type { OutputName } from '@output/animation/Animator';
-import type { PoseStrike } from '@output/animation/poseMusic';
+import type { OutputName } from '#output/animation/Animator.ts';
+import type { PoseStrike } from '#output/animation/poseMusic.ts';
 
 /** One animation's music, as it starts. */
 export type PoseMusicEvent = {

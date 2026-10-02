@@ -3,22 +3,22 @@
         getAnnouncer,
         getProject,
         getSelectedOutput,
-    } from '@components/project/Contexts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { SnapIncrement } from '@components/output/snap';
-    import { locales } from '@db/Database';
-    import { Projects } from '@db/projects/Projects';
+    } from '#components/project/Contexts.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { SnapIncrement } from '#components/output/snap.ts';
+    import { locales } from '#db/Database.ts';
+    import { Projects } from '#db/projects/Projects.ts';
     import {
         getPathPoints,
         withInsertedPathPoint,
         withMovedPathPoint,
         withoutPathPoint,
-    } from '@edit/output/editShape';
-    import Evaluate from '@nodes/Evaluate';
-    import type { Path } from '@output/Output/Shape/Path';
-    import { PX_PER_METER } from '@output/Output/outputToCSS';
+    } from '#edit/output/editShape.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import type { Path } from '#output/Output/Shape/Path.ts';
+    import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
     import { tick } from 'svelte';
-    import { must } from '@util/nullable';
+    import { must } from '#util/nullable.ts';
 
     interface Props {
         /** The Shape's creator, whose `form` input holds the path being edited. */

@@ -11,11 +11,11 @@
  * decide before pressing play.
  */
 
-import type { MusicData, TrackData } from '@output/Music/musicData';
-import { trackLength } from '@output/Music/musicData';
-import { degreeToSemitones } from '@output/Music/degrees';
-import { MinFlashHz } from '@output/PhotosensitivityAnalysis';
-import { isPitched } from '@output/Music/synthesis';
+import type { MusicData, TrackData } from '#output/Music/musicData.ts';
+import { trackLength } from '#output/Music/musicData.ts';
+import { degreeToSemitones } from '#output/Music/degrees.ts';
+import { MinFlashHz } from '#output/PhotosensitivityAnalysis.ts';
+import { isPitched } from '#output/Music/synthesis.ts';
 
 export const MusicRisks = [
     'startle',

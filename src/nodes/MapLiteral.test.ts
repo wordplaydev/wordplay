@@ -1,8 +1,8 @@
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import { NotAKeyValue } from '@conflicts/NotAKeyValue';
-import { testConflict } from '@conflicts/TestUtilities';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import { NotAKeyValue } from '#conflicts/NotAKeyValue.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { test } from 'vitest';
-import MapLiteral from '@nodes/MapLiteral';
+import MapLiteral from '#nodes/MapLiteral.ts';
 
 test.each([['{1:1 2:2 3:3}', '{1:1 2 3:3}', MapLiteral, NotAKeyValue]])(
     '%s => no conflict, %s => conflict',

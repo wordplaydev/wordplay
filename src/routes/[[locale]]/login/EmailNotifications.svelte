@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Nested from '@components/app/Nested.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import { mayUseEmail } from '@db/creators/handle.svelte';
-    import { emailNotifications, Settings } from '@db/Database';
-    import { wants } from '@db/settings/EmailNotificationsSetting';
+    import Nested from '#components/app/Nested.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import { Creator } from '#db/creators/CreatorDatabase.ts';
+    import { mayUseEmail } from '#db/creators/handle.svelte.ts';
+    import { emailNotifications, Settings } from '#db/Database.ts';
+    import { wants } from '#db/settings/EmailNotificationsSetting.ts';
     import type { EmailNotificationSettings } from 'shared-types';
     import type { User } from 'firebase/auth';
 

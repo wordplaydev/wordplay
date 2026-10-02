@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import TableType from '@nodes/TableType';
-import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
-import type ExceptionValue from '@values/ExceptionValue';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import SimpleValue from '@values/SimpleValue';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import TableType from '#nodes/TableType.ts';
+import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '#parser/Symbols.ts';
+import type ExceptionValue from '#values/ExceptionValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import SimpleValue from '#values/SimpleValue.ts';
 
 export default class TableValue extends SimpleValue {
     readonly type: TableType;

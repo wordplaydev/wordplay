@@ -1,5 +1,5 @@
-import type Context from '@nodes/Context';
-import type Type from '@nodes/Type';
+import type Context from '#nodes/Context.ts';
+import type Type from '#nodes/Type.ts';
 
 /**
  * Utility class for reasoning about sets of types. Guarantees that any given pair of types in the set

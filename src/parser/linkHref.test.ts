@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import linkHref from '@parser/linkHref';
+import linkHref from '#parser/linkHref.ts';
 
 describe('linkHref', () => {
     test('an ordinary web address is left alone', () => {

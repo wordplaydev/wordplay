@@ -3,8 +3,8 @@
         characterToSVG,
         unknownCharacterSVG,
         type Character,
-    } from '@db/characters/Character';
-    import { CharactersDB } from '@db/Database';
+    } from '#db/characters/Character.ts';
+    import { CharactersDB } from '#db/Database.ts';
 
     const { character }: { character: string | null } = $props();
 

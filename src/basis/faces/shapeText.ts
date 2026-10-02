@@ -1,6 +1,6 @@
 import type { PathCommand } from 'fontkit';
-import { asPathOp } from '@input/pathCommands';
-import { hasColorCombo, hasEmoji } from '@unicode/emoji';
+import { asPathOp } from '#input/pathCommands.ts';
+import { hasColorCombo, hasEmoji } from '#unicode/emoji.ts';
 import {
     Faces,
     getContourFont,

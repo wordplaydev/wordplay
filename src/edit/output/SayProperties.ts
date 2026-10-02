@@ -1,10 +1,10 @@
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import OutputProperty from '@edit/output/OutputProperty';
-import OutputPropertyText from '@edit/output/OutputPropertyText';
-import FormattedLiteral from '@nodes/FormattedLiteral';
-import Language from '@nodes/Language';
-import TextLiteral from '@nodes/TextLiteral';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import OutputProperty from '#edit/output/OutputProperty.ts';
+import OutputPropertyText from '#edit/output/OutputPropertyText.ts';
+import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+import Language from '#nodes/Language.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
 
 /**
  * A `Say` has exactly one input, the text it speaks — no size, place, or pose,

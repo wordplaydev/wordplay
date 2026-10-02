@@ -24,23 +24,23 @@
  * would read in the wrong language.
  */
 
-import { parseAsMultilingualName } from '@db/projects/getLocalizedProjectName';
-import type { SerializedProject } from '@db/projects/ProjectSchemas';
+import { parseAsMultilingualName } from '#db/projects/getLocalizedProjectName.ts';
+import type { SerializedProject } from '#db/projects/ProjectSchemas.ts';
 import {
     endOfNode,
     startOfNode,
     withoutMarkupContents,
-} from '@db/projects/structuralPairing';
-import Doc from '@nodes/Doc';
-import Docs from '@nodes/Docs';
-import FormattedLiteral from '@nodes/FormattedLiteral';
-import type FormattedTranslation from '@nodes/FormattedTranslation';
-import Names from '@nodes/Names';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import TextLiteral from '@nodes/TextLiteral';
-import type Translation from '@nodes/Translation';
-import { must } from '@util/nullable';
+} from '#db/projects/structuralPairing.ts';
+import Doc from '#nodes/Doc.ts';
+import Docs from '#nodes/Docs.ts';
+import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+import type FormattedTranslation from '#nodes/FormattedTranslation.ts';
+import Names from '#nodes/Names.ts';
+import type Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import type Translation from '#nodes/Translation.ts';
+import { must } from '#util/nullable.ts';
 
 /** One input to a composite: a locale code and the example parsed from its
  *  `.wp` file (the en-US master counts as the `en-US` input). */

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type Delete from '@nodes/Delete';
+    import type Delete from '#nodes/Delete.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Delete;

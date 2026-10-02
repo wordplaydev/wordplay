@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type TextType from '@nodes/TextType';
+    import type TextType from '#nodes/TextType.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: TextType;

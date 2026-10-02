@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
+import evaluateCode from '#runtime/evaluate.ts';
+import Project from '#db/projects/Project.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 
 test.each([
     ['[1 2 3 :[4 5 6]]', '[1 2 3 4 5 6]'],

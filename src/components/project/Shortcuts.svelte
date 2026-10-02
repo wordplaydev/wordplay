@@ -1,16 +1,16 @@
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import Commands, {
         Category,
         type Command,
-    } from '@components/editor/commands/Commands';
-    import { MarkupOnlyCommands } from '@components/editor/markup/MarkupCommands';
-    import CommandDescription from '@components/project/CommandDescription.svelte';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import Button from '@components/widgets/Button.svelte';
-    import { DB, keybindings, locales } from '@db/Database';
-    import { getAnnouncer } from '@components/project/Contexts';
+    } from '#components/editor/commands/Commands.ts';
+    import { MarkupOnlyCommands } from '#components/editor/markup/MarkupCommands.ts';
+    import CommandDescription from '#components/project/CommandDescription.svelte';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import { DB, keybindings, locales } from '#db/Database.ts';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
 
     /**
      * The sections, in the order they're shown. `Category.Fallback` is

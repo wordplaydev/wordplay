@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-    import getTextMetrics from '@output/Output/getTextMetrics';
+    import getTextMetrics from '#output/Output/getTextMetrics.ts';
     import {
         getColorCSS,
         getFaceCSS,
@@ -14,29 +14,29 @@
         getSizeCSS,
         PX_PER_METER,
         toOutputTransform,
-    } from '@output/Output/outputToCSS';
-    import type Place from '@output/Place/Place';
-    import type RenderContext from '@output/RenderContext';
+    } from '#output/Output/outputToCSS.ts';
+    import type Place from '#output/Place/Place.ts';
+    import type RenderContext from '#output/RenderContext.ts';
     import { untrack } from 'svelte';
-    import { DB, locales } from '@db/Database';
-    import { Circle } from '@output/Output/Shape/Circle';
-    import { Path } from '@output/Output/Shape/Path';
-    import { Polygon } from '@output/Output/Shape/Polygon';
-    import { Rectangle } from '@output/Output/Shape/Rectangle';
-    import type Shape from '@output/Output/Shape/Shape';
-    import Evaluate from '@nodes/Evaluate';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { pickReadableName } from '@locale/getConceptName';
-    import OutputHandles from '@components/output/OutputHandles.svelte';
-    import PathHandles from '@components/output/PathHandles.svelte';
-    import moveOutputWithKey from '@components/output/keyboardMove';
+    import { DB, locales } from '#db/Database.ts';
+    import { Circle } from '#output/Output/Shape/Circle.ts';
+    import { Path } from '#output/Output/Shape/Path.ts';
+    import { Polygon } from '#output/Output/Shape/Polygon.ts';
+    import { Rectangle } from '#output/Output/Shape/Rectangle.ts';
+    import type Shape from '#output/Output/Shape/Shape.ts';
+    import Evaluate from '#nodes/Evaluate.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { pickReadableName } from '#locale/getConceptName.ts';
+    import OutputHandles from '#components/output/OutputHandles.svelte';
+    import PathHandles from '#components/output/PathHandles.svelte';
+    import moveOutputWithKey from '#components/output/keyboardMove.ts';
     import {
         getAnnouncer,
         getProject,
         getSelectedOutput,
         getStageGrid,
         getStageScene,
-    } from '@components/project/Contexts';
+    } from '#components/project/Contexts.ts';
 
     interface Props {
         shape: Shape;

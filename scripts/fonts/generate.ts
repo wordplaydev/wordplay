@@ -14,7 +14,7 @@ import { emitFontsCss, emitFontsFallbackCss } from './stylesheets';
 import { fontsVersion, withFontsVersion } from './version';
 import { writeRenderableGenerated } from './renderableSet';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 /** Scripts present in the glyph data with no released Noto font. Captured from
  * the manifest's coverage; the coverage-partition test keeps it honest. */
@@ -161,7 +161,7 @@ export function emitFallbackGenerated(lock: Lockfile): string {
  * in faces.generated.ts); these unicode-ranges duplicate fonts-fallback.css and
  * exist only so the font tests can verify file existence + range coverage.
  */
-import type { Script } from '@locale/Scripts';
+import type { Script } from '#locale/Scripts.ts';
 
 export type FallbackFace = {
     readonly name: string;

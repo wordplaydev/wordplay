@@ -13,7 +13,7 @@ import { buildFaces, buildFallback, facesRanges } from './faces';
 import { buildMetrics, readMetrics } from './metrics';
 import { computeFallbackRanges } from './stylesheets';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * Drift detection, shared by `npm run fonts` (CLI) and the vitest drift test.

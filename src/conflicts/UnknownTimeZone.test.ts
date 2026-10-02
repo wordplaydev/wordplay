@@ -1,12 +1,12 @@
 import { expect, test } from 'vitest';
-import { testConflict } from '@conflicts/TestUtilities';
-import UnknownTimeZone from '@conflicts/UnknownTimeZone';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Evaluate from '@nodes/Evaluate';
-import Source from '@nodes/Source';
-import { must } from '@util/nullable';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import UnknownTimeZone from '#conflicts/UnknownTimeZone.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Source from '#nodes/Source.ts';
+import { must } from '#util/nullable.ts';
 
 test.each([
     // Valid zones pass; literal typos and city names conflict.

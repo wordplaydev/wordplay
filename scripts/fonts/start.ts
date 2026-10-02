@@ -11,7 +11,7 @@ import {
 } from './verify';
 import { spaceless } from './files';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * Font tooling dispatcher, mirroring the locales verify/fix pattern:

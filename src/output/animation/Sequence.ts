@@ -1,32 +1,32 @@
-import { getBind } from '@locale/getBind';
-import { FUNCTION_SYMBOL, SHARE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+import { getBind } from '#locale/getBind.ts';
+import { FUNCTION_SYMBOL, SHARE_SYMBOL, TYPE_SYMBOL } from '#parser/Symbols.ts';
 import {
     animationBody,
     Animations,
     reference,
     type AnimationKey,
-} from '@output/animation/DefaultSequences';
-import type Context from '@nodes/Context';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Block from '@nodes/Block';
-import Evaluate from '@nodes/Evaluate';
-import type Node from '@nodes/Node';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import toStructure from '@basis/toStructure';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import MapValue from '@values/MapValue';
-import TextValue from '@values/TextValue';
-import type { TransitionSequence } from '@output/animation/OutputAnimation';
-import type Place from '@output/Place/Place';
-import type Pose from '@output/animation/Pose';
-import { toPose } from '@output/animation/Pose';
-import { toDecimal } from '@output/Output/Stage';
-import Transition from '@output/animation/Transition';
-import Valued, { getOutputInputs } from '@output/Output/Valued';
-import { must } from '@util/nullable';
+} from '#output/animation/DefaultSequences.ts';
+import type Context from '#nodes/Context.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Block from '#nodes/Block.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import type Node from '#nodes/Node.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import MapValue from '#values/MapValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type { TransitionSequence } from '#output/animation/OutputAnimation.ts';
+import type Place from '#output/Place/Place.ts';
+import type Pose from '#output/animation/Pose.ts';
+import { toPose } from '#output/animation/Pose.ts';
+import { toDecimal } from '#output/Output/Stage.ts';
+import Transition from '#output/animation/Transition.ts';
+import Valued, { getOutputInputs } from '#output/Output/Valued.ts';
+import { must } from '#util/nullable.ts';
 
 const MaxCount = 5;
 

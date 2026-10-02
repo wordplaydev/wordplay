@@ -1,13 +1,13 @@
 <script lang="ts">
-    import type Match from '@nodes/Match';
-    import Flow from '@components/editor/blocks/Flow.svelte';
-    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import type Match from '#nodes/Match.ts';
+    import Flow from '#components/editor/blocks/Flow.svelte';
+    import NodeSequenceView from '#components/editor/nodes/NodeSequenceView.svelte';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
-    import { isFoldableNode } from '@components/editor/util/folding';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
-    import FoldEllipsis from '@components/editor/util/FoldEllipsis.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
+    import { isFoldableNode } from '#components/editor/util/folding.ts';
+    import FoldToggle from '#components/editor/util/FoldToggle.svelte';
+    import FoldEllipsis from '#components/editor/util/FoldEllipsis.svelte';
 
     interface Props {
         node: Match;

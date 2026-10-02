@@ -1,6 +1,6 @@
-import type { SerializedLayout } from '@components/project/Layout';
-import { TileKind } from '@components/project/TileKind';
-import Setting from '@db/settings/Setting';
+import type { SerializedLayout } from '#components/project/Layout.ts';
+import { TileKind } from '#components/project/TileKind.ts';
+import Setting from '#db/settings/Setting.ts';
 import { z } from 'zod';
 
 const BoundsSchema = z.object({

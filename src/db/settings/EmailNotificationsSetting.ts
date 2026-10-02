@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 import type { EmailNotificationSettings } from 'shared-types';
 
 /**

@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { Sym } from '@nodes/Sym';
-    import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
-    import type SetValue from '@values/SetValue';
-    import Expandable from '@components/values/Expandable.svelte';
-    import { fitCount } from '@components/values/fit';
-    import { must } from '@util/nullable';
-    import SymbolView from '@components/values/SymbolView.svelte';
-    import ValueView from '@components/values/ValueView.svelte';
+    import { Sym } from '#nodes/Sym.ts';
+    import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '#parser/Symbols.ts';
+    import type SetValue from '#values/SetValue.ts';
+    import Expandable from '#components/values/Expandable.svelte';
+    import { fitCount } from '#components/values/fit.ts';
+    import { must } from '#util/nullable.ts';
+    import SymbolView from '#components/values/SymbolView.svelte';
+    import ValueView from '#components/values/ValueView.svelte';
 
     interface Props {
         value: SetValue;

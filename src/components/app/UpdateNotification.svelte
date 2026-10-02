@@ -1,14 +1,14 @@
 <script lang="ts">
     import { updated } from '$app/state';
-    import Banner from '@components/app/Banner.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Button from '@components/widgets/Button.svelte';
+    import Banner from '#components/app/Banner.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Button from '#components/widgets/Button.svelte';
 
     // SvelteKit's `updated.current` flips to true once it detects (via the
-    // version poll configured in svelte.config.js, or on navigation) that the
-    // deployed app version differs from the one this tab is running. Allow the
-    // user to dismiss it for this session; it reappears if a newer version is
-    // detected after a reload.
+    // version poll configured in vite.config.js, on navigation, or when the
+    // window regains focus) that the deployed app version differs from the one
+    // this tab is running. Allow the user to dismiss it for this session; it
+    // reappears if a newer version is detected after a reload.
     let dismissed = $state(false);
 </script>
 

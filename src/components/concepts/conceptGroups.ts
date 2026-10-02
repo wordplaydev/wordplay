@@ -1,31 +1,31 @@
-import type Concept from '@concepts/Concept';
-import type ConceptIndex from '@concepts/ConceptIndex';
-import ConversionConcept from '@concepts/ConversionConcept';
-import FunctionConcept from '@concepts/FunctionConcept';
-import NodeConcept from '@concepts/NodeConcept';
-import { Purpose, type PurposeType } from '@concepts/Purpose';
-import StructureConcept from '@concepts/StructureConcept';
-import { Projects } from '@db/projects/Projects';
+import type Concept from '#concepts/Concept.ts';
+import type ConceptIndex from '#concepts/ConceptIndex.ts';
+import ConversionConcept from '#concepts/ConversionConcept.ts';
+import FunctionConcept from '#concepts/FunctionConcept.ts';
+import NodeConcept from '#concepts/NodeConcept.ts';
+import { Purpose, type PurposeType } from '#concepts/Purpose.ts';
+import StructureConcept from '#concepts/StructureConcept.ts';
+import { Projects } from '#db/projects/Projects.ts';
 import {
     getSiblingRange,
     rangeIsRemovable,
     withoutRun,
-} from '@edit/caret/siblingRange';
-import type Project from '@db/projects/Project';
-import type LanguageCode from '@locale/LanguageCode';
+} from '#edit/caret/siblingRange.ts';
+import type Project from '#db/projects/Project.ts';
+import type LanguageCode from '#locale/LanguageCode.ts';
 import {
     getLanguageQuoteClose,
     getLanguageQuoteOpen,
-} from '@locale/LanguageCode';
-import type LocaleText from '@locale/LocaleText';
-import type { HeaderAndExplanationText } from '@locale/UITexts';
-import CompositeLiteral from '@nodes/CompositeLiteral';
-import Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Literal from '@nodes/Literal';
-import type Node from '@nodes/Node';
-import PatternType from '@nodes/PatternType';
-import Source from '@nodes/Source';
+} from '#locale/LanguageCode.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { HeaderAndExplanationText } from '#locale/UITexts.ts';
+import CompositeLiteral from '#nodes/CompositeLiteral.ts';
+import Expression from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import Literal from '#nodes/Literal.ts';
+import type Node from '#nodes/Node.ts';
+import PatternType from '#nodes/PatternType.ts';
+import Source from '#nodes/Source.ts';
 import {
     BIND_SYMBOL,
     BORROW_SYMBOL,
@@ -41,7 +41,7 @@ import {
     TABLE_OPEN_SYMBOL,
     TRUE_SYMBOL,
     TYPE_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 
 /**
  * A purpose page (e.g. Outputs) is rendered as an ordered list of labeled

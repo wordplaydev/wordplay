@@ -1,9 +1,9 @@
-import Node, { ListOf } from '@nodes/Node';
-import Program from '@nodes/Program';
-import type Root from '@nodes/Root';
-import type Source from '@nodes/Source';
-import type Spaces from '@parser/Spaces';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
+import Node, { ListOf } from '#nodes/Node.ts';
+import Program from '#nodes/Program.ts';
+import type Root from '#nodes/Root.ts';
+import type Source from '#nodes/Source.ts';
+import type Spaces from '#parser/Spaces.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
 
 /**
  * A contiguous run of sibling nodes: two or more adjacent elements of one

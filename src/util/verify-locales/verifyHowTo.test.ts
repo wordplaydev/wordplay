@@ -1,32 +1,32 @@
-import { HowToIDs } from '@concepts/HowTo';
-import getDocExamples from '@util/verify-locales/docExamples';
-import analyzeCode from '@util/verify-locales/analyzeCode';
-import DefaultLocale from '@locale/DefaultLocale';
+import { HowToIDs } from '#concepts/HowTo.ts';
+import getDocExamples from '#util/verify-locales/docExamples.ts';
+import analyzeCode from '#util/verify-locales/analyzeCode.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import {
     bundleEntryToHowTo,
     howToToString,
     parseHowTo,
     type HowToBundleEntry,
-} from '@concepts/HowTo';
-import { MachineTranslated } from '@locale/Annotations';
-import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
+} from '#concepts/HowTo.ts';
+import { MachineTranslated } from '#locale/Annotations.ts';
+import { isMachineTranslated, isUnwritten } from '#locale/LocaleText.ts';
 import {
     howToNeedsTranslation,
     localizedExampleIsSound,
     padLike,
-} from '@util/verify-locales/verifyHowTo';
-import Example from '@nodes/Example';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import parseDoc from '@parser/parseDoc';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import { toMarkup } from '@parser/toMarkup';
-import { toTokens } from '@parser/toTokens';
-import { withoutColorSelector } from '@unicode/emoji';
+} from '#util/verify-locales/verifyHowTo.ts';
+import Example from '#nodes/Example.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import parseDoc from '#parser/parseDoc.ts';
+import { DOCS_SYMBOL } from '#parser/Symbols.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import { withoutColorSelector } from '#unicode/emoji.ts';
 import fs from 'fs';
 import path from 'path';
 import { describe, expect, it } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 // Test the helper functions and logic that can be unit tested
 describe('verifyHowTo helpers', () => {

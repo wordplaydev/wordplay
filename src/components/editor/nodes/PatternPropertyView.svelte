@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternProperty from '@nodes/PatternProperty';
+    import type PatternProperty from '#nodes/PatternProperty.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** A Unicode property refinement (`/name` or `/name=value`). */
     interface Props {

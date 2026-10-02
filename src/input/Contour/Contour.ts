@@ -1,46 +1,46 @@
 import type { PathCommand } from 'fontkit';
-import { first, must } from '@util/nullable';
-import { SupportedFontsFamiliesType } from '@basis/faces/Fonts';
+import { first, must } from '#util/nullable.ts';
+import { SupportedFontsFamiliesType } from '#basis/faces/Fonts.ts';
 import {
     flattenGlyphLoops,
     shapeTextGlyphs,
     type OutlinePoint,
     type ShapeTextError,
-} from '@basis/faces/shapeText';
-import { createInputs } from '@locale/createInputs';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import BooleanType from '@nodes/BooleanType';
-import ListType from '@nodes/ListType';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NoneType from '@nodes/NoneType';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NumberType from '@nodes/NumberType';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StreamType from '@nodes/StreamType';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import StructureType from '@nodes/StructureType';
-import TextLiteral from '@nodes/TextLiteral';
-import TextType from '@nodes/TextType';
-import UnionType from '@nodes/UnionType';
-import Unit from '@nodes/Unit';
-import parseType from '@parser/parseType';
-import { toTokens } from '@parser/toTokens';
-import Place, { createPlaceStructure, toPlace } from '@output/Place/Place';
-import type Evaluation from '@runtime/Evaluation';
-import BoolValue from '@values/BoolValue';
-import type ExceptionValue from '@values/ExceptionValue';
-import ListValue from '@values/ListValue';
-import MessageException from '@values/MessageException';
-import NumberValue from '@values/NumberValue';
-import StreamValue from '@values/StreamValue';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import createStreamEvaluator from '@input/createStreamEvaluator';
-import type { StreamKind } from '@values/StreamValue';
+} from '#basis/faces/shapeText.ts';
+import { createInputs } from '#locale/createInputs.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import ListType from '#nodes/ListType.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import NumberType from '#nodes/NumberType.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StreamType from '#nodes/StreamType.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import StructureType from '#nodes/StructureType.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import TextType from '#nodes/TextType.ts';
+import UnionType from '#nodes/UnionType.ts';
+import Unit from '#nodes/Unit.ts';
+import parseType from '#parser/parseType.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import Place, { createPlaceStructure, toPlace } from '#output/Place/Place.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import BoolValue from '#values/BoolValue.ts';
+import type ExceptionValue from '#values/ExceptionValue.ts';
+import ListValue from '#values/ListValue.ts';
+import MessageException from '#values/MessageException.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StreamValue from '#values/StreamValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
+import type { StreamKind } from '#values/StreamValue.ts';
 
 /** A single sampled outline point, in meters, in Wordplay's y-up world space. */
 export type ContourPoint = OutlinePoint;

@@ -1,6 +1,6 @@
 /**
  * Wordplay's AST base class `Node` shares its name with the DOM `Node`
- * interface, so a file that forgets `import Node from '@nodes/Node'` silently
+ * interface, so a file that forgets `import Node from '#nodes/Node.ts'` silently
  * type-checks against the DOM type and produces baffling errors like
  * "Type 'Node' is not assignable to type 'Node'" (#816). This convention test
  * fails any source file that references `Node` without binding it locally,
@@ -12,7 +12,7 @@
 
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
-import type Node from '@nodes/Node';
+import type Node from '#nodes/Node.ts';
 import ts from 'typescript';
 import { expect, test } from 'vitest';
 
@@ -150,7 +150,7 @@ test('Every use of `Node` binds it, so it cannot silently mean the DOM Node', ()
         .sort();
     expect(
         offenders,
-        "These files use `Node` without binding it, so TypeScript resolves it to the DOM's Node interface and produces confusing type errors (#816). Add `import Node from '@nodes/Node';` (or `import type Node from '@nodes/Node';`) — or, if the file genuinely means the DOM Node, add it to this test's exemption list with a comment saying why.",
+        "These files use `Node` without binding it, so TypeScript resolves it to the DOM's Node interface and produces confusing type errors (#816). Add `import Node from '#nodes/Node.ts';` (or `import type Node from '#nodes/Node.ts';`) — or, if the file genuinely means the DOM Node, add it to this test's exemption list with a comment saying why.",
     ).toEqual([]);
 });
 
@@ -174,6 +174,6 @@ test('Exempt files still use the DOM `Node` without binding a Wordplay one', () 
 test('Wordplay Node declares the DOM-collision signpost', () => {
     // If Node.ts's phantom member is removed, this assignment fails `npm run check:now`; vitest strips types, so the runtime assertion is a formality.
     const hint: keyof Node =
-        "🛑 This is a Wordplay AST node — a bare `Node` type is the DOM's; import Node from '@nodes/Node'";
+        "🛑 This is a Wordplay AST node — a bare `Node` type is the DOM's; import Node from '#nodes/Node.ts'";
     expect(hint.length).toBeGreaterThan(0);
 });

@@ -1,8 +1,8 @@
-import { type ExtractedPreview } from '@components/app/previewTypes';
+import { type ExtractedPreview } from '#components/app/previewTypes.ts';
 export {
     UncomputablePreview,
     type ExtractedPreview,
-} from '@components/app/previewTypes';
+} from '#components/app/previewTypes.ts';
 /**
  * Pure extractor: given an Evaluator and the project's top-level value,
  * return a {@link SerializedPreview}-shaped payload (sans `mode`) that
@@ -17,17 +17,17 @@ export {
  * lifted so neither preview component constructs an evaluator of its own.
  */
 
-import type Locales from '@locale/Locales';
-import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-import { EXCEPTION_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import UnicodeString from '@unicode/UnicodeString';
-import { getColorCSS, getFaceCSS } from '@output/Output/outputToCSS';
-import { toStage } from '@output/Output/Stage';
-import type Value from '@values/Value';
-import ExceptionValue from '@values/ExceptionValue';
-import MarkupValue from '@values/MarkupValue';
-import StructureValue from '@values/StructureValue';
+import type Locales from '#locale/Locales.ts';
+import ConceptLink, { CharacterName } from '#nodes/ConceptLink.ts';
+import { EXCEPTION_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import { getColorCSS, getFaceCSS } from '#output/Output/outputToCSS.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import type Value from '#values/Value.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import MarkupValue from '#values/MarkupValue.ts';
+import StructureValue from '#values/StructureValue.ts';
 
 function findCharacterName(value: Value): string | null {
     if (value instanceof MarkupValue) {

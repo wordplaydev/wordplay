@@ -1,7 +1,7 @@
 import type { Preamble } from '../../examples/preamble';
 import { serializeExample } from '../../examples/serializeExample';
-import UnicodeString from '@unicode/UnicodeString';
-import type { ZipEntry } from '@util/zip';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import type { ZipEntry } from '#util/zip.ts';
 import type {
     AccountSnapshot,
     CollectionStep,

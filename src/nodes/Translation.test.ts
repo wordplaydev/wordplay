@@ -1,6 +1,6 @@
-import { testConflict } from '@conflicts/TestUtilities';
-import { CharacterWarning } from '@conflicts/CharacterWarning';
-import Translation from '@nodes/Translation';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import { CharacterWarning } from '#conflicts/CharacterWarning.ts';
+import Translation from '#nodes/Translation.ts';
 import { test } from 'vitest';
 
 // One case per conflict this node raises, so a conflict reachable from several

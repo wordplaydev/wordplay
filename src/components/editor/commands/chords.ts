@@ -1,4 +1,7 @@
-import { NamedKeys, type Command } from '@components/editor/commands/Commands';
+import {
+    NamedKeys,
+    type Command,
+} from '#components/editor/commands/Commands.ts';
 
 /**
  * The conventions every command table is held to, exported so the markup

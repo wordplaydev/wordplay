@@ -1,15 +1,15 @@
-import type { BasisTypeName } from '@basis/BasisConstants';
-import { Purpose } from '@concepts/Purpose';
-import type LocaleText from '@locale/LocaleText';
-import type Locales from '@locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import type Node from '@nodes/Node';
-import type Source from '@nodes/Source';
-import Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import type Spaces from '@parser/Spaces';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type Locales from '#locale/Locales.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import type Node from '#nodes/Node.ts';
+import type Source from '#nodes/Source.ts';
+import Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import type Spaces from '#parser/Spaces.ts';
 import Characters from '../lore/BasisCharacters';
 
 /**

@@ -1,14 +1,14 @@
-import Project from '@db/projects/Project';
-import OutputExpression from '@edit/output/OutputExpression';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import Evaluate from '@nodes/Evaluate';
-import getInputShorthand from '@nodes/inputShorthand';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
-import evaluateCode from '@runtime/evaluate';
+import Project from '#db/projects/Project.ts';
+import OutputExpression from '#edit/output/OutputExpression.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import getInputShorthand from '#nodes/inputShorthand.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
+import evaluateCode from '#runtime/evaluate.ts';
 import { expect, test } from 'vitest';
 
 /** The evaluate of the named function, and a context for it. `Source.nodes()` is not

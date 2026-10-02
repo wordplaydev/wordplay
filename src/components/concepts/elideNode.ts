@@ -1,9 +1,9 @@
-import type Locales from '@locale/Locales';
-import type Markup from '@nodes/Markup';
-import type Node from '@nodes/Node';
-import type Type from '@nodes/Type';
-import UnionType from '@nodes/UnionType';
-import { must } from '@util/nullable';
+import type Locales from '#locale/Locales.ts';
+import type Markup from '#nodes/Markup.ts';
+import type Node from '#nodes/Node.ts';
+import type Type from '#nodes/Type.ts';
+import UnionType from '#nodes/UnionType.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * A truncated form of a Node plus a localized phrase to render after it

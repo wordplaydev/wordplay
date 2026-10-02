@@ -1,26 +1,26 @@
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { TEXT_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '@basis/BasisConstants';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { TEXT_SYMBOL } from '#parser/Symbols.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import { Emotion } from '../lore/Emotion';
-import BasisType from '@nodes/BasisType';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Context from '@nodes/Context';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
+import BasisType from '#nodes/BasisType.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type Context from '#nodes/Context.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
 import {
     concreteLanguageOf,
     type LanguageDeriver,
-} from '@nodes/DerivedLanguage';
-import Evaluate from '@nodes/Evaluate';
-import Language from '@nodes/Language';
-import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import TextLiteral from '@nodes/TextLiteral';
-import Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import UnionType from '@nodes/UnionType';
+} from '#nodes/DerivedLanguage.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Language from '#nodes/Language.ts';
+import { node, optional, type Grammar, type Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
+import Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import UnionType from '#nodes/UnionType.ts';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends BasisType {

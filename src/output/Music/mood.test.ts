@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest';
-import type { InstrumentActivity } from '@output/Music/activity';
-import type { MusicData, TrackData } from '@output/Music/musicData';
-import { Scales } from '@output/Music/scales';
-import { analyzeMusic } from '@output/MusicSafetyAnalysis';
+import type { InstrumentActivity } from '#output/Music/activity.ts';
+import type { MusicData, TrackData } from '#output/Music/musicData.ts';
+import { Scales } from '#output/Music/scales.ts';
+import { analyzeMusic } from '#output/MusicSafetyAnalysis.ts';
 import {
     advance,
     analyzeMood,
@@ -31,7 +31,7 @@ import {
     scaleValence,
     strike,
     summarize,
-} from '@output/Music/mood';
+} from '#output/Music/mood.ts';
 
 /* ---------------------------------------------------------------- *
  * Builders

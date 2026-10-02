@@ -1,18 +1,18 @@
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import Block, { BlockKind } from '@nodes/Block';
-import StructureDefinition from '@nodes/StructureDefinition';
-import type Evaluation from '@runtime/Evaluation';
-import BoolValue from '@values/BoolValue';
-import type Locales from '@locale/Locales';
-import AnyType from '@nodes/AnyType';
-import BooleanType from '@nodes/BooleanType';
-import type Expression from '@nodes/Expression';
-import TextType from '@nodes/TextType';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import Value from '@values/Value';
-import { createBasisConversion, createBasisFunction } from '@basis/Basis';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import BoolValue from '#values/BoolValue.ts';
+import type Locales from '#locale/Locales.ts';
+import AnyType from '#nodes/AnyType.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import type Expression from '#nodes/Expression.ts';
+import TextType from '#nodes/TextType.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import Value from '#values/Value.ts';
+import { createBasisConversion, createBasisFunction } from '#basis/Basis.ts';
 
 export default function bootstrapStructure(locales: Locales) {
     return StructureDefinition.make(

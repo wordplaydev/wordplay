@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { animationFactor } from '@db/Database';
-    import type Music from '@output/Music/Music';
-    import { musicActivity } from '@output/Music/activity';
-    import { spectrumBands } from '@output/Music/lightshow';
-    import audio from '@output/Music/MusicAudio';
-    import { signatureOf } from '@output/Music/musicData';
+    import { animationFactor } from '#db/Database.ts';
+    import type Music from '#output/Music/Music.ts';
+    import { musicActivity } from '#output/Music/activity.ts';
+    import { spectrumBands } from '#output/Music/lightshow.ts';
+    import audio from '#output/Music/MusicAudio.ts';
+    import { signatureOf } from '#output/Music/musicData.ts';
     import {
         advance,
         analyzeMood,
@@ -23,7 +23,7 @@
         summarize,
         type Mood,
         type Pulse,
-    } from '@output/Music/mood';
+    } from '#output/Music/mood.ts';
     import { onDestroy } from 'svelte';
 
     interface Props {

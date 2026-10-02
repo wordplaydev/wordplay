@@ -1,17 +1,17 @@
-import { createBasisConversion } from '@basis/Basis';
-import { entriesOf, keysOf } from '@util/nullable';
-import { getTemplatedDocLocales } from '@locale/getDocLocales';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import selectTranslation from '@locale/selectTranslation';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type Docs from '@nodes/Docs';
-import type ConversionDefinition from '@nodes/ConversionDefinition';
-import type Expression from '@nodes/Expression';
-import NumberType from '@nodes/NumberType';
-import Unit from '@nodes/Unit';
-import NumberValue from '@values/NumberValue';
-import type Value from '@values/Value';
+import { createBasisConversion } from '#basis/Basis.ts';
+import { entriesOf, keysOf } from '#util/nullable.ts';
+import { getTemplatedDocLocales } from '#locale/getDocLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import selectTranslation from '#locale/selectTranslation.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import type Docs from '#nodes/Docs.ts';
+import type ConversionDefinition from '#nodes/ConversionDefinition.ts';
+import type Expression from '#nodes/Expression.ts';
+import NumberType from '#nodes/NumberType.ts';
+import Unit from '#nodes/Unit.ts';
+import NumberValue from '#values/NumberValue.ts';
+import type Value from '#values/Value.ts';
 import Decimal from 'decimal.js';
 
 /**

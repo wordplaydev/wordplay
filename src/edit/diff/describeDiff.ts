@@ -1,7 +1,7 @@
-import type Caret from '@edit/caret/Caret';
-import type { SourceDiff } from '@edit/diff/sourceDiff';
-import type Locales from '@locale/Locales';
-import type Node from '@nodes/Node';
+import type Caret from '#edit/caret/Caret.ts';
+import type { SourceDiff } from '#edit/diff/sourceDiff.ts';
+import type Locales from '#locale/Locales.ts';
+import type Node from '#nodes/Node.ts';
 
 /**
  * What the caret has landed on, for the editor's caret announcement (#633).

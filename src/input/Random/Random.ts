@@ -1,15 +1,15 @@
-import NoneLiteral from '@nodes/NoneLiteral';
-import NoneType from '@nodes/NoneType';
-import NumberType from '@nodes/NumberType';
-import UnionType from '@nodes/UnionType';
-import NumberValue from '@values/NumberValue';
-import { createBasisFunction } from '@basis/Basis';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import TypeVariable from '@nodes/TypeVariable';
-import TypeVariables from '@nodes/TypeVariables';
-import type Evaluation from '@runtime/Evaluation';
-import NoneValue from '@values/NoneValue';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberType from '#nodes/NumberType.ts';
+import UnionType from '#nodes/UnionType.ts';
+import NumberValue from '#values/NumberValue.ts';
+import { createBasisFunction } from '#basis/Basis.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import TypeVariable from '#nodes/TypeVariable.ts';
+import TypeVariables from '#nodes/TypeVariables.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import NoneValue from '#values/NoneValue.ts';
 
 function getRandomInRange(
     random: number,

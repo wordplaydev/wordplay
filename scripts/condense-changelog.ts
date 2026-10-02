@@ -20,17 +20,17 @@
  *   npx tsx scripts/condense-changelog.ts judge
  *   npx tsx scripts/condense-changelog.ts apply
  */
-import '@util/verify-locales/loadEnv';
+import '#util/verify-locales/loadEnv.ts';
 import { z } from 'zod';
 
 import Anthropic from '@anthropic-ai/sdk';
-import { PLAIN_LANGUAGE_GUIDANCE } from '@locale/readingLevel';
-import { chunkUnits } from '@util/chunkUnits';
+import { PLAIN_LANGUAGE_GUIDANCE } from '#locale/readingLevel.ts';
+import { chunkUnits } from '#util/chunkUnits.ts';
 import {
     describeClaudeError,
     estimateCost,
-} from '@util/verify-locales/ClaudeTranslator';
-import Log from '@util/verify-locales/Log';
+} from '#util/verify-locales/ClaudeTranslator.ts';
+import Log from '#util/verify-locales/Log.ts';
 import fs from 'fs';
 import path from 'path';
 import {

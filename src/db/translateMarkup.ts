@@ -1,8 +1,8 @@
-import type Locale from '@locale/Locale';
-import { localeToString } from '@locale/Locale';
-import Markup from '@nodes/Markup';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import { toMarkup } from '@parser/toMarkup';
+import type Locale from '#locale/Locale.ts';
+import { localeToString } from '#locale/Locale.ts';
+import Markup from '#nodes/Markup.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
 import {
     hasResidualLinkMask,
     mismatchedConceptLinks,
@@ -10,7 +10,7 @@ import {
     protectConceptLinks,
     restoreConceptLinks,
     splitMarkupAndCode,
-} from '@util/verify-locales/protect';
+} from '#util/verify-locales/protect.ts';
 
 /**
  * The raw machine-translation step, injected so this core is independent of the

@@ -1,5 +1,5 @@
-import { firebaseReachable } from '@db/Database';
-import { getFunctionsInstance } from '@db/firebase';
+import { firebaseReachable } from '#db/Database.ts';
+import { getFunctionsInstance } from '#db/firebase.ts';
 import type {
     UsernameAvailableInputs,
     UsernameAvailableOutput,

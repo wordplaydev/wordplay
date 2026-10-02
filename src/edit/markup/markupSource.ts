@@ -1,14 +1,14 @@
-import type Caret from '@edit/caret/Caret';
-import { isPosition, isRange } from '@edit/caret/Caret';
-import Doc from '@nodes/Doc';
-import Example from '@nodes/Example';
-import type Markup from '@nodes/Markup';
-import WebLink from '@nodes/WebLink';
-import Words from '@nodes/Words';
-import type Node from '@nodes/Node';
-import Source from '@nodes/Source';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import { withoutColorSelector } from '@unicode/emoji';
+import type Caret from '#edit/caret/Caret.ts';
+import { isPosition, isRange } from '#edit/caret/Caret.ts';
+import Doc from '#nodes/Doc.ts';
+import Example from '#nodes/Example.ts';
+import type Markup from '#nodes/Markup.ts';
+import WebLink from '#nodes/WebLink.ts';
+import Words from '#nodes/Words.ts';
+import type Node from '#nodes/Node.ts';
+import Source from '#nodes/Source.ts';
+import { DOCS_SYMBOL } from '#parser/Symbols.ts';
+import { withoutColorSelector } from '#unicode/emoji.ts';
 
 /**
  * The markup editor edits a markup string as a real {@link Source}, by wrapping it

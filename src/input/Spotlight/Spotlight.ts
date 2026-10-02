@@ -1,27 +1,30 @@
-import createStreamEvaluator from '@input/createStreamEvaluator';
+import createStreamEvaluator from '#input/createStreamEvaluator.ts';
 import {
     createSlateStructure,
     EmptySlate,
     sameSlate,
     type SlateState,
-} from '@input/Scene/Slate';
-import { listenForSlates, stopListeningForSlates } from '@input/Scene/slates';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import Bind from '@nodes/Bind';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NoneType from '@nodes/NoneType';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StreamType from '@nodes/StreamType';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import TextType from '@nodes/TextType';
-import type Type from '@nodes/Type';
-import UnionType from '@nodes/UnionType';
-import type Evaluation from '@runtime/Evaluation';
-import StreamValue, { type StreamKind } from '@values/StreamValue';
-import type StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
+} from '#input/Scene/Slate.ts';
+import {
+    listenForSlates,
+    stopListeningForSlates,
+} from '#input/Scene/slates.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import Bind from '#nodes/Bind.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NoneType from '#nodes/NoneType.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StreamType from '#nodes/StreamType.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import TextType from '#nodes/TextType.ts';
+import type Type from '#nodes/Type.ts';
+import UnionType from '#nodes/UnionType.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import StreamValue, { type StreamKind } from '#values/StreamValue.ts';
+import type StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
 
 /**
  * A stream of positions in a scene.

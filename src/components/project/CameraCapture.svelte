@@ -11,11 +11,11 @@
      * The picture is captured at a working size rather than at the grid's, so the
      * crop that follows is sampling from something with detail left in it.
      */
-    import Button from '@components/widgets/Button.svelte';
-    import Note from '@components/app/Notice.svelte';
-    import type { Working } from '@components/app/ImagePicker.svelte';
-    import { DB, locales } from '@db/Database';
-    import CameraFeed from '@input/CameraFeed';
+    import Button from '#components/widgets/Button.svelte';
+    import Note from '#components/app/Notice.svelte';
+    import type { Working } from '#components/app/ImagePicker.svelte';
+    import { DB, locales } from '#db/Database.ts';
+    import CameraFeed from '#input/CameraFeed.ts';
 
     interface Props {
         /** What to do with the frame kept. */

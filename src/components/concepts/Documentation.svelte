@@ -1,25 +1,25 @@
 <script lang="ts">
-    import { keysOf } from '@util/nullable';
-    import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Nested from '@components/app/Nested.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
+    import { keysOf } from '#util/nullable.ts';
+    import HeaderAndExplanation from '#components/app/HeaderAndExplanation.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Nested from '#components/app/Nested.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import TutorialHighlight from '#components/app/TutorialHighlight.svelte';
     import {
         canRecycleDraggedNode,
         getConceptGroups,
         getPurposeIcons,
         recycleDraggedNode,
-    } from '@components/concepts/conceptGroups';
-    import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
-    import ConceptsView from '@components/concepts/ConceptsView.svelte';
-    import ConceptView from '@components/concepts/ConceptView.svelte';
-    import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
-    import GlossaryEntry from '@components/concepts/GlossaryEntry.svelte';
-    import GlossaryView from '@components/concepts/GlossaryView.svelte';
+    } from '#components/concepts/conceptGroups.ts';
+    import ConceptGroupView from '#components/concepts/ConceptGroupView.svelte';
+    import ConceptPreview from '#components/concepts/ConceptPreview.svelte';
+    import ConceptsView from '#components/concepts/ConceptsView.svelte';
+    import ConceptView from '#components/concepts/ConceptView.svelte';
+    import FunctionConceptView from '#components/concepts/FunctionConceptView.svelte';
+    import GlossaryEntry from '#components/concepts/GlossaryEntry.svelte';
+    import GlossaryView from '#components/concepts/GlossaryView.svelte';
     import {
         currentSearch,
         navigateSection,
@@ -31,12 +31,12 @@
         ModeIcons,
         Modes,
         type GuidePlace,
-    } from '@components/concepts/GuideHistory';
-    import HowConceptView from '@components/concepts/HowConceptView.svelte';
-    import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
-    import placeLabel from '@components/concepts/placeLabel';
-    import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
-    import StructureConceptView from '@components/concepts/StructureConceptView.svelte';
+    } from '#components/concepts/GuideHistory.ts';
+    import HowConceptView from '#components/concepts/HowConceptView.svelte';
+    import NodeConceptView from '#components/concepts/NodeConceptView.svelte';
+    import placeLabel from '#components/concepts/placeLabel.ts';
+    import StreamConceptView from '#components/concepts/StreamConceptView.svelte';
+    import StructureConceptView from '#components/concepts/StructureConceptView.svelte';
     import {
         getConceptIndex,
         getConceptPath,
@@ -44,42 +44,42 @@
         getUser,
         setTinkerable,
         type ConceptPath,
-    } from '@components/project/Contexts';
-    import getScrollParent from '@components/util/getScrollParent';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import BindConcept from '@concepts/BindConcept';
-    import type Concept from '@concepts/Concept';
-    import ConversionConcept from '@concepts/ConversionConcept';
-    import FunctionConcept from '@concepts/FunctionConcept';
-    import GalleryHowConcept from '@concepts/GalleryHowConcept';
-    import HowConcept from '@concepts/HowConcept';
-    import type HowTo from '@concepts/HowTo';
-    import { HowToCategories } from '@concepts/HowTo';
-    import NodeConcept from '@concepts/NodeConcept';
-    import { Purpose, type PurposeType } from '@concepts/Purpose';
-    import StreamConcept from '@concepts/StreamConcept';
-    import StructureConcept from '@concepts/StructureConcept';
-    import KitPreview from '@components/app/KitPreview.svelte';
-    import KitKindFilter from '@components/concepts/KitKindFilter.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { DB, Galleries, HowTos, Locales, locales } from '@db/Database';
-    import type Gallery from '@db/galleries/Gallery';
-    import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
-    import type { SerializedKit } from '@db/kits/Kit';
-    import { appendKits, type KitCursor } from '@db/kits/kitPaging';
-    import type Project from '@db/projects/Project';
-    import { buildGlossarySearch } from '@locale/glossarySearch';
-    import ConceptLink from '@nodes/ConceptLink';
-    import type Node from '@nodes/Node';
-    import { HOME_SYMBOL, SEARCH_SYMBOL } from '@parser/Symbols';
-    import { withMonoEmoji } from '@unicode/emoji';
-    import { debounced } from '@util/debounce.svelte';
-    import { searchItems } from '@util/search';
+    } from '#components/project/Contexts.ts';
+    import getScrollParent from '#components/util/getScrollParent.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import BindConcept from '#concepts/BindConcept.ts';
+    import type Concept from '#concepts/Concept.ts';
+    import ConversionConcept from '#concepts/ConversionConcept.ts';
+    import FunctionConcept from '#concepts/FunctionConcept.ts';
+    import GalleryHowConcept from '#concepts/GalleryHowConcept.ts';
+    import HowConcept from '#concepts/HowConcept.ts';
+    import type HowTo from '#concepts/HowTo.ts';
+    import { HowToCategories } from '#concepts/HowTo.ts';
+    import NodeConcept from '#concepts/NodeConcept.ts';
+    import { Purpose, type PurposeType } from '#concepts/Purpose.ts';
+    import StreamConcept from '#concepts/StreamConcept.ts';
+    import StructureConcept from '#concepts/StructureConcept.ts';
+    import KitPreview from '#components/app/KitPreview.svelte';
+    import KitKindFilter from '#components/concepts/KitKindFilter.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { DB, Galleries, HowTos, Locales, locales } from '#db/Database.ts';
+    import type Gallery from '#db/galleries/Gallery.ts';
+    import GalleryHowTo from '#db/howtos/HowToDatabase.svelte.ts';
+    import type { SerializedKit } from '#db/kits/Kit.ts';
+    import { appendKits, type KitCursor } from '#db/kits/kitPaging.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { buildGlossarySearch } from '#locale/glossarySearch.ts';
+    import ConceptLink from '#nodes/ConceptLink.ts';
+    import type Node from '#nodes/Node.ts';
+    import { HOME_SYMBOL, SEARCH_SYMBOL } from '#parser/Symbols.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
+    import { searchItems } from '#util/search.ts';
     import { tick, untrack } from 'svelte';
     import { get } from 'svelte/store';
     import HowToConceptView from './HowToConceptView.svelte';

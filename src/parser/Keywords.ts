@@ -1,5 +1,5 @@
-import type Token from '@nodes/Token';
-import Sym, { type SymType } from '@nodes/Sym';
+import type Token from '#nodes/Token.ts';
+import Sym, { type SymType } from '#nodes/Sym.ts';
 import {
     AND_SYMBOL,
     BORROW_SYMBOL,
@@ -33,7 +33,7 @@ import {
     TRANSLATE_SYMBOL,
     TRUE_SYMBOL,
     TYPE_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 
 /**
  * The canonical, language-neutral identifier for each built-in construct (and the three logical

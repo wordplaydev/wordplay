@@ -1,18 +1,18 @@
-import type LocaleText from '@locale/LocaleText';
-import { toResolutions } from '@conflicts/Conflict';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
-import type PropertyBind from '@nodes/PropertyBind';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import { toResolutions } from '#conflicts/Conflict.ts';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
+import type PropertyBind from '#nodes/PropertyBind.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Repair,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Node from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import levenshtein from '@util/levenshtein';
+} from '#conflicts/Conflict.ts';
+import type Node from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import levenshtein from '#util/levenshtein.ts';
 
 export default class InvalidProperty extends Conflict {
     readonly definition: StructureDefinition;

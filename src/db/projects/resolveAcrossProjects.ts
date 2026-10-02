@@ -1,5 +1,5 @@
-import type Node from '@nodes/Node';
-import type Project from '@db/projects/Project';
+import type Node from '#nodes/Node.ts';
+import type Project from '#db/projects/Project.ts';
 
 /**
  * Find the node in `to` that corresponds to the node with `nodeID` in `from`.

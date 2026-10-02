@@ -1,4 +1,4 @@
-import { observeLoading } from '@input/Hand/HandLandmarker';
+import { observeLoading } from '#input/Hand/HandLandmarker.ts';
 
 /**
  * Reactive container for hand-tracker loading state. `loading` flips to

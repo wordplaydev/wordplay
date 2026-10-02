@@ -3,15 +3,15 @@
         hideMessage,
         showMessage,
         supportsTopLayer,
-    } from '@components/widgets/validationMessage';
-    import { getLocalizing } from '@components/project/Contexts';
-    import { locales } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { CONFIRM_SYMBOL } from '@parser/Symbols';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    } from '#components/widgets/validationMessage.ts';
+    import { getLocalizing } from '#components/project/Contexts.ts';
+    import { locales } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { CONFIRM_SYMBOL } from '#parser/Symbols.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import caretBoundaryKey, {
         caretBoundarySelection,
-    } from '@components/widgets/caretKeys';
+    } from '#components/widgets/caretKeys.ts';
 
     interface Props {
         text: string;

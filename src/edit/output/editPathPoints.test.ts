@@ -3,12 +3,12 @@ import {
     withInsertedPathPoint,
     withMovedPathPoint,
     withoutPathPoint,
-} from '@edit/output/editShape';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Evaluate from '@nodes/Evaluate';
-import Source from '@nodes/Source';
+} from '#edit/output/editShape.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 
 /** The Path evaluate inside a program's Shape, with the context to revise it in. */

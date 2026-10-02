@@ -1,27 +1,38 @@
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import { allDefined } from '@util/nullable';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { BULLET_SYMBOL, MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
-import type { FontWeight } from '@basis/faces/Fonts';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import { allDefined } from '#util/nullable.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { BULLET_SYMBOL, MACHINE_TRANSLATED_SYMBOL } from '#parser/Symbols.ts';
+import type { FontWeight } from '#basis/faces/Fonts.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextsAccessor, TemplateInput } from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import type { FormattedText } from '@output/Output/Phrase';
-import Spaces from '@parser/Spaces';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import { toMarkup } from '@parser/toMarkup';
-import ConceptLink, { CharacterName, CodepointName } from '@nodes/ConceptLink';
-import Content from '@nodes/Content';
-import Example from '@nodes/Example';
-import Node, { list, node, type Grammar, type Replacement } from '@nodes/Node';
-import Paragraph, { type Segment } from '@nodes/Paragraph';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import WebLink from '@nodes/WebLink';
-import Words from '@nodes/Words';
-import type Language from '@nodes/Language';
+import type { FormattedText } from '#output/Output/Phrase.ts';
+import Spaces from '#parser/Spaces.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
+import ConceptLink, {
+    CharacterName,
+    CodepointName,
+} from '#nodes/ConceptLink.ts';
+import Content from '#nodes/Content.ts';
+import Example from '#nodes/Example.ts';
+import Node, {
+    list,
+    node,
+    type Grammar,
+    type Replacement,
+} from '#nodes/Node.ts';
+import Paragraph, { type Segment } from '#nodes/Paragraph.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import WebLink from '#nodes/WebLink.ts';
+import Words from '#nodes/Words.ts';
+import type Language from '#nodes/Language.ts';
 
 export type MarkupMetadata = {
     unwritten: boolean;

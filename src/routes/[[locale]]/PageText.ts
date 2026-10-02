@@ -1,4 +1,4 @@
-import type { FormattedText } from '@locale/LocaleText';
+import type { FormattedText } from '#locale/LocaleText.ts';
 
 /**
  * One example program in the landing page's carousel: a single `\…\` example

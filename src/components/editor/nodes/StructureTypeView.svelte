@@ -1,10 +1,10 @@
 <script lang="ts">
-    import NameToken from '@nodes/NameToken';
-    import type StructureType from '@nodes/StructureType';
-    import { locales } from '@db/Database';
+    import NameToken from '#nodes/NameToken.ts';
+    import type StructureType from '#nodes/StructureType.ts';
+    import { locales } from '#db/Database.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: StructureType;

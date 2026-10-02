@@ -1,17 +1,17 @@
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
+import NodeRef from '#locale/NodeRef.ts';
+import type Context from '#nodes/Context.ts';
 import Convert, {
     getConversionPath,
     getConversionsInScope,
-} from '@nodes/Convert';
-import Expression from '@nodes/Expression';
-import type Type from '@nodes/Type';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { Template } from '@locale/LocaleText';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NumberType from '@nodes/NumberType';
-import type { Resolution } from '@conflicts/Conflict';
+} from '#nodes/Convert.ts';
+import Expression from '#nodes/Expression.ts';
+import type Type from '#nodes/Type.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { Template } from '#locale/LocaleText.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import NumberType from '#nodes/NumberType.ts';
+import type { Resolution } from '#conflicts/Conflict.ts';
 
 /**
  * Returns conversion resolutions for any conflict where an expression has a type

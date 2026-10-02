@@ -1,36 +1,36 @@
-import { Purpose } from '@concepts/Purpose';
-import getConceptName from '@locale/getConceptName';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { FUNCTION_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
+import { Purpose } from '#concepts/Purpose.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { FUNCTION_SYMBOL } from '#parser/Symbols.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import EvalCloseToken from '@nodes/EvalCloseToken';
-import EvalOpenToken from '@nodes/EvalOpenToken';
-import type Expression from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Names from '@nodes/Names';
+import Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import EvalCloseToken from '#nodes/EvalCloseToken.ts';
+import EvalOpenToken from '#nodes/EvalOpenToken.ts';
+import type Expression from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Names from '#nodes/Names.ts';
 import {
     list,
     node,
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import type Node from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import type TypeSet from '@nodes/TypeSet';
-import TypeVariables from '@nodes/TypeVariables';
-import { getEvaluationInputConflicts } from '@nodes/util';
+} from '#nodes/Node.ts';
+import type Node from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import TypeVariables from '#nodes/TypeVariables.ts';
+import { getEvaluationInputConflicts } from '#nodes/util.ts';
 
 export default class FunctionType extends Type {
     readonly fun: Token;

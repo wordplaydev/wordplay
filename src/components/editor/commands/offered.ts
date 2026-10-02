@@ -15,14 +15,14 @@
  * "show it": a missing button someone wanted is worse than a spare one.
  */
 
-import type { Command } from '@components/editor/commands/Commands';
-import type Project from '@db/projects/Project';
-import type Caret from '@edit/caret/Caret';
+import type { Command } from '#components/editor/commands/Commands.ts';
+import type Project from '#db/projects/Project.ts';
+import type Caret from '#edit/caret/Caret.ts';
 import {
     AnyContext,
     expectedTypeAt,
     getInsertContext,
-} from '@edit/insertContext';
+} from '#edit/insertContext.ts';
 
 /**
  * Sorted most relevant first. Commands whose value the caret's field would

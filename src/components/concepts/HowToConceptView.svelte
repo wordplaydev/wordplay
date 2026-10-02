@@ -1,22 +1,22 @@
 <script lang="ts">
-    import { isProxySession } from '@db/proxySession';
+    import { isProxySession } from '#db/proxySession.ts';
     import { goto } from '$app/navigation';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Speech from '@components/lore/Speech.svelte';
-    import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import type GalleryHowConcept from '@concepts/GalleryHowConcept';
-    import { Galleries, HowTos, locales } from '@db/Database';
-    import { canInteractSocially } from '@db/howtos/howToAccess';
-    import Contributors from '@components/app/Contributors.svelte';
-    import { anonymizeContributors } from '@db/creators/attribution';
-    import ReportButton from '@components/project/ReportButton.svelte';
-    import getResponsibility from '@db/moderation/responsibility';
-    import { howToVisibility } from '@db/moderation/visibility';
-    import HowTo from '@db/howtos/HowToDatabase.svelte';
-    import { HowToFields } from '@db/rulesFields';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Speech from '#components/lore/Speech.svelte';
+    import { getUser, isAuthenticated } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import type GalleryHowConcept from '#concepts/GalleryHowConcept.ts';
+    import { Galleries, HowTos, locales } from '#db/Database.ts';
+    import { canInteractSocially } from '#db/howtos/howToAccess.ts';
+    import Contributors from '#components/app/Contributors.svelte';
+    import { anonymizeContributors } from '#db/creators/attribution.ts';
+    import ReportButton from '#components/project/ReportButton.svelte';
+    import getResponsibility from '#db/moderation/responsibility.ts';
+    import { howToVisibility } from '#db/moderation/visibility.ts';
+    import HowTo from '#db/howtos/HowToDatabase.svelte.ts';
+    import { HowToFields } from '#db/rulesFields.ts';
     import { onMount } from 'svelte';
-    import { must } from '@util/nullable';
+    import { must } from '#util/nullable.ts';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
 
     interface Props {

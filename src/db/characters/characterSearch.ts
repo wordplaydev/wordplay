@@ -7,13 +7,13 @@
  * characters the creator can edit.
  */
 
-import type { Character } from '@db/characters/Character';
+import type { Character } from '#db/characters/Character.ts';
 import {
     foldEntry,
     type Searchable,
     type SearchField,
     type SearchLanguages,
-} from '@util/search';
+} from '#util/search.ts';
 
 /** Priority tiers: a name beats a description. */
 const NAME = 1;

@@ -1,40 +1,40 @@
-import type Conflict from '@conflicts/Conflict';
-import { NotAKeyValue } from '@conflicts/NotAKeyValue';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import KeyValue from '@nodes/KeyValue';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
-import MapValue from '@values/MapValue';
-import type Value from '@values/Value';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+import type Conflict from '#conflicts/Conflict.ts';
+import { NotAKeyValue } from '#conflicts/NotAKeyValue.ts';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import KeyValue from '#nodes/KeyValue.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Start from '#runtime/Start.ts';
+import type Step from '#runtime/Step.ts';
+import MapValue from '#values/MapValue.ts';
+import type Value from '#values/Value.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import ValueException from '@values/ValueException';
-import AnyType from '@nodes/AnyType';
-import BindToken from '@nodes/BindToken';
-import CompositeLiteral from '@nodes/CompositeLiteral';
-import type Context from '@nodes/Context';
-import Expression, { type GuardContext } from '@nodes/Expression';
-import MapType from '@nodes/MapType';
+import ValueException from '#values/ValueException.ts';
+import AnyType from '#nodes/AnyType.ts';
+import BindToken from '#nodes/BindToken.ts';
+import CompositeLiteral from '#nodes/CompositeLiteral.ts';
+import type Context from '#nodes/Context.ts';
+import Expression, { type GuardContext } from '#nodes/Expression.ts';
+import MapType from '#nodes/MapType.ts';
 import {
     list,
     node,
     optional,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import SetCloseToken from '@nodes/SetCloseToken';
-import SetOpenToken from '@nodes/SetOpenToken';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import UnionType from '@nodes/UnionType';
+} from '#nodes/Node.ts';
+import SetCloseToken from '#nodes/SetCloseToken.ts';
+import SetOpenToken from '#nodes/SetOpenToken.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import UnionType from '#nodes/UnionType.ts';
 
 export default class MapLiteral extends CompositeLiteral {
     readonly open: Token;

@@ -1,8 +1,8 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { isLocaleText } from '@locale/isLocaleText';
-import { stringToLocale } from '@locale/Locale';
-import Source from '@nodes/Source';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { isLocaleText } from '#locale/isLocaleText.ts';
+import { stringToLocale } from '#locale/Locale.ts';
+import Source from '#nodes/Source.ts';
 import fs from 'fs';
 import { expect, test } from 'vitest';
 import Project from './Project';

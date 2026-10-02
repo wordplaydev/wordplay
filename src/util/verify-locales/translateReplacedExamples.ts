@@ -12,12 +12,12 @@
  */
 import { readFileSync, writeFileSync } from 'fs';
 import * as prettier from 'prettier';
-import { toDocString } from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import getDocExamples from '@util/verify-locales/docExamples';
-import ClaudeTranslator from '@util/verify-locales/ClaudeTranslator';
-import Log from '@util/verify-locales/Log';
+import { toDocString } from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import getDocExamples from '#util/verify-locales/docExamples.ts';
+import ClaudeTranslator from '#util/verify-locales/ClaudeTranslator.ts';
+import Log from '#util/verify-locales/Log.ts';
 
 const EN_PATH = 'src/locale/en-US.json';
 

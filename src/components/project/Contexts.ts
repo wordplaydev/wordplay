@@ -1,43 +1,43 @@
-import type { WritingLayout } from '@locale/Scripts';
-import type LocaleText from '@locale/LocaleText';
-import type { TourID } from '@components/project/tours';
-import type Value from '@values/Value';
-import type { ActiveHint } from '@components/widgets/Hint.svelte';
-import type { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
-import type ConceptIndex from '@concepts/ConceptIndex';
-import type { GuideHistory } from '@components/concepts/GuideHistory';
-import type { Dependency } from '@nodes/Borrow';
-import type Conflict from '@conflicts/Conflict';
-import type { ResolvedReference } from '@db/chats/codeReference';
-import type Project from '@db/projects/Project';
-import type Caret from '@edit/caret/Caret';
-import type { CaretPosition } from '@edit/caret/Caret';
-import type { AssignmentPoint, InsertionPoint } from '@edit/drag/Drag';
-import type Locale from '@locale/Locale';
-import type Locales from '@locale/Locales';
-import type { LocaleTextAccessor } from '@locale/Locales';
-import type Node from '@nodes/Node';
-import type { FieldPosition } from '@nodes/Node';
-import type Root from '@nodes/Root';
-import type Token from '@nodes/Token';
-import type Spaces from '@parser/Spaces';
-import type { ProjectMode } from '@components/project/ProjectMode';
-import type Drawing from '@components/output/Drawing.svelte.ts';
-import type { OutputInfoSet } from '@output/animation/Animator';
-import type Evaluator from '@runtime/Evaluator';
-import type { StreamChange } from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
+import type { WritingLayout } from '#locale/Scripts.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { TourID } from '#components/project/tours.ts';
+import type Value from '#values/Value.ts';
+import type { ActiveHint } from '#components/widgets/Hint.svelte';
+import type { SensorPanelStack } from '#components/output/SensorPanelStack.svelte.ts';
+import type ConceptIndex from '#concepts/ConceptIndex.ts';
+import type { GuideHistory } from '#components/concepts/GuideHistory.ts';
+import type { Dependency } from '#nodes/Borrow.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import type { ResolvedReference } from '#db/chats/codeReference.ts';
+import type Project from '#db/projects/Project.ts';
+import type Caret from '#edit/caret/Caret.ts';
+import type { CaretPosition } from '#edit/caret/Caret.ts';
+import type { AssignmentPoint, InsertionPoint } from '#edit/drag/Drag.ts';
+import type Locale from '#locale/Locale.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import type Node from '#nodes/Node.ts';
+import type { FieldPosition } from '#nodes/Node.ts';
+import type Root from '#nodes/Root.ts';
+import type Token from '#nodes/Token.ts';
+import type Spaces from '#parser/Spaces.ts';
+import type { ProjectMode } from '#components/project/ProjectMode.ts';
+import type Drawing from '#components/output/Drawing.svelte.ts';
+import type { OutputInfoSet } from '#output/animation/Animator.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import type { StreamChange } from '#runtime/Evaluator.ts';
+import type Step from '#runtime/Step.ts';
 import type { User } from 'firebase/auth';
 import { createContext, getContext, setContext } from 'svelte';
 import { derived, type Readable, type Writable } from 'svelte/store';
-import type { AnnouncementKind } from '@components/project/announcerQueue';
+import type { AnnouncementKind } from '#components/project/announcerQueue.ts';
 import type {
     CommandContext,
     Edit,
     ProjectRevision,
-} from '@components/editor/commands/Commands';
-import type { Highlights } from '@components/editor/highlights/Highlights';
-import type SelectedOutput from '@components/project/SelectedOutput.svelte';
+} from '#components/editor/commands/Commands.ts';
+import type { Highlights } from '#components/editor/highlights/Highlights.ts';
+import type SelectedOutput from '#components/project/SelectedOutput.svelte.ts';
 
 /** A helper for creating an optional context. Svelte's createContext throws if the context is not set. */
 function createOptionalContext<T>(): [() => T | undefined, (value: T) => void] {

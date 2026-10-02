@@ -1,15 +1,15 @@
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Bind from '@nodes/Bind';
-import Conditional from '@nodes/Conditional';
-import type Context from '@nodes/Context';
-import type Expression from '@nodes/Expression';
-import type ListAccess from '@nodes/ListAccess';
-import Match from '@nodes/Match';
-import type Node from '@nodes/Node';
-import type PropertyReference from '@nodes/PropertyReference';
-import Reference from '@nodes/Reference';
-import type SetOrMapAccess from '@nodes/SetOrMapAccess';
-import { logicalLeaves } from '@nodes/typeGuards';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Bind from '#nodes/Bind.ts';
+import Conditional from '#nodes/Conditional.ts';
+import type Context from '#nodes/Context.ts';
+import type Expression from '#nodes/Expression.ts';
+import type ListAccess from '#nodes/ListAccess.ts';
+import Match from '#nodes/Match.ts';
+import type Node from '#nodes/Node.ts';
+import type PropertyReference from '#nodes/PropertyReference.ts';
+import Reference from '#nodes/Reference.ts';
+import type SetOrMapAccess from '#nodes/SetOrMapAccess.ts';
+import { logicalLeaves } from '#nodes/typeGuards.ts';
 
 export default function getGuards(
     reference: Reference | PropertyReference | ListAccess | SetOrMapAccess,

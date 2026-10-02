@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { Scripts } from '@locale/Scripts';
+import { Scripts } from '#locale/Scripts.ts';
 
 test('genuinely vertical scripts carry a vertical layout', () => {
     // Mongolian and Phags-pa are written top-to-bottom in left-to-right columns.

@@ -1,5 +1,5 @@
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test } from 'vitest';
 import {
     kitDescription,

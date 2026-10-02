@@ -1,11 +1,11 @@
-import Project from '@db/projects/Project';
-import { DB } from '@db/Database';
-import Key from '@input/Key/Key';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import Evaluator, { Mode } from '@runtime/Evaluator';
+import Project from '#db/projects/Project.ts';
+import { DB } from '#db/Database.ts';
+import Key from '#input/Key/Key.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator, { Mode } from '#runtime/Evaluator.ts';
 import { expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * A recorded input is replayed into whatever stream its path resolves to in the

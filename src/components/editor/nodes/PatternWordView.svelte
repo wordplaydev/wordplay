@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type PatternWord from '@nodes/PatternWord';
+    import type PatternWord from '#nodes/PatternWord.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     /** A locale-tagged word atom (`▭/lang`) matching one segmented word. */
     interface Props {

@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { getTourRequest } from '@components/project/Contexts';
-    import { isTourID, Tours } from '@components/project/tours';
-    import { toursTaken } from '@db/Database';
-    import { QUESTION_SYMBOL } from '@parser/Symbols';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { getTourRequest } from '#components/project/Contexts.ts';
+    import { isTourID, Tours } from '#components/project/tours.ts';
+    import { toursTaken } from '#db/Database.ts';
+    import { QUESTION_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         /** The tour named by a `@Tour/<id>` reference. Not a TourID: an unknown

@@ -1,4 +1,4 @@
-import type Locale from '@locale/Locale';
+import type Locale from '#locale/Locale.ts';
 
 /**
  * A tag `Intl` will accept, for the times a locale has to be handed to a

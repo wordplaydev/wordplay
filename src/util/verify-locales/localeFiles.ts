@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import type Log from '@util/verify-locales/Log';
-import { getObjectFromJSONFile } from '@util/verify-locales/getObjectFromJSONFile';
-import writeFormatted from '@util/verify-locales/writeFormatted';
+import type Log from '#util/verify-locales/Log.ts';
+import { getObjectFromJSONFile } from '#util/verify-locales/getObjectFromJSONFile.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
 
 /**
  * Where a locale's text lives on disk, and how it becomes one `LocaleText`.

@@ -1,5 +1,5 @@
-import type Project from '@db/projects/Project';
-import Bind from '@nodes/Bind';
+import type Project from '#db/projects/Project.ts';
+import Bind from '#nodes/Bind.ts';
 
 /**
  * A name for a new source file that nothing in the project is already using.

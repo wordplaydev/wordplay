@@ -1,15 +1,15 @@
-import Project from '@db/projects/Project';
-import type LocaleText from '@locale/LocaleText';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Source from '#nodes/Source.ts';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { expect, test } from 'vitest';
-import { sweepSkipsLocale } from '@util/verify-locales/exampleFreshness';
-import { kitsNeededBy, resolveKits } from '@db/kits/resolveKits';
-import { builtinKitResolver } from '@db/kits/builtinKitResolver';
+import { sweepSkipsLocale } from '#util/verify-locales/exampleFreshness.ts';
+import { kitsNeededBy, resolveKits } from '#db/kits/resolveKits.ts';
+import { builtinKitResolver } from '#db/kits/builtinKitResolver.ts';
 import { parseSerializedProject } from './examples';
 import { serializeExample } from './serializeExample';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /**
  * @sweep static/examples All 2,250 localized `.wp` files — 30 locale directories

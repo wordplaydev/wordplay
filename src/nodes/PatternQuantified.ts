@@ -1,10 +1,10 @@
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { any, node, type Grammar, type Replacement } from '@nodes/Node';
-import PatternNode from '@nodes/PatternNode';
-import PatternAtom from '@nodes/PatternAtom';
-import PatternComplement from '@nodes/PatternComplement';
-import PatternQuantifier from '@nodes/PatternQuantifier';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { any, node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import PatternNode from '#nodes/PatternNode.ts';
+import PatternAtom from '#nodes/PatternAtom.ts';
+import PatternComplement from '#nodes/PatternComplement.ts';
+import PatternQuantifier from '#nodes/PatternQuantifier.ts';
 
 /**
  * A quantified atom in a pattern, e.g., `3 #` or `>0 (◌ | #)`. A quantifier

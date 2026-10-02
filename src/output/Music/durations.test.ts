@@ -1,7 +1,7 @@
-import NumberType from '@nodes/NumberType';
-import Unit from '@nodes/Unit';
-import parseType from '@parser/parseType';
-import { toTokens } from '@parser/toTokens';
+import NumberType from '#nodes/NumberType.ts';
+import Unit from '#nodes/Unit.ts';
+import parseType from '#parser/parseType.ts';
+import { toTokens } from '#parser/toTokens.ts';
 import { describe, expect, test } from 'vitest';
 import {
     beatsForUnit,

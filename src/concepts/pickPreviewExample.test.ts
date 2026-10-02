@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { toMarkup } from '@parser/toMarkup';
+import { toMarkup } from '#parser/toMarkup.ts';
 import { pickPreviewExample } from './pickPreviewExample';
 
 describe('pickPreviewExample', () => {

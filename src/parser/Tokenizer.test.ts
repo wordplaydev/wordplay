@@ -1,6 +1,6 @@
-import { Sym, type SymType } from '@nodes/Sym';
+import { Sym, type SymType } from '#nodes/Sym.ts';
 import { expect, test } from 'vitest';
-import { tokens } from '@parser/Tokenizer';
+import { tokens } from '#parser/Tokenizer.ts';
 
 test.each([
     ['hello', 'hello|'],

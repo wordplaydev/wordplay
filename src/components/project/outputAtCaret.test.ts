@@ -1,9 +1,9 @@
-import Project from '@db/projects/Project';
-import Caret from '@edit/caret/Caret';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
 import { describe, expect, test } from 'vitest';
-import outputAtCaret from '@components/project/outputAtCaret';
+import outputAtCaret from '#components/project/outputAtCaret.ts';
 
 function setup(code: string) {
     const source = new Source('test', code);

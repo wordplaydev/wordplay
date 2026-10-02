@@ -12,9 +12,9 @@
  * browser.
  */
 
-import audio from '@output/Music/MusicAudio';
-import { canSustain, Phonemes } from '@output/Music/phonemes';
-import type { ScheduledNote } from '@output/Music/schedule';
+import audio from '#output/Music/MusicAudio.ts';
+import { canSustain, Phonemes } from '#output/Music/phonemes.ts';
+import type { ScheduledNote } from '#output/Music/schedule.ts';
 
 /** Long enough to hold a consonant well past its glide and still frame it,
  * short enough to audition quickly. */

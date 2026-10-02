@@ -1,8 +1,8 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Source from '@nodes/Source';
-import detectPhotosensitivityRisks from '@runtime/detectPhotosensitivity';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Source from '#nodes/Source.ts';
+import detectPhotosensitivityRisks from '#runtime/detectPhotosensitivity.ts';
 import { expect, test } from 'vitest';
 
 /** The detected photosensitivity risks for a program in its own default project. */

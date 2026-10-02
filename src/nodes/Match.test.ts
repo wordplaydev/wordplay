@@ -1,11 +1,11 @@
-import type Conflict from '@conflicts/Conflict';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import { testConflict } from '@conflicts/TestUtilities';
+import type Conflict from '#conflicts/Conflict.ts';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
-import Match from '@nodes/Match';
-import type Node from '@nodes/Node';
-import ListValue from '@values/ListValue';
+import evaluateCode from '#runtime/evaluate.ts';
+import Match from '#nodes/Match.ts';
+import type Node from '#nodes/Node.ts';
+import ListValue from '#values/ListValue.ts';
 
 test.each([
     [

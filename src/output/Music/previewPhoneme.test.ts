@@ -3,11 +3,11 @@ import {
     phonemeNote,
     previewWords,
     PreviewSeconds,
-} from '@output/Music/previewPhoneme';
-import { must } from '@util/nullable';
-import { Phonemes } from '@output/Music/phonemes';
-import { articulate } from '@output/Music/articulate';
-import DefaultLocale from '@locale/DefaultLocale';
+} from '#output/Music/previewPhoneme.ts';
+import { must } from '#util/nullable.ts';
+import { Phonemes } from '#output/Music/phonemes.ts';
+import { articulate } from '#output/Music/articulate.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 
 test('a preview note sings the symbol on the voice', () => {
     const note = phonemeNote('ʃ', 12);

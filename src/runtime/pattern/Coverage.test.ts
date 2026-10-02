@@ -1,4 +1,4 @@
-import evaluateCode from '@runtime/evaluate';
+import evaluateCode from '#runtime/evaluate.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

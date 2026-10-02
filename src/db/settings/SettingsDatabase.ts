@@ -1,103 +1,106 @@
-import type { SupportedLocale } from '@locale/SupportedLocales';
-import { isRecord } from '@util/guards';
-import { proxyPrefix } from '@db/proxySession';
+import type { SupportedLocale } from '#locale/SupportedLocales.ts';
+import { isRecord } from '#util/guards.ts';
+import { proxyPrefix } from '#db/proxySession.ts';
 import { doc, getDoc } from 'firebase/firestore';
-import type { SerializedLayout } from '@components/project/Layout';
-import Layout from '@components/project/Layout';
+import type { SerializedLayout } from '#components/project/Layout.ts';
+import Layout from '#components/project/Layout.ts';
 import {
     resolveWritingLayout,
     type WritingLayout,
     type WritingLayoutChoice,
-} from '@locale/Scripts';
+} from '#locale/Scripts.ts';
 import type Progress from '../../tutorial/Progress';
-import { CreatorCollection } from '@db/creators/CreatorDatabase';
-import type { Database } from '@db/Database';
-import { firestore } from '@db/firebase';
-import { AnimationFactorSetting } from '@db/settings/AnimationFactorSetting';
-import { AnnotationsSetting } from '@db/settings/AnnotationsSetting';
-import type { ArrangementType } from '@db/settings/Arrangement';
-import { ArrangementSetting } from '@db/settings/ArrangementSetting';
-import type { StagePlacementType } from '@db/settings/StagePlacement';
-import { StagePlacementSetting } from '@db/settings/StagePlacementSetting';
-import { AdaptOutputSetting } from '@db/settings/AdaptOutputSetting';
+import { CreatorCollection } from '#db/creators/CreatorDatabase.ts';
+import type { Database } from '#db/Database.ts';
+import { firestore } from '#db/firebase.ts';
+import { AnimationFactorSetting } from '#db/settings/AnimationFactorSetting.ts';
+import { AnnotationsSetting } from '#db/settings/AnnotationsSetting.ts';
+import type { ArrangementType } from '#db/settings/Arrangement.ts';
+import { ArrangementSetting } from '#db/settings/ArrangementSetting.ts';
+import type { StagePlacementType } from '#db/settings/StagePlacement.ts';
+import { StagePlacementSetting } from '#db/settings/StagePlacementSetting.ts';
+import { AdaptOutputSetting } from '#db/settings/AdaptOutputSetting.ts';
 import {
     BlockDensitySetting,
     type BlockDensity,
-} from '@db/settings/BlockDensitySetting';
-import { BlocksSetting } from '@db/settings/BlocksSetting';
-import { WordsSetting } from '@db/settings/WordsSetting';
-import { CameraSetting } from '@db/settings/CameraSetting';
-import { ChatLanguageSetting } from '@db/settings/ChatLanguageSetting';
-import { CaretAnchorsSetting, CaretsSetting } from '@db/settings/CaretsSetting';
-import { FoldsSetting } from '@db/settings/FoldsSetting';
-import type { Path } from '@nodes/Root';
-import type { SerializedCaret } from '@db/projects/ProjectSchemas';
-import { DarkSetting } from '@db/settings/DarkSetting';
-import { FaceSetting } from '@db/settings/FaceSetting';
-import { EmailNotificationsSetting } from '@db/settings/EmailNotificationsSetting';
+} from '#db/settings/BlockDensitySetting.ts';
+import { BlocksSetting } from '#db/settings/BlocksSetting.ts';
+import { WordsSetting } from '#db/settings/WordsSetting.ts';
+import { CameraSetting } from '#db/settings/CameraSetting.ts';
+import { ChatLanguageSetting } from '#db/settings/ChatLanguageSetting.ts';
+import {
+    CaretAnchorsSetting,
+    CaretsSetting,
+} from '#db/settings/CaretsSetting.ts';
+import { FoldsSetting } from '#db/settings/FoldsSetting.ts';
+import type { Path } from '#nodes/Root.ts';
+import type { SerializedCaret } from '#db/projects/ProjectSchemas.ts';
+import { DarkSetting } from '#db/settings/DarkSetting.ts';
+import { FaceSetting } from '#db/settings/FaceSetting.ts';
+import { EmailNotificationsSetting } from '#db/settings/EmailNotificationsSetting.ts';
 import type { EmailNotificationSettings } from 'shared-types';
-import { HowToNotificationsSetting } from '@db/settings/HowToNotificationsSetting';
-import { LayoutsSetting } from '@db/settings/LayoutsSetting';
+import { HowToNotificationsSetting } from '#db/settings/HowToNotificationsSetting.ts';
+import { LayoutsSetting } from '#db/settings/LayoutsSetting.ts';
 import {
     ProjectFoldersSetting,
     type ProjectFolder,
     type ProjectFolders,
-} from '@db/settings/ProjectFoldersSetting';
-import { ToursSetting, type ToursTaken } from '@db/settings/ToursSetting';
+} from '#db/settings/ProjectFoldersSetting.ts';
+import { ToursSetting, type ToursTaken } from '#db/settings/ToursSetting.ts';
 import {
     ChatThreadsSetting,
     type ChatThreadsSeen,
-} from '@db/settings/ChatThreadsSetting';
-import type { TourID } from '@components/project/tours';
+} from '#db/settings/ChatThreadsSetting.ts';
+import type { TourID } from '#components/project/tours.ts';
 import {
     ProjectSortSetting,
     type ProjectSort,
-} from '@db/settings/ProjectSortSetting';
-import { LineSetting } from '@db/settings/LinesSetting';
-import { CaptionSizeSetting } from '@db/settings/CaptionSizeSetting';
+} from '#db/settings/ProjectSortSetting.ts';
+import { LineSetting } from '#db/settings/LinesSetting.ts';
+import { CaptionSizeSetting } from '#db/settings/CaptionSizeSetting.ts';
 import {
     AnimationCuesSetting,
     ContactCuesSetting,
     CuesSetting,
-} from '@db/settings/CuesSetting';
-import { LocalesSetting } from '@db/settings/LocalesSetting';
-import { MicSetting } from '@db/settings/MicSetting';
-import type { MusicVisualization } from '@db/settings/MusicSettings';
+} from '#db/settings/CuesSetting.ts';
+import { LocalesSetting } from '#db/settings/LocalesSetting.ts';
+import { MicSetting } from '#db/settings/MicSetting.ts';
+import type { MusicVisualization } from '#db/settings/MusicSettings.ts';
 import {
     HapticsSetting,
     MusicDuckingSetting,
     MusicVisualizationSetting,
     MusicVolumeSetting,
-} from '@db/settings/MusicSettings';
+} from '#db/settings/MusicSettings.ts';
 import {
     ReadAloudRateSetting,
     ReadAloudSetting,
     SaySetting,
-} from '@db/settings/SaySetting';
-import { SpaceSetting } from '@db/settings/SpaceSetting';
+} from '#db/settings/SaySetting.ts';
+import { SpaceSetting } from '#db/settings/SpaceSetting.ts';
 import {
     KeybindingsSetting,
     type Chord,
     type Keybindings,
-} from '@db/settings/KeybindingsSetting';
-import { TabSetting } from '@db/settings/TabSetting';
+} from '#db/settings/KeybindingsSetting.ts';
+import { TabSetting } from '#db/settings/TabSetting.ts';
 import {
     TutorialSetting,
     type TutorialProgress,
     type TutorialState,
-} from '@db/settings/TutorialProgressSetting';
-import { DefaultProgress } from '@db/settings/TutorialProgressSetting';
-import { ContrastLanguageSetting } from '@db/settings/ContrastLanguageSetting';
+} from '#db/settings/TutorialProgressSetting.ts';
+import { DefaultProgress } from '#db/settings/TutorialProgressSetting.ts';
+import { ContrastLanguageSetting } from '#db/settings/ContrastLanguageSetting.ts';
 import type { TutorialMode } from '../../tutorial/TutorialMode';
-import { UpdatesSetting } from '@db/settings/UpdatesSetting';
-import { WellspringSetting } from '@db/settings/WellspringSetting';
-import { WrapSetting } from '@db/settings/WrapSetting';
+import { UpdatesSetting } from '#db/settings/UpdatesSetting.ts';
+import { WellspringSetting } from '#db/settings/WellspringSetting.ts';
+import { WrapSetting } from '#db/settings/WrapSetting.ts';
 import {
     SourceWritingSetting,
     WritingLayoutSetting,
-} from '@db/settings/WritingLayoutSetting';
-import type { SidebarState } from '@db/settings/SidebarSetting';
-import type Setting from '@db/settings/Setting';
+} from '#db/settings/WritingLayoutSetting.ts';
+import type { SidebarState } from '#db/settings/SidebarSetting.ts';
+import type Setting from '#db/settings/Setting.ts';
 
 /** The schema of the record written to the creators collection. */
 export type SettingsSchemaV1 = {

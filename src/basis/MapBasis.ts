@@ -1,36 +1,36 @@
-import { createFunction } from '@locale/createFunction';
-import { must } from '@util/nullable';
-import ExceptionValue from '@values/ExceptionValue';
-import { createInputs } from '@locale/createInputs';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import Block, { BlockKind } from '@nodes/Block';
-import BooleanType from '@nodes/BooleanType';
-import FunctionType from '@nodes/FunctionType';
-import MapType from '@nodes/MapType';
-import StructureDefinition from '@nodes/StructureDefinition';
-import TypeVariable from '@nodes/TypeVariable';
-import TypeVariables from '@nodes/TypeVariables';
-import type Evaluation from '@runtime/Evaluation';
-import BoolValue from '@values/BoolValue';
-import ListValue from '@values/ListValue';
-import MapValue from '@values/MapValue';
-import NumberValue from '@values/NumberValue';
-import SetValue from '@values/SetValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import type Locales from '@locale/Locales';
-import type Expression from '@nodes/Expression';
-import ListType from '@nodes/ListType';
-import NumberType from '@nodes/NumberType';
-import SetType from '@nodes/SetType';
-import TextType from '@nodes/TextType';
+import { createFunction } from '#locale/createFunction.ts';
+import { must } from '#util/nullable.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import { createInputs } from '#locale/createInputs.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import FunctionType from '#nodes/FunctionType.ts';
+import MapType from '#nodes/MapType.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import TypeVariable from '#nodes/TypeVariable.ts';
+import TypeVariables from '#nodes/TypeVariables.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import BoolValue from '#values/BoolValue.ts';
+import ListValue from '#values/ListValue.ts';
+import MapValue from '#values/MapValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import SetValue from '#values/SetValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import type Locales from '#locale/Locales.ts';
+import type Expression from '#nodes/Expression.ts';
+import ListType from '#nodes/ListType.ts';
+import NumberType from '#nodes/NumberType.ts';
+import SetType from '#nodes/SetType.ts';
+import TextType from '#nodes/TextType.ts';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
-} from '@basis/Basis';
-import { Iteration } from '@basis/Iteration';
+} from '#basis/Basis.ts';
+import { Iteration } from '#basis/Iteration.ts';
 
 /** The key/value pair an iteration is on, or undefined past the end. */
 function pairAt(info: {

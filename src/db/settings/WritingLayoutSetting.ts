@@ -1,5 +1,5 @@
-import type { WritingLayout, WritingLayoutChoice } from '@locale/Scripts';
-import Setting from '@db/settings/Setting';
+import type { WritingLayout, WritingLayoutChoice } from '#locale/Scripts.ts';
+import Setting from '#db/settings/Setting.ts';
 
 /** The creator's writing-layout preference. Defaults to 'auto', which follows
  *  the active locale's layout; the other values force a specific layout. */

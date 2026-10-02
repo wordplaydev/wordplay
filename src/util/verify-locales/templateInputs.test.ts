@@ -1,10 +1,10 @@
-import { resolveTerms } from '@locale/templateInputs';
+import { resolveTerms } from '#locale/templateInputs.ts';
 import { describe, expect, test } from 'vitest';
 import {
     checkTemplateInputs,
     getDeclaredInputs,
     getTemplateReferences,
-} from '@util/verify-locales/templateInputs';
+} from '#util/verify-locales/templateInputs.ts';
 
 describe('getTemplateReferences', () => {
     const declared = new Set(['expected', 'given']);

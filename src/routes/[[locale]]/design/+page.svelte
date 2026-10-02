@@ -1,33 +1,33 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import Header from '@components/app/Header.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Logo from '@components/app/Logo.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import Slider from '@components/widgets/Slider.svelte';
-    import Switch from '@components/widgets/Switch.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { toClipboard } from '@components/editor/commands/Clipboard';
-    import { dark, locales, Settings } from '@db/Database';
-    import { Scripts, type ScriptMetadata } from '@locale/Scripts';
-    import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
-    import { contrast } from '@util/colorContrast';
+    import { browser } from '$app/env';
+    import Header from '#components/app/Header.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Logo from '#components/app/Logo.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Writing from '#components/app/Writing.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Checkbox from '#components/widgets/Checkbox.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Note from '#components/widgets/Note.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import Slider from '#components/widgets/Slider.svelte';
+    import Switch from '#components/widgets/Switch.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import { toClipboard } from '#components/editor/commands/Clipboard.ts';
+    import { dark, locales, Settings } from '#db/Database.ts';
+    import { Scripts, type ScriptMetadata } from '#locale/Scripts.ts';
+    import { CONFIRM_SYMBOL, COPY_SYMBOL } from '#parser/Symbols.ts';
+    import { contrast } from '#util/colorContrast.ts';
     import { SpacingVariables } from './tokens';
-    import { matchGroups, must } from '@util/nullable';
+    import { matchGroups, must } from '#util/nullable.ts';
 
     // Demo state for interactive component examples
     // Every script with an exemplar glyph, for the logo's writing-system row.
@@ -195,7 +195,7 @@
     const semanticColors: {
         name: string;
         value: string;
-        description: (l: import('@locale/LocaleText').default) => string;
+        description: (l: import('#locale/LocaleText.ts').default) => string;
     }[] = [
         {
             name: '--wordplay-foreground',

@@ -1,6 +1,6 @@
-import { testConflict } from '@conflicts/TestUtilities';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import Previous from '@nodes/Previous';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import Previous from '#nodes/Previous.ts';
 import { test } from 'vitest';
 
 // One case per conflict this node raises, so a conflict reachable from several

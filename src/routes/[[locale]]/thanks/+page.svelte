@@ -1,10 +1,11 @@
 <script lang="ts">
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Page from '@components/app/Page.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { isExternalURL } from '#util/appPath.ts';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import Link from '#components/app/Link.svelte';
+    import Page from '#components/app/Page.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import contributorsData from './contributors.json';
     import teachersData from './teachers.json';
     import type { Contributor, Teacher } from './types';
@@ -12,13 +13,20 @@
     const total = (c: Contributor) =>
         Object.values(c.counts).reduce((sum, n) => sum + n, 0);
 
-    const contributors = contributorsData.contributors.slice().sort((a, b) => {
-        const dayCompare = b.latest
-            .slice(0, 10)
-            .localeCompare(a.latest.slice(0, 10));
-        return dayCompare !== 0 ? dayCompare : total(b) - total(a);
-    });
-    const teachers: Teacher[] = teachersData.teachers;
+    // Links come from data the build fetched, so each is checked to be a URL.
+    const contributors = contributorsData.contributors
+        .flatMap((c) =>
+            isExternalURL(c.html_url) ? [{ ...c, html_url: c.html_url }] : [],
+        )
+        .sort((a, b) => {
+            const dayCompare = b.latest
+                .slice(0, 10)
+                .localeCompare(a.latest.slice(0, 10));
+            return dayCompare !== 0 ? dayCompare : total(b) - total(a);
+        });
+    const teachers = (teachersData.teachers satisfies Teacher[]).flatMap((t) =>
+        isExternalURL(t.url) ? [{ ...t, url: t.url }] : [],
+    );
 </script>
 
 <Title text={(l) => l.ui.page.thanks.header} />

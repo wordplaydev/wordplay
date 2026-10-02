@@ -1,5 +1,5 @@
 <script lang="ts" module>
-    import { must } from '@util/nullable';
+    import { must } from '#util/nullable.ts';
 
     /** The Unicode categories we make visible, in the order they should appear/
      * The emoji subcategories aren't part of the standard; they are shorthand for the
@@ -69,40 +69,43 @@
 </script>
 
 <script lang="ts">
-    import { isStringArray } from '@util/guards';
+    import { isStringArray } from '#util/guards.ts';
     import {
         isCodepointRenderable,
         loadRenderableRanges,
-    } from '@basis/faces/renderable';
-    import Link from '@components/app/Link.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Options, { type Option } from '@components/widgets/Options.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { characterToSVG, type Character } from '@db/characters/Character';
-    import { buildCharacterSearch } from '@db/characters/characterSearch';
-    import { CharactersDB, Locales, locales } from '@db/Database';
+    } from '#basis/faces/renderable.ts';
+    import Link from '#components/app/Link.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Options, { type Option } from '#components/widgets/Options.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import {
+        characterToSVG,
+        type Character,
+    } from '#db/characters/Character.ts';
+    import { buildCharacterSearch } from '#db/characters/characterSearch.ts';
+    import { CharactersDB, Locales, locales } from '#db/Database.ts';
     import {
         getLanguagesForScript,
         getScriptSpeakers,
-    } from '@locale/LanguageCode';
-    import { toLocaleString } from '@locale/LocaleText';
-    import { Scripts, type Script } from '@locale/Scripts';
-    import { isSupportedLocale } from '@locale/SupportedLocales';
-    import { SEARCH_SYMBOL } from '@parser/Symbols';
-    import { withColorEmoji, withMonoEmoji } from '@unicode/emoji';
-    import { localizedGlyphName } from '@unicode/glyphName';
-    import { buildGlyphSearch } from '@unicode/glyphSearch';
+    } from '#locale/LanguageCode.ts';
+    import { toLocaleString } from '#locale/LocaleText.ts';
+    import { Scripts, type Script } from '#locale/Scripts.ts';
+    import { isSupportedLocale } from '#locale/SupportedLocales.ts';
+    import { SEARCH_SYMBOL } from '#parser/Symbols.ts';
+    import { withColorEmoji, withMonoEmoji } from '#unicode/emoji.ts';
+    import { localizedGlyphName } from '#unicode/glyphName.ts';
+    import { buildGlyphSearch } from '#unicode/glyphSearch.ts';
     import {
         getCodepoints,
         getGlyphNames,
         type Codepoint,
-    } from '@unicode/Unicode';
-    import { debounced } from '@util/debounce.svelte';
-    import { searchItems } from '@util/search';
+    } from '#unicode/Unicode.ts';
+    import { debounced } from '#util/debounce.svelte.ts';
+    import { searchItems } from '#util/search.ts';
     import { onMount } from 'svelte';
 
     const emojiMaps = Locales.emojis;

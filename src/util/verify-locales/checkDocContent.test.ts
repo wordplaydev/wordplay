@@ -1,8 +1,8 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import checkDocContent from '@util/verify-locales/checkDocContent';
-import getDocExamples from '@util/verify-locales/docExamples';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import checkDocContent from '#util/verify-locales/checkDocContent.ts';
+import getDocExamples from '#util/verify-locales/docExamples.ts';
 import { describe, expect, test } from 'vitest';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /** The problem kinds reported for a doc, for terse assertions. */
 function kinds(doc: string) {

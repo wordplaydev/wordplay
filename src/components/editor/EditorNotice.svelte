@@ -7,8 +7,8 @@
   is arbitrary. When `dismiss` is provided, a close button is pinned to the inline-end.
 -->
 <script lang="ts">
-    import Button from '@components/widgets/Button.svelte';
-    import { animationDuration } from '@db/Database';
+    import Button from '#components/widgets/Button.svelte';
+    import { animationDuration } from '#db/Database.ts';
     import { type Snippet } from 'svelte';
     import { slide } from 'svelte/transition';
 

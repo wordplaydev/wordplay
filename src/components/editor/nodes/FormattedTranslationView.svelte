@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type FormattedTranslation from '@nodes/FormattedTranslation';
+    import type FormattedTranslation from '#nodes/FormattedTranslation.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: FormattedTranslation;

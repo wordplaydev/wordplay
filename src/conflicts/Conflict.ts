@@ -1,11 +1,11 @@
-import type Project from '@db/projects/Project';
-import type LocaleText from '@locale/LocaleText';
-import type { ConflictText } from '@locale/NodeTexts';
-import type Context from '@nodes/Context';
-import Node from '@nodes/Node';
-import type Locales from '@locale/Locales';
-import type { LocaleTextAccessor } from '@locale/Locales';
-import type Markup from '@nodes/Markup';
+import type Project from '#db/projects/Project.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { ConflictText } from '#locale/NodeTexts.ts';
+import type Context from '#nodes/Context.ts';
+import Node from '#nodes/Node.ts';
+import type Locales from '#locale/Locales.ts';
+import type { LocaleTextAccessor } from '#locale/Locales.ts';
+import type Markup from '#nodes/Markup.ts';
 
 /**
  * How severe a conflict is. Severity is about how the conflict is *presented*; whether it blocks a

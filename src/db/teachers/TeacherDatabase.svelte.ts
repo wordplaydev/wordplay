@@ -1,10 +1,10 @@
-import { Domain } from '@db/Domains';
+import { Domain } from '#db/Domains.ts';
 // Provide schemas and database access for all teaching functionality.
 // By design, we get all data on demand here, rather than caching, using a
 // more transactional model.
 
-import { DB, Galleries } from '@db/Database';
-import { firestore as db } from '@db/firebase';
+import { DB, Galleries } from '#db/Database.ts';
+import { firestore as db } from '#db/firebase.ts';
 
 import {
     arrayRemove,

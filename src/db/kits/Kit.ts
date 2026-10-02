@@ -3,8 +3,8 @@ import {
     ModerationStateSchema,
     unknownFlags,
     type ModerationState,
-} from '@db/projects/Moderation';
-import { PreviewContentSchema } from '@db/projects/ProjectSchemas';
+} from '#db/projects/Moderation.ts';
+import { PreviewContentSchema } from '#db/projects/ProjectSchemas.ts';
 
 /**
  * A **kit** is one source a creator has published for other people to build with (#8).

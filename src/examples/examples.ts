@@ -1,18 +1,18 @@
-import Gallery, { GallerySchemaLatestVersion } from '@db/galleries/Gallery';
+import Gallery, { GallerySchemaLatestVersion } from '#db/galleries/Gallery.ts';
 import type { ExampleGalleryID } from './exampleGalleryIDs';
-import { moderatedFlags } from '@db/projects/Moderation';
+import { moderatedFlags } from '#db/projects/Moderation.ts';
 import {
     ProjectSchemaLatestVersion,
     type SerializedPreview,
     type SerializedProject,
-} from '@db/projects/ProjectSchemas';
-import type { GalleryText } from '@locale/GalleryTexts';
-import { localeToString } from '@locale/Locale';
-import type Locales from '@locale/Locales';
-import { parseNames } from '@parser/parseBind';
-import { toTokens } from '@parser/toTokens';
-import UnicodeString from '@unicode/UnicodeString';
-import { must } from '@util/nullable';
+} from '#db/projects/ProjectSchemas.ts';
+import type { GalleryText } from '#locale/GalleryTexts.ts';
+import { localeToString } from '#locale/Locale.ts';
+import type Locales from '#locale/Locales.ts';
+import { parseNames } from '#parser/parseBind.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
+import { must } from '#util/nullable.ts';
 import { parsePreamble, type Preamble } from './preamble';
 
 /** This mirrors the static path to examples, but also helps distinguish project IDs from example project names. */

@@ -21,15 +21,15 @@ import {
     DegreeEpsilon,
     degreeToSemitones,
     degreeVoices,
-} from '@output/Music/degrees';
-import { PlainDurations } from '@output/Music/durations';
-import { last, must } from '@util/nullable';
-import { instrumentSpec, sung } from '@output/Music/instruments';
+} from '#output/Music/degrees.ts';
+import { PlainDurations } from '#output/Music/durations.ts';
+import { last, must } from '#util/nullable.ts';
+import { instrumentSpec, sung } from '#output/Music/instruments.ts';
 import {
     trackLength,
     type MusicData,
     type TrackData,
-} from '@output/Music/musicData';
+} from '#output/Music/musicData.ts';
 
 /* ------------------------------------------------------------------ *
  * Glyphs

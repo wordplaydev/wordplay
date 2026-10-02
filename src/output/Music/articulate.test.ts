@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import { articulate, assignWords } from '@output/Music/articulate';
-import { last, must } from '@util/nullable';
+import { articulate, assignWords } from '#output/Music/articulate.ts';
+import { last, must } from '#util/nullable.ts';
 
 /** Notes, written as the degrees they sound; an empty list is a rest. */
 function notes(...degrees: number[][]) {

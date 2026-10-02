@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
-import ExceptionValue from '@values/ExceptionValue';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
+import evaluateCode from '#runtime/evaluate.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
 
 test('Moment evaluates to a structure', () => {
     const value = evaluateCode('Moment(2026 7 1)');

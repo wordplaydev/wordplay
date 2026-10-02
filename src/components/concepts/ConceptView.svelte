@@ -1,20 +1,26 @@
 <script lang="ts">
-    import type Concept from '@concepts/Concept';
-    import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
+    import type { AppPath } from '#util/appPath.ts';
+    import type Concept from '#concepts/Concept.ts';
+    import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '#parser/Symbols.ts';
     import { slide } from 'svelte/transition';
-    import { Locales, animationDuration, blocks, locales } from '@db/Database';
-    import type LocaleText from '@locale/LocaleText';
-    import type Type from '@nodes/Type';
-    import type TypeVariables from '@nodes/TypeVariables';
+    import {
+        Locales,
+        animationDuration,
+        blocks,
+        locales,
+    } from '#db/Database.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import type Type from '#nodes/Type.ts';
+    import type TypeVariables from '#nodes/TypeVariables.ts';
     import Progress from '../../tutorial/Progress';
-    import Link from '@components/app/Link.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import Speech from '@components/lore/Speech.svelte';
-    import RootView from '@components/project/RootView.svelte';
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getConceptIndex } from '@components/project/Contexts';
+    import Link from '#components/app/Link.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import Speech from '#components/lore/Speech.svelte';
+    import RootView from '#components/project/RootView.svelte';
+    import ConceptPreview from '#components/concepts/ConceptPreview.svelte';
+    import ConceptLinkUI from '#components/concepts/ConceptLinkUI.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getConceptIndex } from '#components/project/Contexts.ts';
 
     interface Props {
         concept: Concept;
@@ -34,7 +40,7 @@
 
     /** The tutorial scene that teaches this concept, if any: its URL and its title (used as the
      *  link label). Found by matching the concept's character name to a scene in the locale's tutorial. */
-    let tutorial: { url: string; title: string } | undefined =
+    let tutorial: { url: AppPath; title: string } | undefined =
         $state(undefined);
 
     async function getConceptTutorial(locale: LocaleText) {

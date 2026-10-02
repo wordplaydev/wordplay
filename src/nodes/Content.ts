@@ -1,11 +1,11 @@
-import type ConceptRef from '@locale/ConceptRef';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
-import type NodeRef from '@locale/NodeRef';
-import type TermRef from '@locale/TermRef';
-import type ValueRef from '@locale/ValueRef';
-import Node from '@nodes/Node';
-import type Token from '@nodes/Token';
+import type ConceptRef from '#locale/ConceptRef.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import type NodeRef from '#locale/NodeRef.ts';
+import type TermRef from '#locale/TermRef.ts';
+import type ValueRef from '#locale/ValueRef.ts';
+import Node from '#nodes/Node.ts';
+import type Token from '#nodes/Token.ts';
 
 /** Represents a part of Markup */
 export default abstract class Content extends Node {

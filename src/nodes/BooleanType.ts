@@ -1,14 +1,14 @@
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { QUESTION_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '@basis/BasisConstants';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { QUESTION_SYMBOL } from '#parser/Symbols.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import Characters from '../lore/BasisCharacters';
-import BasisType from '@nodes/BasisType';
-import BooleanLiteral from '@nodes/BooleanLiteral';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import type TypeSet from '@nodes/TypeSet';
+import BasisType from '#nodes/BasisType.ts';
+import BooleanLiteral from '#nodes/BooleanLiteral.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 export default class BooleanType extends BasisType {
     readonly type: Token;

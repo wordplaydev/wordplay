@@ -1,18 +1,18 @@
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import Block, { BlockKind } from '@nodes/Block';
-import SetType from '@nodes/SetType';
-import Source from '@nodes/Source';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import SetType from '#nodes/SetType.ts';
+import Source from '#nodes/Source.ts';
 import {
     FALSE_SYMBOL,
     SET_CLOSE_SYMBOL,
     SET_OPEN_SYMBOL,
     TRUE_SYMBOL,
-} from '@parser/Symbols';
-import NumberValue from '@values/NumberValue';
+} from '#parser/Symbols.ts';
+import NumberValue from '#values/NumberValue.ts';
 import { describe, expect, it, test } from 'vitest';
-import evaluateCode from '@runtime/evaluate';
-import SetValue from '@values/SetValue';
+import evaluateCode from '#runtime/evaluate.ts';
+import SetValue from '#values/SetValue.ts';
 
 test.each([
     ['{} = {}', TRUE_SYMBOL],

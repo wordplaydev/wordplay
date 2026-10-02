@@ -1,22 +1,22 @@
 <script lang="ts">
-    import { Faces, getFaceDescription } from '@basis/faces/Fonts';
+    import { Faces, getFaceDescription } from '#basis/faces/Fonts.ts';
     import {
         getLocalizing,
         getUser,
         isAuthenticated,
-    } from '@components/project/Contexts';
-    import Subheader from '@components/app/Subheader.svelte';
+    } from '#components/project/Contexts.ts';
+    import Subheader from '#components/app/Subheader.svelte';
     import {
         LayoutIcons,
         StagePlacementIcons,
-    } from '@components/project/Layout';
-    import FaceName from '@components/settings/FaceName.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import Synced from '@components/widgets/Synced.svelte';
+    } from '#components/project/Layout.ts';
+    import FaceName from '#components/settings/FaceName.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Options from '#components/widgets/Options.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import Synced from '#components/widgets/Synced.svelte';
     import {
         adaptOutput,
         arrangement,
@@ -45,41 +45,41 @@
         words,
         wrap,
         writingLayout,
-    } from '@db/Database';
+    } from '#db/Database.ts';
     import {
         AnimationFactorIcons,
         AnimationFactors,
         AnimationFactorSetting,
-    } from '@db/settings/AnimationFactorSetting';
+    } from '#db/settings/AnimationFactorSetting.ts';
     import {
         ArrangementOrder,
         hasStagePlacement,
-    } from '@db/settings/Arrangement';
-    import { StagePlacementOrder } from '@db/settings/StagePlacement';
+    } from '#db/settings/Arrangement.ts';
+    import { StagePlacementOrder } from '#db/settings/StagePlacement.ts';
     import {
         CaptionSizeIcons,
         CaptionSizes,
-    } from '@db/settings/CaptionSizeSetting';
+    } from '#db/settings/CaptionSizeSetting.ts';
     import {
         ReadAloudRateIcons,
         ReadAloudRates,
-    } from '@db/settings/SaySetting';
-    import { FaceSetting } from '@db/settings/FaceSetting';
+    } from '#db/settings/SaySetting.ts';
+    import { FaceSetting } from '#db/settings/FaceSetting.ts';
     import {
         MusicVisualizationIcons,
         MusicVisualizations,
-    } from '@db/settings/MusicSettings';
+    } from '#db/settings/MusicSettings.ts';
     import supportsVibration, {
         hasRumblingGamepad,
-    } from '@db/settings/supportsVibration';
-    import { TAB_SYMBOL } from '@parser/Spaces';
+    } from '#db/settings/supportsVibration.ts';
+    import { TAB_SYMBOL } from '#parser/Spaces.ts';
     import {
         BLOCK_EDITING_SYMBOL,
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
         EDIT_SYMBOL,
         TEXT_EDITING_SYMBOL,
-    } from '@parser/Symbols';
+    } from '#parser/Symbols.ts';
     import { onMount } from 'svelte';
 
     const user = getUser();

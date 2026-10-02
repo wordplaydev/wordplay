@@ -1,7 +1,7 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import Doc from '@nodes/Doc';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Doc from '#nodes/Doc.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
 import { expect, test, vi } from 'vitest';
 import Project from './Project';
 

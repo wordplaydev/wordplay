@@ -1,11 +1,11 @@
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import { ToggleSearch } from '@components/editor/commands/Commands';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import Button from '@components/widgets/Button.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { CONFIRM_SYMBOL } from '@parser/Symbols';
+    import Emoji from '#components/app/Emoji.svelte';
+    import { ToggleSearch } from '#components/editor/commands/Commands.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import { CONFIRM_SYMBOL } from '#parser/Symbols.ts';
     import { tick } from 'svelte';
 
     interface Props {

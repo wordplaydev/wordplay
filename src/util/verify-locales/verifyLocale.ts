@@ -1,9 +1,9 @@
-import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
-import { isRecord } from '@util/guards';
-import { concretizeOrUndefined } from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import type LocaleText from '@locale/LocaleText';
+import { MachineTranslated, Revised, Unwritten } from '#locale/Annotations.ts';
+import { isRecord } from '#util/guards.ts';
+import { concretizeOrUndefined } from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
 import {
     isMachineTranslated,
     isRevised,
@@ -11,68 +11,69 @@ import {
     parseLocaleDoc,
     toDocString,
     toLocaleString,
-} from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import markUnwritten from '@util/verify-locales/markUnwritten';
-import ConceptLink from '@nodes/ConceptLink';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import { toTokens } from '@parser/toTokens';
-import checkDocContent from '@util/verify-locales/checkDocContent';
-import checkBasisNames from '@util/verify-locales/checkBasisNames';
-import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
-import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
-import repairGlossaryWords from '@util/verify-locales/checkGlossaryWords';
-import checkExampleNames from '@util/verify-locales/checkExampleNames';
-import checkPointedNames from '@util/verify-locales/checkPointedNames';
-import checkSiblingNames from '@util/verify-locales/checkSiblingNames';
-import checkTypedInputNames from '@util/verify-locales/checkTypedInputNames';
-import checkDegenerateNames from '@util/verify-locales/checkDegenerateNames';
-import checkNames from '@util/verify-locales/checkNames';
-import checkOperatorKeywords from '@util/verify-locales/checkOperatorKeywords';
-import checkRedundantNames from '@util/verify-locales/checkRedundantNames';
-import checkAnnotations from '@util/verify-locales/checkAnnotations';
-import checkStringArrays from '@util/verify-locales/checkStringArrays';
-import checkTerms from '@util/verify-locales/checkTerms';
-import checkExampleDocs from '@util/verify-locales/checkExampleDocs';
-import checkUntranslated from '@util/verify-locales/checkUntranslated';
-import checkItalicSpans from '@util/verify-locales/checkItalicSpans';
-import checkReducedTemplates from '@util/verify-locales/checkReducedTemplates';
-import checkOppositeStrings from '@util/verify-locales/checkOppositeStrings';
-import checkPluralArmInputs from '@util/verify-locales/checkPluralArmInputs';
+} from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import markUnwritten from '#util/verify-locales/markUnwritten.ts';
+import ConceptLink from '#nodes/ConceptLink.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import { toTokens } from '#parser/toTokens.ts';
+import checkDocContent from '#util/verify-locales/checkDocContent.ts';
+import checkBasisNames from '#util/verify-locales/checkBasisNames.ts';
+import checkGlobalNames from '#util/verify-locales/checkGlobalNames.ts';
+import checkGlossaryForms from '#util/verify-locales/checkGlossaryForms.ts';
+import repairGlossaryWords from '#util/verify-locales/checkGlossaryWords.ts';
+import checkExampleNames from '#util/verify-locales/checkExampleNames.ts';
+import checkPointedNames from '#util/verify-locales/checkPointedNames.ts';
+import checkSiblingNames from '#util/verify-locales/checkSiblingNames.ts';
+import checkTypedInputNames from '#util/verify-locales/checkTypedInputNames.ts';
+import checkDegenerateNames from '#util/verify-locales/checkDegenerateNames.ts';
+import checkNames from '#util/verify-locales/checkNames.ts';
+import checkOperatorKeywords from '#util/verify-locales/checkOperatorKeywords.ts';
+import checkRedundantNames from '#util/verify-locales/checkRedundantNames.ts';
+import checkAnnotations from '#util/verify-locales/checkAnnotations.ts';
+import checkStringArrays from '#util/verify-locales/checkStringArrays.ts';
+import checkTerms from '#util/verify-locales/checkTerms.ts';
+import checkExampleDocs from '#util/verify-locales/checkExampleDocs.ts';
+import checkUntranslated from '#util/verify-locales/checkUntranslated.ts';
+import checkLinkTargets from '#util/verify-locales/checkLinkTargets.ts';
+import checkItalicSpans from '#util/verify-locales/checkItalicSpans.ts';
+import checkReducedTemplates from '#util/verify-locales/checkReducedTemplates.ts';
+import checkOppositeStrings from '#util/verify-locales/checkOppositeStrings.ts';
+import checkPluralArmInputs from '#util/verify-locales/checkPluralArmInputs.ts';
 import classifyLocalePath, {
     classifyPair,
     isEmotionPath,
     isGlossaryFormsPath,
     isNameTextPath,
     isTermPhrasePath,
-} from '@util/verify-locales/classifyLocalePath';
+} from '#util/verify-locales/classifyLocalePath.ts';
 import LocalePath, {
     getKeyTemplatePairs,
-} from '@util/verify-locales/LocalePath';
-import { LocaleValidator } from '@util/verify-locales/LocaleSchema';
-import type Log from '@util/verify-locales/Log';
+} from '#util/verify-locales/LocalePath.ts';
+import { LocaleValidator } from '#util/verify-locales/LocaleSchema.ts';
+import type Log from '#util/verify-locales/Log.ts';
 import {
     mismatchedConceptLinks,
     mismatchedDelimiter,
     splitDocParagraphs,
-} from '@util/verify-locales/protect';
-import type { RevisedString } from '@util/verify-locales/start';
-import checkDetachedBranches from '@util/verify-locales/checkDetachedBranches';
-import checkSingleArmBranches from '@util/verify-locales/checkSingleArmBranches';
+} from '#util/verify-locales/protect.ts';
+import type { RevisedString } from '#util/verify-locales/start.ts';
+import checkDetachedBranches from '#util/verify-locales/checkDetachedBranches.ts';
+import checkSingleArmBranches from '#util/verify-locales/checkSingleArmBranches.ts';
 import {
     checkPluralBranches,
     checkTemplateInputs,
     getDeclaredInputs,
     resolveTerms,
     withoutCountMarker,
-} from '@util/verify-locales/templateInputs';
-import { getPluralCategories, getPluralCount } from '@locale/plurals';
-import getTranslator from '@util/verify-locales/getTranslator';
-import { TranslationFailedAdvice } from '@util/verify-locales/getTranslator';
-import type Translator from '@util/verify-locales/Translator';
-import toValidName from '@util/toValidName';
-import { must } from '@util/nullable';
+} from '#util/verify-locales/templateInputs.ts';
+import { getPluralCategories, getPluralCount } from '#locale/plurals.ts';
+import getTranslator from '#util/verify-locales/getTranslator.ts';
+import { TranslationFailedAdvice } from '#util/verify-locales/getTranslator.ts';
+import type Translator from '#util/verify-locales/Translator.ts';
+import toValidName from '#util/toValidName.ts';
+import { must } from '#util/nullable.ts';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
 export function createUnwrittenLocale(): LocaleText {
@@ -202,6 +203,11 @@ export async function verifyLocale(
     // this marks is honored by the same run.
     if (locale !== 'en-US')
         revisedText = checkUntranslated(log, DefaultLocale, revisedText, fix);
+
+    // Web links a translation broke: repaired from en-US where the text says how,
+    // re-queued where it doesn't. Before the translation pass, so this run redoes them.
+    if (locale !== 'en-US')
+        revisedText = checkLinkTargets(log, DefaultLocale, revisedText, fix);
 
     // Italic names of controls and inputs a translation left in English. Before the
     // translation pass too, so a machine translation it re-queues is redone this run.

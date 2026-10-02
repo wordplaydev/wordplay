@@ -1,7 +1,7 @@
-import DefaultLocale from '@locale/DefaultLocale';
-import { parseLocaleDoc } from '@locale/LocaleText';
-import ConceptLink from '@nodes/ConceptLink';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { parseLocaleDoc } from '#locale/LocaleText.ts';
+import ConceptLink from '#nodes/ConceptLink.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
 import { expect, test } from 'vitest';
 
 test('every reference in en-US resolves', () => {

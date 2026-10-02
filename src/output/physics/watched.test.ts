@@ -1,14 +1,14 @@
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import type { OutputInfo, OutputInfoSet } from '@output/animation/Animator';
-import RenderContext from '@output/RenderContext';
-import type Stage from '@output/Output/Stage';
-import { toStage } from '@output/Output/Stage';
-import Physics from '@output/physics/Physics';
-import Evaluator from '@runtime/Evaluator';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import type { OutputInfo, OutputInfoSet } from '#output/animation/Animator.ts';
+import RenderContext from '#output/RenderContext.ts';
+import type Stage from '#output/Output/Stage.ts';
+import { toStage } from '#output/Output/Stage.ts';
+import Physics from '#output/physics/Physics.ts';
+import Evaluator from '#runtime/Evaluator.ts';
 import { beforeAll, expect, test } from 'vitest';
 import { loadRapier, onRapierLoaded } from './rapierLoader';
 

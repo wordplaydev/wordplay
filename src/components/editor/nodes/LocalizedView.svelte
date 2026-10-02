@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type Localized from '@nodes/Localized';
+    import type Localized from '#nodes/Localized.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Localized;

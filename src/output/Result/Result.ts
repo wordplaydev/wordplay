@@ -1,8 +1,8 @@
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import type Names from '@nodes/Names';
+import toStructure from '#basis/toStructure.ts';
+import { getBind } from '#locale/getBind.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import type Names from '#nodes/Names.ts';
 
 /**
  * The localized name(s) of the `Result` structure, drawn from the active

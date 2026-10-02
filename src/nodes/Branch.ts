@@ -1,17 +1,17 @@
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
-import type { TemplateInput } from '@locale/Locales';
-import { selectPluralIndex } from '@locale/plurals';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
+import type { TemplateInput } from '#locale/Locales.ts';
+import { selectPluralIndex } from '#locale/plurals.ts';
 import Characters from '../lore/BasisCharacters';
-import Content from '@nodes/Content';
-import Mention from '@nodes/Mention';
-import type Node from '@nodes/Node';
-import { type Grammar, list, node, type Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Words from '@nodes/Words';
+import Content from '#nodes/Content.ts';
+import Mention from '#nodes/Mention.ts';
+import type Node from '#nodes/Node.ts';
+import { type Grammar, list, node, type Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Words from '#nodes/Words.ts';
 
 /**
  * A choice between segments of markup, written as a mention followed

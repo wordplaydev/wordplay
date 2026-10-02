@@ -1,13 +1,13 @@
-import BindConcept from '@concepts/BindConcept';
-import type Concept from '@concepts/Concept';
-import FunctionConcept from '@concepts/FunctionConcept';
-import type { PurposeType } from '@concepts/Purpose';
-import StructureConcept from '@concepts/StructureConcept';
-import type Locales from '@locale/Locales';
-import Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
+import BindConcept from '#concepts/BindConcept.ts';
+import type Concept from '#concepts/Concept.ts';
+import FunctionConcept from '#concepts/FunctionConcept.ts';
+import type { PurposeType } from '#concepts/Purpose.ts';
+import StructureConcept from '#concepts/StructureConcept.ts';
+import type Locales from '#locale/Locales.ts';
+import Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
 
 /**
  * The concept that documents one creator-written definition, or `undefined` for anything

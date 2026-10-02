@@ -1,16 +1,16 @@
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import { testConflict } from '@conflicts/TestUtilities';
-import { UnknownName } from '@conflicts/UnknownName';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import { testConflict } from '#conflicts/TestUtilities.ts';
+import { UnknownName } from '#conflicts/UnknownName.ts';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '@conflicts/IncompatibleInput';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import evaluateCode from '@runtime/evaluate';
-import ListAccess from '@nodes/ListAccess';
-import Reference from '@nodes/Reference';
-import Source from '@nodes/Source';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
+import IncompatibleInput from '#conflicts/IncompatibleInput.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import ListAccess from '#nodes/ListAccess.ts';
+import Reference from '#nodes/Reference.ts';
+import Source from '#nodes/Source.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
 
 test.each([
     ['[1 2 3][0]', '[1 2 "hi"]["hi"]', ListAccess, IncompatibleInput, 0],

@@ -26,20 +26,20 @@
      * movable, so everything here is keyed by `(entry, voice)`. Keying by entry
      * alone would make the two noteheads of a chord fight over one element.
      */
-    import exceedsMoveThreshold from '@components/output/moveThreshold';
+    import exceedsMoveThreshold from '#components/output/moveThreshold.ts';
     import {
         getAnnouncer,
         getSelectedOutput,
-    } from '@components/project/Contexts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { animationFactor, locales } from '@db/Database';
-    import type { EditableTrack } from '@edit/output/editableMusic';
-    import { degreeText } from '@edit/output/editNotes';
+    } from '#components/project/Contexts.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { animationFactor, locales } from '#db/Database.ts';
+    import type { EditableTrack } from '#edit/output/editableMusic.ts';
+    import { degreeText } from '#edit/output/editNotes.ts';
     import {
         firstSoundingBeat,
         insertionAtBeat,
         trackLength,
-    } from '@output/Music/musicData';
+    } from '#output/Music/musicData.ts';
     import {
         beatAtX,
         degreeForStep,
@@ -53,7 +53,7 @@
         stepAtPlace,
         TrebleClef,
         type Mark,
-    } from '@output/Music/sheet';
+    } from '#output/Music/sheet.ts';
     import { flip } from 'svelte/animate';
 
     /** Where the caret is: an entry, and which of its degrees. */

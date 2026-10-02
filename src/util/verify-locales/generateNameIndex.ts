@@ -20,20 +20,20 @@
 // drift-checked by `npm run locales`. It is advisory data — it drives suggestions, never
 // analysis — so a stale copy costs a suggestion and nothing else.
 
-import { Basis } from '@basis/Basis';
-import concretize from '@locale/concretize';
-import { toLocaleString } from '@locale/LocaleText';
-import type LocaleText from '@locale/LocaleText';
-import Locales from '@locale/Locales';
-import type { LocaleNameIndex } from '@locale/localeNameIndex';
-import Doc from '@nodes/Doc';
-import Docs from '@nodes/Docs';
-import Name from '@nodes/Name';
-import Names from '@nodes/Names';
-import type Node from '@nodes/Node';
-import { KeywordIds } from '@parser/Keywords';
-import type Log from '@util/verify-locales/Log';
-import writeFormatted from '@util/verify-locales/writeFormatted';
+import { Basis } from '#basis/Basis.ts';
+import concretize from '#locale/concretize.ts';
+import { toLocaleString } from '#locale/LocaleText.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Locales from '#locale/Locales.ts';
+import type { LocaleNameIndex } from '#locale/localeNameIndex.ts';
+import Doc from '#nodes/Doc.ts';
+import Docs from '#nodes/Docs.ts';
+import Name from '#nodes/Name.ts';
+import Names from '#nodes/Names.ts';
+import type Node from '#nodes/Node.ts';
+import { KeywordIds } from '#parser/Keywords.ts';
+import type Log from '#util/verify-locales/Log.ts';
+import writeFormatted from '#util/verify-locales/writeFormatted.ts';
 import path from 'path';
 
 /** Where the artifact is written, relative to the repo root. */

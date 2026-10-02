@@ -328,7 +328,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Dönüşü denetlemek için kullanıcı girdisi ekleyerek bunu daha da etkileşimli yapabiliriz, örneğin mikrofon girdisinin @Volume'u gibi. Bu, 0 ile 1 arasında bir değerdir, bu yüzden onu 360 dereceye eşleyebiliriz.",
-                            "$~Çoğu projenin biçimi budur: önce bildirimler, sonra tepkiler, sonra çıktı. <Guide//guide> içinde, incelemek, kopyalamak ve düzenlemek için tariflerle dolu bir @how bölümü vardır.",
+                            "$~Çoğu projenin biçimi budur: önce bildirimler, sonra tepkiler, sonra çıktı. <Guide@://guide> içinde, incelemek, kopyalamak ve düzenlemek için tariflerle dolu bir @how bölümü vardır.",
                             "$~İyi üretimler!"
                         ]
                     ]

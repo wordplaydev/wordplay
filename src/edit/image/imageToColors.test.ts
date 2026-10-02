@@ -7,10 +7,10 @@ import {
     MaxResolution,
     MinResolution,
     ResolutionStep,
-} from '@edit/image/imageToColors';
-import evaluateCode from '@runtime/evaluate';
-import parseProgram from '@parser/parseProgram';
-import { toTokens } from '@parser/toTokens';
+} from '#edit/image/imageToColors.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import parseProgram from '#parser/parseProgram.ts';
+import { toTokens } from '#parser/toTokens.ts';
 
 test('a color is written the way Camera writes one', () => {
     // Integers throughout, and a hue that carries its unit — without the degrees,

@@ -6,24 +6,24 @@
      Renders no wrapper element: a phrase's box is sized to exact text metrics,
      so anything around the text would change what the layout measured. -->
 <script lang="ts">
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import PlainTextView from '@components/output/PlainTextView.svelte';
-    import { locales } from '@db/Database';
-    import type LanguageCode from '@locale/LanguageCode';
-    import type { RegionCode } from '@locale/Regions';
-    import type Markup from '@nodes/Markup';
-    import { getTransitionIndex } from '@output/animation/getTextTransition';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import PlainTextView from '#components/output/PlainTextView.svelte';
+    import { locales } from '#db/Database.ts';
+    import type LanguageCode from '#locale/LanguageCode.ts';
+    import type { RegionCode } from '#locale/Regions.ts';
+    import type Markup from '#nodes/Markup.ts';
+    import { getTransitionIndex } from '#output/animation/getTextTransition.ts';
     import {
         getTransitionSteps,
         keyOf,
         reprOf,
         sameKind,
-    } from '@output/animation/getTransitionSteps';
+    } from '#output/animation/getTransitionSteps.ts';
     import {
         changingToTextEffect,
         styleToEasingFunction,
-    } from '@output/animation/OutputAnimation';
-    import type TextValue from '@values/TextValue';
+    } from '#output/animation/OutputAnimation.ts';
+    import type TextValue from '#values/TextValue.ts';
     import { untrack } from 'svelte';
 
     interface Props {

@@ -8,8 +8,8 @@ import {
     flattenGlyphLoops,
     shapeTextGlyphs,
     type OutlinePoint,
-} from '@basis/faces/shapeText';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
+} from '#basis/faces/shapeText.ts';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
 
 /** A glyph's outline as closed contours, in **em units**, y-up from the
  *  baseline with x measured from the text's origin. The outer contour of an `o`

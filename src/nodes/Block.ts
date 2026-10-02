@@ -1,37 +1,40 @@
-import type Conflict from '@conflicts/Conflict';
-import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import Evaluation from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import Finish from '@runtime/Finish';
-import Initialize from '@runtime/Initialize';
-import Start from '@runtime/Start';
-import type Step from '@runtime/Step';
-import ListValue from '@values/ListValue';
-import NoneValue from '@values/NoneValue';
-import type Value from '@values/Value';
-import { Purpose } from '@concepts/Purpose';
-import type Locales from '@locale/Locales';
+import type Conflict from '#conflicts/Conflict.ts';
+import { ExpectedEndingExpression } from '#conflicts/ExpectedEndingExpression.ts';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '#edit/revision/EditContext.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import Evaluation from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import Finish from '#runtime/Finish.ts';
+import Initialize from '#runtime/Initialize.ts';
+import Start from '#runtime/Start.ts';
+import type Step from '#runtime/Step.ts';
+import ListValue from '#values/ListValue.ts';
+import NoneValue from '#values/NoneValue.ts';
+import type Value from '#values/Value.ts';
+import { Purpose } from '#concepts/Purpose.ts';
+import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
-import Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import DefinitionExpression from '@nodes/DefinitionExpression';
-import Docs from '@nodes/Docs';
-import EvalCloseToken from '@nodes/EvalCloseToken';
-import EvalOpenToken from '@nodes/EvalOpenToken';
+import Bind from '#nodes/Bind.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import DefinitionExpression from '#nodes/DefinitionExpression.ts';
+import Docs from '#nodes/Docs.ts';
+import EvalCloseToken from '#nodes/EvalCloseToken.ts';
+import EvalOpenToken from '#nodes/EvalOpenToken.ts';
 import Expression, {
     ExpressionKind,
     type GuardContext,
-} from '@nodes/Expression';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import Names from '@nodes/Names';
-import NoExpressionType from '@nodes/NoExpressionType';
-import type Node from '@nodes/Node';
+} from '#nodes/Expression.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import Names from '#nodes/Names.ts';
+import NoExpressionType from '#nodes/NoExpressionType.ts';
+import type Node from '#nodes/Node.ts';
 import {
     any,
     list,
@@ -39,15 +42,15 @@ import {
     none,
     type Grammar,
     type Replacement,
-} from '@nodes/Node';
-import ListType from '@nodes/ListType';
-import Reference from '@nodes/Reference';
-import StructureDefinition from '@nodes/StructureDefinition';
-import UnionType from '@nodes/UnionType';
-import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
+} from '#nodes/Node.ts';
+import ListType from '#nodes/ListType.ts';
+import Reference from '#nodes/Reference.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import UnionType from '#nodes/UnionType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import type Token from '#nodes/Token.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 export const BlockKind = {
     Root: 'root',

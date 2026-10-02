@@ -1,11 +1,11 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import NoneType from '@nodes/NoneType';
-import { NONE_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Expression from '@nodes/Expression';
-import type Value from '@values/Value';
-import SimpleValue from '@values/SimpleValue';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import NoneType from '#nodes/NoneType.ts';
+import { NONE_SYMBOL } from '#parser/Symbols.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Value from '#values/Value.ts';
+import SimpleValue from '#values/SimpleValue.ts';
 
 export default class NoneValue extends SimpleValue {
     constructor(creator: Expression) {

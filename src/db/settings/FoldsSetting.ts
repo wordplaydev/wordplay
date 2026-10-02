@@ -1,6 +1,6 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 import { z } from 'zod';
-import type { Path } from '@nodes/Root';
+import type { Path } from '#nodes/Root.ts';
 
 /** A serialized node path (matches Root.Path): a sequence of (parent descriptor,
  *  child index) steps from the source root. */

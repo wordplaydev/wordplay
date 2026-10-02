@@ -1,10 +1,10 @@
-import { Locales } from '@db/Database';
-import Project from '@db/projects/Project';
-import { stringToLocale } from '@locale/Locale';
-import Source from '@nodes/Source';
-import DefaultLocale from '@locale/DefaultLocale';
+import { Locales } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import { stringToLocale } from '#locale/Locale.ts';
+import Source from '#nodes/Source.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import { parseSerializedProject } from '../../examples/examples';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
 import translateProjectContent, {

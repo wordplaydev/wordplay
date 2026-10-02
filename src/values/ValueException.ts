@@ -1,7 +1,7 @@
-import type Expression from '@nodes/Expression';
-import type Evaluator from '@runtime/Evaluator';
-import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '@locale/Locales';
+import type Expression from '#nodes/Expression.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import type Locales from '#locale/Locales.ts';
 
 export default class ValueException extends ExceptionValue {
     readonly expression: Expression;

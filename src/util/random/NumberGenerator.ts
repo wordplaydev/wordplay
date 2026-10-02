@@ -50,7 +50,7 @@ THE SOFTWARE.
 
 */
 
-import { matchGroups } from '@util/nullable';
+import { matchGroups } from '#util/nullable.ts';
 
 /**
  * The MD5 state and block are fixed-length word arrays, and this file indexes

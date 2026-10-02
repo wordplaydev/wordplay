@@ -1,21 +1,21 @@
-import { MachineTranslated } from '@locale/Annotations';
-import { getLanguageScripts } from '@locale/LanguageCode';
+import { MachineTranslated } from '#locale/Annotations.ts';
+import { getLanguageScripts } from '#locale/LanguageCode.ts';
 import {
     isMachineTranslated,
     isRevised,
     isUnwritten,
-} from '@locale/LocaleText';
-import type LocaleText from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { escapeRegExp } from '@util/verify-locales/markupText';
-import { isDefined } from '@util/nullable';
-import { splitMarkupAndCode } from '@util/verify-locales/protect';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
+} from '#locale/LocaleText.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { escapeRegExp } from '#util/verify-locales/markupText.ts';
+import { isDefined } from '#util/nullable.ts';
+import { splitMarkupAndCode } from '#util/verify-locales/protect.ts';
+import { getKeyTemplatePairs } from '#util/verify-locales/LocalePath.ts';
+import type Log from '#util/verify-locales/Log.ts';
 import {
     getItalicLabels,
     getItalicSpans,
-} from '@util/verify-locales/italicSpans';
+} from '#util/verify-locales/italicSpans.ts';
 
 /**
  * Whether an italic name left in English fails the build. Not yet: the backlog

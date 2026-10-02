@@ -328,7 +328,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Kita bisa membuat ini lebih interaktif dengan menambahkan masukan pengguna untuk mengendalikan putaran, seperti @Volume dari masukan mikrofon. Itu adalah value antara 0 dan 1, jadi kita bisa memetakannya ke 360 derajat.",
-                            "$~Itulah bentuk kebanyakan proyek: deklarasi, lalu reaksi, lalu keluaran. <Guide//guide> punya bagian @how yang penuh resep untuk dipelajari, disalin, dan diedit.",
+                            "$~Itulah bentuk kebanyakan proyek: deklarasi, lalu reaksi, lalu keluaran. <Guide@://guide> punya bagian @how yang penuh resep untuk dipelajari, disalin, dan diedit.",
                             "$~Selamat berkarya!"
                         ]
                     ]

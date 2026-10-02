@@ -7,14 +7,14 @@
         );
     }
 
-    import overflowFit from '@components/widgets/overflowFit';
+    import overflowFit from '#components/widgets/overflowFit.ts';
     import {
         placeNearTarget,
         roomAround,
-    } from '@components/widgets/placeNearTarget';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { locales } from '@db/Database';
+    } from '#components/widgets/placeNearTarget.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import { locales } from '#db/Database.ts';
     import { tick, type Snippet } from 'svelte';
 
     /** Either a list of zero-arg snippets, OR a count + indexed renderer. */

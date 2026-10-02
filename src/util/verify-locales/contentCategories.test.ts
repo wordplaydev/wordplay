@@ -8,7 +8,7 @@ import {
     tutorialTargetMatches,
     type RunSteps,
     type Selection,
-} from '@util/verify-locales/contentCategories';
+} from '#util/verify-locales/contentCategories.ts';
 
 /** Parse, asserting success (not a usage-error string). */
 function sel(args: string[]): Selection {

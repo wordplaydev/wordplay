@@ -4,9 +4,9 @@
  * in src/util/search.ts. A term's word ranks above its definition.
  */
 
-import { getGlossaryForms, getTermDefinition } from '@locale/Glossary';
-import type Locales from '@locale/Locales';
-import { foldEntry, type Searchable } from '@util/search';
+import { getGlossaryForms, getTermDefinition } from '#locale/Glossary.ts';
+import type Locales from '#locale/Locales.ts';
+import { foldEntry, type Searchable } from '#util/search.ts';
 
 /** Priority for a match on the term's word (ranks above a definition match). */
 const WORD_PRIORITY = 1;

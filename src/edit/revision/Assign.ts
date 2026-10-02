@@ -1,13 +1,13 @@
-import Caret from '@edit/caret/Caret';
-import { must } from '@util/nullable';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Node from '@nodes/Node';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '@components/editor/commands/Commands';
-import type Locales from '@locale/Locales';
-import Refer from '@edit/revision/Refer';
-import Revision from '@edit/revision/Revision';
+import Caret from '#edit/caret/Caret.ts';
+import { must } from '#util/nullable.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Node from '#nodes/Node.ts';
+import getPreferredSpaces from '#parser/getPreferredSpaces.ts';
+import type { Edit } from '#components/editor/commands/Commands.ts';
+import type Locales from '#locale/Locales.ts';
+import Refer from '#edit/revision/Refer.ts';
+import Revision from '#edit/revision/Revision.ts';
 
 type Addition = { field: string; node: Node | Refer };
 

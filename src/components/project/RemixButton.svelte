@@ -1,10 +1,10 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { Projects } from '@db/projects/Projects';
-    import type Project from '@db/projects/Project';
-    import { REMIX_SYMBOL } from '@parser/Symbols';
+    import Button from '#components/widgets/Button.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { Projects } from '#db/projects/Projects.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { REMIX_SYMBOL } from '#parser/Symbols.ts';
 
     interface Props {
         project: Project;

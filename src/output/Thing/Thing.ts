@@ -1,14 +1,14 @@
-import { getTypeName } from '@locale/getNameLocales';
-import toStructure from '@basis/toStructure';
-import { categoryTypeUnionCode } from '@input/Objects/ObjectCategories';
-import { getBind } from '@locale/getBind';
-import type Locales from '@locale/Locales';
-import { TYPE_SYMBOL } from '@parser/Symbols';
-import type Evaluator from '@runtime/Evaluator';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import Unit from '@nodes/Unit';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import toStructure from '#basis/toStructure.ts';
+import { categoryTypeUnionCode } from '#input/Objects/ObjectCategories.ts';
+import { getBind } from '#locale/getBind.ts';
+import type Locales from '#locale/Locales.ts';
+import { TYPE_SYMBOL } from '#parser/Symbols.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import Unit from '#nodes/Unit.ts';
 
 /**
  * One thing the camera saw, emitted as an element of the `Objects` stream's

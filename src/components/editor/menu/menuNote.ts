@@ -1,15 +1,15 @@
-import { docToMarkup } from '@locale/LocaleText';
-import { firstSentenceOf } from '@locale/firstSentence';
-import type Locales from '@locale/Locales';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Context from '@nodes/Context';
-import type Definition from '@nodes/Definition';
-import Evaluate from '@nodes/Evaluate';
-import Markup from '@nodes/Markup';
-import type Node from '@nodes/Node';
-import PropertyReference from '@nodes/PropertyReference';
-import Reference from '@nodes/Reference';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import { docToMarkup } from '#locale/LocaleText.ts';
+import { firstSentenceOf } from '#locale/firstSentence.ts';
+import type Locales from '#locale/Locales.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type Context from '#nodes/Context.ts';
+import type Definition from '#nodes/Definition.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Markup from '#nodes/Markup.ts';
+import type Node from '#nodes/Node.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import Reference from '#nodes/Reference.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
 import { getLanguageTagName } from './languageTagName';
 import { getUnitKey, getUnitName } from './unitName';
 

@@ -1,56 +1,56 @@
 <script lang="ts">
-    import ProgressBar from '@components/widgets/ProgressBar.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import TranslationMeter from '@components/app/TranslationMeter.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import LocaleName from '@components/settings/LocaleName.svelte';
+    import ProgressBar from '#components/widgets/ProgressBar.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import TranslationMeter from '#components/app/TranslationMeter.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import LocaleName from '#components/settings/LocaleName.svelte';
     import LocaleSearch, {
         filterLocalesByQuery,
-    } from '@components/settings/LocaleSearch.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Tabbed from '@components/widgets/Tabbed.svelte';
-    import { LanguagesDialogID } from '@components/widgets/dialogIDs';
-    import { Locales as LocalesDB, locales } from '@db/Database';
+    } from '#components/settings/LocaleSearch.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import Mode from '#components/widgets/Mode.svelte';
+    import Tabbed from '#components/widgets/Tabbed.svelte';
+    import { LanguagesDialogID } from '#components/widgets/dialogIDs.ts';
+    import { Locales as LocalesDB, locales } from '#db/Database.ts';
     import {
         budget,
         remaining,
         resetTranslationRefusal,
-    } from '@db/translationBudget.svelte';
+    } from '#db/translationBudget.svelte.ts';
     import {
         getAnnouncer,
         getUser,
         isAuthenticated,
-    } from '@components/project/Contexts';
-    import { getFunctionsInstance } from '@db/firebase';
-    import type Project from '@db/projects/Project';
-    import { Projects } from '@db/projects/Projects';
-    import translateProject from '@db/projects/translate';
-    import getTranslatableLocales from '@locale/getTranslatableLocales';
-    import { getLanguageName } from '@locale/LanguageCode';
-    import type LocaleText from '@locale/LocaleText';
+    } from '#components/project/Contexts.ts';
+    import { getFunctionsInstance } from '#db/firebase.ts';
+    import type Project from '#db/projects/Project.ts';
+    import { Projects } from '#db/projects/Projects.ts';
+    import translateProject from '#db/projects/translate.ts';
+    import getTranslatableLocales from '#locale/getTranslatableLocales.ts';
+    import { getLanguageName } from '#locale/LanguageCode.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
     import {
         localesAreEqual,
         localeToString,
         stringToLocale,
         type Locale,
-    } from '@locale/Locale';
+    } from '#locale/Locale.ts';
     import {
         findLocalesNaming,
         findLocalesWithKeyword,
         loadLocaleNameIndex,
-    } from '@locale/localeNameIndex';
-    import { SupportedLocales } from '@locale/SupportedLocales';
-    import type { SupportedLocale } from '@locale/SupportedLocales';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Reference from '@nodes/Reference';
+    } from '#locale/localeNameIndex.ts';
+    import { SupportedLocales } from '#locale/SupportedLocales.ts';
+    import type { SupportedLocale } from '#locale/SupportedLocales.ts';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import Reference from '#nodes/Reference.ts';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
         LOCALE_SYMBOL,
-    } from '@parser/Symbols';
+    } from '#parser/Symbols.ts';
 
     interface Props {
         project: Project;

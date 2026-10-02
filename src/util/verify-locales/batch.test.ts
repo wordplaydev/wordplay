@@ -10,8 +10,8 @@ import {
     truncate,
     splitKitPhase,
 } from './batch';
-import { resolveSymbols, stripAnsi } from '@util/verify-locales/Log';
-import { must } from '@util/nullable';
+import { resolveSymbols, stripAnsi } from '#util/verify-locales/Log.ts';
+import { must } from '#util/nullable.ts';
 
 const Unicode = resolveSymbols('darwin', {});
 const Ascii = resolveSymbols('win32', {});

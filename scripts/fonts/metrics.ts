@@ -1,11 +1,11 @@
 import * as fs from 'node:fs';
 import type { Font } from 'fontkit';
 import { loadFontkit } from './deriveRange';
-import { isRecord } from '@util/guards';
+import { isRecord } from '#util/guards.ts';
 import * as path from 'node:path';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
 import { spaceless } from './files';
-import { must } from '@util/nullable.ts';
+import { must } from '#util/nullable.ts';
 
 /**
  * The measured half of a face's description: how tall its lowercase sits, and

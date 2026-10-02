@@ -1,6 +1,6 @@
 import type * as RAPIER from '@dimforge/rapier2d-compat';
-import { PX_PER_METER } from '@output/Output/outputToCSS';
-import { FIXED_STEP_MS } from '@output/physics/Physics';
+import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
+import { FIXED_STEP_MS } from '#output/physics/Physics.ts';
 import {
     glyphColliderDesc,
     outermostLoops,
@@ -8,12 +8,12 @@ import {
     polygonsOf,
     type OutlineLoops,
     type OutlineMesh,
-} from '@output/physics/glyphOutline';
+} from '#output/physics/glyphOutline.ts';
 import earcut from 'earcut';
 import { create } from 'fontkit';
 import { readFileSync } from 'node:fs';
-import { flattenGlyphLoops } from '@basis/faces/shapeText';
-import { must } from '@util/nullable';
+import { flattenGlyphLoops } from '#basis/faces/shapeText.ts';
+import { must } from '#util/nullable.ts';
 import { beforeAll, expect, test } from 'vitest';
 import { getRapier, loadRapier, onRapierLoaded } from './rapierLoader';
 

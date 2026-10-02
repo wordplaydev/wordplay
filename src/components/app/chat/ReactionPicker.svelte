@@ -43,13 +43,13 @@
 </script>
 
 <script lang="ts">
-    import Button from '@components/widgets/Button.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
-    import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
-    import { placeNearTarget } from '@components/widgets/placeNearTarget';
-    import { locales } from '@db/Database';
-    import { withDefaultColorEmoji } from '@unicode/emoji';
+    import Button from '#components/widgets/Button.svelte';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import EmojisRepaired from '#components/widgets/EmojisRepaired.svelte';
+    import GlyphChooser from '#components/widgets/GlyphChooser.svelte';
+    import { placeNearTarget } from '#components/widgets/placeNearTarget.ts';
+    import { locales } from '#db/Database.ts';
+    import { withDefaultColorEmoji } from '#unicode/emoji.ts';
 
     interface Props {
         /** The control the panel is anchored to, or undefined when nothing has

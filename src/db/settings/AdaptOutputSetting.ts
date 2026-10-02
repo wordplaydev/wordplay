@@ -1,4 +1,4 @@
-import Setting from '@db/settings/Setting';
+import Setting from '#db/settings/Setting.ts';
 
 /**
  * Whether to adapt bright program output to a dark canvas when the app is in

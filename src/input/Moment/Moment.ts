@@ -1,40 +1,40 @@
-import { createBasisConversion } from '@basis/Basis';
-import { getDateTimeDataForLocale } from '@locale/dateTimeData';
+import { createBasisConversion } from '#basis/Basis.ts';
+import { getDateTimeDataForLocale } from '#locale/dateTimeData.ts';
 import {
     formatDateTimeForLocale,
     isSupportedCalendar,
     SupportedCalendars,
     type DateTimeFields,
     type SupportedCalendar,
-} from '@locale/dateTimeFormats';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
-import type { NameAndDoc } from '@locale/LocaleText';
-import type LocaleText from '@locale/LocaleText';
-import Bind from '@nodes/Bind';
-import Block, { BlockKind } from '@nodes/Block';
-import Convert from '@nodes/Convert';
-import NameType from '@nodes/NameType';
-import NoneLiteral from '@nodes/NoneLiteral';
-import NoneType from '@nodes/NoneType';
-import NumberType from '@nodes/NumberType';
-import StructureDefinition from '@nodes/StructureDefinition';
-import TextType from '@nodes/TextType';
-import type Type from '@nodes/Type';
-import UnionType from '@nodes/UnionType';
-import type Evaluation from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import { Temporal, type TemporalTypes } from '@util/getTemporal';
-import type Names from '@nodes/Names';
-import MessageException from '@values/MessageException';
-import NoneValue from '@values/NoneValue';
-import NumberValue from '@values/NumberValue';
-import StructureValue, { createStructure } from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import type Expression from '@nodes/Expression';
-import { first, must } from '@util/nullable';
+} from '#locale/dateTimeFormats.ts';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import type { NameAndDoc } from '#locale/LocaleText.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import Bind from '#nodes/Bind.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import Convert from '#nodes/Convert.ts';
+import NameType from '#nodes/NameType.ts';
+import NoneLiteral from '#nodes/NoneLiteral.ts';
+import NoneType from '#nodes/NoneType.ts';
+import NumberType from '#nodes/NumberType.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import TextType from '#nodes/TextType.ts';
+import type Type from '#nodes/Type.ts';
+import UnionType from '#nodes/UnionType.ts';
+import type Evaluation from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import { Temporal, type TemporalTypes } from '#util/getTemporal.ts';
+import type Names from '#nodes/Names.ts';
+import MessageException from '#values/MessageException.ts';
+import NoneValue from '#values/NoneValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue, { createStructure } from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import type Expression from '#nodes/Expression.ts';
+import { first, must } from '#util/nullable.ts';
 
 /** The positional order of Moment's inputs: construction-friendly (date, time,
  *  configuration, then the informational fields Now fills in). */

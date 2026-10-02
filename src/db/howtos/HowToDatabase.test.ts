@@ -1,5 +1,5 @@
-import { isRecord } from '@util/guards';
-import { must } from '@util/nullable';
+import { isRecord } from '#util/guards.ts';
+import { must } from '#util/nullable.ts';
 import type { DocumentData, DocumentSnapshot } from 'firebase/firestore';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -146,15 +146,15 @@ vi.mock('firebase/firestore', () => ({
     getDoc: vi.fn(async () => ({ exists: () => false })),
 }));
 
-vi.mock('@db/firebase', () => ({
+vi.mock('#db/firebase.ts', () => ({
     firestore: { _fake: true },
 }));
 
-vi.mock('@db/galleries/GalleryDatabase.svelte', () => ({
+vi.mock('#db/galleries/GalleryDatabase.svelte.ts', () => ({
     GalleriesCollection: 'galleries',
 }));
 
-vi.mock('@db/Database', () => ({}));
+vi.mock('#db/Database.ts', () => ({}));
 
 import HowTo, {
     type HowToDocument,
@@ -167,8 +167,8 @@ import HowTo, {
     howToRepostsInitial,
     upgradeHowTo,
 } from './HowToDatabase.svelte';
-import Gallery from '@db/galleries/Gallery';
-import { HowToFields } from '@db/rulesFields';
+import Gallery from '#db/galleries/Gallery.ts';
+import { HowToFields } from '#db/rulesFields.ts';
 import { getDoc, updateDoc } from 'firebase/firestore';
 
 const baseSocial = {

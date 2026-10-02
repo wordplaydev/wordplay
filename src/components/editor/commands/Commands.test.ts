@@ -15,17 +15,17 @@ import Commands, {
 } from './Commands';
 import { invalidKeys, overlappingChords, reservedChords } from './chords';
 import * as AllCommandExports from './Commands';
-import AllMarkupCommands from '@components/editor/markup/MarkupCommands';
-import { isRecord } from '@util/guards';
-import { isDefined } from '@util/nullable';
+import AllMarkupCommands from '#components/editor/markup/MarkupCommands.ts';
+import { isRecord } from '#util/guards.ts';
+import { isDefined } from '#util/nullable.ts';
 import { readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { DB } from '@db/Database';
-import Project from '@db/projects/Project';
-import DefaultLocale from '@locale/DefaultLocale';
-import DefaultLocales from '@locale/DefaultLocales';
-import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
+import { DB } from '#db/Database.ts';
+import Project from '#db/projects/Project.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import Source from '#nodes/Source.ts';
+import Evaluator from '#runtime/Evaluator.ts';
 import {
     PATTERN_AHEAD_SYMBOL,
     PATTERN_ANY_SYMBOL,
@@ -45,9 +45,9 @@ import {
     THIS_SYMBOL,
     TRANSLATE_SYMBOL,
     TYPE_SYMBOL,
-} from '@parser/Symbols';
-import type { InsertContext } from '@edit/insertContext';
-import { NoteDurations } from '@output/Music/durations';
+} from '#parser/Symbols.ts';
+import type { InsertContext } from '#edit/insertContext.ts';
+import { NoteDurations } from '#output/Music/durations.ts';
 
 // The GlyphInserter renders every Category.Insert command, so both new
 // language symbols must be present as insert commands to be reachable there.

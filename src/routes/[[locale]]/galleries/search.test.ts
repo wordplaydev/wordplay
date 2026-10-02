@@ -1,6 +1,6 @@
-import Gallery from '@db/galleries/Gallery';
-import DefaultLocales from '@locale/DefaultLocales';
-import { must } from '@util/nullable';
+import Gallery from '#db/galleries/Gallery.ts';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 import { galleriesWorthSearching, searchGalleries } from './search';
 

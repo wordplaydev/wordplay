@@ -47,7 +47,7 @@ import {
     TYPE_SYMBOL,
     UNKNOWN_SYMBOL,
     UNPARSABLE_SYMBOL,
-} from '@parser/Symbols';
+} from '#parser/Symbols.ts';
 import type BasisCharacter from './BasisCharacter';
 
 const CharactersSet = {

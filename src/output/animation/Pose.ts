@@ -1,19 +1,19 @@
-import { getTypeName } from '@locale/getNameLocales';
-import toStructure from '@basis/toStructure';
-import { getBind } from '@locale/getBind';
-import { reference } from '@output/animation/DefaultSequences';
-import Evaluate from '@nodes/Evaluate';
-import Reference from '@nodes/Reference';
-import StructureValue from '@values/StructureValue';
-import type Value from '@values/Value';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import type Color from '@output/Color/Color';
-import { toColor } from '@output/Color/Color';
-import type Place from '@output/Place/Place';
-import { toPlace } from '@output/Place/Place';
-import { toBoolean, toNumber } from '@output/Output/Stage';
-import Valued, { getOutputInputs } from '@output/Output/Valued';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import toStructure from '#basis/toStructure.ts';
+import { getBind } from '#locale/getBind.ts';
+import { reference } from '#output/animation/DefaultSequences.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import Reference from '#nodes/Reference.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type Value from '#values/Value.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import type Color from '#output/Color/Color.ts';
+import { toColor } from '#output/Color/Color.ts';
+import type Place from '#output/Place/Place.ts';
+import { toPlace } from '#output/Place/Place.ts';
+import { toBoolean, toNumber } from '#output/Output/Stage.ts';
+import Valued, { getOutputInputs } from '#output/Output/Valued.ts';
 
 /** `Music`'s locale-stable name, for the `music` input's type. */
 const MusicName = reference((locale) => locale.output.Music);

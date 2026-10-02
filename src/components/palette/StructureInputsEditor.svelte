@@ -1,10 +1,10 @@
 <script lang="ts">
-    import PaletteProperty from '@components/palette/PaletteProperty.svelte';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import type OutputExpression from '@edit/output/OutputExpression';
-    import type OutputProperty from '@edit/output/OutputProperty';
-    import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
+    import PaletteProperty from '#components/palette/PaletteProperty.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
+    import type OutputExpression from '#edit/output/OutputExpression.ts';
+    import type OutputProperty from '#edit/output/OutputProperty.ts';
+    import OutputPropertyValueSet from '#edit/output/OutputPropertyValueSet.ts';
     import type { Snippet } from 'svelte';
 
     interface Props {

@@ -719,7 +719,7 @@ test('resolving a color needs no basis', () => {
  * Listing a how-to in the guide (#906) is **+1 file** on every graph and no new bytes to
  * speak of: `db/howtos/howToDocument.ts` is the version constants and the two pure
  * constructors, moved out of `HowToDatabase.svelte.ts` so that a test can reach them.
- * That file value-imports `@db/Database`, so anything importing it pulls the whole
+ * That file value-imports `#db/Database`, so anything importing it pulls the whole
  * database graph in — which is why `rulesFieldsSync.test.ts` could not hold `makeHowTo`
  * against the create rule until the split. It imports only what `HowToDatabase` already
  * imported, so it opens no door; the same extraction #1175, #836 and #1301 each made.
@@ -787,7 +787,7 @@ test('resolving a color needs no basis', () => {
 // The layout carries one more than the rest: `ProxyNotification`, the standing
 // banner that says whose Wordplay this tab is looking at. It is deliberately
 // thin — a username string rather than a CreatorView, and its one shared key
-// comes from `proxySession.ts` rather than from `@db/admin` — because the root
+// comes from `proxySession.ts` rather than from `#db/admin` — because the root
 // layout is the most constrained graph in the app; the first draft cost four
 // files instead of one.
 //
@@ -887,7 +887,7 @@ test('resolving a color needs no basis', () => {
 // file's rule allows a file budget to move by one for — it imports nothing at
 // all, being a generated table of content hashes, so one file is all it can
 // ever cost. It holds only data on purpose: `versioned` is reachable from
-// `UnknownName` by way of `localeNameIndex`, so the `$app/environment` import
+// `UnknownName` by way of `localeNameIndex`, so the `$app/env` import
 // it used to carry would have put a SvelteKit virtual module on the basis graph
 // and broken `npm run locales` under tsx. The ~12KB it adds buys back a
 // 130-145KB re-download of a creator's locale on every deploy that does not
@@ -967,12 +967,28 @@ test('resolving a color needs no basis', () => {
 // there rather than in a file of their own, which would have cost a file on
 // every graph), their rows in `Settings.svelte`, and their strings in en-US.json.
 
+// Moving to subpath imports (`#components/…`, SvelteKit 3) is **+1 file on every
+// graph**, and none of it is new code. The walker now reads package.json's
+// `imports` instead of a copied alias table, and every specifier names its file's
+// extension. That exposed `headingLevel.ts`, a leaf already in every bundle: it
+// had been imported as `headingLevel.js`, which the old walker could not
+// resolve, so it was never counted. Every byte budget moves one or two
+// hundredths for the same reason: the walker weighs source text, and each of a
+// graph's few thousand specifiers grew by its extension, and Prettier rewrapped
+// the lines that grew past its width. Bundled output carries no specifiers or
+// whitespace, so no page got heavier.
+
+// Typed links are **+1 file on every graph**: `appPath.ts`, a leaf whose only
+// import is types from `$app/types`. Markup links are checked against the routes
+// at runtime (`authoredLink`), and markup renders on every page. `galleries` had
+// the least byte slack, so its budget moves by a hundredth.
+
 test.each([
-    ['src/routes/+layout.svelte', 536, 4.15],
-    ['src/components/app/Page.svelte', 559, 4.4],
-    ['src/routes/[[locale]]/+page.svelte', 574, 4.49],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.51],
-    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.54],
+    ['src/routes/+layout.svelte', 538, 4.17],
+    ['src/components/app/Page.svelte', 561, 4.42],
+    ['src/routes/[[locale]]/+page.svelte', 576, 4.52],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 581, 4.53],
+    ['src/routes/[[locale]]/projects/+page.svelte', 590, 4.56],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

@@ -1,14 +1,14 @@
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locales from '@locale/Locales';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Locales from '#locale/Locales.ts';
 import type BasisCharacter from '../lore/BasisCharacter';
 import type { Emotion } from '../lore/Emotion';
-import type Docs from '@nodes/Docs';
-import type Markup from '@nodes/Markup';
+import type Docs from '#nodes/Docs.ts';
+import type Markup from '#nodes/Markup.ts';
 import type { CharacterName } from '../tutorial/Tutorial';
-import type { PurposeType } from '@concepts/Purpose';
-import { firstSentenceOf } from '@locale/firstSentence';
+import type { PurposeType } from '#concepts/Purpose.ts';
+import { firstSentenceOf } from '#locale/firstSentence.ts';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.

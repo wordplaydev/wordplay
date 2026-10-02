@@ -13,7 +13,7 @@
  * Assumes cwd = repo root (npm run guarantees this).
  */
 import { execFileSync } from 'node:child_process';
-import { isRecord } from '@util/guards';
+import { isRecord } from '#util/guards.ts';
 import * as fs from 'node:fs';
 
 const VERSIONS = 'scripts/emoji/versions.json';

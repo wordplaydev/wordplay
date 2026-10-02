@@ -1,12 +1,12 @@
-import { getTypeName } from '@locale/getNameLocales';
-import { getBind } from '@locale/getBind';
-import type { EvaluationNode } from '@runtime/Evaluation';
-import type Evaluator from '@runtime/Evaluator';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import { createDirectionStructure } from '@output/physics/Direction';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import { getBind } from '#locale/getBind.ts';
+import type { EvaluationNode } from '#runtime/Evaluation.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import { createDirectionStructure } from '#output/physics/Direction.ts';
 
 export function createReboundType(locales: Locales) {
     return toStructure(`

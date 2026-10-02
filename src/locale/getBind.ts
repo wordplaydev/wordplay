@@ -1,17 +1,17 @@
-import { parseLocaleDoc } from '@locale/LocaleText';
-import Docs from '@nodes/Docs';
-import Names from '@nodes/Names';
-import { getFormattedWordplay } from '@parser/getPreferredSpaces';
-import { EMOJI_SYMBOL } from '@parser/Symbols';
-import Language from '@nodes/Language';
-import Name from '@nodes/Name';
-import DefaultLocale from '@locale/DefaultLocale';
-import { getLocaleNames } from '@locale/getInputLocales';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import { toDocString, type NameAndDoc } from '@locale/LocaleText';
-import { localeToLanguage } from '@locale/localeToLanguage';
-import selectTranslation from '@locale/selectTranslation';
+import { parseLocaleDoc } from '#locale/LocaleText.ts';
+import Docs from '#nodes/Docs.ts';
+import Names from '#nodes/Names.ts';
+import { getFormattedWordplay } from '#parser/getPreferredSpaces.ts';
+import { EMOJI_SYMBOL } from '#parser/Symbols.ts';
+import Language from '#nodes/Language.ts';
+import Name from '#nodes/Name.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import { getLocaleNames } from '#locale/getInputLocales.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { toDocString, type NameAndDoc } from '#locale/LocaleText.ts';
+import { localeToLanguage } from '#locale/localeToLanguage.ts';
+import selectTranslation from '#locale/selectTranslation.ts';
 
 export function getBind(
     locales: Locales,

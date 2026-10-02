@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Button from '@components/widgets/Button.svelte';
-    import { locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
+    import Button from '#components/widgets/Button.svelte';
+    import { locales } from '#db/Database.ts';
+    import type Project from '#db/projects/Project.ts';
 
     interface Props {
         add: (newProject: Project) => void;
@@ -30,9 +30,9 @@
             { default: Source },
             { buildKeywordIndex },
         ] = await Promise.all([
-            import('@db/projects/Project'),
-            import('@nodes/Source'),
-            import('@parser/Keywords'),
+            import('#db/projects/Project.ts'),
+            import('#nodes/Source.ts'),
+            import('#parser/Keywords.ts'),
         ]);
         add(
             Project.make(

@@ -1,4 +1,4 @@
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 import { expect, test } from 'vitest';
 import { DEFAULT_BUDGET, fitCount } from './fit';
 

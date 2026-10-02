@@ -1,5 +1,5 @@
-import type { HeaderAndExplanationText } from '@locale/UITexts';
-import type { FormattedText } from '@locale/LocaleText';
+import type { HeaderAndExplanationText } from '#locale/UITexts.ts';
+import type { FormattedText } from '#locale/LocaleText.ts';
 
 /**
  * The warning a viewer sees before a project with risky music plays, and the

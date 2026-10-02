@@ -1,16 +1,16 @@
-import { Purpose } from '@concepts/Purpose';
-import type LocaleText from '@locale/LocaleText';
-import type { NodeDescriptor } from '@locale/NodeTexts';
-import { CONVERT_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '@basis/BasisConstants';
+import { Purpose } from '#concepts/Purpose.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
+import { CONVERT_SYMBOL } from '#parser/Symbols.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import Characters from '../lore/BasisCharacters';
-import type Context from '@nodes/Context';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Type from '@nodes/Type';
-import TypePlaceholder from '@nodes/TypePlaceholder';
-import type TypeSet from '@nodes/TypeSet';
+import type Context from '#nodes/Context.ts';
+import { node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Type from '#nodes/Type.ts';
+import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
 
 export default class ConversionType extends Type {
     readonly input: Type;

@@ -1,5 +1,5 @@
-import Setting from '@db/settings/Setting';
-import { includesString } from '@util/nullable';
+import Setting from '#db/settings/Setting.ts';
+import { includesString } from '#util/nullable.ts';
 
 export type BlockDensity = 'compact' | 'normal' | 'spacious';
 

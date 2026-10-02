@@ -1,23 +1,23 @@
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import Block, { BlockKind } from '@nodes/Block';
-import BooleanType from '@nodes/BooleanType';
-import StructureDefinition from '@nodes/StructureDefinition';
-import Evaluation from '@runtime/Evaluation';
-import BoolValue from '@values/BoolValue';
-import NumberValue from '@values/NumberValue';
-import TextValue from '@values/TextValue';
-import Value from '@values/Value';
-import type Locales from '@locale/Locales';
-import type LocaleText from '@locale/LocaleText';
-import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
-import type Expression from '@nodes/Expression';
-import type Type from '@nodes/Type';
+import { getDocLocales } from '#locale/getDocLocales.ts';
+import { getNameLocales } from '#locale/getNameLocales.ts';
+import Block, { BlockKind } from '#nodes/Block.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import Evaluation from '#runtime/Evaluation.ts';
+import BoolValue from '#values/BoolValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import TextValue from '#values/TextValue.ts';
+import Value from '#values/Value.ts';
+import type Locales from '#locale/Locales.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import type { FunctionText, NameAndDoc } from '#locale/LocaleText.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Type from '#nodes/Type.ts';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
-} from '@basis/Basis';
+} from '#basis/Basis.ts';
 
 export default function bootstrapBool(locales: Locales) {
     function createBooleanFunction(

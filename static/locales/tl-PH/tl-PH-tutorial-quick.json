@@ -328,7 +328,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Maaari natin itong gawing mas interactive sa pamamagitan ng pagdaragdag ng input ng gumagamit para kontrolin ang pag-ikot, gaya ng @Volume ng input ng mikropono. Ito ay isang value sa pagitan ng 0 at 1, kaya maaari nating itugma ito sa 360 na degree.",
-                            "$~Iyan ang hugis ng karamihan ng mga proyekto: mga deklarasyon, pagkatapos ay mga reaksyon, pagkatapos ay output. Ang <Guide//guide> ay may seksyong @how na puno ng mga resipe na maaari mong pag-aralan, kopyahin, at i-edit.",
+                            "$~Iyan ang hugis ng karamihan ng mga proyekto: mga deklarasyon, pagkatapos ay mga reaksyon, pagkatapos ay output. Ang <Guide@://guide> ay may seksyong @how na puno ng mga resipe na maaari mong pag-aralan, kopyahin, at i-edit.",
                             "$~Masayang paglikha!"
                         ]
                     ]

@@ -1,21 +1,21 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import Centered from '@components/app/Centered.svelte';
-    import GalleryPreview from '@components/app/GalleryPreview.svelte';
-    import PageHeader from '@components/app/PageHeader.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import CreatorList from '@components/project/CreatorList.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
-    import Title from '@components/widgets/Title.svelte';
-    import { disconnected, Galleries, locales } from '@db/Database';
+    import Centered from '#components/app/Centered.svelte';
+    import GalleryPreview from '#components/app/GalleryPreview.svelte';
+    import PageHeader from '#components/app/PageHeader.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import PreviewPlaceholder from '#components/app/PreviewPlaceholder.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '#components/project/Contexts.ts';
+    import CreatorList from '#components/project/CreatorList.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import ConfirmButton from '#components/widgets/ConfirmButton.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import TextBox from '#components/widgets/TextBox.svelte';
+    import Title from '#components/widgets/Title.svelte';
+    import { disconnected, Galleries, locales } from '#db/Database.ts';
     import {
         addStudent,
         addTeacher,
@@ -24,10 +24,10 @@
         removeTeacher,
         setClass,
         type Class,
-    } from '@db/teachers/TeacherDatabase.svelte';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import { getTeachData } from '@db/teachers/TeachData.svelte';
-    import { localeGoto } from '@util/localeGoto';
+    } from '#db/teachers/TeacherDatabase.svelte.ts';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
+    import { getTeachData } from '#db/teachers/TeachData.svelte.ts';
+    import { localeGoto } from '#util/localeGoto.ts';
 
     let teach = getTeachData();
     let classData = $derived(

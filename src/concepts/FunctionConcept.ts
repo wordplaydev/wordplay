@@ -1,18 +1,18 @@
-import type Context from '@nodes/Context';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Node from '@nodes/Node';
-import PropertyReference from '@nodes/PropertyReference';
-import Reference from '@nodes/Reference';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import { COMMA_SYMBOL } from '@parser/Symbols';
-import type Locales from '@locale/Locales';
+import type Context from '#nodes/Context.ts';
+import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type Node from '#nodes/Node.ts';
+import PropertyReference from '#nodes/PropertyReference.ts';
+import Reference from '#nodes/Reference.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import { COMMA_SYMBOL } from '#parser/Symbols.ts';
+import type Locales from '#locale/Locales.ts';
 import { Emotion } from '../lore/Emotion';
-import type Markup from '@nodes/Markup';
+import type Markup from '#nodes/Markup.ts';
 import type { CharacterName } from '../tutorial/Tutorial';
-import BindConcept from '@concepts/BindConcept';
-import Concept from '@concepts/Concept';
-import type { PurposeType } from '@concepts/Purpose';
-import type StructureConcept from '@concepts/StructureConcept';
+import BindConcept from '#concepts/BindConcept.ts';
+import Concept from '#concepts/Concept.ts';
+import type { PurposeType } from '#concepts/Purpose.ts';
+import type StructureConcept from '#concepts/StructureConcept.ts';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */

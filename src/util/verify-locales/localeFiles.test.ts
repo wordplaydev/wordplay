@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocale from '#locale/DefaultLocale.ts';
 import {
     assembleLocale,
     LocaleSections,
     sectionFileFor,
     splitLocale,
     type LocaleSection,
-} from '@util/verify-locales/localeFiles';
+} from '#util/verify-locales/localeFiles.ts';
 
 /**
  * A locale is authored in section files and consumed as one object, so the

@@ -1,33 +1,33 @@
-import { getTypeName } from '@locale/getNameLocales';
-import toStructure from '@basis/toStructure';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import Evaluate from '@nodes/Evaluate';
-import ListLiteral from '@nodes/ListLiteral';
-import NumberLiteral from '@nodes/NumberLiteral';
-import Reference from '@nodes/Reference';
-import { getBind } from '@locale/getBind';
-import { SHARE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+import { getTypeName } from '#locale/getNameLocales.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import Reference from '#nodes/Reference.ts';
+import { getBind } from '#locale/getBind.ts';
+import { SHARE_SYMBOL, TYPE_SYMBOL } from '#parser/Symbols.ts';
 import Decimal from 'decimal.js';
-import type Bind from '@nodes/Bind';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import Unit from '@nodes/Unit';
-import type Evaluator from '@runtime/Evaluator';
-import ListValue from '@values/ListValue';
-import NumberValue from '@values/NumberValue';
-import StructureValue from '@values/StructureValue';
-import type TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import Output, { DefaultStyle } from '@output/Output/Output';
-import { toText } from '@output/Output/Phrase';
-import { DefinitePose } from '@output/animation/Pose';
-import type RenderContext from '@output/RenderContext';
-import type { NameGenerator } from '@output/Output/Stage';
-import { toBoolean, toNumber } from '@output/Output/Stage';
-import { getOutputInputs } from '@output/Output/Valued';
-import type Track from '@output/Music/Track';
-import { toSemitones, toTrack } from '@output/Music/Track';
-import { assignWords } from '@output/Music/articulate';
+import type Bind from '#nodes/Bind.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import Unit from '#nodes/Unit.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ListValue from '#values/ListValue.ts';
+import NumberValue from '#values/NumberValue.ts';
+import StructureValue from '#values/StructureValue.ts';
+import type TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import Output, { DefaultStyle } from '#output/Output/Output.ts';
+import { toText } from '#output/Output/Phrase.ts';
+import { DefinitePose } from '#output/animation/Pose.ts';
+import type RenderContext from '#output/RenderContext.ts';
+import type { NameGenerator } from '#output/Output/Stage.ts';
+import { toBoolean, toNumber } from '#output/Output/Stage.ts';
+import { getOutputInputs } from '#output/Output/Valued.ts';
+import type Track from '#output/Music/Track.ts';
+import { toSemitones, toTrack } from '#output/Music/Track.ts';
+import { assignWords } from '#output/Music/articulate.ts';
 import {
     MaxTracks,
     clampBeats,
@@ -36,12 +36,12 @@ import {
     clampTempo,
     type MusicData,
     type TrackData,
-} from '@output/Music/musicData';
-import { ScaleKeys, Scales } from '@output/Music/scales';
+} from '#output/Music/musicData.ts';
+import { ScaleKeys, Scales } from '#output/Music/scales.ts';
 
 // Re-exported so existing importers keep working; defined in musicData so
 // pure consumers can read it without importing this module.
-export { MaxTracks } from '@output/Music/musicData';
+export { MaxTracks } from '#output/Music/musicData.ts';
 
 export function createMusicType(locales: Locales) {
     // One `↑ <multilingual names>: [0semitones 2semitones …]` static bind per
@@ -304,7 +304,7 @@ export default class Music extends Output {
         return undefined;
     }
 
-    gatherFaces(set: Set<import('@basis/faces/Fonts').SupportedFace>) {
+    gatherFaces(set: Set<import('#basis/faces/Fonts.ts').SupportedFace>) {
         return set;
     }
 }

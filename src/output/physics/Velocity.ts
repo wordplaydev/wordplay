@@ -1,10 +1,10 @@
-import { getBind } from '@locale/getBind';
-import type Value from '@values/Value';
-import toStructure from '@basis/toStructure';
-import type Locales from '@locale/Locales';
-import StructureValue from '@values/StructureValue';
-import { toNumber } from '@output/Output/Stage';
-import Valued, { getOutputInputs } from '@output/Output/Valued';
+import { getBind } from '#locale/getBind.ts';
+import type Value from '#values/Value.ts';
+import toStructure from '#basis/toStructure.ts';
+import type Locales from '#locale/Locales.ts';
+import StructureValue from '#values/StructureValue.ts';
+import { toNumber } from '#output/Output/Stage.ts';
+import Valued, { getOutputInputs } from '#output/Output/Valued.ts';
 
 export function createVelocityType(locales: Locales) {
     return toStructure(`

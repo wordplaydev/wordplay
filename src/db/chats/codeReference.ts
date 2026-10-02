@@ -1,12 +1,12 @@
-import type { SerializedCodeReference } from '@db/chats/ChatDatabase.svelte';
-import type Project from '@db/projects/Project';
-import type Caret from '@edit/caret/Caret';
-import type Locales from '@locale/Locales';
-import Block from '@nodes/Block';
-import Node from '@nodes/Node';
-import Program from '@nodes/Program';
-import Source from '@nodes/Source';
-import Token from '@nodes/Token';
+import type { SerializedCodeReference } from '#db/chats/ChatDatabase.svelte.ts';
+import type Project from '#db/projects/Project.ts';
+import type Caret from '#edit/caret/Caret.ts';
+import type Locales from '#locale/Locales.ts';
+import Block from '#nodes/Block.ts';
+import Node from '#nodes/Node.ts';
+import Program from '#nodes/Program.ts';
+import Source from '#nodes/Source.ts';
+import Token from '#nodes/Token.ts';
 
 /**
  * What a message's code reference points at right now (#820).

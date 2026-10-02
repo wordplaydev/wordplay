@@ -1,7 +1,7 @@
-import concretize from '@locale/concretize';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
-import RenderContext from '@output/RenderContext';
+import concretize from '#locale/concretize.ts';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Locales from '#locale/Locales.ts';
+import RenderContext from '#output/RenderContext.ts';
 import { expect, test } from 'vitest';
 
 /**

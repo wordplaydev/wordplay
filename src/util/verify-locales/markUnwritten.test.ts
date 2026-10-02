@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import markUnwritten from '@util/verify-locales/markUnwritten';
+import markUnwritten from '#util/verify-locales/markUnwritten.ts';
 
 /**
  * An unwritten string carries the English it is waiting to replace, so a locale

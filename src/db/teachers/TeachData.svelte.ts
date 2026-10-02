@@ -1,5 +1,5 @@
 import { getContext } from 'svelte';
-import { type Class } from '@db/teachers/TeacherDatabase.svelte';
+import { type Class } from '#db/teachers/TeacherDatabase.svelte.ts';
 
 /** The class data for the teach routes, held in Svelte context.
  *

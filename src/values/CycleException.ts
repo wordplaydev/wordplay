@@ -1,8 +1,8 @@
-import NodeRef from '@locale/NodeRef';
-import type Borrow from '@nodes/Borrow';
-import type Evaluator from '@runtime/Evaluator';
-import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '@locale/Locales';
+import NodeRef from '#locale/NodeRef.ts';
+import type Borrow from '#nodes/Borrow.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import ExceptionValue from '#values/ExceptionValue.ts';
+import type Locales from '#locale/Locales.ts';
 
 export default class CycleException extends ExceptionValue {
     readonly borrow: Borrow;

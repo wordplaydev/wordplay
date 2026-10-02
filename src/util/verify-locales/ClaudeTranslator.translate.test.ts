@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
-import Log from '@util/verify-locales/Log';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import Log from '#util/verify-locales/Log.ts';
 import ClaudeTranslator from './ClaudeTranslator';
 
 // The SDK client is constructed with the translator, and refuses to without a

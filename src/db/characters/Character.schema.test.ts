@@ -1,5 +1,5 @@
-import { CharacterSchema } from '@db/characters/Character';
-import { must } from '@util/nullable';
+import { CharacterSchema } from '#db/characters/Character.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 
 /**

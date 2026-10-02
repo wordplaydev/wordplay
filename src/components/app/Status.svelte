@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { getUser } from '@components/project/Contexts';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '#components/project/Contexts.ts';
+    import Dialog from '#components/widgets/Dialog.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import {
         DB,
         disconnected,
@@ -15,11 +15,11 @@
         type SaveCounts,
         type SaveFailureReason,
         type SyncDomain,
-    } from '@db/Database';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import type LocaleText from '@locale/LocaleText';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import { withMonoEmoji } from '@unicode/emoji';
+    } from '#db/Database.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import type LocaleText from '#locale/LocaleText.ts';
+    import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
+    import { withMonoEmoji } from '#unicode/emoji.ts';
 
     const user = getUser();
     let device = $derived($user === null);

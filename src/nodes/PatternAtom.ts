@@ -1,4 +1,4 @@
-import PatternNode from '@nodes/PatternNode';
+import PatternNode from '#nodes/PatternNode.ts';
 
 /**
  * A pattern ATOM: the subset of {@link PatternNode}s the parser accepts wherever

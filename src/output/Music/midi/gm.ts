@@ -11,7 +11,7 @@
  * specification rather than anyone's musical work.
  */
 
-import type { InstrumentKey } from '@output/Music/instruments';
+import type { InstrumentKey } from '#output/Music/instruments.ts';
 
 /** GM percussion lives on channel 10, which is index 9. */
 export const PercussionChannel = 9;

@@ -1,21 +1,24 @@
 <script lang="ts">
-    import Notice from '@components/app/Notice.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
+    import Notice from '#components/app/Notice.svelte';
+    import Spinning from '#components/app/Spinning.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import Button from '#components/widgets/Button.svelte';
+    import TextField from '#components/widgets/TextField.svelte';
+    import { Creator } from '#db/creators/CreatorDatabase.ts';
     import {
         getUsername,
         handle,
         mayUseEmail,
-    } from '@db/creators/handle.svelte';
-    import validEmail from '@db/creators/isValidEmail';
-    import { locales } from '@db/Database';
-    import { formatDate } from '@locale/birthdayFields';
-    import { claimUsername, switchToPassword } from '@db/creators/signinMethod';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { ensureAppCheck } from '@db/firebase';
+    } from '#db/creators/handle.svelte.ts';
+    import validEmail from '#db/creators/isValidEmail.ts';
+    import { locales } from '#db/Database.ts';
+    import { formatDate } from '#locale/birthdayFields.ts';
+    import {
+        claimUsername,
+        switchToPassword,
+    } from '#db/creators/signinMethod.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { ensureAppCheck } from '#db/firebase.ts';
     import { verifyBeforeUpdateEmail, type User } from 'firebase/auth';
     import getAuthErrorDescription from './getAuthErrorDescription';
     import isValidPassword from './IsValidPassword';

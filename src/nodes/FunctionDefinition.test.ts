@@ -1,18 +1,18 @@
-import DuplicateName from '@conflicts/DuplicateName';
-import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
-import { MisplacedShare } from '@conflicts/MisplacedShare';
-import NoExpression from '@conflicts/NoExpression';
-import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
-import { testConflict, testTypes } from '@conflicts/TestUtilities';
-import EvaluationLimitException from '@values/EvaluationLimitException';
+import DuplicateName from '#conflicts/DuplicateName.ts';
+import DuplicateTypeVariable from '#conflicts/DuplicateTypeVariable.ts';
+import { MisplacedShare } from '#conflicts/MisplacedShare.ts';
+import NoExpression from '#conflicts/NoExpression.ts';
+import RequiredAfterOptional from '#conflicts/RequiredAfterOptional.ts';
+import { testConflict, testTypes } from '#conflicts/TestUtilities.ts';
+import EvaluationLimitException from '#values/EvaluationLimitException.ts';
 import { expect, test } from 'vitest';
-import IncompatibleType from '@conflicts/IncompatibleType';
-import evaluateCode from '@runtime/evaluate';
-import BooleanType from '@nodes/BooleanType';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import NumberType from '@nodes/NumberType';
-import TextType from '@nodes/TextType';
-import TypeVariables from '@nodes/TypeVariables';
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import BooleanType from '#nodes/BooleanType.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import NumberType from '#nodes/NumberType.ts';
+import TextType from '#nodes/TextType.ts';
+import TypeVariables from '#nodes/TypeVariables.ts';
 
 test.each([
     ['ƒ(a b) 1', 'ƒ(a a) 1', FunctionDefinition, DuplicateName],

@@ -1,7 +1,7 @@
-import type LocaleText from '@locale/LocaleText';
-import { getLocalePath } from '@util/verify-locales/LocaleSchema';
-import LocalePath from '@util/verify-locales/LocalePath';
-import { collectingLog } from '@util/verify-locales/Log';
+import type LocaleText from '#locale/LocaleText.ts';
+import { getLocalePath } from '#util/verify-locales/LocaleSchema.ts';
+import LocalePath from '#util/verify-locales/LocalePath.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
 import fs from 'fs';
 import { expect, test } from 'vitest';
 import checkPointedNames from './checkPointedNames';

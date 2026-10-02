@@ -1,13 +1,13 @@
-import type LocaleText from '@locale/LocaleText';
-import Row from '@nodes/Row';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import Row from '#nodes/Row.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import Input from '@nodes/Input';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import Input from '#nodes/Input.ts';
 
 export default class InvalidRow extends Conflict {
     readonly row: Row;

@@ -8,7 +8,7 @@ import {
     startHistory,
     undo,
     type History,
-} from '@db/characters/history';
+} from '#db/characters/history.ts';
 import { describe, expect, test } from 'vitest';
 
 /** Three edits, the way the editor makes them: each records where it arrived. */

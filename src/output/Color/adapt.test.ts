@@ -1,14 +1,14 @@
-import { serializeColor } from '@output/Color/ColorJS';
+import { serializeColor } from '#output/Color/ColorJS.ts';
 import {
     AdaptationLightnessThreshold,
     adaptColorCSS,
     adaptLightness,
     backgroundInvitesAdaptation,
-} from '@output/Color/adapt';
-import Color, { luminanceDelta } from '@output/Color/Color';
-import { contrast } from '@util/colorContrast';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NoneValue from '@values/NoneValue';
+} from '#output/Color/adapt.ts';
+import Color, { luminanceDelta } from '#output/Color/Color.ts';
+import { contrast } from '#util/colorContrast.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
+import NoneValue from '#values/NoneValue.ts';
 import Decimal from 'decimal.js';
 import { describe, expect, test } from 'vitest';
 

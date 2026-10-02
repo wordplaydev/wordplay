@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
-import Markup from '@nodes/Markup';
-import UnicodeString from '@unicode/UnicodeString';
+import Markup from '#nodes/Markup.ts';
+import UnicodeString from '#unicode/UnicodeString.ts';
 import {
     getMarkupRandomTransition,
     getMarkupRewriteTransition,
@@ -8,7 +8,7 @@ import {
     markupGraphemes,
     replaceMarkupText,
     truncateMarkup,
-} from '@output/animation/markupTransition';
+} from '#output/animation/markupTransition.ts';
 
 /** A tiny deterministic linear congruential generator for repeatable tests. */
 function seeded(seed: number): () => number {

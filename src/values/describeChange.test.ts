@@ -1,8 +1,8 @@
-import DefaultLocales from '@locale/DefaultLocales';
-import evaluateCode from '@runtime/evaluate';
-import ListValue from '@values/ListValue';
-import type Value from '@values/Value';
-import { must } from '@util/nullable';
+import DefaultLocales from '#locale/DefaultLocales.ts';
+import evaluateCode from '#runtime/evaluate.ts';
+import ListValue from '#values/ListValue.ts';
+import type Value from '#values/Value.ts';
+import { must } from '#util/nullable.ts';
 import { describe, expect, test } from 'vitest';
 import describeValueChange, {
     renderValueForSpeech,

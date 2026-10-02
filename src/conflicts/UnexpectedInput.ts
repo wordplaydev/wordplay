@@ -1,18 +1,18 @@
-import type LocaleText from '@locale/LocaleText';
-import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Evaluate from '@nodes/Evaluate';
-import type Expression from '@nodes/Expression';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Input from '@nodes/Input';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locales from '@locale/Locales';
-import type StreamDefinition from '@nodes/StreamDefinition';
+import type LocaleText from '#locale/LocaleText.ts';
+import type BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import type Evaluate from '#nodes/Evaluate.ts';
+import type Expression from '#nodes/Expression.ts';
+import type FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import type Input from '#nodes/Input.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Locales from '#locale/Locales.ts';
+import type StreamDefinition from '#nodes/StreamDefinition.ts';
 import Conflict, {
     ConflictSeverity,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
 
 export default class UnexpectedInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;

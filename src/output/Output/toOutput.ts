@@ -1,36 +1,36 @@
-import ListValue from '@values/ListValue';
-import NoneValue from '@values/NoneValue';
-import type { SupportedFace } from '@basis/faces/Fonts';
-import type Project from '@db/projects/Project';
-import type Evaluator from '@runtime/Evaluator';
-import StructureValue from '@values/StructureValue';
-import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
-import Arrangement from '@output/Arrangement/Arrangement';
-import Color, { toColor } from '@output/Color/Color';
-import { toFree } from '@output/Arrangement/Free';
-import { toGrid } from '@output/Arrangement/Grid';
-import { toGroup } from '@output/Output/Group';
-import type Output from '@output/Output/Output';
-import { toFont as toFace, toPhrase, toText } from '@output/Output/Phrase';
-import Place, { toPlace } from '@output/Place/Place';
-import type Pose from '@output/animation/Pose';
-import { DefinitePose, toPose } from '@output/animation/Pose';
-import { toRow } from '@output/Arrangement/Row';
-import type Sequence from '@output/animation/Sequence';
-import { toSequence } from '@output/animation/Sequence';
-import { toMusic } from '@output/Music/Music';
-import { toSay } from '@output/Output/Say';
-import { toImage } from '@output/Output/Image';
-import { toShape } from '@output/Output/Shape/Shape';
-import { toStack } from '@output/Arrangement/Stack';
+import ListValue from '#values/ListValue.ts';
+import NoneValue from '#values/NoneValue.ts';
+import type { SupportedFace } from '#basis/faces/Fonts.ts';
+import type Project from '#db/projects/Project.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
+import StructureValue from '#values/StructureValue.ts';
+import TextValue from '#values/TextValue.ts';
+import type Value from '#values/Value.ts';
+import Arrangement from '#output/Arrangement/Arrangement.ts';
+import Color, { toColor } from '#output/Color/Color.ts';
+import { toFree } from '#output/Arrangement/Free.ts';
+import { toGrid } from '#output/Arrangement/Grid.ts';
+import { toGroup } from '#output/Output/Group.ts';
+import type Output from '#output/Output/Output.ts';
+import { toFont as toFace, toPhrase, toText } from '#output/Output/Phrase.ts';
+import Place, { toPlace } from '#output/Place/Place.ts';
+import type Pose from '#output/animation/Pose.ts';
+import { DefinitePose, toPose } from '#output/animation/Pose.ts';
+import { toRow } from '#output/Arrangement/Row.ts';
+import type Sequence from '#output/animation/Sequence.ts';
+import { toSequence } from '#output/animation/Sequence.ts';
+import { toMusic } from '#output/Music/Music.ts';
+import { toSay } from '#output/Output/Say.ts';
+import { toImage } from '#output/Output/Image.ts';
+import { toShape } from '#output/Output/Shape/Shape.ts';
+import { toStack } from '#output/Arrangement/Stack.ts';
 import {
     NameGenerator,
     toBoolean,
     toNumber,
     toStage,
-} from '@output/Output/Stage';
-import { getOutputInputs } from '@output/Output/Valued';
+} from '#output/Output/Stage.ts';
+import { getOutputInputs } from '#output/Output/Valued.ts';
 
 export function toOutput(
     evaluator: Evaluator,

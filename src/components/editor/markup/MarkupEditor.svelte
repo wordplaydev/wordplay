@@ -1,53 +1,53 @@
 <script lang="ts">
     import CaretView, {
         type CaretBounds,
-    } from '@components/editor/caret/CaretView.svelte';
+    } from '#components/editor/caret/CaretView.svelte';
     import {
         handleKeyCommand,
         resetVisualColumnAfter,
         type CommandContext,
-    } from '@components/editor/commands/Commands';
+    } from '#components/editor/commands/Commands.ts';
     import {
         caretFieldSelection,
         shouldEchoNatively,
-    } from '@components/editor/input/mirrorSelection';
-    import { editorAxes, type Axes } from '@components/editor/util/axes';
-    import Highlight from '@components/editor/highlights/Highlight.svelte';
-    import { getRangeOutline } from '@components/editor/highlights/Highlights';
-    import type { Outline } from '@components/editor/highlights/outline';
-    import Node from '@nodes/Node';
-    import isComposingKeyDown from '@components/editor/isComposingKeyDown';
-    import MarkupCommands from '@components/editor/markup/MarkupCommands';
-    import MarkupToolbar from '@components/editor/markup/MarkupToolbar.svelte';
+    } from '#components/editor/input/mirrorSelection.ts';
+    import { editorAxes, type Axes } from '#components/editor/util/axes.ts';
+    import Highlight from '#components/editor/highlights/Highlight.svelte';
+    import { getRangeOutline } from '#components/editor/highlights/Highlights.ts';
+    import type { Outline } from '#components/editor/highlights/outline.ts';
+    import Node from '#nodes/Node.ts';
+    import isComposingKeyDown from '#components/editor/isComposingKeyDown.ts';
+    import MarkupCommands from '#components/editor/markup/MarkupCommands.ts';
+    import MarkupToolbar from '#components/editor/markup/MarkupToolbar.svelte';
     import {
         getAnnouncer,
         setEditor,
         setEditors,
         setProjectCommandContext,
         type EditorState,
-    } from '@components/project/Contexts';
-    import RootView from '@components/project/RootView.svelte';
-    import { DB, locales } from '@db/Database';
+    } from '#components/project/Contexts.ts';
+    import RootView from '#components/project/RootView.svelte';
+    import { DB, locales } from '#db/Database.ts';
     import Caret, {
         type CaretPosition as MarkupCaretPosition,
-    } from '@edit/caret/Caret';
-    import { getCaretPositionAt } from '@components/editor/pointer/PointerUtilities';
-    import describeMarkupChange from '@edit/markup/describeChange';
-    import markupHiddenTokens from '@edit/markup/markupHidden';
-    import { paragraphAt, wordAt } from '@edit/markup/formatOperations';
+    } from '#edit/caret/Caret.ts';
+    import { getCaretPositionAt } from '#components/editor/pointer/PointerUtilities.ts';
+    import describeMarkupChange from '#edit/markup/describeChange.ts';
+    import markupHiddenTokens from '#edit/markup/markupHidden.ts';
+    import { paragraphAt, wordAt } from '#edit/markup/formatOperations.ts';
     import {
         clampToMarkup,
         getMarkup,
         markupToSource,
         sourceToMarkup,
-    } from '@edit/markup/markupSource';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import Project from '@db/projects/Project';
-    import Source from '@nodes/Source';
-    import Evaluator from '@runtime/Evaluator';
-    import UnicodeString from '@unicode/UnicodeString';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { must } from '@util/nullable';
+    } from '#edit/markup/markupSource.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import Project from '#db/projects/Project.ts';
+    import Source from '#nodes/Source.ts';
+    import Evaluator from '#runtime/Evaluator.ts';
+    import UnicodeString from '#unicode/UnicodeString.ts';
+    import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
+    import { must } from '#util/nullable.ts';
     import { onDestroy, tick, untrack } from 'svelte';
     import { writable } from 'svelte/store';
 

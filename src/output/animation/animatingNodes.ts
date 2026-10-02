@@ -1,9 +1,9 @@
-import type Project from '@db/projects/Project';
-import type Node from '@nodes/Node';
-import type Output from '@output/Output/Output';
-import { getInputExpression } from '@output/Output/sourceExpression';
-import type Valued from '@output/Output/Valued';
-import type Transition from '@output/animation/Transition';
+import type Project from '#db/projects/Project.ts';
+import type Node from '#nodes/Node.ts';
+import type Output from '#output/Output/Output.ts';
+import { getInputExpression } from '#output/Output/sourceExpression.ts';
+import type Valued from '#output/Output/Valued.ts';
+import type Transition from '#output/animation/Transition.ts';
 
 /**
  * The nodes a running tween should highlight: the expression that built each

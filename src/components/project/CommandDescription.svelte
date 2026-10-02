@@ -1,22 +1,22 @@
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Emoji from '#components/app/Emoji.svelte';
+    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import {
         NamedKeys,
         USBaseCharacter,
         Visibility,
         type Command,
-    } from '@components/editor/commands/Commands';
-    import { toShortcut } from '@components/editor/commands/shortcuts';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import { keyLabelFor } from '@input/Key/keyNames';
-    import { TouchSupported } from '@components/util/TouchSupported';
-    import { DB, keybindings, locales } from '@db/Database';
-    import { getAnnouncer } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import Notice from '@components/app/Notice.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    } from '#components/editor/commands/Commands.ts';
+    import { toShortcut } from '#components/editor/commands/shortcuts.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import { keyLabelFor } from '#input/Key/keyNames.ts';
+    import { TouchSupported } from '#components/util/TouchSupported.ts';
+    import { DB, keybindings, locales } from '#db/Database.ts';
+    import { getAnnouncer } from '#components/project/Contexts.ts';
+    import Button from '#components/widgets/Button.svelte';
+    import Toggle from '#components/widgets/Toggle.svelte';
+    import Notice from '#components/app/Notice.svelte';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import {
         chordOf,
         conflictFor,
@@ -24,7 +24,7 @@
         reservationFor,
         sameChord,
         type Chord,
-    } from '@db/settings/KeybindingsSetting';
+    } from '#db/settings/KeybindingsSetting.ts';
 
     interface Props {
         command: Command;

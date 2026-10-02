@@ -1,17 +1,17 @@
-import type LocaleText from '@locale/LocaleText';
-import { toResolutions } from '@conflicts/Conflict';
-import type Expression from '@nodes/Expression';
-import Input from '@nodes/Input';
-import type TableType from '@nodes/TableType';
-import type Locales from '@locale/Locales';
+import type LocaleText from '#locale/LocaleText.ts';
+import { toResolutions } from '#conflicts/Conflict.ts';
+import type Expression from '#nodes/Expression.ts';
+import Input from '#nodes/Input.ts';
+import type TableType from '#nodes/TableType.ts';
+import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
     type Repair,
     type Resolutions,
-} from '@conflicts/Conflict';
-import type Context from '@nodes/Context';
-import type Node from '@nodes/Node';
-import levenshtein from '@util/levenshtein';
+} from '#conflicts/Conflict.ts';
+import type Context from '#nodes/Context.ts';
+import type Node from '#nodes/Node.ts';
+import levenshtein from '#util/levenshtein.ts';
 
 export default class UnknownColumn extends Conflict {
     readonly type: TableType;

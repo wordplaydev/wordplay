@@ -19,15 +19,18 @@
  * Run: npx tsx src/util/verify-locales/linkGlossaryDefinitions.ts
  */
 import fs from 'fs';
-import { isRecord } from '@util/guards';
+import { isRecord } from '#util/guards.ts';
 import path from 'path';
-import Log from '@util/verify-locales/Log';
-import { readLocale, writeLocale } from '@util/verify-locales/localeFiles';
-import { ExcludedTerms } from '@util/verify-locales/glossaryLinks';
-import { isRevised, isUnwritten } from '@locale/LocaleText';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import { protectedRanges, escapeRegExp } from '@util/verify-locales/markupText';
-import { must } from '@util/nullable';
+import Log from '#util/verify-locales/Log.ts';
+import { readLocale, writeLocale } from '#util/verify-locales/localeFiles.ts';
+import { ExcludedTerms } from '#util/verify-locales/glossaryLinks.ts';
+import { isRevised, isUnwritten } from '#locale/LocaleText.ts';
+import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import {
+    protectedRanges,
+    escapeRegExp,
+} from '#util/verify-locales/markupText.ts';
+import { must } from '#util/nullable.ts';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);

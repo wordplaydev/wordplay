@@ -1,8 +1,8 @@
-import { getDateTimeDataForLocale } from '@locale/dateTimeData';
-import type Locale from '@locale/Locale';
-import timezones from '@locale/timezones.json';
-import levenshtein from '@util/levenshtein';
-import { last, must } from '@util/nullable';
+import { getDateTimeDataForLocale } from '#locale/dateTimeData.ts';
+import type Locale from '#locale/Locale.ts';
+import timezones from '#locale/timezones.json';
+import levenshtein from '#util/levenshtein.ts';
+import { last, must } from '#util/nullable.ts';
 
 /**
  * The canonical IANA time zone identifiers Moment and Now accept, committed

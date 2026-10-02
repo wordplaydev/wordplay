@@ -4,15 +4,15 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import { fontsLoadedGeneration, loadedFonts } from '@basis/faces/Fonts';
-    import { glyphOutlinesGeneration } from '@output/physics/glyphOutline';
-    import type Project from '@db/projects/Project';
+    import { fontsLoadedGeneration, loadedFonts } from '#basis/faces/Fonts.ts';
+    import { glyphOutlinesGeneration } from '#output/physics/glyphOutline.ts';
+    import type Project from '#db/projects/Project.ts';
     import Animator, {
         type Moved,
         type OutputInfoSet,
-    } from '@output/animation/Animator';
-    import Group from '@output/Output/Group';
-    import Image from '@output/Output/Image';
+    } from '#output/animation/Animator.ts';
+    import Group from '#output/Output/Group.ts';
+    import Image from '#output/Output/Image.ts';
     import {
         boundZoom,
         composeZoom,
@@ -23,29 +23,33 @@
         zoomByWheel,
         zoomPercent,
         type Box,
-    } from '@components/output/fit';
+    } from '#components/output/fit.ts';
     import {
         PX_PER_METER,
         getColorCSS,
         getFaceCSS,
         getOpacityCSS,
         getSizeCSS,
-    } from '@output/Output/outputToCSS';
-    import Phrase from '@output/Output/Phrase';
-    import Shape from '@output/Output/Shape/Shape';
-    import Place, { createPlace } from '@output/Place/Place';
-    import RenderContext from '@output/RenderContext';
-    import type Stage from '@output/Output/Stage';
-    import { DefaultSize, toOverlayStage } from '@output/Output/Stage';
-    import type Evaluator from '@runtime/Evaluator';
+    } from '#output/Output/outputToCSS.ts';
+    import Phrase from '#output/Output/Phrase.ts';
+    import Shape from '#output/Output/Shape/Shape.ts';
+    import Place, { createPlace } from '#output/Place/Place.ts';
+    import RenderContext from '#output/RenderContext.ts';
+    import type Stage from '#output/Output/Stage.ts';
+    import { DefaultSize, toOverlayStage } from '#output/Output/Stage.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { animationFactor, locales, musicVisualization } from '@db/Database';
-    import LightShow from '@components/output/LightShow.svelte';
-    import Mood from '@components/output/Mood.svelte';
-    import Sheet from '@components/output/Sheet.svelte';
-    import MusicView from '@components/output/MusicView.svelte';
-    import type Output from '@output/Output/Output';
-    import range from '@util/range';
+    import {
+        animationFactor,
+        locales,
+        musicVisualization,
+    } from '#db/Database.ts';
+    import LightShow from '#components/output/LightShow.svelte';
+    import Mood from '#components/output/Mood.svelte';
+    import Sheet from '#components/output/Sheet.svelte';
+    import MusicView from '#components/output/MusicView.svelte';
+    import type Output from '#output/Output/Output.ts';
+    import range from '#util/range.ts';
     import {
         getAnimatingNodes,
         getAnnouncer,
@@ -53,16 +57,16 @@
         getEvaluation,
         getSelectedOutput,
         getStageScene,
-    } from '@components/project/Contexts';
-    import GroupView from '@components/output/GroupView.svelte';
-    import ImageView from '@components/output/ImageView.svelte';
+    } from '#components/project/Contexts.ts';
+    import GroupView from '#components/output/GroupView.svelte';
+    import ImageView from '#components/output/ImageView.svelte';
     import {
         describeEnteredOutput,
         describeMovedOutput,
         describedChangedOutput,
-    } from '@components/output/OutputDescriptions';
-    import PhraseView from '@components/output/PhraseView.svelte';
-    import ShapeView from '@components/output/ShapeView.svelte';
+    } from '#components/output/OutputDescriptions.ts';
+    import PhraseView from '#components/output/PhraseView.svelte';
+    import ShapeView from '#components/output/ShapeView.svelte';
 
     interface Props {
         project: Project;

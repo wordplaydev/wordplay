@@ -1,8 +1,8 @@
 import { expect, test } from 'vitest';
-import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
-import { collectingLog } from '@util/verify-locales/Log';
-import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
+import DefaultLocale from '#locale/DefaultLocale.ts';
+import type LocaleText from '#locale/LocaleText.ts';
+import { collectingLog } from '#util/verify-locales/Log.ts';
+import checkGlobalNames from '#util/verify-locales/checkGlobalNames.ts';
 
 /** The check only ever reports errors, so every gathered line is one. */
 function runCheck(locale: LocaleText): string[] {

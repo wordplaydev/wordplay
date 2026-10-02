@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type SetOrMapAccess from '@nodes/SetOrMapAccess';
+    import type SetOrMapAccess from '#nodes/SetOrMapAccess.ts';
     import NodeView, {
         type Format,
-    } from '@components/editor/nodes/NodeView.svelte';
+    } from '#components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: SetOrMapAccess;

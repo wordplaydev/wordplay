@@ -1,4 +1,4 @@
-import type { SerializedProject } from '@db/projects/ProjectSchemas';
+import type { SerializedProject } from '#db/projects/ProjectSchemas.ts';
 
 /**
  * Firestore caps a batched write at 500 operations. Stay below that so large

@@ -1,12 +1,12 @@
-import type LocaleText from '@locale/LocaleText';
-import getConceptName from '@locale/getConceptName';
-import NumberType from '@nodes/NumberType';
-import { Sym } from '@nodes/Sym';
-import Token from '@nodes/Token';
-import Unit from '@nodes/Unit';
-import { NOT_A_NUMBER_SYMBOL } from '@parser/Symbols';
-import BoolValue from '@values/BoolValue';
-import NoneValue from '@values/NoneValue';
+import type LocaleText from '#locale/LocaleText.ts';
+import getConceptName from '#locale/getConceptName.ts';
+import NumberType from '#nodes/NumberType.ts';
+import { Sym } from '#nodes/Sym.ts';
+import Token from '#nodes/Token.ts';
+import Unit from '#nodes/Unit.ts';
+import { NOT_A_NUMBER_SYMBOL } from '#parser/Symbols.ts';
+import BoolValue from '#values/BoolValue.ts';
+import NoneValue from '#values/NoneValue.ts';
 import Decimal from 'decimal.js';
 import {
     bengaliDigits,
@@ -20,13 +20,13 @@ import {
     tamilDigits,
     teluguDigits,
     thaiDigits,
-} from '@values/numerals';
-import type { BasisTypeName } from '@basis/BasisConstants';
-import type Expression from '@nodes/Expression';
-import type Value from '@values/Value';
-import SimpleValue from '@values/SimpleValue';
-import type Locale from '@locale/Locale';
-import { formatNumberForLocale } from '@locale/numberFormats';
+} from '#values/numerals.ts';
+import type { BasisTypeName } from '#basis/BasisConstants.ts';
+import type Expression from '#nodes/Expression.ts';
+import type Value from '#values/Value.ts';
+import SimpleValue from '#values/SimpleValue.ts';
+import type Locale from '#locale/Locale.ts';
+import { formatNumberForLocale } from '#locale/numberFormats.ts';
 
 export type NumberAndPrecision = [Decimal, number | undefined];
 

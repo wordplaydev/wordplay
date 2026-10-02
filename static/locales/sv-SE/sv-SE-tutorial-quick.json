@@ -328,7 +328,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Vi kan göra detta ännu mer interaktivt genom att lägga till användarindata för att styra rotationen, som @Volume för mikrofonindata. Det är ett @value mellan 0 och 1, så vi kan koppla det till 360 grader.",
-                            "$~Det är formen för de flesta projekt: deklarationer, sedan reaktioner, sedan utdata. <Guide//guide> har en @how-sektion full av recept att studera, kopiera och redigera.",
+                            "$~Det är formen för de flesta projekt: deklarationer, sedan reaktioner, sedan utdata. <Guide@://guide> har en @how-sektion full av recept att studera, kopiera och redigera.",
                             "$~Lycka till med skapandet!"
                         ]
                     ]

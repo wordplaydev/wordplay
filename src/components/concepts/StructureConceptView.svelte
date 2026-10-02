@@ -1,13 +1,13 @@
 <script lang="ts">
-    import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
-    import type BindConcept from '@concepts/BindConcept';
-    import type StructureConcept from '@concepts/StructureConcept';
-    import { locales } from '@db/Database';
+    import HeaderAndExplanation from '#components/app/HeaderAndExplanation.svelte';
+    import type BindConcept from '#concepts/BindConcept.ts';
+    import type StructureConcept from '#concepts/StructureConcept.ts';
+    import { locales } from '#db/Database.ts';
     import { onMount } from 'svelte';
-    import BindConceptView from '@components/concepts/BindConceptView.svelte';
-    import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
-    import ConceptView from '@components/concepts/ConceptView.svelte';
-    import Names from '@components/concepts/NamesView.svelte';
+    import BindConceptView from '#components/concepts/BindConceptView.svelte';
+    import ConceptPreview from '#components/concepts/ConceptPreview.svelte';
+    import ConceptView from '#components/concepts/ConceptView.svelte';
+    import Names from '#components/concepts/NamesView.svelte';
 
     interface Props {
         concept: StructureConcept;

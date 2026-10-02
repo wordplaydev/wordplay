@@ -22,21 +22,21 @@
   Y.Doc → Source bridge that produces the source we resolve against.
 -->
 <script lang="ts">
-    import type { Creator } from '@db/creators/CreatorDatabase';
-    import { Creators } from '@db/Database';
-    import type { WritingLayout } from '@locale/Scripts';
-    import { Projects } from '@db/projects/Projects';
+    import type { Creator } from '#db/creators/CreatorDatabase.ts';
+    import { Creators } from '#db/Database.ts';
+    import type { WritingLayout } from '#locale/Scripts.ts';
+    import { Projects } from '#db/projects/Projects.ts';
     import {
         decodeRemoteCaret,
         decodeRemoteCaretAnchor,
-    } from '@db/projects/caretEncoding';
+    } from '#db/projects/caretEncoding.ts';
     import {
         assignDistinctColors,
         isPresenceStale,
-    } from '@db/projects/ProjectPresence';
-    import Node from '@nodes/Node';
-    import type Source from '@nodes/Source';
-    import { Focals } from '@output/Color/BasicColors';
+    } from '#db/projects/ProjectPresence.ts';
+    import Node from '#nodes/Node.ts';
+    import type Source from '#nodes/Source.ts';
+    import { Focals } from '#output/Color/BasicColors.ts';
     import { onDestroy, untrack } from 'svelte';
     import { getRangeOutline } from './highlights/Highlights';
     import type { Outline } from './highlights/outline';

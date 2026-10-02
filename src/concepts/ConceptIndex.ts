@@ -1,41 +1,41 @@
-import BindConcept from '@concepts/BindConcept';
-import type Concept from '@concepts/Concept';
-import conceptFor from '@concepts/conceptFor';
+import BindConcept from '#concepts/BindConcept.ts';
+import type Concept from '#concepts/Concept.ts';
+import conceptFor from '#concepts/conceptFor.ts';
 import {
     getBasisConcepts,
     getNodeConcepts,
     getOutputConcepts,
     getStructureOrFunctionConcept,
-} from '@concepts/DefaultConcepts';
-import FunctionConcept from '@concepts/FunctionConcept';
-import GalleryHowConcept from '@concepts/GalleryHowConcept';
-import HowConcept from '@concepts/HowConcept';
-import type HowTo from '@concepts/HowTo';
-import ConceptLink from '@nodes/ConceptLink';
-import NodeConcept from '@concepts/NodeConcept';
-import { Purpose, type PurposeType } from '@concepts/Purpose';
-import StreamConcept from '@concepts/StreamConcept';
-import StructureConcept from '@concepts/StructureConcept';
-import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Bind from '@nodes/Bind';
-import Evaluate from '@nodes/Evaluate';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import FunctionType from '@nodes/FunctionType';
-import type Markup from '@nodes/Markup';
-import type Node from '@nodes/Node';
-import Reference from '@nodes/Reference';
-import StreamDefinition from '@nodes/StreamDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import { toMarkup } from '@parser/toMarkup';
-import { makeSearchable, searchConcepts } from '@concepts/conceptSearch';
-import type { Searchable, SearchMatch } from '@util/search';
-import { kitShareConcepts } from '@concepts/kitConcepts';
+} from '#concepts/DefaultConcepts.ts';
+import FunctionConcept from '#concepts/FunctionConcept.ts';
+import GalleryHowConcept from '#concepts/GalleryHowConcept.ts';
+import HowConcept from '#concepts/HowConcept.ts';
+import type HowTo from '#concepts/HowTo.ts';
+import ConceptLink from '#nodes/ConceptLink.ts';
+import NodeConcept from '#concepts/NodeConcept.ts';
+import { Purpose, type PurposeType } from '#concepts/Purpose.ts';
+import StreamConcept from '#concepts/StreamConcept.ts';
+import StructureConcept from '#concepts/StructureConcept.ts';
+import GalleryHowTo from '#db/howtos/HowToDatabase.svelte.ts';
+import type Project from '#db/projects/Project.ts';
+import type Locales from '#locale/Locales.ts';
+import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
+import Bind from '#nodes/Bind.ts';
+import Evaluate from '#nodes/Evaluate.ts';
+import FunctionDefinition from '#nodes/FunctionDefinition.ts';
+import FunctionType from '#nodes/FunctionType.ts';
+import type Markup from '#nodes/Markup.ts';
+import type Node from '#nodes/Node.ts';
+import Reference from '#nodes/Reference.ts';
+import StreamDefinition from '#nodes/StreamDefinition.ts';
+import StructureDefinition from '#nodes/StructureDefinition.ts';
+import type Type from '#nodes/Type.ts';
+import type TypeSet from '#nodes/TypeSet.ts';
+import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
+import { toMarkup } from '#parser/toMarkup.ts';
+import { makeSearchable, searchConcepts } from '#concepts/conceptSearch.ts';
+import type { Searchable, SearchMatch } from '#util/search.ts';
+import { kitShareConcepts } from '#concepts/kitConcepts.ts';
 
 export default class ConceptIndex {
     readonly project: Project;

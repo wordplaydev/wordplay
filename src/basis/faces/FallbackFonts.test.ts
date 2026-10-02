@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { describe, expect, test } from 'vitest';
-import { Scripts, type Script } from '@locale/Scripts';
-import { must } from '@util/nullable';
+import { Scripts, type Script } from '#locale/Scripts.ts';
+import { must } from '#util/nullable.ts';
 import {
     FallbackFaces,
     UncoveredScripts,

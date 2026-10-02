@@ -1,4 +1,4 @@
-import exceedsMoveThreshold from '@components/output/moveThreshold';
+import exceedsMoveThreshold from '#components/output/moveThreshold.ts';
 
 /** Where a pointer went down, in viewport coordinates. */
 export type PressPoint = { x: number; y: number };

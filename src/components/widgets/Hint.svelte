@@ -2,8 +2,8 @@
     import type {
         MultilingualEntry,
         MultilingualMarkup,
-    } from '@locale/Locales';
-    import type Markup from '@nodes/Markup';
+    } from '#locale/Locales.ts';
+    import type Markup from '#nodes/Markup.ts';
 
     /** One line of a tooltip. `language`/`direction` are set for per-locale echoes and
      *  omitted for plain/computed tips. `markup` renders rich content; otherwise `text`
@@ -74,10 +74,10 @@
 </script>
 
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getTip } from '@components/project/Contexts';
-    import { placeNearTarget } from '@components/widgets/placeNearTarget';
+    import { browser } from '$app/env';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
+    import { getTip } from '#components/project/Contexts.ts';
+    import { placeNearTarget } from '#components/widgets/placeNearTarget.ts';
     import { onDestroy } from 'svelte';
 
     interface Props {

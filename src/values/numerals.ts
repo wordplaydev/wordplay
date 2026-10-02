@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
-import { Sym, type SymType } from '@nodes/Sym';
-import { isDefined } from '@util/nullable';
+import { Sym, type SymType } from '#nodes/Sym.ts';
+import { isDefined } from '#util/nullable.ts';
 
 /**
  * The numeral tables Wordplay lexes, and the encoder that writes a value back out in each

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
-import { mismatchedDelimiter } from '@util/verify-locales/protect';
+import { mismatchedDelimiter } from '#util/verify-locales/protect.ts';
 import { translateProtectedMarkup } from './ClaudeTranslator';
-import { must } from '@util/nullable';
+import { must } from '#util/nullable.ts';
 
 /** A model doing what models do to markup they don't recognize: rewrite the
  *  words, including inside `\…\`, and drop the delimiters on the way out. */

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
-    import type Concept from '@concepts/Concept';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
+    import Subheader from '#components/app/Subheader.svelte';
+    import type Concept from '#concepts/Concept.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
+    import ConceptGroupView from '#components/concepts/ConceptGroupView.svelte';
 
     interface Props {
         category: LocaleTextAccessor;
