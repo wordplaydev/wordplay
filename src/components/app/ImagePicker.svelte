@@ -135,8 +135,9 @@
     /** Where the box was when move mode began, so escape can put it back. */
     let movingFrom: Rect | null = null;
 
-    let previewCanvas: HTMLCanvasElement | undefined = $state(undefined);
-    let sourceCanvas: HTMLCanvasElement | undefined = $state(undefined);
+    // bind:this writes null when a canvas unmounts, while `source` may still hold a picture.
+    let previewCanvas: HTMLCanvasElement | null = $state(null);
+    let sourceCanvas: HTMLCanvasElement | null = $state(null);
 
     /** How many colors across and down the crop reduces to. */
     let size = $derived(
@@ -165,7 +166,7 @@
     $effect(() => {
         const canvas = sourceCanvas;
         const image = source;
-        if (canvas === undefined || image === null) return;
+        if (canvas === null || image === null) return;
         const ctx = canvas.getContext('2d');
         if (ctx === null) return;
         ctx.putImageData(
@@ -183,7 +184,7 @@
     $effect(() => {
         const canvas = previewCanvas;
         const rgba = sampled;
-        if (canvas === undefined || rgba === null) return;
+        if (canvas === null || rgba === null) return;
         const ctx = canvas.getContext('2d');
         if (ctx === null) return;
         ctx.clearRect(0, 0, columns, rows);

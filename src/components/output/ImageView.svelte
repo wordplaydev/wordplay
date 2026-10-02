@@ -137,7 +137,8 @@
         };
     });
 
-    let canvas = $state<HTMLCanvasElement | undefined>(undefined);
+    // bind:this writes null when the canvas unmounts, not undefined.
+    let canvas = $state<HTMLCanvasElement | null>(null);
 
     /** Paint one square per color at the grid's own size, then let CSS scale it up. A
      *  picture's own colors are never adapted to a dark canvas; see `paintColors`. The
@@ -145,7 +146,7 @@
     $effect(() => {
         const element = canvas;
         const grid = image.colors;
-        if (element === undefined || image.glyphs !== undefined) return;
+        if (element === null || image.glyphs !== undefined) return;
         paintColors(element, grid);
     });
 

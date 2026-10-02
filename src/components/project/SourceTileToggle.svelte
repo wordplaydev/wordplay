@@ -44,11 +44,12 @@
      *  file holds which picture; the picture does. */
     let picture = $derived(toColorGrid(value));
 
-    let thumbnail = $state<HTMLCanvasElement | undefined>(undefined);
+    // bind:this writes null when the canvas unmounts, which a conflict does while the picture remains.
+    let thumbnail = $state<HTMLCanvasElement | null>(null);
     $effect(() => {
         const element = thumbnail;
         const grid = picture;
-        if (element === undefined || grid === undefined) return;
+        if (element === null || grid === undefined) return;
         // Drawn exactly as the stage draws it, dark mode included.
         paintColors(element, grid);
     });
