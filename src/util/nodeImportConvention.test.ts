@@ -120,7 +120,7 @@ function classify(code: string): { bound: boolean; referenced: boolean } {
 function codeIn(path: string): string {
     const text = readFileSync(path, 'utf-8');
     if (!path.endsWith('.svelte')) return text;
-    return Array.from(text.matchAll(/<script[^>]*>([\s\S]*?)<\/script\s*>/gi))
+    return Array.from(text.matchAll(/<script[^>]*>([\s\S]*?)<\/script[^>]*>/gi))
         .map((match) => match[1])
         .join('\n');
 }
