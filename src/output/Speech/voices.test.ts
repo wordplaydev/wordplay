@@ -57,3 +57,56 @@ describe('chooseVoice', () => {
         expect(chooseVoice([], 'urn:samantha', 'en-US')).toBeUndefined();
     });
 });
+
+describe('a novelty default is not what a lesson is read in', () => {
+    // As Chromium lists them on macOS: the novelty voice Albert flagged default.
+    const Chromium: VoiceOption[] = [
+        {
+            lang: 'en-US',
+            uri: 'albert',
+            name: 'Albert (English (United States))',
+            default: true,
+            local: true,
+        },
+        { lang: 'en-US', uri: 'bubbles', name: 'Bubbles', local: true },
+        { lang: 'en-US', uri: 'network', name: 'Google US English' },
+        { lang: 'en-US', uri: 'samantha', name: 'Samantha', local: true },
+        {
+            lang: 'en-US',
+            uri: 'ava',
+            name: 'Ava (Enhanced)',
+            local: true,
+        },
+        { lang: 'ja-JP', uri: 'kyoko', name: 'Kyoko', local: true },
+    ];
+
+    test('an enhanced voice in the language comes first', () => {
+        expect(chooseVoice(Chromium, undefined, 'en-US')?.uri).toBe('ava');
+    });
+
+    test('otherwise a voice on the device', () => {
+        const plain = Chromium.filter((voice) => voice.uri !== 'ava');
+        expect(chooseVoice(plain, undefined, 'en-US')?.uri).toBe('samantha');
+    });
+
+    test('an ordinary default is left to the engine', () => {
+        // Safari's case, which already follows the system voice.
+        const safari = Chromium.map((voice) => ({
+            ...voice,
+            default: voice.uri === 'samantha',
+        }));
+        expect(chooseVoice(safari, undefined, 'en-US')).toBeUndefined();
+    });
+
+    test('another language is not affected', () => {
+        expect(chooseVoice(Chromium, undefined, 'ja-JP')).toBeUndefined();
+    });
+
+    test('a pinned voice still wins, even a novelty one', () => {
+        expect(chooseVoice(Chromium, 'bubbles', 'en-US')?.uri).toBe('bubbles');
+    });
+
+    test('a pinned voice in another language falls back past the novelty', () => {
+        expect(chooseVoice(Chromium, 'kyoko', 'en-US')?.uri).toBe('ava');
+    });
+});

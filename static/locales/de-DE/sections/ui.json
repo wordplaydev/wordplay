@@ -102,6 +102,10 @@
             "synced": {
                 "saved": "$~Auf allen Geräten gespeichert",
                 "signedOut": "$~Wird auf allen Geräten gespeichert, wenn du angemeldet bist"
+            },
+            "readAloud": {
+                "on": "$~Vorlesen stoppen",
+                "off": "$~das laut vorlesen"
             }
         },
         "tile": {
@@ -1584,6 +1588,24 @@
                             "$~Platziere die Bühne oben rechts und die anderen Kacheln passend darum herum",
                             "$~Platziere die Bühne unten links und die anderen Kacheln passend darum herum",
                             "$~Platziere die Bühne unten rechts und die anderen Kacheln passend darum herum"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~Anleitung laut vorlesen",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Eine Zeile der Anleitung nur dann laut vorlesen, wenn die Vorlesen-Taste gedrückt wird",
+                            "$~Jede neue Zeile der Anleitung sofort laut vorlesen, wenn sie erscheint"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~Lesegeschwindigkeit",
+                        "labels": ["$~¾", "$~1x", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~Langsamer vorlesen",
+                            "$~Mit der üblichen Geschwindigkeit der Stimme vorlesen",
+                            "$~Etwas schneller vorlesen",
+                            "$~Noch schneller vorlesen"
                         ]
                     }
                 },

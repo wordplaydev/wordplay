@@ -30,7 +30,7 @@
                             "$~Di kebanyakan @language pemrograman, sebuah program adalah daftar pernyataan yang memberi tahu komputer apa yang harus *dilakukan*, seperti mencetak sebuah @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~Di @wordplay, program adalah *expression* yang menyatakan apa /hasil/ dari program tersebut, bukan bagaimana cara menghasilkannya.",
-                            "$~Program ini mengevaluasi menjadi value \\'hai'\\, yang kemudian ditampilkan di panggung. Tidak ada perintah cetak, hanya sebuah @expression yang menyatakan value apa yang harus dievaluasi."
+                            "$~Program ini menghasilkan nilai \\'hai'\\, yang lalu ditampilkan di panggung. Tidak ada perintah cetak, hanya @expression yang menyatakan nilai apa yang harus dihasilkan."
                         ],
                         null,
                         { "edit": ["message: 'hi'", "message"] },

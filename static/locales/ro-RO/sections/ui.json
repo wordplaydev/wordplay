@@ -102,6 +102,10 @@
             "synced": {
                 "saved": "$~Salvat pe toate dispozitivele",
                 "signedOut": "$~Salvat pe toate dispozitivele atunci când ești conectat"
+            },
+            "readAloud": {
+                "on": "$~oprește citirea cu voce tare",
+                "off": "$~citește asta cu voce tare"
             }
         },
         "tile": {
@@ -1870,6 +1874,24 @@
                             "$~pune scena sus în dreapta, și celelalte plăci în locuri asemănătoare în jurul ei",
                             "$~pune scena jos în stânga, și celelalte plăci în locuri asemănătoare în jurul ei",
                             "$~pune scena jos în dreapta, și celelalte plăci în locuri asemănătoare în jurul ei"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~citește instrucțiunile cu voce tare",
+                        "labels": ["$~oprit", "$~pornit"],
+                        "tips": [
+                            "$~Citește cu voce tare o linie din instrucțiuni doar când este apăsat butonul de citire cu voce tare",
+                            "$~Citește cu voce tare fiecare linie nouă din instrucțiuni pe măsură ce apare"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~viteza de citire",
+                        "labels": ["$~¾", "$~1x", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~Citește cu voce tare mai încet",
+                            "$~Citește cu voce tare la viteza obișnuită a vocii",
+                            "$~Citește cu voce tare puțin mai repede",
+                            "$~Citește cu voce tare și mai repede"
                         ]
                     }
                 },

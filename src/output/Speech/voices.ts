@@ -16,7 +16,58 @@ export type VoiceOption = {
     lang: string;
     /** Device-local identity: stable on one device, meaningless across them. */
     uri: string;
+    name?: string;
+    default?: boolean;
+    /** Runs on the device rather than over the network. */
+    local?: boolean;
 };
+
+/** Apple's novelty voices, no way to hear a lesson. Chromium on macOS flags
+ *  Albert as its default; Safari flags an ordinary voice. */
+const NoveltyVoices = [
+    'Albert',
+    'Bad News',
+    'Bahh',
+    'Bells',
+    'Boing',
+    'Bubbles',
+    'Cellos',
+    'Good News',
+    'Jester',
+    'Organ',
+    'Superstar',
+    'Trinoids',
+    'Whisper',
+    'Wobble',
+    'Zarvox',
+];
+
+/** Chromium appends the language to the name. */
+export function isNovelty(voice: VoiceOption): boolean {
+    const name = voice.name ?? '';
+    return NoveltyVoices.some(
+        (novelty) => name === novelty || name.startsWith(`${novelty} (`),
+    );
+}
+
+/** A voice to use instead of a novelty default; otherwise the engine picks. */
+function insteadOfNovelty(
+    available: readonly VoiceOption[],
+    lang: string | undefined,
+): VoiceOption | undefined {
+    const wanted = primarySubtag(lang);
+    const speaks = available.filter(
+        (voice) => wanted === undefined || primarySubtag(voice.lang) === wanted,
+    );
+    const fallback = speaks.find((voice) => voice.default) ?? speaks[0];
+    if (fallback === undefined || !isNovelty(fallback)) return undefined;
+    const ordinary = speaks.filter((voice) => !isNovelty(voice));
+    return (
+        ordinary.find((voice) => /enhanced|premium/i.test(voice.name ?? '')) ??
+        ordinary.find((voice) => voice.local) ??
+        ordinary[0]
+    );
+}
 
 /** The primary subtag of a language tag, lowercased: `en` from `en-GB`. */
 export function primarySubtag(tag: string | undefined): string | undefined {
@@ -27,6 +78,8 @@ export function primarySubtag(tag: string | undefined): string | undefined {
 
 /**
  * The voice to speak with, or undefined to let the engine pick from `lang`.
+ * With nothing pinned, the engine picks unless its pick would be a novelty
+ * voice; see `insteadOfNovelty`.
  *
  * The viewer's pinned voice wins whenever it can: it is an accessibility
  * choice — someone who cannot follow the default voice must be able to
@@ -43,13 +96,16 @@ export function chooseVoice(
     /** The utterance's language tag, if its text carried one. */
     lang: string | undefined,
 ): VoiceOption | undefined {
-    if (uri === undefined) return undefined;
-
-    const pinned = available.find((voice) => voice.uri === uri);
-    if (pinned === undefined) return undefined;
+    const pinned =
+        uri === undefined
+            ? undefined
+            : available.find((voice) => voice.uri === uri);
 
     const wanted = primarySubtag(lang);
-    return wanted === undefined || wanted === primarySubtag(pinned.lang)
-        ? pinned
-        : undefined;
+    if (
+        pinned !== undefined &&
+        (wanted === undefined || wanted === primarySubtag(pinned.lang))
+    )
+        return pinned;
+    return insteadOfNovelty(available, lang);
 }

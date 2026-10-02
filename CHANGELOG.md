@@ -4,6 +4,17 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.38.2 - 2026-10-01
+
+### Added
+
+- 🔊 Lessons in [Learn](https://wordplay.dev/learn) and explanations in the Guide now have a button that reads them aloud and highlights each word as it is spoken, and settings let you choose how fast and have each new lesson line read on its own. (#1015)
+
+### Fixed
+
+- 🔇 Examples in the [Guide](https://wordplay.dev/guide) no longer talk as soon as the page opens, and only speak after you press their play button.
+- 🗣️ Spoken text in Chrome and other Chromium browsers on a Mac now uses an ordinary voice instead of a silly one like Albert or Bubbles.
+
 ## 0.38.1 - 2026-09-27
 
 ### Added

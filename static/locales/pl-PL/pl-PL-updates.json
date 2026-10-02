@@ -1017,6 +1017,9 @@
         "ebd63de5a63f1": "$~Czytniki ekranu i mowa syntezowana czytają teraz każde słowo w jego własnym języku. Hiszpańskie słowo w angielskim zdaniu brzmi więc po hiszpańsku. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
         "e7914aaea390a": "$~W 13 językach zwykłe słowa, takie jak „jak”, nie zamieniają się już przez pomyłkę w linki z kropkowanym podkreśleniem.",
         "ed72c4878ae09": "$~Nazwy przycisków i ustawień w wycieczkach i dokumentacji używają teraz słów z danego języka zamiast angielskich.",
-        "e42e9e3c1d92a": "$~Słowa z kropkowanym podkreśleniem nie pokazują już przed sobą przypadkowych symboli w niektórych językach."
+        "e42e9e3c1d92a": "$~Słowa z kropkowanym podkreśleniem nie pokazują już przed sobą przypadkowych symboli w niektórych językach.",
+        "e6f07748bed1c": "$~Lekcje w <Nauka@https://wordplay.dev/learn> oraz wyjaśnienia w przewodniku mają teraz przycisk, który czyta je na głos i podświetla każde wypowiadane słowo. Ustawienia pozwalają wybrać szybkość czytania oraz sprawić, by każda nowa linia lekcji była czytana osobno. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
+        "e4b9091b3c539": "$~Przykłady w <przewodniku@https://wordplay.dev/guide> nie odzywają się już od razu po otwarciu strony. Mówią dopiero po naciśnięciu przycisku odtwarzania.",
+        "e4b5e128afb9d": "$~Mowa tekstu na głos w Chrome i innych przeglądarkach opartych na Chromium na komputerze Mac używa teraz zwykłego głosu zamiast zabawnego, jak Albert czy Bubbles."
     }
 }

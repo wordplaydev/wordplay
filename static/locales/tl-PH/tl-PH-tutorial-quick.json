@@ -30,7 +30,7 @@
                             "$~Sa karamihan ng mga programming language, ang programa ay isang listahan ng mga statement na nagsasabi sa kompyuter kung ano ang *gagawin*, gaya ng pag-print ng isang @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~Sa @wordplay, ang mga programa ay mga *expression* na nagsasabi kung ano dapat ang /resulta/ ng programa, hindi kung paano ito gagawin.",
-                            "$~Ang programang ito ay nag-eevaluate sa value na \\'kumusta'\\, na ipinapakita sa stage. Walang print command, isang @expression lang na nagsasabi kung anong value ang ie-evaluate."
+                            "$~Ang programang ito ay kumukuha ng halagang \\'kumusta'\\, na ipinapakita pagkatapos sa entablado. Walang utos na mag-print, @expression lang na nagsasabi kung anong halaga ang kukunin."
                         ],
                         null,
                         { "edit": ["message: 'hi'", "message"] },

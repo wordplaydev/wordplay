@@ -1017,6 +1017,9 @@
         "ebd63de5a63f1": "$~Trình đọc màn hình và văn bản đọc thành tiếng giờ đọc từng từ bằng ngôn ngữ của chính nó, nên một từ tiếng Tây Ban Nha trong câu tiếng Anh sẽ được đọc bằng giọng Tây Ban Nha. (<111@https://github.com/wordplaydev/wordplay/issues/111>)",
         "e7914aaea390a": "$~Ở 13 ngôn ngữ, những từ thông thường như \"làm thế nào\" không còn bị biến nhầm thành liên kết gạch chân chấm chấm nữa.",
         "ed72c4878ae09": "$~Tên của các nút và cài đặt trong phần hướng dẫn và tài liệu giờ dùng từ của chính ngôn ngữ đó thay vì tiếng Anh.",
-        "e42e9e3c1d92a": "$~Những từ có gạch chân chấm chấm không còn hiện các ký hiệu thừa ở phía trước trong một số ngôn ngữ."
+        "e42e9e3c1d92a": "$~Những từ có gạch chân chấm chấm không còn hiện các ký hiệu thừa ở phía trước trong một số ngôn ngữ.",
+        "e6f07748bed1c": "$~Các bài học trong <Học@https://wordplay.dev/learn> và các lời giải thích trong Sổ tay hướng dẫn giờ đây có một nút đọc to chúng lên và làm nổi bật từng từ khi được đọc. Phần cài đặt cho phép bạn chọn tốc độ đọc và để mỗi dòng bài học mới tự đọc lên. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
+        "e4b9091b3c539": "$~Các ví dụ trong <Guide@https://wordplay.dev/guide> không còn tự nói ngay khi trang vừa mở nữa, mà chỉ nói sau khi bạn bấm nút phát của chúng.",
+        "e4b5e128afb9d": "$~Văn bản được đọc to trên Chrome và các trình duyệt Chromium khác trên máy Mac giờ đây dùng một giọng đọc bình thường, thay vì một giọng kỳ quặc như Albert hay Bubbles."
     }
 }

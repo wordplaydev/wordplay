@@ -102,6 +102,10 @@
             "synced": {
                 "saved": "$~Enregistré sur tous les appareils",
                 "signedOut": "$~Enregistré sur tous les appareils quand vous êtes connecté"
+            },
+            "readAloud": {
+                "on": "$~arrêter la lecture à voix haute",
+                "off": "$~lire ceci à voix haute"
             }
         },
         "tile": {
@@ -1588,6 +1592,24 @@
                             "$~placer la scène en haut à droite, et les autres tuiles aux places correspondantes autour d’elle",
                             "$~placer la scène en bas à gauche, et les autres tuiles aux places correspondantes autour d’elle",
                             "$~placer la scène en bas à droite, et les autres tuiles aux places correspondantes autour d’elle"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~lire le tutoriel à voix haute",
+                        "labels": ["$~désactivé", "$~activé"],
+                        "tips": [
+                            "$~Lire une ligne du tutoriel à voix haute seulement quand on appuie sur son bouton de lecture à voix haute",
+                            "$~Lire chaque nouvelle ligne du tutoriel à voix haute dès qu'elle apparaît"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~vitesse de lecture",
+                        "labels": ["$~¾", "$~1x", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~Lire à voix haute plus lentement",
+                            "$~Lire à voix haute à la vitesse habituelle de la voix",
+                            "$~Lire à voix haute un peu plus vite",
+                            "$~Lire à voix haute encore plus vite"
                         ]
                     }
                 },

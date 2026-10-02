@@ -102,6 +102,10 @@
             "synced": {
                 "saved": "$~Sparas mellan enheter",
                 "signedOut": "$~Sparas mellan enheter när du är inloggad"
+            },
+            "readAloud": {
+                "on": "$~sluta läsa högt",
+                "off": "$~läs detta högt"
             }
         },
         "tile": {
@@ -1606,6 +1610,24 @@
                             "$~placera scenen uppe till höger, och de andra rutorna på matchande platser runt den",
                             "$~placera scenen nere till vänster, och de andra rutorna på matchande platser runt den",
                             "$~placera scenen nere till höger, och de andra rutorna på matchande platser runt den"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~läs handledningen högt",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Läs bara en handledningsrad högt när dess läs-högt-knapp trycks in",
+                            "$~Läs varje ny handledningsrad högt när den visas"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~läshastighet",
+                        "labels": ["$~¾", "$~1x", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~Läs högt långsammare",
+                            "$~Läs högt i röstens vanliga hastighet",
+                            "$~Läs högt lite snabbare",
+                            "$~Läs högt ännu snabbare"
                         ]
                     }
                 },

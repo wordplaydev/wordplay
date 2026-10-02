@@ -102,6 +102,10 @@
             "synced": {
                 "saved": "$~Zapisane na wszystkich urządzeniach",
                 "signedOut": "$~Zapisane na wszystkich urządzeniach, gdy jesteś zalogowany"
+            },
+            "readAloud": {
+                "on": "$~przestań czytać na głos",
+                "off": "$~przeczytaj to na głos"
             }
         },
         "tile": {
@@ -1603,6 +1607,24 @@
                             "$~umieść scenę w prawym górnym rogu, a pozostałe kafelki w odpowiadających miejscach wokół niej",
                             "$~umieść scenę w lewym dolnym rogu, a pozostałe kafelki w odpowiadających miejscach wokół niej",
                             "$~umieść scenę w prawym dolnym rogu, a pozostałe kafelki w odpowiadających miejscach wokół niej"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~przeczytaj samouczek na głos",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Czytaj linijkę samouczka na głos tylko wtedy, gdy naciśniesz przycisk czytania na głos",
+                            "$~Czytaj każdą nową linijkę samouczka na głos, gdy się pojawi"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~szybkość czytania",
+                        "labels": ["$~¾", "$~1x", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~Czytaj na głos wolniej",
+                            "$~Czytaj na głos ze zwykłą szybkością głosu",
+                            "$~Czytaj na głos trochę szybciej",
+                            "$~Czytaj na głos jeszcze szybciej"
                         ]
                     }
                 },

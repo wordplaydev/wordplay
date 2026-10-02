@@ -102,6 +102,10 @@
             "synced": {
                 "saved": "$~guardado en todos los dispositivos",
                 "signedOut": "$~guardado en todos los dispositivos cuando iniciaste sesión"
+            },
+            "readAloud": {
+                "on": "$~dejar de leer en voz alta",
+                "off": "$~leer esto en voz alta"
             }
         },
         "tile": {
@@ -1588,6 +1592,24 @@
                             "$~colocar el escenario arriba a la derecha, y las demás tejas en lugares equivalentes a su alrededor",
                             "$~colocar el escenario abajo a la izquierda, y las demás tejas en lugares equivalentes a su alrededor",
                             "$~colocar el escenario abajo a la derecha, y las demás tejas en lugares equivalentes a su alrededor"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~leer el tutorial en voz alta",
+                        "labels": ["$~apagado", "$~encendido"],
+                        "tips": [
+                            "$~Leer una línea del tutorial en voz alta solo cuando se presione su botón de leer en voz alta",
+                            "$~Leer cada línea nueva del tutorial en voz alta en cuanto aparezca"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~velocidad de lectura",
+                        "labels": ["$~¾", "$~1x", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~Leer en voz alta más despacio",
+                            "$~Leer en voz alta a la velocidad normal de la voz",
+                            "$~Leer en voz alta un poco más rápido",
+                            "$~Leer en voz alta todavía más rápido"
                         ]
                     }
                 },

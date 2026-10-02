@@ -18749,6 +18749,14 @@
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "Where the stage sits in the layouts that lay tiles out on axes, which mirrors the other tiles around it"
                                                 },
+                                                "readAloud": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Whether the tutorial reads each new line of dialog aloud as it appears"
+                                                },
+                                                "readAloudRate": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                                    "description": "How fast read aloud speaks: slower, normal, faster, or fastest"
+                                                },
                                                 "space": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                                                     "description": "The space_indicator on/off mode"
@@ -18791,6 +18799,8 @@
                                                 "cues",
                                                 "contactCues",
                                                 "animationCues",
+                                                "readAloud",
+                                                "readAloudRate",
                                                 "captionSize"
                                             ],
                                             "type": "object"
@@ -30385,6 +30395,10 @@
                                     "required": ["button", "popup"],
                                     "type": "object"
                                 },
+                                "readAloud": {
+                                    "$ref": "#/definitions/ToggleText",
+                                    "description": "The button beside a tutorial line or explanation that reads its text aloud, highlighting each word as it is spoken"
+                                },
                                 "synced": {
                                     "additionalProperties": false,
                                     "description": "The cloud badge marking a setting that follows a creator's account rather than staying on one device",
@@ -30437,7 +30451,8 @@
                                 "formatted",
                                 "color",
                                 "backtotop",
-                                "overflow"
+                                "overflow",
+                                "readAloud"
                             ],
                             "type": "object"
                         }

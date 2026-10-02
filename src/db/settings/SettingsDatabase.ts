@@ -69,7 +69,11 @@ import {
     MusicVisualizationSetting,
     MusicVolumeSetting,
 } from '@db/settings/MusicSettings';
-import { SaySetting } from '@db/settings/SaySetting';
+import {
+    ReadAloudRateSetting,
+    ReadAloudSetting,
+    SaySetting,
+} from '@db/settings/SaySetting';
 import { SpaceSetting } from '@db/settings/SpaceSetting';
 import {
     KeybindingsSetting,
@@ -363,6 +367,8 @@ export default class SettingsDatabase {
         cues: CuesSetting,
         animationCues: AnimationCuesSetting,
         contactCues: ContactCuesSetting,
+        readAloud: ReadAloudSetting,
+        readAloudRate: ReadAloudRateSetting,
         captionSize: CaptionSizeSetting,
         projectFolders: ProjectFoldersSetting,
         projectSort: ProjectSortSetting,
@@ -845,6 +851,14 @@ export default class SettingsDatabase {
 
     getAnimationCues() {
         return this.settings.animationCues.get();
+    }
+
+    setReadAloud(on: boolean) {
+        this.settings.readAloud.set(this.database, on);
+    }
+
+    setReadAloudRate(rate: number) {
+        this.settings.readAloudRate.set(this.database, rate);
     }
 
     setCues(on: boolean) {

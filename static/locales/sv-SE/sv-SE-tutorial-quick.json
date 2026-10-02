@@ -30,7 +30,7 @@
                             "$~I de flesta programmeringsspråk är ett program en lista med satser som talar om för datorn vad den ska *göra*, som att skriva ut ett @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~I @wordplay är program *uttryck* som säger vad /resultatet/ av programmet ska bli, inte hur det ska skapa det.",
-                            "$~Det här programmet beräknas till värdet \\'hej'\\, som sedan visas på scenen. Inget utskriftskommando, bara ett @expression som säger vilket värde det ska beräknas till."
+                            "$~Det här programmet ger värdet \\'hej'\\, som sedan visas på scenen. Inget skriv ut-kommando, bara ett @expression som säger vilket värde som ska tas fram."
                         ],
                         null,
                         { "edit": ["message: 'hi'", "message"] },

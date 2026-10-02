@@ -30,7 +30,7 @@
                             "$~Çoğu programlama dilinde bir program, bilgisayara ne *yapacağını* söyleyen deyimlerin bir listesidir, örneğin bir değer yazdırmak gibi:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~@wordplay'de programlar, programın /sonucunun/ ne olması gerektiğini söyleyen *ifadelerdir*, sonucu nasıl üreteceğini değil.",
-                            "$~Bu program şu değere hesaplanır: \\'merhaba'\\, sonra bu değer sahnede gösterilir. Yazdırma komutu yok, sadece hangi değere hesaplanacağını söyleyen bir @expression var."
+                            "$~Bu program şu değeri hesaplar: \\'merhaba'\\, ve bu değer sahnede gösterilir. Yazdırma komutu yok, sadece hangi değerin hesaplanacağını söyleyen bir @expression var."
                         ],
                         null,
                         { "edit": ["message: 'hi'", "message"] },

@@ -106,7 +106,7 @@
     )}
 />
 
-<Speech below character={concept.getCharacter()}>
+<Speech below read character={concept.getCharacter()}>
     {#snippet content()}
         {@const questions = concept.howTo.getGuidingQuestions()}
         {@const answers = concept.howTo.getText()}

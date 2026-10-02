@@ -15,7 +15,7 @@
  * The viewer's preferred voice is pushed in with `prefer` instead.
  */
 
-import { writable, type Readable } from 'svelte/store';
+import { get, writable, type Readable } from 'svelte/store';
 import {
     cancelled,
     emptySpeech,
@@ -31,6 +31,9 @@ import { chooseVoice, type VoiceOption } from '@output/Speech/voices';
 /** The source id standalone `Say` outputs speak under. */
 export const SaySource = 'say';
 
+/** Read aloud's source (#1015). */
+export const ReadAloudSource = 'read-aloud';
+
 /** One source per music, so a track's line replaces that music's last line
  * without touching what any other music or a `Say` has pending. */
 export function musicSource(music: string): string {
@@ -43,9 +46,21 @@ export type CurrentSpeech = {
     text: string;
     /** Whether a caption should show these words; see `Utterance.captioned`. */
     captioned: boolean;
+    mark?: number | undefined;
+};
+
+/** Where in the current utterance the voice has reached. */
+export type SpeechBoundary = {
+    source: string;
+    mark: number | undefined;
+    /** UTF-16 offset in the utterance's text. */
+    index: number;
+    /** Not every engine reports one. */
+    length: number | undefined;
 };
 
 const speaking = writable<CurrentSpeech | undefined>(undefined);
+const boundary = writable<SpeechBoundary | undefined>(undefined);
 
 /**
  * Which source is audible, and the words it is speaking.
@@ -59,6 +74,11 @@ const speaking = writable<CurrentSpeech | undefined>(undefined);
  */
 export const speakingNow: Readable<CurrentSpeech | undefined> = {
     subscribe: speaking.subscribe,
+};
+
+/** The word the voice is on. Some voices never report one. */
+export const speakingBoundary: Readable<SpeechBoundary | undefined> = {
+    subscribe: boundary.subscribe,
 };
 
 /**
@@ -129,9 +149,13 @@ class Speech {
             });
         }
         if (this.available === undefined)
-            this.available = synth
-                .getVoices()
-                .map((voice) => ({ lang: voice.lang, uri: voice.voiceURI }));
+            this.available = synth.getVoices().map((voice) => ({
+                lang: voice.lang,
+                uri: voice.voiceURI,
+                name: voice.name,
+                default: voice.default,
+                local: voice.localService,
+            }));
         return this.available;
     }
 
@@ -179,8 +203,18 @@ class Speech {
                       source: current.utterance.source,
                       text: current.utterance.caption ?? current.utterance.text,
                       captioned: current.utterance.captioned !== false,
+                      mark: current.utterance.mark,
                   },
         );
+        // A boundary belongs to one utterance, so it can't outlive it.
+        const reached = get(boundary);
+        if (
+            reached !== undefined &&
+            (current === undefined ||
+                current.utterance.source !== reached.source ||
+                current.utterance.mark !== reached.mark)
+        )
+            boundary.set(undefined);
         this.pace();
     }
 
@@ -224,6 +258,15 @@ class Speech {
         // Errors end an utterance as surely as finishing does — a device with
         // no voices reports one immediately — so both release the queue, or a
         // single failure would hold the one slot forever.
+        spoken.onboundary = (event) => {
+            if (event.name !== 'word' || this.state.current?.id !== id) return;
+            boundary.set({
+                source: utterance.source,
+                mark: utterance.mark,
+                index: event.charIndex,
+                length: event.charLength || undefined,
+            });
+        };
         spoken.onend = () => this.apply(finished(this.state, id));
         spoken.onerror = () => this.apply(finished(this.state, id));
         synth.speak(spoken);

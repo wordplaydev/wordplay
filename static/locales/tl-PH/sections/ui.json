@@ -102,6 +102,10 @@
             "synced": {
                 "saved": "$~Naka-save sa lahat ng device",
                 "signedOut": "$~Naka-save sa lahat ng device kapag naka-sign in ka"
+            },
+            "readAloud": {
+                "on": "$~itigil ang pagbasa nang malakas",
+                "off": "$~basahin ito nang malakas"
             }
         },
         "tile": {
@@ -1867,6 +1871,24 @@
                             "$~ilagay ang entablado sa itaas na kanan, at ang ibang tile sa katugmang lugar sa palibot nito",
                             "$~ilagay ang entablado sa ibaba na kaliwa, at ang ibang tile sa katugmang lugar sa palibot nito",
                             "$~ilagay ang entablado sa ibaba na kanan, at ang ibang tile sa katugmang lugar sa palibot nito"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~basahin ang gabay nang malakas",
+                        "labels": ["$~patay", "$~bukas"],
+                        "tips": [
+                            "$~Basahin lang nang malakas ang linya ng gabay kapag pinindot ang buton na basahin nang malakas",
+                            "$~Basahin nang malakas ang bawat bagong linya ng gabay habang lumalabas ito"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~bilis ng pagbasa",
+                        "labels": ["$~¾", "$~1x", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~Basahin nang malakas nang mas mabagal",
+                            "$~Basahin nang malakas sa karaniwang bilis ng tinig",
+                            "$~Basahin nang malakas nang bahagyang mas mabilis",
+                            "$~Basahin nang malakas nang mas mabilis pa"
                         ]
                     }
                 },

@@ -15,7 +15,7 @@
 
 <Subheader>{concept.how.title}</Subheader>
 
-<Speech below character={concept.getCharacter($locales)}>
+<Speech below read character={concept.getCharacter($locales)}>
     {#snippet content()}
         {@const markup = concept.getDocs()[0]}
         {#if markup}

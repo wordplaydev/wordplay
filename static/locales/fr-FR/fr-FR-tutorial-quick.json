@@ -30,7 +30,7 @@
                             "$~Dans la plupart des langages de programmation, un programme est une liste d'instructions qui disent à l'ordinateur ce qu'il doit *faire*, comme afficher une @value :",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
                             "$~Dans @wordplay, les programmes sont des *expressions* qui disent quel doit être le /résultat/ du programme, et non comment il doit le produire.",
-                            "$~Ce programme s'évalue à la valeur \\'salut'\\, qui est ensuite montrée sur la scène. Pas de commande d'affichage, juste une @expression qui dit à quelle valeur s'évaluer."
+                            "$~Ce programme s’évalue en la valeur \\'salut'\\, qui est ensuite montrée sur la scène. Pas de commande d’affichage, juste une @expression qui dit en quelle valeur s’évaluer."
                         ],
                         null,
                         { "edit": ["message: 'hi'", "message"] },
