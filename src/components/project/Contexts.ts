@@ -93,6 +93,16 @@ export const [getLinkLocalize, setLinkLocalize] =
     createOptionalContext<LinkLocalizeContext>();
 
 /**
+ * Whether node views compute a localized `aria-description` for each node.
+ * Off inside the editor: under `role="application"` the virtual cursor that
+ * would read a description is gone, so the work — the most expensive per-node
+ * computation there is, redone for every mounted node on every edit — bought
+ * nothing. Docs, previews and the menu keep them, where a reader can reach them.
+ */
+export const [getNodeDescriptions, setNodeDescriptions] =
+    createOptionalContext<() => boolean>();
+
+/**
  * The app-wide announcement function backed by the single live region in
  * Announcer.svelte. The kind determines the announcement's priority lane —
  * see the registry in announcerQueue.ts; adding a kind means registering it

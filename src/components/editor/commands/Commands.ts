@@ -1,4 +1,5 @@
 import { Projects } from '#db/projects/Projects.ts';
+import { moveNode, type MoveDirection } from '#edit/drag/Drag.ts';
 import type { CommandFeedback } from '#components/editor/commands/feedback.ts';
 import type { WritingLayout } from '#locale/Scripts.ts';
 import {
@@ -63,6 +64,10 @@ import {
     PATTERN_WORDEDGE_SYMBOL,
     THIS_SYMBOL,
     TRANSLATE_SYMBOL,
+    TRANSLATE_SYMBOL_RTL,
+    MATCH_TEST_SYMBOL,
+    INITIAL_SYMBOL,
+    PATTERN_RANGE_SYMBOL,
     TRUE_SYMBOL,
     TYPE_SYMBOL,
     UNDO_SYMBOL,
@@ -1189,6 +1194,9 @@ export const ExportValue: Command = {
 
 export const ShowMenu: Command = {
     id: 'show-menu',
+    // In the toolbar: the chord is the only other way in, and a student who
+    // has not found it has no way to discover what the code can become.
+    important: true,
     uiid: 'showMenu',
     symbol: '▾',
     description: (l) => l.ui.source.menu.show,
@@ -1459,11 +1467,64 @@ export const InsertSymbol: Command = {
     },
 };
 
+/** A keyboard move of the selected node or run (see moveNode in Drag.ts). The
+ *  edit announcement names what moved and where (describeEdit's `move` cause);
+ *  the caret then says where it landed. A refusal is announced as the reason. */
+function moveCommand(
+    direction: MoveDirection,
+    symbol: string,
+    description: LocaleTextAccessor,
+    key: string,
+): Command {
+    return {
+        id: `move-${direction}`,
+        symbol,
+        description,
+        feedback: 'caret',
+        visible: Visibility.Visible,
+        category: Category.Modify,
+        control: false,
+        shift: true,
+        alt: true,
+        key,
+        active: ({ caret, editor }) =>
+            editor &&
+            caret !== undefined &&
+            (caret.isNode() || caret.isRangeOfNodes())
+                ? true
+                : undefined,
+        execute: ({ caret, project }) => {
+            if (caret === undefined) return false;
+            const nodes = caret.isRangeOfNodes()
+                ? caret.getSelectedNodes()
+                : caret.isNode()
+                  ? [caret.position]
+                  : [];
+            if (nodes.length === 0) return false;
+            const result = moveNode(project, caret.source, nodes, direction);
+            if (result === undefined)
+                return (l) => l.ui.source.cursor.ignored.noMoveTarget;
+            const first = result.moved[0];
+            const last = result.moved.at(-1);
+            if (first === undefined || last === undefined) return false;
+            const moved = caret.withSource(result.source);
+            return [
+                result.project,
+                result.moved.length > 1
+                    ? moved.withPosition(last).withRange(first)
+                    : moved.withPosition(first).withAddition(first),
+            ];
+        },
+    };
+}
+
 export const Undo: Command = {
     id: 'undo',
     symbol: UNDO_SYMBOL,
     description: (l) => l.ui.source.cursor.undo,
-    feedback: { path: (l) => l.ui.feedback.undone },
+    // ProjectView describes what the restored version brought back or took
+    // away; a bare "undone" would be the same words twice and heard once.
+    feedback: 'delegated',
     visible: Visibility.Visible,
     category: Category.Modify,
     shift: false,
@@ -1488,7 +1549,7 @@ export const Redo: Command = {
     id: 'redo',
     symbol: REDO_SYMBOL,
     description: (l) => l.ui.source.cursor.redo,
-    feedback: { path: (l) => l.ui.feedback.redone },
+    feedback: 'delegated',
     visible: Visibility.Visible,
     category: Category.Modify,
     shift: true,
@@ -2063,6 +2124,47 @@ const Commands: Command[] = [
         produces: () => NoneType.make(),
         execute: (context) => handleInsert(context, NONE_SYMBOL),
     },
+    // Glyphs with no chord and no menu path of their own. Palette-only, like
+    // the pattern atoms: the symbol chooser can't find them by name either.
+    {
+        id: 'insert-initial',
+        symbol: INITIAL_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertInitial,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        alt: false,
+        shift: false,
+        control: false,
+        execute: (context) => handleInsert(context, INITIAL_SYMBOL),
+    },
+    {
+        id: 'insert-translate-rtl',
+        symbol: TRANSLATE_SYMBOL_RTL,
+        description: (l) => l.ui.source.cursor.insertTranslateRTL,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        alt: false,
+        shift: false,
+        control: false,
+        execute: (context) => handleInsert(context, TRANSLATE_SYMBOL_RTL),
+    },
+    {
+        id: 'insert-match',
+        symbol: MATCH_TEST_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertMatch,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        alt: false,
+        shift: false,
+        control: false,
+        execute: (context) => handleInsert(context, MATCH_TEST_SYMBOL),
+    },
     {
         id: 'insert-function',
         symbol: FUNCTION_SYMBOL,
@@ -2408,6 +2510,20 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PATTERN_ANY_SYMBOL),
     },
     {
+        id: 'insert-pattern-range',
+        symbol: PATTERN_RANGE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertPatternRange,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: InPattern,
+        execute: (context) => handleInsert(context, PATTERN_RANGE_SYMBOL),
+    },
+    {
         id: 'insert-pattern-space',
         symbol: PATTERN_SPACE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPatternSpace,
@@ -2715,8 +2831,12 @@ const Commands: Command[] = [
         control: true,
         key: '8',
         execute: ({ caret, blocks }) => {
-            if (caret === undefined || blocks) return false;
-            else return caret.elide() ?? false;
+            if (caret === undefined) return false;
+            // Elision is a text-mode marker; in blocks mode the chord is heard
+            // declining rather than doing nothing.
+            if (blocks)
+                return (l) => l.ui.source.cursor.ignored.noElideInBlocks;
+            return caret.elide() ?? false;
         },
     },
 
@@ -2991,6 +3111,13 @@ const Commands: Command[] = [
         execute: ({ project, caret, blocks }) =>
             caret?.wrap(project, '[', blocks) ?? false,
     },
+    // Keyboard moves: the rearrangement a pointer drag does, for a creator
+    // who has no pointer or cannot see where to drop. Alt+Shift+Right is ↦,
+    // so moving in takes Enter, as in "enter".
+    moveCommand('before', '⤒', (l) => l.ui.source.cursor.moveBefore, 'ArrowUp'),
+    moveCommand('after', '⤓', (l) => l.ui.source.cursor.moveAfter, 'ArrowDown'),
+    moveCommand('out', '⇱', (l) => l.ui.source.cursor.moveOut, 'ArrowLeft'),
+    moveCommand('in', '⇲', (l) => l.ui.source.cursor.moveIn, 'Enter'),
     IncrementLiteral,
     DecrementLiteral,
     ShowKeyboardHelp,
@@ -3021,7 +3148,10 @@ const Commands: Command[] = [
                 const tidySource = caret.source.withSpaces(
                     getPreferredSpaces(caret.source.root, caret.source.spaces),
                 );
-                if (tidySource.code.getLength() === length) return false;
+                // Already tidy: a refusal with a reason, so the press is heard
+                // as "already tidy" rather than as a key that does nothing.
+                if (tidySource.code.getLength() === length)
+                    return (l) => l.ui.feedback.tidyNoop;
                 return [
                     tidySource,
                     caret

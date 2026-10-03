@@ -71,6 +71,55 @@ export class AssignmentPoint {
 }
 
 /**
+ * What is left where `dragged` was when it is moved away: `undefined` when its
+ * field is optional or a list (it is simply removed), a placeholder of the
+ * right kind when the field needs an expression or a type (so no syntax error
+ * is introduced), and `null` when nothing can stand in — a required name, say
+ * — or when the nodes are not in a source at all (the palette, an example),
+ * which is to say the drop will be a copy rather than a move.
+ *
+ * A run is always siblings in one list field, so the first node's field
+ * describes all of them.
+ */
+export function vacancyFor(
+    project: Project,
+    dragged: Node[],
+): Node | undefined | null {
+    const first = dragged[0];
+    if (first === undefined) return null;
+    const root = project.getRoot(first);
+    const source = project.getSourceOf(first);
+    const field = root?.getParent(first)?.getFieldOfChild(first);
+    if (
+        field === undefined ||
+        source === undefined ||
+        !(root?.root instanceof Source)
+    )
+        return null;
+    if (field.kind.isOptional() || field.kind instanceof ListOf)
+        return undefined;
+    if (first instanceof Expression && field.kind.allowsKind(Expression))
+        return ExpressionPlaceholder.make(
+            first.getType(project.getContext(source)),
+        );
+    if (field.kind.allowsKind(Type)) return new TypePlaceholder();
+    return null;
+}
+
+/**
+ * Whether `dragged` can be moved out of its place in the project: either it
+ * isn't in a source (so a drop copies it), or something can stand in for it.
+ * A drag that fails this would silently copy where the creator meant to move,
+ * so the editor refuses the pickup and says why.
+ */
+export function canVacate(project: Project, dragged: Node[]): boolean {
+    const first = dragged[0];
+    if (first === undefined) return false;
+    if (!(project.getRoot(first)?.root instanceof Source)) return true;
+    return vacancyFor(project, dragged) !== null;
+}
+
+/**
  * Given a project, a source in that project, a node being dragged, and either a node hovered over or an insertion point,
  * drop the node hover the hovered node or at the insertion point, returning a revised project and a reference to the
  * node that was inserted.
@@ -95,34 +144,11 @@ export function dropNodeOnSource(
         ...dragged.slice(1).map((node) => node.clone()),
     ];
 
-    // First, decide whether to remove the nodes or replace them with a placeholder.
-    // We do this based on the field: if it is in a list or can be undefined, then we remove,
-    // otherwise we replace with a placeholder. This ensures that we don't introduce a syntax error.
-
-    // Get the field of the first node. A run is always siblings in one list field,
-    // so one field describes all of them.
-    const field = root?.getParent(first)?.getFieldOfChild(first);
-
     // Get the root of the dragged program.
     const draggedInSource = draggedRoot instanceof Source;
 
-    const replacement =
-        // Not in a program? Don't do a replacement (which we represent with null).
-        field === undefined || !draggedInSource
-            ? null
-            : // Does the field allow undefined or the field is a list? Replace with undefined (which means unset or remove from the list).
-              field.kind.isOptional() || field.kind instanceof ListOf
-              ? undefined
-              : // Is the node an expression and the field allows expressions? Replace with an expression placeholder of the type of the current expression.
-                first instanceof Expression && field.kind.allowsKind(Expression)
-                ? ExpressionPlaceholder.make(
-                      first.getType(project.getContext(source)),
-                  )
-                : // Is the field a type? Replace with a type placeholder.
-                  field.kind.allowsKind(Type)
-                  ? new TypePlaceholder()
-                  : // Otherwise, don't do a replacement.
-                    null;
+    // First, decide whether to remove the nodes or replace them with a placeholder.
+    const replacement = vacancyFor(project, dragged);
 
     // This is a list of sources to replace with other sources. This can be
     // one or more sources, since it's possible to drag from one source to another.
@@ -706,4 +732,246 @@ export function resolvePermittedDropTarget(
         warned ??= candidate;
     }
     return warned;
+}
+
+// ---- Keyboard moves ------------------------------------------------------
+
+/**
+ * The four keyboard moves. `before` and `after` swap a node with its sibling
+ * in the list it is in, and at the list's end escape to the list's own
+ * sibling; `out` lifts it out beside the construct that holds it; `in` puts it
+ * into the first list of the construct beside it that takes it.
+ */
+export const MoveDirections = ['before', 'after', 'out', 'in'] as const;
+export type MoveDirection = (typeof MoveDirections)[number];
+
+export function isMoveDirection(value: string): value is MoveDirection {
+    return MoveDirections.some((direction) => direction === value);
+}
+
+/** How far `out` and an escaping `before`/`after` climb for a list. */
+const EscapeLimit = 5;
+
+/** The list a node sits in, if it is in one. */
+function listOf(
+    source: Source,
+    node: Node,
+): { parent: Node; field: string; list: Node[]; index: number } | undefined {
+    const parent = source.root.getParent(node);
+    const field = source.root.getContainingParentList(node);
+    if (parent === undefined || field === undefined) return undefined;
+    const list = parent.getField(field);
+    if (!Array.isArray(list)) return undefined;
+    const index = list.indexOf(node);
+    return index < 0 ? undefined : { parent, field, list, index };
+}
+
+/** An insertion point beside the nearest ancestor of `node` that sits in a
+ *  list taking `nodes`, on the given side of it. */
+function escape(
+    source: Source,
+    node: Node,
+    nodes: Node[],
+    side: 'before' | 'after',
+): InsertionPoint | undefined {
+    let ancestor = source.root.getParent(node);
+    for (
+        let depth = 0;
+        ancestor !== undefined && depth < EscapeLimit;
+        depth++
+    ) {
+        const place = listOf(source, ancestor);
+        if (place !== undefined) {
+            const kind = place.parent.getFieldNamed(place.field)?.kind;
+            if (kind !== undefined && kindAcceptsDrop(kind, nodes))
+                return new InsertionPoint(
+                    place.parent,
+                    place.field,
+                    place.list,
+                    undefined,
+                    undefined,
+                    side === 'before' ? place.index : place.index + 1,
+                );
+        }
+        ancestor = source.root.getParent(ancestor);
+    }
+    return undefined;
+}
+
+/** The first list field of `holder` that takes `nodes`, as an insertion point
+ *  at its start or end. */
+function into(
+    holder: Node,
+    nodes: Node[],
+    at: 'start' | 'end',
+): InsertionPoint | undefined {
+    for (const field of holder.getGrammar()) {
+        const list = holder.getField(field.name);
+        if (
+            field.kind instanceof ListOf &&
+            Array.isArray(list) &&
+            kindAcceptsDrop(field.kind, nodes)
+        )
+            return new InsertionPoint(
+                holder,
+                field.name,
+                list,
+                undefined,
+                undefined,
+                at === 'start' ? 0 : list.length,
+            );
+    }
+    return undefined;
+}
+
+/**
+ * Where a keyboard move would put `nodes` — a run of siblings, or one node —
+ * or undefined when there is nowhere for them to go. Structural only: whether
+ * the program still makes sense there is `resolvePermittedDropTarget`'s call,
+ * the same rule a pointer drop answers to.
+ */
+export function moveTarget(
+    source: Source,
+    nodes: Node[],
+    direction: MoveDirection,
+): InsertionPoint | undefined {
+    const first = nodes[0];
+    const last = nodes.at(-1);
+    if (first === undefined || last === undefined) return undefined;
+    const place = listOf(source, first);
+    switch (direction) {
+        case 'before': {
+            if (place !== undefined && place.index > 0)
+                return new InsertionPoint(
+                    place.parent,
+                    place.field,
+                    place.list,
+                    undefined,
+                    undefined,
+                    place.index - 1,
+                );
+            return escape(source, first, nodes, 'before');
+        }
+        case 'after': {
+            if (place !== undefined) {
+                const lastIndex = place.list.indexOf(last);
+                // The index counts the nodes as they are, before the move
+                // removes them: after the next sibling is two past the last.
+                if (lastIndex >= 0 && lastIndex < place.list.length - 1)
+                    return new InsertionPoint(
+                        place.parent,
+                        place.field,
+                        place.list,
+                        undefined,
+                        undefined,
+                        lastIndex + 2,
+                    );
+            }
+            return escape(source, first, nodes, 'after');
+        }
+        case 'out':
+            return escape(source, first, nodes, 'after');
+        case 'in': {
+            if (place === undefined) return undefined;
+            const next = place.list[place.list.indexOf(last) + 1];
+            const previous = place.list[place.index - 1];
+            return (
+                (next === undefined ? undefined : into(next, nodes, 'start')) ??
+                (previous === undefined
+                    ? undefined
+                    : into(previous, nodes, 'end'))
+            );
+        }
+    }
+}
+
+/**
+ * Move `nodes` within `source` by keyboard, through the same drop that a
+ * pointer drag uses, so what can be moved and what is left behind obey one
+ * rule. Undefined when there is nowhere to go or the program would break.
+ */
+export function moveNode(
+    project: Project,
+    source: Source,
+    nodes: Node[],
+    direction: MoveDirection,
+): { project: Project; source: Source; moved: Node[] } | undefined {
+    const target = moveTarget(source, nodes, direction);
+    if (target === undefined) return undefined;
+    const permitted = resolvePermittedDropTarget(
+        project,
+        source,
+        nodes,
+        target,
+    );
+    if (permitted === undefined) return undefined;
+    const [newProject, newSource, moved] = dropNodeOnSource(
+        project,
+        source,
+        nodes,
+        permitted,
+    );
+    if (moved.length === 0) return undefined;
+
+    // A swap within one list trades places, so it trades spaces too. The drop
+    // hands the moved node whatever preceded its new neighbor, passes the
+    // space it left behind to whatever followed it, and lets formatting add
+    // the rest — which only ever adds, so alternating swaps grew a blank line
+    // each round. Nothing but the order changed, so take the original spacing
+    // whole: each clone's tokens are spaced as the node they copy, and the two
+    // nodes that traded places trade their leading space.
+    const crossed = crossedSibling(source, nodes, direction, permitted);
+    const first = nodes[0];
+    const movedFirst = moved[0];
+    if (
+        crossed === undefined ||
+        first === undefined ||
+        movedFirst === undefined
+    )
+        return { project: newProject, source: newSource, moved };
+    let spaces = source.spaces;
+    for (const [index, node] of nodes.entries()) {
+        const clone = moved[index];
+        if (clone === undefined) continue;
+        const copies = clone.leaves();
+        for (const [position, leaf] of node.leaves().entries()) {
+            const copy = copies[position];
+            if (copy !== undefined)
+                spaces = spaces.withSpace(copy, source.spaces.getSpace(leaf));
+        }
+    }
+    spaces = spaces
+        .withSpace(movedFirst, source.spaces.getSpace(crossed))
+        .withSpace(crossed, source.spaces.getSpace(first));
+    const spaced = newSource.withSpaces(spaces);
+    return {
+        project: newProject.withSource(newSource, spaced),
+        source: spaced,
+        moved,
+    };
+}
+
+/** The sibling a `before` or `after` move crossed, when the move stayed in
+ *  the list the nodes were in; undefined for a move that changed lists. */
+function crossedSibling(
+    source: Source,
+    nodes: Node[],
+    direction: MoveDirection,
+    target: Node | InsertionPoint | AssignmentPoint,
+): Node | undefined {
+    if (direction !== 'before' && direction !== 'after') return undefined;
+    const first = nodes[0];
+    const last = nodes.at(-1);
+    if (first === undefined || last === undefined) return undefined;
+    const place = listOf(source, first);
+    if (
+        place === undefined ||
+        !(target instanceof InsertionPoint) ||
+        target.node !== place.parent ||
+        target.field !== place.field
+    )
+        return undefined;
+    return direction === 'before'
+        ? place.list[place.index - 1]
+        : place.list[place.list.indexOf(last) + 1];
 }

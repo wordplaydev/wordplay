@@ -814,7 +814,9 @@
                     "noClipboardItem": "$~ক্লিপবোর্ডে কিছু নেই",
                     "noSelection": "$~কিছু নির্বাচন করা হয়নি",
                     "noMove": "$~আর সরানো যাবে না",
-                    "unhandled": "$~সেই চাবিটি এখানে কিছুই করে না"
+                    "unhandled": "$~সেই চাবিটি এখানে কিছুই করে না",
+                    "noMoveTarget": "$~ওখানে কিছুই এটা ধরে রাখতে পারে না",
+                    "noElideInBlocks": "$~এলিশন শুধু টেক্সট মোডে পাওয়া যায়"
                 },
                 "nextMatch": "$~পরের খোঁজার মিলে যাও",
                 "insertTranslate": "$~অনুবাদ চিহ্ন যোগ করো",
@@ -851,7 +853,15 @@
                 "insertDottedSixteenthNote": "$~তিন-অষ্টমাংশ বীট লম্বা একটা ডটেড ষোলোভাগ নোট ঢোকাও",
                 "selectedNodes": "$~$#count[$count নোড নির্বাচিত|$count টি নোড নির্বাচিত], $first থেকে $last",
                 "insertRange": "$~রেঞ্জ চিহ্ন যোগ করো",
-                "findText": "$~কোড খোঁজো"
+                "findText": "$~কোড খোঁজো",
+                "moveBefore": "$~নির্বাচনটি তার প্রতিবেশীর আগে সরাও",
+                "moveAfter": "$~নির্বাচনটি তার প্রতিবেশীর পরে সরাও",
+                "moveOut": "$~নির্বাচনটি যে জিনিস এটাকে ধরে রেখেছে তার বাইরে সরাও",
+                "moveIn": "$~নির্বাচনটি তার প্রতিবেশীর ভেতরে সরাও",
+                "insertInitial": "$~প্রাথমিক চিহ্ন বসাও",
+                "insertTranslateRTL": "$~ডান-থেকে-বামে অনুবাদের চিহ্ন বসাও",
+                "insertMatch": "$~মিল চিহ্ন বসাও",
+                "insertPatternRange": "$~অক্ষর পরিসরের চিহ্ন বসাও"
             },
             "error": {
                 "invalidName": "$~এটি অবশ্যই একটি বৈধ Wordplay নাম হতে হবে।",
@@ -867,7 +877,9 @@
             },
             "feedback": {
                 "cantDrop": "$~সেখানে ফেলা যাবে না:",
-                "cantPaste": "$~সেখানে পেস্ট করা যাবে না:"
+                "cantPaste": "$~সেখানে পেস্ট করা যাবে না:",
+                "dropWarning": "$~ওখানে ছাড়লে যা ঘটবে:",
+                "noDropTarget": "$~এখানে কিছুই সেটা নিতে পারে না"
             },
             "clipboard": {
                 "label": "$~ক্লিপবোর্ড"
@@ -1888,6 +1900,15 @@
                             "$~একটু দ্রুত জোরে পড়ো",
                             "$~আরও দ্রুত জোরে পড়ো"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~স্ক্রিন রিডারের বিস্তারিত বিবরণ",
+                        "labels": ["$~সংক্ষিপ্ত", "$~স্বাভাবিক", "$~বিস্তারিত"],
+                        "tips": [
+                            "$~শুধু ক্যারেট কোথায় আছে তা বলো",
+                            "$~ক্যারেট কোথায় আছে, ডিলিমিটারের জোড়া, দ্বন্দ্ব, আর প্রতিটি সম্পাদনা কী করেছে তা বলো",
+                            "$~ক্যারেট কিসের ভেতরে আছে এবং প্রতিটি ফলাফলের ধরনও বলো"
+                        ]
                     }
                 },
                 "options": {
@@ -2552,7 +2573,20 @@
             "delimiterMatchedSameLine": "$~একই লাইনে $name-এর সাথে মিলছে",
             "delimiterMatchedBelow": "$~নিচে $#lines[$lines লাইনে|$lines লাইনে] $name এর সাথে মিলছে",
             "delimiterMatchedAbove": "$~উপরে $#lines[$lines লাইনে|$lines লাইনে] $name এর সাথে মিলছে",
-            "delimiterUnmatched": "$~কোনো মিলে যাওয়া বিভাজক নেই"
+            "delimiterUnmatched": "$~কোনো মিলে যাওয়া বিভাজক নেই",
+            "parent": "$~$parent-এর ভেতরে",
+            "inserted": "$~$node বসানো হয়েছে",
+            "removed": "$~$node সরিয়ে ফেলা হয়েছে",
+            "moved": "$~$node$target[ $target-এর ভেতরে|] সরানো হয়েছে",
+            "copied": "$~$node$target[ $target-এর ভেতরে|] কপি করা হয়েছে",
+            "pickedUp": "$~$node তুলে নেওয়া হয়েছে",
+            "cannotPickUp": "$~$node এখান থেকে সরানো যাবে না",
+            "dropCancelled": "$~কিছুই ফেলা হয়নি",
+            "replacedAll": "$~$#count[$countটি মিল|$countটি মিল]-কে $text দিয়ে বদলানো হয়েছে",
+            "undone": "$~আগের অবস্থায় ফেরানো হয়েছে$added[, $added ফিরে এসেছে|]$removed[, $removed চলে গেছে|]",
+            "redone": "$~আবার করা হয়েছে$added[, $added ফিরে এসেছে|]$removed[, $removed চলে গেছে|]",
+            "movedBefore": "$~$node-কে $sibling-এর আগে সরানো হয়েছে",
+            "movedAfter": "$~$node-কে $sibling-এর পরে সরানো হয়েছে"
         },
         "template": {
             "unwritten": "$~নির্ধারিত হবে",
@@ -2661,18 +2695,14 @@
             "cut": "$~$text কাটা হয়েছে",
             "pasted": "$~$text পেস্ট করা হয়েছে",
             "deleted": "$~$text মুছে ফেলা হয়েছে",
-            "undone": "$~পূর্বাবস্থায় ফেরানো হয়েছে",
-            "redone": "$~আবার করা হয়েছে",
             "foldedAll": "$~সব কোড ভাঁজ করা হয়েছে",
             "unfoldedAll": "$~সব কোড খোলা হয়েছে",
             "editMode": "$~$mode",
-            "zoom": "$~জুম $percent শতাংশ",
             "fullscreenOn": "$~পূর্ণ পর্দায় প্রবেশ করা হয়েছে",
             "fullscreenOff": "$~পূর্ণ পর্দা থেকে বেরিয়ে আসা হয়েছে",
             "restarted": "$~ইনপুট আবার শুরু করা হয়েছে",
             "step": "$~ধাপ $step, $node",
             "stepAtStart": "$~শুরুতে",
-            "stepAtEnd": "$~শেষে",
             "searchOpened": "$~কোডে খুঁজুন",
             "searchClosed": "$~খোঁজা বন্ধ করা হয়েছে",
             "searchMatch": "$~$index টির মধ্যে $count তম মিল",

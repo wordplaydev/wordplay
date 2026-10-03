@@ -553,7 +553,9 @@
                     "noClipboardItem": "$~क्लिपबोर्डवर काहीही नाही",
                     "noSelection": "$~काहीही निवडलेले नाही",
                     "noMove": "$~आणखी हलवता येणार नाही",
-                    "unhandled": "$~ती कळ इथे काही करत नाही"
+                    "unhandled": "$~ती कळ इथे काही करत नाही",
+                    "noMoveTarget": "$~तिथे काहीही हे धरू शकत नाही",
+                    "noElideInBlocks": "$~लोप फक्त मजकूर स्थितीत उपलब्ध आहे"
                 },
                 "nextMatch": "$~पुढच्या शोध जुळणीकडे जा",
                 "insertTranslate": "$~भाषांतर चिन्ह घाला",
@@ -590,7 +592,15 @@
                 "insertDottedSixteenthNote": "$~तीन अष्टमांश ठोका लांबीची टिंबदार सोळावी स्वरचिन्ह घाला",
                 "selectedNodes": "$~$#count[$count नोड निवडला|$count नोड निवडले], $first ते $last",
                 "insertRange": "$~श्रेणी चिन्ह घाला",
-                "findText": "$~संकेतात शोधा"
+                "findText": "$~संकेतात शोधा",
+                "moveBefore": "$~निवड तिच्या शेजाऱ्याच्या आधी हलवा",
+                "moveAfter": "$~निवड तिच्या शेजाऱ्याच्या नंतर हलवा",
+                "moveOut": "$~निवड ती धरून ठेवणाऱ्या गोष्टीच्या बाहेर हलवा",
+                "moveIn": "$~निवड तिच्या शेजाऱ्यामध्ये हलवा",
+                "insertInitial": "$~आरंभ चिन्ह घाला",
+                "insertTranslateRTL": "$~उजवीकडून-डावीकडे भाषांतर चिन्ह घाला",
+                "insertMatch": "$~जुळणी चिन्ह घाला",
+                "insertPatternRange": "$~अक्षर श्रेणी चिन्ह घाला"
             },
             "options": {
                 "locale": {
@@ -614,7 +624,9 @@
             },
             "feedback": {
                 "cantDrop": "$~तेथे टाकता येणार नाही:",
-                "cantPaste": "$~तेथे चिकटवता येणार नाही:"
+                "cantPaste": "$~तेथे चिकटवता येणार नाही:",
+                "dropWarning": "$~तिथे सोडल्यास हे होईल:",
+                "noDropTarget": "$~इथे काहीही ते घेऊ शकत नाही"
             },
             "clipboard": {
                 "label": "$~क्लिपबोर्ड"
@@ -1627,6 +1639,15 @@
                             "$~थोडे वेगाने मोठ्याने वाचा",
                             "$~आणखी वेगाने मोठ्याने वाचा"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~स्क्रीन रीडर तपशील",
+                        "labels": ["$~संक्षिप्त", "$~सामान्य", "$~सविस्तर"],
+                        "tips": [
+                            "$~फक्त कर्सर कुठे आहे ते सांगा",
+                            "$~कर्सर कुठे आहे, विभाजकाची जोडी, संघर्ष आणि प्रत्येक बदलाने काय केले ते सांगा",
+                            "$~कर्सर कशाच्या आत आहे आणि प्रत्येक निकालाचा प्रकार हेही सांगा"
+                        ]
                     }
                 },
                 "options": {
@@ -2192,7 +2213,20 @@
             "delimiterMatchedSameLine": "$~त्याच ओळीवर $name जुळत आहे",
             "delimiterMatchedBelow": "$~जुळणारे $name खाली $#lines[$lines ओळ|$lines ओळी]",
             "delimiterMatchedAbove": "$~जुळणारे $name वर $#lines[$lines ओळ|$lines ओळी]",
-            "delimiterUnmatched": "$~जुळणारा विभाजक नाही"
+            "delimiterUnmatched": "$~जुळणारा विभाजक नाही",
+            "parent": "$~$parent मध्ये",
+            "inserted": "$~$node घातले",
+            "removed": "$~$node काढले",
+            "moved": "$~$node हलवले$target[ $target मध्ये|]",
+            "copied": "$~$node कॉपी केले$target[ $target मध्ये|]",
+            "pickedUp": "$~$node उचलले",
+            "cannotPickUp": "$~$node इथून हलवता येत नाही",
+            "dropCancelled": "$~काहीही टाकले नाही",
+            "replacedAll": "$~$#count[$count जुळणी|$count जुळण्या] $text ने बदलल्या",
+            "undone": "$~मागे घेतले$added[, $added परत आले|]$removed[, $removed गेले|]",
+            "redone": "$~पुन्हा केले$added[, $added परत आले|]$removed[, $removed गेले|]",
+            "movedBefore": "$~$node ला $sibling च्या आधी हलवले",
+            "movedAfter": "$~$node ला $sibling च्या नंतर हलवले"
         },
         "template": {
             "unwritten": "$~ठरवायचे आहे",
@@ -2664,18 +2698,14 @@
             "cut": "$~कापले $text",
             "pasted": "$~चिकटवले $text",
             "deleted": "$~हटवले $text",
-            "undone": "$~पूर्ववत केले",
-            "redone": "$~पुन्हा केले",
             "foldedAll": "$~सर्व संकेत घडी घातली",
             "unfoldedAll": "$~सर्व संकेत उघडली",
             "editMode": "$~$mode",
-            "zoom": "$~मोठे करा $percent टक्के",
             "fullscreenOn": "$~पूर्ण पडद्यात प्रवेश केला",
             "fullscreenOff": "$~पूर्ण पडदा सोडला",
             "restarted": "$~इनपुट पुन्हा सुरू केले",
             "step": "$~पायरी $step, $node",
             "stepAtStart": "$~सुरुवातीला",
-            "stepAtEnd": "$~शेवटी",
             "searchOpened": "$~संकेतात शोधा",
             "searchClosed": "$~शोध बंद केला",
             "searchMatch": "$~$index पैकी $count जुळणी",

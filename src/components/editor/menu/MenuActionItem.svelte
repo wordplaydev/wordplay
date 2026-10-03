@@ -13,6 +13,7 @@
         hoverSelects,
         isTap,
         type PressPoint,
+        pointerMoved,
     } from '#components/editor/menu/menuPointer.ts';
     import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
     import { locales } from '#db/Database.ts';
@@ -68,8 +69,9 @@
         handleItemClick(entry);
     }}
     onpointercancel={() => (pressPoint = undefined)}
-    onpointerenter={(event) => {
-        if (!hoverSelects(event.pointerType)) return;
+    onpointermove={(event) => {
+        if (!hoverSelects(event.pointerType) || !pointerMoved(event)) return;
+        if (menu.getSelection() === entry) return;
         event.stopPropagation();
         event.preventDefault();
         const selection = menu.getSelectionFor(entry);

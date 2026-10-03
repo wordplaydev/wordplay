@@ -6,6 +6,7 @@
     import Note from '#components/widgets/Note.svelte';
     import { copyNode } from '#components/editor/commands/Clipboard.ts';
     import {
+        getAnnouncer,
         getConceptIndex,
         getDragged,
     } from '#components/project/Contexts.ts';
@@ -82,12 +83,46 @@
     let copied = $state(false);
     let copiedTimeout: ReturnType<typeof setTimeout> | undefined;
 
-    function copy() {
+    const announce = getAnnouncer();
+
+    /** How much of the copied code the confirmation reads back. */
+    const CopiedPreviewLength = 60;
+
+    async function copy() {
         // Copy node needs a source to manage spacing, so we make one.
-        copyNode(node, getPreferredSpaces(node));
+        const spaces = getPreferredSpaces(node);
+        const result = await copyNode(node, spaces);
+        const language = $locales.getLanguages()[0];
+        // A refusal (no clipboard permission) is said, not just not shown.
+        if (typeof result === 'function') {
+            if (announce && $announce)
+                $announce(
+                    'ignored',
+                    language,
+                    $locales.getPrimaryPlainText(result),
+                );
+            return;
+        }
         copied = true;
         if (copiedTimeout) clearTimeout(copiedTimeout);
         copiedTimeout = setTimeout(() => (copied = false), 1000);
+        // The checkmark is the only confirmation otherwise, and it is
+        // aria-hidden: say what was copied, as the editor's own copy does.
+        if (announce && $announce) {
+            const code = node.toWordplay(spaces).trim();
+            $announce(
+                'command',
+                language,
+                $locales
+                    .concretize((l) => l.ui.feedback.copied, {
+                        text:
+                            code.length > CopiedPreviewLength
+                                ? `${code.slice(0, CopiedPreviewLength)}…`
+                                : code,
+                    })
+                    .toText(),
+            );
+        }
     }
 
     // How-to concepts preview the *output* of their starred/first example (playable on

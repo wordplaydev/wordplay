@@ -548,7 +548,9 @@
                     "noClipboardItem": "$~Ништа у међуспремнику",
                     "noSelection": "$~Ништа није изабрано",
                     "noMove": "$~Не могу даље да се померим",
-                    "unhandled": "$~тај кључ овде ништа не ради"
+                    "unhandled": "$~тај кључ овде ништа не ради",
+                    "noMoveTarget": "$~Ништа овде не може ово да задржи",
+                    "noElideInBlocks": "$~Изостављање је доступно само у текстуалном режиму"
                 },
                 "nextMatch": "$~иди на следећи резултат претраге",
                 "insertTranslate": "$~уметни симбол за превођење",
@@ -585,7 +587,15 @@
                 "insertDottedSixteenthNote": "$~уметни шеснаестину ноте с тачком, дугу три осмине такта",
                 "selectedNodes": "$~$#count[изабран је $#count чвор|изабрана су $count чвора|изабрано је $count чворова], од $first до $last",
                 "insertRange": "$~уметни симбол опсега",
-                "findText": "$~претражи код"
+                "findText": "$~претражи код",
+                "moveBefore": "$~помери избор испред суседа",
+                "moveAfter": "$~помери избор иза суседа",
+                "moveOut": "$~помери избор ван онога што га држи",
+                "moveIn": "$~помери избор у суседа",
+                "insertInitial": "$~уметни почетни симбол",
+                "insertTranslateRTL": "$~уметни симбол превођења здесна налево",
+                "insertMatch": "$~уметни симбол поклапања",
+                "insertPatternRange": "$~уметни симбол опсега знакова"
             },
             "options": {
                 "locale": {
@@ -609,7 +619,9 @@
             },
             "feedback": {
                 "cantDrop": "$~Не могу тамо да спустим:",
-                "cantPaste": "$~Не могу да налепим тамо:"
+                "cantPaste": "$~Не могу да налепим тамо:",
+                "dropWarning": "$~Спуштање тамо би изазвало:",
+                "noDropTarget": "$~Ништа овде не може ово да прими"
             },
             "clipboard": {
                 "label": "$~међуспремник"
@@ -1624,6 +1636,15 @@
                             "$~Читај наглас мало брже",
                             "$~Читај наглас још брже"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~детаљност читача екрана",
+                        "labels": ["$~сажето", "$~уобичајено", "$~опширно"],
+                        "tips": [
+                            "$~Говори само где је курсор",
+                            "$~Говори где је курсор, одговарајући граничник, сукобе и шта је свака измена урадила",
+                            "$~Говори и унутар чега је курсор и тип сваког резултата"
+                        ]
                     }
                 },
                 "options": {
@@ -2189,7 +2210,20 @@
             "delimiterMatchedSameLine": "$~подударање са $name у истој линији",
             "delimiterMatchedBelow": "$~поклапа се $name $#lines[$#lines линија испод|$lines линије испод|$lines линија испод]",
             "delimiterMatchedAbove": "$~поклапа се $name $#lines[$#lines линија изнад|$lines линије изнад|$lines линија изнад]",
-            "delimiterUnmatched": "$~нема одговарајућег разграничника"
+            "delimiterUnmatched": "$~нема одговарајућег разграничника",
+            "parent": "$~у $parent",
+            "inserted": "$~уметнуто $node",
+            "removed": "$~уклоњено $node",
+            "moved": "$~премештено $node$target[ у $target|]",
+            "copied": "$~копирано $node$target[ у $target|]",
+            "pickedUp": "$~подигнуто $node",
+            "cannotPickUp": "$~$node не може да се помери одавде",
+            "dropCancelled": "$~ништа није пуштено",
+            "replacedAll": "$~замењено је $#count[$#count подударање|$count подударања|$count подударања] текстом $text",
+            "undone": "$~опозвано$added[, $added је назад|]$removed[, $removed је нестало|]",
+            "redone": "$~поново урађено$added[, $added је назад|]$removed[, $removed је нестало|]",
+            "movedBefore": "$~$node је премештен испред $sibling",
+            "movedAfter": "$~$node је премештен иза $sibling"
         },
         "template": {
             "unwritten": "$~ТБД",
@@ -2658,18 +2692,14 @@
             "cut": "$~исечено $text",
             "pasted": "$~налепљено $text",
             "deleted": "$~обрисано $text",
-            "undone": "$~опозвано",
-            "redone": "$~поново урађено",
             "foldedAll": "$~сав код склопљен",
             "unfoldedAll": "$~сав код расклопљен",
             "editMode": "$~$mode",
-            "zoom": "$~увеличање $percent посто",
             "fullscreenOn": "$~ушло у цео екран",
             "fullscreenOff": "$~изашло из целог екрана",
             "restarted": "$~улази поново покренути",
             "step": "$~корак $step, $node",
             "stepAtStart": "$~на почетку",
-            "stepAtEnd": "$~на крају",
             "searchOpened": "$~пронађи у коду",
             "searchClosed": "$~претрага затворена",
             "searchMatch": "$~поклапање $index од $count",

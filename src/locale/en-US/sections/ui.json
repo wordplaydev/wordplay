@@ -885,6 +885,8 @@
             },
             "feedback": {
                 "cantDrop": "Can't drop there:",
+                "dropWarning": "Dropping there would cause:",
+                "noDropTarget": "Nothing here can take that",
                 "cantPaste": "Can't paste there:"
             },
             "clipboard": {
@@ -958,6 +960,10 @@
                 "insertType": "insert type symbol",
                 "insertDocs": "insert explanation symbol",
                 "insertStream": "insert stream symbol",
+                "insertInitial": "insert initial symbol",
+                "insertTranslateRTL": "insert right-to-left translate symbol",
+                "insertMatch": "insert match symbol",
+                "insertPatternRange": "insert character range symbol",
                 "insertRange": "insert range symbol",
                 "insertChange": "insert change symbol",
                 "insertConvert": "insert convert symbol",
@@ -996,6 +1002,10 @@
                 "paste": "paste contents of keyboard",
                 "parenthesize": "parenthesize selection",
                 "enumerate": "enumerate selection",
+                "moveBefore": "move selection before its neighbor",
+                "moveAfter": "move selection after its neighbor",
+                "moveOut": "move selection out of what holds it",
+                "moveIn": "move selection into its neighbor",
                 "type": "type characters",
                 "undo": "undo previous edit",
                 "redo": "redo undone edit",
@@ -1014,6 +1024,8 @@
                     "noClipboardItem": "Nothing on the clipboard",
                     "noSelection": "Nothing selected",
                     "noMove": "Can't move any further",
+                    "noMoveTarget": "Nothing there can hold this",
+                    "noElideInBlocks": "Elision is only available in text mode",
                     "unhandled": "that key does nothing here"
                 },
                 "echo": {
@@ -1088,18 +1100,14 @@
             "cut": "cut $text",
             "pasted": "pasted $text",
             "deleted": "deleted $text",
-            "undone": "undone",
-            "redone": "redone",
             "foldedAll": "folded all code",
             "unfoldedAll": "unfolded all code",
             "editMode": "$mode",
-            "zoom": "zoom $percent percent",
             "fullscreenOn": "entered full screen",
             "fullscreenOff": "left full screen",
             "restarted": "restarted inputs",
             "step": "step $step, $node",
             "stepAtStart": "at the beginning",
-            "stepAtEnd": "at the end",
             "searchOpened": "find in code",
             "searchClosed": "closed find",
             "searchMatch": "match $index of $count",
@@ -2081,6 +2089,15 @@
                             "Read aloud faster still"
                         ]
                     },
+                    "announcementVerbosity": {
+                        "label": "screen reader detail",
+                        "labels": ["terse", "normal", "verbose"],
+                        "tips": [
+                            "Say only where the caret is",
+                            "Say where the caret is, a delimiter's match, conflicts, and what each edit did",
+                            "Also say what the caret is inside of and the type of each result"
+                        ]
+                    },
                     "captionSize": {
                         "label": "caption size",
                         "labels": ["¾", "1x", "1½", "2x", "3x"],
@@ -2773,7 +2790,20 @@
             "append": "/Eager to insert…/",
             "remove": "/Considers leaving…/",
             "replace": "/Wants to step in…/",
-            "area": "type code"
+            "area": "type code",
+            "parent": "in $parent",
+            "inserted": "inserted $node",
+            "removed": "removed $node",
+            "moved": "moved $node$target[ into $target|]",
+            "copied": "copied $node$target[ into $target|]",
+            "pickedUp": "picked up $node",
+            "cannotPickUp": "$node can't be moved from here",
+            "dropCancelled": "dropped nothing",
+            "replacedAll": "replaced $#count[$count match|$count matches] with $text",
+            "undone": "undone$added[, $added is back|]$removed[, $removed is gone|]",
+            "redone": "redone$added[, $added is back|]$removed[, $removed is gone|]",
+            "movedBefore": "moved $node before $sibling",
+            "movedAfter": "moved $node after $sibling"
         },
         "template": {
             "unwritten": "TBD",

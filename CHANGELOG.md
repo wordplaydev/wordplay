@@ -4,6 +4,22 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.38.4 - 2026-10-03
+
+### Added
+
+- ♿ The code editor now tells screen readers what each edit, drop, undo, and menu choice did, and a new setting chooses how much detail is spoken.
+- ⌨️ We added keyboard shortcuts for rearranging code: Alt+Shift with the arrow keys or Enter moves the selected code before, after, out of, or into its neighbor.
+- 🔣 We added insert buttons for the ↤, ≈, ◆, and – symbols.
+
+### Changed
+
+- 💡 The suggestions menu now stays open and narrows as you type.
+
+### Fixed
+
+- 🧩 In blocks mode, we fixed dragging code below the end of a program and onto code that has a mistake in it, which both did nothing before.
+
 ## 0.38.3 - 2026-10-01
 
 ### Fixed

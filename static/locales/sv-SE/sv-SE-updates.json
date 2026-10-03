@@ -1020,6 +1020,13 @@
         "e42e9e3c1d92a": "$~Ord med prickad understrykning visar inte längre lösa symboler framför sig i vissa språk.",
         "e6f07748bed1c": "$~Lektioner i <Lär dig@https://wordplay.dev/learn> och förklaringar i guiden har nu en knapp som läser dem högt och markerar varje ord medan det läses, och inställningar låter dig välja hur snabbt det går och om varje ny lektionsrad ska läsas för sig. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
         "e4b9091b3c539": "$~Exempel i <guiden@https://wordplay.dev/guide> pratar inte längre så fort sidan öppnas, utan talar först när du trycker på deras spela-knapp.",
-        "e4b5e128afb9d": "$~Uppläst text i Chrome och andra Chromium-webbläsare på en Mac använder nu en vanlig röst istället för en lustig en, som Albert eller Bubbles."
+        "e4b5e128afb9d": "$~Uppläst text i Chrome och andra Chromium-webbläsare på en Mac använder nu en vanlig röst istället för en lustig en, som Albert eller Bubbles.",
+        "e14bed8e9c16c": "$~Kodredigeraren talar nu om för skärmläsare vad varje redigering, släppning, ångring och menyval gjorde. En ny inställning väljer hur mycket detaljer som läses upp.",
+        "e30d15d78b9a4": "$~Vi har lagt till kortkommandon för att flytta runt kod: Alt+Shift med piltangenterna eller Enter flyttar den markerade koden före, efter, ut ur eller in i sin granne.",
+        "e02157357e335": "$~Vi har lagt till knappar för att sätta in symbolerna ↤, ≈, ◆ och –.",
+        "e33c0fa9452a4": "$~Förslagsmenyn stannar nu öppen och blir smalare medan du skriver.",
+        "e6c77df016241": "$~I blockläget har vi lagt till rättelser för att dra kod under slutet av ett program och över kod som har ett fel. Förut hände ingenting i båda fallen.",
+        "e7f1566676e7a": "$~Vi har rättat länkar på andra språk som visades som trasig text eller ledde till sidor som saknades. Det gällde startsidan, sidan <Om@https://wordplay.dev/about>, den snabba handledningen och meddelanden över hela webbplatsen.",
+        "e221a0b8c05d5": "$~Vi har rättat valen för musikvisning i turkiska inställningar. Där visades varje namn och beskrivning bredvid fel alternativ."
     }
 }

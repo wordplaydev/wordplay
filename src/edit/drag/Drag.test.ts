@@ -14,6 +14,7 @@ import parseExpression from '#parser/parseExpression.ts';
 import { toTokens } from '#parser/toTokens.ts';
 import { expect, test } from 'vitest';
 import {
+    canVacate,
     dropNodeOnSource,
     getBlockingDropConflicts,
     getDropConflicts,
@@ -684,4 +685,28 @@ test('a run of statements keeps its own line breaks when it moves', () => {
     // The run left no blank lines behind — removing its members one at a time
     // would have accumulated one line break per node onto what followed.
     expect(newProject.getMain().toWordplay()).toBe('3\n[1 2]');
+});
+
+test.each([
+    // A bind's value is an expression, so a placeholder can stand in for it.
+    ['a: 1', (source: Source) => source.find(NumberLiteral), true],
+    // A list item is simply removed.
+    ['[1 2]', (source: Source) => source.find(NumberLiteral), true],
+    // Nothing can stand in for a bind's names: moving them would silently copy.
+    ['a: 1', (source: Source) => source.find(Bind)?.names, false],
+])('canVacate %s', (code, pick, expected) => {
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const node = must(pick(source), 'a node');
+    expect(canVacate(project, [node])).toBe(expected);
+});
+
+test('a node from outside the project can always be dragged, as a copy', () => {
+    const source = new Source('test', '1');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const palette = must(
+        new Source('palette', 'a: 1').find(Bind)?.names,
+        'names',
+    );
+    expect(canVacate(project, [palette])).toBe(true);
 });

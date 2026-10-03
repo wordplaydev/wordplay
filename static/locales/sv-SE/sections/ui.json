@@ -553,7 +553,9 @@
                     "noClipboardItem": "$~Ingenting på urklippet",
                     "noSelection": "$~Inget valt",
                     "noMove": "$~Kan inte röra mig längre",
-                    "unhandled": "$~den tangenten gör inget här"
+                    "unhandled": "$~den tangenten gör inget här",
+                    "noMoveTarget": "$~Inget där kan hålla detta",
+                    "noElideInBlocks": "$~Utelämning finns bara i textläge"
                 },
                 "nextMatch": "$~gå till nästa sökträff",
                 "insertTranslate": "$~infoga översättningssymbol",
@@ -590,7 +592,15 @@
                 "insertDottedSixteenthNote": "$~sätt in en punkterad sextondelsnot, tre åttondels slag lång",
                 "selectedNodes": "$~$#count[$count nod vald|$count noder valda], $first till $last",
                 "insertRange": "$~infoga intervallsymbol",
-                "findText": "$~sök i koden"
+                "findText": "$~sök i koden",
+                "moveBefore": "$~flytta markeringen före sin granne",
+                "moveAfter": "$~flytta markeringen efter sin granne",
+                "moveOut": "$~flytta markeringen ut ur det som håller den",
+                "moveIn": "$~flytta markeringen in i sin granne",
+                "insertInitial": "$~infoga startsymbol",
+                "insertTranslateRTL": "$~infoga översättningssymbol från höger till vänster",
+                "insertMatch": "$~infoga matchningssymbol",
+                "insertPatternRange": "$~infoga symbol för teckenintervall"
             },
             "options": {
                 "locale": {
@@ -614,7 +624,9 @@
             },
             "feedback": {
                 "cantDrop": "$~Kan inte släppa dit:",
-                "cantPaste": "$~Kan inte klistra in där:"
+                "cantPaste": "$~Kan inte klistra in där:",
+                "dropWarning": "$~Att släppa där skulle orsaka:",
+                "noDropTarget": "$~Inget här kan ta emot det"
             },
             "clipboard": {
                 "label": "$~urklipp"
@@ -1629,6 +1641,15 @@
                             "$~Läs högt lite snabbare",
                             "$~Läs högt ännu snabbare"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~detaljnivå för skärmläsare",
+                        "labels": ["$~kortfattad", "$~normal", "$~utförlig"],
+                        "tips": [
+                            "$~Säg bara var markören är",
+                            "$~Säg var markören är, vilket tecken som hör ihop med en avgränsare, konflikter och vad varje ändring gjorde",
+                            "$~Säg också vad markören är inuti och typen på varje resultat"
+                        ]
                     }
                 },
                 "options": {
@@ -2194,7 +2215,20 @@
             "delimiterMatchedSameLine": "$~matchande $name på samma rad",
             "delimiterMatchedBelow": "$~matchar $name $#lines[$lines rad nedan|$lines rader nedan]",
             "delimiterMatchedAbove": "$~matchar $name $#lines[$lines rad ovan|$lines rader ovan]",
-            "delimiterUnmatched": "$~ingen matchande avgränsare"
+            "delimiterUnmatched": "$~ingen matchande avgränsare",
+            "parent": "$~i $parent",
+            "inserted": "$~infogade $node",
+            "removed": "$~tog bort $node",
+            "moved": "$~flyttade $node$target[ in i $target|]",
+            "copied": "$~kopierade $node$target[ in i $target|]",
+            "pickedUp": "$~plockade upp $node",
+            "cannotPickUp": "$~$node kan inte flyttas härifrån",
+            "dropCancelled": "$~släppte ingenting",
+            "replacedAll": "$~ersatte $#count[$count träff|$count träffar] med $text",
+            "undone": "$~ångrade$added[, $added är tillbaka|]$removed[, $removed är borta|]",
+            "redone": "$~gjorde om$added[, $added är tillbaka|]$removed[, $removed är borta|]",
+            "movedBefore": "$~flyttade $node före $sibling",
+            "movedAfter": "$~flyttade $node efter $sibling"
         },
         "template": {
             "unwritten": "$~TBD",
@@ -2663,18 +2697,14 @@
             "cut": "$~klippte ut $text",
             "pasted": "$~klistrade in $text",
             "deleted": "$~raderade $text",
-            "undone": "$~ångrat",
-            "redone": "$~gjort om",
             "foldedAll": "$~fällde ihop all kod",
             "unfoldedAll": "$~fällde ut all kod",
             "editMode": "$~$mode",
-            "zoom": "$~zooma $percent procent",
             "fullscreenOn": "$~gick in i helskärm",
             "fullscreenOff": "$~lämnade helskärm",
             "restarted": "$~startade om indata",
             "step": "$~steg $step, $node",
             "stepAtStart": "$~vid början",
-            "stepAtEnd": "$~vid slutet",
             "searchOpened": "$~sök i koden",
             "searchClosed": "$~stängde sökning",
             "searchMatch": "$~träff $index av $count",

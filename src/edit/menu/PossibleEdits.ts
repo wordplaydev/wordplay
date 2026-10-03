@@ -200,8 +200,51 @@ function removeDuplicates(edits: Revision[], locales: Locales): Revision[] {
     });
 }
 
-/** Given a project and a caret, generate a set of transforms that can be applied at the location. */
+/**
+ * Given a project and a caret, generate a set of transforms that can be applied at the location.
+ * Nothing that would leave the code as it is: with `ab` typed, the name `ab` "completes" it (a
+ * name starts with itself), and choosing it replaced `ab` with `ab` — a suggestion that does
+ * nothing reads as a menu that is broken.
+ */
 export function getEditsAt(
+    project: Project,
+    caret: Caret,
+    field: FieldPosition | undefined,
+    locales: Locales,
+    /** When provided, enables completing concept links (`@Phrase`, `@Color.random`) in markup. */
+    concepts?: ConceptIndex,
+    /** When provided, enables recommending custom characters in markup and formatted text. */
+    characters?: string[],
+    /** When provided, enables completing a kit borrow (`↓ @amy/colors 1`). */
+    kits?: { name: string; version: number }[],
+): Revision[] {
+    const edits = getSoundEditsAt(
+        project,
+        caret,
+        field,
+        locales,
+        concepts,
+        characters,
+        kits,
+    );
+    // Only a name, and only at a text caret, where the suggestions complete
+    // what is being typed. A selected node may have nothing to become but
+    // itself, and other kinds have their own tests for what they offer.
+    if (!caret.isPosition()) return edits;
+    const code = caret.source.getCode().toString();
+    return edits.filter((revision) => {
+        if (!(revision.getNewNode(locales) instanceof Reference)) return true;
+        const edit = revision.getEdit(locales);
+        return (
+            !Array.isArray(edit) ||
+            !(edit[0] instanceof Source) ||
+            edit[0].getCode().toString() !== code
+        );
+    });
+}
+
+/** Every sound edit at the caret, before those that change nothing are dropped. */
+function getSoundEditsAt(
     project: Project,
     caret: Caret,
     field: FieldPosition | undefined,

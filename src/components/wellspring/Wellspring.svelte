@@ -9,6 +9,7 @@
         recycleDraggedNode,
     } from '#components/concepts/conceptGroups.ts';
     import {
+        getAnnouncer,
         getConceptIndex,
         getDragged,
     } from '#components/project/Contexts.ts';
@@ -86,12 +87,28 @@
         $dragged !== undefined && !canRecycleDraggedNode(project, $dragged),
     );
 
+    const announce = getAnnouncer();
+
     function handleBinPointerUp() {
         const nodes = $dragged;
         if (dragged) dragged.set(undefined);
         dragOverBin = false;
-        if (nodes && canRecycleDraggedNode(project, nodes))
+        if (nodes && canRecycleDraggedNode(project, nodes)) {
             recycleDraggedNode(project, nodes);
+            // The editor's caret announcement is gated on its own actions, and
+            // this isn't one of them, so the bin says what it took.
+            const first = nodes[0];
+            if (first !== undefined && announce && $announce)
+                $announce(
+                    'edit',
+                    $locales.getLanguages()[0],
+                    $locales
+                        .concretize((l) => l.ui.edit.removed, {
+                            node: first.getLabel($locales),
+                        })
+                        .toText(),
+                );
+        }
     }
 
     /**

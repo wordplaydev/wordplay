@@ -58,6 +58,11 @@ export class ProjectHistory {
     /** The type of change recently made to the project, so that editors know how to handle caret positions.  */
     private change: ChangeType = ChangeType.Edit;
 
+    /** The last undo or redo: which way it went and the version it left, so
+     *  the change can be described to a screen reader (see describeRestore). */
+    private lastRestore: { direction: -1 | 1; from: Project } | undefined =
+        undefined;
+
     /** True if this was successfully saved in the remote database. `$state` so
      *  derived save-status counts (ProjectsDatabase.saveCounts) update live as
      *  saves complete or edits mark it unsaved. */
@@ -179,6 +184,7 @@ export class ProjectHistory {
             // The two guards above keep the index inside the history.
             must(this.history[this.index], 'a project in the history'),
         );
+        this.lastRestore = { direction, from: this.current };
 
         // Change the current project to the historical project. Bump
         // its timestamp so the timestamp-fallback path in
@@ -214,6 +220,11 @@ export class ProjectHistory {
      *  schema-format catch-up. */
     markUnsaved() {
         this.saved = false;
+    }
+
+    /** The last undo or redo, if any; meaningful while wasRestored(). */
+    getLastRestore() {
+        return this.lastRestore;
     }
 
     wasRestored() {

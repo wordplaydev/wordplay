@@ -1020,6 +1020,13 @@
         "e42e9e3c1d92a": "$~Altı noktalı çizgili kelimelerin önünde artık bazı dillerde başıboş semboller görünmüyor.",
         "e6f07748bed1c": "$~<Learn@https://wordplay.dev/learn> içindeki dersler ve Rehber'deki açıklamalarda artık metni sesli okuyan ve okunurken her kelimeyi vurgulayan bir düğme var. Ayarlar sayesinde okuma hızını seçebilir ve her yeni ders satırının kendi başına okunmasını sağlayabilirsiniz. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
         "e4b9091b3c539": "$~<Guide@https://wordplay.dev/guide> içindeki örnekler artık sayfa açılır açılmaz konuşmuyor, yalnızca oynat düğmesine bastığınızda sesleniyor.",
-        "e4b5e128afb9d": "$~Mac'te Chrome ve diğer Chromium tabanlı tarayıcılarda sesli metin artık Albert ya da Bubbles gibi komik bir ses yerine sıradan bir ses kullanıyor."
+        "e4b5e128afb9d": "$~Mac'te Chrome ve diğer Chromium tabanlı tarayıcılarda sesli metin artık Albert ya da Bubbles gibi komik bir ses yerine sıradan bir ses kullanıyor.",
+        "e14bed8e9c16c": "$~Kod düzenleyici artık ekran okuyuculara her düzenlemenin, bırakmanın, geri almanın ve menü seçiminin ne yaptığını söylüyor. Yeni bir ayar da ne kadar ayrıntının sesli okunacağını seçiyor.",
+        "e30d15d78b9a4": "$~Kodu yeniden düzenlemek için klavye kısayolları ekledik: Alt+Shift ile ok tuşlarına ya da Enter'a basınca seçili kod komşusunun önüne, arkasına, dışına veya içine taşınıyor.",
+        "e02157357e335": "$~↤, ≈, ◆ ve – simgeleri için ekleme düğmeleri ekledik.",
+        "e33c0fa9452a4": "$~Öneriler menüsü artık açık kalıyor ve siz yazdıkça daralıyor.",
+        "e6c77df016241": "$~Bloklar modunda, kodu programın sonunun altına ve hatalı kodun üstüne sürüklemeyi düzelttik. Bunların ikisi de daha önce hiçbir şey yapmıyordu.",
+        "e7f1566676e7a": "$~Ana sayfada, <Hakkında@https://wordplay.dev/about> sayfasında, hızlı öğreticide ve sitedeki mesajlarda, diğer dillerde bozuk metin olarak görünen ya da eksik sayfalara giden bağlantıları düzelttik.",
+        "e221a0b8c05d5": "$~Türkçe ayarlarda müzik görüntüleme seçeneklerini düzelttik. Daha önce her isim ve açıklama yanlış seçeneğin yanında görünüyordu."
     }
 }

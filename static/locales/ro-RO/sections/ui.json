@@ -814,7 +814,9 @@
                     "noClipboardItem": "$~Nimic pe clipboard",
                     "noSelection": "$~Nimic selectat",
                     "noMove": "$~Nu mă pot mișca mai departe",
-                    "unhandled": "$~acea tastă nu face nimic aici"
+                    "unhandled": "$~acea tastă nu face nimic aici",
+                    "noMoveTarget": "$~Nimic de acolo nu poate ține asta",
+                    "noElideInBlocks": "$~Elidarea este disponibilă doar în modul text"
                 },
                 "nextMatch": "$~treceți la următoarea potrivire de căutare",
                 "insertTranslate": "$~inserați simbolul de traducere",
@@ -851,7 +853,15 @@
                 "insertDottedSixteenthNote": "$~inserează o șaisprezecime cu punct, cu durata de trei optimi de timp",
                 "selectedNodes": "$~$#count[$#count nod selectat|$count noduri selectate|$count de noduri selectate] de la $first până la $last",
                 "insertRange": "$~inserează simbolul de interval",
-                "findText": "$~caută în cod"
+                "findText": "$~caută în cod",
+                "moveBefore": "$~mută selecția înaintea vecinului ei",
+                "moveAfter": "$~mută selecția după vecinul ei",
+                "moveOut": "$~mută selecția în afara elementului care o conține",
+                "moveIn": "$~mută selecția în interiorul vecinului ei",
+                "insertInitial": "$~inserează simbolul inițial",
+                "insertTranslateRTL": "$~inserează simbolul de traducere de la dreapta la stânga",
+                "insertMatch": "$~inserează simbolul de potrivire",
+                "insertPatternRange": "$~inserează simbolul de interval de caractere"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",
@@ -867,7 +877,9 @@
             },
             "feedback": {
                 "cantDrop": "$~Nu pot să cobor acolo:",
-                "cantPaste": "$~Nu se poate lipi acolo:"
+                "cantPaste": "$~Nu se poate lipi acolo:",
+                "dropWarning": "$~Dacă îl lași acolo, ar apărea:",
+                "noDropTarget": "$~Nimic de aici nu poate primi asta"
             },
             "clipboard": {
                 "label": "$~clipboard"
@@ -1893,6 +1905,15 @@
                             "$~Citește cu voce tare puțin mai repede",
                             "$~Citește cu voce tare și mai repede"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~detaliu pentru cititorul de ecran",
+                        "labels": ["$~concis", "$~normal", "$~detaliat"],
+                        "tips": [
+                            "$~Spune doar unde este cursorul",
+                            "$~Spune unde este cursorul, perechea unui delimitator, conflictele și ce a făcut fiecare modificare",
+                            "$~Spune și în ce se află cursorul și tipul fiecărui rezultat"
+                        ]
                     }
                 },
                 "options": {
@@ -2557,7 +2578,20 @@
             "delimiterMatchedSameLine": "$~$name care se potrivește pe aceeași linie",
             "delimiterMatchedBelow": "$~potrivește $name $#lines[$#lines linie mai jos|$lines linii mai jos|$lines de linii mai jos]",
             "delimiterMatchedAbove": "$~potrivește $name $#lines[$#lines linie mai sus|$lines linii mai sus|$lines de linii mai sus]",
-            "delimiterUnmatched": "$~niciun delimitator potrivit"
+            "delimiterUnmatched": "$~niciun delimitator potrivit",
+            "parent": "$~în $parent",
+            "inserted": "$~s-a inserat $node",
+            "removed": "$~s-a șters $node",
+            "moved": "$~s-a mutat $node$target[ în $target|]",
+            "copied": "$~s-a copiat $node$target[ în $target|]",
+            "pickedUp": "$~s-a ridicat $node",
+            "cannotPickUp": "$~$node nu poate fi mutat de aici",
+            "dropCancelled": "$~nu s-a plasat nimic",
+            "replacedAll": "$~am înlocuit $#count[$#count potrivire|$count potriviri|$count de potriviri] cu $text",
+            "undone": "$~anulat$added[, $added a revenit|]$removed[, $removed a dispărut|]",
+            "redone": "$~refăcut$added[, $added a revenit|]$removed[, $removed a dispărut|]",
+            "movedBefore": "$~am mutat $node înainte de $sibling",
+            "movedAfter": "$~am mutat $node după $sibling"
         },
         "template": {
             "unwritten": "$~De stabilit",
@@ -2669,18 +2703,14 @@
             "cut": "$~ai tăiat $text",
             "pasted": "$~ai lipit $text",
             "deleted": "$~ai șters $text",
-            "undone": "$~anulat",
-            "redone": "$~refăcut",
             "foldedAll": "$~ai pliat tot codul",
             "unfoldedAll": "$~ai despliat tot codul",
             "editMode": "$~$mode",
-            "zoom": "$~mărire $percent la sută",
             "fullscreenOn": "$~ai intrat pe ecran complet",
             "fullscreenOff": "$~ai ieșit din ecran complet",
             "restarted": "$~ai repornit intrările",
             "step": "$~pas $step, $node",
             "stepAtStart": "$~la început",
-            "stepAtEnd": "$~la sfârșit",
             "searchOpened": "$~caută în cod",
             "searchClosed": "$~ai închis căutarea",
             "searchMatch": "$~potrivirea $index din $count",

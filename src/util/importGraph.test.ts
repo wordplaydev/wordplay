@@ -983,12 +983,19 @@ test('resolving a color needs no basis', () => {
 // at runtime (`authoredLink`), and markup renders on every page. `galleries` had
 // the least byte slack, so its budget moves by a hundredth.
 
+// Screen-reader verbosity is **+1 file on every graph**: `Verbosity.ts`, a leaf
+// with no imports that names the three tiers, which `Caret.getDescription` takes
+// and the device setting validates against. The setting itself lives in
+// `SaySetting.ts` beside read-aloud's, for the reason given there; its row in
+// `Settings.svelte` and its strings in en-US.json are the bytes, which move three
+// byte budgets by a hundredth.
+
 test.each([
-    ['src/routes/+layout.svelte', 538, 4.17],
-    ['src/components/app/Page.svelte', 561, 4.42],
-    ['src/routes/[[locale]]/+page.svelte', 576, 4.52],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 581, 4.53],
-    ['src/routes/[[locale]]/projects/+page.svelte', 590, 4.56],
+    ['src/routes/+layout.svelte', 539, 4.18],
+    ['src/components/app/Page.svelte', 562, 4.43],
+    ['src/routes/[[locale]]/+page.svelte', 577, 4.52],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 582, 4.53],
+    ['src/routes/[[locale]]/projects/+page.svelte', 591, 4.57],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

@@ -812,7 +812,9 @@
                     "noClipboardItem": "Nada na área de transferência",
                     "noSelection": "Nada selecionado",
                     "noMove": "Não consigo avançar mais.",
-                    "unhandled": "$~essa tecla não faz nada aqui"
+                    "unhandled": "$~essa tecla não faz nada aqui",
+                    "noMoveTarget": "$~Nada ali consegue conter isto",
+                    "noElideInBlocks": "$~A elisão só está disponível no modo de texto"
                 },
                 "nextMatch": "ir para o próximo resultado da pesquisa",
                 "insertTranslate": "inserir símbolo de tradução",
@@ -849,7 +851,15 @@
                 "insertDottedSixteenthNote": "$~inserir uma semicolcheia com ponto, com a duração de três oitavos de tempo",
                 "selectedNodes": "$~$#count[$#count nó selecionado|$count nós selecionados|$count nós selecionados] selecionados, de $first a $last",
                 "insertRange": "$~inserir símbolo de intervalo",
-                "findText": "$~pesquisar no código"
+                "findText": "$~pesquisar no código",
+                "moveBefore": "$~mover a seleção para antes do vizinho",
+                "moveAfter": "$~mover a seleção para depois do vizinho",
+                "moveOut": "$~mover a seleção para fora do que a contém",
+                "moveIn": "$~mover a seleção para dentro do vizinho",
+                "insertInitial": "$~inserir símbolo inicial",
+                "insertTranslateRTL": "$~inserir símbolo de tradução da direita para a esquerda",
+                "insertMatch": "$~inserir símbolo de correspondência",
+                "insertPatternRange": "$~inserir símbolo de intervalo de caracteres"
             },
             "error": {
                 "invalidName": "Este deve ser um nome válido para um jogo de palavras.",
@@ -865,7 +875,9 @@
             },
             "feedback": {
                 "cantDrop": "$~Não é possível deixar cair ali:",
-                "cantPaste": "$~Não é possível colar aqui:"
+                "cantPaste": "$~Não é possível colar aqui:",
+                "dropWarning": "$~Largar ali iria causar:",
+                "noDropTarget": "$~Nada aqui consegue aceitar isso"
             },
             "clipboard": {
                 "label": "$~prancheta"
@@ -1878,6 +1890,15 @@
                             "$~Ler em voz alta um pouco mais depressa.",
                             "$~Ler em voz alta ainda mais depressa."
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~detalhe do leitor de ecrã",
+                        "labels": ["$~conciso", "$~normal", "$~detalhado"],
+                        "tips": [
+                            "$~Dizer apenas onde está o cursor",
+                            "$~Dizer onde está o cursor, a correspondência de um delimitador, os conflitos e o que cada edição fez",
+                            "$~Dizer também dentro de que está o cursor e o tipo de cada resultado"
+                        ]
                     }
                 },
                 "options": {
@@ -2542,7 +2563,20 @@
             "delimiterMatchedSameLine": "$~correspondente $name na mesma linha",
             "delimiterMatchedBelow": "$~$name correspondente $#lines[$#lines linha abaixo|$lines linhas abaixo|$lines linhas abaixo]",
             "delimiterMatchedAbove": "$~$name correspondente $#lines[$#lines linha acima|$lines linhas acima|$lines linhas acima]",
-            "delimiterUnmatched": "$~nenhum delimitador correspondente"
+            "delimiterUnmatched": "$~nenhum delimitador correspondente",
+            "parent": "$~em $parent",
+            "inserted": "$~inseriu $node",
+            "removed": "$~removeu $node",
+            "moved": "$~moveu $node$target[ para $target|]",
+            "copied": "$~copiou $node$target[ para $target|]",
+            "pickedUp": "$~pegou em $node",
+            "cannotPickUp": "$~$node não pode ser movido daqui",
+            "dropCancelled": "$~não foi largado nada",
+            "replacedAll": "$~substituiu $#count[$#count correspondência|$count correspondências|$count correspondências] por $text",
+            "undone": "$~anulado$added[, $added voltou|]$removed[, $removed desapareceu|]",
+            "redone": "$~refeito$added[, $added voltou|]$removed[, $removed desapareceu|]",
+            "movedBefore": "$~moveu $node para antes de $sibling",
+            "movedAfter": "$~moveu $node para depois de $sibling"
         },
         "template": {
             "unwritten": "A definir",
@@ -2662,18 +2696,14 @@
             "cut": "$~cortado $text",
             "pasted": "$~colado $text",
             "deleted": "$~apagado $text",
-            "undone": "$~desfeito",
-            "redone": "$~refeito",
             "foldedAll": "$~todo o código dobrado",
             "unfoldedAll": "$~todo o código desdobrado",
             "editMode": "$~$mode",
-            "zoom": "$~ampliação $percent por cento",
             "fullscreenOn": "$~entrou em ecrã inteiro",
             "fullscreenOff": "$~saiu do ecrã inteiro",
             "restarted": "$~entradas reiniciadas",
             "step": "$~passo $step, $node",
             "stepAtStart": "$~no início",
-            "stepAtEnd": "$~no fim",
             "searchOpened": "$~procurar no código",
             "searchClosed": "$~procura fechada",
             "searchMatch": "$~resultado $index de $count",

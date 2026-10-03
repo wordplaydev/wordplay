@@ -447,10 +447,10 @@
         data-synthetic={synthetic ? '' : null}
         data-uiid={node.getDescriptor()}
         id={`node-${node.id}`}
-        aria-label={description}
+        aria-description={description}
         aria-hidden={hide ? 'true' : null}
     >
-        {#if elided}<span class="elided" aria-label="elided">…</span
+        {#if elided}<span class="elided" role="img" aria-label="elided">…</span
             >{:else}{@render content()}{/if}
     </span>
 {/if}

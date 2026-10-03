@@ -16,12 +16,18 @@
         children: Snippet;
         /** When provided, a close button is shown at the inline-end that calls this to dismiss the notice. */
         dismiss?: (() => void) | undefined;
+        /** A warning or error colors the top border, so a refused drop and a
+         *  permitted-but-conflicting one read differently at a glance. */
+        variant?: 'info' | 'warning' | 'error' | undefined;
     }
 
-    let { children, dismiss = undefined }: Props = $props();
+    let { children, dismiss = undefined, variant = 'info' }: Props = $props();
 </script>
 
-<div class="editor-notice" transition:slide={{ duration: $animationDuration }}>
+<div
+    class="editor-notice {variant}"
+    transition:slide={{ duration: $animationDuration }}
+>
     <div class="content">{@render children()}</div>
     {#if dismiss}<div class="dismiss">
             <Button
@@ -47,6 +53,14 @@
            the notice from the code above; stacked notices read as one integrated panel. */
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
+    }
+
+    .editor-notice.warning {
+        border-top-color: var(--wordplay-warning);
+    }
+
+    .editor-notice.error {
+        border-top-color: var(--wordplay-error);
     }
 
     .content {

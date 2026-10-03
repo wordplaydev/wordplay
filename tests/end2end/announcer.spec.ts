@@ -64,13 +64,16 @@ test('typing in the editor announces through the live region', async ({
     const editor = page.getByTestId('editor').first();
     await editor.click();
     await page.keyboard.type('1');
-    // The editor announces caret/edit state changes; the exact wording is
-    // locale-owned, so assert delivery, not content. (Character echo itself is
-    // native — see the "editor echo mirrors" tests — so what arrives here is
-    // the caret description.)
-    await expect(page.locator('.announcements.immediate')).not.toHaveText('', {
+    // Character echo itself is native (see the "editor echo mirrors" tests),
+    // so what arrives in the immediate region is the caret description: it is
+    // the `caret` kind and names the token the caret is in. Moving the caret
+    // speaks at once; the description after typing is held until idle.
+    await page.keyboard.press('ArrowLeft');
+    const immediate = page.locator('.announcements.immediate');
+    await expect(immediate).toHaveAttribute('data-kind', 'caret', {
         timeout: 15000,
     });
+    await expect(immediate).toContainText('1');
 });
 
 /**
@@ -202,25 +205,32 @@ test('clicking into the code announces where the caret landed', async ({
     await createTestProject(page);
     const editor = page.getByTestId('editor').first();
     await editor.click();
-    // Type something to click into, then clear the region's current text by
-    // waiting for it to settle.
     await page.keyboard.type('1 + 2');
-    const region = page.locator('.announcements.paced');
-    await expect(region).not.toHaveText('', { timeout: 15000 });
-    const before = await region.textContent();
+    // Let the post-typing caret description land so the click's can differ from it.
+    const immediate = page.locator('.announcements.immediate');
+    await expect(immediate).toHaveAttribute('data-kind', 'caret', {
+        timeout: 15000,
+    });
+    const before = await immediate.textContent();
 
-    // Click a token: pointer placement is a discrete action, announced even
-    // though the keyboard caret announcement is coalesced and focus-gated.
-    await editor.locator('.token-view').first().click();
-    await expect
-        .poll(
-            async () => {
-                const text = await region.textContent();
-                return text !== null && text.trim() !== '' && text !== before;
-            },
-            { timeout: 15000 },
-        )
-        .toBe(true);
+    // A click is a caret move like any other, spoken once on the immediate
+    // channel when the press is released — not a second time on the paced
+    // one, which is what a separate `selection` announcement used to do.
+    const paced = await kindsDuring(page, async () => {
+        await editor.locator('.token-view').first().click();
+        await expect
+            .poll(
+                async () => {
+                    const text = await immediate.textContent();
+                    return (
+                        text !== null && text.trim() !== '' && text !== before
+                    );
+                },
+                { timeout: 15000 },
+            )
+            .toBe(true);
+    });
+    expect(paced).not.toContain('selection');
 });
 
 /**

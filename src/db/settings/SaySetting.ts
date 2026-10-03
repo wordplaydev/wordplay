@@ -1,4 +1,9 @@
 import Setting from '#db/settings/Setting.ts';
+import {
+    isVerbosity,
+    Verbosities,
+    type Verbosity,
+} from '#edit/describe/Verbosity.ts';
 
 export const SaySetting = new Setting<string | null>(
     'voice',
@@ -30,5 +35,24 @@ export const ReadAloudRateSetting = new Setting<number>(
     1,
     (value) =>
         typeof value === 'number' && ReadAloudRates.includes(value) ? value : 1,
+    (current, value) => current === value,
+);
+
+/** In the order of the locale's `labels`/`tips`. */
+export const AnnouncementVerbosities: readonly Verbosity[] = Verbosities;
+
+export const AnnouncementVerbosityIcons = ['·', '··', '···'];
+
+/** How much the editor tells a screen reader about the caret and each edit
+ *  (see Verbosity.ts). Device-local, like `readAloudRate`: it is tuned to the
+ *  screen reader on this machine, and a creator's VoiceOver laptop and NVDA
+ *  Chromebook want different amounts. Kept in this file rather than one of its
+ *  own for the reason the read-aloud settings are: a settings file lands on
+ *  every page's import graph. */
+export const AnnouncementVerbositySetting = new Setting<Verbosity>(
+    'announcementVerbosity',
+    true,
+    'normal',
+    (value) => (isVerbosity(value) ? value : undefined),
     (current, value) => current === value,
 );

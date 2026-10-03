@@ -749,7 +749,9 @@
             },
             "feedback": {
                 "cantDrop": "$~نمی‌شود اینجا رها کرد:",
-                "cantPaste": "$~نمی‌شود اینجا چسباند:"
+                "cantPaste": "$~نمی‌شود اینجا چسباند:",
+                "dropWarning": "$~اگر آن را آنجا رها کنی، این اتفاق می‌افتد:",
+                "noDropTarget": "$~هیچ چیز اینجا نمی‌تواند آن را بپذیرد"
             },
             "clipboard": {
                 "label": "$~کلیپ‌بورد"
@@ -872,7 +874,9 @@
                     "noClipboardItem": "$~چیزی در کلیپ‌برد نیست",
                     "noSelection": "$~چیزی گزیده نشده",
                     "noMove": "$~دیگر نمی‌توان جابه‌جا شد",
-                    "unhandled": "$~این کلید اینجا هیچ کاری نمی‌کند"
+                    "unhandled": "$~این کلید اینجا هیچ کاری نمی‌کند",
+                    "noMoveTarget": "$~هیچ چیز آنجا نمی‌تواند این را نگه دارد",
+                    "noElideInBlocks": "$~حذف‌نویسی فقط در حالت متن ممکن است"
                 },
                 "echo": {
                     "space": "$~فاصله",
@@ -883,7 +887,15 @@
                 "unknownPosition": "$~در کد",
                 "selectedNodes": "$~$#count[$count گره انتخاب شد|$count گره انتخاب شد]، از $first تا $last",
                 "insertRange": "$~درج نماد بازه",
-                "findText": "$~جستجو در کد"
+                "findText": "$~جستجو در کد",
+                "moveBefore": "$~انتخاب را پیش از همسایه‌اش ببر",
+                "moveAfter": "$~انتخاب را پس از همسایه‌اش ببر",
+                "moveOut": "$~انتخاب را از چیزی که آن را نگه می‌دارد بیرون ببر",
+                "moveIn": "$~انتخاب را به درون همسایه‌اش ببر",
+                "insertInitial": "$~افزودن نماد آغازین",
+                "insertTranslateRTL": "$~افزودن نماد ترجمهٔ راست‌به‌چپ",
+                "insertMatch": "$~افزودن نماد تطبیق",
+                "insertPatternRange": "$~افزودن نماد بازهٔ حرف‌ها"
             },
             "error": {
                 "invalidName": "$~این باید یک نام معتبر وردپلی باشد.",
@@ -996,18 +1008,14 @@
             "cut": "$~$text بریده شد",
             "pasted": "$~$text چسبانده شد",
             "deleted": "$~$text حذف شد",
-            "undone": "$~واگرد شد",
-            "redone": "$~ازنو شد",
             "foldedAll": "$~همهٔ کد جمع شد",
             "unfoldedAll": "$~همهٔ کد باز شد",
             "editMode": "$~$mode",
-            "zoom": "$~بزرگ‌نمایی $percent درصد",
             "fullscreenOn": "$~وارد حالت تمام‌صفحه شد",
             "fullscreenOff": "$~از حالت تمام‌صفحه خارج شد",
             "restarted": "$~ورودی‌ها دوباره آغاز شد",
             "step": "$~گام $step، $node",
             "stepAtStart": "$~در آغاز",
-            "stepAtEnd": "$~در پایان",
             "searchOpened": "$~جستجو در کد",
             "searchClosed": "$~جستجو بسته شد",
             "searchMatch": "$~نتیجهٔ $index از $count",
@@ -1965,6 +1973,15 @@
                             "$~کمی تندتر با صدا بخوان",
                             "$~حتی تندتر با صدا بخوان"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~جزئیات صفحه‌خوان",
+                        "labels": ["$~کوتاه", "$~معمولی", "$~مفصل"],
+                        "tips": [
+                            "$~فقط بگو نشانگر کجاست",
+                            "$~بگو نشانگر کجاست، جفتِ جداکننده کجاست، تضادها چیست و هر ویرایش چه کرد",
+                            "$~همچنین بگو نشانگر درون چه چیزی است و نوع هر نتیجه چیست"
+                        ]
                     }
                 },
                 "options": {
@@ -2634,7 +2651,20 @@
             "append": "$~/مشتاق افزودن…/",
             "remove": "$~/به فکر رفتن…/",
             "replace": "$~/می‌خواهد وارد شود…/",
-            "area": "$~کد را تایپ کن"
+            "area": "$~کد را تایپ کن",
+            "parent": "$~در $parent",
+            "inserted": "$~$node افزوده شد",
+            "removed": "$~$node حذف شد",
+            "moved": "$~$node جابه‌جا شد$target[ به درون $target|]",
+            "copied": "$~$node کپی شد$target[ به درون $target|]",
+            "pickedUp": "$~$node برداشته شد",
+            "cannotPickUp": "$~$node را نمی‌شود از اینجا جابه‌جا کرد",
+            "dropCancelled": "$~چیزی رها نشد",
+            "replacedAll": "$~$#count[$count مورد|$count مورد] با $text جایگزین شد",
+            "undone": "$~واگرد شد$added[، $added برگشت|]$removed[، $removed رفت|]",
+            "redone": "$~دوباره انجام شد$added[، $added برگشت|]$removed[، $removed رفت|]",
+            "movedBefore": "$~$node قبل از $sibling جابه‌جا شد",
+            "movedAfter": "$~$node بعد از $sibling جابه‌جا شد"
         },
         "template": {
             "unwritten": "$~هنوز مشخص نشده",

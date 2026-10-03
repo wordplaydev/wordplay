@@ -34,6 +34,7 @@ import type Source from '#nodes/Source.ts';
 import StructureDefinition from '#nodes/StructureDefinition.ts';
 import Token from '#nodes/Token.ts';
 import TypePlaceholder from '#nodes/TypePlaceholder.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
 import type Evaluator from '#runtime/Evaluator.ts';
 import UnicodeString from '#unicode/UnicodeString.ts';
 import { isNonEmpty, type NonEmpty } from '#util/nullable.ts';
@@ -369,7 +370,9 @@ function getDropTargetHighlights(
             if (
                 (target instanceof Literal ||
                     target instanceof ExpressionPlaceholder ||
-                    target instanceof TypePlaceholder) &&
+                    target instanceof TypePlaceholder ||
+                    // Code that doesn't parse is fixed by replacing it.
+                    target instanceof UnparsableExpression) &&
                 isValidDropTarget(project, dragged, target)
             )
                 slice.add(source, target, 'target');
@@ -391,6 +394,12 @@ function getDropTargetHighlights(
         perDragged.set(dragged[0], slice);
     }
     return slice;
+}
+
+/** Whether an insertion point's list field takes the dragged nodes. */
+function insertionAccepts(insertion: InsertionPoint, dragged: Node[]): boolean {
+    const field = insertion.node.getFieldNamed(insertion.field);
+    return field !== undefined && kindAcceptsDrop(field.kind, dragged);
 }
 
 /** Highlights that depend on drag/hover state. */
@@ -439,9 +448,11 @@ export function getDragHighlights(
             }
         }
         // No valid hover target? Highlight the insertion point if there is one and the drop is permitted.
+        // An insertion goes into the owner's list field, so ask whether that field takes the nodes —
+        // not whether they could replace the owner, which a row dropped into an empty table never could.
         else if (
             validInsertion instanceof InsertionPoint &&
-            isValidDropTarget(project, dragged, validInsertion.node)
+            insertionAccepts(validInsertion, dragged)
         ) {
             if (currentTargetPermitted && validInsertion.list.length === 0) {
                 highlights.add(source, validInsertion.node, 'match');

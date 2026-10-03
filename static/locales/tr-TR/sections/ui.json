@@ -553,7 +553,9 @@
                     "noClipboardItem": "$~Panoda hiçbir şey yok.",
                     "noSelection": "$~Hiçbir şey seçilmedi.",
                     "noMove": "$~Daha fazla ilerleyemiyorum",
-                    "unhandled": "$~o anahtar burada bir şey yapmıyor"
+                    "unhandled": "$~o anahtar burada bir şey yapmıyor",
+                    "noMoveTarget": "$~Orada hiçbir şey bunu tutamaz",
+                    "noElideInBlocks": "$~Atlama yalnızca metin modunda kullanılabilir"
                 },
                 "nextMatch": "$~Sonraki arama sonucuna git",
                 "insertTranslate": "$~çeviri sembolünü ekle",
@@ -590,7 +592,15 @@
                 "insertDottedSixteenthNote": "$~sekizde üç vuruş uzunluğunda noktalı bir on altılık nota ekle",
                 "selectedNodes": "$~$#count[$count düğüm seçildi|$count düğüm seçildi], $first ile $last arası",
                 "insertRange": "$~aralık simgesi ekle",
-                "findText": "$~kodda ara"
+                "findText": "$~kodda ara",
+                "moveBefore": "$~seçimi komşusunun önüne taşı",
+                "moveAfter": "$~seçimi komşusunun arkasına taşı",
+                "moveOut": "$~seçimi onu tutan şeyin dışına taşı",
+                "moveIn": "$~seçimi komşusunun içine taşı",
+                "insertInitial": "$~başlangıç sembolü ekle",
+                "insertTranslateRTL": "$~sağdan sola çeviri sembolü ekle",
+                "insertMatch": "$~eşleşme sembolü ekle",
+                "insertPatternRange": "$~karakter aralığı sembolü ekle"
             },
             "options": {
                 "locale": {
@@ -614,7 +624,9 @@
             },
             "feedback": {
                 "cantDrop": "$~Oraya bırakamam:",
-                "cantPaste": "$~Oraya yapıştıramıyorum:"
+                "cantPaste": "$~Oraya yapıştıramıyorum:",
+                "dropWarning": "$~Oraya bırakmak şuna neden olur:",
+                "noDropTarget": "$~Burada hiçbir şey bunu alamaz"
             },
             "clipboard": {
                 "label": "$~pano"
@@ -1627,6 +1639,15 @@
                             "$~Biraz daha hızlı sesli oku",
                             "$~Daha da hızlı sesli oku"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~ekran okuyucu ayrıntı düzeyi",
+                        "labels": ["$~kısa", "$~normal", "$~ayrıntılı"],
+                        "tips": [
+                            "$~Yalnızca imlecin nerede olduğunu söyle",
+                            "$~İmlecin nerede olduğunu, ayırıcının eşini, çakışmaları ve her düzenlemenin ne yaptığını söyle",
+                            "$~Ayrıca imlecin neyin içinde olduğunu ve her sonucun tipini söyle"
+                        ]
                     }
                 },
                 "options": {
@@ -2192,7 +2213,20 @@
             "delimiterMatchedSameLine": "$~Aynı satırda $name ile eşleşen",
             "delimiterMatchedBelow": "$~$name ile eşleşen $#lines[$lines satır aşağıda|$lines satır aşağıda]",
             "delimiterMatchedAbove": "$~$name ile eşleşen $#lines[$lines satır yukarıda|$lines satır yukarıda]",
-            "delimiterUnmatched": "$~eşleşen ayırıcı yok"
+            "delimiterUnmatched": "$~eşleşen ayırıcı yok",
+            "parent": "$~$parent içinde",
+            "inserted": "$~$node eklendi",
+            "removed": "$~$node silindi",
+            "moved": "$~$node taşındı$target[, $target içine|]",
+            "copied": "$~$node kopyalandı$target[, $target içine|]",
+            "pickedUp": "$~$node alındı",
+            "cannotPickUp": "$~$node buradan taşınamaz",
+            "dropCancelled": "$~hiçbir şey bırakılmadı",
+            "replacedAll": "$~$#count[$count eşleşme|$count eşleşme] $text ile değiştirildi",
+            "undone": "$~geri alındı$added[, $added geri geldi|]$removed[, $removed gitti|]",
+            "redone": "$~yeniden yapıldı$added[, $added geri geldi|]$removed[, $removed gitti|]",
+            "movedBefore": "$~$node, $sibling öğesinin önüne taşındı",
+            "movedAfter": "$~$node, $sibling öğesinin arkasına taşındı"
         },
         "template": {
             "unwritten": "$~Belirsiz",
@@ -2661,18 +2695,14 @@
             "cut": "$~$text kesildi",
             "pasted": "$~$text yapıştırıldı",
             "deleted": "$~$text silindi",
-            "undone": "$~geri alındı",
-            "redone": "$~yeniden yapıldı",
             "foldedAll": "$~tüm kod katlandı",
             "unfoldedAll": "$~tüm kod açıldı",
             "editMode": "$~$mode",
-            "zoom": "$~yakınlaştırma yüzde $percent",
             "fullscreenOn": "$~tam ekrana girildi",
             "fullscreenOff": "$~tam ekrandan çıkıldı",
             "restarted": "$~girdiler yeniden başlatıldı",
             "step": "$~adım $step, $node",
             "stepAtStart": "$~başlangıçta",
-            "stepAtEnd": "$~sonda",
             "searchOpened": "$~kodda bul",
             "searchClosed": "$~bulma kapatıldı",
             "searchMatch": "$~$index içinden eşleşme $count",

@@ -524,7 +524,9 @@
                     "noClipboardItem": "$~클립보드에 아무것도 없음",
                     "noSelection": "$~선택된 항목 없음",
                     "noMove": "$~더 이상 움직일 수 없습니다",
-                    "unhandled": "$~그 키는 여기서 아무것도 하지 않아요"
+                    "unhandled": "$~그 키는 여기서 아무것도 하지 않아요",
+                    "noMoveTarget": "$~그곳에는 이것을 담을 수 있는 것이 없습니다",
+                    "noElideInBlocks": "$~생략은 텍스트 모드에서만 사용할 수 있습니다"
                 },
                 "nextMatch": "$~다음 검색 결과로 이동",
                 "insertTranslate": "$~번역 기호 삽입",
@@ -561,7 +563,15 @@
                 "insertDottedSixteenthNote": "$~점 16분음표 삽입하기, 길이는 0.375박자",
                 "selectedNodes": "$~노드 $#count[$count개]개 선택됨, $first 부터 $last 까지",
                 "insertRange": "$~range 기호 넣기",
-                "findText": "$~코드 검색하기"
+                "findText": "$~코드 검색하기",
+                "moveBefore": "$~선택한 것을 옆에 있는 것의 앞으로 옮기기",
+                "moveAfter": "$~선택한 것을 옆에 있는 것의 뒤로 옮기기",
+                "moveOut": "$~선택한 것을 담고 있는 것 밖으로 옮기기",
+                "moveIn": "$~선택한 것을 옆에 있는 것의 안으로 옮기기",
+                "insertInitial": "$~처음 기호 넣기",
+                "insertTranslateRTL": "$~오른쪽에서 왼쪽 번역 기호 넣기",
+                "insertMatch": "$~일치 기호 넣기",
+                "insertPatternRange": "$~문자 범위 기호 넣기"
             },
             "options": {
                 "locale": {
@@ -585,7 +595,9 @@
             },
             "feedback": {
                 "cantDrop": "$~거기엔 내려놓을 수 없어:",
-                "cantPaste": "$~거기에 붙여넣을 수 없습니다:"
+                "cantPaste": "$~거기에 붙여넣을 수 없습니다:",
+                "dropWarning": "$~그곳에 놓으면 다음 문제가 생깁니다:",
+                "noDropTarget": "$~여기에는 그것을 받을 수 있는 것이 없습니다"
             },
             "clipboard": {
                 "label": "$~클립보드"
@@ -1595,6 +1607,15 @@
                             "$~조금 더 빠르게 소리 내어 읽기",
                             "$~훨씬 더 빠르게 소리 내어 읽기"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~화면 읽기 프로그램 설명 수준",
+                        "labels": ["$~간단히", "$~보통", "$~자세히"],
+                        "tips": [
+                            "$~커서가 있는 곳만 말합니다",
+                            "$~커서가 있는 곳, 짝이 되는 구분 기호, 충돌, 각 편집이 한 일을 말합니다",
+                            "$~커서가 어떤 것 안에 있는지와 각 결과의 유형도 함께 말합니다"
+                        ]
                     }
                 },
                 "options": {
@@ -2027,7 +2048,20 @@
             "delimiterMatchedSameLine": "$~같은 줄에 $name 과 일치",
             "delimiterMatchedBelow": "$~아래 $#lines[$lines줄]에서 $name와(과) 일치",
             "delimiterMatchedAbove": "$~위 $#lines[$lines줄]에서 $name와(과) 일치",
-            "delimiterUnmatched": "$~일치하는 구분 기호가 없습니다"
+            "delimiterUnmatched": "$~일치하는 구분 기호가 없습니다",
+            "parent": "$~$parent 안",
+            "inserted": "$~$node 넣음",
+            "removed": "$~$node 지움",
+            "moved": "$~$node 옮김$target[ ($target 안으로)|]",
+            "copied": "$~$node 복사함$target[ ($target 안으로)|]",
+            "pickedUp": "$~$node 집어 듦",
+            "cannotPickUp": "$~$node 은(는) 여기에서 옮길 수 없습니다",
+            "dropCancelled": "$~아무것도 놓지 않았습니다",
+            "replacedAll": "$~일치하는 $#count[$count개]를 $text (으)로 바꿨습니다",
+            "undone": "$~실행을 취소했습니다$added[, $added 이(가) 다시 생겼습니다|]$removed[, $removed 이(가) 사라졌습니다|]",
+            "redone": "$~다시 실행했습니다$added[, $added 이(가) 다시 생겼습니다|]$removed[, $removed 이(가) 사라졌습니다|]",
+            "movedBefore": "$~$node 을(를) $sibling 앞으로 옮겼습니다",
+            "movedAfter": "$~$node 을(를) $sibling 뒤로 옮겼습니다"
         },
         "template": {
             "unwritten": "$~미정",
@@ -2653,18 +2687,14 @@
             "cut": "$~$text 잘라냄",
             "pasted": "$~$text 붙여넣음",
             "deleted": "$~$text 삭제됨",
-            "undone": "$~실행 취소됨",
-            "redone": "$~다시 실행됨",
             "foldedAll": "$~모든 코드 접음",
             "unfoldedAll": "$~모든 코드 펼침",
             "editMode": "$~$mode",
-            "zoom": "$~확대 $percent 퍼센트",
             "fullscreenOn": "$~전체 화면으로 들어감",
             "fullscreenOff": "$~전체 화면에서 나감",
             "restarted": "$~입력을 다시 시작함",
             "step": "$~단계 $step, $node",
             "stepAtStart": "$~맨 처음에",
-            "stepAtEnd": "$~맨 끝에",
             "searchOpened": "$~코드에서 찾기",
             "searchClosed": "$~찾기 닫음",
             "searchMatch": "$~$index 중 $count 일치",

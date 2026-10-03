@@ -780,7 +780,9 @@
                     "noClipboardItem": "$~لا يوجد شيء في الحافظة",
                     "noSelection": "$~لم يتم تحديد شيء",
                     "noMove": "$~لا يمكن التحرك أكثر",
-                    "unhandled": "$~هذا المفتاح لا يفعل شيئًا هنا"
+                    "unhandled": "$~هذا المفتاح لا يفعل شيئًا هنا",
+                    "noMoveTarget": "$~لا شيء هناك يمكنه احتواء هذا",
+                    "noElideInBlocks": "$~الحذف متاح فقط في وضع النص"
                 },
                 "nextMatch": "$~الانتقال إلى نتيجة البحث التالية",
                 "insertTranslate": "$~إدراج رمز الترجمة",
@@ -817,7 +819,15 @@
                 "insertDottedSixteenthNote": "$~إدراج نغمة سُداسية عشر منقّطة، طولها ثلاثة أثمان نبضة",
                 "selectedNodes": "$~تم تحديد $#count[لا عناصر محددة|عنصر واحد ($count)|عنصران ($count)|$count عناصر|$count عنصرًا|$count عنصر]، من $first إلى $last",
                 "insertRange": "$~أدرج رمز المدى",
-                "findText": "$~البحث في الكود"
+                "findText": "$~البحث في الكود",
+                "moveBefore": "$~انقل التحديد قبل العنصر المجاور له",
+                "moveAfter": "$~انقل التحديد بعد العنصر المجاور له",
+                "moveOut": "$~أخرج التحديد من العنصر الذي يحتويه",
+                "moveIn": "$~انقل التحديد إلى داخل العنصر المجاور له",
+                "insertInitial": "$~إدراج رمز البداية",
+                "insertTranslateRTL": "$~إدراج رمز الترجمة من اليمين إلى اليسار",
+                "insertMatch": "$~إدراج رمز المطابقة",
+                "insertPatternRange": "$~إدراج رمز نطاق الأحرف"
             },
             "error": {
                 "invalidName": "$~يجب أن يكون هذا اسم Wordplay صالحًا.",
@@ -834,7 +844,9 @@
             },
             "feedback": {
                 "cantDrop": "$~لا يمكن الإفلات هناك:",
-                "cantPaste": "$~لا يمكن اللصق هناك:"
+                "cantPaste": "$~لا يمكن اللصق هناك:",
+                "dropWarning": "$~الإفلات هناك سيسبب:",
+                "noDropTarget": "$~لا شيء هنا يمكنه قبول ذلك"
             },
             "clipboard": {
                 "label": "$~الحافظة"
@@ -1841,6 +1853,15 @@
                             "$~اقرأ بصوت عالٍ بشكل أسرع قليلاً",
                             "$~اقرأ بصوت عالٍ بشكل أسرع من ذلك"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~تفاصيل قارئ الشاشة",
+                        "labels": ["$~موجز", "$~عادي", "$~مفصّل"],
+                        "tips": [
+                            "$~قل فقط أين يوجد المؤشر",
+                            "$~قل أين يوجد المؤشر، ومطابقة الفاصل، والتعارضات، وما فعله كل تعديل",
+                            "$~قل أيضًا ما الذي يوجد المؤشر بداخله ونوع كل نتيجة"
+                        ]
                     }
                 },
                 "options": {
@@ -2406,7 +2427,20 @@
             "delimiterMatchedSameLine": "$~مطابقة $name في نفس السطر",
             "delimiterMatchedBelow": "$~مطابقة $name $#lines[لا أسطر بالأسفل|سطر واحد بالأسفل|سطران بالأسفل|$#lines أسطر بالأسفل|$lines سطرًا بالأسفل|$lines سطر بالأسفل]",
             "delimiterMatchedAbove": "$~مطابقة $name $#lines[لا أسطر بالأعلى|سطر واحد بالأعلى|سطران بالأعلى|$#lines أسطر بالأعلى|$lines سطرًا بالأعلى|$lines سطر بالأعلى]",
-            "delimiterUnmatched": "$~لا يوجد فاصل مطابق"
+            "delimiterUnmatched": "$~لا يوجد فاصل مطابق",
+            "parent": "$~في $parent",
+            "inserted": "$~تم إدراج $node",
+            "removed": "$~تمت إزالة $node",
+            "moved": "$~تم نقل $node$target[ إلى $target|]",
+            "copied": "$~تم نسخ $node$target[ إلى $target|]",
+            "pickedUp": "$~تم التقاط $node",
+            "cannotPickUp": "$~لا يمكن نقل $node من هنا",
+            "dropCancelled": "$~لم يتم إسقاط أي شيء",
+            "replacedAll": "$~تم استبدال $#count[لا توجد نتائج مطابقة|نتيجة مطابقة واحدة|نتيجتين مطابقتين|$#count نتائج مطابقة|$count نتيجة مطابقة|$count نتيجة مطابقة] بـ $text",
+            "undone": "$~تم التراجع$added[، عاد $added|]$removed[، اختفى $removed|]",
+            "redone": "$~تمت الإعادة$added[، عاد $added|]$removed[، اختفى $removed|]",
+            "movedBefore": "$~تم نقل $node قبل $sibling",
+            "movedAfter": "$~تم نقل $node بعد $sibling"
         },
         "template": {
             "unwritten": "$~سيتم تحديده لاحقاً",
@@ -2653,18 +2687,14 @@
             "cut": "$~تم قص $text",
             "pasted": "$~تم لصق $text",
             "deleted": "$~تم حذف $text",
-            "undone": "$~تم التراجع",
-            "redone": "$~تمت الإعادة",
             "foldedAll": "$~تم طي كل الكود",
             "unfoldedAll": "$~تم فتح كل الكود",
             "editMode": "$~$mode",
-            "zoom": "$~تكبير $percent بالمئة",
             "fullscreenOn": "$~دخلت ملء الشاشة",
             "fullscreenOff": "$~خرجت من ملء الشاشة",
             "restarted": "$~تمت إعادة تشغيل المدخلات",
             "step": "$~خطوة $step، $node",
             "stepAtStart": "$~عند البداية",
-            "stepAtEnd": "$~عند النهاية",
             "searchOpened": "$~البحث في الكود",
             "searchClosed": "$~تم إغلاق البحث",
             "searchMatch": "$~تطابق $index من $count",

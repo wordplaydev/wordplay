@@ -1020,6 +1020,13 @@
         "e42e9e3c1d92a": "$~Les mots soulignés en pointillés n'affichent plus de symboles en trop devant eux dans certaines langues.",
         "e6f07748bed1c": "$~Les leçons dans <Apprendre@https://wordplay.dev/learn> et les explications dans le Guide ont maintenant un bouton qui les lit à voix haute et surligne chaque mot pendant qu'il est prononcé. Les réglages permettent de choisir la vitesse et de faire lire chaque nouvelle ligne de leçon séparément. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
         "e4b9091b3c539": "$~Les exemples dans le <Guide@https://wordplay.dev/guide> ne parlent plus dès l'ouverture de la page, et ne parlent qu'après que vous appuyez sur leur bouton de lecture.",
-        "e4b5e128afb9d": "$~Le texte lu à voix haute dans Chrome et les autres navigateurs Chromium sur un Mac utilise maintenant une voix ordinaire au lieu d'une voix amusante comme Albert ou Bubbles."
+        "e4b5e128afb9d": "$~Le texte lu à voix haute dans Chrome et les autres navigateurs Chromium sur un Mac utilise maintenant une voix ordinaire au lieu d'une voix amusante comme Albert ou Bubbles.",
+        "e14bed8e9c16c": "$~L'éditeur de code indique maintenant aux lecteurs d'écran ce que chaque modification, chaque dépôt, chaque annulation et chaque choix de menu a fait. Un nouveau réglage permet de choisir la quantité de détails lus à voix haute.",
+        "e30d15d78b9a4": "$~Nous avons ajouté des raccourcis clavier pour réorganiser le code : Alt+Maj avec les touches fléchées ou Entrée déplace le code sélectionné avant, après, hors de son voisin ou dans son voisin.",
+        "e02157357e335": "$~Nous avons ajouté des boutons d'insertion pour les symboles ↤, ≈, ◆ et –.",
+        "e33c0fa9452a4": "$~Le menu des suggestions reste maintenant ouvert et se réduit pendant que tu écris.",
+        "e6c77df016241": "$~En mode blocs, nous avons corrigé le glissement de code sous la fin d'un programme et sur du code qui contient une erreur. Avant, ces deux actions ne faisaient rien.",
+        "e7f1566676e7a": "$~Nous avons corrigé les liens dans les autres langues qui s'affichaient comme du texte cassé ou menaient à des pages introuvables, sur la page d'accueil, la page <À propos@https://wordplay.dev/about>, le tutoriel rapide et dans les messages du site.",
+        "e221a0b8c05d5": "$~Nous avons corrigé les choix d'affichage de la musique dans les réglages en turc, qui montraient chaque nom et chaque description à côté de la mauvaise option."
     }
 }

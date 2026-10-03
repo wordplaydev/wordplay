@@ -7,6 +7,8 @@ import {
     MAX_HOLD,
     MIN_HOLD,
     holdFor,
+    isImmediate,
+    laneOf,
 } from './announcerQueue';
 
 /**
@@ -307,4 +309,77 @@ describe('stop', () => {
         advance(MAX_HOLD * 5);
         expect(texts()).toEqual(['first']);
     });
+});
+
+describe('editor kinds', () => {
+    test('an identical edit is heard again once the first has been read', () => {
+        // Undoing the same character twice is the same sentence twice, and
+        // the second undo is a second event.
+        const { queue, texts, advance } = makeHarness();
+        queue.announce('edit', 'en', 'undone, 1 is gone');
+        advance(MAX_HOLD);
+        queue.announce('edit', 'en', 'undone, 1 is gone');
+        advance(MAX_HOLD);
+        expect(texts()).toEqual(['undone, 1 is gone', 'undone, 1 is gone']);
+    });
+
+    test('an identical edit is dropped while the first is waiting or being read', () => {
+        const { queue, texts, advance } = makeHarness();
+        queue.announce('edit', 'en', 'undone, 1 is gone');
+        // Being read.
+        queue.announce('edit', 'en', 'undone, 1 is gone');
+        // Waiting behind another.
+        queue.announce('edit', 'en', 'removed list');
+        queue.announce('edit', 'en', 'removed list');
+        advance(MAX_HOLD * 4);
+        expect(texts()).toEqual(['undone, 1 is gone', 'removed list']);
+    });
+
+    test('other queued kinds still drop a consecutive repeat', () => {
+        const { queue, texts, advance } = makeHarness();
+        queue.announce('command', 'en', 'copied 1');
+        advance(MAX_HOLD);
+        queue.announce('command', 'en', 'copied 1');
+        advance(MAX_HOLD);
+        expect(texts()).toEqual(['copied 1']);
+    });
+
+    test('an undo said with the caret is immediate and never deduped', () => {
+        const { queue, textsIn } = makeHarness();
+        queue.announce('restore', 'en', 'undone, 1 is gone, in 1');
+        queue.announce('restore', 'en', 'undone, 1 is gone, in 1');
+        expect(textsIn('immediate')).toEqual([
+            'undone, 1 is gone, in 1',
+            'undone, 1 is gone, in 1',
+        ]);
+    });
+
+    test('a discrete edit and the menu are queued, so none is dropped', () => {
+        expect(laneOf('edit')).toBe('queued');
+        expect(laneOf('menu')).toBe('queued');
+        expect(isImmediate('edit')).toBe(false);
+    });
+
+    test('a drag coalesces and is paced, so it never talks over the caret', () => {
+        expect(laneOf('drag')).toBe('coalesce');
+        expect(isImmediate('drag')).toBe(false);
+    });
+
+    test('two edits naming different nodes are both heard', () => {
+        const { queue, texts, advance } = makeHarness();
+        queue.announce('edit', 'en', 'inserted number');
+        queue.announce('edit', 'en', 'inserted text');
+        advance(MAX_HOLD * 2);
+        expect(texts()).toEqual(['inserted number', 'inserted text']);
+    });
+});
+
+test('an edit clears a drag line that is still waiting', () => {
+    const { queue, texts, advance } = makeHarness();
+    // Something is being read, so the pickup waits in its slot.
+    queue.announce('command', 'en', 'blocks');
+    queue.announce('drag', 'en', 'picked up number');
+    queue.announce('edit', 'en', 'moved number into list');
+    advance(MAX_HOLD * 4);
+    expect(texts()).toEqual(['blocks', 'moved number into list']);
 });

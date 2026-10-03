@@ -1020,6 +1020,13 @@
         "e42e9e3c1d92a": "$~Kata dengan garis bawah putus-putus tidak lagi menampilkan simbol yang tidak diinginkan di depannya dalam beberapa bahasa.",
         "e6f07748bed1c": "$~Pelajaran di <Belajar@https://wordplay.dev/learn> dan penjelasan di Panduan sekarang punya tombol yang membacakannya dengan suara, dan menyorot setiap kata saat diucapkan. Pengaturan juga memungkinkan kamu memilih kecepatan bacaan dan membuat setiap baris pelajaran baru dibacakan sendiri. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
         "e4b9091b3c539": "$~Contoh di <Panduan@https://wordplay.dev/guide> tidak lagi langsung berbicara begitu halaman dibuka, dan hanya berbicara setelah kamu menekan tombol putarnya.",
-        "e4b5e128afb9d": "$~Teks yang diucapkan di Chrome dan peramban Chromium lainnya di Mac sekarang menggunakan suara biasa, bukan suara lucu seperti Albert atau Bubbles."
+        "e4b5e128afb9d": "$~Teks yang diucapkan di Chrome dan peramban Chromium lainnya di Mac sekarang menggunakan suara biasa, bukan suara lucu seperti Albert atau Bubbles.",
+        "e14bed8e9c16c": "$~Editor kode sekarang memberi tahu pembaca layar apa yang dilakukan setiap suntingan, penjatuhan, pembatalan, dan pilihan menu. Pengaturan baru juga memilih seberapa rinci hal itu diucapkan.",
+        "e30d15d78b9a4": "$~Kami menambahkan jalan pintas papan ketik untuk menata ulang kode: Alt+Shift dengan tombol panah atau Enter memindahkan kode yang dipilih ke sebelum, sesudah, keluar dari, atau ke dalam kode di dekatnya.",
+        "e02157357e335": "$~Kami menambahkan tombol sisip untuk simbol ↤, ≈, ◆, dan –.",
+        "e33c0fa9452a4": "$~Menu saran sekarang tetap terbuka dan menyempit saat kamu mengetik.",
+        "e6c77df016241": "$~Dalam mode blok, kami memperbaiki penyeretan kode ke bawah akhir program dan ke kode yang memiliki kesalahan. Sebelumnya, keduanya tidak melakukan apa-apa.",
+        "e7f1566676e7a": "$~Kami memperbaiki tautan di bahasa lain yang tampil sebagai teks rusak atau mengarah ke halaman yang hilang, di halaman utama, halaman <Tentang@https://wordplay.dev/about>, tutorial singkat, dan pesan di seluruh situs.",
+        "e221a0b8c05d5": "$~Kami memperbaiki pilihan tampilan musik di pengaturan bahasa Turki, yang menampilkan setiap nama dan deskripsi di samping pilihan yang salah."
     }
 }

@@ -6,6 +6,10 @@ import DefaultLocale from '#locale/DefaultLocale.ts';
 import NumberLiteral from '#nodes/NumberLiteral.ts';
 import type Node from '#nodes/Node.ts';
 import Evaluate from '#nodes/Evaluate.ts';
+import Row from '#nodes/Row.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
+import TableLiteral from '#nodes/TableLiteral.ts';
+import { InsertionPoint } from '#edit/drag/Drag.ts';
 import {
     getDragHighlights,
     getProjectHighlights,
@@ -96,6 +100,45 @@ describe('getDragHighlights', () => {
         }).not.toThrow();
         // The stale hovered node must not be highlighted as a drop target.
         expect(result?.get(staleHovered)).toBeUndefined();
+    });
+
+    test('an insertion into an empty list is matched when the list field takes the node', () => {
+        // A row can never replace a table, but a table's rows take a row. The
+        // check used to ask the first question, so dragging a row into an empty
+        // table showed no target at all though the drop itself worked.
+        // A statement between the tables, or the parser reads the second as
+        // another row of the first.
+        const source = new Source('test', '⎡a•#⎦⎡1⎦\n5\n⎡b•#⎦');
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        const row = must(source.find(Row), 'a row');
+        const empty = must(
+            source
+                .nodes()
+                .find(
+                    (node): node is TableLiteral =>
+                        node instanceof TableLiteral && node.rows.length === 0,
+                ),
+            'an empty table',
+        );
+        const insertion = new InsertionPoint(
+            empty,
+            'rows',
+            empty.rows,
+            undefined,
+            undefined,
+            0,
+        );
+        const result = getDragHighlights(
+            source,
+            project,
+            [row],
+            undefined,
+            insertion,
+            true,
+            false,
+            true,
+        );
+        expect(result.get(empty)).toContain('match');
     });
 });
 
@@ -192,5 +235,28 @@ describe('getProjectHighlights', () => {
             true,
         );
         expect(highlights.get(stage)).toContain('output');
+    });
+
+    test('unparsable code is shown as a target, since a drop replaces it', () => {
+        const source = new Source('test', ')');
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        const unparsable = must(
+            source.nodes().find((node) => node instanceof UnparsableExpression),
+            'unparsable code',
+        );
+        const palette = must(
+            new Source('palette', '5').find(NumberLiteral),
+            'a number',
+        );
+        const result = getDragHighlights(
+            source,
+            project,
+            [palette],
+            undefined,
+            undefined,
+            true,
+            false,
+        );
+        expect(result.get(unparsable)).toContain('target');
     });
 });

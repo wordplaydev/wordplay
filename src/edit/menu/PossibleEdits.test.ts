@@ -42,8 +42,8 @@ test.each([
     ['blank programs suggest text', '**', undefined, Append, "''"],
     ['blank programs suggest lists', '**', undefined, Append, '[]'],
     ['blank programs suggest sets', '**', undefined, Append, '{}'],
-    ['blank programs suggest maps', '**', undefined, Append, '[]'],
-    ['blank programs suggest tables', '**', undefined, Append, '[]'],
+    ['blank programs suggest maps', '**', undefined, Append, '{:}'],
+    ['blank programs suggest tables', '**', undefined, Append, '⎡⎦\n⎡⎦'],
     ['set unset bind value', 'a:**', undefined, Assign, '0'],
     ['suggest binary evaluate completions', '1 + **', undefined, Assign, '1'],
     [
@@ -1110,4 +1110,29 @@ test('a caret inside an empty formatted literal recommends custom characters', (
         applied,
         'expected filling the empty literal to yield `@creator/Star`',
     ).toBeDefined();
+});
+
+test('a name that is already typed in full is not offered as its own completion', () => {
+    // `ab` starts with `ab`, so it "completed" itself, and choosing it
+    // replaced the code with the same code.
+    const code = 'abcd: 1\nabc: 1\nab: 1\nab';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const revisions = getEditsAt(
+        project,
+        new Caret(source, code.length, undefined, undefined),
+        undefined,
+        DefaultLocales,
+    );
+    const results = revisions.map((revision) => {
+        const edit = revision.getEdit(DefaultLocales);
+        return Array.isArray(edit) && edit[0] instanceof Source
+            ? edit[0].getCode().toString()
+            : undefined;
+    });
+    // Nothing leaves the program as it was...
+    expect(results).not.toContain(code);
+    // ...and the names it is a prefix of are still offered.
+    expect(results).toContain('abcd: 1\nabc: 1\nab: 1\nabcd');
+    expect(results).toContain('abcd: 1\nabc: 1\nab: 1\nabc');
 });

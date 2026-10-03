@@ -3,7 +3,8 @@
     import RootView from '#components/project/RootView.svelte';
     import Note from '#components/widgets/Note.svelte';
     import getMenuNoteMarkup from './menuNote';
-    import { getUnitKey, getUnitName, getUnitNameMarkup } from './unitName';
+    import { getUnitKey, getUnitNameMarkup } from './unitName';
+    import menuItemLabel from './menuItemLabel.ts';
     import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
     import { blocks, locales } from '#db/Database.ts';
     import Menu, { RevisionSet } from '#edit/menu/Menu.ts';
@@ -15,6 +16,7 @@
         hoverSelects,
         isTap,
         type PressPoint,
+        pointerMoved,
     } from '#components/editor/menu/menuPointer.ts';
 
     interface Props {
@@ -42,30 +44,9 @@
     /** Get the node created after the revision, for possible rendering */
     let [newNode] = $derived(entry.getEditedNode($locales));
 
-    /** What this suggestion would insert, then what kind of thing it is. The
-     *  description alone says only the type ("a reference"), which doesn't
-     *  distinguish one suggestion from another — the code is what the creator
-     *  is choosing between. */
-    let itemLabel = $derived.by(() => {
-        const edited = entry.getEditedNode($locales)[0];
-        // A unit's generic description ("a unit") doesn't say which unit, so name it.
-        // Primary locale only: the visible note carries the other chosen languages.
-        const unit = getUnitKey(edited);
-        const description =
-            (unit === undefined ? undefined : getUnitName(unit, $locales)) ??
-            edited.getDescription($locales, entry.context).toText();
-        if (newNode === undefined) return description;
-        const code = newNode.toWordplay(getPreferredSpaces(newNode)).trim();
-        if (code.length === 0) return description;
-        return $locales
-            .concretize((l) => l.ui.source.menu.item, {
-                // Long insertions are read as a preview; the creator hears the
-                // rest once it's in the editor.
-                code: code.length > 60 ? `${code.slice(0, 60)}…` : code,
-                description,
-            })
-            .toText();
-    });
+    /** What this suggestion would insert, then what kind of thing it is (see
+     *  menuItemLabel, which the editor also uses to announce a live menu). */
+    let itemLabel = $derived(menuItemLabel(entry, $locales));
 
     /** The note under the suggestion. A unit is named per chosen locale, so
      *  MarkupHTMLView echoes it the way it echoes any other multilingual text —
@@ -165,10 +146,16 @@
         handleItemClick(entry);
     }}
     onpointercancel={() => (pressPoint = undefined)}
-    onpointerenter={(event) => {
-        if (!hoverSelects(event.pointerType)) return;
-        if (view && menu.getOrganization().includes(entry))
-            setKeyboardFocus(view, 'Focusing menu item on pointer enter');
+    onpointermove={(event) => {
+        if (!hoverSelects(event.pointerType) || !pointerMoved(event)) return;
+        if (menu.getSelection() === entry) return;
+        // A live menu keeps focus in the code, so hovering selects without
+        // focusing; otherwise focus is the selection.
+        if (menu.isLive()) {
+            const index = menu.getSelectionFor(entry);
+            if (index) menu = menu.withSelection(index);
+        } else if (view && menu.getOrganization().includes(entry))
+            setKeyboardFocus(view, 'Focusing menu item on pointer move');
     }}
     class={`revision ${menu.getSelection() === entry ? 'selected' : ''}`}
     onfocusin={() => {
@@ -238,7 +225,10 @@
         border-bottom-right-radius: var(--wordplay-border-radius);
     }
 
-    .revision:focus {
+    /* Selected as well as focused: a live menu keeps focus in the code, so its
+       selection has no focus to be drawn from. */
+    .revision:focus,
+    .revision.selected {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }

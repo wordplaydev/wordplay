@@ -785,7 +785,9 @@
                     "noClipboardItem": "$~ক্লিপবৰ্ডত একো নাই",
                     "noSelection": "$~একো নিৰ্বাচিত হোৱা নাই",
                     "noMove": "$~আৰু আগবাঢ়িব নোৱাৰে",
-                    "unhandled": "$~সেই চাবিটোৱে ইয়াত একো নকৰে"
+                    "unhandled": "$~সেই চাবিটোৱে ইয়াত একো নকৰে",
+                    "noMoveTarget": "$~তাত একো এইটো ধৰি ৰাখিব নোৱাৰে",
+                    "noElideInBlocks": "$~বাদ দিয়া কেৱল পাঠ্য ধাৰাত উপলব্ধ"
                 },
                 "nextMatch": "$~পৰৱৰ্তী সন্ধান মিললৈ যাওক",
                 "insertTranslate": "$~অনুবাদ চিহ্ন সন্নিবিষ্ট কৰক",
@@ -822,7 +824,15 @@
                 "insertDottedSixteenthNote": "$~এটা ফুটকি দিয়া ষোল্ল ভাগৰ এভাগ নোট সন্নিবেশ কৰক, এক ৰিদমৰ আঠ ভাগৰ তিনি ভাগ দীঘল",
                 "selectedNodes": "$~$#count[$count টা ন'ড|$count টা ন'ড] বাছনি কৰা হ'ল, $first ৰ পৰা $last লৈকে",
                 "insertRange": "$~পৰিসৰ চিহ্ন সুমুৱাওক",
-                "findText": "$~ক'ড অনুসন্ধান কৰক"
+                "findText": "$~ক'ড অনুসন্ধান কৰক",
+                "moveBefore": "$~বাছনিটো ইয়াৰ ওচৰৰটোৰ আগলৈ নিয়ক",
+                "moveAfter": "$~বাছনিটো ইয়াৰ ওচৰৰটোৰ পিছলৈ নিয়ক",
+                "moveOut": "$~বাছনিটো ইয়াক ধৰি ৰখাটোৰ পৰা বাহিৰলৈ নিয়ক",
+                "moveIn": "$~বাছনিটো ইয়াৰ ওচৰৰটোৰ ভিতৰলৈ নিয়ক",
+                "insertInitial": "$~আৰম্ভণি চিহ্ন সুমুৱাওক",
+                "insertTranslateRTL": "$~সোঁফালৰ পৰা বাওঁফালে অনুবাদ চিহ্ন সুমুৱাওক",
+                "insertMatch": "$~মিল চিহ্ন সুমুৱাওক",
+                "insertPatternRange": "$~আখৰৰ পৰিসৰ চিহ্ন সুমুৱাওক"
             },
             "error": {
                 "invalidName": "$~এইটো এটা বৈধ ৱৰ্ডপ্লে নাম হ’ব লাগিব।",
@@ -839,7 +849,9 @@
             },
             "feedback": {
                 "cantDrop": "$~তাত ড্ৰপ কৰিব নোৱাৰি:",
-                "cantPaste": "$~তাত পেষ্ট কৰিব নোৱাৰি:"
+                "cantPaste": "$~তাত পেষ্ট কৰিব নোৱাৰি:",
+                "dropWarning": "$~তাত পেলালে এইটো হ'ব:",
+                "noDropTarget": "$~ইয়াত একো সেইটো ল'ব নোৱাৰে"
             },
             "clipboard": {
                 "label": "$~ক্লিপবোৰ্ড"
@@ -1857,6 +1869,15 @@
                             "$~অলপ বেগাই মাতেৰে পঢ়ক",
                             "$~আৰু বেছি বেগাই মাতেৰে পঢ়ক"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~স্ক্ৰীণ ৰিডাৰৰ বিৱৰণ",
+                        "labels": ["$~চমু", "$~সাধাৰণ", "$~বিস্তাৰিত"],
+                        "tips": [
+                            "$~কেৱল কেৰেটটো য'ত আছে সেইটো কওক",
+                            "$~কেৰেটটো য'ত আছে, সীমাচিহ্নৰ মিল, বিৰোধ, আৰু প্ৰতিটো সম্পাদনাই কি কৰিলে সেয়া কওক",
+                            "$~কেৰেটটো কিহৰ ভিতৰত আছে আৰু প্ৰতিটো ফলাফলৰ প্ৰকাৰো কওক"
+                        ]
                     }
                 },
                 "options": {
@@ -2422,7 +2443,20 @@
             "delimiterMatchedSameLine": "$~একেটা শাৰীতে $name মিল থকা",
             "delimiterMatchedBelow": "$~মিল থকা $name $#lines[তলৰ $lines শাৰী|তলৰ $lines শাৰী]",
             "delimiterMatchedAbove": "$~মিল থকা $name $#lines[ওপৰৰ $lines শাৰী|ওপৰৰ $lines শাৰী]",
-            "delimiterUnmatched": "$~কোনো মিল থকা ডেলিমিটাৰ নাই"
+            "delimiterUnmatched": "$~কোনো মিল থকা ডেলিমিটাৰ নাই",
+            "parent": "$~$parent ত",
+            "inserted": "$~$node সুমুৱাইছে",
+            "removed": "$~$node আঁতৰাইছে",
+            "moved": "$~$node লৰচৰ কৰিছে$target[ $target ৰ ভিতৰলৈ|]",
+            "copied": "$~$node কপি কৰিছে$target[ $target ৰ ভিতৰলৈ|]",
+            "pickedUp": "$~$node তুলি লৈছে",
+            "cannotPickUp": "$~$node ইয়াৰ পৰা লৰচৰ কৰিব নোৱাৰি",
+            "dropCancelled": "$~একো পেলোৱা নহ'ল",
+            "replacedAll": "$~$#count[$count টা মিল|$count টা মিল]ক $text ৰে সলনি কৰা হ'ল",
+            "undone": "$~পূৰ্বাৱস্থালৈ ঘূৰোৱা হ'ল$added[, $added ঘূৰি আহিল|]$removed[, $removed আঁতৰি গ'ল|]",
+            "redone": "$~পুনৰ কৰা হ'ল$added[, $added ঘূৰি আহিল|]$removed[, $removed আঁতৰি গ'ল|]",
+            "movedBefore": "$~$node ক $sibling ৰ আগলৈ লৰচৰ কৰা হ'ল",
+            "movedAfter": "$~$node ক $sibling ৰ পিছলৈ লৰচৰ কৰা হ'ল"
         },
         "template": {
             "unwritten": "$~টিবিডি",
@@ -2666,18 +2700,14 @@
             "cut": "$~$text কাটি লোৱা হ'ল",
             "pasted": "$~$text আঠা লগোৱা হ'ল",
             "deleted": "$~$text মচি পেলোৱা হ'ল",
-            "undone": "$~পূৰ্ববত কৰা হ'ল",
-            "redone": "$~পুনৰ কৰা হ'ল",
             "foldedAll": "$~সকলো ক'ড ভাঁজ কৰা হ'ল",
             "unfoldedAll": "$~সকলো ক'ড খোলা হ'ল",
             "editMode": "$~$mode",
-            "zoom": "$~জুম $percent শতাংশ",
             "fullscreenOn": "$~সম্পূৰ্ণ স্ক্ৰীনত সোমাল",
             "fullscreenOff": "$~সম্পূৰ্ণ স্ক্ৰীন এৰিলে",
             "restarted": "$~ইনপুট পুনৰ আৰম্ভ কৰা হ'ল",
             "step": "$~পদক্ষেপ $step, $node",
             "stepAtStart": "$~আৰম্ভণিত",
-            "stepAtEnd": "$~শেষত",
             "searchOpened": "$~ক'ডত বিচাৰক",
             "searchClosed": "$~বিচৰাটো বন্ধ কৰা হ'ল",
             "searchMatch": "$~$index ৰ ভিতৰত $count মিল খালে",

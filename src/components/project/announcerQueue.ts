@@ -40,9 +40,11 @@ export const announcerPresenting: Writable<boolean> = writable(false);
  */
 export type AnnouncementLane = 'echo' | 'interrupt' | 'queued' | 'coalesce';
 
-/** A lane, optionally marked `immediate` (see isImmediate). */
+/** A lane, optionally marked `immediate` (see isImmediate) or `repeats` (see
+ *  mayRepeat). */
 type LaneRegistration =
-    AnnouncementLane | { lane: AnnouncementLane; immediate?: true };
+    | AnnouncementLane
+    | { lane: AnnouncementLane; immediate?: true; repeats?: true };
 
 /** Adding an announcement kind requires registering it here with a lane. */
 const Lanes = {
@@ -125,9 +127,27 @@ const Lanes = {
     /** A discrete result in the character editor — a point added, a segment
      *  straightened, an edit undone. Never dropped, since each is its own event. */
     'character-edit': 'queued',
+    /** What a discrete edit in the code editor did — a menu choice, a paste, a
+     *  drop, a keyboard move, an undo — named by what it inserted, removed or
+     *  moved and where. Each is its own event, so none may be dropped; each
+     *  names what it touched, so two in a row differ. The caret's position is
+     *  spoken separately, on the immediate channel. */
+    // It repeats: two edits can honestly read the same (undoing the same
+    // character twice is "1 is gone" both times), and the second is a second
+    // event. A duplicate is dropped only while the first is still waiting or
+    // being read, which is the stutter the dedupe exists to stop.
+    edit: { lane: 'queued', repeats: true },
+    /** An undo or redo said by the editor together with where the caret
+     *  landed. Immediate, so it interrupts the screen reader's own echo of the
+     *  mirrored field changing; not `caret`, because the caret drops text it
+     *  has just presented, and an undo pressed twice is two answers. */
+    restore: { lane: 'queued', immediate: true },
+    /** The edits menu opening, with how many suggestions it holds, or being
+     *  dismissed without a choice. An open and a dismissal alternate, so
+     *  consecutive texts always differ; an empty menu is a refusal and goes on
+     *  `ignored` instead, since that lane re-presents identical text. */
+    menu: 'queued',
     // coalesce
-    // The caret must keep up with navigation, and outrank the screen
-    // reader's own chatter, so it doesn't wait behind paced announcements.
     // A creator changing a shortcut: a discrete result of a deliberate action,
     // which must never be dropped, so queued rather than coalesced. Not `echo`
     // (it doesn't answer a typing keystroke) and not `interrupt` (a refused
@@ -142,7 +162,13 @@ const Lanes = {
      *  text — naming only the count would go silent across two empty
      *  collections. */
     'export-progress': 'coalesce',
+    // The caret must keep up with navigation, and outrank the screen
+    // reader's own chatter, so it doesn't wait behind paced announcements.
     caret: { lane: 'coalesce', immediate: true },
+    /** What a drag has picked up, and then what it hovers and whether a drop
+     *  there would be allowed. A pointer streams the hover, so only the latest
+     *  matters; paced rather than immediate so it never talks over the caret. */
+    drag: 'coalesce',
     value: 'coalesce',
     color: 'coalesce',
     'stage-entered': 'coalesce',
@@ -205,6 +231,15 @@ export function isImmediate(kind: AnnouncementKind): boolean {
     return typeof registration === 'string'
         ? false
         : registration.immediate === true;
+}
+
+/** Whether a queued kind may present text identical to the last one, once
+ *  that one is no longer waiting or being read. */
+export function mayRepeat(kind: AnnouncementKind): boolean {
+    const registration = registrationOf(kind);
+    return typeof registration === 'string'
+        ? false
+        : registration.repeats === true;
 }
 
 /** Which live region an announcement is presented in. */
@@ -323,12 +358,28 @@ export class AnnouncerQueue {
                 // Don't wait out the current hold.
                 this.cancelHold();
                 break;
-            case 'queued':
-                if (announcement.text !== this.lastQueuedText) {
+            case 'queued': {
+                // An edit ends whatever drag produced it, so a pickup or hover
+                // line still waiting is about a drag that is over; said after
+                // "moved x into y", it describes the past.
+                if (kind === 'edit') this.coalesced.delete('drag');
+                const duplicate = mayRepeat(kind)
+                    ? // Still waiting, or still being read.
+                      this.queued.some(
+                          (waiting) =>
+                              waiting.kind === kind &&
+                              waiting.text === announcement.text,
+                      ) ||
+                      (this.cancelTimer !== undefined &&
+                          this.presented?.kind === kind &&
+                          this.presented.text === announcement.text)
+                    : announcement.text === this.lastQueuedText;
+                if (!duplicate) {
                     this.queued.push(announcement);
                     this.lastQueuedText = announcement.text;
                 }
                 break;
+            }
             case 'coalesce':
                 // Map.set on an existing key replaces the value but keeps
                 // insertion order, so hot slots take turns rather than the

@@ -73,10 +73,12 @@ import {
     MusicVolumeSetting,
 } from '#db/settings/MusicSettings.ts';
 import {
+    AnnouncementVerbositySetting,
     ReadAloudRateSetting,
     ReadAloudSetting,
     SaySetting,
 } from '#db/settings/SaySetting.ts';
+import type { Verbosity } from '#edit/describe/Verbosity.ts';
 import { SpaceSetting } from '#db/settings/SpaceSetting.ts';
 import {
     KeybindingsSetting,
@@ -372,6 +374,7 @@ export default class SettingsDatabase {
         contactCues: ContactCuesSetting,
         readAloud: ReadAloudSetting,
         readAloudRate: ReadAloudRateSetting,
+        announcementVerbosity: AnnouncementVerbositySetting,
         captionSize: CaptionSizeSetting,
         projectFolders: ProjectFoldersSetting,
         projectSort: ProjectSortSetting,
@@ -862,6 +865,10 @@ export default class SettingsDatabase {
 
     setReadAloudRate(rate: number) {
         this.settings.readAloudRate.set(this.database, rate);
+    }
+
+    setAnnouncementVerbosity(verbosity: Verbosity) {
+        this.settings.announcementVerbosity.set(this.database, verbosity);
     }
 
     setCues(on: boolean) {

@@ -806,7 +806,9 @@
                     "noClipboardItem": "$~שום דבר בלוח",
                     "noSelection": "$~שום דבר לא נבחר",
                     "noMove": "$~לא יכול לזוז יותר",
-                    "unhandled": "$~המקש הזה לא עושה כלום כאן"
+                    "unhandled": "$~המקש הזה לא עושה כלום כאן",
+                    "noMoveTarget": "$~שום דבר שם לא יכול להכיל את זה",
+                    "noElideInBlocks": "$~השמטה זמינה רק במצב טקסט"
                 },
                 "nextMatch": "$~עבור אל התאמת החיפוש הבאה",
                 "insertTranslate": "$~הכנס סמל תרגום",
@@ -843,7 +845,15 @@
                 "insertDottedSixteenthNote": "$~הוסף שש עשרה תו מנוקד, באורך שלושה שמיניות פעימה",
                 "selectedNodes": "$~$#count[נבחר צומת אחד ($#count)|נבחרו שני צמתים ($count)|נבחרו $count צמתים] מ־$first עד $last",
                 "insertRange": "$~הוסף סמל טווח",
-                "findText": "$~חפש בקוד"
+                "findText": "$~חפש בקוד",
+                "moveBefore": "$~הזזת הבחירה לפני השכן שלה",
+                "moveAfter": "$~הזזת הבחירה אחרי השכן שלה",
+                "moveOut": "$~הוצאת הבחירה מתוך מה שמחזיק אותה",
+                "moveIn": "$~הכנסת הבחירה לתוך השכן שלה",
+                "insertInitial": "$~הוספת סמל התחלה",
+                "insertTranslateRTL": "$~הוספת סמל תרגום מימין לשמאל",
+                "insertMatch": "$~הוספת סמל התאמה",
+                "insertPatternRange": "$~הוספת סמל טווח תווים"
             },
             "error": {
                 "invalidName": "$~זה חייב להיות שם חוקי של משחק מילים.",
@@ -860,7 +870,9 @@
             },
             "feedback": {
                 "cantDrop": "$~אי אפשר להפיל שם:",
-                "cantPaste": "$~לא ניתן להדביק שם:"
+                "cantPaste": "$~לא ניתן להדביק שם:",
+                "dropWarning": "$~שחרור שם יגרום ל:",
+                "noDropTarget": "$~שום דבר כאן לא יכול לקבל את זה"
             },
             "clipboard": {
                 "label": "$~לוח כתיבה"
@@ -1876,6 +1888,15 @@
                             "$~הקרא בקול מהר קצת יותר",
                             "$~הקרא בקול מהר עוד יותר"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~רמת פירוט של קורא מסך",
+                        "labels": ["$~תמציתי", "$~רגיל", "$~מפורט"],
+                        "tips": [
+                            "$~אומר רק איפה הסמן נמצא",
+                            "$~אומר איפה הסמן נמצא, מה התאמת התחום, התנגשויות, ומה כל עריכה עשתה",
+                            "$~אומר גם בתוך מה הסמן נמצא ומהו הסוג של כל תוצאה"
+                        ]
                     }
                 },
                 "options": {
@@ -2441,7 +2462,20 @@
             "delimiterMatchedSameLine": "$~$name תואם באותה שורה",
             "delimiterMatchedBelow": "$~תואם ל-$name $#lines[שורה אחת מתחת|$lines שורות מתחת|$lines שורות מתחת]",
             "delimiterMatchedAbove": "$~תואם ל-$name $#lines[שורה אחת מעל|$lines שורות מעל|$lines שורות מעל]",
-            "delimiterUnmatched": "$~אין מפריד תואם"
+            "delimiterUnmatched": "$~אין מפריד תואם",
+            "parent": "$~בתוך $parent",
+            "inserted": "$~הוכנס $node",
+            "removed": "$~הוסר $node",
+            "moved": "$~הוזז $node$target[ אל תוך $target|]",
+            "copied": "$~הועתק $node$target[ אל תוך $target|]",
+            "pickedUp": "$~הורם $node",
+            "cannotPickUp": "$~אי אפשר להזיז את $node מכאן",
+            "dropCancelled": "$~לא נשמט דבר",
+            "replacedAll": "$~הוחלפה $#count[התאמה אחת|$count התאמות|$count התאמות] ב-$text",
+            "undone": "$~בוטל$added[, $added חזר|]$removed[, $removed נעלם|]",
+            "redone": "$~בוצע שוב$added[, $added חזר|]$removed[, $removed נעלם|]",
+            "movedBefore": "$~הוזז $node לפני $sibling",
+            "movedAfter": "$~הוזז $node אחרי $sibling"
         },
         "template": {
             "unwritten": "$~ייקבע בהמשך",
@@ -2657,18 +2691,14 @@
             "cut": "$~נגזר $text",
             "pasted": "$~הודבק $text",
             "deleted": "$~נמחק $text",
-            "undone": "$~בוטל",
-            "redone": "$~בוצע מחדש",
             "foldedAll": "$~כל הקוד מקופל",
             "unfoldedAll": "$~כל הקוד נפרש",
             "editMode": "$~$mode",
-            "zoom": "$~זום $percent אחוזים",
             "fullscreenOn": "$~נכנס למסך מלא",
             "fullscreenOff": "$~יצא ממסך מלא",
             "restarted": "$~הקלטים אותחלו",
             "step": "$~צעד $step, $node",
             "stepAtStart": "$~בהתחלה",
-            "stepAtEnd": "$~בסוף",
             "searchOpened": "$~חפש בקוד",
             "searchClosed": "$~החיפוש נסגר",
             "searchMatch": "$~התאמה $index מתוך $count",

@@ -6,13 +6,8 @@ import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import Characters from '../lore/BasisCharacters';
 import type Context from '#nodes/Context.ts';
-import Node, {
-    list,
-    node,
-    type Grammar,
-    type Replacement,
-} from '#nodes/Node.ts';
-import type Token from '#nodes/Token.ts';
+import { list, node, type Grammar, type Replacement } from '#nodes/Node.ts';
+import Token from '#nodes/Token.ts';
 import Type from '#nodes/Type.ts';
 import UnparsableExpression from '#nodes/UnparsableExpression.ts';
 
@@ -45,7 +40,11 @@ export default class UnparsableType extends Type {
         return [
             {
                 name: 'unparsables',
-                kind: list(true, node(Node)),
+                // Tokens, which is all this ever holds — not any node. Declared as
+                // any node, it made unparsable code a list anything could be
+                // dragged *into*, which displaced the node itself as the drop
+                // target and refused the drop that would have replaced it.
+                kind: list(true, node(Token)),
                 label: undefined,
             },
         ];

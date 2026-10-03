@@ -18,7 +18,10 @@
         handleKeyCommand,
         resetVisualColumnAfter,
     } from '#components/editor/commands/Commands.ts';
-    import { resolveFeedback } from '#components/editor/commands/feedback.ts';
+    import {
+        feedbackContextFor,
+        resolveFeedback,
+    } from '#components/editor/commands/feedback.ts';
     import { getInternalClipboard } from '#components/editor/commands/InternalClipboard.ts';
     import {
         DragFeedbackNotification,
@@ -119,6 +122,7 @@
         DB,
         Settings,
         animationFactor,
+        announcementVerbosity,
         blockDensity,
         blocks,
         insertTab,
@@ -144,6 +148,8 @@
         serializeCaretPosition,
     } from '#edit/caret/Caret.ts';
     import {
+        isMoveDirection,
+        canVacate,
         AssignmentPoint,
         InsertionPoint,
         dropNodeOnSource,
@@ -154,7 +160,7 @@
         resolveStructuralReplacementTarget,
         targetAnchorNode,
     } from '#edit/drag/Drag.ts';
-    import Menu, { RevisionSet } from '#edit/menu/Menu.ts';
+    import Menu, { RevisionSet, liveMenuFollows } from '#edit/menu/Menu.ts';
     import { getEditsAt } from '#edit/menu/PossibleEdits.ts';
     import getActionsAt from '#edit/menu/PossibleActions.ts';
     import type Revision from '#edit/revision/Revision.ts';
@@ -174,6 +180,15 @@
     import Node, { type FieldPosition, isFieldPosition } from '#nodes/Node.ts';
     import Program from '#nodes/Program.ts';
     import describeDiffAtCaret from '#edit/diff/describeDiff.ts';
+    import describeEdit, {
+        spokenMarkup,
+        type EditCause,
+    } from '#edit/describe/describeEdit.ts';
+    import describeRestore, {
+        changedSourceSpan,
+        spokenRestores,
+    } from '#edit/describe/describeRestore.ts';
+    import { menuSelectionLabel } from '#components/editor/menu/menuItemLabel.ts';
     import type { SourceDiff } from '#edit/diff/sourceDiff.ts';
     import Source from '#nodes/Source.ts';
     import { Sym } from '#nodes/Sym.ts';
@@ -499,6 +514,7 @@
         // editors-store publish, and the announcer all update on this caret
         // change instead of waiting for the 1s idle timeout.
         deferDisplayUpdate = false;
+        pendingCaretCause = 'placed';
         caret.set($caret.withPosition(position));
     }
 
@@ -1060,6 +1076,17 @@
     // The possible candidate for dragging
     let dragCandidate: Node[] | undefined = $state(undefined);
 
+    /** A drag cancelled from outside this editor (Escape, a release over
+     *  another tile) clears the shared store; drop the candidate too, or the
+     *  next pointer movement would pick the node back up. */
+    $effect(() => {
+        if ($dragged === undefined)
+            untrack(() => {
+                dragCandidate = undefined;
+                dragPoint = undefined;
+            });
+    });
+
     // Token rects captured at drag-start (see handlePointerMove), so text-mode
     // insertion resolution measures against a layout the insertion marker can't
     // perturb. Non-reactive: only read synchronously in the pointer-move handler.
@@ -1210,29 +1237,108 @@
         if (resetReason) keyIgnoredReason = undefined;
     }
 
-    /** Say where a pointer just put the caret, or what it selected.
+    /** Why the caret is about to move, when something other than a keystroke
+     *  in this editor moves it: a press, a drag-select, a menu choice, a search
+     *  match, a drop, a history restore, or placement from elsewhere in the
+     *  project view. Set right before `caret.set` and consumed by `speakCaret`,
+     *  which is what lets the caret be spoken while focus is on the menu, the
+     *  search field, a toolbar button, or the palette — the cases a gate on
+     *  the hidden textarea having focus left silent. A plain variable read
+     *  under `untrack`: it is a message to the next flush, not state. */
+    type CaretCause =
+        | 'pointer'
+        | 'pointer-select'
+        | 'menu'
+        | 'search'
+        | 'drop'
+        | 'restore'
+        | 'placed';
+    let pendingCaretCause: CaretCause | undefined = undefined;
+
+    /** The one rule for whether this editor speaks a caret change: focus is
+     *  somewhere inside it, or an action of its own moved the caret. A blocks
+     *  checkbox speaks its own `aria-checked` when it takes focus, so the caret
+     *  stays quiet there rather than saying the same thing twice. */
+    function ownsAnnouncement(): boolean {
+        if (pendingCaretCause !== undefined) return true;
+        const active = document.activeElement;
+        return (
+            active instanceof HTMLElement &&
+            editor !== null &&
+            editor.contains(active) &&
+            !active.classList.contains('token-editor')
+        );
+    }
+
+    /** Say where the caret is, if this editor should (see ownsAnnouncement).
+     *  Not while a pointer gesture is in progress: every pointermove of a
+     *  drag-select sets the caret, so the release says where it settled, once.
+     *  The caret kind is immediate and coalesced, so a click on the spot that
+     *  was just described is correctly silent — nothing changed.
      *
-     *  The keyboard caret announcement can't cover this: it's coalesced (so
-     *  clicking to a spot that reads the same as the last one is dropped as
-     *  redundant) and it's gated on the hidden textarea having focus, which
-     *  blocks-mode token editors take away. This is a discrete action, so it
-     *  goes on the queued `selection` kind — heard once, never dropped. */
-    function announcePointerCaret() {
+     *  WCAG 2.1 SC 4.1.3: status messages are conveyed via the live region in
+     *  Announcer.svelte. Character echo is NOT announced here: typed characters
+     *  are echoed natively by the platform from the mirrored textarea (#1248),
+     *  which is immediate and chime-free in a way no live region setting is. */
+    function speakCaret() {
         if (!$announce) return;
-        // Read after the caret store settles so the description matches where
-        // the caret actually landed.
-        tick().then(() => {
-            if (!$announce) return;
-            $announce(
-                'selection',
-                $locales.getLanguages()[0],
-                $caret.getDescription(
+        if ($dragged !== undefined || dragStartPosition !== undefined) return;
+        if (!ownsAnnouncement()) return;
+        const cause = pendingCaretCause;
+        pendingCaretCause = undefined;
+        // An undo or redo is said with the caret, as one sentence on the
+        // immediate channel. Announced apart, on the paced one, it lost to the
+        // screen reader's own echo of the character leaving the mirrored field.
+        const restored = cause === 'restore' ? describeOwnRestore() : undefined;
+        $announce(
+            // An undo is a discrete answer to a press, so it is never dropped
+            // as a repeat the way an unchanged caret position is.
+            restored === undefined ? 'caret' : 'restore',
+            // The description is the reader's language; a tagged literal's
+            // words inside it carry their own (#111).
+            $locales.getLanguages()[0],
+            // The diff clause is appended to the position description rather
+            // than announced on its own, because a bare "removed since" never
+            // changes and a live region that doesn't change is heard once and
+            // then sounds broken. The position description varies, so the
+            // whole message does.
+            [
+                restored,
+                // After a restore the caret's addition belongs to the version
+                // that was left, so it is not what the caret is on.
+                (cause === 'restore'
+                    ? $caret.withoutAddition()
+                    : $caret
+                ).getDescription(
                     caretExpressionType,
                     conflictsOfInterest,
-                    project.getContext(source),
+                    context,
+                    $announcementVerbosity,
                 ),
-            );
-        });
+                describeDiffAtCaret($caret, diff, $locales),
+            ]
+                .filter((part) => part !== undefined)
+                .join(', '),
+        );
+    }
+
+    /** What the last undo or redo did, when this editor shows the source it
+     *  changed and hasn't said so yet. Marks the version as spoken so the
+     *  project view's fallback stays quiet. */
+    function describeOwnRestore(): string | undefined {
+        const restore = Projects.getHistory(project.getID())?.getLastRestore();
+        if (restore === undefined || spokenRestores.has(project))
+            return undefined;
+        const changed = changedSourceSpan(restore.from, project)?.source;
+        if (changed !== undefined && project.getSources()[changed] !== source)
+            return undefined;
+        spokenRestores.add(project);
+        return describeRestore(
+            restore.from,
+            project,
+            restore.direction,
+            $locales,
+        );
     }
 
     /** What to say for the few echoes that still go through the live region —
@@ -1266,25 +1372,45 @@
     /** Announce what a command just did, when the command declares feedback.
      *  Commands whose result is an edit or a caret move say `'caret'` and are
      *  covered by the caret announcement instead. */
-    function announceCommand(command: Command | undefined) {
-        if (command === undefined || $announce === undefined) return;
-        const step = $evaluation?.evaluator.getCurrentStep();
-        const feedback = resolveFeedback(command.feedback, {
-            locales: $locales,
-            zoom,
-            blocks: $blocks,
-            getMode: projectCommandContext?.context.getMode,
-            text: getInternalClipboard() ?? undefined,
-            step:
-                step === undefined
-                    ? undefined
-                    : {
-                          index: $evaluation?.evaluator.getStepIndex() ?? 0,
-                          node: step.node.getLabel($locales),
-                      },
-        });
+    /** Say what a command did, when it declares a confirmation. Returns whether
+     *  it spoke, so handleEdit can stay quiet about an edit the command has
+     *  already described (cut says "cut x"; "deleted x" after it would repeat). */
+    function announceCommand(command: Command | undefined): boolean {
+        if (command === undefined || $announce === undefined) return false;
+        const feedback = resolveFeedback(
+            command.feedback,
+            feedbackContextFor(
+                {
+                    locales: $locales,
+                    zoom,
+                    blocks: $blocks,
+                    getMode: projectCommandContext?.context.getMode,
+                    evaluator: $evaluation?.evaluator,
+                },
+                getInternalClipboard() ?? undefined,
+            ),
+        );
         if (feedback)
             $announce(feedback.kind, $locales.getLanguages()[0], feedback.text);
+        return feedback !== undefined;
+    }
+
+    /** What handleEdit should say about a command's edit: nothing more when the
+     *  command announced itself, nothing special when it types or moves the
+     *  caret (the echo, the deletion announcement, and the caret cover those),
+     *  and otherwise what the code changed. */
+    function causeOf(
+        command: Command | undefined,
+        announced: boolean,
+    ): EditCause | 'announced' | undefined {
+        if (command === undefined) return undefined;
+        if (announced) return 'announced';
+        if (command.typing === true || command.category === Category.Cursor)
+            return undefined;
+        const direction = command.id.replace(/^move-/, '');
+        if (direction !== command.id && isMoveDirection(direction))
+            return { kind: 'move', direction };
+        return { kind: 'command', id: command.id };
     }
 
     function setIgnored(reason: LocaleTextAccessor | undefined) {
@@ -1385,17 +1511,39 @@
             // The drop was refused. A release inside the feedback rest debounce would otherwise
             // refuse silently — the mid-drag feedback is optimistic while the pointer moves — so
             // explain the refusal now with one simulation of the release target.
-            applyDropConflicts(
-                getDropConflicts(project, source, $dragged, releaseTarget),
+            const refusal = getDropConflicts(
+                project,
+                source,
+                $dragged,
+                releaseTarget,
             );
+            applyDropConflicts(refusal);
+            announceDropRefusal(refusal);
+        } else if (editable && $dragged !== undefined) {
+            // Released here with nothing to receive it. Say so and show it: a
+            // drag that ends in nothing, silently, reads as a broken editor.
+            notify?.set({
+                id: DragFeedbackNotification,
+                content: { path: (l) => l.ui.source.feedback.noDropTarget },
+                variant: 'error',
+            });
+            if ($announce)
+                $announce(
+                    'ignored',
+                    $locales.getLanguages()[0],
+                    $locales.getPrimaryPlainText(
+                        (l) => l.ui.source.feedback.noDropTarget,
+                    ),
+                );
         } else {
             // No drop was attempted; clear any leftover drag feedback.
             notify?.clear(DragFeedbackNotification);
         }
 
-        // A drag that selected a range ends here; say what's selected now that
-        // it's settled (the mid-drag updates coalesce away).
-        if (dragStartPosition !== undefined) announcePointerCaret();
+        // A press or a drag-select ends here. The caret was held back while
+        // the gesture was in progress (see speakCaret), so say where it
+        // settled once the gesture state below is cleared.
+        const gestureMovedCaret = dragStartPosition !== undefined;
 
         // Release the dragged node.
         if (dragged) dragged.set(undefined);
@@ -1421,6 +1569,11 @@
         // up as authored, so 'touchAction' silently removed nothing and left the
         // editor unscrollable for the rest of the session after any drag.
         if (editor) editor.style.removeProperty('touch-action');
+
+        if (gestureMovedCaret || pendingCaretCause !== undefined) {
+            pendingCaretCause ??= 'pointer-select';
+            speakCaret();
+        }
     }
 
     async function drop() {
@@ -1471,12 +1624,31 @@
                       .withPosition(last)
                       .withRange(first)
                 : $caret.withPosition(newCaretPosition).withAddition(first);
+        // Whether the nodes came from outside the project (the palette, the
+        // guide, an example) — a copy — or were moved from elsewhere in it.
+        const copied = !$dragged.some((node) => project.contains(node));
+        pendingCaretCause = 'drop';
         caret.set(dropped);
 
         // Update the project with the new source files
         Projects.reviseProject(
             newProject.withCaret(newSource, dropped.position, dropped.anchor),
         );
+
+        // Say what moved and where it landed; the caret says only the node.
+        if ($announce) {
+            const said = describeEdit(
+                source,
+                newSource,
+                dropped,
+                { kind: 'drop', nodes: droppedNode, copied },
+                $locales,
+                newProject.getContext(newSource),
+                $announcementVerbosity,
+            );
+            if (said !== undefined)
+                $announce('edit', $locales.getLanguages()[0], said);
+        }
 
         // Focus the node caret selected.
         grabFocus('Focusing editor on node drop.');
@@ -1614,22 +1786,58 @@
             notify?.clear(DragFeedbackNotification);
             return;
         }
-        // The conflict's nodes live in the simulated project, so resolve its message against that context.
-        const droppedContext = dropped.getContext(dropped.getMain());
-        const nodes = conflict.getMessage(droppedContext, Templates);
         notify?.set({
             id: DragFeedbackNotification,
             content: {
-                // Frame the conflict message so it's clear what it's about.
-                prefix: (l) => l.ui.source.feedback.cantDrop,
-                markup: nodes.explanation(
-                    $locales,
-                    dropped.getNodeContext(nodes.node) ?? droppedContext,
-                ),
+                // Frame the conflict message so it's clear what it's about: a
+                // blocked drop can't happen; a warned one can, with a conflict.
+                prefix:
+                    blocking.length > 0
+                        ? (l) => l.ui.source.feedback.cantDrop
+                        : (l) => l.ui.source.feedback.dropWarning,
+                markup: explainDropConflict(conflict, dropped),
             },
             // Red when the drop is blocked, amber when it's permitted with a semantic conflict.
             variant: blocking.length > 0 ? 'error' : 'warning',
         });
+    }
+
+    /** A drop conflict's explanation, resolved against the simulated project
+     *  the conflict's nodes live in. */
+    function explainDropConflict(conflict: Conflict, dropped: Project) {
+        const droppedContext = dropped.getContext(dropped.getMain());
+        const nodes = conflict.getMessage(droppedContext, Templates);
+        return nodes.explanation(
+            $locales,
+            dropped.getNodeContext(nodes.node) ?? droppedContext,
+        );
+    }
+
+    /** Say that a release refused the drop, and why when a conflict says. The
+     *  footer notice has no live region, and a refusal is the same event each
+     *  time, so it goes on `ignored`, which re-presents identical text. */
+    function announceDropRefusal({
+        conflicts,
+        project: dropped,
+    }: {
+        conflicts: Conflict[];
+        project: Project;
+    }) {
+        if (!$announce) return;
+        const blocking = conflicts.find((conflict) => conflict.isBlocking());
+        const prefix = $locales.getPrimaryPlainText(
+            (l) => l.ui.source.feedback.cantDrop,
+        );
+        $announce(
+            'ignored',
+            $locales.getLanguages()[0],
+            blocking === undefined
+                ? prefix
+                : `${prefix} ${spokenMarkup(
+                      explainDropConflict(blocking, dropped).toText(),
+                      $locales.getLocale(),
+                  )}`,
+        );
     }
 
     function handlePointerDown(event: PointerEvent) {
@@ -1831,9 +2039,9 @@
         // Pressing inside a run leaves the caret alone — the press is the start of
         // dragging what's selected, not a request to select something smaller.
         if (newPosition !== undefined && !draggingRun) {
+            pendingCaretCause = 'pointer';
             caret.set($caret.withPosition(newPosition));
             resetIgnored(true);
-            announcePointerCaret();
             caretSetByPointer = true;
             dragStartPosition = newPosition;
             setTimeout(() => {
@@ -1887,12 +2095,31 @@
                 )
             )
                 dragCandidate = undefined;
+            // A node nothing can stand in for — a definition's names, say —
+            // would be copied rather than moved, with nothing saying so.
+            // Refuse the pickup and say why. An example's nodes are copies
+            // by design, so a drag source is exempt.
+            else if (!dragSource && !canVacate(project, dragCandidate)) {
+                const first = dragCandidate[0];
+                if (first !== undefined && $announce)
+                    $announce(
+                        'ignored',
+                        $locales.getLanguages()[0],
+                        $locales
+                            .concretize((l) => l.ui.edit.cannotPickUp, {
+                                node: first.getLabel($locales),
+                            })
+                            .toText(),
+                    );
+                dragCandidate = undefined;
+            }
 
-            // A read-only drag source (e.g. an example) drags nodes into a
-            // *different* editor. Release the implicit pointer capture the browser
-            // sets on pointerdown; otherwise pointermove/up stay captured on this
-            // editor and the target editor never receives the drop.
-            if (dragSource && event.target instanceof Element)
+            // A drag may end in a different editor (an example's nodes are
+            // dragged into the project; a source's into another tile).
+            // Release the implicit pointer capture the browser sets on
+            // pointerdown for touch — mouse has none — or pointermove/up stay
+            // captured here and the other editor never receives the drop.
+            if (event.target instanceof Element)
                 event.target.releasePointerCapture(event.pointerId);
 
             // Touch input: gate drag on a long-press so scroll swipes still
@@ -2139,6 +2366,7 @@
                     context,
                     event,
                     $dragged,
+                    getAxes(),
                 );
             }
             // Get the insertion points at the current pointer position
@@ -2206,6 +2434,8 @@
     function handlePointerLeave() {
         hovered.set(undefined);
         insertion.set(undefined);
+        // A "can't drop there" about a target the pointer has left is stale.
+        notify?.clear(DragFeedbackNotification);
         // Re-resolve on re-entry: the hovered state was just cleared, so a
         // return to the same element must not be short-circuited.
         lastHoverElement = null;
@@ -2227,7 +2457,15 @@
             grabFocus('Restoring editor focus after menu is hidden.');
     });
 
-    async function showMenu(anchor: CaretPosition | FieldPosition) {
+    /** Open the menu at an anchor. A menu at a text caret is `live`: focus
+     *  stays here so typing narrows it, this editor routes its keys
+     *  (handleLiveMenuKey) and announces its selection, and the caret effect
+     *  re-asks it as the name under the caret grows (liveMenuFollows). It
+     *  opens with nothing selected: Down enters it. */
+    async function showMenu(
+        anchor: CaretPosition | FieldPosition,
+        live = false,
+    ) {
         if (!editable) return;
 
         wasFocusedBeforeMenu = focused;
@@ -2290,7 +2528,7 @@
         );
 
         // Set the menu.
-        if (concepts)
+        if (concepts) {
             menu = new Menu(
                 project,
                 source,
@@ -2299,18 +2537,150 @@
                 actions,
                 undefined,
                 concepts,
-                [0, undefined],
+                // A live menu opens with nothing selected; Down enters it.
+                [live ? -1 : 0, undefined],
                 handleMenuItem,
+                live,
             );
+            // A live menu is driven from the code, so the keys must arrive
+            // here: opened from the toolbar, focus was on its button.
+            if (live) grabFocus('Focusing the code for a live menu.');
+            announceMenuOpened(menu, revisions.length + actions.length);
+        }
     }
 
-    function hideMenu() {
+    /** Say that the menu opened and how much it offers; nothing is a refusal,
+     *  so it goes on `ignored`, which re-presents the same words. A live menu
+     *  keeps focus in the code, so its selection is announced too; a menu that
+     *  took focus is read by its focused item. */
+    function announceMenuOpened(opened: Menu, count: number) {
+        if (!$announce) return;
+        const language = $locales.getLanguages()[0];
+        if (count === 0) {
+            $announce(
+                'ignored',
+                language,
+                $locales.getPrimaryPlainText((l) => l.ui.feedback.menuEmpty),
+            );
+            return;
+        }
+        $announce(
+            'menu',
+            language,
+            $locales
+                .concretize((l) => l.ui.feedback.menuOpened, { count })
+                .toText(),
+        );
+    }
+
+    /** Say which item a live menu has selected. */
+    function announceMenuSelection(open: Menu) {
+        if (!$announce) return;
+        const label = menuSelectionLabel(open, $locales);
+        if (label !== undefined)
+            $announce('menu', $locales.getLanguages()[0], label);
+    }
+
+    /** Whether the open menu is closing because an item was chosen, in which
+     *  case the edit is its result and there is nothing to add. */
+    let menuChosen = false;
+    let menuWasOpen = false;
+
+    /** Say when the menu closes without a choice — Escape, a click away, a
+     *  caret move — whichever side closed it (ProjectView's Escape handler
+     *  clears the bound menu directly). */
+    $effect(() => {
+        const open = menu !== undefined;
+        untrack(() => {
+            if (menuWasOpen && !open && !menuChosen && $announce)
+                $announce(
+                    'menu',
+                    $locales.getLanguages()[0],
+                    $locales.getPrimaryPlainText(
+                        (l) => l.ui.feedback.menuClosed,
+                    ),
+                );
+            if (!open) menuChosen = false;
+            menuWasOpen = open;
+        });
+    });
+
+    function hideMenu(reason: 'dismissed' | 'chosen' = 'dismissed') {
+        if (reason === 'chosen') menuChosen = true;
         menu = undefined;
         wasFocusedBeforeMenu = false;
     }
 
     function toggleMenu() {
-        return menu === undefined ? showMenu($caret.position) : hideMenu();
+        // At a text caret the menu is live, so typing narrows it.
+        return menu === undefined
+            ? showMenu($caret.position, $caret.isPosition())
+            : hideMenu();
+    }
+
+    /** The keys a live menu takes while focus stays in the code: Down enters
+     *  it, then up and down move its selection (up from the first item leaves
+     *  it), right and left enter and leave a group, Home and End jump, Enter
+     *  chooses, Escape closes. Anything else — a letter above
+     *  all — is the editor's, and the caret effect re-asks the menu after it.
+     *  Chorded keys stay the editor's too, so Ctrl+↓ still toggles the menu. */
+    function handleLiveMenuKey(event: KeyboardEvent): boolean {
+        if (menu === undefined || !menu.isLive()) return false;
+        if (event.altKey || event.ctrlKey || event.metaKey) return false;
+        // Not entered yet: only Down (enter) and Escape (dismiss) are the
+        // menu's. Enter is still a new line, and the other keys still move
+        // the caret, which closes the menu like any move elsewhere.
+        if (!menu.hasSelection()) {
+            if (event.key === 'ArrowDown') {
+                menu = menu.down();
+                announceMenuSelection(menu);
+                return true;
+            }
+            if (event.key === 'Escape') {
+                hideMenu();
+                return true;
+            }
+            return false;
+        }
+        let next: Menu;
+        switch (event.key) {
+            case 'ArrowDown':
+                next = menu.down();
+                break;
+            case 'ArrowUp':
+                next = menu.up();
+                break;
+            case 'ArrowRight':
+                if (
+                    !(menu.getSelection() instanceof RevisionSet) ||
+                    menu.inSubmenu()
+                )
+                    return false;
+                next = menu.in();
+                break;
+            case 'ArrowLeft':
+                if (!menu.inSubmenu()) return false;
+                next = menu.out();
+                break;
+            case 'Home':
+                next = menu.toStart();
+                break;
+            case 'End':
+                next = menu.toEnd();
+                break;
+            case 'Escape':
+                hideMenu();
+                return true;
+            case 'Enter':
+                if (menu.doEdit($locales, menu.getSelection()))
+                    hideMenu('chosen');
+                return true;
+            default:
+                return false;
+        }
+        menu = next;
+        announceMenuSelection(next);
+        return true;
     }
 
     // Toggle the search field (Cmd/Ctrl+F). EditorSearch focuses the field on
@@ -2326,14 +2696,28 @@
     function goToNextMatch(): boolean {
         if (!searchActive) return false;
         const matches = searchMatches;
-        if (matches.length === 0) return true;
+        if (matches.length === 0) {
+            // A refusal, so it is re-presented on every press.
+            if ($announce)
+                $announce(
+                    'ignored',
+                    $locales.getLanguages()[0],
+                    $locales.getPrimaryPlainText(
+                        (l) => l.ui.feedback.searchNoMatches,
+                    ),
+                );
+            return true;
+        }
         const position = $caret.isPosition() ? $caret.position : undefined;
         const next =
             (position !== undefined
                 ? matches.find((match) => match.start > position)
                 : undefined) ?? matches[0];
         if (next === undefined) return true;
+        // Focus is in the search field; the cause lets the match be spoken.
+        pendingCaretCause = 'search';
         caret.set($caret.withPosition(next.start));
+        announceSearchMatch(matches, next);
         return true;
     }
 
@@ -2365,11 +2749,13 @@
             [newSource, $caret.withSource(newSource).withPosition(newPosition)],
             IdleKind.Typed,
             true,
+            { kind: 'replace', count: matches.length, text: replacement },
         );
     }
 
     function handleMenuItem(
         selection: Edit | RevisionSet | undefined,
+        revision?: Revision,
     ): boolean {
         if (menu) {
             if (selection === undefined) {
@@ -2392,7 +2778,18 @@
                 // (description block, editors store, announcer) update on
                 // this edit instead of waiting for the 1s idle timeout.
                 deferDisplayUpdate = false;
-                handleEdit(selection, IdleKind.Typed, true);
+                // Focus is on the menu item, outside this editor, when the
+                // caret moves; the cause is what lets the move be spoken.
+                pendingCaretCause = 'menu';
+                menuChosen = true;
+                handleEdit(
+                    selection,
+                    IdleKind.Typed,
+                    true,
+                    revision === undefined
+                        ? undefined
+                        : { kind: 'menu', revision },
+                );
                 return true;
             }
         }
@@ -2432,6 +2829,9 @@
         edit: Edit | ProjectRevision | LocaleTextAccessor,
         idle: IdleKind,
         focusAfter: boolean,
+        /** What caused the edit, for the `edit` announcement; 'announced' when
+         *  the cause already spoke for itself (see causeOf). */
+        cause: EditCause | 'announced' | undefined = undefined,
     ) {
         // Received a reason to ignore the edit? Set ignored.
         if (typeof edit === 'function') {
@@ -2515,6 +2915,7 @@
             newSource !== undefined &&
             !(newSource instanceof Project) &&
             typeof newCaret.position === 'number' &&
+            cause === undefined &&
             $announce
         ) {
             const removed =
@@ -2539,7 +2940,7 @@
                         );
                 } else
                     $announce(
-                        'command',
+                        'edit',
                         $locales.getLanguages()[0],
                         $locales
                             .concretize((l) => l.ui.feedback.deleted, {
@@ -2598,6 +2999,26 @@
                         : newCaret.withSource(newSource),
                 );
                 resetIgnored(true);
+                // Say what the edit did, beyond where the caret landed.
+                if (
+                    typeof cause === 'object' &&
+                    newSource instanceof Source &&
+                    $announce
+                ) {
+                    const said = describeEdit(
+                        previousSource,
+                        newSource,
+                        newCaret,
+                        cause,
+                        $locales,
+                        project
+                            .withSource(source, newSource)
+                            .getContext(newSource),
+                        $announcementVerbosity,
+                    );
+                    if (said !== undefined)
+                        $announce('edit', $locales.getLanguages()[0], said);
+                }
             } else setIgnored((l) => l.ui.source.cursor.ignored.readOnly);
         } else {
             // Remove the addition, since the caret moved since being added.
@@ -2855,6 +3276,13 @@
         if (composing || event.isComposing) return;
         if (editor === null) return;
 
+        // A live menu takes the keys that move its selection and choose.
+        if (handleLiveMenuKey(event)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
+
         // Assume we'll handle it.
         resetIgnored(true);
 
@@ -3053,7 +3481,7 @@
             // Say what the command did, for commands whose effect a screen
             // reader wouldn't otherwise convey (see Command.feedback). Edits
             // and caret moves announce themselves; this covers the rest.
-            announceCommand(command);
+            const cause = causeOf(command, announceCommand(command));
             if (result instanceof Promise) {
                 // Async commands (paste awaiting the clipboard permission prompt)
                 // build their edit from the source captured at dispatch; if an
@@ -3069,13 +3497,18 @@
                             setIgnored(
                                 (l) => l.ui.source.cursor.ignored.noInsert,
                             );
-                        else handleEdit(edit, idle, true);
+                        else handleEdit(edit, idle, true, cause);
                     }
                 });
             } else if (result !== undefined && result !== true) {
                 // Reset the visual goal column unless this was a vertical move,
                 // so left/right/home/end (etc.) update it. See resetVisualColumnAfter.
-                handleEdit(resetVisualColumnAfter(command, result), idle, true);
+                handleEdit(
+                    resetVisualColumnAfter(command, result),
+                    idle,
+                    true,
+                    cause,
+                );
             }
 
             // Consume the event so that nothing else handles it — EXCEPT the
@@ -3205,8 +3638,21 @@
             const position = project.getCaretPosition(source);
             if (position !== undefined && position !== restoredPosition) {
                 restoredPosition = position;
-                caret.set($caret.withPosition(position));
+                // An undo from the toolbar leaves focus on its button.
+                pendingCaretCause = 'restore';
+                // Without the addition: it is the node the last edit added,
+                // which the description names before anything else, and after
+                // a restore that node is from a version that is gone — every
+                // undo of `111` ended "number 111".
+                caret.set($caret.withPosition(position).withoutAddition());
             }
+            // No stored position to return to: the caret stays, so nothing
+            // would trigger the announcement. Say the restore here.
+            else
+                untrack(() => {
+                    pendingCaretCause = 'restore';
+                    speakCaret();
+                });
         }
     });
 
@@ -3336,9 +3782,25 @@
         }
     });
 
-    // Hide the menu when the caret changes.
+    // The menu follows the caret: a live one is re-asked while typing extends
+    // the name it was opened in, so it narrows as the creator types; any other
+    // caret change closes it.
     $effect(() => {
-        if ($caret) hideMenu();
+        const current = $caret;
+        untrack(() => {
+            if (menu === undefined) return;
+            if (
+                menu.isLive() &&
+                liveMenuFollows(
+                    menu.getAnchor(),
+                    menu.getSource(),
+                    current.source,
+                    current.position,
+                )
+            )
+                void showMenu(current.position, true);
+            else hideMenu();
+        });
     });
 
     // Cache of the inputs to the conflictsOfInterest computation. Caret moves
@@ -3539,40 +4001,15 @@
         conflictsOfInterest = newConflictsOfInterest;
     });
 
-    /** Announce the caret position (navigation) to screen readers.
-     *  WCAG 2.1 SC 4.1.3: status messages are conveyed via the live region in Announcer.svelte.
-     *  Character echo is NOT announced here: typed characters are echoed
-     *  natively by the platform from the mirrored textarea (#1248), which is
-     *  immediate and chime-free in a way no live region setting is.
-     *  Navigation announcements are deferred during typing flurries because
-     *  `caret.getDescription()` is expensive and screen readers can't keep up. */
+    /** Announce the caret position to screen readers whenever it changes (see
+     *  speakCaret for the rule). Navigation announcements are deferred during
+     *  typing flurries because `caret.getDescription()` is expensive and
+     *  screen readers can't keep up. */
     $effect(() => {
-        if ($announce && document.activeElement === input && $caret) {
+        if ($announce && $caret) {
             if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
                 return;
-            untrack(() => {
-                $announce(
-                    'caret',
-                    // The description is the reader's language; a tagged
-                    // literal's words inside it carry their own (#111).
-                    $locales.getLanguages()[0],
-                    // The diff clause is appended to the position description
-                    // rather than announced on its own, because a bare "removed
-                    // since" never changes and a live region that doesn't
-                    // change is heard once and then sounds broken. The position
-                    // description varies, so the whole message does.
-                    [
-                        $caret.getDescription(
-                            caretExpressionType,
-                            conflictsOfInterest,
-                            context,
-                        ),
-                        describeDiffAtCaret($caret, diff, $locales),
-                    ]
-                        .filter((part) => part !== undefined)
-                        .join(', '),
-                );
-            });
+            untrack(() => speakCaret());
         }
     });
 
@@ -4069,8 +4506,11 @@
         if (!active || query.length === 0) return;
         untrack(() => {
             const first = searchMatches[0];
-            if (first !== undefined)
+            if (first !== undefined) {
+                pendingCaretCause = 'search';
                 caret.set($caret.withPosition(first.start));
+                announceSearchMatch(searchMatches, first);
+            }
         });
     });
 
@@ -4087,8 +4527,38 @@
             tick().then(() =>
                 grabFocus('Returning focus to editor after closing search.'),
             );
+        // Opening and closing alternate, so the two confirmations never repeat.
+        if (searchWasActive !== active && $announce)
+            $announce(
+                'command',
+                $locales.getLanguages()[0],
+                $locales.getPrimaryPlainText((l) =>
+                    active
+                        ? l.ui.feedback.searchOpened
+                        : l.ui.feedback.searchClosed,
+                ),
+            );
         searchWasActive = active;
     });
+
+    /** Say which match the caret is on; a held key streams these, so only the
+     *  latest matters, and the index is what keeps two different. */
+    function announceSearchMatch(
+        matches: { start: number }[],
+        match: { start: number },
+    ) {
+        if (!$announce) return;
+        $announce(
+            'command-state',
+            $locales.getLanguages()[0],
+            $locales
+                .concretize((l) => l.ui.feedback.searchMatch, {
+                    index: matches.indexOf(match) + 1,
+                    count: matches.length,
+                })
+                .toText(),
+        );
+    }
 
     // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
     $effect(() => {
@@ -4131,8 +4601,10 @@
 <!--
     The editor is one large widget (role="application") so keyboard keys go
     through to the editing commands rather than the screen reader's virtual
-    cursor; NodeViews inside carry aria-description (not labels or roles),
-    and caret state is announced via the centralized live region.
+    cursor. With no virtual cursor nothing can read a node's description, so
+    NodeViews inside carry none (RootView's `describe={false}`); what the
+    caret is on, and what each edit did, is announced via the centralized
+    live region instead.
 -->
 <!-- The editor overrides --wordplay-writing-mode locally (`.editor`'s rule
      consumes it), so its layout comes from this source's own glyphs rather than
@@ -4159,11 +4631,17 @@
     style:--zoom={`${zoom}pt`}
     aria-label={`${$locales.getPrimaryPlainText((l) => l.ui.source.label)} ${$locales.getName(
         source.names,
-    )}${viewingLabel}${
+    )}${viewingLabel}, ${$locales.getPrimaryPlainText((l) =>
+        $blocks
+            ? l.ui.dialog.settings.mode.blocks.labels[1]
+            : l.ui.dialog.settings.mode.blocks.labels[0],
+    )}${
         !editable
             ? ` ${$locales.getPrimaryPlainText((l) => l.ui.source.cursor.ignored.readOnly)}`
             : ''
     }`}
+    aria-expanded={menu !== undefined}
+    aria-controls={menu === undefined ? undefined : menu.getID()}
     dir={$locales.getDirection()}
     data-id={source.id}
     bind:this={editor}
@@ -4233,6 +4711,12 @@
         id={getInputID()}
         data-defaultfocus
         aria-autocomplete="none"
+        aria-haspopup="menu"
+        aria-activedescendant={menu !== undefined &&
+        menu.isLive() &&
+        menu.hasSelection()
+            ? `menuitem-${menu.getSelectionID()}`
+            : undefined}
         aria-label={$locales.getPrimaryPlainText((l) => l.ui.edit.area)}
         autocomplete="off"
         autocapitalize="none"
@@ -4276,6 +4760,7 @@
         <RootView
             node={source}
             spaces={source.spaces}
+            describe={false}
             {locale}
             {localeTexts}
             caret={$caret}
