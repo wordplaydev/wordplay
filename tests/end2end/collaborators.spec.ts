@@ -102,16 +102,6 @@ test('choosing owner confirms before handing the project over', async ({
     await expect(picker).toHaveValue('collaborate');
 });
 
-test('the tour has something to point at', async ({ page }) => {
-    // Nothing else covers this: a tour step whose `data-uiid` has gone just
-    // renders "this part of the interface isn't currently visible", silently.
-    // `restrictGallery` is left out, since it needs a gallery.
-    await createTestProject(page);
-    await page.getByTestId('collaborate-toggle').click();
-    for (const uiid of ['collaborate', 'collaborators', 'addCollaborator'])
-        await expect(page.locator(`[data-uiid="${uiid}"]`)).toBeVisible();
-});
-
 test('someone who is not the owner reads the table but cannot change it', async ({
     browser,
 }) => {
@@ -149,25 +139,39 @@ test('the tile says what it is for until it has been used', async ({
     await createTestProject(page);
     await page.getByTestId('collaborate-toggle').click();
 
-    // The owner's own row is left out — they brought that fact with them — so a
-    // fresh project has no table at all, just the invitation to make one.
-    const prompt = page.getByText('Add collaborators, commenters, and viewers');
-    await expect(prompt).toBeVisible();
-    await expect(page.locator('[data-uiid="collaborators"] table')).toHaveCount(
-        0,
-    );
+    await test.step('the tour has something to point at', async () => {
+        // Nothing else covers this: a tour step whose `data-uiid` has gone just
+        // renders "this part of the interface isn't currently visible", silently.
+        // `restrictGallery` is left out, since it needs a gallery.
+        for (const uiid of ['collaborate', 'collaborators', 'addCollaborator'])
+            await expect(page.locator(`[data-uiid="${uiid}"]`)).toBeVisible();
+    });
 
-    await (await addField(page)).fill(Collaborator);
-    await page
-        .locator('button[aria-label^="Share the project with this email"]')
-        .click();
+    await test.step('the tile says what it is for until it has been used', async () => {
+        // The owner's own row is left out — they brought that fact with them — so a
+        // fresh project has no table at all, just the invitation to make one.
+        const prompt = page.getByText(
+            'Add collaborators, commenters, and viewers',
+        );
+        await expect(prompt).toBeVisible();
+        await expect(
+            page.locator('[data-uiid="collaborators"] table'),
+        ).toHaveCount(0);
 
-    // Answered, so it stops being asked.
-    await expect(privilegeOf(page, Collaborator)).toHaveValue('collaborate');
-    await expect(prompt).toHaveCount(0);
-    await expect(
-        page.locator('[data-uiid="collaborators"] table'),
-    ).toBeVisible();
+        await (await addField(page)).fill(Collaborator);
+        await page
+            .locator('button[aria-label^="Share the project with this email"]')
+            .click();
+
+        // Answered, so it stops being asked.
+        await expect(privilegeOf(page, Collaborator)).toHaveValue(
+            'collaborate',
+        );
+        await expect(prompt).toHaveCount(0);
+        await expect(
+            page.locator('[data-uiid="collaborators"] table'),
+        ).toBeVisible();
+    });
 });
 
 test('writing a message hands the tile to the conversation', async ({
@@ -208,79 +212,77 @@ test('writing a message hands the tile to the conversation', async ({
     await expect(audience).toHaveCount(0);
 });
 
-test('a rejected name is spoken, not just shown', async ({ page }) => {
-    // The message floats free of the tile so nothing can clip it, which puts
-    // it far from the field in the DOM's visual order. It still has to reach a
-    // screen reader as that field's own description.
+test('a name that cannot be used says why', async ({ page }) => {
     await createTestProject(page);
     await page.getByTestId('collaborate-toggle').click();
 
     const field = await addField(page);
-    await field.fill('ab');
-
     const message = page.locator('#collaborator-to-add-error');
-    await expect(message).toBeVisible();
-    // Visible to the eye and present in the accessibility tree — a floating
-    // panel that ended up aria-hidden would look right and say nothing.
-    await expect(field).toHaveAttribute('aria-invalid', 'true');
-    await expect(field).toHaveAccessibleDescription(
-        /at least 5 letters with no spaces/i,
-    );
 
-    // And it stays when focus goes. A message that leaves with the caret takes
-    // the explanation with it, and what is left is a field with bad text in it
-    // and an inactive submit button saying nothing.
-    await page.locator('body').click();
-    await expect(field).not.toBeFocused();
-    await expect(message).toBeVisible();
+    await test.step('a rejected name is spoken, not just shown', async () => {
+        // The message floats free of the tile so nothing can clip it, which puts
+        // it far from the field in the DOM's visual order. It still has to reach a
+        // screen reader as that field's own description.
+        await field.fill('ab');
 
-    // And it goes when the reason goes, rather than lingering somewhere.
-    await field.fill('student1');
-    await expect(message).toHaveCount(0);
-    await expect(field).not.toHaveAttribute('aria-invalid', 'true');
+        await expect(message).toBeVisible();
+        // Visible to the eye and present in the accessibility tree — a floating
+        // panel that ended up aria-hidden would look right and say nothing.
+        await expect(field).toHaveAttribute('aria-invalid', 'true');
+        await expect(field).toHaveAccessibleDescription(
+            /at least 5 letters with no spaces/i,
+        );
 
-    // Emptying the field is not a complaint worth leaving on screen, even
-    // though an empty name is not a usable one.
-    await field.fill('ab');
-    await expect(message).toBeVisible();
-    await field.fill('');
-    await expect(message).toHaveCount(0);
-});
+        // And it stays when focus goes. A message that leaves with the caret takes
+        // the explanation with it, and what is left is a field with bad text in it
+        // and an inactive submit button saying nothing.
+        await page.locator('body').click();
+        await expect(field).not.toBeFocused();
+        await expect(message).toBeVisible();
 
-test('a name nobody answers to is a validation error like any other', async ({
-    page,
-}) => {
-    // "We don't know this creator" is a reason what you typed can't be used,
-    // so it floats under the field with the format rules rather than sitting in
-    // the row as a block that pushes the table down and can be clipped by the
-    // tile.
-    await createTestProject(page);
-    await page.getByTestId('collaborate-toggle').click();
+        // And it goes when the reason goes, rather than lingering somewhere.
+        await field.fill('student1');
+        await expect(message).toHaveCount(0);
+        await expect(field).not.toHaveAttribute('aria-invalid', 'true');
 
-    const field = await addField(page);
-    // Well-formed, so nothing is wrong with it until the lookup answers.
-    await field.fill('nobodyhere');
-    const message = page.locator('#collaborator-to-add-error');
-    await expect(message).toHaveCount(0);
+        // Emptying the field is not a complaint worth leaving on screen, even
+        // though an empty name is not a usable one.
+        await field.fill('ab');
+        await expect(message).toBeVisible();
+        await field.fill('');
+        await expect(message).toHaveCount(0);
+    });
 
-    await page
-        .locator('button[aria-label^="Share the project with this email"]')
-        .click();
-    await expect(message).toBeVisible();
-    await expect(field).toHaveAttribute('aria-invalid', 'true');
-    await expect(field).toHaveAccessibleDescription(/don't know a creator/i);
+    await test.step('a name nobody answers to is a validation error like any other', async () => {
+        // "We don't know this creator" is a reason what you typed can't be used,
+        // so it floats under the field with the format rules rather than sitting in
+        // the row as a block that pushes the table down and can be clipped by the
+        // tile.
+        // Well-formed, so nothing is wrong with it until the lookup answers.
+        await field.fill('nobodyhere');
+        await expect(message).toHaveCount(0);
 
-    // It survives the press that produced it taking focus away, which is the
-    // case this whole rule exists for: the answer arrives from a lookup, and by
-    // then the pointer has been somewhere else.
-    await page.locator('body').click();
-    await expect(field).not.toBeFocused();
-    await expect(message).toBeVisible();
+        await page
+            .locator('button[aria-label^="Share the project with this email"]')
+            .click();
+        await expect(message).toBeVisible();
+        await expect(field).toHaveAttribute('aria-invalid', 'true');
+        await expect(field).toHaveAccessibleDescription(
+            /don't know a creator/i,
+        );
 
-    // And typing again is a new attempt, so the last answer stops applying.
-    await field.fill('nobodyhere2');
-    await expect(message).toHaveCount(0);
-    await expect(field).not.toHaveAttribute('aria-invalid', 'true');
+        // It survives the press that produced it taking focus away, which is the
+        // case this whole rule exists for: the answer arrives from a lookup, and by
+        // then the pointer has been somewhere else.
+        await page.locator('body').click();
+        await expect(field).not.toBeFocused();
+        await expect(message).toBeVisible();
+
+        // And typing again is a new attempt, so the last answer stops applying.
+        await field.fill('nobodyhere2');
+        await expect(message).toHaveCount(0);
+        await expect(field).not.toHaveAttribute('aria-invalid', 'true');
+    });
 });
 
 test('the field for adding someone waits behind a plus', async ({ page }) => {

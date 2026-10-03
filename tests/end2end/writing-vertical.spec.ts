@@ -77,10 +77,10 @@ async function chooseEditorLayout(
         .toBe(label === 'horizontal' ? 'horizontal-tb' : 'vertical-rl');
 }
 
-/** A project holding `code`, with the editor focused. */
+/** A project holding `code`, with the editor focused; returns its ID. */
 async function withCode(page: import('@playwright/test').Page, code: string) {
     await grantClipboard(page);
-    await createTestProject(page, Vertical);
+    const id = await createTestProject(page, Vertical);
     const editor = page.getByTestId('editor').first();
     await editor.click();
     await page.keyboard.press('ControlOrMeta+a');
@@ -97,6 +97,7 @@ async function withCode(page: import('@playwright/test').Page, code: string) {
             message: 'source did not load into the editor',
         })
         .toBe(code);
+    return id;
 }
 
 /** Japanese throughout, so the source is eligible for vertical. A Latin program
@@ -107,165 +108,120 @@ const Program = "挨拶: 'こんにちは'\n俳句: 'ふるいけや'\nかえる
 const LatinProgram = "greeting: 'hello'\nPhrase(greeting)";
 
 test.describe('vertical writing', () => {
-    test('the root reports the chosen layout', async ({ page }) => {
-        await withLayout(page, 'vertical-rl');
-        await createTestProject(page, Vertical);
-        await expect
-            .poll(async () =>
-                page.evaluate(() =>
-                    document.documentElement.getAttribute(
-                        'data-writing-layout',
-                    ),
-                ),
-            )
-            .toBe('vertical-rl');
-    });
-
+    // One vertical editor serves every claim about it: none of these steps
+    // changes the code or the layout, only where the caret is.
     test('the editor lays code out down the screen', async ({ page }) => {
-        await withCode(page, Program);
-        await chooseEditorLayout(page, 'vertical');
-        const mode = await page
-            .getByTestId('editor')
-            .first()
-            .evaluate((el) => getComputedStyle(el).writingMode);
-        expect(mode).toBe('vertical-rl');
-    });
-
-    test('the code itself runs down the screen, not just its container', async ({
-        page,
-    }) => {
-        // The editor renders its code through RootView, which declares
-        // `horizontal-tb` so a snippet inside a concept's documentation is never
-        // laid out sideways by the reader's prose setting. Inside the editor
-        // that rule would defeat the whole feature — and the assertions above
-        // could not see it, because they measure the editor element, whose own
-        // writing mode stays vertical while the code inside it is not.
-        await withCode(page, Program);
-        await chooseEditorLayout(page, 'vertical');
-        const laidOut = await page
-            .getByTestId('editor')
-            .first()
-            .evaluate((el) => {
-                const root = el.querySelector('.root');
-                if (root === null) return null;
-                const tokens = [...root.querySelectorAll('.token-view')]
-                    .slice(0, 2)
-                    .map((token) => {
-                        const box = token.getBoundingClientRect();
-                        return { x: Math.round(box.x), y: Math.round(box.y) };
-                    });
-                return { mode: getComputedStyle(root).writingMode, tokens };
-            });
-        expect(laidOut?.mode).toBe('vertical-rl');
-        // Consecutive tokens on one line stack down the screen rather than
-        // running across it, which is what "vertical" actually means here.
-        const [first, second] = laidOut?.tokens ?? [];
-        expect(first).toBeDefined();
-        expect(second).toBeDefined();
-        if (first === undefined || second === undefined) return;
-        expect(second.y).toBeGreaterThan(first.y);
-        expect(Math.abs(second.x - first.x)).toBeLessThan(4);
-    });
-
-    test('the caret bar runs across the text, not down it', async ({
-        page,
-    }) => {
-        await withCode(page, Program);
-        await chooseEditorLayout(page, 'vertical');
-        const box = await bar(page);
-        expect(box).not.toBeNull();
-        // Writing vertically the caret is a horizontal bar: wider than it is
-        // tall. Horizontally it is the other way round, which is what the
-        // rendered `extent` swapping onto the other CSS axis achieves.
-        expect(box!.width).toBeGreaterThan(box!.height);
-    });
-
-    test('up and down move along the text, left and right between lines', async ({
-        page,
-    }) => {
+        // chooseEditorLayout waits for the editor's writing mode to be
+        // vertical-rl, which is this test's first claim.
         await withCode(page, Program);
         await chooseEditorLayout(page, 'vertical');
 
-        // Measured as geometry rather than through the mirror's offset, which
-        // is not a character position to do arithmetic on: an inline move can
-        // land on a node selection, and the mirror reports a selection's start,
-        // so the number jumps in ways that have nothing to do with the writing
-        // mode (see InlineMovement.test.ts). Where the caret is *drawn* is both
-        // what this test actually claims and what a creator sees.
-        const at = async () => {
+        await test.step('the code itself runs down the screen, not just its container', async () => {
+            // The editor renders its code through RootView, which declares
+            // `horizontal-tb` so a snippet inside a concept's documentation is never
+            // laid out sideways by the reader's prose setting. Inside the editor
+            // that rule would defeat the whole feature — and the check in
+            // chooseEditorLayout could not see it, because they measure the editor element, whose own
+            // writing mode stays vertical while the code inside it is not.
+            const laidOut = await page
+                .getByTestId('editor')
+                .first()
+                .evaluate((el) => {
+                    const root = el.querySelector('.root');
+                    if (root === null) return null;
+                    const tokens = [...root.querySelectorAll('.token-view')]
+                        .slice(0, 2)
+                        .map((token) => {
+                            const box = token.getBoundingClientRect();
+                            return {
+                                x: Math.round(box.x),
+                                y: Math.round(box.y),
+                            };
+                        });
+                    return { mode: getComputedStyle(root).writingMode, tokens };
+                });
+            expect(laidOut?.mode).toBe('vertical-rl');
+            // Consecutive tokens on one line stack down the screen rather than
+            // running across it, which is what "vertical" actually means here.
+            const [first, second] = laidOut?.tokens ?? [];
+            expect(first).toBeDefined();
+            expect(second).toBeDefined();
+            if (first === undefined || second === undefined) return;
+            expect(second.y).toBeGreaterThan(first.y);
+            expect(Math.abs(second.x - first.x)).toBeLessThan(4);
+        });
+
+        await test.step('the caret bar runs across the text, not down it', async () => {
             const box = await bar(page);
             expect(box).not.toBeNull();
-            return box!;
-        };
+            // Writing vertically the caret is a horizontal bar: wider than it is
+            // tall. Horizontally it is the other way round, which is what the
+            // rendered `extent` swapping onto the other CSS axis achieves.
+            expect(box!.width).toBeGreaterThan(box!.height);
+        });
 
-        // Anchor inside the middle line's word, and check that's where we
-        // landed rather than assuming it. Both ends of a token are unusable
-        // anchors: an inline move that starts at a token boundary returns a node
-        // selection, whose spot is drawn a full column away, and a caret at a
-        // line's end wraps to the next line — each is a change of column, which
-        // is the opposite of what an inline move is supposed to look like here.
-        // The middle line also has a neighbour on both sides, so every one of
-        // the four moves below is defined.
-        const word = 'ふるいけや';
-        await page
-            .getByTestId('editor')
-            .first()
-            .locator('.token-view', { hasText: word })
-            .first()
-            .click();
-        const anchored = (await mirror(page)).start;
-        expect(anchored).toBeGreaterThan(Program.indexOf(word));
-        expect(anchored).toBeLessThan(Program.indexOf(word) + word.length);
-        const start = await at();
+        await test.step('up and down move along the text, left and right between lines', async () => {
+            // Measured as geometry rather than through the mirror's offset, which
+            // is not a character position to do arithmetic on: an inline move can
+            // land on a node selection, and the mirror reports a selection's start,
+            // so the number jumps in ways that have nothing to do with the writing
+            // mode (see InlineMovement.test.ts). Where the caret is *drawn* is both
+            // what this test actually claims and what a creator sees.
+            const at = async () => {
+                const box = await bar(page);
+                expect(box).not.toBeNull();
+                return box!;
+            };
 
-        /** Which way a move mostly went. Compared rather than measured against a
-         *  tolerance because the bar shifts a few pixels across the text when a
-         *  move lands on a node selection, which is not the axis under test. */
-        const moved = (from: { x: number; y: number }, to: typeof from) =>
-            Math.abs(to.x - from.x) > Math.abs(to.y - from.y)
-                ? 'between lines'
-                : 'along the text';
+            // Anchor inside the middle line's word, and check that's where we
+            // landed rather than assuming it. Both ends of a token are unusable
+            // anchors: an inline move that starts at a token boundary returns a node
+            // selection, whose spot is drawn a full column away, and a caret at a
+            // line's end wraps to the next line — each is a change of column, which
+            // is the opposite of what an inline move is supposed to look like here.
+            // The middle line also has a neighbour on both sides, so every one of
+            // the four moves below is defined.
+            const word = 'ふるいけや';
+            await page
+                .getByTestId('editor')
+                .first()
+                .locator('.token-view', { hasText: word })
+                .first()
+                .click();
+            const anchored = (await mirror(page)).start;
+            expect(anchored).toBeGreaterThan(Program.indexOf(word));
+            expect(anchored).toBeLessThan(Program.indexOf(word) + word.length);
+            const start = await at();
 
-        // Up and down move along the line: writing vertically, the text runs
-        // down the screen, so the caret travels in y and stays in its column.
-        await page.keyboard.press('ArrowUp');
-        const afterUp = await at();
-        expect(moved(start, afterUp)).toBe('along the text');
+            /** Which way a move mostly went. Compared rather than measured against a
+             *  tolerance because the bar shifts a few pixels across the text when a
+             *  move lands on a node selection, which is not the axis under test. */
+            const moved = (from: { x: number; y: number }, to: typeof from) =>
+                Math.abs(to.x - from.x) > Math.abs(to.y - from.y)
+                    ? 'between lines'
+                    : 'along the text';
 
-        await page.keyboard.press('ArrowDown');
-        const afterDown = await at();
-        expect(moved(afterUp, afterDown)).toBe('along the text');
+            // Up and down move along the line: writing vertically, the text runs
+            // down the screen, so the caret travels in y and stays in its column.
+            await page.keyboard.press('ArrowUp');
+            const afterUp = await at();
+            expect(moved(start, afterUp)).toBe('along the text');
 
-        // Left is the next line and Right the previous one, since lines progress
-        // right to left. These are the moves that read the rendered rows through
-        // the editor's own writing mode, so they are also what says the row
-        // model isn't being built in the interface's basis.
-        await page.keyboard.press('ArrowLeft');
-        const afterLeft = await at();
-        expect(moved(afterDown, afterLeft)).toBe('between lines');
+            await page.keyboard.press('ArrowDown');
+            const afterDown = await at();
+            expect(moved(afterUp, afterDown)).toBe('along the text');
 
-        await page.keyboard.press('ArrowRight');
-        expect(moved(afterLeft, await at())).toBe('between lines');
-    });
+            // Left is the next line and Right the previous one, since lines progress
+            // right to left. These are the moves that read the rendered rows through
+            // the editor's own writing mode, so they are also what says the row
+            // model isn't being built in the interface's basis.
+            await page.keyboard.press('ArrowLeft');
+            const afterLeft = await at();
+            expect(moved(afterDown, afterLeft)).toBe('between lines');
 
-    test('a reader only ever gets the direction their script is set in', async ({
-        page,
-    }) => {
-        // vertical-lr is Mongolian's direction; Japanese is never set in it. A
-        // stored choice of it — from another locale, or from before the control
-        // narrowed to one option — resolves to the direction Japanese uses
-        // rather than being honoured literally.
-        await withLayout(page, 'vertical-lr');
-        await createTestProject(page, Vertical);
-        await expect
-            .poll(async () =>
-                page.evaluate(() =>
-                    document.documentElement.getAttribute(
-                        'data-writing-layout',
-                    ),
-                ),
-            )
-            .toBe('vertical-rl');
+            await page.keyboard.press('ArrowRight');
+            expect(moved(afterLeft, await at())).toBe('between lines');
+        });
     });
 
     test('Latin code is never offered a vertical layout', async ({ page }) => {
@@ -309,10 +265,12 @@ test.describe('vertical writing', () => {
     test('a chosen layout survives a reload', async ({ page }) => {
         await withCode(page, Program);
         await chooseEditorLayout(page, 'vertical');
-        // Let the project's own save settle first: reloading before the pasted
+        // Let the project's own save land first: reloading before the pasted
         // code persists brings back the default Latin source, which is not
         // eligible for vertical at all, so the assertion would be about the
-        // wrong thing.
+        // wrong thing. A fixed wait, because the local copy landing is not
+        // enough for a reload to find a signed-out project, and nothing else
+        // observable says the save is done.
         await page.waitForTimeout(2500);
         await page.reload();
         const editor = page.getByTestId('editor').first();
@@ -473,6 +431,10 @@ test.describe('the tutorial', () => {
         // unreadable — a 640px block inside a 378px dialog.
         expect(layout.dialog?.height).toBe(layout.height);
         expect(layout.dialog?.overflows).toBe(false);
+
+        await test.step('passes axe when writing vertically', async () => {
+            await expectNoAxeViolations(page);
+        });
     });
 
     test('keeps its side-by-side layout when writing horizontally', async ({
@@ -515,23 +477,31 @@ test.describe('the tutorial', () => {
             await listing.evaluate((el) => getComputedStyle(el).writingMode),
         ).toBe('horizontal-tb');
     });
-
-    test('passes axe when writing vertically', async ({ page }) => {
-        await withLayout(page, 'vertical-rl');
-        await openLesson(page, Vertical);
-        await expectNoAxeViolations(page);
-    });
 });
 
 test.describe('vertical accessibility', () => {
     // A writing mode changes how everything is laid out, so the axe scan has to
     // run against it too: contrast, focus order, and name computation are all
     // things a transposed layout can break without breaking a single unit test.
-    for (const layout of ['vertical-rl', 'vertical-lr'] as const) {
-        test(`the editor passes axe in ${layout}`, async ({ page }) => {
-            await withLayout(page, layout);
-            await withCode(page, Program);
-            await expectNoAxeViolations(page);
+    test('the editor passes axe in vertical-rl', async ({ page }) => {
+        // Stored as vertical-lr, Mongolian's direction, which Japanese is never
+        // set in: a stored choice of it — from another locale, or from before
+        // the control narrowed to one option — resolves to the direction
+        // Japanese uses rather than being honoured literally. So this one
+        // scan covers both stored choices, which used to be scanned apart.
+        await withLayout(page, 'vertical-lr');
+        await withCode(page, Program);
+        await test.step('a reader only ever gets the direction their script is set in', async () => {
+            await expect
+                .poll(async () =>
+                    page.evaluate(() =>
+                        document.documentElement.getAttribute(
+                            'data-writing-layout',
+                        ),
+                    ),
+                )
+                .toBe('vertical-rl');
         });
-    }
+        await expectNoAxeViolations(page);
+    });
 });

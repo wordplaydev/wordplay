@@ -1,5 +1,6 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
+import { getTestFirestore, waitForDocumentUpdate } from '../helpers/firestore';
 
 /**
  * Folders on the projects page (#831).
@@ -12,21 +13,32 @@ import { createTestProject } from '../helpers/createProject';
  */
 
 /**
- * Create a project and land on the projects page with it listed.
+ * Create a project and land on the projects page with it listed, returning the
+ * creator's uid (the project's owner).
  *
  * `createTestProject` returns as soon as the editor is interactive, which is
  * before the project has been registered for the projects list — navigating
  * away inside that window leaves it unlisted indefinitely, not just briefly.
- * A beat in the editor first is enough, and then the tile is there at once.
+ * Waiting for its document to reach the cloud closes that window.
  */
-async function createListedProject(page: import('@playwright/test').Page) {
-    await createTestProject(page);
-    await page.waitForTimeout(3000);
+async function createListedProject(
+    page: import('@playwright/test').Page,
+): Promise<string> {
+    const id = await createTestProject(page);
+    const project = await waitForDocumentUpdate(
+        page,
+        'projects',
+        id,
+        (data) => typeof data?.owner === 'string',
+    );
+    const owner: unknown = project.owner;
+    if (typeof owner !== 'string') throw new Error('project has no owner');
     await page.goto('/en-US/projects');
     await page.locator('[data-uiid="new-folder"]').waitFor();
     await expect(
         page.locator('[data-folder="none"] .project').first(),
     ).toBeVisible();
+    return owner;
 }
 
 /** Make a folder and return its section. */
@@ -76,9 +88,11 @@ test.describe('project folders', () => {
         page,
     }) => {
         test.setTimeout(90000);
-        await createListedProject(page);
+        const owner = await createListedProject(page);
 
         const folder = await newFolder(page);
+        const folderID = await folder.getAttribute('data-folder');
+        expect(folderID).toBeTruthy();
         // Creating a folder lands focus in its name field, so it can be named
         // without reaching for the pointer.
         await expect(
@@ -99,113 +113,135 @@ test.describe('project folders', () => {
         ).toBeVisible();
 
         // The filing has to survive a reload: the project doc and the settings
-        // doc that holds the folder are written separately. Give the project
-        // write a beat to land first — reloading straight away tests the write
-        // queue, not persistence.
-        await page.waitForTimeout(3000);
+        // doc that holds the folder are written separately. Wait for both to
+        // land first — reloading straight away tests the write queue, not
+        // persistence.
+        await expect
+            .poll(
+                async () =>
+                    (
+                        await getTestFirestore()
+                            .collection('projects')
+                            .where('folder', '==', folderID)
+                            .limit(1)
+                            .get()
+                    ).size,
+                { timeout: 15000 },
+            )
+            .toBe(1);
+        await waitForDocumentUpdate(page, 'creators', owner, (data) => {
+            const folders: unknown = data?.projectFolders;
+            return (
+                typeof folders === 'object' &&
+                folders !== null &&
+                folderID !== null &&
+                folderID in folders
+            );
+        });
         await page.reload();
         await page.locator('[data-uiid="new-folder"]').waitFor();
         await expect(
             page
-                .locator('section.folder')
-                .filter({ has: page.locator('[data-testid="preview"]') })
+                .locator(`section.folder[data-folder="${folderID}"]`)
+                .locator('[data-testid="preview"]')
                 .first(),
         ).toBeVisible();
     });
 
-    test('down moves a project back out of the folder above it', async ({
-        page,
-    }) => {
-        test.setTimeout(90000);
-        await createListedProject(page);
-        await newFolder(page);
-        const folder = await fileFirstProject(page);
-        // Assert the delta, not emptiness: the folder a project lands in may
-        // already hold one filed by an earlier test in this file.
-        const previews = folder.locator('[data-testid="preview"]');
-        const before = await previews.count();
-        await page.keyboard.press('ArrowDown');
-        await expect(previews).toHaveCount(before - 1);
-    });
-
-    test('Escape lets go of the project', async ({ page }) => {
-        test.setTimeout(90000);
-        await createListedProject(page);
-        await newFolder(page);
-
-        const tile = page.locator('[data-folder="none"] .project').first();
-        await tile.click({ position: { x: 4, y: 4 } });
-        await expect(tile).toHaveAttribute('aria-current', 'true');
-        await page.keyboard.press('Escape');
-        await expect(tile).not.toHaveAttribute('aria-current', 'true');
-    });
-
-    test('a collapsed folder still shows what is in it', async ({ page }) => {
-        test.setTimeout(90000);
-        await createListedProject(page);
-        await newFolder(page);
-        const folder = await fileFirstProject(page);
-
-        const disclosure = folder.locator('.header button').first();
-        await expect(disclosure).toHaveAttribute('aria-expanded', 'true');
-        await disclosure.click();
-        await expect(disclosure).toHaveAttribute('aria-expanded', 'false');
-        // Collapsed shows previews rather than nothing, so a creator can
-        // recognize the contents without opening it.
-        await expect(
-            folder.locator('.peek [data-testid="preview"]').first(),
-        ).toBeVisible();
-    });
-
-    test('search flattens folders and disables organizing', async ({
-        page,
-    }) => {
-        test.setTimeout(90000);
+    test('organizing projects into folders', async ({ page }) => {
+        test.setTimeout(120000);
         await createListedProject(page);
         await newFolder(page);
         await page.keyboard.insertText('Homework');
         await page.keyboard.press('Tab');
-        await fileFirstProject(page);
 
-        // A match hidden inside a folder would make search lie, so results are
-        // shown flat, labeled with the folder they live in.
-        await page.getByTestId('project-search').fill('Untitled');
-        await page.waitForTimeout(600);
-        await expect(page.locator('section.folder')).toHaveCount(0);
+        await test.step('Escape lets go of the project', async () => {
+            const tile = page.locator('[data-folder="none"] .project').first();
+            await tile.click({ position: { x: 4, y: 4 } });
+            await expect(tile).toHaveAttribute('aria-current', 'true');
+            await page.keyboard.press('Escape');
+            await expect(tile).not.toHaveAttribute('aria-current', 'true');
+        });
 
-        // And organizing is off while the page is filtered: a destructive
-        // control must never act on state the creator can't see.
-        await expect(page.locator('[data-uiid="new-folder"]')).toHaveAttribute(
-            'aria-disabled',
-            'true',
-        );
-        await expect(
-            page.locator('[data-testid="delete-folder"]'),
-        ).toHaveAttribute('aria-disabled', 'true');
-    });
+        await test.step('down moves a project back out of the folder above it', async () => {
+            const folder = await fileFirstProject(page);
+            // Assert the delta, not emptiness: the folder a project lands in may
+            // already hold one filed by an earlier test in this file.
+            const previews = folder.locator('[data-testid="preview"]');
+            const before = await previews.count();
+            await page.keyboard.press('ArrowDown');
+            await expect(previews).toHaveCount(before - 1);
+            // Let go of it, so the next step chooses a project afresh.
+            await page.keyboard.press('Escape');
+        });
 
-    test('deleting a folder archives what is in it rather than destroying it', async ({
-        page,
-    }) => {
-        test.setTimeout(90000);
-        await createListedProject(page);
-        await newFolder(page);
-        await page.keyboard.insertText('Homework');
-        await page.keyboard.press('Tab');
-        const folder = await fileFirstProject(page);
+        const folder =
+            await test.step('a collapsed folder still shows what is in it', async () => {
+                const folder = await fileFirstProject(page);
 
-        // Delete is only offered for the chosen folder, and clicking one is
-        // what chooses it.
-        const remove = page.locator('[data-testid="delete-folder"]');
-        const before = await page.locator('section.folder').count();
-        await folder.locator('.header').click({ position: { x: 200, y: 8 } });
-        await expect(folder).toHaveAttribute('aria-current', 'true');
-        await expect(remove).toHaveAttribute('aria-disabled', 'false');
-        await remove.click();
-        await page.locator('[data-testid="delete-folder-confirm"]').click();
+                const disclosure = folder.locator('.header button').first();
+                await expect(disclosure).toHaveAttribute(
+                    'aria-expanded',
+                    'true',
+                );
+                await disclosure.click();
+                await expect(disclosure).toHaveAttribute(
+                    'aria-expanded',
+                    'false',
+                );
+                // Collapsed shows previews rather than nothing, so a creator can
+                // recognize the contents without opening it.
+                await expect(
+                    folder.locator('.peek [data-testid="preview"]').first(),
+                ).toBeVisible();
+                // Collapsed state is a setting on this worker's account, so open
+                // it again rather than leave later tests a collapsed last folder.
+                await disclosure.click();
+                await expect(disclosure).toHaveAttribute(
+                    'aria-expanded',
+                    'true',
+                );
+                return folder;
+            });
 
-        await expect(page.locator('section.folder')).toHaveCount(before - 1);
-        // The project is archived, not gone: the archived section names it.
-        await expect(page.getByText(/archive/i).first()).toBeVisible();
+        await test.step('search flattens folders and disables organizing', async () => {
+            // A match hidden inside a folder would make search lie, so results are
+            // shown flat, labeled with the folder they live in.
+            const search = page.getByTestId('project-search');
+            await search.fill('Untitled');
+            await expect(page.locator('section.folder')).toHaveCount(0);
+
+            // And organizing is off while the page is filtered: a destructive
+            // control must never act on state the creator can't see.
+            await expect(
+                page.locator('[data-uiid="new-folder"]'),
+            ).toHaveAttribute('aria-disabled', 'true');
+            await expect(
+                page.locator('[data-testid="delete-folder"]'),
+            ).toHaveAttribute('aria-disabled', 'true');
+
+            await search.fill('');
+            await expect(folder).toBeVisible();
+        });
+
+        await test.step('deleting a folder archives what is in it rather than destroying it', async () => {
+            // Delete is only offered for the chosen folder, and clicking one is
+            // what chooses it.
+            const remove = page.locator('[data-testid="delete-folder"]');
+            const before = await page.locator('section.folder').count();
+            await folder
+                .locator('.header')
+                .click({ position: { x: 200, y: 8 } });
+            await expect(folder).toHaveAttribute('aria-current', 'true');
+            await expect(remove).toHaveAttribute('aria-disabled', 'false');
+            await remove.click();
+            await page.locator('[data-testid="delete-folder-confirm"]').click();
+
+            await expect(page.locator('section.folder')).toHaveCount(
+                before - 1,
+            );
+            // The project is archived, not gone: the archived section names it.
+            await expect(page.getByText(/archive/i).first()).toBeVisible();
+        });
     });
 });

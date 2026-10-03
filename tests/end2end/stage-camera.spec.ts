@@ -260,63 +260,66 @@ async function gaugeLevel(page: Page): Promise<number> {
         );
 }
 
-/**
- * The zoom level is shown as a bar rather than a percentage, so it is the same width at
- * every value. The exact number still reaches screen readers through the button's label,
- * which is why the bar itself is aria-hidden.
- */
-test('the stage shows how far the audience has zoomed', async ({ page }) => {
-    await playBuildingBlocks(page);
-    const reset = page.locator('[data-uiid="stageZoomReset"]');
-
-    // Always present, so the toolbar never changes width — but inactive with nothing to
-    // clear, and sitting exactly on its centre line.
-    await expect(reset).toBeVisible();
-    await expect(reset).toHaveAttribute('aria-disabled', 'true');
-    expect(await gaugeLevel(page)).toBeCloseTo(0.5, 5);
-
-    await zoomOut(page).click();
-    const out = await gaugeLevel(page);
-    expect(out).toBeLessThan(0.5);
-    await expect(reset).not.toHaveAttribute('aria-disabled', 'true');
-    // The number is still spoken, even though it is no longer written.
-    await expect(reset).toHaveAttribute('aria-label', /80/);
-
-    await zoomIn(page).click();
-    expect(await gaugeLevel(page)).toBeCloseTo(0.5, 5);
-
-    await zoomIn(page).click();
-    expect(await gaugeLevel(page)).toBeGreaterThan(0.5);
-
-    await page.locator('[data-uiid="stageZoomReset"]').click();
-    expect(await gaugeLevel(page)).toBeCloseTo(0.5, 5);
-});
-
-/**
- * Zooming used to reshuffle the whole toolbar. The reset control appeared and vanished with
- * the adjustment and carried a percentage whose width changed with its value, and
- * OverflowToolbar keeps a *prefix* of its items — so the zoom group growing took the budget
- * from everything behind it and sent those controls hopping into the overflow menu.
- */
-test('zooming does not move the rest of the toolbar', async ({ page }) => {
+test('the zoom gauge moves and the rest of the toolbar does not', async ({
+    page,
+}) => {
     await playBuildingBlocks(page);
 
-    /** Which controls are showing in the bar itself, rather than in the overflow menu. */
-    const showing = () =>
-        page
-            .locator('.overflow-toolbar [data-uiid]')
-            .evaluateAll((els) =>
-                els.map((el) => el.getAttribute('data-uiid')).sort(),
-            );
+    /**
+     * The zoom level is shown as a bar rather than a percentage, so it is the same width at
+     * every value. The exact number still reaches screen readers through the button's label,
+     * which is why the bar itself is aria-hidden.
+     */
+    await test.step('the stage shows how far the audience has zoomed', async () => {
+        const reset = page.locator('[data-uiid="stageZoomReset"]');
 
-    const before = await showing();
-    expect(before.length).toBeGreaterThan(0);
+        // Always present, so the toolbar never changes width — but inactive with nothing to
+        // clear, and sitting exactly on its centre line.
+        await expect(reset).toBeVisible();
+        await expect(reset).toHaveAttribute('aria-disabled', 'true');
+        expect(await gaugeLevel(page)).toBeCloseTo(0.5, 5);
 
-    for (let i = 0; i < 6; i++) await zoomOut(page).click();
-    expect(await showing()).toEqual(before);
+        await zoomOut(page).click();
+        const out = await gaugeLevel(page);
+        expect(out).toBeLessThan(0.5);
+        await expect(reset).not.toHaveAttribute('aria-disabled', 'true');
+        // The number is still spoken, even though it is no longer written.
+        await expect(reset).toHaveAttribute('aria-label', /80/);
 
-    for (let i = 0; i < 10; i++) await zoomIn(page).click();
-    expect(await showing()).toEqual(before);
+        await zoomIn(page).click();
+        expect(await gaugeLevel(page)).toBeCloseTo(0.5, 5);
+
+        await zoomIn(page).click();
+        expect(await gaugeLevel(page)).toBeGreaterThan(0.5);
+
+        await reset.click();
+        expect(await gaugeLevel(page)).toBeCloseTo(0.5, 5);
+    });
+
+    /**
+     * Zooming used to reshuffle the whole toolbar. The reset control appeared and vanished with
+     * the adjustment and carried a percentage whose width changed with its value, and
+     * OverflowToolbar keeps a *prefix* of its items — so the zoom group growing took the budget
+     * from everything behind it and sent those controls hopping into the overflow menu.
+     */
+    await test.step('zooming does not move the rest of the toolbar', async () => {
+        /** Which controls are showing in the bar itself, rather than in the overflow menu. */
+        const showing = () =>
+            page
+                .locator('.overflow-toolbar [data-uiid]')
+                .evaluateAll((els) =>
+                    els.map((el) => el.getAttribute('data-uiid')).sort(),
+                );
+
+        const before = await showing();
+        expect(before.length).toBeGreaterThan(0);
+
+        for (let i = 0; i < 6; i++) await zoomOut(page).click();
+        expect(await showing()).toEqual(before);
+
+        for (let i = 0; i < 10; i++) await zoomIn(page).click();
+        expect(await showing()).toEqual(before);
+    });
 });
 
 /**

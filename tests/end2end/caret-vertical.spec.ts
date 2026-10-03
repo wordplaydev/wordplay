@@ -94,53 +94,56 @@ test('blocks mode moves up from the end of a program ending in a delimiter', asy
     expect(after).toBeGreaterThan(PHRASES.indexOf('\n'));
 });
 
-test('text mode moves up from the end of the same program', async ({
-    page,
-}) => {
+// Text mode's line moves share one program, and each step re-establishes its
+// own starting position with PageUp/PageDown, so one project serves them all.
+test('text mode moves between lines of the same program', async ({ page }) => {
     await withCode(page, PHRASES);
-    await page.keyboard.press('PageDown');
-    await page.keyboard.press('ArrowUp');
-    await expect
-        .poll(async () => (await mirror(page)).start)
-        .toBeLessThan(PHRASES.length);
-});
 
-test('up on the first line goes to the start of the source', async ({
-    page,
-}) => {
-    await withCode(page, PHRASES);
-    // Land mid-way along the first line.
-    await page.keyboard.press('PageUp');
-    for (let i = 0; i < 4; i++) await page.keyboard.press('ArrowRight');
-    expect((await mirror(page)).start).toBeGreaterThan(0);
+    await test.step('text mode moves up from the end of the same program', async () => {
+        await page.keyboard.press('PageDown');
+        await page.keyboard.press('ArrowUp');
+        await expect
+            .poll(async () => (await mirror(page)).start)
+            .toBeLessThan(PHRASES.length);
+    });
 
-    await page.keyboard.press('ArrowUp');
-    await expect.poll(async () => (await mirror(page)).start).toBe(0);
-});
+    await test.step('down on the last line goes to the end of the source', async () => {
+        await page.keyboard.press('PageDown');
+        for (let i = 0; i < 4; i++) await page.keyboard.press('ArrowLeft');
+        await expect
+            .poll(async () => (await mirror(page)).start)
+            .toBeLessThan(PHRASES.length);
 
-test('down on the last line goes to the end of the source', async ({
-    page,
-}) => {
-    await withCode(page, PHRASES);
-    await page.keyboard.press('PageDown');
-    for (let i = 0; i < 4; i++) await page.keyboard.press('ArrowLeft');
-    expect((await mirror(page)).start).toBeLessThan(PHRASES.length);
+        await page.keyboard.press('ArrowDown');
+        await expect
+            .poll(async () => (await mirror(page)).start)
+            .toBe(PHRASES.length);
+    });
 
-    await page.keyboard.press('ArrowDown');
-    await expect
-        .poll(async () => (await mirror(page)).start)
-        .toBe(PHRASES.length);
-});
+    await test.step('up on the first line goes to the start of the source', async () => {
+        // Land mid-way along the first line.
+        await page.keyboard.press('PageUp');
+        for (let i = 0; i < 4; i++) await page.keyboard.press('ArrowRight');
+        await expect
+            .poll(async () => (await mirror(page)).start)
+            .toBeGreaterThan(0);
 
-test('a move with nowhere left to go says so', async ({ page }) => {
-    // Silence after a keystroke is indistinguishable from a broken app, so the
-    // one case where movement genuinely can't happen is announced.
-    await withCode(page, PHRASES);
-    await page.keyboard.press('PageUp');
-    await page.keyboard.press('ArrowUp');
-    await expect(page.locator('.announcements.immediate')).toContainText(
-        "Can't move any further",
-    );
+        await page.keyboard.press('ArrowUp');
+        await expect.poll(async () => (await mirror(page)).start).toBe(0);
+    });
+
+    await test.step('a move with nowhere left to go says so', async () => {
+        // Silence after a keystroke is indistinguishable from a broken app, so the
+        // one case where movement genuinely can't happen is announced.
+        // The previous step left the caret at the start of the source. Every
+        // keystroke so far moved, so nothing has said this yet; checking keeps
+        // the assertion below from passing on an earlier keystroke.
+        const immediate = page.locator('.announcements.immediate');
+        expect((await mirror(page)).start).toBe(0);
+        await expect(immediate).not.toContainText("Can't move any further");
+        await page.keyboard.press('ArrowUp');
+        await expect(immediate).toContainText("Can't move any further");
+    });
 });
 
 test("a click lands on a token's last position", async ({ page }) => {

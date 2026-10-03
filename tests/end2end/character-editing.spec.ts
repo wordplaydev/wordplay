@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { expectNoAxeViolationsInBothSchemes } from '../helpers/checkAccessibility';
 import { createTestCharacter } from '../helpers/createCharacter';
 import { drawTriangle } from '../helpers/drawCharacterPath';
 import { loginNewContext } from '../helpers/loginNewContext';
@@ -58,7 +59,13 @@ test('path handles are reachable by Tab and are not a trap', async ({
     }
 });
 
-test('a path point moves with the arrow keys and the move can be undone', async ({
+/**
+ * Opening a character is not enough to reach the point handles: they need a
+ * path, and they bring their own overlay and toolbar with them. A freshly drawn
+ * triangle is the smallest state that renders all of it, so the axe scan and the
+ * description check ride on the same state the arrow keys need.
+ */
+test('point editing is described and has no WCAG 2.2 AA violations, and a point moves with the arrow keys and the move can be undone', async ({
     browser,
 }) => {
     const { context, page } = await loginNewContext(
@@ -73,18 +80,44 @@ test('a path point moves with the arrow keys and the move can be undone', async 
 
         const first = page.locator('[data-handle="point-0"]');
         await expect(first).toBeFocused();
-        const before = await first.getAttribute('aria-label');
 
-        await page.keyboard.press('ArrowDown');
-        await expect
-            .poll(() => first.getAttribute('aria-label'))
-            .not.toBe(before);
+        await test.step('the canvas description names the keys that edit points', async () => {
+            // aria-describedby used to point at an id nothing rendered, so the
+            // canvas — the editor's primary surface — had no description at all.
+            const description = await page.evaluate(() => {
+                const canvas = document.querySelector('[role="application"]');
+                const id = canvas?.getAttribute('aria-describedby');
+                return id
+                    ? (document.getElementById(id)?.textContent ?? null)
+                    : null;
+            });
+            expect(description).toContain('Tab');
+            expect(description).toContain('arrow');
+        });
 
-        // Point edits go through the same history as every other edit — and an
-        // undo swaps in a fresh clone of the shapes, so the handles have to
-        // re-anchor to it rather than keep drawing what was just discarded.
-        await page.keyboard.press('Control+z');
-        await expect.poll(() => first.getAttribute('aria-label')).toBe(before);
+        await test.step('character point editing has no WCAG 2.2 AA violations', async () => {
+            await expectNoAxeViolationsInBothSchemes(page);
+        });
+
+        await test.step('a path point moves with the arrow keys and the move can be undone', async () => {
+            // The scan must leave focus where Enter put it, or the arrows
+            // below would go somewhere else.
+            await expect(first).toBeFocused();
+            const before = await first.getAttribute('aria-label');
+
+            await page.keyboard.press('ArrowDown');
+            await expect
+                .poll(() => first.getAttribute('aria-label'))
+                .not.toBe(before);
+
+            // Point edits go through the same history as every other edit — and an
+            // undo swaps in a fresh clone of the shapes, so the handles have to
+            // re-anchor to it rather than keep drawing what was just discarded.
+            await page.keyboard.press('Control+z');
+            await expect
+                .poll(() => first.getAttribute('aria-label'))
+                .toBe(before);
+        });
     } finally {
         await context.close();
     }
@@ -116,35 +149,6 @@ test('a segment can be curved and straightened again', async ({ browser }) => {
         await expect(control).toHaveCount(0);
         await expect.poll(() => path.getAttribute('d')).not.toContain('Q');
         await expect(page.locator('[data-handle]')).toHaveCount(3);
-    } finally {
-        await context.close();
-    }
-});
-
-test('the canvas description names the keys that edit points', async ({
-    browser,
-}) => {
-    const { context, page } = await loginNewContext(
-        browser,
-        'creator',
-        'password',
-    );
-    try {
-        await createTestCharacter(page);
-        await drawTriangle(page);
-        await page.keyboard.press('Enter');
-
-        // aria-describedby used to point at an id nothing rendered, so the
-        // canvas — the editor's primary surface — had no description at all.
-        const description = await page.evaluate(() => {
-            const canvas = document.querySelector('[role="application"]');
-            const id = canvas?.getAttribute('aria-describedby');
-            return id
-                ? (document.getElementById(id)?.textContent ?? null)
-                : null;
-        });
-        expect(description).toContain('Tab');
-        expect(description).toContain('arrow');
     } finally {
         await context.close();
     }

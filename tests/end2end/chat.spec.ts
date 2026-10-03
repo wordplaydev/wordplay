@@ -526,59 +526,75 @@ test('a reply names the message it answers, and reacting keeps the array the sam
     expect((reacted?.messages as unknown[]).length).toBe(2);
 });
 
+/** The messages of a stored chat, as records to read fields from. */
+function messagesIn(chat: unknown): Record<string, unknown>[] {
+    if (typeof chat !== 'object' || chat === null || !('messages' in chat))
+        return [];
+    const messages: unknown = chat.messages;
+    return Array.isArray(messages)
+        ? messages.filter(
+              (m): m is Record<string, unknown> =>
+                  typeof m === 'object' && m !== null,
+          )
+        : [];
+}
+
 test('a message can be about a line of code', async ({ page }) => {
     const projectId = await createTestProject(page);
     await page.getByTestId('collaborate-toggle').click();
 
-    // Put the caret in the code, then say the message is about it. There is no
-    // mode: the link lives on the message, and the editor stays editable.
-    await page.locator('[role="application"]').first().click();
-    await page
-        .getByRole('button', { name: 'talk about the code where my cursor is' })
-        .click();
-    const referenced = await send(page, projectId, 'This line is repetitive');
-    const message = (
-        referenced?.messages as {
-            text: string;
-            reference?: { source: number; code: string };
-        }[]
-    ).find((m) => m.text === 'This line is repetitive');
+    /** Put the caret in the code, then say the next message is about it. */
+    async function linkCaret() {
+        await page.locator('[role="application"]').first().click();
+        await page
+            .getByRole('button', {
+                name: 'talk about the code where my cursor is',
+            })
+            .click();
+    }
 
-    // The reference records which file and what the code read, which is what
-    // lets it stay true — or go visibly stale — as the program changes.
-    expect(message?.reference).toBeDefined();
-    expect(message?.reference?.source).toBe(0);
-    expect(typeof message?.reference?.code).toBe('string');
-});
+    await test.step('a message can be about a line of code', async () => {
+        // There is no mode: the link lives on the message, and the editor stays
+        // editable.
+        await linkCaret();
+        const referenced = await send(
+            page,
+            projectId,
+            'This line is repetitive',
+        );
+        const message = messagesIn(referenced).find(
+            (m) => m.text === 'This line is repetitive',
+        );
 
-test('a marker in the gutter leads back to what was said', async ({ page }) => {
-    const projectId = await createTestProject(page);
-    await page.getByTestId('collaborate-toggle').click();
-
-    // Say something about a line.
-    await page.locator('[role="application"]').first().click();
-    await page
-        .getByRole('button', { name: 'talk about the code where my cursor is' })
-        .click();
-    await send(page, projectId, 'this line is repetitive');
-
-    // The code now carries a marker rather than an outline, and pressing it
-    // brings the message back — which is the whole point of the marker, since
-    // an outline said something had been written and gave no way to read it.
-    const marker = page.getByRole('button', {
-        name: 'read the message about this code',
+        // The reference records which file and what the code read, which is what
+        // lets it stay true — or go visibly stale — as the program changes.
+        expect(message?.reference).toMatchObject({
+            source: 0,
+            code: expect.any(String),
+        });
     });
-    await expect(marker).toBeVisible();
-    await marker.click();
-    await expect(page.locator('.message.found, .message:focus')).toContainText(
-        'this line is repetitive',
-    );
+
+    await test.step('a marker in the gutter leads back to what was said', async () => {
+        // The code now carries a marker rather than an outline, and pressing it
+        // brings the message back — which is the whole point of the marker, since
+        // an outline said something had been written and gave no way to read it.
+        const marker = page.getByRole('button', {
+            name: 'read the message about this code',
+        });
+        await expect(marker).toBeVisible();
+        await marker.click();
+        await expect(
+            page.locator('.message.found, .message:focus'),
+        ).toContainText('This line is repetitive');
+    });
 });
 
 test('a message can be only a link to some code', async ({ page }) => {
+    // Its own page rather than a step after the marker: pressing the marker
+    // moves focus into the conversation, and a link attached from there is not
+    // the state this test is about.
     const projectId = await createTestProject(page);
     await page.getByTestId('collaborate-toggle').click();
-
     await page.locator('[role="application"]').first().click();
     await page
         .getByRole('button', { name: 'talk about the code where my cursor is' })
@@ -601,9 +617,7 @@ test('a message can be only a link to some code', async ({ page }) => {
     // Name the reference, not the document: `waitForDocumentUpdate` hands back
     // whatever it last read on timeout, so `not.toBeNull()` is true of a
     // conversation that never changed.
-    const linked = (
-        stored?.messages as { text: string | null; reference?: unknown }[]
-    ).find((m) => m.reference !== undefined);
+    const linked = messagesIn(stored).find((m) => m.reference !== undefined);
     expect(linked).toBeDefined();
     expect(linked?.text).toBe('');
 });

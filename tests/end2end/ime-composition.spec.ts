@@ -145,10 +145,47 @@ async function openWarmEmptyEditor(page: import('@playwright/test').Page) {
     return editor;
 }
 
-test('Latin typing inserts characters', async ({ page }) => {
+/**
+ * Empty an editor between steps of one test, and wait until what the last step
+ * wrote is gone so the next step's assertion can't be satisfied by leftovers.
+ */
+async function clearBetween(
+    page: import('@playwright/test').Page,
+    editor: import('@playwright/test').Locator,
+    previous: string,
+) {
+    await page.keyboard.press('ControlOrMeta+a');
+    await page.keyboard.press('Backspace');
+    await expect(editor).not.toContainText(previous);
+}
+
+// One warm editor for every case that commits in a single step: warming costs a
+// page load and a priming composition, and a clear between cases leaves the
+// editor in the same primed, empty state the warm-up does.
+test('Latin typing and single-composition IMEs insert characters', async ({
+    page,
+}) => {
     const editor = await openWarmEmptyEditor(page);
-    await page.keyboard.type('hello');
-    await expect(editor).toContainText('hello', { timeout: 10_000 });
+
+    await test.step('Latin typing inserts characters', async () => {
+        await page.keyboard.type('hello');
+        await expect(editor).toContainText('hello', { timeout: 10_000 });
+    });
+
+    await test.step('Japanese IME single-composition commit', async () => {
+        await clearBetween(page, editor, 'hello');
+        // Japanese commits the whole phrase in one composition (romaji → convert →
+        // Enter), so a single composition carries the committed kanji.
+        await composeOnce(page, 'n', JAPANESE_WORD);
+        await expect(editor).toContainText(JAPANESE_WORD, { timeout: 10_000 });
+    });
+
+    await test.step('Chinese IME single-composition commit', async () => {
+        await clearBetween(page, editor, JAPANESE_WORD);
+        // Pinyin → candidate selection commits the whole phrase in one composition.
+        await composeOnce(page, 'n', CHINESE_WORD);
+        await expect(editor).toContainText(CHINESE_WORD, { timeout: 10_000 });
+    });
 });
 
 test('Korean IME composition accumulates syllables (#1054)', async ({
@@ -160,21 +197,6 @@ test('Korean IME composition accumulates syllables (#1054)', async ({
     // The overwrite bug drops every syllable but the last, so the full word
     // never appears as a contiguous run — `요` alone would fail this.
     await expect(editor).toContainText(KOREAN_WORD, { timeout: 10_000 });
-});
-
-test('Japanese IME single-composition commit', async ({ page }) => {
-    const editor = await openWarmEmptyEditor(page);
-    // Japanese commits the whole phrase in one composition (romaji → convert →
-    // Enter), so a single composition carries the committed kanji.
-    await composeOnce(page, 'n', JAPANESE_WORD);
-    await expect(editor).toContainText(JAPANESE_WORD, { timeout: 10_000 });
-});
-
-test('Chinese IME single-composition commit', async ({ page }) => {
-    const editor = await openWarmEmptyEditor(page);
-    // Pinyin → candidate selection commits the whole phrase in one composition.
-    await composeOnce(page, 'n', CHINESE_WORD);
-    await expect(editor).toContainText(CHINESE_WORD, { timeout: 10_000 });
 });
 
 test('Stuck composition (emoji picker) recovers on next keystroke', async ({
@@ -239,10 +261,21 @@ async function openWarmMarkupEditor(page: import('@playwright/test').Page) {
     return markup;
 }
 
-test('markup editor: Latin typing inserts characters', async ({ page }) => {
+test('markup editor: Latin typing and a single-composition IME insert characters', async ({
+    page,
+}) => {
     const markup = await openWarmMarkupEditor(page);
-    await page.keyboard.type('hello');
-    await expect(markup).toContainText('hello', { timeout: 10_000 });
+
+    await test.step('markup editor: Latin typing inserts characters', async () => {
+        await page.keyboard.type('hello');
+        await expect(markup).toContainText('hello', { timeout: 10_000 });
+    });
+
+    await test.step('markup editor: Japanese IME single-composition commit', async () => {
+        await clearBetween(page, markup, 'hello');
+        await composeOnce(page, 'n', JAPANESE_WORD, '.markup-editor');
+        await expect(markup).toContainText(JAPANESE_WORD, { timeout: 10_000 });
+    });
 });
 
 test('markup editor: Korean IME composition accumulates syllables (#1054)', async ({
@@ -252,14 +285,6 @@ test('markup editor: Korean IME composition accumulates syllables (#1054)', asyn
     for (const { key, composed } of KOREAN_SYLLABLES)
         await composeOnce(page, key, composed, '.markup-editor');
     await expect(markup).toContainText(KOREAN_WORD, { timeout: 10_000 });
-});
-
-test('markup editor: Japanese IME single-composition commit', async ({
-    page,
-}) => {
-    const markup = await openWarmMarkupEditor(page);
-    await composeOnce(page, 'n', JAPANESE_WORD, '.markup-editor');
-    await expect(markup).toContainText(JAPANESE_WORD, { timeout: 10_000 });
 });
 
 test('markup editor: stuck composition recovers on the next keystroke', async ({
