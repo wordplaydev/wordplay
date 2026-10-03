@@ -43,8 +43,11 @@ jobs:
               with:
                   node-version-file: '.nvmrc'
                   cache: 'npm'
-            - name: Install dependencies
-              run: npm ci
+            # No postinstall on a cache hit: `npm run build` below generates
+            # everything it would have.
+            - uses: ./.github/actions/install
+              with:
+                  postinstall: 'false'
             - name: Resolve Playwright version
               id: playwright-version
               run: echo "version=$(npx playwright --version | tr ' ' '-')" >> "$GITHUB_OUTPUT"
@@ -98,28 +101,52 @@ jobs:
             # firebase.json's predeploy already does before deploying them.
             - name: Install functions dependencies
               run: npm ci --prefix functions
-            - name: Build project
-              run: npm run build
+            # The emulators take ~15s to start, so they start before the build
+            # rather than after it, as `emulators:exec` would; the build is
+            # nearly a minute and they are ready long before it ends. Functions
+            # are compiled first because the functions emulator loads them as it
+            # starts (the build compiles them again, and it reloads). The hosting
+            # emulator serves build/ as it changes, so it can start before there
+            # is anything in it.
+            #
             # `--only` leaves the Emulator UI out. `firebase.json` enables it for
             # local work, where it is genuinely useful; in CI nobody opens it and
             # it costs an extra Java and Node process per shard — which is worth
             # avoiding most on the 3-core macOS runner the WebKit nightly uses,
             # where contention is what the remaining flakes are made of.
-            #
-            # The JSON report is written alongside the `list` output so the step
-            # below can name the failed and flaky tests in the job summary.
+            - name: Start the emulators
+              run: |
+                  npm run build --prefix functions
+                  mkdir -p build
+                  nohup npx firebase emulators:start --only auth,firestore,functions,hosting --project=demo-wordplay --log-verbosity QUIET > emulators.log 2>&1 &
+            - name: Build project
+              run: npm run build
+            - name: Wait for the emulators
+              run: |
+                  for port in 9099 8080 5001 5002; do
+                      if ! timeout 120 bash -c "until curl -s -o /dev/null http://127.0.0.1:$port; do sleep 1; done"; then
+                          echo "The emulator on port $port never answered."
+                          cat emulators.log
+                          exit 1
+                      fi
+                  done
+            # After the build, because listing the tests imports helpers that
+            # read the assembled locale.
             - name: Choose this shard's tests
               run: npx tsx scripts/e2e-shard.ts ${{ matrix.shard }} ${{ strategy.job-total }} --project=${{ inputs.browser }} > shard-tests.txt
-            - name: Run end-to-end tests with emulator
+            # The JSON report is written alongside the `list` output so the step
+            # below can name the failed and flaky tests in the job summary, and
+            # so scripts/e2e-timings.ts can refresh tests/e2e-timings.json from it.
+            - name: Run end-to-end tests
               env:
                   PLAYWRIGHT_JSON_OUTPUT_NAME: playwright-report.json
-              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} $(tr '\n' ' ' < shard-tests.txt) --workers=${{ inputs.workers }} --reporter=list,json" --only auth,firestore,functions,hosting --project=demo-wordplay --log-verbosity QUIET
+              run: npx playwright test --project=${{ inputs.browser }} $(tr '\n' ' ' < shard-tests.txt) --workers=${{ inputs.workers }} --reporter=list,json
             # Always: the summary is most wanted precisely when the step above
             # failed. The script exits 0 even with no report, so it can never
             # turn a green run red.
             # The budget is the whole chromium suite's test-seconds, divided
             # evenly because the shards split by test. Set at ~10% above the
-            # suite as measured after it was last trimmed (1,650 test-seconds,
+            # suite as measured after it was last trimmed (1,750 test-seconds,
             # October 2026), so a PR that grows it past that is told so in its
             # own summary. It only warns; raise it deliberately, with a reason,
             # when growth is worth its cost. WebKit runs 2-3x slower and has no
@@ -127,15 +154,18 @@ jobs:
             - name: Summarize failed and flaky tests
               if: always()
               env:
-                  E2E_BUDGET_SECONDS: ${{ inputs.browser == 'chromium' && 1800 || '' }}
+                  E2E_BUDGET_SECONDS: ${{ inputs.browser == 'chromium' && 1925 || '' }}
               run: npx tsx scripts/summarize-playwright.ts playwright-report.json "${{ inputs.browser }} shard ${{ matrix.shard }}/${{ strategy.job-total }}" ${E2E_BUDGET_SECONDS:+$((E2E_BUDGET_SECONDS / ${{ strategy.job-total }}))}
             - uses: actions/upload-artifact@v6
               if: always()
               with:
                   name: playwright-report-${{ inputs.browser }}-shard${{ matrix.shard }}
-                  path: test-results/
+                  path: |
+                      test-results/
+                      playwright-report.json
                   retention-days: 30
                   # A fully green run writes nothing to test-results/ (traces are
-                  # on-first-retry, screenshots only-on-failure), so don't warn
-                  # when there's nothing to upload.
+                  # on-first-retry, screenshots only-on-failure), and a run that
+                  # died early writes no report, so don't warn when either is
+                  # missing.
                   if-no-files-found: ignore

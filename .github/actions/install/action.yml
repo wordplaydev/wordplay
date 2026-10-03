@@ -1,0 +1,44 @@
+name: Install dependencies
+description: >-
+    Restore node_modules from the cache keyed on the lockfile, or run `npm ci`
+    when there is none. Every CI job ran `npm ci` (23-53s, about a third of it
+    the root postinstall) to rebuild the same 850MB from the same lockfile.
+inputs:
+    postinstall:
+        description: >-
+            On a cache hit, run the root postinstall, which generates the
+            gitignored locale, font and env artifacts `npm ci` would have. A
+            job that runs `npm run build` can skip it: the build generates them
+            all again.
+        default: 'true'
+    save:
+        description: >-
+            Save node_modules on a miss. Only the warm-node-modules workflow
+            does: a PR's cache is visible to that PR alone, and saving 850MB
+            from five shards at once is minutes spent racing for one entry.
+        default: 'false'
+runs:
+    using: composite
+    steps:
+        - name: Restore node_modules
+          id: modules
+          uses: actions/cache/restore@v5
+          with:
+              path: node_modules
+              # The Node version is in the key because native modules (re2) are
+              # built against it.
+              key: ${{ runner.os }}-${{ runner.arch }}-node-modules-${{ hashFiles('.nvmrc', 'package-lock.json') }}
+        - name: Install dependencies
+          if: steps.modules.outputs.cache-hit != 'true'
+          shell: bash
+          run: npm ci
+        - name: Generate the postinstall artifacts
+          if: steps.modules.outputs.cache-hit == 'true' && inputs.postinstall == 'true'
+          shell: bash
+          run: npm run postinstall
+        - name: Save node_modules
+          if: steps.modules.outputs.cache-hit != 'true' && inputs.save == 'true'
+          uses: actions/cache/save@v5
+          with:
+              path: node_modules
+              key: ${{ steps.modules.outputs.cache-primary-key }}

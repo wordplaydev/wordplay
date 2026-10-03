@@ -8,7 +8,8 @@ permissions:
 # Split into seven independent jobs that run concurrently. This work used to run
 # as sequential steps in one job; as parallel jobs the wall-clock collapses
 # to the longest single job instead of their sum. Each job repeats the
-# checkout/setup-node/npm-ci preamble (cheap with the npm cache).
+# checkout/setup-node/install preamble, which restores node_modules from cache
+# (.github/actions/install) rather than reinstalling it.
 jobs:
     vitest:
         runs-on: ubuntu-latest
@@ -18,8 +19,7 @@ jobs:
               with:
                   node-version-file: '.nvmrc'
                   cache: 'npm'
-            - run: npm ci
-              name: Install dependencies
+            - uses: ./.github/actions/install
             - run: npm run test:run
               name: Run vitest
 
@@ -39,8 +39,7 @@ jobs:
               with:
                   node-version-file: '.nvmrc'
                   cache: 'npm'
-            - run: npm ci
-              name: Install dependencies
+            - uses: ./.github/actions/install
             - run: npm run test:sweep
               name: Run the corpus sweeps
 
@@ -57,8 +56,7 @@ jobs:
               with:
                   node-version-file: '.nvmrc'
                   cache: 'npm'
-            - run: npm ci
-              name: Install dependencies
+            - uses: ./.github/actions/install
             - name: Set up JDK 21 # Firebase emulator requires >=21
               uses: actions/setup-java@v5
               with:
@@ -85,8 +83,7 @@ jobs:
               with:
                   node-version-file: '.nvmrc'
                   cache: 'npm'
-            - run: npm ci
-              name: Install dependencies
+            - uses: ./.github/actions/install
             - run: npx svelte-kit sync
               name: Sync svelte-kit
             # --fail-on-warnings makes compiler a11y warnings block the merge:
@@ -103,8 +100,7 @@ jobs:
               with:
                   node-version-file: '.nvmrc'
                   cache: 'npm'
-            - run: npm ci
-              name: Install dependencies
+            - uses: ./.github/actions/install
             # Verifying the localized gallery examples re-derives 75 `.wp` files
             # per locale against their masters, which is most of this job. Nothing
             # a change leaves untouched can have gone stale, so the verifier skips
@@ -134,8 +130,7 @@ jobs:
               with:
                   node-version-file: '.nvmrc'
                   cache: 'npm'
-            - run: npm ci
-              name: Install dependencies
+            - uses: ./.github/actions/install
             # The base to compare against: the PR's base commit, or the previous
             # tip of main on a push. Fetched one commit deep.
             - name: Fetch the base commit
@@ -154,8 +149,7 @@ jobs:
               with:
                   node-version-file: '.nvmrc'
                   cache: 'npm'
-            - run: npm ci
-              name: Install dependencies
+            - uses: ./.github/actions/install
             # The local pre-commit hook auto-formats, but hooks can be bypassed
             # (--no-verify, GitHub web edits), so this is the backstop.
             # `npm run format` fixes any failure it reports.
