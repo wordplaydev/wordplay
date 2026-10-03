@@ -19,10 +19,3 @@ export async function drawTriangle(page: Page) {
     // Escape finishes the path, which leaves it selected.
     await page.keyboard.press('Escape');
 }
-
-/** Draw a path and open its points, so the handles and their toolbar are showing. */
-export async function editTrianglePoints(page: Page) {
-    await drawTriangle(page);
-    await page.keyboard.press('Enter');
-    await page.locator('[data-handle="point-0"]').waitFor();
-}

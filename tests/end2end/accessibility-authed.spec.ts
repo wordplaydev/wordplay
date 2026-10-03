@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import {
     expectNoAxeViolationsInBothSchemes,
     expectNoHorizontalOverflow,
@@ -7,7 +7,6 @@ import {
 import { enUS, text } from '../helpers/localize';
 import { createTestCharacter } from '../helpers/createCharacter';
 import { createTestGallery } from '../helpers/createGallery';
-import { editTrianglePoints } from '../helpers/drawCharacterPath';
 import { waitForDocumentUpdate } from '../helpers/firestore';
 import { loginNewContext } from '../helpers/loginNewContext';
 import { uniqueCharacterName } from '../helpers/uniqueCharacterName';
@@ -36,6 +35,15 @@ const PNG = Buffer.from(
         'zJNQBnQDDBaHEBMbF6Gmtq7CzOzcPKdjE0EdpVEhAAAAAElFTkSuQmCC',
     'base64',
 );
+
+/** Check reflow at the phone width, then put the viewport back, so a later
+ *  part of a merged test scans at the configured width as it always did. */
+async function expectReflowsThenRestore(page: Page) {
+    const viewport = page.viewportSize();
+    await page.setViewportSize(REFLOW_VIEWPORT);
+    await expectNoHorizontalOverflow(page);
+    if (viewport !== null) await page.setViewportSize(viewport);
+}
 
 test.describe('authed views', () => {
     test(`the privileges page has no WCAG 2.2 AA violations`, async ({
@@ -77,182 +85,307 @@ test.describe('authed views', () => {
         }
     });
 
-    test(`the new class form has no WCAG 2.2 AA violations`, async ({
+    test(`a teacher is kept out of privileges, and the new class form has no WCAG 2.2 AA violations`, async ({
         browser,
     }) => {
-        // A form full of controls that had never been scanned, and #1347 puts a
-        // radiogroup and a checkbox on it. Both branches in one page load: the
-        // question with nothing answered, then the email branch, which is where
-        // the new controls and the revealed affirmation are.
+        // Both parts sign in as `teacher`, so they share one sign-in.
         const { context, page } = await loginNewContext(
             browser,
             'teacher',
             'password',
         );
         try {
-            await page.goto('/en-US/teach/class/new');
-            await expect(page.locator('#class-name')).toBeVisible({
-                timeout: LOAD_TIMEOUT,
-            });
-            await expectNoAxeViolationsInBothSchemes(page);
+            await test.step('someone without the claim is told so, and not linked to it', async () => {
+                // The gate, from the other side. `teacher` holds a claim but not this
+                // one, which is the case that would break if `admin` were ever treated
+                // as merely another privilege rather than the one that implies others.
+                await page.goto('/en-US');
+                await expect(page.getByRole('heading').first()).toBeVisible({
+                    timeout: LOAD_TIMEOUT,
+                });
+                await expect(
+                    page.getByRole('link', { name: /Privileges/i }),
+                ).toHaveCount(0);
 
-            // Choosing email reveals the affirmation, whose visible label is a
-            // sibling `<label for>` — Checkbox renders its own only as a
-            // tooltip, so the association is the thing worth scanning.
-            await page
-                .getByRole('radio', { name: /emailed link/i })
-                .click({ timeout: LOAD_TIMEOUT });
-            await expect(page.locator('#email-affirmation')).toBeVisible();
-            await expectNoAxeViolationsInBothSchemes(page);
-            await page.setViewportSize(REFLOW_VIEWPORT);
-            await expectNoHorizontalOverflow(page);
+                await page.goto('/en-US/admin');
+                await expect(page.getByText(/superuser space/i)).toBeVisible({
+                    timeout: LOAD_TIMEOUT,
+                });
+                // No roster, and nothing to press: the client gate is cosmetic —
+                // the callable refuses them too — but it must not show a table it
+                // cannot fill.
+                await expect(page.locator('.people-table')).toHaveCount(0);
+            });
+
+            await test.step('the new class form has no WCAG 2.2 AA violations', async () => {
+                // A form full of controls that had never been scanned, and #1347 puts a
+                // radiogroup and a checkbox on it. Both branches in one page load: the
+                // question with nothing answered, then the email branch, which is where
+                // the new controls and the revealed affirmation are.
+                await page.goto('/en-US/teach/class/new');
+                await expect(page.locator('#class-name')).toBeVisible({
+                    timeout: LOAD_TIMEOUT,
+                });
+                await expectNoAxeViolationsInBothSchemes(page);
+
+                // Choosing email reveals the affirmation, whose visible label is a
+                // sibling `<label for>` — Checkbox renders its own only as a
+                // tooltip, so the association is the thing worth scanning.
+                await page
+                    .getByRole('radio', { name: /emailed link/i })
+                    .click({ timeout: LOAD_TIMEOUT });
+                await expect(page.locator('#email-affirmation')).toBeVisible();
+                await expectNoAxeViolationsInBothSchemes(page);
+                await page.setViewportSize(REFLOW_VIEWPORT);
+                await expectNoHorizontalOverflow(page);
+            });
         } finally {
             await context.close();
         }
     });
 
-    test(`someone without the claim is told so, and not linked to it`, async ({
+    test(`the profile page and the projects list, with and without a folder, have no WCAG 2.2 AA violations`, async ({
         browser,
     }) => {
-        // The gate, from the other side. `teacher` holds a claim but not this
-        // one, which is the case that would break if `admin` were ever treated
-        // as merely another privilege rather than the one that implies others.
-        const { context, page } = await loginNewContext(
-            browser,
-            'teacher',
-            'password',
-        );
-        try {
-            await page.goto('/en-US');
-            await expect(page.getByRole('heading').first()).toBeVisible({
-                timeout: LOAD_TIMEOUT,
-            });
-            await expect(
-                page.getByRole('link', { name: /Privileges/i }),
-            ).toHaveCount(0);
-
-            await page.goto('/en-US/admin');
-            await expect(page.getByText(/superuser space/i)).toBeVisible({
-                timeout: LOAD_TIMEOUT,
-            });
-            // No roster, and nothing to press: the client gate is cosmetic —
-            // the callable refuses them too — but it must not show a table it
-            // cannot fill.
-            await expect(page.locator('.people-table')).toHaveCount(0);
-        } finally {
-            await context.close();
-        }
-    });
-
-    test(`the profile page has no WCAG 2.2 AA violations`, async ({
-        browser,
-    }) => {
-        // The profile is a row of cards, each of which grew its own heading —
-        // so `heading-order` is the rule this scan is really here for. It was
-        // in neither axe suite before, which is how seven cards came to have
-        // no headings at all.
+        // Three surfaces on one `creator` sign-in, ordered so the one that
+        // adds a folder runs last and cannot change what the others scan.
         const { context, page } = await loginNewContext(
             browser,
             'creator',
             'password',
         );
         try {
-            await page.goto('/en-US/profile');
-            await expect(page.getByTestId('username')).toBeVisible({
-                timeout: LOAD_TIMEOUT,
+            await test.step('the profile page has no WCAG 2.2 AA violations', async () => {
+                // The profile is a row of cards, each of which grew its own heading —
+                // so `heading-order` is the rule this scan is really here for. It was
+                // in neither axe suite before, which is how seven cards came to have
+                // no headings at all.
+                await page.goto('/en-US/profile');
+                await expect(page.getByTestId('username')).toBeVisible({
+                    timeout: LOAD_TIMEOUT,
+                });
+                // The archive card is the newest of them (#152), and the one whose
+                // control only appears when the page is not a read-only session —
+                // so assert it is here rather than trusting the scan to notice a
+                // card that rendered nothing at all.
+                await expect(page.getByTestId('export-account')).toBeVisible();
+                await expectNoAxeViolationsInBothSchemes(page);
+                await expectReflowsThenRestore(page);
             });
-            // The archive card is the newest of them (#152), and the one whose
-            // control only appears when the page is not a read-only session —
-            // so assert it is here rather than trusting the scan to notice a
-            // card that rendered nothing at all.
-            await expect(page.getByTestId('export-account')).toBeVisible();
-            await expectNoAxeViolationsInBothSchemes(page);
-            await page.setViewportSize(REFLOW_VIEWPORT);
-            await expectNoHorizontalOverflow(page);
+
+            await test.step('projects list has no WCAG 2.2 AA violations', async () => {
+                await page.goto('/en-US/projects');
+                // The heavy seeded account's projects render, and the pinned
+                // save-status button — which replaced the connection banner —
+                // must never hide while they do.
+                await expect(page.getByTestId('preview').first()).toBeVisible({
+                    timeout: LOAD_TIMEOUT,
+                });
+                await expect(page.getByTestId('save-status')).toBeVisible();
+                // The import control (#152) is the keyboard path to a drop target,
+                // so it has to be here and it has to be a real, labelled control —
+                // the drop itself can never be scanned.
+                await expect(page.getByTestId('import-project')).toBeVisible();
+                await expectNoAxeViolationsInBothSchemes(page);
+                await expectReflowsThenRestore(page);
+            });
+
+            await test.step('projects list with a folder has no WCAG 2.2 AA violations', async () => {
+                // Folders add a disclosure, an inline rename field, tiles that can
+                // be chosen and dragged, and an instructions region — none of which
+                // the plain list scan above covers. A project is left chosen, since
+                // the focusable tile and its aria-current are the parts most likely
+                // to be wrong.
+                //
+                // Re-runnable against an emulator that already has a folder
+                // from an earlier run, so count before rather than assuming one.
+                const folders = page.locator('section.folder');
+                const before = await folders.count();
+                await page.locator('[data-uiid="new-folder"]').click();
+                await expect(folders).toHaveCount(before + 1);
+                const tile = page
+                    .locator('[data-folder="none"] .project')
+                    .first();
+                await tile.click({ position: { x: 4, y: 4 } });
+                await expect(tile).toHaveAttribute('aria-current', 'true');
+                await expectNoAxeViolationsInBothSchemes(page);
+                await page.setViewportSize(REFLOW_VIEWPORT);
+                await expectNoHorizontalOverflow(page);
+            });
         } finally {
             await context.close();
         }
     });
 
-    test(`projects list has no WCAG 2.2 AA violations`, async ({ browser }) => {
-        const { context, page } = await loginNewContext(
-            browser,
-            'creator',
-            'password',
-        );
-        try {
-            await page.goto('/en-US/projects');
-            await expect(page.getByTestId('preview').first()).toBeVisible({
-                timeout: LOAD_TIMEOUT,
-            });
-            // The import control (#152) is the keyboard path to a drop target,
-            // so it has to be here and it has to be a real, labelled control —
-            // the drop itself can never be scanned.
-            await expect(page.getByTestId('import-project')).toBeVisible();
-            await expectNoAxeViolationsInBothSchemes(page);
-            await page.setViewportSize(REFLOW_VIEWPORT);
-            await expectNoHorizontalOverflow(page);
-        } finally {
-            await context.close();
-        }
-    });
-
-    test(`projects list with a folder has no WCAG 2.2 AA violations`, async ({
+    test(`the project editor, its languages and add-source dialogs, and its chat have no WCAG 2.2 AA violations`, async ({
         browser,
     }) => {
-        // Folders add a disclosure, an inline rename field, tiles that can
-        // be chosen and dragged, and an instructions region — none of which
-        // the plain list scan above covers. A project is left chosen, since
-        // the focusable tile and its aria-current are the parts most likely
-        // to be wrong.
+        // Four surfaces of the same seeded project on one sign-in. The dialogs
+        // are closed again before the chat, so each part scans what it did
+        // when it was a test of its own.
         const { context, page } = await loginNewContext(
             browser,
             'creator',
             'password',
         );
         try {
-            await page.goto('/en-US/projects');
-            await expect(page.getByTestId('preview').first()).toBeVisible({
-                timeout: LOAD_TIMEOUT,
+            await test.step('project editor has no WCAG 2.2 AA violations', async () => {
+                await page.goto('/en-US/project/seed-collab-project');
+                // For a fresh login (empty local cache) the name only resolves
+                // once cloud sync has, so it doubles as the connection-healthy
+                // signal the old banner used to give.
+                await expect(page.locator('#project-name')).toHaveValue(
+                    'Shared Sketch',
+                    { timeout: LOAD_TIMEOUT },
+                );
+                // Connection and save feedback live on the save-status button,
+                // which is pinned in the footer toolbar and must never be
+                // hidden in the overflow menu.
+                await expect(page.getByTestId('save-status')).toBeVisible();
+                await expect(page.getByTestId('editor').first()).toBeVisible();
+                // Let the evaluator reach its (reduced-motion) steady state
+                // before sampling colors: the seeded program's phrase on stage.
+                await expect(page.locator('.output.phrase').first()).toHaveText(
+                    'Type here together!',
+                );
+                await expectNoAxeViolationsInBothSchemes(page, {
+                    verbose: true,
+                });
             });
-            // Re-runnable against an emulator that already has a folder
-            // from an earlier run, so count before rather than assuming one.
-            const folders = page.locator('section.folder');
-            const before = await folders.count();
-            await page.locator('[data-uiid="new-folder"]').click();
-            await expect(folders).toHaveCount(before + 1);
-            const tile = page.locator('[data-folder="none"] .project').first();
-            await tile.click({ position: { x: 4, y: 4 } });
-            await expect(tile).toHaveAttribute('aria-current', 'true');
-            await expectNoAxeViolationsInBothSchemes(page);
-            await page.setViewportSize(REFLOW_VIEWPORT);
-            await expectNoHorizontalOverflow(page);
-        } finally {
-            await context.close();
-        }
-    });
 
-    test(`project editor has no WCAG 2.2 AA violations`, async ({
-        browser,
-    }) => {
-        const { context, page } = await loginNewContext(
-            browser,
-            'creator',
-            'password',
-        );
-        try {
-            await page.goto('/en-US/project/seed-collab-project');
-            // The name only resolves once cloud sync has, so it doubles as
-            // the loaded signal (see seeded-load.spec.ts).
-            await expect(page.locator('#project-name')).toHaveValue(
-                'Shared Sketch',
-                { timeout: LOAD_TIMEOUT },
-            );
-            await expect(page.getByTestId('editor').first()).toBeVisible();
-            // Let the evaluator settle into its (reduced-motion) steady
-            // state before sampling colors.
-            await page.waitForTimeout(1000);
-            await expectNoAxeViolationsInBothSchemes(page, { verbose: true });
+            await test.step('languages dialog has no WCAG 2.2 AA violations', async () => {
+                // The translate tab carries a progress bar and a budget meter, both
+                // of which need an accessible name and AA-contrast text in both
+                // schemes, and neither is reachable from the editor scan above.
+                await page
+                    .locator('[data-uiid="languagesButton"] button')
+                    .first()
+                    .click();
+                await page.getByRole('tab').nth(1).click();
+                await expect(
+                    page.locator('#languages-tabs-panel'),
+                ).toBeVisible();
+                await expectNoAxeViolationsInBothSchemes(page);
+                await page.keyboard.press('Escape');
+                await expect(page.locator('dialog[open]')).toHaveCount(0);
+            });
+
+            await test.step('add-source dialog has no WCAG 2.2 AA violations', async () => {
+                // The one place that turns data into a source file (#559, #560). Four
+                // tabs, and the picture one carries a crop box in a role="application"
+                // region plus a slider and a canvas preview — none of it reachable from
+                // the editor scan above, and none of it a shape any other dialog has.
+                // The camera tab is deliberately not opened: a headless browser has no
+                // camera, so what it would scan is the refusal rather than the control.
+                await page.locator('[data-uiid="addSource"]').click();
+                const dialog = page.getByRole('dialog');
+                await expect(dialog).toBeVisible();
+                await expectNoAxeViolationsInBothSchemes(page);
+                // The picture tab, with a picture chosen, so the crop box and the
+                // preview are what is scanned rather than an empty panel.
+                await dialog.getByRole('tab').nth(1).click();
+                await dialog.locator('input[type="file"]').setInputFiles({
+                    name: 'swatch.png',
+                    mimeType: 'image/png',
+                    buffer: PNG,
+                });
+                await expect(dialog.locator('canvas').first()).toBeVisible();
+                await expectNoAxeViolationsInBothSchemes(page);
+                await page.keyboard.press('Escape');
+                await expect(page.locator('dialog[open]')).toHaveCount(0);
+            });
+
+            await test.step('chat, with its translation controls, has no WCAG 2.2 AA violations', async () => {
+                // The editor scan above never opens this tile, so nothing was
+                // scanning the chat at all — and it carries two labelled language
+                // pickers, a table of people with a picker per row, and the row
+                // that replaces the table while a message is being written, which
+                // is exactly the shape axe catches mislabelled or duplicated.
+                await page.getByTestId('collaborate-toggle').click();
+                // The table of people is the tile's other half, and an empty
+                // one would pass every check below without being scanned.
+                await expect(
+                    page.locator('[data-uiid="collaborators"] table'),
+                ).toBeVisible();
+                // Scoped to the chat, not because anything here is out of
+                // scope, but because expanding this tile also reveals the tile
+                // footer's overflow toggles — whose labels fail contrast in
+                // dark mode (black on --color-pressed, 1.84:1). That is a
+                // pre-existing bug in shared chrome, reachable on main by the
+                // identical click in chat.spec.ts and simply never scanned
+                // before; fixing it means reasoning about every Toggle state,
+                // which is not this feature's to decide.
+                await expectNoAxeViolationsInBothSchemes(page, {
+                    include: ['[data-uiid="collaborate"]'],
+                    verbose: true,
+                });
+
+                // Writing a message swaps the table of people for a row of
+                // whoever can read what you write, which is UI the scan above
+                // never sees.
+                await page.locator('#new-message').click();
+                await expect(
+                    page.locator('[data-uiid="collaborators"] .audience'),
+                ).toBeVisible();
+                await expectNoAxeViolationsInBothSchemes(page, {
+                    include: ['[data-uiid="collaborate"]'],
+                    verbose: true,
+                });
+
+                // The reaction picker is a floating panel outside the tile, so
+                // it needs its own pass — scoped to the whole page, since the
+                // tile selector above would exclude the very thing being
+                // checked.
+                const react = page.getByRole('button', { name: 'react' });
+                if (await react.count()) {
+                    await react.first().click();
+                    await expect(
+                        page.getByRole('group', {
+                            name: 'Choose a reaction',
+                        }),
+                    ).toBeVisible();
+                    await expectNoAxeViolationsInBothSchemes(page, {
+                        include: ['[data-uiid="collaborate"]', '.choices'],
+                        verbose: true,
+                    });
+                    await page.keyboard.press('Escape');
+                }
+
+                // Saying the message is about some code puts a chip in the
+                // message row and a prompt in the editor's footer, neither of
+                // which the passes above have seen. Scoped to the page rather
+                // than the tile, since the prompt is in the editor.
+                await page.locator('[role="application"]').first().click();
+                await page
+                    .getByRole('button', {
+                        name: 'talk about the code where my cursor is',
+                    })
+                    .first()
+                    .click();
+                await expect(
+                    page.getByRole('button', {
+                        name: 'stop talking about this code',
+                    }),
+                ).toBeVisible();
+                // The chip is in the tile and the prompt is in the editor's
+                // footer, so both are named. Scoped rather than whole-page for
+                // the same reason the passes above are: an unscoped scan here
+                // still reports the tile toggle's label at 1.84:1 on
+                // --color-pressed in dark mode — the same pre-existing Toggle
+                // bug named above, measured again here and still not this
+                // feature's to decide. The focused tour button that also failed
+                // is fixed: a tile header no longer dims what has focus.
+                await expectNoAxeViolationsInBothSchemes(page, {
+                    include: [
+                        '[data-uiid="collaborate"]',
+                        '.editor-notifications',
+                    ],
+                    verbose: true,
+                });
+            });
+
+            // The editor's reflow check, last because it resizes the viewport
+            // and every scan above runs at the configured width.
             await page.setViewportSize(REFLOW_VIEWPORT);
             await expectNoHorizontalOverflow(page);
         } finally {
@@ -316,176 +449,6 @@ test.describe('authed views', () => {
             const download = await downloading;
             // The value's own localized name, which en-US capitalizes.
             expect(download.suggestedFilename()).toBe('Pet Survey-Table.csv');
-        } finally {
-            await context.close();
-        }
-    });
-
-    test(`chat, with its translation controls, has no WCAG 2.2 AA violations`, async ({
-        browser,
-    }) => {
-        // The editor scan above never opens this tile, so nothing was
-        // scanning the chat at all — and it carries two labelled language
-        // pickers, a table of people with a picker per row, and the row
-        // that replaces the table while a message is being written, which
-        // is exactly the shape axe catches mislabelled or duplicated.
-        const { context, page } = await loginNewContext(
-            browser,
-            'creator',
-            'password',
-        );
-        try {
-            await page.goto('/en-US/project/seed-collab-project');
-            await expect(page.locator('#project-name')).toHaveValue(
-                'Shared Sketch',
-                { timeout: LOAD_TIMEOUT },
-            );
-            await page.getByTestId('collaborate-toggle').click();
-            // The table of people is the tile's other half, and an empty
-            // one would pass every check below without being scanned.
-            await expect(
-                page.locator('[data-uiid="collaborators"] table'),
-            ).toBeVisible();
-            // Scoped to the chat, not because anything here is out of
-            // scope, but because expanding this tile also reveals the tile
-            // footer's overflow toggles — whose labels fail contrast in
-            // dark mode (black on --color-pressed, 1.84:1). That is a
-            // pre-existing bug in shared chrome, reachable on main by the
-            // identical click in chat.spec.ts and simply never scanned
-            // before; fixing it means reasoning about every Toggle state,
-            // which is not this feature's to decide.
-            await expectNoAxeViolationsInBothSchemes(page, {
-                include: ['[data-uiid="collaborate"]'],
-                verbose: true,
-            });
-
-            // Writing a message swaps the table of people for a row of
-            // whoever can read what you write, which is UI the scan above
-            // never sees.
-            await page.locator('#new-message').click();
-            await expect(
-                page.locator('[data-uiid="collaborators"] .audience'),
-            ).toBeVisible();
-            await expectNoAxeViolationsInBothSchemes(page, {
-                include: ['[data-uiid="collaborate"]'],
-                verbose: true,
-            });
-
-            // The reaction picker is a floating panel outside the tile, so
-            // it needs its own pass — scoped to the whole page, since the
-            // tile selector above would exclude the very thing being
-            // checked.
-            const react = page.getByRole('button', { name: 'react' });
-            if (await react.count()) {
-                await react.first().click();
-                await expect(
-                    page.getByRole('group', {
-                        name: 'Choose a reaction',
-                    }),
-                ).toBeVisible();
-                await expectNoAxeViolationsInBothSchemes(page, {
-                    include: ['[data-uiid="collaborate"]', '.choices'],
-                    verbose: true,
-                });
-                await page.keyboard.press('Escape');
-            }
-
-            // Saying the message is about some code puts a chip in the
-            // message row and a prompt in the editor's footer, neither of
-            // which the passes above have seen. Scoped to the page rather
-            // than the tile, since the prompt is in the editor.
-            await page.locator('[role="application"]').first().click();
-            await page
-                .getByRole('button', {
-                    name: 'talk about the code where my cursor is',
-                })
-                .first()
-                .click();
-            await expect(
-                page.getByRole('button', {
-                    name: 'stop talking about this code',
-                }),
-            ).toBeVisible();
-            // The chip is in the tile and the prompt is in the editor's
-            // footer, so both are named. Scoped rather than whole-page for
-            // the same reason the passes above are: an unscoped scan here
-            // still reports the tile toggle's label at 1.84:1 on
-            // --color-pressed in dark mode — the same pre-existing Toggle
-            // bug named above, measured again here and still not this
-            // feature's to decide. The focused tour button that also failed
-            // is fixed: a tile header no longer dims what has focus.
-            await expectNoAxeViolationsInBothSchemes(page, {
-                include: ['[data-uiid="collaborate"]', '.editor-notifications'],
-                verbose: true,
-            });
-        } finally {
-            await context.close();
-        }
-    });
-
-    test(`languages dialog has no WCAG 2.2 AA violations`, async ({
-        browser,
-    }) => {
-        // The translate tab carries a progress bar and a budget meter, both
-        // of which need an accessible name and AA-contrast text in both
-        // schemes, and neither is reachable from the editor scan above.
-        const { context, page } = await loginNewContext(
-            browser,
-            'creator',
-            'password',
-        );
-        try {
-            await page.goto('/en-US/project/seed-collab-project');
-            await expect(page.locator('#project-name')).toHaveValue(
-                'Shared Sketch',
-                { timeout: LOAD_TIMEOUT },
-            );
-            await page
-                .locator('[data-uiid="languagesButton"] button')
-                .first()
-                .click();
-            await page.getByRole('tab').nth(1).click();
-            await expect(page.locator('#languages-tabs-panel')).toBeVisible();
-            await expectNoAxeViolationsInBothSchemes(page);
-        } finally {
-            await context.close();
-        }
-    });
-
-    test(`add-source dialog has no WCAG 2.2 AA violations`, async ({
-        browser,
-    }) => {
-        // The one place that turns data into a source file (#559, #560). Four
-        // tabs, and the picture one carries a crop box in a role="application"
-        // region plus a slider and a canvas preview — none of it reachable from
-        // the editor scan above, and none of it a shape any other dialog has.
-        // The camera tab is deliberately not opened: a headless browser has no
-        // camera, so what it would scan is the refusal rather than the control.
-        const { context, page } = await loginNewContext(
-            browser,
-            'creator',
-            'password',
-        );
-        try {
-            await page.goto('/en-US/project/seed-collab-project');
-            await expect(page.locator('#project-name')).toHaveValue(
-                'Shared Sketch',
-                { timeout: LOAD_TIMEOUT },
-            );
-            await page.locator('[data-uiid="addSource"]').click();
-            const dialog = page.getByRole('dialog');
-            await expect(dialog).toBeVisible();
-            await expectNoAxeViolationsInBothSchemes(page);
-            // The picture tab, with a picture chosen, so the crop box and the
-            // preview are what is scanned rather than an empty panel.
-            await dialog.getByRole('tab').nth(1).click();
-            await dialog.locator('input[type="file"]').setInputFiles({
-                name: 'swatch.png',
-                mimeType: 'image/png',
-                buffer: PNG,
-            });
-            await expect(dialog.locator('canvas').first()).toBeVisible();
-            await expectNoAxeViolationsInBothSchemes(page);
         } finally {
             await context.close();
         }
@@ -565,76 +528,44 @@ test.describe('authed views', () => {
         }
     });
 
-    test(`character editor has no WCAG 2.2 AA violations`, async ({
+    test(`the character editor and its image importer have no WCAG 2.2 AA violations`, async ({
         browser,
     }) => {
+        // Both parts sign in as `creator`, so they share one sign-in.
         const { context, page } = await loginNewContext(
             browser,
             'creator',
             'password',
         );
         try {
-            await page.goto('/en-US/characters');
-            const first = page.locator('a[href*="/character/"]').first();
-            await expect(first).toBeVisible({ timeout: LOAD_TIMEOUT });
-            await first.click();
-            await page.waitForURL(/\/character\/[^/]+$/);
-            await expect(page.getByRole('application').first()).toBeVisible({
-                timeout: LOAD_TIMEOUT,
+            await test.step('character editor has no WCAG 2.2 AA violations', async () => {
+                await page.goto('/en-US/characters');
+                const first = page.locator('a[href*="/character/"]').first();
+                await expect(first).toBeVisible({ timeout: LOAD_TIMEOUT });
+                await first.click();
+                await page.waitForURL(/\/character\/[^/]+$/);
+                await expect(page.getByRole('application').first()).toBeVisible(
+                    { timeout: LOAD_TIMEOUT },
+                );
+                await expectNoAxeViolationsInBothSchemes(page);
+                await expectReflowsThenRestore(page);
             });
-            await expectNoAxeViolationsInBothSchemes(page);
-            await page.setViewportSize(REFLOW_VIEWPORT);
-            await expectNoHorizontalOverflow(page);
-        } finally {
-            await context.close();
-        }
-    });
 
-    /**
-     * The image importer's crop region is a role="application" the creator
-     * drives with the keyboard, and it only renders once its mode is chosen.
-     */
-    test(`the character image importer has no WCAG 2.2 AA violations`, async ({
-        browser,
-    }) => {
-        const { context, page } = await loginNewContext(
-            browser,
-            'creator',
-            'password',
-        );
-        try {
-            await createTestCharacter(page);
-            await page
-                .getByRole('radio', { name: 'image', exact: true })
-                .click();
-            await expect(
-                page
-                    .getByRole('button', { name: /choose an image file/i })
-                    .first(),
-            ).toBeVisible({ timeout: LOAD_TIMEOUT });
-            await expectNoAxeViolationsInBothSchemes(page);
-        } finally {
-            await context.close();
-        }
-    });
-
-    /**
-     * Opening a character is not enough to reach the point handles: they need
-     * a path, and they bring their own overlay and toolbar with them. A
-     * freshly drawn triangle is the smallest state that renders all of it.
-     */
-    test(`character point editing has no WCAG 2.2 AA violations`, async ({
-        browser,
-    }) => {
-        const { context, page } = await loginNewContext(
-            browser,
-            'creator',
-            'password',
-        );
-        try {
-            await createTestCharacter(page);
-            await editTrianglePoints(page);
-            await expectNoAxeViolationsInBothSchemes(page);
+            await test.step('the character image importer has no WCAG 2.2 AA violations', async () => {
+                // The image importer's crop region is a role="application" the
+                // creator drives with the keyboard, and it only renders once its
+                // mode is chosen.
+                await createTestCharacter(page);
+                await page
+                    .getByRole('radio', { name: 'image', exact: true })
+                    .click();
+                await expect(
+                    page
+                        .getByRole('button', { name: /choose an image file/i })
+                        .first(),
+                ).toBeVisible({ timeout: LOAD_TIMEOUT });
+                await expectNoAxeViolationsInBothSchemes(page);
+            });
         } finally {
             await context.close();
         }
@@ -664,6 +595,9 @@ test.describe('authed views', () => {
             await expect(
                 page.getByText('Use color to set mood').first(),
             ).toBeAttached({ timeout: LOAD_TIMEOUT });
+            // The save-status button, which replaced the connection banner, is
+            // pinned in the footer toolbar and must stay visible here too.
+            await expect(page.getByTestId('save-status')).toBeVisible();
             await expectNoAxeViolationsInBothSchemes(page, { verbose: true });
 
             // An open how-to, which is where the editor, the collaborators

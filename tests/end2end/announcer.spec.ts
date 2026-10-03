@@ -99,103 +99,105 @@ test.describe('editor echo mirrors the source into the textarea', () => {
             });
     }
 
-    async function emptyEditor(page: import('@playwright/test').Page) {
+    /** Empty the editor and wait until the mirror agrees, so each step starts from nothing. */
+    async function clear(page: import('@playwright/test').Page) {
+        await page.keyboard.press('ControlOrMeta+a');
+        await page.keyboard.press('Backspace');
+        await expect
+            .poll(async () => await mirror(page))
+            .toEqual({ value: '', start: 0, end: 0 });
+    }
+
+    // One project for every case: each is a keystroke or two against an empty
+    // editor, and a fresh project per case cost a page load apiece.
+    test('typing, deleting, moving and breaking lines', async ({ page }) => {
         await createTestProject(page);
         const editor = page.getByTestId('editor').first();
         await editor.click();
-        await page.keyboard.press('ControlOrMeta+a');
-        await page.keyboard.press('Backspace');
-    }
 
-    test('typing lands in the field with the caret after it', async ({
-        page,
-    }) => {
-        await emptyEditor(page);
-        await page.keyboard.type('abc');
-        await expect
-            .poll(async () => await mirror(page))
-            .toEqual({ value: 'abc', start: 3, end: 3 });
-    });
+        await test.step('typing lands in the field with the caret after it', async () => {
+            await clear(page);
+            await page.keyboard.type('abc');
+            await expect
+                .poll(async () => await mirror(page))
+                .toEqual({ value: 'abc', start: 3, end: 3 });
+        });
 
-    test('backspace shrinks the field and moves the selection', async ({
-        page,
-    }) => {
-        await emptyEditor(page);
-        await page.keyboard.type('abc');
-        await page.keyboard.press('Backspace');
-        await expect
-            .poll(async () => await mirror(page))
-            .toEqual({ value: 'ab', start: 2, end: 2 });
-    });
+        await test.step('backspace shrinks the field and moves the selection', async () => {
+            await clear(page);
+            await page.keyboard.type('abc');
+            await page.keyboard.press('Backspace');
+            await expect
+                .poll(async () => await mirror(page))
+                .toEqual({ value: 'ab', start: 2, end: 2 });
+        });
 
-    test('arrow keys move the selection without changing the value', async ({
-        page,
-    }) => {
-        await emptyEditor(page);
-        await page.keyboard.type('abc');
-        // The first Left selects the just-typed token as a node; the mirror
-        // maps a node selection to its text span, so a screen reader hears
-        // the selection a sighted user sees.
-        await page.keyboard.press('ArrowLeft');
-        await expect
-            .poll(async () => await mirror(page))
-            .toEqual({ value: 'abc', start: 0, end: 3 });
-        // The second collapses to a position inside the token.
-        await page.keyboard.press('ArrowLeft');
-        await expect
-            .poll(async () => await mirror(page))
-            .toEqual({ value: 'abc', start: 2, end: 2 });
-    });
+        await test.step('arrow keys move the selection without changing the value', async () => {
+            await clear(page);
+            await page.keyboard.type('abc');
+            // The first Left selects the just-typed token as a node; the mirror
+            // maps a node selection to its text span, so a screen reader hears
+            // the selection a sighted user sees.
+            await page.keyboard.press('ArrowLeft');
+            await expect
+                .poll(async () => await mirror(page))
+                .toEqual({ value: 'abc', start: 0, end: 3 });
+            // The second collapses to a position inside the token.
+            await page.keyboard.press('ArrowLeft');
+            await expect
+                .poll(async () => await mirror(page))
+                .toEqual({ value: 'abc', start: 2, end: 2 });
+        });
 
-    test('an auto-closed delimiter converges the field to the source', async ({
-        page,
-    }) => {
-        await emptyEditor(page);
-        // The editor inserts the closing paren the browser didn't type; the
-        // mirror must reconcile to the model, caret between the parens.
-        await page.keyboard.type('(');
-        await expect
-            .poll(async () => await mirror(page))
-            .toEqual({ value: '()', start: 1, end: 1 });
-    });
+        await test.step('an auto-closed delimiter converges the field to the source', async () => {
+            await clear(page);
+            // The editor inserts the closing paren the browser didn't type; the
+            // mirror must reconcile to the model, caret between the parens.
+            await page.keyboard.type('(');
+            await expect
+                .poll(async () => await mirror(page))
+                .toEqual({ value: '()', start: 1, end: 1 });
+        });
 
-    test('Enter inserts a line natively', async ({ page }) => {
-        await emptyEditor(page);
-        await page.keyboard.type('1');
-        await page.keyboard.press('Enter');
-        await page.keyboard.type('2');
-        await expect.poll(async () => (await mirror(page)).value).toBe('1\n2');
-    });
+        await test.step('Enter inserts a line natively', async () => {
+            await clear(page);
+            await page.keyboard.type('1');
+            await page.keyboard.press('Enter');
+            await page.keyboard.type('2');
+            await expect
+                .poll(async () => (await mirror(page)).value)
+                .toBe('1\n2');
+        });
 
-    test('a selection after an emoji counts code units, not graphemes', async ({
-        page,
-    }) => {
-        await emptyEditor(page);
-        // A caret position counts graphemes and the field's selection counts UTF-16
-        // code units, so before #1329 the collapsed caret landed inside the
-        // surrogate pair and the platform echoed half a character.
-        await page.keyboard.type('\u{1F600}1');
-        await expect
-            .poll(async () => await mirror(page))
-            .toEqual({ value: '\u{1F600}1', start: 3, end: 3 });
-        // The node selection spans the whole token, so its end converts too.
-        await page.keyboard.press('ArrowLeft');
-        await expect
-            .poll(async () => await mirror(page))
-            .toEqual({ value: '\u{1F600}1', start: 0, end: 3 });
-    });
+        await test.step('a selection after an emoji counts code units, not graphemes', async () => {
+            await clear(page);
+            // A caret position counts graphemes and the field's selection counts UTF-16
+            // code units, so before #1329 the collapsed caret landed inside the
+            // surrogate pair and the platform echoed half a character.
+            await page.keyboard.type('\u{1F600}1');
+            await expect
+                .poll(async () => await mirror(page))
+                .toEqual({ value: '\u{1F600}1', start: 3, end: 3 });
+            // The node selection spans the whole token, so its end converts too.
+            await page.keyboard.press('ArrowLeft');
+            await expect
+                .poll(async () => await mirror(page))
+                .toEqual({ value: '\u{1F600}1', start: 0, end: 3 });
+        });
 
-    test('Shift+Enter still inserts a line through the input path', async ({
-        page,
-    }) => {
-        // Matches no command, so it flows through the input event — whose
-        // line-break data is null by spec and named explicitly (parity with
-        // the pre-mirror behavior).
-        await emptyEditor(page);
-        await page.keyboard.type('1');
-        await page.keyboard.press('Shift+Enter');
-        await page.keyboard.type('2');
-        await expect.poll(async () => (await mirror(page)).value).toBe('1\n2');
+        await test.step('Shift+Enter still inserts a line through the input path', async () => {
+            // Matches no command, so it flows through the input event — whose
+            // line-break data is null by spec and named explicitly (parity with
+            // the pre-mirror behavior). Enter above goes through a command
+            // instead, so the two are different paths to the same result.
+            await clear(page);
+            await page.keyboard.type('1');
+            await page.keyboard.press('Shift+Enter');
+            await page.keyboard.type('2');
+            await expect
+                .poll(async () => (await mirror(page)).value)
+                .toBe('1\n2');
+        });
     });
 });
 
@@ -276,13 +278,16 @@ async function playing(
             message: 'source did not load into the editor',
         })
         .toContain(stripped(code.split('\n')[0] ?? ''));
-    // The reload below re-reads the project from the database, so give the
-    // debounced save time to land before navigating.
+    // The reload below re-reads the project, so give the debounced save time
+    // to land before navigating. A fixed wait, because the local copy landing
+    // is not enough for a reload to find a signed-out project.
     await page.waitForTimeout(2000);
     await page.goto(`${base}?mode=play`, { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(2000);
-    // The stage only receives keys when the output has focus.
-    await page.locator('.value[tabindex="0"]').first().focus();
+    // The stage only receives keys when the output has focus, and the focusable
+    // value only renders once the program is evaluating.
+    const stage = page.locator('.value[tabindex="0"]').first();
+    await stage.focus();
+    await expect(stage).toBeFocused();
     return async () =>
         (
             (await page.locator('.announcements.paced').textContent()) ?? ''

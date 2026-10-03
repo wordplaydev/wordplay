@@ -22,8 +22,12 @@ import {
  * comment at the call site (see expectNoAxeViolations).
  */
 
+/**
+ * Routes scanned on their own. `/`, `/galleries` and `/join` are scanned by the
+ * tests below instead, which go on to reach what a route scan can't from the
+ * same page load.
+ */
 const PUBLIC_ROUTES = [
-    '/',
     '/learn',
     '/guide',
     // The published-kit registry (#8) is a section of the guide rather than a route of
@@ -37,14 +41,8 @@ const PUBLIC_ROUTES = [
     '/rights',
     '/donate',
     '/about',
-    '/join',
-    '/galleries',
     '/characters',
     '/design',
-    // The settings dialog, which no route scan reaches: it opens from the URL.
-    // Signed out is also the dimmed state of the cloud badge marking a synced
-    // setting, so this covers that color in both schemes.
-    '/?dialog=settings',
     // A public gallery's how-to space, which a signed-out visitor can open
     // (#1351) and which no scan reached until #1354 — an infinite pan canvas of
     // virtualized tiles, and none of it had ever had an axe pass. Signed out is
@@ -79,82 +77,124 @@ const ContentMarkers: Record<string, string> = {
     '/gallery/seed-public-gallery-00/howto': '.howtotitle',
 };
 
+/**
+ * Load a route, scan it in both schemes, and check that it reflows. The viewport
+ * is put back afterwards, so whatever a caller does next on the same page is
+ * scanned at the configured width, as it would be after a fresh load.
+ */
+async function scanRoute(page: Page, route: string) {
+    await page.goto(`/en-US${route}`);
+    // Hydration marker: every page renders a heading once the
+    // client has taken over. The title no longer needs waiting for —
+    // Title renders it into <svelte:head>, so it is in the prerendered
+    // document — but the scan is of the hydrated page either way.
+    await expect(page.getByRole('heading').first()).toBeVisible({
+        timeout: 15000,
+    });
+    const marker = ContentMarkers[route];
+    if (marker !== undefined)
+        await expect(page.locator(marker).first()).toBeVisible({
+            timeout: 15000,
+        });
+    await expectNoAxeViolationsInBothSchemes(page);
+    await expectReflows(page);
+}
+
+/**
+ * Check that the page reflows to a phone's width without scrolling sideways
+ * (WCAG 1.4.10), then restore the viewport. After the axe scans, because it
+ * resizes the viewport and they run at the configured width.
+ */
+async function expectReflows(page: Page) {
+    const viewport = page.viewportSize();
+    await page.setViewportSize(REFLOW_VIEWPORT);
+    await expectNoHorizontalOverflow(page);
+    if (viewport !== null) await page.setViewportSize(viewport);
+}
+
 test.describe('public pages', () => {
     for (const route of PUBLIC_ROUTES) {
         test(`${route} has no WCAG 2.2 AA violations`, async ({ page }) => {
-            await page.goto(`/en-US${route}`);
-            // Hydration marker: every page renders a heading once the
-            // client has taken over. The title no longer needs waiting for —
-            // Title renders it into <svelte:head>, so it is in the prerendered
-            // document — but the scan is of the hydrated page either way.
-            await expect(page.getByRole('heading').first()).toBeVisible({
-                timeout: 15000,
-            });
-            const marker = ContentMarkers[route];
-            if (marker !== undefined)
-                await expect(page.locator(marker).first()).toBeVisible({
-                    timeout: 15000,
-                });
-            await expectNoAxeViolationsInBothSchemes(page);
-
-            // And that it reflows to a phone's width without scrolling
-            // sideways (WCAG 1.4.10). Last, because it resizes the viewport:
-            // the axe scans above run at the configured width.
-            await page.setViewportSize(REFLOW_VIEWPORT);
-            await expectNoHorizontalOverflow(page);
+            await scanRoute(page, route);
         });
     }
 });
 
-/**
- * The galleries page's search results, which the route scan above can't reach:
- * they replace the tab bar only once a term is typed (#299), and they are a
- * different shape from what that scan sees — headed result groups mixing
- * gallery cards with project previews and their match excerpts.
- */
-test.describe('gallery search results', () => {
-    test('has no WCAG 2.2 AA violations', async ({ page }) => {
-        await page.goto('/en-US/galleries');
-        const search = page.locator('#gallery-search');
-        await expect(search).toBeVisible({ timeout: 15000 });
-        // A term that hits a built-in example, so a project preview with a
-        // match excerpt is on screen and not just the empty-results notice.
-        await search.fill('basketball');
-        await expect(
-            page.getByRole('heading', { name: /example projects/i }),
-        ).toBeVisible({ timeout: 30000 });
-        await expectNoAxeViolationsInBothSchemes(page);
+test.describe('galleries', () => {
+    test('/galleries and its search results have no WCAG 2.2 AA violations', async ({
+        page,
+    }) => {
+        await test.step('/galleries has no WCAG 2.2 AA violations', async () => {
+            await scanRoute(page, '/galleries');
+        });
+
+        /**
+         * The galleries page's search results, which the route scan can't reach:
+         * they replace the tab bar only once a term is typed (#299), and they are a
+         * different shape from what that scan sees — headed result groups mixing
+         * gallery cards with project previews and their match excerpts.
+         */
+        await test.step('gallery search results have no WCAG 2.2 AA violations', async () => {
+            const search = page.locator('#gallery-search');
+            await expect(search).toBeVisible({ timeout: 15000 });
+            // A term that hits a built-in example, so a project preview with a
+            // match excerpt is on screen and not just the empty-results notice.
+            await search.fill('basketball');
+            await expect(
+                page.getByRole('heading', { name: /example projects/i }),
+            ).toBeVisible({ timeout: 30000 });
+            await expectNoAxeViolationsInBothSchemes(page);
+        });
     });
 });
 
-/**
- * The landing page's carousel, which the route scan above can't reach: it
- * doesn't exist until a visitor presses for it, because loading it downloads
- * the language runtime. Its tab list, its read-only code, and the running
- * output are all new surfaces, so they get the same gate in both schemes.
- */
-test.describe('landing carousel', () => {
-    test('has no WCAG 2.2 AA violations', async ({ page }) => {
-        await page.goto('/en-US');
-        const show = page.getByRole('button', {
-            name: /show me/i,
+test.describe('landing page', () => {
+    test('/, its settings dialog, and its carousel have no WCAG 2.2 AA violations', async ({
+        page,
+    }) => {
+        await test.step('/ has no WCAG 2.2 AA violations', async () => {
+            await scanRoute(page, '/');
         });
-        await expect(show).toBeVisible({ timeout: 15000 });
-        await show.click();
-        // The tab list only exists once the runtime chunk has arrived.
-        await expect(page.getByRole('tab').first()).toBeVisible({
-            timeout: 30000,
-        });
-        await expectNoAxeViolationsInBothSchemes(page);
 
-        // And again on an example the viewer has switched to, since each
-        // renders different output and different code.
-        await page.getByRole('tab').nth(6).click();
-        await expect(page.getByRole('tab').nth(6)).toHaveAttribute(
-            'aria-selected',
-            'true',
-        );
-        await expectNoAxeViolationsInBothSchemes(page);
+        // The settings dialog, which no route scan reaches. Signed out is also
+        // the dimmed state of the cloud badge marking a synced setting, so this
+        // covers that color in both schemes.
+        await test.step('/?dialog=settings has no WCAG 2.2 AA violations', async () => {
+            await page.getByTestId('settings').first().click();
+            await expect(page.getByRole('dialog').first()).toBeVisible();
+            await expectNoAxeViolationsInBothSchemes(page);
+            await expectReflows(page);
+            await page.keyboard.press('Escape');
+            await expect(page.locator('dialog[open]')).toHaveCount(0);
+        });
+
+        /**
+         * The landing page's carousel, which the route scan can't reach: it
+         * doesn't exist until a visitor presses for it, because loading it downloads
+         * the language runtime. Its tab list, its read-only code, and the running
+         * output are all new surfaces, so they get the same gate in both schemes.
+         */
+        await test.step('landing carousel has no WCAG 2.2 AA violations', async () => {
+            const show = page.getByRole('button', {
+                name: /show me/i,
+            });
+            await expect(show).toBeVisible({ timeout: 15000 });
+            await show.click();
+            // The tab list only exists once the runtime chunk has arrived.
+            await expect(page.getByRole('tab').first()).toBeVisible({
+                timeout: 30000,
+            });
+            await expectNoAxeViolationsInBothSchemes(page);
+
+            // And again on an example the viewer has switched to, since each
+            // renders different output and different code.
+            await page.getByRole('tab').nth(6).click();
+            await expect(page.getByRole('tab').nth(6)).toHaveAttribute(
+                'aria-selected',
+                'true',
+            );
+            await expectNoAxeViolationsInBothSchemes(page);
+        });
     });
 });
 
@@ -194,14 +234,17 @@ test.describe('join flow', () => {
         await expect(page.getByTestId('join-use-password')).toBeVisible();
     }
 
-    test('the steps and the email form have no WCAG 2.2 AA violations', async ({
+    test('/join, its later steps, and the email form have no WCAG 2.2 AA violations', async ({
         page,
     }) => {
-        await page.goto('/en-US/join');
+        // The first step is the `/join` route itself, so its scan and reflow
+        // check are the route scan rather than a page load of their own.
+        await test.step('/join has no WCAG 2.2 AA violations', async () => {
+            await scanRoute(page, '/join');
+        });
         await expect(page.locator('#region-field')).toBeVisible({
             timeout: 15000,
         });
-        await expectNoAxeViolationsInBothSchemes(page);
         await page.selectOption('#region-field', 'US');
         await page.getByTestId('join-next').click();
 
