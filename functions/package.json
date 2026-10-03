@@ -17,12 +17,12 @@
     },
     "main": "lib/index.js",
     "dependencies": {
-        "@anthropic-ai/sdk": "^0.129",
+        "@anthropic-ai/sdk": "^0.131.0",
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^14",
         "firebase-functions": "^7",
         "prettier": "^3",
-        "resend": "^6.26.0",
+        "resend": "^6.32.0",
         "shared-types": "file:./src/shared",
         "yjs": "^13"
     },
