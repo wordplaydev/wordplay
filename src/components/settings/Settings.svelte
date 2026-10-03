@@ -37,6 +37,7 @@
         musicVolume,
         readAloud,
         readAloudRate,
+        announcementVerbosity,
         Settings,
         showLines,
         stagePlacement,
@@ -61,6 +62,8 @@
         CaptionSizes,
     } from '#db/settings/CaptionSizeSetting.ts';
     import {
+        AnnouncementVerbosities,
+        AnnouncementVerbosityIcons,
         ReadAloudRateIcons,
         ReadAloudRates,
     } from '#db/settings/SaySetting.ts';
@@ -673,6 +676,25 @@
                             )}
                         icons={ReadAloudRateIcons}
                         modeLabels={false}
+                    />
+                    <!-- How much the editor tells a screen reader (see
+                         src/edit/describe/Verbosity.ts). Beside the speech
+                         settings because it is about what is heard. -->
+                    <Mode
+                        grid
+                        modes={(l) =>
+                            l.ui.dialog.settings.mode.announcementVerbosity}
+                        choice={Math.max(
+                            0,
+                            AnnouncementVerbosities.indexOf(
+                                $announcementVerbosity,
+                            ),
+                        )}
+                        select={(choice) =>
+                            Settings.setAnnouncementVerbosity(
+                                AnnouncementVerbosities[choice] ?? 'normal',
+                            )}
+                        icons={AnnouncementVerbosityIcons}
                     />
                     <!-- Driven by the arrays like the rendering chooser above, so
                          adding a size is one entry rather than a hand-written

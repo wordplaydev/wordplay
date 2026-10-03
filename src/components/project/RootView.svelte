@@ -22,6 +22,7 @@
     import FormattedLiteral from '#nodes/FormattedLiteral.ts';
     import TextLiteral from '#nodes/TextLiteral.ts';
     import {
+        setNodeDescriptions,
         getReferencedMessages,
         setCaret,
         setHidden,
@@ -93,11 +94,15 @@
          * is being viewed. See Format.diff.
          */
         diff?: SourceDiff | undefined;
+        /** Whether each node view carries a localized description (see
+         *  setNodeDescriptions). The editor turns it off; everything else keeps it. */
+        describe?: boolean;
     }
 
     let {
         node,
         spaces = undefined,
+        describe = true,
         blocks,
         inert = false,
         inline = false,
@@ -131,6 +136,7 @@
         elided: new SvelteSet<Node>(),
     });
     setRoot(rootContext);
+    setNodeDescriptions(() => describe);
 
     $effect(() => {
         rootContext.root = root;

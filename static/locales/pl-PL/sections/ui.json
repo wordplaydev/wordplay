@@ -548,7 +548,9 @@
                     "noClipboardItem": "$~Nic w schowku",
                     "noSelection": "$~Nic nie wybrano",
                     "noMove": "$~Nie mogę się ruszyć dalej",
-                    "unhandled": "$~ten klawisz nic tu nie robi"
+                    "unhandled": "$~ten klawisz nic tu nie robi",
+                    "noMoveTarget": "$~Nic tam nie może tego pomieścić",
+                    "noElideInBlocks": "$~Pomijanie jest dostępne tylko w trybie tekstowym"
                 },
                 "nextMatch": "$~przejdź do następnego wyniku wyszukiwania",
                 "insertTranslate": "$~wstaw symbol tłumaczenia",
@@ -585,7 +587,15 @@
                 "insertDottedSixteenthNote": "$~wstaw szesnastkę z kropką, trzy ósme uderzenia długości",
                 "selectedNodes": "$~$#count[$count węzeł zaznaczony|$count węzły zaznaczone|$count węzłów zaznaczonych|$count węzła zaznaczone], od $first do $last",
                 "insertRange": "$~wstaw symbol zakresu",
-                "findText": "$~przeszukaj kod"
+                "findText": "$~przeszukaj kod",
+                "moveBefore": "$~przenieś zaznaczenie przed sąsiada",
+                "moveAfter": "$~przenieś zaznaczenie za sąsiada",
+                "moveOut": "$~przenieś zaznaczenie poza to, co go zawiera",
+                "moveIn": "$~przenieś zaznaczenie do sąsiada",
+                "insertInitial": "$~wstaw symbol początkowy",
+                "insertTranslateRTL": "$~wstaw symbol tłumaczenia od prawej do lewej",
+                "insertMatch": "$~wstaw symbol dopasowania",
+                "insertPatternRange": "$~wstaw symbol zakresu znaków"
             },
             "options": {
                 "locale": {
@@ -609,7 +619,9 @@
             },
             "feedback": {
                 "cantDrop": "$~Nie można tam upuścić:",
-                "cantPaste": "$~Nie można tam wkleić:"
+                "cantPaste": "$~Nie można tam wkleić:",
+                "dropWarning": "$~Upuszczenie tutaj spowodowałoby:",
+                "noDropTarget": "$~Nic tutaj nie może tego przyjąć"
             },
             "clipboard": {
                 "label": "$~schowek"
@@ -1626,6 +1638,15 @@
                             "$~Czytaj na głos trochę szybciej",
                             "$~Czytaj na głos jeszcze szybciej"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~szczegółowość czytnika ekranu",
+                        "labels": ["$~zwięzły", "$~normalny", "$~obszerny"],
+                        "tips": [
+                            "$~Mów tylko, gdzie jest kursor",
+                            "$~Mów, gdzie jest kursor, jaki jest pasujący ogranicznik, jakie są konflikty i co zrobiła każda zmiana",
+                            "$~Mów też, w czym jest kursor i jakiego typu jest każdy wynik"
+                        ]
                     }
                 },
                 "options": {
@@ -2191,7 +2212,20 @@
             "delimiterMatchedSameLine": "$~dopasowując $name w tym samym wierszu",
             "delimiterMatchedBelow": "$~pasujący $name $#lines[$lines wiersz poniżej|$lines wiersze poniżej|$lines wierszy poniżej|$lines wiersza poniżej]",
             "delimiterMatchedAbove": "$~pasujący $name $#lines[$lines wiersz powyżej|$lines wiersze powyżej|$lines wierszy powyżej|$lines wiersza powyżej]",
-            "delimiterUnmatched": "$~brak pasującego ogranicznika"
+            "delimiterUnmatched": "$~brak pasującego ogranicznika",
+            "parent": "$~w $parent",
+            "inserted": "$~wstawiono $node",
+            "removed": "$~usunięto $node",
+            "moved": "$~przeniesiono $node$target[ do $target|]",
+            "copied": "$~skopiowano $node$target[ do $target|]",
+            "pickedUp": "$~podniesiono $node",
+            "cannotPickUp": "$~$node nie można stąd przenieść",
+            "dropCancelled": "$~nic nie upuszczono",
+            "replacedAll": "$~zastąpiono $#count[$count dopasowanie|$count dopasowania|$count dopasowań|$count dopasowania] tekstem $text",
+            "undone": "$~cofnięto$added[, $added wraca|]$removed[, $removed znika|]",
+            "redone": "$~ponowiono$added[, $added wraca|]$removed[, $removed znika|]",
+            "movedBefore": "$~przeniesiono $node przed $sibling",
+            "movedAfter": "$~przeniesiono $node za $sibling"
         },
         "template": {
             "unwritten": "$~Do ustalenia",
@@ -2663,18 +2697,14 @@
             "cut": "$~wycięto $text",
             "pasted": "$~wklejono $text",
             "deleted": "$~usunięto $text",
-            "undone": "$~cofnięto",
-            "redone": "$~ponowiono",
             "foldedAll": "$~zwinięto cały kod",
             "unfoldedAll": "$~rozwinięto cały kod",
             "editMode": "$~$mode",
-            "zoom": "$~powiększenie $percent procent",
             "fullscreenOn": "$~włączono pełny ekran",
             "fullscreenOff": "$~wyłączono pełny ekran",
             "restarted": "$~zrestartowano wejścia",
             "step": "$~krok $step, $node",
             "stepAtStart": "$~na początku",
-            "stepAtEnd": "$~na końcu",
             "searchOpened": "$~znajdź w kodzie",
             "searchClosed": "$~zamknięto wyszukiwanie",
             "searchMatch": "$~dopasowanie $index z $count",

@@ -814,7 +814,9 @@
                     "noClipboardItem": "$~Tidak ada apa pun di papan klip.",
                     "noSelection": "$~Tidak ada yang dipilih",
                     "noMove": "$~Tidak bisa bergerak lebih jauh lagi",
-                    "unhandled": "$~kunci itu tidak melakukan apa pun di sini"
+                    "unhandled": "$~kunci itu tidak melakukan apa pun di sini",
+                    "noMoveTarget": "$~Tidak ada yang bisa menampung ini di sana",
+                    "noElideInBlocks": "$~Elisi hanya tersedia dalam mode teks"
                 },
                 "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya",
                 "insertTranslate": "$~sisipkan simbol terjemahan",
@@ -851,7 +853,15 @@
                 "insertDottedSixteenthNote": "$~sisipkan not seperenam belas bertitik, panjang tiga perdelapan ketukan",
                 "selectedNodes": "$~$#count[$count node dipilih]|, $first sampai $last",
                 "insertRange": "$~sisipkan simbol rentang",
-                "findText": "$~cari di kode"
+                "findText": "$~cari di kode",
+                "moveBefore": "$~pindahkan pilihan ke sebelum tetangganya",
+                "moveAfter": "$~pindahkan pilihan ke sesudah tetangganya",
+                "moveOut": "$~pindahkan pilihan keluar dari wadahnya",
+                "moveIn": "$~pindahkan pilihan ke dalam tetangganya",
+                "insertInitial": "$~sisipkan simbol awal",
+                "insertTranslateRTL": "$~sisipkan simbol terjemahan kanan-ke-kiri",
+                "insertMatch": "$~sisipkan simbol pencocokan",
+                "insertPatternRange": "$~sisipkan simbol rentang karakter"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",
@@ -867,7 +877,9 @@
             },
             "feedback": {
                 "cantDrop": "$~Tidak bisa dijatuhkan di sana:",
-                "cantPaste": "$~Tidak bisa menempelkan teks di sana:"
+                "cantPaste": "$~Tidak bisa menempelkan teks di sana:",
+                "dropWarning": "$~Menjatuhkan di sana akan menyebabkan:",
+                "noDropTarget": "$~Tidak ada yang bisa menerima ini di sini"
             },
             "clipboard": {
                 "label": "$~papan klip"
@@ -1888,6 +1900,15 @@
                             "$~Baca lantang sedikit lebih cepat",
                             "$~Baca lantang lebih cepat lagi"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~detail pembaca layar",
+                        "labels": ["$~ringkas", "$~normal", "$~lengkap"],
+                        "tips": [
+                            "$~Hanya sebutkan posisi kursor",
+                            "$~Sebutkan posisi kursor, pasangan pembatas, konflik, dan apa yang diubah setiap suntingan",
+                            "$~Sebutkan juga di dalam apa kursor berada dan jenis setiap hasil"
+                        ]
                     }
                 },
                 "options": {
@@ -2552,7 +2573,20 @@
             "delimiterMatchedSameLine": "$~mencocokkan $name pada baris yang sama",
             "delimiterMatchedBelow": "$~cocok dengan $name $#lines[$lines baris di bawah]",
             "delimiterMatchedAbove": "$~cocok dengan $name $#lines[$lines baris di atas]",
-            "delimiterUnmatched": "$~tidak ada pembatas yang cocok"
+            "delimiterUnmatched": "$~tidak ada pembatas yang cocok",
+            "parent": "$~di dalam $parent",
+            "inserted": "$~menyisipkan $node",
+            "removed": "$~menghapus $node",
+            "moved": "$~memindahkan $node$target[ ke dalam $target|]",
+            "copied": "$~menyalin $node$target[ ke dalam $target|]",
+            "pickedUp": "$~mengambil $node",
+            "cannotPickUp": "$~$node tidak bisa dipindahkan dari sini",
+            "dropCancelled": "$~tidak ada yang dijatuhkan",
+            "replacedAll": "$~mengganti $#count[$count kecocokan] dengan $text",
+            "undone": "$~dibatalkan$added[, $added kembali|]$removed[, $removed hilang|]",
+            "redone": "$~diulang$added[, $added kembali|]$removed[, $removed hilang|]",
+            "movedBefore": "$~memindahkan $node sebelum $sibling",
+            "movedAfter": "$~memindahkan $node setelah $sibling"
         },
         "template": {
             "unwritten": "$~Akan ditentukan kemudian",
@@ -2664,18 +2698,14 @@
             "cut": "$~$text dipotong",
             "pasted": "$~$text ditempel",
             "deleted": "$~$text dihapus",
-            "undone": "$~dibatalkan",
-            "redone": "$~diulangi",
             "foldedAll": "$~semua kode dilipat",
             "unfoldedAll": "$~semua kode dibuka",
             "editMode": "$~$mode",
-            "zoom": "$~perbesar $percent persen",
             "fullscreenOn": "$~masuk layar penuh",
             "fullscreenOff": "$~keluar layar penuh",
             "restarted": "$~masukan dimulai ulang",
             "step": "$~langkah $step, $node",
             "stepAtStart": "$~di awal",
-            "stepAtEnd": "$~di akhir",
             "searchOpened": "$~cari di dalam kode",
             "searchClosed": "$~pencarian ditutup",
             "searchMatch": "$~cocok $index dari $count",

@@ -813,7 +813,9 @@
                     "noClipboardItem": "$~Không có gì trên bảng nhớ tạm",
                     "noSelection": "$~Chưa có gì được chọn",
                     "noMove": "$~Không thể tiến xa hơn nữa",
-                    "unhandled": "$~phím đó không làm gì ở đây cả"
+                    "unhandled": "$~phím đó không làm gì ở đây cả",
+                    "noMoveTarget": "$~Không có gì ở đó có thể chứa được cái này",
+                    "noElideInBlocks": "$~Dấu lược chỉ dùng được ở chế độ văn bản"
                 },
                 "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo",
                 "insertTranslate": "$~chèn ký hiệu dịch",
@@ -850,7 +852,15 @@
                 "insertDottedSixteenthNote": "$~chèn một nốt móc kép chấm dôi, dài ba phần tám phách",
                 "selectedNodes": "$~Đã chọn $#count[$count nút] nút, từ $first đến $last",
                 "insertRange": "$~chèn ký hiệu khoảng",
-                "findText": "$~tìm kiếm trong mã số"
+                "findText": "$~tìm kiếm trong mã số",
+                "moveBefore": "$~di chuyển phần đã chọn lên trước phần bên cạnh",
+                "moveAfter": "$~di chuyển phần đã chọn ra sau phần bên cạnh",
+                "moveOut": "$~di chuyển phần đã chọn ra khỏi phần đang chứa nó",
+                "moveIn": "$~di chuyển phần đã chọn vào trong phần bên cạnh",
+                "insertInitial": "$~chèn ký hiệu khởi đầu",
+                "insertTranslateRTL": "$~chèn ký hiệu dịch từ phải sang trái",
+                "insertMatch": "$~chèn ký hiệu khớp",
+                "insertPatternRange": "$~chèn ký hiệu khoảng ký tự"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
@@ -867,7 +877,9 @@
             },
             "feedback": {
                 "cantDrop": "$~Không thể thả đồ ở đó:",
-                "cantPaste": "$~Không thể dán vào đây:"
+                "cantPaste": "$~Không thể dán vào đây:",
+                "dropWarning": "$~Thả vào đó sẽ gây ra:",
+                "noDropTarget": "$~Không có gì ở đây nhận được cái đó"
             },
             "clipboard": {
                 "label": "$~bảng nhớ tạm"
@@ -1882,6 +1894,15 @@
                             "$~Đọc to nhanh hơn một chút",
                             "$~Đọc to nhanh hơn nữa"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~mức chi tiết của trình đọc màn hình",
+                        "labels": ["$~ngắn gọn", "$~bình thường", "$~chi tiết"],
+                        "tips": [
+                            "$~Chỉ nói con trỏ đang ở đâu",
+                            "$~Nói con trỏ đang ở đâu, dấu phân cách khớp với nó, các xung đột và mỗi lần sửa đã làm gì",
+                            "$~Nói thêm con trỏ đang ở bên trong cái gì và kiểu của từng kết quả"
+                        ]
                     }
                 },
                 "options": {
@@ -2447,7 +2468,20 @@
             "delimiterMatchedSameLine": "$~khớp với $name trên cùng một dòng",
             "delimiterMatchedBelow": "$~khớp $name $#lines[$lines dòng phía dưới]",
             "delimiterMatchedAbove": "$~khớp $name $#lines[$lines dòng phía trên]",
-            "delimiterUnmatched": "$~không có dấu phân cách phù hợp"
+            "delimiterUnmatched": "$~không có dấu phân cách phù hợp",
+            "parent": "$~trong $parent",
+            "inserted": "$~đã chèn $node",
+            "removed": "$~đã xóa $node",
+            "moved": "$~đã di chuyển $node$target[ vào $target|]",
+            "copied": "$~đã sao chép $node$target[ vào $target|]",
+            "pickedUp": "$~đã nhấc $node lên",
+            "cannotPickUp": "$~Không thể di chuyển $node khỏi đây",
+            "dropCancelled": "$~không thả gì cả",
+            "replacedAll": "$~đã thay $#count[$count kết quả khớp] bằng $text",
+            "undone": "$~đã hoàn tác$added[, $added đã quay lại|]$removed[, $removed đã biến mất|]",
+            "redone": "$~đã làm lại$added[, $added đã quay lại|]$removed[, $removed đã biến mất|]",
+            "movedBefore": "$~đã di chuyển $node lên trước $sibling",
+            "movedAfter": "$~đã di chuyển $node ra sau $sibling"
         },
         "template": {
             "unwritten": "$~Sẽ được xác định sau.",
@@ -2666,18 +2700,14 @@
             "cut": "$~đã cắt $text",
             "pasted": "$~đã dán $text",
             "deleted": "$~đã xóa $text",
-            "undone": "$~đã hoàn tác",
-            "redone": "$~đã làm lại",
             "foldedAll": "$~đã gấp tất cả mã số",
             "unfoldedAll": "$~đã mở tất cả mã số",
             "editMode": "$~$mode",
-            "zoom": "$~phóng to $percent phần trăm",
             "fullscreenOn": "$~đã vào toàn màn hình",
             "fullscreenOff": "$~đã rời toàn màn hình",
             "restarted": "$~đã khởi động lại đầu vào",
             "step": "$~bước $step, $node",
             "stepAtStart": "$~ở đầu",
-            "stepAtEnd": "$~ở cuối",
             "searchOpened": "$~tìm trong mã số",
             "searchClosed": "$~đã đóng tìm kiếm",
             "searchMatch": "$~kết quả $index trong $count",

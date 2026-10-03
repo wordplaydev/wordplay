@@ -524,7 +524,9 @@
                     "noClipboardItem": "$~क्लिपबोर्ड पर कुछ नहीं है",
                     "noSelection": "$~कुछ भी चयनित नहीं है",
                     "noMove": "$~और आगे नहीं जा सकते",
-                    "unhandled": "$~वह चाबी यहाँ कुछ नहीं करती"
+                    "unhandled": "$~वह चाबी यहाँ कुछ नहीं करती",
+                    "noMoveTarget": "$~वहाँ कोई भी चीज़ इसे नहीं रख सकती",
+                    "noElideInBlocks": "$~लोप सिर्फ़ टेक्स्ट मोड में उपलब्ध है"
                 },
                 "nextMatch": "$~अगले खोज मिलान पर जाएँ",
                 "insertTranslate": "$~अनुवाद चिह्न डालें",
@@ -561,7 +563,15 @@
                 "insertDottedSixteenthNote": "$~एक बिंदी वाला सोलहवां स्वर डालें, जो तीन आठवां बीट लंबा है",
                 "selectedNodes": "$~$#count[$count नोड चुना गया|$count नोड चुने गए], $first से $last तक",
                 "insertRange": "$~रेंज का चिन्ह जोड़ो",
-                "findText": "$~कोड में खोजें"
+                "findText": "$~कोड में खोजें",
+                "moveBefore": "$~चयन को उसके पड़ोसी से पहले ले जाएँ",
+                "moveAfter": "$~चयन को उसके पड़ोसी के बाद ले जाएँ",
+                "moveOut": "$~चयन को उसके धारक से बाहर ले जाएँ",
+                "moveIn": "$~चयन को उसके पड़ोसी के अंदर ले जाएँ",
+                "insertInitial": "$~आरंभिक चिह्न जोड़ें",
+                "insertTranslateRTL": "$~दाएँ-से-बाएँ अनुवाद चिह्न जोड़ें",
+                "insertMatch": "$~मिलान चिह्न जोड़ें",
+                "insertPatternRange": "$~अक्षर सीमा चिह्न जोड़ें"
             },
             "options": {
                 "locale": {
@@ -585,7 +595,9 @@
             },
             "feedback": {
                 "cantDrop": "$~वहाँ नहीं छोड़ सकते:",
-                "cantPaste": "$~वहाँ पेस्ट नहीं कर सकते:"
+                "cantPaste": "$~वहाँ पेस्ट नहीं कर सकते:",
+                "dropWarning": "$~वहाँ छोड़ने से यह होगा:",
+                "noDropTarget": "$~यहाँ कोई भी चीज़ उसे नहीं ले सकती"
             },
             "clipboard": {
                 "label": "$~क्लिपबोर्ड"
@@ -1598,6 +1610,15 @@
                             "$~थोड़ी तेज़ गति से ज़ोर से पढ़ें",
                             "$~और भी तेज़ गति से ज़ोर से पढ़ें"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~स्क्रीन रीडर का विवरण",
+                        "labels": ["$~संक्षिप्त", "$~सामान्य", "$~विस्तृत"],
+                        "tips": [
+                            "$~सिर्फ़ यह बताएँ कि कर्सर कहाँ है",
+                            "$~बताएँ कि कर्सर कहाँ है, सीमा-चिह्न का जोड़ा कौन सा है, टकराव क्या हैं, और हर बदलाव ने क्या किया",
+                            "$~यह भी बताएँ कि कर्सर किसके अंदर है और हर नतीजे का प्रकार क्या है"
+                        ]
                     }
                 },
                 "options": {
@@ -2030,7 +2051,20 @@
             "delimiterMatchedSameLine": "$~उसी पंक्ति पर $name से मेल खाता",
             "delimiterMatchedBelow": "$~मिलता हुआ $name $#lines[नीचे $lines पंक्ति|नीचे $lines पंक्तियाँ]",
             "delimiterMatchedAbove": "$~मिलता हुआ $name $#lines[ऊपर $lines पंक्ति|ऊपर $lines पंक्तियाँ]",
-            "delimiterUnmatched": "$~कोई मेल खाता विभाजक नहीं"
+            "delimiterUnmatched": "$~कोई मेल खाता विभाजक नहीं",
+            "parent": "$~$parent में",
+            "inserted": "$~$node जोड़ा गया",
+            "removed": "$~$node हटाया गया",
+            "moved": "$~$node$target[ को $target में|] ले जाया गया",
+            "copied": "$~$node$target[ को $target में|] कॉपी किया गया",
+            "pickedUp": "$~$node उठाया गया",
+            "cannotPickUp": "$~$node को यहाँ से हिलाया नहीं जा सकता",
+            "dropCancelled": "$~कुछ भी नहीं छोड़ा गया",
+            "replacedAll": "$~$#count[$count मेल|$count मेल] को $text से बदला गया",
+            "undone": "$~वापस किया गया$added[, $added वापस आ गया|]$removed[, $removed हट गया|]",
+            "redone": "$~फिर से किया गया$added[, $added वापस आ गया|]$removed[, $removed हट गया|]",
+            "movedBefore": "$~$node को $sibling से पहले हिलाया गया",
+            "movedAfter": "$~$node को $sibling के बाद हिलाया गया"
         },
         "template": {
             "unwritten": "$~तय होना बाकी",
@@ -2659,18 +2693,14 @@
             "cut": "$~$text काटा गया",
             "pasted": "$~$text चिपकाया गया",
             "deleted": "$~$text मिटाया गया",
-            "undone": "$~वापस किया गया",
-            "redone": "$~फिर से किया गया",
             "foldedAll": "$~सारा कोड मोड़ा गया",
             "unfoldedAll": "$~सारा कोड खोला गया",
             "editMode": "$~$mode",
-            "zoom": "$~ज़ूम $percent प्रतिशत",
             "fullscreenOn": "$~पूरी स्क्रीन में गए",
             "fullscreenOff": "$~पूरी स्क्रीन से बाहर निकले",
             "restarted": "$~इनपुट फिर से शुरू किए गए",
             "step": "$~चरण $step, $node",
             "stepAtStart": "$~शुरुआत में",
-            "stepAtEnd": "$~अंत में",
             "searchOpened": "$~कोड में खोजें",
             "searchClosed": "$~खोज बंद की गई",
             "searchMatch": "$~$index में से $count मिलान",

@@ -18697,6 +18697,10 @@
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                                                     "description": "Whether to sound what an animation is doing as it reaches each pose"
                                                 },
+                                                "announcementVerbosity": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                                                    "description": "How much the editor tells a screen reader about the caret and each edit: position only, position and what changed, or that plus the surrounding construct and the result's type"
+                                                },
                                                 "blockDensity": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "The block-editing density mode (compact/normal/spacious)"
@@ -18801,6 +18805,7 @@
                                                 "animationCues",
                                                 "readAloud",
                                                 "readAloudRate",
+                                                "announcementVerbosity",
                                                 "captionSize"
                                             ],
                                             "type": "object"
@@ -19859,9 +19864,17 @@
                                     "$ref": "#/definitions/Template%3C%5B%22before%22%2C%22after%22%5D%3E",
                                     "description": "[formatted] A way to say \"between [before|start] and [after|end]\". Both inputs MUST have fallback branches: a caret at the end of a line has no node after it on the same line, and an unmatched input makes the whole template unparsable."
                                 },
+                                "cannotPickUp": {
+                                    "$ref": "#/definitions/Template%3C%5B%22node%22%5D%3E",
+                                    "description": "[plain] A drag was refused at pickup because the program needs the node where it is. $node: its label"
+                                },
                                 "conflicts": {
                                     "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
                                     "description": "[formatted] A description of how many conflicts are at this position"
+                                },
+                                "copied": {
+                                    "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22target%22%5D%3E",
+                                    "description": "[plain] A node from the palette, the guide, or an example was dropped into the program. $node: its label, $target: the label of what now holds it"
                                 },
                                 "delimiterMatchedAbove": {
                                     "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22%23lines%22%5D%3E",
@@ -19879,6 +19892,14 @@
                                     "description": "[plain] Says the selected delimiter has no matching partner",
                                     "type": "string"
                                 },
+                                "dropCancelled": {
+                                    "description": "[plain] A drag ended without dropping anywhere",
+                                    "type": "string"
+                                },
+                                "inserted": {
+                                    "$ref": "#/definitions/Template%3C%5B%22node%22%5D%3E",
+                                    "description": "[plain] A menu choice added a node to the program. $node: the node's label"
+                                },
                                 "inside": {
                                     "$ref": "#/definitions/Template%3C%5B%22token%22%2C%22before%22%2C%22after%22%5D%3E",
                                     "description": "[formatted] A way to say \"inside [description], between character [before|start] and [after|end]\""
@@ -19887,17 +19908,53 @@
                                     "$ref": "#/definitions/Template%3C%5B%22before%22%2C%22after%22%5D%3E",
                                     "description": "[formatted] A way to say \"empty line between [node1] and [node2]\""
                                 },
+                                "moved": {
+                                    "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22target%22%5D%3E",
+                                    "description": "[plain] A node was dragged or moved from one place in the program to another. $node: its label, $target: the label of what now holds it"
+                                },
+                                "movedAfter": {
+                                    "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22sibling%22%5D%3E",
+                                    "description": "[plain] A keyboard move put a node after its sibling. $node: its label, $sibling: the sibling's label"
+                                },
+                                "movedBefore": {
+                                    "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22sibling%22%5D%3E",
+                                    "description": "[plain] A keyboard move put a node before its sibling. $node: its label, $sibling: the sibling's label"
+                                },
                                 "node": {
                                     "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22type%22%5D%3E",
                                     "description": "[formatted] A way to say \"on node of type [type], they [description]\". $1: node label, $2: type, $3: description"
+                                },
+                                "parent": {
+                                    "$ref": "#/definitions/Template%3C%5B%22parent%22%5D%3E",
+                                    "description": "[plain] Verbose announcements only: the construct the caret's node sits in. $parent: the parent node's label"
+                                },
+                                "pickedUp": {
+                                    "$ref": "#/definitions/Template%3C%5B%22node%22%5D%3E",
+                                    "description": "[plain] A drag began. $node: the label of what was picked up"
+                                },
+                                "redone": {
+                                    "$ref": "#/definitions/Template%3C%5B%22removed%22%2C%22added%22%5D%3E",
+                                    "description": "[plain] A redo finished. $added: code that came back, if any; $removed: code that is gone, if any"
                                 },
                                 "remove": {
                                     "$ref": "#/definitions/FormattedText",
                                     "description": "[formatted] $1: node description"
                                 },
+                                "removed": {
+                                    "$ref": "#/definitions/Template%3C%5B%22node%22%5D%3E",
+                                    "description": "[plain] A node was removed, by a menu choice or by dropping it in the recycle bin. $node: its label"
+                                },
                                 "replace": {
                                     "$ref": "#/definitions/FormattedText",
                                     "description": "[formatted] $1: node description or undefined"
+                                },
+                                "replacedAll": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22text%22%5D%3E",
+                                    "description": "[plain] Search and replace finished. $count: how many matches changed, $text: what they became"
+                                },
+                                "undone": {
+                                    "$ref": "#/definitions/Template%3C%5B%22removed%22%2C%22added%22%5D%3E",
+                                    "description": "[plain] An undo finished. $added: code that came back, if any; $removed: code that is gone, if any"
                                 }
                             },
                             "required": [
@@ -19915,7 +19972,20 @@
                                 "append",
                                 "remove",
                                 "replace",
-                                "area"
+                                "area",
+                                "parent",
+                                "inserted",
+                                "removed",
+                                "moved",
+                                "copied",
+                                "pickedUp",
+                                "cannotPickUp",
+                                "dropCancelled",
+                                "replacedAll",
+                                "undone",
+                                "redone",
+                                "movedBefore",
+                                "movedAfter"
                             ],
                             "type": "object"
                         },
@@ -20363,10 +20433,6 @@
                                     "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
                                     "description": "[plain] Confirms a paste, naming what was pasted"
                                 },
-                                "redone": {
-                                    "description": "[plain] Confirms an undone edit was redone",
-                                    "type": "string"
-                                },
                                 "restarted": {
                                     "description": "[plain] Confirms the program's inputs were reset",
                                     "type": "string"
@@ -20391,10 +20457,6 @@
                                     "$ref": "#/definitions/Template%3C%5B%22step%22%2C%22node%22%5D%3E",
                                     "description": "[plain] Announces the current evaluation step and the node at it"
                                 },
-                                "stepAtEnd": {
-                                    "description": "[plain] Says stepping reached the end of the program",
-                                    "type": "string"
-                                },
                                 "stepAtStart": {
                                     "description": "[plain] Says stepping reached the beginning of the program",
                                     "type": "string"
@@ -20403,17 +20465,9 @@
                                     "description": "[plain] Says tidying was unnecessary because the code is already tidy",
                                     "type": "string"
                                 },
-                                "undone": {
-                                    "description": "[plain] Confirms the last edit was undone",
-                                    "type": "string"
-                                },
                                 "unfoldedAll": {
                                     "description": "[plain] Confirms all code was unfolded",
                                     "type": "string"
-                                },
-                                "zoom": {
-                                    "$ref": "#/definitions/Template%3C%5B%22percent%22%5D%3E",
-                                    "description": "[plain] Announces the new editor zoom level as a percentage"
                                 }
                             },
                             "required": [
@@ -20421,18 +20475,14 @@
                                 "cut",
                                 "pasted",
                                 "deleted",
-                                "undone",
-                                "redone",
                                 "foldedAll",
                                 "unfoldedAll",
                                 "editMode",
-                                "zoom",
                                 "fullscreenOn",
                                 "fullscreenOff",
                                 "restarted",
                                 "step",
                                 "stepAtStart",
-                                "stepAtEnd",
                                 "searchOpened",
                                 "searchClosed",
                                 "searchMatch",
@@ -29092,6 +29142,10 @@
                                                     "description": "[plain] No editor active",
                                                     "type": "string"
                                                 },
+                                                "noElideInBlocks": {
+                                                    "description": "[plain] Elision was asked for in blocks mode, where it isn't available",
+                                                    "type": "string"
+                                                },
                                                 "noError": {
                                                     "description": "[plain] No errors allowed",
                                                     "type": "string"
@@ -29102,6 +29156,10 @@
                                                 },
                                                 "noMove": {
                                                     "description": "[plain] No where to go",
+                                                    "type": "string"
+                                                },
+                                                "noMoveTarget": {
+                                                    "description": "[plain] A keyboard move was refused: nothing beside the selection can hold it, or the program would break",
                                                     "type": "string"
                                                 },
                                                 "noSelection": {
@@ -29128,6 +29186,8 @@
                                                 "noClipboardItem",
                                                 "noSelection",
                                                 "noMove",
+                                                "noMoveTarget",
+                                                "noElideInBlocks",
                                                 "unhandled"
                                             ],
                                             "type": "object"
@@ -29200,12 +29260,20 @@
                                             "description": "[plain] Insert 𝅗𝅥 half note duration",
                                             "type": "string"
                                         },
+                                        "insertInitial": {
+                                            "description": "[plain] Insert ◆ symbol, which marks a reaction's initial value",
+                                            "type": "string"
+                                        },
                                         "insertLessOrEqual": {
                                             "description": "[plain] Insert ≤ symbol",
                                             "type": "string"
                                         },
                                         "insertLine": {
                                             "description": "[plain] Insert new line",
+                                            "type": "string"
+                                        },
+                                        "insertMatch": {
+                                            "description": "[plain] Insert ≈ symbol, which tests text against a pattern",
                                             "type": "string"
                                         },
                                         "insertNone": {
@@ -29238,6 +29306,10 @@
                                         },
                                         "insertPatternFold": {
                                             "description": "[plain] Insert Aa pattern case-fold symbol",
+                                            "type": "string"
+                                        },
+                                        "insertPatternRange": {
+                                            "description": "[plain] Insert – symbol, a range of characters in a pattern",
                                             "type": "string"
                                         },
                                         "insertPatternSpace": {
@@ -29308,6 +29380,10 @@
                                             "description": "[plain] Insert ↦ translate symbol",
                                             "type": "string"
                                         },
+                                        "insertTranslateRTL": {
+                                            "description": "[plain] Insert ↤ symbol, the right-to-left spelling of translate",
+                                            "type": "string"
+                                        },
                                         "insertTrue": {
                                             "description": "[plain] Insert true symbol",
                                             "type": "string"
@@ -29334,6 +29410,22 @@
                                         },
                                         "matchDelimiter": {
                                             "description": "[plain] Move cursor to the matching delimiter",
+                                            "type": "string"
+                                        },
+                                        "moveAfter": {
+                                            "description": "[plain] Move the selected code after the code it precedes",
+                                            "type": "string"
+                                        },
+                                        "moveBefore": {
+                                            "description": "[plain] Move the selected code before the code it follows",
+                                            "type": "string"
+                                        },
+                                        "moveIn": {
+                                            "description": "[plain] Move the selected code into the code beside it",
+                                            "type": "string"
+                                        },
+                                        "moveOut": {
+                                            "description": "[plain] Move the selected code out of what holds it",
                                             "type": "string"
                                         },
                                         "nextInline": {
@@ -29464,6 +29556,10 @@
                                         "insertStream",
                                         "insertRange",
                                         "insertChange",
+                                        "insertInitial",
+                                        "insertTranslateRTL",
+                                        "insertMatch",
+                                        "insertPatternRange",
                                         "insertPrevious",
                                         "insertConvert",
                                         "insertTranslate",
@@ -29500,6 +29596,10 @@
                                         "paste",
                                         "parenthesize",
                                         "enumerate",
+                                        "moveBefore",
+                                        "moveAfter",
+                                        "moveOut",
+                                        "moveIn",
                                         "type",
                                         "undo",
                                         "redo",
@@ -29549,9 +29649,22 @@
                                         "cantPaste": {
                                             "description": "[plain] Precedes the conflict explanation when a paste can't be applied at the caret",
                                             "type": "string"
+                                        },
+                                        "dropWarning": {
+                                            "description": "[plain] Precedes the conflict explanation when a drop is allowed but would introduce a conflict",
+                                            "type": "string"
+                                        },
+                                        "noDropTarget": {
+                                            "description": "[plain] Said when a drag is released where nothing can receive it",
+                                            "type": "string"
                                         }
                                     },
-                                    "required": ["cantDrop", "cantPaste"],
+                                    "required": [
+                                        "cantDrop",
+                                        "dropWarning",
+                                        "noDropTarget",
+                                        "cantPaste"
+                                    ],
                                     "type": "object"
                                 },
                                 "field": {
@@ -32030,7 +32143,16 @@
         "Template<[\"names\"]>": {
             "type": "string"
         },
+        "Template<[\"node\",\"sibling\"]>": {
+            "type": "string"
+        },
+        "Template<[\"node\",\"target\"]>": {
+            "type": "string"
+        },
         "Template<[\"node\",\"type\"]>": {
+            "type": "string"
+        },
+        "Template<[\"node\"]>": {
             "type": "string"
         },
         "Template<[\"number\",\"#count\",\"place\"]>": {
@@ -32058,6 +32180,9 @@
             "type": "string"
         },
         "Template<[\"owner\",\"suggestion\"]>": {
+            "type": "string"
+        },
+        "Template<[\"parent\"]>": {
             "type": "string"
         },
         "Template<[\"pattern\",\"count\"]>": {
@@ -32094,6 +32219,9 @@
             "type": "string"
         },
         "Template<[\"reason\"]>": {
+            "type": "string"
+        },
+        "Template<[\"removed\",\"added\"]>": {
             "type": "string"
         },
         "Template<[\"replacement\"]>": {

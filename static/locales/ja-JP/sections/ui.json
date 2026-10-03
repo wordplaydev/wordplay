@@ -548,7 +548,9 @@
                     "noClipboardItem": "$~クリップボードには何もありません",
                     "noSelection": "$~何も選択されていません",
                     "noMove": "$~これ以上は移動できません",
-                    "unhandled": "$~そのキーはここでは何もしません"
+                    "unhandled": "$~そのキーはここでは何もしません",
+                    "noMoveTarget": "$~そこには、これを入れられるものがありません",
+                    "noElideInBlocks": "$~省略は、テキストモードでだけ使えます"
                 },
                 "nextMatch": "$~次の検索結果に進む",
                 "insertTranslate": "$~翻訳記号を挿入する",
@@ -585,7 +587,15 @@
                 "insertDottedSixteenthNote": "$~付点16分音符を挿入する（0.375拍分の長さ）",
                 "selectedNodes": "$~$#count[$count個のノードを選択中、$firstから$lastまで]",
                 "insertRange": "$~範囲の記号を挿入する",
-                "findText": "$~コードを検索する"
+                "findText": "$~コードを検索する",
+                "moveBefore": "$~選んだものを、となりのものの前に動かす",
+                "moveAfter": "$~選んだものを、となりのものの後ろに動かす",
+                "moveOut": "$~選んだものを、それを入れているものの外に動かす",
+                "moveIn": "$~選んだものを、となりのものの中に動かす",
+                "insertInitial": "$~初期の記号を挿入する",
+                "insertTranslateRTL": "$~右から左への変換記号を挿入する",
+                "insertMatch": "$~一致の記号を挿入する",
+                "insertPatternRange": "$~文字範囲の記号を挿入する"
             },
             "options": {
                 "locale": {
@@ -609,7 +619,9 @@
             },
             "feedback": {
                 "cantDrop": "$~そこには置けません：",
-                "cantPaste": "$~そこには貼り付けられません："
+                "cantPaste": "$~そこには貼り付けられません：",
+                "dropWarning": "$~そこにドロップすると、次のことが起こります:",
+                "noDropTarget": "$~ここには、それを受け入れられるものがありません"
             },
             "clipboard": {
                 "label": "$~クリップボード"
@@ -1622,6 +1634,15 @@
                             "$~少し速く読み上げる",
                             "$~もっと速く読み上げる"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~スクリーンリーダーの詳しさ",
+                        "labels": ["$~短め", "$~ふつう", "$~くわしい"],
+                        "tips": [
+                            "$~カーソルの場所だけを読み上げる",
+                            "$~カーソルの場所、区切り記号の対応、衝突、そして編集でしたことを読み上げる",
+                            "$~カーソルが何の中にあるかと、各結果の型も読み上げる"
+                        ]
                     }
                 },
                 "options": {
@@ -2187,7 +2208,20 @@
             "delimiterMatchedSameLine": "$~同じ行の$name",
             "delimiterMatchedBelow": "$~$name に一致 $#lines[下に $lines 行]",
             "delimiterMatchedAbove": "$~$name に一致 $#lines[上に $lines 行]",
-            "delimiterUnmatched": "$~一致する区切りがありません"
+            "delimiterUnmatched": "$~一致する区切りがありません",
+            "parent": "$~$parent の中",
+            "inserted": "$~$node を挿入しました",
+            "removed": "$~$node を削除しました",
+            "moved": "$~$node を移動しました$target[（$target の中へ）|]",
+            "copied": "$~$node をコピーしました$target[（$target の中へ）|]",
+            "pickedUp": "$~$node を持ち上げました",
+            "cannotPickUp": "$~$node はここから移動できません",
+            "dropCancelled": "$~何もドロップしませんでした",
+            "replacedAll": "$~$#count[$count 件の一致]を $text に置き換えました",
+            "undone": "$~元に戻しました$added[、$added がもどりました|]$removed[、$removed が消えました|]",
+            "redone": "$~やり直しました$added[、$added がもどりました|]$removed[、$removed が消えました|]",
+            "movedBefore": "$~$node を $sibling の前に移動しました",
+            "movedAfter": "$~$node を $sibling の後ろに移動しました"
         },
         "template": {
             "unwritten": "$~未定",
@@ -2656,18 +2690,14 @@
             "cut": "$~$text を切り取りました",
             "pasted": "$~$text を貼り付けました",
             "deleted": "$~$text を削除しました",
-            "undone": "$~元に戻しました",
-            "redone": "$~やり直しました",
             "foldedAll": "$~すべてのコードを折りたたみました",
             "unfoldedAll": "$~すべてのコードを展開しました",
             "editMode": "$~$mode",
-            "zoom": "$~ズーム $percent パーセント",
             "fullscreenOn": "$~全画面に入りました",
             "fullscreenOff": "$~全画面を終了しました",
             "restarted": "$~入力を再開しました",
             "step": "$~ステップ $step, $node",
             "stepAtStart": "$~先頭に",
-            "stepAtEnd": "$~末尾に",
             "searchOpened": "$~コード内を検索",
             "searchClosed": "$~検索を閉じました",
             "searchMatch": "$~$index 件中 $count 件目",

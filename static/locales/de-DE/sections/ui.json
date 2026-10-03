@@ -529,7 +529,9 @@
                     "noClipboardItem": "$~Nichts auf dem Zwischenbrett",
                     "noSelection": "$~Nichts ausgewählt",
                     "noMove": "$~Ich kann mich nicht weiter bewegen.",
-                    "unhandled": "$~diese Taste macht hier nichts"
+                    "unhandled": "$~diese Taste macht hier nichts",
+                    "noMoveTarget": "$~Nichts dort kann das aufnehmen",
+                    "noElideInBlocks": "$~Auslassung ist nur im Textmodus verfügbar"
                 },
                 "nextMatch": "$~Zum nächsten Suchtreffer gehen",
                 "insertTranslate": "$~Übersetzungssymbol einfügen",
@@ -566,7 +568,15 @@
                 "insertDottedSixteenthNote": "$~eine punktierte Sechzehntelnote einfügen, drei Achtel eines Schlags lang",
                 "selectedNodes": "$~$#count[$count Knoten ausgewählt|$count Knoten ausgewählt], $first bis $last",
                 "insertRange": "$~Bereichssymbol einfügen",
-                "findText": "$~den Code durchsuchen"
+                "findText": "$~den Code durchsuchen",
+                "moveBefore": "$~Auswahl vor ihr Nachbarelement verschieben",
+                "moveAfter": "$~Auswahl hinter ihr Nachbarelement verschieben",
+                "moveOut": "$~Auswahl aus dem Element herausschieben, das sie enthält",
+                "moveIn": "$~Auswahl in ihr Nachbarelement hineinschieben",
+                "insertInitial": "$~Anfangssymbol einfügen",
+                "insertTranslateRTL": "$~Rechts-nach-links-Übersetzungssymbol einfügen",
+                "insertMatch": "$~Übereinstimmungssymbol einfügen",
+                "insertPatternRange": "$~Zeichenbereichssymbol einfügen"
             },
             "options": {
                 "locale": {
@@ -590,7 +600,9 @@
             },
             "feedback": {
                 "cantDrop": "$~Kann dort nicht landen:",
-                "cantPaste": "$~Kann dort nicht einfügen:"
+                "cantPaste": "$~Kann dort nicht einfügen:",
+                "dropWarning": "$~Wenn du es dort ablegst, passiert Folgendes:",
+                "noDropTarget": "$~Nichts hier kann das aufnehmen"
             },
             "clipboard": {
                 "label": "$~Klemmbrett"
@@ -1607,6 +1619,15 @@
                             "$~Etwas schneller vorlesen",
                             "$~Noch schneller vorlesen"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~Detailgrad des Screenreaders",
+                        "labels": ["$~knapp", "$~normal", "$~ausführlich"],
+                        "tips": [
+                            "$~Nur sagen, wo der Cursor ist",
+                            "$~Sagen, wo der Cursor ist, welches Zeichen zu einem Begrenzer passt, welche Konflikte es gibt und was jede Änderung bewirkt hat",
+                            "$~Auch sagen, worin der Cursor steht und welchen Typ jedes Ergebnis hat"
+                        ]
                     }
                 },
                 "options": {
@@ -2039,7 +2060,20 @@
             "delimiterMatchedSameLine": "$~Übereinstimmung von $name in derselben Zeile",
             "delimiterMatchedBelow": "$~passend zu $name $#lines[$lines Zeile darunter|$lines Zeilen darunter]",
             "delimiterMatchedAbove": "$~passend zu $name $#lines[$lines Zeile darüber|$lines Zeilen darüber]",
-            "delimiterUnmatched": "$~Kein passendes Trennzeichen"
+            "delimiterUnmatched": "$~Kein passendes Trennzeichen",
+            "parent": "$~in $parent",
+            "inserted": "$~$node eingefügt",
+            "removed": "$~$node entfernt",
+            "moved": "$~$node$target[ in $target|] verschoben",
+            "copied": "$~$node$target[ in $target|] kopiert",
+            "pickedUp": "$~$node aufgenommen",
+            "cannotPickUp": "$~$node kann von hier nicht verschoben werden",
+            "dropCancelled": "$~nichts abgelegt",
+            "replacedAll": "$~$#count[$count Treffer|$count Treffer] durch $text ersetzt",
+            "undone": "$~rückgängig gemacht$added[, $added ist wieder da|]$removed[, $removed ist weg|]",
+            "redone": "$~wiederholt$added[, $added ist wieder da|]$removed[, $removed ist weg|]",
+            "movedBefore": "$~$node vor $sibling verschoben",
+            "movedAfter": "$~$node nach $sibling verschoben"
         },
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",
@@ -2668,18 +2702,14 @@
             "cut": "$~$text ausgeschnitten",
             "pasted": "$~$text eingefügt",
             "deleted": "$~$text gelöscht",
-            "undone": "$~rückgängig gemacht",
-            "redone": "$~wiederhergestellt",
             "foldedAll": "$~gesamten Code eingeklappt",
             "unfoldedAll": "$~gesamten Code ausgeklappt",
             "editMode": "$~$mode",
-            "zoom": "$~Zoom $percent Prozent",
             "fullscreenOn": "$~Vollbild geöffnet",
             "fullscreenOff": "$~Vollbild verlassen",
             "restarted": "$~Eingaben neu gestartet",
             "step": "$~Schritt $step, $node",
             "stepAtStart": "$~am Anfang",
-            "stepAtEnd": "$~am Ende",
             "searchOpened": "$~im Code suchen",
             "searchClosed": "$~Suche geschlossen",
             "searchMatch": "$~Treffer $index von $count",

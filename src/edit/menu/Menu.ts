@@ -1,3 +1,4 @@
+import { Sym } from '#nodes/Sym.ts';
 import type ConceptIndex from '#concepts/ConceptIndex.ts';
 import { keysOf } from '#util/nullable.ts';
 import { Purpose, type PurposeType } from '#concepts/Purpose.ts';
@@ -47,6 +48,43 @@ const PurposeRelevance: Record<PurposeType, number> = {
     GalleryHow: 16,
 };
 
+/** The name token at or just before a text position. A position at a
+ *  name's end is "at" whatever follows it (the end token, a space), so the
+ *  token before is tried too. */
+function nameTokenAt(source: Source, position: number): Token | undefined {
+    return [
+        source.getTokenAt(position, false),
+        source.getTokenAt(position - 1, false),
+    ].find((token) => token !== undefined && token.isSymbol(Sym.Name));
+}
+
+/**
+ * Whether a caret change should re-ask a live menu rather than close it: the
+ * caret is a text position still in the name the menu was opened in (`was`,
+ * at `anchor`), and typing has extended it. A move elsewhere, deleting back
+ * to the name's start, or a character that ends the name closes the menu.
+ */
+export function liveMenuFollows(
+    anchor: CaretPosition | FieldPosition,
+    was: Source,
+    now: Source,
+    position: CaretPosition,
+): boolean {
+    if (typeof anchor !== 'number' || typeof position !== 'number')
+        return false;
+    const oldToken = nameTokenAt(was, anchor);
+    const oldStart =
+        oldToken === undefined
+            ? anchor
+            : (was.getTokenTextPosition(oldToken) ?? anchor);
+    const newToken = nameTokenAt(now, position);
+    if (newToken === undefined) return false;
+    const newStart = now.getTokenTextPosition(newToken);
+    return (
+        newStart !== undefined && newStart === oldStart && position > newStart
+    );
+}
+
 /** An immutable container for menu state. */
 export default class Menu {
     /** The project this menu was generated for */
@@ -72,6 +110,15 @@ export default class Menu {
     /** The currently selected revision or revision set */
     private readonly selection: MenuSelection;
 
+    /** Whether the menu was opened at a text caret and keeps focus in the
+     *  editor, so typing narrows it: the editor then routes its keys and
+     *  announces its selection, and the menu never takes focus itself. A menu
+     *  opened from a field's trigger button is not live; its items take focus.
+     *
+     *  A live menu opens with nothing selected (index -1): Down enters it, so
+     *  until then Enter is still a new line rather than a choice nobody made. */
+    private readonly live: boolean;
+
     /** The function to call to perform the edit. Can take"
      * 1) an edit to perform,
      * 2) a revision set to select, entering a submenu,
@@ -80,6 +127,8 @@ export default class Menu {
      * */
     private readonly action: (
         selection: Edit | RevisionSet | undefined,
+        /** The revision an edit came from, so the editor can say what it did. */
+        revision?: Revision,
     ) => boolean;
 
     /**
@@ -97,8 +146,13 @@ export default class Menu {
         organization: MenuOrganization | undefined,
         concepts: ConceptIndex,
         selection: [number, number | undefined],
-        action: (selection: Edit | RevisionSet | undefined) => boolean,
+        action: (
+            selection: Edit | RevisionSet | undefined,
+            revision?: Revision,
+        ) => boolean,
+        live = false,
     ) {
+        this.live = live;
         this.project = project;
         this.source = source;
         this.anchor = anchor;
@@ -219,6 +273,16 @@ export default class Menu {
         return this.anchor;
     }
 
+    isLive(): boolean {
+        return this.live;
+    }
+
+    /** The DOM id of the menu's list, so the editor's `aria-controls` and the
+     *  list can agree without either knowing about the other. */
+    getID(): string {
+        return `${this.source.getNames()[0] ?? 'source'}-menu`;
+    }
+
     withSelection(selection: MenuSelection) {
         const [index, subindex] = selection;
         const submenu = this.organization[index];
@@ -232,12 +296,19 @@ export default class Menu {
             this.organization,
             this.concepts,
             [
-                Math.max(0, Math.min(index, this.organization.length - 1)),
+                // A live menu may have nothing selected (see `live`): -1.
+                this.live && index === -1
+                    ? -1
+                    : Math.max(
+                          0,
+                          Math.min(index, this.organization.length - 1),
+                      ),
                 submenu instanceof RevisionSet && subindex !== undefined
-                    ? Math.max(0, Math.min(subindex, submenu.size()))
+                    ? Math.max(0, Math.min(subindex, submenu.size() - 1))
                     : undefined,
             ],
             this.action,
+            this.live,
         );
     }
 
@@ -264,10 +335,6 @@ export default class Menu {
 
     inSubmenu() {
         return this.selection[1] !== undefined;
-    }
-
-    onBack() {
-        return this.selection[1] === -1;
     }
 
     /** The current selection, if there is one. */
@@ -333,7 +400,11 @@ export default class Menu {
 
         if (subindex === undefined) {
             const newIndex = index + direction;
-            return newIndex >= 0 && newIndex < this.organization.length
+            // A live menu opens with nothing selected: down from there enters
+            // it, and up from its first item leaves it again. A menu that took
+            // focus always has a selection, so it stops at its first item.
+            const lowest = this.live ? -1 : 0;
+            return newIndex >= lowest && newIndex < this.organization.length
                 ? new Menu(
                       this.project,
                       this.source,
@@ -344,11 +415,15 @@ export default class Menu {
                       this.concepts,
                       [newIndex, undefined],
                       this.action,
+                      this.live,
                   )
                 : this;
         } else if (submenu instanceof RevisionSet) {
+            // Stops at the first item: `-1` once meant "back", but no element
+            // was rendered for it, so focus and the active descendant pointed
+            // at nothing. Left and Escape leave a submenu.
             const newSubindex = subindex + direction;
-            return newSubindex >= -1 && newSubindex < submenu.size()
+            return newSubindex >= 0 && newSubindex < submenu.size()
                 ? new Menu(
                       this.project,
                       this.source,
@@ -359,9 +434,27 @@ export default class Menu {
                       this.concepts,
                       [index, newSubindex],
                       this.action,
+                      this.live,
                   )
                 : this;
         } else return this;
+    }
+
+    /** The first item of the current list. */
+    toStart() {
+        return this.withSelection(
+            this.inSubmenu() ? [this.selection[0], 0] : [0, undefined],
+        );
+    }
+
+    /** The last item of the current list. */
+    toEnd() {
+        const list = this.getRevisionList();
+        return this.withSelection(
+            this.inSubmenu()
+                ? [this.selection[0], list.length - 1]
+                : [list.length - 1, undefined],
+        );
     }
 
     /** If in a submenu, change selection to be out of it. */
@@ -377,6 +470,7 @@ export default class Menu {
                   this.concepts,
                   [this.selection[0], undefined],
                   this.action,
+                  this.live,
               )
             : this;
     }
@@ -395,6 +489,7 @@ export default class Menu {
                   this.concepts,
                   [this.selection[0], 0],
                   this.action,
+                  this.live,
               )
             : this;
     }
@@ -411,6 +506,7 @@ export default class Menu {
                   this.concepts,
                   [this.selection[0], undefined],
                   this.action,
+                  this.live,
               )
             : this;
     }
@@ -426,13 +522,9 @@ export default class Menu {
             revision.execute();
             return true;
         }
-        return revision
-            ? this.action(
-                  revision instanceof Revision
-                      ? revision.getEdit(locales)
-                      : revision,
-              )
-            : false;
+        return revision instanceof Revision
+            ? this.action(revision.getEdit(locales), revision)
+            : this.action(revision);
     }
 }
 

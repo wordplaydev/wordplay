@@ -9,7 +9,7 @@
     import MenuActionItem from '#components/editor/menu/MenuActionItem.svelte';
     import Revision from '#edit/revision/Revision.ts';
     import Node, { isFieldPosition, ListOf } from '#nodes/Node.ts';
-    import { tick } from 'svelte';
+    import { onMount, tick } from 'svelte';
     import { locales } from '#db/Database.ts';
     import Token from '#nodes/Token.ts';
     import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
@@ -24,6 +24,8 @@
         hoverSelects,
         isTap,
         type PressPoint,
+        pointerMoved,
+        resetPointer,
     } from '#components/editor/menu/menuPointer.ts';
 
     interface Props {
@@ -36,6 +38,9 @@
     }
 
     let { menu = $bindable(), hide, position }: Props = $props();
+
+    // A pointer resting where the menu opens hasn't moved (see pointerMoved).
+    onMount(resetPointer);
 
     // We pull out the organization here to avoid rerendering with the menu changes but the organization doesn't.
     // This not only helps with efficiency, but also prevent screen readers from resetting the menu item focus.
@@ -113,9 +118,24 @@
         handleItemClick(item);
     }
 
-    /* When the selection changes, scroll it's corresponding view and focus it. */
+    /* When the selection changes, scroll it's corresponding view and focus it.
+       A live menu is only scrolled: focus stays in the editor so typing keeps
+       narrowing the list, the editor announces the selection, and the item is
+       drawn selected by its class. */
     let revisionViews: HTMLElement[] = $state([]);
     $effect(() => {
+        if (menu.isLive()) {
+            // No focus to bring it into view, so scroll to the selection.
+            if (menu.hasSelection()) {
+                const selected = `menuitem-${menu.getSelectionID()}`;
+                tick().then(() =>
+                    document
+                        .getElementById(selected)
+                        ?.scrollIntoView({ block: 'nearest' }),
+                );
+            }
+            return;
+        }
         const id = `menuitem-${menu.getSelectionID()}`;
         const itemView = document.getElementById(`${id}`);
         if (itemView) {
@@ -155,16 +175,29 @@
             else hide();
             event.stopPropagation();
             return;
+        } else if (event.key === 'Home' || event.key === 'End') {
+            menu = event.key === 'Home' ? menu.toStart() : menu.toEnd();
+            event.stopPropagation();
+            event.preventDefault();
+            return;
         } else if (event.key === 'Enter' || event.key === ' ') {
             if (menu.doEdit($locales, menu.getSelection())) hide();
             event.stopPropagation();
             event.preventDefault();
             return;
         } else if (event.key.length === 1) {
-            // Find the first visible revision that has a token that starts with the letter.
-            const match = menu.getRevisionList().findIndex((revision) =>
+            // Jump to the next item, after the current one and wrapping, that
+            // has a token starting with the letter, in either case: a second
+            // press of the same letter reaches the second match.
+            const letter = event.key.toLocaleLowerCase();
+            const starts = (text: string) =>
+                text.toLocaleLowerCase().startsWith(letter);
+            const list = menu.getRevisionList();
+            const [index, subindex] = menu.getSelectionIndex();
+            const current = menu.inSubmenu() ? (subindex ?? -1) : index;
+            const matches = (revision: (typeof list)[number]) =>
                 revision instanceof MenuAction
-                    ? revision.label($locales.getLocale()).startsWith(event.key)
+                    ? starts(revision.label($locales.getLocale()))
                     : revision instanceof Revision
                       ? revision
                             .getEditedNode($locales)[0]
@@ -172,21 +205,27 @@
                             .some(
                                 (node) =>
                                     node instanceof Token &&
-                                    node.getText().startsWith(event.key),
+                                    starts(node.getText()),
                             )
                       : // Through getHeader, so typing a letter finds a set named by its group
                         // (a unit category) and not only one named by its purpose.
-                        $locales
-                            .getUnannotatedPrimaryText((l) =>
+                        starts(
+                            $locales.getUnannotatedPrimaryText((l) =>
                                 revision.getHeader(l),
-                            )
-                            .startsWith(event.key),
-            );
-            // >= 0, not truthiness: findIndex returns 0 for the first item (falsy, so typing
-            // its letter did nothing) and -1 for no match (truthy, selecting index -1).
+                            ),
+                        );
+            let match = -1;
+            for (let step = 1; step <= list.length; step++) {
+                const candidate = (current + step) % list.length;
+                const revision = list[candidate];
+                if (revision !== undefined && matches(revision)) {
+                    match = candidate;
+                    break;
+                }
+            }
             if (match >= 0)
                 menu = menu.inSubmenu()
-                    ? menu.withSelection([menu.getSelectionIndex()[0], match])
+                    ? menu.withSelection([index, match])
                     : menu.withSelection([match, undefined]);
         }
     }
@@ -200,15 +239,16 @@
     style:top="{menuTop}px"
     style:--menu-max-height="{menuMaxHeight(position.container)}px"
 >
+    <!-- One focus model: an item that takes focus is read by its label. A
+         live menu is the exception, and there the editor's textarea names the
+         selection as its active descendant and announces it. -->
     <div
         class="revisions"
         role="menu"
         tabindex="-1"
+        id={menu.getID()}
         aria-orientation="vertical"
         aria-label={$locales.getPrimaryPlainText((l) => l.ui.source.menu.label)}
-        aria-activedescendant="menuitem-{menu.inSubmenu()
-            ? `${menu.getSelectionIndex()[0]}-${menu.getSelectionIndex()[1]}`
-            : menu.getSelectionIndex()[0]}"
         onkeydown={handleKey}
     >
         {#if fieldLabel}<div class="label"
@@ -247,8 +287,18 @@
                     onpointerdown={handleItemPress}
                     onpointerup={(event) => handleItemRelease(event, entry)}
                     onpointercancel={() => (pressPoint = undefined)}
-                    onpointerenter={(event) => {
-                        if (!hoverSelects(event.pointerType)) return;
+                    onpointermove={(event) => {
+                        if (
+                            !hoverSelects(event.pointerType) ||
+                            !pointerMoved(event)
+                        )
+                            return;
+                        // Already open: don't re-enter it on every move.
+                        if (
+                            menu.getSelectionIndex()[0] === itemIndex &&
+                            menu.inSubmenu()
+                        )
+                            return;
                         event.stopPropagation();
                         event.preventDefault();
                         handleItemClick(entry);
@@ -392,7 +442,8 @@
         border-bottom-right-radius: var(--wordplay-border-radius);
     }
 
-    .revisionset:focus {
+    .revisionset:focus,
+    .revisionset.selected {
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }

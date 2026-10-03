@@ -11,7 +11,11 @@
         toAriaKeyshortcuts,
         toShortcut,
     } from '#components/editor/commands/shortcuts.ts';
-    import { resolveFeedback } from '#components/editor/commands/feedback.ts';
+    import {
+        feedbackContextFor,
+        resolveFeedback,
+    } from '#components/editor/commands/feedback.ts';
+    import { getInternalClipboard } from '#components/editor/commands/InternalClipboard.ts';
     import TokenView from '#components/editor/tokens/TokenView.svelte';
     import {
         IdleKind,
@@ -74,12 +78,19 @@
      *  reader wouldn't otherwise convey (see Command.feedback). */
     function announceCommand() {
         if (!announce || !$announce || context === undefined) return;
-        const feedback = resolveFeedback(command.feedback, {
-            locales: $locales,
-            zoom: context.context.zoom,
-            blocks: context.context.blocks,
-            getMode: context.context.getMode,
-        });
+        const feedback = resolveFeedback(
+            command.feedback,
+            feedbackContextFor(
+                {
+                    locales: $locales,
+                    zoom: context.context.zoom,
+                    blocks: context.context.blocks,
+                    getMode: context.context.getMode,
+                    evaluator: context.context.evaluator,
+                },
+                getInternalClipboard() ?? undefined,
+            ),
+        );
         if (feedback)
             $announce(feedback.kind, $locales.getLanguages()[0], feedback.text);
     }
@@ -159,7 +170,10 @@
                 );
             return;
         }
-        if (result !== false) announceCommand();
+        // A promised result (copy, cut, paste) is confirmed once it settles:
+        // the clipboard holds what the confirmation names only then, and a
+        // refusal arrives the same way.
+        if (result !== false && !(result instanceof Promise)) announceCommand();
 
         if (result instanceof Promise) {
             // Async commands (paste awaiting the clipboard) build their edit from
@@ -167,13 +181,24 @@
             // the stale result would silently revert it, so drop it. Mirrors the
             // guard on the editor's keyboard dispatch path.
             const dispatchSource = editor?.caret.source;
-            result.then((edit) =>
-                editor &&
-                edit !== true &&
-                editor.caret.source === dispatchSource
-                    ? editor.edit(edit, IdleKind.Typed, focusAfter)
-                    : undefined,
-            );
+            result.then((edit) => {
+                if (typeof edit === 'function') {
+                    if (announce && $announce)
+                        $announce(
+                            'ignored',
+                            $locales.getLanguages()[0],
+                            $locales.getPrimaryPlainText(edit),
+                        );
+                    return;
+                }
+                announceCommand();
+                if (
+                    editor &&
+                    edit !== true &&
+                    editor.caret.source === dispatchSource
+                )
+                    editor.edit(edit, IdleKind.Typed, focusAfter);
+            });
         } else if (typeof result !== 'boolean' && result !== undefined)
             editor?.edit(
                 resetVisualColumnAfter(command, result),
@@ -182,9 +207,17 @@
             );
 
         // If we didn't ask the editor to focus, restore focus on button after update.
+        // Only when focus was lost (it fell to the body as the toolbar
+        // re-rendered): a command that moved focus on purpose — opening the
+        // suggestions menu sends it to the code so the arrows work — must keep
+        // it, and taking it back left that menu deaf to the keyboard.
         if (!focusAfter && hadFocus) {
             await tick();
-            if (view)
+            if (
+                view &&
+                (document.activeElement === null ||
+                    document.activeElement === document.body)
+            )
                 setKeyboardFocus(
                     view,
                     'Focusing on button after command if it previously had focus.',

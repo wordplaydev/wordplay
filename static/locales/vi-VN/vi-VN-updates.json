@@ -1020,6 +1020,13 @@
         "e42e9e3c1d92a": "$~Những từ có gạch chân chấm chấm không còn hiện các ký hiệu thừa ở phía trước trong một số ngôn ngữ.",
         "e6f07748bed1c": "$~Các bài học trong <Học@https://wordplay.dev/learn> và các lời giải thích trong Sổ tay hướng dẫn giờ đây có một nút đọc to chúng lên và làm nổi bật từng từ khi được đọc. Phần cài đặt cho phép bạn chọn tốc độ đọc và để mỗi dòng bài học mới tự đọc lên. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
         "e4b9091b3c539": "$~Các ví dụ trong <Guide@https://wordplay.dev/guide> không còn tự nói ngay khi trang vừa mở nữa, mà chỉ nói sau khi bạn bấm nút phát của chúng.",
-        "e4b5e128afb9d": "$~Văn bản được đọc to trên Chrome và các trình duyệt Chromium khác trên máy Mac giờ đây dùng một giọng đọc bình thường, thay vì một giọng kỳ quặc như Albert hay Bubbles."
+        "e4b5e128afb9d": "$~Văn bản được đọc to trên Chrome và các trình duyệt Chromium khác trên máy Mac giờ đây dùng một giọng đọc bình thường, thay vì một giọng kỳ quặc như Albert hay Bubbles.",
+        "e14bed8e9c16c": "$~Trình soạn thảo mã số giờ đây cho trình đọc màn hình biết mỗi lần chỉnh sửa, thả, hoàn tác và lựa chọn trong menu đã làm gì. Một cài đặt mới cho bạn chọn mức độ chi tiết khi đọc.",
+        "e30d15d78b9a4": "$~Chúng tôi đã thêm phím tắt để sắp xếp lại mã số: nhấn Alt+Shift cùng với phím mũi tên hoặc Enter để di chuyển mã số đã chọn ra trước, ra sau, ra ngoài hoặc vào trong mã số bên cạnh.",
+        "e02157357e335": "$~Chúng tôi đã thêm các nút chèn cho các ký hiệu ↤, ≈, ◆ và –.",
+        "e33c0fa9452a4": "$~Menu gợi ý giờ đây luôn mở và thu hẹp danh sách khi bạn gõ.",
+        "e6c77df016241": "$~Ở chế độ /khối/, chúng tôi đã sửa lỗi khi kéo mã số xuống dưới phần cuối của chương trình và khi kéo mã số vào mã số có lỗi. Trước đây cả hai việc này đều không làm gì cả.",
+        "e7f1566676e7a": "$~Chúng tôi đã sửa các liên kết ở những ngôn ngữ khác bị hiện thành chữ lỗi hoặc dẫn đến trang không tồn tại. Lỗi này có ở trang chủ, trang <Giới thiệu@https://wordplay.dev/about>, bài học nhanh và trong các thông báo trên khắp trang web.",
+        "e221a0b8c05d5": "$~Chúng tôi đã sửa các lựa chọn hiển thị nhạc trong phần cài đặt tiếng Thổ Nhĩ Kỳ, nơi mỗi tên và mô tả bị hiện cạnh sai lựa chọn."
     }
 }

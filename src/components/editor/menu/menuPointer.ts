@@ -29,3 +29,30 @@ export function isTap(
 export function hoverSelects(pointerType: string): boolean {
     return pointerType !== 'touch';
 }
+
+/** Where the pointer was last seen over the menu. */
+let lastPointer: { x: number; y: number } | undefined = undefined;
+
+/** Forget where the pointer was, when a menu opens: the first event over it
+ *  then only records a position rather than counting as a move. */
+export function resetPointer() {
+    lastPointer = undefined;
+}
+
+/**
+ * Whether the pointer really moved since it was last seen over the menu. Hover
+ * selected on `pointerenter`, which the browser also fires when the *menu*
+ * moves under a pointer that is resting — it opens there, or scrolls as the
+ * arrow keys move the selection — so a mouse left where the menu appeared took
+ * the selection back from the keyboard on every keypress.
+ */
+export function pointerMoved(event: {
+    clientX: number;
+    clientY: number;
+}): boolean {
+    const moved =
+        lastPointer !== undefined &&
+        (lastPointer.x !== event.clientX || lastPointer.y !== event.clientY);
+    lastPointer = { x: event.clientX, y: event.clientY };
+    return moved;
+}

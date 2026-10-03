@@ -60,6 +60,7 @@
         getEffectiveFolded,
         getEvaluation,
         getHidden,
+        getNodeDescriptions,
         getHighlights,
         getProject,
         getRoot,
@@ -161,6 +162,8 @@
     const project = getProject();
     const rootContext = getRoot();
     let root = $derived(rootContext?.root);
+    /** Whether to compute a description at all (see setNodeDescriptions). */
+    const describes = getNodeDescriptions() ?? (() => true);
 
     // Source the description's Context from the project store, which only
     // changes on edits, rather than the evaluation store, which emits a new
@@ -170,7 +173,7 @@
     // frame. Fall back to the evaluator's project for non-route render
     // contexts (e.g. previews) where the project store isn't set.
     let descriptionContext = $derived(
-        renderNode
+        describes() && renderNode
             ? ($project ?? $evaluation?.evaluator.project)?.getNodeContext(
                   renderNode,
               )
@@ -548,6 +551,7 @@
                         ><ReferenceMarker messages={blockMessages} /></span
                     >{/if}<!--Render the available value if debugging, node view otherwise -->{#if elided}<span
                         class="elided"
+                        role="img"
                         aria-label="elided">…</span
                     >{:else}{#if value && renderNode.isUndelimited()}<span
                             class="eval">{EVAL_OPEN_SYMBOL}</span

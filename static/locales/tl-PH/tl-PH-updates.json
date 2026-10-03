@@ -1020,6 +1020,13 @@
         "e42e9e3c1d92a": "$~Ang mga salitang may tuldok-tuldok na guhit sa ilalim ay hindi na nagpapakita ng mga naliligaw na simbolo sa harap nila sa ilang wika.",
         "e6f07748bed1c": "$~Ang mga aralin sa <Learn@https://wordplay.dev/learn> at ang mga paliwanag sa Gabay ay may bagong buton na nagbabasa sa mga ito nang malakas at nagha-highlight sa bawat salita habang binabasa ito. May mga setting din na nagpapahintulot sa iyong piliin kung gaano kabilis ito babasahin, at magpabasa sa bawat bagong linya ng aralin nang nag-iisa. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
         "e4b9091b3c539": "$~Ang mga halimbawa sa <Guide@https://wordplay.dev/guide> ay hindi na nagsasalita sa sandaling mabuksan ang pahina, at nagsasalita na lamang pagkatapos mong pindutin ang kanilang buton ng pag-play.",
-        "e4b5e128afb9d": "$~Ang binibigkas na teksto sa Chrome at sa iba pang Chromium browser sa isang Mac ay gumagamit na ngayon ng karaniwang tinig sa halip na isang nakakatawang tinig tulad ng Albert o Bubbles."
+        "e4b5e128afb9d": "$~Ang binibigkas na teksto sa Chrome at sa iba pang Chromium browser sa isang Mac ay gumagamit na ngayon ng karaniwang tinig sa halip na isang nakakatawang tinig tulad ng Albert o Bubbles.",
+        "e14bed8e9c16c": "$~Sinasabi na ngayon ng patnugutan ng kodigo sa mga screen reader kung ano ang nagawa ng bawat pag-edit, pag-drop, pag-undo, at pagpili sa menu. May bagong setting din na pumipili kung gaano karaming detalye ang bibigkasin.",
+        "e30d15d78b9a4": "$~Nagdagdag kami ng mga keyboard shortcut para sa pag-aayos ng kodigo: ang Alt+Shift kasama ang mga arrow key o Enter ay naglilipat ng napiling kodigo bago, pagkatapos, labas, o loob ng katabi nito.",
+        "e02157357e335": "$~Nagdagdag kami ng mga button para magpasok ng mga simbolong ↤, ≈, ◆, at –.",
+        "e33c0fa9452a4": "$~Nananatiling bukas na ngayon ang menu ng mga mungkahi at lumiliit ang mga pagpipilian habang nagta-type ka.",
+        "e6c77df016241": "$~Sa blocks mode, inayos namin ang pag-drag ng kodigo sa ibaba ng dulo ng isang program at sa kodigo na may pagkakamali. Parehong walang nangyayari noon.",
+        "e7f1566676e7a": "$~Inayos namin ang mga link sa ibang wika na lumabas bilang sirang teksto o dinala ka sa mga nawawalang pahina. Inayos ito sa home page, sa pahina ng <Tungkol@https://wordplay.dev/about>, sa mabilis na tutorial, at sa mga mensahe sa buong site.",
+        "e221a0b8c05d5": "$~Inayos namin ang mga pagpipilian sa pagpapakita ng musika sa mga setting sa Turkish, na nagpapakita ng bawat pangalan at paglalarawan sa tabi ng maling opsyon."
     }
 }

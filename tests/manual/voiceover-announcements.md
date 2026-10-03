@@ -376,3 +376,120 @@ The "really delete?" confirmation prompt is announced once as it appears,
 and the confirmation form is reachable with Tab immediately after. Failure:
 the prompt appears silently, or is announced repeatedly on unrelated
 re-renders.
+
+---
+
+# The caret speaks wherever the action came from
+
+_A caret moved by something other than a keystroke in the editor is still announced._
+
+1. In the editor, type `Ph`, press ⌘↓ to open the menu, and press Return to
+   choose the first suggestion.
+2. Press ⌘F, type `Ph`, and press Return in the search field.
+3. Click the toolbar's undo button with the mouse.
+4. Open the palette (Wellspring) and drag a concept onto a placeholder.
+
+After each, VoiceOver says where the caret now is — the inserted `Phrase`, the
+match, the restored position, the dropped node — even though focus was on a
+menu item, in the search field, on a toolbar button, or on the palette.
+Failure: any of the four is silent, or the same position is spoken twice.
+
+---
+
+# An edit is described, and two undos differ
+
+_What changed is said beyond where the caret landed._
+
+1. Type `[1 2]` on one line and `3` on the next, then Shift-drag the `3` onto
+   the list's closing bracket.
+2. Press ⌘Z, then ⌘Z again.
+3. Open the menu on a node and choose a removal.
+
+The drop says "moved number 3 into list"; each undo says "undone", what is
+gone or back, and then where the caret is now — one sentence, spoken at once.
+The removal says "removed …". Then type `111` and press ⌘Z three times: three
+sentences, each ending with the caret's new position, never "number 111". Failure: hearing only "one"
+(the screen reader echoing the character leaving the field) instead of the
+undo; a second undo that says nothing; a drop that says only "number 3".
+
+---
+
+# A live menu narrows as you type
+
+_The menu opened at a name keeps focus in the code._
+
+1. Type `Ph`, press ⌘↓.
+2. Type `r`. Press ↓ twice, ↑ once, then Return.
+3. Type `x`, press ⌘↓, then Return.
+4. Press ⌘↓, then Escape. Then open the menu from the toolbar's button with
+   the mouse and press ↓.
+
+Opening says "menu, N suggestions" and nothing is selected yet; typing `r`
+keeps the menu open and says the new count. The first ↓ enters the menu and
+speaks its first item, each ↓ or ↑ speaks the item it lands on and the item
+is visibly outlined, and Return inserts it. In step 3 the menu was never
+entered, so Return makes a new line. Escape says "closed menu". From the
+toolbar the menu opens with focus in the code, so ↓ works the same.
+Failure: typing closes the menu; ↓ moves the caret or shows no outline; Return
+chooses an item nobody selected; no item is spoken as the selection moves.
+
+---
+
+# Keyboard moves say where the node went
+
+1. Type `[1 2 3]`, then select the `2` (Escape to select the node under the
+   caret, or ⌥↑ until "number 2" is spoken).
+2. Press ⌥⇧↓, then ⌥⇧←, then ⌥⇧Return.
+3. Select a bind's name and press ⌥⇧↑.
+
+"moved number 2 after number 3", "moved number 2 into …" (out beside the
+list), "moved number 2 into list" (back in), then "Nothing there can hold
+this" for the name, with the shake. Failure: silence, or a move that says only
+the caret position.
+
+---
+
+# Drags are heard from pickup to drop
+
+1. Shift-drag a number onto a placeholder.
+2. Shift-drag a number, press Escape while holding the mouse, release.
+3. Shift-press a bind's name and start dragging.
+
+"picked up number" then "moved number into …" for the first; "picked up" then
+"dropped nothing" for the second; "name can't be moved from here" for the
+third, with nothing picked up. Failure: a drag with no pickup announcement; a
+cancelled drag that later drops on the next click.
+
+---
+
+# Verbosity tiers
+
+1. In settings, under the speaker heading, set screen reader detail to
+   _terse_. Arrow across `(1 + 2)` and onto the `(`.
+2. Set it to _normal_ and repeat.
+3. Set it to _verbose_, then select the `2` inside `[1 2 3]` and drop a
+   number into a list.
+
+Terse says only positions ("in 1, between start and 1"); normal adds "matching
+) on the same line" on the paren and says each edit; verbose adds "in list"
+after the selected number and the type of what was dropped. Failure: a tier
+that sounds like another.
+
+---
+
+# Blocks mode: repairing, appending, and copying from the sidebar
+
+1. Type `)` so the program is one unparsable token, then switch to blocks
+   (⌘\\). Drag a concept from the sidebar onto the unparsable block.
+2. Drag another concept into the empty space below the last block.
+3. Drag a concept somewhere nothing can take it and release (for instance over
+   the editor's search panel).
+4. Tab to a concept in the sidebar and press ⌘C. Then select a block and press
+   the toolbar's copy button.
+
+The unparsable block pulses as a target and is replaced; "copied … " is said.
+Below the program an insertion bar appears at the end and the concept is
+appended. The stray release says "Nothing here can take that" and shows it in
+the footer. Both copies say "copied" and name the code. Failure: any of these
+is silent, or the bar never appears below the program. (Copying the same
+thing twice in a row is said once: the confirmation is identical.)

@@ -823,6 +823,10 @@ type UITexts = {
         feedback: {
             /** [plain] Precedes the conflict explanation when a dragged block can't be dropped on a target */
             cantDrop: string;
+            /** [plain] Precedes the conflict explanation when a drop is allowed but would introduce a conflict */
+            dropWarning: string;
+            /** [plain] Said when a drag is released where nothing can receive it */
+            noDropTarget: string;
             /** [plain] Precedes the conflict explanation when a paste can't be applied at the caret */
             cantPaste: string;
         };
@@ -914,6 +918,14 @@ type UITexts = {
             insertRange: string;
             /** [plain] Insert ∆ symbol */
             insertChange: string;
+            /** [plain] Insert ◆ symbol, which marks a reaction's initial value */
+            insertInitial: string;
+            /** [plain] Insert ↤ symbol, the right-to-left spelling of translate */
+            insertTranslateRTL: string;
+            /** [plain] Insert ≈ symbol, which tests text against a pattern */
+            insertMatch: string;
+            /** [plain] Insert – symbol, a range of characters in a pattern */
+            insertPatternRange: string;
             /** [plain] Insert ← symbol */
             insertPrevious: string;
             /** [plain] Insert → symbol */
@@ -986,6 +998,14 @@ type UITexts = {
             parenthesize: string;
             /** [plain] Listify selection */
             enumerate: string;
+            /** [plain] Move the selected code before the code it follows */
+            moveBefore: string;
+            /** [plain] Move the selected code after the code it precedes */
+            moveAfter: string;
+            /** [plain] Move the selected code out of what holds it */
+            moveOut: string;
+            /** [plain] Move the selected code into the code beside it */
+            moveIn: string;
             /** [plain] Insert a symbol */
             type: string;
             /** [plain] Undo last edit */
@@ -1024,6 +1044,10 @@ type UITexts = {
                 noSelection: string;
                 /** [plain] No where to go */
                 noMove: string;
+                /** [plain] A keyboard move was refused: nothing beside the selection can hold it, or the program would break */
+                noMoveTarget: string;
+                /** [plain] Elision was asked for in blocks mode, where it isn't available */
+                noElideInBlocks: string;
                 /** [plain] A key that does nothing in this context */
                 unhandled: string;
             };
@@ -1170,18 +1194,12 @@ type UITexts = {
         pasted: Template<['text']>;
         /** [plain] Confirms a deletion, naming what was deleted */
         deleted: Template<['text']>;
-        /** [plain] Confirms the last edit was undone */
-        undone: string;
-        /** [plain] Confirms an undone edit was redone */
-        redone: string;
         /** [plain] Confirms all code was folded */
         foldedAll: string;
         /** [plain] Confirms all code was unfolded */
         unfoldedAll: string;
         /** [plain] Announces the editing mode now in effect (blocks or text) */
         editMode: Template<['mode']>;
-        /** [plain] Announces the new editor zoom level as a percentage */
-        zoom: Template<['percent']>;
         /** [plain] Confirms entering full screen */
         fullscreenOn: string;
         /** [plain] Confirms leaving full screen */
@@ -1192,8 +1210,6 @@ type UITexts = {
         step: Template<['step', 'node']>;
         /** [plain] Says stepping reached the beginning of the program */
         stepAtStart: string;
-        /** [plain] Says stepping reached the end of the program */
-        stepAtEnd: string;
         /** [plain] Confirms the code search opened */
         searchOpened: string;
         /** [plain] Confirms the code search closed */
@@ -2376,6 +2392,8 @@ type UITexts = {
                 readAloud: ModeText<[string, string]>;
                 /** How fast read aloud speaks: slower, normal, faster, or fastest */
                 readAloudRate: ModeText<[string, string, string, string]>;
+                /** How much the editor tells a screen reader about the caret and each edit: position only, position and what changed, or that plus the surrounding construct and the result's type */
+                announcementVerbosity: ModeText<[string, string, string]>;
                 /** How big the caption of what Say is speaking is, as a multiple of the standard text size */
                 captionSize: ModeText<[string, string, string, string, string]>;
             };

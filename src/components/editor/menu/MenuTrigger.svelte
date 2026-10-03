@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { locales } from '#db/Database.ts';
     import type { CaretPosition } from '#edit/caret/Caret.ts';
     import { isFieldPosition, type FieldPosition } from '#nodes/Node.ts';
     import {
@@ -44,6 +45,8 @@
     data-field={field}
     role="button"
     tabindex="0"
+    aria-haspopup="menu"
+    aria-label={$locales.getPrimaryPlainText((l) => l.ui.source.menu.show)}
     onpointerdown={(event) => {
         if (event.button !== 0) return;
         // Claim the gesture so the editor beneath doesn't move the caret, which

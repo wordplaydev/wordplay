@@ -1020,6 +1020,13 @@
         "e42e9e3c1d92a": "$~Cuvintele cu subliniere punctată nu mai arată simboluri rătăcite în fața lor în unele limbi.",
         "e6f07748bed1c": "$~Lecțiile din <Învață@https://wordplay.dev/learn> și explicațiile din Ghid au acum un buton care le citește cu voce tare și evidențiază fiecare cuvânt pe măsură ce este rostit, iar setările îți permit să alegi viteza și să faci ca fiecare rând nou dintr-o lecție să fie citit separat. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
         "e4b9091b3c539": "$~Exemplele din <Ghid@https://wordplay.dev/guide> nu mai vorbesc imediat ce se deschide pagina și vorbesc doar după ce apeși butonul lor de redare.",
-        "e4b5e128afb9d": "$~Textul rostit în Chrome și alte browsere Chromium pe un Mac folosește acum o voce obișnuită, în loc de una amuzantă precum Albert sau Bubbles."
+        "e4b5e128afb9d": "$~Textul rostit în Chrome și alte browsere Chromium pe un Mac folosește acum o voce obișnuită, în loc de una amuzantă precum Albert sau Bubbles.",
+        "e14bed8e9c16c": "$~Editorul de cod le spune acum cititoarelor de ecran ce a făcut fiecare editare, fiecare plasare, fiecare anulare și fiecare alegere din meniu. O setare nouă alege cât de multe detalii sunt rostite.",
+        "e30d15d78b9a4": "$~Am adăugat comenzi rapide de la tastatură pentru mutarea codului: Alt+Shift cu tastele săgeată sau cu /Enter/ mută codul selectat înainte de vecinul lui, după el, în afara lui sau înăuntrul lui.",
+        "e02157357e335": "$~Am adăugat butoane de inserare pentru simbolurile ↤, ≈, ◆ și –.",
+        "e33c0fa9452a4": "$~Meniul de sugestii rămâne acum deschis și se restrânge pe măsură ce scrii.",
+        "e6c77df016241": "$~În modul /blocuri/, am reparat tragerea codului sub sfârșitul unui program și peste cod care conține o greșeală. Înainte, ambele acțiuni nu făceau nimic.",
+        "e7f1566676e7a": "$~Am reparat linkurile din alte limbi care apăreau ca text stricat sau duceau la pagini lipsă. Am reparat linkurile de pe pagina principală, de pe pagina <Despre@https://wordplay.dev/about>, din tutorialul rapid și din mesajele de pe tot site-ul.",
+        "e221a0b8c05d5": "$~Am reparat opțiunile de afișare a muzicii din setările în limba turcă. Acolo, fiecare nume și fiecare descriere apăreau lângă opțiunea greșită."
     }
 }

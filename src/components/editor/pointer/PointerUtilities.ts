@@ -92,10 +92,13 @@ export function getBlockInsertionPoint(
     context: Context,
     event: PointerEvent,
     candidate: Node[],
+    axes?: Axes,
 ): InsertionPoint | AssignmentPoint | undefined {
-    // Find the node under the pointer. If there isn't one, bail.
+    // Find the node under the pointer. With none, the pointer is in the empty
+    // part of the editor, which is the start or the end of the program.
     const nodeUnderPointer = getNodeAt(context.source, event, false);
-    if (nodeUnderPointer === undefined) return undefined;
+    if (nodeUnderPointer === undefined)
+        return getProgramEdgeInsertionPoint(context, event, candidate, axes);
 
     // Don't allow parents to be inserted into their children.
     // Nothing being dragged can receive its own drop.
@@ -126,11 +129,71 @@ export function getBlockInsertionPoint(
             event,
             candidate,
         );
-        return point;
+        if (point) return point;
     }
+
+    // The program and its root block are the views that fill the editor
+    // around and below the statements, so a pointer over either, off any
+    // statement, is in that same empty part: the edge of the program.
+    const program = context.source.expression;
+    return nodeUnderPointer === program ||
+        nodeUnderPointer === program.expression
+        ? getProgramEdgeInsertionPoint(context, event, candidate, axes)
+        : undefined;
 }
 
-function getEmptyInsertionPoint(
+/** Which end of the program a pointer over no node is at: before the first
+ *  statement when it is before the statements' start along the block axis,
+ *  after the last otherwise. */
+export function programEdgeIndex(
+    count: number,
+    listStart: number | undefined,
+    pointer: number,
+): number {
+    return listStart !== undefined && pointer < listStart ? 0 : count;
+}
+
+/** The empty area of an editor is the edge of its program: dropping below the
+ *  last block appends, and above the first prepends. Without this the largest
+ *  target on the screen took no drop and showed no bar. */
+function getProgramEdgeInsertionPoint(
+    context: Context,
+    event: PointerEvent,
+    candidate: Node[],
+    axes: Axes | undefined,
+): InsertionPoint | undefined {
+    const block = context.source.expression.expression;
+    const kind = block.getFieldNamed('statements')?.kind;
+    if (kind === undefined || !kindAcceptsDrop(kind, candidate))
+        return undefined;
+    const editor = document
+        .elementFromPoint(event.clientX, event.clientY)
+        ?.closest('.editor');
+    if (!(editor instanceof HTMLElement)) return undefined;
+    const list = editor.querySelector('.node-view.root-block .node-list');
+    const rect =
+        list instanceof HTMLElement ? list.getBoundingClientRect() : undefined;
+    return new InsertionPoint(
+        block,
+        'statements',
+        block.statements,
+        undefined,
+        undefined,
+        programEdgeIndex(
+            block.statements.length,
+            rect === undefined
+                ? undefined
+                : axes
+                  ? axes.blockStart(rect)
+                  : rect.top,
+            axes
+                ? axes.point(event.clientX, event.clientY).block
+                : event.clientY,
+        ),
+    );
+}
+
+export function getEmptyInsertionPoint(
     nodeUnderPointer: Node,
     fieldName: string,
     candidate: Node[],
@@ -152,12 +215,13 @@ function getEmptyInsertionPoint(
     ) {
         // Special case a root block being dragged onto a root block's statements, replacing it with a replacement of the root block.
         // Makes it easier to drag onto an empty program.
+        const only = candidate.length === 1 ? candidate[0] : undefined;
         if (
             nodeUnderPointer instanceof Block &&
             nodeUnderPointer.isRoot() &&
             fieldName === 'statements' &&
-            candidate instanceof Block &&
-            candidate.isRoot()
+            only instanceof Block &&
+            only.isRoot()
         ) {
             return new AssignmentPoint(context.source.expression, 'expression');
         }
@@ -171,11 +235,13 @@ function getEmptyInsertionPoint(
             0,
         );
     }
-    // If it's an unassigned field, offer an insertion point.
+    // If it's an unassigned field, offer an assignment point. The candidate
+    // is a run, so ask the drop rule rather than `kind.allows`, which takes
+    // one node and so answered false for every array (fd140c343).
     else if (
         fieldValue === undefined &&
         kind !== undefined &&
-        kind.allows(candidate)
+        kindAcceptsDrop(kind, candidate)
     ) {
         return new AssignmentPoint(nodeUnderPointer, fieldName);
     }
@@ -201,7 +267,13 @@ function getListInsertionPoint(
         kind === undefined ||
         nodeList === undefined ||
         !Array.isArray(nodeList) ||
-        !(kind instanceof ListOf)
+        !(kind instanceof ListOf) ||
+        // The list has to take what is being dragged. Text mode filters its
+        // insertion points this way; blocks mode never did, so hovering
+        // unparsable code targeted that node's own list of tokens, displaced
+        // the node as the target, and the drop that would have replaced it was
+        // refused instead.
+        !kindAcceptsDrop(kind, candidate)
     )
         return;
 

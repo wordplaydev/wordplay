@@ -553,7 +553,9 @@
                     "noClipboardItem": "$~ક્લિપબોર્ડ પર કંઈ નથી",
                     "noSelection": "$~કંઈ પસંદ કરેલ નથી",
                     "noMove": "$~વધુ આગળ વધી શકાતું નથી",
-                    "unhandled": "$~તે ચાવી અહીં કંઈ કરતી નથી"
+                    "unhandled": "$~તે ચાવી અહીં કંઈ કરતી નથી",
+                    "noMoveTarget": "$~ત્યાં કંઈ પણ આને પકડી શકતું નથી",
+                    "noElideInBlocks": "$~એલિશન ફક્ત ટેક્સ્ટ મોડમાં ઉપલબ્ધ છે"
                 },
                 "nextMatch": "$~આગામી શોધ મેળ પર જાઓ",
                 "insertTranslate": "$~અનુવાદ પ્રતીક દાખલ કરો",
@@ -590,7 +592,15 @@
                 "insertDottedSixteenthNote": "$~એક ટપકાવાળો સોળમા ભાગનો સૂર ઉમેરો, ધબકારાના ત્રણ આઠમા ભાગ લાંબો",
                 "selectedNodes": "$~$#count[$count નોડ પસંદ કરેલ|$count નોડ પસંદ કરેલ] છે, $first થી $last સુધી",
                 "insertRange": "$~રેન્જ ચિહ્ન ઉમેરો",
-                "findText": "$~કોડમાં શોધો"
+                "findText": "$~કોડમાં શોધો",
+                "moveBefore": "$~પસંદગીને તેના પાડોશીની પહેલાં ખસેડો",
+                "moveAfter": "$~પસંદગીને તેના પાડોશીની પછી ખસેડો",
+                "moveOut": "$~પસંદગીને જે તેને પકડી રાખે છે તેની બહાર ખસેડો",
+                "moveIn": "$~પસંદગીને તેના પાડોશીની અંદર ખસેડો",
+                "insertInitial": "$~પ્રારંભિક ચિહ્ન દાખલ કરો",
+                "insertTranslateRTL": "$~જમણેથી-ડાબે અનુવાદ ચિહ્ન દાખલ કરો",
+                "insertMatch": "$~મેળ ચિહ્ન દાખલ કરો",
+                "insertPatternRange": "$~અક્ષર શ્રેણી ચિહ્ન દાખલ કરો"
             },
             "options": {
                 "locale": {
@@ -614,7 +624,9 @@
             },
             "feedback": {
                 "cantDrop": "$~ત્યાં મૂકી શકાતું નથી:",
-                "cantPaste": "$~ત્યાં પેસ્ટ કરી શકાતું નથી:"
+                "cantPaste": "$~ત્યાં પેસ્ટ કરી શકાતું નથી:",
+                "dropWarning": "$~ત્યાં મૂકવાથી આ થશે:",
+                "noDropTarget": "$~અહીં કંઈ પણ તે સ્વીકારી શકતું નથી"
             },
             "clipboard": {
                 "label": "$~ક્લિપબોર્ડ"
@@ -1634,6 +1646,15 @@
                             "$~થોડું ઝડપથી મોટેથી વાંચો",
                             "$~હજુ વધુ ઝડપથી મોટેથી વાંચો"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~સ્ક્રીન રીડરની વિગત",
+                        "labels": ["$~સંક્ષિપ્ત", "$~સામાન્ય", "$~વિસ્તૃત"],
+                        "tips": [
+                            "$~ફક્ત કેરેટ ક્યાં છે તે કહો",
+                            "$~કેરેટ ક્યાં છે, સીમાચિહ્નનો મેળ, સંઘર્ષો અને દરેક ફેરફારે શું કર્યું તે કહો",
+                            "$~કેરેટ શાની અંદર છે અને દરેક પરિણામનો પ્રકાર પણ કહો"
+                        ]
                     }
                 },
                 "options": {
@@ -2199,7 +2220,20 @@
             "delimiterMatchedSameLine": "$~સમાન લાઇન પર $name સાથે મેળ ખાય છે",
             "delimiterMatchedBelow": "$~$name સાથે મેળ ખાતી $#lines[નીચે $lines લીટી|નીચે $lines લીટીઓ]",
             "delimiterMatchedAbove": "$~$name સાથે મેળ ખાતી $#lines[ઉપર $lines લીટી|ઉપર $lines લીટીઓ]",
-            "delimiterUnmatched": "$~કોઈ મેળ ખાતો સીમાંકક નથી"
+            "delimiterUnmatched": "$~કોઈ મેળ ખાતો સીમાંકક નથી",
+            "parent": "$~$parent માં",
+            "inserted": "$~$node દાખલ કર્યું",
+            "removed": "$~$node દૂર કર્યું",
+            "moved": "$~$node ખસેડ્યું$target[ $target માં|]",
+            "copied": "$~$node નકલ કર્યું$target[ $target માં|]",
+            "pickedUp": "$~$node ઉપાડ્યું",
+            "cannotPickUp": "$~$node ને અહીંથી ખસેડી શકાતું નથી",
+            "dropCancelled": "$~કંઈ છોડ્યું નહીં",
+            "replacedAll": "$~$#count[$count મેળ|$count મેળ]ને $text થી બદલ્યા",
+            "undone": "$~પાછું ફેરવ્યું$added[, $added પાછું આવ્યું|]$removed[, $removed દૂર થયું|]",
+            "redone": "$~ફરીથી કર્યું$added[, $added પાછું આવ્યું|]$removed[, $removed દૂર થયું|]",
+            "movedBefore": "$~$node ને $sibling પહેલાં ખસેડ્યું",
+            "movedAfter": "$~$node ને $sibling પછી ખસેડ્યું"
         },
         "template": {
             "unwritten": "$~TBD",
@@ -2671,18 +2705,14 @@
             "cut": "$~$text કાપ્યું",
             "pasted": "$~$text ચોંટાડ્યું",
             "deleted": "$~$text કાઢી નાખ્યું",
-            "undone": "$~પાછું કર્યું",
-            "redone": "$~ફરી કર્યું",
             "foldedAll": "$~બધો કોડ સંકેલ્યો",
             "unfoldedAll": "$~બધો કોડ ખોલ્યો",
             "editMode": "$~$mode",
-            "zoom": "$~ઝૂમ $percent ટકા",
             "fullscreenOn": "$~પૂર્ણ સ્ક્રીનમાં દાખલ થયા",
             "fullscreenOff": "$~પૂર્ણ સ્ક્રીન છોડી",
             "restarted": "$~ઇનપુટ ફરી શરૂ કર્યા",
             "step": "$~પગલું $step, $node",
             "stepAtStart": "$~શરૂઆતમાં",
-            "stepAtEnd": "$~અંતમાં",
             "searchOpened": "$~કોડમાં શોધો",
             "searchClosed": "$~શોધ બંધ કરી",
             "searchMatch": "$~$index માંથી $count મેળ",

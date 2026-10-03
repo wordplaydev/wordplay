@@ -90,6 +90,9 @@
         stagePlacement,
     } from '#db/Database.ts';
     import { Projects } from '#db/projects/Projects.ts';
+    import describeRestore, {
+        spokenRestores,
+    } from '#edit/describe/describeRestore.ts';
     import {
         MusicVisualizationIcons,
         MusicVisualizations,
@@ -1300,6 +1303,77 @@
     });
     setDragged(draggedStore);
 
+    /** The tutorial drags from its dialog into this view by binding `dragged`;
+     *  bring that into the store the editors read. The store is the one truth:
+     *  `handlePointerUp` and Escape clear it, never the prop alone, which once
+     *  left every editor mid-drag with the ghost gone. */
+    $effect(() => {
+        const next = dragged;
+        if (get(draggedStore) !== next) draggedStore.set(next);
+    });
+
+    /** Say what a drag picked up, once per drag. Here, where the store lives,
+     *  rather than in each editor, so a pickup is one announcement however
+     *  many tiles are open. Coalesced and paced (`drag`), so it never talks
+     *  over the caret. The drop or refusal is the editor's to describe. */
+    let lastPickedUp: Node[] | undefined = undefined;
+    $effect(() => {
+        const nodes = $draggedStore;
+        untrack(() => {
+            if (nodes === lastPickedUp) return;
+            lastPickedUp = nodes;
+            const first = nodes?.[0];
+            if (first === undefined || !announce || !$announce) return;
+            $announce(
+                'drag',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize((l) => l.ui.edit.pickedUp, {
+                        node: first.getLabel($locales),
+                    })
+                    .toText(),
+            );
+        });
+    });
+
+    /** Say what an undo or redo brought back or took away. Owned here rather
+     *  than by an editor because the source that changed may be in a collapsed
+     *  tile, or there may be no editor at all; the editor adds where the caret
+     *  landed. One announcement per restored version. */
+    let describedRestore: Project | undefined = undefined;
+    /** ms an editor has to describe a restore before the fallback does. */
+    const RestoreFallbackDelay = 150;
+    $effect(() => {
+        const current = project;
+        const history = Projects.getHistory(current.getID());
+        untrack(() => {
+            const restore = history?.getLastRestore();
+            if (
+                restore === undefined ||
+                !history?.wasRestored() ||
+                describedRestore === current ||
+                !announce ||
+                !$announce
+            )
+                return;
+            describedRestore = current;
+            // An editor showing the changed source says this with its caret
+            // (and marks the version spoken). Give it a moment, then speak
+            // only if none did — the source's tile is collapsed, say.
+            const say = $announce;
+            const language = $locales.getLanguages()[0];
+            const said = describeRestore(
+                restore.from,
+                current,
+                restore.direction,
+                $locales,
+            );
+            setTimeout(() => {
+                if (!spokenRestores.has(current)) say('edit', language, said);
+            }, RestoreFallbackDelay);
+        });
+    });
+
     /** True if the output should show a grid */
     let grid = $state(false);
 
@@ -2483,7 +2557,7 @@
     }
 
     function handlePointerUp() {
-        dragged = undefined;
+        draggedStore.set(undefined);
         draggedTile = undefined;
     }
 
@@ -2516,8 +2590,19 @@
     function handleKey(event: KeyboardEvent) {
         syncKeyModifiers(event);
 
-        if (dragged !== undefined && event.key === 'Escape')
-            dragged = undefined;
+        if ($draggedStore !== undefined && event.key === 'Escape') {
+            draggedStore.set(undefined);
+            // The pickup was announced, so its cancellation is too, or the
+            // drag seems to hang; coalesced with the pickup on `drag`.
+            if (announce && $announce)
+                $announce(
+                    'drag',
+                    $locales.getLanguages()[0],
+                    $locales.getPrimaryPlainText(
+                        (l) => l.ui.edit.dropCancelled,
+                    ),
+                );
+        }
 
         // Let native form controls (a <select> dropdown, range sliders, text fields) and
         // editable regions handle their own keys, so editor commands don't consume e.g.
@@ -3959,6 +4044,7 @@
                                     <div class="editor-notifications">
                                         {#each notifications as notification (notification.id)}
                                             <EditorNotice
+                                                variant={notification.variant}
                                                 dismiss={() =>
                                                     getEditorNotifier(
                                                         tile.id,

@@ -1020,6 +1020,13 @@
         "e42e9e3c1d92a": "$~As palavras com um sublinhado ponteado deixam de mostrar símbolos soltos à sua frente em alguns idiomas.",
         "e6f07748bed1c": "$~As lições em <Learn@https://wordplay.dev/learn> e as explicações no Guia têm agora um botão que as lê em voz alta e destaca cada palavra à medida que é dita, e as definições permitem escolher a velocidade da leitura e fazer com que cada nova linha da lição seja lida separadamente. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
         "e4b9091b3c539": "$~Os exemplos no <Guide@https://wordplay.dev/guide> já não falam assim que a página abre, e só falam depois de se premir o botão de reprodução.",
-        "e4b5e128afb9d": "$~A leitura de texto em voz alta no Chrome e noutros navegadores Chromium num Mac usa agora uma voz comum, em vez de uma voz engraçada como Albert ou Bubbles."
+        "e4b5e128afb9d": "$~A leitura de texto em voz alta no Chrome e noutros navegadores Chromium num Mac usa agora uma voz comum, em vez de uma voz engraçada como Albert ou Bubbles.",
+        "e14bed8e9c16c": "$~O editor de código passa a dizer aos leitores de ecrã o que cada edição, largada, anulação e escolha de menu fez. Uma nova definição permite escolher quanto detalhe é falado.",
+        "e30d15d78b9a4": "$~Adicionámos atalhos de teclado para reorganizar o código: Alt+Shift com as setas ou Enter move o código selecionado para antes, para depois, para fora ou para dentro do código vizinho.",
+        "e02157357e335": "$~Adicionámos botões de inserção para os símbolos ↤, ≈, ◆ e –.",
+        "e33c0fa9452a4": "$~O menu de sugestões agora fica aberto e vai ficando mais curto à medida que escreve.",
+        "e6c77df016241": "$~No modo de blocos, corrigimos o arrastar de código para baixo do fim de um programa e para cima de código com um erro. Antes, nenhuma das duas ações fazia nada.",
+        "e7f1566676e7a": "$~Corrigimos as ligações em outros idiomas que apareciam como texto estragado ou levavam a páginas em falta, na página inicial, na página <Sobre@https://wordplay.dev/about>, no tutorial rápido e nas mensagens em todo o site.",
+        "e221a0b8c05d5": "$~Corrigimos as opções de apresentação da música nas definições em turco, que mostravam cada nome e descrição ao lado da opção errada."
     }
 }

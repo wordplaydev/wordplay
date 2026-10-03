@@ -1,5 +1,6 @@
 import type { AnnouncementKind } from '#components/project/announcerQueue.ts';
 import type Locales from '#locale/Locales.ts';
+import type Evaluator from '#runtime/Evaluator.ts';
 import type { LocaleTextAccessor, TemplateInput } from '#locale/Locales.ts';
 
 /**
@@ -57,6 +58,36 @@ export type FeedbackContext = {
     /** Where an evaluation step command landed, when it stepped. */
     step?: { index: number; node: string } | undefined;
 };
+
+/** Build what a command's feedback may read. One function, because the
+ *  editor's keyboard path and the toolbar's button each built this by hand and
+ *  the button's copy left out `text` and `step` — so "copied" named nothing. */
+export function feedbackContextFor(
+    base: {
+        locales: Locales;
+        zoom: number | undefined;
+        blocks: boolean;
+        getMode?: (() => string) | undefined;
+        evaluator?: Evaluator | undefined;
+    },
+    text: string | undefined,
+): FeedbackContext {
+    const step = base.evaluator?.getCurrentStep();
+    return {
+        locales: base.locales,
+        zoom: base.zoom,
+        blocks: base.blocks,
+        getMode: base.getMode,
+        text,
+        step:
+            step === undefined || base.evaluator === undefined
+                ? undefined
+                : {
+                      index: base.evaluator.getStepIndex() ?? 0,
+                      node: step.node.getLabel(base.locales),
+                  },
+    };
+}
 
 /** Resolve a command's declared feedback into an announcement, or undefined
  *  when the command's feedback comes from somewhere else (caret, echo, focus,

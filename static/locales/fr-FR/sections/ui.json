@@ -529,7 +529,9 @@
                     "noClipboardItem": "$~Rien sur le presse-papiers",
                     "noSelection": "$~Rien sélectionné",
                     "noMove": "$~Je ne peux plus avancer.",
-                    "unhandled": "$~cette touche ne fait rien ici"
+                    "unhandled": "$~cette touche ne fait rien ici",
+                    "noMoveTarget": "$~Rien ici ne peut contenir ça",
+                    "noElideInBlocks": "$~L'élision n'est disponible qu'en mode texte"
                 },
                 "nextMatch": "$~passer au résultat de recherche suivant",
                 "insertTranslate": "$~insérer le symbole de traduction",
@@ -566,7 +568,15 @@
                 "insertDottedSixteenthNote": "$~insérer une double croche pointée, longue de trois huitièmes de temps",
                 "selectedNodes": "$~$#count[$#count nœud sélectionné|$count nœuds sélectionnés|$count nœuds sélectionnés], de $first à $last",
                 "insertRange": "$~insérer le symbole de plage",
-                "findText": "$~chercher dans le code"
+                "findText": "$~chercher dans le code",
+                "moveBefore": "$~déplacer la sélection avant son voisin",
+                "moveAfter": "$~déplacer la sélection après son voisin",
+                "moveOut": "$~sortir la sélection de ce qui la contient",
+                "moveIn": "$~déplacer la sélection dans son voisin",
+                "insertInitial": "$~insérer le symbole initial",
+                "insertTranslateRTL": "$~insérer le symbole de traduction de droite à gauche",
+                "insertMatch": "$~insérer le symbole de correspondance",
+                "insertPatternRange": "$~insérer le symbole de plage de caractères"
             },
             "options": {
                 "locale": {
@@ -590,7 +600,9 @@
             },
             "feedback": {
                 "cantDrop": "$~Impossible de déposer à cet endroit :",
-                "cantPaste": "$~Impossible de coller ici :"
+                "cantPaste": "$~Impossible de coller ici :",
+                "dropWarning": "$~Déposer ici causerait :",
+                "noDropTarget": "$~Rien ici ne peut accepter ça"
             },
             "clipboard": {
                 "label": "$~presse-papiers"
@@ -1611,6 +1623,15 @@
                             "$~Lire à voix haute un peu plus vite",
                             "$~Lire à voix haute encore plus vite"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~détail du lecteur d'écran",
+                        "labels": ["$~bref", "$~normal", "$~détaillé"],
+                        "tips": [
+                            "$~Dire seulement où se trouve le curseur",
+                            "$~Dire où se trouve le curseur, la correspondance d'un délimiteur, les conflits et ce que chaque modification a fait",
+                            "$~Dire aussi dans quoi se trouve le curseur et le type de chaque résultat"
+                        ]
                     }
                 },
                 "options": {
@@ -2043,7 +2064,20 @@
             "delimiterMatchedSameLine": "$~correspondance $name sur la même ligne",
             "delimiterMatchedBelow": "$~$name correspond $#lines[$#lines ligne plus bas|$lines lignes plus bas|$lines lignes plus bas]",
             "delimiterMatchedAbove": "$~$name correspond $#lines[$#lines ligne plus haut|$lines lignes plus haut|$lines lignes plus haut]",
-            "delimiterUnmatched": "$~aucun délimiteur correspondant"
+            "delimiterUnmatched": "$~aucun délimiteur correspondant",
+            "parent": "$~dans $parent",
+            "inserted": "$~$node inséré",
+            "removed": "$~$node supprimé",
+            "moved": "$~$node déplacé$target[ dans $target|]",
+            "copied": "$~$node copié$target[ dans $target|]",
+            "pickedUp": "$~$node ramassé",
+            "cannotPickUp": "$~$node ne peut pas être déplacé d'ici",
+            "dropCancelled": "$~rien n'a été déposé",
+            "replacedAll": "$~$#count[$#count correspondance remplacée|$count correspondances remplacées|$count correspondances remplacées] par $text",
+            "undone": "$~annulé$added[, $added est de retour|]$removed[, $removed a disparu|]",
+            "redone": "$~rétabli$added[, $added est de retour|]$removed[, $removed a disparu|]",
+            "movedBefore": "$~$node déplacé avant $sibling",
+            "movedAfter": "$~$node déplacé après $sibling"
         },
         "template": {
             "unwritten": "$~À déterminer",
@@ -2672,18 +2706,14 @@
             "cut": "$~$text coupé",
             "pasted": "$~$text collé",
             "deleted": "$~$text supprimé",
-            "undone": "$~annulé",
-            "redone": "$~rétabli",
             "foldedAll": "$~tout le code replié",
             "unfoldedAll": "$~tout le code déplié",
             "editMode": "$~$mode",
-            "zoom": "$~zoom $percent pour cent",
             "fullscreenOn": "$~passé en plein écran",
             "fullscreenOff": "$~sorti du plein écran",
             "restarted": "$~entrées redémarrées",
             "step": "$~étape $step, $node",
             "stepAtStart": "$~au début",
-            "stepAtEnd": "$~à la fin",
             "searchOpened": "$~chercher dans le code",
             "searchClosed": "$~recherche fermée",
             "searchMatch": "$~résultat $index sur $count",

@@ -524,7 +524,9 @@
                     "noClipboardItem": "$~剪贴板上没有内容",
                     "noSelection": "$~没有选中任何内容",
                     "noMove": "$~无法再继续移动",
-                    "unhandled": "$~该键在这里不起作用"
+                    "unhandled": "$~该键在这里不起作用",
+                    "noMoveTarget": "$~那里放不下这个",
+                    "noElideInBlocks": "$~省略号只能在文本模式下使用"
                 },
                 "nextMatch": "$~转到下一个搜索匹配项",
                 "insertTranslate": "$~插入翻译符号",
@@ -561,7 +563,15 @@
                 "insertDottedSixteenthNote": "$~插入一个附点十六分音符，时值八分之三拍",
                 "selectedNodes": "$~已选择 $#count[$count 个节点]，从 $first 到 $last",
                 "insertRange": "$~插入范围符号",
-                "findText": "$~搜索代码"
+                "findText": "$~搜索代码",
+                "moveBefore": "$~把选中的内容移到它前面一个相邻项之前",
+                "moveAfter": "$~把选中的内容移到它后面一个相邻项之后",
+                "moveOut": "$~把选中的内容从它所在的容器中移出来",
+                "moveIn": "$~把选中的内容移进相邻项里面",
+                "insertInitial": "$~插入初始符号",
+                "insertTranslateRTL": "$~插入从右到左的翻译符号",
+                "insertMatch": "$~插入匹配符号",
+                "insertPatternRange": "$~插入字符范围符号"
             },
             "options": {
                 "locale": {
@@ -585,7 +595,9 @@
             },
             "feedback": {
                 "cantDrop": "$~不能放在那里：",
-                "cantPaste": "$~不能粘贴在那里："
+                "cantPaste": "$~不能粘贴在那里：",
+                "dropWarning": "$~放在那里会导致：",
+                "noDropTarget": "$~这里放不下那个"
             },
             "clipboard": {
                 "label": "$~剪贴板"
@@ -1577,6 +1589,15 @@
                             "$~稍微加快朗读速度",
                             "$~再快一点朗读"
                         ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~屏幕阅读器详细程度",
+                        "labels": ["$~简洁", "$~普通", "$~详细"],
+                        "tips": [
+                            "$~只说出光标在哪里",
+                            "$~说出光标在哪里、分隔符的匹配、冲突，以及每次编辑做了什么",
+                            "$~还会说出光标在什么里面，以及每个结果的类型"
+                        ]
                     }
                 },
                 "options": {
@@ -2003,7 +2024,20 @@
             "delimiterMatchedSameLine": "$~在同一行匹配 $name",
             "delimiterMatchedBelow": "$~匹配 $name $#lines[下方 $lines 行]",
             "delimiterMatchedAbove": "$~匹配 $name $#lines[上方 $lines 行]",
-            "delimiterUnmatched": "$~没有匹配的分隔符"
+            "delimiterUnmatched": "$~没有匹配的分隔符",
+            "parent": "$~在 $parent 里",
+            "inserted": "$~插入了 $node",
+            "removed": "$~删除了 $node",
+            "moved": "$~移动了 $node$target[ 到 $target 里|]",
+            "copied": "$~复制了 $node$target[ 到 $target 里|]",
+            "pickedUp": "$~拿起了 $node",
+            "cannotPickUp": "$~$node 不能从这里移动",
+            "dropCancelled": "$~什么也没放下",
+            "replacedAll": "$~已将 $#count[$count 个匹配项]替换为 $text",
+            "undone": "$~已撤销$added[，$added 回来了|]$removed[，$removed 不见了|]",
+            "redone": "$~已重做$added[，$added 回来了|]$removed[，$removed 不见了|]",
+            "movedBefore": "$~已将 $node 移到 $sibling 之前",
+            "movedAfter": "$~已将 $node 移到 $sibling 之后"
         },
         "template": {
             "unwritten": "待定",
@@ -2627,18 +2661,14 @@
             "cut": "$~已剪切 $text",
             "pasted": "$~已粘贴 $text",
             "deleted": "$~已删除 $text",
-            "undone": "$~已撤销",
-            "redone": "$~已重做",
             "foldedAll": "$~已折叠所有代码",
             "unfoldedAll": "$~已展开所有代码",
             "editMode": "$~$mode",
-            "zoom": "$~缩放 $percent 百分比",
             "fullscreenOn": "$~已进入全屏",
             "fullscreenOff": "$~已退出全屏",
             "restarted": "$~已重启输入",
             "step": "$~步骤 $step，$node",
             "stepAtStart": "$~在开头",
-            "stepAtEnd": "$~在结尾",
             "searchOpened": "$~在代码中查找",
             "searchClosed": "$~已关闭查找",
             "searchMatch": "$~第 $index 个匹配，共 $count 个",

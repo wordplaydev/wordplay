@@ -1020,6 +1020,13 @@
         "e42e9e3c1d92a": "$~Wörter mit einer gepunkteten Unterstreichung zeigen in manchen Sprachen keine störenden Symbole mehr vor sich.",
         "e6f07748bed1c": "$~Lektionen in <Lernen@https://wordplay.dev/learn> und Erklärungen im Leitfaden haben jetzt eine Taste, die sie vorliest und dabei jedes Wort hervorhebt, während es gesprochen wird. In den Einstellungen kannst du wählen, wie schnell vorgelesen wird, und jede neue Lektionszeile einzeln vorlesen lassen. (<1015@https://github.com/wordplaydev/wordplay/issues/1015>)",
         "e4b9091b3c539": "$~Beispiele im <Leitfaden@https://wordplay.dev/guide> sprechen nicht mehr sofort, wenn die Seite sich öffnet. Sie sprechen erst, wenn du auf die Abspielen-Taste drückst.",
-        "e4b5e128afb9d": "$~Vorgelesener Text in Chrome und anderen Chromium-Browsern auf einem Mac nutzt jetzt eine normale Stimme statt einer komischen wie Albert oder Bubbles."
+        "e4b5e128afb9d": "$~Vorgelesener Text in Chrome und anderen Chromium-Browsern auf einem Mac nutzt jetzt eine normale Stimme statt einer komischen wie Albert oder Bubbles.",
+        "e14bed8e9c16c": "$~Der Editor sagt Screenreadern jetzt, was jede Bearbeitung, jedes Ablegen, jedes Rückgängigmachen und jede Menüauswahl bewirkt hat. Eine neue Einstellung legt fest, wie viele Details vorgelesen werden.",
+        "e30d15d78b9a4": "$~Wir haben Tastenkombinationen zum Umordnen von Code hinzugefügt: Mit Alt+Umschalt und den Pfeiltasten oder der Eingabetaste wird der ausgewählte Code vor, hinter, aus oder in seinen Nachbarn verschoben.",
+        "e02157357e335": "$~Wir haben Einfügen-Schaltflächen für die Symbole ↤, ≈, ◆ und – hinzugefügt.",
+        "e33c0fa9452a4": "$~Das Vorschlagsmenü bleibt jetzt offen und wird beim Tippen kleiner.",
+        "e6c77df016241": "$~Im Blöcke-Modus haben wir zwei Fehler behoben: das Ziehen von Code unter das Ende eines Programms und auf Code, der einen Fehler enthält. Beides bewirkte vorher nichts.",
+        "e7f1566676e7a": "$~Wir haben Links in anderen Sprachen repariert, die als kaputter Text erschienen oder auf fehlende Seiten führten. Das betraf die Startseite, die <Seite „Über uns“@https://wordplay.dev/about>, die kurze Anleitung und Nachrichten auf der ganzen Website.",
+        "e221a0b8c05d5": "$~Wir haben die Auswahl für die Musikanzeige in den türkischen Einstellungen repariert. Dort standen Name und Beschreibung neben der falschen Option."
     }
 }

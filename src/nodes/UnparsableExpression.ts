@@ -12,14 +12,9 @@ import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
 import type Context from '#nodes/Context.ts';
 import type Expression from '#nodes/Expression.ts';
-import Node, {
-    list,
-    node,
-    type Grammar,
-    type Replacement,
-} from '#nodes/Node.ts';
+import { list, node, type Grammar, type Replacement } from '#nodes/Node.ts';
 import SimpleExpression from '#nodes/SimpleExpression.ts';
-import type Token from '#nodes/Token.ts';
+import Token from '#nodes/Token.ts';
 import type TypeSet from '#nodes/TypeSet.ts';
 import UnparsableType from '#nodes/UnparsableType.ts';
 
@@ -40,7 +35,11 @@ export default class UnparsableExpression extends SimpleExpression {
         return [
             {
                 name: 'unparsables',
-                kind: list(true, node(Node)),
+                // Tokens, which is all this ever holds — not any node. Declared as
+                // any node, it made unparsable code a list anything could be
+                // dragged *into*, which displaced the node itself as the drop
+                // target and refused the drop that would have replaced it.
+                kind: list(true, node(Token)),
                 label: undefined,
             },
         ];

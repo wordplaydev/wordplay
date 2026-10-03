@@ -37,6 +37,7 @@ import {
     PATTERN_START_SYMBOL,
     PATTERN_WORD_SYMBOL,
     PATTERN_WORDEDGE_SYMBOL,
+    PATTERN_RANGE_SYMBOL,
     CHANGE_SYMBOL,
     DEBUG_SYMBOL,
     EDIT_SYMBOL,
@@ -147,6 +148,8 @@ test('commands claiming external feedback are enumerated', () => {
             '⏸', // debug mode → setUIMode
             '▶', // play mode → setUIMode
             '⛶', // perform → performProject announces the fresh performance
+            '⟲', // undo → ProjectView names what the restored version changed
+            '⟳', // redo → same
         ].sort(),
     );
 });
@@ -207,6 +210,7 @@ test('pattern atoms are offered only inside a pattern', () => {
             PATTERN_BEHIND_SYMBOL,
             PATTERN_WORD_SYMBOL,
             PATTERN_WORDEDGE_SYMBOL,
+            PATTERN_RANGE_SYMBOL,
         ].sort(),
     );
 
@@ -559,8 +563,10 @@ describe('command ids', () => {
             'insert-function',
             'insert-greater-or-equal',
             'insert-half-note',
+            'insert-initial',
             'insert-less-or-equal',
             'insert-line',
+            'insert-match',
             'insert-none',
             'insert-not-equal',
             'insert-pattern',
@@ -569,6 +575,7 @@ describe('command ids', () => {
             'insert-pattern-behind',
             'insert-pattern-end',
             'insert-pattern-fold',
+            'insert-pattern-range',
             'insert-pattern-space',
             'insert-pattern-start',
             'insert-pattern-word',
@@ -588,6 +595,7 @@ describe('command ids', () => {
             'insert-table-open',
             'insert-this',
             'insert-translate',
+            'insert-translate-rtl',
             'insert-true',
             'insert-type',
             'insert-whole-note',
@@ -627,7 +635,11 @@ describe('command ids', () => {
             'mode-edit',
             'mode-play',
             'mode-toggle',
+            'move-after',
+            'move-before',
+            'move-in',
             'move-next-line',
+            'move-out',
             'move-prior-line',
             'next-inline',
             'next-node',

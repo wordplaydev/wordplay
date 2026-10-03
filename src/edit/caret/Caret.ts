@@ -68,6 +68,7 @@ import Type from '#nodes/Type.ts';
 import TypeVariable from '#nodes/TypeVariable.ts';
 import UnicodeString from '#unicode/UnicodeString.ts';
 import { completeInsertion } from '#edit/caret/Complete.ts';
+import type { Verbosity } from '#edit/describe/Verbosity.ts';
 import type { Path } from '#nodes/Root.ts';
 import type { SerializedCaret } from '#db/projects/ProjectSchemas.ts';
 
@@ -2733,8 +2734,15 @@ export default class Caret {
         type: Type | undefined,
         conflicts: Conflict[],
         context: Context,
+        verbosity: Verbosity = 'normal',
     ): string {
         const locales = context.getBasis().locales;
+
+        // Terse is the position alone. The clauses it drops — the type, the
+        // delimiter match, the conflict count — are also the expensive ones,
+        // so a terse reader pays less per keystroke, not just hears less.
+        if (verbosity === 'terse')
+            return this.getPositionDescription(undefined, context, verbosity);
 
         /** Get description of conflicts */
         const conflictDescription =
@@ -2749,9 +2757,41 @@ export default class Caret {
         /** If on a delimiter, say where its match is (or that it's unmatched). */
         const delimiterDescription = this.getDelimiterMatchDescription(locales);
 
-        return `${this.getPositionDescription(type, context)}${
+        return `${this.getPositionDescription(type, context, verbosity)}${
             delimiterDescription ? `, ${delimiterDescription}` : ''
         }${conflictDescription ? `, ${conflictDescription}` : ''}`;
+    }
+
+    /** Verbose only: the construct a node sits in, so a reader who has lost
+     *  their place in the tree can hear it. The program and the root block are
+     *  every top-level statement's parent, so they say nothing. */
+    private getParentDescription(
+        node: Node,
+        locales: Locales,
+        context: Context,
+        verbosity: Verbosity,
+    ): string {
+        if (verbosity !== 'verbose') return '';
+        let parent = this.source.root.getParent(node);
+        // A token is already named by the node whose only text it is (`2` is
+        // "number 2"), so the construct worth hearing is that node's parent.
+        if (
+            node instanceof Token &&
+            parent !== undefined &&
+            parent.leaves().length === 1
+        )
+            parent = this.source.root.getParent(parent);
+        if (
+            parent === undefined ||
+            parent instanceof Program ||
+            (parent instanceof Block && parent.isRoot())
+        )
+            return '';
+        return `, ${locales
+            .concretize((l) => l.ui.edit.parent, {
+                parent: new NodeRef(parent, locales, context),
+            })
+            .toText()}`;
     }
 
     /**
@@ -2804,20 +2844,32 @@ export default class Caret {
 
     /** Always returns text: the caller interpolates this into an announcement,
      *  so a missing branch here would speak the literal word "undefined". */
-    getPositionDescription(type: Type | undefined, context: Context): string {
+    getPositionDescription(
+        type: Type | undefined,
+        context: Context,
+        verbosity: Verbosity = 'normal',
+    ): string {
         const locales = context.getBasis().locales;
 
         /** If a node was added, describe the addition. */
         if (this.addition) {
-            return locales
-                .concretize((l) => l.ui.edit.node, {
-                    node: new NodeRef(this.addition, locales, context),
-                    type:
-                        type && !describesOwnType(this.addition)
-                            ? new NodeRef(type, locales, context)
-                            : undefined,
-                })
-                .toText();
+            return (
+                locales
+                    .concretize((l) => l.ui.edit.node, {
+                        node: new NodeRef(this.addition, locales, context),
+                        type:
+                            type && !describesOwnType(this.addition)
+                                ? new NodeRef(type, locales, context)
+                                : undefined,
+                    })
+                    .toText() +
+                this.getParentDescription(
+                    this.addition,
+                    locales,
+                    context,
+                    verbosity,
+                )
+            );
         }
 
         /** If several nodes are selected, say how many and which ends they run
@@ -2832,28 +2884,44 @@ export default class Caret {
             firstSelected !== undefined &&
             lastSelected !== undefined
         ) {
-            return locales
-                .concretize((l) => l.ui.source.cursor.selectedNodes, {
-                    count: selected.length,
-                    first: new NodeRef(firstSelected, locales, context),
-                    last: new NodeRef(lastSelected, locales, context),
-                })
-                .toText();
+            return (
+                locales
+                    .concretize((l) => l.ui.source.cursor.selectedNodes, {
+                        count: selected.length,
+                        first: new NodeRef(firstSelected, locales, context),
+                        last: new NodeRef(lastSelected, locales, context),
+                    })
+                    .toText() +
+                this.getParentDescription(
+                    firstSelected,
+                    locales,
+                    context,
+                    verbosity,
+                )
+            );
         }
 
         /** If the caret is a node, describe the node. */
         if (isNode(this.position)) {
-            return locales
-                .concretize((l) => l.ui.edit.node, {
-                    node: new NodeRef(this.position, locales, context),
-                    // Skip the type when the description already conveys it:
-                    // "number 1, number type" says number twice.
-                    type:
-                        type && !describesOwnType(this.position)
-                            ? new NodeRef(type, locales, context)
-                            : undefined,
-                })
-                .toText();
+            return (
+                locales
+                    .concretize((l) => l.ui.edit.node, {
+                        node: new NodeRef(this.position, locales, context),
+                        // Skip the type when the description already conveys it:
+                        // "number 1, number type" says number twice.
+                        type:
+                            type && !describesOwnType(this.position)
+                                ? new NodeRef(type, locales, context)
+                                : undefined,
+                    })
+                    .toText() +
+                this.getParentDescription(
+                    this.position,
+                    locales,
+                    context,
+                    verbosity,
+                )
+            );
         }
 
         /** If the position is a range, say how much is selected and what it
@@ -2882,7 +2950,14 @@ export default class Caret {
         const afterNode = after[0];
 
         // Inside a token? Say what text we're in and what characters we're between.
-        if (this.tokenExcludingSpace) {
+        // Not the end token: it has no text, so a caret at the end of the
+        // source read "in end, between start and end" wherever it followed —
+        // the same words after every edit there. Falling through says what the
+        // caret comes after instead.
+        if (
+            this.tokenExcludingSpace &&
+            !this.tokenExcludingSpace.isSymbol(Sym.End)
+        ) {
             // Where is the cursor in the token, relative to the token's start?
             const tokenPosition = this.source.getTokenTextPosition(
                 this.tokenExcludingSpace,
@@ -2896,12 +2971,17 @@ export default class Caret {
             const language = this.getLanguage();
             const inputs =
                 this.tokenExcludingSpace.getDescriptionInputs(locales);
-            const before = relativeIndex
-                ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
-                : undefined;
-            const after = relativeIndex
-                ? this.tokenExcludingSpace.text.at(relativeIndex)
-                : undefined;
+            // A caret at a token's first character has nothing before it but
+            // does have something after; a truthiness test here once said
+            // "between start and end" at the start of every token.
+            const before =
+                relativeIndex !== undefined && relativeIndex > 0
+                    ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
+                    : undefined;
+            const after =
+                relativeIndex !== undefined
+                    ? this.tokenExcludingSpace.text.at(relativeIndex)
+                    : undefined;
             return locales
                 .concretize((l) => l.ui.edit.inside, {
                     token:

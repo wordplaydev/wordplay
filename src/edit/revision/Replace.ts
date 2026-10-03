@@ -69,7 +69,7 @@ export default class Replace<NodeType extends Node> extends Revision {
             replacement.some(
                 (ref2) =>
                     ref1.getName() !== ref2.getName() &&
-                    ref2.getName().startsWith(ref2.getName()),
+                    ref2.getName().startsWith(ref1.getName()),
             ),
         );
     }
