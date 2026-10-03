@@ -587,37 +587,39 @@ test('a message can be about a line of code', async ({ page }) => {
             page.locator('.message.found, .message:focus'),
         ).toContainText('This line is repetitive');
     });
+});
 
-    await test.step('a message can be only a link to some code', async () => {
-        await linkCaret();
+test('a message can be only a link to some code', async ({ page }) => {
+    // Its own page rather than a step after the marker: pressing the marker
+    // moves focus into the conversation, and a link attached from there is not
+    // the state this test is about.
+    const projectId = await createTestProject(page);
+    await page.getByTestId('collaborate-toggle').click();
+    await page.locator('[role="application"]').first().click();
+    await page
+        .getByRole('button', { name: 'talk about the code where my cursor is' })
+        .click();
 
-        // No words typed: the link is the message.
-        await page
-            .locator(
-                'button[aria-label^="send a message to your collaborators"]',
-            )
-            .click();
-        // The conversation already holds a linked message with words, so wait
-        // for one without any.
-        const stored = await waitForDocumentUpdate(
-            page,
-            'chats',
-            projectId,
-            (data) =>
-                Array.isArray(data?.messages) &&
-                data.messages.some(
-                    (m: { text?: string | null; reference?: unknown }) =>
-                        m?.reference !== undefined && m?.text === '',
-                ),
-        );
-        // Name the reference, not the document: `waitForDocumentUpdate` hands back
-        // whatever it last read on timeout, so `not.toBeNull()` is true of a
-        // conversation that never changed.
-        const linked = messagesIn(stored).find(
-            (m) => m.reference !== undefined && m.text === '',
-        );
-        expect(linked).toBeDefined();
-    });
+    // No words typed: the link is the message.
+    await page
+        .locator('button[aria-label^="send a message to your collaborators"]')
+        .click();
+    const stored = await waitForDocumentUpdate(
+        page,
+        'chats',
+        projectId,
+        (data) =>
+            Array.isArray(data?.messages) &&
+            data.messages.some(
+                (m: { reference?: unknown }) => m?.reference !== undefined,
+            ),
+    );
+    // Name the reference, not the document: `waitForDocumentUpdate` hands back
+    // whatever it last read on timeout, so `not.toBeNull()` is true of a
+    // conversation that never changed.
+    const linked = messagesIn(stored).find((m) => m.reference !== undefined);
+    expect(linked).toBeDefined();
+    expect(linked?.text).toBe('');
 });
 
 test('a thread holds the keyboard, and does not leak into the room behind it', async ({

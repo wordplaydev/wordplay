@@ -223,6 +223,9 @@ test.describe('authed views', () => {
         // Four surfaces of the same seeded project on one sign-in. The dialogs
         // are closed again before the chat, so each part scans what it did
         // when it was a test of its own.
+        // Each part is a full axe scan in both schemes, ~60s together on CI,
+        // so the four share a budget sized for four tests rather than one.
+        test.setTimeout(120_000);
         const { context, page } = await loginNewContext(
             browser,
             'creator',
