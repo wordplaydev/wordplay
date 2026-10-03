@@ -106,7 +106,7 @@ Text input → **Parser** ([src/parser/](src/parser/)) → AST nodes ([src/nodes
 
 ### Localization
 
-All user-visible strings live in locale JSON files ([static/locales/](static/locales/), 26 languages) validated against a schema. `Database` exposes the active locale as a Svelte store. Nodes, conflicts, values, and APIs define localized descriptions via `Locale.ts`. `npm run locales` verifies; `npm run locales-fix` repairs; `npm run locales-translate` generates translations.
+All user-visible strings live in locale JSON files ([static/locales/](static/locales/), one directory per locale) validated against a schema. `Database` exposes the active locale as a Svelte store. Nodes, conflicts, values, and APIs define localized descriptions via `Locale.ts`. `npm run locales` verifies; `npm run locales-fix` repairs; `npm run locales-translate` generates translations.
 
 When multiple UI locales are chosen, all UI text is echoed in each (primary full size, rest dimmed and 80% each). Centralized in `Locales` (`getSecondaryLocaleViews`, `getMultilingualEntries`, `getMultilingualMarkup`, `getMultilingualFrom`, `getPlainText`/`getMultilingualText`) and consumed by `LocalizedText` (inline), `MarkupHTMLView` (block), `Hint`, and `TutorialView`. No-op with one locale; suppressed in localization mode. Rules:
 - Render visible text via `LocalizedText`/`MarkupHTMLView`, **not** `getPlainText`/`getMultilingualText` (those join locales into one string — for `title` tooltips only).
