@@ -17,22 +17,26 @@ on:
 
 jobs:
     test:
-        name: test (${{ inputs.browser }} ${{ matrix.shard }}/3)
+        name: test (${{ inputs.browser }} ${{ matrix.shard }}/${{ strategy.job-total }})
         timeout-minutes: 60
         runs-on: ${{ inputs.runner }}
-        # Split the spec files into three parallel shards. Each shard pays the
-        # same fixed setup cost (~75s: npm ci, build, browser install, emulator
-        # startup) but only runs a third of the tests, so the e2e step shrinks
-        # while setup overlaps — the main lever for keeping the deploy pipeline
-        # under 5 minutes. Three is the practical limit: that fixed per-shard
-        # floor means more shards stop helping (the gate can't drop below ~90s
-        # no matter how many). fail-fast is off so one shard's failure doesn't
-        # cancel the others' reports (the deploy gate already fails if any
-        # shard fails).
+        # Split the tests into five parallel shards. Each shard pays the same
+        # fixed setup (~140s: npm ci, build, browser cache, emulator startup),
+        # so a shard's wall clock is that floor plus its share of the suite's
+        # test-seconds over its two workers. Which tests a shard runs is dealt
+        # out by scripts/e2e-shard.ts rather than Playwright's `--shard`, which
+        # cuts contiguous runs in file order and so handed the slow accessibility
+        # specs to one shard however many there were. More shards, unlike more
+        # workers, add no emulator contention, since each shard starts its own,
+        # and runners are free on a public repository. The shard count is the
+        # matrix's length, read back as `strategy.job-total`, so the name and the
+        # deal can't disagree with it. fail-fast is off so one shard's failure
+        # doesn't cancel the others' reports (the deploy gate already fails if
+        # any shard fails).
         strategy:
             fail-fast: false
             matrix:
-                shard: [1, 2, 3]
+                shard: [1, 2, 3, 4, 5]
         steps:
             - uses: actions/checkout@v5
             - uses: actions/setup-node@v5
@@ -104,16 +108,27 @@ jobs:
             #
             # The JSON report is written alongside the `list` output so the step
             # below can name the failed and flaky tests in the job summary.
+            - name: Choose this shard's tests
+              run: npx tsx scripts/e2e-shard.ts ${{ matrix.shard }} ${{ strategy.job-total }} --project=${{ inputs.browser }} > shard-tests.txt
             - name: Run end-to-end tests with emulator
               env:
                   PLAYWRIGHT_JSON_OUTPUT_NAME: playwright-report.json
-              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} --shard=${{ matrix.shard }}/3 --workers=${{ inputs.workers }} --reporter=list,json" --only auth,firestore,functions,hosting --project=demo-wordplay --log-verbosity QUIET
+              run: npx firebase emulators:exec "npx playwright test --project=${{ inputs.browser }} $(tr '\n' ' ' < shard-tests.txt) --workers=${{ inputs.workers }} --reporter=list,json" --only auth,firestore,functions,hosting --project=demo-wordplay --log-verbosity QUIET
             # Always: the summary is most wanted precisely when the step above
             # failed. The script exits 0 even with no report, so it can never
             # turn a green run red.
+            # The budget is the whole chromium suite's test-seconds, divided
+            # evenly because the shards split by test. Set at ~10% above the
+            # suite as measured after it was last trimmed (1,650 test-seconds,
+            # October 2026), so a PR that grows it past that is told so in its
+            # own summary. It only warns; raise it deliberately, with a reason,
+            # when growth is worth its cost. WebKit runs 2-3x slower and has no
+            # budget.
             - name: Summarize failed and flaky tests
               if: always()
-              run: npx tsx scripts/summarize-playwright.ts playwright-report.json "${{ inputs.browser }} shard ${{ matrix.shard }}/3"
+              env:
+                  E2E_BUDGET_SECONDS: ${{ inputs.browser == 'chromium' && 1800 || '' }}
+              run: npx tsx scripts/summarize-playwright.ts playwright-report.json "${{ inputs.browser }} shard ${{ matrix.shard }}/${{ strategy.job-total }}" ${E2E_BUDGET_SECONDS:+$((E2E_BUDGET_SECONDS / ${{ strategy.job-total }}))}
             - uses: actions/upload-artifact@v6
               if: always()
               with:

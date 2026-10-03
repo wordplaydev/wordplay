@@ -4,15 +4,60 @@ on:
         branches:
             - main
 jobs:
+    # Has a PR run already passed the whole suite on exactly this tree? Merging
+    # a PR whose base was current produces the very tree its run tested (pr.yml's
+    # `record` job names it), and re-running ten minutes of tests on identical
+    # code can only repeat the answer. Anything else — main moved before the
+    # merge, a conflict was resolved, a direct push — is a different tree, finds
+    # no record, and is verified in full as before.
+    #
+    # Only a run from this repository counts. A pull_request run from a fork
+    # runs the fork's own copy of pr.yml, so a fork could record a tree it never
+    # tested; its merge is verified here instead.
+    verified:
+        runs-on: ubuntu-latest
+        permissions:
+            actions: read
+            contents: read
+        outputs:
+            skip: ${{ steps.lookup.outputs.skip }}
+        steps:
+            - uses: actions/checkout@v5
+            - name: Look for a passing PR run on this tree
+              id: lookup
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  tree=$(git rev-parse HEAD^{tree})
+                  runs=$(gh api "repos/${{ github.repository }}/actions/artifacts?name=verified-tree-$tree" \
+                      --jq '[.artifacts[] | select(.expired | not) | select(.workflow_run.head_repository_id == .workflow_run.repository_id) | .workflow_run.id] | join(" ")')
+                  if [ -n "$runs" ]; then
+                      echo "Tree $tree was verified by run(s) $runs; skipping the suite."
+                      echo "skip=true" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "No passing PR run on tree $tree; verifying in full."
+                      echo "skip=false" >> "$GITHUB_OUTPUT"
+                  fi
+
     unit:
+        needs: verified
+        if: needs.verified.outputs.skip != 'true'
         uses: ./.github/workflows/unit.yml
 
     playwright:
+        needs: verified
+        if: needs.verified.outputs.skip != 'true'
         uses: ./.github/workflows/playwright.yml
         secrets: inherit
 
     deploy:
-        needs: [unit, playwright]
+        needs: [verified, unit, playwright]
+        # `always()` because a skipped need would otherwise skip this job too;
+        # the rest says when to deploy: a verified tree, or a suite that passed.
+        if: >-
+            always() && needs.verified.result == 'success' &&
+            (needs.verified.outputs.skip == 'true' ||
+            (needs.unit.result == 'success' && needs.playwright.result == 'success'))
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v5

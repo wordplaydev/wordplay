@@ -9,3 +9,24 @@ jobs:
     playwright:
         uses: ./.github/workflows/playwright.yml
         secrets: inherit
+
+    # Record the tree this run just verified, so the push to main that merging
+    # it causes can skip re-running the same suite on the same code (see the
+    # `verified` job in deploy.yml). `github.sha` here is the merge of this PR
+    # into main as it stood, which is exactly the tree main will have if nothing
+    # else lands first. The artifact's name is the whole record.
+    record:
+        needs: [unit, playwright]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - name: Name the verified tree
+              id: tree
+              run: |
+                  git rev-parse HEAD^{tree} > verified-tree.txt
+                  echo "tree=$(cat verified-tree.txt)" >> "$GITHUB_OUTPUT"
+            - uses: actions/upload-artifact@v6
+              with:
+                  name: verified-tree-${{ steps.tree.outputs.tree }}
+                  path: verified-tree.txt
+                  retention-days: 7

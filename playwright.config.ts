@@ -18,14 +18,18 @@ export default defineConfig({
      * tests (gallery-sharing, cloud-updates, feedback) blew the 30s budget.
      * Passing tests finish well under this, so it doesn't slow a green run. */
     timeout: 60_000,
-    /* Run tests in files in parallel unless on CI */
-    fullyParallel: !process.env.CI,
+    /* Run the tests within a file in parallel, on CI too. Off on CI (the
+     * template's default, never revisited) made a file the unit of work, so
+     * whichever shard drew the two three-minute accessibility specs ran each
+     * serially on one worker and was the gate. scripts/e2e-shard.ts now deals
+     * tests to CI shards, which only helps if a shard's workers can then split
+     * a file between them. Local runs had always had it on, which is what says
+     * the specs don't depend on running in file order. */
+    fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /**
-     * Run spec files in parallel on CI. Two workers roughly halves wall-clock
-     * here: the long files (collaborative-editing, offline-replay, seeded-load,
-     * howto-form) distribute across workers. Kept at 2 to limit contention on
+     * Two workers per shard on CI. Kept at 2 to limit contention on
      * the single Firebase emulator each worker shares — and playwright.yml
      * passes `--workers` on the command line anyway, so this value only ever
      * decides a local run. It used to say 2 there too, which capped a
