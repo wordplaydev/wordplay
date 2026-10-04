@@ -205,9 +205,9 @@
                     "indexedDBUnsupported": "O seu navegador não permite que o @wordplay guarde projetos neste dispositivo.",
                     "firestoreBatchFailed": "Não foi possível enviar estes projetos para a nuvem. Ainda estão seguros neste dispositivo.",
                     "projectContainsPII": "Estes projetos parecem conter informações pessoais, por isso não os guardamos online. Abra cada um para verificar o que parece ser informação pessoal.",
-                    "localProjectStorageFailed": "Este dispositivo ficou sem espaço para guardar, e estes projetos ainda não estão na cloud, pelo que estão em risco.<Sign in@/login> , que as guarda online em vez de apenas neste dispositivo.",
+                    "localProjectStorageFailed": "Este dispositivo ficou sem espaço para guardar, e estes projetos ainda não estão na cloud, pelo que estão em risco.<Sign in@://login> , que as guarda online em vez de apenas neste dispositivo.",
                     "projectTooLarge": "$~Estes projetos são grandes demais para guardar online. Continuam seguros neste dispositivo. Tenta torná-los mais pequenos.",
-                    "noCloudTarget": "$~Estes projetos estão apenas neste dispositivo, porque o @wordplay não tinha onde os guardar online. <Inicia sessão@/login> para os guardar.",
+                    "noCloudTarget": "$~Estes projetos estão apenas neste dispositivo, porque o @wordplay não tinha onde os guardar online. <Inicia sessão@://login> para os guardar.",
                     "cloudWriteRefused": "$~A nuvem não aceitou estas alterações, por isso foi usada a cópia que está em linha. Se acha que devia poder alterá-las, pergunte a quem as partilhou consigo."
                 },
                 "projectsNotSavingOnline": "$~Alguns projetos estão apenas neste dispositivo, ainda não estão online."
@@ -2435,18 +2435,24 @@
                 "columns": {
                     "device": "neste dispositivo",
                     "cloud": "na nuvem",
-                    "unsaved": "não salvo"
+                    "unsaved": "não salvo",
+                    "state": "$~estado"
                 },
                 "state": {
                     "synced": "sincronizado",
                     "loading": "carregando",
                     "syncing": "sincronização",
                     "offline": "offline",
-                    "failed": "falhou"
+                    "failed": "falhou",
+                    "local": "$~apenas neste dispositivo"
                 },
                 "conversation": "uma conversa",
                 "legend": "\"Não guardado\" significa que está guardado aqui, mas ainda não está online. Será guardado quando se conectar novamente.",
-                "errorsHeader": "Algumas coisas não puderam ser guardadas online:"
+                "errorsHeader": "Algumas coisas não puderam ser guardadas online:",
+                "local": {
+                    "intro": "$~O seu trabalho é guardado apenas neste navegador, neste dispositivo. Se os dados do navegador forem apagados, o trabalho perde-se. <Inicie sessão@://login> para o guardar online e o usar em qualquer lugar.",
+                    "legend": "$~Um traço significa que não se aplica até iniciar sessão."
+                }
             }
         },
         "localize": {
@@ -2841,7 +2847,7 @@
             "meter": "$~tradução usada hoje",
             "exhaustedHours": "$~Já usou o limite de tradução de hoje. Tente novamente daqui a cerca de $#hours[$#hours hora|$hours milhões de horas|$hours horas].",
             "exhaustedMinutes": "$~Já usou o limite de tradução de hoje. Tente novamente daqui a cerca de $#minutes[$#minutes minuto|$minutes milhões de minutos|$minutes minutos].",
-            "signIn": "$~Traduzir requer uma conta, para que todos tenham uma parte justa. <Inicie sessão ou registe-se@/login> para traduzir o seu projeto.",
+            "signIn": "$~Traduzir requer uma conta, para que todos tenham uma parte justa. <Inicie sessão ou registe-se@://login> para traduzir o seu projeto.",
             "progressLabel": "$~progresso da tradução",
             "analyzing": "$~A ler o seu programa…",
             "revising": "$~A colocar as novas palavras…",

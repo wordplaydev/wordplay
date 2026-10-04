@@ -202,9 +202,9 @@
                     "indexedDBUnsupported": "$~Votre navigateur ne permet pas à @wordplay d'enregistrer les projets sur cet appareil.",
                     "firestoreBatchFailed": "$~Nous n'avons pas pu les envoyer vers le nuage. Ils sont encore en sécurité sur cet appareil.",
                     "projectContainsPII": "$~Ces fichiers semblent contenir des informations personnelles, nous ne les avons donc pas sauvegardés en ligne. Ouvrez-les un par un pour vérifier quelles informations semblent personnelles.",
-                    "localProjectStorageFailed": "$~Cet appareil n'a plus d'espace de stockage et ces projets ne sont pas encore dans le cloud, ils sont donc menacés.<Sign in@/login> , ce qui permet de les enregistrer en ligne et non seulement sur cet appareil.",
+                    "localProjectStorageFailed": "$~Cet appareil n'a plus d'espace de stockage et ces projets ne sont pas encore dans le cloud, ils sont donc menacés.<Sign in@://login> , ce qui permet de les enregistrer en ligne et non seulement sur cet appareil.",
                     "projectTooLarge": "$~Ces projets sont trop grands pour être sauvegardés en ligne. Ils restent en sécurité sur cet appareil. Essaie de les rendre plus petits.",
-                    "noCloudTarget": "$~Ces projets ne sont que sur cet appareil, parce que @wordplay n'avait aucun endroit où les sauvegarder en ligne. <Connecte-toi@/login> pour les sauvegarder.",
+                    "noCloudTarget": "$~Ces projets ne sont que sur cet appareil, parce que @wordplay n'avait aucun endroit où les sauvegarder en ligne. <Connecte-toi@://login> pour les sauvegarder.",
                     "cloudWriteRefused": "$~Le nuage n'a pas accepté ces changements, alors nous avons utilisé la copie en ligne à la place. Si tu penses que tu devrais pouvoir les changer, demande à la personne qui les a partagés avec toi."
                 },
                 "projectsNotSavingOnline": "$~Certains projets ne sont que sur cet appareil, pas encore en ligne."
@@ -2035,18 +2035,24 @@
                 "columns": {
                     "device": "$~sur cet appareil",
                     "cloud": "$~dans le nuage",
-                    "unsaved": "$~non sauvegardé"
+                    "unsaved": "$~non sauvegardé",
+                    "state": "$~état"
                 },
                 "state": {
                     "synced": "$~synchronisé",
                     "loading": "$~chargement",
                     "syncing": "$~économie",
                     "offline": "$~hors ligne",
-                    "failed": "$~échoué"
+                    "failed": "$~échoué",
+                    "local": "$~seulement sur cet appareil"
                 },
                 "conversation": "$~une conversation",
                 "legend": "$~« Non enregistré » signifie que le fichier est enregistré ici mais pas encore en ligne. Il sera enregistré dès que vous serez de nouveau connecté(e).",
-                "errorsHeader": "$~Certaines données n'ont pas pu être sauvegardées en ligne :"
+                "errorsHeader": "$~Certaines données n'ont pas pu être sauvegardées en ligne :",
+                "local": {
+                    "intro": "$~Ton travail est enregistré seulement dans ce navigateur, sur cet appareil. Si les données de ce navigateur sont effacées, ton travail disparaît. <Connecte-toi@://login> pour l'enregistrer en ligne et l'utiliser partout.",
+                    "legend": "$~Un tiret veut dire que cela ne s'applique pas tant que tu n'es pas connecté."
+                }
             }
         },
         "edit": {
@@ -2851,7 +2857,7 @@
             "meter": "$~traduction utilisée aujourd’hui",
             "exhaustedHours": "$~Tu as utilisé toute ta traduction du jour. Réessaie dans environ $#hours[$#hours heure|$hours heures|$hours heures].",
             "exhaustedMinutes": "$~Tu as utilisé toute ta traduction du jour. Réessaie dans environ $#minutes[$#minutes minute|$minutes minutes|$minutes minutes].",
-            "signIn": "$~Traduire nécessite un compte, pour que chacun ait une part juste. <Connecte-toi ou inscris-toi@/login> pour traduire ton projet.",
+            "signIn": "$~Traduire nécessite un compte, pour que chacun ait une part juste. <Connecte-toi ou inscris-toi@://login> pour traduire ton projet.",
             "progressLabel": "$~avancement de la traduction",
             "analyzing": "$~Lecture de ton programme…",
             "revising": "$~Ajout des nouveaux mots…",

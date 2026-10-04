@@ -258,13 +258,13 @@
                 "settingsUnsaved": "Unable to save settings online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
-                    "localProjectStorageFailed": "This device ran out of room to save, and these projects aren't in the cloud yet, so they're at risk. <Sign in@/login>, which saves them online instead of only on this device.",
+                    "localProjectStorageFailed": "This device ran out of room to save, and these projects aren't in the cloud yet, so they're at risk. <Sign in@://login>, which saves them online instead of only on this device.",
                     "indexedDBUnsupported": "Your browser won't let @wordplay save projects on this device.",
                     "firestoreBatchFailed": "We couldn't send these to the cloud. They're still safe on this device.",
                     "cloudWriteRefused": "The cloud wouldn't accept these changes, so we used the copy that's online instead. If you think you should be able to change these, ask whoever shared them with you.",
                     "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal.",
                     "projectTooLarge": "These projects are too big to save online. They're still safe on this device. Try making them smaller.",
-                    "noCloudTarget": "These projects are only on this device, because @wordplay had nowhere to save them online. <Sign in@/login> to save them."
+                    "noCloudTarget": "These projects are only on this device, because @wordplay had nowhere to save them online. <Sign in@://login> to save them."
                 }
             },
             "dialog": {
@@ -736,7 +736,7 @@
             "meter": "translation used today",
             "exhaustedHours": "You've used up today's translating. Try again in about $#hours[$hours hour|$hours hours].",
             "exhaustedMinutes": "You've used up today's translating. Try again in about $#minutes[$minutes minute|$minutes minutes].",
-            "signIn": "Translating needs an account, so everyone gets a fair share of it. <Sign in or join@/login> to translate your project.",
+            "signIn": "Translating needs an account, so everyone gets a fair share of it. <Sign in or join@://login> to translate your project.",
             "progressLabel": "translation progress",
             "analyzing": "Reading your program…",
             "revising": "Putting the new words in…",
@@ -2630,18 +2630,24 @@
                 "columns": {
                     "device": "on this device",
                     "cloud": "in the cloud",
-                    "unsaved": "unsaved"
+                    "unsaved": "unsaved",
+                    "state": "status"
                 },
                 "state": {
                     "synced": "synced",
                     "loading": "loading",
                     "syncing": "saving",
                     "offline": "offline",
-                    "failed": "failed"
+                    "failed": "failed",
+                    "local": "only on this device"
                 },
                 "conversation": "a conversation",
                 "legend": "Unsaved means saved here but not online yet. It will save when you're back online.",
-                "errorsHeader": "Some things couldn't be saved online:"
+                "errorsHeader": "Some things couldn't be saved online:",
+                "local": {
+                    "intro": "Your work is saved only in this browser on this device. If this browser's data is cleared, it is gone. <Sign in@://login> to save it online and use it anywhere.",
+                    "legend": "A dash means it doesn't apply until you sign in."
+                }
             }
         },
         "connection": {

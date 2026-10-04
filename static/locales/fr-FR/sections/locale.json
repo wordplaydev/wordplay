@@ -355,7 +355,7 @@
                 "denied": "$~$name n'a pas été inscrit dans le guide."
             }
         },
-        "noAddress": "$~Wordplay n'a pas d'adresse courriel pour vous, donc rien ici ne peut vous joindre par courriel. Vous pouvez en ajouter une sur votre <profil@/profile>.",
+        "noAddress": "$~Wordplay n'a pas d'adresse courriel pour vous, donc rien ici ne peut vous joindre par courriel. Vous pouvez en ajouter une sur votre <profil@://profile>.",
         "subject": {
             "project": "$~projet",
             "gallery": "$~galerie",

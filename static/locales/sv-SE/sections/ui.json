@@ -202,9 +202,9 @@
                     "indexedDBUnsupported": "$~Din webbläsare tillåter inte @wordplay att spara projekt på den här enheten.",
                     "firestoreBatchFailed": "$~Vi kunde inte skicka dessa till molnet. De är fortfarande säkra på den här enheten.",
                     "projectContainsPII": "$~Dessa projekt ser ut att innehålla personlig information, så vi har inte sparat dem online. Öppna vart och ett för att kontrollera vad som ser personligt ut.",
-                    "localProjectStorageFailed": "$~Den här enheten har slut på utrymme att spara, och dessa projekt finns inte i molnet än, så de är i riskzonen.<Sign in@/login> , vilket sparar dem online istället för bara på den här enheten.",
+                    "localProjectStorageFailed": "$~Den här enheten har slut på utrymme att spara, och dessa projekt finns inte i molnet än, så de är i riskzonen.<Sign in@://login> , vilket sparar dem online istället för bara på den här enheten.",
                     "projectTooLarge": "$~Dessa projekt är för stora för att sparas online. De är fortfarande säkra på den här enheten. Försök att göra dem mindre.",
-                    "noCloudTarget": "$~Dessa projekt finns bara på den här enheten, eftersom @wordplay inte hade någonstans att spara dem online. <Logga in@/login> för att spara dem.",
+                    "noCloudTarget": "$~Dessa projekt finns bara på den här enheten, eftersom @wordplay inte hade någonstans att spara dem online. <Logga in@://login> för att spara dem.",
                     "cloudWriteRefused": "$~Molnet godtog inte dessa ändringar, så vi använde kopian som finns online istället. Om du tycker att du borde kunna ändra dessa, fråga den som delade dem med dig."
                 },
                 "projectsNotSavingOnline": "$~Vissa projekt finns bara på den här enheten, inte online än."
@@ -2186,18 +2186,24 @@
                 "columns": {
                     "device": "$~på den här enheten",
                     "cloud": "$~i molnet",
-                    "unsaved": "$~osparad"
+                    "unsaved": "$~osparad",
+                    "state": "$~status"
                 },
                 "state": {
                     "synced": "$~synkroniserad",
                     "loading": "$~belastning",
                     "syncing": "$~sparande",
                     "offline": "$~off-line",
-                    "failed": "$~misslyckades"
+                    "failed": "$~misslyckades",
+                    "local": "$~bara på den här enheten"
                 },
                 "conversation": "$~en konversation",
                 "legend": "$~Osparad betyder att den är sparad här men inte online än. Den sparas när du är online igen.",
-                "errorsHeader": "$~Vissa saker kunde inte sparas online:"
+                "errorsHeader": "$~Vissa saker kunde inte sparas online:",
+                "local": {
+                    "intro": "$~Ditt arbete sparas bara i den här webbläsaren på den här enheten. Om webbläsarens data rensas försvinner det. <Logga in@://login> för att spara det på nätet och använda det överallt.",
+                    "legend": "$~Ett streck betyder att det inte gäller förrän du loggar in."
+                }
             }
         },
         "edit": {
@@ -2842,7 +2848,7 @@
             "meter": "$~översättning använd idag",
             "exhaustedHours": "$~Du har använt dagens översättningar. Försök igen om ungefär $#hours[$hours timme|$hours timmar].",
             "exhaustedMinutes": "$~Du har använt dagens översättningar. Försök igen om ungefär $#minutes[$minutes minut|$minutes minuter].",
-            "signIn": "$~Att översätta kräver ett konto, så att alla får en rättvis del av det. <Logga in eller bli medlem@/login> för att översätta ditt projekt.",
+            "signIn": "$~Att översätta kräver ett konto, så att alla får en rättvis del av det. <Logga in eller bli medlem@://login> för att översätta ditt projekt.",
             "progressLabel": "$~översättningsförlopp",
             "analyzing": "$~Läser ditt projekt…",
             "revising": "$~Sätter in de nya orden…",

@@ -349,7 +349,7 @@
                 "denied": "$~$name 没有被收录进指南。"
             }
         },
-        "noAddress": "$~wordplay 没有你的电子邮箱地址，所以这里的任何消息都无法通过邮件通知你。你可以在<个人资料页@/profile>上添加一个。",
+        "noAddress": "$~wordplay 没有你的电子邮箱地址，所以这里的任何消息都无法通过邮件通知你。你可以在<个人资料页@://profile>上添加一个。",
         "subject": {
             "project": "$~项目",
             "gallery": "$~作品库",

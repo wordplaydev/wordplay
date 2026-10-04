@@ -271,7 +271,7 @@
                 "review what people have asked you to look at"
             ]
         },
-        "noAddress": "Wordplay has no email address for you, so nothing here can reach you by email. You can add one on your <profile@/profile>.",
+        "noAddress": "Wordplay has no email address for you, so nothing here can reach you by email. You can add one on your <profile@://profile>.",
         "subject": {
             "project": "project",
             "gallery": "gallery",

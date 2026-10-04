@@ -206,9 +206,9 @@
                     "indexedDBUnsupported": "$~Browser Anda tidak mengizinkan @wordplay untuk menyimpan proyek di perangkat ini.",
                     "firestoreBatchFailed": "$~Kami tidak dapat mengirim ini ke awan. Semuanya masih aman di perangkat ini.",
                     "projectContainsPII": "$~Proyek-proyek ini tampaknya berisi informasi pribadi, jadi kami tidak menyimpannya secara online. Buka setiap proyek untuk memeriksa apa yang tampak bersifat pribadi.",
-                    "localProjectStorageFailed": "$~Perangkat ini kehabisan ruang penyimpanan, dan proyek-proyek ini belum ada di cloud, jadi berisiko.<Sign in@/login> yang menyimpannya secara online, bukan hanya di perangkat ini.",
+                    "localProjectStorageFailed": "$~Perangkat ini kehabisan ruang penyimpanan, dan proyek-proyek ini belum ada di cloud, jadi berisiko.<Sign in@://login> yang menyimpannya secara online, bukan hanya di perangkat ini.",
                     "projectTooLarge": "$~Proyek-proyek ini terlalu besar untuk disimpan secara daring. Proyek-proyek ini tetap aman di perangkat ini. Cobalah membuatnya lebih kecil.",
-                    "noCloudTarget": "$~Proyek-proyek ini hanya ada di perangkat ini, karena @wordplay tidak punya tempat untuk menyimpannya secara daring. <Masuk@/login> untuk menyimpannya.",
+                    "noCloudTarget": "$~Proyek-proyek ini hanya ada di perangkat ini, karena @wordplay tidak punya tempat untuk menyimpannya secara daring. <Masuk@://login> untuk menyimpannya.",
                     "cloudWriteRefused": "$~Awan tidak menerima perubahan ini, jadi kami memakai salinan yang ada di internet. Jika kamu rasa seharusnya bisa mengubah ini, tanyakan pada orang yang membagikannya kepadamu."
                 },
                 "projectsNotSavingOnline": "$~Beberapa proyek hanya ada di perangkat ini, belum ada secara daring."
@@ -2445,18 +2445,24 @@
                 "columns": {
                     "device": "$~pada perangkat ini",
                     "cloud": "$~di awan",
-                    "unsaved": "$~belum disimpan"
+                    "unsaved": "$~belum disimpan",
+                    "state": "$~status"
                 },
                 "state": {
                     "synced": "$~disinkronkan",
                     "loading": "$~memuat",
                     "syncing": "$~penghematan",
                     "offline": "$~offline",
-                    "failed": "$~gagal"
+                    "failed": "$~gagal",
+                    "local": "$~hanya di perangkat ini"
                 },
                 "conversation": "$~percakapan",
                 "legend": "$~\"Belum tersimpan\" berarti sudah tersimpan di sini tetapi belum online. Perubahan akan tersimpan saat Anda kembali online.",
-                "errorsHeader": "$~Beberapa hal tidak dapat disimpan secara online:"
+                "errorsHeader": "$~Beberapa hal tidak dapat disimpan secara online:",
+                "local": {
+                    "intro": "$~Karyamu hanya disimpan di peramban ini pada perangkat ini. Jika data peramban ini dihapus, karyamu akan hilang. <Masuk@://login> untuk menyimpannya secara daring dan memakainya di mana saja.",
+                    "legend": "$~Tanda strip berarti hal ini belum berlaku sampai kamu masuk."
+                }
             }
         },
         "localize": {
@@ -2843,7 +2849,7 @@
             "meter": "$~terjemahan yang digunakan hari ini",
             "exhaustedHours": "$~Kamu sudah memakai semua jatah menerjemahkan untuk hari ini. Coba lagi sekitar $#hours[$hours jam] lagi.",
             "exhaustedMinutes": "$~Kamu sudah memakai semua jatah menerjemahkan untuk hari ini. Coba lagi sekitar $#minutes[$minutes menit] lagi.",
-            "signIn": "$~Menerjemahkan membutuhkan akun, supaya semua orang mendapat bagian yang adil. <Masuk atau daftar@/login> untuk menerjemahkan proyek kamu.",
+            "signIn": "$~Menerjemahkan membutuhkan akun, supaya semua orang mendapat bagian yang adil. <Masuk atau daftar@://login> untuk menerjemahkan proyek kamu.",
             "progressLabel": "$~kemajuan terjemahan",
             "analyzing": "$~Membaca program kamu…",
             "revising": "$~Memasukkan kata-kata baru…",

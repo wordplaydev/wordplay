@@ -1027,6 +1027,10 @@
         "e33c0fa9452a4": "$~Meniul de sugestii rămâne acum deschis și se restrânge pe măsură ce scrii.",
         "e6c77df016241": "$~În modul /blocuri/, am reparat tragerea codului sub sfârșitul unui program și peste cod care conține o greșeală. Înainte, ambele acțiuni nu făceau nimic.",
         "e7f1566676e7a": "$~Am reparat linkurile din alte limbi care apăreau ca text stricat sau duceau la pagini lipsă. Am reparat linkurile de pe pagina principală, de pe pagina <Despre@https://wordplay.dev/about>, din tutorialul rapid și din mesajele de pe tot site-ul.",
-        "e221a0b8c05d5": "$~Am reparat opțiunile de afișare a muzicii din setările în limba turcă. Acolo, fiecare nume și fiecare descriere apăreau lângă opțiunea greșită."
+        "e221a0b8c05d5": "$~Am reparat opțiunile de afișare a muzicii din setările în limba turcă. Acolo, fiecare nume și fiecare descriere apăreau lângă opțiunea greșită.",
+        "e8b757ebd4689": "$~Un clic pe textul creat cu \\selectable\\ îl selectează din nou. Acest lucru nu mai funcționa în exemplul de pe <pagina principală@https://wordplay.dev/> și în toate proiectele.",
+        "eb6f2bf5308ec": "$~În Safari, dacă apeși Start sau Reîncearcă într-un proiect care folosește microfonul sau camera, acum ți se cere permisiunea. Înainte, nu se întâmpla nimic.",
+        "e71d907b44acc": "$~Am reparat emoji-urile color care apăreau goale sau negre pe iPhone-urile și iPad-urile cu iOS 27. Acum se încarcă și mai repede acolo.",
+        "e8bf14728ecca": "$~Când nu ești conectat, fereastra cu starea salvării arată acum câte proiecte sunt salvate doar pe acest dispozitiv și cum le poți salva online. Înainte, fereastra era goală."
     }
 }

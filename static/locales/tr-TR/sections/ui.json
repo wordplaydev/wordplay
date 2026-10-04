@@ -202,9 +202,9 @@
                     "indexedDBUnsupported": "$~Tarayıcınız @wordplay'in bu cihazda proje kaydetmesine izin vermiyor.",
                     "firestoreBatchFailed": "$~Bunları buluta gönderemedik. Yine de bu cihazda güvendeler.",
                     "projectContainsPII": "$~Bu projelerde kişisel bilgiler bulunuyor gibi göründüğü için bunları çevrimiçi olarak kaydetmedik. Kişisel bilgi içerip içermediğini kontrol etmek için her birini açın.",
-                    "localProjectStorageFailed": "$~Bu cihazda kaydedilecek yer kalmadı ve bu projeler henüz bulutta değil, bu yüzden risk altındalar.<Sign in@/login> Bu sayede veriler yalnızca bu cihazda değil, çevrimiçi olarak da kaydedilir.",
+                    "localProjectStorageFailed": "$~Bu cihazda kaydedilecek yer kalmadı ve bu projeler henüz bulutta değil, bu yüzden risk altındalar.<Sign in@://login> Bu sayede veriler yalnızca bu cihazda değil, çevrimiçi olarak da kaydedilir.",
                     "projectTooLarge": "$~Bu projeler çevrimiçi kaydedilemeyecek kadar büyük. Yine de bu cihazda güvende. Onları daha küçük yapmayı deneyin.",
-                    "noCloudTarget": "$~Bu projeler yalnızca bu cihazda, çünkü @wordplay onları çevrimiçi kaydedecek bir yer bulamadı. Kaydetmek için <giriş yapın@/login>.",
+                    "noCloudTarget": "$~Bu projeler yalnızca bu cihazda, çünkü @wordplay onları çevrimiçi kaydedecek bir yer bulamadı. Kaydetmek için <giriş yapın@://login>.",
                     "cloudWriteRefused": "$~Bulut bu değişiklikleri kabul etmedi. Bu yüzden çevrimiçi olan kopyayı kullandık. Bunları değiştirebilmen gerektiğini düşünüyorsan, bunları seninle paylaşan kişiye sor."
                 },
                 "projectsNotSavingOnline": "$~Bazı projeler yalnızca bu cihazda, henüz çevrimiçi değil."
@@ -2184,18 +2184,24 @@
                 "columns": {
                     "device": "$~bu cihazda",
                     "cloud": "$~bulutta",
-                    "unsaved": "$~kaydedilmemiş"
+                    "unsaved": "$~kaydedilmemiş",
+                    "state": "$~durum"
                 },
                 "state": {
                     "synced": "$~senkronize edildi",
                     "loading": "$~yükleniyor",
                     "syncing": "$~tasarruf",
                     "offline": "$~çevrimdışı",
-                    "failed": "$~arızalı"
+                    "failed": "$~arızalı",
+                    "local": "$~sadece bu cihazda"
                 },
                 "conversation": "$~bir konuşma",
                 "legend": "$~Kaydedilmemiş, buraya kaydedilmiş ancak henüz çevrimiçi değil anlamına gelir. Çevrimiçi olduğunuzda kaydedilecektir.",
-                "errorsHeader": "$~Bazı şeyler çevrimiçi olarak kaydedilemedi:"
+                "errorsHeader": "$~Bazı şeyler çevrimiçi olarak kaydedilemedi:",
+                "local": {
+                    "intro": "$~Çalışmanız yalnızca bu cihazdaki bu tarayıcıda saklanır. Bu tarayıcının verileri silinirse çalışmanız da kaybolur. Çalışmanızı çevrimiçi kaydetmek ve her yerde kullanmak için <giriş yapın@://login>.",
+                    "legend": "$~Tire işareti, giriş yapana kadar bunun geçerli olmadığı anlamına gelir."
+                }
             }
         },
         "edit": {
@@ -2840,7 +2846,7 @@
             "meter": "$~bugün kullanılan çeviri",
             "exhaustedHours": "$~Bugünkü çeviri hakkını kullandın. Yaklaşık $#hours[$hours saat|$hours saat] sonra tekrar dene.",
             "exhaustedMinutes": "$~Bugünkü çeviri hakkını kullandın. Yaklaşık $#minutes[$minutes dakika|$minutes dakika] sonra tekrar dene.",
-            "signIn": "$~Çeviri yapmak için bir hesap gerekir, böylece herkes hakkını adil şekilde kullanır. Projeni çevirmek için <Giriş yap ya da katıl@/login>.",
+            "signIn": "$~Çeviri yapmak için bir hesap gerekir, böylece herkes hakkını adil şekilde kullanır. Projeni çevirmek için <Giriş yap ya da katıl@://login>.",
             "progressLabel": "$~çeviri ilerlemesi",
             "analyzing": "$~Programın okunuyor…",
             "revising": "$~Yeni sözcükler yerleştiriliyor…",

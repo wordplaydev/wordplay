@@ -1027,6 +1027,10 @@
         "e33c0fa9452a4": "$~Das Vorschlagsmenü bleibt jetzt offen und wird beim Tippen kleiner.",
         "e6c77df016241": "$~Im Blöcke-Modus haben wir zwei Fehler behoben: das Ziehen von Code unter das Ende eines Programms und auf Code, der einen Fehler enthält. Beides bewirkte vorher nichts.",
         "e7f1566676e7a": "$~Wir haben Links in anderen Sprachen repariert, die als kaputter Text erschienen oder auf fehlende Seiten führten. Das betraf die Startseite, die <Seite „Über uns“@https://wordplay.dev/about>, die kurze Anleitung und Nachrichten auf der ganzen Website.",
-        "e221a0b8c05d5": "$~Wir haben die Auswahl für die Musikanzeige in den türkischen Einstellungen repariert. Dort standen Name und Beschreibung neben der falschen Option."
+        "e221a0b8c05d5": "$~Wir haben die Auswahl für die Musikanzeige in den türkischen Einstellungen repariert. Dort standen Name und Beschreibung neben der falschen Option.",
+        "e8b757ebd4689": "$~Wenn du auf Text klickst, der mit \\selectable\\ gemacht wurde, wird er wieder ausgewählt. Das hat auf der <Startseite@https://wordplay.dev/> im Beispiel und in jedem Projekt nicht mehr funktioniert.",
+        "eb6f2bf5308ec": "$~Wenn du in Safari bei einem Projekt mit Mikrofon oder Kamera auf Start oder Erneut versuchen drückst, wirst du jetzt nach der Erlaubnis gefragt. Vorher ist nichts passiert.",
+        "e71d907b44acc": "$~Wir haben Farb-Emojis repariert, die auf iPhones und iPads mit iOS 27 leer oder schwarz angezeigt wurden. Außerdem laden sie dort jetzt schneller.",
+        "e8bf14728ecca": "$~Wenn du nicht angemeldet bist, ist das Fenster mit dem Speicherstatus jetzt nicht mehr leer. Es zeigt, wie viele Projekte nur auf diesem Gerät gespeichert sind und wie du sie online speichern kannst."
     }
 }

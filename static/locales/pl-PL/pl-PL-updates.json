@@ -1027,6 +1027,10 @@
         "e33c0fa9452a4": "$~Menu podpowiedzi teraz pozostaje otwarte i zawęża się w trakcie pisania.",
         "e6c77df016241": "$~W trybie /bloki/ naprawiliśmy przeciąganie kodu pod koniec programu oraz na kod, który zawiera błąd. Wcześniej oba te działania nic nie robiły.",
         "e7f1566676e7a": "$~Naprawiliśmy linki w innych językach, które pokazywały się jako zepsuty tekst albo prowadziły do brakujących stron. Dotyczyło to strony głównej, strony <Dotycząca@https://wordplay.dev/about>, krótkiego samouczka i komunikatów w całym serwisie.",
-        "e221a0b8c05d5": "$~Naprawiliśmy opcje wyświetlania muzyki w tureckich ustawieniach. Każda nazwa i każdy opis pokazywały się przy niewłaściwej opcji."
+        "e221a0b8c05d5": "$~Naprawiliśmy opcje wyświetlania muzyki w tureckich ustawieniach. Każda nazwa i każdy opis pokazywały się przy niewłaściwej opcji.",
+        "e8b757ebd4689": "$~Kliknięcie tekstu zrobionego za pomocą \\selectable\\ znów go zaznacza. Ta funkcja przestała działać w przykładzie na <stronie głównej@https://wordplay.dev/> i w każdym projekcie.",
+        "eb6f2bf5308ec": "$~W przeglądarce Safari naciśnięcie /Start/ lub /Spróbuj ponownie/ w projekcie, który używa mikrofonu lub kamery, teraz prosi o zgodę. Wcześniej nic się nie działo.",
+        "e71d907b44acc": "$~Naprawiliśmy kolorowe emoji, które były puste lub czarne na iPhone'ach i iPadach z systemem iOS 27. Ładują się tam też szybciej.",
+        "e8bf14728ecca": "$~Gdy nie jesteś zalogowany, okno stanu zapisu pokazuje teraz, ile projektów jest zapisanych tylko na tym urządzeniu i jak zapisać je online. Wcześniej było puste."
     }
 }

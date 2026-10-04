@@ -202,9 +202,9 @@
                     "indexedDBUnsupported": "$~Twoja przeglądarka nie pozwoli aplikacji @wordplay na zapisywanie projektów na tym urządzeniu.",
                     "firestoreBatchFailed": "$~Nie mogliśmy ich wysłać do chmury. Nadal są bezpieczne na tym urządzeniu.",
                     "projectContainsPII": "$~Te projekty wyglądają, jakby zawierały dane osobowe, więc nie zapisaliśmy ich online. Otwórz każdy z nich, aby sprawdzić, co wygląda na osobiste.",
-                    "localProjectStorageFailed": "$~Na tym urządzeniu zabrakło miejsca do zapisania, a te projekty nie znajdują się jeszcze w chmurze, więc są zagrożone.<Sign in@/login> , co pozwala na ich zapisywanie online, a nie tylko na tym urządzeniu.",
+                    "localProjectStorageFailed": "$~Na tym urządzeniu zabrakło miejsca do zapisania, a te projekty nie znajdują się jeszcze w chmurze, więc są zagrożone.<Sign in@://login> , co pozwala na ich zapisywanie online, a nie tylko na tym urządzeniu.",
                     "projectTooLarge": "$~Te projekty są za duże, aby zapisać je online. Nadal są bezpieczne na tym urządzeniu. Spróbuj je zmniejszyć.",
-                    "noCloudTarget": "$~Te projekty są tylko na tym urządzeniu, ponieważ @wordplay nie miał gdzie zapisać ich online. <Zaloguj się@/login>, aby je zapisać.",
+                    "noCloudTarget": "$~Te projekty są tylko na tym urządzeniu, ponieważ @wordplay nie miał gdzie zapisać ich online. <Zaloguj się@://login>, aby je zapisać.",
                     "cloudWriteRefused": "$~Chmura nie zaakceptowała tych zmian, więc użyliśmy wersji dostępnej online. Jeśli myślisz, że powinieneś móc to zmieniać, zapytaj osobę, która to z Tobą udostępniła."
                 },
                 "projectsNotSavingOnline": "$~Niektóre projekty są tylko na tym urządzeniu, jeszcze nie online."
@@ -2183,18 +2183,24 @@
                 "columns": {
                     "device": "$~na tym urządzeniu",
                     "cloud": "$~w chmurze",
-                    "unsaved": "$~niezapisany"
+                    "unsaved": "$~niezapisany",
+                    "state": "$~status"
                 },
                 "state": {
                     "synced": "$~zsynchronizowany",
                     "loading": "$~załadunek",
                     "syncing": "$~oszczędność",
                     "offline": "$~nieaktywny",
-                    "failed": "$~przegrany"
+                    "failed": "$~przegrany",
+                    "local": "$~tylko na tym urządzeniu"
                 },
                 "conversation": "$~rozmowa",
                 "legend": "$~Niezapisane oznacza zapisane tutaj, ale jeszcze niedostępne online. Zostanie zapisane, gdy znów będziesz online.",
-                "errorsHeader": "$~Niektórych rzeczy nie dało się zapisać online:"
+                "errorsHeader": "$~Niektórych rzeczy nie dało się zapisać online:",
+                "local": {
+                    "intro": "$~Twoja praca jest zapisana tylko w tej przeglądarce na tym urządzeniu. Jeśli dane tej przeglądarki zostaną wyczyszczone, praca zniknie. <Zaloguj się@://login>, aby zapisać ją w internecie i używać jej wszędzie.",
+                    "legend": "$~Kreska oznacza, że to nie dotyczy Cię, dopóki się nie zalogujesz."
+                }
             }
         },
         "edit": {
@@ -2842,7 +2848,7 @@
             "meter": "$~tłumaczenie użyte dzisiaj",
             "exhaustedHours": "$~Wykorzystałeś dzisiejszy limit tłumaczeń. Spróbuj ponownie za około $#hours[$hours godzinę|$hours godziny|$hours godzin|$hours godziny].",
             "exhaustedMinutes": "$~Wykorzystałeś dzisiejszy limit tłumaczeń. Spróbuj ponownie za około $#minutes[$minutes minutę|$minutes minuty|$minutes minut|$minutes minuty].",
-            "signIn": "$~Tłumaczenie wymaga konta, żeby każdy miał sprawiedliwy dostęp do tej funkcji. <Zaloguj się lub dołącz@/login>, aby przetłumaczyć swój projekt.",
+            "signIn": "$~Tłumaczenie wymaga konta, żeby każdy miał sprawiedliwy dostęp do tej funkcji. <Zaloguj się lub dołącz@://login>, aby przetłumaczyć swój projekt.",
             "progressLabel": "$~postęp tłumaczenia",
             "analyzing": "$~Czytanie twojego programu…",
             "revising": "$~Wstawianie nowych słów…",

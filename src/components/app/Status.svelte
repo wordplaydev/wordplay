@@ -24,6 +24,10 @@
     const user = getUser();
     let device = $derived($user === null);
 
+    /** The projects database once loaded, as a store so the counts below update
+     *  when it finishes loading rather than keeping their first-render zeroes. */
+    const loadedProjects = DB.LoadedProjects;
+
     let showError = $state(false);
 
     /** When disconnected, the explanation shown inside the dialog (moved here
@@ -74,7 +78,7 @@
         // Zeroes until the projects database loads. This renders in the footer
         // on every page, so it reads what's in memory rather than forcing the
         // language runtime to load — and nothing is in memory to be unsaved.
-        projects: DB.MaybeProjects?.saveCounts ?? {
+        projects: $loadedProjects?.saveCounts ?? {
             device: 0,
             cloud: 0,
             unsaved: 0,
@@ -261,6 +265,12 @@
         label: (l: LocaleText) => string;
         kind: string;
     } {
+        // Signed out, nothing syncs: no domain would ever leave "loading".
+        if (device)
+            return {
+                label: (l) => l.ui.save.status.state.local,
+                kind: 'local',
+            };
         if ($disconnected)
             return {
                 label: (l) => l.ui.save.status.state.offline,
@@ -312,53 +322,73 @@
             <LocalizedText path={connectionMessage} markup={false} />
         </p>
     {/if}
-    {#if !device}
-        <p class="intro">
+    <!-- One layout signed in or out, so signing in changes the words and
+         numbers, not the dialog. -->
+    <p class="intro">
+        {#if device}
+            <LocalizedText path={(l) => l.ui.save.status.local.intro} markup />
+        {:else}
             <LocalizedText path={(l) => l.ui.save.status.intro} />
-        </p>
-        <table class="save-counts">
-            <thead>
+        {/if}
+    </p>
+    <table class="save-counts">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    <LocalizedText
+                        path={(l) => l.ui.save.status.columns.device}
+                    />
+                </th>
+                <th>
+                    <LocalizedText
+                        path={(l) => l.ui.save.status.columns.cloud}
+                    />
+                </th>
+                <th>
+                    <LocalizedText
+                        path={(l) => l.ui.save.status.columns.unsaved}
+                    />
+                </th>
+                <th>
+                    <LocalizedText
+                        path={(l) => l.ui.save.status.columns.state}
+                    />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {#each SyncDomains as domain (domain)}
+                {@const c = counts[domain]}
+                {@const s = stateOf(domain)}
                 <tr>
-                    <th></th>
-                    <th>
-                        <LocalizedText
-                            path={(l) => l.ui.save.status.columns.device}
-                        />
+                    <th class="domain" scope="row">
+                        <LocalizedText path={SYNC_LABEL[domain]} />
                     </th>
-                    <th>
-                        <LocalizedText
-                            path={(l) => l.ui.save.status.columns.cloud}
-                        />
-                    </th>
-                    <th>
-                        <LocalizedText
-                            path={(l) => l.ui.save.status.columns.unsaved}
-                        />
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {#each SyncDomains as domain (domain)}
-                    {@const c = counts[domain]}
-                    {@const s = stateOf(domain)}
-                    <tr>
-                        <th class="domain" scope="row">
-                            <LocalizedText path={SYNC_LABEL[domain]} />
-                        </th>
-                        <td>{c.device}</td>
+                    <td>{c.device}</td>
+                    {#if device}
+                        <!-- Without an account there is no cloud, so neither
+                                 count applies; unsaved would read every project. -->
+                        <td class="na">—</td>
+                        <td class="na">—</td>
+                    {:else}
                         <td>{c.cloud}</td>
                         <td class:unsaved={c.unsaved > 0}>{c.unsaved}</td>
-                        <td class="state {s.kind}">
-                            <LocalizedText path={s.label} />
-                        </td>
-                    </tr>
-                {/each}
-            </tbody>
-        </table>
-        <p class="legend">
-            <LocalizedText path={(l) => l.ui.save.status.legend} />
-        </p>
-    {/if}
+                    {/if}
+                    <td class="state {s.kind}">
+                        <LocalizedText path={s.label} />
+                    </td>
+                </tr>
+            {/each}
+        </tbody>
+    </table>
+    <p class="legend">
+        <LocalizedText
+            path={device
+                ? (l) => l.ui.save.status.local.legend
+                : (l) => l.ui.save.status.legend}
+        />
+    </p>
 
     {#if allErrors.length > 0}
         <section class="errors">
@@ -435,6 +465,10 @@
     .save-counts td.unsaved {
         color: var(--wordplay-error);
         font-weight: bold;
+    }
+
+    .save-counts td.na {
+        color: var(--wordplay-inactive-color);
     }
 
     .save-counts td.state {

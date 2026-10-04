@@ -355,7 +355,7 @@
                 "denied": "$~$name nie został wpisany w przewodniku."
             }
         },
-        "noAddress": "$~Wordplay nie ma dla ciebie adresu e-mail, więc nic tutaj nie może się z tobą skontaktować przez e-mail. Możesz go dodać na swoim <profilu@/profile>.",
+        "noAddress": "$~Wordplay nie ma dla ciebie adresu e-mail, więc nic tutaj nie może się z tobą skontaktować przez e-mail. Możesz go dodać na swoim <profilu@://profile>.",
         "subject": {
             "project": "$~projekt",
             "gallery": "$~galeria",
