@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Emoji diagnostic</title>
+        <style>
+            /* Temporary page for diagnosing iOS color-emoji rendering. */
+            @font-face {
+                font-family: 'D svg-solid ttf';
+                src: url(svg-solid.ttf) format('truetype');
+            }
+            @font-face {
+                font-family: 'D svg-solid woff2';
+                src: url(svg-solid.woff2) format('woff2');
+            }
+            @font-face {
+                font-family: 'D svg-gradient ttf';
+                src: url(svg-gradient.ttf) format('truetype');
+            }
+            @font-face {
+                font-family: 'D svg-gradient woff2';
+                src: url(svg-gradient.woff2) format('woff2');
+            }
+            @font-face {
+                font-family: 'D colrv0 ttf';
+                src: url(colrv0.ttf) format('truetype');
+            }
+            @font-face {
+                font-family: 'D colrv0 woff2';
+                src: url(colrv0.woff2) format('woff2');
+            }
+            @font-face {
+                font-family: 'D sbix ttf';
+                src: url(sbix.ttf) format('truetype');
+            }
+            @font-face {
+                font-family: 'D sbix woff2';
+                src: url(sbix.woff2) format('woff2');
+            }
+            @font-face {
+                font-family: 'D noto old ttf gzip';
+                src: url(old-ttf-gzip.ttf) format('truetype');
+            }
+            @font-face {
+                font-family: 'D noto prod woff2 plain';
+                src: url(prod-woff2-plain.woff2) format('woff2');
+            }
+            @font-face {
+                font-family: 'D noto new woff2 gzip';
+                src: url(new-woff2-gzip.woff2) format('woff2');
+            }
+            @font-face {
+                font-family: 'D apple local';
+                src: local('Apple Color Emoji');
+            }
+
+            body {
+                font-family: system-ui, sans-serif;
+                margin: 16px;
+                background: #fff;
+                color: #000;
+            }
+            table {
+                border-collapse: collapse;
+            }
+            td,
+            th {
+                border: 1px solid #ccc;
+                padding: 6px 8px;
+                text-align: start;
+            }
+            .sample {
+                font-size: 40px;
+                line-height: 1.2;
+            }
+            /* The stage puts output in transformed, GPU-composited boxes. */
+            .layered {
+                display: inline-block;
+                transform: rotate(0.5deg);
+                will-change: transform;
+            }
+            pre {
+                white-space: pre-wrap;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Emoji diagnostic</h1>
+        <p>
+            Synthetic rows: <b>pink/blue</b> means the color format works; a
+            <b>black square</b> means the color layer was ignored; blank or a
+            box with an X means the font was not used. Noto rows show 😀 🍎.
+        </p>
+        <table>
+            <thead
+                ><tr><th>Font</th><th>Plain</th><th>Layered</th></tr></thead
+            >
+            <tbody id="rows"></tbody>
+        </table>
+        <h2>Font status</h2>
+        <pre id="status">loading…</pre>
+        <script>
+            const synthetic = [
+                'svg-solid ttf',
+                'svg-solid woff2',
+                'svg-gradient ttf',
+                'svg-gradient woff2',
+                'colrv0 ttf',
+                'colrv0 woff2',
+                'sbix ttf',
+                'sbix woff2',
+            ];
+            const noto = [
+                'noto old ttf gzip',
+                'noto prod woff2 plain',
+                'noto new woff2 gzip',
+                'apple local',
+            ];
+            const rows = document.getElementById('rows');
+            function row(name, text) {
+                const tr = document.createElement('tr');
+                const family = `'D ${name}', 'Last Resort'`;
+                tr.innerHTML = `<td>${name}</td><td class="sample"></td><td class="sample"><span class="layered"></span></td>`;
+                tr.children[1].textContent = text;
+                tr.children[1].style.fontFamily = family;
+                tr.children[2].firstChild.textContent = text;
+                tr.children[2].firstChild.style.fontFamily = family;
+                rows.append(tr);
+            }
+            for (const name of synthetic) row(name, '');
+            for (const name of noto) row(name, '😀🍎');
+            document.fonts.ready.then(() => {
+                document.getElementById('status').textContent =
+                    navigator.userAgent +
+                    '\n\n' +
+                    [...document.fonts]
+                        .map((f) => `${f.family}: ${f.status}`)
+                        .join('\n');
+            });
+        </script>
+    </body>
+</html>
