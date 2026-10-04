@@ -40,6 +40,7 @@
         "end2end:changed": "firebase emulators:exec \"npx playwright test --only-changed\" --project=demo-wordplay --log-verbosity QUIET",
         "end2end:failed": "firebase emulators:exec \"npx playwright test --last-failed\" --project=demo-wordplay --log-verbosity QUIET",
         "end2end:reuse": "WORDPLAY_E2E_REUSE=1 npx playwright test",
+        "e2e-timings": "npx tsx scripts/e2e-timings.ts",
         "dev": "vite dev",
         "emu": "npx tsx scripts/seed.ts & npx tsx scripts/emulate.ts",
         "env": "run-script-os",

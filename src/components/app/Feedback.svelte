@@ -174,12 +174,14 @@
                 { day: 'numeric', month: 'short', year: 'numeric' },
             )}</Note
         >
+        <!-- On click, not pointerup: a pointerup alone also fires when a press
+             that began elsewhere is released over a header, as when choosing a
+             tab reflows the dialog under the pointer and opens an entry. -->
         <div
             role="button"
             class="header"
             tabindex="0"
-            onpointerup={(event) =>
-                event.button === 0 && (expanded[feed.id] = !expanded[feed.id])}
+            onclick={() => (expanded[feed.id] = !expanded[feed.id])}
             onkeydown={(event) =>
                 event.key === 'Enter' &&
                 (expanded[feed.id] = !expanded[feed.id])}

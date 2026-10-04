@@ -1,0 +1,30 @@
+name: Warm the node_modules cache
+# CI jobs restore node_modules from a cache keyed on the lockfile
+# (.github/actions/install), and a pull request can only restore what main
+# saved. Main no longer runs the suite on a merge a PR already verified, so
+# nothing else there would save it; this does, whenever the key changes.
+on:
+    push:
+        branches: ['main']
+        paths:
+            - package-lock.json
+            - .nvmrc
+            - .github/actions/install/**
+            - .github/workflows/warm-node-modules.yml
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    warm:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: 'npm'
+            - uses: ./.github/actions/install
+              with:
+                  save: 'true'
