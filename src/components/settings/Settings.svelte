@@ -38,6 +38,8 @@
         readAloud,
         readAloudRate,
         announcementVerbosity,
+        seasonChoice,
+        seasonShown,
         Settings,
         showLines,
         stagePlacement,
@@ -84,6 +86,12 @@
         TEXT_EDITING_SYMBOL,
     } from '#parser/Symbols.ts';
     import { onMount } from 'svelte';
+    import {
+        Seasons,
+        SeasonSymbols,
+        type SeasonChoice,
+    } from '#seasons/Season.ts';
+    import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
 
     const user = getUser();
 
@@ -178,6 +186,9 @@
     $effect(() => {
         if (!isAuthenticated($user) && localizing.on) localizing.on = false;
     });
+
+    /** The season setting's choices, in the order of its mode's labels. */
+    const seasonOptions: SeasonChoice[] = ['auto', 'none', ...Seasons];
 </script>
 
 <Dialog
@@ -294,6 +305,50 @@
                             )}
                         icons={['☼', '☽', '☼/☽']}
                     />
+                    <!-- The season (#108), a second axis beside light and dark:
+                         every season has both. Auto, none, then the seasons in
+                         the order the locale's labels list them. -->
+                    <Mode
+                        grid
+                        wrap
+                        modes={(l) => l.ui.dialog.settings.mode.season}
+                        choice={seasonOptions.indexOf($seasonChoice)}
+                        select={(choice) =>
+                            Settings.setSeason(seasonOptions[choice] ?? 'auto')}
+                        icons={[
+                            '⌖',
+                            '∅',
+                            ...Seasons.map((season) => SeasonSymbols[season]),
+                        ]}
+                    />
+                    {#if $seasonChoice === 'auto'}
+                        <div class="season-note">
+                            {#if $seasonShown}
+                                <MarkupHTMLView
+                                    inline
+                                    markup={[
+                                        (l) => l.ui.dialog.settings.season.auto,
+                                        {
+                                            season: $locales.getUnannotatedPrimaryText(
+                                                (l) =>
+                                                    l.ui.dialog.settings.mode
+                                                        .season.labels[
+                                                        seasonOptions.indexOf(
+                                                            $seasonShown.season,
+                                                        )
+                                                    ] ?? '',
+                                            ),
+                                        },
+                                    ]}
+                                />
+                            {:else}
+                                <LocalizedText
+                                    path={(l) =>
+                                        l.ui.dialog.settings.season.unplaced}
+                                />
+                            {/if}
+                        </div>
+                    {/if}
                     <!-- Hidden when the creator has forced light, since a
                          project's colors are only ever flipped on a dark screen. -->
                     {#if $dark !== false}
@@ -777,6 +832,13 @@
        column. */
     label {
         display: contents;
+    }
+
+    /* What the season setting is doing, under its chooser in the control
+       column. */
+    .season-note {
+        grid-column: 2;
+        color: var(--wordplay-inactive-color);
     }
 
     /* Matches Mode's `.control`: an Options row's chooser and its cloud badge

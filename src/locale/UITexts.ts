@@ -2316,6 +2316,13 @@ type UITexts = {
             };
             /** The tabs that switch between groups of settings */
             tab: ModeText<[string, string, string, string]>;
+            /** What the season setting is doing (#108) */
+            season: {
+                /** [plain] Under the automatic season, which one it chose, e.g. "winter, typical where you are this month" */
+                auto: Template<['season']>;
+                /** [plain] Under the automatic season, when the device's time zone names no place, so no season is shown */
+                unplaced: string;
+            };
             /** Names the output each group of settings belongs to, so the labels
              *  beneath them don't each have to repeat it. Music and Say are the
              *  names of Wordplay's own output types; cues are the app's own
@@ -2354,6 +2361,25 @@ type UITexts = {
                 >;
                 /** The dark on/off/automatic mode */
                 dark: ModeText<[string, string, string]>;
+                /** The season the app dresses in (#108): automatic, none, then
+                 *  the ten seasons in the order of `Seasons` (wet, dry, hot, cool,
+                 *  spring, summer, autumn, winter, polar day, polar night) */
+                season: ModeText<
+                    [
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                        string,
+                    ]
+                >;
                 /** Whether a project's colors are shown as written or flipped to suit a dark screen */
                 adaptOutput: ModeText<[string, string]>;
                 /** The writing layout direction (automatic, horizontal, vertical rtl, vertical ltr) */

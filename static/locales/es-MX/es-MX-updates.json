@@ -1031,6 +1031,7 @@
         "e8b757ebd4689": "$~Al hacer clic en un texto creado con \\selectable\\, este se vuelve a seleccionar. Esto había dejado de funcionar en el ejemplo de la <página principal@https://wordplay.dev/> y en todos los proyectos.",
         "eb6f2bf5308ec": "$~En Safari, al presionar comenzar o reintentar en un proyecto que usa el micrófono o la cámara, ahora se pide permiso en lugar de no hacer nada.",
         "e71d907b44acc": "$~Arreglamos los emoji de color que se veían en blanco o en negro en iPhones y iPads con iOS 27, y ahora cargan más rápido en ellos.",
-        "e8bf14728ecca": "$~Cuando no has iniciado sesión, la ventana del estado de guardado ahora muestra cuántos proyectos están guardados solo en este dispositivo y cómo guardarlos en línea, en lugar de aparecer vacía."
+        "e8bf14728ecca": "$~Cuando no has iniciado sesión, la ventana del estado de guardado ahora muestra cuántos proyectos están guardados solo en este dispositivo y cómo guardarlos en línea, en lugar de aparecer vacía.",
+        "e6bd8c62fd1ab": "$~Agregamos estaciones del año. Estas dan color al sitio y llenan sus orillas con el clima de donde estás, como lluvia de monzón, hojas que caen o copos de nieve hechos con tus propias letras. Puedes elegir una estación o apagarlas en la configuración. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
     }
 }

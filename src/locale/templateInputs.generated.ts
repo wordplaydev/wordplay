@@ -692,6 +692,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.dialog.notifications.notification.reportReceivedHeader': ['title'],
     'ui.dialog.notifications.notification.reviewPending': ['#count'],
     'ui.dialog.notifications.popup': ['#count'],
+    'ui.dialog.settings.season.auto': ['season'],
     'ui.dialog.share.kit.version': ['version'],
     'ui.docs.kits.shares': ['names'],
     'ui.docs.link': ['name'],

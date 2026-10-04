@@ -1261,7 +1261,9 @@
                     "Çizimin kendisi asla hareketi göstermez. Hareket davranışsaldır — açılış sayfası, balonun söylediklerini dil seçici ile aynı adımda değiştirir ve yükleme sırasında şekiller sırayla zıplar, tıpkı Meksika dalgası yapan bir kalabalık gibi — ve her zaman animasyon hızı ayarına göre ölçeklenir, animasyon kapalıyken tamamen durur.",
                     "İşaret her zaman geçerli metin renginde çizilir, bu yüzden metnin kontrast gerekliliklerini karşıladığı her yerde logo da karşılar."
                 ],
-                "copyvalue": "$~tam CSS değerini kopyala"
+                "copyvalue": "$~tam CSS değerini kopyala",
+                "seasons": "$~Mevsimler",
+                "seasonsDescription": "$~Mevsimler sitenin renklerini değiştirir ve kenarlarına mevsime uygun semboller ekler. Her mevsim, açık ve koyu temanın yanında ikinci bir eksendir ve ikisi için de bir paleti vardır. Her palet, yayınlanmadan önce varsayılan paletle aynı karşıtlık denetimlerinden geçer. Her mevsimin renkleri ve şekilleri <mevsimler kaynağında@https://github.com/wordplaydev/wordplay/tree/main/src/seasons> veri olarak durur."
             },
             "thanks": {
                 "header": "$~Teşekkürler",

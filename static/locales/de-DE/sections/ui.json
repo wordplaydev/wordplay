@@ -1628,6 +1628,37 @@
                             "$~Sagen, wo der Cursor ist, welches Zeichen zu einem Begrenzer passt, welche Konflikte es gibt und was jede Änderung bewirkt hat",
                             "$~Auch sagen, worin der Cursor steht und welchen Typ jedes Ergebnis hat"
                         ]
+                    },
+                    "season": {
+                        "label": "$~Jahreszeit",
+                        "labels": [
+                            "$~automatisch",
+                            "$~keine",
+                            "$~nass",
+                            "$~trocken",
+                            "$~heiß",
+                            "$~kühl",
+                            "$~Frühling",
+                            "$~Sommer",
+                            "$~Herbst",
+                            "$~Winter",
+                            "$~Polartag",
+                            "$~Polarnacht"
+                        ],
+                        "tips": [
+                            "$~Die Seite bekommt die Jahreszeit, die bei dir gerade ist. Dafür nutzt sie das Datum und die Zeitzone deines Geräts. Dabei wird nichts irgendwohin gesendet.",
+                            "$~Keine Jahreszeit: die eigenen Farben von Wordplay",
+                            "$~Die Regenzeit: Regen, Wellen und Lotos auf einer grünen Seite",
+                            "$~Die Trockenzeit: Savannengras und Staub auf einer pergamentfarbenen Seite",
+                            "$~Die heiße Zeit: eine glühende Sonne und wandernde Dünen auf einer sandfarbenen Seite",
+                            "$~Die kühle Zeit: Wüstensterne und eine Mondsichel auf einer Seite in der Abenddämmerung",
+                            "$~Frühling: fallende Blütenblätter und Sprossen auf einer Seite in Blütenfarben",
+                            "$~Sommer: Glühwürmchen und ein Windspiel auf einer warmen Seite",
+                            "$~Herbst: fallende Blätter und vorbeiziehende Gänse auf einer ahornfarbenen Seite",
+                            "$~Winter: Schneeflocken aus deinen eigenen Buchstaben und ein Schneemann auf einer eisigen Seite",
+                            "$~Polartag: eine Mitternachtssonne, die nie untergeht, auf einer blassen Seite",
+                            "$~Polarnacht: ein Polarlicht und Sterne auf einer nachtblauen Seite"
+                        ]
                     }
                 },
                 "options": {
@@ -1656,6 +1687,10 @@
                     "music": "$~Musik",
                     "say": "$~Sprich",
                     "cues": "$~Signale"
+                },
+                "season": {
+                    "auto": "$~$season, typisch für deinen Ort in diesem Monat",
+                    "unplaced": "$~Die Zeitzone deines Geräts verrät nicht, wo du bist. Darum wird keine Jahreszeit angezeigt."
                 }
             },
             "locale": {

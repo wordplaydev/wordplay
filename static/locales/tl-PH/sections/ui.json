@@ -1911,6 +1911,37 @@
                             "$~Sabihin kung nasaan ang caret, ang katugma ng delimiter, mga conflict, at kung ano ang ginawa ng bawat pag-edit",
                             "$~Sabihin din kung ano ang pinaglalagyan ng caret at ang uri ng bawat resulta"
                         ]
+                    },
+                    "season": {
+                        "label": "$~panahon",
+                        "labels": [
+                            "$~awtomatiko",
+                            "$~wala",
+                            "$~maulan",
+                            "$~tuyo",
+                            "$~mainit",
+                            "$~malamig",
+                            "$~tagsibol",
+                            "$~tag-init",
+                            "$~taglagas",
+                            "$~taglamig",
+                            "$~araw sa polo",
+                            "$~gabi sa polo"
+                        ],
+                        "tips": [
+                            "$~bihisan ang site ayon sa panahon sa lugar mo, gamit ang petsa at ang time zone ng iyong device, nang walang ipinapadala kahit saan",
+                            "$~walang panahon: ang sariling mga kulay ng Wordplay",
+                            "$~ang tag-ulan: ulan, mga alon sa tubig, at lotus sa berdeng pahina",
+                            "$~ang tag-tuyot: damo ng sabana at alikabok sa pahinang kulay pergamino",
+                            "$~ang tag-init: nagniningas na araw at gumagalaw na buhangin sa pahinang kulay buhangin",
+                            "$~ang malamig na panahon: mga bituin sa disyerto at gasuklay na buwan sa pahinang kulay takipsilim",
+                            "$~tagsibol: nahuhulog na mga talulot at mga usbong sa pahinang may mga bulaklak",
+                            "$~tag-init: mga alitaptap at isang wind chime sa maaliwalas na pahina",
+                            "$~taglagas: nahuhulog na mga dahon at mga gansang dumaraan sa pahinang kulay maple",
+                            "$~taglamig: mga snowflake na gawa sa sarili mong mga letra, at isang taong-niyebe, sa pahinang malamig",
+                            "$~araw sa polo: isang araw sa hatinggabi na hindi lumulubog, sa maputlang pahina",
+                            "$~gabi sa polo: isang aurora at mga bituin sa pahinang kulay asul ng gabi"
+                        ]
                     }
                 },
                 "options": {
@@ -1939,6 +1970,10 @@
                     "music": "$~Musika",
                     "say": "$~Sabihin",
                     "cues": "$~Mga Senyas"
+                },
+                "season": {
+                    "auto": "$~$season, karaniwan sa kinaroroonan mo ngayong buwan",
+                    "unplaced": "$~hindi sinasabi ng time zone ng iyong device kung nasaan ka, kaya walang panahong ipinapakita"
                 }
             },
             "notifications": {

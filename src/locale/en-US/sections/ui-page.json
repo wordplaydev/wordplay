@@ -1312,6 +1312,8 @@
                 "description": "This is a reference for @wordplay's visual design system, including colors, fonts, spacing, and reusable components. See the <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> and <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> guides for contributing.",
                 "theme": "Theme",
                 "colors": "Colors",
+                "seasons": "Seasons",
+                "seasonsDescription": "Seasons recolor the site and add a seasonal glyphs to its margins. Each is a second axis beside light and dark, with a palette for both, and every palette passes the same contrast checks as the default before it can ship. Each season's colors and figures are data in <the seasons source@https://github.com/wordplaydev/wordplay/tree/main/src/seasons>.",
                 "accessibility": "Color Accessibility",
                 "accessibilityRules": [
                     "Anything rendered as *text* must use one of the AA text variants (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, or a semantic variable that points at one), which meet the 4.5:1 contrast that <WCAG 2.2@https://www.w3.org/TR/WCAG22/> requires. The brighter brand hues are only for backgrounds, borders, and highlights, which need 3:1 or nothing. These ratios are enforced by unit tests and by automated scans of every page, in both light and dark mode. One deliberate exception: the light-mode border grey is below 3:1, because borders here are decorative separation and every essential boundary carries another cue.",

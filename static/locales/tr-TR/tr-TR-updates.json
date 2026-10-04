@@ -1031,6 +1031,7 @@
         "e8b757ebd4689": "$~\\selectable\\ ile yapılan metne tıklamak onu yeniden seçer. Bu özellik <ana sayfa@https://wordplay.dev/> örneğinde ve tüm projelerde çalışmayı bırakmıştı.",
         "eb6f2bf5308ec": "$~Safari'de mikrofon veya kamera kullanan bir projede Başlat ya da Yeniden Dene düğmesine basınca artık hiçbir şey olmuyor demek yerine izin isteniyor.",
         "e71d907b44acc": "$~iOS 27 yüklü iPhone ve iPad'lerde boş veya siyah görünen renkli emojileri düzelttik. Orada daha hızlı yüklenmelerini de sağladık.",
-        "e8bf14728ecca": "$~Oturum açmadığında kaydetme durumu penceresi artık boş kalmıyor. Yalnızca bu cihaza kaydedilen proje sayısını ve onları çevrimiçi nasıl kaydedeceğini gösteriyor."
+        "e8bf14728ecca": "$~Oturum açmadığında kaydetme durumu penceresi artık boş kalmıyor. Yalnızca bu cihaza kaydedilen proje sayısını ve onları çevrimiçi nasıl kaydedeceğini gösteriyor.",
+        "e6bd8c62fd1ab": "$~Mevsimler ekledik. Mevsimler siteyi renklendirir ve kenarlarını bulunduğun yerin havasıyla doldurur. Örneğin muson yağmuru, düşen yapraklar ya da kendi harflerinden yapılmış kar taneleri görebilirsin. Bir mevsim seçebilir veya ayarlardan mevsimleri kapatabilirsin. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
     }
 }

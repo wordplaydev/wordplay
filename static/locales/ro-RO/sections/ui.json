@@ -1914,6 +1914,37 @@
                             "$~Spune unde este cursorul, perechea unui delimitator, conflictele și ce a făcut fiecare modificare",
                             "$~Spune și în ce se află cursorul și tipul fiecărui rezultat"
                         ]
+                    },
+                    "season": {
+                        "label": "$~anotimp",
+                        "labels": [
+                            "$~automat",
+                            "$~niciunul",
+                            "$~ploios",
+                            "$~uscat",
+                            "$~cald",
+                            "$~răcoros",
+                            "$~primăvară",
+                            "$~vară",
+                            "$~toamnă",
+                            "$~iarnă",
+                            "$~zi polară",
+                            "$~noapte polară"
+                        ],
+                        "tips": [
+                            "$~îmbracă site-ul în anotimpul în care te afli, folosind data și fusul orar al dispozitivului tău, fără să trimiți nimic nicăieri",
+                            "$~fără anotimp: culorile proprii ale Wordplay",
+                            "$~sezonul ploios: ploaie, valuri mici și lotuși pe o pagină verde",
+                            "$~sezonul uscat: iarbă de savană și praf pe o pagină de culoarea pergamentului",
+                            "$~sezonul cald: un soare arzător și dune în mișcare pe o pagină de culoarea nisipului",
+                            "$~sezonul răcoros: stele de deșert și o semilună pe o pagină de amurg",
+                            "$~primăvară: petale care cad și lăstari pe o pagină înflorită",
+                            "$~vară: licurici și un clopoțel de vânt pe o pagină caldă",
+                            "$~toamnă: frunze care cad și gâște care trec pe o pagină de culoarea arțarului",
+                            "$~iarnă: fulgi de nea făcuți din literele tale și un om de zăpadă pe o pagină înghețată",
+                            "$~zi polară: un soare de la miezul nopții care nu apune niciodată, pe o pagină palidă",
+                            "$~noapte polară: o aurora și stele pe o pagină albastru-noapte"
+                        ]
                     }
                 },
                 "options": {
@@ -1942,6 +1973,10 @@
                     "music": "$~Muzică",
                     "say": "$~Say",
                     "cues": "$~Semnale"
+                },
+                "season": {
+                    "auto": "$~$season, tipic pentru locul unde ești în această lună",
+                    "unplaced": "$~fusul orar al dispozitivului tău nu arată unde ești, așa că nu se afișează niciun anotimp"
                 }
             },
             "notifications": {

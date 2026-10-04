@@ -1648,6 +1648,37 @@
                             "$~İmlecin nerede olduğunu, ayırıcının eşini, çakışmaları ve her düzenlemenin ne yaptığını söyle",
                             "$~Ayrıca imlecin neyin içinde olduğunu ve her sonucun tipini söyle"
                         ]
+                    },
+                    "season": {
+                        "label": "$~mevsim",
+                        "labels": [
+                            "$~otomatik",
+                            "$~hiçbiri",
+                            "$~yağışlı",
+                            "$~kurak",
+                            "$~sıcak",
+                            "$~serin",
+                            "$~ilkbahar",
+                            "$~yaz",
+                            "$~sonbahar",
+                            "$~kış",
+                            "$~kutup gündüzü",
+                            "$~kutup gecesi"
+                        ],
+                        "tips": [
+                            "$~siteyi tarihe ve cihazının saat dilimine göre bulunduğun yerin mevsimiyle süsler, hiçbir şeyi hiçbir yere göndermez",
+                            "$~mevsim yok: Wordplay'in kendi renkleri",
+                            "$~yağışlı mevsim: yeşil bir sayfada yağmur, dalgacıklar ve nilüfer",
+                            "$~kurak mevsim: parşömen rengi bir sayfada savan otları ve toz",
+                            "$~sıcak mevsim: kum rengi bir sayfada kavurucu bir güneş ve sürüklenen kum tepeleri",
+                            "$~serin mevsim: alacakaranlık bir sayfada çöl yıldızları ve ince bir ay",
+                            "$~ilkbahar: çiçek renkli bir sayfada dökülen yaprakçıklar ve filizler",
+                            "$~yaz: sıcak renkli bir sayfada ateş böcekleri ve bir rüzgar çanı",
+                            "$~sonbahar: akçaağaç renkli bir sayfada düşen yapraklar ve geçen kazlar",
+                            "$~kış: buzlu bir sayfada kendi harflerinden yapılmış kar taneleri ve bir kardan adam",
+                            "$~kutup gündüzü: soluk bir sayfada hiç batmayan bir gece yarısı güneşi",
+                            "$~kutup gecesi: gece mavisi bir sayfada kutup ışıkları ve yıldızlar"
+                        ]
                     }
                 },
                 "options": {
@@ -1676,6 +1707,10 @@
                     "music": "$~Müzik",
                     "say": "$~Söyle",
                     "cues": "$~İpuçları"
+                },
+                "season": {
+                    "auto": "$~$season, bu ay bulunduğun yerde olağan mevsim",
+                    "unplaced": "$~cihazının saat dilimi nerede olduğunu söylemiyor, bu yüzden hiçbir mevsim gösterilmiyor"
                 }
             },
             "locale": {

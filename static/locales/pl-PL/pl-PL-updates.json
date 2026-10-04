@@ -1031,6 +1031,7 @@
         "e8b757ebd4689": "$~Kliknięcie tekstu zrobionego za pomocą \\selectable\\ znów go zaznacza. Ta funkcja przestała działać w przykładzie na <stronie głównej@https://wordplay.dev/> i w każdym projekcie.",
         "eb6f2bf5308ec": "$~W przeglądarce Safari naciśnięcie /Start/ lub /Spróbuj ponownie/ w projekcie, który używa mikrofonu lub kamery, teraz prosi o zgodę. Wcześniej nic się nie działo.",
         "e71d907b44acc": "$~Naprawiliśmy kolorowe emoji, które były puste lub czarne na iPhone'ach i iPadach z systemem iOS 27. Ładują się tam też szybciej.",
-        "e8bf14728ecca": "$~Gdy nie jesteś zalogowany, okno stanu zapisu pokazuje teraz, ile projektów jest zapisanych tylko na tym urządzeniu i jak zapisać je online. Wcześniej było puste."
+        "e8bf14728ecca": "$~Gdy nie jesteś zalogowany, okno stanu zapisu pokazuje teraz, ile projektów jest zapisanych tylko na tym urządzeniu i jak zapisać je online. Wcześniej było puste.",
+        "e6bd8c62fd1ab": "$~Dodaliśmy pory roku. Nadają one kolor stronie i wypełniają jej brzegi pogodą z miejsca, w którym jesteś, na przykład deszczem monsunowym, spadającymi liśćmi albo płatkami śniegu zrobionymi z twoich własnych liter. W ustawieniach możesz wybrać porę roku albo ją wyłączyć. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
     }
 }

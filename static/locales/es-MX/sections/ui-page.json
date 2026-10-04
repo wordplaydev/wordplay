@@ -1257,7 +1257,9 @@
                     "El dibujo en sí nunca muestra movimiento. El movimiento es del comportamiento: la página de inicio va cambiando lo que dice el globo al mismo ritmo que el selector de idioma, y mientras carga, las formas se turnan para saltar, como una multitud haciendo la ola, y siempre se ajusta a la configuración de velocidad de animación, deteniéndose por completo cuando la animación está apagada.",
                     "La marca siempre se dibuja con el color de texto actual, así que dondequiera que el texto cumpla los requisitos de contraste, el logotipo también los cumple."
                 ],
-                "copyvalue": "$~copiar el valor CSS completo"
+                "copyvalue": "$~copiar el valor CSS completo",
+                "seasons": "$~Estaciones",
+                "seasonsDescription": "$~Las estaciones cambian los colores del sitio y agregan glifos de temporada en sus márgenes. Cada una es un segundo eje junto a claro y oscuro, con una paleta para ambos, y cada paleta pasa las mismas pruebas de contraste que la predeterminada antes de publicarse. Los colores y las figuras de cada estación son datos en <la fuente de las estaciones@https://github.com/wordplaydev/wordplay/tree/main/src/seasons>."
             },
             "thanks": {
                 "header": "$~Gracias",

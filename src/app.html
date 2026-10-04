@@ -1434,6 +1434,12 @@
                 text-underline-offset: 0.16em;
             }
         </style>
+        <!-- Each season's palette (#108), generated from src/seasons/palettes.ts
+             by hooks.server.ts. Applies only under html[data-season], which
+             season-preload.js sets before the body paints. -->
+        <style id="seasons">
+            %wordplay.seasons%
+        </style>
 
         %sveltekit.head%
     </head>
@@ -1472,6 +1478,7 @@
             </h1>
             <p>%wordplay.system.noscript%</p>
         </noscript>
+        <script src="/scripts/season-preload.js"></script>
         <script src="/scripts/locale-preload.js"></script>
         <div id="wordplay-app">%sveltekit.body%</div>
         <div id="unsupported" style="display: none; margin: 1em">

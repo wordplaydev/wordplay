@@ -106,6 +106,9 @@ export async function expectNoAxeViolations(
 export async function useColorScheme(
     page: Page,
     scheme: 'light' | 'dark',
+    /** The page background to wait for as `#rrggbb`, when a season (#108)
+     *  tints it away from pure white and black. */
+    background?: string,
 ): Promise<void> {
     await page.emulateMedia({ colorScheme: scheme });
     await expect
@@ -114,7 +117,20 @@ export async function useColorScheme(
                 () => getComputedStyle(document.body).backgroundColor,
             ),
         )
-        .toBe(scheme === 'dark' ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)');
+        .toBe(
+            background !== undefined
+                ? hexToRGB(background)
+                : scheme === 'dark'
+                  ? 'rgb(0, 0, 0)'
+                  : 'rgb(255, 255, 255)',
+        );
+}
+
+/** `#rrggbb` as the `rgb(r, g, b)` getComputedStyle reports. */
+function hexToRGB(hex: string): string {
+    const channel = (offset: number) =>
+        parseInt(hex.slice(offset, offset + 2), 16);
+    return `rgb(${channel(1)}, ${channel(3)}, ${channel(5)})`;
 }
 
 /**

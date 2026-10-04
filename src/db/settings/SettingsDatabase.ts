@@ -35,7 +35,8 @@ import {
 import { FoldsSetting } from '#db/settings/FoldsSetting.ts';
 import type { Path } from '#nodes/Root.ts';
 import type { SerializedCaret } from '#db/projects/ProjectSchemas.ts';
-import { DarkSetting } from '#db/settings/DarkSetting.ts';
+import { DarkSetting, SeasonSetting } from '#db/settings/DarkSetting.ts';
+import type { SeasonChoice } from '#seasons/Season.ts';
 import { FaceSetting } from '#db/settings/FaceSetting.ts';
 import { EmailNotificationsSetting } from '#db/settings/EmailNotificationsSetting.ts';
 import type { EmailNotificationSettings } from 'shared-types';
@@ -353,6 +354,7 @@ export default class SettingsDatabase {
         words: WordsSetting,
         blockDensity: BlockDensitySetting,
         dark: DarkSetting,
+        season: SeasonSetting,
         adaptOutput: AdaptOutputSetting,
         space: SpaceSetting,
         lines: LineSetting,
@@ -905,6 +907,10 @@ export default class SettingsDatabase {
 
     setDark(dark: boolean | null) {
         this.settings.dark.set(this.database, dark);
+    }
+
+    setSeason(season: SeasonChoice) {
+        this.settings.season.set(this.database, season);
     }
 
     setAdaptOutput(on: boolean) {

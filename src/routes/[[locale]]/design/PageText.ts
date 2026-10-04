@@ -9,6 +9,10 @@ type PageText = {
     theme: string;
     /** [plain] Subheader for the colors section */
     colors: string;
+    /** [plain] Subheader for the seasons section, which shows every season's palette */
+    seasons: string;
+    /** [formatted] Explains seasons: a second axis beside light and dark, each with both modes, every palette contrast-checked, and where to suggest changes */
+    seasonsDescription: FormattedText;
     /** [plain] Subheader for the accessibility section */
     accessibility: string;
     /** [formatted] The color-accessibility rules contributors must follow: the text-variant vs background-hue split, the contrast requirements and how they're enforced, the border waiver, and never conveying meaning by color alone, with links to WCAG and the wiki */

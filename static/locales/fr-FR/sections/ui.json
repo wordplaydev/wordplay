@@ -1632,6 +1632,37 @@
                             "$~Dire où se trouve le curseur, la correspondance d'un délimiteur, les conflits et ce que chaque modification a fait",
                             "$~Dire aussi dans quoi se trouve le curseur et le type de chaque résultat"
                         ]
+                    },
+                    "season": {
+                        "label": "$~saison",
+                        "labels": [
+                            "$~auto",
+                            "$~aucune",
+                            "$~humide",
+                            "$~sèche",
+                            "$~chaude",
+                            "$~fraîche",
+                            "$~printemps",
+                            "$~été",
+                            "$~automne",
+                            "$~hiver",
+                            "$~jour polaire",
+                            "$~nuit polaire"
+                        ],
+                        "tips": [
+                            "$~habille le site aux couleurs de la saison où tu es, grâce à la date et au fuseau horaire de ton appareil, sans rien envoyer nulle part",
+                            "$~aucune saison : les couleurs propres de Wordplay",
+                            "$~la saison des pluies : pluie, ondulations et lotus sur une page verte",
+                            "$~la saison sèche : herbe de savane et poussière sur une page de parchemin",
+                            "$~la saison chaude : un soleil brûlant et des dunes mouvantes sur une page de sable",
+                            "$~la saison fraîche : étoiles du désert et croissant de lune sur une page du soir",
+                            "$~printemps : pétales qui tombent et jeunes pousses sur une page en fleurs",
+                            "$~été : lucioles et carillon à vent sur une page chaleureuse",
+                            "$~automne : feuilles qui tombent et oies qui passent sur une page d'érable",
+                            "$~hiver : des flocons faits de tes propres lettres et un bonhomme de neige sur une page glacée",
+                            "$~jour polaire : un soleil de minuit qui ne se couche jamais, sur une page pâle",
+                            "$~nuit polaire : une aurore et des étoiles sur une page bleu nuit"
+                        ]
                     }
                 },
                 "options": {
@@ -1660,6 +1691,10 @@
                     "music": "$~Musique",
                     "say": "$~Say",
                     "cues": "$~Signaux"
+                },
+                "season": {
+                    "auto": "$~$season, typique de là où tu es ce mois-ci",
+                    "unplaced": "$~le fuseau horaire de ton appareil ne dit pas où tu es, donc aucune saison ne s'affiche"
                 }
             },
             "locale": {

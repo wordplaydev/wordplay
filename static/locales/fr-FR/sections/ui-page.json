@@ -1257,7 +1257,9 @@
                     "Le dessin lui-même ne montre jamais de mouvement. Le mouvement est un comportement — la page d'accueil change ce que dit la bulle en même temps que le sélecteur de langue, et pendant le chargement les formes sautent chacune à leur tour, comme une foule qui fait la vague — et il suit toujours le réglage de vitesse d'animation. Il s'arrête tout à fait quand l'animation est désactivée.",
                     "La marque est toujours dessinée avec la couleur du texte actuel. Ainsi, partout où le texte respecte les règles de contraste, le logo les respecte aussi."
                 ],
-                "copyvalue": "$~copier la valeur CSS complète"
+                "copyvalue": "$~copier la valeur CSS complète",
+                "seasons": "$~Saisons",
+                "seasonsDescription": "$~Les saisons changent les couleurs du site et ajoutent des symboles de saison dans ses marges. Chaque saison est un deuxième réglage à côté de clair et sombre, avec une palette pour chacun des deux. Chaque palette réussit les mêmes tests de contraste que la palette par défaut avant d'être publiée. Les couleurs et les figures de chaque saison sont des données dans <la source des saisons@https://github.com/wordplaydev/wordplay/tree/main/src/seasons>."
             },
             "thanks": {
                 "header": "$~Merci",

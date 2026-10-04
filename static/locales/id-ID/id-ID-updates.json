@@ -1031,6 +1031,7 @@
         "e8b757ebd4689": "$~Mengklik teks yang dibuat dengan \\selectable\\ akan memilihnya lagi. Fitur ini sempat berhenti bekerja pada contoh di <halaman utama@https://wordplay.dev/> dan di semua proyek.",
         "eb6f2bf5308ec": "$~Di Safari, menekan Mulai atau Coba Lagi pada proyek yang memakai mikrofon atau kamera sekarang meminta izin, bukan diam saja.",
         "e71d907b44acc": "$~Kami memperbaiki emoji berwarna yang tampak kosong atau hitam di iPhone dan iPad dengan iOS 27. Emoji itu juga kini lebih cepat dimuat di sana.",
-        "e8bf14728ecca": "$~Saat kamu belum masuk, jendela status penyimpanan sekarang menunjukkan berapa banyak proyek yang hanya tersimpan di perangkat ini dan cara menyimpannya secara daring. Jendela itu tidak lagi kosong."
+        "e8bf14728ecca": "$~Saat kamu belum masuk, jendela status penyimpanan sekarang menunjukkan berapa banyak proyek yang hanya tersimpan di perangkat ini dan cara menyimpannya secara daring. Jendela itu tidak lagi kosong.",
+        "e6bd8c62fd1ab": "$~Kami menambahkan musim. Musim memberi warna pada situs dan mengisi tepinya dengan cuaca dari tempat Anda berada, seperti hujan muson, daun berguguran, atau kepingan salju yang dibuat dari huruf Anda sendiri. Anda bisa memilih satu musim atau mematikannya di pengaturan. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
     }
 }

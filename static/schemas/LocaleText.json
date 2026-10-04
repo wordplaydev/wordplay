@@ -18761,6 +18761,10 @@
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
                                                     "description": "How fast read aloud speaks: slower, normal, faster, or fastest"
                                                 },
+                                                "season": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                                    "description": "The season the app dresses in (#108): automatic, none, then the ten seasons in the order of `Seasons` (wet, dry, hot, cool, spring, summer, autumn, winter, polar day, polar night)"
+                                                },
                                                 "space": {
                                                     "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                                                     "description": "The space_indicator on/off mode"
@@ -18787,6 +18791,7 @@
                                                 "placement",
                                                 "animate",
                                                 "dark",
+                                                "season",
                                                 "adaptOutput",
                                                 "writing",
                                                 "blocks",
@@ -18843,6 +18848,22 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "season": {
+                                            "additionalProperties": false,
+                                            "description": "What the season setting is doing (#108)",
+                                            "properties": {
+                                                "auto": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22season%22%5D%3E",
+                                                    "description": "[plain] Under the automatic season, which one it chose, e.g. \"winter, typical where you are this month\""
+                                                },
+                                                "unplaced": {
+                                                    "description": "[plain] Under the automatic season, when the device's time zone names no place, so no season is shown",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["auto", "unplaced"],
+                                            "type": "object"
+                                        },
                                         "subheader": {
                                             "additionalProperties": false,
                                             "description": "Names the output each group of settings belongs to, so the labels beneath them don't each have to repeat it. Music and Say are the names of Wordplay's own output types; cues are the app's own sounds rather than a program's.",
@@ -18878,6 +18899,7 @@
                                         "header",
                                         "mode",
                                         "options",
+                                        "season",
                                         "subheader",
                                         "tab"
                                     ],
@@ -24260,6 +24282,14 @@
                                             "description": "[plain] Subheader for the palette colors subsection",
                                             "type": "string"
                                         },
+                                        "seasons": {
+                                            "description": "[plain] Subheader for the seasons section, which shows every season's palette",
+                                            "type": "string"
+                                        },
+                                        "seasonsDescription": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Explains seasons: a second axis beside light and dark, each with both modes, every palette contrast-checked, and where to suggest changes"
+                                        },
                                         "semantic": {
                                             "description": "[plain] Subheader for the semantic colors subsection",
                                             "type": "string"
@@ -24282,6 +24312,8 @@
                                         "description",
                                         "theme",
                                         "colors",
+                                        "seasons",
+                                        "seasonsDescription",
                                         "accessibility",
                                         "accessibilityRules",
                                         "palette",
@@ -30719,6 +30751,35 @@
             "required": ["label", "labels", "tips"],
             "type": "object"
         },
+        "ModeText<[string,string,string,string,string,string,string,string,string,string,string,string]>": {
+            "additionalProperties": false,
+            "properties": {
+                "label": {
+                    "description": "[plain] The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+                    "type": "string"
+                },
+                "labels": {
+                    "description": "[plain] A list of short labels, one per mode",
+                    "items": {
+                        "type": "string"
+                    },
+                    "maxItems": 12,
+                    "minItems": 12,
+                    "type": "array"
+                },
+                "tips": {
+                    "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
+                    "items": {
+                        "type": "string"
+                    },
+                    "maxItems": 12,
+                    "minItems": 12,
+                    "type": "array"
+                }
+            },
+            "required": ["label", "labels", "tips"],
+            "type": "object"
+        },
         "ModeText<[string,string,string,string,string,string,string,string,string,string]>": {
             "additionalProperties": false,
             "properties": {
@@ -32255,6 +32316,9 @@
             "type": "string"
         },
         "Template<[\"rows\",\"columns\"]>": {
+            "type": "string"
+        },
+        "Template<[\"season\"]>": {
             "type": "string"
         },
         "Template<[\"setOrMap\",\"key\"]>": {

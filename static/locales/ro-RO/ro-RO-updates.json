@@ -1031,6 +1031,7 @@
         "e8b757ebd4689": "$~Un clic pe textul creat cu \\selectable\\ îl selectează din nou. Acest lucru nu mai funcționa în exemplul de pe <pagina principală@https://wordplay.dev/> și în toate proiectele.",
         "eb6f2bf5308ec": "$~În Safari, dacă apeși Start sau Reîncearcă într-un proiect care folosește microfonul sau camera, acum ți se cere permisiunea. Înainte, nu se întâmpla nimic.",
         "e71d907b44acc": "$~Am reparat emoji-urile color care apăreau goale sau negre pe iPhone-urile și iPad-urile cu iOS 27. Acum se încarcă și mai repede acolo.",
-        "e8bf14728ecca": "$~Când nu ești conectat, fereastra cu starea salvării arată acum câte proiecte sunt salvate doar pe acest dispozitiv și cum le poți salva online. Înainte, fereastra era goală."
+        "e8bf14728ecca": "$~Când nu ești conectat, fereastra cu starea salvării arată acum câte proiecte sunt salvate doar pe acest dispozitiv și cum le poți salva online. Înainte, fereastra era goală.",
+        "e6bd8c62fd1ab": "$~Am adăugat anotimpuri, care colorează site-ul și umplu marginile lui cu vremea din locul unde te afli, ca ploaia de musoni, frunzele care cad sau fulgii de nea făcuți din propriile tale litere. Poți alege un anotimp sau le poți opri din setări. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
     }
 }

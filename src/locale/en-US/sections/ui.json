@@ -1853,6 +1853,10 @@
                         "how a program's music, speech, and captions reach you"
                     ]
                 },
+                "season": {
+                    "auto": "$season, typical where you are this month",
+                    "unplaced": "your device's time zone doesn't say where you are, so no season is showing"
+                },
                 "subheader": {
                     "music": "Music",
                     "say": "Say",
@@ -1925,6 +1929,37 @@
                             "lighter colors",
                             "darker colors",
                             "use the current device setting"
+                        ]
+                    },
+                    "season": {
+                        "label": "season",
+                        "labels": [
+                            "auto",
+                            "none",
+                            "wet",
+                            "dry",
+                            "hot",
+                            "cool",
+                            "spring",
+                            "summer",
+                            "autumn",
+                            "winter",
+                            "polar day",
+                            "polar night"
+                        ],
+                        "tips": [
+                            "dress the site in the season where you are, using the date and your device's time zone, without sending anything anywhere",
+                            "no season: Wordplay's own colors",
+                            "the rainy season: rain, ripples, and lotus on a green page",
+                            "the dry season: savanna grass and dust on a parchment page",
+                            "the hot season: a baking sun and drifting dunes on a sand page",
+                            "the cool season: desert stars and a crescent moon on a dusk page",
+                            "spring: falling petals and sprouts on a blossom page",
+                            "summer: fireflies and a wind chime on a warm page",
+                            "autumn: falling leaves and passing geese on a maple page",
+                            "winter: snowflakes made of your own letters, and a snowman, on an icy page",
+                            "polar day: a midnight sun that never sets, on a pale page",
+                            "polar night: an aurora and stars on a night-blue page"
                         ]
                     },
                     "adaptOutput": {
