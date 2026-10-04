@@ -90,7 +90,11 @@ const KEYCAP_RANGE = `${toRangeString(KEYCAP_TRIM)}, U+fe0f, U+20e3`;
 // BOTH here so an update can't leave one browser's declared ranges stale while
 // the other's move (which would tofu the new emoji on the stale browser).
 const CHROMIUM_SUPPORTS = '@supports not (-webkit-hyphens: none)';
-const SAFARI_SUPPORTS = '@supports (-webkit-hyphens: none)';
+// iOS WebKit matches both tests and desktop Safari only the first, so desktop
+// Safari's branch excludes iOS rather than relying on cascade order.
+const SAFARI_SUPPORTS =
+    '@supports (-webkit-hyphens: none) and (not (-webkit-touch-callout: none))';
+const IOS_SUPPORTS = '@supports (-webkit-touch-callout: none)';
 
 // Comments reproduced verbatim from the committed island — they encode WHY the
 // trim exists, so keep them next to the machine-generated ranges.
@@ -125,6 +129,11 @@ const SAFARI_KEYCAP_COMMENT = `    /* Keycap face — its OWN dedicated file (ke
        'Noto Color Emoji' slice 2 makes every other slice-2 emoji (💬 etc.) fall
        back to the system Apple emoji. Referenced ONLY via the .emoji-keycap
        class, never in a general cascade, so it doesn't shadow plain digits. */`;
+const IOS_INTRO = `    /* iOS Safari's color-emoji path. iOS 27 loads the OT-SVG font above but
+       paints none of its glyphs (iOS 26 paints them), while every iOS version
+       paints sbix, Apple's own bitmap format, so iOS gets Noto's PNGs as sbix,
+       sliced by the same partition. Every iOS browser is WebKit, and only iOS
+       WebKit supports -webkit-touch-callout. */`;
 const SAFARI_TRAILING = `    body {
         --google-font-color-notocoloremoji: colrv1;
     }`;
@@ -175,6 +184,22 @@ const SAFARI: Branch = {
         "            format('woff2');",
     ],
     // Safari's trimmed slice carries no per-slice comment (see committed island).
+    keycapComment: SAFARI_KEYCAP_COMMENT,
+    keycapCommentPlacement: 'before',
+};
+
+const IOS: Branch = {
+    supports: IOS_SUPPORTS,
+    intro: IOS_INTRO,
+    trailing: SAFARI_TRAILING,
+    src: (i) => [
+        `        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.sbix-${i}.woff2)`,
+        "            format('woff2');",
+    ],
+    keycapSrc: [
+        '        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.sbix-keycap.woff2)',
+        "            format('woff2');",
+    ],
     keycapComment: SAFARI_KEYCAP_COMMENT,
     keycapCommentPlacement: 'before',
 };
@@ -308,9 +333,10 @@ function regenerate(
     safariGaps?: ReadonlySet<number>,
 ): string {
     let out = css;
+    // Both WebKit fonts are built from the same Noto SVGs, so they share gaps.
     const emit = (b: Branch) =>
-        emitBranch(rawSlices, b, b === SAFARI ? safariGaps : undefined);
-    for (const branch of [CHROMIUM, SAFARI]) {
+        emitBranch(rawSlices, b, b === CHROMIUM ? undefined : safariGaps);
+    for (const branch of [CHROMIUM, SAFARI, IOS]) {
         const { start, end } = blockRegion(out, branch.supports);
         out = out.slice(0, start) + emit(branch) + out.slice(end);
     }
