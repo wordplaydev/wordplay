@@ -51,6 +51,37 @@
                 src: url(new-woff2-gzip.woff2) format('woff2');
             }
             @font-face {
+                font-family: 'D noto sans text';
+                src: url(noto-sans.woff2) format('woff2');
+            }
+            @font-face {
+                font-family: 'D noto emoji mono';
+                src: url(mono-emoji.woff2) format('woff2');
+            }
+            @font-face {
+                font-family: 'D prod then apple src';
+                src:
+                    url(prod-woff2-plain.woff2) format('woff2'),
+                    local('Apple Color Emoji');
+            }
+            /* Exactly as the app declares the slice, ranges and all. */
+            @font-face {
+                font-family: 'D app slice';
+                font-display: swap;
+                src: url(/fonts/NotoColorEmoji/NotoColorEmoji.svg-9.woff2)
+                    format('woff2');
+                unicode-range: U+1F600, U+1F34E;
+            }
+            @font-face {
+                font-family: 'D app slice then apple src';
+                font-display: swap;
+                src:
+                    url(/fonts/NotoColorEmoji/NotoColorEmoji.svg-9.woff2)
+                        format('woff2'),
+                    local('Apple Color Emoji');
+                unicode-range: U+1F600, U+1F34E;
+            }
+            @font-face {
                 font-family: 'D apple local';
                 src: local('Apple Color Emoji');
             }
@@ -131,6 +162,22 @@
             }
             for (const name of synthetic) row(name, '');
             for (const name of noto) row(name, '😀🍎');
+            row('noto sans text', 'Aa');
+            for (const name of [
+                'noto emoji mono',
+                'prod then apple src',
+                'app slice',
+                'app slice then apple src',
+            ])
+                row(name, '😀🍎');
+            // The app's stack: color face first, then the monochrome one.
+            const tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>app stack: slice, mono</td><td class="sample"></td><td class="sample"></td>';
+            tr.children[1].textContent = '😀🍎';
+            tr.children[1].style.fontFamily =
+                "'D app slice', 'D noto emoji mono'";
+            rows.append(tr);
             document.fonts.ready.then(() => {
                 document.getElementById('status').textContent =
                     navigator.userAgent +
