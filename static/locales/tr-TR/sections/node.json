@@ -1620,7 +1620,7 @@
             "emotion": "curious",
             "doc": [
                 "$~@FunctionDefinition'ı temsil ediyorum. @Bind'in ne tür bir işlevi tuttuğunu söylemek istiyorsanız gerçekten yardımcı olurum! Şöyle:",
-                "\\math•ƒ (# # # #) #: ƒ ilginç(a•# b•# c•# d•#) a + b + c + d\\🪲"
+                "\\math•ƒ (a•# b•# c•# d•#) #: ƒ ilginç(a•# b•# c•# d•#) a + b + c + d\\🪲"
             ]
         },
         "ListType": {

@@ -36,7 +36,7 @@
                 "Kaya ang pinakamahusay na paraan upang gamitin ito ay ang lumikha ng isang pagtatanghal na may pinangalanang mga pariralang mapipili @Phrase , at pagkatapos ay gumamit ng @Reaction upang magpasya kung ano ang gagawin kapag ang pangalang iyon ay napili.",
                 "Narito ang pinakasimpleng halimbawa:",
                 "\\Group(\nStack() \n[\nPhrase('one' mapipili:⊤ pangalan:'1') \nPhrase('two' mapipili:⊤ pangalan:'2') \nPhrase(Choice())\n]\n)\\",
-                "Kopyahin ito sa editor at pagkatapos ay pumili ng isa sa dalawang @Phrase . Makikita mo sa pangatlong @Phrase na nagpapakita ng pangalang napili."
+                "Kopyahin ito sa @editor at pagkatapos ay pumili ng isa sa dalawang @Phrase . Makikita mo sa pangatlong @Phrase na nagpapakita ng pangalang napili."
             ],
             "names": ["$~Pagpipilian"]
         },
@@ -48,7 +48,7 @@
                 "Ngunit kung /talagang/ kailangan mong makinig sa isang pindutan ng mouse, ito ang paraan para gawin ito. Magbibigay ito ng isang stream ng @Boolean, na kumakatawan kung ang pangunahing pindutan ay nasa itaas \\⊥\\ o nasa ibaba \\⊤\\.",
                 "Narito ang isang simpleng halimbawa:",
                 "\\Parirala(Butones() → '')\\",
-                "Gumagawa lang ito ng @Phrase na siyang @value ng stream bilang teksto. Kung kokopyahin mo ito sa editor at magki-click ka, makikita mong nagpapalit-palit ito sa pagitan ng \\⊥\\ at \\⊤\\."
+                "Gumagawa lang ito ng @Phrase na siyang @value ng stream bilang teksto. Kung kokopyahin mo ito sa @editor at magki-click ka, makikita mong nagpapalit-palit ito sa pagitan ng \\⊥\\ at \\⊤\\."
             ],
             "names": ["$~Butones"],
             "down": {
@@ -702,7 +702,7 @@
                 },
                 {
                     "doc": "$~Ang pinakamaraming bagay na babanggitin nang sabay-sabay.",
-                    "names": "$~bilang"
+                    "names": "$~bilangin"
                 }
             ],
             "categories": {

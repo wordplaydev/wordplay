@@ -1620,7 +1620,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Saya mewakili @FunctionDefinition. Saya sangat membantu jika Anda ingin menyatakan jenis fungsi apa yang dipegang oleh @Bind! Seperti ini:",
-                "\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\🪲"
+                "\\math•ƒ (a•# b•# c•# d•#) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\🪲"
             ]
         },
         "ListType": {

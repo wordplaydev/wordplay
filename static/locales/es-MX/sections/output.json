@@ -1504,7 +1504,7 @@
             "scale": {
                 "doc": [
                     "$~Qué notas significan mis números: una lista de desplazamientos en semitonos desde la primera nota.",
-                    "Una escala es el pequeño conjunto de notas con el que se construye una pieza, y elegir una es casi todo lo que decide un @state de ánimo. La misma melodía suena brillante en \\🎼.mayor\\, triste en \\🎼.menor\\, y de ensueño en \\🎼.tonoCompleto\\, sin cambiar ni un solo número.",
+                    "Una escala es el pequeño conjunto de notas con el que se construye una pieza, y elegir una es casi todo lo que decide un estado de ánimo. La misma melodía suena brillante en \\🎼.mayor\\, triste en \\🎼.menor\\, y de ensueño en \\🎼.tonoCompleto\\, sin cambiar ni un solo número.",
                     "Algunas de mis escalas no tienen notas equivocadas: \\🎼.pentatónica\\, \\🎼.pentatónicaMenor\\, y \\🎼.blues\\ suenan bien en cualquier orden, lo que los hace un buen punto de partida. Otros son tensos a propósito: \\🎼.alterada\\, \\🎼.disminuido\\, y \\🎼.locria\\ sonarán disonantes, y para eso sirven.",
                     "También puedes escribir tu propia lista. Esta es una escala pentatónica escrita: \\[0semitones 2semitones 4semitones 7semitones 9semitones]\\"
                 ],

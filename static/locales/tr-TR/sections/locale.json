@@ -33,7 +33,7 @@
             "definition": "$~Bir @FunctionDefinition için, @parameters birinden birine verdiğin bir @value."
         },
         "operator": {
-            "word": "$~işleç",
+            "word": "$~operatör",
             "definition": "$~Değerleri birleştiren veya karşılaştıran bir sembol, örneğin + veya -."
         },
         "condition": {
@@ -89,7 +89,7 @@
             "definition": "$~Bir @tutorial büyük bir bölümü, bir oyundaki perde gibi."
         },
         "how": {
-            "word": "$~nasıl yapılır rehberi",
+            "word": "$~nasıl yapılır kılavuzu",
             "definition": "$~Tek bir şeyi nasıl yapacağını gösteren kısa bir @guide."
         },
         "gallery": {
@@ -380,7 +380,7 @@
         },
         "av": {
             "name": "$~Ses/Görüntü",
-            "description": "$~Müzik"
+            "description": "$~Ses düzeyi, perde ve videoyu girdi, konuşmayı çıktı olarak kullanan örnekler."
         },
         "tools": {
             "name": "$~Aletler",

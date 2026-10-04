@@ -89,7 +89,7 @@
             "definition": "$~Ein großer Teil der @tutorial, wie ein Akt in einem Theaterstück."
         },
         "how": {
-            "word": "$~Kurzanleitung",
+            "word": "$~Anleitung",
             "definition": "$~Ein kurzer @guide, der zeigt, wie man eine Sache macht."
         },
         "gallery": {
@@ -117,7 +117,7 @@
             "definition": "$~Das durchsuchbare Nachschlagewerk, das die Ideen von @wordplay erklärt."
         },
         "tutorial": {
-            "word": "$~Anleitung",
+            "word": "$~Tutorial",
             "definition": "$~Die Schritt-für-Schritt-Lektionen, die @wordplay lehren."
         },
         "name": {

@@ -173,7 +173,7 @@
             "definition": "$~Isang may pangalang field sa isang @Table."
         },
         "editor": {
-            "word": "$~patnugutan",
+            "word": "$~editor",
             "definition": "$~Ang kahon kung saan isinusulat mo ang @code. Ang itinatype mo roon ang ipinapatupad ng @wordplay."
         },
         "stage": {

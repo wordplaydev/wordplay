@@ -1620,7 +1620,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Reprezentuję @FunctionDefinition. Jestem naprawdę pomocny, jeśli chcesz powiedzieć, jaki rodzaj funkcji posiada @Bind! Tak jak to:",
-                "\\math•ƒ (# # # #) #: ƒ interesujące(a•# b•# c•# d•#) a + b + c + d\\🪲"
+                "\\math•ƒ (a•# b•# c•# d•#) #: ƒ interesujące(a•# b•# c•# d•#) a + b + c + d\\🪲"
             ]
         },
         "ListType": {

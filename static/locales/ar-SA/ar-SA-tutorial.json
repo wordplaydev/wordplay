@@ -12,12 +12,7 @@
                     "subtitle": null,
                     "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
-                        [
-                            "FunctionDefinition",
-                            "bored",
-                            "أهلاً... أوه، مرحباً!",
-                            "...أوه، مرحباً!"
-                        ],
+                        ["FunctionDefinition", "bored", "...أوه، مرحباً!"],
                         null,
                         ["FunctionDefinition", "neutral", "هل أعرفك؟"],
                         null,

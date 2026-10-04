@@ -375,7 +375,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "¡Qué bueno verte a ti también! Ha sido mucho tiempo. ¿Qué has @state haciendo en todo este silencio?"
+                            "¡Qué bueno verte a ti también! Ha sido mucho tiempo. ¿Qué has estado haciendo en todo este silencio?"
                         ],
                         [
                             "UnparsableExpression",
@@ -521,7 +521,7 @@
                         [
                             "Evaluate",
                             "shy",
-                            "En ningún lugar. No estoy en ninguna parte. No soy nada. ¿Dónde has @state?"
+                            "En ningún lugar. No estoy en ninguna parte. No soy nada. ¿Dónde has estado?"
                         ],
                         null,
                         [
@@ -802,7 +802,7 @@
                         [
                             "Text",
                             "happy",
-                            "$~Bienvenido, mi querido amigo, cuánto tiempo ha pasado. ¿Qué has @state haciendo en este dramático silencio nuestro?"
+                            "$~Bienvenido, mi querido amigo, cuánto tiempo ha pasado. ¿Qué has estado haciendo en este dramático silencio nuestro?"
                         ],
                         null,
                         [
@@ -1081,7 +1081,7 @@
                         [
                             "FunctionDefinition",
                             "scared",
-                            "¡Oh, me asustaste! Sabía que ustedes dos no estarían muy separados. ¿Cómo han @state ustedes dos en nuestro largo silencio?"
+                            "¡Oh, me asustaste! Sabía que ustedes dos no estarían muy separados. ¿Cómo han estado ustedes dos en nuestro largo silencio?"
                         ],
                         ["⊤", "precise", "$~¡Muy bien!"],
                         ["⊥", "precise", "$~No está mal."],
@@ -1504,7 +1504,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~¡Te encontramos! Te ves bien. ¿Cómo has @state con todo este silencio?"
+                            "$~¡Te encontramos! Te ves bien. ¿Cómo has estado con todo este silencio?"
                         ],
                         ["None", "excited", "…"],
                         null,
@@ -1977,7 +1977,7 @@
                         [
                             "Map",
                             "curious",
-                            "$~Ah, qué bueno. Bueno, porque hay algo que reparar ahí, amigo mío... ¿Cómo has @state?"
+                            "$~Ah, qué bueno. Bueno, porque hay algo que reparar ahí, amigo mío... ¿Cómo has estado?"
                         ],
                         [
                             "FunctionDefinition",
@@ -2160,7 +2160,7 @@
                         [
                             "Convert",
                             "happy",
-                            "$~Amiiiigo, @FunctionDefinition, ¡ha pasado una eternidad! Te ves elegante. Ha @state súper tranquilo últimamente, ¿verdad? ¿Tienes un nuevo amigo?"
+                            "$~Amiiiigo, @FunctionDefinition, ¡ha pasado una eternidad! Te ves elegante. Ha estado súper tranquilo últimamente, ¿verdad? ¿Tienes un nuevo amigo?"
                         ],
                         null,
                         [
@@ -2341,7 +2341,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~¡Sí, el silencio se rompe, y son ellos! Son una persona, y vinieron a inspirarnos y dirigir nuestros espectáculos. Hemos @state hablando de conversiones y conociendo todos los valores, ¡y @Text y @Convert y yo queríamos que te conocieran! En cierto modo, tú eres la más especial de las conversiones porque nos permites convertir situaciones en nuevos valores."
+                            "$~¡Sí, el silencio se rompe, y son ellos! Son una persona, y vinieron a inspirarnos y dirigir nuestros espectáculos. Hemos estado hablando de conversiones y conociendo todos los valores, ¡y @Text y @Convert y yo queríamos que te conocieran! En cierto modo, tú eres la más especial de las conversiones porque nos permites convertir situaciones en nuevos valores."
                         ],
                         [
                             "Conditional",
@@ -2976,7 +2976,7 @@
                         [
                             "Reaction",
                             "excited",
-                            "$~¡Sí, sí, sí! ¡Soy @FunctionDefinition! ¿Cómo estás? Todo ha @state tan… constante últimamente. ¿Te has dado cuenta?"
+                            "$~¡Sí, sí, sí! ¡Soy @FunctionDefinition! ¿Cómo estás? Todo ha estado tan… constante últimamente. ¿Te has dado cuenta?"
                         ],
                         null,
                         { "fit": "Phrase('…' resting:Pose(rotation: 240°))" },
@@ -3174,7 +3174,7 @@
                         [
                             "Phrase",
                             "curious",
-                            "$~No seas modesto; eres tan fabuloso como yo. Todo lo que necesitas es un poco de color, una fuente favorecedora, y serías maravilloso. ¡Tienes tanto que compartir! Hablando de eso, no hemos hecho un espectáculo en mucho tiempo, ¿verdad? ¿Ha @state tranquilo? Sabes cuánto hablo sola; nunca puedo darme cuenta."
+                            "$~No seas modesto; eres tan fabuloso como yo. Todo lo que necesitas es un poco de color, una fuente favorecedora, y serías maravilloso. ¡Tienes tanto que compartir! Hablando de eso, no hemos hecho un espectáculo en mucho tiempo, ¿verdad? ¿Ha estado tranquilo? Sabes cuánto hablo sola; nunca puedo darme cuenta."
                         ],
                         null,
                         [
@@ -3583,7 +3583,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "@Sequence, ¡esto es genial! Esto es exactamente lo que esperaba que pudieras mostrarnos. Pero tengo curiosidad, ¿en qué has @state trabajando últimamente, tus propios bailes? ¿Quizás algo que demuestre todo lo que eres capaz de hacer?"
+                            "@Sequence, ¡esto es genial! Esto es exactamente lo que esperaba que pudieras mostrarnos. Pero tengo curiosidad, ¿en qué has estado trabajando últimamente, tus propios bailes? ¿Quizás algo que demuestre todo lo que eres capaz de hacer?"
                         ],
                         [
                             "Sequence",
@@ -3625,7 +3625,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Ay… todos siguen mencionando a @Evaluate, pero no sé qué decir. ¿Alguna vez has @state tan cerca de alguien y a la vez tan lejos?",
+                            "$~Ay… todos siguen mencionando a @Evaluate, pero no sé qué decir. ¿Alguna vez has estado tan cerca de alguien y a la vez tan lejos?",
                             "…"
                         ],
                         null,
@@ -3882,7 +3882,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Vale, hay alguien que ha @state aquí todo el tiempo, pero realmente no hemos hecho una presentación adecuada. ¿Puedo presentar a @Stage?"
+                            "Vale, hay alguien que ha estado aquí todo el tiempo, pero realmente no hemos hecho una presentación adecuada. ¿Puedo presentar a @Stage?"
                         ],
                         [
                             "Stage",
@@ -4386,7 +4386,7 @@
                         [
                             "Bind",
                             "curious",
-                            "$~¿@FunctionDefinition? Ay, vaya, sí eres tú. Ha @state en completo silencio por demasiado tiempo. ¿Quién es tu amigo?"
+                            "$~¿@FunctionDefinition? Ay, vaya, sí eres tú. Ha estado en completo silencio por demasiado tiempo. ¿Quién es tu amigo?"
                         ],
                         null,
                         {
@@ -4630,7 +4630,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Así que hay un personaje que ha @state aquí todo el tiempo y que aún no conoces, pero ha estado escondido… Trabaja muy de cerca con @Bind y muchas otras personas, así que pensé que deberíamos hablar con ella a continuación. @Block, ¿quieres salir?"
+                            "$~Así que hay un personaje que ha estado aquí todo el tiempo y que aún no conoces, pero ha estado escondido… Trabaja muy de cerca con @Bind y muchas otras personas, así que pensé que deberíamos hablar con ella a continuación. @Block, ¿quieres salir?"
                         ],
                         ["Block", "shy", "… hola"],
                         null,
@@ -5226,7 +5226,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~Vaya, hemos avanzado mucho, ¿no? Nos queda un personaje más. Es interesante porque, en esencia, se trata de explicar cosas, que es lo que siento que he @state haciendo contigo desde hace rato. Su nombre es @Doc. ¿Qué tal, @Doc?"
+                            "$~Vaya, hemos avanzado mucho, ¿no? Nos queda un personaje más. Es interesante porque, en esencia, se trata de explicar cosas, que es lo que siento que he estado haciendo contigo desde hace rato. Su nombre es @Doc. ¿Qué tal, @Doc?"
                         ],
                         { "fit": "#Symbol ¶" },
                         [
@@ -5482,7 +5482,7 @@
                         [
                             "Evaluate",
                             "sad",
-                            "@FunctionDefinition, ¿dónde has @state?"
+                            "@FunctionDefinition, ¿dónde has estado?"
                         ],
                         [
                             "FunctionDefinition",
