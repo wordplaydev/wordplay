@@ -355,7 +355,7 @@
                 "denied": "$~$name não foi listado no guia."
             }
         },
-        "noAddress": "$~O Wordplay não tem nenhum endereço de email seu, por isso nada aqui o pode contactar por email. Pode adicionar um no seu <perfil@/profile>.",
+        "noAddress": "$~O Wordplay não tem nenhum endereço de email seu, por isso nada aqui o pode contactar por email. Pode adicionar um no seu <perfil@://profile>.",
         "subject": {
             "project": "$~projeto",
             "gallery": "$~galeria",

@@ -355,7 +355,7 @@
                 "denied": "$~$name rehberde listelenmedi."
             }
         },
-        "noAddress": "$~Wordplay senin için kayıtlı bir e-posta adresi bulamadı, bu yüzden buradaki hiçbir şey sana e-posta ile ulaşamaz. <profil@/profile> sayfandan bir tane ekleyebilirsin.",
+        "noAddress": "$~Wordplay senin için kayıtlı bir e-posta adresi bulamadı, bu yüzden buradaki hiçbir şey sana e-posta ile ulaşamaz. <profil@://profile> sayfandan bir tane ekleyebilirsin.",
         "subject": {
             "project": "$~proje",
             "gallery": "$~galeri",

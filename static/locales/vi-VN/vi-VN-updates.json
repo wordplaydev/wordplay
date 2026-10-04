@@ -1027,6 +1027,10 @@
         "e33c0fa9452a4": "$~Menu gợi ý giờ đây luôn mở và thu hẹp danh sách khi bạn gõ.",
         "e6c77df016241": "$~Ở chế độ /khối/, chúng tôi đã sửa lỗi khi kéo mã số xuống dưới phần cuối của chương trình và khi kéo mã số vào mã số có lỗi. Trước đây cả hai việc này đều không làm gì cả.",
         "e7f1566676e7a": "$~Chúng tôi đã sửa các liên kết ở những ngôn ngữ khác bị hiện thành chữ lỗi hoặc dẫn đến trang không tồn tại. Lỗi này có ở trang chủ, trang <Giới thiệu@https://wordplay.dev/about>, bài học nhanh và trong các thông báo trên khắp trang web.",
-        "e221a0b8c05d5": "$~Chúng tôi đã sửa các lựa chọn hiển thị nhạc trong phần cài đặt tiếng Thổ Nhĩ Kỳ, nơi mỗi tên và mô tả bị hiện cạnh sai lựa chọn."
+        "e221a0b8c05d5": "$~Chúng tôi đã sửa các lựa chọn hiển thị nhạc trong phần cài đặt tiếng Thổ Nhĩ Kỳ, nơi mỗi tên và mô tả bị hiện cạnh sai lựa chọn.",
+        "e8b757ebd4689": "$~Nhấp vào chữ được tạo bằng \\selectable\\ sẽ chọn lại chữ đó. Tính năng này đã ngừng hoạt động trong ví dụ trên <trang chủ@https://wordplay.dev/> và trong mọi dự án.",
+        "eb6f2bf5308ec": "$~Trong Safari, khi nhấn Bắt đầu hoặc Thử lại ở một dự án dùng micro hoặc máy ảnh, giờ đây trình duyệt sẽ xin phép thay vì không làm gì cả.",
+        "e71d907b44acc": "$~Chúng tôi đã sửa lỗi biểu tượng cảm xúc có màu bị trống hoặc bị đen trên iPhone và iPad dùng iOS 27, và làm cho chúng tải nhanh hơn.",
+        "e8bf14728ecca": "$~Khi bạn chưa đăng nhập, cửa sổ trạng thái lưu giờ đây cho biết có bao nhiêu dự án chỉ được lưu trên thiết bị này và cách lưu chúng lên mạng, thay vì để trống."
     }
 }

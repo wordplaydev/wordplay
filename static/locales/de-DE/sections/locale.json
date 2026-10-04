@@ -355,7 +355,7 @@
                 "denied": "$~$name wurde nicht im Leitfaden gelistet."
             }
         },
-        "noAddress": "$~Wordplay hat keine E-Mail-Adresse für dich, also kann dich hier nichts per E-Mail erreichen. Du kannst eine auf deinem <Profil@/profile> hinzufügen.",
+        "noAddress": "$~Wordplay hat keine E-Mail-Adresse für dich, also kann dich hier nichts per E-Mail erreichen. Du kannst eine auf deinem <Profil@://profile> hinzufügen.",
         "subject": {
             "project": "$~Projekt",
             "gallery": "$~Galerie",

@@ -202,9 +202,9 @@
                     "indexedDBUnsupported": "$~Ihr Browser erlaubt @wordplay nicht, Projekte auf diesem Gerät zu speichern.",
                     "firestoreBatchFailed": "$~Wir konnten diese nicht in die Cloud senden. Sie sind noch sicher auf diesem Gerät.",
                     "projectContainsPII": "$~Diese Projekte scheinen persönliche Informationen zu enthalten, daher haben wir sie nicht online gespeichert. Öffnen Sie jedes Projekt, um zu prüfen, welche Informationen persönlich erscheinen.",
-                    "localProjectStorageFailed": "$~Auf diesem Gerät war kein Speicherplatz mehr verfügbar, und diese Projekte befinden sich noch nicht in der Cloud, daher sind sie gefährdet.<Sign in@/login> Dadurch werden sie online gespeichert, anstatt nur auf diesem Gerät.",
+                    "localProjectStorageFailed": "$~Auf diesem Gerät war kein Speicherplatz mehr verfügbar, und diese Projekte befinden sich noch nicht in der Cloud, daher sind sie gefährdet.<Sign in@://login> Dadurch werden sie online gespeichert, anstatt nur auf diesem Gerät.",
                     "projectTooLarge": "$~Diese Projekte sind zu groß, um sie online zu speichern. Sie sind auf diesem Gerät weiterhin sicher. Versuche, sie kleiner zu machen.",
-                    "noCloudTarget": "$~Diese Projekte sind nur auf diesem Gerät, weil @wordplay keinen Ort hatte, um sie online zu speichern. <Melde dich an@/login>, um sie zu speichern.",
+                    "noCloudTarget": "$~Diese Projekte sind nur auf diesem Gerät, weil @wordplay keinen Ort hatte, um sie online zu speichern. <Melde dich an@://login>, um sie zu speichern.",
                     "cloudWriteRefused": "$~Die Cloud hat diese Änderungen nicht angenommen. Deshalb haben wir die Version aus dem Internet verwendet. Wenn du glaubst, dass du diese ändern können solltest, frag die Person, die sie mit dir geteilt hat."
                 },
                 "projectsNotSavingOnline": "$~Einige Projekte sind nur auf diesem Gerät, noch nicht online."
@@ -2031,18 +2031,24 @@
                 "columns": {
                     "device": "$~auf diesem Gerät",
                     "cloud": "$~in der Wolke",
-                    "unsaved": "$~nicht gespeichert"
+                    "unsaved": "$~nicht gespeichert",
+                    "state": "$~Status"
                 },
                 "state": {
                     "synced": "$~synchronisiert",
                     "loading": "$~Laden",
                     "syncing": "$~sparen",
                     "offline": "$~offline",
-                    "failed": "$~fehlgeschlagen"
+                    "failed": "$~fehlgeschlagen",
+                    "local": "$~nur auf diesem Gerät"
                 },
                 "conversation": "$~ein Gespräch",
                 "legend": "$~„Nicht gespeichert“ bedeutet, dass die Daten hier gespeichert sind, Sie aber noch nicht online sind. Die Daten werden gespeichert, sobald Sie wieder online sind.",
-                "errorsHeader": "$~Manche Dinge konnten nicht online gespeichert werden:"
+                "errorsHeader": "$~Manche Dinge konnten nicht online gespeichert werden:",
+                "local": {
+                    "intro": "$~Deine Arbeit wird nur in diesem Browser auf diesem Gerät gespeichert. Wenn die Daten dieses Browsers gelöscht werden, ist sie weg. <Melde dich an@://login>, um sie online zu speichern und überall zu nutzen.",
+                    "legend": "$~Ein Strich bedeutet, dass es erst nach der Anmeldung gilt."
+                }
             }
         },
         "edit": {
@@ -2847,7 +2853,7 @@
             "meter": "$~heute genutzte Übersetzung",
             "exhaustedHours": "$~Du hast dein Übersetzungslimit für heute erreicht. Versuche es in etwa $#hours[$hours Stunde|$hours Stunden] wieder.",
             "exhaustedMinutes": "$~Du hast dein Übersetzungslimit für heute erreicht. Versuche es in etwa $#minutes[$minutes Minute|$minutes Minuten] wieder.",
-            "signIn": "$~Zum Übersetzen brauchst du ein Konto, damit alle einen fairen Anteil bekommen. <Melde dich an oder registriere dich@/login>, um dein Projekt zu übersetzen.",
+            "signIn": "$~Zum Übersetzen brauchst du ein Konto, damit alle einen fairen Anteil bekommen. <Melde dich an oder registriere dich@://login>, um dein Projekt zu übersetzen.",
             "progressLabel": "$~Übersetzungsfortschritt",
             "analyzing": "$~Dein Programm wird gelesen …",
             "revising": "$~Die neuen Wörter werden eingefügt …",

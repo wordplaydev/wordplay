@@ -355,7 +355,7 @@
                 "denied": "$~Hindi nailista ang $name sa gabay."
             }
         },
-        "noAddress": "$~Walang email address para sa iyo sa Wordplay, kaya walang makakarating sa iyo dito sa pamamagitan ng email. Maaari kang magdagdag ng isa sa iyong <profile@/profile>.",
+        "noAddress": "$~Walang email address para sa iyo sa Wordplay, kaya walang makakarating sa iyo dito sa pamamagitan ng email. Maaari kang magdagdag ng isa sa iyong <profile@://profile>.",
         "subject": {
             "project": "$~proyekto",
             "gallery": "$~gallery",

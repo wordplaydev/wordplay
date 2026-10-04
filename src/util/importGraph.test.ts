@@ -756,6 +756,11 @@ test('resolving a color needs no basis', () => {
  * there put this page over its budget, which is how we know the door is real.
  * `galleries` is the one entry with no slack left, so only its byte budget
  * moves.
+ *
+ * Telling a signed-out creator where their work is saved is **+0 files** and
+ * a few hundred bytes: three strings in `en-US.json` and a second branch in
+ * `Status.svelte`, the footer's save-status dialog, which every page already
+ * mounts. `galleries` again had no slack, so only its byte budget moves.
  */
 // These are ceilings, not measurements: raise one only for code that genuinely belongs on
 // the page's graph, never to quiet a leak. Bytes creeping is usually `en-US.json` growing,
@@ -994,7 +999,7 @@ test.each([
     ['src/routes/+layout.svelte', 539, 4.18],
     ['src/components/app/Page.svelte', 562, 4.43],
     ['src/routes/[[locale]]/+page.svelte', 577, 4.52],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 582, 4.53],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 582, 4.54],
     ['src/routes/[[locale]]/projects/+page.svelte', 591, 4.57],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);

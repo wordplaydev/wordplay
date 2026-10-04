@@ -22,6 +22,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🖱️ Clicking on text made with `selectable` picks it again, which stopped working on the [home page](https://wordplay.dev/) example and in every project.
 - 🎤 In Safari, pressing Start or Retry on a project that uses the microphone or camera now asks for permission instead of doing nothing.
 - 🔣 We fixed color emoji that showed up blank or black on iPhones and iPads with iOS 27, and made them faster to load there.
+- 💾 When you're not signed in, the save status window now shows how many projects are saved only on this device, and how to save them online, instead of being empty.
 
 ## 0.38.3 - 2026-10-01
 

@@ -2679,6 +2679,8 @@ type UITexts = {
                 cloud: string;
                 /** [plain] Column header: how many are not yet saved online */
                 unsaved: string;
+                /** [plain] Column header: how each kind of thing is syncing with the cloud */
+                state: string;
             };
             /** Words describing how a kind of thing is syncing with the cloud. */
             state: {
@@ -2692,6 +2694,8 @@ type UITexts = {
                 offline: string;
                 /** [plain] A save or sync failed */
                 failed: string;
+                /** [plain] Signed out: kept only on this device, with no cloud to save to */
+                local: string;
             };
             /** [plain] Name for a conversation with no title, in the error list */
             conversation: string;
@@ -2699,6 +2703,14 @@ type UITexts = {
             legend: string;
             /** [plain] Header above the list of things that couldn't be saved */
             errorsHeader: string;
+            /** What the save-status dialog says when no one is signed in, in place
+             *  of the intro and legend above. */
+            local: {
+                /** [formatted] One-line explanation at the top of the save-status dialog when signed out: work is only in this browser, and signing in saves it online */
+                intro: FormattedText;
+                /** [plain] Explains the dashes in the cloud and unsaved columns when signed out */
+                legend: string;
+            };
         };
     };
     /** Banner shown when the device is offline or Firebase is unreachable. */

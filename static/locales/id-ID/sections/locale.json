@@ -349,7 +349,7 @@
                 "denied": "$~$name tidak dimasukkan ke panduan."
             }
         },
-        "noAddress": "$~Wordplay tidak punya alamat email untukmu, jadi tidak ada yang bisa menghubungimu lewat email. Kamu bisa menambahkannya di <profil@/profile>.",
+        "noAddress": "$~Wordplay tidak punya alamat email untukmu, jadi tidak ada yang bisa menghubungimu lewat email. Kamu bisa menambahkannya di <profil@://profile>.",
         "subject": {
             "project": "$~proyek",
             "gallery": "$~galeri",

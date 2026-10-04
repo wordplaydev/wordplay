@@ -1027,6 +1027,10 @@
         "e33c0fa9452a4": "$~Le menu des suggestions reste maintenant ouvert et se réduit pendant que tu écris.",
         "e6c77df016241": "$~En mode blocs, nous avons corrigé le glissement de code sous la fin d'un programme et sur du code qui contient une erreur. Avant, ces deux actions ne faisaient rien.",
         "e7f1566676e7a": "$~Nous avons corrigé les liens dans les autres langues qui s'affichaient comme du texte cassé ou menaient à des pages introuvables, sur la page d'accueil, la page <À propos@https://wordplay.dev/about>, le tutoriel rapide et dans les messages du site.",
-        "e221a0b8c05d5": "$~Nous avons corrigé les choix d'affichage de la musique dans les réglages en turc, qui montraient chaque nom et chaque description à côté de la mauvaise option."
+        "e221a0b8c05d5": "$~Nous avons corrigé les choix d'affichage de la musique dans les réglages en turc, qui montraient chaque nom et chaque description à côté de la mauvaise option.",
+        "e8b757ebd4689": "$~Cliquer sur un texte créé avec \\selectable\\ le sélectionne de nouveau. Cela ne marchait plus dans l'exemple de la <page d'accueil@https://wordplay.dev/> et dans tous les projets.",
+        "eb6f2bf5308ec": "$~Dans Safari, quand tu appuies sur Commencer ou sur Réessayer dans un projet qui utilise le microphone ou la caméra, une demande d'autorisation s'affiche maintenant. Avant, rien ne se passait.",
+        "e71d907b44acc": "$~Nous avons corrigé les émojis en couleur qui s'affichaient vides ou noirs sur les iPhone et les iPad avec iOS 27. Ils se chargent aussi plus vite sur ces appareils.",
+        "e8bf14728ecca": "$~Quand tu n'es pas connecté, la fenêtre de l'état de sauvegarde n'est plus vide. Elle indique combien de projets sont enregistrés seulement sur cet appareil, et comment les sauvegarder en ligne."
     }
 }

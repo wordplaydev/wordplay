@@ -1027,6 +1027,10 @@
         "e33c0fa9452a4": "$~El menú de sugerencias ahora se queda abierto y se reduce mientras escribes.",
         "e6c77df016241": "$~En el modo de bloques, arreglamos arrastrar código debajo del final de un programa y sobre código que tiene un error. Antes, ninguna de las dos acciones hacía nada.",
         "e7f1566676e7a": "$~Arreglamos los enlaces en otros idiomas que aparecían como texto roto o llevaban a páginas que no existían, en la página de inicio, la página <Acerca de@https://wordplay.dev/about>, el tutorial rápido y los mensajes de todo el sitio.",
-        "e221a0b8c05d5": "$~Arreglamos las opciones de visualización de música en la configuración en turco, que mostraban cada nombre y descripción junto a la opción equivocada."
+        "e221a0b8c05d5": "$~Arreglamos las opciones de visualización de música en la configuración en turco, que mostraban cada nombre y descripción junto a la opción equivocada.",
+        "e8b757ebd4689": "$~Al hacer clic en un texto creado con \\selectable\\, este se vuelve a seleccionar. Esto había dejado de funcionar en el ejemplo de la <página principal@https://wordplay.dev/> y en todos los proyectos.",
+        "eb6f2bf5308ec": "$~En Safari, al presionar comenzar o reintentar en un proyecto que usa el micrófono o la cámara, ahora se pide permiso en lugar de no hacer nada.",
+        "e71d907b44acc": "$~Arreglamos los emoji de color que se veían en blanco o en negro en iPhones y iPads con iOS 27, y ahora cargan más rápido en ellos.",
+        "e8bf14728ecca": "$~Cuando no has iniciado sesión, la ventana del estado de guardado ahora muestra cuántos proyectos están guardados solo en este dispositivo y cómo guardarlos en línea, en lugar de aparecer vacía."
     }
 }

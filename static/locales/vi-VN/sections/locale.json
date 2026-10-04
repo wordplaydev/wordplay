@@ -355,7 +355,7 @@
                 "denied": "$~$name đã không được liệt kê trong sổ tay hướng dẫn."
             }
         },
-        "noAddress": "$~Wordplay không có địa chỉ email nào cho bạn, vì vậy không có gì ở đây có thể gửi đến email của bạn. Bạn có thể thêm địa chỉ email trên <trang hồ sơ của bạn@/profile>.",
+        "noAddress": "$~Wordplay không có địa chỉ email nào cho bạn, vì vậy không có gì ở đây có thể gửi đến email của bạn. Bạn có thể thêm địa chỉ email trên <trang hồ sơ của bạn@://profile>.",
         "subject": {
             "project": "$~dự án",
             "gallery": "$~phòng trưng bày",

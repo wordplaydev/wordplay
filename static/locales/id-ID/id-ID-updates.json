@@ -1027,6 +1027,10 @@
         "e33c0fa9452a4": "$~Menu saran sekarang tetap terbuka dan menyempit saat kamu mengetik.",
         "e6c77df016241": "$~Dalam mode blok, kami memperbaiki penyeretan kode ke bawah akhir program dan ke kode yang memiliki kesalahan. Sebelumnya, keduanya tidak melakukan apa-apa.",
         "e7f1566676e7a": "$~Kami memperbaiki tautan di bahasa lain yang tampil sebagai teks rusak atau mengarah ke halaman yang hilang, di halaman utama, halaman <Tentang@https://wordplay.dev/about>, tutorial singkat, dan pesan di seluruh situs.",
-        "e221a0b8c05d5": "$~Kami memperbaiki pilihan tampilan musik di pengaturan bahasa Turki, yang menampilkan setiap nama dan deskripsi di samping pilihan yang salah."
+        "e221a0b8c05d5": "$~Kami memperbaiki pilihan tampilan musik di pengaturan bahasa Turki, yang menampilkan setiap nama dan deskripsi di samping pilihan yang salah.",
+        "e8b757ebd4689": "$~Mengklik teks yang dibuat dengan \\selectable\\ akan memilihnya lagi. Fitur ini sempat berhenti bekerja pada contoh di <halaman utama@https://wordplay.dev/> dan di semua proyek.",
+        "eb6f2bf5308ec": "$~Di Safari, menekan Mulai atau Coba Lagi pada proyek yang memakai mikrofon atau kamera sekarang meminta izin, bukan diam saja.",
+        "e71d907b44acc": "$~Kami memperbaiki emoji berwarna yang tampak kosong atau hitam di iPhone dan iPad dengan iOS 27. Emoji itu juga kini lebih cepat dimuat di sana.",
+        "e8bf14728ecca": "$~Saat kamu belum masuk, jendela status penyimpanan sekarang menunjukkan berapa banyak proyek yang hanya tersimpan di perangkat ini dan cara menyimpannya secara daring. Jendela itu tidak lagi kosong."
     }
 }

@@ -349,7 +349,7 @@
                 "denied": "$~$name 未列入指南。"
             }
         },
-        "noAddress": "$~Wordplay 沒有你的電子郵件地址，所以這裡的任何內容都無法透過電子郵件通知你。你可以在<個人資料頁@/profile>新增一個。",
+        "noAddress": "$~Wordplay 沒有你的電子郵件地址，所以這裡的任何內容都無法透過電子郵件通知你。你可以在<個人資料頁@://profile>新增一個。",
         "subject": {
             "project": "$~工程",
             "gallery": "$~作品集",

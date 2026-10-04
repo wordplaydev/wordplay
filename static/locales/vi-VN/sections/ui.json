@@ -205,9 +205,9 @@
                     "indexedDBUnsupported": "$~Trình duyệt của bạn không cho phép @wordplay lưu dự án trên thiết bị này.",
                     "firestoreBatchFailed": "$~Chúng tôi không thể gửi những thứ này lên đám mây. Chúng vẫn an toàn trên thiết bị này.",
                     "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân.",
-                    "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@/login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này.",
+                    "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@://login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này.",
                     "projectTooLarge": "$~Những dự án này quá lớn để lưu trực tuyến. Chúng vẫn an toàn trên thiết bị này. Hãy thử làm cho chúng nhỏ hơn.",
-                    "noCloudTarget": "$~Những dự án này chỉ có trên thiết bị này, vì @wordplay không có nơi để lưu chúng trực tuyến. <Đăng nhập@/login> để lưu chúng.",
+                    "noCloudTarget": "$~Những dự án này chỉ có trên thiết bị này, vì @wordplay không có nơi để lưu chúng trực tuyến. <Đăng nhập@://login> để lưu chúng.",
                     "cloudWriteRefused": "$~Đám mây không chấp nhận những thay đổi này, nên chúng tôi dùng bản đang có trên mạng thay thế. Nếu bạn nghĩ mình phải được phép thay đổi những thứ này, hãy hỏi người đã chia sẻ chúng với bạn."
                 },
                 "projectsNotSavingOnline": "$~Một số dự án chỉ có trên thiết bị này, chưa được lưu trực tuyến."
@@ -2439,18 +2439,24 @@
                 "columns": {
                     "device": "$~trên thiết bị này",
                     "cloud": "$~trên đám mây",
-                    "unsaved": "$~chưa được lưu"
+                    "unsaved": "$~chưa được lưu",
+                    "state": "$~trạng thái"
                 },
                 "state": {
                     "synced": "$~đã đồng bộ",
                     "loading": "$~đang tải",
                     "syncing": "$~tiết kiệm",
                     "offline": "$~ngoại tuyến",
-                    "failed": "$~thất bại"
+                    "failed": "$~thất bại",
+                    "local": "$~chỉ trên thiết bị này"
                 },
                 "conversation": "$~một cuộc trò chuyện",
                 "legend": "$~\"Chưa lưu\" nghĩa là đã được lưu ở đây nhưng chưa kết nối internet. Nó sẽ được lưu khi bạn kết nối lại mạng.",
-                "errorsHeader": "$~Một số thứ không thể lưu trữ trực tuyến:"
+                "errorsHeader": "$~Một số thứ không thể lưu trữ trực tuyến:",
+                "local": {
+                    "intro": "$~Bài làm của bạn chỉ được lưu trong trình duyệt này trên thiết bị này. Nếu dữ liệu của trình duyệt bị xóa, bài làm sẽ mất. <Đăng nhập@://login> để lưu trực tuyến và dùng ở bất cứ đâu.",
+                    "legend": "$~Dấu gạch ngang nghĩa là mục này chưa áp dụng cho đến khi bạn đăng nhập."
+                }
             }
         },
         "edit": {
@@ -2845,7 +2851,7 @@
             "meter": "$~lượt dịch đã dùng hôm nay",
             "exhaustedHours": "$~Bạn đã dùng hết lượt dịch hôm nay. Hãy thử lại sau khoảng $#hours[$hours giờ].",
             "exhaustedMinutes": "$~Bạn đã dùng hết lượt dịch hôm nay. Hãy thử lại sau khoảng $#minutes[$minutes phút].",
-            "signIn": "$~Việc dịch cần có tài khoản, để ai cũng được chia phần công bằng. <Đăng nhập hoặc tham gia@/login> để dịch dự án của bạn.",
+            "signIn": "$~Việc dịch cần có tài khoản, để ai cũng được chia phần công bằng. <Đăng nhập hoặc tham gia@://login> để dịch dự án của bạn.",
             "progressLabel": "$~tiến trình dịch",
             "analyzing": "$~Đang đọc chương trình của bạn…",
             "revising": "$~Đang thêm những từ mới vào…",

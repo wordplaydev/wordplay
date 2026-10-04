@@ -355,7 +355,7 @@
                 "denied": "$~$name no fue incluida en la guía."
             }
         },
-        "noAddress": "$~Wordplay no tiene una dirección de correo electrónico tuya, así que nada aquí puede llegarte por correo electrónico. Puedes agregar una en tu <perfil@/profile>.",
+        "noAddress": "$~Wordplay no tiene una dirección de correo electrónico tuya, así que nada aquí puede llegarte por correo electrónico. Puedes agregar una en tu <perfil@://profile>.",
         "subject": {
             "project": "$~proyecto",
             "gallery": "$~galería",

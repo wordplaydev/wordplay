@@ -355,7 +355,7 @@
                 "denied": "$~$name listades inte i guiden."
             }
         },
-        "noAddress": "$~Wordplay har ingen e-postadress för dig, så inget här kan nå dig via e-post. Du kan lägga till en på din <profil@/profile>.",
+        "noAddress": "$~Wordplay har ingen e-postadress för dig, så inget här kan nå dig via e-post. Du kan lägga till en på din <profil@://profile>.",
         "subject": {
             "project": "$~projekt",
             "gallery": "$~galleri",

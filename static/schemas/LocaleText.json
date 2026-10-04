@@ -28567,6 +28567,10 @@
                                                     "description": "[plain] Column header: how many are saved on this device",
                                                     "type": "string"
                                                 },
+                                                "state": {
+                                                    "description": "[plain] Column header: how each kind of thing is syncing with the cloud",
+                                                    "type": "string"
+                                                },
                                                 "unsaved": {
                                                     "description": "[plain] Column header: how many are not yet saved online",
                                                     "type": "string"
@@ -28575,7 +28579,8 @@
                                             "required": [
                                                 "device",
                                                 "cloud",
-                                                "unsaved"
+                                                "unsaved",
+                                                "state"
                                             ],
                                             "type": "object"
                                         },
@@ -28599,6 +28604,22 @@
                                             "description": "[plain] Explains what the unsaved column means",
                                             "type": "string"
                                         },
+                                        "local": {
+                                            "additionalProperties": false,
+                                            "description": "What the save-status dialog says when no one is signed in, in place of the intro and legend above.",
+                                            "properties": {
+                                                "intro": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] One-line explanation at the top of the save-status dialog when signed out: work is only in this browser, and signing in saves it online"
+                                                },
+                                                "legend": {
+                                                    "description": "[plain] Explains the dashes in the cloud and unsaved columns when signed out",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["intro", "legend"],
+                                            "type": "object"
+                                        },
                                         "state": {
                                             "additionalProperties": false,
                                             "description": "Words describing how a kind of thing is syncing with the cloud.",
@@ -28609,6 +28630,10 @@
                                                 },
                                                 "loading": {
                                                     "description": "[plain] Still loading from the cloud",
+                                                    "type": "string"
+                                                },
+                                                "local": {
+                                                    "description": "[plain] Signed out: kept only on this device, with no cloud to save to",
                                                     "type": "string"
                                                 },
                                                 "offline": {
@@ -28629,7 +28654,8 @@
                                                 "loading",
                                                 "syncing",
                                                 "offline",
-                                                "failed"
+                                                "failed",
+                                                "local"
                                             ],
                                             "type": "object"
                                         }
@@ -28641,7 +28667,8 @@
                                         "state",
                                         "conversation",
                                         "legend",
-                                        "errorsHeader"
+                                        "errorsHeader",
+                                        "local"
                                     ],
                                     "type": "object"
                                 },

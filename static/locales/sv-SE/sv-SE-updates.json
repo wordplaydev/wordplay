@@ -1027,6 +1027,10 @@
         "e33c0fa9452a4": "$~Förslagsmenyn stannar nu öppen och blir smalare medan du skriver.",
         "e6c77df016241": "$~I blockläget har vi lagt till rättelser för att dra kod under slutet av ett program och över kod som har ett fel. Förut hände ingenting i båda fallen.",
         "e7f1566676e7a": "$~Vi har rättat länkar på andra språk som visades som trasig text eller ledde till sidor som saknades. Det gällde startsidan, sidan <Om@https://wordplay.dev/about>, den snabba handledningen och meddelanden över hela webbplatsen.",
-        "e221a0b8c05d5": "$~Vi har rättat valen för musikvisning i turkiska inställningar. Där visades varje namn och beskrivning bredvid fel alternativ."
+        "e221a0b8c05d5": "$~Vi har rättat valen för musikvisning i turkiska inställningar. Där visades varje namn och beskrivning bredvid fel alternativ.",
+        "e8b757ebd4689": "$~Att klicka på text som är gjord med \\selectable\\ markerar den igen. Det hade slutat fungera i exemplet på <startsidan@https://wordplay.dev/> och i alla projekt.",
+        "eb6f2bf5308ec": "$~När du trycker på Start eller Försök igen i Safari i ett projekt som använder mikrofonen eller kameran, frågar webbläsaren nu om tillstånd. Förut hände ingenting.",
+        "e71d907b44acc": "$~Vi har lagagt färgemojier som blev tomma eller svarta på iPhone och iPad med iOS 27. De laddas nu också snabbare där.",
+        "e8bf14728ecca": "$~När du inte är inloggad visar fönstret för sparstatus nu hur många projekt som bara är sparade på den här enheten och hur du sparar dem online. Förut var det tomt."
     }
 }

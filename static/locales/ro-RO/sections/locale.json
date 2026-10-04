@@ -355,7 +355,7 @@
                 "denied": "$~$name nu a fost listat în ghid."
             }
         },
-        "noAddress": "$~Wordplay nu are o adresă de e-mail pentru tine, așa că nimic de aici nu te poate contacta prin e-mail. Poți adăuga una pe <profilul tău@/profile>.",
+        "noAddress": "$~Wordplay nu are o adresă de e-mail pentru tine, așa că nimic de aici nu te poate contacta prin e-mail. Poți adăuga una pe <profilul tău@://profile>.",
         "subject": {
             "project": "$~proiect",
             "gallery": "$~galerie",

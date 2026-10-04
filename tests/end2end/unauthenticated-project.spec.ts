@@ -38,6 +38,30 @@ test('an unauthenticated user creates and edits a local project that persists wi
         // And it must never have been written to the cloud: a local-only
         // project has no owner to persist it under.
         expect(await getTestDocument('projects', projectId)).toBeNull();
+
+        // The save-status dialog says where that project is: the same table a
+        // signed-in creator sees, with the cloud columns not applicable rather
+        // than every project counted as unsaved.
+        await page.getByTestId('save-status').click();
+        const dialog = page.getByRole('dialog');
+        await expect(
+            dialog.getByRole('link', { name: 'Sign in' }),
+        ).toBeVisible();
+        // The link must parse as a link, or its target is shown as text and the
+        // rest of the sentence is lost.
+        await expect(dialog.locator('.intro')).toHaveText(
+            /Sign in to save it online and use it anywhere\.$/,
+        );
+        // Every column, the state column included, has a header.
+        await expect(
+            dialog.locator('.save-counts thead th:not(:empty)'),
+        ).toHaveCount(4);
+        const projects = dialog.locator('.save-counts tbody tr').first();
+        await expect(projects.locator('td').first()).toHaveText('1');
+        await expect(projects.locator('td.state')).toHaveText(
+            'only on this device',
+        );
+        await expect(dialog.locator('.save-counts td.unsaved')).toHaveCount(0);
     } finally {
         await context.close();
     }
