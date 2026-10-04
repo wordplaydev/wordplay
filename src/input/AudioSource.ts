@@ -132,6 +132,10 @@ class SharedAudioSource {
 
         this.stream = stream;
         this.context = new AudioContext();
+        // iOS starts a context made outside a user gesture suspended, which
+        // leaves Volume and Pitch reading silence.
+        if (this.context.state === 'suspended')
+            this.context.resume().catch(() => undefined);
         this.sourceNode = this.context.createMediaStreamSource(stream);
     }
 

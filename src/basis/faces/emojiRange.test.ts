@@ -128,18 +128,21 @@ function declaredCodepoints(css: string, srcNeedle: string): Set<number> {
 
 const css = fs.readFileSync(path.join('static', 'fonts', 'fonts.css'), 'utf8');
 
-/** The Safari SVG color-emoji font is sliced into N files by the same
- * unicode-range partition as the Chromium COLRv1 slices; each slice covers a
- * subset of the whole font's cmap. Derived from the CSS (not hardcoded) so a
- * future Google re-partition — which changes the slice count — needs no edit
- * here, matching how slice-emoji-svg.py reads its count from the same CSS. */
-const SVG_SLICES = [
-    ...new Set(
-        [...css.matchAll(/NotoColorEmoji\.svg-(\d+)\.woff2/g)].map((m) =>
-            Number(m[1]),
-        ),
-    ),
-].sort((a, b) => a - b);
+/** A WebKit color-emoji font's slice numbers, each slice covering a subset of
+ * the whole font's cmap. Desktop Safari's SVG slices follow the Chromium COLRv1
+ * partition and iOS's sbix slices a finer one of their own. Derived from the
+ * CSS (not hardcoded) so a re-partition, which changes the slice count, needs
+ * no edit here. */
+function slicesOf(kind: string): number[] {
+    const pattern = new RegExp(`NotoColorEmoji\\.${kind}-(\\d+)\\.woff2`, 'g');
+    return [
+        ...new Set([...css.matchAll(pattern)].map((m) => Number(m[1]))),
+    ].sort((a, b) => a - b);
+}
+
+/** The WebKit color fonts: desktop Safari's OT-SVG and iOS's sbix (iOS 27
+ *  paints no OT-SVG glyphs). */
+const WEBKIT_FONTS = ['svg', 'sbix'] as const;
 
 describe('emoji @font-face ranges match the fonts glyph coverage', () => {
     test('Noto Emoji (mono) declares exactly its glyph coverage', async () => {
@@ -157,17 +160,22 @@ describe('emoji @font-face ranges match the fonts glyph coverage', () => {
         expect(underClaimed.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
     });
 
-    // Per Safari SVG slice: no over-claim — a slice must not declare a codepoint
-    // its own file lacks a glyph for, or Safari picks that slice and tofus.
-    test.each(SVG_SLICES)(
-        'Safari SVG slice %i declares no codepoint its file lacks',
-        async (n) => {
+    // Per WebKit slice (desktop Safari's SVG, iOS's sbix): no over-claim — a
+    // slice must not declare a codepoint its own file lacks a glyph for, or
+    // Safari picks that slice and tofus.
+    test.each(
+        WEBKIT_FONTS.flatMap((kind) =>
+            slicesOf(kind).map((n) => [kind, n] as const),
+        ),
+    )(
+        'WebKit %s slice %i declares no codepoint its file lacks',
+        async (kind, n) => {
             const expected = await preciseCodepoints(
-                `static/fonts/NotoColorEmoji/NotoColorEmoji.svg-${n}.woff2`,
+                `static/fonts/NotoColorEmoji/NotoColorEmoji.${kind}-${n}.woff2`,
             );
             const declared = declaredCodepoints(
                 css,
-                `NotoColorEmoji.svg-${n}.woff2`,
+                `NotoColorEmoji.${kind}-${n}.woff2`,
             );
             const overClaimed = [...declared].filter((cp) => !expected.has(cp));
             expect(overClaimed.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
@@ -182,54 +190,70 @@ describe('emoji @font-face ranges match the fonts glyph coverage', () => {
     // other tests model, so guard them directly: the file must actually ship
     // those glyphs, or Safari's keycap can't shape `digit + U+20E3` and falls
     // back to the system emoji.
-    test('the keycap file ships the keycap-base glyphs it declares', async () => {
-        const face = [...css.matchAll(/@font-face\s*\{([^}]*)\}/g)]
-            .map((m) => m[1]!)
-            .find((b) => b.includes("'Noto Emoji Keycap'"));
-        expect(face).toBeDefined();
-        const file = face!.match(/NotoColorEmoji\.(svg-[\w-]+)\.woff2/);
-        expect(file).not.toBeNull();
-        const cmap = await rawCodepoints(
-            `static/fonts/NotoColorEmoji/NotoColorEmoji.${file![1]}.woff2`,
-        );
-        // The digit/#/* keycap bases must have glyphs. (FE0F is a zero-width
-        // selector the OT-SVG font intentionally lacks, so it's not required.)
-        const bases = [
-            0x23,
-            0x2a,
-            ...Array.from({ length: 10 }, (_, i) => 0x30 + i),
-        ];
-        const missing = bases.filter((cp) => !cmap.has(cp));
-        expect(missing.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
-    });
+    test.each(WEBKIT_FONTS)(
+        'the %s keycap file ships the keycap-base glyphs it declares',
+        async (kind) => {
+            const face = [...css.matchAll(/@font-face\s*\{([^}]*)\}/g)]
+                .map((m) => m[1]!)
+                .find(
+                    (b) =>
+                        b.includes("'Noto Emoji Keycap'") &&
+                        b.includes(`NotoColorEmoji.${kind}-keycap.woff2`),
+                );
+            expect(face).toBeDefined();
+            const file = face!.match(
+                /NotoColorEmoji\.((?:svg|sbix)-[\w-]+)\.woff2/,
+            );
+            expect(file).not.toBeNull();
+            const cmap = await rawCodepoints(
+                `static/fonts/NotoColorEmoji/NotoColorEmoji.${file![1]}.woff2`,
+            );
+            // The digit/#/* keycap bases must have glyphs. (FE0F is a zero-width
+            // selector the OT-SVG font intentionally lacks, so it's not required.)
+            const bases = [
+                0x23,
+                0x2a,
+                ...Array.from({ length: 10 }, (_, i) => 0x30 + i),
+            ];
+            const missing = bases.filter((cp) => !cmap.has(cp));
+            expect(missing.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
+        },
+    );
 
     // No under-claim across the split: the slices' declared ranges together
     // must cover every emoji GLYPH the whole SVG font has, so slicing drops none.
     // Zero-width FORMAT chars (ZWJ, VS, flag tags) are excluded — they carry no
     // glyph and each slice declares only the ones its sequences actually use.
-    test('the Safari SVG slices together cover the whole font glyph coverage', async () => {
-        const isFormat = (cp: number) =>
-            FORMAT.some(([a, b]) => cp >= a && cp <= b);
-        const whole = await preciseCodepoints(
-            'static/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf',
-        );
-        const union = new Set<number>();
-        for (const n of SVG_SLICES)
-            for (const cp of declaredCodepoints(
-                css,
-                `NotoColorEmoji.svg-${n}.woff2`,
-            ))
-                union.add(cp);
-        const dropped = [...whole].filter(
-            (cp) => !union.has(cp) && !isFormat(cp),
-        );
-        expect(dropped.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
-    });
+    test.each(WEBKIT_FONTS)(
+        'the WebKit %s slices together cover the whole font glyph coverage',
+        async (kind) => {
+            const isFormat = (cp: number) =>
+                FORMAT.some(([a, b]) => cp >= a && cp <= b);
+            // The whole sbix font isn't committed, and iOS must cover exactly
+            // what desktop Safari does, so both are held to the SVG font.
+            const whole = await preciseCodepoints(
+                'static/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf',
+            );
+            const union = new Set<number>();
+            for (const n of slicesOf(kind))
+                for (const cp of declaredCodepoints(
+                    css,
+                    `NotoColorEmoji.${kind}-${n}.woff2`,
+                ))
+                    union.add(cp);
+            const dropped = [...whole].filter(
+                (cp) => !union.has(cp) && !isFormat(cp),
+            );
+            expect(dropped.map((cp) => 'U+' + cp.toString(16))).toEqual([]);
+        },
+    );
 
     test('no emoji face claims the broad U+1F000-1FFFF block', () => {
         const needles = [
             'NotoEmoji-400.woff2',
-            ...SVG_SLICES.map((n) => `NotoColorEmoji.svg-${n}.woff2`),
+            ...WEBKIT_FONTS.flatMap((kind) =>
+                slicesOf(kind).map((n) => `NotoColorEmoji.${kind}-${n}.woff2`),
+            ),
         ];
         for (const srcNeedle of needles) {
             const declared = declaredCodepoints(css, srcNeedle);

@@ -90,7 +90,11 @@ const KEYCAP_RANGE = `${toRangeString(KEYCAP_TRIM)}, U+fe0f, U+20e3`;
 // BOTH here so an update can't leave one browser's declared ranges stale while
 // the other's move (which would tofu the new emoji on the stale browser).
 const CHROMIUM_SUPPORTS = '@supports not (-webkit-hyphens: none)';
-const SAFARI_SUPPORTS = '@supports (-webkit-hyphens: none)';
+// iOS WebKit matches both tests and desktop Safari only the first, so desktop
+// Safari's branch excludes iOS rather than relying on cascade order.
+const SAFARI_SUPPORTS =
+    '@supports (-webkit-hyphens: none) and (not (-webkit-touch-callout: none))';
+const IOS_SUPPORTS = '@supports (-webkit-touch-callout: none)';
 
 // Comments reproduced verbatim from the committed island — they encode WHY the
 // trim exists, so keep them next to the machine-generated ranges.
@@ -125,6 +129,17 @@ const SAFARI_KEYCAP_COMMENT = `    /* Keycap face — its OWN dedicated file (ke
        'Noto Color Emoji' slice 2 makes every other slice-2 emoji (💬 etc.) fall
        back to the system Apple emoji. Referenced ONLY via the .emoji-keycap
        class, never in a general cascade, so it doesn't shadow plain digits. */`;
+const IOS_INTRO = `    /* iOS Safari's color-emoji path. iOS 27 loads the OT-SVG font above but
+       paints none of its glyphs (iOS 26 paints them), while every iOS version
+       paints sbix, Apple's own bitmap format, so iOS gets Noto's PNGs as sbix.
+       Bitmaps are larger, so these slices are cut finer than the partition
+       above, by Unicode subgroup, and each declares only the characters that
+       start its sequences (scripts/emoji/slice-emoji-sbix.py). Every iOS
+       browser is WebKit, and only iOS WebKit supports -webkit-touch-callout. */`;
+
+/** The iOS slices' declared ranges, one per NotoColorEmoji.sbix-<i>.woff2,
+ *  written by slice-emoji-sbix.py. */
+const SBIX_PARTITION = 'scripts/emoji/sbix-partition.json';
 const SAFARI_TRAILING = `    body {
         --google-font-color-notocoloremoji: colrv1;
     }`;
@@ -175,6 +190,22 @@ const SAFARI: Branch = {
         "            format('woff2');",
     ],
     // Safari's trimmed slice carries no per-slice comment (see committed island).
+    keycapComment: SAFARI_KEYCAP_COMMENT,
+    keycapCommentPlacement: 'before',
+};
+
+const IOS: Branch = {
+    supports: IOS_SUPPORTS,
+    intro: IOS_INTRO,
+    trailing: SAFARI_TRAILING,
+    src: (i) => [
+        `        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.sbix-${i}.woff2)`,
+        "            format('woff2');",
+    ],
+    keycapSrc: [
+        '        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.sbix-keycap.woff2)',
+        "            format('woff2');",
+    ],
     keycapComment: SAFARI_KEYCAP_COMMENT,
     keycapCommentPlacement: 'before',
 };
@@ -299,6 +330,32 @@ function emitBranch(
     return parts.join('\n');
 }
 
+function isStringArray(value: unknown): value is string[] {
+    return Array.isArray(value) && value.every((v) => typeof v === 'string');
+}
+
+/** Emit the iOS branch from its own finer partition rather than Google's. */
+function emitIosBranch(): string {
+    const partition: unknown = JSON.parse(
+        fs.readFileSync(SBIX_PARTITION, 'utf8'),
+    );
+    if (!isStringArray(partition))
+        throw new Error(`${SBIX_PARTITION} is not a list of ranges.`);
+    const rules = partition.map((range, i) =>
+        faceRule(COLOR_FACE, IOS.src(i), range),
+    );
+    rules.push(
+        `${IOS.keycapComment}\n${faceRule(KEYCAP_FACE, IOS.keycapSrc ?? [], KEYCAP_RANGE)}`,
+    );
+    return [
+        `${IOS.supports} {`,
+        ...(IOS.intro ? [IOS.intro] : []),
+        ...rules,
+        ...(IOS.trailing ? [IOS.trailing] : []),
+        '}',
+    ].join('\n');
+}
+
 /** Regenerate BOTH color-emoji branches of the CSS from the raw partition. The
  * Chromium branch is the Google partition verbatim; the Safari branch mirrors it
  * plus any `safariGaps` folded into GAP_SLICE (see foldSafariGaps). */
@@ -309,8 +366,10 @@ function regenerate(
 ): string {
     let out = css;
     const emit = (b: Branch) =>
-        emitBranch(rawSlices, b, b === SAFARI ? safariGaps : undefined);
-    for (const branch of [CHROMIUM, SAFARI]) {
+        b === IOS
+            ? emitIosBranch()
+            : emitBranch(rawSlices, b, b === CHROMIUM ? undefined : safariGaps);
+    for (const branch of [CHROMIUM, SAFARI, IOS]) {
         const { start, end } = blockRegion(out, branch.supports);
         out = out.slice(0, start) + emit(branch) + out.slice(end);
     }

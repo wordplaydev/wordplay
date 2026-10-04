@@ -19,6 +19,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🧩 In blocks mode, we fixed dragging code below the end of a program and onto code that has a mistake in it, which both did nothing before.
+- 🖱️ Clicking on text made with `selectable` picks it again, which stopped working on the [home page](https://wordplay.dev/) example and in every project.
+- 🎤 In Safari, pressing Start or Retry on a project that uses the microphone or camera now asks for permission instead of doing nothing.
+- 🔣 We fixed color emoji that showed up blank or black on iPhones and iPads with iOS 27, and made them faster to load there.
 
 ## 0.38.3 - 2026-10-01
 
