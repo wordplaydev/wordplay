@@ -46,15 +46,23 @@ def main(source, out):
             # bottom-left corner, in pixels at this strike's ppem.
             left = m.BearingX if hasattr(m, "BearingX") else m.horiBearingX
             top = m.BearingY if hasattr(m, "BearingY") else m.horiBearingY
+            box = ink_box(bitmap.imageData)
+            if box is None:
+                offset = (left, top - m.height)
+            else:
+                # CoreText places the bitmap's bottom relative to the outline's,
+                # not the baseline (measured in WebKit; the inline axis is from
+                # the origin), so the vertical offset is from the ink box.
+                y1 = box[3]
+                offset = (left, y1 - m.height)
+                outlines[name] = ink_outline(box, left, top, upm / ppem)
             s.glyphs[name] = sbixGlyph.Glyph(
                 glyphName=name,
                 graphicType="png ",
-                originOffsetX=left,
-                originOffsetY=top - m.height,
+                originOffsetX=offset[0],
+                originOffsetY=offset[1],
                 imageData=bitmap.imageData,
             )
-            if name not in outlines:
-                outlines[name] = ink_outline(bitmap.imageData, left, top, upm / ppem)
         t.strikes[ppem] = s
     font["sbix"] = t
     del font["CBDT"]
@@ -81,23 +89,25 @@ def main(source, out):
     font.save(out)
 
 
-def ink_outline(png, left, top, scale):
-    """A rectangle around the picture's non-transparent pixels, in font units."""
-    image = Image.open(io.BytesIO(png)).convert("RGBA")
-    box = image.getchannel("A").getbbox()
-    pen = TTGlyphPen(None)
-    if box is not None:
-        x0, y0, x1, y1 = box
-        # Image rows count down from the bitmap's top, which sits `top` above the baseline.
-        l, r = round((left + x0) * scale), round((left + x1) * scale)
-        t, b = round((top - y0) * scale), round((top - y1) * scale)
-        pen.moveTo((l, b))
-        pen.lineTo((l, t))
-        pen.lineTo((r, t))
-        pen.lineTo((r, b))
-        pen.closePath()
-    return pen.glyph()
+def ink_box(png):
+    """The picture's non-transparent pixels as (left, top, right, bottom) in
+    image pixels, or None for a blank picture."""
+    return Image.open(io.BytesIO(png)).convert("RGBA").getchannel("A").getbbox()
 
+
+def ink_outline(box, left, top, scale):
+    """A rectangle around the ink box, in font units."""
+    x0, y0, x1, y1 = box
+    # Image rows count down from the bitmap's top, which sits `top` above the baseline.
+    l, r = round((left + x0) * scale), round((left + x1) * scale)
+    t, b = round((top - y0) * scale), round((top - y1) * scale)
+    pen = TTGlyphPen(None)
+    pen.moveTo((l, b))
+    pen.lineTo((l, t))
+    pen.lineTo((r, t))
+    pen.lineTo((r, b))
+    pen.closePath()
+    return pen.glyph()
 
 if __name__ == "__main__":
     main(sys.argv[1], sys.argv[2])
