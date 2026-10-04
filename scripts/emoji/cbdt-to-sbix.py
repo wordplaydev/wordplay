@@ -10,9 +10,11 @@ empty one.
 
 Usage: cbdt-to-sbix.py <NotoColorEmoji.ttf (CBDT)> <output .ttf>
 """
+import io
 import sys
 
 from fontTools.pens.ttGlyphPen import TTGlyphPen
+from PIL import Image
 from fontTools.ttLib import TTFont, newTable
 from fontTools.ttLib.tables import sbixGlyph, sbixStrike
 
@@ -22,6 +24,8 @@ def main(source, out):
     strikes = font["CBLC"].strikes
     data = font["CBDT"].strikeData
     order = font.getGlyphOrder()
+    upm = font["head"].unitsPerEm
+    outlines = {}
 
     t = newTable("sbix")
     t.version = 1
@@ -40,13 +44,17 @@ def main(source, out):
             m = bitmap.metrics
             # CBDT measures the bitmap's top from the baseline; sbix places its
             # bottom-left corner, in pixels at this strike's ppem.
+            left = m.BearingX if hasattr(m, "BearingX") else m.horiBearingX
+            top = m.BearingY if hasattr(m, "BearingY") else m.horiBearingY
             s.glyphs[name] = sbixGlyph.Glyph(
                 glyphName=name,
                 graphicType="png ",
-                originOffsetX=m.BearingX if hasattr(m, "BearingX") else m.horiBearingX,
-                originOffsetY=(m.BearingY if hasattr(m, "BearingY") else m.horiBearingY) - m.height,
+                originOffsetX=left,
+                originOffsetY=top - m.height,
                 imageData=bitmap.imageData,
             )
+            if name not in outlines:
+                outlines[name] = ink_outline(bitmap.imageData, left, top, upm / ppem)
         t.strikes[ppem] = s
     font["sbix"] = t
     del font["CBDT"]
@@ -54,19 +62,41 @@ def main(source, out):
 
     empty = TTGlyphPen(None).glyph()
     glyf = newTable("glyf")
-    glyf.glyphs = {name: empty for name in order}
+    glyf.glyphs = {name: outlines.get(name, empty) for name in order}
     glyf.glyphOrder = order
     font["glyf"] = glyf
     font["loca"] = newTable("loca")
     font["head"].indexToLocFormat = 0
     font["maxp"].tableVersion = 0x00010000
+    font["maxp"].numGlyphs = len(order)
+    # The CBDT font has a version 0.5 maxp; glyf needs 1.0's fields. The point
+    # and contour maxima are recalculated from the outlines on save.
     for attr in ("maxPoints", "maxContours", "maxCompositePoints", "maxCompositeContours",
                  "maxZones", "maxTwilightPoints", "maxStorage", "maxFunctionDefs",
                  "maxInstructionDefs", "maxStackElements", "maxSizeOfInstructions",
                  "maxComponentElements", "maxComponentDepth"):
         setattr(font["maxp"], attr, 1 if attr == "maxZones" else 0)
     font["post"].formatType = 3.0
+    font.recalcBBoxes = True
     font.save(out)
+
+
+def ink_outline(png, left, top, scale):
+    """A rectangle around the picture's non-transparent pixels, in font units."""
+    image = Image.open(io.BytesIO(png)).convert("RGBA")
+    box = image.getchannel("A").getbbox()
+    pen = TTGlyphPen(None)
+    if box is not None:
+        x0, y0, x1, y1 = box
+        # Image rows count down from the bitmap's top, which sits `top` above the baseline.
+        l, r = round((left + x0) * scale), round((left + x1) * scale)
+        t, b = round((top - y0) * scale), round((top - y1) * scale)
+        pen.moveTo((l, b))
+        pen.lineTo((l, t))
+        pen.lineTo((r, t))
+        pen.lineTo((r, b))
+        pen.closePath()
+    return pen.glyph()
 
 
 if __name__ == "__main__":

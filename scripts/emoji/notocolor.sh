@@ -77,6 +77,8 @@ mv nanoemoji/build/Font.ttf ../../static/fonts/NotoColorEmoji/NotoColorEmoji.svg
 # iOS 27 Safari loads an OT-SVG font but paints none of its glyphs, so iOS gets
 # Noto's own bitmap font (CBDT) converted to sbix, Apple's bitmap format. It's
 # ~10 MB of PNGs, so only its slices are kept, not the whole font.
+# Pillow reads each PNG's visible pixels for the glyph's measuring outline.
+pip3 install --quiet pillow
 curl -sSfL -o NotoColorEmoji.cbdt.ttf \
     "https://raw.githubusercontent.com/googlefonts/noto-emoji/$NOTO_TAG/2D/fonts/NotoColorEmoji.ttf"
 python3 cbdt-to-sbix.py NotoColorEmoji.cbdt.ttf NotoColorEmoji.sbix.ttf
