@@ -2289,9 +2289,16 @@
         const target = event.target;
         if (!(target instanceof HTMLElement) && !(target instanceof SVGElement))
             return;
+        // The target is often a span inside the output (a language run, an emoji
+        // run), so read the name from the output that contains it.
+        const enclosing = target.closest('.output');
+        const output =
+            enclosing instanceof HTMLElement || enclosing instanceof SVGElement
+                ? enclosing
+                : target;
         // Was the target clicked on output with a name? Add it to choice streams.
-        const name = target.dataset.name;
-        const selectable = target.dataset.selectable === 'true';
+        const name = output.dataset.name;
+        const selectable = output.dataset.selectable === 'true';
         const selection =
             selectable && name
                 ? name
