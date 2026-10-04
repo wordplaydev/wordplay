@@ -91,3 +91,27 @@ export async function refreshConsentFromBrowser(name: PermissionName) {
     const state = await queryPermission(name);
     if (state === ConsentState.Granted) grantConsent(name);
 }
+
+/**
+ * Ask the browser for a permission directly, from inside a click handler. WebKit
+ * refuses a repeat request without prompting unless it carries a user gesture,
+ * and a stream's own request arrives after the click has ended, so the gate and
+ * the retry button ask here first. Resolves to whether access was given.
+ */
+export function requestAccess(name: PermissionName): Promise<boolean> {
+    if (
+        typeof navigator === 'undefined' ||
+        typeof navigator.mediaDevices?.getUserMedia !== 'function'
+    )
+        return Promise.resolve(false);
+    return navigator.mediaDevices
+        .getUserMedia(
+            name === Permission.Microphone ? { audio: true } : { video: true },
+        )
+        .then((stream) => {
+            // Only the decision matters; the stream asks again for its own.
+            stream.getTracks().forEach((track) => track.stop());
+            return true;
+        })
+        .catch(() => false);
+}
