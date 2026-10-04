@@ -35,7 +35,7 @@ import {
     staleMarkupElements,
     type StaleEntry,
 } from '#util/verify-locales/drift.ts';
-import Log from '#util/verify-locales/Log.ts';
+import Log, { resolveColor } from '#util/verify-locales/Log.ts';
 import {
     getDefaultTutorial,
     getTutorialJSON,
@@ -81,6 +81,7 @@ import {
 import type Tutorial from '../../tutorial/Tutorial';
 import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import generateEmojisForLocale from '#util/verify-locales/generateEmojis.ts';
 import generateChoosePrompts from '#util/verify-locales/generateChoosePrompts.ts';
@@ -95,6 +96,17 @@ import {
     stepsFor,
     type Selection,
 } from '#util/verify-locales/contentCategories.ts';
+import {
+    LocaleBeginMarker,
+    ShardErrorsMarker,
+    ShardOutVariable,
+    ShardVariable,
+    getJobCount,
+    makeOrderedEmitter,
+    parseShard,
+    runShards,
+    shardLocales,
+} from '#util/verify-locales/parallelLocales.ts';
 
 // We're we asked to translate? Let's see if there was a specific locale we're focusing on.
 const TranslationRequested =
@@ -175,6 +187,25 @@ const localeFilter = (path: LocalePath): boolean =>
 // the run's other children already did. See `stepsFor` for the per-step reasoning.
 const steps = stepsFor(selection);
 
+// A child checking its share of the locales for a parent run (see parallelLocales.ts).
+const shardResult = parseShard(process.env[ShardVariable]);
+const Shard =
+    typeof shardResult === 'string' ? log.exit(shardResult) : shardResult;
+
+// A whole verify or fix run spreads its per-locale loop across processes, since each
+// locale's check is independent and the loop was most of the run. Translation has
+// batch.ts, and a run naming locales or categories is small enough to stay in one.
+const Jobs = getJobCount(process.env.JOBS);
+const RunsShards =
+    Shard === undefined &&
+    (requestedCommand === 'verify' || requestedCommand === 'fix') &&
+    process.argv.length === 3 &&
+    Jobs > 1;
+
+// The steps after the loop read every locale, so only a run that checked every locale
+// takes them: not one naming locales, and not a shard, whose parent does.
+const CrossLocaleSteps = FocalLocales.length === 0 && Shard === undefined;
+
 // Creating a locale folder from scratch is inherently about one locale, so that branch
 // (and only it) reads these. A multi-locale run never bootstraps.
 const NewLocale = FocalLocales.length === 1 ? FocalLocales[0] : null;
@@ -189,14 +220,15 @@ for (const named of FocalLocales)
             `"${named}" isn't a valid locale language code. Please provide one to translate.`,
         );
 
-log.say(
-    TranslationRequested
-        ? 'Verifying and translating ' +
-              (FocalLocales.length === 0
-                  ? 'all locales'
-                  : FocalLocales.join(', '))
-        : 'Checking all locale files for problems',
-);
+if (Shard === undefined)
+    log.say(
+        TranslationRequested
+            ? 'Verifying and translating ' +
+                  (FocalLocales.length === 0
+                      ? 'all locales'
+                      : FocalLocales.join(', '))
+            : 'Checking all locale files for problems',
+    );
 
 // The translation backend must be chosen explicitly (no silent default), so a
 // long run can't quietly use the wrong one. Validate and report it up front.
@@ -693,9 +725,10 @@ for (const file of localeFolders) {
 
 const allLocaleText = Object.values(textByLocale);
 
-log.good(
-    `Found ${allLocaleText.length} locales: ${Object.keys(textByLocale).join(', ')}.`,
-);
+if (Shard === undefined)
+    log.good(
+        `Found ${allLocaleText.length} locales: ${Object.keys(textByLocale).join(', ')}.`,
+    );
 
 // Compute globals across all locales
 const globals = new Map<string, { locale: string; path: LocalePath }[]>();
@@ -763,7 +796,11 @@ const translatedPaths = new Set<string>();
 // work, and the batch's kit phase is now a single child covering every locale, so
 // aborting here would take down what it hasn't reached yet. Reported and then continued;
 // the error count below still makes the run exit non-zero.
-for (const [index, localeText] of allLocaleText.entries()) {
+/** Errors the shard children reported, which the parent's own log never saw. */
+let shardErrors = 0;
+
+/** Check one locale, keeping its revision for the artifact steps after the loop. */
+async function checkLocale(index: number, localeText: LocaleText) {
     const localeLog = log.scope(`Checking ${toLocaleString(localeText)}`);
     try {
         allLocaleText[index] = await handleLocale(
@@ -781,6 +818,68 @@ for (const [index, localeText] of allLocaleText.entries()) {
     }
 }
 
+if (RunsShards) {
+    // Each child hands back the locales it checked as files, so the steps after the
+    // loop build from the text as this run left it — repaired, under `fix`.
+    const out = fs.mkdtempSync(path.join(os.tmpdir(), 'wordplay-locales-'));
+    const order = allLocaleText.map((text) => toLocaleString(text));
+    const emitter = makeOrderedEmitter(order, (line) =>
+        process.stdout.write(line + '\n'),
+    );
+    const color = resolveColor();
+    const results = await runShards(
+        requestedCommand,
+        Math.min(Jobs, allLocaleText.length),
+        {
+            ...process.env,
+            [ShardOutVariable]: out,
+            // A child's stdout is a pipe, so it can't decide for itself.
+            ...(color ? { FORCE_COLOR: '1' } : { NO_COLOR: '1' }),
+        },
+        emitter,
+    );
+    const missing = emitter.drain();
+    for (const [index, result] of results.entries()) {
+        shardErrors += result.errors;
+        for (const line of result.stray) console.log(line);
+        // Under verify a child exits 1 when it found problems, which it counted;
+        // exiting non-zero with nothing counted means it crashed.
+        if (result.code !== 0 && result.errors === 0)
+            log.bad(
+                `Locale checks ${index + 1} of ${results.length} exited ${result.code} without reporting why.`,
+            );
+    }
+    for (const [index, locale] of order.entries()) {
+        const file = path.join(out, `${locale}.json`);
+        const text = readJSON<LocaleText>(file);
+        if (text === undefined) {
+            if (!missing.includes(locale))
+                log.bad(`${locale} was checked but its result is missing.`);
+        } else allLocaleText[index] = text;
+    }
+    if (missing.length > 0)
+        log.bad(`These locales were never checked: ${missing.join(', ')}.`);
+    fs.rmSync(out, { recursive: true, force: true });
+} else if (Shard !== undefined) {
+    const out = process.env[ShardOutVariable];
+    for (const [index, localeText] of shardLocales(
+        [...allLocaleText.entries()],
+        Shard,
+    )) {
+        const locale = toLocaleString(localeText);
+        console.log(LocaleBeginMarker + locale);
+        await checkLocale(index, localeText);
+        if (out !== undefined)
+            fs.writeFileSync(
+                path.join(out, `${locale}.json`),
+                JSON.stringify(allLocaleText[index]),
+            );
+    }
+    console.log(ShardErrorsMarker + log.errorCount);
+} else
+    for (const [index, localeText] of allLocaleText.entries())
+        await checkLocale(index, localeText);
+
 // If we translated successfully, drop the `$!` markers from the en-US source
 // at paths that were actually re-translated. The marker's job is "tell the
 // translator to redo this on the next run"; once redone, leaving it behind
@@ -795,11 +894,7 @@ for (const [index, localeText] of allLocaleText.entries()) {
 // batch by running the verifier and confirming every locale is clean.
 // No `steps` term needed: `translatedPaths` is only populated by `verifyLocale`, so a
 // run that narrowed `locale` out has an empty set and this branch can't fire.
-if (
-    TranslationRequested &&
-    FocalLocales.length === 0 &&
-    translatedPaths.size > 0
-) {
+if (TranslationRequested && CrossLocaleSteps && translatedPaths.size > 0) {
     const enUSLocale = 'en-US';
     const enUSText = must(readLocaleText(log, enUSLocale), 'the en-US locale');
     let stripped = 0;
@@ -845,7 +940,7 @@ if (
 // point, about a second — so it can run on every verify, including the watch-mode
 // one, instead of waiting for CI. The full history census stays in
 // `npm run locales-drift`, which is far too slow to run on every save.
-if (FocalLocales.length === 0 && steps.drift) {
+if (CrossLocaleSteps && steps.drift) {
     const base = getDriftBase();
     if (base !== undefined && sourceLocaleText !== undefined) {
         const driftLog = log.scope('Drift from en-US');
@@ -924,7 +1019,7 @@ if (FocalLocales.length === 0 && steps.drift) {
 // Build the word → locale index the languages dialog uses to find languages a project needs
 // but doesn't declare (#1246). It reads every locale's basis, so it can only be built on a
 // full run; a focal run leaves the committed artifact alone.
-if (FocalLocales.length === 0 && steps.artifacts) {
+if (CrossLocaleSteps && steps.artifacts) {
     await generateNameIndex(
         log.scope('Language name index'),
         allLocaleText,
@@ -934,7 +1029,7 @@ if (FocalLocales.length === 0 && steps.artifacts) {
 
 // Lift each locale's "choose a language" phrase into a bundled table, so the first-run
 // prompt can greet a visitor in their own language without fetching every locale (#1256).
-if (FocalLocales.length === 0 && steps.artifacts) {
+if (CrossLocaleSteps && steps.artifacts) {
     await generateChoosePrompts(
         log.scope('Language prompts'),
         allLocaleText,
@@ -944,7 +1039,7 @@ if (FocalLocales.length === 0 && steps.artifacts) {
 
 // Build one web app manifest per locale, so an installed Wordplay is named and
 // described in the language it was installed from (#564).
-if (FocalLocales.length === 0 && steps.artifacts) {
+if (CrossLocaleSteps && steps.artifacts) {
     await generateManifests(
         log.scope('App manifests'),
         allLocaleText,
@@ -956,7 +1051,7 @@ if (FocalLocales.length === 0 && steps.artifacts) {
 // only candidates — see ALWAYS_USED_PREFIXES in findUnusedKeys.ts for sections
 // excluded because they're read via runtime-computed keys. Warning, not bad:
 // false positives here would delete real translations if treated as errors.
-if (FocalLocales.length === 0 && steps.artifacts) {
+if (CrossLocaleSteps && steps.artifacts) {
     const unused = findUnusedKeys(DefaultLocale, 'src');
     if (unused.length > 0) {
         log.warning(
@@ -970,7 +1065,7 @@ if (FocalLocales.length === 0 && steps.artifacts) {
 // Every user-visible string field must declare a format tag ([plain]/[formatted]/
 // [name]/[emotion]) in its locale type, or it's invisible to the localization
 // editor and translators. This is a type-level (schema) property, so check once.
-if (FocalLocales.length === 0 && steps.artifacts) {
+if (CrossLocaleSteps && steps.artifacts) {
     const untagged = findUntaggedStrings(DefaultLocale);
     if (untagged.length > 0) {
         log.bad(
@@ -983,7 +1078,7 @@ if (FocalLocales.length === 0 && steps.artifacts) {
 // not collide with a reserved symbol, so it can be tokenized as one keyword. Warning, not error:
 // render-only display tolerates multi-word seeds, and machine-translated seeds are reviewed before a
 // locale's keywords ship. Coverage (every keyword present) is already enforced by the schema.
-{
+if (Shard === undefined) {
     const keywordIssues: string[] = [];
     for (const [locale, localeText] of Object.entries(textByLocale)) {
         const block = localeText.keyword;
@@ -1077,4 +1172,4 @@ if (translator?.getUsage !== undefined) {
 // `fix` mutates files and isn't a pass/fail gate, so don't fail it.
 // Set the code rather than calling process.exit, which can truncate a pending
 // write when stdout is a pipe — as it is for every batch.ts child.
-if (!FixRequested && log.errorCount > 0) process.exitCode = 1;
+if (!FixRequested && log.errorCount + shardErrors > 0) process.exitCode = 1;

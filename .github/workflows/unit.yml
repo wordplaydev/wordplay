@@ -112,6 +112,7 @@ jobs:
                   BASE="${{ github.event.pull_request.base.sha || github.event.before }}"
                   echo "WORDPLAY_LOCALES_BASE=$BASE" >> "$GITHUB_ENV"
                   git fetch --depth=1 origin "$BASE"
+            # Checks locales in one child process per core (parallelLocales.ts).
             - run: npm run locales
               name: Verify locales
 
