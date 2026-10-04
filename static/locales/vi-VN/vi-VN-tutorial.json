@@ -258,7 +258,7 @@
                             "FunctionDefinition",
                             "confused",
                             "$~Chào bạn, @ExpressionPlaceholder?",
-                            "$~Ừm, bình thường chúng có ở khắp mọi nơi. Giờ thì chúng dường như @variable mất không dấu vết..."
+                            "$~Ừm, bình thường chúng có ở khắp mọi nơi. Giờ thì chúng dường như biến mất không dấu vết..."
                         ],
                         [
                             "ExpressionPlaceholder",
@@ -759,7 +759,7 @@
                             "FunctionDefinition",
                             "happy",
                             "$~Tôi thực sự rất nhớ @Evaluate. Tôi không thể tưởng tượng Verse sẽ như thế nào nếu thiếu họ.",
-                            "$~Nhưng đôi khi họ hơi… dựa dẫm. Tôi ước gì họ… tôi không biết nữa, tin tưởng vào bản thân mình? Họ có thể làm được rất nhiều việc, nhưng họ không nhận ra điều đó. Ý tôi là, họ @variable *@value* này thành *giá trị* khác! Tôi chỉ cung cấp công thức, còn họ thì nấu nướng. Đôi khi tôi cảm thấy mình chỉ cho đi, còn họ chỉ biết nhận. Thật ngột ngạt."
+                            "$~Nhưng đôi khi họ hơi… dựa dẫm. Tôi ước gì họ… tôi không biết nữa, tin tưởng vào bản thân mình? Họ có thể làm được rất nhiều việc, nhưng họ không nhận ra điều đó. Ý tôi là, họ biến *@value* này thành *giá trị* khác! Tôi chỉ cung cấp công thức, còn họ thì nấu nướng. Đôi khi tôi cảm thấy mình chỉ cho đi, còn họ chỉ biết nhận. Thật ngột ngạt."
                         ],
                         null,
                         {
@@ -1424,7 +1424,7 @@
                         [
                             "Number",
                             "angry",
-                            "$~Không. Đó là lý do mình gạch chân @conflict. Mình không thích cộng những thứ không hợp nhau. Mình chỉ cộng được các số hợp nhau thôi. Điều này cũng áp dụng cho phép nhân, phép chia, và tất cả các hàm khác của mình. Bạn muốn sửa không? Đổi táo thành cam hoặc cam thành táo, thì conflict sẽ @variable mất. Hãy chắc chắn không có khoảng trắng giữa số và đơn vị; nếu không, mình sẽ không biết đó là đơn vị. Và hãy chắc chắn các đơn vị /giống hệt/ nhau. Mình không biết gì về đơn vị của con người đâu; chúng chẳng có ý nghĩa gì với mình. Mình chỉ so sánh tên đơn vị, và nếu chúng không khớp thì BÙM!"
+                            "$~Không. Đó là lý do mình gạch chân @conflict. Mình không thích cộng những thứ không hợp nhau. Mình chỉ cộng được các số hợp nhau thôi. Điều này cũng áp dụng cho phép nhân, phép chia, và tất cả các hàm khác của mình. Bạn muốn sửa không? Đổi táo thành cam hoặc cam thành táo, thì conflict sẽ biến mất. Hãy chắc chắn không có khoảng trắng giữa số và đơn vị; nếu không, mình sẽ không biết đó là đơn vị. Và hãy chắc chắn các đơn vị /giống hệt/ nhau. Mình không biết gì về đơn vị của con người đâu; chúng chẳng có ý nghĩa gì với mình. Mình chỉ so sánh tên đơn vị, và nếu chúng không khớp thì BÙM!"
                         ],
                         null,
                         [
@@ -2165,7 +2165,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~Chúng là gì?",
-                            "$~Chuyển đổi. Chúng là phép thuật của thế giới này, giúp @variable một @type của @value thành một cái khác. Hãy đi gặp chúng nào."
+                            "$~Chuyển đổi. Chúng là phép thuật của thế giới này, giúp biến một @type của @value thành một cái khác. Hãy đi gặp chúng nào."
                         ]
                     ]
                 },
@@ -2539,7 +2539,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Nhưng chúng ta có thể dùng tất cả các nhân vật tuyệt vời mà chúng ta đã gặp để @variable đổi thời gian thêm nữa. Ví dụ, sẽ thế nào nếu chúng ta muốn biết thời gian có phải là bội số của \\2\\ không? Chúng ta có thể dùng @Number.remainder, cái lấy số dư của một phép chia. Nếu số dư bằng không, chúng ta sẽ đánh giá thành \\⊤\\ và \\⊥\\ nếu không. Nhấn phát ▶️ và xem nó thay đổi qua lại giữa \\⊤\\ và \\⊥\\ như thế nào nhé? Thật kỳ diệu."
+                            "$~Nhưng chúng ta có thể dùng tất cả các nhân vật tuyệt vời mà chúng ta đã gặp để biến đổi thời gian thêm nữa. Ví dụ, sẽ thế nào nếu chúng ta muốn biết thời gian có phải là bội số của \\2\\ không? Chúng ta có thể dùng @Number.remainder, cái lấy số dư của một phép chia. Nếu số dư bằng không, chúng ta sẽ đánh giá thành \\⊤\\ và \\⊥\\ nếu không. Nhấn phát ▶️ và xem nó thay đổi qua lại giữa \\⊤\\ và \\⊥\\ như thế nào nhé? Thật kỳ diệu."
                         ],
                         [
                             "Time",
@@ -2911,7 +2911,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Thậm chí, người ta còn có thể biết khi nào một @Output va chạm với một output khác bằng một luồng liên quan có tên là @Collision.",
-                            "$~Chúng ta chỉ cần đặt tên cho hai @variable @Output của mình. Hay là 'ball' và 'ground'?",
+                            "$~Chúng ta chỉ cần đặt tên cho hai biến @Output của mình. Hay là 'ball' và 'ground'?",
                             "$~Sau đó, @Collision sẽ trả về @Rebound khi chúng chạm vào nhau và @None khi chúng không chạm vào nhau.",
                             "$~Hãy làm cho quả bóng to lên mỗi khi chạm đất để nhấn mạnh!"
                         ],
@@ -2998,7 +2998,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Khi đã có danh sách từ, bạn có thể làm bất cứ điều gì với chúng! Ví dụ như chọn năm từ đầu tiên và @variable chúng thành những cụm từ xoay vòng chẳng hạn."
+                            "$~Khi đã có danh sách từ, bạn có thể làm bất cứ điều gì với chúng! Ví dụ như chọn năm từ đầu tiên và biến chúng thành những cụm từ xoay vòng chẳng hạn."
                         ]
                     ]
                 },
@@ -3029,7 +3029,7 @@
                         [
                             "Reaction",
                             "sad",
-                            "$~Lạ thật, lạ thật. Cả đời tôi luôn hướng đến sự thay đổi, luôn lắng nghe và quan sát những ý kiến mới từ mọi người, giúp @variable chúng thành những giá trị. Nhưng cho đến tận lúc nãy chẳng có gì cả… Khoan đã… đó có phải là một người không?"
+                            "$~Lạ thật, lạ thật. Cả đời tôi luôn hướng đến sự thay đổi, luôn lắng nghe và quan sát những ý kiến mới từ mọi người, giúp biến chúng thành những giá trị. Nhưng cho đến tận lúc nãy chẳng có gì cả… Khoan đã… đó có phải là một người không?"
                         ],
                         null,
                         { "fit": "Phrase('…' resting:Pose(rotation: 360°))" },
@@ -3402,7 +3402,7 @@
                         [
                             "Phrase",
                             "surprised",
-                            "$~Không phải lối thoát mà bạn mong muốn sao? Màn @variable mất đột ngột có vẻ hơi đột ngột nhỉ? Hãy cho tôi một @Phrase.exiting @Pose, và tôi sẽ lướt đi trên sân khấu theo bất kỳ tư thế nào bạn muốn. Nào, chúng ta sẽ để tôi trở nên to lớn hơn bình thường, rơi lộn ngược và mờ dần về @Pose.opacity \\0\\."
+                            "$~Không phải lối thoát mà bạn mong muốn sao? Màn biến mất đột ngột có vẻ hơi đột ngột nhỉ? Hãy cho tôi một @Phrase.exiting @Pose, và tôi sẽ lướt đi trên sân khấu theo bất kỳ tư thế nào bạn muốn. Nào, chúng ta sẽ để tôi trở nên to lớn hơn bình thường, rơi lộn ngược và mờ dần về @Pose.opacity \\0\\."
                         ],
                         {
                             "fit": "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
@@ -4044,7 +4044,7 @@
                         [
                             "Music",
                             "serious",
-                            "$~Tôi @variable những con số thành âm thanh."
+                            "$~Tôi biến những con số thành âm thanh."
                         ],
                         [
                             "FunctionDefinition",
@@ -5631,7 +5631,7 @@
                         [
                             "Number",
                             "serious",
-                            "$~1) Về cơ bản, bạn điều hành mọi hoạt động của chúng tôi, 2) @FunctionDefinition sẽ vô dụng nếu không có bạn, 3) bạn thực sự @variable đổi mọi thứ thành những @value hoàn toàn mới, 4) bạn xuất hiện dưới nhiều hình thức khác nhau, 5) bạn mang lại mục đích sống cho tất cả chúng ta, 6) tất cả chúng ta đều trông cậy vào sự hướng dẫn của bạn…"
+                            "$~1) Về cơ bản, bạn điều hành mọi hoạt động của chúng tôi, 2) @FunctionDefinition sẽ vô dụng nếu không có bạn, 3) bạn thực sự biến đổi mọi thứ thành những @value hoàn toàn mới, 4) bạn xuất hiện dưới nhiều hình thức khác nhau, 5) bạn mang lại mục đích sống cho tất cả chúng ta, 6) tất cả chúng ta đều trông cậy vào sự hướng dẫn của bạn…"
                         ],
                         null,
                         { "fit": "Stage([] background: Color(20% 0 0°))" },

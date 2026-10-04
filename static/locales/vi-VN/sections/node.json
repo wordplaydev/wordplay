@@ -118,7 +118,7 @@
                 "\\chào: 5\nchào\\",
                 "Bởi vì @Bind có thể xuất hiện ở rất nhiều nơi, tôi cũng có thể xuất hiện ở nhiều nơi. Tôi đã ở trong một @Block phía trên, nhưng tôi cũng có thể ở trong một @FunctionDefinition. Ở đây tôi đang đặt tên tạm thời cho một thông điệp:",
                 "\\ƒ nói(tinNhắn•'') tinNhắn\\",
-                "Tôi được định nghĩa bên trong @FunctionDefinition, và ngay khi hàm tính toán xong, tôi @variable mất.",
+                "Tôi được định nghĩa bên trong @FunctionDefinition, và ngay khi hàm tính toán xong, tôi biến mất.",
                 "Bạn có thể dùng @Language để chỉ ra tên của tôi bằng ngôn ngữ nào. Điều này hữu ích khi chia sẻ tác phẩm của bạn với người khác, phòng khi họ muốn đọc chương trình của bạn."
             ]
         },
@@ -329,7 +329,7 @@
                 "Trong toán học, phép nhân sẽ được làm trước, rồi đến phép cộng, nên kết quả sẽ là \\11\\. Nhưng vì tôi đánh giá theo thứ tự đọc, kết quả lại là \\13\\."
             ],
             "label": {
-                "operator": "$~người vận hành"
+                "operator": "$~toán tử"
             },
             "right": "$~đầu vào",
             "start": "$~Hãy đánh giá $left trước",
@@ -616,7 +616,7 @@
             "doc": [
                 "Này anh bạn, tôi định nghĩa các chuyển đổi từ @type này sang kiểu dữ liệu khác! Tôi vào @Block, đại loại như thế này:",
                 "\\→ #kitty #cat ⬚ ÷ 2\n6kitty→#cat\\",
-                "Các bạn thấy tôi đã @variable những chú mèo con thành mèo trưởng thành như thế nào chưa? Tuyệt vời!",
+                "Các bạn thấy tôi đã biến những chú mèo con thành mèo trưởng thành như thế nào chưa? Tuyệt vời!",
                 "Có thể bạn đang thắc mắc dấu chấm \\⬚\\ ở đó có ý nghĩa gì. Nó đại diện cho @value đang được chuyển đổi. Tôi sử dụng nó vì nếu không thì giá trị đó không có tên."
             ],
             "start": "$~Tuyệt vời, một bản chuyển đổi mới!",
@@ -633,7 +633,7 @@
             "description": "$~chuyển $expression sang $type",
             "emotion": "cheerful",
             "doc": [
-                "$~Tôi @variable các @value từ @type này sang kiểu khác. Này — xem thử nhé:",
+                "$~Tôi biến các @value từ @type này sang kiểu khác. Này — xem thử nhé:",
                 "\\1 → \"\"\\",
                 "\\5s → #ms\\",
                 "\\'xin chào' → []\\",
@@ -1174,7 +1174,7 @@
             },
             "doc": [
                 "$~Tôi tạo một @stream phát trực tiếp mới và nó sẽ cập nhật mỗi khi có sự thay đổi từ luồng phát khác. Phát trực tiếp thật tuyệt vời!",
-                "Ví dụ, nếu bạn muốn @variable @Time thành tiếng tích tắc, nhưng thay vì hiển thị số, bạn có thể làm như thế này:",
+                "Ví dụ, nếu bạn muốn biến @Time thành tiếng tích tắc, nhưng thay vì hiển thị số, bạn có thể làm như thế này:",
                 "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "Điều đó giống như nói \"/bắt đầu bằng từ 'bắt đầu' và sau đó nếu thời gian thay đổi, hãy chuyển sang số chẵn hoặc số lẻ, tùy thuộc vào thời gian.\"",
                 "Vậy là tôi cũng giống như một dòng chảy, nhưng là dòng chảy dựa trên các dòng chảy khác. Tuyệt vời, phải không?"
@@ -1620,7 +1620,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Tôi đại diện cho một @FunctionDefinition. Tôi rất hữu ích nếu bạn muốn chỉ định loại hàm mà @Bind chứa! Ví dụ như thế này:",
-                "\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\🪲"
+                "\\math•ƒ (a•# b•# c•# d•#) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\🪲"
             ]
         },
         "ListType": {
@@ -1838,7 +1838,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Tôi làm CÙNG MỘT việc với MỌI @element trong một tập hợp! Ồ Ồ Ồ! Đó đúng là việc tôi LÀM!!",
-                "Đặt một tập hợp ở bên trái tôi, vẽ mũi tên của tôi \\↦\\, rồi ở bên phải của mình hãy viết mỗi món nên @variable THÀNH cái gì — dùng @This để chỉ món mà mình đang cầm NGAY BÂY GIỜ!",
+                "Đặt một tập hợp ở bên trái tôi, vẽ mũi tên của tôi \\↦\\, rồi ở bên phải của mình hãy viết mỗi món nên biến THÀNH cái gì — dùng @This để chỉ món mà mình đang cầm NGAY BÂY GIỜ!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ cho bạn \\[2 3 4]\\. BÙM! Mỗi số, cộng thêm một, không vòng lặp, không @FunctionDefinition, không rắc rối!",
                 "Mình TUYỆT VỜI trong việc tạo ra output @Phrase từ dữ liệu! Có một danh sách tên? \\['Ada' 'Mac' 'Tim'] ↦ Cụmtừ(⬚)\\ và bây giờ có một cụm từ cho MỖI cái tên!!",
                 "Mình hoạt động với @List, @Set, @Map (mình thay đổi @value của bản đồ — các chìa khóa vẫn ở đúng chỗ của chúng!), và cả @Table nữa!",

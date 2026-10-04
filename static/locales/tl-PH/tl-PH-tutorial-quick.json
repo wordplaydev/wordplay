@@ -18,7 +18,7 @@
                             "FunctionDefinition",
                             "cheerful",
                             "$~Maligayang pagdating sa @wordplay! Narinig kong may alam ka na tungkol sa programming? Mahusay! Ipapakita ng maikling pasyal na ito kung ano ang magkatulad at kung ano ang iba sa Wordplay.",
-                            "$~Para malaman mo ang lahat sa screen na ito, ipinapakita ng pahinang ito ang @tutorial dialog at isang @project view. Makikita mo ang *stage* @UI/stage, na nagpapakita ng output ng programa, at ang *editor* @UI/editor, na siyang code ng programa.",
+                            "$~Para malaman mo ang lahat sa screen na ito, ipinapakita ng pahinang ito ang @tutorial dialog at isang @project view. Makikita mo ang *stage* @UI/stage, na nagpapakita ng output ng programa, at ang *@editor* @UI/editor, na siyang code ng programa.",
                             "$~Walang laman ang programang ito, kaya ang output nito ay isa lamang paalala na magsulat ng programa.",
                             "$~Maraming iba pang kontrol para sa pag-pause at pag-play ng programa at pag-edit ng code, pero huwag mong alalahanin iyon sa ngayon."
                         ],

@@ -201,7 +201,7 @@
                 "Về cơ bản, @List đại diện cho một hình ảnh, nhưng bạn sẽ quyết định sử dụng nó như thế nào.",
                 "Bạn có thể thử thể hiện hình ảnh bằng nhiều @Phrase , trông sẽ khá thú vị đấy! Hãy thử sao chép đoạn mã này...",
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' vịTrí: Place((x - 1) × 0.5m y × -0.5m) màusắc: color khoảngthờigian: 0s\n)\n)\n)\n)\n)\\",
-                "Nhưng bạn cũng có thể phân tích màu sắc để quyết định xem đèn có bật hay tắt, hoặc liệu một màu cụ thể có phổ @variable hay không, cho phép khán giả tác động đến màn trình diễn bằng màu sắc mà họ thể hiện."
+                "Nhưng bạn cũng có thể phân tích màu sắc để quyết định xem đèn có bật hay tắt, hoặc liệu một màu cụ thể có phổ biến hay không, cho phép khán giả tác động đến màn trình diễn bằng màu sắc mà họ thể hiện."
             ],
             "names": ["$~Máyảnh"],
             "width": {
@@ -446,7 +446,7 @@
         },
         "Speech": {
             "doc": [
-                "$~Nó nhận diện lời nói và @variable nó thành @Text.",
+                "$~Nó nhận diện lời nói và biến nó thành @Text.",
                 "/xin chào!/",
                 "Nó dùng khả năng nhận diện giọng nói của trình duyệt để nghe những gì bạn nói và biến nó thành từ ngữ (điều này thật tuyệt phải không?!).",
                 "\\Lờinói()\\",
@@ -554,7 +554,7 @@
         "Now": {
             "doc": [
                 "$~Tôi đánh dấu một @Moment mới theo nhịp mà bạn chọn, nên chương trình luôn biết ngày hôm nay và giờ hiện tại.",
-                "Điều này @variable một chiếc đồng hồ theo @region thành một dòng @code:",
+                "Điều này biến một chiếc đồng hồ theo @region thành một dòng @code:",
                 "\\Cụmtừ(⏰() → '')\\",
                 "Mặc định thì tôi đánh dấu mỗi giây. Hãy cho tôi một @Now.frequency tính bằng giây, phút, hoặc giờ để đổi nhịp:",
                 "\\⏰(1min)\\",

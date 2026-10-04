@@ -887,7 +887,7 @@
                     "confirm": "Verifique o seu endereço de e-mail antigo para confirmar o seu novo endereço.",
                     "delete": "Quer que esqueçamos tudo o que fez aqui? Isto não tem volta a dar.",
                     "reallyDelete": "Tem a certeza? A sua conta e definições serão eliminadas imediatamente e os seus projetos serão agendados para eliminação. Os colaboradores dos seus projetos perderão o acesso aos mesmos de imediato. Introduza o seu e-mail ou nome de utilizador para confirmar que é isso que pretende.",
-                    "name": "Escolhaumemojiouumapersonagempersonalizadaparaserepresentaraosoutros.",
+                    "name": "Escolha um emoji ou uma personagem personalizada para se representar aos outros.",
                     "paste": "$~O ligação abriu noutro lugar? As aplicações instaladas às vezes abrem as ligações de correio eletrónico num navegador de internet. Copie a ligação do seu correio eletrónico e cole-a aqui para terminar de iniciar sessão."
                 },
                 "error": {

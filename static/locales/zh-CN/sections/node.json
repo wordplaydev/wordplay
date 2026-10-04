@@ -1618,7 +1618,7 @@
             "emotion": "curious",
             "doc": [
                 "$~我代表一个 @FunctionDefinition。如果你想说明某个 @Bind 持有哪种函数,我真的很有用!像这样:",
-                "\\math•ƒ( #\n###)#:ƒinteresting(a•#b•#c•#d•#)a+b+c+d\\🪲"
+                "\\math•ƒ (a•# b•# c•# d•#) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\🪲"
             ]
         },
         "ListType": {

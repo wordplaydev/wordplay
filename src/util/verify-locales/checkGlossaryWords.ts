@@ -142,7 +142,8 @@ export default function repairGlossaryWords(
 }
 
 /** Whole-word count of a term's word and forms in some text. Only ever applied
- *  to en-US, whose script marks word boundaries. */
+ *  to en-US, whose script marks word boundaries. A `$scope` template input is
+ *  not a use: it put `scope` in play with two uses of the word in prose. */
 function englishUses(entry: GlossaryText, text: string) {
     let uses = 0;
     for (const candidate of [entry.word, ...(entry.forms ?? [])]) {
@@ -151,7 +152,7 @@ function englishUses(entry: GlossaryText, text: string) {
         uses += (
             text.match(
                 new RegExp(
-                    `(?<![\\p{L}\\p{N}])${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}])`,
+                    `(?<![\\p{L}\\p{N}$])${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\p{L}\\p{N}])`,
                     'giu',
                 ),
             ) ?? []

@@ -1603,11 +1603,11 @@
                         ]
                     },
                     "readAloud": {
-                        "label": "$~Anleitung laut vorlesen",
+                        "label": "$~Tutorial laut vorlesen",
                         "labels": ["$~aus", "$~an"],
                         "tips": [
-                            "$~Eine Zeile der Anleitung nur dann laut vorlesen, wenn die Vorlesen-Taste gedrückt wird",
-                            "$~Jede neue Zeile der Anleitung sofort laut vorlesen, wenn sie erscheint"
+                            "$~Eine Zeile des Tutorials nur dann laut vorlesen, wenn die Vorlesen-Taste gedrückt wird",
+                            "$~Jede neue Zeile des Tutorials sofort laut vorlesen, wenn sie erscheint"
                         ]
                     },
                     "readAloudRate": {
@@ -1660,7 +1660,7 @@
             },
             "locale": {
                 "header": "$~Sprache",
-                "explanation": "$~Wähle Sprachen für die Oberfläche, die Anleitung und die Dokumentation. Sprachen mit 🤖 sind noch größtenteils maschinell übersetzt, daher können manche Texte unleserlich oder falsch sein.",
+                "explanation": "$~Wähle Sprachen für die Oberfläche, das Tutorial und die Dokumentation. Sprachen mit 🤖 sind noch größtenteils maschinell übersetzt, daher können manche Texte unleserlich oder falsch sein.",
                 "subheader": {
                     "selected": "$~Ausgewählt",
                     "supported": "$~Verfügbar"

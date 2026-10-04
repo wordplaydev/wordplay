@@ -1619,7 +1619,7 @@
             "emotion": "curious",
             "doc": [
                 "$~나는 @FunctionDefinition 을 나타냄. @Bind 가 어떤 종류의 함수를 가지고 있는지 말하고 싶을 때 정말 도움이 돼! 이렇게:",
-                "\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\🪲"
+                "\\math•ƒ (a•# b•# c•# d•#) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\🪲"
             ]
         },
         "ListType": {

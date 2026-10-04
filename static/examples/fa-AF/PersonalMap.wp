@@ -135,7 +135,7 @@ the keyboard arrows or clicking the stage.
 We use it to place the character.¶/en
 ¶यह धारा बीच में शुरु होता है, लेकिन कीबोर्ड या माउस के साथ बदल सकते हैं।
 हम इस के साथ character को मंच पर रखते हैं।¶/hi
-where/en,किधर/hi: جای‌گذاری(جای(0m 0m))
+where/en,किधर/hi: جای‌گذاری(مکان(0m 0m))
 
 ¶This takes all of the content above and renders it,
 putting each landmark on stage in a particular location
@@ -150,26 +150,26 @@ stream to check collisions.¶/en
 		عبارت(
 			'🍂'
 			نام: "Virginia"/en,"वर्जिनिया"/hi
-			مکان: جای(-3m 0m)
+			مکان: مکان(-3m 0m)
 			ماده: ماده()
 		)
 		عبارت(
 			`@ellipsis/CuteDuckie`
 			نام: "California"/en,"कॅलिफ़ोर्निया"/hi
-			مکان: جای(-10m 0m)
+			مکان: مکان(-10m 0m)
 			ماده: ماده()
 			اندازه: 1.4m
 		)
 		عبارت(
 			'🏕'
 			نام: "India"/en,"भारत"/hi
-			مکان: جای(5m -6m)
+			مکان: مکان(5m -6m)
 			ماده: ماده()
 		)
 		عبارت(
 			`@ellipsis/GoDawgs`
 			نام: "Washington"/en,"वाशिंटन"/hi
-			مکان: جای(-10m 6m)
+			مکان: مکان(-10m 6m)
 			ماده: ماده()
 			اندازه: 1.4m
 		)
@@ -181,8 +181,8 @@ stream to check collisions.¶/en
 			درحالحرکت: دنباله(
 				{
 					0%: ژست()
-					50%: ژست(فاصله: جای(0m 1m 0m))
-					100%: ژست(فاصله: جای(0m 0m 0m))
+					50%: ژست(فاصله: مکان(0m 1m 0m))
+					100%: ژست(فاصله: مکان(0m 0m 0m))
 				}
 				مدت: 0.5s
 			)

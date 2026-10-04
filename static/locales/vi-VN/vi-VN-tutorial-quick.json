@@ -77,7 +77,7 @@
                             "excited",
                             "$~Một số ngôn ngữ cũng có một @operator *null coalescing* để cung cấp một @value mặc định khi một @variable là null hoặc chưa xác định:",
                             "\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
-                            "$~@wordplay có operator @Otherwise để đạt được cùng kết quả đó."
+                            "$~@wordplay có toán tử @Otherwise để đạt được cùng kết quả đó."
                         ]
                     ]
                 },
@@ -157,7 +157,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Một thao tác phổ @variable trong lập trình là chuyển dữ liệu từ @type này sang @type khác. Ví dụ, ta có thể muốn chuyển một số thành một @value văn bản:",
+                            "$~Một thao tác phổ biến trong lập trình là chuyển dữ liệu từ @type này sang @type khác. Ví dụ, ta có thể muốn chuyển một số thành một @value văn bản:",
                             "\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
                             "$~Mọi value của @wordplay đều có một cấu trúc @Convert cho phép bạn chuyển đổi giữa các type. Ví dụ này chuyển \\1m\\ sang feet, rồi sang @Text. Mỗi type của value có cả một tập hợp các phép chuyển đổi được hỗ trợ"
                         ],

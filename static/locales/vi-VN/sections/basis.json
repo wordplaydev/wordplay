@@ -21,7 +21,7 @@
                     "names": ["$~Và", "và"],
                     "inputs": [
                         {
-                            "doc": "$~@variable @Boolean khác cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, thì @value của biến này không quan trọng, hàm sẽ trả về \\⊥\\.",
+                            "doc": "$~biến @Boolean khác cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, thì @value của biến này không quan trọng, hàm sẽ trả về \\⊥\\.",
                             "names": "$~giátrị"
                         }
                     ]
@@ -37,7 +37,7 @@
                     "names": ["$~hoặc"],
                     "inputs": [
                         {
-                            "doc": "$~@variable @Boolean còn lại cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, hàm sẽ chỉ trả về \\⊤\\ nếu biến này cũng là \\⊤\\.",
+                            "doc": "$~biến @Boolean còn lại cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, hàm sẽ chỉ trả về \\⊤\\ nếu biến này cũng là \\⊤\\.",
                             "names": "$~giátrị"
                         }
                     ]
@@ -119,7 +119,7 @@
                 "Bạn thấy tớ vừa tính những phép cộng đó một cách gọn gàng và đặt chúng vào bên trong @Text chưa?",
                 "Tớ còn một bí mật nhỏ cuối cùng: bạn có biết mỗi chúng ta đều có một con số riêng không? Đúng vậy đó! Bạn có thể nhắc đến chúng tớ bằng cách viết @U/ và con số của chúng tớ. Ví dụ, @FunctionDefinition là 192:",
                 "\\'@U/192'\\",
-                "Bạn thấy @U/192 đã @variable thành @FunctionDefinition như thế nào chưa? Tớ nghe nói bạn gọi những con số này là 'Unicode'.",
+                "Bạn thấy @U/192 đã biến thành @FunctionDefinition như thế nào chưa? Tớ nghe nói bạn gọi những con số này là 'Unicode'.",
                 "Ngoài ra, còn có rất nhiều hàm tuyệt vời mà @FunctionDefinition đã tạo ra cho tớ để làm đủ mọi thứ với chữ nghĩa!"
             ],
             "name": ["$~Chữ"],
@@ -492,7 +492,7 @@
                 },
                 "round": {
                     "doc": [
-                        "$~Tôi tạo một @variable @Number mới để làm tròn số đến số nguyên gần nhất.",
+                        "$~Tôi tạo một biến @Number mới để làm tròn số đến số nguyên gần nhất.",
                         "\\9.4.round()\\",
                         "\\9.5.round()\\",
                         "\\9.6.round()\\"
@@ -502,7 +502,7 @@
                 },
                 "roundDown": {
                     "doc": [
-                        "$~Tôi tạo một @variable @Number mới làm tròn đến số nguyên nhỏ nhất nhỏ hơn tôi.",
+                        "$~Tôi tạo một biến @Number mới làm tròn đến số nguyên nhỏ nhất nhỏ hơn tôi.",
                         "\\10.5.roundDown()\\",
                         "\\10.1.roundDown()\\",
                         "\\10.01.roundDown()\\"
@@ -775,7 +775,7 @@
                 },
                 "rescale": {
                     "doc": [
-                        "$~Tìm xem tôi nằm ở đâu giữa một cặp số, rồi trả về số nằm ở vị trí tương tự giữa một cặp số khác. Hữu ích khi @variable một thứ bạn đã đo được thành thứ bạn có thể hiển thị.",
+                        "$~Tìm xem tôi nằm ở đâu giữa một cặp số, rồi trả về số nằm ở vị trí tương tự giữa một cặp số khác. Hữu ích khi biến một thứ bạn đã đo được thành thứ bạn có thể hiển thị.",
                         "\\300hz.rescale(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~đổiTỉLệ",
@@ -1169,7 +1169,7 @@
                 },
                 "translate": {
                     "doc": [
-                        "$~Hãy đưa cho mình một @FunctionDefinition nhận vào một @value và một @index tùy chọn rồi tạo ra một giá trị, và mình sẽ chạy nó trên từng @element của mình, @variable các giá trị của mình thành các giá trị mới.",
+                        "$~Hãy đưa cho mình một @FunctionDefinition nhận vào một @value và một @index tùy chọn rồi tạo ra một giá trị, và mình sẽ chạy nó trên từng @element của mình, biến các giá trị của mình thành các giá trị mới.",
                         "Ví dụ, hãy tưởng tượng mình là một danh sách @Number và bạn muốn nhân đôi tất cả chúng:",
                         "\\[2 4 6 8].dịch(ƒ(số•#) số × 2)\\"
                     ],
@@ -1349,7 +1349,7 @@
                         "\\[1 5 8 0 2].đãsắpxếp()\\",
                         "Tôi cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa được sắp xếp ngay cạnh chữ cái viết thường của nó, nên một từ không bị đẩy xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
                         "\\['Cam' 'kiwi' 'Chuối' 'táo'].đãsắpxếp()\\",
-                        "Và nếu bạn có một danh sách các giá trị không phải @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition @variable mỗi @element thành một @Number hoặc một @Text để tôi có thể sắp xếp nó. Ví dụ, đây là một danh sách các danh sách có độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài của chúng.",
+                        "Và nếu bạn có một danh sách các giá trị không phải @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition biến mỗi @element thành một @Number hoặc một @Text để tôi có thể sắp xếp nó. Ví dụ, đây là một danh sách các danh sách có độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài của chúng.",
                         "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách2) danhSách2.chiềudài()\n)\\",
                         "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ mà bạn tính toán, thay vì theo chính giá trị đó. Ở đây tôi sắp xếp tên theo họ:",
                         "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên2•'') (tên2 ÷ ' ').cuốicùng()\n)\\"
@@ -1357,13 +1357,13 @@
                     "names": "$~đãsắpxếp",
                     "inputs": [
                         {
-                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên @variable giá trị thành một @Number hoặc một @Text có thể dùng để sắp xếp danh sách.",
+                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên biến giá trị thành một @Number hoặc một @Text có thể dùng để sắp xếp danh sách.",
                             "names": "$~bộđiềukhiểntrìnhtự"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~@value cần @variable thành một @Number hoặc một @Text.",
+                            "doc": "$~@value cần biến thành một @Number hoặc một @Text.",
                             "names": "$~giátrị"
                         }
                     ]

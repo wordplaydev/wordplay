@@ -113,30 +113,35 @@ function usage(target: LocaleText, text: string) {
 }
 
 test('a word the locale never writes is reported', () => {
-    const lines = usage(
-        withWord('scope', 'Gültigkeitsbereich'),
-        'nothing here',
-    );
-    expect(lines.some((line) => line.includes('Gültigkeitsbereich'))).toBe(
-        true,
-    );
+    const lines = usage(withWord('stream', 'Datenstrom'), 'nothing here');
+    expect(lines.some((line) => line.includes('Datenstrom'))).toBe(true);
 });
 
 test('a word the locale does write is not reported', () => {
     const lines = usage(
-        withWord('scope', 'Gültigkeitsbereich'),
-        'der Gültigkeitsbereich eines Namens',
+        withWord('stream', 'Datenstrom'),
+        'der Datenstrom eines Programms',
     );
-    expect(lines.some((line) => line.includes('Gültigkeitsbereich'))).toBe(
-        false,
-    );
+    expect(lines.some((line) => line.includes('Datenstrom'))).toBe(false);
 });
 
 test('an inflected occurrence counts, since matching is substring', () => {
     // Which is what lets this degrade correctly in agglutinative languages and
     // unspaced scripts, where `glossaryLinks` deliberately declines.
-    const lines = usage(withWord('scope', 'kapsam'), 'kapsamı içinde');
-    expect(lines.some((line) => line.includes('kapsam'))).toBe(false);
+    const lines = usage(withWord('stream', 'akış'), 'akışı içinde');
+    expect(lines.some((line) => line.includes('akış'))).toBe(false);
+});
+
+test('a template input naming the word does not put it in play', () => {
+    // en-US's `$scope` inputs once made `scope` a term in play with two uses in
+    // prose, which flagged it in nine locales.
+    const lines = usage(
+        withWord('scope', 'Gültigkeitsbereich'),
+        'nothing here',
+    );
+    expect(lines.some((line) => line.includes('Gültigkeitsbereich'))).toBe(
+        false,
+    );
 });
 
 test('a word only repeated from en-US is skipped', () => {

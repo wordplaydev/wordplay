@@ -238,7 +238,7 @@
                             "happy",
                             "$~שפות תכנות אחרות מאפשרות לכם לשנות את ערכי המשתנים בזמן ריצה, מה שיכול להיות שימושי ליצירת יישומים דינמיים ואינטראקטיביים. אבל הן דורשות מכם לזכור לעדכן את הערכים במקומות הנכונים, ולעדכן את מה שמוצג על המסך כשהערכים האלה משתנים:",
                             "\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "$~@wordplay מפשט את זה באמצעות @Reaction @expression, שמתחיל בערך התחלתי, בודק @condition שמתייחס לקלטים של זרמים, ומעדכן את ערך הביטוי על פי השינויים של הזרם. בדוגמה הזו, בכל פעם שהזרם @Button @variable, אנחנו מעדכנים את ערך המונה, וזה מעדכן את ה-@Phrase שמוצג על @Stage."
+                            "$~@wordplay מפשט את זה באמצעות @Reaction @expression, שמתחיל בערך התחלתי, בודק @condition שמתייחס לקלטים של זרמים, ומעדכן את ערך הביטוי על פי השינויים של הזרם. בדוגמה הזו, בכל פעם שהזרם @Button משתנה, אנחנו מעדכנים את ערך המונה, וזה מעדכן את ה-@Phrase שמוצג על @Stage."
                         ]
                     ]
                 },
@@ -301,7 +301,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~*שתיים:* *הגיבו* לזרם על ידי גזירת ערכי @Bind חדשים. כאן turn ממיר את הזמן שעבר למעלות, ומחושב מחדש בכל פעם ש-elapsed @variable."
+                            "$~*שתיים:* *הגיבו* לזרם על ידי גזירת ערכי @Bind חדשים. כאן turn ממיר את הזמן שעבר למעלות, ומחושב מחדש בכל פעם ש-elapsed משתנה."
                         ],
                         null,
                         {

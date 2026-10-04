@@ -124,7 +124,7 @@
                 }
             },
             "label": {
-                "output": "fase",
+                "output": "palco",
                 "palette": "paleta",
                 "docs": "guia",
                 "source": "fonte",
@@ -271,7 +271,7 @@
             "tour": {
                 "launch": "Faça um tour pelos controlos do projeto.",
                 "controls": "Estes /controlos/ na parte inferior aplicam-se ao *projecto como um todo*, independentemente do bloco em que está a trabalhar.",
-                "name": "Ocampo/name/éonomedoseuprojeto.Osnomesaparecemnasvistas*projecto*e*galeria*.",
+                "name": "O campo /nome/ é o nome do seu projeto. Os nomes aparecem nas vistas *projecto* e *galeria*.",
                 "sourceToggle": "Este botão /toggle/ mostra ou oculta o *ficheiro de origem*. Os *outros botões /toggle* desta linha fazem o mesmo para os outros blocos.",
                 "addSource": "$~Alguns projetos beneficiam de *vários* ficheiros de fonte, onde os dados são guardados num deles e importados para a fonte *principal*. O botão /adicionar fonte/ oferece as formas de criar um: um ficheiro vazio, uma imagem, uma música, ou alguns dados.",
                 "share": "A caixa de diálogo /partilhar/ permite-lhe partilhar o seu projeto com *galerias*, com o *público* ou copiá-lo como *texto* para partilhar noutro local.",
@@ -1047,10 +1047,10 @@
             },
             "tour": {
                 "launch": "faça um passeio pelo palco",
-                "stage": "O parâmetro /stage/ mostra o *valor actual* do seu programa. Este valor pode ser um *valor bruto*, como um número ou uma lista, uma *saída visual* que pode ver ou até um *som* que pode ouvir.",
+                "stage": "O /palco/ mostra o *valor actual* do seu programa. Este valor pode ser um *valor bruto*, como um número ou uma lista, uma *saída visual* que pode ver ou até um *som* que pode ouvir.",
                 "reset": "$~O botão /reiniciar/ faz a avaliação do teu programa começar de novo desde o *início*, em qualquer modo: em ▶️ *reprodução* ele executa outra vez desde o topo, em ✏️ *edição* ele pausa depois da primeira avaliação para poderes ver o efeito das tuas edições no resultado inicial, e em ⏸️ *depuração* ele pausa logo no primeiro passo.",
                 "zoom": "Os botões /zoom/ permitem ampliar e reduzir o zoom no ecrã para que possa ver a sua saída com mais clareza ou com mais detalhe.",
-                "grid": "O botão /grid/ apresenta uma *grelha* no ecrã, útil para posicionar os elementos com precisão durante o processo de criação.",
+                "grid": "O botão /grelha/ apresenta uma *grelha* no ecrã, útil para posicionar os elementos com precisão durante o processo de criação.",
                 "lock": "O botão /lock/ fixa a visão do palco. Quando *bloqueado*, o palco permanece estático; quando *desbloqueado*, pode mover e ampliar a imagem livremente.",
                 "animationSpeed": "O controlo /velocidade da animação/ define a velocidade de reprodução das animações. O mesmo controlo está em *definições*, pelo que pode alterá-lo em qualquer um dos locais."
             },

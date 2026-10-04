@@ -525,7 +525,7 @@
         "Color": {
             "doc": [
                 "$~Tôi là một màu sắc nhìn thấy được, tạo thành từ ba chiều thiết yếu.",
-                "Đây là một số màu phổ @variable quanh vòng tròn màu, ở độ sáng trung bình và độ tươi cao:",
+                "Đây là một số màu phổ biến quanh vòng tròn màu, ở độ sáng trung bình và độ tươi cao:",
                 "\\Màusắc(50% 100 0°)\\",
                 "\\Màusắc(50% 100 30°)\\",
                 "\\Màusắc(50% 100 60°)\\",
@@ -919,7 +919,7 @@
                     ],
                     "names": ["$~xoayvòng"],
                     "angle": {
-                        "doc": "$~Xoay bao nhiêu trước khi @variable mất, tính bằng độ.",
+                        "doc": "$~Xoay bao nhiêu trước khi biến mất, tính bằng độ.",
                         "names": ["$~góc"]
                     }
                 },
@@ -1462,7 +1462,7 @@
         },
         "Music": {
             "doc": [
-                "$~Tôi @variable các nốt nhạc thành âm thanh: một hoặc nhiều @Track phát cùng nhau, ở một nhịp độ, trong một tông, dựa trên một thang âm. Tôi là âm nhạc mà bạn có thể nghe /và/ nhìn thấy — mỗi người xem chọn cách tôi xuất hiện.",
+                "$~Tôi biến các nốt nhạc thành âm thanh: một hoặc nhiều @Track phát cùng nhau, ở một nhịp độ, trong một tông, dựa trên một thang âm. Tôi là âm nhạc mà bạn có thể nghe /và/ nhìn thấy — mỗi người xem chọn cách tôi xuất hiện.",
                 "Bài hát nhỏ nhất là ba nốt trên một bản nhạc:",
                 "\\🎼(🎶([1 3 5]))\\",
                 "Nốt nhạc là các con số. 1 là nốt đầu tiên của thang âm — nốt mà một giai điệu nghe như đã kết thúc — 2 là nốt tiếp theo cao hơn, và 8 lại là nốt đầu tiên đó, nhưng cao hơn một quãng tám. ø là một nốt nghỉ, tức là sự im lặng. Các con số vẫn tiếp tục vượt qua cả hai đầu: 9 là nốt thứ hai cao hơn một quãng tám, còn 0 và -1 bước xuống dưới nốt đầu tiên.",
@@ -1881,7 +1881,7 @@
                 "$~Tôi cho thấy một @Phrase đang nói gì, trong một bong bóng chỉ thẳng vào người đó. Đưa tôi vào @Phrase.bubble của một câu và để các chữ cái lên tiếng:",
                 "\\Cụmtừ('a' bongBóng: 'chào bạn!')\\",
                 "Đưa cho tôi một @Say thay vì chữ, tôi sẽ được đọc to lên chứ không chỉ hiện ra thôi.",
-                "Đổi @Bubble.kind của tôi thành một suy nghĩ, tôi sẽ @variable thành bong bóng suy nghĩ.",
+                "Đổi @Bubble.kind của tôi thành một suy nghĩ, tôi sẽ biến thành bong bóng suy nghĩ.",
                 "Tôi chỉ là vật trang trí, nên không có gì trên sân khấu phải nhường chỗ cho tôi — nhưng @Stage vẫn luôn giữ tôi trong tầm nhìn."
             ],
             "names": ["$~BongBóng"],
@@ -1937,11 +1937,11 @@
                 "names": "$~chiềuCao"
             },
             "glyph": {
-                "doc": "$~Một hàm @variable một trong các màu của tôi thành chữ tôi nên vẽ ở vị trí đó. Nếu không có, tôi sẽ tô các ô vuông trơn.",
+                "doc": "$~Một hàm biến một trong các màu của tôi thành chữ tôi nên vẽ ở vị trí đó. Nếu không có, tôi sẽ tô các ô vuông trơn.",
                 "names": "$~kýTự"
             },
             "recolor": {
-                "doc": "$~Một hàm @variable một trong các màu của tôi thành màu tôi nên vẽ thay thế. Hữu ích để biến một bức tranh thành ít màu hơn.",
+                "doc": "$~Một hàm biến một trong các màu của tôi thành màu tôi nên vẽ thay thế. Hữu ích để biến một bức tranh thành ít màu hơn.",
                 "names": "$~tôLạiMàu"
             },
             "pixel": {

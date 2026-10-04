@@ -36,6 +36,7 @@ import checkStringArrays from '#util/verify-locales/checkStringArrays.ts';
 import checkTerms from '#util/verify-locales/checkTerms.ts';
 import checkExampleDocs from '#util/verify-locales/checkExampleDocs.ts';
 import checkUntranslated from '#util/verify-locales/checkUntranslated.ts';
+import checkCollapsedSpaces from '#util/verify-locales/checkCollapsedSpaces.ts';
 import checkLinkTargets from '#util/verify-locales/checkLinkTargets.ts';
 import checkItalicSpans from '#util/verify-locales/checkItalicSpans.ts';
 import checkReducedTemplates from '#util/verify-locales/checkReducedTemplates.ts';
@@ -203,6 +204,16 @@ export async function verifyLocale(
     // this marks is honored by the same run.
     if (locale !== 'en-US')
         revisedText = checkUntranslated(log, DefaultLocale, revisedText, fix);
+
+    // Translations that came back with their spaces stripped, which every other check
+    // accepts. Before the translation pass, so the `$!` this marks is honored by the same run.
+    if (locale !== 'en-US')
+        revisedText = checkCollapsedSpaces(
+            log,
+            DefaultLocale,
+            revisedText,
+            fix,
+        );
 
     // Web links a translation broke: repaired from en-US where the text says how,
     // re-queued where it doesn't. Before the translation pass, so this run redoes them.

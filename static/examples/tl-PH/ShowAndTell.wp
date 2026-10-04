@@ -41,7 +41,7 @@ pondo•[target]: [
 		)
 
 ¶Ang kamera. Hindi ito sinasabihan kung ano ang hahanapin — sinasabi lang nito lahat ng nakikita nito, at kusa itong tumatakbo, kaya ang laro ay tumutugon dito nang direkta nang walang orasan.¶
-nakita: MgaBagay(bilang: 10 tiwala: 0.5)
+nakita: MgaBagay(bilangin: 10 tiwala: 0.5)
 
 ¶Ang → na susi (o isang tapik) para lumaktaw.¶
 laktawan: Susi('PalasoKanan' ⊤)
