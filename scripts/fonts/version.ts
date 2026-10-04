@@ -11,8 +11,8 @@ import type { Lockfile } from './lockfile';
  * year, and per-file hashes would ship ~1,200 of them to the client just so
  * getFontFileURL can build a creator face's URL.
  *
- * The lockfile already hashes every file the manifest serves; the Safari color
- * emoji slices are the only served files outside it, so they are hashed here.
+ * The lockfile already hashes every file the manifest serves; the Safari and iOS
+ * color emoji slices are the only served files outside it, so they are hashed here.
  * The stylesheets are hashed too: they live under /fonts/ as well, and a range
  * can change without any font's bytes changing.
  */
@@ -28,7 +28,7 @@ export function fontsVersion(
     for (const url of Object.keys(lock).sort())
         hash.update(`${url}:${lock[url]?.hash ?? ''}\n`);
     for (const name of fs.readdirSync(SAFARI_EMOJI_DIR).sort())
-        if (/^NotoColorEmoji\.svg-/.test(name))
+        if (/^NotoColorEmoji\.(svg|sbix)-/.test(name))
             hash.update(
                 `${name}:${hashFile(path.join(SAFARI_EMOJI_DIR, name))}\n`,
             );

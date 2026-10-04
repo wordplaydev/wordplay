@@ -28,7 +28,7 @@ fi
 
 # Download nanoemoji, a Google Fonts tool for converting fonts. Clear what a
 # failed earlier run left behind, or the clone refuses to start.
-rm -rf nanoemoji
+rm -rf nanoemoji NotoColorEmoji.cbdt.ttf NotoColorEmoji.sbix.ttf
 git clone https://github.com/googlefonts/nanoemoji.git
 
 # Make a virtual environment. Override the interpreter with PYTHON=python3.12 if
@@ -74,6 +74,15 @@ cd ..
 # below, not this whole file.
 mv nanoemoji/build/Font.ttf ../../static/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf
 
+# iOS 27 Safari loads an OT-SVG font but paints none of its glyphs, so iOS gets
+# Noto's own bitmap font (CBDT) converted to sbix, Apple's bitmap format. It's
+# ~10 MB of PNGs, so only its slices are kept, not the whole font.
+# Pillow reads each PNG's visible pixels for the glyph's measuring outline.
+pip3 install --quiet pillow
+curl -sSfL -o NotoColorEmoji.cbdt.ttf \
+    "https://raw.githubusercontent.com/googlefonts/noto-emoji/$NOTO_TAG/2D/fonts/NotoColorEmoji.ttf"
+python3 cbdt-to-sbix.py NotoColorEmoji.cbdt.ttf NotoColorEmoji.sbix.ttf
+
 # Slice the whole OT-SVG font into per-block files (NotoColorEmoji.svg-N.woff2) so
 # Safari lazily downloads only the emoji it renders instead of the whole ~3.3 MB
 # font. Mirrors the Chromium COLRv1 partition; see slice-emoji-svg.py.
@@ -82,8 +91,14 @@ mv nanoemoji/build/Font.ttf ../../static/fonts/NotoColorEmoji/NotoColorEmoji.svg
 pip3 install --quiet lxml brotli
 python3 slice-emoji-svg.py
 
+# Slice the sbix font for iOS into small files by Unicode subgroup, writing
+# sbix-partition.json for downloadColorEmoji.ts; HarfBuzz checks each slice
+# still joins every sequence it owns. See slice-emoji-sbix.py.
+pip3 install --quiet uharfbuzz
+python3 slice-emoji-sbix.py NotoColorEmoji.sbix.ttf nanoemoji/noto-emoji/2D/svg
+
 # Leave the virtual environment
 deactivate
 
 # Clean up the repository and its files
-rm -rf nanoemoji
+rm -rf nanoemoji NotoColorEmoji.cbdt.ttf NotoColorEmoji.sbix.ttf
