@@ -81,7 +81,9 @@
     import Objects from '#input/Objects/Objects.ts';
     import {
         consent,
+        denyConsent,
         grantConsent,
+        requestAccess,
         type PermissionName,
     } from '#input/permissions.ts';
     import Pitch from '#input/Pitch/Pitch.ts';
@@ -897,15 +899,35 @@
             : undefined,
     );
 
+    /** Ask the browser while the click is still a user gesture, since the
+     *  stream's own request comes later and WebKit may refuse it unprompted. */
     function handleStart() {
-        for (const permission of pendingPermissions) grantConsent(permission);
-        onacknowledge?.();
+        const pending = [...pendingPermissions];
+        if (pending.length === 0) {
+            onacknowledge?.();
+            return;
+        }
+        Promise.all(
+            pending.map((permission) =>
+                requestAccess(permission).then((granted) =>
+                    granted
+                        ? grantConsent(permission)
+                        : denyConsent(permission),
+                ),
+            ),
+        ).then(() => onacknowledge?.());
     }
 
     function handleRetry() {
-        if (permissionException !== undefined)
-            grantConsent(permissionException.permission);
-        onretry?.();
+        const permission = permissionException?.permission;
+        if (permission === undefined) {
+            onretry?.();
+            return;
+        }
+        requestAccess(permission).then((granted) => {
+            if (granted) grantConsent(permission);
+            onretry?.();
+        });
     }
 
     /** Every time the value changes, try to parse a Stage from it. */
@@ -2289,9 +2311,16 @@
         const target = event.target;
         if (!(target instanceof HTMLElement) && !(target instanceof SVGElement))
             return;
+        // The target is often a span inside the output (a language run, an emoji
+        // run), so read the name from the output that contains it.
+        const enclosing = target.closest('.output');
+        const output =
+            enclosing instanceof HTMLElement || enclosing instanceof SVGElement
+                ? enclosing
+                : target;
         // Was the target clicked on output with a name? Add it to choice streams.
-        const name = target.dataset.name;
-        const selectable = target.dataset.selectable === 'true';
+        const name = output.dataset.name;
+        const selectable = output.dataset.selectable === 'true';
         const selection =
             selectable && name
                 ? name

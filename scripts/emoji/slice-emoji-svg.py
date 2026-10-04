@@ -3,9 +3,10 @@
 per-block WOFF2 files so Safari lazily downloads only the emoji it renders
 instead of the whole ~3.3 MB font.
 
-nanoemoji gzips each SVG document inside the font (picosvgz), which brotli can't
-compress further, so each slice stores its documents uncompressed and lets WOFF2
-compress the file whole — about 28% smaller over the wire.
+nanoemoji gzips each SVG document inside the font (picosvgz), and the slices keep
+them gzipped. Storing them plain let WOFF2 compress each file ~28% smaller over
+the wire, but unpacked the people slice to ~8 MB and iOS Safari painted no
+color emoji at all, though desktop Safari did.
 
 The partition mirrors the Chromium COLRv1 slices (NotoColorEmoji-400-N.woff2)
 declared in src/basis/faces/emoji-faces.css, so both branches stay aligned and
@@ -91,12 +92,12 @@ def main():
         f.save(path)
 
     def to_woff2(ttf, out, names=()):
-        # Store the SVG documents plain (see the module docstring), write WOFF2,
+        # Keep the SVG documents gzipped (see the module docstring), write WOFF2,
         # and drop the intermediate TrueType subset.
         f = TTFont(ttf, recalcTimestamp=False)
         f["head"].created = f["head"].modified = 0
         for doc in f["SVG "].docList:
-            doc.compressed = False
+            doc.compressed = True
         for nid, val in names:
             f["name"].setName(val, nid, 3, 1, 0x409)  # Windows
             f["name"].setName(val, nid, 1, 0, 0)  # Mac

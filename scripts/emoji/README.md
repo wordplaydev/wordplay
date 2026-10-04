@@ -71,11 +71,13 @@ above. The names half needs only network access (unicode.org + CLDR).
 
 There is no headless Safari, and OT-SVG subset correctness has to be eyeballed.
 After a fonts run, `emoji-update` prints a checklist. Before committing, open a
-project in Safari (and a WebKit/iPad build) and confirm:
+project in Safari, **and on an iPhone or iPad** (iOS Safari has failed where
+desktop Safari didn't), and confirm:
 
 - only the matching `NotoColorEmoji.svg-N.woff2` slices download (not the whole font),
 - emoji render from the WOFF2 slices at all (OT-SVG inside WOFF2 is a combination
-  this pipeline adopted for Emoji 18),
+  this pipeline adopted for Emoji 18; the SVG documents inside stay gzipped, since
+  storing them plain left iOS Safari painting no color emoji at all),
 - ZWJ sequences (families, professions, flags), skin-tone modifiers, and keycaps
   (2️⃣ #️⃣ ©️) render with **no tofu**,
 - coverage matches the Chromium build.
