@@ -1365,7 +1365,9 @@
                     "Desenul în sine nu arată niciodată mișcare. Mișcarea vine din comportament — pagina de start schimbă pe rând ce spune balonul, în ritm cu selectorul de limbă, iar în timpul încărcării formele sar pe rând, ca o mulțime care face valul — și se potrivește mereu cu setarea vitezei de animație, oprindu-se complet când animația este dezactivată.",
                     "Semnul este mereu desenat în culoarea actuală a textului, așa că oriunde textul îndeplinește cerințele de contrast, o face și sigla."
                 ],
-                "copyvalue": "$~copiază valoarea CSS completă"
+                "copyvalue": "$~copiază valoarea CSS completă",
+                "seasons": "$~Anotimpuri",
+                "seasonsDescription": "$~Anotimpurile schimbă culorile site-ului și adaugă simboluri de sezon pe margini. Fiecare este o a doua axă alături de luminos și întunecat, cu o paletă pentru ambele. Fiecare paletă trece aceleași verificări de contrast ca cea implicită, înainte de a putea fi publicată. Culorile și figurile fiecărui anotimp sunt date în <sursa anotimpurilor@https://github.com/wordplaydev/wordplay/tree/main/src/seasons>."
             },
             "thanks": {
                 "header": "$~Mulţumesc",

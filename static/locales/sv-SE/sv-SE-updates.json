@@ -1031,6 +1031,7 @@
         "e8b757ebd4689": "$~Att klicka på text som är gjord med \\selectable\\ markerar den igen. Det hade slutat fungera i exemplet på <startsidan@https://wordplay.dev/> och i alla projekt.",
         "eb6f2bf5308ec": "$~När du trycker på Start eller Försök igen i Safari i ett projekt som använder mikrofonen eller kameran, frågar webbläsaren nu om tillstånd. Förut hände ingenting.",
         "e71d907b44acc": "$~Vi har lagagt färgemojier som blev tomma eller svarta på iPhone och iPad med iOS 27. De laddas nu också snabbare där.",
-        "e8bf14728ecca": "$~När du inte är inloggad visar fönstret för sparstatus nu hur många projekt som bara är sparade på den här enheten och hur du sparar dem online. Förut var det tomt."
+        "e8bf14728ecca": "$~När du inte är inloggad visar fönstret för sparstatus nu hur många projekt som bara är sparade på den här enheten och hur du sparar dem online. Förut var det tomt.",
+        "e6bd8c62fd1ab": "$~Vi har lagt till årstider. De ger sidan färg och fyller kanterna med väder från platsen där du är, som monsunregn, fallande löv eller snöflingor gjorda av dina egna bokstäver. Du kan välja en årstid eller stänga av dem i inställningarna. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
     }
 }

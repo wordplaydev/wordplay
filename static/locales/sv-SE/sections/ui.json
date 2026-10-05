@@ -1650,6 +1650,37 @@
                             "$~Säg var markören är, vilket tecken som hör ihop med en avgränsare, konflikter och vad varje ändring gjorde",
                             "$~Säg också vad markören är inuti och typen på varje resultat"
                         ]
+                    },
+                    "season": {
+                        "label": "$~årstid",
+                        "labels": [
+                            "$~automatisk",
+                            "$~ingen",
+                            "$~regntid",
+                            "$~torrtid",
+                            "$~het säsong",
+                            "$~sval säsong",
+                            "$~vår",
+                            "$~sommar",
+                            "$~höst",
+                            "$~vinter",
+                            "$~polardag",
+                            "$~polarnatt"
+                        ],
+                        "tips": [
+                            "$~klä på sidan i årstiden där du är, med hjälp av datumet och enhetens tidszon, utan att skicka något någonstans",
+                            "$~ingen årstid: Wordplays egna färger",
+                            "$~regntiden: regn, ringar i vattnet och lotus på en grön sida",
+                            "$~torrtiden: savannens gräs och damm på en pergamentsida",
+                            "$~den heta säsongen: en stekande sol och vandrande sanddyner på en sandsida",
+                            "$~den svala säsongen: öknens stjärnor och en månskära på en skymningssida",
+                            "$~vår: fallande blomblad och groddar på en blomsida",
+                            "$~sommar: eldflugor och ett vindspel på en varm sida",
+                            "$~höst: fallande löv och förbiflygande gäss på en lönnsida",
+                            "$~vinter: snöflingor gjorda av dina egna bokstäver, och en snögubbe, på en isig sida",
+                            "$~polardag: en midnattssol som aldrig går ner, på en blek sida",
+                            "$~polarnatt: norrsken och stjärnor på en nattblå sida"
+                        ]
                     }
                 },
                 "options": {
@@ -1678,6 +1709,10 @@
                     "music": "$~Musik",
                     "say": "$~Säg",
                     "cues": "$~Ljud"
+                },
+                "season": {
+                    "auto": "$~$season, vanligt där du bor den här månaden",
+                    "unplaced": "$~din enhets tidszon säger inte var du är, så ingen årstid visas"
                 }
             },
             "locale": {

@@ -26,6 +26,7 @@ import {
     type Writable,
 } from 'svelte/store';
 import { prefersDarkScheme } from '#db/settings/prefersDarkScheme.ts';
+import type { SeasonShown } from '#seasons/Season.ts';
 import { prefersReducedMotion } from '#db/settings/prefersReducedMotion.ts';
 import DefaultLocale from '#locale/DefaultLocale.ts';
 import type LocaleText from '#locale/LocaleText.ts';
@@ -1441,6 +1442,14 @@ export const darkMode = derived(
     ([raw, os]) => raw ?? os,
 );
 export const adaptOutput = Settings.settings.adaptOutput.value;
+
+/** The season setting as chosen: `'auto'`, `'none'`, or a season (#108). */
+export const seasonChoice = Settings.settings.season.value;
+
+/** Where the season setting landed on this device: the season and typical
+ *  condition being shown, and for Auto, the place that decided it. Written by
+ *  the root layout, which resolves Auto off the page graph. */
+export const seasonShown = writable<SeasonShown | undefined>(undefined);
 
 /** Whether program output should be adapted to a dark canvas right now: the
  * viewer is in dark mode and hasn't asked for the original colors. Whether a

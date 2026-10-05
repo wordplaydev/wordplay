@@ -1647,6 +1647,37 @@
                             "$~Mów, gdzie jest kursor, jaki jest pasujący ogranicznik, jakie są konflikty i co zrobiła każda zmiana",
                             "$~Mów też, w czym jest kursor i jakiego typu jest każdy wynik"
                         ]
+                    },
+                    "season": {
+                        "label": "$~pora roku",
+                        "labels": [
+                            "$~automatycznie",
+                            "$~brak",
+                            "$~deszczowa",
+                            "$~sucha",
+                            "$~gorąca",
+                            "$~chłodna",
+                            "$~wiosna",
+                            "$~lato",
+                            "$~jesień",
+                            "$~zima",
+                            "$~dzień polarny",
+                            "$~noc polarna"
+                        ],
+                        "tips": [
+                            "$~ubierz stronę w porę roku, w której jesteś, na podstawie daty i strefy czasowej twojego urządzenia, bez wysyłania czegokolwiek gdziekolwiek",
+                            "$~bez pory roku: własne kolory Wordplay",
+                            "$~pora deszczowa: deszcz, fale na wodzie i lotos na zielonej stronie",
+                            "$~pora sucha: trawa sawanny i kurz na pergaminowej stronie",
+                            "$~pora gorąca: piekące słońce i wędrujące wydmy na piaskowej stronie",
+                            "$~pora chłodna: pustynne gwiazdy i półksiężyc na zmierzchowej stronie",
+                            "$~wiosna: spadające płatki i kiełki na kwitnącej stronie",
+                            "$~lato: świetliki i dzwonek wietrzny na ciepłej stronie",
+                            "$~jesień: spadające liście i przelatujące gęsi na klonowej stronie",
+                            "$~zima: płatki śniegu zrobione z twoich własnych liter i bałwan na lodowej stronie",
+                            "$~dzień polarny: północne słońce, które nigdy nie zachodzi, na bladej stronie",
+                            "$~noc polarna: zorza polarna i gwiazdy na nocnoniebieskiej stronie"
+                        ]
                     }
                 },
                 "options": {
@@ -1675,6 +1706,10 @@
                     "music": "$~Muzyka",
                     "say": "$~Mów",
                     "cues": "$~Sygnały"
+                },
+                "season": {
+                    "auto": "$~$season, typowa dla miejsca, w którym jesteś, w tym miesiącu",
+                    "unplaced": "$~strefa czasowa twojego urządzenia nie mówi, gdzie jesteś, więc żadna pora roku nie jest pokazana"
                 }
             },
             "locale": {

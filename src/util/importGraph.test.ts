@@ -994,13 +994,25 @@ test('resolving a color needs no basis', () => {
 // `SaySetting.ts` beside read-aloud's, for the reason given there; its row in
 // `Settings.svelte` and its strings in en-US.json are the bytes, which move three
 // byte budgets by a hundredth.
+//
+// Seasons (#108) are **+1 file on every graph**: `src/seasons/Season.ts`, a leaf
+// with no imports that names the seasons, which the device setting validates
+// against. The setting lives in `DarkSetting.ts` beside light and dark so it
+// adds no file of its own; palettes are inlined into the HTML by
+// hooks.server.ts, and the margins (`SeasonLayer.svelte`), the zone table, and
+// Auto's resolution are all dynamically imported. The setting's row in
+// `Settings.svelte`, the root layout's effect that names the season, and the
+// twelve labels and tips in en-US.json are the bytes, which move each byte
+// budget by a hundredth. The landing page moves by two: `StageCast` carries the
+// season's motions for its floating cast (the season data itself stays behind a
+// dynamic import).
 
 test.each([
-    ['src/routes/+layout.svelte', 539, 4.18],
-    ['src/components/app/Page.svelte', 562, 4.43],
-    ['src/routes/[[locale]]/+page.svelte', 577, 4.52],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 582, 4.54],
-    ['src/routes/[[locale]]/projects/+page.svelte', 591, 4.57],
+    ['src/routes/+layout.svelte', 540, 4.19],
+    ['src/components/app/Page.svelte', 563, 4.44],
+    ['src/routes/[[locale]]/+page.svelte', 578, 4.54],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 583, 4.55],
+    ['src/routes/[[locale]]/projects/+page.svelte', 592, 4.58],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

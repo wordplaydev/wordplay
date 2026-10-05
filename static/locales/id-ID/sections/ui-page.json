@@ -1368,7 +1368,9 @@
                     "Gambar itu sendiri tidak pernah menunjukkan gerakan. Gerakan bersifat perilaku — halaman awal mengganti apa yang dikatakan balon itu seiring dengan pemilih bahasa, dan saat memuat, bentuk-bentuk itu bergiliran melompat, seperti kerumunan yang melakukan gelombang — dan selalu menyesuaikan dengan pengaturan kecepatan animasi, berhenti sepenuhnya saat animasi dimatikan.",
                     "Tanda itu selalu digambar dengan warna teks saat ini, jadi di mana pun teks memenuhi syarat kontras, logo pun demikian."
                 ],
-                "copyvalue": "$~salin nilai CSS lengkap"
+                "copyvalue": "$~salin nilai CSS lengkap",
+                "seasons": "$~Musim",
+                "seasonsDescription": "$~Musim mengubah warna situs dan menambahkan simbol musiman di tepinya. Setiap musim adalah sumbu kedua di samping terang dan gelap, dengan palet untuk keduanya. Setiap palet harus lulus pemeriksaan kontras yang sama seperti palet bawaan sebelum bisa dipakai. Warna dan gambar setiap musim adalah data di <sumber musim@https://github.com/wordplaydev/wordplay/tree/main/src/seasons>."
             },
             "thanks": {
                 "header": "$~Terima kasih",

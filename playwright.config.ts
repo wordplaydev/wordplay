@@ -91,6 +91,10 @@ export default defineConfig({
          * de-flakes Chromium. Set via contextOptions because this Playwright
          * version exposes reducedMotion there, not as a top-level use option. */
         contextOptions: { reducedMotion: 'reduce' },
+        /* A zone that names no place, so Auto shows no season (#108) and every
+         * spec sees the same palette whatever the CI machine's date and zone.
+         * Specs about seasons choose one by name. */
+        timezoneId: 'Etc/UTC',
         screenshot: 'only-on-failure',
         /* Collect a trace only when a test fails and is retried (retries:1 on
          * CI), so passing tests don't pay the per-action instrumentation and

@@ -17,6 +17,7 @@
         "#edit/*": "./src/edit/*",
         "#db/*": "./src/db/*",
         "#unicode/*": "./src/unicode/*",
+        "#seasons/*": "./src/seasons/*",
         "#util/*": "./src/util/*"
     },
     "scripts": {
@@ -85,6 +86,8 @@
         "instruments": "npx tsx scripts/instruments/start.ts verify",
         "midi": "npx tsx scripts/midi/start.ts",
         "instruments-build": "npx tsx scripts/instruments/start.ts build && npx prettier --write src/output/Music/samples.generated.ts scripts/instruments/instruments.lock.json",
+        "seasons-build": "npx tsx scripts/seasons/build.ts && npx prettier --write src/seasons/zoneSeasons.generated.ts",
+        "seasons-fetch": "npx tsx scripts/seasons/fetchNormals.ts",
         "rtl": "npx tsx scripts/check-logical-css.ts",
         "tokens": "npx tsx scripts/check-design-tokens.ts",
         "vscode-theme": "npx tsx scripts/vscode-theme/generate.ts",

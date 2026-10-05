@@ -11,6 +11,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ♿ The code editor now tells screen readers what each edit, drop, undo, and menu choice did, and a new setting chooses how much detail is spoken.
 - ⌨️ We added keyboard shortcuts for rearranging code: Alt+Shift with the arrow keys or Enter moves the selected code before, after, out of, or into its neighbor.
 - 🔣 We added insert buttons for the ↤, ≈, ◆, and – symbols.
+- 🍂 We added seasons, which color the site and fill its edges with weather from where you are, like monsoon rain, falling leaves, or snowflakes made of your own letters, and you can pick a season or turn them off in settings. (#108)
 
 ### Changed
 

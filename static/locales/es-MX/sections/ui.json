@@ -1632,6 +1632,37 @@
                             "$~Decir dónde está el cursor, la pareja de un delimitador, los conflictos y lo que hizo cada edición",
                             "$~Decir también dentro de qué está el cursor y el tipo de cada resultado"
                         ]
+                    },
+                    "season": {
+                        "label": "$~estación",
+                        "labels": [
+                            "$~automático",
+                            "$~ninguna",
+                            "$~húmeda",
+                            "$~seca",
+                            "$~calurosa",
+                            "$~fresca",
+                            "$~primavera",
+                            "$~verano",
+                            "$~otoño",
+                            "$~invierno",
+                            "$~día polar",
+                            "$~noche polar"
+                        ],
+                        "tips": [
+                            "$~vestir el sitio con la estación donde estás, usando la fecha y la zona horaria de tu dispositivo, sin enviar nada a ningún lado",
+                            "$~sin estación: los colores propios de Wordplay",
+                            "$~la estación de lluvias: lluvia, ondas en el agua y loto en una página verde",
+                            "$~la estación seca: pasto de sabana y polvo en una página de pergamino",
+                            "$~la estación calurosa: un sol ardiente y dunas que se mueven en una página de arena",
+                            "$~la estación fresca: estrellas del desierto y una luna creciente en una página del atardecer",
+                            "$~primavera: pétalos que caen y brotes en una página de flores",
+                            "$~verano: luciérnagas y un móvil de viento en una página cálida",
+                            "$~otoño: hojas que caen y gansos que pasan en una página de arce",
+                            "$~invierno: copos de nieve hechos con tus propias letras y un muñeco de nieve en una página helada",
+                            "$~día polar: un sol de medianoche que nunca se pone, en una página pálida",
+                            "$~noche polar: una aurora y estrellas en una página azul noche"
+                        ]
                     }
                 },
                 "options": {
@@ -1660,6 +1691,10 @@
                     "music": "$~Música",
                     "say": "$~Decir",
                     "cues": "$~Señales"
+                },
+                "season": {
+                    "auto": "$~$season, típica de donde estás este mes",
+                    "unplaced": "$~la zona horaria de tu dispositivo no dice dónde estás, así que no se muestra ninguna estación"
                 }
             },
             "locale": {

@@ -1257,7 +1257,9 @@
                     "O desenho em si nunca mostra movimento. O movimento é comportamental — a página inicial vai trocando o que o balão diz ao mesmo ritmo do seletor de idioma, e, enquanto carrega, as formas saltam à vez, como uma multidão a fazer a onda — e ajusta-se sempre à definição de velocidade da animação, parando por completo quando a animação está desligada.",
                     "A marca é sempre desenhada na cor de texto atual, por isso, onde quer que o texto cumpra os requisitos de contraste, o logótipo também os cumpre."
                 ],
-                "copyvalue": "$~copiar o valor CSS completo"
+                "copyvalue": "$~copiar o valor CSS completo",
+                "seasons": "$~Estações",
+                "seasonsDescription": "$~As estações mudam as cores do site e acrescentam glifos sazonais às suas margens. Cada estação é um segundo eixo ao lado do claro e do escuro, com uma paleta para ambos, e todas as paletas passam nas mesmas verificações de contraste que a predefinição antes de poderem ser publicadas. As cores e as figuras de cada estação são dados na <fonte das estações@https://github.com/wordplaydev/wordplay/tree/main/src/seasons>."
             },
             "localize": {
                 "header": "Localizar",

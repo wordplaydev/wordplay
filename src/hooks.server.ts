@@ -9,6 +9,7 @@ import {
 import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
 import { LocaleAssetHashes } from '#db/locales/localeAssets.generated.ts';
 import { FontsVersion } from '#basis/faces/faces.generated.ts';
+import { toSeasonsCSS } from '#seasons/seasonsCSS.ts';
 import { stringToLocale, toBCP47 } from '#locale/Locale.ts';
 import { getLanguageDirection } from '#locale/LanguageCode.ts';
 
@@ -151,6 +152,9 @@ function localeAssetHashes(): string {
     return `<script>window.__localeAssets=${json}</script>`;
 }
 
+/** Every season's palette, generated once per server rather than per page. */
+const SeasonsCSS = toSeasonsCSS();
+
 export const handle: Handle = async ({ event, resolve }) => {
     const locale = pickLocale(event.params.locale);
     const strings = loadFallback(locale);
@@ -187,6 +191,7 @@ export const handle: Handle = async ({ event, resolve }) => {
                 )
                 .replaceAll('%wordplay.localeassets%', localeAssetHashes())
                 .replaceAll('%wordplay.fontsversion%', FontsVersion)
+                .replaceAll('%wordplay.seasons%', SeasonsCSS)
                 .replaceAll('%wordplay.system.manifest%', manifest)
                 .replaceAll('%wordplay.lang%', lang)
                 .replaceAll('%wordplay.dir%', dir),

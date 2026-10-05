@@ -1031,6 +1031,7 @@
         "e8b757ebd4689": "$~Nhấp vào chữ được tạo bằng \\selectable\\ sẽ chọn lại chữ đó. Tính năng này đã ngừng hoạt động trong ví dụ trên <trang chủ@https://wordplay.dev/> và trong mọi dự án.",
         "eb6f2bf5308ec": "$~Trong Safari, khi nhấn Bắt đầu hoặc Thử lại ở một dự án dùng micro hoặc máy ảnh, giờ đây trình duyệt sẽ xin phép thay vì không làm gì cả.",
         "e71d907b44acc": "$~Chúng tôi đã sửa lỗi biểu tượng cảm xúc có màu bị trống hoặc bị đen trên iPhone và iPad dùng iOS 27, và làm cho chúng tải nhanh hơn.",
-        "e8bf14728ecca": "$~Khi bạn chưa đăng nhập, cửa sổ trạng thái lưu giờ đây cho biết có bao nhiêu dự án chỉ được lưu trên thiết bị này và cách lưu chúng lên mạng, thay vì để trống."
+        "e8bf14728ecca": "$~Khi bạn chưa đăng nhập, cửa sổ trạng thái lưu giờ đây cho biết có bao nhiêu dự án chỉ được lưu trên thiết bị này và cách lưu chúng lên mạng, thay vì để trống.",
+        "e6bd8c62fd1ab": "$~Chúng tôi đã thêm các mùa. Các mùa tô màu cho trang web và làm viền trang đầy thời tiết nơi bạn sống, như mưa gió mùa, lá rơi, hay bông tuyết làm từ chính các chữ cái của bạn. Bạn có thể chọn một mùa hoặc tắt chúng trong phần cài đặt. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
     }
 }

@@ -22,7 +22,19 @@
     import Title from '#components/widgets/Title.svelte';
     import Toggle from '#components/widgets/Toggle.svelte';
     import { toClipboard } from '#components/editor/commands/Clipboard.ts';
-    import { dark, locales, Settings } from '#db/Database.ts';
+    import {
+        dark,
+        locales,
+        seasonChoice,
+        seasonShown,
+        Settings,
+    } from '#db/Database.ts';
+    import { SeasonPalettes } from '#seasons/palettes.ts';
+    import {
+        Seasons,
+        SeasonSymbols,
+        type SeasonChoice,
+    } from '#seasons/Season.ts';
     import { Scripts, type ScriptMetadata } from '#locale/Scripts.ts';
     import { CONFIRM_SYMBOL, COPY_SYMBOL } from '#parser/Symbols.ts';
     import { contrast } from '#util/colorContrast.ts';
@@ -111,8 +123,12 @@
         return computed;
     }
 
+    /** The season setting's choices, in the order of its mode's labels. */
+    const seasonOptions: SeasonChoice[] = ['auto', 'none', ...Seasons];
+
     $effect(() => {
         $dark; // reactive dependency — recompute on theme change
+        $seasonShown; // and on season change, which recolors every token
         if (!browser) return;
 
         const newColors: Record<string, string> = {};
@@ -317,6 +333,65 @@
             onTip={(l) => l.ui.dialog.settings.mode.dark.tips[1]}
             shortcut={undefined}
         />
+        <Mode
+            wrap
+            modes={(l) => l.ui.dialog.settings.mode.season}
+            choice={seasonOptions.indexOf($seasonChoice)}
+            select={(choice) =>
+                Settings.setSeason(seasonOptions[choice] ?? 'auto')}
+            icons={[
+                '⌖',
+                '∅',
+                ...Seasons.map((season) => SeasonSymbols[season]),
+            ]}
+        />
+    </div>
+
+    <!-- Seasons: every season's palette in both modes, from the same data the
+         contrast tests check (#108). -->
+    <Subheader text={(l) => l.ui.page.design.seasons} />
+    <div class="section-content">
+        <MarkupHTMLView markup={(l) => l.ui.page.design.seasonsDescription} />
+        <div class="seasons">
+            {#each Seasons as season, index (season)}
+                <div class="season-row">
+                    <span class="season-name"
+                        >{SeasonSymbols[season]}
+                        <LocalizedText
+                            path={(l) => l.ui.dialog.settings.mode.season}
+                            extras={['labels', index + 2]}
+                        /></span
+                    >
+                    {#each ['light', 'dark'] as const as mode (mode)}
+                        {@const palette = SeasonPalettes[season]}
+                        <!-- Painted from the season's raw values, not the
+                             page's tokens, so every season shows at once. -->
+                        <span
+                            class="season-swatch"
+                            style:background={palette.white?.[mode]}
+                            style:color={mode === 'light'
+                                ? '#000000'
+                                : '#ffffff'}
+                        >
+                            <span
+                                class="chip"
+                                style:background={palette.yellow?.[mode]}
+                                >Aa</span
+                            >
+                            <span style:color={palette['gold-text']?.[mode]}
+                                >Aa</span
+                            >
+                            {#each ['blue', 'purple', 'pink', 'orange'] as const as hue (hue)}
+                                <span
+                                    class="dot"
+                                    style:background={palette[hue]?.[mode]}
+                                ></span>
+                            {/each}
+                        </span>
+                    {/each}
+                </div>
+            {/each}
+        </div>
     </div>
 
     <!-- Colors -->
@@ -999,5 +1074,43 @@
     h3 {
         margin-top: var(--wordplay-spacing-double);
         margin-bottom: var(--wordplay-spacing-double);
+    }
+
+    .seasons {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing-half);
+        margin-block-start: var(--wordplay-spacing);
+    }
+
+    .season-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+    }
+
+    .season-name {
+        inline-size: 8em;
+    }
+
+    .season-swatch {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+        padding: var(--wordplay-spacing-half);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+    }
+
+    .season-swatch .chip {
+        color: #000000;
+        padding-inline: var(--wordplay-spacing-quarter);
+    }
+
+    .season-swatch .dot {
+        inline-size: 1em;
+        block-size: 1em;
+        border-radius: 50%;
     }
 </style>

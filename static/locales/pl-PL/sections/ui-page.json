@@ -1257,7 +1257,9 @@
                     "Sam rysunek nigdy nie przedstawia ruchu. Ruch pochodzi z zachowania — strona startowa zmienia to, co mówi dymek, w rytm wyboru języka, a podczas wczytywania kształty po kolei podskakują, jak tłum robiący meksykańską falę. Ruch zawsze dopasowuje się do ustawienia prędkości animacji i całkowicie się zatrzymuje, gdy animacja jest wyłączona.",
                     "Znak zawsze rysujemy w aktualnym kolorze tekstu. Dzięki temu wszędzie tam, gdzie tekst spełnia wymagania kontrastu, logo też je spełnia."
                 ],
-                "copyvalue": "$~skopiuj całą wartość CSS"
+                "copyvalue": "$~skopiuj całą wartość CSS",
+                "seasons": "$~Pory roku",
+                "seasonsDescription": "$~Pory roku zmieniają kolory strony i dodają sezonowe znaki na jej marginesach. Każda pora roku to druga oś obok jasnego i ciemnego motywu. Ma paletę dla obu motywów, a każda paleta przechodzi te same testy kontrastu co domyślna, zanim zostanie udostępniona. Kolory i obrazki każdej pory roku to dane w <źródle pór roku@https://github.com/wordplaydev/wordplay/tree/main/src/seasons>."
             },
             "thanks": {
                 "header": "$~Dzięki",

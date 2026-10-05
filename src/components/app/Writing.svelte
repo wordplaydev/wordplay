@@ -1,6 +1,7 @@
 <script lang="ts">
     import { type Snippet } from 'svelte';
     import Page from '#components/app/Page.svelte';
+    import { seasonShown } from '#db/Database.ts';
 
     interface Props {
         children: Snippet;
@@ -27,20 +28,40 @@
         wide = false,
         reading = false,
     }: Props = $props();
+
+    let column: HTMLElement | undefined = $state();
 </script>
 
 <Page {footer}>
-    <div
-        class="writing"
-        class:wide
-        class:reading-surface={reading}
-        class:reading-pane={reading}
-    >
-        {@render children()}
+    <!-- The frame the season's figures fill (#108), so they scroll with the
+         page and stay beside this column. Loaded only when a season shows. -->
+    <div class="season-frame">
+        {#if $seasonShown}
+            {#await import('#components/app/SeasonLayer.svelte') then { default: SeasonLayer }}
+                <SeasonLayer shown={$seasonShown} {column} />
+            {/await}
+        {/if}
+        <div
+            class="writing"
+            class:wide
+            class:reading-surface={reading}
+            class:reading-pane={reading}
+            bind:this={column}
+        >
+            {@render children()}
+        </div>
     </div>
 </Page>
 
 <style>
+    /* Positioned and full width so the season's layer can fill the page
+       beside the column; isolated so that layer stays behind the content. */
+    .season-frame {
+        position: relative;
+        isolation: isolate;
+        align-self: stretch;
+    }
+
     .writing {
         /* The measure for every static page: the column's width is its extent
            along the text, whichever axis that is. The writing mode itself comes

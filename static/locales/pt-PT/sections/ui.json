@@ -1899,6 +1899,37 @@
                             "$~Dizer onde está o cursor, a correspondência de um delimitador, os conflitos e o que cada edição fez",
                             "$~Dizer também dentro de que está o cursor e o tipo de cada resultado"
                         ]
+                    },
+                    "season": {
+                        "label": "$~estação",
+                        "labels": [
+                            "$~automático",
+                            "$~nenhuma",
+                            "$~húmida",
+                            "$~seca",
+                            "$~quente",
+                            "$~fresca",
+                            "$~primavera",
+                            "$~verão",
+                            "$~outono",
+                            "$~inverno",
+                            "$~dia polar",
+                            "$~noite polar"
+                        ],
+                        "tips": [
+                            "$~vestir o sítio com a estação em que está, usando a data e o fuso horário do seu dispositivo, sem enviar nada para lado nenhum",
+                            "$~sem estação: as cores do próprio Wordplay",
+                            "$~a estação das chuvas: chuva, ondulações e lótus numa página verde",
+                            "$~a estação seca: erva da savana e poeira numa página cor de pergaminho",
+                            "$~a estação quente: um sol abrasador e dunas em movimento numa página cor de areia",
+                            "$~a estação fresca: estrelas do deserto e uma lua em quarto crescente numa página ao entardecer",
+                            "$~primavera: pétalas a cair e rebentos numa página em flor",
+                            "$~verão: pirilampos e um sino de vento numa página quente",
+                            "$~outono: folhas a cair e gansos a passar numa página cor de bordo",
+                            "$~inverno: flocos de neve feitos com as suas próprias letras, e um boneco de neve, numa página gelada",
+                            "$~dia polar: um sol da meia-noite que nunca se põe, numa página pálida",
+                            "$~noite polar: uma aurora e estrelas numa página azul-noite"
+                        ]
                     }
                 },
                 "options": {
@@ -1927,6 +1958,10 @@
                     "music": "$~Música",
                     "say": "$~Falar",
                     "cues": "$~Pistas"
+                },
+                "season": {
+                    "auto": "$~$season, típica onde está neste mês",
+                    "unplaced": "$~o fuso horário do seu dispositivo não indica onde está, por isso não aparece nenhuma estação"
                 }
             },
             "notifications": {

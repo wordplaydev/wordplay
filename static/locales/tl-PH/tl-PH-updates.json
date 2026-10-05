@@ -1031,6 +1031,7 @@
         "e8b757ebd4689": "$~Ang pag-click sa teksto na ginawa gamit ang \\selectable\\ ay pumipili nitong muli. Hindi ito gumagana sa halimbawa sa <home page@https://wordplay.dev/> at sa bawat proyekto, pero naayos na ito.",
         "eb6f2bf5308ec": "$~Sa Safari, kapag pinindot mo ang Simulan o Subukang Muli sa isang proyektong gumagamit ng mikropono o kamera, hihingi na ito ng pahintulot sa halip na walang mangyari.",
         "e71d907b44acc": "$~Inayos namin ang mga emoji na may kulay na lumalabas na blangko o itim sa mga iPhone at iPad na may iOS 27, at ginawa naming mas mabilis ang pag-load nito doon.",
-        "e8bf14728ecca": "$~Kapag hindi ka naka-sign in, ipinapakita na ngayon ng window ng estado ng pag-save kung ilang proyekto ang naka-save lang sa device na ito at kung paano ito i-save online, sa halip na walang laman."
+        "e8bf14728ecca": "$~Kapag hindi ka naka-sign in, ipinapakita na ngayon ng window ng estado ng pag-save kung ilang proyekto ang naka-save lang sa device na ito at kung paano ito i-save online, sa halip na walang laman.",
+        "e6bd8c62fd1ab": "$~Nagdagdag kami ng mga panahon, na nagbibigay ng kulay sa site at pumupuno sa mga gilid nito ng panahon mula sa kinaroroonan mo, tulad ng ulan ng monsoon, mga nahuhulog na dahon, o mga snowflake na gawa sa sarili mong mga letra. Puwede kang pumili ng panahon o patayin ang mga ito sa mga setting. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
     }
 }

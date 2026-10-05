@@ -1,5 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
+import { SeasonPalettes } from '../../src/seasons/palettes';
+import { Seasons } from '../../src/seasons/Season';
 import {
+    expectNoAxeViolations,
+    useColorScheme,
     expectNoAxeViolationsInBothSchemes,
     expectNoHorizontalOverflow,
     REFLOW_VIEWPORT,
@@ -118,6 +122,48 @@ test.describe('public pages', () => {
             await scanRoute(page, route);
         });
     }
+});
+
+/**
+ * Every season's palette (#108), in both modes, on the one page that shows
+ * every component. One navigation: a season is a `data-season` attribute over
+ * palettes already inlined in the page, so switching it in place is exactly
+ * what a reader who picks one gets. The setting is pinned to none first, so
+ * the root layout never touches the attribute while it is being switched.
+ */
+test.describe('seasons', () => {
+    test('/design has no WCAG 2.2 AA violations in any season', async ({
+        page,
+    }) => {
+        await page.addInitScript(() =>
+            localStorage.setItem('season', JSON.stringify('none')),
+        );
+        await page.goto('/en-US/design');
+        // Hydrated, with the stored choice read: the prerendered page checks
+        // Auto, so "none" checked means the layout has already applied it and
+        // won't touch the attribute again.
+        await expect(
+            page
+                .getByRole('radiogroup', { name: 'season' })
+                .getByRole('radio')
+                .nth(1),
+        ).toHaveAttribute('aria-checked', 'true', { timeout: 15000 });
+        for (const season of Seasons) {
+            await page.evaluate(
+                (name) =>
+                    document.documentElement.setAttribute('data-season', name),
+                season,
+            );
+            for (const scheme of ['light', 'dark'] as const) {
+                await useColorScheme(
+                    page,
+                    scheme,
+                    SeasonPalettes[season].white?.[scheme],
+                );
+                await expectNoAxeViolations(page);
+            }
+        }
+    });
 });
 
 test.describe('galleries', () => {

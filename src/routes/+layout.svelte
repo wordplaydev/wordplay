@@ -50,9 +50,13 @@
         HowTos,
         locales,
         localesReady,
+        seasonChoice,
+        seasonShown,
         Settings,
         writingMode,
     } from '#db/Database.ts';
+    import type { SeasonShown } from '#seasons/Season.ts';
+    import { proxyPrefix } from '#db/proxySession.ts';
     import shouldPromptForLocale, {
         hasBeenAsked,
         loadLocalePrompt,
@@ -224,6 +228,81 @@
                 'data-writing-layout',
                 $writingMode,
             );
+    });
+
+    /**
+     * Name the season the palette in app.html applies (#108), and record it for
+     * the settings and the margins. Auto is resolved by dynamic import, since
+     * the zone table is the largest thing a season needs, and cached for
+     * season-preload.js so the next visit this month paints it from the first
+     * frame. Keyed to the month as the preload script computes it.
+     */
+    $effect(() => {
+        if (!browser) return;
+        const choice = $seasonChoice;
+        let current = true;
+        const html = document.documentElement;
+        const show = (shown: SeasonShown | undefined) => {
+            if (!current) return;
+            if (shown === undefined) {
+                html.removeAttribute('data-season');
+                html.removeAttribute('data-season-condition');
+            } else {
+                html.setAttribute('data-season', shown.season);
+                if (shown.condition === undefined)
+                    html.removeAttribute('data-season-condition');
+                else
+                    html.setAttribute('data-season-condition', shown.condition);
+            }
+            seasonShown.set(shown);
+        };
+        if (choice === 'none') show(undefined);
+        else if (choice !== 'auto')
+            show({
+                season: choice,
+                condition: undefined,
+                region: undefined,
+                koppen: undefined,
+                auto: false,
+            });
+        else
+            import('#seasons/resolveSeason.ts').then(
+                ({ resolveSeason, getDeviceZone }) => {
+                    const zone = getDeviceZone();
+                    const now = new Date();
+                    const resolved =
+                        zone === undefined
+                            ? undefined
+                            : resolveSeason(now, zone);
+                    show(
+                        resolved === undefined
+                            ? undefined
+                            : {
+                                  season: resolved.season,
+                                  condition: resolved.condition,
+                                  region: resolved.region,
+                                  koppen: resolved.koppen,
+                                  auto: true,
+                              },
+                    );
+                    try {
+                        localStorage.setItem(
+                            proxyPrefix() + 'seasonResolved',
+                            JSON.stringify({
+                                zone,
+                                month: `${now.getFullYear()}-${now.getMonth()}`,
+                                season: resolved?.season,
+                                condition: resolved?.condition,
+                            }),
+                        );
+                    } catch {
+                        // Storage unavailable: resolved again next visit.
+                    }
+                },
+            );
+        return () => {
+            current = false;
+        };
     });
 
     /** When the dark setting changes, drive the html element's color-scheme,

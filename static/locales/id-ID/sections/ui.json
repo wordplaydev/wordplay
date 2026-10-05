@@ -1909,6 +1909,37 @@
                             "$~Sebutkan posisi kursor, pasangan pembatas, konflik, dan apa yang diubah setiap suntingan",
                             "$~Sebutkan juga di dalam apa kursor berada dan jenis setiap hasil"
                         ]
+                    },
+                    "season": {
+                        "label": "$~musim",
+                        "labels": [
+                            "$~otomatis",
+                            "$~tidak ada",
+                            "$~basah",
+                            "$~kering",
+                            "$~panas",
+                            "$~sejuk",
+                            "$~semi",
+                            "$~panas terik",
+                            "$~gugur",
+                            "$~dingin",
+                            "$~siang kutub",
+                            "$~malam kutub"
+                        ],
+                        "tips": [
+                            "$~hiasi situs dengan musim di tempatmu, memakai tanggal dan zona waktu perangkatmu, tanpa mengirim apa pun ke mana pun",
+                            "$~tanpa musim: warna asli Wordplay",
+                            "$~musim hujan: hujan, riak air, dan teratai di halaman hijau",
+                            "$~musim kemarau: rumput sabana dan debu di halaman warna perkamen",
+                            "$~musim panas: matahari yang menyengat dan bukit pasir yang bergeser di halaman warna pasir",
+                            "$~musim sejuk: bintang gurun dan bulan sabit di halaman senja",
+                            "$~musim semi: kelopak bunga yang berguguran dan tunas di halaman bunga mekar",
+                            "$~musim panas: kunang-kunang dan lonceng angin di halaman yang hangat",
+                            "$~musim gugur: daun berguguran dan angsa yang lewat di halaman warna maple",
+                            "$~musim dingin: kepingan salju dari huruf-hurufmu sendiri dan manusia salju di halaman berwarna es",
+                            "$~siang kutub: matahari tengah malam yang tidak pernah terbenam di halaman yang pucat",
+                            "$~malam kutub: aurora dan bintang di halaman biru malam"
+                        ]
                     }
                 },
                 "options": {
@@ -1937,6 +1968,10 @@
                     "music": "$~Musik",
                     "say": "$~Ucapkan",
                     "cues": "$~Isyarat"
+                },
+                "season": {
+                    "auto": "$~$season, umum di tempat Anda bulan ini",
+                    "unplaced": "$~zona waktu perangkat Anda tidak menunjukkan di mana Anda berada, jadi tidak ada musim yang ditampilkan"
                 }
             },
             "notifications": {

@@ -1903,6 +1903,37 @@
                             "$~Nói con trỏ đang ở đâu, dấu phân cách khớp với nó, các xung đột và mỗi lần sửa đã làm gì",
                             "$~Nói thêm con trỏ đang ở bên trong cái gì và kiểu của từng kết quả"
                         ]
+                    },
+                    "season": {
+                        "label": "$~mùa",
+                        "labels": [
+                            "$~tự động",
+                            "$~không có",
+                            "$~mưa",
+                            "$~khô",
+                            "$~nóng",
+                            "$~mát",
+                            "$~mùa xuân",
+                            "$~mùa hè",
+                            "$~mùa thu",
+                            "$~mùa đông",
+                            "$~ngày địa cực",
+                            "$~đêm địa cực"
+                        ],
+                        "tips": [
+                            "$~trang trí trang web theo mùa nơi bạn sống, dựa vào ngày và múi giờ của thiết bị, mà không gửi gì đi đâu cả",
+                            "$~không có mùa: các màu riêng của Wordplay",
+                            "$~mùa mưa: mưa, những vòng gợn nước và hoa sen trên một trang màu xanh lá",
+                            "$~mùa khô: cỏ thảo nguyên và bụi trên một trang màu giấy da",
+                            "$~mùa nóng: mặt trời chói chang và những cồn cát trôi trên một trang màu cát",
+                            "$~mùa mát: sao sa mạc và trăng lưỡi liềm trên một trang màu hoàng hôn",
+                            "$~mùa xuân: cánh hoa rơi và chồi non trên một trang màu hoa",
+                            "$~mùa hè: đom đóm và chuông gió trên một trang màu ấm",
+                            "$~mùa thu: lá rơi và đàn ngỗng bay qua trên một trang màu lá phong",
+                            "$~mùa đông: bông tuyết làm từ chính các chữ cái của bạn và một người tuyết trên một trang màu băng giá",
+                            "$~ngày địa cực: mặt trời nửa đêm không bao giờ lặn trên một trang màu nhạt",
+                            "$~đêm địa cực: cực quang và các vì sao trên một trang màu xanh đêm"
+                        ]
                     }
                 },
                 "options": {
@@ -1931,6 +1962,10 @@
                     "music": "$~Nhạc",
                     "say": "$~Nói",
                     "cues": "$~Tín hiệu"
+                },
+                "season": {
+                    "auto": "$~$season, mùa thường thấy ở nơi bạn sống trong tháng này",
+                    "unplaced": "$~múi giờ của thiết bị không cho biết bạn ở đâu, nên không có mùa nào được hiển thị"
                 }
             },
             "notifications": {

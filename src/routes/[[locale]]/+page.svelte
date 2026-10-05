@@ -13,7 +13,12 @@
     import { LocaleDialogID } from '#components/widgets/dialogIDs.ts';
     import { setDialogInURL } from '#components/widgets/dialogURL.ts';
     import LocalizedText from '#components/widgets/LocalizedText.svelte';
-    import { animationFactor, DB, Settings } from '#db/Database.ts';
+    import {
+        animationFactor,
+        DB,
+        seasonShown,
+        Settings,
+    } from '#db/Database.ts';
     import { getLocaleLanguageName } from '#locale/LocaleText.ts';
     import { SupportedLocales } from '#locale/SupportedLocales.ts';
     import {
@@ -136,6 +141,8 @@
      * a subtitle's height after the last link had already gone.
      */
     let links: HTMLElement | undefined = $state();
+    /** The features' column, which the season's figures stay clear of. */
+    let features: HTMLElement | undefined = $state();
     let linksAway = $state(false);
 
     /** How far the stage's handover to the examples has got. */
@@ -312,242 +319,265 @@
             {/if}
         </div>
 
-        <div class="links" bind:this={links}>
-            {#if $user === null}
-                <BigLink to="/login" subtitle={(l) => l.ui.page.login.subtitle}
-                    ><LocalizedText
-                        path={(l) => l.ui.page.login.header}
-                    /></BigLink
-                >
+        <!-- The frame the season's figures fill (#108), below the stage and
+             the welcome so they never crowd either, beside the features. -->
+        <div class="season-frame">
+            {#if $seasonShown}
+                {#await import('#components/app/SeasonLayer.svelte') then { default: SeasonLayer }}
+                    <SeasonLayer shown={$seasonShown} column={features} />
+                {/await}
             {/if}
-            <div class="actions">
-                <Action>
+            <div class="links" bind:this={links}>
+                {#if $user === null}
                     <BigLink
-                        to="/projects"
-                        smaller
-                        subtitle={(l) => l.ui.page.landing.link.projects}
-                        ><Iconified
-                            icon={PROJECT_SYMBOL}
-                            text={(l) => l.ui.page.projects.header}
+                        to="/login"
+                        subtitle={(l) => l.ui.page.login.subtitle}
+                        ><LocalizedText
+                            path={(l) => l.ui.page.login.header}
                         /></BigLink
                     >
-                </Action>
-                <Action>
-                    <BigLink
-                        smaller
-                        to="/galleries"
-                        subtitle={(l) => l.ui.page.landing.link.galleries}
-                        ><Iconified
-                            icon={STAGE_SYMBOL}
-                            text={(l) => l.ui.page.galleries.header}
-                        /></BigLink
-                    >
-                </Action>
-                <Action>
-                    <BigLink
-                        smaller
-                        to="/characters"
-                        subtitle={(l) => l.ui.page.landing.link.characters}
-                        ><Iconified
-                            icon={SYMBOL_SYMBOL}
-                            text={(l) => l.ui.page.characters.header}
-                        /></BigLink
-                    >
-                </Action>
-                <Action>
-                    <BigLink
-                        smaller
-                        to="/learn"
-                        subtitle={(l) => l.ui.page.landing.link.learn}
-                        ><Iconified
-                            icon={LEARN_SYMBOL}
-                            text={(l) => l.ui.page.learn.header}
-                        /></BigLink
-                    >
-                </Action>
-                <Action>
-                    <BigLink
-                        to="/guide"
-                        smaller
-                        subtitle={(l) => l.ui.page.landing.link.guide}
-                        ><Iconified
-                            icon={DOCUMENTATION_SYMBOL}
-                            text={(l) => l.ui.page.guide.header}
-                        /></BigLink
-                    >
-                </Action>
-                <Action>
-                    <BigLink
-                        smaller
-                        to="/teach"
-                        subtitle={(l) => l.ui.page.landing.link.teach}
-                        ><Iconified
-                            icon={TEACH_SYMBOL}
-                            text={(l) => l.ui.page.teach.header}
-                        /></BigLink
-                    >
-                </Action>
-                <!-- The two ways in that most people never have. The moderation
+                {/if}
+                <div class="actions">
+                    <Action>
+                        <BigLink
+                            to="/projects"
+                            smaller
+                            subtitle={(l) => l.ui.page.landing.link.projects}
+                            ><Iconified
+                                icon={PROJECT_SYMBOL}
+                                text={(l) => l.ui.page.projects.header}
+                            /></BigLink
+                        >
+                    </Action>
+                    <Action>
+                        <BigLink
+                            smaller
+                            to="/galleries"
+                            subtitle={(l) => l.ui.page.landing.link.galleries}
+                            ><Iconified
+                                icon={STAGE_SYMBOL}
+                                text={(l) => l.ui.page.galleries.header}
+                            /></BigLink
+                        >
+                    </Action>
+                    <Action>
+                        <BigLink
+                            smaller
+                            to="/characters"
+                            subtitle={(l) => l.ui.page.landing.link.characters}
+                            ><Iconified
+                                icon={SYMBOL_SYMBOL}
+                                text={(l) => l.ui.page.characters.header}
+                            /></BigLink
+                        >
+                    </Action>
+                    <Action>
+                        <BigLink
+                            smaller
+                            to="/learn"
+                            subtitle={(l) => l.ui.page.landing.link.learn}
+                            ><Iconified
+                                icon={LEARN_SYMBOL}
+                                text={(l) => l.ui.page.learn.header}
+                            /></BigLink
+                        >
+                    </Action>
+                    <Action>
+                        <BigLink
+                            to="/guide"
+                            smaller
+                            subtitle={(l) => l.ui.page.landing.link.guide}
+                            ><Iconified
+                                icon={DOCUMENTATION_SYMBOL}
+                                text={(l) => l.ui.page.guide.header}
+                            /></BigLink
+                        >
+                    </Action>
+                    <Action>
+                        <BigLink
+                            smaller
+                            to="/teach"
+                            subtitle={(l) => l.ui.page.landing.link.teach}
+                            ><Iconified
+                                icon={TEACH_SYMBOL}
+                                text={(l) => l.ui.page.teach.header}
+                            /></BigLink
+                        >
+                    </Action>
+                    <!-- The two ways in that most people never have. The moderation
                      queue had no link at all outside the notification bell,
                      which only ever named it to someone who was already being
                      told there was work; a curator with an empty queue could
                      not find it. Both resolve after hydration, like the login
                      link above: this page is prerendered into every locale, so
                      nothing about the reader is known when it is built. -->
-                {#if responsible}
-                    <Action>
-                        <BigLink
-                            smaller
-                            to="/moderate"
-                            subtitle={(l) => l.ui.page.landing.link.moderate}
-                            ><Iconified
-                                icon="🛡️"
-                                text={(l) => l.moderation.moderate.header}
-                            /></BigLink
-                        >
-                    </Action>
-                {/if}
-                {#if admin}
-                    <Action>
-                        <BigLink
-                            smaller
-                            to="/admin"
-                            subtitle={(l) => l.ui.page.landing.link.admin}
-                            ><Iconified
-                                icon="🔑"
-                                text={(l) => l.ui.page.admin.header}
-                            /></BigLink
-                        >
-                    </Action>
-                {/if}
+                    {#if responsible}
+                        <Action>
+                            <BigLink
+                                smaller
+                                to="/moderate"
+                                subtitle={(l) =>
+                                    l.ui.page.landing.link.moderate}
+                                ><Iconified
+                                    icon="🛡️"
+                                    text={(l) => l.moderation.moderate.header}
+                                /></BigLink
+                            >
+                        </Action>
+                    {/if}
+                    {#if admin}
+                        <Action>
+                            <BigLink
+                                smaller
+                                to="/admin"
+                                subtitle={(l) => l.ui.page.landing.link.admin}
+                                ><Iconified
+                                    icon="🔑"
+                                    text={(l) => l.ui.page.admin.header}
+                                /></BigLink
+                            >
+                        </Action>
+                    {/if}
+                </div>
             </div>
-        </div>
 
-        <div class="features">
-            {#each Features as feature (feature.key)}
-                <FeatureSection
-                    icon={feature.icon}
-                    title={(l) => l.ui.page.landing.features[feature.key].title}
-                    bullets={(l) =>
-                        l.ui.page.landing.features[feature.key].bullets}
-                />
-            {/each}
-        </div>
+            <div class="features" bind:this={features}>
+                {#each Features as feature (feature.key)}
+                    <FeatureSection
+                        icon={feature.icon}
+                        title={(l) =>
+                            l.ui.page.landing.features[feature.key].title}
+                        bullets={(l) =>
+                            l.ui.page.landing.features[feature.key].bullets}
+                    />
+                {/each}
+            </div>
 
-        <div class="actions about">
-            <Action
-                kind={updatesLastChecked === null ||
-                updatesLastChecked !== date.date
-                    ? 'salient'
-                    : 'meta'}
-            >
-                <BigLink
-                    smaller
-                    to="/updates"
-                    subtitle={(l) => l.ui.page.landing.link.updates}
+            <div class="actions about">
+                <Action
+                    kind={updatesLastChecked === null ||
+                    updatesLastChecked !== date.date
+                        ? 'salient'
+                        : 'meta'}
                 >
-                    <Iconified
-                        icon="🎉"
-                        text={(l) => l.ui.page.updates.header}
-                    />
-                </BigLink>
-            </Action>
-            <Action kind="meta">
-                <BigLink
-                    smaller
-                    to="/about"
-                    subtitle={(l) => l.ui.page.landing.link.about}
-                    ><Iconified
-                        icon="💭"
-                        text={(l) => l.ui.page.about.header}
-                    /></BigLink
+                    <BigLink
+                        smaller
+                        to="/updates"
+                        subtitle={(l) => l.ui.page.landing.link.updates}
+                    >
+                        <Iconified
+                            icon="🎉"
+                            text={(l) => l.ui.page.updates.header}
+                        />
+                    </BigLink>
+                </Action>
+                <Action kind="meta">
+                    <BigLink
+                        smaller
+                        to="/about"
+                        subtitle={(l) => l.ui.page.landing.link.about}
+                        ><Iconified
+                            icon="💭"
+                            text={(l) => l.ui.page.about.header}
+                        /></BigLink
+                    >
+                </Action>
+                <Action kind="meta">
+                    <BigLink
+                        smaller
+                        to="/thanks"
+                        subtitle={(l) => l.ui.page.landing.link.thanks}
+                        ><Iconified
+                            icon="🙏"
+                            text={(l) => l.ui.page.thanks.header}
+                        /></BigLink
+                    >
+                </Action>
+                <Action kind="meta">
+                    <BigLink
+                        smaller
+                        to="/rights"
+                        subtitle={(l) => l.ui.page.landing.link.rights}
+                        ><Iconified
+                            icon="⚖️"
+                            text={(l) => l.ui.page.rights.header}
+                        /></BigLink
+                    ></Action
                 >
-            </Action>
-            <Action kind="meta">
-                <BigLink
-                    smaller
-                    to="/thanks"
-                    subtitle={(l) => l.ui.page.landing.link.thanks}
-                    ><Iconified
-                        icon="🙏"
-                        text={(l) => l.ui.page.thanks.header}
-                    /></BigLink
+                <Action kind="meta">
+                    <BigLink
+                        smaller
+                        external
+                        to="https://discord.gg/Jh2Qq9husy"
+                        subtitle={(l) =>
+                            l.ui.page.landing.link.community.subtitle}
+                        ><Iconified
+                            icon="🗣️"
+                            text={(l) => l.ui.page.landing.link.community.label}
+                        /></BigLink
+                    ></Action
                 >
-            </Action>
-            <Action kind="meta">
-                <BigLink
-                    smaller
-                    to="/rights"
-                    subtitle={(l) => l.ui.page.landing.link.rights}
-                    ><Iconified
-                        icon="⚖️"
-                        text={(l) => l.ui.page.rights.header}
-                    /></BigLink
-                ></Action
-            >
-            <Action kind="meta">
-                <BigLink
-                    smaller
-                    external
-                    to="https://discord.gg/Jh2Qq9husy"
-                    subtitle={(l) => l.ui.page.landing.link.community.subtitle}
-                    ><Iconified
-                        icon="🗣️"
-                        text={(l) => l.ui.page.landing.link.community.label}
-                    /></BigLink
-                ></Action
-            >
-            <Action kind="meta">
-                <BigLink
-                    smaller
-                    external
-                    to="https://github.com/wordplaydev/wordplay/wiki/contribute"
-                    subtitle={(l) => l.ui.page.landing.link.contribute.subtitle}
-                    ><Iconified
-                        icon="🛠️"
-                        text={(l) => l.ui.page.landing.link.contribute.label}
-                    />
-                </BigLink>
-            </Action>
-            <Action kind="meta">
-                <BigLink
-                    smaller
-                    to="/design"
-                    subtitle={(l) => l.ui.page.landing.link.design}
-                    ><Iconified
-                        icon="🎨"
-                        text={(l) => l.ui.page.design.header}
-                    />
-                </BigLink>
-            </Action>
-            <Action kind="meta">
-                <BigLink
-                    smaller
-                    to="/localize"
-                    subtitle={(l) => l.ui.page.landing.link.localize}
-                    ><Iconified
-                        icon="✎"
-                        text={(l) => l.ui.page.localize.header}
-                    />
-                </BigLink>
-            </Action>
-            <Action kind="meta">
-                <BigLink
-                    smaller
-                    to="/donate"
-                    subtitle={(l) => l.ui.page.donate.prompt}
-                >
-                    <Iconified
-                        icon="🤑"
-                        text={(l) => l.ui.page.donate.header}
-                    />
-                </BigLink>
-            </Action>
+                <Action kind="meta">
+                    <BigLink
+                        smaller
+                        external
+                        to="https://github.com/wordplaydev/wordplay/wiki/contribute"
+                        subtitle={(l) =>
+                            l.ui.page.landing.link.contribute.subtitle}
+                        ><Iconified
+                            icon="🛠️"
+                            text={(l) =>
+                                l.ui.page.landing.link.contribute.label}
+                        />
+                    </BigLink>
+                </Action>
+                <Action kind="meta">
+                    <BigLink
+                        smaller
+                        to="/design"
+                        subtitle={(l) => l.ui.page.landing.link.design}
+                        ><Iconified
+                            icon="🎨"
+                            text={(l) => l.ui.page.design.header}
+                        />
+                    </BigLink>
+                </Action>
+                <Action kind="meta">
+                    <BigLink
+                        smaller
+                        to="/localize"
+                        subtitle={(l) => l.ui.page.landing.link.localize}
+                        ><Iconified
+                            icon="✎"
+                            text={(l) => l.ui.page.localize.header}
+                        />
+                    </BigLink>
+                </Action>
+                <Action kind="meta">
+                    <BigLink
+                        smaller
+                        to="/donate"
+                        subtitle={(l) => l.ui.page.donate.prompt}
+                    >
+                        <Iconified
+                            icon="🤑"
+                            text={(l) => l.ui.page.donate.header}
+                        />
+                    </BigLink>
+                </Action>
+            </div>
         </div>
     </div>
 </Page>
 
 <style>
+    /* Positioned so the season's layer can fill it; isolated so that layer
+       stays behind the content. */
+    .season-frame {
+        position: relative;
+        isolation: isolate;
+    }
+
     /* The page's own container, so every breakpoint below is a container query
        against the page's width — the convention the footer and project chrome
        already follow — rather than a media query. */

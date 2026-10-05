@@ -19,6 +19,7 @@
         animationFactor,
         authAttempted,
         SaveStatus,
+        seasonShown,
         status,
     } from '#db/Database.ts';
     import { withMonoEmoji } from '#unicode/emoji.ts';
@@ -34,9 +35,15 @@
 
     let { lockup = undefined }: Props = $props();
 
+    /** How a character moves: bouncing around the stage, or carried by the
+     *  season (#108) — falling like snow, rising like heat, drifting like
+     *  dust — and wrapping at the edges rather than bouncing off them. */
+    type Motion = 'bounce' | 'fall' | 'rise' | 'drift';
+
     type Character = {
         symbol: string;
         index: number;
+        motion: Motion;
         /** The glyph's box, in px: its font size, and its collision extent. */
         size: number;
         x: number;
@@ -55,6 +62,11 @@
     let scene: Character[] = $state([]);
     let obstacle: Rect | undefined = $state(undefined);
     let fontsReady = $state(false);
+
+    /** The season's cast, which joins the stage's own. Loaded by dynamic import
+     *  so the landing page's graph carries no season data. */
+    let seasonal: { glyphs: readonly string[]; motion: Motion } | undefined =
+        $state(undefined);
 
     /** Whether the page has quieted down enough to start; see the effect
      *  below. Latched separately in a plain variable so that effect can tell
@@ -119,6 +131,41 @@
         }
     }
 
+    /** Carry a character that leaves one edge in at the opposite one. */
+    function wrap(character: Character) {
+        if (character.y > height) {
+            character.y = -character.size;
+            character.x = Math.random() * Math.max(1, width - character.size);
+        } else if (character.y < -character.size) {
+            character.y = height;
+            character.x = Math.random() * Math.max(1, width - character.size);
+        }
+        if (character.x > width) character.x = -character.size;
+        else if (character.x < -character.size) character.x = width;
+    }
+
+    /** A season's velocity for its motion, in px per second. */
+    function velocity(motion: Motion): { vx: number; vy: number } {
+        const spread = (lo: number, hi: number) =>
+            lo + Math.random() * (hi - lo);
+        switch (motion) {
+            case 'fall':
+                return { vx: spread(-15, 15), vy: spread(25, 55) };
+            case 'rise':
+                return { vx: spread(-10, 10), vy: -spread(20, 45) };
+            case 'drift':
+                return {
+                    vx: spread(20, 45) * (Math.random() < 0.5 ? -1 : 1),
+                    vy: spread(-8, 8),
+                };
+            case 'bounce':
+                return {
+                    vx: Math.round(Math.random() * 120 - 60),
+                    vy: Math.round(Math.random() * 120 - 60),
+                };
+        }
+    }
+
     function step(time: DOMHighResTimeStamp) {
         if (previousTime === undefined) previousTime = time;
 
@@ -132,6 +179,16 @@
             character.x += character.vx * seconds;
             character.y += character.vy * seconds;
             character.angle = (character.angle + character.va * seconds) % 360;
+
+            // A season's characters are weather passing through, so they wrap
+            // at the edges and pass behind the lockup rather than bouncing.
+            if (character.motion !== 'bounce') {
+                wrap(character);
+                const element = elements[character.index];
+                if (element)
+                    element.style.transform = `translate(${character.x}px, ${character.y}px) rotate(${character.angle}deg)`;
+                continue;
+            }
 
             // The stage's edges contain the cast rather than wrapping it: this
             // is a stage with characters on it, not an infinite field.
@@ -202,15 +259,25 @@
         const next: Character[] = [];
         for (let index = 0; index < count; index++) {
             const size = Math.round(smallest * (0.08 + Math.random() * 0.08));
+            // Every other character is the season's, when there is one.
+            const season =
+                seasonal !== undefined &&
+                seasonal.glyphs.length > 0 &&
+                index % 2 === 0
+                    ? seasonal
+                    : undefined;
+            const motion: Motion = season?.motion ?? 'bounce';
             const character: Character = {
-                symbol: pickRandom(Cast),
+                symbol: season
+                    ? pickRandom([...season.glyphs])
+                    : pickRandom(Cast),
                 index,
+                motion,
                 size,
                 x: 0,
                 y: 0,
                 angle: Math.round(Math.random() * 360),
-                vx: Math.round(Math.random() * 120 - 60),
-                vy: Math.round(Math.random() * 120 - 60),
+                ...velocity(motion),
                 va: Math.round(Math.random() * 60 - 30),
             };
             // Start clear of the lockup, so nobody has to be ejected from
@@ -289,6 +356,28 @@
             if (!latched) latch();
         }, SettleCeilingMs);
         return () => clearTimeout(timeout);
+    });
+
+    /** Load the season's cast when a season is showing, and re-seed if the
+     *  stage was already populated — Auto resolves a moment after load. */
+    $effect(() => {
+        const shown = $seasonShown;
+        let current = true;
+        if (shown === undefined) seasonal = undefined;
+        else
+            import('#seasons/seasons.ts').then(({ SeasonDesigns }) => {
+                if (current) seasonal = SeasonDesigns[shown.season].cast;
+            });
+        return () => {
+            current = false;
+        };
+    });
+
+    $effect(() => {
+        seasonal;
+        untrack(() => {
+            if (scene.length > 0) seed();
+        });
     });
 
     /** Seed once the box has a size and the page has settled. Later resizes

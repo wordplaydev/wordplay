@@ -1031,6 +1031,7 @@
         "e8b757ebd4689": "$~Cliquer sur un texte créé avec \\selectable\\ le sélectionne de nouveau. Cela ne marchait plus dans l'exemple de la <page d'accueil@https://wordplay.dev/> et dans tous les projets.",
         "eb6f2bf5308ec": "$~Dans Safari, quand tu appuies sur Commencer ou sur Réessayer dans un projet qui utilise le microphone ou la caméra, une demande d'autorisation s'affiche maintenant. Avant, rien ne se passait.",
         "e71d907b44acc": "$~Nous avons corrigé les émojis en couleur qui s'affichaient vides ou noirs sur les iPhone et les iPad avec iOS 27. Ils se chargent aussi plus vite sur ces appareils.",
-        "e8bf14728ecca": "$~Quand tu n'es pas connecté, la fenêtre de l'état de sauvegarde n'est plus vide. Elle indique combien de projets sont enregistrés seulement sur cet appareil, et comment les sauvegarder en ligne."
+        "e8bf14728ecca": "$~Quand tu n'es pas connecté, la fenêtre de l'état de sauvegarde n'est plus vide. Elle indique combien de projets sont enregistrés seulement sur cet appareil, et comment les sauvegarder en ligne.",
+        "e6bd8c62fd1ab": "$~Nous avons ajouté des saisons. Elles colorent le site et remplissent ses bords avec la météo de ton pays, comme la pluie de mousson, les feuilles qui tombent ou des flocons faits de tes propres lettres. Tu peux choisir une saison ou les désactiver dans les paramètres. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
     }
 }

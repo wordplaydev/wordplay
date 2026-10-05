@@ -1261,7 +1261,9 @@
                     "Ang mismong guhit ay hindi kailanman nagpapakita ng galaw. Ang paggalaw ay pag-uugali — ang landing page ay pabago-bago kung ano ang sinasabi ng bubble kasabay ng pagpili ng wika, at habang nilo-load ang mga hugis ay salit-salitang lumulukso, gaya ng maramihang taong gumagawa ng wave — at palaging sumusukat sa setting ng bilis ng animation, at tuluyang humihinto kapag naka-off ang animation.",
                     "Palaging iginuguhit ang marka gamit ang kasalukuyang kulay ng teksto, kaya saanman may sapat na contrast ang teksto, ganoon din ang logo."
                 ],
-                "copyvalue": "$~kopyahin ang buong CSS na halaga"
+                "copyvalue": "$~kopyahin ang buong CSS na halaga",
+                "seasons": "$~Mga Panahon",
+                "seasonsDescription": "$~Binabago ng mga panahon ang kulay ng site at nagdaragdag ng mga glyph ng panahon sa mga gilid nito. Ang bawat isa ay pangalawang axis sa tabi ng liwanag at dilim, na may paleta para sa dalawa, at ang bawat paleta ay pumapasa sa parehong pagsusuri ng contrast gaya ng paunang paleta bago ito mailabas. Ang mga kulay at figure ng bawat panahon ay data sa <pinagmulan ng mga panahon@https://github.com/wordplaydev/wordplay/tree/main/src/seasons>."
             },
             "thanks": {
                 "header": "$~Salamat",
