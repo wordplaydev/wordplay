@@ -1,4 +1,5 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
+import { grantClipboard } from '../helpers/clipboard';
 import { createTestProject } from '../helpers/createProject';
 
 /**
@@ -105,9 +106,8 @@ async function dragOnto(page: Page, from: Locator, to: Locator) {
 
 test('in blocks mode, unparsable code takes a drop, the space below the program appends, and copying from the sidebar is said', async ({
     page,
-    context,
 }) => {
-    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await grantClipboard(page);
     await createTestProject(page);
     const editor = page.getByTestId('editor').first();
     await editor.click();
