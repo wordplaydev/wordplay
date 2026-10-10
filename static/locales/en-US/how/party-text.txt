@@ -1,0 +1,52 @@
+Give each letter its own color
+
+A @Phrase can give each of its glyphs a different @Pose with @Phrase/poses.
+The first glyph gets the first pose, the second glyph gets the second, and when the poses run out, they start again from the first.
+
+Here's some party text, with three colors taking turns:
+
+\
+Phrase(
+	'party time!'
+	face: 'Luckiest Guy'
+	poses: [
+		Pose(color: Color(25% 70 250°))
+		Pose(color: Color(50% 80 300°))
+		Pose(color: Color(58% 90 60°))
+	]
+)
+\
+
+Spaces count as glyphs too, so the colors keep taking turns across words.
+These colors differ in lightness as well as hue, so people who see colors differently can still tell them apart.
+
+Poses can do more than color. Each glyph tilts, grows, fades, and moves around its own middle, so we can make the letters bounce:
+
+\
+Phrase(
+	'bounce'
+	face: 'Luckiest Guy'
+	poses: [
+		Pose(color: Color(25% 70 250°) rotation: -10° offset: Place(0m 0.1m))
+		Pose(color: Color(58% 90 60°) rotation: 10° opacity: 0.6)
+	]
+)
+\
+
+Poses work with formatted text too, and like any other input, they can change based on other values.
+This ransom note picks a new tilt every quarter second:
+
+\
+tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+Phrase(
+	`*ransom* /note/`
+	face: 'Courier Prime'
+	poses: [
+		Pose(rotation: tilt offset: Place(0m 0.05m))
+		Pose(rotation: -tilt scale: 1.2)
+		Pose(rotation: tilt ÷ 2 offset: Place(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

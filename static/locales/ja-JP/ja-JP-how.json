@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "文字ひとつひとつに、べつべつの色をつける",
+        "category": "styling",
+        "body": "1つの @Phrase は、それぞれの字形に、ちがう @Pose を、次の方法で指定できます: @Phrase/poses。\n最初の字形には最初のポーズ、2番目の字形には2番目のポーズがつきます。ポーズがなくなったら、また最初にもどります。\n\n3つの色が順番にくり返される、パーティー用のテキストです:\n\n\\\nPhrase(\n\t'party time!'\n\t顔: 'Luckiest Guy'\n\tポーズ: [\n\t\tPose(色: Color(25% 70 250°))\n\t\tPose(色: Color(50% 80 300°))\n\t\tPose(色: Color(58% 90 60°))\n\t]\n)\n\\\n\n スペースも字形として数えるので、単語をまたいでも、色は順番にくり返されます。\nこれらの色は、色合いだけでなく明るさもちがいます。だから、色の見え方がちがう人でも、見分けられます。\n\nポーズでできることは、色だけではありません。それぞれの字形は、自分の中心を軸にして、かたむいたり、大きくなったり、うすくなったり、動いたりします。だから、文字をはずませることもできます:\n\n\\\nPhrase(\n\t'bounce'\n\t顔: 'Luckiest Guy'\n\tポーズ: [\n\t\tPose(色: Color(25% 70 250°) 回転: -10° ずれ: Place(0m 0.1m))\n\t\tPose(色: Color(58% 90 60°) 回転: 10° 不透明度: 0.6)\n\t]\n)\n\\\n\n ポーズは、書式つきのテキストでも使えます。ほかの入力と同じように、ほかの値によって変えることもできます。\nこの脅迫状は、0.25秒ごとに新しいかたむきを選びます:\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\t顔: 'Courier Prime'\n\tポーズ: [\n\t\tPose(回転: tilt ずれ: Place(0m 0.05m))\n\t\tPose(回転: -tilt 大きさ: 1.2)\n\t\tPose(回転: tilt ÷ 2 ずれ: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "パターンを使ってテキストを検索してチェックする",
         "category": "styling",

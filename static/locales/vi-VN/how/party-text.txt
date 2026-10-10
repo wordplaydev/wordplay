@@ -1,0 +1,52 @@
+Cho mỗi chữ cái một màu riêng
+
+Một @Phrase có thể cho mỗi ký tự của nó một @Pose khác nhau bằng @Phrase/poses.
+Ký tự đầu tiên nhận tư thế đầu tiên, ký tự thứ hai nhận tư thế thứ hai, và khi hết tư thế thì quay lại bắt đầu từ tư thế đầu tiên.
+
+Đây là một dòng chữ tiệc tùng, với ba màu thay phiên nhau:
+
+\
+Phrase(
+	'party time!'
+	khuônmặt: 'Luckiest Guy'
+	tưThế: [
+		Pose(màusắc: Color(25% 70 250°))
+		Pose(màusắc: Color(50% 80 300°))
+		Pose(màusắc: Color(58% 90 60°))
+	]
+)
+\
+
+ Dấu cách cũng được tính là ký tự, nên các màu cứ thay phiên nhau qua các từ.
+Các màu này khác nhau cả về độ sáng lẫn sắc độ, nên những người nhìn màu khác nhau vẫn phân biệt được chúng.
+
+Tư thế làm được nhiều hơn là đổi màu. Mỗi ký tự có thể nghiêng, to lên, mờ đi và di chuyển quanh tâm của nó, nên ta có thể làm cho các chữ cái nảy lên:
+
+\
+Phrase(
+	'bounce'
+	khuônmặt: 'Luckiest Guy'
+	tưThế: [
+		Pose(màusắc: Color(25% 70 250°) xoay: -10° bùlại: Place(0m 0.1m))
+		Pose(màusắc: Color(58% 90 60°) xoay: 10° độmờđục: 0.6)
+	]
+)
+\
+
+ Tư thế cũng dùng được với văn bản định dạng, và giống như mọi đầu vào khác, chúng có thể thay đổi dựa trên các giá trị khác.
+Bức thư tống tiền này chọn một độ nghiêng mới mỗi một phần tư giây:
+
+\
+tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+Phrase(
+	`*ransom* /note/`
+	khuônmặt: 'Courier Prime'
+	tưThế: [
+		Pose(xoay: tilt bùlại: Place(0m 0.05m))
+		Pose(xoay: -tilt tỉlệ: 1.2)
+		Pose(xoay: tilt ÷ 2 bùlại: Place(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

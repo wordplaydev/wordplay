@@ -182,7 +182,7 @@ export const HowToCoverageIsFatal = true;
 
 /**
  * Files whose English has a prose run the target language has no counterpart
- * for, as `<locale>/<id>`. **Currently empty**, and every locale covers en-US.
+ * for, as `<locale>/<id>`.
  *
  * Kept because the case is linguistic rather than historical, so it will recur:
  * a run can be a bare function word that another language puts elsewhere or
@@ -197,7 +197,12 @@ export const HowToCoverageIsFatal = true;
  * file held to it, and `howToStructureSync.test.ts` fails on an entry that no
  * longer names a file that is really behind, so this shrinks on its own.
  */
-export const CoverageExemptions: string[] = [];
+export const CoverageExemptions: string[] = [
+    // English opens "A @Phrase can give…", a run before the first link; Korean is
+    // verb-final and opens on @Phrase, so the paragraph's signature can't pair,
+    // though nothing is missing. Two translations in a row answered the same way.
+    'ko-KR/party-text',
+];
 
 /**
  * The how-tos whose translation covers less than its en-US source does, by id.

@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "Ge varje bokstav sin egen färg",
+        "category": "styling",
+        "body": "En @Phrase kan ge varje tecken en egen @Pose med @Phrase/poses.\nDet första tecknet får den första posen, det andra tecknet får den andra, och när posene tar slut börjar de om från den första.\n\nHär är en festtext där tre färger turas om:\n\n\\\nPhrase(\n\t'party time!'\n\tansikte: 'Luckiest Guy'\n\tposer: [\n\t\tPose(färg: Color(25% 70 250°))\n\t\tPose(färg: Color(50% 80 300°))\n\t\tPose(färg: Color(58% 90 60°))\n\t]\n)\n\\\n\n Mellanslag räknas också som tecken, så färgerna fortsätter att turas om mellan orden.\nFärgerna skiljer sig både i ljushet och i nyans, så att personer som ser färger annorlunda ändå kan se skillnad på dem.\n\nPoser kan göra mer än att ändra färg. Varje tecken kan luta, växa, tonas ut och röra sig runt sin egen mitt, så vi kan få bokstäverna att studsa:\n\n\\\nPhrase(\n\t'bounce'\n\tansikte: 'Luckiest Guy'\n\tposer: [\n\t\tPose(färg: Color(25% 70 250°) rotation: -10° offset: Place(0m 0.1m))\n\t\tPose(färg: Color(58% 90 60°) rotation: 10° opacitet: 0.6)\n\t]\n)\n\\\n\n Poser fungerar också med formaterad text, och precis som andra indata kan de ändras beroende på andra värden.\nDet här utpressningsbrevet väljer en ny lutning var fjärde sekund.\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\tansikte: 'Courier Prime'\n\tposer: [\n\t\tPose(rotation: tilt offset: Place(0m 0.05m))\n\t\tPose(rotation: -tilt skala: 1.2)\n\t\tPose(rotation: tilt ÷ 2 offset: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "Hitta och kontrollera text med mönster",
         "category": "styling",

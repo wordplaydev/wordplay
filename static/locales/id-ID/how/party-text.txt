@@ -1,0 +1,52 @@
+Beri setiap huruf warnanya sendiri
+
+Sebuah @Phrase dapat memberi setiap glifnya @Pose yang berbeda dengan @Phrase/poses.
+Glif pertama mendapat pose pertama, glif kedua mendapat pose kedua, dan saat pose habis, pose dimulai lagi dari yang pertama.
+
+Ini teks pesta, dengan tiga warna yang bergiliran:
+
+\
+Phrase(
+	'party time!'
+	menghadapi: 'Luckiest Guy'
+	pose: [
+		Pose(warna: Color(25% 70 250°))
+		Pose(warna: Color(50% 80 300°))
+		Pose(warna: Color(58% 90 60°))
+	]
+)
+\
+
+ Spasi juga dihitung sebagai glif, jadi warna terus bergiliran di antara kata-kata.
+Warna-warna ini berbeda dalam tingkat terang dan juga corak, jadi orang yang melihat warna secara berbeda tetap bisa membedakannya.
+
+Pose bisa melakukan lebih dari sekadar warna. Setiap glif bisa miring, membesar, memudar, dan bergerak di sekitar titik tengahnya sendiri, jadi kita bisa membuat huruf-hurufnya memantul:
+
+\
+Phrase(
+	'bounce'
+	menghadapi: 'Luckiest Guy'
+	pose: [
+		Pose(warna: Color(25% 70 250°) rotasi: -10° mengimbangi: Place(0m 0.1m))
+		Pose(warna: Color(58% 90 60°) rotasi: 10° kegelapan: 0.6)
+	]
+)
+\
+
+ Pose juga bisa dipakai pada teks berformat, dan seperti masukan lainnya, pose bisa berubah berdasarkan nilai lain.
+Surat kaleng ini memilih kemiringan baru setiap seperempat detik:
+
+\
+tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+Phrase(
+	`*ransom* /note/`
+	menghadapi: 'Courier Prime'
+	pose: [
+		Pose(rotasi: tilt mengimbangi: Place(0m 0.05m))
+		Pose(rotasi: -tilt skala: 1.2)
+		Pose(rotasi: tilt ÷ 2 mengimbangi: Place(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

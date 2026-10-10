@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "Her harfe kendi rengini ver",
+        "category": "styling",
+        "body": "Bir @Phrase her glifine farklı bir @Pose verebilir: @Phrase/poses.\nİlk glif ilk pozu alır, ikinci glif ikinci pozu alır. Pozlar bitince yeniden ilk pozdan başlar.\n\nİşte sırayla üç renk kullanan eğlenceli bir metin:\n\n\\\nPhrase(\n\t'party time!'\n\tyüz: 'Luckiest Guy'\n\tpozlar: [\n\t\tPose(renk: Color(25% 70 250°))\n\t\tPose(renk: Color(50% 80 300°))\n\t\tPose(renk: Color(58% 90 60°))\n\t]\n)\n\\\n\n Boşluklar da birer glif sayılır. Bu yüzden renkler kelimeler boyunca sırayla devam eder.\nBu renklerin hem tonu hem de açıklığı farklıdır. Böylece renkleri farklı gören insanlar da bunları ayırt edebilir.\n\nPozlar yalnızca renk vermez. Her glif eğilebilir, büyüyebilir, solabilir ve kendi merkezi etrafında hareket edebilir. Böylece harfleri zıplatabiliriz:\n\n\\\nPhrase(\n\t'bounce'\n\tyüz: 'Luckiest Guy'\n\tpozlar: [\n\t\tPose(renk: Color(25% 70 250°) rotasyon: -10° telafietmek: Place(0m 0.1m))\n\t\tPose(renk: Color(58% 90 60°) rotasyon: 10° opaklık: 0.6)\n\t]\n)\n\\\n\n Pozlar biçimli metinle de çalışır. Diğer girdiler gibi, başka değerlere göre değişebilirler.\nBu fidye mektubu her çeyrek saniyede yeni bir eğim seçer:\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\tyüz: 'Courier Prime'\n\tpozlar: [\n\t\tPose(rotasyon: tilt telafietmek: Place(0m 0.05m))\n\t\tPose(rotasyon: -tilt ölçek: 1.2)\n\t\tPose(rotasyon: tilt ÷ 2 telafietmek: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "Desenli metinleri bulun ve kontrol edin.",
         "category": "styling",

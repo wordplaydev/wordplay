@@ -251,6 +251,16 @@
                     "Một @Bubble, khi bạn muốn chọn tôi nói từ phía nào, đổi thành một suy nghĩ thay vì lời nói, hoặc đặt cho nó một màu."
                 ],
                 "names": "$~bongBóng"
+            },
+            "poses": {
+                "doc": [
+                    "$~@Pose cho từng ký tự của tôi, lần lượt từng cái một. Ký tự đầu tiên nhận tư thế đầu tiên, ký tự thứ hai nhận tư thế thứ hai, và khi hết tư thế, tôi bắt đầu lại từ tư thế đầu tiên. Dấu cách cũng được tính là ký tự.",
+                    "\\Cụmtừ(\n\t'tiệc tùng!'\n\ttưThế: [\n\t\tTưthế(màusắc: Màusắc(25% 70 250°))\n\t\tTưthế(màusắc: Màusắc(50% 80 300°))\n\t\tTưthế(màusắc: Màusắc(58% 90 60°))\n\t]\n)\\",
+                    "Mỗi ký tự xoay, to lên và di chuyển quanh tâm của chính nó, nên một tư thế duy nhất làm nghiêng mọi ký tự tại chỗ trong khi dòng chữ của tôi vẫn thẳng:",
+                    "\\Cụmtừ('lung lay' tưThế: Tưthế(xoay: 15°))\\",
+                    "Màu của chính ký tự được ưu tiên hơn màu của tôi và hơn bất kỳ tư thế nào tôi đang tạo hoạt ảnh, còn độ mờ của nó thì kết hợp với độ mờ của tôi."
+                ],
+                "names": "$~tưThế"
             }
         },
         "Arrangement": {

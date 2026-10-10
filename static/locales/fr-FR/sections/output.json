@@ -365,6 +365,16 @@
                     "Un @Bubble, quand tu veux choisir de quel côté je parle, en faire une pensée à la place, ou lui donner une couleur."
                 ],
                 "names": "$~bulle"
+            },
+            "poses": {
+                "doc": [
+                    "$~@Pose pour chacun de mes glyphes, l'un après l'autre. Le premier glyphe reçoit la première pose, le deuxième reçoit la deuxième, et quand je n'ai plus de poses, je recommence à la première. Les espaces comptent aussi comme des glyphes.",
+                    "\\Phrase(\n\t'fête !'\n\tposes: [\n\t\tPose(couleur: Couleur(25% 70 250°))\n\t\tPose(couleur: Couleur(50% 80 300°))\n\t\tPose(couleur: Couleur(58% 90 60°))\n\t]\n)\\",
+                    "Chaque glyphe tourne, grandit et bouge autour de son propre centre. Ainsi, une seule pose incline chaque glyphe sur place, et ma ligne reste droite :",
+                    "\\Phrase('tremblant' poses: Pose(rotation: 15°))\\",
+                    "La couleur propre d'un glyphe l'emporte sur la mienne et sur toute pose que j'anime. Son opacité, elle, se combine avec la mienne."
+                ],
+                "names": "$~poses"
             }
         },
         "Arrangement": {

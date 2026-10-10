@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "Dale a cada letra su propio color",
+        "category": "styling",
+        "body": "Una @Phrase puede darle a cada uno de sus glifos un @Pose distinto con @Phrase/poses.\nEl primer glifo recibe la primera pose, el segundo glifo recibe la segunda y, cuando se acaban las poses, vuelven a empezar desde la primera.\n\nAquí hay un texto de fiesta, con tres colores que se turnan:\n\n\\\nPhrase(\n\t'party time!'\n\tfuente: 'Luckiest Guy'\n\tposes: [\n\t\tPose(color: Color(25% 70 250°))\n\t\tPose(color: Color(50% 80 300°))\n\t\tPose(color: Color(58% 90 60°))\n\t]\n)\n\\\n\n Los espacios también cuentan como glifos, así que los colores siguen turnándose entre las palabras.\nEstos colores se diferencian tanto en luminosidad como en tono, así que las personas que ven los colores de otra manera también pueden distinguirlos.\n\nLas poses pueden hacer más que dar color. Cada glifo se inclina, crece, se desvanece y se mueve alrededor de su propio centro, así que podemos hacer que las letras reboten:\n\n\\\nPhrase(\n\t'bounce'\n\tfuente: 'Luckiest Guy'\n\tposes: [\n\t\tPose(color: Color(25% 70 250°) rotación: -10° desplazamiento: Place(0m 0.1m))\n\t\tPose(color: Color(58% 90 60°) rotación: 10° opacidad: 0.6)\n\t]\n)\n\\\n\n Las poses también funcionan con texto con formato y, como cualquier otro valor de entrada, pueden cambiar según otros valores.\nEsta nota de rescate elige una nueva inclinación cada cuarto de segundo:\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\tfuente: 'Courier Prime'\n\tposes: [\n\t\tPose(rotación: tilt desplazamiento: Place(0m 0.05m))\n\t\tPose(rotación: -tilt escala: 1.2)\n\t\tPose(rotación: tilt ÷ 2 desplazamiento: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "Encuentra y verifica textos con patrones",
         "category": "styling",

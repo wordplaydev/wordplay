@@ -1032,6 +1032,8 @@
         "eb6f2bf5308ec": "$~Wenn du in Safari bei einem Projekt mit Mikrofon oder Kamera auf Start oder Erneut versuchen drückst, wirst du jetzt nach der Erlaubnis gefragt. Vorher ist nichts passiert.",
         "e71d907b44acc": "$~Wir haben Farb-Emojis repariert, die auf iPhones und iPads mit iOS 27 leer oder schwarz angezeigt wurden. Außerdem laden sie dort jetzt schneller.",
         "e8bf14728ecca": "$~Wenn du nicht angemeldet bist, ist das Fenster mit dem Speicherstatus jetzt nicht mehr leer. Es zeigt, wie viele Projekte nur auf diesem Gerät gespeichert sind und wie du sie online speichern kannst.",
-        "e6bd8c62fd1ab": "$~Wir haben Jahreszeiten hinzugefügt. Sie färben die Seite und füllen ihre Ränder mit Wetter von dort, wo du bist, zum Beispiel Monsunregen, fallende Blätter oder Schneeflocken aus deinen eigenen Buchstaben. Du kannst in den Einstellungen eine Jahreszeit auswählen oder sie ausschalten. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
+        "e6bd8c62fd1ab": "$~Wir haben Jahreszeiten hinzugefügt. Sie färben die Seite und füllen ihre Ränder mit Wetter von dort, wo du bist, zum Beispiel Monsunregen, fallende Blätter oder Schneeflocken aus deinen eigenen Buchstaben. Du kannst in den Einstellungen eine Jahreszeit auswählen oder sie ausschalten. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
+        "e32dce56949e2": "$~\\Satzglied\\ hat eine neue Eingabe \\poses\\. Sie gibt jedem Buchstaben eine eigene Farbe, Neigung, Größe oder Position. Dabei wechselt sie nacheinander durch eine Liste von \\Pose\\.",
+        "ed0c9f9a5fdd1": "$~Code-Beispiele im <Leitfaden@https://wordplay.dev/guide> beginnen nicht mehr mit einer leeren Zeile."
     }
 }

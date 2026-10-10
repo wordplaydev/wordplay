@@ -365,6 +365,16 @@
                     "Ein @Bubble, wenn du wählen willst, von welcher Seite ich spreche, es stattdessen zu einem Gedanken machen willst, oder ihm eine Farbe geben willst."
                 ],
                 "names": "$~sprechblase"
+            },
+            "poses": {
+                "doc": [
+                    "$~@Pose für jedes meiner Glyphen, eins nach dem anderen. Das erste Glyph bekommt die erste Pose, das zweite bekommt die zweite, und wenn mir die Posen ausgehen, fange ich wieder bei der ersten an. Leerzeichen zählen auch als Glyphen.",
+                    "\\Satzglied(\n\t'Party!'\n\tPosen: [\n\t\tPose(Farbe: Farbe(25% 70 250°))\n\t\tPose(Farbe: Farbe(50% 80 300°))\n\t\tPose(Farbe: Farbe(58% 90 60°))\n\t]\n)\\",
+                    "Jedes Glyph dreht sich, wächst und bewegt sich um seine eigene Mitte. So kippt eine einzelne Pose jedes Glyph an Ort und Stelle, während meine Zeile gerade bleibt:",
+                    "\\Satzglied('wackelig' Posen: Pose(Drehung: 15°))\\",
+                    "Die eigene Farbe eines Glyphs hat Vorrang vor meiner und vor jeder Pose, die ich animiere. Seine Deckkraft wird mit meiner kombiniert."
+                ],
+                "names": "$~Posen"
             }
         },
         "Arrangement": {

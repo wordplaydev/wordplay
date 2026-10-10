@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "Donne à chaque lettre sa propre couleur",
+        "category": "styling",
+        "body": "Un @Phrase peut donner à chacun de ses glyphes une @Pose différente avec @Phrase/poses.\nLe premier glyphe reçoit la première pose, le deuxième glyphe reçoit la deuxième, et quand il n'y a plus de poses, on recommence à la première.\n\nVoici un texte de fête, avec trois couleurs qui passent chacune à son tour :\n\n\\\nPhrase(\n\t'party time!'\n\taffronter: 'Luckiest Guy'\n\tposes: [\n\t\tPose(couleur: Color(25% 70 250°))\n\t\tPose(couleur: Color(50% 80 300°))\n\t\tPose(couleur: Color(58% 90 60°))\n\t]\n)\n\\\n\n Les espaces comptent aussi comme des glyphes, donc les couleurs continuent de passer à tour de rôle d'un mot à l'autre.\nCes couleurs ont des niveaux de clarté différents en plus de leurs teintes, donc les personnes qui voient les couleurs différemment peuvent quand même les distinguer.\n\nLes poses peuvent faire plus que changer la couleur. Chaque glyphe s'incline, grandit, s'estompe et bouge autour de son propre centre, donc nous pouvons faire rebondir les lettres :\n\n\\\nPhrase(\n\t'bounce'\n\taffronter: 'Luckiest Guy'\n\tposes: [\n\t\tPose(couleur: Color(25% 70 250°) rotation: -10° compenser: Place(0m 0.1m))\n\t\tPose(couleur: Color(58% 90 60°) rotation: 10° opacité: 0.6)\n\t]\n)\n\\\n\n Les poses fonctionnent aussi avec du texte mis en forme, et comme toute autre entrée, elles peuvent changer selon d'autres valeurs.\nCe message anonyme choisit une nouvelle inclinaison toutes les quarts de seconde :\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\taffronter: 'Courier Prime'\n\tposes: [\n\t\tPose(rotation: tilt compenser: Place(0m 0.05m))\n\t\tPose(rotation: -tilt échelle: 1.2)\n\t\tPose(rotation: tilt ÷ 2 compenser: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "Recherchez et vérifiez les textes contenant des motifs.",
         "category": "styling",

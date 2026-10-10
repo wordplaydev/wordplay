@@ -1,0 +1,52 @@
+Donne à chaque lettre sa propre couleur
+
+Un @Phrase peut donner à chacun de ses glyphes une @Pose différente avec @Phrase/poses.
+Le premier glyphe reçoit la première pose, le deuxième glyphe reçoit la deuxième, et quand il n'y a plus de poses, on recommence à la première.
+
+Voici un texte de fête, avec trois couleurs qui passent chacune à son tour :
+
+\
+Phrase(
+	'party time!'
+	affronter: 'Luckiest Guy'
+	poses: [
+		Pose(couleur: Color(25% 70 250°))
+		Pose(couleur: Color(50% 80 300°))
+		Pose(couleur: Color(58% 90 60°))
+	]
+)
+\
+
+ Les espaces comptent aussi comme des glyphes, donc les couleurs continuent de passer à tour de rôle d'un mot à l'autre.
+Ces couleurs ont des niveaux de clarté différents en plus de leurs teintes, donc les personnes qui voient les couleurs différemment peuvent quand même les distinguer.
+
+Les poses peuvent faire plus que changer la couleur. Chaque glyphe s'incline, grandit, s'estompe et bouge autour de son propre centre, donc nous pouvons faire rebondir les lettres :
+
+\
+Phrase(
+	'bounce'
+	affronter: 'Luckiest Guy'
+	poses: [
+		Pose(couleur: Color(25% 70 250°) rotation: -10° compenser: Place(0m 0.1m))
+		Pose(couleur: Color(58% 90 60°) rotation: 10° opacité: 0.6)
+	]
+)
+\
+
+ Les poses fonctionnent aussi avec du texte mis en forme, et comme toute autre entrée, elles peuvent changer selon d'autres valeurs.
+Ce message anonyme choisit une nouvelle inclinaison toutes les quarts de seconde :
+
+\
+tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+Phrase(
+	`*ransom* /note/`
+	affronter: 'Courier Prime'
+	poses: [
+		Pose(rotation: tilt compenser: Place(0m 0.05m))
+		Pose(rotation: -tilt échelle: 1.2)
+		Pose(rotation: tilt ÷ 2 compenser: Place(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

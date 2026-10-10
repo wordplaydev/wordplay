@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "Gib jedem Buchstaben seine eigene Farbe",
+        "category": "styling",
+        "body": "Eine @Phrase kann jedem ihrer Glyphen eine andere @Pose geben, und zwar mit @Phrase/poses.\nDas erste Glyph bekommt die erste Pose, das zweite Glyph die zweite. Wenn die Posen aufgebraucht sind, beginnen sie wieder bei der ersten.\n\nHier ist ein bunter Partytext, in dem drei Farben sich abwechseln:\n\n\\\nPhrase(\n\t'party time!'\n\tgesicht: 'Luckiest Guy'\n\tPosen: [\n\t\tPose(Farbe: Color(25% 70 250°))\n\t\tPose(Farbe: Color(50% 80 300°))\n\t\tPose(Farbe: Color(58% 90 60°))\n\t]\n)\n\\\n\n Auch Leerzeichen zählen als Glyphen. Deshalb wechseln die Farben über Wörter hinweg weiter ab.\nDiese Farben unterscheiden sich in Helligkeit und Farbton. So können auch Menschen, die Farben anders sehen, sie auseinanderhalten.\n\nPosen können mehr als nur Farbe. Jedes Glyph kippt, wächst, wird blasser und bewegt sich um seine eigene Mitte. So können wir die Buchstaben hüpfen lassen:\n\n\\\nPhrase(\n\t'bounce'\n\tgesicht: 'Luckiest Guy'\n\tPosen: [\n\t\tPose(Farbe: Color(25% 70 250°) Drehung: -10° Versatz: Place(0m 0.1m))\n\t\tPose(Farbe: Color(58% 90 60°) Drehung: 10° Opazität: 0.6)\n\t]\n)\n\\\n\n Posen funktionieren auch mit formatiertem Text. Und wie jede andere Eingabe können sie sich ändern, je nachdem, wie sich andere Werte ändern.\nDieser Erpresserbrief wählt alle Viertelsekunde eine neue Neigung:\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\tgesicht: 'Courier Prime'\n\tPosen: [\n\t\tPose(Drehung: tilt Versatz: Place(0m 0.05m))\n\t\tPose(Drehung: -tilt Skala: 1.2)\n\t\tPose(Drehung: tilt ÷ 2 Versatz: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "Texte mit Mustern suchen und überprüfen",
         "category": "styling",

@@ -36,7 +36,9 @@ import { toMatter } from '#output/physics/Matter.ts';
 import Output, { DefaultStyle } from '#output/Output/Output.ts';
 import type Place from '#output/Place/Place.ts';
 import type { DefinitePose } from '#output/animation/Pose.ts';
-import Pose from '#output/animation/Pose.ts';
+import Pose, { toPose } from '#output/animation/Pose.ts';
+import ListValue from '#values/ListValue.ts';
+import { isDefined } from '#util/nullable.ts';
 import type RenderContext from '#output/RenderContext.ts';
 import Sequence from '#output/animation/Sequence.ts';
 import { toNumber, type NameGenerator } from '#output/Output/Stage.ts';
@@ -121,6 +123,7 @@ export function createPhraseType(locales: Locales) {
             locales,
             (locale) => locale.output.Phrase.bubble,
         )}•ø|""|\`…\`|🔊|🗨: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.poses)}•🤪|[🤪]|ø: ø
     )`);
 }
 
@@ -156,6 +159,8 @@ export default class Phrase extends Output {
     readonly matter: Matter | undefined;
     readonly aura: Aura | undefined;
     readonly bubble: Bubble | undefined;
+    /** Poses for the glyphs to take in turn. */
+    readonly poses: Pose[] | undefined;
 
     private _metrics: PhraseMetrics | undefined = undefined;
     /** The effective layout the cached metrics were computed for, so we can
@@ -204,6 +209,7 @@ export default class Phrase extends Output {
         matter: Matter | undefined,
         aura: Aura | undefined,
         bubble: Bubble | undefined,
+        poses: Pose[] | undefined = undefined,
     ) {
         super(
             value,
@@ -231,6 +237,7 @@ export default class Phrase extends Output {
         this.matter = matter;
         this.aura = aura;
         this.bubble = bubble;
+        this.poses = poses;
     }
 
     find(check: (output: Output) => boolean): Output | undefined {
@@ -613,6 +620,7 @@ export function toPhrase(
         getOutputInput(value, AfterStyleOffset + 5),
         namer,
     );
+    const poses = toPoses(project, getOutputInput(value, AfterStyleOffset + 6));
 
     return texts !== undefined &&
         (!Array.isArray(texts) || texts.length > 0) &&
@@ -648,8 +656,22 @@ export function toPhrase(
               matter,
               shadow,
               bubble,
+              poses,
           )
         : undefined;
+}
+
+/** A pose or list of poses, as a list; undefined if any isn't a pose. */
+export function toPoses(
+    project: Project,
+    value: Value | undefined,
+): Pose[] | undefined {
+    if (value instanceof ListValue) {
+        const poses = value.values.map((item) => toPose(project, item));
+        return poses.length > 0 && poses.every(isDefined) ? poses : undefined;
+    }
+    const pose = toPose(project, value);
+    return pose === undefined ? undefined : [pose];
 }
 
 export function toText(value: Value | undefined) {

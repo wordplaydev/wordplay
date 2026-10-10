@@ -1,0 +1,52 @@
+Dă fiecărei litere propria culoare
+
+Un @Phrase poate da fiecărui glif o altă @Pose cu @Phrase/poses.
+Primul glif primește prima poziție, al doilea glif o primește pe a doua, iar când pozițiile se termină, încep din nou de la prima.
+
+Iată un text de petrecere, cu trei culori care se succed pe rând:
+
+\
+Phrase(
+	'party time!'
+	faţă: 'Luckiest Guy'
+	poziții: [
+		Pose(culoare: Color(25% 70 250°))
+		Pose(culoare: Color(50% 80 300°))
+		Pose(culoare: Color(58% 90 60°))
+	]
+)
+\
+
+ Spațiile contează și ele ca glife, așa căGD culorile continuă să se succeadă de la un cuvânt la altul.
+Aceste culori diferă atât ca luminozitate, cât și ca nuanță, așa că și oamenii care văd culorile altfel le pot deosebi.
+
+Pozițiile pot face mai mult decât să schimbe culoarea. Fiecare glif se înclină, crește, se estompează și se mișcă în jurul propriului centru, așa că putem face literele să sară:
+
+\
+Phrase(
+	'bounce'
+	faţă: 'Luckiest Guy'
+	poziții: [
+		Pose(culoare: Color(25% 70 250°) rotaţie: -10° compensare: Place(0m 0.1m))
+		Pose(culoare: Color(58% 90 60°) rotaţie: 10° opacitate: 0.6)
+	]
+)
+\
+
+ Pozițiile funcționează și cu textul formatat și, ca orice altă intrare, pot varia în funcție de alte valori.
+Acest bilet de răscumpărare alege o nouă înclinare la fiecare sfert de secundă:
+
+\
+tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+Phrase(
+	`*ransom* /note/`
+	faţă: 'Courier Prime'
+	poziții: [
+		Pose(rotaţie: tilt compensare: Place(0m 0.05m))
+		Pose(rotaţie: -tilt scară: 1.2)
+		Pose(rotaţie: tilt ÷ 2 compensare: Place(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

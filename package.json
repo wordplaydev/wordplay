@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.38.6",
+    "version": "0.39.0",
     "type": "module",
     "imports": {
         "#components/*": "./src/components/*",

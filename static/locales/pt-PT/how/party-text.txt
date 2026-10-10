@@ -1,0 +1,52 @@
+Dar a cada letra a sua própria cor
+
+Um @Phrase pode dar a cada um dos seus glifos uma @Pose diferente com @Phrase/poses.
+O primeiro glifo recebe a primeira pose, o segundo glifo recebe a segunda e, quando as poses acabam, voltam a começar na primeira.
+
+Aqui está um texto de festa, com três cores a alternar:
+
+\
+Phrase(
+	'party time!'
+	fonte: 'Luckiest Guy'
+	poses: [
+		Pose(cor: Color(25% 70 250°))
+		Pose(cor: Color(50% 80 300°))
+		Pose(cor: Color(58% 90 60°))
+	]
+)
+\
+
+ Os espaços também contam como glifos, por isso as cores continuam a alternar entre as palavras.
+Estas cores diferem na luminosidade e também no tom, por isso as pessoas que veem as cores de forma diferente conseguem distingui-las na mesma.
+
+As poses podem fazer mais do que mudar a cor. Cada glifo inclina-se, cresce, desvanece e move-se à volta do seu próprio centro, por isso podemos fazer as letras saltar:
+
+\
+Phrase(
+	'bounce'
+	fonte: 'Luckiest Guy'
+	poses: [
+		Pose(cor: Color(25% 70 250°) rotação: -10° desvio: Place(0m 0.1m))
+		Pose(cor: Color(58% 90 60°) rotação: 10° opacidade: 0.6)
+	]
+)
+\
+
+ As poses também funcionam com texto formatado e, tal como qualquer outro valor de entrada, podem mudar com base noutros valores.
+Este bilhete de resgate escolhe uma nova inclinação a cada quarto de segundo:
+
+\
+tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+Phrase(
+	`*ransom* /note/`
+	fonte: 'Courier Prime'
+	poses: [
+		Pose(rotação: tilt desvio: Place(0m 0.05m))
+		Pose(rotação: -tilt escala: 1.2)
+		Pose(rotação: tilt ÷ 2 desvio: Place(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

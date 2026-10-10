@@ -27,12 +27,15 @@ export function makeExampleProject(
     locales: LocaleText[],
     scope?: ExampleScope | undefined,
 ): Project {
+    // A block example opens with a line break after its \, which belongs to the markup
+    // around it rather than the program, so it isn't drawn as a blank first line.
+    const programSpaces = spaces.withSpace(program, '');
     const project =
         scope === undefined
             ? Project.make(
                   null,
                   name,
-                  new Source(name, [program, spaces]),
+                  new Source(name, [program, programSpaces]),
                   [],
                   locales,
               )
@@ -44,7 +47,7 @@ export function makeExampleProject(
                   // bind anything in it.
                   new Source(
                       name,
-                      `${scope.prelude}\n${program.toWordplay(spaces)}`,
+                      `${scope.prelude}\n${program.toWordplay(programSpaces)}`,
                   ),
                   [],
                   locales,
