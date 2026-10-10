@@ -1,14 +1,14 @@
 🎛️
 Instruments
 === start/en
-¶Les huit mêmes mesures, jouées par chaque instrument de la palette. Choisis un nom et la mélodie garde sa place — seul le son change. Les deux chats sont le même chat, et les deux chiens aussi : l'un de chaque est un kit, donc la mélodie se lit comme des bruits, et l'autre est accordé, donc il la chante.
+¶Les mêmes huit mesures, jouées par chaque instrument de la palette. Choisis un nom et la mélodie reste à sa place : seul le son change. Les deux chats sont le même chat, et les deux chiens sont le même chien : l'un des deux est un kit, donc la mélodie se lit comme des bruits, et l'autre est accordé, donc il la chante.
 
-La plupart sont de vrais enregistrements. Les quatre synthétiseurs n'imitent rien : ce sont des synthétiseurs, et voilà leur son. Le dernier chante, et c'est à ça que servent les mots sur la piste — tous les autres instruments ici les ignorent.¶
+La plupart de ces sons sont de vrais enregistrements. Les quatre synthétiseurs n'imitent rien : ce sont des synthétiseurs, et c'est cela, leur son. Le dernier chante, et c'est pour lui que la piste a des paroles : tous les autres instruments les ignorent.¶
 
-¶Quel instrument joue la mélodie. Choice() renvoie le nom de la sortie sélectionnable choisie, et ø tant que rien ne l'est.¶
+¶L'instrument qui joue la mélodie. Choice() renvoie le nom de la sortie sélectionnable qui a été choisie, et ø tant que rien n'est choisi.¶
 choisi: Choix()
 
-¶Une entrée par instrument : comment l'appeler, ce qui le joue, et la couleur que prend son bouton.¶
+¶Une entrée par instrument : son nom, ce qui le joue, et la couleur de son bouton.¶
 •voix2(étiquette•'' icône•'' son•Instrument teinte2•#°)
 
 voix3•[voix2]: [
@@ -21,7 +21,7 @@ voix3•[voix2]: [
 		voix2('saxo' '🎷' Instrument.saxophone 70°)
 		voix2('harmonica' '🌬' Instrument.harmonica 150°)
 		voix2('cloche' '🔔' Instrument.cloche 55°)
-		voix2('tambours' '🥁' Instrument.batterie 0°)
+		voix2('batterie' '🥁' Instrument.batterie 0°)
 		voix2('didgeridoo' '🎶' Instrument.didgeridoo 15°)
 		voix2('chat' '🐱' Instrument.chat 330°)
 		voix2(
@@ -43,24 +43,24 @@ voix3•[voix2]: [
 		voix2('voix' '🤖' Instrument.voix 95°)
 	]
 
-¶La voix choisie, ou le piano avant que personne n'ait choisi. find() renvoie ø quand rien ne correspond, donc la solution de secours doit être une Voice à part entière.¶
-choisi2: voix3.trouver(
+¶La voix choisie, ou le piano tant que personne n'a choisi. find() renvoie ø quand rien ne correspond, donc la valeur de secours doit être une Voix à part entière.¶
+choisie: voix3.trouver(
 		ƒ(voix4•voix2) voix4.étiquette = choisi
 	)
-actuel•voix2: choisi2•ø ? voix2(
+actuel•voix2: choisie•ø ? voix2(
 			'piano'
 			'🎹'
 			Instrument.piano
 			260°
-		) choisi2
+		) choisie
 
-¶Une mélodie qui reste en place pendant que l'instrument change en dessous. Des degrés, pas des notes, donc elle veut dire la même chose sur chaque instrument — et sur la batterie, elle se lit comme un rythme à la place, puisque les degrés y indexent le kit.¶
+¶Une mélodie qui reste en place pendant que l'instrument change en dessous. Ce sont des degrés, pas des notes, donc elle a le même sens sur chaque instrument. Sur la batterie, elle se lit plutôt comme un rythme, car les degrés y désignent les éléments du kit.¶
 mélodie2: [1 3 5 6 5 3 2 ø]
 
-¶Une syllabe par note, écrite en alphabet phonétique international, où chaque lettre est un son. Seule la voix chantée les utilise ; le reste de la palette les ignore. Le reste ne prend aucune syllabe, donc sept sons couvrent huit entrées.¶
+¶Une syllabe par note, écrite avec l'Alphabet phonétique international, où chaque lettre est un son. Seule la voix qui chante les utilise ; le reste de la palette les ignore. Le silence ne prend aucune syllabe, donc sept sons suffisent pour huit entrées.¶
 paroles: 'la li lu le lo li la'
 
-¶Un bouton par instrument : l'icône est placée au-dessus de son nom, pour qu'ils ne se mélangent pas. Choice() lit les phrases sélectionnables, et celle en cours est dessinée plus claire pour que tu voies où tu es.¶
+¶Un bouton par instrument : l'icône est placée au-dessus de son nom, pour que les boutons ne se touchent pas. Les phrases sélectionnables sont celles que Choice() lit, et la phrase en cours est dessinée plus claire pour que tu voies où tu en es.¶
 ƒ bouton(voix5•voix2)
 	Groupe(
 		Empiler(rembourrage: 0.1m)
@@ -75,11 +75,11 @@ paroles: 'la li lu le lo li la'
 			Couleur(60% 8 voix5.teinte2)
 	)
 
-¶Tout ce qui est visible va dans un seul Stack. Un Stage centre chacun de ses enfants tout seul, donc si on les laisse libres, ils se retrouveraient tous empilés au même endroit — la mise en page doit préciser qu'ils vont l'un au-dessus de l'autre.
+¶Tout ce qui est visible va dans une seule Stack. Une Stage centre chacun de ses enfants séparément. Laissés libres, ils seraient donc tous les uns sur les autres — la mise en page doit dire que chaque élément va sous le précédent.
 
-Les boutons vont dans un Grid plutôt que dans un Row. Les mettre tous sur une seule ligne serait plus large qu'un téléphone, et un Stage réduit son contenu pour qu'il tienne, donc les étiquettes deviendraient trop petites pour être lues. Seules les colonnes sont données : on ne précise pas les lignes, et le Grid trouve tout seul combien il en faut, donc ajouter un instrument ne demande pas de modifier cette partie.
+Les boutons vont dans une Grid plutôt que dans une Row. Tous les boutons sur une seule ligne sont plus larges qu'un téléphone, et une Stage réduit son contenu pour qu'il tienne, donc les étiquettes rétrécissent jusqu'à devenir illisibles. Seules les colonnes sont indiquées : si tu omets les lignes, la Grid calcule combien il lui en faut, donc ajouter un instrument ne demande pas de modifier ce code.
 
-La musique garde un seul nom tout le temps, plutôt que de prendre celui de l'instrument. Le nom d'un 🎼 est son identité : le renommer fait entendre au joueur le début d'un autre morceau, donc la mélodie repartirait du début à chaque changement, et la partition afficherait les notes de l'ancien instrument à côté de celles du nouveau jusqu'à ce qu'elles défilent hors de vue.¶
+La musique garde le même nom tout le long, au lieu de prendre celui de l'instrument. Le nom d'une 🎼 est son identité : si tu le changes, le lecteur entend un autre morceau commencer. La mélodie reviendrait donc au début à chaque changement, et la partition dessinerait les notes de l'ancien instrument à côté de celles du nouveau, jusqu'à ce qu'elles défilent hors de l'écran.¶
 Scène(
 	[
 		Groupe(

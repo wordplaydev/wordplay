@@ -9,7 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🖐️ `Hand()` and `Face()` now go back to their starting values when your hand or face leaves the camera, instead of staying how they last were.
-- 🌐 We fixed words that ran together in the Polish versions of the gallery examples.
+- 🌐 We fixed words that ran together in the translated versions of the gallery examples.
 
 ## 0.38.5 - 2026-10-10
 

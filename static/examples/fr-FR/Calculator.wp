@@ -1,23 +1,23 @@
 0⃣
 Calculatrice
 === start/en
-¶Une calculatrice de poche construite à partir de quelques fonctions arithmétiques.¶
+¶Une calculatrice de poche construite avec quelques fonctions de calcul.¶
 
-¶Fonctions qui effectuent des calculs¶
+¶Des fonctions qui font des calculs¶
 ƒ addition(nombre1•# nombre2•#) nombre1 + nombre2
 ƒ soustraction(nombre12•# nombre22•#) nombre12 - nombre22
 ƒ multiplication(nombre13•# nombre23•#) nombre13 × nombre23
 ƒ division(nombre14•# nombre24•#) nombre14 ÷ nombre24
 
 choix: Choix()
-image: 1 … ∆ (choix) … 1 + image
+cadre2: 1 … ∆ (choix) … 1 + cadre2
 
-¶Des booléens pour suivre si chaque valeur a été choisie¶
+¶Des booléens pour savoir si chaque valeur a été choisie¶
 nombre1choisi: ⊥ … ∆ (choix) … (choix.commence('nombre1')) & ~nombre1choisi
 nombre2choisi: ⊥ … ∆ (choix) … (choix.commence('nombre2')) & ~nombre2choisi
 opchoisi: ⊥ … ∆ (choix) … (choix.commence('op')) & ~opchoisi
 
-¶Garde en mémoire les opérandes et les opérateurs¶
+¶Garde en mémoire les nombres et les opérateurs¶
 nombre15: ø → # … nombre1choisi … ((choix ÷ '')[-1]) → #
 nombre25: ø → # … nombre2choisi … ((choix ÷ '')[-1]) → #
 opérateur: ø … opchoisi … ((choix ÷ '')[-1])
@@ -78,8 +78,8 @@ résultat: ((opérateur = 'a') | (opérateur = 's')) ?
 					nombre25
 				))
 
-¶Parcourir chaque écran¶
-configuration: [nombres1 opérateurs nombres2 résultat]
+¶Parcours chaque écran¶
+préparation: [nombres1 opérateurs nombres2 résultat]
 
 ¶Afficher¶
-configuration[image]
+préparation[cadre2]

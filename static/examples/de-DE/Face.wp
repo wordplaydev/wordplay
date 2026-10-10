@@ -1,7 +1,7 @@
 🙂
-Gesicht
+Schriftart
 ===
-¶Ein Emoji, das dein Gesicht spiegelt, wenn du lächelst, die Stirn runzelst, den Mund aufreißt oder blinzelst.¶
+¶Ein Emoji, das dein Gesicht nachahmt, wenn du lächelst, die Stirn runzelst, den Mund aufreißt und blinzelst.¶
 
 gesicht2: Gesicht()
 
@@ -51,7 +51,7 @@ Bühne(
 			Größe: 2m
 		)
 		Satzglied(
-			`/Zeig der Kamera dein Gesicht/`
+			`/Zeige der Kamera dein Gesicht/`
 			Ort: Ort(-6m -12m)
 			Größe: 1m
 		)

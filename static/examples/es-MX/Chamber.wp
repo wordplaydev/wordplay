@@ -1,36 +1,36 @@
 文
 Cámara
 === start
-¶Cien letras de cuatro sistemas de escritura rebotan en una caja cerrada; voltea la gravedad o agítalas.¶
+¶Cien letras de cuatro sistemas de escritura rebotan en una caja cerrada. Invierte la gravedad o sacúdelas.¶
 
-cantidad2: 100
+conteo2: 100
 
-¶Los cuatro alfabetos de los que vienen las letras.¶
+¶Los cuatro alfabetos de donde salen las letras.¶
 latín: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
 griego: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
 árabe: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
 cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
 
-¶Cuál control se presionó por última vez.¶
-opción: Elección()
+¶El último control en el que se hizo clic.¶
+eleccion: Elección()
 
-¶Mezcla los cuatro alfabetos juntos una sola vez, cuando comienza el programa, y luego mantiene ese orden para siempre. Una mezcla escrita como una simple asignación le daría a cada letra un carácter nuevo en cada cuadro.¶
-glifos2: [:latín :griego :árabe :cjk].mezclado() … ∆ opción … glifos2
+¶Mezcla los cuatro alfabetos juntos una sola vez, cuando comienza el programa, y luego conserva ese orden para siempre. Si la mezcla se escribiera como una simple asignación, cada letra recibiría un carácter nuevo en cada fotograma.¶
+glifos2: [:latín :griego :árabe :cjk].mezclado() … ∆ eleccion … glifos2
 
-¶Es verdadero solo en la evaluación causada por el botón de agitar, así las letras reciben un solo empujón por clic en lugar de moverse en cada cuadro.¶
-agitando: (∆ opción) & (opción = 'shake')
+¶Es verdadero solo en la evaluación que causó el botón de sacudir. Así las letras reciben un empujón por cada clic, y no se empujan en cada fotograma.¶
+sacudir: (∆ eleccion) & (eleccion = 'shake')
 
-¶El interruptor cambia entre la gravedad de la Tierra y ninguna gravedad.¶
-cayendo: ⊤ … ∆ opción … (opción = 'gravity') ? ~cayendo cayendo
+¶El interruptor cambia entre la gravedad de la Tierra y ninguna.¶
+caer: ⊤ … ∆ eleccion … (eleccion = 'gravity') ? ~caer caer
 
-¶Una velocidad, dirección y giro aleatorios.¶
+¶Una velocidad, una dirección y un giro al azar.¶
 ƒ lanzar() Velocidad(
 		Azar(-12m/s 12m/s)
 		Azar(-12m/s 12m/s)
 		Azar(-120°/s 120°/s)
 	)
 
-letras: cantidad2 → [].traducir(
+letras: conteo2 → [].traducir(
 		ƒ(número2)
 			Frase(
 				glifos2[número2]
@@ -38,7 +38,7 @@ letras: cantidad2 → [].traducir(
 				lugar: Movimiento(
 					Lugar(Azar(-7.5m 7.5m) Azar(-5.5m 5.5m))
 					lanzar()
-					siguientevelocidad: agitando ? lanzar() ø
+					siguientevelocidad: sacudir ? lanzar() ø
 				)
 				materia: Materia(elasticidad: 0.7 fricción: 0)
 			)
@@ -46,14 +46,14 @@ letras: cantidad2 → [].traducir(
 
 ¶Los dos controles. No tienen materia y su lugar no es un Movimiento, así que el motor de física los deja en paz.¶
 interruptor: Frase(
-		cayendo ? '⬇ gravedad' '🌌 flotando'
+		caer ? '⬇ gravedad' '🌌 flotando'
 		0.7m
 		nombre: 'gravity'
 		seleccionable
 		lugar: Lugar(-13m 1m)
 	)
 
-agitador: Frase(
+sacudidor: Frase(
 		'🎲 sacudir'
 		0.7m
 		nombre: 'shake'
@@ -63,15 +63,15 @@ agitador: Frase(
 
 Escenario(
 	[
-		¶Cuatro paredes, tan gruesas que nada las atraviesa aunque vaya rápido.¶
+		¶Cuatro paredes, tan gruesas que nada las atraviesa a gran velocidad.¶
 		Figura(Rectángulo(-8.6m 6.6m 8.6m 6m))
 		Figura(Rectángulo(-8.6m -6m 8.6m -6.6m))
 		Figura(Rectángulo(-8.6m 6.6m -8m -6.6m))
 		Figura(Rectángulo(8m 6.6m 8.6m -6.6m))
 		:letras
 		interruptor
-		agitador
+		sacudidor
 	]
-	gravedad: cayendo ? 9.8m/s^2 0m/s^2
+	gravedad: caer ? 9.8m/s^2 0m/s^2
 	lugar: Lugar(-2.5m 0m -11m)
 )

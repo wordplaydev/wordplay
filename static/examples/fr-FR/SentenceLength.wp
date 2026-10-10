@@ -1,5 +1,5 @@
 H
-LongueurPhrase
+LongueurDePhrase
 ===
 ¶Écris dans la barre de discussion et elle compte les caractères de ta phrase.¶
 
@@ -18,7 +18,7 @@ Groupe(
 			lieu: Lieu(0m -1m)
 		)
 		Phrase(
-			'Ta phrase contient ' + (longueur2 → '') + ' caractères !'
+			'Ta phrase fait ' + (longueur2 → '') + ' caractères de long !'
 			aurepos: Séquence.balancement(durée: 3s)
 			lieu: Lieu(0m -3m)
 		)

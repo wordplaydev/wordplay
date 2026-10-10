@@ -1,7 +1,7 @@
 🙂
-Rostro
+Cara
 ===
-¶Un emoji que refleja tu cara cuando sonríes, frunces el ceño, abres la boca o parpadeas.¶
+¶Un emoji que imita tu cara cuando sonríes, frunces el ceño, abres la boca y parpadeas.¶
 
 cara2: Cara()
 
@@ -48,7 +48,7 @@ Escenario(
 			tamaño: 2m
 		)
 		Frase(
-			`/Muéstrale tu cara a la cámara/`
+			`/Muestra tu cara a la cámara/`
 			lugar: Lugar(-6m -12m)
 			tamaño: 1m
 		)

@@ -3,15 +3,15 @@ Joyeux anniversaire
 === start/en
 ¶Joyeux anniversaire en trois parties : une mélodie, une harmonie en dessous, et des accords qui soutiennent les deux.
 
-Chaque partie est écrite en degrés de gamme, donc 1 est la tonique et 8 est la tonique une octave plus haut. C'est pour ça que l'air se lit pareil peu importe la tonalité choisie — change @Music/key et toute la chanson bouge avec, les chanteurs aussi.
+Chaque partie est écrite en degrés de la gamme. Ainsi, 1 est la tonique et 8 est la tonique une octave plus haut. C'est pourquoi l'air se lit de la même façon quelle que soit la tonalité : change @Music/key et toute la chanson suit, chanteurs compris.
 
-La mélodie et l'harmonie avancent en demi-temps et les accords en temps entiers, donc chaque partie précise la durée de ses propres notes, et elles restent quand même alignées.¶
+La mélodie et l'harmonie avancent par demi-temps, et les accords par temps entiers. Chaque partie indique donc la durée de ses propres entrées, et elles restent bien alignées.¶
 
-¶Les temps écoulés depuis le début de la chanson, pour que le gâteau bouge avec elle. @Beat compte à partir de zéro avant que la musique commence, donc le gâteau reste immobile.¶
+¶Le nombre de temps depuis le début de la chanson, pour que le gâteau bouge avec elle. @Beat compte à partir de zéro avant que la musique commence, donc le gâteau reste immobile.¶
 temps: Rythme()
 compte2: temps.nombre
 
-¶L'air. Deux croches, puis des notes plus longues — ce sont les silences qui créent le rythme, car chaque note dure le même demi-temps.¶
+¶L'air. Deux croches, puis des notes plus longues : ce sont les silences qui créent le rythme, car chaque entrée dure le même demi-temps.¶
 mélodie2: [
 		5
 		5
@@ -67,7 +67,7 @@ mélodie2: [
 		ø
 	]
 
-¶Une seconde voix sous la mélodie, dans les mêmes demi-temps.¶
+¶Une seconde voix sous la mélodie, avec les mêmes demi-temps.¶
 alto: [
 		5
 		5
@@ -123,7 +123,7 @@ alto: [
 		ø
 	]
 
-¶Des accords, un par temps. Un ensemble fait sonner ses degrés ensemble, donc {1 3 5} est l'accord parfait de tonique et {4 5 7 9} est celui qui veut se résoudre vers elle.¶
+¶Des accords, un par temps. Un ensemble fait sonner ses degrés ensemble : {1 3 5} est l'accord parfait de la tonique, et {4 5 7 9} est celui qui veut revenir vers elle.¶
 accords: [
 		ø
 		{1 3 5}
@@ -153,7 +153,7 @@ accords: [
 		ø
 	]
 
-¶Le gâteau grossit à chaque temps et se calme entre eux.¶
+¶Le gâteau gonfle à chaque temps et se calme entre deux temps.¶
 ƒ gâteau() Phrase(
 		'🎂'
 		(4m + ((compte2 % 2) · 0.4m))

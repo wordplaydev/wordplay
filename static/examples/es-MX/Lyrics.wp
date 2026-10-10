@@ -1,15 +1,15 @@
 🎸
-Letras
+Letra
 === start/en
-¶La clásica canción de Radiohead del álbum OK Computer, Airbag, con su letra sincronizada al ritmo.
+¶La clásica canción de Radiohead, Airbag, del disco OK Computer, con su letra sincronizada al ritmo.
 
-Una @Scene avanza según duraciones, así que sus palabras se desfasan de cualquier cosa que suene debajo. Aquí cada línea lleva el /pulso/ en el que se canta, y @Beat reporta los pulsos según se escuchan, así que las palabras y la música no pueden separarse. Cambia @Music/tempo y toda la letra lo sigue, porque nada aquí sabe de segundos.
+Una @Scene avanza según duraciones, así que sus palabras se salen de compás con cualquier cosa que suene debajo. Aquí cada línea lleva el /pulso/ en el que se canta, y @Beat informa los pulsos conforme se escuchan, así que las palabras y la música no se pueden separar. Cambia @Music/tempo y toda la letra lo sigue, porque aquí nada sabe de segundos.
 
-Los pulsos vienen de un arreglo en Logic de la canción, así que cada línea cae justo donde en verdad se canta — y ese arreglo es lo que suena debajo, importado desde MIDI como 41 pistas de guitarra, bajo, cuerdas, batería, campanas y metales. Las palabras y las notas cuentan los mismos pulsos, así que solo pueden coincidir.
+Los pulsos vienen de un arreglo de Logic de la canción, así que cada línea cae justo donde se canta. Ese arreglo es lo que suena debajo, importado desde MIDI como 41 pistas de guitarra, bajo, cuerdas, batería, campanas y metales. Las palabras y las notas cuentan los mismos pulsos, así que solo pueden coincidir.
 
-Para poner tus propias palabras en la música, edita @lines y nada más: cada una lleva qué decir, el pulso en el que llega, cuántos pulsos dura, y qué tratamiento usar.
+Para poner tus propias palabras a la música, edita @lines y nada más: cada una lleva qué decir, el pulso en el que llega, cuántos pulsos dura y qué tratamiento usar.
 
-Cada voz del arreglo vive en su propia fuente, así que ningún archivo es un muro de notas. Tomar prestada una fuente por su nombre da su última expresión — aquí una @Track — así que la lista al final es la partitura completa.¶
+Cada voz del arreglo vive en su propia fuente, así que ningún archivo es un muro de notas. Prestar una fuente por su nombre da su última expresión, aquí una @Track, así que la lista de abajo es toda la partitura.¶
 ↓ guitar1
 ↓ guitar2
 ↓ guitar3
@@ -52,42 +52,47 @@ Cada voz del arreglo vive en su propia fuente, así que ningún archivo es un mu
 ↓ sax2
 ↓ sax3
 
-tiempo2: Pulso()
+pulso2: Pulso()
 ¶Este es el único reloj del programa. @Beat cuenta desde cero hasta que empieza la música, así que se puede leer de inmediato.¶
-cantidad2: tiempo2.conteo
+conteo2: pulso2.conteo
 
-¶Una línea: las palabras, el pulso en el que se canta, cuánto dura, y cómo debe verse. Cada comienzo es el primer pulso de una frase en el saxofón que lleva la voz, y cada sostenido termina antes de que empiece el siguiente — así ninguna línea dura más de cinco pulsos, que a este tempo ya son tres segundos y medio. Parte de lo que toca el saxofón no lleva palabras: una frase de respuesta después de la mayoría de las mitades de un verso (pulsos 54, 78 y 146), una cola de notas largas después de /car/ y después de cada /burst/, y poner una línea en una de esas es lo que hace que la letra llegue antes de tiempo. La frase de respuesta en 169.75 es la única excepción, y la melodía lo confirma: son las mismas seis notas con una anacrusa al frente, que es lo que crece una frase cuando tiene una sílaba donde caer.¶
-•línea(palabras2•'' comenzar•# sostener•# tipo2•#)
+¶Una línea: las palabras, el pulso en el que se canta, cuánto dura y cómo debe verse. Cada comienzo es el primer pulso de una frase del saxofón que lleva la voz, y cada duración se acaba antes de que empiece la siguiente, así que ninguna línea dura más de cinco pulsos, que con este tempo ya son tres segundos y medio. Parte de lo que toca el saxofón no lleva palabras: una frase de respuesta después de casi todas las mitades de una estrofa (pulsos 54, 78 y 146), y una cola de notas largas después de /car/ y después de cada /burst/. Poner una línea en alguna de esas partes hace que la letra corra adelantada. La frase de respuesta en 169.75 es la única excepción, y la melodía lo dice: son las mismas seis notas con una anacrusa al frente, que es lo que le crece a una frase cuando tiene una sílaba donde caer.¶
+•línea(palabras2•'' comienzo2•# duración2•# tipo2•#)
 
 líneas: [
 		línea('En la próxima guerra mundial' 39 4 1)
-		línea('En un camión articulado volcado' 43 5 2)
-		línea('Vuelvo a nacer' 48 4 3)
+		línea('En un camión volcado' 43 5 2)
+		línea('Nazco de nuevo' 48 4 3)
 		línea('En el letrero de neón' 63 4 4)
-		línea('Subiendo y bajando' 67 5 4)
-		línea('Vuelvo a nacer' 72 4 3)
-		línea('En un estallido interestelar' 87 4.5 5)
-		línea('He vuelto para salvar el universo' 95 5 1)
-		línea('En un sueño profundo, profundo' 131 4 1)
+		línea(
+			'Que se desplaza hacia arriba y hacia abajo'
+			67
+			5
+			4
+		)
+		línea('Nazco de nuevo' 72 4 3)
+		línea('En una explosión interestelar' 87 4.5 5)
+		línea('Regreso para salvar el universo' 95 5 1)
+		línea('En un sueño muy, muy profundo' 131 4 1)
 		línea('de los inocentes' 135 5 1)
-		línea('Vuelvo a nacer' 140 5 3)
-		línea('En un auto alemán veloz' 155 4 6)
-		línea('Me sorprende haber sobrevivido' 163.25 5 1)
+		línea('Nazco de nuevo' 140 5 3)
+		línea('En un carro alemán veloz' 155 4 6)
+		línea('Me asombra haber sobrevivido' 163.25 5 1)
 		línea('Una bolsa de aire me salvó la vida' 169.75 5 7)
-		línea('En un estallido interestelar' 179 4.5 5)
-		línea('He vuelto para salvar el universo' 187 5 1)
-		línea('En un estallido interestelar' 251 4.5 5)
-		línea('He vuelto para salvar el universo' 259 5 1)
-		línea('En un estallido interestelar' 275 4.5 5)
-		línea('He vuelto para salvar el universo' 283 5 1)
+		línea('En una explosión interestelar' 179 4.5 5)
+		línea('Regreso para salvar el universo' 187 5 1)
+		línea('En una explosión interestelar' 251 4.5 5)
+		línea('Regreso para salvar el universo' 259 5 1)
+		línea('En una explosión interestelar' 275 4.5 5)
+		línea('Regreso para salvar el universo' 283 5 1)
 	]
 
-¶La línea cuya ventana contiene este pulso, o ø entre ellas — que es la mayor parte de la canción, ya que es sobre todo instrumental.¶
+¶La línea cuya ventana contiene este pulso, o ø entre ellas, que es la mayor parte de la canción, porque es casi toda instrumental.¶
 mostrando: líneas.encontrar(
-		ƒ(l2•línea) (cantidad2 ≥ l2.comenzar) & (cantidad2 < (l2.comenzar + l2.sostener))
+		ƒ(l2•línea) (conteo2 ≥ l2.comienzo2) & (conteo2 < (l2.comienzo2 + l2.duración2))
 	)
 
-¶Los tratamientos, uno por cada tipo.¶
+¶Los tratamientos, uno por tipo.¶
 ƒ decir2(l3•línea)•Frase
 	(l3.tipo2 = 2) ?
 		Frase(
@@ -129,7 +134,7 @@ mostrando: líneas.encontrar(
 							)
 						)
 						(l3.tipo2 = 7) ?
-							¶Aparece como lo que nombra: desde lejos y casi nada hasta más grande que su propio tamaño en un cuarto de segundo, y luego un pequeño rebote mientras se asienta. El desplazamiento en z es lo que hace que se lea como algo que viene hacia ti, en vez de solo crecer — el escenario cambia de escala según la profundidad, así que moverse hacia quien mira lo agranda por sí solo.¶
+							¶Se dispara como lo que nombra: desde muy lejos y casi invisible hasta pasarse de su propio tamaño en un cuarto de segundo, y luego un pequeño rebote al asentarse. El desplazamiento z hace que parezca que viene hacia ti y no que solo crece: el escenario escala según la profundidad, así que acercarse al espectador lo agranda por sí solo.¶
 							Frase(
 								l3.palabras2
 								1.5m
@@ -161,33 +166,33 @@ mostrando: líneas.encontrar(
 							(l3.tipo2 = 8) ? Frase(l3.palabras2 0.7m)
 								Frase(l3.palabras2)
 
-¶Nombrar una línea con sus propias palabras la convierte en su propia salida, así el escenario sabe que se fue y puede mostrar su @Pose de salida. Sin el nombre, cada línea del mismo tipo sería la misma salida, y las palabras cambiarían sin desvanecerse nunca.¶
-ƒ cantado(l4•línea)•Frase (
-		dicho: decir2(l4)
-		((dicho.nombre:l4.palabras2).saliendo:Pose(opacidad: 0)).duración:0.75s
+¶Ponerle a una línea el nombre de sus propias palabras la convierte en su propia salida, así que el escenario sabe que se fue y puede reproducir su @Pose de salida. Sin el nombre, todas las líneas del mismo tipo serían la misma salida, y las palabras se cambiarían sin desvanecerse.¶
+ƒ cantada(l4•línea)•Frase (
+		dicha: decir2(l4)
+		((dicha.nombre:l4.palabras2).saliendo:Pose(opacidad: 0)).duración:0.75s
 	)
 
-¶Cuatro glifos de nota, que se alternan con el ritmo. @List/length no puede asegurar que no sea cero, así que el residuo puede ser ø; el 0 es en lo que se convierte ese ø.¶
+¶Cuatro símbolos de nota, que cambian con el pulso. @List/length no puede prometer que no sea cero, así que el residuo puede ser ø; el 0 es lo que ese ø se convierte.¶
 glifos2: ['♩' '♪' '♫' '♬']
-glifo: glifos2[((cantidad2 % glifos2.longitud()) ?? 0) + 1]
+glifo2: glifos2[((conteo2 % glifos2.longitud()) ?? 0) + 1]
 
-¶El escenario no tiene palabras para la mayor parte de la canción — la introducción larga, los espacios entre líneas, el final — así que en vez de quedarse oscuro, muestra el ritmo. El glifo es su propio nombre, así que cada uno entra y sale conforme llega.¶
+¶El escenario no tiene palabras durante gran parte de la canción: la introducción larga, los espacios entre líneas, el final. Por eso, en lugar de quedarse oscuro, muestra el pulso. El símbolo es su propio nombre, así que cada uno entra y sale tal como llega.¶
 ƒ notas2()•Frase
 	Frase(
-		glifo
+		glifo2
 		2m
-		nombre: glifo
+		nombre: glifo2
 		color: Color(50% 0 0°)
 		entrando: Pose(opacidad: 0 escala: 0.6)
 		saliendo: Pose(opacidad: 0)
 		duración: 0.3s
 	)
 
-¶El contenido de un @Stage no puede contener ø, así que donde no hay palabras, el escenario muestra el ritmo en vez de nada.¶
+¶El contenido de un @Stage no puede tener ø, así que donde no hay palabras el escenario muestra el pulso en lugar de nada.¶
 ƒ palabras3()•Frase
-	mostrando•ø ? notas2() cantado(mostrando)
+	mostrando•ø ? notas2() cantada(mostrando)
 
-¶La partitura: cada pista prestada, tocada al tempo que marca la letra. Cada nota lleva su propia duración y volumen, así que nada aquí necesita un ritmo — solo @Music/tempo decide qué tan rápido va todo.¶
+¶La partitura: cada pista prestada, tocada al tempo que marca la letra. Cada nota lleva su propia duración y su propio volumen, así que aquí nada necesita un pulso: @Music/tempo por sí solo decide qué tan rápido va todo.¶
 canción: Música(
 		[
 			guitar1
@@ -247,7 +252,7 @@ Escenario(
 	color: Color(100 0 0°)
 )
 === guitar1
-¶Guitarra, voz 1 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 1 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -1522,7 +1527,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar2
-¶Guitarra, voz 2 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 2 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -1578,7 +1583,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar3
-¶Guitarra, voz 3 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 3 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -1591,7 +1596,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar4
-¶Guitarra, voz 4 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 4 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -1602,7 +1607,7 @@ Pista(
 	bucle: ⊥
 )
 === violin1
-¶Cuerdas, voz 1 de 2. El archivo comenzar la toma prestada por su nombre.¶
+¶Cuerdas, voz 1 de 2. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -1745,7 +1750,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar5
-¶Guitarra, voz 5 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 5 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -1876,7 +1881,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar6
-¶Guitarra, voz 6 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 6 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -3545,7 +3550,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar7
-¶Guitarra, voz 7 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 7 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -3760,7 +3765,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar8
-¶Guitarra, voz 8 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 8 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -3821,7 +3826,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar9
-¶Guitarra, voz 9 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 9 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -3834,7 +3839,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar10
-¶Guitarra, voz 10 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 10 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -4935,7 +4940,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar11
-¶Guitarra, voz 11 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 11 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -5280,7 +5285,7 @@ Pista(
 	bucle: ⊥
 )
 === guitar12
-¶Guitarra, voz 12 de 12. El archivo comenzar la toma prestada por su nombre.¶
+¶Guitarra, voz 12 de 12. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -5353,7 +5358,7 @@ Pista(
 	bucle: ⊥
 )
 === flute1
-¶Flauta, voz 1 de 1. El archivo comenzar la toma prestada por su nombre.¶
+¶Flauta, voz 1 de 1. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -5380,7 +5385,7 @@ Pista(
 	bucle: ⊥
 )
 === violin2
-¶Cuerdas, voz 2 de 2. El archivo comenzar la toma prestada por su nombre.¶
+¶Cuerdas, voz 2 de 2. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -5509,7 +5514,7 @@ Pista(
 	bucle: ⊥
 )
 === synth1
-¶Sintetizador, voz 1 de 2. El archivo comenzar la toma prestada por su nombre.¶
+¶Sintetizador, voz 1 de 2. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -5636,7 +5641,7 @@ Pista(
 	bucle: ⊥
 )
 === bass1
-¶Bajo, voz 1 de 2. El archivo comenzar la toma prestada por su nombre.¶
+¶Bajo, voz 1 de 2. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -6409,7 +6414,7 @@ Pista(
 	bucle: ⊥
 )
 === bass2
-¶Bajo, voz 2 de 2. La fuente de comienzo lo toma prestado por nombre.¶
+¶Bajo, voz 2 de 2. La fuente de inicio lo presta por su nombre.¶
 
 Pista(
 	[
@@ -6420,7 +6425,7 @@ Pista(
 	bucle: ⊥
 )
 === drums1
-¶Tambores, voz 1 de 6. La fuente de comienzo los toma prestados por nombre.¶
+¶Batería, voz 1 de 6. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -7075,7 +7080,7 @@ Pista(
 	bucle: ⊥
 )
 === drums2
-¶Tambores, voz 2 de 6. La fuente de comienzo los toma prestados por nombre.¶
+¶Batería, voz 2 de 6. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -7724,7 +7729,7 @@ Pista(
 	bucle: ⊥
 )
 === drums3
-¶Tambores, voz 3 de 6. La fuente de comienzo los toma prestados por nombre.¶
+¶Batería, voz 3 de 6. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8253,7 +8258,7 @@ Pista(
 	bucle: ⊥
 )
 === drums4
-¶Tambores, voz 4 de 6. La fuente de comienzo los toma prestados por nombre.¶
+¶Batería, voz 4 de 6. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8486,7 +8491,7 @@ Pista(
 	bucle: ⊥
 )
 === drums5
-¶Tambores, voz 5 de 6. La fuente de comienzo los toma prestados por nombre.¶
+¶Batería, voz 5 de 6. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8499,7 +8504,7 @@ Pista(
 	bucle: ⊥
 )
 === drums6
-¶Tambores, voz 6 de 6. La fuente de comienzo los toma prestados por nombre.¶
+¶Batería, voz 6 de 6. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8512,7 +8517,7 @@ Pista(
 	bucle: ⊥
 )
 === synth2
-¶Sintetizador, voz 2 de 2. La fuente de comienzo lo toma prestado por nombre.¶
+¶Sintetizador, voz 2 de 2. La fuente de inicio lo presta por su nombre.¶
 
 Pista(
 	[
@@ -8523,7 +8528,7 @@ Pista(
 	bucle: ⊥
 )
 === bell1
-¶Campanas, voz 1 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+¶Campanas, voz 1 de 10. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8536,7 +8541,7 @@ Pista(
 	bucle: ⊥
 )
 === bell2
-¶Campanas, voz 2 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+¶Campanas, voz 2 de 10. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8549,7 +8554,7 @@ Pista(
 	bucle: ⊥
 )
 === bell3
-¶Campanas, voz 3 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+¶Campanas, voz 3 de 10. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8562,7 +8567,7 @@ Pista(
 	bucle: ⊥
 )
 === bell4
-¶Campanas, voz 4 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+¶Campanas, voz 4 de 10. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8573,7 +8578,7 @@ Pista(
 	bucle: ⊥
 )
 === bell5
-¶Campanas, voz 5 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+¶Campanas, voz 5 de 10. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8584,7 +8589,7 @@ Pista(
 	bucle: ⊥
 )
 === bell6
-¶Campanas, voz 6 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+¶Campanas, voz 6 de 10. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8597,7 +8602,7 @@ Pista(
 	bucle: ⊥
 )
 === bell7
-¶Campanas, voz 7 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+¶Campanas, voz 7 de 10. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8608,7 +8613,7 @@ Pista(
 	bucle: ⊥
 )
 === bell8
-¶Campanas, voz 8 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+¶Campanas, voz 8 de 10. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8621,7 +8626,7 @@ Pista(
 	bucle: ⊥
 )
 === bell9
-¶Campanas, voz 9 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+¶Campanas, voz 9 de 10. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8632,7 +8637,7 @@ Pista(
 	bucle: ⊥
 )
 === bell10
-¶Campanas, voz 10 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+¶Campanas, voz 10 de 10. La fuente de inicio la presta por su nombre.¶
 
 Pista(
 	[
@@ -8643,7 +8648,7 @@ Pista(
 	bucle: ⊥
 )
 === pad1
-¶Pad, voz 1 de 3. La fuente de comienzo lo toma prestado por nombre.¶
+¶Colchón de sonido, voz 1 de 3. La fuente de inicio lo presta por su nombre.¶
 
 Pista(
 	[
@@ -8658,7 +8663,7 @@ Pista(
 	bucle: ⊥
 )
 === pad2
-¶Pad, voz 2 de 3. La fuente de comienzo lo toma prestado por nombre.¶
+¶Colchón de sonido, voz 2 de 3. La fuente de inicio lo presta por su nombre.¶
 
 Pista(
 	[
@@ -8673,7 +8678,7 @@ Pista(
 	bucle: ⊥
 )
 === pad3
-¶Pad, voz 3 de 3. La fuente de comienzo lo toma prestado por nombre.¶
+¶Colchón de sonido, voz 3 de 3. La fuente de inicio lo presta por su nombre.¶
 
 Pista(
 	[
@@ -8688,7 +8693,7 @@ Pista(
 	bucle: ⊥
 )
 === sax1
-¶Trompa, voz 1 de 3. La fuente de comienzo la toma prestada por nombre.¶
+¶Corno, voz 1 de 3. La fuente de inicio lo presta por su nombre.¶
 
 Pista(
 	[
@@ -8751,7 +8756,7 @@ Pista(
 	bucle: ⊥
 )
 === sax2
-¶Trompa, voz 2 de 3. La fuente de comienzo la toma prestada por nombre.¶
+¶Corno, voz 2 de 3. La fuente de inicio lo presta por su nombre.¶
 
 Pista(
 	[
@@ -8792,7 +8797,7 @@ Pista(
 	bucle: ⊥
 )
 === sax3
-¶Trompa, voz 3 de 3. La fuente de comienzo la toma prestada por nombre.¶
+¶Corno, voz 3 de 3. La fuente de inicio lo presta por su nombre.¶
 
 Pista(
 	[

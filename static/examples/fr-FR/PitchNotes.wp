@@ -1,7 +1,7 @@
 🎵
-Notes de hauteur
+Hauteur des notes
 ===
-¶Chante ou fredonne, et regarde la note que tu fais — deux fois. La note de gauche lit @Pitch brut et tremble ; la note de droite fait la moyenne des dernières hauteurs et reste stable. @Pitch affiche 0hz quand il n'entend rien de clair, alors les deux notes sautent ces moments et montrent · à la place.¶
+¶Chante ou fredonne, et regarde la note que tu fais — deux fois. La note de gauche lit le @Pitch brut et tremble ; la note de droite fait la moyenne des dernières hauteurs et reste stable. @Pitch indique 0hz quand il n'entend rien de clair, alors les deux notes sautent ces moments et affichent · à la place.¶
 
 notes2: [
 		'La'
@@ -23,7 +23,7 @@ noteDe: ƒ(hz•#hz) hz > 0hz ? notes2[(((((12 × (hz ÷ 440hz).log(
 							)) % 12) + 12) % 12) + 1] '·'
 lisse2: ƒ(signal•…#hz) (
 			entendu: (←← 8 signal).sansTout(0hz)
-			entendu.average() ?? 0hz
+			entendu.moyenne() ?? 0hz
 		)
 hauteurDuSon: Pas()
 Scène(
@@ -31,7 +31,7 @@ Scène(
 		Groupe(
 			Empiler()
 			[
-				Phrase('bruyant' couleur: Couleur(60% 90 30°))
+				Phrase('bruité' couleur: Couleur(60% 90 30°))
 				Phrase(
 					noteDe(hauteurDuSon)
 					taille: 6m

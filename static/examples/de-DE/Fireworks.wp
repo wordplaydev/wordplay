@@ -1,26 +1,26 @@
 🎆
 Feuerwerk
 === start/en
-¶Feuerwerk, das mit der Musik losgeht: Jedes Instrument, das auf einem Schlag klingt, taucht als sich selbst auf, bleibt einen Moment hängen und verschwindet dann wieder.
+¶Ein Feuerwerk, das mit der Musik losgeht: Jedes Instrument, das auf einem Schlag klingt, springt als es selbst auf, hängt einen Moment in der Luft und fällt wieder weg.
 
-Hier wird nichts nach einer festen Uhr gezeichnet. @Beat übergibt einen @Downbeat, sobald jeder Schlag hörbar wird, und ein @Downbeat trägt eine @Part für jede @Track — welches Instrument es ist, ob es gerade klingt, welchen Ton es spielt und wie laut es ist. So ist eine Explosion pro klingender Stimme eine einzelne @List/translate, und die Musik zeichnet sich selbst.
+Hier wird nichts nach einer Uhr gezeichnet. @Beat übergibt ein @Downbeat, sobald ein Schlag hörbar wird, und ein @Downbeat trägt ein @Part für jedes @Track — welches Instrument es ist, ob es klingt, auf welcher Note es steht und wie laut es ist. Ein Ausbruch für jeden klingenden Teil ist also ein einziges @List/translate, und die Musik zeichnet sich selbst.
 
-Jede Explosion trägt die Nummer ihres Schlags als Namen, deshalb sind die Explosionen jedes Schlags neue Ausgaben: Sie zeigen ihre Eingangspose beim Erscheinen und ihre Ausgangspose, wenn der nächste Schlag sie ersetzt. Das Aufblitzen und das Verschwinden sind diese beiden Posen.
+Jeder Ausbruch trägt die Nummer des Schlags als Namen. So sind die Ausbrüche jedes Schlags neue Ausgaben: Sie spielen ihre Eintrittspose beim Erscheinen und ihre Austrittspose, wenn der nächste Schlag sie ersetzt. Das Aufspringen und das Fallen sind diese beiden Posen.
 
-Das Lied ist /The Star-Spangled Banner/ — John Stafford Smiths Melodie von etwa 1773, längst gemeinfrei — von Anfang bis Ende, bis zur letzten Zeile. Jede Note trägt ihre eigene Länge als Notenwert, geschrieben auf der Zahl — \8𝅘𝅥𝅮\ ist eine Achtelnote, \13𝅗𝅥\ eine Halbe, \13𝅗𝅥𝅭\ eine punktierte Halbe — so sind die Auftakte, die punktierten Figuren und die lang gehaltenen Noten echte Zeitdauern und kein Raster aus gleichen Schlägen. Eine einfache Zahl ist ein Schlag. Pausen brauchen trotzdem einen @Note, denn \ø\ ist keine Zahl und kann daher keinen Wert tragen. Es nutzt die chromatische Tonleiter, damit die erhöhte Quarte überhaupt geschrieben werden kann: Jeder Schritt ist ein Halbtonschritt.¶
+Die Melodie ist /The Star-Spangled Banner/ — die Melodie von John Stafford Smith von etwa 1773, die schon lange gemeinfrei ist — von Anfang bis Ende, mit der letzten Zeile als Schluss. Jede Note trägt ihre eigene Länge als Notenwert, der an der Zahl steht — \8𝅘𝅥𝅮\ ist eine Achtel, \13𝅗𝅥\ eine halbe, \13𝅗𝅥𝅭\ eine punktierte halbe Note. So sind die Auftakte, die punktierten Figuren und die langen gehaltenen Noten echte Dauern und kein Raster aus gleich langen Schlägen. Eine einfache Zahl ist ein Schlag. Pausen brauchen weiterhin ein @Note, denn \ø\ ist keine Zahl und kann deshalb keinen Wert tragen. Es ist die chromatische Tonleiter, damit die erhöhte Quarte überhaupt geschrieben werden kann: Jeder Schritt ist ein Halbton.¶
 ↓ @wordplay/instruments 1
 
 schlag2: Takt()
-zähler: schlag2.Zählung
+zählung: schlag2.Zählung
 
-¶Nur die Stimmen, die wirklich einen Klang erzeugen, werden zu Feuerwerk; eine ruhende Spur bleibt dunkel. Bevor die Musik beginnt, gibt es noch gar keine Stimmen, daher ist der Himmel leer.¶
-feuert•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
+¶Nur die Teile, die wirklich einen Ton spielen, werden zu Feuerwerk; eine pausierende Spur bleibt dunkel. Bevor die Musik beginnt, gibt es gar keine Teile, also ist der Himmel leer.¶
+feuern•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
 
-¶Jedes Instrument explodiert als sich selbst, und genau darum geht es: Man sieht, welches Instrument gerade gespielt hat.¶
+¶Jedes Instrument bricht als es selbst aus, und genau darum geht es: Du siehst, welches gerade gespielt hat.¶
 ƒ gesicht2(p2•Teil)•''
 	iconFor(p2.Instrument)
 
-¶Jedes Instrument behält seine eigene Spur, verteilt über den ganzen Himmel. Weil das Instrument selbst genutzt wird statt seiner Position in der Liste, bleibt eine Spur stehen, wenn ein anderes Instrument verstummt.¶
+¶Jedes Instrument behält seine eigene Bahn, verteilt über den ganzen Himmel. Wenn man das Instrument statt seiner Position in der Liste benutzt, bleibt eine Bahn ruhig, wenn ein anderes Instrument verstummt.¶
 ƒ spur(p3•Teil)•#
 	(p3.Instrument.id = 'trumpet') ? -6
 		(p3.Instrument.id = 'flute') ? -3.6
@@ -30,11 +30,11 @@ feuert•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
 						(p3.Instrument.id = 'drums') ? 6
 							0
 
-¶Wie hoch eine Explosion sitzt: ihr Ton. Jede Stimme hier klingt gerade, deshalb hat sie einen.¶
+¶Wie hoch ein Ausbruch sitzt: seine Note. Jeder Teil hier klingt, also hat er eine.¶
 ƒ höhe(p4•Teil)•# p4.Stufen[1]
 
-¶Eine Explosion, die mit ihrem Ton aufsteigt und mit der Lautstärke anschwillt.¶
-ƒ explosion(p5•Teil i•#)•Satzglied
+¶Ein Ausbruch, der mit seiner Note steigt und mit seiner Lautstärke anschwillt.¶
+ƒ ausbruch(p5•Teil i•#)•Satzglied
 	Satzglied(
 		gesicht2(p5)
 		(0.9m + (p5.Lautstärke · 1.6m))
@@ -42,7 +42,7 @@ feuert•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
 			(spur(p5) + p5.Balance) · 1m
 			(((höhe(p5) · 0.22) - 1.8) · 1m)
 		)
-		Name: 'burst \zähler\ \i\'
+		Name: 'burst \zählung\ \i\'
 		Eingabe: Reihenfolge(
 			{
 				0%: Pose(Skala: 0.1 Opazität: 0%)
@@ -60,7 +60,7 @@ feuert•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
 		)
 	)
 
-¶Die Melodie. Stufen sind Halbtonschritte von der tiefen Grundtonart aus: 1 ist dieser Ton, 13 ist eine Oktave höher, und 7 ist die erhöhte Quarte. Zwei Zeilen teilen sich dieselbe Melodie, dann kommt die Bridge, dann die letzte Zeile.¶
+¶Die Melodie. Die Stufen sind Halbtöne ab dem tiefen Grundton: 1 ist dieser Ton, 13 ist eine Oktave höher und 7 ist die erhöhte Quarte. Zwei Zeilen teilen sich dieselbe Melodie, dann kommt die Brücke, dann die letzte Zeile.¶
 melodie2: [
 		8𝅘𝅥𝅮
 		5𝅘𝅥𝅮
@@ -202,7 +202,7 @@ bass: [
 		1𝅗𝅥𝅭
 	]
 
-¶Eine Glocke auf jedem zweiten betonten Schlag, sodass sie nicht bei jeder Explosion dabei ist.¶
+¶Eine Glocke auf jedem zweiten Taktanfang, also ist sie nicht in jedem Ausbruch.¶
 glocke: [
 		Note(ø 1beats)
 		13
@@ -255,7 +255,7 @@ glocke: [
 		Note(ø 3beats)
 	]
 
-¶Streicher ab der Bridge, sodass der Klang dichter wird.¶
+¶Streicher ab der Brücke, damit der Klang voller wird.¶
 geige: [
 		Note(ø 1beats)
 		Note(ø 3beats)
@@ -292,7 +292,7 @@ geige: [
 		13𝅗𝅥𝅭
 	]
 
-¶Eine Diskantstimme nur an den Höhepunkten der Phrasen.¶
+¶Eine Oberstimme nur am Anfang der Phrasen.¶
 flöte: [
 		Note(ø 1beats)
 		Note(ø 3beats)
@@ -537,7 +537,7 @@ schlagzeug: [
 
 Bühne(
 	[
-		:feuert.übersetzen(ƒ(p6•Teil i2•#) explosion(p6 i2))
+		:feuern.übersetzen(ƒ(p6•Teil i2•#) ausbruch(p6 i2))
 		Musik(
 			[
 				Spur(

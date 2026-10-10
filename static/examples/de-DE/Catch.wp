@@ -1,23 +1,23 @@
 🪍
-Auffangen
+Fangen
 === start/en
-¶Fange die huschende Maus mit einem Klick — klicke erneut, um sie wieder freizulassen.
+¶Fang die huschende Maus mit einem Klick. Klicke noch einmal, um sie wieder freizulassen.
 
-Beide Klänge kommen aus den Posen selbst. Eine @Pose kann eine @Music tragen, die genau in dem Moment abgespielt wird, in dem diese Pose eingenommen wird: Das Anspringen erklingt, wenn sich die Ruhepose der Maus in die gefangene Pose ändert, und das Huschen erklingt, wenn die Drehung die Pose auf halbem Weg erreicht, mit der es verknüpft ist. Zwischen der Animation und dem Klang muss nichts extra verbunden werden — die Pose ist der Ort, an dem sie zusammentreffen.¶
+Beide Laute kommen von den Posen selbst. Eine @Pose kann einen @Music tragen, der genau dann erklingt, wenn diese Pose eingenommen wird. Der Sprung erklingt, wenn die Ruhepose der Maus zur gefangenen Pose wechselt. Das Huschen erklingt, wenn die Drehung die mittlere Pose erreicht, zu der es gehört. Zwischen der Animation und dem Laut muss nichts verbunden werden. In der Pose treffen sie sich.¶
 
-¶Zwei kurze Stücke. Eine @Track wiederholt sich standardmäßig, aber eine Pose ist ein Augenblick und kein andauernder Zustand. Deshalb spielt die Musik einer Pose immer nur einmal komplett durch.¶
-anspringen: Musik(
+¶Zwei kurze Stücke. Eine @Track wird normalerweise wiederholt. Aber eine Pose ist nur ein Augenblick und dauert nicht an. Deshalb wird die Musik einer Pose immer nur einmal abgespielt.¶
+sprung: Musik(
 		Spur([5 1] Instrument: Instrument.Glocke Schlag: 1beats)
 		Lautstärke: 50%
-		Name: 'anspringen'
+		Name: 'Sprung'
 	)
 huschen: Musik(
 		Spur([1 2] Instrument: Instrument.Flöte Schlag: 1beats)
 		Lautstärke: 35%
-		Name: 'huschen'
+		Name: 'Huschen'
 	)
 
-¶Wenn die ausgewählte Phrase die Maus ist, schalte um, ob die Maus gefangen ist.¶
+¶Wenn die ausgewählte Phrase Maus ist, schalte um, ob die Maus gefangen ist.¶
 name2: Auswahl()
 gefangen: ⊥ … ∆ (name2) … (name2 = 'mouse') & ~gefangen
 ¶Bewege die Maus jede Sekunde¶
@@ -32,10 +32,7 @@ Bühne(
 			"🐭"
 			wählbar
 			Ort: platzieren
-			Ruhen: gefangen ? Pose(
-					Drehung: 180°
-					Musik: anspringen
-				) Pose(
+			Ruhen: gefangen ? Pose(Drehung: 180° Musik: sprung) Pose(
 				)
 			ziehenum: gefangen ? Pose() Reihenfolge(
 					{

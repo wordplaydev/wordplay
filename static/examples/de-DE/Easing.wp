@@ -1,7 +1,7 @@
 s
-Sequenz-Verlauf
+Ablauf-Beschleunigung
 ===
-¶Dieselbe Auto-Animation auf acht Arten, eine für jeden Bewegungsstil.¶
+¶Dieselbe Auto-Animation auf acht Arten, eine für jeden Beschleunigungsstil.¶
 
 schlüsselbilder: {
 		0%: Pose(Versatz: Ort(-1m 0m))
@@ -16,7 +16,7 @@ Bühne(
 		Gruppe(
 			Netz(4 2 Zellenpolsterung: 0.25m)
 			[
-				Satzglied('gerade' Größe: 0.25m)
+				Satzglied('gleichmäßig' Größe: 0.25m)
 				Satzglied(
 					"🚗"
 					Ruhen: Reihenfolge(
@@ -34,7 +34,7 @@ Bühne(
 						Stil: "cautious"
 					)
 				)
-				Satzglied('gemütlich' Größe: 0.25m)
+				Satzglied('lahm' Größe: 0.25m)
 				Satzglied(
 					"🚙"
 					Ruhen: Reihenfolge(

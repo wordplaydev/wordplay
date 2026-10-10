@@ -1,7 +1,7 @@
 ⚫
 Amplitude
 ===
-¶Une rangée de points qui s'allument et s'éteignent selon le volume de ton microphone.¶
+¶Une rangée de points qui brillent et s'estompent selon le volume de ton micro.¶
 
 amplitudes•[#]: ←← 10 Volume()
 vis: amplitudes.traduire(

@@ -1,16 +1,16 @@
 🚣
-Rema, Rema tu Barquito
+Rema tu bote
 === start/en
-¶Rema, rema, rema tu bote — una vez completa, diez segundos exactos, con una pequeña flota remando al ritmo.
+¶Row, Row, Row Your Boat: una sola vez, diez segundos exactos, con una pequeña flota de botes remando al ritmo.
 
-La canción está en 6/8, así que cada compás tiene seis corcheas y cada entrada en estas listas es una de ellas. Veinticuatro tiempos a 144 tiempos por minuto dan justo diez segundos.
+La canción está en 6/8, así que cada compás tiene seis corcheas y cada elemento de estas listas es una de ellas. Veinticuatro tiempos a 144 tiempos por minuto dan diez segundos justos.
 
-Los botes se guían por @Beat en lugar de un reloj, así que tiran al ritmo exacto de la música y no solo cerca de él — y se quedan quietos hasta que empieza, porque @Beat se mantiene en el tiempo cero hasta entonces.¶
+Los botes avanzan con @Beat y no con un reloj, así que reman justo en el tiempo de la música y no solo cerca de él. Además, se quedan quietos hasta que empieza, porque @Beat se queda en el tiempo cero hasta entonces.¶
 
-tiempo2: Pulso()
-remada: tiempo2.conteo
+pulso2: Pulso()
+remada: pulso2.conteo
 
-¶La melodía. Rema, rema, rema tu bote, suavemente por la corriente — las notas largas son largas porque los silencios después de ellas mantienen la cuadrícula, ya que cada entrada dura la misma corchea.¶
+¶La melodía. Row row row your boat, gently down the stream: las notas largas son largas porque los silencios que las siguen mantienen la cuadrícula, ya que cada elemento dura la misma corchea.¶
 melodía2: [
 		1
 		ø
@@ -62,7 +62,7 @@ melodía2: [
 		ø
 	]
 
-¶Un acorde al inicio de cada compás. Se queda en la tónica todo el tiempo hasta el penúltimo compás, que se apoya en la quinta para que el último compás se sienta como una llegada.¶
+¶Un acorde al comienzo de cada compás. Se queda en casa todo el camino hasta el penúltimo compás, que se apoya en la quinta para que el último compás se sienta como una llegada.¶
 acordes: [
 		{1 3 5}
 		ø
@@ -90,7 +90,7 @@ acordes: [
 		ø
 	]
 
-¶La remada: un golpe grave para tirar y uno brillante para recuperar, una vez por compás.¶
+¶La remada: un golpe grave para jalar y uno brillante para recuperarse, una vez por compás.¶
 remos: [
 		1
 		ø
@@ -118,13 +118,13 @@ remos: [
 		3
 	]
 
-¶Un bote. Se desliza un poco más en cada tiempo y se balancea hacia el otro lado cada vez, lo cual se ve como si estuviera remando; el carril define qué tan alto se ubica y qué tan adelante comenzó, para que no se muevan todos igual.¶
-ƒ bote(carril•# comenzar•#)•Frase
+¶Un bote. Se desliza un poco más en cada tiempo y se mece hacia el otro lado cada vez, y eso es lo que parece remar. El carril decide qué tan alto va y qué tanta ventaja llevaba al comenzar, así que no se mueven todos igual.¶
+ƒ bote(carril•# comienzo2•#)•Frase
 	Frase(
 		'🚣'
 		1.5m
 		lugar: Lugar(
-			((((remada + comenzar) % 16) - 8) · 1.1) · 1m
+			((((remada + comienzo2) % 16) - 8) · 1.1) · 1m
 			((carril · 1.9) - 1.9) · 1m
 		)
 		rotación: (((remada + carril) % 2) = 0) ? 9° -9°
@@ -143,7 +143,7 @@ Escenario(
 			color: Color(48% 22 240°)
 		)
 		Frase(
-			'Rema, rema, rema tu bote'
+			'Row, row, row your boat'
 			0.9m
 			lugar: Lugar(-4.4m 3.4m)
 		)

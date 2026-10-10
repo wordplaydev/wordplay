@@ -1,29 +1,27 @@
 🎆
 Fogo de artifício
 === start/en
-¶Fogos de artifício que disparam com a música: cada instrumento que soa numabatida aparece como ele próprio, fica um momento suspenso, e depois cai.
+¶Fogo de artifício que explode ao som da música: cada instrumento que soa numa batida surge como ele próprio, fica suspenso por um momento e cai.
 
-Aqui nada é desenhado com base num relógio. @Beat entrega um @Downbeat sempre quecada batida se torna audível, e um @Downbeat transporta um @Part para cada@Track — que instrumento é, se está a soar, em que nota está, e com quevolume. Assim, uma explosão por cada parte que soa é um único @List/translate, e amúsica desenha-se a si própria.
+Nada aqui é desenhado por um relógio. @Beat entrega um @Downbeat quando cada batida se torna audível, e um @Downbeat traz um @Part para cada @Track — qual é o instrumento, se está a soar, em que nota está e com que intensidade. Assim, uma explosão por cada parte que soa é uma única @List/translate, e a música desenha-se a si própria.
 
-Cada explosão tem o nome do número da batida, por isso as explosões de cadabatida são sempre novos elementos: mostram a sua pose de entrada ao apareceme a sua pose de saída quando a batida seguinte as substitui. O aparecimento ea queda são essas duas poses.
+Cada explosão tem o número da batida no nome, por isso as explosões de cada batida são novas saídas: fazem a sua pose de entrada ao chegar e a sua pose de saída quando a batida seguinte as substitui. O estouro e a queda são essas duas poses.
 
-A melodia é /The Star-Spangled Banner/ — a melodia de John Stafford Smith,de cerca de 1773, há muito em domínio público — do início ao fim, terminandona última linha. Cada nota tem a sua própria duração escrita como um valorde nota junto ao número — \8𝅘𝅥𝅮\ é uma colcheia, \13𝅗𝅥\ uma mínima, \13𝅗𝅥𝅭\ uma mínima com ponto — assim, as anacruses,as figuras com ponto e as notas longas são durações reais e não uma grelhade batidas iguais. Um número simples vale uma batida. As pausas continuam aprecisar de um @Note, porque \ø\ não é um número e por isso não pode ter um valor. Está na escalacromática, para que a quarta aumentada possa ser escrita: cada grau é umsemitom.¶
+A melodia é /The Star-Spangled Banner/ — a melodia de John Stafford Smith, de cerca de 1773, há muito de domínio público — do princípio ao fim, terminando na última linha. Cada nota leva a sua própria duração, escrita como valor de nota sobre o número — \8𝅘𝅥𝅮\ é uma colcheia, \13𝅗𝅥\ uma mínima, \13𝅗𝅥𝅭\ uma mínima pontuada — por isso as anacruses, as figuras pontuadas e as notas longas são durações reais e não uma grelha de batidas iguais. Um número simples vale uma batida. As pausas ainda precisam de @Note, porque \ø\ não é um número e por isso não pode ter um valor. Está na escala cromática para que a quarta aumentada possa ser escrita: cada passo é um semitom.¶
 ↓ @wordplay/instruments 1
 
 batida2: Batida()
 contagem2: batida2.contar
 
-¶Só as partes que realmente estão a soar se tornam fogos de artifício; umapista em silêncio mantém-se escura. Antes de a música começar não hánenhuma parte, por isso o céu está vazio.¶
-aDisparar•[Parte]: batida2.partes.filtro(
-		ƒ(p•Parte) p.aSoar
-	)
+¶Só as partes que estão mesmo a soar se tornam fogo de artifício; uma faixa em pausa fica às escuras. Antes de a música começar não há partes nenhumas, por isso o céu está vazio.¶
+disparo•[Parte]: batida2.partes.filtro(ƒ(p•Parte) p.aSoar)
 
-¶Cada instrumento explode como ele próprio, e é esse o objetivo: dá para vernitidamente qual acabou de tocar.¶
-ƒ rosto2(p2•Parte)•''
+¶Cada instrumento explode como ele próprio, e é essa a ideia: dá para ver qual deles acabou de tocar.¶
+ƒ fonte2(p2•Parte)•''
 	iconFor(p2.instrumento)
 
-¶Cada instrumento mantém a sua própria faixa, espalhada por todo o céu. Usaro instrumento em vez da sua posição na lista faz com que uma faixa se mantenhaparada quando outro instrumento fica em silêncio.¶
-ƒ faixa(p3•Parte)•#
+¶Cada instrumento mantém a sua própria pista, espalhada por todo o céu. Usar o instrumento em vez da sua posição na lista mantém a pista parada quando outro instrumento se cala.¶
+ƒ pista(p3•Parte)•#
 	(p3.instrumento.id = 'trumpet') ? -6
 		(p3.instrumento.id = 'flute') ? -3.6
 			(p3.instrumento.id = 'bell') ? -1.2
@@ -32,16 +30,16 @@ aDisparar•[Parte]: batida2.partes.filtro(
 						(p3.instrumento.id = 'drums') ? 6
 							0
 
-¶A que altura fica uma explosão: é a sua nota. Todas as partes aqui estão asoar, por isso todas têm uma.¶
+¶A altura a que fica uma explosão: a sua nota. Todas as partes aqui estão a soar, por isso tem uma.¶
 ƒ altura2(p4•Parte)•# p4.graus[1]
 
-¶Uma explosão, que sobe com a sua nota e cresce conforme o volume.¶
+¶Uma explosão, que sobe com a sua nota e cresce com a sua intensidade.¶
 ƒ explosão(p5•Parte i•#)•Frase
 	Frase(
-		rosto2(p5)
+		fonte2(p5)
 		(0.9m + (p5.volume · 1.6m))
 		local: Local(
-			(faixa(p5) + p5.balanço) · 1m
+			(pista(p5) + p5.balanço) · 1m
 			(((altura2(p5) · 0.22) - 1.8) · 1m)
 		)
 		nome: 'burst \contagem2\ \i\'
@@ -62,7 +60,7 @@ aDisparar•[Parte]: batida2.partes.filtro(
 		)
 	)
 
-¶A melodia. Os graus são semitons a partir da tónica grave: 1 é essa nota,13 é uma oitava acima, e 7 é a quarta aumentada. Duas linhas partilham a mesmamelodia, depois vem a ponte, e por fim a última linha.¶
+¶A melodia. Os graus são semitons a partir da tónica grave: 1 é essa nota, 13 é uma oitava acima e 7 é a quarta aumentada. Duas linhas partilham a mesma melodia, depois vem a ponte e, por fim, a última linha.¶
 melodia2: [
 		8𝅘𝅥𝅮
 		5𝅘𝅥𝅮
@@ -167,8 +165,8 @@ melodia2: [
 		13𝅗𝅥𝅭
 	]
 
-¶Uma nota fundamental sob cada compasso.¶
-baixo: [
+¶Uma nota fundamental por baixo de cada compasso.¶
+baixo2: [
 		Nota(ø 1beats)
 		1𝅗𝅥𝅭
 		1𝅗𝅥𝅭
@@ -204,7 +202,7 @@ baixo: [
 		1𝅗𝅥𝅭
 	]
 
-¶Um sino em batidas fortes alternadas, por isso não aparece em todas asexplosões.¶
+¶Um sino em tempos fortes alternados, por isso não está em todas as explosões.¶
 sino2: [
 		Nota(ø 1beats)
 		13
@@ -257,7 +255,7 @@ sino2: [
 		Nota(ø 3beats)
 	]
 
-¶Cordas a partir da ponte em diante, para que a textura vá crescendo.¶
+¶Cordas a partir da ponte, para que a textura vá crescendo.¶
 violino2: [
 		Nota(ø 1beats)
 		Nota(ø 3beats)
@@ -294,7 +292,7 @@ violino2: [
 		13𝅗𝅥𝅭
 	]
 
-¶Uma linha aguda só nos pontos mais altos das frases.¶
+¶Um contracanto apenas no topo das frases.¶
 flauta2: [
 		Nota(ø 1beats)
 		Nota(ø 3beats)
@@ -339,8 +337,8 @@ flauta2: [
 		Nota(ø 3beats)
 	]
 
-¶Uma marcha por baixo de tudo.¶
-tambores: [
+¶Uma marcha por baixo.¶
+bateria2: [
 		Nota(ø 0.5beats)
 		3𝅘𝅥𝅮
 		1𝅘𝅥𝅮
@@ -539,7 +537,7 @@ tambores: [
 
 Fase(
 	[
-		:aDisparar.traduzir(ƒ(p6•Parte i2•#) explosão(p6 i2))
+		:disparo.traduzir(ƒ(p6•Parte i2•#) explosão(p6 i2))
 		Música(
 			[
 				Faixa(
@@ -549,7 +547,7 @@ Fase(
 					ciclo: ⊥
 				)
 				Faixa(
-					baixo
+					baixo2
 					instrumento: Instrumento.piano
 					chave: -12semitones
 					volume: 50%
@@ -576,7 +574,7 @@ Fase(
 					ciclo: ⊥
 				)
 				Faixa(
-					tambores
+					bateria2
 					instrumento: Instrumento.bateria
 					volume: 45%
 					ciclo: ⊥

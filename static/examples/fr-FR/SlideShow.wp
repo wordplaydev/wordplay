@@ -1,42 +1,42 @@
 🎬
 Diaporama
 === start
-¶Un diaporama qui raconte comment Wordplay est né ; appuie sur → et ← pour le parcourir.¶
+¶Un diaporama qui raconte comment Wordplay est né. Appuie sur → et ← pour avancer et reculer.¶
 
-¶Une diapositive du diaporama : un personnage, un titre, et le texte en dessous.¶
-•diapositive(émoji•'' titre•'' texte2•''|`…`)
+¶Une diapositive du diaporama : un personnage, un titre et les mots en dessous.¶
+•diapositive(émoji•'' titre•'' corps•''|`…`)
 
-¶L'histoire. Ajoute, enlève ou change ces diapositives pour raconter la tienne.¶
-diapositives: [
+¶L'histoire. Ajoute, retire ou change ces diapositives pour raconter la tienne.¶
+diapositives2: [
 		diapositive(
 			'🎭'
 			'Wordplay'
-			"L'histoire de la naissance de ce langage. Appuie sur → pour avancer, et ← pour reculer."
+			"L'histoire de la naissance de ce langage. Appuie sur → pour avancer et sur ← pour revenir en arrière."
 		)
 		diapositive(
 			'✒'
 			'Un amour des lettres'
-			'Il y a longtemps, Amy est tombée amoureuse de la typographie : la forme des lettres, et le rythme des mots sur une page.'
+			'Il y a longtemps, Amy est tombée amoureuse de la typographie : la forme des lettres et le rythme des mots sur une page.'
 		)
 		diapositive(
 			'💻'
 			'Un amour du code'
-			'Elle est aussi tombée amoureuse de la programmation, et de la façon dont quelques mots pouvaient faire bouger des choses.'
+			'Elle est aussi tombée amoureuse de la programmation, et de la façon dont quelques mots pouvaient faire bouger les choses.'
 		)
 		diapositive(
 			'🧭'
 			'Deux amours séparés'
-			"Mais la typographie et la programmation vivaient dans des mondes différents, et peu d'outils permettaient d'aimer les deux à la fois."
+			"Mais la typographie et la programmation vivaient dans des mondes différents, et peu d'outils invitaient à aimer les deux à la fois."
 		)
 		diapositive(
 			'😄'
-			'Une jeune personne'
-			'Des années plus tard, elle a rencontré une jeune personne qui aimait les émojis, et voulait les faire danser.'
+			'Un jeune'
+			'Des années plus tard, elle a rencontré un jeune qui adorait les emojis et voulait les faire danser.'
 		)
 		diapositive(
 			'💡'
 			'Une idée'
-			'Et si un langage de programmation rendait facile de faire danser les émojis ?'
+			'Et si un langage de programmation rendait facile de faire danser les emojis ?'
 		)
 		diapositive(
 			'🌱'
@@ -46,27 +46,27 @@ diapositives: [
 		diapositive(
 			'🧑‍🏫'
 			'Conçu ensemble'
-			"Elle l'a conçu avec de nombreux jeunes et enseignants, qui ont dit ce qu'ils voulaient créer, et ce qui les gênait."
+			"Elle l'a conçu avec de nombreux jeunes et enseignants, qui ont dit ce qu'ils voulaient créer et ce qui les gênait."
 		)
 		diapositive(
 			'🌏'
 			'Toujours en évolution'
-			"Depuis, il n'a cessé de grandir, pour que plus de personnes puissent créer plus de choses qu'elles imaginent."
+			"Depuis, il n'a pas cessé de grandir, pour que plus de personnes puissent faire plus de choses de ce qu'elles imaginent."
 		)
 		diapositive(
 			'✨'
 			'À toi de jouer'
-			`Que rêves-tu de créer qui n'est pas encore possible ? Dis-le-nous sur <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+			`Que rêves-tu de créer et qui n'est pas encore possible ? Dis-le-nous sur <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-clé2: Clé()
+clé3: Clé()
 
-¶Là où se passe le spectacle. @Scene garde la place, donc rien ici n'a besoin de compter.¶
-à2: Spotlight()
+¶L'endroit où en est le spectacle. Le @Scene garde la place, donc rien ici n'a besoin de compter.¶
+à3: Projecteur()
 
-¶Chaque diapositive, dessinée. Cela ne dépend de rien qui change, donc c'est construit une seule fois plutôt qu'à chaque touche appuyée — c'est pourquoi le compteur ci-dessous n'est pas ici.¶
-vues: diapositives.traduire(
+¶Chaque diapositive, dessinée. Cela ne dépend de rien qui change, donc c'est construit une seule fois plutôt qu'à chaque appui sur une touche — c'est pourquoi le compteur ci-dessous n'est pas ici.¶
+vues: diapositives2.traduire(
 		ƒ(diapositive2•diapositive) Groupe(
 				Empiler('|' 0.4m)
 				[
@@ -77,7 +77,7 @@ vues: diapositives.traduire(
 						alignement: '|'
 					)
 					Phrase(
-						diapositive2.texte2
+						diapositive2.corps
 						taille: 0.5m
 						envelopper: 12m
 						alignement: '|'
@@ -86,17 +86,17 @@ vues: diapositives.traduire(
 			)
 	)
 
-¶Le spectacle n'avance jamais tout seul ; les flèches le font avancer d'une diapositive dans un sens ou dans l'autre. Il s'arrête à chaque extrémité pour nous, donc il n'y a rien à vérifier.¶
+¶Le spectacle n'avance jamais tout seul ; les flèches le font passer d'une diapositive dans un sens ou dans l'autre. Il s'arrête à chaque bout pour nous, donc il n'y a rien à vérifier.¶
 Groupe(
 	Empiler('|' 0.4m)
 	[
 		Diaporama(
 			vues
 			pause
-			étape: ∆ clé2 ? ((clé2 = 'Flèche gauche') ? -1 (clé2 = 'Flèche droite') ? 1 ø) ø
+			étape: ∆ clé3 ? ((clé3 = 'Flèche gauche') ? -1 (clé3 = 'Flèche droite') ? 1 ø) ø
 		)
 		Phrase(
-			`\à2.index\ sur \à2.total\`
+			`\à3.indice\ sur \à3.total\`
 			taille: 0.25m
 			alignement: '|'
 		)

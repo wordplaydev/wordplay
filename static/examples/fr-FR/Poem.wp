@@ -1,7 +1,7 @@
 T
 Poème
 === start
-¶Un poème dont les lignes dérivent, chacune faisant sa propre entrée.¶
+¶Un poème dont les lignes arrivent doucement, chacune faisant sa propre entrée.¶
 
 •ligne(texte2•"" pose•Pose|Séquence arrière: Couleur(
 			100
@@ -9,10 +9,10 @@ Poème
 			100°
 		) avant: Couleur(0 0 0°))
 
-¶Une liste de lignes du poème, chacune avec une pose.¶
+¶Une liste des lignes du poème, chacune avec une pose.¶
 poème: [
 		ligne(
-			'Le fichier informatique'
+			"Le fichier d'ordinateur"
 			Pose(opacité: 0% compenser: Lieu(et: -5m))
 		)
 		ligne(
@@ -36,7 +36,7 @@ poème: [
 			Pose(opacité: 0% compenser: Lieu(et: -5m))
 		)
 		ligne(
-			'fais défiler plus bas'
+			'défile encore plus bas'
 			Pose(opacité: 0% compenser: Lieu(et: 5m))
 		)
 		ligne(
@@ -44,7 +44,7 @@ poème: [
 			Pose(opacité: 0% compenser: Lieu(et: -5m))
 		)
 		ligne(
-			'reste rétroéclairé et vide'
+			'reste éclairé et vide'
 			Pose(opacité: 0% compenser: Lieu(et: -5m))
 			Couleur(0 0 0°)
 			Couleur(100 100 0°)
@@ -65,7 +65,7 @@ poème: [
 			"exactement comme j'ai dû le faire"
 			Pose(opacité: 0% compenser: Lieu(et: -5m))
 		)
-		ligne('le 19 août 2010, à 11h08' Pose())
+		ligne('le 19 août 2010, à 11 h 08' Pose())
 	]
 
 nombre2: 1 … ∆ Bouton() | ∆ Clé() …

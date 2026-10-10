@@ -1,54 +1,54 @@
 🎹
 Pian virtual
 === start
-¶Un pian cu o octavă pe care poți să-l cânți!Pentru cea mai bună experiență, oprește vizualizarea muzicii.¶
+¶Un pian cu o singură octavă, la care poți cânta! Pentru cea mai bună experiență, oprește vizualizarea muzicii.¶
 
-¶Această legătură stochează un flux de Taste care detectează tasta pe care ai apăsat-o.¶
-apăsat: Cheie()
+¶Această legare stochează un flux Key care detectează ce tastă ai apăsat.¶
+apăsată: Cheie()
 
-¶Aceasta stochează o hartă între tastele pe care le apeși și notele pe care le vor cânta,atât sub formă de text (pentru a afișa nota cântată), cât și ca literal textnumeric (pentru a-l transforma într-un număr (#) și a-l introduce într-o listă de Pistă).
+¶Aici se păstrează o corespondență între tastele pe care le apeși și notele pe care le vor reda, atât ca text (pentru a afișa nota redată), cât și ca text numeric literal (pentru a-l converti într-un număr (#) și a-l da ca intrare într-o listă Track).
 
-Aranjamentul specific a fost ales pentru a semăna cât mai mult cu clapele unui pian,clapele albe fiind reprezentate de caractere alfabetice, iar clapele negre fiindreprezentate de caractere numerice.¶
-hartăDeNote: {
+Aranjamentul ales imită îndeaproape tastele de pian: tastele albe sunt litere, iar tastele negre sunt cifre.¶
+hartaNotelor: {
 		'w': ['Do' "1"]
-		'3': ['Do# / Reb' "2"]
+		'3': ['Do# / Re♭' "2"]
 		'e': ['Re' "3"]
-		'4': ['Re# / Mib' "4"]
+		'4': ['Re# / Mi♭' "4"]
 		'r': ['Mi' "5"]
 		't': ['Fa' "6"]
-		'6': ['Fa# / Solb' "7"]
+		'6': ['Fa# / Sol♭' "7"]
 		'y': ['Sol' "8"]
-		'7': ['Sol# / Lab' "9"]
+		'7': ['Sol# / La♭' "9"]
 		'u': ['La' "10"]
-		'8': ['La# / Sib' "11"]
+		'8': ['La# / Si♭' "11"]
 		'i': ['Si' "12"]
 		'o': ['Do5' "13"]
 	}
 
-¶Această funcție întoarce numele notei, în funcție de tasta apăsată.Dacă tasta nu corespundea unei note valide, întoarce text gol.¶
-ƒ întoarceText(cheie2•"")•"" (hartăDeNote{cheie2} ≠ ø) ? hartăDeNote{cheie2}[1] ""
+¶Această funcție returnează numele notei, în funcție de tasta apăsată. Dacă tasta nu este o notă validă, returnează text gol.¶
+ƒ returneazăText(tastă•"")•"" (hartaNotelor{tastă} ≠ ø) ? hartaNotelor{tastă}[1] ""
 
-¶Această funcție întoarce numărul notei corespunzător tastei apăsate, într-o listă,pentru a fi folosit ca intrare într-o Pistă. Dacă tasta apăsată nu este validă,întoarce o listă goală.¶
-ƒ întoarceNotă(cheie3•"")•[] [
-		(hartăDeNote{cheie3} ≠ ø) ? (hartăDeNote{cheie3}[2] → #) [
+¶Această funcție returnează numărul notei care corespunde tastei apăsate, într-o listă, pentru a fi folosit ca intrare într-un Track. Dacă tasta apăsată nu este validă, funcția returnează o listă goală.¶
+ƒ returneazăNote(tastă2•"")•[] [
+		(hartaNotelor{tastă2} ≠ ø) ? (hartaNotelor{tastă2}[2] → #) [
 			]
 	]
 
-¶Această funcție primește o listă numerică și întoarce o Pistă cu acea listă de note.Repetarea este oprită, astfel încât nota să se cânte o singură dată când tasta este apăsată.¶
-ƒ întoarcePistă(notă•[#]) Pistă(notă buclă: ⊥)
+¶Această funcție primește o listă de numere și returnează un Track cu acea listă de note. Bucla este oprită, ca nota să sune o singură dată când se apasă tasta.¶
+ƒ returneazăTrack(notă•[#]) Pistă(notă buclă: ⊥)
 
-¶Aceste două legături definesc culoarea pe care o are tasta corespunzătoareatunci când este apăsată și când nu este apăsată.¶
-apasăCuloare: Culoare(10 270 50°)
-culoareNulă: Culoare(0 0 0°)
+¶Aceste două legări de tip hartă definesc culoarea pe care o ia tasta corespunzătoare când este apăsată și când nu este apăsată.¶
+apasăColor: Culoare(10 270 50°)
+nulColor: Culoare(0 0 0°)
 
-¶Aceasta cântă pista corespunzătoare tastei apăsate. Scara este cromatică, astfelîncât pistele pot folosi toate semitonurile. Repetarea este activată atunci cândo tastă validă este apăsată, astfel încât pista se cântă de fiecare dată cândtasta este apăsată, chiar și de două ori la rând.¶
+¶Aceasta redă track-ul care corespunde tastei apăsate. Scala este cromatică, ca track-urile să poată folosi toate semitonurile. Redarea se repetă la fiecare tastă validă apăsată, ca track-ul să sune de fiecare dată când se apasă tasta, chiar și de două ori la rând.¶
 Muzică(
-	întoarcePistă(întoarceNotă(apăsat))
+	returneazăTrack(returneazăNote(apăsată))
 	gamă: Muzică.cromatic
-	reluare: hartăDeNote{apăsat} ≠ ø
+	reluare: hartaNotelor{apăsată} ≠ ø
 )
 
-¶Afișează pianul, tastele care pot fi apăsate și nota cântată atunci cândo tastă este apăsată.¶
+¶Afișează pianul, tastele de apăsat și nota redată când se apasă o tastă.¶
 Grup(
 	Stivă('>' 1m)
 	[
@@ -59,79 +59,79 @@ Grup(
 					'▯'
 					nume: 'w'
 					dimensiune: 3m
-					culoare: apăsat = 'w' ? apasăCuloare culoareNulă
+					culoare: apăsată = 'w' ? apasăColor nulColor
 				)
 				Fraza(
 					'▮'
 					nume: '3'
 					dimensiune: 3m
-					culoare: apăsat = '3' ? apasăCuloare culoareNulă
+					culoare: apăsată = '3' ? apasăColor nulColor
 				)
 				Fraza(
 					'▯'
 					nume: 'e'
 					dimensiune: 3m
-					culoare: apăsat = 'e' ? apasăCuloare culoareNulă
+					culoare: apăsată = 'e' ? apasăColor nulColor
 				)
 				Fraza(
 					'▮'
 					nume: '4'
 					dimensiune: 3m
-					culoare: apăsat = '4' ? apasăCuloare culoareNulă
+					culoare: apăsată = '4' ? apasăColor nulColor
 				)
 				Fraza(
 					'▯'
 					nume: 'r'
 					dimensiune: 3m
-					culoare: apăsat = 'r' ? apasăCuloare culoareNulă
+					culoare: apăsată = 'r' ? apasăColor nulColor
 				)
 				Fraza(
 					'▯'
 					nume: 't'
 					dimensiune: 3m
-					culoare: apăsat = 't' ? apasăCuloare culoareNulă
+					culoare: apăsată = 't' ? apasăColor nulColor
 				)
 				Fraza(
 					'▮'
 					nume: '6'
 					dimensiune: 3m
-					culoare: apăsat = '6' ? apasăCuloare culoareNulă
+					culoare: apăsată = '6' ? apasăColor nulColor
 				)
 				Fraza(
 					'▯'
 					nume: 'y'
 					dimensiune: 3m
-					culoare: apăsat = 'y' ? apasăCuloare culoareNulă
+					culoare: apăsată = 'y' ? apasăColor nulColor
 				)
 				Fraza(
 					'▮'
 					nume: '7'
 					dimensiune: 3m
-					culoare: apăsat = '7' ? apasăCuloare culoareNulă
+					culoare: apăsată = '7' ? apasăColor nulColor
 				)
 				Fraza(
 					'▯'
 					nume: 'u'
 					dimensiune: 3m
-					culoare: apăsat = 'u' ? apasăCuloare culoareNulă
+					culoare: apăsată = 'u' ? apasăColor nulColor
 				)
 				Fraza(
 					'▮'
 					nume: '8'
 					dimensiune: 3m
-					culoare: apăsat = '8' ? apasăCuloare culoareNulă
+					culoare: apăsată = '8' ? apasăColor nulColor
 				)
 				Fraza(
 					'▯'
 					nume: 'i'
 					dimensiune: 3m
-					culoare: apăsat = 'i' ? apasăCuloare culoareNulă
+					culoare: apăsată = 'i' ? apasăColor nulColor
 				)
 				Fraza(
 					'▯'
 					nume: 'o'
 					dimensiune: 3m
-					culoare: apăsat = 'o' ? apasăCuloare culoareNulă
+					culoare: apăsată = 'o' ? apasăColor nulColor
 				)
 			]
 		)
@@ -152,6 +152,6 @@ Grup(
 				Fraza('i  o')
 			]
 		)
-		Fraza(întoarceText(apăsat))
+		Fraza(returneazăText(apăsată))
 	]
 )

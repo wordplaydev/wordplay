@@ -1,55 +1,55 @@
 Y
 Petualangan
 === start/en
-¶Sebuah petualangan teks dalam lima belas ruangan: kamu bangun dalam keadaan terikat di ruangan gelap dan dingin, dan harus mencari satu dari empat akhir malam ini. Ruangan-ruangan itu saling terhubung, jadi jalan yang salah akan membawamu berputar kembali, bukan jalan buntu. Apa yang kamu bawa akan menentukan lorong mana yang bisa kamu lewati.¶
+¶Petualangan teks di lima belas ruangan: kamu terbangun dalam keadaan terikat di ruangan yang gelap dan dingin, lalu temukan salah satu dari empat cara malam ini bisa berakhir. Ruangan-ruangan itu saling terhubung, jadi salah belok hanya membuatmu berputar, bukan menemui jalan buntu. Apa yang kamu bawa menentukan lorong mana yang bisa kamu lewati.¶
 
-¶Sebuah jalan keluar dari ruangan: nama pilihannya, id ruangan tempat jalan itu menuju, dan, jika pintunya terkunci, apa yang harus kamu bawa untuk membukanya. Menyebut tujuannya, bukan menyimpannya, adalah kuncinya. Sebuah ikatan harus ada dulu sebelum bisa disebut, jadi sebuah cerita yang dibangun dari ikatan hanya bisa menunjuk ke belakang dan tidak bisa berputar kembali. Sebuah id teks tidak punya aturan seperti itu, jadi dua ruangan bisa saling menyebut satu sama lain, dan peta bisa memiliki putaran di dalamnya.¶
-•pintu(label•'' ruangan•'' membutuhkan•'': '')
+¶Jalan keluar dari sebuah ruangan: nama pilihannya, id ruangan yang dituju, dan, untuk pintu yang terkunci, apa yang harus kamu bawa untuk membukanya. Menyebut tujuan lewat namanya, bukan menyimpannya langsung, adalah kuncinya. Sebuah ikatan nama harus sudah ada sebelum ada yang bisa menyebutnya, jadi cerita yang dibuat dari ikatan nama hanya bisa menunjuk ke belakang dan tidak pernah bisa kembali lagi. Id teks tidak punya aturan seperti itu, jadi dua ruangan bisa saling menyebut, dan peta bisa punya putaran.¶
+•pintu(label•'' ruangan•'' butuh•'': '')
 
-¶Sebuah ruangan. Kebanyakan ruangan hanya butuh tiga hal pertama: sebuah id, apa yang kamu temukan di sana, dan pintu-pintunya. Tiga hal terakhir hanya untuk ruangan yang istimewa — satu yang memberimu sesuatu, dan empat yang mengakhiri cerita.¶
-•ruangan2(id2•'' deskripsi2•'' pintu2•[pintu]: [] ambil•'': '' akhir2•'': '' menang•?: ⊥)
+¶Sebuah ruangan. Kebanyakan ruangan hanya butuh tiga yang pertama: sebuah id, apa yang kamu temukan di sana, dan pintu-pintunya. Tiga yang terakhir untuk ruangan istimewa: satu yang memberimu sesuatu, dan empat yang mengakhiri cerita.¶
+•ruangan2(id2•'' deskripsi2•'' doors•[pintu]: [] ambil•'': '' akhir2•'': '' menang•?: ⊥)
 
-¶Di mana kamu berada dan apa yang kamu bawa. Inilah inti dari cerita ini: satu id ruangan dan setumpuk kecil barang.¶
-•perjalanan(ruangan3•'' kumpulan•[''])
+¶Di mana kamu berada dan apa yang kamu bawa. Inilah isi cerita yang sebenarnya: satu id ruangan dan sedikit tumpukan benda.¶
+•petualangan(ruangan3•'' tas•[''])
 
-¶Setiap ruangan dalam satu daftar. Hanya yang pertama yang penting posisinya: di situlah cerita dimulai, dan ke situlah setiap akhir mengembalikanmu.¶
-ruangan4•[ruangan2]: [
+¶Semua ruangan dalam satu daftar. Hanya yang pertama yang penting karena posisinya: di situlah cerita dimulai, dan ke situlah setiap akhir cerita membawamu kembali.¶
+rooms•[ruangan2]: [
 		ruangan2(
 			'sel'
-			'Kamu terbangun di ruangan gelap dan dingin yang berbau lumut. Pergelangan tanganmu terikat di belakang, dan siapa pun yang mengikat simpulnya tidak terburu-buru melakukannya.'
+			'Kamu terbangun di ruangan yang gelap dan dingin dan berbau jamur. Pergelangan tanganmu diikat ke belakang, dan siapa pun yang mengikat simpulnya tidak terburu-buru.'
 			[
-				pintu('berguling ke samping' 'lantai')
-				pintu('diam dan dengarkan' 'dengarkan')
+				pintu('berguling ke sisimu' 'lantai')
+				pintu(
+					'berbaring diam dan mendengarkan'
+					'dengarkan'
+				)
 			]
 		)
 		ruangan2(
 			'dengarkan'
-			'Dua suara terdengar dari balik lantai papan. Mereka sedang bertengkar soal siapa yang membiarkan gerbang terbuka, dan tak satu pun dari mereka tampak khawatir tentang kamu.'
-			[pintu('berguling ke samping' 'lantai')]
+			'Dua suara terdengar dari celah papan lantai. Mereka berdebat tentang siapa yang meninggalkan gerbang terbuka, dan tak satu pun terdengar khawatir tentangmu.'
+			[pintu('berguling ke sisimu' 'lantai')]
 		)
 		ruangan2(
 			'lantai'
-			'Dari sampingmu, kamu bisa melihat di bawah dipan: sebilah pisau di atas batu lantai, berkarat sepanjang bilahnya, cukup dekat untuk diraih jika kamu mau menempelkan wajahmu ke lantai.'
+			'Dari posisi miring, kamu bisa melihat ke bawah dipan: ada sebilah pisau di atas batu lantai, berkarat di punggungnya, cukup dekat untuk dijangkau kalau kamu mau menempelkan wajahmu ke lantai.'
 			[
-				pintu(
-					'ambil dan potong ikatanmu'
-					'ruang bawah tanah'
-				)
-				pintu('diam dan dengarkan lagi' 'dengarkan')
+				pintu('ambil dan potong talimu' 'ruang bawah tanah')
+				pintu('diam lagi dan dengarkan' 'dengarkan')
 			]
 		)
 		ruangan2(
 			'ruang bawah tanah'
-			'Ruang bawah tanah, saat berdiri: dipan, sisa tali yang terpotong, tangga yang naik di satu dinding dan lorong rendah yang membentang di dinding lainnya.'
+			'Ruang bawah tanah, saat kamu berdiri: dipan, tumpukan tali yang terpotong, sebuah tangga naik di satu dinding dan lorong rendah di dinding lainnya.'
 			[
-				pintu('naiki tangga' 'tangga')
-				pintu('masuki lorong rendah' 'lorong')
+				pintu('naik tangga' 'tangga')
+				pintu('masuk ke lorong rendah' 'lorong')
 			]
 			ambil: 'pisau'
 		)
 		ruangan2(
 			'tangga'
-			'Anak tangga aus di bagian tengah. Di tengah jalan ada bordes dengan lentera tergantung di kait, dan di atas bordes tangga terus naik.'
+			'Anak tangga yang aus dan cekung di bagian tengah. Di tengah tangga ada sebuah pelataran kecil dengan lentera yang tergantung pada sebuah kait. Di atas pelataran itu, tangga terus naik.'
 			[
 				pintu('ambil lentera' 'lentera')
 				pintu('terus naik' 'pintu')
@@ -58,7 +58,7 @@ ruangan4•[ruangan2]: [
 		)
 		ruangan2(
 			'lentera'
-			'Sumbunya menyala pada percobaan kedua, dan bordes itu ternyata jauh lebih kecil daripada yang terlihat dalam gelap.'
+			'Sumbunya baru menyala pada percobaan kedua. Ternyata pelataran itu jauh lebih kecil daripada yang dibayangkan dalam gelap.'
 			[
 				pintu('terus naik' 'pintu')
 				pintu('turun kembali' 'ruang bawah tanah')
@@ -67,130 +67,130 @@ ruangan4•[ruangan2]: [
 		)
 		ruangan2(
 			'pintu'
-			'Di puncak tangga, ada pintu berat yang dikunci dari sisi lain. Baut kuncinya sudah tua dan celah di sampingnya cukup lebar untuk sebilah pisau.'
+			'Di ujung atas tangga ada pintu berat yang dipalang dari sisi seberang. Palangnya sudah tua, dan celah di sampingnya cukup lebar untuk sebilah pisau.'
 			[
-				pintu('congkel baut kunci dengan pisau' 'aula')
+				pintu('buka palang dengan pisau' 'aula')
 				pintu('turun kembali' 'tangga')
 			]
 		)
 		ruangan2(
 			'aula'
-			'Sebuah aula dengan perapian yang sudah dingin dan dua kursi yang terdorong menjauh darinya, seakan pertengkaran berakhir dengan tergesa-gesa. Di ujung sana ada gerbang, dan cahaya kelabu terlihat di bawah gerbang itu.'
+			'Sebuah aula dengan perapian yang sudah dingin dan dua kursi yang didorong menjauh darinya, seolah pertengkaran berakhir dengan terburu-buru. Di ujung aula ada sebuah gerbang, dan ada cahaya kelabu di bawah gerbang itu.'
 			[
-				pintu('seberangi menuju gerbang' 'gerbang')
-				pintu('turuni tangga kembali' 'tangga')
+				pintu('menyeberang ke gerbang' 'gerbang')
+				pintu('turun lagi lewat tangga' 'tangga')
 			]
 		)
 		ruangan2(
 			'gerbang'
-			'Gerbang itu dirantai, dan rantainya melewati gembok sebesar kepalanmu. Di baliknya, jalan menurun menuju lembah.'
+			'Gerbang itu dirantai, dan rantainya melewati gembok sebesar kepalan tanganmu. Di balik gerbang, jalan menurun ke lembah.'
 			[
 				pintu(
-					'putar kunci pada gembok'
+					'putar kunci di gembok'
 					'lereng bukit'
-					membutuhkan: 'kunci'
+					butuh: 'kunci'
 				)
-				pintu('panjat rantainya saja' 'panjat')
+				pintu('panjat rantai saja' 'panjat')
 				pintu('kembali ke aula' 'aula')
 			]
 		)
 		ruangan2(
 			'lorong'
-			'Lorong itu cukup rendah sehingga kamu harus merayap dengan satu tangan, dan baunya seperti sungai. Beberapa langkah masuk, kegelapan tidak lagi terasa seperti bayangan, melainkan seperti tembok.'
+			'Lorongnya begitu rendah sampai kamu harus merangkak dengan satu tangan. Baunya seperti sungai. Beberapa langkah masuk, kegelapan tidak lagi sekadar gelap, tetapi menjadi seperti dinding.'
 			[
-				pintu('raba jalanmu terus' 'buta')
+				pintu('meraba jalan ke depan' 'buta')
 				pintu(
 					'bawa cahaya masuk'
-					'makam bawah tanah'
-					membutuhkan: 'lentera'
+					'ruang bawah tanah'
+					butuh: 'lentera'
 				)
 				pintu(
-					'kembali lewat jalan yang kamu lalui'
+					'keluar lewat jalan tadi'
 					'ruang bawah tanah'
 				)
 			]
 		)
 		ruangan2(
-			'makam bawah tanah'
-			'Lentera menemukan sebuah ruang rendah berisi kotak-kotak batu, dan pada sebuah kaitan di samping kotak terakhir, ada kunci berkarat dengan sepotong kain yang masih terikat padanya.'
+			'ruang bawah tanah'
+			'Lentera menemukan sebuah ruangan rendah berisi kotak-kotak batu. Di sebuah kait di samping kotak terakhir, tergantung kunci berkarat dengan secarik kain yang masih terikat padanya.'
 			[
-				pintu('terus menuju air' 'sungai')
+				pintu('lanjut menuju air' 'sungai')
 				pintu('kembali ke lorong' 'lorong')
 			]
 			ambil: 'kunci'
 		)
 		ruangan2(
 			'buta'
-			'Kamu terus berjalan dengan satu tangan terjulur. Tangan itu tidak menemukan apa-apa, dan sesaat kemudian kakimu juga tidak. Kegelapan menyimpan apa yang diberikan padanya.'
+			'Kamu terus berjalan dengan satu tangan terulur. Tanganmu tidak menemukan apa-apa, dan sesaat kemudian kakimu juga tidak. Kegelapan menyimpan apa pun yang diberikan kepadanya.'
 			akhir2: 'Kegelapan menyimpanmu.'
 		)
 		ruangan2(
 			'panjat'
-			'Kamu hampir mencapai puncak sebelum rantai itu teringat betapa tuanya dirinya. Mereka menemukanmu di kaki gerbang saat subuh, dan kali ini mereka membawa tali yang cukup untuk dua orang.'
+			'Kamu sudah hampir sampai di atas ketika rantai itu ingat betapa tuanya dirinya. Mereka menemukanmu di kaki gerbang saat fajar, dan kali ini mereka membawa tali yang cukup untuk dua orang.'
 			akhir2: 'Tertangkap di gerbang.'
 		)
 		ruangan2(
 			'sungai'
-			'Lorong itu berakhir di sebuah kisi-kisi di atas air yang mengalir. Batang-batangnya sudah tua dan pisau itu sabar. Kamu keluar bersama sungai, dan rumah itu sudah jauh tertinggal di belakangmu sebelum langit pun menjadi kelabu.'
+			'Lorong itu berakhir di sebuah jeruji di atas air yang mengalir. Jeruji itu sudah tua dan pisaunya sabar. Kamu keluar bersama sungai, dan rumah itu sudah jauh di belakangmu sebelum langit menjadi kelabu.'
 			akhir2: 'Keluar bersama sungai.'
 			menang
 		)
 		ruangan2(
 			'lereng bukit'
-			'Kunci berputar, rantai jatuh berderai ke rumput, dan gerbang berputar tanpa suara yang bisa didengar siapa pun. Lembah kelabu oleh pagi, dan jalan itu milikmu.'
+			'Kunci berputar, rantai jatuh ke rumput, dan gerbang terbuka tanpa suara yang bisa didengar siapa pun. Lembah tampak kelabu oleh pagi, dan jalan itu milikmu.'
 			akhir2: 'Keluar lewat gerbang.'
 			menang
 		)
 	]
 
-¶Ruangan dengan id ini. find() mengembalikan ø saat tidak ada yang cocok, dan sebuah id yang tidak menamai ruangan mana pun adalah lubang di peta, bukan belokan dalam cerita, jadi ruangan pertama menggantikannya.¶
-ƒ pergi(ingin•'')•ruangan2 ruangan4.menemukan(
-		ƒ(ruangan5•ruangan2) ruangan5.id2 = ingin
-	) ?? ruangan4[1]
+¶Ruangan dengan id ini. find() memberi kembali ø saat tidak ada yang cocok. Id yang tidak menunjuk ke ruangan mana pun adalah lubang di peta, bukan belokan dalam cerita, jadi ruangan pertama dipakai sebagai gantinya.¶
+ƒ pergi(diinginkan•'')•ruangan2 rooms.menemukan(
+		ƒ(ruangan4•ruangan2) ruangan4.id2 = diinginkan
+	) ?? rooms[1]
 
-¶Pintu-pintu yang sebenarnya bisa kamu ambil dari sini. Pintu terkunci yang tidak kamu punya kuncinya sama sekali tidak ditawarkan, jadi terlihat seperti dinding sampai benda yang membukanya ada di tanganmu.¶
-ƒ cara(diSini•ruangan2 kumpulan2•[''])•[pintu]
-	diSini.pintu2.menyaring(
-		ƒ(pintu3•pintu) (pintu3.membutuhkan = '') | kumpulan2.memiliki(
-					pintu3.membutuhkan
+¶Pintu yang benar-benar bisa kamu masuki dari sini. Pintu terkunci yang tidak ada kuncinya tidak ditawarkan, jadi pintu itu tampak seperti dinding sampai kamu memegang benda yang bisa membukanya.¶
+ƒ jalan(sini•ruangan2 tas2•[''])•[pintu]
+	sini.doors.menyaring(
+		ƒ(pintu2•pintu) (pintu2.butuh = '') | tas2.memiliki(
+					pintu2.butuh
 				)
 	)
 
-¶Berjalan ke sebuah ruangan, mengambil apa pun yang ada di dalamnya. add() dengan senang hati akan memberimu pisau kedua, jadi tanyakan dulu.¶
-ƒ tiba(diSini2•ruangan2 kumpulan3•[''])•perjalanan
-	perjalanan(
-		diSini2.id2
-		((diSini2.ambil ≠ '') & (~kumpulan3.memiliki(
-						diSini2.ambil
-					))) ? kumpulan3.dengan(diSini2.ambil) kumpulan3
+¶Masuk ke sebuah ruangan sambil mengambil apa pun yang ada di sana. add() dengan senang hati akan memberimu pisau kedua, jadi periksa dulu.¶
+ƒ tiba(sini2•ruangan2 tas3•[''])•petualangan
+	petualangan(
+		sini2.id2
+		((sini2.ambil ≠ '') & (~tas3.memiliki(sini2.ambil))) ? tas3.dengan(
+				sini2.ambil
+			) tas3
 	)
 
-kunci2: Kunci()
+kunci3: Kunci()
 
-¶Sebuah tombol yang ditekan, secara berurutan: pada sebuah akhir, tombol apa pun membangunkanmu lagi di ruangan pertama; sebuah tombol yang bukan 1, 2, atau 3 tidak berarti apa-apa; sebuah angka yang lebih besar dari jumlah pintu di ruangan ini juga tidak berarti apa-apa; dan hanya setelah itu barulah dia menjadi pintu. Pengujian ketiga itulah yang patut dicatat, karena akses daftar berputar kembali ke awal — tanpanya, menekan 3 di ruangan dengan dua pintu akan diam-diam mengambil pintu pertama.¶
-ƒ langkah(t•perjalanan k•'')•perjalanan (
-		diSini3: pergi(t.ruangan3)
-		pintu4: cara(diSini3 t.kumpulan)
-		diSini3.akhir2 ≠ '' ? perjalanan('sel' [])
+¶Satu tombol ditekan, berurutan: pada sebuah akhir, tombol apa pun membangunkanmu di ruangan pertama lagi. Tombol yang bukan 1, 2, atau 3 tidak berarti apa-apa. Angka yang melebihi jumlah pintu di ruangan ini juga tidak berarti apa-apa. Baru setelah itu tombol dianggap sebuah pintu. Uji yang ketiga itu perlu dicatat, karena akses daftar berputar kembali. Tanpa uji itu, menekan 3 di ruangan dengan dua pintu akan diam-diam membuka pintu pertama.¶
+ƒ langkah2(t•petualangan k•'')•petualangan (
+		sini3: pergi(t.ruangan3)
+		doors: jalan(sini3 t.tas)
+		sini3.akhir2 ≠ '' ? petualangan('sel' [])
 			~((k = '1') | (k = '2') | (k = '3')) ? t
-				(k → #) > pintu4.panjang() ? t
-					tiba(pergi(pintu4[k → #].ruangan) t.kumpulan)
+				(k → #) > doors.panjang() ? t
+					tiba(pergi(doors[k → #].ruangan) t.tas)
 	)
 
-perjalanan2•perjalanan: perjalanan('sel' []) … ∆ kunci2 … langkah(
-			perjalanan2
-			kunci2
+petualangan2•petualangan: petualangan('sel' []) … ∆ kunci3 … langkah2(
+			petualangan2
+			kunci3
 		)
 
-diSini4: pergi(perjalanan2.ruangan3)
-pintu5: cara(diSini4 perjalanan2.kumpulan)
+sini4: pergi(petualangan2.ruangan3)
+doors: jalan(sini4 petualangan2.tas)
 
-¶Apa yang kamu bawa, ditampilkan hanya saat kamu membawa sesuatu.¶
+¶Apa yang kamu bawa, hanya ditampilkan saat kamu membawa sesuatu.¶
 membawa:
-	perjalanan2.kumpulan.panjang() > 0
+	petualangan2.tas.panjang() > 0
 	? [
 			Frasa(
-				`*membawa* \perjalanan2.kumpulan.bergabung(' · ')\`
+				`*membawa* \petualangan2.tas.bergabung(' · ')\`
 				ukuran: 0.3m
 				penyelarasan: '|'
 				warna: Warna(60% 30 0°)
@@ -198,15 +198,15 @@ membawa:
 		]
 		[]
 
-¶Apa yang ada di bawah ruangan: pintu-pintunya, diberi nomor sehingga apa yang kamu baca adalah apa yang kamu tekan, atau, pada sebuah akhir, bagaimana ceritanya berakhir dan satu tombol yang memulainya lagi.¶
+¶Apa yang ada di bawah ruangan: pintu-pintunya, diberi nomor agar apa yang kamu baca sama dengan apa yang kamu tekan. Atau, pada sebuah akhir, bagaimana cerita berakhir dan satu tombol yang memulainya lagi.¶
 diBawah:
-	diSini4.akhir2 ≠ ''
+	sini4.akhir2 ≠ ''
 	? [
 			Frasa(
-				`*\diSini4.akhir2\*`
+				`*\sini4.akhir2\*`
 				ukuran: 0.8m
 				penyelarasan: '|'
-				warna: diSini4.menang ? Warna(85% 50 90°) Warna(
+				warna: sini4.menang ? Warna(85% 50 90°) Warna(
 						45%
 						40
 						25°
@@ -215,20 +215,20 @@ diBawah:
 				memasuki: Pose(kegelapan: 0% skala: 0.5)
 			)
 			Frasa(
-				`tekan tombol apa pun untuk bangun lagi`
+				`tekan tombol apa saja untuk bangun lagi`
 				ukuran: 0.3m
 				penyelarasan: '|'
 				lamanya: 3s
 				memasuki: Pose(kegelapan: 0%)
 			)
 		]
-		pintu5.menerjemahkan(
-			ƒ(pintu6•pintu indeks2•#)
+		doors.menerjemahkan(
+			ƒ(pintu3•pintu indeks2•#)
 				Frasa(
-					`\indeks2\. *\pintu6.label\*`
+					`\indeks2\. *\pintu3.label\*`
 					ukuran: 0.5m
 					penyelarasan: '|'
-					nama: pintu6.label
+					nama: pintu3.label
 					lamanya: 1s
 					memasuki: Pose(kegelapan: 0%)
 				)
@@ -240,11 +240,11 @@ Panggung(
 			Tumpukan()
 			[
 				Frasa(
-					diSini4.deskripsi2
+					sini4.deskripsi2
 					ukuran: 0.5m
 					membungkus: 14m
 					penyelarasan: '|'
-					nama: diSini4.id2
+					nama: sini4.id2
 					lamanya: 0.5s
 					memasuki: Pose(mengimbangi: Tempat(0m 2m))
 				)

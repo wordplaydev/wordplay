@@ -1,16 +1,16 @@
 M
 Poires
 === start/en
-¶Ceci est une histoire courte interactive. Elle définit plusieurs scènes différentes et passe de l'une à l'autre selon différentes interactions, comme des clics, des collisions et d'autres actions. Une partie du plaisir de vivre cette histoire est de découvrir les interactions nécessaires pour la faire avancer.¶
+¶Voici une courte histoire interactive. Elle contient plusieurs scènes différentes et passe de l'une à l'autre selon tes actions, comme les clics, les collisions et d'autres gestes. Une partie du plaisir est de découvrir les actions qui font avancer l'histoire.¶
 
 exposition: [
-		Phrase(`Mon papa voulait partir.` lieu: Lieu(-9m 0m))
+		Phrase(`Mon père voulait partir.` lieu: Lieu(-9m 0m))
 	]
 
 conflit: [
 		Phrase(`« Maman, on doit y aller. »` lieu: Lieu(-8m 7m))
 		Phrase(
-			`/« Prends, rentre à la maison. »/`
+			`/« Prends, rapporte à la maison. »/`
 			lieu: Lieu(1m 4m)
 		)
 		Phrase(
@@ -18,7 +18,7 @@ conflit: [
 			lieu: Lieu(-8m 1m)
 		)
 		Phrase(
-			`« Prends, rentre à la maison ! »`
+			`« Prends, rapporte à la maison ! »`
 			taille: 2m
 			lieu: Lieu(-6m -4m)
 			aurepos: Séquence.secousse()
@@ -27,17 +27,17 @@ conflit: [
 
 actionMontante1: [
 		Phrase(
-			`Ma 炮炮👵🏽 est sortie dans le jardin`
+			`Ma 炮炮👵🏽 est entrée dans le jardin derrière la maison`
 			lieu: Lieu(-9m 7m)
 		)
-		Phrase(`Je l'ai suivie, curieuse` lieu: Lieu(-6m 4m))
+		Phrase(`Je l'ai suivie, curieux` lieu: Lieu(-6m 4m))
 		Phrase(
 			`👵🏽`
 			nom: 'paupau'
 			taille: 2m
 			matière: Matière()
 			lieu: Lieu(6m -6m)
-			bulle: `/« 沙梨🍐, prends, rentre à la maison ! »/`
+			bulle: `/« 沙梨🍐, prends, rapporte à la maison ! »/`
 		)
 		Phrase(
 			`👧🏻`
@@ -50,11 +50,11 @@ actionMontante1: [
 
 actionMontante2: [
 		Phrase(
-			`Elle s'est arrêtée près d'un petit arbre.`
+			`Elle s'est arrêtée devant un petit arbre.`
 			lieu: Lieu(-9m 6m)
 		)
 		Phrase(
-			`Dessus s'entremêlaient des dizaines de 沙梨 jaune vif`
+			`Dessus pendaient des dizaines de 沙梨 d'un jaune éclatant`
 			lieu: Lieu(-9m 1m)
 			envelopper: 10m
 		)
@@ -77,7 +77,7 @@ actionMontante2: [
 		)
 	]
 
-¶Nous choisissons des endroits à l'avance pour les faire tomber toujours au même endroit.¶
+¶Nous choisissons les endroits à l'avance pour pouvoir les faire tomber du même point.¶
 lieux: (6 → []).traduire(
 		ƒ() Lieu(Aléatoire(-2m 2m) Aléatoire(-3m -5m))
 	)
@@ -86,13 +86,13 @@ pointCulminant: [
 			`Elle s'est agenouillée dans la terre.`
 			lieu: Lieu(-9m 6m)
 		)
-		Phrase(`A saisi un couteau` lieu: Lieu(-9m 4m))
+		Phrase(`Elle a pris un couteau` lieu: Lieu(-9m 4m))
 		Phrase(
-			`Et en a soigneusement coupé six`
+			`Et a coupé six poires avec soin`
 			lieu: Lieu(-9m 2m)
 		)
 		Phrase(
-			`En les laissant tomber dans son panier en dessous`
+			`Les laissant tomber dans son panier en dessous`
 			lieu: Lieu(-9m 0m)
 		)
 		Phrase("🧺" taille: 4m lieu: Lieu(-2m -12m))
@@ -114,10 +114,10 @@ pointCulminant: [
 		Phrase("🔪" lieu: Aiguille())
 	]
 
-résolution2: [
+dénouement: [
 		Phrase(`Elle me les a apportées` lieu: Lieu(-9m 6m))
 		Phrase(
-			`S'est agenouillée devant moi`
+			`Elle s'est agenouillée devant moi`
 			lieu: Lieu(-8m 4m)
 		)
 		Phrase(`Et m'a tendu le panier` lieu: Lieu(-7m 2m))
@@ -137,19 +137,19 @@ histoire: [
 		actionMontante1
 		actionMontante2
 		pointCulminant
-		résolution2
+		dénouement
 		générique
 	]
 
-¶Suivre les clics et les touches¶
+¶Compter les clics et les appuis¶
 clic: ∆ Bouton()
-¶Suivre combien de temps après qu'on a cliqué sur l'arbre¶
+¶Mesurer le temps écoulé après le clic sur l'arbre¶
 tempsAprèsLaCoupure: 0ms … Choix() = 'tree' … Temps(1000ms)
-¶Suivre quand on arrive chez Pau Pau¶
+¶Repérer le moment où nous arrivons chez Pau Pau¶
 chezPauPau: ∆ Collision('moi')
-¶Suivre quand la poire est choisie¶
+¶Repérer le moment où la poire est choisie¶
 aChoisiLaPoire: Choix() = 'pear'
-¶Changer le segment selon le segment actuel¶
+¶Changer le segment en fonction du segment actuel¶
 segment2•#:
 	1 …
 	segment2 ???

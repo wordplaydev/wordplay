@@ -1,15 +1,15 @@
 🎸
 Liedtext
 === start/en
-¶Der klassische Radiohead-Song Airbag vom Album OK Computer, mit seinem Text im Takt des Beats.
+¶Der klassische Radiohead-Song Airbag vom Album OK Computer und sein Text, im Takt synchronisiert.
 
-Ein @Scene schreitet nach Dauern voran, sodass seine Wörter aus dem Takt mit allem geraten, was darunter läuft. Hier trägt jede Zeile den /Beat/, auf dem sie gesungen wird, und @Beat meldet Beats genau dann, wenn sie zu hören sind. So können Wörter und Musik nicht auseinanderdriften. Ändert man @Music/tempo, folgt der ganze Text, denn hier weiß nichts etwas von Sekunden.
+Ein @Scene geht mit Dauern voran, deshalb laufen seine Wörter nicht im Gleichschritt mit dem, was darunter spielt. Hier trägt jede Zeile den /Schlag/, auf dem sie gesungen wird, und @Beat meldet Schläge, sobald sie zu hören sind. So können Text und Musik nicht auseinanderlaufen. Ändere @Music/tempo, und der ganze Text folgt, denn hier kennt nichts Sekunden.
 
-Die Beats stammen aus einer Logic-Anordnung des Songs, sodass jede Zeile genau dort landet, wo sie wirklich gesungen wird — und diese Anordnung ist es, die darunter spielt, importiert aus MIDI als 41 Spuren mit Gitarre, Bass, Streichern, Schlagzeug, Glocken und Blechbläsern. Die Wörter und die Noten zählen dieselben Beats, deshalb können sie nur übereinstimmen.
+Die Schläge stammen aus einem Logic-Arrangement des Songs. So landet jede Zeile dort, wo sie wirklich gesungen wird. Dieses Arrangement spielt auch darunter, importiert aus MIDI als 41 Spuren mit Gitarre, Bass, Streichern, Schlagzeug, Glocken und Hörnern. Text und Noten zählen dieselben Schläge, deshalb müssen sie übereinstimmen.
 
-Um eigene Wörter zur Musik zu setzen, bearbeite nur @lines und nichts sonst: Jede Zeile trägt, was gesagt wird, den Beat, auf dem sie einsetzt, wie viele Beats sie hält, und welche Behandlung verwendet wird.
+Um eigene Wörter zu vertonen, ändere @lines und sonst nichts: Jede Zeile enthält, was gesagt wird, auf welchem Schlag sie beginnt, wie viele Schläge sie gehalten wird und welche Darstellung verwendet wird.
 
-Jede Stimme der Anordnung lebt in ihrer eigenen Quelle, damit keine einzelne Datei zu einer Wand aus Noten wird. Ruft man eine Quelle über ihren Namen auf, erhält man ihren letzten Ausdruck — hier ein @Track — sodass die Liste am Ende die gesamte Partitur ergibt.¶
+Jede Stimme des Arrangements steht in einer eigenen Quelle, damit keine Datei eine Wand aus Noten ist. Wer eine Quelle über ihren Namen leiht, bekommt ihren letzten Ausdruck, hier eine @Track. Die Liste ganz unten ist also die ganze Partitur.¶
 ↓ guitar1
 ↓ guitar2
 ↓ guitar3
@@ -53,18 +53,18 @@ Jede Stimme der Anordnung lebt in ihrer eigenen Quelle, damit keine einzelne Dat
 ↓ sax3
 
 schlag2: Takt()
-¶Das ist die einzige Uhr im Programm. @Beat zählt von null, bis die Musik beginnt, damit man sie sofort ablesen kann.¶
-zähler: schlag2.Zählung
+¶Das ist die einzige Uhr im Programm. @Beat zählt ab null, bis die Musik beginnt, und kann deshalb sofort gelesen werden.¶
+zählung: schlag2.Zählung
 
-¶Eine Zeile: die Wörter, der Beat, auf dem sie gesungen wird, wie lange sie hält, und wie sie aussehen soll. Jeder Anfang ist der erste Beat einer Phrase im Saxofon, das den Gesang trägt, und jedes Halten endet, bevor das nächste beginnt — also hält keine Zeile länger als fünf Beats, was bei diesem Tempo schon dreieinhalb Sekunden sind. Manches, was das Saxofon spielt, trägt gar keine Wörter: eine Antwortphrase nach den meisten Vershälften (Beats 54, 78 und 146), ein Ausklang aus langen Noten nach /car/ und nach jedem /burst/, und eine Zeile darauf zu legen sorgt dafür, dass der Text früh einsetzt. Die Antwortphrase bei 169,75 ist die einzige Ausnahme, und die Melodie zeigt es: Es sind dieselben sechs Noten mit einem Auftakt davor, was aus einer Phrase wird, wenn sie eine Silbe zum Landen braucht.¶
-•zeile(wörter•'' anfang•# halten•# art•#)
+¶Eine Zeile: die Wörter, der Schlag, auf dem sie gesungen wird, wie lange sie gehalten wird und wie sie aussehen soll. Jeder Anfang ist der erste Schlag einer Phrase im Saxofon, das die Gesangsmelodie trägt, und jedes Halten endet, bevor die nächste Zeile beginnt. Keine Zeile wird also länger als fünf Schläge gehalten, was bei diesem Tempo schon dreieinhalb Sekunden sind. Manches, was das Saxofon spielt, hat gar keine Wörter: eine antwortende Phrase nach den meisten Vershälften (Schläge 54, 78 und 146) und eine Folge langer Töne nach /car/ und nach jedem /burst/. Legt man eine Zeile auf eine davon, läuft der Text zu früh. Die antwortende Phrase bei 169,75 ist die einzige Ausnahme, und die Melodie verrät es: Es sind dieselben sechs Noten mit einem Auftakt davor, so wächst eine Phrase, wenn sie eine Silbe zum Landen hat.¶
+•zeile(worte•'' anfang•# halten•# typ•#)
 
 zeilen: [
 		zeile('Im nächsten Weltkrieg' 39 4 1)
-		zeile('In einem verkeilten Lastzug' 43 5 2)
+		zeile('In einem umgekippten Lastwagen' 43 5 2)
 		zeile('Ich werde wiedergeboren' 48 4 3)
 		zeile('Im Neonschild' 63 4 4)
-		zeile('Rauf und runter scrollend' 67 5 4)
+		zeile('Das hoch und runter läuft' 67 5 4)
 		zeile('Ich werde wiedergeboren' 72 4 3)
 		zeile('In einem interstellaren Ausbruch' 87 4.5 5)
 		zeile(
@@ -77,12 +77,7 @@ zeilen: [
 		zeile('der Unschuldigen' 135 5 1)
 		zeile('Ich werde wiedergeboren' 140 5 3)
 		zeile('In einem schnellen deutschen Auto' 155 4 6)
-		zeile(
-			'Ich bin erstaunt, dass ich überlebt habe'
-			163.25
-			5
-			1
-		)
+		zeile('Ich staune, dass ich überlebt habe' 163.25 5 1)
 		zeile('Ein Airbag hat mein Leben gerettet' 169.75 5 7)
 		zeile('In einem interstellaren Ausbruch' 179 4.5 5)
 		zeile(
@@ -107,26 +102,26 @@ zeilen: [
 		)
 	]
 
-¶Die Zeile, deren Fenster diesen Beat enthält, oder ø dazwischen — was meistens der Fall ist, denn der Song ist größtenteils instrumental.¶
+¶Die Zeile, deren Fenster diesen Schlag enthält, oder ø dazwischen, also fast den ganzen Song, denn er ist größtenteils instrumental.¶
 zeigt: zeilen.finden(
-		ƒ(l2•zeile) (zähler ≥ l2.anfang) & (zähler < (l2.anfang + l2.halten))
+		ƒ(l2•zeile) (zählung ≥ l2.anfang) & (zählung < (l2.anfang + l2.halten))
 	)
 
-¶Die Behandlungen, eine pro Art.¶
+¶Die Behandlungen, eine pro Typ.¶
 ƒ sagen(l3•zeile)•Satzglied
-	(l3.art = 2) ?
+	(l3.typ = 2) ?
 		Satzglied(
-			l3.wörter
+			l3.worte
 			Drehung: 5°
 			Eingabe: Pose(Opazität: 0 Drehung: 0°)
 		)
-		(l3.art = 3) ? Satzglied(
-				l3.wörter
+		(l3.typ = 3) ? Satzglied(
+				l3.worte
 				Eingabe: Pose(Skala: 2)
 			)
-			(l3.art = 4) ?
+			(l3.typ = 4) ?
 				Satzglied(
-					l3.wörter
+					l3.worte
 					Farbe: Farbe(50% 136 337°)
 					Eingabe: Reihenfolge(
 						{
@@ -137,16 +132,16 @@ zeigt: zeilen.finden(
 						Dauer: 3s
 					)
 				)
-				(l3.art = 5) ? Satzglied(
-						l3.wörter
+				(l3.typ = 5) ? Satzglied(
+						l3.worte
 						Eingabe: Reihenfolge.schütteln(
 							0.75s
 							zählen: 5x
 						)
 					)
-					(l3.art = 6) ?
+					(l3.typ = 6) ?
 						Satzglied(
-							l3.wörter
+							l3.worte
 							Eingabe: Reihenfolge(
 								{
 									0%: Pose(Versatz: Ort(-10m 0m))
@@ -156,10 +151,10 @@ zeigt: zeilen.finden(
 								Dauer: 3s
 							)
 						)
-						(l3.art = 7) ?
-							¶Es schießt los wie das, wonach es benannt ist: von weit weg und fast nichts bis über seine eigene Größe hinaus in einer Viertelsekunde, dann ein kleines Zurückfedern beim Einpendeln. Der z-Versatz sorgt dafür, dass es wirkt, als käme es auf dich zu, statt nur zu wachsen — die Bühne skaliert nach Tiefe, also bläht sich alles, was sich zum Betrachter bewegt, von selbst auf.¶
+						(l3.typ = 7) ?
+							¶Es feuert wie das, was sein Name sagt: von weit weg und fast nichts auf mehr als seine eigene Größe in einer Viertelsekunde, dann ein kleiner Rückprall, während es zur Ruhe kommt. Der z-Versatz sorgt dafür, dass es wirkt, als käme es auf dich zu, und nicht nur größer wird: Die Bühne skaliert nach Tiefe, deshalb vergrößert eine Bewegung zum Betrachter hin es von selbst.¶
 							Satzglied(
-								l3.wörter
+								l3.worte
 								1.5m
 								Eingabe: Reihenfolge(
 									{
@@ -186,36 +181,36 @@ zeigt: zeilen.finden(
 								)
 								Ruhen: Reihenfolge.schütteln(0.4s)
 							)
-							(l3.art = 8) ? Satzglied(l3.wörter 0.7m)
-								Satzglied(l3.wörter)
+							(l3.typ = 8) ? Satzglied(l3.worte 0.7m)
+								Satzglied(l3.worte)
 
-¶Eine Zeile nach ihren eigenen Wörtern zu benennen, macht sie zu ihrer eigenen Ausgabe. So weiß die Bühne, dass sie verschwunden ist, und kann ihr Verlassen @Pose abspielen. Ohne den Namen wäre jede Zeile derselben Art dieselbe Ausgabe, und die Wörter würden wechseln, ohne je zu verblassen.¶
+¶Wenn du eine Zeile nach ihren eigenen Wörtern benennst, wird sie zu ihrer eigenen Ausgabe. So weiß die Bühne, dass sie gegangen ist, und kann ihr Verlassen @Pose abspielen. Ohne den Namen wären alle Zeilen derselben Art dieselbe Ausgabe, und die Wörter würden wechseln, ohne je auszublenden.¶
 ƒ gesungen(l4•zeile)•Satzglied (
 		gesagt: sagen(l4)
-		((gesagt.Name:l4.wörter).Ausstieg:Pose(Opazität: 0)).Dauer:0.75s
+		((gesagt.Name:l4.worte).Ausstieg:Pose(Opazität: 0)).Dauer:0.75s
 	)
 
-¶Vier Notenzeichen, im Takt durchgewechselt. @List/length kann nicht garantieren, dass es nicht null ist, also könnte der Rest ø sein; die 0 ist das, was aus diesem ø wird.¶
-schriftzeichen: ['♩' '♪' '♫' '♬']
-zeichen: schriftzeichen[((zähler % schriftzeichen.Länge()) ?? 0) + 1]
+¶Vier Notensymbole, die im Takt wechseln. @List/length kann nicht versprechen, dass es nicht null ist, deshalb kann der Rest ø sein; die 0 ist das, was aus diesem ø wird.¶
+glyphen: ['♩' '♪' '♫' '♬']
+glyphe: glyphen[((zählung % glyphen.Länge()) ?? 0) + 1]
 
-¶Die Bühne hat für den größten Teil des Liedes keine Wörter — die lange Einleitung, die Lücken zwischen den Zeilen, den Ausklang. Statt dunkel zu werden, zeigt sie deshalb den Takt. Das Zeichen ist sein eigener Name, also kommt jedes einzeln an und verschwindet, sobald es eintrifft.¶
+¶Die Bühne hat für die meiste Zeit des Liedes keine Wörter: das lange Intro, die Pausen zwischen den Zeilen, das Outro. Statt dunkel zu werden, zeigt sie den Takt. Das Symbol ist sein eigener Name, deshalb kommt jedes herein und geht wieder, so wie es erscheint.¶
 ƒ noten()•Satzglied
 	Satzglied(
-		zeichen
+		glyphe
 		2m
-		Name: zeichen
+		Name: glyphe
 		Farbe: Farbe(50% 0 0°)
 		Eingabe: Pose(Opazität: 0 Skala: 0.6)
 		Ausstieg: Pose(Opazität: 0)
 		Dauer: 0.3s
 	)
 
-¶Der Inhalt eines @Stage kann kein ø enthalten. Wo also keine Wörter sind, zeigt die Bühne den Takt statt nichts.¶
-ƒ wörter2()•Satzglied
+¶Der Inhalt eines @Stage kann kein ø enthalten. Wo es keine Wörter gibt, zeigt die Bühne deshalb den Takt statt nichts.¶
+ƒ worte2()•Satzglied
 	zeigt•ø ? noten() gesungen(zeigt)
 
-¶Die Partitur: jede geliehene Spur, gespielt im Tempo, das der Liedtext vorgibt. Jede Note trägt ihre eigene Länge und Lautstärke, also braucht hier nichts einen Takt — allein @Music/tempo bestimmt, wie schnell alles läuft.¶
+¶Die Partitur: jede geliehene Spur, gespielt in dem Tempo, das der Liedtext vorgibt. Jede Note bringt ihre eigene Länge und Lautstärke mit, deshalb braucht hier nichts einen Takt: @Music/tempo allein bestimmt, wie schnell alles geht.¶
 lied: Musik(
 		[
 			guitar1
@@ -267,7 +262,7 @@ lied: Musik(
 
 Bühne(
 	[
-		wörter2()
+		worte2()
 		lied
 	]
 	gesicht: 'Phudu'
@@ -275,7 +270,7 @@ Bühne(
 	Farbe: Farbe(100 0 0°)
 )
 === guitar1
-¶Gitarre, Stimme 1 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 1 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -1550,7 +1545,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar2
-¶Gitarre, Stimme 2 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 2 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -1606,7 +1601,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar3
-¶Gitarre, Stimme 3 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 3 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -1619,7 +1614,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar4
-¶Gitarre, Stimme 4 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 4 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -1630,7 +1625,7 @@ Spur(
 	Schleife: ⊥
 )
 === violin1
-¶Streicher, Stimme 1 von 2. Die Startquelle leiht sie sich per Namen aus.¶
+¶Streicher, Stimme 1 von 2. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -1773,7 +1768,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar5
-¶Gitarre, Stimme 5 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 5 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -1904,7 +1899,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar6
-¶Gitarre, Stimme 6 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 6 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -3573,7 +3568,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar7
-¶Gitarre, Stimme 7 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 7 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -3788,7 +3783,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar8
-¶Gitarre, Stimme 8 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 8 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -3849,7 +3844,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar9
-¶Gitarre, Stimme 9 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 9 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -3862,7 +3857,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar10
-¶Gitarre, Stimme 10 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 10 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -4963,7 +4958,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar11
-¶Gitarre, Stimme 11 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 11 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -5308,7 +5303,7 @@ Spur(
 	Schleife: ⊥
 )
 === guitar12
-¶Gitarre, Stimme 12 von 12. Die Startquelle leiht sie sich per Namen aus.¶
+¶Gitarre, Stimme 12 von 12. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -5381,7 +5376,7 @@ Spur(
 	Schleife: ⊥
 )
 === flute1
-¶Flöte, Stimme 1 von 1. Die Startquelle leiht sie sich per Namen aus.¶
+¶Flöte, Stimme 1 von 1. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -5408,7 +5403,7 @@ Spur(
 	Schleife: ⊥
 )
 === violin2
-¶Streicher, Stimme 2 von 2. Die Startquelle leiht sie sich per Namen aus.¶
+¶Streicher, Stimme 2 von 2. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -5537,7 +5532,7 @@ Spur(
 	Schleife: ⊥
 )
 === synth1
-¶Synthesizer, Stimme 1 von 2. Die Startquelle leiht sie sich per Namen aus.¶
+¶Synthesizer, Stimme 1 von 2. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -5664,7 +5659,7 @@ Spur(
 	Schleife: ⊥
 )
 === bass1
-¶Bass, Stimme 1 von 2. Die Startquelle leiht sie sich per Namen aus.¶
+¶Bass, Stimme 1 von 2. Die Anfang-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -6437,7 +6432,7 @@ Spur(
 	Schleife: ⊥
 )
 === bass2
-¶Bass, Stimme 2 von 2. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Bass, Stimme 2 von 2. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -6448,7 +6443,7 @@ Spur(
 	Schleife: ⊥
 )
 === drums1
-¶Schlagzeug, Stimme 1 von 6. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Schlagzeug, Stimme 1 von 6. Die Start-Quelle leiht es sich über seinen Namen.¶
 
 Spur(
 	[
@@ -7103,7 +7098,7 @@ Spur(
 	Schleife: ⊥
 )
 === drums2
-¶Schlagzeug, Stimme 2 von 6. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Schlagzeug, Stimme 2 von 6. Die Start-Quelle leiht es sich über seinen Namen.¶
 
 Spur(
 	[
@@ -7752,7 +7747,7 @@ Spur(
 	Schleife: ⊥
 )
 === drums3
-¶Schlagzeug, Stimme 3 von 6. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Schlagzeug, Stimme 3 von 6. Die Start-Quelle leiht es sich über seinen Namen.¶
 
 Spur(
 	[
@@ -8281,7 +8276,7 @@ Spur(
 	Schleife: ⊥
 )
 === drums4
-¶Schlagzeug, Stimme 4 von 6. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Schlagzeug, Stimme 4 von 6. Die Start-Quelle leiht es sich über seinen Namen.¶
 
 Spur(
 	[
@@ -8514,7 +8509,7 @@ Spur(
 	Schleife: ⊥
 )
 === drums5
-¶Schlagzeug, Stimme 5 von 6. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Schlagzeug, Stimme 5 von 6. Die Start-Quelle leiht es sich über seinen Namen.¶
 
 Spur(
 	[
@@ -8527,7 +8522,7 @@ Spur(
 	Schleife: ⊥
 )
 === drums6
-¶Schlagzeug, Stimme 6 von 6. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Schlagzeug, Stimme 6 von 6. Die Start-Quelle leiht es sich über seinen Namen.¶
 
 Spur(
 	[
@@ -8540,7 +8535,7 @@ Spur(
 	Schleife: ⊥
 )
 === synth2
-¶Synthesizer, Stimme 2 von 2. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Synthesizer, Stimme 2 von 2. Die Start-Quelle leiht ihn sich über seinen Namen.¶
 
 Spur(
 	[
@@ -8551,7 +8546,7 @@ Spur(
 	Schleife: ⊥
 )
 === bell1
-¶Glocken, Stimme 1 von 10. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Glocken, Stimme 1 von 10. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -8564,7 +8559,7 @@ Spur(
 	Schleife: ⊥
 )
 === bell2
-¶Glocken, Stimme 2 von 10. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Glocken, Stimme 2 von 10. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -8577,7 +8572,7 @@ Spur(
 	Schleife: ⊥
 )
 === bell3
-¶Glocken, Stimme 3 von 10. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Glocken, Stimme 3 von 10. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -8590,7 +8585,7 @@ Spur(
 	Schleife: ⊥
 )
 === bell4
-¶Glocken, Stimme 4 von 10. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Glocken, Stimme 4 von 10. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -8601,7 +8596,7 @@ Spur(
 	Schleife: ⊥
 )
 === bell5
-¶Glocken, Stimme 5 von 10. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Glocken, Stimme 5 von 10. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -8612,7 +8607,7 @@ Spur(
 	Schleife: ⊥
 )
 === bell6
-¶Glocken, Stimme 6 von 10. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Glocken, Stimme 6 von 10. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -8625,7 +8620,7 @@ Spur(
 	Schleife: ⊥
 )
 === bell7
-¶Glocken, Stimme 7 von 10. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Glocken, Stimme 7 von 10. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -8636,7 +8631,7 @@ Spur(
 	Schleife: ⊥
 )
 === bell8
-¶Glocken, Stimme 8 von 10. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Glocken, Stimme 8 von 10. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -8649,7 +8644,7 @@ Spur(
 	Schleife: ⊥
 )
 === bell9
-¶Glocken, Stimme 9 von 10. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Glocken, Stimme 9 von 10. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -8660,7 +8655,7 @@ Spur(
 	Schleife: ⊥
 )
 === bell10
-¶Glocken, Stimme 10 von 10. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Glocken, Stimme 10 von 10. Die Start-Quelle leiht sie sich über ihren Namen.¶
 
 Spur(
 	[
@@ -8671,7 +8666,7 @@ Spur(
 	Schleife: ⊥
 )
 === pad1
-¶Pad, Stimme 1 von 3. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Klangteppich, Stimme 1 von 3. Die Start-Quelle leiht ihn sich über seinen Namen.¶
 
 Spur(
 	[
@@ -8686,7 +8681,7 @@ Spur(
 	Schleife: ⊥
 )
 === pad2
-¶Pad, Stimme 2 von 3. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Klangteppich, Stimme 2 von 3. Die Start-Quelle leiht ihn sich über seinen Namen.¶
 
 Spur(
 	[
@@ -8701,7 +8696,7 @@ Spur(
 	Schleife: ⊥
 )
 === pad3
-¶Pad, Stimme 3 von 3. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Klangteppich, Stimme 3 von 3. Die Start-Quelle leiht ihn sich über seinen Namen.¶
 
 Spur(
 	[
@@ -8716,7 +8711,7 @@ Spur(
 	Schleife: ⊥
 )
 === sax1
-¶Horn, Stimme 1 von 3. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Horn, Stimme 1 von 3. Die Start-Quelle leiht es sich über seinen Namen.¶
 
 Spur(
 	[
@@ -8779,7 +8774,7 @@ Spur(
 	Schleife: ⊥
 )
 === sax2
-¶Horn, Stimme 2 von 3. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Horn, Stimme 2 von 3. Die Start-Quelle leiht es sich über seinen Namen.¶
 
 Spur(
 	[
@@ -8820,7 +8815,7 @@ Spur(
 	Schleife: ⊥
 )
 === sax3
-¶Horn, Stimme 3 von 3. Die Anfang-Quelle leiht sie sich mit ihrem Namen aus.¶
+¶Horn, Stimme 3 von 3. Die Start-Quelle leiht es sich über seinen Namen.¶
 
 Spur(
 	[

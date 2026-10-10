@@ -1,9 +1,9 @@
 🎐
 Carillons
 === start/en
-¶Cinq carillons suspendus en rangée, numérotés de un à cinq. Appuie sur A, S, D, F ou G et le carillon que tu frappes grossit et s'éclaire, puis revient doucement au repos. Toute la rangée bouge un peu, que quelqu'un joue ou non.
+¶Cinq carillons suspendus en une rangée, numérotés de un à cinq. Appuie sur A, S, D, F ou G : le carillon que tu frappes grossit et s'illumine, puis revient au repos. Toute la rangée se balance un peu, que quelqu'un joue ou non.
 
-C'est un instrument. Il ne fait aucun son. Les chiffres forment déjà une partition ; elle n'est simplement pas encore jouée. Le bloc masqué au-dessus de la scène est le son, qui attend que @Music existe.¶
+C'est un instrument. Il ne fait aucun son. Les chiffres sont déjà une partition ; ils ne sont simplement pas encore joués. Le bloc élidé au-dessus de la scène est le son, qui attend que @Music existe.¶
 
 appuyée: Clé()
 tic: Temps(30ms)
@@ -11,14 +11,14 @@ tic: Temps(30ms)
 ¶La part de sa résonance qu'un carillon perd à chaque image.¶
 affaiblissement: 0.03
 
-¶Un carillon : quel est son degré, quelle touche le frappe, où il est suspendu, sa teinte, et à quel point il sonne encore fort — 1 juste frappé, 0 au repos.¶
-•carillon(degré2•# clé2•'' x2•#m teinte2•#° énergie•#)
+¶Un carillon : son degré, la touche qui le frappe, l'endroit où il est suspendu, sa teinte, et la force avec laquelle il résonne encore — 1 s'il vient d'être frappé, 0 au repos.¶
+•carillon(degré2•# clé3•'' x2•#m teinte2•#° énergie•#)
 
-¶Frappe le carillon dont la touche a été appuyée, et laisse chaque autre carillon se calmer.¶
-ƒ sonner(rangée•[carillon] toucher•'' frappé•?)
+¶Frappe le carillon dont la touche a été appuyée, et laisse tous les autres revenir au repos.¶
+ƒ résonance(rangée•[carillon] touche•'' frappé•?)
 	rangée.traduire(
 		ƒ(carillon2•carillon)
-			(frappé & (toucher = carillon2.clé2))
+			(frappé & (touche = carillon2.clé3))
 			? carillon2.énergie:1
 				carillon2.énergie:(carillon2.énergie - affaiblissement).max(
 					0
@@ -31,14 +31,14 @@ carillons•[carillon]: [
 		carillon(3 'd' 0m 140° 0)
 		carillon(4 'f' 3m 205° 0)
 		carillon(5 'g' 6m 270° 0)
-	] … (∆ appuyée | ∆ tic) … sonner(
+	] … (∆ appuyée | ∆ tic) … résonance(
 			carillons
 			appuyée
 			(∆ appuyée)
 		)
 
-¶Un carillon grossit et s'éclaire avec sa résonance, et bouge toujours un peu, si bien que la rangée reste vivante même quand personne ne joue.¶
-ƒ vueCarillon(carillon3•carillon)
+¶Un carillon grossit et s'illumine avec sa résonance, et se balance toujours un peu, donc la rangée reste vivante même quand personne ne joue.¶
+ƒ vueDuCarillon(carillon3•carillon)
 	Phrase(
 		(carillon3.degré2 → '')
 		(2m + (carillon3.énergie · 1.5m))
@@ -52,22 +52,22 @@ carillons•[carillon]: [
 		aurepos: Séquence.balancement(3° 2.5s)
 	)
 
-¶La touche qui frappe chaque carillon, écrite juste dessous.¶
-ƒ vueTouche(carillon4•carillon)
+¶La touche qui frappe chaque carillon, écrite en dessous de lui.¶
+ƒ vueDeLaTouche(carillon4•carillon)
 	Phrase(
-		carillon4.clé2
+		carillon4.clé3
 		0.7m
 		lieu: Lieu(carillon4.x2 -3m)
 		couleur: Couleur(60% 0 0°)
 	)
 
-¶Ces deux liaisons forment tout le son : trouver le carillon qui sonne à cet instant, et donner son degré à une cloche, en rejouant à chaque pression pour que chaque frappe soit un son nouveau plutôt que toujours le même. Cinq carillons, cinq degrés d'une gamme pentatonique, donc il n'y a jamais de fausse note.¶
-enTrainDeSonner: carillons.filtre(
+¶Ces deux liaisons forment tout le son : trouver le carillon qui résonne en cet instant, et donner son degré à une cloche, en la rejouant à chaque appui pour que chaque frappe soit un nouveau son et non le même encore une fois. Cinq carillons, cinq degrés d'une gamme pentatonique : il n'y a donc aucune fausse note.¶
+résonne: carillons.filtre(
 		ƒ(carillon5•carillon) carillon5.énergie = 1
 	)
 chanson: Musique(
 		Piste(
-			enTrainDeSonner ↦ ⬚.degré2
+			résonne ↦ ⬚.degré2
 			instrument: Instrument.cloche
 			boucle: ⊥
 		)
@@ -83,8 +83,8 @@ Scène(
 			lieu: Lieu(-6m 2.5m)
 			couleur: Couleur(45% 0 0°)
 		)
-		:carillons ↦ vueCarillon(⬚)
-		:carillons ↦ vueTouche(⬚)
+		:carillons ↦ vueDuCarillon(⬚)
+		:carillons ↦ vueDeLaTouche(⬚)
 		chanson
 	]
 	arrièreplan: Couleur(16% 15 280°)

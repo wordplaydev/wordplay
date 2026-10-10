@@ -1,36 +1,36 @@
 🔁
 Wo ist Waldough?
 === start/en
-¶Finde Waldough, der sich in der Menge versteckt: Suche nach dem Mann im orangefarbenen Hemd und klicke auf ihn, um zu gewinnen!¶
+¶Finde Waldough in der Menge: Suche den Mann im orangefarbenen Hemd und klicke ihn an, um zu gewinnen!¶
 
 name2: Auswahl()
 gefangen: ⊥ … ∆ (name2) … (name2 = 'ResetButton') ? ⊥ ((name2 = 'Waldough') | gefangen)
 punktestand: 0 … ∆ (name2) … (name2 = 'Waldough') ? 1 + punktestand punktestand
 
-ƒ ort() Ort(
+ƒ stelle() Ort(
 		((0.1 × Zufällig(-9m 9m)) + Zufällig(-2m 1m))
 		((0.1 × Zufällig(-9m 9m)) + Zufällig(-2m 1m))
 	)
 ƒ neuePunkte() [
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
-		ort()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
+		stelle()
 	]
 punkte: neuePunkte() … ∆ (name2) … (name2 = 'ResetButton') ? neuePunkte(
 			) punkte
@@ -47,25 +47,25 @@ Bühne(
 			Name: 'ResetButton'
 		)
 		Satzglied(
-			'Suche nach dem orangefarbenen Hemd'
+			'Suche den Mann'
 			0.2m
 			Ort: Ort(-6.2m 0.75m)
 			gesicht: 'Carter One'
 		)
 		Satzglied(
-			'Mann (namens Waldough) und'
+			'im orangefarbenen Hemd (er heißt Waldough) und'
 			0.2m
 			Ort: Ort(-6.4m 0.25m)
 			gesicht: 'Carter One'
 		)
 		Satzglied(
-			'klicke auf ihn, um zu gewinnen!🧍🏻'
+			'klicke ihn an, um zu gewinnen!🧍🏻'
 			0.2m
 			Ort: Ort(-6.0m -0.25m)
 			gesicht: 'Carter One'
 		)
 		Satzglied(
-			'Punktestand: ' + punktestand → ''
+			'Punkte: ' + punktestand → ''
 			0.5m
 			Ort: Ort(-5.9m -1m)
 		)

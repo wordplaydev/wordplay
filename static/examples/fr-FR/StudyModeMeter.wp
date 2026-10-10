@@ -1,7 +1,7 @@
 ⏳
-Compteur de mode d'étude
+Jauge du mode d'étude
 === start/en
-¶Clique pour ajouter des heures d'étude et regarde le compteur passer de calme à concentré à surchargé.¶
+¶Clique pour ajouter des heures d'étude et regarde la jauge passer du calme à la concentration, puis à la surcharge.¶
 
 ¶The action stores the choice the user clicks, such as add or reset.¶/en
 action: Choix()
@@ -29,8 +29,8 @@ humeur:
 	heuresDʼétude < 3 ?
 		"🌿 MODE CALME — clique pour ajouter du temps d'étude"
 		heuresDʼétude < 6 ?
-			'📚 MODE CONCENTRÉ — tu es dans la zone productive !'
-			'🔥 MODE SURCHARGE — fais une pause et clique sur « réinitialiser »'
+			'📚 MODE CONCENTRATION — tu es dans la zone productive !'
+			'🔥 MODE SURCHARGE — fais une pause et « réinitialiser »'
 
 ¶Stage creates the visible scene.
 The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
@@ -39,7 +39,7 @@ Scène(
 		Groupe(
 			Empiler()
 			[
-				Phrase("Compteur de mode d'étude" taille: 0.5m)
+				Phrase("Jauge du mode d'étude" taille: 0.5m)
 
 				¶This Phrase shows the explanation on the screen.¶/en
 				Phrase(explication taille: 0.4m)

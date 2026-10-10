@@ -32,46 +32,40 @@ laberinto2: laberinto()
 	ƒ derecha2() estado(fila4 columna3 + 1 pasos + 1)
 )
 
-ƒ permitido2(estado2•estado fila5•# columna4•#) laberinto2.permitido(
-		estado2.fila4 + fila5
-		estado2.columna3 + columna4
+ƒ permitido2(state•estado fila5•# col•#) laberinto2.permitido(
+		state.fila4 + fila5
+		state.columna3 + col
 	)
 
 dirección2: Elección()
-estado3•estado: estado(1 1 0) … ∆ dirección2 …
-		((dirección2 = "left") & permitido2(estado3 0 -1)) ? estado3.izquierda2(
+state2•estado: estado(1 1 0) … ∆ dirección2 …
+		((dirección2 = "left") & permitido2(state2 0 -1)) ? state2.izquierda2(
 			)
-			((dirección2 = "right") & permitido2(estado3 0 1)) ? estado3.derecha2(
+			((dirección2 = "right") & permitido2(state2 0 1)) ? state2.derecha2(
 				)
-				((dirección2 = "up") & permitido2(estado3 -1 0)) ? estado3.arriba(
+				((dirección2 = "up") & permitido2(state2 -1 0)) ? state2.arriba(
 					)
-					((dirección2 = "down") & permitido2(estado3 1 0)) ? estado3.abajo2(
+					((dirección2 = "down") & permitido2(state2 1 0)) ? state2.abajo2(
 						)
-						estado3
+						state2
 
 actual: (
-		celda3: laberinto2.celda2(
-				estado3.fila4
-				estado3.columna3
-			)
+		celda3: laberinto2.celda2(state2.fila4 state2.columna3)
 		celda3 ?? ' ')
 arriba2: laberinto2.celda2(
-		estado3.fila4 - 1
-		estado3.columna3
+		state2.fila4 - 1
+		state2.columna3
 	)•''
-abajo3: laberinto2.celda2(
-		estado3.fila4 + 1
-		estado3.columna3
-	)•''
+abajo3: laberinto2.celda2(state2.fila4 + 1 state2.columna3)•''
 izquierda3: laberinto2.celda2(
-		estado3.fila4
-		estado3.columna3 - 1
+		state2.fila4
+		state2.columna3 - 1
 	)•''
 derecha3: laberinto2.celda2(
-		estado3.fila4
-		estado3.columna3 + 1
+		state2.fila4
+		state2.columna3 + 1
 	)•''
-ganaste: actual = '🤩'
+ganó: actual = '🤩'
 
 Escenario(
 	[
@@ -94,7 +88,7 @@ Escenario(
 				)
 				Frase(
 					actual
-					inmóvil: ganaste ?
+					inmóvil: ganó ?
 						Secuencia.girar(
 							duración: 1s
 							estilo: 'straight'

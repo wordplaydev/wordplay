@@ -1,24 +1,24 @@
 🎐
-Campanas
+Campanillas
 === start/en
-¶Cinco campanillas cuelgan en fila, numeradas del uno al cinco. Presiona A, S, D, F o G, y la campanilla que golpeas crece y se ilumina, y luego vuelve a su reposo. Toda la fila se mece un poco, sin importar si alguien está tocando o no.
+¶Cinco campanillas cuelgan en una fila, numeradas del uno al cinco. Presiona A, S, D, F o G y la campanilla que golpeas se agranda y brilla, y luego vuelve a su reposo. Toda la fila se mece un poquito, sin importar si alguien toca o no.
 
-Es un instrumento. No hace ningún sonido. Los números ya forman una partitura; solo que aún no se han tocado. El bloque oculto arriba del escenario es el sonido, esperando a que @Music exista.¶
+Es un instrumento. No hace ningún sonido. Los números ya son una partitura; solo que todavía no se tocan. El bloque elidido sobre el escenario es el sonido, que espera a que @Music exista.¶
 
 presionada: Tecla()
 tic: Tiempo(30ms)
 
-¶Cuánto de su sonar pierde una campanilla en cada cuadro.¶
+¶Cuánta resonancia pierde una campanilla en cada cuadro.¶
 decaimiento: 0.03
 
-¶Una campanilla: qué grado es, qué tecla la golpea, dónde cuelga, su matiz, y qué tan fuerte sigue sonando — 1 recién golpeada, 0 en reposo.¶
-•campanilla(grado2•# tecla2•'' x2•#m matiz•#° energía•#)
+¶Una campanilla: qué grado es, qué tecla la golpea, dónde cuelga, su tono y qué tan fuerte sigue resonando: 1 si acaba de ser golpeada, 0 si está en reposo.¶
+•campanilla(grado2•# llave2•'' x2•#m tono2•#° energía•#)
 
-¶Golpea la campanilla cuya tecla fue presionada, y deja que todas las demás se calmen.¶
-ƒ sonar(fila2•[campanilla] golpe•'' golpeada•?)
+¶Golpear la campanilla cuya tecla fue presionada y dejar que todas las demás se calmen.¶
+ƒ resonancia(fila2•[campanilla] golpe•'' golpeada•?)
 	fila2.traducir(
 		ƒ(campanilla2•campanilla)
-			(golpeada & (golpe = campanilla2.tecla2))
+			(golpeada & (golpe = campanilla2.llave2))
 			? campanilla2.energía:1
 				campanilla2.energía:(campanilla2.energía - decaimiento).máximo(
 					0
@@ -26,18 +26,18 @@ decaimiento: 0.03
 	)
 
 campanillas•[campanilla]: [
-		campanilla(1 'a' -6m 20° 0)
+		campanilla(1 'una' -6m 20° 0)
 		campanilla(2 's' -3m 75° 0)
 		campanilla(3 'd' 0m 140° 0)
 		campanilla(4 'f' 3m 205° 0)
-		campanilla(5 'g' 6m 270° 0)
-	] … (∆ presionada | ∆ tic) … sonar(
+		campanilla(5 'm' 6m 270° 0)
+	] … (∆ presionada | ∆ tic) … resonancia(
 			campanillas
 			presionada
 			(∆ presionada)
 		)
 
-¶Una campanilla crece y se ilumina con su sonar, y siempre se mece un poco, así que la fila está viva aunque nadie esté tocando.¶
+¶Una campanilla se agranda y brilla con su resonancia, y siempre se mece un poquito, así que la fila está viva aun cuando nadie toca.¶
 ƒ vistaDeCampanilla(campanilla3•campanilla)
 	Frase(
 		(campanilla3.grado2 → '')
@@ -47,27 +47,27 @@ campanillas•[campanilla]: [
 		color: Color(
 			(45% + (campanilla3.energía · 40%))
 			(20 + (campanilla3.energía · 80))
-			campanilla3.matiz
+			campanilla3.tono2
 		)
 		inmóvil: Secuencia.vaivén(3° 2.5s)
 	)
 
-¶La tecla que golpea cada campanilla, impresa debajo de ella.¶
+¶La tecla que golpea cada campanilla, escrita debajo de ella.¶
 ƒ vistaDeTecla(campanilla4•campanilla)
 	Frase(
-		campanilla4.tecla2
+		campanilla4.llave2
 		0.7m
 		lugar: Lugar(campanilla4.x2 -3m)
 		color: Color(60% 0 0°)
 	)
 
-¶Estas dos vinculaciones son todo el sonido: encuentran la campanilla que suena en este instante, y le entregan su grado a una campana, que se reproduce en cada presión para que cada golpe sea un sonido nuevo y no el mismo otra vez. Cinco campanillas, cinco grados de una escala pentatónica, así que no hay nota equivocada.¶
-sonando2: campanillas.filtro(
+¶Estos dos enlaces son todo el sonido: encuentran la campanilla que está resonando en este instante y le pasan su grado a una campana, y se repiten en cada presión para que cada golpe sea un sonido nuevo y no el mismo otra vez. Cinco campanillas, cinco grados de una escala pentatónica, así que no hay notas equivocadas.¶
+resonando: campanillas.filtro(
 		ƒ(campanilla5•campanilla) campanilla5.energía = 1
 	)
 canción: Música(
 		Pista(
-			sonando2 ↦ ⬚.grado2
+			resonando ↦ ⬚.grado2
 			instrumento: Instrumento.campana
 			bucle: ⊥
 		)

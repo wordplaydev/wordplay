@@ -1,16 +1,16 @@
 🚣
-Rudere dein Boot
+Ruder dein Boot
 === start/en
-¶Row, Row, Row Your Boat — einmal durch, genau zehn Sekunden lang, mit einer kleinen Flotte, die dazu rudert.
+¶Row, Row, Row Your Boat – einmal durchgespielt, genau zehn Sekunden lang, mit einer kleinen Flotte, die dazu rudert.
 
-Das Lied steht im 6/8-Takt, also besteht jeder Takt aus sechs Achtelnoten, und jeder Eintrag in diesen Listen ist eine davon. Vierundzwanzig Schläge bei 144 Schlägen pro Minute ergeben genau zehn Sekunden.
+Das Lied steht im 6/8-Takt. Jeder Takt hat also sechs Achtelnoten, und jeder Eintrag in diesen Listen ist eine davon. Vierundzwanzig Schläge bei 144 Schlägen pro Minute ergeben genau zehn Sekunden.
 
-Die Boote werden von @Beat angetrieben statt von einer Uhr. So ziehen sie genau auf dem Schlag der Musik, statt nur ungefähr. Sie bleiben still, bis es losgeht, weil @Beat bis dahin auf Schlag null bleibt.¶
+Die Boote werden von @Beat angetrieben und nicht von einer Uhr. So ziehen sie genau im Takt der Musik und nicht nur ungefähr. Sie bleiben stehen, bis die Musik beginnt, denn @Beat bleibt bis dahin auf Schlag null.¶
 
 schlag2: Takt()
 ruderschlag: schlag2.Zählung
 
-¶Die Melodie. Row row row your boat, gently down the stream — die langen Noten sind lang, weil die Pausen danach den Takt halten. Jeder Eintrag dauert nämlich genau ein Achtel.¶
+¶Die Melodie. Row row row your boat, gently down the stream. Die langen Noten sind lang, weil die Pausen danach das Raster halten. Jeder Eintrag dauert nämlich gleich lang, eine Achtelnote.¶
 melodie2: [
 		1
 		ø
@@ -62,7 +62,7 @@ melodie2: [
 		ø
 	]
 
-¶Ein Akkord am Anfang jedes Takts. Er bleibt die ganze Zeit gleich, bis auf den vorletzten Takt, der sich auf die Quinte stützt, damit sich der letzte Takt wie eine Ankunft anfühlt.¶
+¶Ein Akkord am Anfang jedes Takts. Er bleibt die ganze Zeit auf dem Grundton, bis auf den vorletzten Takt. Dieser stützt sich auf die Quinte, damit sich der letzte Takt wie eine Ankunft anfühlt.¶
 akkorde: [
 		{1 3 5}
 		ø
@@ -90,7 +90,7 @@ akkorde: [
 		ø
 	]
 
-¶Der Ruderschlag: ein tiefer Schlag zum Ziehen und ein heller zum Erholen, einmal pro Takt.¶
+¶Der Ruderschlag: ein tiefer Schlag zum Ziehen und ein heller zum Zurückholen, einmal pro Takt.¶
 ruder: [
 		1
 		ø
@@ -118,7 +118,7 @@ ruder: [
 		3
 	]
 
-¶Ein Boot. Es gleitet bei jedem Schlag ein Stück weiter und schaukelt jedes Mal zur anderen Seite. Das sieht dann wie Rudern aus. Die Spur legt fest, wie hoch es liegt und wie weit vorne es gestartet ist, damit sie sich nicht alle gleich bewegen.¶
+¶Ein Boot. Es gleitet bei jedem Schlag ein Stück weiter und schaukelt jedes Mal in die andere Richtung. Genau das sieht aus wie Rudern. Die Bahn bestimmt, wie hoch es liegt und wie weit vorn es gestartet ist, damit sich nicht alle Boote gleich bewegen.¶
 ƒ boot(spur•# anfang•#)•Satzglied
 	Satzglied(
 		'🚣'

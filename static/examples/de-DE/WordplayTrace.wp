@@ -1,7 +1,7 @@
 ✨
 Wortspur
 ===
-¶Dieses Projekt zeichnet die Umrisse des Wortes „wordplay“ nach, mit einem Kometen aus Punkten, der um die Buchstaben herumfegt, angetrieben von einem Time()-Strom. Die Hälfte des Wortes leuchtet zu jedem Zeitpunkt, es verblasst von hell am Kopf der Spur bis durchsichtig am Ende.¶
+¶Dieses Projekt zeichnet die Umrisse des Wortes "wordplay" nach. Ein Komet aus Punkten fliegt um die Buchstaben herum. Er wird von einem Time()-Datenstrom gesteuert. Zu jedem Zeitpunkt leuchtet die Hälfte des Wortes. Die Spur ist am Kopf hell und wird zum Schwanz hin durchsichtig.¶
 
 punkte: Kontur(
 		'wordplay'
@@ -11,21 +11,21 @@ punkte: Kontur(
 		Abstand: 0.5m
 	)
 
-¶Wie viele Punkte auf dem Umriss liegen, und eine sichere Zahl zum Teilen, bevor die Schriftart geladen ist (wenn die Liste noch leer ist).¶
-zähler: punkte.Länge()
+¶Wie viele Punkte der Umriss hat, und eine sichere Zahl zum Teilen, bevor die Schrift geladen ist (wenn die Liste noch leer ist).¶
+zählung: punkte.Länge()
 
-¶Die Spur bedeckt die Hälfte des Wortes, sodass immer die Hälfte sichtbar ist.¶
-spur: zähler ÷ 2
+¶Die Spur deckt die Hälfte des Wortes ab, darum ist immer die Hälfte sichtbar.¶
+spur: zählung ÷ 2
 
-¶Ein Kopf-Index, der bei jedem Takt einen Punkt weiterrückt und am Wortende wieder von vorne beginnt.¶
-kopf: 0 … ∆ Zeit(10ms) … ((kopf + 1) % zähler) ?? 0
+¶Ein Kopf-Index, der bei jedem Takt um einen Punkt weiterrückt und um das Wort herum von vorn beginnt.¶
+kopf: 0 … ∆ Zeit(10ms) … ((kopf + 1) % zählung) ?? 0
 
 Bühne(
 	punkte.übersetzen(
 		ƒ(punkt2•Ort index2•#)
 			(
-				¶Wie viele Punkte hinter dem Kopf dieser Punkt liegt, wobei am Anfang weitergezählt wird.¶
-				alter: ((((kopf - index2) + 1) + zähler) % zähler) ?? 0
+				¶Wie viele Punkte dieser Punkt hinter dem Kopf liegt, und zwar rund um das Wort herum.¶
+				alter: ((((kopf - index2) + 1) + zählung) % zählung) ?? 0
 				Satzglied(
 					"•"
 					Größe: 1m
@@ -33,7 +33,7 @@ Bühne(
 					Farbe: Farbe(
 						90%
 						100
-						((index2 ÷ zähler) ?? 0) × 360°
+						((index2 ÷ zählung) ?? 0) × 360°
 					)
 					Opazität: alter < spur ? 1 - ((alter ÷ spur) ?? 0) 0
 					Dauer: 0s

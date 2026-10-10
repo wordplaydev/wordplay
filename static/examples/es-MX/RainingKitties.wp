@@ -1,17 +1,17 @@
 🐈
 Lluvia de gatitos
 === start/en
-¶Cincuenta gatitos cayendo por el escenario.¶
+¶Cincuenta gatitos lloviendo por el escenario.¶
 
-cantidad2: 50
+conteo2: 50
 tamaño2: 30
 
-•gatita(x2•# y2•# z2•# ángulo2•# velocidad2•#) ()
+•gatito(x2•# y2•# z2•# ángulo2•# velocidad2•#) ()
 
-¶Primero, haz una lista de 20 gatitos, cada uno colocado en un lugar al azar. Cuando el reloj marque un segundo, muévelos todos un poco hacia abajo.¶
-gatitos•[gatita]:
-	cantidad2 → [].traducir(
-		ƒ(_) gatita(
+¶Al principio, crea una lista de 20 gatitos, cada uno en un lugar al azar. Cuando el reloj marque un tic, mueve a todos un poco hacia abajo.¶
+gatitos•[gatito]:
+	conteo2 → [].traducir(
+		ƒ(_) gatito(
 				Azar(-tamaño2 tamaño2)
 				Azar(-tamaño2 tamaño2)
 				Azar(0 tamaño2 ÷ 2)
@@ -21,25 +21,25 @@ gatitos•[gatita]:
 	)
 	… ∆ Tiempo() …
 		gatitos.traducir(
-			ƒ(gatito•gatita)
-				(gatito.y2:gatito.y2 < -tamaño2 ? tamaño2 gatito.y2 - 2)
-				.ángulo2:gatito.ángulo2 + gatito.velocidad2
+			ƒ(gatito2•gatito)
+				(gatito2.y2:gatito2.y2 < -tamaño2 ? tamaño2 gatito2.y2 - 2)
+				.ángulo2:gatito2.ángulo2 + gatito2.velocidad2
 		)
 
-¶Convierte los gatitos en frases¶
+¶Convertir los gatitos en frases¶
 Escenario(
 	gatitos.traducir(
-		ƒ(gatito2•gatita)
+		ƒ(gatito3•gatito)
 			Frase(
 				"🐈"
 				fuente: "Noto Color Emoji"
 				tamaño: 5m
 				lugar: Lugar(
-					gatito2.x2 × 1m
-					gatito2.y2 × 1m
-					gatito2.z2 × 1m
+					gatito3.x2 × 1m
+					gatito3.y2 × 1m
+					gatito3.z2 × 1m
 				)
-				rotación: gatito2.ángulo2 × 1°
+				rotación: gatito3.ángulo2 × 1°
 				duración: 0s
 			)
 	)

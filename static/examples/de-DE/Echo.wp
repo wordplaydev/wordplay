@@ -1,23 +1,23 @@
 💬
 Echo
 === start
-¶Was das Publikum in die Chat-Leiste eintippt, wird zu dieser Phrase.¶
+¶Alles, was das Publikum in die Chat-Leiste tippt, wird zu dieser Phrase.¶
 
 nachricht: Plaudern()
 
-¶Fang mit einem Text an und wiederhole dann jede neue Nachricht. Der Text verwandelt sich Buchstabe für Buchstabe von den alten Wörtern zu den neuen.¶
-wörter: 'sag etwas!' … ∆ nachricht … nachricht
+¶Beginne mit einer Aufforderung und gib dann jede neue Nachricht wieder. Der Text verwandelt sich von den alten Wörtern zu den neuen, Buchstabe für Buchstabe.¶
+worte: 'sag etwas!' … ∆ nachricht … nachricht
 
-¶Würfle bei jeder neuen Nachricht eine neue zufällige Größe, Neigung und Farbe aus.¶
+¶Würfle jedes Mal, wenn eine neue Nachricht ankommt, eine zufällige Größe, Neigung und Farbe neu aus.¶
 größe2: 2m … ∆ nachricht … Zufällig(1m 4m)
-neigen2: 0° … ∆ nachricht … Zufällig(-30 30) × 1°
+neigung: 0° … ∆ nachricht … Zufällig(-30 30) × 1°
 farbton: 200° … ∆ nachricht … Zufällig(360) × 1°
 
 Satzglied(
-	wörter
+	worte
 	Größe: größe2
 	Ruhen: Pose(
-		Drehung: neigen2
+		Drehung: neigung
 		Farbe: Farbe(25% 100 farbton)
 	)
 	Dauer: .5s

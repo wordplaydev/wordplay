@@ -1,7 +1,7 @@
 カ
 Katakana raten
 === start
-¶Errate, welches Katakana zum Hiragana passt, um Punkte zu bekommen.¶
+¶Rate, welches Katakana zum Hiragana passt, und sammle Punkte.¶
 
 ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
 カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
@@ -9,7 +9,7 @@ Katakana raten
 •ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
 選択/ja,selection/en: Auswahl()
 
-¶Starte das Spiel mit einem zufälligen Hiragana und null Punkten. Wenn eine Wahl getroffen wird, erstelle einen neuen Zustand: Er wählt ein neues Zeichen und erhöht die Punktzahl, wenn die Wahl richtig war.¶
+¶Starte das Spiel mit einem zufälligen Hiragana und null Punkten. Wenn eine Auswahl getroffen wird, erstelle einen neuen Zustand. Er wählt ein neues Zeichen aus und erhöht die Punktzahl, wenn die Antwort richtig war.¶
 ¶ランダムなひらがなと 0 ポイントでゲームを開始します。
 選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
 配置/ja,status/en: ゲーム(Zufällig(1 46) 0) … ∆ 選択 …

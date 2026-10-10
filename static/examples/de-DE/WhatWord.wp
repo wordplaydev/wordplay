@@ -1,19 +1,19 @@
 W
 WelchesWort
 === start/en
-¶Ein Wortratespiel auf Englisch, Spanisch und Arabisch.¶
+¶Ein Wörterraten-Spiel auf Englisch, Spanisch und Arabisch.¶
 ↓ words
 
 ¶a list of guesses and a secret word¶/en
 ¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
 ¶قائمة التخمينات وكلمة سرية¶/ar
 •Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] übrig•[""] anfang•?) (
-	geheim: anfang ? übrig[1] ""
-	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (geheim.Länge(
+	geheimnis: anfang ? übrig[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (geheimnis.Länge(
 			) × 3) - guesses.Länge()
 	status/en,estado/es,حالة/ar:
-		geheim = "" ? "start"
-			geheim → [""].alle(
+		geheimnis = "" ? "start"
+			geheimnis → [""].alle(
 				ƒ(buchstabe•"") guesses.hat(buchstabe)
 			) ? "won"
 				guessesRemaining ≤ 0 ? "lost"
@@ -30,12 +30,8 @@ state/en,estado/es,حالة/ar•Game: Game(
 		words.sortiert(ƒ() Zufällig())
 		⊥
 	) … ∆ key …
-		key = "Flucht" ? Game(
-				[]
-				words.sortiert(ƒ() Zufällig())
-				⊥
-			)
-			(state.status ≠ "playing") & (key = "Raum") ? Game(
+		key = 'Esc' ? Game([] words.sortiert(ƒ() Zufällig()) ⊥)
+			(state.status ≠ "playing") & (key = 'Leertaste') ? Game(
 					[]
 					state.übrig.ohneVor()
 					⊤
@@ -50,7 +46,7 @@ state/en,estado/es,حالة/ar•Game: Game(
 ¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
 ¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
 board/en,tabelro/es,طاولة/ar: Satzglied(
-		state.geheim → [""].übersetzen(
+		state.geheimnis → [""].übersetzen(
 			ƒ(buchstabe2•"") ((state.status = "lost") | state.guesses.hat(
 							buchstabe2
 						)) ? buchstabe2 "."
@@ -127,15 +123,18 @@ screen/en,cine/es,إظهار/ar:
 			]
 		)
 
-¶Eine langsame Figur, die sich immer wieder um sich selbst dreht, statt irgendwohin zu führen. Genau das macht sie zum Nachdenken. Jede Spur unten ist acht Schläge lang, sodass sie alle zusammen zurückkehren und die Schleife keine Nahtstelle hat.¶
+¶Eine langsame Melodie, die immer wieder zu sich selbst zurückkehrt und nirgendwohin führt. Genau deshalb regt sie zum Nachdenken an. Jede Spur unten ist acht Schläge lang. So kommen alle zusammen wieder an den Anfang, und die Schleife hat keine Naht.¶
 thema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
-¶Wie viel von deinem Taschengeld schon ausgegeben ist, von 0 mit allem noch offen bis 1 mit nichts mehr übrig. Das Geheimnis ist vor der ersten Runde leer, deshalb wird die Division geschützt, statt durch null zu teilen.¶
-maxVersuche: state.geheim.Länge() × 3
-druck: (maxVersuche = 0) ? 0 ((1 - (state.guessesRemaining ÷ maxVersuche)).limit(0 1))
+¶Wie viel von deinen Versuchen schon verbraucht ist: von 0, wenn noch alles offen ist, bis 1, wenn nichts mehr übrig ist. Vor der ersten Runde ist das Geheimnis leer. Deshalb ist die Division abgesichert und teilt nicht durch null.¶
+maximaleVersuche: state.geheimnis.Länge() × 3
+druck: (maximaleVersuche = 0) ? 0 ((1 - (state.guessesRemaining ÷ maximaleVersuche)).Grenze(
+				0
+				1
+			))
 
-¶Nachdenklich bei 54 Schlägen pro Minute, dringend bei 120, und jeder Versuch bewegt es ein Stück weiter. Eine Tempoänderung setzt beim nächsten Schlag ein, statt neu zu beginnen. So behält die Schleife ihren Platz und lehnt sich einfach nach vorn — die leise Trommel macht dieses Vorlehnen hörbar, denn eine Tempoänderung unter lang gehaltenen Tönen ist schwer zu spüren.¶
-puzzleMusic: Musik(
+¶Nachdenklich bei 54 Schlägen pro Minute, dringlich bei 120, und jeder Versuch verschiebt das Tempo ein wenig. Ein neues Tempo setzt erst beim nächsten Schlag ein, statt von vorn zu beginnen. So behält die Schleife ihren Platz und neigt sich nur nach vorn. Die leise Trommel macht dieses Neigen hörbar, denn eine Tempoänderung unter langen, gehaltenen Tönen ist schwer zu spüren.¶
+rätselmusik: Musik(
 		[
 			Spur(
 				thema
@@ -167,7 +166,7 @@ puzzleMusic: Musik(
 		Name: 'Rätsel'
 	)
 
-¶Du hast gewonnen: das Thema doppelt so schnell, eine Oktave höher auf einer Glocke verdoppelt, über den einzigen Dur-Akkorden im Beispiel.¶
+¶Du hast gewonnen: Das Thema läuft doppelt so schnell, eine Oktave höher verdoppelt auf einer Glocke, über den einzigen Durakkorden im Beispiel.¶
 winSong: Musik(
 		[
 			Spur(
@@ -201,7 +200,7 @@ winSong: Musik(
 		Name: 'gewonnen'
 	)
 
-¶Du hast verloren: das Thema eine Oktave tiefer und langsamer, als es je war, während du gespielt hast, über Akkorden, die sich auf der Quarte niederlassen, statt heimzukehren, sodass die Schleife sich nie auflöst.¶
+¶Du hast verloren: Das Thema klingt eine Oktave tiefer und langsamer als je zuvor, solange du gespielt hast. Die Akkorde enden auf der vierten Stufe, statt nach Hause zu kommen, und so löst sich die Schleife nie auf.¶
 loseSong: Musik(
 		[
 			Spur(
@@ -235,13 +234,13 @@ loseSong: Musik(
 		Name: 'verlieren'
 	)
 
-¶Nur die Melodie für den aktuellen Status läuft auf der Bühne, und ein @Music, der nicht mehr da ist, stoppt — so verändert das Beenden der Runde die Musik.
+¶Nur die Melodie für den aktuellen Status ist auf der Bühne. Ein @Music, das nicht mehr da ist, hört auf. Wenn die Runde endet, ändert sich also die Musik.
 
-Alle drei spielen dasselbe Thema, und die Tonleiter darunter erledigt die Arbeit. Das Thema berührt die Stufen 1, 4, 5, 6 und 8, und @Music.major stimmt mit @Music.dorian bei jeder einzelnen davon überein — die Stufen, an denen sie sich trennen, die Terz und die Septime, kommen in der Melodie nicht vor. Deshalb verändert der Sieg keinen einzigen Ton der Melodie, die du beim Nachdenken vor dich hin summt; die Akkorde darunter benutzen aber die Terz, und die werden Dur. @Music.minor weicht bei der Sexte von Dorisch ab, die das Thema berührt, sodass die Niederlage auch diesen einen Ton absenkt und die Linie zusätzlich eine Oktave tiefer legt.¶
+Alle drei spielen dasselbe Thema, und die Tonleiter darunter macht den Unterschied. Das Thema berührt die Stufen 1, 4, 5, 6 und 8, und @Music.major stimmt bei jeder davon mit @Music.dorian überein. Die Stufen, an denen sie sich unterscheiden, die dritte und die siebte, kommen in der Melodie nicht vor. Der Sieg ändert also keine Note der Melodie, die du beim Nachdenken gesummt hast. Die Akkorde darunter benutzen aber die Terz, und diese werden zu Dur. @Music.minor unterscheidet sich von Dorisch auf der sechsten Stufe, und die berührt das Thema. Bei einer Niederlage wird also diese eine Note erniedrigt, und die Linie fällt zusätzlich eine Oktave.¶
 soundtrack: state.status ???
 		"won": winSong
 		"lost": loseSong
-		puzzleMusic
+		rätselmusik
 
 ¶Create a world with the screen in it¶/en
 ¶Crea un mundo con la pantalla en él¶/es

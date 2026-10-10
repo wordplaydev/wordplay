@@ -1,7 +1,7 @@
 ⚫
 Amplitudo
 ===
-¶Sederet titik yang menyala dan meredup mengikuti volume mikrofonmu.¶
+¶Sebaris titik yang menyala dan meredup mengikuti volume mikrofonmu.¶
 
 amplitudo•[#]: ←← 10 Volume()
 vis: amplitudo.menerjemahkan(

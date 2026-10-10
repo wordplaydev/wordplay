@@ -1,8 +1,8 @@
 🕰️
 Uhr
 === start/en
-¶A localized clock in one line of code. @Now ticks a new @Moment every second, and \Jetzt(
-) → ''\ converts each one to text in your locale, calendar, and time zone, so the clock changes language when your locale does. Try giving @Now a frequency, time zone, and calendar, like \Jetzt(
+¶Eine Uhr in deiner Sprache, in nur einer Zeile Code. @Now liefert jede Sekunde einen neuen @Moment, und \Jetzt(
+) → ''\ wandelt jeden davon in Text um, passend zu deiner Sprache, deinem Kalender und deiner Zeitzone. So wechselt die Uhr die Sprache, wenn du deine Sprache wechselst. Probiere aus, @Now eine Häufigkeit, eine Zeitzone und einen Kalender zu geben, zum Beispiel \Jetzt(
 	1s
 	'Asia/Tokyo'
 	'japanese'

@@ -1,17 +1,17 @@
 🎂
-Happy Birthday
+Ja, må han leva
 === start/en
-¶Happy Birthday i tre delar: en melodi, en harmoni under den, och ackordsom håller upp båda.
+¶Ja, må han leva i tre delar: en melodi, en stämma under den och ackord som bär upp båda.
 
-Varje del är skriven i skalsteg, så 1 är grundtonen och 8 är grundtoneni oktaven ovanför. Därför låter melodin likadan oavsett vilken tonart duväljer — ändra @Music/key så flyttar sig hela låten med, sångare också.
+Varje del är skriven i skalsteg, så 1 är grundtonen och 8 är grundtonen en oktav högre. Därför låter melodin likadan oavsett vilken tonart du väljer. Ändra @Music/key så flyttas hela sången med, sångarna också.
 
-Melodin och harmonin rör sig i halva slag och ackorden i hela slag,så varje del säger hur långa dess egna toner är, och de passar ändå ihop.¶
+Melodin och stämman rör sig i halva taktslag och ackorden i hela. Varje del anger hur lång varje post är, och ändå passar de ihop.¶
 
-¶Antal slag sedan låten startade, så tårtan kan röra sig med den. @Beat räknar frånnoll innan musiken spelar, så tårtan står bara still.¶
-slag2: Takt()
-antal2: slag2.räkna
+¶Taktslag sedan sången började, så att tårtan kan röra sig med den. @Beat räknar från noll innan musiken spelas, så tårtan står bara stilla.¶
+taktslag: Takt()
+räkna2: taktslag.räkna
 
-¶Melodin. Två åttondelar, sedan längre toner — det är pauserna som skaparrytmen, eftersom varje ton varar samma halva slag.¶
+¶Melodin. Två åttondelar, sedan längre toner. Pauserna skapar rytmen, eftersom varje post varar lika länge: ett halvt taktslag.¶
 melodi2: [
 		5
 		5
@@ -67,7 +67,7 @@ melodi2: [
 		ø
 	]
 
-¶En andra stämma under melodin, i samma halva slag.¶
+¶En andra röst under melodin, i samma halva taktslag.¶
 alt: [
 		5
 		5
@@ -123,7 +123,7 @@ alt: [
 		ø
 	]
 
-¶Ackord, ett per slag. En mängd låter sina skalsteg tillsammans, så {1 3 5} ärgrundackordet, och {4 5 7 9} är det som vill lösas tillbaka till det.¶
+¶Ackord, ett per taktslag. En mängd klingar med alla sina steg samtidigt, så {1 3 5} är trekluten på grundtonen och {4 5 7 9} är den som vill lösa sig tillbaka till den.¶
 ackord: [
 		ø
 		{1 3 5}
@@ -153,10 +153,10 @@ ackord: [
 		ø
 	]
 
-¶Tårtan sväller vid varje slag och sjunker tillbaka mellan dem.¶
+¶Tårtan sväller vid varje taktslag och lugnar sig mellan dem.¶
 ƒ tårta() Fras(
 		'🎂'
-		(4m + ((antal2 % 2) · 0.4m))
+		(4m + ((räkna2 % 2) · 0.4m))
 		varaktighet: 0.2s
 	)
 
@@ -166,7 +166,7 @@ Etapp(
 			Stack(stoppning: 0.5m)
 			[
 				tårta()
-				Fras('Happy Birthday' 1.3m)
+				Fras('Ja, må han leva' 1.3m)
 			]
 		)
 		Musik(

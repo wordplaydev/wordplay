@@ -1,16 +1,16 @@
 🏀
-Basketball-Star
+Basketballstar
 === start
 ¶Ziele mit deinem Zeiger und klicke, um Körbe zu werfen.¶
 
-klicken: ∆ Taste()
+klick: ∆ Taste()
 
-klickanzahl: 0 … klicken … 1 + ⬚
+clickCount: 0 … klick … 1 + ⬚
 
-¶Merke dir die x-Position des Zeigers im Moment des Wurfs, damit der Ball von dort fällt, wo der Spieler gezielt hat, statt zurück zu x = 0 zu springen¶
-wurfX: 0m … (klicken & ((klickanzahl % 2) = 1)) … Zeiger().X
+¶Merke dir die x-Position des Zeigers im Moment des Wurfs, damit der Ball dort herunterfällt, wo der Spieler gezielt hat, und nicht zurück auf x = 0 springt¶
+wurfX: 0m … (klick & ((clickCount % 2) = 1)) … Zeiger().X
 
-basketballPosition: (klickanzahl % 2) = 0 ? Ort(
+basketballPlace: (clickCount % 2) = 0 ? Ort(
 			X: Zeiger().X
 			j: 8m
 			z: 0m
@@ -20,22 +20,22 @@ basketball: Satzglied(
 		"🏀"
 		0.7m
 		Gegenstand: Gegenstand(0.623kg 0.5)
-		Ort: basketballPosition
+		Ort: basketballPlace
 		Name: 'Basketball'
 	)
 
-¶Der Korb bewegt sich ständig hin und her, gesteuert durch den Sinus der Zeit¶
-korbXPosition: (Zeit() ÷ 600ms).sin() · 6m
+¶Der Behälter gleitet ständig hin und her, angetrieben vom Sinus der Zeit¶
+basketXPlace: (Zeit() ÷ 600ms).sin() · 6m
 
-¶Lies die aktuelle Position des Balls einmal für die Punkteprüfung¶
+¶Lies die aktuelle Position des Balls einmal für die Punkteprüfung aus¶
 ballX: (basketball.Ort ?? Ort()).X
 ballY: (basketball.Ort ?? Ort()).j
 
-versuch: (klickanzahl ÷ 2).aufrunden()
+versuch: (clickCount ÷ 2).aufrunden()
 
-¶inBin ist wahr, sobald sich der Ball im Inneren des Korbs befindet. Die Punkte-Reaktion löst nur aus, wenn inBin zu wahr wechselt UND der aktuelle Versuch weiter ist als der Punktestand. So bewirkt ein zweites Eintreten während desselben Wurfs — etwa ein Abprall im Korb oder der zurückgleitende Korb über dem Ball — nichts, bis der nächste Wurf den Versuchszähler erhöht¶
-imKorb: (((korbXPosition - 0.9m)‥(korbXPosition + 0.9m)) ∋ ballX) & ((0.3m‥2.9m) ∋ ballY)
-punktestand: 0 … imKorb & (versuch > punktestand) … 1 + punktestand
+¶inBin ist wahr, solange der Ball im Inneren des Behälters ist. Die Punkte-Reaktion wird nur ausgelöst, wenn inBin zu wahr wechselt UND der aktuelle Versuch vor dem Punktestand liegt. Jeder zweite Eintritt während desselben Wurfs, zum Beispiel Abpraller im Behälter oder der Behälter, der zurück über den Ball gleitet, bewirkt daher nichts, bis der nächste Wurf den Versuchszähler erhöht¶
+imBehälter: (((basketXPlace - 0.9m) ‥ (basketXPlace + 0.9m)) ∋ ballX) & ((0.3m ‥ 2.9m) ∋ ballY)
+punktestand: 0 … imBehälter & (versuch > punktestand) … 1 + punktestand
 
 basketballStar: Gruppe(
 		Stapel('|' 0.5m)
@@ -43,10 +43,10 @@ basketballStar: Gruppe(
 			Satzglied(`*Basketball-Star*` .8m)
 			Satzglied('Ziele mit deinem Zeiger.' .6m)
 			Satzglied(
-				'Klicke, um den 🏀 in den beweglichen Korb fallen zu lassen.'
+				'Klicke, um den 🏀 in den beweglichen Behälter fallen zu lassen.'
 				.6m
 			)
-			Satzglied('Punktestand: ' + punktestand → '' .8m)
+			Satzglied('Punkte: ' + punktestand → '' .8m)
 			Satzglied('Versuche: ' + versuch → '' .8m)
 		]
 		Größe: 2m
@@ -57,12 +57,12 @@ basketballStar: Gruppe(
 Bühne(
 	[
 		basketball
-		¶Die Korbwände wurden auf 0,3 m Dicke erweitert (vorher 0,1 m), damit der seitlich bewegte Korb den Ball nicht durchdringen kann, und auf 3 m Höhe (vorher 2 m), damit ein Ball mit 0,5 Sprungkraft nicht über den Rand zurückspringen kann¶
+		¶Die Wände des Behälters sind jetzt 0,3 m dick (vorher 0,1 m), damit der seitlich bewegte Behälter nicht durch den Ball hindurchrutschen kann, und 3 m hoch (vorher 2 m), damit ein Ball mit 0,5 Sprungkraft nicht über den Rand zurückspringen kann¶
 		Gestalt(
 			Rechteck(
-				-1.2m + korbXPosition
+				-1.2m + basketXPlace
 				0.3m
-				1.2m + korbXPosition
+				1.2m + basketXPlace
 				0m
 				0m
 			)
@@ -70,9 +70,9 @@ Bühne(
 		)
 		Gestalt(
 			Rechteck(
-				0.9m + korbXPosition
+				0.9m + basketXPlace
 				3m
-				1.2m + korbXPosition
+				1.2m + basketXPlace
 				0m
 				0m
 			)
@@ -80,9 +80,9 @@ Bühne(
 		)
 		Gestalt(
 			Rechteck(
-				-1.2m + korbXPosition
+				-1.2m + basketXPlace
 				3m
-				-0.9m + korbXPosition
+				-0.9m + basketXPlace
 				0m
 				0m
 			)

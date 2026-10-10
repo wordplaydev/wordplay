@@ -1,14 +1,14 @@
 W
 QuelMot
 === start/en
-¶Un jeu de mots à deviner, en anglais, en espagnol et en arabe.¶
+¶Un jeu pour deviner des mots en anglais, en espagnol et en arabe.¶
 ↓ words
 
 ¶a list of guesses and a secret word¶/en
 ¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
 ¶قائمة التخمينات وكلمة سرية¶/ar
-•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] restant•[""] commencer2•?) (
-	secret: commencer2 ? restant[1] ""
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] restant•[""] début2•?) (
+	secret: début2 ? restant[1] ""
 	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secret.longueur(
 			) × 3) - guesses.longueur()
 	status/en,estado/es,حالة/ar:
@@ -125,15 +125,18 @@ screen/en,cine/es,إظهار/ar:
 			]
 		)
 
-¶Une figure lente qui tourne sur elle-même sans jamais aller nulle part, ce qui la rend propice à la réflexion. Chaque piste ci-dessous dure huit temps, alors elles reviennent toutes ensemble et la boucle n'a pas de coupure.¶
+¶Un motif lent qui tourne en rond au lieu d'aller quelque part, et c'est ce qui donne envie d'y réfléchir. Chaque piste ci-dessous dure huit temps, donc elles reviennent toutes au début en même temps et la boucle n'a aucune coupure.¶
 thème: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
-¶La part de ton argent de poche déjà dépensée, de 0 quand tout reste possible à 1 quand il ne reste plus rien. Le secret est vide avant le premier tour, alors la division est protégée plutôt que laissée à diviser par zéro.¶
+¶La part de ton budget déjà dépensée, de 0 quand tout reste à jouer à 1 quand il ne reste plus rien. Le secret est vide avant la première manche, donc la division est protégée pour ne pas diviser par zéro.¶
 nombreMaxDʼessais: state.secret.longueur() × 3
-pression: (nombreMaxDʼessais = 0) ? 0 ((1 - (state.guessesRemaining ÷ nombreMaxDʼessais)).limit(0 1))
+pression: (nombreMaxDʼessais = 0) ? 0 ((1 - (state.guessesRemaining ÷ nombreMaxDʼessais)).limite(
+				0
+				1
+			))
 
-¶Pensif à 54 temps par minute, pressant à 120, et chaque essai le fait bouger un peu. Le changement de tempo s'insère au temps suivant au lieu de tout recommencer, alors la boucle garde sa place et se penche simplement en avant — le tambour discret est là pour rendre ce mouvement audible, car un changement de tempo sous des notes longues et tenues est difficile à sentir.¶
-musiqueDʼénigme: Musique(
+¶Pensif à 54 temps par minute, pressant à 120, et chaque essai l'accélère un peu. Quand le tempo change, il s'applique au temps suivant au lieu de tout recommencer : la boucle garde sa place et se penche simplement vers l'avant. Le tambour discret sert à rendre ce mouvement audible, car un changement de tempo est difficile à sentir sous de longues notes tenues.¶
+musiqueDuPuzzle: Musique(
 		[
 			Piste(
 				thème
@@ -162,11 +165,11 @@ musiqueDʼénigme: Musique(
 		]
 		tempo: (54beats/min + (pression · 66beats/min))
 		gamme: Musique.dorien
-		nom: 'énigme'
+		nom: 'puzzle'
 	)
 
 ¶Tu as gagné : le thème deux fois plus vite, doublé une octave plus haut sur une cloche, sur les seuls accords majeurs de l'exemple.¶
-chansonVictoire: Musique(
+chansonDeLaVictoire: Musique(
 		[
 			Piste(
 				thème
@@ -196,11 +199,11 @@ chansonVictoire: Musique(
 		]
 		tempo: 96beats/min
 		gamme: Musique.majeur
-		nom: 'victoire'
+		nom: 'gagner'
 	)
 
-¶Tu as perdu : le thème une octave plus bas et plus lentement qu'il ne l'a jamais été pendant que tu jouais, sur des accords qui se posent sur la quarte au lieu de revenir à la maison, alors la boucle ne se résout jamais.¶
-chansonDéfaite: Musique(
+¶Tu as perdu : le thème une octave plus bas et plus lent qu'il ne l'a jamais été pendant la partie, sur des accords qui se posent sur la quarte au lieu de revenir à la maison, donc la boucle ne se résout jamais.¶
+chansonDeLaDéfaite: Musique(
 		[
 			Piste(
 				thème
@@ -230,22 +233,22 @@ chansonDéfaite: Musique(
 		]
 		tempo: 46beats/min
 		gamme: Musique.mineur
-		nom: 'défaite'
+		nom: 'perdre'
 	)
 
-¶Seul l'air correspondant à l'état actuel joue sur la scène, et un @Music qui n'est plus là s'arrête — c'est donc la fin du tour qui change la musique.
+¶Seule la mélodie du statut actuel est sur la scène, et un @Music qui n'est plus là s'arrête : finir la manche est donc ce qui change la musique.
 
-Les trois airs jouent le même thème, et c'est la gamme en dessous qui fait le travail. Le thème touche les degrés 1, 4, 5, 6 et 8, et @Music.major s'accorde avec @Music.dorian sur chacun d'entre eux — les degrés où ils diffèrent, la tierce et la septième, ne sont pas dans la mélodie. Alors la victoire ne change pas une seule note de l'air que tu chantonnais en réfléchissant ; les accords en dessous, eux, utilisent bien la tierce, et ils deviennent majeurs. @Music.minor s'écarte du mode dorien à la sixte, que le thème touche bien, alors la défaite aplatit aussi cette note, en plus de faire descendre la ligne d'une octave.¶
-bandeSonore: state.status ???
-		"won": chansonVictoire
-		"lost": chansonDéfaite
-		musiqueDʼénigme
+Les trois jouent le même thème, et c'est la gamme en dessous qui fait le travail. Le thème touche les degrés 1, 4, 5, 6 et 8, et @Music.major est d'accord avec @Music.dorian sur chacun d'eux : les degrés où elles diffèrent, la tierce et la septième, ne sont pas dans la mélodie. Donc la victoire ne change pas une seule note de l'air que tu fredonnais en réfléchissant ; les accords en dessous utilisent bien la tierce, et ceux-là deviennent majeurs. @Music.minor se sépare du dorien à la sixte, que le thème touche, donc la défaite abaisse cette note en plus de faire descendre la ligne d'une octave.¶
+bandeSon: state.status ???
+		"won": chansonDeLaVictoire
+		"lost": chansonDeLaDéfaite
+		musiqueDuPuzzle
 
 ¶Create a world with the screen in it¶/en
 ¶Crea un mundo con la pantalla en él¶/es
 ¶اصنع عالمًا مع الشاشة بداخله¶/ar
 Scène(
-	[screen bandeSonore]
+	[screen bandeSon]
 	lieu: Lieu(0m 0m -12m)
 	affronter: "Poor Story"
 	arrièreplan: Couleur(0% 0 0°)

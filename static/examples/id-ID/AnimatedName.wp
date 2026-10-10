@@ -57,10 +57,7 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Pose(warna: Warna(0.5 100 180°) flipx)
 							50%: Pose(warna: Warna(27% 112 267°))
-							75%: Pose(
-								warna: Warna(0.5 100 180°)
-								flipx
-							)
+							75%: Pose(warna: Warna(0.5 100 180°) flipx)
 						}
 						lamanya: 2s
 					)
@@ -150,10 +147,7 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Pose(warna: Warna(0.5 100 180°) flipx)
 							50%: Pose(warna: Warna(27% 112 267°))
-							75%: Pose(
-								warna: Warna(0.5 100 180°)
-								flipx
-							)
+							75%: Pose(warna: Warna(0.5 100 180°) flipx)
 						}
 						lamanya: 2s
 					)

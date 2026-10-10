@@ -1,11 +1,11 @@
 o
 Ebenen
 === start
-¶Bälle, die in verschiedenen Tiefen springen, um Parallax-Ebenen zu zeigen.¶
+¶Bälle springen in verschiedenen Tiefen und zeigen so Parallax-Ebenen.¶
 
-zähler: 10 → []
+zählung: 10 → []
 
-ƒ bälle(z2•#m) zähler.übersetzen(
+ƒ bälle(z2•#m) zählung.übersetzen(
 		ƒ()
 			Satzglied(
 				'o'

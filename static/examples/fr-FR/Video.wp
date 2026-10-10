@@ -1,29 +1,29 @@
 📹
 Vidéo
 ===
-¶Ton flux de caméra, repeint en direct : en lettres colorées, en ombrage ASCII, ou en carrés colorés. Choisis un style avec les boutons en bas.¶
+¶L'image de ta caméra, repeinte en direct : en lettres colorées, en nuances ASCII ou en carrés colorés. Choisis un style avec les boutons en bas.¶
 
-¶Le dernier bouton de style cliqué. Choice indique le nom de la phrase sélectionnable choisie par le spectateur, et le style garde le dernier nom entendu.¶
+¶Le dernier bouton de style sur lequel on a cliqué. Choice donne le nom de la phrase sélectionnable choisie par la personne qui regarde, et le style garde la dernière valeur reçue.¶
 choix: Choix()
 style2: 'letters' … ∆ choix … choix
 
-¶Les émojis sont grands, alors le style émoji utilise une grille plus grossière. L'image garde la même taille dans tous les cas, donc changer de style ne la redimensionne jamais et ne déplace pas la caméra — seuls les carrés qui la composent deviennent plus grands.¶
+¶Les émojis sont grands, donc le style émoji utilise une grille plus large. L'image garde la même taille dans tous les cas : changer de style ne la redimensionne pas et ne déplace pas la caméra. Les carrés qui la forment deviennent simplement plus grands.¶
 colonnes2: (style2 = 'emoji') ? 16 32
-rangées2: (style2 = 'emoji') ? 12 24
+lignes: (style2 = 'emoji') ? 12 24
 
-¶Une couleur par cellule, directement tirée de la caméra.¶
-couleurs: Caméra((colonnes2 × 1px) (rangées2 × 1px) 33ms)
+¶Une couleur par cellule, directement depuis la caméra.¶
+couleurs2: Caméra((colonnes2 × 1px) (lignes × 1px) 33ms)
 
-¶Dix caractères, du foncé au clair. Le style ASCII en choisit un selon la luminosité du pixel.¶
-gradient: "@%#*+=-:. " → []
+¶Dix caractères, du plus sombre au plus clair. Le style ASCII en choisit un selon la luminosité du pixel.¶
+dégradé: "@%#*+=-:. " → []
 
-¶Vingt-quatre bandes de 15° autour du cercle des teintes, pour que chaque pixel prenne le carré le plus proche de sa couleur.¶
+¶Vingt-quatre bandes de 15° autour du cercle des teintes : chaque pixel prend le carré le plus proche de sa couleur.¶
 carrés: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
 
-¶À quoi ressemble un pixel dans le style actuel. Un pixel presque sans couleur n'a pas de teinte à montrer, alors il retombe sur un carré clair ou foncé.¶
-ƒ glyphe(couleur2•Couleur)
+¶L'aspect d'un pixel dans le style actuel. Un pixel presque sans couleur n'a pas de teinte à montrer, alors il devient un carré clair ou foncé.¶
+ƒ glyphe2(couleur2•Couleur)
 	(style2 = 'ascii') ?
-		"\gradient[((couleur2.luminosité × 9).rond()) + 1]\"
+		"\dégradé[((couleur2.luminosité × 9).rond()) + 1]\"
 		((style2 = 'emoji') ?
 				((couleur2.chroma < 8) ?
 						((couleur2.luminosité < 50%) ? "⬛" "⬜")
@@ -31,33 +31,31 @@ carrés: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦�
 							)) + 1]\")
 				'un')
 
-¶L'image. Un @Image dessine toute la grille comme une seule sortie, donc une image coûte une seule image plutôt qu'une phrase par pixel — ce qui, en 32 par 24, en faisait 768, reconstruites trente fois par seconde. /flipx/ la reflète pour qu'elle se lise comme dans un miroir.
+¶L'image. Un @Image dessine toute la grille comme une seule sortie, donc chaque image coûte un seul dessin au lieu d'une phrase par pixel. À 32 sur 24, cela faisait 768 phrases, refaites trente fois par seconde. /flipx/ la retourne pour qu'elle se lise comme dans un miroir.
 
-Le style /letters/ laisse chaque glyphe garder la couleur du carré qu'il représente, ce qu'un @Image fait sans avoir sa propre couleur. Les deux autres lui en donnent une, car une lettre ne se lit comme un ombrage que si sa couleur ne dit rien, et un émoji carré coloré porte déjà la sienne.¶
+Le style /letters/ laisse chaque lettre de la couleur du carré qu'elle représente, ce que fait un @Image quand il n'a pas de couleur à lui. Les deux autres styles lui en donnent une, car une lettre ne ressemble à une nuance que si sa couleur ne dit rien, et un carré émoji coloré porte déjà la sienne.¶
 image: Image(
-		couleurs
+		couleurs2
 		"camera video drawn with \style2\"
 		16m
-		glyphe: glyphe
+		glyphe: glyphe2
 		couleur: (style2 = 'letters') ? ø Couleur(0% 0 0°)
 		police: (style2 = 'ascii') ? "Noto Sans Mono"/en ø
 		retournerx: ⊤
 		durée: 0s
 	)
 
-¶Un bouton de style, lumineux quand c'est le style affiché. Le nom est ce que Choice indique quand le bouton est cliqué ou choisi avec le clavier.¶
-ƒ bouton(identifiant•'')
+¶Un bouton de style, lumineux quand son style est affiché. Le nom est ce que Choice donne quand on clique sur le bouton ou qu'on le choisit au clavier.¶
+ƒ bouton(id2•'')
 	Phrase(
-		identifiant
+		id2
 		0.5m
-		nom: identifiant
+		nom: id2
 		sélectionnable
-		aurepos: (style2 = identifiant) ? Pose() Pose(
-				opacité: 40%
-			)
+		aurepos: (style2 = id2) ? Pose() Pose(opacité: 40%)
 	)
 
-¶Une rangée garde les boutons également espacés et alignés, peu importe la longueur de leurs mots, et sans place propre, la rangée se place au milieu, donc le décalage suffit pour l'amener en bas de l'écran. Elle porte son propre fond, car des mots sur une vidéo ne sont lisibles que par chance.¶
+¶Une ligne garde les boutons bien espacés et alignés, quelle que soit la longueur de leurs mots. Sans place à elle, la ligne se met au milieu, donc le décalage suffit pour la descendre en bas de l'écran. Elle a son propre fond, car des mots sur une vidéo ne sont lisibles que par chance.¶
 boutons: Groupe(
 		Rangée(rembourrage: 0.5m)
 		[bouton('letters') bouton('ascii') bouton('emoji')]
@@ -65,7 +63,7 @@ boutons: Groupe(
 		compenser: Lieu(0m -4.5m)
 	)
 
-¶Les boutons se trouvent dans la superposition de la scène, fixée à plat sur l'écran : ils gardent la même taille et la même place quel que soit le cadrage de l'image, et l'image est cadrée comme s'ils n'étaient pas là.¶
+¶Les boutons se trouvent dans la superposition de la scène, qui est fixée à plat sur l'écran : ils gardent la même taille et la même place, quel que soit le cadrage de l'image, et l'image est cadrée comme s'ils n'étaient pas là.¶
 Scène(
 	[image]
 	description: "camera video drawn with \style2\"

@@ -1,7 +1,7 @@
 •
-Timer
+Zeitmesser
 ===
-¶Eine Reihe von Punkten, die bis fünf wächst und dann jede Sekunde von vorne beginnt.¶
+¶Eine Reihe von Punkten, die bis auf fünf wächst und dann von vorn beginnt, einmal pro Sekunde.¶
 
 Satzglied(
 	"•".wiederholen(((Zeit(1000ms) → #s) % 5).abrunden() + 1s)

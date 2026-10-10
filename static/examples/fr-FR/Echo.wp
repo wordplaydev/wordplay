@@ -1,14 +1,14 @@
 💬
 Écho
 === start
-¶Ce que le public tape dans la barre de discussion devient cette phrase.¶
+¶Tout ce que le public écrit dans la barre de discussion devient cette phrase.¶
 
 message: Chat()
 
-¶Commence avec un message, puis répète chaque nouveau message. Le texte se transforme des anciens mots vers les nouveaux, lettre par lettre.¶
+¶Commence avec une invite, puis répète chaque nouveau message. Le texte se transforme des anciens mots vers les nouveaux, une lettre à la fois.¶
 mots2: 'dis quelque chose !' … ∆ message … message
 
-¶Change au hasard la taille, l'inclinaison et la couleur à chaque nouveau message.¶
+¶Tire au hasard une nouvelle taille, une nouvelle inclinaison et une nouvelle couleur à chaque nouveau message.¶
 taille2: 2m … ∆ message … Aléatoire(1m 4m)
 inclinaison: 0° … ∆ message … Aléatoire(-30 30) × 1°
 teinte2: 200° … ∆ message … Aléatoire(360) × 1°

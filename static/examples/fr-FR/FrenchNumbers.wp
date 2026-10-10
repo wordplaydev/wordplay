@@ -20,7 +20,7 @@ numbers,numeros/fr: [
 
 ¶The secrets are the numbers 1 to 9 in random order¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-secrets: [:1‥9].mélangé()
+secrets: [:1 ‥ 9].mélangé()
 
 ¶What's the latest key pressed?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
@@ -33,25 +33,25 @@ secretIndex,secretIndice/fr•#:
 	∆ clé …
 		(secretIndice < 10) ? secretIndice + 1 secretIndice
 
-¶Le secret actuel, selon l'indice du secret¶
+¶Le secret actuel, choisi grâce à l'indice du secret¶
 currentSecret,secretActuel/fr: secrets[secretIndice]
 
-¶La réponse était correcte si le nombre pressé correspond au précédent nombre secret¶
-correct: clé → # = secrets[secretIndice - 1]
+¶La réponse est correcte si le nombre appuyé est le même que le nombre secret précédent¶
+correct2: clé → # = secrets[secretIndice - 1]
 
 ¶Points start at 0 and increase if the guess was correct.¶
 ¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
 points2•#: 0 …
 	∆ clé …
-		correct ?
+		correct2 ?
 			points2 + 1
 			points2
 
-¶Gagner signifie trouver les 9 nombres¶
+¶Pour gagner, il faut trouver les 9 nombres¶
 win,gagner/fr: points2 = 9
 
-¶Terminé quand l'indice du secret atteint 10¶
-findujeu: secretIndice = 10
+¶Terminé quand l'indice du secret est 10¶
+finjeu: secretIndice = 10
 
 ¶Show the current french number and the current points
 After all the 9 secrets, show a final result¶
@@ -62,7 +62,7 @@ Scène(
 		Groupe(
 			Empiler()
 			[
-				findujeu ?
+				finjeu ?
 					Phrase(
 						gagner ?
 							"You know french numbers!""Tu connais les chiffres français!"/fr
@@ -74,7 +74,7 @@ Scène(
 				Phrase(
 					secretIndice = 1 ?
 						'what number is this?''quel est ce numéro ?'/fr
-						correct ?
+						correct2 ?
 							'Correct !'
 							"That was \secrets[secretIndice - 1]\"
 				)

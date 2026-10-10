@@ -1,29 +1,29 @@
 🐱
 Katzen-Scat!
 === start/en
-¶Eine Katze scattet, für immer und ewig, nie auf die gleiche Art zweimal.
+¶Eine Katze singt Scat, für immer und ewig, nie zweimal auf dieselbe Art.
 
-Das ganze Solo ist improvisiert: Nichts hier ist eine geschriebene Melodie. Bei jedem Refrain wählt die Katze neue Töne, und die Phrase wird neu aufgebaut. Was du jetzt hörst, kommt nicht wieder.
+Das ganze Solo ist improvisiert: Nichts hier ist eine aufgeschriebene Melodie. In jedem Refrain wählt die Katze neue Töne und baut die Phrase neu auf. Was du jetzt hörst, kommt also nicht wieder.
 
-Sie singt in fünf Spuren, die sich abwechseln, statt gleichzeitig zu klingen — erst Viertelnoten, dann Achtel, dann Triolen, dann eine Halbe, dann ein langer Ton — denn eine Katze hat nur eine Stimme, und zwei gleichzeitige Spuren würden ihr zwei Stimmen geben. Jede Spur pausiert, während alle anderen ihre Takte spielen, und genau das macht es zu einem Solo.
+Sie singt in fünf Spuren, die sich abwechseln, statt zusammen zu klingen: Viertelnoten, dann Achtel, dann Triolen, dann halbe Noten, dann eine lange Note. Denn eine Katze hat nur eine Stimme, und zwei Spuren gleichzeitig würden ihr zwei Stimmen geben. Jede Spur pausiert in den Takten aller anderen. Dadurch bleibt es ein Solo.
 
-Die Stimme ist die gestimmte Katze, \Instrument.tonhöheKatze\: ein Miau, mit Tonhöhe, sodass ein Grad einen Ton wählt und die Katze wirklich die Melodie singt, statt zwölf verschiedene Dinge zu sagen. Die Tonleiter ist der Blues, der keine falschen Töne kennt — und das muss so sein, denn jeder Ton hier wird zufällig gewählt, also muss jede Reihenfolge gut klingen.
+Die Stimme ist die gestimmte Katze, \Instrument.tonhöheKatze\: ein Miauen, auf eine Tonhöhe gebracht. Eine Stufe wählt also eine Note aus, und die Katze singt wirklich die Melodie, statt zwölf verschiedene Dinge zu sagen. Die Tonleiter ist der Blues. Sie hat keine falschen Töne, und das muss sie auch, denn jede Note hier wird zufällig gewählt. Jede Reihenfolge muss also gut klingen.
 
-Es ist langsam für einen Scat. Ein Miau dauert etwa acht Zehntelsekunden, und bei einem schnelleren Tempo würden die Viertelnoten die Katze mitten im Wort abschneiden.¶
+Für Scat ist es langsam. Ein Miauen dauert etwa acht Zehntelsekunden. Bei einem schnelleren Tempo würden die Viertelnoten die Katze mitten im Wort abschneiden.¶
 
 schlag2: Takt()
-zähler: schlag2.Zählung
+zählung: schlag2.Zählung
 
-¶Eine Note, oder ab und zu nichts: etwa jede siebte Note bleibt still. Das gibt der Katze genug Luft, um hier und da das Maul zu schließen, ohne dass das Solo dünner wird — und da die Pausen zufällig fallen, atmet kein Refrain an der gleichen Stelle.¶
+¶Eine Note oder ab und zu nichts: Etwa jede siebte wird still. Das ist genug Luft, damit die Katze hier und da den Mund schließen kann, ohne das Solo auszudünnen. Und weil die Pausen dort landen, wo der Zufall sie hinlegt, atmen keine zwei Refrains an derselben Stelle.¶
 ƒ vielleicht(note•#)•#|ø (Zufällig() > 0.15) ? note ø
 
-¶Ein Ton, irgendwo in der angenehmen Oktave der Katze. Grad 1 ist der Ton, zu dem die Phrase zurückkehrt, und 8 ist eine Blues-Oktave und ein bisschen darüber — weit genug, um wie Gesang zu klingen, und nah genug, dass das Miau immer noch wie ein Miau klingt und nicht wie ein gedehnter Ton.¶
+¶Eine Note irgendwo in der bequemen Oktave der Katze. Stufe 1 ist die Note, zu der die Phrase nach Hause kommt. 8 ist eine Blues-Oktave und noch ein Stück darüber. Das ist weit genug, um wie Gesang zu klingen, und nah genug, dass das Miauen noch wie ein Miauen klingt und nicht wie ein gedehntes.¶
 ƒ stimme()•#|ø vielleicht(Zufällig(1 8))
 
-¶Alles, was die Katze in einem Refrain singt. Jeder Teil ist in Schlägen genauso lang wie alle anderen — zweiunddreißig — sodass sie im Takt bleiben, egal wie unterschiedlich sie unterteilt sind.¶
-•refrain(ruft•[#|ø] läuft•[#|ø] schwingen2•[#|ø] hält•[#|ø] schwanz•[#|ø])
+¶Alles, was die Katze in einem Refrain singt. Jeder Teil ist in Schlägen genauso lang wie alle anderen, nämlich zweiunddreißig. So bleiben sie im Gleichschritt, egal wie unterschiedlich sie unterteilt sind.¶
+•refrain(ruft•[#|ø] läufe•[#|ø] schwingen2•[#|ø] hält•[#|ø] schwanz•[#|ø])
 
-¶Viertelnoten, Takt eins und zwei: drei Töne, ein Atemzug, dann die gleichen drei Töne mit einem neuen Schluss beantwortet. Ruf und Antwort sind das Grundgerüst einer Scat-Phrase, und eine Figur zu wiederholen, bevor man sie verändert, macht sie komponiert klingen statt zufällig.¶
+¶Viertelnoten, Takt eins und zwei: drei Noten, ein Atemzug, dann dieselben drei, beantwortet mit einem neuen Ende. Ruf und Antwort sind das Gerüst einer Scat-Phrase. Eine Figur zu wiederholen, bevor man sie abwandelt, lässt sie komponiert klingen statt zufällig.¶
 ƒ ruft2()•[#|ø] (
 		ein: stimme()
 		b2: stimme()
@@ -40,29 +40,29 @@ zähler: schlag2.Zählung
 		)
 	)
 
-¶Achtelnoten, Takt drei und vier: ein Lauf, der die Tonleiter Schritt für Schritt hinaufklettert, egal wo er beginnt, und am oberen Ende der Oktave wieder nach unten springt. Sechzehn Achtel über acht Grade bedeuten, dass der Lauf die ganze Strecke zweimal hinaufklettert, und genau das lässt ihn wie einen Lauf statt wie eine Melodie klingen.
+¶Achtelnoten, Takt drei und vier: ein Lauf, der die Tonleiter Schritt für Schritt hinaufsteigt, egal wo er beginnt, und oben an der Oktave wieder nach unten springt. Sechzehn Achtel über acht Stufen bedeuten, dass der Lauf zweimal ganz hinaufsteigt. Deshalb wirkt er wie ein Lauf und nicht wie eine Melodie.
 
-Dies sind die kürzesten Noten im Stück, und die einzige Stelle, an der die Katze abgeschnitten wird: zwei Achtel in einem Schlag sind schneller, als ein Miau zu Ende gebracht werden kann, was genau so klingt wie eine schnelle Scat-Silbe.¶
-ƒ läuft2()•[#|ø] (
+Das sind die kürzesten Noten im Stück, und die einzige Stelle, an der die Katze abgeschnitten wird: Zwei Achtel in einem Schlag sind schneller, als ein Miauen enden kann. So klingt eine schnelle Scat-Silbe ohnehin.¶
+ƒ läufe2()•[#|ø] (
 		zuhause: Zufällig(1 8)
 		(64 → []).übersetzen(
 			ƒ(i2•#)
-				~((17‥32) ∋ i2) ? ø
+				~((17 ‥ 32) ∋ i2) ? ø
 					vielleicht((((zuhause + (i2 - 17)) - 1) % 8) + 1)
 		)
 	)
 
-¶Triolen, Takt fünf und sechs: eine Drei-Noten-Zelle, die sich immer wieder dreht. Drei im Raum von zwei wird genau so geschrieben — 2 Schläge ÷ 3 — was laut ausspricht, was eine Triole ist.¶
+¶Triolen, Takt fünf und sechs: eine Zelle aus drei Noten, die sich immer wieder dreht. Drei in der Zeit von zwei wird genau so geschrieben, nämlich 2beats ÷ 3. Das sagt laut, was eine Triole ist.¶
 ƒ schwingen3()•[#|ø] (
 		zelle2: [stimme() stimme() stimme()]
 		(48 → []).übersetzen(
 			ƒ(i3•#)
-				~((25‥36) ∋ i3) ? ø
+				~((25 ‥ 36) ∋ i3) ? ø
 					zelle2[(((i3 - 25) % 3) + 1)]
 		)
 	)
 
-¶Halbe Noten, Takt sieben: Die Katze wird langsamer und landet auf zwei langen Tönen. Ein gehaltener Ton hält das Maul die ganze Zeit offen, während er klingt, denn genau so sieht das Halten eines Tons aus.¶
+¶Halbe Noten, Takt sieben: Die Katze wird langsamer und landet auf zwei langen Noten. Eine gehaltene Note hält den Mund die ganze Zeit offen, in der sie klingt. So sieht Halten aus.¶
 ƒ hält2()•[#|ø]
 	(16 → []).übersetzen(
 		ƒ(i4•#)
@@ -71,41 +71,41 @@ Dies sind die kürzesten Noten im Stück, und die einzige Stelle, an der die Kat
 					ø
 	)
 
-¶Eine ganze Note, Takt acht: Stufe 1, gehalten. Zur ersten Note der Tonleiter zurückzukehren lässt eine Phrase fertig klingen, statt einfach nur aufzuhören.¶
+¶Eine ganze Note, Takt acht: Stufe 1, gehalten. Wenn man zur ersten Note der Tonleiter zurückkommt, klingt eine Phrase beendet und nicht bloß abgebrochen.¶
 ƒ schwanz2()•[#|ø] (8 → []).übersetzen(
 		ƒ(i5•#) (i5 = 8) ? 1 ø
 	)
 
 ƒ improvisieren()•refrain refrain(
 		ruft2()
-		läuft2()
+		läufe2()
 		schwingen3()
 		hält2()
 		schwanz2()
 	)
 
-¶Alle zweiunddreißig Schläge kommt ein neuer Refrain. Der alte bleibt zwischen den Grenzen erhalten, damit das Solo lange genug stehen bleibt, um gehört zu werden. Wird er genau an der Grenze gewechselt, setzt der Spieler ihn passend zum Schlag ein, statt die Katze mitten in einer Note zu unterbrechen.¶
+¶Alle zweiunddreißig Schläge kommt ein neuer Refrain. Der alte bleibt zwischen den Grenzen erhalten, damit das Solo lange genug ruhig steht, um gehört zu werden. Wenn er sich genau auf der Grenze ändert, fügt der Spieler ihn im Takt ein, statt die Katze mitten in der Note abzuschneiden.¶
 refrain2•refrain: improvisieren() … ∆ schlag2 …
-		((zähler % 32) = 0) ? improvisieren() refrain2
+		((zählung % 32) = 0) ? improvisieren() refrain2
 
-¶Die Katze wiegt sich im Takt. Bei jedem Schlag lehnt sie sich zur anderen Seite, sodass das Wiegen der Puls selbst ist und nicht nur eine Verzierung darüber.¶
-neigen2: ((zähler % 2) = 0) ? -1 1
+¶Die Katze wiegt sich im Takt. Bei jedem Schlag lehnt sie sich in die andere Richtung, sodass das Schaukeln der Impuls selbst ist und keine Verzierung obendrauf.¶
+mager: ((zählung % 2) = 0) ? -1 1
 
-¶Ob die Katze gerade einen Ton macht. @Beat gibt für jede Spur ein @Part zurück, und eine Stimme bleibt ⊤ während jedes Schlags, den eine gehaltene Note anhält. So ist dies ⊤, wann immer etwas hörbar ist.¶
-singen: schlag2.Teile.übersetzen(ƒ(teil•Teil) teil.Klingen).hat(
+¶Ob die Katze gerade einen Laut von sich gibt. @Beat liefert für jede Spur ein @Part zurück, und ein Teil bleibt bei jedem Schlag, den eine gehaltene Note andauert, ⊤. Dieser Wert ist also immer dann ⊤, wenn irgendetwas zu hören ist.¶
+gesang: schlag2.Teile.übersetzen(ƒ(teil•Teil) teil.Klingen).hat(
 		⊤
 	)
 
-¶Ihr Mund: offen genau dann, wenn ein Ton klingt, geschlossen, wenn keiner klingt. Nichts hier zählt Schläge — es fragt die Musik, was sie gerade tut, damit das Gesicht nie aus dem Takt gerät zu dem, was man hört. Die verstreuten Pausen geben ihr eine Gelegenheit, sich zu schließen. Deshalb bleibt etwa jede siebte Note stumm.¶
-maul: singen ? '😺' '🐱'
+¶Ihr Maul: genau dann offen, wenn eine Note erklingt, und zu, wenn keine erklingt. Hier wird nichts gezählt. Das Gesicht fragt die Musik, was sie gerade tut, und kann deshalb nie aus dem Takt dessen geraten, was du hörst. Die verstreuten Pausen geben ihm Gelegenheit, sich zu schließen. Deshalb verstummt etwa jede siebte Note.¶
+mund: gesang ? '😺' '🐱'
 
 Bühne(
 	[
 		Satzglied(
-			maul
+			mund
 			5m
-			Ort: Ort((neigen2 · 0.7) · 1m -0.6m)
-			Drehung: (neigen2 · 7) · 1°
+			Ort: Ort((mager · 0.7) · 1m -0.6m)
+			Drehung: (mager · 7) · 1°
 			Dauer: 0.22s
 		)
 		Satzglied('Katzen-Scat!' 1.4m Ort: Ort(-2.6m 3.6m))
@@ -117,7 +117,7 @@ Bühne(
 					Schlag: 1beats
 				)
 				Spur(
-					refrain2.läuft
+					refrain2.läufe
 					Instrument: Instrument.tonhöheKatze
 					Schlag: 0.5beats
 				)

@@ -1,26 +1,26 @@
 🎆
 Feux d'artifice
 === start/en
-¶Des feux d'artifice qui explosent avec la musique : chaque instrument qui sonne sur un temps apparaît comme lui-même, reste un instant, puis disparaît.
+¶Un feu d'artifice qui éclate avec la musique : chaque instrument qui sonne sur un temps apparaît tel quel, reste un instant, puis retombe.
 
-Rien ici n'est dessiné sur une horloge. @Beat transmet un @Downbeat à chaque fois qu'un temps devient audible, et un @Downbeat porte une @Part pour chaque @Track — quel instrument c'est, s'il sonne, sur quelle note il est, et à quel volume. Donc un éclat par voix sonnante n'est qu'un simple @List/translate, et la musique se dessine toute seule.
+Rien ici n'est dessiné selon une horloge. @Beat donne un @Downbeat à chaque temps qui devient audible, et un @Downbeat porte un @Part pour chaque @Track : quel instrument c'est, s'il sonne, quelle note il joue et quel est son volume. Un éclat par partie qui sonne, c'est donc une seule @List/translate, et la musique se dessine toute seule.
 
-Chaque éclat porte le nom du numéro du temps, donc les éclats de chaque temps sont de nouvelles sorties : elles jouent leur pose d'entrée en apparaissant et leur pose de sortie quand le temps suivant les remplace. L'apparition et la chute sont ces deux poses.
+Chaque éclat porte le numéro du temps comme nom. Les éclats de chaque temps sont donc de nouvelles sorties : ils jouent leur pose d'entrée en arrivant et leur pose de sortie quand le temps suivant les remplace. L'éclat et la chute sont ces deux poses.
 
-L'air est /The Star-Spangled Banner/ — la mélodie de John Stafford Smith datant d'environ 1773, depuis longtemps dans le domaine public — jouée en entier, jusqu'à la dernière ligne. Chaque note porte sa propre durée écrite sous forme de valeur de note sur le nombre — \8𝅘𝅥𝅮\ est une croche, \13𝅗𝅥\ une blanche, \13𝅗𝅥𝅭\ une blanche pointée — donc les levées, les figures pointées et les notes longues tenues sont de vraies durées, et non une grille de temps égaux. Un nombre simple vaut un temps. Les silences ont quand même besoin d'un @Note, car \ø\ n'est pas un nombre et ne peut donc pas porter de valeur. C'est sur la gamme chromatique afin que la quarte augmentée puisse être écrite : chaque pas vaut un demi-ton.¶
+L'air est /The Star-Spangled Banner/ — la mélodie de John Stafford Smith, écrite vers 1773 et depuis longtemps dans le domaine public — jouée en entier, jusqu'à la dernière ligne. Chaque note porte sa propre durée, écrite comme une valeur de note sur le nombre : \8𝅘𝅥𝅮\ est une croche, \13𝅗𝅥\ une blanche, \13𝅗𝅥𝅭\ une blanche pointée. Les levées, les rythmes pointés et les notes longues tenues ont donc de vraies durées, et non une grille de temps égaux. Un nombre seul vaut un temps. Les silences ont toujours besoin d'un @Note, car \ø\ n'est pas un nombre et ne peut donc pas porter de valeur. Elle utilise la gamme chromatique pour que la quarte augmentée puisse s'écrire : chaque pas est un demi-ton.¶
 ↓ @wordplay/instruments 1
 
 temps: Rythme()
 compte2: temps.nombre
 
-¶Seules les voix qui produisent réellement un son deviennent des feux d'artifice ; une piste au repos reste sombre. Avant que la musique ne commence, il n'y a aucune voix du tout, donc le ciel est vide.¶
+¶Seules les parties qui font vraiment du bruit deviennent des feux d'artifice ; une piste au repos reste sombre. Avant le début de la musique, il n'y a aucune partie, donc le ciel est vide.¶
 tir•[Partie]: temps.parties.filtre(ƒ(p•Partie) p.sonnant)
 
-¶Chaque instrument éclate comme lui-même, ce qui est tout l'intérêt : on peut voir lequel vient de jouer.¶
+¶Chaque instrument éclate tel quel, et c'est tout l'intérêt : on voit quel instrument vient de jouer.¶
 ƒ visage2(p2•Partie)•''
 	iconFor(p2.instrument)
 
-¶Chaque instrument garde sa propre voie, répartie sur tout le ciel. Utiliser l'instrument plutôt que sa position dans la liste garde une voie fixe quand un autre instrument se tait.¶
+¶Chaque instrument garde sa propre voie, répartie dans tout le ciel. Utiliser l'instrument plutôt que sa place dans la liste garde une voie immobile quand un autre instrument se tait.¶
 ƒ voie(p3•Partie)•#
 	(p3.instrument.id = 'trumpet') ? -6
 		(p3.instrument.id = 'flute') ? -3.6
@@ -30,10 +30,10 @@ tir•[Partie]: temps.parties.filtre(ƒ(p•Partie) p.sonnant)
 						(p3.instrument.id = 'drums') ? 6
 							0
 
-¶À quelle hauteur se trouve un éclat : sa note. Chaque voix ici sonne, donc elle en a une.¶
+¶La hauteur d'un éclat : sa note. Chaque partie ici sonne, donc elle en a une.¶
 ƒ hauteur2(p4•Partie)•# p4.degrés[1]
 
-¶Un éclat, qui monte avec sa note et grandit selon le volume.¶
+¶Un éclat, qui monte avec sa note et grossit avec son volume.¶
 ƒ éclat(p5•Partie i•#)•Phrase
 	Phrase(
 		visage2(p5)
@@ -60,7 +60,7 @@ tir•[Partie]: temps.parties.filtre(ƒ(p•Partie) p.sonnant)
 		)
 	)
 
-¶La mélodie. Les degrés sont des demi-tons à partir de la tonique grave : 1 est cette note, 13 est une octave au-dessus, et 7 est la quarte augmentée. Deux lignes partagent le même air, puis vient le pont, puis la dernière ligne.¶
+¶La mélodie. Les degrés sont des demi-tons à partir de la tonique grave : 1 est cette note, 13 est une octave plus haut, et 7 est la quarte augmentée. Deux lignes partagent le même air, puis vient le pont, puis la dernière ligne.¶
 mélodie2: [
 		8𝅘𝅥𝅮
 		5𝅘𝅥𝅮
@@ -202,7 +202,7 @@ basse: [
 		1𝅗𝅥𝅭
 	]
 
-¶Une cloche sur les temps forts en alternance, donc elle n'est pas dans chaque éclat.¶
+¶Une cloche sur un temps fort sur deux, donc elle n'est pas dans chaque éclat.¶
 cloche2: [
 		Note(ø 1beats)
 		13
@@ -255,7 +255,7 @@ cloche2: [
 		Note(ø 3beats)
 	]
 
-¶Les cordes à partir du pont, pour que la texture s'enrichisse.¶
+¶Des cordes à partir du pont, pour que la texture s'enrichisse.¶
 violon2: [
 		Note(ø 1beats)
 		Note(ø 3beats)
@@ -292,7 +292,7 @@ violon2: [
 		13𝅗𝅥𝅭
 	]
 
-¶Un déchant seulement aux sommets des phrases.¶
+¶Un contrechant seulement au sommet des phrases.¶
 flûte2: [
 		Note(ø 1beats)
 		Note(ø 3beats)
@@ -338,7 +338,7 @@ flûte2: [
 	]
 
 ¶Une marche en dessous.¶
-tambours: [
+batterie2: [
 		Note(ø 0.5beats)
 		3𝅘𝅥𝅮
 		1𝅘𝅥𝅮
@@ -574,7 +574,7 @@ Scène(
 					boucle: ⊥
 				)
 				Piste(
-					tambours
+					batterie2
 					instrument: Instrument.batterie
 					volume: 45%
 					boucle: ⊥

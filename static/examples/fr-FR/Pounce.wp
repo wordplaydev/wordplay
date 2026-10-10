@@ -1,12 +1,12 @@
 🧶
-Bond
+Bondir
 === start
-¶Dirige un chat avec les touches fléchées et fais-le bondir.
+¶Dirige un chat avec les touches fléchées et bondis.
 
-Le chat miaule à chaque fois qu'il bouge. Le miaou est accroché au premier @Pose de son animation de mouvement : un @Pose peut porter un @Music, qui joue au moment où cette pose est prise, et un mouvement déclenche ses poses à chaque fois que l'une d'elles commence. Le balancement est écrit en entier plutôt que laissé comme \Séquence.balancement(
-)\ parce que les animations toutes faites construisent leurs propres poses, et une pose est l'endroit où le son doit se déclencher.¶
+Le chat miaule chaque fois qu'il bouge. Le miaulement est accroché à la première @Pose de son animation de déplacement : une @Pose peut porter un @Music, qui joue au moment où cette pose est prise, et un déplacement prend ses poses chaque fois qu'une commence. Le balancement est écrit en entier plutôt que laissé sous la forme \Séquence.balancement(
+)\, parce que les animations toutes faites créent leurs propres poses, et c'est dans une pose que le son doit se trouver.¶
 
-¶Un court cri. Deux mouvements rapprochés partagent un seul miaou plutôt que d'en empiler deux, car le second arrive alors que le premier balancement se balance encore.¶
+¶Un seul cri court. Deux déplacements rapprochés partagent un miaulement au lieu d'en empiler deux, car le second arrive pendant que le premier balancement est encore en cours.¶
 miaou2: Musique(
 		Piste([1] instrument: Instrument.chat)
 		volume: 45%
@@ -15,27 +15,27 @@ miaou2: Musique(
 
 •positionDuChat(position•#m direction2•#)
 
-clé2: Clé()
+clé3: Clé()
 vitesse2: 1m
 
-lieuDuMinou: positionDuChat(5m 1) … ∆ clé2 …
-		((clé2 = 'Flèche gauche') & (lieuDuMinou.position > -10m)) ? positionDuChat(
-				lieuDuMinou.position - vitesse2
+placeDuChaton: positionDuChat(5m 1) … ∆ clé3 …
+		((clé3 = 'Flèche gauche') & (placeDuChaton.position > -10m)) ? positionDuChat(
+				placeDuChaton.position - vitesse2
 				1
 			)
-			((clé2 = 'Flèche droite') & (lieuDuMinou.position < 8m)) ? positionDuChat(
-					lieuDuMinou.position + vitesse2
+			((clé3 = 'Flèche droite') & (placeDuChaton.position < 8m)) ? positionDuChat(
+					placeDuChaton.position + vitesse2
 					-1
 				)
-				lieuDuMinou
+				placeDuChaton
 
 minou: Phrase(
 		"🐈"
 		affronter: "Noto Color Emoji"
 		nom: 'minou'
 		taille: 2m
-		lieu: Lieu(lieuDuMinou.position 0m)
-		aurepos: Pose(flipx: lieuDuMinou.direction2 < 0)
+		lieu: Lieu(placeDuChaton.position 0m)
+		aurepos: Pose(flipx: placeDuChaton.direction2 < 0)
 		mobile: Séquence(
 			{
 				0%: Pose(rotation: -5° musique: miaou2)
@@ -50,7 +50,7 @@ minou: Phrase(
 
 bond: Collision('ballon' 'minou')
 
-ballonPlacer: Mouvement(
+emplacementDuBallon: Mouvement(
 		Lieu(0m 9m)
 		prochainevitesse:
 		bond•ø ? ø
@@ -67,7 +67,7 @@ ballonPlacer: Mouvement(
 ballon: Phrase(
 		"🧶"
 		nom: 'ballon'
-		lieu: ballonPlacer
+		lieu: emplacementDuBallon
 		matière: Matière(1kg 0.5 0 1)
 	)
 

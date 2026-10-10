@@ -1,17 +1,17 @@
 🎂
 Happy Birthday
 === start/en
-¶Happy Birthday in drei Teilen: eine Melodie, eine Harmonie darunter, und Akkorde, die beide tragen.
+¶„Happy Birthday“ in drei Teilen: eine Melodie, eine Harmonie darunter und Akkorde, die beide stützen.
 
-Jeder Teil ist in Tonstufen geschrieben, also ist 1 der Grundton und 8 der Grundton eine Oktave höher. Deshalb klingt die Melodie gleich, egal in welcher Tonart du sie spielst — ändere @Music/key und das ganze Lied bewegt sich mit, auch die Sängerinnen und Sänger.
+Jeder Teil ist in Stufen der Tonleiter geschrieben. 1 ist also der Grundton und 8 ist der Grundton eine Oktave höher. Darum klingt die Melodie in jeder Tonart gleich. Ändere @Music/key, und das ganze Lied wechselt mit, auch die Singenden.
 
-Die Melodie und die Harmonie bewegen sich in halben Schlägen und die Akkorde in ganzen, also sagt jeder Teil selbst, wie lang seine Einträge sind, und trotzdem passt alles zusammen.¶
+Die Melodie und die Harmonie bewegen sich in halben Schlägen und die Akkorde in ganzen. Jeder Teil gibt an, wie lang seine eigenen Einträge sind, und trotzdem passen alle zusammen.¶
 
-¶Schläge seit Beginn des Liedes, damit sich der Kuchen dazu bewegen kann. @Beat zählt von null, bevor die Musik spielt, also bleibt der Kuchen einfach still stehen.¶
+¶Die Schläge, seit das Lied begonnen hat, damit sich der Kuchen mitbewegen kann. @Beat zählt vor dem Beginn der Musik von null, darum bleibt der Kuchen dann still stehen.¶
 schlag2: Takt()
-zähler: schlag2.Zählung
+zählung: schlag2.Zählung
 
-¶Die Melodie. Zwei Achtel, dann längere Töne — die Pausen machen den Rhythmus aus, denn jeder Eintrag dauert den gleichen halben Schlag.¶
+¶Die Melodie. Zwei Achtel, dann längere Töne. Die Pausen machen den Rhythmus, denn jeder Eintrag dauert gleich lang, nämlich einen halben Schlag.¶
 melodie2: [
 		5
 		5
@@ -67,7 +67,7 @@ melodie2: [
 		ø
 	]
 
-¶Eine zweite Stimme unter der Melodie, in den gleichen halben Schlägen.¶
+¶Eine zweite Stimme unter der Melodie, ebenfalls in halben Schlägen.¶
 alt: [
 		5
 		5
@@ -123,7 +123,7 @@ alt: [
 		ø
 	]
 
-¶Akkorde, einer pro Schlag. Eine Menge spielt ihre Tonstufen zusammen, also ist {1 3 5} der Grundakkord und {4 5 7 9} der Akkord, der sich dorthin zurück auflösen will.¶
+¶Akkorde, einer pro Schlag. Eine Menge spielt ihre Stufen zusammen. {1 3 5} ist also der Grunddreiklang und {4 5 7 9} ist der Akkord, der sich wieder dorthin auflösen will.¶
 akkorde: [
 		ø
 		{1 3 5}
@@ -153,10 +153,10 @@ akkorde: [
 		ø
 	]
 
-¶Der Kuchen wächst bei jedem Schlag und sinkt dazwischen wieder.¶
+¶Der Kuchen schwillt bei jedem Schlag an und beruhigt sich dazwischen.¶
 ƒ kuchen() Satzglied(
 		'🎂'
-		(4m + ((zähler % 2) · 0.4m))
+		(4m + ((zählung % 2) · 0.4m))
 		Dauer: 0.2s
 	)
 

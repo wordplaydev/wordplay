@@ -1,7 +1,7 @@
 🐤
 Colibrí
 === start/en
-¶¡Un juego de un pájaro que tararea! Haz clic o presiona una tecla para aletear, o tararea en el micrófono: el pájaro flota a la altura del tono de tu tarareo. Pasa por los espacios entre las pilas de emojis. Si tocas una pila o el suelo, el juego se estrella; después de estrellarse, hace una cuenta atrás y comienza de nuevo.¶
+¶¡Un juego de colibrí! Haz clic o presiona una tecla para aletear, o tararea al micrófono: el ave flota a la altura del tono de tu tarareo. Pasa por los huecos entre las pilas de emojis. Si tocas una pila o el suelo, el juego se detiene; después del choque, hace una cuenta regresiva y empieza de nuevo.¶
 
 ¶Cada barrera es una pila de emojis de una de estas colecciones.¶
 géneros: [
@@ -13,67 +13,70 @@ géneros: [
 		['⭐' '🌟' '✨' '☁' '🌙']
 	]
 
-¶Qué tanto se mueve una barrera hacia la izquierda en cada tic.¶
+¶Cuánto se mueve una barrera hacia la izquierda en cada tic.¶
 velocidad2: 0.2m
 
-¶Cualquier choque con el pájaro. El techo se llama 'cielo' porque chocar con él solo hace que el pájaro rebote en vez de estrellarse.¶
+¶Cualquier choque con el ave. El techo se llama 'cielo', así que al golpearlo solo rebota y no se choca.¶
 choque: Colisión('pájaro')
-mortal: choque•ø ? ⊥ (choque.objeto ≠ 'sky')
+fatal: choque•ø ? ⊥ (choque.objeto ≠ 'sky')
 
 tic: Tiempo(40ms)
-tickDelJuego: Tiempo(100ms)
+ticDelJuego: Tiempo(100ms)
 
-¶El estado del juego: una fase (1 = cuenta atrás, 2 = jugando, 3 = estrellado) y cuántas décimas de segundo llevamos en ella. Contamos los tics de un solo reloj en vez de restar tiempos, ya que cada Time() comienza desde cero.¶
+¶El estado del juego: una fase (1 = cuenta regresiva, 2 = jugando, 3 = choque) y cuántas décimas de segundo llevamos en ella. Contamos los tics de un solo reloj en lugar de restar tiempos, porque cada Time() empieza desde cero.¶
 •juego(fase•# tics•#)
 juego2•juego: juego(1 0) …
-	∆ tickDelJuego | mortal …
+	∆ ticDelJuego | fatal …
 		juego2.fase ???
 			1: (juego2.tics ≥ 36) ? juego(2 0) juego(
 					1
 					juego2.tics + 1
 				)
-			2: mortal ? juego(3 0) juego2
+			2: fatal ? juego(3 0) juego2
 			3: (juego2.tics ≥ 25) ? juego(1 0)
-				¶Mientras el pájaro descansa sobre algo, los choques mantienen ocupada esta reacción; solo cuenta los tics reales del reloj para que la pausa dure siempre lo mismo.¶
-				juego(3 juego2.tics + (∆ tickDelJuego ? 1 0))
+				¶Mientras el ave descansa sobre algo, los choques mantienen ocupada esta reacción; solo cuenta los tics reales del reloj para que la pausa siempre dure lo mismo.¶
+				juego(3 juego2.tics + (∆ ticDelJuego ? 1 0))
 			juego2
 
-¶El número de la cuenta atrás que se muestra: 3, 2, 1.¶
-cantidad2: (juego2.tics < 12) ? 3 (juego2.tics < 24) ? 2 1
+¶El número de la cuenta regresiva que se muestra: 3, 2, 1.¶
+conteo2: (juego2.tics < 12) ? 3 (juego2.tics < 24) ? 2 1
 
-¶Elige cómo jugar seleccionando el botón 🎤 o ⌨: tararear mueve al pajarito, y los clics y teclas lo hacen aletear. Son modos separados, para que hablar cerca del micrófono no interfiera con el teclado.¶
+¶Elige cómo jugar seleccionando el botón 🎤 o ⌨: tararear mueve al ave, o los clics y las teclas la hacen aletear. Son modos separados, para que hablar cerca del micrófono no pelee con el teclado.¶
 elegido: Elección()
 modo•'': 'tap' … (elegido = 'hum') | (elegido = 'tap') … elegido
 
-¶En el modo de toque, aletea al hacer clic o presionar cualquier tecla.¶
-aletear: (modo = 'tap') & (∆ Botón() | ∆ Tecla())
+¶En modo toque, aletea al hacer clic o al presionar cualquier tecla.¶
+aleteo: (modo = 'tap') & (∆ Botón() | ∆ Tecla())
 
-¶En el modo de tarareo, el pajarito flota a la altura del tono de tu tarareo: notas graves cerca del suelo, notas agudas cerca del cielo, y no más alto.¶
+¶En modo tarareo, el pájaro flota a la altura del tono de tu tarareo: las notas graves cerca del suelo, las agudas cerca del cielo, y no más arriba.¶
 tono2: Tono()
-zumbido: (modo = 'hum') & (tono2 > 50hz)
+tarareo: (modo = 'hum') & (tono2 > 50hz)
 
 ƒ tonoAAltura(hz•#hz)
-	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
+	hz.reescalar(80hz 400hz -4m 5m).límite(-4m 5m)
 
-¶Se acerca poco a poco a la altura tarareada, para que el pajarito se deslice en vez de temblar con cada pequeño cambio de tono.¶
-tonoY•#m: 1m … ∆ tono2 … zumbido ? tonoY.toward(tonoAAltura(tono2) 20%) tonoY
+¶Acércate a la altura del tarareo poco a poco, para que el pájaro se deslice en lugar de temblar con cada cambio del tono.¶
+tonoY•#m: 1m … ∆ tono2 … tarareo ? tonoY.hacia(
+				tonoAAltura(tono2)
+				20%
+			) tonoY
 
-¶El pajarito flota durante la cuenta regresiva, aletea hacia arriba o flota según el tono tarareado mientras se juega, y cae por la gravedad después de un choque.¶
+¶El pájaro se queda en el aire durante la cuenta regresiva, aletea hacia arriba o flota según el tono del tarareo mientras juegas, y cae por la gravedad después de un choque.¶
 lugarDelPájaro: Movimiento(
 		Lugar(-4m 1m)
 		siguientelugar:
 		(juego2.fase = 1) ? Lugar(-4m 1m)
-			((juego2.fase = 2) & zumbido) ? Lugar(-4m tonoY) ø
+			((juego2.fase = 2) & tarareo) ? Lugar(-4m tonoY) ø
 		siguientevelocidad:
 		(juego2.fase = 1) ? Velocidad(0m/s 0m/s)
-			((juego2.fase = 2) & zumbido) ? Velocidad(0m/s 0m/s)
-				((juego2.fase = 2) & aletear) ? Velocidad(
+			((juego2.fase = 2) & tarareo) ? Velocidad(0m/s 0m/s)
+				((juego2.fase = 2) & aleteo) ? Velocidad(
 						0m/s
 						15m/s
 					) ø
 	)
 
-¶El emoji del pollito mira hacia la izquierda, así que cada postura lo voltea para que mire hacia donde va.¶
+¶El emoji del pollito mira a la izquierda, así que cada pose lo voltea para que mire hacia donde va.¶
 pájaro: Frase(
 		'🐤'
 		1m
@@ -92,7 +95,7 @@ pájaro: Frase(
 			)
 	)
 
-¶Cada barrera tiene: una posición horizontal, cuántos emojis cuelgan desde arriba, y de qué colección de emojis está hecha. Las barreras avanzan hacia la izquierda mientras se juega, dan la vuelta hacia la derecha con una nueva forma aleatoria, y se reinician para un juego nuevo.¶
+¶Cada barrera: una posición horizontal, cuántos emojis cuelgan de arriba y de qué colección de emojis está hecha. Las barreras avanzan a la izquierda mientras juegas, reaparecen a la derecha con una forma aleatoria nueva y se reinician en cada juego nuevo.¶
 •tubo(x2•#m arriba•# género•#)
 
 tubo1•tubo: tubo(10m Azar(1 5) Azar(1 6)) …
@@ -151,18 +154,18 @@ tubo4•tubo: tubo(28m Azar(1 5) Azar(1 6)) …
 					tubo4.género
 				)
 
-¶¿Acaba de pasar una barrera junto al pajarito?¶
+¶¿Acaba de pasar una barrera junto al pájaro?¶
 ƒ pasado(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - velocidad2))
 
-puntaje•#: 0 …
+puntos2•#: 0 …
 	(juego2.fase = 1) | ((juego2.fase = 2) & ∆ tic) …
 		(juego2.fase = 1) ? 0
 			(pasado(tubo1.x2) | pasado(tubo2.x2) | pasado(
 						tubo3.x2
-					) | pasado(tubo4.x2)) ? puntaje + 1
-				puntaje
+					) | pasado(tubo4.x2)) ? puntos2 + 1
+				puntos2
 
-¶Construye una pila de emojis como una columna física. La duración de 0s hace que el regreso al lado derecho sea instantáneo en vez de un deslizamiento visible.¶
+¶Construye una pila de emojis como una columna física. La duración de 0s hace que el regreso al lado derecho sea instantáneo y no un deslizamiento visible.¶
 ƒ columna(celdas•# género2•# x4•#m y2•#m)
 	Grupo(
 		Pila('|' 0m)
@@ -177,7 +180,7 @@ puntaje•#: 0 …
 		duración: 0s
 	)
 
-¶Una barrera son dos columnas: una colgando del cielo, otra creciendo desde el suelo, con un espacio de aproximadamente 6 metros entre ellas.¶
+¶Una barrera son dos columnas: una cuelga del cielo y otra crece desde el suelo, con un hueco de unos 6m entre ellas.¶
 ƒ pilas(tubo5•tubo) [
 		columna(
 			tubo5.arriba
@@ -188,27 +191,27 @@ puntaje•#: 0 …
 		columna(6 - tubo5.arriba tubo5.género tubo5.x2 -6m)
 	]
 
-¶El suelo choca al pajarito; el cielo lo rebota hacia abajo.¶
+¶El suelo hace chocar al pájaro; el cielo lo rebota hacia abajo.¶
 suelo: Figura(
 		Rectángulo(-8m -5.7m 8m -6m)
 		fondo: Color(60% 60 130°)
 	)
 cielo: Figura(Rectángulo(-8m 7m 8m 6m) nombre: 'sky')
-muroIzquierdo: Figura(Rectángulo(-8.4m 6m -8m -6m))
-muroDerecho: Figura(Rectángulo(8m 6m 8.4m -6m))
+paredIzquierda: Figura(Rectángulo(-8.4m 6m -8m -6m))
+paredDerecha: Figura(Rectángulo(8m 6m 8.4m -6m))
 
-vistaMarcador: Frase(
-		"\puntaje\"
+vistaDelMarcador: Frase(
+		"\puntos2\"
 		1.5m
 		lugar: Lugar(-0.5m 4m)
 	)
-capas:
+capasSuperiores:
 	juego2.fase ???
-		1: [Frase("\cantidad2\" 3m lugar: Lugar(-1m -1.5m))]
+		1: [Frase("\conteo2\" 3m lugar: Lugar(-1m -1.5m))]
 		3: [Frase('💥' 3m lugar: Lugar(-1.5m -1.5m))]
 		[]
 
-¶El selector de modo: la forma de jugar elegida se ve brillante, la otra se ve tenue.¶
+¶El cambiador de modo: la forma de jugar elegida se ve brillante y la otra se ve opaca.¶
 botónDeTarareo: Frase(
 		'🎤'
 		0.8m
@@ -227,18 +230,18 @@ botónDeToque: Frase(
 	)
 
 instrucciones1: Frase(
-		'¡Elige ⌨ para aletear con clics y teclas, o 🎤 para tararear la altura de tu pajarito!'
+		'Elige ⌨ para aletear con clics y teclas, o 🎤 para tararear la altura de tu pájaro.'
 		0.45m
 		lugar: Lugar(-6.9m -4.7m)
 	)
 instrucciones2: Frase(
-		'Deslízate por los espacios. ¡No toques las pilas!'
+		'Pasa por los huecos. ¡No toques las pilas!'
 		0.4m
 		lugar: Lugar(-4.5m -5.4m)
 	)
 
-¶Un aleteo ya es una sola evaluación: la reacción que levanta al pajarito se dispara con el clic o la tecla y con nada más, así que puede sonar el ala directamente: una nota en el fotograma en que aleteas, y nada el resto del tiempo. Una nota que ya empezó suena hasta el final, así que vaciar esta lista un fotograma después no corta el ala. En el modo de tarareo no hay ningún aleteo, así que la lista se queda vacía y el pajarito está en silencio mientras le cantas.¶
-notasDeAleteo: aletear ? [3] []
+¶Un aleteo ya es una sola evaluación: la reacción que levanta al pájaro se activa con el clic o la tecla y con nada más. Por eso puede hacer sonar el ala directamente: una nota en el cuadro en que aleteas y nada el resto del tiempo. Una nota que ya empezó suena hasta el final, así que vaciar esta lista un cuadro después no corta el ala. En modo tarareo no hay aleteos, así que la lista queda vacía y el pájaro guarda silencio mientras le cantas.¶
+notasDeAleteo: aleteo ? [3] []
 
 sonidoDeAleteo: Música(
 		Pista(
@@ -247,14 +250,14 @@ sonidoDeAleteo: Música(
 			volumen: 70%
 			bucle: ⊥
 		)
-		repetir: aletear
-		nombre: 'aletear'
+		repetir: aleteo
+		nombre: 'aleteo'
 	)
 
-¶Veinte niveles, de inquieto a frenético. Cambiar el tempo se une en el siguiente tiempo musical en vez de empezar de nuevo, para que cada nivel apriete el bucle debajo de ti sin que nunca pierda su lugar; y un choque regresa el puntaje a cero, lo que lo relaja todo de nuevo.¶
-urgencia: (puntaje ÷ 20).mínimo(1)
+¶Veinte puertas que van de inquietas a frenéticas. Cambiar el tempo se empalma en el siguiente tiempo en lugar de empezar de nuevo, así que cada puerta acelera el bucle sin que pierda su lugar. Y un choque regresa el puntaje a cero, lo que lo baja otra vez hasta el principio.¶
+urgencia: (puntos2 ÷ 20).mínimo(1)
 
-¶Frigio por la segunda bemol: un semitono arriba de la nota base, la nota más inquietante que existe sin salirse de la escala. El bajo se apoya en ella cada dos compases y la figura del sintetizador termina ahí, así que el bucle nunca se asienta en ningún lugar.¶
+¶Frigio por la segunda bemol: un semitono arriba de la tónica, la nota más ansiosa que hay sin salir de la escala. El bajo se apoya en ella cada dos compases y la figura del sintetizador termina ahí, así que el bucle nunca se asienta en ningún lado.¶
 canciónAnsiosa: Música(
 		[
 			Pista(
@@ -278,16 +281,16 @@ canciónAnsiosa: Música(
 		]
 		tempo: (100beats/min + (urgencia · 100beats/min))
 		escala: Música.frigia
-		nombre: 'inquieto'
+		nombre: 'ansioso'
 	)
 
-¶Corre durante la cuenta regresiva y el vuelo, y se detiene en seco con un choque, para que el 💥 tenga el espacio para sí solo.¶
+¶Suena durante la cuenta regresiva y el vuelo, y se corta de golpe con un choque, así que el 💥 se queda con todo el espacio.¶
 listaDeCanciones: (juego2.fase = 3) ? [] [canciónAnsiosa]
 
-¶El choque: un platillo, un golpe grave, y la escala inquieta cayendo sobre sí misma desde arriba: las mismas notas que la canción ha estado rondando, sin llegar por fin a ninguna parte.
+¶El choque: un platillo, un golpe grave y la escala ansiosa cayendo por sí sola desde arriba: las mismas notas que la canción ha estado rodeando, que por fin no van a ningún lado.
 
-Este no necesita ningún @Music.replay. Llegar al escenario ya es razón para sonar, y un sonido de un solo disparo que ya terminó se queda en silencio hasta que se va; la cuenta regresiva lo saca del escenario y lo olvida, así que el siguiente choque lo hace sonar de nuevo desde el principio. Dura como un compás y medio, cómodamente dentro de los dos segundos y medio que dura la pausa del choque.¶
-sonidoDeMuerte: Música(
+Este no necesita @Music.replay. Llegar al escenario es una razón para sonar, y un sonido de una sola vez que ya terminó queda en silencio hasta que sale; la cuenta regresiva lo quita del escenario y lo olvida, así que el siguiente choque lo hace sonar otra vez desde el principio. Dura más o menos un tiempo y medio, bien dentro de los dos segundos y medio que dura la pausa del choque.¶
+sonidoDeCaída: Música(
 		[
 			Pista(
 				[8 7 5 4 2 1 ø ø]
@@ -316,24 +319,24 @@ sonidoDeMuerte: Música(
 		nombre: 'choque'
 	)
 
-listaDeMuerte: (juego2.fase = 3) ? [sonidoDeMuerte] []
+listaDeCaída: (juego2.fase = 3) ? [sonidoDeCaída] []
 
 Escenario(
 	[
 		pájaro
 		sonidoDeAleteo
 		:listaDeCanciones
-		:listaDeMuerte
+		:listaDeCaída
 		:pilas(tubo1)
 		:pilas(tubo2)
 		:pilas(tubo3)
 		:pilas(tubo4)
 		suelo
 		cielo
-		muroIzquierdo
-		muroDerecho
-		vistaMarcador
-		:capas
+		paredIzquierda
+		paredDerecha
+		vistaDelMarcador
+		:capasSuperiores
 		botónDeTarareo
 		botónDeToque
 		instrucciones1

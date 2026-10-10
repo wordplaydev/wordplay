@@ -1,5 +1,5 @@
 🍂
-ব্যক্তিগত মানচিত্র – আমি যেসব জায়গায় থেকেছি
+আমার ব্যক্তিগত ম্যাপ – যেসব জায়গায় আমি থেকেছি
 === English/en
 ¶This project has an English and a Hindi version.
 Change the locale on stage to see each one!¶/en
@@ -29,7 +29,7 @@ single run for the speech bubble to wrap however it likes.¶/en
 	লাইন.দৈর্ঘ্য() < 2 ? লাইন[1]
 		লাইন.উপঅনুক্রম(2).সম্মিলিত(
 			লাইন[1]
-			ƒ(যোগফল2 পরবর্তী2) যোগফল2 + `` + পরবর্তী2
+			ƒ(ত্বরণ পরবর্তী2) ত্বরণ + `` + পরবর্তী2
 		)
 
 ¶This 'otherwise' checks the name of the collided object

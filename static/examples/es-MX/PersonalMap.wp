@@ -1,5 +1,5 @@
 🍂
-Mapa personal – Los lugares donde he vivido
+Mapa personal: los lugares donde he vivido
 === English/en
 ¶This project has an English and a Hindi version.
 Change the locale on stage to see each one!¶/en
@@ -25,11 +25,11 @@ name/en,नाम/hi: (choice = ø ? "" choice.objeto)
 single run for the speech bubble to wrap however it likes.¶/en
 ¶शब्द एक-एक पंक्ति में लिखे गए हैं, इसलिए यह उन्हें वापस एक ही धारा में जोड़ता है
 ताकि बातचीत का बुलबुला उन्हें अपनी तरह से लपेट सके।¶/hi
-ƒ flujo(líneas•[`…`])
+ƒ fluir(líneas•[`…`])
 	líneas.longitud() < 2 ? líneas[1]
 		líneas.subsecuencia(2).combinar(
 			líneas[1]
-			ƒ(acum siguiente2) acum + `` + siguiente2
+			ƒ(acel siguiente2) acel + `` + siguiente2
 		)
 
 ¶This 'otherwise' checks the name of the collided object
@@ -187,7 +187,7 @@ Escenario(
 				duración: 0.5s
 			)
 			burbuja: Burbuja(
-				flujo(about)
+				fluir(about)
 				tamaño: 0.5m
 				ajuste: 9m
 				color: Color(0% 0 0°)

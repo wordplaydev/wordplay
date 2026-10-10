@@ -1,17 +1,17 @@
 🔁
-Où est Waldough ?
+Où est Charlie la pâte ?
 === start/en
-¶Trouve Waldough caché dans la foule : cherche l'homme au tee-shirt orange et clique sur lui pour gagner !¶
+¶Trouve Waldough caché dans la foule : cherche l'homme en chemise orange et clique sur lui pour gagner !¶
 
 nom2: Choix()
-attrapé: ⊥ … ∆ (nom2) … (nom2 = 'ResetButton') ? ⊥ ((nom2 = 'Waldough') | attrapé)
+attrapée: ⊥ … ∆ (nom2) … (nom2 = 'ResetButton') ? ⊥ ((nom2 = 'Waldough') | attrapée)
 score: 0 … ∆ (nom2) … (nom2 = 'Waldough') ? 1 + score score
 
 ƒ endroit() Lieu(
 		((0.1 × Aléatoire(-9m 9m)) + Aléatoire(-2m 1m))
 		((0.1 × Aléatoire(-9m 9m)) + Aléatoire(-2m 1m))
 	)
-ƒ nouveauxPoints() [
+ƒ nouveauxEmplacements() [
 		endroit()
 		endroit()
 		endroit()
@@ -32,8 +32,8 @@ score: 0 … ∆ (nom2) … (nom2 = 'Waldough') ? 1 + score score
 		endroit()
 		endroit()
 	]
-points2: nouveauxPoints() … ∆ (nom2) … (nom2 = 'ResetButton') ? nouveauxPoints(
-			) points2
+emplacements: nouveauxEmplacements() … ∆ (nom2) … (nom2 = 'ResetButton') ? nouveauxEmplacements(
+			) emplacements
 
 
 Scène(
@@ -42,12 +42,12 @@ Scène(
 			"🔁"
 			sélectionnable
 			lieu: Lieu(4m -0.5m)
-			aurepos: attrapé ? Pose(rotation: 180°) Pose()
+			aurepos: attrapée ? Pose(rotation: 180°) Pose()
 			durée: 0.5s
 			nom: 'ResetButton'
 		)
 		Phrase(
-			'Cherche le tee-shirt orange'
+			'Cherche la chemise orange'
 			0.2m
 			lieu: Lieu(-6.2m 0.75m)
 			affronter: 'Carter One'
@@ -70,32 +70,32 @@ Scène(
 			lieu: Lieu(-5.9m -1m)
 		)
 
-		Phrase("🏀" lieu: points2[1])
-		Phrase("🦧" lieu: points2[2])
-		Phrase("🍊" lieu: points2[3])
-		Phrase("👻" lieu: points2[4])
-		Phrase("🤖" lieu: points2[5])
-		Phrase("👽" lieu: points2[6])
-		Phrase("🐀" lieu: points2[7])
-		Phrase("🦣" lieu: points2[8])
-		Phrase("🐸" lieu: points2[9])
-		Phrase("🍎" lieu: points2[10])
-		Phrase("💧" lieu: points2[11])
-		Phrase("🍔" lieu: points2[12])
-		Phrase("❤" lieu: points2[13])
-		Phrase("🍥" lieu: points2[14])
+		Phrase("🏀" lieu: emplacements[1])
+		Phrase("🦧" lieu: emplacements[2])
+		Phrase("🍊" lieu: emplacements[3])
+		Phrase("👻" lieu: emplacements[4])
+		Phrase("🤖" lieu: emplacements[5])
+		Phrase("👽" lieu: emplacements[6])
+		Phrase("🐀" lieu: emplacements[7])
+		Phrase("🦣" lieu: emplacements[8])
+		Phrase("🐸" lieu: emplacements[9])
+		Phrase("🍎" lieu: emplacements[10])
+		Phrase("💧" lieu: emplacements[11])
+		Phrase("🍔" lieu: emplacements[12])
+		Phrase("❤" lieu: emplacements[13])
+		Phrase("🍥" lieu: emplacements[14])
 		Phrase(
 			"🧍🏻"
-			sélectionnable: ~attrapé
-			lieu: points2[15]
-			aurepos: attrapé ? Pose(rotation: 180°) Pose()
+			sélectionnable: ~attrapée
+			lieu: emplacements[15]
+			aurepos: attrapée ? Pose(rotation: 180°) Pose()
 			durée: 0s
 			nom: 'Waldough'
 		)
-		Phrase("🔥" lieu: points2[16])
-		Phrase("🎂" lieu: points2[17])
-		Phrase("🐕" lieu: points2[18])
-		Phrase("🦈" lieu: points2[19])
+		Phrase("🔥" lieu: emplacements[16])
+		Phrase("🎂" lieu: emplacements[17])
+		Phrase("🐕" lieu: emplacements[18])
+		Phrase("🦈" lieu: emplacements[19])
 		Forme(Rectangle(-3.5m -3m 3.5m -3.5m))
 		Forme(Rectangle(-3.5m 3.5m 3.5m 3m))
 		Forme(Rectangle(-3.5m 3.5m -3m -3.5m))

@@ -1,12 +1,12 @@
 🧶
-Saltar
+Abalanzarse
 === start
-¶Dirige a un gato con las teclas de flecha y hazlo saltar.
+¶Dirige a un gato con las teclas de flecha y salta.
 
-El gato maúlla cada vez que se mueve. El maullido cuelga de la primera @Pose de su animación de movimiento: una @Pose puede llevar una @Music, que suena en el momento en que esa postura se toma, y un movimiento marca sus posturas cada vez que una comienza. El balanceo se escribe por completo en lugar de dejarse como\Secuencia.vaivén(
-)\ porque las animaciones ya hechas crean sus propias posturas, y una postura es el lugar donde tiene que ir el sonido.¶
+El gato maúlla cada vez que se mueve. El maullido se queda en el primer @Pose de su animación de movimiento: un @Pose puede llevar un @Music, que suena en el momento en que se logra esa pose, y un movimiento logra sus poses cada vez que empieza una. El vaivén está escrito completo y no se deja como \Secuencia.vaivén(
+)\ porque las animaciones ya hechas crean sus propias poses, y la pose es donde debe ir el sonido.¶
 
-¶Un grito corto. Dos movimientos muy seguidos comparten un maullido en lugar de sumar dos, ya que el segundo llega mientras el primer balanceo todavía se está balanceando.¶
+¶Un grito corto. Dos movimientos muy juntos comparten un maullido en vez de sumar dos, porque el segundo llega mientras el primer vaivén todavía se mueve.¶
 miau2: Música(
 		Pista([1] instrumento: Instrumento.gato)
 		volumen: 45%
@@ -15,27 +15,27 @@ miau2: Música(
 
 •posiciónDelGato(posición•#m dirección2•#)
 
-tecla2: Tecla()
+llave2: Tecla()
 velocidad2: 1m
 
-lugarGatuno: posiciónDelGato(5m 1) … ∆ tecla2 …
-		((tecla2 = "FlechaIzquierda") & (lugarGatuno.posición > -10m)) ? posiciónDelGato(
-				lugarGatuno.posición - velocidad2
+lugarDelGatito: posiciónDelGato(5m 1) … ∆ llave2 …
+		((llave2 = 'FlechaIzquierda') & (lugarDelGatito.posición > -10m)) ? posiciónDelGato(
+				lugarDelGatito.posición - velocidad2
 				1
 			)
-			((tecla2 = "FlechaDerecha") & (lugarGatuno.posición < 8m)) ? posiciónDelGato(
-					lugarGatuno.posición + velocidad2
+			((llave2 = 'FlechaDerecha') & (lugarDelGatito.posición < 8m)) ? posiciónDelGato(
+					lugarDelGatito.posición + velocidad2
 					-1
 				)
-				lugarGatuno
+				lugarDelGatito
 
 gatito: Frase(
 		"🐈"
 		fuente: "Noto Color Emoji"
 		nombre: 'gatito'
 		tamaño: 2m
-		lugar: Lugar(lugarGatuno.posición 0m)
-		inmóvil: Pose(voltearx: lugarGatuno.dirección2 < 0)
+		lugar: Lugar(lugarDelGatito.posición 0m)
+		inmóvil: Pose(voltearx: lugarDelGatito.dirección2 < 0)
 		moviendo: Secuencia(
 			{
 				0%: Pose(rotación: -5° música: miau2)
@@ -48,26 +48,29 @@ gatito: Frase(
 		materia: Materia(1000kg redondez: 0.5)
 	)
 
-saltar: Colisión('pelota' 'gatito')
+abalanzarse: Colisión('balón' 'gatito')
 
-pelotaColocar: Movimiento(
+lugarDelBalón: Movimiento(
 		Lugar(0m 9m)
 		siguientevelocidad:
-		saltar•ø ? ø
+		abalanzarse•ø ? ø
 			Velocidad(
-				((saltar.dirección.x ÷ -1m) × Azar(15m/s 25m/s)) + Azar(
+				((abalanzarse.dirección.x ÷ -1m) × Azar(
+							15m/s
+							25m/s
+						)) + Azar(
 						-3m/s
 						3m/s
 					)
 				Azar(27m/s 30m/s)
-				(saltar.dirección.x ÷ -1m) × Azar(0°/s 15°/s)
+				(abalanzarse.dirección.x ÷ -1m) × Azar(0°/s 15°/s)
 			)
 	)
 
-pelota: Frase(
+balón: Frase(
 		"🧶"
-		nombre: 'pelota'
-		lugar: pelotaColocar
+		nombre: 'balón'
+		lugar: lugarDelBalón
 		materia: Materia(1kg 0.5 0 1)
 	)
 
@@ -77,7 +80,7 @@ Escenario(
 		Figura(Rectángulo(-10m -1m -9m 11m))
 		Figura(Rectángulo(10m -1m 9m 11m))
 		Figura(Rectángulo(-10m 10m 10m 11m))
-		pelota
+		balón
 		gatito
 		Frase(
 			'¡presiona ← → para jugar!'

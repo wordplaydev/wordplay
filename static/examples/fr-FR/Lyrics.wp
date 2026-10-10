@@ -1,15 +1,15 @@
 🎸
 Paroles
 === start/en
-¶La chanson classique de Radiohead sur l'album OK Computer, Airbag, avec ses paroles, synchronisées sur le rythme.
+¶La chanson classique d'OK Computer de Radiohead, Airbag, et ses paroles, synchronisées sur le rythme.
 
-Un @Scene avance selon des durées, donc ses mots finissent par ne plus être en phase avec ce qui joue en dessous. Ici, chaque ligne porte le /temps/ sur lequel elle est chantée, et @Beat indique les temps au fur et à mesure qu'on les entend, donc les mots et la musique ne peuvent pas se désynchroniser. Change @Music/tempo et toute la parole suit, car rien ici ne connaît les secondes.
+Une @Scene avance selon des durées, donc ses mots se décalent de tout ce qui joue en dessous. Ici, chaque ligne porte le /temps/ où elle est chantée, et @Beat donne les temps au moment où on les entend, donc les paroles et la musique ne peuvent pas se séparer. Change @Music/tempo et toutes les paroles suivent, parce que rien ici ne connaît les secondes.
 
-Les temps viennent d'un arrangement Logic de la chanson, donc chaque ligne tombe là où elle est vraiment chantée — et cet arrangement est ce qui joue en dessous, importé depuis un fichier MIDI sous forme de 41 pistes de guitare, basse, cordes, batterie, cloches et cuivres. Les mots et les notes comptent les mêmes temps, donc ils ne peuvent que s'accorder.
+Les temps viennent d'un arrangement Logic de la chanson, donc chaque ligne tombe là où elle est vraiment chantée. Cet arrangement est ce qui joue en dessous, importé depuis MIDI en 41 pistes de guitare, de basse, de cordes, de batterie, de cloches et de cuivres. Les paroles et les notes comptent les mêmes temps, donc elles ne peuvent qu'être d'accord.
 
-Pour mettre tes propres mots en musique, modifie seulement @lines et rien d'autre : chacun porte ce qu'il faut dire, le temps où il arrive, combien de temps il tient, et quel traitement utiliser.
+Pour mettre tes propres mots en musique, modifie @lines et rien d'autre : chacun contient ce qu'il faut dire, le temps où il arrive, combien de temps il dure et quel style utiliser.
 
-Chaque voix de l'arrangement vit dans sa propre source, donc aucun fichier n'est un mur de notes. Emprunter une source par son nom donne sa dernière expression — ici un @Track — donc la liste en bas est la partition complète.¶
+Chaque voix de l'arrangement vit dans sa propre source, donc aucun fichier n'est un mur de notes. Emprunter une source par son nom donne sa dernière expression, ici une @Track, donc la liste tout en bas est la partition entière.¶
 ↓ guitar1
 ↓ guitar2
 ↓ guitar3
@@ -53,11 +53,11 @@ Chaque voix de l'arrangement vit dans sa propre source, donc aucun fichier n'est
 ↓ sax3
 
 temps: Rythme()
-¶C'est la seule horloge du programme. @Beat compte à partir de zéro jusqu'à ce que la musique commence, donc elle peut se lire immédiatement.¶
+¶C'est la seule horloge du programme. @Beat compte à partir de zéro jusqu'au début de la musique, donc on peut le lire tout de suite.¶
 compte2: temps.nombre
 
-¶Une ligne : les mots, le temps sur lequel elle est chantée, combien de temps elle tient, et à quoi elle doit ressembler. Chaque début est le premier temps d'une phrase au saxophone qui porte la voix, et chaque tenue se termine avant que la suivante ne commence — donc aucune ligne ne tient plus de cinq temps, ce qui à ce tempo fait déjà trois secondes et demie. Une partie de ce que joue le saxophone ne porte aucun mot : une phrase de réponse après la plupart des demi-couplets (temps 54, 78 et 146), une traîne de notes longues après /car/ et après chaque /burst/, et placer une ligne sur l'une d'elles est ce qui fait démarrer la parole plus tôt. La phrase de réponse à 169,75 est la seule exception, et la mélodie le montre : ce sont les six mêmes notes avec une anacrouse devant, ce qui est ce que devient une phrase quand elle a une syllabe à poser.¶
-•ligne(mots2•'' commencer2•# tenir•# genre2•#)
+¶Une ligne : les mots, le temps où elle est chantée, combien de temps elle dure et quel aspect elle doit avoir. Chaque début est le premier temps d'une phrase du saxophone qui porte la voix, et chaque durée se termine avant le début de la suivante, donc aucune ligne ne dure plus de cinq temps, ce qui, à ce tempo, fait déjà trois secondes et demie. Une partie de ce que joue le saxophone ne porte aucun mot : une phrase en réponse après la plupart des moitiés de couplet (temps 54, 78 et 146), une fin de notes longues après /car/ et après chaque /burst/, et mettre une ligne sur l'une d'elles fait arriver les paroles trop tôt. La phrase en réponse à 169.75 est la seule exception, et la mélodie le montre : ce sont les mêmes six notes avec une levée devant, ce que devient une phrase quand elle a une syllabe sur laquelle se poser.¶
+•ligne(mots2•'' début2•# durée2•# quel•#)
 
 lignes: [
 		ligne('Dans la prochaine guerre mondiale' 39 4 1)
@@ -67,39 +67,54 @@ lignes: [
 		ligne('Qui défile de haut en bas' 67 5 4)
 		ligne('Je renais' 72 4 3)
 		ligne('Dans une explosion interstellaire' 87 4.5 5)
-		ligne("Je reviens sauver l'univers" 95 5 1)
-		ligne('Dans un sommeil profond, profond' 131 4 1)
+		ligne("Je suis de retour pour sauver l'univers" 95 5 1)
+		ligne('Dans un sommeil profond, très profond' 131 4 1)
 		ligne('des innocents' 135 5 1)
 		ligne('Je renais' 140 5 3)
 		ligne('Dans une voiture allemande rapide' 155 4 6)
-		ligne("Je suis étonné d'avoir survécu" 163.25 5 1)
+		ligne("Je suis stupéfait d'avoir survécu" 163.25 5 1)
 		ligne("Un airbag m'a sauvé la vie" 169.75 5 7)
 		ligne('Dans une explosion interstellaire' 179 4.5 5)
-		ligne("Je reviens sauver l'univers" 187 5 1)
+		ligne(
+			"Je suis de retour pour sauver l'univers"
+			187
+			5
+			1
+		)
 		ligne('Dans une explosion interstellaire' 251 4.5 5)
-		ligne("Je reviens sauver l'univers" 259 5 1)
+		ligne(
+			"Je suis de retour pour sauver l'univers"
+			259
+			5
+			1
+		)
 		ligne('Dans une explosion interstellaire' 275 4.5 5)
-		ligne("Je reviens sauver l'univers" 283 5 1)
+		ligne(
+			"Je suis de retour pour sauver l'univers"
+			283
+			5
+			1
+		)
 	]
 
-¶La ligne dont la fenêtre contient ce temps, ou ø entre elles — ce qui correspond à la majeure partie de la chanson, puisqu'elle est surtout instrumentale.¶
+¶La ligne dont la fenêtre contient ce temps, ou ø entre deux lignes, ce qui est le cas pour la plus grande partie de la chanson, car elle est surtout instrumentale.¶
 affichage: lignes.trouver(
-		ƒ(l2•ligne) (compte2 ≥ l2.commencer2) & (compte2 < (l2.commencer2 + l2.tenir))
+		ƒ(l2•ligne) (compte2 ≥ l2.début2) & (compte2 < (l2.début2 + l2.durée2))
 	)
 
-¶Les traitements, un par sorte.¶
+¶Les effets, un par type.¶
 ƒ dire(l3•ligne)•Phrase
-	(l3.genre2 = 2) ?
+	(l3.quel = 2) ?
 		Phrase(
 			l3.mots2
 			rotation: 5°
 			entrer: Pose(opacité: 0 rotation: 0°)
 		)
-		(l3.genre2 = 3) ? Phrase(
+		(l3.quel = 3) ? Phrase(
 				l3.mots2
 				entrer: Pose(échelle: 2)
 			)
-			(l3.genre2 = 4) ?
+			(l3.quel = 4) ?
 				Phrase(
 					l3.mots2
 					couleur: Couleur(50% 136 337°)
@@ -112,11 +127,11 @@ affichage: lignes.trouver(
 						durée: 3s
 					)
 				)
-				(l3.genre2 = 5) ? Phrase(
+				(l3.quel = 5) ? Phrase(
 						l3.mots2
 						entrer: Séquence.secousse(0.75s compter: 5x)
 					)
-					(l3.genre2 = 6) ?
+					(l3.quel = 6) ?
 						Phrase(
 							l3.mots2
 							entrer: Séquence(
@@ -128,8 +143,8 @@ affichage: lignes.trouver(
 								durée: 3s
 							)
 						)
-						(l3.genre2 = 7) ?
-							¶Il surgit comme la chose qu'il nomme : venu de loin et presque invisible, il dépasse sa propre taille en un quart de seconde, puis fait un petit rebond en se posant. Le décalage en z est ce qui le fait paraître venir vers toi plutôt que simplement grandir — la scène met à l'échelle selon la profondeur, donc se déplacer vers qui regarde le fait grossir tout seul.¶
+						(l3.quel = 7) ?
+							¶Il se déclenche comme la chose qu'il nomme : de très loin et presque invisible, il dépasse sa propre taille en un quart de seconde, puis rebondit un peu en se stabilisant. Le décalage en z donne l'impression qu'il vient vers toi, et pas seulement qu'il grandit : la scène change l'échelle selon la profondeur, donc s'approcher du spectateur l'agrandit tout seul.¶
 							Phrase(
 								l3.mots2
 								1.5m
@@ -158,36 +173,36 @@ affichage: lignes.trouver(
 								)
 								aurepos: Séquence.secousse(0.4s)
 							)
-							(l3.genre2 = 8) ? Phrase(l3.mots2 0.7m)
+							(l3.quel = 8) ? Phrase(l3.mots2 0.7m)
 								Phrase(l3.mots2)
 
-¶Donner à une ligne le nom de ses propres mots en fait son propre résultat, ainsi la scène sait qu'elle est partie et peut jouer son @Pose de sortie. Sans ce nom, chaque ligne de la même sorte serait le même résultat, et les mots se remplaceraient sans jamais s'estomper.¶
+¶Nommer une ligne d'après ses propres mots en fait sa propre sortie. La scène sait alors qu'elle est partie et peut jouer son @Pose de sortie. Sans ce nom, toutes les lignes du même type seraient la même sortie, et les mots changeraient sans jamais disparaître en fondu.¶
 ƒ chanté(l4•ligne)•Phrase (
 		dit: dire(l4)
 		((dit.nom:l4.mots2).sortant:Pose(opacité: 0)).durée:0.75s
 	)
 
-¶Quatre symboles de note, choisis selon le battement. @List/length ne peut pas garantir qu'il n'est pas zéro, donc le reste peut être ø ; le 0 est ce que ce ø devient.¶
+¶Quatre symboles de notes, qui changent à chaque temps. @List/length ne peut pas promettre que ce n'est pas zéro, donc le reste peut être ø ; le 0 est ce que devient ce ø.¶
 glyphes2: ['♩' '♪' '♫' '♬']
-glyphe: glyphes2[((compte2 % glyphes2.longueur()) ?? 0) + 1]
+glyphe2: glyphes2[((compte2 % glyphes2.longueur()) ?? 0) + 1]
 
-¶La scène n'a pas de mots pendant la majeure partie de la chanson — la longue introduction, les pauses entre les lignes, la sortie — alors au lieu de s'assombrir, elle montre le battement. Le symbole est son propre nom, donc chacun entre et sort dès qu'il arrive.¶
+¶La scène n'a pas de mots pendant presque toute la chanson : la longue introduction, les pauses entre les lignes, la fin. Au lieu de rester sombre, elle montre le temps. Chaque symbole est son propre nom, donc chacun entre et sort au moment où il arrive.¶
 ƒ notes2()•Phrase
 	Phrase(
-		glyphe
+		glyphe2
 		2m
-		nom: glyphe
+		nom: glyphe2
 		couleur: Couleur(50% 0 0°)
 		entrer: Pose(opacité: 0 échelle: 0.6)
 		sortant: Pose(opacité: 0)
 		durée: 0.3s
 	)
 
-¶Le contenu d'un @Stage ne peut pas contenir ø, donc là où il n'y a pas de mots, la scène montre le battement plutôt que rien.¶
+¶Le contenu d'un @Stage ne peut pas contenir ø. Quand il n'y a pas de mots, la scène montre donc le temps plutôt que rien.¶
 ƒ mots3()•Phrase
 	affichage•ø ? notes2() chanté(affichage)
 
-¶La partition : chaque piste empruntée, jouée au tempo que compte la parole. Chaque note porte sa propre durée et son propre volume, donc rien ici n'a besoin d'un battement — @Music/tempo seul décide de la vitesse de tout.¶
+¶La partition : chaque piste empruntée, jouée au tempo que les paroles comptent. Chaque note porte sa propre durée et son propre volume, donc rien ici n'a besoin d'un temps : @Music/tempo seul décide de la vitesse de tout.¶
 chanson: Musique(
 		[
 			guitar1
@@ -234,7 +249,7 @@ chanson: Musique(
 		]
 		tempo: 84beats/min
 		gamme: Musique.chromatique
-		nom: 'coussin gonflable'
+		nom: 'airbag'
 	)
 
 Scène(
@@ -247,7 +262,7 @@ Scène(
 	couleur: Couleur(100 0 0°)
 )
 === guitar1
-¶Guitare, voix 1 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 1 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -1522,7 +1537,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar2
-¶Guitare, voix 2 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 2 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -1578,7 +1593,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar3
-¶Guitare, voix 3 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 3 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -1591,7 +1606,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar4
-¶Guitare, voix 4 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 4 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -1602,7 +1617,7 @@ Piste(
 	boucle: ⊥
 )
 === violin1
-¶Cordes, voix 1 sur 2. Le fichier de départ l'emprunte par son nom.¶
+¶Cordes, voix 1 sur 2. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -1745,7 +1760,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar5
-¶Guitare, voix 5 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 5 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -1876,7 +1891,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar6
-¶Guitare, voix 6 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 6 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -3545,7 +3560,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar7
-¶Guitare, voix 7 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 7 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -3760,7 +3775,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar8
-¶Guitare, voix 8 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 8 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -3821,7 +3836,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar9
-¶Guitare, voix 9 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 9 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -3834,7 +3849,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar10
-¶Guitare, voix 10 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 10 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -4935,7 +4950,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar11
-¶Guitare, voix 11 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 11 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -5280,7 +5295,7 @@ Piste(
 	boucle: ⊥
 )
 === guitar12
-¶Guitare, voix 12 sur 12. Le fichier de départ l'emprunte par son nom.¶
+¶Guitare, voix 12 sur 12. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -5353,7 +5368,7 @@ Piste(
 	boucle: ⊥
 )
 === flute1
-¶Flûte, voix 1 sur 1. Le fichier de départ l'emprunte par son nom.¶
+¶Flûte, voix 1 sur 1. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -5380,7 +5395,7 @@ Piste(
 	boucle: ⊥
 )
 === violin2
-¶Cordes, voix 2 sur 2. Le fichier de départ l'emprunte par son nom.¶
+¶Cordes, voix 2 sur 2. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -5509,7 +5524,7 @@ Piste(
 	boucle: ⊥
 )
 === synth1
-¶Synthétiseur, voix 1 sur 2. Le fichier de départ l'emprunte par son nom.¶
+¶Synthétiseur, voix 1 sur 2. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -5636,7 +5651,7 @@ Piste(
 	boucle: ⊥
 )
 === bass1
-¶Basse, voix 1 sur 2. Le fichier de départ l'emprunte par son nom.¶
+¶Basse, voix 1 sur 2. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -6409,7 +6424,7 @@ Piste(
 	boucle: ⊥
 )
 === bass2
-¶Basse, voix 2 sur 2. Le fichier commencer l'emprunte par son nom.¶
+¶Basse, voix 2 sur 2. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -6420,7 +6435,7 @@ Piste(
 	boucle: ⊥
 )
 === drums1
-¶Batterie, voix 1 sur 6. Le fichier commencer l'emprunte par son nom.¶
+¶Batterie, voix 1 sur 6. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -7075,7 +7090,7 @@ Piste(
 	boucle: ⊥
 )
 === drums2
-¶Batterie, voix 2 sur 6. Le fichier commencer l'emprunte par son nom.¶
+¶Batterie, voix 2 sur 6. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -7724,7 +7739,7 @@ Piste(
 	boucle: ⊥
 )
 === drums3
-¶Batterie, voix 3 sur 6. Le fichier commencer l'emprunte par son nom.¶
+¶Batterie, voix 3 sur 6. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8253,7 +8268,7 @@ Piste(
 	boucle: ⊥
 )
 === drums4
-¶Batterie, voix 4 sur 6. Le fichier commencer l'emprunte par son nom.¶
+¶Batterie, voix 4 sur 6. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8486,7 +8501,7 @@ Piste(
 	boucle: ⊥
 )
 === drums5
-¶Batterie, voix 5 sur 6. Le fichier commencer l'emprunte par son nom.¶
+¶Batterie, voix 5 sur 6. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8499,7 +8514,7 @@ Piste(
 	boucle: ⊥
 )
 === drums6
-¶Batterie, voix 6 sur 6. Le fichier commencer l'emprunte par son nom.¶
+¶Batterie, voix 6 sur 6. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8512,7 +8527,7 @@ Piste(
 	boucle: ⊥
 )
 === synth2
-¶Synthétiseur, voix 2 sur 2. Le fichier commencer l'emprunte par son nom.¶
+¶Synthé, voix 2 sur 2. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8523,7 +8538,7 @@ Piste(
 	boucle: ⊥
 )
 === bell1
-¶Cloches, voix 1 sur 10. Le fichier commencer l'emprunte par son nom.¶
+¶Cloches, voix 1 sur 10. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8536,7 +8551,7 @@ Piste(
 	boucle: ⊥
 )
 === bell2
-¶Cloches, voix 2 sur 10. Le fichier commencer l'emprunte par son nom.¶
+¶Cloches, voix 2 sur 10. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8549,7 +8564,7 @@ Piste(
 	boucle: ⊥
 )
 === bell3
-¶Cloches, voix 3 sur 10. Le fichier commencer l'emprunte par son nom.¶
+¶Cloches, voix 3 sur 10. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8562,7 +8577,7 @@ Piste(
 	boucle: ⊥
 )
 === bell4
-¶Cloches, voix 4 sur 10. Le fichier commencer l'emprunte par son nom.¶
+¶Cloches, voix 4 sur 10. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8573,7 +8588,7 @@ Piste(
 	boucle: ⊥
 )
 === bell5
-¶Cloches, voix 5 sur 10. Le fichier commencer l'emprunte par son nom.¶
+¶Cloches, voix 5 sur 10. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8584,7 +8599,7 @@ Piste(
 	boucle: ⊥
 )
 === bell6
-¶Cloches, voix 6 sur 10. Le fichier commencer l'emprunte par son nom.¶
+¶Cloches, voix 6 sur 10. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8597,7 +8612,7 @@ Piste(
 	boucle: ⊥
 )
 === bell7
-¶Cloches, voix 7 sur 10. Le fichier commencer l'emprunte par son nom.¶
+¶Cloches, voix 7 sur 10. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8608,7 +8623,7 @@ Piste(
 	boucle: ⊥
 )
 === bell8
-¶Cloches, voix 8 sur 10. Le fichier commencer l'emprunte par son nom.¶
+¶Cloches, voix 8 sur 10. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8621,7 +8636,7 @@ Piste(
 	boucle: ⊥
 )
 === bell9
-¶Cloches, voix 9 sur 10. Le fichier commencer l'emprunte par son nom.¶
+¶Cloches, voix 9 sur 10. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8632,7 +8647,7 @@ Piste(
 	boucle: ⊥
 )
 === bell10
-¶Cloches, voix 10 sur 10. Le fichier commencer l'emprunte par son nom.¶
+¶Cloches, voix 10 sur 10. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8643,7 +8658,7 @@ Piste(
 	boucle: ⊥
 )
 === pad1
-¶Nappe, voix 1 sur 3. Le fichier commencer l'emprunte par son nom.¶
+¶Nappe sonore, voix 1 sur 3. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8658,7 +8673,7 @@ Piste(
 	boucle: ⊥
 )
 === pad2
-¶Nappe, voix 2 sur 3. Le fichier commencer l'emprunte par son nom.¶
+¶Nappe sonore, voix 2 sur 3. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8673,7 +8688,7 @@ Piste(
 	boucle: ⊥
 )
 === pad3
-¶Nappe, voix 3 sur 3. Le fichier commencer l'emprunte par son nom.¶
+¶Nappe sonore, voix 3 sur 3. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8688,7 +8703,7 @@ Piste(
 	boucle: ⊥
 )
 === sax1
-¶Cor, voix 1 sur 3. Le fichier commencer l'emprunte par son nom.¶
+¶Cor, voix 1 sur 3. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8751,7 +8766,7 @@ Piste(
 	boucle: ⊥
 )
 === sax2
-¶Cor, voix 2 sur 3. Le fichier commencer l'emprunte par son nom.¶
+¶Cor, voix 2 sur 3. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[
@@ -8792,7 +8807,7 @@ Piste(
 	boucle: ⊥
 )
 === sax3
-¶Cor, voix 3 sur 3. Le fichier commencer l'emprunte par son nom.¶
+¶Cor, voix 3 sur 3. La source de départ l'emprunte par son nom.¶
 
 Piste(
 	[

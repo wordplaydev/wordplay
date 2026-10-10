@@ -1,11 +1,11 @@
 🕰️
 ঘড়ী
 === start/en
-¶A localized clock in one line of code. @Now ticks a new @Moment every second, and \এতিয়া(
-) → ''\ converts each one to text in your locale, calendar, and time zone, so the clock changes language when your locale does. Try giving @Now a frequency, time zone, and calendar, like \এতিয়া(
+¶এটা শাৰীৰ ক'ডতে স্থানীয়কৃত ঘড়ী। @Now প্ৰতি ছেকেণ্ডত এটা নতুন @Moment টিক কৰে, আৰু \এতিয়া(
+) → ''\ প্ৰতিটো মানক আপোনাৰ অঞ্চল, কেলেণ্ডাৰ আৰু সময় অঞ্চল অনুসৰি পাঠলৈ ৰূপান্তৰ কৰে, সেয়ে আপোনাৰ অঞ্চল সলনি কৰিলে ঘড়ীৰ ভাষাও সলনি হয়। @Now-ক এটা কম্পাংক, সময় অঞ্চল আৰু কেলেণ্ডাৰ দি চেষ্টা কৰক, যেনে \এতিয়া(
 	1s
 	'Asia/Tokyo'
 	'japanese'
-)\.¶
+)\।¶
 
 বাক্যাংশ(এতিয়া() → '' চেহেৰা: 'Doto')

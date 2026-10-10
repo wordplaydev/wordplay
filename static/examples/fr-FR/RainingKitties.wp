@@ -1,14 +1,14 @@
 🐈
-Il pleut des chatons
+Pluie de chatons
 === start/en
-¶Cinquante chatons tombent sur la scène.¶
+¶Cinquante chatons qui tombent comme la pluie sur la scène.¶
 
 compte2: 50
 taille2: 30
 
 •minou(x2•# y2•# z2•# angle2•# vitesse2•#) ()
 
-¶Au début, crée une liste de 20 chatons, chacun placé à un endroit au hasard. Quand l'horloge avance, déplace-les tous un peu vers le bas.¶
+¶Au début, crée une liste de 20 chatons, chacun placé au hasard. À chaque tic de l'horloge, fais descendre tous les chatons un peu.¶
 chatons•[minou]:
 	compte2 → [].traduire(
 		ƒ(_) minou(

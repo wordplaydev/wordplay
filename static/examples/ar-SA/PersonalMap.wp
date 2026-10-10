@@ -1,5 +1,5 @@
 🍂
-خريطتي الشخصية – الأماكن التي عشت فيها
+خريطتي الشخصية – الأماكن التي عشتُ فيها
 === English/en
 ¶This project has an English and a Hindi version.
 Change the locale on stage to see each one!¶/en
@@ -25,11 +25,11 @@ name/en,नाम/hi: (choice = ø ? "" choice.الكائن)
 single run for the speech bubble to wrap however it likes.¶/en
 ¶शब्द एक-एक पंक्ति में लिखे गए हैं, इसलिए यह उन्हें वापस एक ही धारा में जोड़ता है
 ताकि बातचीत का बुलबुला उन्हें अपनी तरह से लपेट सके।¶/hi
-ƒ تدفق(سطور•[`…`])
-	سطور.الطول() < 2 ? سطور[1]
-		سطور.تسلسلفرعي(2).combined(
-			سطور[1]
-			ƒ(تراكم التالي) تراكم + `` + التالي
+ƒ تدفّق(أسطر•[`…`])
+	أسطر.الطول() < 2 ? أسطر[1]
+		أسطر.تسلسلفرعي(2).مدمج(
+			أسطر[1]
+			ƒ(تسارع التالي2) تسارع + `` + التالي2
 		)
 
 ¶This 'otherwise' checks the name of the collided object
@@ -187,7 +187,7 @@ stream to check collisions.¶/en
 				duration: 0.5s
 			)
 			فقاعة: فقاعة(
-				تدفق(about)
+				تدفّق(about)
 				حجم: 0.5m
 				التفاف: 9m
 				لون: Color(0% 0 0°)

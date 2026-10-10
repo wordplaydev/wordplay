@@ -1,57 +1,60 @@
 ⚽
-Futbol
+Futbol americano
 === start/en
-¶Un juego de portera visto desde arriba. Tú eres el guante frente a la portería de la izquierda. Una pelota a la vez se patea desde algún lugar de la cancha, apuntando a un punto dentro del arco, y tú te mueves hacia arriba y hacia abajo para ponerte en su camino. El número cuenta los tiros que has bloqueado: se pone alto cada vez que atajas uno, y crece y se sacude cuando uno pasa junto a ti.¶
+¶Un juego de portería visto desde arriba. Tú eres el guante frente a la portería de la izquierda. Una pelota a la vez sale disparada desde algún lugar de la cancha, apuntando a un punto dentro de la portería, y tú te mueves hacia arriba y hacia abajo para detenerla. El número cuenta los tiros que has bloqueado: se estira bien alto cada vez que atajas uno, y se infla y se sacude cuando uno te pasa.¶
 
-¶El lugar hacia donde se dirige un tiro, y el lugar donde está el guante. Una portería mide más o menos ocho veces el ancho de la portera que la cuida, y por eso una sola persona no puede quedarse en medio y detenerlo todo.
+¶Hacia dónde se apunta un tiro y dónde está el guante. Una portería mide unas ocho veces el ancho de la portera que la cuida. Por eso una sola persona no puede pararse en el centro y atajarlo todo.
 
-Un @Place es la esquina inferior izquierda de una salida, no su centro, así que todo lo que se apunta o se limita abajo se calcula desde el centro y pierde la mitad de su tamaño al convertirse en un @Place. Un emoji también se dibuja bastante más grande que su tamaño indicado: un ⚽ de 0.6m ocupa cerca de 0.9m, y un 🧤 de 1.2m ocupa cerca de 1.25m. Por eso esas mitades se miden, y no se calculan reduciendo a la mitad el tamaño. La velocidad del guante es cuánto se desliza en cada tic.¶
-metaX: -7m
-bordeBoca: 5.2m
-mitadBalón: 0.45m
-porteraX: -6.5m
-mitadPortera: 0.62m
-alcancePortera: 4.5m
-velocidadPortera: 0.55m
+Un @Place es la esquina inferior izquierda de un resultado, no su centro. Por eso todo lo que se apunta o se limita aquí abajo se calcula en centros y cede la mitad de un tamaño cuando se vuelve un @Place. Un emoji también se dibuja bastante más grande que su tamaño: un ⚽ de 0.6m ocupa unos 0.9m y un 🧤 de 1.2m ocupa unos 1.25m. Por eso esas mitades se miden y no se sacan dividiendo el tamaño entre dos. La velocidad del guante es lo que se desliza en cada tic.¶
+porteríaX: -7m
+bordeDeLaBoca: 5.2m
+mitadDelBalón: 0.45m
+porteroX: -6.5m
+mitadDelPortero: 0.62m
+alcanceDelPortero: 4.5m
+velocidadDelPortero: 0.55m
 
 tic: Tiempo(50ms)
 presionar: Tecla(abajo)
 soltar: Tecla(abajo: ⊥)
 
-¶Hacia dónde se mueve el guante. Al presionar una flecha, el guante empieza a moverse, y al soltar esa misma flecha se detiene. Así, el guante se desliza mientras mantengas la tecla presionada. En una boca de portería tan ancha, moverse un paso por cada pulsación nunca llegaría a tiempo.¶
-desviar•#: 0 … ∆ presionar | ∆ soltar …
+¶Hacia dónde se mueve el guante. Al presionar una flecha, el guante empieza a moverse, y al soltar esa misma flecha se detiene. Así el guante se desliza mientras mantengas la tecla presionada. En una boca tan ancha, dar un paso por cada presión nunca llegaría a tiempo.¶
+desviación•#: 0 … ∆ presionar | ∆ soltar …
 		∆ presionar ?
-			((presionar = 'FlechaArriba') ? 1 ((presionar = 'FlechaAbajo') ? -1 desviar))
-			((soltar = 'FlechaArriba') & (desviar = 1)) ? 0
-				((soltar = 'FlechaAbajo') & (desviar = -1)) ? 0
-					desviar
+			((presionar = 'FlechaArriba') ? 1 ((presionar = 'FlechaAbajo') ? -1 desviación))
+			((soltar = 'FlechaArriba') & (desviación = 1)) ? 0
+				((soltar = 'FlechaAbajo') & (desviación = -1)) ? 0
+					desviación
 
-¶El guante no se mueve por física, así que se controla directamente. Se detiene en los límites de su alcance, así que nunca puede salirse de la portería.¶
-porteraY•#m: 0m … ∆ tic …
-		(porteraY + (desviar × velocidadPortera)).limit((alcancePortera · -1) alcancePortera)
+¶La física no mueve el guante, así que se puede dirigir directamente. Se detiene en los extremos de su alcance, así que nunca se sale de la portería.¶
+porteroY•#m: 0m … ∆ tic …
+		(porteroY + (desviación × velocidadDelPortero)).límite(
+			(alcanceDelPortero · -1)
+			alcanceDelPortero
+		)
 
-¶Una atajada y un gol. Cada @Collision reporta el inicio y el fin de un toque, así que ambos se combinan con una comprobación de que este toque es un inicio: sin eso, cada atajada y cada gol se contarían dos veces.¶
-golpeGuante: Colisión('pelota' 'portera')
-golpeRed: Colisión('pelota' 'red')
-atajado: (∆ golpeGuante) & ~(golpeGuante•ø)
-anotado: (∆ golpeRed) & ~(golpeRed•ø)
+¶Una atajada y un gol. Cada @Collision avisa cuando un contacto comienza y cuando termina, así que ambos van acompañados de una revisión de que este es un comienzo. Sin ella, cada atajada y cada gol contarían dos veces.¶
+golpeDeGuante: Colisión('balón' 'portera')
+golpeDeRed: Colisión('balón' 'red')
+atajado: (∆ golpeDeGuante) & ~(golpeDeGuante•ø)
+gol: (∆ golpeDeRed) & ~(golpeDeRed•ø)
 
-•tiro(sx•#m sy•#m inclinación•# velocidad2•#m/s)
+•tiro(tx•#m ty•#m inclinación•# velocidad2•#m/s)
 
-¶Un lugar donde pararse, un lugar en la boca de la portería para apuntar, y la línea entre ambos. Calcular la inclinación entre esos dos puntos es lo que hace que cada tiro llegue exactamente al blanco, sin importar de qué dirección venga.¶
+¶Un lugar donde pararse, un lugar en la boca de la portería hacia donde apuntar y la línea entre ambos. Calcular la inclinación a partir de los dos extremos hace que cada tiro vaya justo a la portería, sin importar desde qué dirección llegue.¶
 ƒ nuevoTiro()•tiro (
 		x2: Azar(2m 6m)
 		y2: Azar(-5.5m 5.5m)
 		apuntar: Azar(-4.7m 4.7m)
-		¶La inclinación es cuánto cambia y por cada metro de x en la trayectoria. Una división puede no tener respuesta, así que el caso ø usa como opción un tiro directo hacia el fondo de la cancha; la pateadora nunca se para sobre la línea de meta, así que ese caso nunca ocurre.¶
-		caer: (apuntar - y2) ÷ (metaX - x2)
-		tiro(x2 y2 (caer•ø ? 0 caer) Azar(16m/s 22m/s))
+		¶La inclinación es cuánto baja la y por cada metro de x. Una división puede no tener respuesta, así que el caso ø vuelve a un tiro recto hacia abajo de la cancha. El pateador nunca se para sobre la línea de gol, así que ese caso nunca aparece.¶
+		caída: (apuntar - y2) ÷ (porteríaX - x2)
+		tiro(x2 y2 (caída•ø ? 0 caída) Azar(16m/s 22m/s))
 	)
 
-¶1 = el balón espera en los pies de la pateadora, 2 = va en camino, 3 = está siendo despejado. Se cuentan tics en lugar de restar relojes, ya que cada @Timestarts empieza en cero. Los bloques son lo que ves; las servidas solo están ahí para darle un nombre nuevo al número en cada tiro, lo cual es lo que hace que se repita su animación.¶
+¶1 = la pelota espera a los pies del pateador, 2 = va en camino, 3 = la están despejando. Se cuentan los tics en lugar de restar relojes, porque cada @Time empieza desde cero. Los bloques son lo que ves. Los saques solo sirven para darle al número un nombre nuevo en cada tiro, y eso es lo que repite su animación.¶
 •ronda(fase•# tics•# bloques•# saques•# último•# tiro2•tiro)
 ronda2•ronda: ronda(1 0 0 0 0 nuevoTiro()) …
-	∆ tic | atajado | anotado …
+	∆ tic | atajado | gol …
 		ronda2.fase ???
 			1: (ronda2.tics ≥ 14)
 			? ronda(
@@ -78,7 +81,7 @@ ronda2•ronda: ronda(1 0 0 0 0 nuevoTiro()) …
 					1
 					ronda2.tiro2
 				)
-				anotado ? ronda(
+				gol ? ronda(
 						3
 						0
 						ronda2.bloques
@@ -86,7 +89,7 @@ ronda2•ronda: ronda(1 0 0 0 0 nuevoTiro()) …
 						2
 						ronda2.tiro2
 					)
-					¶Un balón que nunca llega, por ejemplo, uno que una atajada regresa al juego abierto, se descarta después de unos segundos, para que el juego nunca se quede esperando un resultado que no va a llegar.¶
+					¶Una pelota que nunca llega, por ejemplo una que una atajada devolvió al juego abierto, se da por perdida después de unos segundos. Así el juego nunca se atora esperando un resultado que no llegará.¶
 					(ronda2.tics ≥ 70)
 					? ronda(
 							3
@@ -123,19 +126,19 @@ ronda2•ronda: ronda(1 0 0 0 0 nuevoTiro()) …
 				)
 			ronda2
 
-¶La única evaluación en la que el balón sale del pie de la pateadora. Tiene que ser momentánea: es lo que golpea el balón, y golpearlo dos veces duplicaría su velocidad.¶
+¶La única evaluación en la que la pelota sale del pie del pateador. Tiene que ser momentáneo: es lo que golpea la pelota, y golpearla dos veces duplicaría su velocidad.¶
 pateado: (∆ tic) & (ronda2.fase = 2) & (ronda2.tics = 0)
 
-¶Se mantiene quieto mientras espera, se golpea a lo largo de su línea de tiro cuando se patea, y se regresa hacia la cancha con una atajada o con el fondo de la red, lo cual también evita que un balón rebote dentro de la portería haciendo sonar la red una y otra vez. El aire frena un balón que rueda, tal como lo haría el pasto, así que los tiros van perdiendo velocidad.¶
-pelotaColocar: Movimiento(
+¶Se queda quieta mientras espera, sale disparada por su línea apuntada cuando la patean y una atajada o el fondo de la red la devuelve hacia el campo. Eso también evita que una pelota rebote dentro de la portería haciendo sonar la red una y otra vez. El aire frena a una pelota que rueda, como lo haría el pasto, así que los tiros se van suavizando.¶
+lugarDelBalón: Movimiento(
 		Lugar(
-			(ronda2.tiro2.sx - mitadBalón)
-			(ronda2.tiro2.sy - mitadBalón)
+			(ronda2.tiro2.tx - mitadDelBalón)
+			(ronda2.tiro2.ty - mitadDelBalón)
 		)
 		siguientelugar:
 		(ronda2.fase = 1) ? Lugar(
-				(ronda2.tiro2.sx - mitadBalón)
-				(ronda2.tiro2.sy - mitadBalón)
+				(ronda2.tiro2.tx - mitadDelBalón)
+				(ronda2.tiro2.ty - mitadDelBalón)
 			) ø
 		siguientevelocidad:
 		(ronda2.fase = 1) ? Velocidad(0m/s 0m/s 0°/s)
@@ -144,7 +147,7 @@ pelotaColocar: Movimiento(
 					((ronda2.tiro2.velocidad2 · -1) × ronda2.tiro2.inclinación)
 					Azar(-45°/s 45°/s)
 				)
-				(atajado | anotado) ? Velocidad(
+				(atajado | gol) ? Velocidad(
 						Azar(8m/s 14m/s)
 						Azar(-5m/s 5m/s)
 						Azar(-45°/s 45°/s)
@@ -152,66 +155,66 @@ pelotaColocar: Movimiento(
 					ø
 	)
 
-pelota: Frase(
+balón: Frase(
 		'⚽'
 		0.6m
-		nombre: 'pelota'
-		lugar: pelotaColocar
+		nombre: 'balón'
+		lugar: lugarDelBalón
 		materia: Materia(0.45kg 0.7 0.02)
 	)
 
-¶El guante se observa por nombre arriba, y eso es todo lo que se necesita para estar en el mundo físico, así que no necesita un @Matter. Lo coloca el programa y no la física, así que pasa a través del balón en lugar de golpearlo; la atajada de arriba es lo que hace que el balón regrese. Sus movimientos no se interpolan, así que está exactamente donde tú lo llevaste, en lugar de ir suavizándose después de tu movimiento.¶
+¶Arriba se vigila al guante por su nombre, y eso basta para estar en el mundo físico, así que no necesita @Matter. El programa lo coloca, no la física, así que atraviesa la pelota en lugar de golpearla. La atajada de arriba es la que manda la pelota de vuelta. Sus movimientos no se suavizan, así que está justo donde lo dirigiste y no te sigue poco a poco.¶
 portera: Frase(
 		'🧤'
 		1.2m
 		nombre: 'portera'
-		lugar: Lugar(porteraX (porteraY - mitadPortera))
+		lugar: Lugar(porteroX (porteroY - mitadDelPortero))
 		duración: 0s
 	)
 
-¶Quién está a punto de disparar, y desde dónde. Solo está en la cancha mientras el balón espera.¶
+¶Quién está a punto de tirar y desde dónde. Solo está en la cancha mientras la pelota espera.¶
 pateadora: Frase(
 		'🦵'
 		1.2m
 		lugar: Lugar(
-			(ronda2.tiro2.sx + 0.5m)
-			(ronda2.tiro2.sy - 0.6m)
+			(ronda2.tiro2.tx + 0.5m)
+			(ronda2.tiro2.ty - 0.6m)
 		)
 		duración: 0s
 	)
-listaPateadora: (ronda2.fase = 1) ? [pateadora] []
+listaDePateadoras: (ronda2.fase = 1) ? [pateadora] []
 
-¶La portería: la boca, la red al fondo, y un poste arriba y abajo. Solo la red tiene nombre, así que solo la red puede anotar un gol; un balón que golpeara un poste simplemente rebotaría. La red es deliberadamente gruesa: el tiro más rápido recorre cerca de medio metro entre cada paso de física, y una red más delgada podría dejarlo pasar sin tocarla nunca.¶
-formaRed: Figura(
-		Rectángulo(-8m bordeBoca -7.2m (bordeBoca · -1))
+¶La portería: la boca, la red al fondo y un poste arriba y otro abajo. Solo la red tiene nombre, así que solo la red puede anotar. Una pelota que golpeara un poste simplemente rebotaría. La red es gruesa a propósito: el tiro más rápido avanza cerca de medio metro entre un paso de la física y otro, y una red más delgada podría atravesarla sin tocarla nunca.¶
+formaDeLaRed: Figura(
+		Rectángulo(-8m bordeDeLaBoca -7.2m (bordeDeLaBoca · -1))
 		nombre: 'red'
 		fondo: Color(96% 0 0°)
 	)
-posteSuperior: Figura(
-		Rectángulo(-8m 7m -7.2m bordeBoca)
+posteDeArriba: Figura(
+		Rectángulo(-8m 7m -7.2m bordeDeLaBoca)
 		fondo: Color(35% 0 0°)
 	)
-posteInferior: Figura(
-		Rectángulo(-8m (bordeBoca · -1) -7.2m -7m)
+posteDeAbajo: Figura(
+		Rectángulo(-8m (bordeDeLaBoca · -1) -7.2m -7m)
 		fondo: Color(35% 0 0°)
 	)
 
-¶Las líneas de banda, que mantienen dentro de la cancha a un balón despejado.¶
-muroSuperior: Figura(
+¶Las líneas de banda, que mantienen en la cancha a una pelota despejada.¶
+paredDeArriba: Figura(
 		Rectángulo(-8m 7m 8m 6.8m)
 		fondo: Color(88% 5 130°)
 	)
-muroInferior: Figura(
+paredDeAbajo: Figura(
 		Rectángulo(-8m -6.8m 8m -7m)
 		fondo: Color(88% 5 130°)
 	)
-muroDerecho: Figura(
+paredDerecha: Figura(
 		Rectángulo(7.8m 7m 8m -7m)
 		fondo: Color(88% 5 130°)
 	)
 
-¶Una atajada: el número aparece de un salto y se queda un momento antes de asentarse.¶
-flexiónAtajada: Secuencia(
+¶Una atajada: el número salta un poco y se queda ahí un momento antes de asentarse.¶
+flexiónDeAtajada: Secuencia(
 		{
 			0%: Pose(escala: 1)
 			30%: Pose(escala: 1.5 desplazamiento: Lugar(0m 0.4m))
@@ -224,8 +227,8 @@ flexiónAtajada: Secuencia(
 		0.5s
 	)
 
-¶Un gol: el número crece hasta llenar la pantalla y tiembla, para que un tiro que pase junto a ti nunca sea algo que puedas dejar de notar.¶
-sacudidaMeta: Secuencia(
+¶Un gol: el número crece hasta llenar la pantalla y se sacude, para que no puedas perderte un tiro que te anotó.¶
+sacudidaDeGol: Secuencia(
 		{
 			0%: Pose(escala: 1)
 			8%: Pose(escala: 3.6 rotación: -10°)
@@ -250,30 +253,30 @@ sacudidaMeta: Secuencia(
 		1s
 	)
 
-¶El conteo de tiros bloqueados. Su nombre lleva el número de la servida, así que cada tiro le da una nueva identidad y su animación se reproduce de nuevo; un número cuyo nombre nunca cambiara se animaría una sola vez y después se quedaría quieto.¶
-vistaMarcador: Frase(
+¶El conteo de tiros atajados. Su nombre lleva el número de saque, así que cada tiro le da una identidad nueva y su animación vuelve a empezar. Un número cuyo nombre nunca cambiara se animaría una sola vez y luego se quedaría quieto.¶
+vistaDelMarcador: Frase(
 		"🧤 \ronda2.bloques\"
 		1.4m
 		nombre: "score\ronda2.saques\"
 		lugar: Lugar(-1.4m 4m)
 		duración: 0.2s
 		entrando: ronda2.último ???
-			1: flexiónAtajada
-			2: sacudidaMeta
+			1: flexiónDeAtajada
+			2: sacudidaDeGol
 			Pose()
 	)
 
-¶Las instrucciones se muestran sobre la cancha en lugar de sobre la capa superpuesta: el borde inferior de la capa superpuesta es donde se ubica la representación de la música, y el texto ahí quedaría dibujado encima.¶
+¶Las instrucciones van en la cancha y no en la capa superior. El borde inferior de esa capa es donde está la partitura de la música, y el texto de ahí quedaría tapado.¶
 instrucciones: Frase(
-		'mantén presionado ⬆ ⬇ para mover tu guante. ¡bloquea todos los tiros!'
+		'mantén ⬆ ⬇ para mover tu guante. ¡Ataja cada tiro!'
 		0.55m
 		lugar: Lugar(-6.4m -6.4m)
 	)
 
-¶Tres sonidos: el disparo, la atajada, la red. Cada uno se pone en escenario mientras dura la fase que lo causa, y se quita otra vez después. Llegar al escenario ya es razón suficiente para sonar, y un sonido de una sola vez que ya se reprodujo se queda en silencio hasta que se va y vuelve — así que ninguno de estos necesita un @Music.replay, y ninguno suena cuando el programa comienza.
+¶Tres sonidos: el golpe, la atajada y la red. Cada uno se pone en el escenario mientras dure la fase que lo causa, y después se quita. Llegar al escenario es motivo suficiente para sonar, y un sonido de una sola vez que ya terminó se queda en silencio hasta que sale y vuelve a entrar. Por eso ninguno de estos necesita un @Music.replay, y ninguno suena cuando el programa comienza.
 
-Escribirlos así dice algo que las notas solas no dirían: cada sonido pertenece a una fase de la ronda, y dura exactamente lo que dura esa fase. @Music.replay es la otra forma de escribirlo, para un sonido que responde a un solo momento en vez de a un tramo de tiempo.¶
-sonidoPatada: Música(
+Escribirlos así dice algo que las notas solas no dirían: cada sonido pertenece a una fase de la ronda y dura exactamente lo mismo que esa fase. @Music.replay es la otra forma de escribirlo, para un sonido que responde a un solo momento y no a un tramo de uno.¶
+sonidoDePatada: Música(
 		Pista(
 			[1]
 			instrumento: Instrumento.tambores
@@ -284,7 +287,7 @@ sonidoPatada: Música(
 		nombre: 'patada'
 	)
 
-sonidoAtajada: Música(
+sonidoDeAtajada: Música(
 		Pista(
 			[8 12 15]
 			instrumento: Instrumento.campana
@@ -295,7 +298,7 @@ sonidoAtajada: Música(
 		nombre: 'atajada'
 	)
 
-sonidoGol: Música(
+sonidoDeGol: Música(
 		Pista(
 			[5 4 2 1]
 			instrumento: Instrumento.trompeta
@@ -306,34 +309,34 @@ sonidoGol: Música(
 		nombre: 'meta'
 	)
 
-sonidoResultado: ronda2.último ???
-		1: [sonidoAtajada]
-		2: [sonidoGol]
+sonidoDelResultado: ronda2.último ???
+		1: [sonidoDeAtajada]
+		2: [sonidoDeGol]
 		[]
 
-listaSonidos: ronda2.fase ???
-		2: [sonidoPatada]
-		3: sonidoResultado
+listaDeSonidos: ronda2.fase ???
+		2: [sonidoDePatada]
+		3: sonidoDelResultado
 		[]
 
 Escenario(
 	[
-		pelota
+		balón
 		portera
-		:listaPateadora
-		formaRed
-		posteSuperior
-		posteInferior
-		muroSuperior
-		muroInferior
-		muroDerecho
+		:listaDePateadoras
+		formaDeLaRed
+		posteDeArriba
+		posteDeAbajo
+		paredDeArriba
+		paredDeAbajo
+		paredDerecha
 		instrucciones
-		:listaSonidos
+		:listaDeSonidos
 	]
 	lugar: Lugar(0m 0m -14m)
 	marco: Rectángulo(-8m 7m 8m -7m)
 	fondo: Color(62% 40 140°)
 	color: Color(20% 0 0°)
 	gravedad: 0m/s^2
-	superponer: [vistaMarcador]
+	superponer: [vistaDelMarcador]
 )

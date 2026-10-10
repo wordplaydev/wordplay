@@ -1,9 +1,9 @@
 O
-Clase de japonés
+clase de japonés
 === start
-¶Una historia contada escena por escena sobre un primer día de clase de japonés.¶
+¶Una historia escena por escena sobre el primer día de una clase de japonés.¶
 
-¶Esta es la lista de escenas que se van a mostrar¶
+¶Esta es la lista de escenas que se mostrarán¶
 oraciones: [
 		`On my first day of high school, I started *Japanese* class.`/en
 		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
@@ -17,14 +17,14 @@ oraciones: [
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶Esta es la lista de oraciones que solo deben avanzar al decirlas en voz alta.¶
-decirOraciones: [5 7 9]
+¶Esta es la lista de oraciones que solo deben avanzar al hablar.¶
+hablarOraciones: [5 7 9]
 
-¶Dónde va la historia. El @Scene guarda el lugar, así que aquí no hay nada que contar.¶
-en: Spotlight()
+¶Aquí se guarda dónde va la historia. El @Scene recuerda el lugar, así que aquí no hay que contar nada.¶
+en2: Reflector()
 
-¶Avanza cuando el micrófono suba arriba de .6 en una oración hablada, y cuando un botón o una tecla lo indique en cualquier otro caso.¶
-avanzar: decirOraciones.tiene(en.index) ?
+¶Pasa a la siguiente cuando el micrófono supera .6 en una oración para hablar, y cuando un botón o una tecla lo indica en cualquier otra.¶
+avanzar: hablarOraciones.tiene(en2.índice) ?
 		Volumen() > .6
 		∆ Botón() | ∆ Tecla()
 

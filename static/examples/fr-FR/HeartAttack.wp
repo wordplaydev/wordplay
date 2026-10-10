@@ -1,95 +1,111 @@
 🧟
 Crise cardiaque
 === start/en
-¶Attaque de cœur — une version douce, vue à la première personne, d'un jeu de survie. Tu restes immobile et regardes à travers la caméra de la Scène pendant qu'une horde de zombies attend devant toi.Un par un, le zombie le plus proche avance en titubant droit vers toi. Vise ta voie avec ← →, ton pointeur, ou une pression de chaque côté de l'écran, et lance un cœur avec Espace, un clic, ou une pression. Un cœur s'arrête sur la première silhouette qu'il rencontre, alors vise bien : touche un zombie et il redevient une personne joyeuse, et tu marques un point — et chaque point fait avancer les zombies plus vite. Une personne retournée reste sur place et bloque tes cœurs, alors fais attention à ton angle. Transforme tout le monde pour gagner ; laisse un zombie t'atteindre et c'est fini. Appuie sur Entrée ou touche l'écran pour commencer, et recommencer.
+¶Heart Attack — une version douce d'un jeu de survie à la première personne. Tu restes immobile et tu regardes par la caméra de la scène, pendant qu'une horde de zombies attend devant toi. Un par un, le zombie le plus proche avance en traînant les pieds droit vers toi. Vise ta voie avec ← →, avec ton pointeur ou en touchant un côté de l'écran, puis lance un cœur avec Espace, un clic ou une touche. Un cœur s'arrête sur la première silhouette qu'il rencontre, alors prépare un tir dégagé : si tu touches un zombie, il redevient une personne joyeuse et tu gagnes un point — et chaque point fait avancer les zombies plus vite. Une personne transformée reste sur place et bloque tes cœurs, alors fais attention à ton angle. Transforme tout le monde pour gagner ; si un zombie t'atteint, c'est fini. Entrée ou une touche sur l'écran commence la partie, et la recommence.
 
-Chaque phase a son propre air, et les quatre sont construits sur le même thème — regarde le @Music en bas de page.¶
+Chaque phase a sa propre mélodie, et les quatre sont construites à partir du même thème — regarde le @Music vers le bas.¶
 
-¶Combien de zombies commencent sur le terrain.¶
-nombreZombies: 8
+¶Combien de zombies sont sur le terrain au début.¶
+nombreDeZombies: 8
 
-¶Déplacement et caméra, en mètres : la distance parcourue à chaque pression de touche, tes limites gauche et droite, la profondeur fixe de la caméra pendant le jeu, et où la caméra se place (plus loin en arrière) quand un menu s'affiche.¶
-pasLatéral: 1.2m
+¶Déplacement et caméra, en mètres : de quelle distance tu te déplaces sur le côté à chaque appui de touche, tes limites à gauche et à droite, la profondeur fixe de la caméra pendant le jeu, et l'endroit où la caméra se place (plus loin) quand un menu s'affiche.¶
+pasDeCôté: 1.2m
 limiteGauche: -8m
 limiteDroite: 8m
-profondeurJeu: -1m
-profondeurMenu: -10m
+profondeurDeJeu: -1m
+profondeurDuMenu: -10m
 
-¶Où les zombies apparaissent — répartis de près à loin, toujours bien devant toi — et la zone où ceux qui errent se déplacent (son bord proche reste devant toi, donc seuls les chargeurs peuvent réellement t'atteindre).¶
-profondeurApparitionProche: 6m
-profondeurApparitionLointaine: 22m
-profondeurErranceProche: 3m
-profondeurErranceLointaine: 24m
+¶L'endroit où les zombies apparaissent — répartis du plus proche au plus lointain, tous bien devant toi — et la zone dans laquelle ceux qui rôdent se promènent (son bord le plus proche reste devant toi, donc seuls les zombies qui chargent peuvent vraiment t'atteindre).¶
+profondeurDʼapparitionProche: 6m
+profondeurDʼapparitionLointaine: 22m
+profondeurDʼerranceProche: 3m
+profondeurDʼerranceLointaine: 24m
 
-¶Réglages des cœurs et des collisions : comment un cœur vole et s'estompe, comment il frappe, à quelle distance un zombie doit s'approcher pour terminer la partie, et comment les chargeurs se déplacent — en fonçant, en errant, en zigzaguant, en te suivant, et en accélérant à chaque point. Les deux zombies les plus proches foncent en même temps ; les autres errent.¶
-vitesseCœur: 1m
-portéeCœur: 26m
-rayonImpact: 1.8m
-distancePortée: 1.8m
-vitesseChargeBase: 0.1m
-vitesseErrance: 0.1m
-vitesseZigzag: 0.12m
-largeurZigzag: 1.8m
-vitesseRetour: 0.05m
+¶Réglages des cœurs et des collisions : comment un cœur vole et disparaît, comment il frappe, à quelle distance un zombie doit arriver pour finir la partie, et comment les zombies qui chargent se déplacent — ils se rapprochent, rôdent, zigzaguent, te suivent et accélèrent à chaque point. Les deux zombies les plus proches chargent en même temps ; les autres rôdent.¶
+vitesseDuCœur: 1m
+amplitudeDuCœur: 26m
+rayonDeTouche: 1.8m
+distanceDePortée: 1.8m
+vitesseDeChargeDeBase: 0.1m
+vitesseDʼerrance: 0.1m
+vitesseDeZigzag: 0.12m
+largeurDeZigzag: 1.8m
+vitesseDeRetour: 0.05m
 accélérationParPoint: 0.2
 
-¶Les personnes heureuses qu'un zombie transformé peut devenir.¶
-gens: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '🧑‍🎤' '🦸' '🧚' '🧑‍🍳' '🕺' '💃' '🧑‍⚕']
+¶Les personnes joyeuses qu'un zombie transformé peut devenir.¶
+personnes: [
+		'🧑‍🌾'
+		'👩‍🎨'
+		'🧑‍🚀'
+		'👩‍🔬'
+		'🧑‍🏫'
+		'🧑‍🎤'
+		'🦸'
+		'🧚'
+		'🧑‍🍳'
+		'🕺'
+		'💃'
+		'🧑‍⚕'
+	]
 
-¶Une silhouette sur le terrain : une position, une direction d'errance sur chaque axe (chacune -1 ou 1, utilisée seulement pendant l'errance), si c'est encore un zombie, et quel émoji afficher (🧟 tant que c'est un zombie, une personne une fois transformée).¶
-•zombie(x2•#m z2•#m directionX•# directionZ•# vivant•? visage2•"")
+¶Une silhouette sur le terrain : une position, une direction de promenade sur chaque axe (chacune vaut -1 ou 1, utilisée seulement quand elle rôde), si c'est encore un zombie, et quel emoji afficher (🧟 pour un zombie, une personne une fois transformé).¶
+•Zombie(x2•#m z2•#m directionX•# directionZ•# enVie•? visage2•"")
 
-¶Tout le jeu en une seule valeur : la phase (1 = début, 2 = en jeu, 3 = victoire, 4 = défaite), la position de la caméra ou du joueur, l'état du cœur, le score, et tout le monde sur le terrain.¶
-•jeu(phase•# caméraX•#m zDeLaCaméra•#m cœur•? cœurX•#m cœurZ•#m cœurDépart•#m score•# zombies•[zombie])
+¶Tout le jeu dans une seule valeur : la phase (1 = début, 2 = jeu, 3 = victoire, 4 = défaite), la position de la caméra et du joueur, l'état du cœur, le score, et tous les personnages sur le terrain.¶
+•jeu(phase•# caméraX•#m caméraZ•#m cœur•? cœurX•#m cœurZ•#m cœurDépart•#m score•# zombies•[Zombie])
 
-¶La distance au carré vaut mieux qu'une vraie distance ici : pas de racines carrées, et les unités restent simples (mètres fois mètres), donc la comparaison passe toujours la vérification de taper.¶
+¶La distance au carré vaut mieux qu'une vraie distance ici : pas de racines carrées, et les unités restent propres (mètres fois mètres), donc la comparaison est toujours valide.¶
 ƒ proche(unX•#m unZ•#m deuxX•#m deuxZ•#m rayon2•#m)
 	(((unX - deuxX) · (unX - deuxX)) + ((unZ - deuxZ) · (unZ - deuxZ))) < (rayon2 · rayon2)
 
 ¶Combien de silhouettes sont encore des zombies.¶
-ƒ nombreVivants(zombies2•[zombie]) zombies2.filtre(
-		ƒ(zombie2•zombie) zombie2.vivant
+ƒ nombreDeVivants(zombies2•[Zombie]) zombies2.filtre(
+		ƒ(zombie2•Zombie) zombie2.enVie
 	).longueur(
 	)
 
-¶Avancer d'un pas titubant vers le joueur : vers l'avant en profondeur tout en zigzaguant d'un côté à l'autre pour être plus difficile à toucher, en inversant le zigzag aux bords d'une bande autour de ta voie, et en se dirigeant doucement vers toi entre les mouvements, pour qu'esquiver ne gagne qu'un instant.¶
-ƒ foncerVersJoueur(zombie3•zombie caméraX2•#m vitesseCharge•#m) (
-		tisséX: zombie3.x2 + (zombie3.directionX · vitesseZigzag)
-		guidéX: tisséX + (caméraX2 - tisséX).limit((vitesseRetour · -1) vitesseRetour)
-		auBord: (tisséX > (caméraX2 + largeurZigzag)) | (tisséX < (caméraX2 - largeurZigzag))
-		zombie(
-			guidéX
-			(zombie3.z2 - vitesseCharge)
+¶Avancer d'un pas vers le joueur : vers l'avant en profondeur tout en zigzaguant de côté pour être plus difficile à toucher, en inversant le zigzag aux bords d'une bande autour de ta voie, et en se rapprochant doucement de toi entre les zigzags, pour qu'une esquive ne gagne qu'un instant.¶
+ƒ chargerVersLeJoueur(zombie3•Zombie caméraX2•#m vitesseDeCharge•#m) (
+		xTissé: zombie3.x2 + (zombie3.directionX · vitesseDeZigzag)
+		xRamené: xTissé + (caméraX2 - xTissé).limite(
+					(vitesseDeRetour · -1)
+					vitesseDeRetour
+				)
+		auBord: (xTissé > (caméraX2 + largeurDeZigzag)) | (xTissé < (caméraX2 - largeurDeZigzag))
+		Zombie(
+			xRamené
+			(zombie3.z2 - vitesseDeCharge)
 			(auBord ? (zombie3.directionX · -1) zombie3.directionX)
 			zombie3.directionZ
-			zombie3.vivant
+			zombie3.enVie
 			zombie3.visage2
 		)
 	)
 
-¶Errer d'un pas : dériver selon la direction d'errance, en rebondissant sur les bords du terrain en restant sur place et en inversant la direction suivie.¶
-ƒ errer(zombie4•zombie vitesse2•#m) (
+¶Rôder d'un pas : dériver dans la direction de promenade, en rebondissant sur les bords du terrain : il reste sur place et inverse la direction qu'il suivait.¶
+ƒ errer(zombie4•Zombie vitesse2•#m) (
 		nouveauX: zombie4.x2 + (zombie4.directionX · vitesse2)
 		nouveauZ: zombie4.z2 + (zombie4.directionZ · vitesse2)
-		rebondX: ~((limiteGauche‥limiteDroite) ∋ nouveauX)
-		rebondZ: ~((profondeurErranceProche‥profondeurErranceLointaine) ∋ nouveauZ)
-		zombie(
+		rebondX: ~((limiteGauche ‥ limiteDroite) ∋ nouveauX)
+		rebondZ: ~((profondeurDʼerranceProche ‥ profondeurDʼerranceLointaine) ∋ nouveauZ)
+		Zombie(
 			(rebondX ? zombie4.x2 nouveauX)
 			(rebondZ ? zombie4.z2 nouveauZ)
 			(rebondX ? (zombie4.directionX · -1) zombie4.directionX)
 			(rebondZ ? (zombie4.directionZ · -1) zombie4.directionZ)
-			zombie4.vivant
+			zombie4.enVie
 			zombie4.visage2
 		)
 	)
 
-¶Nouveau terrain de zombies, répartis de près à loin, dispersés de gauche à droite, chacun errant dans une direction aléatoire.¶
-ƒ faireApparaîtreZombies()
-	(nombreZombies → []).traduire(
+¶Un nouveau terrain de zombies, répartis du plus proche au plus lointain, dispersés de gauche à droite, chacun rôdant dans une direction au hasard.¶
+ƒ faireApparaîtreDesZombies()
+	(nombreDeZombies → []).traduire(
 		ƒ(indice2•#)
-			zombie(
+			Zombie(
 				Aléatoire(limiteGauche limiteDroite)
-				(profondeurApparitionProche + (indice2 · ((profondeurApparitionLointaine - profondeurApparitionProche) ÷ nombreZombies)))
+				(profondeurDʼapparitionProche + (indice2 · ((profondeurDʼapparitionLointaine - profondeurDʼapparitionProche) ÷ nombreDeZombies)))
 				[-1 1].aléatoire()
 				[-1 1].aléatoire()
 				⊤
@@ -97,112 +113,118 @@ gens: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 			)
 	)
 
-¶Commencer une nouvelle manche : en train de jouer, caméra à hauteur des yeux, pas de cœur, pas de score.¶
-ƒ nouveauJeu() jeu(
+¶Commencer une nouvelle manche : en jeu, caméra à hauteur des yeux, pas de cœur, pas de score.¶
+ƒ nouvellePartie() jeu(
 		2
 		0m
-		profondeurJeu
+		profondeurDeJeu
 		⊥
 		0m
 		0m
 		0m
 		0
-		faireApparaîtreZombies()
+		faireApparaîtreDesZombies()
 	)
 
-¶Lancer un cœur dans votre voie actuelle, sauf s'il y en a déjà un en l'air. Il part juste devant l'endroit où vous vous trouvez, et non de l'endroit où se trouve la caméra, pour la même raison que le test de portée.¶
-ƒ lancerCœur(jeu2•jeu)
+¶Lance un cœur dans ta voie actuelle, sauf si un cœur est déjà en l'air. Il part juste devant l'endroit où tu te trouves, et non devant la caméra, pour la même raison que le test de portée.¶
+ƒ lancerLeCœur(jeu2•jeu)
 	jeu2.cœur ? jeu2 jeu(
 			jeu2.phase
 			jeu2.caméraX
-			jeu2.zDeLaCaméra
+			jeu2.caméraZ
 			⊤
 			jeu2.caméraX
-			(profondeurJeu + 1m)
-			profondeurJeu
+			(profondeurDeJeu + 1m)
+			profondeurDeJeu
 			jeu2.score
 			jeu2.zombies
 		)
 
-¶Déplacer votre voie d'un pas vers un point, sans jamais dépasser vos limites. Le pointeur indique le point du monde sur lequel il se trouve, donc sa distance par rapport à votre voie montre à quel point il est à votre gauche ou à votre droite — se rapprocher de lui permet au pointeur de viser, et un tapotement de chaque côté vous fait bouger dans cette direction.¶
-ƒ orienterVers(jeu3•jeu cible•#m)
-	jeu3.caméraX:(jeu3.caméraX + (cible - jeu3.caméraX).limit((pasLatéral · -1) pasLatéral)).limit(limiteGauche limiteDroite)
+¶Déplace ta voie d'un pas vers un endroit, sans jamais dépasser tes limites. Le pointeur indique l'endroit du monde qu'il survole, donc sa distance par rapport à ta voie est la distance à ta gauche ou à ta droite — en avançant vers lui, le pointeur sert à viser, et un toucher de chaque côté te déplace dans ce sens.¶
+ƒ focusVers(jeu3•jeu cible•#m)
+	jeu3.caméraX:(jeu3.caméraX + (cible - jeu3.caméraX).limite(
+				(pasDeCôté · -1)
+				pasDeCôté
+			)).limite(
+		limiteGauche
+		limiteDroite
+	)
 
-¶Une touche pressée pendant qu'on joue : se déplacer à gauche ou à droite, ou lancer un cœur.¶
-ƒ appliquerTouchePressée(jeu4•jeu clé2•"")
-	(clé2 = 'Flèche gauche') ? orienterVers(
+¶Une touche pressée pendant le jeu : se décaler à gauche ou à droite, ou lancer un cœur.¶
+ƒ appliquerLʼappuiSurUneTouche(jeu4•jeu clé3•"")
+	(clé3 = 'Flèche gauche') ? focusVers(
 			jeu4
-			(jeu4.caméraX - pasLatéral)
+			(jeu4.caméraX - pasDeCôté)
 		)
-		(clé2 = 'Flèche droite') ? orienterVers(
+		(clé3 = 'Flèche droite') ? focusVers(
 				jeu4
-				(jeu4.caméraX + pasLatéral)
+				(jeu4.caméraX + pasDeCôté)
 			)
-			(clé2 = 'Espace') ? lancerCœur(jeu4)
+			(clé3 = 'Espace') ? lancerLeCœur(jeu4)
 				jeu4
 
-¶Une image du monde : le cœur vole jusqu'à ce qu'il touche la première figure sur son chemin (une personne retournée le bloque tout comme un zombie), un zombie touché se retourne, les deux zombies les plus proches marchent vers le joueur pendant que les autres errent, puis on vérifie s'il y a une victoire (tout le monde retourné) ou une défaite (un zombie vous a atteint). En cas de victoire ou de défaite, la caméra se place à l'endroit du menu.¶
-ƒ avancerMonde(jeu5•jeu) (
-		prochainCœurZ: jeu5.cœur ? (jeu5.cœurZ + vitesseCœur) jeu5.cœurZ
-		cœurEstompé: jeu5.cœur & ((prochainCœurZ - jeu5.cœurDépart) > portéeCœur)
-		cœurActif: jeu5.cœur & ~cœurEstompé
-		vitesseCharge2: vitesseChargeBase · (1 + (jeu5.score · accélérationParPoint))
-		¶Les zombies vivants les plus proches chargent ; leurs profondeurs permettent de les repérer.¶
-		vivantParProfondeur: jeu5.zombies.filtre(
-				ƒ(zombie5•zombie) zombie5.vivant
+¶Une image du monde : le cœur vole jusqu'à toucher la première silhouette sur son chemin (une personne transformée le bloque comme un zombie), transforme un zombie touché, fait avancer les deux zombies les plus proches vers le joueur pendant que les autres errent, puis vérifie la victoire (tout le monde est transformé) ou la défaite (un zombie t'a atteint). En cas de victoire ou de défaite, place la caméra à l'endroit du menu.¶
+ƒ faireAvancerLeMonde(jeu5•jeu) (
+		prochainCœurZ: jeu5.cœur ? (jeu5.cœurZ + vitesseDuCœur) jeu5.cœurZ
+		cœurPâli: jeu5.cœur & ((prochainCœurZ - jeu5.cœurDépart) > amplitudeDuCœur)
+		cœurActif: jeu5.cœur & ~cœurPâli
+		vitesseDeCharge2: vitesseDeChargeDeBase · (1 + (jeu5.score · accélérationParPoint))
+		¶Les zombies vivants les plus proches foncent sur toi ; leurs profondeurs les désignent plus bas.¶
+		vivantsParProfondeur: jeu5.zombies.filtre(
+				ƒ(zombie5•Zombie) zombie5.enVie
 			).trié(
-				ƒ(zombie6•zombie) zombie6.z2
+				ƒ(zombie6•Zombie) zombie6.z2
 			)
-		premièreProfondeurChargeur: (vivantParProfondeur.longueur(
-				) ≥ 1) ? vivantParProfondeur[1].z2 -999m
-		deuxièmeProfondeurChargeur: (vivantParProfondeur.longueur(
-				) ≥ 2) ? vivantParProfondeur[2].z2 -999m
-		figuresSurChemin: cœurActif ? jeu5.zombies.filtre(
-					ƒ(zombie7•zombie) proche(
+		profondeurDuPremierChargeur: (vivantsParProfondeur.longueur(
+				) ≥ 1) ? vivantsParProfondeur[1].z2 -999m
+		profondeurDuDeuxièmeChargeur: (vivantsParProfondeur.longueur(
+				) ≥ 2) ? vivantsParProfondeur[2].z2 -999m
+		figuresSurLeChemin: cœurActif ? jeu5.zombies.filtre(
+					ƒ(zombie7•Zombie) proche(
 							zombie7.x2
 							zombie7.z2
 							jeu5.cœurX
 							prochainCœurZ
-							rayonImpact
+							rayonDeTouche
 						)
 				) []
-		figureFrappée: figuresSurChemin.trié(
-				ƒ(zombie8•zombie) zombie8.z2
+		figureTouchée: figuresSurLeChemin.trié(
+				ƒ(zombie8•Zombie) zombie8.z2
 			).dabord(
 			)
-		profondeurFrappée: (figureFrappée•ø) ? -999m figureFrappée.z2
-		conversion: (figureFrappée•ø) ? ⊥ figureFrappée.vivant
+		profondeurTouchée: (figureTouchée•ø) ? -999m figureTouchée.z2
+		conversion: (figureTouchée•ø) ? ⊥ figureTouchée.enVie
 		prochainsZombies: jeu5.zombies.traduire(
-				ƒ(zombie9•zombie)
-					zombie9.vivant ?
-						((conversion & (zombie9.z2 = profondeurFrappée)) ? zombie(
+				ƒ(zombie9•Zombie)
+					zombie9.enVie ?
+						((conversion & (zombie9.z2 = profondeurTouchée)) ? Zombie(
 									zombie9.x2
 									zombie9.z2
 									zombie9.directionX
 									zombie9.directionZ
 									⊥
-									gens.aléatoire()
+									personnes.aléatoire()
 								)
-								(((zombie9.z2 = premièreProfondeurChargeur) | (zombie9.z2 = deuxièmeProfondeurChargeur)) ? foncerVersJoueur(
+								(((zombie9.z2 = profondeurDuPremierChargeur) | (zombie9.z2 = profondeurDuDeuxièmeChargeur)) ? chargerVersLeJoueur(
 											zombie9
 											jeu5.caméraX
-											vitesseCharge2
-										) errer(zombie9 vitesseErrance)))
+											vitesseDeCharge2
+										) errer(zombie9 vitesseDʼerrance)))
 						zombie9
 			)
-		nombreConverti: nombreVivants(jeu5.zombies) - nombreVivants(
+		nombreConverti: nombreDeVivants(jeu5.zombies) - nombreDeVivants(
 					prochainsZombies
 				)
-		prochainCœur: cœurActif & (figureFrappée•ø)
-		¶Tout zombie vivant qui atteint votre profondeur termine la partie — quelle que soit sa voie — pour qu'aucun ne puisse jamais vous dépasser vers un état impossible à gagner. Ceci se mesure par rapport à\profondeurJeu\, là où vous vous tenez, et jamais par rapport à la caméra : la scène recule la caméra sur les petits écrans et la personne qui regarde peut encore zoomer davantage, et rien de tout cela ne devrait changer la distance à laquelle un zombie doit s'approcher.¶
+		prochainCœur: cœurActif & (figureTouchée•ø)
+		¶Tout zombie vivant qui atteint ta profondeur met fin à la partie — quelle que soit sa voie — donc aucun ne peut te dépasser et créer une situation impossible à gagner. Cela se mesure par rapport à \profondeurDeJeu\, l'endroit où tu te trouves, et jamais par rapport à la caméra : la scène recule la caméra sur les petits écrans et le spectateur peut encore zoomer, et rien de tout cela ne doit changer la distance dont un zombie a besoin.¶
 		perdu: prochainsZombies.filtre(
-				ƒ(zombie10•zombie) zombie10.vivant & (zombie10.z2 ≤ (profondeurJeu + distancePortée))
+				ƒ(zombie10•Zombie) zombie10.enVie & (zombie10.z2 ≤ (profondeurDeJeu + distanceDePortée))
 			).longueur(
 			) > 0
-		gagné: nombreVivants(prochainsZombies) = 0
+		gagné: nombreDeVivants(prochainsZombies) = 0
 		prochainePhase: gagné ? 3 (perdu ? 4 2)
 		prochaineCaméraX: (prochainePhase = 2) ? jeu5.caméraX 0m
-		prochaineCaméraZ: (prochainePhase = 2) ? jeu5.zDeLaCaméra profondeurMenu
+		prochaineCaméraZ: (prochainePhase = 2) ? jeu5.caméraZ profondeurDuMenu
 		jeu(
 			prochainePhase
 			prochaineCaméraX
@@ -216,42 +238,42 @@ gens: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 		)
 	)
 
-clé3: Clé()
+clé4: Clé()
 tic: Temps(30ms)
 pointeur: Aiguille()
-tapoter: Bouton()
+toucher: Bouton()
 
-¶Le battement de cœur du jeu, animé par quatre entrées : un tic d'horloge, une touche, un mouvement du pointeur, et un clic ou un tapotement. Pendant qu'on joue, un tic fait avancer le monde, les touches déplacent et lancent, le mouvement du pointeur vise votre voie, et un tapotement lance un cœur. Depuis un menu, une touche Entrée ou un tapotement commence une nouvelle manche — un tapotement pour que les joueurs sur écran tactile puissent commencer, et Entrée (et non Espace) pour qu'appuyer frénétiquement sur Espace pour lancer ne relance jamais la partie par accident.¶
+¶Le cœur du jeu, piloté par quatre entrées : un tic d'horloge, une touche, un mouvement du pointeur et un clic ou toucher. Pendant le jeu, un tic fait avancer le monde, les touches décalent et lancent, le mouvement du pointeur vise ta voie, et un toucher lance un cœur. Depuis un menu, la touche Entrée ou un toucher lance une nouvelle partie — un toucher pour que les joueurs sur écran tactile puissent commencer, et Entrée (pas Espace) pour qu'en martelant Espace pour lancer, on ne recommence jamais par accident.¶
 jeu6•jeu: jeu(
 		1
 		0m
-		profondeurMenu
+		profondeurDuMenu
 		⊥
 		0m
 		0m
 		0m
 		0
-		faireApparaîtreZombies()
+		faireApparaîtreDesZombies()
 	)
-	… (∆ tic | ∆ clé3 | ∆ pointeur | ∆ tapoter) …
+	… (∆ tic | ∆ clé4 | ∆ pointeur | ∆ toucher) …
 		(jeu6.phase = 2)
-		? (∆ tic ? avancerMonde(jeu6)
-					(∆ clé3 ? appliquerTouchePressée(jeu6 clé3)
-							(∆ pointeur ? orienterVers(jeu6 pointeur.x) lancerCœur(
+		? (∆ tic ? faireAvancerLeMonde(jeu6)
+					(∆ clé4 ? appliquerLʼappuiSurUneTouche(jeu6 clé4)
+							(∆ pointeur ? focusVers(jeu6 pointeur.x) lancerLeCœur(
 										jeu6
 									))))
 			(∆ tic ? jeu6
-					(∆ clé3 ? ((clé3 = 'Entrer') ? nouveauJeu() jeu6)
-							(∆ tapoter ? nouveauJeu() jeu6)))
+					(∆ clé4 ? ((clé4 = 'Entrer') ? nouvellePartie() jeu6)
+							(∆ toucher ? nouvellePartie() jeu6)))
 
-¶Une figure sur la scène : les zombies se balancent, les personnes retournées font un petit bond joyeux. La profondeur fait le reste — un zombie qui charge paraît plus grand à mesure qu'il approche. La durée de 0s fait que chaque pas se place instantanément au lieu de s'adoucir, ce qui fait paraître le mouvement fluide, image par image, plutôt que comme un rattrapage en retard.¶
-ƒ vueZombie(zombie11•zombie)
+¶Une silhouette sur la scène : les zombies se balancent, les personnes transformées font un petit rebond joyeux. La profondeur fait le reste — un zombie qui charge paraît plus grand en s'approchant. La durée de 0 s fait que chaque pas se fait tout de suite au lieu de glisser doucement, donc le mouvement ressemble à des images nettes plutôt qu'à un rattrapage en retard.¶
+ƒ vueDuZombie(zombie11•Zombie)
 	Phrase(
 		zombie11.visage2
 		2m
 		durée: 0s
 		lieu: Lieu(zombie11.x2 0m zombie11.z2)
-		aurepos: zombie11.vivant
+		aurepos: zombie11.enVie
 		? Séquence.balancement(4° 1s "zippy")
 			Séquence(
 				{
@@ -263,13 +285,17 @@ jeu6•jeu: jeu(
 			)
 	)
 
-¶Le sol : des barres à des profondeurs croissantes que la perspective lit comme un plan de sol qui recule vers l'horizon, s'estompant du vert au bleu-vert pour créer une ambiance. La première barre est la ligne qu'un zombie doit franchir pour terminer la partie, tracée en rouge d'avertissement pour que la règle soit visible : la caméra recule sur les petits écrans et la personne qui regarde peut dézoomer, et un zombie qui semble loin se trouve pourtant déjà sur cette ligne quand il vous attrape.¶
+¶Le sol : des barres à des profondeurs croissantes que la perspective fait voir comme un sol qui s'éloigne vers l'horizon, avec un dégradé du vert au bleu-vert pour l'ambiance. La première barre est la ligne qu'un zombie doit franchir pour mettre fin à la partie, dessinée en rouge d'alerte pour que la règle soit visible : la caméra recule sur les petits écrans et le spectateur peut dézoomer, et un zombie qui semble loin se tient pourtant sur cette ligne quand il t'attrape.¶
 sol2: [
 		Phrase(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			durée: 0s
-			lieu: Lieu(0m -2.8m (profondeurJeu + distancePortée))
+			lieu: Lieu(
+				0m
+				-2.8m
+				(profondeurDeJeu + distanceDePortée)
+			)
 			couleur: Couleur(58% 55 25°)
 		)
 		Phrase(
@@ -316,26 +342,26 @@ sol2: [
 		)
 	]
 
-¶Un cœur qui vole dans le monde, et un affichage du score fixé à plat en haut de l'écran grâce à la superposition de la scène, de sorte qu'il reste immobile pendant que la caméra se déplace.¶
-vueCœur: Phrase(
+¶Un cœur qui vole dans le monde, et un affichage du score collé à plat en haut de l'écran grâce à la superposition de la scène, pour qu'il reste en place quand la caméra se décale.¶
+vueDuCœur: Phrase(
 		'🫀'
 		1.2m
 		durée: 0s
 		lieu: Lieu(jeu6.cœurX 0m jeu6.cœurZ)
 	)
-affichageScore: Phrase(
+affichageDuScore: Phrase(
 		"🫀 \jeu6.score\"
 		1.2m
 		lieu: Lieu(0m 4m)
 	)
 
-¶Le texte du menu, partagé par les écrans de début, de victoire et de défaite.¶
+¶Le texte du menu, partagé par les écrans de départ, de victoire et de défaite.¶
 titreDeLʼécran: jeu6.phase ???
-		3: '🎉 Vous avez sauvé tout le monde ! 🎉'
-		4: '💀 Un zombie vous a eu ! 💀'
+		3: '🎉 Tu as sauvé tout le monde ! 🎉'
+		4: "💀 Un zombie t'a eu ! 💀"
 		'🫀 CRISE CARDIAQUE 🫀'
-screenSubtitle: (jeu6.phase = 1) ? "Une horde de zombies s'est échappée. Retournez-les avec de l'amour." "Score: \jeu6.score\"
-ligneDeDépart: (jeu6.phase = 1) ? "Appuyez sur Entrée ou touchez l'écran pour commencer" "Appuyez sur Entrée ou touchez l'écran pour rejouer"
+screenSubtitle: (jeu6.phase = 1) ? "Une horde de zombies est lâchée. Ramène-les à la normale avec de l'amour." "Score: \jeu6.score\"
+ligneDeDépart: (jeu6.phase = 1) ? 'Appuie sur Entrée ou touche pour commencer' 'Appuie sur Entrée ou touche pour rejouer'
 
 vueDeLʼécran: [
 		Groupe(
@@ -343,9 +369,9 @@ vueDeLʼécran: [
 			[
 				Phrase(titreDeLʼécran 1.1m)
 				Phrase(screenSubtitle 0.6m)
-				Phrase('← → ou pointez pour viser' 0.5m)
+				Phrase('← → ou pointe pour viser' 0.5m)
 				Phrase(
-					'Espace, clic, ou tapotement pour un cœur 🫀'
+					'Espace, clic ou toucher pour un cœur 🫀'
 					0.5m
 				)
 				Phrase(ligneDeDépart 0.7m)
@@ -353,28 +379,29 @@ vueDeLʼécran: [
 		)
 	]
 
-¶Afficher le terrain et son sol pendant qu'on joue, et le menu autrement. Chaque liste est vide dans la mauvaise phase, et une liste vide ne donne rien.¶
-listeSol: (jeu6.phase = 2) ? sol2 []
-listeZombies: (jeu6.phase = 2) ? jeu6.zombies.traduire(
-			ƒ(zombie12•zombie) vueZombie(zombie12)
+¶Affiche le terrain et son sol pendant le jeu, et le menu sinon. Chaque liste est vide dans la mauvaise phase, et une liste vide se répand en rien.¶
+listeDesÉtages: (jeu6.phase = 2) ? sol2 []
+listeDesZombies: (jeu6.phase = 2) ? jeu6.zombies.traduire(
+			ƒ(zombie12•Zombie) vueDuZombie(zombie12)
 		) []
-listeCœurs: ((jeu6.phase = 2) & jeu6.cœur) ? [vueCœur] []
-coucheScore: (jeu6.phase = 2) ? [affichageScore] []
-listeÉcrans: (jeu6.phase ≠ 2) ? vueDeLʼécran []
+listeDesCœurs: ((jeu6.phase = 2) & jeu6.cœur) ? [vueDuCœur] [
+		]
+calqueDuScore: (jeu6.phase = 2) ? [affichageDuScore] []
+listeDeLʼécran: (jeu6.phase ≠ 2) ? vueDeLʼécran []
 
-¶La teinte de la scène reflète le résultat : un vert chaud en cas de victoire, un rouge sombre en cas de défaite, et le violet crépusculaire par défaut au démarrage ou pendant le jeu.¶
-fondDeScène: jeu6.phase ???
+¶La teinte de la scène reflète le résultat : un vert chaud en cas de victoire, un rouge sombre en cas de défaite, et le violet crépusculaire par défaut au départ ou pendant le jeu.¶
+stageBackground: jeu6.phase ???
 		3: Couleur(48% 42 145°)
 		4: Couleur(22% 45 25°)
 		Couleur(25% 20 285°)
 
-¶Un même thème parcourt les quatre morceaux : on monte l'accord mineur parfait jusqu'à la sixte, puis on redescend. L'astuce, c'est que ces sept mêmes degrés sont inquiétants en mineur harmonique et joyeux en majeur, si bien que la musique de victoire joue exactement la même mélodie — elle cesse simplement d'être un film d'horreur.
+¶Un seul thème traverse les quatre airs : monter l'accord mineur jusqu'à la sixte puis redescendre. L'astuce, c'est que ces mêmes sept degrés sont sinistres en mineur harmonique et joyeux en majeur, donc la musique de victoire joue exactement la même mélodie — elle cesse simplement d'être un film d'horreur.
 
-Chaque piste ci-dessous dure exactement huit temps, quelle que soit la durée de ses notes, de sorte qu'elles reviennent toutes ensemble et que chaque morceau boucle sans coupure.¶
+Chaque piste ci-dessous dure exactement huit temps, quelle que soit la longueur de ses notes, donc elles reviennent toutes ensemble et chaque air boucle sans coupure.¶
 thème: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
 
-¶En attente du début : un bourdonnement lent, le thème au loin joué par une clochette, et un battement de cœur en dessous.¶
-chansonMenu: Musique(
+¶En attente du départ : un bourdon lent, le thème au loin sur une cloche, et un battement de cœur en dessous.¶
+chansonDuMenu: Musique(
 		[
 			Piste(
 				thème
@@ -406,8 +433,8 @@ chansonMenu: Musique(
 		nom: 'menu'
 	)
 
-¶La poursuite : le même thème à presque deux fois la vitesse, sur une basse continue et une grosse caisse qui ne s'arrête jamais.¶
-chansonPoursuite: Musique(
+¶La poursuite : le même thème presque deux fois plus vite, sur une basse qui court et une grosse caisse qui ne s'arrête jamais.¶
+chansonDeLaPoursuite: Musique(
 		[
 			Piste(
 				thème
@@ -433,8 +460,8 @@ chansonPoursuite: Musique(
 		nom: 'poursuite'
 	)
 
-¶La victoire : le même thème en gamme majeure, doublé une octave plus haut à la flûte, sur les accords les plus lumineux de l'exemple. Le seul air joyeux ici.¶
-chansonVictoire: Musique(
+¶La victoire : le même thème en gamme majeure, doublé une octave plus haut à la flûte, sur les accords les plus lumineux de l'exemple. C'est la seule mélodie joyeuse ici.¶
+chansonDeLaVictoire: Musique(
 		[
 			Piste(
 				thème
@@ -464,11 +491,11 @@ chansonVictoire: Musique(
 		]
 		tempo: 120beats/min
 		gamme: Musique.majeur
-		nom: 'victoire'
+		nom: 'gagner'
 	)
 
-¶La défaite : le thème une octave plus bas et à moitié moins vite que dans le menu, sur un bourdon de didgeridoo et des accords qui renoncent à revenir à la maison — ils se terminent sur la sixte au lieu de la tonique, si bien que la boucle ne se résout jamais.¶
-chansonDéfaite: Musique(
+¶La défaite : le thème une octave plus bas et deux fois plus lent que celui du menu, sur un bourdon de didgeridoo et des accords qui renoncent à rentrer à la maison. Ils finissent sur la sixte au lieu de la tonique, donc la boucle ne se résout jamais.¶
+chansonDeLaDéfaite: Musique(
 		[
 			Piste(
 				thème
@@ -498,26 +525,26 @@ chansonDéfaite: Musique(
 		]
 		tempo: 56beats/min
 		gamme: Musique.mineurHarmonique
-		nom: 'défaite'
+		nom: 'perdre'
 	)
 
-¶Seul l'air de la phase en cours est en scène, et un @Music qui n'est plus là s'arrête — donc changer de phase, c'est ce qui change la musique.¶
-bandeSonore: jeu6.phase ???
-		1: chansonMenu
-		3: chansonVictoire
-		4: chansonDéfaite
-		chansonPoursuite
+¶Seule la mélodie de la phase en cours est sur la scène, et un @Music qui n'est plus là s'arrête. Changer de phase change donc la musique.¶
+bandeSon: jeu6.phase ???
+		1: chansonDuMenu
+		3: chansonDeLaVictoire
+		4: chansonDeLaDéfaite
+		chansonDeLaPoursuite
 
 Scène(
 	[
-		:listeSol
-		:listeZombies
-		:listeCœurs
-		:listeÉcrans
-		bandeSonore
+		:listeDesÉtages
+		:listeDesZombies
+		:listeDesCœurs
+		:listeDeLʼécran
+		bandeSon
 	]
-	lieu: Lieu(jeu6.caméraX 0m jeu6.zDeLaCaméra)
-	arrièreplan: fondDeScène
+	lieu: Lieu(jeu6.caméraX 0m jeu6.caméraZ)
+	arrièreplan: stageBackground
 	couleur: Couleur(97% 0 0°)
-	superposition: coucheScore
+	superposition: calqueDuScore
 )

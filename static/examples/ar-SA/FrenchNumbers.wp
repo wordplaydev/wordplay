@@ -1,12 +1,12 @@
 t
-الأرقام بالفرنسية
+الأعداد الفرنسية
 === start/en-US,start/fr-FR
-¶اضغط الرقم الذي يطابق الرقم الفرنسي الظاهر على المسرح.¶
+¶اضغط الرقم الذي يطابق الرقم الفرنسي المعروض على المسرح.¶
 ¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
 
 ¶الأرقام التي يجب تخمينها¶
 ¶Les nombres à deviner¶/fr
-أرقام2,numeros/fr: [
+الأرقام,numeros/fr: [
 		"un"/fr
 		"deux"/fr
 		"trois"/fr
@@ -20,40 +20,40 @@ t
 
 ¶الأسرار هي الأرقام من 1 إلى 9 بترتيب عشوائي¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-أسرار: [:1‥9].مخلوطة()
+الأسرار: [:1 ‥ 9].مخلوطة()
 
-¶ما هو آخر مفتاح تم الضغط عليه؟¶
+¶ما هو آخر مفتاح تم ضغطه؟¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-مفتاح2,clé/fr: مفتاح()
+مفتاح3,clé/fr: مفتاح()
 
 ¶يزداد السر الحالي في كل مرة يُضغط فيها مفتاح، لكنه يتوقف عند 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
 فهرسالسر,secretIndice/fr•#:
 	1 …
-	∆ مفتاح2 …
+	∆ مفتاح3 …
 		(secretIndice < 10) ? secretIndice + 1 secretIndice
 
 ¶السر الحالي، بناءً على فهرس السر¶
-السرالحالي,secretActuel/fr: أسرار[فهرسالسر]
+السرالحالي,secretActuel/fr: الأسرار[فهرسالسر]
 
-¶يكون التخمين صحيحًا إذا طابق الرقم المضغوط رقم السر السابق¶
-صحيح2: clé → # = أسرار[فهرسالسر - 1]
+¶كان التخمين صحيحًا إذا طابق الرقم المضغوط رقم السر السابق¶
+صحيح3: clé → # = الأسرار[فهرسالسر - 1]
 
 ¶تبدأ النقاط من 0 وتزداد إذا كان التخمين صحيحًا.¶
 ¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
-نقاط2•#: 0 …
-	∆ مفتاح2 …
-		صحيح2 ?
-			نقاط2 + 1
-			نقاط2
+النقاط•#: 0 …
+	∆ مفتاح3 …
+		صحيح3 ?
+			النقاط + 1
+			النقاط
 
 ¶الفوز يعني الحصول على كل الأرقام التسعة¶
-فوز,gagner/fr: نقاط2 = 9
+فوز,gagner/fr: النقاط = 9
 
-¶تنتهي اللعبة عند فهرس السر رقم 10¶
-انتهتاللعبة: فهرسالسر = 10
+¶تنتهي اللعبة عندما يصل فهرس السر إلى 10¶
+انتهاءاللعبة: فهرسالسر = 10
 
-¶اعرض الرقم الفرنسي الحالي والنقاط الحالية. بعد كل الأسرار التسعة، اعرض نتيجة نهائية¶
+¶اعرض الرقم الفرنسي الحالي والنقاط الحالية. بعد الأسرار التسعة كلها، اعرض النتيجة النهائية¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
 مسرح(
@@ -61,21 +61,21 @@ Après les 9 secrets, affichez le résultat final.¶/fr
 		مجموعة(
 			كومة()
 			[
-				انتهتاللعبة ?
+				انتهاءاللعبة ?
 					عبارة(
 						فوز ?
 							'أنت تعرف الأرقام الفرنسية!'"Tu connais les chiffres français!"/fr
-							'تقريبًا، حاول مرة أخرى'"presque, réessaye"/fr
+							'قريب، حاول مرة أخرى'"presque, réessaye"/fr
 						حجم: 2m
 					)
 					عبارة(numeros[secretActuel] حجم: 2m)
-				عبارة("\نقاط2\ points!" حجم: 1m)
+				عبارة("\النقاط\ points!" حجم: 1m)
 				عبارة(
 					فهرسالسر = 1 ?
 						'ما هذا الرقم؟''quel est ce numéro ?'/fr
-						صحيح2 ?
+						صحيح3 ?
 							'صحيح!'
-							"That was \أسرار[فهرسالسر - 1]\"
+							"That was \الأسرار[فهرسالسر - 1]\"
 				)
 			]
 		)

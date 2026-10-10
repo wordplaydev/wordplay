@@ -1,9 +1,9 @@
 ⚽
 Montón de letras
 === start
-¶Una U gigante con serifa es la cubeta. Cinco letras grandes caen dentro de ella, y luego llueven corazones y pelotas de futbol que se acomodan en sus curvas y ganchos. Todo choca según la forma de su contorno y no según el rectángulo que lo rodea, y eso es lo que permite que la U sostenga cualquier cosa: una pelota se queda quieta dentro de la curva de una letra en vez de flotar encima, y un corazón mete su punta entre dos letras.¶
+¶Una U serif gigante es el balde. Cinco letras grandes caen dentro, y luego llueven corazones y pelotas de futbol que se acomodan en las curvas y los ganchos de las letras. Todo choca según la forma de su contorno y no según el rectángulo que lo rodea. Gracias a eso la U puede sostener cosas: una pelota se queda quieta dentro de la curva de una letra en lugar de flotar encima, y un corazón clava su punta entre dos letras.¶
 
-¶La cubeta es una letra como las demás, en una fuente serif, así que sus brazos terminan en salientes. Necesita un Motion para ser sólida, y tanta masa que nada que caiga dentro pueda empujarla. Se para en el piso entre dos paredes que apenas tocan sus lados: su fondo es redondo, así que sin ellas se voltearía mientras la pila crece.¶
+¶El balde es una letra como las demás, en una tipografía serif para que sus brazos terminen en repisas. Necesita un Movimiento para ser sólido, y tanta masa que nada que caiga en él pueda empujarlo. Está de pie en el piso entre dos paredes que solo tocan sus lados: su base es redonda, así que sin ellas se volcaría cuando la pila crezca.¶
 taza: Frase(
 		'U'
 		22m
@@ -18,13 +18,13 @@ taza: Frase(
 		)
 	)
 
-¶Una tipografía de pantalla gruesa, porque una letra gorda tiene una curva lo bastante ancha para atrapar una pelota. Las letras se eligen por sus ganchos y curvas.¶
+¶Una tipografía de título muy gruesa, porque una letra gorda tiene una curva lo bastante ancha para atrapar una pelota. Las letras se eligen por sus ganchos y sus curvas.¶
 cara2: 'Titan One'
-letras: ['a' 'b' 'c' 'd' 'e']
+letras: ['una' 'b' 'c' 'd' 'e']
 
-¶Las letras caen primero, desde el mismo lugar pero a alturas distintas, así que cada una aterriza sobre la anterior y la pila crece hacia arriba.
+¶Las letras caen primero, desde el mismo lugar pero a alturas distintas, así que cada una cae sobre la anterior y la pila crece hacia arriba.
 
-Una letra es sólida solo porque su lugar es un Movimiento y tiene Materia: la salida que un programa coloca es un fantasma que todo atraviesa. Su masa es lo que evita que las pelotas empujen la pila y la separen, y pedirle a la Materia un contorno es lo que hace que choquen según la forma de sus letras.¶
+Una letra es sólida solo porque su lugar es un Movimiento y tiene Materia: una salida que un programa coloca es un fantasma que todo atraviesa. Su masa evita que las pelotas separen la pila de un empujón, y pedirle a Materia un contorno hace que choquen según la forma de sus letras.¶
 pila: letras.traducir(
 		ƒ(letra•'' índice2•#)
 			Frase(
@@ -47,7 +47,7 @@ pila: letras.traducir(
 			)
 	)
 
-¶Los corazones caen después. Un emoji también puede pedir su contorno, así que cada corazón choca según su forma: su punta se mete en los huecos donde una caja se quedaría encima.¶
+¶Los corazones caen después. Un emoji también puede pedir su contorno, así que cada corazón choca según su forma: su punta se cuela en los huecos donde una caja se quedaría encima.¶
 corazones: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traducir(
 		ƒ(corazón•'' índice3•#)
 			Frase(
@@ -68,7 +68,7 @@ corazones: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traducir(
 			)
 	)
 
-¶Las pelotas comienzan arriba de todo, así que llegan después de que la pila ya se acomodó. Ellas no piden un contorno: su rectángulo, redondeado por completo, es lo que las hace rodar.¶
+¶Las pelotas empiezan por encima de todo, así que llegan cuando la pila ya se acomodó. No piden un contorno: su rectángulo, totalmente redondeado, es lo que las hace rodar.¶
 pelotas: 18 → [].traducir(
 		ƒ(número2)
 			Frase(
@@ -89,7 +89,7 @@ pelotas: 18 → [].traducir(
 
 Escenario(
 	[
-		¶Un piso, y dos paredes contra los lados de la cubeta.¶
+		¶Un piso y dos paredes contra los lados del balde.¶
 		Figura(Rectángulo(-10m -11m 10m -12m))
 		Figura(Rectángulo(-8.8m 12m -7.8m -11m))
 		Figura(Rectángulo(7.8m 12m 8.8m -11m))

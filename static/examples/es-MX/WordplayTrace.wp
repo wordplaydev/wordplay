@@ -1,7 +1,7 @@
 ✨
 Rastro de palabras
 ===
-¶Este proyecto traza los contornos de la palabra "wordplay" con un cometa de puntos que recorre las letras, impulsado por un flujo Time(). La mitad de la palabra brilla en cada momento, y se desvanece de brillante en la cabeza del trazo a transparente en la cola.¶
+¶Este proyecto traza el contorno de la palabra "wordplay" con un cometa de puntos que recorre las letras, impulsado por un flujo Time(). En cada momento brilla la mitad de la palabra, y se desvanece desde lo brillante en la cabeza del trazo hasta lo transparente en la cola.¶
 
 puntos2: Contorno(
 		'wordplay'
@@ -11,21 +11,21 @@ puntos2: Contorno(
 		espaciado: 0.5m
 	)
 
-¶Cuántos puntos hay en el contorno, y una cantidad segura para dividir antes de que la fuente haya cargado (cuando la lista todavía está vacía).¶
-cantidad2: puntos2.longitud()
+¶Cuántos puntos hay en el contorno, y una cantidad segura para dividir antes de que se cargue la fuente tipográfica (cuando la lista todavía está vacía).¶
+conteo2: puntos2.longitud()
 
 ¶El trazo cubre la mitad de la palabra, así que siempre se ve la mitad.¶
-estela: cantidad2 ÷ 2
+estela: conteo2 ÷ 2
 
-¶Un índice de cabeza que avanza un punto en cada instante y da la vuelta a la palabra.¶
-cabeza: 0 … ∆ Tiempo(10ms) … ((cabeza + 1) % cantidad2) ?? 0
+¶Un índice de cabeza que avanza un punto en cada tic y da la vuelta alrededor de la palabra.¶
+cabeza: 0 … ∆ Tiempo(10ms) … ((cabeza + 1) % conteo2) ?? 0
 
 Escenario(
 	puntos2.traducir(
 		ƒ(punto2•Lugar índice2•#)
 			(
-				¶Cuántos puntos detrás de la cabeza está este, dando la vuelta si hace falta.¶
-				edad: ((((cabeza - índice2) + 1) + cantidad2) % cantidad2) ?? 0
+				¶Cuántos puntos detrás de la cabeza está este, dando la vuelta.¶
+				edad: ((((cabeza - índice2) + 1) + conteo2) % conteo2) ?? 0
 				Frase(
 					"•"
 					tamaño: 1m
@@ -33,7 +33,7 @@ Escenario(
 					color: Color(
 						90%
 						100
-						((índice2 ÷ cantidad2) ?? 0) × 360°
+						((índice2 ÷ conteo2) ?? 0) × 360°
 					)
 					opacidad: edad < estela ? 1 - ((edad ÷ estela) ?? 0) 0
 					duración: 0s

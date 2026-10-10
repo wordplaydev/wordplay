@@ -55,10 +55,7 @@ Change the locale on stage to see each one!¶/en
 					fuente: 'Aclonica'
 					inmóvil: Secuencia(
 						{
-							0%: Pose(
-								color: Color(0.5 100 180°)
-								voltearx
-							)
+							0%: Pose(color: Color(0.5 100 180°) voltearx)
 							50%: Pose(color: Color(27% 112 267°))
 							75%: Pose(
 								color: Color(0.5 100 180°)
@@ -151,10 +148,7 @@ Change the locale on stage to see each one!¶/en
 					fuente: 'Aclonica'
 					inmóvil: Secuencia(
 						{
-							0%: Pose(
-								color: Color(0.5 100 180°)
-								voltearx
-							)
+							0%: Pose(color: Color(0.5 100 180°) voltearx)
 							50%: Pose(color: Color(27% 112 267°))
 							75%: Pose(
 								color: Color(0.5 100 180°)

@@ -1,12 +1,12 @@
 ⌕
 Patrones
 === start
-¶Escribe una oración con algunos números en ella. Voy a encontrar cada número y a mostrarlos abajo, agregándolos a medida que los encuentro. Un patrón describe la forma de un texto — aquí,\⣿ >0 #⣿\ significa “uno o más dígitos”, y ⌕ encuentra cada lugar donde aparece.¶
+¶Escribe una oración con algunos números. Voy a encontrar cada número y a mostrarlos abajo, apareciendo poco a poco conforme los encuentre. Un patrón describe la forma de un texto. Aquí, \⣿ >0 #⣿\ significa “uno o más dígitos”, y ⌕ encuentra cada lugar donde aparece.¶
 
 entrada: Charla()
 texto2: 'Tengo 3 gatos, 12 peces y 144 hormigas' … ∆ entrada … entrada
 
-¶Busca en el texto cada secuencia de dígitos. Cada resultado es un Result con su texto encontrado.¶
+¶Busca en el texto cada grupo de dígitos. Cada resultado es un Resultado con su texto coincidente.¶
 números2: texto2 ⌕ ⣿ >0 #⣿
 
 Escenario(

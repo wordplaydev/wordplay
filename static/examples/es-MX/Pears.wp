@@ -1,40 +1,43 @@
 M
 Peras
 === start/en
-¶Esta es una historia corta interactiva. Define varias escenas distintas y se mueve entre ellas según diferentes interacciones, como clics, choques y otras acciones. Parte de la diversión de vivir la historia es descubrir las interacciones necesarias para avanzar en ella.¶
+¶Esta es una historia corta interactiva. Define varias escenas distintas y pasa de una a otra según diferentes interacciones, como clics, colisiones y otras acciones. Parte de la diversión de vivir la historia es descubrir las interacciones necesarias para avanzar.¶
 
 exposición: [
 		Frase(`Mi papá quería irse.` lugar: Lugar(-9m 0m))
 	]
 
 conflicto: [
-		Frase(`"Mamá", tenemos que irnos.` lugar: Lugar(-8m 7m))
 		Frase(
-			`/"Llévate esto, vete a casa"./`
-			lugar: Lugar(1m 4m)
+			`"Mamá", ya tenemos que irnos.`
+			lugar: Lugar(-8m 7m)
 		)
+		Frase(`/"Llévate esto a casa."/` lugar: Lugar(1m 4m))
 		Frase(
 			`"¡Mamá, no queremos nada!"`
 			lugar: Lugar(-8m 1m)
 		)
 		Frase(
-			`"¡Llévatelo, vete a casa!"`
+			`"¡Llévate esto a casa!"`
 			tamaño: 2m
 			lugar: Lugar(-6m -4m)
 			inmóvil: Secuencia.temblor()
 		)
 	]
 
-acciónAscendente1: [
-		Frase(`Mi 炮炮👵🏽 salió al patio` lugar: Lugar(-9m 7m))
-		Frase(`la seguí, con curiosidad` lugar: Lugar(-6m 4m))
+acciónCreciente1: [
+		Frase(
+			`Mi 炮炮👵🏽 salió al patio trasero`
+			lugar: Lugar(-9m 7m)
+		)
+		Frase(`La seguí, con curiosidad` lugar: Lugar(-6m 4m))
 		Frase(
 			`👵🏽`
 			nombre: 'paupau'
 			tamaño: 2m
 			materia: Materia()
 			lugar: Lugar(6m -6m)
-			burbuja: `/"沙梨🍐, llévatela, vete a casa!"/`
+			burbuja: `/"¡沙梨🍐, llévate esto a casa!"/`
 		)
 		Frase(
 			`👧🏻`
@@ -45,13 +48,13 @@ acciónAscendente1: [
 		)
 	]
 
-acciónAscendente2: [
+acciónCreciente2: [
 		Frase(
-			`Se detuvo junto a un árbol pequeño.`
+			`Ella se detuvo junto a un árbol pequeño.`
 			lugar: Lugar(-9m 6m)
 		)
 		Frase(
-			`En él se enredaban docenas de peras 沙梨 amarillas y brillantes`
+			`Sobre él colgaban decenas de 沙梨 amarillas y brillantes`
 			lugar: Lugar(-9m 1m)
 			envolver: 10m
 		)
@@ -74,16 +77,19 @@ acciónAscendente2: [
 		)
 	]
 
-¶Decidimos los lugares por adelantado, para poder hacer que caigan desde el mismo punto.¶
+¶Definimos los lugares por adelantado para poder hacerlas caer desde el mismo punto.¶
 lugares: (6 → []).traducir(
 		ƒ() Lugar(Azar(-2m 2m) Azar(-3m -5m))
 	)
 clímax: [
-		Frase(`Se arrodilló en la tierra.` lugar: Lugar(-9m 6m))
-		Frase(`Tomó un cuchillo` lugar: Lugar(-9m 4m))
-		Frase(`Y cortó con cuidado seis` lugar: Lugar(-9m 2m))
 		Frase(
-			`Las dejó caer en su canasta de abajo`
+			`Ella se arrodilló en la tierra.`
+			lugar: Lugar(-9m 6m)
+		)
+		Frase(`Tomó un cuchillo` lugar: Lugar(-9m 4m))
+		Frase(`Y con cuidado cortó seis` lugar: Lugar(-9m 2m))
+		Frase(
+			`Dejándolas caer en su canasta de abajo`
 			lugar: Lugar(-9m 0m)
 		)
 		Frase("🧺" tamaño: 4m lugar: Lugar(-2m -12m))
@@ -95,21 +101,21 @@ clímax: [
 			seleccionable
 		)
 		:lugares.traducir(
-			ƒ(lugar2 índice2)
+			ƒ(colocar índice2)
 				Frase(
 					"🍐"
 					nombre: "pear\índice2\"
-					lugar: Elección() = 'tree' ? Movimiento(lugar2) lugar2
+					lugar: Elección() = 'tree' ? Movimiento(colocar) colocar
 				)
 		)
 		Frase("🔪" lugar: Puntero())
 	]
 
 resolución2: [
-		Frase(`Me las trajo` lugar: Lugar(-9m 6m))
+		Frase(`Me las llevó` lugar: Lugar(-9m 6m))
 		Frase(`Se arrodilló frente a mí` lugar: Lugar(-8m 4m))
 		Frase(`Y me entregó la canasta` lugar: Lugar(-7m 2m))
-		Frase(`/"Toma, ve a casa"/` lugar: Lugar(0m -2m))
+		Frase(`/"Llévatelas a casa"/` lugar: Lugar(0m -2m))
 	]
 
 créditos: [
@@ -119,31 +125,31 @@ créditos: [
 historia: [
 		exposición
 		conflicto
-		acciónAscendente1
-		acciónAscendente2
+		acciónCreciente1
+		acciónCreciente2
 		clímax
 		resolución2
 		créditos
 	]
 
-¶Llevar la cuenta de clics y toques¶
-clic2: ∆ Botón()
-¶Llevar la cuenta de cuánto tiempo pasa después de hacer clic en el árbol¶
+¶Llevar la cuenta de los clics y los toques¶
+clic: ∆ Botón()
+¶Medir cuánto tiempo pasa después de hacer clic en el árbol¶
 tiempoDespuésDelCorte: 0ms … Elección() = 'tree' … Tiempo(
 			1000ms
 		)
-¶Registrar cuándo llegamos con Pau Pau¶
+¶Detectar cuándo llegamos con Pau Pau¶
 enCasaDePauPau: ∆ Colisión('yo')
-¶Registrar cuándo se elige la pera¶
-eligióPera: Elección() = 'pear'
+¶Detectar cuándo se elige la pera¶
+eligióLaPera: Elección() = 'pear'
 ¶Cambiar el segmento según el segmento actual¶
 segmento2•#:
 	1 …
 	segmento2 ???
-		1: clic2
-		2: clic2
+		1: clic
+		2: clic
 		3: enCasaDePauPau
-		4: eligióPera
+		4: eligióLaPera
 		5: tiempoDespuésDelCorte > 1500ms
 		6: ∆ Botón()
 		⊥

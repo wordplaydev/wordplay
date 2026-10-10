@@ -3,70 +3,70 @@ Presentación de diapositivas
 === start
 ¶Una presentación que cuenta cómo nació Wordplay; presiona → y ← para avanzar y retroceder.¶
 
-¶Una diapositiva de la presentación: un personaje, un título y las palabras debajo de él.¶
+¶Una diapositiva de la presentación: un personaje, un título y las palabras debajo.¶
 •diapositiva(emoji•'' título•'' cuerpo•''|`…`)
 
 ¶La historia. Agrega, quita o cambia estas diapositivas para contar la tuya.¶
-diapositivas: [
+diapositivas2: [
 		diapositiva(
 			'🎭'
 			'Wordplay'
-			'La historia de cómo nació este lenguaje. Presiona → para avanzar y ← para retroceder.'
+			'La historia de cómo nació este idioma. Presiona → para avanzar y ← para regresar.'
 		)
 		diapositiva(
 			'✒'
-			'Un amor por las letras'
-			'Hace mucho tiempo, Amy se enamoró de la tipografía: la forma de las letras y el ritmo de las palabras en una página.'
+			'Amor por las letras'
+			'Hace mucho tiempo, Amy se enamoró de la tipografía: las formas de las letras y el ritmo de las palabras en una página.'
 		)
 		diapositiva(
 			'💻'
-			'Un amor por el código'
-			'También se enamoró de la programación, y de cómo unas cuantas palabras podían hacer que las cosas se movieran.'
+			'Amor por el código'
+			'También se enamoró de la programación y de cómo unas pocas palabras podían hacer que las cosas se movieran.'
 		)
 		diapositiva(
 			'🧭'
-			'Dos amores, separados'
-			'Pero la tipografía y la programación vivían en mundos distintos, y pocas herramientas invitaban a amar ambas a la vez.'
+			'Dos amores separados'
+			'Pero la tipografía y la programación vivían en mundos distintos, y pocas herramientas invitaban a amar las dos a la vez.'
 		)
 		diapositiva(
 			'😄'
 			'Una persona joven'
-			'Años después, conoció a una persona joven a quien le encantaban los emojis y quería hacerlos bailar.'
+			'Años después, conoció a una persona joven que amaba los emojis y quería hacerlos bailar.'
 		)
 		diapositiva(
 			'💡'
 			'Una idea'
-			'¿Qué tal si un lenguaje de programación hiciera fácil hacer bailar a los emojis?'
+			'¿Y si un lenguaje de programación hiciera fácil lograr que los emojis bailen?'
 		)
 		diapositiva(
 			'🌱'
-			'Wordplay comienza'
-			'Así que empezó a construir uno, donde escribir código significa mover palabras y caracteres por un escenario.'
+			'Comienza Wordplay'
+			'Así que empezó a crear uno, donde escribir código significa mover palabras y caracteres por un escenario.'
 		)
 		diapositiva(
 			'🧑‍🏫'
 			'Diseñado en conjunto'
-			'Lo diseñó junto con muchos jóvenes y maestras, quienes dijeron qué querían crear y qué se los impedía.'
+			'Lo diseñó con muchas personas jóvenes y docentes, quienes dijeron qué querían crear y qué les estorbaba.'
 		)
 		diapositiva(
 			'🌏'
 			'Siempre en evolución'
-			'Ha seguido creciendo desde entonces, para que más personas puedan crear más de lo que imaginan.'
+			'Desde entonces ha seguido creciendo, para que más personas puedan hacer más de lo que imaginan.'
 		)
 		diapositiva(
 			'✨'
 			'Tu turno'
-			`¿Qué sueñas con crear que todavía no es posible? Cuéntanos en <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+			`¿Qué sueñas crear que todavía no es posible? Cuéntanos en <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-clave2: Tecla()
+llave2: Tecla()
 
-¶Donde está la actuación. El @Scene guarda el lugar, así que nada aquí tiene que contar.¶
-en: Spotlight()
+¶Aquí está la presentación. El @Scene guarda el lugar, así que aquí no hay nada que contar.¶
+en2: Reflector()
 
-¶Cada diapositiva, dibujada. Esto no depende de nada que cambie, así que se construye una sola vez en lugar de con cada tecla presionada, por eso el contador de abajo no está aquí.¶
-vistas: diapositivas.traducir(
+¶Cada diapositiva, dibujada. Esto no depende de nada que cambie, así que se construye una sola vez y no con cada tecla que se presiona. Por eso el contador de abajo no está aquí.¶
+vistas: diapositivas2.traducir(
 		ƒ(diapositiva2•diapositiva) Grupo(
 				Pila('|' 0.4m)
 				[
@@ -86,17 +86,17 @@ vistas: diapositivas.traducir(
 			)
 	)
 
-¶La actuación nunca avanza sola; las teclas de flecha la mueven una diapositiva en cualquier dirección. Se detiene en cada extremo por nosotros, así que no hay nada que revisar.¶
+¶La presentación nunca avanza sola; las teclas de flecha la mueven una diapositiva en cualquier dirección. Se detiene en cada extremo por nosotras, así que no hay nada que revisar.¶
 Grupo(
 	Pila('|' 0.4m)
 	[
 		Escena(
 			vistas
 			pausar
-			paso: ∆ clave2 ? ((clave2 = 'FlechaIzquierda') ? -1 (clave2 = 'FlechaDerecha') ? 1 ø) ø
+			paso: ∆ llave2 ? ((llave2 = 'FlechaIzquierda') ? -1 (llave2 = 'FlechaDerecha') ? 1 ø) ø
 		)
 		Frase(
-			`\en.index\ de \en.total\`
+			`\en2.índice\ de \en2.total\`
 			tamaño: 0.25m
 			alineación: '|'
 		)

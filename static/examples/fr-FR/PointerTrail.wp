@@ -1,7 +1,7 @@
 ✨
-Trace du pointeur
+Traînée du pointeur
 ===
-¶Déplace ton pointeur pour dessiner une traînée arc-en-ciel qui s'estompe. @Previous (←←) mémorise les cinq derniers @Pointer, et @List.translate dessine un point pour chacun, en s'estompant et en changeant de couleur du plus ancien au plus récent.¶
+¶Déplace ton pointeur pour dessiner une traînée arc-en-ciel qui s'estompe. @Previous (←←) retient les cinq derniers endroits @Pointer, et @List.translate dessine un point pour chacun, en l'estompant et en changeant de couleur du plus ancien au plus récent.¶
 
 historique•[Lieu]: ←← 5 Aiguille()
 Scène(

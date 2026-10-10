@@ -1,16 +1,16 @@
 ☁
-LetrasLluviosas
+LetrasQueCaen
 === start/en
-¶Este programa tiene un conjunto de letras que caen como lluvia hacia el suelo, siguiendo las reglas de la física. Cuando tocan el suelo, pueden volver a caer de nuevo.Siempre cae el mismo número de letras, pero mostramos un número distinto de ellas según la amplitud del micrófono.¶
+¶Este programa tiene un conjunto de letras que llueven y caen al suelo según las reglas de la física. Cuando tocan el suelo, pueden volver a caer. Siempre caen la misma cantidad de letras, pero se muestra un número distinto según la amplitud del micrófono.¶
 ↓ @wordplay/alphabets 1
 
 ¶El número máximo de letras¶
-cantidad2: 100
+conteo2: 100
 ¶La dispersión horizontal de las letras¶
 tamaño2: 20m
 
 ¶La amplitud del micrófono¶
-amperios: Volumen()
+amplitudes: Volumen()
 
 ¶La letra elegida, su posición, su velocidad de rotación y si es visible.¶
 •letra(letra2•"" x2•#m y2•#m ángulo2•# velocidad2•# visible•?)
@@ -18,9 +18,9 @@ amperios: Volumen()
 tic: Tiempo()
 
 ¶Iniciar como una lista de letras al azar en posiciones al azar¶
-letras•[letra]: cantidad2 → [#].traducir(
+letras•[letra]: conteo2 → [#].traducir(
 		ƒ(_) letra(
-				latin.azar()
+				latin.random()
 				Azar(-tamaño2 tamaño2)
 				Azar(0m tamaño2 + 2m)
 				Azar(360)
@@ -29,11 +29,14 @@ letras•[letra]: cantidad2 → [#].traducir(
 			)
 	)
 	… ∆ tic …
-		¶Si la letra está por encima del eje y, muévela un poco hacia abajo y hazla girar.Si no, colócala de nuevo por encima del límite y decide al azar si es visible.¶
+		¶Si la letra está por encima del eje y, bajarla un poco y rotarla. Si no, volver a colocarla arriba del límite y decidir al azar si es visible.¶
 		letras.traducir(
 			ƒ(letra3•letra)
 				letra3.y2 > 0m ? (letra3.y2:letra3.y2 - 0.5m).ángulo2:letra3.ángulo2 + letra3.velocidad2
-					(letra3.y2:tamaño2 + 2m).visible:Azar(0 amperios) > 0.5
+					(letra3.y2:tamaño2 + 2m).visible:Azar(
+						0
+						amplitudes
+					) > 0.5
 		)
 
 ¶Convertir las letras en frases¶

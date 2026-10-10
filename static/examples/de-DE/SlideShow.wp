@@ -1,32 +1,32 @@
 🎬
 Diashow
 === start
-¶Eine Diashow, die erzählt, wie Wordplay entstanden ist; drücke → und ←, um dich hindurchzubewegen.¶
+¶Eine Diashow, die erzählt, wie Wordplay entstanden ist. Drücke → und ←, um dich durch sie zu bewegen.¶
 
-¶Eine Folie der Show: eine Figur, ein Titel und der Text darunter.¶
-•folie(emoji•'' titel•'' text2•''|`…`)
+¶Eine Folie der Show: eine Figur, ein Titel und die Worte darunter.¶
+•folie(emoji•'' titel•'' inhalt•''|`…`)
 
-¶Die Geschichte. Füge diese Folien hinzu, entferne sie oder ändere sie, um deine eigene Geschichte zu erzählen.¶
-folien: [
+¶Die Geschichte. Füge diese Folien hinzu, entferne oder ändere sie, um deine eigene Geschichte zu erzählen.¶
+folien2: [
 		folie(
 			'🎭'
 			'Wordplay'
-			'Die Geschichte, wie diese Sprache entstanden ist. Drücke →, um vorwärtszugehen, und ←, um zurückzugehen.'
+			'Die Geschichte, wie diese Sprache entstanden ist. Drücke →, um vorwärts zu gehen, und ←, um zurückzugehen.'
 		)
 		folie(
 			'✒'
-			'Eine Liebe zu Buchstaben'
-			'Vor langer Zeit verliebte sich Amy in Typografie: die Formen von Buchstaben und den Rhythmus von Wörtern auf einer Seite.'
+			'Die Liebe zu Buchstaben'
+			'Vor langer Zeit verliebte sich Amy in die Typografie: in die Formen der Buchstaben und den Rhythmus der Wörter auf einer Seite.'
 		)
 		folie(
 			'💻'
-			'Eine Liebe zum Code'
-			'Sie verliebte sich auch in das Programmieren und darin, wie wenige Wörter Dinge in Bewegung bringen konnten.'
+			'Die Liebe zum Code'
+			'Sie verliebte sich auch in das Programmieren und darin, wie ein paar Wörter Dinge in Bewegung bringen konnten.'
 		)
 		folie(
 			'🧭'
 			'Zwei Lieben, getrennt'
-			'Aber Typografie und Programmieren lebten in verschiedenen Welten, und nur wenige Werkzeuge luden jemanden ein, beides zugleich zu lieben.'
+			'Aber Typografie und Programmieren lebten in verschiedenen Welten. Nur wenige Werkzeuge luden dazu ein, beides gleichzeitig zu lieben.'
 		)
 		folie(
 			'😄'
@@ -40,33 +40,33 @@ folien: [
 		)
 		folie(
 			'🌱'
-			'Wordplay entsteht'
-			'Also begann sie, eine solche Sprache zu bauen, bei der das Schreiben von Code bedeutet, Wörter und Zeichen auf einer Bühne zu bewegen.'
+			'Wordplay beginnt'
+			'Also begann sie, eine zu bauen. Darin bedeutet Code zu schreiben, Wörter und Zeichen auf einer Bühne zu bewegen.'
 		)
 		folie(
 			'🧑‍🏫'
-			'Gemeinsam gestaltet'
-			'Sie gestaltete sie zusammen mit vielen Jugendlichen und Lehrkräften, die sagten, was sie machen wollten und was ihnen im Weg stand.'
+			'Gemeinsam entworfen'
+			'Sie entwarf sie mit vielen Jugendlichen und Lehrkräften. Diese sagten, was sie gern machen wollten und was ihnen im Weg stand.'
 		)
 		folie(
 			'🌏'
-			'Immer in Bewegung'
-			'Es ist seitdem immer weitergewachsen, damit mehr Menschen mehr von dem machen können, was sie sich vorstellen.'
+			'Immer in Entwicklung'
+			'Seitdem ist es immer weiter gewachsen, damit mehr Menschen mehr aus dem machen können, was sie sich vorstellen.'
 		)
 		folie(
 			'✨'
 			'Du bist dran'
-			`Wovon träumst du, das noch nicht möglich ist? Erzähl es uns bei <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+			`Was möchtest du gerne erschaffen, das noch nicht möglich ist? Sag es uns auf <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-schlüssel2: Schlüssel()
+schlüssel3: Schlüssel()
 
-¶Wo die Show stattfindet. Das @Scene hält den Platz fest, also muss hier nichts gezählt werden.¶
-bei: Spotlight()
+¶Hier ist die Stelle, an der die Show gerade ist. Das @Scene merkt sich den Ort, also muss hier nichts mitgezählt werden.¶
+bei2: Scheinwerfer()
 
-¶Jede Folie wird gezeichnet. Das hängt von nichts ab, das sich ändert, also wird es nur einmal erstellt – nicht bei jedem Tastendruck. Deshalb steht der Zähler nicht hier drin.¶
-ansichten: folien.übersetzen(
+¶Jede Folie, gezeichnet. Das hängt von nichts ab, was sich ändert. Deshalb wird es nur einmal gebaut und nicht bei jedem Tastendruck. Darum steht der Zähler unten nicht hier drin.¶
+ansichten: folien2.übersetzen(
 		ƒ(folie2•folie) Gruppe(
 				Stapel('|' 0.4m)
 				[
@@ -77,7 +77,7 @@ ansichten: folien.übersetzen(
 						Ausrichtung: '|'
 					)
 					Satzglied(
-						folie2.text2
+						folie2.inhalt
 						Größe: 0.5m
 						wickeln: 12m
 						Ausrichtung: '|'
@@ -86,17 +86,17 @@ ansichten: folien.übersetzen(
 			)
 	)
 
-¶Die Show bewegt sich nie von selbst. Die Pfeiltasten schalten sie eine Folie weiter oder zurück. Sie hält an jedem Ende von selbst an, also muss nichts geprüft werden.¶
+¶Die Show bewegt sich nie von allein. Mit den Pfeiltasten geht sie eine Folie vor oder zurück. An beiden Enden hält sie für uns an, also müssen wir nichts prüfen.¶
 Gruppe(
 	Stapel('|' 0.4m)
 	[
 		Szene(
 			ansichten
 			anhalten
-			Schritt: ∆ schlüssel2 ? ((schlüssel2 = 'Pfeil nach links') ? -1 (schlüssel2 = 'Pfeil nach rechts') ? 1 ø) ø
+			Schritt: ∆ schlüssel3 ? ((schlüssel3 = 'Pfeil nach links') ? -1 (schlüssel3 = 'Pfeil nach rechts') ? 1 ø) ø
 		)
 		Satzglied(
-			`\bei.index\ von \bei.total\`
+			`\bei2.Index\ von \bei2.gesamt\`
 			Größe: 0.25m
 			Ausrichtung: '|'
 		)

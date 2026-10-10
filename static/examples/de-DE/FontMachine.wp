@@ -1,7 +1,7 @@
 t
-Schriftmaschine
+Schriftart-Maschine
 === start
-¶Drücke eine beliebige Taste, um jeden Buchstaben von „typography“ neu in einer zufälligen Schriftart zu setzen.¶
+¶Drücke eine beliebige Taste, um jeden Buchstaben von „Typografie“ in einer zufälligen Schriftart neu zu setzen.¶
 
 schriftarten: [
 		"Arvo"/en
@@ -13,7 +13,7 @@ schriftarten: [
 	]!
 symbole: 'typography'/en'tipografía'/es ÷ ''
 
-ƒ zufälligAnordnen()
+ƒ zufälligMischen()
 	symbole.übersetzen(
 		ƒ(symbol) Satzglied(
 				symbol
@@ -22,7 +22,7 @@ symbole: 'typography'/en'tipografía'/es ÷ ''
 			)
 	)
 
-phrasen: zufälligAnordnen() … ∆ Schlüssel() | ∆ Taste() … zufälligAnordnen(
+phrasen: zufälligMischen() … ∆ Schlüssel() | ∆ Taste() … zufälligMischen(
 		)
 
 Bühne([Gruppe(Reihe('|' 0m) phrasen Ort: Ort(0m 0m))])

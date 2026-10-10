@@ -1,24 +1,27 @@
 T
 Gedicht
 === start
-¶Ein Gedicht, dessen Zeilen hereinschweben, jede mit ihrem eigenen Auftritt.¶
+¶Ein Gedicht, dessen Zeilen hereinschweben und jede ihren eigenen Auftritt hat.¶
 
-•zeile(text2•"" pose•Pose|Reihenfolge zurück: Farbe(
+•zeile(text2•"" pose•Pose|Reihenfolge hinten: Farbe(
 			100
 			100
 			100°
-		) vorne: Farbe(0 0 0°))
+		) vorn: Farbe(0 0 0°))
 
-¶Eine Liste der Zeilen des Gedichts, jede mit einer Pose.¶
+¶Eine Liste mit den Zeilen des Gedichts, jede mit einer Pose.¶
 gedicht: [
 		zeile(
 			'Die Computerdatei'
 			Pose(Opazität: 0% Versatz: Ort(j: -5m))
 		)
-		zeile('an die' Pose(Opazität: 0% Versatz: Ort(j: -5m)))
-		zeile('ich mich nicht erinnere' Pose(Drehung: 10°))
 		zeile(
-			'ich klicke, um sie zu öffnen'
+			'von der'
+			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+		)
+		zeile('ich keine Erinnerung habe' Pose(Drehung: 10°))
+		zeile(
+			'ich klicke sie auf'
 			Reihenfolge(
 				{
 					0%: Pose(Skala: 1)
@@ -28,9 +31,9 @@ gedicht: [
 				0.25s
 			)
 		)
-		zeile('schau' Pose(Opazität: 0% Versatz: Ort(j: -5m)))
+		zeile('sieh' Pose(Opazität: 0% Versatz: Ort(j: -5m)))
 		zeile(
-			'scrolle weiter nach unten'
+			'weiter nach unten scrollen'
 			Pose(Opazität: 0% Versatz: Ort(j: 5m))
 		)
 		zeile(
@@ -38,13 +41,13 @@ gedicht: [
 			Pose(Opazität: 0% Versatz: Ort(j: -5m))
 		)
 		zeile(
-			'bleibt hintergrundbeleuchtet und leer'
+			'bleibt hell erleuchtet und leer'
 			Pose(Opazität: 0% Versatz: Ort(j: -5m))
 			Farbe(0 0 0°)
 			Farbe(100 100 0°)
 		)
 		zeile(
-			'so treffe ich mich selbst wieder'
+			'so begegne ich mir wieder'
 			Pose(Opazität: 0% Versatz: Ort(j: -5m))
 		)
 		zeile(
@@ -56,7 +59,7 @@ gedicht: [
 			Pose(Opazität: 0% Versatz: Ort(j: -5m))
 		)
 		zeile(
-			'genau so, wie ich es damals wohl tat'
+			'genau wie ich es getan haben muss'
 			Pose(Opazität: 0% Versatz: Ort(j: -5m))
 		)
 		zeile('am 19. August 2010, 11:08 Uhr' Pose())
@@ -77,15 +80,15 @@ zahl2 ≤ gedicht.Länge() ?
 				Stil: 'cautious'
 			)
 		]
-		Hintergrund: zeile2.zurück
-		Ruhen: Pose(Farbe: zeile2.vorne)
+		Hintergrund: zeile2.hinten
+		Ruhen: Pose(Farbe: zeile2.vorn)
 	)
 	Bühne(
 		[
 			Gruppe(
 				Stapel()
 				[
-					Satzglied('RATSCHLAG AN MICH SELBST')
+					Satzglied('RAT AN MICH SELBST')
 					Satzglied('Jane Hirshfield')
 				]
 				Eingabe: Pose(Skala: 0.75)

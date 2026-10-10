@@ -1,7 +1,7 @@
 s
-Progression de l'accélération
+Accélération de la séquence
 ===
-¶La même animation de voiture en huit versions, une pour chaque style de transition.¶
+¶La même animation de voiture de huit façons, une pour chaque style d'accélération.¶
 
 imagesClés: {
 		0%: Pose(compenser: Lieu(-1m 0m))
@@ -16,7 +16,7 @@ Scène(
 		Groupe(
 			Grille(4 2 rembourragecellulaire: 0.25m)
 			[
-				Phrase('direct' taille: 0.25m)
+				Phrase('droit' taille: 0.25m)
 				Phrase(
 					"🚗"
 					aurepos: Séquence(

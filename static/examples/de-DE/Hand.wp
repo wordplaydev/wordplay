@@ -1,7 +1,7 @@
 🖐
 Hand
 ===
-¶Halte deine Finger vor die Kamera. Eine Emoji-Hand zählt mit.¶
+¶Halte Finger vor deine Kamera, und eine Emoji-Hand zählt mit.¶
 
 hand2: Hand()
 
@@ -44,7 +44,7 @@ Bühne(
 			Ort: Ort(-2m -8m)
 		)
 		Satzglied(
-			`/Zeig der Kamera deine Hand/`
+			`/Zeige der Kamera deine Hand/`
 			Ort: Ort(-6m -10m)
 			Größe: 1m
 		)

@@ -1,7 +1,7 @@
 H
 Satzlänge
 ===
-¶Gib etwas in die Chatleiste ein, und es zählt die Zeichen deines Satzes.¶
+¶Tippe etwas in die Chatleiste. Dann zählt das Programm die Zeichen deines Satzes.¶
 
 satz2: Plaudern()
 länge: Plaudern().Länge()
@@ -10,11 +10,11 @@ Gruppe(
 	Stapel()
 	[
 		Satzglied(
-			`*Hallo! Willkommen beim Satzlängen-Rechner.*`
+			`*Hallo! Willkommen beim Rechner für die Satzlänge.*`
 			Ort: Ort(0m 1m)
 		)
 		Satzglied(
-			'Gib etwas in die Nachrichtenleiste ein!'
+			'Tippe etwas in die Nachrichtenleiste!'
 			Ort: Ort(0m -1m)
 		)
 		Satzglied(

@@ -1,6 +1,6 @@
 🔈
 Écouter
 === start
-¶Un emoji de haut-parleur qui grossit avec le volume de ton microphone.¶
+¶Un émoji de haut-parleur qui grossit quand ton microphone capte un son fort.¶
 
 Phrase("🔈" aurepos: Pose(échelle: Volume()))

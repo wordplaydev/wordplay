@@ -1,16 +1,16 @@
 M
 Birnen
 === start/en
-¶Dies ist eine interaktive Kurzgeschichte. Sie besteht aus mehrerenverschiedenen Szenen und wechselt zwischen ihnen, je nachdem,was man tut, zum Beispiel klicken, zusammenstoßen und andereHandlungen. Ein Teil des Spaßes an der Geschichte ist es,herauszufinden, welche Handlungen man braucht, um weiterzukommen.¶
+¶Das ist eine interaktive Kurzgeschichte. Sie hat mehrere einzelne Szenen und wechselt zwischen ihnen, je nachdem, was gemacht wird, zum Beispiel bei Klicks, Zusammenstößen und anderen Aktionen. Ein Teil des Spaßes an der Geschichte ist es, herauszufinden, welche Aktionen die Geschichte weiterbringen.¶
 
-einleitung: [
+exposition: [
 		Satzglied(`Mein Papa wollte gehen.` Ort: Ort(-9m 0m))
 	]
 
 konflikt: [
 		Satzglied(`„Mama“, wir müssen los.` Ort: Ort(-8m 7m))
 		Satzglied(
-			`/„Nimm es und geh nach Hause.“/`
+			`/„Nimm das mit nach Hause.“/`
 			Ort: Ort(1m 4m)
 		)
 		Satzglied(
@@ -18,7 +18,7 @@ konflikt: [
 			Ort: Ort(-8m 1m)
 		)
 		Satzglied(
-			`„Nimm es und geh nach Hause!“`
+			`„Nimm das mit nach Hause!“`
 			Größe: 2m
 			Ort: Ort(-6m -4m)
 			Ruhen: Reihenfolge.schütteln()
@@ -27,17 +27,17 @@ konflikt: [
 
 steigendeHandlung1: [
 		Satzglied(
-			`Meine 炮炮👵🏽 trat in den Garten`
+			`Meine 炮炮👵🏽 ging in den Garten hinter dem Haus`
 			Ort: Ort(-9m 7m)
 		)
-		Satzglied(`Ich folgte ihr, neugierig` Ort: Ort(-6m 4m))
+		Satzglied(`Ich folgte ihr neugierig` Ort: Ort(-6m 4m))
 		Satzglied(
 			`👵🏽`
-			Name: 'paupau'
+			Name: 'Paupau'
 			Größe: 2m
 			Gegenstand: Gegenstand()
 			Ort: Ort(6m -6m)
-			sprechblase: `/„沙梨🍐, nimm es und geh nach Hause!“/`
+			sprechblase: `/„沙梨🍐, nimm das mit nach Hause!“/`
 		)
 		Satzglied(
 			`👧🏻`
@@ -50,16 +50,16 @@ steigendeHandlung1: [
 
 steigendeHandlung2: [
 		Satzglied(
-			`Sie blieb bei einem kleinen Baum stehen.`
+			`Sie blieb an einem kleinen Baum stehen.`
 			Ort: Ort(-9m 6m)
 		)
 		Satzglied(
-			`Daran hingen verschlungen Dutzende leuchtend gelbe 沙梨`
+			`Daran hingen Dutzende leuchtend gelbe 沙梨`
 			Ort: Ort(-9m 1m)
 			wickeln: 10m
 		)
 		Satzglied(
-			`„Mama, wir wollen keine Birnen.“`
+			`"Mama, wir wollen keine Birnen."`
 			Größe: .75m
 			Ort: Ort(-4m 0m)
 		)
@@ -77,7 +77,7 @@ steigendeHandlung2: [
 		)
 	]
 
-¶Wir legen Stellen im Voraus fest, damit wir sie immer von derselben Stelle fallen lassen können.¶
+¶Wir legen die Orte im Voraus fest, damit wir sie von derselben Stelle fallen lassen können.¶
 orte: (6 → []).übersetzen(
 		ƒ() Ort(Zufällig(-2m 2m) Zufällig(-3m -5m))
 	)
@@ -86,7 +86,7 @@ höhepunkt: [
 			`Sie kniete sich in die Erde.`
 			Ort: Ort(-9m 6m)
 		)
-		Satzglied(`Griff nach einem Messer` Ort: Ort(-9m 4m))
+		Satzglied(`Nahm ein Messer` Ort: Ort(-9m 4m))
 		Satzglied(
 			`Und schnitt vorsichtig sechs ab`
 			Ort: Ort(-9m 2m)
@@ -116,12 +116,12 @@ höhepunkt: [
 
 auflösung: [
 		Satzglied(`Sie trug sie zu mir` Ort: Ort(-9m 6m))
-		Satzglied(`Kniete sich vor mich hin` Ort: Ort(-8m 4m))
-		Satzglied(`Und gab mir den Korb` Ort: Ort(-7m 2m))
 		Satzglied(
-			`/„Nimm sie, geh nach Hause“/`
-			Ort: Ort(0m -2m)
+			`Kniete sich zu mir hinunter`
+			Ort: Ort(-8m 4m)
 		)
+		Satzglied(`Und reichte mir den Korb` Ort: Ort(-7m 2m))
+		Satzglied(`/"Nimm, geh nach Hause"/` Ort: Ort(0m -2m))
 	]
 
 abspann: [
@@ -129,7 +129,7 @@ abspann: [
 	]
 
 geschichte: [
-		einleitung
+		exposition
 		konflikt
 		steigendeHandlung1
 		steigendeHandlung2
@@ -138,21 +138,21 @@ geschichte: [
 		abspann
 	]
 
-¶Klicks und Tipps zählen¶
-klicken: ∆ Taste()
-¶Merken, wie lange es dauert, bis der Baum angeklickt wird¶
+¶Zähle Klicks und Taps mit¶
+klick: ∆ Taste()
+¶Miss, wie lange es nach dem Klick auf den Baum dauert¶
 zeitNachDemSchnitt: 0ms … Auswahl() = 'tree' … Zeit(1000ms)
-¶Aufzeichnen, wann wir Pau Pau erreichen¶
-beiPauPau: ∆ Kollision('ich')
-¶Aufzeichnen, wann die Birne ausgewählt wird¶
+¶Verfolge, wann wir Pau Pau erreichen¶
+beiPaupau: ∆ Kollision('ich')
+¶Verfolge, wann die Birne gewählt wird¶
 birneGewählt: Auswahl() = 'pear'
-¶Den Abschnitt je nach aktuellem Abschnitt ändern¶
+¶Ändere den Abschnitt abhängig vom aktuellen Abschnitt¶
 abschnitt•#:
 	1 …
 	abschnitt ???
-		1: klicken
-		2: klicken
-		3: beiPauPau
+		1: klick
+		2: klick
+		3: beiPaupau
 		4: birneGewählt
 		5: zeitNachDemSchnitt > 1500ms
 		6: ∆ Taste()

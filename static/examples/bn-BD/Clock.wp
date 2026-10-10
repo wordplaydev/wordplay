@@ -1,11 +1,11 @@
 🕰️
 ঘড়ি
 === start/en
-¶A localized clock in one line of code. @Now ticks a new @Moment every second, and \এখন(
-) → ''\ converts each one to text in your locale, calendar, and time zone, so the clock changes language when your locale does. Try giving @Now a frequency, time zone, and calendar, like \এখন(
+¶এক লাইন কোডে একটি স্থানীয় ঘড়ি। @Now প্রতি সেকেন্ডে একটি নতুন @Moment টিক করে, আর \এখন(
+) → ''\ প্রতিটিকে তোমার স্থানীয় ভাষা-অঞ্চল, ক্যালেন্ডার ও সময় অঞ্চল অনুযায়ী টেক্সটে বদলে দেয়। তাই তোমার ভাষা-অঞ্চল বদলালে ঘড়ির ভাষাও বদলে যায়। @Now-কে একটি ফ্রিকোয়েন্সি, সময় অঞ্চল ও ক্যালেন্ডার দিয়ে দেখো, যেমন \এখন(
 	1s
 	'Asia/Tokyo'
 	'japanese'
-)\.¶
+)\।¶
 
 বাক্যাংশ(এখন() → '' মুখ: 'Doto')

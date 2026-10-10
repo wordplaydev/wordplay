@@ -1,41 +1,42 @@
 🏀
-Star du basket-ball
+Star du basket
 === start
-¶Vise avec ton pointeur et clique pour tirer au panier.¶
+¶Vise avec ton pointeur et clique pour lancer des paniers.¶
 
 clic: ∆ Bouton()
 
 nombreDeClics: 0 … clic … 1 + ⬚
 
-¶Capture la position x du pointeur au moment du tir, pour que le ballon tombe de l'endroit visé par le joueur au lieu de revenir à x = 0¶
-tirX: 0m … (clic & ((nombreDeClics % 2) = 1)) … Aiguille().x
+¶Garde la position x du pointeur au moment du tir, pour que le ballon tombe là où le joueur a visé au lieu de revenir à x = 0¶
+xDuTir: 0m … (clic & ((nombreDeClics % 2) = 1)) … Aiguille(
+		).x
 
-placeDuBallonDeBasket: (nombreDeClics % 2) = 0 ? Lieu(
+positionDuBallon: (nombreDeClics % 2) = 0 ? Lieu(
 			x: Aiguille().x
 			et: 8m
 			j: 0m
-		) Mouvement(lieu: Lieu(tirX 8m 0m))
+		) Mouvement(lieu: Lieu(xDuTir 8m 0m))
 
 ballonDeBasket: Phrase(
 		"🏀"
 		0.7m
 		matière: Matière(0.623kg 0.5)
-		lieu: placeDuBallonDeBasket
+		lieu: positionDuBallon
 		nom: 'ballon de basket'
 	)
 
-¶Le panier glisse d'un côté à l'autre en continu, guidé par le sinus du temps¶
-placeDuPanierX: (Temps() ÷ 600ms).sin() · 6m
+¶Le panier glisse sans arrêt de gauche à droite, guidé par le sinus du temps¶
+positionXDuPanier: (Temps() ÷ 600ms).sin() · 6m
 
-¶Lit la position actuelle du ballon une seule fois pour vérifier le score¶
-ballonX: (ballonDeBasket.lieu ?? Lieu()).x
-ballonY: (ballonDeBasket.lieu ?? Lieu()).et
+¶Lis une seule fois la position actuelle du ballon pour vérifier le score¶
+xDuBallon: (ballonDeBasket.lieu ?? Lieu()).x
+yDuBallon: (ballonDeBasket.lieu ?? Lieu()).et
 
-tentative: (nombreDeClics ÷ 2).tourdHorizon()
+essai: (nombreDeClics ÷ 2).tourdHorizon()
 
-¶inBin est vrai chaque fois que le ballon se trouve à l'intérieur du panier. La réaction du score ne se déclenche que lorsque inBin passe à vrai ET que la tentative actuelle dépasse le score, donc toute deuxième entrée pendant le même tir — rebonds à l'intérieur du panier, ou le panier qui glisse à nouveau sur le ballon — n'a aucun effet jusqu'à ce que le tir suivant fasse avancer le compteur de tentatives¶
-dansLePanier: (((placeDuPanierX - 0.9m)‥(placeDuPanierX + 0.9m)) ∋ ballonX) & ((0.3m‥2.9m) ∋ ballonY)
-score: 0 … dansLePanier & (tentative > score) … 1 + score
+¶inBin est vrai chaque fois que le ballon est à l'intérieur du panier. Le score ne change que lorsque inBin devient vrai ET que l'essai en cours est plus grand que le score. Ainsi, une deuxième entrée pendant le même tir (rebonds dans le panier, ou panier qui repasse sous le ballon) ne fait rien, jusqu'à ce que le tir suivant augmente le compteur d'essais¶
+dansLePanier: (((positionXDuPanier - 0.9m) ‥ (positionXDuPanier + 0.9m)) ∋ xDuBallon) & ((0.3m ‥ 2.9m) ∋ yDuBallon)
+score: 0 … dansLePanier & (essai > score) … 1 + score
 
 starDuBasket: Groupe(
 		Empiler('|' 0.5m)
@@ -43,11 +44,11 @@ starDuBasket: Groupe(
 			Phrase(`*Star du basket*` .8m)
 			Phrase('Vise avec ton pointeur.' .6m)
 			Phrase(
-				'Clique pour faire tomber le 🏀 dans le panier en mouvement.'
+				'Clique pour lâcher le 🏀 dans le panier qui bouge.'
 				.6m
 			)
 			Phrase('Score : ' + score → '' .8m)
-			Phrase('Tentatives : ' + tentative → '' .8m)
+			Phrase('Essais : ' + essai → '' .8m)
 		]
 		taille: 2m
 		affronter: "Sue Ellen Francisco"
@@ -57,12 +58,12 @@ starDuBasket: Groupe(
 Scène(
 	[
 		ballonDeBasket
-		¶Les parois du panier sont passées à 0,3 m d'épaisseur (contre 0,1 m) pour que le panier, qui se déplace latéralement, ne puisse pas traverser le ballon, et à 3 m de haut (contre 2 m) pour qu'un ballon avec un rebond de 0,5 ne puisse pas rebondir au-dessus du bord¶
+		¶Les parois du panier sont maintenant épaisses de 0,3 m (au lieu de 0,1 m) pour que le panier, qui se déplace sur le côté, ne puisse pas traverser le ballon. Elles sont aussi hautes de 3 m (au lieu de 2 m) pour qu'un ballon avec un rebond de 0,5 ne puisse pas rebondir par-dessus le bord¶
 		Forme(
 			Rectangle(
-				-1.2m + placeDuPanierX
+				-1.2m + positionXDuPanier
 				0.3m
-				1.2m + placeDuPanierX
+				1.2m + positionXDuPanier
 				0m
 				0m
 			)
@@ -70,9 +71,9 @@ Scène(
 		)
 		Forme(
 			Rectangle(
-				0.9m + placeDuPanierX
+				0.9m + positionXDuPanier
 				3m
-				1.2m + placeDuPanierX
+				1.2m + positionXDuPanier
 				0m
 				0m
 			)
@@ -80,9 +81,9 @@ Scène(
 		)
 		Forme(
 			Rectangle(
-				-1.2m + placeDuPanierX
+				-1.2m + positionXDuPanier
 				3m
-				-0.9m + placeDuPanierX
+				-0.9m + positionXDuPanier
 				0m
 				0m
 			)

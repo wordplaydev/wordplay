@@ -1,14 +1,14 @@
 ⚽
 Tas de lettres
 === start
-¶Un U géant à empattements fait office de seau. Cinq grandes lettres y tombent en premier, puis des cœurs et des ballons de football pleuvent et se posent dans leurs creux et leurs crochets. Tout entre en collision selon la forme de son contour plutôt que selon le rectangle qui l'entoure. C'est ce qui permet au U de tout contenir, à un ballon de se poser dans le creux d'une lettre au lieu de flotter au-dessus, et à un cœur de glisser sa pointe entre deux lettres.¶
+¶Un U géant avec empattements sert de seau. Cinq grandes lettres y tombent, puis des cœurs et des ballons de foot pleuvent et se posent dans leurs creux et leurs crochets. Tout entre en collision selon la forme de son contour, et non selon le rectangle qui l'entoure. C'est ce qui permet au U de tout retenir : une balle reste au fond du creux d'une lettre au lieu de flotter au-dessus, et un cœur coince sa pointe entre deux lettres.¶
 
-¶Le seau est une lettre comme les autres, dans une police à empattements, si bien que ses bras se terminent par des rebords. Il lui faut un Motion pour être solide, et une masse si grande que rien de ce qui tombe dedans ne peut le pousser. Il repose sur le sol entre deux murs qui touchent tout juste ses côtés : sa base est arrondie, donc sans eux il basculerait quand le tas grandit.¶
-coupe: Phrase(
+¶Le seau est une lettre comme les autres, dans une police à empattements, donc ses bras finissent en rebords. Pour être solide, il lui faut un Motion, et une masse si grande que rien de ce qui tombe dedans ne peut le pousser. Il se tient sur le sol entre deux murs qui touchent juste ses côtés : son fond est rond, donc sans eux il basculerait quand le tas grandit.¶
+gobelet: Phrase(
 		'U'
 		22m
 		affronter: "Merriweather"
-		nom: 'coupe'
+		nom: 'gobelet'
 		lieu: Mouvement(Lieu(-8.1m -11m))
 		couleur: Couleur(85% 10 250°)
 		matière: Matière(
@@ -18,19 +18,19 @@ coupe: Phrase(
 		)
 	)
 
-¶Une police d'affichage très épaisse, car une lettre grasse a un creux assez large pour attraper un ballon. Les lettres sont choisies pour leurs crochets et leurs creux.¶
-face2: 'Titan One'
-lettres: ['a' 'b' 'c' 'd' 'e']
+¶Une police d'affichage épaisse, car une lettre grosse a un creux assez large pour attraper une balle. Les lettres sont choisies pour leurs crochets et leurs creux.¶
+visage2: 'Titan One'
+lettres: ['un' 'b' 'c' 'd' 'e']
 
-¶Les lettres tombent en premier, depuis le même endroit mais à des hauteurs échelonnées, si bien que chacune atterrit sur la précédente et le tas monte peu à peu.
+¶Les lettres tombent en premier, du même endroit mais à des hauteurs différentes. Chacune tombe donc sur la précédente et le tas monte.
 
-Une lettre n'est solide que parce que sa place est un Motion et qu'elle a de la Matter — la sortie qu'un programme place est un fantôme que tout traverse. Leur masse est ce qui empêche les ballons de disperser le tas, et demander à Matter un contour est ce qui les fait entrer en collision selon la forme de leurs lettres.¶
+Une lettre n'est solide que parce que sa place est un Motion et qu'elle a de la Matter. Un Output placé par un programme est un fantôme que tout traverse. Leur masse empêche les balles de repousser le tas, et demander un contour à Matter les fait entrer en collision selon la forme de leurs lettres.¶
 tas: lettres.traduire(
 		ƒ(lettre•'' indice2•#)
 			Phrase(
 				lettre
 				3m
-				face2
+				visage2
 				nom: "letter\indice2\"
 				lieu: Mouvement(
 					Lieu(
@@ -47,7 +47,7 @@ tas: lettres.traduire(
 			)
 	)
 
-¶Les cœurs tombent ensuite. Un emoji peut lui aussi demander son contour, si bien que chaque cœur entre en collision selon sa forme : sa pointe se glisse dans les espaces où une boîte se poserait simplement par-dessus.¶
+¶Les cœurs tombent ensuite. Un émoji peut aussi demander son contour, donc chaque cœur entre en collision selon sa forme : sa pointe se glisse dans les creux où une boîte resterait posée dessus.¶
 cœurs: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traduire(
 		ƒ(cœur•'' indice3•#)
 			Phrase(
@@ -68,8 +68,8 @@ cœurs: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traduire(
 			)
 	)
 
-¶Les ballons commencent au-dessus de tout, si bien qu'ils arrivent après que le tas s'est stabilisé. Ils ne demandent pas de contour : c'est leur rectangle, arrondi de partout, qui les fait rouler.¶
-ballons: 18 → [].traduire(
+¶Les balles commencent au-dessus de tout, donc elles arrivent une fois le tas posé. Elles ne demandent pas de contour : leur rectangle, arrondi jusqu'au bout, est ce qui les fait rouler.¶
+balles: 18 → [].traduire(
 		ƒ(nombre2)
 			Phrase(
 				"⚽"
@@ -93,10 +93,10 @@ Scène(
 		Forme(Rectangle(-10m -11m 10m -12m))
 		Forme(Rectangle(-8.8m 12m -7.8m -11m))
 		Forme(Rectangle(7.8m 12m 8.8m -11m))
-		coupe
+		gobelet
 		:tas
 		:cœurs
-		:ballons
+		:balles
 	]
 	pesanteur: 9.8m/s^2
 	lieu: Lieu(0m -1m -17m)

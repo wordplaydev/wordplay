@@ -1,8 +1,8 @@
 🕰️
 Reloj
 === start/en
-¶A localized clock in one line of code. @Now ticks a new @Moment every second, and \Ahora(
-) → ''\ converts each one to text in your locale, calendar, and time zone, so the clock changes language when your locale does. Try giving @Now a frequency, time zone, and calendar, like \Ahora(
+¶Un reloj localizado en una sola línea de código. @Now produce un nuevo @Moment cada segundo, y \Ahora(
+) → ''\ convierte cada uno en texto según tu idioma, tu calendario y tu zona horaria, así que el reloj cambia de idioma cuando cambia el tuyo. Prueba darle a @Now una frecuencia, una zona horaria y un calendario, como \Ahora(
 	1s
 	'Asia/Tokyo'
 	'japanese'
