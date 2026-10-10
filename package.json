@@ -119,7 +119,7 @@
     "devDependencies": {
         "@axe-core/playwright": "^4",
         "@breezystack/lamejs": "^1.2.7",
-        "@firebase/rules-unit-testing": "^5.0.1",
+        "@firebase/rules-unit-testing": "^6.0.0",
         "@google-cloud/translate": "^10.1.1",
         "@playwright/test": "^1",
         "@resvg/resvg-js": "2.6.2",
@@ -149,7 +149,7 @@
         "vitest": "^5.0.3"
     },
     "dependencies": {
-        "@anthropic-ai/sdk": "^0.131.0",
+        "@anthropic-ai/sdk": "^0.133.0",
         "@dimforge/rapier2d-compat": "^0.21.0",
         "@mediapipe/tasks-vision": "^1",
         "@types/fontkit": "^2",
@@ -158,7 +158,7 @@
         "dexie": "^4",
         "dotenv": "^18.0.5",
         "earcut": "^3.2.4",
-        "firebase": "^12",
+        "firebase": "^13",
         "fontkit": "^2",
         "highlight.js": "^11",
         "pitchy": "^4",
