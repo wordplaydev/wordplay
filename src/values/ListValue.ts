@@ -30,14 +30,24 @@ export default class ListValue extends SimpleValue {
         return this.values;
     }
 
-    get(index: NumberValue | number) {
+    /**
+     * The array position a list index names. Indices wrap in both directions, so none is out of
+     * range; only 0, a fraction, and any index into an empty list name nothing (LANGUAGE.md, List).
+     */
+    position(index: NumberValue | number): number | undefined {
         const num = index instanceof NumberValue ? index.toNumber() : index;
+        const length = this.values.length;
+        if (num === 0 || !Number.isInteger(num) || length === 0)
+            return undefined;
+        return num > 0
+            ? (num - 1) % length
+            : ((num % length) + length) % length;
+    }
+
+    get(index: NumberValue | number) {
+        const position = this.position(index);
         const value =
-            num === 0
-                ? undefined
-                : this.values.at(
-                      (num > 0 ? num - 1 : num) % this.values.length,
-                  );
+            position === undefined ? undefined : this.values[position];
         return value === undefined ? new NoneValue(this.creator) : value;
     }
 
@@ -77,11 +87,12 @@ export default class ListValue extends SimpleValue {
         return new ListValue(requestor, [...this.values, value]);
     }
 
+    /** Replace the value at an index, which wraps exactly as access does, so a list reads and
+     *  writes the same item for the same index. */
     replace(requestor: Expression, index: NumberValue, value: Value) {
         const copy = this.values.slice();
-        const num = index.toNumber();
-        if (!isNaN(num) && num >= 1 && num <= copy.length)
-            copy[num - 1] = value;
+        const position = this.position(index);
+        if (position !== undefined) copy[position] = value;
         return new ListValue(requestor, copy);
     }
 

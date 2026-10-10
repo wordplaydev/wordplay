@@ -126,6 +126,7 @@
         "@sveltejs/adapter-static": "^4",
         "@sveltejs/kit": "^3",
         "@sveltejs/vite-plugin-svelte": "^7",
+        "@vitest/coverage-v8": "^5.0.3",
         "@wasm-audio-decoders/flac": "^0.2.10",
         "@wasm-audio-decoders/ogg-vorbis": "^0.1.20",
         "ajv": "^8",

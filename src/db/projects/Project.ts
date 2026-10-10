@@ -14,6 +14,7 @@ import {
 } from '#nodes/Borrow.ts';
 import type ConversionDefinition from '#nodes/ConversionDefinition.ts';
 import Changed from '#nodes/Changed.ts';
+import Initial from '#nodes/Initial.ts';
 import Context from '#nodes/Context.ts';
 import type Definition from '#nodes/Definition.ts';
 import Doc from '#nodes/Doc.ts';
@@ -1121,8 +1122,9 @@ export default class Project {
     }
 
     /**
-     * Returns true if the given expression is transitively dependent on a Changed expression.
-     * Used to determine whether to reevaluate an expression at evaluation time.
+     * Returns true if the given expression is transitively dependent on a Changed or Initial expression.
+     * Used to determine whether to reevaluate an expression at evaluation time: both answer a question
+     * about the evaluation itself rather than a stream, so no stream change marks them as affected.
      */
     isChangedDependentExpression(expr: Expression): boolean {
         if (this.#changeDependentExpressions === undefined) {
@@ -1131,7 +1133,9 @@ export default class Project {
 
             const changes = analysis.dependencies
                 .entries()
-                .filter((s) => s[0] instanceof Changed);
+                .filter(
+                    (s) => s[0] instanceof Changed || s[0] instanceof Initial,
+                );
             for (;;) {
                 const next = changes.pop();
                 if (next === undefined) break;

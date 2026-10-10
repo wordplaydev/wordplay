@@ -13,6 +13,7 @@ import StructureValue from '#values/StructureValue.ts';
 import TextValue from '#values/TextValue.ts';
 import Value from '#values/Value.ts';
 import { createBasisConversion, createBasisFunction } from '#basis/Basis.ts';
+import requestedTextLanguage from '#basis/requestedTextLanguage.ts';
 
 export default function bootstrapStructure(locales: Locales) {
     return StructureDefinition.make(
@@ -78,9 +79,30 @@ export default function bootstrapStructure(locales: Locales) {
                     ),
                     new AnyType(),
                     TextType.make(),
-                    StructureValue,
-                    (requestor: Expression, value: StructureValue) =>
-                        new TextValue(requestor, value.toWordplay(locales)),
+                    // Any value, not only structures: every type without a text conversion of its
+                    // own resolves `→ ''` to this one, so a range, function, pattern, or a value of
+                    // a union type passed analysis and then failed at runtime. Rendered the way a
+                    // text template interpolates it.
+                    Value,
+                    (
+                        requestor: Expression,
+                        value: Value,
+                        evaluation: Evaluation,
+                    ) => {
+                        const requested = requestedTextLanguage(evaluation);
+                        return new TextValue(
+                            requestor,
+                            value instanceof StructureValue
+                                ? value.toWordplay(locales)
+                                : value instanceof TextValue
+                                  ? value.text
+                                  : value.toText(
+                                        requested?.getLocaleID() ??
+                                            locales.getLocale(),
+                                    ),
+                            requested,
+                        );
+                    },
                 ),
             ],
             BlockKind.Structure,

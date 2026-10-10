@@ -49,11 +49,14 @@ export default class FunctionValue extends Value {
     }
 
     toWordplay(locales?: Locales) {
-        return `${FUNCTION_SYMBOL} ${
-            locales
-                ? locales.getName(this.definition.names)
-                : this.definition.names.getNames()[0]
-        }()`;
+        // An anonymous function has no name to show; it rendered as `ƒ undefined()`.
+        const name =
+            this.definition.names.getNames().length === 0
+                ? undefined
+                : locales
+                  ? locales.getName(this.definition.names)
+                  : this.definition.names.getNames()[0];
+        return name ? `${FUNCTION_SYMBOL} ${name}()` : `${FUNCTION_SYMBOL}()`;
     }
 
     isEqualTo(value: Value): boolean {

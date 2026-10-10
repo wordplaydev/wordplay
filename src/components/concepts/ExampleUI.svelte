@@ -171,7 +171,7 @@
         return makePreviewEvaluator(
             project,
             DB,
-            $locales.getLocales(),
+            $locales.getPreferredLocales(),
             reactive,
         );
     }

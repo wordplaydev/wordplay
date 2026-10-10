@@ -1,5 +1,6 @@
 import Borrow from '#nodes/Borrow.ts';
 import Changed from '#nodes/Changed.ts';
+import Initial from '#nodes/Initial.ts';
 import type Expression from '#nodes/Expression.ts';
 import type Evaluator from '#runtime/Evaluator.ts';
 import type Locales from '#locale/Locales.ts';
@@ -65,13 +66,15 @@ export function shouldSkip(evaluator: Evaluator, expr: Expression) {
     return (
         // Never skip an internal expression
         !expr.isInternal() &&
-        // Never skip a Changed expression, as they can always affect evaluation
+        // Never skip a Changed or Initial expression, as they can always affect evaluation. Initial
+        // depends on no stream, so reusing its stored value left `◆` true on every reevaluation.
         !(expr instanceof Changed) &&
+        !(expr instanceof Initial) &&
         // Never skip a Borrow: its whole purpose is the side effect of binding the borrowed
         // source or share into the current evaluation, which is fresh on every reevaluation.
         // Skipping it leaves the borrowed names unbound and its Finish popping an empty stack.
         !(expr instanceof Borrow) &&
-        // Never skip an expression dependent on a Changed expression, as they can always change based on a Changed expression.
+        // Never skip an expression dependent on a Changed or Initial expression, as they can always change with it.
         !evaluator.project.isChangedDependentExpression(expr) &&
         // Don't reevaluate constants
         (evaluator.project.isConstant(expr) ||

@@ -64,3 +64,6 @@ __pycache__/
 # and pushed on its own.
 wiki/
 .changelog-condense/
+
+# vitest coverage reports (npm run test:coverage)
+/coverage

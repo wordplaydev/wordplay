@@ -180,10 +180,15 @@ export default abstract class StreamValue<
     }
 
     range(requestor: Expression, count: number): Value {
+        // End at the latest value as of the evaluator's current time, as `at` does, and never start
+        // before the first: a negative start counted from the end, so asking for more values than
+        // the stream held returned only the newest few.
+        const latest = this.latest();
+        const end = this.values.findIndex((val) => val.value === latest) + 1;
         return new ListValue(
             requestor,
             this.values
-                .slice(this.values.length - count, this.values.length)
+                .slice(Math.max(0, end - count), end)
                 .map((val) => val.value),
         );
     }

@@ -97,7 +97,11 @@ export function buildSequencePreview(
             [],
             locales.getLocales(),
         );
-        const evaluator = new Evaluator(project, DB, locales.getLocales());
+        const evaluator = new Evaluator(
+            project,
+            DB,
+            locales.getPreferredLocales(),
+        );
         const value = evaluator.getInitialValue();
         evaluator.stop();
         const sequence = toSequence(project, value);
@@ -133,7 +137,7 @@ function computePreviews(locales: Locales): Map<string, SequencePreview> {
     const value = new Evaluator(
         project,
         DB,
-        locales.getLocales(),
+        locales.getPreferredLocales(),
     ).getInitialValue();
 
     if (value instanceof ListValue) {

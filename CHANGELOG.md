@@ -16,6 +16,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - 💡 The suggestions menu now stays open and narrows as you type.
+- 🌐 `🌎` now checks the languages the reader chose, the same way in the editor and in galleries, so `🌎/en` is only true for readers who chose English.
+- 🔁 A list's `replace` now wraps an index past the end back to the start, the same way reading from a list does.
+- 📏 Converting a number with a unit to a list keeps the unit, so `3m → []` is `[1m 2m 3m]`.
 
 ### Fixed
 
@@ -24,6 +27,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🎤 In Safari, pressing Start or Retry on a project that uses the microphone or camera now asks for permission instead of doing nothing.
 - 🔣 We fixed color emoji that showed up blank or black on iPhones and iPads with iOS 27, and made them faster to load there.
 - 💾 When you're not signed in, the save status window now shows how many projects are saved only on this device, and how to save them online, instead of being empty.
+- ⏱️ `◆` now becomes false after a program's first evaluation, instead of staying true forever.
+- ⏪ `←←` now gives every earlier value of a stream when it has fewer than you asked for, instead of only the newest.
+- 🐛 Converting a range, a function, a pattern, or a value that might be `ø` to text with `→ ''` now works instead of stopping the program.
+- 🖱️ Reading `Pointer().rotation` no longer stops the program.
+- 🔒 We now warn about email addresses written in documentation and formatted text, as we already did in text.
 
 ## 0.38.3 - 2026-10-01
 

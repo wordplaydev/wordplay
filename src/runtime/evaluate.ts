@@ -28,6 +28,7 @@ export default function evaluateCode(
     return new Evaluator(
         project,
         DB,
-        locales === undefined ? [DefaultLocale] : locales.getLocales(),
+        // The reader's locales without the en-US fallback, as the app evaluates.
+        locales === undefined ? [DefaultLocale] : locales.getPreferredLocales(),
     ).getInitialValue();
 }

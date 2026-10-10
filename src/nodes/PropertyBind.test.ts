@@ -1,4 +1,5 @@
 import IncompatibleType from '#conflicts/IncompatibleType.ts';
+import InvalidProperty from '#conflicts/InvalidProperty.ts';
 import PropertyBind from '#nodes/PropertyBind.ts';
 import { testConflict } from '#conflicts/TestUtilities.ts';
 import { expect, test } from 'vitest';
@@ -22,6 +23,14 @@ test.each([
         "•T(b•#) ()\na: T(1)\na.b: 'x'",
         PropertyBind,
         IncompatibleType,
+        0,
+    ],
+    // Only inputs can be refined; a static member names a non-input on the definition itself.
+    [
+        '•T(b•#) (↑c: 1)\nT(1).b: 2',
+        '•T(b•#) (↑c: 1)\nT.c: 2',
+        PropertyBind,
+        InvalidProperty,
         0,
     ],
 ])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {

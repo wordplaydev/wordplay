@@ -137,7 +137,12 @@
      * evaluatorTeardownConvention.test.ts.
      */
     // svelte-ignore state_referenced_locally
-    const evaluator = new Evaluator(project, DB, $locales.getLocales(), false);
+    const evaluator = new Evaluator(
+        project,
+        DB,
+        $locales.getPreferredLocales(),
+        false,
+    );
     onDestroy(() => evaluator.stop());
 
     /**

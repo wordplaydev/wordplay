@@ -1,5 +1,6 @@
 import { expect, test } from 'vitest';
 import evaluateCode from '#runtime/evaluate.ts';
+import ListValue from '#values/ListValue.ts';
 import Project from '#db/projects/Project.ts';
 import Source from '#nodes/Source.ts';
 import DefaultLocale from '#locale/DefaultLocale.ts';
@@ -193,3 +194,48 @@ test.each([['[1m 2s].sum()'], ['[1m 2s].average()'], ["[1 'two'].sum()"]])(
         expect(evaluateCode(code)?.toString()).toContain('Exception');
     },
 );
+
+test.each([
+    ['[1 2].append([3 4])', '[1 2 3 4]'],
+    ['[1 2].withList([])', '[1 2]'],
+    ['[].append([1])', '[1]'],
+    [
+        "['apple' 'banana' 'mango'].replace(1 'kiwi')",
+        '["kiwi" "banana" "mango"]',
+    ],
+    ['[1 2 3].replace(3 9)', '[1 2 9]'],
+    // An index wraps exactly as it does for access (`[1 2 3][5]` is `2`).
+    ['[1 2 3].replace(5 9)', '[1 9 3]'],
+    ['[1 2 3].replace(-1 9)', '[1 2 9]'],
+    ['[1 2 3].replace(0 9)', '[1 2 3]'],
+    ['[1 2 3].replace(1.5 9)', '[1 2 3]'],
+    ['[].replace(1 9)', '[]'],
+    ['[].random()', 'ø'],
+    ['[].shuffled()', '[]'],
+])('Expect %s to be %s', (code, value) => {
+    expect(evaluateCode(code)?.toString()).toBe(value);
+});
+
+// Random functions are checked by what must hold of every draw, never by a particular draw.
+test('a shuffled list is a permutation of the original', () => {
+    const shuffled = evaluateCode('[1 2 3 4 5 6 7 8].shuffled()');
+    expect(shuffled).toBeInstanceOf(ListValue);
+    if (!(shuffled instanceof ListValue)) return;
+    expect(shuffled.values.map((value) => value.toString()).sort()).toEqual([
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+    ]);
+});
+
+test('a random item is one of the list’s items', () => {
+    for (let i = 0; i < 10; i++)
+        expect(['1', '2', '3']).toContain(
+            evaluateCode('[1 2 3].random()')?.toString(),
+        );
+});

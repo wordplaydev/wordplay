@@ -27,8 +27,7 @@ import type LocaleText from '#locale/LocaleText.ts';
 import type { FunctionText, NameAndDoc } from '#locale/LocaleText.ts';
 import type Expression from '#nodes/Expression.ts';
 import ListType from '#nodes/ListType.ts';
-import Convert from '#nodes/Convert.ts';
-import TextType from '#nodes/TextType.ts';
+import requestedTextLanguage from '#basis/requestedTextLanguage.ts';
 import {
     createBasisConversion,
     createBasisFunction,
@@ -710,14 +709,8 @@ export default function bootstrapNumber(locales: Locales) {
                         // (e.g. `5 → ''/hi-IN`), render in that locale and tag the
                         // resulting text with it; otherwise use the active output
                         // locale and leave the text untagged.
-                        const creator = evaluation.getCreator();
                         const requestedLanguage =
-                            creator instanceof Convert &&
-                            creator.type instanceof TextType
-                                ? creator.type.concreteLanguage(
-                                      evaluation.getContext(),
-                                  )
-                                : undefined;
+                            requestedTextLanguage(evaluation);
                         const target =
                             requestedLanguage?.getLocaleID() ??
                             locales.getLocale();
@@ -743,8 +736,9 @@ export default function bootstrapNumber(locales: Locales) {
                         // counting to it never finishes — `∞ → []` used to hang here.
                         if (!Number.isFinite(max) || max < 0)
                             return new ListValue(requestor, []);
+                        // Each item carries the number's unit, as a range's do: `3m → []` is `[1m 2m 3m]`.
                         for (let i = 1; i <= max; i++)
-                            list.push(new NumberValue(requestor, i));
+                            list.push(new NumberValue(requestor, i, val.unit));
                         return new ListValue(requestor, list);
                     },
                 ),

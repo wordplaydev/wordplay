@@ -88,7 +88,7 @@ export function enqueuePreviewCompute(
         const evaluator = new Evaluator(
             project,
             db,
-            locales.getLocales(),
+            locales.getPreferredLocales(),
             false,
         );
         try {

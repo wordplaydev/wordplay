@@ -106,7 +106,6 @@
     } from '#db/settings/Arrangement.ts';
     import { consent, refreshConsentFromBrowser } from '#input/permissions.ts';
     import type Locale from '#locale/Locale.ts';
-    import { localesAreEqual, stringToLocale } from '#locale/Locale.ts';
     import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
     import Evaluate from '#nodes/Evaluate.ts';
     import Node, { isFieldPosition } from '#nodes/Node.ts';
@@ -616,25 +615,11 @@
     /** Keep track of locales used */
     const localesUsed = $derived(project.getLocalesUsed());
 
-    /** The default evaluation list: the project's DECLARED locales first (the
-     * creator's priority order — the languages dialog's "first is primary"),
-     * then any other language the code names. `getLocalesUsed` alone is
-     * tag-appearance-ordered, which put English first on the stage of a
-     * project written in Spanish whenever its preserved multilingual content
-     * tagged English first (#1310's localized examples all do). */
-    const defaultEvaluationLocales = $derived.by(() => {
-        const declared = project
-            .getLocaleCodes()
-            .map(stringToLocale)
-            .filter((locale): locale is Locale => locale !== undefined);
-        return [
-            ...declared,
-            ...localesUsed.filter(
-                (used) =>
-                    !declared.some((locale) => localesAreEqual(locale, used)),
-            ),
-        ];
-    });
+    /** The default evaluation list is the reader's chosen locales, without the en-US fallback,
+     *  so `🌎` and a text's chosen translation answer for the audience, the same as in PlayView.
+     *  A text with no option in those locales still shows its first, so a project written in one
+     *  language reads in it for everyone. */
+    const defaultEvaluationLocales = $derived($locales.getPreferredLocales());
 
     /** Keep a reactive map from source to EditorLocale chosen for the source */
     let editorLocales = $state<Record<string, Locale | null>>({});

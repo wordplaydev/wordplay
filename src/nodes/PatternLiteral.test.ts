@@ -1,8 +1,11 @@
+import IncompatibleType from '#conflicts/IncompatibleType.ts';
 import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import { testConflict } from '#conflicts/TestUtilities.ts';
+import Bind from '#nodes/Bind.ts';
 import PatternClass from '#nodes/PatternClass.ts';
 import PatternLiteral from '#nodes/PatternLiteral.ts';
 import Source from '#nodes/Source.ts';
+import evaluateCode from '#runtime/evaluate.ts';
 import { expect, test } from 'vitest';
 
 /**
@@ -61,4 +64,18 @@ test.each([
     ['\'a\' ≈ ⣿"a"⣿', '\'a\' ≈ ⣿"a"', PatternLiteral, UnclosedDelimiter, 0],
 ])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
     testConflict(good, bad, node, conflict, index);
+});
+
+// Patterns are values: equal when they are the same pattern, and typed `•⣿⣿`.
+test.each([
+    ['⣿#⣿ = ⣿#⣿', '⊤'],
+    ["⣿#⣿ = ⣿'a'⣿", '⊥'],
+    ["⣿#⣿ ≠ ⣿'a'⣿", '⊤'],
+    ['p•⣿⣿: ⣿#⣿\np', '⣿#⣿'],
+])('%s is %s', (code, value) => {
+    expect(evaluateCode(code)?.toString()).toBe(value);
+});
+
+test('a pattern type admits only patterns', () => {
+    testConflict('p•⣿⣿: ⣿#⣿', 'p•⣿⣿: 1', Bind, IncompatibleType);
 });

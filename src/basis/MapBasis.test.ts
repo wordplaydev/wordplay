@@ -16,3 +16,11 @@ test.each([
 ])('Expect %s to be %s map functions', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
 });
+
+test.each([
+    ['{1:2 3:4}.size()', '2'],
+    ['{:}.size()', '0'],
+    ['{1:2 1:3}.size()', '1'],
+])('%s is %s', (code, value) => {
+    expect(evaluateCode(code)?.toString()).toBe(value);
+});

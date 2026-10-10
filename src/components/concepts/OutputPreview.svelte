@@ -114,7 +114,12 @@
     // svelte-ignore state_referenced_locally
     let ownEvaluator = $state<Evaluator | undefined>(
         ownProject
-            ? makePreviewEvaluator(ownProject, DB, $locales.getLocales(), false)
+            ? makePreviewEvaluator(
+                  ownProject,
+                  DB,
+                  $locales.getPreferredLocales(),
+                  false,
+              )
             : undefined,
     );
 
@@ -216,7 +221,7 @@
         ownEvaluator = makePreviewEvaluator(
             ownProject,
             DB,
-            $locales.getLocales(),
+            $locales.getPreferredLocales(),
             reactive,
         );
     }
