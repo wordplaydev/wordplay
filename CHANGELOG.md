@@ -4,6 +4,23 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.38.5 - 2026-10-10
+
+### Changed
+
+- 🌐 `🌎` now checks the languages the reader chose, the same way in the editor and in galleries, so `🌎/en` is only true for readers who chose English.
+- 🔁 A list's `replace` now wraps an index past the end back to the start, the same way reading from a list does.
+- 📏 Converting a number with a unit to a list keeps the unit, so `3m → []` is `[1m 2m 3m]`.
+
+### Fixed
+
+- ⏱️ `◆` now becomes false after a program's first evaluation, instead of staying true forever.
+- ⏪ `←←` now gives every earlier value of a stream when it has fewer than you asked for, instead of only the newest.
+- 🐛 Converting a range, a function, a pattern, or a value that might be `ø` to text with `→ ''` now works instead of stopping the program.
+- 🖱️ Reading `Pointer().rotation` no longer stops the program.
+- 🔒 We now warn about email addresses written in documentation and formatted text, as we already did in text.
+- 🔗 Links to the guide that come right after a Hebrew prefix like ב- or after a period now open the guide, instead of becoming email links.
+
 ## 0.38.4 - 2026-10-03
 
 ### Added

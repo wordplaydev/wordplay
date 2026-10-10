@@ -122,10 +122,13 @@ const URLRegExPattern =
  * An email address, so markup can name one (#193 needed a contact address and
  * couldn't write one down). The local part is the same ASCII set the plain-text
  * reference rule uses, and the domain needs at least one dot so an `@Concept`
- * link is never mistaken for one.
+ * link is never mistaken for one. A dotted member link like `@Music.replay` has
+ * one too, so the local part must also start and end with a letter or digit: a
+ * Hebrew prefix (`ב-@Music.replay`) or a sentence's period (`.@Music.replay`)
+ * read as an address before, and rendered as a mail link.
  */
 const EmailRegExPattern =
-    /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/;
+    /[A-Za-z0-9](?:[A-Za-z0-9._%+-]*[A-Za-z0-9])?@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/;
 export const EmailRegEx = new RegExp(`^${EmailRegExPattern.source}`, 'u');
 /** An unanchored matcher, for finding an email inside a run of markup words. */
 const EmailInWordsRegEx = new RegExp(EmailRegExPattern.source, 'u');

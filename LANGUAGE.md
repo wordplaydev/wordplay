@@ -503,7 +503,7 @@ It's possible to check whether an environment has a particular locale selected w
 🌎/en
 ```
 
-This will return `⊤` if the locale is in the preferred list, and, `⊥` otherwise.
+This will return `⊤` if the locale is one the reader chose, and `⊥` otherwise. A tag without a region matches any region of that language. The editor and every place a project plays ask the same list — the reader's, not the project's — and the English that backs up untranslated interface text is not on it, so `🌎/en` is only true for a reader who chose English.
 
 Text can also be templates, with aribtrary expressions that are automatically converted to text:
 
@@ -676,7 +676,7 @@ And this is also `1`:
 [1 2 3 4 5][-5]
 ```
 
-Because indices wrap, no index is ever out of range. There are only three ways a list access evaluates to `ø`: an index of `0`, since lists are indexed from `1`; an index that isn't a whole number; and any index into an empty list, which has no values to wrap onto. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners. It also means `??` on a list access is a conflict, since the access's type doesn't include `ø` for it to coalesce.
+Because indices wrap, no index is ever out of range. There are only three ways a list access evaluates to `ø`: an index of `0`, since lists are indexed from `1`; an index that isn't a whole number; and any index into an empty list, which has no values to wrap onto. `replace` wraps the same way, so `[1 2 3].replace(5 9)` replaces the item `[1 2 3][5]` reads, and changes nothing for those same three indices. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners. It also means `??` on a list access is a conflict, since the access's type doesn't include `ø` for it to coalesce.
 
 A list access's type is usually the type of any item in the list. But when the list's type gives a type per position (see `LISTTYPE` under [Types](#types)) and the index is a constant in range, the access has the type of exactly that position.
 

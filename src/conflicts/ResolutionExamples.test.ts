@@ -676,14 +676,13 @@ describe('MisplacedThis', () => {
     });
 });
 
-describe.skip('InvalidProperty', () => {
+describe('InvalidProperty', () => {
     test('property refinement on non-input field → repair (suggest closest)', () => {
-        // InvalidProperty fires from PropertyBind only when the subject is a
-        // StructureDefinitionType (the definition itself), not a
-        // StructureType (an instance). Reachable via static-access patterns
-        // that aren't common in user code; covered by manual UX review.
+        // Raised when a refinement's subject is the definition itself rather than an
+        // instance, which a static member makes possible: `Cat.names` names the static, and
+        // the input `name` is close enough to suggest.
         expectRepair(
-            '•Cat(name•"") (helper: 5)\nCat.helper: 6',
+            '•Cat(name•"") (↑names: "")\nCat.names: "x"',
             InvalidProperty,
         );
     });
@@ -826,13 +825,14 @@ describe('CharacterWarning', () => {
     });
 });
 
-describe.skip('UnsupportedFontFormat', () => {
+describe('UnsupportedFontFormat', () => {
     test('words formatted in a face that lacks the format → repair (strip)', () => {
-        // Triggered by `analyzePhraseEvaluate` when a @Phrase's markup
-        // requests a weight/italic the chosen face doesn't ship. Static
-        // analysis depends on font metadata that isn't available in this
-        // test harness — covered by manual UX review.
-        expectRepair("Phrase('hi')", UnsupportedFontFormat);
+        // Triggered by `analyzePhraseEvaluate` when a @Phrase's markup requests a weight or
+        // italic the chosen face doesn't ship; the face metadata is in the bundled manifest.
+        expectRepair(
+            "Phrase(`*hi*` face: 'Permanent Marker')",
+            UnsupportedFontFormat,
+        );
     });
 });
 

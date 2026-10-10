@@ -62,3 +62,31 @@ test.each([
 ])('%s is a type exception', (code) => {
     expect(evaluateCode(code)?.toString()).toContain('Exception');
 });
+
+// Sign and rounding keep the number's unit; `round` rounds a half away from zero.
+test.each([
+    ['-5.positive()', '5'],
+    ['5m.positive()', '5m'],
+    ['0.positive()', '0'],
+    ['2.5.round()', '3'],
+    ['-2.5.round()', '-3'],
+    ['2.4.round()', '2'],
+    ['1.4m.round()', '1m'],
+    ['2.1.roundUp()', '3'],
+    ['-2.1.roundUp()', '-2'],
+    ['2.9.roundDown()', '2'],
+    ['-2.9.roundDown()', '-3'],
+    // Sine and cosine take radians, or a unitless number.
+    ['(90° → #rad).sin()', '1'],
+    ['(0° → #rad).cos()', '1'],
+    ['0.sin()', '0'],
+    ['0.cos()', '1'],
+    // A number converts to the counting numbers up to it.
+    ['5 → []', '[1 2 3 4 5]'],
+    ['2.5 → []', '[1 2]'],
+    ['0 → []', '[]'],
+    ['-3 → []', '[]'],
+    ['3m → []', '[1m 2m 3m]'],
+])('%s = %s', (code, expected) => {
+    expect(evaluateCode(code)?.toString()).toBe(expected);
+});

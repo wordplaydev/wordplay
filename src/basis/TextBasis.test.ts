@@ -143,3 +143,14 @@ test.each([
     )?.toWordplay();
     expect(text).toBe(list);
 });
+
+test.each([
+    ["'hello'.has('ell')", '⊤'],
+    ["'hello' ⊆ 'xyz'", '⊥'],
+    ["'hello'.has('')", '⊤'],
+    ["'hello'.ends('llo')", '⊤'],
+    ["'hello'.ends('he')", '⊥'],
+    ["'hello'.ends('')", '⊤'],
+])('%s is %s', (code, expected) => {
+    expect(evaluateCode(code)?.toString()).toBe(expected);
+});

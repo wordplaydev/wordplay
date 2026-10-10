@@ -113,7 +113,7 @@
             evaluator.ignore(update);
         }
         gate.reset();
-        evaluator = new Evaluator(project, DB, $locales.getLocales());
+        evaluator = new Evaluator(project, DB, $locales.getPreferredLocales());
         evaluator.observe(update);
         // Start now only if there's nothing waiting on user consent or a content
         // warning; otherwise the gate in OutputView starts it once cleared.

@@ -28,10 +28,17 @@ export class PossiblePII extends Conflict {
         return node
             .nodes()
             .filter(
-                (s): s is Token => s instanceof Token && s.isSymbol(Sym.Words),
+                (s): s is Token =>
+                    s instanceof Token &&
+                    (s.isSymbol(Sym.Words) || s.isSymbol(Sym.URL)),
             )
             .map((t) =>
                 getPII(t.getText())
+                    // In markup a bare email address lexes as a link rather than words, which hid it
+                    // from this check. Only its email is PII; a web link's path is not a handle.
+                    .filter(
+                        (pii) => t.isSymbol(Sym.Words) || pii.kind === 'email',
+                    )
                     .filter((pii) => !context.project.isNotPII(pii.text))
                     .map((pii) => new PossiblePII(t, pii)),
             )

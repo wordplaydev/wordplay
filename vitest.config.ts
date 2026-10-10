@@ -34,6 +34,24 @@ export default mergeConfig(
     viteConfig,
     defineConfig({
         test: {
+            // Report-only coverage of the language and its API (`npm run test:coverage`); no
+            // thresholds, since the number is for finding untested branches, not for gating.
+            coverage: {
+                provider: 'v8',
+                reporter: ['text-summary', 'html', 'json-summary'],
+                reportsDirectory: './coverage',
+                include: [
+                    'src/nodes/**',
+                    'src/basis/**',
+                    'src/runtime/**',
+                    'src/values/**',
+                    'src/parser/**',
+                    'src/input/**',
+                    'src/output/**',
+                    'src/conflicts/**',
+                ],
+                exclude: ['**/*.test.ts'],
+            },
             // Isolation is what made this suite the long pole in CI: re-running the setup file's
             // 350-module graph, and rebuilding a Basis whose cache is module state, once per test
             // file put ~38% of all CPU into imports rather than tests. Unisolating more than halves

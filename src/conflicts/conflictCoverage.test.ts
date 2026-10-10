@@ -28,7 +28,12 @@ function walk(dir: string, out: string[] = []): string[] {
 
 const all = walk(src);
 const sources = all.filter((f) => !f.endsWith('.test.ts'));
-const tests = all.filter((f) => f.endsWith('.test.ts'));
+// Not this file: its exemptions name conflicts without testing them.
+const tests = all.filter(
+    (f) =>
+        f.endsWith('.test.ts') &&
+        f !== path.join(src, 'conflicts', 'conflictCoverage.test.ts'),
+);
 
 /** Every concrete conflict class. */
 const conflicts = fs
@@ -83,7 +88,10 @@ const nodeClasses = new Set(
  * that each have their own way of getting there.
  */
 function raisersOf(conflict: string): string[] {
-    const constructed = new RegExp(`new ${conflict}\\s*\\(`);
+    // A conflict with a static `analyze` is raised by whoever calls it, not by `new`.
+    const constructed = new RegExp(
+        `new ${conflict}\\s*\\(|\\b${conflict}\\.analyze\\s*\\(`,
+    );
     return sources
         .filter(
             (f) =>
@@ -95,10 +103,55 @@ function raisersOf(conflict: string): string[] {
         .sort();
 }
 
+/**
+ * The text with every skipped block removed (`describe.skip(…)`, `test.skip.each(…)(…)`), since a
+ * skipped test names a conflict without testing it: two conflicts passed this check on the strength
+ * of `describe.skip` blocks alone. Delimiters inside string literals are ignored; a template
+ * literal's `${…}` is not, which is good enough for test code.
+ */
+function withoutSkipped(text: string): string {
+    const skip = /\b(?:describe|test|it)\.skip\b/g;
+    let result = '';
+    let from = 0;
+    for (const match of text.matchAll(skip)) {
+        if (match.index < from) continue;
+        result += text.slice(from, match.index);
+        // Consume every call that follows: `.each(…)(…)` is two.
+        let i = match.index + match[0].length;
+        for (;;) {
+            const open = text.slice(i).search(/\S/);
+            if (open < 0) break;
+            let j = i + open;
+            if (text[j] === '.') {
+                const name = /^\.\w+/.exec(text.slice(j));
+                if (name === null) break;
+                j += name[0].length;
+                i = j;
+                continue;
+            }
+            if (text[j] !== '(') break;
+            let depth = 0;
+            let quote: string | undefined = undefined;
+            for (; j < text.length; j++) {
+                const c = text[j];
+                if (quote !== undefined) {
+                    if (c === '\\') j++;
+                    else if (c === quote) quote = undefined;
+                } else if (c === "'" || c === '"' || c === '`') quote = c;
+                else if (c === '(') depth++;
+                else if (c === ')' && --depth === 0) break;
+            }
+            i = j + 1;
+        }
+        from = i;
+    }
+    return result + text.slice(from);
+}
+
 /** Test files that name this conflict, and the identifiers they name near it. */
 const testedWith = new Map<string, Set<string>>();
 for (const file of tests) {
-    const text = fs.readFileSync(file, 'utf8');
+    const text = withoutSkipped(fs.readFileSync(file, 'utf8'));
     const named = conflicts.filter((c) => new RegExp(`\\b${c}\\b`).test(text));
     if (named.length === 0) continue;
     for (const line of text.split('\n'))
@@ -121,9 +174,21 @@ const pairs = conflicts.flatMap((conflict) =>
     raisersOf(conflict).map((raiser) => [conflict, raiser] as const),
 );
 
+test('skipped blocks are not coverage', () => {
+    const text = [
+        "describe.skip('A', () => { test('x', () => f(')')); });",
+        "test.skip.each([1])('B %s', () => g());",
+        "test('C', () => h());",
+    ].join('\n');
+    expect(withoutSkipped(text)).not.toMatch(/'A'|'B/);
+    expect(withoutSkipped(text)).toContain("test('C', () => h());");
+});
+
 test('every conflict class has at least one test', () => {
     const untested = conflicts.filter(
-        (c) => (testedWith.get(c)?.size ?? 0) === 0,
+        (c) =>
+            (testedWith.get(c)?.size ?? 0) === 0 &&
+            !Object.keys(Exempt).some((pair) => pair.startsWith(`${c}:`)),
     );
     expect(untested, 'conflicts no test names').toEqual([]);
 });

@@ -204,11 +204,14 @@ export default class StructureValue extends Value {
                 locales ? locales.getName(bind.names) : bind.names.getNames()[0]
             }${BIND_SYMBOL} ${value}`;
         });
-        return `${
-            locales
-                ? locales.getName(this.type.names)
-                : this.type.names.getNames()[0]
-        }${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
+        // A table's rows are structures of an unnamed definition; they rendered as `undefined(…)`.
+        const name =
+            this.type.names.getNames().length === 0
+                ? ''
+                : locales
+                  ? locales.getName(this.type.names)
+                  : this.type.names.getNames()[0];
+        return `${name}${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 
     getDescription() {
