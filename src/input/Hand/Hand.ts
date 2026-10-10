@@ -165,8 +165,14 @@ export default class Hand extends CameraLandmarkStream<HandLandmarkerResult> {
                     palm: false,
                 };
             }
-            this.emitIfChanged(undefined, undefined, '0', result, () =>
-                createHandStructure(this.evaluator, this.state),
+            // Held and lost need different keys: under one, the reset to the default was
+            // deduplicated against the held value it replaced and never emitted.
+            this.emitIfChanged(
+                undefined,
+                undefined,
+                this.consecutiveMisses >= MISSES_TO_LOSE_LOCK ? 'lost' : 'held',
+                result,
+                () => createHandStructure(this.evaluator, this.state),
             );
             return;
         }

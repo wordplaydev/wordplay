@@ -125,8 +125,14 @@ export default class Face extends CameraLandmarkStream<FaceLandmarkerResult> {
                 this.resetSmoothing();
                 this.state = Face.defaultState(this.evaluator);
             }
-            this.emitIfChanged(undefined, undefined, '0', result, () =>
-                createExpressionStructure(this.evaluator, this.state),
+            // Held and lost need different keys: under one, the reset to the default was
+            // deduplicated against the held value it replaced and never emitted.
+            this.emitIfChanged(
+                undefined,
+                undefined,
+                this.consecutiveMisses >= MISSES_TO_LOSE_LOCK ? 'lost' : 'held',
+                result,
+                () => createExpressionStructure(this.evaluator, this.state),
             );
             return;
         }
