@@ -251,6 +251,16 @@
                     "Isang @Bubble, kapag gusto mong piliin kung saang panig ako magsasalita, gawin itong isip sa halip, o bigyan ito ng kulay."
                 ],
                 "names": "$~bula"
+            },
+            "poses": {
+                "doc": [
+                    "$~@Pose para sa bawat isa sa aking mga glyph, isa-isa. Ang unang glyph ay nakakakuha ng unang pose, ang ikalawa ay nakakakuha ng ikalawang pose, at kapag naubos na ang mga pose, magsisimula ulit ako sa una. Ang mga espasyo ay itinuturing ding mga glyph.",
+                    "\\Parirala(\n\t'handaan!'\n\tmgaPosisyon: [\n\t\tPose(kulay: Kulay(25% 70 250°))\n\t\tPose(kulay: Kulay(50% 80 300°))\n\t\tPose(kulay: Kulay(58% 90 60°))\n\t]\n)\\",
+                    "Ang bawat glyph ay umiikot, lumalaki, at gumagalaw sa paligid ng sarili nitong gitna, kaya ang isang pose ay nagpapahilig sa bawat glyph sa kinalalagyan nito habang nananatiling tuwid ang aking linya:",
+                    "\\Parirala('umaalog-alog' mgaPosisyon: Pose(pagikot: 15°))\\",
+                    "Ang sariling kulay ng isang glyph ay mas matimbang kaysa sa akin at sa anumang pose na ina-animate ko, at ang opacity nito ay pinagsasama sa akin."
+                ],
+                "names": "$~mgaPosisyon"
             }
         },
         "Arrangement": {

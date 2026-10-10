@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "给每个字母一种自己的颜色",
+        "category": "styling",
+        "body": "一个 @Phrase 可以给它的每个字形设置不同的 @Pose ，用 @Phrase/poses。\n第一个字形用第一个姿态，第二个字形用第二个姿态。姿态用完以后，就从第一个重新开始。\n\n这是一段派对文字，三种颜色轮流出现：\n\n\\\nPhrase(\n\t'party time!'\n\t表面: 'Luckiest Guy'\n\t姿势: [\n\t\tPose(颜色: Color(25% 70 250°))\n\t\tPose(颜色: Color(50% 80 300°))\n\t\tPose(颜色: Color(58% 90 60°))\n\t]\n)\n\\\n\n 空格也算字形，所以颜色会在单词之间继续轮流。\n这些颜色不但色相不同，明暗也不同，所以看颜色不一样的人也能分清它们。\n\n姿态能做的不只是变色。每个字形都会围绕自己的中心倾斜、变大、变淡和移动，所以我们可以让字母蹦起来：\n\n\\\nPhrase(\n\t'bounce'\n\t表面: 'Luckiest Guy'\n\t姿势: [\n\t\tPose(颜色: Color(25% 70 250°) 旋转: -10° 偏移: Place(0m 0.1m))\n\t\tPose(颜色: Color(58% 90 60°) 旋转: 10° 不透明度: 0.6)\n\t]\n)\n\\\n\n 姿态也能用在带格式的文本上。和其他输入一样，它们可以根据别的值而变化。\n这封勒索信每四分之一秒就换一个新的倾斜角度：\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\t表面: 'Courier Prime'\n\t姿势: [\n\t\tPose(旋转: tilt 偏移: Place(0m 0.05m))\n\t\tPose(旋转: -tilt 缩放: 1.2)\n\t\tPose(旋转: tilt ÷ 2 偏移: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "查找并检查带有模式的文本",
         "category": "styling",

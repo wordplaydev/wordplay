@@ -1,0 +1,52 @@
+Gib jedem Buchstaben seine eigene Farbe
+
+Eine @Phrase kann jedem ihrer Glyphen eine andere @Pose geben, und zwar mit @Phrase/poses.
+Das erste Glyph bekommt die erste Pose, das zweite Glyph die zweite. Wenn die Posen aufgebraucht sind, beginnen sie wieder bei der ersten.
+
+Hier ist ein bunter Partytext, in dem drei Farben sich abwechseln:
+
+\
+Phrase(
+	'party time!'
+	gesicht: 'Luckiest Guy'
+	Posen: [
+		Pose(Farbe: Color(25% 70 250°))
+		Pose(Farbe: Color(50% 80 300°))
+		Pose(Farbe: Color(58% 90 60°))
+	]
+)
+\
+
+ Auch Leerzeichen zählen als Glyphen. Deshalb wechseln die Farben über Wörter hinweg weiter ab.
+Diese Farben unterscheiden sich in Helligkeit und Farbton. So können auch Menschen, die Farben anders sehen, sie auseinanderhalten.
+
+Posen können mehr als nur Farbe. Jedes Glyph kippt, wächst, wird blasser und bewegt sich um seine eigene Mitte. So können wir die Buchstaben hüpfen lassen:
+
+\
+Phrase(
+	'bounce'
+	gesicht: 'Luckiest Guy'
+	Posen: [
+		Pose(Farbe: Color(25% 70 250°) Drehung: -10° Versatz: Place(0m 0.1m))
+		Pose(Farbe: Color(58% 90 60°) Drehung: 10° Opazität: 0.6)
+	]
+)
+\
+
+ Posen funktionieren auch mit formatiertem Text. Und wie jede andere Eingabe können sie sich ändern, je nachdem, wie sich andere Werte ändern.
+Dieser Erpresserbrief wählt alle Viertelsekunde eine neue Neigung:
+
+\
+tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+Phrase(
+	`*ransom* /note/`
+	gesicht: 'Courier Prime'
+	Posen: [
+		Pose(Drehung: tilt Versatz: Place(0m 0.05m))
+		Pose(Drehung: -tilt Skala: 1.2)
+		Pose(Drehung: tilt ÷ 2 Versatz: Place(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

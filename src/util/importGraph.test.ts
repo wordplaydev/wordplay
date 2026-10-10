@@ -761,6 +761,12 @@ test('resolving a color needs no basis', () => {
  * a few hundred bytes: three strings in `en-US.json` and a second branch in
  * `Status.svelte`, the footer's save-status dialog, which every page already
  * mounts. `galleries` again had no slack, so only its byte budget moves.
+ *
+ * Posing a phrase's glyphs (`Phrase.poses`) is **+0 files**: the glyph splitting,
+ * markup runs and per-glyph views are reached only through a dynamic `import()`
+ * in `AnimatedText`, which a static import put over three budgets. What moves is
+ * the input's name and doc in `en-US.json`, a few hundred bytes `Page.svelte`
+ * had no slack for, so only its byte budget moves.
  */
 // These are ceilings, not measurements: raise one only for code that genuinely belongs on
 // the page's graph, never to quiet a leak. Bytes creeping is usually `en-US.json` growing,
@@ -1009,7 +1015,7 @@ test('resolving a color needs no basis', () => {
 
 test.each([
     ['src/routes/+layout.svelte', 540, 4.19],
-    ['src/components/app/Page.svelte', 563, 4.44],
+    ['src/components/app/Page.svelte', 563, 4.45],
     ['src/routes/[[locale]]/+page.svelte', 578, 4.54],
     ['src/routes/[[locale]]/galleries/+page.svelte', 583, 4.55],
     ['src/routes/[[locale]]/projects/+page.svelte', 592, 4.58],

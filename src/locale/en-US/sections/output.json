@@ -171,6 +171,16 @@
                 ],
                 "names": "bubble"
             },
+            "poses": {
+                "doc": [
+                    "@Pose for each of my glyphs, one after another. The first glyph gets the first pose, the second gets the second, and when I run out of poses, I start again from the first. Spaces count as glyphs too.",
+                    "\\Phrase('party!' poses: [Pose(color: Color(25% 70 250°)) Pose(color: Color(50% 80 300°)) Pose(color: Color(58% 90 60°))])\\",
+                    "Each glyph turns, grows, and moves around its own middle, so a single pose tilts every glyph in place while my line stays straight:",
+                    "\\Phrase('wobbly' poses: Pose(rotation: 15°))\\",
+                    "A glyph's own color wins over mine and over any pose I'm animating, and its opacity combines with mine."
+                ],
+                "names": "poses"
+            },
             "name": {
                 "doc": [
                     "A name you give me! This is helpful for many things.",

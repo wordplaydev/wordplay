@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "Nadaj każdej literze osobny kolor",
+        "category": "styling",
+        "body": "Fraza @Phrase może nadać każdemu ze swoich glifów inną @Pose za pomocą @Phrase/poses.\nPierwszy glif dostaje pierwszą pozę, drugi glif dostaje drugą, a gdy pozy się skończą, zaczynają się od pierwszej.\n\nOto imprezowy tekst, w którym trzy kolory zmieniają się po kolei:\n\n\\\nPhrase(\n\t'party time!'\n\ttwarz: 'Luckiest Guy'\n\tpozy: [\n\t\tPose(kolor: Color(25% 70 250°))\n\t\tPose(kolor: Color(50% 80 300°))\n\t\tPose(kolor: Color(58% 90 60°))\n\t]\n)\n\\\n\n Spacje też liczą się jako glify, więc kolory zmieniają się po kolei również między słowami.\nTe kolory różnią się jasnością, a nie tylko odcieniem, więc osoby, które widzą kolory inaczej, nadal je rozróżnią.\n\nPozy mogą robić więcej niż zmieniać kolor. Każdy glif przechyla się, rośnie, blednie i porusza się wokół swojego środka, więc możemy sprawić, że litery podskakują:\n\n\\\nPhrase(\n\t'bounce'\n\ttwarz: 'Luckiest Guy'\n\tpozy: [\n\t\tPose(kolor: Color(25% 70 250°) obrót: -10° zrównoważyć: Place(0m 0.1m))\n\t\tPose(kolor: Color(58% 90 60°) obrót: 10° nieprzezroczystość: 0.6)\n\t]\n)\n\\\n\n Pozy działają też z tekstem z formatowaniem i jak każde inne dane wejściowe mogą się zmieniać zależnie od innych wartości.\nTen list z wyciętych liter wybiera nowe przechylenie co ćwierć sekundy:\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\ttwarz: 'Courier Prime'\n\tpozy: [\n\t\tPose(obrót: tilt zrównoważyć: Place(0m 0.05m))\n\t\tPose(obrót: -tilt skala: 1.2)\n\t\tPose(obrót: tilt ÷ 2 zrównoważyć: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "Znajdź i sprawdź tekst za pomocą wzorców",
         "category": "styling",

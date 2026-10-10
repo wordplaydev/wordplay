@@ -251,6 +251,16 @@
                     "Sebuah @Bubble, saat kamu ingin memilih dari sisi mana aku bicara, mengubahnya menjadi pikiran, atau memberinya warna."
                 ],
                 "names": "$~gelembung"
+            },
+            "poses": {
+                "doc": [
+                    "$~@Pose untuk setiap glif milikku, satu per satu. Glif pertama mendapat pose pertama, glif kedua mendapat pose kedua, dan saat posenya habis, aku mulai lagi dari yang pertama. Spasi juga dihitung sebagai glif.",
+                    "\\Frasa(\n\t'pesta!'\n\tpose: [\n\t\tPose(warna: Warna(25% 70 250°))\n\t\tPose(warna: Warna(50% 80 300°))\n\t\tPose(warna: Warna(58% 90 60°))\n\t]\n)\\",
+                    "Setiap glif berputar, membesar, dan bergerak mengelilingi titik tengahnya sendiri, jadi satu pose memiringkan setiap glif di tempatnya sementara barisku tetap lurus:",
+                    "\\Frasa('goyang' pose: Pose(rotasi: 15°))\\",
+                    "Warna milik glif sendiri lebih diutamakan daripada warnaku dan daripada pose apa pun yang sedang kuanimasikan, dan keburaman (opasitas) glif digabung dengan milikku."
+                ],
+                "names": "$~pose"
             }
         },
         "Arrangement": {

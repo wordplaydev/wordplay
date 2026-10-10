@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "Dar a cada letra a sua própria cor",
+        "category": "styling",
+        "body": "Um @Phrase pode dar a cada um dos seus glifos uma @Pose diferente com @Phrase/poses.\nO primeiro glifo recebe a primeira pose, o segundo glifo recebe a segunda e, quando as poses acabam, voltam a começar na primeira.\n\nAqui está um texto de festa, com três cores a alternar:\n\n\\\nPhrase(\n\t'party time!'\n\tfonte: 'Luckiest Guy'\n\tposes: [\n\t\tPose(cor: Color(25% 70 250°))\n\t\tPose(cor: Color(50% 80 300°))\n\t\tPose(cor: Color(58% 90 60°))\n\t]\n)\n\\\n\n Os espaços também contam como glifos, por isso as cores continuam a alternar entre as palavras.\nEstas cores diferem na luminosidade e também no tom, por isso as pessoas que veem as cores de forma diferente conseguem distingui-las na mesma.\n\nAs poses podem fazer mais do que mudar a cor. Cada glifo inclina-se, cresce, desvanece e move-se à volta do seu próprio centro, por isso podemos fazer as letras saltar:\n\n\\\nPhrase(\n\t'bounce'\n\tfonte: 'Luckiest Guy'\n\tposes: [\n\t\tPose(cor: Color(25% 70 250°) rotação: -10° desvio: Place(0m 0.1m))\n\t\tPose(cor: Color(58% 90 60°) rotação: 10° opacidade: 0.6)\n\t]\n)\n\\\n\n As poses também funcionam com texto formatado e, tal como qualquer outro valor de entrada, podem mudar com base noutros valores.\nEste bilhete de resgate escolhe uma nova inclinação a cada quarto de segundo:\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\tfonte: 'Courier Prime'\n\tposes: [\n\t\tPose(rotação: tilt desvio: Place(0m 0.05m))\n\t\tPose(rotação: -tilt escala: 1.2)\n\t\tPose(rotação: tilt ÷ 2 desvio: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "Encontre e verifique textos com padrões.",
         "category": "styling",

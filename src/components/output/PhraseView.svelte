@@ -542,6 +542,7 @@
                     language={effectLanguage}
                     region={effectRegion}
                     adapting={localContext.adapting}
+                    poses={phrase.poses}
                 /></span
             >{/if}
     </div>

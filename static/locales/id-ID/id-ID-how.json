@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "Beri setiap huruf warnanya sendiri",
+        "category": "styling",
+        "body": "Sebuah @Phrase dapat memberi setiap glifnya @Pose yang berbeda dengan @Phrase/poses.\nGlif pertama mendapat pose pertama, glif kedua mendapat pose kedua, dan saat pose habis, pose dimulai lagi dari yang pertama.\n\nIni teks pesta, dengan tiga warna yang bergiliran:\n\n\\\nPhrase(\n\t'party time!'\n\tmenghadapi: 'Luckiest Guy'\n\tpose: [\n\t\tPose(warna: Color(25% 70 250°))\n\t\tPose(warna: Color(50% 80 300°))\n\t\tPose(warna: Color(58% 90 60°))\n\t]\n)\n\\\n\n Spasi juga dihitung sebagai glif, jadi warna terus bergiliran di antara kata-kata.\nWarna-warna ini berbeda dalam tingkat terang dan juga corak, jadi orang yang melihat warna secara berbeda tetap bisa membedakannya.\n\nPose bisa melakukan lebih dari sekadar warna. Setiap glif bisa miring, membesar, memudar, dan bergerak di sekitar titik tengahnya sendiri, jadi kita bisa membuat huruf-hurufnya memantul:\n\n\\\nPhrase(\n\t'bounce'\n\tmenghadapi: 'Luckiest Guy'\n\tpose: [\n\t\tPose(warna: Color(25% 70 250°) rotasi: -10° mengimbangi: Place(0m 0.1m))\n\t\tPose(warna: Color(58% 90 60°) rotasi: 10° kegelapan: 0.6)\n\t]\n)\n\\\n\n Pose juga bisa dipakai pada teks berformat, dan seperti masukan lainnya, pose bisa berubah berdasarkan nilai lain.\nSurat kaleng ini memilih kemiringan baru setiap seperempat detik:\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\tmenghadapi: 'Courier Prime'\n\tpose: [\n\t\tPose(rotasi: tilt mengimbangi: Place(0m 0.05m))\n\t\tPose(rotasi: -tilt skala: 1.2)\n\t\tPose(rotasi: tilt ÷ 2 mengimbangi: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "Temukan dan periksa teks dengan pola tertentu.",
         "category": "styling",

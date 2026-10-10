@@ -109,6 +109,8 @@ type OutputTexts = {
         aura: NameAndDoc;
         /** The optional speech bubble showing what the phrase is saying */
         bubble: NameAndDoc;
+        /** Poses applied to the phrase's glyphs in turn, wrapping around */
+        poses: NameAndDoc;
         /** [formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name, $7: optional speech bubble text */
         defaultDescription: Template<
             ['text', 'name', 'size', 'face', 'animation', 'color', 'bubble']

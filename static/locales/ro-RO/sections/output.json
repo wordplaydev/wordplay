@@ -251,6 +251,16 @@
                     "Un @Bubble, când vrei să alegi din ce parte vorbesc, să-l transformi într-un gând sau să-i dai o culoare."
                 ],
                 "names": "$~balon"
+            },
+            "poses": {
+                "doc": [
+                    "$~@Pose pentru fiecare dintre glifele mele, una după alta. Prima glifă primește prima poziție, a doua primește a doua, iar când mi se termină pozițiile, o iau de la început cu prima. Și spațiile contează ca glife.",
+                    "\\Fraza(\n\t'petrecere!'\n\tpoziții: [\n\t\tPoză(culoare: Culoare(25% 70 250°))\n\t\tPoză(culoare: Culoare(50% 80 300°))\n\t\tPoză(culoare: Culoare(58% 90 60°))\n\t]\n)\\",
+                    "Fiecare glifă se rotește, crește și se mișcă în jurul propriului centru, așa că o singură poziție înclină fiecare glifă pe loc, în timp ce linia mea rămâne dreaptă:",
+                    "\\Fraza('șovăielnic' poziții: Poză(rotaţie: 15°))\\",
+                    "Culoarea proprie a unei glife are prioritate față de a mea și față de orice poziție pe care o animez, iar opacitatea ei se combină cu a mea."
+                ],
+                "names": "$~poziții"
             }
         },
         "Arrangement": {

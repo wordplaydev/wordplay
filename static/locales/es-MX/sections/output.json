@@ -251,6 +251,16 @@
                     "Un @Bubble, cuando quieras elegir de qué lado hablo, convertirlo en un pensamiento, o darle un color."
                 ],
                 "names": "$~burbuja"
+            },
+            "poses": {
+                "doc": [
+                    "$~@Pose para cada uno de mis glifos, uno tras otro. El primer glifo recibe la primera pose, el segundo recibe la segunda y, cuando se me acaban las poses, vuelvo a empezar desde la primera. Los espacios también cuentan como glifos.",
+                    "\\Frase(\n\t'¡fiesta!'\n\tposes: [\n\t\tPose(color: Color(25% 70 250°))\n\t\tPose(color: Color(50% 80 300°))\n\t\tPose(color: Color(58% 90 60°))\n\t]\n)\\",
+                    "Cada glifo gira, crece y se mueve alrededor de su propio centro, así que una sola pose inclina cada glifo en su lugar mientras mi línea se mantiene recta:",
+                    "\\Frase('tambaleante' poses: Pose(rotación: 15°))\\",
+                    "El color propio de un glifo gana sobre el mío y sobre cualquier pose que yo esté animando, y su opacidad se combina con la mía."
+                ],
+                "names": "$~poses"
             }
         },
         "Arrangement": {

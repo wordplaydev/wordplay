@@ -1032,6 +1032,8 @@
         "eb6f2bf5308ec": "$~No Safari, ao premir iniciar ou tentar outra vez num projeto que usa o microfone ou a câmara, o navegador passa a pedir permissão em vez de não fazer nada.",
         "e71d907b44acc": "$~Corrigimos os emojis a cores que apareciam em branco ou pretos em iPhones e iPads com iOS 27. Também os fizemos carregar mais depressa nesses aparelhos.",
         "e8bf14728ecca": "$~Quando não tem sessão iniciada, a janela do estado de gravação já não aparece vazia. Agora mostra quantos projetos estão guardados apenas neste dispositivo e como os guardar online.",
-        "e6bd8c62fd1ab": "$~Adicionámos estações do ano, que dão cor ao sítio e enchem as suas margens com o clima do local onde está, como chuva de monção, folhas a cair ou flocos de neve feitos com as suas próprias letras. Pode escolher uma estação ou desativá-las nas definições. (<108@https://github.com/wordplaydev/wordplay/issues/108>)"
+        "e6bd8c62fd1ab": "$~Adicionámos estações do ano, que dão cor ao sítio e enchem as suas margens com o clima do local onde está, como chuva de monção, folhas a cair ou flocos de neve feitos com as suas próprias letras. Pode escolher uma estação ou desativá-las nas definições. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
+        "e32dce56949e2": "$~\\Frase\\ tem uma nova entrada \\poses\\ que dá a cada letra a sua própria cor, inclinação, tamanho ou posição, alternando por uma lista de \\Pose\\.",
+        "ed0c9f9a5fdd1": "$~Os exemplos de código no <Guia@https://wordplay.dev/guide> já não começam com uma linha vazia."
     }
 }

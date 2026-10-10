@@ -1,0 +1,52 @@
+Bigyan ng sariling kulay ang bawat letra
+
+Ang isang @Phrase ay maaaring magbigay sa bawat glyph nito ng ibang @Pose gamit ang @Phrase/poses.
+Ang unang glyph ay nakakakuha ng unang pose, ang pangalawang glyph ay nakakakuha ng pangalawa, at kapag naubos na ang mga pose, magsisimula silang muli sa una.
+
+Narito ang ilang teksto para sa party, na may tatlong kulay na salitan sa paggamit:
+
+\
+Phrase(
+	'party time!'
+	mukha: 'Luckiest Guy'
+	mgaPosisyon: [
+		Pose(kulay: Color(25% 70 250°))
+		Pose(kulay: Color(50% 80 300°))
+		Pose(kulay: Color(58% 90 60°))
+	]
+)
+\
+
+ Ang mga espasyo ay bilang ding mga glyph, kaya patuloy na magsasalitan ang mga kulay sa buong mga salita.
+Magkakaiba ang mga kulay na ito sa liwanag at sa hue, kaya makikilala pa rin sila ng mga taong iba ang pagtingin sa mga kulay.
+
+Mas marami pang magagawa ang mga pose kaysa sa kulay. Ang bawat glyph ay tumatagilid, lumalaki, kumukupas, at gumagalaw sa paligid ng sarili nitong gitna, kaya magagawa nating tumalbog ang mga letra:
+
+\
+Phrase(
+	'bounce'
+	mukha: 'Luckiest Guy'
+	mgaPosisyon: [
+		Pose(kulay: Color(25% 70 250°) pagikot: -10° offset: Place(0m 0.1m))
+		Pose(kulay: Color(58% 90 60°) pagikot: 10° kalabuan: 0.6)
+	]
+)
+\
+
+ Gumagana rin ang mga pose sa tekstong may format, at tulad ng anumang ibang input, maaari silang magbago batay sa ibang mga halaga.
+Pumipili ang ransom note na ito ng bagong pagtagilid kada kalahating segundo:
+
+\
+tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+Phrase(
+	`*ransom* /note/`
+	mukha: 'Courier Prime'
+	mgaPosisyon: [
+		Pose(pagikot: tilt offset: Place(0m 0.05m))
+		Pose(pagikot: -tilt sukat: 1.2)
+		Pose(pagikot: tilt ÷ 2 offset: Place(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

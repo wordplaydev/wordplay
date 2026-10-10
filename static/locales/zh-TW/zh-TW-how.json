@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "讓每個字母有自己的顏色",
+        "category": "styling",
+        "body": "一個 @Phrase 可以讓它的每個字形有不同的 @Pose ，使用 @Phrase/poses。\n第一個字形用第一個姿勢，第二個字形用第二個姿勢。姿勢用完了，就會從第一個重新開始。\n\n這是一段派對文字，三種顏色輪流出現：\n\n\\\nPhrase(\n\t'party time!'\n\t表面: 'Luckiest Guy'\n\t姿勢: [\n\t\tPose(色彩: Color(25% 70 250°))\n\t\tPose(色彩: Color(50% 80 300°))\n\t\tPose(色彩: Color(58% 90 60°))\n\t]\n)\n\\\n\n 空格也算字形，所以顏色會跨過單字繼續輪流。\n這些顏色不只色相不同，明暗也不同，所以看顏色的方式不一樣的人也能分辨它們。\n\n姿勢不只能改變顏色。每個字形都能繞著自己的中心傾斜、變大、淡出和移動，所以我們可以讓字母彈跳起來：\n\n\\\nPhrase(\n\t'bounce'\n\t表面: 'Luckiest Guy'\n\t姿勢: [\n\t\tPose(色彩: Color(25% 70 250°) 旋轉: -10° 偏移: Place(0m 0.1m))\n\t\tPose(色彩: Color(58% 90 60°) 旋轉: 10° 不透明: 0.6)\n\t]\n)\n\\\n\n 姿勢也能用在有格式的文字上，而且和其他輸入一樣，可以隨著其他價值改變。\n這張勒索信每四分之一秒就換一個新的傾斜角度：\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\t表面: 'Courier Prime'\n\t姿勢: [\n\t\tPose(旋轉: tilt 偏移: Place(0m 0.05m))\n\t\tPose(旋轉: -tilt 縮放: 1.2)\n\t\tPose(旋轉: tilt ÷ 2 偏移: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "尋找並檢查帶有模式的文本",
         "category": "styling",

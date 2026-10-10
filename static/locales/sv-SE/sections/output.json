@@ -251,6 +251,16 @@
                     "En @Bubble, när du vill välja vilken sida jag pratar från, göra den till en tanke istället, eller ge den en färg."
                 ],
                 "names": "$~bubbla"
+            },
+            "poses": {
+                "doc": [
+                    "$~@Pose för var och en av mina glyfer, en efter en. Den första glyfen får den första posen, den andra får den andra, och när posarna tar slut börjar jag om från den första. Mellanslag räknas också som glyfer.",
+                    "\\Fras(\n\t'fest!'\n\tposer: [\n\t\tPose(färg: Färg(25% 70 250°))\n\t\tPose(färg: Färg(50% 80 300°))\n\t\tPose(färg: Färg(58% 90 60°))\n\t]\n)\\",
+                    "Varje glyf vrider sig, växer och rör sig runt sin egen mitt. En enda pose lutar alltså varje glyf på plats medan min rad hålls rak:",
+                    "\\Fras('vinglig' poser: Pose(rotation: 15°))\\",
+                    "En glyfs egen färg gäller före min och före alla poser som jag animerar. Dess opacitet kombineras med min."
+                ],
+                "names": "$~poser"
             }
         },
         "Arrangement": {

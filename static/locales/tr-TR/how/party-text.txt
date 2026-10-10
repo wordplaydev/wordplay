@@ -1,0 +1,52 @@
+Her harfe kendi rengini ver
+
+Bir @Phrase her glifine farklı bir @Pose verebilir: @Phrase/poses.
+İlk glif ilk pozu alır, ikinci glif ikinci pozu alır. Pozlar bitince yeniden ilk pozdan başlar.
+
+İşte sırayla üç renk kullanan eğlenceli bir metin:
+
+\
+Phrase(
+	'party time!'
+	yüz: 'Luckiest Guy'
+	pozlar: [
+		Pose(renk: Color(25% 70 250°))
+		Pose(renk: Color(50% 80 300°))
+		Pose(renk: Color(58% 90 60°))
+	]
+)
+\
+
+ Boşluklar da birer glif sayılır. Bu yüzden renkler kelimeler boyunca sırayla devam eder.
+Bu renklerin hem tonu hem de açıklığı farklıdır. Böylece renkleri farklı gören insanlar da bunları ayırt edebilir.
+
+Pozlar yalnızca renk vermez. Her glif eğilebilir, büyüyebilir, solabilir ve kendi merkezi etrafında hareket edebilir. Böylece harfleri zıplatabiliriz:
+
+\
+Phrase(
+	'bounce'
+	yüz: 'Luckiest Guy'
+	pozlar: [
+		Pose(renk: Color(25% 70 250°) rotasyon: -10° telafietmek: Place(0m 0.1m))
+		Pose(renk: Color(58% 90 60°) rotasyon: 10° opaklık: 0.6)
+	]
+)
+\
+
+ Pozlar biçimli metinle de çalışır. Diğer girdiler gibi, başka değerlere göre değişebilirler.
+Bu fidye mektubu her çeyrek saniyede yeni bir eğim seçer:
+
+\
+tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+Phrase(
+	`*ransom* /note/`
+	yüz: 'Courier Prime'
+	pozlar: [
+		Pose(rotasyon: tilt telafietmek: Place(0m 0.05m))
+		Pose(rotasyon: -tilt ölçek: 1.2)
+		Pose(rotasyon: tilt ÷ 2 telafietmek: Place(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

@@ -63,6 +63,7 @@ export const HowToMetadata = {
     'gravity-and-bouncing': { category: 'motion' },
     'gallery-how-to': { category: 'gallery' },
     'mix-languages-in-text': { category: 'styling' },
+    'party-text': { category: 'styling' },
     'find-text-with-patterns': { category: 'styling' },
     'draw-the-music': { category: 'music' },
     'play-a-sound-effect': { category: 'music' },

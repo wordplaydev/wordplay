@@ -14993,6 +14993,10 @@
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The place on stage of a phrase, group, or stage"
                                 },
+                                "poses": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Poses applied to the phrase's glyphs in turn, wrapping around"
+                                },
                                 "resting": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "Pose or sequence for when a phrase, group, or stage is not moving"
@@ -15050,6 +15054,7 @@
                                 "offset",
                                 "opacity",
                                 "place",
+                                "poses",
                                 "resting",
                                 "rotation",
                                 "scale",

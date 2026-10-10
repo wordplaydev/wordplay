@@ -8,6 +8,7 @@
 <script lang="ts">
     import MarkupHTMLView from '#components/concepts/MarkupHTMLView.svelte';
     import PlainTextView from '#components/output/PlainTextView.svelte';
+    import type Pose from '#output/animation/Pose.ts';
     import { locales } from '#db/Database.ts';
     import type LanguageCode from '#locale/LanguageCode.ts';
     import type { RegionCode } from '#locale/Regions.ts';
@@ -43,6 +44,8 @@
         region: RegionCode | undefined;
         /** Whether the stage is adapting output to a dark canvas. */
         adapting: boolean;
+        /** Poses for the glyphs to take in turn. */
+        poses?: Pose[] | undefined;
     }
 
     let {
@@ -54,6 +57,7 @@
         language,
         region,
         adapting,
+        poses = undefined,
     }: Props = $props();
 
     // What's currently shown. While text is morphing this holds an intermediate
@@ -171,7 +175,18 @@
     });
 </script>
 
-{#if committedParts !== undefined}{#each committedParts as part}<span
+{#if poses !== undefined}<!-- Loaded on demand; unposed until then. -->{#await import('#components/output/PosedText.svelte')}{#if typeof displayed === 'string'}<PlainTextView
+                text={displayed}
+                {adapting}
+            />{:else}<MarkupHTMLView
+                markup={displayed}
+                inline
+            />{/if}{:then { default: PosedText }}<PosedText
+            text={displayed}
+            parts={committedParts}
+            {poses}
+            {adapting}
+        />{/await}{:else if committedParts !== undefined}{#each committedParts as part}<span
             lang={part.language?.getBCP47()}
             ><PlainTextView text={part.text} {adapting} /></span
         >{/each}{:else if typeof displayed === 'string'}<PlainTextView

@@ -1,0 +1,52 @@
+Nadaj każdej literze osobny kolor
+
+Fraza @Phrase może nadać każdemu ze swoich glifów inną @Pose za pomocą @Phrase/poses.
+Pierwszy glif dostaje pierwszą pozę, drugi glif dostaje drugą, a gdy pozy się skończą, zaczynają się od pierwszej.
+
+Oto imprezowy tekst, w którym trzy kolory zmieniają się po kolei:
+
+\
+Phrase(
+	'party time!'
+	twarz: 'Luckiest Guy'
+	pozy: [
+		Pose(kolor: Color(25% 70 250°))
+		Pose(kolor: Color(50% 80 300°))
+		Pose(kolor: Color(58% 90 60°))
+	]
+)
+\
+
+ Spacje też liczą się jako glify, więc kolory zmieniają się po kolei również między słowami.
+Te kolory różnią się jasnością, a nie tylko odcieniem, więc osoby, które widzą kolory inaczej, nadal je rozróżnią.
+
+Pozy mogą robić więcej niż zmieniać kolor. Każdy glif przechyla się, rośnie, blednie i porusza się wokół swojego środka, więc możemy sprawić, że litery podskakują:
+
+\
+Phrase(
+	'bounce'
+	twarz: 'Luckiest Guy'
+	pozy: [
+		Pose(kolor: Color(25% 70 250°) obrót: -10° zrównoważyć: Place(0m 0.1m))
+		Pose(kolor: Color(58% 90 60°) obrót: 10° nieprzezroczystość: 0.6)
+	]
+)
+\
+
+ Pozy działają też z tekstem z formatowaniem i jak każde inne dane wejściowe mogą się zmieniać zależnie od innych wartości.
+Ten list z wyciętych liter wybiera nowe przechylenie co ćwierć sekundy:
+
+\
+tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+Phrase(
+	`*ransom* /note/`
+	twarz: 'Courier Prime'
+	pozy: [
+		Pose(obrót: tilt zrównoważyć: Place(0m 0.05m))
+		Pose(obrót: -tilt skala: 1.2)
+		Pose(obrót: tilt ÷ 2 zrównoważyć: Place(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

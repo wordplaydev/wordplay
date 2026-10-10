@@ -251,6 +251,16 @@
                     "@Bubble, gdy chcesz wybrać, z której strony mówię, zmienić to w myśl albo nadać temu kolor."
                 ],
                 "names": "$~dymek"
+            },
+            "poses": {
+                "doc": [
+                    "$~@Pose dla każdego z moich glifów, jeden po drugim. Pierwszy glif dostaje pierwszą pozę, drugi dostaje drugą, a gdy skończą mi się pozy, zaczynam od pierwszej. Spacje też są glifami.",
+                    "\\Wyrażenie(\n\t'impreza!'\n\tpozy: [\n\t\tPoza(kolor: Kolor(25% 70 250°))\n\t\tPoza(kolor: Kolor(50% 80 300°))\n\t\tPoza(kolor: Kolor(58% 90 60°))\n\t]\n)\\",
+                    "Każdy glif obraca się, rośnie i porusza wokół swojego środka, więc jedna poza pochyla każdy glif w jego miejscu, a moja linia pozostaje prosta:",
+                    "\\Wyrażenie('chwiejny' pozy: Poza(obrót: 15°))\\",
+                    "Własny kolor glifu jest ważniejszy niż mój i niż kolor każdej pozy, którą animuję, a jego przezroczystość łączy się z moją."
+                ],
+                "names": "$~pozy"
             }
         },
         "Arrangement": {

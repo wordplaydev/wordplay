@@ -4,6 +4,16 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.39.0 - 2026-10-10
+
+### Added
+
+- 🎉 `Phrase` has a new `poses` input that gives each letter its own color, tilt, size, or position, taking turns through a list of `Pose`.
+
+### Fixed
+
+- 📖 Code examples in the [Guide](https://wordplay.dev/guide) no longer start with an empty line.
+
 ## 0.38.6 - 2026-10-10
 
 ### Fixed

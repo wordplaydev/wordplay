@@ -100,3 +100,23 @@ test('the inputs before a Phrase’s bubble still read where they should', () =>
     expect(phrase?.matter).toBeDefined();
     expect(phrase?.bubble?.getShortDescription()).toBe('hi');
 });
+
+test("a Phrase's poses default to ø, so its text renders as one run", () => {
+    expect(phraseFrom("Phrase('hi')")?.poses).toBeUndefined();
+});
+
+test('a single pose for glyphs becomes a list of one', () => {
+    const poses = phraseFrom("Phrase('hi' poses: Pose(rotation: 15°))")?.poses;
+    expect(poses?.length).toBe(1);
+    expect(poses?.[0]?.rotation).toBe(15);
+});
+
+test('a list of poses for glyphs keeps its order', () => {
+    const poses = phraseFrom(
+        "Phrase('hi' poses: [Pose(opacity: 0.5) Pose(rotation: 10°)])",
+    )?.poses;
+    expect(poses?.map((pose) => [pose.opacity, pose.rotation])).toEqual([
+        [0.5, undefined],
+        [undefined, 10],
+    ]);
+});

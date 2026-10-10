@@ -251,6 +251,16 @@
                     "Hangi taraftan konuştuğumu seçmek, onu bir düşünceye çevirmek ya da ona bir renk vermek istediğinde, bir @Bubble."
                 ],
                 "names": "$~balon"
+            },
+            "poses": {
+                "doc": [
+                    "$~@Pose benim her harfim için, birbiri ardına. İlk harf ilk pozu, ikinci harf ikinci pozu alır. Pozlarım bitince yeniden ilkinden başlarım. Boşluklar da harf sayılır.",
+                    "\\İfadeetmek(\n\t'parti!'\n\tpozlar: [\n\t\tPoz(renk: Renk(25% 70 250°))\n\t\tPoz(renk: Renk(50% 80 300°))\n\t\tPoz(renk: Renk(58% 90 60°))\n\t]\n)\\",
+                    "Her harf kendi ortası etrafında döner, büyür ve hareket eder. Bu yüzden tek bir poz her harfi olduğu yerde eğer, satırım ise düz kalır:",
+                    "\\İfadeetmek('sallanan' pozlar: Poz(rotasyon: 15°))\\",
+                    "Bir harfin kendi rengi benim rengimden ve canlandırdığım her pozdan önce gelir. Harfin saydamlığı ise benimkiyle birleşir."
+                ],
+                "names": "$~pozlar"
             }
         },
         "Arrangement": {

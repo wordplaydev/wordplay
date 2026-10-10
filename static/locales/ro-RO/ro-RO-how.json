@@ -208,6 +208,13 @@
         "related": ["styling-text"]
     },
     {
+        "id": "party-text",
+        "title": "Dă fiecărei litere propria culoare",
+        "category": "styling",
+        "body": "Un @Phrase poate da fiecărui glif o altă @Pose cu @Phrase/poses.\nPrimul glif primește prima poziție, al doilea glif o primește pe a doua, iar când pozițiile se termină, încep din nou de la prima.\n\nIată un text de petrecere, cu trei culori care se succed pe rând:\n\n\\\nPhrase(\n\t'party time!'\n\tfaţă: 'Luckiest Guy'\n\tpoziții: [\n\t\tPose(culoare: Color(25% 70 250°))\n\t\tPose(culoare: Color(50% 80 300°))\n\t\tPose(culoare: Color(58% 90 60°))\n\t]\n)\n\\\n\n Spațiile contează și ele ca glife, așa căGD culorile continuă să se succeadă de la un cuvânt la altul.\nAceste culori diferă atât ca luminozitate, cât și ca nuanță, așa că și oamenii care văd culorile altfel le pot deosebi.\n\nPozițiile pot face mai mult decât să schimbe culoarea. Fiecare glif se înclină, crește, se estompează și se mișcă în jurul propriului centru, așa că putem face literele să sară:\n\n\\\nPhrase(\n\t'bounce'\n\tfaţă: 'Luckiest Guy'\n\tpoziții: [\n\t\tPose(culoare: Color(25% 70 250°) rotaţie: -10° compensare: Place(0m 0.1m))\n\t\tPose(culoare: Color(58% 90 60°) rotaţie: 10° opacitate: 0.6)\n\t]\n)\n\\\n\n Pozițiile funcționează și cu textul formatat și, ca orice altă intrare, pot varia în funcție de alte valori.\nAcest bilet de răscumpărare alege o nouă înclinare la fiecare sfert de secundă:\n\n\\\ntilt: 0° … ∆ Time(250ms) … Random(-15° 15°)\nPhrase(\n\t`*ransom* /note/`\n\tfaţă: 'Courier Prime'\n\tpoziții: [\n\t\tPose(rotaţie: tilt compensare: Place(0m 0.05m))\n\t\tPose(rotaţie: -tilt scară: 1.2)\n\t\tPose(rotaţie: tilt ÷ 2 compensare: Place(0m -0.05m))\n\t]\n)\n\\",
+        "related": ["styling-text", "your-own-template", "animate-phrase"]
+    },
+    {
         "id": "find-text-with-patterns",
         "title": "Găsiți și verificați textul cu ajutorul unor modele",
         "category": "styling",
