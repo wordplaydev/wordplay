@@ -362,7 +362,7 @@
         },
         "url": {
             "name": "markup.underline.link.wordplay",
-            "match": "(mailto:[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*\\.[A-Za-z]{2,}|(https?)?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}(\\.[a-zA-Z0-9()]{1,6})?\\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*))"
+            "match": "(mailto:[A-Za-z0-9](?:[A-Za-z0-9._%+-]*[A-Za-z0-9])?@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*\\.[A-Za-z]{2,}|(https?)?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}(\\.[a-zA-Z0-9()]{1,6})?\\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*))"
         },
         "markup-escape": {
             "name": "constant.character.escape.wordplay",

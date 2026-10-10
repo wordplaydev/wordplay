@@ -270,7 +270,7 @@ instrukcje: Wyrażenie(
 		miejsce: Miejsce(-6.4m -6.4m)
 	)
 
-¶Trzy dźwięki: strzał, obrona, siatka. Każdy pojawia się na scenie tak długo,jak trwa faza, która go wywołuje, a potem znika. Samo dotarcie na scenęwystarcza, by dźwięk zabrzmiał, a jednorazowy dźwięk, który już zabrzmiał,milczy, dopóki nie zniknie i nie wróci — dlatego żaden z nich nie potrzebuje@Music.replay, i żaden nie brzmi, gdy program się zaczyna.
+¶Trzy dźwięki: strzał, obrona, siatka. Każdy pojawia się na scenie tak długo,jak trwa faza, która go wywołuje, a potem znika. Samo dotarcie na scenęwystarcza, by dźwięk zabrzmiał, a jednorazowy dźwięk, który już zabrzmiał,milczy, dopóki nie zniknie i nie wróci — dlatego żaden z nich nie potrzebuje @Music.replay, i żaden nie brzmi, gdy program się zaczyna.
 
 Taki zapis mówi coś, czego same dźwięki by nie powiedziały: każdy dźwięknależy do fazy rundy i trwa dokładnie tak długo, jak ta faza.@Music.replay to inny zapis, dla dźwięku, który odpowiada jednej chwili,a nie całemu odcinkowi czasu.¶
 kopnięcieDźwięk: Muzyka(

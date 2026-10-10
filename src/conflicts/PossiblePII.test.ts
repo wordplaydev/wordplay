@@ -33,3 +33,12 @@ test("a web link's path is not a handle", () => {
         'PossiblePII',
     );
 });
+
+// A concept link right after a Hebrew prefix or a period is still a link, not an address (he-IL and
+// pl-PL gallery examples). The email rule matched an ASCII local part of just `-` or ending in `.`.
+test.each(['¶צריך ב-@Music.replay¶\n1', '¶to faza.@Music.replay¶\n1'])(
+    '%s has a concept link, not an email',
+    (code) => {
+        expect(conflictsIn(code)).not.toContain('PossiblePII');
+    },
+);

@@ -19,6 +19,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 Converting a range, a function, a pattern, or a value that might be `ø` to text with `→ ''` now works instead of stopping the program.
 - 🖱️ Reading `Pointer().rotation` no longer stops the program.
 - 🔒 We now warn about email addresses written in documentation and formatted text, as we already did in text.
+- 🔗 Links to the guide that come right after a Hebrew prefix like ב- or after a period now open the guide, instead of becoming email links.
 
 ## 0.38.4 - 2026-10-03
 
