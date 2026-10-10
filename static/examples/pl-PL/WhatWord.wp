@@ -1,19 +1,19 @@
 W
 JakieSłowo
 === start/en
-¶Gra w odgadywanie słów po angielsku, hiszpańsku i arabsku.¶
+¶Gra w zgadywanie słów po angielsku, hiszpańsku i arabsku.¶
 ↓ words
 
 ¶a list of guesses and a secret word¶/en
 ¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
 ¶قائمة التخمينات وكلمة سرية¶/ar
-•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] pozostałe•[""] start2•?) (
-	tajemnica: start2 ? pozostałe[1] ""
-	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (tajemnica.długość(
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] pozostało•[""] początek2•?) (
+	sekret: początek2 ? pozostało[1] ""
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (sekret.długość(
 			) × 3) - guesses.długość()
 	status/en,estado/es,حالة/ar:
-		tajemnica = "" ? "start"
-			tajemnica → [""].Wszystko(
+		sekret = "" ? "start"
+			sekret → [""].Wszystko(
 				ƒ(litera•"") guesses.ma(litera)
 			) ? "won"
 				guessesRemaining ≤ 0 ? "lost"
@@ -37,20 +37,20 @@ state/en,estado/es,حالة/ar•Game: Game(
 			)
 			(state.status ≠ "playing") & (key = 'Przestrzeń') ? Game(
 					[]
-					state.pozostałe.bezPierwszego()
+					state.pozostało.bezPierwszego()
 					⊤
 				)
 				(state.status = "playing") & (key.długość() = 1) & ~state.guesses.ma(
 						key
 					) ?
-					Game(state.guesses.z(key) state.pozostałe ⊤)
+					Game(state.guesses.z(key) state.pozostało ⊤)
 					state
 
 ¶The board is a translation of the secret, accounting for guesses¶/en
 ¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
 ¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
 board/en,tabelro/es,طاولة/ar: Wyrażenie(
-		state.tajemnica → [""].tłumaczyć(
+		state.sekret → [""].tłumaczyć(
 			ƒ(litera2•"") ((state.status = "lost") | state.guesses.ma(
 							litera2
 						)) ? litera2 "."
@@ -127,15 +127,18 @@ screen/en,cine/es,إظهار/ar:
 			]
 		)
 
-¶Wolna figura, która krąży wokół siebie, a nie prowadzi nigdzie — właśnie to sprawia, że warto się w niej zamyślić. Każdy utwór poniżej ma osiem uderzeń, więc wszystkie wracają razem do początku i pętla nie ma szwu.¶
+¶Powolna melodia, która krąży w kółko zamiast dokądś zmierzać, i dlatego skłania do namysłu. Każda ścieżka poniżej ma osiem uderzeń, więc wszystkie wracają na początek razem, a pętla nie ma żadnego szwu.¶
 motyw: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
-¶Ile z twojego kieszonkowego zostało wydane, od 0, gdy wszystko jest jeszcze do zagrania, do 1, gdy nic nie zostało. Tajemnica jest pusta przed pierwszą rundą, więc dzielenie jest zabezpieczone, a nie pozostawione na dzielenie przez zero.¶
-maksimumPrób: state.tajemnica.długość() × 3
-presja: (maksimumPrób = 0) ? 0 ((1 - (state.guessesRemaining ÷ maksimumPrób)).limit(0 1))
+¶Ile z twojego limitu już wykorzystano: od 0, gdy wszystko jest jeszcze do zagrania, do 1, gdy nic nie zostało. Przed pierwszą rundą sekret jest pusty, więc dzielenie jest zabezpieczone i nie dzieli przez zero.¶
+maxGuesses: state.sekret.długość() × 3
+presja: (maxGuesses = 0) ? 0 ((1 - (state.guessesRemaining ÷ maxGuesses)).granica(
+				0
+				1
+			))
 
-¶Zamyślone przy 54 uderzeniach na minutę, naglące przy 120 — każda próba przesuwa je odrobinę. Zmiana tempa łączy się przy następnym uderzeniu, a nie zaczyna od nowa, więc pętla zachowuje swoje miejsce i tylko lekko przyspiesza — cichy bęben ma sprawić, by to przyspieszenie było słyszalne, bo zmianę tempa pod długimi, wybrzmiewającymi nutami trudno wyczuć.¶
-muzykaZagadki: Muzyka(
+¶Zamyślone przy 54 uderzeniach na minutę, pilne przy 120, a każda próba trochę je zmienia. Zmiana tempa wchodzi przy następnym uderzeniu zamiast zaczynać od nowa, więc pętla zostaje na swoim miejscu i tylko pochyla się do przodu. Cichy bęben sprawia, że ten przechył słychać, bo zmianę tempa pod długimi, przedłużonymi dźwiękami trudno poczuć.¶
+muzykaDoZagadki: Muzyka(
 		[
 			Ścieżka(
 				motyw
@@ -167,7 +170,7 @@ muzykaZagadki: Muzyka(
 		nazwa: 'zagadka'
 	)
 
-¶Wygrałeś: temat dwa razy szybszy, powtórzony oktawę wyżej na dzwonku, ponad jedynymi durowymi akordami w tym przykładzie.¶
+¶Wygrana: motyw dwa razy szybciej, podwojony oktawę wyżej na dzwonie, nad jedynymi durowymi akordami w przykładzie.¶
 piosenkaWygranej: Muzyka(
 		[
 			Ścieżka(
@@ -201,7 +204,7 @@ piosenkaWygranej: Muzyka(
 		nazwa: 'wygrana'
 	)
 
-¶Przegrałeś: temat oktawę niżej i wolniejszy, niż był kiedykolwiek podczas gry, na akordach, które zatrzymują się na czwartym stopniu, a nie wracają do domu, więc pętla nigdy się nie rozwiązuje.¶
+¶Przegrana: motyw oktawę niżej i wolniej niż kiedykolwiek podczas gry, nad akordami, które zatrzymują się na kwarcie zamiast wracać do domu, więc pętla nigdy się nie kończy.¶
 piosenkaPrzegranej: Muzyka(
 		[
 			Ścieżka(
@@ -235,13 +238,13 @@ piosenkaPrzegranej: Muzyka(
 		nazwa: 'przegrana'
 	)
 
-¶Na scenie gra tylko melodia dla aktualnego stanu, a @Music, którego już nie ma, przestaje grać — więc to zakończenie rundy zmienia muzykę.
+¶Na scenie jest tylko melodia dla obecnego stanu, a @Music, którego już tam nie ma, przestaje grać. Dlatego zakończenie rundy zmienia muzykę.
 
-Wszystkie trzy grają ten sam temat, a robotę wykonuje skala pod nim. Temat dotyka stopni 1, 4, 5, 6 i 8, a @Music.major zgadza się z @Music.dorian na każdym z nich — stopnie, w których się rozchodzą, trzeci i siódmy, nie występują w melodii. Więc wygrana nie zmienia ani jednej nuty melodii, którą nucisz podczas myślenia; akordy pod nią jednak używają trzeciego stopnia i stają się durowe. @Music.minor różni się od skali dorian na szóstym stopniu, który temat dotyka, więc przegrana obniża tę jedną nutę, a do tego zniża całą linię o oktawę.¶
+Wszystkie trzy grają ten sam motyw, a pracę wykonuje skala pod nim. Motyw dotyka stopni 1, 4, 5, 6 i 8, a @Music.major zgadza się z @Music.dorian na każdym z nich. Stopnie, w których się różnią, czyli trzeci i siódmy, nie występują w melodii. Wygrana nie zmienia więc ani jednej nuty melodii, którą nuciłeś podczas myślenia. Akordy pod spodem używają jednak trzeciego stopnia i stają się durowe. @Music.minor rozchodzi się z doryckim na szóstym stopniu, którego motyw dotyka, więc przegrana obniża tę jedną nutę, a do tego przenosi melodię oktawę niżej.¶
 ścieżkaDźwiękowa: state.status ???
 		"won": piosenkaWygranej
 		"lost": piosenkaPrzegranej
-		muzykaZagadki
+		muzykaDoZagadki
 
 ¶Create a world with the screen in it¶/en
 ¶Crea un mundo con la pantalla en él¶/es
@@ -273,7 +276,7 @@ Scena(
 	'ryjówka'
 	'kret'
 	'pancernik'
-	'oposum'
+	'opos'
 	'słoń'
 	'nietoperz'
 	'osioł'
@@ -293,7 +296,7 @@ Scena(
 	'jaguar'
 	'szympans'
 	'pawian'
-	'szop'
+	'szop pracz'
 	'kret'
 	'ryjówka'
 	'kolczatka'

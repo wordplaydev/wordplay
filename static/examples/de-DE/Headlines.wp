@@ -1,7 +1,7 @@
 l
-Überschriften
+Schlagzeilen
 === start/en
-¶Aktuelle Schlagzeilen der New York Times, aus dem Internet geholt und auf der Bühne gestapelt.¶
+¶Aktuelle Schlagzeilen der New York Times, aus dem Web geholt und auf der Bühne gestapelt.¶
 
 schlagzeilen: Website(
 		'https://www.nytimes.com'

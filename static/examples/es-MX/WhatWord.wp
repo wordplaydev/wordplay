@@ -1,5 +1,5 @@
 W
-WhatWord
+¿Qué palabra?
 === start/en
 ¶Un juego de adivinar palabras en inglés, español y árabe.¶
 ↓ words
@@ -7,8 +7,8 @@ WhatWord
 ¶a list of guesses and a secret word¶/en
 ¶El estado del juego es una lista de conjeturas y una palabra secreta.¶/es
 ¶قائمة التخمينات وكلمة سرية¶/ar
-•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] restante•[""] comenzar•?) (
-	secreto: comenzar ? restante[1] ""
+•Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] restante•[""] comienzo2•?) (
+	secreto: comienzo2 ? restante[1] ""
 	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secreto.longitud(
 			) × 3) - guesses.longitud()
 	status/en,estado/es,حالة/ar:
@@ -31,7 +31,7 @@ state/en,estado/es,حالة/ar•Game: Game(
 		⊥
 	) … ∆ key …
 		key = "Escape" ? Game([] words.ordenado(ƒ() Azar()) ⊥)
-			(state.status ≠ "playing") & (key = "Espacio") ? Game(
+			(state.status ≠ "playing") & (key = 'Espacio') ? Game(
 					[]
 					state.restante.sinPrimero()
 					⊤
@@ -123,15 +123,18 @@ screen/en,cine/es,إظهار/ar:
 			]
 		)
 
-¶Una figura lenta que da vueltas sobre sí misma en lugar de ir a algún lugar, y eso es justo lo que la hace digna de pensarse. Cada pista de abajo dura ocho tiempos, así que todas regresan juntas y el bucle no tiene costura.¶
+¶Una melodía lenta que da vueltas sobre sí misma en lugar de ir a algún lado, y por eso invita a pensar. Cada pista de abajo dura ocho tiempos, así que todas vuelven a empezar juntas y el bucle no tiene cortes.¶
 tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
-¶Cuánto de tu mesada se ha gastado, desde 0 con todo por jugar hasta 1 sin nada restante. El secreto está vacío antes de la primera ronda, así que la división está protegida en lugar de dejarse dividir entre cero.¶
+¶Cuánto de tus intentos ya gastaste, desde 0 con todo por jugar hasta 1 sin nada que quede. El secreto está vacío antes de la primera ronda, así que la división está protegida para no dividir entre cero.¶
 intentosMáximos: state.secreto.longitud() × 3
-presión: (intentosMáximos = 0) ? 0 ((1 - (state.guessesRemaining ÷ intentosMáximos)).limit(0 1))
+presión: (intentosMáximos = 0) ? 0 ((1 - (state.guessesRemaining ÷ intentosMáximos)).límite(
+				0
+				1
+			))
 
-¶Pensativo a 54 tiempos por minuto, urgente a 120, y cada intento lo mueve un poco. Cambiar el tempo se inserta en el siguiente tiempo en lugar de comenzar de nuevo, así que el bucle mantiene su lugar y simplemente se inclina hacia adelante; el tambor suave está ahí para que se escuche esa inclinación, ya que un cambio de tempo bajo notas largas es difícil de sentir.¶
-músicaDelRompecabezas: Música(
+¶Pensativa a 54 tiempos por minuto, urgente a 120, y cada intento la mueve un poco. Cuando cambia el tempo, el cambio entra en el siguiente tiempo en lugar de empezar de nuevo, así que el bucle conserva su lugar y solo se inclina hacia adelante. El tambor suave está ahí para que se escuche esa inclinación, porque un cambio de tempo bajo notas largas es difícil de sentir.¶
+músicaDelAcertijo: Música(
 		[
 			Pista(
 				tema
@@ -160,10 +163,10 @@ músicaDelRompecabezas: Música(
 		]
 		tempo: (54beats/min + (presión · 66beats/min))
 		escala: Música.dórica
-		nombre: 'rompecabezas'
+		nombre: 'acertijo'
 	)
 
-¶Ganaste: el tema al doble de velocidad, duplicado una octava arriba en una campana, sobre los únicos acordes mayores del ejemplo.¶
+¶Ganaste: el tema al doble de velocidad, duplicado una octava más arriba en una campana, sobre los únicos acordes mayores del ejemplo.¶
 canciónDeVictoria: Música(
 		[
 			Pista(
@@ -197,7 +200,7 @@ canciónDeVictoria: Música(
 		nombre: 'ganar'
 	)
 
-¶Perdiste: el tema una octava abajo y más lento de lo que llegó a estar mientras jugabas, sobre acordes que se posan en el cuarto grado en lugar de volver a casa, así que el bucle nunca se resuelve.¶
+¶Perdiste: el tema una octava más abajo y más lento que nunca mientras jugabas, sobre acordes que se quedan en la cuarta en lugar de volver a casa, así que el bucle nunca se resuelve.¶
 canciónDeDerrota: Música(
 		[
 			Pista(
@@ -231,13 +234,13 @@ canciónDeDerrota: Música(
 		nombre: 'perder'
 	)
 
-¶Solo la melodía del estado actual está en el escenario, y un @Music que ya no está presente se detiene, así que terminar la ronda es lo que cambia la música.
+¶Solo la melodía del estado actual está en el escenario, y un @Music que ya no está ahí se detiene, así que terminar la ronda es lo que cambia la música.
 
-Las tres tocan el mismo tema, y la escala debajo es la que hace el trabajo. El tema toca los grados 1, 4, 5, 6 y 8, y @Music.major coincide con @Music.dorian en todos ellos: los grados donde se separan, el tercero y el séptimo, no están en la melodía. Así que la victoria no mueve ni una nota de la tonada que tarareabas mientras pensabas; los acordes debajo sí usan el tercero, y esos se vuelven mayores. @Music.minor se separa del modo dórico en el sexto grado, que el tema sí toca, así que la derrota aplana también esa nota además de bajar la línea una octava.¶
+Las tres tocan el mismo tema, y la escala que va debajo hace el trabajo. El tema toca los grados 1, 4, 5, 6 y 8, y @Music.major coincide con @Music.dorian en todos ellos. Los grados donde se separan, el tercero y el séptimo, no están en la melodía. Por eso ganar no cambia ni una nota de la melodía que ibas tarareando mientras pensabas; los acordes de abajo sí usan el tercero, y esos se vuelven mayores. @Music.minor se separa del dórico en el sexto, que el tema sí toca, así que perder baja esa nota y también baja la línea una octava.¶
 bandaSonora: state.status ???
 		"won": canciónDeVictoria
 		"lost": canciónDeDerrota
-		músicaDelRompecabezas
+		músicaDelAcertijo
 
 ¶Create a world with the screen in it¶/en
 ¶Crea un mundo con la pantalla en él¶/es
@@ -269,7 +272,7 @@ Escenario(
 	'musaraña'
 	'topo'
 	'armadillo'
-	'zarigüeya'
+	'tlacuache'
 	'elefante'
 	'murciélago'
 	'burro'
@@ -283,7 +286,7 @@ Escenario(
 	'canguro'
 	'marmota'
 	'hámster'
-	'mouse'
+	'ratón'
 	'conejo'
 	'oveja'
 	'jaguar'

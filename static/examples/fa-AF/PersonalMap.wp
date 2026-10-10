@@ -1,5 +1,5 @@
 🍂
-نقشهٔ شخصی – جاهایی که در آن‌ها زندگی کرده‌ام
+نقشهٔ شخصی – جاهایی که زندگی کرده‌ام
 === English/en
 ¶This project has an English and a Hindi version.
 Change the locale on stage to see each one!¶/en
@@ -29,7 +29,7 @@ single run for the speech bubble to wrap however it likes.¶/en
 	خط‌ها.طول() < 2 ? خط‌ها[1]
 		خط‌ها.زیرترتیب(2).ترکیب‌شده(
 			خط‌ها[1]
-			ƒ(انباشته بعدی2) انباشته + `` + بعدی2
+			ƒ(مجموع2 بعدی2) مجموع2 + `` + بعدی2
 		)
 
 ¶This 'otherwise' checks the name of the collided object

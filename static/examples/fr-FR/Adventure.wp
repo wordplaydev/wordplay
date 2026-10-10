@@ -1,40 +1,37 @@
 Y
 Aventure
 === start/en
-¶Une aventure textuelle en quinze pièces : tu te réveilles attaché dans une pièce sombre et froide, et tu dois trouver l'une des quatre façons dont cette nuit peut se terminer. Les pièces se relient entre elles, donc un mauvais choix devient une boucle plutôt qu'une impasse, et ce que tu transportes décide quels passages te sont ouverts.¶
+¶Une aventure textuelle en quinze pièces : tu te réveilles attaché dans une pièce sombre et froide, et tu dois trouver l'une des quatre façons dont cette nuit peut se terminer. Les pièces se rejoignent les unes les autres, donc un mauvais choix te fait tourner en boucle au lieu de t'arrêter dans une impasse, et ce que tu transportes décide des passages qui te sont ouverts.¶
 
-¶Une sortie d'une pièce : comment s'appelle le choix, l'identifiant de la pièce vers laquelle il mène, et, pour une porte verrouillée, ce que tu dois transporter pour l'utiliser. Le vrai truc, c'est de nommer la destination au lieu de la garder. Un lien doit exister avant que quoi que ce soit puisse en parler, donc une histoire construite avec des liens ne peut que pointer en arrière et ne peut jamais revenir sur ses pas. Un identifiant textuel n'a pas cette règle, donc deux pièces peuvent chacune nommer l'autre, et la carte peut contenir des boucles.¶
-•porte(étiquette•'' pièce•'' aBesoin•'': '')
+¶Une sortie d'une pièce : le nom du choix, l'id de la pièce où il mène et, pour une porte verrouillée, ce que tu dois transporter pour l'utiliser. Nommer la destination au lieu de la garder en main, c'est toute l'astuce. Une liaison doit exister avant que quelque chose puisse la mentionner. Une histoire faite de liaisons ne peut donc que pointer vers l'arrière et ne peut jamais revenir en boucle. Un id de texte n'a pas cette règle : deux pièces peuvent se nommer l'une l'autre, et la carte peut contenir des boucles.¶
+•porte(étiquette•'' pièce•'' besoins•'': '')
 
-¶Une pièce. La plupart des pièces n'ont besoin que des trois premières informations : un identifiant, ce qu'on y trouve, et ses portes. Les trois dernières servent pour les pièces spéciales — celle qui te donne quelque chose, et les quatre qui terminent l'histoire.¶
+¶Une pièce. La plupart des pièces n'ont besoin que des trois premiers éléments : un id, ce que tu y trouves et ses portes. Les trois derniers servent aux pièces spéciales : celle qui te donne un objet et les quatre qui terminent l'histoire.¶
 •pièce2(id2•'' description2•'' portes•[porte]: [] prendre•'': '' fin2•'': '' gagné•?: ⊥)
 
-¶Où tu es et ce que tu transportes. C'est en fait toute l'histoire : un identifiant de pièce et un petit tas d'objets.¶
+¶Où tu es et ce que tu transportes. C'est ça, l'histoire : l'id d'une pièce et un petit tas d'objets.¶
 •périple(pièce3•'' sac•[''])
 
-¶Chaque pièce dans une seule liste. Seule la première compte pour sa position : c'est là que l'histoire commence, et c'est là que chaque fin te renvoie.¶
+¶Toutes les pièces dans une seule liste. Seule la première compte par sa position : c'est là que l'histoire commence, et c'est là que chaque fin te renvoie.¶
 pièces•[pièce2]: [
 		pièce2(
 			'cellule'
-			"Tu te réveilles dans une pièce sombre et froide qui sent le moisi. Tes poignets sont attachés derrière ton dos, et celui qui a fait les nœuds ne s'est pas dépêché."
+			"Tu te réveilles dans une pièce sombre et froide qui sent la moisissure. Tes poignets sont attachés dans ton dos, et celui qui a fait les nœuds n'était pas pressé."
 			[
-				porte('te retourner sur le côté' 'sol')
+				porte('te rouler sur le côté' 'sol')
 				porte('rester immobile et écouter' 'écouter')
 			]
 		)
 		pièce2(
 			'écouter'
-			"Deux voix montent à travers le plancher. Elles se disputent pour savoir qui a laissé la porte ouverte, et aucune des deux ne semble s'inquiéter de toi."
-			[porte('te retourner sur le côté' 'sol')]
+			"Deux voix montent à travers les lattes du plancher. Elles se disputent pour savoir qui a laissé la porte ouverte, et aucune ne semble s'inquiéter de toi."
+			[porte('te rouler sur le côté' 'sol')]
 		)
 		pièce2(
 			'sol'
-			"Sur le côté, tu peux voir sous le lit de camp : un couteau posé sur les dalles, rouillé le long du dos de la lame, assez proche pour l'attraper si tu es prêt à poser ton visage sur le sol."
+			"Sur le côté, tu peux voir sous le lit : un couteau sur les dalles, rouillé le long du dos, assez près pour l'attraper si tu acceptes de poser ton visage par terre."
 			[
-				porte(
-					'le prendre et te libérer en coupant la corde'
-					'cave'
-				)
+				porte('le prendre et couper tes liens' 'cave')
 				porte(
 					'rester immobile et écouter encore'
 					'écouter'
@@ -43,7 +40,7 @@ pièces•[pièce2]: [
 		)
 		pièce2(
 			'cave'
-			"La cave, debout : le lit de camp, un tas de corde coupée, un escalier qui monte le long d'un mur et un passage bas qui traverse l'autre côté."
+			"La cave, debout : le lit, un tas de corde coupée, un escalier qui monte le long d'un mur et un passage bas qui part de l'autre côté."
 			[
 				porte("monter l'escalier" 'escalier')
 				porte('prendre le passage bas' 'passage')
@@ -52,7 +49,7 @@ pièces•[pièce2]: [
 		)
 		pièce2(
 			'escalier'
-			"Des marches usées et creusées au milieu. À mi-chemin, il y a un palier avec une lanterne accrochée à un crochet, et au-dessus du palier, l'escalier continue de monter."
+			"Des marches creusées au milieu par l'usure. À mi-hauteur, il y a un palier avec une lanterne suspendue à un crochet. Au-dessus du palier, l'escalier continue."
 			[
 				porte('prendre la lanterne' 'lanterne')
 				porte('continuer à monter' 'porte')
@@ -61,7 +58,7 @@ pièces•[pièce2]: [
 		)
 		pièce2(
 			'lanterne'
-			"La mèche s'allume au deuxième essai, et le palier se révèle bien plus petit que ce que l'obscurité laissait croire."
+			"La mèche s'allume au deuxième essai. Le palier est bien plus petit que ce que l'obscurité laissait croire."
 			[
 				porte('continuer à monter' 'porte')
 				porte('redescendre' 'cave')
@@ -70,49 +67,49 @@ pièces•[pièce2]: [
 		)
 		pièce2(
 			'porte'
-			"En haut de l'escalier, une porte lourde verrouillée de l'autre côté. Le verrou est vieux et l'espace à côté est assez large pour une lame."
+			"En haut de l'escalier, il y a une lourde porte verrouillée de l'autre côté. Le verrou est vieux, et la fente à côté est assez large pour passer une lame."
 			[
-				porte('forcer le verrou avec le couteau' 'salle')
+				porte('manœuvrer le verrou avec le couteau' 'salle')
 				porte('redescendre' 'escalier')
 			]
 		)
 		pièce2(
 			'salle'
-			"Une salle avec un foyer éteint et deux chaises repoussées, comme si la dispute s'était terminée en toute hâte. Au fond, il y a un portail, et une lumière grise sous le portail."
+			"Une salle avec un foyer refroidi et deux chaises repoussées, comme si la dispute s'était finie en vitesse. Au fond, il y a une grille, et une lumière grise passe sous la grille."
 			[
-				porte('traverser vers le portail' 'portail')
+				porte("aller jusqu'à la grille" 'grille')
 				porte("redescendre l'escalier" 'escalier')
 			]
 		)
 		pièce2(
-			'portail'
-			'Le portail est enchaîné, et la chaîne passe dans un cadenas de la taille de ton poing. Au-delà, la route descend vers la vallée.'
+			'grille'
+			'La grille est fermée par une chaîne, et la chaîne passe dans un cadenas gros comme ton poing. Au-delà, la route descend vers la vallée.'
 			[
 				porte(
 					'tourner la clé dans le cadenas'
 					'colline'
-					aBesoin: 'clé'
+					besoins: 'clé'
 				)
-				porte('grimper la chaîne à la place' 'grimper')
-				porte('retourner à la salle' 'salle')
+				porte('grimper à la chaîne à la place' 'grimper')
+				porte('retourner dans la salle' 'salle')
 			]
 		)
 		pièce2(
 			'passage'
-			"Le passage est si bas qu'il faut avancer une main devant soi, et il sent la rivière. Après quelques pas, l'obscurité n'est plus une ombre, elle devient un mur."
+			"Le passage est si bas que tu avances avec une main au sol, et il sent la rivière. Après quelques pas, l'obscurité n'est plus une ombre : elle devient un mur."
 			[
 				porte('avancer à tâtons' 'aveugle')
 				porte(
-					'apporter la lumière'
+					'entrer avec la lumière'
 					'crypte'
-					aBesoin: 'lanterne'
+					besoins: 'lanterne'
 				)
-				porte('repartir par où tu es venu' 'cave')
+				porte('ressortir par où tu es venu' 'cave')
 			]
 		)
 		pièce2(
 			'crypte'
-			'La lanterne éclaire une pièce basse pleine de coffres en pierre, et sur un crochet près du dernier, une clé rouillée avec un bout de tissu encore noué autour.'
+			'La lanterne éclaire une salle basse remplie de boîtes de pierre. Sur un crochet, près de la dernière, pend une clé rouillée avec un bout de tissu encore noué dedans.'
 			[
 				porte("continuer vers l'eau" 'rivière')
 				porte('remonter le passage' 'passage')
@@ -121,42 +118,42 @@ pièces•[pièce2]: [
 		)
 		pièce2(
 			'aveugle'
-			"Tu avances, une main tendue devant toi. Ta main ne trouve rien, et un instant plus tard, tes pieds non plus. Le noir garde ce qu'on lui donne."
-			fin2: 'Le noir te garde.'
+			"Tu avances, une main tendue devant toi. Ta main ne trouve rien, et un instant plus tard tes pieds non plus. L'obscurité garde ce qu'on lui donne."
+			fin2: "L'obscurité te garde."
 		)
 		pièce2(
 			'grimper'
-			"Tu es presque en haut quand la chaîne se rappelle son âge. On te retrouve au pied du portail à l'aube, et cette fois, on apporte assez de corde pour deux."
-			fin2: 'Attrapé au portail.'
+			"Tu es presque tout en haut quand la chaîne se rappelle qu'elle est vieille. On te trouve au pied du portail à l'aube, et cette fois on apporte assez de corde pour deux."
+			fin2: 'Pris au portail.'
 		)
 		pièce2(
 			'rivière'
-			"Le passage se termine par une grille au-dessus d'une eau qui coule. Les barreaux sont vieux et le couteau est patient. Tu sors avec la rivière, et la maison est déjà loin derrière toi avant même que le ciel ne devienne gris."
-			fin2: 'Sorti avec la rivière.'
+			"Le passage se termine par une grille au-dessus d'une eau qui coule. Les barreaux sont vieux et le couteau est patient. Tu sors avec la rivière, et la maison est déjà bien loin derrière toi avant même que le ciel devienne gris."
+			fin2: 'Parti avec la rivière.'
 			gagné
 		)
 		pièce2(
 			'colline'
-			"La clé tourne, la chaîne tombe dans l'herbe, et le portail s'ouvre sans un bruit que personne n'entendra. La vallée est grise sous le matin, et la route est à toi."
+			"La clé tourne, la chaîne tombe dans l'herbe, et le portail s'ouvre sans un bruit que quelqu'un puisse entendre. La vallée est grise de matin, et la route est à toi."
 			fin2: 'Sorti par le portail.'
 			gagné
 		)
 	]
 
-¶La pièce portant cet identifiant. find() renvoie ø quand rien ne correspond, et un identifiant qui ne nomme aucune pièce est un trou dans la carte plutôt qu'un tournant dans l'histoire, alors la première pièce le remplace.¶
-ƒ aller(voulait•'')•pièce2 pièces.trouver(
-		ƒ(pièce4•pièce2) pièce4.id2 = voulait
+¶La salle qui a cet identifiant. find() renvoie ø quand rien ne correspond. Un identifiant qui ne désigne aucune salle est un trou dans la carte, pas un tournant de l'histoire, alors la première salle prend sa place.¶
+ƒ aller2(voulu•'')•pièce2 pièces.trouver(
+		ƒ(pièce4•pièce2) pièce4.id2 = voulu
 	) ?? pièces[1]
 
-¶Les portes que tu peux vraiment prendre depuis ici. Une porte fermée pour laquelle tu n'as rien n'est simplement pas proposée, alors elle apparaît comme un mur jusqu'à ce que tu aies en main ce qui l'ouvre.¶
+¶Les portes que tu peux vraiment prendre d'ici. Une porte verrouillée, sans rien pour l'ouvrir, n'est tout simplement pas proposée. Elle ressemble donc à un mur jusqu'à ce que l'objet qui l'ouvre soit dans tes mains.¶
 ƒ chemins(ici•pièce2 sac2•[''])•[porte]
 	ici.portes.filtre(
-		ƒ(porte2•porte) (porte2.aBesoin = '') | sac2.a(
-					porte2.aBesoin
+		ƒ(porte2•porte) (porte2.besoins = '') | sac2.a(
+					porte2.besoins
 				)
 	)
 
-¶Entre dans une pièce, en prenant tout ce qu'elle contient. add() te donnerait volontiers un second couteau, alors demande d'abord.¶
+¶Entrer dans une salle et ramasser ce qu'elle contient. add() te donnerait volontiers un deuxième couteau, alors demande d'abord.¶
 ƒ arriver(ici2•pièce2 sac3•[''])•périple
 	périple(
 		ici2.id2
@@ -165,32 +162,32 @@ pièces•[pièce2]: [
 			) sac3
 	)
 
-clé2: Clé()
+clé3: Clé()
 
-¶Une touche pressée, dans l'ordre : à une fin, n'importe quelle touche te réveille de nouveau dans la première pièce ; une touche qui n'est ni 1, ni 2, ni 3 ne veut rien dire ; un nombre plus grand que le nombre de portes de cette pièce ne veut rien dire non plus ; et ce n'est qu'alors que c'est une porte. Ce troisième test est celui qu'il faut noter, car l'accès à une liste boucle sur elle-même — sans lui, presser 3 dans une pièce à deux portes prendrait discrètement la première.¶
-ƒ étape(t2•périple k•'')•périple (
-		ici3: aller(t2.pièce3)
+¶Une touche pressée, dans l'ordre : à une fin, n'importe quelle touche te réveille de nouveau dans la première salle ; une touche qui n'est pas 1, 2 ou 3 ne veut rien dire ; un numéro plus grand que le nombre de portes de cette salle ne veut rien dire non plus ; et seulement après, c'est une porte. Ce troisième test est celui qu'il faut noter, car l'accès à une liste revient au début en boucle. Sans lui, appuyer sur 3 dans une salle de deux portes prendrait sans bruit la première.¶
+ƒ étape2(t2•périple k•'')•périple (
+		ici3: aller2(t2.pièce3)
 		portes2: chemins(ici3 t2.sac)
 		ici3.fin2 ≠ '' ? périple('cellule' [])
 			~((k = '1') | (k = '2') | (k = '3')) ? t2
 				(k → #) > portes2.longueur() ? t2
-					arriver(aller(portes2[k → #].pièce) t2.sac)
+					arriver(aller2(portes2[k → #].pièce) t2.sac)
 	)
 
-périple2•périple: périple('cellule' []) … ∆ clé2 … étape(
+périple2•périple: périple('cellule' []) … ∆ clé3 … étape2(
 			périple2
-			clé2
+			clé3
 		)
 
-ici4: aller(périple2.pièce3)
+ici4: aller2(périple2.pièce3)
 portes3: chemins(ici4 périple2.sac)
 
-¶Ce que tu portes, montré seulement quand tu portes quelque chose.¶
-transporter:
+¶Ce que tu portes, affiché seulement quand tu portes quelque chose.¶
+transporte:
 	périple2.sac.longueur() > 0
 	? [
 			Phrase(
-				`*porté* \périple2.sac.rejoindre(' · ')\`
+				`*tu portes* \périple2.sac.rejoindre(' · ')\`
 				taille: 0.3m
 				alignement: '|'
 				couleur: Couleur(60% 30 0°)
@@ -198,7 +195,7 @@ transporter:
 		]
 		[]
 
-¶Ce qui se trouve sous la pièce : ses portes, numérotées pour que ce que tu lis soit ce que tu presses, ou, à une fin, comment elle s'est terminée et l'unique clé qui permet de recommencer.¶
+¶Ce qui se trouve sous la salle : ses portes, numérotées pour que ce que tu lis soit ce que tu presses. À une fin, on voit comment elle s'est terminée et la seule touche qui la recommence.¶
 below:
 	ici4.fin2 ≠ ''
 	? [
@@ -215,7 +212,7 @@ below:
 				entrer: Pose(opacité: 0% échelle: 0.5)
 			)
 			Phrase(
-				`appuie sur une touche pour te réveiller à nouveau`
+				`appuie sur une touche pour te réveiller de nouveau`
 				taille: 0.3m
 				alignement: '|'
 				durée: 3s
@@ -248,7 +245,7 @@ Scène(
 					durée: 0.5s
 					entrer: Pose(compenser: Lieu(0m 2m))
 				)
-				:transporter
+				:transporte
 				:below
 			]
 		)

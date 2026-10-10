@@ -1,28 +1,28 @@
 🎆
-Havai Fişekler
+Havai fişekler
 === start/en
-¶Müzikle birlikte patlayan havai fişekler: her vuruşta çalan her çalgı,kendi haliyle beliriyor, bir an asılı kalıyor, sonra kayboluyor.
+¶Müzikle birlikte patlayan havai fişekler: bir vuruşta ses veren her enstrüman kendisi olarak yukarı fırlar, bir an havada asılı kalır ve aşağı düşer.
 
-Burada hiçbir şey bir saate göre çizilmiyor. Her vuruş duyulur olduğunda @Beat @Downbeat'e dönüşüyor ve bir @Downbeat, her @Track için bir @Part taşıyor —hangi çalgı olduğu, ses verip vermediği, hangi notada olduğu ve ne kadar yüksekses verdiği. Böylece çalan her ses için tek bir patlama, tek bir @List/translate oluyor vemüzik kendi kendini çiziyor.
+Burada hiçbir şey bir saate göre çizilmez. @Beat, her vuruş duyulur hale geldiğinde bir @Downbeat verir ve bir @Downbeat her @Track için bir @Part taşır: bunun hangi enstrüman olduğunu, ses verip vermediğini, hangi notada olduğunu ve ne kadar yüksek sesle çaldığını. Yani ses veren her parça için bir patlama, tek bir @List/translate eder ve müzik kendi kendini çizer.
 
-Her patlama, vuruş numarasıyla adlandırılır, bu yüzden her vuruşun patlamalarıyeni çıktılardır: girişte kendi giriş duruşlarını, bir sonraki vuruş onlarınyerini alırken de çıkış duruşlarını sergilerler. Belirme ve kaybolma bu ikiduruştur.
+Her patlamanın adı vuruş numarasıyla verilir, bu yüzden her vuruşun patlamaları yeni çıktılardır: girerken giriş duruşlarını, bir sonraki vuruş onların yerini alırken çıkış duruşlarını oynatırlar. Fırlama ve düşme bu iki duruştur.
 
-Ezgi /The Star-Spangled Banner/'dır — John Stafford Smith'in yaklaşık1773'ten kalma, çoktan kamu malı olmuş melodisi — baştan sona, son satırdabiterek. Her nota, sayının üzerine yazılmış bir nota değeri olarak kendiuzunluğunu taşır — \8𝅘𝅥𝅮\ sekizlik, \13𝅗𝅥\ ikilik, \13𝅗𝅥𝅭\ noktalı ikilik — böylece hazırlık notaları,noktalı figürler ve uzun tutulan notalar, eşit vuruşlardan oluşan bir ızgaradeğil, gerçek sürelerdir. Düz bir sayı bir vuruştur. Susma işaretleri de bir@Note'a ihtiyaç duyar, çünkü \ø\ bir sayı değildir, bu yüzden bir değer taşıyamaz. Kromatik dizideyazılmıştır, böylece yükseltilmiş dördüncü derece de yazılabilir: her adımbir yarım tondur.¶
+Çalınan ezgi /The Star-Spangled Banner/. Bu, John Stafford Smith'in yaklaşık 1773 tarihli melodisidir ve uzun zamandır kamu malıdır. Ezgi baştan sona çalınır ve son dizede biter. Her nota, sayının üzerine yazılan bir nota değeriyle kendi süresini taşır. \8𝅘𝅥𝅮\ bir sekizlik, \13𝅗𝅥\ bir yarımlık, \13𝅗𝅥𝅭\ noktalı bir yarımlıktır. Böylece hazırlık notaları, noktalı figürler ve uzun tutulan notalar eşit vuruşlardan oluşan bir ızgara değil, gerçek sürelerdir. Düz bir sayı bir vuruş eder. Sessizlikler için hâlâ bir @Note gerekir, çünkü \ø\ bir sayı değildir ve bu yüzden bir değer taşıyamaz. Ezgi kromatik gamdadır, çünkü yükseltilmiş dördüncü ses ancak böyle yazılabilir. Her adım bir yarım sestir.¶
 ↓ @wordplay/instruments 1
 
 vuruş2: Vuruş()
-sayaç: vuruş2.say
+sayı2: vuruş2.say
 
-¶Yalnızca gerçekten ses çıkaran parçalar havai fişeğe dönüşür; susan biriz karanlıkta kalır. Müzik başlamadan önce hiç parça yoktur, bu yüzden gökyüzüboştur.¶
-patlıyor•[Bölüm]: vuruş2.parçalar.filtre(
+¶Yalnızca gerçekten ses çıkaran parçalar havai fişek olur. Susan bir iz karanlık kalır. Müzik başlamadan önce hiç parça yoktur, bu yüzden gökyüzü boştur.¶
+ateşleme•[Bölüm]: vuruş2.parçalar.filtre(
 		ƒ(p•Bölüm) p.çalıyor
 	)
 
-¶Her çalgı, kendi haliyle patlar; asıl mesele de budur: hangisininyeni çaldığını görebilirsin.¶
+¶Her enstrüman kendisi olarak patlar. Asıl amaç da budur: az önce hangisinin çaldığını görebilirsin.¶
 ƒ yüz2(p2•Bölüm)•''
 	iconFor(p2.çalgı)
 
-¶Her çalgı, tüm gökyüzüne yayılmış kendi şeridini korur. Listedekikonumu yerine çalgının kendisini kullanmak, başka bir çalgı sustuğunda bileşeridin yerinde kalmasını sağlar.¶
+¶Her enstrümanın kendi şeridi vardır ve bu şeritler gökyüzüne yayılır. Listedeki konumu yerine enstrümanın kendisini kullanmak, başka bir enstrüman sustuğunda şeridin yerinde kalmasını sağlar.¶
 ƒ şerit(p3•Bölüm)•#
 	(p3.çalgı.kimlik = 'trumpet') ? -6
 		(p3.çalgı.kimlik = 'flute') ? -3.6
@@ -32,10 +32,10 @@ patlıyor•[Bölüm]: vuruş2.parçalar.filtre(
 						(p3.çalgı.kimlik = 'drums') ? 6
 							0
 
-¶Bir patlamanın ne kadar yükseğe çıktığı: notası. Buradaki her parça sesverdiği için bir notası vardır.¶
+¶Bir patlamanın ne kadar yüksekte durduğu: notasıdır. Buradaki her parça ses verdiği için bir notası vardır.¶
 ƒ yükseklik2(p4•Bölüm)•# p4.dereceler[1]
 
-¶Bir patlama, notasıyla yükselir ve ne kadar yüksek sesle çalındığınagöre büyür.¶
+¶Tek bir patlama: notasıyla birlikte yükselir ve ses şiddetiyle birlikte büyür.¶
 ƒ patlama(p5•Bölüm i•#)•İfadeetmek
 	İfadeetmek(
 		yüz2(p5)
@@ -44,7 +44,7 @@ patlıyor•[Bölüm]: vuruş2.parçalar.filtre(
 			(şerit(p5) + p5.denge) · 1m
 			(((yükseklik2(p5) · 0.22) - 1.8) · 1m)
 		)
-		isim: 'burst \sayaç\ \i\'
+		isim: 'burst \sayı2\ \i\'
 		giriş: Sekans(
 			{
 				0%: Poz(ölçek: 0.1 opaklık: 0%)
@@ -62,8 +62,8 @@ patlıyor•[Bölüm]: vuruş2.parçalar.filtre(
 		)
 	)
 
-¶Ezgi. Dereceler, alt tonikten itibaren yarım tonlardır: 1 o notadır, 13bir oktav yukarıdır ve 7 yükseltilmiş dördüncü derecedir. İki satır aynıezgiyi paylaşır, sonra köprü, sonra son satır gelir.¶
-ezgi: [
+¶Melodi. Derece sayıları, alçak ana sesten başlayan yarım seslerdir: 1 o notadır, 13 bir oktav yukarıdır ve 7 yükseltilmiş dördüncü sestir. İki dize aynı ezgiyi paylaşır, sonra köprü gelir, sonra son dize.¶
+melodi2: [
 		8𝅘𝅥𝅮
 		5𝅘𝅥𝅮
 		1
@@ -167,7 +167,7 @@ ezgi: [
 		13𝅗𝅥𝅭
 	]
 
-¶Her ölçünün altında bir kök notası.¶
+¶Her ölçünün altında bir kök ses.¶
 bas: [
 		Nota(ø 1beats)
 		1𝅗𝅥𝅭
@@ -204,7 +204,7 @@ bas: [
 		1𝅗𝅥𝅭
 	]
 
-¶Sırayla değişen güçlü vuruşlarda bir çan, bu yüzden her patlamada yoktur.¶
+¶Dönüşümlü ilk vuruşlarda bir çan çalar, bu yüzden her patlamada yoktur.¶
 çan2: [
 		Nota(ø 1beats)
 		13
@@ -257,7 +257,7 @@ bas: [
 		Nota(ø 3beats)
 	]
 
-¶Köprüden itibaren yaylı çalgılar, böylece doku zenginleşir.¶
+¶Köprüden itibaren yaylı çalgılar girer, böylece doku zenginleşir.¶
 keman2: [
 		Nota(ø 1beats)
 		Nota(ø 3beats)
@@ -294,7 +294,7 @@ keman2: [
 		13𝅗𝅥𝅭
 	]
 
-¶Yalnızca cümlelerin doruklarında bir üst ezgi.¶
+¶Sadece cümlelerin tepe noktalarında çalınan yüksek bir üst ses.¶
 flüt2: [
 		Nota(ø 1beats)
 		Nota(ø 3beats)
@@ -339,8 +339,8 @@ flüt2: [
 		Nota(ø 3beats)
 	]
 
-¶Altında bir marş.¶
-davullar: [
+¶Altta çalan bir yürüyüş müziği.¶
+davul2: [
 		Nota(ø 0.5beats)
 		3𝅘𝅥𝅮
 		1𝅘𝅥𝅮
@@ -539,11 +539,11 @@ davullar: [
 
 Sahne(
 	[
-		:patlıyor.tercümeetmek(ƒ(p6•Bölüm i2•#) patlama(p6 i2))
+		:ateşleme.tercümeetmek(ƒ(p6•Bölüm i2•#) patlama(p6 i2))
 		Müzik(
 			[
 				Parça(
-					ezgi
+					melodi2
 					çalgı: Çalgı.trompet
 					sesDüzeyi: 90%
 					döngü: ⊥
@@ -576,7 +576,7 @@ Sahne(
 					döngü: ⊥
 				)
 				Parça(
-					davullar
+					davul2
 					çalgı: Çalgı.davul
 					sesDüzeyi: 45%
 					döngü: ⊥

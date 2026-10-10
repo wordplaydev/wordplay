@@ -1,7 +1,7 @@
 🙂
 Visage
 ===
-¶Un émoji qui imite ton visage quand tu souris, fais la moue, ouvres grand la bouche ou clignes des yeux.¶
+¶Un émoji qui imite ton visage quand tu souris, fronces les sourcils, ouvres la bouche et clignes des yeux.¶
 
 visage2: Visage()
 
@@ -42,7 +42,7 @@ Scène(
 			rotation: visage2.tourner
 		)
 		Phrase(
-			'incliner 🧭'
+			'pencher 🧭'
 			lieu: Lieu(9m 2m)
 			rotation: visage2.incliner
 			taille: 2m

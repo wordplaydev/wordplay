@@ -1,11 +1,11 @@
 🪍
 Attraper
 === start/en
-¶Attrape la souris qui détale d'un clic — clique encore pour la libérer.
+¶Attrape la souris qui court d'un clic — clique encore pour la libérer.
 
-Les deux sons viennent des poses elles-mêmes. Un @Pose peut porter une @Music, quijoue au moment précis où cette pose est prise : le bond retentit quand la posede repos de la souris change pour la pose attrapée, et le son de fuite retentitquand le mouvement tournant atteint la pose médiane à laquelle il est lié.Rien n'a besoin d'être relié entre l'animation et le son — la pose est le pointoù ils se rencontrent.¶
+Les deux sons viennent des poses elles-mêmes. Une @Pose peut porter un @Music, qui se joue au moment où cette pose est prise : le bond sonne quand la pose de repos de la souris change pour la pose attrapée, et la course sonne quand la rotation atteint la pose du milieu à laquelle elle est liée. Rien n'a besoin d'être relié entre l'animation et le son — la pose est l'endroit où ils se rencontrent.¶
 
-¶Deux morceaux courts. Une @Track se répète par défaut, mais une pose est uninstant plutôt que quelque chose qui dure, donc la musique d'une pose ne joue toujoursqu'une seule fois.¶
+¶Deux courts morceaux. Une @Track se répète par défaut, mais une pose est un instant et non quelque chose qui dure, donc la musique d'une pose ne se joue toujours qu'une seule fois.¶
 bond: Musique(
 		Piste(
 			[5 1]
@@ -15,21 +15,21 @@ bond: Musique(
 		volume: 50%
 		nom: 'bond'
 	)
-détale: Musique(
+course: Musique(
 		Piste(
 			[1 2]
 			instrument: Instrument.flûte
 			battement: 1beats
 		)
 		volume: 35%
-		nom: 'détale'
+		nom: 'course'
 	)
 
-¶Si la phrase sélectionnée est la souris, bascule entre attrapée et libre.¶
+¶Si la phrase sélectionnée est souris, change l'état de la souris : attrapée ou non.¶
 nom2: Choix()
-attrapé: ⊥ … ∆ (nom2) … (nom2 = 'mouse') & ~attrapé
+attrapée: ⊥ … ∆ (nom2) … (nom2 = 'mouse') & ~attrapée
 ¶Chaque seconde, déplace la souris¶
-placer: Lieu(0m 0m 0m) … ∆ Temps(1000ms) … attrapé ? Lieu(
+placer: Lieu(0m 0m 0m) … ∆ Temps(1000ms) … attrapée ? Lieu(
 				0m
 				0m
 			) Lieu(Aléatoire(-2m 2m) Aléatoire(-2m 2m))
@@ -40,12 +40,15 @@ Scène(
 			"🐭"
 			sélectionnable
 			lieu: placer
-			aurepos: attrapé ? Pose(rotation: 180° musique: bond) Pose(
+			aurepos: attrapée ? Pose(
+					rotation: 180°
+					musique: bond
+				) Pose(
 				)
-			mobile: attrapé ? Pose() Séquence(
+			mobile: attrapée ? Pose() Séquence(
 					{
 						0%: Pose(rotation: 0°)
-						50%: Pose(rotation: 180° musique: détale)
+						50%: Pose(rotation: 180° musique: course)
 						100%: Pose(rotation: 360°)
 					}
 				)

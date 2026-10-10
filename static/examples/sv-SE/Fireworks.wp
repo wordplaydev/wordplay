@@ -1,27 +1,29 @@
 🎆
-Fyrverkerier
+Fyrverkeri
 === start/en
-¶Fyrverkerier som smäller med musiken: varje instrument som hörs på ettslag dyker upp som sig själv, hänger kvar ett ögonblick och falnar bort.
+¶Fyrverkerier som går av i takt med musiken: varje instrument som ljuder på ett slag poppar upp som sig självt, hänger kvar en stund och faller bort.
 
-Inget här ritas efter en klocka. @Beat lämnar över en @Downbeat när varje slagblir hörbart, och en @Downbeat bär en @Part för varje @Track — vilketinstrument det är, om det låter, vilken ton det spelar och hur starkt. Såett utbrott per klingande del är en enda @List/translate, och musiken ritar sig själv.
+Inget här ritas efter en klocka. @Beat lämnar över en @Downbeat när varje slag blir hörbart, och en @Downbeat bär en @Part för varje @Track — vilket instrument det är, om det ljuder, vilken ton det spelar och hur högt. Så en explosion för varje ljudande stämma är en enda @List/translate, och musiken ritar sig själv.
 
-Varje utbrott namnges med slagnumret, så varje slags utbrott är nyautdata: de spelar sin startpose på väg in och sin slutpose när nästa slagtar över. Smällen och fallet är dessa två poser.
+Varje explosion får slagets nummer som namn, så varje slags explosioner är nya utdata: de spelar sin ingångspose när de kommer in och sin utgångspose när nästa slag tar deras plats. Poppen och fallet är de två poserna.
 
-Melodin är /The Star-Spangled Banner/ — John Stafford Smiths melodi frånungefär 1773, som länge varit fri att använda — hela vägen igenom, och slutarpå den sista raden. Varje ton bär sin egen längd som ett notvärde skrivet påtalet — \8𝅘𝅥𝅮\ är en åttondel, \13𝅗𝅥\ en halvnot, \13𝅗𝅥𝅭\ en punkterad halvnot — så upptaktstoner,punkterade figurer och långa hållna toner blir verkliga tidslängder istället för ett rutnät av lika slag. Ett vanligt tal är ett slag. Pausermåste ändå ha en @Note, eftersom \ø\ inte är ett tal och därför inte kan bära ett värde. Det ärskrivet i den kromatiska skalan, så att den höjda kvarten kan skrivas alls:varje steg är en halvton.¶
+Melodin är /The Star-Spangled Banner/ — John Stafford Smiths melodi från omkring 1773, sedan länge fri att använda — hela vägen igenom och slutar på sista raden. Varje ton bär sin egen längd som ett notvärde skrivet på talet — \8𝅘𝅥𝅮\ är en åttondel, \13𝅗𝅥\ en halvnot, \13𝅗𝅥𝅭\ en punkterad halvnot — så upptakterna, de punkterade rytmerna och de långa hållna tonerna är riktiga längder och inte ett rutnät av lika slag. Ett vanligt tal är ett slag. Pauser behöver fortfarande en @Note, eftersom \ø\ inte är ett tal och därför inte kan bära ett värde. Den spelas på den kromatiska skalan så att den höjda kvarten alls kan skrivas: varje steg är en halvton.¶
 ↓ @wordplay/instruments 1
 
-slag2: Takt()
-antal2: slag2.räkna
+taktslag: Takt()
+räkna2: taktslag.räkna
 
-¶Bara de delar som faktiskt låter blir fyrverkerier; ett spår som vilarförblir mörkt. Innan musiken börjar finns inga delar alls, så himlen ärtom.¶
-avfyrar•[Del]: slag2.delar.filtrera(ƒ(p•Del) p.klingande)
+¶Bara de stämmor som faktiskt ljuder blir fyrverkerier; ett spår som vilar förblir mörkt. Innan musiken startar finns inga stämmor alls, så himlen är tom.¶
+avfyrar•[Del]: taktslag.delar.filtrera(
+		ƒ(p•Del) p.klingande
+	)
 
-¶Varje instrument smäller som sig självt, och det är hela poängen: du kanse vilket som just spelade.¶
-ƒ ansikte2(p2•Del)•''
+¶Varje instrument exploderar som sig självt, och det är hela poängen: du ser vilket som just spelade.¶
+ƒ typsnitt2(p2•Del)•''
 	iconFor(p2.instrument)
 
-¶Varje instrument har sin egen bana, spridd över hela himlen. Att användainstrumentet i stället för dess plats i listan gör att banan står stillanär ett annat instrument tystnar.¶
-ƒ bana(p3•Del)•#
+¶Varje instrument har sitt eget stråk, utspritt över hela himlen. Att använda instrumentet i stället för dess plats i listan gör att ett stråk ligger still när ett annat instrument tystnar.¶
+ƒ stråk(p3•Del)•#
 	(p3.instrument.id = 'trumpet') ? -6
 		(p3.instrument.id = 'flute') ? -3.6
 			(p3.instrument.id = 'bell') ? -1.2
@@ -30,19 +32,19 @@ avfyrar•[Del]: slag2.delar.filtrera(ƒ(p•Del) p.klingande)
 						(p3.instrument.id = 'drums') ? 6
 							0
 
-¶Hur högt ett utbrott sitter: dess ton. Varje del här klingar, så den haren.¶
+¶Hur högt en explosion hamnar: dess ton. Varje stämma här ljuder, så den har en ton.¶
 ƒ höjd2(p4•Del)•# p4.grader[1]
 
-¶Ett utbrott, som stiger med sin ton och sväller med hur starkt det ljuder.¶
-ƒ utbrott(p5•Del i•#)•Fras
+¶En explosion som stiger med sin ton och sväller med hur högt den ljuder.¶
+ƒ explosion(p5•Del i•#)•Fras
 	Fras(
-		ansikte2(p5)
+		typsnitt2(p5)
 		(0.9m + (p5.volym · 1.6m))
 		plats: Plats(
-			(bana(p5) + p5.panorering) · 1m
+			(stråk(p5) + p5.panorering) · 1m
 			(((höjd2(p5) · 0.22) - 1.8) · 1m)
 		)
-		namn: 'burst \antal2\ \i\'
+		namn: 'burst \räkna2\ \i\'
 		gårin: Sekvens(
 			{
 				0%: Pose(skala: 0.1 opacitet: 0%)
@@ -60,7 +62,7 @@ avfyrar•[Del]: slag2.delar.filtrera(ƒ(p•Del) p.klingande)
 		)
 	)
 
-¶Melodin. Grader är halvtoner från grundtonen: 1 är den tonen, 13 är enoktav upp, och 7 är den höjda kvarten. Två rader delar samma melodi, sedanmellanpartiet, sedan sista raden.¶
+¶Melodin. Graderna är halvtoner från den låga grundtonen: 1 är den tonen, 13 är en oktav upp och 7 är den höjda kvarten. Två rader delar samma melodi, sedan bryggan, sedan sista raden.¶
 melodi2: [
 		8𝅘𝅥𝅮
 		5𝅘𝅥𝅮
@@ -202,7 +204,7 @@ bas2: [
 		1𝅗𝅥𝅭
 	]
 
-¶En klocka på varannan taktnedslag, så den finns inte i varje utbrott.¶
+¶En klocka på varannan taktslag, så den finns inte i varje explosion.¶
 klocka2: [
 		Not(ø 1beats)
 		13
@@ -255,7 +257,7 @@ klocka2: [
 		Not(ø 3beats)
 	]
 
-¶Stråkar från mellanpartiet och framåt, så klangen växer.¶
+¶Stråkar från bryggan och framåt, så att ljudbilden växer.¶
 fiol2: [
 		Not(ø 1beats)
 		Not(ø 3beats)
@@ -292,7 +294,7 @@ fiol2: [
 		13𝅗𝅥𝅭
 	]
 
-¶En övermelodi bara i frasernas toppar.¶
+¶En överstämma bara i början av fraserna.¶
 flöjt2: [
 		Not(ø 1beats)
 		Not(ø 3beats)
@@ -337,7 +339,7 @@ flöjt2: [
 		Not(ø 3beats)
 	]
 
-¶En marsch under.¶
+¶En marsch under det hela.¶
 trummor2: [
 		Not(ø 0.5beats)
 		3𝅘𝅥𝅮
@@ -537,7 +539,7 @@ trummor2: [
 
 Etapp(
 	[
-		:avfyrar.översätta(ƒ(p6•Del i2•#) utbrott(p6 i2))
+		:avfyrar.översätta(ƒ(p6•Del i2•#) explosion(p6 i2))
 		Musik(
 			[
 				Spår(

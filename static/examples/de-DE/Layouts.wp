@@ -1,7 +1,7 @@
 K
 Layouts
 === start
-¶Reihen, Stapel und Gruppen von Phrasen, jede in einer animierten Pose.¶
+¶Reihen, Stapel und Gruppen von Sätzen, die jeweils auffällige animierte Posen zeigen.¶
 
 pochen: Reihenfolge(
 		{
@@ -29,16 +29,16 @@ Gruppe(
 				Satzglied('Katze' Ruhen: zhüpfen)
 				Gruppe(
 					Reihe()
-					[Satzglied('Hund') Satzglied('Hund')]
+					[Satzglied('Hund') Satzglied('Hundeartig')]
 					Ruhen: pochen
 				)
-				Satzglied('Katze')
+				Satzglied('Katzenartig')
 			]
 		)
 		Gruppe(
 			Stapel()
 			[
-				Satzglied('Hallo')
+				Satzglied('Hi')
 				Satzglied('Hallo')
 			]
 			Ruhen: Reihenfolge.drehen(2s "straight")

@@ -1,7 +1,7 @@
 w
 Spectacle de couleurs
 ===
-¶Clique pour secouer et changer au hasard la couleur du mot « ouah ».¶
+¶Clique pour faire trembler le mot « waouh » et changer sa couleur au hasard.¶
 
 couleur2: Couleur(0% 0 0°) … ∆ Bouton() … Couleur(
 			50%
@@ -10,7 +10,7 @@ couleur2: Couleur(0% 0 0°) … ∆ Bouton() … Couleur(
 		)
 
 Phrase(
-	'ouah'
+	'waouh'
 	nom: 'minou'
 	taille: 6m
 	couleur: couleur2

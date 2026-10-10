@@ -1,9 +1,9 @@
 O
 Lekcja japońskiego
 === start
-¶Historia opowiedziana scena po scenie o pierwszym dniu lekcji japońskiego.¶
+¶Opowieść scena po scenie o pierwszym dniu na lekcji japońskiego.¶
 
-¶To jest lista scen do pokazania¶
+¶To jest lista scen do pokazania.¶
 zdania: [
 		`On my first day of high school, I started *Japanese* class.`/en
 		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
@@ -17,18 +17,18 @@ zdania: [
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶To jest lista zdań, które można przesunąć dalej tylko przez mówienie.¶
+¶To lista zdań, które można przejść dalej tylko przez mówienie.¶
 mówZdania: [5 7 9]
 
-¶Miejsce, w którym jest historia. @Scene pamięta to miejsce, więc nic tu nie trzeba liczyć.¶
-w: Spotlight()
+¶Miejsce w opowieści. @Scene zapamiętuje to miejsce, więc nic tutaj nie musi liczyć.¶
+w2: Reflektor()
 
-¶Przejdź dalej, gdy mikrofon pokaże wartość powyżej 0,6 przy zdaniu do mówienia, a przy innych - gdy powie tak przycisk albo klawisz.¶
-dalej: mówZdania.ma(w.index) ?
+¶Przejdź dalej, gdy mikrofon przekroczy 0,6 przy zdaniu mówionym oraz gdy przycisk lub klawisz tak postanowi przy każdym innym zdaniu.¶
+dalej: mówZdania.ma(w2.indeks) ?
 		Tom() > .6
 		∆ Przycisk() | ∆ Klawisz()
 
-¶@Scene czeka na /advance/ po każdym zdaniu i zatrzymuje się na ostatnim.¶
+¶@Scene czeka na /dalej/ po każdym zdaniu i zatrzymuje się na ostatnim.¶
 Scena(
 	[
 		Pokaz(

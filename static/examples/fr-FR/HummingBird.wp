@@ -1,9 +1,9 @@
 🐤
 Colibri
 === start/en
-¶Un jeu d'oiseau qui fredonne ! Cliquez ou appuyez sur une touche pour battre des ailes, ou fredonnez dans le microphone — l'oiseau flotte à la hauteur de la note de votre voix. Glissez-vous entre les espaces des piles d'émojis. Toucher une pile ou le sol fait perdre la partie ; après une collision, un compte à rebours s'affiche et le jeu recommence.¶
+¶Un jeu d'oiseau fredonneur ! Clique ou appuie sur une touche pour battre des ailes, ou fredonne dans le microphone : l'oiseau flotte à la hauteur de ta note. Passe dans les trous entre les piles d'émojis. Toucher une pile ou le sol fait perdre la partie. Après un échec, un compte à rebours se lance et le jeu recommence.¶
 
-¶Chaque obstacle est une pile d'émojis provenant d'une de ces collections.¶
+¶Chaque barrière est une pile d'émojis tirée de l'une de ces collections.¶
 genres: [
 		['🌵' '🌱' '🌿' '🍀' '🎋']
 		['🍩' '🧁' '🍰' '🍪' '🍦']
@@ -13,70 +13,70 @@ genres: [
 		['⭐' '🌟' '✨' '☁' '🌙']
 	]
 
-¶La distance qu'un obstacle se déplace vers la gauche à chaque top d'horloge.¶
+¶La distance dont une barrière se déplace vers la gauche à chaque tic.¶
 vitesse2: 0.2m
 
-¶Toute collision avec l'oiseau. Le plafond s'appelle « ciel », donc le toucher fait juste rebondir l'oiseau au lieu de faire perdre la partie.¶
+¶Toute collision avec l'oiseau. Le plafond s'appelle « ciel » : si l'oiseau le touche, il rebondit au lieu de s'écraser.¶
 collision: Collision('oiseau')
 fatal: collision•ø ? ⊥ (collision.objet ≠ 'sky')
 
 tic: Temps(40ms)
-ticDeJeu: Temps(100ms)
+ticDuJeu: Temps(100ms)
 
-¶L'état du jeu : une phase (1 = compte à rebours, 2 = en train de jouer, 3 = collision) et le nombre de dixièmes de seconde passés dans cette phase. On compte les tops d'une horloge plutôt que de soustraire des temps, car chaque Time() commence à zéro.¶
+¶L'état du jeu : une phase (1 = compte à rebours, 2 = jeu en cours, 3 = écrasé) et le nombre de dixièmes de seconde passés dans cette phase. Nous comptons les tics d'une seule horloge au lieu de soustraire des temps, car chaque Time() repart de zéro.¶
 •jeu(phase•# tics•#)
 jeu2•jeu: jeu(1 0) …
-	∆ ticDeJeu | fatal …
+	∆ ticDuJeu | fatal …
 		jeu2.phase ???
 			1: (jeu2.tics ≥ 36) ? jeu(2 0) jeu(1 jeu2.tics + 1)
 			2: fatal ? jeu(3 0) jeu2
 			3: (jeu2.tics ≥ 25) ? jeu(1 0)
-				¶Tant que l'oiseau repose sur quelque chose, les collisions maintiennent cette réaction active ; on ne compte que les vrais tops d'horloge pour que la pause dure toujours la même durée.¶
-				jeu(3 jeu2.tics + (∆ ticDeJeu ? 1 0))
+				¶Quand l'oiseau est posé sur quelque chose, les collisions occupent sans cesse cette réaction. On compte donc seulement les vrais tics de l'horloge pour que la pause dure toujours le même temps.¶
+				jeu(3 jeu2.tics + (∆ ticDuJeu ? 1 0))
 			jeu2
 
 ¶Le nombre du compte à rebours à afficher : 3, 2, 1.¶
 compte2: (jeu2.tics < 12) ? 3 (jeu2.tics < 24) ? 2 1
 
-¶Choisissez comment jouer en sélectionnant le bouton 🎤 ou ⌨ : fredonner déplace l'oiseau, tandis que les clics et les touches le font battre des ailes. Ce sont des modes séparés, pour que parler près du microphone n'entre pas en conflit avec le clavier.¶
+¶Choisis comment jouer en sélectionnant le bouton 🎤 ou ⌨ : fredonner déplace l'oiseau, ou bien les clics et les touches le font battre des ailes. Ces modes sont séparés, pour que parler près du microphone ne gêne pas le clavier.¶
 choisi: Choix()
 mode•'': 'tap' … (choisi = 'hum') | (choisi = 'tap') … choisi
 
-¶En mode tapotement, l'oiseau bat des ailes quand tu cliques ou appuies sur une touche.¶
-battement2: (mode = 'tap') & (∆ Bouton() | ∆ Clé())
+¶En mode clic, l'oiseau bat des ailes quand tu cliques ou appuies sur une touche.¶
+battreDesAiles: (mode = 'tap') & (∆ Bouton() | ∆ Clé())
 
-¶En mode fredonnement, l'oiseau flotte à la hauteur de la note que tu fredonnes — notes basses près du sol, notes hautes près du ciel — et pas plus haut.¶
+¶En mode fredonnement, l'oiseau flotte à la hauteur de ta note fredonnée : les notes graves près du sol, les notes aiguës près du ciel, et pas plus haut.¶
 hauteurDuSon: Pas()
-bourdonnement: (mode = 'hum') & (hauteurDuSon > 50hz)
+fredonnement: (mode = 'hum') & (hauteurDuSon > 50hz)
 
-ƒ hauteurVersHauteurDʼécran(hz•#hz)
-	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
+ƒ hauteurDuSonVersHauteur(hz•#hz)
+	hz.redimensionner(80hz 400hz -4m 5m).limite(-4m 5m)
 
-¶L'oiseau se rapproche petit à petit de la hauteur fredonnée, pour qu'il glisse au lieu de trembler à chaque petite variation de la note.¶
-hauteurDuSonY•#m: 1m … ∆ hauteurDuSon … bourdonnement ? hauteurDuSonY.toward(hauteurVersHauteurDʼécran(hauteurDuSon) 20%) hauteurDuSonY
+¶Rapproche-toi peu à peu de la hauteur fredonnée, pour que l'oiseau glisse en douceur au lieu de trembler à chaque petite variation de la note.¶
+yDuSon•#m: 1m … ∆ hauteurDuSon … fredonnement ? yDuSon.vers(
+				hauteurDuSonVersHauteur(hauteurDuSon)
+				20%
+			) yDuSon
 
-¶L'oiseau reste immobile pendant le compte à rebours, bat des ailes vers le haut ou flotte à la hauteur fredonnée pendant le jeu, puis tombe sous l'effet de la gravité après un accident.¶
+¶L'oiseau reste en l'air pendant le compte à rebours, bat des ailes ou flotte à la note fredonnée pendant le jeu, puis tombe sous l'effet de la gravité après un choc.¶
 placeDeLʼoiseau: Mouvement(
 		Lieu(-4m 1m)
 		endroitsuivant:
 		(jeu2.phase = 1) ? Lieu(-4m 1m)
-			((jeu2.phase = 2) & bourdonnement) ? Lieu(
-					-4m
-					hauteurDuSonY
-				) ø
+			((jeu2.phase = 2) & fredonnement) ? Lieu(-4m yDuSon) ø
 		prochainevitesse:
 		(jeu2.phase = 1) ? Vitesse(0m/s 0m/s)
-			((jeu2.phase = 2) & bourdonnement) ? Vitesse(
+			((jeu2.phase = 2) & fredonnement) ? Vitesse(
 					0m/s
 					0m/s
 				)
-				((jeu2.phase = 2) & battement2) ? Vitesse(
+				((jeu2.phase = 2) & battreDesAiles) ? Vitesse(
 						0m/s
 						15m/s
 					) ø
 	)
 
-¶L'émoji poussin regarde vers la gauche, donc chaque posture le retourne pour qu'il regarde là où il va.¶
+¶L'émoji du poussin regarde vers la gauche, donc chaque pose le retourne pour qu'il regarde où il va.¶
 oiseau: Phrase(
 		'🐤'
 		1m
@@ -95,7 +95,7 @@ oiseau: Phrase(
 			)
 	)
 
-¶Chaque obstacle a : une position horizontale, le nombre d'émojis suspendus depuis le haut, et de quelle collection d'émojis il est fait. Les obstacles avancent vers la gauche pendant le jeu, réapparaissent à droite avec une nouvelle forme au hasard, et se réinitialisent pour une nouvelle partie.¶
+¶Chaque barrière : une position horizontale, le nombre d'émojis qui pendent du haut, et la collection d'émojis dont elle est faite. Les barrières avancent vers la gauche pendant le jeu, reviennent à droite avec une nouvelle forme au hasard, et se réinitialisent pour une nouvelle partie.¶
 •tuyau(x2•#m haut2•# genre2•#)
 
 tuyau1•tuyau: tuyau(10m Aléatoire(1 5) Aléatoire(1 6)) …
@@ -170,7 +170,7 @@ tuyau4•tuyau: tuyau(28m Aléatoire(1 5) Aléatoire(1 6)) …
 					tuyau4.genre2
 				)
 
-¶Un obstacle vient-il de dépasser l'oiseau ?¶
+¶Une barrière vient-elle de dépasser l'oiseau ?¶
 ƒ passé(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - vitesse2))
 
 score•#: 0 …
@@ -181,7 +181,7 @@ score•#: 0 …
 					) | passé(tuyau4.x2)) ? score + 1
 				score
 
-¶Construis une pile d'émojis comme une colonne physique. La durée de 0 rend le retour vers la droite instantané, sans glissement visible.¶
+¶Construis une pile d'émojis comme une vraie colonne. La durée de 0s fait revenir la colonne à droite tout de suite, sans qu'on la voie glisser.¶
 ƒ colonne(cellules•# genre3•# x4•#m y2•#m)
 	Groupe(
 		Empiler('|' 0m)
@@ -196,7 +196,7 @@ score•#: 0 …
 		durée: 0s
 	)
 
-¶Un obstacle, ce sont deux colonnes : l'une suspendue depuis le ciel, l'autre qui grandit depuis le sol, avec un écart d'environ 6 mètres entre elles.¶
+¶Une barrière, ce sont deux colonnes : l'une pend du ciel, l'autre pousse depuis le sol, avec un espace d'environ 6m entre elles.¶
 ƒ piles(tuyau5•tuyau) [
 		colonne(
 			tuyau5.haut2
@@ -207,7 +207,7 @@ score•#: 0 …
 		colonne(6 - tuyau5.haut2 tuyau5.genre2 tuyau5.x2 -6m)
 	]
 
-¶Le sol fait s'écraser l'oiseau ; le ciel le repousse vers le bas.¶
+¶Le sol fait s'écraser l'oiseau ; le ciel le renvoie vers le bas.¶
 sol2: Forme(
 		Rectangle(-8m -5.7m 8m -6m)
 		arrièreplan: Couleur(60% 60 130°)
@@ -216,15 +216,19 @@ ciel: Forme(Rectangle(-8m 7m 8m 6m) nom: 'sky')
 murGauche: Forme(Rectangle(-8.4m 6m -8m -6m))
 murDroit: Forme(Rectangle(8m 6m 8.4m -6m))
 
-scoreVue: Phrase("\score\" 1.5m lieu: Lieu(-0.5m 4m))
+affichageDuScore: Phrase(
+		"\score\"
+		1.5m
+		lieu: Lieu(-0.5m 4m)
+	)
 superpositions:
 	jeu2.phase ???
 		1: [Phrase("\compte2\" 3m lieu: Lieu(-1m -1.5m))]
 		3: [Phrase('💥' 3m lieu: Lieu(-1.5m -1.5m))]
 		[]
 
-¶Le sélecteur de mode : le mode choisi est lumineux, l'autre est terne.¶
-boutonFredonner: Phrase(
+¶Le sélecteur de mode : la façon de jouer choisie est lumineuse, l'autre est grisée.¶
+boutonDeFredonnement: Phrase(
 		'🎤'
 		0.8m
 		nom: 'hum'
@@ -232,7 +236,7 @@ boutonFredonner: Phrase(
 		lieu: Lieu(-4.2m 4.7m)
 		aurepos: (mode = 'hum') ? Pose() Pose(opacité: 40%)
 	)
-boutonToucher: Phrase(
+boutonDeClic: Phrase(
 		'⌨'
 		0.8m
 		nom: 'tap'
@@ -247,13 +251,13 @@ instructions1: Phrase(
 		lieu: Lieu(-6.9m -4.7m)
 	)
 instructions2: Phrase(
-		'Glisse-toi à travers les ouvertures. Ne touche pas les piles !'
+		'Passe entre les ouvertures. Ne touche pas les piles !'
 		0.4m
 		lieu: Lieu(-4.5m -5.4m)
 	)
 
-¶Un battement d'aile est déjà une seule évaluation — la réaction qui soulève l'oiseau se déclenche au clic ou à la touche, et à rien d'autre — donc elle peut faire résonner l'aile directement : une note à l'image où tu bats des ailes, et rien le reste du temps. Une note déjà commencée joue jusqu'à sa fin, donc vider cette liste une image plus tard ne coupe pas l'aile. En mode fredonnement, il n'y a aucun battement d'aile, donc la liste reste vide et l'oiseau est silencieux tandis que tu lui chantes.¶
-notesDeBattement: battement2 ? [3] []
+¶Un battement d'ailes est déjà une seule évaluation : la réaction qui soulève l'oiseau se déclenche sur le clic ou la touche, et jamais sur autre chose. Elle peut donc jouer le son de l'aile directement : une note au moment où tu bats des ailes, et rien le reste du temps. Une note déjà commencée se joue jusqu'au bout, donc vider cette liste à l'image suivante ne coupe pas le son de l'aile. En mode fredonnement, il n'y a aucun battement d'ailes : la liste reste vide et l'oiseau reste silencieux pendant que tu chantes pour lui.¶
+notesDeBattement: battreDesAiles ? [3] []
 
 sonDeBattement: Musique(
 		Piste(
@@ -262,14 +266,14 @@ sonDeBattement: Musique(
 			volume: 70%
 			boucle: ⊥
 		)
-		rejouer: battement2
-		nom: 'battement'
+		rejouer: battreDesAiles
+		nom: 'battre des ailes'
 	)
 
-¶Vingt portes, de la tension légère à la panique. Changer le tempo s'insère au battement suivant au lieu de tout redémarrer, donc chaque porte resserre la boucle sous toi sans jamais perdre le fil — et un accident remet le score à zéro, ce qui détend tout de nouveau.¶
+¶Vingt portes, de l'inquiétude à l'affolement. Changer le tempo s'insère au battement suivant au lieu de tout recommencer. Ainsi, chaque porte resserre la boucle sous toi sans jamais perdre sa place. Et un choc remet le score à zéro, ce qui détend de nouveau tout le rythme.¶
 urgence: (score ÷ 20).min(1)
 
-¶Le mode phrygien pour la seconde bémol : un demi-ton au-dessus de la tonique, la note la plus inquiète qu'on puisse jouer sans sortir de la gamme. La basse s'appuie sur elle une mesure sur deux, et le motif du synthé s'y termine, si bien que la boucle ne se pose jamais nulle part.¶
+¶Le mode phrygien pour la seconde bémol : un demi-ton au-dessus de la note de départ, la note la plus angoissante possible sans sortir de la gamme. La basse s'appuie dessus une mesure sur deux et le motif du synthé s'y termine, donc la boucle ne se pose jamais nulle part.¶
 chansonAnxieuse: Musique(
 		[
 			Piste(
@@ -293,15 +297,15 @@ chansonAnxieuse: Musique(
 		]
 		tempo: (100beats/min + (urgence · 100beats/min))
 		gamme: Musique.phrygien
-		nom: 'inquiet'
+		nom: 'anxieux'
 	)
 
-¶Elle joue pendant le compte à rebours et le vol, puis s'arrête net à l'accident, pour que le 💥 ait toute la place pour lui-même.¶
+¶Elle joue pendant le compte à rebours et le vol, puis s'arrête net au choc, pour que le 💥 ait toute la place.¶
 listeDeChansons: (jeu2.phase = 3) ? [] [chansonAnxieuse]
 
-¶L'accident : une cymbale, un choc sourd, et la gamme inquiète qui redescend d'elle-même depuis le haut — les mêmes notes que la chanson n'a cessé de tourner autour, qui finalement ne vont plus nulle part.
+¶Le choc : une cymbale, un bruit sourd et grave, et la gamme anxieuse qui retombe toute seule depuis le haut. Ce sont les mêmes notes que la chanson tourne autour depuis le début, mais qui ne mènent enfin nulle part.
 
-Celui-ci n'a pas besoin de @Music.replay. Arriver sur la scène est une raison de se faire entendre, et un son unique déjà joué reste silencieux jusqu'à ce qu'il quitte la scène ; le compte à rebours l'enlève de la scène et l'oublie, donc le prochain accident le fait résonner à nouveau depuis le début. Il dure environ une mesure et demie, confortablement dans les deux secondes et demie que dure la pause d'accident.¶
+Celui-ci n'a pas besoin de @Music.replay. Arriver sur la scène est une raison de jouer le son, et un son joué une seule fois reste silencieux jusqu'à ce qu'il quitte la scène. Le compte à rebours le retire de la scène et l'oublie, donc le choc suivant le rejoue depuis le début. Il dure environ une mesure et demie, bien à l'intérieur des deux secondes et demie que dure la pause après le choc.¶
 sonDeMort: Musique(
 		[
 			Piste(
@@ -347,10 +351,10 @@ Scène(
 		ciel
 		murGauche
 		murDroit
-		scoreVue
+		affichageDuScore
 		:superpositions
-		boutonFredonner
-		boutonToucher
+		boutonDeFredonnement
+		boutonDeClic
 		instructions1
 		instructions2
 	]

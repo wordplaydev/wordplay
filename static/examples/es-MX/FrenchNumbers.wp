@@ -1,7 +1,7 @@
 t
 Números en francés
 === start/en-US,start/fr-FR
-¶Presiona el dígito que corresponda al número en francés que aparece en el escenario.¶
+¶Presiona el dígito que coincide con el número en francés que aparece en el escenario.¶
 ¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
 
 ¶Los números que hay que adivinar¶
@@ -20,40 +20,40 @@ números2,numeros/fr: [
 
 ¶Los secretos son los números del 1 al 9 en orden aleatorio¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-secretos: [:1‥9].mezclado()
+secretos: [:1 ‥ 9].mezclado()
 
-¶¿Cuál fue la última tecla presionada?¶
+¶¿Cuál es la última tecla que se presionó?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-tecla2,clé/fr: Tecla()
+llave2,clé/fr: Tecla()
 
 ¶El secreto actual aumenta cada vez que se presiona una tecla, pero se detiene en 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
 índiceSecreto,secretIndice/fr•#:
 	1 …
-	∆ tecla2 …
+	∆ llave2 …
 		(secretIndice < 10) ? secretIndice + 1 secretIndice
 
 ¶El secreto actual, según el índice secreto¶
 secretoActual,secretActuel/fr: secretos[índiceSecreto]
 
 ¶La respuesta fue correcta si el número presionado coincide con el número secreto anterior¶
-correcto: clé → # = secretos[índiceSecreto - 1]
+correcto2: clé → # = secretos[índiceSecreto - 1]
 
-¶Los puntos empiezan en 0 y aumentan si la respuesta fue correcta.¶
+¶Los puntos comienzan en 0 y aumentan si la respuesta fue correcta.¶
 ¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
 puntos2•#: 0 …
-	∆ tecla2 …
-		correcto ?
+	∆ llave2 …
+		correcto2 ?
 			puntos2 + 1
 			puntos2
 
-¶Ganar significa obtener los 9 números¶
+¶Ganar significa acertar los 9 números¶
 ganar,gagner/fr: puntos2 = 9
 
 ¶Termina cuando el índice secreto llega a 10¶
 finDelJuego: índiceSecreto = 10
 
-¶Muestra el número en francés actual y los puntos actuales. Después de los 9 secretos, muestra un resultado final¶
+¶Mostrar el número actual en francés y los puntos actuales. Después de los 9 secretos, mostrar un resultado final¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
 Escenario(
@@ -64,8 +64,8 @@ Escenario(
 				finDelJuego ?
 					Frase(
 						ganar ?
-							'¡Ya conoces los números en francés!'"Tu connais les chiffres français!"/fr
-							'casi, intenta de nuevo'"presque, réessaye"/fr
+							'¡Sabes los números en francés!'"Tu connais les chiffres français!"/fr
+							'casi, intenta otra vez'"presque, réessaye"/fr
 						tamaño: 2m
 					)
 					Frase(numeros[secretActuel] tamaño: 2m)
@@ -73,7 +73,7 @@ Escenario(
 				Frase(
 					índiceSecreto = 1 ?
 						'¿qué número es este?''quel est ce numéro ?'/fr
-						correcto ?
+						correcto2 ?
 							'¡Correcto!'
 							"That was \secretos[índiceSecreto - 1]\"
 				)

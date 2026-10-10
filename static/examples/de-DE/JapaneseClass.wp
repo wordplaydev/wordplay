@@ -1,9 +1,9 @@
 O
-Japanischunterricht
+Japanischkurs
 === start
-¶Eine Geschichte über den ersten Tag im Japanischunterricht, Szene für Szene.¶
+¶Eine Geschichte in Szenen über den ersten Tag im Japanischunterricht.¶
 
-¶Das ist die Liste der Szenen, die gezeigt werden¶
+¶Das ist die Liste der Szenen, die gezeigt werden.¶
 sätze: [
 		`On my first day of high school, I started *Japanese* class.`/en
 		`My teacher told us to *座る* 🪑 and motioned her hands down and sat down in her chair. We sat.`/en
@@ -17,18 +17,18 @@ sätze: [
 		`She hugged herself, welcoming us, and said /日本語クラスへようこそ, welcome to Japanese class/!`/ja
 	]
 
-¶Das ist die Liste der Sätze, die nur durch Sprechen weitergeschaltet werden sollen.¶
+¶Das ist die Liste der Sätze, die nur durch Sprechen weitergehen sollen.¶
 sätzeSprechen: [5 7 9]
 
-¶Wo die Geschichte gerade steht. Der @Scene merkt sich die Stelle, damit hier nichts gezählt werden muss.¶
-bei: Spotlight()
+¶Hier ist die Stelle in der Geschichte. Das @Scene merkt sich den Ort, deshalb muss hier nichts gezählt werden.¶
+bei2: Scheinwerfer()
 
-¶Es geht weiter, wenn das Mikrofon bei einem gesprochenen Satz über .6 steigt, und sonst, wenn ein Knopf oder eine Taste es sagt.¶
-weiter: sätzeSprechen.hat(bei.index) ?
+¶Gehe weiter, wenn das Mikrofon bei einem Sprechsatz über 0,6 geht, und bei jedem anderen Satz, wenn ein Knopf oder eine Taste es sagt.¶
+weiter: sätzeSprechen.hat(bei2.Index) ?
 		Volumen() > .6
 		∆ Taste() | ∆ Schlüssel()
 
-¶Der @Scene wartet nach jedem Satz auf /weiter/ und hält beim letzten Satz an.¶
+¶Das @Scene wartet nach jedem Satz auf /weiter/ und bleibt beim letzten Satz stehen.¶
 Bühne(
 	[
 		Szene(

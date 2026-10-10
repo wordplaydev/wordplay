@@ -1,15 +1,15 @@
 🎹
 Piano virtual
 === start
-¶¡Un piano de una octava que puedes tocar!Para la mejor experiencia, apaga la visualización de música.¶
+¶¡Un piano de una octava que puedes tocar! Para tener la mejor experiencia, apaga la visualización de la música.¶
 
-¶Esta asignación guarda un flujo de Tecla que detecta cuál tecla presionaste.¶
+¶Este enlace guarda un flujo de Tecla que detecta qué tecla presionaste.¶
 presionada: Tecla()
 
-¶Esto guarda una relación entre las teclas que presionas y las notas que van a sonar,tanto en forma de texto (para mostrar la nota que suena) como en un textonumérico literal (para convertirlo en un número (#) e ingresarlo en una lista de Pista).
+¶Esto guarda una asignación de las teclas que presionas a las notas que tocarán, en forma de texto (para mostrar la nota que suena) y en un texto numérico literal (para convertirlo en un número (#) y usarlo como entrada en una lista de Pista).
 
-Se eligió esta distribución para imitar de cerca las teclas de un piano, con lasteclas blancas representadas por letras, y las teclas negras representadaspor números.¶
-mapanotas: {
+El diseño se eligió para imitar de cerca las teclas de un piano: las teclas blancas se representan con letras y las teclas negras se representan con números.¶
+mapaDeNotas: {
 		'w': ['Do' "1"]
 		'3': ['Do# / Reb' "2"]
 		'e': ['Re' "3"]
@@ -25,29 +25,30 @@ mapanotas: {
 		'o': ['Do5' "13"]
 	}
 
-¶Esta función devuelve el nombre de la nota, según cuál tecla se presionó.Si la tecla no correspondía a una nota válida, devuelve texto vacío.¶
-ƒ devuelveTexto(tecla2•"")•"" (mapanotas{tecla2} ≠ ø) ? mapanotas{tecla2}[1] ""
+¶Esta función devuelve el nombre de la nota según la tecla que se presionó. Si la tecla no es una nota válida, devuelve un texto vacío.¶
+ƒ devolverTexto(llave2•"")•"" (mapaDeNotas{llave2} ≠ ø) ? mapaDeNotas{llave2}[1] ""
 
-¶Esta función devuelve el número de la nota que corresponde a la tecla presionada en una lista,para usarse como entrada en una Pista. Si la tecla presionada no es válida, devuelveuna lista vacía.¶
-ƒ devuelveNota(tecla3•"")•[] [
-		(mapanotas{tecla3} ≠ ø) ? (mapanotas{tecla3}[2] → #) []
+¶Esta función devuelve en una lista el número de la nota que corresponde a la tecla presionada, para usarlo como entrada en una Pista. Si la tecla presionada no es válida, devuelve una lista vacía.¶
+ƒ devolverNota(llave3•"")•[] [
+		(mapaDeNotas{llave3} ≠ ø) ? (mapaDeNotas{llave3}[2] → #) [
+			]
 	]
 
-¶Esta función recibe una lista numérica y devuelve una Pista con esa lista de notas.El bucle está apagado para que la nota suene solo una vez cuando se presiona la tecla.¶
-ƒ devuelvePista(nota•[#]) Pista(nota bucle: ⊥)
+¶Esta función recibe una lista de números y devuelve una Pista con esa lista de notas. El bucle está apagado para que la nota suene una sola vez cuando se presiona la tecla.¶
+ƒ devolverPista(nota•[#]) Pista(nota bucle: ⊥)
 
-¶Estas dos asignaciones definen el color que toma la tecla correspondientecuando se presiona y cuando no se presiona.¶
-presionarColor: Color(10 270 50°)
-colorNulo: Color(0 0 0°)
+¶Estos dos enlaces definen el color que tendrá la tecla correspondiente cuando se presiona y cuando no se presiona.¶
+colorAlPresionar: Color(10 270 50°)
+colorSinPresionar: Color(0 0 0°)
 
-¶Esto hace sonar la pista correspondiente a la tecla presionada. La escala es cromáticapara que las pistas puedan usar todos los semitonos. La repetición está activadapara cuando se presiona una tecla válida, de modo que la pista suene cada vezque se presiona la tecla, incluso dos veces seguidas.¶
+¶Esto toca la pista que corresponde a la tecla presionada. La escala es cromática para que las pistas puedan usar todos los semitonos. La repetición se activa cuando se presiona una tecla válida, para que la pista suene cada vez que se presiona la tecla, incluso dos veces seguidas.¶
 Música(
-	devuelvePista(devuelveNota(presionada))
+	devolverPista(devolverNota(presionada))
 	escala: Música.cromática
-	repetir: mapanotas{presionada} ≠ ø
+	repetir: mapaDeNotas{presionada} ≠ ø
 )
 
-¶Muestra el piano, las teclas para presionar, y la nota que suena cuando sepresiona una tecla.¶
+¶Muestra el piano, las teclas que se deben presionar y la nota que suena cuando se presiona una tecla.¶
 Grupo(
 	Pila('>' 1m)
 	[
@@ -58,79 +59,79 @@ Grupo(
 					'▯'
 					nombre: 'w'
 					tamaño: 3m
-					color: presionada = 'w' ? presionarColor colorNulo
+					color: presionada = 'w' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▮'
 					nombre: '3'
 					tamaño: 3m
-					color: presionada = '3' ? presionarColor colorNulo
+					color: presionada = '3' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▯'
 					nombre: 'e'
 					tamaño: 3m
-					color: presionada = 'e' ? presionarColor colorNulo
+					color: presionada = 'e' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▮'
 					nombre: '4'
 					tamaño: 3m
-					color: presionada = '4' ? presionarColor colorNulo
+					color: presionada = '4' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▯'
 					nombre: 'r'
 					tamaño: 3m
-					color: presionada = 'r' ? presionarColor colorNulo
+					color: presionada = 'r' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▯'
 					nombre: 't'
 					tamaño: 3m
-					color: presionada = 't' ? presionarColor colorNulo
+					color: presionada = 't' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▮'
 					nombre: '6'
 					tamaño: 3m
-					color: presionada = '6' ? presionarColor colorNulo
+					color: presionada = '6' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▯'
 					nombre: 'y'
 					tamaño: 3m
-					color: presionada = 'y' ? presionarColor colorNulo
+					color: presionada = 'y' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▮'
 					nombre: '7'
 					tamaño: 3m
-					color: presionada = '7' ? presionarColor colorNulo
+					color: presionada = '7' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▯'
 					nombre: 'u'
 					tamaño: 3m
-					color: presionada = 'u' ? presionarColor colorNulo
+					color: presionada = 'u' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▮'
 					nombre: '8'
 					tamaño: 3m
-					color: presionada = '8' ? presionarColor colorNulo
+					color: presionada = '8' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▯'
 					nombre: 'i'
 					tamaño: 3m
-					color: presionada = 'i' ? presionarColor colorNulo
+					color: presionada = 'i' ? colorAlPresionar colorSinPresionar
 				)
 				Frase(
 					'▯'
 					nombre: 'o'
 					tamaño: 3m
-					color: presionada = 'o' ? presionarColor colorNulo
+					color: presionada = 'o' ? colorAlPresionar colorSinPresionar
 				)
 			]
 		)
@@ -151,6 +152,6 @@ Grupo(
 				Frase('i  o')
 			]
 		)
-		Frase(devuelveTexto(presionada))
+		Frase(devolverTexto(presionada))
 	]
 )

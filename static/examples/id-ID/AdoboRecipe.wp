@@ -3,7 +3,7 @@ Resep Adobo
 === start/en
 ¶Resep adobo ayam Filipina, adegan demi adegan.¶
 
-¶Ini adalah daftar adegan yang akan ditampilkan¶
+¶Ini adalah daftar adegan yang akan ditampilkan.¶
 kalimat: [
 		`*How to Cook Filipino Chicken 🥘 Adobo`/en
 		"Ingredients:"/en
@@ -15,14 +15,14 @@ kalimat: [
 		"Put it all in a bowl and…"/en
 		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
 		"Put it on rice and you now have…"/en
-		(`Adobong Manók @lamamel/adobo! (gerakkan mouse untuk makan)`)
+		(`Adobong Manók @lamamel/adobo! (gerakkan mouse ke sekitar untuk makan)`)
 		(`Masarap! @lamamel/emptyadobo`)
 	]
 
-¶Ini adalah daftar kalimat yang hanya boleh dilanjutkan dengan menggerakkan mouse.¶
+¶Ini adalah daftar kalimat yang hanya maju jika mouse digerakkan.¶
 pindahkanKalimat: [9 11]
 
-¶Kalimat saat ini dimulai dari 1, dan bertambah jika mouse bergerak ke titik tertentu di layar, atau jika tombol tertentu ditekan untuk kalimat lainnya.¶
+¶Kalimat saat ini dimulai dari 1. Angkanya bertambah jika mouse bergerak ke koordinat tertentu di layar, atau jika sebuah tombol atau kunci ditekan untuk kalimat yang lain.¶
 titik2: Penunjuk()
 kalimatSaatIni•#: 1 …
 	pindahkanKalimat.memiliki(kalimatSaatIni) ?

@@ -1,7 +1,7 @@
 K
 Mises en page
 === start
-¶Des rangées, des piles et des groupes de phrases, chacune prenant des poses animées.¶
+¶Des lignes, des piles et des groupes de phrases, chacun prenant des poses animées marquantes.¶
 
 palpiter: Séquence(
 		{
@@ -10,7 +10,7 @@ palpiter: Séquence(
 			100%: Pose(échelle: .9)
 		}
 	)
-zrebondir: Séquence(
+zrebond: Séquence(
 		{
 			0%: Pose(compenser: Lieu(j: 0m))
 			50%: Pose(compenser: Lieu(j: -2m))
@@ -26,7 +26,7 @@ Groupe(
 			Empiler()
 			[
 				Phrase('Minou')
-				Phrase('Chat' aurepos: zrebondir)
+				Phrase('Chat' aurepos: zrebond)
 				Groupe(
 					Rangée()
 					[Phrase('Chien') Phrase('Canin')]

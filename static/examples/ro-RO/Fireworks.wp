@@ -1,26 +1,26 @@
 🎆
 Artificii
 === start/en
-¶Artificii care izbucnesc odată cu muzica: fiecare instrument care sună peun timp apare ca el însuși, rămâne o clipă, apoi dispare.
+¶Artificii care pornesc odată cu muzica: fiecare instrument care sună pe un ritm apare ca el însuși, rămâne o clipă în aer și apoi cade.
 
-Aici nimic nu este desenat după un ceas. @Beat predă un @Downbeat de fiecare datăcând un timp devine audibil, iar un @Downbeat poartă o @Part pentru fiecare@Track — ce instrument este, dacă sună, ce notă are și cât de tare este.Astfel, o explozie pentru fiecare parte care sună este o singură @List/translate, iarmuzica se desenează singură.
+Nimic de aici nu este desenat după un ceas. @Beat trimite un @Downbeat de fiecare dată când un ritm devine audibil, iar un @Downbeat poartă un @Part pentru fiecare @Track — care este instrumentul, dacă sună, ce notă cântă și cât de tare. Așadar, o explozie pentru fiecare parte care sună este un singur @List/translate, iar muzica se desenează singură.
 
-Fiecare explozie primește numele numărului timpului, așa că exploziilefiecărui timp sunt ieșiri noi: ele își arată poziția de intrare cândapar și poziția de ieșire când următorul timp le înlocuiește. Apariția șidispariția sunt aceste două poziții.
+Fiecare explozie are numele numărului ritmului, deci exploziile fiecărui ritm sunt ieșiri noi: ele joacă poza de intrare când apar și poza de ieșire când ritmul următor le înlocuiește. Apariția și căderea sunt aceste două poze.
 
-Melodia este /The Star-Spangled Banner/ — melodia lui John Stafford Smithdin jurul anului 1773, de mult în domeniul public — cântată în întregime,până la ultimul vers. Fiecare notă poartă propria durată scrisă ca valoarede notă pe numărul ei — \8𝅘𝅥𝅮\ este o optime, \13𝅗𝅥\ o doime, \13𝅗𝅥𝅭\ o doime cu punct — astfel încât notele de anacruză,figurile cu punct și notele lungi ținute sunt durate reale, nu o grilă detimpi egali. Un număr simplu este un timp. Pauzele au totuși nevoie de un@Note, deoarece \ø\ nu este un număr și deci nu poate purta o valoare. Este pe scaracromatică, astfel încât cvarta mărită poate fi scrisă deloc: fiecare treaptăeste un semiton.¶
+Melodia este /The Star-Spangled Banner/ — melodia lui John Stafford Smith din jurul anului 1773, de multă vreme în domeniul public — cântată până la capăt, încheind cu ultimul vers. Fiecare notă își poartă propria durată, ca valoare de notă scrisă pe număr — \8𝅘𝅥𝅮\ este o optime, \13𝅗𝅥\ o doime, \13𝅗𝅥𝅭\ o doime cu punct — așa că anacruzele, figurile cu punct și notele lungi ținute sunt durate reale, nu o grilă de ritmuri egale. Un număr simplu înseamnă un ritm. Pauzele au totuși nevoie de un @Note, pentru că \ø\ nu este un număr și deci nu poate purta o valoare. Melodia folosește scara cromatică, ca să se poată scrie cvarta mărită: fiecare pas este un semiton.¶
 ↓ @wordplay/instruments 1
 
-puls2: Bătaie()
-numărare2: puls2.număr
+ritm: Bătaie()
+număr2: ritm.număr
 
-¶Doar părțile care sună cu adevărat devin artificii; o pistă care tacerămâne întunecată. Înainte ca muzica să înceapă, nu există nicio parte,așa că cerul este gol.¶
-declanșare•[Parte]: puls2.părți.filtra(ƒ(p•Parte) p.sunet)
+¶Doar părțile care chiar sună devin artificii; o pistă care tace rămâne întunecată. Înainte să înceapă muzica nu există nicio parte, așa că cerul este gol.¶
+declanșare•[Parte]: ritm.părți.filtra(ƒ(p•Parte) p.sunet)
 
-¶Fiecare instrument izbucnește ca el însuși, ceea ce este chiar ideea: poțivedea care instrument tocmai a cântat.¶
+¶Fiecare instrument explodează ca el însuși, și tocmai asta contează: poți vedea care a cântat chiar acum.¶
 ƒ față2(p2•Parte)•''
 	iconFor(p2.instrument)
 
-¶Fiecare instrument își păstrează propria bandă, întinsă pe tot cerul.Folosirea instrumentului, în loc de poziția lui în listă, ține banda pe locchiar și atunci când alt instrument tace.¶
+¶Fiecare instrument își păstrează propriul culoar, întins pe tot cerul. Folosim instrumentul, nu locul lui din listă, ca să nu se mute culoarul când un alt instrument tace.¶
 ƒ culoar(p3•Parte)•#
 	(p3.instrument.id = 'trumpet') ? -6
 		(p3.instrument.id = 'flute') ? -3.6
@@ -30,10 +30,10 @@ declanșare•[Parte]: puls2.părți.filtra(ƒ(p•Parte) p.sunet)
 						(p3.instrument.id = 'drums') ? 6
 							0
 
-¶Cât de sus stă o explozie: nota ei. Fiecare parte de aici sună, deci arecâte una.¶
+¶Cât de sus se află o explozie: nota ei. Fiecare parte de aici sună, deci are o notă.¶
 ƒ înălțime2(p4•Parte)•# p4.grade[1]
 
-¶O explozie, care se ridică odată cu nota ei și crește odată cu cât de tareeste.¶
+¶O explozie, care urcă odată cu nota și se mărește odată cu volumul.¶
 ƒ explozie(p5•Parte i•#)•Fraza
 	Fraza(
 		față2(p5)
@@ -42,7 +42,7 @@ declanșare•[Parte]: puls2.părți.filtra(ƒ(p•Parte) p.sunet)
 			(culoar(p5) + p5.panoramare) · 1m
 			(((înălțime2(p5) · 0.22) - 1.8) · 1m)
 		)
-		nume: 'burst \numărare2\ \i\'
+		nume: 'burst \număr2\ \i\'
 		intrând: Secvenţă(
 			{
 				0%: Poză(scară: 0.1 opacitate: 0%)
@@ -60,7 +60,7 @@ declanșare•[Parte]: puls2.părți.filtra(ƒ(p•Parte) p.sunet)
 		)
 	)
 
-¶Melodia. Treptele sunt semitonuri de la tonica joasă: 1 este acea notă, 13este o octavă mai sus, iar 7 este cvarta mărită. Două rânduri împart aceeașimelodie, apoi puntea, apoi ultimul vers.¶
+¶Melodia. Treptele sunt semitonuri față de tonica joasă: 1 este acea notă, 13 este o octavă mai sus, iar 7 este cvarta mărită. Două versuri au aceeași melodie, apoi vine puntea, apoi ultimul vers.¶
 melodie2: [
 		8𝅘𝅥𝅮
 		5𝅘𝅥𝅮
@@ -165,7 +165,7 @@ melodie2: [
 		13𝅗𝅥𝅭
 	]
 
-¶O fundamentală sub fiecare măsură.¶
+¶O notă de bază sub fiecare măsură.¶
 bas: [
 		Notă(ø 1beats)
 		1𝅗𝅥𝅭
@@ -202,8 +202,8 @@ bas: [
 		1𝅗𝅥𝅭
 	]
 
-¶Un clopoțel pe timpii tari alternativi, așa că nu apare în fiecare explozie.¶
-clopoțel2: [
+¶Un clopot pe timpii forți alternativi, deci nu apare în fiecare explozie.¶
+clopot: [
 		Notă(ø 1beats)
 		13
 		Notă(ø 2beats)
@@ -255,7 +255,7 @@ clopoțel2: [
 		Notă(ø 3beats)
 	]
 
-¶Corzi de la punte încolo, astfel încât textura crește.¶
+¶Coarde de la punte încolo, ca sunetul să crească.¶
 vioară2: [
 		Notă(ø 1beats)
 		Notă(ø 3beats)
@@ -292,7 +292,7 @@ vioară2: [
 		13𝅗𝅥𝅭
 	]
 
-¶O voce superioară doar la vârfurile frazelor.¶
+¶O contramelodie doar la începutul frazelor.¶
 flaut2: [
 		Notă(ø 1beats)
 		Notă(ø 3beats)
@@ -555,7 +555,7 @@ Etapă(
 					buclă: ⊥
 				)
 				Pistă(
-					clopoțel2
+					clopot
 					instrument: Instrument.clopoțel
 					volum: 55%
 					buclă: ⊥

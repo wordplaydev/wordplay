@@ -1,9 +1,9 @@
 ⚽
 Buchstabenhaufen
 === start
-¶Ein riesiges Serifen-U ist der Eimer. Fünf große Buchstaben fallen hinein, dann regnen Herzen und Fußbälle herab und legen sich in die Rundungen und Haken. Alles stößt nach der Form seines Umrisses zusammen, nicht nach dem Rechteck darum herum. Nur so kann das U überhaupt etwas halten: Ein Ball bleibt in der Rundung eines Buchstabens liegen, statt darüber zu schweben, und ein Herz keilt seine Spitze zwischen zwei Buchstaben.¶
+¶Ein riesiges U mit Serifen ist der Eimer. Fünf große Buchstaben purzeln hinein. Dann regnen Herzen und Fußbälle herab und setzen sich in die Rundungen und Haken. Alles stößt nach der Form seiner Umrisslinie zusammen und nicht nach dem Rechteck drumherum. Nur so kann das U überhaupt etwas halten: Ein Ball bleibt in der Rundung eines Buchstabens liegen, statt darüber zu schweben, und ein Herz klemmt seine Spitze zwischen zwei Buchstaben.¶
 
-¶Der Eimer ist ein Buchstabe wie die anderen auch, in einer Serifenschrift, sodass seine Arme in Kanten enden. Er braucht eine Bewegung, um fest zu sein, und so viel Masse, dass ihn nichts, was darin landet, wegschieben kann. Er steht auf dem Boden zwischen zwei Wänden, die gerade seine Seiten berühren: Sein unterer Teil ist rund, sodass er ohne die Wände umkippen würde, wenn der Haufen wächst.¶
+¶Der Eimer ist ein Buchstabe wie die anderen, in einer Schrift mit Serifen, damit seine Arme in Absätzen enden. Damit er fest ist, braucht er eine Bewegung. Außerdem braucht er so viel Masse, dass ihn nichts, was hineinfällt, wegschieben kann. Er steht auf dem Boden zwischen zwei Wänden, die gerade seine Seiten berühren: Sein Boden ist rund. Ohne die Wände würde er umkippen, wenn der Haufen wächst.¶
 becher: Satzglied(
 		'U'
 		22m
@@ -18,13 +18,13 @@ becher: Satzglied(
 		)
 	)
 
-¶Eine fette Display-Schrift, denn ein dicker Buchstabe hat eine Rundung, die breit genug ist, um einen Ball aufzufangen. Die Buchstaben wurden wegen ihrer Haken und Rundungen ausgewählt.¶
+¶Eine schwere Schrift für Überschriften, denn ein dicker Buchstabe hat eine Rundung, die breit genug ist, um einen Ball aufzufangen. Die Buchstaben sind wegen ihrer Haken und Rundungen ausgewählt.¶
 gesicht2: 'Titan One'
-buchstaben: ['a' 'b' 'c' 'd' 'e']
+buchstaben: ['ein' 'b' 'c' 'd' 'e']
 
-¶Die Buchstaben fallen zuerst, von derselben Stelle, aber aus versetzten Höhen, sodass jeder auf dem letzten landet und der Haufen nach oben wächst.
+¶Zuerst fallen die Buchstaben, vom selben Ort, aber aus verschiedenen Höhen. So landet jeder auf dem vorherigen, und der Haufen wächst nach oben.
 
-Ein Buchstabe ist nur fest, weil sein Platz eine Bewegung ist und er Materie hat — Ausgabe, die ein Programm platziert, ist sonst ein Geist, durch den alles hindurchgeht. Ihre Masse hält die Bälle davon ab, den Haufen auseinanderzuschieben, und erst das Abfragen des Umrisses bei der Materie sorgt dafür, dass sie nach ihrer Buchstabenform zusammenstoßen.¶
+Ein Buchstabe ist nur fest, weil sein Ort eine Bewegung ist und er Materie hat. Eine Ausgabe, die ein Programm platziert, ist ein Geist, durch den alles hindurchgeht. Ihre Masse verhindert, dass die Bälle den Haufen auseinanderschieben. Und weil man die Materie nach einer Umrisslinie fragt, stoßen sie nach ihrer Buchstabenform zusammen.¶
 haufen: buchstaben.übersetzen(
 		ƒ(buchstabe•'' index2•#)
 			Satzglied(
@@ -44,7 +44,7 @@ haufen: buchstaben.übersetzen(
 			)
 	)
 
-¶Als Nächstes fallen die Herzen. Ein Emoji kann auch nach seinem Umriss fragen, sodass jedes Herz nach seiner Form zusammenstößt: Seine Spitze gleitet in die Lücken, auf denen ein Rechteck nur obenauf sitzen würde.¶
+¶Als Nächstes fallen die Herzen. Auch ein Emoji kann nach seiner Umrisslinie fragen. Darum stößt jedes Herz nach seiner Form zusammen: Seine Spitze rutscht in die Lücken, auf denen ein Kasten nur obendrauf liegen würde.¶
 herzen: ['🧡' '💛' '💚' '💙' '💜' '🩷'].übersetzen(
 		ƒ(herz•'' index3•#)
 			Satzglied(
@@ -65,7 +65,7 @@ herzen: ['🧡' '💛' '💚' '💙' '💜' '🩷'].übersetzen(
 			)
 	)
 
-¶Die Bälle starten über allem, sodass sie erst ankommen, wenn sich der Haufen schon gesetzt hat. Sie fragen nicht nach einem Umriss: Ihr Rechteck, das ganz und gar abgerundet ist, lässt sie rollen.¶
+¶Die Bälle starten über allem anderen. Darum kommen sie an, wenn der Haufen schon zur Ruhe gekommen ist. Sie fragen nicht nach einer Umrisslinie: Ihr Rechteck, ganz rund gemacht, bringt sie zum Rollen.¶
 bälle: 18 → [].übersetzen(
 		ƒ(zahl2)
 			Satzglied(

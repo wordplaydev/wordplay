@@ -1,7 +1,7 @@
 🎃
 Kürbis
 === start
-¶Ein Kürbisgesicht, das flackert und jede Sekunde an einer neuen Stelle wieder auftaucht.¶
+¶Eine Kürbislaterne, die flackert und jede Sekunde an einer neuen Stelle wieder erscheint.¶
 
 zeit: Zeit(1000ms)
 platzieren: Ort(0m 0m) … ∆ zeit … Ort(

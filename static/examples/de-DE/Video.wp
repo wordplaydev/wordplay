@@ -1,27 +1,27 @@
 📹
 Video
 ===
-¶Dein Kamerabild, live neu gezeichnet: als bunte Buchstaben, als ASCII-Schattierung oder als bunte Quadrate. Wähle einen Stil mit den Knöpfen unten.¶
+¶Dein Kamerabild, live neu gemalt: als farbige Buchstaben, als ASCII-Schattierung oder als farbige Quadrate. Wähle unten mit den Schaltflächen einen Stil aus.¶
 
-¶Welcher Stil-Knopf zuletzt gedrückt wurde. Die Auswahl gibt den Namen der wählbaren Phrase wieder, die der Betrachter gedrückt hat, und der Stil behält, was er zuletzt gehört hat.¶
+¶Welche Stil-Schaltfläche zuletzt angeklickt wurde. Choice meldet den Namen der auswählbaren Phrase, die die Person gewählt hat, und der Stil behält, was er zuletzt gehört hat.¶
 auswahl: Auswahl()
 stil: 'letters' … ∆ auswahl … auswahl
 
-¶Emojis sind groß, darum nutzt der Emoji-Stil ein gröberes Raster. Das Bild bleibt trotzdem gleich groß, egal welcher Stil gewählt ist. Ein Stilwechsel verändert also nie die Größe des Bildes oder bewegt die Kamera — nur die Quadrate, aus denen es besteht, werden größer.¶
+¶Emojis sind groß, darum nutzt der Emoji-Stil ein gröberes Netz. Das Bild bleibt in beiden Fällen gleich groß. Ein Stilwechsel ändert also nie seine Größe und bewegt auch die Kamera nicht. Nur die Quadrate, aus denen es besteht, werden größer.¶
 spalten: (stil = 'emoji') ? 16 32
-reihen: (stil = 'emoji') ? 12 24
+zeilen: (stil = 'emoji') ? 12 24
 
 ¶Eine Farbe pro Zelle, direkt von der Kamera.¶
-farben: Kamera((spalten × 1px) (reihen × 1px) 33ms)
+farben: Kamera((spalten × 1px) (zeilen × 1px) 33ms)
 
-¶Zehn Zeichen von dunkel bis hell. Der ASCII-Stil wählt eines danach aus, wie hell das Pixel ist.¶
+¶Zehn Zeichen von dunkel bis hell. Der ASCII-Stil wählt eines danach aus, wie hell der Pixel ist.¶
 verlauf: "@%#*+=-:. " → []
 
-¶Vierundzwanzig 15°-Bänder rund um den Farbkreis, sodass jedes Pixel das Quadrat nimmt, das seiner Farbe am nächsten ist.¶
+¶Vierundzwanzig Bänder von je 15° rund um den Farbkreis. So nimmt jeder Pixel das Quadrat, das seiner Farbe am nächsten ist.¶
 quadrate: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
 
-¶Wie ein einzelnes Pixel im aktuellen Stil aussieht. Ein Pixel mit fast keiner Farbe hat keinen Farbton, der sich zeigen lässt, darum wird stattdessen ein helles oder dunkles Quadrat verwendet.¶
-ƒ zeichen(farbe2•Farbe)
+¶Wie ein Pixel im aktuellen Stil aussieht. Ein Pixel mit fast keiner Farbe hat keinen Farbton, der sich zu zeigen lohnt. Deshalb wird es ein helles oder ein dunkles Quadrat.¶
+ƒ glyphe(farbe2•Farbe)
 	(stil = 'ascii') ?
 		"\verlauf[((farbe2.Helligkeit × 9).runden()) + 1]\"
 		((stil = 'emoji') ?
@@ -31,41 +31,41 @@ quadrate: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦�
 							)) + 1]\")
 				'ein')
 
-¶Das Bild. Ein @Image zeichnet das ganze Raster als ein einziges Output, sodass ein Bildschirminhalt nur ein Bild kostet statt einer Phrase pro Pixel — bei 32 mal 24 waren das 768 davon, dreißigmal pro Sekunde neu gebaut. /flipx/ spiegelt es, sodass es so lesbar ist wie ein Spiegelbild.
+¶Das Bild. Ein @Image zeichnet das ganze Netz als eine einzige Ausgabe. Ein Bild kostet also nur ein Bild und nicht eine Phrase pro Pixel. Bei 32 mal 24 waren das 768 Phrasen, dreißigmal pro Sekunde neu gebaut. /flipx/ spiegelt das Bild, damit es sich wie ein Spiegel liest.
 
-Der Stil /letters/ lässt jedes Zeichen in der Farbe des Quadrats, für das es steht, was auch das ist, was ein @Image ohne eigene Farbe tut. Die anderen beiden geben ihm eine eigene Farbe, denn ein Buchstabe wirkt nur dann wie Schattierung, wenn seine Farbe nichts aussagt, während ein farbiges Quadrat-Emoji schon seine eigene Farbe mitbringt.¶
-bild: Image(
+Der Stil /letters/ lässt jedes Zeichen in der Farbe des Quadrats, für das es steht. Das macht ein @Image, wenn es keine eigene Farbe hat. Die anderen beiden Stile geben ihm eine Farbe. Denn ein Buchstabe wirkt nur dann als Schattierung, wenn seine Farbe nichts aussagt. Und ein farbiges Quadrat-Emoji bringt seine eigene Farbe schon mit.¶
+bild: Bild(
 		farben
 		"camera video drawn with \stil\"
 		16m
-		Zeichen: zeichen
+		Zeichen: glyphe
 		farbe: (stil = 'letters') ? ø Farbe(0% 0 0°)
 		Schriftart: (stil = 'ascii') ? "Noto Sans Mono"/en ø
 		spiegelnX: ⊤
 		Dauer: 0s
 	)
 
-¶Ein Stil-Knopf, hell, wenn er den gerade gezeigten Stil darstellt. Der Name ist das, was die Auswahl meldet, wenn der Knopf gedrückt oder mit der Tastatur ausgewählt wird.¶
-ƒ knopf(kennung•'')
+¶Eine Stil-Schaltfläche, die hell leuchtet, wenn ihr Stil gerade zu sehen ist. Der Name ist das, was Choice meldet, wenn die Schaltfläche angeklickt oder mit der Tastatur gewählt wird.¶
+ƒ knopf(id2•'')
 	Satzglied(
-		kennung
+		id2
 		0.5m
-		Name: kennung
+		Name: id2
 		wählbar
-		Ruhen: (stil = kennung) ? Pose() Pose(Opazität: 40%)
+		Ruhen: (stil = id2) ? Pose() Pose(Opazität: 40%)
 	)
 
-¶Eine Reihe hält die Knöpfe gleichmäßig verteilt und ausgerichtet, egal wie lang ihre Wörter sind. Da sie keinen eigenen Platz hat, sitzt die Reihe in der Mitte, sodass allein der Versatz reicht, um sie an den unteren Bildschirmrand zu setzen. Sie trägt ihren eigenen Hintergrund, denn Wörter über einem Video sind nur durch Zufall lesbar.¶
-knöpfe: Gruppe(
+¶Eine Zeile hält die Schaltflächen gleichmäßig verteilt und ausgerichtet, egal wie lang ihre Wörter sind. Ohne eigenen Platz sitzt die Zeile in der Mitte. Darum reicht der Versatz, um sie an den unteren Bildschirmrand zu setzen. Sie bringt ihren eigenen Hintergrund mit, denn Wörter über einem Video kann man sonst nur zufällig lesen.¶
+schaltflächen: Gruppe(
 		Reihe(Polsterung: 0.5m)
 		[knopf('letters') knopf('ascii') knopf('emoji')]
 		Hintergrund: Farbe(100% 0 0°)
 		Versatz: Ort(0m -4.5m)
 	)
 
-¶Die Knöpfe liegen in der Überlagerung der Bühne, die fest auf dem Bildschirm sitzt: Sie bleiben in gleicher Größe und Position, egal wie das Bild gerahmt ist, und das Bild wird gerahmt, als wären sie gar nicht da.¶
+¶Die Schaltflächen liegen im Overlay der Bühne, das flach auf dem Bildschirm festgesteckt ist. Sie bleiben gleich groß und am gleichen Ort, egal wie das Bild eingerahmt wird. Und das Bild wird so eingerahmt, als wären sie nicht da.¶
 Bühne(
 	[bild]
 	Beschreibung: "camera video drawn with \stil\"
-	überlagern: [knöpfe]
+	überlagern: [schaltflächen]
 )

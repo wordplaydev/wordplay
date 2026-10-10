@@ -1,16 +1,16 @@
 K
 Diseños
 === start
-¶Filas, pilas y grupos de frases, cada una con poses animadas.¶
+¶Filas, pilas y grupos de frases, cada uno con poses animadas llamativas.¶
 
-latido2: Secuencia(
+latir: Secuencia(
 		{
 			0%: Pose(escala: .9)
 			50%: Pose(escala: 1.1)
 			100%: Pose(escala: .9)
 		}
 	)
-zrebote: Secuencia(
+reboteZ: Secuencia(
 		{
 			0%: Pose(desplazamiento: Lugar(z: 0m))
 			50%: Pose(desplazamiento: Lugar(z: -2m))
@@ -25,12 +25,12 @@ Grupo(
 		Grupo(
 			Pila()
 			[
-				Frase('Gatita')
-				Frase('Gato' inmóvil: zrebote)
+				Frase('Gatito')
+				Frase('Gato' inmóvil: reboteZ)
 				Grupo(
 					Fila()
 					[Frase('Perro') Frase('Canino')]
-					inmóvil: latido2
+					inmóvil: latir
 				)
 				Frase('Felino')
 			]

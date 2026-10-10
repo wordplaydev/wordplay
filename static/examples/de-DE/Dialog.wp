@@ -1,60 +1,60 @@
 🗨
 Dialog
 === start
-¶Zwei Buchstaben sprechen darüber, was es bedeutet, dass Buchstaben sprechen.¶
+¶Zwei Buchstaben reden darüber, was es heißt, dass Buchstaben reden.¶
 
-¶Eine Zeile des Gesprächs: wer es sagt, die Worte, und ob es gedacht statt gesagt wird.¶
-•zeile(wer•'' wörter•'' denken•?: ⊥)
+¶Eine Zeile des Gesprächs: wer sie sagt, die Worte und ob sie gedacht statt gesagt wird.¶
+•zeile(wer•'' worte•'' denkt•?: ⊥)
 
-skript: [
+drehbuch: [
 		zeile(
 			'ein'
-			'Findest du es manchmal seltsam, dass wir sprechen?'
+			'Findest du es auch seltsam, dass wir überhaupt reden?'
 		)
 		zeile(
 			'b'
-			'Wir sind Buchstaben. Sprechen ist quasi unser ganzer Job.'
+			'Wir sind Buchstaben. Reden ist so ziemlich unsere ganze Aufgabe.'
 		)
 		zeile(
 			'ein'
-			'Nein, ich meine uns. Nicht die Worte, die wir bilden. Uns.'
+			'Nein, ich meine uns. Nicht die Wörter, die wir bilden. Uns.'
 		)
 		zeile('b' '…Oh.')
 		zeile(
 			'ein'
-			'Ich bin eine Form, die einen Laut bedeutet. Gerade jetzt erzeuge ich den Laut, indem ich die Form bin.'
+			'Ich bin eine Form, die für einen Laut steht. Gerade mache ich den Laut, indem ich die Form bin.'
 		)
 		zeile(
 			'b'
-			'Ist eine Sprechblase um einen Buchstaben ein Bild eines Buchstabens, oder ein Buchstabe eines Bildes?'
-			denken
+			'Ist eine Sprechblase um einen Buchstaben ein Bild von einem Buchstaben oder ein Buchstabe von einem Bild?'
+			denkt
 		)
-		zeile('ein' 'Du drehst dich im Kreis.')
+		zeile('ein' 'Du verlierst dich in Gedanken.')
 		zeile(
 			'b'
-			'Ich bin ein b. Sich drehen ist buchstäblich mein Umriss.'
+			'Ich bin ein b. Mich in Kreisen zu drehen ist buchstäblich meine Silhouette.'
 		)
-		zeile('ein' 'Wie auch immer. Das ist hier normal.')
+		zeile('ein' 'Na ja. Das ist hier normal.')
 		zeile('b' 'Normal für uns jedenfalls.')
 	]
 
-¶Weiter geht es mit einer Taste, einem Klick oder einem Tippen, und es stoppt bei der letzten Zeile.¶
-runde•#: 1 … ∆ Schlüssel() | ∆ Taste() … (runde < skript.Länge(
-				) ? runde + 1 runde)
+¶Mit einer Taste, einem Klick oder einem Tippen geht es weiter, und bei der letzten Zeile hört es auf.¶
+reihe•#: 1 … ∆ Schlüssel() | ∆ Taste() … (reihe < drehbuch.Länge(
+				) ? reihe + 1 reihe)
 
-zeile2: skript[runde]
+zeile2: drehbuch[reihe]
 
-¶Nur wer gerade dran ist, bekommt eine Sprechblase. Jede Zeile ist ein @Say, also wird sie sowohl gesprochen als auch gezeigt — und die Sprechblase ersetzt die Bildunterschrift, da die Worte bereits neben demjenigen stehen, der sie gesagt hat. Niemand wählt eine Seite: die Bühne setzt jede Sprechblase dorthin, wo sie am wenigsten im Weg ist.¶
-ƒ sprechblase2(wer2•'')
+¶Nur wer an der Reihe ist, bekommt eine Blase. Jede Zeile ist ein @Say, also wird sie gesprochen und auch gezeigt. Die Blase ersetzt die Beschriftung, denn die Worte stehen schon neben dem, der sie gesagt hat, auf dem Bildschirm. Niemand wählt eine Seite: Die Bühne setzt jede Blase dorthin, wo sie am wenigsten stört.¶
+ƒ blase(wer2•'')
 	wer2 = zeile2.wer ?
 		Sprechblase(
-			Sagen(zeile2.wörter)
-			Art: (zeile2.denken ? '💭' '💬')
+			Sagen(zeile2.worte)
+			Art: (zeile2.denkt ? '💭' '💬')
 			umbrechen: 9m
 		)
 		ø
 
-¶Eine Reihe, ausgerichtet auf der Grundlinie, sodass beide Buchstaben auf einer Zeile sitzen. Die Box eines Ausdrucks ist seine Tinte, daher würde eine gleiche Höhe einen kurzen und einen hohen Buchstaben auf unterschiedliche Grundlinien setzen.¶
+¶Eine Reihe, die an der Grundlinie ausgerichtet ist, sodass beide Buchstaben auf einer Linie stehen. Das Feld einer Phrase ist ihre Tinte. Bei gleicher Höhe würden ein kurzer und ein hoher Buchstabe also auf verschiedenen Grundlinien stehen.¶
 Bühne(
 	[
 		Gruppe(
@@ -66,12 +66,12 @@ Bühne(
 						Satzglied(
 							'ein'
 							Größe: 3m
-							sprechblase: sprechblase2('ein')
+							sprechblase: blase('ein')
 						)
 						Satzglied(
 							'b'
 							Größe: 3m
-							sprechblase: sprechblase2('b')
+							sprechblase: blase('b')
 						)
 					]
 				)

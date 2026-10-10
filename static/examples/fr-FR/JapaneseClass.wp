@@ -1,7 +1,7 @@
 O
 Cours de japonais
 === start
-¶Une histoire, scène par scène, sur un premier jour de cours de japonais.¶
+¶Une histoire, scène par scène, sur le premier jour d'un cours de japonais.¶
 
 ¶Voici la liste des scènes à montrer¶
 phrases2: [
@@ -18,17 +18,17 @@ phrases2: [
 	]
 
 ¶Voici la liste des phrases qui ne doivent avancer qu'en parlant.¶
-direDesPhrases: [5 7 9]
+phrasesÀDire: [5 7 9]
 
-¶L'endroit où se trouve l'histoire. Le @Scene garde la place, donc rien ici n'a besoin de compter.¶
-à2: Spotlight()
+¶L'endroit où en est l'histoire. Le @Scene garde la place, donc rien ici n'a besoin de compter.¶
+à3: Projecteur()
 
-¶On avance quand le micro dépasse ,6 sur une phrase à dire, et quand un bouton ou une touche le dit pour les autres.¶
-avancer: direDesPhrases.a(à2.index) ?
+¶Passe à la suite quand le micro dépasse 0,6 pendant une phrase à dire, et quand un bouton ou une touche le demande pour toutes les autres.¶
+avancer: phrasesÀDire.a(à3.indice) ?
 		Volume() > .6
 		∆ Bouton() | ∆ Clé()
 
-¶Le @Scene attend /advance/ après chaque phrase, et s'arrête à la dernière.¶
+¶Le @Scene attend /avancer/ après chaque phrase, et s'arrête à la dernière.¶
 Scène(
 	[
 		Diaporama(

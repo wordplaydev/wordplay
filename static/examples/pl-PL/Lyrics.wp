@@ -1,15 +1,15 @@
 🎸
-Teksty piosenek
+Tekst piosenki
 === start/en
-¶Klasyczny utwór Radiohead z płyty OK Computer, Airbag, wraz z jego tekstem, zsynchronizowanym z rytmem.
+¶Klasyczna piosenka Radiohead z albumu OK Computer, Airbag, i jej tekst zsynchronizowany z rytmem.
 
-@Scene liczy czas trwania, więc jego słowa mogą się rozejść z tym, co graw tle. Tutaj każda linia niesie /rytm/, na który jest zaśpiewana, a@Beat zgłasza rytm tak, jak jest usłyszany, więc słowa i muzyka nie mogą sięrozejść. Zmień @Music/tempo, a cały tekst się dopasuje, bo nic tuniczego nie wie o sekundach.
+Zwykła @Scene posuwa się według czasu trwania, więc jej słowa rozjeżdżają się z muzyką grającą pod spodem. Tutaj każdy wers zawiera /uderzenie/, na które jest śpiewany, a @Beat podaje uderzenia dokładnie tak, jak je słychać, więc słowa i muzyka nie mogą się rozejść. Zmień @Music/tempo, a cały tekst pójdzie za tym, bo nic tu nie wie o sekundach.
 
-Rytm pochodzi z aranżacji utworu zrobionej w programie Logic, więc każda linia trafia tam,gdzie jest naprawdę zaśpiewana — i ta aranżacja gra w tle, zaimportowanaz plików MIDI jako 41 ścieżek gitary, basu, smyczków, bębnów, dzwonków i instrumentów dętych.Słowa i nuty liczą ten sam rytm, więc mogą być tylko zgodne.
+Uderzenia pochodzą z aranżacji piosenki w programie Logic, więc każdy wers wypada tam, gdzie naprawdę jest śpiewany. Ta aranżacja jest też muzyką grającą pod spodem, zaimportowaną z MIDI jako 41 ścieżek gitary, basu, smyczków, perkusji, dzwonków i instrumentów dętych. Słowa i nuty liczą te same uderzenia, więc mogą się tylko zgadzać.
 
-Aby dopasować własne słowa do muzyki, zmień tylko @lines: każda linia niesieco powiedzieć, rytm, na który przypada, ile rytmów trwa i jakiegostylu użyć.
+Aby dopasować własne słowa do muzyki, edytuj @lines i nic więcej: każde z nich zawiera to, co powiedzieć, uderzenie, na którym się pojawia, ile uderzeń trwa i jakiego wyglądu użyć.
 
-Każdy głos aranżacji ma swój własny plik źródłowy, więc żaden plik nie jeścianą nut. Pożyczenie źródła po nazwie daje jego ostatnie wyrażenie — tuto @Track — więc lista na dole to cały utwór.¶
+Każdy głos aranżacji ma własne źródło, więc żaden plik nie jest ścianą nut. Pożyczenie źródła po nazwie daje jego ostatnie wyrażenie — tutaj @Track — więc lista na dole to cała partytura.¶
 ↓ guitar1
 ↓ guitar2
 ↓ guitar3
@@ -52,22 +52,22 @@ Każdy głos aranżacji ma swój własny plik źródłowy, więc żaden plik nie
 ↓ sax2
 ↓ sax3
 
-takt: Rytm()
-¶To jedyny zegar w tym programie. @Beat liczy od zera, aż zacznie się muzyka,więc można go odczytać od razu.¶
-liczba2: takt.liczba
+uderzenie2: Rytm()
+¶To jedyny zegar w programie. @Beat liczy od zera, aż zacznie się muzyka, więc można ją odczytać od razu.¶
+licznik: uderzenie2.liczba
 
-¶Jedna linia: słowa, rytm, na który są zaśpiewane, jak długo trwają i jakpowinny wyglądać. Każdy start to pierwszy rytm frazy saksofonu, którejniesie wokal, a każde przytrzymanie kończy się przed rozpoczęciem następnego — więc żadnalinia nie trwa dłużej niż pięć rytmów, co w tym tempie to już trzyi pół sekundy. Część tego, co gra saksofon, nie niesie żadnych słów: fraza-odpowiedźpo większości połówek zwrotki (rytmy 54, 78 i 146), ciągdługich nut po /car/ i po każdym /burst/, a umieszczenie linii na jednymz nich powoduje, że tekst wchodzi wcześniej. Fraza-odpowiedź na 169,75jest jedynym wyjątkiem, i mówi o tym melodia: to te same sześć nut, ale zprzedtaktem na początku, co jest tym, co dodaje się do frazy, gdy ma sylabę,która musi wypadnąć na akcencie.¶
-•linia(słowa2•'' start2•# przytrzymaj•# rodzaj2•#)
+¶Jeden wers: słowa, uderzenie, na którym są śpiewane, jak długo trwają i jak mają wyglądać. Każdy początek to pierwsze uderzenie frazy w saksofonie, który prowadzi wokal, a każde trzymanie kończy się przed początkiem następnego. Dlatego żaden wers nie trwa dłużej niż pięć uderzeń, co przy tym tempie daje już trzy i pół sekundy. Część tego, co gra saksofon, nie ma żadnych słów: odpowiadająca fraza po większości połówek zwrotki (uderzenia 54, 78 i 146) oraz ogon długich dźwięków po /car/ i po każdym /burst/. Umieszczenie wersu na jednej z tych fraz sprawia, że tekst biegnie za wcześnie. Fraza odpowiadająca na uderzeniu 169,75 jest jedynym wyjątkiem i mówi o tym melodia: to te same sześć nut z wejściem na początku, czyli to, w co fraza się rozrasta, gdy ma sylabę, na której może wylądować.¶
+•linia(słowa2•'' początek2•# trzymaj•# rodzaj2•#)
 
-linie: [
+wersy: [
 		linia('W następnej wojnie światowej' 39 4 1)
-		linia('W poskładanej ciężarówce' 43 5 2)
+		linia('W przewróconej ciężarówce' 43 5 2)
 		linia('Rodzę się na nowo' 48 4 3)
-		linia('W neonowym znaku' 63 4 4)
-		linia('Przewijając się w górę i w dół' 67 5 4)
+		linia('W neonowym szyldzie' 63 4 4)
+		linia('Przewijającym się w górę i w dół' 67 5 4)
 		linia('Rodzę się na nowo' 72 4 3)
 		linia('W międzygwiezdnym wybuchu' 87 4.5 5)
-		linia('Wracam, aby uratować wszechświat' 95 5 1)
+		linia('Wracam, by ocalić wszechświat' 95 5 1)
 		linia('W głębokim, głębokim śnie' 131 4 1)
 		linia('niewinnych' 135 5 1)
 		linia('Rodzę się na nowo' 140 5 3)
@@ -80,19 +80,19 @@ linie: [
 			7
 		)
 		linia('W międzygwiezdnym wybuchu' 179 4.5 5)
-		linia('Wracam, aby uratować wszechświat' 187 5 1)
+		linia('Wracam, by ocalić wszechświat' 187 5 1)
 		linia('W międzygwiezdnym wybuchu' 251 4.5 5)
-		linia('Wracam, aby uratować wszechświat' 259 5 1)
+		linia('Wracam, by ocalić wszechświat' 259 5 1)
 		linia('W międzygwiezdnym wybuchu' 275 4.5 5)
-		linia('Wracam, aby uratować wszechświat' 283 5 1)
+		linia('Wracam, by ocalić wszechświat' 283 5 1)
 	]
 
-¶Linia, której zakres zawiera ten rytm, albo ø między nimi — co jest większościąutworu, bo jest on w większości instrumentalny.¶
-pokazywanie: linie.znajdować(
-		ƒ(l2•linia) (liczba2 ≥ l2.start2) & (liczba2 < (l2.start2 + l2.przytrzymaj))
+¶Wers, którego okno zawiera to uderzenie, albo ø pomiędzy wersami — czyli większość piosenki, bo jest ona głównie instrumentalna.¶
+pokazujące: wersy.znajdować(
+		ƒ(l2•linia) (licznik ≥ l2.początek2) & (licznik < (l2.początek2 + l2.trzymaj))
 	)
 
-¶Zabiegi, jeden na rodzaj.¶
+¶Efekty, po jednym dla każdego rodzaju.¶
 ƒ powiedz(l3•linia)•Wyrażenie
 	(l3.rodzaj2 = 2) ?
 		Wyrażenie(
@@ -137,7 +137,7 @@ pokazywanie: linie.znajdować(
 							)
 						)
 						(l3.rodzaj2 = 7) ?
-							¶Strzela tak, jak nazywa się rzecz, którą oznacza: zaczyna daleko i prawiebez rozmiaru, a w ćwierć sekundy rośnie ponad swój właściwy rozmiar, potemlekko się odbija, gdy się osadza. Przesunięcie w osi z sprawia, że wyglądato, jakby to leciało w twoją stronę, a nie tylko rosło — scena skalujeelementy według głębokości, więc ruch w kierunku widza sam ją powiększa.¶
+							¶Działa tak, jak mówi jego nazwa: zaczyna z daleka i prawie z niczego, w ćwierć sekundy przekracza swój rozmiar, a potem lekko odbija się do tyłu i się uspokaja. To przesunięcie z sprawia, że wygląda, jakby leciało prosto na ciebie, a nie tylko rosło. Scena skaluje rzeczy według głębi, więc ruch w stronę widza sam je powiększa.¶
 							Wyrażenie(
 								l3.słowa2
 								1.5m
@@ -169,7 +169,7 @@ pokazywanie: linie.znajdować(
 							(l3.rodzaj2 = 8) ? Wyrażenie(l3.słowa2 0.7m)
 								Wyrażenie(l3.słowa2)
 
-¶Nazwanie linii jej własnymi słowami sprawia, że staje się ona swoimwłasnym elementem wynikowym, więc scena wie, że linia zniknęła, i może odtworzyćjej wychodzące @Pose. Bez nazwy każda linia tego samego rodzaju byłaby tymsamym elementem wynikowym, a słowa zamieniałyby się bez żadnego zanikania.¶
+¶Gdy nadasz linijce nazwę z jej własnych słów, staje się ona osobnym wyjściem. Wtedy scena wie, że linijka zniknęła, i może odtworzyć jej @Pose wyjścia. Bez nazwy wszystkie linijki tego samego rodzaju byłyby jednym wyjściem, a słowa zmieniałyby się bez znikania.¶
 ƒ zaśpiewane(l4•linia)•Wyrażenie (
 		powiedziane: powiedz(l4)
 		((powiedziane.nazwa:l4.słowa2).wychodzenie:Poza(
@@ -177,11 +177,11 @@ pokazywanie: linie.znajdować(
 			)).czastrwania:0.75s
 	)
 
-¶Cztery symbole nut, zmieniane w rytm bitu. @List/length nie może zapewnić, żenie jest zerem, więc reszta z dzielenia może być ø; 0 to to, w co owo øsię zmienia.¶
-znaki2: ['♩' '♪' '♫' '♬']
-glif: znaki2[((liczba2 % znaki2.długość()) ?? 0) + 1]
+¶Cztery znaki nut, zmieniane w rytm uderzeń. @List/length nie może obiecać, że nie jest zerem, więc reszta może być równa ø. Zero zastępuje to ø.¶
+glify2: ['♩' '♪' '♫' '♬']
+glif: glify2[((licznik % glify2.długość()) ?? 0) + 1]
 
-¶Scena nie ma słów na większość utworu — długie wprowadzenie, przerwymiędzy liniami, zakończenie — więc zamiast pozostać ciemna, pokazujerytm. Symbol jest swoją własną nazwą, więc każdy z nich wchodzi i wychodziw chwili, gdy się pojawia.¶
+¶Przez większość piosenki scena nie ma słów: w długim wstępie, w przerwach między linijkami i w zakończeniu. Zamiast ciemności pokazuje wtedy rytm. Znak ma własną nazwę, więc każdy pojawia się i znika osobno.¶
 ƒ nuty2()•Wyrażenie
 	Wyrażenie(
 		glif
@@ -193,11 +193,11 @@ glif: znaki2[((liczba2 % znaki2.długość()) ?? 0) + 1]
 		czastrwania: 0.3s
 	)
 
-¶Treść @Stage nie może zawierać ø, więc tam, gdzie nie ma słów, scenapokazuje rytm, a nie pustkę.¶
+¶Zawartość @Stage nie może zawierać ø. Gdy nie ma słów, scena pokazuje rytm zamiast niczego.¶
 ƒ słowa3()•Wyrażenie
-	pokazywanie•ø ? nuty2() zaśpiewane(pokazywanie)
+	pokazujące•ø ? nuty2() zaśpiewane(pokazujące)
 
-¶Zapis nutowy: każdy pożyczony utwór, odtwarzany w tempie, w którymliczony jest tekst piosenki. Każda nuta ma własną długość i głośność, więcnic tu nie potrzebuje bitu — samo @Music/tempo decyduje, jak szybko wszystkopłynie.¶
+¶Partytura: każda pożyczona ścieżka, grana w tempie, które podaje tekst piosenki. Każda nuta ma własną długość i głośność, więc nic tu nie potrzebuje rytmu. Samo @Music/tempo decyduje, jak szybko to wszystko gra.¶
 piosenka: Muzyka(
 		[
 			guitar1
@@ -257,7 +257,7 @@ Scena(
 	kolor: Kolor(100 0 0°)
 )
 === guitar1
-¶Gitara, głos 1 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 1 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -1532,7 +1532,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar2
-¶Gitara, głos 2 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 2 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -1588,7 +1588,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar3
-¶Gitara, głos 3 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 3 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -1601,7 +1601,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar4
-¶Gitara, głos 4 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 4 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -1612,7 +1612,7 @@ Scena(
 	pętla: ⊥
 )
 === violin1
-¶Smyczki, głos 1 z 2. Plik startowy pożycza go po nazwie.¶
+¶Smyczki, głos 1 z 2. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -1755,7 +1755,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar5
-¶Gitara, głos 5 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 5 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -1886,7 +1886,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar6
-¶Gitara, głos 6 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 6 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -3555,7 +3555,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar7
-¶Gitara, głos 7 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 7 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -3770,7 +3770,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar8
-¶Gitara, głos 8 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 8 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -3831,7 +3831,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar9
-¶Gitara, głos 9 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 9 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -3844,7 +3844,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar10
-¶Gitara, głos 10 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 10 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -4945,7 +4945,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar11
-¶Gitara, głos 11 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 11 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -5290,7 +5290,7 @@ Scena(
 	pętla: ⊥
 )
 === guitar12
-¶Gitara, głos 12 z 12. Plik startowy pożycza go po nazwie.¶
+¶Gitara, głos 12 z 12. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -5363,7 +5363,7 @@ Scena(
 	pętla: ⊥
 )
 === flute1
-¶Flauta, głos 1 z 1. Plik startowy pożycza go po nazwie.¶
+¶Flet, głos 1 z 1. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -5390,7 +5390,7 @@ Scena(
 	pętla: ⊥
 )
 === violin2
-¶Smyczki, głos 2 z 2. Plik startowy pożycza go po nazwie.¶
+¶Smyczki, głos 2 z 2. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -5519,7 +5519,7 @@ Scena(
 	pętla: ⊥
 )
 === synth1
-¶Syntezator, głos 1 z 2. Plik startowy pożycza go po nazwie.¶
+¶Syntezator, głos 1 z 2. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[
@@ -5646,7 +5646,7 @@ Scena(
 	pętla: ⊥
 )
 === bass1
-¶Bas, głos 1 z 2. Plik startowy pożycza go po nazwie.¶
+¶Bas, głos 1 z 2. Źródło startowe pożycza go po nazwie.¶
 
 Ścieżka(
 	[

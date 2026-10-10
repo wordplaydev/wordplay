@@ -1,8 +1,8 @@
 🕰️
 Ρολόι
 === start/en
-¶A localized clock in one line of code. @Now ticks a new @Moment every second, and \Τώρα(
-) → ''\ converts each one to text in your locale, calendar, and time zone, so the clock changes language when your locale does. Try giving @Now a frequency, time zone, and calendar, like \Τώρα(
+¶Ένα τοπικοποιημένο ρολόι σε μία γραμμή κώδικα. Το @Now δίνει μια νέα @Moment κάθε δευτερόλεπτο και το \Τώρα(
+) → ''\ μετατρέπει καθεμιά σε κείμενο με βάση την τοπική σου ρύθμιση, το ημερολόγιο και τη ζώνη ώρας, οπότε το ρολόι αλλάζει γλώσσα όταν αλλάζει η τοπική σου ρύθμιση. Δοκίμασε να δώσεις στο @Now μια συχνότητα, μια ζώνη ώρας και ένα ημερολόγιο, όπως \Τώρα(
 	1s
 	'Asia/Tokyo'
 	'japanese'

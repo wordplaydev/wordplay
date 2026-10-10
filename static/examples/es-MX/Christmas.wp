@@ -1,24 +1,24 @@
 🎄
 Navidad
 ===
-¶Un árbol de navidad que se tambalea y se contonea en un baile en bucle, y suena a cascabel mientras lo hace.
+¶Un árbol de Navidad que se tambalea y se menea en un baile en bucle, y que tintinea mientras baila.
 
-La melodía depende del primer @Pose del baile. Un @Pose puede llevar una @Music, y esta suena justo en el momento en que se hace esa pose — así que la frase musical comienza otra vez cada vez que el baile da la vuelta, y el bucle de la animación y el bucle de la música son el mismo bucle. Nada cuenta los tiempos para mantenerlos juntos.
+La melodía cuelga de la primera @Pose del baile. Una @Pose puede llevar un @Music, y suena en el momento en que se hace esa pose. Así, la frase empieza otra vez cada vez que el baile da la vuelta, y el bucle de la animación y el bucle de la música son el mismo bucle. Nada cuenta los tiempos para mantenerlos juntos.
 
-Las dos duraciones se eligen para que coincidan: ocho tiempos a 160 dura tres segundos, y cinco pasos de medio segundo también duran tres segundos. Una pose es un instante y no algo que dura, así que el bucle habitual de un @Track no aplica aquí — la música de una pose siempre suena completa exactamente una vez.¶
+Las dos duraciones se eligen para que coincidan: ocho tiempos a 160 son tres segundos, y cinco pasos de medio segundo también toman tres segundos. Una pose es un instante, no algo que dura, así que el bucle habitual de un @Track no se aplica aquí: la música de una pose siempre suena exactamente una vez.¶
 
-cascabeleo: Música(
+tintineo: Música(
 		Pista([3 3 3𝅗𝅥 3 3 3𝅗𝅥] instrumento: Instrumento.campana)
 		tempo: 160beats/min
 		volumen: 55%
-		nombre: 'cascabeleo'
+		nombre: 'tintineo'
 	)
 
 Frase(
 	'🎄'
 	inmóvil: Secuencia(
 		{
-			0: Pose(rotación: 0° música: cascabeleo)
+			0: Pose(rotación: 0° música: tintineo)
 			1: Pose(rotación: 15°)
 			2: Pose(rotación: 0°)
 			3: Pose(desplazamiento: Lugar(-0.25m))

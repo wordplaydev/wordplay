@@ -1,5 +1,5 @@
 🍂
-ব্যক্তিগত মানচিত্ৰ – মই থকা ঠাইবোৰ
+মোৰ ব্যক্তিগত মানচিত্ৰ – মই বাস কৰা ঠাইবোৰ
 === English/en
 ¶This project has an English and a Hindi version.
 Change the locale on stage to see each one!¶/en
@@ -27,10 +27,7 @@ single run for the speech bubble to wrap however it likes.¶/en
 ताकि बातचीत का बुलबुला उन्हें अपनी तरह से लपेट सके।¶/hi
 ƒ প্ৰবাহ(শাৰী2•[`…`])
 	শাৰী2.দৈৰ্ঘ্য() < 2 ? শাৰী2[1]
-		শাৰী2.উপক্ৰম(2).সংযুক্ত(
-			শাৰী2[1]
-			ƒ(যোগফল2 পৰৱৰ্তী2) যোগফল2 + `` + পৰৱৰ্তী2
-		)
+		শাৰী2.উপক্ৰম(2).সংযুক্ত(শাৰী2[1] ƒ(সঞ্চিত পৰৱৰ্তী2) সঞ্চিত + `` + পৰৱৰ্তী2)
 
 ¶This 'otherwise' checks the name of the collided object
 and chooses a list of formatted text based on the name.

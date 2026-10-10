@@ -1,57 +1,57 @@
 🔨
-Blocuri de construcție
+Elemente de construcție
 === start/en
-¶Cuburi de construcție — tai, cari și stivuiești. Ești mica figură de pe un câmp verde presărat cu copaci și bolovani. Mergi cu săgețile; te întorci cu fața spre direcția în care ai mers, iar cursorul plutitor arată celula asupra căreia urmează să acționezi.
+¶Blocuri de construcție — taie, cară și așază. Tu ești figura mică de pe un câmp verde cu copaci și bolovani. Mergi cu tastele săgeți. Te întorci în direcția în care ai mers, iar cursorul plutitor arată celula asupra căreia vei acționa.
 
-Bara de spațiu face ambele lucruri, iar cursorul îți arată care anume. Când grămada din fața ta se ridică deasupra picioarelor tale, cursorul devine 🪏 și bara de spațiu îi dă jos vârful; când grămada este la nivelul picioarelor tale sau mai jos, cursorul devine 🔨 și bara de spațiu așază un cub deasupra ei. Așadar, culesul înseamnă doar să mergi până la un copac și să apeși bara de spațiu, iar construitul în înălțime înseamnă să urci pe măsură ce continui. Mergi peste o bucată desprinsă ca s-o iei — un copac îți dă 🪵 lemn, un bolovan îți dă 🧱 cărămidă — și apasă Shift ca să schimbi ce vrei să stivuiești.
+Tasta Space face ambele lucruri, iar cursorul îți spune care dintre ele. Când grămada din fața ta este mai înaltă decât picioarele tale, cursorul este 🪏 și Space îi rupe vârful. Când grămada este la nivelul picioarelor tale sau mai jos, cursorul este 🔨 și Space așază un bloc deasupra. Deci aduni materiale mergând la un copac și apăsând Space, iar ca să construiești în sus trebuie să urci pe măsură ce lucrezi. Treci peste o bucată căzută ca s-o iei — un copac dă 🪵 lemn, un bolovan dă 🧱 cărămidă — și apasă Shift ca să alegi ce vrei să așezi.
 
-Poți ajunge doar la un cub deasupra propriei tale poziții, iar cursorul se estompează când ceva este prea departe. Un bolovan are înălțimea de două cuburi, așa că îi poți lua vârful stând pe pământ — dar un copac are trei, așa că vârful lui are nevoie de înălțime. Apasă j pentru a sări și a lovi în vârful lui, sau stivuiește un cub, urcă pe el și lucrează de acolo. Mersul nu urcă niciodată, așa că te poți așeza mereu în fața a ceva și poți acționa asupra lui.
+Poți ajunge doar la un bloc deasupra nivelului tău, iar cursorul se estompează când ceva este prea sus. Un bolovan are două blocuri înălțime, deci îl poți ciopli de la sol. Un copac are trei, deci coroana lui cere înălțime. Apasă j ca să sari și lovește în punctul cel mai de sus, sau așază un bloc, urcă pe el și lucrează de acolo. Mersul nu te face să urci, deci te poți așeza oricând în fața unui obiect și poți acționa asupra lui.
 
-Cuburile estompate arată structura pe care încerci s-o construiești, iar fiecare devine solid pe măsură ce îl potrivești. Potrivește-le pe toate și câștigi — orice altceva lași pe câmp este treaba ta, așa că o treaptă pe care ai construit-o ca să urci poate rămâne pur și simplu acolo unde este.¶
+Blocurile estompate arată structura pe care vrei s-o faci, iar fiecare devine solid când o potrivești. Potrivește-le pe toate și ai câștigat. Orice altceva lași în jur rămâne treaba ta, deci o treaptă făcută pentru urcat poate rămâne unde este.¶
 
-¶Lumea este o grilă de celule cu numere întregi, iar metrii apar doar la desenare. Asta face ca fiecare poziție să fie exactă: să stai lângă ceva, să stivuiești deasupra a ceva și să potrivești obiectivul înseamnă doar numere întregi care sunt egale, așa că nimic nu se abate niciodată la jumătate de cub distanță.
+¶Lumea este o grilă de celule cu numere întregi, iar metrii apar doar la desenare. Astfel, fiecare poziție rămâne exactă: să stai lângă ceva, să așezi ceva deasupra și să potrivești ținta înseamnă doar numere întregi egale, deci nimic nu se abate cu o jumătate de bloc.
 
-Câmpul are adâncimea de doar cinci celule, intenționat, și acest lucru este legat de cât de aproape stă camera — vezi camera mai jos, aproape de bază.¶
+Câmpul are adâncime de doar cinci celule, intenționat, iar asta depinde de cât de aproape stă camera — vezi camera spre final.¶
 xMinim: -4
 xMaxim: 4
 zMinim: 0
 zMaxim: 4
 yMaxim: 4
 
-¶Cât de departe sub nivelul ochilor se află solul, în celule. Cu cât camera este mai aproape, cu atât totul se randează mai mare, iar acest lucru împinge câmpul mai jos pe ecran, deci acest lucru și distanța camerei trebuie să se schimbe împreună.¶
+¶Cât de jos față de nivelul ochilor se află solul, în celule. Cu cât camera este mai aproape, cu atât totul se desenează mai mare și cu atât câmpul coboară mai mult pe ecran, deci această valoare și distanța camerei trebuie să se schimbe împreună.¶
 cădereLaSol: 0.8
 
-¶Cât de departe în spatele tău se află camera, în celule. Doar acest lucru stabilește cât de mare pare totul: scena se împarte după distanța față de cameră, așa că trei celule în spate randează totul de aproximativ două ori și jumătate mai mare decât mărimea reală.¶
-spateCameră: 3
+¶Cât de în spatele tău merge camera, în celule. Doar aceasta decide cât de mare arată totul: scena împarte la distanța de la cameră, deci la trei celule în spate ești desenat de aproape două ori și jumătate mai mare decât în realitate.¶
+cameraÎnSpate: 3
 
-¶Cât de departe stă tot câmpul față de origine. Scena scalează lumea cu unu supra poziția camerei, iar fiecare piesă cu inversul, ceea ce se anulează — cu excepția cazului în care poziția camerei ajunge la zero, moment în care întreaga scenă se aplatizează și apoi se întoarce pe dos. Camera se plimbă la cameraBack celule în spatele tău, așa că menținerea câmpului atât de departe păstrează poziția camerei confortabil negativă chiar și atunci când mergi în rândul din spate. Nu are niciun efect asupra aspectului niciunui lucru; doar ține calculul departe de zero.¶
-spateLume: 4
+¶Cât de departe de origine se află tot câmpul. Scena scalează lumea cu unu împărțit la poziția camerei, iar fiecare piesă cu inversul, ceea ce se anulează — dar dacă poziția camerei ajunge la zero, toată scena se aplatizează și apoi se întoarce pe dos. Camera merge cameraBack celule în spatele tău, deci ținând câmpul atât de departe, poziția camerei rămâne negativă cu o marjă bună, chiar și când ajungi în rândul din spate. Nu schimbă cu nimic cum arată lucrurile; doar ține calculele departe de zero.¶
+lumeaÎnSpate: 4
 
-¶Centrul unei celule, în metri. Jumătatea deplasează x înapoi pentru că o frază este poziționată după marginea sa stângă.¶
+¶Centrul unei celule, în metri. Jumătatea mută x înapoi, pentru că o frază se așază după marginea ei din stânga.¶
 ƒ laX(c2•#) ((c2 - 0.5) · 1m)
 ƒ laY(c3•#) ((c3 - cădereLaSol) · 1m)
-ƒ laZ(c4•#) ((c4 - spateLume) · 1m)
+ƒ laZ(c4•#) ((c4 - lumeaÎnSpate) · 1m)
 
-¶Cât timp rămâne ciocanul pregătit și câte cadre rămâi în aer după o săritură. Această întârziere este ceea ce face saltul folositor: fără ea, o săritură ar dura un singur cadru, mult prea scurt pentru a apăsa o săgeată, a lovi sau a ateriza pe un cub.¶
-ticuriLegănare: 2
-ticuriAgățare: 4
+¶Cât timp rămâne ciocanul ridicat și câte cadre rămâi în aer după un salt. Această suspendare face săritura utilă: fără ea, un salt ar dura un singur cadru, mult prea scurt ca să apeși o săgeată, să lovești sau să aterizezi pe un bloc.¶
+tacturiDeBalans: 2
+tacturiDeAșteptare: 4
 
-¶Cât de mult din lumea din spatele tău se mai desenează. Vezi camera de mai jos ca să afli de ce există acest lucru: cu cât camera este mai aproape, cu atât mai puține rânduri din spatele tău se pot desena înainte ca unul dintre ele să ajungă în fața lentilei și să se umfle peste tot ecranul.¶
+¶Cât din lumea din spatele tău se mai desenează. Vezi camera mai jos ca să afli de ce există asta: cu cât camera este mai aproape, cu atât pot fi desenate mai puține rânduri în spatele tău, înainte ca unul să ajungă în fața lentilei și să se umfle peste toată vederea.¶
 deseneazăÎnSpate: 1
 
-¶Cât de sus deasupra propriei tale poziții poți lucra. Un cub este ceea ce face ca înălțimea să conteze: un bolovan are înălțimea de două cuburi, așa că îi poți lua vârful stând pe pământ, dar un copac are trei, așa că trebuie să sari sau să stai pe ceva ca să-i ajungi vârful — iar aceeași limită decide cât de sus poți stivui.¶
+¶Cât de sus față de nivelul tău poți lucra. Un singur bloc este motivul pentru care înălțimea contează: un bolovan are două blocuri, deci îl poți ciopli stând la sol, dar un copac are trei, deci trebuie să sari sau să stai pe ceva ca să-i ajungi la coroană — iar aceeași limită decide cât de sus poți așeza blocuri.¶
 razăDeAcțiune: 1
 
-¶Un cub așezat într-o celulă. Felul lui este chiar emoji-ul, așa că desenarea unui cub nu are niciodată nevoie de o căutare.¶
+¶Un cub într-o celulă. Felul lui este chiar emoji-ul, deci desenarea unui bloc nu are nevoie de nicio căutare.¶
 •bloc(x2•# y2•# z2•# fel2•"")
 
-¶O bucată desprinsă care se rostogolește spre pământ. Ea își amintește celula din care s-a desprins, așa că primul ei cadru se desenează acolo unde a fost cubul, iar fiecare cadru următor se desenează acolo unde a aterizat — mișcarea de zbor este realizată chiar de tranziția proprie a frazei. Identificatorul există doar pentru a-i da un nume propriu pe scenă, deoarece două bucăți pot ateriza pe aceeași celulă.¶
-•element(id2•# x3•# z3•# deLaX•# deLaY•# deLaZ•# fel3•"" vârstă•#)
+¶O piesă ruptă care cade pe pământ. Își amintește celula din care s-a desprins, așa că primul ei cadru se desenează sus, unde era blocul, iar toate cadrele următoare se desenează unde a aterizat. Zborul îl face easing-ul propriu al expresiei. Id-ul există doar ca să-i dea un nume pe scenă, pentru că două piese pot ateriza în aceeași celulă.¶
+•obiect2(id2•# x3•# z3•# deLaX•# deLaY•# deLaZ•# fel3•"" vârstă•#)
 
-¶Tot jocul într-o singură valoare: faza (1 = titlu, 2 = în joc, 3 = câștigat), unde stai și în ce direcție te-ai mișcat ultima dată, cât timp mai poți sta suspendat într-un salt, ce ai în buzunare și ce material ai plasa, cât mai poți lovi cu ciocanul, identificatorul pentru următoarea piesă liberă, structura pe care trebuie să o potrivești și tot ce se află în lume.¶
-•joc(fază•# x4•# y3•# z4•# orientatSpreX•# orientatSpreZ•# atârnă•# lemn•# cărămidă•# selectat•"" balansare•# următorulID•# obiectiv•[bloc] blocuri•[bloc] elemente•[element])
+¶Tot jocul într-o singură valoare: faza (1 = titlu, 2 = se joacă, 3 = câștigat), unde stai și în ce direcție te-ai mișcat ultima dată, cât timp poți rămâne în aer la un salt, buzunarele tale și ce material ai pune, cât mai poți lovi cu ciocanul, id-ul pentru următoarea piesă căzută, structura de potrivit și tot ce se află în lume.¶
+•joc(fază•# x4•# y3•# z4•# orientatSpreX•# orientatSpreZ•# agață•# lemn•# cărămidă•# selectat•"" balansare•# următorulID•# țintă•[bloc] blocuri•[bloc] obiecte•[obiect2])
 
-¶Un copac este format din trei cuburi suprapuse, iar un bolovan din două — nu sunt un singur obiect fiecare, ci mai multe blocuri într-o coloană, așa că fiecare piesă trebuie lovită separat cu ciocanul. Amândouă au lățimea de o coloană, ceea ce face posibil ca la apariție să nu existe niciodată două blocuri care ocupă aceeași celulă.¶
+¶Un copac înseamnă trei cuburi puse unul peste altul, iar o stâncă înseamnă două. Nu sunt câte un singur obiect, ci mai multe blocuri într-o coloană, așa că fiecare piesă trebuie desprinsă separat cu ciocanul. Amândouă au lățimea unei coloane, ceea ce permite generării să promită că două blocuri nu împart niciodată aceeași celulă.¶
 formăCopac: [
 		bloc(0 0 0 '🌳')
 		bloc(0 1 0 '🌳')
@@ -63,16 +63,16 @@ formăBolovan: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
 		ƒ(b2•bloc) bloc(cx b2.y2 cz b2.fel2)
 	)
 
-¶În ce se transformă o piesă spartă.¶
+¶În ce se transformă o piesă ruptă.¶
 ƒ produsDin(fel4•"") fel4 ???
 		'🌳': '🪵'
 		'🪨': '🧱'
 		fel4
 
-¶O structură nouă de potrivit: două turnuri, fiecare între unul și trei blocuri înălțime, într-o pereche aleatorie dintre coloanele din mijloc, pe rândul din spate al terenului. Aceste coloane din mijloc sunt exact cele în care resursele nu apar niciodată, așa că un turn nu poate ateriza niciodată în interiorul unui copac. Fiecare coloană este solidă de la sol în sus, pentru că stivuirea se face mereu deasupra vârfului unei coloane — nu există nicio cale de a crea un bloc plutitor, deci nici de a cere unul. Șase blocuri este limita maximă, exact cât produce un teren cu trei bolovani în cărămidă, așa că până și o structură complet din cărămidă poate fi construită.¶
-ƒ generareObiectiv() (
+¶O structură nouă de potrivit: două turnuri, fiecare înalt de unul până la trei blocuri, în două coloane din mijloc alese la întâmplare, pe rândul din spate al terenului. Aceste coloane din mijloc sunt exact cele în care resursele nu apar niciodată, deci un turn nu poate ajunge într-un copac. Fiecare coloană este plină de la pământ în sus, pentru că stivuirea cade mereu pe vârful unei coloane. Nu există cum să faci un bloc plutitor, deci nu există cum să ceri unul. Șase blocuri este limita, pentru că atât dau trei stânci de cărămidă, așa că și o structură făcută numai din cărămidă poate fi construită.¶
+ƒ creeazăȚintă() (
 		adâncime2: zMaxim
-		pereche2: [:-1‥1].amestecat().subsecvență(1 2)
+		pereche2: [:-1 ‥ 1].amestecat().subsecvență(1 2)
 		pereche2.combinate(
 			[]
 			ƒ(structură•[bloc] cx2•#)
@@ -90,26 +90,26 @@ formăBolovan: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
 		)
 	)
 
-¶Dacă o celulă se află pe teren sau nu.¶
-ƒ înLimite(cx3•# cz2•#) ((xMinim‥xMaxim) ∋ cx3) & ((zMinim‥zMaxim) ∋ cz2)
+¶Dacă o celulă se află deloc pe teren.¶
+ƒ înLimite(cx3•# cz2•#) ((xMinim ‥ xMaxim) ∋ cx3) & ((zMinim ‥ zMaxim) ∋ cz2)
 
-¶Cât de înaltă este o coloană. Fiecare coloană este solidă de la sol în sus — așa cresc formele, stivuirea adaugă în vârf, iar lovitura cu ciocanul ia din vârf — așa că simpla numărare a blocurilor unei coloane dă atât înălțimea ei, cât și prima celulă liberă de deasupra.¶
+¶Cât de înaltă este o coloană. Fiecare coloană este plină de la pământ în sus: formele cresc așa, stivuirea adaugă deasupra, iar lovitura cu ciocanul ia de deasupra. De aceea, numărând blocurile unei coloane, afli și înălțimea ei, și prima celulă liberă de deasupra.¶
 ƒ înălțimeColoană(blocuri2•[bloc] cx4•# cz3•#) blocuri2.filtra(
 		ƒ(b3•bloc) (b3.x2 = cx4) & (b3.z2 = cz3)
 	).lungime(
 	)
 
-¶Dacă o celulă exactă conține un anumit tip de bloc. Punând întrebarea astfel — numărând potrivirile, în loc să ceri un bloc care poate să nu existe — evităm să purtăm după noi un „poate-e-un-bloc” care trebuie despachetat.¶
-ƒ celulăConține(blocuri3•[bloc] cx5•# cy•# cz4•# fel5•"")
+¶Dacă o anumită celulă conține un anumit fel de bloc. Punem întrebarea așa, numărând potrivirile în loc să căutăm un bloc care poate lipsi, ca să nu fie nevoie să purtăm de colo-colo un posibil bloc și să-l despachetăm.¶
+ƒ celulaConține(blocuri3•[bloc] cx5•# cy•# cz4•# fel5•"")
 	blocuri3.filtra(
 		ƒ(b4•bloc) (b4.x2 = cx5) & (b4.y2 = cy) & (b4.z2 = cz4) & (b4.fel2 = fel5)
 	).lungime(
 	) > 0
 
-¶Un teren nou: trei copaci și trei bolovani, fiecare pe propria coloană, la o adâncime aleatorie. Amestecarea coloanelor la început este ceea ce face aleatoriu care dintre ele vor avea copaci. Coloanele cele mai apropiate de mijloc sunt excluse intenționat, ca nimic să nu apară vreodată acolo unde stai sau unde se află turnurile.¶
+¶Un teren nou: trei copaci și trei stânci, fiecare pe coloana lui, la o adâncime aleasă la întâmplare. Amestecarea coloanelor la început hotărăște care coloane primesc copaci. Coloanele cele mai apropiate de mijloc sunt lăsate deoparte intenționat, ca să nu apară nimic unde stai tu sau unde vin turnurile.¶
 genereazăColoane: [-4 -3 -2 2 3 4]
 
-ƒ genereazăLume()
+ƒ genereazăLumea()
 	genereazăColoane.amestecat().combinate(
 		[]
 		ƒ(câmp•[bloc] cx6•# index2•#)
@@ -122,125 +122,131 @@ genereazăColoane: [-4 -3 -2 2 3 4]
 			)
 	)
 
-¶Ce blocuri-țintă nu ai potrivit încă. Aceasta este întreaga buclă de reacție: turnurile estompate se dizolvă bloc cu bloc pe măsură ce construiești, și tot ea explică de ce un bloc estompat și unul real nu ocupă niciodată aceeași celulă — lucru important, pentru că scena sortează doar după adâncime, iar două lucruri la aceeași adâncime ar fi o alegere la întâmplare.¶
-ƒ scopNeîndeplinit(blocuri4•[bloc] obiectiv2•[bloc])
-	obiectiv2.filtra(
-		ƒ(g•bloc) ~celulăConține(blocuri4 g.x2 g.y2 g.z2 g.fel2)
-	)
-
-¶Ai câștigat odată ce fiecare bloc al structurii este potrivit. Orice altceva ai lăsat pe teren e treaba ta — trepte pe care le-ai construit ca să te cațeri, o grămadă pe care n-ai folosit-o niciodată — deci nu trebuie să strângi nimic pentru a termina. O celulă-țintă cere un anumit material exact, așa că un copac care se întâmplă să stea la locul potrivit nu o poate satisface.¶
-ƒ scopÎndeplinit(blocuri5•[bloc] obiectiv3•[bloc]) scopNeîndeplinit(
-		blocuri5
-		obiectiv3
-	).lungime(
-	) = 0
-
-¶Fă un pas. Te întorci mereu cu fața spre direcția în care ai încercat să mergi, chiar și atunci când pasul în sine eșuează, așa că mersul spre ceva e felul în care te așezi cu fața spre el. Intri doar într-o celulă a cărei stivă nu e mai înaltă decât nivelul la care te afli deja — mersul nu urcă niciodată, pentru că un pas care ar urca te-ar duce deasupra chiar a lucrului pe care încercai să-l lovești cu ciocanul. Sari cu j ca să ajungi deasupra unui bloc, apoi mergi pe el.¶
-ƒ mișcă(joc2•joc dx•# dz•#) (
-		orientat: (joc2.orientatSpreX:dx).orientatSpreZ:dz
-		xȚintă: joc2.x4 + dx
-		zȚintă: joc2.z4 + dz
-		~înLimite(xȚintă zȚintă) ? orientat (
-				înălțime2: înălțimeColoană(
-						orientat.blocuri
-						xȚintă
-						zȚintă
-					)
-				(înălțime2 ≤ joc2.y3) ? ((orientat.x4:xȚintă).z4:zȚintă) orientat
+¶Ce blocuri ale țintei nu ai potrivit încă. Aceasta este întreaga buclă de răspuns: turnurile șterse dispar câte un bloc pe măsură ce construiești. Tot de aici vine motivul pentru care un bloc șters și unul real nu împart niciodată o celulă. Contează, pentru că scena sortează doar după adâncime, iar două lucruri la aceeași adâncime ar fi decise la noroc.¶
+ƒ obiectivNeîndeplinit(blocuri4•[bloc] țintă2•[bloc])
+	țintă2.filtra(
+		ƒ(o2•bloc) ~celulaConține(
+				blocuri4
+				o2.x2
+				o2.y2
+				o2.z2
+				o2.fel2
 			)
 	)
 
-¶Sari, dar doar de pe ceva pe care stai. Întrebarea dacă ești deasupra propriului sprijin este testul care contează: epuizarea timpului de suspendare nu înseamnă că ai aterizat, așa că un salt care ar refuza doar cât timp durează suspendarea ar putea fi relansat la jumătatea căderii, și din nou pe drumul în jos de acolo — urcând cerul o celulă odată. Așa ajungi la orice se află deasupra razei brațului, fără să construiești mai întâi o treaptă.¶
-ƒ sări2(joc3•joc)
-	(joc3.y3 > înălțimeColoană(joc3.blocuri joc3.x4 joc3.z4)) ? joc3
-		((joc3.y3:(joc3.y3 + 1).min(yMaxim)).atârnă:ticuriAgățare)
+¶Ai câștigat când fiecare bloc al structurii este potrivit. Orice altceva ai lăsat prin jur este treaba ta, de exemplu trepte făcute ca să urci sau o grămadă nefolosită, deci nu trebuie să strângi nimic ca să termini. O celulă a țintei cere un material exact, așa că un copac care stă întâmplător în locul potrivit nu o poate satisface.¶
+ƒ obiectivÎndeplinit(blocuri5•[bloc] țintă3•[bloc]) obiectivNeîndeplinit(
+		blocuri5
+		țintă3
+	).lungime(
+	) = 0
 
-¶Lovește orice se află în fața ta. Doar piesa din vârful acelei coloane cade, ceea ce face ca un copac să reziste la trei lovituri — și înseamnă că nu poți lăsa niciodată o piesă suspendată în aer, deci nimic nu trebuie vreodată să cadă singur. Poți ajunge doar la un bloc cu o poziție deasupra propriului sprijin, așa că o coroană aflată prea sus pur și simplu nu cade; urcă mai sus și lovește din nou. Piesa desprinsă se rostogolește încă o celulă mai departe, în direcția opusă ție, cu excepția cazului în care acea celulă e în afara terenului sau deja ocupată, caz în care cade exact unde stătea. Ciocanul se pregătește indiferent dacă lovești sau nu, așa că și o lovitură ratată tot se execută.¶
+¶Fă un pas. Te întorci mereu în direcția în care ai încercat să mergi, chiar dacă pasul eșuează, așa că mersul într-un obstacol este felul de a te așeza față în față cu el. Intri doar într-o celulă a cărei stivă nu este mai înaltă decât înălțimea la care ești deja. Mersul nu urcă niciodată, pentru că un pas care urcă te-ar duce chiar deasupra lucrului pe care încercai să-l lovești cu ciocanul. Sari cu j ca să ajungi deasupra unui bloc, apoi mergi pe el.¶
+ƒ mută(joc2•joc dx•# dz•#) (
+		orientat: (joc2.orientatSpreX:dx).orientatSpreZ:dz
+		țintăX: joc2.x4 + dx
+		țintăZ: joc2.z4 + dz
+		~înLimite(țintăX țintăZ) ? orientat (
+				înălțime2: înălțimeColoană(
+						orientat.blocuri
+						țintăX
+						țintăZ
+					)
+				(înălțime2 ≤ joc2.y3) ? ((orientat.x4:țintăX).z4:țintăZ) orientat
+			)
+	)
+
+¶Sari, dar numai de pe ceva pe care stai. Testul important este să întrebi dacă ești deasupra propriului sprijin: faptul că timpul în aer s-a terminat nu înseamnă că ai aterizat. Un salt care ar refuza doar cât ține timpul în aer ar putea fi repornit la jumătatea căderii și apoi din nou în coborâre, urcând pe cer câte o celulă. Așa ajungi la orice se află deasupra razei brațului, fără să construiești mai întâi o treaptă.¶
+ƒ sari(joc3•joc)
+	(joc3.y3 > înălțimeColoană(joc3.blocuri joc3.x4 joc3.z4)) ? joc3
+		((joc3.y3:(joc3.y3 + 1).min(yMaxim)).agață:tacturiDeAșteptare)
+
+¶Lovește tot ce se află în fața ta. Se desprinde doar piesa de sus a coloanei, de aceea un copac are nevoie de trei lovituri. Așa nu rămâne niciodată o piesă în aer, deci nimic nu trebuie să cadă. Poți atinge doar un bloc aflat cu un nivel mai sus decât locul unde stai. O coroană prea sus nu se desprinde, așa că urcă mai sus și lovește din nou. Piesa desprinsă se rostogolește cu o celulă mai departe, departe de tine. Dacă acea celulă este în afara terenului sau este ocupată, piesa cade chiar unde era. Ciocanul se ridică indiferent dacă ai nimerit sau nu, deci și o ratare este o lovitură.¶
 ƒ lovește(joc4•joc) (
-		xȚintă2: joc4.x4 + joc4.orientatSpreX
-		zȚintă2: joc4.z4 + joc4.orientatSpreZ
-		ySus: înălțimeColoană(joc4.blocuri xȚintă2 zȚintă2) - 1
-		¶Faptul că celula țintă este transformată direct în piesa pe care ar da-o evită să porți după tine un „poate-e-un-bloc”: o coloană goală se transformă simplu în nimic.¶
-		produs: (ySus > (joc4.y3 + razăDeAcțiune)) ? '' joc4.blocuri.filtra(
-					ƒ(b5•bloc) (b5.x2 = xȚintă2) & (b5.y2 = ySus) & (b5.z2 = zȚintă2)
+		țintăX2: joc4.x4 + joc4.orientatSpreX
+		țintăZ2: joc4.z4 + joc4.orientatSpreZ
+		vârfY: înălțimeColoană(joc4.blocuri țintăX2 țintăZ2) - 1
+		¶Dacă introducem celula țintă direct în piesa pe care ar da-o, nu mai avem de purtat un posibil bloc. O coloană goală dă pur și simplu nimic.¶
+		produs: (vârfY > (joc4.y3 + razăDeAcțiune)) ? '' joc4.blocuri.filtra(
+					ƒ(b5•bloc) (b5.x2 = țintăX2) & (b5.y2 = vârfY) & (b5.z2 = țintăZ2)
 				).combinate(
 					''
 					ƒ(pânăAcum•"" b6•bloc) pânăAcum + produsDin(
 								b6.fel2
 							)
 				)
-		balansat: joc4.balansare:ticuriLegănare
+		balansat: joc4.balansare:tacturiDeBalans
 		(produs = '') ? balansat (
-				rămase: balansat.blocuri.filtra(
-						ƒ(b7•bloc) ~((b7.x2 = xȚintă2) & (b7.y2 = ySus) & (b7.z2 = zȚintă2))
+				rămas: balansat.blocuri.filtra(
+						ƒ(b7•bloc) ~((b7.x2 = țintăX2) & (b7.y2 = vârfY) & (b7.z2 = țintăZ2))
 					)
-				aterizareX: xȚintă2 + joc4.orientatSpreX
-				aterizareZ: zȚintă2 + joc4.orientatSpreZ
-				golire: înLimite(aterizareX aterizareZ) & (înălțimeColoană(
-								rămase
+				aterizareX: țintăX2 + joc4.orientatSpreX
+				aterizareZ: țintăZ2 + joc4.orientatSpreZ
+				șterge: înLimite(aterizareX aterizareZ) & (înălțimeColoană(
+								rămas
 								aterizareX
 								aterizareZ
 							) = 0)
-				scăpat: balansat.elemente.cu(
-						element(
+				scăpat: balansat.obiecte.cu(
+						obiect2(
 							balansat.următorulID
-							(golire ? aterizareX xȚintă2)
-							(golire ? aterizareZ zȚintă2)
-							xȚintă2
-							ySus
-							zȚintă2
+							(șterge ? aterizareX țintăX2)
+							(șterge ? aterizareZ țintăZ2)
+							țintăX2
+							vârfY
+							țintăZ2
 							produs
 							0
 						)
 					)
-				((balansat.blocuri:rămase).elemente:scăpat).următorulID:(balansat.următorulID + 1)
+				((balansat.blocuri:rămas).obiecte:scăpat).următorulID:(balansat.următorulID + 1)
 			)
 	)
 
-¶Pune unul dintre blocurile tale peste coloana din fața ta, dacă mai ai unul disponibil și există loc deasupra. Distanța nu se verifică aici: asta se execută doar când grămada este la nivelul picioarelor tale sau mai jos, așa că noul bloc ajunge mereu la o distanță pe care o poți ajunge.¶
-ƒ loc2(joc5•joc) (
-		xȚintă3: joc5.x4 + joc5.orientatSpreX
-		zȚintă3: joc5.z4 + joc5.orientatSpreZ
+¶Pune unul dintre blocurile tale deasupra coloanei din fața ta, dacă ai unul în plus și este loc deasupra. Aici nu se verifică distanța. Acest cod rulează doar când grămada este la nivelul picioarelor tale sau mai jos, deci blocul nou ajunge mereu la îndemână.¶
+ƒ plasează(joc5•joc) (
+		țintăX3: joc5.x4 + joc5.orientatSpreX
+		țintăZ3: joc5.z4 + joc5.orientatSpreZ
 		înălțime3: înălțimeColoană(
 				joc5.blocuri
-				xȚintă3
-				zȚintă3
+				țintăX3
+				țintăZ3
 			)
 		stoc: (joc5.selectat = '🪵') ? joc5.lemn joc5.cărămidă
-		(~înLimite(xȚintă3 zȚintă3) | (stoc = 0) | (înălțime3 > yMaxim)) ? joc5 (
-				folosit: (joc5.selectat = '🪵') ? (joc5.lemn:(joc5.lemn - 1)) (joc5.cărămidă:(joc5.cărămidă - 1))
-				folosit.blocuri:joc5.blocuri.cu(
-					bloc(xȚintă3 înălțime3 zȚintă3 joc5.selectat)
+		(~înLimite(țintăX3 țintăZ3) | (stoc = 0) | (înălțime3 > yMaxim)) ? joc5 (
+				cheltuit: (joc5.selectat = '🪵') ? (joc5.lemn:(joc5.lemn - 1)) (joc5.cărămidă:(joc5.cărămidă - 1))
+				cheltuit.blocuri:joc5.blocuri.cu(
+					bloc(țintăX3 înălțime3 țintăZ3 joc5.selectat)
 				)
 			)
 	)
 
-¶Dacă bara de spațiu construiește sau dărâmă. Grămada din fața ta decide: la nivelul picioarelor tale sau mai jos, pui încă un bloc peste ea, mai sus decât ele, îi dărâmi vârful. O singură tastă face amândouă, iar cursorul arată care — deci a construi în sus înseamnă să te cațeri pe măsură ce înaintezi, exact la asta servind săritura, și poți întotdeauna să iei înapoi ceva ce ai pus în locul greșit, stând la același nivel cu el.¶
-ƒ construire(joc6•joc)
+¶Dacă bara de spațiu ar construi în loc să spargă. Grămada din fața ta decide. Dacă este la nivelul picioarelor tale sau mai jos, adaugi un alt bloc peste ea. Dacă este mai sus, îi dărâmi vârful. O singură tastă face ambele lucruri, iar cursorul arată care. Ca să construiești în sus, trebuie să urci pe măsură ce construiești, iar săritura servește pentru asta. Poți oricând să iei înapoi ceva pus greșit, stând la același nivel cu el.¶
+ƒ construcție(joc6•joc)
 	înălțimeColoană(
 		joc6.blocuri
 		(joc6.x4 + joc6.orientatSpreX)
 		(joc6.z4 + joc6.orientatSpreZ)
 	) ≤ joc6.y3
 
-ƒ act(joc7•joc) construire(joc7) ? loc2(joc7) lovește(joc7)
+ƒ acțiune(joc7•joc) construcție(joc7) ? plasează(joc7) lovește(
+			joc7
+		)
 
-¶Schimbă materialul pe care l-ai pune.¶
+¶Schimbă materialul pe care îl vei așeza.¶
 ƒ comutare(joc8•joc) joc8.selectat:((joc8.selectat = '🪵') ? '🧱' '🪵')
 
-¶O apăsare de tastă în timpul jocului. Tasta ajunge aici ca text simplu, în loc să fie comparată direct în reacție, ceea ce face ca testele ∆ ale reacției să se uite doar la fluxul propriu-zis.¶
-ƒ aplicăApăsareTastă(joc9•joc cheie2•"")
-	(cheie2 = 'SăgeatăStânga') ? mișcă(joc9 -1 0)
-		((cheie2 = 'SăgeatăDreapta') ? mișcă(joc9 1 0)
-				((cheie2 = 'Săgeată în sus') ? mișcă(joc9 0 1)
-						((cheie2 = 'Săgeată în jos') ? mișcă(joc9 0 -1)
-								((cheie2 = 'Spaţiu') ? act(joc9)
-										((cheie2 = 'Schimbare') ? comutare(
-													joc9
-												)
-												((cheie2 = 'j') ? sări2(joc9) joc9))))))
+¶O apăsare de tastă în timpul jocului. Tasta ajunge aici ca text simplu, nu este comparată în reacție. Așa testele ∆ ale reacției se uită direct la flux.¶
+ƒ aplicăApăsareaTastei(joc9•joc tastă•"")
+	(tastă = 'SăgeatăStânga') ? mută(joc9 -1 0)
+		((tastă = 'SăgeatăDreapta') ? mută(joc9 1 0)
+				((tastă = 'Săgeată în sus') ? mută(joc9 0 1)
+						((tastă = 'Săgeată în jos') ? mută(joc9 0 -1)
+								((tastă = 'Spaţiu') ? acțiune(joc9)
+										((tastă = 'Schimbare') ? comutare(joc9)
+												((tastă = 'j') ? sari(joc9) joc9))))))
 
-¶O nouă rundă.¶
+¶O rundă nouă.¶
 ƒ jocNou() joc(
 		2
 		0
@@ -254,62 +260,62 @@ genereazăColoane: [-4 -3 -2 2 3 4]
 		'🪵'
 		0
 		1
-		generareObiectiv()
-		genereazăLume()
+		creeazăȚintă()
+		genereazăLumea()
 		[]
 	)
 
-¶Un cadru: piesele libere îmbătrânesc astfel încât să aterizeze, să atârne și apoi să cadă în vârful a orice te afli, orice se află pe celula ta este pus în buzunar, ciocanul se retrage la loc și turnurile sunt verificate.¶
+¶Un cadru: îmbătrânește piesele desprinse ca să aterizeze, să stea în aer și apoi să cadă peste partea de sus a ceea ce se află sub ele. Ia tot ce este în celula ta, lasă ciocanul să revină și verifică turnurile.¶
 ƒ avanseazăLumea(joc10•joc) (
-		îmbătrânit: joc10.elemente.traduce(
-				ƒ(i•element) (i.vârstă = 0) ? (i.vârstă:1) i
+		îmbătrânit: joc10.obiecte.traduce(
+				ƒ(i•obiect2) (i.vârstă = 0) ? (i.vârstă:1) i
 			)
 		înPicioare: înălțimeColoană(
 				joc10.blocuri
 				joc10.x4
 				joc10.z4
 			)
-		următorulBalansoar: (joc10.atârnă > 0) ? (joc10.atârnă - 1) 0
-		următorulY: ((joc10.atârnă = 0) & (joc10.y3 > înPicioare)) ? (joc10.y3 - 1) joc10.y3
-		¶Ești mereu la înălțimea coloanei pe care stai, și la fel este și tot ce se află acolo, așa că e nevoie doar să împarți celula pentru a putea lua ceva.¶
+		următoareaAtârnare: (joc10.agață > 0) ? (joc10.agață - 1) 0
+		următorulY: ((joc10.agață = 0) & (joc10.y3 > înPicioare)) ? (joc10.y3 - 1) joc10.y3
+		¶Ești mereu la înălțimea coloanei pe care stai, la fel ca tot ce zace acolo. Așadar, e destul să fii în aceeași celulă ca să ridici ceva.¶
 		subPicioare: îmbătrânit.filtra(
-				ƒ(i2•element) (i2.x3 = joc10.x4) & (i2.z3 = joc10.z4) & (i2.vârstă > 0)
+				ƒ(i2•obiect2) (i2.x3 = joc10.x4) & (i2.z3 = joc10.z4) & (i2.vârstă > 0)
 			)
 		păstrat: îmbătrânit.filtra(
-				ƒ(i3•element) ~((i3.x3 = joc10.x4) & (i3.z3 = joc10.z4) & (i3.vârstă > 0))
+				ƒ(i3•obiect2) ~((i3.x3 = joc10.x4) & (i3.z3 = joc10.z4) & (i3.vârstă > 0))
 			)
-		aObținutLemn: subPicioare.filtra(
-				ƒ(i4•element) i4.fel3 = '🪵'
+		areLemn: subPicioare.filtra(
+				ƒ(i4•obiect2) i4.fel3 = '🪵'
 			).lungime(
 			)
-		aObținutCărămidă: subPicioare.filtra(
-				ƒ(i5•element) i5.fel3 = '🧱'
+		areCărămidă: subPicioare.filtra(
+				ƒ(i5•obiect2) i5.fel3 = '🧱'
 			).lungime(
 			)
 		joc(
-			(scopÎndeplinit(joc10.blocuri joc10.obiectiv) ? 3 joc10.fază)
+			(obiectivÎndeplinit(joc10.blocuri joc10.țintă) ? 3 joc10.fază)
 			joc10.x4
 			următorulY
 			joc10.z4
 			joc10.orientatSpreX
 			joc10.orientatSpreZ
-			următorulBalansoar
-			(joc10.lemn + aObținutLemn)
-			(joc10.cărămidă + aObținutCărămidă)
+			următoareaAtârnare
+			(joc10.lemn + areLemn)
+			(joc10.cărămidă + areCărămidă)
 			joc10.selectat
 			((joc10.balansare > 0) ? (joc10.balansare - 1) 0)
 			joc10.următorulID
-			joc10.obiectiv
+			joc10.țintă
 			joc10.blocuri
 			păstrat
 		)
 	)
 
-cheie3: Cheie()
+tastă2: Cheie()
 tic: Timp(150ms)
-apasă: Buton()
+atingere: Buton()
 
-¶Bătaia inimii, condusă de trei intrări. În timpul jocului, un tact face lumea să avanseze, tastele fac tot restul, iar un clic dă lovitura de ciocan. Din ecranul de titlu sau ecranul de victorie, Enter sau un clic pornesc o rundă nouă.¶
+¶Bătaia inimii, condusă de trei intrări. În timpul jocului, un tic face lumea să avanseze, tastele fac orice altceva, iar un clic lovește. Din ecranul de titlu sau din cel de victorie, Enter sau un clic începe o rundă nouă.¶
 joc11•joc: joc(
 		1
 		0
@@ -323,40 +329,40 @@ joc11•joc: joc(
 		'🪵'
 		0
 		1
-		generareObiectiv()
-		genereazăLume()
+		creeazăȚintă()
+		genereazăLumea()
 		[]
 	)
-	… (∆ tic | ∆ cheie3 | ∆ apasă) …
+	… (∆ tic | ∆ tastă2 | ∆ atingere) …
 		(joc11.fază = 2)
 		? (∆ tic ? avanseazăLumea(joc11)
-					(∆ cheie3 ? aplicăApăsareTastă(joc11 cheie3) act(
+					(∆ tastă2 ? aplicăApăsareaTastei(joc11 tastă2) acțiune(
 								joc11
 							)))
 			(∆ tic ? joc11
-					(∆ cheie3 ? ((cheie3 = 'Introduceți') ? jocNou() joc11)
-							(∆ apasă ? jocNou() joc11)))
+					(∆ tastă2 ? ((tastă2 = 'Introduceți') ? jocNou() joc11)
+							(∆ atingere ? jocNou() joc11)))
 
-¶Tot ce se află în lume este desenat fără nicio tranziție netedă, așa că un pas ajunge la destinație în cadrul în care apeși, fără să alunece după aceea, și fiecare piesă are un nume format din celula ei. Numele este partea importantă: scena distinge ieșirile după nume, iar o listă fără nume este distinsă după poziție, așa că a scoate un bloc din mijlocul unei grămezi ar da fiecărui bloc de deasupra identitatea vecinului său și le-ar face pe toate să alunece cu o poziție mai jos.¶
+¶Tot ce este în lume se desenează fără atenuare, deci un pas apare chiar în cadrul în care apeși, nu alunecă după tine. Fiecare piesă are un nume construit din celula ei. Numele este partea importantă: scena deosebește rezultatele după nume, iar o listă fără nume este deosebită după poziție. Dacă ai sparge un bloc din mijlocul unei stive, fiecare bloc de deasupra ar primi identitatea vecinului său și toate ar aluneca un loc mai jos.¶
 ¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
 down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
-dimensiuneBloc: 0.8m
+mărimePătrat: 0.8m
 
-rânduriDeSol: [:0‥4].filtra(
+rânduriSol: [:0 ‥ 4].filtra(
 		ƒ(rând•#) rând ≥ (joc11.z4 - deseneazăÎnSpate)
 	).traduce(
 		ƒ(rând2•#)
 			Fraza(
 				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
-				dimensiuneBloc
+				mărimePătrat
 				durată: 0s
 				nume: "g\rând2\"
 				loc: Loc(laX(xMinim) laY(-1) laZ(rând2))
 			)
 	)
 
-vizualizăriBlocuri: joc11.blocuri.filtra(
+vederiBlocuri: joc11.blocuri.filtra(
 		ƒ(b8•bloc) b8.z2 ≥ (joc11.z4 - deseneazăÎnSpate)
 	).traduce(
 		ƒ(b9•bloc)
@@ -369,29 +375,29 @@ vizualizăriBlocuri: joc11.blocuri.filtra(
 			)
 	)
 
-¶Turnurile spre care țintești, șterse, arătând doar părțile pe care nu le-ai construit încă.¶
-vizualizăriFantomă: scopNeîndeplinit(
+¶Turnurile spre care țintești, estompate și doar cu părțile pe care nu le-ai construit încă.¶
+vederiFantome: obiectivNeîndeplinit(
 		joc11.blocuri
-		joc11.obiectiv
+		joc11.țintă
 	).filtra(
-		ƒ(g2•bloc) g2.z2 ≥ (joc11.z4 - deseneazăÎnSpate)
+		ƒ(o3•bloc) o3.z2 ≥ (joc11.z4 - deseneazăÎnSpate)
 	).traduce(
-		ƒ(g3•bloc)
+		ƒ(o4•bloc)
 			Fraza(
-				g3.fel2
+				o4.fel2
 				1m
 				durată: 0s
 				opacitate: 35%
-				nume: "h\g3.x2\,\g3.y2\,\g3.z2\"
-				loc: Loc(laX(g3.x2) laY(g3.y2) laZ(g3.z2))
+				nume: "h\o4.x2\,\o4.y2\,\o4.z2\"
+				loc: Loc(laX(o4.x2) laY(o4.y2) laZ(o4.z2))
 			)
 	)
 
-¶O piesă liberă. Acesta este singurul lucru de pe scenă care se mișcă lin, în loc să sară brusc — primul ei cadru este acolo unde s-a spart blocul, iar restul sunt acolo unde a ajuns, iar tranziția lină dintre ele este chiar tumbarea.¶
-vizualizăriObiecte: joc11.elemente.filtra(
-		ƒ(i6•element) i6.z3 ≥ (joc11.z4 - deseneazăÎnSpate)
+¶O piesă desprinsă. Este singurul lucru de pe scenă care se mișcă lin, nu brusc. Primul său cadru este sus, unde s-a rupt blocul, iar restul sunt acolo unde a aterizat. Atenuarea dintre ele este rostogolirea.¶
+vederiObiecte: joc11.obiecte.filtra(
+		ƒ(i6•obiect2) i6.z3 ≥ (joc11.z4 - deseneazăÎnSpate)
 	).traduce(
-		ƒ(i7•element)
+		ƒ(i7•obiect2)
 			Fraza(
 				i7.fel3
 				0.6m
@@ -407,44 +413,42 @@ vizualizăriObiecte: joc11.elemente.filtra(
 			)
 	)
 
-¶O durată este ceea ce transformă un pas în mișcare adevărată: fără ea, scena nu construiește nicio animație pentru el și fiecare mișcare se teleportează. O durată puțin sub un tact face ca fiecare pas și fiecare săritură să se așeze exact înainte de următoarea. Întinderea cât timp este în aer este același truc ca legănarea ciocanului tras înapoi — o poziție diferită ținută cât durează starea, în loc de o animație care începe și se termină.¶
-vizualizareJucător: Fraza(
+¶O durată este ceea ce transformă un pas în mișcare: fără ea, scena nu construiește o animație pentru el și fiecare mutare teleportează. O durată puțin mai mică decât un tic înseamnă că fiecare pas și fiecare săritură se termină chiar înainte de următorul. Perioada în care este în aer folosește același truc ca ridicarea ciocanului: o altă poză ținută cât timp durează starea, nu o animație care pornește și se oprește.¶
+vedereJucător: Fraza(
 		'🚶🏻‍♀'
 		1.1m
 		durată: 0.14s
 		nume: 'jucător'
-		scară: ((joc11.atârnă > 0) ? 1.08 1)
+		scară: ((joc11.agață > 0) ? 1.08 1)
 		flipx: joc11.orientatSpreX > 0
 		loc: Loc(laX(joc11.x4) laY(joc11.y3) laZ(joc11.z4))
 	)
 
-¶Cursorul planează peste celula pe care va ajunge următoarea ta acțiune — spațiul liber de pe grămada spre care ești orientat. O lovitură sparge blocul aflat direct sub el, iar o construcție umple celula pe care o marchează, așa că nu există niciodată vreo îndoială despre ce urmează să spargi sau unde va ajunge un bloc. Planează puțin mai sus de acea celulă, ca să rămână vizibil atunci când celula este chiar în fața ta și corpul tău ar acoperi-o altfel. Se retrage în momentul în care dai lovitura și revine lin la loc de la sine, declanșându-se exact la impact, în loc să se repete în bucle. Se ascunde atunci când ești orientat spre marginea terenului, deoarece nu există nimic acolo asupra căruia să acționezi.¶
-xȚintă4: joc11.x4 + joc11.orientatSpreX
-zȚintă4: joc11.z4 + joc11.orientatSpreZ
-yȚintă: înălțimeColoană(joc11.blocuri xȚintă4 zȚintă4)
+¶Cursorul plutește peste celula în care va ajunge următoarea ta acțiune, adică spațiul liber de deasupra stivei spre care privești. O lovitură sparge blocul de chiar sub el, iar o stivuire umple celula marcată. Astfel nu ai niciodată dubii ce vei sparge sau unde va ajunge un bloc. Plutește puțin deasupra acelei celule, ca să rămână vizibil când celula este chiar în fața ta și corpul tău l-ar acoperi. Se trage înapoi în clipa în care lovești și revine singur, ceea ce se întâmplă exact la lovitură, nu în buclă. Se ascunde când privești spre marginea terenului, pentru că acolo nu ai ce face.¶
+țintăX4: joc11.x4 + joc11.orientatSpreX
+țintăZ4: joc11.z4 + joc11.orientatSpreZ
+țintăY: înălțimeColoană(joc11.blocuri țintăX4 țintăZ4)
 
-¶Care dintre cele două acțiuni ar face bara de spațiu asupra coloanei din fața ta, și dacă ar avea vreun efect: a sparge are nevoie ca vârful să fie la îndemână, iar a construi are nevoie să-ți mai fi rămas ceva din materialul ales în buzunare. Cursorul se estompează de fiecare dată când răspunsul este nu, așa că un buzunar gol se citește la fel ca un vârf inaccesibil, nu ca o apăsare care nu face nimic pe tăcute.¶
-construieșteAici: yȚintă ≤ joc11.y3
-înRazaDeAcțiune: (yȚintă - 1) ≤ (joc11.y3 + razăDeAcțiune)
+¶Care dintre cele două acțiuni ar face bara de spațiu coloanei din față și dacă ar reuși: ca să spargi, vârful trebuie să fie la îndemână, iar ca să construiești, trebuie să-ți mai rămână material de felul ales în buzunare. Cursorul se estompează de fiecare dată când răspunsul este nu, așa că un buzunar gol arată la fel ca un vârf prea departe, nu ca o apăsare care nu face nimic.¶
+construcțieAici: țintăY ≤ joc11.y3
+laÎndemână: (țintăY - 1) ≤ (joc11.y3 + razăDeAcțiune)
 stocAici: (joc11.selectat = '🪵') ? joc11.lemn joc11.cărămidă
-poateAcționa: construieșteAici ? (stocAici > 0) înRazaDeAcțiune
+poateAcționa: construcțieAici ? (stocAici > 0) laÎndemână
 
-vizualizareCursor: Fraza(
-		(construieșteAici ? '🔨' '🪏')
+vedereCursor: Fraza(
+		(construcțieAici ? '🔨' '🪏')
 		0.85m
 		durată: 0.12s
 		nume: 'cursor'
 		rotaţie: ((joc11.balansare > 0) ? -55° 0°)
 		opacitate: (poateAcționa ? 100% 30%)
-		loc: Loc(laX(xȚintă4) laY(yȚintă + 0.55) laZ(zȚintă4))
+		loc: Loc(laX(țintăX4) laY(țintăY + 0.55) laZ(țintăZ4))
 	)
 
-listăCursoare: înLimite(xȚintă4 zȚintă4) ? [
-			vizualizareCursor
-		] []
+listăCursor: înLimite(țintăX4 țintăZ4) ? [vedereCursor] []
 
-¶Buzunarele și materialul curent, fixate plat pe ecran, astfel încât adâncimea să nu le micșoreze niciodată.¶
-afișajPeEcran: [
+¶Buzunarele și materialul curent, fixate plat pe ecran, ca adâncimea să nu le micșoreze.¶
+afișaj: [
 		Fraza(
 			"🪵 \joc11.lemn\   🧱 \joc11.cărămidă\   🔨 \joc11.selectat\"
 			0.5m
@@ -453,79 +457,79 @@ afișajPeEcran: [
 	]
 
 titluEcran: (joc11.fază = 3) ? '🎉 Ai construit-o! 🎉' '🔨 BLOCURI DE CONSTRUCȚIE 🔨'
-linieDeÎnceput: (joc11.fază = 3) ? 'Apasă Enter sau dă clic pentru a construi din nou' 'Apasă Enter sau dă clic pentru a începe'
+linieStart: (joc11.fază = 3) ? 'Apasă Enter sau dă clic ca să construiești din nou' 'Apasă Enter sau dă clic ca să începi'
 
-¶Ecranele stau plate peste un câmp plin de copaci și personaje. De aceea grupul aresupriu propriu, opac — cuvinte întunecate peste crengi și acoperișuri sunt grele decitit, iar un panou solid le ține lizibile, fără să ascundă restul lumii din jur.¶
-vizualizareEcran: [
+¶Ecranele stau plat deasupra unui câmp plin de copaci și figuri, așa că grupul are propriul fundal opac: cuvintele închise la culoare sunt greu de citit peste ramuri și acoperișuri, iar un panou plin le păstrează lizibile și lasă totuși lumea vizibilă în jurul lui.¶
+vedereEcran: [
 		Grup(
 			Stivă()
 			[
 				Fraza(titluEcran 1.1m nume: 's1')
 				Fraza(
-					'Săgețile merg · te întorci spre direcția în care ai mers'
+					'Săgețile te mută · te întorci cu fața spre direcția în care ai mers'
 					0.5m
 					nume: 's2'
 				)
 				Fraza(
-					'Spațiu acționează asupra cursorului: 🪏 sparge · 🔨 construiește'
+					'Spațiul acționează asupra cursorului: 🪏 sparge · 🔨 construiește'
 					0.5m
 					nume: 's3'
 				)
 				Fraza(
-					'Shift schimbă 🪵 🧱 · j sare mai sus pentru a ajunge'
+					'Shift schimbă 🪵 🧱 · j sare în sus ca să ajungi mai sus'
 					0.5m
 					nume: 's4'
 				)
 				Fraza(
-					'Ajunge cu un bloc mai sus · potrivește blocurile șterse'
+					'Ajungi cu un bloc mai sus · potrivește blocurile estompate'
 					0.5m
 					nume: 's5'
 				)
-				Fraza(linieDeÎnceput 0.7m nume: 's6')
+				Fraza(linieStart 0.7m nume: 's6')
 			]
 			fundal: Culoare(90% 10 240°)
 		)
 	]
 
-¶Camera ține o distanță fixă în urma ta, în loc să stea pe loc. Astfel rămâi lafel de mare pe ecran indiferent cât de departe mergi, iar câmpul se derulează pelângă tine, chiar peste umărul tău. Te urmărește și pe lateral, așa că mersul spremarginea câmpului mișcă lumea, în loc să te lase în afara ei. A cincea parte dintr-o celulă este o mică ajustare de centrare: un personaj se desenează dinmarginea sa stângă, care se află la jumătate de celulă distanță, iar simbolul luieste puțin mai lat decât celula în care se află.
+¶Camera păstrează o distanță fixă în spatele tău, în loc să stea pe loc, așa că rămâi de aceeași mărime pe ecran oricât de departe ai merge, iar câmpul alunecă pe lângă tine, chiar peste umărul tău. Te urmărește și într-o parte, așa că, dacă mergi spre marginea câmpului, lumea alunecă în lateral și nu ești lăsat în afara ei. A cincea parte dintr-o celulă este o mică ajustare de centrare: o figură este desenată de la marginea ei stângă, care stă la jumătate de celulă mai încolo, iar simbolul ei este puțin mai lat decât celula în care stă.
 
-Scena redimensionează totul în funcție de distanța față de cameră, iar unlucru aflat la o singură celulă în fața lentilei se desenează de opt ori maimare decât în realitate — așa că la această distanță, lumea aflată la mai mult deun rând în urma ta nu se mai desenează deloc. Turnurile stau mereu pe rândul dinspate, singurul rând pe care distanța de desenare nu îl poate elimina niciodată,așa că rămân vizibile de oriunde poți merge.¶
-zCameră: ((joc11.z4 - spateLume - spateCameră) · 1m)
+Scena scalează totul după distanța față de cameră, iar ceva aflat la o singură celulă în fața lentilei apare de opt ori mai mare decât în realitate. De aceea, la această distanță, lumea aflată la mai mult de un rând în spatele tău pur și simplu nu este desenată. Turnurile stau mereu pe rândul din spate, singurul rând pe care distanța de desenare nu îl poate tăia, așa că rămân vizibile de oriunde poți merge.¶
+camerăZ: ((joc11.z4 - lumeaÎnSpate - cameraÎnSpate) · 1m)
 
-¶Camera se mișcă la înălțimea a ceea ce stai pe el, nu la a ta. Astfel, cândte cațeri pe un morman de blocuri, camera se ridică odată cu tine și te ține încadru, în timp ce o săritură rămâne o săritură — în timpul ei te ridici cu adevăratdeparte de cameră, în loc să o tragi după tine.¶
-yCameră: (înălțimeColoană(joc11.blocuri joc11.x4 joc11.z4) · 1m)
+¶Camera stă la înălțimea a ceea ce se află sub tine, nu la înălțimea ta, așa că atunci când urci pe o stivă, camera urcă odată cu tine și rămâi în cadru, iar un salt tot arată ca un salt: în timpul lui te ridici cu adevărat departe de cameră, în loc s-o târăști după tine.¶
+camerăY: (înălțimeColoană(joc11.blocuri joc11.x4 joc11.z4) · 1m)
 
-¶Lumea este desenată la fel în fiecare etapă, astfel încât ecranele de titlu șide victorie arată câmpul exact cum îl vei juca, nu o scenă de meniu separată.¶
+¶Lumea este desenată la fel în fiecare fază, așa că ecranele de titlu și de câștig arată câmpul exact așa cum îl vei juca, nu o scenă separată de meniu.¶
 stratLume: [
-		:vizualizăriBlocuri
-		:vizualizăriFantomă
-		:vizualizăriObiecte
-		vizualizareJucător
-		:listăCursoare
+		:vederiBlocuri
+		:vederiFantome
+		:vederiObiecte
+		vedereJucător
+		:listăCursor
 	]
 
-¶Tot ce îți vorbește se află în stratul de suprapunere al scenei, care este fixatplat pe ecran și, astfel, nu este afectat de cameră sau de profunzime. Punereaecranului aici, în loc de în lume, este ceea ce îl ține lizibil: orice pusîn lume are o anumită profunzime, iar rândurile de sol mai apropiate de camerăs-ar desena peste el.¶
-stratSuprapus: (joc11.fază = 2) ? afișajPeEcran vizualizareEcran
+¶Tot ce îți vorbește apare în stratul de deasupra al scenei, care este fixat plat pe ecran și deci nu este atins de cameră și de adâncime. Punerea ecranelor aici, și nu în lume, le păstrează lizibile: orice este pus în lume se află la o anumită adâncime, iar rândurile de sol mai apropiate de cameră s-ar desena peste el.¶
+stratDeSuprapunere: (joc11.fază = 2) ? afișaj vedereEcran
 
-¶O piesă desprinsă se află încă pe primul ei cadru, singurul cadru care odeosebește de piesele deja aflate pe jos — aceeași vechime pe care desenareao folosește pentru a decide dacă să o pornească acolo unde s-a spart blocul.¶
-spartAcum: joc11.elemente.filtra(
-		ƒ(i8•element) i8.vârstă = 0
+¶O piesă desprinsă este încă la primul ei cadru, singurul cadru care o deosebește de piesele care stau deja jos — aceeași vârstă pe care o folosește desenul ca să decidă dacă o pornește acolo unde s-a spart blocul.¶
+stricatAcum: joc11.obiecte.filtra(
+		ƒ(i8•obiect2) i8.vârstă = 0
 	)
 
-¶Dacă ciocanul chiar a lovit. Doar spargerea o activează, așa că valoarea este ⊥pentru o apăsare care a construit un bloc în loc.¶
-broke: joc11.balansare = ticuriLegănare
+¶Dacă ciocanul tocmai a lovit. Doar spargerea îl armează, așa că aici este ⊥ pentru o apăsare care a așezat un bloc în loc să spargă.¶
+broke: joc11.balansare = tacturiDeBalans
 
-¶Cum a sunat lovitura. Lemnul sună cu un tom, iar piatra cu o tobă bas, așa căun copac și un bolovan nu sună la fel, iar o lovitură care nu a nimerit nimicscoate un clic ușor — o ratare pe care o poți auzi este mai bună decât o ratarece pare că nu s-a întâmplat nimic.
+¶Cum a sunat lovitura. Lemnul răsună ca un tom, iar piatra ca toba mare, așa că un copac și o stâncă nu sună la fel, iar o lovitură care n-a atins nimic primește un tic ușor — o ratare pe care o auzi e mai bună decât una care sună de parcă nu s-a întâmplat nimic.
 
-Goală în restul timpului, și atât e nevoie: o notă care a început să cânte serede până la capăt, așa că ciocanul continuă să sune chiar dacă această listă serevine goală chiar la următorul tact.¶
+Restul timpului este gol, și atât e de ajuns: o notă începută cântă până la capăt, așa că ciocanul răsună chiar dacă această listă se golește la tic-ul următor.¶
 noteDeLovire: broke
-	? ((spartAcum.lungime() > 0) ? spartAcum.traduce(
-					ƒ(i9•element) (i9.fel3 = '🪵') ? 5 1
+	? ((stricatAcum.lungime() > 0) ? stricatAcum.traduce(
+					ƒ(i9•obiect2) (i9.fel3 = '🪵') ? 5 1
 				) [3])
 		[]
 
-¶Apăsarea care a lovit, și numai aceea. Ciocanul rămâne activat până laurmătorul tact, așa că fără asta orice tastă apăsată în acea perioadă ar facesă se audă lovitura a doua oară.¶
-balansat2: ((∆ cheie3) & (cheie3 = 'Spaţiu')) | (∆ apasă)
+¶Apăsarea care a lovit, și doar acea apăsare. Ciocanul rămâne armat până la următorul tic, așa că, fără aceasta, orice tastă apăsată în acel interval ar face lovitura să sune a doua oară.¶
+balansat2: ((∆ tastă2) & (tastă2 = 'Spaţiu')) | (∆ atingere)
 
 sunetDeLovire: Muzică(
 		Pistă(noteDeLovire instrument: Instrument.tobe buclă: ⊥)
@@ -533,8 +537,8 @@ sunetDeLovire: Muzică(
 		nume: 'lovește'
 	)
 
-¶Un loc în care să fii cât timp lucrezi: o melodie lentă pentageatonică la flaut,un clopoțel care îi răspunde din când în când și un fundal continuu dedesuppt. Pentagonică pentru că nici una din notele ei nu se poate ciocni,așa că bucla nu se rezolvă niciodată spre ceva anume și nu sună niciodatăgreșit peste lovitura ciocanului de deasupra ei. Are șaisprezece bătăi, nu opt,așa că durează un timp până se repetă.¶
-ambient: Muzică(
+¶Ceva care te însoțește cât lucrezi: o melodie lentă pe cinci note la un flaut, un clopoțel care îi răspunde din când în când și un sunet continuu dedesubt. Folosim cinci note pentru că niciuna dintre ele nu sună urât împreună cu alta. Așa, bucla nu se oprește nicăieri anume și nu sună niciodată greșit când ciocanul cade peste ea. Are șaisprezece timpi, nu opt, așa că durează mai mult până se întoarce de la capăt.¶
+ambianță: Muzică(
 		[
 			Pistă(
 				[1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø]
@@ -561,9 +565,9 @@ ambient: Muzică(
 		nume: 'natură'
 	)
 
-¶Recompensa pentru a potrivi fiecare bloc șters: o urcare de trompetă pe aceeașiscară pentagonică pe care câmpul a fredonat-o tot timpul, un acord pe care săse așeze, și o strălucire de clopoțel peste tot.
+¶Răsplata pentru potrivirea fiecărui bloc estompat: o goană de trompetă pe aceeași scală pe cinci note pe care o fredona terenul tot timpul, un acord pe care să aterizeze și o sclipire de clopoțel deasupra.
 
-Nimic aici nu se repetă în buclă, iar asta o face o fanfară, nu un nou fundal.O melodie unică care s-a terminat rămâne tăcută cât timp stă pe scenă, așa căecranul de victorie se liniștește din nou și lasă ambientul să continue; pornireaunei runde noi o scoate de pe scenă și o șterge, așa că următoarea structurăpe care o termini o va suna din nou de la început.¶
+Nimic de aici nu se repetă, iar asta îl face o fanfară, nu un fundal nou. Un sunet care se aude o singură dată și s-a terminat rămâne mut cât timp stă pe scenă, așa că ecranul de câștig se liniștește din nou și lasă ambianța să sune. Când începi o rundă nouă, sunetul iese de pe scenă și este uitat, așa că următoarea structură pe care o termini îl face să sune iar de la început.¶
 sunetDeVictorie: Muzică(
 		[
 			Pistă(
@@ -599,19 +603,19 @@ sunetDeVictorie: Muzică(
 		nume: 'construit'
 	)
 
-¶Se află pe scenă doar după ce ai câștigat, iar o listă goală se transformă în nimic.¶
+¶Este pe scenă doar după ce ai câștigat, iar o listă goală nu se întinde în nimic.¶
 listăDeVictorie: (joc11.fază = 3) ? [sunetDeVictorie] []
 
 Etapă(
 	[
-		:rânduriDeSol
+		:rânduriSol
 		:stratLume
-		ambient
+		ambianță
 		sunetDeLovire
 		:listăDeVictorie
 	]
-	loc: Loc(((joc11.x4 + 0.2) · 1m) yCameră zCameră)
+	loc: Loc(((joc11.x4 + 0.2) · 1m) camerăY camerăZ)
 	fundal: Culoare(78% 18 240°)
 	culoare: Culoare(20% 0 0°)
-	suprapunere: stratSuprapus
+	suprapunere: stratDeSuprapunere
 )

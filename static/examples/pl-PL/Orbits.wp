@@ -3,7 +3,7 @@ Orbity
 === start
 ¶Trzy planety krążą wokół gwiazdy, która je przyciąga.¶
 
-¶To gwiazda przyciąga, więc potrzebuje @Matter z siłą przyciągania. Nie ma @Motion, więc nic jej nie przyciąga z powrotem i zostaje na swoim miejscu. @Place to raczej róg wyniku niż jego środek, dlatego gwiazda jest przesunięta o połowę swojego rozmiaru, aby jej środek znalazł się na środku nieba.¶
+¶Gwiazda przyciąga planety, więc potrzebuje @Matter z przyciąganiem. Nie ma @Motion, więc nic jej nie przyciąga z powrotem i zostaje w miejscu. @Place to róg wyniku, a nie jego środek, więc gwiazda jest przesunięta o połowę swojego rozmiaru, żeby jej środek wypadł w środku nieba.¶
 słońce: Wyrażenie(
 		'⭐'
 		2m
@@ -12,24 +12,24 @@ słońce: Wyrażenie(
 		materiał: Materiał(2000kg ciągnij: 1)
 	)
 
-¶Planeta w ogóle nie potrzebuje @Matter. To posiadanie @Motion pozwala, aby przyciąganie gwiazdy nią poruszało. To, jak szybko musi się poruszać, by krążyć zamiast spadać, zależy od tego, jak daleko się znajduje, więc każda planeta ma prędkość, która utrzymuje ją na swoim własnym torze.¶
-planeta: ƒ(glif•"" nazwany•"" szeroki•#m daleko•#m prędkość2•#m/s)
+¶Planeta w ogóle nie potrzebuje @Matter. Dzięki @Motion przyciąganie gwiazdy może ją poruszać. To, jak szybko musi lecieć, żeby krążyć zamiast spaść, zależy od tego, jak daleko się znajduje. Dlatego każda planeta dostaje taką prędkość, która utrzymuje ją na jej własnej orbicie.¶
+planeta: ƒ(glif•"" nazwana•"" szeroki•#m daleko•#m szybkość•#m/s)
 		Wyrażenie(
 			glif
 			szeroki
-			nazwa: nazwany
+			nazwa: nazwana
 			miejsce: Ruch(
 				Miejsce(daleko - (szeroki ÷ 2) 0m - (szeroki ÷ 2))
-				Prędkość(0m/s prędkość2)
+				Prędkość(0m/s szybkość)
 			)
 		)
 
-¶Niebo samo w sobie nie ma grawitacji, bo inaczej wszystko spadłoby na dół. Nie ma też powietrza, więc planety wciąż się poruszają, zamiast zwalniać i zatrzymywać się.¶
+¶Niebo nie ma własnej grawitacji, bo inaczej wszystko wypadłoby dołem. Nie ma też powietrza, więc planety lecą dalej i nie zwalniają aż do zatrzymania.¶
 Scena(
 	[
 		słońce
 		planeta('🌍' 'ziemia' 0.8m 3m 11.5m/s)
-		planeta('🪐' 'z pierścieniem' 1m 5m 8.6m/s)
+		planeta('🪐' 'z pierścieniami' 1m 5m 8.6m/s)
 		planeta('🌕' 'księżyc' 0.6m 7m 7.3m/s)
 	]
 	tło: Kolor(15% 20 300°)

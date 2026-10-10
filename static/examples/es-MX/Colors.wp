@@ -1,7 +1,7 @@
 w
 Espectáculo de color
 ===
-¶haz clic para agitar y volver a colorear la palabra "wowie" al azar.¶
+¶Haz clic para sacudir y cambiar de color al azar la palabra "wowie".¶
 
 color2: Color(0% 0 0°) … ∆ Botón() … Color(
 			50%
@@ -10,7 +10,7 @@ color2: Color(0% 0 0°) … ∆ Botón() … Color(
 		)
 
 Frase(
-	'wowie'
+	'¡guau!'
 	nombre: 'gatito'
 	tamaño: 6m
 	color: color2

@@ -3,7 +3,7 @@ Umlaufbahnen
 === start
 ¶Drei Planeten kreisen um einen Stern, der sie anzieht.¶
 
-¶Der Stern zieht alles an, darum braucht er @Matter mit einer Anziehungskraft. Er hat kein @Motion, also zieht ihn nichts zurück und er bleibt an seinem Platz. Ein @Place ist eine Ecke der Ausgabe und nicht ihre Mitte. Darum wird der Stern um die Hälfte seiner eigenen Größe verschoben, damit seine Mitte in der Mitte des Himmels liegt.¶
+¶Der Stern zieht die anderen an, deshalb braucht er @Matter mit einer Anziehungskraft. Er hat kein @Motion, also zieht ihn nichts zurück und er bleibt an seinem Platz. Ein @Place ist die Ecke einer Ausgabe und nicht ihre Mitte. Darum wird der Stern um die Hälfte seiner eigenen Größe verschoben, damit seine Mitte in der Mitte des Himmels liegt.¶
 sonne: Satzglied(
 		'⭐'
 		2m
@@ -12,10 +12,10 @@ sonne: Satzglied(
 		Gegenstand: Gegenstand(2000kg ziehen: 1)
 	)
 
-¶Ein Planet braucht überhaupt kein @Matter. Erst ein @Motion lässt die Anziehungskraft des Sterns ihn bewegen. Wie schnell er sich bewegen muss, um zu kreisen, statt hineinzufallen, hängt davon ab, wie weit draußen er ist. Darum bekommt jeder Planet genau die Geschwindigkeit, die seine eigene Bahn hält.¶
-planet: ƒ(zeichen•"" genannt•"" breit•#m weit•#m geschwindigkeit•#m/s)
+¶Ein Planet braucht gar kein @Matter. Weil er ein @Motion hat, kann die Anziehung des Sterns ihn bewegen. Wie schnell er fliegen muss, um zu kreisen und nicht hineinzufallen, hängt davon ab, wie weit er entfernt ist. Deshalb bekommt jeder Planet die Geschwindigkeit, die seine eigene Bahn hält.¶
+planet: ƒ(glyphe•"" genannt•"" breit•#m weit•#m geschwindigkeit•#m/s)
 		Satzglied(
-			zeichen
+			glyphe
 			breit
 			Name: genannt
 			Ort: Bewegung(
@@ -24,7 +24,7 @@ planet: ƒ(zeichen•"" genannt•"" breit•#m weit•#m geschwindigkeit•#m/s
 			)
 		)
 
-¶Der Himmel hat selbst keine Schwerkraft, sonst würde alles unten herausfallen. Er hat auch keine Luft, darum bewegen sich die Planeten weiter, statt langsamer zu werden und stehen zu bleiben.¶
+¶Der Himmel hat keine eigene Schwerkraft, sonst würde alles unten herausfallen. Er hat auch keine Luft, deshalb fliegen die Planeten weiter und werden nicht langsamer, bis sie stehen bleiben.¶
 Bühne(
 	[
 		sonne

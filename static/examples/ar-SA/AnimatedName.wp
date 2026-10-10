@@ -57,10 +57,7 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Pose(لون: Color(0.5 100 180°) قلبأفقي)
 							50%: Pose(لون: Color(27% 112 267°))
-							75%: Pose(
-								لون: Color(0.5 100 180°)
-								قلبأفقي
-							)
+							75%: Pose(لون: Color(0.5 100 180°) قلبأفقي)
 						}
 						duration: 2s
 					)
@@ -150,10 +147,7 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Pose(لون: Color(0.5 100 180°) قلبأفقي)
 							50%: Pose(لون: Color(27% 112 267°))
-							75%: Pose(
-								لون: Color(0.5 100 180°)
-								قلبأفقي
-							)
+							75%: Pose(لون: Color(0.5 100 180°) قلبأفقي)
 						}
 						duration: 2s
 					)

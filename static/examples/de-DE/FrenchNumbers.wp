@@ -4,7 +4,7 @@ Französische Zahlen
 ¶Drücke die Ziffer, die zur französischen Zahl auf der Bühne passt.¶
 ¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
 
-¶Die zu erratenden Zahlen¶
+¶Die Zahlen zum Erraten¶
 ¶Les nombres à deviner¶/fr
 zahlen,numeros/fr: [
 		"un"/fr
@@ -18,42 +18,42 @@ zahlen,numeros/fr: [
 		"neuf"/fr
 	]
 
-¶Die Geheimnisse sind die Zahlen 1 bis 9 in zufälliger Reihenfolge¶
+¶Die Geheimnisse sind die Zahlen von 1 bis 9 in zufälliger Reihenfolge¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-geheimnisse: [:1‥9].gemischt()
+geheimnisse: [:1 ‥ 9].gemischt()
 
 ¶Welche Taste wurde zuletzt gedrückt?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-schlüssel2,clé/fr: Schlüssel()
+schlüssel3,clé/fr: Schlüssel()
 
-¶Das aktuelle Geheimnis wird bei jedem Tastendruck erhöht, bleibt aber bei 10 stehen¶
+¶Das aktuelle Geheimnis wird bei jedem Tastendruck größer, hört aber bei 10 auf¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
 secretIndex,secretIndice/fr•#:
 	1 …
-	∆ schlüssel2 …
+	∆ schlüssel3 …
 		(secretIndice < 10) ? secretIndice + 1 secretIndice
 
 ¶Das aktuelle Geheimnis, abhängig vom Geheimnis-Index¶
 aktuellesGeheimnis,secretActuel/fr: geheimnisse[secretIndex]
 
-¶Die Vermutung war richtig, wenn die gedrückte Zahl mit der vorherigen geheimen Zahl übereinstimmt¶
-richtig: clé → # = geheimnisse[secretIndex - 1]
+¶Der Tipp war richtig, wenn die gedrückte Zahl zur vorherigen Geheimzahl passt¶
+richtig2: clé → # = geheimnisse[secretIndex - 1]
 
-¶Die Punkte beginnen bei 0 und steigen, wenn die Vermutung richtig war.¶
+¶Die Punkte starten bei 0 und steigen, wenn der Tipp richtig war.¶
 ¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
 punkte•#: 0 …
-	∆ schlüssel2 …
-		richtig ?
+	∆ schlüssel3 …
+		richtig2 ?
 			punkte + 1
 			punkte
 
-¶Gewonnen hat, wer alle 9 Zahlen errät¶
+¶Gewinnen heißt, alle 9 Zahlen zu erraten¶
 gewonnen,gagner/fr: punkte = 9
 
-¶Fertig, wenn der Geheimnis-Index 10 erreicht ist¶
+¶Fertig, wenn der Geheimnis-Index 10 erreicht¶
 spielende: secretIndex = 10
 
-¶Zeige die aktuelle französische Zahl und die aktuellen Punkte. Nach allen 9 Geheimnissen wird ein Endergebnis angezeigt¶
+¶Zeige die aktuelle französische Zahl und die aktuellen Punkte. Nach allen 9 Geheimnissen zeige ein Endergebnis¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
 Bühne(
@@ -65,15 +65,15 @@ Bühne(
 					Satzglied(
 						gewonnen ?
 							'Du kennst die französischen Zahlen!'"Tu connais les chiffres français!"/fr
-							'fast, versuch es noch einmal'"presque, réessaye"/fr
+							'fast, versuche es nochmal'"presque, réessaye"/fr
 						Größe: 2m
 					)
 					Satzglied(numeros[secretActuel] Größe: 2m)
 				Satzglied("\punkte\ points!" Größe: 1m)
 				Satzglied(
 					secretIndex = 1 ?
-						'welche Zahl ist das?''quel est ce numéro ?'/fr
-						richtig ?
+						'Welche Zahl ist das?''quel est ce numéro ?'/fr
+						richtig2 ?
 							'Richtig!'
 							"That was \geheimnisse[secretIndex - 1]\"
 				)

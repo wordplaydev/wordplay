@@ -1,17 +1,17 @@
 ✨
 Rastro del puntero
 ===
-¶Mueve tu puntero para dibujar un rastro de arcoíris que se desvanece. @Previous (←←) recuerda los últimos cinco @Pointer lugares, y @List.translate dibuja un punto para cada uno, desvaneciendo y cambiando de color del más viejo al más nuevo.¶
+¶Mueve tu puntero para dibujar un rastro de arcoíris que se desvanece. @Previous (←←) recuerda los últimos cinco lugares de @Pointer, y @List.translate dibuja un punto para cada uno, que se desvanece y cambia de color del más viejo al más nuevo.¶
 
 historial•[Lugar]: ←← 5 Puntero()
 Escenario(
 	historial.traducir(
-		ƒ(lugar2•Lugar índice2•#)
+		ƒ(punto2•Lugar índice2•#)
 			Frase(
 				'●'
 				color: Color(75% 100 índice2 × 40°)
 				opacidad: índice2 ÷ historial.longitud()
-				lugar: Lugar(lugar2.x lugar2.y)
+				lugar: Lugar(punto2.x punto2.y)
 			)
 	)
 )

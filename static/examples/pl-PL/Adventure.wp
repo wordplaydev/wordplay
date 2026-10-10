@@ -1,46 +1,46 @@
 Y
 Przygoda
 === start/en
-¶Tekstowa przygoda w piętnastu pokojach: budzisz się związany w ciemnym, zimnym pokoju i szukasz jednego z czterech sposobów, jak może skończyć się ta noc. Pokoje prowadzą jeden do drugiego, więc zły wybór to pętla, a nie ślepy zaułek. To, co niesiesz ze sobą, decyduje o tym, które przejścia są dla ciebie otwarte.¶
+¶Przygodówka tekstowa w piętnastu pomieszczeniach: budzisz się związany w ciemnym, zimnym pokoju i musisz znaleźć jedno z czterech zakończeń tej nocy. Pomieszczenia prowadzą z powrotem do siebie, więc zły skręt to pętla, a nie ślepy zaułek. To, co niesiesz, decyduje o tym, które przejścia są dla ciebie otwarte.¶
 
-¶Wyjście z pokoju: jak nazywa się wybór, jaki jest identyfikator pokoju, do którego prowadzi, oraz, jeśli drzwi są zamknięte, co musisz nieść, żeby ich użyć. Cały trik polega na tym, żeby nazwać cel, zamiast trzymać go w ręku. Powiązanie musi istnieć, zanim cokolwiek może się do niego odwołać, więc historia zbudowana z samych powiązań może wskazywać tylko wstecz i nigdy nie może wrócić do początku. Identyfikator tekstowy nie ma takiej zasady, więc dwa pokoje mogą wskazywać na siebie nawzajem, a mapa może zawierać pętle.¶
+¶Wyjście z pomieszczenia: nazwa wyboru, identyfikator pomieszczenia, do którego prowadzi, a dla zamkniętych drzwi to, co musisz nieść, aby ich użyć. Cały trik polega na tym, że podajemy nazwę celu, zamiast go trzymać. Wiązanie musi istnieć, zanim cokolwiek się do niego odwoła, więc opowieść zbudowana z wiązań może wskazywać tylko wstecz i nigdy nie wraca do początku. Identyfikator tekstowy nie ma takiej zasady, więc dwa pomieszczenia mogą wskazywać na siebie nawzajem, a mapa może mieć pętle.¶
 •drzwi(etykieta•'' pokój•'' potrzebuje•'': '')
 
-¶Pokój. Większość pokoi potrzebuje tylko pierwszych trzech rzeczy: identyfikatora, tego, co się w nim znajduje, i jego drzwi. Ostatnie trzy są dla pokoi wyjątkowych — jednego, który daje ci coś, oraz czterech, które kończą historię.¶
-•pokój2(id2•'' opis2•'' drzwi2•[drzwi]: [] weź•'': '' koniec2•'': '' wygrał•?: ⊥)
+¶Pomieszczenie. Większość pomieszczeń potrzebuje tylko pierwszych trzech rzeczy: identyfikatora, tego, co tam znajdziesz, i drzwi. Ostatnie trzy są dla pomieszczeń wyjątkowych: jednego, które daje ci jakiś przedmiot, i czterech, które kończą opowieść.¶
+•pokój2(identyfikator•'' opis2•'' drzwi2•[drzwi]: [] weź•'': '' zakończenie•'': '' wygrana•?: ⊥)
 
-¶Gdzie jesteś i co niesiesz. To właśnie jest cała historia: jeden identyfikator pokoju i mały zbiór rzeczy.¶
-•wędrówka(pokój3•'' spakuj•[''])
+¶Gdzie jesteś i co niesiesz. Na tym naprawdę polega opowieść: jeden identyfikator pomieszczenia i mały stos rzeczy.¶
+•wyprawa(pokój3•'' plecak•[''])
 
-¶Każdy pokój na jednej liście. Liczy się tylko pozycja pierwszego z nich: to tam zaczyna się historia i tam wraca każde jej zakończenie.¶
+¶Wszystkie pomieszczenia na jednej liście. Liczy się tylko pierwsze: tam zaczyna się opowieść i tam wraca każde zakończenie.¶
 pokoje•[pokój2]: [
 		pokój2(
-			'komórka'
-			'Budzisz się w ciemnym, zimnym pokoju, który pachnie pleśnią. Masz związane ręce za plecami, a ktokolwiek wiązał te węzły, nie spieszył się z tym.'
+			'cela'
+			'Budzisz się w ciemnym, zimnym pokoju, który pachnie pleśnią. Masz związane z tyłu nadgarstki, a kto zawiązał te węzły, wcale się nie spieszył.'
 			[
 				drzwi('przewróć się na bok' 'podłoga')
-				drzwi('leż spokojnie i słuchaj' 'słuchaj')
+				drzwi('leż spokojnie i nasłuchuj' 'nasłuchuj')
 			]
 		)
 		pokój2(
-			'słuchaj'
-			'Przez deski podłogi słychać dwa głosy. Kłócą się o to, kto zostawił otwartą bramę, i żaden z nich nie wydaje się martwić o ciebie.'
+			'nasłuchuj'
+			'Dwa głosy dochodzą przez deski podłogi. Kłócą się o to, kto zostawił otwartą bramę, a żaden z nich nie martwi się o ciebie.'
 			[drzwi('przewróć się na bok' 'podłoga')]
 		)
 		pokój2(
 			'podłoga'
-			'Leżąc na boku, widzisz pod łóżkiem polowym: nóż na kamiennych płytach, zardzewiały wzdłuż grzbietu, wystarczająco blisko, żebyś mógł go dosięgnąć, jeśli zgodzisz się przyłożyć twarz do podłogi.'
+			'Leżąc na boku, widzisz coś pod pryczą: nóż na kamiennych płytach, zardzewiały wzdłuż grzbietu, na tyle blisko, że sięgniesz go, jeśli położysz twarz na podłodze.'
 			[
 				drzwi('weź go i przetnij więzy' 'piwnica')
 				drzwi(
-					'leż spokojnie i posłuchaj jeszcze raz'
-					'słuchaj'
+					'znieruchom i nasłuchuj jeszcze raz'
+					'nasłuchuj'
 				)
 			]
 		)
 		pokój2(
 			'piwnica'
-			'Piwnica, gdy stoisz: łóżko polowe, rozrzucone kawałki przeciętej liny, schody pnące się po jednej ścianie i niski korytarz biegnący przez drugą.'
+			'Piwnica, gdy stoisz: prycza, rozsypane kawałki liny, schody pnące się wzdłuż jednej ściany i niski korytarz wychodzący z drugiej.'
 			[
 				drzwi('wejdź po schodach' 'schody')
 				drzwi('wejdź w niski korytarz' 'korytarz')
@@ -49,148 +49,145 @@ pokoje•[pokój2]: [
 		)
 		pokój2(
 			'schody'
-			'Stopnie wytarte pośrodku. W połowie drogi jest podest z latarnią wiszącą na haku, a nad podestem schody idą dalej w górę.'
+			'Stopnie wytarte pośrodku w zagłębienia. W połowie schodów jest podest, a na nim latarnia wisząca na haku. Nad podestem schody wiodą dalej.'
 			[
 				drzwi('weź latarnię' 'latarnia')
-				drzwi('idź dalej w górę' 'drzwi')
-				drzwi('zejdź z powrotem' 'piwnica')
+				drzwi('wspinaj się dalej' 'drzwi')
+				drzwi('zejdź z powrotem na dół' 'piwnica')
 			]
 		)
 		pokój2(
 			'latarnia'
-			'Knot zapala się przy drugiej próbie, a podest okazuje się dużo mniejszy, niż wydawał się w ciemności.'
+			'Knot łapie ogień za drugim razem. Podest okazuje się dużo mniejszy, niż pokazywała go ciemność.'
 			[
-				drzwi('idź dalej w górę' 'drzwi')
-				drzwi('zejdź z powrotem' 'piwnica')
+				drzwi('wspinaj się dalej' 'drzwi')
+				drzwi('zejdź z powrotem na dół' 'piwnica')
 			]
 			weź: 'latarnia'
 		)
 		pokój2(
 			'drzwi'
-			'Na szczycie schodów są ciężkie drzwi zaryglowane z drugiej strony. Rygiel jest stary, a szczelina przy nim jest wystarczająco szeroka na ostrze.'
+			'Na szczycie schodów stoją ciężkie drzwi, zaryglowane z drugiej strony. Rygiel jest stary, a szczelina obok niego jest dość szeroka, by wsunąć ostrze.'
 			[
-				drzwi('poruszaj ryglem za pomocą noża' 'sala')
-				drzwi('zejdź z powrotem' 'schody')
+				drzwi('poruszaj rygiel nożem' 'sala')
+				drzwi('zejdź z powrotem na dół' 'schody')
 			]
 		)
 		pokój2(
 			'sala'
-			'Sala z wygasłym kominkiem i dwoma krzesłami odsuniętymi od niego, jakby kłótnia skończyła się w pośpiechu. Na dalszym końcu jest brama, a pod nią szare światło.'
+			'Sala z wystygłym kominkiem i dwoma krzesłami odsuniętymi od niego, jakby kłótnia skończyła się w pośpiechu. Na drugim końcu jest brama, a pod nią szare światło.'
 			[
-				drzwi('przejdź do bramy' 'brama')
-				drzwi('zejdź z powrotem po schodach' 'schody')
+				drzwi('podejdź do bramy' 'brama')
+				drzwi('zejdź schodami z powrotem na dół' 'schody')
 			]
 		)
 		pokój2(
 			'brama'
-			'Brama jest zamknięta na łańcuch, który przechodzi przez zamek wielkości twojej pięści. Za nią droga schodzi w dół do doliny.'
+			'Brama jest zamknięta na łańcuch, a łańcuch przechodzi przez kłódkę wielkości twojej pięści. Za nią droga schodzi w dolinę.'
 			[
 				drzwi(
-					'przekręć klucz w zamku'
-					'stok wzgórza'
-					potrzebuje: 'klawisz'
+					'przekręć klucz w kłódce'
+					'zbocze'
+					potrzebuje: 'klucz'
 				)
-				drzwi('wejdź po łańcuchu' 'wejdź')
+				drzwi('wespnij się po łańcuchu' 'wspinaj się')
 				drzwi('wróć do sali' 'sala')
 			]
 		)
 		pokój2(
 			'korytarz'
-			'Przejście jest tak niskie, że idziesz na jednej ręce, a pachnie rzeką. Kilka kroków dalej ciemność przestaje być odcieniem i staje się murem.'
+			'Przejście jest tak niskie, że idziesz, podpierając się jedną ręką, i pachnie rzeką. Po kilku krokach ciemność przestaje być cieniem i staje się ścianą.'
 			[
 				drzwi('idź dalej po omacku' 'ślepy')
 				drzwi(
-					'weź światło ze sobą'
+					'wnieś światło do środka'
 					'krypta'
 					potrzebuje: 'latarnia'
 				)
-				drzwi(
-					'wróć tą samą drogą, którą przyszedłeś'
-					'piwnica'
-				)
+				drzwi('wycofaj się tą samą drogą' 'piwnica')
 			]
 		)
 		pokój2(
 			'krypta'
-			'Latarnia oświetla niski pomieszczenie z kamiennych skrzyń, a na haku przy ostatniej z nich wisi zardzewiały klawisz z przewiązanym jeszcze skrawkiem szmatki.'
+			'Latarnia oświetla niski pokój z kamiennymi skrzyniami. Na haku obok ostatniej wisi zardzewiały klucz z kawałkiem materiału wciąż zawiązanym przez ucho.'
 			[
 				drzwi('idź dalej w stronę wody' 'rzeka')
-				drzwi('wróć przejściem do tyłu' 'korytarz')
+				drzwi('wróć korytarzem' 'korytarz')
 			]
-			weź: 'klawisz'
+			weź: 'klucz'
 		)
 		pokój2(
 			'ślepy'
-			'Idziesz dalej z wyciągniętą ręką. Ręka nie znajduje niczego, a chwilę później to samo z twoimi stopami. Mrok zatrzymuje to, co mu dano.'
-			koniec2: 'Mrok cię zatrzymuje.'
+			'Idziesz dalej z wyciągniętą ręką. Ręka nie znajduje nic, a chwilę później twoje stopy też nie. Ciemność zatrzymuje to, co dostaje.'
+			zakończenie: 'Ciemność cię zatrzymuje.'
 		)
 		pokój2(
-			'wejdź'
-			'Jesteś już blisko szczytu, gdy łańcuch przypomina sobie, jak stary jest. Znajdują cię o świcie u podstawy bramy, a tym razem przynoszą liny wystarczające dla dwóch osób.'
-			koniec2: 'Złapany przy bramie.'
+			'wspinaj się'
+			'Jesteś już prawie na górze, gdy łańcuch przypomina sobie, jak jest stary. Znajdują cię o świcie u stóp bramy i tym razem przynoszą dość liny dla dwojga.'
+			zakończenie: 'Złapany przy bramie.'
 		)
 		pokój2(
 			'rzeka'
-			'Przejście kończy się przy kracie nad płynącą wodą. Pręty są stare, a nóż jest cierpliwy. Wypływasz razem z rzeką, a dom zostaje daleko za tobą, jeszcze przed świtem.'
-			koniec2: 'Odpływasz z rzeką.'
-			wygrał
+			'Korytarz kończy się kratą nad płynącą wodą. Pręty są stare, a nóż cierpliwy. Odpływasz z rzeką i dom zostaje daleko za tobą, zanim niebo w ogóle zaszarzeje.'
+			zakończenie: 'Z rzeką na wolność.'
+			wygrana
 		)
 		pokój2(
-			'stok wzgórza'
-			'Klawisz się obraca, łańcuch osypuje się w trawę, a brama otwiera się bez żadnego dźwięku, który ktoś mógłby usłyszeć. Dolina jest szara od poranka, a droga należy do ciebie.'
-			koniec2: 'Wychodzisz przez bramę.'
-			wygrał
+			'zbocze'
+			'Klucz się obraca, łańcuch spada w trawę, a brama otwiera się bez dźwięku, który ktokolwiek usłyszy. Dolina jest szara od poranka, a droga należy do ciebie.'
+			zakończenie: 'Przez bramę na wolność.'
+			wygrana
 		)
 	]
 
-¶Pomieszczenie z tym identyfikatorem. find() zwraca ø, gdy nic nie znajdzie, a identyfikator, który nie nazywa żadnego pomieszczenia, jest dziurą w mapie, a nie zwrotem w fabule, dlatego zastępuje go pierwsze pomieszczenie.¶
-ƒ idź(chciał•'')•pokój2 pokoje.znajdować(
-		ƒ(pokój4•pokój2) pokój4.id2 = chciał
+¶Pokój o tym identyfikatorze. find() zwraca ø, gdy nic nie pasuje. Identyfikator, który nie wskazuje żadnego pokoju, to dziura w mapie, a nie zwrot w opowieści, więc zastępuje go pierwszy pokój.¶
+ƒ idź(chciane•'')•pokój2 pokoje.znajdować(
+		ƒ(pokój4•pokój2) pokój4.identyfikator = chciane
 	) ?? pokoje[1]
 
-¶Drzwi, które naprawdę możesz stąd wziąć. Zamknięte drzwi, do których nie masz nic, po prostu nie są zaproponowane, więc wyglądają jak ściana, aż w twoich rękach znajdzie się to, co je otwiera.¶
-ƒ drogi(tutaj•pokój2 spakuj2•[''])•[drzwi]
+¶Drzwi, przez które naprawdę możesz stąd przejść. Zamknięte drzwi, do których nic nie masz, po prostu nie są pokazane. Wyglądają więc jak ściana, dopóki nie będziesz mieć w rękach tego, co je otwiera.¶
+ƒ drogi(tutaj•pokój2 plecak2•[''])•[drzwi]
 	tutaj.drzwi2.filtr(
-		ƒ(drzwi3•drzwi) (drzwi3.potrzebuje = '') | spakuj2.ma(
+		ƒ(drzwi3•drzwi) (drzwi3.potrzebuje = '') | plecak2.ma(
 					drzwi3.potrzebuje
 				)
 	)
 
-¶Wejdź do pomieszczenia i zabierz wszystko, co się w nim znajduje. add() z chęcią dałoby ci drugi nóż, więc najpierw zapytaj.¶
-ƒ dotrzyj(tutaj2•pokój2 spakuj3•[''])•wędrówka
-	wędrówka(
-		tutaj2.id2
-		((tutaj2.weź ≠ '') & (~spakuj3.ma(tutaj2.weź))) ? spakuj3.z(
+¶Wejdź do pokoju i zabierz wszystko, co w nim jest. add() chętnie dałby ci drugi nóż, więc najpierw sprawdź.¶
+ƒ przybądź(tutaj2•pokój2 plecak3•[''])•wyprawa
+	wyprawa(
+		tutaj2.identyfikator
+		((tutaj2.weź ≠ '') & (~plecak3.ma(tutaj2.weź))) ? plecak3.z(
 				tutaj2.weź
-			) spakuj3
+			) plecak3
 	)
 
-klawisz2: Klawisz()
+klucz: Klawisz()
 
-¶Naciśnięcie klawisza, po kolei: na zakończeniu każdy klawisz budzi cię ponownie w pierwszym pomieszczeniu; klawisz, który nie jest 1, 2 ani 3, nie znaczy nic; liczba większa niż liczba drzwi w tym pomieszczeniu też nie znaczy nic; i tylko wtedy jest to drzwi. Ten trzeci test jest wart zapisania, ponieważ dostęp do listy zawija się w koło — bez niego naciśnięcie 3 w pomieszczeniu z dwoma drzwiami po cichu wybrałoby pierwsze z nich.¶
-ƒ krok(t•wędrówka k•'')•wędrówka (
-		tutaj3: idź(t.pokój3)
-		drzwi4: drogi(tutaj3 t.spakuj)
-		tutaj3.koniec2 ≠ '' ? wędrówka('komórka' [])
-			~((k = '1') | (k = '2') | (k = '3')) ? t
-				(k → #) > drzwi4.długość() ? t
-					dotrzyj(idź(drzwi4[k → #].pokój) t.spakuj)
+¶Naciśnięcie klawisza, po kolei: na zakończeniu każdy klawisz budzi cię znów w pierwszym pokoju. Klawisz inny niż 1, 2 lub 3 nic nie znaczy. Numer większy niż liczba drzwi w tym pokoju też nic nie znaczy. Dopiero potem jest to wybór drzwi. Ten trzeci test warto zapisać, bo dostęp do listy zawija się. Bez niego naciśnięcie 3 w pokoju z dwojgiem drzwi po cichu otworzyłoby pierwsze.¶
+ƒ krok2(w2•wyprawa k•'')•wyprawa (
+		tutaj3: idź(w2.pokój3)
+		drzwi4: drogi(tutaj3 w2.plecak)
+		tutaj3.zakończenie ≠ '' ? wyprawa('cela' [])
+			~((k = '1') | (k = '2') | (k = '3')) ? w2
+				(k → #) > drzwi4.długość() ? w2
+					przybądź(idź(drzwi4[k → #].pokój) w2.plecak)
 	)
 
-wędrówka2•wędrówka: wędrówka('komórka' []) … ∆ klawisz2 … krok(
-			wędrówka2
-			klawisz2
+wyprawa2•wyprawa: wyprawa('cela' []) … ∆ klucz … krok2(
+			wyprawa2
+			klucz
 		)
 
-tutaj4: idź(wędrówka2.pokój3)
-drzwi5: drogi(tutaj4 wędrówka2.spakuj)
+tutaj4: idź(wyprawa2.pokój3)
+drzwi5: drogi(tutaj4 wyprawa2.plecak)
 
-¶To, co niesiesz, pokazane tylko wtedy, gdy niesiesz coś.¶
-noszenie:
-	wędrówka2.spakuj.długość() > 0
+¶To, co niesiesz. Pokazuje się dopiero, gdy coś niesiesz.¶
+niesiesz:
+	wyprawa2.plecak.długość() > 0
 	? [
 			Wyrażenie(
-				`*niesione* \wędrówka2.spakuj.dołączyć(' · ')\`
+				`*niesiesz* \wyprawa2.plecak.dołączyć(' · ')\`
 				rozmiar: 0.3m
 				wyrównanie: '|'
 				kolor: Kolor(60% 30 0°)
@@ -198,15 +195,15 @@ noszenie:
 		]
 		[]
 
-¶To, co leży pod pomieszczeniem: jego drzwi, ponumerowane tak, że to, co czytasz, jest tym, co naciskasz, albo, na zakończeniu, jak się to skończyło i jeden klawisz, który zaczyna wszystko od nowa.¶
+¶To, co jest pod pokojem: jego drzwi, ponumerowane tak, że to, co czytasz, jest tym, co naciskasz. Albo, na zakończeniu, jak się skończyło i jeden klawisz, który zaczyna od nowa.¶
 poniżej:
-	tutaj4.koniec2 ≠ ''
+	tutaj4.zakończenie ≠ ''
 	? [
 			Wyrażenie(
-				`*\tutaj4.koniec2\*`
+				`*\tutaj4.zakończenie\*`
 				rozmiar: 0.8m
 				wyrównanie: '|'
-				kolor: tutaj4.wygrał ? Kolor(85% 50 90°) Kolor(
+				kolor: tutaj4.wygrana ? Kolor(85% 50 90°) Kolor(
 						45%
 						40
 						25°
@@ -218,7 +215,7 @@ poniżej:
 				)
 			)
 			Wyrażenie(
-				`naciśnij jakikolwiek klawisz, aby się ponownie obudzić`
+				`naciśnij dowolny klawisz, aby obudzić się znowu`
 				rozmiar: 0.3m
 				wyrównanie: '|'
 				czastrwania: 3s
@@ -247,11 +244,11 @@ Scena(
 					rozmiar: 0.5m
 					zawinąć: 14m
 					wyrównanie: '|'
-					nazwa: tutaj4.id2
+					nazwa: tutaj4.identyfikator
 					czastrwania: 0.5s
 					wstępowanie: Poza(zrównoważyć: Miejsce(0m 2m))
 				)
-				:noszenie
+				:niesiesz
 				:poniżej
 			]
 		)

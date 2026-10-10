@@ -1,11 +1,11 @@
 🎭
-GesprocheneWörter
+Gesprochene Wörter
 === start
-¶Sprich, und deine Wörter erscheinen an zufälligen Stellen und in zufälligen Größen.¶
+¶Sprich, und deine Wörter erscheinen an zufälligen Orten und in zufälligen Größen.¶
 
-klicken: Taste(ø)
+klick: Taste(ø)
 sprache: Rede(
-		zurücksetzen: klicken
+		zurücksetzen: klick
 		Sprache: 'de-DE'
 		Limit: 10
 	)

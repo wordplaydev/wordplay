@@ -29,7 +29,7 @@ single run for the speech bubble to wrap however it likes.¶/en
 	zeilen.Länge() < 2 ? zeilen[1]
 		zeilen.Folge(2).kombinieren(
 			zeilen[1]
-			ƒ(summe2 nächstes) summe2 + `` + nächstes
+			ƒ(acc weiter) acc + `` + weiter
 		)
 
 ¶This 'otherwise' checks the name of the collided object

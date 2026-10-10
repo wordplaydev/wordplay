@@ -1,26 +1,26 @@
 4
 Lückentext
 === start
-¶Ein Lückentext: Gib die Wörter ein und erhalte eine lustige Geschichte.¶
+¶Ein Lückentext: Gib die Wörter ein und bekomme eine verrückte Geschichte.¶
 
-¶Das behält im Blick, welche Wortarten wir brauchen und wie viele davon¶
-•wortart(beschriftung•"" zähler•#)
+¶Hier wird festgehalten, welche Arten von Wörtern wir brauchen und wie viele¶
+•wortart(beschriftung•"" zählung•#)
 
 ¶Das sind die Wörter, die wir für den Lückentext unten brauchen.¶
 runden2: [
 		wortart('Adjektive' 4)
 		wortart('Nomen' 3)
-		wortart('Verben, Vergangenheit' 3)
+		wortart('Verben in der Vergangenheit' 3)
 		wortart('Adverbien' 4)
 	]
 
 chat: Plaudern()
-¶Jedes Mal, wenn ein Chat gesendet wird, geht es zur nächsten Wortart¶
-runde: 1 … ∆ chat … runde + 1
-¶Jedes Mal, wenn ein Chat gesendet wird, wird er bei Leerzeichen geteilt und zu den Antworten hinzugefügt¶
+¶Jedes Mal, wenn ein Chat abgeschickt wird, gehe zur nächsten Wortart¶
+reihe: 1 … ∆ chat … reihe + 1
+¶Jedes Mal, wenn ein Chat abgeschickt wird, teile den Chat an den Leerzeichen und füge ihn zu den Antworten hinzu¶
 antworten•[['']]: [] … ∆ chat … [:antworten chat ÷ ' ']
 
-¶Wir geben diesen Indizes Zahlen, damit der Lückentext leichter zu lesen ist¶
+¶Wir geben diesen Indizes Nummern, damit der Lückentext leichter zu lesen ist¶
 adjektive: 1
 nomen: 2
 adverbien: 4
@@ -30,32 +30,32 @@ fragen: antworten.Länge() < 4
 
 Bühne(
 	[
-		¶Bevor wir die Antworten haben, fragen wir nach Antworten¶
+		¶Solange wir die Antworten noch nicht haben, frage nach Antworten¶
 		fragen ?
 			Gruppe(
 				Stapel('|' 0.25m)
 				[
 					Satzglied(
-						`\runden2[runde].zähler\ \runden2[runde].beschriftung\ bitte!`
+						`\runden2[reihe].zählung\ \runden2[reihe].beschriftung\ bitte!`
 					)
-					Satzglied('(getrennt durch Leerzeichen)' 0.5m)
+					Satzglied('(durch Leerzeichen getrennt)' 0.5m)
 				]
 			)
-			¶Wenn wir die Antworten haben, zeigen wir den Lückentext¶
+			¶Wenn wir die Antworten haben, zeige den Lückentext¶
 			(
 				¶Erstelle eine Liste von Sätzen mit den Antworten¶
 				sätze: [
 						`Heute war ich im Zoo.`
-						`Ich habe ein(e) * gesehen\antworten[nomen][1]\* *\antworten[adverbien][1]\* auf und ab hüpfte in seinem Baum.`
-						`Er *\antworten[verben][1]\* *\antworten[adverbien][2]\* durch den großen Tunnel, der zu seinem *\antworten[adjektive][2]\* *\antworten[nomen][2]\* führte.`
-						`Ich holte ein paar Erdnüsse und reichte sie durch den Käfig zu einem riesigen grauen *\antworten[nomen][3]\*, der hoch über meinem Kopf aufragte.`
-						`Das Tier zu füttern machte mich hungrig.`
-						`Ich ging, um mir eine *\antworten[adjektive][3]\* Kugel Eis zu holen.`
-						`Sie füllte meinen Bauch.`
-						`Danach *\antworten[verben][2]\* *\antworten[adverbien][2]\*, um unseren Bus zu erreichen.`
-						`Als ich nach Hause kam, *\antworten[verben][3]\* ich meine Mama nach einem *\antworten[adjektive][4]\* Tag im Zoo.`
+						`Ich sah ein(e) *\antworten[nomen][1]\* *\antworten[adverbien][1]\*, das in seinem Baum auf und ab sprang.`
+						`Es *\antworten[verben][1]\* *\antworten[adverbien][2]\* durch den großen Tunnel, der zu seinem *\antworten[adjektive][2]\* *\antworten[nomen][2]\* führte.`
+						`Ich nahm ein paar Erdnüsse und reichte sie durch den Käfig an einen riesigen grauen *\antworten[nomen][3]\*, der hoch über meinem Kopf aufragte.`
+						`Das Tier zu füttern hat mich hungrig gemacht.`
+						`Ich habe mir eine *\antworten[adjektive][3]\* Kugel Eis geholt.`
+						`Sie hat meinen Magen gefüllt.`
+						`Danach bin ich *\antworten[verben][2]\* *\antworten[adverbien][2]\*, um unseren Bus zu erwischen.`
+						`Als ich nach Hause kam, habe ich meiner Mutter *\antworten[verben][3]\* für einen *\antworten[adjektive][4]\* Tag im Zoo.`
 					]
-				¶Übersetze sie in Sätze¶
+				¶Übersetze sie in Redewendungen¶
 				Gruppe(
 					Stapel('<')
 					sätze.übersetzen(ƒ(satz2) Satzglied(satz2))

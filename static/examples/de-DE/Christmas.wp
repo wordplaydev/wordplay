@@ -1,24 +1,24 @@
 🎄
 Weihnachten
 ===
-¶Ein Weihnachtsbaum, der in einem sich wiederholenden Tanz wackelt und wippt – und dabei mit Glöckchen klingelt.
+¶Ein Weihnachtsbaum, der wackelt und schwingt, in einem Tanz, der sich immer wiederholt, und dabei klingelt.
 
-Die Melodie hängt an der ersten @Pose des Tanzes. Eine @Pose kann eine @Music tragen, und diese spielt genau in dem Moment, in dem diese Pose eingenommen wird. So beginnt die Melodie jedes Mal neu, wenn der Tanz von vorn beginnt. Die Wiederholung der Animation und die Wiederholung der Musik sind also dieselbe Wiederholung. Nichts zählt Schläge, um sie zusammenzuhalten.
+Die Melodie hängt an der ersten @Pose des Tanzes. Eine @Pose kann einen @Music tragen, und er spielt in dem Moment, in dem diese Pose eingenommen wird. So beginnt die Melodie jedes Mal von vorn, wenn der Tanz wieder von vorn startet. Die Schleife der Animation und die Schleife der Musik sind also dieselbe Schleife. Niemand zählt Schläge, um beide zusammenzuhalten.
 
-Die beiden Längen sind so gewählt, dass sie zusammenpassen: Acht Schläge bei 160 ergeben drei Sekunden, und fünf halbe Sekunden lange Schritte ergeben ebenfalls drei Sekunden. Eine Pose ist ein Augenblick und keine andauernde Sache. Deshalb gilt die übliche Wiederholung eines @Track hier nicht – die Musik einer Pose spielt immer genau einmal durch.¶
+Die beiden Längen sind passend gewählt: Acht Schläge bei 160 dauern drei Sekunden, und fünf Schritte von einer halben Sekunde dauern ebenfalls drei Sekunden. Eine Pose ist ein Augenblick und dauert nicht an. Darum gilt das übliche Wiederholen eines @Track hier nicht. Die Musik einer Pose wird immer genau einmal ganz abgespielt.¶
 
-glöckchen: Musik(
+klingeln: Musik(
 		Spur([3 3 3𝅗𝅥 3 3 3𝅗𝅥] Instrument: Instrument.Glocke)
 		Tempo: 160beats/min
 		Lautstärke: 55%
-		Name: 'Glöckchen'
+		Name: 'Klingeln'
 	)
 
 Satzglied(
 	'🎄'
 	Ruhen: Reihenfolge(
 		{
-			0: Pose(Drehung: 0° Musik: glöckchen)
+			0: Pose(Drehung: 0° Musik: klingeln)
 			1: Pose(Drehung: 15°)
 			2: Pose(Drehung: 0°)
 			3: Pose(Versatz: Ort(-0.25m))

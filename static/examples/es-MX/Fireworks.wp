@@ -1,28 +1,28 @@
 🎆
 Fuegos artificiales
 === start/en
-¶Fuegos artificiales que estallan con la música: cada instrumento que suena en un tiempoaparece como sí mismo, se queda un momento, y luego cae.
+¶Fuegos artificiales que estallan con la música: cada instrumento que suena en un pulso aparece como él mismo, se queda un momento en el aire y cae.
 
-Aquí nada se dibuja con un reloj. @Beat entrega un @Downbeat cada vez que un tiempose vuelve audible, y un @Downbeat lleva un @Part por cada @Track — quéinstrumento es, si está sonando, en qué nota está, y qué tan fuerte suena. Asíque cada estallido por parte que suena es un único @List/translate, y la música sedibuja sola.
+Nada aquí se dibuja con un reloj. @Beat entrega un @Downbeat cada vez que un pulso se vuelve audible, y un @Downbeat lleva un @Part por cada @Track: qué instrumento es, si está sonando, en qué nota está y qué tan fuerte suena. Así que un estallido por cada parte que suena es un solo @List/translate, y la música se dibuja sola.
 
-Cada estallido lleva el número del tiempo como nombre, así que los estallidos de cada tiemposon nuevas salidas: muestran su postura de entrada al aparecer y su postura de salidacuando el siguiente tiempo los reemplaza. El destello y la caída son esas dos posturas.
+Cada estallido se nombra con el número del pulso, así que los estallidos de cada pulso son salidas nuevas: muestran su pose de entrada al llegar y su pose de salida cuando el siguiente pulso los reemplaza. El estallido y la caída son esas dos poses.
 
-La melodía es /The Star-Spangled Banner/ — la melodía de John Stafford Smith de alrededorde 1773, hace mucho de dominio público — completa, terminando en laúltima línea. Cada nota lleva su propia duración escrita como valor de nota sobre elnúmero — \8𝅘𝅥𝅮\ es una corchea, \13𝅗𝅥\ una blanca, \13𝅗𝅥𝅭\ una blanca con puntillo — así que los anacruses,las figuras con puntillo y las notas largas sostenidas son duraciones reales y no unacuadrícula de tiempos iguales. Un número simple es un tiempo. Los silencios igual necesitan un @Note,ya que \ø\ no es un número y por eso no puede llevar un valor. Está en la escalacromática para que la cuarta aumentada se pueda escribir: cada paso es un semitono.¶
+La melodía es /The Star-Spangled Banner/, la tonada de John Stafford Smith de cerca de 1773, de dominio público desde hace mucho tiempo, completa hasta terminar en la última línea. Cada nota lleva su propia duración como un valor de nota escrito sobre el número: \8𝅘𝅥𝅮\ es una corchea, \13𝅗𝅥\ una blanca y \13𝅗𝅥𝅭\ una blanca con puntillo. Así, las notas de anacrusa, las figuras con puntillo y las notas largas son duraciones reales y no una cuadrícula de pulsos iguales. Un número sin más es un pulso. Los silencios aún necesitan un @Note, porque \ø\ no es un número y no puede llevar un valor. Está en la escala cromática para que se pueda escribir el cuarto grado elevado: cada paso es un semitono.¶
 ↓ @wordplay/instruments 1
 
-tiempo2: Pulso()
-cantidad2: tiempo2.conteo
+pulso2: Pulso()
+conteo2: pulso2.conteo
 
-¶Solo las partes que realmente suenan se vuelven fuegos artificiales; una pista en silenciose queda oscura. Antes de que empiece la música no hay ninguna parte, así que el cieloestá vacío.¶
-disparo•[Parte]: tiempo2.partes.filtro(
+¶Solo las partes que de verdad suenan se vuelven fuegos artificiales; una pista en silencio se queda a oscuras. Antes de que empiece la música no hay ninguna parte, así que el cielo está vacío.¶
+disparando•[Parte]: pulso2.partes.filtro(
 		ƒ(p•Parte) p.sonando
 	)
 
-¶Cada instrumento estalla como sí mismo, y ese es el punto: puedes verquién acaba de tocar.¶
+¶Cada instrumento estalla como él mismo, y esa es la idea: puedes ver cuál acaba de tocar.¶
 ƒ cara2(p2•Parte)•''
 	iconFor(p2.instrumento)
 
-¶Cada instrumento mantiene su propio carril, repartido por todo el cielo. Usar elinstrumento en lugar de su posición en la lista mantiene un carril quietocuando otro instrumento se queda en silencio.¶
+¶Cada instrumento tiene su propio carril, repartido por todo el cielo. Usar el instrumento y no su lugar en la lista mantiene quieto un carril cuando otro instrumento se calla.¶
 ƒ carril(p3•Parte)•#
 	(p3.instrumento.id = 'trumpet') ? -6
 		(p3.instrumento.id = 'flute') ? -3.6
@@ -32,10 +32,10 @@ disparo•[Parte]: tiempo2.partes.filtro(
 						(p3.instrumento.id = 'drums') ? 6
 							0
 
-¶Qué tan alto queda un estallido: su nota. Cada parte aquí está sonando, así que tiene una.¶
+¶Qué tan alto queda un estallido: su nota. Todas las partes de aquí están sonando, así que todas tienen una.¶
 ƒ altura2(p4•Parte)•# p4.grados[1]
 
-¶Un estallido, que sube con su nota y crece según qué tan fuerte suena.¶
+¶Un estallido que sube con su nota y se hace más grande con su volumen.¶
 ƒ estallido(p5•Parte i•#)•Frase
 	Frase(
 		cara2(p5)
@@ -44,7 +44,7 @@ disparo•[Parte]: tiempo2.partes.filtro(
 			(carril(p5) + p5.balance) · 1m
 			(((altura2(p5) · 0.22) - 1.8) · 1m)
 		)
-		nombre: 'burst \cantidad2\ \i\'
+		nombre: 'burst \conteo2\ \i\'
 		entrando: Secuencia(
 			{
 				0%: Pose(escala: 0.1 opacidad: 0%)
@@ -68,7 +68,7 @@ disparo•[Parte]: tiempo2.partes.filtro(
 		)
 	)
 
-¶La melodía. Los grados son semitonos desde la tónica baja: 1 es esa nota, 13 esuna octava arriba, y 7 es la cuarta aumentada. Dos líneas comparten la misma melodía, luegoel puente, y luego la última línea.¶
+¶La melodía. Los grados son semitonos a partir de la tónica grave: 1 es esa nota, 13 es una octava más arriba y 7 es el cuarto grado elevado. Dos líneas comparten la misma tonada, luego el puente y después la última línea.¶
 melodía2: [
 		8𝅘𝅥𝅮
 		5𝅘𝅥𝅮
@@ -173,8 +173,8 @@ melodía2: [
 		13𝅗𝅥𝅭
 	]
 
-¶Una raíz debajo de cada compás.¶
-bajo: [
+¶Una nota base bajo cada compás.¶
+bajo2: [
 		Nota(ø 1beats)
 		1𝅗𝅥𝅭
 		1𝅗𝅥𝅭
@@ -210,7 +210,7 @@ bajo: [
 		1𝅗𝅥𝅭
 	]
 
-¶Una campana en tiempos fuertes alternados, así que no está en cada estallido.¶
+¶Una campana en los tiempos fuertes alternos, así que no está en todos los estallidos.¶
 campana2: [
 		Nota(ø 1beats)
 		13
@@ -263,7 +263,7 @@ campana2: [
 		Nota(ø 3beats)
 	]
 
-¶Cuerdas desde el puente en adelante, así que la textura crece.¶
+¶Cuerdas desde el puente en adelante, para que la textura crezca.¶
 violín2: [
 		Nota(ø 1beats)
 		Nota(ø 3beats)
@@ -300,7 +300,7 @@ violín2: [
 		13𝅗𝅥𝅭
 	]
 
-¶Una voz aguda solo en las cimas de las frases.¶
+¶Un contracanto solo en lo más alto de las frases.¶
 flauta2: [
 		Nota(ø 1beats)
 		Nota(ø 3beats)
@@ -346,7 +346,7 @@ flauta2: [
 	]
 
 ¶Una marcha por debajo.¶
-tambores2: [
+batería: [
 		Nota(ø 0.5beats)
 		3𝅘𝅥𝅮
 		1𝅘𝅥𝅮
@@ -545,7 +545,7 @@ tambores2: [
 
 Escenario(
 	[
-		:disparo.traducir(ƒ(p6•Parte i2•#) estallido(p6 i2))
+		:disparando.traducir(ƒ(p6•Parte i2•#) estallido(p6 i2))
 		Música(
 			[
 				Pista(
@@ -555,7 +555,7 @@ Escenario(
 					bucle: ⊥
 				)
 				Pista(
-					bajo
+					bajo2
 					instrumento: Instrumento.piano
 					clave: -12semitones
 					volumen: 50%
@@ -582,7 +582,7 @@ Escenario(
 					bucle: ⊥
 				)
 				Pista(
-					tambores2
+					batería
 					instrumento: Instrumento.tambores
 					volumen: 45%
 					bucle: ⊥

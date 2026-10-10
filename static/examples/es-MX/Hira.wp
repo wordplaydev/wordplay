@@ -1,20 +1,20 @@
 ぁ
 Hiragana
 === start
-¶Hiragana cayendo por la gravedad; haz clic para cambiar cuál dirección es abajo.¶
+¶Hiragana cayendo por la gravedad; haz clic para cambiar hacia dónde es abajo.¶
 
-cantidad2: 32
+conteo2: 32
 
 gravedad2•#m/s^2: 15m/s^2 … ∆ Botón() … -gravedad2
 
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
 
-letras: cantidad2 → [].traducir(
+letras: conteo2 → [].traducir(
 		ƒ(número2 índice2)
 			Frase(
 				hiragana[número2]
 				lugar: Movimiento(
-					Lugar((índice2 - (cantidad2 ÷ 2)) × 0.2m 10m)
+					Lugar((índice2 - (conteo2 ÷ 2)) × 0.2m 10m)
 					Velocidad(ángulo: Azar(-5 5) × 1°/s)
 				)
 				materia: Materia(elasticidad: 0.3)

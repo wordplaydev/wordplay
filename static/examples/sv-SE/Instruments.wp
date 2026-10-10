@@ -1,12 +1,14 @@
 🎛️
 Instrument
 === start/en
-¶Samma åtta takter, spelade av varje instrument i paletten. Välj ett namn ochmelodin behåller sin plats — bara ljudet ändras. De två katterna är sammakatt, och de två hundarna är samma hund: en av varje är ett slagverk, sålåten låter som ljud, och den andra är tonsatt, så den sjunger den.¶
+¶Samma åtta takter, spelade av varje instrument i paletten. Välj ett namn så behåller melodin sin plats – bara ljudet ändras. De två katterna är samma katt, och de två hundarna är samma hund: en av varje är en sats, så melodin låter som oväsen, och den andra har tonhöjd, så den sjunger melodin.
 
-¶Vilket instrument som spelar melodin. Choice() ger tillbaka namnet påvilket valbart utdata som valdes, och ø tills något är valt.¶
+De flesta av dessa är riktiga inspelningar. De fyra synthesizrarna härmar ingenting: de är synthesizrar, och det är just det som är ljudet. Den sista av dem sjunger, och det är vad orden på spåret är till för – alla andra instrument här ignorerar dem.¶
+
+¶Vilket instrument melodin spelas med. Choice() ger tillbaka namnet på det valbara utdata som valdes, och ø tills något är valt.¶
 vald: Val()
 
-¶En post per instrument: vad det ska heta, vad som spelar det, och vilken färgdess knapp får.¶
+¶En rad per instrument: vad det heter, vad som spelar det och vilken färg dess knapp får.¶
 •röst2(etikett•'' ikon•'' ljud•Instrument nyans2•#°)
 
 röster•[röst2]: [
@@ -16,22 +18,22 @@ röster•[röst2]: [
 		röst2('fiol' '🎻' Instrument.fiol 40°)
 		röst2('flöjt' '🪈' Instrument.flöjt 180°)
 		röst2('trumpet' '🎺' Instrument.trumpet 50°)
-		röst2('sax' '🎷' Instrument.saxofon 70°)
+		röst2('saxofon' '🎷' Instrument.saxofon 70°)
 		röst2('munspel' '🌬' Instrument.munspel 150°)
 		röst2('klocka' '🔔' Instrument.klocka 55°)
 		röst2('trummor' '🥁' Instrument.trummor 0°)
 		röst2('didgeridoo' '🎶' Instrument.didgeridoo 15°)
 		röst2('katt' '🐱' Instrument.katt 330°)
-		röst2('tonsatt katt' '😺' Instrument.tonsattKatt 350°)
+		röst2('stämd katt' '😺' Instrument.tonsattKatt 350°)
 		röst2('hund' '🐶' Instrument.hund 35°)
-		röst2('tonsatt hund' '🐕' Instrument.tonsattHund 125°)
-		röst2('synth' '🎛' Instrument.synt 290°)
+		röst2('stämd hund' '🐕' Instrument.tonsattHund 125°)
+		röst2('synt' '🎛' Instrument.synt 290°)
 		röst2('bas' '🎛' Instrument.syntBas 310°)
-		röst2('matta' '🎛' Instrument.syntPad 200°)
+		röst2('pad' '🎛' Instrument.syntPad 200°)
 		röst2('röst' '🤖' Instrument.röst 95°)
 	]
 
-¶Den valda rösten, eller pianot innan någon har valt. find() ger tillbaka ønär inget matchar, så reservvärdet måste vara en Voice i sig själv.¶
+¶Den valda rösten, eller pianot innan någon har valt. find() ger tillbaka ø när inget matchar, så reservvärdet måste vara en egen Voice.¶
 vald2: röster.hitta(ƒ(röst3•röst2) röst3.etikett = vald)
 nuvarande•röst2: vald2•ø ? röst2(
 			'piano'
@@ -40,13 +42,13 @@ nuvarande•röst2: vald2•ø ? röst2(
 			260°
 		) vald2
 
-¶En melodi som ligger kvar medan instrumentet under den ändras. Grader,inte toner, så den betyder samma sak på varje instrument — och på trummornaläses den istället som rytm, eftersom grader där pekar ut delar av slagverket.¶
+¶En melodi som ligger kvar medan instrumentet under den byts ut. Den använder steg, inte toner, så den betyder samma sak på varje instrument. På trummorna läses den i stället som rytm, eftersom stegen där pekar ut delar av trumsetet.¶
 melodi2: [1 3 5 6 5 3 2 ø]
 
-¶En stavelse per ton, skriven i det internationella fonetiska alfabetet, därvarje bokstav är ett ljud. Bara sångrösten använder dessa; resten avpaletten ignorerar dem. Resten tar ingen stavelse, så sju ljud räcker till åttaposter.¶
-text2: 'la li lu le lo li la'
+¶En stavelse per ton, skriven med det internationella fonetiska alfabetet, där varje bokstav är ett ljud. Bara sångrösten använder dessa. Resten av paletten ignorerar dem. Pausen får ingen stavelse, så sju ljud räcker till åtta poster.¶
+sångtext: 'la li lu le lo li la'
 
-¶En knapp per instrument: ikonen ligger ovanpå namnet, så de inte krockar med varandra. De valbara fraserna är det som Choice() läser, och den som är vald just nu ritas ljusare så du kan se var du är.¶
+¶En knapp per instrument: ikonen ligger ovanför namnet, så att de inte krockar. Valbara fraser är det som Choice() läser, och den nuvarande ritas ljusare så att du ser var du är.¶
 ƒ knapp(röst4•röst2)
 	Grupp(
 		Stack(stoppning: 0.1m)
@@ -61,11 +63,11 @@ text2: 'la li lu le lo li la'
 			Färg(60% 8 röst4.nyans2)
 	)
 
-¶Allt som syns läggs i en Stack. En Stage centrerar varje del för sig, så om de fick vara som de var skulle de ligga ovanpå varandra — layouten måste säga att de ska ligga en ovanför den andra.
+¶Allt som syns läggs i en Stack. En Stage centrerar varje barn för sig, så om de lämnas lösa hamnar alla ovanpå varandra. Layouten måste säga att de ska ligga en ovanför nästa.
 
-Knapparna läggs i ett Grid istället för en Row. Alla i en enda rad blir bredare än en telefon, och en Stage skalar ner sitt innehåll för att få plats, så etiketterna krymper tills de inte går att läsa. Bara kolumnerna anges: rader utelämnas, och Grid räknar själv ut hur många den behöver, så att lägga till ett instrument kräver ingen ändring här.
+Knapparna läggs i ett Grid i stället för en Row. Alla i en enda rad är bredare än en telefon, och en Stage skalar ner sitt innehåll för att få plats, så etiketterna krymper tills de inte går att läsa. Bara kolumnerna anges: lämnar du ut raderna räknar Grid ut hur många som behövs, så att du inte behöver ändra något här när du lägger till ett instrument.
 
-Musiken behåller samma namn hela tiden istället för att ta instrumentets namn. Ett 🎼:s namn är dess identitet: byt namn på den och spelaren hör ett nytt stycke börja, så melodin skulle hoppa tillbaka till början vid varje byte, och notbilden skulle rita det gamla instrumentets toner bredvid det nya tills de rullade bort.¶
+Musiken behåller samma namn hela tiden i stället för att ta instrumentets namn. Namnet på en 🎼 är dess identitet: byter du namn hör spelaren att ett nytt stycke börjar. Då skulle melodin hoppa tillbaka till början vid varje byte, och notbilden skulle rita det gamla instrumentets toner bredvid det nya tills de hade rullat förbi.¶
 Etapp(
 	[
 		Grupp(
@@ -80,7 +82,7 @@ Etapp(
 			]
 		)
 		Musik(
-			Spår(melodi2 instrument: nuvarande.ljud ord: text2)
+			Spår(melodi2 instrument: nuvarande.ljud ord: sångtext)
 			tempo: 120beats/min
 			skala: Musik.pentatonisk
 			namn: 'melodi'

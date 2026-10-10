@@ -1,12 +1,12 @@
 🧶
 Hoppa till
 === start
-¶Styr en katt med piltangenterna och hoppa på något.
+¶Styr en katt med piltangenterna och hoppa.
 
-Katten mjauar varje gång den rör sig. Mjauet hänger på det första @Pose i sinrörelseanimation: ett @Pose kan bära ett @Music, som spelas i samma stund som denposen intas, och en rörelse intar sina poser varje gång den börjar. Gungningenär utskriven i stället för att lämnas som \Sekvens.vingla(
-)\ eftersom de färdigaanimationerna bygger sina egna poser, och en pose är dit ljudet måste läggas.¶
+Katten mjauar varje gång den rör sig. Mjauet sitter på den första @Pose i dess rörelseanimation: en @Pose kan ha ett @Music, som spelas i samma stund som den ställningen intas, och en rörelse intar sina ställningar varje gång en börjar. Svajet är skrivet för hand i stället för att lämnas som \Sekvens.vingla(
+)\, eftersom de färdiga animationerna bygger sina egna ställningar, och en ställning är platsen där ljudet måste ligga.¶
 
-¶Ett kort läte. Två rörelser tätt inpå varandra delar på ett mjau i stället för att stapla två,eftersom det andra kommer medan den första gungningen fortfarande gungar.¶
+¶Ett kort skrik. Två rörelser nära varandra delar ett mjau i stället för att lägga två på varandra, eftersom den andra kommer medan det första svajet fortfarande pågår.¶
 mjau2: Musik(
 		Spår([1] instrument: Instrument.katt)
 		volym: 45%
@@ -15,27 +15,27 @@ mjau2: Musik(
 
 •kattensPosition(position•#m riktning2•#)
 
-nyckel2: Nyckel()
-hastighet2: 1m
+nyckel3: Nyckel()
+fart: 1m
 
-kissensPlats: kattensPosition(5m 1) … ∆ nyckel2 …
-		((nyckel2 = 'Pil vänster') & (kissensPlats.position > -10m)) ? kattensPosition(
-				kissensPlats.position - hastighet2
+kattensPlats: kattensPosition(5m 1) … ∆ nyckel3 …
+		((nyckel3 = 'Pil vänster') & (kattensPlats.position > -10m)) ? kattensPosition(
+				kattensPlats.position - fart
 				1
 			)
-			((nyckel2 = 'Pil Höger') & (kissensPlats.position < 8m)) ? kattensPosition(
-					kissensPlats.position + hastighet2
+			((nyckel3 = 'Pil Höger') & (kattensPlats.position < 8m)) ? kattensPosition(
+					kattensPlats.position + fart
 					-1
 				)
-				kissensPlats
+				kattensPlats
 
-kisse: Fras(
+katt2: Fras(
 		"🐈"
 		ansikte: "Noto Color Emoji"
-		namn: 'kisse'
+		namn: 'katt'
 		storlek: 2m
-		plats: Plats(kissensPlats.position 0m)
-		vilande: Pose(flipx: kissensPlats.riktning2 < 0)
+		plats: Plats(kattensPlats.position 0m)
+		vilande: Pose(flipx: kattensPlats.riktning2 < 0)
 		rörlig: Sekvens(
 			{
 				0%: Pose(rotation: -5° musik: mjau2)
@@ -48,14 +48,14 @@ kisse: Fras(
 		materia: Materia(1000kg rundhet: 0.5)
 	)
 
-kastaSigÖver: Kollision('boll' 'kisse')
+hoppa: Kollision('boll' 'katt')
 
-bollPlacera: Rörelse(
+bollplacering: Rörelse(
 		Plats(0m 9m)
 		nästahastighet:
-		kastaSigÖver•ø ? ø
+		hoppa•ø ? ø
 			Hastighet(
-				((kastaSigÖver.riktning.x ÷ -1m) × Slumpmässig(
+				((hoppa.riktning.x ÷ -1m) × Slumpmässig(
 							15m/s
 							25m/s
 						)) + Slumpmässig(
@@ -63,17 +63,14 @@ bollPlacera: Rörelse(
 						3m/s
 					)
 				Slumpmässig(27m/s 30m/s)
-				(kastaSigÖver.riktning.x ÷ -1m) × Slumpmässig(
-						0°/s
-						15°/s
-					)
+				(hoppa.riktning.x ÷ -1m) × Slumpmässig(0°/s 15°/s)
 			)
 	)
 
 boll: Fras(
 		"🧶"
 		namn: 'boll'
-		plats: bollPlacera
+		plats: bollplacering
 		materia: Materia(1kg 0.5 0 1)
 	)
 
@@ -84,7 +81,7 @@ Etapp(
 		Figur(Rektangel(10m -1m 9m 11m))
 		Figur(Rektangel(-10m 10m 10m 11m))
 		boll
-		kisse
+		katt2
 		Fras(
 			'tryck på ← → för att spela!'
 			plats: Plats(-4m -2m)

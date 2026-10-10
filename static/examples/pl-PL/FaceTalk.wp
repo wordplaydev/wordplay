@@ -1,19 +1,19 @@
 🗣
 Rozmowa twarzy
 ===
-¶Twoje wyrazy twarzy, śledzone przez kamerę i opowiadane na scenie.¶
+¶Twoje miny, śledzone przez kamerę i opowiadane na scenie.¶
 
-¶Utwórz strumień twarzy, aby śledzić wyrazy twarzy¶
+¶Utwórz strumień twarzy, aby śledzić miny¶
 twarz2: Twarz(200ms)
 
-¶Wybierz między uśmiechem, marsem, mrugnięciem lub niczym¶
+¶Wybierz między uśmiechem, zmarszczeniem brwi, mruganiem lub niczym¶
 nastrój: twarz2.oczyOtwarte ?
 		(twarz2.stopieńUśmiechu > 0.6 ? 'smiling'
 				twarz2.stopieńGrymasu > 0.4 ? 'frowning'
 					'')
 		'blinking'
 
-¶Zamień nastrój na emotikonę i daj twarzy dymek z podpisem. Nadanie dymkowi @Say oznacza, że nastrój jest odczytywany na głos, a nie tylko pokazywany, a dymek zastępuje podpis u dołu sceny.¶
+¶Zamień nastrój na emoji i daj twarzy dymek z mową, który go wypowiada. Dodanie do dymku @Say sprawia, że nastrój jest wypowiadany na głos i pokazywany. Dymek zastępuje podpis na dole sceny.¶
 Scena(
 	[
 		Wyrażenie(

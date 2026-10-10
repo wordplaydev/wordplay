@@ -1,12 +1,12 @@
 ⌕
 Wzory
 === start
-¶Wpisz zdanie z kilkoma liczbami w środku. Znajdę każdą liczbę i pokażę ją poniżej, powiększając się w miarę odnajdywania. Wzorzec opisuje kształt tekstu — tutaj,\⣿ >0 #⣿\ oznacza „jedna lub więcej cyfr”, a ⌕ znajduje każde miejsce, gdzie się pojawia.¶
+¶Wpisz zdanie z kilkoma liczbami. Znajdę każdą liczbę i pokażę je poniżej, a każda będzie się pojawiać stopniowo, gdy ją znajdę. Wzorzec opisuje kształt tekstu — tutaj \⣿ >0 #⣿\ oznacza „jedną lub więcej cyfr”, a ⌕ znajduje każde miejsce, w którym ten wzorzec występuje.¶
 
 wejście: Pogawędzić()
 tekst2: 'Mam 3 koty, 12 ryb i 144 mrówki' … ∆ wejście … wejście
 
-¶Przeszukaj tekst w poszukiwaniu każdego ciągu cyfr. Każdy wynik to Result z dopasowanym tekstem.¶
+¶Przeszukaj tekst i znajdź każdy ciąg cyfr. Każdy wynik to Result z dopasowanym tekstem.¶
 liczby: tekst2 ⌕ ⣿ >0 #⣿
 
 Scena(

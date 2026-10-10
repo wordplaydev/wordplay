@@ -1,16 +1,16 @@
 👨‍👨‍👧‍👦
 Fragen
 === start/en
-¶Drücke Tasten, um hüpfende Fragezeichen über eine verwirrte Familie fliegen zu lassen.¶
+¶Drücke Tasten, um hüpfende Fragezeichen über eine ratlose Familie zu schicken.¶
 
 •frage(id2•"" vx•#m/s vy•#m/s va•#°/s)
 
 gedrückt: ∆ Schlüssel()
-zähler•#: 0 … gedrückt … zähler + 1
+zählung•#: 0 … gedrückt … zählung + 1
 fragen•[frage]: [] … gedrückt … [
 			:fragen
 			frage(
-				zähler → ""
+				zählung → ""
 				Zufällig(30m/s 50m/s)
 				Zufällig(30m/s 50m/s)
 				Zufällig(0°/s 30°/s)
@@ -23,7 +23,7 @@ Bühne(
 		Gestalt(Rechteck(-5m 0m 25m -1m))
 		:fragen.übersetzen(
 			ƒ(f2•frage index2•#) (
-					start2: gedrückt & (index2 = fragen.Länge())
+					starten: gedrückt & (index2 = fragen.Länge())
 					Satzglied(
 						'F'
 						Name: f2.id2
@@ -36,7 +36,7 @@ Bühne(
 						)
 						Gegenstand: Gegenstand()
 						Ruhen: Pose(
-							Opazität: start2 ? 0% 100%
+							Opazität: starten ? 0% 100%
 						)
 					)
 				)

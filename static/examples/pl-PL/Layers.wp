@@ -1,11 +1,11 @@
 o
 Warstwy
 === start
-¶Piłki odbijające się na różnych głębokościach, aby pokazać warstwy paralaksy.¶
+¶Piłki odbijają się na różnych głębokościach, aby pokazać warstwy paralaksy.¶
 
-liczba2: 10 → []
+licznik: 10 → []
 
-ƒ piłki(z2•#m) liczba2.tłumaczyć(
+ƒ piłki(z2•#m) licznik.tłumaczyć(
 		ƒ()
 			Wyrażenie(
 				'o'

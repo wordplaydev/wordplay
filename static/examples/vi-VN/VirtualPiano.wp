@@ -1,54 +1,53 @@
 🎹
-Đàn Piano Ảo
+Đàn piano ảo
 === start
-¶Một cây đàn piano một quãng tám mà bạn có thể chơi!Để có trải nghiệm tốt nhất, hãy tắt phần hiển thị âm nhạc.¶
+¶Một cây đàn piano một quãng tám để bạn chơi! Để có trải nghiệm tốt nhất, hãy tắt phần hiển thị hình ảnh của nhạc.¶
 
-¶Liên kết này lưu một dòng Key để phát hiện phím bạn đã nhấn.¶
+¶Phép gán này lưu một luồng Key để nhận biết bạn đã nhấn phím nào.¶
 đãNhấn: Chìakhóa()
 
-¶Nơi này lưu một bản đồ nối các phím bạn nhấn với các nốt nhạc chúng sẽ phát,ở cả dạng chữ (để hiển thị nốt đang được chơi) và dạng chữ số(để chuyển thành số (#) rồi đưa vào danh sách Track).
+¶Phần này lưu cách ghép các phím bạn nhấn với các nốt mà chúng sẽ phát. Nốt được lưu ở dạng văn bản (để hiển thị nốt đang phát) và ở dạng văn bản số (để đổi thành một số (#) và đưa vào danh sách Track).
 
-Cách sắp xếp này được chọn để giống với các phím đàn piano thật, với cácphím trắng là chữ cái, và các phím đen là chữ số.¶
-bảnĐồNốtNhạc: {
-		'w': ['C' "1"]
-		'3': ['C# / Db' "2"]
-		'e': ['D' "3"]
-		'4': ['D# / Eb' "4"]
-		'r': ['E' "5"]
-		't': ['F' "6"]
-		'6': ['F# / Gb' "7"]
-		'y': ['G' "8"]
-		'7': ['G# / Ab' "9"]
-		'u': ['A' "10"]
-		'8': ['A# / Bb' "11"]
-		'i': ['B' "12"]
-		'o': ['C5' "13"]
+Cách sắp xếp này được chọn để giống phím đàn piano. Phím trắng là các chữ cái, còn phím đen là các chữ số.¶
+bảnĐồNốt: {
+		'w': ['Đô' "1"]
+		'3': ['Đô thăng / Rê giáng' "2"]
+		'e': ['Rê' "3"]
+		'4': ['Rê thăng / Mi giáng' "4"]
+		'r': ['Mi' "5"]
+		't': ['Fa' "6"]
+		'6': ['Fa thăng / Sol giáng' "7"]
+		'y': ['Sol' "8"]
+		'7': ['Sol thăng / La giáng' "9"]
+		'u': ['La' "10"]
+		'8': ['La thăng / Si giáng' "11"]
+		'i': ['Si' "12"]
+		'o': ['Đô5' "13"]
 	}
 
-¶Hàm này trả về tên của nốt nhạc, dựa trên phím nào đã được nhấn.Nếu phím đó không phải là một nốt hợp lệ, nó trả về chữ rỗng.¶
-ƒ trảVềText(chìaKhóa2•"")•"" (bảnĐồNốtNhạc{chìaKhóa2} ≠ ø) ? bảnĐồNốtNhạc{chìaKhóa2}[1] ""
+¶Hàm này trả về tên của nốt nhạc, dựa trên phím đã được nhấn. Nếu phím đó không phải là một nốt nhạc hợp lệ, hàm trả về văn bản rỗng.¶
+ƒ trảVềText(phím•"")•"" (bảnĐồNốt{phím} ≠ ø) ? bảnĐồNốt{phím}[1] ""
 
-¶Hàm này trả về số nốt nhạc tương ứng với phím được nhấn dưới dạng danh sách,để dùng làm đầu vào cho một Track. Nếu phím nhấn không hợp lệ, nó trả về mộtdanh sách rỗng.¶
-ƒ trảVềNote(chìaKhóa3•"")•[] [
-		(bảnĐồNốtNhạc{chìaKhóa3} ≠ ø) ? (bảnĐồNốtNhạc{chìaKhóa3}[2] → #) [
-			]
+¶Hàm này trả về số nốt nhạc ứng với phím đã nhấn trong một danh sách, để dùng làm đầu vào cho một Track. Nếu phím đã nhấn không hợp lệ, hàm trả về một danh sách rỗng.¶
+ƒ trảVềNote(phím2•"")•[] [
+		(bảnĐồNốt{phím2} ≠ ø) ? (bảnĐồNốt{phím2}[2] → #) []
 	]
 
-¶Hàm này nhận vào một danh sách chữ số và trả về một Track với danh sách nốt đó.Vòng lặp được tắt để nốt nhạc chỉ phát một lần khi phím được nhấn.¶
+¶Hàm này nhận vào một danh sách số và trả về một Track có danh sách nốt nhạc đó. Vòng lặp được tắt để nốt nhạc chỉ phát một lần khi nhấn phím.¶
 ƒ trảVềTrack(nốt•[#]) BảnNhạc(nốt vòngLặp: ⊥)
 
-¶Hai liên kết này xác định màu sắc của phím tương ứngkhi nó được nhấn và khi không được nhấn.¶
+¶Hai phép gán này của map xác định màu mà phím tương ứng sẽ có khi được nhấn và khi không được nhấn.¶
 nhấnColor: Màusắc(10 270 50°)
-colorRỗng: Màusắc(0 0 0°)
+rỗngColor: Màusắc(0 0 0°)
 
-¶Phần này phát bản nhạc tương ứng với phím được nhấn. Thang âm là loại bán cungđể các bản nhạc có thể dùng mọi nửa cung. Chế độ phát lại được bật khi mộtphím hợp lệ được nhấn, để bản nhạc phát mỗi khi phím được nhấn, kể cảkhi nhấn hai lần liên tiếp.¶
+¶Đoạn này phát track tương ứng với phím đã nhấn. Thang âm là bán cung để các track có thể dùng tất cả các nửa cung. Phát lại được đặt cho lúc nhấn một phím hợp lệ, để track phát mỗi khi phím được nhấn, kể cả khi nhấn hai lần liên tiếp.¶
 ÂmNhạc(
 	trảVềTrack(trảVềNote(đãNhấn))
 	thangÂm: ÂmNhạc.nửaCung
-	phátLại: bảnĐồNốtNhạc{đãNhấn} ≠ ø
+	phátLại: bảnĐồNốt{đãNhấn} ≠ ø
 )
 
-¶Hiển thị cây đàn piano, các phím cần nhấn, và nốt nhạc được phát khi mộtphím được nhấn.¶
+¶Hiển thị đàn piano, các phím cần nhấn và nốt nhạc được phát khi nhấn một phím.¶
 Nhóm(
 	Ngănxếp('>' 1m)
 	[
@@ -59,79 +58,79 @@ Nhóm(
 					'▯'
 					tên: 'w'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = 'w' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = 'w' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▮'
 					tên: '3'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = '3' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = '3' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▯'
 					tên: 'e'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = 'e' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = 'e' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▮'
 					tên: '4'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = '4' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = '4' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▯'
 					tên: 'r'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = 'r' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = 'r' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▯'
 					tên: 't'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = 't' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = 't' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▮'
 					tên: '6'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = '6' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = '6' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▯'
 					tên: 'y'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = 'y' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = 'y' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▮'
 					tên: '7'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = '7' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = '7' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▯'
 					tên: 'u'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = 'u' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = 'u' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▮'
 					tên: '8'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = '8' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = '8' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▯'
 					tên: 'i'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = 'i' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = 'i' ? nhấnColor rỗngColor
 				)
 				Cụmtừ(
 					'▯'
 					tên: 'o'
 					kíchcỡ: 3m
-					màusắc: đãNhấn = 'o' ? nhấnColor colorRỗng
+					màusắc: đãNhấn = 'o' ? nhấnColor rỗngColor
 				)
 			]
 		)

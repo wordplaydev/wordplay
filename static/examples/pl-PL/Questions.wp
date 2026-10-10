@@ -1,16 +1,16 @@
 👨‍👨‍👧‍👦
 Pytania
 === start/en
-¶Naciskaj klawisze, aby wystrzeliwać odbijające się znaki zapytania nad zdziwioną rodziną.¶
+¶Naciskaj klawisze, aby wystrzelić odbijające się znaki zapytania nad zdziwioną rodziną.¶
 
-•pytanie(id2•"" vx•#m/s vy•#m/s va•#°/s)
+•pytanie(identyfikator•"" vx•#m/s vy•#m/s va•#°/s)
 
-wciśnięty: ∆ Klawisz()
-liczba2•#: 0 … wciśnięty … liczba2 + 1
-pytania•[pytanie]: [] … wciśnięty … [
+naciśnięty: ∆ Klawisz()
+licznik•#: 0 … naciśnięty … licznik + 1
+pytania•[pytanie]: [] … naciśnięty … [
 			:pytania
 			pytanie(
-				liczba2 → ""
+				licznik → ""
 				Losowy(30m/s 50m/s)
 				Losowy(30m/s 50m/s)
 				Losowy(0°/s 30°/s)
@@ -27,17 +27,17 @@ Scena(
 		Kształt(Prostokąt(-5m 0m 25m -1m))
 		:pytania.tłumaczyć(
 			ƒ(p•pytanie indeks2•#) (
-					zainicjuj: wciśnięty & (indeks2 = pytania.długość(
+					inicjalizuj: naciśnięty & (indeks2 = pytania.długość(
 									))
 					Wyrażenie(
 						'P'
-						nazwa: p.id2
+						nazwa: p.identyfikator
 						miejsce: Ruch(
 							prędkość: Prędkość(p.vx p.vy p.va)
 						)
 						materiał: Materiał()
 						spoczynkowy: Poza(
-							nieprzezroczystość: zainicjuj ? 0% 100%
+							nieprzezroczystość: inicjalizuj ? 0% 100%
 						)
 					)
 				)

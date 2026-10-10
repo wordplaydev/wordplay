@@ -1,26 +1,28 @@
 🎆
 Fajerwerki
 === start/en
-¶Fajerwerki, które wybuchają razem z muzyką: każdy instrument, który brzmiw danym uderzeniu, pojawia się jako on sam, trwa przez chwilę i gaśnie.
+¶Fajerwerki, które wybuchają razem z muzyką: każdy instrument, który zabrzmi na uderzeniu, pojawia się jako on sam, wisi przez chwilę i opada.
 
-Nic tu nie jest rysowane według zegara. @Beat przekazuje @Downbeat, gdy tylkokażde uderzenie staje się słyszalne, a @Downbeat niesie @Part dla każdego@Track — jaki to instrument, czy gra, jaką ma nutę i jak głośno. Więcjeden wybuch na każdą brzmiącą część to pojedynczy @List/translate, a muzyka rysujesię sama.
+Nic tu nie jest rysowane według zegara. @Beat przekazuje @Downbeat w chwili, gdy każde uderzenie staje się słyszalne, a @Downbeat niesie @Part dla każdego @Track — który to instrument, czy brzmi, na jakiej jest nucie i jak głośno. Jeden wybuch na każdą brzmiącą partię to więc jeden @List/translate, a muzyka rysuje się sama.
 
-Każdy wybuch nosi nazwę numeru uderzenia, więc wybuchy każdego uderzenia sąnowymi elementami: pokazują swoją pozę wejścia w drodze do środka i pozęwyjścia, gdy zastępuje je kolejne uderzenie. Wystrzał i upadek to te dwiepozy.
+Każdy wybuch ma w nazwie numer uderzenia, więc wybuchy każdego uderzenia to nowe wyniki: odgrywają swoją pozę wejścia, gdy się pojawiają, i swoją pozę wyjścia, gdy zastępuje je następne uderzenie. Wybuch i opadanie to właśnie te dwie pozy.
 
-Melodia to /The Star-Spangled Banner/ — melodia Johna Stafforda Smitha zokoło 1773 roku, od dawna w domenie publicznej — cała, od początku do końca,kończąca się na ostatniej linijce. Każda nuta niesie własną długość zapisanąjako wartość rytmiczna przy numerze — \8𝅘𝅥𝅮\ to ósemka, \13𝅗𝅥\ to półnuta, \13𝅗𝅥𝅭\ to półnuta z kropką — więc przedtakty,figury z kropką i długo trzymane nuty to prawdziwe czasy trwania, a niesiatka równych uderzeń. Zwykła liczba to jedno uderzenie. Pauzy nadal potrzebują@Note, ponieważ \ø\ nie jest liczbą i dlatego nie może nieść wartości. To skala chromatyczna,dzięki czemu można zapisać podwyższony czwarty stopień: każdy krok to jedenpółton.¶
+Melodia to /The Star-Spangled Banner/ — melodia Johna Stafforda Smitha z około 1773 roku, od dawna należąca do domeny publicznej — od początku do końca, aż do ostatniego wersu. Każda nuta niesie własną długość jako wartość nuty zapisaną przy liczbie — \8𝅘𝅥𝅮\ to ósemka, \13𝅗𝅥\ półnuta, \13𝅗𝅥𝅭\ półnuta z kropką — więc przedtakty, rytmy z kropką i długie nuty to prawdziwe czasy trwania, a nie siatka równych uderzeń. Zwykła liczba to jedno uderzenie. Pauzy nadal potrzebują @Note, bo \ø\ nie jest liczbą i nie może nieść wartości. Użyto skali chromatycznej, żeby w ogóle dało się zapisać podwyższoną czwartą nutę: każdy krok to jeden półton.¶
 ↓ @wordplay/instruments 1
 
-takt: Rytm()
-liczba2: takt.liczba
+uderzenie2: Rytm()
+licznik: uderzenie2.liczba
 
-¶Fajerwerkami stają się tylko te części, które rzeczywiście brzmią; ścieżka,która akurat milczy, pozostaje ciemna. Zanim muzyka się zacznie, nie ma żadnychczęści, więc niebo jest puste.¶
-wystrzał•[Część]: takt.części.filtr(ƒ(p•Część) p.brzmienie)
+¶Fajerwerkami stają się tylko partie, które naprawdę wydają dźwięk; milcząca ścieżka pozostaje ciemna. Zanim muzyka się zacznie, nie ma żadnych partii, więc niebo jest puste.¶
+odpalanie•[Część]: uderzenie2.części.filtr(
+		ƒ(p•Część) p.brzmienie
+	)
 
-¶Każdy instrument wybucha jako on sam, i o to właśnie chodzi: widać,który instrument właśnie zagrał.¶
+¶Każdy instrument wybucha jako on sam, i o to właśnie chodzi: widać, który z nich przed chwilą zagrał.¶
 ƒ twarz2(p2•Część)•''
 	iconFor(p2.instrument)
 
-¶Każdy instrument ma własny pas, rozciągnięty na całe niebo. Użycieinstrumentu zamiast jego pozycji na liście sprawia, że pas pozostajena miejscu, nawet gdy inny instrument milknie.¶
+¶Każdy instrument ma swój własny pas, rozłożony na całym niebie. Użycie samego instrumentu zamiast jego miejsca na liście sprawia, że pas stoi w miejscu, gdy inny instrument zamilknie.¶
 ƒ pas(p3•Część)•#
 	(p3.instrument.id = 'trumpet') ? -6
 		(p3.instrument.id = 'flute') ? -3.6
@@ -30,10 +32,10 @@ wystrzał•[Część]: takt.części.filtr(ƒ(p•Część) p.brzmienie)
 						(p3.instrument.id = 'drums') ? 6
 							0
 
-¶To, jak wysoko znajduje się wybuch: jego nuta. Każda część tutaj brzmi, więcma swoją nutę.¶
+¶Jak wysoko leży wybuch: to jego nuta. Każda partia tutaj brzmi, więc każda ją ma.¶
 ƒ wysokość2(p4•Część)•# p4.stopnie[1]
 
-¶Jeden wybuch, wznoszący się razem ze swoją nutą i rosnący wraz zgłośnością.¶
+¶Jeden wybuch, który unosi się wraz z nutą i rośnie wraz z głośnością.¶
 ƒ wybuch(p5•Część i2•#)•Wyrażenie
 	Wyrażenie(
 		twarz2(p5)
@@ -42,7 +44,7 @@ wystrzał•[Część]: takt.części.filtr(ƒ(p•Część) p.brzmienie)
 			(pas(p5) + p5.panorama) · 1m
 			(((wysokość2(p5) · 0.22) - 1.8) · 1m)
 		)
-		nazwa: 'burst \liczba2\ \i2\'
+		nazwa: 'burst \licznik\ \i2\'
 		wstępowanie: Sekwencja(
 			{
 				0%: Poza(skala: 0.1 nieprzezroczystość: 0%)
@@ -66,7 +68,7 @@ wystrzał•[Część]: takt.części.filtr(ƒ(p•Część) p.brzmienie)
 		)
 	)
 
-¶Melodia. Stopnie to półtony liczone od dolnego tonu podstawowego: 1 tota nuta, 13 to oktawa wyżej, a 7 to podwyższony czwarty stopień. Dwielinijki mają tę samą melodię, potem następuje mostek, a potem ostatnialinijka.¶
+¶Melodia. Stopnie to półtony od niskiej tonicy: 1 to ta nuta, 13 to oktawa wyżej, a 7 to podwyższona czwarta. Dwa wersy mają tę samą melodię, potem jest łącznik, a na końcu ostatni wers.¶
 melodia2: [
 		8𝅘𝅥𝅮
 		5𝅘𝅥𝅮
@@ -171,7 +173,7 @@ melodia2: [
 		13𝅗𝅥𝅭
 	]
 
-¶Podstawa dźwięku pod każdym taktem.¶
+¶Podstawowy dźwięk pod każdym taktem.¶
 bas: [
 		Nuta(ø 1beats)
 		1𝅗𝅥𝅭
@@ -208,8 +210,8 @@ bas: [
 		1𝅗𝅥𝅭
 	]
 
-¶Dzwonek na co drugiej mocnej części taktu, więc nie ma go w każdymwybuchu.¶
-dzwonek2: [
+¶Dzwon na co drugim mocnym uderzeniu, więc nie ma go w każdym wybuchu.¶
+dzwon: [
 		Nuta(ø 1beats)
 		13
 		Nuta(ø 2beats)
@@ -261,7 +263,7 @@ dzwonek2: [
 		Nuta(ø 3beats)
 	]
 
-¶Smyczki od mostka do końca, więc brzmienie staje się bogatsze.¶
+¶Smyczki od łącznika wzwyż, więc brzmienie się rozrasta.¶
 skrzypce2: [
 		Nuta(ø 1beats)
 		Nuta(ø 3beats)
@@ -298,7 +300,7 @@ skrzypce2: [
 		13𝅗𝅥𝅭
 	]
 
-¶Górny głos tylko na szczytach fraz.¶
+¶Wysoki głos ozdobny tylko na szczytach fraz.¶
 flet2: [
 		Nuta(ø 1beats)
 		Nuta(ø 3beats)
@@ -343,7 +345,7 @@ flet2: [
 		Nuta(ø 3beats)
 	]
 
-¶Marsz w tle.¶
+¶Marsz pod spodem.¶
 perkusja2: [
 		Nuta(ø 0.5beats)
 		3𝅘𝅥𝅮
@@ -543,7 +545,7 @@ perkusja2: [
 
 Scena(
 	[
-		:wystrzał.tłumaczyć(ƒ(p6•Część i3•#) wybuch(p6 i3))
+		:odpalanie.tłumaczyć(ƒ(p6•Część i3•#) wybuch(p6 i3))
 		Muzyka(
 			[
 				Ścieżka(
@@ -561,7 +563,7 @@ Scena(
 					pętla: ⊥
 				)
 				Ścieżka(
-					dzwonek2
+					dzwon
 					instrument: Instrument.dzwonek
 					głośność: 55%
 					pętla: ⊥

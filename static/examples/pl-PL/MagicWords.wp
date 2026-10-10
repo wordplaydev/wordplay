@@ -1,42 +1,44 @@
 🪄
-MagiczneSłowa
+MagicznaSłowa
 === start
-¶Powiedz na głos kolor albo uczucie, a scena posłucha twoich słów.¶
+¶Powiedz na głos kolor lub uczucie, a scena posłucha twoich słów.¶
 
-¶Magiczne słowa. Wszystko poniżej odczytuje je z tej jednej listy, więc słowa, których słucha scena, i słowa, o które cię prosi, zawsze się zgadzają.¶
+¶Magiczne słowa. Wszystko poniżej czyta je z tej jednej listy, więc słowa, na które scena czeka, i słowa, o które cię prosi, nigdy nie będą się różnić.¶
 zaklęcia: [
 		'czerwony'
 		'niebieski'
 		'zielony'
-		'szczęśliwy'
+		'wesoły'
 		'smutny'
-		'senny'
-		'obrót'
+		'śpiący'
+		'kręć'
 	]
 
-¶Nadajemy nazwy miejscom na tej liście, żeby zaklęcia było łatwiej czytać.¶
+¶Nadajemy miejscom na tej liście nazwy, żeby zaklęcia było łatwiej czytać.¶
 czerwony2: 1
 niebieski2: 2
 zielony2: 3
-szczęśliwy: 4
+wesoły: 4
 smutny: 5
-senny: 6
-obrót2: 7
+śpiący: 6
+kręć: 7
 
-¶Liczą się tylko trzy ostatnie słowa, więc każde nowe zaklęcie zastępuje poprzednie, a zamiana na małe litery sprawia, że Czerwony i czerwony to to samo zaklęcie.¶
+¶Liczą się tylko ostatnie trzy słowa, więc każde nowe zaklęcie zastępuje poprzednie. Zamiana na małe litery sprawia, że Czerwony i czerwony to to samo zaklęcie.¶
 usłyszane: Przemówienie(słowa: 3).małeLitery()
 
-¶Czy zaklęcie było jednym z trzech ostatnio powiedzianych słów. Podział na spacjach sprawia, że powiedzenie „czerwonawy” nie liczy się jako powiedzenie „czerwony”.¶
-ƒ powiedziane(które•#)•? (' ' + usłyszane + ' ').ma(' ' + zaklęcia[które] + ' ')
+¶Czy zaklęcie było wśród ostatnich trzech wypowiedzianych słów. Szukamy zaklęcia ze spacją z każdej strony, więc słowo „spread” nie liczy się jako „red”, a zaklęcie może mieć więcej niż jedno słowo — po wietnamsku „niebieski” to dwa słowa.¶
+ƒ powiedziane(które•#)•? (' ' + usłyszane + ' ').ma(
+		' ' + zaklęcia[które] + ' '
+	)
 
 niebo: powiedziane(czerwony2) ? Kolor.czerwony
 		powiedziane(niebieski2) ? Kolor.niebieski
 			powiedziane(zielony2) ? Kolor.zielony
 				Kolor.biały
 
-nastrój: powiedziane(szczęśliwy) ? "😄"
+nastrój: powiedziane(wesoły) ? "😄"
 		powiedziane(smutny) ? "😢"
-			powiedziane(senny) ? "😴"
+			powiedziane(śpiący) ? "😴"
 				"😐"
 
 Scena(
@@ -47,7 +49,7 @@ Scena(
 				Wyrażenie(
 					nastrój
 					8m
-					spoczynkowy: powiedziane(obrót2) ? Sekwencja.obrót(
+					spoczynkowy: powiedziane(kręć) ? Sekwencja.obrót(
 						) ø
 				)
 				Wyrażenie(

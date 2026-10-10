@@ -1,15 +1,15 @@
 🎹
-Birtuwal na Piyano
+Virtual na Piano
 === start
-¶Isang piyanong may isang octave na maaari mong tugtugin!Para sa pinakamainam na karanasan, patayin ang visualization ng musika.¶
+¶Isang piano na may isang octave na puwede mong tugtugin! Para sa pinakamagandang karanasan, patayin ang music visualization.¶
 
-¶Itong bind ay nag-iimbak ng Key stream na nakakakita kung aling key ang pinindot mo.¶
+¶Ang bind na ito ay may Key na agos na nakakakita kung aling susi ang pinindot mo.¶
 pinindot: Susi()
 
-¶Ito ay nag-iimbak ng pagmamapa mula sa mga key na pinindot mo tungo sa mga note na tutugtugin,sa parehong anyong text (para ipakita ang note na tinutugtog) at anyong numerikong textliteral (para i-convert sa numero (#) at ilagay bilang input sa isang Track list).
+¶Ito ay nag-iimbak ng ugnayan mula sa mga susing pinipindot mo patungo sa mga nota na tutugtugin, sa anyong teksto (para ipakita ang notang tinutugtog) at sa numerong text literal (para gawing numero (#) at ilagay sa isang Track na listahan).
 
-Ang partikular na ayos na ito ay pinili para halos gayahin ang mga key ng piyano, kung saan ang mga puting key ay kinakatawan ng mga letra, at ang mga itim na key ay kinakatawan ng mga numero.¶
-notemap: {
+Pinili ang layout na ito para halos kapareho ng mga susi ng piano: ang mga puting susi ay kinakatawan ng mga letra, at ang mga itim na susi ay kinakatawan ng mga numero.¶
+mapaNgNota: {
 		'w': ['C' "1"]
 		'3': ['C# / Db' "2"]
 		'e': ['D' "3"]
@@ -25,29 +25,29 @@ notemap: {
 		'o': ['C5' "13"]
 	}
 
-¶Ang function na ito ay nagbabalik ng pangalan ng note, batay sa kung aling key ang pinindot.Kung ang key ay hindi wastong note, nagbabalik ito ng walang lamang text.¶
-ƒ ibalikNaText(susi2•"")•"" (notemap{susi2} ≠ ø) ? notemap{susi2}[1] ""
+¶Ibinabalik ng function na ito ang pangalan ng nota, batay sa susi na pinindot. Kung ang susi ay hindi wastong nota, ibinabalik nito ang walang laman na teksto.¶
+ƒ ibalikAngText(susi3•"")•"" (mapaNgNota{susi3} ≠ ø) ? mapaNgNota{susi3}[1] ""
 
-¶Ang function na ito ay nagbabalik ng numero ng note na katugma ng key na pinindot sa isang list,na gagamitin bilang input sa isang Track. Kung ang key na pinindot ay hindi wasto, nagbabalikito ng walang lamang list.¶
-ƒ ibalikNaNote(susi3•"")•[] [
-		(notemap{susi3} ≠ ø) ? (notemap{susi3}[2] → #) []
+¶Ibinabalik ng function na ito ang numero ng nota na tumutugma sa susi na pinindot sa isang listahan, para gamitin bilang input sa isang Track. Kung hindi wasto ang susi na pinindot, ibinabalik nito ang walang laman na listahan.¶
+ƒ ibalikAngNote(susi4•"")•[] [
+		(mapaNgNota{susi4} ≠ ø) ? (mapaNgNota{susi4}[2] → #) []
 	]
 
-¶Kinukuha ng function na ito ang isang numerikong list at nagbabalik ng Track kasama ang note list na iyon.Naka-off ang Loop para minsan lang tumugtog ang note kapag pinindot ang key.¶
-ƒ ibalikNaTrack(nota•[#]) Track(nota loop: ⊥)
+¶Tumatanggap ang function na ito ng listahan ng mga numero at nagbabalik ng isang Track na may listahang iyon ng nota. Nakapatay ang Loop para minsan lang tumunog ang nota kapag pinindot ang susi.¶
+ƒ ibalikAngTrack(nota•[#]) Track(nota loop: ⊥)
 
-¶Ang dalawang bind na ito ay tumutukoy sa kulay na gagawin sa katugmang key kapagpinindot ito at kapag hindi.¶
-pindutinNaColor: Kulay(10 270 50°)
-nullNaColor: Kulay(0 0 0°)
+¶Ang dalawang bind na ito ng map ay tumutukoy sa kulay na ibibigay sa katumbas na susi kapag ito ay pinindot at kapag hindi.¶
+pindutinAngColor: Kulay(10 270 50°)
+walangColor: Kulay(0 0 0°)
 
-¶Ito ay tumutugtog ng track na katugma ng key na pinindot. Chromatic ang Scale para ang mga track ay makakuha ng lahat ng semitone. Naka-set ang Replay para kapagpinindot ang wastong key, tumutugtog ang track sa tuwing pinindot ang key, kahitdalawang beses nang sunod-sunod.¶
+¶Pinapatugtog nito ang track na tumutugma sa pinindot na susi. Chromatic ang Scale para maabot ng mga track ang lahat ng semitono. Nakatakda ang Replay para sa kapag may wastong susi na pinindot, kaya tumutunog ang track tuwing pinipindot ang susi, kahit dalawang beses na magkasunod.¶
 Musika(
-	ibalikNaTrack(ibalikNaNote(pinindot))
+	ibalikAngTrack(ibalikAngNote(pinindot))
 	iskala: Musika.chromatic
-	iReplay: notemap{pinindot} ≠ ø
+	iReplay: mapaNgNota{pinindot} ≠ ø
 )
 
-¶Ipinapakita ang piyano, ang mga key na pipindutin, at ang note na tinutugtog kapagpinindot ang isang key.¶
+¶Ipinapakita ang piano, ang mga susi na dapat pindutin, at ang nota na tumutunog kapag may pinindot na susi.¶
 Grupo(
 	Patongpatong('>' 1m)
 	[
@@ -58,79 +58,79 @@ Grupo(
 					'▯'
 					pangalan: 'w'
 					laki: 3m
-					kulay: pinindot = 'w' ? pindutinNaColor nullNaColor
+					kulay: pinindot = 'w' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▮'
 					pangalan: '3'
 					laki: 3m
-					kulay: pinindot = '3' ? pindutinNaColor nullNaColor
+					kulay: pinindot = '3' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▯'
 					pangalan: 'e'
 					laki: 3m
-					kulay: pinindot = 'e' ? pindutinNaColor nullNaColor
+					kulay: pinindot = 'e' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▮'
 					pangalan: '4'
 					laki: 3m
-					kulay: pinindot = '4' ? pindutinNaColor nullNaColor
+					kulay: pinindot = '4' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▯'
 					pangalan: 'r'
 					laki: 3m
-					kulay: pinindot = 'r' ? pindutinNaColor nullNaColor
+					kulay: pinindot = 'r' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▯'
 					pangalan: 't'
 					laki: 3m
-					kulay: pinindot = 't' ? pindutinNaColor nullNaColor
+					kulay: pinindot = 't' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▮'
 					pangalan: '6'
 					laki: 3m
-					kulay: pinindot = '6' ? pindutinNaColor nullNaColor
+					kulay: pinindot = '6' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▯'
 					pangalan: 'y'
 					laki: 3m
-					kulay: pinindot = 'y' ? pindutinNaColor nullNaColor
+					kulay: pinindot = 'y' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▮'
 					pangalan: '7'
 					laki: 3m
-					kulay: pinindot = '7' ? pindutinNaColor nullNaColor
+					kulay: pinindot = '7' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▯'
 					pangalan: 'u'
 					laki: 3m
-					kulay: pinindot = 'u' ? pindutinNaColor nullNaColor
+					kulay: pinindot = 'u' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▮'
 					pangalan: '8'
 					laki: 3m
-					kulay: pinindot = '8' ? pindutinNaColor nullNaColor
+					kulay: pinindot = '8' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▯'
 					pangalan: 'i'
 					laki: 3m
-					kulay: pinindot = 'i' ? pindutinNaColor nullNaColor
+					kulay: pinindot = 'i' ? pindutinAngColor walangColor
 				)
 				Parirala(
 					'▯'
 					pangalan: 'o'
 					laki: 3m
-					kulay: pinindot = 'o' ? pindutinNaColor nullNaColor
+					kulay: pinindot = 'o' ? pindutinAngColor walangColor
 				)
 			]
 		)
@@ -151,6 +151,6 @@ Grupo(
 				Parirala('i  o')
 			]
 		)
-		Parirala(ibalikNaText(pinindot))
+		Parirala(ibalikAngText(pinindot))
 	]
 )

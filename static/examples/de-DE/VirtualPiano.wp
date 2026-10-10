@@ -1,54 +1,54 @@
 🎹
 Virtuelles Klavier
 === start
-¶Ein einoktaviges Klavier, das du spielen kannst!Für das beste Erlebnis schalte die Musik-Visualisierung aus.¶
+¶Ein Klavier mit einer Oktave, das du spielen kannst! Für das beste Erlebnis schalte die Musikvisualisierung aus.¶
 
-¶Diese Bindung speichert einen Key-Stream, der erkennt, welche Taste du gedrückt hast.¶
+¶Diese Bindung speichert einen Datenstrom für Tasten. Er erkennt, welche Taste du gedrückt hast.¶
 gedrückt: Schlüssel()
 
-¶Dies speichert eine Zuordnung von den Tasten, die du drückst, zu den Noten, die sie spielen,sowohl als Text (um die gespielte Note anzuzeigen) als auch als numerischesText-Literal (um es in eine Zahl (#) umzuwandeln und in eine Track-Liste einzugeben).
+¶Hier wird gespeichert, welche Note zu welcher gedrückten Taste gehört. Das gibt es als Text (um die gespielte Note anzuzeigen) und als Zahl im Text (um sie in eine Zahl (#) umzuwandeln und in eine Liste von Spuren einzugeben).
 
-Die besondere Anordnung wurde gewählt, um Klaviertasten möglichst genau nachzubilden: weißeTasten werden durch Buchstaben dargestellt, schwarze Tasten durch Zahlenzeichen.¶
+Die Anordnung ahmt die Tasten eines Klaviers nach. Weiße Tasten stehen für Buchstaben, schwarze Tasten für Ziffern.¶
 notenzuordnung: {
 		'w': ['C' "1"]
-		'3': ['C# / Db' "2"]
+		'3': ['Cis / Des' "2"]
 		'e': ['D' "3"]
-		'4': ['D# / Eb' "4"]
+		'4': ['Dis / Es' "4"]
 		'r': ['E' "5"]
 		't': ['F' "6"]
-		'6': ['F# / Gb' "7"]
+		'6': ['Fis / Ges' "7"]
 		'y': ['G' "8"]
-		'7': ['G# / Ab' "9"]
+		'7': ['Gis / As' "9"]
 		'u': ['A' "10"]
-		'8': ['A# / Bb' "11"]
+		'8': ['B / Ais' "11"]
 		'i': ['H' "12"]
 		'o': ['C5' "13"]
 	}
 
-¶Diese Funktion gibt den Namen der Note zurück, je nachdem, welche Taste gedrückt wurde.War die Taste keine gültige Note, gibt sie leeren Text zurück.¶
-ƒ gibTextZurück(schlüssel2•"")•"" (notenzuordnung{schlüssel2} ≠ ø) ? notenzuordnung{schlüssel2}[1] ""
+¶Diese Funktion gibt den Namen der Note zurück, je nachdem, welche Taste gedrückt wurde. Wenn die Taste keine gültige Note ist, gibt sie leeren Text zurück.¶
+ƒ textZurückgeben(schlüssel3•"")•"" (notenzuordnung{schlüssel3} ≠ ø) ? notenzuordnung{schlüssel3}[1] ""
 
-¶Diese Funktion gibt die Notennummer zurück, die zur gedrückten Taste passt, als Liste,damit sie als Eingabe für einen Track verwendet werden kann. War die gedrückte Taste ungültig,gibt sie eine leere Liste zurück.¶
-ƒ gibNoteZurück(schlüssel3•"")•[] [
-		(notenzuordnung{schlüssel3} ≠ ø) ? (notenzuordnung{schlüssel3}[2] → #) [
+¶Diese Funktion gibt die Notennummer der gedrückten Taste in einer Liste zurück. Sie wird als Eingabe für eine Spur verwendet. Wenn die gedrückte Taste ungültig ist, gibt sie eine leere Liste zurück.¶
+ƒ noteZurückgeben(schlüssel4•"")•[] [
+		(notenzuordnung{schlüssel4} ≠ ø) ? (notenzuordnung{schlüssel4}[2] → #) [
 			]
 	]
 
-¶Diese Funktion nimmt eine numerische Liste entgegen und gibt einen Track mit dieser Notenliste zurück.Die Wiederholung ist ausgeschaltet, damit die Note nur einmal gespielt wird, wenn die Taste gedrückt wird.¶
-ƒ gibTrackZurück(note•[#]) Spur(note Schleife: ⊥)
+¶Diese Funktion nimmt eine Liste von Zahlen und gibt eine Spur mit dieser Notenliste zurück. Die Schleife ist aus, damit die Note nur einmal erklingt, wenn die Taste gedrückt wird.¶
+ƒ spurZurückgeben(note•[#]) Spur(note Schleife: ⊥)
 
-¶Diese beiden Bindungen legen fest, welche Farbe die jeweilige Taste hat,wenn sie gedrückt wird und wenn nicht.¶
-farbeDrücken: Farbe(10 270 50°)
-farbeNull: Farbe(0 0 0°)
+¶Diese zwei Bindungen legen fest, welche Farbe die passende Taste hat, wenn sie gedrückt wird und wenn nicht.¶
+farbeBeimDrücken: Farbe(10 270 50°)
+farbeOhneDruck: Farbe(0 0 0°)
 
-¶Dies spielt den zur gedrückten Taste passenden Track ab. Die Tonleiter ist chromatisch,damit die Tracks alle Halbtöne nutzen können. Die Wiederholung ist so eingestellt, dassder Track jedes Mal abgespielt wird, wenn eine gültige Taste gedrückt wird, auchzweimal hintereinander.¶
+¶Das spielt die Spur der gedrückten Taste ab. Die Tonleiter ist chromatisch, damit die Spuren alle Halbtöne erreichen können. Das Wiederholen ist für gültige Tasten eingestellt. So erklingt die Spur bei jedem Tastendruck, auch zweimal hintereinander.¶
 Musik(
-	gibTrackZurück(gibNoteZurück(gedrückt))
+	spurZurückgeben(noteZurückgeben(gedrückt))
 	Tonleiter: Musik.chromatisch
 	Wiederholen: notenzuordnung{gedrückt} ≠ ø
 )
 
-¶Zeigt das Klavier, die zu drückenden Tasten und die Note, die beim Drückeneiner Taste gespielt wird.¶
+¶Zeigt das Klavier, die Tasten zum Drücken und die Note, die beim Drücken einer Taste gespielt wird.¶
 Gruppe(
 	Stapel('>' 1m)
 	[
@@ -59,79 +59,79 @@ Gruppe(
 					'▯'
 					Name: 'w'
 					Größe: 3m
-					Farbe: gedrückt = 'w' ? farbeDrücken farbeNull
+					Farbe: gedrückt = 'w' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▮'
 					Name: '3'
 					Größe: 3m
-					Farbe: gedrückt = '3' ? farbeDrücken farbeNull
+					Farbe: gedrückt = '3' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▯'
 					Name: 'e'
 					Größe: 3m
-					Farbe: gedrückt = 'e' ? farbeDrücken farbeNull
+					Farbe: gedrückt = 'e' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▮'
 					Name: '4'
 					Größe: 3m
-					Farbe: gedrückt = '4' ? farbeDrücken farbeNull
+					Farbe: gedrückt = '4' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▯'
 					Name: 'r'
 					Größe: 3m
-					Farbe: gedrückt = 'r' ? farbeDrücken farbeNull
+					Farbe: gedrückt = 'r' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▯'
 					Name: 't'
 					Größe: 3m
-					Farbe: gedrückt = 't' ? farbeDrücken farbeNull
+					Farbe: gedrückt = 't' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▮'
 					Name: '6'
 					Größe: 3m
-					Farbe: gedrückt = '6' ? farbeDrücken farbeNull
+					Farbe: gedrückt = '6' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▯'
 					Name: 'y'
 					Größe: 3m
-					Farbe: gedrückt = 'y' ? farbeDrücken farbeNull
+					Farbe: gedrückt = 'y' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▮'
 					Name: '7'
 					Größe: 3m
-					Farbe: gedrückt = '7' ? farbeDrücken farbeNull
+					Farbe: gedrückt = '7' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▯'
 					Name: 'u'
 					Größe: 3m
-					Farbe: gedrückt = 'u' ? farbeDrücken farbeNull
+					Farbe: gedrückt = 'u' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▮'
 					Name: '8'
 					Größe: 3m
-					Farbe: gedrückt = '8' ? farbeDrücken farbeNull
+					Farbe: gedrückt = '8' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▯'
 					Name: 'i'
 					Größe: 3m
-					Farbe: gedrückt = 'i' ? farbeDrücken farbeNull
+					Farbe: gedrückt = 'i' ? farbeBeimDrücken farbeOhneDruck
 				)
 				Satzglied(
 					'▯'
 					Name: 'o'
 					Größe: 3m
-					Farbe: gedrückt = 'o' ? farbeDrücken farbeNull
+					Farbe: gedrückt = 'o' ? farbeBeimDrücken farbeOhneDruck
 				)
 			]
 		)
@@ -152,6 +152,6 @@ Gruppe(
 				Satzglied('i  o')
 			]
 		)
-		Satzglied(gibTextZurück(gedrückt))
+		Satzglied(textZurückgeben(gedrückt))
 	]
 )

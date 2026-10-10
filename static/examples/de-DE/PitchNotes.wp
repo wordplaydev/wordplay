@@ -1,29 +1,29 @@
 🎵
-Tonhöhen
+Tonhöhen der Noten
 ===
-¶Singe oder summe, und sieh dir die Note an, die du machst — zweimal. Die linke Note zeigt den rohen @Pitch-Wert und zittert; die rechte Note bildet den Durchschnitt der letzten Tonhöhen und bleibt ruhig. @Pitch zeigt 0hz an, wenn nichts Klares zu hören ist. Dann überspringen beide Noten diese Momente und zeigen stattdessen · an.¶
+¶Sing oder summe und sieh die Note, die du machst – zweimal. Die linke Note liest das rohe @Pitch und zittert. Die rechte Note bildet den Durchschnitt der letzten Tonhöhen und bleibt ruhig. @Pitch meldet 0hz, wenn es nichts Klares hört. Deshalb überspringen beide Noten diese Momente und zeigen stattdessen · an.¶
 
 noten: [
 		'A'
-		'A♯'
+		'Ais'
 		'H'
 		'C'
-		'C♯'
+		'Cis'
 		'D'
-		'D♯'
+		'Dis'
 		'E'
 		'F'
-		'F♯'
+		'Fis'
 		'G'
-		'G♯'
+		'Gis'
 	]
 noteVon: ƒ(hz•#hz) hz > 0hz ? noten[(((((12 × (hz ÷ 440hz).log(
 										2
 									)).runden(
 							)) % 12) + 12) % 12) + 1] '·'
-weich: ƒ(signal•…#hz) (
+glatt2: ƒ(signal•…#hz) (
 			gehört: (←← 8 signal).ohne(0hz)
-			gehört.average() ?? 0hz
+			gehört.Durchschnitt() ?? 0hz
 		)
 tonhöhe: Tonhöhe()
 Bühne(
@@ -31,7 +31,7 @@ Bühne(
 		Gruppe(
 			Stapel()
 			[
-				Satzglied('rauschend' Farbe: Farbe(60% 90 30°))
+				Satzglied('verrauscht' Farbe: Farbe(60% 90 30°))
 				Satzglied(
 					noteVon(tonhöhe)
 					Größe: 6m
@@ -43,9 +43,9 @@ Bühne(
 		Gruppe(
 			Stapel()
 			[
-				Satzglied('weich' Farbe: Farbe(70% 90 240°))
+				Satzglied('glatt' Farbe: Farbe(70% 90 240°))
 				Satzglied(
-					noteVon(weich(tonhöhe))
+					noteVon(glatt2(tonhöhe))
 					Größe: 6m
 					Farbe: Farbe(70% 90 240°)
 				)

@@ -1,17 +1,17 @@
 ✨
 Ślad wskaźnika
 ===
-¶Przesuń wskaźnik, aby rysować zanikający tęczowy szlak. @Previous (←←) pamięta pięć ostatnich @Pointer, a @List.translate rysuje kropkę dla każdego z nich, zanikając i zmieniając kolor od najstarszego do najnowszego.¶
+¶Poruszaj wskaźnikiem, aby narysować zanikający tęczowy ślad. @Previous (←←) zapamiętuje ostatnie pięć miejsc @Pointer, a @List.translate rysuje kropkę dla każdego z nich, zanikającą i zmieniającą kolor od najstarszej do najnowszej.¶
 
 historia•[Miejsce]: ←← 5 Wskaźnik()
 Scena(
 	historia.tłumaczyć(
-		ƒ(punktów•Miejsce indeks2•#)
+		ƒ(punkt2•Miejsce indeks2•#)
 			Wyrażenie(
 				'●'
 				kolor: Kolor(75% 100 indeks2 × 40°)
 				nieprzezroczystość: indeks2 ÷ historia.długość()
-				miejsce: Miejsce(punktów.X punktów.y)
+				miejsce: Miejsce(punkt2.X punkt2.y)
 			)
 	)
 )

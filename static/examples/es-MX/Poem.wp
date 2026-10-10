@@ -1,15 +1,15 @@
 T
 Poema
 === start
-¶Un poema cuyas líneas llegan flotando, cada una haciendo su propia entrada.¶
+¶Un poema cuyos versos llegan flotando, cada uno con su propia entrada.¶
 
 •línea(texto2•"" pose•Pose|Secuencia atrás: Color(
 			100
 			100
 			100°
-		) adelante: Color(0 0 0°))
+		) frente: Color(0 0 0°))
 
-¶Una lista de líneas del poema, cada una con una pose.¶
+¶Una lista de versos del poema, cada uno con una pose.¶
 poema: [
 		línea(
 			'El archivo de la computadora'
@@ -21,7 +21,7 @@ poema: [
 		)
 		línea('no tengo ningún recuerdo' Pose(rotación: 10°))
 		línea(
-			'hago clic para abrirlo'
+			'le hago clic para abrirlo'
 			Secuencia(
 				{
 					0%: Pose(escala: 1)
@@ -32,11 +32,11 @@ poema: [
 			)
 		)
 		línea(
-			'miro'
+			'mira'
 			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
 		)
 		línea(
-			'bajo más con el desplazamiento'
+			'me desplazo más abajo'
 			Pose(opacidad: 0% desplazamiento: Lugar(y: 5m))
 		)
 		línea(
@@ -44,17 +44,17 @@ poema: [
 			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
 		)
 		línea(
-			'se queda encendida y vacía'
+			'sigue iluminada y vacía'
 			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
 			Color(0 0 0°)
 			Color(100 100 0°)
 		)
 		línea(
-			'así me encuentro de nuevo conmigo misma'
+			'así me encuentro de nuevo conmigo'
 			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
 		)
 		línea(
-			'llena de esperanza e inútil'
+			'con esperanza e inútil'
 			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
 		)
 		línea(
@@ -62,10 +62,13 @@ poema: [
 			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
 		)
 		línea(
-			'tal como debo haberlo hecho'
+			'justo como debí haber hecho'
 			Pose(opacidad: 0% desplazamiento: Lugar(y: -5m))
 		)
-		línea('el 19 de agosto de 2010, 11:08 a.m.' Pose())
+		línea(
+			'el 19 de agosto de 2010, a las 11:08 a. m.'
+			Pose()
+		)
 	]
 
 número2: 1 … ∆ Botón() | ∆ Tecla() …
@@ -84,7 +87,7 @@ número2 ≤ poema.longitud() ?
 			)
 		]
 		fondo: línea2.atrás
-		inmóvil: Pose(color: línea2.adelante)
+		inmóvil: Pose(color: línea2.frente)
 	)
 	Escenario(
 		[

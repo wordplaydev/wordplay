@@ -1,12 +1,12 @@
 🧶
-Rzut
+Skok
 === start
-¶Kieruj kotem za pomocą klawiszy strzałek i skacz.
+¶Steruj kotem strzałkami i skocz na piłkę.
 
-Kot miauczy za każdym razem, gdy się porusza. Miauczenie jest zawieszone na pierwszej @Pose jego animacji ruchu: @Pose może przenosić @Music, który odtwarza się w chwili, gdy ta poza zostaje przyjęta, a ruch przyjmuje swoje pozy za każdym razem, gdy się zaczyna. Kołysanie jest napisane wprost, a nie pozostawione jako \Sekwencja.kołysać(
-)\, ponieważ gotowe animacje tworzą własne pozy, a poza to miejsce, w którym musi znaleźć się dźwięk.¶
+Kot miauczy za każdym razem, gdy się rusza. Miauknięcie jest przypisane do pierwszego @Pose jego animacji ruchu: @Pose może nieść @Music, który odtwarza się w chwili przyjęcia tej pozy, a ruch przyjmuje swoje pozy za każdym razem, gdy jedna się zaczyna. Kołysanie jest zapisane wprost, a nie zostawione jako \Sekwencja.kołysać(
+)\, ponieważ gotowe animacje budują własne pozy, a dźwięk musi trafić właśnie do pozy.¶
 
-¶Jeden krótki okrzyk. Dwa ruchy blisko siebie dzielą jedno miauknięcie, zamiast odtwarzać dwa naraz, bo drugi ruch przychodzi, gdy pierwsze kołysanie jeszcze trwa.¶
+¶Jeden krótki okrzyk. Dwa ruchy blisko siebie dzielą jedno miauknięcie zamiast układać dwa, ponieważ drugi zaczyna się, gdy pierwsze kołysanie jeszcze trwa.¶
 miau2: Muzyka(
 		Ścieżka([1] instrument: Instrument.kot)
 		głośność: 45%
@@ -15,27 +15,27 @@ miau2: Muzyka(
 
 •pozycjaKota(pozycja•#m kierunek2•#)
 
-klawisz2: Klawisz()
-prędkość2: 1m
+klucz: Klawisz()
+szybkość: 1m
 
-miejsceKiciusia: pozycjaKota(5m 1) … ∆ klawisz2 …
-		((klawisz2 = 'Strzałka w lewo') & (miejsceKiciusia.pozycja > -10m)) ? pozycjaKota(
-				miejsceKiciusia.pozycja - prędkość2
+miejsceKotka: pozycjaKota(5m 1) … ∆ klucz …
+		((klucz = 'Strzałka w lewo') & (miejsceKotka.pozycja > -10m)) ? pozycjaKota(
+				miejsceKotka.pozycja - szybkość
 				1
 			)
-			((klawisz2 = 'Strzałka w prawo') & (miejsceKiciusia.pozycja < 8m)) ? pozycjaKota(
-					miejsceKiciusia.pozycja + prędkość2
+			((klucz = 'Strzałka w prawo') & (miejsceKotka.pozycja < 8m)) ? pozycjaKota(
+					miejsceKotka.pozycja + szybkość
 					-1
 				)
-				miejsceKiciusia
+				miejsceKotka
 
 kotek: Wyrażenie(
 		"🐈"
 		twarz: "Noto Color Emoji"
 		nazwa: 'kotek'
 		rozmiar: 2m
-		miejsce: Miejsce(miejsceKiciusia.pozycja 0m)
-		spoczynkowy: Poza(flipx: miejsceKiciusia.kierunek2 < 0)
+		miejsce: Miejsce(miejsceKotka.pozycja 0m)
+		spoczynkowy: Poza(flipx: miejsceKotka.kierunek2 < 0)
 		poruszający: Sekwencja(
 			{
 				0%: Poza(obrót: -5° muzyka: miau2)
@@ -50,7 +50,7 @@ kotek: Wyrażenie(
 
 skok: Kolizja('piłka' 'kotek')
 
-piłkaMiejsce: Ruch(
+miejscePiłki: Ruch(
 		Miejsce(0m 9m)
 		następnaprędkość:
 		skok•ø ? ø
@@ -67,7 +67,7 @@ piłkaMiejsce: Ruch(
 piłka: Wyrażenie(
 		"🧶"
 		nazwa: 'piłka'
-		miejsce: piłkaMiejsce
+		miejsce: miejscePiłki
 		materiał: Materiał(1kg 0.5 0 1)
 	)
 

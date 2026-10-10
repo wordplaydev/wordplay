@@ -1,15 +1,15 @@
 T
 Wiersz
 === start
-¶Wiersz, w którym linie wpływają jedna po drugiej, każda robiąc swoje własne wejście.¶
+¶Wiersz, którego wersy wpływają powoli, a każdy z nich wchodzi po swojemu.¶
 
-•linia(tekst2•"" pozycja•Poza|Sekwencja tył: Kolor(
+•linia(tekst2•"" poza•Poza|Sekwencja tył: Kolor(
 			100
 			100
 			100°
 		) przód: Kolor(0 0 0°))
 
-¶Lista linii wiersza, każda z własną pozycją.¶
+¶Lista wersów wiersza, a każdy z nich ma swoją pozę.¶
 wiersz: [
 		linia(
 			'Plik komputerowy'
@@ -25,7 +25,7 @@ wiersz: [
 				zrównoważyć: Miejsce(y: -5m)
 			)
 		)
-		linia('nie mam żadnego wspomnienia' Poza(obrót: 10°))
+		linia('nic nie pamiętam' Poza(obrót: 10°))
 		linia(
 			'klikam, żeby go otworzyć'
 			Sekwencja(
@@ -38,14 +38,14 @@ wiersz: [
 			)
 		)
 		linia(
-			'patrzę'
+			'patrz'
 			Poza(
 				nieprzezroczystość: 0%
 				zrównoważyć: Miejsce(y: -5m)
 			)
 		)
 		linia(
-			'przewijam dalej w dół'
+			'przewijam jeszcze niżej'
 			Poza(
 				nieprzezroczystość: 0%
 				zrównoważyć: Miejsce(y: 5m)
@@ -59,7 +59,7 @@ wiersz: [
 			)
 		)
 		linia(
-			'pozostaje podświetlony i pusty'
+			'świeci pusty'
 			Poza(
 				nieprzezroczystość: 0%
 				zrównoważyć: Miejsce(y: -5m)
@@ -68,60 +68,60 @@ wiersz: [
 			Kolor(100 100 0°)
 		)
 		linia(
-			'tak znowu spotykam siebie samą'
+			'tak spotykam siebie znowu'
 			Poza(
 				nieprzezroczystość: 0%
 				zrównoważyć: Miejsce(y: -5m)
 			)
 		)
 		linia(
-			'pełną nadziei i bezużyteczną'
+			'pełen nadziei i bezużyteczny'
 			Poza(
 				nieprzezroczystość: 0%
 				zrównoważyć: Miejsce(y: -5m)
 			)
 		)
 		linia(
-			'tajemnicę'
+			'tajemnica'
 			Poza(
 				nieprzezroczystość: 0%
 				zrównoważyć: Miejsce(y: -5m)
 			)
 		)
 		linia(
-			'tak dokładnie jak wtedy'
+			'dokładnie tak, jak musiałem to zrobić'
 			Poza(
 				nieprzezroczystość: 0%
 				zrównoważyć: Miejsce(y: -5m)
 			)
 		)
-		linia('19 sierpnia 2010, 11:08' Poza())
+		linia('19 sierpnia 2010 roku, godz. 11:08' Poza())
 	]
 
 liczba2: 1 … ∆ Przycisk() | ∆ Klawisz() …
 		(liczba2 = (wiersz.długość() + 1)) ? 1 liczba2 + 1
-linia2: wiersz[liczba2]
+linijka: wiersz[liczba2]
 
 liczba2 ≤ wiersz.długość() ?
 	Scena(
 		[
 			Wyrażenie(
-				linia2.tekst2
-				wstępowanie: linia2.pozycja
+				linijka.tekst2
+				wstępowanie: linijka.poza
 				czastrwania: 1s
 				nazwa: liczba2 → ""
 				styl: 'cautious'
 			)
 		]
-		tło: linia2.tył
-		spoczynkowy: Poza(kolor: linia2.przód)
+		tło: linijka.tył
+		spoczynkowy: Poza(kolor: linijka.przód)
 	)
 	Scena(
 		[
 			Grupa(
 				Stos()
 				[
-					Wyrażenie('RADA DLA SIEBIE SAMEJ')
+					Wyrażenie('RADA DLA SIEBIE SAMEGO')
 					Wyrażenie('Jane Hirshfield')
 				]
 				wstępowanie: Poza(skala: 0.75)

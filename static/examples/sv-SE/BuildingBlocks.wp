@@ -1,78 +1,78 @@
 🔨
 Byggstenar
 === start/en
-¶Byggklossar — hugg, bär och stapla. Du är den lilla figuren på ett grönt fält fullt av träd och stenblock. Gå med piltangenterna; du vänder dig åt det håll du gick, och den svävande markören visar rutan du är på väg att göra något med.
+¶Byggklossar — hugg, bär och stapla. Du är den lilla figuren på ett grönt fält med träd och stenblock. Gå med piltangenterna. Du vänder dig åt det håll du gick, och den svävande markören visar rutan du ska agera på.
 
-Mellanslag gör båda jobben, och markören visar vilket. När högen framför dig sticker upp över fötterna dina är markören en 🪏 och Mellanslag slår av toppen på den; när högen är i nivå med eller under fötterna dina är markören en 🔨 och Mellanslag lägger ett block ovanpå den. Att samla in är alltså bara att gå fram till ett träd och trycka på Mellanslag, och att bygga uppåt betyder att du klättrar allt eftersom. Gå över en lös bit för att lägga den i fickan — ett träd ger 🪵 trä, ett stenblock ger 🧱 tegel — och tryck på Skift för att byta vilket du vill stapla.
+Mellanslag gör båda jobben, och markören visar vilket. När högen framför dig är högre än dina fötter är markören en 🪏, och mellanslag slår av dess topp. När högen är i nivå med eller lägre än dina fötter är markören en 🔨, och mellanslag staplar en kloss ovanpå. Att samla är alltså bara att gå fram till ett träd och trycka mellanslag, och att bygga uppåt betyder att du klättrar medan du går. Gå över en lös bit för att ta upp den — ett träd ger 🪵 trä, ett stenblock ger 🧱 tegel — och tryck Shift för att byta vilken du vill stapla.
 
-Du kan bara nå ett block ovanför din egen fotplats, och markören bleknar när något är utom räckhåll. Ett stenblock är två högt, så du kan toppa det från marken — men ett träd är tre högt, så dess krona kräver höjd. Tryck på j för att hoppa och slå till mot toppen av det, eller stapla ett block, gå upp på det och jobba därifrån. Att gå klättrar aldrig, så du kan alltid ställa dig rakt framför något och göra något med det.
+Du når bara en kloss ovanför det du står på, och markören bleknar när något är utom räckhåll. Ett stenblock är två högt, så du kan ta toppen från marken — men ett träd är tre högt, så kronan kräver höjd. Tryck j för att hoppa och slå högst upp i hoppet, eller stapla en kloss, gå upp på den och arbeta därifrån. Att gå klättrar aldrig, så du kan alltid ställa dig framför något och agera på det.
 
-Bleka block visar strukturen du försöker bygga, och varje block blir solitt när du matchar det. Matcha alla och du vinner — allt annat du lämnar liggande är din egen sak, så ett steg du byggde för att klättra kan gärna få stå kvar där det är.¶
+Bleka klossar visar byggnaden du försöker göra, och varje kloss blir fast när du får den på plats. Matcha alla så vinner du — allt annat du lämnar kvar är din ensak, så ett trappsteg du byggde för att klättra kan bara stå kvar.¶
 
-¶Världen är ett rutnät av rutor med hela tal, och meter dyker bara upp när något ritas. Det gör att varje position blir exakt: att stå bredvid något, att stapla ovanpå något och att matcha målet handlar alltid om att hela tal är lika, så inget glider ett halvt block ur led.
+¶Världen är ett rutnät av rutor med heltal, och meter används bara när något ritas. Det gör varje position exakt: att stå bredvid något, stapla ovanpå något och matcha målet är bara heltal som är lika, så ingenting hamnar någonsin en halv kloss fel.
 
-Fältet är bara fem rutor djupt med flit, och det hänger ihop med hur nära kameran sitter — se kameran längst ner.¶
+Fältet är med flit bara fem rutor djupt, och det hänger ihop med hur nära kameran står — se kameran längre ner.¶
 minX: -4
 maxX: 4
 minZ: 0
 maxZ: 4
 maxY: 4
 
-¶Hur långt under ögonhöjd marken ligger, i rutor. Ju närmare kameran är, desto större ritas allt, och desto mer trycker det ner fältet på skärmen, så detta och kameraavståndet måste ändras tillsammans.¶
+¶Hur långt under ögonhöjd marken ligger, i rutor. Ju närmare kameran är, desto större ritas allt och desto längre ner på skärmen hamnar fältet, så det här värdet och kameraavståndet måste ändras tillsammans.¶
 markfall: 0.8
 
-¶Hur långt bakom dig kameran ligger, i rutor. Detta bestämmer ensamt hur stort allt ser ut: scenen delas med avståndet från kameran, så tre rutor bak ritar dig ungefär två och en halv gånger så stor som i verkligheten.¶
-kameraBak: 3
+¶Hur långt bakom dig kameran åker, i rutor. Det här värdet ensamt avgör hur stort allt ser ut: scenen delar med avståndet till kameran, så tre rutor bakåt ritar dig ungefär två och en halv gång så stor som i verkligheten.¶
+kameraBakåt: 3
 
-¶Hur långt ut från origo hela fältet ligger. Scenen skalar världen med ett delat på kamerans egen position, och varje del med det omvända, vilket tar ut varandra — utom när kamerans position når noll, då hela scenen plattas till och sedan vänds ut och in. Kameran ligger cameraBack rutor bakom dig, så att hålla fältet så här långt ut håller kamerans position bekvämt negativ även när du går till den bakre raden. Det påverkar inte hur något ser ut; det håller bara räkningen borta från noll.¶
-världBak: 4
+¶Hur långt ut från origo hela fältet ligger. Scenen skalar världen med ett delat med kamerans egen position och varje del med det omvända, vilket tar ut varandra — om inte kamerans position blir noll, då plattas hela scenen ut och vänds sedan ut och in. Kameran åker cameraBack rutor bakom dig, så när fältet hålls så här långt ut förblir kamerans position tryggt negativ även när du går till bakersta raden. Det påverkar inte hur något ser ut; det håller bara räknandet borta från noll.¶
+världBakåt: 4
 
-¶En rutas mittpunkt i meter. Halvan flyttar x bakåt eftersom en fras placeras utifrån sin vänsterkant.¶
+¶Mitten av en ruta i meter. Halvan flyttar x bakåt eftersom en fras placeras efter sin vänstra kant.¶
 ƒ vidX(c2•#) ((c2 - 0.5) · 1m)
 ƒ vidY(c3•#) ((c3 - markfall) · 1m)
-ƒ vidZ(c4•#) ((c4 - världBak) · 1m)
+ƒ vidZ(c4•#) ((c4 - världBakåt) · 1m)
 
-¶Hur länge hammaren är spänd, och hur många bildrutor du svävar i luften efter ett hopp. Svävandet är det som gör hoppandet användbart: utan det skulle ett hopp vara en enda bildruta, alldeles för kort för att trycka på en pil, slå till eller landa på ett block.¶
-gungtick: 2
+¶Hur länge hammaren hålls redo, och hur många bilder du hänger i luften efter ett hopp. Just hängandet gör hoppet användbart: utan det skulle ett hopp vara en enda bild, alldeles för kort för att trycka på en piltangent, slå eller landa på en kloss.¶
+svängtick: 2
 hängtick: 4
 
-¶Hur mycket av världen bakom dig som fortfarande ritas. Se kameran nedan för varför detta finns alls: ju närmare kameran är, desto färre rader bakom dig kan ritas innan en av dem hamnar framför linsen och sväller upp över hela vyn.¶
+¶Hur mycket av världen bakom dig som fortfarande ritas. Se kameran nedan för varför detta finns: ju närmare kameran är, desto färre rader bakom dig kan ritas innan en av dem hamnar framför linsen och sväller över hela bilden.¶
 ritaBakom: 1
 
-¶Hur långt ovanför din egen fotplats du kan jobba. Ett block är det som gör höjd viktig: ett stenblock är två högt, så du kan toppa det stående på marken, men ett träd är tre högt, så du måste hoppa eller stå på något för att nå dess krona — och samma gräns bestämmer hur högt du kan stapla.¶
+¶Hur långt ovanför dina egna fötter du kan arbeta. En kloss är det som gör höjd viktig: ett stenblock är två högt, så du kan ta toppen stående på marken, men ett träd är tre högt, så du måste hoppa eller stå på något för att nå kronan — och samma gräns avgör hur högt du kan stapla.¶
 räckvidd: 1
 
-¶En kub som sitter i en ruta. Dess typ är själva emojin, så att rita ett block behöver aldrig slå upp något.¶
-•block(x2•# y2•# z2•# slag2•"")
+¶En kub i en ruta. Dess sort är själva emojin, så när en kloss ritas behövs ingen uppslagning.¶
+•block(x2•# y2•# z2•# sorts•"")
 
-¶En bit som lossnat och faller mot marken. Den minns cellen den bröts loss från, så dess första bildruta ritas upp där blocket var, och varje bildruta efter det ritas där den landade — det är $Phrase-egenskapen easing som sköter flygningen. Id:t finns bara för att ge den ett eget namn på scenen, eftersom två bitar kan landa på samma cell.¶
-•föremål(id2•# x3•# z3•# frånX•# frånY•# frånZ•# slag3•"" ålder•#)
+¶En bit som har lossnat och ramlar mot marken. Den kommer ihåg cellen den bröts loss från, så dess första bildruta ritas där blocket stod och varje bildruta efter det ritas där den landade — frasens egen mjuka rörelse sköter flygningen. Id:t finns bara för att ge den ett eget namn på scenen, eftersom två bitar kan landa på samma cell.¶
+•föremål(id2•# x3•# z3•# frånX•# frånY•# frånZ•# sorts2•"" ålder•#)
 
-¶Hela spelet i ett enda värde: fasen (1 = titel, 2 = spelar, 3 = vunnit), var du står och vilken väg du senast rörde dig, hur länge du kan sväva i ett hopp, dina fickor och vilket material du skulle placera, hur mycket sving som är kvar i hammaren, id:t för nästa lösa bit, strukturen du ska matcha, och allt annat i världen.¶
-•spel(fas•# x4•# y3•# z4•# vändMotX•# vändMotZ•# häng•# trä•# tegel•# vald•"" sväng•# nästaID•# mål•[block] block2•[block] föremål2•[föremål])
+¶Hela spelet i ett värde: fasen (1 = titel, 2 = spelar, 3 = vunnit), var du står och åt vilket håll du senast rörde dig, hur länge du kan hänga kvar i ett hopp, dina fickor och vilket material du vill placera, hur mycket svingkraft som finns kvar i hammaren, id:t för nästa lösa bit, strukturen som ska matchas och allt i världen.¶
+•spel(fas•# x4•# y3•# z4•# vändMotX•# vändMotZ•# häng•# trä•# tegel•# vald•"" sving•# nästaID•# mål•[block] block2•[block] föremål2•[föremål])
 
-¶Ett träd är tre staplade kuber och ett block sten är två — inte ett enda objekt vardera, utan flera block i en kolumn, så varje bit måste hamras loss för sig. Båda är en kolumn breda, vilket gör att man kan lova att inga två block någonsin delar samma cell när något skapas.¶
-träform: [
+¶Ett träd är tre staplade kuber och en stenblock är två — inte ett objekt vardera, utan flera block i en kolumn, så varje bit måste hamras loss för sig. Båda är en kolumn breda, vilket gör att skapandet kan lova att inga två block någonsin delar en cell.¶
+trädform: [
 		block(0 0 0 '🌳')
 		block(0 1 0 '🌳')
 		block(0 2 0 '🌳')
 	]
-stenblockform: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
+stenblocksform: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
 
-ƒ formvid(form2•[block] cx•# cz•#) form2.översätta(
-		ƒ(b2•block) block(cx b2.y2 cz b2.slag2)
+ƒ formVid(form2•[block] cx•# cz•#) form2.översätta(
+		ƒ(b2•block) block(cx b2.y2 cz b2.sorts)
 	)
 
-¶Vad en trasig bit blir till.¶
-ƒ produktav(slag4•"") slag4 ???
+¶Vad en trasig bit förvandlas till.¶
+ƒ produktAv(sorts3•"") sorts3 ???
 		'🌳': '🪵'
 		'🪨': '🧱'
-		slag4
+		sorts3
 
-¶En ny struktur att matcha: två torn, vardera ett till tre block höga, i ett slumpmässigt par av de mellersta kolumnerna, på fältets bakre rad. De mellersta kolumnerna är precis de som resurser aldrig skapas i, så ett torn kan aldrig hamna inuti ett träd. Varje kolumn är solid ända från marken, eftersom staplandet alltid läggs ovanpå kolumnens topp — det finns inget sätt att skapa ett svävande block, så det finns inget sätt att be om ett. Sex block är taket, vilket är vad ett fält med tre stenblock ger i tegel, så även en struktur helt av tegel går att bygga.¶
-ƒ skapamål() (
+¶En ny struktur att matcha: två torn, vart och ett ett till tre block högt, i ett slumpmässigt par av de mellersta kolumnerna, på fältets bakre rad. Just de mellersta kolumnerna är de där resurser aldrig skapas, så ett torn kan aldrig hamna inuti ett träd. Varje kolumn är solid från marken och uppåt, eftersom stapling alltid läggs ovanpå en kolumns topp — det går inte att göra ett svävande block, så det går inte heller att be om ett. Sex block är taket, vilket är vad ett fält med tre stenblock ger i tegel, så även en struktur helt av tegel går att bygga.¶
+ƒ skapaMål() (
 		djup2: maxZ
-		par2: [:-1‥1].blandade().efterföljande(1 2)
+		par2: [:-1 ‥ 1].blandade().efterföljande(1 2)
 		par2.kombinerad(
 			[]
 			ƒ(struktur•[block] cx2•#)
@@ -90,23 +90,23 @@ stenblockform: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
 		)
 	)
 
-¶Om en cell finns på fältet över huvud taget.¶
-ƒ inomGränser(cx3•# cz2•#) ((minX‥maxX) ∋ cx3) & ((minZ‥maxZ) ∋ cz2)
+¶Om en cell överhuvudtaget finns på fältet.¶
+ƒ inomGränser(cx3•# cz2•#) ((minX ‥ maxX) ∋ cx3) & ((minZ ‥ maxZ) ∋ cz2)
 
-¶Hur hög en kolumn är. Varje kolumn är solid ända från marken — så växer former, staplandet lägger till på toppen, och hamrandet tar bort från toppen — så genom att bara räkna kolumnens block får man både dess höjd och den första lediga cellen ovanför.¶
+¶Hur hög en kolumn är. Varje kolumn är solid från marken och uppåt — former växer så, stapling lägger till överst och hamring tar från toppen — så att helt enkelt räkna en kolumns block ger både dess höjd och den första lediga cellen ovanför.¶
 ƒ kolumnHöjd(block3•[block] cx4•# cz3•#) block3.filtrera(
 		ƒ(b3•block) (b3.x2 = cx4) & (b3.z2 = cz3)
 	).längd(
 	)
 
-¶Om en exakt cell innehåller en exakt sorts block. Att ställa frågan så här — genom att räkna träffar istället för att hämta ett block som kanske inte finns — gör att man slipper bära runt på och packa upp ett kanske-block.¶
-ƒ cellInnehåller(block4•[block] cx5•# cy•# cz4•# slag5•"")
+¶Om en exakt cell innehåller exakt en sorts block. Genom att ställa frågan så — att räkna träffar i stället för att hämta ett block som kanske inte finns — slipper man bära runt på ett kanske-block och packa upp det.¶
+ƒ cellInnehåller(block4•[block] cx5•# cy•# cz4•# sorts4•"")
 	block4.filtrera(
-		ƒ(b4•block) (b4.x2 = cx5) & (b4.y2 = cy) & (b4.z2 = cz4) & (b4.slag2 = slag5)
+		ƒ(b4•block) (b4.x2 = cx5) & (b4.y2 = cy) & (b4.z2 = cz4) & (b4.sorts = sorts4)
 	).längd(
 	) > 0
 
-¶Ett nytt fält: tre träd och tre stenblock, vardera på sin egen kolumn, på ett slumpmässigt djup. Att blanda kolumnerna först är det som slumpar vilka som får träd. Kolumnerna närmast mitten är medvetet utelämnade, så att inget någonsin växer fram där du står eller där tornen placeras.¶
+¶Ett nytt fält: tre träd och tre stenblock, vart och ett på sin egen kolumn, på ett slumpmässigt djup. Att blanda kolumnerna först är det som slumpar vilka som får träd. Kolumnerna närmast mitten lämnas med flit utanför, så ingenting växer upp där du står eller där tornen ska vara.¶
 skapaKolumner: [-4 -3 -2 2 3 4]
 
 ƒ skapaVärld()
@@ -114,34 +114,34 @@ skapaKolumner: [-4 -3 -2 2 3 4]
 		[]
 		ƒ(fält•[block] cx6•# index2•#)
 			fält.medLista(
-				formvid(
-					((index2 ≤ 3) ? träform stenblockform)
+				formVid(
+					((index2 ≤ 3) ? trädform stenblocksform)
 					cx6
 					Slumpmässig(minZ maxZ)
 				)
 			)
 	)
 
-¶Vilka målblock du ännu inte har matchat. Det här är hela återkopplingen: de bleka tornen löses upp ett block i taget medan du bygger, och det är också anledningen till att ett blekt block och ett riktigt block aldrig delar samma cell — vilket spelar roll, eftersom scenen bara sorterar efter djup, och två saker på samma djup skulle bli slumpmässigt.¶
-ƒ ouppfylltMål(block5•[block] mål2•[block])
+¶Vilka målblock du ännu inte har matchat. Detta är hela återkopplingen: de bleka tornen löses upp ett block i taget medan du bygger, och det är också skälet till att ett bleket block och ett riktigt aldrig delar en cell — vilket spelar roll, eftersom scenen sorterar enbart på djup och två saker på samma djup skulle bli ett slag i luften.¶
+ƒ ouppnåttMål(block5•[block] mål2•[block])
 	mål2.filtrera(
 		ƒ(g•block) ~cellInnehåller(
 				block5
 				g.x2
 				g.y2
 				g.z2
-				g.slag2
+				g.sorts
 			)
 	)
 
-¶Du har vunnit så fort varje block i strukturen är matchat. Allt annat du lämnat liggande är din ensak — trappsteg du byggt för att klättra, en hög du aldrig använde — så inget behöver städas undan för att avsluta. En målcell kräver ett exakt material, så ett träd som råkar stå på rätt plats kan inte uppfylla den.¶
-ƒ målUppfyllt(block6•[block] mål3•[block]) ouppfylltMål(
+¶Du har vunnit när varje block i strukturen är matchat. Allt annat du lämnat kvar är din sak — trappsteg du byggde för att klättra, en hög du aldrig använde — så ingenting behöver städas bort för att bli klar. En målcell kräver ett exakt material, så ett träd som råkar stå på rätt plats kan inte uppfylla den.¶
+ƒ målUppnått(block6•[block] mål3•[block]) ouppnåttMål(
 		block6
 		mål3
 	).längd(
 	) = 0
 
-¶Ta ett steg. Du vänder dig alltid mot den riktning du försökte gå, även när själva steget misslyckas, så att gå in i något är hur du ställer dig rakt framför det. Du går bara in i en cell vars stapel inte är högre än höjden du redan står på — att gå kan aldrig klättra, eftersom ett steg som klättrade skulle föra dig ovanpå just det du försökte hamra loss. Hoppa med j för att komma ovanpå ett block, och gå sedan in på det.¶
+¶Ta ett steg. Du vänder dig alltid mot det håll du försökte gå, även när själva steget misslyckas, så att gå in i något är hur du ställer dig rakt mot det. Du kan bara kliva in i en cell vars stapel inte är högre än den höjd du redan står på — att gå klättrar aldrig, eftersom ett steg som klättrade skulle bära dig upp på just det du försökte hamra. Hoppa med j för att komma över ett block och gå sedan upp på det.¶
 ƒ flytta(spel2•spel dx•# dz•#) (
 		vänd2: (spel2.vändMotX:dx).vändMotZ:dz
 		målX: spel2.x4 + dx
@@ -152,40 +152,40 @@ skapaKolumner: [-4 -3 -2 2 3 4]
 			)
 	)
 
-¶Hoppa, men bara från något du står på. Att fråga om du är ovanför ditt eget fotfäste är det test som spelar roll: att svävandet tar slut är inte samma sak som att ha landat, så ett hopp som bara vägrade medan svävandet varade skulle kunna startas om mitt i fallet, och igen på vägen ner därifrån — och på så sätt klättra genom himlen en cell i taget. Så här kommer du åt allt bortom armlängds avstånd utan att först bygga ett trappsteg.¶
+¶Hoppa, men bara från något du står på. Att fråga om du är ovanför ditt eget fotfäste är det test som räknas: att svävtiden tar slut är inte samma sak som att ha landat, så ett hopp som bara nekades medan svävtiden varade kunde startas om mitt i fallet, och igen på vägen ner därifrån — och du skulle klättra uppför himlen en cell i taget. Så här kommer du åt allt som är högre än du når utan att först bygga ett trappsteg.¶
 ƒ hoppa(spel3•spel)
 	(spel3.y3 > kolumnHöjd(spel3.block2 spel3.x4 spel3.z4)) ? spel3
 		((spel3.y3:(spel3.y3 + 1).min(maxY)).häng:hängtick)
 
-¶Slå på det som är framför dig. Bara den översta biten i den kolumnen lossnar, vilket gör att ett träd tar tre slag — och det betyder att du aldrig kan lämna en bit svävande, så inget behöver någonsin falla. Du når bara ett block en ruta ovanför din egen fot, så en krona utom räckhåll lossnar helt enkelt inte; ta dig högre upp och slå igen. Den lösa biten trillar en ruta längre bort från dig, om inte den rutan är utanför planen eller redan upptagen, för då stannar den där den stod. Hammaren spänns oavsett om du träffar eller inte, så även ett bomslag räknas som ett slag.¶
+¶Svinga mot det som finns framför dig. Bara den översta biten i kolumnen lossnar, och därför krävs det tre slag för att fälla ett träd. Det betyder också att en bit aldrig kan hänga i luften, så ingenting behöver falla. Du kan bara nå ett block som ligger ett steg över din egen fotfäste, så en trädkrona utom räckhåll lossnar helt enkelt inte. Kom högre upp och svinga igen. Den lösa biten rullar en cell längre bort, bort från dig, såvida cellen inte ligger utanför fältet eller redan är upptagen. Då landar den där den stod. Hammaren spänns oavsett om du träffar eller inte, så en miss räknas också som ett svingslag.¶
 ƒ träff(spel4•spel) (
 		målX2: spel4.x4 + spel4.vändMotX
 		målZ2: spel4.z4 + spel4.vändMotZ
 		toppY: kolumnHöjd(spel4.block2 målX2 målZ2) - 1
-		¶Att vika målcellen direkt in i biten den skulle ge undviker att man behöver bära runt på ett kanske-ett-block: en tom kolumn viks helt enkelt till ingenting.¶
+		¶Genom att vika in målcellen direkt i biten den ger undviker vi att bära runt på ett kanske-block. En tom kolumn viks helt enkelt till ingenting.¶
 		produkt: (toppY > (spel4.y3 + räckvidd)) ? '' spel4.block2.filtrera(
 					ƒ(b5•block) (b5.x2 = målX2) & (b5.y2 = toppY) & (b5.z2 = målZ2)
 				).kombinerad(
 					''
-					ƒ(hittills•"" b6•block) hittills + produktav(
-								b6.slag2
+					ƒ(hittills•"" b6•block) hittills + produktAv(
+								b6.sorts
 							)
 				)
-		svängd: spel4.sväng:gungtick
-		(produkt = '') ? svängd (
-				kvarvarande: svängd.block2.filtrera(
+		svängde: spel4.sving:svängtick
+		(produkt = '') ? svängde (
+				återstående: svängde.block2.filtrera(
 						ƒ(b7•block) ~((b7.x2 = målX2) & (b7.y2 = toppY) & (b7.z2 = målZ2))
 					)
 				landaX: målX2 + spel4.vändMotX
 				landaZ: målZ2 + spel4.vändMotZ
 				rensa2: inomGränser(landaX landaZ) & (kolumnHöjd(
-								kvarvarande
+								återstående
 								landaX
 								landaZ
 							) = 0)
-				tappad: svängd.föremål2.med(
+				tappade: svängde.föremål2.med(
 						föremål(
-							svängd.nästaID
+							svängde.nästaID
 							(rensa2 ? landaX målX2)
 							(rensa2 ? landaZ målZ2)
 							målX2
@@ -195,48 +195,48 @@ skapaKolumner: [-4 -3 -2 2 3 4]
 							0
 						)
 					)
-				((svängd.block2:kvarvarande).föremål2:tappad).nästaID:(svängd.nästaID + 1)
+				((svängde.block2:återstående).föremål2:tappade).nästaID:(svängde.nästaID + 1)
 			)
 	)
 
-¶Lägg ett av dina block ovanpå kolumnen framför dig, om du har ett över och det finns plats ovanför. Räckvidden kontrolleras inte här: detta körs bara när högen är i höjd med eller under dina fötter, så det nya blocket hamnar alltid inom räckhåll.¶
-ƒ plats2(spel5•spel) (
+¶Stapla ett av dina block ovanpå kolumnen framför dig, om du har ett över och det finns plats ovanför. Räckvidden kontrolleras inte här. Detta körs bara när högen är i höjd med eller under dina fötter, så det nya blocket landar alltid inom armlängd.¶
+ƒ placera(spel5•spel) (
 		målX3: spel5.x4 + spel5.vändMotX
 		målZ3: spel5.z4 + spel5.vändMotZ
 		höjd3: kolumnHöjd(spel5.block2 målX3 målZ3)
 		lager: (spel5.vald = '🪵') ? spel5.trä spel5.tegel
 		(~inomGränser(målX3 målZ3) | (lager = 0) | (höjd3 > maxY)) ? spel5 (
-				förbrukad: (spel5.vald = '🪵') ? (spel5.trä:(spel5.trä - 1)) (spel5.tegel:(spel5.tegel - 1))
-				förbrukad.block2:spel5.block2.med(
+				använde: (spel5.vald = '🪵') ? (spel5.trä:(spel5.trä - 1)) (spel5.tegel:(spel5.tegel - 1))
+				använde.block2:spel5.block2.med(
 					block(målX3 höjd3 målZ3 spel5.vald)
 				)
 			)
 	)
 
-¶Om mellanslagstangenten bygger istället för att slå sönder. Högen framför dig avgör: i höjd med eller under dina fötter lägger du ett block till på den, ovanför dem slår du av toppen. En tangent gör båda delarna, och muspekaren visar vilket — så att bygga uppåt betyder att du klättrar medan du bygger, vilket är vad hoppet är till för, och du kan alltid ta tillbaka något du lagt på fel plats genom att stå i samma höjd som det.¶
-ƒ byggnad(spel6•spel)
+¶Om mellanslag skulle bygga i stället för att bryta. Högen framför dig avgör: i höjd med eller under dina fötter staplar du ett block till på den, och ovanför dem slår du bort dess topp. En enda tangent gör båda sakerna, och markören visar vilken. Att bygga uppåt betyder alltså att klättra medan du bygger, och det är det hoppet är till för. Du kan alltid ta tillbaka något du lagt på fel plats genom att stå i samma höjd som det.¶
+ƒ bygger(spel6•spel)
 	kolumnHöjd(
 		spel6.block2
 		(spel6.x4 + spel6.vändMotX)
 		(spel6.z4 + spel6.vändMotZ)
 	) ≤ spel6.y3
 
-ƒ agera(spel7•spel) byggnad(spel7) ? plats2(spel7) träff(
+ƒ agera(spel7•spel) bygger(spel7) ? placera(spel7) träff(
 			spel7
 		)
 
-¶Byt vilket material du skulle stapla.¶
+¶Byt vilket material du vill stapla.¶
 ƒ växla(spel8•spel) spel8.vald:((spel8.vald = '🪵') ? '🧱' '🪵')
 
-¶En knapptryckning under spel. Knappen kommer hit som ren text istället för att jämföras ute i reaktionen, vilket gör att reaktionens ∆-tester bara tittar på själva strömmen.¶
-ƒ tillämpaTangenttryckning(spel9•spel tangent2•"")
-	(tangent2 = 'Pil vänster') ? flytta(spel9 -1 0)
-		((tangent2 = 'Pil Höger') ? flytta(spel9 1 0)
-				((tangent2 = 'Pil upp') ? flytta(spel9 0 1)
-						((tangent2 = 'Pil ner') ? flytta(spel9 0 -1)
-								((tangent2 = 'Utrymme') ? agera(spel9)
-										((tangent2 = 'Flytta') ? växla(spel9)
-												((tangent2 = 'j') ? hoppa(spel9) spel9))))))
+¶Ett tangenttryck under spelet. Tangenten kommer hit som vanlig text i stället för att jämföras inuti reaktionen, så att reaktionens ∆-tester håller blicken på själva strömmen.¶
+ƒ tillämpaTangenttryck(spel9•spel nyckel3•"")
+	(nyckel3 = 'Pil vänster') ? flytta(spel9 -1 0)
+		((nyckel3 = 'Pil Höger') ? flytta(spel9 1 0)
+				((nyckel3 = 'Pil upp') ? flytta(spel9 0 1)
+						((nyckel3 = 'Pil ner') ? flytta(spel9 0 -1)
+								((nyckel3 = 'Utrymme') ? agera(spel9)
+										((nyckel3 = 'Flytta') ? växla(spel9)
+												((nyckel3 = 'j') ? hoppa(spel9) spel9))))))
 
 ¶En ny omgång.¶
 ƒ nyttSpel() spel(
@@ -252,58 +252,58 @@ skapaKolumner: [-4 -3 -2 2 3 4]
 		'🪵'
 		0
 		1
-		skapamål()
+		skapaMål()
 		skapaVärld()
 		[]
 	)
 
-¶En bildruta: åldra de lösa bitarna så att de landar, hänger och sedan faller till toppen av det du står över, plocka upp allt som ligger på din ruta, låt hammaren falla tillbaka, och kontrollera tornen.¶
-ƒ gåVidareVärld(spel10•spel) (
-		åldrad: spel10.föremål2.översätta(
+¶En bildruta: åldra de lösa bitarna så att de landar, hänger kvar och sedan faller ner på toppen av det du står över, plocka upp allt som ligger på din cell, låt hammaren falla tillbaka och kontrollera tornen.¶
+ƒ låtVärldenGåVidare(spel10•spel) (
+		åldrades: spel10.föremål2.översätta(
 				ƒ(i•föremål) (i.ålder = 0) ? (i.ålder:1) i
 			)
 		stående: kolumnHöjd(spel10.block2 spel10.x4 spel10.z4)
-		nästaHäng: (spel10.häng > 0) ? (spel10.häng - 1) 0
+		nästaHängning: (spel10.häng > 0) ? (spel10.häng - 1) 0
 		nästaY: ((spel10.häng = 0) & (spel10.y3 > stående)) ? (spel10.y3 - 1) spel10.y3
-		¶Du är alltid i höjd med kolumnen du står på, och det är allt som ligger där också, så att dela en ruta räcker för att plocka upp något.¶
-		underFötterna: åldrad.filtrera(
+		¶Du befinner dig alltid på höjden av kolumnen du står på, och det gör också allt som ligger där, så det räcker att dela en cell för att plocka upp något.¶
+		underFötterna: åldrades.filtrera(
 				ƒ(i2•föremål) (i2.x3 = spel10.x4) & (i2.z3 = spel10.z4) & (i2.ålder > 0)
 			)
-		behållen: åldrad.filtrera(
+		behöll: åldrades.filtrera(
 				ƒ(i3•föremål) ~((i3.x3 = spel10.x4) & (i3.z3 = spel10.z4) & (i3.ålder > 0))
 			)
 		fickTrä: underFötterna.filtrera(
-				ƒ(i4•föremål) i4.slag3 = '🪵'
+				ƒ(i4•föremål) i4.sorts2 = '🪵'
 			).längd(
 			)
 		fickTegel: underFötterna.filtrera(
-				ƒ(i5•föremål) i5.slag3 = '🧱'
+				ƒ(i5•föremål) i5.sorts2 = '🧱'
 			).längd(
 			)
 		spel(
-			(målUppfyllt(spel10.block2 spel10.mål) ? 3 spel10.fas)
+			(målUppnått(spel10.block2 spel10.mål) ? 3 spel10.fas)
 			spel10.x4
 			nästaY
 			spel10.z4
 			spel10.vändMotX
 			spel10.vändMotZ
-			nästaHäng
+			nästaHängning
 			(spel10.trä + fickTrä)
 			(spel10.tegel + fickTegel)
 			spel10.vald
-			((spel10.sväng > 0) ? (spel10.sväng - 1) 0)
+			((spel10.sving > 0) ? (spel10.sving - 1) 0)
 			spel10.nästaID
 			spel10.mål
 			spel10.block2
-			behållen
+			behöll
 		)
 	)
 
-tangent3: Nyckel()
+nyckel4: Nyckel()
 tick: Tid(150ms)
-knacka: Knapp()
+tryck: Knapp()
 
-¶Hjärtslaget, drivet av tre inmatningar. Under spel för en tick världen framåt, tangenter gör allt annat, och ett klick slår. Från titelskärmen eller vinstskärmen startar Enter eller ett klick en ny omgång.¶
+¶Hjärtslaget, styrt av tre indata. Medan du spelar flyttar en tick fram världen, tangenterna gör allt annat och ett klick svingar. Från titelskärmen eller vinstskärmen startar Enter eller ett klick en ny omgång.¶
 spel11•spel: spel(
 		1
 		0
@@ -317,47 +317,46 @@ spel11•spel: spel(
 		'🪵'
 		0
 		1
-		skapamål()
+		skapaMål()
 		skapaVärld()
 		[]
 	)
-	… (∆ tick | ∆ tangent3 | ∆ knacka) …
+	… (∆ tick | ∆ nyckel4 | ∆ tryck) …
 		(spel11.fas = 2)
-		? (∆ tick ? gåVidareVärld(spel11)
-					(∆ tangent3 ? tillämpaTangenttryckning(
+		? (∆ tick ? låtVärldenGåVidare(spel11)
+					(∆ nyckel4 ? tillämpaTangenttryck(spel11 nyckel4) agera(
 								spel11
-								tangent3
-							) agera(spel11)))
+							)))
 			(∆ tick ? spel11
-					(∆ tangent3 ? ((tangent3 = 'Skriva in') ? nyttSpel(
+					(∆ nyckel4 ? ((nyckel4 = 'Skriva in') ? nyttSpel(
 									) spel11)
-							(∆ knacka ? nyttSpel() spel11)))
+							(∆ tryck ? nyttSpel() spel11)))
 
-¶Allt i världen ritas utan mjuk övergång, så ett steg hamnar på den bildruta du trycker på istället för att glida efter dig, och varje bit bär ett namn som byggs från sin ruta. Namnet är den viktiga delen: scenen skiljer utdata åt med namn, och en lista utan namn skiljs åt genom position, så att bryta ut ett block från mitten av en stapel skulle ge varje block ovanför det sin grannes identitet och få dem alla att glida ner ett steg.¶
+¶Allt i världen ritas utan mjuk övergång, så ett steg landar på den bildruta där du trycker i stället för att glida efter dig, och varje bit har ett namn som byggs av dess cell. Namnet är det viktiga: scenen skiljer utdata åt med hjälp av namn, och en lista utan namn skiljs åt efter plats. Om du bröt ett block mitt i en stapel skulle varje block ovanför få sin grannes identitet och alla skulle börja glida ner ett steg.¶
 ¶A green emoji is about a quarter wider than it is tall, so the tiles are sized
 down to land exactly one to a cell and keep the ground lined up with the blocks
 standing on it.¶
-rutaStorlek: 0.8m
+rutstorlek: 0.8m
 
-markRader: [:0‥4].filtrera(
+markrader: [:0 ‥ 4].filtrera(
 		ƒ(rad•#) rad ≥ (spel11.z4 - ritaBakom)
 	).översätta(
 		ƒ(rad2•#)
 			Fras(
 				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
-				rutaStorlek
+				rutstorlek
 				varaktighet: 0s
 				namn: "g\rad2\"
 				plats: Plats(vidX(minX) vidY(-1) vidZ(rad2))
 			)
 	)
 
-blockVyer: spel11.block2.filtrera(
+blockvyer: spel11.block2.filtrera(
 		ƒ(b8•block) b8.z2 ≥ (spel11.z4 - ritaBakom)
 	).översätta(
 		ƒ(b9•block)
 			Fras(
-				b9.slag2
+				b9.sorts
 				1m
 				varaktighet: 0s
 				namn: "b\b9.x2\,\b9.y2\,\b9.z2\"
@@ -365,13 +364,13 @@ blockVyer: spel11.block2.filtrera(
 			)
 	)
 
-¶Tornen du siktar mot, urblekta, och bara de delarna du inte har byggt än.¶
-spökeVyer: ouppfylltMål(spel11.block2 spel11.mål).filtrera(
+¶Tornen du siktar på, bleka, och bara de delar du inte har byggt än.¶
+spökvyer: ouppnåttMål(spel11.block2 spel11.mål).filtrera(
 		ƒ(g2•block) g2.z2 ≥ (spel11.z4 - ritaBakom)
 	).översätta(
 		ƒ(g3•block)
 			Fras(
-				g3.slag2
+				g3.sorts
 				1m
 				varaktighet: 0s
 				opacitet: 35%
@@ -380,13 +379,13 @@ spökeVyer: ouppfylltMål(spel11.block2 spel11.mål).filtrera(
 			)
 	)
 
-¶En lös bit. Detta är det enda på scenen som glider mjukt istället för att hoppa till — dess första bildruta är där uppe där blocket gick sönder och resten är där den landade, och den mjuka övergången däremellan är fallet.¶
-sakVyer: spel11.föremål2.filtrera(
+¶En lös bit. Det här är det enda på scenen som mjukt glider i stället för att hoppa till. Dess första bildruta ligger där blocket gick sönder och resten ligger där det landade, och den mjuka övergången däremellan är tumlandet.¶
+föremålsvyer: spel11.föremål2.filtrera(
 		ƒ(i6•föremål) i6.z3 ≥ (spel11.z4 - ritaBakom)
 	).översätta(
 		ƒ(i7•föremål)
 			Fras(
-				i7.slag3
+				i7.sorts2
 				0.6m
 				varaktighet: 0.3s
 				namn: "i\i7.id2\"
@@ -404,8 +403,8 @@ sakVyer: spel11.föremål2.filtrera(
 			)
 	)
 
-¶En varaktighet är det som gör ett steg till rörelse överhuvudtaget: utan någon hoppar scenen över att skapa en animation för honom och varje förflyttning teleporterar. Strax under en tick betyder att varje steg och varje hopp landar precis innan nästa kommer. Sträckningen medan han är i luften är samma trick som hammarens spända slag — en annan pose som hålls så länge tillståndet varar, istället för en animation som startar och stannar.¶
-spelareVy: Fras(
+¶En varaktighet är det som alls gör ett steg till rörelse. Utan den hoppar scenen över att skapa en animation för honom och varje förflyttning teleporterar. En aning kortare än en tick gör att varje steg och varje hopp har satt sig precis innan nästa kommer. Tiden han är i luften använder samma trick som hammarens spända sving: en annan pose som hålls så länge tillståndet varar, i stället för en animation som startas och stoppas.¶
+spelarvy: Fras(
 		'🚶🏻‍♀'
 		1.1m
 		varaktighet: 0.14s
@@ -419,34 +418,34 @@ spelareVy: Fras(
 		)
 	)
 
-¶Muspekaren svävar över rutan som din nästa handling hamnar på — den lediga platsen ovanpå stapeln du står framför. Ett slag slår sönder blocket direkt under den, och en stapling fyller rutan den markerar, så det är aldrig oklart vad du är på väg att slå sönder eller var ett block kommer att hamna. Den svävar lite ovanför den rutan så att den syns när rutan är rakt framför dig och din egen kropp annars skulle dölja den. Den spänns tillbaka i samma ögonblick du slår och glider på plats av sig själv, vilket avfyras precis vid träffen istället för att loopa. Den döljs när du står vänd mot planens kant, eftersom det inte finns något där att göra något med.¶
+¶Markören svävar över cellen där din nästa handling landar, den lediga platsen överst på stapeln du vänder dig mot. Ett slag bryter blocket precis under den och en stapling fyller cellen den markerar, så det finns aldrig någon tvekan om vad du håller på att bryta eller var ett block hamnar. Den svävar lite ovanför cellen så att den syns även när cellen ligger rakt framför dig och din egen kropp annars skulle skymma den. Den spänns bakåt i samma stund som du svingar och glider hem av sig själv, vilket sker exakt vid träffen i stället för att upprepas. Den döljs när du vänder dig mot fältets kant, eftersom det inte finns något att agera på där.¶
 målX4: spel11.x4 + spel11.vändMotX
 målZ4: spel11.z4 + spel11.vändMotZ
-målY: kolumnHöjd(spel11.block2 målX4 målZ4)
+targetY: kolumnHöjd(spel11.block2 målX4 målZ4)
 
-¶Vilket av de två jobben mellanslag skulle göra med kolumnen framför, och om detskulle bli något av det: att bryta kräver att toppen är inom räckhåll, och attbygga kräver att du har kvar något av det valda materialet i fickorna. Markörenblir svag när svaret är nej, så en tom ficka ser likadan ut som en krona utomräckhåll, i stället för ett tryck som tyst inte gör något.¶
-byggerHär: målY ≤ spel11.y3
-inomRäckhåll: (målY - 1) ≤ (spel11.y3 + räckvidd)
+¶Vilket av de två jobben mellanslagstangenten skulle göra med kolumnen framför dig, och om det skulle leda till något: att bryta kräver att toppen är inom räckhåll, och att bygga kräver att du har något kvar av det valda materialet i fickorna. Markören bleknar när svaret är nej, så en tom ficka ser likadan ut som en topp utom räckhåll, i stället för ett tryck som tyst inte gör något.¶
+byggnadHär: targetY ≤ spel11.y3
+inomRäckhåll: (targetY - 1) ≤ (spel11.y3 + räckvidd)
 lagerHär: (spel11.vald = '🪵') ? spel11.trä spel11.tegel
-kanAgera: byggerHär ? (lagerHär > 0) inomRäckhåll
+kanAgera: byggnadHär ? (lagerHär > 0) inomRäckhåll
 
-pekareVy: Fras(
-		(byggerHär ? '🔨' '🪏')
+markörvy: Fras(
+		(byggnadHär ? '🔨' '🪏')
 		0.85m
 		varaktighet: 0.12s
 		namn: 'markör'
-		rotation: ((spel11.sväng > 0) ? -55° 0°)
+		rotation: ((spel11.sving > 0) ? -55° 0°)
 		opacitet: (kanAgera ? 100% 30%)
 		plats: Plats(
 			vidX(målX4)
-			vidY(målY + 0.55)
+			vidY(targetY + 0.55)
 			vidZ(målZ4)
 		)
 	)
 
-pekareLista: inomGränser(målX4 målZ4) ? [pekareVy] []
+markörlista: inomGränser(målX4 målZ4) ? [markörvy] []
 
-¶Fickor och nuvarande material, fästa platt mot skärmen så att djup aldrig gör dem mindre.¶
+¶Fickor och aktuellt material, fastlåsta platt mot skärmen så att djupet aldrig gör dem mindre.¶
 hud: [
 		Fras(
 			"🪵 \spel11.trä\   🧱 \spel11.tegel\   🔨 \spel11.vald\"
@@ -455,22 +454,22 @@ hud: [
 		)
 	]
 
-skärmTitel: (spel11.fas = 3) ? '🎉 Du byggde det! 🎉' '🔨 BYGGKLOSSAR 🔨'
-startRad: (spel11.fas = 3) ? 'Tryck på Retur eller klicka för att bygga igen' 'Tryck på Retur eller klicka för att starta'
+skärmrubrik: (spel11.fas = 3) ? '🎉 Du byggde det! 🎉' '🔨 BYGGKLOSSAR 🔨'
+startlinje: (spel11.fas = 3) ? 'Tryck på Enter eller klicka för att bygga igen' 'Tryck på Enter eller klicka för att börja'
 
-¶Skärmarna ligger platt ovanpå ett fält fullt av träd och figurer, så gruppen harsin egen ogenomskinliga bakgrund — mörka ord över grenar och tak är svåra attläsa, och en solid panel gör dem läsbara samtidigt som världen syns runt omkring.¶
-skärmVy: [
+¶Skärmarna ligger platt ovanpå ett fält fullt av träd och figurer, så gruppen har en egen ogenomskinlig bakgrund. Mörk text över grenar och hustak är svår att läsa, och en solid panel gör den läsbar men låter ändå världen synas runt omkring.¶
+skärmvy: [
 		Grupp(
 			Stack()
 			[
-				Fras(skärmTitel 1.1m namn: 's1')
+				Fras(skärmrubrik 1.1m namn: 's1')
 				Fras(
-					'Piltangenter går · du vänds åt det håll du gick'
+					'Piltangenterna går · du tittar åt det håll du gick'
 					0.5m
 					namn: 's2'
 				)
 				Fras(
-					'Mellanslag styr markören: 🪏 bryter · 🔨 bygger'
+					'Mellanslag verkar på markören: 🪏 bryter · 🔨 bygger'
 					0.5m
 					namn: 's3'
 				)
@@ -480,63 +479,63 @@ skärmVy: [
 					namn: 's4'
 				)
 				Fras(
-					'Nå ett block upp · matcha de svaga blocken'
+					'Nå ett block högre upp · matcha de bleka blocken'
 					0.5m
 					namn: 's5'
 				)
-				Fras(startRad 0.7m namn: 's6')
+				Fras(startlinje 0.7m namn: 's6')
 			]
 			bakgrund: Färg(90% 10 240°)
 		)
 	]
 
-¶Kameran håller ett fast avstånd bakom dig i stället för att stå still, så duförblir lika stor på skärmen oavsett hur långt in du går, och fältet glider förbidig, precis över axeln. Den följer dig i sidled också, så om du går mot kantenav fältet glider världen förbi i stället för att lämna dig utanför bilden.Femtedelen av en cell är en justering för att centrera: en figur ritas från sinvänstra kant, som ligger en halv cell över, och dess tecken är lite bredare änden cell den står i.
+¶Kameran håller ett fast avstånd bakom dig i stället för att stå still. Därför förblir du lika stor på skärmen hur långt in du än går, och fältet glider förbi dig, rakt över din axel. Den följer dig också i sidled, så när du går till fältets kant glider världen åt sidan i stället för att du hamnar utanför den. En femtedels ruta är en centreringsknuff: en figur ritas från sin vänstra kant, som ligger en halv ruta över, och dess tecken är lite bredare än rutan den står i.
 
-Scenen skalar allt efter avstånd från kameran, och en enda cell framförlinsen ritas åtta gånger så stor som i verkligheten — så på det avståndet ritasinte världen mer än en rad bakom dig alls. Tornen står alltid på den bakre raden,den enda rad som ritavståndet aldrig kan skära bort, så de syns var du än går.¶
-kameraZ: ((spel11.z4 - världBak - kameraBak) · 1m)
+Scenen skalar allt efter dess avstånd från kameran, och något som är en enda ruta framför linsen ritas åtta gånger så stort som i verkligheten. På det här avståndet ritas därför inte världen mer än en rad bakom dig. Tornen står alltid på bakre raden, den enda raden som ritavståndet aldrig kan skära bort, så de syns från överallt där du kan gå.¶
+cameraZ: ((spel11.z4 - världBakåt - kameraBakåt) · 1m)
 
-¶Kameran ligger i höjd med det du står på, inte din egen höjd, så om du klivrupp på en stapel följer kameran med dig och håller dig inom bild, medan etthopp fortfarande ser ut som ett hopp — under ett hopp lyfter du dig verkligenbort från kameran i stället för att dra med den.¶
-kameraY: (kolumnHöjd(spel11.block2 spel11.x4 spel11.z4) · 1m)
+¶Kameran följer höjden på det du står på i stället för din egen höjd. När du klättrar upp på en hög följer kameran med upp och håller dig i bild, medan ett hopp ändå ser ut som ett hopp: under ett hopp stiger du verkligen bort från kameran i stället för att dra med den.¶
+cameraY: (kolumnHöjd(spel11.block2 spel11.x4 spel11.z4) · 1m)
 
-¶Världen ritas likadant i varje fas, så titel- och vinstskärmarna visar fältetprecis som du kommer att spela det, i stället för en separat menyscen.¶
-världLager: [
-		:blockVyer
-		:spökeVyer
-		:sakVyer
-		spelareVy
-		:pekareLista
+¶Världen ritas likadant i varje fas, så titelskärmen och vinstskärmen visar fältet precis som du kommer att spela det, i stället för en separat menyscen.¶
+världslager: [
+		:blockvyer
+		:spökvyer
+		:föremålsvyer
+		spelarvy
+		:markörlista
 	]
 
-¶Allt som pratar med dig visas i scenens överlägg, som är fäst platt motskärmen och därför inte påverkas av kameran eller av djup. Att placera texten härhellre än i världen är det som gör den läsbar: allt som placeras i världen liggerpå något djup, och markraderna närmare kameran skulle ritas ovanpå den.¶
-överliggandeLager: (spel11.fas = 2) ? hud skärmVy
+¶Allt som pratar med dig ligger i scenens överlägg, som är fastlåst platt mot skärmen och därför inte påverkas av kameran eller av djup. Att lägga skärmarna här i stället för i världen gör dem läsbara: allt som placeras i världen ligger på något djup, och marken närmare kameran skulle ritas ovanpå det.¶
+överlagringslager: (spel11.fas = 2) ? hud skärmvy
 
-¶En bit som lossnat är fortfarande på sin första bildruta, den enda bildrutansom skiljer den från bitarna som redan ligger runt omkring — samma ålder somritningen använder för att avgöra om den ska starta upp där blocket gick sönder.¶
+¶En bit som slagits loss är fortfarande på sin första bildruta, den enda bildrutan som skiljer den från bitarna som redan ligger omkring. Det är samma ålder som ritningen använder för att avgöra om den ska starta där blocket gick sönder.¶
 trasigNu: spel11.föremål2.filtrera(
 		ƒ(i8•föremål) i8.ålder = 0
 	)
 
-¶Om hammaren just svingades. Bara att bryta spänner den, så det här är ⊥ för etttryck som byggde ett block i stället.¶
-gickSönder: spel11.sväng = gungtick
+¶Om hammaren precis svängdes. Bara när man bryter spänns den, så det här är ⊥ för ett tryck som i stället staplade ett block.¶
+gickSönder: spel11.sving = svängtick
 
-¶Hur svingen lät. Trä knackar med en tom-trumma och sten med bastrumman, sä etträd och ett stenblock låter olika, och en svingning som inte träffade någotgetten lätt klick — ett missat slag du kan höra är bättre än ett missat slag somlåter som att inget hände.
+¶Hur svinget lät. Trä dunkar med en tom och sten med stortrumman, så ett träd och en stenbumling låter olika, och ett sving som inte träffade något får ett lätt tick. Ett bom som man hör är bättre än ett bom som låter som om ingenting hände.
 
-Tom resten av tiden, vilket räcker: en ton som har börjat spelas klart tillslutet, så hammaren ljuder ut även om den här listan blir tom redan nästa bildruta.¶
-träffToner: gickSönder
+Tom resten av tiden, och det är allt som behövs: en ton som har börjat spelas klingar ut, så hammaren ringer ut även om den här listan blir tom redan vid nästa tick.¶
+träffnoter: gickSönder
 	? ((trasigNu.längd() > 0) ? trasigNu.översätta(
-					ƒ(i9•föremål) (i9.slag3 = '🪵') ? 5 1
+					ƒ(i9•föremål) (i9.sorts2 = '🪵') ? 5 1
 				) [3])
 		[]
 
-¶Slaget som svängde, och bara det slaget. Hammaren stannar spänd fram till nästatick, så utan detta skulle en tangent som trycks ner i det fönstret låta träffenhöras en andra gång.¶
-svängd2: ((∆ tangent3) & (tangent3 = 'Utrymme')) | (∆ knacka)
+¶Trycket som slog, och bara det trycket. Hammaren förblir spänd till nästa tick, så utan detta skulle varje tangent som trycks ned under den tiden spela slaget en gång till.¶
+svängde2: ((∆ nyckel4) & (nyckel4 = 'Utrymme')) | (∆ tryck)
 
-träffLjud: Musik(
-		Spår(träffToner instrument: Instrument.trummor loop: ⊥)
-		spelaom: svängd2
+träffljud: Musik(
+		Spår(träffnoter instrument: Instrument.trummor loop: ⊥)
+		spelaom: svängde2
 		namn: 'träff'
 	)
 
-¶Något att ha omkring dig medan du arbetar: en långsam pentaton melodi på enflöjt, en klocka som svarar då och då, och en botton som ligger under. Pentatonför att inga toner kan krocka, så slingan löser aldrig upp sig till någotbestämt och låter aldrig fel mot hammaren som landar ovanpå den. Sexton slaglång i stället för åtta, så det tar en stund innan den kommer runt igen.¶
+¶Något att ha omkring sig medan du arbetar: en långsam pentatonisk melodi på en flöjt, en klocka som svarar då och då och ett bordunljud under. Pentatonisk, eftersom inga av tonerna kan skära sig mot varandra. Slingan landar därför aldrig på något särskilt och låter aldrig fel mot hammarslaget ovanpå. Den är sexton slag lång i stället för åtta, så det dröjer innan den börjar om.¶
 stämning: Musik(
 		[
 			Spår(
@@ -564,10 +563,10 @@ stämning: Musik(
 		namn: 'natur'
 	)
 
-¶Belöningen för att matcha varje blekt block: en trumpetsvit upp samma pentatontonskala som fältet har nynnat hela tiden, ett ackord att landa på, och etklockglitter över toppen.
+¶Belöningen för att du har matchat varje bleknat block: en trumpetstigning uppför samma pentatoniska skala som fältet har gnolat på hela tiden, ett ackord att landa på och ett klockglitter ovanpå.
 
-Inget här upprepas, och det är just det som gör det till en fanfar i stälelten ny bakgrund. En engångsljud som har spelats klart är tyst medan det liggerkvar på scenen, så vinstskärmen blir tyst igen och lämnar stämningen därhän;att starta en ny omgång tar bort det från scenen och glömmer det, så nästastruktur du färdigställer får det att höras igen från början.¶
-vinstLjud: Musik(
+Inget här upprepas, och det är just det som gör det till en fanfar och inte en ny bakgrundsmusik. Ett enstaka ljud som har spelats klart förblir tyst medan det finns på scenen, så vinstskärmen blir tyst igen och lämnar utrymmet åt ljudmiljön. När du startar en ny omgång tas det bort från scenen och glöms, så nästa konstruktion du blir klar med spelar upp det igen från början.¶
+vinstljud: Musik(
 		[
 			Spår(
 				[1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø]
@@ -602,13 +601,13 @@ vinstLjud: Musik(
 		namn: 'byggd'
 	)
 
-¶Det syns bara på scenen när du har vunnit, och en tom lista sprids ut till inget.¶
-vinstLista: (spel11.fas = 3) ? [vinstLjud] []
+¶Den finns bara på scenen när du har vunnit, och en tom lista sprids till ingenting.¶
+vinstlista: (spel11.fas = 3) ? [vinstljud] []
 
 Etapp(
-	[:markRader :världLager stämning träffLjud :vinstLista]
-	plats: Plats(((spel11.x4 + 0.2) · 1m) kameraY kameraZ)
+	[:markrader :världslager stämning träffljud :vinstlista]
+	plats: Plats(((spel11.x4 + 0.2) · 1m) cameraY cameraZ)
 	bakgrund: Färg(78% 18 240°)
 	färg: Färg(20% 0 0°)
-	överlagring: överliggandeLager
+	överlagring: överlagringslager
 )

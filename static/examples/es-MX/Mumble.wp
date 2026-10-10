@@ -1,15 +1,15 @@
 m
 Murmurar
 === start
-¶Sigue haciendo clic para que el murmullo se vuelva más intenso.¶
+¶Sigue haciendo clic para que el murmullo se vuelva más fuerte.¶
 
 clics•#: 0 … ∆ Botón() … clics + 1
 
 clics < 3 ?
 	Frase(
-		'murmurar'
+		'murmullo'
 		tamaño: 1m
-		nombre: 'mmm'
+		nombre: 'mur'
 		entrando: Pose(escala: 0)
 		inmóvil: Secuencia(
 			{

@@ -1,26 +1,26 @@
 ☁
-RainingLetters
+Buchstabenregen
 === start/en
-¶Dieses Programm zeigt regnende Buchstaben, die nach den Regeln der Physik auf den Boden fallen. Sobald sie aufkommen, können sie wieder fallen. Es fallen immer gleich viele Buchstaben, aber je nach Lautstärke des Mikrofons wird eine unterschiedliche Anzahl sichtbar gemacht.¶
+¶Dieses Programm hat eine Reihe von Buchstaben, die wie Regen nach den Regeln der Physik zu Boden fallen. Wenn sie aufschlagen, können sie erneut fallen. Es fallen immer gleich viele Buchstaben, aber je nach Lautstärke des Mikrofons sind unterschiedlich viele sichtbar.¶
 ↓ @wordplay/alphabets 1
 
 ¶Die größte Anzahl an Buchstaben¶
-zähler: 100
-¶Die waagerechte Verteilung der Buchstaben¶
+zählung: 100
+¶Die waagerechte Streuung der Buchstaben¶
 größe2: 20m
 
-¶Die Lautstärke des Mikrofons¶
-ampere: Volumen()
+¶Die Amplitude des Mikrofons¶
+amplituden: Volumen()
 
-¶Der gewählte Buchstabe und seine Position, Drehgeschwindigkeit und ob er sichtbar ist.¶
+¶Der gewählte Buchstabe mit seiner Position, seiner Drehgeschwindigkeit und der Angabe, ob er sichtbar ist.¶
 •buchstabe(buchstabe2•"" x2•#m y2•#m winkel•# geschwindigkeit•# sichtbar•?)
 
-takt2: Zeit()
+tick: Zeit()
 
-¶Als Liste von zufälligen Buchstaben an zufälligen Positionen anlegen¶
-buchstaben•[buchstabe]: zähler → [#].übersetzen(
+¶Als Liste zufälliger Buchstaben an zufälligen Positionen starten¶
+buchstaben•[buchstabe]: zählung → [#].übersetzen(
 		ƒ(_) buchstabe(
-				latin.zufällig()
+				latin.random()
 				Zufällig(-größe2 größe2)
 				Zufällig(0m größe2 + 2m)
 				Zufällig(360)
@@ -28,14 +28,14 @@ buchstaben•[buchstabe]: zähler → [#].übersetzen(
 				⊥
 			)
 	)
-	… ∆ takt2 …
-		¶Wenn der Buchstabe über der y-Achse ist, bewege ihn ein Stück nach unten und drehe ihn. Andernfalls setze ihn über die Schwelle zurück und entscheide zufällig, ob er sichtbar ist.¶
+	… ∆ tick …
+		¶Wenn der Buchstabe über der y-Achse liegt, bewege ihn ein Stück nach unten und drehe ihn. Sonst setze ihn wieder über die Grenze und entscheide zufällig, ob er sichtbar ist.¶
 		buchstaben.übersetzen(
 			ƒ(buchstabe3•buchstabe)
 				buchstabe3.y2 > 0m ? (buchstabe3.y2:buchstabe3.y2 - 0.5m).winkel:buchstabe3.winkel + buchstabe3.geschwindigkeit
 					(buchstabe3.y2:größe2 + 2m).sichtbar:Zufällig(
 						0
-						ampere
+						amplituden
 					) > 0.5
 		)
 

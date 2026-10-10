@@ -3,6 +3,7 @@ import { toMarkup } from '#parser/toMarkup.ts';
 import { expect, test } from 'vitest';
 import {
     markupToText,
+    softBreaksToSpaces,
     translateMarkup,
     translateMarkupText,
     translateMarkupTexts,
@@ -306,4 +307,21 @@ test('a message that is nothing but code costs no translation at all', async () 
     expect(calls).toHaveLength(0);
     expect(failed.size).toBe(0);
     expect(translated.get('a')).toBe('\\1 + 2\\');
+});
+
+test.each([
+    // A break between two words is a space.
+    ['tak długo,\njak trwa', 'tak długo, jak trwa'],
+    ['scenę\nwystarcza', 'scenę wystarcza'],
+    // A blank line is a paragraph break.
+    ['one.\n\ntwo.', 'one.\n\ntwo.'],
+    // A bullet on its own line is a list item.
+    ['Here:\n• one\n• two', 'Here:\n• one\n• two'],
+    // A block example keeps its own lines, and so do the lines around it.
+    [
+        'See:\n\\\nPhrase("a")\nPhrase("b")\n\\\nthen',
+        'See:\n\\\nPhrase("a")\nPhrase("b")\n\\\nthen',
+    ],
+])('%j becomes %j', (text, expected) => {
+    expect(softBreaksToSpaces(text)).toBe(expected);
 });

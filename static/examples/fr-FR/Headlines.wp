@@ -1,27 +1,27 @@
 l
 Titres
 === start/en
-¶Les gros titres du New York Times, en direct, pris sur le web et empilés sur la scène.¶
+¶Les titres en direct du New York Times, récupérés sur le web et empilés sur la scène.¶
 
-grosTitres: Pageweb(
+titres: Pageweb(
 		'https://www.nytimes.com'
 		'.indicate-hover'
 	)
-grosTitres•# ?
+titres•# ?
 	Phrase('chargement')
 	Groupe(
 		Empiler('<')
 		[
 			Phrase(
-				`*Gros titres du New York Times*`
+				`*Titres du New York Times*`
 				2m
 				affronter: 'Arvo'
 			)
 		].avecListe(
-			grosTitres.sousséquence(1 7).traduire(
-				ƒ(grosTitre)
+			titres.sousséquence(1 7).traduire(
+				ƒ(titre)
 					Phrase(
-						grosTitre
+						titre
 						envelopper: 20m
 						alignement: '<'
 						affronter: 'Ubuntu'

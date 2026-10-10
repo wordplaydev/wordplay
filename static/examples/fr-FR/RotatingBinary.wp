@@ -1,7 +1,7 @@
 1
-BinaireTournant
+BinaireRotatif
 === start/en
-¶Un champ de uns et de zéros, tournant lentement sur place.¶
+¶Un champ de uns et de zéros, qui tourne lentement sur place.¶
 
 rotationLente: Séquence.tournoiement(10s "straight")
 

@@ -1,27 +1,24 @@
 4
-Madlib
+Texte à trous
 === start
-¶Un texte à trous : donne les mots, obtiens une histoire rigolote.¶
+¶Un texte à trous : donne les mots et obtiens une histoire drôle.¶
 
-¶Ceci garde en mémoire les types de mots dont nous avons besoin, et leur nombre¶
+¶Ceci garde la trace des sortes de mots dont nous avons besoin, et de leur nombre¶
 •natureDuMot(étiquette•"" compte2•#)
 
-¶Voici les mots dont nous avons besoin pour le texte à trous ci-dessous.¶
+¶Ce sont les mots dont nous avons besoin pour le texte à trous ci-dessous.¶
 tours: [
 		natureDuMot('adjectifs' 4)
 		natureDuMot('noms' 3)
-		natureDuMot('verbes, passé' 3)
+		natureDuMot('verbes au passé' 3)
 		natureDuMot('adverbes' 4)
 	]
 
-discussion: Chat()
-¶Chaque fois qu'un message est envoyé, on passe à la nature de mot suivante¶
-tour: 1 … ∆ discussion … tour + 1
-¶Chaque fois qu'un message est envoyé, on le découpe selon les espaces et on l'ajoute aux réponses¶
-réponses•[['']]: [] … ∆ discussion … [
-			:réponses
-			discussion ÷ ' '
-		]
+message: Chat()
+¶Chaque fois qu'un message est envoyé, passer à la nature de mot suivante¶
+tour2: 1 … ∆ message … tour2 + 1
+¶Chaque fois qu'un message est envoyé, couper le message aux espaces et l'ajouter aux réponses¶
+réponses•[['']]: [] … ∆ message … [:réponses message ÷ ' ']
 
 ¶Nous donnons des numéros à ces indices pour rendre le texte à trous plus facile à lire¶
 adjectifs: 1
@@ -33,30 +30,30 @@ demander: réponses.longueur() < 4
 
 Scène(
 	[
-		¶Avant d'avoir les réponses, on demande des réponses¶
+		¶Avant d'avoir les réponses, demander des réponses¶
 		demander ?
 			Groupe(
 				Empiler('|' 0.25m)
 				[
 					Phrase(
-						`\tours[tour].compte2\ \tours[tour].étiquette\ s'il te plaît !`
+						`\tours[tour2].compte2\ \tours[tour2].étiquette\ s'il te plaît !`
 					)
 					Phrase('(séparés par des espaces)' 0.5m)
 				]
 			)
-			¶Une fois les réponses obtenues, on affiche le texte à trous¶
+			¶Après avoir reçu les réponses, afficher le texte à trous¶
 			(
-				¶Fabrique une liste de phrases avec les réponses¶
+				¶Faire une liste de phrases avec les réponses¶
 				phrases2: [
 						`Aujourd'hui, je suis allé au zoo.`
-						`J'ai vu un(e) *\réponses[noms][1]\* *\réponses[adverbes][1]\* sautant de haut en bas dans son arbre.`
-						`Il *\réponses[verbes][1]\* *\réponses[adverbes][2]\* à travers le grand tunnel qui menait à son *\réponses[adjectifs][2]\* *\réponses[noms][2]\*.`
+						`J'ai vu un(e) *\réponses[noms][1]\* *\réponses[adverbes][1]\* sauter de haut en bas dans son arbre.`
+						`Il *\réponses[verbes][1]\* *\réponses[adverbes][2]\* dans le grand tunnel qui menait à son *\réponses[adjectifs][2]\* *\réponses[noms][2]\*.`
 						`J'ai pris des cacahuètes et je les ai passées à travers la cage à un *\réponses[noms][3]\* gris géant qui se dressait au-dessus de ma tête.`
-						`Nourrir cet animal m'a donné faim.`
-						`Je suis allé chercher une *\réponses[adjectifs][3]\* boule de glace.`
-						`Cela m'a rempli l'estomac.`
-						`Ensuite j'ai *\réponses[verbes][2]\* *\réponses[adverbes][2]\* pour attraper notre bus.`
-						`Quand je suis rentré chez moi, j'ai *\réponses[verbes][3]\* ma mère pour une *\réponses[adjectifs][4]\* journée au zoo.`
+						`Donner à manger à cet animal m'a donné faim.`
+						`Je suis allé chercher une boule de glace *\réponses[adjectifs][3]\*.`
+						`Elle m'a rempli le ventre.`
+						`Ensuite, j'ai *\réponses[verbes][2]\* *\réponses[adverbes][2]\* pour attraper notre bus.`
+						`En rentrant à la maison, j'ai *\réponses[verbes][3]\* ma mère pour cette *\réponses[adjectifs][4]\* journée au zoo.`
 					]
 				¶Traduis-les en phrases¶
 				Groupe(

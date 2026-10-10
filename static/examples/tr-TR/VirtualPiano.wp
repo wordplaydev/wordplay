@@ -1,54 +1,54 @@
 🎹
 Sanal Piyano
 === start
-¶Çalabileceğin bir oktavlık bir piyano!En iyi deneyim için müzik görselleştirmesini kapat.¶
+¶Çalabileceğin tek oktavlık bir piyano! En iyi deneyim için müzik görselleştirmesini kapat.¶
 
-¶Bu bağlama, hangi tuşa bastığını algılayan bir Anahtar akışı saklar.¶
+¶Bu bağ, hangi tuşa bastığını algılayan bir Key akışı saklar.¶
 basıldı: Anahtar()
 
-¶Bu, bastığın tuşlardan çalınacak notalara giden bir eşlemeyi saklar. Bu eşleme hem metin biçiminde (çalınan notayı göstermek için) hem de sayısal bir metin biçiminde (bir sayıya (#) çevirip bir Parça listesine girdi olarak vermek için) tutulur.
+¶Burada, bastığın tuşlarla çalacakları notalar eşleştirilir. Notalar iki biçimde saklanır: metin olarak (çalan notayı göstermek için) ve sayısal bir metin değeri olarak (sayıya (#) çevirip bir Track listesine girmek için).
 
-Düzen, piyano tuşlarına yakın olacak şekilde seçildi: beyaz tuşlar harflerle, siyah tuşlar ise rakamlarla gösteriliyor.¶
-notaharitası: {
-		'w': ['C' "1"]
-		'3': ['Do# / Reb' "2"]
-		'e': ['D' "3"]
-		'4': ['Re# / Mib' "4"]
-		'r': ['E' "5"]
-		't': ['F' "6"]
-		'6': ['Fa# / Solb' "7"]
-		'y': ['G' "8"]
-		'7': ['Sol# / Lab' "9"]
-		'u': ['A' "10"]
-		'8': ['La# / Sib' "11"]
-		'i': ['B' "12"]
+Bu yerleşim piyano tuşlarını taklit etmek için seçildi. Beyaz tuşlar harflerle, siyah tuşlar rakamlarla gösterilir.¶
+notaHaritası: {
+		'w': ['Do' "1"]
+		'3': ['Do# / Re♭' "2"]
+		'e': ['Re' "3"]
+		'4': ['Re# / Mi♭' "4"]
+		'r': ['Mi' "5"]
+		't': ['Fa' "6"]
+		'6': ['Fa# / Sol♭' "7"]
+		'y': ['Sol' "8"]
+		'7': ['Sol# / La♭' "9"]
+		'u': ['La' "10"]
+		'8': ['La# / Si♭' "11"]
+		'i': ['Si' "12"]
 		'o': ['Do5' "13"]
 	}
 
-¶Bu fonksiyon, basılan tuşa göre notanın ismini döndürür. Eğer tuş geçerli bir nota değilse, boş bir metin döndürür.¶
-ƒ metinDöndür(anahtar2•"")•"" (notaharitası{anahtar2} ≠ ø) ? notaharitası{anahtar2}[1] ""
+¶Bu fonksiyon, basılan tuşa göre notanın ismini döndürür. Tuş geçerli bir nota değilse boş metin döndürür.¶
+ƒ metinDöndür(anahtar3•"")•"" (notaHaritası{anahtar3} ≠ ø) ? notaHaritası{anahtar3}[1] ""
 
-¶Bu fonksiyon, basılan tuşa karşılık gelen nota numarasını bir liste içinde döndürür; bu liste bir Parça içinde girdi olarak kullanılır. Basılan tuş geçersizse, boş bir liste döndürür.¶
-ƒ notaDöndür(anahtar3•"")•[] [
-		(notaharitası{anahtar3} ≠ ø) ? (notaharitası{anahtar3}[2] → #) [
+¶Bu fonksiyon, basılan tuşa karşılık gelen nota numarasını bir liste olarak döndürür. Bu liste, bir Track'e girdi olarak verilir. Basılan tuş geçerli değilse boş bir liste döndürür.¶
+ƒ notaDöndür(anahtar4•"")•[] [
+		(notaHaritası{anahtar4} ≠ ø) ? (notaHaritası{anahtar4}[2] → #) [
 			]
 	]
 
-¶Bu fonksiyon, sayısal bir liste alır ve bu nota listesine sahip bir Parça döndürür. Döngü kapalıdır, böylece tuşa basıldığında nota yalnızca bir kez çalar.¶
+¶Bu fonksiyon sayılardan oluşan bir liste alır ve bu nota listesiyle bir Track döndürür. Döngü kapalıdır, böylece tuşa basıldığında nota yalnızca bir kez çalar.¶
 ƒ parçaDöndür(nota•[#]) Parça(nota döngü: ⊥)
 
-¶Bu iki bağlama, ilgili tuşa basıldığında ve basılmadığında o tuşun alacağı rengi tanımlar.¶
+¶Bu iki bağlama, ilgili tuşun basıldığında ve basılmadığında hangi renk olacağını belirler.¶
 rengeBas: Renk(10 270 50°)
 boşRenk: Renk(0 0 0°)
 
-¶Bu, basılan tuşa karşılık gelen parçayı çalar. Gam kromatik olarak ayarlanmıştır, böylece parçalar tüm yarım tonlara erişebilir. Yeniden çalma, geçerli bir tuşa basıldığında etkinleşecek şekilde ayarlanmıştır; böylece tuşa üst üste iki kez basılsa bile parça her seferinde çalar.¶
+¶Bu, basılan tuşa karşılık gelen parçayı çalar. Gam kromatiktir, böylece parçalar tüm yarım seslere ulaşabilir. Geçerli bir tuşa basıldığında yeniden çalma ayarlanır. Böylece tuşa art arda iki kez basılsa bile parça her basışta çalar.¶
 Müzik(
 	parçaDöndür(notaDöndür(basıldı))
 	gam: Müzik.kromatik
-	tekrarOynat: notaharitası{basıldı} ≠ ø
+	tekrarOynat: notaHaritası{basıldı} ≠ ø
 )
 
-¶Piyanoyu, basılacak tuşları ve bir tuşa basıldığında çalınan notayı gösterme.¶
+¶Piyanoyu, basılacak tuşları ve bir tuşa basıldığında çalan notayı gösterir.¶
 Grup(
 	Yığın('>' 1m)
 	[

@@ -1,5 +1,5 @@
 t
-Liczby po francusku
+Liczby francuskie
 === start/en-US,start/fr-FR
 ¶Naciśnij cyfrę, która pasuje do francuskiej liczby na scenie.¶
 ¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
@@ -20,30 +20,30 @@ liczby,numeros/fr: [
 
 ¶Sekrety to liczby od 1 do 9 w losowej kolejności¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-sekrety: [:1‥9].przetasowany()
+sekrety: [:1 ‥ 9].przetasowany()
 
 ¶Jaki klawisz został naciśnięty jako ostatni?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-klawisz2,clé/fr: Klawisz()
+klucz,clé/fr: Klawisz()
 
-¶Obecny sekret zwiększa się za każdym razem, gdy naciśniesz klawisz, ale zatrzymuje się na 10¶
+¶Bieżący sekret rośnie za każdym razem, gdy naciśnięto klawisz, ale zatrzymuje się na 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
 indeksSekretu,secretIndice/fr•#:
 	1 …
-	∆ klawisz2 …
+	∆ klucz …
 		(secretIndice < 10) ? secretIndice + 1 secretIndice
 
-¶Obecny sekret, oparty na indeksie sekretu¶
-obecnySekret,secretActuel/fr: sekrety[indeksSekretu]
+¶Bieżący sekret, wybrany według indeksu sekretu¶
+bieżącySekret,secretActuel/fr: sekrety[indeksSekretu]
 
-¶Odpowiedź była poprawna, jeśli naciśnięta liczba pasuje do poprzedniej liczby sekretnej¶
-poprawnie: clé → # = sekrety[indeksSekretu - 1]
+¶Odpowiedź była poprawna, jeśli naciśnięta liczba pasuje do poprzedniego sekretu¶
+poprawne: clé → # = sekrety[indeksSekretu - 1]
 
-¶Punkty zaczynają się od 0 i rosną, gdy odpowiedź jest poprawna.¶
+¶Punkty zaczynają się od 0 i rosną, jeśli odpowiedź była poprawna.¶
 ¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
 punkty2•#: 0 …
-	∆ klawisz2 …
-		poprawnie ?
+	∆ klucz …
+		poprawne ?
 			punkty2 + 1
 			punkty2
 
@@ -53,7 +53,7 @@ wygrana,gagner/fr: punkty2 = 9
 ¶Koniec, gdy indeks sekretu wynosi 10¶
 koniecGry: indeksSekretu = 10
 
-¶Pokaż obecną francuską liczbę i obecne punkty. Po wszystkich 9 sekretach pokaż wynik końcowy¶
+¶Pokaż bieżącą francuską liczbę i bieżące punkty. Po wszystkich 9 sekretach pokaż wynik końcowy¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
 Scena(
@@ -72,8 +72,8 @@ Scena(
 				Wyrażenie("\punkty2\ points!" rozmiar: 1m)
 				Wyrażenie(
 					indeksSekretu = 1 ?
-						'jaka to liczba?''quel est ce numéro ?'/fr
-						poprawnie ?
+						'co to za liczba?''quel est ce numéro ?'/fr
+						poprawne ?
 							'Poprawnie!'
 							"That was \sekrety[indeksSekretu - 1]\"
 				)

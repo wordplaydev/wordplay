@@ -1,7 +1,7 @@
 s
 Płynność sekwencji
 ===
-¶Ta sama animacja samochodu na osiem sposobów, po jednym dla każdego stylu wygładzania.¶
+¶Ta sama animacja samochodu na osiem sposobów, po jednym dla każdego stylu łagodzenia ruchu.¶
 
 klatkiKluczowe: {
 		0%: Poza(zrównoważyć: Miejsce(-1m 0m))
@@ -43,7 +43,7 @@ Scena(
 						styl: "pokey"
 					)
 				)
-				Wyrażenie('szybko' rozmiar: 0.25m)
+				Wyrażenie('żwawo' rozmiar: 0.25m)
 				Wyrażenie(
 					"🏎"
 					spoczynkowy: Sekwencja(

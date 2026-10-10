@@ -1,7 +1,7 @@
 t
 מספרים בצרפתית
 === start/en-US,start/fr-FR
-¶לחצו על הספרה שמתאימה למספר הצרפתי שעל הבמה.¶
+¶לחצו על הספרה שמתאימה למספר הצרפתי שמופיע על הבמה.¶
 ¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
 
 ¶המספרים לניחוש¶
@@ -20,40 +20,40 @@ t
 
 ¶הסודות הם המספרים 1 עד 9 בסדר אקראי¶
 ¶Les secrets sont les nombres de 1 à 9 dans un ordre aléatoire¶/fr
-סודות: [:1‥9].ערבב()
+סודות: [:1 ‥ 9].ערבב()
 
-¶מהו המקש האחרון שנלחץ?¶
+¶מה המקש האחרון שנלחץ?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-מפתח3,clé/fr: מפתח()
+מפתח4,clé/fr: מפתח()
 
-¶הסוד הנוכחי גדל בכל פעם שלוחצים על מקש, אך נעצר ב־10¶
+¶הסוד הנוכחי גדל בכל פעם שנלחץ מקש, אבל נעצר ב-10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
 מדדסוד,secretIndice/fr•#:
 	1 …
-	∆ מפתח3 …
+	∆ מפתח4 …
 		(secretIndice < 10) ? secretIndice + 1 secretIndice
 
-¶הסוד הנוכחי, לפי מַדָד הסוד¶
-סודנוכחי,secretActuel/fr: סודות[מדדסוד]
+¶הסוד הנוכחי, לפי מדד הסוד¶
+הסודהנוכחי,secretActuel/fr: סודות[מדדסוד]
 
-¶הניחוש היה נכון אם המספר שנלחץ תואם לסוד הקודם¶
-נכון: clé → # = סודות[מדדסוד - 1]
+¶הניחוש היה נכון אם המספר שנלחץ שווה למספר הסוד הקודם¶
+נכון2: clé → # = סודות[מדדסוד - 1]
 
-¶הנקודות מתחילות מ־0 ועולות אם הניחוש היה נכון.¶
+¶הנקודות מתחילות ב-0 וגדלות אם הניחוש היה נכון.¶
 ¶Les points commencent à 0 et augmentent si la supposition était correcte.¶/fr
 נקודות2•#: 0 …
-	∆ מפתח3 …
-		נכון ?
+	∆ מפתח4 …
+		נכון2 ?
 			נקודות2 + 1
 			נקודות2
 
-¶ניצחון פירושו לקבל את כל 9 המספרים¶
+¶ניצחון פירושו לנחש נכון את כל 9 המספרים¶
 ניצחון,gagner/fr: נקודות2 = 9
 
-¶המשחק נגמר כשמַדָד הסוד מגיע ל־10¶
+¶סיום כשמדד הסוד הוא 10¶
 סוףהמשחק: מדדסוד = 10
 
-¶מציג את המספר הצרפתי הנוכחי ואת הנקודות הנוכחיות. אחרי כל 9 הסודות, מציג תוצאה סופית¶
+¶להציג את המספר הצרפתי הנוכחי ואת הנקודות הנוכחיות. אחרי כל 9 הסודות, להציג תוצאה סופית¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
 שלב(
@@ -64,7 +64,7 @@ Après les 9 secrets, affichez le résultat final.¶/fr
 				סוףהמשחק ?
 					משפט(
 						ניצחון ?
-							'אתם יודעים מספרים בצרפתית!'"Tu connais les chiffres français!"/fr
+							'אתם מכירים מספרים בצרפתית!'"Tu connais les chiffres français!"/fr
 							'כמעט, נסו שוב'"presque, réessaye"/fr
 						גודל: 2m
 					)
@@ -73,7 +73,7 @@ Après les 9 secrets, affichez le résultat final.¶/fr
 				משפט(
 					מדדסוד = 1 ?
 						'איזה מספר זה?''quel est ce numéro ?'/fr
-						נכון ?
+						נכון2 ?
 							'נכון!'
 							"That was \סודות[מדדסוד - 1]\"
 				)

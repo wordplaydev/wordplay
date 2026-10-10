@@ -1,26 +1,26 @@
 0⃣
 Calculadora
 === start/en
-¶Una calculadora de bolsillo hecha con unas cuantas funciones aritméticas.¶
+¶Una calculadora de bolsillo hecha con unas cuantas funciones de aritmética.¶
 
 ¶Funciones que hacen cálculos¶
 ƒ suma2(num1•# num2•#) num1 + num2
 ƒ resta(num12•# num22•#) num12 - num22
-ƒ multiplicación(num13•# num23•#) num13 × num23
-ƒ división(num14•# num24•#) num14 ÷ num24
+ƒ multiplicacion(num13•# num23•#) num13 × num23
+ƒ division(num14•# num24•#) num14 ÷ num24
 
-opción: Elección()
-cuadro: 1 … ∆ (opción) … 1 + cuadro
+eleccion: Elección()
+cuadro: 1 … ∆ (eleccion) … 1 + cuadro
 
-¶Booleanos que llevan el registro de si cada valor ya fue elegido¶
-num1elegido: ⊥ … ∆ (opción) … (opción.comienza('num1')) & ~num1elegido
-num2elegido: ⊥ … ∆ (opción) … (opción.comienza('num2')) & ~num2elegido
-oelegido: ⊥ … ∆ (opción) … (opción.comienza('op')) & ~oelegido
+¶Valores booleanos para saber si ya se eligió cada valor¶
+num1elegido: ⊥ … ∆ (eleccion) … (eleccion.comienza('num1')) & ~num1elegido
+num2elegido: ⊥ … ∆ (eleccion) … (eleccion.comienza('num2')) & ~num2elegido
+opelegido: ⊥ … ∆ (eleccion) … (eleccion.comienza('op')) & ~opelegido
 
-¶Lleva el registro de los operandos y los operadores¶
-num15: ø → # … num1elegido … ((opción ÷ '')[-1]) → #
-num25: ø → # … num2elegido … ((opción ÷ '')[-1]) → #
-operador: ø … oelegido … ((opción ÷ '')[-1])
+¶Guarda los operandos y los operadores¶
+num15: ø → # … num1elegido … ((eleccion ÷ '')[-1]) → #
+num25: ø → # … num2elegido … ((eleccion ÷ '')[-1]) → #
+operador: ø … opelegido … ((eleccion ÷ '')[-1])
 
 ¶Pantalla para elegir el primer número¶
 numeros1: Grupo(
@@ -70,13 +70,13 @@ operadores: Grupo(
 ¶Pantalla para mostrar el resultado¶
 resultado2: ((operador = 'a') | (operador = 's')) ?
 		(operador = 'a' ? suma2(num15 num25) resta(num15 num25))
-		(operador = 'm' ? multiplicación(num15 num25) división(
+		(operador = 'm' ? multiplicacion(num15 num25) division(
 					num15
 					num25
 				))
 
-¶Recorre cada una de las pantallas¶
-configuración: [numeros1 operadores numeros2 resultado2]
+¶Recorrer cada pantalla¶
+configuracion: [numeros1 operadores numeros2 resultado2]
 
 ¶Mostrar¶
-configuración[cuadro]
+configuracion[cuadro]

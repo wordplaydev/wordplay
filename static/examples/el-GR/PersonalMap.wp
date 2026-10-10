@@ -1,5 +1,5 @@
 🍂
-Προσωπικός Χάρτης – Τα Μέρη Όπου Έχω Ζήσει
+Ο προσωπικός μου χάρτης – Τα μέρη όπου έχω ζήσει
 === English/en
 ¶This project has an English and a Hindi version.
 Change the locale on stage to see each one!¶/en
@@ -29,7 +29,7 @@ single run for the speech bubble to wrap however it likes.¶/en
 	γραμμές.μήκος() < 2 ? γραμμές[1]
 		γραμμές.ακολουθία(2).συνδυασμένο(
 			γραμμές[1]
-			ƒ(συσσ επόμενο) συσσ + `` + επόμενο
+			ƒ(επιτ επόμενο) επιτ + `` + επόμενο
 		)
 
 ¶This 'otherwise' checks the name of the collided object

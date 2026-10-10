@@ -1,17 +1,17 @@
 🎂
 Selamat Ulang Tahun
 === start/en
-¶Selamat Ulang Tahun dalam tiga bagian: sebuah melodi, harmoni di bawahnya, dan kord yang menopang keduanya.
+¶Selamat Ulang Tahun dalam tiga bagian: melodi, harmoni di bawahnya, dan akor yang menopang keduanya.
 
-Setiap bagian ditulis dalam derajat skala, jadi 1 adalah nada dasar dan 8 adalah nada dasar satu oktaf lebih tinggi. Itulah sebabnya lagunya terdengar sama walau kamu ubah ke kunci nada apa pun — ubah @Music/key dan seluruh lagu ikut berubah, termasuk penyanyinya.
+Setiap bagian ditulis dengan derajat tangga nada, jadi 1 adalah nada dasar dan 8 adalah nada dasar satu oktaf di atasnya. Karena itu lagunya terbaca sama di nada dasar apa pun. Ubah @Music/key dan seluruh lagu ikut berpindah, termasuk para penyanyinya.
 
-Melodi dan harmoni bergerak dalam setengah ketukan, sedangkan kord bergerak dalam satu ketukan penuh, jadi setiap bagian menyebutkan berapa lama masing-masing entrinya, dan semuanya tetap selaras.¶
+Melodi dan harmoni bergerak dalam setengah ketukan, sedangkan akor dalam ketukan penuh. Jadi setiap bagian menyebutkan panjang isinya sendiri, dan semuanya tetap sejajar.¶
 
-¶Jumlah ketukan sejak lagu dimulai, agar kue bisa bergerak mengikutinya. @Beat menghitung dari nol sebelum musik dimainkan, jadi kue hanya diam saja.¶
+¶Jumlah ketukan sejak lagu mulai, supaya kue bisa bergerak bersama lagu. @Beat menghitung dari nol sebelum musik diputar, jadi kue diam saja.¶
 ketukan2: Ketukan()
 hitungan2: ketukan2.hitung
 
-¶Melodinya. Dua not seperdelapan, lalu not yang lebih panjang — bagian diam itulah yang membentuk iramanya, karena setiap entri berlangsung selama setengah ketukan yang sama.¶
+¶Melodinya. Dua nada seperdelapan, lalu nada yang lebih panjang. Jeda itulah yang membentuk iramanya, karena setiap isi berlangsung selama setengah ketukan yang sama.¶
 melodi: [
 		5
 		5
@@ -123,8 +123,8 @@ alto: [
 		ø
 	]
 
-¶Kord, satu per ketukan. Sebuah kumpulan membunyikan derajatnya bersamaan, jadi {1 3 5} adalah trinada nada dasar dan {4 5 7 9} adalah trinada yang ingin kembali ke nada dasar itu.¶
-kord: [
+¶Akor, satu untuk setiap ketukan. Sebuah himpunan membunyikan semua derajatnya bersamaan, jadi {1 3 5} adalah triad nada dasar dan {4 5 7 9} adalah akor yang ingin kembali ke triad itu.¶
+akor: [
 		ø
 		{1 3 5}
 		ø
@@ -153,7 +153,7 @@ kord: [
 		ø
 	]
 
-¶Kue membesar pada setiap ketukan dan mengecil kembali di antaranya.¶
+¶Kue membesar pada setiap ketukan dan mengecil kembali di antara ketukan.¶
 ƒ kue() Frasa(
 		'🎂'
 		(4m + ((hitungan2 % 2) · 0.4m))
@@ -183,7 +183,7 @@ Panggung(
 					volume: 65%
 				)
 				Trek(
-					kord
+					akor
 					alatMusik: AlatMusik.piano
 					ketukan: 1beats
 					volume: 55%

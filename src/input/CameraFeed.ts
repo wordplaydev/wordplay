@@ -153,6 +153,9 @@ export default class CameraFeed {
 
     start() {
         if (this.source !== undefined) return;
+        // Without a document there is no camera to open; the stream keeps its initial value, which
+        // is also what lets a unit test drive `react` with synthetic frames.
+        if (typeof document === 'undefined') return;
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d', {
             alpha: false,

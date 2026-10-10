@@ -1,36 +1,36 @@
 ⏳
-পড়াশোনার মোড মিটার
+পড়ার মোড মিটার
 === start/en
-¶পড়াশোনার সময় যোগ করতে ক্লিক করো, আর দেখো মিটার কীভাবে শান্ত থেকে মনোযোগে, তারপর বাড়াবাড়িতে বদলায়।¶
+¶পড়ার ঘণ্টা যোগ করতে ক্লিক করো এবং দেখো মিটারটি শান্ত থেকে মনোযোগ, তারপর অতিরিক্ত চাপের দিকে বদলে যায়।¶
 
 ¶The action stores the choice the user clicks, such as add or reset.¶/en
 কাজ: পছন্দ()
 
 ¶Study hours remembers the current number of study hours.
 It starts at 0, then updates depends on the action the user selects.¶/en
-পড়াশোনারসময়:
+পড়ারঘণ্টা:
 	0 …
 	∆ কাজ …
 		কাজ = 'reset' ?
 			0
-			পড়াশোনারসময় + 1
+			পড়ারঘণ্টা + 1
 
 ¶Explanation shows a visible instruction for the user.¶/en
 ব্যাখ্যা:
-	'পড়াশোনার সময় বাড়াতে “পড়ার ঘণ্টা যোগ করো +১” বাটনে ক্লিক করো। আবার শুরু করতে “রিসেট” বাটনে ক্লিক করো।'
+	'পড়ার সময় বাড়াতে “পড়ার ঘণ্টা যোগ করো +১” ক্লিক করো। প্রথম থেকে শুরু করতে “রিসেট” ক্লিক করো।'
 
 ¶Hours text shows how many hours the user has studied.¶/en
 ঘণ্টারলেখা:
-	'তুমি পড়েছ ' + পড়াশোনারসময় → '' + ' ঘণ্টা।'
+	'তুমি পড়েছ ' + পড়ারঘণ্টা → '' + ' ঘণ্টা।'
 
 ¶Mood chooses the message shown on the screen.
 It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
 মেজাজ:
-	পড়াশোনারসময় < 3 ?
-		'🌿 শান্ত মোড — পড়াশোনার সময় যোগ করতে ক্লিক করো'
-		পড়াশোনারসময় < 6 ?
-			'📚 মনোযোগ মোড — তুমি এখন কাজের সেরা সময়ে আছো!'
-			'🔥 বাড়াবাড়ি মোড — একটু বিরতি নাও আর "রিসেট" করো'
+	পড়ারঘণ্টা < 3 ?
+		'🌿 শান্ত মোড — পড়ার সময় যোগ করতে ক্লিক করো'
+		পড়ারঘণ্টা < 6 ?
+			'📚 মনোযোগ মোড — তুমি এখন কাজের সেরা অবস্থায় আছো!'
+			'🔥 অতিরিক্ত চাপ মোড — একটু বিরতি নাও এবং "রিসেট" করো'
 
 ¶Stage creates the visible scene.
 The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
@@ -39,7 +39,7 @@ The Stack places the title, explanation, number display, message, and selectable
 		দল(
 			স্তূপ()
 			[
-				বাক্যাংশ('পড়াশোনার মোড মিটার' আকার: 0.5m)
+				বাক্যাংশ('পড়ার মোড মিটার' আকার: 0.5m)
 
 				¶This Phrase shows the explanation on the screen.¶/en
 				বাক্যাংশ(ব্যাখ্যা আকার: 0.4m)

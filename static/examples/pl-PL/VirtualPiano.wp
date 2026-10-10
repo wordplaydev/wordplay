@@ -1,14 +1,14 @@
 🎹
-Wirtualne Pianino
+Wirtualne pianino
 === start
-¶Pianino na jedną oktawę, na którym możesz grać!Dla najlepszego działania wyłącz wizualizację muzyki.¶
+¶Pianino na jedną oktawę, na którym możesz grać! Aby było najlepiej, wyłącz wizualizację muzyki.¶
 
-¶To wiązanie przechowuje strumień Key, który wykrywa, który klawisz naciśnięto.¶
-wciśnięty: Klawisz()
+¶To powiązanie przechowuje strumień Klawisza, który wykrywa, jaki klawisz naciśnięto.¶
+naciśnięty: Klawisz()
 
-¶To przechowuje mapowanie z klawiszy, które naciskasz, na nuty, które będą grane,w postaci tekstu (do wyświetlenia granej nuty) oraz w postaci liczbowegoliterału tekstowego (do przekształcenia w liczbę (#) i wprowadzenia do listy Track).
+¶To przechowuje mapę z klawiszy, które naciskasz, na nuty, które zagrają. Nuty są zapisane w dwóch postaciach: jako tekst (żeby pokazać grającą nutę) i jako liczbowy tekst (żeby zamienić go na liczbę (#) i wstawić do listy Ścieżki).
 
-Układ został wybrany tak, aby dokładnie odwzorować klawisze pianina, gdzie białeklawisze przedstawiają znaki alfabetyczne, a czarne klawisze przedstawiają znaki liczbowe.¶
+Układ jest wybrany tak, aby przypominał klawisze pianina. Białe klawisze to litery, a czarne klawisze to cyfry.¶
 mapaNut: {
 		'w': ['C' "1"]
 		'3': ['C# / Db' "2"]
@@ -21,33 +21,33 @@ mapaNut: {
 		'7': ['G# / Ab' "9"]
 		'u': ['A' "10"]
 		'8': ['A# / Bb' "11"]
-		'i': ['B' "12"]
+		'i': ['H' "12"]
 		'o': ['C5' "13"]
 	}
 
-¶Ta funkcja zwraca nazwę nuty, na podstawie tego, który klawisz naciśnięto.Jeśli klawisz nie odpowiadał żadnej nucie, zwraca pusty tekst.¶
-ƒ zwróćText(klawisz2•"")•"" (mapaNut{klawisz2} ≠ ø) ? mapaNut{klawisz2}[1] ""
+¶Ta funkcja zwraca nazwę nuty na podstawie naciśniętego klawisza. Jeśli klawisz nie jest prawidłową nutą, zwraca pusty tekst.¶
+ƒ zwróćTekst(klucz•"")•"" (mapaNut{klucz} ≠ ø) ? mapaNut{klucz}[1] ""
 
-¶Ta funkcja zwraca numer nuty odpowiadający naciśniętemu klawiszowi w liście,do użycia jako wejście w Track. Jeśli naciśnięty klawisz jest nieprawidłowy,zwraca pustą listę.¶
-ƒ zwróćNote(klawisz3•"")•[] [
-		(mapaNut{klawisz3} ≠ ø) ? (mapaNut{klawisz3}[2] → #) []
+¶Ta funkcja zwraca w liście numer nuty odpowiadający naciśniętemu klawiszowi, aby użyć go jako wejścia w Ścieżce. Jeśli naciśnięty klawisz jest nieprawidłowy, zwraca pustą listę.¶
+ƒ zwróćNutę(klucz2•"")•[] [
+		(mapaNut{klucz2} ≠ ø) ? (mapaNut{klucz2}[2] → #) []
 	]
 
-¶Ta funkcja przyjmuje listę liczbową i zwraca Track z tą listą nut.Pętla jest wyłączona, aby nuta zagrała tylko raz po naciśnięciu klawisza.¶
-ƒ zwróćTrack(nuta•[#]) Ścieżka(nuta pętla: ⊥)
+¶Ta funkcja przyjmuje listę liczb i zwraca Ścieżkę z tą listą nut. Pętla jest wyłączona, więc nuta gra raz po naciśnięciu klawisza.¶
+ƒ zwróćŚcieżkę(nuta•[#]) Ścieżka(nuta pętla: ⊥)
 
-¶Te dwa wiązania określają kolor, jaki ma mieć dany klawisz,gdy jest naciśnięty i gdy nie jest naciśnięty.¶
-naciśnijColor: Kolor(10 270 50°)
-pustyColor: Kolor(0 0 0°)
+¶Te dwa powiązania mapy określają kolor, jaki ma mieć dany klawisz, gdy jest naciśnięty i gdy nie jest.¶
+kolorNaciśnięcia: Kolor(10 270 50°)
+kolorPusty: Kolor(0 0 0°)
 
-¶To odtwarza ścieżkę odpowiadającą naciśniętemu klawiszowi. Skala jest chromatyczna,aby ścieżki mogły korzystać ze wszystkich półtonów. Powtórzenie jest ustawionena moment naciśnięcia poprawnego klawisza, tak aby ścieżka grała każdym razem,gdy klawisz zostanie naciśnięty, nawet dwa razy pod rząd.¶
+¶To odtwarza ścieżkę odpowiadającą naciśniętemu klawiszowi. Skala jest chromatyczna, więc ścieżki mają dostęp do wszystkich półtonów. Powtarzanie jest ustawione na prawidłowy naciśnięty klawisz, więc ścieżka gra za każdym razem, gdy naciśniesz klawisz, nawet dwa razy z rzędu.¶
 Muzyka(
-	zwróćTrack(zwróćNote(wciśnięty))
+	zwróćŚcieżkę(zwróćNutę(naciśnięty))
 	skala: Muzyka.chromatyczna
-	powtórka: mapaNut{wciśnięty} ≠ ø
+	powtórka: mapaNut{naciśnięty} ≠ ø
 )
 
-¶Wyświetlanie pianina, klawiszy do naciśnięcia oraz nuty granej,gdy klawisz zostanie naciśnięty.¶
+¶Pokazuje pianino, klawisze do naciśnięcia i nutę granę po naciśnięciu klawisza.¶
 Grupa(
 	Stos('>' 1m)
 	[
@@ -58,79 +58,79 @@ Grupa(
 					'▯'
 					nazwa: 'w'
 					rozmiar: 3m
-					kolor: wciśnięty = 'w' ? naciśnijColor pustyColor
+					kolor: naciśnięty = 'w' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▮'
 					nazwa: '3'
 					rozmiar: 3m
-					kolor: wciśnięty = '3' ? naciśnijColor pustyColor
+					kolor: naciśnięty = '3' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▯'
 					nazwa: 'e'
 					rozmiar: 3m
-					kolor: wciśnięty = 'e' ? naciśnijColor pustyColor
+					kolor: naciśnięty = 'e' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▮'
 					nazwa: '4'
 					rozmiar: 3m
-					kolor: wciśnięty = '4' ? naciśnijColor pustyColor
+					kolor: naciśnięty = '4' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▯'
 					nazwa: 'r'
 					rozmiar: 3m
-					kolor: wciśnięty = 'r' ? naciśnijColor pustyColor
+					kolor: naciśnięty = 'r' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▯'
 					nazwa: 't'
 					rozmiar: 3m
-					kolor: wciśnięty = 't' ? naciśnijColor pustyColor
+					kolor: naciśnięty = 't' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▮'
 					nazwa: '6'
 					rozmiar: 3m
-					kolor: wciśnięty = '6' ? naciśnijColor pustyColor
+					kolor: naciśnięty = '6' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▯'
 					nazwa: 'y'
 					rozmiar: 3m
-					kolor: wciśnięty = 'y' ? naciśnijColor pustyColor
+					kolor: naciśnięty = 'y' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▮'
 					nazwa: '7'
 					rozmiar: 3m
-					kolor: wciśnięty = '7' ? naciśnijColor pustyColor
+					kolor: naciśnięty = '7' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▯'
 					nazwa: 'u'
 					rozmiar: 3m
-					kolor: wciśnięty = 'u' ? naciśnijColor pustyColor
+					kolor: naciśnięty = 'u' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▮'
 					nazwa: '8'
 					rozmiar: 3m
-					kolor: wciśnięty = '8' ? naciśnijColor pustyColor
+					kolor: naciśnięty = '8' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▯'
 					nazwa: 'i'
 					rozmiar: 3m
-					kolor: wciśnięty = 'i' ? naciśnijColor pustyColor
+					kolor: naciśnięty = 'i' ? kolorNaciśnięcia kolorPusty
 				)
 				Wyrażenie(
 					'▯'
 					nazwa: 'o'
 					rozmiar: 3m
-					kolor: wciśnięty = 'o' ? naciśnijColor pustyColor
+					kolor: naciśnięty = 'o' ? kolorNaciśnięcia kolorPusty
 				)
 			]
 		)
@@ -151,6 +151,6 @@ Grupa(
 				Wyrażenie('i  o')
 			]
 		)
-		Wyrażenie(zwróćText(wciśnięty))
+		Wyrażenie(zwróćTekst(naciśnięty))
 	]
 )

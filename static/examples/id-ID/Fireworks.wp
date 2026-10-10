@@ -1,28 +1,28 @@
 🎆
 Kembang Api
 === start/en
-¶Kembang api yang meletus mengikuti musik: setiap alat musik yang berbunyi pada satu ketukanmuncul sebagai dirinya sendiri, bertahan sebentar, lalu menghilang.
+¶Kembang api yang meletus mengikuti musik: setiap alat musik yang berbunyi pada satu ketukan muncul sebagai dirinya sendiri, melayang sebentar, lalu jatuh.
 
-Tidak ada yang digambar berdasarkan jam. @Beat memberikan @Downbeat setiap kali ketukanmulai terdengar, dan @Downbeat membawa @Part untuk setiap @Track — alatmusik apa itu, apakah sedang berbunyi, nada apa yang dimainkan, dan seberapa keras. Jadisatu ledakan untuk setiap bagian yang berbunyi adalah satu @List/translate, dan musikmenggambar dirinya sendiri.
+Tidak ada yang digambar berdasarkan jam. @Beat menyerahkan sebuah @Downbeat saat setiap ketukan terdengar, dan sebuah @Downbeat membawa sebuah @Part untuk setiap @Track — alat musik apa itu, apakah sedang berbunyi, nada apa yang dimainkan, dan seberapa keras. Jadi satu ledakan untuk setiap bagian yang berbunyi hanyalah satu @List/translate, dan musiknya menggambar dirinya sendiri.
 
-Setiap ledakan diberi nama sesuai nomor ketukan, sehingga ledakan pada setiap ketukan adalahoutput baru: mereka menampilkan pose masuk saat muncul dan pose keluarsaat ketukan berikutnya menggantikannya. Letusan dan kejatuhan adalah kedua pose itu.
+Setiap ledakan diberi nama dengan nomor ketukan, jadi ledakan di setiap ketukan adalah keluaran baru: mereka memainkan pose masuk saat datang dan pose keluar saat ketukan berikutnya menggantikan mereka. Letupan dan jatuhnya adalah dua pose itu.
 
-Lagunya adalah /The Star-Spangled Banner/ — melodi karya John Stafford Smith dari sekitartahun 1773, yang sudah lama menjadi milik publik — dimainkan penuh sampai ke baristerakhir. Setiap nada membawa panjangnya sendiri sebagai nilai nada yang ditulis pada angka — \8𝅘𝅥𝅮\ adalah seperdelapan, \13𝅗𝅥\ setengah, \13𝅗𝅥𝅭\ setengah bertitik — sehingga nada pembuka,figur bertitik, dan nada panjang yang ditahan adalah durasi sungguhan, bukan sekadarkotak-kotak ketukan yang sama. Angka biasa berarti satu ketukan. Tanda istirahat tetap perlu @Note,karena \ø\ bukan angka sehingga tidak bisa membawa nilai. Ini menggunakan tangga nadakromatis agar nada keempat yang dinaikkan bisa ditulis: setiap langkah adalah satu setengah nada.¶
+Lagunya adalah /The Star-Spangled Banner/ — melodi karya John Stafford Smith dari sekitar tahun 1773, yang sudah lama menjadi milik umum — dimainkan sampai habis, berakhir pada baris terakhir. Setiap nada membawa panjangnya sendiri sebagai nilai nada yang ditulis pada angkanya — \8𝅘𝅥𝅮\ adalah sepersepuluh... yaitu seperdelapan, \13𝅗𝅥\ setengah, \13𝅗𝅥𝅭\ setengah bertitik — sehingga nada awalan, nada bertitik, dan nada panjang yang ditahan adalah durasi yang sebenarnya, bukan deretan ketukan yang sama panjang. Angka biasa berarti satu ketukan. Jeda tetap membutuhkan @Note, karena \ø\ bukan angka sehingga tidak bisa membawa nilai. Lagu ini memakai tangga nada kromatik agar nada keempat yang dinaikkan bisa ditulis: setiap langkah adalah satu semiton.¶
 ↓ @wordplay/instruments 1
 
 ketukan2: Ketukan()
 hitungan2: ketukan2.hitung
 
-¶Hanya bagian yang benar-benar berbunyi yang menjadi kembang api; jalur yang beristirahattetap gelap. Sebelum musik mulai, belum ada bagian sama sekali, sehingga langitmasih kosong.¶
-menembak•[Bagian]: ketukan2.bagian.menyaring(
+¶Hanya bagian yang benar-benar berbunyi yang menjadi kembang api; trek yang sedang diam tetap gelap. Sebelum musik mulai, tidak ada bagian sama sekali, jadi langitnya kosong.¶
+meletus•[Bagian]: ketukan2.bagian.menyaring(
 		ƒ(p•Bagian) p.berbunyi
 	)
 
-¶Setiap alat musik meletus sebagai dirinya sendiri, dan itulah maksudnya: kamu bisa melihatalat musik mana yang baru saja berbunyi.¶
-ƒ wajah2(p2•Bagian)•''
+¶Setiap alat musik meledak sebagai dirinya sendiri, dan itulah intinya: kamu bisa melihat alat musik mana yang baru saja dimainkan.¶
+ƒ menghadapi2(p2•Bagian)•''
 	iconFor(p2.alatMusik)
 
-¶Setiap alat musik memiliki jalurnya sendiri, tersebar di seluruh langit. Menggunakanalat musik itu sendiri, bukan posisinya dalam daftar, membuat jalur tetap adasaat alat musik lain berhenti berbunyi.¶
+¶Setiap alat musik punya jalurnya sendiri, tersebar di seluruh langit. Memakai alat musiknya, bukan urutannya dalam daftar, membuat jalur tetap diam saat alat musik lain berhenti berbunyi.¶
 ƒ jalur(p3•Bagian)•#
 	(p3.alatMusik.id = 'trumpet') ? -6
 		(p3.alatMusik.id = 'flute') ? -3.6
@@ -32,13 +32,13 @@ menembak•[Bagian]: ketukan2.bagian.menyaring(
 						(p3.alatMusik.id = 'drums') ? 6
 							0
 
-¶Seberapa tinggi letak sebuah ledakan: nadanya. Setiap bagian di sini sedang berbunyi, jadi ia punya satu nada.¶
+¶Seberapa tinggi sebuah ledakan berada: nadanya. Setiap bagian di sini sedang berbunyi, jadi semuanya punya nada.¶
 ƒ tinggi2(p4•Bagian)•# p4.derajat[1]
 
-¶Satu ledakan, naik sesuai nadanya dan membesar sesuai seberapa keras suaranya.¶
+¶Satu ledakan, naik sesuai nadanya dan membesar sesuai kerasnya.¶
 ƒ ledakan(p5•Bagian i•#)•Frasa
 	Frasa(
-		wajah2(p5)
+		menghadapi2(p5)
 		(0.9m + (p5.volume · 1.6m))
 		tempat: Tempat(
 			(jalur(p5) + p5.geser) · 1m
@@ -68,7 +68,7 @@ menembak•[Bagian]: ketukan2.bagian.menyaring(
 		)
 	)
 
-¶Melodinya. Tingkat nada adalah jarak setengah nada dari nada dasar rendah: 1 adalah nada itu, 13adalah satu oktaf lebih tinggi, dan 7 adalah nada keempat yang dinaikkan. Dua baris berbagimelodi yang sama, lalu jembatan lagu, lalu baris terakhir.¶
+¶Melodinya. Derajat adalah semiton dari nada dasar yang rendah: 1 adalah nada itu, 13 satu oktaf di atasnya, dan 7 adalah nada keempat yang dinaikkan. Dua baris memakai lagu yang sama, lalu bagian jembatan, lalu baris terakhir.¶
 melodi: [
 		8𝅘𝅥𝅮
 		5𝅘𝅥𝅮
@@ -173,7 +173,7 @@ melodi: [
 		13𝅗𝅥𝅭
 	]
 
-¶Sebuah nada dasar di bawah setiap birama.¶
+¶Satu nada dasar di bawah setiap birama.¶
 bas: [
 		Nada(ø 1beats)
 		1𝅗𝅥𝅭
@@ -210,7 +210,7 @@ bas: [
 		1𝅗𝅥𝅭
 	]
 
-¶Sebuah lonceng pada ketukan berat yang berselang-seling, jadi tidak ada di setiap ledakan.¶
+¶Sebuah lonceng pada ketukan kuat yang selang-seling, jadi tidak ada di setiap ledakan.¶
 lonceng2: [
 		Nada(ø 1beats)
 		13
@@ -263,7 +263,7 @@ lonceng2: [
 		Nada(ø 3beats)
 	]
 
-¶Alat musik gesek dari bagian jembatan lagu dan seterusnya, sehingga teksturnya makin kaya.¶
+¶Alat musik gesek dari bagian jembatan ke belakang, sehingga suaranya makin kaya.¶
 biola2: [
 		Nada(ø 1beats)
 		Nada(ø 3beats)
@@ -300,7 +300,7 @@ biola2: [
 		13𝅗𝅥𝅭
 	]
 
-¶Sebuah melodi tinggi hanya di ujung-ujung frasa.¶
+¶Melodi sopran hanya di bagian atas frasa.¶
 seruling2: [
 		Nada(ø 1beats)
 		Nada(ø 3beats)
@@ -345,7 +345,7 @@ seruling2: [
 		Nada(ø 3beats)
 	]
 
-¶Sebuah irama pawai di bawahnya.¶
+¶Irama mars di bawahnya.¶
 drum2: [
 		Nada(ø 0.5beats)
 		3𝅘𝅥𝅮
@@ -545,9 +545,7 @@ drum2: [
 
 Panggung(
 	[
-		:menembak.menerjemahkan(
-			ƒ(p6•Bagian i2•#) ledakan(p6 i2)
-		)
+		:meletus.menerjemahkan(ƒ(p6•Bagian i2•#) ledakan(p6 i2))
 		Musik(
 			[
 				Trek(

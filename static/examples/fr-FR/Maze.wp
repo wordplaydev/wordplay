@@ -27,17 +27,17 @@ Mazes are generated randomly.¶/en
 
 labyrinthe2: labyrinthe()
 
-•état(rangée3•# colonne3•# étapes•#)
+•état(rangée3•# colonne3•# pas2•#)
 (
-	ƒ bas2() état(rangée3 + 1 colonne3 étapes + 1)
-	ƒ haut2() état(rangée3 - 1 colonne3 étapes + 1)
-	ƒ gauche2() état(rangée3 colonne3 - 1 étapes + 1)
-	ƒ droite2() état(rangée3 colonne3 + 1 étapes + 1)
+	ƒ bas2() état(rangée3 + 1 colonne3 pas2 + 1)
+	ƒ haut2() état(rangée3 - 1 colonne3 pas2 + 1)
+	ƒ gauche2() état(rangée3 colonne3 - 1 pas2 + 1)
+	ƒ droite2() état(rangée3 colonne3 + 1 pas2 + 1)
 )
 
-ƒ autorisé2(état2•état rangée4•# colonne4•#) labyrinthe2.autorisé(
+ƒ autorisé2(état2•état rangée4•# col•#) labyrinthe2.autorisé(
 		état2.rangée3 + rangée4
-		état2.colonne3 + colonne4
+		état2.colonne3 + col
 	)
 
 direction2: Choix()

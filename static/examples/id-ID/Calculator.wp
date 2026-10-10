@@ -4,30 +4,30 @@ Kalkulator
 ¶Kalkulator saku yang dibuat dari beberapa fungsi hitung.¶
 
 ¶Fungsi yang melakukan perhitungan¶
-ƒ penjumlahan(num1•# num2•#) num1 + num2
-ƒ pengurangan(num12•# num22•#) num12 - num22
-ƒ perkalian(num13•# num23•#) num13 × num23
-ƒ pembagian(num14•# num24•#) num14 ÷ num24
+ƒ penjumlahan(angka1•# angka2•#) angka1 + angka2
+ƒ pengurangan(angka12•# angka22•#) angka12 - angka22
+ƒ perkalian(angka13•# angka23•#) angka13 × angka23
+ƒ pembagian(angka14•# angka24•#) angka14 ÷ angka24
 
 pilihan: Pilihan()
 bingkai2: 1 … ∆ (pilihan) … 1 + bingkai2
 
-¶Boolean untuk mencatat apakah setiap nilai sudah dipilih¶
-num1picked: ⊥ … ∆ (pilihan) … (pilihan.mulai('num1')) & ~num1picked
-num2picked: ⊥ … ∆ (pilihan) … (pilihan.mulai('num2')) & ~num2picked
-opicked: ⊥ … ∆ (pilihan) … (pilihan.mulai('op')) & ~opicked
+¶Nilai benar atau salah untuk mencatat apakah setiap nilai sudah dipilih¶
+angka1terpilih: ⊥ … ∆ (pilihan) … (pilihan.mulai('angka1')) & ~angka1terpilih
+angka2terpilih: ⊥ … ∆ (pilihan) … (pilihan.mulai('angka2')) & ~angka2terpilih
+operatorterpilih: ⊥ … ∆ (pilihan) … (pilihan.mulai('op')) & ~operatorterpilih
 
-¶Mencatat operand dan operator¶
-num15: ø → # … num1picked … ((pilihan ÷ '')[-1]) → #
-num25: ø → # … num2picked … ((pilihan ÷ '')[-1]) → #
-operator: ø … opicked … ((pilihan ÷ '')[-1])
+¶Mencatat angka yang dihitung dan operatornya¶
+angka15: ø → # … angka1terpilih … ((pilihan ÷ '')[-1]) → #
+angka25: ø → # … angka2terpilih … ((pilihan ÷ '')[-1]) → #
+operator: ø … operatorterpilih … ((pilihan ÷ '')[-1])
 
 ¶Layar untuk memilih angka pertama¶
-numbers1: Kelompok(
+angka1daftar: Kelompok(
 		Jaringan(2 5)
 		[
-			Frasa("0⃣" dapatdipilih nama: 'num1_0')
-			Frasa("1⃣" dapatdipilih nama: 'num1_1')
+			Frasa("0⃣" dapatdipilih nama: 'angka1_0')
+			Frasa("1⃣" dapatdipilih nama: 'angka1_1')
 			Frasa("2⃣" dapatdipilih nama: 'num1_2')
 			Frasa("3⃣" dapatdipilih nama: 'num1_3')
 			Frasa("4⃣" dapatdipilih nama: 'num1_4')
@@ -40,7 +40,7 @@ numbers1: Kelompok(
 	)
 
 ¶Layar untuk memilih angka kedua¶
-numbers2: Kelompok(
+angka2daftar: Kelompok(
 		Jaringan(2 5)
 		[
 			Frasa("0⃣" dapatdipilih nama: 'num2_0')
@@ -57,7 +57,7 @@ numbers2: Kelompok(
 	)
 
 ¶Layar untuk memilih operator¶
-operators: Kelompok(
+operatordaftar: Kelompok(
 		Jaringan(2 2)
 		[
 			Frasa("➕" dapatdipilih nama: 'op_a')
@@ -69,17 +69,17 @@ operators: Kelompok(
 
 ¶Layar untuk menampilkan hasil¶
 hasil: ((operator = 'a') | (operator = 's')) ?
-		(operator = 'a' ? penjumlahan(num15 num25) pengurangan(
-					num15
-					num25
+		(operator = 'a' ? penjumlahan(angka15 angka25) pengurangan(
+					angka15
+					angka25
 				))
-		(operator = 'm' ? perkalian(num15 num25) pembagian(
-					num15
-					num25
+		(operator = 'm' ? perkalian(angka15 angka25) pembagian(
+					angka15
+					angka25
 				))
 
-¶Lihat setiap layar¶
-pengaturan: [numbers1 operators numbers2 hasil]
+¶Telusuri setiap layar¶
+persiapan: [angka1daftar operatordaftar angka2daftar hasil]
 
 ¶Tampilkan¶
-pengaturan[bingkai2]
+persiapan[bingkai2]

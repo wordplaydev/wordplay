@@ -1,7 +1,7 @@
 1
 BinarioGiratorio
 === start/en
-¶Un campo de unos y ceros, girando lentamente en su lugar.¶
+¶Un campo de unos y ceros que gira despacio en su lugar.¶
 
 giroLento: Secuencia.girar(10s "straight")
 

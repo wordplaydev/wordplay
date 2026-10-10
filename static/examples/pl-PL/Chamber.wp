@@ -1,50 +1,50 @@
 文
-Komnata
+Komora
 === start
-¶Sto liter z czterech systemów pisma odbija się w zamkniętym pudełku. Odwróć grawitację albo nimi potrząśnij.¶
+¶Sto liter z czterech systemów pisma odbija się w zamkniętym pudełku. Odwróć grawitację albo je wstrząśnij.¶
 
-liczba2: 100
+licznik: 100
 
 ¶Cztery alfabety, z których pochodzą litery.¶
-łacińskie: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
-greckie: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
-arabskie: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
+łacina: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' → ['']
+greka: 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' → ['']
+arabski: 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي' → ['']
 cjk: '日月火水木金土山川田人口手目耳心力大小上下中天空海花鳥風雨雪' → ['']
 
-¶Który element sterujący był kliknięty jako ostatni.¶
+¶Który element sterujący kliknięto jako ostatni.¶
 wybór: Wybór()
 
-¶Wymieszaj wszystkie cztery alfabety razem raz, gdy program się uruchamia, a potem zachowaj tę kolejność na zawsze. Mieszanie zapisane jako zwykłe wiązanie dawałoby każdej literze nowy znak w każdej klatce.¶
-znaki2: [:łacińskie :greckie :arabskie :cjk].przetasowany() … ∆ wybór … znaki2
+¶Raz, gdy program się uruchamia, wymieszaj razem wszystkie cztery alfabety, a potem zachowaj tę kolejność na zawsze. Mieszanie zapisane jako zwykłe powiązanie przydzielałoby każdej literze nowy znak w każdej klatce.¶
+glify2: [:łacina :greka :arabski :cjk].przetasowany() … ∆ wybór … glify2
 
-¶Prawda tylko przy tym wywołaniu, które spowodował przycisk potrząśnięcia, dzięki czemu litery dostają jedno szturchnięcie na kliknięcie, zamiast być popychane w każdej klatce.¶
+¶Prawda tylko podczas oceny wywołanej przez przycisk wstrząsania. Dzięki temu litery dostają jedno szturchnięcie na kliknięcie, a nie są popychane w każdej klatce.¶
 potrząsanie: (∆ wybór) & (wybór = 'shake')
 
-¶Przełącznik zmienia grawitację ziemską na brak grawitacji.¶
+¶Przełącznik przełącza między grawitacją ziemską a brakiem grawitacji.¶
 spadanie: ⊤ … ∆ wybór … (wybór = 'gravity') ? ~spadanie spadanie
 
 ¶Losowa prędkość, kierunek i obrót.¶
-ƒ start2() Prędkość(
+ƒ wystrzał() Prędkość(
 		Losowy(-12m/s 12m/s)
 		Losowy(-12m/s 12m/s)
 		Losowy(-120°/s 120°/s)
 	)
 
-litery: liczba2 → [].tłumaczyć(
-		ƒ(liczba3)
+litery: licznik → [].tłumaczyć(
+		ƒ(liczba2)
 			Wyrażenie(
-				znaki2[liczba3]
-				nazwa: "glyph\liczba3\"
+				glify2[liczba2]
+				nazwa: "glyph\liczba2\"
 				miejsce: Ruch(
 					Miejsce(Losowy(-7.5m 7.5m) Losowy(-5.5m 5.5m))
-					start2()
-					następnaprędkość: potrząsanie ? start2() ø
+					wystrzał()
+					następnaprędkość: potrząsanie ? wystrzał() ø
 				)
 				materiał: Materiał(sprężystość: 0.7 tarcie: 0)
 			)
 	)
 
-¶Dwa elementy sterujące. Nie mają masy, a ich miejsce nie jest Ruchem, więc silnik fizyki zostawia je w spokoju.¶
+¶Dwa elementy sterujące. Nie mają masy, a ich położenie nie jest Ruchem, więc silnik fizyki zostawia je w spokoju.¶
 przełącznik: Wyrażenie(
 		spadanie ? '⬇ grawitacja' '🌌 unoszenie się'
 		0.7m
@@ -53,7 +53,7 @@ przełącznik: Wyrażenie(
 		miejsce: Miejsce(-13m 1m)
 	)
 
-potrząsacz: Wyrażenie(
+wstrząsarka: Wyrażenie(
 		'🎲 potrząsanie'
 		0.7m
 		nazwa: 'shake'
@@ -63,14 +63,14 @@ potrząsacz: Wyrażenie(
 
 Scena(
 	[
-		¶Cztery ściany, wystarczająco grube, żeby nic nie przebiło się przez nie z prędkością.¶
+		¶Cztery ściany, na tyle grube, że nic nie przeniknie przez nie przy dużej prędkości.¶
 		Kształt(Prostokąt(-8.6m 6.6m 8.6m 6m))
 		Kształt(Prostokąt(-8.6m -6m 8.6m -6.6m))
 		Kształt(Prostokąt(-8.6m 6.6m -8m -6.6m))
 		Kształt(Prostokąt(8m 6.6m 8.6m -6.6m))
 		:litery
 		przełącznik
-		potrząsacz
+		wstrząsarka
 	]
 	powaga: spadanie ? 9.8m/s^2 0m/s^2
 	miejsce: Miejsce(-2.5m 0m -11m)

@@ -1,11 +1,11 @@
 o
 Capas
 === start
-¶Pelotas rebotando a diferentes profundidades para mostrar capas de paralaje.¶
+¶Pelotas que rebotan a distintas profundidades para mostrar las capas de paralaje.¶
 
-cantidad2: 10 → []
+conteo2: 10 → []
 
-ƒ pelotas(z2•#m) cantidad2.traducir(
+ƒ pelotas(z2•#m) conteo2.traducir(
 		ƒ()
 			Frase(
 				'o'

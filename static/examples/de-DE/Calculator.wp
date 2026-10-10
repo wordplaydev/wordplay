@@ -1,7 +1,7 @@
 0⃣
-Rechner
+Taschenrechner
 === start/en
-¶Ein Taschenrechner, gebaut aus ein paar Rechenfunktionen.¶
+¶Ein Taschenrechner aus ein paar Rechenfunktionen.¶
 
 ¶Funktionen, die Berechnungen durchführen¶
 ƒ addition(zahl1•# zahl2•#) zahl1 + zahl2
@@ -10,17 +10,17 @@ Rechner
 ƒ division(zahl14•# zahl24•#) zahl14 ÷ zahl24
 
 auswahl: Auswahl()
-rahmen2: 1 … ∆ (auswahl) … 1 + rahmen2
+bild: 1 … ∆ (auswahl) … 1 + bild
 
-¶Booleans, die festhalten, ob jeder Wert ausgewählt wurde¶
-zahl1gewählt: ⊥ … ∆ (auswahl) … (auswahl.beginnt('zahl1')) & ~zahl1gewählt
-zahl2gewählt: ⊥ … ∆ (auswahl) … (auswahl.beginnt('zahl2')) & ~zahl2gewählt
-opgewählt: ⊥ … ∆ (auswahl) … (auswahl.beginnt('op')) & ~opgewählt
+¶Wahrheitswerte, die festhalten, ob jeder Wert ausgewählt wurde¶
+zahl1gewaehlt: ⊥ … ∆ (auswahl) … (auswahl.beginnt('zahl1')) & ~zahl1gewaehlt
+zahl2gewaehlt: ⊥ … ∆ (auswahl) … (auswahl.beginnt('zahl2')) & ~zahl2gewaehlt
+ogewaehlt: ⊥ … ∆ (auswahl) … (auswahl.beginnt('op')) & ~ogewaehlt
 
-¶Hält die Operanden und Operatoren fest¶
-zahl15: ø → # … zahl1gewählt … ((auswahl ÷ '')[-1]) → #
-zahl25: ø → # … zahl2gewählt … ((auswahl ÷ '')[-1]) → #
-operator: ø … opgewählt … ((auswahl ÷ '')[-1])
+¶Merkt sich die Operanden und Operatoren¶
+zahl15: ø → # … zahl1gewaehlt … ((auswahl ÷ '')[-1]) → #
+zahl25: ø → # … zahl2gewaehlt … ((auswahl ÷ '')[-1]) → #
+operator: ø … ogewaehlt … ((auswahl ÷ '')[-1])
 
 ¶Bildschirm zum Auswählen der ersten Zahl¶
 zahlen1: Gruppe(
@@ -79,7 +79,7 @@ ergebnis: ((operator = 'a') | (operator = 's')) ?
 				))
 
 ¶Gehe jeden Bildschirm durch¶
-einrichtung: [zahlen1 operatoren zahlen2 ergebnis]
+aufbau: [zahlen1 operatoren zahlen2 ergebnis]
 
 ¶Anzeigen¶
-einrichtung[rahmen2]
+aufbau[bild]

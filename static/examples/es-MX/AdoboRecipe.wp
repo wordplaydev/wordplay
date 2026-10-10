@@ -3,7 +3,7 @@ Receta de adobo
 === start/en
 ¶Una receta escena por escena del adobo de pollo filipino.¶
 
-¶Esta es la lista de escenas que se van a mostrar¶
+¶Esta es la lista de escenas que se mostrarán¶
 oraciones: [
 		`*How to Cook Filipino Chicken 🥘 Adobo`/en
 		"Ingredients:"/en
@@ -15,14 +15,14 @@ oraciones: [
 		"Put it all in a bowl and…"/en
 		"MIXXXXXXX🥣 (move the mouse around like crazy)"/en
 		"Put it on rice and you now have…"/en
-		(`¡Adobong Manók @lamamel/adobo! (mueve el mouse para comer)`)
+		(`¡Adobong Manók @lamamel/adobo! (mueve el ratón para comer)`)
 		(`¡Masarap! @lamamel/emptyadobo`)
 	]
 
-¶Esta es la lista de oraciones que solo deben avanzar al mover el mouse.¶
+¶Esta es la lista de oraciones que solo deben avanzar al mover el ratón.¶
 moverOraciones: [9 11]
 
-¶La oración actual comienza en 1, y aumenta si el mouse llega a cierta coordenada de la pantalla, o si se presiona un botón o una tecla para las demás oraciones.¶
+¶La oración actual comienza en 1 y aumenta si el ratón llega a cierta coordenada de la pantalla, o si se presiona un botón o una tecla en las otras oraciones.¶
 punto2: Puntero()
 oraciónActual•#: 1 …
 	moverOraciones.tiene(oraciónActual) ?

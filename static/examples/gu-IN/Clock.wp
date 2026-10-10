@@ -1,8 +1,8 @@
 🕰️
 ઘડિયાળ
 === start/en
-¶A localized clock in one line of code. @Now ticks a new @Moment every second, and \હમણાં(
-) → ''\ converts each one to text in your locale, calendar, and time zone, so the clock changes language when your locale does. Try giving @Now a frequency, time zone, and calendar, like \હમણાં(
+¶કોડની એક લીટીમાં સ્થાનિક ભાષાની ઘડિયાળ. @Now દર સેકન્ડે નવું @Moment આપે છે, અને \હમણાં(
+) → ''\ દરેકને તમારી ભાષા-પ્રદેશ, કેલેન્ડર અને સમય ઝોન પ્રમાણે ટેક્સ્ટમાં ફેરવે છે, તેથી તમારી ભાષા-પ્રદેશ બદલાય ત્યારે ઘડિયાળની ભાષા પણ બદલાય છે. @Now ને આવર્તન, સમય ઝોન અને કેલેન્ડર આપી જુઓ, જેમ કે \હમણાં(
 	1s
 	'Asia/Tokyo'
 	'japanese'

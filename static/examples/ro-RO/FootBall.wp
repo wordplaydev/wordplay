@@ -1,24 +1,24 @@
 ⚽
 Fotbal
 === start/en
-¶Un joc de portar văzut de sus. Tu ești mănușa din fața porții din stânga. O minge este lovită pe rând de undeva de pe teren, țintind un loc din interiorul porții, iar tu te miști în sus și în jos ca să îi stai în cale. Numărul numără șuturile pe care le-ai blocat: crește și se ridică de fiecare dată când aperi o minge, iar se umflă și tremură atunci când o minge trece pe lângă tine.¶
+¶Un joc de portar văzut de sus. Tu ești mănușa din fața porții din stânga. Câte o minge este șutată pe rând de undeva de pe teren, țintită spre un punct din deschiderea porții, iar tu te miști în sus și în jos ca să-i stai în cale. Numărul arată câte șuturi ai apărat: se ridică în picioare de fiecare dată când salvezi o minge și se umflă și tremură când una trece de tine.¶
 
-¶Locul unde este țintită o lovitură și locul unde stă mănușa. O poartă are cam de opt oriși lățimea portarului care o apără, de-aia o singură persoană nu poate stapur și simplu în mijloc și să apere tot.
+¶Unde este țintit un șut și unde stă mănușa. O poartă este cam de opt ori mai lată decât portarul care o apără, de aceea o singură persoană nu poate sta pur și simplu în mijloc și să apere totul.
 
-Un @Place este colțul din stânga-jos al unui output, nu mijlocul lui, deci tot ce e țintitsau blocat mai jos se calculează pe centre și pierde jumătate din mărime cânddevine un @Place. Și un emoji se desenează mult mai mare decât mărimea lui — un ⚽ de 0,6m umpleaproape 0,9m, o 🧤 de 1,2m aproape 1,25m — deci aceste jumătăți sunt măsurate, nu înjumătățitedin mărime. Viteza mănușii este cât de departe alunecă la fiecare tact.¶
-xPoartă: -7m
+Un @Place este colțul din stânga jos al unei ieșiri, nu mijlocul ei, așa că tot ce este țintit sau limitat mai jos este calculat în centre și pierde jumătate din mărime când devine un @Place. Un emoji se desenează și mult mai mare decât mărimea lui: un ⚽ de 0.6m umple cam 0.9m, iar o 🧤 de 1.2m cam 1.25m. Deci aceste jumătăți sunt măsurate, nu împărțite din mărime. Viteza mănușii este cât alunecă la fiecare tic.¶
+poartăX: -7m
 margineGură: 5.2m
-jumătateMinge: 0.45m
-xPortar: -6.5m
-jumătatePortar: 0.62m
-întinderePortar: 4.5m
-vitezăPortar: 0.55m
+mingeJumătate: 0.45m
+portarX: -6.5m
+portarJumătate: 0.62m
+portarRază: 4.5m
+portarViteză: 0.55m
 
 tic: Timp(50ms)
 apasă: Cheie(jos)
 eliberează: Cheie(jos: ⊥)
 
-¶Direcția în care se mișcă mănușa. O săgeată apăsată o pune în mișcare, iareliberarea aceleiași săgeți o oprește, deci mănușa alunecă atât timp cât ții apăsatătasta. Pe o gură de poartă atât de lată, un pas la fiecare apăsare nu ar ajunge niciodată la timp.¶
+¶În ce direcție se mișcă mănușa. O săgeată apăsată o pornește, iar când lași aceeași săgeată, mănușa se oprește. Astfel mănușa alunecă atât timp cât ții tasta apăsată. Pe o deschidere atât de lată, un pas la fiecare apăsare nu ar ajunge niciodată la timp.¶
 derivă•#: 0 … ∆ apasă | ∆ eliberează …
 		∆ apasă ?
 			((apasă = 'Săgeată în sus') ? 1 ((apasă = 'Săgeată în jos') ? -1 derivă))
@@ -26,47 +26,50 @@ derivă•#: 0 … ∆ apasă | ∆ eliberează …
 				((eliberează = 'Săgeată în jos') & (derivă = -1)) ? 0
 					derivă
 
-¶Mănușa nu este mișcată de fizică, deci poate fi condusă direct. Se oprește lacapetele razei ei de acțiune, deci nu poate ieși niciodată din poartă.¶
-yPortar•#m: 0m … ∆ tic …
-		(yPortar + (derivă × vitezăPortar)).limit((întinderePortar · -1) întinderePortar)
+¶Mănușa nu este mutată de fizică, deci poate fi condusă direct. Se oprește la capetele razei ei de acțiune, așa că nu poate ieși niciodată de lângă poartă.¶
+portarY•#m: 0m … ∆ tic …
+		(portarY + (derivă × portarViteză)).limită(
+			(portarRază · -1)
+			portarRază
+		)
 
-¶O apărare și un gol. Fiecare @Collision raportează un început și un sfârșitde atingere, deci ambele sunt însoțite de o verificare că aceasta este un început: fărăea, fiecare apărare și fiecare gol ar fi numărate de două ori.¶
+¶O apărare și un gol. Fiecare @Collision raportează începutul unei atingeri și sfârșitul unei atingeri, așa că ambele sunt asociate cu o verificare că aceasta este un început. Fără ea, fiecare apărare și fiecare gol ar fi numărate de două ori.¶
 loviturăMănușă: Coliziune('minge' 'portar')
 loviturăPlasă: Coliziune('minge' 'plasă')
 apărat: (∆ loviturăMănușă) & ~(loviturăMănușă•ø)
-marcat: (∆ loviturăPlasă) & ~(loviturăPlasă•ø)
+gol: (∆ loviturăPlasă) & ~(loviturăPlasă•ø)
 
 •șut(sx•#m sy•#m înclinare2•# viteză2•#m/s)
 
-¶Un loc de unde să stai, un loc în gura porții spre care să țintești, și linia dintre ele.Calculul pantei pornind de la cele două capete este ce face ca fiecare lovitură să nimereascăexact ținta, indiferent din ce direcție vine.¶
+¶Un loc unde să stai, un loc din deschiderea porții unde să țintești și linia dintre ele. Calcularea înclinării din cele două capete face ca fiecare șut să fie exact pe țintă, din orice direcție vine.¶
 ƒ șutNou()•șut (
 		x2: Aleatoriu(2m 6m)
 		y2: Aleatoriu(-5.5m 5.5m)
-		țintă: Aleatoriu(-4.7m 4.7m)
-		¶Panta arată cât y pierde traiectoria pentru fiecare metru de x. O împărțire poate să nuaibă rezultat, deci în cazul ø se revine la o lovitură dreaptă spre poartă;fundașul nu stă niciodată exact pe linia porții, deci acest caz nu apare niciodată.¶
-		cădere: (țintă - y2) ÷ (xPoartă - x2)
-		șut(x2 y2 (cădere•ø ? 0 cădere) Aleatoriu(16m/s 22m/s))
+		țintește: Aleatoriu(-4.7m 4.7m)
+		¶Înclinarea arată cât din y se pierde la fiecare metru de x. O împărțire poate să nu aibă răspuns, așa că cazul ø revine la un șut drept pe teren. Executantul nu stă niciodată pe linia porții, deci acest caz nu apare.¶
+		cade: (țintește - y2) ÷ (poartăX - x2)
+		șut(x2 y2 (cade•ø ? 0 cade) Aleatoriu(16m/s 22m/s))
 	)
 
-¶1 = mingea așteaptă la piciorul jucătorului, 2 = este pe drum, 3 = estescoasă din joc. Se numără tactele, nu se scad ceasuri, fiindcă fiecare @Timestarts pornește de la zero. Blocurile sunt ce vezi tu; serviciile există doar cadau numărului un nume nou la fiecare lovitură, ceea ce reia animația de la capăt.¶
-•rundă2(fază•# ticuri•# blocuri•# servicii•# ultima•# șut2•șut)
+¶1 = mingea așteaptă la picioarele executantului, 2 = este în drum, 3 = este degajată. Se numără tic-urile, nu se scad ceasuri, pentru că fiecare @Time pornește de la zero. Blocurile sunt ce vezi; serviciile există doar ca să dea numărului un nume nou la fiecare șut, ceea ce reia animația lui.¶
+•rundă2(fază•# ticks•# blocuri•# servește•# ultima•# șut2•șut)
 rundă3•rundă2: rundă2(1 0 0 0 0 șutNou()) …
-	∆ tic | apărat | marcat …
+	∆ tic | apărat | gol …
 		rundă3.fază ???
-			1: (rundă3.ticuri ≥ 14)
+			1: (rundă3.ticks ≥ 14)
 			? rundă2(
 					2
 					0
 					rundă3.blocuri
-					rundă3.servicii
+					rundă3.servește
 					rundă3.ultima
 					rundă3.șut2
 				)
 				rundă2(
 					1
-					(rundă3.ticuri + (∆ tic ? 1 0))
+					(rundă3.ticks + (∆ tic ? 1 0))
 					rundă3.blocuri
-					rundă3.servicii
+					rundă3.servește
 					rundă3.ultima
 					rundă3.șut2
 				)
@@ -74,77 +77,77 @@ rundă3•rundă2: rundă2(1 0 0 0 0 șutNou()) …
 					3
 					0
 					(rundă3.blocuri + 1)
-					(rundă3.servicii + 1)
+					(rundă3.servește + 1)
 					1
 					rundă3.șut2
 				)
-				marcat ? rundă2(
+				gol ? rundă2(
 						3
 						0
 						rundă3.blocuri
-						(rundă3.servicii + 1)
+						(rundă3.servește + 1)
 						2
 						rundă3.șut2
 					)
-					¶O minge care nu ajunge niciodată la destinație — respinsă înapoi în joc de oapărare, de exemplu — este abandonată după câteva secunde, ca jocul să nu rămânăblocat așteptând un rezultat care nu vine.¶
-					(rundă3.ticuri ≥ 70)
+					¶O minge care nu ajunge niciodată, de exemplu una trimisă înapoi în joc de o apărare, este abandonată după câteva secunde, ca jocul să nu rămână blocat așteptând un rezultat care nu mai vine.¶
+					(rundă3.ticks ≥ 70)
 					? rundă2(
 							3
 							0
 							rundă3.blocuri
-							(rundă3.servicii + 1)
+							(rundă3.servește + 1)
 							3
 							rundă3.șut2
 						)
 						rundă2(
 							2
-							(rundă3.ticuri + (∆ tic ? 1 0))
+							(rundă3.ticks + (∆ tic ? 1 0))
 							rundă3.blocuri
-							rundă3.servicii
+							rundă3.servește
 							rundă3.ultima
 							rundă3.șut2
 						)
-			3: (rundă3.ticuri ≥ 16)
+			3: (rundă3.ticks ≥ 16)
 			? rundă2(
 					1
 					0
 					rundă3.blocuri
-					rundă3.servicii
+					rundă3.servește
 					rundă3.ultima
 					șutNou()
 				)
 				rundă2(
 					3
-					(rundă3.ticuri + (∆ tic ? 1 0))
+					(rundă3.ticks + (∆ tic ? 1 0))
 					rundă3.blocuri
-					rundă3.servicii
+					rundă3.servește
 					rundă3.ultima
 					rundă3.șut2
 				)
 			rundă3
 
-¶Singura evaluare în care mingea pleacă de la piciorul jucătorului. Trebuie să fieinstantanee: ea este cea care lovește mingea, iar lovirea ei de două ori i-ar dubla viteza.¶
-lovit: (∆ tic) & (rundă3.fază = 2) & (rundă3.ticuri = 0)
+¶Singura evaluare în care mingea părăsește piciorul executantului. Trebuie să fie momentană: ea lovește mingea, iar lovirea ei de două ori i-ar dubla viteza.¶
+lovită: (∆ tic) & (rundă3.fază = 2) & (rundă3.ticks = 0)
 
-¶Ținută nemișcată cât timp așteaptă, lovită de-a lungul liniei ei țintite când e șutată,și respinsă înapoi pe teren de o apărare sau de partea din spate a plasei — ceea ce oprește șimingea să se lovească întruna în interiorul porții făcând plasa să sune la nesfârșit. Aerul încetinește o mingecare se rostogolește, la fel cum ar face iarba, deci loviturile se domolesc treptat.¶
-mingeLoc: Mişcare(
+¶Stă nemișcată cât timp așteaptă, este lovită pe linia ei țintită când este șutată și este trimisă înapoi pe teren de o apărare sau de fundul plasei. Asta împiedică și o minge să se zbată în interiorul porții, lovind plasa iar și iar. Aerul încetinește o minge care se rostogolește, ca iarba, așa că șuturile încetinesc treptat.¶
+pozițieMinge: Mişcare(
 		Loc(
-			(rundă3.șut2.sx - jumătateMinge)
-			(rundă3.șut2.sy - jumătateMinge)
+			(rundă3.șut2.sx - mingeJumătate)
+			(rundă3.șut2.sy - mingeJumătate)
 		)
 		următorulloc:
 		(rundă3.fază = 1) ? Loc(
-				(rundă3.șut2.sx - jumătateMinge)
-				(rundă3.șut2.sy - jumătateMinge)
+				(rundă3.șut2.sx - mingeJumătate)
+				(rundă3.șut2.sy - mingeJumătate)
 			) ø
 		următoareaviteză:
 		(rundă3.fază = 1) ? Viteză(0m/s 0m/s 0°/s)
-			lovit ? Viteză(
+			lovită ? Viteză(
 					(rundă3.șut2.viteză2 · -1)
 					((rundă3.șut2.viteză2 · -1) × rundă3.șut2.înclinare2)
 					Aleatoriu(-45°/s 45°/s)
 				)
-				(apărat | marcat) ? Viteză(
+				(apărat | gol) ? Viteză(
 						Aleatoriu(8m/s 14m/s)
 						Aleatoriu(-5m/s 5m/s)
 						Aleatoriu(-45°/s 45°/s)
@@ -156,20 +159,20 @@ minge: Fraza(
 		'⚽'
 		0.6m
 		nume: 'minge'
-		loc: mingeLoc
+		loc: pozițieMinge
 		materie: Materie(0.45kg 0.7 0.02)
 	)
 
-¶Mănușa este urmărită prin nume mai sus, iar asta e tot ce trebuie ca să fie în lumeafizică, deci nu are nevoie de un @Matter. Este poziționată de program, nu de fizică,deci trece prin minge în loc s-o lovească; apărarea de mai sus estecea care trimite mingea înapoi. Mișcările ei nu sunt animate lin, deci este exact unde aicondus-o, nu se apropie treptat de tine.¶
+¶Mănușa este urmărită după nume mai sus, și atât este de ajuns ca să fie în lumea fizică, deci nu are nevoie de @Matter. Este plasată de program, nu de fizică, așa că trece prin minge în loc să o lovească. Apărarea de mai sus este cea care trimite mingea înapoi. Mișcările ei nu sunt interpolate, deci este exact acolo unde ai condus-o, nu se apropie lent de tine.¶
 portar: Fraza(
 		'🧤'
 		1.2m
 		nume: 'portar'
-		loc: Loc(xPortar (yPortar - jumătatePortar))
+		loc: Loc(portarX (portarY - portarJumătate))
 		durată: 0s
 	)
 
-¶Cine este pe cale să șuteze, și de unde. Doar pe teren cât timp mingea așteaptă.¶
+¶Cine este pe cale să șuteze și de unde. Este pe teren doar cât timp mingea așteaptă.¶
 executant: Fraza(
 		'🦵'
 		1.2m
@@ -179,10 +182,10 @@ executant: Fraza(
 		)
 		durată: 0s
 	)
-executantListă: (rundă3.fază = 1) ? [executant] []
+listăExecutanți: (rundă3.fază = 1) ? [executant] []
 
-¶Poarta: gura porții, plasa din spatele ei, și câte un bară deasupra și dedesubt.Doar plasa are nume, deci doar plasa poate marca gol — o minge care ar lovi o barăar sări pur și simplu înapoi. Plasa este intenționat groasă: cea mai rapidă lovitură parcurgeaproape jumătate de metru între pașii de fizică, iar o plasă mai subțire ar puteafi traversată fără să fie atinsă vreodată.¶
-plasăFormă: Figură(
+¶Poarta: deschiderea, plasa din spatele ei și un stâlp sus și unul jos. Doar plasa are nume, deci doar plasa poate marca. O minge care ar lovi un stâlp ar ricoșa pur și simplu. Plasa este groasă intenționat: cel mai rapid șut parcurge cam jumătate de metru între pașii fizicii, iar printr-o plasă mai subțire ar putea trece fără să o atingă vreodată.¶
+formăPlasă: Figură(
 		Dreptunghi(-8m margineGură -7.2m (margineGură · -1))
 		nume: 'plasă'
 		fundal: Culoare(96% 0 0°)
@@ -196,7 +199,7 @@ barăJos: Figură(
 		fundal: Culoare(35% 0 0°)
 	)
 
-¶Liniile de margine, care țin o minge respinsă pe teren.¶
+¶Liniile laterale, care țin o minge degajată pe teren.¶
 zidSus: Figură(
 		Dreptunghi(-8m 7m 8m 6.8m)
 		fundal: Culoare(88% 5 130°)
@@ -210,8 +213,8 @@ zidDreapta: Figură(
 		fundal: Culoare(88% 5 130°)
 	)
 
-¶O apărare: numărul sare puțin în sus și stă acolo o clipă înainte de a se așeza.¶
-apărareFlexibilă: Secvenţă(
+¶O apărare: numărul sare puțin în sus și rămâne acolo o clipă înainte să se așeze.¶
+flexareApărare: Secvenţă(
 		{
 			0%: Poză(scară: 1)
 			30%: Poză(scară: 1.5 compensare: Loc(0m 0.4m))
@@ -221,8 +224,8 @@ apărareFlexibilă: Secvenţă(
 		0.5s
 	)
 
-¶Un gol: numărul se umflă până umple ecranul și se zguduie, deci o loviturăcare trece de tine nu este niciodată ceva ce ai putea rata.¶
-poartăTremur: Secvenţă(
+¶Un gol: numărul se umflă până umple ecranul și tremură, așa că un șut care trece de tine nu poate fi niciodată ratat.¶
+scuturareGol: Secvenţă(
 		{
 			0%: Poză(scară: 1)
 			8%: Poză(scară: 3.6 rotaţie: -10°)
@@ -247,30 +250,30 @@ poartăTremur: Secvenţă(
 		1s
 	)
 
-¶Numărul loviturilor blocate. Numele lui poartă numărul serviciului, deci fiecare lovireîi dă o identitate nouă și animația lui se redă din nou — un număr al cărui numen-ar fi schimbat niciodată s-ar anima o singură dată și apoi ar rămâne nemișcat.¶
-scorVizualizare: Fraza(
+¶Numărul de șuturi blocate. Numele lui conține numărul serviciului, așa că fiecare șut îi dă o identitate nouă și animația lui rulează din nou. Un număr al cărui nume nu s-ar schimba niciodată s-ar anima o singură dată și apoi ar rămâne nemișcat.¶
+vizualizareScor: Fraza(
 		"🧤 \rundă3.blocuri\"
 		1.4m
-		nume: "score\rundă3.servicii\"
+		nume: "score\rundă3.servește\"
 		loc: Loc(-1.4m 4m)
 		durată: 0.2s
 		intrând: rundă3.ultima ???
-			1: apărareFlexibilă
-			2: poartăTremur
+			1: flexareApărare
+			2: scuturareGol
 			Poză()
 	)
 
-¶Instrucțiunile apar pe teren, nu în suprapunere: marginea de josa suprapunerii este locul unde stă redarea muzicii, iar textul de acolo ar fi acoperit.¶
+¶Instrucțiunile stau pe teren, nu în suprapunere. Marginea de jos a suprapunerii este locul unde se află muzica afișată, iar textul de acolo ar fi acoperit.¶
 instrucțiuni: Fraza(
-		'ține apăsat ⬆ ⬇ pentru a-ți mișca mănușa — blochează fiecare lovitură!'
+		'ține apăsat ⬆ ⬇ ca să-ți miști mănușa — blochează fiecare șut!'
 		0.55m
 		loc: Loc(-6.4m -6.4m)
 	)
 
-¶Trei sunete: lovitura, salvarea, plasa. Fiecare este pus pe scenă atât timp cât durează faza care îl provoacă, apoi este scos. Ajungerea pe scenă este un motiv suficient pentru a suna, iar un sunet unic care s-a terminat rămâne tăcut până când pleacă și revine — deci niciunul dintre ele nu are nevoie de un @Music.replay, și niciunul nu sună atunci când programul pornește.
+¶Trei sunete: lovitura, parada, plasa. Fiecare este pus pe scenă cât timp durează faza care îl provoacă, iar apoi este scos de acolo. Faptul că ajunge pe scenă este motiv suficient ca să sune, iar un sunet unic, după ce s-a redat, rămâne mut până când iese și revine. Așadar niciunul nu are nevoie de @Music.replay și niciunul nu sună la pornirea programului.
 
-Scrierea lor în acest fel spune ceva ce notele singure nu ar spune: fiecare sunet aparține unei faze a rundei și durează exact cât durează faza respectivă. @Music.replay este cealaltă scriere, pentru un sunet care răspunde unui singur moment, nu unei perioade întinse.¶
-loviturăSunet: Muzică(
+Scrierea lor în acest fel spune ceva ce notele singure nu ar spune: fiecare sunet aparține unei faze a rundei și durează exact cât durează acea fază. @Music.replay este cealaltă scriere, pentru un sunet care răspunde unui singur moment, nu unei perioade de timp.¶
+sunetLovitură: Muzică(
 		Pistă(
 			[1]
 			instrument: Instrument.tobe
@@ -281,7 +284,7 @@ loviturăSunet: Muzică(
 		nume: 'lovitură'
 	)
 
-apărareSunet: Muzică(
+sunetApărare: Muzică(
 		Pistă(
 			[8 12 15]
 			instrument: Instrument.clopoțel
@@ -289,10 +292,10 @@ apărareSunet: Muzică(
 			volum: 70%
 			buclă: ⊥
 		)
-		nume: 'salvare'
+		nume: 'paradă'
 	)
 
-golSunet: Muzică(
+sunetGol: Muzică(
 		Pistă(
 			[5 4 2 1]
 			instrument: Instrument.trompetă
@@ -300,37 +303,37 @@ golSunet: Muzică(
 			volum: 65%
 			buclă: ⊥
 		)
-		nume: 'obiectiv'
+		nume: 'țintă'
 	)
 
-rezultatSunet: rundă3.ultima ???
-		1: [apărareSunet]
-		2: [golSunet]
+sunetRezultat: rundă3.ultima ???
+		1: [sunetApărare]
+		2: [sunetGol]
 		[]
 
-sunetListă: rundă3.fază ???
-		2: [loviturăSunet]
-		3: rezultatSunet
+listăSunete: rundă3.fază ???
+		2: [sunetLovitură]
+		3: sunetRezultat
 		[]
 
 Etapă(
 	[
 		minge
 		portar
-		:executantListă
-		plasăFormă
+		:listăExecutanți
+		formăPlasă
 		barăSus
 		barăJos
 		zidSus
 		zidJos
 		zidDreapta
 		instrucțiuni
-		:sunetListă
+		:listăSunete
 	]
 	loc: Loc(0m 0m -14m)
 	cadru: Dreptunghi(-8m 7m 8m -7m)
 	fundal: Culoare(62% 40 140°)
 	culoare: Culoare(20% 0 0°)
 	gravitaţie: 0m/s^2
-	suprapunere: [scorVizualizare]
+	suprapunere: [vizualizareScor]
 )

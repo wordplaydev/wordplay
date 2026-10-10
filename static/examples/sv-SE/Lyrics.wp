@@ -1,15 +1,15 @@
 🎸
 Sångtext
 === start/en
-¶Den klassiska Radiohead-låten Airbag från OK Computer, med texten synkad mot takten.
+¶Den klassiska Radiohead-låten Airbag från OK Computer och dess text, synkade med takten.
 
-En @Scene går framåt i tidslängder, så orden glider ur takt med allt som spelas under. Här bär varje rad det /slag/ den sjungs på, och @Beat visar slagen precis som de hörs, så orden och musiken kan aldrig glida isär. Ändra @Music/tempo och hela texten följer med, för inget här bryr sig om sekunder.
+En @Scene går framåt med varaktigheter, så orden hamnar snart ur takt med allt som spelas under. Här har varje rad den /takt/ den sjungs på, och @Beat rapporterar takterna medan de hörs, så orden och musiken kan inte glida isär. Ändra @Music/tempo och hela texten följer med, eftersom inget här vet något om sekunder.
 
-Slagen kommer från ett Logic-arrangemang av låten, så varje rad hamnar precis där den faktiskt sjungs — och det arrangemanget är det som spelas under, importerat från MIDI som 41 spår med gitarr, bas, stråkar, trummor, klockspel och blås. Orden och tonerna räknar samma slag, så de kan bara stämma överens.
+Takterna kommer från ett Logic-arrangemang av låten, så varje rad hamnar där den verkligen sjungs. Samma arrangemang spelas under, importerat från MIDI som 41 spår med gitarr, bas, stråkar, trummor, klockor och horn. Orden och tonerna räknar samma takter, så de kan bara vara överens.
 
-För att sätta dina egna ord till musiken, redigera @lines och inget annat: var och en bär vad som ska sägas, vilket slag det kommer på, hur många slag det håller, och vilken behandling som ska användas.
+Om du vill sätta egna ord till musik, ändra @lines och inget annat: varje rad har vad som ska sägas, vilken takt den kommer på, hur många takter den hålls och vilken behandling som ska användas.
 
-Varje stämma i arrangemanget finns i sin egen källa, så ingen enskild fil blir en vägg av toner. Att låna en källa med namn ger dess sista uttryck — här en @Track — så listan längst ner är hela partituret.¶
+Varje stämma i arrangemanget finns i sin egen källa, så ingen fil blir en vägg av toner. Att låna en källa med dess namn ger dess sista uttryck, här en @Track, så listan längst ned är hela partituret.¶
 ↓ guitar1
 ↓ guitar2
 ↓ guitar3
@@ -52,53 +52,58 @@ Varje stämma i arrangemanget finns i sin egen källa, så ingen enskild fil bli
 ↓ sax2
 ↓ sax3
 
-slag2: Takt()
-¶Detta är den enda klockan i programmet. @Beat räknar från noll tills musiken börjar, så den kan läsas direkt.¶
-antal2: slag2.räkna
+taktslag: Takt()
+¶Det här är den enda klockan i programmet. @Beat räknar från noll tills musiken börjar, så den kan läsas av direkt.¶
+räkna2: taktslag.räkna
 
-¶En rad: orden, slaget den sjungs på, hur länge den håller, och hur den ska se ut. Varje start är det första slaget i en fras i saxofonen som bär sången, och varje håll tar slut innan nästa börjar — så ingen rad håller längre än fem slag, vilket i den här takten redan är tre och en halv sekund. En del av det saxofonen spelar bär inga ord alls: en svarande fras efter de flesta halvorna av en vers (slag 54, 78 och 146), en svans av långa toner efter /car/ och efter varje /burst/, och att lägga en rad på en av dessa är det som gör att texten kommer tidigt. Den svarande frasen vid 169,75 är det enda undantaget, och melodin visar det: det är samma sex toner med en upptakt framför, vilket är vad en fras växer till när den har en stavelse att landa på.¶
-•rad(ord3•'' start2•# håll•# slag3•#)
+¶En rad: orden, takten den sjungs på, hur länge den hålls och hur den ska se ut. Varje start är första takten i en fras i saxofonen som bär sången, och varje hold tar slut innan nästa börjar, så ingen rad hålls längre än fem takter, vilket i detta tempo redan är tre och en halv sekund. En del av det saxofonen spelar har inga ord alls: en svarsfras efter de flesta halvor av en vers (takt 54, 78 och 146), en svans av långa toner efter /car/ och efter varje /burst/. Att lägga en rad på någon av dem gör att texten går för tidigt. Svarsfrasen vid 169,75 är det enda undantaget, och melodin visar det: det är samma sex toner med en upptakt framför, vilket är vad en fras blir när den har en stavelse att landa på.¶
+•rad(ord3•'' start2•# håll•# sorts•#)
 
 rader2: [
 		rad('I nästa världskrig' 39 4 1)
-		rad('I en omkullvält jättelastbil' 43 5 2)
-		rad('Jag föds på nytt' 48 4 3)
+		rad('I en vikt jättelastbil' 43 5 2)
+		rad('Jag är född på nytt' 48 4 3)
 		rad('I neonskylten' 63 4 4)
-		rad('Som rullar upp och ner' 67 5 4)
-		rad('Jag föds på nytt' 72 4 3)
-		rad('I en interstellär explosion' 87 4.5 5)
+		rad('Rullar upp och ner' 67 5 4)
+		rad('Jag är född på nytt' 72 4 3)
+		rad('I en stjärnornas explosion' 87 4.5 5)
 		rad('Jag är tillbaka för att rädda universum' 95 5 1)
 		rad('I en djup, djup sömn' 131 4 1)
 		rad('av de oskyldiga' 135 5 1)
-		rad('Jag föds på nytt' 140 5 3)
+		rad('Jag är född på nytt' 140 5 3)
 		rad('I en snabb tysk bil' 155 4 6)
-		rad('Jag är förvånad att jag överlevde' 163.25 5 1)
+		rad(
+			'Jag är förvånad över att jag överlevde'
+			163.25
+			5
+			1
+		)
 		rad('En krockkudde räddade mitt liv' 169.75 5 7)
-		rad('I en interstellär explosion' 179 4.5 5)
+		rad('I en stjärnornas explosion' 179 4.5 5)
 		rad('Jag är tillbaka för att rädda universum' 187 5 1)
-		rad('I en interstellär explosion' 251 4.5 5)
+		rad('I en stjärnornas explosion' 251 4.5 5)
 		rad('Jag är tillbaka för att rädda universum' 259 5 1)
-		rad('I en interstellär explosion' 275 4.5 5)
+		rad('I en stjärnornas explosion' 275 4.5 5)
 		rad('Jag är tillbaka för att rädda universum' 283 5 1)
 	]
 
-¶Raden vars fönster innehåller detta slag, eller ø mellan dem — vilket ärmesta delen av låten, eftersom den mest är instrumental.¶
+¶Raden vars fönster innehåller den här taktslaget, eller ø mellan dem — vilket är det mesta av låten, eftersom den mest är instrumental.¶
 visar: rader2.hitta(
-		ƒ(l2•rad) (antal2 ≥ l2.start2) & (antal2 < (l2.start2 + l2.håll))
+		ƒ(r•rad) (räkna2 ≥ r.start2) & (räkna2 < (r.start2 + r.håll))
 	)
 
-¶Behandlingarna, en per sort.¶
-ƒ säg(l3•rad)•Fras
-	(l3.slag3 = 2) ?
+¶Behandlingarna, en för varje sort.¶
+ƒ säg(r2•rad)•Fras
+	(r2.sorts = 2) ?
 		Fras(
-			l3.ord3
+			r2.ord3
 			rotation: 5°
 			gårin: Pose(opacitet: 0 rotation: 0°)
 		)
-		(l3.slag3 = 3) ? Fras(l3.ord3 gårin: Pose(skala: 2))
-			(l3.slag3 = 4) ?
+		(r2.sorts = 3) ? Fras(r2.ord3 gårin: Pose(skala: 2))
+			(r2.sorts = 4) ?
 				Fras(
-					l3.ord3
+					r2.ord3
 					färg: Färg(50% 136 337°)
 					gårin: Sekvens(
 						{
@@ -109,13 +114,13 @@ visar: rader2.hitta(
 						varaktighet: 3s
 					)
 				)
-				(l3.slag3 = 5) ? Fras(
-						l3.ord3
+				(r2.sorts = 5) ? Fras(
+						r2.ord3
 						gårin: Sekvens.skaka(0.75s räkna: 5x)
 					)
-					(l3.slag3 = 6) ?
+					(r2.sorts = 6) ?
 						Fras(
-							l3.ord3
+							r2.ord3
 							gårin: Sekvens(
 								{
 									0%: Pose(offset: Plats(-10m 0m))
@@ -125,10 +130,10 @@ visar: rader2.hitta(
 								varaktighet: 3s
 							)
 						)
-						(l3.slag3 = 7) ?
-							¶Det avfyras som det den namnger: från långt bort och nästan inget tillförbi sin egen storlek på en kvarts sekund, sedan en liten studs närden lägger sig. Z-förskjutningen är det som får det att uppfattas som attkomma mot dig i stället för att bara växa — scenen skalar efter djup, sårörelse mot betraktaren gör att den sväller upp av sig själv.¶
+						(r2.sorts = 7) ?
+							¶Den skjuts iväg som det den heter: långt bort och nästan ingenting, till större än sin egen storlek på en kvarts sekund, och sedan en liten studs när den lägger sig. Z-förskjutningen gör att det ser ut som att den kommer mot dig i stället för att bara växa — scenen skalar efter djup, så att färdas mot betraktaren förstorar den av sig själv.¶
 							Fras(
-								l3.ord3
+								r2.ord3
 								1.5m
 								gårin: Sekvens(
 									{
@@ -155,37 +160,37 @@ visar: rader2.hitta(
 								)
 								vilande: Sekvens.skaka(0.4s)
 							)
-							(l3.slag3 = 8) ? Fras(l3.ord3 0.7m)
-								Fras(l3.ord3)
+							(r2.sorts = 8) ? Fras(r2.ord3 0.7m)
+								Fras(r2.ord3)
 
-¶Att namnge en rad efter sina egna ord gör den till sin egen output, så scenenvet att den lämnade och kan spela sin utgående @Pose. Utan namnet skulle varjerad av samma sort vara samma output, och orden skulle bytas ut utanatt någonsin tona bort.¶
-ƒ sjungen(l4•rad)•Fras (
-		sagd: säg(l4)
-		((sagd.namn:l4.ord3).avslutar:Pose(opacitet: 0)).varaktighet:0.75s
+¶Om du ger en rad namn efter sina egna ord blir den sin egen utdata, så scenen vet att den lämnade scenen och kan spela sin utgång @Pose. Utan namnet skulle varje rad av samma sort vara samma utdata, och orden skulle bytas ut utan att någonsin tona bort.¶
+ƒ sjungen(r3•rad)•Fras (
+		sagt: säg(r3)
+		((sagt.namn:r3.ord3).avslutar:Pose(opacitet: 0)).varaktighet:0.75s
 	)
 
-¶Fyra nottecken, som växlar med slaget. @List/length kan inte lova att det inte ärnoll, så resten kan vara ø; 0:an är vad det ø:et blir.¶
-tecken2: ['♩' '♪' '♫' '♬']
-tecken3: tecken2[((antal2 % tecken2.längd()) ?? 0) + 1]
+¶Fyra notsymboler, som växlar med taktslaget. @List/length kan inte lova att det inte är noll, så resten kan vara ø; 0 är vad den ø blir.¶
+glyfer: ['♩' '♪' '♫' '♬']
+glyf: glyfer[((räkna2 % glyfer.längd()) ?? 0) + 1]
 
-¶Scenen har inga ord för större delen av låten — den långa introt, luckornamellan raderna, avslutningen — så i stället för att bli mörk visar den slaget.Tecknet är sitt eget namn, så varje ett kommer in och lämnar när det anländer.¶
+¶Scenen har inga ord under det mesta av låten — det långa introt, pauserna mellan raderna, outrot — så i stället för att bli mörk visar den taktslaget. Symbolen är sitt eget namn, så varje symbol kommer in och lämnar scenen på sitt eget sätt.¶
 ƒ toner()•Fras
 	Fras(
-		tecken3
+		glyf
 		2m
-		namn: tecken3
+		namn: glyf
 		färg: Färg(50% 0 0°)
 		gårin: Pose(opacitet: 0 skala: 0.6)
 		avslutar: Pose(opacitet: 0)
 		varaktighet: 0.3s
 	)
 
-¶Innehållet i en @Stage kan inte hålla ø, så där det inte finns några ord visarscenen slaget i stället för ingenting.¶
+¶Innehållet i en @Stage kan inte vara ø, så där det inte finns några ord visar scenen taktslaget i stället för ingenting.¶
 ƒ ord4()•Fras
 	visar•ø ? toner() sjungen(visar)
 
-¶Partituret: varje lånat spår, spelat i det tempo texten räknar i.Varje not bär sin egen längd och volym, så inget här behöver ett slag —@Music/tempo ensam bestämmer hur fort allt går.¶
-sång: Musik(
+¶Partituret: varje lånat spår, spelat i det tempo som sångtexten räknar in. Varje ton har sin egen längd och sin egen volym, så här behövs inget taktslag — @Music/tempo bestämmer ensam hur snabbt allt går.¶
+låt: Musik(
 		[
 			guitar1
 			guitar2
@@ -237,14 +242,14 @@ sång: Musik(
 Etapp(
 	[
 		ord4()
-		sång
+		låt
 	]
 	ansikte: 'Phudu'
 	bakgrund: Färg(0 0 0°)
 	färg: Färg(100 0 0°)
 )
 === guitar1
-¶Gitarr, röst 1 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 1 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -1519,7 +1524,7 @@ Spår(
 	loop: ⊥
 )
 === guitar2
-¶Gitarr, röst 2 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 2 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -1575,7 +1580,7 @@ Spår(
 	loop: ⊥
 )
 === guitar3
-¶Gitarr, röst 3 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 3 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -1588,7 +1593,7 @@ Spår(
 	loop: ⊥
 )
 === guitar4
-¶Gitarr, röst 4 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 4 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -1599,7 +1604,7 @@ Spår(
 	loop: ⊥
 )
 === violin1
-¶Stråkar, röst 1 av 2. Startkällan lånar den med namn.¶
+¶Stråkar, stämma 1 av 2. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -1742,7 +1747,7 @@ Spår(
 	loop: ⊥
 )
 === guitar5
-¶Gitarr, röst 5 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 5 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -1873,7 +1878,7 @@ Spår(
 	loop: ⊥
 )
 === guitar6
-¶Gitarr, röst 6 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 6 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -3542,7 +3547,7 @@ Spår(
 	loop: ⊥
 )
 === guitar7
-¶Gitarr, röst 7 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 7 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -3757,7 +3762,7 @@ Spår(
 	loop: ⊥
 )
 === guitar8
-¶Gitarr, röst 8 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 8 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -3818,7 +3823,7 @@ Spår(
 	loop: ⊥
 )
 === guitar9
-¶Gitarr, röst 9 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 9 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -3831,7 +3836,7 @@ Spår(
 	loop: ⊥
 )
 === guitar10
-¶Gitarr, röst 10 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 10 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -4932,7 +4937,7 @@ Spår(
 	loop: ⊥
 )
 === guitar11
-¶Gitarr, röst 11 av 12. Startkällan lånar den med namn.¶
+¶Gitarr, stämma 11 av 12. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -8640,7 +8645,7 @@ Spår(
 	loop: ⊥
 )
 === pad1
-¶Pad, röst 1 av 3. Startkällan lånar den med namn.¶
+¶Klangmatta, röst 1 av 3. Startkällan lånar den med namn.¶
 
 Spår(
 	[
@@ -8655,7 +8660,7 @@ Spår(
 	loop: ⊥
 )
 === pad2
-¶Pad, röst 2 av 3. Startkällan lånar den med namn.¶
+¶Klangmatta, röst 2 av 3. Startkällan lånar den med namn.¶
 
 Spår(
 	[

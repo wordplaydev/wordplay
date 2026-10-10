@@ -1,12 +1,12 @@
 █
 Garten
 === start/en
-¶Ein Zen-Garten aus bunten Blöcken, mit sanft wogendem Wasser.¶
+¶Ein Zen-Garten aus bunten Blöcken, mit sanft schwankendem Wasser.¶
 
 gras: Farbe(54% 84 117°)
 stein: Farbe(74% 0 200°)
 bambus: Farbe(77% 88 109°)
-wand: Farbe(0% 0 0°)
+mauer: Farbe(0% 0 0°)
 wasser: Farbe(50% 89 279°)
 wippen: Reihenfolge(
 		{
@@ -55,7 +55,7 @@ Bühne(
 		)
 		Satzglied(
 			'壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁'
-			Ruhen: Pose(Farbe: wand)
+			Ruhen: Pose(Farbe: mauer)
 			Ort: Ort(-13.9375m 3.5m 0m)
 			Größe: 2m
 		)

@@ -1,7 +1,7 @@
 ⚫
 Amplituda
 ===
-¶Rząd punktów, które świecą i gasną wraz z głośnością twojego mikrofonu.¶
+¶Rząd kropek, które świecą i gasną zależnie od głośności twojego mikrofonu.¶
 
 amplitudy•[#]: ←← 10 Tom()
 wiz: amplitudy.tłumaczyć(

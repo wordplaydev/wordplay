@@ -1,7 +1,7 @@
 カ
 Adivina el katakana
 === start
-¶Adivina cuál katakana corresponde con el hiragana para ganar puntos.¶
+¶Adivina qué katakana corresponde al hiragana para ganar puntos.¶
 
 ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
 カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
@@ -9,7 +9,7 @@ Adivina el katakana
 •ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
 選択/ja,selection/en: Elección()
 
-¶Comienza el juego con un hiragana al azar y cero puntos. Cuando se hace una elección, crea un nuevo estado que elige un nuevo carácter y suma un punto si fue correcta.¶
+¶Comienza el juego con un hiragana al azar y cero puntos. Cuando se elige una opción, crea un nuevo estado que elija un carácter nuevo y que aumente el puntaje si la respuesta fue correcta.¶
 ¶ランダムなひらがなと 0 ポイントでゲームを開始します。
 選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
 配置/ja,status/en: ゲーム(Azar(1 46) 0) … ∆ 選択 …

@@ -1,7 +1,7 @@
 •
 Stoper
 ===
-¶Rząd punktów, który rośnie do pięciu i zaczyna się od nowa, raz na sekundę.¶
+¶Rząd kropek, który rośnie do pięciu i zaczyna od nowa, raz na sekundę.¶
 
 Wyrażenie(
 	"•".powtarzającysię(

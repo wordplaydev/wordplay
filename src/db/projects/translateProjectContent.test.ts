@@ -816,3 +816,27 @@ test('add mode leaves a name inside documentation alone', async () => {
     // The lambda parameter inside the doc does not.
     expect(out).not.toContain('cada');
 });
+
+// A model may wrap its answer though it was sent none. Each wrapped line used to be glued to the
+// next, which shipped localized gallery examples reading `długo,jak` and `scenęwystarcza`.
+test('a translation that comes back wrapped keeps a space where it wrapped', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+    const source = new Source('start', '¶A long sentence, wrapped here.¶\n1');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const wrapping: RawTranslator = async (texts) =>
+        texts.map((text) =>
+            text === 'A long sentence, wrapped here.'
+                ? 'Una frase larga,\nenvuelta aquí.'
+                : text,
+        );
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        wrapping,
+        undefined,
+        true,
+    );
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
+    expect(out).toContain('larga, envuelta');
+});

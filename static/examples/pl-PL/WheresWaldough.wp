@@ -1,36 +1,36 @@
 🔁
-Gdzie jest Waldough?
+Gdzie jest Wally Ciasto?
 === start/en
-¶Znajdź Waldka skrytego w tłumie: szukaj mężczyzny w pomarańczowej koszulce i kliknij na niego, aby wygrać!¶
+¶Znajdź Waldough ukrytego w tłumie: poszukaj mężczyzny w pomarańczowej koszulce i kliknij go, aby wygrać!¶
 
 nazwa3: Wybór()
-złapany: ⊥ … ∆ (nazwa3) … (nazwa3 = 'ResetButton') ? ⊥ ((nazwa3 = 'Waldough') | złapany)
+złapana: ⊥ … ∆ (nazwa3) … (nazwa3 = 'ResetButton') ? ⊥ ((nazwa3 = 'Waldough') | złapana)
 wynik: 0 … ∆ (nazwa3) … (nazwa3 = 'Waldough') ? 1 + wynik wynik
 
-ƒ punktów() Miejsce(
+ƒ punkt2() Miejsce(
 		((0.1 × Losowy(-9m 9m)) + Losowy(-2m 1m))
 		((0.1 × Losowy(-9m 9m)) + Losowy(-2m 1m))
 	)
 ƒ nowePlamki() [
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
-		punktów()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
+		punkt2()
 	]
 plamki: nowePlamki() … ∆ (nazwa3) … (nazwa3 = 'ResetButton') ? nowePlamki(
 			) plamki
@@ -42,7 +42,7 @@ Scena(
 			"🔁"
 			wybieralny
 			miejsce: Miejsce(4m -0.5m)
-			spoczynkowy: złapany ? Poza(obrót: 180°) Poza()
+			spoczynkowy: złapana ? Poza(obrót: 180°) Poza()
 			czastrwania: 0.5s
 			nazwa: 'ResetButton'
 		)
@@ -53,13 +53,13 @@ Scena(
 			twarz: 'Carter One'
 		)
 		Wyrażenie(
-			'mężczyzna (imieniem Waldek) i'
+			'mężczyzny (o imieniu Waldough) i'
 			0.2m
 			miejsce: Miejsce(-6.4m 0.25m)
 			twarz: 'Carter One'
 		)
 		Wyrażenie(
-			'kliknij na niego, aby wygrać!🧍🏻'
+			'kliknij go, aby wygrać!🧍🏻'
 			0.2m
 			miejsce: Miejsce(-6.0m -0.25m)
 			twarz: 'Carter One'
@@ -86,9 +86,9 @@ Scena(
 		Wyrażenie("🍥" miejsce: plamki[14])
 		Wyrażenie(
 			"🧍🏻"
-			wybieralny: ~złapany
+			wybieralny: ~złapana
 			miejsce: plamki[15]
-			spoczynkowy: złapany ? Poza(obrót: 180°) Poza()
+			spoczynkowy: złapana ? Poza(obrót: 180°) Poza()
 			czastrwania: 0s
 			nazwa: 'Waldough'
 		)
