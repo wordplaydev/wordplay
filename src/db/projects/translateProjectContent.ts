@@ -31,6 +31,7 @@ import { toMarkup } from '#parser/toMarkup.ts';
 import type Project from '#db/projects/Project.ts';
 import {
     normalizeSoftBreaks,
+    softBreaksToSpaces,
     type RawTranslator,
 } from '#db/translateMarkup.ts';
 import {
@@ -1000,7 +1001,7 @@ export default async function translateProjectContent(
 
                     translation = translated;
 
-                    const [markup] = toMarkup(translation);
+                    const [markup] = toMarkup(softBreaksToSpaces(translation));
 
                     // In replace mode the text becomes a single target-language
                     // option (so the program reads natively); otherwise the target

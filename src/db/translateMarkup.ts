@@ -59,6 +59,25 @@ export function normalizeSoftBreaks(text: string): string {
 }
 
 /**
+ * Turn the soft line breaks a translation came back with into spaces, before it is parsed.
+ *
+ * A model sometimes wraps its answer even though it was sent none. A markup words token ends at
+ * every newline and parsed markup is spaced by `getPreferredSpaces`, which puts nothing between
+ * two words tokens, so each wrapped line was glued to the next: localized gallery examples shipped
+ * with `długo,jak` and `scenęwystarcza`. Only a break between two words is collapsed; a blank
+ * line, a break before a `•` bullet, and a break next to a `\code\` example all mean something.
+ */
+export function softBreaksToSpaces(text: string): string {
+    return splitMarkupAndCode(text)
+        .map((seg) =>
+            seg.kind === 'code'
+                ? seg.text
+                : seg.text.replace(/(?<=\S)[^\S\n]*\n[^\S\n]*(?=[^\s•])/g, ' '),
+        )
+        .join('');
+}
+
+/**
  * Serialize a Markup node to translatable Wordplay source text: each paragraph's
  * source with soft breaks normalized, joined by blank lines. `\code\` blocks stay
  * verbatim so the translator preserves them.
@@ -77,7 +96,7 @@ export function markupToText(markup: Markup): string {
  * toMarkup derives from annotations is preserved.
  */
 export function textToMarkup(text: string): Markup {
-    const [markup] = toMarkup(text);
+    const [markup] = toMarkup(softBreaksToSpaces(text));
     return new Markup(
         markup.paragraphs,
         getPreferredSpaces(markup),

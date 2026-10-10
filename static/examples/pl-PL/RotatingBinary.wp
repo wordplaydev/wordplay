@@ -1,7 +1,7 @@
 1
-RotatingBinary
+ObracającaSięLiczbaBinarna
 === start/en
-¶Pole jedynek i zer, powoli obracające się w miejscu.¶
+¶Pole jedynek i zer, które powoli obraca się w miejscu.¶
 
 powolnyObrót: Sekwencja.obrót(10s "straight")
 

@@ -1,10 +1,11 @@
 🕰️
 Zegar
 === start/en
-¶Zegar dostosowany do języka, w jednej linijce kodu. @Now zmienia @Moment co sekundę, a \Teraz(
-) → ''\ zamienia to na tekst w twoim języku, kalendarzu i strefie czasowej, więc zegar zmienia język razem z twoimi ustawieniami. Spróbuj podać @Now częstotliwość, strefę czasową i kalendarz, na przykład \Teraz(
+¶Zlokalizowany zegar w jednej linii kodu. @Now co sekundę podaje nową wartość @Moment, a \Teraz(
+) → ''\ zamienia każdą z nich na tekst zgodny z twoim ustawieniem regionalnym, kalendarzem i strefą czasową. Dzięki temu zegar zmienia język, gdy zmienisz ustawienie regionalne. Spróbuj podać dla @Now częstotliwość, strefę czasową i kalendarz, na przykład \Teraz(
 	1s
-	'Asia/Tokyo''japanese'
+	'Asia/Tokyo'
+	'japanese'
 )\.¶
 
 Wyrażenie(Teraz() → '' twarz: 'Doto')

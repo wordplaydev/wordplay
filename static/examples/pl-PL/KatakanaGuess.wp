@@ -9,7 +9,7 @@ Zgadnij katakanę
 •ゲーム/ja,Game/en(秘密/ja,secret/en•# スコア/ja,score/en•#)
 選択/ja,selection/en: Wybór()
 
-¶Rozpocznij grę od losowej hiragany i zera punktów. Gdy wybór zostanie dokonany, utwórz nowy stan, który wybiera nowy znak i zwiększa wynik, jeśli wybór był poprawny.¶
+¶Zacznij grę od losowej hiragany i zera punktów. Gdy gracz dokona wyboru, utwórz nowy stan, który wybiera nowy znak i zwiększa wynik, jeśli odpowiedź była poprawna.¶
 ¶ランダムなひらがなと 0 ポイントでゲームを開始します。
 選択が行われたら、新しい文字を選択し、正しい場合はスコアを増分する新しいステータスを作成します。¶/ja
 配置/ja,status/en: ゲーム(Losowy(1 46) 0) … ∆ 選択 …

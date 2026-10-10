@@ -1,14 +1,14 @@
 🤖
-Gaduła
+Gadatliwiec
 === start
-¶Chatterbox to malutki robot-słuchacz, zainspirowany Elizą, pierwszym w historii chatbotem, stworzonym w 1966 roku. Wpisz coś w pasku rozmowy, a on odpowie, zapisując dziennik waszej rozmowy.¶
+¶Gadatliwy to malutki robot, który słucha. Zainspirował go Eliza, pierwszy w historii chatbot, stworzony w 1966 roku. Wpisz coś na pasku czatu, a robot odpowie i zapisze Twoją rozmowę w dzienniku.¶
 
-¶Jedna linia rozmowy: kto coś powiedział i co powiedział.¶
-•linia(mówiący•'' słowa2•'')
+¶Jedna linijka rozmowy: kto ją powiedział i co powiedział.¶
+•linia(mówca•'' słowa2•'')
 
 wiadomość: Pogawędzić()
 
-¶Zanim Chatterbox powtórzy twoje słowa, zamienia zaimki, podmieniając każde słowo według tej mapy: "mój" zmienia się w "twój", a "ja" zmienia się w "ty". Dzięki temu zdanie "czuję, że mnie nienawidzisz" wraca jako "Dlaczego czujesz, że cię nienawidzę?"¶
+¶Zanim Gadatliwy powtórzy Twoje słowa, zamienia zaimki. Każde słowo zmienia według tej mapy: moje zamienia się w twoje, a ja zamienia się w ty. Dzięki temu zdanie „Czuję, że mnie nienawidzisz” wraca jako „Dlaczego czujesz, że cię nienawidzę?”¶
 zamiany: {
 		'I': 'you'
 		'i': 'you'
@@ -24,53 +24,53 @@ zamiany: {
 		'yours': 'mine'
 		'yourself': 'myself'
 	}
-ƒ odzwierciedlaj(słowa3•'')•'' słowa3.segmentowany(' ').tłumaczyć(
+ƒ odbij(słowa3•'')•'' słowa3.segmentowany(' ').tłumaczyć(
 		ƒ(słowo2•'') zamiany{słowo2} ?? słowo2
 	).dołączyć(
 		' '
 	)
 
-¶Chatterbox wybiera odpowiedź, dopasowując wzory do wiadomości. Aa ignoruje wielkość liter, a nazwana grupa taka jak nastrój wychwytuje wszystko aż do znaku kończącego zdanie, dzięki czemu odpowiedź może powtórzyć twoje własne słowa — to sztuczka, której użyła oryginalna Eliza. Ostatnia reguła to zapasowa opcja: losowo wybrana zachęta, żebyś mówił dalej.¶
+¶Gadatliwy wybiera odpowiedź, dopasowując wzorce do wiadomości. Aa pomija wielkość liter, a nazwane przechwytywanie, takie jak nastrój, bierze wszystko aż do znaku interpunkcyjnego na końcu. Dzięki temu odpowiedź może powtórzyć Twoje własne słowa — to ten sam trik, którego używała pierwsza Eliza. Ostatnia reguła to plan awaryjny: losowo wybrana zachęta, żebyś mówił dalej.¶
 ƒ odpowiedź(słowa4•'')•'' (
 		uczucia: słowa4 ⌕ ⣿ Aa("i feel ") mood: (>0 ~{"." "!" "?"})⣿
 		istoty: słowa4 ⌕ ⣿ Aa(("i am " | "i'm ")) state: (>0 ~{"." "!" "?"})⣿
-		chęci: słowa4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
+		chce: słowa4 ⌕ ⣿ Aa("i want ") desire: (>0 ~{"." "!" "?"})⣿
 		życzenia: słowa4 ⌕ ⣿ Aa("i wish ") wish: (>0 ~{"." "!" "?"})⣿
-		uczucia.długość() > 0 ? 'Dlaczego czujesz ' + odzwierciedlaj(
+		uczucia.długość() > 0 ? 'Dlaczego czujesz ' + odbij(
 					uczucia[1].grupy{'nastrój'} ?? ''
 				) + '?'
-			istoty.długość() > 0 ? 'Jak długo już jesteś ' + odzwierciedlaj(
+			istoty.długość() > 0 ? 'Od jak dawna jesteś ' + odbij(
 						istoty[1].grupy{'stan'} ?? ''
 					) + '?'
-				chęci.długość() > 0 ? 'Co by to dla ciebie znaczyło, gdybyś miał ' + odzwierciedlaj(
-							chęci[1].grupy{'pragnienie'} ?? ''
+				chce.długość() > 0 ? 'Co by dla ciebie znaczyło, gdybyś miał ' + odbij(
+							chce[1].grupy{'pragnienie'} ?? ''
 						) + '?'
-					życzenia.długość() > 0 ? 'Co by się zmieniło, gdyby ' + odzwierciedlaj(
+					życzenia.długość() > 0 ? 'Co by się zmieniło, gdyby ' + odbij(
 								życzenia[1].grupy{'życzenie'} ?? ''
 							) + '?'
-						(słowa4 ⌕ ⣿ Aa("because")⣿).długość() > 0 ? 'Czy to prawdziwy powód?'
+						(słowa4 ⌕ ⣿ Aa("because")⣿).długość() > 0 ? 'Czy to naprawdę jest powód?'
 							(słowa4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).długość(
 							) > 0 ? 'Opowiedz mi więcej o swojej rodzinie.'
-								słowa4.Kończysię('?') ? 'Pytasz mnie? A ty co myślisz?'
-									(słowa4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Cześć! Jak się dziś czujesz?'
+								słowa4.Kończysię('?') ? 'Pytasz mnie? A co ty myślisz?'
+									(słowa4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Cześć! Jak się dzisiaj czujesz?'
 										[
 											'Opowiedz mi więcej.'
 											'Mów dalej.'
-											'Jak się z tym czujesz?'
-											'Rozumiem. Słucham cię.'
+											'Co czujesz, kiedy o tym myślisz?'
+											'Rozumiem. Słucham.'
 										].losowy(
 										)
 	)
 
-¶Zapis zaczyna się od powitania i rośnie o dwie linijki po każdej wiadomości: najpierw twoja, potem odpowiedź Gaduły.¶
+¶Dziennik zaczyna się od powitania. Przy każdej wiadomości rośnie o dwie linie: twoją, a potem odpowiedź Chatterboxa.¶
 dziennik•[linia]: [
-		linia('🤖' 'Cześć! Jestem Gaduła. Jak się masz?')
+		linia('🤖' 'Cześć! Jestem Chatterbox. Jak się masz?')
 	] … ∆ wiadomość …
 		dziennik.z(linia('🙂' wiadomość)).z(
 			linia('🤖' odpowiedź(wiadomość))
 		)
 
-¶Pokazuj tylko najnowsze linijki, żeby stare ustąpiły miejsca nowym.¶
+¶Pokaż tylko najnowsze linie, żeby stare robiły miejsce nowym.¶
 ostatnie: dziennik.długość() ≤ 8 ? dziennik dziennik.podsekwencja(
 			dziennik.długość() - 7
 		)
@@ -80,9 +80,9 @@ Scena(
 		Grupa(
 			Stos('<' 0.5m)
 			ostatnie.tłumaczyć(
-				ƒ(linia2•linia)
+				ƒ(linijka•linia)
 					Wyrażenie(
-						linia2.mówiący + ' ' + linia2.słowa2
+						linijka.mówca + ' ' + linijka.słowa2
 						rozmiar: 0.75m
 						zawinąć: 22m
 						wstępowanie: Poza(

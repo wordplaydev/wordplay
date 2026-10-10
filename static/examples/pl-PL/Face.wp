@@ -1,7 +1,7 @@
 🙂
 Twarz
 ===
-¶Emoji, które odzwierciedla twoją twarz, gdy się uśmiechasz, marszczysz brwi, otwierasz usta i mrugasz.¶
+¶Emoji, które naśladuje twoją twarz, gdy się uśmiechasz, marszczysz brwi, otwierasz usta i mrugasz.¶
 
 twarz2: Twarz()
 
@@ -45,7 +45,7 @@ Scena(
 			obrót: twarz2.obrót
 		)
 		Wyrażenie(
-			'przechylenie 🧭'
+			'przechył 🧭'
 			miejsce: Miejsce(9m 2m)
 			obrót: twarz2.przechylenie
 			rozmiar: 2m

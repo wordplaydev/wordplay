@@ -1,5 +1,5 @@
 🍂
-Moja mapa – miejsca, w których mieszkałem
+Moja mapa – Miejsca, w których mieszkałem
 === English/en
 ¶This project has an English and a Hindi version.
 Change the locale on stage to see each one!¶/en
@@ -25,11 +25,11 @@ name/en,नाम/hi: (choice = ø ? "" choice.obiekt)
 single run for the speech bubble to wrap however it likes.¶/en
 ¶शब्द एक-एक पंक्ति में लिखे गए हैं, इसलिए यह उन्हें वापस एक ही धारा में जोड़ता है
 ताकि बातचीत का बुलबुला उन्हें अपनी तरह से लपेट सके।¶/hi
-ƒ przepływ(linie•[`…`])
-	linie.długość() < 2 ? linie[1]
-		linie.podsekwencja(2).łączny(
-			linie[1]
-			ƒ(akum następny) akum + `` + następny
+ƒ przepływ(wersy•[`…`])
+	wersy.długość() < 2 ? wersy[1]
+		wersy.podsekwencja(2).łączny(
+			wersy[1]
+			ƒ(przyspieszenie następny) przyspieszenie + `` + następny
 		)
 
 ¶This 'otherwise' checks the name of the collided object

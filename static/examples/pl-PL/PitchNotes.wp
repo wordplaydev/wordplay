@@ -1,12 +1,12 @@
 🎵
-Nuty wysokości dźwięku
+Nuty o wysokości dźwięku
 ===
-¶Zaśpiewaj lub zanuć i zobacz nutę, którą tworzysz — dwa razy. Lewa nuta czyta surowy sygnał @Pitch i drga. Prawa nuta liczy średnią z ostatnich kilku wysokości i pozostaje stabilna. @Pitch pokazuje 0 herców, gdy nie słyszy niczego wyraźnego, więc obie nuty pomijają te chwile i pokazują · zamiast nuty.¶
+¶Zaśpiewaj lub zanuć i zobacz nutę, którą wydajesz — dwa razy. Lewa nuta pokazuje surowy @Pitch i drży. Prawa nuta uśrednia kilka ostatnich wysokości dźwięku i trzyma się stabilnie. @Pitch podaje 0hz, gdy nie słyszy nic wyraźnego, więc obie nuty pomijają takie chwile i pokazują zamiast tego ·.¶
 
 nuty2: [
 		'A'
 		'A♯'
-		'B'
+		'H'
 		'C'
 		'C♯'
 		'D'
@@ -17,13 +17,13 @@ nuty2: [
 		'G'
 		'G♯'
 	]
-nutaZ: ƒ(hz•#hz) hz > 0hz ? nuty2[(((((12 × (hz ÷ 440hz).log(
+nutaz: ƒ(hz•#hz) hz > 0hz ? nuty2[(((((12 × (hz ÷ 440hz).log(
 										2
 									)).okrągły(
 							)) % 12) + 12) % 12) + 1] '·'
-gładki2: ƒ(sygnał•…#hz) (
-			usłyszany: (←← 8 sygnał).bez(0hz)
-			usłyszany.average() ?? 0hz
+wygładź: ƒ(sygnał•…#hz) (
+			usłyszane: (←← 8 sygnał).bez(0hz)
+			usłyszane.średnia() ?? 0hz
 		)
 wysokośćDźwięku: Poziom()
 Scena(
@@ -31,9 +31,9 @@ Scena(
 		Grupa(
 			Stos()
 			[
-				Wyrażenie('szumiący' kolor: Kolor(60% 90 30°))
+				Wyrażenie('zaszumiony' kolor: Kolor(60% 90 30°))
 				Wyrażenie(
-					nutaZ(wysokośćDźwięku)
+					nutaz(wysokośćDźwięku)
 					rozmiar: 6m
 					kolor: Kolor(60% 90 30°)
 				)
@@ -43,9 +43,9 @@ Scena(
 		Grupa(
 			Stos()
 			[
-				Wyrażenie('gładki' kolor: Kolor(70% 90 240°))
+				Wyrażenie('wygładź' kolor: Kolor(70% 90 240°))
 				Wyrażenie(
-					nutaZ(gładki2(wysokośćDźwięku))
+					nutaz(wygładź(wysokośćDźwięku))
 					rozmiar: 6m
 					kolor: Kolor(70% 90 240°)
 				)

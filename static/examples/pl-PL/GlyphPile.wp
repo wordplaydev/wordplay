@@ -1,9 +1,9 @@
 ⚽
 Stos liter
 === start
-¶Wielkie szeryfowe U to wiadro. Pięć dużych liter wpada do niego, a potem spadają serca i piłki do piłki nożnej, które osiadają w miseczkach i haczykach. Wszystko zderza się według kształtu swojego obrysu, a nie według prostokąta wokół niego. To właśnie dlatego U może pomieścić cokolwiek: piłka ląduje w miseczce litery zamiast unosić się nad nią, a serce wciska swój czubek między dwie litery.¶
+¶Wielka szeryfowa litera U jest wiadrem. Pięć dużych liter wpada do środka, a potem serca i piłki nożne spadają jak deszcz i układają się w zagłębieniach i zakrętach liter. Wszystko zderza się według kształtu swojego konturu, a nie według prostokąta wokół niego. Dzięki temu U może w ogóle cokolwiek utrzymać: piłka zatrzymuje się w zagłębieniu litery, zamiast unosić się nad nią, a serce wciska swój czubek między dwie litery.¶
 
-¶Wiadro to taka sama litera jak reszta, w kroju szeryfowym, więc jego ramiona kończą się półkami. Potrzebuje Ruchu, żeby być stałe, i tyle masy, by nic, co na nie spadnie, nie mogło go przesunąć. Stoi na podłodze między dwiema ścianami, które ledwo dotykają jego boków: jego spód jest okrągły, więc bez nich przechyliłoby się, gdy stos rośnie.¶
+¶Wiaderko to litera jak wszystkie inne. Ma krój szeryfowy, więc jej ramiona kończą się małymi półkami. Potrzebuje ruchu (Motion), żeby była twarda. Potrzebuje też tak dużej masy, żeby nic, co w nią spada, nie mogło jej przesunąć. Stoi na podłodze między dwiema ścianami, które dotykają jej boków. Jej spód jest okrągły. Bez ścian przewróciłaby się, gdy stos rośnie.¶
 kubek: Wyrażenie(
 		'U'
 		22m
@@ -14,19 +14,19 @@ kubek: Wyrażenie(
 		materiał: Materiał(masa: 5000kg tarcie: 0.9 kontur: ⊤)
 	)
 
-¶Ciężki krój do nagłówków, bo gruba litera ma miseczkę na tyle szeroką, by złapać piłkę. Litery są wybrane ze względu na ich haczyki i miseczki.¶
-krójPisma: 'Titan One'
-litery: ['a' 'b' 'c' 'd' 'e']
+¶Gruby krój ozdobny, bo gruba litera ma zagłębienie dość szerokie, by złapać piłkę. Litery wybrano ze względu na ich zakrętki i zagłębienia.¶
+twarz2: 'Titan One'
+litery: ['jeden' 'b' 'c' 'd' 'e']
 
-¶Litery spadają jako pierwsze, z tego samego miejsca, ale na różnych wysokościach, więc każda ląduje na poprzedniej i stos rośnie w górę.
+¶Najpierw spadają litery. Spadają z tego samego miejsca, ale z różnych wysokości. Dzięki temu każda ląduje na poprzedniej, a stos rośnie w górę.
 
-Litera jest stała tylko dlatego, że jej miejsce to Ruch i ma Materię — wyjście, które umieszcza program, jest widmem, przez które wszystko przechodzi. Ich masa sprawia, że piłki nie rozpychają stosu, a poproszenie Materii o obrys sprawia, że zderzają się według kształtu swoich liter.¶
+Litera jest twarda tylko dlatego, że jej miejsce to Motion i ma Matter. Wynik, który program po prostu umieszcza, jest jak duch. Wszystko przez niego przechodzi. Masa liter sprawia, że piłki nie rozpychają stosu. Gdy poprosisz Matter o obrys, litery zderzają się według swoich kształtów.¶
 stos: litery.tłumaczyć(
 		ƒ(litera•'' indeks2•#)
 			Wyrażenie(
 				litera
 				3m
-				krójPisma
+				twarz2
 				nazwa: "letter\indeks2\"
 				miejsce: Ruch(
 					Miejsce(
@@ -43,7 +43,7 @@ stos: litery.tłumaczyć(
 			)
 	)
 
-¶Następnie spadają serca. Emotikon też może poprosić o swój obrys, więc każde serce zderza się według swojego kształtu: jego czubek wsuwa się w szczeliny, na których prostokąt by tylko leżał.¶
+¶Potem spadają serca. Emoji też może poprosić o swój kontur, więc każde serce zderza się według swojego kształtu: jego czubek wsuwa się w szczeliny, na których pudełko po prostu by leżało.¶
 serca: ['🧡' '💛' '💚' '💙' '💜' '🩷'].tłumaczyć(
 		ƒ(serce•'' indeks3•#)
 			Wyrażenie(
@@ -64,7 +64,7 @@ serca: ['🧡' '💛' '💚' '💙' '💜' '🩷'].tłumaczyć(
 			)
 	)
 
-¶Piłki zaczynają nad wszystkim innym, więc docierają na miejsce dopiero, gdy stos już się ułożył. Nie proszą o obrys: to ich prostokąt, zaokrąglony ze wszystkich stron, sprawia, że się toczą.¶
+¶Piłki zaczynają nad wszystkim, więc docierają dopiero wtedy, gdy stos się uspokoi. Nie proszą o kontur: ich prostokąt, zaokrąglony do końca, sprawia, że się toczą.¶
 piłki: 18 → [].tłumaczyć(
 		ƒ(liczba2)
 			Wyrażenie(

@@ -1,20 +1,20 @@
 ぁ
 Hiragana
 === start
-¶Hiragana spadające pod wpływem grawitacji; kliknij, aby zmienić, w którą stronę jest dół.¶
+¶Hiragana spadają pod wpływem grawitacji; kliknij, aby zmienić kierunek, w którym spadają.¶
 
-liczba2: 32
+licznik: 32
 
 grawitacja•#m/s^2: 15m/s^2 … ∆ Przycisk() … -grawitacja
 
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
 
-litery: liczba2 → [].tłumaczyć(
-		ƒ(liczba3 indeks2)
+litery: licznik → [].tłumaczyć(
+		ƒ(liczba2 indeks2)
 			Wyrażenie(
-				hiragana[liczba3]
+				hiragana[liczba2]
 				miejsce: Ruch(
-					Miejsce((indeks2 - (liczba2 ÷ 2)) × 0.2m 10m)
+					Miejsce((indeks2 - (licznik ÷ 2)) × 0.2m 10m)
 					Prędkość(kąt: Losowy(-5 5) × 1°/s)
 				)
 				materiał: Materiał(sprężystość: 0.3)

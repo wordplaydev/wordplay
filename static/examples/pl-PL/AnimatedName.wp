@@ -57,10 +57,7 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Poza(kolor: Kolor(0.5 100 180°) flipx)
 							50%: Poza(kolor: Kolor(27% 112 267°))
-							75%: Poza(
-								kolor: Kolor(0.5 100 180°)
-								flipx
-							)
+							75%: Poza(kolor: Kolor(0.5 100 180°) flipx)
 						}
 						czastrwania: 2s
 					)
@@ -150,10 +147,7 @@ Change the locale on stage to see each one!¶/en
 						{
 							0%: Poza(kolor: Kolor(0.5 100 180°) flipx)
 							50%: Poza(kolor: Kolor(27% 112 267°))
-							75%: Poza(
-								kolor: Kolor(0.5 100 180°)
-								flipx
-							)
+							75%: Poza(kolor: Kolor(0.5 100 180°) flipx)
 						}
 						czastrwania: 2s
 					)

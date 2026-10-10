@@ -1,60 +1,60 @@
 🗨
-Dialog
+Okno dialogowe
 === start
-¶Dwie litery rozmawiają o tym, co znaczy, że litery mówią.¶
+¶Dwie litery rozmawiają o tym, co znaczy, że litery rozmawiają.¶
 
-¶Jedna linia rozmowy: kto ją mówi, jakie są słowa i czy to myśl, a nie mowa.¶
+¶Jedna linijka rozmowy: kto ją mówi, jakie są słowa i czy są pomyślane, a nie powiedziane.¶
 •linia(kto•'' słowa2•'' myślenie•?: ⊥)
 
-skrypt: [
+scenariusz: [
 		linia(
-			'a'
-			'Czy nie myślisz czasem, że to dziwne, że rozmawiamy?'
+			'jeden'
+			'Czy ty też myślisz czasem, że to dziwne, że rozmawiamy?'
 		)
 		linia(
 			'b'
-			'Jesteśmy literami. Mówienie to w sumie cała nasza praca.'
+			'Jesteśmy literami. Rozmawianie to w sumie cała nasza praca.'
 		)
 		linia(
-			'a'
-			'Nie, mam na myśli nas. Nie słowa, które tworzymy. Nas.'
+			'jeden'
+			'Nie, chodzi mi o nas. Nie o słowa, które tworzymy. O nas.'
 		)
 		linia('b' '…Aha.')
 		linia(
-			'a'
-			'Jestem kształtem, który oznacza dźwięk. Teraz właśnie wydaję ten dźwięk, będąc tym kształtem.'
+			'jeden'
+			'Jestem kształtem, który oznacza dźwięk. Teraz robię ten dźwięk, będąc tym kształtem.'
 		)
 		linia(
 			'b'
-			'Czy dymek wokół litery to obraz litery, czy litera obrazu?'
+			'Czy dymek wokół litery to obrazek litery, czy litera obrazka?'
 			myślenie
 		)
-		linia('a' 'Kręcisz się w kółko.')
+		linia('jeden' 'Wpadasz w spiralę myśli.')
 		linia(
 			'b'
-			'Jestem literą b. Zawijanie to dosłownie mój kształt.'
+			'Jestem literą b. Spirala to dosłownie mój kształt.'
 		)
-		linia('a' 'W każdym razie. To tutaj normalne.')
-		linia('b' 'Normalne dla nas, przynajmniej.')
+		linia('jeden' 'No nic. Tutaj to normalne.')
+		linia('b' 'Dla nas przynajmniej normalne.')
 	]
 
-¶Przechodź dalej klawiszem, kliknięciem lub dotknięciem i zatrzymaj się na ostatniej linii.¶
-kolej•#: 1 … ∆ Klawisz() | ∆ Przycisk() … (kolej < skrypt.długość(
+¶Przejdź dalej klawiszem, kliknięciem lub dotknięciem i zatrzymaj się na ostatniej linijce.¶
+kolej•#: 1 … ∆ Klawisz() | ∆ Przycisk() … (kolej < scenariusz.długość(
 				) ? kolej + 1 kolej)
 
-linia2: skrypt[kolej]
+linijka: scenariusz[kolej]
 
-¶Dymek dostaje tylko ten, którego jest kolej. Każda linia to @Say, więc jest zarówno wypowiadana, jak i pokazywana — a dymek zastępuje podpis, bo słowa są już na ekranie obok tego, kto je powiedział. Nikt nie wybiera strony: scena umieszcza każdy dymek tam, gdzie najmniej przeszkadza.¶
+¶Dymek dostaje tylko ten, kto ma teraz swoją kolej. Każda linijka to @Say, więc jest zarówno wypowiadana, jak i pokazana — a dymek zastępuje podpis, bo słowa są już na ekranie obok tego, kto je powiedział. Nikt nie wybiera strony: scena sama umieszcza każdy dymek tam, gdzie najmniej przeszkadza.¶
 ƒ dymek2(kto2•'')
-	kto2 = linia2.kto ?
+	kto2 = linijka.kto ?
 		Dymek(
-			Mowić(linia2.słowa2)
-			rodzaj: (linia2.myślenie ? '💭' '💬')
+			Mowić(linijka.słowa2)
+			rodzaj: (linijka.myślenie ? '💭' '💬')
 			zawijanie: 9m
 		)
 		ø
 
-¶Rząd wyrównany do linii bazowej, tak by obie litery stały na jednej linii. Pole wyrażenia to jego atrament, więc ustawienie ich na tej samej wysokości sprawiłoby, że krótka litera i wysoka znalazłyby się na różnych liniach bazowych.¶
+¶Rząd ułożony na linii bazowej, więc obie litery stoją na jednej linii. Ramka frazy to jej tusz, więc ustawienie ich na tej samej wysokości umieściłoby niską i wysoką literę na różnych liniach bazowych.¶
 Scena(
 	[
 		Grupa(
@@ -63,7 +63,11 @@ Scena(
 				Grupa(
 					Wiersz('_' 6m)
 					[
-						Wyrażenie('a' rozmiar: 3m dymek: dymek2('a'))
+						Wyrażenie(
+							'jeden'
+							rozmiar: 3m
+							dymek: dymek2('jeden')
+						)
 						Wyrażenie('b' rozmiar: 3m dymek: dymek2('b'))
 					]
 				)

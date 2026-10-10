@@ -1,16 +1,16 @@
 K
 Układy
 === start
-¶Wiersze, stosy i grupy fraz, każda w innej animowanej pozie.¶
+¶Rzędy, stosy i grupy fraz, każda w ruchomej, efektownej pozie.¶
 
-pulsowanie: Sekwencja(
+pulsuj: Sekwencja(
 		{
 			0%: Poza(skala: .9)
 			50%: Poza(skala: 1.1)
 			100%: Poza(skala: .9)
 		}
 	)
-zodbicie: Sekwencja(
+odbijaj: Sekwencja(
 		{
 			0%: Poza(zrównoważyć: Miejsce(z: 0m))
 			50%: Poza(zrównoważyć: Miejsce(z: -2m))
@@ -25,14 +25,14 @@ Grupa(
 		Grupa(
 			Stos()
 			[
-				Wyrażenie('Kicia')
-				Wyrażenie('Kot' spoczynkowy: zodbicie)
+				Wyrażenie('Kotek')
+				Wyrażenie('Kot' spoczynkowy: odbijaj)
 				Grupa(
 					Wiersz()
-					[Wyrażenie('Pies') Wyrażenie('Piesek')]
-					spoczynkowy: pulsowanie
+					[Wyrażenie('Pies') Wyrażenie('Psowaty')]
+					spoczynkowy: pulsuj
 				)
-				Wyrażenie('Kiciunia')
+				Wyrażenie('Kotowaty')
 			]
 		)
 		Grupa(

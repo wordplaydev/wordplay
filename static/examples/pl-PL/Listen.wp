@@ -1,6 +1,6 @@
 🔈
 Słuchaj
 === start
-¶Emotikon głośnika, który powiększa się wraz z głośnością twojego mikrofonu.¶
+¶Emoji głośnika, które rośnie, gdy mikrofon wychwytuje głośniejszy dźwięk.¶
 
 Wyrażenie("🔈" spoczynkowy: Poza(skala: Tom()))

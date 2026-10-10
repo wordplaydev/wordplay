@@ -1,44 +1,44 @@
 🫲
 Dyrygent
 === start/en
-¶Dyryguj cesarską flotą jedną ręką. Bez klawiatury, bez przycisków — kamera obserwuje twoją rękę, a ośmioosobowa orkiestra odpowiada.
+¶Dyryguj imperialną flotą jedną ręką. Bez klawiatury i bez przycisków — kamera obserwuje twoją dłoń, a ośmioosobowa orkiestra odpowiada.
 
-Podnieś rękę, a orkiestra dołącza, część po części, aż zagra wszystkich osiem. Opuść ją, a odpadają, aż zostanie sama melodia. Przesuń rękę w lewo, by zwolnić marsz, w prawo, by go przyspieszyć. To, ile palców pokażesz, wybiera, kto gra melodię.
+Podnieś dłoń, a orkiestra dołącza, jedna partia po drugiej, aż zagra wszystkich osiem. Opuść ją, a partie cichną, aż zostanie sama melodia. Przesuń dłoń w lewo, żeby zwolnić marsz, w prawo, żeby go przyspieszyć. Liczba uniesionych palców wybiera, kto gra melodię.
 
 Każda instrukcja jest wypisana na scenie, więc możesz się jej nauczyć bez czytania tego tekstu.¶
 ↓ @wordplay/instruments 1
 
 ręka: Ręka()
 
-¶Wysokość ręki mówi, ile orkiestry słychać, a ruch w bok mówi, jak szybko gra muzyka. Oba te ustawienia są odczytywane wprost z ręki, a nie zapamiętywane, więc podążają za nią bez przerwy. Każde z nich jest zaokrąglane do jednego kroku, więc muzyka zmienia się tylko wtedy, gdy zmiana jest na tyle duża, by ją usłyszeć. Dzięki temu drżąca ręka nie przepisuje nut dwadzieścia razy na sekundę.¶
-podnieś: ręka.miejsce.y.rescale(-3m 3m 0 1).limit(0 1)
+¶Wysokość dłoni mówi, ile jest orkiestry, a ruch w bok mówi, jak szybko gra. Oba odczytujemy wprost z dłoni, a nie z pamięci, więc podążają za nią bez przerwy. Każdą wartość zaokrąglamy do kroku, więc muzyka zmienia się tylko wtedy, gdy zmiana jest dość duża, żeby ją usłyszeć. Drżąca dłoń nie przepisuje partytury dwadzieścia razy na sekundę.¶
+podnieś: ręka.miejsce.y.przeskaluj(-3m 3m 0 1).granica(0 1)
 warstwy: 1 + ((podnieś · 7).okrągły())
 
-zasięg: ręka.miejsce.X.rescale(-5m 5m 0 1).limit(0 1)
+zasięg: ręka.miejsce.X.przeskaluj(-5m 5m 0 1).granica(0 1)
 tempo2: 72 + ((zasięg · 8).okrągły() · 12)
 
-¶Kto gra melodię. Zaciśnięta pięść i ręka poza kadrem liczą się tak samo, jako brak palców. Brak palców oznacza, że gra ten, kto grał wcześniej — inaczej odwrócenie wzroku zmieniałoby melodię.¶
-polecane: 5 … ∆ ręka …
-		(ręka.palce = 0) ? polecane ręka.palce
+¶Kto gra melodię. Pięść i dłoń poza kadrem liczą się jako zero palców, więc przy zerze palców gra dalej ten, kto grał wcześniej — inaczej odwrócenie wzroku zmieniłoby melodię.¶
+wyróżnione: 5 … ∆ ręka …
+		(ręka.palce = 0) ? wyróżnione ręka.palce
 
-ƒ głos2(liczba2•#)•Instrument
-	(liczba2 = 1) ? Instrument.pianino
-		(liczba2 = 2) ? Instrument.skrzypce
-			(liczba2 = 3) ? Instrument.flet
-				(liczba2 = 4) ? Instrument.gitaraElektryczna
+ƒ głos2(licznik•#)•Instrument
+	(licznik = 1) ? Instrument.pianino
+		(licznik = 2) ? Instrument.skrzypce
+			(licznik = 3) ? Instrument.flet
+				(licznik = 4) ? Instrument.gitaraElektryczna
 					Instrument.trąbka
 
-ƒ ikona(liczba3•#)•''
-	iconFor(głos2(liczba3))
+ƒ ikona(licznik2•#)•''
+	iconFor(głos2(licznik2))
 
-¶Jak głośna jest dana część. Każda część brzmi w muzyce przez cały czas, więc żadna z nich nigdy nie traci swojego miejsca — te, które są powyżej ręki, są po prostu ściszone do zera.
+¶Jak głośna jest partia. Każda partia cały czas jest w muzyce, więc żadna nie traci swojego miejsca — te powyżej dłoni są po prostu wyciszone do końca.
 
-Każda z nich jest ustawiona wyraźnie ciszej niż melodia, a wszystkie osiem razem brzmi mniej niż dwa razy głośniej niż ona sama. Osiem części na pełnej głośności nie daje głośnej orkiestry, tylko brzmi jak jedna wielka plama dźwięku, bo wszystko, co gra naraz, musi zmieścić się w tym samym głośniku.¶
-ƒ usłyszany(ranga•# głośno•%)•% (ranga ≤ warstwy) ? głośno 0%
+Każda jest ustawiona dużo ciszej niż melodia, a wszystkie osiem razem daje mniej niż dwukrotność melodii. Osiem partii na pełnej głośności nie tworzy głośnej orkiestry, tylko mętną, bo wszystko, co gra naraz, musi się zmieścić w tym samym głośniku.¶
+ƒ usłyszane(ranga•# głośno•%)•% (ranga ≤ warstwy) ? głośno 0%
 
-¶Marsz Cesarski, osiem taktów, jeden takt na linijkę. Zapisano go w skali chromatycznej, żeby w ogóle dało się zapisać jego dźwięki spoza tonacji — obniżony drugi stopień oraz chromatyczne przejście w drugiej połowie. Stopień 1 to tonika, a każdy krok w górę to jeden półton, więc te liczby oznaczają odległości między dźwiękami, a nie stopnie skali.
+¶Marsz imperialny, osiem taktów, jeden takt w linijce. Jest zapisany w skali chromatycznej, żeby można było zapisać nuty spoza tonacji — obniżoną drugą nutę i chromatyczny zjazd w drugiej połowie: stopień 1 to tonika, a każdy krok w górę to jeden półton, więc te liczby to odstępy, a nie stopnie skali.
 
-Wartości nut niosą rytm. Sama liczba trwa tyle, ile jedna miara utworu, czyli ćwierćnutę. Każda inna długość jest zapisana obok liczby: 𝅘𝅥𝅮𝅭 to ósemka z kropką, a 𝅘𝅥𝅯 to szesnastka, które pchają marsz do przodu, a 𝅗𝅥 to półnuta, na której melodia się zatrzymuje. Każda linijka sumuje się do czterech uderzeń.¶
+Wartości nut niosą rytm. Sama liczba trwa tyle, ile uderzenie ścieżki, tu ćwierćnuta, a każda inna długość jest zapisana przy samej liczbie: 𝅘𝅥𝅮𝅭 dla ósemki z kropką i 𝅘𝅥𝅯 dla szesnastki, które popychają marsz do przodu, 𝅗𝅥 dla półnuty, na której się uspokaja. Każda linijka daje razem cztery uderzenia.¶
 marsz: [
 		5
 		5
@@ -84,7 +84,7 @@ marsz: [
 		12𝅗𝅥
 	]
 
-¶Cztery takty dźwięków podstawowych pod spodem, maszerujące w ćwierćnutach. To krótsza część niż melodia, a każda ścieżka powtarza się według swojej własnej długości, więc te cztery takty pojawiają się dwa razy, zanim melodia zdąży zagrać swoje osiem.¶
+¶Pod spodem cztery takty dźwięków podstawowych, maszerujące w ćwierćnutach. Są krótsze niż melodia, a każda ścieżka zapętla się według własnej długości, więc te cztery takty wracają dwa razy na osiem taktów melodii.¶
 bas: [
 		5
 		5
@@ -104,10 +104,10 @@ bas: [
 		8
 	]
 
-¶Jeden takt bębnów, w rytmie samej melodii. Stopnie wybierają dźwięk z zestawu perkusyjnego, a nie ze skali, bo ten instrument nie ma wysokości dźwięku. 1 to stopa, 2 to werbel, 3 to hi-hat, a 5 to tom.¶
+¶Jeden takt perkusji w rytmie samej melodii. Stopnie wybierają dźwięk z zestawu, a nie ze skali, bo instrument nie ma wysokości dźwięku: 1 to bęben basowy, 2 werbel, 3 talerz hi-hat, a 5 tom.¶
 perkusja2: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
 
-¶Akordy na słabych uderzeniach — to one nie pozwalają marszowi stać w miejscu. Trzeci takt skłania się ku akordowi molowemu, o półtora tonu niżej. Stąd biorą się obniżone dźwięki w melodii.¶
+¶Akordy na słabe części taktu, czyli szturchnięcie, które nie pozwala marszowi stać w miejscu. Trzeci takt przechyla się do akordu molowego o półtora tonu niżej, skąd biorą się obniżone nuty melodii.¶
 smyczki: [
 		ø
 		{5 8 12}
@@ -127,14 +127,14 @@ smyczki: [
 		{5 8 12}
 	]
 
-¶Te same cztery takty, grane jako czyste kwinty, jeden takt naraz. Kwinta nie ma tercji, więc nie wchodzi w drogę chromatycznym dźwiękom nad nią.¶
-podkład: [{5 12} {5 12} {1 8} {5 12}]
+¶Te same cztery takty podtrzymane jako same kwinty, jedna na takt. W kwincie nie ma tercji, więc nie przeszkadza chromatycznym nutom nad nią.¶
+tłoDźwiękowe: [{5 12} {5 12} {1 8} {5 12}]
 
-¶Dzwonek na pierwszym i trzecim takcie. Jego jednostka to cała nuta, więc pauza tutaj oznacza całą pustą miarę.¶
+¶Dzwon w pierwszym i trzecim takcie. Jego uderzenie to cała nuta, więc pauza tutaj to cały takt ciszy.¶
 dzwonki: [5 ø 1 ø]
 
-¶Wysoka odpowiedź w przerwach, tam gdzie melodia się zatrzymuje.¶
-licznik: [
+¶Wysoka odpowiedź w przerwach, gdy melodia stoi w miejscu.¶
+licznik3: [
 		ø
 		ø
 		ø
@@ -155,7 +155,7 @@ piosenka: Muzyka(
 		[
 			Ścieżka(
 				marsz
-				instrument: głos2(polecane)
+				instrument: głos2(wyróżnione)
 				głośność: 55%
 				rytm: 1𝅘𝅥
 			)
@@ -164,91 +164,93 @@ piosenka: Muzyka(
 				instrument: Instrument.basSyntezatora
 				rytm: 1𝅘𝅥
 				tonacja: -24semitones
-				głośność: usłyszany(2 30%)
+				głośność: usłyszane(2 30%)
 			)
 			Ścieżka(
 				perkusja2
 				instrument: Instrument.perkusja
 				rytm: 1𝅘𝅥
-				głośność: usłyszany(3 20%)
+				głośność: usłyszane(3 20%)
 			)
 			Ścieżka(
 				marsz
 				instrument: Instrument.saksofon
 				rytm: 1𝅘𝅥
 				tonacja: -12semitones
-				głośność: usłyszany(4 22%)
+				głośność: usłyszane(4 22%)
 			)
 			Ścieżka(
-				podkład
+				tłoDźwiękowe
 				instrument: Instrument.padSyntezatora
 				rytm: 1𝅝
 				tonacja: -12semitones
-				głośność: usłyszany(5 16%)
+				głośność: usłyszane(5 16%)
 			)
 			Ścieżka(
 				smyczki
 				instrument: Instrument.skrzypce
 				rytm: 1𝅘𝅥
-				głośność: usłyszany(6 18%)
+				głośność: usłyszane(6 18%)
 			)
 			Ścieżka(
 				dzwonki
 				instrument: Instrument.dzwonek
 				rytm: 1𝅝
 				tonacja: 12semitones
-				głośność: usłyszany(7 12%)
+				głośność: usłyszane(7 12%)
 			)
 			Ścieżka(
-				licznik
+				licznik3
 				instrument: Instrument.flet
 				rytm: 1𝅘𝅥
-				głośność: usłyszany(8 14%)
+				głośność: usłyszane(8 14%)
 			)
 		]
 		tempo: tempo2 · 1beats/min
 		skala: Muzyka.chromatyczna
-		nazwa: 'marsz cesarski'
+		nazwa: 'marsz imperialny'
 	)
 
-¶Jak daleko poleciała flota. Liczy własne uderzenia zamiast odczytywać zegar, a liczy je szybciej, gdy marsz przyspiesza, więc statki lecą w rytm muzyki.¶
+¶Jak daleko dotarła flota. Liczy własne tyknięcia zamiast odczytywać zegar i liczy je szybciej, gdy marsz jest szybszy, więc statki lecą w tempie muzyki.¶
 podróż: 0 … ∆ Czas(40ms) … podróż + (tempo2 ÷ 72)
 
 ƒ stan()•'' '\warstwy\ of 8 playing · \tempo2\ beats a minute'
 
-¶Jedna linijka instrukcji, przyciemniona, żeby najpierw rzucała się w oczy flota i wyróżniony gracz.¶
-ƒ linia(tekst2•'')•Wyrażenie Wyrażenie(
+¶Jedna linijka instrukcji, przyciemniona, żeby najpierw było widać flotę i wyróżnionego gracza.¶
+ƒ linijka(tekst2•'')•Wyrażenie Wyrażenie(
 		tekst2
 		0.3m
 		kolor: Kolor(64% 4 265°)
 	)
 
-¶Instrukcje, ułożone przy lewej krawędzi zamiast na środku, żeby wzrok mógł biec prosto w dół.¶
-wyświetlacz: Grupa(
+¶Instrukcje ułożone przy lewej krawędzi, a nie wyśrodkowane, żeby wzrok mógł biec prosto w dół.¶
+wyświetl: Grupa(
 		Stos('<' 0.16m)
 		[
 			Wyrażenie(
-				ikona(polecane)
+				ikona(wyróżnione)
 				0.9m
 				kolor: Kolor(56% 65 25°)
 			)
 			Wyrażenie(stan() 0.38m kolor: Kolor(70% 25 30°))
-			linia('podnieś rękę — więcej orkiestry')
-			linia('opuść ją — sama melodia')
-			linia(
-				'ręka w lewo — wolniej · ręka w prawo — szybciej'
+			linijka('podnieś dłoń — więcej orkiestry')
+			linijka('opuść ją — sama melodia')
+			linijka(
+				'dłoń w lewo — wolniej · dłoń w prawo — szybciej'
 			)
-			linia('palce w górze — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺')
+			linijka(
+				'palce w górze — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺'
+			)
 		]
 	)
 
-¶Statek przelatujący przez scenę, lecący w pasie wyraźnie powyżej instrukcji, żeby nigdy nie zasłonić tekstu. Jego pas określa, jak wysoko leci i jak daleko zaczyna, więc statki nigdy nie lecą w szyku.¶
-ƒ statek(glif•'' pas•# prędkość2•#)•Wyrażenie
+¶Statek przecinający scenę, lecący w pasie wysoko nad instrukcjami, żeby nigdy nie przecinał tekstu. Jego tor określa, jak wysoko leci i jak daleko zaczyna, więc nigdy nie lecą w szyku.¶
+ƒ statek(glif•'' pas•# szybkość•#)•Wyrażenie
 	Wyrażenie(
 		glif
 		0.7m
 		miejsce: Miejsce(
-			(((((podróż · prędkość2) + (pas · 47)) % 200) - 100) · 0.045) · 1m
+			(((((podróż · szybkość) + (pas · 47)) % 200) - 100) · 0.045) · 1m
 			((pas · 0.65) + 2.2) · 1m
 		)
 	)
@@ -268,7 +270,7 @@ flota: [
 		kolor: Kolor(46% 8 275°)
 	)
 
-¶Scena powiększa się tak, by zmieściło się na niej wszystko, co się na niej znajduje. Gdyby cokolwiek się poruszało, przeskalowywałoby to cały obraz przy każdym uderzeniu i sprawiało, że słowa by pływały. Cztery narożne gwiazdy są dalej niż kiedykolwiek doleci jakikolwiek statek i dalej niż najdłuższa linijka tekstu, więc dopasowanie ma ramę, która nigdy się nie zmienia, a obraz stoi nieruchomo. Reszta to po prostu niebo.¶
+¶Scena powiększa się tak, by zmieścić wszystko, co na niej jest, więc wszystko, co się rusza, zmieniałoby skalę całego obrazu przy każdym tyknięciu i słowa by się chwiały. Cztery gwiazdy w rogach są dalej, niż kiedykolwiek lecą statki, i dalej niż najdłuższa linijka tekstu, więc dopasowanie ma ramę, która się nie zmienia, a obraz stoi w miejscu. Pozostałe to po prostu niebo.¶
 gwiazdy: [
 		gwiazda(-5.6 -2.3 0.18)
 		gwiazda(5.6 -2.3 0.18)
@@ -283,7 +285,7 @@ gwiazdy: [
 	]
 
 Scena(
-	[:gwiazdy :flota wyświetlacz piosenka]
+	[:gwiazdy :flota wyświetl piosenka]
 	tło: Kolor(7% 6 275°)
 	kolor: Kolor(88% 3 265°)
 )

@@ -1,26 +1,26 @@
 ☁
-RainingLetters
+DeszczLiter
 === start/en
-¶Ten program tworzy zbiór spadających liter, które opadają na ziemię zgodnie z zasadami fizyki. Kiedy dotkną ziemi, mogą znów zacząć spadać.Zawsze spada ta sama liczba liter, ale pokazujemy inną ich liczbęw zależności od wzmocnienia mikrofonu.¶
+¶Ten program tworzy deszcz liter, które spadają na ziemię zgodnie z zasadami fizyki. Gdy litera upadnie, może znów zacząć spadać. Zawsze spada tyle samo liter, ale widocznych jest inna ich liczba, zależna od amplitudy mikrofonu.¶
 ↓ @wordplay/alphabets 1
 
-¶Maksymalna liczba liter¶
-liczba2: 100
-¶Poziomy rozrzut liter¶
+¶Największa liczba liter¶
+licznik: 100
+¶Poziome rozproszenie liter¶
 rozmiar2: 20m
 
-¶Wzmocnienie mikrofonu¶
-wzmocnienie: Tom()
+¶Amplituda mikrofonu¶
+amplitudy: Tom()
 
-¶Wybrana litera oraz jej pozycja, prędkość obrotu i to, czy jest widoczna.¶
-•litera(litera2•"" x2•#m y2•#m kąt2•# prędkość2•# widoczna•?)
+¶Wybrana litera, jej położenie, prędkość obrotu i to, czy jest widoczna.¶
+•litera(litera2•"" x2•#m y2•#m kąt2•# szybkość•# widoczna•?)
 
-tyknięcie: Czas()
+tik: Czas()
 
-¶Utwórz listę losowych liter w losowych pozycjach¶
-litery•[litera]: liczba2 → [#].tłumaczyć(
+¶Zacznij od listy losowych liter w losowych miejscach¶
+litery•[litera]: licznik → [#].tłumaczyć(
 		ƒ(_) litera(
-				latin.losowy()
+				latin.random()
 				Losowy(-rozmiar2 rozmiar2)
 				Losowy(0m rozmiar2 + 2m)
 				Losowy(360)
@@ -28,14 +28,14 @@ litery•[litera]: liczba2 → [#].tłumaczyć(
 				⊥
 			)
 	)
-	… ∆ tyknięcie …
-		¶Jeśli litera znajduje się powyżej osi Y, przesuń ją trochę w dół i obróć.W przeciwnym razie ustaw ją ponownie powyżej progu i losowo zdecyduj, czy ma być widoczna.¶
+	… ∆ tik …
+		¶Jeśli litera jest nad osią y, przesuń ją trochę w dół i obróć. W przeciwnym razie umieść ją z powrotem nad progiem i losowo zdecyduj, czy jest widoczna.¶
 		litery.tłumaczyć(
 			ƒ(litera3•litera)
-				litera3.y2 > 0m ? (litera3.y2:litera3.y2 - 0.5m).kąt2:litera3.kąt2 + litera3.prędkość2
+				litera3.y2 > 0m ? (litera3.y2:litera3.y2 - 0.5m).kąt2:litera3.kąt2 + litera3.szybkość
 					(litera3.y2:rozmiar2 + 2m).widoczna:Losowy(
 						0
-						wzmocnienie
+						amplitudy
 					) > 0.5
 		)
 

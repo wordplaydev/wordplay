@@ -1,50 +1,50 @@
 🏀
-Gwiazda Koszykówki
+Gwiazda koszykówki
 === start
-¶Wyceluj wskaźnikiem i kliknij, aby rzucić do koszy.¶
+¶Celuj wskaźnikiem i kliknij, aby rzucać do kosza.¶
 
-kliknięcie: ∆ Przycisk()
+klik: ∆ Przycisk()
 
-licznikKliknięć: 0 … kliknięcie … 1 + ⬚
+liczbaKliknięć: 0 … klik … 1 + ⬚
 
-¶Zapisuje pozycję x wskaźnika w momencie rzutu, aby piłka spadała z miejsca, w którym celował zawodnik, a nie wracała do x = 0¶
-rzutX: 0m … (kliknięcie & ((licznikKliknięć % 2) = 1)) … Wskaźnik(
+¶Zapisz położenie x wskaźnika w chwili rzutu, żeby piłka spadała z miejsca, w które celował gracz, a nie wracała do x = 0¶
+xRzutu: 0m … (klik & ((liczbaKliknięć % 2) = 1)) … Wskaźnik(
 		).X
 
-pozycjaKoszykówki: (licznikKliknięć % 2) = 0 ? Miejsce(
+położeniePiłki: (liczbaKliknięć % 2) = 0 ? Miejsce(
 			X: Wskaźnik().X
 			y: 8m
 			z: 0m
-		) Ruch(miejsce: Miejsce(rzutX 8m 0m))
+		) Ruch(miejsce: Miejsce(xRzutu 8m 0m))
 
 koszykówka: Wyrażenie(
 		"🏀"
 		0.7m
 		materiał: Materiał(0.623kg 0.5)
-		miejsce: pozycjaKoszykówki
+		miejsce: położeniePiłki
 		nazwa: 'koszykówka'
 	)
 
-¶Kosz przesuwa się nieustannie w obie strony, kierowany sinusem czasu¶
-pozycjaKoszykaX: (Czas() ÷ 600ms).grzech() · 6m
+¶Kosz stale przesuwa się na boki, sterowany sinusem czasu¶
+położenieXKosza: (Czas() ÷ 600ms).grzech() · 6m
 
-¶Odczytuje aktualną pozycję piłki jeden raz, aby sprawdzić wynik¶
-piłkaX: (koszykówka.miejsce ?? Miejsce()).X
-piłkaY: (koszykówka.miejsce ?? Miejsce()).y
+¶Odczytaj raz aktualne położenie piłki, aby sprawdzić wynik¶
+xPiłki: (koszykówka.miejsce ?? Miejsce()).X
+yPiłki: (koszykówka.miejsce ?? Miejsce()).y
 
-próba: (licznikKliknięć ÷ 2).łapanka()
+próba: (liczbaKliknięć ÷ 2).łapanka()
 
-¶inBin jest prawdziwe, gdy piłka znajduje się wewnątrz koszyka. Reakcja zmiany wyniku włącza się tylko, gdy inBin zmienia się na prawdziwe ORAZ obecna próba jest większa niż wynik. Dzięki temu każde kolejne wejście podczas tego samego rzutu — odbicia wewnątrz koszyka albo kosz wracający nad piłkę — nic nie zmienia, aż kolejny rzut zwiększy licznik prób¶
-wKoszu: (((pozycjaKoszykaX - 0.9m)‥(pozycjaKoszykaX + 0.9m)) ∋ piłkaX) & ((0.3m‥2.9m) ∋ piłkaY)
+¶Zmienna inBin ma wartość prawda zawsze, gdy piłka jest wewnątrz kosza. Reakcja na wynik uruchamia się tylko wtedy, gdy inBin zmienia się na prawda ORAZ bieżąca próba jest wyższa niż wynik. Dzięki temu każde kolejne wejście podczas tego samego rzutu — odbicia wewnątrz kosza albo kosz przesuwający się z powrotem nad piłkę — nic nie zmienia, aż następny rzut zwiększy licznik prób¶
+wKoszu: (((położenieXKosza - 0.9m) ‥ (położenieXKosza + 0.9m)) ∋ xPiłki) & ((0.3m ‥ 2.9m) ∋ yPiłki)
 wynik: 0 … wKoszu & (próba > wynik) … 1 + wynik
 
 gwiazdaKoszykówki: Grupa(
 		Stos('|' 0.5m)
 		[
 			Wyrażenie(`*Gwiazda koszykówki*` .8m)
-			Wyrażenie('Wyceluj wskaźnikiem.' .6m)
+			Wyrażenie('Celuj wskaźnikiem.' .6m)
 			Wyrażenie(
-				'Kliknij, aby wpuścić 🏀 do przesuwającego się koszyka.'
+				'Kliknij, aby wrzucić 🏀 do poruszającego się kosza.'
 				.6m
 			)
 			Wyrażenie('Wynik: ' + wynik → '' .8m)
@@ -58,12 +58,12 @@ gwiazdaKoszykówki: Grupa(
 Scena(
 	[
 		koszykówka
-		¶Ścianki koszyka zwiększono do 0,3 m grubości (z 0,1 m), aby przesuwający się na boki koszyk nie przenikał piłki, oraz do 3 m wysokości (z 2 m), aby piłka o odbojności 0,5 nie odbiła się z powrotem nad obręcz¶
+		¶Ściany kosza zostały pogrubione do 0,3 m (z 0,1 m), aby kosz poruszający się na boki nie przeniknął przez piłkę, i podwyższone do 3 m (z 2 m), aby piłka o sprężystości 0,5 nie odbiła się z powrotem nad obręczą¶
 		Kształt(
 			Prostokąt(
-				-1.2m + pozycjaKoszykaX
+				-1.2m + położenieXKosza
 				0.3m
-				1.2m + pozycjaKoszykaX
+				1.2m + położenieXKosza
 				0m
 				0m
 			)
@@ -71,9 +71,9 @@ Scena(
 		)
 		Kształt(
 			Prostokąt(
-				0.9m + pozycjaKoszykaX
+				0.9m + położenieXKosza
 				3m
-				1.2m + pozycjaKoszykaX
+				1.2m + położenieXKosza
 				0m
 				0m
 			)
@@ -81,9 +81,9 @@ Scena(
 		)
 		Kształt(
 			Prostokąt(
-				-1.2m + pozycjaKoszykaX
+				-1.2m + położenieXKosza
 				3m
-				-0.9m + pozycjaKoszykaX
+				-0.9m + położenieXKosza
 				0m
 				0m
 			)

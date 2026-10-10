@@ -1,17 +1,17 @@
 🎬
 Pokaz slajdów
 === start
-¶Pokaz slajdów opowiadający, jak powstał Wordplay; naciśnij → i ←, aby go przeglądać.¶
+¶Pokaz slajdów opowiadający, jak powstał Wordplay. Naciskaj → i ←, aby go przeglądać.¶
 
 ¶Jeden slajd pokazu: postać, tytuł i słowa pod nim.¶
 •slajd(emoji•'' tytuł•'' treść2•''|`…`)
 
-¶Historia. Dodaj, usuń lub zmień te slajdy, aby opowiedzieć swoją własną.¶
-slajdy: [
+¶Opowieść. Dodaj, usuń lub zmień te slajdy, aby opowiedzieć własną historię.¶
+slajdy2: [
 		slajd(
 			'🎭'
 			'Wordplay'
-			'Historia o tym, jak powstał ten język. Naciśnij →, aby iść do przodu, i ←, aby wrócić.'
+			'Historia tego, jak powstał ten język. Naciśnij →, aby iść do przodu, i ←, aby wrócić.'
 		)
 		slajd(
 			'✒'
@@ -21,52 +21,52 @@ slajdy: [
 		slajd(
 			'💻'
 			'Miłość do kodu'
-			'Zakochała się też w programowaniu i w tym, jak kilka słów może sprawić, że coś się porusza.'
+			'Zakochała się też w programowaniu i w tym, jak kilka słów potrafi wprawić rzeczy w ruch.'
 		)
 		slajd(
 			'🧭'
-			'Dwie miłości, osobno'
-			'Ale typografia i programowanie żyły w różnych światach, a mało które narzędzia zapraszały do pokochania obu naraz.'
+			'Dwie miłości osobno'
+			'Ale typografia i programowanie żyły w różnych światach, a niewiele narzędzi zachęcało, by pokochać oba naraz.'
 		)
 		slajd(
 			'😄'
 			'Młoda osoba'
-			'Wiele lat później poznała młodą osobę, która kochała emoji i chciała sprawić, by tańczyły.'
+			'Wiele lat później poznała młodą osobę, która kochała emotikony i chciała sprawić, by tańczyły.'
 		)
 		slajd(
 			'💡'
 			'Pomysł'
-			'A gdyby język programowania ułatwiał sprawianie, że emoji tańczą?'
+			'A gdyby język programowania ułatwiał sprawianie, by emotikony tańczyły?'
 		)
 		slajd(
 			'🌱'
-			'Powstaje Wordplay'
-			'Więc zaczęła go budować - język, w którym pisanie kodu oznacza poruszanie słowami i znakami po scenie.'
+			'Początek Wordplay'
+			'Zaczęła więc budować taki język, w którym pisanie kodu oznacza poruszanie słowami i znakami po scenie.'
 		)
 		slajd(
 			'🧑‍🏫'
 			'Zaprojektowany wspólnie'
-			'Zaprojektowała go razem z wieloma młodymi ludźmi i nauczycielami, którzy mówili, co chcą stworzyć i co im to utrudniało.'
+			'Zaprojektowała go razem z wieloma młodymi osobami i nauczycielami, którzy mówili, co chcą tworzyć i co im w tym przeszkadza.'
 		)
 		slajd(
 			'🌏'
 			'Zawsze się rozwija'
-			'Od tamtej pory ciągle rośnie, aby coraz więcej osób mogło tworzyć to, co sobie wymarzą.'
+			'Od tamtej pory stale się rozwija, aby więcej osób mogło tworzyć więcej z tego, co sobie wyobraża.'
 		)
 		slajd(
 			'✨'
 			'Twoja kolej'
-			`O czym marzysz, że chciałbyś stworzyć, a co jeszcze nie jest możliwe? Napisz do nas na <GitHub@https://github.com/wordplaydev/wordplay/issues>`
+			`O czym marzysz, a czego jeszcze nie da się zrobić? Napisz do nas na <GitHub@https://github.com/wordplaydev/wordplay/issues>`
 		)
 	]
 
-klawisz2: Klawisz()
+klucz: Klawisz()
 
-¶Tu odbywa się pokaz. @Scene pilnuje miejsca, więc nic tu nie musi liczyć.¶
-w: Spotlight()
+¶Miejsce, w którym jest pokaz. @Scene pamięta to miejsce, więc nic tutaj nie musi liczyć.¶
+w2: Reflektor()
 
-¶Każdy slajd jest narysowany. Nie zależy to od niczego, co się zmienia, więc powstaje tylko raz — a nie przy każdym naciśnięciu klawisza. Dlatego licznik poniżej nie znajduje się tutaj.¶
-wyświetlenia: slajdy.tłumaczyć(
+¶Każdy slajd, narysowany. To nie zależy od niczego, co się zmienia, więc powstaje raz, a nie przy każdym naciśnięciu klawisza — dlatego licznik poniżej nie jest tutaj.¶
+widoki: slajdy2.tłumaczyć(
 		ƒ(slajd2•slajd) Grupa(
 				Stos('|' 0.4m)
 				[
@@ -86,17 +86,17 @@ wyświetlenia: slajdy.tłumaczyć(
 			)
 	)
 
-¶Pokaz nigdy nie przechodzi dalej sam z siebie — strzałki przesuwają go o jeden slajd w jedną lub drugą stronę. Zatrzymuje się na obu końcach za nas, więc nie trzeba niczego sprawdzać.¶
+¶Pokaz nigdy nie rusza sam; klawisze strzałek przesuwają go o jeden slajd w obie strony. Na obu końcach sam się zatrzymuje, więc nie ma nic do sprawdzania.¶
 Grupa(
 	Stos('|' 0.4m)
 	[
 		Pokaz(
-			wyświetlenia
+			widoki
 			pauza
-			krok: ∆ klawisz2 ? ((klawisz2 = 'Strzałka w lewo') ? -1 (klawisz2 = 'Strzałka w prawo') ? 1 ø) ø
+			krok: ∆ klucz ? ((klucz = 'Strzałka w lewo') ? -1 (klucz = 'Strzałka w prawo') ? 1 ø) ø
 		)
 		Wyrażenie(
-			`\w.index\ z \w.total\`
+			`\w2.indeks\ z \w2.suma\`
 			rozmiar: 0.25m
 			wyrównanie: '|'
 		)

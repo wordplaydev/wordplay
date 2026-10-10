@@ -1,7 +1,7 @@
 ✨
 Ślad słów
 ===
-¶Ten projekt rysuje kontury słowa "wordplay" za pomocą komety z kropek, która przesuwa się wokół liter, poruszana przez strumień Time(). W każdej chwili świeci połowa słowa, gasnąc od jasnego blasku na czole śladu do przezroczystości na jego końcu.¶
+¶Ten projekt wykreśla kontury słowa "wordplay" za pomocą komety z kropek, która krąży wokół liter. Steruje nią strumień Time(). W każdej chwili świeci połowa słowa. Jasność maleje od jasnej przy głowie śladu do przezroczystej na jego końcu.¶
 
 punkty2: Kontur(
 		'wordplay'
@@ -11,21 +11,21 @@ punkty2: Kontur(
 		rozstaw: 0.5m
 	)
 
-¶Ile punktów jest na konturze oraz bezpieczna liczba do dzielenia, zanim czcionka się załaduje (gdy lista jest jeszcze pusta).¶
-liczba2: punkty2.długość()
+¶Ile punktów ma kontur oraz bezpieczna liczba do dzielenia, zanim wczyta się czcionka (gdy lista jest jeszcze pusta).¶
+licznik: punkty2.długość()
 
-¶Ślad pokrywa połowę słowa, więc połowa jest zawsze widoczna.¶
-ślad: liczba2 ÷ 2
+¶Ślad obejmuje połowę słowa, więc zawsze widać połowę.¶
+ślad: licznik ÷ 2
 
-¶Indeks głowy, który przesuwa się o jeden punkt co takt i zawija wokół słowa.¶
-głowa: 0 … ∆ Czas(10ms) … ((głowa + 1) % liczba2) ?? 0
+¶Indeks głowy, który co tik przesuwa się o jeden punkt i okrąża słowo w kółko.¶
+głowa: 0 … ∆ Czas(10ms) … ((głowa + 1) % licznik) ?? 0
 
 Scena(
 	punkty2.tłumaczyć(
 		ƒ(punkt2•Miejsce indeks2•#)
 			(
-				¶Ile punktów za głową znajduje się ten punkt, licząc z zawinięciem.¶
-				wiek: ((((głowa - indeks2) + 1) + liczba2) % liczba2) ?? 0
+				¶O ile punktów za głową znajduje się ten punkt, licząc w kółko dookoła.¶
+				wiek: ((((głowa - indeks2) + 1) + licznik) % licznik) ?? 0
 				Wyrażenie(
 					"•"
 					rozmiar: 1m
@@ -33,7 +33,7 @@ Scena(
 					kolor: Kolor(
 						90%
 						100
-						((indeks2 ÷ liczba2) ?? 0) × 360°
+						((indeks2 ÷ licznik) ?? 0) × 360°
 					)
 					nieprzezroczystość: wiek < ślad ? 1 - ((wiek ÷ ślad) ?? 0) 0
 					czastrwania: 0s

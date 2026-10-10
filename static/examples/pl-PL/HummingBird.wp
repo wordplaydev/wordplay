@@ -1,9 +1,9 @@
 🐤
-Kolibrowanie
+Koliber
 === start/en
-¶Gra z nucącym ptakiem! Kliknij lub wciśnij klawisz, żeby zatrzepotać skrzydłami, albo nuć do mikrofonu — ptak unosi się na wysokość, która odpowiada tonowi twojego nucenia. Przemykaj przez luki między stosami emoji. Dotknięcie stosu albo ziemi kończy grę zderzeniem; po zderzeniu gra odlicza czas i zaczyna się od nowa.¶
+¶Gra o nucącym ptaku! Kliknij lub naciśnij klawisz, aby zatrzepotać skrzydłami, albo zanuć do mikrofonu — ptak unosi się na wysokość dźwięku twojego nucenia. Przeleć przez przerwy między stosami emotikonów. Dotknięcie stosu lub ziemi kończy grę awarią. Po awarii gra odlicza i zaczyna się od nowa.¶
 
-¶Każda przeszkoda to stos emoji z jednej z tych kolekcji.¶
+¶Każda bariera to stos emotikonów z jednej z tych kolekcji.¶
 gatunki: [
 		['🌵' '🌱' '🌿' '🍀' '🎋']
 		['🍩' '🧁' '🍰' '🍪' '🍦']
@@ -13,49 +13,55 @@ gatunki: [
 		['⭐' '🌟' '✨' '☁' '🌙']
 	]
 
-¶Jak daleko przeszkoda przesuwa się w lewo przy każdym tyknięciu zegara.¶
-prędkość2: 0.2m
+¶O ile bariera przesuwa się w lewo przy każdym takcie.¶
+szybkość: 0.2m
 
-¶Każde zderzenie z ptakiem. Sufit nazywa się „niebo”, więc uderzenie w niego tylko odbija ptaka, zamiast kończyć grę zderzeniem.¶
-awaria: Kolizja('ptak')
-krytyczny: awaria•ø ? ⊥ (awaria.obiekt ≠ 'sky')
+¶Każde zderzenie z ptakiem. Sufit nazywa się „niebo”, więc uderzenie w niego tylko odbija ptaka i nie kończy gry.¶
+zderzenie: Kolizja('ptak')
+śmiertelne: zderzenie•ø ? ⊥ (zderzenie.obiekt ≠ 'sky')
 
-tyknięcie: Czas(40ms)
-taktGry: Czas(100ms)
+tik: Czas(40ms)
+tyknięcieGry: Czas(100ms)
 
-¶Stan gry: faza (1 = odliczanie, 2 = granie, 3 = zderzenie) oraz liczba dziesiątych części sekundy spędzonych w tej fazie. Liczymy tyknięcia jednego zegara, zamiast odejmować czasy, bo każde wywołanie Time() zaczyna się od zera.¶
-•gra(faza•# tiki•#)
+¶Stan gry: faza (1 = odliczanie, 2 = gra, 3 = awaria) i ile dziesiątych części sekundy w niej jesteśmy. Liczymy takty jednego zegara zamiast odejmować czasy, bo każdy Time() zaczyna od zera.¶
+•gra(faza•# tyknięcia•#)
 gra2•gra: gra(1 0) …
-	∆ taktGry | krytyczny …
+	∆ tyknięcieGry | śmiertelne …
 		gra2.faza ???
-			1: (gra2.tiki ≥ 36) ? gra(2 0) gra(1 gra2.tiki + 1)
-			2: krytyczny ? gra(3 0) gra2
-			3: (gra2.tiki ≥ 25) ? gra(1 0)
-				¶Kiedy ptak spoczywa na czymś, zderzenia utrzymują tę reakcję w ciągłym działaniu; liczymy tylko prawdziwe tyknięcia zegara, żeby przerwa zawsze trwała tyle samo.¶
-				gra(3 gra2.tiki + (∆ taktGry ? 1 0))
+			1: (gra2.tyknięcia ≥ 36) ? gra(2 0) gra(
+					1
+					gra2.tyknięcia + 1
+				)
+			2: śmiertelne ? gra(3 0) gra2
+			3: (gra2.tyknięcia ≥ 25) ? gra(1 0)
+				¶Gdy ptak na czymś odpoczywa, zderzenia stale uruchamiają tę reakcję. Liczymy więc tylko prawdziwe takty zegara, żeby pauza zawsze trwała tyle samo.¶
+				gra(3 gra2.tyknięcia + (∆ tyknięcieGry ? 1 0))
 			gra2
 
-¶Liczba odliczania do pokazania: 3, 2, 1.¶
-liczba2: (gra2.tiki < 12) ? 3 (gra2.tiki < 24) ? 2 1
+¶Liczba z odliczania, którą pokazujemy: 3, 2, 1.¶
+licznik: (gra2.tyknięcia < 12) ? 3 (gra2.tyknięcia < 24) ? 2 1
 
-¶Wybierz sposób grania, klikając przycisk 🎤 albo ⌨: nucenie porusza ptakiem, a kliknięcia i klawisze sprawiają, że trzepocze skrzydłami. To osobne tryby, żeby rozmowa przy mikrofonie nie kolidowała z klawiaturą.¶
-wybrane: Wybór()
-tryb•'': 'tap' … (wybrane = 'hum') | (wybrane = 'tap') … wybrane
+¶Wybierz sposób gry, klikając przycisk 🎤 lub ⌨: nucenie porusza ptaka albo kliknięcia i klawisze każą mu machać skrzydłami. To osobne tryby, więc rozmowa przy mikrofonie nie przeszkadza klawiaturze.¶
+wybrano: Wybór()
+tryb•'': 'tap' … (wybrano = 'hum') | (wybrano = 'tap') … wybrano
 
-¶W trybie klikania, machnij skrzydłami, gdy klikniesz lub naciśniesz dowolny klawisz.¶
+¶W trybie klikania ptak macha skrzydłami, gdy klikniesz lub naciśniesz dowolny klawisz.¶
 trzepot: (tryb = 'tap') & (∆ Przycisk() | ∆ Klawisz())
 
-¶W trybie nucenia ptak unosi się na wysokości zależnej od wysokości twojego nuconego dźwięku — niskie dźwięki blisko ziemi, wysokie blisko nieba — i nie wyżej.¶
+¶W trybie nucenia ptak unosi się na wysokość dźwięku, który nucisz: niskie dźwięki blisko ziemi, wysokie blisko nieba, ale nie wyżej.¶
 wysokośćDźwięku: Poziom()
 nucenie: (tryb = 'hum') & (wysokośćDźwięku > 50hz)
 
 ƒ wysokośćDźwiękuNaWysokość(hz•#hz)
-	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
+	hz.przeskaluj(80hz 400hz -4m 5m).granica(-4m 5m)
 
-¶Ptak zbliża się do nuconej wysokości stopniowo, krok po kroku, dzięki czemu szybuje, zamiast drgać przy każdym wahnięciu dźwięku.¶
-wysokośćDźwiękuY•#m: 1m … ∆ wysokośćDźwięku … nucenie ? wysokośćDźwiękuY.toward(wysokośćDźwiękuNaWysokość(wysokośćDźwięku) 20%) wysokośćDźwiękuY
+¶Zbliżaj się do nucenej wysokości po trochu, aby ptak płynnie szybował, a nie drżał przy każdym drgnięciu dźwięku.¶
+wysokośćDźwiękuY•#m: 1m … ∆ wysokośćDźwięku … nucenie ? wysokośćDźwiękuY.wKierunku(
+				wysokośćDźwiękuNaWysokość(wysokośćDźwięku)
+				20%
+			) wysokośćDźwiękuY
 
-¶Podczas odliczania ptak zawisa w miejscu. W czasie gry macha skrzydłami w górę albo unosi się na nuconej wysokości, a po zderzeniu spada pod wpływem grawitacji.¶
+¶Podczas odliczania ptak zawisa w miejscu, w trakcie gry macha skrzydłami w górę lub unosi się na nucenej wysokości, a po zderzeniu spada pod wpływem grawitacji.¶
 miejscePtaka: Ruch(
 		Miejsce(-4m 1m)
 		następnemiejsce:
@@ -70,7 +76,7 @@ miejscePtaka: Ruch(
 				((gra2.faza = 2) & trzepot) ? Prędkość(0m/s 15m/s) ø
 	)
 
-¶Emoji pisklęcia jest zwrócone w lewo, więc każda poza odwraca je w kierunku, w którym leci.¶
+¶Emoji pisklaka patrzy w lewo, więc każda poza odwraca je tak, by patrzyło tam, dokąd leci.¶
 ptak: Wyrażenie(
 		'🐤'
 		1m
@@ -89,67 +95,67 @@ ptak: Wyrażenie(
 			)
 	)
 
-¶Każda przeszkoda ma: pozycję poziomą, liczbę emoji zwisających z góry oraz zestaw emoji, z którego jest zbudowana. Przeszkody przesuwają się w lewo podczas gry, po dotarciu do lewej krawędzi wracają na prawą stronę z nowym, losowym kształtem, a po nowej grze zaczynają od nowa.¶
+¶Każda przeszkoda ma: położenie poziome, liczbę emoji wiszących od góry i zestaw emoji, z którego jest zrobiona. Przeszkody przesuwają się w lewo podczas gry, wracają z prawej strony w nowym, losowym kształcie i są zerowane przy nowej grze.¶
 •rura(x2•#m góra•# gatunek•#)
 
 rura1•rura: rura(10m Losowy(1 5) Losowy(1 6)) …
-	((gra2.faza = 1) & (rura1.x2 ≠ 10m)) | ((gra2.faza = 2) & ∆ tyknięcie) …
+	((gra2.faza = 1) & (rura1.x2 ≠ 10m)) | ((gra2.faza = 2) & ∆ tik) …
 		(gra2.faza = 1) ? rura(10m Losowy(1 5) Losowy(1 6))
 			(rura1.x2 < -13m) ? rura(
 					rura1.x2 + 24m
 					Losowy(1 5)
 					Losowy(1 6)
 				)
-				rura(rura1.x2 - prędkość2 rura1.góra rura1.gatunek)
+				rura(rura1.x2 - szybkość rura1.góra rura1.gatunek)
 
 rura2•rura: rura(16m Losowy(1 5) Losowy(1 6)) …
-	((gra2.faza = 1) & (rura2.x2 ≠ 16m)) | ((gra2.faza = 2) & ∆ tyknięcie) …
+	((gra2.faza = 1) & (rura2.x2 ≠ 16m)) | ((gra2.faza = 2) & ∆ tik) …
 		(gra2.faza = 1) ? rura(16m Losowy(1 5) Losowy(1 6))
 			(rura2.x2 < -13m) ? rura(
 					rura2.x2 + 24m
 					Losowy(1 5)
 					Losowy(1 6)
 				)
-				rura(rura2.x2 - prędkość2 rura2.góra rura2.gatunek)
+				rura(rura2.x2 - szybkość rura2.góra rura2.gatunek)
 
 rura3•rura: rura(22m Losowy(1 5) Losowy(1 6)) …
-	((gra2.faza = 1) & (rura3.x2 ≠ 22m)) | ((gra2.faza = 2) & ∆ tyknięcie) …
+	((gra2.faza = 1) & (rura3.x2 ≠ 22m)) | ((gra2.faza = 2) & ∆ tik) …
 		(gra2.faza = 1) ? rura(22m Losowy(1 5) Losowy(1 6))
 			(rura3.x2 < -13m) ? rura(
 					rura3.x2 + 24m
 					Losowy(1 5)
 					Losowy(1 6)
 				)
-				rura(rura3.x2 - prędkość2 rura3.góra rura3.gatunek)
+				rura(rura3.x2 - szybkość rura3.góra rura3.gatunek)
 
 rura4•rura: rura(28m Losowy(1 5) Losowy(1 6)) …
-	((gra2.faza = 1) & (rura4.x2 ≠ 28m)) | ((gra2.faza = 2) & ∆ tyknięcie) …
+	((gra2.faza = 1) & (rura4.x2 ≠ 28m)) | ((gra2.faza = 2) & ∆ tik) …
 		(gra2.faza = 1) ? rura(28m Losowy(1 5) Losowy(1 6))
 			(rura4.x2 < -13m) ? rura(
 					rura4.x2 + 24m
 					Losowy(1 5)
 					Losowy(1 6)
 				)
-				rura(rura4.x2 - prędkość2 rura4.góra rura4.gatunek)
+				rura(rura4.x2 - szybkość rura4.góra rura4.gatunek)
 
 ¶Czy przeszkoda właśnie minęła ptaka?¶
-ƒ minięte(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - prędkość2))
+ƒ minięto(x3•#m) (x3 ≤ -5m) & (x3 > (-5m - szybkość))
 
 wynik•#: 0 …
-	(gra2.faza = 1) | ((gra2.faza = 2) & ∆ tyknięcie) …
+	(gra2.faza = 1) | ((gra2.faza = 2) & ∆ tik) …
 		(gra2.faza = 1) ? 0
-			(minięte(rura1.x2) | minięte(rura2.x2) | minięte(
+			(minięto(rura1.x2) | minięto(rura2.x2) | minięto(
 						rura3.x2
-					) | minięte(rura4.x2)) ? wynik + 1
+					) | minięto(rura4.x2)) ? wynik + 1
 				wynik
 
-¶Zbuduj jeden stos emoji jako fizyczną kolumnę. Czas trwania równy 0 sprawia, że powrót na prawą stronę jest natychmiastowy, a nie widocznym przesunięciem.¶
+¶Zbuduj jeden stos emoji jako kolumnę. Czas trwania 0s sprawia, że powrót na prawą stronę jest natychmiastowy, a nie widocznym przesunięciem.¶
 ƒ kolumna(komórki•# gatunek2•# x4•#m y2•#m)
 	Grupa(
 		Stos('|' 0m)
 		(komórki → []).tłumaczyć(
-			ƒ(komórka2•#) Wyrażenie(
-					gatunki[gatunek2][1 + ((komórka2 - 1) % 5)]
+			ƒ(cela•#) Wyrażenie(
+					gatunki[gatunek2][1 + ((cela - 1) % 5)]
 					1m
 				)
 		)
@@ -158,7 +164,7 @@ wynik•#: 0 …
 		czastrwania: 0s
 	)
 
-¶Przeszkoda składa się z dwóch kolumn: jednej zwisającej z nieba i jednej rosnącej z ziemi, z odstępem między nimi wynoszącym mniej więcej 6 metrów.¶
+¶Przeszkoda to dwie kolumny: jedna zwisa z nieba, druga rośnie z ziemi, a między nimi jest szczelina o szerokości około 6m.¶
 ƒ stosy(rura5•rura) [
 		kolumna(
 			rura5.góra
@@ -169,7 +175,7 @@ wynik•#: 0 …
 		kolumna(6 - rura5.góra rura5.gatunek rura5.x2 -6m)
 	]
 
-¶Ziemia rozbija ptaka; niebo odbija go z powrotem w dół.¶
+¶Ziemia rozbija ptaka, a niebo odbija go z powrotem w dół.¶
 ziemia: Kształt(
 		Prostokąt(-8m -5.7m 8m -6m)
 		tło: Kolor(60% 60 130°)
@@ -178,7 +184,7 @@ niebo: Kształt(Prostokąt(-8m 7m 8m 6m) nazwa: 'sky')
 lewaŚciana: Kształt(Prostokąt(-8.4m 6m -8m -6m))
 prawaŚciana: Kształt(Prostokąt(8m 6m 8.4m -6m))
 
-wynikWidok: Wyrażenie(
+widokWyniku: Wyrażenie(
 		"\wynik\"
 		1.5m
 		miejsce: Miejsce(-0.5m 4m)
@@ -186,12 +192,12 @@ wynikWidok: Wyrażenie(
 nakładki:
 	gra2.faza ???
 		1: [
-			Wyrażenie("\liczba2\" 3m miejsce: Miejsce(-1m -1.5m))
+			Wyrażenie("\licznik\" 3m miejsce: Miejsce(-1m -1.5m))
 		]
 		3: [Wyrażenie('💥' 3m miejsce: Miejsce(-1.5m -1.5m))]
 		[]
 
-¶Przełącznik trybu: wybrany sposób gry jest jasny, drugi jest przyciemniony.¶
+¶Przełącznik trybu: wybrany sposób gry jest jasny, a drugi przyciemniony.¶
 przyciskNucenia: Wyrażenie(
 		'🎤'
 		0.8m
@@ -202,7 +208,7 @@ przyciskNucenia: Wyrażenie(
 				nieprzezroczystość: 40%
 			)
 	)
-przyciskStukania: Wyrażenie(
+przyciskDotknięcia: Wyrażenie(
 		'⌨'
 		0.8m
 		nazwa: 'tap'
@@ -214,17 +220,17 @@ przyciskStukania: Wyrażenie(
 	)
 
 instrukcje1: Wyrażenie(
-		'Wybierz ⌨, żeby machać skrzydłami klikaniem i klawiszami, albo 🎤, żeby nucić wysokość lotu ptaka!'
+		'Wybierz ⌨, aby machać skrzydłami kliknięciami i klawiszami, albo 🎤, aby nuceniem sterować wysokością ptaka!'
 		0.45m
 		miejsce: Miejsce(-6.9m -4.7m)
 	)
 instrukcje2: Wyrażenie(
-		'Prześlizgnij się przez przerwy. Nie dotykaj stosów!'
+		'Przeleć przez szczeliny. Nie dotykaj stosów!'
 		0.4m
 		miejsce: Miejsce(-4.5m -5.4m)
 	)
 
-¶Machnięcie skrzydłem to już pojedyncza ewaluacja — reakcja, która unosi ptaka, uruchamia się przy kliknięciu lub naciśnięciu klawisza i przy niczym innym — więc może od razu odtworzyć dźwięk skrzydła: jedna nuta w klatce, w której machasz, i nic w pozostałym czasie. Nuta, która się rozpoczęła, gra do końca, więc opróżnienie tej listy klatkę później nie ucina dźwięku skrzydła. W trybie nucenia nie ma żadnych machnięć, więc lista pozostaje pusta, a ptak milczy, gdy do niego śpiewasz.¶
+¶Machnięcie skrzydłami to już pojedyncze ocenienie: reakcja, która unosi ptaka, uruchamia się przy kliknięciu lub klawiszu i w żadnym innym momencie. Dlatego może od razu zagrać skrzydłem: jedna nuta w klatce, w której machasz, a w pozostałym czasie nic. Nuta, która się zaczęła, gra do końca, więc opróżnienie tej listy klatkę później nie urywa dźwięku skrzydła. W trybie nucenia w ogóle nie ma machnięć, więc lista zostaje pusta, a ptak milczy, gdy do niego śpiewasz.¶
 nutyTrzepotu: trzepot ? [3] []
 
 dźwiękTrzepotu: Muzyka(
@@ -238,10 +244,10 @@ dźwiękTrzepotu: Muzyka(
 		nazwa: 'trzepot'
 	)
 
-¶Dwadzieścia bramek, od niepewnych do gorączkowych. Zmiana tempa włącza się przy następnym uderzeniu rytmu, zamiast zaczynać od nowa, więc każda bramka zacieśnia pętlę pod tobą, nigdy nie tracąc swojego miejsca — a zderzenie zeruje wynik, co cofa wszystko od początku.¶
+¶Dwadzieścia bramek, od niepokojących do szalonych. Zmiana tempa wchodzi w następnym uderzeniu zamiast zaczynać od nowa, więc każda bramka przyspiesza pętlę pod tobą, a ona nigdy nie gubi miejsca. Zderzenie zeruje wynik, co znów spowalnia całość do początku.¶
 pilność: (wynik ÷ 20).min(1)
 
-¶Skala frygijska dla obniżonego drugiego stopnia: jeden półton powyżej dźwięku podstawowego, najbardziej niespokojny dźwięk, jaki można uzyskać bez wyjścia poza skalę. Bas opiera się na nim co drugi takt, a fraza syntezatora się na nim kończy, więc pętla nigdy się nie uspokaja.¶
+¶Skala frygijska ma obniżoną drugą: jeden półton nad nutą domową, najbardziej niespokojną nutę, jaka jest możliwa bez wychodzenia ze skali. Bas opiera się na niej co drugi takt, a figura syntezatora na niej się kończy, więc pętla nigdy nigdzie nie odpoczywa.¶
 niespokojnaPiosenka: Muzyka(
 		[
 			Ścieżka(
@@ -265,15 +271,15 @@ niespokojnaPiosenka: Muzyka(
 		]
 		tempo: (100beats/min + (pilność · 100beats/min))
 		skala: Muzyka.frygijska
-		nazwa: 'niespokojny'
+		nazwa: 'niespokojna'
 	)
 
-¶Trwa przez całe odliczanie i lot, a po zderzeniu zatrzymuje się natychmiast, dzięki czemu 💥 ma całą przestrzeń dla siebie.¶
+¶Gra podczas odliczania i lotu, a po zderzeniu nagle się urywa, więc 💥 ma całą ciszę dla siebie.¶
 listaPiosenek: (gra2.faza = 3) ? [] [niespokojnaPiosenka]
 
-¶Zderzenie: talerz perkusyjny, niski łomot i niespokojna skala opadająca sama w sobie od góry — te same dźwięki, wokół których krążyła piosenka, w końcu donikąd nie prowadzące.
+¶Zderzenie: talerz, niski huk i niespokojna skala spadająca sama z góry na dół. To te same nuty, wokół których krążyła piosenka, tylko teraz donikąd nie prowadzą.
 
-To nie potrzebuje żadnego @Music.replay. Dotarcie na scenę jest powodem, by zabrzmieć, a jednorazowy dźwięk, który już wybrzmiał, milczy, dopóki nie zejdzie ze sceny; odliczanie zabiera go ze sceny i zapomina o nim, więc kolejne zderzenie zabrzmi od nowa od początku. Trwa to około półtora uderzenia rytmu, mieszcząc się wygodnie w dwóch i pół sekundach przerwy po zderzeniu.¶
+Ten dźwięk nie potrzebuje @Music.replay. Pojawienie się na scenie jest powodem, by zabrzmiał, a jednorazowy dźwięk, który się wygrał, milczy, aż zniknie. Odliczanie zdejmuje go ze sceny i zapomina o nim, więc przy następnym zderzeniu zabrzmi znowu od początku. Trwa około półtora uderzenia, czyli spokojnie mieści się w dwóch i pół sekundy pauzy po zderzeniu.¶
 dźwiękŚmierci: Muzyka(
 		[
 			Ścieżka(
@@ -300,7 +306,7 @@ dźwiękŚmierci: Muzyka(
 		]
 		tempo: 100beats/min
 		skala: Muzyka.frygijska
-		nazwa: 'awaria'
+		nazwa: 'zderzenie'
 	)
 
 listaŚmierci: (gra2.faza = 3) ? [dźwiękŚmierci] []
@@ -319,10 +325,10 @@ Scena(
 		niebo
 		lewaŚciana
 		prawaŚciana
-		wynikWidok
+		widokWyniku
 		:nakładki
 		przyciskNucenia
-		przyciskStukania
+		przyciskDotknięcia
 		instrukcje1
 		instrukcje2
 	]

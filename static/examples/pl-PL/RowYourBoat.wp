@@ -1,16 +1,16 @@
 🚣
-Płynie Łódka
+Wiosłuj łodzią
 === start/en
-¶Płynie, płynie, płynie łódka — jeden raz od początku do końca, dokładnie dziesięć sekund, z małą flotyllą wiosłującą do rytmu.
+¶„Row, Row, Row Your Boat” — jedno zagranie, równo dziesięć sekund, a do tego mała flota łódek, które wiosłują do melodii.
 
-Ta piosenka jest w metrum 6/8, więc każdy takt to sześć ósemek, a każdy wpis na tych listach to jedna z nich. Dwadzieścia cztery uderzenia przy tempie 144 uderzeń na minutę dają równo dziesięć sekund.
+Piosenka jest w metrum 6/8, więc każdy takt ma sześć ósemek, a każdy wpis na tych listach to jedna z nich. Dwadzieścia cztery uderzenia przy tempie 144 uderzeń na minutę dają dokładnie dziesięć sekund.
 
-Łódki poruszają się dzięki @Beat, a nie dzięki zegarowi, więc płyną zgodnie z rytmem muzyki, a nie tylko w jej pobliżu — i stoją w miejscu, aż muzyka się zacznie, bo @Beat zostaje na uderzeniu zero do tego momentu.¶
+Łódki napędza @Beat, a nie zegar, więc wiosłują dokładnie w rytm muzyki, a nie tylko mniej więcej do niej — i stoją w miejscu, aż muzyka ruszy, bo @Beat do tego czasu zostaje na uderzeniu zero.¶
 
-takt: Rytm()
-uderzenieWiosłem: takt.liczba
+uderzenie2: Rytm()
+pociągnięcie: uderzenie2.liczba
 
-¶Melodia. Płynie, płynie, płynie łódka cichutko po strumieniu — długie nuty są długie, bo pauzy po nich utrzymują siatkę rytmu, ponieważ każdy wpis trwa tyle samo, co jedna ósemka.¶
+¶Melodia. Row row row your boat, gently down the stream — długie nutki są długie, bo pauzy po nich trzymają siatkę, a każdy wpis trwa tyle samo, jedną ósemkę.¶
 melodia2: [
 		1
 		ø
@@ -62,7 +62,7 @@ melodia2: [
 		ø
 	]
 
-¶Akord na początku każdego taktu. Pozostaje na tonice przez całą piosenkę, aż do przedostatniego taktu, który opiera się na kwincie, dzięki czemu ostatni takt brzmi jak zakończenie.¶
+¶Akord na początku każdego taktu. Przez cały czas zostaje w tonacji domowej, aż do przedostatniego taktu, który opiera się na kwincie, żeby ostatni takt brzmiał jak dotarcie do celu.¶
 akordy: [
 		{1 3 5}
 		ø
@@ -90,7 +90,7 @@ akordy: [
 		ø
 	]
 
-¶Uderzenie wiosłem: niski dźwięk na pociągnięcie i jasny dźwięk na powrót, raz na takt.¶
+¶Pociągnięcie: niskie uderzenie, żeby nabrać wody, i jasne, żeby wrócić, raz na takt.¶
 wiosła: [
 		1
 		ø
@@ -118,16 +118,16 @@ wiosła: [
 		3
 	]
 
-¶Łódka. Przesuwa się odrobinę dalej z każdym uderzeniem i kołysze się w drugą stronę każdym razem, co wygląda jak wiosłowanie; tor wyznacza, jak wysoko łódka się znajduje i jak daleko zaczęła, dzięki czemu nie płyną wszystkie razem.¶
-ƒ łódka(pas•# start2•#)•Wyrażenie
+¶Łódka. Z każdym uderzeniem przesuwa się trochę dalej i za każdym razem kołysze się w drugą stronę, dzięki temu wygląda, jakby wiosłowała; tor określa, jak wysoko łódka się znajduje i jak daleko z przodu zaczęła, więc łódki nie poruszają się razem.¶
+ƒ łódka(pas•# początek2•#)•Wyrażenie
 	Wyrażenie(
 		'🚣'
 		1.5m
 		miejsce: Miejsce(
-			((((uderzenieWiosłem + start2) % 16) - 8) · 1.1) · 1m
+			((((pociągnięcie + początek2) % 16) - 8) · 1.1) · 1m
 			((pas · 1.9) - 1.9) · 1m
 		)
-		obrót: (((uderzenieWiosłem + pas) % 2) = 0) ? 9° -9°
+		obrót: (((pociągnięcie + pas) % 2) = 0) ? 9° -9°
 		czastrwania: 0.2s
 	)
 
@@ -143,7 +143,7 @@ Scena(
 			kolor: Kolor(48% 22 240°)
 		)
 		Wyrażenie(
-			'Płynie, płynie, płynie łódka'
+			'Row, row, row your boat'
 			0.9m
 			miejsce: Miejsce(-4.4m 3.4m)
 		)

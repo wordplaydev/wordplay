@@ -1,7 +1,7 @@
 H
 DługośćZdania
 ===
-¶Wpisz coś w pasku czatu, a policzy znaki twojego zdania.¶
+¶Wpisz coś w pasku czatu, a policzę znaki w twoim zdaniu.¶
 
 zdanie2: Pogawędzić()
 długość2: Pogawędzić().długość()
@@ -10,7 +10,7 @@ Grupa(
 	Stos()
 	[
 		Wyrażenie(
-			`*Cześć! Witaj w liczniku długości zdania.*`
+			`*Cześć! Witaj w kalkulatorze długości zdania.*`
 			miejsce: Miejsce(0m 1m)
 		)
 		Wyrażenie(
@@ -18,7 +18,7 @@ Grupa(
 			miejsce: Miejsce(0m -1m)
 		)
 		Wyrażenie(
-			'Twoje zdanie ma ' + (długość2 → '') + ' znaków długości!'
+			'Twoje zdanie ma ' + (długość2 → '') + ' znaków!'
 			spoczynkowy: Sekwencja.kołysać(czastrwania: 3s)
 			miejsce: Miejsce(0m -3m)
 		)
