@@ -2,7 +2,9 @@ import { DB } from '#db/Database.ts';
 import Project from '#db/projects/Project.ts';
 import Camera from '#input/Camera/Camera.ts';
 import Face from '#input/Face/Face.ts';
+import { observeLoading as observeFaceLoading } from '#input/Face/FaceLandmarker.ts';
 import Hand from '#input/Hand/Hand.ts';
+import { observeLoading as observeHandLoading } from '#input/Hand/HandLandmarker.ts';
 import DefaultLocale from '#locale/DefaultLocale.ts';
 import Source from '#nodes/Source.ts';
 import Evaluator from '#runtime/Evaluator.ts';
@@ -101,6 +103,21 @@ const noFace: FaceLandmarkerResult = {
     faceBlendshapes: [],
     facialTransformationMatrixes: [],
 };
+
+// Starting a landmark stream used to start loading its MediaPipe model, which downloaded it and
+// then failed asynchronously for want of a document, as an unhandled error in whatever test file
+// happened to be running. First in the file on purpose: the detector is a module-level singleton,
+// so once any test has started loading it, later starts announce nothing.
+test('no detector loads where there is no camera', () => {
+    const loads: boolean[] = [];
+    const stopHand = observeHandLoading((loading) => loads.push(loading));
+    const stopFace = observeFaceLoading((loading) => loads.push(loading));
+    start('Hand()');
+    start('Face()');
+    stopHand();
+    stopFace();
+    expect(loads).toEqual([]);
+});
 
 test('a camera frame is rows of colors', () => {
     const { evaluator, value } = start('Camera(2px 1px 100ms)');

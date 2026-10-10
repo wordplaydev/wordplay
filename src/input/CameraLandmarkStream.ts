@@ -314,6 +314,9 @@ export default abstract class CameraLandmarkStream<
     }
 
     start() {
+        // Without a document there is no camera to detect in, and MediaPipe's loader needs one: in a
+        // unit test it downloaded the model and then failed after the test had ended.
+        if (typeof document === 'undefined') return;
         this.feed.start();
         // Kick off MediaPipe loading early so it overlaps with the camera
         // permission prompt and video warm-up. tick() reads the live singleton.
