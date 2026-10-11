@@ -1,7 +1,5 @@
 <script module lang="ts">
     import getConceptName from '#locale/getConceptName.ts';
-    /** How long to wait until considering typing idle. */
-    export const KeyboardIdleWaitTime = 500;
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
@@ -108,7 +106,7 @@
     import type Locale from '#locale/Locale.ts';
     import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
     import Evaluate from '#nodes/Evaluate.ts';
-    import Node, { isFieldPosition } from '#nodes/Node.ts';
+    import Node from '#nodes/Node.ts';
     import {
         linesOfNode,
         referenceLabel,
@@ -185,6 +183,7 @@
         getFullscreen,
         getUser,
         IdleKind,
+        KeyboardIdleWaitTime,
         isAuthenticated,
         setAnimatingNodes,
         setSoundingNodes,
@@ -264,6 +263,7 @@
         AnimationIcon,
     } from '#db/settings/AnimationFactorSetting.ts';
     import type MenuInfo from '#edit/menu/Menu.ts';
+    import { anchorMenu } from '#components/editor/menu/menuAnchor.ts';
     import { must } from '#util/nullable.ts';
 
     interface Props {
@@ -2679,7 +2679,6 @@
 
     function getMenuPosition(menu: MenuInfo) {
         const source = menu.getSource();
-        const anchor = menu.getAnchor();
 
         // Find the editor. Scoped to the focused view's tile first, because a
         // source can be shown in two views at once and both carry the same
@@ -2709,57 +2708,12 @@
             height: view.clientHeight,
         };
 
-        if (isFieldPosition(anchor)) {
-            // Is it a field position? Position near the field.
-            // The descendant combinator would also match triggers inside
-            // nested .node-view children (which can reuse the same field
-            // name, e.g. inner and outer Evaluate.inputs), so filter to the
-            // trigger whose closest .node-view ancestor is the actual parent.
-            const candidates = editor.querySelectorAll(
-                `.node-view[data-id="${anchor.parent.id}"] .trigger[data-field="${anchor.field}"]`,
-            );
-            const trigger = Array.from(candidates).find(
-                (t) =>
-                    t.closest('.node-view')?.getAttribute('data-id') ===
-                    String(anchor.parent.id),
-            );
-            if (trigger == null) return undefined;
-            const triggerBounds = trigger.getBoundingClientRect();
-            return {
-                left: triggerBounds.left - projectBounds.left,
-                top:
-                    triggerBounds.bottom -
-                    triggerBounds.height / 4 -
-                    projectBounds.top,
-                container,
-            };
-        } else {
-            // Is it a node? Position near it's top left.
-            if (anchor instanceof Node) {
-                const view = editor.querySelector(
-                    `.node-view[data-id="${anchor.id}"]`,
-                );
-                if (view == null) return undefined;
-                const nodeBounds = view.getBoundingClientRect();
-                return {
-                    left: nodeBounds.left - projectBounds.left,
-                    top: nodeBounds.bottom - projectBounds.top,
-                    container,
-                };
-            }
-            // Is it a position? Position at the bottom right of the caret.
-            else if (typeof anchor === 'number') {
-                // Find the position of the caret in the editor.
-                const caretView = editor.querySelector('.caret');
-                if (caretView === null) return undefined;
-                const caretBounds = caretView.getBoundingClientRect();
-                return {
-                    left: caretBounds.left - projectBounds.left,
-                    top: caretBounds.bottom - projectBounds.top,
-                    container,
-                };
-            }
-        }
+        return anchorMenu(
+            menu,
+            editor,
+            { left: projectBounds.left, top: projectBounds.top },
+            container,
+        );
     }
 
     function toggleTile(tile: Tile) {

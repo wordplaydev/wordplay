@@ -321,6 +321,12 @@
             : source.root.resolvePath(stored);
     }
 
+    /** Whether to persist this editor's caret and folds. An ephemeral example is minted
+     *  with a new id on every mount, so remembering its view state would only accumulate. */
+    function remembersView() {
+        return editable && !Projects.isEphemeral(project.getID());
+    }
+
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     // We start at the saved caret position or 0. We also share it with parents through a bind.
     // For an editable editor, prefer the locally-persisted caret (updated on every
@@ -628,7 +634,7 @@
         const position = debouncedCaret.current.position;
         const anchor = debouncedCaret.current.anchor;
         untrack(() => {
-            if (!editable) return;
+            if (!remembersView()) return;
             Settings.setProjectCaret(
                 project.getID(),
                 project.getIndexOfSource(source),
@@ -4295,7 +4301,7 @@
     $effect(() => {
         const set = $folded;
         untrack(() => {
-            if (!editable) return;
+            if (!remembersView()) return;
             const paths = [...set]
                 .filter((n) => source.root.has(n))
                 .map((n) => source.root.getPath(n));

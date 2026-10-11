@@ -13,7 +13,7 @@ export const ChangeType = {
 export type ChangeType = (typeof ChangeType)[keyof typeof ChangeType];
 
 export const PersistenceType = {
-    /** It should not be editable, or saved in local or cloud databases */
+    /** Tracked in memory for editing and undo, never saved, never listed (e.g., a code example being tinkered with) */
     None: 'none',
     /** It should be saved locally, enabling editability, but it won't be persisted in the cloud */
     Local: "local'",

@@ -90,6 +90,16 @@ export default class Markup extends Content {
         this.computeChildren();
     }
 
+    /**
+     * Markup built from nodes rather than parsed from text, with the spaces parsing
+     * would have given it. A markup with no spaces renders as an error rather than
+     * as text, which is what a menu's new formatted text or doc did on stage.
+     */
+    static withPreferredSpaces(content: Paragraph[]) {
+        const markup = new Markup(content);
+        return new Markup(content, getPreferredSpaces(markup));
+    }
+
     static words(text: string) {
         const [markup] = toMarkup(text);
         return markup;

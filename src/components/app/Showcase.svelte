@@ -13,19 +13,19 @@
 -->
 <script lang="ts">
     import PlayView from '#components/app/PlayView.svelte';
+    import EditableExample, {
+        setExampleKeyboardIdle,
+    } from '#components/concepts/EditableExample.svelte.ts';
     import { makeExampleProject } from '#components/concepts/previewEvaluator.ts';
+    import ShowcaseEditor from '#components/app/ShowcaseEditor.svelte';
     import {
         getAnnouncer,
         getTip,
         setAnimatingNodes,
-        setKeyboardEditIdle,
         setProject,
-        setResetKeyboardIdle,
         setSelectedOutput,
     } from '#components/project/Contexts.ts';
-    import { IdleKind } from '#components/project/Contexts.ts';
     import SelectedOutput from '#components/project/SelectedOutput.svelte.ts';
-    import RootView from '#components/project/RootView.svelte';
     import Button from '#components/widgets/Button.svelte';
     import Mode from '#components/widgets/Mode.svelte';
     import {
@@ -51,6 +51,7 @@
     import { withMonoEmoji } from '#unicode/emoji.ts';
     import type Project from '#db/projects/Project.ts';
     import type Node from '#nodes/Node.ts';
+    import type Evaluator from '#runtime/Evaluator.ts';
     import { must } from '#util/nullable.ts';
     import { writable } from 'svelte/store';
 
@@ -151,7 +152,7 @@
     /** A real Project per example — the standard stage takes a project, not a
      *  markup node, and this is what gives it the permission splash, the music
      *  gate, the chat bar, and the music visualization. */
-    const project = $derived(
+    const original = $derived(
         parsed === undefined
             ? undefined
             : makeExampleProject(
@@ -161,6 +162,14 @@
                   $locales.getLocales(),
               ),
     );
+
+    /** Editable in place, so a visitor can tinker with the example right here.
+     *  Choosing another example discards the edits, since its original changes. */
+    const editable = new EditableExample(() => original);
+    const project = $derived(editable.current);
+
+    /** The stage's evaluator, which the editor needs to show what's running. */
+    let evaluator = $state<Evaluator | undefined>(undefined);
 
     /**
      * The optional project-scoped contexts the stage and its output views read.
@@ -172,8 +181,7 @@
     setProject(projectStore);
     setAnimatingNodes(writable<Set<Node>>(new Set()));
     setSelectedOutput(new SelectedOutput());
-    setKeyboardEditIdle(writable(IdleKind.Idle));
-    setResetKeyboardIdle(() => {});
+    setExampleKeyboardIdle();
     $effect(() => {
         projectStore.set(project);
     });
@@ -267,7 +275,12 @@
                      `wheel={false}` because zooming preventDefaults, and this
                      page has to be able to scroll under the pointer. -->
                 {#key generation}
-                    <PlayView {project} wheel={false} />
+                    <PlayView
+                        {project}
+                        wheel={false}
+                        blurOnTyping={false}
+                        bind:evaluator
+                    />
                 {/key}
                 <!-- On the stage rather than beside the example buttons, where
                      it read as one more example. The stage's own `onretry` is
@@ -275,6 +288,13 @@
                      example over is ours to offer; re-keying the view gives it
                      a fresh evaluator, which is what a restart is. -->
                 <div class="restart">
+                    {#if editable.edited}
+                        <Button
+                            background="circular"
+                            tip={(l) => l.ui.project.button.revert}
+                            action={editable.revert}>↺</Button
+                        >
+                    {/if}
                     <Button
                         background="circular"
                         tip={(l) => l.ui.page.landing.tour.restart}
@@ -285,33 +305,18 @@
                 </div>
             </div>
             <div class="code">
-                <!-- The code can be taller and wider than its box, and a
-                     scrollable region a keyboard can't reach is unusable — so
-                     it's a focusable, named group rather than a bare div, the
-                     same unconditional treatment StartGate's scroller gets. The
-                     name is the app's own word for a source file. Focusable
-                     whether or not it currently overflows: measuring the
-                     overflow instead would go stale on the next resize, or on
-                     the next example. -->
-                <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-                <div
-                    class="source"
-                    role="group"
-                    tabindex="0"
-                    aria-label={$locales.getPrimaryPlainText(
-                        (l) => l.ui.source.title,
-                    )}
-                >
-                    <!-- Read-only, and following whatever mode the viewer has
-                         chosen app-wide, so the page shows them the same editor
-                         they'd get in a project. -->
-                    <RootView
-                        node={parsed.program}
-                        spaces={parsed.spaces}
-                        blocks={$blocks}
-                        inert
-                        wrap
-                    />
+                <!-- Editable in place: the first keystroke makes the example
+                     an ephemeral project, which the stage re-runs on every
+                     edit. Never saved; ↺ puts the original back. The editor
+                     is itself focusable, so the scroller needs no tab stop. -->
+                <div class="source">
+                    {#if evaluator}
+                        <ShowcaseEditor
+                            {project}
+                            {evaluator}
+                            example={editable}
+                        />
+                    {/if}
                 </div>
                 <div class="mode">
                     <Mode
@@ -401,6 +406,8 @@
         inset-block-start: var(--wordplay-spacing-half);
         inset-inline-end: var(--wordplay-spacing-half);
         z-index: 2;
+        display: flex;
+        gap: var(--wordplay-spacing-half);
     }
 
     .panel {

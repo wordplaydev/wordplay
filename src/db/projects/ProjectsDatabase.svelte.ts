@@ -197,11 +197,13 @@ export default class ProjectsDatabase {
         };
     });
 
-    /** The latest versions of all projects */
+    /** The latest versions of all projects, except ephemeral examples, which belong to no one's list */
     readonly currentProjects: Project[] = $derived(
-        Array.from(this.projectHistories.values()).map((history) =>
-            history.getCurrent(),
-        ),
+        Array.from(this.projectHistories.values())
+            .filter(
+                (history) => history.getPersisted() !== PersistenceType.None,
+            )
+            .map((history) => history.getCurrent()),
     );
 
     /** A store of all user editable projects stored in projectsDB. Derived from editable projects above. */
@@ -2030,7 +2032,10 @@ export default class ProjectsDatabase {
         // Delete all projects that this user owns.
         const ownerID = this.database.getUserID();
         for (const history of this.projectHistories.values())
-            if (history.getCurrent().getOwner() === ownerID)
+            if (
+                history.getPersisted() !== PersistenceType.None &&
+                history.getCurrent().getOwner() === ownerID
+            )
                 await this.deleteProject(history.id);
         await this.deleteLocal();
     }
@@ -2063,6 +2068,27 @@ export default class ProjectsDatabase {
 
         // Delete from the local cache.
         this.deleteLocalProject(id);
+    }
+
+    /**
+     * Track an example project so it can be edited and undone in place. It is never
+     * saved and never listed, so it costs nothing beyond the history in memory.
+     */
+    trackEphemeral(project: Project): ProjectHistory | undefined {
+        return this.track(project, true, PersistenceType.None, true);
+    }
+
+    /** Whether the given project is an ephemeral example rather than someone's project. */
+    isEphemeral(id: string): boolean {
+        return (
+            this.projectHistories.get(id)?.getPersisted() ===
+            PersistenceType.None
+        );
+    }
+
+    /** Stop tracking an ephemeral project. Unlike deleting, touches no database or setting, since it was never in one. */
+    forget(id: string) {
+        if (this.isEphemeral(id)) this.projectHistories.delete(id);
     }
 
     /** Delete project locally */
