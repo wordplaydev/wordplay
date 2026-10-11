@@ -164,7 +164,7 @@ test('an edit made on the guide’s glossary reaches the submission bundle', asy
     // The guide renders the same GlossaryEntry, so making it editable there is
     // what keeps a translator from having to hunt for a term's path — and the
     // edit has to travel the same road as every other one, ending in a PR.
-    await page.goto('/en-US/guide?section=glossary');
+    await page.goto('/en-US/guide/glossary');
 
     await page
         .getByRole('button', { name: text(enUS.ui.localize.toggle.mode.off) })

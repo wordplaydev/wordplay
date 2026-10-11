@@ -81,7 +81,7 @@ export const Surfaces: Surface[] = [
     },
     {
         slug: 'guide-kits',
-        path: '/guide?section=kits',
+        path: '/guide/kits',
         kind: 'route',
         auth: 'none',
         title: 'Guide — kits',
@@ -90,7 +90,7 @@ export const Surfaces: Surface[] = [
     },
     {
         slug: 'guide-concept',
-        path: '/guide?concept=Sequence/shake',
+        path: '/guide/code/outputs/Sequence/shake',
         kind: 'route',
         auth: 'none',
         title: 'Guide — a concept',

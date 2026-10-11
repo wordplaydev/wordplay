@@ -31,7 +31,7 @@ test('a concept keeps its links when the reader changes locale', async ({
     page,
 }) => {
     // Phrase is referenced by many how-tos, so it has links to lose.
-    await page.goto('/en-US/guide?concept=Phrase');
+    await page.goto('/en-US/guide/code/outputs/Phrase');
     const links = page.locator('.concept .links .howtos li');
     await links.first().waitFor({ timeout: 20000 });
     const before = await conceptView(page);
