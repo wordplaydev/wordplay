@@ -1050,6 +1050,8 @@
         "e92691ec133cd": "$~Acum te avertizăm și despre adresele de e-mail scrise în documentare și în text formatat, așa cum făceam deja în text.",
         "e68be06131b48": "$~Linkurile către ghid care apar imediat după un prefix ebraic precum ב- sau după un punct deschid acum ghidul, în loc să devină linkuri de e-mail.",
         "eea7bd4500f37": "$~Fiecare pagină din <Ghid@https://wordplay.dev/guide> are propria adresă. Filele și firul de navigare arată acum unde se află pagina pe care o citești.",
-        "e2cbfa3574467": "$~Butonul Înainte al browserului funcționează acum în <Ghid@https://wordplay.dev/guide>. Când deschizi un link către una dintre paginile lui, nu mai apare întâi o altă pagină."
+        "e2cbfa3574467": "$~Butonul Înainte al browserului funcționează acum în <Ghid@https://wordplay.dev/guide>. Când deschizi un link către una dintre paginile lui, nu mai apare întâi o altă pagină.",
+        "ed96f186e4b18": "$~Am făcut codul mai ușor de citit: \\?\\, \\??\\ și \\???\\ au acum aceeași culoare, un tip care acceptă orice apare ca \\◌\\, iar un tip de interval apare ca \\‥\\ în loc de o etichetă portocalie.",
+        "ea6d52130d864": "$~Substituenții din codul din <Ghid@https://wordplay.dev/guide> își arată acum tipul mic și gri, și doar atunci când nimic altceva nu spune ce trebuie pus acolo."
     }
 }

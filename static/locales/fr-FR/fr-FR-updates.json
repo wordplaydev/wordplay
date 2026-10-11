@@ -1050,6 +1050,8 @@
         "e92691ec133cd": "$~Nous signalons maintenant les adresses e-mail écrites dans la documentation et dans le texte mis en forme, comme nous le faisions déjà dans le texte.",
         "e68be06131b48": "$~Les liens vers le guide placés juste après un préfixe hébreu comme ב- ou après un point ouvrent maintenant le guide, au lieu de devenir des liens e-mail.",
         "eea7bd4500f37": "$~Chaque page du <guide@https://wordplay.dev/guide> a sa propre adresse. Ses onglets et son fil d'Ariane montrent maintenant où se trouve la page que tu lis.",
-        "e2cbfa3574467": "$~Le bouton Suivant du navigateur fonctionne maintenant dans le <guide@https://wordplay.dev/guide>. Quand tu ouvres un lien vers une de ses pages, une autre page ne s'affiche plus d'abord."
+        "e2cbfa3574467": "$~Le bouton Suivant du navigateur fonctionne maintenant dans le <guide@https://wordplay.dev/guide>. Quand tu ouvres un lien vers une de ses pages, une autre page ne s'affiche plus d'abord.",
+        "ed96f186e4b18": "$~Nous avons rendu le code plus facile à lire : \\?\\, \\??\\ et \\???\\ partagent maintenant une couleur, un type qui accepte n'importe quoi s'affiche comme \\◌\\, et un type de plage s'affiche comme \\‥\\ au lieu d'une étiquette orange.",
+        "ea6d52130d864": "$~Les espaces réservés dans le code du <guide@https://wordplay.dev/guide> montrent maintenant leur type en petit et en gris, et seulement quand rien d'autre n'indique ce qui doit s'y trouver."
     }
 }

@@ -1,3 +1,4 @@
+import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import { Sym, type SymType } from '#nodes/Sym.ts';
 
 const TokenCategoryDelimiter = 'delimiter';
@@ -44,6 +45,7 @@ TokenCategories.set(Sym.Separator, TokenCategoryDelimiter);
 TokenCategories.set(Sym.Language, TokenCategoryDelimiter);
 TokenCategories.set(Sym.BooleanType, TokenCategoryLiteral);
 TokenCategories.set(Sym.NumberType, TokenCategoryType);
+TokenCategories.set(Sym.Range, TokenCategoryType);
 TokenCategories.set(Sym.HanNumeral, TokenCategoryLiteral);
 TokenCategories.set(Sym.RomanNumeral, TokenCategoryLiteral);
 TokenCategories.set(Sym.ThaiNumeral, TokenCategoryLiteral);
@@ -132,3 +134,18 @@ export function getTokenCategory(
 }
 
 export default TokenCategories;
+
+/**
+ * The Syms a dual-typed glyph stands for in the node it sits in, or undefined when its first Sym
+ * already says. `?` is both the Boolean type and the conditional, and `‥` both the range operator and
+ * the Range type, so colouring by the first Sym made a conditional `?` read unlike `??` and `???`.
+ */
+export function getRoleTypes(
+    types: SymType[],
+    parent: NodeDescriptor | undefined,
+): SymType[] | undefined {
+    if (types.includes(Sym.BooleanType) && types.includes(Sym.Conditional))
+        return parent === 'BooleanType' ? [Sym.BooleanType] : [Sym.Conditional];
+    if (types.includes(Sym.Range) && parent === 'RangeType') return [Sym.Range];
+    return undefined;
+}

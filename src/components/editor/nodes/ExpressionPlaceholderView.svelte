@@ -42,18 +42,31 @@
         node={[node, 'placeholder']}
         {format}
     />{/if}{#if placeholder}<span class="label">{placeholder}</span
-    >{/if}{#if !(node.type instanceof AnyType)}<NodeView
-        node={[node, 'dot']}
-        empty="hide"
-        format={{ ...format, editable: false }}
-    /><NodeView
-        node={[node, 'type']}
-        format={{ ...format, editable: false }}
-    />{/if}{#if format.editable && format.block}<MenuTrigger
+    >{/if}{#if !(node.type instanceof AnyType)}<span class="annotation"
+        ><NodeView
+            node={[node, 'dot']}
+            empty="hide"
+            format={{ ...format, editable: false }}
+        /><NodeView
+            node={[node, 'type']}
+            format={{ ...format, editable: false }}
+        /></span
+    >{/if}{#if format.editable && format.block}<MenuTrigger
         anchor={node}
     />{/if}
 
 <style>
+    /* The expected type is a hint about the placeholder, not code, so it recedes; otherwise
+       `condition•? ? yes no` reads as two conditionals. */
+    .annotation {
+        vertical-align: sub;
+        font-size: smaller;
+    }
+
+    .annotation :global(.token-view[class*='token-category-']) {
+        color: var(--wordplay-inactive-color);
+    }
+
     .label {
         margin-inline-start: var(--wordplay-spacing);
         font-family: var(--wordplay-app-font);

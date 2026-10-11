@@ -1050,6 +1050,8 @@
         "e92691ec133cd": "$~Kami sekarang memberi peringatan tentang alamat email yang ditulis di dokumentasi dan teks berformat, seperti yang sudah kami lakukan di teks.",
         "e68be06131b48": "$~Tautan ke panduan yang muncul tepat setelah awalan Ibrani seperti ב- atau setelah tanda titik sekarang membuka panduan, tidak lagi menjadi tautan email.",
         "eea7bd4500f37": "$~Setiap halaman di <Panduan@https://wordplay.dev/guide> punya alamatnya sendiri. Tab dan jejak navigasinya kini menunjukkan di mana letak halaman yang sedang kamu baca.",
-        "e2cbfa3574467": "$~Tombol Maju di peramban kini berfungsi di <Panduan@https://wordplay.dev/guide>. Saat kamu membuka tautan ke salah satu halamannya, halaman lain tidak lagi muncul lebih dulu."
+        "e2cbfa3574467": "$~Tombol Maju di peramban kini berfungsi di <Panduan@https://wordplay.dev/guide>. Saat kamu membuka tautan ke salah satu halamannya, halaman lain tidak lagi muncul lebih dulu.",
+        "ed96f186e4b18": "$~Kami membuat kode lebih mudah dibaca: \\?\\, \\??\\, dan \\???\\ sekarang memakai warna yang sama, jenis yang menerima apa saja tampil sebagai \\◌\\, dan jenis rentang tampil sebagai \\‥\\ dan bukan lagi label oranye.",
+        "ea6d52130d864": "$~Penampung di dalam kode pada <Panduan@https://wordplay.dev/guide> sekarang menampilkan jenisnya dengan kecil dan abu-abu, dan hanya jika tidak ada hal lain yang menjelaskan apa yang harus ada di sana."
     }
 }

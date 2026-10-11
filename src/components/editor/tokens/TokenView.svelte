@@ -3,7 +3,10 @@
     import type { Format } from '#components/editor/nodes/NodeView.svelte';
     import BooleanTokenEditor from '#components/editor/tokens/BooleanTokenEditor.svelte';
     import InputShorthandEditor from '#components/editor/tokens/InputShorthandEditor.svelte';
-    import { getTokenCategory } from '#components/editor/tokens/TokenCategories.ts';
+    import {
+        getRoleTypes,
+        getTokenCategory,
+    } from '#components/editor/tokens/TokenCategories.ts';
     import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import {
         getCaret,
@@ -21,7 +24,6 @@
     } from '#parser/Keywords.ts';
     import { getCanonicalKeyword } from '#parser/canonicalizeKeywords.ts';
     import Caret from '#edit/caret/Caret.ts';
-    import BooleanType from '#nodes/BooleanType.ts';
     import Convert from '#nodes/Convert.ts';
     import Dimension from '#nodes/Dimension.ts';
     import Evaluate from '#nodes/Evaluate.ts';
@@ -209,7 +211,10 @@
             node.isSymbol(Sym.Conditional)
         )
             id =
-                root.getParent(node) instanceof BooleanType
+                getRoleTypes(
+                    node.types,
+                    root.getParent(node)?.getDescriptor(),
+                )?.[0] === Sym.BooleanType
                     ? 'booleantype'
                     : 'conditional';
         // Operators (& | ~) share Sym types with type unions and markup, so only word them when
@@ -242,7 +247,17 @@
 
     // The token's colour category. A word rendered as its symbol should read as that symbol: a keyword
     // word's own first Sym is always Sym.Name, which would colour `⊤` like a name rather than a boolean.
-    let category = $derived(getTokenCategory(node.types, keywordGlyph?.types));
+    // A dual-typed glyph (`?`, `‥`) is coloured by the role its parent gives it; only a token with more
+    // than one Sym pays for the parent lookup.
+    let roleTypes = $derived.by(() => {
+        const types = keywordGlyph?.types ?? node.types;
+        if (types.length < 2 || root === undefined) return keywordGlyph?.types;
+        return (
+            getRoleTypes(types, root.getParent(node)?.getDescriptor()) ??
+            keywordGlyph?.types
+        );
+    });
+    let category = $derived(getTokenCategory(node.types, roleTypes));
 
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.

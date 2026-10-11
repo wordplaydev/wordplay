@@ -36,6 +36,7 @@ import {
 } from '#nodes/Node.ts';
 import PlaceholderToken from '#nodes/PlaceholderToken.ts';
 import type Root from '#nodes/Root.ts';
+import SetLiteral from '#nodes/SetLiteral.ts';
 import SimpleExpression from '#nodes/SimpleExpression.ts';
 import { Sym } from '#nodes/Sym.ts';
 import Token from '#nodes/Token.ts';
@@ -209,6 +210,24 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         // Expression of a function definition? Infer from the function's output type.
         else if (parent instanceof FunctionDefinition) {
             if (parent.output) return parent.output;
+        }
+
+        // Otherwise, take the type the parent's field requires (a conditional's condition is
+        // Boolean), so a template needn't annotate it. Skipped where that type is read from this
+        // placeholder itself (a binary operator's left, a set's items), which would be a cycle.
+        if (
+            parent &&
+            !(parent instanceof Evaluate) &&
+            !(parent instanceof BinaryEvaluate) &&
+            !(parent instanceof Input) &&
+            !(parent instanceof SetLiteral)
+        ) {
+            const field = parent.getFieldOfChild(this);
+            if (field?.getType) {
+                const value = parent.getField(field.name);
+                const index = Array.isArray(value) ? value.indexOf(this) : -1;
+                return field.getType(context, index === -1 ? undefined : index);
+            }
         }
 
         return new AnyType();

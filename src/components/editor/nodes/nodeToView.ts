@@ -6,6 +6,7 @@ import BinaryEvaluateView from '#components/editor/nodes/BinaryEvaluateView.svel
 import BindView from '#components/editor/nodes/BindView.svelte';
 import BlockView from '#components/editor/nodes/BlockView.svelte';
 import BooleanLiteralView from '#components/editor/nodes/BooleanLiteralView.svelte';
+import AnyTypeView from '#components/editor/nodes/AnyTypeView.svelte';
 import BooleanTypeView from '#components/editor/nodes/BooleanTypeView.svelte';
 import BorrowView from '#components/editor/nodes/BorrowView.svelte';
 import ChangedView from '#components/editor/nodes/ChangedView.svelte';
@@ -73,6 +74,7 @@ import NoneLiteralView from '#components/editor/nodes/NoneLiteralView.svelte';
 import NoneTypeView from '#components/editor/nodes/NoneTypeView.svelte';
 import NumberLiteralView from '#components/editor/nodes/NumberLiteralView.svelte';
 import NumberTypeView from '#components/editor/nodes/NumberTypeView.svelte';
+import RangeTypeView from '#components/editor/nodes/RangeTypeView.svelte';
 import ParagraphView from '#components/editor/nodes/ParagraphView.svelte';
 import PreviousView from '#components/editor/nodes/PreviousView.svelte';
 import ProgramView from '#components/editor/nodes/ProgramView.svelte';
@@ -183,6 +185,8 @@ import NoneLiteral from '#nodes/NoneLiteral.ts';
 import NoneType from '#nodes/NoneType.ts';
 import NumberLiteral from '#nodes/NumberLiteral.ts';
 import NumberType from '#nodes/NumberType.ts';
+import RangeType from '#nodes/RangeType.ts';
+import AnyType from '#nodes/AnyType.ts';
 import Otherwise from '#nodes/Otherwise.ts';
 import Paragraph from '#nodes/Paragraph.ts';
 import Previous from '#nodes/Previous.ts';
@@ -557,6 +561,16 @@ map(NoneLiteral, NoneLiteralView, {
     kind: 'none',
     direction: 'inline',
     size: 'normal',
+});
+map(AnyType, AnyTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
+});
+map(RangeType, RangeTypeView, {
+    kind: 'type',
+    direction: 'inline',
+    size: 'small',
 });
 map(NoneType, NoneTypeView, {
     kind: 'type',

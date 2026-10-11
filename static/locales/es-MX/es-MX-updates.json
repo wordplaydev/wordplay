@@ -1050,6 +1050,8 @@
         "e92691ec133cd": "$~Ahora avisamos sobre las direcciones de correo electrónico escritas en la documentación y en el texto con formato, como ya hacíamos en el texto.",
         "e68be06131b48": "$~Los enlaces a la guía que van justo después de un prefijo hebreo como ב- o después de un punto ahora abren la guía, en lugar de convertirse en enlaces de correo electrónico.",
         "eea7bd4500f37": "$~Cada página de la <guía@https://wordplay.dev/guide> tiene su propia dirección, y sus pestañas y migas de pan ahora muestran a qué parte pertenece la página que estás leyendo.",
-        "e2cbfa3574467": "$~El botón de adelante del navegador ahora funciona en la <guía@https://wordplay.dev/guide>, y al abrir un enlace a una de sus páginas ya no aparece primero una página distinta."
+        "e2cbfa3574467": "$~El botón de adelante del navegador ahora funciona en la <guía@https://wordplay.dev/guide>, y al abrir un enlace a una de sus páginas ya no aparece primero una página distinta.",
+        "ed96f186e4b18": "$~Hicimos que el código sea más fácil de leer: \\?\\, \\??\\ y \\???\\ ahora comparten un color, un tipo que acepta cualquier cosa se muestra como \\◌\\, y un tipo de rango se muestra como \\‥\\ en lugar de una etiqueta naranja.",
+        "ea6d52130d864": "$~Los marcadores de posición en el código de la <Guía@https://wordplay.dev/guide> ahora muestran su tipo pequeño y en gris, y solo cuando nada más indica qué va ahí."
     }
 }

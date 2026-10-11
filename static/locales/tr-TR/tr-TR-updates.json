@@ -1050,6 +1050,8 @@
         "e92691ec133cd": "$~Artık dokümantasyonda ve biçimli metinde yazılan e-posta adresleri için de uyarı veriyoruz. Metinde zaten veriyorduk.",
         "e68be06131b48": "$~ב- gibi bir İbranice önekten hemen sonra veya bir noktadan sonra gelen rehber bağlantıları artık e-posta bağlantısı olmak yerine rehberi açıyor.",
         "eea7bd4500f37": "$~<Rehber@https://wordplay.dev/guide>'in her sayfasının kendi adresi vardır. Sekmeler ve gezinti yolu artık okuduğunuz sayfanın nereye ait olduğunu gösterir.",
-        "e2cbfa3574467": "$~Tarayıcının İleri düğmesi artık <Rehber@https://wordplay.dev/guide>'de çalışır. Rehber sayfalarından birine giden bir bağlantıyı açınca da artık önce başka bir sayfa görünmez."
+        "e2cbfa3574467": "$~Tarayıcının İleri düğmesi artık <Rehber@https://wordplay.dev/guide>'de çalışır. Rehber sayfalarından birine giden bir bağlantıyı açınca da artık önce başka bir sayfa görünmez.",
+        "ed96f186e4b18": "$~Kodu okumayı kolaylaştırdık: \\?\\, \\??\\ ve \\???\\ artık aynı rengi paylaşıyor, her şeyi kabul eden bir tip \\◌\\ olarak görünüyor ve bir aralık tipi turuncu etiket yerine \\‥\\ olarak görünüyor.",
+        "ea6d52130d864": "$~<Rehber@https://wordplay.dev/guide> içindeki koddaki yer tutucular artık tiplerini küçük ve gri gösteriyor, bunu da yalnızca orada ne olması gerektiğini başka hiçbir şey söylemiyorsa yapıyor."
     }
 }

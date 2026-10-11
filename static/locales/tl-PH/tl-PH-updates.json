@@ -1050,6 +1050,8 @@
         "e92691ec133cd": "$~Binabalaan na rin namin ngayon ang mga email address na nakasulat sa dokumentasyon at sa tekstong may pormat, tulad ng ginagawa na namin sa teksto.",
         "e68be06131b48": "$~Ang mga link sa gabay na kasunod agad ng unlaping Hebreo tulad ng ב- o ng tuldok ay binubuksan na ngayon ang gabay, sa halip na maging mga link ng email.",
         "eea7bd4500f37": "$~Bawat pahina ng <Gabay@https://wordplay.dev/guide> ay may sarili nang address, at ang mga tab at breadcrumb nito ay nagpapakita na ngayon kung saan kabilang ang pahinang binabasa mo.",
-        "e2cbfa3574467": "$~Gumagana na ngayon ang Forward na button ng browser sa <Gabay@https://wordplay.dev/guide>, at hindi na nagpapakita ng ibang pahina muna kapag binuksan ang link papunta sa isa sa mga pahina nito."
+        "e2cbfa3574467": "$~Gumagana na ngayon ang Forward na button ng browser sa <Gabay@https://wordplay.dev/guide>, at hindi na nagpapakita ng ibang pahina muna kapag binuksan ang link papunta sa isa sa mga pahina nito.",
+        "ed96f186e4b18": "$~Ginawa naming mas madaling basahin ang kodigo: ang \\?\\, \\??\\, at \\???\\ ay iisa na ang kulay, ang uri na tumatanggap ng kahit ano ay lumalabas bilang \\◌\\, at ang uri ng saklaw ay lumalabas bilang \\‥\\ sa halip na kahel na label.",
+        "ea6d52130d864": "$~Ang mga placeholder sa kodigo sa <Gabay@https://wordplay.dev/guide> ay ipinapakita na ngayon ang kanilang uri nang maliit at kulay abo, at kapag wala nang ibang nagsasabi kung ano ang nnararapat doon."
     }
 }
