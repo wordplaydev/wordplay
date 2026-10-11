@@ -1050,6 +1050,8 @@
         "e92691ec133cd": "$~Vi varnar nu för e-postadresser skrivna i dokumentation och formaterad text, som vi redan gjorde i text.",
         "e68be06131b48": "$~Länkar till guiden som kommer direkt efter ett hebreiskt prefix som ב- eller efter en punkt öppnar nu guiden, i stället för att bli e-postlänkar.",
         "eea7bd4500f37": "$~Varje sida i <guiden@https://wordplay.dev/guide> har sin egen adress. Flikarna och sökvägen visar nu var den sida du läser hör hemma.",
-        "e2cbfa3574467": "$~Webbläsarens framåtknapp fungerar nu i <guiden@https://wordplay.dev/guide>. När du öppnar en länk till en av sidorna visas inte längre först en annan sida."
+        "e2cbfa3574467": "$~Webbläsarens framåtknapp fungerar nu i <guiden@https://wordplay.dev/guide>. När du öppnar en länk till en av sidorna visas inte längre först en annan sida.",
+        "ed96f186e4b18": "$~Vi har gjort koden lättare att läsa: \\?\\, \\??\\ och \\???\\ har nu samma färg, en typ som tar emot vad som helst visas som \\◌\\, och en intervalltyp visas som \\‥\\ i stället för en orange etikett.",
+        "ea6d52130d864": "$~Platshållare i koden i <guiden@https://wordplay.dev/guide> visar nu sin typ liten och grå, och bara när inget annat säger vad som ska stå där."
     }
 }

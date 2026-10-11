@@ -1050,6 +1050,8 @@
         "e92691ec133cd": "$~Giờ đây chúng tôi cảnh báo về địa chỉ email được viết trong tài liệu và văn bản định dạng, giống như chúng tôi đã làm với văn bản.",
         "e68be06131b48": "$~Các liên kết đến sổ tay hướng dẫn nằm ngay sau một tiền tố tiếng Do Thái như ב- hoặc sau một dấu chấm giờ đây mở sổ tay hướng dẫn, thay vì trở thành liên kết email.",
         "eea7bd4500f37": "$~Mỗi trang của <Sổ tay hướng dẫn@https://wordplay.dev/guide> đều có địa chỉ riêng, và các tab cùng đường dẫn điều hướng giờ cho biết trang bạn đang đọc nằm ở đâu.",
-        "e2cbfa3574467": "$~Nút Tiến của trình duyệt giờ đã hoạt động trong <Sổ tay hướng dẫn@https://wordplay.dev/guide>, và khi mở một liên kết đến một trang của sổ tay, bạn không còn thấy một trang khác hiện ra trước nữa."
+        "e2cbfa3574467": "$~Nút Tiến của trình duyệt giờ đã hoạt động trong <Sổ tay hướng dẫn@https://wordplay.dev/guide>, và khi mở một liên kết đến một trang của sổ tay, bạn không còn thấy một trang khác hiện ra trước nữa.",
+        "ed96f186e4b18": "$~Chúng tôi đã làm cho mã số dễ đọc hơn: \\?\\, \\??\\ và \\???\\ giờ có chung một màu, một kiểu nhận mọi thứ được hiện là \\◌\\, và một kiểu phạm vi được hiện là \\‥\\ thay vì một nhãn màu cam.",
+        "ea6d52130d864": "$~Các chỗ giữ chỗ trong mã số ở <Sổ tay hướng dẫn@https://wordplay.dev/guide> giờ hiện kiểu của chúng nhỏ và màu xám, và chỉ khi không có gì khác cho biết thứ gì thuộc về đó."
     }
 }

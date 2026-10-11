@@ -87,6 +87,7 @@ export default class Select extends Expression {
                 name: 'table',
                 kind: node(Expression),
                 label: () => (l) => getConceptName(l, 'table'),
+                getType: () => TableType.make(),
             },
             {
                 name: 'row',
@@ -98,6 +99,7 @@ export default class Select extends Expression {
                 name: 'query',
                 kind: node(Expression),
                 label: () => (l) => l.glossary.query.word,
+                getType: () => BooleanType.make(),
                 space: true,
             },
         ];

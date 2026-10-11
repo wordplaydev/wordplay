@@ -14,6 +14,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - 🧭 Every page of the [Guide](https://wordplay.dev/guide) has its own address, and its tabs and breadcrumbs now show where the page you're reading belongs.
+- 🎨 We made code easier to read: `?`, `??`, and `???` now share a color, a type that takes anything shows as `◌`, and a range type shows as `‥` instead of an orange label.
+- 🎨 Placeholders in code in the [Guide](https://wordplay.dev/guide) now show their type small and grey, and only when nothing else says what belongs there.
 
 ### Fixed
 

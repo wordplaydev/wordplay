@@ -88,7 +88,7 @@ test.each([
         `1**`,
         (node) => node instanceof NumberLiteral,
         Replace,
-        '1 ÷ _•#',
+        '1 ÷ _',
     ],
     [
         'complete property reference',

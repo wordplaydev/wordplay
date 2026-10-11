@@ -1050,6 +1050,8 @@
         "e92691ec133cd": "$~Teraz ostrzegamy też o adresach e-mail zapisanych w dokumentacji i w tekście z formatowaniem, tak jak już robiliśmy w tekście.",
         "e68be06131b48": "$~Linki do przewodnika, które występują zaraz po hebrajskim przedrostku, takim jak ב-, lub po kropce, otwierają teraz przewodnik, zamiast stawać się linkami e-mail.",
         "eea7bd4500f37": "$~Każda strona w <Przewodniku@https://wordplay.dev/guide> ma teraz własny adres, a jej karty i ścieżka nawigacji pokazują, gdzie należy strona, którą czytasz.",
-        "e2cbfa3574467": "$~Przycisk „Dalej” w przeglądarce działa teraz w <Przewodniku@https://wordplay.dev/guide>, a otwarcie linku do jednej z jego stron nie pokazuje już najpierw innej strony."
+        "e2cbfa3574467": "$~Przycisk „Dalej” w przeglądarce działa teraz w <Przewodniku@https://wordplay.dev/guide>, a otwarcie linku do jednej z jego stron nie pokazuje już najpierw innej strony.",
+        "ed96f186e4b18": "$~Uczyniliśmy kod łatwiejszym do czytania: \\?\\, \\??\\ i \\???\\ mają teraz wspólny kolor, typ, który przyjmuje wszystko, jest pokazywany jako \\◌\\, a typ zakresu jest pokazywany jako \\‥\\ zamiast pomarańczowej etykiety.",
+        "ea6d52130d864": "$~Miejsca zastępcze w kodzie w <Przewodniku@https://wordplay.dev/guide> pokazują teraz swój typ małą, szarą czcionką i tylko wtedy, gdy nic innego nie mówi, co tam pasuje."
     }
 }

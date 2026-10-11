@@ -82,6 +82,8 @@ export default class Localized extends SimpleExpression {
                 name: 'expression',
                 kind: node(Expression),
                 label: () => (l) => l.node.Localized.label.value,
+                getType: () =>
+                    UnionType.make(TextType.make(), FormattedType.make()),
             },
             { name: 'language', kind: node(Language), label: undefined },
         ];

@@ -68,6 +68,7 @@ export default class Delete extends Expression {
                 name: 'table',
                 kind: node(Expression),
                 label: () => (l) => getConceptName(l, 'table'),
+                getType: () => TableType.make(),
             },
             {
                 name: 'del',

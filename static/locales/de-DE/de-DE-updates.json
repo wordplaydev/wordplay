@@ -1050,6 +1050,8 @@
         "e92691ec133cd": "$~Wir warnen jetzt auch vor E-Mail-Adressen in der Dokumentation und in formatiertem Text, so wie wir es schon bei Text getan haben.",
         "e68be06131b48": "$~Links zum Leitfaden, die direkt nach einem hebräischen Präfix wie ב- oder nach einem Punkt stehen, öffnen jetzt den Leitfaden. Vorher wurden sie zu E-Mail-Links.",
         "eea7bd4500f37": "$~Jede Seite des <Leitfadens@https://wordplay.dev/guide> hat jetzt eine eigene Adresse. Die Tabs und die Brotkrumen-Navigation zeigen jetzt, wohin die Seite gehört, die du gerade liest.",
-        "e2cbfa3574467": "$~Die Vorwärts-Schaltfläche des Browsers funktioniert jetzt im <Leitfaden@https://wordplay.dev/guide>. Wenn du einen Link zu einer seiner Seiten öffnest, siehst du nicht mehr zuerst eine andere Seite."
+        "e2cbfa3574467": "$~Die Vorwärts-Schaltfläche des Browsers funktioniert jetzt im <Leitfaden@https://wordplay.dev/guide>. Wenn du einen Link zu einer seiner Seiten öffnest, siehst du nicht mehr zuerst eine andere Seite.",
+        "ed96f186e4b18": "$~Wir haben Code leichter lesbar gemacht: \\?\\, \\??\\ und \\???\\ haben jetzt dieselbe Farbe, ein Typ, der alles annimmt, wird als \\◌\\ angezeigt, und ein Bereichstyp wird als \\‥\\ statt als orangefarbenes Label angezeigt.",
+        "ea6d52130d864": "$~Platzhalter im Code im <Leitfaden@https://wordplay.dev/guide> zeigen ihren Typ jetzt klein und grau an, und zwar nur dann, wenn nichts anderes sagt, was dort hingehört."
     }
 }

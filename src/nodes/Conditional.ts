@@ -54,7 +54,8 @@ export default class Conditional extends Expression {
     static make(condition: Expression, yes: Expression, no: Expression) {
         return new Conditional(
             condition,
-            new Token(QUESTION_SYMBOL, Sym.BooleanType),
+            // Typed as the tokenizer types `?`, so a made conditional renders like a parsed one.
+            new Token(QUESTION_SYMBOL, [Sym.BooleanType, Sym.Conditional]),
             yes,
             no,
         );

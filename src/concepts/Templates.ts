@@ -128,14 +128,11 @@ const Templates: Node[] = [
     // Inputs
     Reaction.make(
         ExpressionPlaceholder.make(),
-        ExpressionPlaceholder.make(BooleanType.make()),
+        ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make(),
     ),
-    Changed.make(ExpressionPlaceholder.make(StreamType.make())),
-    Previous.make(
-        ExpressionPlaceholder.make(StreamType.make()),
-        NumberLiteral.make(1),
-    ),
+    Changed.make(ExpressionPlaceholder.make()),
+    Previous.make(ExpressionPlaceholder.make(), NumberLiteral.make(1)),
 
     // Bind
     Bind.make(
@@ -175,7 +172,7 @@ const Templates: Node[] = [
 
     // Decisions
     Conditional.make(
-        ExpressionPlaceholder.make(BooleanType.make()),
+        ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make(),
     ),
@@ -202,10 +199,7 @@ const Templates: Node[] = [
 
     // Lists
     ListLiteral.make(),
-    ListAccess.make(
-        ExpressionPlaceholder.make(ListType.make()),
-        ExpressionPlaceholder.make(),
-    ),
+    ListAccess.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
     Spread.make(ExpressionPlaceholder.make()),
 
     // Sets
@@ -219,33 +213,21 @@ const Templates: Node[] = [
     FormattedTranslation.make([]),
     Language.make('en'),
     IsLocale.make(Language.make('en')),
-    Localized.make(
-        ExpressionPlaceholder.make(TextType.make()),
-        Language.make('en'),
-    ),
+    Localized.make(ExpressionPlaceholder.make(), Language.make('en')),
 
     // Sets and Maps
     KeyValue.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
     SetOrMapAccess.make(
-        ExpressionPlaceholder.make(SetType.make()),
+        ExpressionPlaceholder.make(),
         ExpressionPlaceholder.make(),
     ),
 
     // Tables
     TableLiteral.make(),
-    Insert.make(ExpressionPlaceholder.make(TableType.make())),
-    Select.make(
-        ExpressionPlaceholder.make(TableType.make()),
-        ExpressionPlaceholder.make(BooleanType.make()),
-    ),
-    Update.make(
-        ExpressionPlaceholder.make(TableType.make()),
-        ExpressionPlaceholder.make(BooleanType.make()),
-    ),
-    Delete.make(
-        ExpressionPlaceholder.make(TableType.make()),
-        ExpressionPlaceholder.make(BooleanType.make()),
-    ),
+    Insert.make(ExpressionPlaceholder.make()),
+    Select.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
+    Update.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
+    Delete.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
 
     // Documentation
     Doc.make([new Paragraph([Words.make()])]),

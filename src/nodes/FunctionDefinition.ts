@@ -56,7 +56,6 @@ import type TypeSet from '#nodes/TypeSet.ts';
 import TypeToken from '#nodes/TypeToken.ts';
 import TypeVariables from '#nodes/TypeVariables.ts';
 import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
-import Unit from '#nodes/Unit.ts';
 import {
     getEvaluationInputConflicts,
     getMisplacedShareConflicts,
@@ -205,21 +204,6 @@ export default class FunctionDefinition extends DefinitionExpression {
                 ? structureType
                 : ExpressionPlaceholder.make(structureType?.clone());
 
-        // The first number type input with a unit deriver, if there is one.
-        const unitDeriver =
-            this.inputs.length > 0
-                ? this.inputs[0]
-                      ?.getType(context)
-                      .getPossibleTypes(context)
-                      .find(
-                          (t): t is NumberType =>
-                              t instanceof NumberType &&
-                              t.unit instanceof Function,
-                      )?.unit
-                : undefined;
-
-        const unitStructure = structure.getType(context);
-
         return this.isOperator() && this.inputs.length === 0
             ? new UnaryEvaluate(
                   new Reference(
@@ -248,19 +232,8 @@ export default class FunctionDefinition extends DefinitionExpression {
                                 Sym.Operator,
                             ),
                         ),
-                        ExpressionPlaceholder.make(
-                            unitDeriver instanceof Function &&
-                                unitStructure instanceof NumberType &&
-                                unitStructure.unit instanceof Unit
-                                ? NumberType.make(
-                                      unitDeriver(
-                                          unitStructure.unit,
-                                          undefined,
-                                          undefined,
-                                      ),
-                                  )
-                                : this.inputs[0]?.getType(context)?.clone(),
-                        ),
+                        // The operator's input decides the right's type, so it isn't annotated.
+                        ExpressionPlaceholder.make(),
                     )
               : Evaluate.make(
                     fun,

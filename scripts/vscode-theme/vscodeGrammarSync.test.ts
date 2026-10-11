@@ -61,6 +61,7 @@ const SymsWithoutGrammarRules = new Map<SymType, string>([
         Sym.Conditional,
         'a secondary type of `?`, whose first type is BooleanType',
     ],
+    [Sym.Range, 'a secondary type of `‥`, whose first type is Operator'],
     // Ambient text inside a doc or a formatted literal, colored by the span it
     // sits in rather than by a rule of its own.
     [Sym.Words, 'markup words, colored by their enclosing doc or literal'],
