@@ -182,13 +182,27 @@ export function getOutputConcepts(
     locales: Locales,
     context: Context,
 ): Concept[] {
+    const types = context.project.shares.output;
+    // These are what input streams report — a collision, a beat, what the camera sees —
+    // so they're documented beside the streams, though they're defined with the output types.
+    const reported = [
+        types.Rebound,
+        types.Direction,
+        types.Downbeat,
+        types.Part,
+        types.Gesture,
+        types.Thing,
+        types.Expression,
+    ];
     return [
-        ...Object.values(context.project.shares.output).map((def) =>
+        ...Object.values(types).map((def) =>
             getStructureOrFunctionConcept(
                 def,
-                def === context.project.shares.output.Output
+                def === types.Output
                     ? Purpose.Hidden
-                    : Purpose.Outputs,
+                    : reported.includes(def)
+                      ? Purpose.Inputs
+                      : Purpose.Outputs,
                 undefined,
                 locales,
                 context,

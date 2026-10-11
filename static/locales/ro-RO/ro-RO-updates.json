@@ -1034,6 +1034,20 @@
         "e8bf14728ecca": "$~Când nu ești conectat, fereastra cu starea salvării arată acum câte proiecte sunt salvate doar pe acest dispozitiv și cum le poți salva online. Înainte, fereastra era goală.",
         "e6bd8c62fd1ab": "$~Am adăugat anotimpuri, care colorează site-ul și umplu marginile lui cu vremea din locul unde te afli, ca ploaia de musoni, frunzele care cad sau fulgii de nea făcuți din propriile tale litere. Poți alege un anotimp sau le poți opri din setări. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
         "e32dce56949e2": "$~\\Fraza\\ are o nouă intrare \\poses\\ care dă fiecărei litere propria culoare, înclinare, mărime sau poziție, pe rând, dintr-o listă de \\Poză\\.",
-        "ed0c9f9a5fdd1": "$~Exemplele de cod din <Ghid@https://wordplay.dev/guide> nu mai încep cu o linie goală."
+        "ed0c9f9a5fdd1": "$~Exemplele de cod din <Ghid@https://wordplay.dev/guide> nu mai încep cu o linie goală.",
+        "eddbb25bb5d1a": "$~\\Etapă\\ are o intrare nouă \\effects\\ care așază peste tot ce se află pe ea aspecte de film, precum \\Blur\\, \\Grain\\, \\Wave\\, \\Damage\\ și \\Flicker\\, cu o instrucțiune nouă în <Ghid@https://wordplay.dev/guide>.",
+        "ea8214ba59642": "$~Un \\Etapă\\ cu propria animație \\resting\\ nu mai sare din locul în care îl arată camera în timpul animației.",
+        "e59d72bd1eef6": "$~Dacă te întorci dintr-o pagină din <Ghid@https://wordplay.dev/guide>, ajungi înapoi la lista din care ai deschis-o.",
+        "ebe9a238e4d65": "$~\\Mână()\\ și \\Față()\\ revin acum la valorile de început când mâna sau fața ta iese din fața camerei, în loc să rămână așa cum au fost ultima dată.",
+        "ef13048196226": "$~Am reparat cuvintele care se lipeau între ele în versiunile traduse ale exemplelor din galerie.",
+        "e46bb0eb17287": "$~\\🌎\\ verifică acum limbile alese de cititor, la fel în editor și în galerii, așa că \\🌎/en\\ este adevărat doar pentru cititorii care au ales engleza.",
+        "e31fe47f026f3": "$~\\replace\\ al unei liste mută acum un index de dincolo de capăt înapoi la început, la fel ca atunci când citești dintr-o listă.",
+        "e878b2c505fe9": "$~Când convertești un număr cu unitate într-o listă, unitatea se păstrează, deci \\3m → []\\ este \\[1m 2m 3m]\\.",
+        "ec882547e2a4b": "$~\\◆\\ devine acum fals după prima evaluare a unui program, în loc să rămână adevărat pentru totdeauna.",
+        "ea22aa3f3f5a0": "$~\\←←\\ dă acum toate valorile mai vechi ale unui flux când are mai puține decât ai cerut, în loc să dea doar pe cea mai nouă.",
+        "e571ab9ae452c": "$~Convertirea în text cu \\ø\\ a unui interval, a unei funcții, a unui model sau a unei valori care poate fi \\→ ''\\ funcționează acum, în loc să oprească programul.",
+        "e5ab9da833914": "$~Citirea lui \\Indicator().rotaţie\\ nu mai oprește programul.",
+        "e92691ec133cd": "$~Acum te avertizăm și despre adresele de e-mail scrise în documentare și în text formatat, așa cum făceam deja în text.",
+        "e68be06131b48": "$~Linkurile către ghid care apar imediat după un prefix ebraic precum ב- sau după un punct deschid acum ghidul, în loc să devină linkuri de e-mail."
     }
 }

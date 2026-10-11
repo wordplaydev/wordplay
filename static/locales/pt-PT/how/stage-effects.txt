@@ -1,0 +1,73 @@
+Fazer com que todo o palco pareça um filme antigo, televisão ou água
+
+Os filmes mudam o aspeto de uma cena inteira: uma recordação fica suave e brilhante, um noticiário antigo fica riscado e cinzento, uma televisão chia com estática e tudo o que está debaixo de água ondula e fica azul.
+Podemos fazer o mesmo se dermos a um @Stage uma lista de @Effect.
+
+Aqui está uma cena vista através da água.
+
+\
+Fase(
+	[Frase('🐠') Frase('🌿' local: Local(1m -1m))]
+	efeitos: [Onda(0.15m) Tingimento(Cor(55% 45 220°) 70%) Neblina(40% Cor(70% 30 200°))]
+)
+\
+
+ Cada efeito faz uma só coisa. @Wave faz ondular, @Tint cobre tudo com uma só cor e @Haze põe um nevoeiro à deriva por cima.
+Juntos parecem água. Os efeitos aplicam-se pela ordem em que estão listados, por isso um efeito mais tarde muda o resultado dos anteriores.
+
+Há dez para combinar: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker e @Vignette.
+Aqui está um filme antigo: @Grade tira a cor e depois @Damage, @Grain e @Flicker deixam-no gasto e instável.
+
+\
+Fase(
+	[Frase('THE END')]
+	efeitos: [Gradação(contraste: 130% saturação: 0%) Desgaste(70% 50%) Grão(25%) Tremulação(15% 2) Vinheta(60%)]
+)
+\
+
+ E aqui está uma televisão a perder o sinal.
+
+\
+Fase(
+	[Frase('channel 3')]
+	efeitos: [Linhas(40% velocidade: 1) Grão(50% tamanho: 2) Tremulação(20%)]
+)
+\
+
+ Para usar um aspeto vezes sem conta, crie uma função que devolva a sua lista de efeitos.
+As suas entradas tornam-se as definições do próprio aspeto. Este fica mais turvo quanto mais fundo se for.
+
+\
+ƒ underwater(depth•%) [
+	Onda(0.2m · depth)
+	Tingimento(Cor(55% 45 220°) depth)
+	Desfocagem(0.03m · depth)
+]
+
+Fase([Frase('🐠')] efeitos: underwater(80%))
+\
+
+ Um aspeto também pode mudar com o estado de um jogo.
+Aqui o palco fica desfocado e escurece nas extremidades quando o jogador só tem uma vida e volta a ficar nítido quando tem mais.
+
+\
+lives: 3 … ∆ Chave() … lives - 1
+
+Fase(
+	[Frase(lives → '')]
+	efeitos: lives < 2 ? [Desfocagem(0.05m) Vinheta(70% Cor(30% 80 30°))] []
+)
+\
+
+ Os efeitos cobrem o que está no palco, mas nunca o seu @Stage.overlay, por isso uma pontuação ou um botão continua fácil de ler.
+
+Abanar todo o palco, como num sismo, não é de todo um efeito: um @Stage pode mover-se como qualquer outra saída, por isso dê-lhe uma @Sequence.
+
+\
+Fase([Frase('🏠')] descansando: Sequência.agitar(0.5s contagem: 4x))
+\
+
+ Alguns efeitos movem-se depressa. Quando alguém pediu ao seu dispositivo para reduzir o movimento, todos os efeitos ficam parados.
+@Flicker nunca pisca mais depressa do que algumas vezes por segundo, por mais depressa que se peça, porque piscar muito depressa pode fazer mal às pessoas.
+
+track-game-state

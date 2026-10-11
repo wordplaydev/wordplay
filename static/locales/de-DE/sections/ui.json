@@ -1003,7 +1003,7 @@
                 },
                 "location": {
                     "header": "$~Standort",
-                    "explanation": "$~Methoden zur Bestimmung der Ausgabeposition auf der Bühne./"
+                    "explanation": "$~/Wege, um zu bestimmen, wo eine Ausgabe auf der Bühne ist./"
                 },
                 "reactions": {
                     "header": "$~Reaktionen",
@@ -1012,6 +1012,46 @@
                 "names": {
                     "header": "$~Namen",
                     "explanation": "$~/Namen für dieses Konzept./"
+                },
+                "effects": {
+                    "header": "$~Effekte",
+                    "explanation": "$~/Wege, um zu ändern, wie die ganze Bühne aussieht./"
+                },
+                "sound": {
+                    "header": "$~Laut",
+                    "explanation": "$~/Wege, um Musik und Sprache zu machen./"
+                },
+                "physics": {
+                    "header": "$~Physik",
+                    "explanation": "$~/Woraus eine Ausgabe besteht, wenn sie sich bewegt./"
+                },
+                "time": {
+                    "header": "$~Zeit",
+                    "explanation": "$~/Wege, um zu wissen, wie spät es ist, und Dinge dem Zufall zu überlassen./"
+                },
+                "audience": {
+                    "header": "$~Publikum",
+                    "explanation": "$~/Was dein Publikum drückt, anzeigt, auswählt und tippt./"
+                },
+                "motion": {
+                    "header": "$~Bewegung",
+                    "explanation": "$~/Wege, um eine Ausgabe zu bewegen und zu wissen, wann sie gegen etwas stößt./"
+                },
+                "listening": {
+                    "header": "$~Zuhören",
+                    "explanation": "$~/Was das Mikrofon hört und die Schläge der Musik, während sie spielt./"
+                },
+                "camera": {
+                    "header": "$~Kamera",
+                    "explanation": "$~/Was die Kamera sieht: Hände, Gesichter und Dinge./"
+                },
+                "scenes": {
+                    "header": "$~Szenen",
+                    "explanation": "$~/Wege, um eine Sache nach der anderen zu zeigen und zu wissen, wo du bist./"
+                },
+                "text": {
+                    "header": "$~Text",
+                    "explanation": "$~/Text aus dem Web und die Formen von Buchstaben./"
                 }
             },
             "how": {

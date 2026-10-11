@@ -1146,20 +1146,22 @@
         },
         "Stage": {
             "doc": [
-                "$~YO MUESTRO TU @Output AL PÚBLICO. HOLA. AQUÍ EL ESCENARIO. DIME QUÉ MOSTRAR Y YO LO MOSTRARÉ.",
-                "\\Escenario([Frase('cosassssss')])\\",
-                "SI QUIERES, DAME UN @Color DE FONDO Y YO ILUMINARÉ EL ESCENARIO SEGÚN ESO.",
-                "\\Escenario([Frase('cosaaaaas')] fondo: 🌈(75% 50 100°))\\",
-                "TAMBIÉN PUEDES DARME UN BORDE DE MARCO Y YO RECORTARÉ.",
-                "\\Escenario(\n\t[Frase('cosaaaaas')]\n\tfondo: 🌈(75% 50 100°)\n\tmarco: Rectángulo(-1m -1m 1m 1m)\n)\\"
+                "$~MUESTRO TU @Output AL PÚBLICO. HOLA. SOY EL ESCENARIO. DIME QUÉ MOSTRAR Y LO MOSTRARÉ.",
+                "\\Escenario([Frase('cosasssssss')])\\",
+                "SI QUIERES, DAME UN @Color DE FONDO Y ILUMINARÉ EL ESCENARIO DE ACUERDO CON ÉL.",
+                "\\Escenario([Frase('cosasssssss')] fondo: Color(75% 50 100°))\\",
+                "TAMBIÉN PUEDES DARME UN BORDE DE MARCO Y RECORTARÉ.",
+                "\\Escenario(\n\t[Frase('cosasssssss')]\n\tfondo: Color(75% 50 100°)\n\tmarco: Rectángulo(-1m -1m 1m 1m)\n)\\",
+                "Y SI QUIERES DRAMA, DAME @Effect Y CAMBIARÉ CÓMO SE VE TODO. ¡BAJO EL AGUA! ¡PELÍCULA ANTIGUA! ¡ESTÁTICA! ME ENCANTA.",
+                "\\Escenario(\n\t[Frase('🐟 glu glu')]\n\tefectos: [Onda() Tinte(Color(55% 45 220°))]\n)\\"
             ],
             "names": ["Escenario"],
             "content": {
-                "doc": "La lista de @Output para mostrar en el escenario.",
+                "doc": "$~LA LISTA DE @Output QUE VOY A MOSTRAR. ESTE ES EL ESPECTÁCULO. YO LO MUESTRO.",
                 "names": "contenido"
             },
             "frame": {
-                "doc": "La forma y tamaño del marco para colocar alrededor del escenario, ocultando todo lo que está fuera de él.",
+                "doc": "$~LA FORMA Y EL TAMAÑO DEL MARCO QUE ME RODEA. LO QUE QUEDE FUERA, LO OCULTO.",
                 "names": "marco"
             },
             "size": {
@@ -1180,7 +1182,7 @@
             },
             "description": {
                 "doc": [
-                    "$~Una descripción para las personas del público que no pueden ver la salida visual."
+                    "$~UNA DESCRIPCIÓN DEL ESPECTÁCULO PARA QUIENES DEL PÚBLICO NO PUEDEN VERLO. ¡DILES LO QUE SE ESTÁN PERDIENDO!"
                 ],
                 "names": "$~descripción"
             },
@@ -1245,17 +1247,21 @@
                 "names": "estilo"
             },
             "gravity": {
-                "doc": "$~La gravedad que se aplica a la salida cuyo lugar está en @Motion.",
+                "doc": "$~QUÉ TAN FUERTE JALO HACIA ABAJO LAS SALIDAS CUYA POSICIÓN ESTÁ EN @Motion. TODO CAE EN ALGÚN MOMENTO.",
                 "names": "gravedad"
             },
-            "defaultDescription": "$~escenario $name[$name |]de $#count[$#count salida|$count salidas|$count salidas]$frame[con marco $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~escenario $name[$name |]de $#count[$#count salida|$count salidas|$count salidas]$frame[con cuadro $frame|] $pose $color[$color|]$effects[ con $effects|]",
             "overlay": {
-                "doc": "$~Una lista de @Output fijados planos a la pantalla como una pantalla de información, sin verse afectados por la cámara ni la profundidad de @Place del escenario.",
+                "doc": "$~UNA LISTA DE @Output QUE FIJO PLANA EN LA PANTALLA, COMO UN MARCADOR. MI CÁMARA @Place Y MI @Effect NUNCA LA TOCAN.",
                 "names": "$~superponer"
             },
             "air": {
-                "doc": "$~Qué tanto frena el aire a la salida en movimiento. 1 es aire normal, 0 es el espacio exterior, donde las cosas siguen moviéndose para siempre, y los números más grandes son más espesos que el aire.",
+                "doc": "$~QUÉ TANTO MI AIRE FRENA LAS SALIDAS EN MOVIMIENTO. \\1\\ ES AIRE NORMAL, \\0\\ ES EL ESPACIO EXTERIOR, DONDE LAS COSAS SIGUEN PARA SIEMPRE, Y LOS NÚMEROS MÁS GRANDES SON MÁS ESPESOS QUE EL AIRE. COMO SOPA.",
                 "names": "$~aire"
+            },
+            "effects": {
+                "doc": "$~UNA LISTA DE @Effect PARA PONER SOBRE TODO LO QUE HAY EN MÍ, COMO @Blur, @Grain O @Wave, EN ORDEN. \\ø\\ O UNA LISTA VACÍA SIGNIFICA QUE ME VEO COMO YO MISMO.",
+                "names": "$~efectos"
             }
         },
         "Easing": {
@@ -2039,6 +2045,187 @@
                 "names": "$~estilo"
             },
             "defaultDescription": "$~$description, una imagen de $columns por $rows"
+        },
+        "Effect": {
+            "doc": [
+                "$~Soy un efecto abstracto, que se pone sobre todo el @Stage para cambiar cómo se ve todo lo que hay en él. Nunca me crean directamente; mejor creen uno de los efectos que son yo, como @Blur, @Grain o @Wave, y denle una lista de ellos a la @property @Stage.effects de un escenario.",
+                "Los efectos se aplican en el orden de la lista, así que un @Blur después de un @Grain también difumina el grano. Cubren el contenido del escenario, pero nunca su @Stage.overlay, así que un marcador o un botón se queda nítido.",
+                "\\Escenario(\n\t[Frase('🐟')]\n\tefectos: [Tinte(Color(60% 40 220°)) Onda()]\n)\\"
+            ],
+            "names": ["$~Efecto"]
+        },
+        "Blur": {
+            "doc": [
+                "$~Suavizo todo lo que hay en @Stage, como si la cámara estuviera desenfocada. Un poco de mí es un sueño o un recuerdo; mucho de mí es despertar, o perder los lentes.",
+                "\\Escenario(\n\t[Frase('🤓 ¿dónde están mis lentes?')]\n\tefectos: [Desenfoque(0.05m)]\n)\\"
+            ],
+            "names": ["$~Desenfoque"],
+            "amount": {
+                "doc": "$~Qué tanto extiendo cada punto de luz. \\0m\\ es perfectamente nítido.",
+                "names": "$~cantidad"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~Cambio el brillo, el contraste, la saturación y el tono de todo lo que hay en @Stage, como se ajustan los colores de una película para crear su ambiente. Quita toda la saturación y sube el contraste, y tendrás un cine negro en blanco y negro.",
+                "\\Escenario(\n\t[Frase('🕵 el detective esperó')]\n\tefectos: [Ajuste(saturación: 0% contraste: 150%)]\n)\\"
+            ],
+            "names": ["$~Ajuste"],
+            "brightness": {
+                "doc": "$~Qué tan brillante hacer el escenario. \\100%\\ no cambia nada, \\0%\\ es negro, y más de \\100%\\ es más brillante.",
+                "names": "$~brillo"
+            },
+            "contrast": {
+                "doc": "$~Qué tanto separar la luz de la oscuridad. \\100%\\ no cambia nada, menos es más plano y más gris, y más es más marcado.",
+                "names": "$~contraste"
+            },
+            "saturation": {
+                "doc": "$~Qué tan vivos son los colores. \\100%\\ no cambia nada, \\0%\\ es blanco y negro, y más de \\100%\\ es extra vivo.",
+                "names": "$~saturación"
+            },
+            "hue": {
+                "doc": "$~Qué tanto girar cada color alrededor de la rueda de colores. \\0°\\ no cambia nada, y \\180°\\ convierte cada color en su opuesto.",
+                "names": "$~tono"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~Baño todo lo que hay en @Stage con un solo @Color, conservando su luz y su sombra para que el texto se lea igual de bien. El verde azulado hace que una escena parezca bajo el agua, el café la vuelve una foto antigua, y el verde la convierte en visión nocturna.",
+                "\\Escenario(\n\t[Frase('🏰 hace mucho tiempo')]\n\tefectos: [Tinte(Color(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~Tinte"],
+            "color": {
+                "doc": "$~El @Color con el que se baña el escenario.",
+                "names": "$~color"
+            },
+            "amount": {
+                "doc": "$~Qué tan fuerte bañarlo. \\0%\\ es nada, y \\100%\\ deja solo los tonos de mi color.",
+                "names": "$~cantidad"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~Cubro el @Stage con niebla, que avanza despacio sobre él. Soy para las mañanas, el humo, el vapor y todo lo que está lejos.",
+                "\\Escenario([Frase('🌲🌲 el páramo 🌲')] efectos: [Neblina(60%)])\\"
+            ],
+            "names": ["$~Neblina"],
+            "amount": {
+                "doc": "$~Qué tan espesa soy. \\0%\\ es aire limpio, y \\100%\\ es tan espesa que casi no se ve.",
+                "names": "$~cantidad"
+            },
+            "color": {
+                "doc": "$~El @Color de la bruma. Si \\ø\\, soy blanca, como la niebla; prueba el gris para el humo o el naranja para el polvo.",
+                "names": "$~color"
+            },
+            "speed": {
+                "doc": "$~Qué tan rápido avanzo. \\0\\ me deja quieta, y los números más grandes avanzan más rápido.",
+                "names": "$~velocidad"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~Salpico el @Stage con ruido que cambia a cada momento. Un poco de mí es el grano de una película real; mucho de mí, con motas grandes, es una televisión sin señal.",
+                "Cuando soy fuerte, resulto muy movido de ver, así que se me marcará como un posible patrón para las personas que son sensibles a ellos.",
+                "\\Escenario(\n\t[Frase('📺 sin señal')]\n\tefectos: [Grano(90% tamaño: 3)]\n)\\"
+            ],
+            "names": ["$~Grano"],
+            "amount": {
+                "doc": "$~Qué tan fuertes son las motas. \\0%\\ es ninguna, y \\100%\\ esconde todo lo que hay debajo de mí.",
+                "names": "$~cantidad"
+            },
+            "size": {
+                "doc": "$~Qué tan grande es cada mota. \\1\\ es tan fina como lo permite la pantalla.",
+                "names": "$~tamaño"
+            },
+            "color": {
+                "doc": "$~Si mis motas tienen color. Si \\⊥\\, son grises.",
+                "names": "$~color"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~Dibujo las delgadas líneas oscuras de la pantalla de una televisión antigua sobre el @Stage. Dame una /velocidad/ y ruedo, como una tele que no está bien sintonizada.",
+                "\\Escenario(\n\t[Frase('📺 canal 3')]\n\tefectos: [Líneas(40% velocidad: 1)]\n)\\"
+            ],
+            "names": ["$~Líneas"],
+            "amount": {
+                "doc": "$~Qué tan oscuras son mis líneas. \\0%\\ es invisible y \\100%\\ es negro.",
+                "names": "$~cantidad"
+            },
+            "spacing": {
+                "doc": "$~Qué tan separadas están mis líneas.",
+                "names": "$~espaciado"
+            },
+            "speed": {
+                "doc": "$~Cuántas líneas bajo cada segundo. \\0\\ me deja quieta y una velocidad negativa me hace subir.",
+                "names": "$~velocidad"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Hago ondular la salida en @Stage, como si la vieras a través del agua o del aire caliente que sube.",
+                "Doblo la salida misma, debajo de cualquier otro efecto, así que un @Grain que esté antes que yo no se ondula.",
+                "\\Escenario([Frase('🐟 glu glu')] efectos: [Onda(0.2m)])\\"
+            ],
+            "names": ["$~Onda"],
+            "amount": {
+                "doc": "$~Qué tanto saco la salida de su lugar. \\0m\\ significa que no hay ondulación.",
+                "names": "$~cantidad"
+            },
+            "scale": {
+                "doc": "$~Qué tan separadas están mis ondas. Si es pequeño, es un brillo fino; si es grande, es una marea lenta.",
+                "names": "$~escala"
+            },
+            "speed": {
+                "doc": "$~Qué tan rápido se mueven mis ondas. \\0\\ las deja quietas.",
+                "names": "$~velocidad"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Esparzo los rayones y el polvo de una película vieja y gastada sobre @Stage, distintos en cada cuadro. Ponme junto a un @Grade que quite el color y un @Flicker, y tu escena parecerá de hace cien años.",
+                "\\Escenario(\n\t[Frase('🎩 FIN')]\n\tefectos: [Ajuste(saturación: 0%) Daño(80% 60%)]\n)\\"
+            ],
+            "names": ["$~Daño"],
+            "scratches": {
+                "doc": "$~Cuántos rayones recorren la película. \\0%\\ significa ninguno.",
+                "names": "$~rayones"
+            },
+            "dust": {
+                "doc": "$~Cuánto polvo hay en la película. \\0%\\ significa ninguno.",
+                "names": "$~polvo"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Hago que todo @Stage parpadee con tropiezos: se mantiene firme y luego se oscurece un momento, en tiempos desiguales, como el foco de un proyector o una lámpara a punto de apagarse.",
+                "La luz que destella puede lastimar a las personas, así que nunca tartamudeo más de unas pocas veces por segundo, sin importar qué tan rápido lo pidas.",
+                "\\Escenario([Frase('💡 las luces')] efectos: [Parpadeo(40% 2)])\\"
+            ],
+            "names": ["$~Parpadeo"],
+            "amount": {
+                "doc": "$~Qué tan oscura me pongo cuando me apago. \\0%\\ no atenúa nada.",
+                "names": "$~cantidad"
+            },
+            "rate": {
+                "doc": "$~Más o menos cuántas veces puedo tartamudear cada segundo. No iré más rápido que 2.5, para cuidar a las personas sensibles a los destellos.",
+                "names": "$~frecuencia"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~Oscurezco los bordes de @Stage y dejo despejado el centro, para llevar la mirada hacia el medio. Soy el borde de un lente viejo, un reflector o la visión de túnel.",
+                "\\Escenario([Frase('🔦 mira aquí')] efectos: [Viñeta(70%)])\\"
+            ],
+            "names": ["$~Viñeta"],
+            "amount": {
+                "doc": "$~Qué tan adentro llega la oscuridad. \\0%\\ significa ninguna y \\100%\\ se cierra muy apretado.",
+                "names": "$~cantidad"
+            },
+            "color": {
+                "doc": "$~El @Color al que se desvanecen los bordes. Si es \\ø\\, se desvanecen a negro.",
+                "names": "$~color"
+            }
         }
     }
 }

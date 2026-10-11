@@ -348,6 +348,11 @@
         return [guide, ...rest];
     });
 
+    /** Whether the URL has been synced since mount. Only that first sync replaces the
+     *  history entry: replacing whenever the URL was bare also replaced the default page,
+     *  whose URL is bare, so Back from a concept opened there skipped the list. */
+    let syncedURL = false;
+
     // When the concept path or (debounced) search query changes, navigate to the
     // corresponding URL so the guide is shareable and survives a refresh.
     $effect(() => {
@@ -383,9 +388,11 @@
             const newSearch: '' | `?${string}` = newParams.toString()
                 ? `?${newParams.toString()}`
                 : '';
+            const first = !syncedURL;
+            syncedURL = true;
             if (window.location.search !== newSearch) {
                 localeGoto(`/guide${newSearch}`, {
-                    replace: window.location.search === '',
+                    replace: first,
                     // Keep focus (and scroll) so syncing the URL while the creator
                     // is typing in the search field doesn't steal focus from it.
                     reset: false,

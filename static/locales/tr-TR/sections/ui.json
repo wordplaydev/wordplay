@@ -1023,7 +1023,7 @@
                 },
                 "location": {
                     "header": "$~Konum",
-                    "explanation": "$~/Çıktının sahnede hangi aşamada olduğunu belirleme yöntemleri./"
+                    "explanation": "$~/Çıktının sahnede nerede olduğunu belirleme yolları./"
                 },
                 "reactions": {
                     "header": "$~Tepkiler",
@@ -1032,6 +1032,46 @@
                 "names": {
                     "header": "$~İsimler",
                     "explanation": "$~/Bu kavram için isimler./"
+                },
+                "effects": {
+                    "header": "$~Efektler",
+                    "explanation": "$~/Tüm sahnenin nasıl göründüğünü değiştirme yolları./"
+                },
+                "sound": {
+                    "header": "$~Ses",
+                    "explanation": "$~/Müzik ve konuşma yapma yolları./"
+                },
+                "physics": {
+                    "header": "$~Fizik",
+                    "explanation": "$~/Çıktının neyden yapıldığı; hareket ederken işe yarar./"
+                },
+                "time": {
+                    "header": "$~Zaman",
+                    "explanation": "$~/Saatin kaç olduğunu bilme ve işleri şansa bırakma yolları./"
+                },
+                "audience": {
+                    "header": "$~İzleyici",
+                    "explanation": "$~/İzleyicinin bastığı, gösterdiği, seçtiği ve yazdığı şeyler./"
+                },
+                "motion": {
+                    "header": "$~Hareket",
+                    "explanation": "$~/Çıktıyı hareket ettirme ve bir şeye çarptığını anlama yolları./"
+                },
+                "listening": {
+                    "header": "$~Dinleme",
+                    "explanation": "$~/Mikrofonun duyduğu sesler ve müzik çalarken ritmin vuruşları./"
+                },
+                "camera": {
+                    "header": "$~Kamera",
+                    "explanation": "$~/Kameranın gördükleri: eller, yüzler ve nesneler./"
+                },
+                "scenes": {
+                    "header": "$~Sahneler",
+                    "explanation": "$~/Birbiri ardından bir şey gösterme ve nerede olduğunu bilme yolları./"
+                },
+                "text": {
+                    "header": "$~Metin",
+                    "explanation": "$~/Webden gelen metin ve harflerin şekilleri./"
                 }
             },
             "how": {

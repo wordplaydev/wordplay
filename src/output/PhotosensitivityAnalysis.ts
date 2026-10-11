@@ -71,6 +71,10 @@ export default function analyzeOutput(root: Output): Set<PhotosensitivityRisk> {
         const fullScreen = output instanceof Stage;
         for (const sequence of sequencesOf(output))
             analyzeSequence(sequence, fullScreen, risks);
+        // A stage's effects cover the whole screen, and each knows its own risks.
+        if (output instanceof Stage)
+            for (const effect of output.effects)
+                for (const risk of effect.getRisks()) risks.add(risk);
     }
 
     // Pattern: many colors spanning a wide luminance range. Since our contrast metric

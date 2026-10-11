@@ -1034,6 +1034,20 @@
         "e8bf14728ecca": "$~Khi bạn chưa đăng nhập, cửa sổ trạng thái lưu giờ đây cho biết có bao nhiêu dự án chỉ được lưu trên thiết bị này và cách lưu chúng lên mạng, thay vì để trống.",
         "e6bd8c62fd1ab": "$~Chúng tôi đã thêm các mùa. Các mùa tô màu cho trang web và làm viền trang đầy thời tiết nơi bạn sống, như mưa gió mùa, lá rơi, hay bông tuyết làm từ chính các chữ cái của bạn. Bạn có thể chọn một mùa hoặc tắt chúng trong phần cài đặt. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
         "e32dce56949e2": "$~\\Cụmtừ\\ có một đầu vào \\poses\\ mới giúp mỗi chữ cái có màu, độ nghiêng, kích thước hoặc vị trí riêng, lần lượt lấy từ một danh sách \\Tưthế\\.",
-        "ed0c9f9a5fdd1": "$~Các ví dụ mã số trong <Sổ tay hướng dẫn@https://wordplay.dev/guide> không còn bắt đầu bằng một dòng trống nữa."
+        "ed0c9f9a5fdd1": "$~Các ví dụ mã số trong <Sổ tay hướng dẫn@https://wordplay.dev/guide> không còn bắt đầu bằng một dòng trống nữa.",
+        "eddbb25bb5d1a": "$~\\Sânkhấu\\ có thêm đầu vào \\effects\\ mới, giúp phủ các hiệu ứng phim lên mọi thứ bên trong, như \\Blur\\, \\Grain\\, \\Wave\\, \\Damage\\ và \\Flicker\\, kèm một bài làm cách nào để mới trong <Sổ tay hướng dẫn@https://wordplay.dev/guide>.",
+        "ea8214ba59642": "$~Một \\Sânkhấu\\ có hoạt ảnh \\resting\\ riêng sẽ không còn nhảy ra khỏi vị trí mà máy quay hiển thị khi hoạt ảnh đang chạy.",
+        "e59d72bd1eef6": "$~Khi quay lại từ một trang trong <Sổ tay hướng dẫn@https://wordplay.dev/guide>, bạn sẽ trở về danh sách mà bạn đã mở trang đó từ đó.",
+        "ebe9a238e4d65": "$~\\Tay()\\ và \\KhuônMặt()\\ giờ đây trở về giá trị ban đầu khi tay hoặc khuôn mặt của bạn rời khỏi máy quay, thay vì giữ nguyên như lần cuối.",
+        "ef13048196226": "$~Chúng tôi đã sửa lỗi các từ dính liền nhau trong các bản dịch của ví dụ trong phòng trưng bày.",
+        "e46bb0eb17287": "$~\\🌎\\ giờ đây kiểm tra các ngôn ngữ mà người đọc đã chọn, theo cùng một cách trong trình soạn thảo và trong phòng trưng bày, nên \\🌎/en\\ chỉ đúng với những người đọc đã chọn tiếng Anh.",
+        "e31fe47f026f3": "$~\\replace\\ của một danh sách giờ đây quay chỉ mục vượt quá phần cuối trở về phần đầu, giống như cách đọc từ một danh sách.",
+        "e878b2c505fe9": "$~Khi chuyển một số có đơn vị thành danh sách, đơn vị được giữ lại, nên \\3m → []\\ là \\[1m 2m 3m]\\.",
+        "ec882547e2a4b": "$~\\◆\\ giờ đây trở thành sai sau lần chạy đầu tiên của chương trình, thay vì đúng mãi mãi.",
+        "ea22aa3f3f5a0": "$~\\←←\\ giờ đây trả về mọi giá trị trước đó của một luồng khi luồng có ít giá trị hơn số bạn yêu cầu, thay vì chỉ giá trị mới nhất.",
+        "e571ab9ae452c": "$~Chuyển một khoảng, một hàm, một mẫu, hoặc một giá trị có thể là \\ø\\ thành văn bản bằng \\→ ''\\ giờ đây hoạt động bình thường thay vì làm chương trình dừng lại.",
+        "e5ab9da833914": "$~Đọc \\Contrỏ().xoay\\ không còn làm chương trình dừng lại.",
+        "e92691ec133cd": "$~Giờ đây chúng tôi cảnh báo về địa chỉ email được viết trong tài liệu và văn bản định dạng, giống như chúng tôi đã làm với văn bản.",
+        "e68be06131b48": "$~Các liên kết đến sổ tay hướng dẫn nằm ngay sau một tiền tố tiếng Do Thái như ב- hoặc sau một dấu chấm giờ đây mở sổ tay hướng dẫn, thay vì trở thành liên kết email."
     }
 }

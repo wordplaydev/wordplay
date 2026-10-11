@@ -13668,6 +13668,26 @@
                             ],
                             "type": "object"
                         },
+                        "Blur": {
+                            "additionalProperties": false,
+                            "description": "An effect that softens everything beneath it",
+                            "properties": {
+                                "amount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How far the blur spreads"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                }
+                            },
+                            "required": ["amount", "doc", "names"],
+                            "type": "object"
+                        },
                         "Bubble": {
                             "additionalProperties": false,
                             "description": "A speech bubble showing what a phrase is saying or thinking",
@@ -13905,6 +13925,30 @@
                             ],
                             "type": "object"
                         },
+                        "Damage": {
+                            "additionalProperties": false,
+                            "description": "An effect that scatters the scratches and dust of old film",
+                            "properties": {
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "dust": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How much dust"
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "scratches": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How many scratches"
+                                }
+                            },
+                            "required": ["doc", "dust", "names", "scratches"],
+                            "type": "object"
+                        },
                         "Easing": {
                             "additionalProperties": false,
                             "description": "Localized descriptions of transition styles",
@@ -13933,6 +13977,10 @@
                                 "zippy"
                             ],
                             "type": "object"
+                        },
+                        "Effect": {
+                            "$ref": "#/definitions/NameAndDoc",
+                            "description": "The interface every effect laid over the whole stage implements"
                         },
                         "Expression": {
                             "additionalProperties": false,
@@ -14023,6 +14071,30 @@
                             ],
                             "type": "object"
                         },
+                        "Flicker": {
+                            "additionalProperties": false,
+                            "description": "An effect that dims and brightens the stage unevenly",
+                            "properties": {
+                                "amount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How much the stage dims"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "rate": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How many times a second it dims"
+                                }
+                            },
+                            "required": ["amount", "doc", "names", "rate"],
+                            "type": "object"
+                        },
                         "Form": {
                             "$ref": "#/definitions/NameAndDoc",
                             "description": "The base form type"
@@ -14108,6 +14180,79 @@
                                 "place",
                                 "ring",
                                 "thumb"
+                            ],
+                            "type": "object"
+                        },
+                        "Grade": {
+                            "additionalProperties": false,
+                            "description": "An effect that adjusts brightness, contrast, saturation, and hue, like a film's color grade",
+                            "properties": {
+                                "brightness": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How bright to make the stage"
+                                },
+                                "contrast": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How far apart to push light and dark"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "hue": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How far to turn every hue around the color wheel"
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "saturation": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How vivid to make colors"
+                                }
+                            },
+                            "required": [
+                                "brightness",
+                                "contrast",
+                                "doc",
+                                "hue",
+                                "names",
+                                "saturation"
+                            ],
+                            "type": "object"
+                        },
+                        "Grain": {
+                            "additionalProperties": false,
+                            "description": "An effect that speckles the stage with flickering noise",
+                            "properties": {
+                                "amount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How strong the noise is"
+                                },
+                                "color": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether the specks are colored"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "size": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How big each speck is"
+                                }
+                            },
+                            "required": [
+                                "amount",
+                                "color",
+                                "doc",
+                                "names",
+                                "size"
                             ],
                             "type": "object"
                         },
@@ -14296,6 +14441,40 @@
                                 "selectable",
                                 "size",
                                 "style"
+                            ],
+                            "type": "object"
+                        },
+                        "Haze": {
+                            "additionalProperties": false,
+                            "description": "An effect that veils the stage in drifting fog",
+                            "properties": {
+                                "amount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How thick the haze is"
+                                },
+                                "color": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The color of the haze"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "speed": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How fast the haze drifts"
+                                }
+                            },
+                            "required": [
+                                "amount",
+                                "color",
+                                "doc",
+                                "names",
+                                "speed"
                             ],
                             "type": "object"
                         },
@@ -15366,6 +15545,40 @@
                             ],
                             "type": "object"
                         },
+                        "Scanlines": {
+                            "additionalProperties": false,
+                            "description": "An effect that draws the lines of an old television screen",
+                            "properties": {
+                                "amount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How dark the lines are"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "spacing": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The distance between lines"
+                                },
+                                "speed": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How fast the lines roll"
+                                }
+                            },
+                            "required": [
+                                "amount",
+                                "doc",
+                                "names",
+                                "spacing",
+                                "speed"
+                            ],
+                            "type": "object"
+                        },
                         "Sequence": {
                             "additionalProperties": false,
                             "description": "A sequence of poses, keyed by percentage complete, for use in overriding an output's defaults for entering, resting, moving, or existing states",
@@ -16319,8 +16532,8 @@
                                     "description": "A list of content to show on stage"
                                 },
                                 "defaultDescription": {
-                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22name%22%2C%22frame%22%2C%22pose%22%2C%22color%22%5D%3E",
-                                    "description": "[formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name"
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%2C%22name%22%2C%22frame%22%2C%22pose%22%2C%22color%22%2C%22effects%22%5D%3E",
+                                    "description": "[formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name, $6: optional list of effects"
                                 },
                                 "description": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -16333,6 +16546,10 @@
                                 "duration": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "The curation of transition"
+                                },
+                                "effects": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "A list of effects laid over the whole stage, like grain or blur"
                                 },
                                 "entering": {
                                     "$ref": "#/definitions/NameAndDoc",
@@ -16424,6 +16641,7 @@
                                 "description",
                                 "doc",
                                 "duration",
+                                "effects",
                                 "entering",
                                 "exiting",
                                 "face",
@@ -16509,6 +16727,30 @@
                                 "place",
                                 "width"
                             ],
+                            "type": "object"
+                        },
+                        "Tint": {
+                            "additionalProperties": false,
+                            "description": "An effect that washes the stage in one color",
+                            "properties": {
+                                "amount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How strongly to wash it"
+                                },
+                                "color": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The color to wash the stage in"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                }
+                            },
+                            "required": ["amount", "color", "doc", "names"],
                             "type": "object"
                         },
                         "Track": {
@@ -16607,6 +16849,64 @@
                             },
                             "required": ["angle", "doc", "names", "x", "y"],
                             "type": "object"
+                        },
+                        "Vignette": {
+                            "additionalProperties": false,
+                            "description": "An effect that darkens the edges of the stage",
+                            "properties": {
+                                "amount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How far in the edges darken"
+                                },
+                                "color": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The color the edges fade to"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                }
+                            },
+                            "required": ["amount", "color", "doc", "names"],
+                            "type": "object"
+                        },
+                        "Wave": {
+                            "additionalProperties": false,
+                            "description": "An effect that ripples the output on stage",
+                            "properties": {
+                                "amount": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How far the ripples push output"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "scale": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How far apart the ripples are"
+                                },
+                                "speed": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How fast the ripples move"
+                                }
+                            },
+                            "required": [
+                                "amount",
+                                "doc",
+                                "names",
+                                "scale",
+                                "speed"
+                            ],
+                            "type": "object"
                         }
                     },
                     "required": [
@@ -16624,6 +16924,17 @@
                         "Note",
                         "Instrument",
                         "Form",
+                        "Effect",
+                        "Blur",
+                        "Grade",
+                        "Tint",
+                        "Haze",
+                        "Grain",
+                        "Scanlines",
+                        "Wave",
+                        "Damage",
+                        "Flicker",
+                        "Vignette",
                         "Rectangle",
                         "Circle",
                         "Path",
@@ -19405,9 +19716,21 @@
                                             "$ref": "#/definitions/HeaderAndExplanationText",
                                             "description": "Arrangements header"
                                         },
+                                        "audience": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Inputs from the audience's keyboard, mouse, and typing header"
+                                        },
+                                        "camera": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Inputs from the camera header"
+                                        },
                                         "conversions": {
                                             "$ref": "#/definitions/HeaderAndExplanationText",
                                             "description": "Conversions header"
+                                        },
+                                        "effects": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Stage effects header"
                                         },
                                         "forms": {
                                             "$ref": "#/definitions/HeaderAndExplanationText",
@@ -19425,13 +19748,25 @@
                                             "$ref": "#/definitions/HeaderAndExplanationText",
                                             "description": "Structue interfaces header"
                                         },
+                                        "listening": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Inputs from the microphone and music header"
+                                        },
                                         "location": {
                                             "$ref": "#/definitions/HeaderAndExplanationText",
                                             "description": "Location header"
                                         },
+                                        "motion": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Inputs about output moving and colliding header"
+                                        },
                                         "names": {
                                             "$ref": "#/definitions/HeaderAndExplanationText",
                                             "description": "Names header"
+                                        },
+                                        "physics": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Physics header"
                                         },
                                         "properties": {
                                             "$ref": "#/definitions/HeaderAndExplanationText",
@@ -19440,6 +19775,22 @@
                                         "reactions": {
                                             "$ref": "#/definitions/HeaderAndExplanationText",
                                             "description": "Reactions header"
+                                        },
+                                        "scenes": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Inputs that step through scenes header"
+                                        },
+                                        "sound": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Music and speech header"
+                                        },
+                                        "text": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Inputs that get text and letter shapes header"
+                                        },
+                                        "time": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "Inputs about time and chance header"
                                         }
                                     },
                                     "required": [
@@ -19453,7 +19804,17 @@
                                         "forms",
                                         "appearance",
                                         "animation",
+                                        "effects",
+                                        "sound",
                                         "location",
+                                        "physics",
+                                        "time",
+                                        "audience",
+                                        "motion",
+                                        "listening",
+                                        "camera",
+                                        "scenes",
+                                        "text",
                                         "reactions"
                                     ],
                                     "type": "object"
@@ -31864,7 +32225,7 @@
         "Template<[\"#count\",\"language\"]>": {
             "type": "string"
         },
-        "Template<[\"#count\",\"name\",\"frame\",\"pose\",\"color\"]>": {
+        "Template<[\"#count\",\"name\",\"frame\",\"pose\",\"color\",\"effects\"]>": {
             "type": "string"
         },
         "Template<[\"#count\",\"notes\"]>": {

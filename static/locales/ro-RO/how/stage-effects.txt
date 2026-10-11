@@ -1,0 +1,73 @@
+Fă întreaga scenă să arate ca un film vechi, o televiziune sau apa
+
+Filmele schimbă felul în care arată o scenă întreagă: o amintire devine blândă și luminoasă, un jurnal vechi este zgâriat și gri, o televiziune pâlpâie plină de zgomot, iar tot ce este sub apă se unduiește și devine albastru.
+Putem face la fel dacă îi dăm unui @Stage o listă de @Effect.
+
+Iată o scenă văzută prin apă.
+
+\
+Etapă(
+	[Fraza('🐠') Fraza('🌿' loc: Loc(1m -1m))]
+	efecte: [Val(0.15m) Colorare(Culoare(55% 45 220°) 70%) Ceață(40% Culoare(70% 30 200°))]
+)
+\
+
+ Fiecare efect face un singur lucru. @Wave unduiește, @Tint colorează totul într-o singură culoare, iar @Haze așază deasupra o ceață plutitoare.
+Împreună, arată ca apa. Efectele se aplică în ordinea din listă, așa că un efect de mai târziu schimbă rezultatul celor de dinainte.
+
+Poți combina zece efecte: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker și @Vignette.
+Iată un film vechi: @Grade scoate culoarea, apoi @Damage, @Grain și @Flicker îl fac uzat și nesigur.
+
+\
+Etapă(
+	[Fraza('THE END')]
+	efecte: [Ajustare(contrast: 130% saturație: 0%) Deteriorare(70% 50%) Granulație(25%) Pâlpâire(15% 2) Vinietă(60%)]
+)
+\
+
+ Și iată o televiziune care pierde semnalul.
+
+\
+Etapă(
+	[Fraza('channel 3')]
+	efecte: [LiniiDeEcran(40% viteză: 1) Granulație(50% mărime: 2) Pâlpâire(20%)]
+)
+\
+
+ Ca să folosești un aspect iar și iar, fă o funcție care returnează lista lui de efecte.
+Intrările ei devin setările aspectului. Acesta devine tot mai tulbure cu cât mergi mai adânc.
+
+\
+ƒ underwater(depth•%) [
+	Val(0.2m · depth)
+	Colorare(Culoare(55% 45 220°) depth)
+	Estompare(0.03m · depth)
+]
+
+Etapă([Fraza('🐠')] efecte: underwater(80%))
+\
+
+ Un aspect se poate schimba și după starea unui joc.
+Aici scena se încețoșează și se întunecă la margini când jucătorul mai are o singură viață, și se limpezește la loc când are mai multe.
+
+\
+lives: 3 … ∆ Cheie() … lives - 1
+
+Etapă(
+	[Fraza(lives → '')]
+	efecte: lives < 2 ? [Estompare(0.05m) Vinietă(70% Culoare(30% 80 30°))] []
+)
+\
+
+ Efectele acoperă ce este pe scenă, dar niciodată @Stage.overlay, așa că un scor sau un buton rămâne ușor de citit.
+
+Scuturarea întregii scene, ca la un cutremur, nu este deloc un efect: un @Stage se poate mișca la fel ca orice altă ieșire, așa că dă-i o @Sequence.
+
+\
+Etapă([Fraza('🏠')] odihnă: Secvenţă.scutura(0.5s conta: 4x))
+\
+
+ Unele efecte se mișcă repede. Când cineva a cerut dispozitivului să reducă mișcarea, toate efectele rămân nemișcate.
+@Flicker nu clipește niciodată mai repede de câteva ori pe secundă, oricât de repede ai cere, pentru că luminile care clipesc rapid pot face rău oamenilor.
+
+track-game-state

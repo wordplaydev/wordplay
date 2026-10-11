@@ -2,6 +2,17 @@ import { createSlateType } from '#input/Scene/Slate.ts';
 import { createSceneDefinition } from '#input/Scene/Scene.ts';
 import { createAuraType } from '#output/Aura/Aura.ts';
 import { createBubbleType } from '#output/Bubble/Bubble.ts';
+import { createEffectType } from '#output/Effect/Effect.ts';
+import { createBlurType } from '#output/Effect/Blur.ts';
+import { createGradeType } from '#output/Effect/Grade.ts';
+import { createTintType } from '#output/Effect/Tint.ts';
+import { createHazeType } from '#output/Effect/Haze.ts';
+import { createGrainType } from '#output/Effect/Grain.ts';
+import { createScanlinesType } from '#output/Effect/Scanlines.ts';
+import { createWaveType } from '#output/Effect/Wave.ts';
+import { createDamageType } from '#output/Effect/Damage.ts';
+import { createFlickerType } from '#output/Effect/Flicker.ts';
+import { createVignetteType } from '#output/Effect/Vignette.ts';
 import { createFormType } from '#output/Output/Shape/Form.ts';
 import { createRectangleType } from '#output/Output/Shape/Rectangle.ts';
 import { createCircleType } from '#output/Output/Shape/Circle.ts';
@@ -135,6 +146,17 @@ export default function createDefaultShares(locales: Locales) {
         Circle: createCircleType(locales),
         Polygon: createPolygonType(locales),
         Path: createPathType(locales),
+        Effect: createEffectType(locales),
+        Blur: createBlurType(locales),
+        Grade: createGradeType(locales),
+        Tint: createTintType(locales),
+        Haze: createHazeType(locales),
+        Grain: createGrainType(locales),
+        Scanlines: createScanlinesType(locales),
+        Wave: createWaveType(locales),
+        Damage: createDamageType(locales),
+        Flicker: createFlickerType(locales),
+        Vignette: createVignetteType(locales),
         Arrangement: createArrangementType(locales),
         Stack: createStackType(locales),
         Row: createRowType(locales),

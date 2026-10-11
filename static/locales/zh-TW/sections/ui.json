@@ -994,7 +994,7 @@
                 },
                 "location": {
                     "header": "$~位置",
-                    "explanation": "$~/決定輸出在舞台上位置的方法。/"
+                    "explanation": "$!/決定輸出在舞台上位置的方法。/"
                 },
                 "reactions": {
                     "header": "$~反應",
@@ -1003,6 +1003,46 @@
                 "names": {
                     "header": "$~姓名",
                     "explanation": "$~/這個概念的姓名。/"
+                },
+                "effects": {
+                    "header": "$~特效",
+                    "explanation": "$~/改變整個舞台外觀的方法。/"
+                },
+                "sound": {
+                    "header": "$~聲音",
+                    "explanation": "$~/製作音樂和語音的方法。/"
+                },
+                "physics": {
+                    "header": "$~物理",
+                    "explanation": "$~/輸出在移動時是由什麼組成的。/"
+                },
+                "time": {
+                    "header": "$~時間",
+                    "explanation": "$~/知道現在幾點，以及交給機率決定事情的方法。/"
+                },
+                "audience": {
+                    "header": "$~觀眾",
+                    "explanation": "$~/你的觀眾按下、指向、選擇和輸入的內容。/"
+                },
+                "motion": {
+                    "header": "$~動作",
+                    "explanation": "$~/移動輸出，以及知道它何時撞到東西的方法。/"
+                },
+                "listening": {
+                    "header": "$~聆聽",
+                    "explanation": "$~/麥克風聽到的聲音，以及音樂播放時的節拍。/"
+                },
+                "camera": {
+                    "header": "$~相機",
+                    "explanation": "$~/相機看到的東西：手、臉和物體。/"
+                },
+                "scenes": {
+                    "header": "$~場景",
+                    "explanation": "$~/一個接一個顯示內容，以及知道自己在哪裡的方法。/"
+                },
+                "text": {
+                    "header": "$~文字",
+                    "explanation": "$~/來自網路的文字，以及字母的形狀。/"
                 }
             },
             "how": {

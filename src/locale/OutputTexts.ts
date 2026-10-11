@@ -118,9 +118,9 @@ type OutputTexts = {
     } & TypeTexts;
     /** The whole stage view and settings to control its appearance */
     Stage: NameAndDoc & {
-        /** [formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name */
+        /** [formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name, $6: optional list of effects */
         defaultDescription: Template<
-            ['#count', 'name', 'frame', 'pose', 'color']
+            ['#count', 'name', 'frame', 'pose', 'color', 'effects']
         >;
         /** A list of content to show on stage */
         content: NameAndDoc;
@@ -133,6 +133,8 @@ type OutputTexts = {
             overlay: NameAndDoc;
             /** How much air resistance slows moving output down; 0 is space */
             air: NameAndDoc;
+            /** A list of effects laid over the whole stage, like grain or blur */
+            effects: NameAndDoc;
         };
     /** The base interface for shape types */
     Shape: NameAndDoc & {
@@ -394,6 +396,88 @@ type OutputTexts = {
     };
     /** The base form type */
     Form: NameAndDoc;
+    /** The interface every effect laid over the whole stage implements */
+    Effect: NameAndDoc;
+    /** An effect that softens everything beneath it */
+    Blur: NameAndDoc & {
+        /** How far the blur spreads */
+        amount: NameAndDoc;
+    };
+    /** An effect that adjusts brightness, contrast, saturation, and hue, like a film's color grade */
+    Grade: NameAndDoc & {
+        /** How bright to make the stage */
+        brightness: NameAndDoc;
+        /** How far apart to push light and dark */
+        contrast: NameAndDoc;
+        /** How vivid to make colors */
+        saturation: NameAndDoc;
+        /** How far to turn every hue around the color wheel */
+        hue: NameAndDoc;
+    };
+    /** An effect that washes the stage in one color */
+    Tint: NameAndDoc & {
+        /** The color to wash the stage in */
+        color: NameAndDoc;
+        /** How strongly to wash it */
+        amount: NameAndDoc;
+    };
+    /** An effect that veils the stage in drifting fog */
+    Haze: NameAndDoc & {
+        /** How thick the haze is */
+        amount: NameAndDoc;
+        /** The color of the haze */
+        color: NameAndDoc;
+        /** How fast the haze drifts */
+        speed: NameAndDoc;
+    };
+    /** An effect that speckles the stage with flickering noise */
+    Grain: NameAndDoc & {
+        /** How strong the noise is */
+        amount: NameAndDoc;
+        /** How big each speck is */
+        size: NameAndDoc;
+        /** Whether the specks are colored */
+        color: NameAndDoc;
+    };
+    /** An effect that draws the lines of an old television screen */
+    Scanlines: NameAndDoc & {
+        /** How dark the lines are */
+        amount: NameAndDoc;
+        /** The distance between lines */
+        spacing: NameAndDoc;
+        /** How fast the lines roll */
+        speed: NameAndDoc;
+    };
+    /** An effect that ripples the output on stage */
+    Wave: NameAndDoc & {
+        /** How far the ripples push output */
+        amount: NameAndDoc;
+        /** How far apart the ripples are */
+        scale: NameAndDoc;
+        /** How fast the ripples move */
+        speed: NameAndDoc;
+    };
+    /** An effect that scatters the scratches and dust of old film */
+    Damage: NameAndDoc & {
+        /** How many scratches */
+        scratches: NameAndDoc;
+        /** How much dust */
+        dust: NameAndDoc;
+    };
+    /** An effect that dims and brightens the stage unevenly */
+    Flicker: NameAndDoc & {
+        /** How much the stage dims */
+        amount: NameAndDoc;
+        /** How many times a second it dims */
+        rate: NameAndDoc;
+    };
+    /** An effect that darkens the edges of the stage */
+    Vignette: NameAndDoc & {
+        /** How far in the edges darken */
+        amount: NameAndDoc;
+        /** The color the edges fade to */
+        color: NameAndDoc;
+    };
     /** A rectangle form */
     Rectangle: NameAndDoc & {
         /** Left of the rectangle */

@@ -1034,6 +1034,20 @@
         "e8bf14728ecca": "$~Gdy nie jesteś zalogowany, okno stanu zapisu pokazuje teraz, ile projektów jest zapisanych tylko na tym urządzeniu i jak zapisać je online. Wcześniej było puste.",
         "e6bd8c62fd1ab": "$~Dodaliśmy pory roku. Nadają one kolor stronie i wypełniają jej brzegi pogodą z miejsca, w którym jesteś, na przykład deszczem monsunowym, spadającymi liśćmi albo płatkami śniegu zrobionymi z twoich własnych liter. W ustawieniach możesz wybrać porę roku albo ją wyłączyć. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
         "e32dce56949e2": "$~\\Wyrażenie\\ ma nowe wejście \\poses\\, które nadaje każdej literze własny kolor, nachylenie, rozmiar lub położenie, po kolei, według listy \\Poza\\.",
-        "ed0c9f9a5fdd1": "$~Przykłady kodu w <Przewodniku@https://wordplay.dev/guide> nie zaczynają się już od pustego wiersza."
+        "ed0c9f9a5fdd1": "$~Przykłady kodu w <Przewodniku@https://wordplay.dev/guide> nie zaczynają się już od pustego wiersza.",
+        "eddbb25bb5d1a": "$~\\Scena\\ ma nowe wejście \\effects\\, które nakłada filmowe efekty na wszystko, co się na nim znajduje, takie jak \\Blur\\, \\Grain\\, \\Wave\\, \\Damage\\ i \\Flicker\\, a w <Przewodniku@https://wordplay.dev/guide> jest nowy poradnik.",
+        "ea8214ba59642": "$~\\Scena\\ z własną animacją \\resting\\ już nie skacze z miejsca, w którym pokazuje go kamera, podczas odtwarzania animacji.",
+        "e59d72bd1eef6": "$~Cofnięcie się ze strony w <Przewodniku@https://wordplay.dev/guide> wraca do listy, z której ją otwarto.",
+        "ebe9a238e4d65": "$~\\Ręka()\\ i \\Twarz()\\ wracają teraz do wartości początkowych, gdy twoja dłoń lub twarz opuszcza obraz z kamery, zamiast zostawać w ostatnim położeniu.",
+        "ef13048196226": "$~Naprawiliśmy słowa, które zlewały się ze sobą w przetłumaczonych wersjach przykładów w galerii.",
+        "e46bb0eb17287": "$~\\🌎\\ sprawdza teraz języki wybrane przez czytelnika, tak samo w edytorze i w galeriach, więc \\🌎/en\\ jest prawdziwe tylko dla czytelników, którzy wybrali angielski.",
+        "e31fe47f026f3": "$~\\replace\\ listy zawija teraz indeks spoza końca z powrotem na początek, tak samo jak czytanie z listy.",
+        "e878b2c505fe9": "$~Zamiana liczby z jednostką na listę zachowuje jednostkę, więc \\3m → []\\ to \\[1m 2m 3m]\\.",
+        "ec882547e2a4b": "$~\\◆\\ staje się teraz fałszem po pierwszym wykonaniu programu, zamiast zostawać prawdą na zawsze.",
+        "ea22aa3f3f5a0": "$~\\←←\\ podaje teraz wszystkie wcześniejsze wartości strumienia, gdy jest ich mniej, niż poprosiłeś, zamiast tylko najnowszej.",
+        "e571ab9ae452c": "$~Zamiana zakresu, funkcji, wzorca lub wartości, która może być \\ø\\, na tekst za pomocą \\→ ''\\ działa teraz, zamiast zatrzymywać program.",
+        "e5ab9da833914": "$~Czytanie \\Wskaźnik().obrót\\ już nie zatrzymuje programu.",
+        "e92691ec133cd": "$~Teraz ostrzegamy też o adresach e-mail zapisanych w dokumentacji i w tekście z formatowaniem, tak jak już robiliśmy w tekście.",
+        "e68be06131b48": "$~Linki do przewodnika, które występują zaraz po hebrajskim przedrostku, takim jak ב-, lub po kropce, otwierają teraz przewodnik, zamiast stawać się linkami e-mail."
     }
 }

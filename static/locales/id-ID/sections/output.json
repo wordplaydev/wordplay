@@ -1202,20 +1202,22 @@
         },
         "Stage": {
             "doc": [
-                "$~SAYA AKAN MENUNJUKKAN @Output ANDA KEPADA PENONTON. HAI. DI PANGGUNG SINI. BERITAHU SAYA APA YANG HARUS SAYA TAMPILKAN DAN SAYA AKAN MENUNJUKKANNYA.",
-                "\\Stage([Phrase('stufffffff')])\\",
-                "JIKA ANDA MAU, BERIKAN SAYA LATAR BELAKANG @Color DAN SAYA AKAN MENATA PANGGUNG SESUAI DENGANNYA.",
-                "\\Stage([Phrase('stufffffff')] latarbelakang: Color(75% 50 100°))\\",
-                "ANDA JUGA DAPAT MEMBERIKAN SAYA BATAS BINGKAI DAN SAYA AKAN MEMOTONGNYA.",
-                "\\Stage([Phrase('stufffffff')] latarbelakang: Color(75% 50 100°) bingkai: Rectangle(-1m -1m 1m 1m))\\"
+                "$~SAYA MENAMPILKAN @Output ANDA KEPADA PENONTON. HAI. SAYA PANGGUNG. BILANG APA YANG HARUS DITAMPILKAN, DAN SAYA AKAN MENAMPILKANNYA.",
+                "\\Panggung([Frasa('barangggggg')])\\",
+                "JIKA MAU, BERI SAYA @Color LATAR BELAKANG DAN SAYA AKAN MENYINARI PANGGUNG SESUAI ITU.",
+                "\\Panggung(\n\t[Frasa('barangggggg')]\n\tlatarbelakang: Warna(75% 50 100°)\n)\\",
+                "ANDA JUGA BOLEH MEMBERI SAYA BINGKAI DAN SAYA AKAN MEMOTONGNYA.",
+                "\\Panggung(\n\t[Frasa('barangggggg')]\n\tlatarbelakang: Warna(75% 50 100°)\n\tbingkai: Persegipanjang(-1m -1m 1m 1m)\n)\\",
+                "DAN JIKA ANDA MENGINGINKAN KEJUTAN, BERI SAYA @Effect DAN SAYA AKAN MENGUBAH TAMPILAN SEMUANYA. DI BAWAH AIR! FILM TUA! STATIS! SAYA SUKA.",
+                "\\Panggung(\n\t[Frasa('🐟 blub')]\n\tefek: [Gelombang() Semburat(Warna(55% 45 220°))]\n)\\"
             ],
             "names": ["$~Panggung"],
             "content": {
-                "doc": "$~Daftar @Output yang akan ditampilkan di panggung.",
+                "doc": "$~DAFTAR @Output YANG AKAN DITAMPILKAN. INILAH PERTUNJUKANNYA. SAYA MENAMPILKANNYA.",
                 "names": "$~isi"
             },
             "frame": {
-                "doc": "$~Bentuk dan ukuran bingkai yang akan ditempatkan di sekeliling panggung, untuk menyembunyikan segala sesuatu di luarnya.",
+                "doc": "$~BENTUK DAN UKURAN BINGKAI DI SEKELILING SAYA. APA PUN DI LUARNYA, SAYA SEMBUNYIKAN.",
                 "names": "$~bingkai"
             },
             "size": {
@@ -1236,7 +1238,7 @@
             },
             "description": {
                 "doc": [
-                    "$~Deskripsi yang dapat digunakan untuk anggota audiens yang tidak dapat melihat tampilan visual."
+                    "$~PENJELASAN TENTANG PERTUNJUKAN UNTUK PENONTON YANG TIDAK BISA MELIHATNYA. BERITAHU MEREKA APA YANG TERLEWAT!"
                 ],
                 "names": "$~keterangan"
             },
@@ -1301,17 +1303,21 @@
                 "names": "$~gaya"
             },
             "gravity": {
-                "doc": "$~Gaya gravitasi yang diterapkan pada output yang tempatnya berada di @Motion.",
+                "doc": "$~SEBERAPA KUAT AKU MENARIK KE BAWAH KELUARAN YANG TEMPATNYA ADA DI @Motion. SEMUA AKAN JATUH PADA AKHIRNYA.",
                 "names": "$~gayaberat"
             },
-            "defaultDescription": "$~panggung $name[$name |]dengan $#count[$count output]$frame[dengan bingkai $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~panggung $name[$name |]dari $#count[$count keluaran]$frame[dengan bingkai $frame|] $pose $color[$color|]$effects[ dengan $effects|]",
             "overlay": {
-                "doc": "$~Daftar @Output yang disematkan rata pada layar sebagai tampilan informasi, tidak terpengaruh oleh kamera @Place panggung atau kedalaman.",
+                "doc": "$~SEBUAH DAFTAR @Output YANG KUSEMATKAN DATAR DI LAYAR, SEPERTI PAPAN SKOR. KAMERA @Place DAN @Effect MILIKKU TIDAK PERNAH MENYENTUHNYA.",
                 "names": "$~lapisanAtas"
             },
             "air": {
-                "doc": "$~Seberapa besar udara memperlambat keluaran yang bergerak. 1 adalah udara normal, 0 adalah luar angkasa, tempat segala sesuatu terus bergerak selamanya, dan angka yang lebih besar berarti lebih kental daripada udara.",
+                "doc": "$~SEBERAPA BANYAK UDARAKU MEMPERLAMBAT KELUARAN YANG BERGERAK. \\1\\ ADALAH UDARA BIASA, \\0\\ ADALAH LUAR ANGKASA, TEMPAT BENDA TERUS BERGERAK SELAMANYA, DAN ANGKA YANG LEBIH BESAR BERARTI LEBIH KENTAL DARIPADA UDARA. SEPERTI SUP.",
                 "names": "$~udara"
+            },
+            "effects": {
+                "doc": "$~SEBUAH DAFTAR @Effect UNTUK DILAPISKAN DI ATAS SEMUA YANG ADA PADAKU, SEPERTI @Blur, @Grain, ATAU @Wave, SESUAI URUTAN. \\ø\\ ATAU DAFTAR KOSONG BERARTI AKU TAMPAK SEPERTI DIRIKU SENDIRI.",
+                "names": "$~efek"
             }
         },
         "Easing": {
@@ -2039,6 +2045,187 @@
                 "names": "$~gaya"
             },
             "defaultDescription": "$~$description, sebuah gambar $columns kali $rows"
+        },
+        "Effect": {
+            "doc": [
+                "$~Aku adalah efek abstrak, yang dilapiskan di atas seluruh @Stage untuk mengubah tampilan semua yang ada di atasnya. Aku tidak pernah dibuat langsung; sebagai gantinya, buatlah salah satu efek yang merupakan aku, seperti @Blur, @Grain, atau @Wave, lalu berikan daftarnya ke @Stage.effects milik sebuah panggung.",
+                "Efek diterapkan sesuai urutan dalam daftar, jadi @Blur setelah @Grain juga mengaburkan butirannya. Efek menutupi isi panggung, tetapi tidak pernah menutupi @Stage.overlay-nya, jadi skor atau tombol tetap jelas.",
+                "\\Panggung(\n\t[Frasa('🐟')]\n\tefek: [Semburat(Warna(60% 40 220°)) Gelombang()]\n)\\"
+            ],
+            "names": ["$~Efek"]
+        },
+        "Blur": {
+            "doc": [
+                "$~Aku melembutkan semua yang ada di @Stage, seolah kameranya tidak fokus. Sedikit diriku terasa seperti mimpi atau kenangan; banyak diriku terasa seperti baru bangun tidur, atau kehilangan kacamata.",
+                "\\Panggung(\n\t[Frasa('🤓 di mana kacamataku?')]\n\tefek: [Buram(0.05m)]\n)\\"
+            ],
+            "names": ["$~Buram"],
+            "amount": {
+                "doc": "$~Seberapa jauh aku menyebarkan setiap titik cahaya. \\0m\\ berarti sangat tajam.",
+                "names": "$~jumlah"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~Aku mengubah kecerahan, kontras, kejenuhan, dan rona dari semua yang ada di @Stage, seperti warna film yang diatur untuk membangun suasananya. Hilangkan semua kejenuhan dan naikkan kontras, maka jadilah film noir hitam putih.",
+                "\\Panggung(\n\t[Frasa('🕵 sang detektif menunggu')]\n\tefek: [Gradasi(saturasi: 0% kontras: 150%)]\n)\\"
+            ],
+            "names": ["$~Gradasi"],
+            "brightness": {
+                "doc": "$~Seberapa terang panggungnya. \\100%\\ tidak mengubah apa pun, \\0%\\ berarti hitam, dan lebih dari \\100%\\ berarti lebih terang.",
+                "names": "$~kecerahan"
+            },
+            "contrast": {
+                "doc": "$~Seberapa jauh terang dan gelap didorong berjauhan. \\100%\\ tidak mengubah apa pun, lebih kecil berarti lebih datar dan lebih kelabu, dan lebih besar berarti lebih tegas.",
+                "names": "$~kontras"
+            },
+            "saturation": {
+                "doc": "$~Seberapa hidup warnanya. \\100%\\ tidak mengubah apa pun, \\0%\\ berarti hitam putih, dan lebih dari \\100%\\ berarti sangat hidup.",
+                "names": "$~saturasi"
+            },
+            "hue": {
+                "doc": "$~Seberapa jauh setiap warna diputar mengelilingi roda warna. \\0°\\ tidak mengubah apa pun, dan \\180°\\ mengubah setiap warna menjadi warna lawannya.",
+                "names": "$~rona"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~Aku membasuh semua yang ada di @Stage dengan satu @Color, sambil menjaga terang dan gelapnya agar teks tetap mudah dibaca. Biru kehijauan membuat adegan terasa seperti di bawah air, cokelat membuatnya seperti foto lama, dan hijau membuatnya seperti penglihatan malam.",
+                "\\Panggung(\n\t[Frasa('🏰 dahulu kala')]\n\tefek: [Semburat(Warna(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~Semburat"],
+            "color": {
+                "doc": "$~@Color untuk membasuh panggung.",
+                "names": "$~warna"
+            },
+            "amount": {
+                "doc": "$~Seberapa kuat membasuhnya. \\0%\\ berarti sama sekali tidak, dan \\100%\\ hanya menyisakan gradasi warnaku.",
+                "names": "$~jumlah"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~Aku menyelimuti @Stage dengan kabut yang melayang pelan di atasnya. Aku cocok untuk pagi hari, asap, uap, dan apa pun yang jauh.",
+                "\\Panggung([Frasa('🌲🌲 tanah rawa 🌲')] efek: [Kabut(60%)])\\"
+            ],
+            "names": ["$~Kabut"],
+            "amount": {
+                "doc": "$~Seberapa tebal aku. \\0%\\ berarti udara bening, dan \\100%\\ berarti begitu tebal sampai hampir tidak terlihat apa-apa.",
+                "names": "$~jumlah"
+            },
+            "color": {
+                "doc": "$~@Color dari kabut tipis itu. Jika \\ø\\, aku berwarna putih, seperti kabut; coba abu-abu untuk asap atau oranye untuk debu.",
+                "names": "$~warna"
+            },
+            "speed": {
+                "doc": "$~Seberapa cepat aku melayang. \\0\\ membuatku diam, dan angka yang lebih besar melayang lebih cepat.",
+                "names": "$~kecepatan"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~Aku menaburi @Stage dengan bintik-bintik derau yang berubah setiap saat. Sedikit diriku adalah butiran film sungguhan; banyak diriku, dengan bintik besar, adalah televisi tanpa sinyal.",
+                "Aku ramai dilihat saat kuat, jadi aku akan dicatat sebagai kemungkinan pola bagi orang yang peka terhadapnya.",
+                "\\Panggung(\n\t[Frasa('📺 tidak ada sinyal')]\n\tefek: [Bintik(90% ukuran: 3)]\n)\\"
+            ],
+            "names": ["$~Bintik"],
+            "amount": {
+                "doc": "$~Seberapa kuat bintik-bintiknya. \\0%\\ berarti tidak ada, dan \\100%\\ menyembunyikan semua yang ada di bawahku.",
+                "names": "$~jumlah"
+            },
+            "size": {
+                "doc": "$~Seberapa besar setiap bintik. \\1\\ sehalus yang diizinkan layar.",
+                "names": "$~ukuran"
+            },
+            "color": {
+                "doc": "$~Apakah bintik-bintikku berwarna. Jika \\⊥\\, bintiknya abu-abu.",
+                "names": "$~warna"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~Aku menggambar garis-garis tipis gelap layar televisi tua di atas @Stage. Beri aku /kecepatan/ dan aku bergulir, seperti TV yang belum disetel dengan pas.",
+                "\\Panggung(\n\t[Frasa('📺 saluran 3')]\n\tefek: [GarisPindai(40% kecepatan: 1)]\n)\\"
+            ],
+            "names": ["$~GarisPindai"],
+            "amount": {
+                "doc": "$~Seberapa gelap garis-garisku. \\0%\\ tidak terlihat, dan \\100%\\ berwarna hitam.",
+                "names": "$~jumlah"
+            },
+            "spacing": {
+                "doc": "$~Seberapa jauh jarak antara garis-garisku.",
+                "names": "$~spasi"
+            },
+            "speed": {
+                "doc": "$~Berapa banyak garis yang kugulirkan ke bawah setiap detik. \\0\\ membuatku diam, dan kecepatan negatif menggulir ke atas.",
+                "names": "$~kecepatan"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Aku membuat keluaran beriak di @Stage, seolah-olah kamu melihatnya melalui air atau udara panas yang naik.",
+                "Aku membengkokkan keluaran itu sendiri, di bawah efek lainnya, jadi @Grain yang tercantum sebelum aku tidak ikut beriak.",
+                "\\Panggung([Frasa('🐟 blub')] efek: [Gelombang(0.2m)])\\"
+            ],
+            "names": ["$~Gelombang"],
+            "amount": {
+                "doc": "$~Seberapa jauh aku menggeser keluaran dari tempatnya. \\0m\\ berarti tidak ada riak sama sekali.",
+                "names": "$~jumlah"
+            },
+            "scale": {
+                "doc": "$~Seberapa jauh jarak antara riak-riakku. Kecil berarti kilauan halus, dan besar berarti gelombang yang lambat.",
+                "names": "$~skala"
+            },
+            "speed": {
+                "doc": "$~Seberapa cepat riak-riakku bergerak. \\0\\ membuatnya diam.",
+                "names": "$~kecepatan"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Aku menebarkan goresan dan debu dari film tua yang usang ke atas @Stage, berbeda di setiap bingkai. Gunakan aku bersama @Grade yang menghilangkan warna dan @Flicker, maka adeganmu akan tampak berumur seratus tahun.",
+                "\\Panggung(\n\t[Frasa('🎩 TAMAT')]\n\tefek: [Gradasi(saturasi: 0%) Kerusakan(80% 60%)]\n)\\"
+            ],
+            "names": ["$~Kerusakan"],
+            "scratches": {
+                "doc": "$~Berapa banyak goresan yang melintas di film. \\0%\\ berarti tidak ada.",
+                "names": "$~goresan"
+            },
+            "dust": {
+                "doc": "$~Seberapa banyak debu di film. \\0%\\ berarti tidak ada.",
+                "names": "$~debu"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Aku membuat seluruh @Stage tersendat, diam stabil lalu meredup sesaat pada waktu yang tidak teratur, seperti bohlam proyektor atau lampu yang hampir mati.",
+                "Cahaya berkedip bisa membahayakan orang, jadi aku tidak pernah tersendat lebih dari beberapa kali per detik, secepat apa pun permintaanmu.",
+                "\\Panggung(\n\t[Frasa('💡 lampu-lampunya')]\n\tefek: [Kedip(40% 2)]\n)\\"
+            ],
+            "names": ["$~Kedip"],
+            "amount": {
+                "doc": "$~Seberapa gelap aku saat meredup. \\0%\\ berarti tidak meredup sama sekali.",
+                "names": "$~jumlah"
+            },
+            "rate": {
+                "doc": "$~Kira-kira berapa kali aku bisa tersendat setiap detik. Aku tidak akan lebih cepat dari 2,5, agar aman bagi orang yang sensitif terhadap cahaya berkedip.",
+                "names": "$~laju"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~Aku menggelapkan tepi @Stage dan membiarkan bagian tengah tetap terang, sehingga mata tertuju ke tengah. Aku seperti tepi lensa tua, lampu sorot, atau pandangan terowongan.",
+                "\\Panggung(\n\t[Frasa('🔦 lihat ke sini')]\n\tefek: [BayanganTepi(70%)]\n)\\"
+            ],
+            "names": ["$~BayanganTepi"],
+            "amount": {
+                "doc": "$~Seberapa jauh kegelapan menjangkau ke dalam. \\0%\\ berarti tidak ada, dan \\100%\\ menutup rapat.",
+                "names": "$~jumlah"
+            },
+            "color": {
+                "doc": "$~@Color tempat tepi-tepinya memudar. Jika \\ø\\, tepi-tepinya memudar menjadi hitam.",
+                "names": "$~warna"
+            }
         }
     }
 }

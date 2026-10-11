@@ -1034,6 +1034,20 @@
         "e8bf14728ecca": "$~Quando não tem sessão iniciada, a janela do estado de gravação já não aparece vazia. Agora mostra quantos projetos estão guardados apenas neste dispositivo e como os guardar online.",
         "e6bd8c62fd1ab": "$~Adicionámos estações do ano, que dão cor ao sítio e enchem as suas margens com o clima do local onde está, como chuva de monção, folhas a cair ou flocos de neve feitos com as suas próprias letras. Pode escolher uma estação ou desativá-las nas definições. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
         "e32dce56949e2": "$~\\Frase\\ tem uma nova entrada \\poses\\ que dá a cada letra a sua própria cor, inclinação, tamanho ou posição, alternando por uma lista de \\Pose\\.",
-        "ed0c9f9a5fdd1": "$~Os exemplos de código no <Guia@https://wordplay.dev/guide> já não começam com uma linha vazia."
+        "ed0c9f9a5fdd1": "$~Os exemplos de código no <Guia@https://wordplay.dev/guide> já não começam com uma linha vazia.",
+        "eddbb25bb5d1a": "$~\\Fase\\ tem uma nova entrada \\effects\\ que aplica efeitos de filme sobre tudo o que está nela, como \\Blur\\, \\Grain\\, \\Wave\\, \\Damage\\ e \\Flicker\\, com um novo guia prático no <Guia@https://wordplay.dev/guide>.",
+        "ea8214ba59642": "$~Um(a) \\Fase\\ com a sua própria animação \\resting\\ já não salta do sítio onde a câmara o mostra enquanto a animação decorre.",
+        "e59d72bd1eef6": "$~Voltar atrás a partir de uma página do <Guia@https://wordplay.dev/guide> regressa à lista de onde a abriu.",
+        "ebe9a238e4d65": "$~\\Mão()\\ e \\Cara()\\ voltam agora aos valores iniciais quando a sua mão ou o seu rosto saem da câmara, em vez de ficarem como estavam da última vez.",
+        "ef13048196226": "$~Corrigimos palavras que apareciam coladas nas versões traduzidas dos exemplos da galeria.",
+        "e46bb0eb17287": "$~\\🌎\\ verifica agora os idiomas que o leitor escolheu, da mesma forma no editor e nas galerias, por isso \\🌎/en\\ só é verdadeiro para leitores que escolheram inglês.",
+        "e31fe47f026f3": "$~O \\replace\\ de uma lista volta agora ao início quando o índice passa do fim, tal como a leitura de uma lista.",
+        "e878b2c505fe9": "$~Converter um número com unidade numa lista mantém a unidade, por isso \\3m → []\\ é \\[1m 2m 3m]\\.",
+        "ec882547e2a4b": "$~\\◆\\ passa agora a falso depois da primeira avaliação de um programa, em vez de ficar verdadeiro para sempre.",
+        "ea22aa3f3f5a0": "$~\\←←\\ dá agora todos os valores anteriores de um fluxo quando existem menos do que os pedidos, em vez de dar apenas o mais recente.",
+        "e571ab9ae452c": "$~Converter em texto com \\ø\\ um intervalo, uma função, um padrão ou um valor que pode ser \\→ ''\\ funciona agora, em vez de parar o programa.",
+        "e5ab9da833914": "$~Ler \\Ponteiro().rotação\\ já não pára o programa.",
+        "e92691ec133cd": "$~Agora avisamos sobre endereços de email escritos na documentação e em texto formatado, tal como já fazíamos no texto.",
+        "e68be06131b48": "$~As ligações para o guia que surgem logo a seguir a um prefixo hebraico como ב- ou a seguir a um ponto abrem agora o guia, em vez de se tornarem ligações de email."
     }
 }

@@ -1034,6 +1034,20 @@
         "e8bf14728ecca": "$~Quand tu n'es pas connecté, la fenêtre de l'état de sauvegarde n'est plus vide. Elle indique combien de projets sont enregistrés seulement sur cet appareil, et comment les sauvegarder en ligne.",
         "e6bd8c62fd1ab": "$~Nous avons ajouté des saisons. Elles colorent le site et remplissent ses bords avec la météo de ton pays, comme la pluie de mousson, les feuilles qui tombent ou des flocons faits de tes propres lettres. Tu peux choisir une saison ou les désactiver dans les paramètres. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
         "e32dce56949e2": "$~\\Phrase\\ a une nouvelle entrée \\poses\\ qui donne à chaque lettre sa propre couleur, inclinaison, taille ou position, en passant tour à tour sur une liste de \\Pose\\.",
-        "ed0c9f9a5fdd1": "$~Les exemples de code du <guide@https://wordplay.dev/guide> ne commencent plus par une ligne vide."
+        "ed0c9f9a5fdd1": "$~Les exemples de code du <guide@https://wordplay.dev/guide> ne commencent plus par une ligne vide.",
+        "eddbb25bb5d1a": "$~\\Scène\\ a une nouvelle entrée \\effects\\ qui pose des effets de film sur tout ce qu'elle contient, comme \\Blur\\, \\Grain\\, \\Wave\\, \\Damage\\ et \\Flicker\\, avec un nouveau comment faire dans le <Guide@https://wordplay.dev/guide>.",
+        "ea8214ba59642": "$~Un \\Scène\\ qui a sa propre animation \\resting\\ ne s'éloigne plus de l'endroit où la caméra le montre pendant que l'animation joue.",
+        "e59d72bd1eef6": "$~Quand on revient en arrière depuis une page du <Guide@https://wordplay.dev/guide>, on retrouve la liste d'où on l'avait ouverte.",
+        "ebe9a238e4d65": "$~\\Main()\\ et \\Visage()\\ reviennent maintenant à leurs valeurs de départ quand ta main ou ton visage quitte la caméra, au lieu de rester comme ils étaient la dernière fois.",
+        "ef13048196226": "$~Nous avons corrigé des mots qui étaient collés ensemble dans les versions traduites des exemples de la galerie.",
+        "e46bb0eb17287": "$~\\🌎\\ vérifie maintenant les langues choisies par la personne qui lit, de la même façon dans l'éditeur et dans les galeries, donc \\🌎/en\\ est vrai seulement pour les personnes qui ont choisi l'anglais.",
+        "e31fe47f026f3": "$~Le \\replace\\ d'une liste ramène maintenant un indice qui dépasse la fin vers le début, comme le fait la lecture d'une liste.",
+        "e878b2c505fe9": "$~Convertir un nombre avec une unité en liste garde l'unité, donc \\3m → []\\ vaut \\[1m 2m 3m]\\.",
+        "ec882547e2a4b": "$~\\◆\\ devient maintenant faux après la première évaluation d'un programme, au lieu de rester vrai pour toujours.",
+        "ea22aa3f3f5a0": "$~\\←←\\ donne maintenant toutes les valeurs précédentes d'un flux quand il en a moins que ce que tu as demandé, et pas seulement la plus récente.",
+        "e571ab9ae452c": "$~Convertir en texte avec \\ø\\ un intervalle, une fonction, un motif ou une valeur qui peut être \\→ ''\\ fonctionne maintenant, au lieu d'arrêter le programme.",
+        "e5ab9da833914": "$~Lire \\Aiguille().rotation\\ n'arrête plus le programme.",
+        "e92691ec133cd": "$~Nous signalons maintenant les adresses e-mail écrites dans la documentation et dans le texte mis en forme, comme nous le faisions déjà dans le texte.",
+        "e68be06131b48": "$~Les liens vers le guide placés juste après un préfixe hébreu comme ב- ou après un point ouvrent maintenant le guide, au lieu de devenir des liens e-mail."
     }
 }

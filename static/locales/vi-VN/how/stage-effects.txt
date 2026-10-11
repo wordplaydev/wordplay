@@ -1,0 +1,73 @@
+Làm cho cả sân khấu trông như phim cũ, truyền hình hoặc dưới nước
+
+Phim ảnh thay đổi diện mạo của cả cảnh: cảnh hồi tưởng trở nên mềm và sáng, bản tin cũ bị xước và xám, tivi nhiễu sóng lách tách, còn mọi thứ dưới nước thì gợn sóng và ngả xanh.
+Chúng ta có thể làm điều tương tự bằng cách đưa cho một @Stage một danh sách các @Effect.
+
+Đây là một cảnh nhìn qua làn nước.
+
+\
+Sânkhấu(
+	[Cụmtừ('🐠') Cụmtừ('🌿' vịTrí: VịTrí(1m -1m))]
+	hiệuỨng: [Sóng(0.15m) NhuộmMàu(Màusắc(55% 45 220°) 70%) SươngMù(40% Màusắc(70% 30 200°))]
+)
+\
+
+ Mỗi hiệu ứng chỉ làm một việc. @Wave làm gợn sóng, @Tint phủ lên mọi thứ một màu, và @Haze phủ lên một lớp sương mù trôi nhẹ.
+Khi kết hợp, chúng trông như nước. Các hiệu ứng được áp dụng theo thứ tự trong danh sách, nên hiệu ứng đứng sau sẽ thay đổi kết quả của những hiệu ứng đứng trước.
+
+Có mười hiệu ứng để kết hợp: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker, và @Vignette.
+Đây là một cuốn phim cũ: @Grade lấy đi màu sắc, rồi @Damage, @Grain, và @Flicker làm cho nó cũ kỹ và rung lắc.
+
+\
+Sânkhấu(
+	[Cụmtừ('THE END')]
+	hiệuỨng: [ChỉnhMàu(độTươngPhản: 130% độBãoHòa: 0%) HưHỏng(70% 50%) HạtNhiễu(25%) NhấpNháy(15% 2) TốiViền(60%)]
+)
+\
+
+ Và đây là một chiếc tivi mất tín hiệu.
+
+\
+Sânkhấu(
+	[Cụmtừ('channel 3')]
+	hiệuỨng: [ĐườngQuét(40% tốcĐộ: 1) HạtNhiễu(50% kíchThước: 2) NhấpNháy(20%)]
+)
+\
+
+ Để dùng lại một diện mạo nhiều lần, hãy tạo một hàm trả về danh sách các hiệu ứng của nó.
+Các đầu vào của hàm trở thành thiết lập riêng của diện mạo đó. Diện mạo này càng xuống sâu càng đục hơn.
+
+\
+ƒ underwater(depth•%) [
+	Sóng(0.2m · depth)
+	NhuộmMàu(Màusắc(55% 45 220°) depth)
+	LàmMờ(0.03m · depth)
+]
+
+Sânkhấu([Cụmtừ('🐠')] hiệuỨng: underwater(80%))
+\
+
+ Một diện mạo cũng có thể thay đổi theo trạng thái của trò chơi.
+Ở đây, sân khấu bị mờ và tối ở các cạnh khi người chơi chỉ còn một mạng, và sáng rõ lại khi họ có nhiều mạng hơn.
+
+\
+lives: 3 … ∆ Chìakhóa() … lives - 1
+
+Sânkhấu(
+	[Cụmtừ(lives → '')]
+	hiệuỨng: lives < 2 ? [LàmMờ(0.05m) TốiViền(70% Màusắc(30% 80 30°))] []
+)
+\
+
+ Các hiệu ứng chỉ phủ lên những gì có trên sân khấu, chứ không bao giờ phủ lên @Stage.overlay, nên điểm số hay nút bấm vẫn rõ ràng, dễ đọc.
+
+Rung cả sân khấu, như động đất, hoàn toàn không phải là một hiệu ứng: một @Stage có thể di chuyển như bất kỳ đầu ra nào khác, nên hãy cho nó một @Sequence.
+
+\
+Sânkhấu([Cụmtừ('🏠')] nghỉngơi: Sựliêntiếp.lắc(0.5s đếm: 4x))
+\
+
+ Một số hiệu ứng chuyển động nhanh. Khi ai đó đã yêu cầu thiết bị của họ giảm chuyển động, mọi hiệu ứng sẽ đứng yên.
+@Flicker không bao giờ nhấp nháy nhanh hơn vài lần mỗi giây, dù bạn yêu cầu nhanh đến đâu, vì nhấp nháy nhanh có thể gây hại cho mọi người.
+
+track-game-state

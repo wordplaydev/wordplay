@@ -1146,20 +1146,22 @@
         },
         "Stage": {
             "doc": [
-                "$~JAG VISAR DITT @Output FÖR PUBLIKEN. HEJ. SCEN HÄR. BERÄTTA MIG VAD JAG SKA VISA SÅ VISAR JAG DET.",
-                "\\Stage([Phrase('stufffffff')])\\",
-                "OM DU VILL, GE MIG EN BAKGRUND @Color SÅ LJUSAR JAG SCENEN DÄREFTER.",
-                "\\Stage([Phrase('stufffffff')] bakgrund: Color(75% 50 100°))\\",
-                "DU KAN OCKSÅ GE MIG EN RAMKANT SÅ BESKÄR JAG.",
-                "\\Stage([Phrase('stufffffff')] bakgrund: Color(75% 50 100°) ram: Rectangle(-1m -1m 1m 1m))\\"
+                "$~JAG VISAR DINA @Output FÖR PUBLIKEN. HEJ. SCENEN HÄR. SÄG VAD JAG SKA VISA SÅ VISAR JAG DET.",
+                "\\Etapp([Fras('grejjjjjjjj')])\\",
+                "OM DU VILL KAN DU GE MIG EN BAKGRUND @Color SÅ BELYSER JAG SCENEN EFTER DEN.",
+                "\\Etapp([Fras('grejjjjjjjj')] bakgrund: Färg(75% 50 100°))\\",
+                "DU KAN OCKSÅ GE MIG EN RAMKANT SÅ BESKÄR JAG BILDEN.",
+                "\\Etapp(\n\t[Fras('grejjjjjjjj')]\n\tbakgrund: Färg(75% 50 100°)\n\tram: Rektangel(-1m -1m 1m 1m)\n)\\",
+                "OCH OM DU VILL HA DRAMA, GE MIG @Effect SÅ ÄNDRAR JAG HUR ALLT SER UT. UNDER VATTEN! GAMMAL FILM! BRUS! JAG ÄLSKAR DET.",
+                "\\Etapp(\n\t[Fras('🐟 blubb')]\n\teffekter: [Våg() Toning(Färg(55% 45 220°))]\n)\\"
             ],
             "names": ["$~Etapp"],
             "content": {
-                "doc": "$~Listan över @Output att visa på scenen.",
+                "doc": "$~LISTAN MED @Output ATT VISA. DET HÄR ÄR FÖRESTÄLLNINGEN. JAG VISAR DEN.",
                 "names": "$~innehåll"
             },
             "frame": {
-                "doc": "$~Formen och storleken på ramen som ska placeras runt scenen och döljer allt utanför den.",
+                "doc": "$~FORMEN OCH STORLEKEN PÅ RAMEN RUNT MIG. ALLT UTANFÖR DEN DÖLJER JAG.",
                 "names": "$~ram"
             },
             "size": {
@@ -1180,7 +1182,7 @@
             },
             "description": {
                 "doc": [
-                    "$~En beskrivning att använda för publikmedlemmar som inte kan se visuell produktion."
+                    "$~EN BESKRIVNING AV FÖRESTÄLLNINGEN FÖR PUBLIK SOM INTE KAN SE DEN. BERÄTTA FÖR DEM VAD DE MISSAR!"
                 ],
                 "names": "$~beskrivning"
             },
@@ -1245,17 +1247,21 @@
                 "names": "$~stil"
             },
             "gravity": {
-                "doc": "$~Tyngdkraften som ska användas på utdata vars plats är i @Motion.",
+                "doc": "$~HUR HÅRT JAG DRAR NED PÅ UTDATA SOM HAR SIN PLATS I @Motion. ALLT FALLER TILL SLUT.",
                 "names": "$~allvar"
             },
-            "defaultDescription": "$~scen $name[$name |]med $#count[$count utdata|$count utdata]$frame[med ram $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~scen $name[$name |]med $#count[$count utdata|$count utdata]$frame[med bildruta $frame|] $pose $color[$color|]$effects[ med $effects|]",
             "overlay": {
-                "doc": "$~En lista med @Output som fästs platt mot skärmen som en informationsvisning. Den påverkas inte av scenens @Place-kamera eller djup.",
+                "doc": "$~EN LISTA MED @Output SOM JAG FÄSTER PLATT MOT SKÄRMEN, SOM EN RESULTATTAVLA. MIN @Place-KAMERA OCH MIN @Effect RÖR ALDRIG VID DEN.",
                 "names": "$~överlagring"
             },
             "air": {
-                "doc": "$~Hur mycket luften bromsar utdata som rör sig. 1 är vanlig luft, 0 är yttre rymden, där saker fortsätter för evigt, och större tal är tjockare än luft.",
+                "doc": "$~HUR MYCKET MIN LUFT BROMSAR UTDATA SOM RÖR SIG. \\1\\ ÄR VANLIG LUFT, \\0\\ ÄR RYMDEN, DÄR SAKER FORTSÄTTER FÖR EVIGT, OCH STÖRRE TAL ÄR TJOCKARE ÄN LUFT. SOM SOPPA.",
                 "names": "$~luft"
+            },
+            "effects": {
+                "doc": "$~EN LISTA MED @Effect ATT LÄGGA ÖVER ALLT PÅ MIG, SOM @Blur, @Grain ELLER @Wave, I TUR OCH ORDNING. \\ø\\ ELLER EN TOM LISTA BETYDER ATT JAG SER UT SOM MIG SJÄLV.",
+                "names": "$~effekter"
             }
         },
         "Easing": {
@@ -2039,6 +2045,187 @@
                 "names": "$~stil"
             },
             "defaultDescription": "$~$description, en bild $columns gånger $rows"
+        },
+        "Effect": {
+            "doc": [
+                "$~Jag är en abstrakt effekt som läggs över hela @Stage för att ändra hur allt på den ser ut. Jag skapas aldrig direkt. Skapa i stället en av effekterna som är jag, som @Blur, @Grain eller @Wave, och ge en lista med dem till en scens @Stage.effects.",
+                "Effekter används i den ordning de står i listan, så en @Blur efter en @Grain gör också kornigheten suddig. De täcker scenens innehåll men aldrig dess @Stage.overlay, så en poäng eller en knapp förblir tydlig.",
+                "\\Etapp([Fras('🐟')] effekter: [Toning(Färg(60% 40 220°)) Våg()])\\"
+            ],
+            "names": ["$~Effekt"]
+        },
+        "Blur": {
+            "doc": [
+                "$~Jag mjukar upp allt på @Stage, som om kameran var ur fokus. Lite av mig är en dröm eller ett minne. Mycket av mig är att vakna eller tappa bort sina glasögon.",
+                "\\Etapp(\n\t[Fras('🤓 var är mina glasögon?')]\n\teffekter: [Oskärpa(0.05m)]\n)\\"
+            ],
+            "names": ["$~Oskärpa"],
+            "amount": {
+                "doc": "$~Hur långt jag sprider varje ljuspunkt. \\0m\\ är helt skarpt.",
+                "names": "$~mängd"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~Jag ändrar ljusstyrka, kontrast, mättnad och nyans för allt på @Stage, så som en films färger justeras för att skapa stämning. Ta bort all mättnad och höj kontrasten, så får du en svartvit film noir.",
+                "\\Etapp(\n\t[Fras('🕵 detektiven väntade')]\n\teffekter: [Färgton(mättnad: 0% kontrast: 150%)]\n)\\"
+            ],
+            "names": ["$~Färgton"],
+            "brightness": {
+                "doc": "$~Hur ljus scenen ska bli. \\100%\\ ändrar ingenting, \\0%\\ är svart och mer än \\100%\\ är ljusare.",
+                "names": "$~ljusstyrka"
+            },
+            "contrast": {
+                "doc": "$~Hur långt ljust och mörkt ska skjutas isär. \\100%\\ ändrar ingenting, mindre ger plattare och gråare, och mer ger skarpare.",
+                "names": "$~kontrast"
+            },
+            "saturation": {
+                "doc": "$~Hur starka färgerna är. \\100%\\ ändrar ingenting, \\0%\\ är svartvitt och mer än \\100%\\ är extra starkt.",
+                "names": "$~mättnad"
+            },
+            "hue": {
+                "doc": "$~Hur långt varje färg ska vridas runt färghjulet. \\0°\\ ändrar ingenting, och \\180°\\ gör varje färg till sin motsats.",
+                "names": "$~nyans"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~Jag tvättar allt på @Stage i en enda @Color och behåller dess ljusa och mörka delar så att text förblir lika lättläst. Blågrönt får en scen att kkännas som under vatten, brunt gör den till ett gammalt fotografi och grönt gör den till mörkerseende.",
+                "\\Etapp(\n\t[Fras('🏰 för länge sedan')]\n\teffekter: [Toning(Färg(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~Toning"],
+            "color": {
+                "doc": "$~@Color som scenen ska tvättas i.",
+                "names": "$~färg"
+            },
+            "amount": {
+                "doc": "$~Hur kraftigt den ska tvättas. \\0%\\ är inte alls, och \\100%\\ lämnar bara nyanserna av min färg.",
+                "names": "$~mängd"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~Jag sveper @Stage i dimma som sakta driver över den. Jag passar för morgnar, rök, ånga och allt som är långt borta.",
+                "\\Etapp([Fras('🌲🌲 heden 🌲')] effekter: [Dis(60%)])\\"
+            ],
+            "names": ["$~Dis"],
+            "amount": {
+                "doc": "$~Hur tjock jag är. \\0%\\ är klar luft, och \\100%\\ är så tjockt att man knappt ser något.",
+                "names": "$~mängd"
+            },
+            "color": {
+                "doc": "$~@Color på dimman. Om \\ø\\ är jag vit, som dimma. Prova grått för rök eller orange för damm.",
+                "names": "$~färg"
+            },
+            "speed": {
+                "doc": "$~Hur snabbt jag driver. \\0\\ håller mig stilla, och större tal driver snabbare.",
+                "names": "$~hastighet"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~Jag strör prickar av brus över @Stage som ändras hela tiden. Lite av mig är kornigheten i riktig film. Mycket av mig, med stora prickar, är en tv utan signal.",
+                "Jag är jobbig att titta på när jag är stark, så jag markeras som ett möjligt mönster för personer som är känsliga för sådana.",
+                "\\Etapp(\n\t[Fras('📺 ingen signal')]\n\teffekter: [Korn(90% storlek: 3)]\n)\\"
+            ],
+            "names": ["$~Korn"],
+            "amount": {
+                "doc": "$~Hur starka prickarna är. \\0%\\ är inga alls, och \\100%\\ döljer allt under mig.",
+                "names": "$~mängd"
+            },
+            "size": {
+                "doc": "$~Hur stor varje prick är. \\1\\ är så fin som skärmen tillåter.",
+                "names": "$~storlek"
+            },
+            "color": {
+                "doc": "$~Om mina prickar är färgade. Om \\⊥\\ är de grå.",
+                "names": "$~färg"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~Jag ritar de tunna mörka linjerna från en gammal tv-skärm över @Stage. Ge mig en /hastighet/ så rullar jag, som en tv som inte är riktigt rätt inställd.",
+                "\\Etapp(\n\t[Fras('📺 kanal 3')]\n\teffekter: [Skanningslinjer(40% hastighet: 1)]\n)\\"
+            ],
+            "names": ["$~Skanningslinjer"],
+            "amount": {
+                "doc": "$~Hur mörka mina linjer är. \\0%\\ är osynlig och \\100%\\ är svart.",
+                "names": "$~mängd"
+            },
+            "spacing": {
+                "doc": "$~Hur långt ifrån varandra mina linjer ligger.",
+                "names": "$~avstånd"
+            },
+            "speed": {
+                "doc": "$~Hur många linjer jag rullar nedåt varje sekund. \\0\\ håller mig stilla, och en negativ hastighet rullar uppåt.",
+                "names": "$~hastighet"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Jag får utdata på @Stage att krusa sig, som om du såg det genom vatten eller het luft.",
+                "Jag böjer själva utdatan, under alla andra effekter, så en @Grain som står före mig blir inte krusad.",
+                "\\Etapp([Fras('🐟 blubb')] effekter: [Våg(0.2m)])\\"
+            ],
+            "names": ["$~Våg"],
+            "amount": {
+                "doc": "$~Hur långt jag skjuter utdata ur sitt läge. \\0m\\ är ingen krusning alls.",
+                "names": "$~mängd"
+            },
+            "scale": {
+                "doc": "$~Hur långt ifrån varandra mina krusningar ligger. Litet är en fin skimmer och stort är en långsam dyning.",
+                "names": "$~skala"
+            },
+            "speed": {
+                "doc": "$~Hur snabbt mina krusningar rör sig. \\0\\ håller dem stilla.",
+                "names": "$~hastighet"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Jag strör repor och damm från gammal, sliten film över @Stage, olika för varje bildruta. Sätt mig tillsammans med en @Grade som tar bort färg och en @Flicker, så ser din scen hundra år gammal ut.",
+                "\\Etapp(\n\t[Fras('🎩 SLUT')]\n\teffekter: [Färgton(mättnad: 0%) Skada(80% 60%)]\n)\\"
+            ],
+            "names": ["$~Skada"],
+            "scratches": {
+                "doc": "$~Hur många repor som går nedför filmen. \\0%\\ är inga.",
+                "names": "$~repor"
+            },
+            "dust": {
+                "doc": "$~Hur mycket damm som finns på filmen. \\0%\\ är inget.",
+                "names": "$~damm"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Jag får hela @Stage att flimra: den är stadig och blir sedan mörk en kort stund vid oregelbundna tider, som en projektorlampa eller en lampa som snart slocknar.",
+                "Blinkande ljus kan skada människor, så jag flimrar aldrig mer än några gånger per sekund, hur snabbt du än ber mig.",
+                "\\Etapp([Fras('💡 lamporna')] effekter: [Flimmer(40% 2)])\\"
+            ],
+            "names": ["$~Flimmer"],
+            "amount": {
+                "doc": "$~Hur mörk jag blir när jag dämpas. \\0%\\ dämpas inte alls.",
+                "names": "$~mängd"
+            },
+            "rate": {
+                "doc": "$~Ungefär hur många gånger jag kan flimra varje sekund. Jag går aldrig snabbare än 2,5, för att vara säker för personer som är känsliga för blinkande ljus.",
+                "names": "$~takt"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~Jag gör kanterna på @Stage mörkare och lämnar mitten klar, så att blicken dras mot mitten. Jag är kanten på en gammal lins, en strålkastare eller tunnelseende.",
+                "\\Etapp([Fras('🔦 titta här')] effekter: [Vinjett(70%)])\\"
+            ],
+            "names": ["$~Vinjett"],
+            "amount": {
+                "doc": "$~Hur långt in mörkret når. \\0%\\ är inget, och \\100%\\ sluter sig tätt.",
+                "names": "$~mängd"
+            },
+            "color": {
+                "doc": "$~@Color som kanterna tonar mot. Om \\ø\\ tonar de mot svart.",
+                "names": "$~färg"
+            }
         }
     }
 }

@@ -1,0 +1,73 @@
+Haz que todo el escenario parezca película antigua, televisión o agua
+
+Las películas cambian cómo se ve toda una escena: un recuerdo se vuelve suave y brillante, un noticiero antiguo se ve rayado y gris, una televisión chisporrotea con estática y todo lo que está bajo el agua se ondula y se vuelve azul.
+Podemos hacer lo mismo si le damos a un @Stage una lista de @Effect.
+
+Aquí hay una escena vista a través del agua.
+
+\
+Escenario(
+	[Frase('🐠') Frase('🌿' lugar: Lugar(1m -1m))]
+	efectos: [Onda(0.15m) Tinte(Color(55% 45 220°) 70%) Neblina(40% Color(70% 30 200°))]
+)
+\
+
+ Cada efecto hace una sola cosa. @Wave ondula, @Tint baña todo con un solo color y @Haze pone encima una niebla que flota.
+Juntos parecen agua. Los efectos se aplican en el orden en que están en la lista, así que uno posterior cambia el resultado de los anteriores.
+
+Hay diez para combinar: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker y @Vignette.
+Aquí hay una película antigua: @Grade quita el color y luego @Damage, @Grain y @Flicker la hacen ver gastada e inestable.
+
+\
+Escenario(
+	[Frase('THE END')]
+	efectos: [Ajuste(contraste: 130% saturación: 0%) Daño(70% 50%) Grano(25%) Parpadeo(15% 2) Viñeta(60%)]
+)
+\
+
+ Y aquí hay una televisión que pierde la señal.
+
+\
+Escenario(
+	[Frase('channel 3')]
+	efectos: [Líneas(40% velocidad: 1) Grano(50% tamaño: 2) Parpadeo(20%)]
+)
+\
+
+ Para usar un aspecto una y otra vez, crea una función que devuelva su lista de efectos.
+Sus entradas se vuelven los ajustes propios del aspecto. Este se pone más turbio mientras más profundo vas.
+
+\
+ƒ underwater(depth•%) [
+	Onda(0.2m · depth)
+	Tinte(Color(55% 45 220°) depth)
+	Desenfoque(0.03m · depth)
+]
+
+Escenario([Frase('🐠')] efectos: underwater(80%))
+\
+
+ Un aspecto también puede cambiar con el estado de un juego.
+Aquí el escenario se difumina y se oscurece en los bordes cuando la jugadora tiene solo una vida, y se aclara otra vez cuando tiene más.
+
+\
+lives: 3 … ∆ Tecla() … lives - 1
+
+Escenario(
+	[Frase(lives → '')]
+	efectos: lives < 2 ? [Desenfoque(0.05m) Viñeta(70% Color(30% 80 30°))] []
+)
+\
+
+ Los efectos cubren lo que está en el escenario, pero nunca su @Stage.overlay, así que un puntaje o un botón se siguen leyendo con claridad.
+
+Sacudir todo el escenario, como en un terremoto, no es un efecto: un @Stage se puede mover como cualquier otra salida, así que dale un @Sequence.
+
+\
+Escenario([Frase('🏠')] inmóvil: Secuencia.temblor(0.5s cuenta: 4x))
+\
+
+ Algunos efectos se mueven rápido. Cuando alguien le ha pedido a su dispositivo que reduzca el movimiento, todos los efectos se quedan quietos.
+@Flicker nunca destella más rápido que unas cuantas veces por segundo, sin importar qué tan rápido lo pidas, porque el destello rápido puede lastimar a las personas.
+
+track-game-state

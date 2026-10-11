@@ -1009,6 +1009,187 @@
                 "names": "z"
             }
         },
+        "Effect": {
+            "doc": [
+                "I am an abstract effect, laid over the whole @Stage to change how everything on it looks. I'm never made directly; instead, make one of the effects that are me, like @Blur, @Grain, or @Wave, and give a list of them to a stage's @Stage.effects.",
+                "Effects apply in the order they're listed, so a @Blur after a @Grain blurs the grain too. They cover the stage's content but never its @Stage.overlay, so a score or a button stays clear.",
+                "\\Stage([Phrase('🐟')] effects: [Tint(Color(60% 40 220°)) Wave()])\\"
+            ],
+            "names": ["Effect"]
+        },
+        "Blur": {
+            "doc": [
+                "I soften everything on @Stage, as if the camera were out of focus. A little of me is a dream or a memory; a lot of me is waking up, or losing your glasses.",
+                "\\Stage([Phrase('🤓 where are my glasses?')] effects: [Blur(0.05m)])\\"
+            ],
+            "names": ["Blur"],
+            "amount": {
+                "doc": "How far I spread each point of light. \\0m\\ is perfectly sharp.",
+                "names": "amount"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "I change the brightness, contrast, saturation, and hue of everything on @Stage, the way a film's colors are graded to set its mood. Take away all the saturation and turn up the contrast, and you have a black-and-white film noir.",
+                "\\Stage([Phrase('🕵️ the detective waited')] effects: [Grade(saturation: 0% contrast: 150%)])\\"
+            ],
+            "names": ["Grade"],
+            "brightness": {
+                "doc": "How bright to make the stage. \\100%\\ changes nothing, \\0%\\ is black, and more than \\100%\\ is brighter.",
+                "names": "brightness"
+            },
+            "contrast": {
+                "doc": "How far apart to push light and dark. \\100%\\ changes nothing, less is flatter and grayer, and more is starker.",
+                "names": "contrast"
+            },
+            "saturation": {
+                "doc": "How vivid the colors are. \\100%\\ changes nothing, \\0%\\ is black and white, and more than \\100%\\ is extra vivid.",
+                "names": "saturation"
+            },
+            "hue": {
+                "doc": "How far to turn every color around the color wheel. \\0°\\ changes nothing, and \\180°\\ turns every color into its opposite.",
+                "names": "hue"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "I wash everything on @Stage in one @Color, keeping its light and dark so text stays just as readable. Blue-green makes a scene feel underwater, brown makes it an old photograph, and green makes it night vision.",
+                "\\Stage([Phrase('🏰 long ago')] effects: [Tint(Color(60% 40 60°) 80%)])\\"
+            ],
+            "names": ["Tint"],
+            "color": {
+                "doc": "The @Color to wash the stage in.",
+                "names": "color"
+            },
+            "amount": {
+                "doc": "How strongly to wash it. \\0%\\ is not at all, and \\100%\\ leaves only my color's shades.",
+                "names": "amount"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "I veil the @Stage in fog, drifting slowly across it. I'm for mornings, smoke, steam, and anything far away.",
+                "\\Stage([Phrase('🌲🌲 the moor 🌲')] effects: [Haze(60%)])\\"
+            ],
+            "names": ["Haze"],
+            "amount": {
+                "doc": "How thick I am. \\0%\\ is clear air, and \\100%\\ is so thick you can barely see.",
+                "names": "amount"
+            },
+            "color": {
+                "doc": "The @Color of the haze. If \\ø\\, I'm white, like fog; try gray for smoke or orange for dust.",
+                "names": "color"
+            },
+            "speed": {
+                "doc": "How fast I drift. \\0\\ holds me still, and bigger numbers drift faster.",
+                "names": "speed"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "I speckle the @Stage with noise that changes every moment. A little of me is the grain of real film; a lot of me, with big specks, is a television with no signal.",
+                "I'm busy to look at when I'm strong, so I'll be noted as a possible pattern for people who are sensitive to them.",
+                "\\Stage([Phrase('📺 no signal')] effects: [Grain(90% size: 3)])\\"
+            ],
+            "names": ["Grain"],
+            "amount": {
+                "doc": "How strong the specks are. \\0%\\ is none, and \\100%\\ hides everything beneath me.",
+                "names": "amount"
+            },
+            "size": {
+                "doc": "How big each speck is. \\1\\ is as fine as the screen allows.",
+                "names": "size"
+            },
+            "color": {
+                "doc": "Whether my specks are colored. If \\⊥\\, they're gray.",
+                "names": "color"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "I draw the thin dark lines of an old television screen across the @Stage. Give me a /speed/ and I roll, like a TV that isn't quite tuned.",
+                "\\Stage([Phrase('📺 channel 3')] effects: [Scanlines(40% speed: 1)])\\"
+            ],
+            "names": ["Scanlines"],
+            "amount": {
+                "doc": "How dark my lines are. \\0%\\ is invisible, and \\100%\\ is black.",
+                "names": "amount"
+            },
+            "spacing": {
+                "doc": "How far apart my lines are.",
+                "names": "spacing"
+            },
+            "speed": {
+                "doc": "How many lines I roll down each second. \\0\\ holds me still, and a negative speed rolls up.",
+                "names": "speed"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "I ripple the output on @Stage, as if you were seeing it through water or rising heat.",
+                "I bend the output itself, underneath any other effects, so a @Grain listed before me isn't rippled.",
+                "\\Stage([Phrase('🐟 blub')] effects: [Wave(0.2m)])\\"
+            ],
+            "names": ["Wave"],
+            "amount": {
+                "doc": "How far I push output out of place. \\0m\\ is no ripple at all.",
+                "names": "amount"
+            },
+            "scale": {
+                "doc": "How far apart my ripples are. Small is a fine shimmer, and large is a slow swell.",
+                "names": "scale"
+            },
+            "speed": {
+                "doc": "How fast my ripples move. \\0\\ holds them still.",
+                "names": "speed"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "I scatter the scratches and dust of old, worn film over the @Stage, different on every frame. Put me with a @Grade that takes away color and a @Flicker, and your scene is a hundred years old.",
+                "\\Stage([Phrase('🎩 THE END')] effects: [Grade(saturation: 0%) Damage(80% 60%)])\\"
+            ],
+            "names": ["Damage"],
+            "scratches": {
+                "doc": "How many scratches run down the film. \\0%\\ is none.",
+                "names": "scratches"
+            },
+            "dust": {
+                "doc": "How much dust is on the film. \\0%\\ is none.",
+                "names": "dust"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "I make the whole @Stage stutter, holding steady and then dipping dark for a moment at uneven times, like a projector's bulb or a lamp about to go out.",
+                "Flashing light can hurt people, so I never stutter more than a few times a second, however fast you ask.",
+                "\\Stage([Phrase('💡 the lights')] effects: [Flicker(40% 2)])\\"
+            ],
+            "names": ["Flicker"],
+            "amount": {
+                "doc": "How dark I get when I dip. \\0%\\ doesn't dim at all.",
+                "names": "amount"
+            },
+            "rate": {
+                "doc": "About how many times I might stutter each second. I won't go faster than 2.5, to stay safe for people who are sensitive to flashing.",
+                "names": "rate"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "I darken the edges of the @Stage and leave the middle clear, drawing eyes to the center. I'm the edge of an old lens, a spotlight, or tunnel vision.",
+                "\\Stage([Phrase('🔦 look here')] effects: [Vignette(70%)])\\"
+            ],
+            "names": ["Vignette"],
+            "amount": {
+                "doc": "How far in the darkness reaches. \\0%\\ is none, and \\100%\\ closes in tight.",
+                "names": "amount"
+            },
+            "color": {
+                "doc": "The @Color the edges fade to. If \\ø\\, they fade to black.",
+                "names": "color"
+            }
+        },
         "Polygon": {
             "doc": "I am a 'regular' polygon with equal length sides and angles, useful for making shapes on @Stage.",
             "names": ["⬢", "Polygon"],
@@ -1889,15 +2070,17 @@
                 "IF YOU WANT, GIVE ME A BACKGROUND @Color AND I WILL LIGHT THE STAGE ACCORDINGLY.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
                 "YOU MAY ALSO GIVE ME A FRAME BORDER AND I WILL CROP.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
+                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\",
+                "AND IF YOU WANT DRAMA, GIVE ME @Effect AND I WILL CHANGE HOW EVERYTHING LOOKS. UNDERWATER! OLD FILM! STATIC! I LOVE IT.",
+                "\\Stage([Phrase('🐟 blub')] effects: [Wave() Tint(Color(55% 45 220°))])\\"
             ],
             "names": ["🎭", "Stage"],
             "content": {
-                "doc": "The list of @Output to show on stage.",
+                "doc": "THE LIST OF @Output TO SHOW. THIS IS THE SHOW. I SHOW IT.",
                 "names": "content"
             },
             "frame": {
-                "doc": "The shape and size of frame to place around the stage, hiding everything outside it.",
+                "doc": "THE SHAPE AND SIZE OF THE FRAME AROUND ME. ANYTHING OUTSIDE IT, I HIDE.",
                 "names": "frame"
             },
             "size": {
@@ -1918,7 +2101,7 @@
             },
             "description": {
                 "doc": [
-                    "A description to use for audience members who can't see visual output."
+                    "A DESCRIPTION OF THE SHOW FOR AUDIENCE MEMBERS WHO CAN'T SEE IT. TELL THEM WHAT THEY'RE MISSING!"
                 ],
                 "names": "description"
             },
@@ -1983,18 +2166,22 @@
                 "names": "style"
             },
             "gravity": {
-                "doc": "The gravity to apply to output whose place is in @Motion.",
+                "doc": "HOW HARD I PULL DOWN ON OUTPUT WHOSE PLACE IS IN @Motion. EVERYTHING FALLS EVENTUALLY.",
                 "names": "gravity"
             },
             "overlay": {
-                "doc": "A list of @Output pinned flat to the screen as a heads-up display, unaffected by the stage's @Place camera or depth.",
+                "doc": "A LIST OF @Output I PIN FLAT TO THE SCREEN, LIKE A SCOREBOARD. MY @Place CAMERA AND MY @Effect NEVER TOUCH IT.",
                 "names": "overlay"
             },
             "air": {
-                "doc": "How much the air slows down moving output. 1 is normal air, 0 is outer space, where things keep going forever, and bigger numbers are thicker than air.",
+                "doc": "HOW MUCH MY AIR SLOWS DOWN MOVING OUTPUT. \\1\\ IS NORMAL AIR, \\0\\ IS OUTER SPACE, WHERE THINGS KEEP GOING FOREVER, AND BIGGER NUMBERS ARE THICKER THAN AIR. LIKE SOUP.",
                 "names": "air"
             },
-            "defaultDescription": "stage $name[$name |]of $#count[$count output|$count outputs]$frame[with frame $frame|] $pose $color[$color|]"
+            "effects": {
+                "doc": "A LIST OF @Effect TO LAY OVER EVERYTHING ON ME, LIKE @Blur, @Grain, OR @Wave, IN ORDER. \\ø\\ OR AN EMPTY LIST MEANS I LOOK LIKE MYSELF.",
+                "names": "effects"
+            },
+            "defaultDescription": "stage $name[$name |]of $#count[$count output|$count outputs]$frame[with frame $frame|] $pose $color[$color|]$effects[ with $effects|]"
         },
         "Easing": {
             "straight": "straight",

@@ -1,0 +1,70 @@
+🎞
+"Stage Effects"/en
+=== start/en
+¶Press a key, click, or tap to see the same little scene six ways.
+
+Each look is a function that gives back a list of effects. Change the numbers, or write a look of your own.¶
+
+¶Under the sea. The deeper, the murkier.¶
+ƒ underwater(depth•%) [
+	Wave(0.15m · depth)
+	Tint(Color(55% 45 220°) depth)
+	Blur(0.03m · depth)
+	Haze(depth · 60% Color(70% 30 200°))
+]
+
+¶A film a hundred years old.¶
+ƒ oldFilm() [
+	Grade(contrast: 130% saturation: 0%)
+	Tint(Color(65% 25 70°) 40%)
+	Damage(70% 50%)
+	Grain(25%)
+	Flicker(15% 2)
+	Vignette(60%)
+]
+
+¶A television losing its signal. The weaker it is, the more static.¶
+ƒ television(signal•%) [
+	Grade(saturation: 140%)
+	Scanlines(40% speed: 1)
+	Grain((1 - signal) · 60% size: 2)
+	Flicker(0.2 · (1 - signal))
+]
+
+¶A memory, soft and bright.¶
+ƒ dream() [
+	Blur(0.04m)
+	Grade(brightness: 115% contrast: 80%)
+	Haze(40% Color(95% 20 320°))
+	Vignette(40% Color(95% 10 320°))
+]
+
+¶Shaking the whole stage is no effect at all: a stage can move like anything else.¶
+quake: Sequence({
+		0%: Pose(offset: Place(0m 0m))
+		20%: Pose(offset: Place(-0.3m 0.1m) rotation: -2°)
+		40%: Pose(offset: Place(0.25m -0.1m) rotation: 1.5°)
+		60%: Pose(offset: Place(-0.2m 0.05m) rotation: -1°)
+		80%: Pose(offset: Place(0.1m 0m))
+		100%: Pose(offset: Place(0m 0m))
+	} 0.6s count: 5x)
+
+looks: ['today' 'underwater' 'old film' 'television' 'dream' 'earthquake']
+turn•#: 1 … ∆ Key() | ∆ Button() … (turn < looks.length() ? turn + 1 1)
+
+Stage(
+	[
+		Phrase('☀️' place: Place(1.5m 1.5m))
+		Phrase('🏠' size: 2m place: Place(-1.5m -0.5m))
+		Phrase('🌳' size: 2m place: Place(1.2m -0.5m))
+		Phrase('🐕' place: Place(0m -1.2m))
+	]
+	background: Color(85% 30 230°)
+	effects: turn = 2 ? underwater(70%)
+		turn = 3 ? oldFilm()
+		turn = 4 ? television(30%)
+		turn = 5 ? dream()
+		[]
+	resting: turn = 6 ? quake ø
+	overlay: [Phrase(looks[turn] size: 0.5m place: Place(0m -3.5m))]
+)

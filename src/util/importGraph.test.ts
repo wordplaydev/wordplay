@@ -1013,12 +1013,18 @@ test('resolving a color needs no basis', () => {
 // season's motions for its floating cast (the season data itself stays behind a
 // dynamic import).
 
+//
+// Stage effects are **+0 files** and move every byte budget by a hundredth. The
+// ten effect types are basis, which chrome does not reach, and the layer that
+// draws them is dynamically imported by StageView; the bytes are their
+// documentation in en-US.json, which every page carries, and the guide's four
+// new output group headers.
 test.each([
-    ['src/routes/+layout.svelte', 540, 4.19],
-    ['src/components/app/Page.svelte', 563, 4.45],
-    ['src/routes/[[locale]]/+page.svelte', 578, 4.54],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 583, 4.55],
-    ['src/routes/[[locale]]/projects/+page.svelte', 592, 4.58],
+    ['src/routes/+layout.svelte', 540, 4.2],
+    ['src/components/app/Page.svelte', 563, 4.46],
+    ['src/routes/[[locale]]/+page.svelte', 578, 4.55],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 583, 4.56],
+    ['src/routes/[[locale]]/projects/+page.svelte', 592, 4.59],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

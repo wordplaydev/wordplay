@@ -1278,11 +1278,51 @@
                 },
                 "location": {
                     "header": "Localização",
-                    "explanation": "Formas de determinar onde se encontra a produção em palco."
+                    "explanation": "$~/Formas de decidir onde fica a saída no palco./"
                 },
                 "reactions": {
                     "header": "Reações",
                     "explanation": "Formas de reagir ou analisar um fluxo de entrada."
+                },
+                "effects": {
+                    "header": "$~Efeitos",
+                    "explanation": "$~/Formas de mudar o aspeto de todo o palco./"
+                },
+                "sound": {
+                    "header": "$~Som",
+                    "explanation": "$~/Formas de fazer música e fala./"
+                },
+                "physics": {
+                    "header": "$~Física",
+                    "explanation": "$~/Do que a saída é feita, para quando se move./"
+                },
+                "time": {
+                    "header": "$~Tempo",
+                    "explanation": "$~/Formas de saber que horas são e de deixar as coisas ao acaso./"
+                },
+                "audience": {
+                    "header": "$~Público",
+                    "explanation": "$~/O que o seu público prime, aponta, escolhe e escreve./"
+                },
+                "motion": {
+                    "header": "$~Movimento",
+                    "explanation": "$~/Formas de mover a saída e de saber quando bate em algo./"
+                },
+                "listening": {
+                    "header": "$~Escuta",
+                    "explanation": "$~/O que o microfone ouve e as batidas da música enquanto toca./"
+                },
+                "camera": {
+                    "header": "$~Câmara",
+                    "explanation": "$~/O que a câmara vê: mãos, caras e objetos./"
+                },
+                "scenes": {
+                    "header": "$~Cenas",
+                    "explanation": "$~/Formas de mostrar uma coisa depois da outra e de saber onde está./"
+                },
+                "text": {
+                    "header": "$~Texto",
+                    "explanation": "$~/Texto da web e as formas das letras./"
                 }
             },
             "mode": {

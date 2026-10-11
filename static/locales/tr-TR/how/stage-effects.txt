@@ -1,0 +1,73 @@
+Tüm sahneyi eski film, televizyon ya da su gibi göster
+
+Filmler bir sahnenin görünümünü değiştirir: bir geri dönüş yumuşak ve parlak olur, eski bir haber filmi çizik ve gri olur, televizyon parazitle cızırdar ve su altındaki her şey dalgalanıp maviye döner.
+Aynısını şuna vererek yapabiliriz: @Stage bir liste: @Effect.
+
+İşte suyun içinden görülen bir sahne.
+
+\
+Sahne(
+	[İfadeetmek('🐠') İfadeetmek('🌿' yer: Yer(1m -1m))]
+	efektler: [Dalga(0.15m) Renklendirme(Renk(55% 45 220°) 70%) Pus(40% Renk(70% 30 200°))]
+)
+\
+
+ Her efekt tek bir iş yapar. @Wave dalgalandırır, @Tint her şeyi tek bir renge boyar ve @Haze üzerine sürüklenen bir sis serer.
+Birlikte su gibi görünürler. Efektler listelendikleri sırayla uygulanır, bu yüzden sonraki bir efekt öncekilerin sonucunu değiştirir.
+
+Birleştirebileceğin on efekt var: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker ve @Vignette.
+İşte eski bir film: @Grade rengi alır, sonra @Damage, @Grain ve @Flicker onu yıpranmış ve titrek yapar.
+
+\
+Sahne(
+	[İfadeetmek('THE END')]
+	efektler: [RenkAyarı(karşıtlık: 130% doygunluk: 0%) Hasar(70% 50%) Kumlanma(25%) Titreme(15% 2) KenarKarartma(60%)]
+)
+\
+
+ Ve işte sinyalini kaybeden bir televizyon.
+
+\
+Sahne(
+	[İfadeetmek('channel 3')]
+	efektler: [TaramaÇizgileri(40% hız: 1) Kumlanma(50% boyut: 2) Titreme(20%)]
+)
+\
+
+ Bir görünümü tekrar tekrar kullanmak için, efekt listesini geri veren bir fonksiyon yaz.
+Girdileri, görünümün kendi ayarları olur. Bu görünüm, derine indikçe daha bulanık olur.
+
+\
+ƒ underwater(depth•%) [
+	Dalga(0.2m · depth)
+	Renklendirme(Renk(55% 45 220°) depth)
+	Bulanıklık(0.03m · depth)
+]
+
+Sahne([İfadeetmek('🐠')] efektler: underwater(80%))
+\
+
+ Bir görünüm, oyunun durumuna göre de değişebilir.
+Burada oyuncunun yalnızca bir canı kaldığında sahne bulanıklaşır ve kenarları kararır; daha fazla canı olunca yeniden netleşir.
+
+\
+lives: 3 … ∆ Anahtar() … lives - 1
+
+Sahne(
+	[İfadeetmek(lives → '')]
+	efektler: lives < 2 ? [Bulanıklık(0.05m) KenarKarartma(70% Renk(30% 80 30°))] []
+)
+\
+
+ Efektler sahnedeki her şeyi kaplar, ama asla şunu kaplamaz: @Stage.overlay, böylece bir skor ya da bir düğme okunaklı kalır.
+
+Tüm sahneyi sallamak, örneğin deprem gibi, hiç de bir efekt değildir: bir @Stage diğer çıktılar gibi hareket edebilir, bu yüzden ona bir @Sequence.
+
+\
+Sahne([İfadeetmek('🏠')] dinlenme: Sekans.sallamak(0.5s saymak: 4x))
+\
+
+ Bazı efektler hızlı hareket eder. Biri cihazından hareketi azaltmasını istediğinde, tüm efektler yerinde durur.
+@Flicker ne kadar hızlı isterseniz isteyin, saniyede birkaç kezden daha hızlı yanıp sönmez, çünkü hızlı yanıp sönme insanlara zarar verebilir.
+
+track-game-state

@@ -999,7 +999,7 @@
                 },
                 "location": {
                     "header": "$~Ubicación",
-                    "explanation": "$~/Maneras de determinar dónde está la salida en el escenario./"
+                    "explanation": "$~/Maneras de decidir dónde queda la salida en el escenario./"
                 },
                 "reactions": {
                     "header": "$~Reacciones",
@@ -1008,6 +1008,46 @@
                 "names": {
                     "header": "$~Nombres",
                     "explanation": "$~/Nombres para este concepto./"
+                },
+                "effects": {
+                    "header": "$~Efectos",
+                    "explanation": "$~/Maneras de cambiar cómo se ve todo el escenario./"
+                },
+                "sound": {
+                    "header": "$~Sonido",
+                    "explanation": "$~/Maneras de hacer música y voz./"
+                },
+                "physics": {
+                    "header": "$~Física",
+                    "explanation": "$~/De qué está hecha la salida, para cuando se mueve./"
+                },
+                "time": {
+                    "header": "$~Tiempo",
+                    "explanation": "$~/Maneras de saber qué hora es y de dejar las cosas al azar./"
+                },
+                "audience": {
+                    "header": "$~Público",
+                    "explanation": "$~/Lo que tu público presiona, señala, elige y escribe./"
+                },
+                "motion": {
+                    "header": "$~Movimiento",
+                    "explanation": "$~/Maneras de mover la salida y de saber cuándo choca con algo./"
+                },
+                "listening": {
+                    "header": "$~Escucha",
+                    "explanation": "$~/Lo que oye el micrófono y los ritmos de la música mientras suena./"
+                },
+                "camera": {
+                    "header": "$~Cámara",
+                    "explanation": "$~/Lo que ve la cámara: manos, caras y objetos./"
+                },
+                "scenes": {
+                    "header": "$~Escenas",
+                    "explanation": "$~/Maneras de mostrar una cosa después de otra y de saber dónde estás./"
+                },
+                "text": {
+                    "header": "$~Texto",
+                    "explanation": "$~/Texto de la web y las formas de las letras./"
                 }
             },
             "how": {

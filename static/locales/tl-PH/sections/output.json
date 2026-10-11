@@ -1162,20 +1162,22 @@
         },
         "Stage": {
             "doc": [
-                "$~IPAKITA KO ANG IYONG @Output SA MGA MANONOOD. HI. MAG-ENTRANCE KA DITO. SABIHIN MO SA AKIN KUNG ANONG IPAKITA AT IPAPAKITA KO ITO.",
-                "\\Stage([Phrase('stufffffff')])\\",
-                "KUNG GUSTO MO, BIGYAN MO AKO NG LIBRO @Color AT ILILAHAN KO ANG ENTABLADO NANG NAAAYOS.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
-                "PWEDE MO RIN AKONG BIGYAN NG FRAME BORDER AT I-CROP KO.",
-                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) balangkas: Rectangle(-1m -1m 1m 1m))\\"
+                "$~IPINAKIKITA KO ANG IYONG @Output SA MADLA. KUMUSTA. ENTABLADO ITO. SABIHIN MO SA AKIN KUNG ANO ANG IPAPAKITA AT IPAPAKITA KO ITO.",
+                "\\Entablado([Parirala('mga gamittttttt')])\\",
+                "KUNG GUSTO MO, BIGYAN MO AKO NG @Color NG BACKGROUND AT ILALAGAY KO ANG ILAW NG ENTABLADO AYON DITO.",
+                "\\Entablado(\n\t[Parirala('mga gamittttttt')]\n\tbackground: Kulay(75% 50 100°)\n)\\",
+                "MAAARI ­MO RING BIGYAN AKO NG BORDER NG FRAME AT PUPUTULIN KO ANG LABAS NITO.",
+                "\\Entablado(\n\t[Parirala('mga gamittttttt')]\n\tbackground: Kulay(75% 50 100°)\n\tbalangkas: Parihaba(-1m -1m 1m 1m)\n)\\",
+                "AT KUNG GUSTO MO NG DRAMA, BIGYAN MO AKO NG @Effect AT BABAGUHIN KO ANG HITSURA NG LAHAT. SA ILALIM NG TUBIG! LUMANG PELIKULA! STATIC! GUSTO KO ITO.",
+                "\\Entablado(\n\t[Parirala('🐟 blub')]\n\tmgaEpekto: [Alon() Bahid(Kulay(55% 45 220°))]\n)\\"
             ],
             "names": ["$~Entablado"],
             "content": {
-                "doc": "$~Ang listahan ng @Output na ipapakita sa entablado.",
+                "doc": "$~ANG LISTAHAN NG @Output NA IPAPAKITA. ITO ANG PALABAS. IPINAKIKITA KO ITO.",
                 "names": "$~nilalaman"
             },
             "frame": {
-                "doc": "$~Ang hugis at laki ng balangkas na ilalagay sa paligid ng entablado, na itinatago ang lahat ng bagay sa labas nito.",
+                "doc": "$~ANG HUGIS AT LAKI NG FRAME SA PALIGID KO. ANUMANG NASA LABAS NITO, ITINATAGO KO.",
                 "names": "$~balangkas"
             },
             "size": {
@@ -1196,7 +1198,7 @@
             },
             "description": {
                 "doc": [
-                    "$~Isang paglalarawan na gagamitin para sa mga miyembro ng audience na hindi makakita ng visual output."
+                    "$~ISANG PAGLALARAWAN NG PALABAS PARA SA MGA MIYEMBRO NG MADLA NA HINDI ITO MAKITA. SABIHIN MO SA KANILA ANG NAMIMISS NILA!"
                 ],
                 "names": "$~paglalarawan"
             },
@@ -1261,17 +1263,21 @@
                 "names": "$~estilo"
             },
             "gravity": {
-                "doc": "$~Ang gravity na ilalapat sa output na ang lugar ay nasa @Motion.",
+                "doc": "$~GAANO KALAKAS ANG PAGHILA KO PABABA SA OUTPUT NA ANG LUGAR AY NASA @Motion. LAHAT AY BUMABAGSAK SA HULI.",
                 "names": "$~grabidad"
             },
-            "defaultDescription": "$~entablado $name[$name |]ng $#count[$count output|$count na output]$frame[na may frame na $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~entablado $name[$name |]ng $#count[$count output|$count na output]$frame[na may frame $frame|] $pose $color[$color|]$effects[ na may $effects|]",
             "overlay": {
-                "doc": "$~Isang listahan ng @Output na nakadikit nang patag sa screen bilang heads-up display, hindi apektado ng @Place camera o lalim ng entablado.",
+                "doc": "$~ISANG LISTAHAN NG @Output NA IPINAPIT KO NANG PATAG SA SCREEN, PARANG SCOREBOARD. ANG AKING @Place NA KAMERA AT ANG AKING @Effect AY HINDI KAILANMAN HUMAHAWAK DITO.",
                 "names": "$~pangIbabaw"
             },
             "air": {
-                "doc": "$~Kung gaano kabagal ang hangin sa gumagalaw na output. Ang 1 ay normal na hangin, ang 0 ay kalawakan, kung saan patuloy na gumagalaw ang mga bagay magpakailanman, at ang mas malalaking numero ay mas makapal kaysa hangin.",
+                "doc": "$~GAANO KALAKI ANG PAGPAPABAGAL NG HANGIN KO SA GUMAGALAW NA OUTPUT. ANG \\1\\ AY KARANIWANG HANGIN, ANG \\0\\ AY OUTER SPACE, KUNG SAAN PATULOY ANG PAGGALAW NG MGA BAGAY MAGPAKAILANMAN, AT ANG MAS MALALAKING NUMERO AY MAS MAKAPAL KAYSA HANGIN. PARANG SABAW.",
                 "names": "$~hangin"
+            },
+            "effects": {
+                "doc": "$~ISANG LISTAHAN NG @Effect NA ILALAGAY SA ITAAS NG LAHAT NG NASA AKIN, TULAD NG @Blur, @Grain, O @Wave, ayon sa pagkakasunod-sunod. ANG \\ø\\ O WALANG LAMAN NA LISTAHAN AY NANGANGAHULUGANG KAMUKHA KO ANG AKING SARILI.",
+                "names": "$~mgaEpekto"
             }
         },
         "Easing": {
@@ -1844,7 +1850,7 @@
                         "Ako ay isang synthesizer, tulad ng @Instrument/synth — hindi isang paggaya sa isang mang-aawit. Ang bibig ko ay nananatiling pareho ang laki gaano man kataas o kababa ang aking pag-awit, na hindi kayang gawin ng totoong lalamunan. Kaya para akong isang makina na gumagaya sa isang tao, at kaya ang tunog ko ay hindi mukhang lalaki ni babae.",
                         "Bigyan ang aking @Track ng @Track/words at aawitin ko ang mga ito, isang pantig kada nota. Kung wala, hinahawakan ko ang tunog na /uh/, kaya lagi akong umaawit ng kahit ano.",
                         "\\🎼(🎶([1 2 3 5] mgaSalita: 'la la la la' instrumento: 🔈.🤖) tempo: 120beats/min)\\",
-                        "Ang mga pantig ay binabaybay sa <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, isang alpabeto kung saan ang bawat titik ay isang /sound/ sa halip na isang pagbabaybay — kaya \\'ʃi'\\ ay ang tunog sa simula ng /she/, kahit anong @language ang isinusulat mo. Pindutin ang 🤖 sa ilalim ng @editor upang makita ang bawat tunog na kaya kong gawin at marinig ang bawat isa."
+                        "Ang mga pantig ay binabaybay sa <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, isang alpabeto kung saan ang bawat titik ay isang /Tunog/ sa halip na isang pagbabaybay — kaya \\'ʃi'\\ ay ang tunog sa simula ng /she/, kahit anong @language ang isinusulat mo. Pindutin ang 🤖 sa ilalim ng @editor upang makita ang bawat tunog na kaya kong gawin at marinig ang bawat isa."
                     ],
                     "names": ["$~boses"]
                 },
@@ -2039,6 +2045,187 @@
                 "names": "$~estilo"
             },
             "defaultDescription": "$~$description, isang larawan na $columns by $rows"
+        },
+        "Effect": {
+            "doc": [
+                "$~Ako ay isang abstraktong epekto, na inilalagay sa ibabaw ng buong @Stage para baguhin kung ano ang hitsura ng lahat ng nasa ibabaw nito. Hindi ako direktang ginagawa; sa halip, gumawa ng isa sa mga epektong ako, tulad ng @Blur, @Grain, o @Wave, at magbigay ng listahan ng mga ito sa @Stage.effects ng isang entablado.",
+                "Ang mga epekto ay inilalapat ayon sa pagkakasunod-sunod ng listahan, kaya ang @Blur pagkatapos ng @Grain ay nagpapalabo rin sa grain. Tinatakpan nila ang nilalaman ng entablado pero hindi kailanman ang @Stage.overlay nito, kaya nananatiling malinaw ang isang iskor o isang button.",
+                "\\Entablado(\n\t[Parirala('🐟')]\n\tmgaEpekto: [Bahid(Kulay(60% 40 220°)) Alon()]\n)\\"
+            ],
+            "names": ["$~Epekto"]
+        },
+        "Blur": {
+            "doc": [
+                "$~Pinalalambot ko ang lahat ng nasa @Stage, na parang wala sa focus ang kamera. Kaunti sa akin ay parang panaginip o alaala; marami sa akin ay parang pagkagising, o pagkawala ng salamin sa mata.",
+                "\\Entablado(\n\t[Parirala('🤓 nasaan ang salamin ko?')]\n\tmgaEpekto: [Labo(0.05m)]\n)\\"
+            ],
+            "names": ["$~Labo"],
+            "amount": {
+                "doc": "$~Gaano kalayo ko ikinakalat ang bawat tuldok ng liwanag. Ang \\0m\\ ay perpektong matalas.",
+                "names": "$~dami"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~Binabago ko ang liwanag, kontrast, saturation, at hue ng lahat ng nasa @Stage, tulad ng pagkakaayos ng mga kulay ng isang pelikula para itakda ang mood nito. Alisin ang lahat ng saturation at taasan ang kontrast, at magkakaroon ka ng itim-at-puting film noir.",
+                "\\Entablado(\n\t[Parirala('🕵 naghintay ang tiktik')]\n\tmgaEpekto: [Antas(tingkad: 0% kaibahan: 150%)]\n)\\"
+            ],
+            "names": ["$~Antas"],
+            "brightness": {
+                "doc": "$~Gaano kaliwanag gagawin ang entablado. Ang \\100%\\ ay walang binabago, ang \\0%\\ ay itim, at ang higit sa \\100%\\ ay mas maliwanag.",
+                "names": "$~liwanag"
+            },
+            "contrast": {
+                "doc": "$~Gaano kalayo ang paghihiwalay ng liwanag at dilim. Ang \\100%\\ ay walang binabago, ang mas mababa ay mas patag at mas kulay-abo, at ang mas mataas ay mas matingkad ang kaibahan.",
+                "names": "$~kaibahan"
+            },
+            "saturation": {
+                "doc": "$~Gaano katingkad ang mga kulay. Ang \\100%\\ ay walang binabago, ang \\0%\\ ay itim at puti, at ang higit sa \\100%\\ ay sobrang tingkad.",
+                "names": "$~tingkad"
+            },
+            "hue": {
+                "doc": "$~Gaano kalayo iikot ang bawat kulay sa paligid ng color wheel. Ang \\0°\\ ay walang binabago, at ang \\180°\\ ay ginagawang kabaligtaran ang bawat kulay.",
+                "names": "$~kulay"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~Binabalot ko ang lahat ng nasa @Stage sa iisang @Color, habang pinapanatili ang liwanag at dilim nito para manatiling madaling basahin ang teksto. Ang asul-berde ay nagpaparamdam na nasa ilalim ng tubig ang eksena, ang kayumanggi ay ginagawa itong lumang litrato, at ang berde ay ginagawa itong night vision.",
+                "\\Entablado(\n\t[Parirala('🏰 noong unang panahon')]\n\tmgaEpekto: [Bahid(Kulay(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~Bahid"],
+            "color": {
+                "doc": "$~Ang @Color na ibabalot sa entablado.",
+                "names": "$~kulay"
+            },
+            "amount": {
+                "doc": "$~Gaano kalakas ito ibabalot. Ang \\0%\\ ay hindi talaga, at ang \\100%\\ ay mga shade na lang ng aking kulay ang natitira.",
+                "names": "$~dami"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~Tinatabingan ko ang @Stage ng hamog, na dahan-dahang lumulutang sa ibabaw nito. Para ako sa umaga, usok, singaw, at anumang malayo.",
+                "\\Entablado(\n\t[Parirala('🌲🌲 ang latian 🌲')]\n\tmgaEpekto: [Ulap(60%)]\n)\\"
+            ],
+            "names": ["$~Ulap"],
+            "amount": {
+                "doc": "$~Gaano ako kakapal. Ang \\0%\\ ay malinaw na hangin, at ang \\100%\\ ay sobrang kapal na halos wala nang makita.",
+                "names": "$~dami"
+            },
+            "color": {
+                "doc": "$~Ang @Color ng ulap-usok. Kung \\ø\\, puti ako, tulad ng hamog; subukan ang kulay-abo para sa usok o kahel para sa alikabok.",
+                "names": "$~kulay"
+            },
+            "speed": {
+                "doc": "$~Gaano kabilis akong lumulutang. Ang \\0\\ ay pinananatili akong nakatigil, at ang mas malalaking numero ay mas mabilis lumutang.",
+                "names": "$~bilis"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~Binubudburan ko ang @Stage ng ingay na nagbabago bawat sandali. Kaunti sa akin ay ang grain ng tunay na pelikula; marami sa akin, na may malalaking batik, ay isang telebisyon na walang signal.",
+                "Makulit akong tingnan kapag malakas ako, kaya itatala ako bilang posibleng pattern para sa mga taong sensitibo rito.",
+                "\\Entablado(\n\t[Parirala('📺 walang signal')]\n\tmgaEpekto: [Butil(90% laki: 3)]\n)\\"
+            ],
+            "names": ["$~Butil"],
+            "amount": {
+                "doc": "$~Gaano kalakas ang mga batik. Ang \\0%\\ ay wala, at ang \\100%\\ ay itinatago ang lahat sa ilalim ko.",
+                "names": "$~dami"
+            },
+            "size": {
+                "doc": "$~Gaano kalaki ang bawat batik. Ang \\1\\ ay kasing-pino ng pinapayagan ng screen.",
+                "names": "$~laki"
+            },
+            "color": {
+                "doc": "$~Kung may kulay ang aking mga batik. Kung \\⊥\\, kulay-abo ang mga ito.",
+                "names": "$~kulay"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~Iginuguhit ko ang manipis at madilim na mga linya ng screen ng lumang telebisyon sa ibabaw ng @Stage. Bigyan mo ako ng /bilis/ at gumugulong ako, tulad ng TV na hindi pa lubos na naka-tune.",
+                "\\Entablado(\n\t[Parirala('📺 channel 3')]\n\tmgaEpekto: [MgaGuhit(40% bilis: 1)]\n)\\"
+            ],
+            "names": ["$~MgaGuhit"],
+            "amount": {
+                "doc": "$~Gaano kadilim ang aking mga linya. Ang \\0%\\ ay hindi nakikita, at ang \\100%\\ ay itim.",
+                "names": "$~dami"
+            },
+            "spacing": {
+                "doc": "$~Gaano kalayo ang pagitan ng aking mga linya.",
+                "names": "$~pagitan"
+            },
+            "speed": {
+                "doc": "$~Ilang linya ang ibinababa ko bawat segundo. Pinatitigil ako ng \\0\\, at ang negatibong bilis ay pumapaitaas.",
+                "names": "$~bilis"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Pinapaalon ko ang output sa @Stage, na parang nakikita mo ito sa tubig o sa umaakyat na init.",
+                "Binabaluktot ko ang mismong output, sa ilalim ng ibang mga epekto, kaya ang @Grain na nakalista bago ako ay hindi napapaalon.",
+                "\\Entablado([Parirala('🐟 blub')] mgaEpekto: [Alon(0.2m)])\\"
+            ],
+            "names": ["$~Alon"],
+            "amount": {
+                "doc": "$~Gaano kalayo ko itinutulak ang output mula sa lugar nito. Ang \\0m\\ ay walang alon.",
+                "names": "$~dami"
+            },
+            "scale": {
+                "doc": "$~Gaano kalayo ang pagitan ng aking mga alon. Ang maliit ay pinong kislap, at ang malaki ay mabagal na hampas.",
+                "names": "$~sukat"
+            },
+            "speed": {
+                "doc": "$~Gaano kabilis gumalaw ang aking mga alon. Pinatitigil sila ng \\0\\.",
+                "names": "$~bilis"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Nagkakalat ako ng mga gasgas at alikabok ng luma at gamit na pelikula sa @Stage, na iba sa bawat frame. Pagsamahin mo ako sa isang @Grade na nag-aalis ng kulay at isang @Flicker, at magiging isang daang taong gulang ang iyong eksena.",
+                "\\Entablado(\n\t[Parirala('🎩 WAKAS')]\n\tmgaEpekto: [Antas(tingkad: 0%) Sira(80% 60%)]\n)\\"
+            ],
+            "names": ["$~Sira"],
+            "scratches": {
+                "doc": "$~Ilang gasgas ang dumaraan sa pelikula. Ang \\0%\\ ay wala.",
+                "names": "$~mgaGasgas"
+            },
+            "dust": {
+                "doc": "$~Gaano karaming alikabok ang nasa pelikula. Ang \\0%\\ ay wala.",
+                "names": "$~alikabok"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Pinapautal ko ang buong @Stage: tuloy-tuloy ito, tapos bigla itong dumidilim sandali sa hindi pantay na mga oras, tulad ng bumbilya ng projector o ilaw na malapit nang mamatay.",
+                "Maaaring makasakit ang kumikislap na ilaw, kaya hindi ako pumapautal nang higit sa ilang beses bawat segundo, gaano man kabilis ang hilingin mo.",
+                "\\Entablado(\n\t[Parirala('💡 ang mga ilaw')]\n\tmgaEpekto: [Kurap(40% 2)]\n)\\"
+            ],
+            "names": ["$~Kurap"],
+            "amount": {
+                "doc": "$~Gaano ako kadilim kapag lumulubog ako. Ang \\0%\\ ay hindi dumidilim.",
+                "names": "$~dami"
+            },
+            "rate": {
+                "doc": "$~Mga ilang beses akong maaaring pumautal bawat segundo. Hindi ako lalampas sa 2.5, para maging ligtas sa mga taong sensitibo sa pagkislap.",
+                "names": "$~dalas"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~Pinadidilim ko ang mga gilid ng @Stage at iniiwang malinaw ang gitna, para mapunta ang tingin sa gitna. Ako ang gilid ng lumang lente, ng spotlight, o ng makitid na paningin.",
+                "\\Entablado(\n\t[Parirala('🔦 tingnan dito')]\n\tmgaEpekto: [DilimSaGilid(70%)]\n)\\"
+            ],
+            "names": ["$~DilimSaGilid"],
+            "amount": {
+                "doc": "$~Gaano kalalim umaabot ang dilim. Ang \\0%\\ ay wala, at ang \\100%\\ ay sumisikip nang husto.",
+                "names": "$~dami"
+            },
+            "color": {
+                "doc": "$~Ang @Color na pinupuntahan ng pagkupas ng mga gilid. Kung \\ø\\, kumukupas sila sa itim.",
+                "names": "$~kulay"
+            }
         }
     }
 }

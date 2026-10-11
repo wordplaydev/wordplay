@@ -1,0 +1,73 @@
+Donne à toute la scène l'aspect d'un vieux film, d'une télévision ou de l'eau
+
+Les films changent l'aspect de toute une scène : un retour en arrière devient doux et lumineux, un vieux journal filmé est rayé et gris, une télévision grésille de parasites, et tout ce qui est sous l'eau ondule et devient bleu.
+Nous pouvons faire la même chose en donnant à une @Stage une liste d' @Effect.
+
+Voici une scène vue à travers l'eau.
+
+\
+Scène(
+	[Phrase('🐠') Phrase('🌿' lieu: Lieu(1m -1m))]
+	effets: [Vague(0.15m) Teinte(Couleur(55% 45 220°) 70%) Brume(40% Couleur(70% 30 200°))]
+)
+\
+
+ Chaque effet fait une seule chose. @Wave fait onduler, @Tint teinte tout d'une seule couleur, et @Haze pose par-dessus un brouillard qui dérive.
+Ensemble, ils ressemblent à de l'eau. Les effets s'appliquent dans l'ordre de la liste : un effet plus tard change le résultat de ceux d'avant.
+
+Il y en a dix à combiner : @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker, et @Vignette.
+Voici un vieux film : @Grade enlève la couleur, puis @Damage, @Grain, et @Flicker le rendent usé et instable.
+
+\
+Scène(
+	[Phrase('THE END')]
+	effets: [Étalonnage(contraste: 130% saturation: 0%) Usure(70% 50%) Grain(25%) Scintillement(15% 2) Vignette(60%)]
+)
+\
+
+ Et voici une télévision qui perd son signal.
+
+\
+Scène(
+	[Phrase('channel 3')]
+	effets: [Lignes(40% vitesse: 1) Grain(50% taille: 2) Scintillement(20%)]
+)
+\
+
+ Pour réutiliser un aspect encore et encore, crée une fonction qui renvoie sa liste d'effets.
+Ses entrées deviennent les réglages propres à cet aspect. Celui-ci devient plus trouble à mesure que tu vas en profondeur.
+
+\
+ƒ underwater(depth•%) [
+	Vague(0.2m · depth)
+	Teinte(Couleur(55% 45 220°) depth)
+	Flou(0.03m · depth)
+]
+
+Scène([Phrase('🐠')] effets: underwater(80%))
+\
+
+ Un aspect peut aussi changer selon l'état d'un jeu.
+Ici, la scène devient floue et sombre sur les bords quand le joueur n'a plus qu'une vie, et redevient claire quand il en a plus.
+
+\
+lives: 3 … ∆ Clé() … lives - 1
+
+Scène(
+	[Phrase(lives → '')]
+	effets: lives < 2 ? [Flou(0.05m) Vignette(70% Couleur(30% 80 30°))] []
+)
+\
+
+ Les effets couvrent ce qui est sur la scène, mais jamais son @Stage.overlay, pour qu'un score ou un bouton reste facile à lire.
+
+Secouer toute la scène, comme lors d'un tremblement de terre, n'est pas du tout un effet : une @Stage peut bouger comme n'importe quelle autre sortie, alors donne-lui une @Sequence.
+
+\
+Scène([Phrase('🏠')] aurepos: Séquence.secousse(0.5s compter: 4x))
+\
+
+ Certains effets bougent vite. Quand une personne a demandé à son appareil de réduire les mouvements, tous les effets restent immobiles.
+@Flicker ne clignote jamais plus de quelques fois par seconde, même si tu demandes plus vite, car un clignotement rapide peut faire du mal aux gens.
+
+track-game-state
