@@ -1034,6 +1034,20 @@
         "e8bf14728ecca": "$~Wenn du nicht angemeldet bist, ist das Fenster mit dem Speicherstatus jetzt nicht mehr leer. Es zeigt, wie viele Projekte nur auf diesem Gerät gespeichert sind und wie du sie online speichern kannst.",
         "e6bd8c62fd1ab": "$~Wir haben Jahreszeiten hinzugefügt. Sie färben die Seite und füllen ihre Ränder mit Wetter von dort, wo du bist, zum Beispiel Monsunregen, fallende Blätter oder Schneeflocken aus deinen eigenen Buchstaben. Du kannst in den Einstellungen eine Jahreszeit auswählen oder sie ausschalten. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
         "e32dce56949e2": "$~\\Satzglied\\ hat eine neue Eingabe \\poses\\. Sie gibt jedem Buchstaben eine eigene Farbe, Neigung, Größe oder Position. Dabei wechselt sie nacheinander durch eine Liste von \\Pose\\.",
-        "ed0c9f9a5fdd1": "$~Code-Beispiele im <Leitfaden@https://wordplay.dev/guide> beginnen nicht mehr mit einer leeren Zeile."
+        "ed0c9f9a5fdd1": "$~Code-Beispiele im <Leitfaden@https://wordplay.dev/guide> beginnen nicht mehr mit einer leeren Zeile.",
+        "eddbb25bb5d1a": "$~\\Bühne\\ hat eine neue Eingabe \\effects\\, die Film-Looks über alles darauf legt, zum Beispiel \\Blur\\, \\Grain\\, \\Wave\\, \\Damage\\ und \\Flicker\\. Dazu gibt es eine neue Anleitung im <Leitfaden@https://wordplay.dev/guide>.",
+        "ea8214ba59642": "$~Eine \\Bühne\\ mit eigener \\resting\\-Animation springt nicht mehr von der Stelle weg, an der die Kamera sie zeigt, während die Animation läuft.",
+        "e59d72bd1eef6": "$~Wenn du im <Leitfaden@https://wordplay.dev/guide> von einer Seite zurückgehst, kommst du zur Liste zurück, aus der du sie geöffnet hast.",
+        "ebe9a238e4d65": "$~\\Hand()\\ und \\Gesicht()\\ gehen jetzt auf ihre Startwerte zurück, wenn deine Hand oder dein Gesicht die Kamera verlässt. Vorher blieben sie so, wie sie zuletzt waren.",
+        "ef13048196226": "$~Wir haben Wörter korrigiert, die in den übersetzten Versionen der Galerie-Beispiele zusammengelaufen waren.",
+        "e46bb0eb17287": "$~\\🌎\\ prüft jetzt die Sprachen, die die lesende Person gewählt hat, im Editor und in Galerien auf dieselbe Weise. So ist \\🌎/en\\ nur für Lesende wahr, die Englisch gewählt haben.",
+        "e31fe47f026f3": "$~Bei \\replace\\ einer Liste springt ein Index hinter dem Ende jetzt zurück zum Anfang, genau wie beim Lesen aus einer Liste.",
+        "e878b2c505fe9": "$~Wenn du eine Zahl mit Einheit in eine Liste umwandelst, bleibt die Einheit erhalten. So ist \\3m → []\\ gleich \\[1m 2m 3m]\\.",
+        "ec882547e2a4b": "$~\\◆\\ wird jetzt nach der ersten Auswertung eines Programms falsch. Vorher blieb es für immer wahr.",
+        "ea22aa3f3f5a0": "$~\\←←\\ gibt jetzt alle früheren Werte eines Datenstroms zurück, wenn es weniger gibt, als du verlangt hast. Vorher gab es nur den neuesten Wert.",
+        "e571ab9ae452c": "$~Wenn du einen Bereich, eine Funktion, ein Muster oder einen Wert, der \\ø\\ sein könnte, mit \\→ ''\\ in Text umwandelst, funktioniert das jetzt. Vorher hat es das Programm gestoppt.",
+        "e5ab9da833914": "$~Das Lesen von \\Zeiger().Drehung\\ stoppt das Programm nicht mehr.",
+        "e92691ec133cd": "$~Wir warnen jetzt auch vor E-Mail-Adressen in der Dokumentation und in formatiertem Text, so wie wir es schon bei Text getan haben.",
+        "e68be06131b48": "$~Links zum Leitfaden, die direkt nach einem hebräischen Präfix wie ב- oder nach einem Punkt stehen, öffnen jetzt den Leitfaden. Vorher wurden sie zu E-Mail-Links."
     }
 }

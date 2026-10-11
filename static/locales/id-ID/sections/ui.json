@@ -1288,11 +1288,51 @@
                 },
                 "location": {
                     "header": "$~Lokasi",
-                    "explanation": "$~Cara menentukan letak output di atas panggung."
+                    "explanation": "$~/Cara menentukan di mana keluaran berada di panggung./"
                 },
                 "reactions": {
                     "header": "$~Reaksi",
                     "explanation": "$~Cara bereaksi terhadap atau menganalisis aliran masukan."
+                },
+                "effects": {
+                    "header": "$~Efek",
+                    "explanation": "$~/Cara mengubah tampilan seluruh panggung./"
+                },
+                "sound": {
+                    "header": "$~Bunyi",
+                    "explanation": "$~/Cara membuat musik dan ucapan./"
+                },
+                "physics": {
+                    "header": "$~Fisika",
+                    "explanation": "$~/Bahan pembentuk keluaran, untuk saat keluaran bergerak./"
+                },
+                "time": {
+                    "header": "$~Waktu",
+                    "explanation": "$~/Cara mengetahui jam berapa sekarang, dan menyerahkan hal pada kebetulan./"
+                },
+                "audience": {
+                    "header": "$~Penonton",
+                    "explanation": "$~/Apa yang ditekan, ditunjuk, dipilih, dan diketik penonton Anda./"
+                },
+                "motion": {
+                    "header": "$~Gerakan",
+                    "explanation": "$~/Cara menggerakkan keluaran, dan mengetahui kapan keluaran menabrak sesuatu./"
+                },
+                "listening": {
+                    "header": "$~Mendengarkan",
+                    "explanation": "$~/Apa yang didengar mikrofon, dan ketukan musik saat dimainkan./"
+                },
+                "camera": {
+                    "header": "$~Kamera",
+                    "explanation": "$~/Apa yang dilihat kamera: tangan, wajah, dan benda./"
+                },
+                "scenes": {
+                    "header": "$~Adegan",
+                    "explanation": "$~/Cara menampilkan satu hal demi satu hal, dan mengetahui di mana Anda berada./"
+                },
+                "text": {
+                    "header": "$~Teks",
+                    "explanation": "$~/Teks dari web, dan bentuk huruf./"
                 }
             },
             "mode": {

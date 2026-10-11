@@ -86,6 +86,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'Layouts',
             'Mumble',
             'WildTransforms',
+            'Effects',
         ],
     },
     Music: {

@@ -2,6 +2,7 @@ import type Concept from '#concepts/Concept.ts';
 import type ConceptIndex from '#concepts/ConceptIndex.ts';
 import ConversionConcept from '#concepts/ConversionConcept.ts';
 import FunctionConcept from '#concepts/FunctionConcept.ts';
+import StreamConcept from '#concepts/StreamConcept.ts';
 import NodeConcept from '#concepts/NodeConcept.ts';
 import { Purpose, type PurposeType } from '#concepts/Purpose.ts';
 import StructureConcept from '#concepts/StructureConcept.ts';
@@ -26,6 +27,7 @@ import Literal from '#nodes/Literal.ts';
 import type Node from '#nodes/Node.ts';
 import PatternType from '#nodes/PatternType.ts';
 import Source from '#nodes/Source.ts';
+import type StructureDefinition from '#nodes/StructureDefinition.ts';
 import {
     BIND_SYMBOL,
     BORROW_SYMBOL,
@@ -99,76 +101,155 @@ export function getConceptGroups(
 
     if (purpose === Purpose.Outputs) {
         const concepts = index.getPrimaryConceptsWithPurpose(purpose);
-        const sourceConcept = index.getStructureConcept(
-            project.shares.output.Data,
+        const types = project.shares.output;
+        /** The concepts for these definitions, matched by definition so every group is
+         *  named rather than collecting whatever the others left behind. */
+        const definedBy = (...definitions: StructureDefinition[]) =>
+            concepts.filter(
+                (c) =>
+                    c instanceof StructureConcept &&
+                    definitions.includes(c.definition),
+            );
+        const sound = definedBy(
+            types.Music,
+            types.Track,
+            types.Note,
+            types.Instrument,
+            types.Say,
         );
+        const sourceConcept = index.getStructureConcept(types.Data);
         const outputs: Concept[] = [
-            ...index.getInterfaceImplementers(project.shares.output.Output),
+            ...index
+                .getInterfaceImplementers(types.Output)
+                .filter((c) => !sound.includes(c)),
             ...(sourceConcept ? [sourceConcept] : []),
         ];
         const arrangements: Concept[] = index.getInterfaceImplementers(
-            project.shares.output.Arrangement,
+            types.Arrangement,
         );
-        const forms: Concept[] = index.getInterfaceImplementers(
-            project.shares.output.Form,
-        );
+        const forms: Concept[] = index.getInterfaceImplementers(types.Form);
+        const effects: Concept[] = index.getInterfaceImplementers(types.Effect);
         const styles: Concept[] = concepts.filter(
             (c) =>
                 c instanceof FunctionConcept ||
                 (c instanceof StructureConcept &&
-                    c.definition === project.shares.output.Sequence),
+                    c.definition === types.Sequence),
         );
-        const appearance: Concept[] = concepts.filter(
-            (c) =>
-                c instanceof StructureConcept &&
-                (c.definition === project.shares.output.Color ||
-                    c.definition === project.shares.output.Aura ||
-                    c.definition === project.shares.output.Bubble ||
-                    c.definition === project.shares.output.Pose),
+        const appearance = definedBy(
+            types.Color,
+            types.Aura,
+            types.Bubble,
+            types.Pose,
         );
-        const other: Concept[] = concepts.filter(
-            (c) =>
-                !outputs.includes(c) &&
-                !arrangements.includes(c) &&
-                !forms.includes(c) &&
-                !styles.includes(c) &&
-                !appearance.includes(c) &&
-                !(
-                    c instanceof StructureConcept &&
-                    (c.definition === project.shares.output.Form ||
-                        c.definition === project.shares.output.Arrangement ||
-                        // Result is a pattern-search element, surfaced under Patterns
-                        // (not output/location); keep it out of this catch-all group.
-                        c.definition === project.shares.output.Result)
-                ),
-        );
+        const location = definedBy(types.Place, types.Velocity);
+        const physics = definedBy(types.Matter);
+        // In the order a scene is built: what to show, its shape and layout, where it
+        // is, how it looks and moves, then the stage as a whole, then what's heard.
         return [
             { header: (l) => l.ui.docs.purposes.Outputs, concepts: outputs },
+            { header: (l) => l.ui.docs.header.forms, concepts: forms },
             {
                 header: (l) => l.ui.docs.header.arrangements,
                 concepts: arrangements,
             },
-            { header: (l) => l.ui.docs.header.forms, concepts: forms },
+            { header: (l) => l.ui.docs.header.location, concepts: location },
             {
                 header: (l) => l.ui.docs.header.appearance,
                 concepts: appearance,
             },
             { header: (l) => l.ui.docs.header.animation, concepts: styles },
-            { header: (l) => l.ui.docs.header.location, concepts: other },
+            { header: (l) => l.ui.docs.header.physics, concepts: physics },
+            { header: (l) => l.ui.docs.header.effects, concepts: effects },
+            { header: (l) => l.ui.docs.header.sound, concepts: sound },
         ];
     }
 
     if (purpose === Purpose.Inputs) {
         const concepts = index.getPrimaryConceptsWithPurpose(purpose);
-        const controls: Concept[] = concepts.filter(
-            (c) => c instanceof NodeConcept,
-        );
-        const streams = concepts.filter((c) => !controls.includes(c));
+        const inputs = project.shares.input;
+        const outputs = project.shares.output;
+        /** The concepts for these definitions, in this order, so a stream is listed
+         *  right before the values it reports. */
+        const definedBy = (...definitions: unknown[]) =>
+            definitions
+                .map((definition) =>
+                    concepts.find(
+                        (c) =>
+                            (c instanceof StreamConcept ||
+                                c instanceof StructureConcept ||
+                                c instanceof FunctionConcept) &&
+                            c.definition === definition,
+                    ),
+                )
+                .filter((c): c is Concept => c !== undefined);
         return [
-            { header: (l) => l.ui.docs.purposes.Inputs, concepts: streams },
+            {
+                header: (l) => l.ui.docs.header.time,
+                concepts: definedBy(
+                    inputs.Time,
+                    inputs.Now,
+                    inputs.Moment,
+                    inputs.Random,
+                ),
+            },
+            {
+                header: (l) => l.ui.docs.header.audience,
+                concepts: definedBy(
+                    inputs.Key,
+                    inputs.Button,
+                    inputs.Pointer,
+                    inputs.Placement,
+                    inputs.Choice,
+                    inputs.Chat,
+                ),
+            },
+            {
+                header: (l) => l.ui.docs.header.motion,
+                concepts: definedBy(
+                    inputs.Motion,
+                    inputs.Collision,
+                    outputs.Rebound,
+                    outputs.Direction,
+                ),
+            },
+            {
+                header: (l) => l.ui.docs.header.listening,
+                concepts: definedBy(
+                    inputs.Volume,
+                    inputs.Pitch,
+                    inputs.Speech,
+                    inputs.Beat,
+                    outputs.Downbeat,
+                    outputs.Part,
+                ),
+            },
+            {
+                header: (l) => l.ui.docs.header.camera,
+                concepts: definedBy(
+                    inputs.Camera,
+                    inputs.Hand,
+                    outputs.Gesture,
+                    inputs.Face,
+                    outputs.Expression,
+                    inputs.Objects,
+                    outputs.Thing,
+                ),
+            },
+            {
+                header: (l) => l.ui.docs.header.scenes,
+                concepts: definedBy(
+                    inputs.Scene,
+                    inputs.Spotlight,
+                    inputs.Slate,
+                ),
+            },
+            {
+                header: (l) => l.ui.docs.header.text,
+                concepts: definedBy(inputs.Webpage, inputs.Contour),
+            },
             {
                 header: (l) => l.ui.docs.header.reactions,
-                concepts: controls,
+                concepts: concepts.filter((c) => c instanceof NodeConcept),
             },
         ];
     }

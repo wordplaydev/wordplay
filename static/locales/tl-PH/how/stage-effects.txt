@@ -1,0 +1,73 @@
+Gawing parang lumang pelikula, telebisyon, o tubig ang buong entablado
+
+Binabago ng mga pelikula ang hitsura ng buong eksena: ang flashback ay malambot at maliwanag, ang lumang newsreel ay may gasgas at kulay abo, ang telebisyon ay may ingay na static, at ang anumang nasa ilalim ng tubig ay umaalon at nagiging asul.
+Magagawa natin ito sa pamamagitan ng pagbibigay sa isang @Stage ng listahan ng @Effect.
+
+Narito ang isang eksenang nakikita sa pamamagitan ng tubig.
+
+\
+Entablado(
+	[Parirala('🐠') Parirala('🌿' lugar: Lugar(1m -1m))]
+	mgaEpekto: [Alon(0.15m) Bahid(Kulay(55% 45 220°) 70%) Ulap(40% Kulay(70% 30 200°))]
+)
+\
+
+ Isang bagay lang ang ginagawa ng bawat epekto. @Wave ay umaalon, @Tint ay nilalagyan ng iisang kulay ang lahat, at @Haze ay naglalagay ng gumagalaw na hamog sa ibabaw.
+Kapag pinagsama, para silang tubig. Sinusunod ang mga epekto ayon sa pagkakasunod nila sa listahan, kaya binabago ng mas huli ang resulta ng mga nauna.
+
+May sampung maaaring pagsamahin: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker, at @Vignette.
+Narito ang isang lumang pelikula: @Grade ay nag-aalis ng kulay, at pagkatapos ay @Damage, @Grain, at @Flicker ay ginagawa itong sira-sira at hindi matatag.
+
+\
+Entablado(
+	[Parirala('THE END')]
+	mgaEpekto: [Antas(kaibahan: 130% tingkad: 0%) Sira(70% 50%) Butil(25%) Kurap(15% 2) DilimSaGilid(60%)]
+)
+\
+
+ At narito ang isang telebisyon na nawawalan ng signal.
+
+\
+Entablado(
+	[Parirala('channel 3')]
+	mgaEpekto: [MgaGuhit(40% bilis: 1) Butil(50% laki: 2) Kurap(20%)]
+)
+\
+
+ Para magamit nang paulit-ulit ang isang hitsura, gumawa ng function na nagbibigay ng listahan ng mga epekto nito.
+Ang mga input nito ang nagiging sariling mga setting ng hitsura. Ang isang ito ay lalong lumalabo habang lumalalim ka.
+
+\
+ƒ underwater(depth•%) [
+	Alon(0.2m · depth)
+	Bahid(Kulay(55% 45 220°) depth)
+	Labo(0.03m · depth)
+]
+
+Entablado([Parirala('🐠')] mgaEpekto: underwater(80%))
+\
+
+ Ang hitsura ay maaari ding magbago ayon sa estado ng laro.
+Dito, lumalabo at dumidilim ang mga gilid ng entablado kapag isang buhay na lang ang natitira sa manlalaro, at lumiliwanag muli kapag mas marami pa.
+
+\
+lives: 3 … ∆ Susi() … lives - 1
+
+Entablado(
+	[Parirala(lives → '')]
+	mgaEpekto: lives < 2 ? [Labo(0.05m) DilimSaGilid(70% Kulay(30% 80 30°))] []
+)
+\
+
+ Tinatakpan ng mga epekto ang laman ng entablado, pero hindi kailanman ang @Stage.overlay, kaya nananatiling malinaw basahin ang iskor o ang isang button.
+
+Ang pag-uga sa buong entablado, tulad ng lindol, ay hindi epekto: isang @Stage ay maaaring gumalaw tulad ng ibang output, kaya bigyan ito ng @Sequence.
+
+\
+Entablado([Parirala('🏠')] nagpapahinga: Pagkakasunodsunod.iling(0.5s bilangin: 4x))
+\
+
+ May mga epekto na mabilis gumalaw. Kapag humiling ang isang tao sa kanyang device na bawasan ang galaw, titigil sa paggalaw ang bawat epekto.
+@Flicker ay hindi kailanman kumikislap nang mas mabilis kaysa sa ilang beses bawat segundo, gaano man kabilis ang hilingin mo, dahil ang mabilis na pagkislap ay maaaring makasakit sa mga tao.
+
+track-game-state

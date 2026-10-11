@@ -899,11 +899,9 @@ export default class OutputAnimation {
                     this.output instanceof Stage
                         ? new Place(this.output.value, 0, 0, 0)
                         : localPlace,
-                    // If a stage, use the transitioning rendered focus; if not, use the offset focus computed above.
-                    this.output instanceof Stage
-                        ? (transition.place?.flipX() ??
-                              new Place(this.output.value, 0, 0, 0))
-                        : offsetFocus,
+                    // For a stage this is the camera StageView renders with, since the stage has no
+                    // parents; a stage's own animation would otherwise be drawn from the origin at zoom 1.
+                    offsetFocus,
                     // Anything rooted in the stage has no height.
                     // Otherwise, pass the height of the parent, just like
                     // we do in GroupView.

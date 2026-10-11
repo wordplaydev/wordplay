@@ -371,6 +371,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Layouts',
                 'Mumble',
                 'WildTransforms',
+                'Effects',
             ],
             locales,
         ),

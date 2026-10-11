@@ -1034,6 +1034,20 @@
         "e8bf14728ecca": "$~När du inte är inloggad visar fönstret för sparstatus nu hur många projekt som bara är sparade på den här enheten och hur du sparar dem online. Förut var det tomt.",
         "e6bd8c62fd1ab": "$~Vi har lagt till årstider. De ger sidan färg och fyller kanterna med väder från platsen där du är, som monsunregn, fallande löv eller snöflingor gjorda av dina egna bokstäver. Du kan välja en årstid eller stänga av dem i inställningarna. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
         "e32dce56949e2": "$~\\Fras\\ har en ny \\poses\\-indata som ger varje bokstav sin egen färg, lutning, storlek eller position, i tur och ordning genom en lista med \\Pose\\.",
-        "ed0c9f9a5fdd1": "$~Kodexempel i <guiden@https://wordplay.dev/guide> börjar inte längre med en tom rad."
+        "ed0c9f9a5fdd1": "$~Kodexempel i <guiden@https://wordplay.dev/guide> börjar inte längre med en tom rad.",
+        "eddbb25bb5d1a": "$~\\Etapp\\ har en ny \\effects\\-indata som lägger filmlooks över allt på den, som \\Blur\\, \\Grain\\, \\Wave\\, \\Damage\\ och \\Flicker\\, med en ny instruktion i <Guiden@https://wordplay.dev/guide>.",
+        "ea8214ba59642": "$~En \\Etapp\\ med egen \\resting\\-animation hoppar inte längre bort från där kameran visar den medan animationen spelas.",
+        "e59d72bd1eef6": "$~Om du går tillbaka från en sida i <Guiden@https://wordplay.dev/guide> kommer du till listan du öppnade den från.",
+        "ebe9a238e4d65": "$~\\Hand()\\ och \\Ansikte()\\ går nu tillbaka till sina startvärden när din hand eller ditt ansikte lämnar kameran, i stället för att stanna som de senast var.",
+        "ef13048196226": "$~Vi har lagagt ord som hängde ihop i de översatta versionerna av galleriexemplen.",
+        "e46bb0eb17287": "$~\\🌎\\ kontrollerar nu vilka språk läsaren har valt på samma sätt i redigeraren och i gallerier, så \\🌎/en\\ är bara sant för läsare som valde engelska.",
+        "e31fe47f026f3": "$~En listas \\replace\\ går nu runt till början när ett index är förbi slutet, på samma sätt som när man läser från en lista.",
+        "e878b2c505fe9": "$~Om du omvandlar ett tal med enhet till en lista behålls enheten, så \\3m → []\\ är \\[1m 2m 3m]\\.",
+        "ec882547e2a4b": "$~\\◆\\ blir nu falskt efter ett programs första utvärdering, i stället för att förbli sant för alltid.",
+        "ea22aa3f3f5a0": "$~\\←←\\ ger nu alla tidigare värden i en ström när det finns färre än du bad om, i stället för bara det nyaste.",
+        "e571ab9ae452c": "$~Att omvandla ett intervall, en funktion, ett mönster eller ett värde som kan vara \\ø\\ till text med \\→ ''\\ fungerar nu i stället för att stoppa programmet.",
+        "e5ab9da833914": "$~Att läsa \\Pekare().rotation\\ stoppar inte längre programmet.",
+        "e92691ec133cd": "$~Vi varnar nu för e-postadresser skrivna i dokumentation och formaterad text, som vi redan gjorde i text.",
+        "e68be06131b48": "$~Länkar till guiden som kommer direkt efter ett hebreiskt prefix som ב- eller efter en punkt öppnar nu guiden, i stället för att bli e-postlänkar."
     }
 }

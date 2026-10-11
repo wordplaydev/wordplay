@@ -1018,7 +1018,7 @@
                 },
                 "location": {
                     "header": "$~Lokalizacja",
-                    "explanation": "$~/Sposoby określania, gdzie na scenie znajduje się wyjście./"
+                    "explanation": "$~/Sposoby ustalania, gdzie jest wynik na scenie./"
                 },
                 "reactions": {
                     "header": "$~Reakcje",
@@ -1027,6 +1027,46 @@
                 "names": {
                     "header": "$~Nazwy",
                     "explanation": "$~/Nazwy tego konceptu./"
+                },
+                "effects": {
+                    "header": "$~Efekty",
+                    "explanation": "$~/Sposoby zmieniania wyglądu całej sceny./"
+                },
+                "sound": {
+                    "header": "$~Dźwięk",
+                    "explanation": "$~/Sposoby tworzenia muzyki i mowy./"
+                },
+                "physics": {
+                    "header": "$~Fizyka",
+                    "explanation": "$~/Z czego zrobiony jest wynik, gdy się porusza./"
+                },
+                "time": {
+                    "header": "$~Czas",
+                    "explanation": "$~/Sposoby sprawdzania, która jest godzina, i zostawiania spraw przypadkowi./"
+                },
+                "audience": {
+                    "header": "$~Widownia",
+                    "explanation": "$~/Co twoja widownia naciska, wskazuje, wybiera i pisze./"
+                },
+                "motion": {
+                    "header": "$~Ruch",
+                    "explanation": "$~/Sposoby poruszania wynikiem i sprawdzania, kiedy na coś wpadnie./"
+                },
+                "listening": {
+                    "header": "$~Słuchanie",
+                    "explanation": "$~/Co słyszy mikrofon i jakie są uderzenia muzyki, gdy gra./"
+                },
+                "camera": {
+                    "header": "$~Kamera",
+                    "explanation": "$~/Co widzi kamera: dłonie, twarze i przedmioty./"
+                },
+                "scenes": {
+                    "header": "$~Sceny",
+                    "explanation": "$~/Sposoby pokazywania jednej rzeczy po drugiej i sprawdzania, gdzie jesteś./"
+                },
+                "text": {
+                    "header": "$~Tekst",
+                    "explanation": "$~/Tekst z internetu i kształty liter./"
                 }
             },
             "how": {

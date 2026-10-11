@@ -1023,7 +1023,7 @@
                 },
                 "location": {
                     "header": "$~Plats",
-                    "explanation": "$~/Sätt att avgöra var output finns på scenen./"
+                    "explanation": "$~/Sätt att bestämma var utdata finns på scenen./"
                 },
                 "reactions": {
                     "header": "$~Reaktioner",
@@ -1032,6 +1032,46 @@
                 "names": {
                     "header": "$~Namn",
                     "explanation": "$~/Namn för detta koncept./"
+                },
+                "effects": {
+                    "header": "$~Effekter",
+                    "explanation": "$~/Sätt att ändra hur hela scenen ser ut./"
+                },
+                "sound": {
+                    "header": "$~Ljud",
+                    "explanation": "$~/Sätt att göra musik och tal./"
+                },
+                "physics": {
+                    "header": "$~Fysik",
+                    "explanation": "$~/Vad utdata är gjord av, när den rör sig./"
+                },
+                "time": {
+                    "header": "$~Tid",
+                    "explanation": "$~/Sätt att veta vad klockan är, och att låta slumpen avgöra./"
+                },
+                "audience": {
+                    "header": "$~Publik",
+                    "explanation": "$~/Vad din publik trycker på, pekar på, väljer och skriver./"
+                },
+                "motion": {
+                    "header": "$~Rörelse",
+                    "explanation": "$~/Sätt att flytta utdata, och att veta när den stöter på något./"
+                },
+                "listening": {
+                    "header": "$~Lyssnande",
+                    "explanation": "$~/Vad mikrofonen hör, och musikens takter medan den spelas./"
+                },
+                "camera": {
+                    "header": "$~Kamera",
+                    "explanation": "$~/Vad kameran ser: händer, ansikten och saker./"
+                },
+                "scenes": {
+                    "header": "$~Scener",
+                    "explanation": "$~/Sätt att visa en sak efter en annan, och att veta var du är./"
+                },
+                "text": {
+                    "header": "$~Text",
+                    "explanation": "$~/Text från webben, och bokstävernas former./"
                 }
             },
             "how": {

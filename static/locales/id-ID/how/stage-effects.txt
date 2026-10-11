@@ -1,0 +1,73 @@
+Buat seluruh panggung terlihat seperti film lama, televisi, atau air
+
+Film mengubah tampilan seluruh adegan: kilas balik menjadi lembut dan terang, siaran berita lama tampak tergores dan abu-abu, televisi berderak penuh bintik, dan segala yang ada di bawah air bergelombang dan menjadi biru.
+Kita bisa melakukan hal yang sama dengan memberi @Stage sebuah daftar @Effect.
+
+Ini adalah adegan yang dilihat melalui air.
+
+\
+Panggung(
+	[Frasa('🐠') Frasa('🌿' tempat: Tempat(1m -1m))]
+	efek: [Gelombang(0.15m) Semburat(Warna(55% 45 220°) 70%) Kabut(40% Warna(70% 30 200°))]
+)
+\
+
+ Setiap efek melakukan satu hal. @Wave membuat riak, @Tint mewarnai semuanya dengan satu warna, dan @Haze menebarkan kabut yang melayang di atasnya.
+Bersama-sama, semuanya terlihat seperti air. Efek diterapkan sesuai urutan daftarnya, jadi efek yang datang kemudian mengubah hasil dari efek sebelumnya.
+
+Ada sepuluh yang bisa digabungkan: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker, dan @Vignette.
+Ini adalah film lama: @Grade menghilangkan warna, lalu @Damage, @Grain, dan @Flicker membuatnya tampak usang dan goyah.
+
+\
+Panggung(
+	[Frasa('THE END')]
+	efek: [Gradasi(kontras: 130% saturasi: 0%) Kerusakan(70% 50%) Bintik(25%) Kedip(15% 2) BayanganTepi(60%)]
+)
+\
+
+ Dan ini adalah televisi yang kehilangan sinyal.
+
+\
+Panggung(
+	[Frasa('channel 3')]
+	efek: [GarisPindai(40% kecepatan: 1) Bintik(50% ukuran: 2) Kedip(20%)]
+)
+\
+
+ Untuk memakai sebuah tampilan berulang kali, buat fungsi yang mengembalikan daftar efeknya.
+Masukannya menjadi pengaturan tampilan itu sendiri. Tampilan ini makin keruh semakin dalam kamu pergi.
+
+\
+ƒ underwater(depth•%) [
+	Gelombang(0.2m · depth)
+	Semburat(Warna(55% 45 220°) depth)
+	Buram(0.03m · depth)
+]
+
+Panggung([Frasa('🐠')] efek: underwater(80%))
+\
+
+ Sebuah tampilan juga bisa berubah mengikuti keadaan permainan.
+Di sini panggung menjadi buram dan gelap di bagian tepinya saat pemain hanya punya satu nyawa, lalu jernih lagi saat nyawanya lebih banyak.
+
+\
+lives: 3 … ∆ Kunci() … lives - 1
+
+Panggung(
+	[Frasa(lives → '')]
+	efek: lives < 2 ? [Buram(0.05m) BayanganTepi(70% Warna(30% 80 30°))] []
+)
+\
+
+ Efek menutupi isi panggung, tetapi tidak pernah menutupi @Stage.overlay, jadi skor atau tombol tetap jelas dibaca.
+
+Mengguncang seluruh panggung, seperti gempa bumi, sama sekali bukan sebuah efek: sebuah @Stage dapat bergerak seperti keluaran lainnya, jadi berikan @Sequence.
+
+\
+Panggung([Frasa('🏠')] beristirahat: Urutan.menggoyang(0.5s menghitung: 4x))
+\
+
+ Beberapa efek bergerak dengan cepat. Jika seseorang sudah meminta perangkatnya untuk mengurangi gerakan, semua efek akan diam.
+@Flicker tidak pernah berkedip lebih cepat dari beberapa kali per detik, secepat apa pun kamu memintanya, karena kedipan yang terlalu cepat dapat membahayakan orang.
+
+track-game-state

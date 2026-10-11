@@ -42,6 +42,7 @@ export const HowToMetadata = {
     'move-between-content': { category: 'stories' },
     'repeat-a-round': { category: 'stories' },
     'layering-images': { category: 'stories' },
+    'stage-effects': { category: 'stories' },
     'shake-phrase': { category: 'randomization' },
     'video-grid': { category: 'video' },
     'track-points': { category: 'remembering' },

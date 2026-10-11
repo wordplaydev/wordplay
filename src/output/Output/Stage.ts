@@ -22,6 +22,8 @@ import type Evaluator from '#runtime/Evaluator.ts';
 import Color from '#output/Color/Color.ts';
 import { Form } from '#output/Output/Shape/Form.ts';
 import { toForm } from '#output/Output/Shape/toForm.ts';
+import type { Effect } from '#output/Effect/Effect.ts';
+import { toEffects } from '#output/Effect/toEffect.ts';
 import Group from '#output/Output/Group.ts';
 import Music from '#output/Music/Music.ts';
 import Output, { DefaultStyle } from '#output/Output/Output.ts';
@@ -111,6 +113,10 @@ export function createStageType(locales: Locales) {
         (locale) => locale.output.Stage.overlay,
     )}•[${getOutputContentTypeNames(locales)}]|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.air)}•#: ${DefaultAir}
+    ${getBind(
+        locales,
+        (locale) => locale.output.Stage.effects,
+    )}•[${getTypeName(locales, (l) => l.output.Effect.names)}]|ø: ø
     )
 `);
 }
@@ -126,6 +132,8 @@ export default class Stage extends Output {
     /** Content pinned flat to the screen (a HUD), rendered above the world
      *  content and unaffected by the camera or depth. */
     readonly overlay: (Output | null)[];
+    /** Effects laid over the content, in order, like grain or blur. Never over the overlay. */
+    readonly effects: Effect[];
 
     private _description: string | undefined = undefined;
 
@@ -152,6 +160,7 @@ export default class Stage extends Output {
         gravity: number,
         overlay: (Output | null)[] = [],
         air: number = DefaultAir,
+        effects: Effect[] = [],
     ) {
         super(
             value,
@@ -178,6 +187,7 @@ export default class Stage extends Output {
         this.gravity = gravity;
         this.air = air;
         this.overlay = overlay;
+        this.effects = effects;
     }
 
     getOutput() {
@@ -345,6 +355,14 @@ export default class Stage extends Output {
                     frame: this.frame?.getDescription(locales),
                     pose: this.pose.getDescription(locales).trim(),
                     color: colorDescription,
+                    effects:
+                        this.effects.length > 0
+                            ? this.effects
+                                  .map((effect) =>
+                                      effect.getDescription(locales),
+                                  )
+                                  .join(', ')
+                            : undefined,
                 })
                 .toText()
                 .trim();
@@ -453,6 +471,8 @@ function toStageBuilder(
         toFiniteNumber(getOutputInput(value, 24), DefaultAir),
     );
 
+    const effects = toEffects(project, getOutputInput(value, 25));
+
     const overlayInput = getOutputInput(value, 23);
     const overlay =
         overlayInput instanceof ListValue
@@ -515,6 +535,7 @@ function toStageBuilder(
             gravity,
             overlay,
             air,
+            effects,
         );
 }
 

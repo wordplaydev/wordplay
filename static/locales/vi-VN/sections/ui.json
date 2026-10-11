@@ -1280,11 +1280,51 @@
                 },
                 "location": {
                     "header": "$~Vị trí",
-                    "explanation": "$~Các phương pháp xác định vị trí đầu ra trên sân khấu."
+                    "explanation": "$~/Các cách xác định vị trí của kết quả hiển thị trên sân khấu./"
                 },
                 "reactions": {
                     "header": "$~Phản ứng",
                     "explanation": "$~Các cách phản ứng hoặc phân tích luồng dữ liệu đầu vào."
+                },
+                "effects": {
+                    "header": "$~Hiệu ứng",
+                    "explanation": "$~/Các cách thay đổi diện mạo của toàn bộ sân khấu./"
+                },
+                "sound": {
+                    "header": "$~Âm thanh",
+                    "explanation": "$~/Các cách tạo ra nhạc và giọng nói./"
+                },
+                "physics": {
+                    "header": "$~Vật lý",
+                    "explanation": "$~/Kết quả hiển thị được làm từ gì, để dùng khi nó di chuyển./"
+                },
+                "time": {
+                    "header": "$~Thời gian",
+                    "explanation": "$~/Các cách biết bây giờ là lúc nào, và để mọi thứ xảy ra ngẫu nhiên./"
+                },
+                "audience": {
+                    "header": "$~Khán giả",
+                    "explanation": "$~/Những gì khán giả nhấn, chỉ vào, chọn và gõ./"
+                },
+                "motion": {
+                    "header": "$~Chuyển động",
+                    "explanation": "$~/Các cách làm kết quả hiển thị di chuyển, và biết khi nó va vào vật khác./"
+                },
+                "listening": {
+                    "header": "$~Lắng nghe",
+                    "explanation": "$~/Những gì micro nghe được, và nhịp của bản nhạc khi nó đang phát./"
+                },
+                "camera": {
+                    "header": "$~Máy ảnh",
+                    "explanation": "$~/Những gì máy ảnh nhìn thấy: bàn tay, khuôn mặt và đồ vật./"
+                },
+                "scenes": {
+                    "header": "$~Cảnh",
+                    "explanation": "$~/Các cách cho xem hết thứ này đến thứ khác, và biết mình đang ở đâu./"
+                },
+                "text": {
+                    "header": "$~Văn bản",
+                    "explanation": "$~/Văn bản từ mạng, và hình dạng của các chữ cái./"
                 }
             },
             "mode": {

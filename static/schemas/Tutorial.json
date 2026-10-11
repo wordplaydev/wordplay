@@ -708,6 +708,50 @@
                     "type": "string"
                 },
                 {
+                    "const": "Effect",
+                    "type": "string"
+                },
+                {
+                    "const": "Blur",
+                    "type": "string"
+                },
+                {
+                    "const": "Grade",
+                    "type": "string"
+                },
+                {
+                    "const": "Tint",
+                    "type": "string"
+                },
+                {
+                    "const": "Haze",
+                    "type": "string"
+                },
+                {
+                    "const": "Grain",
+                    "type": "string"
+                },
+                {
+                    "const": "Scanlines",
+                    "type": "string"
+                },
+                {
+                    "const": "Wave",
+                    "type": "string"
+                },
+                {
+                    "const": "Damage",
+                    "type": "string"
+                },
+                {
+                    "const": "Flicker",
+                    "type": "string"
+                },
+                {
+                    "const": "Vignette",
+                    "type": "string"
+                },
+                {
                     "const": "Rectangle",
                     "type": "string"
                 },
@@ -905,6 +949,7 @@
                 "move-between-content",
                 "repeat-a-round",
                 "layering-images",
+                "stage-effects",
                 "shake-phrase",
                 "video-grid",
                 "track-points",
@@ -926,6 +971,7 @@
                 "gravity-and-bouncing",
                 "gallery-how-to",
                 "mix-languages-in-text",
+                "party-text",
                 "find-text-with-patterns",
                 "draw-the-music",
                 "play-a-sound-effect",

@@ -1146,20 +1146,22 @@
         },
         "Stage": {
             "doc": [
-                "$~POKAZUJĘ TWOJE @Output PUBLICZNOŚCI. CZEŚĆ. TU JEST SCENĘ. POWIEDZ MI, CO POKAZAĆ, A JA TO POKAZĘ.",
-                "\\Stage([Phrase('stufffffff')])\\",
-                "JEŚLI CHCESZ, PODAJ MI TŁO @Color , A ODPOWIEDNIO OŚWIETLĘ SCENĘ.",
-                "\\Stage([Phrase('stufffffff')] tło: Color(75% 50 100°))\\",
-                "MOŻESZ TEŻ DAĆ MI RAMKĘ, A JA JĄ PRZYCINĘ.",
-                "\\Stage([Phrase('stufffffff')] tło: Color(75% 50 100°) rama: Rectangle(-1m -1m 1m 1m))\\"
+                "$~POKAZUJĘ TWOJE @Output WIDOWNI. CZEŚĆ. TU SCENA. POWIEDZ MI, CO POKAZAĆ, A JA TO POKAŻĘ.",
+                "\\Scena([Wyrażenie('rzeczyyyyyyy')])\\",
+                "JEŚLI CHCESZ, DAJ MI @Color TŁA, A JA OŚWIETLĘ SCENĘ ZGODNIE Z NIM.",
+                "\\Scena([Wyrażenie('rzeczyyyyyyy')] tło: Kolor(75% 50 100°))\\",
+                "MOŻESZ TEŻ DAĆ MI RAMKĘ, A JA PRZYTNĘ OBRAZ.",
+                "\\Scena(\n\t[Wyrażenie('rzeczyyyyyyy')]\n\ttło: Kolor(75% 50 100°)\n\trama: Prostokąt(-1m -1m 1m 1m)\n)\\",
+                "A JEŚLI CHCESZ DRAMATU, DAJ MI @Effect, A JA ZMIENIĘ WYGLĄD WSZYSTKIEGO. POD WODĄ! STARY FILM! ZAKŁÓCENIA! UWIELBIAM TO.",
+                "\\Scena(\n\t[Wyrażenie('🐟 blub')]\n\tefekty: [Fala() Zabarwienie(Kolor(55% 45 220°))]\n)\\"
             ],
             "names": ["$~Scena"],
             "content": {
-                "doc": "$~Lista @Output do wyświetlenia na scenie.",
+                "doc": "$~LISTA @Output DO POKAZANIA. TO JEST SPEKTAKL. JA GO POKAZUJĘ.",
                 "names": "$~treść"
             },
             "frame": {
-                "doc": "$~Kształt i rozmiar ramy, którą należy umieścić wokół sceny, ukrywając wszystko, co znajduje się poza nią.",
+                "doc": "$~KSZTAŁT I ROZMIAR RAMKI WOKÓŁ MNIE. WSZYSTKO, CO JEST POZA NIĄ, UKRYWAM.",
                 "names": "$~rama"
             },
             "size": {
@@ -1180,7 +1182,7 @@
             },
             "description": {
                 "doc": [
-                    "$~Opis przeznaczony dla odbiorców, którzy nie mogą zobaczyć treści wizualnych."
+                    "$~OPIS SPEKTAKLU DLA OSÓB Z WIDOWNI, KTÓRE GO NIE WIDZĄ. POWIEDZ IM, CO ICH OMIJA!"
                 ],
                 "names": "$~opis"
             },
@@ -1245,17 +1247,21 @@
                 "names": "$~styl"
             },
             "gravity": {
-                "doc": "$~Grawitacja stosowana do wyjścia, którego miejsce znajduje się w @Motion.",
+                "doc": "$~JAK MOCNO CIĄGNĘ W DÓŁ WYJŚCIE, KTÓREGO MIEJSCE JEST W @Motion. WSZYSTKO W KOŃCU SPADA.",
                 "names": "$~powaga"
             },
-            "defaultDescription": "$~scena $name[$name |]z $#count[$count wyjścia|$count wyjść|$count wyjść|$count wyjścia]$frame[z ramką $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~scena $name[$name |]z $#count[$count wyjściem|$count wyjściami|$count wyjściami|$count wyjścia]$frame[z ramką $frame|] $pose $color[$color|]$effects[ z $effects|]",
             "overlay": {
-                "doc": "$~Lista @Output przypiętych płasko do ekranu jako wyświetlacz informacyjny, na który nie ma wpływu kamera @Place ani głębia sceny.",
+                "doc": "$~LISTA @Output, KTÓRE PRZYPINAM PŁASKO DO EKRANU, JAK TABLICĘ WYNIKÓW. MOJA KAMERA @Place I MOJE @Effect NIGDY JEJ NIE DOTYKAJĄ.",
                 "names": "$~nakładka"
             },
             "air": {
-                "doc": "$~To, jak bardzo powietrze spowalnia poruszające się wyjście. 1 to zwykłe powietrze, 0 to przestrzeń kosmiczna, gdzie rzeczy poruszają się bez końca, a większe liczby oznaczają ośrodek gęstszy niż powietrze.",
+                "doc": "$~JAK BARDZO MOJE POWIETRZE SPOWALNIA PORUSZAJĄCE SIĘ WYJŚCIE. \\1\\ TO ZWYKŁE POWIETRZE, \\0\\ TO KOSMOS, GDZIE RZECZY LECĄ W NIESKOŃCZONOŚĆ, A WIĘKSZE LICZBY OZNACZAJĄ GĘSTSZE POWIETRZE. JAK ZUPA.",
                 "names": "$~powietrze"
+            },
+            "effects": {
+                "doc": "$~LISTA @Effect, KTÓRE NAKŁADAM NA WSZYSTKO, CO JEST NA MNIE, NP. @Blur, @Grain LUB @Wave, PO KOLEI. \\ø\\ ALBO PUSTA LISTA OZNACZA, ŻE WYGLĄDAM TAK JAK ZWYKLE.",
+                "names": "$~efekty"
             }
         },
         "Easing": {
@@ -2039,6 +2045,187 @@
                 "names": "$~styl"
             },
             "defaultDescription": "$~$description, obraz $columns na $rows"
+        },
+        "Effect": {
+            "doc": [
+                "$~Jestem abstrakcyjnym efektem, nakładanym na całą @Stage, żeby zmienić wygląd wszystkiego, co na niej jest. Nigdy nie tworzy się mnie bezpośrednio. Zamiast tego stwórz jeden z efektów, które są mną, np. @Blur, @Grain lub @Wave, i podaj ich listę do @Stage.effects sceny.",
+                "Efekty działają w takiej kolejności, w jakiej są na liście, więc @Blur po @Grain rozmywa też ziarno. Obejmują zawartość sceny, ale nigdy jej @Stage.overlay, więc wynik albo przycisk pozostają wyraźne.",
+                "\\Scena(\n\t[Wyrażenie('🐟')]\n\tefekty: [Zabarwienie(Kolor(60% 40 220°)) Fala()]\n)\\"
+            ],
+            "names": ["$~Efekt"]
+        },
+        "Blur": {
+            "doc": [
+                "$~Zmiękczam wszystko na @Stage, jakby kamera była nieostra. Odrobina mnie to sen albo wspomnienie, a dużo mnie to budzenie się albo zgubienie okularów.",
+                "\\Scena(\n\t[Wyrażenie('🤓 gdzie są moje okulary?')]\n\tefekty: [Rozmycie(0.05m)]\n)\\"
+            ],
+            "names": ["$~Rozmycie"],
+            "amount": {
+                "doc": "$~Jak daleko rozprowadzam każdy punkt światła. \\0m\\ to idealna ostrość.",
+                "names": "$~ilość"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~Zmieniam jasność, kontrast, nasycenie i odcień wszystkiego na @Stage, tak jak koloryzuje się film, żeby nadać mu nastrój. Zabierz całe nasycenie i podkręć kontrast, a dostaniesz czarno-biały film noir.",
+                "\\Scena(\n\t[Wyrażenie('🕵 detektyw czekał')]\n\tefekty: [Korekcja(nasycenie: 0% kontrast: 150%)]\n)\\"
+            ],
+            "names": ["$~Korekcja"],
+            "brightness": {
+                "doc": "$~Jak jasna ma być scena. \\100%\\ niczego nie zmienia, \\0%\\ to czerń, a więcej niż \\100%\\ to jaśniej.",
+                "names": "$~jasność"
+            },
+            "contrast": {
+                "doc": "$~Jak daleko od siebie odsunąć światło i ciemność. \\100%\\ niczego nie zmienia, mniej to bardziej płasko i szaro, a więcej to ostrzej.",
+                "names": "$~kontrast"
+            },
+            "saturation": {
+                "doc": "$~Jak żywe są kolory. \\100%\\ niczego nie zmienia, \\0%\\ to czerń i biel, a więcej niż \\100%\\ to wyjątkowo żywe kolory.",
+                "names": "$~nasycenie"
+            },
+            "hue": {
+                "doc": "$~O ile obrócić każdy kolor na kole barw. \\0°\\ niczego nie zmienia, a \\180°\\ zamienia każdy kolor na przeciwny.",
+                "names": "$~odcień"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~Zalewam wszystko na @Stage jednym @Color, zachowując jasność i ciemność, żeby tekst był nadal czytelny. Niebieskozielony sprawia, że scena wygląda jak pod wodą, brązowy jak stara fotografia, a zielony jak noktowizor.",
+                "\\Scena(\n\t[Wyrażenie('🏰 dawno temu')]\n\tefekty: [Zabarwienie(Kolor(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~Zabarwienie"],
+            "color": {
+                "doc": "$~@Color, którym zalać scenę.",
+                "names": "$~kolor"
+            },
+            "amount": {
+                "doc": "$~Jak mocno zalać. \\0%\\ to wcale, a \\100%\\ zostawia tylko odcienie mojego koloru.",
+                "names": "$~ilość"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~Spowijam @Stage mgłą, która powoli po niej płynie. Jestem na poranki, dym, parę i wszystko, co jest daleko.",
+                "\\Scena([Wyrażenie('🌲🌲 wrzosowisko 🌲')] efekty: [Mgiełka(60%)])\\"
+            ],
+            "names": ["$~Mgiełka"],
+            "amount": {
+                "doc": "$~Jak gęsta jestem. \\0%\\ to czyste powietrze, a \\100%\\ jest tak gęste, że ledwo cokolwiek widać.",
+                "names": "$~ilość"
+            },
+            "color": {
+                "doc": "$~@Color mgiełki. Jeśli \\ø\\, jestem biała jak mgła. Spróbuj szarego dla dymu albo pomarańczowego dla kurzu.",
+                "names": "$~kolor"
+            },
+            "speed": {
+                "doc": "$~Jak szybko płynę. \\0\\ zatrzymuje mnie w miejscu, a większe liczby oznaczają szybszy ruch.",
+                "names": "$~szybkość"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~Pokrywam @Stage plamkami szumu, który zmienia się w każdej chwili. Odrobina mnie to ziarno prawdziwego filmu, a dużo mnie, z dużymi plamkami, to telewizor bez sygnału.",
+                "Gdy jestem mocny, trudno na mnie patrzeć, więc zostanę oznaczony jako możliwy wzór dla osób, które są na nie wrażliwe.",
+                "\\Scena(\n\t[Wyrażenie('📺 brak sygnału')]\n\tefekty: [Ziarno(90% rozmiar: 3)]\n)\\"
+            ],
+            "names": ["$~Ziarno"],
+            "amount": {
+                "doc": "$~Jak mocne są plamki. \\0%\\ to brak plamek, a \\100%\\ ukrywa wszystko pod mną.",
+                "names": "$~ilość"
+            },
+            "size": {
+                "doc": "$~Jak duża jest każda plamka. \\1\\ to tak drobna, jak pozwala ekran.",
+                "names": "$~rozmiar"
+            },
+            "color": {
+                "doc": "$~Czy moje plamki są kolorowe. Jeśli \\⊥\\, są szare.",
+                "names": "$~kolor"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~Rysuję cienkie ciemne linie ze starego ekranu telewizora na @Stage. Daj mi /szybkość/, a będę się przewijać, jak telewizor, który nie jest do końca nastrojony.",
+                "\\Scena(\n\t[Wyrażenie('📺 kanał 3')]\n\tefekty: [LinieEkranu(40% szybkość: 1)]\n)\\"
+            ],
+            "names": ["$~LinieEkranu"],
+            "amount": {
+                "doc": "$~Jak ciemne są moje linie. \\0%\\ oznacza niewidoczne, a \\100%\\ oznacza czarne.",
+                "names": "$~ilość"
+            },
+            "spacing": {
+                "doc": "$~Jak daleko od siebie są moje linie.",
+                "names": "$~odstęp"
+            },
+            "speed": {
+                "doc": "$~Ile linii przewijam w dół w ciągu każdej sekundy. \\0\\ zatrzymuje mnie w miejscu, a ujemna szybkość przewija w górę.",
+                "names": "$~szybkość"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Falują wyjście na @Stage, jakbyś widział je przez wodę albo przez gorące powietrze.",
+                "Zaginam samo wyjście, pod innymi efektami, więc @Grain umieszczony przed mną nie jest falowany.",
+                "\\Scena([Wyrażenie('🐟 blub')] efekty: [Fala(0.2m)])\\"
+            ],
+            "names": ["$~Fala"],
+            "amount": {
+                "doc": "$~Jak mocno przesuwam wyjście z miejsca. \\0m\\ oznacza brak fal.",
+                "names": "$~ilość"
+            },
+            "scale": {
+                "doc": "$~Jak daleko od siebie są moje fale. Mała @value to drobne migotanie, a duża to powolne falowanie.",
+                "names": "$~skala"
+            },
+            "speed": {
+                "doc": "$~Jak szybko poruszają się moje fale. \\0\\ zatrzymuje je w miejscu.",
+                "names": "$~szybkość"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Rozsypuję rysy i kurz starej, zniszczonej taśmy filmowej na @Stage, inaczej w każdej klatce. Połącz mnie z @Grade, który odbiera kolory, i z @Flicker, a twoja scena będzie miała sto lat.",
+                "\\Scena(\n\t[Wyrażenie('🎩 KONIEC')]\n\tefekty: [Korekcja(nasycenie: 0%) Zniszczenie(80% 60%)]\n)\\"
+            ],
+            "names": ["$~Zniszczenie"],
+            "scratches": {
+                "doc": "$~Ile rys biegnie w dół taśmy. \\0%\\ oznacza brak rys.",
+                "names": "$~rysy"
+            },
+            "dust": {
+                "doc": "$~Ile kurzu jest na taśmie. \\0%\\ oznacza brak kurzu.",
+                "names": "$~kurz"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Sprawiam, że cały @Stage drga: świeci równo, a potem na chwilę ciemnieje w nierównych odstępach, jak żarówka projektora albo lampa, która zaraz zgaśnie.",
+                "Migające światło może szkodzić ludziom, więc nigdy nie drgam częściej niż kilka razy na sekundę, choćby nie wiem jak szybko mnie o to prosić.",
+                "\\Scena([Wyrażenie('💡 światła')] efekty: [Migotanie(40% 2)])\\"
+            ],
+            "names": ["$~Migotanie"],
+            "amount": {
+                "doc": "$~Jak bardzo ciemnieję, gdy przygasam. \\0%\\ oznacza brak przyciemnienia.",
+                "names": "$~ilość"
+            },
+            "rate": {
+                "doc": "$~Mniej więcej ile razy na sekundę mogę zadrżeć. Nie przekroczę 2,5, aby chronić osoby wrażliwe na migotanie.",
+                "names": "$~tempo"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~Przyciemniam brzegi @Stage, a środek zostawiam jasny, aby przyciągnąć wzrok do środka. Jestem brzegiem starego obiektywu, reflektorem albo widzeniem tunelowym.",
+                "\\Scena(\n\t[Wyrażenie('🔦 spójrz tutaj')]\n\tefekty: [Winieta(70%)]\n)\\"
+            ],
+            "names": ["$~Winieta"],
+            "amount": {
+                "doc": "$~Jak daleko sięga ciemność. \\0%\\ oznacza brak ciemności, a \\100%\\ zamyka ją ciasno.",
+                "names": "$~ilość"
+            },
+            "color": {
+                "doc": "$~@Color, w który zanikają brzegi. Jeśli \\ø\\, zanikają do czerni.",
+                "names": "$~kolor"
+            }
         }
     }
 }

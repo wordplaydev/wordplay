@@ -999,7 +999,7 @@
                 },
                 "location": {
                     "header": "$~Emplacement",
-                    "explanation": "$~/Moyens de déterminer où se situe la sortie sur scène./"
+                    "explanation": "$~/Des façons de choisir où se place la sortie sur la scène./"
                 },
                 "reactions": {
                     "header": "$~Réactions",
@@ -1008,6 +1008,46 @@
                 "names": {
                     "header": "$~Noms",
                     "explanation": "$~/Noms pour ce concept./"
+                },
+                "effects": {
+                    "header": "$~Effets",
+                    "explanation": "$~/Des façons de changer l'apparence de toute la scène./"
+                },
+                "sound": {
+                    "header": "$~Son",
+                    "explanation": "$~/Des façons de faire de la musique et de la parole./"
+                },
+                "physics": {
+                    "header": "$~Physique",
+                    "explanation": "$~/De quoi la sortie est faite, pour quand elle bouge./"
+                },
+                "time": {
+                    "header": "$~Temps",
+                    "explanation": "$~/Des façons de savoir quelle heure il est, et de laisser faire le hasard./"
+                },
+                "audience": {
+                    "header": "$~Public",
+                    "explanation": "$~/Ce que ton public appuie, montre du doigt, choisit et tape./"
+                },
+                "motion": {
+                    "header": "$~Mouvement",
+                    "explanation": "$~/Des façons de déplacer la sortie, et de savoir quand elle touche quelque chose./"
+                },
+                "listening": {
+                    "header": "$~Écoute",
+                    "explanation": "$~/Ce que le microphone entend, et les temps de la musique pendant qu'elle joue./"
+                },
+                "camera": {
+                    "header": "$~Caméra",
+                    "explanation": "$~/Ce que la caméra voit : des mains, des visages et des objets./"
+                },
+                "scenes": {
+                    "header": "$~Scènes",
+                    "explanation": "$~/Des façons de montrer une chose après l'autre, et de savoir où tu en es./"
+                },
+                "text": {
+                    "header": "$~Texte",
+                    "explanation": "$~/Du texte venant du web, et les formes des lettres./"
                 }
             },
             "how": {

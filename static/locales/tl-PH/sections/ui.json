@@ -1285,11 +1285,51 @@
                 },
                 "location": {
                     "header": "$~Lokasyon",
-                    "explanation": "$~/Mga paraan ng pagtukoy kung saan nasa entablado ang output./"
+                    "explanation": "$~/Mga paraan ng pagtukoy kung nasaan ang output sa entablado./"
                 },
                 "reactions": {
                     "header": "$~Mga Reaksyon",
                     "explanation": "$~/Mga paraan ng pagtugon o pagsusuri sa isang input stream./"
+                },
+                "effects": {
+                    "header": "$~Mga Epekto",
+                    "explanation": "$~/Mga paraan ng pagbabago sa hitsura ng buong entablado./"
+                },
+                "sound": {
+                    "header": "$~Tunog",
+                    "explanation": "$~/Mga paraan ng paggawa ng musika at pananalita./"
+                },
+                "physics": {
+                    "header": "$~Pisika",
+                    "explanation": "$~/Kung saan gawa ang output, para sa paggalaw nito./"
+                },
+                "time": {
+                    "header": "$~Oras",
+                    "explanation": "$~/Mga paraan ng pag-alam kung anong oras na, at ng pag-asa sa suwerte./"
+                },
+                "audience": {
+                    "header": "$~Madla",
+                    "explanation": "$~/Ang pinipindot, tinuturo, pinipili, at tina-type ng iyong madla./"
+                },
+                "motion": {
+                    "header": "$~Galaw",
+                    "explanation": "$~/Mga paraan ng paggalaw ng output, at ng pag-alam kapag may nabangga ito./"
+                },
+                "listening": {
+                    "header": "$~Pakikinig",
+                    "explanation": "$~/Ang naririnig ng mikropono, at ang mga tipa ng musika habang tumutugtog ito./"
+                },
+                "camera": {
+                    "header": "$~Kamera",
+                    "explanation": "$~/Ang nakikita ng kamera: mga kamay, mukha, at mga bagay./"
+                },
+                "scenes": {
+                    "header": "$~Mga Eksena",
+                    "explanation": "$~/Mga paraan ng pagpapakita ng isang bagay pagkatapos ng isa pa, at ng pag-alam kung nasaan ka./"
+                },
+                "text": {
+                    "header": "$~Teksto",
+                    "explanation": "$~/Teksto mula sa web, at ang mga hugis ng mga letra./"
                 }
             },
             "mode": {

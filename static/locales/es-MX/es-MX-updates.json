@@ -1034,6 +1034,20 @@
         "e8bf14728ecca": "$~Cuando no has iniciado sesión, la ventana del estado de guardado ahora muestra cuántos proyectos están guardados solo en este dispositivo y cómo guardarlos en línea, en lugar de aparecer vacía.",
         "e6bd8c62fd1ab": "$~Agregamos estaciones del año. Estas dan color al sitio y llenan sus orillas con el clima de donde estás, como lluvia de monzón, hojas que caen o copos de nieve hechos con tus propias letras. Puedes elegir una estación o apagarlas en la configuración. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
         "e32dce56949e2": "$~\\Frase\\ tiene una nueva entrada \\poses\\ que le da a cada letra su propio color, inclinación, tamaño o posición, tomando turnos a través de una lista de \\Pose\\.",
-        "ed0c9f9a5fdd1": "$~Los ejemplos de código en la <Guía@https://wordplay.dev/guide> ya no comienzan con una línea vacía."
+        "ed0c9f9a5fdd1": "$~Los ejemplos de código en la <Guía@https://wordplay.dev/guide> ya no comienzan con una línea vacía.",
+        "eddbb25bb5d1a": "$~\\Escenario\\ tiene una nueva entrada \\effects\\ que pone efectos de película sobre todo lo que contiene, como \\Blur\\, \\Grain\\, \\Wave\\, \\Damage\\ y \\Flicker\\, con una nueva guía práctica en la <Guía@https://wordplay.dev/guide>.",
+        "ea8214ba59642": "$~Una \\Escenario\\ con su propia animación \\resting\\ ya no se aleja de donde la cámara la muestra mientras se reproduce la animación.",
+        "e59d72bd1eef6": "$~Al regresar desde una página de la <Guía@https://wordplay.dev/guide>, se vuelve a la lista desde la que la abriste.",
+        "ebe9a238e4d65": "$~\\Mano()\\ y \\Cara()\\ ahora regresan a sus valores iniciales cuando tu mano o tu cara salen de la cámara, en lugar de quedarse como estaban.",
+        "ef13048196226": "$~Arreglamos las palabras que aparecían pegadas en las versiones traducidas de los ejemplos de la galería.",
+        "e46bb0eb17287": "$~\\🌎\\ ahora revisa los idiomas que eligió la persona lectora, igual en el editor y en las galerías, así que \\🌎/en\\ solo es verdadero para quienes eligieron inglés.",
+        "e31fe47f026f3": "$~El \\replace\\ de una lista ahora regresa al inicio un índice que pasa del final, igual que al leer de una lista.",
+        "e878b2c505fe9": "$~Al convertir un número con unidad en una lista se conserva la unidad, así que \\3m → []\\ es \\[1m 2m 3m]\\.",
+        "ec882547e2a4b": "$~\\◆\\ ahora se vuelve falso después de la primera evaluación de un programa, en lugar de quedarse verdadero para siempre.",
+        "ea22aa3f3f5a0": "$~\\←←\\ ahora da todos los valores anteriores de un flujo cuando hay menos de los que pediste, en lugar de solo el más reciente.",
+        "e571ab9ae452c": "$~Convertir a texto con \\ø\\ un rango, una función, un patrón o un valor que podría ser \\→ ''\\ ahora funciona, en lugar de detener el programa.",
+        "e5ab9da833914": "$~Leer \\Puntero().rotación\\ ya no detiene el programa.",
+        "e92691ec133cd": "$~Ahora avisamos sobre las direcciones de correo electrónico escritas en la documentación y en el texto con formato, como ya hacíamos en el texto.",
+        "e68be06131b48": "$~Los enlaces a la guía que van justo después de un prefijo hebreo como ב- o después de un punto ahora abren la guía, en lugar de convertirse en enlaces de correo electrónico."
     }
 }

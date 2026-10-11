@@ -11,25 +11,27 @@
         "Stage": {
             "names": ["$~Bühne"],
             "doc": [
-                "$~Ich präsentiere dem Publikum eure @Output . Hallo. Bühne hier. Sagt mir, was ich zeigen soll, und ich zeige es.",
-                "\\Stage([Phrase('stufffffff')])\\",
-                "Wenn Sie möchten, geben Sie mir eine @Color an, und ich werde die Bühne entsprechend beleuchten.",
-                "\\Stage([Phrase('stufffffff')] Hintergrund: Color(75% 50 100°))\\",
-                "Sie können mir auch einen Rahmen vorgeben, und ich werde das Bild zuschneiden.",
-                "\\Stage([Phrase('stufffffff')] Hintergrund: Color(75% 50 100°) rahmen: Rectangle(-1m -1m 1m 1m))\\"
+                "$~ICH ZEIGE DEINE @Output DEM PUBLIKUM. HALLO. HIER SPRICHT DIE BÜHNE. SAG MIR, WAS ICH ZEIGEN SOLL, UND ICH ZEIGE ES.",
+                "\\Bühne([Satzglied('Kraaaams')])\\",
+                "WENN DU MAGST, GIB MIR EINE HINTERGRUND-@Color UND ICH BELEUCHTE DIE BÜHNE ENTSPRECHEND.",
+                "\\Bühne(\n\t[Satzglied('Kraaaams')]\n\tHintergrund: Farbe(75% 50 100°)\n)\\",
+                "DU KANNST MIR AUCH EINEN RAHMEN GEBEN, UND ICH SCHNEIDE ZU.",
+                "\\Bühne(\n\t[Satzglied('Kraaaams')]\n\tHintergrund: Farbe(75% 50 100°)\n\trahmen: Rechteck(-1m -1m 1m 1m)\n)\\",
+                "UND WENN DU DRAMA WILLST, GIB MIR @Effect UND ICH VERÄNDERE, WIE ALLES AUSSIEHT. UNTER WASSER! ALTER FILM! RAUSCHEN! ICH LIEBE ES.",
+                "\\Bühne(\n\t[Satzglied('🐟 blub')]\n\tEffekte: [Welle() Tönung(Farbe(55% 45 220°))]\n)\\"
             ],
             "description": {
                 "names": "$~Beschreibung",
                 "doc": [
-                    "$~Eine Beschreibung für Zuschauer, die keine visuellen Ausgaben sehen können."
+                    "$~EINE BESCHREIBUNG DER SHOW FÜR ZUSCHAUER, DIE SIE NICHT SEHEN KÖNNEN. SAG IHNEN, WAS SIE VERPASSEN!"
                 ]
             },
             "content": {
-                "doc": "$~Die Liste der auf der Bühne anzuzeigenden @Output.",
+                "doc": "$~DIE LISTE DER @Output, DIE ICH ZEIGEN SOLL. DAS IST DIE SHOW. ICH ZEIGE SIE.",
                 "names": "$~Inhalt"
             },
             "frame": {
-                "doc": "$~Die Form und Größe des Rahmens, der um die Bühne herum platziert wird und alles außerhalb davon verbirgt.",
+                "doc": "$~DIE FORM UND GRÖSSE DES RAHMENS UM MICH. ALLES AUSSERHALB VERSTECKE ICH.",
                 "names": "$~rahmen"
             },
             "size": {
@@ -109,17 +111,21 @@
                 "names": "$~Stil"
             },
             "gravity": {
-                "doc": "$~Die Schwerkraft, die auf Output angewendet wird, dessen Platz in @Motion ist.",
+                "doc": "$~WIE STARK ICH AUSGABE NACH UNTEN ZIEHE, DEREN PLATZ IN @Motion LIEGT. IRGENDWANN FÄLLT ALLES.",
                 "names": "$~Schwere"
             },
-            "defaultDescription": "$~Bühne $name[$name |]mit $#count[$count Ausgabe|$count Ausgaben]$frame[mit Rahmen $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~Bühne $name[$name |]mit $#count[$count Ausgabe|$count Ausgaben]$frame[mit Rahmen $frame|] $pose $color[$color|]$effects[ mit $effects|]",
             "overlay": {
-                "doc": "$~Eine Liste von @Output, die flach an den Bildschirm geheftet wird, wie eine Anzeige direkt vor deinen Augen. Sie wird nicht von der @Place-Kamera der Bühne oder von der Tiefe beeinflusst.",
+                "doc": "$~EINE LISTE VON @Output, DIE ICH FLACH AN DEN BILDSCHIRM HEFTE, WIE EINE ANZEIGETAFEL. MEINE @Place-KAMERA UND MEIN @Effect BERÜHREN SIE NIE.",
                 "names": "$~überlagern"
             },
             "air": {
-                "doc": "$~Wie stark die Luft sich bewegendes Output bremst. 1 ist normale Luft, 0 ist der Weltraum, wo Dinge sich ewig weiterbewegen, und größere Zahlen sind dicker als Luft.",
+                "doc": "$~WIE STARK MEINE LUFT BEWEGTE AUSGABE BREMST. \\1\\ IST NORMALE LUFT, \\0\\ IST DER WELTRAUM, WO DINGE FÜR IMMER WEITERFLIEGEN, UND GRÖSSERE ZAHLEN SIND DICKER ALS LUFT. WIE SUPPE.",
                 "names": "$~Luft"
+            },
+            "effects": {
+                "doc": "$~EINE LISTE VON @Effect, DIE ICH ÜBER ALLES AUF MIR LEGE, ZUM BEISPIEL @Blur, @Grain ODER @Wave, IN DIESER REIHENFOLGE. \\ø\\ ODER EINE LEERE LISTE BEDEUTET, DASS ICH SO AUSSEHE WIE ICH BIN.",
+                "names": "$~Effekte"
             }
         },
         "Group": {
@@ -2039,6 +2045,187 @@
                 "names": "$~Stil"
             },
             "defaultDescription": "$~$description, ein Bild $columns mal $rows"
+        },
+        "Effect": {
+            "doc": [
+                "$~Ich bin ein abstrakter Effekt. Ich werde über die ganze @Stage gelegt und verändere, wie alles darauf aussieht. Mich selbst kann man nie direkt erstellen. Erstelle stattdessen einen der Effekte, die ich bin, zum Beispiel @Blur, @Grain oder @Wave, und gib eine Liste davon an die @Stage.effects einer Bühne.",
+                "Die Effekte werden in der Reihenfolge der Liste angewendet. Ein @Blur nach einem @Grain macht also auch das Korn unscharf. Sie bedecken den Inhalt der Bühne, aber nie ihre @Stage.overlay. So bleiben ein Punktestand oder ein Knopf deutlich sichtbar.",
+                "\\Bühne(\n\t[Satzglied('🐟')]\n\tEffekte: [Tönung(Farbe(60% 40 220°)) Welle()]\n)\\"
+            ],
+            "names": ["$~Effekt"]
+        },
+        "Blur": {
+            "doc": [
+                "$~Ich mache alles auf @Stage weicher, als wäre die Kamera nicht scharf gestellt. Ein bisschen von mir wirkt wie ein Traum oder eine Erinnerung. Viel von mir ist wie Aufwachen oder wie eine verlorene Brille.",
+                "\\Bühne(\n\t[Satzglied('🤓 wo ist meine Brille?')]\n\tEffekte: [Unschärfe(0.05m)]\n)\\"
+            ],
+            "names": ["$~Unschärfe"],
+            "amount": {
+                "doc": "$~Wie weit ich jeden Lichtpunkt verteile. \\0m\\ ist völlig scharf.",
+                "names": "$~Menge"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~Ich ändere Helligkeit, Kontrast, Sättigung und Farbton von allem auf @Stage, so wie die Farben eines Films abgestimmt werden, um Stimmung zu erzeugen. Nimm die ganze Sättigung weg und erhöhe den Kontrast, dann hast du einen Schwarz-Weiß-Film noir.",
+                "\\Bühne(\n\t[Satzglied('🕵 der Detektiv wartete')]\n\tEffekte: [Farbkorrektur(Sättigung: 0% Kontrast: 150%)]\n)\\"
+            ],
+            "names": ["$~Farbkorrektur"],
+            "brightness": {
+                "doc": "$~Wie hell die Bühne wird. \\100%\\ ändert nichts, \\0%\\ ist schwarz, und mehr als \\100%\\ ist heller.",
+                "names": "$~Helligkeit"
+            },
+            "contrast": {
+                "doc": "$~Wie weit Hell und Dunkel auseinandergeschoben werden. \\100%\\ ändert nichts, weniger ist flacher und grauer, und mehr ist kräftiger.",
+                "names": "$~Kontrast"
+            },
+            "saturation": {
+                "doc": "$~Wie lebhaft die Farben sind. \\100%\\ ändert nichts, \\0%\\ ist schwarz-weiß, und mehr als \\100%\\ ist besonders lebhaft.",
+                "names": "$~Sättigung"
+            },
+            "hue": {
+                "doc": "$~Wie weit jede Farbe auf dem Farbkreis gedreht wird. \\0°\\ ändert nichts, und \\180°\\ macht aus jeder Farbe ihr Gegenteil.",
+                "names": "$~Farbton"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~Ich tauche alles auf @Stage in eine einzige @Color und behalte dabei Hell und Dunkel, damit Text gut lesbar bleibt. Blaugrün lässt eine Szene unter Wasser wirken, Braun macht sie zu einem alten Foto, und Grün macht daraus Nachtsicht.",
+                "\\Bühne(\n\t[Satzglied('🏰 vor langer Zeit')]\n\tEffekte: [Tönung(Farbe(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~Tönung"],
+            "color": {
+                "doc": "$~Die @Color, in die die Bühne getaucht wird.",
+                "names": "$~farbe"
+            },
+            "amount": {
+                "doc": "$~Wie stark die Bühne eingefärbt wird. \\0%\\ ist gar nicht, und \\100%\\ lässt nur die Abstufungen meiner Farbe übrig.",
+                "names": "$~Menge"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~Ich hülle die @Stage in Nebel, der langsam darüber zieht. Ich bin für Morgen, Rauch, Dampf und alles, was weit weg ist.",
+                "\\Bühne([Satzglied('🌲🌲 das Moor 🌲')] Effekte: [Dunst(60%)])\\"
+            ],
+            "names": ["$~Dunst"],
+            "amount": {
+                "doc": "$~Wie dick ich bin. \\0%\\ ist klare Luft, und \\100%\\ ist so dick, dass man kaum etwas sieht.",
+                "names": "$~Menge"
+            },
+            "color": {
+                "doc": "$~Die @Color des Dunsts. Bei \\ø\\ bin ich weiß, wie Nebel. Probiere Grau für Rauch oder Orange für Staub.",
+                "names": "$~farbe"
+            },
+            "speed": {
+                "doc": "$~Wie schnell ich ziehe. \\0\\ hält mich still, und größere Zahlen ziehen schneller.",
+                "names": "$~Tempo"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~Ich bestreue die @Stage mit Rauschen, das sich in jedem Moment ändert. Ein bisschen von mir ist das Korn eines echten Films. Viel von mir, mit großen Punkten, ist ein Fernseher ohne Signal.",
+                "Wenn ich stark bin, bin ich anstrengend anzusehen. Deshalb werde ich als mögliches Muster vermerkt, für Menschen, die darauf empfindlich reagieren.",
+                "\\Bühne(\n\t[Satzglied('📺 kein Signal')]\n\tEffekte: [Körnung(90% Größe: 3)]\n)\\"
+            ],
+            "names": ["$~Körnung"],
+            "amount": {
+                "doc": "$~Wie stark die Punkte sind. \\0%\\ ist keiner, und \\100%\\ versteckt alles unter mir.",
+                "names": "$~Menge"
+            },
+            "size": {
+                "doc": "$~Wie groß jeder Punkt ist. \\1\\ ist so fein, wie der Bildschirm es erlaubt.",
+                "names": "$~Größe"
+            },
+            "color": {
+                "doc": "$~Ob meine Punkte farbig sind. Bei \\⊥\\ sind sie grau.",
+                "names": "$~Farbe"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~Ich zeichne die dünnen dunklen Linien eines alten Fernsehbildschirms über die @Stage. Gib mir eine /Geschwindigkeit/, dann rolle ich, wie ein Fernseher, der nicht ganz richtig eingestellt ist.",
+                "\\Bühne(\n\t[Satzglied('📺 Kanal 3')]\n\tEffekte: [Bildzeilen(40% Tempo: 1)]\n)\\"
+            ],
+            "names": ["$~Bildzeilen"],
+            "amount": {
+                "doc": "$~Wie dunkel meine Linien sind. \\0%\\ ist unsichtbar, und \\100%\\ ist schwarz.",
+                "names": "$~Menge"
+            },
+            "spacing": {
+                "doc": "$~Wie weit meine Linien auseinander liegen.",
+                "names": "$~Abstand"
+            },
+            "speed": {
+                "doc": "$~Wie viele Linien ich pro Sekunde nach unten rolle. \\0\\ hält mich still, und eine negative Geschwindigkeit rollt nach oben.",
+                "names": "$~Tempo"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Ich lasse die Ausgabe auf @Stage wellen, als würdest du sie durch Wasser oder aufsteigende Hitze sehen.",
+                "Ich verbiege die Ausgabe selbst, unter allen anderen Effekten. Ein @Grain vor mir in der Liste wird also nicht gewellt.",
+                "\\Bühne([Satzglied('🐟 blub')] Effekte: [Welle(0.2m)])\\"
+            ],
+            "names": ["$~Welle"],
+            "amount": {
+                "doc": "$~Wie weit ich die Ausgabe verschiebe. \\0m\\ bedeutet gar keine Wellen.",
+                "names": "$~Menge"
+            },
+            "scale": {
+                "doc": "$~Wie weit meine Wellen auseinander liegen. Klein ist ein feines Flimmern, und groß ist ein langsames Wogen.",
+                "names": "$~Skalierung"
+            },
+            "speed": {
+                "doc": "$~Wie schnell sich meine Wellen bewegen. \\0\\ hält sie still.",
+                "names": "$~Tempo"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Ich streue die Kratzer und den Staub alter, abgenutzter Filmrollen über die @Stage, bei jedem Bild anders. Kombiniere mich mit einem @Grade, der die Farbe wegnimmt, und einem @Flicker, und deine Szene wirkt hundert Jahre alt.",
+                "\\Bühne(\n\t[Satzglied('🎩 ENDE')]\n\tEffekte: [Farbkorrektur(Sättigung: 0%) Schaden(80% 60%)]\n)\\"
+            ],
+            "names": ["$~Schaden"],
+            "scratches": {
+                "doc": "$~Wie viele Kratzer über den Film laufen. \\0%\\ bedeutet keine.",
+                "names": "$~Kratzer"
+            },
+            "dust": {
+                "doc": "$~Wie viel Staub auf dem Film liegt. \\0%\\ bedeutet keinen.",
+                "names": "$~Staub"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Ich lasse die ganze @Stage flackern. Sie bleibt ruhig und wird dann zu unregelmäßigen Zeiten kurz dunkel, wie die Lampe eines Projektors oder eine Lampe, die gleich ausgeht.",
+                "Blitzendes Licht kann Menschen schaden. Darum flackere ich nie öfter als ein paar Mal pro Sekunde, egal wie schnell du es willst.",
+                "\\Bühne([Satzglied('💡 das Licht')] Effekte: [Flackern(40% 2)])\\"
+            ],
+            "names": ["$~Flackern"],
+            "amount": {
+                "doc": "$~Wie dunkel ich werde, wenn ich absacke. \\0%\\ dimmt gar nicht.",
+                "names": "$~Menge"
+            },
+            "rate": {
+                "doc": "$~Ungefähr, wie oft ich pro Sekunde flackern kann. Ich werde nicht schneller als 2,5, damit ich für Menschen sicher bin, die empfindlich auf Blitzen reagieren.",
+                "names": "$~Rate"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~Ich verdunkle die Ränder der @Stage und lasse die Mitte hell. So lenke ich die Blicke zur Mitte. Ich bin der Rand einer alten Linse, ein Scheinwerfer oder ein Tunnelblick.",
+                "\\Bühne(\n\t[Satzglied('🔦 schau hierher')]\n\tEffekte: [Vignette(70%)]\n)\\"
+            ],
+            "names": ["$~Vignette"],
+            "amount": {
+                "doc": "$~Wie weit die Dunkelheit nach innen reicht. \\0%\\ bedeutet keine, und \\100%\\ schließt sich eng zusammen.",
+                "names": "$~Menge"
+            },
+            "color": {
+                "doc": "$~Die @Color, zu der die Ränder verblassen. Wenn \\ø\\, verblassen sie zu Schwarz.",
+                "names": "$~farbe"
+            }
         }
     }
 }

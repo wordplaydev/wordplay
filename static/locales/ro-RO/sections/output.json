@@ -1202,20 +1202,22 @@
         },
         "Stage": {
             "doc": [
-                "$~ÎI ARĂT @Output REZULTATUL TĂU. SALUT. URMEAZĂ AICI. SPUNE-MI CE SĂ ARĂT ȘI ȚI-L VOI ARĂTA.",
-                "\\Stage([Phrase('stufffffff')])\\",
-                "DACĂ VREI, DĂ-MI UN FUNDAL @Color ȘI VOI LUMINA SCENA ÎN CONSECINȚĂ.",
-                "\\Stage([Phrase('stufffffff')] fundal: Color(75% 50 100°))\\",
-                "ÎMI POȚI DA ȘI O CHEMINĂ PENTRU O CADRU ȘI O VOI DECUPA.",
-                "\\Stage([Phrase('stufffffff')] fundal: Color(75% 50 100°) cadru: Rectangle(-1m -1m 1m 1m))\\"
+                "$~ARĂT @Output TĂU SPECTATORILOR. SALUT. SUNT SCENA. SPUNE-MI CE SĂ ARĂT ȘI O ARĂT.",
+                "\\Etapă([Fraza('lucruuuuuri')])\\",
+                "DACĂ VREI, DĂ-MI O @Color DE FUNDAL ȘI VOI LUMINA SCENA ÎN CONSECINȚĂ.",
+                "\\Etapă([Fraza('lucruuuuuri')] fundal: Culoare(75% 50 100°))\\",
+                "POȚI SĂ-MI DAI ȘI UN CADRU CU MARGINI ȘI VOI TĂIA IMAGINEA.",
+                "\\Etapă(\n\t[Fraza('lucruuuuuri')]\n\tfundal: Culoare(75% 50 100°)\n\tcadru: Dreptunghi(-1m -1m 1m 1m)\n)\\",
+                "IAR DACĂ VREI SPECTACOL, DĂ-MI @Effect ȘI VOI SCHIMBA ASPECTUL A TOT. SUB APĂ! FILM VECHI! PARAZIȚI! ÎMI PLACE.",
+                "\\Etapă(\n\t[Fraza('🐟 glub')]\n\tefecte: [Val() Colorare(Culoare(55% 45 220°))]\n)\\"
             ],
             "names": ["$~Etapă"],
             "content": {
-                "doc": "$~Lista de @Output care vor fi afișate pe scenă.",
+                "doc": "$~LISTA DE @Output DE ARĂTAT. ASTA ESTE SPECTACOLUL. EU ÎL ARĂT.",
                 "names": "$~conţinut"
             },
             "frame": {
-                "doc": "$~Forma și dimensiunea cadrului de plasat în jurul scenei, ascunzând tot ce se află în exteriorul ei.",
+                "doc": "$~FORMA ȘI MĂRIMEA CADRULUI DIN JURUL MEU. ASCUND TOT CE E ÎN AFARA LUI.",
                 "names": "$~cadru"
             },
             "size": {
@@ -1236,7 +1238,7 @@
             },
             "description": {
                 "doc": [
-                    "$~O descriere de utilizat pentru membrii publicului care nu pot vedea rezultatul vizual."
+                    "$~O DESCRIERE A SPECTACOLULUI PENTRU SPECTATORII CARE NU-L POT VEDEA. SPUNE-LE CE PIERD!"
                 ],
                 "names": "$~descriere"
             },
@@ -1301,17 +1303,21 @@
                 "names": "$~stil"
             },
             "gravity": {
-                "doc": "$~Gravitația care se aplică ieșirii al cărei loc se află în @Motion.",
+                "doc": "$~CÂT DE TARE TRAG ÎN JOS IEȘIREA A CĂREI POZIȚIE ESTE ÎN @Motion. TOT CE E SUS CADE, ÎN CELE DIN URMĂ.",
                 "names": "$~gravitaţie"
             },
-            "defaultDescription": "$~scenă $name[$name |]cu $#count[$#count ieșire|$count ieșiri|$count de ieșiri]$frame[cu cadru $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~scenă $name[$name |]cu $#count[$#count ieșire|$count ieșiri|$count de ieșiri]$frame[ cu cadrul $frame|] $pose $color[$color|]$effects[ cu $effects|]",
             "overlay": {
-                "doc": "$~O listă de @Output fixată plat pe ecran ca un afișaj informativ, neafectată de camera @Place a scenei sau de adâncime.",
+                "doc": "$~O LISTĂ DE @Output PE CARE O LIPESC PE ECRAN, CA UN PANOU DE SCOR. CAMERA MEA @Place ȘI @Effect MEU NU O ATING NICIODATĂ.",
                 "names": "$~suprapunere"
             },
             "air": {
-                "doc": "$~Cât de mult încetinește aerul mișcarea unei ieșiri. 1 este aerul normal, 0 este spațiul cosmic, unde lucrurile continuă să se miște la nesfârșit, iar numerele mai mari sunt mai dense decât aerul.",
+                "doc": "$~CÂT DE MULT ÎNCETINEȘTE AERUL MEU IEȘIREA ÎN MIȘCARE. \\1\\ ESTE AER OBIȘNUIT, \\0\\ ESTE SPAȚIUL COSMIC, UNDE LUCRURILE MERG MEREU ÎNAINTE, IAR NUMERELE MAI MARI ÎNSEAMNĂ UN AER MAI GROS DECÂT AERUL. CA O SUPĂ.",
                 "names": "$~aer"
+            },
+            "effects": {
+                "doc": "$~O LISTĂ DE @Effect DE PUS PESTE TOT CE E PE MINE, PRECUM @Blur, @Grain SAU @Wave, ÎN ORDINE. \\ø\\ SAU O LISTĂ GOALĂ ÎNSEAMNĂ CĂ ARĂT CA MINE ÎNSUMI.",
+                "names": "$~efecte"
             }
         },
         "Easing": {
@@ -2039,6 +2045,187 @@
                 "names": "$~stil"
             },
             "defaultDescription": "$~$description, o imagine de $columns pe $rows"
+        },
+        "Effect": {
+            "doc": [
+                "$~Sunt un efect abstract, așezat peste întreaga @Stage ca să schimbe felul în care arată tot ce e pe ea. Nu mă creezi niciodată direct; în schimb, creează unul dintre efectele care sunt eu, precum @Blur, @Grain sau @Wave, și dă o listă cu ele la @Stage.effects al unei scene.",
+                "Efectele se aplică în ordinea în care sunt scrise, așa că un @Blur după un @Grain înceațoșează și granulația. Ele acoperă conținutul scenei, dar niciodată @Stage.overlay ei, așa că un scor sau un buton rămâne clar.",
+                "\\Etapă(\n\t[Fraza('🐟')]\n\tefecte: [Colorare(Culoare(60% 40 220°)) Val()]\n)\\"
+            ],
+            "names": ["$~Efect"]
+        },
+        "Blur": {
+            "doc": [
+                "$~Înmoi tot ce e pe @Stage, ca și cum camera ar fi scoasă din focus. Puțin din mine înseamnă un vis sau o amintire; mult din mine înseamnă trezirea sau pierderea ochelarilor.",
+                "\\Etapă(\n\t[Fraza('🤓 unde sunt ochelarii mei?')]\n\tefecte: [Estompare(0.05m)]\n)\\"
+            ],
+            "names": ["$~Estompare"],
+            "amount": {
+                "doc": "$~Cât de mult împrăștii fiecare punct de lumină. \\0m\\ este perfect clar.",
+                "names": "$~cantitate"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~Schimb luminozitatea, contrastul, saturația și nuanța a tot ce e pe @Stage, așa cum se corectează culorile unui film ca să creeze atmosfera. Scoate toată saturația și crește contrastul și obții un film noir alb-negru.",
+                "\\Etapă(\n\t[Fraza('🕵 detectivul a așteptat')]\n\tefecte: [Ajustare(saturație: 0% contrast: 150%)]\n)\\"
+            ],
+            "names": ["$~Ajustare"],
+            "brightness": {
+                "doc": "$~Cât de luminoasă să fie scena. \\100%\\ nu schimbă nimic, \\0%\\ înseamnă negru, iar mai mult de \\100%\\ înseamnă mai luminos.",
+                "names": "$~luminozitate"
+            },
+            "contrast": {
+                "doc": "$~Cât de departe să împing lumina și întunericul unul de altul. \\100%\\ nu schimbă nimic, mai puțin înseamnă mai plat și mai cenușiu, iar mai mult înseamnă mai aspru.",
+                "names": "$~contrast"
+            },
+            "saturation": {
+                "doc": "$~Cât de vii sunt culorile. \\100%\\ nu schimbă nimic, \\0%\\ înseamnă alb-negru, iar mai mult de \\100%\\ înseamnă culori extra vii.",
+                "names": "$~saturație"
+            },
+            "hue": {
+                "doc": "$~Cât de mult să rotesc fiecare culoare pe roata culorilor. \\0°\\ nu schimbă nimic, iar \\180°\\ transformă fiecare culoare în opusul ei.",
+                "names": "$~nuanță"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~Spăl tot ce e pe @Stage într-o singură @Color, păstrând lumina și întunericul, ca textul să rămână la fel de ușor de citit. Albastru-verzui face o scenă să pară sub apă, maro o face o fotografie veche, iar verde o face vedere de noapte.",
+                "\\Etapă(\n\t[Fraza('🏰 demult')]\n\tefecte: [Colorare(Culoare(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~Colorare"],
+            "color": {
+                "doc": "$~@Color în care să spăl scena.",
+                "names": "$~culoare"
+            },
+            "amount": {
+                "doc": "$~Cât de puternic să spăl. \\0%\\ înseamnă deloc, iar \\100%\\ lasă doar nuanțele culorii mele.",
+                "names": "$~cantitate"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~Acopăr @Stage cu ceață, care se mișcă încet peste ea. Sunt pentru dimineți, fum, aburi și tot ce e departe.",
+                "\\Etapă([Fraza('🌲🌲 mlaștina 🌲')] efecte: [Ceață(60%)])\\"
+            ],
+            "names": ["$~Ceață"],
+            "amount": {
+                "doc": "$~Cât de deasă sunt. \\0%\\ este aer limpede, iar \\100%\\ este atât de deasă încât abia se vede.",
+                "names": "$~cantitate"
+            },
+            "color": {
+                "doc": "$~@Color ceții. Dacă \\ø\\, sunt albă, ca ceața; încearcă gri pentru fum sau portocaliu pentru praf.",
+                "names": "$~culoare"
+            },
+            "speed": {
+                "doc": "$~Cât de repede mă mișc. \\0\\ mă ține pe loc, iar numerele mai mari mă mișcă mai repede.",
+                "names": "$~viteză"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~Pun pe @Stage puncte de zgomot care se schimbă în fiecare clipă. Puțin din mine este granulația unui film adevărat; mult din mine, cu puncte mari, este un televizor fără semnal.",
+                "Sunt obositor de privit când sunt puternic, așa că voi fi marcat ca un posibil tipar pentru persoanele sensibile la ele.",
+                "\\Etapă(\n\t[Fraza('📺 fără semnal')]\n\tefecte: [Granulație(90% mărime: 3)]\n)\\"
+            ],
+            "names": ["$~Granulație"],
+            "amount": {
+                "doc": "$~Cât de puternice sunt punctele. \\0%\\ înseamnă niciunul, iar \\100%\\ ascunde tot ce e sub mine.",
+                "names": "$~cantitate"
+            },
+            "size": {
+                "doc": "$~Cât de mare este fiecare punct. \\1\\ este cât de fin permite ecranul.",
+                "names": "$~mărime"
+            },
+            "color": {
+                "doc": "$~Dacă punctele mele sunt colorate. Dacă \\⊥\\, sunt gri.",
+                "names": "$~culoare"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~Desenez pe @Stage liniile subțiri și întunecate ale ecranului unui televizor vechi. Dă-mi o /viteză/ și mă derulez, ca un televizor care nu e chiar bine reglat.",
+                "\\Etapă(\n\t[Fraza('📺 canalul 3')]\n\tefecte: [LiniiDeEcran(40% viteză: 1)]\n)\\"
+            ],
+            "names": ["$~LiniiDeEcran"],
+            "amount": {
+                "doc": "$~Cât de închise sunt liniile mele. \\0%\\ este invizibil, iar \\100%\\ este negru.",
+                "names": "$~cantitate"
+            },
+            "spacing": {
+                "doc": "$~Cât de departe sunt liniile mele una de alta.",
+                "names": "$~spațiere"
+            },
+            "speed": {
+                "doc": "$~Câte linii parcurg în fiecare secundă. \\0\\ mă ține pe loc, iar o viteză negativă mă face să urc.",
+                "names": "$~viteză"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Fac ieșirea să se unduiască pe @Stage, ca și cum ai vedea-o prin apă sau prin aer încins.",
+                "Îndoi chiar ieșirea, sub orice alte efecte, așa că un @Grain pus înaintea mea nu se unduiește.",
+                "\\Etapă([Fraza('🐟 glub')] efecte: [Val(0.2m)])\\"
+            ],
+            "names": ["$~Val"],
+            "amount": {
+                "doc": "$~Cât de mult mut ieșirea din loc. \\0m\\ înseamnă nicio undă.",
+                "names": "$~cantitate"
+            },
+            "scale": {
+                "doc": "$~Cât de departe sunt undele mele una de alta. Mic înseamnă o sclipire fină, iar mare înseamnă un val lent.",
+                "names": "$~scală"
+            },
+            "speed": {
+                "doc": "$~Cât de repede se mișcă undele mele. \\0\\ le ține pe loc.",
+                "names": "$~viteză"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Împrăștii zgârieturile și praful unei pelicule vechi și uzate peste @Stage, diferit la fiecare cadru. Pune-mă împreună cu un @Grade care scoate culoarea și cu un @Flicker, și scena ta pare veche de o sută de ani.",
+                "\\Etapă(\n\t[Fraza('🎩 SFÂRȘIT')]\n\tefecte: [Ajustare(saturație: 0%) Deteriorare(80% 60%)]\n)\\"
+            ],
+            "names": ["$~Deteriorare"],
+            "scratches": {
+                "doc": "$~Câte zgârieturi trec peste peliculă. \\0%\\ înseamnă niciuna.",
+                "names": "$~zgârieturi"
+            },
+            "dust": {
+                "doc": "$~Cât praf este pe peliculă. \\0%\\ înseamnă deloc.",
+                "names": "$~praf"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Fac întregul @Stage să tremure: rămâne stabil, apoi se întunecă pentru o clipă la intervale neregulate, ca becul unui proiector sau o lampă care e pe cale să se stingă.",
+                "Lumina intermitentă poate face rău oamenilor, așa că nu tremur niciodată de mai mult de câteva ori pe secundă, oricât de repede ceri.",
+                "\\Etapă([Fraza('💡 luminile')] efecte: [Pâlpâire(40% 2)])\\"
+            ],
+            "names": ["$~Pâlpâire"],
+            "amount": {
+                "doc": "$~Cât de mult mă întunec când scad în intensitate. \\0%\\ nu se întunecă deloc.",
+                "names": "$~cantitate"
+            },
+            "rate": {
+                "doc": "$~Aproximativ de câte ori pot tremura în fiecare secundă. Nu merg mai repede de 2,5, ca să fiu sigur pentru oamenii sensibili la lumina intermitentă.",
+                "names": "$~frecvență"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~Întunec marginile @Stage și las mijlocul limpede, atrăgând privirea spre centru. Sunt marginea unei lentile vechi, un reflector sau vederea în tunel.",
+                "\\Etapă([Fraza('🔦 uită-te aici')] efecte: [Vinietă(70%)])\\"
+            ],
+            "names": ["$~Vinietă"],
+            "amount": {
+                "doc": "$~Cât de departe ajunge întunericul. \\0%\\ înseamnă deloc, iar \\100%\\ se strânge foarte tare.",
+                "names": "$~cantitate"
+            },
+            "color": {
+                "doc": "$~@Color spre care se estompează marginile. Dacă \\ø\\, se estompează spre negru.",
+                "names": "$~culoare"
+            }
         }
     }
 }

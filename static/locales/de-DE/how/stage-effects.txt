@@ -1,0 +1,73 @@
+Lass die ganze Bühne wie alten Film, Fernsehen oder Wasser aussehen
+
+Filme verändern, wie eine ganze Szene aussieht: Eine Rückblende wird weich und hell, eine alte Wochenschau ist zerkratzt und grau, ein Fernseher knistert mit Rauschen, und alles unter Wasser wellt sich und wird blau.
+Das können wir auch, indem wir einer @Stage eine Liste von @Effect geben.
+
+Hier siehst du eine Szene durch Wasser.
+
+\
+Bühne(
+	[Satzglied('🐠') Satzglied('🌿' Ort: Ort(1m -1m))]
+	Effekte: [Welle(0.15m) Tönung(Farbe(55% 45 220°) 70%) Dunst(40% Farbe(70% 30 200°))]
+)
+\
+
+ Jeder Effekt macht nur eine Sache. @Wave erzeugt Wellen, @Tint färbt alles in einer Farbe ein, und @Haze legt treibenden Nebel darüber.
+Zusammen sehen sie wie Wasser aus. Die Effekte werden in der Reihenfolge angewendet, in der sie in der Liste stehen. Ein späterer Effekt verändert also das Ergebnis der früheren.
+
+Du kannst zehn Effekte kombinieren: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker und @Vignette geben.
+Hier ist ein alter Film: @Grade nimmt die Farbe weg, dann @Damage, @Grain und @Flicker machen ihn abgenutzt und unruhig.
+
+\
+Bühne(
+	[Satzglied('THE END')]
+	Effekte: [Farbkorrektur(Kontrast: 130% Sättigung: 0%) Schaden(70% 50%) Körnung(25%) Flackern(15% 2) Vignette(60%)]
+)
+\
+
+ Und hier ist ein Fernseher, der sein Signal verliert.
+
+\
+Bühne(
+	[Satzglied('channel 3')]
+	Effekte: [Bildzeilen(40% Tempo: 1) Körnung(50% Größe: 2) Flackern(20%)]
+)
+\
+
+ Um einen Look immer wieder zu benutzen, schreibe eine Funktion, die seine Liste von Effekten zurückgibt.
+Ihre Eingaben werden zu den eigenen Einstellungen des Looks. Dieser hier wird trüber, je tiefer du gehst.
+
+\
+ƒ underwater(depth•%) [
+	Welle(0.2m · depth)
+	Tönung(Farbe(55% 45 220°) depth)
+	Unschärfe(0.03m · depth)
+]
+
+Bühne([Satzglied('🐠')] Effekte: underwater(80%))
+\
+
+ Ein Look kann sich auch mit dem Zustand eines Spiels ändern.
+Hier wird die Bühne an den Rändern unscharf und dunkel, wenn die Spielerin oder der Spieler nur noch ein Leben hat, und wird wieder klar, wenn es mehr sind.
+
+\
+lives: 3 … ∆ Schlüssel() … lives - 1
+
+Bühne(
+	[Satzglied(lives → '')]
+	Effekte: lives < 2 ? [Unschärfe(0.05m) Vignette(70% Farbe(30% 80 30°))] []
+)
+\
+
+ Effekte bedecken alles auf der Bühne, aber nie ihre @Stage.overlay, damit ein Punktestand oder ein Knopf gut lesbar bleibt.
+
+Die ganze Bühne wie bei einem Erdbeben zu schütteln ist gar kein Effekt: Eine @Stage kann sich wie jede andere Ausgabe bewegen, also gib ihm eine @Sequence geben.
+
+\
+Bühne([Satzglied('🏠')] Ruhen: Reihenfolge.schütteln(0.5s zählen: 4x))
+\
+
+ Manche Effekte bewegen sich schnell. Wenn jemand sein Gerät gebeten hat, Bewegung zu verringern, bleibt jeder Effekt stehen.
+@Flicker blitzt nie schneller als ein paar Mal pro Sekunde, egal wie schnell du es verlangst, denn schnelles Blitzen kann Menschen schaden.
+
+track-game-state

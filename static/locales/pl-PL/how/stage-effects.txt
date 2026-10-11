@@ -1,0 +1,73 @@
+Spraw, by cała scena wyglądała jak stary film, telewizja albo woda
+
+Filmy zmieniają wygląd całej sceny: retrospekcja staje się miękka i jasna, stara kronika filmowa jest porysowana i szara, telewizor trzeszczy od zakłóceń, a wszystko pod wodą faluje i robi się niebieskie.
+My możemy zrobić to samo, dając @Stage listę @Effect.
+
+Oto scena widziana przez wodę.
+
+\
+Scena(
+	[Wyrażenie('🐠') Wyrażenie('🌿' miejsce: Miejsce(1m -1m))]
+	efekty: [Fala(0.15m) Zabarwienie(Kolor(55% 45 220°) 70%) Mgiełka(40% Kolor(70% 30 200°))]
+)
+\
+
+ Każdy efekt robi jedną rzecz. @Wave faluje, @Tint zalewa wszystko jednym kolorem, a @Haze nakłada na scenę dryfującą mgłę.
+Razem wyglądają jak woda. Efekty działają w takiej kolejności, w jakiej są wypisane, więc późniejszy zmienia wynik wcześniejszych.
+
+Do łączenia jest dziesięć efektów: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker i @Vignette.
+Oto stary film: @Grade odbiera kolor, a potem @Damage, @Grain i @Flicker sprawiają, że obraz jest zniszczony i drżący.
+
+\
+Scena(
+	[Wyrażenie('THE END')]
+	efekty: [Korekcja(kontrast: 130% nasycenie: 0%) Zniszczenie(70% 50%) Ziarno(25%) Migotanie(15% 2) Winieta(60%)]
+)
+\
+
+ A to telewizor, który traci sygnał.
+
+\
+Scena(
+	[Wyrażenie('channel 3')]
+	efekty: [LinieEkranu(40% szybkość: 1) Ziarno(50% rozmiar: 2) Migotanie(20%)]
+)
+\
+
+ Aby używać jednego wyglądu raz za razem, zrób funkcję, która zwraca listę jego efektów.
+Jej dane wejściowe stają się ustawieniami tego wyglądu. Ten robi się coraz mętniejszy, im głębiej się schodzi.
+
+\
+ƒ underwater(depth•%) [
+	Fala(0.2m · depth)
+	Zabarwienie(Kolor(55% 45 220°) depth)
+	Rozmycie(0.03m · depth)
+]
+
+Scena([Wyrażenie('🐠')] efekty: underwater(80%))
+\
+
+ Wygląd może też zmieniać się wraz ze stanem gry.
+Tutaj scena się rozmywa i ciemnieje na brzegach, gdy graczowi zostało tylko jedno życie, a znów się rozjaśnia, gdy ma ich więcej.
+
+\
+lives: 3 … ∆ Klawisz() … lives - 1
+
+Scena(
+	[Wyrażenie(lives → '')]
+	efekty: lives < 2 ? [Rozmycie(0.05m) Winieta(70% Kolor(30% 80 30°))] []
+)
+\
+
+ Efekty obejmują to, co jest na scenie, ale nigdy jej @Stage.overlay, więc wynik albo przycisk pozostają czytelne.
+
+Trzęsienie całej sceny, jak podczas trzęsienia ziemi, wcale nie jest efektem: to @Stage może się poruszać jak każde inne wyjście, więc nadaj mu @Sequence.
+
+\
+Scena([Wyrażenie('🏠')] spoczynkowy: Sekwencja.potrząsnąć(0.5s liczyć: 4x))
+\
+
+ Niektóre efekty poruszają się szybko. Gdy ktoś poprosił swoje urządzenie o ograniczenie ruchu, wszystkie efekty stoją w miejscu.
+@Flicker nigdy nie błyska częściej niż kilka razy na sekundę, nawet jeśli poprosisz o szybsze błyskanie, ponieważ szybkie błyski mogą szkodzić ludziom.
+
+track-game-state

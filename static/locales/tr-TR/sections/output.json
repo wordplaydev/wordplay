@@ -1146,20 +1146,22 @@
         },
         "Stage": {
             "doc": [
-                "$~@Output Output'unuzu izleyicilere gösteriyorum. Merhaba. Sahne burada. Ne göstermemi istediğinizi söyleyin, ben de göstereyim.",
-                "\\Stage([Phrase('stufffffff')])\\",
-                "İSTERSENİZ, BANA @Color PLAN RENK BİLGİSİ VERİN, BEN DE SAHNEYİ ONA GÖRE AYDINLATACAĞIM.",
-                "\\Stage([Phrase('stufffffff')] arkaplan: Color(75% 50 100°))\\",
-                "İsterseniz çerçeve kenarı da verebilirsiniz, ben de onu kırpacağım.",
-                "\\Stage([Phrase('stufffffff')] arkaplan: Color(75% 50 100°) çerçeve: Rectangle(-1m -1m 1m 1m))\\"
+                "$~SİZİN @Output İZLEYİCİYE GÖSTERİRİM. MERHABA. BEN SAHNEYİM. NEYİ GÖSTERECEĞİMİ SÖYLEYİN, BEN DE GÖSTEREYİM.",
+                "\\Sahne([İfadeetmek('eşyalaaaaar')])\\",
+                "İSTERSENİZ BANA BİR ARKA PLAN @Color VERİN, SAHNEYİ ONA GÖRE AYDINLATAYIM.",
+                "\\Sahne(\n\t[İfadeetmek('eşyalaaaaar')]\n\tarkaplan: Renk(75% 50 100°)\n)\\",
+                "BANA BİR ÇERÇEVE KENARLIĞI DA VEREBİLİRSİNİZ, BEN DE KIRPAYIM.",
+                "\\Sahne(\n\t[İfadeetmek('eşyalaaaaar')]\n\tarkaplan: Renk(75% 50 100°)\n\tçerçeve: Dikdörtgen(-1m -1m 1m 1m)\n)\\",
+                "HEYECAN İSTERSENİZ BANA @Effect VERİN, HER ŞEYİN GÖRÜNÜŞÜNÜ DEĞİŞTİREYİM. SUALTI! ESKİ FİLM! PARAZİT! BAYILIYORUM.",
+                "\\Sahne(\n\t[İfadeetmek('🐟 blub')]\n\tefektler: [Dalga() Renklendirme(Renk(55% 45 220°))]\n)\\"
             ],
             "names": ["$~Sahne"],
             "content": {
-                "doc": "$~Sahnede gösterilecek @Output listesi.",
+                "doc": "$~GÖSTERİLECEK @Output LİSTESİ. GÖSTERİ BUDUR. BEN DE ONU GÖSTERİRİM.",
                 "names": "$~içerik"
             },
             "frame": {
-                "doc": "$~Sahnenin etrafına yerleştirilecek ve sahnenin dışında kalan her şeyi gizleyecek çerçeve şekli ve boyutu.",
+                "doc": "$~ETRAFIMDAKİ ÇERÇEVENİN ŞEKLİ VE BOYUTU. DIŞARIDA KALAN HER ŞEYİ GİZLERİM.",
                 "names": "$~çerçeve"
             },
             "size": {
@@ -1180,7 +1182,7 @@
             },
             "description": {
                 "doc": [
-                    "$~Görsel çıktıyı göremeyen izleyiciler için kullanılacak bir açıklama."
+                    "$~GÖSTERİYİ GÖREMEYEN İZLEYİCİLER İÇİN GÖSTERİNİN AÇIKLAMASI. ONLARA NELERİ KAÇIRDIKLARINI ANLATIN!"
                 ],
                 "names": "$~Tanım"
             },
@@ -1245,17 +1247,21 @@
                 "names": "$~stil"
             },
             "gravity": {
-                "doc": "$~@Motion konumundaki çıktıya uygulanacak yer çekimi.",
+                "doc": "$~ÇIKTI'YI NE KADAR GÜÇLÜ AŞAĞI ÇEKTİĞİM; ÇIKTININ YERİ @Motion İÇİNDE. HER ŞEY SONUNDA DÜŞER.",
                 "names": "$~yerçekimi"
             },
-            "defaultDescription": "$~$name[$name |]sahnesi: $#count[$count çıktılı|$count çıktılı]$frame[ $frame çerçeveli|] $pose $color[$color|]",
+            "defaultDescription": "$~sahne $name[$name |]$#count[$count çıktı|$count çıktı]$frame[kare $frame ile|] $pose $color[$color|]$effects[ $effects ile|]",
             "overlay": {
-                "doc": "$~Ekrana düz olarak sabitlenmiş, bilgi göstergesi gibi çalışan bir @Output listesi. Bu, sahnenin @Place kamerasından veya derinliğinden etkilenmez.",
+                "doc": "$~EKRANA SKOR TABELASI GİBİ DÜZ BİR ŞEKİLDE SABİTLEDİĞİM @Output LİSTESİ. @Place KAMERAM VE @Effect ASLA ONA DOKUNMAZ.",
                 "names": "$~kaplama"
             },
             "air": {
-                "doc": "$~Havanın hareket eden çıktıyı ne kadar yavaşlattığı. 1, normal havadır. 0 ise uzay boşluğudur, orada her şey sonsuza kadar hareket etmeye devam eder. Daha büyük sayılar havadan daha yoğun demektir.",
+                "doc": "$~HAVAMIN HAREKET EDEN ÇIKTIYI NE KADAR YAVAŞLATTIĞI. \\1\\ NORMAL HAVADIR, \\0\\ UZAY BOŞLUĞUDUR, ORADA HER ŞEY SONSUZA KADAR GİDER, DAHA BÜYÜK SAYILAR HAVADAN DAHA KALINDIR. ÇORBA GİBİ.",
                 "names": "$~hava"
+            },
+            "effects": {
+                "doc": "$~ÜZERİMDEKİ HER ŞEYİN ÜSTÜNE SIRAYLA SERİLECEK @Effect LİSTESİ; @Blur, @Grain YA DA @Wave GİBİ. \\ø\\ YA DA BOŞ BİR LİSTE, KENDİM GİBİ GÖRÜNDÜĞÜM ANLAMINA GELİR.",
+                "names": "$~efektler"
             }
         },
         "Easing": {
@@ -2039,6 +2045,187 @@
                 "names": "$~stil"
             },
             "defaultDescription": "$~$description, $columns kolon $rows satır boyutunda bir resim"
+        },
+        "Effect": {
+            "doc": [
+                "$~Ben soyut bir efektim. Üzerindeki her şeyin görünüşünü değiştirmek için tüm @Stage üzerine serilirim. Beni doğrudan oluşturmazsın; onun yerine @Blur, @Grain ya da @Wave gibi benim türümden bir efekt oluştur ve bunlardan oluşan bir listeyi sahnenin @Stage.effects özelliğine ver.",
+                "Efektler listelendikleri sırayla uygulanır, bu yüzden bir @Blur efektinden sonra gelen @Grain taneciği de bulanıklaştırır. Sahnenin içeriğini kaplarlar ama @Stage.overlay alanını asla kaplamazlar; böylece bir skor ya da bir düğme net kalır.",
+                "\\Sahne(\n\t[İfadeetmek('🐟')]\n\tefektler: [Renklendirme(Renk(60% 40 220°)) Dalga()]\n)\\"
+            ],
+            "names": ["$~Efekt"]
+        },
+        "Blur": {
+            "doc": [
+                "$~@Stage üzerindeki her şeyi yumuşatırım, sanki kamera odaktan çıkmış gibi. Azıcık ben bir rüya ya da bir anıyım; çok ben ise uyanmak ya da gözlüğünü kaybetmek gibiyim.",
+                "\\Sahne(\n\t[İfadeetmek('🤓 gözlüklerim nerede?')]\n\tefektler: [Bulanıklık(0.05m)]\n)\\"
+            ],
+            "names": ["$~Bulanıklık"],
+            "amount": {
+                "doc": "$~Her ışık noktasını ne kadar yaydığım. \\0m\\ tamamen keskindir.",
+                "names": "$~miktar"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~@Stage üzerindeki her şeyin parlaklığını, karşıtlığını, doygunluğunu ve tonunu değiştiririm; tıpkı bir filmin renklerinin havasını belirlemek için düzenlenmesi gibi. Tüm doygunluğu kaldırıp karşıtlığı artırırsan siyah beyaz bir kara film elde edersin.",
+                "\\Sahne(\n\t[İfadeetmek('🕵 dedektif bekledi')]\n\tefektler: [RenkAyarı(doygunluk: 0% karşıtlık: 150%)]\n)\\"
+            ],
+            "names": ["$~RenkAyarı"],
+            "brightness": {
+                "doc": "$~Sahneyi ne kadar parlak yapacağım. \\100%\\ hiçbir şeyi değiştirmez, \\0%\\ siyahtır, \\100%\\ değerinden büyük olan daha parlaktır.",
+                "names": "$~parlaklık"
+            },
+            "contrast": {
+                "doc": "$~Açık ve koyu renkleri birbirinden ne kadar uzaklaştıracağım. \\100%\\ hiçbir şeyi değiştirmez, daha az olan daha düz ve daha gridir, daha fazla olan daha serttir.",
+                "names": "$~karşıtlık"
+            },
+            "saturation": {
+                "doc": "$~Renklerin ne kadar canlı olduğu. \\100%\\ hiçbir şeyi değiştirmez, \\0%\\ siyah beyazdır, \\100%\\ değerinden büyük olan ekstra canlıdır.",
+                "names": "$~doygunluk"
+            },
+            "hue": {
+                "doc": "$~Her rengi renk çemberi boyunca ne kadar döndüreceğim. \\0°\\ hiçbir şeyi değiştirmez, \\180°\\ ise her rengi tam karşıtına çevirir.",
+                "names": "$~renkTonu"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~@Stage üzerindeki her şeyi tek bir @Color ile yıkarım; açık ve koyu tonlarını korurum, böylece yazı aynı derecede okunaklı kalır. Mavi-yeşil sahneyi su altı gibi gösterir, kahverengi eski bir fotoğraf gibi, yeşil ise gece görüşü gibi.",
+                "\\Sahne(\n\t[İfadeetmek('🏰 çok uzun zaman önce')]\n\tefektler: [Renklendirme(Renk(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~Renklendirme"],
+            "color": {
+                "doc": "$~Sahneyi yıkamak için kullanılacak @Color.",
+                "names": "$~renk"
+            },
+            "amount": {
+                "doc": "$~Ne kadar güçlü yıkayacağım. \\0%\\ hiç yıkama demektir, \\100%\\ ise yalnızca rengimin tonlarını bırakır.",
+                "names": "$~miktar"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~@Stage alanını sisle örterim; sis üzerinde yavaşça süzülür. Sabahlar, duman, buhar ve uzaktaki her şey için varım.",
+                "\\Sahne([İfadeetmek('🌲🌲 çayırlık 🌲')] efektler: [Pus(60%)])\\"
+            ],
+            "names": ["$~Pus"],
+            "amount": {
+                "doc": "$~Ne kadar yoğun olduğum. \\0%\\ açık havadır, \\100%\\ ise neredeyse hiçbir şey göremeyeceğin kadar yoğundur.",
+                "names": "$~miktar"
+            },
+            "color": {
+                "doc": "$~Sisin @Color değeri. \\ø\\ ise beyaz olurum, sis gibi; duman için gri ya da toz için turuncu dene.",
+                "names": "$~renk"
+            },
+            "speed": {
+                "doc": "$~Ne kadar hızlı süzüldüğüm. \\0\\ beni yerimde tutar, daha büyük sayılar daha hızlı süzülmem demektir.",
+                "names": "$~hız"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~@Stage alanını her an değişen gürültüyle benekleriım. Azıcık ben gerçek filmin tanecikleridir; çok ben, büyük beneklerle, sinyali olmayan bir televizyondur.",
+                "Güçlü olduğumda bakması yorucuyum, bu yüzden buna duyarlı kişiler için olası bir desen olarak not edileceğim.",
+                "\\Sahne(\n\t[İfadeetmek('📺 sinyal yok')]\n\tefektler: [Kumlanma(90% boyut: 3)]\n)\\"
+            ],
+            "names": ["$~Kumlanma"],
+            "amount": {
+                "doc": "$~Beneklerin ne kadar güçlü olduğu. \\0%\\ hiç yok demektir, \\100%\\ ise altımdaki her şeyi gizler.",
+                "names": "$~miktar"
+            },
+            "size": {
+                "doc": "$~Her benein ne kadar büyük olduğu. \\1\\ ekranın izin verdiği en ince boyuttur.",
+                "names": "$~boyut"
+            },
+            "color": {
+                "doc": "$~Benekelerimin renkli olup olmadığı. \\⊥\\ ise gridirler.",
+                "names": "$~renk"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~@Stage alanı boyunca eski bir televizyon ekranının ince koyu çizgilerini çizerim. Bana bir /hız/ ver, tam ayarlanmamış bir TV gibi kayarım.",
+                "\\Sahne(\n\t[İfadeetmek('📺 3. kanal')]\n\tefektler: [TaramaÇizgileri(40% hız: 1)]\n)\\"
+            ],
+            "names": ["$~TaramaÇizgileri"],
+            "amount": {
+                "doc": "$~Çizgilerim ne kadar koyu. \\0%\\ görünmezdir, \\100%\\ ise siyahtır.",
+                "names": "$~miktar"
+            },
+            "spacing": {
+                "doc": "$~Çizgilerim birbirinden ne kadar uzak.",
+                "names": "$~aralık"
+            },
+            "speed": {
+                "doc": "$~Her saniye kaç çizgi aşağı kayarım. \\0\\ beni yerimde tutar, eksi bir hız ise yukarı kaydırır.",
+                "names": "$~hız"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Çıktıyı @Stage üzerinde dalgalandırırım, sanki onu suyun ya da yükselen sıcağın arkasından görüyormuşsun gibi.",
+                "Çıktının kendisini bükerim, diğer tüm efektlerin altında. Bu yüzden benden önce yazılan bir @Grain dalgalanmaz.",
+                "\\Sahne([İfadeetmek('🐟 blub')] efektler: [Dalga(0.2m)])\\"
+            ],
+            "names": ["$~Dalga"],
+            "amount": {
+                "doc": "$~Çıktıyı yerinden ne kadar iterim. \\0m\\ hiç dalga olmaması demektir.",
+                "names": "$~miktar"
+            },
+            "scale": {
+                "doc": "$~Dalgalarım birbirinden ne kadar uzak. Küçük @value ince bir titreşimdir, büyük değer ise yavaş bir kabarmadır.",
+                "names": "$~ölçek"
+            },
+            "speed": {
+                "doc": "$~Dalgalarım ne kadar hızlı hareket eder. \\0\\ onları yerinde tutar.",
+                "names": "$~hız"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Eski, yıpranmış filmin çizik ve tozlarını @Stage üzerine saçarım, her karede farklı. Beni rengi alan bir @Grade ve bir @Flicker ile birlikte kullan, sahnen yüz yıllık görünsün.",
+                "\\Sahne(\n\t[İfadeetmek('🎩 SON')]\n\tefektler: [RenkAyarı(doygunluk: 0%) Hasar(80% 60%)]\n)\\"
+            ],
+            "names": ["$~Hasar"],
+            "scratches": {
+                "doc": "$~Filmin üzerinden kaç çizik geçer. \\0%\\ hiç çizik olmaması demektir.",
+                "names": "$~çizikler"
+            },
+            "dust": {
+                "doc": "$~Filmin üzerinde ne kadar toz var. \\0%\\ hiç toz olmaması demektir.",
+                "names": "$~toz"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Tüm @Stage öğesini titretirim. Bir süre sabit dururum, sonra düzensiz aralıklarla bir an kararırım, tıpkı bir projektörün ampulü ya da sönmek üzere olan bir lamba gibi.",
+                "Yanıp sönen ışık insanlara zarar verebilir. Bu yüzden ne kadar hızlı istersen iste, saniyede birkaç defadan fazla titremem.",
+                "\\Sahne([İfadeetmek('💡 ışıklar')] efektler: [Titreme(40% 2)])\\"
+            ],
+            "names": ["$~Titreme"],
+            "amount": {
+                "doc": "$~Kararırken ne kadar koyulaşırım. \\0%\\ hiç kararmaz.",
+                "names": "$~miktar"
+            },
+            "rate": {
+                "doc": "$~Her saniye yaklaşık kaç kez titreyebilirim. Yanıp sönmeye duyarlı insanlar güvende olsun diye 2,5'ten hızlı olmam.",
+                "names": "$~sıklık"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~@Stage öğesinin kenarlarını karartırım, ortayı açık bırakırım ve gözleri merkeze çekerim. Eski bir merceğin kenarı, bir spot ışığı ya da tünel görüşü gibiyim.",
+                "\\Sahne([İfadeetmek('🔦 buraya bak')] efektler: [KenarKarartma(70%)])\\"
+            ],
+            "names": ["$~KenarKarartma"],
+            "amount": {
+                "doc": "$~Karanlık içeriye ne kadar uzanır. \\0%\\ hiç uzanmaması demektir, \\100%\\ ise sıkıca kapanır.",
+                "names": "$~miktar"
+            },
+            "color": {
+                "doc": "$~Kenarların soldurduğu @Color. \\ø\\ ise kenarlar siyaha doğru solar.",
+                "names": "$~renk"
+            }
         }
     }
 }

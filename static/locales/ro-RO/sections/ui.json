@@ -1288,11 +1288,51 @@
                 },
                 "location": {
                     "header": "$~Locaţie",
-                    "explanation": "$~/Modalități de determinare a locului în care se află producția pe scenă./"
+                    "explanation": "$~/Moduri de a stabili unde apare ieșirea pe scenă./"
                 },
                 "reactions": {
                     "header": "$~Reacții",
                     "explanation": "$~/Modalități de reacție la sau de analiză a unui flux de intrare./"
+                },
+                "effects": {
+                    "header": "$~Efecte",
+                    "explanation": "$~/Moduri de a schimba aspectul întregii scene./"
+                },
+                "sound": {
+                    "header": "$~Sunet",
+                    "explanation": "$~/Moduri de a face muzică și vorbire./"
+                },
+                "physics": {
+                    "header": "$~Fizică",
+                    "explanation": "$~/Din ce este făcută ieșirea, pentru momentul când se mișcă./"
+                },
+                "time": {
+                    "header": "$~Timp",
+                    "explanation": "$~/Moduri de a ști cât este ceasul și de a lăsa lucrurile la voia întâmplării./"
+                },
+                "audience": {
+                    "header": "$~Spectatori",
+                    "explanation": "$~/Ce apasă, ce arată, ce alege și ce scrie publicul tău./"
+                },
+                "motion": {
+                    "header": "$~Mișcare",
+                    "explanation": "$~/Moduri de a mișca ieșirea și de a ști când se lovește de ceva./"
+                },
+                "listening": {
+                    "header": "$~Ascultare",
+                    "explanation": "$~/Ce aude microfonul și ritmul muzicii în timp ce se aude./"
+                },
+                "camera": {
+                    "header": "$~Cameră",
+                    "explanation": "$~/Ce vede camera: mâini, fețe și obiecte./"
+                },
+                "scenes": {
+                    "header": "$~Scene",
+                    "explanation": "$~/Moduri de a arăta un lucru după altul și de a ști unde te afli./"
+                },
+                "text": {
+                    "header": "$~Text",
+                    "explanation": "$~/Text de pe internet și formele literelor./"
                 }
             },
             "mode": {

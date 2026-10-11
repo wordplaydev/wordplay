@@ -994,7 +994,7 @@
                 },
                 "location": {
                     "header": "位置",
-                    "explanation": "/确定输出在舞台上位置的方法。/"
+                    "explanation": "$~/确定输出在舞台上位置的各种方法。/"
                 },
                 "reactions": {
                     "header": "响应",
@@ -1003,6 +1003,46 @@
                 "names": {
                     "header": "名称",
                     "explanation": "/这个概念的名称。/"
+                },
+                "effects": {
+                    "header": "$~效果",
+                    "explanation": "$~/改变整个舞台外观的各种方法。/"
+                },
+                "sound": {
+                    "header": "$~声音",
+                    "explanation": "$~/制作音乐和语音的各种方法。/"
+                },
+                "physics": {
+                    "header": "$~物理",
+                    "explanation": "$~/输出由什么构成，用来决定它怎么移动。/"
+                },
+                "time": {
+                    "header": "$~时间",
+                    "explanation": "$~/知道现在几点的方法，也有交给运气的方法。/"
+                },
+                "audience": {
+                    "header": "$~观众",
+                    "explanation": "$~/观众按下、指向、选择和输入的内容。/"
+                },
+                "motion": {
+                    "header": "$~运动",
+                    "explanation": "$~/移动输出的各种方法，以及知道它何时碰到东西的方法。/"
+                },
+                "listening": {
+                    "header": "$~聆听",
+                    "explanation": "$~/麦克风听到的声音，以及音乐播放时的节拍。/"
+                },
+                "camera": {
+                    "header": "$~摄像头",
+                    "explanation": "$~/摄像头看到的东西：手、脸和物体。/"
+                },
+                "scenes": {
+                    "header": "$~场景",
+                    "explanation": "$~/一个接一个地展示内容的方法，以及知道自己在哪里的方法。/"
+                },
+                "text": {
+                    "header": "$~文本",
+                    "explanation": "$~/来自网络的文本，以及字母的形状。/"
                 }
             },
             "how": {

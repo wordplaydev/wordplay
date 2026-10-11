@@ -5,6 +5,8 @@ import {
 import ConceptIndex from '#concepts/ConceptIndex.ts';
 import { must } from '#util/nullable.ts';
 import NodeConcept from '#concepts/NodeConcept.ts';
+import StructureConcept from '#concepts/StructureConcept.ts';
+import type { HeaderAndExplanationText } from '#locale/UITexts.ts';
 import { Purpose } from '#concepts/Purpose.ts';
 import Project from '#db/projects/Project.ts';
 import DefaultLocale from '#locale/DefaultLocale.ts';
@@ -98,4 +100,95 @@ test('the Text section no longer lists pattern constructs', () => {
                 c.template.getDescriptor().startsWith('Pattern'),
         );
     expect(textPatternNodes).toEqual([]);
+});
+
+test('every output concept is in exactly one named group', () => {
+    const { p, index } = patternsSetup();
+    const groups = getConceptGroups(Purpose.Outputs, index, p);
+    const types = p.shares.output;
+    // Interfaces are shown as their implementers, and Result belongs to Patterns.
+    const unlisted = [
+        types.Form,
+        types.Arrangement,
+        types.Effect,
+        types.Result,
+    ];
+    for (const concept of index.getPrimaryConceptsWithPurpose(
+        Purpose.Outputs,
+    )) {
+        if (
+            concept instanceof StructureConcept &&
+            unlisted.includes(concept.definition)
+        )
+            continue;
+        expect(
+            groups.filter((group) => group.concepts.includes(concept)).length,
+            concept.getName(DefaultLocales, false),
+        ).toBe(1);
+    }
+});
+
+test('output concepts are grouped by what they are for', () => {
+    const { p, index } = patternsSetup();
+    const groups = getConceptGroups(Purpose.Outputs, index, p);
+    const headerOf = (name: string) =>
+        groups
+            .find((group) =>
+                group.concepts.some(
+                    (c) => c.getName(DefaultLocales, false) === name,
+                ),
+            )
+            ?.header(DefaultLocale);
+    const docs = DefaultLocale.ui.docs.header;
+    expect(headerOf('Blur')).toBe(docs.effects);
+    expect(headerOf('Vignette')).toBe(docs.effects);
+    expect(headerOf('Music')).toBe(docs.sound);
+    expect(headerOf('Note')).toBe(docs.sound);
+    expect(headerOf('Say')).toBe(docs.sound);
+    expect(headerOf('Matter')).toBe(docs.physics);
+    expect(headerOf('Place')).toBe(docs.location);
+    // Values that streams report are documented with the inputs instead.
+    for (const name of ['Thing', 'Rebound', 'Downbeat'])
+        expect(headerOf(name), name).toBeUndefined();
+    expect(groups.map((group) => group.header(DefaultLocale))).toEqual([
+        DefaultLocale.ui.docs.purposes.Outputs,
+        docs.forms,
+        docs.arrangements,
+        docs.location,
+        docs.appearance,
+        docs.animation,
+        docs.physics,
+        docs.effects,
+        docs.sound,
+    ]);
+});
+
+test('inputs are grouped by what they sense, each stream just before the values it reports', () => {
+    const { p, index } = patternsSetup();
+    const groups = getConceptGroups(Purpose.Inputs, index, p);
+    const names = (header: HeaderAndExplanationText) =>
+        groups
+            .find((group) => group.header(DefaultLocale) === header)
+            ?.concepts.map((c) => c.getName(DefaultLocales, false)) ?? [];
+    const docs = DefaultLocale.ui.docs.header;
+    expect(names(docs.time).slice(0, 3)).toEqual(['Time', 'Now', 'Moment']);
+    expect(names(docs.motion)).toEqual([
+        'Motion',
+        'Collision',
+        'Rebound',
+        'Direction',
+    ]);
+    expect(names(docs.listening).slice(-3)).toEqual([
+        'Beat',
+        'Downbeat',
+        'Part',
+    ]);
+    expect(names(docs.camera)).toContain('Thing');
+    expect(names(docs.camera)).toContain('Expression');
+    expect(names(docs.scenes)).toEqual(['Scene', 'Spotlight', 'Slate']);
+    for (const concept of index.getPrimaryConceptsWithPurpose(Purpose.Inputs))
+        expect(
+            groups.filter((group) => group.concepts.includes(concept)).length,
+            concept.getName(DefaultLocales, false),
+        ).toBe(1);
 });

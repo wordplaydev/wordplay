@@ -1783,3 +1783,24 @@ Three things decide what is finally seen, and they compose rather than override 
 - **The audience.** Panning and zooming (scroll, pinch, two-finger drag, the zoom controls) apply as an offset on top of whichever of the two above is in play. Because it is an offset and not a replacement, a viewer may zoom out of a project that moves its own camera without freezing it. Zooming out is unbounded; zooming in stops before the camera would reach the output plane.
 
 A stage's `overlay` is exempt from all of this: it is pinned flat to the screen and is unaffected by the camera.
+
+## Stage effects
+
+A `Stage`'s optional `effects` (`[Effect]|ø`, defaulting to `ø`) lays effects over everything the stage shows, the way a film is graded, scratched, or seen through water. `Effect` is an interface with no inputs, like `Form` and `Arrangement`; the ten structures that implement it are the effects:
+
+| Effect      | Inputs                                                                       | What it does                                                               |
+| ----------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `Blur`      | `amount•#m: 0.05m`                                                           | softens everything beneath it                                              |
+| `Grade`     | `brightness•%: 100%`, `contrast•%: 100%`, `saturation•%: 100%`, `hue•#°: 0°` | adjusts tone and color, like a film's color grade                          |
+| `Tint`      | `color•🌈`, `amount•%: 50%`                                                  | washes everything in one color, keeping its lightness                      |
+| `Haze`      | `amount•%: 50%`, `color•🌈\|ø: ø`, `speed•#: 1`                              | veils the stage in drifting fog (white when `ø`)                           |
+| `Grain`     | `amount•%: 30%`, `size•#: 1`, `color•?: ⊥`                                   | speckles with noise that changes every frame                               |
+| `Scanlines` | `amount•%: 30%`, `spacing•#m: 0.1m`, `speed•#: 0`                            | draws a television's horizontal lines, rolling at `speed` lines per second |
+| `Wave`      | `amount•#m: 0.2m`, `scale•#m: 2m`, `speed•#: 1`                              | ripples the stage's content                                                |
+| `Damage`    | `scratches•%: 50%`, `dust•%: 50%`                                            | scatters an old film's scratches and dust, different every frame           |
+| `Flicker`   | `amount•%: 20%`, `rate•#: 2`                                                 | holds steady, then dips dark for a moment at uneven times                  |
+| `Vignette`  | `amount•%: 50%`, `color•🌈\|ø: ø`                                            | darkens the edges (to black when `ø`)                                      |
+
+Effects apply in list order, each to the result of those before it, with one exception: `Wave` distorts the content itself, beneath every other effect. Effects cover the stage's content and background but never its `overlay`. A setting outside its range is clamped rather than refused: amounts to `0%`–`100%`, and `Flicker`'s `rate` to at most 2.5 per second, under the photosensitive band, whatever the program asks for. Heavy `Grain` or `Scanlines` (`amount` of `50%` or more) is reported as a pattern risk to viewers before a project plays. When the viewer has asked to reduce motion, every effect is drawn as one still frame. A stage's description names its effects, so a screen reader hears when the look of a stage changes.
+
+There is no way to define a new kind of effect. A reusable look is a function that evaluates to a list of effects, whose inputs are the look's settings. Moving the whole stage, such as shaking it, needs no effect, since a stage takes poses and sequences like any other output.

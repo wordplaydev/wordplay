@@ -1476,9 +1476,49 @@
                     "header": "Animation",
                     "explanation": "/Ways to animate output on stage./"
                 },
+                "effects": {
+                    "header": "Effects",
+                    "explanation": "/Ways of changing how the whole stage looks./"
+                },
+                "sound": {
+                    "header": "Sound",
+                    "explanation": "/Ways of making music and speech./"
+                },
                 "location": {
                     "header": "Location",
-                    "explanation": "/Ways of determing where output is on stage./"
+                    "explanation": "/Ways of determining where output is on stage./"
+                },
+                "physics": {
+                    "header": "Physics",
+                    "explanation": "/What output is made of, for when it moves./"
+                },
+                "time": {
+                    "header": "Time",
+                    "explanation": "/Ways of knowing when it is, and of leaving things to chance./"
+                },
+                "audience": {
+                    "header": "Audience",
+                    "explanation": "/What your audience presses, points at, chooses, and types./"
+                },
+                "motion": {
+                    "header": "Motion",
+                    "explanation": "/Ways of moving output, and knowing when it bumps into something./"
+                },
+                "listening": {
+                    "header": "Listening",
+                    "explanation": "/What the microphone hears, and the beats of music as it plays./"
+                },
+                "camera": {
+                    "header": "Camera",
+                    "explanation": "/What the camera sees: hands, faces, and things./"
+                },
+                "scenes": {
+                    "header": "Scenes",
+                    "explanation": "/Ways of showing one thing after another, and knowing where you are./"
+                },
+                "text": {
+                    "header": "Text",
+                    "explanation": "/Text from the web, and the shapes of letters./"
                 },
                 "reactions": {
                     "header": "Reactions",

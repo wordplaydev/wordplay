@@ -106,8 +106,28 @@ type DocumentationText = {
         appearance: HeaderAndExplanationText;
         /** Animation header */
         animation: HeaderAndExplanationText;
+        /** Stage effects header */
+        effects: HeaderAndExplanationText;
+        /** Music and speech header */
+        sound: HeaderAndExplanationText;
         /** Location header */
         location: HeaderAndExplanationText;
+        /** Physics header */
+        physics: HeaderAndExplanationText;
+        /** Inputs about time and chance header */
+        time: HeaderAndExplanationText;
+        /** Inputs from the audience's keyboard, mouse, and typing header */
+        audience: HeaderAndExplanationText;
+        /** Inputs about output moving and colliding header */
+        motion: HeaderAndExplanationText;
+        /** Inputs from the microphone and music header */
+        listening: HeaderAndExplanationText;
+        /** Inputs from the camera header */
+        camera: HeaderAndExplanationText;
+        /** Inputs that step through scenes header */
+        scenes: HeaderAndExplanationText;
+        /** Inputs that get text and letter shapes header */
+        text: HeaderAndExplanationText;
         /** Reactions header */
         reactions: HeaderAndExplanationText;
     };

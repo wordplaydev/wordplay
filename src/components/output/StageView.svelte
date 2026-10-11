@@ -123,6 +123,21 @@
     // orchestra and the mood cloud read the music itself.
     let stageMusic = $derived(stage.getMusic());
     let musicNames = $derived(stageMusic.map((music) => music.getName()));
+
+    /** A prefix for this stage's effect filter ids, unique on a page of many stages. */
+    const effectsID = $props.id();
+    /** A wave distorts the content itself rather than layering over it (see EffectLayer),
+     *  so its filter is applied here, referring to the filter EffectLayer renders. */
+    let rippleFilter = $derived(
+        stage.effects
+            .map((effect, index) =>
+                effect.getLayer(adapting).kind === 'ripple'
+                    ? `url(#${effectsID}-ripple-${index})`
+                    : undefined,
+            )
+            .filter((filter) => filter !== undefined)
+            .join(' '),
+    );
     const animatingNodes = getAnimatingNodes();
 
     const GRID_PADDING = 10;
@@ -1021,225 +1036,259 @@
         {#if stageMusic.length > 0}
             <MusicView musics={stageMusic} />
         {/if}
-        <!-- Render the stage -->
-        <GroupView
-            group={stage}
-            place={center}
-            focus={renderedFocus}
-            viewport={{ width: viewportWidth, height: viewportHeight }}
-            clip={stage.frame}
-            parentAscent={0}
-            {editable}
-            {inspectable}
-            {context}
-            {interactive}
-            {editing}
-            {frame}
+        <!-- Render the stage, inside a box the size of the stage that a wave can distort.
+             It is display: contents when nothing ripples, so it lays out nothing. -->
+        <div
+            class="rippled"
+            class:active={rippleFilter !== ''}
+            style:filter={rippleFilter === '' ? null : rippleFilter}
         >
-            {#if showGrid}
-                {@const left = Math.min(
-                    0,
-                    Math.floor(contentBounds.left - GRID_PADDING),
-                )}
-                {@const right = Math.max(0, contentBounds.right + GRID_PADDING)}
-                {@const bottom = Math.min(
-                    0,
-                    Math.floor(contentBounds.bottom - GRID_PADDING),
-                )}
-                {@const top = Math.max(0, contentBounds.top + GRID_PADDING)}
-                <!-- Render a grid if this is the root and the grid is on, or something
+            <GroupView
+                group={stage}
+                place={center}
+                focus={renderedFocus}
+                viewport={{ width: viewportWidth, height: viewportHeight }}
+                clip={stage.frame}
+                parentAscent={0}
+                {editable}
+                {inspectable}
+                {context}
+                {interactive}
+                {editing}
+                {frame}
+            >
+                {#if showGrid}
+                    {@const left = Math.min(
+                        0,
+                        Math.floor(contentBounds.left - GRID_PADDING),
+                    )}
+                    {@const right = Math.max(
+                        0,
+                        contentBounds.right + GRID_PADDING,
+                    )}
+                    {@const bottom = Math.min(
+                        0,
+                        Math.floor(contentBounds.bottom - GRID_PADDING),
+                    )}
+                    {@const top = Math.max(0, contentBounds.top + GRID_PADDING)}
+                    <!-- Render a grid if this is the root and the grid is on, or something
                      is being moved and wants the reference. Apply the same transform
                      that we do the the verse. `faint` is the moving-only grid, which
                      is a reference rather than something anything snaps to. -->
-                {#each range(left, right) as number}
-                    {@const left =
-                        number * PX_PER_METER - HalfGridlineThickness}
-                    <div
-                        class="gridline vertical"
-                        class:faint={!grid}
-                        style:left="{left}px"
-                        style:top="{-top * PX_PER_METER -
-                            HalfGridlineThickness}px"
-                        style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
-                    ></div>
-                    {#if number !== 0 && grid}
-                        <div class="coordinate vertical" style:left="{left}px"
-                            >{number}m</div
-                        >
-                    {/if}
-                {/each}
-                {#each range(bottom, top) as number}
-                    {@const top =
-                        -number * PX_PER_METER - HalfGridlineThickness}
-                    <div
-                        class="gridline horizontal"
-                        class:faint={!grid}
-                        style:top="{top}px"
-                        style:left="{left * PX_PER_METER -
-                            HalfGridlineThickness}px"
-                        style:width="{Math.abs(left - right) * PX_PER_METER}px"
-                    ></div>
-                    {#if grid}
-                        <div class="coordinate horizontal" style:top="{top}px"
-                            >{number}m</div
-                        >
-                    {/if}
-                {/each}
-                <!-- The lattice a move actually snaps to is half a metre, so while
-                     something is moving, show the lines between the labelled ones. -->
-                {#if grid && moving}
-                    {#each range(left, right - 1) as number}
+                    {#each range(left, right) as number}
+                        {@const left =
+                            number * PX_PER_METER - HalfGridlineThickness}
                         <div
-                            class="gridline vertical faint"
-                            style:left="{(number + HALF_GRID) * PX_PER_METER -
-                                HalfGridlineThickness}px"
+                            class="gridline vertical"
+                            class:faint={!grid}
+                            style:left="{left}px"
                             style:top="{-top * PX_PER_METER -
                                 HalfGridlineThickness}px"
                             style:height="{Math.abs(top - bottom) *
                                 PX_PER_METER}px"
                         ></div>
+                        {#if number !== 0 && grid}
+                            <div
+                                class="coordinate vertical"
+                                style:left="{left}px">{number}m</div
+                            >
+                        {/if}
                     {/each}
-                    {#each range(bottom, top - 1) as number}
+                    {#each range(bottom, top) as number}
+                        {@const top =
+                            -number * PX_PER_METER - HalfGridlineThickness}
                         <div
-                            class="gridline horizontal faint"
-                            style:top="{-(number + HALF_GRID) * PX_PER_METER -
-                                HalfGridlineThickness}px"
+                            class="gridline horizontal"
+                            class:faint={!grid}
+                            style:top="{top}px"
                             style:left="{left * PX_PER_METER -
                                 HalfGridlineThickness}px"
                             style:width="{Math.abs(left - right) *
                                 PX_PER_METER}px"
                         ></div>
+                        {#if grid}
+                            <div
+                                class="coordinate horizontal"
+                                style:top="{top}px">{number}m</div
+                            >
+                        {/if}
                     {/each}
+                    <!-- The lattice a move actually snaps to is half a metre, so while
+                     something is moving, show the lines between the labelled ones. -->
+                    {#if grid && moving}
+                        {#each range(left, right - 1) as number}
+                            <div
+                                class="gridline vertical faint"
+                                style:left="{(number + HALF_GRID) *
+                                    PX_PER_METER -
+                                    HalfGridlineThickness}px"
+                                style:top="{-top * PX_PER_METER -
+                                    HalfGridlineThickness}px"
+                                style:height="{Math.abs(top - bottom) *
+                                    PX_PER_METER}px"
+                            ></div>
+                        {/each}
+                        {#each range(bottom, top - 1) as number}
+                            <div
+                                class="gridline horizontal faint"
+                                style:top="{-(number + HALF_GRID) *
+                                    PX_PER_METER -
+                                    HalfGridlineThickness}px"
+                                style:left="{left * PX_PER_METER -
+                                    HalfGridlineThickness}px"
+                                style:width="{Math.abs(left - right) *
+                                    PX_PER_METER}px"
+                            ></div>
+                        {/each}
+                    {/if}
+                    <div
+                        class="gridline horizontal axis"
+                        class:faint={!grid}
+                        style:top="0px"
+                        style:left="{left * PX_PER_METER -
+                            HalfGridlineThickness}px"
+                        style:width="{Math.abs(left - right) * PX_PER_METER}px"
+                    ></div>
+                    <div
+                        class="gridline vertical axis"
+                        class:faint={!grid}
+                        style:left="0px"
+                        style:top="{-top * PX_PER_METER -
+                            HalfGridlineThickness}px"
+                        style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
+                    ></div>
                 {/if}
-                <div
-                    class="gridline horizontal axis"
-                    class:faint={!grid}
-                    style:top="0px"
-                    style:left="{left * PX_PER_METER - HalfGridlineThickness}px"
-                    style:width="{Math.abs(left - right) * PX_PER_METER}px"
-                ></div>
-                <div
-                    class="gridline vertical axis"
-                    class:faint={!grid}
-                    style:left="0px"
-                    style:top="{-top * PX_PER_METER - HalfGridlineThickness}px"
-                    style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
-                ></div>
-            {/if}
-            <!-- What the output being moved is currently lined up with (#117).
+                <!-- What the output being moved is currently lined up with (#117).
                  Drawn here, inside the root group, so it inherits the camera
                  transform the output itself gets: a metre is PX_PER_METER pixels
                  and y is negated, with no camera arithmetic of its own. Purely
                  decorative — the constraint is announced, not read from here. -->
-            {#each guides as guide, index (index)}
-                {@const from =
-                    (guide.span.from - GUIDE_OVERSHOOT) * PX_PER_METER}
-                {@const to = (guide.span.to + GUIDE_OVERSHOOT) * PX_PER_METER}
-                <div
-                    class="guide {guide.axis === 'x'
-                        ? 'vertical'
-                        : 'horizontal'}"
-                    class:grid={guide.target === undefined}
-                    aria-hidden="true"
-                    style:left={guide.axis === 'x'
-                        ? `${guide.position * PX_PER_METER}px`
-                        : `${from}px`}
-                    style:top={guide.axis === 'x'
-                        ? `${-to}px`
-                        : `${-guide.position * PX_PER_METER}px`}
-                    style:width={guide.axis === 'x' ? null : `${to - from}px`}
-                    style:height={guide.axis === 'x' ? `${to - from}px` : null}
-                ></div>
-            {/each}
-            <!-- The stroke being drawn (#167). Drawn here for the same reason the guides
+                {#each guides as guide, index (index)}
+                    {@const from =
+                        (guide.span.from - GUIDE_OVERSHOOT) * PX_PER_METER}
+                    {@const to =
+                        (guide.span.to + GUIDE_OVERSHOOT) * PX_PER_METER}
+                    <div
+                        class="guide {guide.axis === 'x'
+                            ? 'vertical'
+                            : 'horizontal'}"
+                        class:grid={guide.target === undefined}
+                        aria-hidden="true"
+                        style:left={guide.axis === 'x'
+                            ? `${guide.position * PX_PER_METER}px`
+                            : `${from}px`}
+                        style:top={guide.axis === 'x'
+                            ? `${-to}px`
+                            : `${-guide.position * PX_PER_METER}px`}
+                        style:width={guide.axis === 'x'
+                            ? null
+                            : `${to - from}px`}
+                        style:height={guide.axis === 'x'
+                            ? `${to - from}px`
+                            : null}
+                    ></div>
+                {/each}
+                <!-- The stroke being drawn (#167). Drawn here for the same reason the guides
                  above are: inside the root group it inherits the camera transform the output
                  itself gets, so a metre is PX_PER_METER pixels and y is negated, with no
                  camera arithmetic of its own. It is a preview only — nothing has reached the
                  program yet, and won't until the pointer is released. -->
-            <!-- Where the keyboard's next point would go. Only while the stage holds keyboard
+                <!-- Where the keyboard's next point would go. Only while the stage holds keyboard
                  focus, which is exactly when the arrows would move it: shown whenever the
                  pencil was on, it sat in the middle of the stage with nothing to say to
                  someone drawing with a pointer, and read as a control that couldn't be
                  focused. During a drag the pointer is already the cursor. -->
-            {#if drawing?.armed && !drawing.dragging}
-                <div
-                    class="stroke-cursor"
-                    aria-hidden="true"
-                    style:left="{drawing.cursor.x * PX_PER_METER}px"
-                    style:top="{-drawing.cursor.y * PX_PER_METER}px"
-                ></div>
-            {/if}
-            {#if strokePreview !== undefined}
-                <svg
-                    class="stroke"
-                    aria-hidden="true"
-                    style:--stroke-preview-width="{StrokePreviewWidth}px"
-                    style:left="{strokePreview.left}px"
-                    style:top="{strokePreview.top}px"
-                    width={strokePreview.width}
-                    height={strokePreview.height}
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path d={strokePreview.d} />
-                </svg>
-            {/if}
-            <!-- Render exiting nodes -->
-            {#each Array.from(exiting.entries()) as [name, info] (name)}
-                {#if info.output instanceof Phrase}
-                    <PhraseView
-                        phrase={info.output}
-                        place={info.global}
-                        focus={offsetFocus}
-                        {interactive}
-                        parentAscent={0}
-                        {context}
-                        {editable}
-                        {inspectable}
-                        {editing}
-                        {frame}
-                    />
-                {:else if info.output instanceof Shape}
-                    <ShapeView
-                        shape={info.output}
-                        place={info.global}
-                        focus={offsetFocus}
-                        {interactive}
-                        parentAscent={0}
-                        {context}
-                        {editable}
-                        {inspectable}
-                        {editing}
-                        {frame}
-                    />
-                {:else if info.output instanceof Image}
-                    <ImageView
-                        image={info.output}
-                        place={info.global}
-                        focus={offsetFocus}
-                        {interactive}
-                        parentAscent={0}
-                        {context}
-                        {editable}
-                        {inspectable}
-                        {editing}
-                        {frame}
-                    />
-                {:else if info.output instanceof Group}
-                    <GroupView
-                        group={info.output}
-                        place={info.global}
-                        focus={offsetFocus}
-                        parentAscent={0}
-                        {interactive}
-                        {context}
-                        {editable}
-                        {inspectable}
-                        {editing}
-                        {frame}
-                    />
+                {#if drawing?.armed && !drawing.dragging}
+                    <div
+                        class="stroke-cursor"
+                        aria-hidden="true"
+                        style:left="{drawing.cursor.x * PX_PER_METER}px"
+                        style:top="{-drawing.cursor.y * PX_PER_METER}px"
+                    ></div>
                 {/if}
-            {/each}
-        </GroupView>
+                {#if strokePreview !== undefined}
+                    <svg
+                        class="stroke"
+                        aria-hidden="true"
+                        style:--stroke-preview-width="{StrokePreviewWidth}px"
+                        style:left="{strokePreview.left}px"
+                        style:top="{strokePreview.top}px"
+                        width={strokePreview.width}
+                        height={strokePreview.height}
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path d={strokePreview.d} />
+                    </svg>
+                {/if}
+                <!-- Render exiting nodes -->
+                {#each Array.from(exiting.entries()) as [name, info] (name)}
+                    {#if info.output instanceof Phrase}
+                        <PhraseView
+                            phrase={info.output}
+                            place={info.global}
+                            focus={offsetFocus}
+                            {interactive}
+                            parentAscent={0}
+                            {context}
+                            {editable}
+                            {inspectable}
+                            {editing}
+                            {frame}
+                        />
+                    {:else if info.output instanceof Shape}
+                        <ShapeView
+                            shape={info.output}
+                            place={info.global}
+                            focus={offsetFocus}
+                            {interactive}
+                            parentAscent={0}
+                            {context}
+                            {editable}
+                            {inspectable}
+                            {editing}
+                            {frame}
+                        />
+                    {:else if info.output instanceof Image}
+                        <ImageView
+                            image={info.output}
+                            place={info.global}
+                            focus={offsetFocus}
+                            {interactive}
+                            parentAscent={0}
+                            {context}
+                            {editable}
+                            {inspectable}
+                            {editing}
+                            {frame}
+                        />
+                    {:else if info.output instanceof Group}
+                        <GroupView
+                            group={info.output}
+                            place={info.global}
+                            focus={offsetFocus}
+                            parentAscent={0}
+                            {interactive}
+                            {context}
+                            {editable}
+                            {inspectable}
+                            {editing}
+                            {frame}
+                        />
+                    {/if}
+                {/each}
+            </GroupView>
+        </div>
+        <!-- Effects lie over the content and under the overlay, so a HUD stays readable. -->
+        {#if stage.effects.length > 0}
+            {#await import('#components/output/EffectLayer.svelte') then { default: EffectLayer }}
+                <EffectLayer
+                    effects={stage.effects}
+                    id={effectsID}
+                    {adapting}
+                    moving={interactive && $animationFactor > 0}
+                />
+            {/await}
+        {/if}
         {#if overlayStage}
             <!-- The flat overlay/HUD layer: its own .stage.live container (so
                  its animations resolve to a distinct DOM scope), pinned over the
@@ -1367,6 +1416,16 @@
 
         /** No touch actions on the stage, since we handle them ourselves. */
         touch-action: none;
+    }
+
+    .rippled {
+        display: contents;
+    }
+
+    .rippled.active {
+        display: block;
+        position: absolute;
+        inset: 0;
     }
 
     .stage[data-selectable='true'] {

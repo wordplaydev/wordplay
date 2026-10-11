@@ -1018,7 +1018,7 @@
                 },
                 "location": {
                     "header": "$~位置",
-                    "explanation": "$~/出力がステージのどこにあるかを決めるやり方。/"
+                    "explanation": "$~/出力がステージのどこにあるかを決める方法/"
                 },
                 "reactions": {
                     "header": "$~反応",
@@ -1027,6 +1027,46 @@
                 "names": {
                     "header": "$~名前",
                     "explanation": "$~/この概念の名前。/"
+                },
+                "effects": {
+                    "header": "$~エフェクト",
+                    "explanation": "$~/ステージ全体の見た目を変える方法/"
+                },
+                "sound": {
+                    "header": "$~音",
+                    "explanation": "$~/音楽や話し声をつくる方法/"
+                },
+                "physics": {
+                    "header": "$~物理",
+                    "explanation": "$~/出力が動くときの、その材質/"
+                },
+                "time": {
+                    "header": "$~時間",
+                    "explanation": "$~/今がいつかを知る方法と、運にまかせる方法/"
+                },
+                "audience": {
+                    "header": "$~観客",
+                    "explanation": "$~/観客が押すもの、さすもの、えらぶもの、打つもの/"
+                },
+                "motion": {
+                    "header": "$~動き",
+                    "explanation": "$~/出力を動かす方法と、何かにぶつかったことを知る方法/"
+                },
+                "listening": {
+                    "header": "$~聞く",
+                    "explanation": "$~/マイクが聞く音と、流れている音楽のビート/"
+                },
+                "camera": {
+                    "header": "$~カメラ",
+                    "explanation": "$~/カメラが見るもの：手、顔、ものなど/"
+                },
+                "scenes": {
+                    "header": "$~シーン",
+                    "explanation": "$~/ものを順番に見せる方法と、今どこにいるかを知る方法/"
+                },
+                "text": {
+                    "header": "$~テキスト",
+                    "explanation": "$~/ウェブのテキストと、文字のかたち/"
                 }
             },
             "how": {

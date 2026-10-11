@@ -64,5 +64,12 @@ export function getTypeName(
     locales: Locales,
     nameText: (locale: LocaleText) => NameText,
 ): string {
-    return locales.getName(getNameLocales(locales, nameText), false);
+    const names = getNameLocales(locales, nameText);
+    if (!names.isEmpty()) return locales.getName(names, false);
+    // None of the chosen locales has written one yet. getBind binds en-US's first
+    // name in that case, so refer to the definition by that.
+    const fallback = nameText(DefaultLocale);
+    return withoutAnnotations(
+        (Array.isArray(fallback) ? fallback[0] : fallback) ?? '',
+    );
 }

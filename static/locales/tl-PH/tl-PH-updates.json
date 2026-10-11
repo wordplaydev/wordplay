@@ -1034,6 +1034,20 @@
         "e8bf14728ecca": "$~Kapag hindi ka naka-sign in, ipinapakita na ngayon ng window ng estado ng pag-save kung ilang proyekto ang naka-save lang sa device na ito at kung paano ito i-save online, sa halip na walang laman.",
         "e6bd8c62fd1ab": "$~Nagdagdag kami ng mga panahon, na nagbibigay ng kulay sa site at pumupuno sa mga gilid nito ng panahon mula sa kinaroroonan mo, tulad ng ulan ng monsoon, mga nahuhulog na dahon, o mga snowflake na gawa sa sarili mong mga letra. Puwede kang pumili ng panahon o patayin ang mga ito sa mga setting. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
         "e32dce56949e2": "$~Ang \\Parirala\\ ay may bagong input na \\poses\\ na nagbibigay sa bawat letra ng sarili nitong kulay, tabingi, laki, o posisyon, at salitan itong gumagamit ng mga item sa isang listahan ng \\Pose\\.",
-        "ed0c9f9a5fdd1": "$~Ang mga halimbawa ng kodigo sa <Gabay@https://wordplay.dev/guide> ay hindi na nagsisimula sa walang laman na linya."
+        "ed0c9f9a5fdd1": "$~Ang mga halimbawa ng kodigo sa <Gabay@https://wordplay.dev/guide> ay hindi na nagsisimula sa walang laman na linya.",
+        "eddbb25bb5d1a": "$~May bagong input na \\effects\\ ang \\Entablado\\ na naglalagay ng mga hitsurang pang-pelikula sa ibabaw ng lahat ng nasa ito, tulad ng \\Blur\\, \\Grain\\, \\Wave\\, \\Damage\\, at \\Flicker\\, at may bagong kung paano gawin sa <Gabay@https://wordplay.dev/guide>.",
+        "ea8214ba59642": "$~Ang \\Entablado\\ na may sariling animation na \\resting\\ ay hindi na lumalayo sa kung saan ito ipinapakita ng kamera habang tumatakbo ang animation.",
+        "e59d72bd1eef6": "$~Kapag bumalik ka mula sa isang pahina sa <Gabay@https://wordplay.dev/guide>, babalik ka sa listahang pinagbuksan mo nito.",
+        "ebe9a238e4d65": "$~Ang \\Kamay()\\ at \\Mukha()\\ ay bumabalik na ngayon sa kanilang panimulang halaga kapag umalis ang iyong kamay o mukha sa kamera, sa halip na manatili sa huling kalagayan.",
+        "ef13048196226": "$~Inayos namin ang mga salitang magkakadikit sa mga isinaling bersyon ng mga halimbawa sa gallery.",
+        "e46bb0eb17287": "$~Sinusuri na ngayon ng \\🌎\\ ang mga wikang pinili ng mambabasa, sa parehong paraan sa editor at sa mga gallery, kaya ang \\🌎/en\\ ay totoo lamang para sa mga mambabasang pumili ng Ingles.",
+        "e31fe47f026f3": "$~Ang \\replace\\ ng isang listahan ay ibinabalik na ngayon sa simula ang indeks na lampas sa dulo, tulad ng ginagawa ng pagbasa mula sa listahan.",
+        "e878b2c505fe9": "$~Kapag ginawang listahan ang isang numerong may yunit, nananatili ang yunit, kaya ang \\3m → []\\ ay \\[1m 2m 3m]\\.",
+        "ec882547e2a4b": "$~Ang \\◆\\ ay nagiging mali na ngayon pagkatapos ng unang pagsusuri ng programa, sa halip na manatiling totoo magpakailanman.",
+        "ea22aa3f3f5a0": "$~Ibinibigay na ngayon ng \\←←\\ ang bawat naunang halaga ng isang agos kapag mas kaunti ito kaysa sa hiniling mo, sa halip na ang pinakabago lamang.",
+        "e571ab9ae452c": "$~Gumagana na ngayon ang paggawang teksto gamit ang \\ø\\ ng isang saklaw, isang tungkulin, isang padron, o isang halagang maaaring \\→ ''\\, sa halip na itigil ang programa.",
+        "e5ab9da833914": "$~Hindi na itinitigil ng pagbasa ng \\Panturo().pagikot\\ ang programa.",
+        "e92691ec133cd": "$~Binabalaan na rin namin ngayon ang mga email address na nakasulat sa dokumentasyon at sa tekstong may pormat, tulad ng ginagawa na namin sa teksto.",
+        "e68be06131b48": "$~Ang mga link sa gabay na kasunod agad ng unlaping Hebreo tulad ng ב- o ng tuldok ay binubuksan na ngayon ang gabay, sa halip na maging mga link ng email."
     }
 }

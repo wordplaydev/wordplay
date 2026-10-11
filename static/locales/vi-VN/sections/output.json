@@ -1146,20 +1146,22 @@
         },
         "Stage": {
             "doc": [
-                "$~Tôi sẽ cho khán giả xem @Output của bạn. Chào. Lên sân khấu nào. Hãy cho tôi biết bạn muốn cho xem gì và tôi sẽ cho xem.",
-                "\\Stage([Phrase('stufffffff')])\\",
-                "NẾU BẠN MUỐN, HÃY CHO TÔI BIẾT PHÔNG NỀN @Color VÀ TÔI SẼ CHIẾU SÁNG SÂN KHẤU CHO PHÙ HỢP.",
-                "\\Stage([Phrase('stufffffff')] lýlịch: Color(75% 50 100°))\\",
-                "Bạn cũng có thể cung cấp cho tôi khung viền và tôi sẽ cắt ảnh.",
-                "\\Stage([Phrase('stufffffff')] lýlịch: Color(75% 50 100°) khung: Rectangle(-1m -1m 1m 1m))\\"
+                "$~TÔI CHO KHÁN GIẢ XEM @Output CỦA BẠN. XIN CHÀO. TÔI LÀ SÂN KHẤU. HÃY CHO TÔI BIẾT CẦN HIỂN THỊ GÌ VÀ TÔI SẼ HIỂN THỊ.",
+                "\\Sânkhấu([Cụmtừ('đồđồđồđồđồđồ')])\\",
+                "NẾU MUỐN, HÃY CHO TÔI MỘT @Color NỀN VÀ TÔI SẼ CHIẾU SÁNG SÂN KHẤU CHO PHÙ HỢP.",
+                "\\Sânkhấu([Cụmtừ('đồđồđồđồđồđồ')] lýlịch: Màusắc(75% 50 100°))\\",
+                "BẠN CŨNG CÓ THỂ CHO TÔI MỘT KHUNG VIỀN VÀ TÔI SẼ CẮT HÌNH.",
+                "\\Sânkhấu(\n\t[Cụmtừ('đồđồđồđồđồđồ')]\n\tlýlịch: Màusắc(75% 50 100°)\n\tkhung: Hìnhchữnhật(-1m -1m 1m 1m)\n)\\",
+                "VÀ NẾU BẠN MUỐN KỊCH TÍNH, HÃY CHO TÔI @Effect VÀ TÔI SẼ ĐỔI DIỆN MẠO CỦA MỌI THỨ. DƯỚI NƯỚC! PHIM CŨ! NHIỄU HÌNH! TÔI THÍCH LẮM.",
+                "\\Sânkhấu(\n\t[Cụmtừ('🐟 ùm ùm')]\n\thiệuỨng: [Sóng() NhuộmMàu(Màusắc(55% 45 220°))]\n)\\"
             ],
             "names": ["$~Sânkhấu"],
             "content": {
-                "doc": "$~Danh sách các @Output cần hiển thị trên sân khấu.",
+                "doc": "$~DANH SÁCH @Output CẦN HIỂN THỊ. ĐÂY LÀ BUỔI TRÌNH DIỄN. TÔI TRÌNH DIỄN NÓ.",
                 "names": "$~nộidung"
             },
             "frame": {
-                "doc": "$~Hình dạng và kích thước của khung để đặt xung quanh sân khấu, che khuất mọi thứ bên ngoài.",
+                "doc": "$~HÌNH DẠNG VÀ KÍCH THƯỚC CỦA KHUNG QUANH TÔI. MỌI THỨ NẰM NGOÀI KHUNG, TÔI SẼ ẨN ĐI.",
                 "names": "$~khung"
             },
             "size": {
@@ -1180,7 +1182,7 @@
             },
             "description": {
                 "doc": [
-                    "$~Lời mô tả dành cho những khán giả không thể nhìn thấy hình ảnh."
+                    "$~MỘT BẢN MÔ TẢ BUỔI TRÌNH DIỄN DÀNH CHO NHỮNG KHÁN GIẢ KHÔNG NHÌN THẤY. HÃY CHO HỌ BIẾT HỌ ĐANG BỎ LỠ ĐIỀU GÌ!"
                 ],
                 "names": "$~Sựmiêutả"
             },
@@ -1245,17 +1247,21 @@
                 "names": "$~phongcách"
             },
             "gravity": {
-                "doc": "$~Trọng lực áp dụng cho đầu ra có vị trí nằm trong @Motion.",
+                "doc": "$~MỨC ĐỘ TÔI KÉO XUỐNG CÁC ĐẦU RA CÓ VỊ TRÍ NẰM TRONG @Motion. RỒI CUỐI CÙNG MỌI THỨ ĐỀU RƠI.",
                 "names": "$~trọnglực"
             },
-            "defaultDescription": "$~sân khấu $name[$name |]gồm $#count[$count đầu ra]$frame[với khung $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~sân khấu $name[$name |]có $#count[$count đầu ra]$frame[với khung $frame|] $pose $color[$color|]$effects[ với $effects|]",
             "overlay": {
-                "doc": "$~Một danh sách các @Output được ghim phẳng lên màn hình dưới dạng bảng hiển thị phía trước, không bị ảnh hưởng bởi máy quay @Place hay chiều sâu của sân khấu.",
+                "doc": "$~MỘT DANH SÁCH @Output MÀ TÔI GHIM PHẲNG LÊN MÀN HÌNH, NHƯ MỘT BẢNG ĐIỂM. MÁY QUAY @Place VÀ @Effect CỦA TÔI KHÔNG BAO GIỜ CHẠM VÀO NÓ.",
                 "names": "$~lớpPhủ"
             },
             "air": {
-                "doc": "$~Không khí làm chậm đầu ra đang chuyển động đến mức nào. 1 là không khí bình thường, 0 là khoảng không vũ trụ, nơi mọi thứ cứ chuyển động mãi mãi, còn số càng lớn thì càng đặc hơn không khí.",
+                "doc": "$~KHÔNG KHÍ CỦA TÔI LÀM CHẬM CÁC ĐẦU RA ĐANG DI CHUYỂN BAO NHIÊU. \\1\\ LÀ KHÔNG KHÍ BÌNH THƯỜNG, \\0\\ LÀ KHÔNG GIAN VŨ TRỤ, NƠI MỌI THỨ CỨ TRÔI MÃI, VÀ SỐ CÀNG LỚN THÌ CÀNG ĐẶC HƠN KHÔNG KHÍ. NHƯ SÚP VẬY.",
                 "names": "$~khôngKhí"
+            },
+            "effects": {
+                "doc": "$~MỘT DANH SÁCH @Effect ĐỂ PHỦ LÊN MỌI THỨ TRÊN TÔI, NHƯ @Blur, @Grain HOẶC @Wave, THEO THỨ TỰ. \\ø\\ HOẶC MỘT DANH SÁCH RỖNG NGHĨA LÀ TÔI GIỮ NGUYÊN DIỆN MẠO CỦA MÌNH.",
+                "names": "$~hiệuỨng"
             }
         },
         "Easing": {
@@ -2039,6 +2045,187 @@
                 "names": "$~kiểuDáng"
             },
             "defaultDescription": "$~$description, một bức ảnh $columns nhân $rows"
+        },
+        "Effect": {
+            "doc": [
+                "$~Tôi là một hiệu ứng trừu tượng, được phủ lên toàn bộ @Stage để đổi cách mọi thứ trên đó trông như thế nào. Tôi không bao giờ được tạo trực tiếp. Thay vào đó, hãy tạo một trong các hiệu ứng là tôi, như @Blur, @Grain hoặc @Wave, rồi đưa một danh sách các hiệu ứng đó cho @Stage.effects của một sân khấu.",
+                "Các hiệu ứng được áp dụng theo thứ tự trong danh sách, nên @Blur đặt sau @Grain cũng làm mờ cả hạt nhiễu. Chúng phủ lên nội dung của sân khấu nhưng không bao giờ phủ lên @Stage.overlay, nên điểm số hay nút bấm vẫn rõ ràng.",
+                "\\Sânkhấu(\n\t[Cụmtừ('🐟')]\n\thiệuỨng: [NhuộmMàu(Màusắc(60% 40 220°)) Sóng()]\n)\\"
+            ],
+            "names": ["$~HiệuỨng"]
+        },
+        "Blur": {
+            "doc": [
+                "$~Tôi làm mềm mọi thứ trên @Stage, như thể máy quay bị mất nét. Một chút tôi là giấc mơ hay ký ức. Nhiều tôi là lúc vừa thức dậy, hoặc khi bạn làm mất kính.",
+                "\\Sânkhấu(\n\t[Cụmtừ('🤓 kính của mình đâu rồi?')]\n\thiệuỨng: [LàmMờ(0.05m)]\n)\\"
+            ],
+            "names": ["$~LàmMờ"],
+            "amount": {
+                "doc": "$~Tôi lan mỗi điểm sáng ra xa đến đâu. \\0m\\ là hoàn toàn sắc nét.",
+                "names": "$~lượng"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~Tôi thay đổi độ sáng, độ tương phản, độ bão hòa và sắc màu của mọi thứ trên @Stage. Việc này giống như cách người ta chỉnh màu cho một bộ phim để tạo ra không khí cho phim. Nếu bạn bỏ hết độ bão hòa và tăng độ tương phản, bạn sẽ có một bộ phim đen trắng kiểu phim trinh thám cũ.",
+                "\\Sânkhấu(\n\t[Cụmtừ('🕵 thám tử đã chờ')]\n\thiệuỨng: [ChỉnhMàu(độBãoHòa: 0% độTươngPhản: 150%)]\n)\\"
+            ],
+            "names": ["$~ChỉnhMàu"],
+            "brightness": {
+                "doc": "$~Làm sân khấu sáng đến mức nào. \\100%\\ không đổi gì, \\0%\\ là màu đen, và lớn hơn \\100%\\ là sáng hơn.",
+                "names": "$~độSáng"
+            },
+            "contrast": {
+                "doc": "$~Đẩy vùng sáng và vùng tối xa nhau đến đâu. \\100%\\ không đổi gì, nhỏ hơn thì phẳng và xám hơn, lớn hơn thì gắt hơn.",
+                "names": "$~độTươngPhản"
+            },
+            "saturation": {
+                "doc": "$~Màu sắc rực rỡ đến mức nào. \\100%\\ không đổi gì, \\0%\\ là đen trắng, và lớn hơn \\100%\\ là rực rỡ hơn nữa.",
+                "names": "$~độBãoHòa"
+            },
+            "hue": {
+                "doc": "$~Xoay mọi màu quanh vòng tròn màu bao xa. \\0°\\ không đổi gì, và \\180°\\ biến mỗi màu thành màu đối lập của nó.",
+                "names": "$~sắcĐộ"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~Tôi nhuộm mọi thứ trên @Stage bằng một @Color, giữ nguyên chỗ sáng và chỗ tối để chữ vẫn dễ đọc. Xanh lam pha lục làm cảnh như ở dưới nước, màu nâu làm nó như một bức ảnh cũ, và màu xanh lá làm nó như nhìn ban đêm.",
+                "\\Sânkhấu(\n\t[Cụmtừ('🏰 ngày xửa ngày xưa')]\n\thiệuỨng: [NhuộmMàu(Màusắc(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~NhuộmMàu"],
+            "color": {
+                "doc": "$~@Color để nhuộm sân khấu.",
+                "names": "$~màusắc"
+            },
+            "amount": {
+                "doc": "$~Nhuộm mạnh đến mức nào. \\0%\\ là không nhuộm chút nào, và \\100%\\ chỉ còn lại các sắc độ của màu tôi.",
+                "names": "$~lượng"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~Tôi phủ sương mù lên @Stage, trôi chậm khắp nơi. Tôi dành cho buổi sáng, khói, hơi nước và mọi thứ ở xa.",
+                "\\Sânkhấu([Cụmtừ('🌲🌲 đồng hoang 🌲')] hiệuỨng: [SươngMù(60%)])\\"
+            ],
+            "names": ["$~SươngMù"],
+            "amount": {
+                "doc": "$~Tôi dày đến mức nào. \\0%\\ là không khí trong suốt, và \\100%\\ dày đến mức gần như không nhìn thấy gì.",
+                "names": "$~lượng"
+            },
+            "color": {
+                "doc": "$~@Color của màn sương. Nếu là \\ø\\, tôi màu trắng, như sương mù. Hãy thử màu xám cho khói hoặc màu cam cho bụi.",
+                "names": "$~màusắc"
+            },
+            "speed": {
+                "doc": "$~Tôi trôi nhanh đến mức nào. \\0\\ giữ tôi đứng yên, và số càng lớn thì trôi càng nhanh.",
+                "names": "$~tốcĐộ"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~Tôi rắc lên @Stage những đốm nhiễu đổi liên tục từng khoảnh khắc. Một chút tôi là hạt của phim thật. Nhiều tôi, với đốm to, là chiếc ti vi mất tín hiệu.",
+                "Tôi khó nhìn khi mạnh, nên tôi sẽ được ghi chú là một họa tiết có thể gây khó chịu cho người nhạy cảm với chúng.",
+                "\\Sânkhấu(\n\t[Cụmtừ('📺 mất tín hiệu')]\n\thiệuỨng: [HạtNhiễu(90% kíchThước: 3)]\n)\\"
+            ],
+            "names": ["$~HạtNhiễu"],
+            "amount": {
+                "doc": "$~Các đốm mạnh đến mức nào. \\0%\\ là không có, và \\100%\\ che hết mọi thứ bên dưới tôi.",
+                "names": "$~lượng"
+            },
+            "size": {
+                "doc": "$~Mỗi đốm to đến mức nào. \\1\\ là mịn nhất mà màn hình cho phép.",
+                "names": "$~kíchThước"
+            },
+            "color": {
+                "doc": "$~Các đốm của tôi có màu hay không. Nếu là \\⊥\\, chúng màu xám.",
+                "names": "$~màuSắc"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~Tôi vẽ những đường kẻ mảnh, tối của màn hình ti vi cũ lên @Stage. Hãy cho tôi một /tốc độ/ và tôi sẽ cuộn, như chiếc ti vi chưa chỉnh kênh chuẩn.",
+                "\\Sânkhấu(\n\t[Cụmtừ('📺 kênh 3')]\n\thiệuỨng: [ĐườngQuét(40% tốcĐộ: 1)]\n)\\"
+            ],
+            "names": ["$~ĐườngQuét"],
+            "amount": {
+                "doc": "$~Các đường của tôi đậm đến mức nào. \\0%\\ là vô hình, còn \\100%\\ là màu đen.",
+                "names": "$~lượng"
+            },
+            "spacing": {
+                "doc": "$~Các đường của tôi cách nhau bao xa.",
+                "names": "$~khoảngCách"
+            },
+            "speed": {
+                "doc": "$~Mỗi giây tôi cuộn xuống bao nhiêu đường. \\0\\ giữ tôi đứng yên, còn tốc độ âm thì cuộn lên.",
+                "names": "$~tốcĐộ"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Tôi làm cho đầu ra trên @Stage gợn sóng, như thể bạn đang nhìn nó qua nước hoặc qua hơi nóng bốc lên.",
+                "Tôi uốn cong chính đầu ra, bên dưới mọi hiệu ứng khác, nên @Grain được liệt kê trước tôi sẽ không bị gợn sóng.",
+                "\\Sânkhấu([Cụmtừ('🐟 ùm ùm')] hiệuỨng: [Sóng(0.2m)])\\"
+            ],
+            "names": ["$~Sóng"],
+            "amount": {
+                "doc": "$~Tôi đẩy đầu ra lệch khỏi vị trí bao xa. \\0m\\ là không gợn sóng chút nào.",
+                "names": "$~lượng"
+            },
+            "scale": {
+                "doc": "$~Các gợn sóng của tôi cách nhau bao xa. Nhỏ là ánh lấp lánh mịn, còn lớn là con sóng dâng chậm.",
+                "names": "$~tỉLệ"
+            },
+            "speed": {
+                "doc": "$~Các gợn sóng của tôi di chuyển nhanh đến mức nào. \\0\\ giữ chúng đứng yên.",
+                "names": "$~tốcĐộ"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Tôi rải những vết xước và bụi của cuộn phim cũ, mòn lên @Stage, và mỗi khung hình đều khác nhau. Hãy dùng tôi cùng một @Grade làm mất màu và một @Flicker, thì cảnh của bạn sẽ như đã một trăm năm tuổi.",
+                "\\Sânkhấu(\n\t[Cụmtừ('🎩 HẾT')]\n\thiệuỨng: [ChỉnhMàu(độBãoHòa: 0%) HưHỏng(80% 60%)]\n)\\"
+            ],
+            "names": ["$~HưHỏng"],
+            "scratches": {
+                "doc": "$~Có bao nhiêu vết xước chạy dọc cuộn phim. \\0%\\ là không có vết nào.",
+                "names": "$~vếtXước"
+            },
+            "dust": {
+                "doc": "$~Có bao nhiêu bụi trên cuộn phim. \\0%\\ là không có bụi.",
+                "names": "$~bụi"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Tôi làm cho cả @Stage chập chờn, lúc thì giữ ổn định, lúc thì tối đi một thoáng vào những thời điểm không đều, như bóng đèn máy chiếu hoặc ngọn đèn sắp tắt.",
+                "Ánh sáng nhấp nháy có thể gây hại cho một số người, nên tôi không bao giờ chập chờn quá vài lần mỗi giây, dù bạn yêu cầu nhanh đến đâu.",
+                "\\Sânkhấu(\n\t[Cụmtừ('💡 những ngọn đèn')]\n\thiệuỨng: [NhấpNháy(40% 2)]\n)\\"
+            ],
+            "names": ["$~NhấpNháy"],
+            "amount": {
+                "doc": "$~Tôi tối đến mức nào khi tôi chùng xuống. \\0%\\ là không mờ đi chút nào.",
+                "names": "$~lượng"
+            },
+            "rate": {
+                "doc": "$~Khoảng bao nhiêu lần tôi có thể chập chờn mỗi giây. Tôi sẽ không nhanh hơn 2,5, để an toàn cho những người nhạy cảm với ánh sáng nhấp nháy.",
+                "names": "$~tầnSuất"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~Tôi làm tối các cạnh của @Stage và để phần giữa sáng rõ, kéo mắt nhìn về trung tâm. Tôi giống rìa của một ống kính cũ, một đèn sân khấu hoặc tầm nhìn hẹp.",
+                "\\Sânkhấu([Cụmtừ('🔦 nhìn đây')] hiệuỨng: [TốiViền(70%)])\\"
+            ],
+            "names": ["$~TốiViền"],
+            "amount": {
+                "doc": "$~Bóng tối lan vào trong bao xa. \\0%\\ là không có, còn \\100%\\ khép lại thật chặt.",
+                "names": "$~lượng"
+            },
+            "color": {
+                "doc": "$~@Color mà các cạnh mờ dần thành. Nếu là \\ø\\, chúng mờ dần thành màu đen.",
+                "names": "$~màusắc"
+            }
         }
     }
 }

@@ -1034,6 +1034,20 @@
         "e8bf14728ecca": "$~Saat kamu belum masuk, jendela status penyimpanan sekarang menunjukkan berapa banyak proyek yang hanya tersimpan di perangkat ini dan cara menyimpannya secara daring. Jendela itu tidak lagi kosong.",
         "e6bd8c62fd1ab": "$~Kami menambahkan musim. Musim memberi warna pada situs dan mengisi tepinya dengan cuaca dari tempat Anda berada, seperti hujan muson, daun berguguran, atau kepingan salju yang dibuat dari huruf Anda sendiri. Anda bisa memilih satu musim atau mematikannya di pengaturan. (<108@https://github.com/wordplaydev/wordplay/issues/108>)",
         "e32dce56949e2": "$~\\Frasa\\ punya masukan \\poses\\ baru yang memberi setiap huruf warna, kemiringan, ukuran, atau posisinya sendiri, dengan bergiliran melalui daftar \\Pose\\.",
-        "ed0c9f9a5fdd1": "$~Contoh kode di <Panduan@https://wordplay.dev/guide> tidak lagi diawali dengan baris kosong."
+        "ed0c9f9a5fdd1": "$~Contoh kode di <Panduan@https://wordplay.dev/guide> tidak lagi diawali dengan baris kosong.",
+        "eddbb25bb5d1a": "$~\\Panggung\\ punya masukan \\effects\\ baru yang menaruh tampilan film di atas semua isinya, seperti \\Blur\\, \\Grain\\, \\Wave\\, \\Damage\\, dan \\Flicker\\, dengan panduan cara baru di <Panduan@https://wordplay.dev/guide>.",
+        "ea8214ba59642": "$~\\Panggung\\ dengan animasi \\resting\\ miliknya sendiri tidak lagi melompat menjauh dari tempat kamera menampilkannya saat animasi berjalan.",
+        "e59d72bd1eef6": "$~Kembali dari sebuah halaman di <Panduan@https://wordplay.dev/guide> akan membawa kamu ke daftar tempat kamu membukanya.",
+        "ebe9a238e4d65": "$~\\Tangan()\\ dan \\Wajah()\\ sekarang kembali ke nilai awalnya saat tangan atau wajahmu keluar dari kamera, tidak lagi tetap seperti terakhir kali.",
+        "ef13048196226": "$~Kami memperbaiki kata-kata yang menyatu di versi terjemahan contoh galeri.",
+        "e46bb0eb17287": "$~\\🌎\\ sekarang memeriksa bahasa yang dipilih pembaca, dengan cara yang sama di editor dan di galeri, sehingga \\🌎/en\\ hanya benar bagi pembaca yang memilih bahasa Inggris.",
+        "e31fe47f026f3": "$~\\replace\\ pada sebuah daftar sekarang membungkus indeks yang melewati akhir kembali ke awal, sama seperti saat membaca dari daftar.",
+        "e878b2c505fe9": "$~Mengubah angka yang punya satuan menjadi daftar tetap menyimpan satuannya, jadi \\3m → []\\ adalah \\[1m 2m 3m]\\.",
+        "ec882547e2a4b": "$~\\◆\\ sekarang menjadi salah setelah evaluasi pertama sebuah program, tidak lagi tetap benar selamanya.",
+        "ea22aa3f3f5a0": "$~\\←←\\ sekarang memberikan semua nilai sebelumnya dari sebuah aliran saat jumlahnya lebih sedikit dari yang kamu minta, tidak hanya yang terbaru.",
+        "e571ab9ae452c": "$~Mengubah rentang, fungsi, pola, atau nilai yang mungkin \\ø\\ menjadi teks dengan \\→ ''\\ sekarang berhasil dan tidak lagi menghentikan program.",
+        "e5ab9da833914": "$~Membaca \\Penunjuk().rotasi\\ tidak lagi menghentikan program.",
+        "e92691ec133cd": "$~Kami sekarang memberi peringatan tentang alamat email yang ditulis di dokumentasi dan teks berformat, seperti yang sudah kami lakukan di teks.",
+        "e68be06131b48": "$~Tautan ke panduan yang muncul tepat setelah awalan Ibrani seperti ב- atau setelah tanda titik sekarang membuka panduan, tidak lagi menjadi tautan email."
     }
 }
