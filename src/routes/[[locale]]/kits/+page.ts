@@ -12,5 +12,5 @@ import type { PageLoad } from './$types';
 export const prerender = false;
 
 export const load: PageLoad = () => {
-    redirect(308, '/guide?section=kits');
+    redirect(308, '/guide/kits');
 };

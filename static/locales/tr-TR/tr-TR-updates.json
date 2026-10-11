@@ -1048,6 +1048,8 @@
         "e571ab9ae452c": "$~Bir aralığı, bir fonksiyonu, bir deseni veya \\ø\\ olabilecek bir değeri \\→ ''\\ ile metne çevirmek artık programı durdurmuyor, çalışıyor.",
         "e5ab9da833914": "$~\\İşaretçi().rotasyon\\ okumak artık programı durdurmuyor.",
         "e92691ec133cd": "$~Artık dokümantasyonda ve biçimli metinde yazılan e-posta adresleri için de uyarı veriyoruz. Metinde zaten veriyorduk.",
-        "e68be06131b48": "$~ב- gibi bir İbranice önekten hemen sonra veya bir noktadan sonra gelen rehber bağlantıları artık e-posta bağlantısı olmak yerine rehberi açıyor."
+        "e68be06131b48": "$~ב- gibi bir İbranice önekten hemen sonra veya bir noktadan sonra gelen rehber bağlantıları artık e-posta bağlantısı olmak yerine rehberi açıyor.",
+        "eea7bd4500f37": "$~<Rehber@https://wordplay.dev/guide>'in her sayfasının kendi adresi vardır. Sekmeler ve gezinti yolu artık okuduğunuz sayfanın nereye ait olduğunu gösterir.",
+        "e2cbfa3574467": "$~Tarayıcının İleri düğmesi artık <Rehber@https://wordplay.dev/guide>'de çalışır. Rehber sayfalarından birine giden bir bağlantıyı açınca da artık önce başka bir sayfa görünmez."
     }
 }

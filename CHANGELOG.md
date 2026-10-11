@@ -11,8 +11,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🎉 `Phrase` has a new `poses` input that gives each letter its own color, tilt, size, or position, taking turns through a list of `Pose`.
 - 🎞️ `Stage` has a new `effects` input that lays film looks over everything on it, like `Blur`, `Grain`, `Wave`, `Damage`, and `Flicker`, with a new how-to in the [Guide](https://wordplay.dev/guide).
 
+### Changed
+
+- 🧭 Every page of the [Guide](https://wordplay.dev/guide) has its own address, and its tabs and breadcrumbs now show where the page you're reading belongs.
+
 ### Fixed
 
+- 🧭 The browser's Forward button now works in the [Guide](https://wordplay.dev/guide), and opening a link to one of its pages no longer shows a different page first.
 - 📖 Code examples in the [Guide](https://wordplay.dev/guide) no longer start with an empty line.
 - 🎞️ A `Stage` with its own `resting` animation no longer jumps away from where the camera shows it while the animation plays.
 - 🧭 Going back from a page in the [Guide](https://wordplay.dev/guide) returns to the list you opened it from.

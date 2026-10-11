@@ -15,7 +15,7 @@ import { expect, test } from '@playwright/test';
 test('the gate fits a small guide preview and its Start button is reachable', async ({
     page,
 }) => {
-    await page.goto('/en-US/guide?concept=Sequence/shake');
+    await page.goto('/en-US/guide/code/outputs/Sequence/shake');
 
     const gate = page.locator('[data-uiid="start-gate"]').first();
     // Hydration can be slow; matches the accessibility sweep's budget.

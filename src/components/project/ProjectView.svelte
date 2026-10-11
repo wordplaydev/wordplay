@@ -221,7 +221,10 @@
     import Link from '#components/app/Link.svelte';
     import EvaluationCues from '#components/project/EvaluationCues.svelte';
     import RemixButton from '#components/project/RemixButton.svelte';
-    import { PARAM_CONCEPT } from '#concepts/ConceptParams.ts';
+    import {
+        guideSegments,
+        parseGuidePath,
+    } from '#components/concepts/guidePath.ts';
     import { PROJECT_PARAM_FROM } from '../../routes/[[locale]]/project/constants';
     import ReportButton from '#components/project/ReportButton.svelte';
     import Layout from '#components/project/Layout.ts';
@@ -1709,13 +1712,17 @@
     });
 
     /** What to call the place the link goes back to. The guide names the thing
-     *  being explained in its own URL, so "back to Phrase" says where you're
+     *  being explained in its own path, so "back to Phrase" says where you're
      *  going; anything else falls back to the guide itself. */
     const returnLabel = $derived.by(() => {
         if (returnTo === undefined) return undefined;
-        const concept = new URLSearchParams(
-            returnTo.slice(returnTo.indexOf('?')),
-        ).get(PARAM_CONCEPT);
+        // A guide location is a path ending in the concept's token.
+        const pathname = returnTo.split(/[?#]/, 1)[0] ?? '';
+        const parsed = pathname.includes('/guide')
+            ? parseGuidePath(guideSegments(pathname))
+            : undefined;
+        const concept =
+            parsed?.kind === 'concept' ? (parsed.tokens.at(-1) ?? null) : null;
         return $locales
             .concretize((l) => l.ui.project.link.backTo, {
                 place:

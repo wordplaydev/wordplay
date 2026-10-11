@@ -83,7 +83,7 @@ function highlighted(page: Page, name: string) {
 
 test('a documentation bubble is read aloud, word by word', async ({ page }) => {
     await stubSpeech(page, 1.5);
-    await page.goto('/en-US/guide?concept=Phrase');
+    await page.goto('/en-US/guide/code/outputs/Phrase');
     const read = page.getByRole('button', { name: 'read this aloud' }).first();
     await read.click({ timeout: 20000 });
     await expect(

@@ -1,5 +1,7 @@
 import type Concept from '#concepts/Concept.ts';
-import type { PurposeType } from '#concepts/Purpose.ts';
+import type ConceptIndex from '#concepts/ConceptIndex.ts';
+import { Purpose, type PurposeType } from '#concepts/Purpose.ts';
+import type { AppPath } from '#util/appPath.ts';
 import {
     BORROW_SYMBOL,
     DOCUMENTATION_SYMBOL,
@@ -29,6 +31,9 @@ export type GuideMode = (typeof Modes)[number];
  * was the drag palette then, and the Wellspring is now.
  */
 export const DefaultMode: GuideMode = 'language';
+
+/** The code subsection the guide opens on, and the one a bare "code" link lands on. */
+export const DefaultPurpose: PurposeType = Purpose.Outputs;
 
 /** One glyph per section, in `Modes`' order — the third positional list, kept here with
  *  the other two so they can only be wrong together. */
@@ -173,4 +178,118 @@ export function sameHistory(a: GuideHistory, b: GuideHistory): boolean {
             return other !== undefined && samePlace(place, other);
         })
     );
+}
+
+/**
+ * Where a location lives in the guide's hierarchy: its section, the code section's
+ * subsection, and for a sub-concept, the concept that owns it. This is where the reader
+ * *is*, not how they got there, which the browser's history already records — so the
+ * section chooser and the breadcrumb both describe it, and a concept reached from a
+ * search names the section it belongs to rather than the one browsed before.
+ */
+export type GuideLocation = {
+    mode: GuideMode;
+    /** The code subsection, when the location has one the purpose filter offers. */
+    purpose: PurposeType | undefined;
+    /** The concept a sub-concept (an input, a property) belongs to. */
+    owner: Concept | undefined;
+};
+
+/** The purposes the code section's filter never offers (see `purposeFilters.test.ts`). */
+const Unfiltered: readonly PurposeType[] = [
+    Purpose.Hidden,
+    Purpose.How,
+    Purpose.GalleryHow,
+];
+
+/**
+ * The location a place lives at, or `undefined` for a search, which belongs to no
+ * section. `ownerOf` is the concept index's owner lookup, passed in so this module stays
+ * free of the index (and `tourSteps.ts`, which reads `Modes`, stays light).
+ */
+export function locationOf(
+    place: GuidePlace,
+    ownerOf: (concept: Concept) => Concept | undefined,
+): GuideLocation | undefined {
+    if (place.kind === 'search') return undefined;
+    if (place.kind === 'section')
+        return {
+            mode: place.mode,
+            purpose: place.mode === 'language' ? place.purpose : undefined,
+            owner: undefined,
+        };
+    const purpose = place.concept.getPurpose();
+    if (purpose === Purpose.How || purpose === Purpose.GalleryHow)
+        return { mode: 'howto', purpose: undefined, owner: undefined };
+    const owner = ownerOf(place.concept);
+    const filed = owner?.getPurpose() ?? purpose;
+    return {
+        mode: 'language',
+        purpose: Unfiltered.includes(filed) ? undefined : filed,
+        owner,
+    };
+}
+
+/**
+ * The section landing a place belongs to, as a history location: the place itself for
+ * a section, the section a concept is filed under, and `fallback` for a search.
+ */
+export function landingOf(
+    place: GuidePlace,
+    ownerOf: (concept: Concept) => Concept | undefined,
+    fallback: GuidePlace & { kind: 'section' },
+): GuidePlace & { kind: 'section' } {
+    if (place.kind === 'section') return place;
+    const location = locationOf(place, ownerOf);
+    if (location === undefined) return fallback;
+    return {
+        kind: 'section',
+        mode: location.mode,
+        purpose: location.purpose ?? DefaultPurpose,
+    };
+}
+
+/** The path segment naming each section, fixed English so a link means the same in
+ *  every locale. */
+export const SectionSlugs: Record<GuideMode, string> = {
+    language: 'code',
+    kits: 'kits',
+    howto: 'howto',
+    glossary: 'glossary',
+};
+
+/** A code subsection's path segment. */
+export function purposeSlug(purpose: PurposeType): string {
+    return purpose.toLowerCase();
+}
+
+/** The path segments after `/guide` that name a concept: where it is filed, as its
+ *  breadcrumb reads, then its owner's token for a sub-concept, then its own. */
+export function conceptPathSegments(
+    concept: Concept,
+    index: Pick<ConceptIndex, 'getConceptToken' | 'getConceptOwner'>,
+): string[] {
+    const location = locationOf({ kind: 'concept', concept }, (c) =>
+        index.getConceptOwner(c),
+    );
+    const segments: string[] = [];
+    if (location !== undefined) {
+        segments.push(SectionSlugs[location.mode]);
+        if (location.purpose !== undefined)
+            segments.push(purposeSlug(location.purpose));
+        if (location.owner !== undefined)
+            segments.push(index.getConceptToken(location.owner));
+    }
+    segments.push(index.getConceptToken(concept));
+    return segments;
+}
+
+/** The guide URL that shows one concept, which a concept link points at so it can be
+ *  opened in a new tab or copied, even where a click navigates in place. Here rather
+ *  than in `guidePath.ts` because concept links are on every page's graph. */
+export function guideConceptURL(
+    concept: Concept,
+    index: Pick<ConceptIndex, 'getConceptToken' | 'getConceptOwner'>,
+): AppPath {
+    return `/guide/${conceptPathSegments(concept, index).map(encodeURIComponent).join('/')}`;
 }

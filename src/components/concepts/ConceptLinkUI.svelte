@@ -15,9 +15,11 @@
     import Concept from '#concepts/Concept.ts';
     import {
         currentConcept,
+        guideConceptURL,
         pushConcept,
     } from '#components/concepts/GuideHistory.ts';
     import GalleryHowConcept from '#concepts/GalleryHowConcept.ts';
+    import { page } from '$app/state';
     import { locales } from '#db/Database.ts';
     import ConceptRef from '#locale/ConceptRef.ts';
     import { localizedConceptName } from '#locale/getConceptName.ts';
@@ -224,6 +226,35 @@
             path.set(pushConcept($path ?? [], match.concept));
     }
 
+    /**
+     * Where the concept lives in the guide, so the link can be opened in a new tab or
+     * copied. Only where a click navigates a guide — elsewhere this stays a button
+     * that does nothing, rather than a link that takes a creator out of their project.
+     */
+    let href = $derived(
+        path !== undefined &&
+            index !== undefined &&
+            concept !== undefined &&
+            !isCurrent
+            ? `${page.params.locale ? `/${page.params.locale}` : ''}${guideConceptURL(concept, index)}`
+            : undefined,
+    );
+
+    /** A plain click navigates in place, which is instant; any other (a modified or
+     *  middle click) is left to the browser, which follows the href. */
+    function follow(event: MouseEvent) {
+        if (
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+        )
+            return;
+        event.preventDefault();
+        navigate();
+    }
+
     // The shared tooltip surface (set in the root layout). Hover/focus on a
     // resolved concept link previews the concept: the first paragraph of its
     // doc in the preferred locale only, since doc paragraphs are long-form.
@@ -270,6 +301,17 @@
     }
 </script>
 
+<!-- The link's text, shared by its anchor and button forms. No whitespace at
+     either end, for the reason given at the bookmark below. -->
+{#snippet name()}{#if label}{withMonoEmoji(
+            label,
+        )}{:else}{#if ownerConcept && !ownerIsCurrent}<span class="long"
+                >{ownerConcept.getName($locales, false)}</span
+            >.{/if}<span class="long">{longName}</span
+        >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}<sub
+                >{withMonoEmoji(symbolicName)}</sub
+            >{/if}{/if}{/snippet}
+
 {#if term}<TermView {term} />
 {:else if concept}<!-- No whitespace between the bookmark and the button: a
     newline here is a text node, and it renders as a space in front of every
@@ -278,28 +320,30 @@
     the bookmark needs lives inside its own branch. -->{#if concept instanceof GalleryHowConcept && concept.howTo.hasBookmarker($user?.uid ?? '')}<MarkupHTMLView
             inline
             markup={'🔖'}
-        />{' '}{/if}<button
-        type="button"
-        class="linklike conceptlink"
-        class:interactive={!isCurrent}
-        class:inactive={isCurrent}
-        aria-disabled={isCurrent}
-        bind:this={view}
-        onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
-        onpointerleave={hideTip}
-        onfocus={(event) =>
-            canFocusTips(event.currentTarget) ? showTip() : undefined}
-        onblur={hideTip}
-        onclick={navigate}
-        >{#if label}{withMonoEmoji(
-                label,
-            )}{:else}{#if ownerConcept && !ownerIsCurrent}<span class="long"
-                    >{ownerConcept.getName($locales, false)}</span
-                >.{/if}<span class="long">{longName}</span
-            >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}<sub
-                    >{withMonoEmoji(symbolicName)}</sub
-                >{/if}{/if}</button
-    >
+        />{' '}{/if}{#if href}<a
+            class="linklike conceptlink interactive"
+            {href}
+            bind:this={view}
+            onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
+            onpointerleave={hideTip}
+            onfocus={(event) =>
+                canFocusTips(event.currentTarget) ? showTip() : undefined}
+            onblur={hideTip}
+            onclick={follow}>{@render name()}</a
+        >{:else}<button
+            type="button"
+            class="linklike conceptlink"
+            class:interactive={!isCurrent}
+            class:inactive={isCurrent}
+            aria-disabled={isCurrent}
+            bind:this={view}
+            onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
+            onpointerleave={hideTip}
+            onfocus={(event) =>
+                canFocusTips(event.currentTarget) ? showTip() : undefined}
+            onblur={hideTip}
+            onclick={navigate}>{@render name()}</button
+        >{/if}
 {:else if match}
     {#if match instanceof UIName}
         <TutorialHighlight id={match.id} source />
@@ -312,14 +356,16 @@
     {:else if match instanceof ConceptName}
         <!-- No index to resolve the concept (e.g. the landing page). The label comes
      from locale text (see `unindexedName`); the URL keeps the English id, which
-     is what the guide resolves, encoding a subconcept as `Owner/member`. -->
+     is what the guide resolves, a subconcept as `Owner/member`. Filed under code
+     without a subsection, which no index here can name; the guide replaces the path
+     with the concept's own on arrival. -->
         <Link
-            to={`/guide?concept=${encodeURIComponent(
-                match.property ? `${match.name}/${match.property}` : match.name,
-            )}`}>{unindexedName(match)}</Link
+            to={`/guide/code/${encodeURIComponent(match.name)}${
+                match.property ? `/${encodeURIComponent(match.property)}` : ''
+            }`}>{unindexedName(match)}</Link
         >
     {:else if typeof match === 'string'}
-        <Link to={`/guide?concept=${encodeURIComponent(match)}`}>{match}</Link>
+        <Link to={`/guide/code/${encodeURIComponent(match)}`}>{match}</Link>
     {/if}
 {:else if link instanceof ConceptLink}
     {link.concept.getText()}

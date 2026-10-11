@@ -37,10 +37,10 @@ const PUBLIC_ROUTES = [
     // The published-kit registry (#8) is a section of the guide rather than a route of
     // its own, and the guide opens on `language` — so it needs its own entry or the
     // filter row, the tiles, and a kit's page are never scanned.
-    '/guide?section=kits',
+    '/guide/kits',
     // A concept whose example trips the photosensitivity gate, so the scan
     // covers the content-warning overlay's scroll region and its labeling.
-    '/guide?concept=Sequence/shake',
+    '/guide/code/outputs/Sequence/shake',
     '/login',
     '/rights',
     '/donate',

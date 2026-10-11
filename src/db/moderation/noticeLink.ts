@@ -44,7 +44,7 @@ export default function noticeLink(notice: SerializedNotice): AppPath {
             // who is who a decision notice is for, can read their kit whether or not
             // a moderator unlisted it; a reporter reading an outcome notice sees that
             // it is gone, which is the answer they asked for.
-            return `/guide?kit=${encodeURIComponent(id)}`;
+            return `/guide/kits/${encodeURIComponent(id)}`;
     }
 }
 

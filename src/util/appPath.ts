@@ -16,10 +16,13 @@ import type { AssetPath, RouteId } from '$app/types';
 /** A route segment, with a `[param]` standing for any string. */
 type Segment<S extends string> = S extends `[${string}]` ? string : S;
 
-/** A route ID's segments, each filled. */
-type Filled<S extends string> = S extends `${infer Head}/${infer Rest}`
-    ? `${Segment<Head>}/${Filled<Rest>}`
-    : Segment<S>;
+/** A route ID's segments, each filled. A trailing `[...rest]` may be empty, so
+ *  `/guide/[...location]` is `/guide` as well as `/guide/${string}`. */
+type Filled<S extends string> = S extends `${infer Head}/[...${string}]`
+    ? Filled<Head> | `${Filled<Head>}/${string}`
+    : S extends `${infer Head}/${infer Rest}`
+      ? `${Segment<Head>}/${Filled<Rest>}`
+      : Segment<S>;
 
 /** A route ID without the leading locale segment every route sits under. */
 type Unlocalized<R extends string> = R extends `/[[locale]]${infer Rest}`
@@ -62,7 +65,8 @@ const Routes = [
     '/galleries',
     '/gallery/[galleryid]',
     '/gallery/[galleryid]/howto',
-    '/guide',
+    '/guide/[...location]',
+    '/guide/[[section=guidesection]]/[[purpose=guidepurpose]]',
     '/join',
     '/kits',
     '/learn',
@@ -88,7 +92,15 @@ export const RoutesListed: [Unlisted] extends [never] ? true : Unlisted = true;
 const RoutePatterns = Routes.map(
     (route) =>
         new RegExp(
-            `^${route.replace(/[.?+*^$(){}|\\]/g, '\\$&').replace(/\[[^\]]+\]/g, '[^/]+')}$`,
+            `^${route
+                // A rest param is any number of segments, none included.
+                .replace(/\/\[\.\.\.[^\]]+\]/g, '\u0000')
+                // An optional param is one segment or none.
+                .replace(/\/\[\[[^\]]+\]\]/g, '\u0001')
+                .replace(/[.?+*^$(){}|\\]/g, '\\$&')
+                .replace(/\[[^\]]+\]/g, '[^/]+')
+                .replace('\u0000', '(?:/.*)?')
+                .replaceAll('\u0001', '(?:/[^/]+)?')}$`,
         ),
 );
 

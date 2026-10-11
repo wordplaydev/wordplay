@@ -1048,6 +1048,8 @@
         "e571ab9ae452c": "$~Att omvandla ett intervall, en funktion, ett mönster eller ett värde som kan vara \\ø\\ till text med \\→ ''\\ fungerar nu i stället för att stoppa programmet.",
         "e5ab9da833914": "$~Att läsa \\Pekare().rotation\\ stoppar inte längre programmet.",
         "e92691ec133cd": "$~Vi varnar nu för e-postadresser skrivna i dokumentation och formaterad text, som vi redan gjorde i text.",
-        "e68be06131b48": "$~Länkar till guiden som kommer direkt efter ett hebreiskt prefix som ב- eller efter en punkt öppnar nu guiden, i stället för att bli e-postlänkar."
+        "e68be06131b48": "$~Länkar till guiden som kommer direkt efter ett hebreiskt prefix som ב- eller efter en punkt öppnar nu guiden, i stället för att bli e-postlänkar.",
+        "eea7bd4500f37": "$~Varje sida i <guiden@https://wordplay.dev/guide> har sin egen adress. Flikarna och sökvägen visar nu var den sida du läser hör hemma.",
+        "e2cbfa3574467": "$~Webbläsarens framåtknapp fungerar nu i <guiden@https://wordplay.dev/guide>. När du öppnar en länk till en av sidorna visas inte längre först en annan sida."
     }
 }

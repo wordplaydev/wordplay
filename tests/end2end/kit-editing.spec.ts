@@ -245,7 +245,8 @@ test("a kit's page renders its exports", async ({ page }) => {
         'stayed listed',
     );
 
-    await page.goto(`/guide?kit=${encodeURIComponent(name)}`);
+    const kitPath = `/guide/kits/${name.split('/').map(encodeURIComponent).join('/')}`;
+    await page.goto(kitPath);
 
     // The kit's own name, its doc, and the export's name and doc — each of which can
     // only appear if a different link in the chain above held.
@@ -258,14 +259,12 @@ test("a kit's page renders its exports", async ({ page }) => {
     // by URL exercises only the mount, which is why this went unnoticed — the guide read
     // the kit param on mount and on back/forward and nowhere else, so following a tile
     // left the browser showing and then rewrote the URL without the param.
-    await page.goto('/guide?section=kits');
-    const tile = page
-        .locator(`a[href*="kit=${encodeURIComponent(name)}"]`)
-        .first();
+    await page.goto('/guide/kits');
+    const tile = page.locator(`a[href$="${kitPath}"]`).first();
     await expect(tile).toBeVisible({ timeout: 30000 });
 
-    // The href is written encoded (`amy%2Fpalette`) and the address bar keeps it that way.
-    const kitPage = new RegExp(`kit=${encodeURIComponent(name)}`);
+    // The kit's owner and name are two path segments.
+    const kitPage = new RegExp(`${kitPath}$`);
 
     // Follow it, and follow it again if the first press went nowhere. The registry is
     // still assembling above this tile when it first becomes visible: the built-in kits,

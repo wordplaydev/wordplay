@@ -1048,6 +1048,8 @@
         "e571ab9ae452c": "$~Gumagana na ngayon ang paggawang teksto gamit ang \\ø\\ ng isang saklaw, isang tungkulin, isang padron, o isang halagang maaaring \\→ ''\\, sa halip na itigil ang programa.",
         "e5ab9da833914": "$~Hindi na itinitigil ng pagbasa ng \\Panturo().pagikot\\ ang programa.",
         "e92691ec133cd": "$~Binabalaan na rin namin ngayon ang mga email address na nakasulat sa dokumentasyon at sa tekstong may pormat, tulad ng ginagawa na namin sa teksto.",
-        "e68be06131b48": "$~Ang mga link sa gabay na kasunod agad ng unlaping Hebreo tulad ng ב- o ng tuldok ay binubuksan na ngayon ang gabay, sa halip na maging mga link ng email."
+        "e68be06131b48": "$~Ang mga link sa gabay na kasunod agad ng unlaping Hebreo tulad ng ב- o ng tuldok ay binubuksan na ngayon ang gabay, sa halip na maging mga link ng email.",
+        "eea7bd4500f37": "$~Bawat pahina ng <Gabay@https://wordplay.dev/guide> ay may sarili nang address, at ang mga tab at breadcrumb nito ay nagpapakita na ngayon kung saan kabilang ang pahinang binabasa mo.",
+        "e2cbfa3574467": "$~Gumagana na ngayon ang Forward na button ng browser sa <Gabay@https://wordplay.dev/guide>, at hindi na nagpapakita ng ibang pahina muna kapag binuksan ang link papunta sa isa sa mga pahina nito."
     }
 }

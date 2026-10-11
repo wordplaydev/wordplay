@@ -27,6 +27,11 @@
          *  button is rendered selected — used when another control supersedes
          *  the mode). */
         choice: number | undefined;
+        /** A mode the content shown belongs to without being selected — the
+         *  subsection a concept is filed under, say. Marked `aria-current` and
+         *  drawn as a dashed outline, but still choosable, since choosing it goes
+         *  to that mode's page. */
+        within?: number | undefined;
         /** Callback for when a mode is selected.*/
         select: (choice: number) => void;
         /** Icons to add as prefixes to labels: a glyph string (rendered
@@ -71,6 +76,7 @@
         modes,
         icons,
         choice,
+        within = undefined,
         select,
         active = true,
         labeled = true,
@@ -106,7 +112,7 @@
             .filter((index) => !omit.includes(index)),
     );
     /** The mode holding the group's single tab stop. */
-    let focusable = $derived(getFocusableOption(visible, choice));
+    let focusable = $derived(getFocusableOption(visible, choice ?? within));
     /** Inline arrow keys follow reading order, so they swap under an RTL locale. */
     let rtl = $derived($locales.getDirection() === 'rtl');
 
@@ -186,6 +192,10 @@
                     role="radio"
                     aria-checked={index === choice}
                     class:selected={index === choice}
+                    class:within={index === within && index !== choice}
+                    aria-current={index === within && index !== choice
+                        ? 'location'
+                        : undefined}
                     aria-label={modeLabels ? undefined : tipTitleFor(index)}
                     aria-describedby={modeLabels
                         ? `${group}-tip-${index}`
@@ -356,6 +366,12 @@
         box-shadow: inset var(--wordplay-border-width)
             var(--wordplay-border-width) 0 var(--wordplay-foreground);
         cursor: default;
+    }
+
+    /* Where the content shown is filed, without being that mode's own page. */
+    button.within {
+        border-style: dashed;
+        border-color: var(--wordplay-highlight-color);
     }
 
     /* Keep the app's focus ring rather than signalling focus by background color

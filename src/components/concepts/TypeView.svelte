@@ -9,7 +9,11 @@
         getConceptIndex,
         getConceptPath,
     } from '#components/project/Contexts.ts';
-    import { pushConcept } from '#components/concepts/GuideHistory.ts';
+    import {
+        guideConceptURL,
+        pushConcept,
+    } from '#components/concepts/GuideHistory.ts';
+    import { page } from '$app/state';
     import RootView from '#components/project/RootView.svelte';
 
     interface Props {
@@ -31,31 +35,48 @@
             .map((type) => [type, index?.getConceptOfType(type)] as const),
     );
 
-    function navigate(type: StructureConcept | FunctionConcept) {
+    /** A plain click navigates in place; a modified or middle click is left to the
+     *  browser, which follows the href to the same concept in the guide. */
+    function follow(
+        event: MouseEvent,
+        type: StructureConcept | FunctionConcept,
+    ) {
+        if (
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+        )
+            return;
+        event.preventDefault();
         path.set(pushConcept($path, type));
     }
 </script>
 
 <span>
-    {#each types as [type, concept], index}
-        {#if index > 0}<span class="dot">&nbsp;{OR_SYMBOL}&nbsp;</span
-            >{/if}<span
-            role="button"
-            class="type"
-            tabindex="0"
-            onclick={() => (concept ? navigate(concept) : undefined)}
-            onkeydown={(event) =>
-                concept && (event.key === 'Enter' || event.key === ' ')
-                    ? navigate(concept)
-                    : undefined}
-            ><RootView
-                node={type}
-                inert
-                inline
-                locale="symbolic"
-                blocks={$blocks}
-            /></span
-        >{/each}
+    {#each types as [type, concept], position}
+        {#if position > 0}<span class="dot">&nbsp;{OR_SYMBOL}&nbsp;</span
+            >{/if}{#if concept && index}<a
+                class="type"
+                href={`${page.params.locale ? `/${page.params.locale}` : ''}${guideConceptURL(concept, index)}`}
+                onclick={(event) => follow(event, concept)}
+                ><RootView
+                    node={type}
+                    inert
+                    inline
+                    locale="symbolic"
+                    blocks={$blocks}
+                /></a
+            >{:else}<span class="type"
+                ><RootView
+                    node={type}
+                    inert
+                    inline
+                    locale="symbolic"
+                    blocks={$blocks}
+                /></span
+            >{/if} >{/each}
 </span>
 
 <style>
@@ -64,11 +85,12 @@
     }
 
     .type {
-        cursor: pointer;
         white-space: nowrap;
+        color: inherit;
+        text-decoration: none;
     }
 
-    .type:hover {
+    a.type:hover {
         border-bottom: var(--wordplay-focus-width) solid
             var(--wordplay-highlight-color);
     }

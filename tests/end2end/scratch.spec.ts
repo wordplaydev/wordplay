@@ -15,7 +15,7 @@ test('a guide example opens as a scratch project without disturbing the guide', 
 }) => {
     test.setTimeout(90000);
 
-    await page.goto('/en-US/guide?concept=Phrase');
+    await page.goto('/en-US/guide/code/outputs/Phrase');
     const tinker = page
         .locator('button')
         .filter({ hasText: 'Test it' })

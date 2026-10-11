@@ -1048,6 +1048,8 @@
         "e571ab9ae452c": "$~Convertirea în text cu \\ø\\ a unui interval, a unei funcții, a unui model sau a unei valori care poate fi \\→ ''\\ funcționează acum, în loc să oprească programul.",
         "e5ab9da833914": "$~Citirea lui \\Indicator().rotaţie\\ nu mai oprește programul.",
         "e92691ec133cd": "$~Acum te avertizăm și despre adresele de e-mail scrise în documentare și în text formatat, așa cum făceam deja în text.",
-        "e68be06131b48": "$~Linkurile către ghid care apar imediat după un prefix ebraic precum ב- sau după un punct deschid acum ghidul, în loc să devină linkuri de e-mail."
+        "e68be06131b48": "$~Linkurile către ghid care apar imediat după un prefix ebraic precum ב- sau după un punct deschid acum ghidul, în loc să devină linkuri de e-mail.",
+        "eea7bd4500f37": "$~Fiecare pagină din <Ghid@https://wordplay.dev/guide> are propria adresă. Filele și firul de navigare arată acum unde se află pagina pe care o citești.",
+        "e2cbfa3574467": "$~Butonul Înainte al browserului funcționează acum în <Ghid@https://wordplay.dev/guide>. Când deschizi un link către una dintre paginile lui, nu mai apare întâi o altă pagină."
     }
 }
