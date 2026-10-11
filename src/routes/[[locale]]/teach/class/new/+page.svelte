@@ -252,9 +252,10 @@
     }
 </script>
 
+<Title text={(l) => l.ui.page.newclass.header} />
+<PageHeader header={(l) => l.ui.page.newclass.header} />
+
 <TeachersOnly>
-    <Title text={(l) => l.ui.page.newclass.header} />
-    <PageHeader header={(l) => l.ui.page.newclass.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.newclass.prompt.start} />
 
     <div class="page">
