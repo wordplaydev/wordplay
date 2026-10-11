@@ -30,28 +30,21 @@ export function makeExampleProject(
     // A block example opens with a line break after its \, which belongs to the markup
     // around it rather than the program, so it isn't drawn as a blank first line.
     const programSpaces = spaces.withSpace(program, '');
-    const project =
-        scope === undefined
-            ? Project.make(
-                  null,
-                  name,
-                  new Source(name, [program, programSpaces]),
-                  [],
-                  locales,
-              )
-            : Project.make(
-                  null,
-                  name,
-                  // Built from text rather than from the parsed program, because the
-                  // prelude has to be parsed as part of the same source for its borrow to
-                  // bind anything in it.
-                  new Source(
-                      name,
-                      `${scope.prelude}\n${program.toWordplay(programSpaces)}`,
-                  ),
-                  [],
-                  locales,
-              );
+    // Built from text rather than from the parsed program. A program parsed inside
+    // markup isn't structurally what the same text parses to as code, and editing
+    // checks every suggestion by reparsing it, so every suggestion was refused. A
+    // scope's prelude also has to be parsed with the program for its borrow to bind.
+    const code = program.toWordplay(programSpaces);
+    const project = Project.make(
+        null,
+        name,
+        new Source(
+            name,
+            scope === undefined ? code : `${scope.prelude}\n${code}`,
+        ),
+        [],
+        locales,
+    );
     return scope === undefined
         ? project
         : project.withDependencies(scope.dependencies);

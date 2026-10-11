@@ -1,6 +1,5 @@
 <script lang="ts">
     import Centered from '#components/app/Centered.svelte';
-    import Header from '#components/app/Header.svelte';
     import Link from '#components/app/Link.svelte';
     import Notice from '#components/app/Notice.svelte';
     import Spinning from '#components/app/Spinning.svelte';
@@ -13,17 +12,17 @@
     let user = getUser();
 </script>
 
+<!-- No heading here: each page renders its own, so a refusal would otherwise show two. -->
+
 {#if $user === undefined}
     <Spinning />
 {:else if !isAuthenticated($user)}
-    <Header text={(l) => l.ui.page.teach.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.teach.error.login} />
 {:else}
     {#await isTeacher($user)}
         <Spinning />
     {:then claim}
         {#if !claim}
-            <Header text={(l) => l.ui.page.teach.header} />
             <MarkupHTMLView markup={(l) => l.ui.page.teach.prompt.none} />
             <Notice>
                 <MarkupHTMLView markup={(l) => l.ui.page.teach.error.teacher} />
@@ -38,7 +37,6 @@
             {@render children()}
         {/if}
     {:catch}
-        <Header text={(l) => l.ui.page.teach.header} />
         <MarkupHTMLView markup={(l) => l.ui.page.teach.error.offline} />
     {/await}
 {/if}

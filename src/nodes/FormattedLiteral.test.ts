@@ -6,6 +6,13 @@ import DefaultLocale from '#locale/DefaultLocale.ts';
 import type LocaleText from '#locale/LocaleText.ts';
 import Locales from '#locale/Locales.ts';
 import evaluateCode from '#runtime/evaluate.ts';
+import Project from '#db/projects/Project.ts';
+import Caret from '#edit/caret/Caret.ts';
+import { getEditsAt } from '#edit/menu/PossibleEdits.ts';
+import Doc from '#nodes/Doc.ts';
+import FormattedLiteral from '#nodes/FormattedLiteral.ts';
+import Source from '#nodes/Source.ts';
+import TextLiteral from '#nodes/TextLiteral.ts';
 
 /** Load a few locales for testing. */
 const en = DefaultLocale;
@@ -53,4 +60,29 @@ test.each([
     ["(`a\\\\b`) → ''", '"a\\b"'],
 ])('%s value -> %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
+});
+
+test('formatted text made from the edit menu can render', () => {
+    // The renderer refuses markup without spaces, which every menu-made
+    // formatted literal and doc lacked; parsing always supplies them.
+    const source = new Source('t', "Phrase('hello there')");
+    const project = Project.make(null, 't', source, [], DefaultLocale);
+    const text = source.nodes().find((n) => n instanceof TextLiteral);
+    expect(text).toBeDefined();
+    const made = getEditsAt(
+        project,
+        new Caret(source, text!, undefined, undefined),
+        undefined,
+        DefaultLocales,
+    )
+        .map((revision) => revision.getEdit(DefaultLocales))
+        .flatMap((edit) => (Array.isArray(edit) ? [edit[0]] : []))
+        .flatMap((edited) =>
+            edited.nodes().filter((n) => n instanceof FormattedLiteral),
+        );
+    expect(made.length).toBeGreaterThan(0);
+    for (const literal of made)
+        for (const translation of literal.texts)
+            expect(translation.markup.spaces).toBeDefined();
+    expect(Doc.make([]).markup.spaces).toBeDefined();
 });

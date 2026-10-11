@@ -155,6 +155,9 @@ export const IdleKind = {
 } as const;
 export type IdleKind = (typeof IdleKind)[keyof typeof IdleKind];
 
+/** How long to wait until considering typing idle. */
+export const KeyboardIdleWaitTime = 500;
+
 /** The current keyboard edit idle state in a ProjectView. */
 export const [getKeyboardEditIdle, setKeyboardEditIdle] =
     createOptionalContext<Writable<IdleKind>>();

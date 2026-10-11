@@ -50,7 +50,7 @@ export default class Doc extends LanguageTagged {
     static make(content?: Paragraph[], lang: Language | undefined = undefined) {
         return new Doc(
             new Token(DOCS_SYMBOL, Sym.Doc),
-            new Markup(content ?? []),
+            Markup.withPreferredSpaces(content ?? []),
             new Token(DOCS_SYMBOL, Sym.Doc),
             lang,
             undefined,

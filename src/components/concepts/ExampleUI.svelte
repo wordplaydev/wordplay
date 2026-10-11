@@ -1,6 +1,12 @@
 <script lang="ts">
     import type { AppPath } from '#util/appPath.ts';
     import Annotations from '#components/annotations/Annotations.svelte';
+    import EditableExample, {
+        setExampleConceptIndex,
+        setExampleKeyboardIdle,
+    } from '#components/concepts/EditableExample.svelte.ts';
+    import FloatingMenu from '#components/editor/menu/FloatingMenu.svelte';
+    import type MenuInfo from '#edit/menu/Menu.ts';
     import OutputPreview from '#components/concepts/OutputPreview.svelte';
     import {
         makeExampleProject,
@@ -18,16 +24,13 @@
     import {
         getConceptIndex,
         getExampleScope,
-        IdleKind,
         setAnimatingNodes,
         setSoundingNodes,
         setConflicts,
         setEditors,
         setEvaluation,
-        setKeyboardEditIdle,
         setProject,
         setProjectCommandContext,
-        setResetKeyboardIdle,
         setSelectedOutput,
         type EditorState,
     } from '#components/project/Contexts.ts';
@@ -86,14 +89,6 @@
     const scopeContext = getExampleScope();
     let scope = $derived(scopeContext?.scope);
 
-    /** The example's code, as a creator would type it — including the scope's prelude,
-     *  which is the borrow line that makes the rest of it resolve, and so is part of what
-     *  a reader should copy rather than something to hide from them. */
-    let code = $derived(
-        (scope === undefined ? '' : `${scope.prelude}\n`) +
-            example.program.toWordplay(getPreferredSpaces(example.program)),
-    );
-
     /** Where the scratch project lives, known before the click so this can be a
      *  real link: the ID is derived from the code itself. `from` is what gets
      *  the reader back to the page they were reading. */
@@ -128,8 +123,18 @@
     let codeEl: HTMLDivElement | undefined = $state(undefined);
     let codeFloor = $state(0);
 
+    // The surrounding page's index, where this example is registered for dragging.
     let indexContext = getConceptIndex();
     let index = $derived(indexContext?.index);
+
+    // Autocomplete and nearly every blocks control open this menu, which a
+    // project would show; here the floating host does, with an index of the
+    // example's own so its menus know what it defines.
+    let menu: MenuInfo | undefined = $state(undefined);
+    setExampleConceptIndex(
+        () => project,
+        () => $locales,
+    );
 
     // Keep track of the last example so we can remove it when the example changes.
     // svelte-ignore state_referenced_locally
@@ -137,7 +142,7 @@
 
     // Derive a project from the example. Project.make always returns a
     // Project, so this is never undefined.
-    let project = $derived<Project>(
+    let original = $derived<Project>(
         makeExampleProject(
             'example',
             example.program,
@@ -145,6 +150,23 @@
             $locales.getLocales(),
             scope,
         ),
+    );
+
+    // The example can be edited in place; the project is its latest edit.
+    const editableExample = new EditableExample(() => original);
+    let project = $derived<Project>(editableExample.current ?? original);
+
+    /** The example's code, as a creator would type it — including the scope's prelude,
+     *  which is the borrow line that makes the rest of it resolve, and so is part of what
+     *  a reader should copy rather than something to hide from them. Once edited, it is
+     *  the edit, whose source already holds the prelude. */
+    let code = $derived(
+        editableExample.edited
+            ? project.getMain().getCode().toString()
+            : (scope === undefined ? '' : `${scope.prelude}\n`) +
+                  example.program.toWordplay(
+                      getPreferredSpaces(example.program),
+                  ),
     );
 
     // Set a project context so we can do analysis and localization in the code example.
@@ -195,14 +217,11 @@
     const soundingNodes = writable<Set<Node>>(new Set());
     setSoundingNodes(soundingNodes);
 
-    // Isolate the keyboardEditIdle context too: the example is read-only,
-    // so its typing state should always be Idle. Without this, typing in
-    // the parent's main editor flips its keyboardEditIdle to Typing, and
-    // the example's Editor projectHighlights effect clears the example's
-    // highlights (including outlines on animating nodes) until the parent
-    // returns to Idle.
-    setKeyboardEditIdle(writable(IdleKind.Idle));
-    setResetKeyboardIdle(() => {});
+    // Isolate the keyboardEditIdle context too, so the example's typing state is
+    // its own. Without this, typing in the parent's main editor flips its
+    // keyboardEditIdle to Typing, and the example's Editor projectHighlights
+    // effect clears the example's highlights until the parent returns to Idle.
+    setExampleKeyboardIdle();
 
     // Isolate selection, editor map, and command context so the example is
     // independent from the parent ProjectView. The drag store is deliberately
@@ -292,14 +311,19 @@
         // Don't create a new evaluator if the project is the same.
         if (!hard && evaluator && evaluator.project === project) return;
 
+        // An edit revises the same project, and someone tinkering wants to see
+        // the change play, not have the output stop on every keystroke.
+        const revised = evaluator?.project.getID() === project.getID();
+
         evaluator?.ignore(updateEvaluatorStores);
         evaluator?.stop();
 
         if (project) {
-            playing = false;
-            evaluator = makeEvaluator(false);
+            if (!revised) playing = false;
+            evaluator = makeEvaluator(playing);
             evaluator.observe(updateEvaluatorStores);
-            evaluator.getInitialValue();
+            if (playing) evaluator.start();
+            else evaluator.getInitialValue();
             updateEvaluatorStores();
         }
     }
@@ -387,11 +411,15 @@
                             {project}
                             locale={null}
                             {evaluator}
-                            editable={false}
+                            autofocus={false}
+                            editable={editableExample.editing}
+                            requestEditable={editableExample.edit}
                             values={evaluated}
                             dragSource={draggable}
                             bind:caretSnapshot={currentCaret}
+                            bind:menu
                         />
+                        <FloatingMenu bind:menu scope={codeEl} />
                     {/if}
                 </div>
                 {#if project}
@@ -422,6 +450,15 @@
                 >
                     {#if copied}{CONFIRM_SYMBOL}{/if}</Button
                 >
+
+                {#if editableExample.edited}
+                    <Button
+                        tip={(l) => l.ui.project.button.revert}
+                        action={editableExample.revert}
+                        icon="↺"
+                        background={true}
+                    ></Button>
+                {/if}
 
                 {#if tinkerable}
                     <!-- Uses the remix glyph rather than a copy one: this makes

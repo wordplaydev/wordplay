@@ -1625,7 +1625,7 @@ There are three places that comments can appear in code: just before programs, j
 
 Documentation is part of the grammar, not just discarded text in parsing. This allows for unambiguous association between text and documentation.
 
-Docs separated by at most one newline are one **group** — the locale variants of a single doc (`¶hello¶/en ¶hola¶/es`) — and a blank line ends a group. At the start of a program that grouping decides who a doc belongs to, which the grammar cannot say on its own: a leading group **touching** what follows it documents that, like every other doc, and it is the program's own documentation only when nothing adjacent can take it — a blank line follows, a `↓` borrow follows, or the source ends there. A program may open with several separated groups; all of them are its own, except a last one that touches the statement below it.
+Docs separated by at most one newline are one **group** — the locale variants of a single doc (`¶hello¶/en ¶hola¶/es`) — and a blank line ends a group. At the start of a program that grouping decides who a doc belongs to, which the grammar cannot say on its own: a leading group **touching** what follows it documents that, like every other doc, and it is the program's own documentation only when nothing adjacent can take it — a blank line follows, a `↓` borrow follows, or the source ends there. A program may open with several separated groups; all of them are its own, except a last one that touches the statement below it. A `\…\` example in markup is a program too and follows the same rule, its closing `\` ending its source, so an example means what the same code means in an editor.
 
 ```
 ¶The colour of a sunset.¶        ¶Colours I like.¶

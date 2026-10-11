@@ -50,7 +50,7 @@ export default class FormattedTranslation extends LanguageTagged {
     static make(content?: Paragraph[], language?: Language) {
         return new FormattedTranslation(
             new Token(FORMATTED_SYMBOL, Sym.Formatted),
-            new Markup(content ?? []),
+            Markup.withPreferredSpaces(content ?? []),
             new Token(FORMATTED_SYMBOL, Sym.Formatted),
             language,
             undefined,

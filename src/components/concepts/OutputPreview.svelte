@@ -244,6 +244,10 @@
         if (!e) return;
         e.observe(update);
         if (selfContained) e.observe(updateEvaluatorStores);
+        // A parent's evaluator may already have evaluated before we subscribed
+        // (ExampleUI evaluates an edited example as it creates the evaluator), so
+        // catch up rather than keep showing the previous evaluator's output.
+        else untrack(update);
         return () => {
             e.ignore(update);
             if (selfContained) e.ignore(updateEvaluatorStores);

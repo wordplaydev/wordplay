@@ -27,7 +27,7 @@ export function toProgram(code: string): Program {
  * source ends there. The unit is the group rather than the doc, since docs separated by
  * at most one newline are locale variants of one doc.
  */
-function programDocGroups(tokens: Tokens): number {
+function programDocGroups(tokens: Tokens, doc: boolean): number {
     if (!tokens.nextIs(Sym.Doc)) return 0;
     // A snapshot rather than `unreadTo`, since parsing a doc can split a token.
     const snapshot = tokens.snapshot();
@@ -36,8 +36,10 @@ function programDocGroups(tokens: Tokens): number {
         parseDocs(tokens);
         groups++;
     }
+    // In a doc example the closing `\` is where the example's source ends.
     const adjacent =
         tokens.hasNext() &&
+        !(doc && tokens.nextIs(Sym.Code)) &&
         !tokens.nextIs(Sym.Borrow) &&
         !tokens.nextHasMoreThanOneLineBreak();
     tokens.restore(snapshot);
@@ -54,7 +56,9 @@ function parseDocGroups(tokens: Tokens, count: number): Docs {
 }
 
 export default function parseProgram(tokens: Tokens, doc = false): Program {
-    const groups = doc ? 0 : programDocGroups(tokens);
+    // An example's docs follow the same rule as a source's, so an example parsed
+    // inside markup means what the same code means in an editor.
+    const groups = programDocGroups(tokens, doc);
     const docs = groups > 0 ? parseDocGroups(tokens, groups) : undefined;
 
     const borrows: Borrow[] = [];

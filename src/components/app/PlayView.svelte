@@ -26,9 +26,20 @@
          *  false: zooming calls preventDefault, so a wheel aimed at the page
          *  would be swallowed by whatever stage the pointer happened to be over. */
         wheel?: boolean;
+        /** The evaluator running the project, bound by a host that shows its code beside the stage. */
+        evaluator?: Evaluator | undefined;
+        /** Whether to blur the stage while the code is being typed. A host whose
+         *  stage re-runs on every edit passes false, so the result shows live. */
+        blurOnTyping?: boolean;
     }
 
-    let { project, fit = true, wheel = true }: Props = $props();
+    let {
+        project,
+        fit = true,
+        wheel = true,
+        evaluator = $bindable(undefined),
+        blurOnTyping = true,
+    }: Props = $props();
 
     // The tutorial's output is read-only, so gate it for photosensitivity and
     // music too, holding playback (like the permission gate) until the viewer
@@ -89,7 +100,6 @@
         publish();
     }
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let evaluator = $state<Evaluator | undefined>();
     let latest: Value | undefined = $state(undefined);
 
     const pendingPermissions = $derived(
@@ -164,6 +174,7 @@
         source={project.getMain()}
         {fit}
         {wheel}
+        {blurOnTyping}
         grid={false}
         editable={false}
         onretry={() => instantiateEvaluator()}
