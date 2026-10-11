@@ -1048,6 +1048,8 @@
         "e571ab9ae452c": "$~Convertir en texte avec \\ø\\ un intervalle, une fonction, un motif ou une valeur qui peut être \\→ ''\\ fonctionne maintenant, au lieu d'arrêter le programme.",
         "e5ab9da833914": "$~Lire \\Aiguille().rotation\\ n'arrête plus le programme.",
         "e92691ec133cd": "$~Nous signalons maintenant les adresses e-mail écrites dans la documentation et dans le texte mis en forme, comme nous le faisions déjà dans le texte.",
-        "e68be06131b48": "$~Les liens vers le guide placés juste après un préfixe hébreu comme ב- ou après un point ouvrent maintenant le guide, au lieu de devenir des liens e-mail."
+        "e68be06131b48": "$~Les liens vers le guide placés juste après un préfixe hébreu comme ב- ou après un point ouvrent maintenant le guide, au lieu de devenir des liens e-mail.",
+        "eea7bd4500f37": "$~Chaque page du <guide@https://wordplay.dev/guide> a sa propre adresse. Ses onglets et son fil d'Ariane montrent maintenant où se trouve la page que tu lis.",
+        "e2cbfa3574467": "$~Le bouton Suivant du navigateur fonctionne maintenant dans le <guide@https://wordplay.dev/guide>. Quand tu ouvres un lien vers une de ses pages, une autre page ne s'affiche plus d'abord."
     }
 }

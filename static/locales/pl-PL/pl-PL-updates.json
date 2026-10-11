@@ -1048,6 +1048,8 @@
         "e571ab9ae452c": "$~Zamiana zakresu, funkcji, wzorca lub wartości, która może być \\ø\\, na tekst za pomocą \\→ ''\\ działa teraz, zamiast zatrzymywać program.",
         "e5ab9da833914": "$~Czytanie \\Wskaźnik().obrót\\ już nie zatrzymuje programu.",
         "e92691ec133cd": "$~Teraz ostrzegamy też o adresach e-mail zapisanych w dokumentacji i w tekście z formatowaniem, tak jak już robiliśmy w tekście.",
-        "e68be06131b48": "$~Linki do przewodnika, które występują zaraz po hebrajskim przedrostku, takim jak ב-, lub po kropce, otwierają teraz przewodnik, zamiast stawać się linkami e-mail."
+        "e68be06131b48": "$~Linki do przewodnika, które występują zaraz po hebrajskim przedrostku, takim jak ב-, lub po kropce, otwierają teraz przewodnik, zamiast stawać się linkami e-mail.",
+        "eea7bd4500f37": "$~Każda strona w <Przewodniku@https://wordplay.dev/guide> ma teraz własny adres, a jej karty i ścieżka nawigacji pokazują, gdzie należy strona, którą czytasz.",
+        "e2cbfa3574467": "$~Przycisk „Dalej” w przeglądarce działa teraz w <Przewodniku@https://wordplay.dev/guide>, a otwarcie linku do jednej z jego stron nie pokazuje już najpierw innej strony."
     }
 }

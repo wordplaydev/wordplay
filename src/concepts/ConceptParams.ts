@@ -41,10 +41,12 @@ export function getKitFromURL(params: Pick<URLSearchParams, 'get'>):
     };
 }
 
-/** The guide URL that shows one kit, which registry tiles and version lists both link to. */
+/** The guide URL that shows one kit, which registry tiles and version lists both link
+ *  to: its `username/name` as two path segments, so the page is a path of its own (see
+ *  `guidePath.ts`) rather than the guide's landing with a query. */
 export function kitURL(name: string, version?: number | undefined): AppPath {
-    return `/guide?${PARAM_KIT}=${encodeURIComponent(name)}${
-        version === undefined ? '' : `&${PARAM_KIT_VERSION}=${version}`
+    return `/guide/kits/${name.split('/').map(encodeURIComponent).join('/')}${
+        version === undefined ? '' : `?${PARAM_KIT_VERSION}=${version}`
     }`;
 }
 
@@ -115,12 +117,16 @@ export function setConceptInURL(
     index: ConceptIndex,
     params: URLSearchParams,
 ) {
-    if (concept) {
-        // Encode the concept (and its owner, if any) using the same token the
-        // index resolves on, so getConceptFromURL can always read it back.
-        const name = index.getConceptToken(concept);
-        const owner = index.getConceptOwner(concept);
-        const ownerName = owner ? index.getConceptToken(owner) : undefined;
-        params.set(PARAM_CONCEPT, `${ownerName ? `${ownerName}/` : ''}${name}`);
-    } else params.delete(PARAM_CONCEPT);
+    if (concept) params.set(PARAM_CONCEPT, conceptToken(concept, index));
+    else params.delete(PARAM_CONCEPT);
+}
+
+/** A concept's `?concept=` value: its token, prefixed by its owner's for a sub-concept,
+ *  using the same tokens the index resolves on, so getConceptFromURL can always read it
+ *  back. */
+export function conceptToken(concept: Concept, index: ConceptIndex): string {
+    const name = index.getConceptToken(concept);
+    const owner = index.getConceptOwner(concept);
+    const ownerName = owner ? index.getConceptToken(owner) : undefined;
+    return `${ownerName ? `${ownerName}/` : ''}${name}`;
 }

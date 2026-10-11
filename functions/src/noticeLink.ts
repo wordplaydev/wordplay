@@ -29,7 +29,7 @@ export function noticeLink(notice: SerializedNotice): string {
         case 'character':
             return `/character/${id}`;
         case 'kit':
-            return `/guide?kit=${encodeURIComponent(id)}`;
+            return `/guide/kits/${encodeURIComponent(id)}`;
     }
 }
 

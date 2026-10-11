@@ -32,6 +32,10 @@
         /** The tab selected, or undefined for no selection (no tab renders
          *  selected, but the bar still holds exactly one tab stop). */
         choice: number | undefined;
+        /** A tab the content shown belongs to without being that tab's own page — a
+         *  concept inside a section, say. Drawn as an outline of a selected tab and
+         *  marked `aria-current`, but still selectable: choosing it goes to its page. */
+        within?: number | undefined;
         /** Callback for when a tab is selected. */
         select: (choice: number) => void;
         /** The content the tabs switch between. When given, Tabbed renders the
@@ -67,6 +71,7 @@
     let {
         tabs,
         choice,
+        within = undefined,
         select,
         children,
         icons,
@@ -108,7 +113,7 @@
             .filter((index) => !omit.includes(index)),
     );
     /** The tab holding the bar's single tab stop. */
-    let focusable = $derived(getFocusableOption(visible, choice));
+    let focusable = $derived(getFocusableOption(visible, choice ?? within));
     /** Inline arrow keys follow reading order, so they swap under an RTL locale. */
     let rtl = $derived($locales.getDirection() === 'rtl');
 
@@ -122,6 +127,8 @@
      *  the panel; a higher one reads as a raised, closed box instead, leaving the
      *  rule unbroken rather than pretending to a continuity it doesn't have. */
     let stacked = $state(false);
+    /** The tabs above the bottom row of a wrapped bar, which can't reach the rule. */
+    let raised = $state<number[]>([]);
     $effect(() => {
         const bar = barView;
         // Re-measure when the tabs or the selection change, not just on resize.
@@ -130,6 +137,7 @@
         if (bar === undefined || !wrap) {
             wrapped = false;
             stacked = false;
+            raised = [];
             return;
         }
         const measure = () => {
@@ -137,6 +145,12 @@
                 ...bar.querySelectorAll<HTMLElement>('[role=tab]'),
             ].map((tab) => tab.offsetTop);
             wrapped = tops.some((top) => top !== tops[0]);
+            const bottom = Math.max(...tops);
+            raised = views.flatMap((view, index) =>
+                view !== undefined && wrapped && view.offsetTop !== bottom
+                    ? [index]
+                    : [],
+            );
             const selected =
                 selectedIndex === undefined ? undefined : views[selectedIndex];
             stacked =
@@ -229,8 +243,12 @@
                 <button
                     type="button"
                     role="tab"
+                    class:raised={raised.includes(index)}
                     id={tabID(index)}
                     aria-selected={index === choice}
+                    aria-current={index === within && index !== choice
+                        ? 'location'
+                        : undefined}
                     aria-controls={panel ? panelID : undefined}
                     aria-label={iconic ? tipTitleFor(index) : undefined}
                     aria-describedby={iconic
@@ -406,6 +424,14 @@
         cursor: default;
     }
 
+    /* The section the content belongs to: the selected tab's outline, dashed and
+       without its background, so the rule runs on beneath it — inside this tab,
+       but not on its page. */
+    button[aria-current='location'] {
+        border-color: var(--wordplay-border-color);
+        border-style: dashed;
+    }
+
     /* The bar reserves the raised edge's width at its inline end so the last tab
        can carry the offset without widening the row. */
     .tabs {
@@ -421,6 +447,12 @@
         color: var(--wordplay-hover-text);
         --wordplay-link-color: currentColor;
         --wordplay-link-underline-color: var(--color-orange);
+    }
+
+    /* A tab above a wrapped bar's bottom row doesn't reach the rule, so its hover
+       is a closed box, not a tab open at the bottom onto nothing. */
+    button.raised:not([aria-selected='true']) {
+        border-radius: var(--wordplay-border-radius);
     }
 
     /* Inset so the focus ring isn't clipped by the panel edge, and raised so a

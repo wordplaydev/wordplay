@@ -397,7 +397,7 @@
                                   // fell through to `/project/<kit id>`, which is not a
                                   // project and shows nothing.
                                   current.kind === 'kit'
-                                  ? `/guide?kit=${encodeURIComponent(current.subject)}`
+                                  ? `/guide/kits/${encodeURIComponent(current.subject)}`
                                   : current.gallery === null
                                     ? `/project/${current.subject}`
                                     : `/gallery/${current.gallery}/howto?id=${current.subject}`,

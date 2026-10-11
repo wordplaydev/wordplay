@@ -1048,6 +1048,8 @@
         "e571ab9ae452c": "$~Mengubah rentang, fungsi, pola, atau nilai yang mungkin \\ø\\ menjadi teks dengan \\→ ''\\ sekarang berhasil dan tidak lagi menghentikan program.",
         "e5ab9da833914": "$~Membaca \\Penunjuk().rotasi\\ tidak lagi menghentikan program.",
         "e92691ec133cd": "$~Kami sekarang memberi peringatan tentang alamat email yang ditulis di dokumentasi dan teks berformat, seperti yang sudah kami lakukan di teks.",
-        "e68be06131b48": "$~Tautan ke panduan yang muncul tepat setelah awalan Ibrani seperti ב- atau setelah tanda titik sekarang membuka panduan, tidak lagi menjadi tautan email."
+        "e68be06131b48": "$~Tautan ke panduan yang muncul tepat setelah awalan Ibrani seperti ב- atau setelah tanda titik sekarang membuka panduan, tidak lagi menjadi tautan email.",
+        "eea7bd4500f37": "$~Setiap halaman di <Panduan@https://wordplay.dev/guide> punya alamatnya sendiri. Tab dan jejak navigasinya kini menunjukkan di mana letak halaman yang sedang kamu baca.",
+        "e2cbfa3574467": "$~Tombol Maju di peramban kini berfungsi di <Panduan@https://wordplay.dev/guide>. Saat kamu membuka tautan ke salah satu halamannya, halaman lain tidak lagi muncul lebih dulu."
     }
 }

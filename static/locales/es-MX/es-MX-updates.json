@@ -1048,6 +1048,8 @@
         "e571ab9ae452c": "$~Convertir a texto con \\ø\\ un rango, una función, un patrón o un valor que podría ser \\→ ''\\ ahora funciona, en lugar de detener el programa.",
         "e5ab9da833914": "$~Leer \\Puntero().rotación\\ ya no detiene el programa.",
         "e92691ec133cd": "$~Ahora avisamos sobre las direcciones de correo electrónico escritas en la documentación y en el texto con formato, como ya hacíamos en el texto.",
-        "e68be06131b48": "$~Los enlaces a la guía que van justo después de un prefijo hebreo como ב- o después de un punto ahora abren la guía, en lugar de convertirse en enlaces de correo electrónico."
+        "e68be06131b48": "$~Los enlaces a la guía que van justo después de un prefijo hebreo como ב- o después de un punto ahora abren la guía, en lugar de convertirse en enlaces de correo electrónico.",
+        "eea7bd4500f37": "$~Cada página de la <guía@https://wordplay.dev/guide> tiene su propia dirección, y sus pestañas y migas de pan ahora muestran a qué parte pertenece la página que estás leyendo.",
+        "e2cbfa3574467": "$~El botón de adelante del navegador ahora funciona en la <guía@https://wordplay.dev/guide>, y al abrir un enlace a una de sus páginas ya no aparece primero una página distinta."
     }
 }

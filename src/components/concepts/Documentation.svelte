@@ -28,9 +28,9 @@
         sameHistory,
         currentConcept as topConcept,
         DefaultMode,
+        locationOf,
         ModeIcons,
         Modes,
-        type GuidePlace,
     } from '#components/concepts/GuideHistory.ts';
     import HowConceptView from '#components/concepts/HowConceptView.svelte';
     import NodeConceptView from '#components/concepts/NodeConceptView.svelte';
@@ -426,28 +426,6 @@
         if (untrack(() => query) !== desired) query = desired;
     });
 
-    // A concept reached from the glossary belongs to the code section: switch the
-    // toggle to 'language' and rebase the glossary section beneath it so the
-    // breadcrumb and Back return to code, not the glossary.
-    $effect(() => {
-        if (currentConcept === undefined || mode !== 'glossary') return;
-        mode = 'language';
-        const history = get(path);
-        let changed = false;
-        const next = history.map((place): GuidePlace => {
-            if (place.kind === 'section' && place.mode === 'glossary') {
-                changed = true;
-                return {
-                    kind: 'section',
-                    mode: 'language',
-                    purpose: place.purpose,
-                };
-            }
-            return place;
-        });
-        if (changed) path.set(next);
-    });
-
     /** Remember the previous history we visited */
     let previousPath: ConceptPath = $state([]);
 
@@ -702,6 +680,39 @@
         path.set(popTo($path, index));
     }
 
+    /** Whether the location shown is a section's own landing page, the only place its
+     *  tab and subsection are *selected*. Before a host gives the history a place,
+     *  the live section is what's shown. */
+    let onLanding = $derived.by(() => {
+        const top = $path.at(-1);
+        return top === undefined || top.kind === 'section';
+    });
+
+    /** Where the location shown is filed, so the chooser marks the section a concept
+     *  belongs to — not whichever was browsed before reaching it. */
+    let shown = $derived.by(() => {
+        const top = $path.at(-1);
+        return top === undefined
+            ? { mode, purpose, owner: undefined }
+            : locationOf(top, (concept) => index?.getConceptOwner(concept));
+    });
+
+    /** Subsections with nothing in them, which get no tab: the project's own concepts
+     *  in the standalone guide, which has no project, and borrowed kits' when nothing
+     *  is borrowed. */
+    let omittedPurposes = $derived(
+        [
+            ...(standalone ? [Purpose.Project] : []),
+            ...((index?.getPrimaryConceptsWithPurpose(Purpose.Kit).length ??
+                0) === 0
+                ? [Purpose.Kit]
+                : []),
+        ].map((omitted) => Object.values(Purpose).indexOf(omitted)),
+    );
+
+    /** The section the chooser shows: the landing's own, or the one the concept is in. */
+    let shownMode = $derived(onLanding ? mode : (shown?.mode ?? mode));
+
     /** Choose a browse section/subsection. Moving between sections modifies the current
      *  location; from a concept/search it adds a new section location (see
      *  {@link navigateSection}). Also updates the live mode/purpose the browse view and
@@ -755,31 +766,35 @@
             uiid="docsModeToggle"
             tabs={(l) => l.ui.docs.mode.browse}
             icons={ModeIcons}
-            choice={Modes.indexOf(mode)}
+            choice={onLanding ? Modes.indexOf(mode) : undefined}
+            within={onLanding ? undefined : Modes.indexOf(shownMode)}
             select={(choice) => {
                 const chosen = Modes[choice];
-                if (chosen !== undefined) chooseSection(chosen, purpose);
+                if (chosen !== undefined)
+                    chooseSection(chosen, shown?.purpose ?? purpose);
             }}
         />
-        <!-- The subsection switcher is a filter grid: its label is right-aligned in
-             one column and its option group left-aligned in the next. The Mode uses
-             `display: contents` (the `grid` prop) so both become items here. -->
-        <div class="filters">
-            {#if mode === 'language'}
-                <Mode
-                    grid
-                    modes={(l) => l.ui.docs.mode.purpose}
-                    choice={Object.keys(Purpose).indexOf(purpose)}
-                    select={(choice) => {
-                        const chosen = Object.values(Purpose)[choice];
-                        if (chosen !== undefined) chooseSection(mode, chosen);
-                    }}
-                    icons={getPurposeIcons($locales.getLocale().language)}
-                    wrap
-                    omit={standalone ? [0] : []}
-                />
-            {/if}
-        </div>
+        <!-- The code section's subsections are a second row of tabs: choosing one
+             swaps the page below, as choosing a section does. No `id`, so it claims
+             no panel of its own — the section tabs above label the panel. -->
+        {#if shownMode === 'language'}
+            <Tabbed
+                tabs={(l) => l.ui.docs.mode.purpose}
+                icons={getPurposeIcons($locales.getLocale().language)}
+                choice={onLanding
+                    ? Object.values(Purpose).indexOf(purpose)
+                    : undefined}
+                within={onLanding || shown?.purpose === undefined
+                    ? undefined
+                    : Object.values(Purpose).indexOf(shown.purpose)}
+                select={(choice) => {
+                    const chosen = Object.values(Purpose)[choice];
+                    if (chosen !== undefined) chooseSection('language', chosen);
+                }}
+                wrap
+                omit={omittedPurposes}
+            />
+        {/if}
     {/if}
 
     {#if !standalone && $path.length > 1}
@@ -845,7 +860,7 @@
         class:reading-pane={currentConcept !== undefined && !searchActive}
         id="docs-browse-panel"
         role="tabpanel"
-        aria-labelledby="docs-browse-tab-{Modes.indexOf(mode)}"
+        aria-labelledby="docs-browse-tab-{Modes.indexOf(shownMode)}"
     >
         <!-- Search mode is prioritized over a selected concept or the home page -->
         {#if searchActive}
@@ -1222,17 +1237,6 @@
         z-index: 1;
         margin-inline-start: var(--wordplay-spacing-half);
         margin-inline-end: var(--wordplay-spacing-half);
-    }
-
-    /* Filter grid: the section + subsection Modes (each `display: contents`) drop their
-       labels into a right-aligned first column and their option groups into a left-aligned
-       second column. */
-    .filters {
-        display: grid;
-        grid-template-columns: max-content minmax(0, 1fr);
-        column-gap: var(--wordplay-spacing);
-        row-gap: var(--wordplay-spacing-half);
-        align-items: baseline;
     }
 
     /* The search field's parent needs to be block so the field fills width. */

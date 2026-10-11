@@ -80,7 +80,7 @@ describe('noticeLink', () => {
                     subject: { kind: 'kit', id: 'k1', gallery: null },
                 }),
             ),
-        ).toBe('/guide?kit=k1');
+        ).toBe('/guide/kits/k1');
     });
 });
 
