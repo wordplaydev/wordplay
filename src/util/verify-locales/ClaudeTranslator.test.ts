@@ -6,6 +6,8 @@ import {
     reconcileTranslations,
     translateDeduped,
     translateMemoized,
+    getScriptInstruction,
+    getScriptNote,
 } from './ClaudeTranslator';
 
 /** Build an id-keyed response body from index→text pairs. */
@@ -298,5 +300,22 @@ describe('translateMemoized', () => {
             await translateMemoized(['a'], memo, (u) => u, echoing(asked)),
         ).toEqual(['Xa']);
         expect(asked).toEqual([]);
+    });
+});
+
+describe('script-variant locales (#1457)', () => {
+    test("a locale in its language's own script gets the prompt it always had", () => {
+        expect(getScriptNote('ur-PK')).toBe('');
+        expect(getScriptInstruction('ur-PK')).toBe(
+            'written in its own native script',
+        );
+    });
+
+    test('a locale naming its script is told which one, in words', () => {
+        expect(getScriptNote('ur-Latn-PK')).toContain(
+            'Urdu written in the Latin script',
+        );
+        expect(getScriptNote('ur-Latn-PK')).toContain('not in Arabic script');
+        expect(getScriptInstruction('ur-Latn-PK')).toContain('Latin script');
     });
 });

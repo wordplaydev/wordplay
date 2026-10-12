@@ -2,15 +2,15 @@ import {
     isCodepointRenderable,
     loadRenderableRanges,
 } from '#basis/faces/renderable.ts';
-import type LanguageCode from '#locale/LanguageCode.ts';
-import { getLanguageScripts } from '#locale/LanguageCode.ts';
+import { getLocaleWritingScript } from '#locale/LanguageCode.ts';
+import { stringToLocale, type Locale } from '#locale/Locale.ts';
 import { getLocaleLanguage } from '#locale/LocaleText.ts';
 import { Scripts, type ScriptMetadata } from '#locale/Scripts.ts';
 import { SupportedLocales } from '#locale/SupportedLocales.ts';
 import { beforeAll, describe, expect, test } from 'vitest';
 import {
     getLogoCyclePool,
-    getLogoGlyphForLanguage,
+    getLogoGlyphForLocale,
     getLogoLanguageCycle,
 } from './logoGlyph';
 
@@ -29,12 +29,10 @@ describe('logo glyphs', () => {
         // A locale whose dominant script lacks a glyph silently falls back to
         // Latin 'a' in the logo; adding a locale should add its script's glyph.
         for (const locale of SupportedLocales) {
-            const language = getLocaleLanguage(locale);
-            expect(language, `${locale} has no language`).toBeDefined();
-            if (language === undefined) continue;
-            const script = getLanguageScripts(language)[0];
-            expect(script, `${locale} has no dominant script`).toBeDefined();
-            if (script === undefined) continue;
+            const parsed = stringToLocale(locale);
+            expect(parsed, `${locale} has no language`).toBeDefined();
+            if (parsed === undefined) continue;
+            const script = getLocaleWritingScript(parsed);
             const meta: ScriptMetadata = Scripts[script];
             expect(
                 meta.glyph,
@@ -64,16 +62,34 @@ describe('logo glyphs', () => {
     });
 
     test('the cycle pool starts with the primary script’s glyph and has no duplicates', () => {
-        const samples: LanguageCode[] = ['en', 'ko', 'ar'];
-        for (const language of samples) {
-            const pool = getLogoCyclePool(language);
-            expect(pool[0]).toBe(getLogoGlyphForLanguage(language));
+        const samples: Locale[] = [
+            { language: 'en', regions: ['US'] },
+            { language: 'ko', regions: ['KR'] },
+            { language: 'ar', regions: ['SA'] },
+        ];
+        for (const locale of samples) {
+            const pool = getLogoCyclePool(locale);
+            expect(pool[0]).toBe(getLogoGlyphForLocale(locale));
             expect(new Set(pool).size).toBe(pool.length);
             // The pool always ends with something beyond letters.
             expect(pool.some((entry) => graphemes(entry).length === 1)).toBe(
                 true,
             );
         }
+    });
+
+    test('a locale written in another script than its language gets that script’s glyph', () => {
+        // Roman Urdu is Urdu in Latin script (#1457): its logo says 'a', not 'ع'.
+        expect(
+            getLogoGlyphForLocale({
+                language: 'ur',
+                regions: ['PK'],
+                script: 'Latn',
+            }),
+        ).toBe('a');
+        expect(getLogoGlyphForLocale({ language: 'ur', regions: ['PK'] })).toBe(
+            'ع',
+        );
     });
 
     test('the landing cycle pairs every supported locale with its script glyph, then adds the emoji', () => {
@@ -89,10 +105,10 @@ describe('logo glyphs', () => {
         );
         for (const entry of entries) {
             if (entry.locale === undefined) continue;
-            const language = getLocaleLanguage(entry.locale);
-            expect(language).toBeDefined();
-            if (language !== undefined)
-                expect(entry.glyph).toBe(getLogoGlyphForLanguage(language));
+            const locale = stringToLocale(entry.locale);
+            expect(locale).toBeDefined();
+            if (locale !== undefined)
+                expect(entry.glyph).toBe(getLogoGlyphForLocale(locale));
         }
         // The glyph-only entries come last, so the label can hold the
         // previous language while the bubble says an emoji.
@@ -105,7 +121,10 @@ describe('logo glyphs', () => {
     });
 
     test('every cycle pool entry is renderable', () => {
-        for (const entry of getLogoCyclePool('en')) {
+        for (const entry of getLogoCyclePool({
+            language: 'en',
+            regions: ['US'],
+        })) {
             for (const character of entry) {
                 const value = character.codePointAt(0);
                 if (value === undefined) continue;

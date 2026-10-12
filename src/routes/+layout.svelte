@@ -62,7 +62,7 @@
         loadLocalePrompt,
         markAsked,
     } from '#components/settings/localePrompt.ts';
-    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import { getLocaleDirection } from '#locale/LanguageCode.ts';
     import { toBCP47 } from '#locale/Locale.ts';
 
     interface Props {
@@ -92,11 +92,10 @@
     $effect(() => {
         if (typeof document !== 'undefined') {
             const locale = $locales.getLocale();
-            const language = locale.language;
             document.documentElement.setAttribute('lang', toBCP47(locale));
             document.documentElement.setAttribute(
                 'dir',
-                getLanguageDirection(language),
+                getLocaleDirection(locale),
             );
             // And the manifest, so an install names the app in the language on
             // screen. hooks.server.ts sets this per prerendered page, but an

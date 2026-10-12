@@ -44,7 +44,7 @@
     import { PersistenceType } from '#db/projects/ProjectHistory.svelte.ts';
     import getConceptName from '#locale/getConceptName.ts';
     import type LanguageCode from '#locale/LanguageCode.ts';
-    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import { getLocaleDirection } from '#locale/LanguageCode.ts';
     import { MULTILINGUAL_SEPARATOR } from '#locale/Locales.ts';
     import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
     import ConceptLink, { TourName } from '#nodes/ConceptLink.ts';
@@ -329,7 +329,7 @@
             const [markup] = toMarkup(rawText);
             echoes.push({
                 language: tutorial.language,
-                direction: getLanguageDirection(tutorial.language),
+                direction: getLocaleDirection(tutorial),
                 markup,
             });
         }
@@ -639,7 +639,7 @@
             seen.add(text);
             echoes.push({
                 language: tutorial.language,
-                direction: getLanguageDirection(tutorial.language),
+                direction: getLocaleDirection(tutorial),
                 text,
             });
         }

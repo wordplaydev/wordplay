@@ -147,7 +147,7 @@
         try {
             const { token, until } = await startProxy({ uid });
             window.open(
-                `/${$locales.getLocale().language}-${$locales.getLocale().regions[0]}/proxy#${encodeURIComponent(token)},${until}`,
+                `/${$locales.getLocaleString()}/proxy#${encodeURIComponent(token)},${until}`,
                 '_blank',
                 'noopener',
             );

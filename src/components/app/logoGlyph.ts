@@ -4,9 +4,8 @@
  * through to convey that the bubble can say anything.
  */
 
-import type LanguageCode from '#locale/LanguageCode.ts';
-import { getLanguageScripts } from '#locale/LanguageCode.ts';
-import { getLocaleLanguage } from '#locale/LocaleText.ts';
+import { getLocaleWritingScript } from '#locale/LanguageCode.ts';
+import { stringToLocale, type Locale } from '#locale/Locale.ts';
 import { Scripts, type ScriptMetadata } from '#locale/Scripts.ts';
 import { SupportedLocales } from '#locale/SupportedLocales.ts';
 import { DEFAULT_LOGO_GLYPH } from './logoMark';
@@ -16,11 +15,10 @@ import { DEFAULT_LOGO_GLYPH } from './logoMark';
  *  (logoGlyph.test.ts verifies renderability). */
 const LOGO_EMOJI = ['😀', '🎭', '🌏'];
 
-/** The exemplar glyph of a language's dominant script, falling back to
+/** The exemplar glyph of the script a locale is written in, falling back to
  *  Latin 'a' for scripts without one. */
-export function getLogoGlyphForLanguage(language: LanguageCode): string {
-    const script = getLanguageScripts(language)[0];
-    if (script === undefined) return DEFAULT_LOGO_GLYPH;
+export function getLogoGlyphForLocale(locale: Locale): string {
+    const script = getLocaleWritingScript(locale);
     // Annotate to widen from the per-entry literal types, whose optional
     // `glyph` only exists on some entries.
     const meta: ScriptMetadata = Scripts[script];
@@ -30,12 +28,12 @@ export function getLogoGlyphForLanguage(language: LanguageCode): string {
 /** The glyphs the landing page's logo cycles through: the viewer's own
  *  script's glyph first, then the other supported locales' dominant-script
  *  glyphs (deduplicated), then a few emoji. */
-export function getLogoCyclePool(primary: LanguageCode): string[] {
-    const pool = [getLogoGlyphForLanguage(primary)];
-    for (const locale of SupportedLocales) {
-        const language = getLocaleLanguage(locale);
-        if (language === undefined) continue;
-        const glyph = getLogoGlyphForLanguage(language);
+export function getLogoCyclePool(primary: Locale): string[] {
+    const pool = [getLogoGlyphForLocale(primary)];
+    for (const name of SupportedLocales) {
+        const locale = stringToLocale(name);
+        if (locale === undefined) continue;
+        const glyph = getLogoGlyphForLocale(locale);
         if (!pool.includes(glyph)) pool.push(glyph);
     }
     for (const emoji of LOGO_EMOJI) if (!pool.includes(emoji)) pool.push(emoji);
@@ -57,10 +55,10 @@ export type LogoCycleEntry = {
  *  coverage. */
 export function getLogoLanguageCycle(): LogoCycleEntry[] {
     const entries: LogoCycleEntry[] = [];
-    for (const locale of SupportedLocales) {
-        const language = getLocaleLanguage(locale);
-        if (language === undefined) continue;
-        entries.push({ locale, glyph: getLogoGlyphForLanguage(language) });
+    for (const name of SupportedLocales) {
+        const locale = stringToLocale(name);
+        if (locale === undefined) continue;
+        entries.push({ locale: name, glyph: getLogoGlyphForLocale(locale) });
     }
     for (const emoji of LOGO_EMOJI)
         entries.push({ locale: undefined, glyph: emoji });

@@ -15,9 +15,8 @@
 -->
 <script lang="ts">
     import { animationFactor, locales } from '#db/Database.ts';
-    import { getLogoGlyphForLanguage } from '#components/app/logoGlyph.ts';
+    import { getLogoGlyphForLocale } from '#components/app/logoGlyph.ts';
     import { withColorEmoji, withMonoEmoji } from '#unicode/emoji.ts';
-    import { first } from '#util/nullable.ts';
     import {
         activeElements,
         LocalGlyph,
@@ -347,9 +346,7 @@
     const Sides: Side[] = ['start', 'end'];
 
     /** The reader's own script's exemplar, for `'local'` glyphs. */
-    let local = $derived(
-        getLogoGlyphForLanguage(first($locales.getLanguages()) ?? 'en'),
-    );
+    let local = $derived(getLogoGlyphForLocale($locales.getLocale()));
 
     function glyph(value: Glyph, tone: Tone): string {
         const text = value === LocalGlyph ? local : value;

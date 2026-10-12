@@ -23,6 +23,9 @@ export type LanguageMetadata = {
      *  as the dominant script and drives writing direction and layout, so a
      *  language always declares at least one. */
     scripts: NonEmpty<Script>;
+    /** The language's name as written in its other scripts, for locales that
+     *  set it in one (`ur-Latn-PK` is "Urdu", not "اُردو"). */
+    nameByScript?: Partial<Record<Script, string>>;
     /** Specify regions that the language is typically used in (and to which it can be translated) */
     regions: RegionCode[];
     /** Approximate total number of speakers (first-language plus
@@ -1631,7 +1634,8 @@ export const Languages = {
     ur: {
         name: 'اُردو',
         en: 'Urdu',
-        scripts: ['Arab'],
+        scripts: ['Arab', 'Latn'],
+        nameByScript: { Latn: 'Urdu' },
         regions: ['PK', 'IN', 'AE', 'SA', 'GB', 'US', 'BD'],
         speakers: 240,
     },
@@ -2312,6 +2316,38 @@ export function getLanguageQuoteClose(code: LanguageCode): string {
 
 export function getLanguageSecondaryQuote(code: LanguageCode): string {
     return metadata(code).secondary ?? '"';
+}
+
+/** A language's name, written in the given script when it has a name there. */
+export function getLanguageNameInScript(
+    code: LanguageCode,
+    script: Script | undefined,
+): string {
+    const meta = metadata(code);
+    return (script && meta.nameByScript?.[script]) ?? meta.name;
+}
+
+/** The script a locale is written in: its own script subtag when it names one,
+ *  otherwise its language's dominant script. Anything about a *locale's* text —
+ *  direction, layout, logo glyph, fonts — must ask this rather than the
+ *  language, or Roman Urdu is laid out as right-to-left Arabic (#1457). */
+export function getLocaleWritingScript(locale: Locale): Script {
+    return locale.script ?? Languages[locale.language].scripts[0];
+}
+
+export function getLocaleDirection(locale: Locale): WritingDirection {
+    return Scripts[getLocaleWritingScript(locale)].direction;
+}
+
+export function getLocaleLayout(locale: Locale): WritingLayout {
+    return Scripts[getLocaleWritingScript(locale)].layout;
+}
+
+export function getLocaleVerticalLayout(
+    locale: Locale,
+): WritingLayout | undefined {
+    const script: ScriptMetadata = Scripts[getLocaleWritingScript(locale)];
+    return script.verticalLayout;
 }
 
 export function getLanguageDirection(code: LanguageCode): WritingDirection {

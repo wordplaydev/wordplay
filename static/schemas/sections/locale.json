@@ -30,6 +30,9 @@
         "regions": {
             "$ref": "../LocaleText.json#/definitions/LocaleText/properties/regions"
         },
+        "script": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/script"
+        },
         "system": {
             "$ref": "../LocaleText.json#/definitions/LocaleText/properties/system"
         },

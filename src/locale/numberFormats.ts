@@ -116,7 +116,7 @@ function formatFor(locale: Locale): NumberFormat {
 }
 
 function scriptFor(locale: Locale): Script | undefined {
-    return Languages[locale.language]?.scripts[0];
+    return locale.script ?? Languages[locale.language]?.scripts[0];
 }
 
 /** Group an already-sign-stripped integer digit string per the given style,

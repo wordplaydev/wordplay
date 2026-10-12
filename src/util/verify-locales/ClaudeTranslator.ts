@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import DefaultLocale from '#locale/DefaultLocale.ts';
 import type LanguageCode from '#locale/LanguageCode.ts';
-import { TranslatableLocales } from '#locale/LanguageCode.ts';
+import { Languages, TranslatableLocales } from '#locale/LanguageCode.ts';
 import { getConventionsForPrompt } from '#locale/getConventionsForPrompt.ts';
 import { getGlossaryForPrompt } from '#locale/Glossary.ts';
 import { getItalicLabels, getItalicLabelsForPrompt } from './italicSpans';
@@ -9,8 +9,10 @@ import { getPluralCount, getPluralRulesForPrompt } from '#locale/plurals.ts';
 import { PLAIN_LANGUAGE_GUIDANCE } from '#locale/readingLevel.ts';
 import { chunkUnits } from '#util/chunkUnits.ts';
 import type Locale from '#locale/Locale.ts';
-import { stringToLocale } from '#locale/Locale.ts';
+import { stringToLocale, toBCP47 } from '#locale/Locale.ts';
+import { Scripts, type Script } from '#locale/Scripts.ts';
 import type LocaleText from '#locale/LocaleText.ts';
+import { getLocaleLanguage, getLocaleScript } from '#locale/LocaleText.ts';
 import type { RegionCode } from '#locale/Regions.ts';
 import Project from '#db/projects/Project.ts';
 import translateProjectContent, {
@@ -315,11 +317,12 @@ export default class ClaudeTranslator implements Translator {
     getTargetLocale(
         language: LanguageCode,
         regions: RegionCode[],
+        script?: Script,
     ): Promise<string> {
         // Claude has no supported-languages endpoint and accepts a locale code
-        // directly; pick the first declared region if any.
+        // directly; the script, then the first declared region, if any.
         return Promise.resolve(
-            regions.length > 0 ? `${language}-${regions[0]}` : language,
+            toBCP47({ language, regions, ...(script ? { script } : {}) }),
         );
     }
 
@@ -369,7 +372,7 @@ export default class ClaudeTranslator implements Translator {
         // Empty for a locale that declares no conventions, so its prompt is
         // unchanged (and still cached) by this section existing.
         const conventions = getConventionsForPrompt(targetText);
-        return `You are an expert localizer for Wordplay, a programming language for interactive typography. Translate each given string from ${sourceLocale} to ${targetLocale}.
+        return `You are an expert localizer for Wordplay, a programming language for interactive typography. Translate each given string from ${sourceLocale} to ${targetLocale}${getScriptNote(targetLocale)}.
 
 Rules:
 - Translate the natural-language text only. Preserve Wordplay markup exactly:
@@ -381,7 +384,7 @@ Rules:
   - Text between slashes (/like this/) is italic. It usually names something on screen — a button, list, setting, or mode — or an input. Translate it to the name this language's interface uses for that thing (see "Interface names" below when it lists it) and keep the slashes. Leave key names and key combinations (/ctrl+9/, /Enter/) exactly as written.
 ${getPluralRulesForPrompt(targetLocale)}
 - A blank line separates paragraphs. Keep the text organized into paragraphs — you may merge or re-break them where natural for the target language — but never insert a blank line anywhere except between paragraphs.
-- Translate fully into the target language, written in its own native script. Do NOT leave words in English or merely transliterate them unless the language genuinely has no equivalent — prefer the native word a young learner of that language would recognize. This applies to ordinary text, names, and key terms alike (it does NOT apply to the @Concept and $name references above, which always stay verbatim).
+- Translate fully into the target language, ${getScriptInstruction(targetLocale)}. Do NOT leave words in English or merely transliterate them unless the language genuinely has no equivalent — prefer the native word a young learner of that language would recognize. This applies to ordinary text, names, and key terms alike (it does NOT apply to the @Concept and $name references above, which always stay verbatim).
 - Write for young, multilingual learners.
 - Key terms — the glossary below. When one of these words appears as ordinary text (a bare word, NOT a $name mention or @Concept link above), translate it to its listed target-language word and use that same word consistently. Where a line shows only an English word, translate it naturally and keep that choice consistent.
 ${getGlossaryForPrompt(targetText)}${this.getInterfaceNames(targetLocale, targetText)}${
@@ -1344,4 +1347,24 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         log.good(`Translated ${text.length} strings with Claude.`);
         return result;
     }
+}
+
+/** What a locale tag's script subtag means, in words: nothing for a locale
+ *  written in its language's own script, so every such prompt is unchanged. */
+export function getScriptNote(targetLocale: string): string {
+    const script = getLocaleScript(targetLocale);
+    const language = getLocaleLanguage(targetLocale);
+    return script === undefined || language === undefined
+        ? ''
+        : ` — ${Languages[language].en} written in the ${Scripts[script].en} script, not in ${Scripts[Languages[language].scripts[0]].en} script`;
+}
+
+/** Which script a translation must be written in. A locale naming its script
+ *  is a romanization or other transcription of its language (Roman Urdu), so
+ *  "its own native script" would ask for exactly what it isn't. */
+export function getScriptInstruction(targetLocale: string): string {
+    const script = getLocaleScript(targetLocale);
+    return script === undefined
+        ? 'written in its own native script'
+        : `written entirely in the ${Scripts[script].en} script as its speakers write it there, never in any other script`;
 }

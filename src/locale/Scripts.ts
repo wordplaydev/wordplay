@@ -1194,6 +1194,11 @@ export const Scripts = {
 
 export type Script = keyof typeof Scripts;
 
+/** Whether a string is an ISO 15924 code Wordplay knows, by own key only. */
+export function isScript(text: string): text is Script {
+    return Object.hasOwn(Scripts, text);
+}
+
 export const Latin = ['Latn'] as const;
 export const Arab = ['Arab'] as const;
 export const LatinCyrillicGreek = ['Latn', 'Cyrl', 'Grek'] as const;

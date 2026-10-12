@@ -26,6 +26,11 @@ import { getCLDRCandidates } from '#locale/LanguageCode.ts';
 import { getLocaleLanguage, getLocaleRegions } from '#locale/LocaleText.ts';
 import { SupportedLocales } from '#locale/SupportedLocales.ts';
 import writeFormatted from '#util/verify-locales/writeFormatted.ts';
+import {
+    namesNeedTranslation,
+    translateNames,
+    type NameTranslator,
+} from '#util/verify-locales/scriptVariantNames.ts';
 import Log from '#util/verify-locales/Log.ts';
 import { must } from '#util/nullable.ts';
 
@@ -263,13 +268,23 @@ function loadEnglishNames(): Record<string, string[]> {
  *  stats for logging. Throws on a fatal fetch failure (callers may catch). */
 export default async function generateEmojisForLocale(
     locale: string,
+    /** Translates English names, for a locale CLDR has no names in (#1457). */
+    translate?: NameTranslator,
+    /** At most this many names bought per run, for sampling. */
+    limit?: number,
 ): Promise<{ used: string[]; matched: number; total: number }> {
     const english = await loadEnglish();
     const englishNames = loadEnglishNames();
     const emojiCodes = readEmojiCodes();
-    const { used, map } = await loadCLDRForLocale(locale);
+    // A locale in a script CLDR doesn't write its language in starts from
+    // English and has the names translated, rather than shipping another
+    // script's names.
+    const fromEnglish = namesNeedTranslation(locale);
+    const { used, map } = fromEnglish
+        ? { used: [], map: null }
+        : await loadCLDRForLocale(locale);
     const cldrMap = map ?? english;
-    const obj: Record<string, string[]> = {};
+    let obj: Record<string, string[]> = {};
     let matched = 0;
     for (const entry of emojiCodes) {
         if (cldrMap.has(stripVariationSelectors(hexToEmoji(entry.key))))
@@ -278,6 +293,13 @@ export default async function generateEmojisForLocale(
     }
     const dir = path.join('static', 'locales', locale);
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+    if (fromEnglish)
+        obj = await translateEmojiNames(
+            obj,
+            readExisting(path.join(dir, `${locale}-emojis.json`)),
+            translate,
+            limit,
+        );
     // Prettier-format (and write-if-changed) so output matches the committed
     // emoji files (short arrays inlined) and re-runs produce clean diffs.
     await writeFormatted(
@@ -285,6 +307,66 @@ export default async function generateEmojisForLocale(
         JSON.stringify(obj, null, 4),
     );
     return { used, matched, total: emojiCodes.length };
+}
+
+/** A locale's committed emoji names, or nothing if it has none yet. */
+function readExisting(file: string): Record<string, string[]> {
+    if (!existsSync(file)) return {};
+    const parsed: unknown = JSON.parse(readFileSync(file, 'utf8'));
+    return isRecord(parsed)
+        ? Object.fromEntries(
+              Object.entries(parsed).filter(
+                  (entry): entry is [string, string[]] =>
+                      isStringArray(entry[1]),
+              ),
+          )
+        : {};
+}
+
+/** Translate every English emoji name and keyword. An earlier run's entry is
+ *  reused name by name when it still lines up with the English; one that
+ *  doesn't (two keywords translated to one word and were merged) was finished,
+ *  and is kept whole so it isn't bought again on every run. */
+async function translateEmojiNames(
+    english: Record<string, string[]>,
+    existing: Record<string, string[]>,
+    translate: NameTranslator | undefined,
+    limit: number | undefined,
+): Promise<Record<string, string[]>> {
+    const keys = Object.keys(english);
+    const finished = (key: string) => {
+        const prior = existing[key];
+        return prior !== undefined &&
+            prior.length !== (english[key] ?? []).length
+            ? prior
+            : undefined;
+    };
+    const pending = keys.filter((key) => finished(key) === undefined);
+    const flat = pending.flatMap((key) => english[key] ?? []);
+    const previous = pending.flatMap((key) => {
+        const names = english[key] ?? [];
+        return names.map((_, index) => existing[key]?.[index]);
+    });
+    const translated = await translateNames(
+        flat,
+        previous,
+        translate,
+        limit ?? Infinity,
+    );
+    const byKey = new Map<string, string[]>();
+    let offset = 0;
+    for (const key of pending) {
+        const count = (english[key] ?? []).length;
+        byKey.set(key, translated.slice(offset, offset + count));
+        offset += count;
+    }
+    const result: Record<string, string[]> = {};
+    for (const key of keys) {
+        const names = finished(key) ?? byKey.get(key) ?? english[key] ?? [];
+        // A keyword can translate to the name itself; keep the set distinct.
+        result[key] = Array.from(new Set(names));
+    }
+    return result;
 }
 
 async function main(): Promise<void> {

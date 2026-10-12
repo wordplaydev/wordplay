@@ -24,7 +24,7 @@
         SupportedLocales,
         type SupportedLocale,
     } from '#locale/SupportedLocales.ts';
-    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import { getLocaleDirection } from '#locale/LanguageCode.ts';
     import {
         localesAreEqual,
         localeToString,
@@ -1184,7 +1184,7 @@
                 <div
                     class="translation"
                     lang={into?.language}
-                    dir={into ? getLanguageDirection(into.language) : undefined}
+                    dir={into ? getLocaleDirection(into) : undefined}
                 >
                     <div class="lang-tag">
                         {#if from}
@@ -1210,9 +1210,7 @@
                         <MarkupHTMLView
                             markup={translation.text.replaceAll('\n', '\n\n')}
                             lang={into?.language}
-                            dir={into
-                                ? getLanguageDirection(into.language)
-                                : undefined}
+                            dir={into ? getLocaleDirection(into) : undefined}
                         />
                     </div>
                 </div>

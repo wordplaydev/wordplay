@@ -767,6 +767,13 @@ test('resolving a color needs no basis', () => {
  * in `AnimatedText`, which a static import put over three budgets. What moves is
  * the input's name and doc in `en-US.json`, a few hundred bytes `Page.svelte`
  * had no slack for, so only its byte budget moves.
+ *
+ * A script as the third part of a locale's identity (#1457) is **+0 files** and a
+ * few hundred bytes on the three entries with no slack: parsing and printing the
+ * subtag, the locale-level direction/layout helpers in `LanguageCode.ts`, and a
+ * region name checked against the script it is shown in (`tagNames.ts`). All of
+ * it is in modules every page already carried, because every page decides its
+ * `dir` and `lang` from its locale, which is exactly what this changes.
  */
 // These are ceilings, not measurements: raise one only for code that genuinely belongs on
 // the page's graph, never to quiet a leak. Bytes creeping is usually `en-US.json` growing,
@@ -1028,11 +1035,11 @@ test('resolving a color needs no basis', () => {
 // `Tabbed` and `Mode`, and Tabbed knowing which tabs sit above a wrapped bar's bottom
 // row are the rest.
 test.each([
-    ['src/routes/+layout.svelte', 540, 4.21],
+    ['src/routes/+layout.svelte', 540, 4.22],
     ['src/components/app/Page.svelte', 563, 4.47],
-    ['src/routes/[[locale]]/+page.svelte', 578, 4.56],
+    ['src/routes/[[locale]]/+page.svelte', 578, 4.57],
     ['src/routes/[[locale]]/galleries/+page.svelte', 583, 4.57],
-    ['src/routes/[[locale]]/projects/+page.svelte', 592, 4.6],
+    ['src/routes/[[locale]]/projects/+page.svelte', 592, 4.61],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

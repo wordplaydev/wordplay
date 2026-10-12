@@ -268,6 +268,7 @@ Translation tools and script edits produce inconsistent indentation/escapes; pre
 - A replaced token needs `Spaces.withReplacement`, or its preceding space is orphaned.
 - A kept example is laid out from English (`spacingLike`).
 - A `Words` token holds its own intra-line spaces (trimmed by the model): `padLike` restores them; adds a boundary where English had none but the translation needs one.
+- An example goes to the translator with English's spaces (`exampleToTranslate`) — bare, `[1 2 3]` reads `[123]` and `Stack() [` an index — and comes back as the *outermost* example (`outermostExample`), since `nodes()` lists an interpolation like `\score\` first. Both shipped every newly bought example in English.
 
 **A garbled translation is retried alone before being given up on.** Every rejection in `translate()` — dropped `⟦n⟧`, unbalanced delimiter, residual mask — is the model losing track in a 25-string request. `ClaudeTranslator` re-translates just the failed strings, one unit each on the repair model, and re-validates. First attempt stays quiet so one string doesn't report two problems.
 
@@ -314,6 +315,13 @@ Translation tools and script edits produce inconsistent indentation/escapes; pre
 - Skip control sits under the dialog (the nav row is a fixed three-part layout with no room).
 - Refusal is announced (`tutorial-tour`, `interrupt` lane) — silence reads as broken. Interrupt is the only lane that re-presents identical text (the usual "vary text" rule can't apply — the refusal is the same event).
 - When the gate lifts, `TutorialView` takes focus back — a pointer-opened tour leaves focus on the body.
+
+**A locale may name its script, and anything about a locale's text must ask the locale, not its language (#1457).** Roman Urdu is `ur-Latn-PK`: language, then an optional ISO 15924 subtag, then regions. The subtag is set only when the script differs from the language's dominant one (`LocaleText.script`, `Locale.script`, `Tutorial.script`). Before it, `Latn` was silently dropped and the locale became Arabic-script `ur-PK`: right-to-left, the `ع` logo, Arabic CLDR names, a folder its artifacts weren't keyed by. Load-bearing:
+- Direction, layout, logo glyph and `lang`/`dir` go through `getLocaleWritingScript`/`getLocaleDirection` ([LanguageCode.ts](src/locale/LanguageCode.ts)), never `getLanguageDirection(locale.language)`. The language-keyed helpers remain for program `/lang` tags, whose syntax has no script subtag.
+- Browser matching stays language-first: a script never blocks a language match (`getBestSupportedLocales`).
+- The translator prompt names the script in words only when a locale has one, so every other locale's prompt (and its cache) is unchanged. `checkScriptLeak` re-queues a string or tutorial line holding letters of the language's other scripts.
+- CLDR has no Roman Urdu, so for a script-variant locale emoji names, months, eras and day periods come from English CLDR and are translated (`scriptVariantNames.ts`); patterns and calendar still come from the language. A translation is reused wherever it differs from the English, so `npm run datetimes` without a translator never regresses it. `WORDPLAY_NAMES_SAMPLE=n` caps how many are bought.
+- `start.ts` refuses a locale name that doesn't re-print to itself, and `localeDirectoryFiles.test.ts` holds every `locale.json` to its folder name.
 
 **A locale tag may be written by name, and a code always wins (#1220).** `/es`, `/Español`, `/Spanish` are one tag; `/es-MX`, `/es-México`, `/es-Mexico` are one. [tagNames.ts](src/locale/tagNames.ts) is the one decider: `foldTagName` strips case, accents, non-alphanumerics. Load-bearing:
 - Fold is locale-independent (plain `toLowerCase`, never `toLocaleLowerCase(reader)`) — programs must mean the same to everyone (see [casing.ts](src/unicode/casing.ts)).

@@ -8,8 +8,7 @@
     import { locales } from '#db/Database.ts';
     import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import { hasEmoji } from '#unicode/emoji.ts';
-    import { getLogoGlyphForLanguage } from './logoGlyph';
-    import { must } from '#util/nullable.ts';
+    import { getLogoGlyphForLocale } from './logoGlyph';
     import {
         LOGO_BUBBLE_PATH,
         LOGO_CENTER_X,
@@ -54,11 +53,7 @@
     }: Props = $props();
 
     const shownGlyph = $derived(
-        glyph ??
-            getLogoGlyphForLanguage(
-                // There is always a primary language.
-                must($locales.getLanguages()[0], 'the primary language'),
-            ),
+        glyph ?? getLogoGlyphForLocale($locales.getLocale()),
     );
 
     // Glyphs are fitted to the bubble by their ink box, not their em box —

@@ -5,6 +5,7 @@ import type NodeTexts from '#locale/NodeTexts.ts';
 import type OutputTexts from '#locale/OutputTexts.ts';
 import type BasisTexts from '#locale/BasisTexts.ts';
 import type LanguageCode from '#locale/LanguageCode.ts';
+import type { Script } from '#locale/Scripts.ts';
 import type { RegionCode } from '#locale/Regions.ts';
 import type { ThemeName } from './ThemeNames';
 import { isEmotion, type Emotion } from '../lore/Emotion';
@@ -26,6 +27,8 @@ export type Tutorial = {
     $schema: string;
     language: LanguageCode;
     regions: RegionCode[];
+    /** The locale's script, when it names one (`Latn` for `ur-Latn-PK`). */
+    script?: Script;
     /** The acts of the tutorial. Variable length so that different tutorial modes (e.g. the
      * "quick" tour) can have their own structure; see TutorialMode. */
     acts: Act[];

@@ -8,7 +8,11 @@ import type BasisTexts from '#locale/BasisTexts.ts';
 import type { GalleryTexts } from '#locale/GalleryTexts.ts';
 import type InputTexts from '#locale/InputTexts.ts';
 import type LanguageCode from '#locale/LanguageCode.ts';
-import { isLanguageCode, Languages } from '#locale/LanguageCode.ts';
+import {
+    getLanguageNameInScript,
+    isLanguageCode,
+    Languages,
+} from '#locale/LanguageCode.ts';
 import type Locale from '#locale/Locale.ts';
 import type { ModerationTexts } from '#locale/ModerationTexts.ts';
 import type NodeTexts from '#locale/NodeTexts.ts';
@@ -17,6 +21,7 @@ import type { PhotosensitivityTexts } from '#locale/PhotosensitivityTexts.ts';
 import type { KeywordId } from '#parser/Keywords.ts';
 import type OutputTexts from '#locale/OutputTexts.ts';
 import { isRegionCode, type RegionCode } from '#locale/Regions.ts';
+import { isScript, type Script } from '#locale/Scripts.ts';
 import { getRegionName } from '#locale/tagNames.ts';
 import { DraftLocales } from '#locale/SupportedLocales.ts';
 import type GlossaryTexts from '#locale/GlossaryTexts.ts';
@@ -36,6 +41,8 @@ export type LocaleText = {
     language: LanguageCode;
     /** An ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     regions: RegionCode[];
+    /** An ISO 15924 script code, only when this locale is written in a script other than its language's dominant one (`Latn` for Roman Urdu). Part of the locale's name, between language and region (`ur-Latn-PK`). */
+    script?: Script;
     /** [formatted] Guidance for contributors writing this locale, in this locale's language: conventions this locale follows that the glossary doesn't cover, such as form of address, tone, gendered forms, and terminology choices. Unlike every other field, this is original content, not a translation of the English, so it is never machine translated and may be empty. */
     guidance: FormattedText;
     /** A glossary of widely-used terms not already defined by a concept, each with a localized word and a learner-facing definition. Words are referenced symbolically as @term in documentation and descriptions. */
@@ -126,7 +133,7 @@ export type DocText = string | string[];
 
 export function toLocaleString(locale: Locale) {
     const languages = locale.multilingual ?? [locale.language];
-    return `${languages.join('_')}${locale.regions.map((r) => `-${r}`).join('')}`;
+    return `${languages.join('_')}${locale.script ? `-${locale.script}` : ''}${locale.regions.map((r) => `-${r}`).join('')}`;
 }
 
 export function toDocString(doc: DocText) {
@@ -194,12 +201,13 @@ export function getLocaleLanguages(locale: string | Locale): LanguageCode[] {
 export function getLocaleLanguageName(
     locale: string | Locale,
 ): string | undefined {
-    if (typeof locale === 'string') {
-        const language = getLocaleLanguage(locale);
-        return language ? Languages[language]?.name : undefined;
-    } else {
-        return Languages[locale.language]?.name;
-    }
+    const language =
+        typeof locale === 'string'
+            ? getLocaleLanguage(locale)
+            : locale.language;
+    return language
+        ? getLanguageNameInScript(language, getLocaleScript(locale))
+        : undefined;
 }
 
 /** Localized display of every language in a multilingual tag, joined with
@@ -225,6 +233,19 @@ export function getLanguageLocalDescription(locale: Locale) {
     return `${language ?? '–'}${regions.length > 0 ? ` [${regions.join('|')}]` : ''} (${localeString})`;
 }
 
+/** The script subtag of a locale (`Latn` in `ur-Latn-PK`), if it names one.
+ *  BCP 47 places it after the language and before any region, and spells it as
+ *  four letters with only the first capitalized. */
+export function getLocaleScript(locale: string | Locale): Script | undefined {
+    if (typeof locale !== 'string') return locale.script;
+    const segment = locale.split('-')[1];
+    return segment !== undefined &&
+        /^[A-Z][a-z]{3}$/.test(segment) &&
+        isScript(segment)
+        ? segment
+        : undefined;
+}
+
 export function getLocaleRegions(locale: string | Locale): RegionCode[] {
     if (typeof locale === 'string') {
         const parts = locale.split('-');
@@ -237,7 +258,10 @@ export function getLocaleRegions(locale: string | Locale): RegionCode[] {
  *  not "Mexico" — matching how the language beside it is already shown in its
  *  own language rather than in English. */
 export function getLocaleRegionNames(locale: string | Locale): string[] {
-    return getLocaleRegions(locale).map(getRegionName);
+    const script = getLocaleScript(locale);
+    return getLocaleRegions(locale).map((region) =>
+        getRegionName(region, script),
+    );
 }
 
 export function isLocaleDraft(locale: string): boolean {
