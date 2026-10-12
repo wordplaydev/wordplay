@@ -11,6 +11,7 @@ import DefaultLocale from '#locale/DefaultLocale.ts';
 import type LanguageCode from '#locale/LanguageCode.ts';
 import type { Locale } from '#locale/Locale.ts';
 import type LocaleText from '#locale/LocaleText.ts';
+import { getLocaleScript } from '#locale/LocaleText.ts';
 import type { RegionCode } from '#locale/Regions.ts';
 import Docs from '#nodes/Docs.ts';
 import Names from '#nodes/Names.ts';
@@ -101,7 +102,12 @@ export async function verifyKits(
     /** Redo a kit already translated into this locale, rather than skipping it. */
     override = false,
 ): Promise<void> {
-    const targetLocale: Locale = { language, regions };
+    const script = getLocaleScript(locale);
+    const targetLocale: Locale = {
+        language,
+        regions,
+        ...(script ? { script } : {}),
+    };
     const sourceLocale: Locale = { language: 'en', regions: ['US'] };
     const wanted =
         kitIds === undefined || kitIds.length === 0
@@ -110,7 +116,11 @@ export async function verifyKits(
     let backendLocale = locale;
     if (translateContent && translator !== undefined) {
         try {
-            backendLocale = await translator.getTargetLocale(language, regions);
+            backendLocale = await translator.getTargetLocale(
+                language,
+                regions,
+                script,
+            );
         } catch (error) {
             log.bad(`Failed to get the target locale: ${error}`);
             return;

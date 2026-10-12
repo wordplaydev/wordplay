@@ -150,8 +150,13 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 这里的每个名字都是一份单个字符的列表，你可以随机挑一个、逐个走一遍，或者把它们撒到舞台上。
 
 \Phrase(hiragana.random() 5m)\⭐¶/zh
+¶Huroof aur nishaanaat, istemaal ke liye tayyar.
 
-ƒ chars,caracteres/es,حروف/ar,আখৰ2/as,অক্ষর2/bn,zeichen/de,χαρακτήρες/el,نویسه‌ها2/fa,caractères/fr,અક્ષરો/gu,תווים2/he,अक्षर/hi,karakter/id,文字2/ja,ಅಕ್ಷರಗಳು/kn,문자/ko,अक्षरे2/mr,अक्षरहरू/ne,ਅੱਖਰ/pa,znaki2/pl,carateres/pt,caractere/ro,знакови2/sr,tecken2/sv,எழுத்துக்கள்/ta,అక్షరాలు/te,mgaKarakter/tl,karakterler/tr,kýTự/vi,字符/zh(text,texto2/es,نص2/ar,পাঠ2/as,লেখা2/bn,text2/de,κείμενο2/el,متن2/fa,texte2/fr,લખાણ2/gu,טקסט2/he,टेक्स्ट2/hi,teks2/id,テキスト2/ja,ಪಠ್ಯ2/kn,텍스트2/ko,मजकूर2/mr,पाठ2/ne,ਲਿਖਤ2/pa,tekst2/pl,texto3/pt,text3/ro,текст2/sr,text4/sv,உரை2/ta,పాఠ్యం/te,teksto2/tl,metin2/tr,vănBản2/vi,文本2/zh•'') text → ['']
+Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se koi bhi ek chun sakte hain, un par ek ek kar ke chal sakte hain, ya unhein stage par bikher sakte hain.
+
+\Phrase(hiragana.random() 5m)\⭐¶/ur
+
+ƒ chars,caracteres/es,حروف/ar,আখৰ2/as,অক্ষর2/bn,zeichen/de,χαρακτήρες/el,نویسه‌ها2/fa,caractères/fr,અક્ષરો/gu,תווים2/he,अक्षर/hi,karakter/id,文字2/ja,ಅಕ್ಷರಗಳು/kn,문자/ko,अक्षरे2/mr,अक्षरहरू/ne,ਅੱਖਰ/pa,znaki2/pl,carateres/pt,caractere/ro,знакови2/sr,tecken2/sv,எழுத்துக்கள்/ta,అక్షరాలు/te,mgaKarakter/tl,karakterler/tr,kýTự/vi,字符/zh,huroof/ur(text,texto2/es,نص2/ar,পাঠ2/as,লেখা2/bn,text2/de,κείμενο2/el,متن2/fa,texte2/fr,લખાણ2/gu,טקסט2/he,टेक्स्ट2/hi,teks2/id,テキスト2/ja,ಪಠ್ಯ2/kn,텍스트2/ko,मजकूर2/mr,पाठ2/ne,ਲਿਖਤ2/pa,tekst2/pl,texto3/pt,text3/ro,текст2/sr,text4/sv,உரை2/ta,పాఠ్యం/te,teksto2/tl,metin2/tr,vănBản2/vi,文本2/zh,matn/ur•'') text → ['']
 
 ¶The 26 letters of the English alphabet, in lower case.¶
 ¶Las 26 letras del alfabeto inglés, en minúscula.¶/es
@@ -183,7 +188,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶İngiliz alfabesinin küçük harfle yazılmış 26 harfi.¶/tr
 ¶26 chữ cái của bảng chữ cái tiếng Anh, viết thường.¶/vi
 ¶英语字母表的 26 个字母，小写形式。¶/zh
-↑ latin/en,latín/es,لاتيني/ar,লেটিন/as,লাতিন/bn,latein/de,λατινικά/el,لاتین/fa,latin2/fr,લેટિન/gu,לטינית/he,लैटिन/hi,latin3/id,ラテン文字/ja,ಲ್ಯಾಟಿನ್/kn,라틴문자/ko,लॅटिन/mr,ल्याटिन/ne,ਲਾਤੀਨੀ/pa,łacińskie/pl,latim/pt,latină/ro,латиница/sr,latin4/sv,லத்தீன்/ta,లాటిన్/te,latin5/tl,latin6/tr,laTinh/vi,拉丁字母/zh: chars(
+¶Angrezi huroof-e-tahajji ke 26 huroof, chhote huroof mein.¶/ur
+↑ latin/en,latín/es,لاتيني/ar,লেটিন/as,লাতিন/bn,latein/de,λατινικά/el,لاتین/fa,latin2/fr,લેટિન/gu,לטינית/he,लैटिन/hi,latin3/id,ラテン文字/ja,ಲ್ಯಾಟಿನ್/kn,라틴문자/ko,लॅटिन/mr,ल्याटिन/ne,ਲਾਤੀਨੀ/pa,łacińskie/pl,latim/pt,latină/ro,латиница/sr,latin4/sv,லத்தீன்/ta,లాటిన్/te,latin5/tl,latin6/tr,laTinh/vi,拉丁字母/zh,latin7/ur: chars(
 		'abcdefghijklmnopqrstuvwxyz'/en
 	)
 
@@ -217,7 +223,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶İngiliz alfabesinin büyük harfle yazılmış 26 harfi.¶/tr
 ¶26 chữ cái của bảng chữ cái tiếng Anh, viết hoa.¶/vi
 ¶英语字母表的 26 个字母，大写形式。¶/zh
-↑ latinUpper/en,latínMayúsculas/es,لاتينيكبير/ar,লেটিনডাঙৰআখৰ/as,লাতিনবড়হাতের/bn,lateinGroßbuchstaben/de,λατινικάΚεφαλαία/el,لاتینبزرگ/fa,latinMajuscule/fr,લેટિનમોટાઅક્ષરો/gu,לטיניתרישיות/he,लैटिनबड़ेअक्षर/hi,latinKapital/id,ラテン大文字/ja,ಲ್ಯಾಟಿನ್ದೊಡ್ಡಕ್ಷರ/kn,라틴대문자/ko,लॅटिनमोठीअक्षरे/mr,ल्याटिनठूलोअक्षर/ne,ਲਾਤੀਨੀਵੱਡੇ/pa,łacińskieWielkie/pl,latimMaiúsculo/pt,latinăMajusculă/ro,латиницаВеликаСлова/sr,latinVersaler/sv,லத்தீன்பெரியஎழுத்து/ta,లాటిన్పెద్దఅక్షరాలు/te,latinMalaki/tl,latinBüyükHarf/tr,laTinhHoa/vi,拉丁大写字母/zh: chars(
+¶Angrezi huroof-e-tahajji ke 26 huroof, bade huroof mein.¶/ur
+↑ latinUpper/en,latínMayúsculas/es,لاتينيكبير/ar,লেটিনডাঙৰআখৰ/as,লাতিনবড়হাতের/bn,lateinGroßbuchstaben/de,λατινικάΚεφαλαία/el,لاتینبزرگ/fa,latinMajuscule/fr,લેટિનમોટાઅક્ષરો/gu,לטיניתרישיות/he,लैटिनबड़ेअक्षर/hi,latinKapital/id,ラテン大文字/ja,ಲ್ಯಾಟಿನ್ದೊಡ್ಡಕ್ಷರ/kn,라틴대문자/ko,लॅटिनमोठीअक्षरे/mr,ल्याटिनठूलोअक्षर/ne,ਲਾਤੀਨੀਵੱਡੇ/pa,łacińskieWielkie/pl,latimMaiúsculo/pt,latinăMajusculă/ro,латиницаВеликаСлова/sr,latinVersaler/sv,லத்தீன்பெரியஎழுத்து/ta,లాటిన్పెద్దఅక్షరాలు/te,latinMalaki/tl,latinBüyükHarf/tr,laTinhHoa/vi,拉丁大写字母/zh,latinBadeHuroof/ur: chars(
 		'ABCDEFGHIJKLMNOPQRSTUVWXYZ'/en
 	)
 
@@ -251,10 +258,11 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Sıfırdan dokuza kadar on rakam, sayı olarak değil karakter olarak. Tek tek yazılmak yerine bir aralıktan oluşturulmuştur, çünkü art arda gelen on rakam bir telefon numarası gibi görünür.¶/tr
 ¶Mười chữ số, từ không đến chín, dưới dạng ký tự chứ không phải số. Được tạo ra từ một khoảng thay vì gõ trực tiếp, vì mười chữ số liền nhau đọc giống như một số điện thoại.¶/vi
 ¶零到九这十个数字，是以字符形式而不是数字形式给出的。它们是用一个范围生成的，而不是一个个打出来的，因为连续十个数字排在一起看起来像电话号码。¶/zh
-↑ digits/en,dígitos/es,أرقام2/ar,অঙ্ক/as,অঙ্ক2/bn,ziffern/de,ψηφία/el,رقم‌ها/fa,chiffres/fr,અંકો/gu,ספרות/he,अंक/hi,angka2/id,数字/ja,ಅಂಕಿಗಳು/kn,숫자2/ko,अंक2/mr,अंकहरू/ne,ਅੰਕ2/pa,cyfry/pl,dígitos2/pt,cifre/ro,цифре/sr,siffror/sv,இலக்கங்கள்/ta,అంకెలు/te,mgaDigit/tl,rakamlar/tr,chữSố/vi,数字2/zh: [
+¶Zero se nau tak ke das hindsay, adad ki bajaye huroof ki shakal mein. Yeh ek silsile se banaye gaye hain, haath se nahin likhe gaye, kyunki das hindsay ek saath likhein to phone number lagte hain.¶/ur
+↑ digits/en,dígitos/es,أرقام2/ar,অঙ্ক/as,অঙ্ক2/bn,ziffern/de,ψηφία/el,رقم‌ها/fa,chiffres/fr,અંકો/gu,ספרות/he,अंक/hi,angka2/id,数字/ja,ಅಂಕಿಗಳು/kn,숫자2/ko,अंक2/mr,अंकहरू/ne,ਅੰਕ2/pa,cyfry/pl,dígitos2/pt,cifre/ro,цифре/sr,siffror/sv,இலக்கங்கள்/ta,అంకెలు/te,mgaDigit/tl,rakamlar/tr,chữSố/vi,数字2/zh,ankon/ur: [
 		:0 ‥ 9
 	].translate(
-		ƒ(n,n3/es,ن3/ar,n4/as,n5/bn,n6/de,ν/el,n7/fa,n8/fr,n9/gu,n10/he,n11/hi,n12/id,n13/ja,n14/kn,n15/ko,n16/mr,n17/ne,n18/pa,n19/pl,n20/pt,n21/ro,н3/sr,n22/sv,n23/ta,n24/te,n25/tl,n26/tr,n27/vi,n28/zh•#) n → ''
+		ƒ(n,n3/es,ن3/ar,n4/as,n5/bn,n6/de,ν/el,n7/fa,n8/fr,n9/gu,n10/he,n11/hi,n12/id,n13/ja,n14/kn,n15/ko,n16/mr,n17/ne,n18/pa,n19/pl,n20/pt,n21/ro,н3/sr,n22/sv,n23/ta,n24/te,n25/tl,n26/tr,n27/vi,n28/zh,n2/ur•#) n → ''
 	)
 
 ¶The 24 letters of the Greek alphabet, in lower case.¶
@@ -287,7 +295,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Yunan alfabesinin küçük harfle yazılmış 24 harfi.¶/tr
 ¶24 chữ cái của bảng chữ cái Hy Lạp, viết thường.¶/vi
 ¶希腊字母表的 24 个字母，小写形式。¶/zh
-↑ greek/en,griego/es,يوناني/ar,গ্ৰীক/as,গ্রিক/bn,griechisch/de,ελληνικά/el,یونانی/fa,grec/fr,ગ્રીક/gu,יוונית/he,ग्रीक/hi,yunani/id,ギリシャ文字/ja,ಗ್ರೀಕ್/kn,그리스문자/ko,ग्रीक2/mr,ग्रीक3/ne,ਯੂਨਾਨੀ/pa,greckie/pl,grego/pt,greacă/ro,грчки/sr,grekiska/sv,கிரேக்கம்/ta,గ్రీక్/te,griyego/tl,yunanca/tr,hyLạp/vi,希腊字母/zh: chars(
+¶Yooni huroof-e-tahajji ke 24 huroof, chhote huroof mein.¶/ur
+↑ greek/en,griego/es,يوناني/ar,গ্ৰীক/as,গ্রিক/bn,griechisch/de,ελληνικά/el,یونانی/fa,grec/fr,ગ્રીક/gu,יוונית/he,ग्रीक/hi,yunani/id,ギリシャ文字/ja,ಗ್ರೀಕ್/kn,그리스문자/ko,ग्रीक2/mr,ग्रीक3/ne,ਯੂਨਾਨੀ/pa,greckie/pl,grego/pt,greacă/ro,грчки/sr,grekiska/sv,கிரேக்கம்/ta,గ్రీక్/te,griyego/tl,yunanca/tr,hyLạp/vi,希腊字母/zh,yooni/ur: chars(
 		'αβγδεζηθικλμνξοπρστυφχψω'/el
 	)
 
@@ -321,7 +330,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Rus alfabesinin küçük harfle yazılmış 33 harfi.¶/tr
 ¶33 chữ cái của bảng chữ cái tiếng Nga, viết thường.¶/vi
 ¶俄语字母表的 33 个字母，小写形式。¶/zh
-↑ cyrillic/en,cirílico/es,سيريلي/ar,চিৰিলিক/as,সিরিলিক/bn,kyrillisch/de,κυριλλικά/el,سیریلیک/fa,cyrillique/fr,સિરિલિક/gu,קירילית/he,सिरिलिक/hi,sirilik/id,キリル文字/ja,ಸಿರಿಲಿಕ್/kn,키릴문자/ko,सिरिलिक2/mr,सिरिलिक3/ne,ਸਿਰਿਲਿਕ/pa,cyrylica/pl,cirílico2/pt,chirilică/ro,ћирилица/sr,kyrilliska/sv,சிரிலிக்/ta,సిరిలిక్/te,cyrillic2/tl,kiril/tr,kirin/vi,西里尔字母/zh: chars(
+¶Roosi huroof-e-tahajji ke 33 huroof, chhote huroof mein.¶/ur
+↑ cyrillic/en,cirílico/es,سيريلي/ar,চিৰিলিক/as,সিরিলিক/bn,kyrillisch/de,κυριλλικά/el,سیریلیک/fa,cyrillique/fr,સિરિલિક/gu,קירילית/he,सिरिलिक/hi,sirilik/id,キリル文字/ja,ಸಿರಿಲಿಕ್/kn,키릴문자/ko,सिरिलिक2/mr,सिरिलिक3/ne,ਸਿਰਿਲਿਕ/pa,cyrylica/pl,cirílico2/pt,chirilică/ro,ћирилица/sr,kyrilliska/sv,சிரிலிக்/ta,సిరిలిక్/te,cyrillic2/tl,kiril/tr,kirin/vi,西里尔字母/zh,sirilik2/ur: chars(
 		'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'/ru
 	)
 
@@ -355,7 +365,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Arap alfabesinin, sağdan sola yazılan 28 harfi.¶/tr
 ¶28 chữ cái của bảng chữ cái Ả Rập, viết từ phải sang trái.¶/vi
 ¶阿拉伯字母表的 28 个字母，从右向左书写。¶/zh
-↑ arabic/en,árabe/es,عربي/ar,আৰবী/as,আরবি/bn,arabisch/de,αραβικά/el,عربی/fa,arabe/fr,અરબી/gu,ערבית/he,अरबी/hi,arab/id,アラビア文字/ja,ಅರಬ್ಬಿ/kn,아랍문자/ko,अरबी2/mr,अरबी3/ne,ਅਰਬੀ/pa,arabskie/pl,árabe2/pt,arabă/ro,арапски/sr,arabiska/sv,அரபு/ta,అరబిక్/te,arabik/tl,arapça/tr,ảRập/vi,阿拉伯字母/zh: chars(
+¶Arabi huroof-e-tahajji ke 28 huroof, jo daayein se baayein likhe jate hain.¶/ur
+↑ arabic/en,árabe/es,عربي/ar,আৰবী/as,আরবি/bn,arabisch/de,αραβικά/el,عربی/fa,arabe/fr,અરબી/gu,ערבית/he,अरबी/hi,arab/id,アラビア文字/ja,ಅರಬ್ಬಿ/kn,아랍문자/ko,अरबी2/mr,अरबी3/ne,ਅਰਬੀ/pa,arabskie/pl,árabe2/pt,arabă/ro,арапски/sr,arabiska/sv,அரபு/ta,అరబిక్/te,arabik/tl,arapça/tr,ảRập/vi,阿拉伯字母/zh,arabi/ur: chars(
 		'ابتثجحخدذرزسشصضطظعغفقكلمنهوي'/ar
 	)
 
@@ -389,7 +400,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶İbrani alfabesinin, sağdan sola yazılan 22 harfi.¶/tr
 ¶22 chữ cái của bảng chữ cái Do Thái, viết từ phải sang trái.¶/vi
 ¶希伯来字母表的 22 个字母，从右向左书写。¶/zh
-↑ hebrew/en,hebreo/es,عبري/ar,হিব্ৰু/as,হিব্রু/bn,hebräisch/de,εβραϊκά/el,عبری/fa,hébreu/fr,હિબ્રૂ/gu,עברית/he,हिब्रू/hi,ibrani/id,ヘブライ文字/ja,ಹೀಬ್ರೂ/kn,히브리문자/ko,हिब्रू2/mr,हिब्रू3/ne,ਹਿਬਰੂ/pa,hebrajskie/pl,hebraico/pt,ebraică/ro,хебрејски/sr,hebreiska/sv,எபிரேயம்/ta,హీబ్రూ/te,hebreo2/tl,ibranice/tr,hebrew2/vi,希伯来字母/zh: chars(
+¶Ibrani huroof-e-tahajji ke 22 huroof, jo daayein se baayein likhe jate hain.¶/ur
+↑ hebrew/en,hebreo/es,عبري/ar,হিব্ৰু/as,হিব্রু/bn,hebräisch/de,εβραϊκά/el,عبری/fa,hébreu/fr,હિબ્રૂ/gu,עברית/he,हिब्रू/hi,ibrani/id,ヘブライ文字/ja,ಹೀಬ್ರೂ/kn,히브리문자/ko,हिब्रू2/mr,हिब्रू3/ne,ਹਿਬਰੂ/pa,hebrajskie/pl,hebraico/pt,ebraică/ro,хебрејски/sr,hebreiska/sv,எபிரேயம்/ta,హీబ్రూ/te,hebreo2/tl,ibranice/tr,hebrew2/vi,希伯来字母/zh,ibrani2/ur: chars(
 		'אבגדהוזחטיכלמנסעפצקרשת'/he
 	)
 
@@ -423,7 +435,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶İki Japon hece yazısından biri olan temel 46 hiragana.¶/tr
 ¶46 chữ hiragana cơ bản, một trong hai bảng chữ cái âm tiết của tiếng Nhật.¶/vi
 ¶46 个基本平假名，是日语两种音节文字之一。¶/zh
-↑ hiragana/en,hiragana2/es,هيراغانا/ar,হিৰাগানা/as,হিরাগানা/bn,hiragana3/de,χιραγκάνα/el,هیراگانا/fa,hiragana4/fr,હિરાગાના/gu,היראגנה/he,हिरागाना/hi,hiragana5/id,ひらがな/ja,ಹಿರಗಾನ/kn,히라가나/ko,हिरागाना2/mr,हिरागाना3/ne,ਹੀਰਾਗਾਨਾ/pa,hiragana6/pl,hiragana7/pt,hiragana8/ro,хирагана/sr,hiragana9/sv,ஹிரகனா/ta,హిరగన/te,hiragana10/tl,hiragana11/tr,hiragana12/vi,平假名/zh: chars(
+¶46 buniyadi hiragana, jo Japani zubaan ke do huroof ke silsilon mein se ek hai.¶/ur
+↑ hiragana/en,hiragana2/es,هيراغانا/ar,হিৰাগানা/as,হিরাগানা/bn,hiragana3/de,χιραγκάνα/el,هیراگانا/fa,hiragana4/fr,હિરાગાના/gu,היראגנה/he,हिरागाना/hi,hiragana5/id,ひらがな/ja,ಹಿರಗಾನ/kn,히라가나/ko,हिरागाना2/mr,हिरागाना3/ne,ਹੀਰਾਗਾਨਾ/pa,hiragana6/pl,hiragana7/pt,hiragana8/ro,хирагана/sr,hiragana9/sv,ஹிரகனா/ta,హిరగన/te,hiragana10/tl,hiragana11/tr,hiragana12/vi,平假名/zh,hiragana13/ur: chars(
 		'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'/ja
 	)
 
@@ -457,7 +470,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Başka dillerden alınan kelimeler için kullanılan Japon hece yazısı olan temel 46 katakana.¶/tr
 ¶46 chữ katakana cơ bản, bảng chữ cái âm tiết của tiếng Nhật dùng cho các từ mượn từ ngôn ngữ khác.¶/vi
 ¶46 个基本片假名，是用来书写外来词的日语音节文字。¶/zh
-↑ katakana/en,katakana2/es,كاتاكانا/ar,কাটাকানা/as,কাতাকানা/bn,katakana3/de,κατακάνα/el,کاتاکانا/fa,katakana4/fr,કાટાકાના/gu,קטקנה/he,कातकाना/hi,katakana5/id,カタカナ/ja,ಕಟಕಾನ/kn,가타카나/ko,काताकाना/mr,काताकाना2/ne,ਕਾਟਾਕਾਨਾ/pa,katakana6/pl,katakana7/pt,katakana8/ro,катакана/sr,katakana9/sv,கடகனா/ta,కటకన/te,katakana10/tl,katakana11/tr,katakana12/vi,片假名/zh: chars(
+¶46 buniyadi katakana, jo Japani huroof ka woh silsila hai jo doosri zubaanon se liye gaye alfaaz ke liye istemaal hota hai.¶/ur
+↑ katakana/en,katakana2/es,كاتاكانا/ar,কাটাকানা/as,কাতাকানা/bn,katakana3/de,κατακάνα/el,کاتاکانا/fa,katakana4/fr,કાટાકાના/gu,קטקנה/he,कातकाना/hi,katakana5/id,カタカナ/ja,ಕಟಕಾನ/kn,가타카나/ko,काताकाना/mr,काताकाना2/ne,ਕਾਟਾਕਾਨਾ/pa,katakana6/pl,katakana7/pt,katakana8/ro,катакана/sr,katakana9/sv,கடகனா/ta,కటకన/te,katakana10/tl,katakana11/tr,katakana12/vi,片假名/zh,katakana13/ur: chars(
 		'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン'/ja
 	)
 
@@ -491,7 +505,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Kore alfabesinin 24 harfi: önce 14 ünsüz, sonra 10 ünlü.¶/tr
 ¶24 chữ cái của bảng chữ cái tiếng Hàn: 14 phụ âm, sau đó là 10 nguyên âm.¶/vi
 ¶韩语字母表的 24 个字母：先是 14 个辅音，再是 10 个元音。¶/zh
-↑ hangul/en,hangul2/es,هانغول/ar,হাংগুল/as,হাঙ্গুল/bn,hangul3/de,χανγκούλ/el,هانگول/fa,hangeul/fr,હાનગુલ/gu,האנגול/he,हांगुल/hi,hangul4/id,ハングル/ja,ಹಂಗುಲ್/kn,한글/ko,हांगुल2/mr,हान्गुल/ne,ਹਾਂਗੁਲ/pa,hangul5/pl,hangul6/pt,hangul7/ro,хангул/sr,hangul8/sv,ஹங்குல்/ta,హంగుల్/te,hangul9/tl,hangul10/tr,hangul11/vi,韩文字母/zh: chars(
+¶Korean huroof-e-tahajji ke 24 huroof: 14 sakin huroof, phir 10 harkat wale huroof.¶/ur
+↑ hangul/en,hangul2/es,هانغول/ar,হাংগুল/as,হাঙ্গুল/bn,hangul3/de,χανγκούλ/el,هانگول/fa,hangeul/fr,હાનગુલ/gu,האנגול/he,हांगुल/hi,hangul4/id,ハングル/ja,ಹಂಗುಲ್/kn,한글/ko,हांगुल2/mr,हान्गुल/ne,ਹਾਂਗੁਲ/pa,hangul5/pl,hangul6/pt,hangul7/ro,хангул/sr,hangul8/sv,ஹங்குல்/ta,హంగుల్/te,hangul9/tl,hangul10/tr,hangul11/vi,韩文字母/zh,hangul12/ur: chars(
 		'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ'/ko
 	)
 
@@ -525,7 +540,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Tay alfabesinin 44 ünsüzü.¶/tr
 ¶44 phụ âm của bảng chữ cái tiếng Thái.¶/vi
 ¶泰语字母表的 44 个辅音。¶/zh
-↑ thai/en,tailandés/es,تايلاندي/ar,থাই/as,থাই2/bn,thai2/de,ταϊλανδικά/el,تایلندی/fa,thaï/fr,થાઈ/gu,תאית/he,थाई/hi,thai3/id,タイ文字/ja,ಥಾಯ್/kn,태국문자/ko,थाई2/mr,थाई3/ne,ਥਾਈ/pa,tajskie/pl,tailandês/pt,thailandeză/ro,тајландски/sr,thailändska/sv,தாய்/ta,థాయ్/te,thai4/tl,tayca/tr,thái/vi,泰文字母/zh: chars(
+¶Thai huroof-e-tahajji ke 44 sakin huroof.¶/ur
+↑ thai/en,tailandés/es,تايلاندي/ar,থাই/as,থাই2/bn,thai2/de,ταϊλανδικά/el,تایلندی/fa,thaï/fr,થાઈ/gu,תאית/he,थाई/hi,thai3/id,タイ文字/ja,ಥಾಯ್/kn,태국문자/ko,थाई2/mr,थाई3/ne,ਥਾਈ/pa,tajskie/pl,tailandês/pt,thailandeză/ro,тајландски/sr,thailändska/sv,தாய்/ta,థాయ్/te,thai4/tl,tayca/tr,thái/vi,泰文字母/zh,thai5/ur: chars(
 		'กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ'/th
 	)
 
@@ -559,7 +575,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Bir hikayede veya oyunda karakter olarak kullanılacak yüzler.¶/tr
 ¶Những khuôn mặt để dùng làm nhân vật trong một câu chuyện hay một trò chơi.¶/vi
 ¶可以用作故事或游戏里角色的面孔。¶/zh
-↑ faces/en,caras/es,وجوه/ar,মুখমণ্ডল/as,মুখ2/bn,gesichter/de,πρόσωπα/el,چهره‌ها/fa,visages/fr,ચહેરાઓ/gu,פרצופים/he,चेहरे/hi,wajah2/id,顔2/ja,ಮುಖಗಳು/kn,얼굴2/ko,चेहरे2/mr,अनुहारहरू/ne,ਚਿਹਰੇ/pa,twarze/pl,rostos/pt,fețe/ro,лица/sr,ansikten/sv,முகங்கள்/ta,ముఖాలు/te,mgaMukha/tl,yüzler/tr,khuônMặt2/vi,表情2/zh: chars(
+¶Chehre jo aap kisi kahani ya khel mein kirdaar ke taur par istemaal kar sakte hain.¶/ur
+↑ faces/en,caras/es,وجوه/ar,মুখমণ্ডল/as,মুখ2/bn,gesichter/de,πρόσωπα/el,چهره‌ها/fa,visages/fr,ચહેરાઓ/gu,פרצופים/he,चेहरे/hi,wajah2/id,顔2/ja,ಮುಖಗಳು/kn,얼굴2/ko,चेहरे2/mr,अनुहारहरू/ne,ਚਿਹਰੇ/pa,twarze/pl,rostos/pt,fețe/ro,лица/sr,ansikten/sv,முகங்கள்/ta,ముఖాలు/te,mgaMukha/tl,yüzler/tr,khuônMặt2/vi,表情2/zh,chehre/ur: chars(
 		'😀😃😄😁😆😅😂🙂🙃😉😊😇🥰😍🤩😘😋😜🤪🤨😐😶😏😒🙄😬😮😯😲😳🥺😢😭😤😠😡🤯😱😨😰😥'
 	)
 
@@ -593,7 +610,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Bir hikayede veya oyunda karakter olarak kullanılacak hayvanlar.¶/tr
 ¶Những con vật để dùng làm nhân vật trong một câu chuyện hay một trò chơi.¶/vi
 ¶可以用作故事或游戏里角色的动物。¶/zh
-↑ animals/en,animales/es,حيوانات/ar,প্রাণী2/bn,tiere/de,ζώα/el,حیوانات/fa,animaux/fr,પ્રાણીઓ/gu,חיות/he,जानवर2/hi,hewan2/id,動物/ja,ಪ್ರಾಣಿಗಳು/kn,동물2/ko,प्राणी2/mr,जनावरहरू/ne,ਜਾਨਵਰ2/pa,zwierzęta/pl,animais/pt,animale/ro,животиње/sr,djur2/sv,விலங்குகள்/ta,జంతువులు/te,mgaHayop/tl,hayvanlar/tr,độngVật2/vi,动物2/zh,জন্তু2/as: chars(
+¶Janwar jo aap kisi kahani ya khel mein kirdaar ke taur par istemaal kar sakte hain.¶/ur
+↑ animals/en,animales/es,حيوانات/ar,প্রাণী2/bn,tiere/de,ζώα/el,حیوانات/fa,animaux/fr,પ્રાણીઓ/gu,חיות/he,जानवर2/hi,hewan2/id,動物/ja,ಪ್ರಾಣಿಗಳು/kn,동물2/ko,प्राणी2/mr,जनावरहरू/ne,ਜਾਨਵਰ2/pa,zwierzęta/pl,animais/pt,animale/ro,животиње/sr,djur2/sv,விலங்குகள்/ta,జంతువులు/te,mgaHayop/tl,hayvanlar/tr,độngVật2/vi,动物2/zh,জন্তু2/as,janwar/ur: chars(
 		'🐶🐱🐭🐹🐰🦊🐻🐼🐨🐯🦁🐮🐷🐸🐵🐔🐧🐦🐤🦆🦅🦉🦇🐺🐗🐴🦄🐝🐛🦋🐌🐞🐢🐍🐙🦀🐠🐟🐬🐳'
 	)
 
@@ -627,7 +645,8 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Bir hikayede veya oyunda karakter olarak kullanılacak yiyecekler.¶/tr
 ¶Những món ăn để dùng làm nhân vật trong một câu chuyện hay một trò chơi.¶/vi
 ¶可以用作故事或游戏里角色的食物。¶/zh
-↑ food/en,comida/es,طعام/ar,খাদ্য/as,খাবার/bn,essen/de,φαγητό/el,خوراکی/fa,nourriture/fr,ખોરાક/gu,אוכל/he,खाना/hi,makanan/id,食べ物/ja,ಆಹಾರ/kn,음식/ko,अन्न/mr,खाना2/ne,ਖਾਣਾ/pa,jedzenie/pl,comida2/pt,mâncare/ro,храна/sr,mat/sv,உணவு/ta,ఆహారం/te,pagkain/tl,yiyecek/tr,thứcĂn/vi,食物/zh: chars(
+¶Khaane peene ki cheezein jo aap kisi kahani ya khel mein kirdaar ke taur par istemaal kar sakte hain.¶/ur
+↑ food/en,comida/es,طعام/ar,খাদ্য/as,খাবার/bn,essen/de,φαγητό/el,خوراکی/fa,nourriture/fr,ખોરાક/gu,אוכל/he,खाना/hi,makanan/id,食べ物/ja,ಆಹಾರ/kn,음식/ko,अन्न/mr,खाना2/ne,ਖਾਣਾ/pa,jedzenie/pl,comida2/pt,mâncare/ro,храна/sr,mat/sv,உணவு/ta,ఆహారం/te,pagkain/tl,yiyecek/tr,thứcĂn/vi,食物/zh,khaana/ur: chars(
 		'🍎🍐🍊🍋🍌🍉🍇🍓🫐🍈🍒🍑🥭🍍🥥🥝🍅🥑🥦🥬🥒🌽🥕🧄🧅🥔🍠🥐🥯🍞🥖🧀🥚🍳🧈🥞🧇🥓🍔🍕'
 	)
 
@@ -661,6 +680,7 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 ¶Bir sahne kurmak için hava durumu ve gökyüzü.¶/tr
 ¶Thời tiết và bầu trời để dựng nên một khung cảnh.¶/vi
 ¶用来布置场景的天气和天空。¶/zh
-↑ weather/en,clima/es,طقس/ar,বতৰ/as,আবহাওয়া/bn,wetter/de,καιρός/el,آب‌وهوا/fa,météo/fr,હવામાન/gu,מזגאוויר/he,मौसम/hi,cuaca/id,天気/ja,ಹವಾಮಾನ/kn,날씨/ko,हवामान/mr,मौसम2/ne,ਮੌਸਮ/pa,pogoda/pl,tempo2/pt,vreme/ro,време/sr,väder/sv,வானிலை/ta,వాతావరణం/te,panahon2/tl,havaDurumu/tr,thờiTiết/vi,天气/zh: chars(
+¶Mausam aur aasmaan, jin se aap koi manzar sajaa sakte hain.¶/ur
+↑ weather/en,clima/es,طقس/ar,বতৰ/as,আবহাওয়া/bn,wetter/de,καιρός/el,آب‌وهوا/fa,météo/fr,હવામાન/gu,מזגאוויר/he,मौसम/hi,cuaca/id,天気/ja,ಹವಾಮಾನ/kn,날씨/ko,हवामान/mr,मौसम2/ne,ਮੌਸਮ/pa,pogoda/pl,tempo2/pt,vreme/ro,време/sr,väder/sv,வானிலை/ta,వాతావరణం/te,panahon2/tl,havaDurumu/tr,thờiTiết/vi,天气/zh,mausam/ur: chars(
 		'☀🌤⛅🌥☁🌦🌧⛈🌩🌨❄☃⛄🌬💨🌪🌫🌈☔💧🌊🌙⭐🌟✨⚡🔥'
 	)

@@ -7,6 +7,7 @@ import {
     toLocaleString,
 } from '#locale/LocaleText.ts';
 import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
+import { otherScriptsPattern } from '#util/verify-locales/checkScriptLeak.ts';
 import ConceptLink, {
     ConceptName,
     getConceptPropertyNames,
@@ -91,11 +92,14 @@ export async function verifyTutorial(
     // every run asked for English-to-English and dutifully handed the English back. The strings
     // came out marked `$~`, which reads as "translated, awaiting review", so nothing anywhere
     // reported that a whole locale's tutorial had never been translated at all.
-    const declared = `${tutorial.language}-${tutorial.regions[0] ?? ''}`;
+    const declared = `${tutorial.language}${tutorial.script ? `-${tutorial.script}` : ''}-${tutorial.regions[0] ?? ''}`;
     const expected = toLocaleString(locale);
-    if (tutorial.language !== locale.language)
+    if (
+        tutorial.language !== locale.language ||
+        tutorial.script !== locale.script
+    )
         log.bad(
-            `This tutorial says it is written in "${declared}", but it is ${expected}'s. The translator reads this to pick the target language, so it would translate ${expected} into ${declared}. Fix "language" and "regions".`,
+            `This tutorial says it is written in "${declared}", but it is ${expected}'s. The translator reads this to pick the target language, so it would translate ${expected} into ${declared}. Fix "language", "script" and "regions".`,
         );
 
     // Verify and (when repairing) fix the tutorial.
@@ -400,6 +404,10 @@ async function checkTutorial(
     // repair: the fallback below rewrites a link from the English at that index whenever the link
     // counts happen to match, so a correct translation gets replaced with a stranger's concept.
     const counterparts = alignTutorialLines(defaultTutorial, revised);
+    const otherScripts =
+        locale.script === undefined
+            ? undefined
+            : otherScriptsPattern(locale.script, locale);
     // Bring every dialog example's named inputs back in line with the names this locale
     // declares. A stored example spells names that live in the locale file, not here, so
     // re-translating one of those names strands every example that used it (#1323).
@@ -487,6 +495,27 @@ async function checkTutorial(
                             `A web link differs from en-US in ${where} in a way only a translation can fix.`,
                         );
                 }
+
+                // A locale written in another script than its language's
+                // (Roman Urdu) whose translation slipped back into that script.
+                if (otherScripts !== undefined)
+                    for (let index = 2; index < line.length; index++) {
+                        const text = String(line[index]);
+                        if (!otherScripts.test(text)) continue;
+                        if (
+                            Array.isArray(defaultLine) &&
+                            otherScripts.test(defaultLine.slice(2).join(' '))
+                        )
+                            continue;
+                        if (queuedForTranslation(text, false)) continue;
+                        const where = `act ${actIndex + 1} scene ${sceneIndex + 1}, line ${lineIndex}[${index}] of ${toLocaleString(locale)}`;
+                        log.bad(
+                            `Written partly in a script other than ${locale.script} in ${where}: "${withoutAnnotations(text).substring(0, 50)}..."`,
+                        );
+                        if (repair && isMachineTranslated(text))
+                            line[index] =
+                                Revised + text.slice(MachineTranslated.length);
+                    }
 
                 const defaultLinks = Array.isArray(defaultLine)
                     ? extractConceptLinks(defaultLine)
@@ -724,6 +753,7 @@ export async function translateTutorial(
     const targetLocale = await translator.getTargetLocale(
         tutorial.language,
         tutorial.regions,
+        tutorial.script,
     );
     const sourceLocale = 'en-US';
 

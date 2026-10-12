@@ -10,6 +10,10 @@ import {
     writeTimeZones,
 } from '#util/verify-locales/generateDateTimes.ts';
 import type Log from '#util/verify-locales/Log.ts';
+import {
+    namesNeedTranslation,
+    type NameTranslator,
+} from '#util/verify-locales/scriptVariantNames.ts';
 import Validator from '#util/verify-locales/Validator.ts';
 
 // Compile the DateTimeData schema (generated from the type by
@@ -108,16 +112,20 @@ export default async function verifyDateTimes(
     log: Log,
     locale: string,
     repair: boolean,
+    /** Translates English names, for a locale CLDR has no names in (#1457).
+     *  Given, the data is regenerated to buy any name not yet translated. */
+    translate?: NameTranslator,
 ): Promise<void> {
     // The canonical zone list is global; check it once, alongside en-US.
     let problems =
         locale === 'en-US'
             ? [...timeZoneProblems(), ...dateTimeProblems(locale)]
             : dateTimeProblems(locale);
-    if (problems.length > 0 && repair) {
+    const translating = translate !== undefined && namesNeedTranslation(locale);
+    if ((problems.length > 0 || translating) && repair) {
         log.pending(`Regenerating from CLDR ${CLDR_VERSION}`);
         try {
-            await writeDateTimesForLocale(locale);
+            await writeDateTimesForLocale(locale, translate);
             await rebuildDateTimesCore();
             if (locale === 'en-US') await writeTimeZones();
             problems =

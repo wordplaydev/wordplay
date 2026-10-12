@@ -1,7 +1,7 @@
 import { MachineTranslated } from '#locale/Annotations.ts';
 import type LanguageCode from '#locale/LanguageCode.ts';
 import type LocaleText from '#locale/LocaleText.ts';
-import { isMachineTranslated } from '#locale/LocaleText.ts';
+import { getLocaleScript, isMachineTranslated } from '#locale/LocaleText.ts';
 import type { RegionCode } from '#locale/Regions.ts';
 import {
     allBundleIds,
@@ -261,7 +261,11 @@ export async function verifyChangelog(
     }
 
     const backend = translator ?? getTranslator();
-    const targetLocale = await backend.getTargetLocale(language, regions);
+    const targetLocale = await backend.getTargetLocale(
+        language,
+        regions,
+        getLocaleScript(locale),
+    );
 
     log.say(`Translating ${todo.length} changelog entries.`);
     let refused = 0;

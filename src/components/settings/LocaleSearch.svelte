@@ -26,7 +26,7 @@
                 info?.en ?? '', // Latin name, e.g. "Spanish"
                 ...locale.regions, // region code, e.g. "MX"
                 ...locale.regions.map((r) => Regions[r]?.en ?? ''), // region name, e.g. "Mexico"
-                ...locale.regions.map(getRegionName), // its own name, e.g. "México"
+                ...locale.regions.map((r) => getRegionName(r)), // its own name, e.g. "México"
             ]
                 .join(' ')
                 .toLocaleLowerCase(languages);

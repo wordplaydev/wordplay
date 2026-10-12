@@ -1,0 +1,473 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "ur",
+    "regions": ["PK"],
+    "script": "Latn",
+    "guidance": "•Hamesha Roman Urdu mein likhein: sirf Latin huroof (a–z), kabhi Urdu rasm-ul-khat ke huroof nahin.\n\n•Aam aur maqbool hijje istemaal karein, jaise aap, hai, hain, kya, nahin, kyun, yeh, woh, mein, ke, ki, ka, ko, se, aur. Ek lafz ke hamesha ek hi hijje rakhein.\n\n•Lambi aawaaz ke liye harf dohraein (aa, ee, oo), jaise naam, theek, zaroori. Aakhir ki 'h' na chhorein, jaise yeh, woh, kehna.\n\n•Parhne wale se 'aap' keh kar baat karein, aur hukm ki shakal karein, dekhein, likhein rakhein.\n\n•Programming ke woh angrezi alfaaz jo Pakistan mein log waqai bolte hain (code, editor, stage, button, link, file) waise hi rakhein; baqi ke liye aam Urdu lafz chunein jo ek bachcha samajh sake.\n\n•Apostrophe (') kabhi istemaal na karein, chahe ain ya hamza ke liye ho: taleem, jamaat, shuru, maaloom likhein. Code mein ' matn ko band karta hai, is liye ek apostrophe poore program ko tor deta hai.",
+    "glossary": {
+        "wordplay": {
+            "word": "$~Wordplay",
+            "definition": "$~Yeh platform aur woh programming @language jis se is platform par mansoobe banaye jaate hain."
+        },
+        "value": {
+            "word": "$~qeemat",
+            "forms": ["values"],
+            "definition": "$~Maloomaat ka ek tukra, jaise ek @Number, kuch alfaaz, ya ek @List."
+        },
+        "type": {
+            "word": "$~qism",
+            "forms": ["types"],
+            "definition": "$~Kisi @value ki kisam, jaise @Number ya @Text. Qeemat ki qism tay karti hai ke aap us ke saath kya kar sakte hain."
+        },
+        "expression": {
+            "word": "$~izhaar",
+            "forms": ["expressions"],
+            "definition": "$~@code ka ek tukra jo chalne par ek @value paida karta hai."
+        },
+        "variable": {
+            "word": "$~mutaghayyar",
+            "forms": ["variables"],
+            "definition": "$~Ek @name jis ki @value us waqt badal sakti hai jab @Program chalta hai."
+        },
+        "parameter": {
+            "word": "$~pairaamitar",
+            "forms": ["parameters"],
+            "definition": "$~Ek naam wala @Input jis ki @FunctionDefinition ko tawaqqo hoti hai jab aap use bulate hain."
+        },
+        "argument": {
+            "word": "$~daleel",
+            "forms": ["arguments"],
+            "definition": "$~Ek @value jo aap ek @FunctionDefinition ko us ke kisi ek @parameters ke liye dete hain."
+        },
+        "operator": {
+            "word": "$~amil",
+            "forms": ["operators"],
+            "definition": "$~Ek nishaan, jaise + ya -, jo qeematon ko milata ya un ka muqabla karta hai."
+        },
+        "condition": {
+            "word": "$~shart",
+            "forms": ["conditions"],
+            "definition": "$~Sahi ya ghalat ka ek imtihan jo tay karta hai ke @Program aage kya karega."
+        },
+        "loop": {
+            "word": "$~chakkar",
+            "forms": ["loops", "looping"],
+            "definition": "$~@code jo kisi kaam ko kai baar dohraata hai."
+        },
+        "iteration": {
+            "word": "$~daur",
+            "forms": ["iterations"],
+            "definition": "$~@loop mein se ek guzar."
+        },
+        "recursion": {
+            "word": "$~takraar",
+            "forms": ["recursive"],
+            "definition": "$~Jab ek @FunctionDefinition masle ke chhote hisse ko sambhalne ke liye khud ko bulata hai."
+        },
+        "property": {
+            "word": "$~khaasiyat",
+            "forms": ["properties"],
+            "definition": "$~Kisi @value ka ek naam wala hissa, jaise @Color ki roshni."
+        },
+        "element": {
+            "word": "$~rukn",
+            "forms": ["elements"],
+            "definition": "$~Kisi @List ya guroh mein ek cheez."
+        },
+        "scope": {
+            "word": "$~daaira",
+            "forms": ["scopes"],
+            "definition": "$~@Program ka woh hissa jahan ek @name istemaal ho sakta hai."
+        },
+        "state": {
+            "word": "$~haalat",
+            "forms": ["states"],
+            "definition": "$~Woh maloomaat jo ek @Program rakhta hai aur waqt ke saath badal sakta hai."
+        },
+        "stream": {
+            "word": "$~dhaara",
+            "forms": ["streams"],
+            "definition": "$~Ek @value jo waqt ke saath badalti hai jaise aap ki duniya badalti hai, jaise @Time ka chalna ya ek @Key ka dabaya jaana. Har baar jab yeh badalti hai, @Program nayi @value ke saath dobara jaanchta hai."
+        },
+        "sideEffect": {
+            "word": "$~zimni asar",
+            "forms": ["side effects"],
+            "definition": "$~Ek tabdeeli jo @Program ek @value wapas dene ke ilawa karta hai, jaise @Output dikhana."
+        },
+        "abstraction": {
+            "word": "$~tajreed",
+            "forms": ["abstractions"],
+            "definition": "$~Tafseelaat chhupana taake aap kisi cheez ko yeh jaane baghair istemaal kar sakein ke woh andar se kaise kaam karti hai."
+        },
+        "project": {
+            "word": "$~mansooba",
+            "forms": ["projects"],
+            "definition": "$~Woh tamam files jo ek @wordplay @Program banati hain."
+        },
+        "source": {
+            "word": "$~maakhaz",
+            "forms": ["sources"],
+            "definition": "$~Ek @code dastaavez ek @project mein. Ek @project mein ek se zyada ho sakte hain, aur har ek woh cheezein @share kar sakta hai jo doosre @borrow sakte hain."
+        },
+        "borrow": {
+            "word": "$~udhaar lena",
+            "forms": ["borrows", "borrowed", "borrowing"],
+            "definition": "$~Woh cheez istemaal karna jo kisi doosre @Source ne baanti ho, ↓ likh kar aur us @source ka naam likh kar."
+        },
+        "share": {
+            "word": "$~baantna",
+            "forms": ["shares", "shared", "sharing"],
+            "definition": "$~Kisi @Source mein kisi cheez par ↑ ka nishaan lagana taake doosri @source files use @borrow sakein."
+        },
+        "kit": {
+            "word": "$~kit",
+            "forms": ["kits"],
+            "definition": "$~Ek @Source jo kisi ne shaaya kiya taake doosre log use apni @project mein @borrow sakein."
+        },
+        "code": {
+            "word": "$~code",
+            "definition": "$~Woh matn jo aap @Program ko batane ke liye likhte hain ke use kya karna hai."
+        },
+        "act": {
+            "word": "$~aikt",
+            "forms": ["acts"],
+            "definition": "$~@tutorial ka ek bara hissa, jaise drame ka ek aikt."
+        },
+        "how": {
+            "word": "$~tareeqa guide",
+            "forms": ["how-tos"],
+            "definition": "$~Ek chhota @guide jo dikhata hai ke ek kaam kaise karna hai."
+        },
+        "gallery": {
+            "word": "$~numaish gah",
+            "forms": ["galleries"],
+            "definition": "$~Ek jagah jahan log apni mansoobay baantte aur dekhte hain."
+        },
+        "blocks": {
+            "word": "$~blocks",
+            "definition": "$~@code ko likhne ke bajaye tukre kheench kar badalne ka tareeqa."
+        },
+        "editor": {
+            "word": "$~editor",
+            "forms": ["editors"],
+            "definition": "$~Woh dabba jahan aap @code likhte hain. Aap jo wahan likhte hain, wohi @wordplay pesh karta hai."
+        },
+        "stage": {
+            "word": "$~stage",
+            "forms": ["stages"],
+            "definition": "$~Woh jagah jahan @wordplay dikhata hai ke aapke @code ne kya banaya."
+        },
+        "placeholder": {
+            "word": "$~khaali jagah",
+            "forms": ["placeholders"],
+            "definition": "$~Ek khaali jagah jo dikhati hai ke @code ya @value gum hai."
+        },
+        "conflict": {
+            "word": "$~masla",
+            "forms": ["conflicts"],
+            "definition": "$~@code mein ek masla jise @wordplay nishaan zad karta hai taake aap use theek kar saken."
+        },
+        "checkpoint": {
+            "word": "$~checkpoint",
+            "forms": ["checkpoints"],
+            "definition": "$~Aapke kaam ka ek mehfooz kiya hua maqaam jahan aap wapas ja sakte hain."
+        },
+        "guide": {
+            "word": "$~rehnuma",
+            "forms": ["guides"],
+            "definition": "$~Talaash ke qabil rehnuma jo @wordplay ke khayalaat samjhata hai."
+        },
+        "tutorial": {
+            "word": "$~sabaq",
+            "forms": ["tutorials"],
+            "definition": "$~Qadam ba qadam sabaq jo @wordplay sikhate hain."
+        },
+        "name": {
+            "word": "$~naam",
+            "forms": ["named", "naming"],
+            "definition": "$~Ek lafz jo @value ya @FunctionDefinition ki taraf ishaara karta hai."
+        },
+        "markup": {
+            "word": "$~saja hua matn",
+            "definition": "$~Aisa matn jis mein sajawat ho, jaise mote alfaaz ya links."
+        },
+        "language": {
+            "word": "$~zubaan",
+            "forms": ["languages"],
+            "definition": "$~Insaani zubaan jis mein @name ya matn likha gaya ho."
+        },
+        "documentation": {
+            "word": "$~wazahati tehreer",
+            "definition": "$~Aisa matn jo samjhata hai ke @code kya karta hai."
+        },
+        "region": {
+            "word": "$~ilaaqa",
+            "forms": ["regions"],
+            "definition": "$~Ek jagah jahan @language istemaal hoti hai, jo adad aur tarikhon ki shakal badal sakti hai."
+        },
+        "start": {
+            "word": "$~aaghaz",
+            "definition": "$~Asal maakhaz file jahan @project shuru hoti hai."
+        },
+        "query": {
+            "word": "$~talaash",
+            "forms": ["queries"],
+            "definition": "$~@Table se satren chunne ka tareeqa."
+        },
+        "key": {
+            "word": "$~kunji",
+            "forms": ["keys"],
+            "definition": "$~Woh @value jo @Map mein kisi cheez ko dhoondne ke liye istemaal hoti hai."
+        },
+        "index": {
+            "word": "$~index",
+            "forms": ["indexes", "indices"],
+            "definition": "$~Ek @Number jo @List mein kisi cheez ko uski jagah se chunta hai."
+        },
+        "moved": {
+            "word": "$~hilaya gaya",
+            "definition": "$~@Output jis ne stage par apni jagah badli."
+        },
+        "entered": {
+            "word": "$~naya",
+            "definition": "$~@Output jo pehli baar stage par zahir hua."
+        },
+        "cell": {
+            "word": "$~khaana",
+            "forms": ["cells"],
+            "definition": "$~@Table ki satar mein ek @value."
+        },
+        "column": {
+            "word": "$~column",
+            "forms": ["columns"],
+            "definition": "$~@Table mein ek naam wala khaana."
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "$~Khabardaar",
+            "explanation": "$~Ek nigraan ne faisla kiya ke yeh maazmoon in mein se kuch kar sakta hai:"
+        },
+        "blocked": {
+            "header": "$~Band kiya gaya",
+            "explanation": "$~Ek nigraan ne faisla kiya ke yeh maazmoon in mein se kuch kar sakta hai:"
+        },
+        "unmoderated": {
+            "header": "$~Note",
+            "explanation": "$~Is maazmoon ki abhi jaanch nahin hui hai. Yeh in mein se kuch kar sakta hai:"
+        },
+        "moderate": {
+            "header": "$~Jaanch karein",
+            "explanation": "$~Is mansooba ko dekhein aur faisla karein ke iska maazmoon neeche likhi cheezon mein se kuch karta hai ya nahin. Agar karta hai, to maazmoon par khabardaar kiya jaye ga ya woh band kar diya jaye ga. Agar aap ko yaqeen nahin, to aap chhor sakte hain."
+        },
+        "queue": {
+            "label": "$~kya dekhna hai",
+            "labels": [
+                "$~mansoobe",
+                "$~numaish gaahein",
+                "$~kits",
+                "$~tareeqa guide",
+                "$~ittilaaein"
+            ],
+            "tips": [
+                "$~woh mansoobe dekhein jo logon ne sab ke liye khol diye hain",
+                "$~woh numaish gaahein dekhein jo sab ke liye fehrist mein aana chahti hain",
+                "$~woh kits dekhein jo rehnuma mein fehrist hona chahte hain",
+                "$~woh tareeqa guide dekhein jo rehnuma mein fehrist hona chahte hain",
+                "$~woh cheezein dekhein jo logon ne aap se dekhne ko kahi hain"
+            ]
+        },
+        "noAddress": "$~Wordplay ke paas aap ka email address nahin hai, is liye yahan se kuch bhi aap ko email par nahin pahunch sakta. Aap apne <profile@://profile> par ek email address shamil kar sakte hain.",
+        "subject": {
+            "project": "$~mansooba",
+            "gallery": "$~numaish gah",
+            "howto": "$~tareeqa guide",
+            "character": "$~kirdaar",
+            "kit": "$~kit",
+            "chat": "$~chat"
+        },
+        "flags": {
+            "violence": "$~Kisi ko bhi tashadud, nuqsaan, ya khud ko nuqsaan pahunchane par ubharna, hausla dena, ya iska jashn manana.",
+            "dehumanization": "$~Logon ya giroohon ki insaniyat chheenna, un ki nasl, qaum, watan, zaat, jinsi rujhaan, jins, mazhab, umar, salahiyat, ya shakl-o-soorat ki bunyaad par.",
+            "disclosure": "$~Doosre logon ki nijji maloomaat zaahir karna, jaise naam, rabte ki tafseel, ya jismani pate.",
+            "misinformation": "$~Jhooti, gumrah karne wali, dhoka dene wali, ya jod-tod par mabni maloomaat shaamil karna."
+        },
+        "progress": "$~*$moderated* jaanche gaye, *$remaining* baaqi",
+        "done": "$~Jaanchne ke liye aur kuch nahin hai!",
+        "button": {
+            "submit": {
+                "tip": "$~jaanch ki yeh settings mehfooz karein",
+                "label": "$~mehfooz karein"
+            },
+            "skip": {
+                "tip": "$~is mansooba ko chhor dein",
+                "label": "$~chhor dein"
+            }
+        },
+        "report": {
+            "button": "$~kisi moderator se kahein ke is ko dekhe",
+            "confirm": "$~Ittila dein",
+            "sent": "$~ek moderator se kaha gaya hai ke is ko dekhe",
+            "announce": "$~ek moderator se kaha gaya hai ke $project ko dekhe",
+            "flagged": "$~Kisi ne is mansooba ki ittila di hai, is liye yeh sab se pehle hai."
+        },
+        "strike": {
+            "issue": "$~is banane wale ko khabardaar karein",
+            "consequence": "$~Yeh is banane wale ke liye khabardaari number $#count[1|$count] hogi. $banning[Is khabardaari se un ka kuch bhi aam karne ka ikhtiyaar khatam ho jaata hai.|Woh $#remaining[1 aur khabardaari|$remaining aur khabardaariyon] tak cheezein aam kar sakenge.]",
+            "confirm": {
+                "description": "$~yeh faisla likh lein aur banane wale ko khabardaar karein",
+                "prompt": "$~Khabardaar karein"
+            },
+            "banned": "$~Aap ko aam maloomaat ke baare mein teen baar khabardaar kiya ja chuka hai, is liye ab aap mansoobe ya numaish gaahein aam nahin kar sakte. Aap ab bhi mansoobe bana sakte hain, aur apni chuni hui logon ke saath baant sakte hain. Agar aap ko lagta hai ke yeh ghalti hai, ya yeh bahut pehle ki baat hai aur aap dobara aam karna chahte hain, to hi@wordplay.dev par likhein aur apna username aur wajah batayein.",
+            "warned": "$~Aap ki kuch aam cheezein baantne ke usoolon ke khilaaf thin, is liye ab woh aam nahin hain. Yeh khabardaari number $#count[1|$count] hai. $#remaining[Aik aur ke baad aap kuch bhi aam nahin kar sakenge.|$remaining aur ke baad aap kuch bhi aam nahin kar sakenge.]",
+            "notification": "$~Aap ki aam ki hui kisi cheez ke baare mein khabardaari number $#count[1|$count]."
+        },
+        "gallery": {
+            "pending": "$~Ek moderator aap ki numaish gah parh raha hai taake faisla kare ke use aam fehrist mein rakha ja sakta hai ya nahin. Tab tak sirf woh log ise dekh sakte hain jin ke saath aap link baantein.",
+            "approved": "$~Aap ki numaish gah <aam numaish gaahon ka safha@://galleries?tab=public> par shaamil hai! Ise kisi bhi waqt, kisi bhi wajah se is fehrist se hataya ja sakta hai.",
+            "denied": "$~Ek moderator ne faisla kiya ke aap ki numaish gah ko aam fehrist mein na rakha jaye. Aap is par kaam jaari rakh sakte hain aur dobara aam kar ke doosri baar poochh sakte hain.",
+            "explain": "$~Yeh numaish gah chahti hai ke usay sab ke liye zahir kiya jaye. Isay aur is ki mansoobay dekhein, aur faisla karein ke kya yeh itni mukammal hai ke sab ko dikhayi jaye.",
+            "done": "$~Kisi numaish gah ka faisla baaqi nahin hai. Shukriya!",
+            "approve": {
+                "label": "$~zahir karein",
+                "tip": "$~is numaish gah ko aam numaish gahon ke safhe par zahir karein"
+            },
+            "deny": {
+                "label": "$~zahir na karein",
+                "tip": "$~is numaish gah ko aam numaish gahon ke safhe se door rakhein"
+            },
+            "skip": {
+                "label": "$~chhor dein",
+                "tip": "$~is numaish gah ka faisla kisi aur nigraan par chhor dein"
+            },
+            "notification": {
+                "approved": "$~$name ab sab ke liye zahir hai.",
+                "denied": "$~$name ko sab ke liye zahir nahin kiya gaya."
+            }
+        },
+        "kit": {
+            "pending": "$~Ek nigraan aap ki kit parh raha hai taake faisla kare ke kya isay rehnuma mein zahir kiya ja sakta hai. Yeh zahir ke tor par nishaan zadah hai, lekin jab tak woh faisla nahin karta, wahan koi isay nahin paaye ga.",
+            "approved": "$~Aap ki kit <rehnuma@://guide?section=kits> mein zahir hai! Isay kisi bhi waqt, kisi bhi wajah se is fehrist se hataya ja sakta hai.",
+            "denied": "$~Ek nigraan ne faisla kiya ke aap ki kit ko rehnuma mein zahir na kiya jaye. Aap naya nuskha shaye kar ke dobara darkhwast kar sakte hain.",
+            "header": "$~Kits",
+            "explain": "$~Yeh kit chahti hai ke isay rehnuma mein zahir kiya jaye. Dekhein ke yeh kya baantti hai aur faisla karein ke kya doosre logon ko yeh milni chahiye.",
+            "done": "$~Kisi kit ka faisla baaqi nahin hai. Shukriya!",
+            "approve": {
+                "label": "$~zahir karein",
+                "tip": "$~is kit ko rehnuma mein zahir karein"
+            },
+            "deny": {
+                "label": "$~zahir na karein",
+                "tip": "$~is kit ko rehnuma se door rakhein"
+            },
+            "skip": {
+                "label": "$~chhor dein",
+                "tip": "$~is kit ka faisla kisi aur nigraan par chhor dein"
+            },
+            "notification": {
+                "approved": "$~$name ab rehnuma mein zahir hai.",
+                "denied": "$~$name ko rehnuma mein zahir nahin kiya gaya."
+            }
+        },
+        "howto": {
+            "pending": "$~Ek nigraan aap ka tareeqa guide parh raha hai taake faisla kare ke kya isay rehnuma mein zahir kiya ja sakta hai. Tab tak sirf woh log isay dekh sakte hain jo pehle se dekh sakte hain.",
+            "approved": "$~Aap ka tareeqa guide <rehnuma@://guide?section=howto> mein zahir hai! Isay kisi bhi waqt, kisi bhi wajah se is fehrist se hataya ja sakta hai.",
+            "denied": "$~Ek nigraan ne faisla kiya ke aap ka tareeqa guide rehnuma mein zahir na kiya jaye. Aap is par kaam jaari rakh sakte hain aur dobara darkhwast kar sakte hain.",
+            "unready": "$~Pehle apna tareeqa guide post karein aur isay aam kar dein. Nigraan sirf us cheez ko haan keh sakta hai jo sab parh sakte hon.",
+            "header": "$~Tareeqa guide",
+            "explain": "$~Yeh tareeqa guide guide mein shaamil hone ki darkhwast kar raha hai. Isay parhein aur faisla karein ke @wordplay seekhne wale doosre log isay wahan dekhein ya nahin.",
+            "done": "$~Kisi tareeqa guide ke faisle ka intezaar nahin hai. Shukriya!",
+            "approve": {
+                "label": "$~zahir karein",
+                "tip": "$~is tareeqa guide ko rehnuma mein shaamil karein"
+            },
+            "deny": {
+                "label": "$~zahir na karein",
+                "tip": "$~is tareeqa guide ko rehnuma se bahar rakhein"
+            },
+            "skip": {
+                "label": "$~chhor dein",
+                "tip": "$~is tareeqa guide ka faisla kisi aur nigraan par chhor dein"
+            },
+            "notification": {
+                "approved": "$~$name ab rehnuma mein zahir hai.",
+                "denied": "$~$name ko rehnuma mein zahir nahin kiya gaya."
+            }
+        },
+        "error": {
+            "notmod": "$~Yahan aap ke jaanchne ke liye kuch nahin hai. Wordplay ke nigraan aam logon ka matn jaanchte hain, aur numaish gah ke muntazim apni numaish gah ka matn jaanchte hain. Agar aap ko haal hi mein nigraan ke ikhtiyaarat mile hain, to shayad aap ko dobara log in karna pade.",
+            "unreachable": "$~Main yeh qatar nahin parh saka, is liye mujhe nahin pata ke kuch intezaar mein hai ya nahin. Thori der baad dobara koshish karein.",
+            "unreadable": "$~Yahan kuch cheezein intezaar mein hain lekin main unhein parh nahin saka, is liye woh nazar nahin aa rahin."
+        },
+        "responsibility": {
+            "none": "$~Yahan aap jo baantte hain use koi nahin jaanchta. Yeh sirf aap ko aur aap ke chune hue logon ko nazar aata hai.",
+            "curators": "$~Is numaish gah ke muntazim jaanchte hain ke yahan kya baanta gaya hai, is ki chat samet.",
+            "both": "$~Is numaish gah ke muntazim jaanchte hain ke yahan kya baanta gaya hai, aur Wordplay ke nigraan bhi jaanchte hain, kyunke ise koi bhi dekh sakta hai.",
+            "platform": "$~Wordplay ke <nigraan@://rights> isay jaanchte hain, kyunke ise koi bhi dekh sakta hai."
+        }
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Khabardaar",
+            "explanation": "$~Is mansooba ke manzar kuch logon ke liye na-khushgawaar ho sakte hain, yahan tak ke daura bhi pad sakta hai. Is mein yeh ho sakta hai:"
+        },
+        "categories": {
+            "flashing": "$~Tezi se chamakna ya rang ke farq ka badalna",
+            "redflash": "$~Tezi se chamakta hua gehra surkh rang",
+            "strobe": "$~Bijli ki tarah chamakna jo poori screen bhar de",
+            "pattern": "$~Ghane aur bohat alag rang wale shakl ke naqsh",
+            "motion": "$~Size, jagah ya shaffafiyat ki tez harkat"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Aawaaz aane wali hai",
+            "explanation": "$~Is mansooba ki mausiqi kuch logon ko chaunka sakti hai ya na-gawaar had tak tez ho sakti hai. Is mein yeh ho sakta hai:"
+        },
+        "categories": {
+            "startle": "$~Aawaaz ka achanak bohat badh jaana, khaas tor par kisi khamosh cheez ke baad",
+            "loudness": "$~Der tak poori aawaaz, ya bohat se track mil kar tez ho jaana",
+            "pulse": "$~Itni tez dhun ke manzar jhilmilane lagein",
+            "register": "$~Aaraam ke daayre se bohat oonche ya bohat neeche sur",
+            "tracks": "$~Ek saath itne saaz hain ke unhein samajhna aasaan nahin"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "$~Khel",
+            "description": "$~Alfaaz aur nishanon ke saath khelne wale interactive khel."
+        },
+        "visualizations": {
+            "name": "$~Tasveeri nazaare",
+            "description": "$~Matn ki tasveeri shakal aur matn ke zariye banay hue nazaare."
+        },
+        "motion": {
+            "name": "$~Harkat",
+            "description": "$~Harkat aur takraao ki misaalein."
+        },
+        "music": {
+            "name": "$~Mausiqi",
+            "description": "$~Gaane, saaz, aur woh tehreer jo taal ke saath hilti hai."
+        },
+        "av": {
+            "name": "$~Awaaz/Video",
+            "description": "$~Awaaz ki buland-pasti, sur, aur video ko input ke taur par istemaal karna, aur bolne ko output ke taur par."
+        },
+        "tools": {
+            "name": "$~Auzaar",
+            "description": "$~Aasaan auzaar aur application."
+        },
+        "stories": {
+            "name": "$~Kahaaniyan",
+            "description": "$~Interactive kahaaniyan aur dastaanein."
+        }
+    },
+    "system": {
+        "imageDescription": "$~Wordplay ka logo: ek baat karne wala bubble jis mein ek goal daira, ek tikona, aur ek chaukor hai, naam Wordplay ke saath, aur peechhe un tamaam nishanon ki dhundli bheed jinhein Wordplay ke program mehsoos kar sakte hain aur bol sakte hain.",
+        "noscript": "$~Wordplay JavaScript istemaal karta hai. Aap ka browser isay support nahin karta, ya yeh band hai.",
+        "unsupportedHeading": "$~Na-qaabil-e-support browser",
+        "unsupportedBody": "$~Aap ka browser zaroori khoobiyon ko support nahin karta. Wordplay istemaal karne ke liye aap ko naya version install karna hoga.",
+        "appDescription": "$~Sab ke liye qaabil-e-rasai, kai zubaanon wali, program ke zariye banne wali tehreer."
+    }
+}

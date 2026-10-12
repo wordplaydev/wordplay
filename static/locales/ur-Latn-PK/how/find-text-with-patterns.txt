@@ -1,0 +1,23 @@
+Patterns se matn talaash karein aur jaanchein
+
+Pattern kisi matn ki shakal bayaan karta hai, taake aap jaanch saken ke matn us shakal se milta hai ya nahin, ya har us jagah ko talaash kar saken jahan woh aata hai. Patterns is ke andar likhe jaate hain: \⣿ ⣿\ aur baayen se daayen, ek ek hissa karke parhe jaate hain. \_\ ek harf hai, \#\ ek hindsa hai, \␣\ ek khaali jagah hai, aur likha hua matn jaise \"-"\ bilkul wahi milta hai.
+
+Yeh jaanchne ke liye ke poora matn kisi pattern se milta hai ya nahin, \≈\ istemaal karein, jo aap ko ek \?\ deta hai:
+
+\
+'AB-1234' ≈ ⣿2 _ "-" 4 #⣿
+\
+
+ Yeh poochta hai: dau huroof, ek lakeer, phir chaar hindse? Aur jawab hai \⊤\ na ho.
+
+Ginti us cheez se pehle aati hai jise woh dohraati hai: \4 #\ ka matlab hai chaar hindse. Aap yeh bhi keh sakte hain \>0 #\ (ek ya zyada), \≥0 #\ (sifar ya zyada), \≤1 #\ (zaroori nahin), ya koi hadd jaise \2–4 #\ na ho.
+
+Pattern ki har jagah talaash karne ke liye \⌕\ istemaal karein, jo aap ko @Structure nataij ki ek list deta hai. Kisi hisse ko pakadne ke liye us ka naam \naam2:( … )\ ke sath likhein:
+
+\
+'paida hua 2026-06-15' ⌕ ⣿y:(4 #) "-" m:(2 #) "-" d:(2 #)⣿
+\
+
+ Har nateeja aap ko milta hua \text\ batata hai, jahan woh \start\ hota hai aur \end\ hota hai, aur pakda hua \groups\ bhi batata hai — yahan \y\, \m\, aur \d\. Kyunke patterns grapheme ke hisaab se milte hain, yeh har zubaan aur har rasm-ul-khat mein ek jaise kaam karte hain.
+
+mix-languages-in-text

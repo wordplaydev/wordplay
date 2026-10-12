@@ -1052,6 +1052,8 @@
         "eea7bd4500f37": "$~Bawat pahina ng <Gabay@https://wordplay.dev/guide> ay may sarili nang address, at ang mga tab at breadcrumb nito ay nagpapakita na ngayon kung saan kabilang ang pahinang binabasa mo.",
         "e2cbfa3574467": "$~Gumagana na ngayon ang Forward na button ng browser sa <Gabay@https://wordplay.dev/guide>, at hindi na nagpapakita ng ibang pahina muna kapag binuksan ang link papunta sa isa sa mga pahina nito.",
         "ed96f186e4b18": "$~Ginawa naming mas madaling basahin ang kodigo: ang \\?\\, \\??\\, at \\???\\ ay iisa na ang kulay, ang uri na tumatanggap ng kahit ano ay lumalabas bilang \\◌\\, at ang uri ng saklaw ay lumalabas bilang \\‥\\ sa halip na kahel na label.",
-        "ea6d52130d864": "$~Ang mga placeholder sa kodigo sa <Gabay@https://wordplay.dev/guide> ay ipinapakita na ngayon ang kanilang uri nang maliit at kulay abo, at kapag wala nang ibang nagsasabi kung ano ang nnararapat doon."
+        "ea6d52130d864": "$~Ang mga placeholder sa kodigo sa <Gabay@https://wordplay.dev/guide> ay ipinapakita na ngayon ang kanilang uri nang maliit at kulay abo, at kapag wala nang ibang nagsasabi kung ano ang nnararapat doon.",
+        "eb84dbea56e6e": "$~Maaari mo nang baguhin ang mga halimbawa ng kodigo sa <home page@https://wordplay.dev/> at sa Gabay at panoorin silang tumakbo agad, at ibinabalik ng ↺ ang orihinal.",
+        "e91e2af40d2f4": "$~Nagdagdag kami ng suporta para sa Roman Urdu (\\ur-Latn-PK\\), ang Urdu na isinusulat gamit ang mga letrang Latin! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
     }
 }

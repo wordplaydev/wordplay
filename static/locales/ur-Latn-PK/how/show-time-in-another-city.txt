@@ -1,0 +1,17 @@
+Kisi doosre shehar ka waqt dikhayein
+
+@Now mojooda tareekh aur waqt ko ek aisi qeemat ki shakal mein dhaara banata hai jo @Moment hoti hai, aur Moment ko matn mein badalne se woh aapke ilaaqe ke mutabiq saja diya jata hai. Is tarah ghari sirf ek line ke code se ban jati hai:
+
+\Phrase(Now() → '')\
+
+ Kisi aur jagah ka waqt chahiye? @Now ko ek time zone dein. Time zone ke naam ilaaqe aur shehar se bante hain, jaise \'America/New_York'\, \'Europe/Paris'\, ya \'Asia/Tokyo'\. Aap matn ki qism ke baad ek zubaan bhi likh sakte hain, jaise \''/ja\ jo Japani ke liye hai, taake ghari us shehar ki zubaan mein dikhe:
+
+\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+
+ Time zone ka naam nahin pata? Bas koi shehar likh dein jise aap jaante hain — @wordplay aapko bataye ga ke yeh time zone nahin hai aur sab se qareebi naam bhi sujhaye ga, taake aap ek click se isay theek kar sakein.
+
+Aap koi calendar bhi chun sakte hain, jaise Japani calendar, aur ghari ko font se saja sakte hain:
+
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' khat: 'Doto')\
+
+count-with-time

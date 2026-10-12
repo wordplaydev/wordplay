@@ -1,0 +1,33 @@
+Kirdaar ko girne aur uchhalne wala banayein
+
+Agar hum chahein ke koi kirdaar neeche gire, farsh se uchhle, ya asli cheez ki tarah dhakka khaye to kya karein?
+Is ke liye yeh hain: @Motion aur @Matter — yeh mil kar ek @Phrase na ho.
+
+@Motion ki physics chalate hain. Yeh tay karta hai ke kirdaar waqt ke saath / kahan / hai. Hum ise \place\ ke liye @Phrase ke tor par istemaal karte hain, aur ise unchaai se shuru karte hain taake yeh gire.
+Hamein girne ke liye koi cheez bhi chahiye, warna hamara kirdaar hamesha girta hi rahega! Ek chauda @Shape wala @Rectangle achha farsh ban jata hai:
+
+\
+Stage([
+    Jumla('🍎' jagah: Harkat(Jagah(0m 5m)) maadda: Maadda())
+    Shakal(Mustateel(-10m 0m 10m -5m))
+])
+\
+
+ Seb paanch meter unchaai se shuru hota hai aur gurutvakarshan se girta hai.
+Jab yeh farsh se takrata hai to thoda uchhalta hai, kyunki @Phrase mein ek pehle se maujood @Matter hota hai jo tay karta hai ke yeh kitna bhaari aur uchhalne wala hai.
+
+Kirdaar kitna / uchhalne wala / ya kitna / bhaari / hai, yeh badalne ke liye usay apna @Matter na ho.
+@Matter dein. Yeh wazan, uchhaal aur ragad leta hai:
+
+\
+Stage([
+    Jumla('⚽' jagah: Harkat(Jagah(-2m 5m)) maadda: Maadda(1kg 0.9 0.2))
+    Jumla('🪨' jagah: Harkat(Jagah(2m 5m)) maadda: Maadda(5kg 0.1 0.8))
+    Shakal(Mustateel(-10m 0m 10m -5m))
+])
+\
+
+ Gend halki aur uchhalne wali hai, is liye woh wapas uchhal jati hai.
+Patthar bhaari hai aur uchhalta nahin, is liye woh bas dham se gir jata hai.
+
+follow-the-pointer, move-phrase

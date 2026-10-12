@@ -1,0 +1,75 @@
+Teer wali kunjiyon se content ke darmiyan chalein
+
+Kabhi kabhi aap chahte hain ke dekhne wale content ko ek ek hissa karke dekhein, jaise slide show mein, aage / aur / peechhe teer wali kunjiyon se.
+
+Is tareeqe ka har rup inhi teen hisson se banta hai:
+
+• Us content ki ek @List jo aap dikhana chahte hain
+• Us content ki ek @Key dhaara, jo har baar kunji dabane par badalti hai
+• Us content ki ek @Reaction jo yaad rakhta hai ke abhi aap content ke kis hisse par hain
+
+Yeh iska sabse chhota rup hai. Pehle stage par click karein taake woh sunne lage, phir baayein aur daayein teer ki kunji dabayein:
+
+\
+slides3: ['pehla' 'doosra' 'teesra']
+
+kunji2: Kunji()
+
+index2•#: 1 … ∆ kunji2 …
+	(kunji2 = 'ArrowRight') ? ((index2 < slides3.lambaai()) ? index2 + 1 index2)
+		(kunji2 = 'ArrowLeft') ? ((index2 > 1) ? index2 - 1 index2)
+			index2
+
+Jumla(slides3[index2])
+\
+
+ Yeh @Reaction is ka dil hai. Yeh \1\ se shuru hota hai, aur jab bhi @Key badalti hai, yeh tay karta hai ke naya number kya hona chahiye.
+Agar daayein teer ki kunji dabi, to yeh ek barhata hai; agar baayein teer ki kunji dabi, to ek ghatata hai; warna number wahi rehta hai.
+
+Yeh izaafi \?\ jaanch number ko list ke siron se aage jaane se rokti hain.
+Inke baghair aap aakhri sire se aage nikal jaate aur dikhane ke liye koi slide na hoti.
+Agar aap chahte hain ke aakhri slide ke baad dobara pehli slide aa jaye, to aap woh bhi kar sakte hain.
+
+Note: teer wali kunjiyon ke naam yeh hain \'ArrowLeft'\, \'ArrowRight'\, \'ArrowUp'\, aur \'ArrowDown'\ na ho.
+Aap sirf yeh bhi likh sakte hain \'Left'\ aur \'Right'\, aur kunji ke naam aapki apni zubaan mein bhi kaam karte hain.
+
+Dekhein ke \index\ sirf ek number hai, is liye yeh / koi bhi / qism ke content ke liye kaam karta hai, sirf matn ke liye nahin.
+Is @List ko badal kar ek list rakhein @Group ya poore scene, aur baaqi pattern bilkul nahin badalta:
+
+\
+slides3: [
+	Jumla('teen hisson ki kahani' size: 3m)
+	Group(Tah() [Jumla('🐈') Jumla('ek billi nazar aati hai')])
+	Jumla('khatam 🎉')
+]
+
+kunji2: Kunji()
+
+index2•#: 1 … ∆ kunji2 …
+	(kunji2 = 'ArrowRight') ? ((index2 < slides3.lambaai()) ? index2 + 1 index2)
+		(kunji2 = 'ArrowLeft') ? ((index2 > 1) ? index2 - 1 index2)
+			index2
+
+slides3[index2]
+\
+
+ Ek @Scene bhi yeh kar sakta hai, aur kam ginti ke saath.
+Isay @Scene/pause dein taake yeh khud kabhi na hile, aur @Scene/step taake yeh ek tukre ko kisi bhi taraf hila sake:
+
+\
+kunji2: Kunji()
+Manzar([
+		Jumla('teen hisson ki kahani' size: 3m)
+		Group(Tah() [Jumla('🐈') Jumla('ek billi nazar aati hai')])
+		Jumla('khatam 🎉')
+	] waqfa qadam: ∆ kunji2 ? ((kunji2 = 'ArrowLeft') ? -1 (kunji2 = 'ArrowRight') ? 1 ø) ø)
+\
+
+ Yahan likhne ke liye koi \?\ jaanch nahin hai, kyunke @Scene apne siron par khud ruk jata hai, aur kisi ko yaad rakhne ki zaroorat nahin ke kaun sa tukra nazar aa raha hai.
+Poochhein @Spotlight agar aap kehna chahte hain / 10 mein se 3 / stage par.
+
+Note: poore mansooba mein yeh numaish gah mein dekhein: < slide show @https://wordplay.dev/project/example-SlideShow?play>
+
+ Yeh @Reaction upar wala tareeqa ab bhi sahi hai jab aap jis cheez par se guzar rahe hain woh output nahin hota — alfaaz, rang ya number ki list, ya koi aur cheez jis se aap tukra banate hain.
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round

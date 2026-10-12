@@ -11,7 +11,7 @@ import { LocaleAssetHashes } from '#db/locales/localeAssets.generated.ts';
 import { FontsVersion } from '#basis/faces/faces.generated.ts';
 import { toSeasonsCSS } from '#seasons/seasonsCSS.ts';
 import { stringToLocale, toBCP47 } from '#locale/Locale.ts';
-import { getLanguageDirection } from '#locale/LanguageCode.ts';
+import { getLocaleDirection } from '#locale/LanguageCode.ts';
 
 type FallbackStrings = {
     wordplay: string;
@@ -170,7 +170,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     // screen reader reading it before hydration picks the right voice (#111).
     const parsed = stringToLocale(locale);
     const lang = escapeHtml(parsed ? toBCP47(parsed) : 'en-US');
-    const dir = parsed ? getLanguageDirection(parsed.language) : 'ltr';
+    const dir = parsed ? getLocaleDirection(parsed) : 'ltr';
 
     return resolve(event, {
         transformPageChunk: ({ html }) =>

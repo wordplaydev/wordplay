@@ -1,6 +1,7 @@
 import type LanguageCode from '#locale/LanguageCode.ts';
 import type Locale from '#locale/Locale.ts';
 import type LocaleText from '#locale/LocaleText.ts';
+import type { Script } from '#locale/Scripts.ts';
 import type { RegionCode } from '#locale/Regions.ts';
 import type Log from '#util/verify-locales/Log.ts';
 
@@ -144,10 +145,12 @@ export default interface Translator {
      *  reporting. Optional: backends without token accounting (Google) omit it. */
     getUsage?(): TranslatorUsage[];
 
-    /** Map a Wordplay language + regions to this backend's target locale code. */
+    /** Map a Wordplay language + regions (+ script, for a locale written in a
+     *  script other than its language's own) to this backend's target locale code. */
     getTargetLocale(
         language: LanguageCode,
         regions: RegionCode[],
+        script?: Script,
     ): Promise<string>;
 
     /**

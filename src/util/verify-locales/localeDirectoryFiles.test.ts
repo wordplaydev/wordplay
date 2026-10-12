@@ -2,6 +2,9 @@ import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
+import { isLanguageCode } from '#locale/LanguageCode.ts';
+import type Locale from '#locale/Locale.ts';
+import { toLocaleString } from '#locale/LocaleText.ts';
 import { LocaleSections } from '#util/verify-locales/localeFiles.ts';
 
 /**
@@ -79,6 +82,42 @@ test('every locale directory has its sections', () => {
             ).toBe(true);
     }
 });
+
+test('every locale names itself the way its directory does', () => {
+    // A locale's name is printed from its language, script and regions, and
+    // every artifact (bundle paths, manifests, names.json) is keyed by it. A
+    // locale.json missing its script would silently become another locale.
+    for (const locale of localeDirectories) {
+        if (locale === 'en-US') continue;
+        const header: unknown = JSON.parse(
+            fs.readFileSync(
+                path.join(
+                    'static',
+                    'locales',
+                    locale,
+                    'sections',
+                    'locale.json',
+                ),
+                'utf8',
+            ),
+        );
+        expect(isLocale(header), `${locale}'s locale.json`).toBe(true);
+        if (isLocale(header)) expect(toLocaleString(header)).toBe(locale);
+    }
+});
+
+/** Just enough of a locale header to print its name. */
+function isLocale(value: unknown): value is Locale {
+    return (
+        typeof value === 'object' &&
+        value !== null &&
+        'language' in value &&
+        typeof value.language === 'string' &&
+        isLanguageCode(value.language) &&
+        'regions' in value &&
+        Array.isArray(value.regions)
+    );
+}
 
 test('only the assembled document is ignored in a locale directory', () => {
     const candidates: string[] = [];

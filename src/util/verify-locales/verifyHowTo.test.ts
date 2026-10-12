@@ -11,6 +11,8 @@ import {
 import { MachineTranslated } from '#locale/Annotations.ts';
 import { isMachineTranslated, isUnwritten } from '#locale/LocaleText.ts';
 import {
+    exampleToTranslate,
+    outermostExample,
     howToNeedsTranslation,
     localizedExampleIsSound,
     padLike,
@@ -428,5 +430,53 @@ describe('guarding a localized example', () => {
                 example('\\🎼([\n\t🎶(tune instrument: 🔈.🪈)\\'),
             ),
         ).toBe(false);
+    });
+});
+
+describe('examples handed to the translator', () => {
+    it('keep the spaces between list items and before a list', () => {
+        // Bare, these read `[123]` and `Stack()[`: one number, and an index.
+        const { how, spaces } = parseHowTo(
+            'sing-words',
+            fs.readFileSync('static/locales/en-US/how/sing-words.txt', 'utf8'),
+        );
+        expect(how).not.toBeNull();
+        expect(spaces).not.toBeNull();
+        const examples = how!.content
+            .nodes()
+            .filter((node): node is Example => node instanceof Example);
+        const code = examples.map((example) =>
+            exampleToTranslate(example, spaces!),
+        );
+        expect(code.some((text) => text.includes('[1 2 3 5 3 1]'))).toBe(true);
+        expect(code.every((text) => text.startsWith('\\'))).toBe(true);
+    });
+});
+
+describe('reading back a localized example', () => {
+    it('takes the whole example, not an interpolation inside it', () => {
+        const code = "\\score: 1\nPhrase('score \\score\\' 1m)\\";
+        const example = outermostExample(
+            parseDoc(toTokens(DOCS_SYMBOL + code + DOCS_SYMBOL)),
+        );
+        expect(example?.toWordplay()).toContain('Phrase');
+    });
+});
+
+describe('a localized example with its own docs', () => {
+    it('is sound when only the prose in its docs reflowed', () => {
+        const parse = (code: string) =>
+            must(
+                outermostExample(
+                    parseDoc(toTokens(DOCS_SYMBOL + code + DOCS_SYMBOL)),
+                ),
+                'an example',
+            );
+        expect(
+            localizedExampleIsSound(
+                parse('\\¶ One.\nTwo. ¶\nx: 1\\'),
+                parse('\\¶ Ek do teen. ¶\nx: 1\\'),
+            ),
+        ).toBe(true);
     });
 });

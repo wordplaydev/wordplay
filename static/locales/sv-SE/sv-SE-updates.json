@@ -1052,6 +1052,8 @@
         "eea7bd4500f37": "$~Varje sida i <guiden@https://wordplay.dev/guide> har sin egen adress. Flikarna och sökvägen visar nu var den sida du läser hör hemma.",
         "e2cbfa3574467": "$~Webbläsarens framåtknapp fungerar nu i <guiden@https://wordplay.dev/guide>. När du öppnar en länk till en av sidorna visas inte längre först en annan sida.",
         "ed96f186e4b18": "$~Vi har gjort koden lättare att läsa: \\?\\, \\??\\ och \\???\\ har nu samma färg, en typ som tar emot vad som helst visas som \\◌\\, och en intervalltyp visas som \\‥\\ i stället för en orange etikett.",
-        "ea6d52130d864": "$~Platshållare i koden i <guiden@https://wordplay.dev/guide> visar nu sin typ liten och grå, och bara när inget annat säger vad som ska stå där."
+        "ea6d52130d864": "$~Platshållare i koden i <guiden@https://wordplay.dev/guide> visar nu sin typ liten och grå, och bara när inget annat säger vad som ska stå där.",
+        "eb84dbea56e6e": "$~Nu kan du ändra kodexemplen på <startsidan@https://wordplay.dev/> och i guiden och se dem köras direkt, och ↺ sätter tillbaka originalet.",
+        "e91e2af40d2f4": "$~Vi har lagt till stöd för romaniserad urdu (\\ur-Latn-PK\\), som är urdu skrivet med latinska bokstäver! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
     }
 }

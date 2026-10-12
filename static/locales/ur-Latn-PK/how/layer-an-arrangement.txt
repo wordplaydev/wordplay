@@ -1,0 +1,35 @@
+Hisson ko tah dar tah laga kar ek tarteeb banayein
+
+Ek @Track ek dhun hoti hai. Kai dhunein ek saath bajein to band ban jaata hai. Band likhne ki tarkeeb yeh hai ke har hissa alag mausiqi hona zaroori nahin.
+
+Daraje scale ke qadam hote hain, tay shuda sur nahin. Is liye poori bass line wohi dhun ke apne number ho sakti hai jo ek octave neeche kar diye gaye hon. @Track/key ek track ko kuch semitone se aage peechhe karta hai, aur barah semitone theek ek octave hote hain:
+
+\
+dhun2: [1 5 8 5 6 3 1 ø]
+
+Mauseeqi([
+	Dhun(dhun2 saaz: Saaz.baansuri)
+	Dhun(dhun2 saaz: Saaz.barqiBhaariSur kunji: -12semitones awaaz: 60%)
+])
+\
+
+ Do aawaazein, ek list. Dhun badlein to bass bhi saath badal jaati hai, kyunke badalne ke liye sirf ek hi dhun hai.
+
+Ab aas paas ki jagah bharein. Chords ko dhun ki nahin, apni taal chahiye hoti hai. Track ki apni @Track/beat use woh taal deti hai; \pan\ aawaazon ko daayein baayein phailata hai taake kaan unhein alag alag pehchaan sake:
+
+\
+dhun2: [1 5 8 5 6 3 1 ø]
+
+Mauseeqi([
+	Dhun(dhun2 saaz: Saaz.baansuri pan: 0)
+	Dhun(dhun2 saaz: Saaz.barqiBhaariSur kunji: -12semitones awaaz: 60%)
+	Dhun([{1 3 5} ø {1 4 6} ø] saaz: Saaz.barqiNarmSur taal: 2beats awaaz: 35%)
+	Dhun([1 ø 2 ø 1 ø 2 3] saaz: Saaz.dhol taal: 0.5beats awaaz: 45%)
+])
+\
+
+ Awaaz ki buland-pasti dekhein: sirf flute poori awaaz par hai. Poori awaaz par chalne wale hisse band ko zyada buland nahin karte, balki ghaddmadd kar dete hain, kyunke ek saath bajne wali har cheez ko ek hi speaker se guzarna padta hai. Dhun ko \100%\ par shuru karein aur baaki sab kuch uske neeche rakhein.
+
+Pad ki chaar entries \dhadkan2: 2beats\ par aath beat bharti hain, aur drums ki aath entries \0.5beats\ par chaar beat bharti hain. Is liye drums har pad chakkar mein do baar aate hain aur sab kuch ooper phir mil jaata hai. Jab hisse ek doosre se nikal jaate hain to aksar wajah yeh hoti hai ke un ki lambaiyan ek doosre mein barabar taqseem nahin hoti.
+
+write-rhythm, choose-an-instrument, music-follows-the-action

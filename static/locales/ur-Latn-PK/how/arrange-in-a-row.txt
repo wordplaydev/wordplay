@@ -1,0 +1,28 @@
+Matn ko ek saath saath rakhein
+
+Kabhi kabhi hum chahte hain ke matn ek doosre ke saath ek saaf lakeer mein baithe.
+Hum yeh is se kar sakte hain: @Row, jo sab kuch ek @Group mein baayen se daayen tarteeb deta hai.
+
+\
+Group(Qataar() [
+    Jumla('🍎')
+    Jumla('🍌')
+    Jumla('🍇')
+])
+\
+
+ Ek @Row huroof ko unke oopar, beech, ya neeche ke kinaaron se bhi barabar kar sakta hai, aur unke darmiyaan jagah bhi daal sakta hai.
+Yeh wahi phal hai, lekin neeche se barabar kiya gaya hai aur thodi khuli jagah ke saath:
+
+\
+Group(Qataar('>' 0.5m) [
+    Jumla('🍎' size: 2m)
+    Jumla('🍌' size: 1m)
+    Jumla('🍇' size: 3m)
+])
+\
+
+ Yeh \'>'\  @Row ko batata hai ke sab kuch apne neeche ke kinaare par barabar karo. Aazmaayein \'<'\ oopar ke liye ya \'|'\ beech ke liye.
+Yeh \0.5m\ har harf ke darmiyaan ki jagah hai.
+
+stack-up-and-down, make-a-grid

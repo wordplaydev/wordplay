@@ -1,0 +1,26 @@
+Waqt guzarne ke saath ginti barhayein
+
+Bohat si mansoobon mein aisi cheez chahiye hoti hai jo waqt ke saath barhti hai, jaise timer, score ya ulti ginti.
+Hum ek counter bana sakte hain jab hum is dhaara ko jodein @Time dhaara ke saath ek @Reaction na ho.
+
+Ek @Reaction ke teen hisse hote hain: ek aaghaazi qeemat, dekhne ke liye ek cheez, aur ek naya qeemat jab woh cheez badalti hai.
+Yahan hum shuru karte hain \0\ se, dekhte hain @Time, aur har baar ghari tik karne par ek jama karte hain:
+
+\
+ginti: 0 … ∆ Time(1000ms) … ginti + 1
+Phrase(ginti → '')
+\
+
+ Har second, @Time chalta hai, aur @Reaction isay dekh leta hai \∆ Time(1000ms)\, aur \count\ ban jata hai \count + 1\ na ho.
+Yeh \→ ''\ aakhir mein number ko matn mein badal deta hai taake @Phrase isay dikha sake.
+
+Aap koi bhi input istemaal kar sakte hain, sirf waqt hi nahin. Yeh counter Button() ke dabaaye jaane ki tadaad ginta hai:
+
+\
+ginti: 0 … ∆ Button() … ginti + 1
+Phrase(ginti → '')
+\
+
+ Jab bhi @Button dhaara click ya tap se badalti hai, ginti ek se barh jati hai.
+
+track-points, pick-from-a-list

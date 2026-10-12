@@ -3,10 +3,12 @@
 import '#util/verify-locales/loadEnv.ts';
 import { must } from '#util/nullable.ts';
 import { isLanguageCode } from '#locale/LanguageCode.ts';
+import { stringToLocale } from '#locale/Locale.ts';
 import type LocaleText from '#locale/LocaleText.ts';
 import {
     getLocaleLanguage,
     getLocaleRegions,
+    getLocaleScript,
     isRevised,
     toLocaleString,
 } from '#locale/LocaleText.ts';
@@ -84,6 +86,7 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 import generateEmojisForLocale from '#util/verify-locales/generateEmojis.ts';
+import type { NameTranslator } from '#util/verify-locales/scriptVariantNames.ts';
 import generateChoosePrompts from '#util/verify-locales/generateChoosePrompts.ts';
 import generateNameIndex from '#util/verify-locales/generateNameIndex.ts';
 import generateManifests from '#util/verify-locales/generateManifests.ts';
@@ -213,12 +216,21 @@ const NewLanguage = NewLocale ? getLocaleLanguage(NewLocale) : null;
 const NewRegion = NewLocale
     ? (getLocaleRegions(NewLocale).at(0) ?? null)
     : null;
+const NewScript = NewLocale ? getLocaleScript(NewLocale) : undefined;
 
-for (const named of FocalLocales)
+for (const named of FocalLocales) {
     if (getLocaleLanguage(named) === undefined)
         log.exit(
             `"${named}" isn't a valid locale language code. Please provide one to translate.`,
         );
+    // Every part of a name must be understood, or a mistyped script or region
+    // is dropped and the locale created under a different name than its folder.
+    const parsed = stringToLocale(named);
+    if (parsed === undefined || toLocaleString(parsed) !== named)
+        log.exit(
+            `"${named}" has a part that isn't a known script or region code; it would be read as "${parsed ? toLocaleString(parsed) : '?'}".`,
+        );
+}
 
 if (Shard === undefined)
     log.say(
@@ -435,6 +447,8 @@ async function handleLocale(
                     currentTutorial = createUnwrittenTutorial(mode);
                     currentTutorial.regions = localeText.regions;
                     currentTutorial.language = localeText.language;
+                    if (localeText.script)
+                        currentTutorial.script = localeText.script;
                     tutorialIsNew = true;
                 }
             }
@@ -655,7 +669,11 @@ async function handleLocale(
     // separate `npm run locales-emojis`. Best-effort: it does network I/O (CLDR),
     // so a failure is logged and the run continues rather than aborting.
     if (TranslationRequested && selection.isIncluded('emoji'))
-        await generateEmojis(localeLog.scope('Emoji'), locale);
+        await generateEmojis(
+            localeLog.scope('Emoji'),
+            locale,
+            nameTranslatorFor(localeLog, locale, linkedLocale),
+        );
 
     // Verify this locale's date/time formatting data (generated from a pinned
     // CLDR JSON release; see generateDateTimes.ts). Runs in every mode so CI
@@ -668,6 +686,9 @@ async function handleLocale(
             locale,
             FixRequested ||
                 (TranslationRequested && selection.isIncluded('datetimes')),
+            TranslationRequested && selection.isIncluded('datetimes')
+                ? nameTranslatorFor(localeLog, locale, linkedLocale)
+                : undefined,
         );
 
     // Hand the revision back so the caller can keep its in-memory locale set
@@ -680,10 +701,18 @@ async function handleLocale(
 /** Generate this locale's emoji translations in-process. Best-effort — it does
  *  network I/O (CLDR), so a failure is logged and the run continues rather than
  *  aborting a translation run. */
-async function generateEmojis(log: Log, locale: string): Promise<void> {
+async function generateEmojis(
+    log: Log,
+    locale: string,
+    translate: NameTranslator | undefined,
+): Promise<void> {
     log.pending('Generating emoji translations');
     try {
-        const { used, matched, total } = await generateEmojisForLocale(locale);
+        const { used, matched, total } = await generateEmojisForLocale(
+            locale,
+            translate,
+            NameSample,
+        );
         // Success and failure are the two outcomes of the pending line above,
         // so they're siblings of each other, not of it.
         log.good(
@@ -694,6 +723,38 @@ async function generateEmojis(log: Log, locale: string): Promise<void> {
             `Generation failed (${error}); keeping any existing emojis. Re-run "npm run locales-emojis" later.`,
         );
     }
+}
+
+/** At most this many CLDR names bought per run for a script-variant locale
+ *  (`WORDPLAY_NAMES_SAMPLE=50`), so emoji names can be sampled before ~3,000
+ *  are paid for. Unset buys them all. */
+const NameSample = Number.isInteger(Number(process.env.WORDPLAY_NAMES_SAMPLE))
+    ? Number(process.env.WORDPLAY_NAMES_SAMPLE)
+    : undefined;
+
+/** Translates English CLDR names into a locale CLDR has no names for (#1457):
+ *  emoji names and keywords, months, eras. Undefined without a translator,
+ *  which leaves those names as they are. */
+function nameTranslatorFor(
+    log: Log,
+    locale: string,
+    localeText: LocaleText,
+): NameTranslator | undefined {
+    const backend = translator;
+    if (backend === undefined) return undefined;
+    return async (names) =>
+        backend.translate(
+            log,
+            names,
+            'en-US',
+            await backend.getTargetLocale(
+                localeText.language,
+                localeText.regions,
+                getLocaleScript(locale),
+            ),
+            localeText,
+            { examples: false },
+        );
 }
 
 // Build a database of all locales
@@ -1137,6 +1198,19 @@ if (
     let localeText = createUnwrittenLocale();
     localeText.language = must(language, 'a language code');
     localeText.regions = [NewRegion];
+    // A locale written in a script other than its language's (`ur-Latn-PK`)
+    // carries it, or it would be named, translated and laid out as `ur-PK`.
+    if (NewScript) {
+        // Beside the language and regions it qualifies, not appended at the end.
+        const { $schema, language: code, regions, ...rest } = localeText;
+        localeText = {
+            $schema,
+            language: code,
+            regions,
+            script: NewScript,
+            ...rest,
+        };
+    }
     localeText['$schema'] = '../../schemas/LocaleText.json';
 
     await handleLocale(

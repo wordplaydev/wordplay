@@ -23,7 +23,7 @@
     import { untrack } from 'svelte';
     import type { SvelteMap } from 'svelte/reactivity';
     import HowToForm from './HowToForm.svelte';
-    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import { getLocaleDirection } from '#locale/LanguageCode.ts';
     import { toLocaleString } from '#locale/LocaleText.ts';
     import {
         findHowToPlacement,
@@ -475,7 +475,7 @@
             seen.add(text);
             entries.push({
                 language: locale.language,
-                direction: getLanguageDirection(locale.language),
+                direction: getLocaleDirection(locale),
                 text,
             });
         }

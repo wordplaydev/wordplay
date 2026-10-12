@@ -19,6 +19,7 @@ import {
     PossibleLanguages,
 } from '#locale/LanguageCode.ts';
 import { RegionNames } from '#locale/regionNames.generated.ts';
+import type { Script } from '#locale/Scripts.ts';
 import {
     isRegionCode,
     RegionCodes,
@@ -138,9 +139,24 @@ export function resolveRegionCode(text: string): RegionCode | undefined {
 }
 
 /** A region's name in its own language, e.g. `MX` → "México". Falls back to the
- *  English name for the two regions CLDR names in no local language. */
-export function getRegionName(code: RegionCode): string {
-    return RegionNames[code].name;
+ *  English name for the two regions CLDR names in no local language, and when a
+ *  `script` is given that the local name isn't written in: a Roman Urdu reader
+ *  gets "Pakistan", not "پاکستان". */
+export function getRegionName(code: RegionCode, script?: Script): string {
+    const { name, en } = RegionNames[code];
+    return script === undefined || isWrittenIn(name, script) ? name : en;
+}
+
+/** Whether every letter of a text belongs to a script. */
+function isWrittenIn(text: string, script: Script): boolean {
+    let letters: RegExp;
+    try {
+        letters = new RegExp(`^(?:\\P{L}|\\p{scx=${script}})*$`, 'u');
+    } catch {
+        // An invented code (Emoj) names no Unicode script; nothing to test.
+        return true;
+    }
+    return letters.test(text);
 }
 
 /** A completion for a partly-typed tag: the spelling to write, and what it

@@ -814,7 +814,9 @@ export function restoreReferences(
     }
 
     // If there are any dangling concepts that are a concept symbol followed by a non-letter, remove it.
-    after = after.replace(/@\P{Letter}/gu, '');
+    // Never the `@` of an in-app link target (`<label@://route>`), whose `:` is not a letter:
+    // stripping it is what shipped `<localize//localize>` in every locale.
+    after = after.replace(/@(?!:\/\/)\P{Letter}/gu, '');
 
     return after;
 }

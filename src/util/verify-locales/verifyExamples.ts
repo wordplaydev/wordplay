@@ -32,6 +32,7 @@ import DefaultLocale from '#locale/DefaultLocale.ts';
 import type LanguageCode from '#locale/LanguageCode.ts';
 import { stringToLocale, type Locale } from '#locale/Locale.ts';
 import type LocaleText from '#locale/LocaleText.ts';
+import { getLocaleScript } from '#locale/LocaleText.ts';
 import type { RegionCode } from '#locale/Regions.ts';
 import Source from '#nodes/Source.ts';
 import getTranslator from '#util/verify-locales/getTranslator.ts';
@@ -226,7 +227,11 @@ export async function verifyExamples(
     const backend = translator ?? getTranslator();
     let backendTargetLocale: string;
     try {
-        backendTargetLocale = await backend.getTargetLocale(language, regions);
+        backendTargetLocale = await backend.getTargetLocale(
+            language,
+            regions,
+            getLocaleScript(locale),
+        );
     } catch (error) {
         log.bad(`Failed to get the target locale: ${error}`);
         return;

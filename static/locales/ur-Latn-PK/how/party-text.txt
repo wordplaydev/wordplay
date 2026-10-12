@@ -1,0 +1,52 @@
+Har harf ko apna alag rang dein
+
+Ek @Phrase apne har glyph ko alag rang de sakta hai @Pose ke saath @Phrase/poses na ho.
+Pehle glyph ko pehla pose milta hai, doosre glyph ko doosra, aur jab poses khatam ho jaate hain, to woh dobara pehle se shuru ho jaate hain.
+
+Yeh party wala matn hai, jis mein teen rang baari baari aate hain:
+
+\
+Jumla(
+	'party ka waqt!'
+	khat: 'Luckiest Guy'
+	adaayen: [
+		Andaaz(rang: Rang(25% 70 250°))
+		Andaaz(rang: Rang(50% 80 300°))
+		Andaaz(rang: Rang(58% 90 60°))
+	]
+)
+\
+
+ Khaali jagah bhi glyph gini jaati hai, is liye rang alfaaz ke beech bhi baari baari aate rehte hain.
+Yeh rang hue ke saath saath roshni mein bhi mukhtalif hain, is liye jo log rang alag tarah se dekhte hain woh bhi inhein alag pehchaan sakte hain.
+
+Poses sirf rang se zyada kaam kar sakte hain. Har glyph apne beech ke gird tirchha hota hai, bada hota hai, dhundla hota hai aur hilta hai, is liye hum harf ko uchhalta hua bana sakte hain:
+
+\
+Jumla(
+	'uchhalna'
+	khat: 'Luckiest Guy'
+	adaayen: [
+		Andaaz(rang: Rang(25% 70 250°) ghumaao: -10° hatao: Jagah(0m 0.1m))
+		Andaaz(rang: Rang(58% 90 60°) ghumaao: 10° dhundlapan: 0.6)
+	]
+)
+\
+
+ Poses saje hue matn ke saath bhi chalte hain, aur kisi bhi doosre input ki tarah, woh doosri qeematon ke mutabiq badal sakte hain.
+Yeh ransom note har chauthai second mein naya jhukaao chunta hai:
+
+\
+jhukao2: 0° … ∆ Waqt(250ms) … Ittefaqi(-15° 15°)
+Jumla(
+	`*ransom* /note/`
+	khat: 'Courier Prime'
+	adaayen: [
+		Andaaz(ghumaao: jhukao2 hatao: Jagah(0m 0.05m))
+		Andaaz(ghumaao: -jhukao2 paimaana: 1.2)
+		Andaaz(ghumaao: jhukao2 ÷ 2 hatao: Jagah(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

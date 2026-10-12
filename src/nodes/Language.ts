@@ -36,18 +36,24 @@ import { Sym } from '#nodes/Sym.ts';
 import Token from '#nodes/Token.ts';
 import { isDefined } from '#util/nullable.ts';
 
+/** A supported locale's language and region segments, without the script
+ *  subtag a locale like `ur-Latn-PK` carries, which a program tag can't say. */
+function localeSegments(locale: string): string[] {
+    return locale.split('-').filter((part) => !/^[A-Z][a-z]{3}$/.test(part));
+}
+
 /** The distinct language and region codes Wordplay ships content for, derived
  *  once from SupportedLocales and reused by tag-extension autocomplete. */
 const SupportedLanguageCodes = Array.from(
     new Set(
-        SupportedLocales.map((locale) => locale.split('-')[0]).filter(
+        SupportedLocales.map((locale) => localeSegments(locale)[0]).filter(
             isDefined,
         ),
     ),
 );
 const SupportedRegionCodes: RegionCode[] = Array.from(
     new Set(
-        SupportedLocales.map((locale) => locale.split('-')[1])
+        SupportedLocales.map((locale) => localeSegments(locale)[1])
             .filter(isDefined)
             .filter(isRegionCode),
     ),
@@ -202,10 +208,12 @@ export default class Language extends Node {
         // SupportedLocales), not all ~500 ISO codes — a menu of every code is
         // both slow to build and unusable. Any code is still typable directly.
         const bare = Array.from(
-            new Set(SupportedLocales.map((locale) => locale.split('-')[0])),
+            new Set(
+                SupportedLocales.map((locale) => localeSegments(locale)[0]),
+            ),
         ).map((language) => Language.make(language));
         const localized = SupportedLocales.map((locale) => {
-            const [language, region] = locale.split('-');
+            const [language, region] = localeSegments(locale);
             return Language.make(language, region);
         });
         const multilingual: Language[] = [];

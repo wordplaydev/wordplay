@@ -1,0 +1,1981 @@
+{
+    "$schema": "../../../static/schemas/sections/basis.json",
+    "basis": {
+        "Boolean": {
+            "doc": [
+                "$~Hum \\⊤\\ aur \\⊥\\ hain. \\⊤\\ sach hai. \\⊥\\ jhoot hai. \\⊤\\ \\⊥\\ nahin hai; \\⊥\\ \\⊤\\ nahin hai. Bas yehi hai.",
+                "Aap humein kaise banate hain? Bas \\⊤\\ aur \\⊥\\, na zyada, na kam.",
+                "Kuch log humein keyboard shortcut se likhte hain; /Shortcut/ ki fehrist batati hai ke kaun si kunjiyan hain, aur aapko unhein badalne deti hai. Kuch log @editor ke neeche maujood buttons aur harf ki @query istemaal karte hain. Ya aap humein yahan se kheench bhi sakte hain.",
+                "Neeche hamare @FunctionDefinition dekhein. Yeh bahut mantaqi hain."
+            ],
+            "name": ["$~⊤⊥", "$~Boolean"],
+            "function": {
+                "and": {
+                    "doc": [
+                        "$~Main \\⊤\\ tab hi deta hoon *jab* dono @values \\⊤\\ hon. Yeh jaanne mein madadgaar hai ke kya bahut si cheezein sab sach hain. Sirf chaar mumkin nateeje hain",
+                        "\\⊤ & ⊤\\",
+                        "\\⊤ & ⊥\\",
+                        "\\⊥ & ⊤\\",
+                        "\\⊥ & ⊥\\"
+                    ],
+                    "names": ["$~aur"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jaanchne ke liye doosra @Boolean. Agar pehla \\⊥\\ hai, to is se farq nahin padta ke yeh kya hai, function ka nateeja \\⊥\\ hoga.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "or": {
+                    "doc": [
+                        "$~Main \\⊤\\ deta hoon jab *koi ek* @value \\⊤\\ ho. Yeh jaanne mein madadgaar hai ke kya bahut si cheezon mein se koi ek sach hai. Sirf chaar mumkin nateeje hain",
+                        "\\⊤ | ⊤\\",
+                        "\\⊤ | ⊥\\",
+                        "\\⊥ | ⊤\\",
+                        "\\⊥ | ⊥\\"
+                    ],
+                    "names": ["$~ya"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jaanchne ke liye doosra @Boolean. Agar pehla \\⊥\\ hai, to function ka nateeja sirf tab \\⊤\\ hoga jab yeh \\⊤\\ ho.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "not": {
+                    "doc": "$~Main apna ulta deta hoon: agar \\⊤\\ ho, to \\⊥\\ deta hoon, agar \\⊥\\ ho, to \\⊤\\ deta hoon.",
+                    "names": ["$~nahin"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ agar dono \\⊤\\ hon ya dono \\⊥\\ hon.",
+                    "names": ["$~barabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jaanchne ke liye doosra @value.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~\\⊤\\ agar dono ek doosre ke ulte hon.",
+                    "names": ["$~barabarnahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jaanchne ke liye doosra @value.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Ek @Boolean ko barabar ki @Text qeematon mein badalta hai, \\'⊤'\\ aur \\'⊥'\\",
+                "number": "$~Ek @Boolean ko @Number mein badalta hai, \\1\\ \\⊤\\ ke liye aur \\0\\ \\⊥\\ ke liye"
+            }
+        },
+        "None": {
+            "doc": [
+                "$~Main @value ke na hone ko zaahir karta hoon, jo \\ø\\ likha jata hai.",
+                "Main @None hoon. Mujhe \\ø\\ se bulayein."
+            ],
+            "name": ["$~KuchNahin"],
+            "function": {
+                "equals": {
+                    "doc": "$~Kya doosra @value bhi kuch nahin hai? Hona chahiye, warna, \\⊥\\.",
+                    "names": ["$~barabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Doosra @value.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~Kya doosra @value kuch /nahin/ ke barabar nahin hai?",
+                    "names": ["$~barabarnahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Doosra @value.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Kya aap \\ø\\ ko \\'ø'\\ mein badalna chahte hain? Yeh aapka moqa hai."
+            }
+        },
+        "Text": {
+            "doc": [
+                "$~Main kisi bhi @language ka koi bhi matn zaahir kar sakta hoon. Bas matn ko matn ke shuru aur aakhir ki nishaniyon ke darmiyan rakhein: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, ya \\『』\\.",
+                "Samajhne ke liye, in khoobsurat jumlon ko dekhein",
+                "\\'Zindagi guzaarne ke sirf do tareeqe hain. Ek yeh ke jaise kuch bhi mojiza nahin. Doosra yeh ke jaise har cheez mojiza hai.'\\",
+                "\\'一日三秋'\\",
+                "Bas yaad rakhein, agar aap mujhe kholte hain to band bhi karein, aur milti julti nishani istemaal karein. Warna mujhe pata nahin chalega ke aap apne alfaaz se farigh ho gaye hain.",
+                "\\'salaam'/ur'hola'/es-MX\\",
+                "Aap mujhe zubaanon ke saath bhi tag kar sakte hain, aur kayi tarjume bhi de sakte hain. Jo zubaanein abhi chuni gayi hain, main unhi mein se milti hui zubaan ke mutabiq chalunga.",
+                "Agar aap mujhe kisi aur @values ke saath banana chahte hain, to aap yeh kar sakte hain:",
+                "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
+                "Dekhein maine un jama ko kitni khoobsurati se chalaya, aur @Text ke andar rakha?",
+                "Mera ek aakhri chhota sa raaz hai: kya aap jaante hain ke hum sab ka ek alag number hota hai? Yeh sach hai! Aap hamein @U/ likh kar aur hamara number likh kar bula sakte hain. Misal ke taur par, @FunctionDefinition 192 hai:",
+                "\\'@U/192'\\",
+                "Dekhein @U/192 kaise @FunctionDefinition ban gaya? Main sunta hoon aap in numbers ko 'Unicode' kehte hain.",
+                "Baqi, @FunctionDefinition ne mere liye itne shandaar functions banaye hain ke main alfaaz ke saath har tarah ke kaam kar sakta hoon!"
+            ],
+            "name": ["$~Matn"],
+            "function": {
+                "length": {
+                    "doc": [
+                        "$~Main matn mein parhne ke qabil huroof ki tadaad ke barabar hota hoon; ek harf ek character hai, ek emoji ek character hai, waghaira. Misal ke taur par:",
+                        "\\'salaam'.length()\\",
+                        "\\'🐈📚'.length()\\"
+                    ],
+                    "names": ["$~lambaai"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ agar main diye gaye @Text ke jaisi hi character ki tarteeb hoon.",
+                    "names": ["$~barabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Muqabla karne ke liye @Text.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ agar main diye gaye @Text ke jaisi character ki tarteeb /nahin/ hoon.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Muqabla karne ke liye @Text",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ agar diya gaya @Text mujh mein maujood ho.",
+                        "\\'kya aap ko woh mil gaya jo aap dhoondh rahe the?'.has(\n\t'aap'\n)\\"
+                    ],
+                    "names": ["$~rakhta"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mujh mein @query karne ke liye @Text.",
+                            "names": "$~matn"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": [
+                        "$~\\⊤\\ agar main di gayi @Text se shuru hota hoon.",
+                        "\\'salaam shair!'.starts('salaam')\\",
+                        "\\'salaam shair!'.starts('shair')\\"
+                    ],
+                    "names": ["$~shuru"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Text jo mere aaghaz mein dekhni hai.",
+                            "names": "$~matn"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": [
+                        "$~\\⊤\\ agar main di gayi @Text par khatam hota hoon.",
+                        "\\'kya main ek sawaal hoon?'.ends('?')\\",
+                        "\\'main sawaal nahin hoon.'.ends('?')\\"
+                    ],
+                    "names": ["$~khatm"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Text jo mere aakhir mein dekhni hai.",
+                            "names": "$~matn"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Main ek naya @Text banata hoon jo main hi hoon, lekin har harf bade (uppercase) mein hota hai:",
+                        "\\'salaam'.uppercase()\\",
+                        "Harfon ke bade aur chhote roop sirf kuch likhaai ke nizaamon mein hote hain. Jin mein yeh nahin hote, jaise Japani ya Arabi, un ka matn badalta nahin.",
+                        "Mera @language tag tay karta hai ke kis zubaan ke usool istemaal hon. Turki mein noqte wali aur bina noqte wali i hoti hai, aur sirf Turki likha hua matn unhein Turki tareeqe se bada karta hai:",
+                        "\\'iyi'/tr.uppercase()\\",
+                        "\\'iyi'.uppercase()\\"
+                    ],
+                    "names": ["$~barehuroof"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Main ek naya @Text banata hoon jo main hi hoon, lekin har harf chhote (lowercase) mein hota hai:",
+                        "\\'SALAAM'.lowercase()\\",
+                        "Do matn ko chhote harfon mein karein taake unhein bade chhote ka farq dekhe baghair milaya ja sake. Yeh har woh lafz rakhta hai jo a se shuru hota hai, chahe woh bade harf mein ho ya na ho:",
+                        "\\['Seb' 'khubaani' 'Kela'].filter(\n\tƒ(lafz•'') lafz.lowercase().starts('a')\n)\\",
+                        "@Text/uppercase ki tarah, harfon ke bade chhote roop sirf kuch likhaai ke nizaamon mein hote hain, aur mera @language tag tay karta hai ke kis zubaan ke usool istemaal hon."
+                    ],
+                    "names": ["$~chhotehuroof"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Main apne ek hisse se naya @Text banata hoon. Ginti 1 se shuru hoti hai, aur dono sire shaamil hain:",
+                        "\\'salaam'.subsequence(2 4)\\",
+                        "Aakhir chhor dein to main apni aakhri alaamat tak jaata hoon:",
+                        "\\'salaam'.subsequence(3)\\",
+                        "Main alaamaton ko waise ginta hoon jaise aap unhein dekhte hain, is liye kai hisson se bana emoji bhi ek hi alaamat hai aur kabhi aadha nahin kata jaata:",
+                        "\\'🐈📚!'.subsequence(1 2)\\",
+                        "Agar aap mere paas maujood se zyada maangein, to main jo mere paas hai woh de deta hoon."
+                    ],
+                    "names": ["$~hissa"],
+                    "inputs": [
+                        {
+                            "doc": "$~Shuru karne ki jagah, 1 se ginti karte hue.",
+                            "names": "$~aaghaz"
+                        },
+                        {
+                            "doc": "$~Rukne ki jagah, 1 se ginti karte hue. Ise chhor dein to aakhir tak jaata hai.",
+                            "names": "$~aakhir"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Main batata hoon ke di gayi @Text mujh mein pehli baar kahan aati hai, 1 se ginti karte hue:",
+                        "\\'salaam'.index('ll')\\",
+                        "Agar woh mujh mein bilkul nahin hai, to main uski jagah @None deta hoon:",
+                        "\\'salaam'.index('z')\\",
+                        "@Text/subsequence ke saath main kisi cheez tak ka sab kuch le sakta hoon — yahan, pehla lafz:",
+                        "\\jumla: 'salaam duniya'\njumla.subsequence(1 (jumla.index(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~number"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Text jo mujh mein @query karni hai.",
+                            "names": "$~matn"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Main ek naya @Text banata hoon jis mein ek @Text ki har maujoodgi doosri se badal di jaati hai:",
+                        "\\'2026-08-21'.replace('-' '/')\\",
+                        "Har maujoodgi badalti hai, sirf pehli nahin:",
+                        "\\'ha ha ha'.replace('ha' 'ho')\\",
+                        "Agar aap mujhe khaali @Text badalne ko kahein, to main khud ko bina badle wapas de deta hoon."
+                    ],
+                    "names": ["$~badlein"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Text jo mujh mein @query karni hai.",
+                            "names": "$~ka"
+                        },
+                        {
+                            "doc": "$~Woh @Text jo uski jagah rakhni hai.",
+                            "names": "$~badal"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Main ek naya @Text banata hoon jis mein mere dono sirson se @placeholder hata di jaati hai. Beech ki jagah rehti hai:",
+                        "\\'  salaam  '.trim()\\",
+                        "Yeh us matn ke liye kaam ka hai jo kisi ne likha ho, kyunke us mein aksar faaltu spaces hote hain jo aap ne nahin maange the."
+                    ],
+                    "names": ["$~kaatein"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Main ek naya @Text banata hoon jis mein meri alaamaten ulti tarteeb mein hoti hain:",
+                        "\\'salaam'.reverse()\\",
+                        "Main apni alaamaton ki tarteeb waise ulatta hoon jaise aap unhein dekhte hain, is liye emoji poore rehte hain aur harfon ke nishaan barqarar rehte hain:",
+                        "\\'🐈📚'.reverse()\\"
+                    ],
+                    "names": ["$~ulta", "$~ultaKarein"],
+                    "inputs": []
+                },
+                "repeat": {
+                    "doc": [
+                        "$~Main ek naya @Text banata hoon jo main hi hoon, \\count\\ ki tadaad ke barabar dohraya hua:",
+                        "\\'salaam ' × 5\\",
+                        "Agar aap mujhe kasri @Number dein, to main kasr ko nazar-andaaz kar deta hoon:",
+                        "\\'salaam ' × 5.5\\",
+                        "Agar aap mujhe manfi @Number ya sifar dein, to main khaali @Text deta hoon.",
+                        "\\'salaam ' × -5\\",
+                        "Sab se lamba matn jo main bana sakta hoon 65,535 harf ka hai. Agar aap us se lamba matn banane ki koshish karein, to main matn ko jitni baar ho sake dohra deta hoon."
+                    ],
+                    "names": ["$~dohrayaGaya", "$~dohraein"],
+                    "inputs": [
+                        {
+                            "doc": "$~Naye matn mein khud ko kitni baar dohrana hai.",
+                            "names": "$~ginti"
+                        }
+                    ]
+                },
+                "segment": {
+                    "doc": [
+                        "$~Main khud ko di gayi @Text ko juda karne wala nishaan bana kar @Text ki @List mein taqseem karta hoon, aur juda karne wale nishaan hata deta hoon. Misaal ke taur par:",
+                        "\\'seb, santare, angoor' ÷ ', '\\",
+                        "Agar juda karne wala nishaan khaali @Text ho, to main khud ko harfon mein taqseem karta hoon:",
+                        "\\'🖌️🏠🥸' ÷ ''\\"
+                    ],
+                    "names": ["$~hissonMeinBataHua", "$~tukre"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Text jo juda karne wale nishaan ke taur par istemaal hona hai.",
+                            "names": "$~alagKarneWalaNishaan"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Kabhi kabhi do @Text ko ek mein milana madadgaar hota hai. Mujhe doosra @Text dein aur main ek naya matn banaunga jo hamein jodta hai:",
+                        "\\'salaam ' + 'shair'\\"
+                    ],
+                    "names": ["$~joraHua", "$~jorein"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Text jo aakhir mein jodni hai.",
+                            "names": "$~matn"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ agar poora matn di gayi namoone se mel khaata hai.",
+                        "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
+                    ],
+                    "names": ["$~miltaHai"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh namoona jis se milaana hai.",
+                            "names": "$~namoona"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Woh har jagah dhoondein jahan di gayi namoona mujh mein mel khaata hai, @Result ki fehrist ke taur par.",
+                        "\\'a1 b2' ⌕ ⣿ _ #⣿\\"
+                    ],
+                    "names": ["$~dhoondein"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh namoona jise @query karna hai.",
+                            "names": "$~namoona"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "$~Matn ko alag alag harfon ki list mein baant deta hai.",
+                "number": [
+                    "$~Matn ko @Number mein badalta hai, aur agar woh number nahin hai to ek \"number nahin\" qeemat deta hai, jo \\!#\\ ke taur par nazar aati hai:",
+                    "\\'hi' → #\\"
+                ],
+                "formatted": "$~Matn ko saje hue matn mein badalta hai, aur us mein maujood markup ko samajhta hai."
+            }
+        },
+        "Formatted": {
+            "doc": [
+                "$~Main @markup hoon: alfaaz jin mein style hota hai, jaise mota likha hua, tirchha likha hua, aur links. Mujhe backticks ke darmiyan likhein:",
+                "\\`main **mota** hoon aur /tirchha/`\\",
+                "Main @Text se kaafi milta julta hoon, lekin main formatting bhi rakh sakta hoon. Aap mujhe jod sakte hain, dohra sakte hain, dekh sakte hain ke mujh mein kya hai, aur mujhe saade @Text mein badal sakte hain."
+            ],
+            "name": ["$~SajaHua"],
+            "function": {
+                "length": {
+                    "doc": "$~Main apne matn ke parhe jaane wale harfon ki ginti ke barabar @value deta hoon, formatting aur paragraph ke tootne ko nazar andaaz karke.",
+                    "names": ["$~lambaai"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ agar main diye gaye @value jaisa hi @markup hoon.",
+                    "names": ["$~barabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mawazna karne ke liye @markup.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ agar main diye gaye @value jaisa @markup /nahin/ hoon.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Mawazna karne ke liye @markup.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$~\\⊤\\ agar mere saade matn mein diya gaya @Text maujood hai. Dhoondte waqt main formatting aur paragraph ke tootne ko nazar andaaz karta hoon.",
+                    "names": ["$~rakhta"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mere matn mein dhoondne ke liye @Text.",
+                            "names": "$~matn"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$~\\⊤\\ agar mere saade matn ki shuruaat diye gaye @Text se hoti hai. Jaanchte waqt main formatting aur paragraph ke tootne ko nazar andaaz karta hoon.",
+                    "names": ["$~shuru"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mere matn ki shuruaat mein jaanchne ke liye @Text.",
+                            "names": "$~matn"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$~\\⊤\\ agar mere saade matn ka aakhir diye gaye @Text par hota hai. Jaanchte waqt main formatting aur paragraph ke tootne ko nazar andaaz karta hoon.",
+                    "names": ["$~khatm"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mere matn ke aakhir mein jaanchne ke liye @Text.",
+                            "names": "$~matn"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Main naya @markup banata hoon jo main hi hoon, lekin har harf bade (uppercase) mein. Sirf mere alfaaz badalte hain; meri formatting, links, aur misalein waise hi rehti hain:",
+                        "\\`*salaam* aap ko`.uppercase()\\",
+                        "@Text/uppercase ki tarah, harf ke bade chhote hone ka tasawwur sirf kuch tehreeri nizaamon mein hota hai, aur mera @language tag tay karta hai ke kiske usool istemaal hon."
+                    ],
+                    "names": ["$~barehuroof"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Main naya @markup banata hoon jo main hi hoon, lekin har harf chhote (lowercase) mein. Sirf mere alfaaz badalte hain; meri formatting, links, aur misalein waise hi rehti hain:",
+                        "\\`*SALAAM* AAP KO`.lowercase()\\",
+                        "@Text/lowercase ki tarah, harf ke bade chhote hone ka tasawwur sirf kuch tehreeri nizaamon mein hota hai, aur mera @language tag tay karta hai ke kiske usool istemaal hon."
+                    ],
+                    "names": ["$~chhotehuroof"],
+                    "inputs": []
+                },
+                "repeat": {
+                    "doc": "$~Main naya @markup banata hoon jo main hi hoon, diye gaye baar tak dohraya hua. Agar mujh mein ek se zyada paragraph hon to nakalon ke darmiyan tootne baqi rehte hain.",
+                    "names": ["$~dohrayaGaya", "$~dohraein"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mujhe kitni baar dohrana hai.",
+                            "names": "$~ginti"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$~Mujhe doosra @markup dein aur main hum dono ko jod kar ek bana dunga. Agar hum mein se kisi ke bhi ek se zyada paragraph hon to paragraph ke tootne baqi rehte hain.",
+                    "names": ["$~joraHua", "$~jorein"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jodne ke liye @markup.",
+                            "names": "$~sajaHua"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Saje hue matn ko saade @Text mein badalta hai, aur saari formatting hata deta hai.",
+                "list": "$~Saje hue matn ko @Text ki ek @List mein badalta hai, mere alfaaz ki har alaamat ke liye ek. Formatting ek ek alaamat mein kat kar baqi nahin rehti, is liye hata di jaati hai.",
+                "number": [
+                    "$~Mere alfaaz ko @Number mein badalta hai, aur agar woh number nahin hain to ek \"number nahin\" qeemat deta hai, jo \\!#\\ ke taur par nazar aati hai:",
+                    "\\`hi` → #\\"
+                ]
+            }
+        },
+        "Number": {
+            "doc": [
+                "$~Main @Number banata hoon, aur aap jitni chahein ikaaiyan istemaal kar sakte hain!",
+                "Yeh mere sab se oonche 5 hain:",
+                "\\0\\",
+                "\\1story\\",
+                "\\πpie\\",
+                "\\∞rock\\",
+                "\\1000000hugs\\",
+                "Yeh tareeban beshumaar numbers hain.",
+                "Aur beshumaar ikaaiyan!",
+                "Aur number aur ikaai ke beshumaar joray…",
+                "Main poora number, haqeeqi number, manfi, musbat, kasr, ashariya, yahan tak ke \"number nahin\" bhi ho sakta hoon.",
+                "Aur aap mujhe kai alag number nizaamon mein likh sakte hain, jin mein Arabi \\123\\, Romi \\ⅩⅩⅩⅠⅩ\\, Japani \\二十\\, aur doosre shaamil hain:",
+                "\\1 + Ⅰ + 一\\",
+                "Aap mujhe 2 se 16 tak ke base mein bhi likh sakte hain, base number is tarah likh kar:",
+                "\\2;11111111\\",
+                "\\10;255\\",
+                "\\16;FF\\",
+                "Ek khaas number hai jise NaN kehte hain, jo tab banta hai jab aap aisi cheez likhein jo number nahin hai:",
+                "\\2;22\\",
+                "Base 2 mein digit '2' hota hi nahin, is liye yeh durust number nahin hai. NaN us waqt bhi nazar aayega jab aap bina number wale matn ko number mein badalne ki koshish karein",
+                "\\'hi' → #\\"
+            ],
+            "name": ["$~Adad"],
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Main apne mein ek @Number jodta hoon jis ki @Unit wahi ho, aur ek naya @Number banata hoon jis ki @Unit wahi rehti hai.",
+                        "Misal ke taur par:",
+                        "\\1 + 1\\",
+                        "\\3cat + 5cat\\",
+                        "Agar ikaaiyan mel na khayein to main show rok deta hoon.",
+                        "\\3cat + 5dog\\🪲"
+                    ],
+                    "names": ["$~jama"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jo @Number jodna hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "subtract": {
+                    "doc": [
+                        "$~Main apne andar se woh @Number minha karta hoon jo aap mujhe dete hain, aur ek naya @Number banata hoon jiska @Unit wahi hota hai.",
+                        "Misaal ke taur par:",
+                        "\\1 - 1\\",
+                        "\\3cat - 5cat\\",
+                        "Agar ikaaiyan mel na khaayein, to main show rok deta hoon.",
+                        "\\3cat - 5dog\\🪲"
+                    ],
+                    "names": ["$~tafreeq"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jo mujh se minha karna hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "multiply": {
+                    "doc": [
+                        "$~Main apne aap ko diye gaye @Number se zarb deta hoon, aur apne @Unit aur diye gaye number ke @Unit ka hasil-e-zarb banata hoon:",
+                        "\\5 × 5\\",
+                        "\\5m × 5m\\",
+                        "\\5m × 1/s\\"
+                    ],
+                    "names": ["$~zarb"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh number jis se zarb dena hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "divide": {
+                    "doc": [
+                        "$~Main apne aap ko diye gaye @Number se taqseem karta hoon, aur apne @Unit aur diye gaye number ke @Unit ka hasil-e-taqseem banata hoon:",
+                        "\\5 ÷ 5\\",
+                        "\\5m ÷ 5m\\",
+                        "\\5m ÷ 5s\\"
+                    ],
+                    "names": ["$~taqseem"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jis se mujhe taqseem karna hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "remainder": {
+                    "doc": [
+                        "$~Main apne aap ko diye gaye @Number se taqseem karta hoon, lekin baqi bachne wali @value deta hoon:",
+                        "\\10 % 2\\",
+                        "\\10m % 2\\",
+                        "\\10m/s % 3\\"
+                    ],
+                    "names": ["$~baqi"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jis se mujhe taqseem karna hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "positive": {
+                    "doc": [
+                        "$~Main ek naya @Number banata hoon jo mujhe musbat bana deta hai, agar main manfi hoon.",
+                        "\\-200.positive()\\"
+                    ],
+                    "names": ["$~musbat"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": [
+                        "$~Main ek naya @Number banata hoon jo mujhe sab se qareeb ke poore number tak gol kar deta hai.",
+                        "\\9.4.round()\\",
+                        "\\9.5.round()\\",
+                        "\\9.6.round()\\"
+                    ],
+                    "names": ["$~gol"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": [
+                        "$~Main ek naya @Number banata hoon jo mujhe mujh se chhote sab se bade poore number tak gol kar deta hai.",
+                        "\\10.5.roundDown()\\",
+                        "\\10.1.roundDown()\\",
+                        "\\10.01.roundDown()\\"
+                    ],
+                    "names": ["$~golNeechay"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": [
+                        "$~Main ek naya @Number banata hoon jo mujhe mujh se bade sab se chhote poore number tak gol kar deta hai.",
+                        "\\10.5.roundUp()\\",
+                        "\\10.9.roundUp()\\",
+                        "\\10.99.roundUp()\\"
+                    ],
+                    "names": ["$~golOopar"],
+                    "inputs": []
+                },
+                "power": {
+                    "doc": [
+                        "$~Main apne aap ko diye gaye @Number ki taaqat tak le jaata hoon. Kasri taaqat bhi theek hai!",
+                        "\\2 ^ 8\\",
+                        "\\10 ^ -2\\",
+                        "\\5 ^ -.5\\"
+                    ],
+                    "names": ["$~quwwat"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh taaqat jis tak mujhe le jaana hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "root": {
+                    "doc": [
+                        "$~Main diye gaye jazr se apna jazr banata hoon.",
+                        "\\4 √ 2\\",
+                        "\\1000 √ 3\\"
+                    ],
+                    "names": ["$~jazr"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh jazr jo nikaalna hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "lessThan": {
+                    "doc": [
+                        "$~\\⊤\\ agar main diye gaye @Number se chhota hoon:",
+                        "\\1 < 2\\",
+                        "\\2 < 1\\"
+                    ],
+                    "names": ["$~kam"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jis se mujhe milana hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "lessOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ agar main diye gaye @Number se chhota ya barabar hoon:",
+                        "\\1 ≤ 2\\",
+                        "\\2 ≤ 1\\",
+                        "\\2 ≤ 2\\"
+                    ],
+                    "names": ["$~kamYaBarabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jis se mujhe milana hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "greaterThan": {
+                    "doc": [
+                        "$~\\⊤\\ agar main diye gaye @Number se bada hoon:",
+                        "\\1 > 2\\",
+                        "\\2 > 1\\"
+                    ],
+                    "names": ["$~zyada"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jis se mujhe milana hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "greaterOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ agar main diye gaye @Number se bada ya barabar hoon:",
+                        "\\1 ≥ 2\\",
+                        "\\2 ≥ 1\\",
+                        "\\2 ≥ 2\\"
+                    ],
+                    "names": ["$~zyadayabarabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jis se mujhe milana hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Ek @Range mujh se diye gaye @Number tak, dono shamil. Isay @Spread ke saath list mein phailayein, poochein ke kya is mein number hai, ya isay @Match kunji ke taur par istemaal karein:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Jab mera anjaam mere aaghaz se neeche ho to main ulta ginta hoon:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~tak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jahan meri range khatam hoti hai. Is ki ikai wohi honi chahiye jo meri hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "equal": {
+                    "doc": [
+                        "$~\\⊤\\ agar main diye gaye @Number ke barabar hoon:",
+                        "\\1 = 2\\",
+                        "\\2 = 2\\"
+                    ],
+                    "names": ["$~barabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jis se mujhe milana hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": [
+                        "$~\\⊤\\ agar main diye gaye @Number ke barabar nahin hoon:",
+                        "\\1 ≠ 2\\",
+                        "\\2 ≠ 2\\"
+                    ],
+                    "names": ["$~barabarnahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jis se mujhe milana hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "cos": {
+                    "doc": ["$~Mera cosine nikaalein.", "\\π.cos()\\"],
+                    "names": ["$~cos", "$~cosine"],
+                    "inputs": []
+                },
+                "sin": {
+                    "doc": ["$~Mera sine nikaalein.", "\\π.cos()\\"],
+                    "names": ["$~sin", "$~sine"],
+                    "inputs": []
+                },
+                "tan": {
+                    "doc": ["$~Mera tangent nikaalein.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tangent"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Mera arcsine (ulta sine) nikaalein.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Mera arccosine (ulta cosine) nikaalein.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Mera arctangent (ulta tangent) nikaalein.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Number _e_ ko meri taaqat tak barhayein.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Diye gaye base mein mera logarithm nikaalein, ya agar base na diya ho to mera natural logarithm nikaalein.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Logarithm ka base. Natural logarithm (base _e_) ke liye isay chhor dein.",
+                            "names": "$~bunyaad"
+                        }
+                    ]
+                },
+                "min": {
+                    "doc": [
+                        "$~Mere aur doosre numbers mein se sab se chhota number dhoondein.",
+                        "\\1.min(2 3 -1)\\"
+                    ],
+                    "names": "$~kamtareen",
+                    "inputs": [
+                        {
+                            "doc": "$~Jitne chahein utne numbers mujhe dein!",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "max": {
+                    "doc": [
+                        "$~Mere aur doosre numbers mein se sab se bara number dhoondein.",
+                        "\\1.max(2 3 4)\\"
+                    ],
+                    "names": "$~zyadatareen",
+                    "inputs": [
+                        {
+                            "doc": "$~Jitne chahein utne numbers mujhe dein!",
+                            "names": "$~adad"
+                        }
+                    ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Mujhe ek kam aur ek zyada number ke darmiyan rakhein: agar main kam wale se neeche hoon to wohi milta hai, aur agar main zyada wale se upar hoon to woh milta hai.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~hadd",
+                    "inputs": [
+                        {
+                            "doc": "$~Sab se kam jitna mujhe hone ki ijazat hai.",
+                            "names": "$~nichla"
+                        },
+                        {
+                            "doc": "$~Sab se zyada jitna mujhe hone ki ijazat hai.",
+                            "names": "$~ooncha"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Mujh se doosre number ki taraf raaste ka kuch hissa chalein. 0% par aap ko main milta hoon, 100% par doosra number milta hai, aur beech mein aadhe raaste par darmiyan ka number milta hai.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~taraf",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh number jis ki taraf jaana hai.",
+                            "names": "$~doosra"
+                        },
+                        {
+                            "doc": "$~Kitna door jaana hai, jahan 100% par manzil aa jaati hai.",
+                            "names": "$~miqdaar"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Dhoondein ke main numbers ki ek jodi ke darmiyan kahan hoon, phir doosri jodi ke darmiyan usi jagah wala number wapas dein. Yeh us cheez ko jo aap ne naapi ho us cheez mein badalne ke liye kaam ka hai jo aap dikha sakein.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~paimanaBadlo",
+                    "inputs": [
+                        {
+                            "doc": "$~Us range ka kam wala sira jis mein main hoon.",
+                            "names": "$~kamSe"
+                        },
+                        {
+                            "doc": "$~Us range ka zyada wala sira jis mein main hoon.",
+                            "names": "$~ziyadaSe"
+                        },
+                        {
+                            "doc": "$~Aap ki chahi hui hadd ka nichla sira.",
+                            "names": "$~kamTak"
+                        },
+                        {
+                            "doc": "$~Aap ki chahi hui hadd ka oopri sira.",
+                            "names": "$~ziyadaTak"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Mere hindson ki aik arabi @Text soorat.",
+                "list": [
+                    "$~Main aik adad ko \\1\\ se le kar diye gaye adad tak ke adadon ki fehrist mein badal deta hoon. Misaal ke taur par:",
+                    "\\10→[]\\"
+                ],
+                "unit": "$~$from → $to"
+            },
+            "unit": {
+                "ns": "$~nano second",
+                "us": "$~micro second",
+                "ms": "$~milli second",
+                "s": "$~second",
+                "min": "$~minute",
+                "h": "$~ghante",
+                "day": "$~din",
+                "wk": "$~hafte",
+                "yr": "$~saal",
+                "pm": "$~pico meter",
+                "nm": "$~nano meter",
+                "um": "$~micro meter",
+                "mm": "$~milli meter",
+                "cm": "$~centi meter",
+                "dm": "$~deci meter",
+                "m": "$~meter",
+                "hm": "$~hecto meter",
+                "km": "$~kilo meter",
+                "Mm": "$~mega meter",
+                "Gm": "$~giga meter",
+                "Tm": "$~tera meter",
+                "in": "$~inch",
+                "ft": "$~feet",
+                "yd": "$~gaz",
+                "mi": "$~meel",
+                "nmi": "$~samundari meel",
+                "au": "$~falakiyaati ikaaiyaan",
+                "ly": "$~noori saal",
+                "ug": "$~microgram",
+                "mg": "$~milligram",
+                "g": "$~gram",
+                "kg": "$~kilogram",
+                "t": "$~metric ton",
+                "oz": "$~ounce",
+                "lb": "$~pound",
+                "st": "$~stone",
+                "uston": "$~amriki chhote ton",
+                "ukton": "$~bartanvi lambe ton",
+                "degC": "$~degree Celsius",
+                "degF": "$~degree Fahrenheit",
+                "K": "$~kelvin",
+                "deg": "$~zaaviye ke degree",
+                "rad": "$~radian",
+                "mm2": "$~murabba millimeter",
+                "cm2": "$~murabba centimeter",
+                "m2": "$~murabba meter",
+                "km2": "$~murabba kilomeetar",
+                "in2": "$~murabba inch",
+                "ft2": "$~murabba foot",
+                "yd2": "$~murabba gaz",
+                "mi2": "$~murabba meel",
+                "ha": "$~hectare",
+                "acre": "$~ekar",
+                "mL": "$~milli leetar",
+                "cL": "$~senti leetar",
+                "dL": "$~deshi leetar",
+                "L": "$~leetar",
+                "kL": "$~kilo leetar",
+                "cm3": "$~muka'ab senti meetar",
+                "m3": "$~mukaab meetar",
+                "tsp": "$~chhote chamche",
+                "tbsp": "$~bade chamche",
+                "cup": "$~pyaale",
+                "usfloz": "$~amriki maayi aunce",
+                "uspt": "$~amriki pint",
+                "usqt": "$~amriki quart",
+                "usgal": "$~amriki gallon",
+                "ukfloz": "$~bartanvi maayi aunce",
+                "ukpt": "$~bartanvi pint",
+                "ukqt": "$~bartanvi quart",
+                "ukgal": "$~bartanvi gallon",
+                "mps": "$~meter fi second",
+                "kmph": "$~kilometer fi ghanta",
+                "miph": "$~meel fi ghanta",
+                "ftps": "$~foot fi second",
+                "kn": "$~naat",
+                "Pa": "$~pascal",
+                "hPa": "$~hectopascal",
+                "kPa": "$~kilopascal",
+                "bar": "$~bar",
+                "atm": "$~mayaari fizaa dabaao",
+                "psi": "$~pound fi murabba inch",
+                "mmHg": "$~millimeter paara",
+                "J": "$~jool",
+                "kJ": "$~kilojool",
+                "cal": "$~calorie",
+                "kcal": "$~kilocalorie",
+                "Wh": "$~watt ghanta",
+                "kWh": "$~kilowatt ghanta",
+                "BTU": "$~British thermal unit",
+                "eV": "$~electronvolt",
+                "mW": "$~milliwatt",
+                "W": "$~watt",
+                "kW": "$~kilowatt",
+                "MW": "$~megawatt",
+                "GW": "$~gigawatt",
+                "hp": "$~horsepower",
+                "uA": "$~microamperes",
+                "mA": "$~milliamperes",
+                "A": "$~amperes",
+                "kA": "$~kiloamperes",
+                "mV": "$~millivolts",
+                "V": "$~volts",
+                "kV": "$~kilovolts",
+                "mohm": "$~milliohms",
+                "ohm": "$~ohms",
+                "kohm": "$~kiloohms",
+                "Mohm": "$~megaohms",
+                "Hz": "$~hertz",
+                "kHz": "$~kilohertz",
+                "MHz": "$~megahertz",
+                "GHz": "$~gigahertz",
+                "bpm": "$~dhadkan fi minute",
+                "bit": "$~bits",
+                "B": "$~bytes",
+                "kB": "$~kilobytes",
+                "MB": "$~megabytes",
+                "GB": "$~gigabytes",
+                "TB": "$~terabytes",
+                "KiB": "$~kibibytes",
+                "MiB": "$~mebibytes",
+                "GiB": "$~gibibytes",
+                "TiB": "$~tebibytes",
+                "lux": "$~lux",
+                "fc": "$~foot-candles"
+            },
+            "category": {
+                "time": "$~Waqt",
+                "length": "$~Lambai",
+                "weight": "$~Wazan",
+                "temperature": "$~Darja-e-hararat",
+                "angle": "$~Zaawiya",
+                "area": "$~Raqba",
+                "volume": "$~Hajm",
+                "speed": "$~Raftaar",
+                "pressure": "$~Dabaao",
+                "energy": "$~Tawanaai",
+                "power": "$~Quwwat",
+                "electricity": "$~Bijli",
+                "frequency": "$~Taadud",
+                "data": "$~Data",
+                "brightness": "$~Roshni",
+                "other": "$~Digar"
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Main ginti ki ek hadd hoon! Meri ek shuruaat hai aur ek akhir, aur main dono ko aur un ke beech ki har ginti ko shamil karti hoon. Aap mujhe do ginti ke beech \\‥\\ laga kar banate hain:",
+                "\\1‥10\\",
+                "Mujh se poochein ke kya main koi ginti rakhti hoon:",
+                "\\(1‥10) ∋ 7\\",
+                "Mujhe list mein phaila dein to aap ko meri har ginti mil jaye gi:",
+                "\\[:1‥10]\\",
+                "Mujhe @Match ki kunji ke taur par istemaal karein to main apni har ginti se mel khaati hoon:",
+                "\\7 ???\n\t1 ‥ 9: 'chhota'\n\t'bada'\\",
+                "Meri shuruaat aur akhir ki ikai ek hi honi chahiye, bilkul @Number ke muqable ki tarah."
+            ],
+            "name": ["$~Hadd"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ agar diya gaya @Range meri shuruaat aur akhir se bilkul milta ho:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Range jis se mujhe milana hai.",
+                            "names": "$~hadd"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ agar diye gaye @Range ki shuruaat ya akhir mujh se mukhtalif ho:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Range jis se mujhe milana hai.",
+                            "names": "$~hadd"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ agar diya gaya @Number meri shuruaat aur akhir ke beech ho, ya un mein se koi ek ho:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Is se farq nahin parhta ke mujhe kis tarteeb se likha gaya:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~rakhta"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Number jo mujh mein @query karni hai.",
+                            "names": "$~adad"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Main ek hadd ko us ki har ginti ki list mein badal deti hoon, ek ek kar ke ginte hue. Misaal ke taur par:",
+                    "\\(1‥5)→[]\\"
+                ]
+            }
+        },
+        "List": {
+            "doc": [
+                "$~Main qeematon ka ek silsila hoon, kisi bhi qism ki!",
+                "Aap mujh mein kuch bhi rakh sakte hain: @Boolean, @Number, @Text, @None, yahan tak ke doosri @List, @Set, @Map, ya koi bhi @expression. Yeh ek saada misaal hai:",
+                "\\['seb' 'kela' 'aam']\\",
+                "Meri khaas baat yeh hai ke main cheezon ko tarteeb mein rakhti hoon aur har cheez ko 1 se le kar jitni bhi cheezein mujh mein hon, un tak ginti deti hoon.",
+                "Mere arkaan 1 se ginte jaate hain. Jo qeematein main rakhti hoon, woh aap un ke number se @ListAccess ke zariye hasil kar sakte hain:",
+                "Misaal ke taur par, is list mein doosra @value \\['kela']\\ hai",
+                "\\['seb' 'kela' 'aam'][2]\\",
+                "Mujh mein kuch bhi ho sakta hai. Is list ko dekhein, jis mein @Text, @Number, aur @Time hain!",
+                "\\['seb' 10 + 10 Time()]\\",
+                "Jab aap mujhe bohat si cheezon ki list dete hain, to agar un mein @type mushtarak ho to main un ko aam bana deti hoon. Lekin kabhi kabhi aap ka matlab sirf wohi khaas cheezein hota hai. Aisa ho to meri baad ! laga dein, aur main yaqeeni banaungi ke main sirf unhi qeematon ki list hoon.",
+                "\\['seb' 'kela' 'aam']!\\",
+                "Bas itna hi hai. Lekin main apne @FunctionDefinition ke saath aur bhi bohat dilchasp kaam kar sakti hoon!"
+            ],
+            "name": ["$~Fehrist"],
+            "kind": "$~Nau",
+            "out": "$~Nateeja",
+            "outofbounds": "$~haddSeBahar",
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Main ek naya @List banata hoon jis ke aakhir mein diya gaya @element hota hai.",
+                        "\\['seb' 'kela' 'aam'].with('tarbooz')\\"
+                    ],
+                    "names": ["$~saath", "$~jama"],
+                    "inputs": [
+                        {
+                            "doc": "$~Main woh @value hoon jo aap shamil karna chahte hain.",
+                            "names": "$~cheez"
+                        }
+                    ]
+                },
+                "append": {
+                    "doc": [
+                        "$~Main ek naya @List banata hoon jis mein pehle mera @values hota hai, phir mere baad diye gaye @List ki saari qeematein.",
+                        "\\['seb' 'kela' 'aam'].withList(['tarbooz' 'kamrakh'])\\",
+                        "lekin @Spread istemaal karna thoda aasaan hai, is tarah:",
+                        "\\['seb' 'kela' 'aam' :['tarbooz' 'kamrakh']]\\"
+                    ],
+                    "names": ["$~fehristKeSaath", "$~jorna"],
+                    "inputs": [
+                        {
+                            "doc": "$~Shamil karne ke liye @values ki fehrist.",
+                            "names": "$~fehrist"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Main ek nayi fehrist banata hoon jis mein diye gaye @index par maujood @value ko di gayi qeemat se badal diya jata hai.",
+                        "\\['seb' 'kela' 'aam'].replace(1 'kiwi')\\"
+                    ],
+                    "names": ["$~badlein"],
+                    "inputs": [
+                        {
+                            "doc": "$~Badalne wale @value ka @index",
+                            "names": "$~number"
+                        },
+                        {
+                            "doc": "$~Badalne wala @value",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "length": {
+                    "doc": "$~Mere andar maujood @element ka @Number.",
+                    "names": ["$~lambaai"],
+                    "inputs": []
+                },
+                "random": {
+                    "doc": [
+                        "$~Mere arkaan mein se ek, jo ittefaq se chuna gaya ho, ya agar main khaali hoon to @None.",
+                        "\\['seb' 'kela' 'aam'].random()\\"
+                    ],
+                    "names": "$~ittefaqi",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "$~Ek nayi fehrist banayein jis mein fehrist ke arkaan ittefaq se alag tarteeb mein hon.",
+                        "\\['seb' 'kela' 'aam'].shuffled()\\"
+                    ],
+                    "names": "$~betarteeb",
+                    "inputs": []
+                },
+                "first": {
+                    "doc": [
+                        "$~Mera pehla @element, ya agar main khaali hoon to @None.",
+                        "\\['seb' 'kela' 'aam'].first()\\"
+                    ],
+                    "names": "$~pehla",
+                    "inputs": []
+                },
+                "last": {
+                    "doc": [
+                        "$~Mera aakhri @element, ya agar main khaali hoon to @None.",
+                        "\\['seb' 'kela' 'aam'].last()\\"
+                    ],
+                    "names": "$~aakhri",
+                    "inputs": []
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ agar mere andar diye gaye @element ke barabar koi rukn maujood ho.",
+                        "\\['seb' 'kela' 'aam'].has('kela')\\"
+                    ],
+                    "names": "$~rakhta",
+                    "inputs": [
+                        {
+                            "doc": "$~@query karne ke liye @value.",
+                            "names": "$~cheez"
+                        }
+                    ]
+                },
+                "join": {
+                    "doc": [
+                        "$~Main apni fehrist ke arkaan ko @Text mein jorta hoon, jinhein diya gaya alag karne wala @Text alag karta hai.",
+                        "\\['seb' 'kela' 'aam'].join(', ')\\"
+                    ],
+                    "names": "$~milana",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh matn jis se arkaan alag kiye jayenge, chahein to khaali bhi ho sakta hai.",
+                            "names": "$~faasila"
+                        }
+                    ]
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Mein is fehrist ke andar se ek fehrist banata hoon. Yeh us @index se shuru hoti hai jo aap dein, aur aakhri @element par khatam hoti hai, ya agar aap dein to kisi khaas rukn par.",
+                        "\\['seb' 'kela' 'aam'].subsequence(2)\\",
+                        "\\['seb' 'kela' 'aam'].subsequence(1 2)\\",
+                        "Aur dekhein! Agar aap number ulte tarteeb mein dein, to mein ulti fehrist deta hoon.",
+                        "\\['seb' 'kela' 'aam'].subsequence(3 1)\\",
+                        "Agar aap index ke liye 1 se chhota number dein, to mein samjhoonga ke aap ka matlab 1 hai.",
+                        "\\['seb' 'kela' 'aam'].subsequence(-1003243 2)\\",
+                        "Aur agar aap sabse bade index se bada number dein, to mein samjhoonga ke aap ka matlab aakhir hai.",
+                        "\\['seb' 'kela' 'aam'].subsequence(3 2304032432)\\"
+                    ],
+                    "names": "$~hissa",
+                    "inputs": [
+                        {
+                            "doc": "$~Us hisse ke pehle @element ka @index jo aap chahte hain.",
+                            "names": "$~aaghaz"
+                        },
+                        {
+                            "doc": "$~Us hisse ke aakhri @element ka @index jo aap chahte hain. Yeh dena zaroori nahin. Agar aap nahin denge, to aap ki fehrist aakhri rukn par khatam hogi.",
+                            "names": "$~aakhir"
+                        }
+                    ]
+                },
+                "sansFirst": {
+                    "doc": [
+                        "$~Mein apne pehle @element ke baghair ek nayi fehrist banata hoon.",
+                        "\\['seb' 'kela' 'aam'].sansFirst()\\"
+                    ],
+                    "names": ["$~pehleKeBaghair", "$~pehlaHatao"],
+                    "inputs": []
+                },
+                "sansLast": {
+                    "doc": [
+                        "$~Mein apne aakhri @element ke baghair ek nayi fehrist banata hoon.",
+                        "\\['seb' 'kela' 'aam'].sansLast()\\"
+                    ],
+                    "names": ["$~aakhriKeBaghair", "$~aakhriHatao"],
+                    "inputs": []
+                },
+                "sansAll": {
+                    "doc": [
+                        "$~Mein, magar diye gaye @value ke baghair. Har nakal hat jati hai, sirf pehli nahin, chahe aap mere kisi bhi naam se bulayein:",
+                        "\\['seb' 'kela' 'aam' 'seb'].without('seb')\\"
+                    ],
+                    "names": [
+                        "$~baghair",
+                        "$~hatao",
+                        "$~sabKeBaghair",
+                        "$~sabHatao"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @value jis ki fehrist se saari nakalein hatani hain.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Mein, magar ulta!",
+                        "\\['seb' 'kela' 'aam'].reverse()\\"
+                    ],
+                    "names": ["$~ulta", "$~ultaKarein"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ agar mere @element aur unki tarteeb bilkul diye gaye @List jaise hon.",
+                        "\\['seb' 'kela' 'aam'] = ['seb' 'aam' 'kela']\\"
+                    ],
+                    "names": ["$~barabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @List jis se mujhe milana hai.",
+                            "names": "$~fehrist"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ agar mere @element aur unki tarteeb diye gaye @List jaise bilkul /nahin/ hon.",
+                        "\\['seb' 'kela' 'aam'] ≠ ['seb' 'aam' 'kela']\\"
+                    ],
+                    "names": ["$~barabarnahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @List jis se mujhe milana hai.",
+                            "names": "$~fehrist"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Mujhe ek @FunctionDefinition dein jo ek @value aur chahein to @index ko input leti hai aur ek qeemat banati hai. Mein use apne har @element par chalaunga aur apni qeematon ko nayi qeematon mein badal dunga.",
+                        "Misal ke taur par, sochein ke mein @Number ki fehrist hoon aur aap un sab ko doguna karna chahte hain:",
+                        "\\[2 4 6 8].translate(ƒ(adad•#) adad × 2)\\"
+                    ],
+                    "names": "$~badlo",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @FunctionDefinition jo har @element ko badlegi.",
+                            "names": "$~badalneWala"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Woh @element jo badla ja raha hai.",
+                            "names": "$~cheez"
+                        },
+                        {
+                            "doc": "$~Us @element ka @index jo badla ja raha hai.",
+                            "names": "$~number"
+                        },
+                        {
+                            "doc": "$~Woh fehrist jo badli ja rahi hai.",
+                            "names": "$~fehrist"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Mujhe ek @FunctionDefinition dein jo ek @value aur chahein to @index ko input leti hai aur ek @Boolean banati hai. Mein ek nayi fehrist banaunga jis mein sirf woh @element hongay jin ka nateeja \\⊤\\ aaye.",
+                        "Misal ke taur par, sochein ke mein @Number ki fehrist hoon aur aap sirf musbat number chahte hain:",
+                        "\\[2 -4 8 -16].filter(ƒ(adad•#) adad ≥ 0)\\"
+                    ],
+                    "names": "$~chhaanna",
+                    "inputs": [
+                        {
+                            "doc": "$~Ek @FunctionDefinition jo har @element ko jaanchti hai aur agar use rakhna ho to \\⊤\\ deti hai.",
+                            "names": "$~jaanchneWala"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Woh @element jo jaancha ja raha hai.",
+                            "names": "$~cheez"
+                        },
+                        {
+                            "doc": "$~Us @element ka @index jo jaancha ja raha hai.",
+                            "names": "$~number"
+                        },
+                        {
+                            "doc": "$~Woh fehrist jo chhani ja rahi hai.",
+                            "names": "$~fehrist"
+                        }
+                    ]
+                },
+                "all": {
+                    "doc": [
+                        "$~Mujhe ek @FunctionDefinition dein jo ek @value ko input leti hai aur ek @Boolean banati hai agar woh kisi @condition se mel khaye. Agar saare @element shart se mel khayein to mein \\⊤\\ banaunga.",
+                        "Misal ke taur par, sochein ke mein @Number ki fehrist hoon aur aap jaanna chahte hain ke kya sab musbat hain:",
+                        "\\[2 -4 8 -16].all(ƒ(adad•#) adad ≥ 0)\\"
+                    ],
+                    "names": "$~sab",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @FunctionDefinition jo \\⊤\\ deti hai agar koi @element aap ki @condition ko poora kare.",
+                            "names": "$~jaanchneWala"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Woh @element jo jaancha ja raha hai.",
+                            "names": "$~cheez"
+                        },
+                        {
+                            "doc": "$~Us @element ka @index jo jaancha ja raha hai.",
+                            "names": "$~number"
+                        },
+                        {
+                            "doc": "$~Woh fehrist jo jaanchi ja rahi hai.",
+                            "names": "$~fehrist"
+                        }
+                    ]
+                },
+                "until": {
+                    "doc": [
+                        "$~Mujhe ek @FunctionDefinition dein jo ek @value ko input leti hai aur ek @Boolean banati hai agar woh kisi @condition se mel khaye. Mein ek nayi @List banaunga jis mein woh sab @element hongay jab tak shart poori nahin hoti.",
+                        "Misal ke taur par, sochein ke mein @Text janwaron ki fehrist hoon aur aap chahte hain ke \\'choohaa'\\ milne tak sab kuch mile:",
+                        "\\['cat' 'kutta' 'rat' 'choohaa' 'tattoo'].until(\n\tƒ(janwar•'') janwar = 'rat'\n)\\🪲"
+                    ],
+                    "names": "$~jabTak",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @FunctionDefinition jo \\⊤\\ deti hai agar mujhe @element shamil karna band kar dena chahiye.",
+                            "names": "$~jaanchneWala"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Woh @element jo jaancha ja raha hai.",
+                            "names": "$~cheez"
+                        },
+                        {
+                            "doc": "$~Us @element ka @index jo jaancha ja raha hai.",
+                            "names": "$~number"
+                        },
+                        {
+                            "doc": "$~Woh fehrist jiska hissa nikala ja raha hai.",
+                            "names": "$~fehrist"
+                        }
+                    ]
+                },
+                "find": {
+                    "doc": [
+                        "$~Mujhe ek @FunctionDefinition dein jo ek @value ko input ke taur par le aur agar woh kisi @condition par poora utre to ek @Boolean de, aur main milne wali cheez wapas dunga.",
+                        "Misaal ke taur par, farz karein aap woh pehla janwar dhoondna chahte hain jis mein vowel \\'e'\\ ho:",
+                        "\\['cat' 'kutta' 'choohaa' 'choohaa' 'tattoo'].find(\n\tƒ(janwar•'') janwar.has('e')\n)\\🪲"
+                    ],
+                    "names": "$~dhoondo",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @FunctionDefinition jo agar aapki @query ki @condition par poora utre to \\⊤\\ de.",
+                            "names": "$~jaanchneWala"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Woh @element jo jaancha ja raha hai.",
+                            "names": "$~cheez"
+                        },
+                        {
+                            "doc": "$~Us @element ka @index jo jaancha ja raha hai.",
+                            "names": "$~number"
+                        },
+                        {
+                            "doc": "$~Woh fehrist jisme @query ho rahi hai.",
+                            "names": "$~fehrist"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Mujhe ek @FunctionDefinition dein jo sabse taaza milaap aur agla @value le, aur agla milaap banaye. Phir main apni pehli se aakhri cheez tak chalta hoon, ek ke baad ek milaap banata hoon, aur aakhri milaap wapas deta hoon jo aapka @FunctionDefinition banata hai.",
+                        "Yeh un sab cheezon ko ek hi qeemat mein jama karne ke liye bahut kaam ka hai. Misaal ke taur par, farz karein aap adadon ki fehrist ko jama karna chahte hain:",
+                        "\\[3 9 2 8 1 4].combine(0 ƒ(majmooa•# adad•#) majmooa + adad)\\"
+                    ],
+                    "names": ["$~joraHua", "$~jorein"],
+                    "inputs": [
+                        {
+                            "doc": "$~Shuru ka milaap.",
+                            "names": "$~ibtidai"
+                        },
+                        {
+                            "doc": "$~Woh @FunctionDefinition jo sabse taaza milaap aur agla @value le aur agla milaap banaye.",
+                            "names": "$~milaneWala"
+                        }
+                    ],
+                    "combiner": [
+                        {
+                            "doc": "$~Maujooda milaap",
+                            "names": "$~milaap"
+                        },
+                        {
+                            "doc": "$~Milane ke liye agli cheez.",
+                            "names": "$~agla"
+                        },
+                        {
+                            "doc": "$~Agli cheez ka @index",
+                            "names": "$~number"
+                        },
+                        {
+                            "doc": "$~Woh fehrist jise milaya ja raha hai.",
+                            "names": "$~fehrist"
+                        }
+                    ]
+                },
+                "sorted": {
+                    "doc": [
+                        "$~Main ek fehrist le kar ek nayi fehrist bana sakta hoon jis ke @values tarteeb se lage hon. Is tarah:",
+                        "\\[1 5 8 0 2].sorted()\\",
+                        "Main yeh @Text qeematon ke liye bhi kar sakta hoon, alif-be ki tarteeb mein. Bara harf apne chhote harf ke saath lagta hai, is liye koi lafz sirf bare harf se shuru hone ki wajah se aakhir mein nahin jata:",
+                        "\\['Narangi' 'kiwi' 'Kela' 'seb'].sorted()\\",
+                        "Aur agar aapke paas aisi qeematon ki fehrist hai jo @Number ya @Text nahin hain, to aap mujhe ek @FunctionDefinition de sakte hain jo har cheez ko @Number ya @Text mein badal de taake main tarteeb laga sakoon. Misaal ke taur par, yahan alag alag lambai ki fehriston ki fehrist hai; agar aap mujhe aisa function dein jo har fehrist ko uski lambai mein badal de, to main unhein lambai ke hisaab se tarteeb de sakta hoon.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(fehrist) fehrist.length())\\",
+                        "Jo function @Text banata hai, us se aap kisi aise lafz ke hisaab se tarteeb lagate hain jo aap hisaab se nikalte hain, na ke khud qeemat ke hisaab se. Yahan main naamon ko aakhri naam ke hisaab se tarteeb deta hoon:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorted(\n\tƒ(naam•'') (naam ÷ ' ').last()\n)\\"
+                    ],
+                    "names": "$~tarteebShuda",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh ikhtiyari @FunctionDefinition jo fehrist @value ko tarteeb dene ke liye istemaal ho. Yeh qeemat ko @Number ya @Text mein badle jo fehrist ki tarteeb ke liye kaam aa sake.",
+                            "names": "$~tarteebDeneWala"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": "$~Woh @value jise @Number ya @Text mein badalna hai.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Mere saare adad jama kar deta hoon. Agar main khaali hoon to jawab 0 hai, aur agar mere saare adad ek hi cheez mein nahin naape gaye to main andaza lagane ke bajaye bata doonga.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~jor",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Mere saare adad jama kar ke unki tadaad se taqseem karta hoon. Agar main khaali hoon to ausat nikalne ke liye kuch nahin, is liye aapko @None milta hai.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~ausat",
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Fehrist ko @Text ki shakal mein badalna.",
+                "set": "$~@Set mein badalna, jo dohraye hue ko hatane mein madadgaar hai."
+            }
+        },
+        "Set": {
+            "doc": [
+                "$~Main qeematon ka ek set hoon! Yaani mujh mein koi bhi tadaad ki qeematein ho sakti hain, ya koi bhi nahin. Aap mujhe is tarah bana sakte hain:",
+                "\\{1 2 3}\\",
+                "Main bahut achha hoon agar aap cheezon ka majmua bina dohraye hue rakhna chahte hain.",
+                "Yaani agar aap mujhe aisi qeematein dein jo mere paas pehle se hain, to main faltu ko nazar-andaz kar doonga.",
+                "Misaal ke taur par, is set mein bahut dohraye hue hain:",
+                "\\{1 1 2 2 3 3}\\",
+                "Main isay sirf \\{1 2 3}\\ samajhta hoon.",
+                "Agar aap dekhna chahte hain ke mujh mein @value hai ya nahin, to @SetOrMapAccess madad kar sakta hai:",
+                "\\{'martaban' 'botal' 'gilaas'}{'cup'}\\",
+                "Aam taur par, agar aap mujhe aisi qeematein dein jo ek hi @type ki hon, to main samajh leta hoon ke yeh us qism ki fehrist hai. Jaise yeh set \\{''}\\ hai, kyunke yeh sab @Text hain.",
+                "\\{'are' 'hi' 'salaam'}\\",
+                "Lekin ho sakta hai aap batana chahein ke main /sirf/ unhi qeematon ka set hoon, taake jab aap koi aisi qeemat istemaal karein jo jaaiz nahin to main bata sakoon. Aisa karne ke liye mere aakhir mein ! laga dein.",
+                "\\{'are' 'hi' 'salaam'}!{'oye'}\\🪲",
+                "Kya mere saath aur kuch karna chahte hain? Mere paas jo @FunctionDefinition hain unhein dekhein!"
+            ],
+            "name": ["$~Majmooa"],
+            "kind": "$~Nau",
+            "out": "$~Nateeja",
+            "function": {
+                "size": {
+                    "doc": "$~Main bataunga ke mujh mein kitne @values hain.",
+                    "names": "$~size",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~Main \\⊤\\ hoon agar diya gaya @Set aur main bilkul ek jaise @values rakhte hain:",
+                        "\\{1 2 3} = {2 3 4}\\"
+                    ],
+                    "names": ["$~barabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Muqabla karne ke liye @Set.",
+                            "names": "$~majmooa"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~Main \\⊤\\ hoon agar diya gaya @Set aur main bilkul ek jaise @values nahin rakhte:",
+                        "\\{1 2 3} ≠ {2 3 4}\\"
+                    ],
+                    "names": ["$~barabarnahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Muqabla karne ke liye @Set.",
+                            "names": "$~majmooa"
+                        }
+                    ]
+                },
+                "add": {
+                    "doc": [
+                        "$~Mujhe jodne ke liye ek cheez dein aur main apni cheezon aur di gayi cheez ke saath ek naya @Set bana doonga.",
+                        "\\{1 2 3} + 4\\"
+                    ],
+                    "names": ["$~saath", "$~jama"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jodne wali cheez",
+                            "names": "$~cheez"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Mujhe hatane ke liye ek cheez dein aur main us cheez ke baghair ek naya @Set bana doonga.",
+                        "\\{1 2 3} - 2\\",
+                        "Agar woh cheez mere paas na ho to main khud hi wapas aa jaunga."
+                    ],
+                    "names": ["$~hatao"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @element jise hatana hai.",
+                            "names": "$~cheez"
+                        }
+                    ]
+                },
+                "union": {
+                    "doc": [
+                        "$~Mujhe @Set dein aur main ek naya @Set banaoon ga jis mein mere @element aur set ke rukn dono hon.",
+                        "\\{1 2 3} ∪ {3 4 5}\\"
+                    ],
+                    "names": ["$~milaap"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Set jo mere saath milana hai.",
+                            "names": "$~majmooa"
+                        }
+                    ]
+                },
+                "intersection": {
+                    "doc": [
+                        "$~Mujhe @Set dein aur main ek naya @Set banaoon ga jis mein sirf woh @element hon jo hum dono mein ek jaise hain.",
+                        "\\{1 2 3} ∩ {3 4 5}\\"
+                    ],
+                    "names": ["$~mushtarik"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh set jis ka mujh se muqabla karna hai.",
+                            "names": "$~majmooa"
+                        }
+                    ]
+                },
+                "difference": {
+                    "doc": [
+                        "$~Mujhe @Set dein aur main ek naya @Set banaoon ga jis mein sirf woh @element hon jo hum dono mein ek jaise hain.",
+                        "\\{1 2 3}.difference({3 4 5})\\"
+                    ],
+                    "names": "$~farq",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh set jis ke @element mujh se hatane hain.",
+                            "names": "$~majmooa"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Mujhe @FunctionDefinition dein jo ek @element le aur agar use rakhna hai to \\⊤\\ de. Phir main ek @Set banaoon ga jis mein sirf woh rukn hon jo aap ki @condition poori karte hain.",
+                        "Misaal ke taur par, mujh mein se taaq adaad dhoondhte hain:",
+                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(adad•#) (adad % 2) = 1)\\"
+                    ],
+                    "names": "$~chhaanna",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @FunctionDefinition jo ek @element ko jaanchta hai ke use rakhna hai ya nahin.",
+                            "names": "$~jaanchneWala"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Woh @element jo jaancha ja raha hai.",
+                            "names": "$~qeemat"
+                        },
+                        {
+                            "doc": "$~Woh set jise chhaana ja raha hai",
+                            "names": "$~majmooa"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Mujhe @FunctionDefinition dein jo ek @element le kar us ke mutabiq ek naya rukn banaye. Phir main apne tamam rukn ko ek naye @Set mein badal doon ga (aur dohraaye hue rukn hata doon ga).",
+                        "Misaal ke taur par, mere tamam @Number ko @Text mein badalte hain:",
+                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(adad•#) adad → '')\\"
+                    ],
+                    "names": "$~badlo",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @FunctionDefinition jo mera ek @element aap ke chahe hue naye rukn mein badalta hai.",
+                            "names": "$~majmooa"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Woh @element jo badla ja raha hai.",
+                            "names": "$~qeemat"
+                        },
+                        {
+                            "doc": "$~Woh set jise badla ja raha hai",
+                            "names": "$~majmooa"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~@Set ki @Text soorat",
+                "list": "$~Set ke rukn ki @List soorat."
+            }
+        },
+        "Map": {
+            "doc": [
+                "$~Main qeematon ko jod kar rakhta hoon, yaani *kunjiyon* ko *qeematon* se milata hoon. Misaal ke taur par:",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}\\",
+                "Meri kunjiyan kisi bhi qism ki @value ho sakti hain, aur meri qeematein kisi bhi qism ki qeemat ho sakti hain.",
+                "Kuch log mujhe @index ya lughat ki tarah samajhte hain, jahan aap mujhe kuch dete hain aur main aap ko woh deta hoon jis se woh juda hai.",
+                "Agar aap jaanchna chahein ke koi cheez kis se juri hai, to @SetOrMapAccess ko ek @key dein aur woh aap ko qeemat de dein ge:",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'amy'}\\",
+                "Agar koi milti hui kunji na ho, to main aap ko @None doon ga.",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'jen'}\\",
+                "Aap is tarah ek khaali map bhi bana sakte hain:",
+                "\\{:}\\",
+                "Aam taur par, aap jo bhi kunjiyan aur qeematein dete hain main unhein dekh kar un sab ke liye ek @type bana leta hoon. Jaise yeh adaad se adaad ka map hai:",
+                "\\{1:1 2:2 3:3}\\",
+                "Lekin agar aap chahein ke woh sirf wahi qeematein rakhe, to mere aakhir mein ! laga dein, aur main aam nahin banoon ga. Is se aap ko pata chal jaye ga agar aap koi aisi qeemat lene ki koshish karein jis ka irada nahin tha.",
+                "\\{1:1 2:2 3:3}!{4}\\🪲",
+                "Mujhe apne jodon ke saath bohat se kamaal ke kaam karna aate hain."
+            ],
+            "name": ["$~Naqsha"],
+            "key": "$~Kunji",
+            "value": "$~Qeemat",
+            "result": "$~Nateeja",
+            "function": {
+                "size": {
+                    "doc": "$~Main bataunga ke mujh mein kitne @values hain.",
+                    "names": "$~size",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\{⊤}\\ agar mere jode bilkul wahi hain jo diye gaye @Map ke hain.",
+                        "\\{1:1 2:2} = {1:1 2:3}\\"
+                    ],
+                    "names": ["$~barabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Map jis se mujhe milana hai.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\{⊤}\\ agar mere jode bilkul wahi /nahin/ hain jo diye gaye @Map ke hain.",
+                        "\\{1:1 2:2} ≠ {1:1 2:3}\\"
+                    ],
+                    "names": ["$~barabarnahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @Map jis se mujhe milana hai.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "set": {
+                    "doc": [
+                        "$~Main ek naya @Map banaoon ga jis mein sab wahi jode hon, lekin us naye jode ke saath jo aap mujhe dein. Agar mere paas pehle se @key hai, to main use naye @value se jod doon ga.",
+                        "\\{'amy': 6points 'tony': 3points}.pair('jen' 0points)\\"
+                    ],
+                    "names": "$~jora",
+                    "inputs": [
+                        {
+                            "doc": "$~@key jo @value ke saath jodna hai.",
+                            "names": "$~kunji"
+                        },
+                        {
+                            "doc": "$~Woh @value jo @key ke saath jodna hai",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "unset": {
+                    "doc": [
+                        "$~Main ek naya @Map banaoon ga jis mein woh @key na ho jo aap mujhe dein, yaani us ka jora hata doon ga.",
+                        "\\{'amy': 6points 'tony': 3points}.unpair('amy')\\"
+                    ],
+                    "names": "$~joraTodo",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @key jise bhoolna hai.",
+                            "names": "$~kunji"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Main ek naya @Map banaunga jis mein woh kunjiyan nahin hongi jin ki @value hai.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.remove(\n\t0points\n)\\"
+                    ],
+                    "names": "$~hatao",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @value jo mujh se hatana hai, un tamam kunjiyon ke saath jin se woh juda hai.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Mujhe ek @FunctionDefinition dein jo ek @key aur @value le, aur agar jorha rakhna ho to \\⊤\\ dein. Main ek naya @Map banaunga jo aapki sharait poori kare.",
+                        "Masalan, yahan hum woh jorhe rakhna chahte hain jo Amy ke hon ya jin ke points sifar se zyada hon.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.filter(\n\tƒ(kunji•'' qeemat2•#points) (kunji = 'amy') | (qeemat2 > 0points)\n)\\"
+                    ],
+                    "names": "$~chhaanna",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @FunctionDefinition jo faisla karta hai ke jorha rakhna hai ya nahin.",
+                            "names": "$~jaanchneWala"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Jis @key ko jaancha ja raha hai.",
+                            "names": "$~kunji"
+                        },
+                        {
+                            "doc": "$~Jis @value ko jaancha ja raha hai.",
+                            "names": "$~qeemat"
+                        },
+                        {
+                            "doc": "$~Jis map ko chhaanta ja raha hai.",
+                            "names": "$~naqsha"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Mujhe ek @FunctionDefinition dein jo ek @key aur @value le aur qeemat ko ek nayi qeemat mein badal de. Main ek naya @Map banaunga jis mein kunjiyan wahi hongi lekin qeematein nayi hongi.",
+                        "Masalan, aaiye sab ko ek ek point dein kyunki woh bahut achhe rahe hain.",
+                        "\\{'amy': 5points 'jen': 3points 'tony': 0points}.translate(\n\tƒ(kunji•'' qeemat2•#points) qeemat2 + 1points\n)\\🪲"
+                    ],
+                    "names": "$~badlo",
+                    "inputs": [
+                        {
+                            "doc": "$~Woh @FunctionDefinition jo har @value ko badalta hai.",
+                            "names": "$~badalneWala"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Jis @value ko badla ja raha hai uska @key.",
+                            "names": "$~kunji"
+                        },
+                        {
+                            "doc": "$~Jis @value ko badla ja raha hai.",
+                            "names": "$~qeemat"
+                        },
+                        {
+                            "doc": "$~Jis map ko badla ja raha hai.",
+                            "names": "$~naqsha"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Mapping ki @Text surat.",
+                "set": "$~@Map ki kunjiyan",
+                "list": "$~@Map mein maujood qeematon ki list"
+            }
+        },
+        "Table": {
+            "doc": [
+                "$~Main table ki qataron ka ek set hoon! Main un @values ke bade majmoon ka hisaab rakhne mein madad kar sakta hoon jin ki bunyaad ek jaisi ho.",
+                "Masalan, sochein ke aap bahut se patthron ka hisaab rakhna chahte hain:",
+                "\\⎡naam•'' rang•''⎦\n⎡'obsidian' 'kaala'⎦\n⎡'jhaanwaan' 'bhoora'⎦\n⎡'citrine' 'peela'⎦\\",
+                "@Bind is ko naam dene mein madad kar sakta hai! Phir aap naye @element ke saath nayi table bana sakte hain, jaise @Insert:",
+                "\\patthar: ⎡naam•'' rang•''⎦\n\t⎡'obsidian' 'kaala'⎦\n\t⎡'jhaanwaan' 'bhoora'⎦\n\t⎡'citrine' 'peela'⎦\npatthar ⎡+'quartz' 'safaid'⎦\\",
+                "Ya agar aap woh qatarein dhoondna chahte hain jo mel khati hon, to aap @condition se mel khane wali qataron ko @Select kar sakte hain:",
+                "\\patthar: ⎡naam•'' rang•''⎦\n\t⎡'obsidian' 'kaala'⎦\n\t⎡'jhaanwaan' 'grey'⎦\n\t⎡'citrine' 'peela'⎦\npatthar ⎡?⎦ rang = 'grey'\\",
+                "Ya shayad aap aisi nayi table banana chahte hain jis mein shart poori karne wali qataron ki qeematein alag hon:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
+                "Ya shayad aap shart poori karne wali qatarein mita dena chahte hain:",
+                "\\patthar: ⎡naam•'' rang•''⎦\n\t⎡'obsidian' 'kaala'⎦\n\t⎡'jhaanwaan' 'bhoora'⎦\n\t⎡'citrine' 'peela'⎦\npatthar ⎡- naam.has('i')\\",
+                "Aur agar aap kabhi mujh se khaas qeematein lena chahein, to aap kisi bhi table ko list mein badal kar @PropertyReference se alag alag qataron tak pahunch sakte hain",
+                "\\patthar: ⎡naam•'' rang•''⎦\n\t⎡'obsidian' 'kaala'⎦\n\t⎡'jhaanwaan' 'bhoora'⎦\n\t⎡'citrine' 'peela'⎦\n(patthar → [])[1].naam\\"
+            ],
+            "name": ["$~Jadwal"],
+            "row": "$~Qataar",
+            "function": {
+                "equals": {
+                    "doc": "$~Main jaanchta hoon ke kya mere paas bilkul wahi @cells bilkul usi tarteeb mein hain jo kisi doosre @Table mein hain.",
+                    "names": ["$~barabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jaanchne ke liye doosri table.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Main jaanchta hoon ke kya mere koi @cells kisi doosre @Table se mukhtalif hain ya mukhtalif tarteeb mein hain.",
+                    "names": ["$~barabarNahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jaanchne ke liye doosri table.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "$~Main ek @Table ko qataron ki list mein badal deta hoon, jahan har qatar ek @Structure hoti hai jis ke column ke naam uski khaasiyaat hote hain.",
+                "text": "$~Main sirf ek @Table ko matn mein badalta hoon."
+            }
+        },
+        "Structure": {
+            "doc": "$~Main ek tarteeb wala @value hoon jis ke naam aur qism wale khaane hote hain, jo ek @StructureDefinition se banaya gaya hoon. Dekhein @StructureDefinition.",
+            "name": ["$~Dhaancha"],
+            "function": {
+                "equals": {
+                    "doc": "$~Main jaanchta hoon ke kya mere @properties ka naam aur @values kisi doosre structure ki khaasiyaat ke barabar hain.",
+                    "names": ["$~barabar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jaanchne ke liye doosra structure.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Main jaanchta hoon ke kya mere @properties kisi bhi tarah doosre structure ke naam aur @values se mukhtalif hain.",
+                    "names": ["$~barabarNahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jaanchne ke liye doosra structure.",
+                            "names": "$~qeemat"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Main khud ko @Text mein badalta hoon."
+            }
+        }
+    }
+}

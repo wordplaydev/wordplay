@@ -52,7 +52,10 @@ export default function checkItalicSpans(
 ): LocaleText {
     const revised = fix ? structuredClone(target) : target;
     const labels = getItalicLabels(source, target);
-    const latin = getLanguageScripts(target.language).includes('Latn');
+    // A locale naming its script is written in that one alone (Roman Urdu).
+    const latin = target.script
+        ? target.script === 'Latn'
+        : getLanguageScripts(target.language).includes('Latn');
     // A name that is the English word of a glossary term whose word here is
     // queued to be chosen again waits for that word: what this locale called it
     // before is the very word being replaced (the how-to guide, recorded as the

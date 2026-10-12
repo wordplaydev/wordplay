@@ -1,0 +1,39 @@
+Khel ki haalat ka hisaab rakhein
+
+Zyaadatar khel, jaise jaise aage barhte hain, kai cheezon ka hisaab rakhte hain: points, khilaadi ki jagah, aur doosri tafseelaat sab zaroori hain.
+Jab bhi koi input aata hai, haalat badal jaati hai, aur phir hum jawab mein naya output dikhana chahte hain.
+
+Kisi bhi khel ka aam tareeqa teen kaam karta hai:
+
+• Khel ki haalat ka data structure banayein, jo khel ki saari haalat ko mehfooz rakhe
+• Ek reaction banayein jo har naye input par pichhli khel ki haalat se nayi khel ki haalat banaye
+• Ek banayein @Stage jis mein @Group aur @Phrase ho, taake khel ki haalat dikhai de
+
+Misaal ke taur par, ek aasaan khel sochein jis mein text box mein khufiya alfaaz likhne hote hain, aur har baar khufiya lafz bujhne par ek point milta hai:
+
+\
+•khel(raaz•[''] points2•#)
+
+haalat: khel(['billi' 'kutta'] 0) … haalat.raaz.rakhta(Guftagu()) … haalat.points2: haalat.points2 + 1
+
+Stage(
+    haalat.points2 = haalat.raaz.lambaai() ? 
+        [ Jumla('aap jeet gaye!')]
+        [ Group(Tah() [ Jumla('mere khufiya alfaaz boojhein') Jumla(`\haalat.raaz.lambaai() - haalat.points2\ aur raaz`)])]
+)
+\
+
+ Aaiye ise samajhte hain.
+
+• Pehli line, \•khel(raaz•[''] points2•#)\ kehti hai, / Ek data structure banayein jiska naam \Game\ ho aur jo khufiya alfaaz ki list aur points rakhta ho /. \['']\ ka matlab hai / kisi bhi tadaad ke alfaaz ki list /. Agar aap ek khaas lambai ki list chahte hain, to aap us ki har jagah ke liye ek qism ka naam likh sakte hain: \[# '']\ do cheezon ki list hai, pehle ek number phir ek lafz.
+• Doosri line kehti hai / Khel ki haalat khufiya alfaaz ki list aur sifar points se shuru hoti hai. Jab bhi \Guftagu\ badalta hai, agar likha gaya lafz khufiya alfaaz ki list mein hai, to nayi khel ki haalat banayein jis mein points ek se barh jayein / par ruk jaata hai.
+• Jab bhi program dobara chalta hai (jab \Guftagu\ badalta hai), toh ek stage dikhayein. Agar points ki tadaad raazon ki tadaad ke barabar ho, toh jeetne wala stage dikhayein. Agar nahin, toh ek paigham aur baqi raazon ki tadaad dikhayein.
+
+Is misaal mein kuch masle hain:
+
+• Agar woh ek raaz wale lafz ko kai baar bataein, toh unhein zyada points milte hain! Hamari game ki haalat ko yeh bhi yaad rakhna pad sakta hai ke kya bataya gaya, taake har lafz sirf ek baar gina jaye.
+• Agar khilaari kai alfaaz likhe, toh kya woh gine jayein?
+
+Zyada behtar game ki haalatein aur game ke updates in masalon ko sambhalne mein hamari madad karenge.
+
+track-points

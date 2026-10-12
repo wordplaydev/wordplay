@@ -4,154 +4,438 @@
 
 Each song is a list of scale degrees: 1 is the first note of the scale, 8 is the one an octave above, and numbers below 1 go under it. Hand a list to a @Track and pick any instrument you like. The sounds are ready to play as they are.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶
 ¶أغانٍ يعرفها الجميع، وأصوات لتمييز لحظة ما.
 
 كل أغنية هي قائمة من درجات السلم الموسيقي: الرقم 1 هو أول نغمة في السلم، والرقم 8 هو نفس النغمة لكن أعلى بأوكتاف كامل، والأرقام الأقل من 1 تكون أسفل النغمة الأولى. أعطِ القائمة إلى @Track واختر أي آلة تحبها. الأصوات جاهزة للعزف كما هي.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/ar
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/ar
 ¶সকলোৱে জনা গীত, আৰু কোনো মুহূৰ্ত চিহ্নিত কৰিবলৈ শব্দ।
 
 প্ৰতিটো গীত স্কেল স্তৰৰ এটা তালিকা: 1 হৈছে স্কেলৰ প্ৰথম স্বৰ, 8 হৈছে তাতকৈ এক অষ্টেভ ওপৰৰ স্বৰ, আৰু 1 তকৈ কম সংখ্যাবোৰ তাৰ তলত থাকে। এটা তালিকা এটা @Track ক দিয়ক আৰু নিজে পছন্দ কৰা যিকোনো বাদ্যযন্ত্ৰ বাচি লওক। শব্দবোৰ যিদৰে আছে সেইদৰেই বজাবলৈ সাজু।
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/as
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/as
 ¶সবাই জানে এমন গান, আর মুহূর্তকে চিহ্নিত করার শব্দ।
 
 প্রতিটি গান হলো স্কেল ডিগ্রির একটি তালিকা: ১ হলো স্কেলের প্রথম নোট, ৮ হলো তার এক অক্টেভ উপরের নোট, আর ১-এর নিচের সংখ্যাগুলো তার নিচে যায়। একটি তালিকা @Track-কে দাও এবং তোমার পছন্দমতো যেকোনো যন্ত্র বেছে নাও। শব্দগুলো যেমন আছে তেমনই বাজানোর জন্য প্রস্তুত।
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/bn
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/bn
 ¶Lieder, die jeder kennt, und Klänge, die einen Moment markieren.
 
 Jedes Lied ist eine Liste von Tonleiterstufen: 1 ist der erste Ton der Tonleiter, 8 ist der Ton eine Oktave darüber, und Zahlen unter 1 liegen darunter. Gib einer @Track eine Liste und wähle ein beliebiges Instrument. Die Klänge sind sofort abspielbereit.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/de
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/de
 ¶Τραγούδια που όλοι ξέρουν, και ήχοι για να σημαδέψουν μια στιγμή.
 
 Κάθε τραγούδι είναι μια λίστα από βαθμούς κλίμακας: το 1 είναι η πρώτη νότα της κλίμακας, το 8 είναι αυτή μια οκτάβα πάνω, και οι αριθμοί κάτω από το 1 βρίσκονται κάτω από αυτήν. Δώσε μια λίστα σε ένα @Track και διάλεξε όποιο όργανο θέλεις. Οι ήχοι είναι έτοιμοι να παιχτούν όπως είναι.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/el
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/el
 ¶آهنگ‌هایی که همه می‌شناسند، و صداهایی برای نشان‌دادن یک لحظه.
 
 هر آهنگ یک فهرست از درجه‌های گام است: ۱ اولین نُت گام است، ۸ همان نُت یک اکتاو بالاتر است، و عددهای زیر ۱ پایین‌تر از آن قرار می‌گیرند. یک فهرست به @Track بده و هر سازی که دوست داری انتخاب کن. صداها همان‌طور که هستند آماده پخش‌شدن‌اند.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/fa
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/fa
 ¶Des chansons que tout le monde connaît, et des sons pour marquer un moment.
 
 Chaque chanson est une liste de degrés de gamme : 1 est la première note de la gamme, 8 est celle une octave plus haut, et les nombres en dessous de 1 vont plus bas. Donne une liste à un @Track et choisis l'instrument que tu veux. Les sons sont prêts à jouer tels quels.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/fr
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/fr
 ¶બધા જાણે એવાં ગીતો, અને એક ક્ષણને ચિહ્નિત કરવા માટેના અવાજો.
 
 દરેક ગીત સ્વરોના ક્રમાંકોની યાદી છે: 1 એ સ્વરસપ્તકનો પહેલો સ્વર છે, 8 એ તેનાથી એક સપ્તક ઉપરનો સ્વર છે, અને 1 થી નીચેના આંકડા તેની નીચેના સ્વરો છે. યાદીને @Track ને આપો અને તમને ગમે તે વાદ્ય પસંદ કરો. અવાજો જેમ છે તેમ વગાડવા માટે તૈયાર છે.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/gu
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/gu
 ¶שירים שכולם מכירים, וצלילים לסמן רגע מיוחד.
 
 כל שיר הוא רשימה של דרגות בסולם: 1 הוא התו הראשון בסולם, 8 הוא זה שאוקטבה מעליו, ומספרים מתחת ל-1 נמצאים מתחתיו. תני רשימה ל-@Track ובחרי כל כלי נגינה שתרצי. הצלילים מוכנים לנגינה כמו שהם.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/he
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/he
 ¶वे गीत जो सब जानते हैं, और वे आवाज़ें जो किसी पल को खास बनाती हैं।
 
 हर गीत सुर के अंकों की एक सूची है: 1 सुर का पहला स्वर है, 8 उससे एक सप्तक ऊपर वाला स्वर है, और 1 से नीचे की संख्याएँ उसके नीचे वाले स्वर हैं। एक सूची किसी @Track को दो और अपनी पसंद का कोई भी वाद्य यंत्र चुनो। ये आवाज़ें जैसी हैं वैसी ही बजने के लिए तैयार हैं।
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/hi
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/hi
 ¶Lagu yang semua orang tahu, dan bunyi untuk menandai suatu saat.
 
 Setiap lagu adalah daftar tingkat tangga nada: 1 adalah nada pertama tangga nada, 8 adalah nada satu oktaf di atasnya, dan angka di bawah 1 berarti nada di bawahnya. Berikan daftar ke @Track dan pilih alat musik apa pun yang kamu suka. Bunyinya siap dimainkan begitu saja.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/id
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/id
 ¶みんなが知っている歌や、何かの瞬間を知らせる音です。
 
 それぞれの歌は、音階の度数のリストになっています。1は音階の最初の音、8はその1オクターブ上の音です。1より小さい数字は、それより低い音を表します。リストを@Trackに渡して、好きな楽器を選んでください。音はそのまま鳴らす準備ができています。
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/ja
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/ja
 ¶ಎಲ್ಲರಿಗೂ ಗೊತ್ತಿರುವ ಹಾಡುಗಳು, ಮತ್ತು ಒಂದು ಕ್ಷಣವನ್ನು ಗುರುತಿಸಲು ಶಬ್ದಗಳು.
 
 ಪ್ರತಿ ಹಾಡು ಸ್ವರ ಮಟ್ಟಗಳ ಪಟ್ಟಿಯಾಗಿದೆ: 1 ಸ್ವರಸ್ಥಾಯಿಯ ಮೊದಲ ಸ್ವರ, 8 ಎಂದರೆ ಅದಕ್ಕಿಂತ ಒಂದು ಅಷ್ಟಪದ ಮೇಲಿನದು, ಮತ್ತು 1 ಕ್ಕಿಂತ ಕೆಳಗಿನ ಸಂಖ್ಯೆಗಳು ಅದರ ಕೆಳಗಿನ ಸ್ವರಗಳು. ಒಂದು ಪಟ್ಟಿಯನ್ನು @Track ಗೆ ಕೊಟ್ಟು ನಿಮಗೆ ಇಷ್ಟವಾದ ಯಾವುದೇ ವಾದ್ಯ ಆರಿಸಿ. ಶಬ್ದಗಳು ಇರುವ ಹಾಗೇ ಪ್ಲೇ ಆಗಲು ಸಿದ್ಧವಾಗಿವೆ.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/kn
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/kn
 ¶모두가 아는 노래와, 순간을 알려 주는 소리들이야.
 
 각 노래는 음계 단계를 담은 목록이야. 1은 음계의 첫 음이고, 8은 그보다 한 옥타브 위 음이야. 1보다 작은 숫자는 그 아래 음을 나타내. 목록을 @Track 에 건네고 마음에 드는 악기를 골라 봐. 소리는 그대로 바로 연주할 준비가 되어 있어.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/ko
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/ko
 ¶सगळ्यांना माहीत असलेली गाणी, आणि एखादा क्षण दाखवण्यासाठीचे आवाज.
 
 प्रत्येक गाणे स्वरसप्तकातील पायऱ्यांची यादी असते: १ म्हणजे सप्तकातील पहिला सूर, ८ म्हणजे त्याहून एक सप्तक वरचा सूर, आणि १ पेक्षा कमी असलेले आकडे त्याच्या खालचे सूर दाखवतात. अशी यादी एका @Track ला द्या आणि तुम्हाला हवे ते वाद्य निवडा. हे आवाज जसेच्या तसे वाजवायला तयार आहेत.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/mr
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/mr
 ¶सबैलाई थाहा भएका गीतहरू, र कुनै क्षण जनाउने ध्वनिहरू।
 
 हरेक गीत स्केलका डिग्रीहरूको सूची हो: 1 भनेको स्केलको पहिलो स्वर हो, 8 भनेको त्यसभन्दा एक अष्टक माथिको स्वर हो, र 1 भन्दा तलका संख्याहरू त्यसभन्दा तल पर्छन्। कुनै सूची @Track लाई दिनुहोस् र आफूलाई मन परेको जुनसुकै वाद्ययन्त्र छान्नुहोस्। ध्वनिहरू जस्ताको तस्तै बजाउनका लागि तयार छन्।
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/ne
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/ne
 ¶ਗੀਤ ਜੋ ਹਰ ਕੋਈ ਜਾਣਦਾ ਹੈ, ਅਤੇ ਆਵਾਜ਼ਾਂ ਜੋ ਕਿਸੇ ਪਲ ਨੂੰ ਉਜਾਗਰ ਕਰਦੀਆਂ ਹਨ।
 
 ਹਰ ਗੀਤ ਸੁਰ-ਪੱਧਰਾਂ ਦੀ ਇੱਕ ਸੂਚੀ ਹੈ: 1 ਸਕੇਲ ਦੀ ਪਹਿਲੀ ਸੁਰ ਹੈ, 8 ਇੱਕ ਅਸ਼ਟਕ ਉੱਪਰ ਵਾਲੀ ਸੁਰ ਹੈ, ਅਤੇ 1 ਤੋਂ ਹੇਠਾਂ ਦੇ ਅੰਕ ਉਸ ਤੋਂ ਹੇਠਾਂ ਜਾਂਦੇ ਹਨ। ਕਿਸੇ ਸੂਚੀ ਨੂੰ ਇੱਕ @Track ਨੂੰ ਦਿਓ ਅਤੇ ਆਪਣੀ ਪਸੰਦ ਦਾ ਕੋਈ ਵੀ ਸਾਜ਼ ਚੁਣੋ। ਆਵਾਜ਼ਾਂ ਉਸੇ ਤਰ੍ਹਾਂ ਵਜਾਉਣ ਲਈ ਤਿਆਰ ਹਨ।
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/pa
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/pa
 ¶Piosenki, które zna każdy, i dźwięki, które oznaczają ważną chwilę.
 
 Każda piosenka to lista stopni skali: 1 to pierwsza nuta skali, 8 to nuta o oktawę wyżej, a liczby poniżej 1 są niższe od niej. Podaj listę do @Track i wybierz dowolny instrument. Dźwięki są gotowe do odtworzenia od razu.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/pl
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/pl
 ¶Canções que toda a gente conhece, e sons para assinalar um momento.
 
 Cada canção é uma lista de graus da escala: 1 é a primeira nota da escala, 8 é a nota uma oitava acima, e os números abaixo de 1 ficam abaixo dela. Dê uma lista a um(a) @Track e escolha o instrumento que preferir. Os sons já estão prontos a tocar tal como estão.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/pt
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/pt
 ¶Cântece pe care le știe toată lumea, și sunete care marchează un moment.
 
 Fiecare cântec este o listă de trepte ale gamei: 1 este prima notă a gamei, 8 este cea cu o octavă mai sus, iar numerele sub 1 sunt sub prima notă. Dă o listă unui @Track și alege orice instrument îți place. Sunetele sunt gata de redat așa cum sunt.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/ro
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/ro
 ¶Песме које сви знају, и звуци који обележавају тренутак.
 
 Свака песма је списак степеника лествице: 1 је прва нота лествице, 8 је нота октаву изнад, а бројеви испод 1 иду испод ње. Дај списак у @Track и изабери било који инструмент који желиш. Звуци су спремни за пуштање онакви какви јесу.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/sr
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/sr
 ¶Sånger alla känner till, och ljud som markerar ett ögonblick.
 
 Varje sång är en lista med skalsteg: 1 är skalans första ton, 8 är tonen en oktav högre, och tal under 1 ligger under den första tonen. Ge en lista till en @Track och välj vilket instrument du vill. Ljuden är klara att spelas som de är.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/sv
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/sv
 ¶எல்லோரும் அறிந்த பாடல்கள், ஒரு தருணத்தைக் குறிக்கும் ஒலிகள்.
 
 ஒவ்வொரு பாடலும் ஸ்கேல் நிலைகளின் ஒரு பட்டியல்: 1 என்பது ஸ்கேலின் முதல் குறிப்பு, 8 என்பது அதற்கு ஒரு ஆக்டேவ் மேலே உள்ளது, 1-க்கு கீழே உள்ள எண்கள் அதற்குக் கீழே செல்கின்றன. ஒரு பட்டியலை @Track-க்குக் கொடுத்து, உங்களுக்குப் பிடித்த எந்தக் கருவியையும் தேர்ந்தெடுங்கள். ஒலிகள் இருக்கும்படியே இசைக்கத் தயாராக உள்ளன.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/ta
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/ta
 ¶అందరికీ తెలిసిన పాటలు, మరియు ఒక క్షణాన్ని గుర్తుపెట్టే శబ్దాలు.
 
 ప్రతి పాట స్కేల్ డిగ్రీల జాబితా: 1 అంటే స్కేల్‌లోని మొదటి స్వరం, 8 అంటే దానికి ఒక అష్టపు పైన ఉన్నది, మరియు 1 కంటే తక్కువ సంఖ్యలు దాని కింద ఉంటాయి. ఒక జాబితాను @Trackకి ఇచ్చి, మీకు నచ్చిన ఏ వాయిద్యాన్ని అయినా ఎంచుకోండి. శబ్దాలు ఉన్నవి ఉన్నట్లుగానే వాయించడానికి సిద్ధంగా ఉన్నాయి.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/te
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/te
 ¶Mga awit na alam ng lahat, at mga tunog na nagsasabi ng isang sandali.
 
 Bawat awit ay isang listahan ng mga antas ng eskala: ang 1 ay ang unang nota ng eskala, ang 8 ay ang nota na isang oktaba pataas, at ang mga bilang na mas mababa sa 1 ay nasa ibaba nito. Ibigay ang isang listahan sa isang @Track at pumili ng kahit anong instrumento na gusto mo. Handa nang tugtugin ang mga tunog kung ano man sila.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/tl
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/tl
 ¶Herkesin bildiği şarkılar ve bir anı belirten sesler.
 
 Her şarkı, gam derecelerinden oluşan bir listedir: 1, gamın ilk notasıdır; 8, bir oktav yukarıdaki nottur; 1'in altındaki sayılar ise onun altına düşer. Bir listeyi bir @Track'a verin ve istediğiniz herhangi bir çalgıyı seçin. Sesler olduğu gibi çalınmaya hazırdır.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/tr
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/tr
 ¶Những bài hát ai cũng biết, và những âm thanh đánh dấu một khoảnh khắc.
 
 Mỗi bài hát là một danh sách các bậc trong âm giai: 1 là nốt đầu tiên của âm giai, 8 là nốt cao hơn một quãng tám, và các số dưới 1 nằm dưới nốt đó. Đưa một danh sách cho @Track và chọn bất kỳ nhạc cụ nào bạn thích. Các âm thanh đã sẵn sàng để phát ngay.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/vi
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/vi
 ¶大家都会唱的歌，还有用来标记某个时刻的声音。
 
 每首歌都是一串音阶级数：1 是音阶的第一个音，8 是高八度的那个音，比 1 小的数字表示更低的音。把这串数字交给一个 @Track，再挑一件你喜欢的乐器，声音就能直接播放了。
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/zh
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/zh
 ¶Canciones que todo el mundo conoce, y sonidos para marcar un momento.
 
 Cada canción es una lista de grados de la escala: 1 es la primera nota de la escala, 8 es la que está una octava arriba, y los números menores que 1 van por debajo de ella. Dale una lista a un @Track y elige el instrumento que quieras. Los sonidos están listos para tocarse tal como son.
 
-\Phrase('🎶' 5m resting: Pose(music: Music(Track(twinkle 🔈.🎹 loop: ⊥) tempo: 100beats/min)))\⭐¶/es
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/es
+¶Woh gaane jo sab jaante hain, aur woh aawaazein jo kisi lamhe ko khaas banati hain.
 
-effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্টবিট/bn,effektBeat/de,εφέΧτύπημα/el,اثرضرب/fa,effetRythme/fr,અસરધબકારો/gu,אפקטפעימה/he,प्रभावबीट/hi,efekKetukan/id,効果音ビート/ja,ಪರಿಣಾಮತಾಳ/kn,효과음박자/ko,परिणामठोका/mr,असरबीट/ne,ਅਸਰਬੀਟ/pa,efektRytm/pl,efeitoBatida/pt,efectRitm/ro,ефекатТакт/sr,effektTakt/sv,விளைவுதாளம்/ta,ఎఫెక్ట్బీట్/te,epektoRitmo/tl,etkiRitim/tr,hiệuỨngNhịp/vi,效果节拍/zh,efectoCompás/es: 0.25beats
+Har gaana suron ke darjon ki ek list hai: 1 sargam ka pehla sur hai, 8 us se ek octave oopar ka sur hai, aur 1 se chhote number us ke neeche jaate hain. Ek list @Track ko dein aur apni pasand ka koi bhi saaz chunein. Aawaazein jaisi hain waisi hi bajaane ke liye tayyar hain.
+
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/ur
+
+effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্টবিট/bn,effektBeat/de,εφέΧτύπημα/el,اثرضرب/fa,effetRythme/fr,અસરધબકારો/gu,אפקטפעימה/he,प्रभावबीट/hi,efekKetukan/id,効果音ビート/ja,ಪರಿಣಾಮತಾಳ/kn,효과음박자/ko,परिणामठोका/mr,असरबीट/ne,ਅਸਰਬੀਟ/pa,efektRytm/pl,efeitoBatida/pt,efectRitm/ro,ефекатТакт/sr,effektTakt/sv,விளைவுதாளம்/ta,ఎఫెక్ట్బీట్/te,epektoRitmo/tl,etkiRitim/tr,hiệuỨngNhịp/vi,效果节拍/zh,efectoCompás/es,aawaazKaAsar/ur: 0.25beats
 
 ¶Twinkle, Twinkle, Little Star, from the French tune /Ah! vous dirai-je, maman/. Both verses and the middle.¶
 ¶تلألئي يا نجمتي الصغيرة، من اللحن الفرنسي /Ah! vous dirai-je, maman/. تشمل المقطعين والوسط.¶/ar
@@ -183,7 +467,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Lấp Lánh, Lấp Lánh, Ngôi Sao Nhỏ, dựa theo giai điệu Pháp /Ah! vous dirai-je, maman/. Gồm cả hai đoạn và phần giữa.¶/vi
 ¶《一闪一闪亮晶晶》，改编自法国曲调 /Ah! vous dirai-je, maman/。包含前后两段歌词，还有中间部分。¶/zh
 ¶Estrellita, dónde estás, basada en la melodía francesa /Ah! vous dirai-je, maman/. Con ambas estrofas y la parte del medio.¶/es
-↑ twinkle/en,تلألؤ/ar,জিলিকনি/as,টুইঙ্কল/bn,funkeln/de,τρεμόπαιξε/el,چشمک‌زن/fa,scintille/fr,ટમટમાટ/gu,נצנוץ/he,टिमटिमाना/hi,きらきら星/ja,ಮಿನುಗು/kn,반짝반짝/ko,चांदणी/mr,टिमटिम/ne,ਟਿਮਟਿਮਾਓ/pa,migotanie/pl,cintilar/pt,sclipici/ro,трепери/sr,blinka2/sv,மின்னுமின்னு/ta,మిణుకుమిణుకు/te,kislap2/tl,pırılPırıl/tr,lấpLánh/vi,一闪一闪/zh,berkelip/id,estrellita/es•[#]: [
+¶Jhilmil, Jhilmil, Chhote Taare, French dhun /Ah! vous dirai-je, maman/ se. Dono bol aur beech ka hissa.¶/ur
+↑ twinkle/en,تلألؤ/ar,জিলিকনি/as,টুইঙ্কল/bn,funkeln/de,τρεμόπαιξε/el,چشمک‌زن/fa,scintille/fr,ટમટમાટ/gu,נצנוץ/he,टिमटिमाना/hi,きらきら星/ja,ಮಿನುಗು/kn,반짝반짝/ko,चांदणी/mr,टिमटिम/ne,ਟਿਮਟਿਮਾਓ/pa,migotanie/pl,cintilar/pt,sclipici/ro,трепери/sr,blinka2/sv,மின்னுமின்னு/ta,మిణుకుమిణుకు/te,kislap2/tl,pırılPırıl/tr,lấpLánh/vi,一闪一闪/zh,berkelip/id,estrellita/es,jhilmil/ur•[#]: [
 		1
 		1
 		5
@@ -258,7 +543,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Chèo, Chèo, Chèo Thuyền Của Bạn. Hát theo lối vòng canon, lệch nhau bốn nhịp.¶/vi
 ¶《划呀划小船》。这首歌可以自己和自己轮唱，相隔四拍。¶/zh
 ¶Rema, Rema, Rema Tu Barca. Se canta como un canon contra sí misma, con cuatro tiempos de diferencia.¶/es
-↑ rowYourBoat/en,جدفقاربك/ar,নাওবাওক/as,রোইওরবোট/bn,rudereDeinBoot/de,κωπηλάταΤηΒάρκαΣου/el,قایقتراپاروبزن/fa,rameSurTonBateau/fr,તારીહોડીચલાવો/gu,שיטושיטו/he,नावचलाओ/hi,dayungPerahumu/id,こげよマイケル/ja,ದೋಣಿನಡೆಸು/kn,노저어라/ko,नावमाझीहोडी/mr,डुंगाकुदाऊ/ne,ਕਿਸ਼ਤੀਚਲਾਓ/pa,płyńTwojąŁódką/pl,remaOTeuBarco/pt,vâsleșteBarcaTa/ro,веслајЧамцем/sr,roDinBåt/sv,தோணிவலி/ta,నీపడవనునడుపు/te,gaodAngIyongBangka/tl,kürekÇekTeknen/tr,chèoThuyềnCủaBạn/vi,划呀划小船/zh,remaTuBarca/es•[#]: [
+¶Naao Chalaao, Chalaao, Chalaao. Yeh apne aap se chaar dhadkanon ke fasle par gol dhun ki tarah gaaya jaata hai.¶/ur
+↑ rowYourBoat/en,جدفقاربك/ar,নাওবাওক/as,রোইওরবোট/bn,rudereDeinBoot/de,κωπηλάταΤηΒάρκαΣου/el,قایقتراپاروبزن/fa,rameSurTonBateau/fr,તારીહોડીચલાવો/gu,שיטושיטו/he,नावचलाओ/hi,dayungPerahumu/id,こげよマイケル/ja,ದೋಣಿನಡೆಸು/kn,노저어라/ko,नावमाझीहोडी/mr,डुंगाकुदाऊ/ne,ਕਿਸ਼ਤੀਚਲਾਓ/pa,płyńTwojąŁódką/pl,remaOTeuBarco/pt,vâsleșteBarcaTa/ro,веслајЧамцем/sr,roDinBåt/sv,தோணிவலி/ta,నీపడవనునడుపు/te,gaodAngIyongBangka/tl,kürekÇekTeknen/tr,chèoThuyềnCủaBạn/vi,划呀划小船/zh,remaTuBarca/es,naaoChalaao/ur•[#]: [
 		1
 		1
 		1
@@ -318,7 +604,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Frère Jacques. Cũng là một bài hát vòng canon, lệch nhau hai ô nhịp. Câu cuối tụt xuống dưới nốt đầu tiên của âm giai.¶/vi
 ¶《雅克兄弟》。也是一首轮唱曲，相隔两小节。最后一句会低于音阶的第一个音。¶/zh
 ¶Frère Jacques. También es un canon, con dos compases de diferencia. La última frase baja por debajo de la primera nota de la escala.¶/es
-↑ frereJacques/en,فريرجاك/ar,ফ্ৰেৰেজেক্‌ছ/as,ফ্রেয়ারজাক/bn,bruderJakob/de,φρερΖακ/el,فررژاک/fa,frèreJacques/fr,ફ્રેરજાક/gu,פרֶרזʼאק/he,फ्रेरजाक/hi,frereJacques2/id,フレール・ジャック/ja,ಫ್ರೇರ್ಜಾಕ್/kn,자크형제/ko,फ्रेरजाक2/mr,फ्रेरजाक3/ne,ਫਰੇਰੇਜਾਕ/pa,panieJanie/pl,frereJacques3/pt,frereJacques4/ro,бралеЖаче/sr,broderJakob/sv,ஃப்ரேர்ழாக்/ta,ఫ్రెరెజాక్/te,frereJacques5/tl,frèreJacques2/tr,frèreJacques3/vi,雅克兄弟/zh,frereJacques6/es•[#]: [
+¶Frere Jacques. Yeh bhi gol dhun hai, do bar ke fasle par. Aakhri jumla sargam ke pehle sur se neeche jaata hai.¶/ur
+↑ frereJacques/en,فريرجاك/ar,ফ্ৰেৰেজেক্‌ছ/as,ফ্রেয়ারজাক/bn,bruderJakob/de,φρερΖακ/el,فررژاک/fa,frèreJacques/fr,ફ્રેરજાક/gu,פרֶרזʼאק/he,फ्रेरजाक/hi,frereJacques2/id,フレール・ジャック/ja,ಫ್ರೇರ್ಜಾಕ್/kn,자크형제/ko,फ्रेरजाक2/mr,फ्रेरजाक3/ne,ਫਰੇਰੇਜਾਕ/pa,panieJanie/pl,frereJacques3/pt,frereJacques4/ro,бралеЖаче/sr,broderJakob/sv,ஃப்ரேர்ழாக்/ta,ఫ్రెరెజాక్/te,frereJacques5/tl,frèreJacques2/tr,frèreJacques3/vi,雅克兄弟/zh,frereJacques6/es,frereJaak/ur•[#]: [
 		1
 		2
 		3
@@ -383,7 +670,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Chủ đề Khúc Ca Hoan Lạc từ bản giao hưởng số chín của Beethoven.¶/vi
 ¶贝多芬第九交响曲里的《欢乐颂》主题。¶/zh
 ¶El tema de la Oda a la Alegría, de la novena sinfonía de Beethoven.¶/es
-↑ odeToJoy/en,نشيدالفرح/ar,আনন্দৰগীত/as,ওডটুজয়/bn,odeAnDieFreude/de,ωδήΣτηΧαρά/el,سرودشادی/fa,hymneÀLaJoie/fr,આનંદનુંગીત/gu,אודהלשמחה/he,आनंदकीकविता/hi,odeUntukKegembiraan/id,歓喜の歌/ja,ಆನಂದಗೀತೆ/kn,환희의송가/ko,आनंदाचेगीत/mr,आनन्दकोस्वर/ne,ਖੁਸ਼ੀਦਾਗੀਤ/pa,odaDoRadości/pl,odeÀAlegria/pt,odăBucuriei/ro,одаРадости/sr,odeTillGlädjen/sv,மகிழ்ச்சிக்கானபாடல்/ta,ఆనందగీతం/te,awitNgKagalakan/tl,neşeyeÖvgü/tr,khúcCaHoanLạc/vi,欢乐颂/zh,odaALaAlegría/es•[#]: [
+¶Beethoven ki nauvin symphony ki Khushi ka Geet wali dhun.¶/ur
+↑ odeToJoy/en,نشيدالفرح/ar,আনন্দৰগীত/as,ওডটুজয়/bn,odeAnDieFreude/de,ωδήΣτηΧαρά/el,سرودشادی/fa,hymneÀLaJoie/fr,આનંદનુંગીત/gu,אודהלשמחה/he,आनंदकीकविता/hi,odeUntukKegembiraan/id,歓喜の歌/ja,ಆನಂದಗೀತೆ/kn,환희의송가/ko,आनंदाचेगीत/mr,आनन्दकोस्वर/ne,ਖੁਸ਼ੀਦਾਗੀਤ/pa,odaDoRadości/pl,odeÀAlegria/pt,odăBucuriei/ro,одаРадости/sr,odeTillGlädjen/sv,மகிழ்ச்சிக்கானபாடல்/ta,ఆనందగీతం/te,awitNgKagalakan/tl,neşeyeÖvgü/tr,khúcCaHoanLạc/vi,欢乐颂/zh,odaALaAlegría/es,khushiKaGeet/ur•[#]: [
 		3
 		3
 		4
@@ -446,7 +734,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Điệp khúc của bài Tiếng Chuông Leng Keng.¶/vi
 ¶《铃儿响叮当》的副歌部分。¶/zh
 ¶El coro de Cascabeles.¶/es
-↑ jingleBells/en,أجراسصغيرة/ar,জিংগলবেল/as,জিঙ্গলবেলস/bn,klingelndeGlocken/de,τζίνγκλΜπελς/el,زنگ‌هایشادی/fa,grelots/fr,ઝણઝણતીઘંટડીઓ/gu,פעמוניםמצלצלים/he,घंटीबजाओ/hi,loncengKerincing/id,ジングルベル/ja,ಜಿಂಗಲ್ಬೆಲ್ಸ್/kn,징글벨/ko,घंटानाद/mr,जिंगलबेल्स/ne,ਜਿੰਗਲਬੈੱਲਸ/pa,dzwoneczki/pl,sinosATocar/pt,clopoței/ro,звончићи/sr,pinglaKlockor/sv,ஜிங்கிள்பெல்ஸ்/ta,జింగిల్బెల్స్/te,kulilingNgKampanilya/tl,çıngırakSesleri/tr,tiếngChuôngLengKeng/vi,铃儿响叮当/zh,cascabeles/es•[#]: [
+¶Ghanti ki Dhun ka mukhda.¶/ur
+↑ jingleBells/en,أجراسصغيرة/ar,জিংগলবেল/as,জিঙ্গলবেলস/bn,klingelndeGlocken/de,τζίνγκλΜπελς/el,زنگ‌هایشادی/fa,grelots/fr,ઝણઝણતીઘંટડીઓ/gu,פעמוניםמצלצלים/he,घंटीबजाओ/hi,loncengKerincing/id,ジングルベル/ja,ಜಿಂಗಲ್ಬೆಲ್ಸ್/kn,징글벨/ko,घंटानाद/mr,जिंगलबेल्स/ne,ਜਿੰਗਲਬੈੱਲਸ/pa,dzwoneczki/pl,sinosATocar/pt,clopoței/ro,звончићи/sr,pinglaKlockor/sv,ஜிங்கிள்பெல்ஸ்/ta,జింగిల్బెల్స్/te,kulilingNgKampanilya/tl,çıngırakSesleri/tr,tiếngChuôngLengKeng/vi,铃儿响叮当/zh,cascabeles/es,ghantiKiDhun/ur•[#]: [
 		3
 		3
 		3
@@ -504,7 +793,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Chúc Mừng Sinh Nhật Bạn. Bắt đầu dưới nốt đầu tiên của âm giai, đó là lý do bốn số đầu là số âm.¶/vi
 ¶《生日快乐歌》。开头低于音阶的第一个音，所以前四个数字是负数。¶/zh
 ¶Feliz Cumpleaños a Ti. Empieza por debajo de la primera nota de la escala, por eso los primeros cuatro números son negativos.¶/es
-↑ happyBirthday/en,عيدميلادسعيد/ar,শুভজন্মদিন/as,হ্যাপিবার্থডে/bn,allesGuteZumGeburtstag/de,χρόνιαΠολλά/el,تولدتمبارک/fa,joyeuxAnniversaire/fr,જન્મદિવસમુબારક/gu,יוםהולדתשמח/he,जन्मदिनमुबारक/hi,selamatUlangTahun/id,ハッピーバースデー/ja,ಹುಟ್ಟುಹಬ್ಬದಶುಭಾಶಯ/kn,생일축하해/ko,वाढदिवसाच्याशुभेच्छा/mr,जन्मदिनकोशुभकामना/ne,ਜਨਮਦਿਨਮੁਬਾਰਕ/pa,stoLat/pl,parabénsAVocê/pt,laMulțiAni/ro,срећанРођендан/sr,grattisPåFödelsedagen/sv,பிறந்தநாள்வாழ்த்து/ta,పుట్టినరోజుశుభాకాంక్షలు/te,maligayangBati/tl,mutluYıllar/tr,chúcMừngSinhNhật/vi,生日快乐/zh,felizCumpleaños/es•[#]: [
+¶Saalgirah Mubarak. Sargam ke pehle sur se neeche se shuru hota hai, isi liye pehle chaar number manfi hain.¶/ur
+↑ happyBirthday/en,عيدميلادسعيد/ar,শুভজন্মদিন/as,হ্যাপিবার্থডে/bn,allesGuteZumGeburtstag/de,χρόνιαΠολλά/el,تولدتمبارک/fa,joyeuxAnniversaire/fr,જન્મદિવસમુબારક/gu,יוםהולדתשמח/he,जन्मदिनमुबारक/hi,selamatUlangTahun/id,ハッピーバースデー/ja,ಹುಟ್ಟುಹಬ್ಬದಶುಭಾಶಯ/kn,생일축하해/ko,वाढदिवसाच्याशुभेच्छा/mr,जन्मदिनकोशुभकामना/ne,ਜਨਮਦਿਨਮੁਬਾਰਕ/pa,stoLat/pl,parabénsAVocê/pt,laMulțiAni/ro,срећанРођендан/sr,grattisPåFödelsedagen/sv,பிறந்தநாள்வாழ்த்து/ta,పుట్టినరోజుశుభాకాంక్షలు/te,maligayangBati/tl,mutluYıllar/tr,chúcMừngSinhNhật/vi,生日快乐/zh,felizCumpleaños/es,saalgirahMubarak/ur•[#]: [
 		-2
 		-2
 		-1
@@ -652,7 +942,11 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 	[8 5]
 	🔈.🔔
 )\ es un tintineo de dos notas.¶/es
-↑ ƒ sting/en,لسعةصوت/ar,স্টিং/as,স্টিং2/bn,stich/de,τσίμπημα/el,نیش‌صدا/fa,piqûre/fr,ડંખ/gu,עוקץ/he,चुभन/hi,sengat/id,スティング/ja,ಚುಚ್ಚುಶಬ್ದ/kn,강조음/ko,चटका/mr,चोट/ne,ਸਟਿੰਗ/pa,żądło/pl,toque/pt,țiuit/ro,убод/sr,sting2/sv,கூர்ஒலி/ta,స్టింగ్/te,tunogNaMatalim/tl,vuruş2/tr,tiếngChích/vi,刺音/zh,golpe/es(notes,نغمات2/ar,স্বৰ/as,নোট/bn,noten/de,νότες2/el,نُت‌ها2/fa,notes2/fr,સૂરો2/gu,תווים2/he,स्वर2/hi,nada2/id,音符2/ja,ಸ್ವರಗಳು2/kn,음표2/ko,सूर2/mr,स्वरहरू/ne,ਸੁਰਾਂ/pa,nuty2/pl,notas3/pt,note2/ro,ноте2/sr,toner/sv,குறிப்புகள்/ta,స్వరాలు/te,mgaNota2/tl,notalar2/tr,nốtNhạc2/vi,音符3/zh,notas2/es•[#] instrument,آلة2/ar,বাদ্যযন্ত্ৰ2/as,যন্ত্র/bn,instrument2/de,όργανο2/el,ساز2/fa,instrument3/fr,વાદ્ય2/gu,כלינגינה2/he,वाद्ययंत्र2/hi,alatMusik2/id,楽器2/ja,ವಾದ್ಯ2/kn,악기2/ko,वाद्य2/mr,वाद्ययन्त्र/ne,ਸਾਜ਼2/pa,instrument4/pl,instrumento3/pt,instrument5/ro,инструмент2/sr,instrument6/sv,கருவி/ta,వాయిద్యం2/te,instrumento4/tl,çalgı2/tr,nhạcCụ2/vi,乐器2/zh,instrumento2/es•🔈)•🎼
+¶Suron ki chhoti si list ko aisi aawaaz bana deta hai jo aap @Pose par laga sakte hain, taake aap apne asar bana saken — \sting(
+	[8 5]
+	🔈.🔔
+)\ do suron ki ghanti hai.¶/ur
+↑ ƒ sting/en,لسعةصوت/ar,স্টিং/as,স্টিং2/bn,stich/de,τσίμπημα/el,نیش‌صدا/fa,piqûre/fr,ડંખ/gu,עוקץ/he,चुभन/hi,sengat/id,スティング/ja,ಚುಚ್ಚುಶಬ್ದ/kn,강조음/ko,चटका/mr,चोट/ne,ਸਟਿੰਗ/pa,żądło/pl,toque/pt,țiuit/ro,убод/sr,sting2/sv,கூர்ஒலி/ta,స్టింగ్/te,tunogNaMatalim/tl,vuruş2/tr,tiếngChích/vi,刺音/zh,golpe/es,tezDhun/ur(notes,نغمات2/ar,স্বৰ/as,নোট/bn,noten/de,νότες2/el,نُت‌ها2/fa,notes2/fr,સૂરો2/gu,תווים2/he,स्वर2/hi,nada2/id,音符2/ja,ಸ್ವರಗಳು2/kn,음표2/ko,सूर2/mr,स्वरहरू/ne,ਸੁਰਾਂ/pa,nuty2/pl,notas3/pt,note2/ro,ноте2/sr,toner/sv,குறிப்புகள்/ta,స్వరాలు/te,mgaNota2/tl,notalar2/tr,nốtNhạc2/vi,音符3/zh,notas2/es,sur/ur•[#] instrument,آلة2/ar,বাদ্যযন্ত্ৰ2/as,যন্ত্র/bn,instrument2/de,όργανο2/el,ساز2/fa,instrument3/fr,વાદ્ય2/gu,כלינגינה2/he,वाद्ययंत्र2/hi,alatMusik2/id,楽器2/ja,ವಾದ್ಯ2/kn,악기2/ko,वाद्य2/mr,वाद्ययन्त्र/ne,ਸਾਜ਼2/pa,instrument4/pl,instrumento3/pt,instrument5/ro,инструмент2/sr,instrument6/sv,கருவி/ta,వాయిద్యం2/te,instrumento4/tl,çalgı2/tr,nhạcCụ2/vi,乐器2/zh,instrumento2/es,saaz/ur•🔈)•🎼
 	Music(
 		Track(
 			notes
@@ -693,7 +987,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Một tiếng chuông tươi sáng, dùng khi làm đúng điều gì đó.¶/vi
 ¶一声清脆的铃响，用来表示答对了。¶/zh
 ¶Un timbre brillante, para cuando algo sale bien.¶/es
-↑ ding/en,دنغ/ar,ডিং/as,ডিং2/bn,ding2/de,ντινγκ/el,دینگ/fa,ding3/fr,ડિંગ/gu,דינג/he,टन/hi,ting/id,ディン/ja,ಡಿಂಗ್/kn,딩/ko,टण/mr,घण्टी2/ne,ਟਨ/pa,dzyń/pl,dim2/pt,clinchet/ro,динг/sr,ding4/sv,டிங்/ta,డింగ్/te,kiling/tl,çın/tr,tiếngKeng/vi,叮/zh,tin/es•🎼: sting(
+¶Ek roshan khanak, kisi cheez ko sahi karne par.¶/ur
+↑ ding/en,دنغ/ar,ডিং/as,ডিং2/bn,ding2/de,ντινγκ/el,دینگ/fa,ding3/fr,ડિંગ/gu,דינג/he,टन/hi,ting/id,ディン/ja,ಡಿಂಗ್/kn,딩/ko,टण/mr,घण्टी2/ne,ਟਨ/pa,dzyń/pl,dim2/pt,clinchet/ro,динг/sr,ding4/sv,டிங்/ta,డింగ్/te,kiling/tl,çın/tr,tiếngKeng/vi,叮/zh,tin/es,ting2/ur•🎼: sting(
 		[8]
 		🔈.🔔
 	)
@@ -728,7 +1023,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Một tiếng gõ nhỏ, khi hạ cánh hoặc va vào vật gì đó.¶/vi
 ¶一声低沉的敲击，像是落地或撞到了什么东西。¶/zh
 ¶Un golpe grave, para caer o chocar con algo.¶/es
-↑ thud/en,طبطبة/ar,ধপ/as,থাড/bn,wummern/de,γδούπος/el,تاپ/fa,boum/fr,ધબાક/gu,חבטה/he,धम्म/hi,gedebuk/id,ドスン/ja,ಧಡ್/kn,쿵/ko,धप्प/mr,ढ्याम्म/ne,ਧੱਪ/pa,łubudu/pl,baque/pt,bufnet/ro,туп/sr,duns/sv,தட்/ta,థడ్/te,dagundong/tl,güm/tr,tiếngBịch/vi,咚/zh,golpeSordo/es•🎼: sting(
+¶Ek gehri thak thak, kisi cheez par utarne ya takraane par.¶/ur
+↑ thud/en,طبطبة/ar,ধপ/as,থাড/bn,wummern/de,γδούπος/el,تاپ/fa,boum/fr,ધબાક/gu,חבטה/he,धम्म/hi,gedebuk/id,ドスン/ja,ಧಡ್/kn,쿵/ko,धप्प/mr,ढ्याम्म/ne,ਧੱਪ/pa,łubudu/pl,baque/pt,bufnet/ro,туп/sr,duns/sv,தட்/ta,థడ్/te,dagundong/tl,güm/tr,tiếngBịch/vi,咚/zh,golpeSordo/es,dhamm/ur•🎼: sting(
 		[1]
 		🔈.🥁
 	)
@@ -763,7 +1059,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Một tiếng tít ngắn, khi bấm nút hoặc ghi điểm.¶/vi
 ¶一声短促的“嘀”，像是按了按钮或得了一分。¶/zh
 ¶Un pitido corto, para un botón o un punto ganado.¶/es
-↑ pop/en,فرقعة/ar,পপ/as,পপ2/bn,plopp/de,ποπ/el,پاپ/fa,pop3/fr,પોપ/gu,פופ/he,पॉप/hi,pop4/id,ポン/ja,ಪಾಪ್/kn,뽕/ko,फट/mr,पप/ne,ਪੌਪ/pa,puk/pl,estalo/pt,poc/ro,поп/sr,puts/sv,பப்/ta,పాప్/te,putok/tl,pat/tr,tiếngBốp/vi,啵/zh,pop2/es•🎼: sting(
+¶Ek chhoti si aawaaz, button dabane ya point milne ke liye.¶/ur
+↑ pop/en,فرقعة/ar,পপ/as,পপ2/bn,plopp/de,ποπ/el,پاپ/fa,pop3/fr,પોપ/gu,פופ/he,पॉप/hi,pop4/id,ポン/ja,ಪಾಪ್/kn,뽕/ko,फट/mr,पप/ne,ਪੌਪ/pa,puk/pl,estalo/pt,poc/ro,поп/sr,puts/sv,பப்/ta,పాప్/te,putok/tl,pat/tr,tiếngBốp/vi,啵/zh,pop2/es,phut/ur•🎼: sting(
 		[5 8]
 		🔈.🪈
 	)
@@ -798,7 +1095,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Một tiếng nhạc vui nhỏ, khi chiến thắng.¶/vi
 ¶一段小小的花腔，像是赢了。¶/zh
 ¶Un pequeño toque festivo, para cuando ganas.¶/es
-↑ fanfare/en,فنفار/ar,ফেনফেয়াৰ/as,ফ্যানফেয়ার/bn,fanfare2/de,φανφάρα/el,شیپورشادباش/fa,fanfare3/fr,ધૂમધામસૂર/gu,תרועה/he,धूमधाम/hi,fanfar/id,ファンファーレ/ja,ವಾದ್ಯಘೋಷ/kn,팡파르/ko,शिंगनाद/mr,शुभारम्भधुन/ne,fanfara/pl,fanfarra/pt,fanfară/ro,фанфара/sr,fanfar2/sv,முழக்குஒலி/ta,ఫన్‌ఫేర్/te,tugtogNgPapuri/tl,fanfar3/tr,tiếngKènHiệu/vi,号角声/zh,ਜਿੱਤਦਾਬਾਜਾ/pa,fanfarria/es•🎼: sting(
+¶Ek chhoti si khushi ki dhun, jeetne ke liye.¶/ur
+↑ fanfare/en,فنفار/ar,ফেনফেয়াৰ/as,ফ্যানফেয়ার/bn,fanfare2/de,φανφάρα/el,شیپورشادباش/fa,fanfare3/fr,ધૂમધામસૂર/gu,תרועה/he,धूमधाम/hi,fanfar/id,ファンファーレ/ja,ವಾದ್ಯಘೋಷ/kn,팡파르/ko,शिंगनाद/mr,शुभारम्भधुन/ne,fanfara/pl,fanfarra/pt,fanfară/ro,фанфара/sr,fanfar2/sv,முழக்குஒலி/ta,ఫన్‌ఫేర్/te,tugtogNgPapuri/tl,fanfar3/tr,tiếngKènHiệu/vi,号角声/zh,ਜਿੱਤਦਾਬਾਜਾ/pa,fanfarria/es,jashnKiDhun/ur•🎼: sting(
 		[1 3 5 8]
 		🔈.🎺
 	)
@@ -833,7 +1131,8 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶Một âm thanh khó chịu, khi làm sai điều gì đó.¶/vi
 ¶一声粗鲁的噪音，像是弄错了什么。¶/zh
 ¶Un ruido grosero, para cuando algo sale mal.¶/es
-↑ buzz/en,طنين/ar,গুণগুণনি/as,বাজ/bn,summen/de,βόμβος/el,وزوز/fa,bourdonnement/fr,ભણભણાટ/gu,זמזום/he,भनभनाहट/hi,dengung/id,ブザー/ja,ಝೇಂಕಾರ/kn,부웅/ko,गुणगुण/mr,भुनभुन/ne,ਭਿਣਭਿਣਾਹਟ/pa,brzęczenie/pl,zumbido2/pt,bâzâit/ro,зујање/sr,surr/sv,சுரீர்/ta,జుమ్మ్/te,ugong/tl,vızıltı/tr,tiếngVoVe/vi,嗡嗡声/zh,zumbido/es•🎼: sting(
+¶Ek bhaddi aawaaz, kuch ghalat hone ke liye.¶/ur
+↑ buzz/en,طنين/ar,গুণগুণনি/as,বাজ/bn,summen/de,βόμβος/el,وزوز/fa,bourdonnement/fr,ભણભણાટ/gu,זמזום/he,भनभनाहट/hi,dengung/id,ブザー/ja,ಝೇಂಕಾರ/kn,부웅/ko,गुणगुण/mr,भुनभुन/ne,ਭਿਣਭਿਣਾਹਟ/pa,brzęczenie/pl,zumbido2/pt,bâzâit/ro,зујање/sr,surr/sv,சுரீர்/ta,జుమ్మ్/te,ugong/tl,vızıltı/tr,tiếngVoVe/vi,嗡嗡声/zh,zumbido/es,bhinBhin/ur•🎼: sting(
 		[1 1]
 		🔈.⚡
 	)

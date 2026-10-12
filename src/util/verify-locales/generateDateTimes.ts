@@ -48,6 +48,11 @@ import {
     patternText,
 } from '#util/verify-locales/cldr.ts';
 import writeFormatted from '#util/verify-locales/writeFormatted.ts';
+import {
+    namesNeedTranslation,
+    translateNames,
+    type NameTranslator,
+} from '#util/verify-locales/scriptVariantNames.ts';
 import Log from '#util/verify-locales/Log.ts';
 import { must } from '#util/nullable.ts';
 
@@ -418,11 +423,17 @@ function validateMonthCoverage(
 async function generateCalendar(
     directories: string[],
     calendar: Exclude<SupportedCalendar, 'iso8601'>,
+    /** Where month and era names come from, when not the pattern's locale. */
+    nameDirectories: string[] = directories,
 ): Promise<CalendarData> {
     const calendarData = await loadCalendar(
         directories,
         CalendarSources[calendar],
     );
+    const nameData =
+        nameDirectories === directories
+            ? calendarData
+            : await loadCalendar(nameDirectories, CalendarSources[calendar]);
     // Chinese/Dangi month and day names vary by year; use the numeric short
     // pattern (their long patterns also carry cyclic year names we drop).
     const numericOverride = calendar === 'chinese' || calendar === 'dangi';
@@ -434,10 +445,10 @@ async function generateCalendar(
     const parsed = parseLDMLPattern(pattern, numericOverride);
     const data: CalendarData = { date: parsed.parts };
     if (parsed.monthWidth !== undefined) {
-        data.months = monthsFor(calendarData, parsed.monthWidth, calendar);
+        data.months = monthsFor(nameData, parsed.monthWidth, calendar);
         validateMonthCoverage(calendar, data.months);
     }
-    if (parsed.usesEra) data.eras = erasFor(calendarData, calendar);
+    if (parsed.usesEra) data.eras = erasFor(nameData, calendar);
     return data;
 }
 
@@ -519,9 +530,18 @@ async function defaultCalendarFor(locale: string): Promise<SupportedCalendar> {
 
 export async function generateDateTimesForLocale(
     locale: string,
+    /** Translates English names, for a locale CLDR has no names in (#1457). */
+    translate?: NameTranslator,
 ): Promise<DateTimeData> {
     const directories = cldrDirectoriesFor(locale);
+    // A locale in a script CLDR doesn't write its language in keeps its
+    // language's patterns but takes English names to translate.
+    const nameDirectories = namesNeedTranslation(locale) ? ['en'] : directories;
     const gregorian = await loadCalendar(directories, CalendarSources.gregory);
+    const gregorianNames =
+        nameDirectories === directories
+            ? gregorian
+            : await loadCalendar(nameDirectories, CalendarSources.gregory);
 
     // Time pattern, hour cycle, and day period names from the gregorian file.
     const timePattern = patternText(at(gregorian, 'timeFormats', 'medium'));
@@ -529,17 +549,21 @@ export async function generateDateTimesForLocale(
         throw new Error(`No medium time pattern for ${locale}`);
     const time = parseLDMLPattern(timePattern, false);
     const am = patternText(
-        at(gregorian, 'dayPeriods', 'format', 'abbreviated', 'am'),
+        at(gregorianNames, 'dayPeriods', 'format', 'abbreviated', 'am'),
     );
     const pm = patternText(
-        at(gregorian, 'dayPeriods', 'format', 'abbreviated', 'pm'),
+        at(gregorianNames, 'dayPeriods', 'format', 'abbreviated', 'pm'),
     );
 
     const calendars: Partial<Record<SupportedCalendar, CalendarData>> = {};
     for (const calendar of SupportedCalendars) {
         try {
             if (calendar === 'iso8601') continue;
-            calendars[calendar] = await generateCalendar(directories, calendar);
+            calendars[calendar] = await generateCalendar(
+                directories,
+                calendar,
+                nameDirectories,
+            );
         } catch (error) {
             // A calendar CLDR lacks for this locale is omitted; the runtime
             // formatter falls back to a numeric pattern for it.
@@ -561,12 +585,64 @@ export async function generateDateTimesForLocale(
     };
     if (time.usesDayPeriod && am !== undefined && pm !== undefined)
         data.dayPeriods = { am, pm };
+    // City names stay as English writes them: a romanization spells a city
+    // the way the Latin-script world does.
     const zones = await exemplarCitiesFor(
-        directories,
+        nameDirectories,
         new Set(await canonicalTimeZones()),
     );
     if (Object.keys(zones).length > 0) data.zones = zones;
+    if (nameDirectories !== directories)
+        await translateDateTimeNames(data, readDateTimesFor(locale), translate);
     return data;
+}
+
+/** Every translatable name in a locale's date/time data, as setters over the
+ *  data so a translation can be written back where it was read. */
+function dateTimeNames(
+    data: DateTimeData,
+): { get: () => string; set: (name: string) => void }[] {
+    const names: { get: () => string; set: (name: string) => void }[] = [];
+    const record = (table: Record<string, string> | undefined) => {
+        if (table === undefined) return;
+        for (const key of Object.keys(table))
+            names.push({
+                get: () => table[key] ?? '',
+                set: (name) => (table[key] = name),
+            });
+    };
+    for (const calendar of SupportedCalendars) {
+        const entry = data.calendars[calendar];
+        record(entry?.months);
+        record(entry?.eras);
+    }
+    if (data.dayPeriods) record(data.dayPeriods);
+    return names;
+}
+
+/** Translate the English month, era and day period names a script-variant
+ *  locale was generated with, reusing what its committed file already has. */
+async function translateDateTimeNames(
+    data: DateTimeData,
+    previous: DateTimeData | undefined,
+    translate: NameTranslator | undefined,
+): Promise<void> {
+    const names = dateTimeNames(data);
+    // The previous file has the same shape when it was generated from the same
+    // CLDR release, which `npm run locales` already checks.
+    const prior =
+        previous === undefined
+            ? []
+            : dateTimeNames(previous).map((n) => n.get());
+    const translated = await translateNames(
+        names.map((name) => name.get()),
+        prior.length === names.length ? prior : [],
+        translate,
+    );
+    names.forEach((name, index) => {
+        const value = translated[index];
+        if (value !== undefined) name.set(value);
+    });
 }
 
 /** Where a locale's full data file lives: en-US is bundled with the app (like
@@ -635,8 +711,11 @@ export async function writeTimeZones(): Promise<void> {
 }
 
 /** Generate and write one locale's full data file. */
-export async function writeDateTimesForLocale(locale: string): Promise<void> {
-    const data = await generateDateTimesForLocale(locale);
+export async function writeDateTimesForLocale(
+    locale: string,
+    translate?: NameTranslator,
+): Promise<void> {
+    const data = await generateDateTimesForLocale(locale, translate);
     const file = dateTimesPathFor(locale);
     const dir = path.dirname(file);
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });

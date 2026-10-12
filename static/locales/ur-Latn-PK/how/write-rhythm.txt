@@ -1,0 +1,32 @@
+Sirf sur nahin, taal bhi likhein
+
+Sirf adaad ki fehrist har sur ko ek jitni lambaai deti hai, jo chaabi wale khilone jaisi lagti hai. Asal taal do jagah se aati hai: woh jaal jo @Track ginta hai, aur woh sur ki qeematein jo aap alag alag adaad par likhte hain.
+
+@Track/beat jaal tay karta hai. Har saada rukn utni hi dair tak rehta hai, aur har \ø\ bhi, isi liye khaamoshi sur ko lamba karne ka sabse aasaan tareeqa hai:
+
+\
+Mauseeqi([
+	Dhun([1 ø ø ø 5 ø 8 ø] saaz: Saaz.piano)
+	Dhun([1 1 1 1 1 1 1 1] saaz: Saaz.dhol taal: 0.5beats)
+])
+\
+
+ Piano ke pehle sur ke baad teen khaamoshiyan hain, is liye woh chaar dhadkan tak goonjta hai. Drum ka jaal aadhi dhadkan ka hai, is liye uske aath rukn chaar dhadkanein bharte hain jabke piano ke aath rukn aath dhadkanein bharte hain. Yaani piano ek baar chalta hai to drum do baar. Har track apni lambaai par dohrata hai, aur isi tarah ek adad se mukhtalif taal ka mel banta hai.
+
+Khaamoshiyan ginna thaka deta hai, is liye aap lambaai seedhe adad par likh sakte hain. Saada adad ab bhi ek jaal ka qadam hai, aur jis adad par sur ki qeemat likhi ho woh apni lambaai khud batata hai:
+
+\
+Mauseeqi(
+	Dhun(
+		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
+		saaz: Saaz.bigul
+		taal: 1𝅘𝅥
+	)
+)
+\
+
+ Yeh chaar chaar dhadkanon ke do hisse hain. \𝅝\ poora sur hai, \𝅗𝅥\ aadha, \𝅘𝅥\ chauthaai, \𝅘𝅥𝅮\ aathwaan hissa aur \𝅘𝅥𝅯\ solhwaan hissa hai, aur nuqta \𝅭\ kisi bhi ko aadha mazeed lamba kar deta hai. Is liye \𝅘𝅥𝅮𝅭\ nuqte wala aathwaan hissa hai jo is march ko aage dhakelta hai. Adad likhne ke baad editor ke neeche alaamaton ki qatar yeh sab dikhati hai.
+
+Ek kaam yeh nahin kar sakte: khaamoshi. \ø\ adad nahin hai, is liye ismein qeemat ki jagah nahin. Iski jagah khaamoshiyan do baar likhein, ya @Note istemaal karein, jo aisi lambaaiyan bhi deta hai jo koi sur ki qeemat likh nahin sakti. \Sur(1 2beats ÷ 3)\ tigna hai, yaani do sur ki jagah mein teen sur.
+
+layer-an-arrangement, draw-the-music

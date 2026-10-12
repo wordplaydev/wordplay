@@ -14,10 +14,10 @@
     import Header from '#components/app/Header.svelte';
     import LocaleChooser from '#components/settings/LocaleChooser.svelte';
     import { animationFactor } from '#db/Database.ts';
-    import { getLanguageDirection } from '#locale/LanguageCode.ts';
+    import { getLocaleDirection } from '#locale/LanguageCode.ts';
+    import { stringToLocale, toBCP47 } from '#locale/Locale.ts';
     import { ChoosePrompts } from '#locale/choosePrompts.generated.ts';
     import { getBestSupportedLocales } from '#locale/getBestSupportedLocales.ts';
-    import { getLocaleLanguage } from '#locale/LocaleText.ts';
 
     interface Props {
         show?: boolean;
@@ -28,11 +28,15 @@
     /** Every locale's invitation to choose a language. From a table built at build time,
      *  not from `$locales`: only en-US is bundled, so reading thirty locales' text here
      *  would mean thirty fetches before the visitor could read anything. */
-    const phrases = Object.entries(ChoosePrompts).map(([locale, phrase]) => ({
-        locale,
-        phrase,
-        language: getLocaleLanguage(locale) ?? 'en',
-    }));
+    const phrases = Object.entries(ChoosePrompts).map(([locale, phrase]) => {
+        const parsed = stringToLocale(locale);
+        return {
+            locale,
+            phrase,
+            lang: parsed ? toBCP47(parsed) : 'en',
+            dir: parsed ? getLocaleDirection(parsed) : 'ltr',
+        };
+    });
 
     /** What to lead with when nothing is rotating: whatever the browser says the reader
      *  prefers, so a still header still speaks to them. */
@@ -85,19 +89,14 @@
         >
             {#if rotating}
                 <Header
-                    ><span
-                        lang={rotating.language}
-                        dir={getLanguageDirection(rotating.language)}
+                    ><span lang={rotating.lang} dir={rotating.dir}
                         >{rotating.phrase}</span
                     ></Header
                 >
             {/if}
             <div class="phrases">
                 {#each phrases as entry (entry.locale)}
-                    <span
-                        class="phrase"
-                        lang={entry.language}
-                        dir={getLanguageDirection(entry.language)}
+                    <span class="phrase" lang={entry.lang} dir={entry.dir}
                         >{entry.phrase}</span
                     >
                 {/each}

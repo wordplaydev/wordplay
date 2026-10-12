@@ -13,10 +13,11 @@ import {
 } from '#locale/Glossary.ts';
 import type LanguageCode from '#locale/LanguageCode.ts';
 import {
-    getLanguageDirection,
-    getLanguageLayout,
     getLanguageScripts,
-    getLanguageVerticalLayout,
+    getLocaleDirection,
+    getLocaleLayout,
+    getLocaleVerticalLayout,
+    getLocaleWritingScript,
 } from '#locale/LanguageCode.ts';
 import { localeToString, toBCP47, type Locale } from '#locale/Locale.ts';
 import type LocaleText from '#locale/LocaleText.ts';
@@ -170,8 +171,10 @@ export default class Locales {
 
     /** True if one of the locales uses the given script */
     usesScript(script: Script) {
-        return this.locales.some((locale) =>
-            getLanguageScripts(locale.language).includes(script),
+        return this.locales.some(
+            (locale) =>
+                getLocaleWritingScript(locale) === script ||
+                getLanguageScripts(locale.language).includes(script),
         );
     }
 
@@ -182,12 +185,12 @@ export default class Locales {
 
     /** Get the writing direction for the most preferred locale. */
     getDirection() {
-        return getLanguageDirection(this.getLocale().language);
+        return getLocaleDirection(this.getLocale());
     }
 
     /** Get the writing layout (horizontal/vertical) for the most preferred locale. */
     getLayout() {
-        return getLanguageLayout(this.getLocale().language);
+        return getLocaleLayout(this.getLocale());
     }
 
     /** The vertical layout *any* chosen locale is set in, which is what decides
@@ -195,8 +198,8 @@ export default class Locales {
      *  vertical modes it offers. Any rather than the primary, because someone
      *  writing in both English and Japanese should still get the choice. */
     getVerticalLayout() {
-        return this.getLanguages()
-            .map(getLanguageVerticalLayout)
+        return this.locales
+            .map(getLocaleVerticalLayout)
             .find((layout) => layout !== undefined);
     }
 
@@ -258,7 +261,7 @@ export default class Locales {
         const lang = toBCP47(shown);
         return lang === toBCP47(this.getLocale())
             ? undefined
-            : { lang, dir: getLanguageDirection(shown.language) };
+            : { lang, dir: getLocaleDirection(shown) };
     }
 
     /**
@@ -328,7 +331,7 @@ export default class Locales {
             seen.add(plain);
             result.push({
                 language: locale.language,
-                direction: getLanguageDirection(locale.language),
+                direction: getLocaleDirection(locale),
                 text: resolved,
             });
         };
@@ -382,7 +385,7 @@ export default class Locales {
             const language = locale.getLocale().language;
             result.push({
                 language,
-                direction: getLanguageDirection(language),
+                direction: getLocaleDirection(locale.getLocale()),
                 markup,
             });
         };
@@ -415,7 +418,7 @@ export default class Locales {
             const language = locale.getLocale().language;
             result.push({
                 language,
-                direction: getLanguageDirection(language),
+                direction: getLocaleDirection(locale.getLocale()),
                 text,
             });
         };
@@ -454,7 +457,7 @@ export default class Locales {
             const language = locale.getLocale().language;
             result.push({
                 language,
-                direction: getLanguageDirection(language),
+                direction: getLocaleDirection(locale.getLocale()),
                 markup,
             });
         };

@@ -26,6 +26,6 @@ export function getLanguageTagName(node: Node): string | undefined {
     // ` + ` joins a multilingual tag's languages, matching how locale names are
     // already joined elsewhere in the UI.
     const name = languages.join(' + ');
-    const regions = node.getRegionCodes().map(getRegionName);
+    const regions = node.getRegionCodes().map((code) => getRegionName(code));
     return regions.length === 0 ? name : `${name} (${regions.join('/')})`;
 }

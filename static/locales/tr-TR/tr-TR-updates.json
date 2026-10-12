@@ -1052,6 +1052,8 @@
         "eea7bd4500f37": "$~<Rehber@https://wordplay.dev/guide>'in her sayfasının kendi adresi vardır. Sekmeler ve gezinti yolu artık okuduğunuz sayfanın nereye ait olduğunu gösterir.",
         "e2cbfa3574467": "$~Tarayıcının İleri düğmesi artık <Rehber@https://wordplay.dev/guide>'de çalışır. Rehber sayfalarından birine giden bir bağlantıyı açınca da artık önce başka bir sayfa görünmez.",
         "ed96f186e4b18": "$~Kodu okumayı kolaylaştırdık: \\?\\, \\??\\ ve \\???\\ artık aynı rengi paylaşıyor, her şeyi kabul eden bir tip \\◌\\ olarak görünüyor ve bir aralık tipi turuncu etiket yerine \\‥\\ olarak görünüyor.",
-        "ea6d52130d864": "$~<Rehber@https://wordplay.dev/guide> içindeki koddaki yer tutucular artık tiplerini küçük ve gri gösteriyor, bunu da yalnızca orada ne olması gerektiğini başka hiçbir şey söylemiyorsa yapıyor."
+        "ea6d52130d864": "$~<Rehber@https://wordplay.dev/guide> içindeki koddaki yer tutucular artık tiplerini küçük ve gri gösteriyor, bunu da yalnızca orada ne olması gerektiğini başka hiçbir şey söylemiyorsa yapıyor.",
+        "eb84dbea56e6e": "$~Artık <ana sayfa@https://wordplay.dev/> ve Rehber'deki kod örneklerini değiştirebilir ve hemen çalıştığını görebilirsin. ↺ düğmesi özgün örneği geri getirir.",
+        "e91e2af40d2f4": "$~Romanlaştırılmış Urduca (\\ur-Latn-PK\\) desteği ekledik. Bu, Latin harfleriyle yazılan Urduca! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
     }
 }

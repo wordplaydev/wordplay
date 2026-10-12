@@ -1,0 +1,24 @@
+Fehrist se koi bhi cheez ittefaq se chunein
+
+Kya aap chahte hain ke aap ki mansooba har baar chalne par aap ko hairaan kare? Intikhabaat ki ek fehrist banayein aur us mein se ek chunein @Random na ho.
+
+@Random hamein ek ittefaqi number de sakta hai, aur fehrist mein number se cheez dhoondi ja sakti hai \[n]\ na ho.
+In dono ko mila kar ek ittefaqi emoji chunein:
+
+\
+emoji: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Jumla(emoji.ittefaqi())
+\
+
+ Aap yeh bhi istemaal kar sakte hain @Random do numbers ke saath, jo un ke darmiyan ka ek poora number chunta hai.
+Misaal ke taur par, har second / naya / ittefaqi emoji chunne ke liye, yeh milayein @Time aur ek @Reaction deta hai:
+
+\
+emoji: ['🌈' '🌟' '🎈' '🦄' '🍩']
+chunein: emoji[1] … ∆ Waqt(1000ms) … emoji[Ittefaqi(1 emoji.lambaai())]
+Jumla(chunein)
+\
+
+ Har tick par @Time, yeh @Reaction ek naya hairaan kun nateeja chunta hai.
+
+shake-phrase, count-with-time

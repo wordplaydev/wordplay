@@ -484,3 +484,14 @@ test('restoreLinkTargets is idempotent', () => {
         unresolved: false,
     });
 });
+
+test('restoring references keeps an in-app link target', () => {
+    // A concept link in the same string is what made this run at all.
+    expect(
+        restoreReferences(
+            '@wordplay is free. <Donations@://donate> pay.',
+            '@wordplay muft hai. <Atiyaat@://donate> se.',
+            ConceptPattern,
+        ),
+    ).toBe('@wordplay muft hai. <Atiyaat@://donate> se.');
+});

@@ -1,0 +1,30 @@
+Tasveeron ko ek doosre ke oopar rakhein
+
+Kabhi kabhi hum tasveeron ko ek ke oopar ek rakhna chahte hain taake mazedaar manzar ya takhleeqi shaklein banayein.
+
+Misaal ke taur par, aap apni mansooba mein kai tahein istemaal kar sakte hain @Stage par, taake tasveeron ko jaise chahein tarteeb se rakhein.
+
+Dekhein! Yeh kachhua maine sirf shaklon se banaya hai!
+Har shakl ke number badal kar dekhein. Aap unhein hila sakte hain, bada chhota kar sakte hain, aur ghuma bhi sakte hain.
+Khel kar dekhein ke aap kya kuch bana sakte hain!
+
+\
+¶Note: Tasveerein ek ke upar ek lagane ki aik aur mansooba <misaal@https://wordplay.dev/project/example-Layers?play> ke liye numaish gah dekhein.¶
+
+
+Stage(
+	[
+		Shakal(Gol(3m 0m 1m 0m))
+		Shakal(Kaseerulazlaa(2m 3 0m -12m 0m) ghumaao: -30°)
+		Shakal(Kaseerulazlaa(7m 6 0m -6m 0m))
+		Shakal(Mustateel(-11m -9m 11m -12m 10m) ghumaao: 25°)
+		Shakal(Mustateel(-11m -9m 11m -12m 10m) ghumaao: -25°)
+
+	]
+	jagah: Jagah(0m 10m -30m)
+)
+\
+
+ Aap tahon se waqai bohat zabardast cheezein bana sakte hain! Aazmaa kar dekhein!
+
+custom-characters

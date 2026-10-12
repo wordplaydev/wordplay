@@ -1,0 +1,47 @@
+Woh dikhayein jo music baja raha hai
+
+Jo music aap sunte hain woh sirf aadha hissa hai. Yeh @Beat dhaara har beat par player ki poori haalat aap ko deti hai, taake aap jo bhi ho raha ho use bana sakein.
+
+@Beat ke paas hamesha aap ko dene ke liye ek @Downbeat hota hai, is liye aap use foran parh sakte hain. Music shuru hone se pehle yeh beat zero par hota hai aur kuch nahin baj raha hota:
+
+\
+dhadkan2: Thaap()
+ginti2: dhadkan2.ginti
+
+Stage([
+	Jumla('🥁' size: ((ginti2 % 4) = 0) ? 2m 1m)
+	Mauseeqi(Dhun([1 1 1 1] saaz: Saaz.dhol))
+])
+\
+
+ Yeh \count\ har beat par ek se barhta hai, is liye \count % 4\ har chauthi beat par \0\ hota hai. Yeh downbeat hai, aur dhol uchhalta hai.
+
+Yeh poora music ek number mein hai. Lekin ek @Downbeat mein ek \parts\ list bhi hoti hai, har @Part ke liye ek @Track, aur ek @Part jaanta hai ke is ki apni aawaaz abhi kya kar rahi hai: is ki \pitch\, is ki \volume\, is ki \pan\, aur kya woh \sounding\ hai. Inhein banayein to aap ko mix ki bajaye har aawaaz alag alag nazar aati hai:
+
+\
+dhadkan2: Thaap()
+hisse2•[Hissa]: dhadkan2.hisse.chhaanna(ƒ(p•Hissa) p.bajtaHua)
+
+ƒ unchaai2(p2•Hissa)•# p2.sur[1] ÷ 1semitones
+
+ƒ nuqta2(p3•Hissa)•Jumla
+	Jumla(
+		'⬤'
+		0.4m + (p3.awaaz · 1m)
+		jagah: Jagah((p3.pan · 3) · 1m ((unchaai2(p3) · 0.2) - 1) · 1m)
+	)
+
+Stage([
+	:hisse2.badlo(ƒ(p4•Hissa) nuqta2(p4))
+	Mauseeqi([
+		Dhun([1 ø 5 ø] saaz: Saaz.piano pan: -1)
+		Dhun([ø 8 ø 12] saaz: Saaz.ghanti pan: 1)
+	])
+])
+\
+
+ Har dot wahin hota hai jahan us ka track hota hai: \pan\ use baayein ya daayein rakhta hai, \pitch\ use oopar ya neeche rakhta hai. Kyunke \sounding\ lambe note ke bajte rehne tak sach rehta hai, is liye rukha hua note apna dot rakhta hai aur ghaayab nahin hota.
+
+Chhoti si \height\ function ko dekhein. \pitch\ ek / list hai /, kyunki ek chord ek saath kai surain bajata hai, is liye \p.pitch[1]\ bajti hui surain mein se sab se neechi sur leta hai. Woh number is mein hai: \semitones\, aur is ko \1semitones\ se taqseem karne se woh aam number ban jata hai jise aap neeche diye gaye \0.2\ aur \1m\ ke saath mila sakte hain. Function ko \#\ likh dena akela kaafi nahin: sirf \#\ ka matlab hai / koi bhi / ikai, / koi ikai nahin / , is liye yeh semitone khushi se qabool kar lega aur phir ek line baad un par shikayat karega.
+
+play-a-sound-effect, react-to-sound, count-with-time

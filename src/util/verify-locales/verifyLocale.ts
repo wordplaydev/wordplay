@@ -36,6 +36,7 @@ import checkStringArrays from '#util/verify-locales/checkStringArrays.ts';
 import checkTerms from '#util/verify-locales/checkTerms.ts';
 import checkExampleDocs from '#util/verify-locales/checkExampleDocs.ts';
 import checkUntranslated from '#util/verify-locales/checkUntranslated.ts';
+import checkScriptLeak from '#util/verify-locales/checkScriptLeak.ts';
 import checkCollapsedSpaces from '#util/verify-locales/checkCollapsedSpaces.ts';
 import checkLinkTargets from '#util/verify-locales/checkLinkTargets.ts';
 import checkItalicSpans from '#util/verify-locales/checkItalicSpans.ts';
@@ -204,6 +205,11 @@ export async function verifyLocale(
     // this marks is honored by the same run.
     if (locale !== 'en-US')
         revisedText = checkUntranslated(log, DefaultLocale, revisedText, fix);
+
+    // A locale written in another script than its language's (Roman Urdu) whose
+    // translation slipped back into that script. Before the translation pass, so
+    // the `$!` this marks is honored by the same run.
+    revisedText = checkScriptLeak(log, DefaultLocale, revisedText, fix);
 
     // Translations that came back with their spaces stripped, which every other check
     // accepts. Before the translation pass, so the `$!` this marks is honored by the same run.
@@ -925,6 +931,7 @@ export async function translateLocale(
     const targetLocale = await translator.getTargetLocale(
         target.language,
         target.regions,
+        target.script,
     );
 
     // Translate a subset of paths and write the results into `revised`. A `null`

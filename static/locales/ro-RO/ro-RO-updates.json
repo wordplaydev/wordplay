@@ -1052,6 +1052,8 @@
         "eea7bd4500f37": "$~Fiecare pagină din <Ghid@https://wordplay.dev/guide> are propria adresă. Filele și firul de navigare arată acum unde se află pagina pe care o citești.",
         "e2cbfa3574467": "$~Butonul Înainte al browserului funcționează acum în <Ghid@https://wordplay.dev/guide>. Când deschizi un link către una dintre paginile lui, nu mai apare întâi o altă pagină.",
         "ed96f186e4b18": "$~Am făcut codul mai ușor de citit: \\?\\, \\??\\ și \\???\\ au acum aceeași culoare, un tip care acceptă orice apare ca \\◌\\, iar un tip de interval apare ca \\‥\\ în loc de o etichetă portocalie.",
-        "ea6d52130d864": "$~Substituenții din codul din <Ghid@https://wordplay.dev/guide> își arată acum tipul mic și gri, și doar atunci când nimic altceva nu spune ce trebuie pus acolo."
+        "ea6d52130d864": "$~Substituenții din codul din <Ghid@https://wordplay.dev/guide> își arată acum tipul mic și gri, și doar atunci când nimic altceva nu spune ce trebuie pus acolo.",
+        "eb84dbea56e6e": "$~Acum poți schimba exemplele de cod de pe <pagina principală@https://wordplay.dev/> și din Ghid și le poți vedea rulând imediat, iar ↺ readuce exemplul original.",
+        "e91e2af40d2f4": "$~Am adăugat suport pentru urdu romanizat (\\ur-Latn-PK\\), adică urdu scris cu litere latine! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
     }
 }

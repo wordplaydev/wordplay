@@ -1,0 +1,39 @@
+Music ko action ke saath chalayein
+
+Jo game shuru se aakhir tak ek hi dhun bajaye, woh feeki lagti hai. Agar music ko pata ho ke aap jeet rahe hain ya nahin, to kya hoga?
+
+Koi tareeqa nahin hai ke * rok * ek @Music ko — usay jo rokta hai woh yeh hai ke woh is par na ho: @Stage. Is liye ek haalat rakhein, aur us se milta hua gaana stage par rakhein:
+
+\
+marhala: 'menu' … ∆ Button() … (marhala = 'menu') ? 'peecha' 'menu'
+
+mauzoo2: [1 ø 3 ø 5 ø 6 ø]
+
+Stage([
+	Jumla((marhala = 'menu') ? '▶ shuru karne ke liye dabayein' '🏃 daudein!' 1m)
+	(marhala = 'menu')
+		? Mauseeqi(Dhun(mauzoo2 saaz: Saaz.ghanti) raftaar: 72beats/min)
+		Mauseeqi(Dhun(mauzoo2 saaz: Saaz.barqiBaaja) raftaar: 132beats/min)
+])
+\
+
+ Dono gaane wohi aath numbers hain. Sirf saaz aur raftaar badalti hai, aur phir bhi yeh alag dhun lagti hai — kyunki degrees batate hain * scale ka kaun sa qadam *, koi sur nahin, is liye ek @Music unhein dobara samajh sakta hai. Usay yeh dein \paimaana2: Mauseeqi.hamaahangChhota\ aur wohi dhun dara dene wali ban jaati hai, ek bhi sur dobara likhe baghair.
+
+Doosra hissa woh music hai jo halaat ke saath lagataar badalta hai. Badalne se \tempo\ kuch dobara shuru nahin hota — yeh agli dhun par jud jaata hai, is liye dhun tez ho jaati hai aur apni jagah nahin khoti:
+
+\
+score: 0 … ∆ Button() … score + 1
+jaldi: (score ÷ 10).kamtareen(1)
+
+Stage([
+	Jumla('score \score\' 1m)
+	Mauseeqi(
+		Dhun([1 5 8 5] saaz: Saaz.dhol)
+		raftaar: (90 + (jaldi · 90)) · 1beats/min
+	)
+])
+\
+
+ Kaafi baar dabayein to dhol shuru ke muqable mein doguni taaqat se bajte hain. Chhota aur tez sur is baat ko sunai deta hai — lambe ruke hue suron mein raftaar ka badalna mehsoos karna mushkil hota hai.
+
+choose-an-instrument, play-a-sound-effect, track-game-state

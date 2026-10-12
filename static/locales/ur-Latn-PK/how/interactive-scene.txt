@@ -1,0 +1,67 @@
+Scenes ki ek interactive silsila banayein
+
+Kabhi kabhi hum aisi kahaaniyan sunana chahte hain jo agle hisse par jaane se pehle dekhne wale ke kuch karne ka intezaar karti hain.
+
+Iske liye hum istemaal kar sakte hain @Scene, lekin rakhein @Boolean qeematein us mawaad ke beech jo hum dikhana chahte hain. Misaal ke taur par, yahan ek click har agle hisse par le jaaye ga, @Button deta hai:
+
+\
+Manzar([
+		Jumla('mujh par click karein')
+		Button()
+		Jumla('mujh par dobara click karein' muddat: 1s)
+		Button()
+		Jumla('nahin, waqai, mujh par poori taaqat se click karein!!' muddat: 1s)
+		Button()
+		Jumla('kya aap ne abhi tak mujh par click kiya?' muddat: 1s)
+	])
+\
+
+ Yeh @Scene pehla dikhata hai @Phrase, phir intezaar karta hai @Button ke sach hone ka, aur jab woh sach ho jaaye, to agle par chala jaata hai @Phrase na ho.
+
+Aage badhne ke liye aap kuch bhi istemaal kar sakte hain, bas woh sach ya jhoot hona chahiye. 
+Misaal ke taur par, hum apni aawaaz istemaal kar sakte hain! 
+Agar hum kaafi zor se chillayein, to scene aage badh jaaye gi:
+
+\
+Manzar([
+		Jumla('kya wahan koi hai?')
+		AwaazKiUnchaai() > .5
+		Jumla('mujhe aap ki aawaaz nahin aa rahi, dobara kahein?' muddat: 1s)
+		AwaazKiUnchaai() > .7
+		Jumla('zara zor se kahein...' muddat: 1s)
+		AwaazKiUnchaai() > .9
+		Jumla('oh, salaam!' muddat: 1s)
+	])
+\
+
+ Jab har @Phrase ko ek hi cheez ka intezaar karna ho, @Scene/until ise ek hi baar kehta hai, har ek ke beech likhne ke bajaye. Yeh wahi karta hai jo upar ki pehli misaal karti hai:
+
+\
+Manzar([
+		Jumla('mujh par click karein')
+		Jumla('mujh par dobara click karein' muddat: 1s)
+		Jumla('nahin, waqai, mujh par poori taaqat se click karein!!' muddat: 1s)
+		Jumla('kya aap ne abhi tak mujh par click kiya?' muddat: 1s)
+	] jabTak: Button())
+\
+
+ Ek likhein @Boolean list mein jab intezaar hon / alag alag /, jaise chillane wali misaal mein, aur istemaal karein @Scene/until jab woh sab ek jaise hon.
+Aap dono istemaal kar sakte hain: ek @Boolean list mein apna alag intezaar hai, us ek ke ilawa jo @Scene/until maangta hai.
+
+Note: @Scene/until intezaar karta hai / ke baad / har @Phrase ka apna @Phrase/duration, is ki jagah nahin.
+
+Agar aap chahte hain ke @Scene khud se kabhi na hile, aur sirf wahin jaye jahan aap bhejein, to istemaal karein @Scene/pause ke saath @Scene/step deta hai:
+
+\
+kunji2: Kunji()
+Manzar([
+		Jumla('ek')
+		Jumla('do')
+		Jumla('teen')
+	] waqfa qadam: ∆ kunji2 ? ((kunji2 = 'ArrowLeft') ? -1 (kunji2 = 'ArrowRight') ? 1 ø) ø)
+\
+
+@Scene/step itni tadaad se hilta hai: @Phrase — \1\ aage, \-1\ peechhe — aur siron par aap ke liye ruk jata hai.
+@Scene/go wohi khayaal hai, lekin faasle ki jagah ek maqaam ke taur par: us @Phrase ka number jo aap chahte hain, 1 se ginte hue, ya woh @Phrase/name jo aap ne usay diya.
+
+animated-scene, repeat-a-round, move-between-content

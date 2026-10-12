@@ -1,0 +1,23 @@
+Kisi harf ya shakal ki bohat si nakalein banayein
+
+Agar hamein das billiyan ya sau sitare chahiye hon, lekin hum un sab ko ek ek kar ke likhna na chahein to?
+Hum ek list se kah sakte hain ke woh hamare liye nakalein bana de, is ke zariye @List/translate na ho.
+
+Agar hum is number se shuru karein \10\ aur use is se badal dein \→ []\, to hamein 1 se 10 tak das numbron ki ek list mil jaati hai.
+Phir hum is ko istemaal karte hain @List/translate taake har number ko ek mein badal sakein @Phrase deta hai:
+
+\
+Group(Qataar() (10 → []).badlo(ƒ() Jumla('🐈')))
+\
+
+@List/translate hamare chhote se function ko har rukn ke liye ek baar chalata hai, aur nateejon ko ek nayi list mein jama kar deta hai.
+
+Har nakal ko thoda alag banane ke liye, woh number istemaal karein jo translate hamein deta hai:
+
+\
+Group(Qataar('|' 0.2m) [:1‥8].badlo(ƒ(n4) Jumla('⭐' size: n4 × 0.5m)))
+\
+
+ Har sitara pichhle se bada hai, kyunke \n\ is se shuru hota hai \1\ aur is tak jaata hai \8\ na ho.
+
+make-a-grid, arrange-in-a-row
