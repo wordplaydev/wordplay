@@ -1,10 +1,13 @@
 import { howToToString, parseHowTo } from '#concepts/HowTo.ts';
 import type LanguageCode from '#locale/LanguageCode.ts';
 import type LocaleText from '#locale/LocaleText.ts';
-import { isMachineTranslated } from '#locale/LocaleText.ts';
+import { getLocaleScript, isMachineTranslated } from '#locale/LocaleText.ts';
 import type Translator from '#util/verify-locales/Translator.ts';
 import type { RegionCode } from '#locale/Regions.ts';
+import Doc from '#nodes/Doc.ts';
 import Example from '#nodes/Example.ts';
+import type Node from '#nodes/Node.ts';
+import type Spaces from '#parser/Spaces.ts';
 import { Sym } from '#nodes/Sym.ts';
 import Token from '#nodes/Token.ts';
 import parseDoc from '#parser/parseDoc.ts';
@@ -130,7 +133,11 @@ export async function verifyHowTo(
     const backend = translator ?? getTranslator();
     let targetLocale: string;
     try {
-        targetLocale = await backend.getTargetLocale(language, regions);
+        targetLocale = await backend.getTargetLocale(
+            language,
+            regions,
+            getLocaleScript(locale),
+        );
     } catch (error) {
         log.bad(`Failed to get the target locale: ${error}`);
         return;
@@ -301,6 +308,30 @@ function retargetHowToExamples(
 }
 
 /**
+ * The example a localized `\…\` parses to. Not the first `Example` in the tree:
+ * `nodes()` lists children before parents, so an example holding an
+ * interpolation (`'score \score\'`) yields the interpolation first, and every
+ * such example failed the soundness check against the whole English program.
+ */
+export function outermostExample(node: Node): Example | undefined {
+    return node
+        .nodes()
+        .filter((child): child is Example => child instanceof Example)
+        .at(-1);
+}
+
+/**
+ * An example as the translator should see it: laid out with the how-to's own
+ * spaces. Bare, `[1 2 3]` reads `[123]` and `Stack() [` reads `Stack()[` — one
+ * number, and an index into `Stack()` — which the model faithfully keeps, so
+ * every example bought this way failed `localizedExampleIsSound` and shipped in
+ * English. The blank line before the example belongs to the paragraph, not it.
+ */
+export function exampleToTranslate(example: Example, spaces: Spaces): string {
+    return example.toWordplay(spaces).trimStart();
+}
+
+/**
  * Whether a localized example is still the same program as the one it came
  * from, structurally.
  *
@@ -321,12 +352,24 @@ export function localizedExampleIsSound(
     original: Example,
     localized: Example,
 ): boolean {
-    const kinds = (example: Example) =>
-        example
+    // A doc inside the code is prose, and translated prose reflows into a
+    // different number of words, so only the code around it is compared.
+    const kinds = (example: Example) => {
+        const prose = new Set(
+            example
+                .nodes()
+                .filter((node): node is Doc => node instanceof Doc)
+                .flatMap((doc) => doc.leaves()),
+        );
+        return example
             .leaves()
-            .filter((leaf): leaf is Token => leaf instanceof Token)
+            .filter(
+                (leaf): leaf is Token =>
+                    leaf instanceof Token && !prose.has(leaf),
+            )
             .map((token) => token.getTypes().join('|'))
             .join(' ');
+    };
     return kinds(original) === kinds(localized);
 }
 
@@ -473,12 +516,15 @@ async function translateHowToFile(
     if (!buyTitle && phrasesToBuy.length === 0 && examplesToBuy.length === 0)
         return false;
 
+    const englishSpaces = english.spaces;
     const translations = await translator.translate(
         log,
         [
             ...(buyTitle ? [english.how.title] : []),
             ...phrasesToBuy.map((phrase) => phrase.getText()),
-            ...examplesToBuy.map((example) => example.toWordplay()),
+            ...examplesToBuy.map((example) =>
+                exampleToTranslate(example, englishSpaces),
+            ),
         ],
         sourceLocale,
         targetLocale,
@@ -564,9 +610,7 @@ async function translateHowToFile(
         if (replacement === undefined) {
             if (localized === undefined || localized === null) continue;
             const tokens = toTokens(DOCS_SYMBOL + localized + DOCS_SYMBOL);
-            replacement = parseDoc(tokens)
-                .nodes()
-                .find((node): node is Example => node instanceof Example);
+            replacement = outermostExample(parseDoc(tokens));
             // Its own spacing, or the program serializes onto a single line.
             spaces = spaces.withSpaces(tokens.getSpaces());
         }
