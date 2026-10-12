@@ -450,8 +450,12 @@ test.describe('authed views', () => {
                 })
                 .click();
             const download = await downloading;
-            // The value's own localized name, which en-US capitalizes.
-            expect(download.suggestedFilename()).toBe('Pet Survey-Table.csv');
+            // The value's own localized name, which en-US capitalizes. WebKit on
+            // Linux turns a download name's spaces into underscores; the field
+            // above already pins the name the app chose.
+            expect(download.suggestedFilename()).toMatch(
+                /^Pet[ _]Survey-Table\.csv$/,
+            );
         } finally {
             await context.close();
         }
