@@ -1,0 +1,27 @@
+Qeemat ke mutabiq mukhtalif cheezein dikhayein
+
+Agar aap chahte hain ke @Phrase kisi cheez ke mutabiq badal jaye, jaise score ya kisi kunji ka dabna, to kya karein?
+
+Hum shartiya \?\ istemaal kar ke do cheezon mein se ek chun sakte hain.
+Pehle shart likhein, phir \?\, phir woh qeemat jo shart sahi hone par istemaal ho, phir woh qeemat jo shart ghalat hone par istemaal ho.
+
+Yeh ek khush chehra hai jo har baar space bar dabane par udaas ho jata hai, aur phir dobara khush ho jata hai:
+
+\
+khush: ⊤ … ∆ Kunji(' ') … ~khush
+Jumla(khush ? '😊' '😢')
+\
+
+ Yeh @Reaction shuru mein \happy\ ke tor par \⊤\ (sahi) hota hai, aur isay \~\ se palat deta hai jab bhi space dabaya jaye.
+Phir shartiya \?\ sahi chehra chun leta hai.
+
+Aap shartiya izhaar ko jod kar do se zyada cheezon mein se chun sakte hain:
+
+\
+score: 0 … ∆ Kunji('a') … score + 1
+Jumla(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+\
+
+ Kuch baar \a\ dabayein aur dekhein ke anda phoot kar chooza ban jata hai!
+
+track-points, offer-choices

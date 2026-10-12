@@ -1,0 +1,26 @@
+Camera se video banayein
+
+Yeh @Camera dhaara duniya se rangon ka jaal hasil karne ka bohat acha tareeqa hai. 
+Agar hum un rangon ko dekhna chahein aur woh tasveer dobara banayein jo @Camera dekhta hai, to kya karein?
+
+Ek @Image rangon ka jaal leta hai aur use ek tasveer ki shakal mein banata hai, is liye hum use @Camera ke rang seedhe de sakte hain.
+
+\
+chauraai: 24
+unchaai2: 24
+colors2: Camera(chauraai × 1px unchaai2 × 1px 33ms)
+Stage([Tasveer(colors2 'camera jo dekhta hai' 12m)])
+\
+
+ Har @Image ko ek wazahat chahiye, kyunke rangon ke jaal ke paas apne koi alfaaz nahin hote jo us shakhs ke kaam aayein jo dekh nahin sakta.
+
+Hum tasveer ko khaanon ki bajaye huroof se bana sakte hain, is ke liye use ek / glyph / dein, yaani ek function jo ek rang ko us matn mein badalta hai jo us rang ki numaindagi karta hai.
+
+\
+chauraai: 24
+unchaai2: 24
+colors2: Camera(chauraai × 1px unchaai2 × 1px 33ms)
+Stage([Tasveer(colors2 'camera, jo gehre aur halke daairon se banaya gaya hai' 12m nishaan: ƒ(rang3•Rang) (rang3.ujaala < 50%) ? "⬤" "◯")])
+\
+
+interactive-scene

@@ -1,0 +1,21 @@
+Harkat ko dohraana
+
+Kabhi kabhi hum chahte hain ke koi kirdar kai baar ek hi tarah harkat kare! 
+Wahi lines baar baar likhna thakaa dene wala ho sakta hai.
+
+Is ke bajaye, hum @Sequence ke saath @Phrase istemaal kar ke kisi cheez ko kai baar dohra sakte hain! Khaas taur par,
+hum @Sequence mein gintii istemaal kar sakte hain aur chun sakte hain ke poses ka ek set kitni baar ho. Misaal ke taur par, 
+yeh ek basketball hai jo do baar oopar neeche uchhal raha hai. 
+
+\
+Stage([
+	Jumla('🏀' aana: Silsila({
+				0%: Andaaz(hatao: Jagah(y: 0.25m))
+				25%: Andaaz(hatao: Jagah(y: 0m))
+				50%: Andaaz(hatao: Jagah(y: -0.25m))
+				75%: Andaaz(hatao: Jagah(y: 0m))
+				100%: Andaaz(hatao: Jagah(y: 0.25m))} ginti:2x muddat:2s))
+])
+\
+
+animate-phrase, shake-phrase

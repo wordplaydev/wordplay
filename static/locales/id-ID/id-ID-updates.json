@@ -1052,6 +1052,8 @@
         "eea7bd4500f37": "$~Setiap halaman di <Panduan@https://wordplay.dev/guide> punya alamatnya sendiri. Tab dan jejak navigasinya kini menunjukkan di mana letak halaman yang sedang kamu baca.",
         "e2cbfa3574467": "$~Tombol Maju di peramban kini berfungsi di <Panduan@https://wordplay.dev/guide>. Saat kamu membuka tautan ke salah satu halamannya, halaman lain tidak lagi muncul lebih dulu.",
         "ed96f186e4b18": "$~Kami membuat kode lebih mudah dibaca: \\?\\, \\??\\, dan \\???\\ sekarang memakai warna yang sama, jenis yang menerima apa saja tampil sebagai \\◌\\, dan jenis rentang tampil sebagai \\‥\\ dan bukan lagi label oranye.",
-        "ea6d52130d864": "$~Penampung di dalam kode pada <Panduan@https://wordplay.dev/guide> sekarang menampilkan jenisnya dengan kecil dan abu-abu, dan hanya jika tidak ada hal lain yang menjelaskan apa yang harus ada di sana."
+        "ea6d52130d864": "$~Penampung di dalam kode pada <Panduan@https://wordplay.dev/guide> sekarang menampilkan jenisnya dengan kecil dan abu-abu, dan hanya jika tidak ada hal lain yang menjelaskan apa yang harus ada di sana.",
+        "eb84dbea56e6e": "$~Sekarang kamu bisa mengubah contoh kode di <halaman utama@https://wordplay.dev/> dan di Panduan, lalu melihatnya langsung berjalan. Tombol ↺ mengembalikan kode ke bentuk aslinya.",
+        "e91e2af40d2f4": "$~Kami menambahkan dukungan untuk Urdu Romawi (\\ur-Latn-PK\\), yaitu bahasa Urdu yang ditulis dengan huruf Latin! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
     }
 }

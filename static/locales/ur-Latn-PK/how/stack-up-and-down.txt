@@ -1,0 +1,28 @@
+Huroof ko upar se neeche jamaein
+
+Agar @Row saath saath rakhne ke liye hai, to @Stack upar se neeche rakhne ke liye hai.
+@Stack har harf ko pichhle harf ke neeche rakhta hai, ek meenaar ki tarah.
+
+\
+Group(Tah() [
+    Jumla('ek')
+    Jumla('do')
+    Jumla('teen')
+])
+\
+
+ Jaise @Row, @Stack mein bhi sath aur khaali jagah ho sakti hai.
+Sab kuch baayein kinaare ke saath milane ki koshish karein:
+
+\
+Group(Tah('<' 0.25m) [
+    Jumla('🐣 chhota')
+    Jumla('🐥 darmiyana')
+    Jumla('🐔 bara')
+])
+\
+
+ Yeh \'<'\ ka matlab hai / sab kuch baayein kinaare ke saath milayein / na ho.
+Aap \'|'\ darmiyan ke liye ya \'>'\ daayein kinaare ke liye bhi aazma sakte hain.
+
+arrange-in-a-row, make-a-grid

@@ -1,0 +1,24 @@
+Kirdaar ko harkat dein
+
+Kirdaar ki ek aaraam ki animation ho sakti hai jo us waqt dohraati rehti hai jab woh hil nahin rahe hote.
+
+Misaal ke taur par, aayein is billi ko ghoomne aur khisakne se thoda sa nachaain:
+
+\
+Phrase(
+    '🐈' 
+    rukna: Sequence({
+        0%: Pose(ghumaao: 0°)
+        15%: Pose(ghumaao: 15°)
+        30%: Pose(ghumaao: 0°)
+        45%: Pose(hatao: Place(-0.25m))
+        60%: Pose(hatao: Place(0.25m))
+        75%: Pose(hatao: Place(-0.25m))
+        90%: Pose(hatao: Place(0m))
+    } 2s)
+)
+\
+
+ Is misaal mein ek istemaal hota hai @Sequence alag alag ka @Pose.
+
+move-phrase, shake-phrase

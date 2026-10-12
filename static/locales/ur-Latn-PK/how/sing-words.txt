@@ -1,0 +1,66 @@
+Aawaaz se alfaaz gawaein
+
+Palette ke har @Instrument mein se, \Saaz.aawaaz\ akela hai jo kuch keh sakta hai. Isko apne @Track sakein ek @Track/words dein aur yeh unhein gaata hai, har note par ek hissa:
+
+\
+Mauseeqi(
+	Dhun([1 2 3 5 3 1] alfaaz: 'la la la la la la' saaz: Saaz.aawaaz)
+	raftaar: 120beats/min
+)
+\
+
+ Chhe hisse, chhe note. Yahan khaali jagah hi poori qawaid hai: yeh batati hai ke ek hissa kahan khatam hota hai aur agla kahan shuru hota hai. Khamoshi ke liye koi hissa nahin lagta, is liye alfaaz un notes par aate hain jo aap waqai sunte hain. Agar notes se kam hisse likhein to woh dobara shuru se shuru ho jaate hain. Agar kuch bhi na likhein to aawaaz ek / uh / ki aawaaz rokti hai, is liye yeh hamesha kuch na kuch gaati hai.
+
+Yeh hijje angrezi ke nahin hain. Yeh < International Phonetic Alphabet @https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> hai, jahan har harf theek ek aawaaz hai aur har aawaaz ka theek ek harf hai. Angrezi hijje yeh nahin kar sakte: \o\ in / go /, / do / aur / women / mein teen alag alag aawaazein hain. Is liye angrezi hijje parhne wali aawaaz ko andaza lagana parta aur woh ghalat andaza lagati. Iska yeh bhi matlab hai ke gaana kisi bhi zubaan mein likhein, ek jaisa chalta hai, kyunke harf aap ke munh ki aawaaz batate hain, aap ki alif-be nahin.
+
+In mein se zyada tar ke liye aap ke keyboard par koi kunji nahin hai, is liye editor ke neeche 🤖 dabayein. Yeh woh har aawaaz dikhata hai jo aawaaz bana sakti hai, saath mein ek lafz jis mein woh aawaaz hai aur ek button jo use bajata hai. Harf ko khud dabane se woh aap ke code mein likha jaata hai. Aawaaz sun kar hi aap use sahi se jaan sakte hain, aur yeh panel hi rehnuma hai. Jo aage hai woh shuru karne ke liye kaafi hai.
+
+Pehle swar (vowels) se shuru karein. Yeh barah zyada tar zaroorat poori karte hain, har ek ek angrezi lafz ke andar dikhaya gaya hai jis mein woh hai:
+
+\a\ f / a / ther, \e\ b / e / d, \i\ s / ee /, \o\ g / o /, \u\ b / oo / t, \ɛ\ h / ea / d, \ɪ\ b / i / t, \ɔ\ b / ou / ght, \ʊ\ b / oo / k, \æ\ c / a / t, \ʌ\ c / u / p, \ə\ / a / bout
+
+Ek akela vowel bhi ek bilkul theek syllable hai, aur unhein ek qatar mein gaana woh sab se saaf tareeqa hai jis se aap ek ki doosre se pehchaan sun sakte hain:
+
+\
+Mauseeqi(
+	Dhun([1 2 3 4 5] alfaaz: 'a e i o u' saaz: Saaz.aawaaz)
+	raftaar: 90beats/min
+)
+\
+
+ Consonants zyada tar waise hi dikhte hain jaisa aap sochte hain: \p b t d k m n s f l r w\ sab ki aawaaz taqreeban waisi hi hai jaisi angrezi mein hoti hai. Seekhne ke qabil woh aawaazein hain jinhein angrezi do harf se likhti hai, aur ek harf jo apni jagah badal chuka hai. \ʃ\ har chauthi beat par / sh /, \ʒ\ woh hai jo / s / in / measure /, \θ\ woh hai jo / th / in / thin /, \ð\ woh hai jo / th / in / this /, \ŋ\ woh hai jo / ng / in / sing /, aur \j\ woh hai jo / y / in / yes /. Inhein kisi vowel ke aage rakhein to ek lafz ban jaata hai:
+
+\
+Mauseeqi(
+	Dhun([5 5 3 3 1] alfaaz: 'ʃi si mi lo ʌp' saaz: Saaz.aawaaz)
+	raftaar: 100beats/min
+)
+\
+
+ Ek syllable kai sur par bhi phail sakta hai. Usay hyphen par khatam karein to woh har hyphen ke liye ek aur sur tak chalta hai. Ek hi syllable par surun ki yeh qataar hamdon aur lori ko unki shakal deti hai:
+
+\
+Mauseeqi(
+	Dhun([1 2 3 2 1] alfaaz: 'glo--- ri' saaz: Saaz.aawaaz)
+	raftaar: 140beats/min
+)
+\
+
+ Teenon hyphen \glo\ ko chaar surun tak le jaate hain, phir \ri\ aakhri sur par aata hai. Jo kuchh aawaaz pehchaan nahin paati, usay woh inkaar karne ke bajaye chhor deti hai, is liye aap bina dhun bigaare tajurba kar sakte hain.
+
+Alfaaz ko waise dikhane ke liye jaise woh gaaye jaate hain, unhein wapas parhein @Beat. @Downbeat/words mein woh hota hai jo us lamhe mein gaaya ja raha ho, is liye ek jumla poora karaoke display ban jaata hai:
+
+\
+dhadkan2: Thaap()
+Stage([
+	Jumla(((dhadkan2.alfaaz.lambaai() = 0) ? '' dhadkan2.alfaaz[1]) 3m)
+	Mauseeqi(
+		Dhun([1 2 3 5 3 1] alfaaz: 'ðɪs ɪz ə soŋ tə si' saaz: Saaz.aawaaz)
+		raftaar: 100beats/min
+	)
+])
+\
+
+@Downbeat/parts mein wahi syllable track ke hisaab se hote hain, agar aap do gaanay walon ko saath ke bajaye alag alag dikhana chahte hain.
+
+choose-an-instrument, write-rhythm, draw-the-music

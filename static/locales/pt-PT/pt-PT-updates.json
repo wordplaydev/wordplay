@@ -1052,6 +1052,8 @@
         "eea7bd4500f37": "$~Cada página do <Guia@https://wordplay.dev/guide> tem o seu próprio endereço. Os seus separadores e o caminho de navegação mostram agora a que secção pertence a página que está a ler.",
         "e2cbfa3574467": "$~O botão de avançar do navegador já funciona no <Guia@https://wordplay.dev/guide>. Além disso, ao abrir uma ligação para uma das suas páginas, já não aparece primeiro uma página diferente.",
         "ed96f186e4b18": "$~Tornámos o código mais fácil de ler: \\?\\, \\??\\ e \\???\\ agora partilham uma cor, um tipo que aceita qualquer coisa aparece como \\◌\\ e um tipo de intervalo aparece como \\‥\\ em vez de uma etiqueta laranja.",
-        "ea6d52130d864": "$~Os marcadores de posição no código do <Guia@https://wordplay.dev/guide> agora mostram o seu tipo pequeno e cinzento, e só quando mais nada indica o que pertence ali."
+        "ea6d52130d864": "$~Os marcadores de posição no código do <Guia@https://wordplay.dev/guide> agora mostram o seu tipo pequeno e cinzento, e só quando mais nada indica o que pertence ali.",
+        "eb84dbea56e6e": "$~Agora pode alterar os exemplos de código na <página inicial@https://wordplay.dev/> e no guia e ver logo o resultado a atuar, e o ↺ repõe o original.",
+        "e91e2af40d2f4": "$~Adicionámos suporte para urdu romanizado (\\ur-Latn-PK\\), que é o urdu escrito com letras latinas! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
     }
 }

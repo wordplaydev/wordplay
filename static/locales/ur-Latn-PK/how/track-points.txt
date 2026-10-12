@@ -1,0 +1,23 @@
+Points ka hisaab rakhein
+
+Kabhi kabhi game mein jab kuch hota hai to points ka hisaab rakhna madadgaar hota hai. Agar @wordplay mutaghayyar ko nayi qeemat dene ki ijaazat nahin deta, to hum yeh kaise karein?
+
+Is ki tarkeeb yeh hai ke @Reaction istemaal karke @Bind ki qeemat tay karein, aur dhyaan se sochein ke kaunsa waqia is ki nayi qeemat banaye. @Bind na ho.
+
+Misaal ke taur par, ek bohat saada game sochein jismein khilaadi jitni baar keyboard par koi khufiya kunji dabata hai, utne zyada points paata hai. 
+
+\
+points2: 0 … ['a' 'e' 'i' 'o' 'u'].rakhta(Kunji()) … points2 + 1
+\
+
+ Yeh misaal kehti hai, / Points 0 se shuru hote hain, aur phir jab bhi koi kunji dabayi jaye, agar woh kunji vowels ki list mein ho, to points maujooda points se ek zyada ho jate hain./ Jab bhi \Kunji()\ dhaara badalti hai, program dobara chalta hai, shart jaanchta hai, aur agar woh sahi ho to \points\ ko nayi qeemat deta hai.
+
+Is mein reaction ke teen hisse hain:
+
+• Points ki shuruati qeemat (\0\)
+• Woh shart jo sahi hone par nayi qeemat banati hai (\['a' 'e' 'i' 'o' 'u'].rakhta(Kunji())\)
+• Nayi qeemat, agar shart sahi ho jaye (\points + 1\)
+
+Points ka hisaab rakhne ka zyada behtar tareeqa banane ke liye, bas zyada mazboot shartein ya nayi qeematein banayein. Un shartein aur nayi qeematon ke usool par thoda waqt sochein, aur phir unhein code mein likhne ki koshish karein.
+
+track-points

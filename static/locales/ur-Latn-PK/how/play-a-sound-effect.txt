@@ -1,0 +1,44 @@
+Jab kuch ho to aawaaz bajayein
+
+Jawaab sahi ho to ek ding, kuch gire to ek dhamaka — aawaaz ka asar ek chhota sa @Music hai jo sirf ek baar bajta hai aur raasta chhor deta hai.
+
+Do cheezein ise gaane ke bajaye aawaaz ka asar banati hain. \chakkar2: ⊥\  @Track taake uske sur sirf ek baar bajein, hamesha nahin. Aur surron ki fehrist khud us lamhe se aati hai: jab kuch abhi hua ho to is mein sur hote hain, aur baaqi waqt yeh khaali rehti hai.
+
+\
+chhuaGaya: ∆ Button()
+
+Stage([
+	Jumla('👆 mujhe chhuein' chunaJaSakneWala naam: 'chhuein')
+	Mauseeqi(
+		Dhun(chhuaGaya ? [1 5 8] [] saaz: Saaz.ghanti chakkar: ⊥)
+		dobaara: chhuaGaya
+	)
+])
+\
+
+ Fikar na karein ke agli evaluation par fehrist phir khaali ho jaati hai — jo sur shuru ho chuka ho woh hamesha aakhir tak bajta hai. Jo cheez aap chhor nahin sakte woh hai \replay\. Do baar tap karein to doosra tap bilkul wohi dhun banata hai jo pehla banata hai, is liye kuch nahin badla aur aawaaz dobara nahin aayegi; \replay\ aap yeh kehne ka tareeqa hai / dobara, abhi / na ho.
+
+@Music ko yahan ek * lamhaati * shart chahiye — aisi jo sirf us evaluation par sach ho jisay event ne shuru kiya, jaise upar wala \∆ Button()\ . Koi dairmi cheez, jaise \score > 10\, uske baad hamesha sach rehti hai aur har evaluation par aawaaz dobara shuru kar deti.
+
+Chunke sur sirf ek fehrist hain, aap unhein is se tay kar sakte hain ke * kya * hua, bajaye is ke ke hamesha ek hi cheez bajayein:
+
+\
+kunji2: Kunji()
+dabayaGaya: ∆ kunji2
+
+Stage([
+	Jumla(dabayaGaya ? kunji2 '⌨ koi kunji dabayein' 1m)
+	Mauseeqi(
+		Dhun(
+			dabayaGaya ? [((kunji2 = ' ') ? 1 8)] []
+			saaz: Saaz.piano
+			chakkar: ⊥
+		)
+		dobaara: dabayaGaya
+	)
+])
+\
+
+ Dekhein ke \∆ key\ apni alag line mein nikaala jaata hai aur qeemat ki jaanch \key = ' '\ alag se hoti hai. Agar dono ko ek hi shart mein likha jaye to agli be-talluq kunji par aawaaz phir bajti jabke \key\ ab bhi space padha jaata.
+
+draw-the-music, music-follows-the-action, offer-choices

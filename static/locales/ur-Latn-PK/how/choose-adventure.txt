@@ -1,0 +1,56 @@
+Ek text adventure banayein
+
+Khel ki ek mazedaar qism / apna adventure khud chunein / khel hai, jahan khilari kai faislon se guzarta hai aur khushi bhare anjaam tak pahunchne ka raasta dhoondta hai. 
+
+Aisa khel banane ke liye hum in sab ko istemaal kar sakte hain: @Structure, @Key, @Reaction, aur @List ko saath mila kar faislon ka ek majmua banayein, jis mein har faisle ke kuch options hon, jaise yeh:
+
+\¶Yeh ek data structure banata hai jo ek intikhaab ko yaad rakhta hai aur yeh bhi ke woh kis faisle par le jaayega¶
+•ikhtiyaar(matn2•'' faisla•#)
+
+¶Yeh data structure intikhaabat ki ek list rakhta hai¶
+•faisla2(ikhtiyaarat: [ikhtiyaar])
+
+¶Yeh khel ka mawaad hai! Ikhtiyaarat mein matn badlein taake mahaul banay aur mushkil intikhaabat saamne aayein. Ikhtiyaarat shamil karein taake mushkil intikhaabat ka ek jaal ban jaye.¶
+faisle: [
+		faisla2([ikhtiyaar('aaghaz' 2)])
+		faisla2(
+			[
+				ikhtiyaar('baayein' 3)
+				ikhtiyaar('seedha' 4)
+				ikhtiyaar('daayein' 4)
+			]
+		)
+		faisla2([ikhtiyaar('jeet' 1)])
+		faisla2([ikhtiyaar('haar' 1)])
+	]
+
+¶Kunji ko number mein badlein, agar woh number ho¶
+kunji2: Kunji()
+intikhaab: kunji2 → #
+
+¶Yeh qeemat upar di gayi list mein maujooda faisle ko zaahir karti hai. Jab kunji dabayi jaye, to hum neeche diye gaye mein se ek kaam karte hain. Agar is faisle ke liye sirf ek intikhaab hai, to hum maujooda faisle ko ikhtiyaar ke hadaf wale faisle par badal dete hain, chahe koi bhi kunji dabayi gayi ho. Agar dabayi gayi kunji 1 aur ikhtiyaarat ki tadaad ke darmiyan hai, to hum us ikhtiyaar ke hadaf wale faisle par jaate hain. Warna, hum maujooda faisle ko waisa hi rehne dete hain.¶
+maujooda•#: 1 …
+	∆ kunji2 …
+		faisle[maujooda].ikhtiyaarat.lambaai() = 1 ?
+			faisle[maujooda].ikhtiyaarat[1].faisla
+			((1 ‥ faisle[maujooda].ikhtiyaarat.lambaai()) ∋ intikhaab) ?
+				faisle[maujooda].ikhtiyaarat[intikhaab].faisla
+				maujooda
+
+¶Yeh ikhtiyaarat ko jumlon ke ek dhaanche ki surat mein dikhata hai. Aap ismein hidayaat, animations aur doosri dilchasp cheezein shamil kar sakte hain!¶
+Stage(
+	[
+		Group(
+			Tah()
+			faisle[maujooda].ikhtiyaarat.badlo(
+				ƒ(ikhtiyaar2) Jumla(ikhtiyaar2.matn2)
+			)
+		)
+	]
+)
+
+\
+
+ Yeh tareeqa mushkil lagta hai, lekin yeh sirf itna karta hai ke maujooda options dikhata hai aur jab bhi koi kunji badalti hai, to chune hue option ke faisle par chala jata hai. Khel banana sab se oopar ka maazmoon badalne ka naam hai!
+
+offer-choices

@@ -1,0 +1,73 @@
+Poore stage ko purani film, television ya paani jaisa dikhayein
+
+Filmon mein poore manzar ka andaaz badal jaata hai: guzra hua waqia naram aur roshan ho jaata hai, purani khabron ki reel par khuraunchein aur dhundla pan hota hai, television par shor ki lakeerein aati hain, aur paani ke neeche har cheez lehrati hai aur neeli ho jaati hai.
+Hum yehi kaam kar sakte hain jab hum @Stage ko @Effect na ho.
+
+Yeh paani mein se dekha hua manzar hai.
+
+\
+Stage(
+	[Jumla('🐠') Jumla('🌿' jagah: Jagah(1m -1m))]
+	asraat: [Lehar(0.15m) Rangat(Rang(55% 45 220°) 70%) Dhund(40% Rang(70% 30 200°))]
+)
+\
+
+ Har asar sirf ek kaam karta hai. @Wave lehrein banata hai, @Tint har cheez ko ek hi rang mein rang deta hai, aur @Haze us par behti hui dhund bichha deta hai.
+Yeh sab mil kar paani jaise lagte hain. Asar usi tarteeb se lagte hain jis tarteeb se woh likhe hon, is liye baad wala asar pehle walon ke nateeje ko badal deta hai.
+
+Milane ke liye das asar hain: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wave, @Damage, @Flicker, aur @Vignette na ho.
+Yeh ek purani film hai: @Grade rang khatam kar deta hai, phir @Damage, @Grain, aur @Flicker use ghisa hua aur larakhta hua bana dete hain.
+
+\
+Stage(
+	[Jumla('KHATAM')]
+	asraat: [Darja(tazaad: 130% rangeeni: 0%) Nuqsaan(70% 50%) Daanay(25%) Jhilmilahat(15% 2) Kinaaray(60%)]
+)
+\
+
+ Aur yeh ek television hai jis ka signal ja raha hai.
+
+\
+Stage(
+	[Jumla('channel 3')]
+	asraat: [Lakeerein(40% raftaar: 1) Daanay(50% size: 2) Jhilmilahat(20%)]
+)
+\
+
+ Kisi andaaz ko baar baar istemaal karne ke liye ek function banayein jo asar ki fehrist wapas de.
+Is ke inputs us andaaz ki apni settings ban jaate hain. Yeh wala jitna gehra jayein utna dhundla hota jaata hai.
+
+\
+ƒ paaniKeNeeche(gehraai2•%) [
+	Lehar(0.2m · gehraai2)
+	Rangat(Rang(55% 45 220°) gehraai2)
+	Dhundla(0.03m · gehraai2)
+]
+
+Stage([Jumla('🐠')] asraat: paaniKeNeeche(80%))
+\
+
+ Ek andaaz khel ki haalat ke saath bhi badal sakta hai.
+Yahan jab khiladi ki sirf ek jaan bachti hai to stage dhundla aur kinaron par andhera ho jaata hai, aur jab zyada jaanein hon to dobara saaf ho jaata hai.
+
+\
+zindagiyan: 3 … ∆ Kunji() … zindagiyan - 1
+
+Stage(
+	[Jumla(zindagiyan → '')]
+	asraat: zindagiyan < 2 ? [Dhundla(0.05m) Kinaaray(70% Rang(30% 80 30°))] []
+)
+\
+
+ Asar stage par maujood cheezon ko dhakte hain, lekin us ke @Stage.overlay ko kabhi nahin, is liye score ya button saaf parhne mein aata hai.
+
+Poore stage ko hilana, jaise zalzala, koi asar nahin hai: ek @Stage kisi bhi doosre output ki tarah hil sakta hai, is liye use ek @Sequence na ho.
+
+\
+Stage([Jumla('🏠')] rukna: Silsila.hilna(0.5s ginti: 4x))
+\
+
+ Kuch asar tezi se hilte hain. Jab kisi ne apne device se harkat kam karne ko kaha ho, to har asar ruka rehta hai.
+@Flicker kabhi ek second mein chand baar se zyada nahin chamakta, chahe aap kitni hi tezi maangein, kyunki tez chamak logon ko nuqsan pohancha sakti hai.
+
+track-game-state

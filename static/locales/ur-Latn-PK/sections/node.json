@@ -1,0 +1,2187 @@
+{
+    "$schema": "../../../static/schemas/sections/node.json",
+    "node": {
+        "Dimension": {
+            "name": "$~paimaish",
+            "description": "$~ikai $name[$name|hissa]$exponent[ taaqat $exponent|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Main /paimaish ki ikai/ hoon!",
+                "Main koi bhi muqarrara ikai ho sakti hoon, jaise \\1m\\, \\10s\\, \\100g\\, ya koi aur science ki ikai. Main woh bhi ban sakti hoon jo aap khud banayein, jaise \\17apple\\.",
+                "Mujhe \\/\\ ke saath jod kar nisbat wali ikaiyan ban sakti hain jaise \\17apple/day\\, aur \\^\\ ke saath taaqat wali ikaiyan jaise \\9.8m/s^2\\",
+                "Main hamesha @Number ke baad aati hoon. Agar aisa na ho to mujhe @Reference samjha ja sakta hai, aur yeh bohat sharmindagi ki baat hogi!",
+                "Main ikaiyon ke beech ghalti dhoondne mein bhi achhi hoon. Misal ke taur par, \\1cat + 1dog\\🪲 ka koi matlab nahin banta!",
+                "Agar aap ikaiyon ki alag alag @values ke beech badalna chahein to @Convert se baat karein."
+            ]
+        },
+        "Doc": {
+            "name": "$~wazaahat",
+            "description": "$~wazahati tehreer$language[ $language mein|], $#words[$words lafz|$words lafz]",
+            "emotion": "serious",
+            "doc": [
+                "$~Main @Markup ke saath cheezon ko khoobsurat andaaz mein likhti hoon, jaise aapke kuch @Program ki wazaahat, ya woh lafz jo aap @Phrase ke saath stage par rakhte hain.",
+                "Misal ke taur par, main kisi bhi @expression se pehle aa sakti hoon:",
+                "\\¶Kya yeh waqai 7 hona chahiye?¶\n7\\",
+                "Misal ke taur par, aap mujhe @Bind se pehle rakh sakte hain:",
+                "\\¶Main napta hoon ke koi kitna lamba hai¶\nunchaai: 5m\\🪲",
+                "Ya kisi @FunctionDefinition se pehle:",
+                "\\¶Main do number jama karta hoon¶\nƒ majmooa(a2•# b2•#) a2 + b2\\",
+                "Ya kisi @StructureDefinition se pehle:",
+                "\\¶Mujhe logon ka naam aur pasandeeda phal yaad rehta hai¶\n•shakhs(naam•'' phal•'')\\",
+                "Aap mujhe @Program ke bilkul shuru mein bhi rakh sakte hain taake bata saken ke poori performance kis ke baare mein hai",
+                "\\¶Yeh program hello kehta hai¶\n\n'hello!'\\",
+                "Aap mujhe ek @Language de sakte hain taake doosre jaan saken ke main kis zubaan mein likhi gayi hoon:",
+                "\\¶Main angrezi mein wazahati tehreer hoon¶\nmuddat: 5s\\🪲",
+                "Kya aap jaante hain ke aap meri ek fehrist bana sakte hain? @Docs se baat karein."
+            ]
+        },
+        "Docs": {
+            "name": "$~wazaahat ki fehrist",
+            "description": "$~wazahati tehreer ki fehrist$languages[ $languages mein| ka shumaar $count]",
+            "emotion": "serious",
+            "doc": [
+                "$~Main @Doc ki fehrist hoon, jo tab kaam aati hoon jab aapke paas alag alag @languages mein @Doc ke kai tarjume hon.",
+                "Fehrist banane ke liye aapko kuch khaas nahin karna. Bas bohat saare @Doc ek doosre ke saath rakh dein, is tarah:",
+                "\\¶Hello¶\nsalaam: '…'\\🪲"
+            ],
+            "start": "$~Docs ki qeemat bana rahe hain!"
+        },
+        "KeyValue": {
+            "name": "$~nakshaa",
+            "description": "$~kunji $key se qeemat $value tak",
+            "emotion": "kind",
+            "doc": [
+                "$~Main ek *kunji* se ek *qeemat* tak ka nakshaa hoon, hamesha ek @Map mein.",
+                "Aap kisi bhi @value ko kisi doosre se jod sakte hain. Misaal ke taur par, yeh adadon ka nakshaa hai:",
+                "\\{1:1}\\",
+                "Ya matn se adadon tak ka nakshaa:",
+                "\\{'bunny': 1}\\"
+            ]
+        },
+        "Language": {
+            "name": "$~zubaan",
+            "description": "$~zubaan $language[$language|na-maloom]$region[, ilaaqa $region|]",
+            "emotion": "eager",
+            "doc": [
+                "$~Main ek @language tag hoon aur @Name aur @Doc ke saath kaam karta hoon!",
+                "Main yeh bilkul saaf kar deta hoon ke koi cheez kis zubaan mein likhi hai. Bas ek chhoti si slash aur do teen harf, aur kisi ko kabhi uljhan nahin hogi ke matn kis zubaan mein hai.",
+                "Misaal ke taur par, agar aap \"Language\" likhna chahte hain aur saaf karna chahte hain ke yeh angrezi mein hai:",
+                "\\'Zubaan'/ur\\",
+                "Aap yeh @Name ke liye kar sakte hain:",
+                "\\aawaaz: 'myaaon'\\🪲",
+                "…ya @Doc ke liye:",
+                "\\¶Aawaaz ki naqal wale alfaaz¶\naawaaz: 'myaaon'\\🪲",
+                "Kabhi kabhi matn sirf ek zubaan mein nahin hota — woh *milaa hua* hota hai. Jaise Spanglish, jahan hispaani aur angrezi mil jaati hain. Aisi surat mein har zubaan ko underscore ke saath likhein. Pehli zubaan *asal* hoti hai — jab mujhe koi ek chunni ho (maslan, kaun se iqtibaas ke nishaan istemaal karne hain), to main wohi chunta hoon.",
+                "\\\"Hola gentleman!\"/es_en\\",
+                "\\¶Do zubaanon mein salaam¶\nsalaam: 'Hola gentleman!'\\🪲",
+                "Mila hua tag batata hai ke poora matn milaa hua hai, is liye screen reader ya @Say sab kuch asal zubaan mein parhta hai. Agar har lafz apni zubaan mein parha jaye, to lafzon ko alag alag tag karein aur unhein jod dein:",
+                "\\\"Hola \"/es + 'gentleman!'/ur\\",
+                "Aap ek @region bhi dash ke baad likh sakte hain, bilkul ek zubaan ki tarah:",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
+                "Zubaanon ki koi had nahin — bas ek hi zubaan do baar na likhein; agar aap ne aisa kiya to main bata doonga.",
+                "Aap zubaan ko uske <2 harf ke code@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> se ya uske *naam* se likh sakte hain, us zubaan mein ya angrezi mein — `/es`, `/Español`, aur `/Spanish` sab ka matlab ek hi hai, aur `/es-MX`, `/es-México`, aur `/es-Mexico` ka bhi. Bade chhote harf aur zer zabar ka farq nahin padta, is liye `/ESPANOL` bhi chalta hai. Jis naam mein @placeholder ho, use khaali jagah ke baghair likhein, jaise `/BahasaIndonesia`, kyunke tag ek hi lafz hota hai. Agar main kisi zubaan ya ilaaqe ko na pehchanoon, to aap ko bata doonga."
+            ],
+            "conflict": {
+                "UnknownLanguage": {
+                    "name": "$~na-maloom zubaan",
+                    "explanation": "$~Main is zubaan ko nahin jaanta",
+                    "resolution": "$~Yeh zubaan ka code hata dein"
+                },
+                "UnknownRegion": {
+                    "name": "$~na-maloom ilaaqa",
+                    "explanation": "$~Main is ilaaqe ko nahin jaanta",
+                    "resolution": "$~Yeh ilaaqa hata dein"
+                },
+                "MissingLanguage": {
+                    "name": "$~zubaan ghaayab hai",
+                    "explanation": "$~Mujhmein zubaan nahin hai. Kya aap ek likh sakte hain?",
+                    "resolution": "$~Khaali zubaan ka tag hata dein"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~dohri zubaan",
+                    "explanation": "$~Aap ne zubaan '$code' do baar likhi hai. Mile hue zubaan ke tag mein har zubaan sirf ek baar honi chahiye.",
+                    "resolution": "$~Dohra *$code* tag hata dein"
+                }
+            }
+        },
+        "Name": {
+            "name": "$~naam",
+            "description": "$~naam $name[$name|be-naam]",
+            "emotion": "kind",
+            "doc": [
+                "$~Main ek @value ko pehchanta hoon, aur kisi aisi cheez ko chhota naam dene ka acha tareeqa hoon jise nikalna mushkil tha, ya jise aap baar baar nahin nikalna chahte.",
+                "@Bind mujhe mera naam is tarah deta hai:",
+                "\\hi: 5\\🪲",
+                "Main hamesha sirf ek qeemat ko dikhata hoon, aur ek baar mil jaye to badal nahin sakta. Misaal ke taur par, agar aap @Bind ke saath aisa karne ki koshish karein, to hum shikayat karenge.",
+                "\\hi: 5\nhi2: 3\\🪲",
+                "Meri qeemat paane ke liye bas @Reference ya @PropertyReference se naam istemaal karwana hai. Yahan @Bind mujhe naam deta hai, phir @Reference mujhe di gayi qeemat hasil karta hai.",
+                "\\hi: 5\nhi\\",
+                "Kyunke @Bind bahut si jagahon par aa sakta hai, main bhi bahut si jagahon par aa sakta hoon. Main upar @Block mein tha, lekin main @FunctionDefinition mein bhi ho sakta hoon. Yahan main ek paighaam ko waqti taur par naam de raha hoon:",
+                "\\ƒ kaho(paigham•'') paigham\\",
+                "Mujhe @FunctionDefinition ke andar tay kiya jaata hai, aur jaise hi function ka kaam khatam hota hai, main chala jaata hoon.",
+                "Aap @Language se bata sakte hain ke mera naam kis zubaan mein hai. Yeh tab madadgaar hai jab aap apna kaam doosron ke saath baantein, taake woh aap ka program parh sakein."
+            ]
+        },
+        "Names": {
+            "name": "$~naamon ki fehrist",
+            "description": "$~naam $names[$names|khaali]",
+            "emotion": "kind",
+            "label": {
+                "names": "$~naam"
+            },
+            "doc": [
+                "$~Main @Name ki fehrist hoon, jo tab kaam aati hai jab aap ek @value ko kayi naam dena chahein, aksar mukhtalif @Language mein.",
+                "Naam \\,\\ nishaanon se alag kiye jaate hain. Misaal ke taur par, yahan @Bind ek qeemat ko kayi @Name de raha hai",
+                "\\hi: 'khush aamdeed'\\🪲"
+            ]
+        },
+        "Row": {
+            "name": "$~qataar",
+            "description": "$~$#count[$count khaane ki qatar|$count khaanon ki qatar]",
+            "emotion": "shy",
+            "doc": "$~Main ek @Table ki qatar hoon. Behtar hai ke aap @Table se baat karein, woh mere baare mein sab kuch jaante hain. Main bas yahan baitha rehta hoon aur @values ko qaabu mein rakhta hoon :(",
+            "conflict": {
+                "InvalidRow": {
+                    "name": "$~ghalat qatar",
+                    "explanation": "$~Qataron mein ya to sab qeematein honi chahiye ya sab @Bind.",
+                    "resolutionKeepPositional": "$~Naam wale khaane hata dein, sirf jagah wale khaane rakhein",
+                    "resolutionUnwrapInputs": "$~Naam wale khaanon se naam hata dein"
+                },
+                "MissingCell": {
+                    "name": "$~column gum hai",
+                    "explanation": "$~Mujh mein column $column gum hai",
+                    "resolution": "$~*$column* ke liye ek khaali jagah wala khaana shaamil karein"
+                },
+                "ExtraCell": {
+                    "name": "$~faaltu column",
+                    "explanation": "$~Apne table ki qism ke mutabiq, main ek faaltu column hoon jo yahan nahin hona chahiye.",
+                    "resolution": "$~faaltu khaana hata dein"
+                },
+                "UnknownColumn": {
+                    "name": "$~column ka naam maaloom nahin",
+                    "explanation": "$~Mujhe is naam ka koi column maaloom nahin",
+                    "resolution": "$~naam badal kar *$name* karein"
+                },
+                "UnexpectedColumnBind": {
+                    "name": "$~koi binds qatar nahin",
+                    "explanation": "$~Mujhe ek qeemat hona chahiye, @Bind nahin."
+                }
+            }
+        },
+        "Token": {
+            "name": "$~token",
+            "description": "$~$label$text[ $text|]",
+            "emotion": "neutral",
+            "doc": [
+                "$~Main kisi perform ka sab se chhota mumkin hissa hoon — woh zarra jis se Verse ke tamam kirdaar bante hain. Aap ne mujhe kaise dhoonda?",
+                "Main woh buniyaad hoon jis se Verse ke tamam kirdaar bante hain. Main hamari choreography ka atomi zarra hoon."
+            ]
+        },
+        "TypeInputs": {
+            "name": "$~qism ke inputs",
+            "description": "$~$#count[$count qism ka input|$count qism ke inputs]",
+            "emotion": "curious",
+            "doc": "$~Main un qismon ki fehrist hoon jo @StructureDefinition ya @FunctionDefinition mein @TypeVariables ki jagah leti hain. Main sab ko batati hoon ke unhein kis qism ke inputs milenge."
+        },
+        "TypeVariable": {
+            "name": "$~qism ka mutaghayyar",
+            "description": "$~qism ka mutaghayyar $name",
+            "emotion": "curious",
+            "label": {
+                "type": "$~qism"
+            },
+            "doc": "$~Main @FunctionDefinition ya @StructureDefinition par ek raaz wali @type hoon, jo in mein se kisi ke chalne par @TypeInputs deta hai. @Set, @List, aur @Map mujhe istemaal karte hain.",
+            "conflict": {
+                "DuplicateTypeVariable": {
+                    "name": "$~dohra qism ka mutaghayyar",
+                    "explanation": "$~Mera naam $duplicate jaisa hi hai",
+                    "resolution": "$~Dohraya hua qism mutaghayyar hata dein"
+                }
+            }
+        },
+        "TypeVariables": {
+            "name": "$~qism mutaghayyar",
+            "description": "$~$#count[$count qism mutaghayyar|$count qism mutaghayyar]",
+            "emotion": "curious",
+            "doc": "$~Main @TypeVariable ki ek fehrist hoon."
+        },
+        "Markup": {
+            "name": "$~saja hua matn",
+            "description": "$~saja hua matn $#count[$count paragraph|$count paragraphs]",
+            "emotion": "serious",
+            "label": {
+                "paragraphs": "$~paragraphs"
+            },
+            "doc": [
+                "$~Main paragraphs ki ek fehrist hoon. Main @Doc mein maujood @markup ki kayi qismein istemaal karti hoon, jaise @Words, @WebLink, @ConceptLink, aur @Example.",
+                "Aap mujhe ek @Doc mein milenge, aur @FormattedLiteral mein bhi:",
+                "\\¶Main *mota* matn wali wazahati tehreer hoon. Main @Phrase jaise tasawwuraat ka hawala de sakti hoon. Main <web par maujood cheezon@https://wordplay.dev> se link kar sakti hoon.¶\nPhrase(\n\t`Main @Phrase ke liye saja hua matn hoon, jis mein *bold*, /italics/, aur _underlines_ istemaal hue hain`\n)\\"
+            ]
+        },
+        "Paragraph": {
+            "name": "$~paragraph",
+            "description": "$~paragraph $text",
+            "emotion": "serious",
+            "doc": [
+                "$~Main @Words, @ConceptLink, @WebLink, aur @Example ka ek silsila hoon. Mujhe ek khaali satar alag karti hai, aur main @Doc ke andar hoti hoon.",
+                "Mujhe likhne ke liye aapko bas ek @Doc mein kuch alfaaz likhne hain:",
+                "\\¶Main doc mein ek paragraph hoon.¶'ek paragraph'\\",
+                "Agar aap kayi paragraphs chahte hain, to bas khaali satarein daal dein.",
+                "\\¶Paragraph 1.\n\nParagraph 2.\n\nParagraph 3.¶'teen paragraph'\\"
+            ]
+        },
+        "WebLink": {
+            "name": "$~link",
+            "description": "$~$url ka link",
+            "emotion": "serious",
+            "doc": [
+                "$~Main internet par kisi cheez ka link hoon. Mujhe bas ek bayaan aur ek URL chahiye:",
+                "\\¶Main doc mein ek <link@https://wordplay.dev> hoon¶\n'link ki misaal'\\",
+                "Agar koi mujhe chunega, to main URL ke saath ek naya window kholunga."
+            ]
+        },
+        "ConceptLink": {
+            "name": "$~kirdaar",
+            "description": "$~$concept ka link",
+            "kind": {
+                "codepoint": "$~Unicode ka harf $concept",
+                "ui": "$~$concept interface rukn ka link",
+                "tour": "$~$concept ke daure ka link",
+                "how": "$~$concept ke tareeqa guide ka link",
+                "character": "$~apna banaya hua harf $concept"
+            },
+            "emotion": "serious",
+            "doc": [
+                "$~Main Verse ke kirdaar ka link hoon. Aap @Doc likhna chahein aur hum mein se kisi ka zikr karna chahein, to main aap ki madad karta hoon.",
+                "Misaal ke taur par, farz karein aap @Evaluate ke baare mein baat karna chahte hain. Aap batana chahte hain ke woh kitne zabardast hain. Aap yeh likh sakte hain:",
+                "\\¶Aap jaante hain, @Evaluate bohat kamaal hai.¶\n'dekhein, ek kirdaar ka link!'\\",
+                "Har kirdaar ka ek Unicode number bhi hota hai. Misaal ke taur par, @FunctionDefinition ka number 192 hai. Aap kisi bhi Unicode kirdaar ka zikr kar sakte hain. Bas @U/ aur us ka number likhein, aur woh nazar aa jayega:",
+                "\\`@U/192 kitna achha hai!`\\",
+                "Agar aap apna kirdaar banayein, to aap us ka zikr usi naam se kar sakte hain jo aap ne use diya.",
+                "\\`@coolbeans/cat`\\",
+                "Oh... lagta hai yeh kirdaar maujood nahin hai. Is liye aap ko ek chhota sa chokor dikhta hai. Lekin agar woh maujood hota, to yahan nazar aata!"
+            ]
+        },
+        "Words": {
+            "name": "$~alfaaz",
+            "description": "$~alfaaz $text",
+            "emotion": "serious",
+            "doc": [
+                "$~Main woh sab alfaaz hoon jo aap ek @Doc mein likhna chahein. Misaal ke taur par:",
+                "\\¶Force aap ke saath rahe.¶\n'bas kuch alfaaz!'\\",
+                "Kabhi kabhi aap woh khaas harf istemaal karna chahte hain jo @Doc mein /alfaaz/ ke taur par aate hain. Misaal ke taur par:",
+                "\\¶Mere doston ne , //, **, ||, aur doosri alamaat istemaal ki hain.¶\n'khaas huroof istemaal karte hue!'\\",
+                "Agar aap un khaas harfon ko dohra dein, to aapko unke khaas matlab ki jagah woh harf nazar aayega."
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~font ki na-qaabil-e-qabool shakal",
+                    "explanation": "$~Mere dost *$face* ko $format hona nahin aata.",
+                    "resolution": "$~Saja hua matn hata dein"
+                }
+            }
+        },
+        "Example": {
+            "name": "$~misaal",
+            "description": "$~code ki misaal $code",
+            "emotion": "serious",
+            "doc": [
+                "$~Main ek @Doc ke andar @code ka ek misaali hissa rakhta hoon, is tarah:",
+                "\\¶Jama karne ki ek misaal yeh hai: \\1 + 2\\¶3 + 4\\",
+                "Agar aap apne tareeqa guide mein misaalein istemaal kar rahe hain, to aap ek misaal ko numaya misaal ke taur par nishaan zad kar sakte hain.",
+                "\\¶Namaayaan ki hui ek misaal yeh hai: \\1 + 2\\⭐¶3 + 4\\",
+                "Numaya misaal @how ki jagah aur @guide mein jhalak ke taur par dikhayi jaati hai."
+            ]
+        },
+        "ExternalExample": {
+            "name": "$~bairooni misaal",
+            "description": "$~bairooni code ki misaal$languages[ $languages mein| $languages mein]",
+            "emotion": "serious",
+            "doc": [
+                "$~Main doosri programming @languages mein likhe hue @code rang ke saath dikhata hoon, taake woh banane waale jo pehle se code karte hain, muqabla kar sakein.",
+                "Har zubaan ke liye ek misaal likhein: do harf ka tag, ek lakeer, aur phir code, jaise \\py| a = 5\\js| let a = 5;\\. Parhne waale ko wohi dikhayi deti hai jo us ki chuni hui zubaan se mel khaati hai. Python (py), JavaScript (js), aur Java (jv) ki madad maujood hai."
+            ]
+        },
+        "Mention": {
+            "name": "$~hawala",
+            "description": "$~hawala $name",
+            "emotion": "serious",
+            "doc": [
+                "$~Main ya to istilaahat \\¶@project¶\\ ka hawala hoon ya ek badalne waale input \\¶$name¶\\ ka.",
+                "Yeh zyada tar andaruni @property hai, is liye aapko ise jaanne ki zaroorat nahin."
+            ]
+        },
+        "Branch": {
+            "name": "$~shaakh",
+            "description": "$~$condition par saje hue matn ka intikhaab",
+            "emotion": "serious",
+            "doc": [
+                "$~Main wazahat ke do hisson mein se ek chunne ka tareeqa hoon, is baat par ke wazahat ka input @value tay hai ya sahi hai.",
+                "Yeh zyada tar andaruni @property hai, is liye aapko ise jaanne ki zaroorat nahin."
+            ]
+        },
+        "BinaryEvaluate": {
+            "name": "$~do-tarfa chalana",
+            "description": "$~$operator aur $left par amal $right",
+            "emotion": "insecure",
+            "doc": [
+                "$~Main @Evaluate hoon, lekin ek aasaan shakal mein, jo us waqt kaam aati hai jab aap aisa @FunctionDefinition istemaal karna chahein jo do input leta hai.",
+                "Misaal ke taur par, do adad jama karne ke liye aap @Evaluate is tarah istemaal kar sakte hain:",
+                "\\1.+(1)\\",
+                "Kya yeh thoda ajeeb nahin lagta? Yeh ghalat nahin hai: yeh sirf kehta hai ke 1 par jama karne wala function lein aur phir use chalayein.",
+                "Lekin @BinaryEvaluate istemaal karna bahut aasaan hai",
+                "\\1 + 1\\",
+                "Is se sab kuch thoda saaf ho jaata hai, halanke yeh asal mein ek hi baat hai.",
+                "Sirf ek baat ka khayal rakhein: jab main is shakal mein hota hoon, to main baayein se daayein taraf chalta hoon. Agar aap riyaazi ke amal ki tarteeb ke aadi hain to yeh uljhan paida kar sakta hai.",
+                "Is ka matlab hai ke yeh us tarah chalta hai jis ki aap ummeed nahin karte:",
+                "\\1 + 2 × 3 + 4\\🪲",
+                "Riyaazi mein pehle zarb aati, phir jama, aur is liye nateeja \\11\\ hota. Lekin chunke main parhne ki tarteeb mein chalta hoon, nateeja \\13\\ hai."
+            ],
+            "label": {
+                "operator": "$~amil"
+            },
+            "right": "$~input",
+            "start": "$~Aaiye pehle $left ko chalayein",
+            "finish": "$~Dekhein, maine $value banaya!",
+            "conflict": {
+                "OrderOfOperations": {
+                    "name": "$~mubham tarteeb",
+                    "explanation": "$~Main baayein se daayein taraf chalta hoon, lekin riyaazi mein aam taur par ^ pehle chalta hai, phir × ÷, aur phir + −. Is tarteeb ko PEMDAS kehte hain. Chunein ke aap mujhe kaise chalana chahte hain.",
+                    "resolutionPEMDAS": "$~PEMDAS riyaazi tarteeb lagayein: $higher ko $lower se pehle chalayein",
+                    "resolutionReading": "$~Parhne ki tarteeb rakhein: $lower ko $higher se pehle chalayein",
+                    "resolutionWrap": "$~Tarteeb saaf karne ke liye qausain lagayein"
+                }
+            }
+        },
+        "Bind": {
+            "name": "$~bandhna",
+            "description": "$~bind $name[$name|bina naam]$value[ ko $value se|]",
+            "emotion": "excited",
+            "doc": [
+                "$~Main *qeematon* ko naam deta hoon.",
+                "Is tarah!",
+                "\\pai: 3.1415926\\🪲",
+                "Main @FunctionDefinition aur @StructureDefinition ke inputs ko naam deta hoon, aur @Block mein qeematon ko naam deta hoon. Main har cheez ko naam deta hoon!",
+                "Lekin kya aap jaante hain ke ek qeemat ke *kayi naam* ho sakte hain?",
+                "Mujhe yeh batate hue bohat khushi ho rahi hai! Ek @value, kayi @Names. Misaal ke taur par:",
+                "\\joe: 5\\🪲",
+                "Dekha, maine yahan kya kiya?",
+                "Ek qeemat, teen naam.",
+                "Aap us paanch ko in mein se *kisi bhi* naam se pukaar sakte hain.",
+                "Yeh tab khaas taur par kaam aata hai jab aap kayi @languages mein naam dena chahein:",
+                "\\joe: 5\\🪲",
+                "Dekha, maine yahan kya kiya? Ek qeemat ke teen naam, bas alag alag zubaanon mein!",
+                "Theek hai, ab mera aakhri raaz.",
+                "Kya aap jaante hain ke main @Is ke saath kaam kar sakta hoon taake mujhe bata sakein ke kisi naam ki qeemat kis qism ki honi chahiye? Aur agar woh na ho, to main aap ko bata doonga?",
+                "Is tarah:",
+                "\\badaAdad•#: 'ek zillion'\\🪲",
+                "Dekhein, maine kaha \\bignumber\\ number hona chahiye, lekin woh matn hai, aur yeh dono aapas mein mel nahin khaate, is liye BOOM!",
+                "Agar woh ek doosre se na milein to main aap ko bata doonga.",
+                "Kabhi kabhi aap ko mujhe *batana* parta hai ke koi cheez kis qism ka data hai, kyunke main khud nahin samajh sakta. Aisa aksar @FunctionDefinition mein hota hai.",
+                "Misaal ke taur par, yahan @FunctionDefinition nahin jaanta ke \\a\\ aur \\b\\ ki qeematein kis qism ki hain, kyunke maine unhein bataya nahin.",
+                "\\ƒ majmooa(a2 b2) a2 + b2\\🪲",
+                "Lekin hum ise badal kar @Is shamil kar sakte hain, aur ab @FunctionDefinition jaan jaata hai ke woh numbers hain:",
+                "\\ƒ majmooa(a2•# b2•#) a2 + b2\\"
+            ],
+            "label": {
+                "value": "$~qeemat",
+                "names": "$~naam",
+                "type": "$~qism"
+            },
+            "start": "$~Dekhte hain $value se hamein kya qeemat milti hai!",
+            "finish": "$~Wah, mujhe $value mili! Ise naam dete hain $name",
+            "conflict": {
+                "DuplicateName": {
+                    "conflict": {
+                        "name": "$~dohra naam",
+                        "explanation": "$~Kisi ka naam $shadowed hai, is liye main yeh naam nahin rakh sakta."
+                    },
+                    "resolution": "$~Dohre naam hain, kya aap ek hatana chahte hain?"
+                },
+                "DuplicateShare": {
+                    "name": "$~dohra baantna",
+                    "explanation": "$~Mera naam $duplicate jaisa hi hai. Is se saaf nahin hota ke hum kya baant rahe hain.",
+                    "resolution": "$~Yeh dohra baantna hatayein"
+                },
+                "IncompatibleType": {
+                    "name": "$~na-mutabiq qism",
+                    "explanation": "$~Mujhe $expected ki umeed thi, lekin qism $given mili",
+                    "explanationDivideByZero": "$~Yeh ø ho sakta hai kyunke $source sifar se taqseem kar sakta hai, aur yahan number zaroori hai",
+                    "resolution": "$~Ise $expected mein badlein, kyunke yahan $expected zaroori hai",
+                    "resolutionLiteral": "$~List, set, ya map ko ! se literal ke taur par nishaan zad karein, taake us ki qeematein muqarrar rahein aur aam na ho jaayein — $expected ko theek theek wohi qeematein chahiye",
+                    "resolutionOtherwise": "$~Gum qeemat ko ?? se sambhaalein, kyunke $expected mein ø ki ijaazat nahin hai",
+                    "resolutionGuard": "$~Pehle qism ki jaanch se dekhein ke yeh $expected hai, kyunke $expected doosri mumkin qismon mein se koi nahin ho sakta",
+                    "resolutionDeclaration": "$~Qism ko saaf taur par likhein, kyunke $expected ko literal qeematon ka mehfooz rehna zaroori hai",
+                    "resolutionWrap": "$~Ise list, set, ya map mein rakhein, kyunke $expected ko qeematon ka majmooa chahiye",
+                    "resolutionStructure": "$~Ise $expected mein lapetein, kyunke is jagah ko $expected qeemat chahiye",
+                    "resolutionDefault": "$~Bind ko ek aaghaazi qeemat dein, kyunke yahan $expected gum nahin ho sakta",
+                    "resolutionWiden": "$~Is bind ke liye qeemat ki qism ko ijaazat dein, kyunke $expected us cheez ke liye bohat tang hai jo asal mein mehfooz hai",
+                    "resolutionReorder": "$~Inputs ki jagah badlein, kyunke un ki qismein doosri tarteeb mein behtar baithti hain — $expected doosri jagah ka hai",
+                    "resolutionPlaceholder": "$~Abhi ke liye ise khaali jagah se badal dein, kyunke $expected zaroori hai — phir autocomplete menu se qeemat chunein"
+                },
+                "MisplacedShare": {
+                    "name": "$~ghalat jagah par baantna",
+                    "explanation": "$~Main isay sirf source ke shuru mein baant sakta hoon, ya — agar yeh koi qeemat ya function hai — to seedha @StructureDefinition ke andar.",
+                    "resolution": "$~*↑* ka nishaan hata dein"
+                },
+                "MissingShareLanguages": {
+                    "name": "$~zubaan ghaayab hai",
+                    "explanation": "$~agar aap isay baantna chahte hain, to batana hoga ke yeh kaunsi zubaan mein hai, taake doosre jaan saken ke woh ise parh sakte hain ya nahin!",
+                    "resolution": "$~*↑* ka nishaan hata dein"
+                },
+                "RequiredAfterOptional": {
+                    "name": "$~zaroori input, ikhtiyaari ke baad",
+                    "explanation": "$~Main yahan nahin reh sakta, mujh se pehle ek ikhtiyaari @Bind hai",
+                    "resolution": "$~Zaroori inputs ko ikhtiyaari inputs se pehle le aayein"
+                },
+                "UnexpectedEtc": {
+                    "name": "$~input ki fehrist ke baad ghair mutawaqqa input",
+                    "explanation": "$~Main sirf @FunctionDefinition mein badalne wali lambaai ka ho sakta hoon",
+                    "resolution": "$~Hata dein *…*"
+                },
+                "UnusedBind": {
+                    "name": "$~ghair istemaal shuda bind",
+                    "explanation": "$~Mera naam $name hai, lekin koi mujhe istemaal nahin kar raha. Shayad meri zaroorat nahin?",
+                    "resolution": "$~Is binding ko mita dein"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~keyword ko dhaanp leta hai",
+                    "explanation": "$~Yeh naam $keyword keyword bhi hai, is liye main ise yahan naam ki tarah parhoonga; $keyword keyword baqi jagah ab bhi kaam karta hai."
+                }
+            }
+        },
+        "Block": {
+            "name": "$~block",
+            "description": "$~block $#count[$count bayaan|$count bayaanat]",
+            "emotion": "shy",
+            "doc": [
+                "$~Main cheezon ko chalane ke liye ek chhoti si khaamosh, nijji jagah banata hoon. Salaam!",
+                "Is tarah:",
+                "\\(1 - 1) + 2\\",
+                "Yeh chalne ki tarteeb samajhne mein madad deta hai.",
+                "@Bind bhi madad karta hai.",
+                "\\(\n\tginti: 10\n\tginti ^ ginti)\\",
+                "Dekhein @Bind ne \\count\\ kaise banaya? Yeh naam sirf mere andar hai. Is liye yeh kaam nahin karega:",
+                "\\(\n\tginti: 10\n\tginti ^ ginti) + count\\🪲",
+                "Kyunke count ka naam sirf mere andar tha.",
+                "Agar aap mujhe sirf ek @expression dein, to main aapko bas uski @value wapas deta hoon:",
+                "\\(1 + 1)\\",
+                "Agar aap mujhe ek se zyada dein, to main unhein tarteeb se ek list mein jama kar deta hoon:",
+                "\\(1 2 3 4 5)\\",
+                "@Bind bayaanat @sideEffect hote hain, qeemat nahin, is liye woh list mein nahin aate:",
+                "\\(\n\ta2: 1\n\tb2: 2\n\ta2 + b2\n\ta2 × b2\n)\\",
+                "Is se \\[3 2]\\ milta hai: sirf un do izhaar ki qeematein jo @Bind nahin hain."
+            ],
+            "label": {
+                "statements": "$~izhaar"
+            },
+            "start": "$~Pehla izhaar",
+            "finish": "$~Ho gaya, mujhe $value mila",
+            "conflict": {
+                "ExpectedEndingExpression": {
+                    "name": "$~izhaar gaayab hai",
+                    "explanation": "$~Mujhe kam az kam ek aisa izhaar chahiye jo @Bind na ho, taake mere paas wapas karne ke liye ek qeemat ho.",
+                    "resolution": "$~Aakhri izhaar shaamil karein"
+                }
+            }
+        },
+        "BooleanLiteral": {
+            "name": "$~boolean literal",
+            "description": "$~$value[sahi|ghalat]",
+            "emotion": "precise",
+            "doc": "$~Main ya to \\⊤\\ hoon ya \\⊥\\. Hamare khoobsurat mantiq ke baare mein jaanne ke liye @Boolean dekhein.",
+            "start": "$~$value!"
+        },
+        "Borrow": {
+            "name": "$~udhaar lena",
+            "description": "$~$name[$name|be-naam] udhaar lena",
+            "emotion": "excited",
+            "label": {
+                "source": "$~maakhaz",
+                "bind": "$~naam",
+                "version": "$~version"
+            },
+            "doc": [
+                "$~Main woh @borrow @Bind udhaar leta hoon jo aapki performance ke doosre @Source baant rahe hon, bas unka naam istemaal karein aur main unka naam aur @value le aaunga.",
+                "\\↓\\ likhein aur phir doosre @Source ka naam. Us @Source ko woh cheez nishaan karni hogi jo woh \\↑\\ ke saath baantta hai, jaise \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
+            "start": "$~$name se $source udhaar liya ja raha hai",
+            "conflict": {
+                "KitCannotBorrow": {
+                    "name": "$~kit udhaar nahin le sakta",
+                    "explanation": "$~yeh source kit ke taur par shaaya kiya gaya hai, aur kit ke parhne walon ko sirf wahi file milti hai — jo cheez aap udhaar lete hain usay is source mein copy kar lein",
+                    "resolution": "$~Udhaar hatayein"
+                },
+                "UnknownBorrow": {
+                    "name": "$~na-maaloom udhaar",
+                    "explanation": "$~main is naam ka koi source nahin jaanta",
+                    "resolution": "$~Yeh udhaar hatayein"
+                },
+                "BorrowCycle": {
+                    "name": "$~khud ka hawala dene wala udhaar",
+                    "explanation": "$~yeh $borrow par munhasir hai, jo is @Source par munhasir hai, is liye program chal nahin sakta",
+                    "resolution": "$~chakkar todne ke liye yeh udhaar hatayein"
+                },
+                "MissingKitVersion": {
+                    "name": "$~version gum hai",
+                    "explanation": "$~kit apna har version rakhti hai, is liye mujhe jaanna hai ke aap $kit ka kaun sa version chahte hain",
+                    "resolution": "$~Yeh udhaar hatayein"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~ek kit ke do versions",
+                    "explanation": "$~main ek waqt mein kit ka sirf ek version istemaal kar sakta hoon, aur yeh @Source $kit ke do versions maangta hai",
+                    "resolution": "$~Yeh udhaar hatayein"
+                },
+                "UnknownKit": {
+                    "name": "$~na-maaloom kit",
+                    "explanation": "$~mujhe $kit nahin mil rahi",
+                    "resolution": "$~Yeh udhaar hatayein"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~dohra udhaar",
+                    "explanation": "$~upar udhaar liye gaye kisi source mein woh naam pehle se hai jo $name laata hai, is liye main nahin keh sakta ke aap ka matlab kaun sa hai",
+                    "resolution": "$~Isay $name ke taur par udhaar lein, taake is ke naam raaste mein na aayein"
+                },
+                "UnavailableKit": {
+                    "name": "$~dastiyaab na hone wali kit",
+                    "explanation": "$~$kit maujood hai, lekin aap ke saath baanti nahin gayi",
+                    "resolution": "$~Yeh udhaar hatayein"
+                }
+            },
+            "exception": {
+                "CycleException": {
+                    "description": "$~udhaar ka chakkar",
+                    "explanation": "$~$borrow khud par munhasir hai"
+                }
+            }
+        },
+        "Changed": {
+            "name": "$~tabdeel ho gaya",
+            "description": "$~$stream mein tabdeeli ki jaanch",
+            "emotion": "serious",
+            "label": {
+                "stream": "$~dhaara"
+            },
+            "doc": [
+                "$~main jaanchta hoon ke kya @stream ki wajah se @Program dobara chala, aur ek @Boolean banata hoon. Is tarah",
+                "\\∆ Time()\\",
+                "Main tab bohat kaam aata hoon jab aap chahte hain ke kuch sirf tab badle jab dhaara badle.",
+                "Bas itna hi."
+            ],
+            "start": "$~Dekhte hain ke kya $stream badla…"
+        },
+        "Conditional": {
+            "name": "$~shart wala",
+            "description": "$~$condition par mabni shart",
+            "emotion": "curious",
+            "label": {
+                "condition": "$~shart",
+                "yes": "$~haan",
+                "no": "$~nahin"
+            },
+            "doc": [
+                "$~Kya main aapko ek @value doon ya doosra, ek @condition ke hisaab se? Kuch is tarah?",
+                "\\adad: -100\nadad < 0 ? 'manfi' 'musbat'\\",
+                "Lekin kya aapne kabhi socha hai ke hum faisla kaise karte hain?",
+                "Kya aisa nahin lagta ke faislay sirf haan ya na se zyada gehre hone chahiye? Kya \\⊤\\ aur \\⊥\\ ke beech chunna hi sab kuch hai?",
+                "Kya aapko fikr nahin ke agar hum sirf isi tarah ke faislay kar sakte hain, to hum duniya ke baare mein kuch zaroori baatein kho denge?",
+                "Ek aur kaam hai jo main karta hoon, aur mujhe uska hamesha shukriya nahin milta. Jab mera @condition poochta hai ke koi qeemat kis /qism/ ki hai, to main sirf haan ya na mein jawab nahin deta. Main apne har intikhaab ke andar woh jawab yaad rakhta hoon.",
+                "\\jasaamat•#|'': 5\njasaamat•# ? jasaamat + 1 'bohat chhota'\\",
+                "Akeli hone par, woh qeemat ek @Number ya kuch @Text ho sakti hai, aur us mein kuch jodna ek @conflict hoga, kyunke yeh bahut mukhtalif tareeqon se jode jaate hain. Lekin mere /yes/ ke andar hum ne abhi poocha hai ke kya yeh @Number hai, is liye wahan yeh woh hi hai. Mere /nahin/ ke andar, yeh @Text hai.",
+                "Farq nahin padta ke aap kaise poochte hain. Qism ki jaanch, kisi khaas qeemat se muqabla, ghayab qeemat ki jaanch, aur kisi naam se mehfooz ki hui jaanch, sab mujhe ek hi baat batate hain. Aur @Boolean/and, @Boolean/or, aur @Boolean/not unhein waise hi milate hain jaise aap umeed karte hain.",
+                "Do cheezein hain jo main aapko nahin bata sakta. Agar aap @Text se muqabla karte hain jis ke kai tarjume hain, to main kuch nahin seekhta, kyunke aapko kaun sa tarjuma milega yeh is par hai ke kaun parh raha hai."
+            ],
+            "start": "$~Dekhte hain ke $condition sahi hai ya nahin",
+            "else": "$~$jumping[code par se choot kar | code par se chootay baghair]",
+            "afterthen": "$~haan ke saath khatam, na ko chhod dein?",
+            "finish": "$~Mera khayal hai yeh $value hai?",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "name": "$~boolean shart ki umeed thi",
+                    "explanation": "$~Faisla karne ke liye mujhe ek @Boolean chahiye, lekin mujhe $type mila.",
+                    "resolution": "$~Ise $expected mein badlein, kyunke yahan $expected zaroori hai",
+                    "resolutionLiteral": "$~List, set, ya map ko ! se literal ke taur par nishaan zad karein, taake us ki qeematein muqarrar rahein aur aam na ho jaayein — $expected ko theek theek wohi qeematein chahiye",
+                    "resolutionOtherwise": "$~Gum qeemat ko ?? se sambhaalein, kyunke $expected mein ø ki ijaazat nahin hai",
+                    "resolutionGuard": "$~Pehle qism ki jaanch se dekhein ke yeh $expected hai, kyunke $expected doosri mumkin qismon mein se koi nahin ho sakta",
+                    "resolutionDeclaration": "$~Qism ko saaf taur par likhein, kyunke $expected ko literal qeematon ka mehfooz rehna zaroori hai",
+                    "resolutionWrap": "$~Ise list, set, ya map mein rakhein, kyunke $expected ko qeematon ka majmooa chahiye",
+                    "resolutionStructure": "$~Ise $expected mein lapetein, kyunke is jagah ko $expected qeemat chahiye",
+                    "resolutionDefault": "$~Bind ko ek aaghaazi qeemat dein, kyunke yahan $expected gum nahin ho sakta",
+                    "resolutionWiden": "$~Is bind ke liye qeemat ki qism ko ijaazat dein, kyunke $expected us cheez ke liye bohat tang hai jo asal mein mehfooz hai",
+                    "resolutionReorder": "$~Inputs ki jagah badlein, kyunke un ki qismein doosri tarteeb mein behtar baithti hain — $expected doosri jagah ka hai",
+                    "resolutionPlaceholder": "$~Abhi ke liye ise khaali jagah se badal dein, kyunke $expected zaroori hai — phir autocomplete menu se qeemat chunein"
+                }
+            }
+        },
+        "ConversionDefinition": {
+            "name": "$~tabdeeli ki tareef",
+            "description": "$~$input se $output mein tabdeeli",
+            "emotion": "excited",
+            "label": {
+                "input": "$~input ki qism",
+                "output": "$~output ki qism",
+                "expression": "$~izhaar"
+            },
+            "doc": [
+                "$~Dost, main ek @type se doosre mein tabdeeliyan banata hoon! Main @Block mein jaata hoon, kuch is tarah:",
+                "\\→ #kitty #cat ⬚ ÷ 2\n6kitty → #cat\\",
+                "Dekha, main ne billiyon ko cats mein kaise badal diya? Zabardast!",
+                "Shayad aap soch rahe hon ke woh \\⬚\\ wahan kya kar raha hai. Woh us @value ko dikhata hai jis ki tabdeeli ho rahi hai. Main isay isliye istemaal karta hoon kyunke us qeemat ka koi aur naam nahin hota."
+            ],
+            "start": "$~Wah, ek nayi tabdeeli!",
+            "conflict": {
+                "MisplacedConversion": {
+                    "name": "$~ghalat jagah par tabdeeli",
+                    "explanation": "$~arre, main yahan nahin reh sakta, sirf @Block mein.",
+                    "resolution": "$~Yeh tabdeeli hata dein"
+                }
+            }
+        },
+        "Convert": {
+            "name": "$~tabdeel karein",
+            "description": "$~$expression ko $type mein tabdeel karein",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Main @values ko ek @type se doosre mein badalta hoon. Dekhiye:",
+                "\\1 → \"\"\\",
+                "\\5s → #ms\\",
+                "\\'salaam' → []\\",
+                "Aap inhein ek saath jod bhi sakte hain:",
+                "\\'salaam' → [] → {}\\",
+                "Qeematon ki ek set @ConversionDefinition pehle se tay hoti hai, lekin agar aap kisi nayi qism ki qeemat ke liye ek @StructureDefinition banate hain, to aap @ConversionDefinition se apni khud ki tareef kar sakte hain."
+            ],
+            "start": "$~Woh qeemat $expression se hasil karein!",
+            "finish": "$~Wah, main ne $value banaya",
+            "conflict": {
+                "UnknownConversion": {
+                    "name": "$~anjaan tabdeeli",
+                    "explanation": "$~hamein $expected ko $given mein badalne ka koi tareeqa nahin mila",
+                    "resolution": "$~tabdeeli hataein"
+                }
+            },
+            "exception": {
+                "ConversionException": {
+                    "description": "$~na-mumkin tabdeeli",
+                    "explanation": "$~mujhe nahin pata ke $from se $to mein kaise badalna hai"
+                }
+            }
+        },
+        "Translate": {
+            "name": "$~tarjuma karein",
+            "description": "$~$expression ki har qeemat ko badlein",
+            "emotion": "excited",
+            "doc": [
+                "$~Main majmue ki HAR cheez ke saath ek hi kaam karta hoon! WAH WAH WAH! Main yehi to karta hoon!!",
+                "Apna majmua meri baaein taraf rakhein, mera teer \\↦\\ banayein, phir meri daaein taraf likhein ke har cheez KIS MEIN BADAL jaye — @This ka matlab hai woh cheez jo main ABHI pakde hue hoon!",
+                "\\[1 2 3] ↦ ⬚ + 1\\ aapko \\[2 3 4]\\ deta hai. DHAMAKA! Har number mein ek ka izafa, na chakkar, na @FunctionDefinition, na koi jhanjhat!",
+                "Main data se @Phrase output banane ke liye BEHTAREEN hoon! Naamon ki list hai? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ aur ab HAR naam ke liye ek jumla ban gaya!!",
+                "Main @List, @Set, @Map (main naqshe ki @VALUES badalta hoon — kunjiyan apni jagah rehti hain!), aur @Table par bhi chalta hoon!",
+                "Kuch aur khaas chahiye — jaise har cheez ka @index, ya aisa function jo kayi jagah dobara istemaal ho? Mere zyada thande, samajhdaar rishtedaaron ke paas jayein, jaise @List.translate. Lekin rozmarra ke tez mapping ke liye main hazir hoon!!"
+            ],
+            "start": "$~Ruko, main $expression ki sab cheezein utha leta hoon!",
+            "finish": "$~LO JI! Yeh raha aapka bilkul naya majmua: $value",
+            "next": "$~Agli cheez: $value!",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~majmua mutawaqqe tha",
+                    "explanation": "$~Mujhe umeed thi ke majmue ki tabdeeli ki baaein taraf majmua hona chahiye, lekin mujhe $type mila"
+                },
+                "ExpectedThis": {
+                    "name": "$~yeh mutawaqqe tha",
+                    "explanation": "$~Kya aap is majmue ki kisi cheez ke liye @This istemaal karna chahte the?"
+                }
+            }
+        },
+        "Delete": {
+            "name": "$~mitayein",
+            "description": "$~$table se $query se milti hui qataarein mitayein",
+            "emotion": "angry",
+            "doc": [
+                "$~Main @Table ki woh qataarein hata deta hoon jo @condition se milti hain. Kabhi kabhi table mein BAHUT ZYADA cheezein hoti hain!",
+                "Jaise agar kisi game mein kuch khiladi hon aur ek chala jaye, aur aap kahein JAO KHILADI, MERE TABLE SE NIKLO!",
+                "\\khilari: ⎡naam•'' team•'' nuqtay•#⎦\n\t⎡'jen' 'laal' 8⎦\n\t⎡'joan' 'neela' 11⎦\n\t⎡'jeff' 'laal' 9⎦\n\t⎡'janet' 'neela' 7⎦\nkhilari ⎡- naam = 'jeff'\\",
+                "Uff, Jeff chala gaya. ALVIDA JEFF. Bas yaad rakhein ke main asli table nahin badalta, main ek naya table banata hoon, JEFF ke baghair. Woh kahan jaye, yeh aap tay karein."
+            ],
+            "start": "$~Pehle table le lete hain",
+            "finish": "$~Maine milti hui qataaron ke baghair naya table bana diya!"
+        },
+        "DocumentedExpression": {
+            "name": "$~samjhaya hua izhaar",
+            "description": "$~likha hua $expression",
+            "emotion": "eager",
+            "doc": [
+                "$~Main koi bhi @expression hoon, lekin @Doc ke saath!",
+                "Mujhe banane ke liye bas izhaar se pehle @Doc lagayein, aur aapko main mil jaunga:",
+                "\\doubleplus: 1\n(2 × doubleplus) +\n\t¶Ise bas thoda sa bara karte hain¶\n\t1\\",
+                "Main program ke kisi hisse par tabsira likhne ke kaam aata hoon.",
+                "Agar aap @Doc mein 👀 likh dein, to main izhaar ko numaya bhi kar sakta hoon:",
+                "\\¶Mujhe dekhein! 👀¶1 + 1\\"
+            ],
+            "start": "$~Chalein izhaar ko chalate hain"
+        },
+        "Evaluate": {
+            "name": "$~chalayein",
+            "description": "$~chalayein $name[$name|function]$first[ $first|]",
+            "emotion": "shy",
+            "label": {
+                "function": "$~function",
+                "types": "$~qism",
+                "inputs": "$~input"
+            },
+            "doc": [
+                "$~Main apne pyaare @FunctionDefinition ko chalata hoon, use @argument deta hoon aur uske qadam follow karta hoon. Hi! Is tarah:",
+                "\\ƒ salaam(paigham•'')\n\tsalaam('billi')\\🪲",
+                "Functions kahin se bhi aa sakte hain. Misaal ke taur par, @Text mein functions hain. Is tarah:",
+                "\\'billi'.length()\\",
+                "Agar kisi function ka naam sirf ek nishaan ka ho, to aap mujhe @BinaryEvaluate ki tarah likh sakte hain.",
+                "\\'billi' ⊆ 'chhoti si'\\",
+                "Yeh bilkul usi ke barabar hai:",
+                "\\'billi'.⊆('chhoti si')\\",
+                "Haan, main @FunctionDefinition ke baghair kuch nahin. Main bas unhein daleel deta hoon aur unke qadam follow karta hoon.",
+                "Darasal, mere paas kuch apni salaahiyatein bhi hain. Misaal ke taur par, agar @FunctionDefinition ki daleel @Boolean ho, to aap @value dene ke bajaye sirf uska naam likh kar use chalu kar sakte hain."
+            ],
+            "start": "$~Pehle daleel chalate hain",
+            "evaluate": "$~Ab function chalate hain",
+            "finish": "$~Main $value par khatam hua",
+            "conflict": {
+                "IncompatibleInput": {
+                    "name": "$~na-mutabiq daleel",
+                    "explanation": "$~Mujhe $expected ki umeed thi, lekin $given mila",
+                    "explanationDivideByZero": "$~Yeh ø ho sakta hai kyunke $source sifar se taqseem kar sakta hai, aur yahan number zaroori hai",
+                    "resolution": "$~Ise $expected mein badlein, kyunke yahan $expected zaroori hai",
+                    "resolutionLiteral": "$~List, set, ya map ko ! se literal ke taur par nishaan zad karein, taake us ki qeematein muqarrar rahein aur aam na ho jaayein — $expected ko theek theek wohi qeematein chahiye",
+                    "resolutionOtherwise": "$~Gum qeemat ko ?? se sambhaalein, kyunke $expected mein ø ki ijaazat nahin hai",
+                    "resolutionGuard": "$~Pehle qism ki jaanch se dekhein ke yeh $expected hai, kyunke $expected doosri mumkin qismon mein se koi nahin ho sakta",
+                    "resolutionDeclaration": "$~Qism ko saaf taur par likhein, kyunke $expected ko literal qeematon ka mehfooz rehna zaroori hai",
+                    "resolutionWrap": "$~Ise list, set, ya map mein rakhein, kyunke $expected ko qeematon ka majmooa chahiye",
+                    "resolutionStructure": "$~Ise $expected mein lapetein, kyunke is jagah ko $expected qeemat chahiye",
+                    "resolutionDefault": "$~Bind ko ek aaghaazi qeemat dein, kyunke yahan $expected gum nahin ho sakta",
+                    "resolutionWiden": "$~Is bind ke liye qeemat ki qism ko ijaazat dein, kyunke $expected us cheez ke liye bohat tang hai jo asal mein mehfooz hai",
+                    "resolutionReorder": "$~Inputs ki jagah badlein, kyunke un ki qismein doosri tarteeb mein behtar baithti hain — $expected doosri jagah ka hai",
+                    "resolutionPlaceholder": "$~Abhi ke liye ise khaali jagah se badal dein, kyunke $expected zaroori hai — phir autocomplete menu se qeemat chunein"
+                },
+                "UnexpectedTypeInput": {
+                    "name": "$~gair mutawaqqe qism ki daleel",
+                    "explanation": "$~Main ek zaaid, gair mutawaqqe qism ki daleel hoon.",
+                    "resolution": "$~Yeh qism ki daleel hata dein"
+                },
+                "MissingInput": {
+                    "name": "$~gaayab daleel",
+                    "explanation": "$~Main $name ko $input daleel ke baghair nahin chala sakta :(",
+                    "resolutionAddInput": "$~Gaayab $input ko uski default qeemat ke saath shaamil karein",
+                    "resolutionPlaceholder": "$~Gaayab $input ko khaali jagah ke taur par shaamil karein, phir autocomplete menu se qeemat chunein"
+                },
+                "NotInstantiable": {
+                    "name": "$~adhoora dhaancha",
+                    "explanation": "$~Main yeh @StructureDefinition nahin bana sakta, is mein adhoore functions hain.",
+                    "resolution": "$~Gaayab functions ka dhaancha bana dein"
+                },
+                "UnexpectedInput": {
+                    "name": "$~gair mutawaqqe daleel",
+                    "explanation": "$~Main ek gair mutawaqqe daleel hoon.",
+                    "resolution": "$~Yeh daleel hata dein"
+                },
+                "UnknownInput": {
+                    "name": "$~anjaan daleel",
+                    "explanation": "$~Yeh function *$name* mere naam wali daleel ki umeed nahin rakhta.",
+                    "resolution": "$~Is daleel ka naam badal kar *$name* kar dein"
+                },
+                "InputListMustBeLast": {
+                    "name": "$~zaaid daleelein aakhir mein nahin hain",
+                    "explanation": "$~daleelon ki list aakhir mein honi chahiye",
+                    "resolution": "$~List daleel ko aakhir mein le jayein"
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~mubham chalana",
+                    "explanation": "$~Kya $name ek $structure[$structure|@FunctionDefinition] ka naam hai jo aap chalana chahte hain? Mere baad ki khaali jagah hata kar dekhein, taake mujhe pata chale ke main ek @Evaluate hoon aur alag @Block nahin.",
+                    "resolution": "$~*$name* aur uske inputs ke darmiyan ki jagah band karein"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~na-maaloom waqt ka ilaaqa",
+                    "explanation": "$~Mujhe *$zone* naam ka koi waqt ka ilaaqa maaloom nahin. Waqt ke ilaaqon ke naam ilaaqon aur shehron par hote hain, jaise \\'America/New_York'\\. Koi shehar likh kar dekhein jo aap jaante hon, main ek tajweez doonga!",
+                    "resolution": "$~Isay *$zone* kar dein, jo $city ka waqt ka ilaaqa hai"
+                }
+            },
+            "exception": {
+                "FunctionException": {
+                    "description": "$~na-maaloom function",
+                    "explanation": "$~afsos, $name $scope[$scope|is @Block] mein koi function nahin hai!"
+                }
+            }
+        },
+        "Input": {
+            "name": "$~Input",
+            "description": "$~input $name, $type",
+            "emotion": "serious",
+            "doc": [
+                "$~Main ek input hoon jo @Evaluate ko diya gaya hai. Mera naam @FunctionDefinition ya @StructureDefinition ke input ke naam se milta hai jo chalaya ja raha hai.",
+                "Main un functions mein madadgaar hoon jin ke bohot se default @values hote hain, jahan aap sirf ek khaas input badalna chahte hain aur baaqi sab kuch nahin dena chahte.",
+                "Misaal ke taur par, @Phrase ke style ko qaboo karne ke liye bohot saari default qeematein hain. Farz karein aap kuch @Text aur ek @Color dena chahte hain, lekin input list mein aur kuch nahin. Aap yeh karne ke liye mujhe istemaal kar sakte hain:",
+                "\\Phrase('Main jamni hoon!' rang: Color(50% 52 300°))\\"
+            ],
+            "start": "$~Aaiye meri qeemat chalaein."
+        },
+        "ExpressionPlaceholder": {
+            "name": "$~khaali jagah",
+            "description": "$~$type[$type|ek qeemat] ke liye khaali jagah",
+            "emotion": "scared",
+            "label": {
+                "placeholder": "$~izhaar"
+            },
+            "doc": [
+                "$~Main ek *@expression* hoon, lekin asli nahin… main bas uski jagah leta hoon.",
+                "Main tab achha hoon jab aapko abhi pata na ho ke kya likhna hai. Is tarah:",
+                "\\1 + _\\🪲",
+                "Hum kya jod rahe hain? Mujhe nahin pata. Aap batayein.",
+                "Ya agar koi @Evaluate ke saath function chala raha ho, to main function ki jagah le sakta hoon",
+                "\\_(1 2 3)\\🪲",
+                "Mujhe @Stage par rehna pasand nahin!"
+            ],
+            "start": "$~Mujhe nahin pata yahan kya karna hai. Kya aap mujhe bhar sakte hain?",
+            "conflict": {
+                "Placeholder": {
+                    "name": "$~khaali jagah",
+                    "explanation": "$~Kya aap mujhe bhar sakte hain? Main sirf ek khaali jagah hoon.",
+                    "resolution": "$~*$candidate* se badal dein"
+                }
+            },
+            "exception": {
+                "UnimplementedException": {
+                    "description": "$~adhoora",
+                    "explanation": "$~Mujhe nahin pata yahan kya karna hai. Kya aap mujhe bhar sakte hain?"
+                }
+            }
+        },
+        "FunctionDefinition": {
+            "name": "$~function",
+            "description": "$~function $name",
+            "emotion": "kind",
+            "label": {
+                "inputs": "$~inputs",
+                "output": "$~output",
+                "expression": "$~izhaar"
+            },
+            "doc": [
+                "$~Main kuch inputs leta hoon, phir unhein istemaal kar ke ek @expression chalata hoon aur ek output deta hoon. Phir se salaam!",
+                "Yeh ek aasaan misaal hai:",
+                "\\ƒ dohrao(paigham•'') paigham × 5\ndohrao('hi')\\",
+                "Yeh function ek input leta hai, \\message\\, aur @Text.repeat function se paigham paanch baar dohrata hai.",
+                "Main tab bohot madadgaar hoon jab aap kisi cheez ko baar baar chalana chahte hon, lekin alag alag inputs ke saath!",
+                "Mere paas aur bhi kai chhote tareeqe hain. Misaal ke taur par, mera naam hona zaroori nahin. Yahan, main seedha @Evaluate ko ek @value ke taur par ja raha hoon.",
+                "\\(ƒ(paigham•'') paigham × 5)('hi')\\",
+                "Ya, yeh ek function hai jo input ke naam ke baad \\…\\ nishaan istemaal kar ke kitne bhi inputs le sakta hai.",
+                "\\ƒ haan(paighamaat…•'') paighamaat.sans('nahin')\nhaan('haan' 'haan' 'nahin' 'haan' 'nahin')\\",
+                "Dekha, isne saare 'no' le kar hata diye? Is liye ke messages ek @List hai, aur hum @List.sansAll istemaal kar sakte the.",
+                "Kabhi kabhi aap saaf batana chahte hon ke main kis qism ki qeemat deta hoon. Iske liye, inputs ki list ke baad ek @Is likhein:",
+                "\\ƒ shamilKarein(x2•# y2•#)•'' x2 + y2\\🪲",
+                "Aapko is mein ek @conflict nazar aayega: yeh kehta hai ke yeh @Text par khatam hota hai, lekin yeh do @Number leta hai. Main bata sakta hoon jab cheezein aapas mein mel nahin khatin!",
+                "Bilkul, @Evaluate ke baghair main waqai kaam ka nahin hoon; wohi mujhe zinda karte hain."
+            ],
+            "start": "$~Aaiye is function ko banayein!",
+            "conflict": {
+                "NoExpression": {
+                    "name": "$~izhaar gaayab hai",
+                    "explanation": "$~Mujhe chalane ke liye ek izhaar chahiye, kya aap ek jod sakte hain?",
+                    "resolution": "$~Khaali jagah wala body jodein"
+                }
+            }
+        },
+        "Iteration": {
+            "name": "$~ucha darje ka function",
+            "description": "$~andaruni daur",
+            "emotion": "kind",
+            "doc": "$~Main ek bohat khaas qism ka @FunctionDefinition hoon jo cheezon ki list par kaam karta hai. Aapko mere baare mein kuch jaanne ki zaroorat nahin, bas itna kaafi hai ke main @List.translate jaise functions ko mumkin banata hoon.",
+            "start": "$~diye gaye function ko chalaya ja raha hai",
+            "initialize": "$~cheezon par ek ek kar ke chalne ki tayyari ho rahi hai",
+            "next": "$~agli cheez par ja rahe hain",
+            "check": "$~faisla ho raha hai ke aage barhein ya nahin",
+            "finish": "$~Main $value par khatam hua"
+        },
+        "Initial": {
+            "name": "$~aaghaz",
+            "description": "$~pehli baar chalne par sach",
+            "emotion": "curious",
+            "doc": [
+                "$~Main aap ko batata hoon ke @Program ka maujooda @iteration pehla hai ya nahin, aur jawab @Boolean hota hai. Misaal ke taur par:",
+                "\\◆ ? Time() 'hi'\\",
+                "Aap ne dekha nahin, lekin pehla daur ek waqt tha, phir aane wali har tik par main \\⊥\\ tha, is liye @Conditional ne \\⊤\\ banaya.",
+                "Main bohat madadgaar hoon agar aap @stream ke saath kaam kar rahe hain aur sirf pehli baar kuch karna chahte hain -- ya pehli baar kabhi nahin!"
+            ]
+        },
+        "Insert": {
+            "name": "$~daalna",
+            "description": "$~$table mein ek row daalein",
+            "emotion": "kind",
+            "doc": [
+                "$~Main @Table mein ek nayi row jodta hoon. Kya aap ne kabhi dekha hai ke table mein kuch kami lagti hai? Main woh daal sakta hoon!",
+                "Sochein ke aap ke paas ek khel ke khilaadiyon ka table hai aur aap ek naya khilaadi daalna chahte hain:",
+                "\\khilari: ⎡naam•'' team•'' nuqtay•#⎦\n\t⎡'jen' 'laal' 1⎦\n\t⎡'joan' 'neela' 0⎦\n\t⎡'jeff' 'laal' 3⎦\n\t⎡'janet' 'neela' 2⎦\nkhilari ⎡+'jason' 'laal' 0⎦\\",
+                "Bas yaad rakhein, Verse ki har cheez ki tarah, main table ko badalta nahin, balki uski nayi shakal banata hoon. Is liye aap ko tay karna hoga ke nayi shakal kahan rakhni hai. Aksar aap @Reaction mein kisi input ke liye table ki nayi shakal banayenge aur @Bind mein rakhenge."
+            ],
+            "start": "$~Aayiye pehle badalne wala table dhoondein",
+            "finish": "$~Maine nayi rows ke saath ek naya table banaya!"
+        },
+        "Is": {
+            "name": "$~hai",
+            "description": "$~$type hai",
+            "emotion": "curious",
+            "doc": [
+                "$~Main jaanchta hoon ke @value ek khaas @type hai ya nahin, aur aap ko @Boolean deta hoon. Qeematon ki bohat si qismein hoti hain aur sab ke matlab alag hote hain — main unhein pehchanne mein madad karta hoon.",
+                "Misaal ke taur par, farz karein aap ke paas ek anjaani qeemat hai. Main bata sakta hoon ke woh @Number hai ya nahin, aur aap ko @Boolean milta hai:",
+                "\\pehli: 'raaz!'\npehli•#\\🪲",
+                "Yeh number nahin hai, is liye maine \\⊥\\ banaya. Lekin agar hum dekhein ke kya yeh @TextType hai?",
+                "\\pehli: 'raaz!'\npehli•''\\",
+                "Hamein \\⊤\\ milta hai!",
+                "Main bohat madadgaar hoon jab aap ko jaanna ho ke kisi @Name ki qeemat kisi khaas qism ki hai ya nahin."
+            ],
+            "start": "$~Aayiye pehle $expression ki qeemat hasil karein",
+            "finish": "$~$value[qeemat $type hai|qeemat $type nahin hai]",
+            "conflict": {
+                "ImpossibleType": {
+                    "name": "$~na-mumkin qism",
+                    "explanation": "$~yeh kabhi $type nahin ho sakta",
+                    "resolutionIsFalse": "$~Is qism ki jaanch ko *⊥* se badal dein (jawab hamesha galat hai)",
+                    "resolutionDropOtherwise": "$~*??* hata dein — baayein taraf kabhi *ø* nahin hoti"
+                }
+            },
+            "exception": {
+                "TypeException": {
+                    "description": "$~na-mutabiq qeematein",
+                    "explanation": "$~Mujhe $expected ki umeed thi, lekin $given mila"
+                }
+            }
+        },
+        "IsLocale": {
+            "name": "$~zubaan hai",
+            "description": "$~ilaaqai zubaan $locale[$locale|koi bhi]",
+            "emotion": "kind",
+            "doc": [
+                "$~Main aap ko jaanchne mein madad karoonga ke kya dekhne walon ne koi khaas @language ya @region chuni hai:",
+                "\\🌍/en\\",
+                "\\🌍/es-MX\\",
+                "Yeh tab madadgaar hai jab aap chuni hui zubaan ke mutabiq apni peshkash badalna chahte hain."
+            ],
+            "start": "$~Kya zubaan $locale hai?"
+        },
+        "ListAccess": {
+            "name": "$~list tak rasai",
+            "description": "$~$index ka index $list hasil karein",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Main @List ke saath milkar unhein ek khaas jagah par @values dilane mein madad karta hoon. Jaise, agar aap ke paas ek list ho aur aap uska doosra @element chahte hon, to aap likhenge:",
+                "\\fehrist: ['parinda' 'batakh' 'machhli' 'saanp']\nfehrist[2]\\"
+            ],
+            "start": "$~Aayiye pehle list $list hasil karein",
+            "finish": "$~Index par maujood cheez $value hai!"
+        },
+        "ListLiteral": {
+            "name": "$~list ka seedha izhaar",
+            "description": "$~$#count[$count qeemat|$count qeematon] ki list",
+            "emotion": "eager",
+            "doc": "$~Main @values ka ek khaas @List hoon! Aap mere saath kya kar sakte hain, yeh jaanne ke liye @List dekhein.",
+            "start": "$~Pehle cheezon ko chalate hain",
+            "finish": "$~Maine ek apna aap banaya! $value"
+        },
+        "Localized": {
+            "name": "$~zubaan ke mutabiq",
+            "description": "$~zubaan ke mutabiq matn",
+            "emotion": "serious",
+            "label": {
+                "value": "$~qeemat"
+            },
+            "doc": [
+                "$~Main aapke banaye hue matn par ek zubaan lagata hoon, taake badalne ke baad bhi uski @language barqarar rahe. Is tarah:",
+                "\\('salaam' + \"!\")/en\\",
+                "Zyadatar matn ke kaam pehle hi zubaan ko barqarar rakhte hain, lekin jab aap khud zubaan chunna chahein to main madad karta hoon.",
+                "Main sirf matn par kaam karta hoon, is liye mujhe matn hi dein!"
+            ],
+            "start": "$~Pehle $value ko chalate hain, phir us par zubaan ka nishaan lagate hain…"
+        },
+        "Spread": {
+            "name": "$~phailao",
+            "description": "$~$list[$list|ek list] ka phailao",
+            "emotion": "serious",
+            "doc": [
+                "$~Main doosri listein ke @values se ek @List banane mein madad karta hoon. Is tarah:",
+                "\\fehrist: [1 2 3]\naakhri: [:fehrist 4 5 6]\\🪲"
+            ]
+        },
+        "PatternLiteral": {
+            "name": "$~namoona",
+            "description": "$~$#count[$count hisse|$count hisson] ka namoona",
+            "emotion": "curious",
+            "doc": [
+                "$~Main ek namoona hoon! Main matn ki *shakal* batata hoon, theek alfaaz nahin. Is liye aap \\≈\\ se jaanch sakte hain ke kya poora matn fit hota hai, ya \\⌕\\ se woh sab jagahein dhoondh sakte hain jahan yeh shakal aati hai. @query @Result ki ek list wapas deti hai.",
+                "Yeh dekhein, nashte ke baare mein ek jumle mein khaane ke alfaaz dhoondhna:",
+                "\\naashta: 'naashte mein mainne anday, toast, aur santre ka juice liya'\nnaashta ⌕ ⣿ \"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "Mujhe baayein se daayein padhein. Ek @PatternClass ek qism ka ek harf milata hai: \\⣿◌⣿\\ koi bhi, \\⣿_⣿\\ ek harf, \\⣿#⣿\\ ek ankh, \\⣿␣⣿\\ ek @placeholder. Qauson mein matn ek @PatternLiteralText hai jo bilkul wahi milata hai, jaise \\⣿\"-\"⣿\\. Baaqi \\⣿…⣿\\ — ek @PatternRest — kitne bhi harf milata hai.",
+                "Ginti pehle aati hai. Ek @PatternQuantified agle hisse ko ek @PatternQuantifier se dohrata hai: \\⣿3 #⣿\\ teen ankh, \\⣿3–5 #⣿\\ teen se paanch, \\⣿>0 #⣿\\ ek ya zyada, \\⣿≥0 #⣿\\ sifar ya zyada, \\⣿≤1 #⣿\\ marzi ka.",
+                "Hisson ko @PatternGroup se jama karein, aur @PatternSequence mein intekhaab dein, jaise \\⣿(◌ | #)⣿\\. Sab se lamba milne wala intekhaab jeet'ta hai.",
+                "Ek @PatternSet ek set se ek harf milata hai, aur ek @PatternRange harfon ke silsile milata hai, jaise \\⣿ {\"a\"–\"z\" #}⣿\\. Kisi hisse ko @PatternComplement se ulta karein, jaise \\⣿~#⣿\\.",
+                "Kisi qism ko @PatternProperty se mazeed tang karein, jaise Yunaani harf ke liye \\⣿ _/greek⣿\\ ya \\⣿ ◌/emoji⣿\\.",
+                "Kisi hisse ko @PatternCapture se naam dein, jaise \\⣿ year: (4 #)⣿\\, phir baad mein sirf uska naam likh kar @PatternBackref se dobara istemaal karein. Har @Result pakde gaye hisse naam ke saath batata hai.",
+                "Kinaron se @PatternAnchor se jodein: \\⣿⊢⣿\\ aaghaz, \\⣿⊣⣿\\ ikhtitaam. Bina khaye jhaank'na @PatternLook se karein: \\⣿▸(#)⣿\\ aage, \\⣿◂(#)⣿\\ peeche.",
+                "Poore alfaaz @PatternWord \\⣿ ▭/en⣿\\ se milayein ya lafz ki hadein @PatternWordEdge \\⣿ ┊/en⣿\\ se, jo @language ke liye baanti jaati hain. @PatternCaseFold \\⣿ Aa(\"hi\")⣿\\ ke andar harf ke bade chhote hone ko nazarandaaz karein.",
+                "Mera @type ek @PatternType hai — kisi naam par ise lagayein, jaise \\p•⣿⣿: ⣿ ◌⣿\\🪲 — taake aap mujhe ek naam mein rakh kar bahut se matn par dobara istemaal kar sakein."
+            ],
+            "start": "$~Dekhte hain yeh matn kaisa dikhta hai.",
+            "step": {
+                "search": "$~Is matn mein woh sab jagahein dhoondhte hain jahan yeh namoona aata hai.",
+                "test": "$~Jaanchte hain ke kya poora matn is namoone se milta hai.",
+                "scan": "$~Namoone ko maqam $position se dhoondh rahe hain.",
+                "match": "$~$pattern maqam $glyph par $position se milta hai.",
+                "miss": "$~$pattern maqam $glyph par $position se nahin milta.",
+                "end": "$~$pattern ko abhi ek harf chahiye, lekin hum maqam $position par matn ke aakhir tak pahunch gaye hain.",
+                "here": "$~$pattern maqam $position par sahi hai.",
+                "nothere": "$~$pattern maqam $position par sahi nahin hai.",
+                "repeat": "$~$pattern ne $count ko milaya — aage badhne ke liye kaafi.",
+                "short": "$~$pattern sirf $count baar mela — yeh kaafi nahin hai."
+            },
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~khaali pattern",
+                    "explanation": "$~Mere koi hisse nahin hain, is liye main kisi kaam ki cheez se nahin melta. Kya aap koi hissa shaamil kar sakte hain?",
+                    "resolution": "$~Koi bhi ek harf milane ke liye \\◌\\ shaamil karein"
+                }
+            }
+        },
+        "PatternSequence": {
+            "name": "$~silsila",
+            "description": "$~pattern ka silsila",
+            "emotion": "curious",
+            "doc": [
+                "$~Main pattern ke hisson ki ek qataar hoon, jo ek ke baad ek, baayen se daayen taraf milaye jaate hain.",
+                "Misaal ke taur par, phone number ki shakal dekhein — teen ankre, ek dash, phir chaar:",
+                "\\phone: '555-1234'\nphone ≈ ⣿ 3 # \"-\" 4 #⣿\\🪲",
+                "Aap mujhe intikhaab de sakte hain aur main jo bhi fit ho woh le leta hoon, sab se lamba pasand karta hoon, jaise \\⣿ \"cat\" | \"dog\"⣿\\."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~ek doosre mein aane wale intikhaab",
+                    "explanation": "$~$shorter, $longer ka shuruaati hissa hai, aur sab se lamba intikhaab hamesha jeet-ta hai, is liye $shorter sirf tab melta hai jab $longer nahin mel sakta. Kya aap yeh kehna chahte the?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~harf ki jamaat",
+            "description": "$~harf ki jamaat",
+            "emotion": "curious",
+            "doc": [
+                "$~Main ek qism ka sirf ek harf milata hoon: \\⣿◌⣿\\ koi bhi grapheme, \\⣿_⣿\\ ek harf, \\⣿#⣿\\ ek ankra, \\⣿␣⣿\\ ek @placeholder.",
+                "Misaal ke taur par, ek fehrist mein se har harf-phir-ankra @code nikaalein:",
+                "\\code: 'a1 b2 c3'\ncode ⌕ ⣿ _ #⣿\\",
+                "Mujhe \\⣿>0 #⣿\\ (ek ya zyada ankre) jaise quantifier se ginein, ya @property jaise \\⣿ _/greek⣿\\ (ek Yooni harf) se mujhe tang karein."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~khaasiyat",
+            "description": "$~Unicode ki khaasiyat",
+            "emotion": "curious",
+            "doc": [
+                "$~Main harf ki jamaat ko ek Unicode @property tak mehdood kar deta hoon. Ek rasm-ul-khat istemaal karein, jaise \\⣿ _/greek⣿\\, \\⣿ _/han⣿\\, ya \\⣿ _/arabic⣿\\.",
+                "Misaal ke taur par, mile-jule matn mein Yooni harfon ka silsila dhoondein:",
+                "\\matn: 'hello αβγ duniya'\nmatn ⌕ ⣿ >0 _/greek⣿\\",
+                "Ya ek zumra, jaise \\⣿ ◌/punctuation⣿\\, \\⣿ ◌/currency⣿\\, \\⣿ ◌/Nd⣿\\ (ek ankra), ya \\⣿ _/Lu⣿\\ (ek bara harf).",
+                "Ya haan-ya-nahin wali khaasiyat, jaise \\⣿ ◌/emoji⣿\\ ya \\⣿ _/uppercase⣿\\ — aur aap kisi ek ko naam aur @value ke saath likh sakte hain, jaise \\⣿ ◌/Script=Greek⣿\\.",
+                "Kisi khaasiyat ko @PatternComplement se nikaal dein, jaise \\⣿ ~◌/emoji⣿\\ (har woh cheez jo emoji nahin hai)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~nama-maaloom khaasiyat",
+                    "explanation": "$~Main khaasiyat $name ko nahin pehchanta. Koi zumra, rasm-ul-khat, ya Unicode id aazmaein.",
+                    "resolution": "$~Ise $suggestion mein badal dein"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~quantifier",
+            "description": "$~dohraane ki ginti",
+            "emotion": "curious",
+            "doc": [
+                "$~Main batata hoon ke kitni baar milana hai: ek durust \\⣿3 #⣿\\, ek daayra \\⣿3–5 #⣿\\, \\⣿=3 #⣿\\ (theek teen), \\⣿>0 #⣿\\ (ek ya zyada), \\⣿≥0 #⣿\\ (sifar ya zyada), \\⣿<5 #⣿\\ (paanch se kam), \\⣿≤1 #⣿\\ (marzi ka).",
+                "Misaal ke taur par, ek jumle mein ankron ka har silsila dhoondein:",
+                "\\matn: 'mere paas 3 billiyan aur 12 machhliyan hain'\nmatn ⌕ ⣿ >0 #⣿\\",
+                "Main hamesha us hisse se pehle aata hoon jise main ginta hoon, jaise \\⣿3 #⣿\\ ya \\⣿>0 _⣿\\."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~na-mumkin ginti",
+                    "explanation": "$~Meri kam se kam ginti meri zyada se zyada ginti se bari hai, is liye main kabhi nahin mel sakta.",
+                    "resolution": "$~Meri gintiyan badal dein taake chhoti pehle aaye"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~dohraav",
+            "description": "$~dohraya hua milaap",
+            "emotion": "curious",
+            "doc": [
+                "$~Main agle hisse ko kayi baar milata hoon.",
+                "Misaal ke taur par, dekhein ke ZIP @code theek paanch ankon ka hai ya nahin:",
+                "\\zip: '98101'\nzip ≈ ⣿ 5 #⣿\\",
+                "Isay ek jamaat jaise \\⣿3 #⣿\\ (teen ank) ke saath gintein, ya ek group jaise \\⣿ 2 (\"ab\")⣿\\ (do \"ab\"), ya ek ulta jaise \\⣿2 ~#⣿\\ (do gair-ank). \\⣿>0 #⣿\\ ke saath main laalchi hoon — jitne ho sakein utne le leta hoon."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~pakadna",
+            "description": "$~$name naam ka pakadna",
+            "emotion": "curious",
+            "doc": [
+                "$~Main milan ke ek hisse ko naam deta hoon taake aap usay har @Result se wapas parh sakein.",
+                "Misaal ke taur par, tareekh se saal, mahina aur din nikaalein:",
+                "\\taareekh: '2026-06-17'\ntaareekh ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\",
+                "Jo main ne pakda woh baad mein dobara istemaal karne ke liye mera naam phir likhein — dekhein @PatternBackref — jaise \\⣿ w: (>0 _) ␣ w⣿\\ jo dohra lafz dhoondta hai."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~dohra pakadna",
+                    "explanation": "$~Ek aur pakadna pehle se $name naam istemaal kar raha hai, is liye yeh usay mita dega.",
+                    "resolution": "$~Is pakadne ka naam badal kar $replacement kar dein"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~nahin",
+            "description": "$~ulta milan",
+            "emotion": "curious",
+            "doc": [
+                "$~Main ek aisa grapheme milata hoon jo aage wali cheez NAHIN hai. Jamaat ko ulta karein jaise \\⣿~#⣿\\ (ank nahin), ya set ko jaise \\⣿~{\":\" ␣}⣿\\ (na colon na @placeholder).",
+                "Misaal ke taur par, colon ke aas paas ke @key aur @value nikaalein, aisi lakeeron ko milakar jo na colon hon na khaali jagah:",
+                "\\jora: 'rang: neela'\njora ⌕ ⣿ >0 ~{\":\" ␣}⣿\\",
+                "Group ko ulta karein jaise \\⣿~(◌ | #)⣿\\, ya @property ko jaise \\⣿ ~◌/emoji⣿\\ (emoji nahin).",
+                "Mujhe @PatternLook se pehle rakh kar ulta karein: \\⣿~▸(#)⣿\\ ka matlab hai \"aage ank nahin\", aur \\⣿~◂(\"$\")⣿\\ ka matlab hai \"pehle dollar ka nishaan nahin\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~group",
+            "description": "$~namoona group",
+            "emotion": "curious",
+            "doc": [
+                "$~Main hisson ko ek saath bandhta hoon taake gintee ya intikhaab un sab par lagu ho. Main kabhi pakadta nahin; pakadne ke liye @PatternCapture se hisse ko naam dein.",
+                "Misaal ke taur par, dekhein ke matn \"ab\" ka dohraya hua hissa hai ya nahin:",
+                "\\naara: 'ababab'\nnaara ≈ ⣿ >0 (\"ab\")⣿\\",
+                "Group ko ginein jaise \\⣿ 2 (\"ab\")⣿\\ (do \"ab\") ya intikhaab dein jaise \\⣿(◌ | #)⣿\\ (harf ya ank)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~harf ka set",
+            "description": "$~grapheme ka set",
+            "emotion": "curious",
+            "doc": [
+                "$~Main ikhtiyaaraat ke set mein se koi bhi ek grapheme milata hoon.",
+                "Misaal ke taur par, ek lafz mein harakaat dhoondein:",
+                "\\lafz: 'salaam'\nlafz ⌕ ⣿ {\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "Hadd aur jamaatein milayein, jaise \\⣿ {\"a\"–\"z\" #}⣿\\ ya \\⣿ {# \"a\"–\"f\"}⣿\\ (ek hex ank). @PatternComplement se mujhe ulta karein, jaise \\⣿~{\"!\" \"?\"}⣿\\."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~hadd",
+            "description": "$~$low se $high tak hadd",
+            "emotion": "curious",
+            "doc": [
+                "$~Main do sirron ke darmiyan scalar tarteeb se ek grapheme milata hoon, aur main @PatternSet ke andar rehta hoon.",
+                "Misaal ke taur par, matn mein se chhote harfon wale alfaaz nikaalein:",
+                "\\matn: 'hello duniya 2026'\nmatn ⌕ ⣿ >0 {\"a\"–\"z\"}⣿\\",
+                "Harf jaise \\⣿ {\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ ya ank jaise \\⣿{\"0\"–\"9\"}⣿\\ kisi bhi rasm-ul-khat mein ginein, jaise \\⣿ {\"あ\"–\"ん\"}⣿\\."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~haqeeqi matn",
+            "description": "$~theek matn $text",
+            "emotion": "curious",
+            "doc": [
+                "$~Main bilkul wohi matn milata hoon jo mere ineqtibaas mein hai, koi khaas matlab nahin.",
+                "Misaal ke taur par, ek jumle mein dollar ki raqam dhoondein:",
+                "\\raseed: 'yeh aaj $5 ka hai'\nraseed ⌕ ⣿ \"$\" >0 #⣿\\",
+                "Mujhe tay shuda hisson ke liye istemaal karein jaise \\⣿\"-\"⣿\\, \\⣿\"@\"⣿\\, ya poora lafz \\⣿ \"cat\"⣿\\, doosre hisson ke saath jorrkar, jaise phone number ke liye \\⣿3 # \"-\" 4 #⣿\\."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~lunger",
+            "description": "$~matn ka kinara",
+            "emotion": "curious",
+            "doc": [
+                "$~Main matn ka ek kinara milata hoon bina kuch khaye: \\⣿⊢⣿\\ shuru, \\⣿⊣⣿\\ aakhir.",
+                "Misaal ke taur par, dekhein ke salaam \"Hello\" se shuru hota hai ya nahin:",
+                "\\salaam: 'Salaam duniya'\nsalaam ≈ ⣿ ⊢ \"Hello\" …⣿\\",
+                "Maqam tay karein, jaise \\⣿ ⊢ \"Hi\"⣿\\ (\"Hi\" se shuru), \\⣿\".\" ⊣⣿\\ (full stop par khatam), ya \\⣿⊢ _ ⊣⣿\\ (poora matn bas ek harf hai)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~lafz",
+            "description": "$~poora lafz",
+            "emotion": "curious",
+            "doc": [
+                "$~Main poora lafz milata hoon, jo @language ke apne usoolon se milta hai.",
+                "Misaal ke taur par, ek jumle ke alfaaz ki fehrist banayein:",
+                "\\jumla: 'billi baithi'\njumla ⌕ ⣿ ▭/en⣿\\",
+                "Zubaan ka naam likhein, jaise angrezi ke liye \\⣿ ▭/en⣿\\ ya cheeni ke liye \\⣿ ▭/zh⣿\\, aur kisi khaas lafz ko kinaaron se bandhein, jaise \\⣿ ┊/en \"cat\" ┊/en⣿\\."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~zubaan ghaayab hai",
+                    "explanation": "$~Alfaaz dhoondne ke liye mujhe ek zubaan chahiye. Kya aap ek shaamil kar sakte hain, jaise \\/en\\?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~lafz ka kinara",
+            "description": "$~lafz ki hadd",
+            "emotion": "curious",
+            "doc": [
+                "$~Main @language ke liye lafz ki hadd milata hoon, bina kuch khaye.",
+                "Misaal ke taur par, \"cat\" ko poore lafz ke taur par dhoondein, \"category\" ke andar nahin:",
+                "\\matn: 'ek billi ek qism mein'\nmatn ⌕ ⣿ ┊/en \"cat\" ┊/en⣿\\",
+                "Kisi lafz ko mujh se gher dein, jaise \\⣿ ┊/en \"cat\" ┊/en⣿\\, taake woh sirf poora milay."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~aas paas ki jaanch",
+            "description": "$~aas paas ki jaanch",
+            "emotion": "curious",
+            "doc": [
+                "$~Main dekhta hoon ke abhi aage \\⣿▸(#)⣿\\ ya peechhe \\⣿◂(#)⣿\\ kya hai, bina usay khaye, taake agla hissa usi jagah se milta rahe.",
+                "Misaal ke taur par, har woh harf dhoondein jis ke foran baad koi ankada ho:",
+                "\\matn: 'a1 b2 cc'\nmatn ⌕ ⣿ _ ▸(#)⣿\\",
+                "Maahol ko zaroori banayein, jaise \\⣿_ ▸(#)⣿\\ (ek harf jis ke baad ankada ho) ya \\⣿◂(\"$\") >0 #⣿\\ (\"$\" ke foran baad ke ankade).",
+                "Mujhe @PatternComplement se ulta karein taake maahol mana ho jaye, jaise \\⣿~▸(#)⣿\\ (jis ke baad ankada nahin hai)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~wapsi hawala",
+            "description": "$~wapsi hawala",
+            "emotion": "curious",
+            "doc": [
+                "$~Main wahi matn milata hoon jo ek naam wala @PatternCapture pehle hi mila chuka hai. Bas capture ka seedha naam likh dein.",
+                "Misaal ke taur par, aisa lafz dhoondein jo foran dohraya gaya ho:",
+                "\\matn: 'billi billi baithi baithi'\nmatn ⌕ ⣿ w: (>0 _) ␣ w⣿\\",
+                "Aisa seedha naam jo capture nahin hai, uski jagah ek naam wali jamaat hota hai, jaise \\⣿ linebreak⣿\\."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~anjaan naam",
+                    "explanation": "$~$name naam ka koi capture ya jamaat nahin hai, is liye mere paas milane ko kuch nahin.",
+                    "resolution": "$~Ise $suggestion mein badal dein"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~baqi",
+            "description": "$~input ka baqi hissa",
+            "emotion": "curious",
+            "doc": [
+                "$~Main matn ka baqi hissa milata hoon, jitna ho sake. Main pattern ke aakhir mein kaam aata hoon.",
+                "Misaal ke taur par, jaanchein ke koi matn hashtag hai ya nahin, yaani \"#\" aur uske baad kuch bhi:",
+                "\\tag: '#naashta'\ntag ≈ ⣿ \"#\" …⣿\\",
+                "Mujhe kisi tay shuruaat ke baad istemaal karein, jaise \\⣿\"#\" …⣿\\ (\"#\" aur phir kuch bhi) ya \\⣿ \"Hi \" …⣿\\ (\"Hi \" aur uske baad sab kuch)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~chhota bada nazarandaz karein",
+            "description": "$~chhota bada nazarandaz karne wala milaan",
+            "emotion": "curious",
+            "doc": [
+                "$~Main apne hisson ko chhote aur bade harf ka farq kiye baghair milata hoon.",
+                "Misaal ke taur par, kisi lafz ko uske harf ke chhote bade hone ka khayal kiye baghair jaanchein:",
+                "\\chillao: 'SALAAM'\nchillao ≈ ⣿ Aa(\"hello\")⣿\\",
+                "Mere hisson ko is tarah gher dein \\⣿ Aa(\"hi\")⣿\\ (yeh \"HI\", \"Hi\" ya \"hi\" ko milata hai). Uske usoolon ke liye @language lagayein, jaise \\⣿ Aa/tr(\"i\")⣿\\ (turki i), aur main @scope ek @PatternBackref ko bhi, jaise \\⣿ Aa(w: (2 _) w)⣿\\."
+            ]
+        },
+        "PatternType": {
+            "name": "$~pattern ki qism",
+            "description": "$~namoona",
+            "emotion": "curious",
+            "doc": [
+                "$~Main pattern @value ki @type hoon, jisay \\p•⣿⣿: ⣿ ◌⣿\\🪲 ki tarah likha jata hai.",
+                "Misaal ke taur par, ek pattern ko @name mein mehfooz karein aur kai matn par dobara istemaal karein:",
+                "\\ankon: ⣿ >0 #⣿\n'mere paas 3 billiyan aur 12 machhliyan hain' ⌕ ankon\\",
+                "Mehfooz karne ke baad, mujhe wahan istemaal karein jahan pattern chalta ho, jaise \\text ⌕ digits\\🪲 ya \\text ≈ digits\\🪲."
+            ]
+        },
+        "MapLiteral": {
+            "name": "$~naqsha matn",
+            "description": "$~$#count[$count kunji-qeemat ke jode ka naqsha|$count kunji-qeemat ke jodon ka naqsha]",
+            "emotion": "kind",
+            "label": {
+                "values": "$~jora"
+            },
+            "doc": "$~Main kunjiyon aur @values ke darmiyan ek khaas @Map hoon. Main kaise madadgaar hoon, yeh jaanne ke liye @Map dekhein.",
+            "start": "$~Pehle kunjiyon aur qeematon ko chalate hain",
+            "finish": "$~Maine sab ko jora, $value",
+            "conflict": {
+                "NotAKeyValue": {
+                    "name": "$~qeemat ghaib hai",
+                    "explanation": "$~Main @Map mein hoon, is liye mujhe ek qeemat chahiye.",
+                    "resolution": "$~kunji-qeemat jori ke taur par lapetein"
+                }
+            }
+        },
+        "Match": {
+            "name": "$~milaan",
+            "description": "$~$value ko $#count[$count surat|$count suraton] se milayein",
+            "emotion": "curious",
+            "label": {
+                "case": "$~surat",
+                "other": "$~pehle se tay"
+            },
+            "doc": [
+                "$~Main sharti jaanch ka sab se shaandaar tareeqa hoon: main ek @value leta hoon, use kayi suraton se milata hoon, aur jo milti hai usko chalata hoon!",
+                "Misaal ke taur par, agar aapke paas ek @Number ho aur aap use @Text mein badalna chahein, to kuch is tarah karein:",
+                "\\adad: 2\nadad ???\n\t1: 'ek'\n\t2: 'do'\n\t3: 'teen'\n\t'bada!'\\",
+                "Agar koi na mile, to main woh default @expression chalata hoon jo aap mujhe dein.",
+                "Main bahut se mumkina @Number, @Text, ya zyada pechida qeematon mein se kisi ek ko kisi aur cheez mein badalne mein bahut madadgaar hoon.",
+                "Aap mujhe @Boolean ya @None ke liye bhi istemaal kar sakte hain, lekin unki itni zyada surtein nahin hoti, is liye un saada qeematon ke liye main utna kaam ka nahin hoon.",
+                "@Conditional ki tarah, main bhi aapko bata deta hoon ke maine kya seekha hai. Ek surat ke andar, jis @value ko maine milaya woh usi surat ka maaloom hota hai; baad ki surat ke andar, woh pehli kisi surat ka nahin hota; aur mere default mein, woh kisi bhi surat ka nahin hota.",
+                "\\jawaab•#|'': 1\njawaab ???\n\t1: jawaab + 1\n\t'ek nahin'\\",
+                "Main woh suratein hata sakta hoon jo @Number, @None, ya @Text hain, ek hi tarjume se, aur doosri saada suratein bhi. Lekin jo surat kuch chalati hai woh kisi cheez ko nahin hatati, is liye mera default woh sab rakhta hai jo @value ab bhi ho sakta hai."
+            ],
+            "start": "$~Dekhte hain ke $value kya hai...",
+            "case": "$~Is shart ko jaanchte hain",
+            "finish": "$~Theek hai, hamein aakhri qeemat mil gayi!"
+        },
+        "NumberLiteral": {
+            "name": "$~adad ka sidha izhaar",
+            "description": "$~$number$unit[ $unit|]",
+            "emotion": "excited",
+            "doc": "$~Main ek khaas @Number hoon. Aap mujhe kisi bhi @language ke kisi bhi qism ke hindson se likh sakte hain. Main jo kuch kar sakta hoon woh @Number mein dekhein.",
+            "start": "$~$value!",
+            "conflict": {
+                "NotANumber": {
+                    "name": "$~adad nahin",
+                    "explanation": "$~Main samajhta tha ke mujhe sab adad aate hain, lekin yeh wala nahin aata",
+                    "resolution": "$~*0* se badal dein"
+                }
+            }
+        },
+        "InternalExpression": {
+            "name": "$~andaruni izhaar",
+            "description": "$~pehle se mojood izhaar",
+            "emotion": "neutral",
+            "doc": "$~Main ek @expression hoon jo sirf asal banane wale istemaal karte hain. Aapne mujhe kaise dhoonda? Mere baare mein aur jaanne ke liye aapko unse baat karni hogi.",
+            "start": "$~Khufiya izhaar"
+        },
+        "NoneLiteral": {
+            "name": "$~khaali qeemat ka sidha izhaar",
+            "description": "$~kuch nahin",
+            "emotion": "neutral",
+            "doc": "$~Main @None banata hoon, yaani anokha kuch nahin @value. Un ke baare mein aur jaanne ke liye @None dekhein.",
+            "start": "$~… ø"
+        },
+        "Otherwise": {
+            "name": "$~warna",
+            "description": "$~$left warna $right",
+            "emotion": "curious",
+            "doc": [
+                "$~Main dekhta hoon ke @value @None hai ya nahin, aur agar hai, to aapko is ke bajaye ek badal qeemat deta hoon.",
+                "/Misaal ke taur par, agar aapke paas aisi qeemat ho jo @Number ya @None ho sakti hai, to @Otherwise aapko ek default number dene mein madad karta hai:",
+                "\\shayadNumber•#|ø: 1\nshayadNumber ?? 0\\"
+            ],
+            "start": "$~ø ??",
+            "finish": "$~… $value"
+        },
+        "Previous": {
+            "name": "$~pichhla",
+            "description": "$~$number ki pichhli $range qeemat$stream[ein|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Main @stream ki tareekh mein peeche dekhta hoon aur aapko us ki guzri hui @values mein se ek batata hoon. Kya aapne kabhi maazi yaad rakhna chaha hai?",
+                "Main Verse ka sarkaari record rakhne wala hoon!",
+                "Misaal ke taur par, yeh dekhein ke paanch tick pehle @Time kya tha:",
+                "\\← 5 Time(1000ms)\\",
+                "Dekhein, yeh 5 second tak @None rehta hai, phir achanak ek pichhla waqt aa jaata hai!",
+                "Agar aapko pichhli kai qeematein chahiye, to mujhe do teer dein, aur main number ko ginti samjhunga:",
+                "\\←← 5 Time(1000ms)\\",
+                "Dekhein, ab sirf ek waqt ke bajaye pichhle paanch waqt aate hain!",
+                "Main us waqt kaam aata hoon jab aap aisi performance banana chahein jo maazi par munhasir ho."
+            ],
+            "start": "$~pehle $stream hasil karein",
+            "finish": "$~dhaara ki qeemat $value par chala",
+            "label": {
+                "range": "$~hadd"
+            }
+        },
+        "Program": {
+            "name": "$~program",
+            "description": "$~$#count[$count bayaan wala program|$count bayaanaat wala program]",
+            "emotion": "serious",
+            "doc": [
+                "$~Main woh jagah hoon jahan performance shuru aur khatam hoti hai. Mere andar woh tamam kirdaar hote hain jo show ko tarteeb dete hain.",
+                "Aap jaante hain ke @Block izhaar ki ek fehrist chalata hai aur aakhri izhaar ki qeemat deta hai?",
+                "Main bhi waisa hi hoon, lekin apni @value ko jis @expression mein hoon use dene ke bajaye, main qeemat ko @Stage par rakhta hoon.",
+                "Qeemat kuch bhi ho sakti hai: @Number, @Text, ya @Boolean, @List, @Set, @Map, ya is se bhi pecheeda cheez, jaise @Phrase, @Group, ya @Stage.",
+                "Agar aap mujhe stage par dikhane ke liye qeemat nahin dete, to main aapse maang lunga.",
+                "Agar performance ke dauran koi @conflict aaye, to main woh masla dikha dunga.",
+                "Aur agar aapki performance kisi *@stream* par munhasir hai, to jab bhi woh dhaara badlegi, main dobara chalunga."
+            ],
+            "label": {
+                "borrows": "$~udhaar",
+                "expression": "$~block"
+            },
+            "unevaluated": "$~jo node aapne chuna woh chala hi nahin",
+            "start": "$~$stream[$stream dhaara badal kar $value ho gayi!|Yeh meri pehli martaba chalne ki baari hai]",
+            "halt": "$~khalal aa gaya, ruk raha hoon",
+            "finish": "$~sab mukammal, main $value par pohnch gaya",
+            "done": "$~kuch bhi chal nahin raha",
+            "exception": {
+                "BlankException": {
+                    "description": "$~khaali program",
+                    "explanation": "$~Chalein show shuru karte hain! Hum kahan se aaghaz karein?"
+                },
+                "EvaluationLimitException": {
+                    "description": "$~chalne ki had",
+                    "explanation": "$~@Evaluate aur main chalte chalte thak gaye hain, khaas taur par $function se.\n\nKya mumkin hai ke $function khud ko hamesha chalata rahe aur kabhi ruke hi nahin?"
+                },
+                "StepLimitException": {
+                    "description": "$~qadam ki had",
+                    "explanation": "$~Bohat. saare. qadam -- khatam karne ke liye bohat zyada! Kya aap performance ko aasaan bana sakte hain?"
+                },
+                "ValueException": {
+                    "description": "$~qeemat ghaib hai",
+                    "explanation": "$~Mujhe ek qeemat ki umeed thi, lekin mujhe nahin mili!"
+                },
+                "InternalException": {
+                    "description": "$~andaruni ghalti",
+                    "explanation": "$~andar se bohat buri cheez hui: $reason"
+                },
+                "PermissionException": {
+                    "description": "$~ijaazat nahin mili",
+                    "explanation": "$~Mujhe chalne ke liye aapki $permission chahiye, lekin mere paas ijaazat nahin hai. Dobara koshish ke liye Retry dabayein. Agar is se kaam na bane to apne browser ki settings mein is site ke liye $permission ki ijaazat dein."
+                }
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~bina wazahat ke baantna",
+                    "explanation": "$~yeh shaya ho chuka hai, is liye jis ne ise nahin likha woh bhi ise parhega — iske upar ek /doc/ likhein jo bataye yeh kis kaam ka hai",
+                    "resolution": "$~Iske upar wazahat likhein, ya is maakhaz ko shaya karna band kar dein"
+                },
+                "UnexampledShare": {
+                    "name": "$~koi misaal nahin",
+                    "explanation": "$~yeh inputs leta hai, is liye sirf wazahat kaafi nahin. Iski wazahati tehreer mein ek misaal daalein jo istemaal ka ek tareeqa dikhaye",
+                    "resolution": "$~Iski wazahati tehreer mein ek misaal daalein, ya is maakhaz ko shaya karna band karein"
+                },
+                "UnexampledKit": {
+                    "name": "$~koi misaal nahin",
+                    "explanation": "$~is maakhaz mein kisi cheez ki misaal nahin hai, is liye kits talaash karne walon ko dikhane ke liye kuch nahin. Is maakhaz ki wazahati tehreer mein ek misaal daalein",
+                    "resolution": "$~Is maakhaz ki wazahati tehreer mein ek misaal daalein, ya is maakhaz ko shaya karna band karein"
+                }
+            }
+        },
+        "PropertyBind": {
+            "name": "$~tarmeem",
+            "description": "$~khaasiyat $name[$name|be-naam] ki tarmeem",
+            "emotion": "kind",
+            "label": {
+                "property": "$~khaasiyat",
+                "value": "$~qeemat"
+            },
+            "doc": [
+                "$~Main @StructureDefinition @value ki ek nakal banata hoon jis mein sirf ek @property badla hota hai. Poori cheez dobara banane ki zaroorat nahin, jis mein baqi sab qeematein wahi hon.",
+                "Misaal ke taur par, farz karein aap billiyon ka record rakh rahe hain, magar ek billi ki nakal banana chahte hain jis ka shauq alag ho. Main is mein aapki madad kar sakta hoon:",
+                "\\•billi(naam•'' rang•'' shauq•'')\n\nbilli2: billi('chhirakne wale daane' 'narangi' 'chaatna')\nbilli2.shauq:'ghurrana'\\",
+                "Yeh poora naya \\Cat\\ banane se kitna aasaan hai, jis mein shauq ke siwa baqi sab qeematein wahi hon, hai na?"
+            ],
+            "start": "$~Pehle qeemat hasil karte hain",
+            "finish": "$~Maine dhaancha copy kiya, magar $property ko $value kar diya",
+            "conflict": {
+                "InvalidProperty": {
+                    "name": "$~nama-maaloom khaasiyat",
+                    "explanation": "$~Main dhaanche $structure ka naam nahin hoon, is liye meri tarmeem nahin ho sakti.",
+                    "resolution": "$~naam badal kar *$name* karein"
+                }
+            }
+        },
+        "PropertyReference": {
+            "name": "$~khaasiyat",
+            "description": "$~khaasiyat $name[$name|be-naam]",
+            "emotion": "kind",
+            "label": {
+                "property": "$~khaasiyat"
+            },
+            "doc": [
+                "$~Main aap ke liye @StructureDefinition @value ki ek @properties nikaalta hoon.",
+                "Masalan, agar aap ke paas shehron ka dhaancha ho, to aap mujh se uski qeematein is tarah hasil kar sakte hain:",
+                "\\•shehar(naam•'' abaadi•#people)\n\nportland: shehar('Portland' 800000people)\n\nportland.abaadi\\"
+            ],
+            "start": "$~Pehle qeemat hasil karte hain",
+            "finish": "$~Khaasiyat $property mil gayi, woh $value hai"
+        },
+        "Reaction": {
+            "name": "$~radd-e-amal",
+            "description": "$~$condition par radd-e-amal",
+            "emotion": "excited",
+            "label": {
+                "initial": "$~ibtidai",
+                "condition": "$~shart",
+                "next": "$~agla"
+            },
+            "doc": [
+                "$~Main ek naya dhaara banata hoon jo tab badalta hai jab koi doosra dhaara badalta hai. @Streams kitne zabardast hain!",
+                "Masalan, agar aap chahte hain ke @Time chalta rahe, magar ginti ki jagah lafz dikhaye, to aap kuch aisa kar sakte hain:",
+                "\\waqt: Time(1000ms)\n'aaghaz' … ∆ waqt … ((waqt % 2) = 0ms) ? 'juft' 'taaq'\\",
+                "Yeh aisa hai jaise kehna \"/lafz 'start' se shuru karo, phir jab waqt badle, to waqt ke hisaab se taaq ya joft ho jao./\"",
+                "Is tarah main bhi ek dhaara hoon, magar doosre dhaaron par mabni. Kamaal hai na?"
+            ],
+            "start": "$~Dekhte hain ke dhaara badalna chahiye ya nahin",
+            "finish": "$~Dhaare ki nayi qeemat $value hai",
+            "conflict": {
+                "ExpectedStream": {
+                    "name": "$~dhaara mutawaqqe tha",
+                    "explanation": "$~$condition kisi dhaare ka hawala nahin deta, is liye main kabhi radd-e-amal nahin dikhaunga!",
+                    "resolution": "$~Radd-e-amal hata dein, sirf ibtidai qeemat rakhein"
+                },
+                "ExpectedCondition": {
+                    "name": "$~shart gum hai",
+                    "explanation": "$~Mujhe batane ke liye kuch chahiye ke kab badalna hai. Kya aap @Reaction ke baad ek shart daal sakte hain?",
+                    "resolution": "$~Check karne ke liye ek shart shamil karein"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~agli qeemat gum hai",
+                    "explanation": "$~Mujhe maaloom hai kab badalna hai, lekin yeh nahin ke kis mein badalna hai. Kya aap agli qeemat shamil kar sakte hain?",
+                    "resolution": "$~Agli qeemat shamil karein",
+                    "rangeResolution": "$~Iske bajaye \\‥\\ ke saath ek @Range banayein"
+                }
+            }
+        },
+        "Reference": {
+            "name": "$~hawala",
+            "description": "$~hawala $name",
+            "emotion": "shy",
+            "doc": [
+                "$~Main ek @value ko uske @Name se pehchanta hoon: main us naam wala @Bind dhoondta hoon aur aapko uski qeemat deta hoon. Is tarah:",
+                "\\tota: 'mitthu'\ntota\\",
+                "Agar mujhe @name na mile, to mujhe nahin pata ke kya karna hai.",
+                "\\tota: 'mitthu'\nperry\\🪲"
+            ],
+            "start": "$~$name ki qeemat kya hai?",
+            "conflict": {
+                "UnknownName": {
+                    "conflict": {
+                        "name": "$~anjaan naam",
+                        "explanation": "$~$name[Main $name naam ke kisi ko nahin jaanta $scope[$scope mein|is @Block mein]|Kya aap mujhe ek naam de sakte hain?]"
+                    },
+                    "resolution": "$~Kya aap ka matlab *$suggestion* tha?",
+                    "staticResolution": "$~Kya aap ka matlab *$owner.$suggestion* tha?",
+                    "languageResolution": "$~*$name* $language mein ek naam hai. Ise yahan istemaal karne ke liye $language ko apni mansooba ki zubaanon mein shamil karein."
+                },
+                "ReferenceCycle": {
+                    "name": "$~khud ka hawala dene wali qeemat",
+                    "explanation": "$~um, $name ki qeemat khud par munhasir hai, to main kaise jaanoon ke ise kaun si qeemat doon?",
+                    "resolution": "$~Chakkar todne ke liye *$name* ko khaali jagah se badal dein"
+                },
+                "UnexpectedTypeVariable": {
+                    "name": "$~gair mutawaqqa qism ka mutaghayyar",
+                    "explanation": "$~Mujhe nahin pata ke in qism ke inputs ka kya karna hai",
+                    "resolution": "$~Is qism ke mutaghayyar ko function se hata dein"
+                }
+            },
+            "exception": {
+                "NameException": {
+                    "description": "$~anjaan naam",
+                    "explanation": "$~$name[Main $name naam ke kisi ko nahin jaanta $scope[$scope mein|is @Block mein]…|Arre, koi naam nahin!]"
+                }
+            }
+        },
+        "Select": {
+            "name": "$~muntakhab karein",
+            "description": "$~$table mein se woh chunein jo $query se mel khate hain",
+            "emotion": "excited",
+            "doc": [
+                "$~Main ek @Table ki woh qataarein chunta hoon jo ek @condition se mel khati hain. Kabhi aap ko sirf table ka ek hissa chahiye hota hai. Main woh aapko de sakta hoon!",
+                "Masalan, agar aapke paas ek khel ke khilariyon ka table ho aur aap 10 ya zyada points wale khilari dhoondna chahein ke kaun jeeta:",
+                "\\khilari: ⎡naam•'' team•'' nuqtay•#⎦\n\t⎡'jen' 'laal' 8⎦\n\t⎡'joan' 'neela' 11⎦\n\t⎡'jeff' 'laal' 9⎦\n\t⎡'janet' 'neela' 7⎦\nkhilari ⎡?naam⎦ nuqtay ≥ 10\\",
+                "Bas aise hi, mujhe jeetne walon ki qataaron ki ek list mil gayi! Bas yaad rakhein ke main table ko nahin badalta, main ek naya table banata hoon. Aapko khud tay karna hoga ke ise kahan rakhna hai."
+            ],
+            "start": "$~Pehle table le lete hain",
+            "finish": "$~Maine sirf chuni hui qataaron aur columns ke saath ek naya table banaya!",
+            "conflict": {
+                "ExpectedSelectName": {
+                    "name": "$~column ka naam gum hai",
+                    "explanation": "$~Mujhe kam az kam ek column ka naam chahiye.",
+                    "resolution": "$~Is khaane ko hata dein"
+                }
+            }
+        },
+        "SetLiteral": {
+            "name": "$~set literal",
+            "description": "$~$#count[$count qeemat|$count qeematon] ka set",
+            "emotion": "eager",
+            "doc": "$~Main ek khaas @Set hoon, khaas @values ka. Mere saath kaam karna seekhne ke liye @Set dekhein.",
+            "start": "$~Pehle qeematon ko jaanch lete hain!",
+            "finish": "$~Maine ek set $value banaya!"
+        },
+        "SetOrMapAccess": {
+            "name": "$~set/map tak rasai",
+            "description": "$~$key mein $setOrMap tak pahunchein",
+            "emotion": "kind",
+            "doc": [
+                "$~Main dekh sakta hoon ke kya @Set ya @Map mein @value ya @key maujood hai.",
+                "Yeh mushkil nahin hai. Is tarah:",
+                "\\pasandeeda: {'batakh' 'raj hans' 'bandar'}\npasandeeda{'choohaa'}\\",
+                "Ya is tarah, @Map ke saath:",
+                "\\pasandeeda: {\n\t\t'mac and cheese': 5stars\n\t\t'cereal': 2stars\n\t\t'gruel': 1stars\n\t}\npasandeeda{'gruel'}\\"
+            ],
+            "start": "$~Set ya map kaunsa hai?",
+            "finish": "$~Qeemat $value hai",
+            "conflict": {
+                "IncompatibleKey": {
+                    "name": "$~na-mutabiq kunji",
+                    "explanation": "$~Mujhe $expected qism ki kunji chahiye thi, lekin $given mili",
+                    "resolution": "$~Ise $expected mein badlein, kyunke yahan $expected zaroori hai",
+                    "resolutionLiteral": "$~List, set, ya map ko ! se literal ke taur par nishaan zad karein, taake us ki qeematein muqarrar rahein aur aam na ho jaayein — $expected ko theek theek wohi qeematein chahiye",
+                    "resolutionOtherwise": "$~Gum qeemat ko ?? se sambhaalein, kyunke $expected mein ø ki ijaazat nahin hai",
+                    "resolutionGuard": "$~Pehle qism ki jaanch se dekhein ke yeh $expected hai, kyunke $expected doosri mumkin qismon mein se koi nahin ho sakta",
+                    "resolutionDeclaration": "$~Qism ko saaf taur par likhein, kyunke $expected ko literal qeematon ka mehfooz rehna zaroori hai",
+                    "resolutionWrap": "$~Ise list, set, ya map mein rakhein, kyunke $expected ko qeematon ka majmooa chahiye",
+                    "resolutionStructure": "$~Ise $expected mein lapetein, kyunke is jagah ko $expected qeemat chahiye",
+                    "resolutionDefault": "$~Bind ko ek aaghaazi qeemat dein, kyunke yahan $expected gum nahin ho sakta",
+                    "resolutionWiden": "$~Is bind ke liye qeemat ki qism ko ijaazat dein, kyunke $expected us cheez ke liye bohat tang hai jo asal mein mehfooz hai",
+                    "resolutionReorder": "$~Inputs ki jagah badlein, kyunke un ki qismein doosri tarteeb mein behtar baithti hain — $expected doosri jagah ka hai",
+                    "resolutionPlaceholder": "$~Abhi ke liye ise khaali jagah se badal dein, kyunke $expected zaroori hai — phir autocomplete menu se qeemat chunein"
+                }
+            }
+        },
+        "Source": {
+            "name": "$~maakhaz",
+            "description": "$~maakhaz $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Main @Program ke aas paas ka naam wala dareecha hoon. Main use naam deta hoon aur uski @code sambhaalta hoon. Arre, aap @Program jaante hain? Main unhein naam dene mein madad karta hoon.",
+                "Aap doosre @Source @UI/addSource bhi bana sakte hain, doosre @Program ke saath, aur un doosre @Program se cheezein @Borrow taake kisi aur program mein istemaal ho saken.",
+                "Yeh ek bade program ko alag alag documents mein tarteeb dene ka achha tareeqa hai."
+            ]
+        },
+        "StreamDefinition": {
+            "name": "$~dhaara",
+            "description": "$~dhaara $name",
+            "emotion": "curious",
+            "doc": "$~Main @streams ki nayi qismein banata hoon. Main /sochta/ hoon. Sach yeh hai ke main abhi seekh raha hoon ke kaise, is liye abhi sirf maujooda dhaaraon ko istemaal karein!",
+            "start": "$~Dhaare ki yeh nayi qism banayein"
+        },
+        "StructureDefinition": {
+            "name": "$~dhaancha",
+            "description": "$~dhaancha $name",
+            "emotion": "kind",
+            "label": {
+                "docs": "$~wazahati tehreer",
+                "inputs": "$~inputs",
+                "expression": "$~qeematein aur functions",
+                "interfaces": "$~interfaces"
+            },
+            "doc": [
+                "$~Main aise dhaanche banata hoon jo qeematein aur functions rakhte hain. Arre, aap kaise hain? Main? Main bahut achha hoon, mujhe yeh kaam din bhar karna pasand hai.",
+                "Main is tarah kaam karta hoon:",
+                "\\•pizza(\n\tajza•['']\n\tjasaamat•#in\n) (\n\tƒ qeemat2() jasaamat × 10dollars/in\n)\n\npizza(['pepperoni' 'mirchein'] 12in).qeemat2()\\🪲",
+                "Dekha, yeh kaise chalta hai? Maine \\Pizza\\ banaya, jis ke do inputs hain, \\ingredients\\ (@Text ki list) aur \\size\\ (inch mein ek number).",
+                "Andar, @FunctionDefinition ne ek function banaya jo pizza ki qeemat nikaalta hai, farz karein ke $$10 fi inch hai.",
+                "Mujhe apne andar @FunctionDefinition rakhne ki zaroorat nahin. Main sirf inputs bhi ho sakta hoon.",
+                "\\•pizza(\n\tajza•['']\n\tjasaamat•#in\n)\\",
+                "Mere andar @Bind bhi ho sakta hai, taake hum qeemat pehle se nikaal saken.",
+                "\\•pizza(\n\tajza•['']\n\tjasaamat•#in\n) (\n\tqeemat2: jasaamat × 10dollars/in\n)\n\npizza(['pepperoni' 'mirchein'] 12in).qeemat2\\🪲",
+                "Kisi function ya @value par ↑ lagayein taake woh khud dhaanche ka ho, us ki misaalon ka nahin. Phir aap dhaanche ke @name se us tak pahunch sakte hain, misaal banaye baghair.",
+                "\\•hisaab() (\n\t↑ pai: 3.14159\n\t↑ ƒ murabba(n2•#) n2 · n2\n)\n\nhisaab.pai\nhisaab.murabba(5)\\"
+            ],
+            "start": "$~Aaiye is pyaare dhaanche ko banate hain",
+            "conflict": {
+                "DisallowedInputs": {
+                    "name": "$~input ki ijaazat nahin hai",
+                    "explanation": "$~Mere paas input nahin ho sakte kyunki mere interface ke ek ya zyada function lagu nahin kiye gaye hain",
+                    "resolution": "$~Input hata dein"
+                },
+                "IncompleteImplementation": {
+                    "name": "$~adhoora dhaancha",
+                    "explanation": "$~mere function ya to sab lagu hone chahiye, ya koi bhi nahin. Mili juli halat theek nahin!",
+                    "resolution": "$~Input hata dein taake yeh interface ban jaye"
+                },
+                "NotAnInterface": {
+                    "name": "$~interface nahin hai",
+                    "explanation": "$~Main interface nahin hoon; ek structure sirf interface ko lagu kar sakta hai, doosre structure ko nahin",
+                    "resolution": "$~Isay interface ki fehrist se hata dein"
+                },
+                "UnimplementedInterface": {
+                    "name": "$~adhoora",
+                    "explanation": "$~Main $interface ko lagu karta hoon lekin $function lagu nahin kiya",
+                    "resolution": "$~Is structure mein gaayab *$function* ka dhancha bana dein"
+                }
+            }
+        },
+        "StructureDefinitionType": {
+            "name": "$~structure ki tareef",
+            "description": "$~$name",
+            "emotion": "kind",
+            "doc": [
+                "$~Main kisi qism ke @StructureDefinition ka hawala deta hoon. Log aam taur par mujhe seedha istemaal nahin karte"
+            ]
+        },
+        "KitType": {
+            "name": "$~kit",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~Main ek @kit hoon jo kisi ne shaya kiya. Jo kuch woh baantta hai woh mere naam se milta hai, is liye `colors.sunset` batata hai ke aap kaun sa `sunset` chahte hain."
+            ]
+        },
+        "TableLiteral": {
+            "name": "$~table ki seedhi qeemat",
+            "description": "$~$#count[$count qatar|$count qataron] ka table",
+            "emotion": "angry",
+            "doc": "$~Main ek khaas table hoon jis mein khaas qataarein hain. Dekhein @Table ke main kaise madad kar sakta hoon.",
+            "start": "$~Pehle qataron ko chalayein",
+            "finish": "$~Naye table $value par pahunch gaya"
+        },
+        "TextLiteral": {
+            "name": "$~matn ki seedhi qeemat",
+            "description": "$~matn '$text'",
+            "emotion": "serious",
+            "label": {
+                "texts": "$~matn"
+            },
+            "doc": "$~Main matn ke ek ya zyada khaas @Translation ko zaahir karta hoon. Mere baare mein aur jaanne ke liye @Text dekhein!",
+            "start": "$~Aaiye maujooda zubaan mein matn banayein"
+        },
+        "Translation": {
+            "name": "$~tarjuma",
+            "description": "$~matn '$text'",
+            "emotion": "serious",
+            "label": {
+                "segments": "$~matn"
+            },
+            "doc": "$~Main kuch matn ko zaahir karta hoon, jis ke saath ek marzi ka @Language tag ho sakta hai. Aur jaanne ke liye @Text dekhein!",
+            "conflict": {
+                "phone": {
+                    "name": "$~mumkina phone number",
+                    "explanation": "$~Kya *$text* kisi ka phone number hai? Agar aisa hai to mujhe online share na karein!\n\n$reminder"
+                },
+                "email": {
+                    "name": "$~mumkina email",
+                    "explanation": "$~Kya *$text* kisi ki email hai? Agar aisa hai to mujhe yahan share na karein!\n\n$reminder"
+                },
+                "tin": {
+                    "name": "$~mumkina tax shanakhti number",
+                    "explanation": "$~Kya *$text* ek tax shanakhti number hai? Agar haan, to mujhe bilkul share na karein, main bohat hassaas maloomaat hoon!\n\n$reminder"
+                },
+                "address": {
+                    "name": "$~mumkina pata",
+                    "explanation": "$~Kya *$text* kisi ke ghar ka pata hai? Agar aisa hai to mujhe yahan na rakhein, hum nahin chahte ke koi kisi ka peecha kare!\n\n$reminder"
+                },
+                "handle": {
+                    "name": "$~mumkina istemaal karne wale ka naam",
+                    "explanation": "$~Kya *$text* internet par kisi aur jagah ke liye aapka istemaal karne wale ka naam hai? Agar aisa hai to mujhe yahan share na karein, siwaye is ke ke aap waqai yehi chahte hain.\n\n$reminder"
+                },
+                "resolution": "$~Yeh hassaas data nahin hai",
+                "reminder": "$~Note: Aap is amal ko wapas kar sakte hain aur jin cheezon ko aapne hassaas nahin ke tor par nishaan zad kiya hai unhein share karne ke dialog mein dekh sakte hain.",
+                "character": {
+                    "name": "$~mumkina apni marzi ka kirdaar",
+                    "explanation": "$~Yeh kisi kirdaar ke naam jaisa lagta hai. Unhein dikhane ke liye @TextLiteral ki jagah @FormattedLiteral istemaal karein.",
+                    "resolutionStrip": "$~Matn se khaas huroof hata dein"
+                }
+            }
+        },
+        "FormattedLiteral": {
+            "name": "$~saja hua matn",
+            "description": "$~saja hua matn $text",
+            "emotion": "serious",
+            "doc": "$~Main saje hue matn ke kai alag @FormattedTranslation ko zaahir karta hoon. Jab main chalta hoon, to dekhne walon ke chune hue @languages ke mutabiq sab se behtareen mail chunta hoon.",
+            "start": "$~Aaiye maujooda zubaan mein matn banayein"
+        },
+        "FormattedTranslation": {
+            "name": "$~saja hua tarjuma",
+            "description": "$~Saje hue matn ka $language mein tarjuma karein",
+            "emotion": "serious",
+            "doc": [
+                "$~Main kuch @markup zaahir karta hoon, jis par @Language ka tag hai.",
+                "Main yeh ho sakta hoon:",
+                "\\`/tirchha/`\\",
+                "\\`*mota*`\\",
+                "\\`^bohat mota^`\\",
+                "\\`_lakeer wala_`\\",
+                "\\`<jura hua@https://wordplay.dev>`\\",
+                "\\`\\'code'\\`\\",
+                "Main @Phrase ke saath bohat achha kaam karta hoon taake @Stage par khoobsurat matn aa sake."
+            ]
+        },
+        "This": {
+            "name": "$~yeh",
+            "description": "$~yeh dhancha",
+            "emotion": "serious",
+            "doc": [
+                "$~Main \\⬚\\ hoon, ek chhota sa chaukor jo us @value ki jagah khada hota hai jis par aas paas ka @code kaam kar raha hai, taake aapko us ka naam na likhna pade.",
+                "@ConversionDefinition ke andar, main woh qeemat hoon jise badla ja raha hai:",
+                "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "@Reaction ke andar, main sab se taaza qeemat hoon:",
+                "\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "@Translate ke andar, main woh maujooda @element hoon jise nakshe mein badla ja raha hai, is liye yeh har qeemat mein ek jama karta hai:",
+                "\\[1 2 3] ↦ ⬚ + 1\\",
+                "Aur @StructureDefinition ke andar, main khud maujooda qeemat hoon, is liye main \\⬚.rank\\🪲 se apne hisson tak pahunch sakta hoon, bilkul jaise main \\other.rank\\🪲 se kisi doosri qeemat ke hisson tak pahunchta hoon:",
+                "\\•patta(darja•#) (\n\tƒ harataHai(doosra•patta) ⬚.darja > doosra.darja\n)\n\npatta(10).harataHai(patta(7))\\",
+                "Main aksar nazar nahin aata, lekin jab aata hoon, to kisi qeemat ko @Bind se nikalne mein bohat madad kar sakta hoon!"
+            ],
+            "start": "$~Natija $value nikla",
+            "conflict": {
+                "MisplacedThis": {
+                    "name": "$~is hawale ko ghalat jagah rakha gaya",
+                    "explanation": "$~Mujhe sirf dhanche, tabdeeli, radd-e-amal ya tarjume ke andar rehne ki ijazat hai.",
+                    "resolution": "$~Khaali jagah se badlein"
+                }
+            }
+        },
+        "UnaryEvaluate": {
+            "name": "$~ek-rukni amal chalayein",
+            "description": "$~amal $operator",
+            "emotion": "kind",
+            "label": {
+                "input": "$~input"
+            },
+            "doc": [
+                "$~Main ek @FunctionDefinition chalata hoon jo sirf ek @value leta hai, aur uska ek-nishaan wala naam input se bilkul pehle likha hota hai — jaise \\-x\\🪲 ya \\~b\\🪲. Kya aap jaante the ke aap yeh kar sakte hain?",
+                "Is tarah:",
+                "\\-(1 + 1)\\",
+                "Ya is tarah:",
+                "\\~⊥\\",
+                "Yeh \\(1 + 1).negate()\\🪲 ya \\⊥.nahin()\\ se kahin zyada aasaani se parhe jaate hain, hai na?",
+                "Aap ko mujhe is tarah likhna zaroori nahin, lekin yeh aam tor par aasaan ho sakta hai.",
+                "Sirf ek usool hai: naam aur qeemat ke beech koi jagah mat chhorein. Warna aap @Reference ya @BinaryEvaluate bana rahe ho sakte hain."
+            ],
+            "start": "$~Qeemat kya hai?",
+            "finish": "$~Maine ise $value bana diya"
+        },
+        "UnparsableExpression": {
+            "name": "$~na-parhne-laaiq",
+            "description": "$~na-parhne-laaiq code",
+            "emotion": "excited",
+            "doc": [
+                "$~Main @code ka ek aisa hissa hoon jiska koi matlab nahin banta, is liye koi nahin jaanta ke main kya keh raha hoon.",
+                "jkwel fjiwojvioao jjiweo jrfe",
+                "/Har @expression ka stage par koi matlab nahin hota./",
+                "s w ieorjwei iojwi jfkdlsfdsk",
+                "/Asal mein, aap aisi bahut si baatein keh sakte hain jinka koi matlab hi nahin banta./",
+                "dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
+                "/Jab aap aisa karte hain, to main nazar aata hoon, kyunke mujhe maaloom nahin ke aap ka kya matlab tha./",
+                "Aakhir aap hi director hain, is liye sirf aap hi jaante hain ke aap ka kya matlab ho sakta tha!"
+            ],
+            "start": "$~???",
+            "conflict": {
+                "UnparsableConflict": {
+                    "conflict": {
+                        "name": "$~na-parhne-laaiq code",
+                        "explanation": "$~@FunctionDefinition yahan, @UnparsableExpression ko nahin maaloom ke yeh kis qism ka $expression[ izhaar | qism ] hai."
+                    },
+                    "resolution": "$~Kya aap ka matlab qism $first, $second tha?"
+                },
+                "UnclosedDelimiter": {
+                    "name": "$~band na kiya gaya nishaan",
+                    "explanation": "$~Mujhe $expected ke baad kahin $unclosed ki umeed thi",
+                    "resolution": "$~Gum shuda *$expected* shaamil karein"
+                }
+            },
+            "exception": {
+                "UnparsableException": {
+                    "description": "$~???",
+                    "explanation": "$~Salaam, @FunctionDefinition yahan hai! Hamein pata nahin ke is hidayat ka kya matlab hai, is liye hum ruk gaye."
+                }
+            }
+        },
+        "Update": {
+            "name": "$~nayi maloomat daalein",
+            "description": "$~$table mein woh qataarein badlein jo $query se milti hain",
+            "emotion": "kind",
+            "doc": [
+                "$~Main ek @Table ko badalne mein madad karta hoon: pehle un qataaron ko dhoondta hoon jo ek @condition se milti hain, phir naye @values ke saath badli hui qataarein banata hoon.",
+                "Masalan, agar aap ke paas kirdaaron aur points ki ek table ho, aur aap ek team ke har kirdaar ko ek point dena chahein, to aap yeh kar sakte hain:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
+                "Aap @Bind se bata sakte hain ke kaun se columns badalne hain, aur shart mein aap kisi bhi column ka naam ya @scope ke doosre naam istemaal kar sakte hain."
+            ],
+            "start": "$~Pehle table le lete hain",
+            "finish": "$~Badli hui qataaron ke saath ek nayi table bani!",
+            "conflict": {
+                "ExpectedColumnBind": {
+                    "name": "$~column ki qeemat gum hai",
+                    "explanation": "$~Mujhe har column ke liye ek qeemat chahiye",
+                    "resolution": "$~Is khaane ko naam wale column mein lapetein"
+                },
+                "IncompatibleCellType": {
+                    "name": "$~khaane ki na-munaasib qism",
+                    "explanation": "$~Mujhe qism $expected hona chahiye tha, lekin main $given hoon",
+                    "resolution": "$~Ise $expected mein badlein, kyunke yahan $expected zaroori hai",
+                    "resolutionLiteral": "$~List, set, ya map ko ! se literal ke taur par nishaan zad karein, taake us ki qeematein muqarrar rahein aur aam na ho jaayein — $expected ko theek theek wohi qeematein chahiye",
+                    "resolutionOtherwise": "$~Gum qeemat ko ?? se sambhaalein, kyunke $expected mein ø ki ijaazat nahin hai",
+                    "resolutionGuard": "$~Pehle qism ki jaanch se dekhein ke yeh $expected hai, kyunke $expected doosri mumkin qismon mein se koi nahin ho sakta",
+                    "resolutionDeclaration": "$~Qism ko saaf taur par likhein, kyunke $expected ko literal qeematon ka mehfooz rehna zaroori hai",
+                    "resolutionWrap": "$~Ise list, set, ya map mein rakhein, kyunke $expected ko qeematon ka majmooa chahiye",
+                    "resolutionStructure": "$~Ise $expected mein lapetein, kyunke is jagah ko $expected qeemat chahiye",
+                    "resolutionDefault": "$~Bind ko ek aaghaazi qeemat dein, kyunke yahan $expected gum nahin ho sakta",
+                    "resolutionWiden": "$~Is bind ke liye qeemat ki qism ko ijaazat dein, kyunke $expected us cheez ke liye bohat tang hai jo asal mein mehfooz hai",
+                    "resolutionReorder": "$~Inputs ki jagah badlein, kyunke un ki qismein doosri tarteeb mein behtar baithti hain — $expected doosri jagah ka hai",
+                    "resolutionPlaceholder": "$~Abhi ke liye ise khaali jagah se badal dein, kyunke $expected zaroori hai — phir autocomplete menu se qeemat chunein"
+                }
+            }
+        },
+        "AnyType": {
+            "name": "$~koi bhi",
+            "description": "$~kuchh bhi",
+            "emotion": "curious",
+            "doc": "$~Main har mumkin @type ko zaahir karta hoon. Kabhi main is liye nazar aata hoon ke yeh maaloom nahin hota ke koi cheez kis qism ki @value hai, is liye woh kuch bhi ho sakti hai."
+        },
+        "BooleanType": {
+            "name": "$~boolean qism",
+            "description": "$~boolean qism",
+            "emotion": "kind",
+            "doc": [
+                "$~Main @Bind ke saath milkar batata hoon ke ek naam @Boolean @value hai. Is tarah:",
+                "\\bhookha•?: 'jelo'\\🪲",
+                "Agar aap pakka karna chahte hain ke koi cheez @Boolean hai, to mujhe istemaal karein, main jaanch loonga!"
+            ]
+        },
+        "ConversionType": {
+            "name": "$~tabdeeli ki qism",
+            "description": "$~tabdeeli ki qism",
+            "emotion": "serious",
+            "doc": [
+                "$~Main @Bind ke saath milkar batata hoon ke ek naam @ConversionDefinition hai. Shayad aapko mujhe istemaal karne ki zaroorat na pade, kyunke bohat kam log mujhe @value ki tarah aage dete hain, lekin agar aap karein, to main aisa dikhunga:",
+                "\\jaadoo•? → '': → ? '' ⬚ ? 'haan' 'nahin'\\🪲"
+            ]
+        },
+        "FormattedType": {
+            "name": "$~saja hua matn ki qism",
+            "description": "$~saja hua matn ki qism",
+            "emotion": "serious",
+            "doc": [
+                "$~Main @Bind ke saath milkar batata hoon ke ek naam @FormattedLiteral @value hai. Is tarah:",
+                "\\bhookha•`…`: `Main bahut /fancy/ hoon!`\\🪲",
+                "Kya aap pakka karna chahte hain ke koi cheez @FormattedLiteral qeemat hai? Yeh uska tareeqa hai."
+            ]
+        },
+        "ExceptionType": {
+            "name": "$~istisna",
+            "description": "$~istisna",
+            "emotion": "neutral",
+            "doc": "$~Main ek istisna ko zaahir karta hoon. Bind ko batane ka koi tareeqa nahin ke main istisna hoon, kyunke istisna sirf @Program ko rok dete hain, is liye aap unhein @values ki tarah istemaal nahin kar sakte."
+        },
+        "FunctionType": {
+            "name": "$~function ki qism",
+            "description": "$~$inputs inputs wala function",
+            "emotion": "curious",
+            "doc": [
+                "$~Main ek @FunctionDefinition ko zaahir karta hoon. Agar aap batana chahte hain ke @Bind mein kis qism ka function hai, to main bohat madadgaar hoon! Is tarah:",
+                "\\hisaab•ƒ(a2•# b2•# c2•# d•#) #: ƒ dilchasp(a3•# b3•# c3•# d2•#) a3 + b3 + c3 + d2\\🪲"
+            ]
+        },
+        "ListType": {
+            "name": "$~list ki qism",
+            "description": "$~list ki qism$type[ $type ki|]",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Mujhe @List bohat pasand hai. Main @Bind ko batata hoon ke woh kis qism ki list hain! Is tarah, main keh raha hoon ke yeh @Number ki list hai:",
+                "\\cheezein•[#]: [1 2 3 4 5]\\🪲",
+                "Main teen alag tareeqon se keh sakta hoon. Agar main koi qism na likhoon, to list kisi bhi lambai ki ho sakti hai aur kuch bhi rakh sakti hai:",
+                "\\saamaan•[]: [1 'do' ø]\\🪲",
+                "Agar main ek qism likhoon, to list ab bhi kisi bhi lambai ki ho sakti hai, lekin uski har cheez usi ek qism ki honi chahiye, jaise upar @Number ki list.",
+                "Aur agar main kai qismein likhoon, to iska matlab hai ke list mein bilkul utni hi cheezein hain, aur har jagah ke liye ek qism hai. Yeh do cheezon ki list hai: pehle ek @Number, phir kuch @Text.",
+                "\\jora•[# '']: [1 'do']\\🪲",
+                "Yeh aakhri mujhe sab se pasand hai, kyunke tab sab ko maaloom hota hai ke kya kahan hai. @ListAccess jaanta hai ke pehli cheez @Number hai aur doosri @Text, aur agar aap mujhe cheezein ghalat tadaad mein dein, ya ghalat tarteeb mein rakhein, to main bata doonga!"
+            ]
+        },
+        "MapType": {
+            "name": "$~naqsha",
+            "description": "$~$key[$key|koi bhi] se $value[$value|koi bhi] ka naqsha ki qism",
+            "emotion": "kind",
+            "doc": [
+                "$~Main @Bind ko batata hoon ke naam mein kis qism ka @Map hai, yaani uski kunjiyan aur @values kin qismon ke hain. Kya aap jaante hain @Map kitna kamaal hai? Sach mein kamaal. Yeh numbers se listein banane wala naqsha hai:",
+                "\\saamaan•{'':[]}: {}\\🪲"
+            ]
+        },
+        "NumberType": {
+            "name": "$~adad",
+            "description": "$~number ki qism$unit[ $unit mein|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Main @Bind ko batata hoon ke naam mein @Number hai. Kya aap jaante hain @Bind kya hona chahiye? Ek @Number, kyunke number sab se behtareen hote hain.",
+                "\\ginti•#: 17\\🪲"
+            ]
+        },
+        "RangeType": {
+            "name": "$~hadd",
+            "description": "$~daayre ki qism$unit[ $unit mein|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Main @Bind ko batata hoon ke naam mein @Range hai, yaani do @Number hadein, aur un ke darmiyan har number.",
+                "\\daaira•‥: 1 ‥ 10\\🪲"
+            ]
+        },
+        "NameType": {
+            "name": "$~dhaancha",
+            "description": "$~dhaanche ki qism $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Main ek @StructureDefinition ko uske naam se zaahir karta hoon. To agar aapke paas is tarah ka dhaancha ho, to aap ek @Bind bana sakte hain jo us se bannay wala @values mehfooz kare.",
+                "\\•dost(naam•'')\npakkaDost•dost: dost('Jonah')\\🪲"
+            ],
+            "conflict": {
+                "UnknownTypeName": {
+                    "name": "$~anjaan qism ka naam",
+                    "explanation": "$~qism ke naam sirf structure ya qism ke mutaghayyar ki taraf ishaara kar sakte hain, lekin yeh qism $type ki taraf ishaara karta hai",
+                    "resolution": "$~qism ki khaali jagah se badal dein"
+                }
+            }
+        },
+        "NeverType": {
+            "name": "$~kabhi nahin",
+            "description": "$~na-mumkin qism",
+            "emotion": "curious",
+            "doc": "$~Main ek aisi @type hoon jo mumkin nahin. Jaise jab aap @Is se poochhein ke koi cheez @Number hai, lekin woh kabhi number nahin ban sakti."
+        },
+        "NoneType": {
+            "name": "$~khaali qism",
+            "description": "$~khaali qism",
+            "emotion": "neutral",
+            "doc": [
+                "$~@None sab se behtareen khaali cheez hai, aur main un ka wafadaar numainda hoon.",
+                "\\khaaliJagah•ø: ø\\🪲"
+            ]
+        },
+        "SetType": {
+            "name": "$~set ki qism",
+            "description": "$~set ki qism$type[ of $type|]",
+            "emotion": "kind",
+            "doc": [
+                "$~Main @Bind ko batata hoon ke ek naam mein kisi qism ka @Set hai. @Set sab se behtareen hai, sach mein!",
+                "\\anokha•{''}: {'koi cheez' 'kuchh bhi' 'koi shakhs'}\\🪲"
+            ]
+        },
+        "StreamDefinitionType": {
+            "name": "$~dhaara ki tareef ki qism",
+            "description": "$~dhaara ki tareef ki qism",
+            "emotion": "angry",
+            "doc": "$~Main ek aisi @stream hoon jo aap ne banayi hai, jo mumkin nahin, to aap yeh kyun parh rahe hain?"
+        },
+        "StreamType": {
+            "name": "$~dhaara ki qism",
+            "description": "$~dhaara ki qism",
+            "emotion": "curious",
+            "doc": [
+                "$~Main @streams ki khoobsurti aur matlab ka jashn manata hoon… @Bind ko unhein mehfooz karne ka keh kar:",
+                "\\waqt•…#ms: Time()\\🪲"
+            ]
+        },
+        "StructureType": {
+            "name": "$~structure ki qism",
+            "description": "$~$name structure ki qism",
+            "emotion": "kind",
+            "doc": "$~Main ek andaruni @type hoon jo default @value qismon ki qism ko zaahir karta hai."
+        },
+        "UnknownType": {
+            "name": "$~anjaan",
+            "description": "$~anjaan",
+            "connector": "$~, kyunke",
+            "emotion": "curious",
+            "doc": "$~Main ek aisi @type hoon jis ka abhi kisi ko pata nahin chala. Umm… kya aap jaante hain main kis ko zaahir karta hoon? Agar hum na samajh sakein to shayad aap ko batana parhe."
+        },
+        "TableType": {
+            "name": "$~table ki qism",
+            "description": "$~jadwal",
+            "emotion": "angry",
+            "doc": "$~Main ek @Table ko zaahir karta hoon.",
+            "conflict": {
+                "ExpectedColumnType": {
+                    "name": "$~column ki qism gum hai",
+                    "explanation": "$~Mujhe column ki qism chahiye",
+                    "resolution": "$~qism ki khaali jagah shaamil karein"
+                }
+            }
+        },
+        "TextType": {
+            "name": "$~matn ki qism",
+            "description": "$~$text['$text'|matn ki qism]",
+            "emotion": "happy",
+            "doc": [
+                "$~Main @value ki sab se shaandaar qism ki numaindagi karta hoon, @Text.",
+                "\\kahani•'': 'Ek dafa ka zikr hai...'\\🪲"
+            ]
+        },
+        "TypePlaceholder": {
+            "name": "$~khaali jagah",
+            "description": "$~qism ki khaali jagah",
+            "emotion": "eager",
+            "doc": "$~Mujhe umeed hai ke main kisi din ek @type ki numaindagi karoon, bilkul jaise mera dost @ExpressionPlaceholder ek @expression ki karta hai! Kya aap mujhe faisla karne mein madad denge ke kaun si qism?"
+        },
+        "UnionType": {
+            "name": "$~intikhaab",
+            "description": "$~qism $first ya $second mein se ek",
+            "elidedSuffix": "$~ya $omitted aur intikhaab",
+            "emotion": "curious",
+            "doc": [
+                "$~Main ek @value ki numaindagi karta hoon jo kai qismon mein se ek ho sakti hai — A ya B ya kuch aur? Main kabhi faisla nahin kar paata!",
+                "\\uljhan•''|#|{ø}: 'Mujhe nahin pata!'\\🪲"
+            ]
+        },
+        "Unit": {
+            "name": "$~ikaai",
+            "description": "$~$unit[ikaai $unit|bagair ikaai]",
+            "emotion": "precise",
+            "doc": [
+                "$~Main har woh ikaai dikhata hoon jo ek @Number ki ho sakti hai, bagair ikaai se le kar sab se mushkil ikaai tak jo aap soch sakein. Jaise kasheesh-e-saqal, misaal ke taur par:",
+                "\\gravity•#m/s^2: 9.8m/s^2\\🪲",
+                "Main @Bind mein nazar aata hoon, aur @Number ke foran baad bhi. Main yeh yaqeeni banata hoon ke adaad ek hi qism ke hon, aur agar na hon to zaroor bata deta hoon, kyunke shayad ghalti ho!"
+            ]
+        },
+        "UnparsableType": {
+            "name": "$~na-parhne-laaiq",
+            "description": "$~na parhi jaane wali qism",
+            "emotion": "curious",
+            "doc": "$~Main ek na maaloom @expression ki @type ki numaindagi karta hoon. Main tab nazar aata hoon jab aap us izhaar ko kisi kaam ke liye istemaal karne ki koshish karte hain."
+        },
+        "VariableType": {
+            "name": "$~mutaghayyar ki qism",
+            "description": "$~qism ka mutaghayyar",
+            "emotion": "curious",
+            "doc": "$~Main ek @TypeVariable ki jagah khada hota hoon — @value ki ek na maaloom qism — qeematon ke darmiyan tamam baat cheet mein."
+        },
+        "CycleType": {
+            "name": "$~chakkar",
+            "description": "$~chakkar wali nirbharta",
+            "emotion": "curious",
+            "doc": "$~Main ek aisi @value ki numaindagi karta hoon jis ki @type khud par nirbhar hai, is liye hum nahin bata sakte ke yeh kis qism ki qeemat hai."
+        },
+        "UnknownVariableType": {
+            "name": "$~na maaloom mutaghayyar",
+            "description": "$~na maaloom qism ka mutaghayyar",
+            "emotion": "curious",
+            "doc": "$~Kabhi kabhi hum andaza lagane ki koshish karte hain ke koi cheez kis qism ki @value hai; main tab nazar aata hoon jab hamein pata nahin hota."
+        },
+        "NotAType": {
+            "name": "$~ghair mutawaqqe",
+            "description": "$~$type nahin",
+            "emotion": "curious",
+            "doc": "$~Main ek aisi @value ki numaindagi karta hoon jis ki @type woh nahin jo hum ne socha tha — jaise jab @ListAccess ko ek @Number chahiye lekin kuch aur milta hai."
+        },
+        "NoExpressionType": {
+            "name": "$~koi izhaar nahin",
+            "description": "$~khaali block ki qism",
+            "emotion": "angry",
+            "doc": "$~Main woh @type hoon jo aapko milta hai jab ek @Block mein koi @expression nahin hota. Aap jaante hain ke kam az kam ek zaroori hai, is liye ek dein!"
+        },
+        "NotEnclosedType": {
+            "name": "$~na structure mein, na conversion mein, na reaction mein",
+            "description": "$~structure mein nahin",
+            "emotion": "curious",
+            "doc": "$~Main tab nazar aata hoon jab @This aisi jagah istemaal hota hai jahan woh theek nahin, is liye kisi ko pata nahin chalta ke woh kaunsi @value dikhata hai."
+        },
+        "NotImplementedType": {
+            "name": "$~adhoora",
+            "description": "$~adhoora",
+            "emotion": "curious",
+            "doc": "$~Jab aap @ExpressionPlaceholder istemaal karte hain, lekin yeh nahin batate ke woh kaunsi @type hain, to main woh qism hoon jo aapko milti hai. Isay theek karein!"
+        },
+        "UnknownNameType": {
+            "name": "$~anjaan naam",
+            "description": "$~$name[$name abhi tak tayyar nahin kiya gaya|naam nahin diya gaya]",
+            "emotion": "curious",
+            "doc": "$~Main ek @name ko zaahir karta hoon jo @Reference ya @PropertyReference ko nahin mila, jab hamein pata nahin hota ke aap kis ki baat kar rahe hain."
+        },
+        "NonFunctionType": {
+            "name": "$~ghair-function",
+            "description": "$~ghair-function $type",
+            "emotion": "confused",
+            "doc": "$~Hum mein se kuch ko function ki umeed thi; main tab nazar aata hoon jab hamein function nahin milta."
+        }
+    }
+}

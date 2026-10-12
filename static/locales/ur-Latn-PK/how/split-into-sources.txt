@@ -1,0 +1,31 @@
+Mansooba ko maakhaz files mein taqseem karein
+
+Ek mansooba mein ek se zyada @Source ho sakte hain. Data ki lambi list ko alag file mein rakhna
+aapke main program ko chhota rakhta hai, taake woh ek nazar mein parha ja sake.
+
+Farz karein aap ko chunne ke liye rangon ki list chahiye. Ek doosra @Source banayein, us ka naam 
+/ colors / rakhein, aur list wahan likh dein. Naam se pehle \↑\ ka matlab hai / isay baant dein
+mansooba ke baaqi hisson ke saath /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ Yeh / en / naam ke baad batata hai ke naam kis zubaan mein likha hai, taake
+doosri zubaan mein aap ka mansooba parhne wala jaan sake ke woh isay parh sakta hai ya nahin.
+
+Ab apne main @Source mein wapas jaayein aur list ko @Borrow se andar layein. Likhein 
+\↓\ aur phir doosre maakhaz ka naam:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ Is @Source, / colors / ke andar ab yeh us list ko batata hai jo aap ne baanti thi. Jis cheez par bhi aap
+lagayein, \↑\ usay is tarah udhaar liya ja sakta hai: list, number, function, ya structure.
+
+Naya @Source banane ke liye, / maakhaz shamil karein / button mansooba ke neeche hai.
+
+pick-from-a-list, your-own-template

@@ -1052,6 +1052,8 @@
         "eea7bd4500f37": "$~Chaque page du <guide@https://wordplay.dev/guide> a sa propre adresse. Ses onglets et son fil d'Ariane montrent maintenant où se trouve la page que tu lis.",
         "e2cbfa3574467": "$~Le bouton Suivant du navigateur fonctionne maintenant dans le <guide@https://wordplay.dev/guide>. Quand tu ouvres un lien vers une de ses pages, une autre page ne s'affiche plus d'abord.",
         "ed96f186e4b18": "$~Nous avons rendu le code plus facile à lire : \\?\\, \\??\\ et \\???\\ partagent maintenant une couleur, un type qui accepte n'importe quoi s'affiche comme \\◌\\, et un type de plage s'affiche comme \\‥\\ au lieu d'une étiquette orange.",
-        "ea6d52130d864": "$~Les espaces réservés dans le code du <guide@https://wordplay.dev/guide> montrent maintenant leur type en petit et en gris, et seulement quand rien d'autre n'indique ce qui doit s'y trouver."
+        "ea6d52130d864": "$~Les espaces réservés dans le code du <guide@https://wordplay.dev/guide> montrent maintenant leur type en petit et en gris, et seulement quand rien d'autre n'indique ce qui doit s'y trouver.",
+        "eb84dbea56e6e": "$~Tu peux maintenant modifier les exemples de code sur la <page d'accueil@https://wordplay.dev/> et dans le guide, et les voir s'exécuter tout de suite. Le bouton ↺ remet l'exemple d'origine.",
+        "e91e2af40d2f4": "$~Nous avons ajouté l'ourdou romanisé (\\ur-Latn-PK\\), c'est-à-dire de l'ourdou écrit avec des lettres latines ! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
     }
 }

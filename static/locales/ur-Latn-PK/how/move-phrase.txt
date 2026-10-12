@@ -1,0 +1,33 @@
+Kisi harf ko hilne ke qabil banayein
+
+Kabhi kabhi yeh madadgaar hota hai ke aap @Phrase ko keyboard, mouse, ya ungli se hilne ke qabil banayein.
+
+Yeh karne ke liye, hum mila sakte hain @Phrase ke saath @Placement deta hai:
+
+\
+Stage(
+	[Jumla('mujhe hilaain' jagah: Thikana())]
+	jagah: Jagah(0m 0m -10m)
+)
+\
+
+ Keyboard ke teer istemaal karna ya is par click karna @Stage ko tabdeel karega @Placement, jis se @Phrase us simt mein hilega.
+
+Kya aap jaante hain ke @Placement ko is ke saath istemaal kiya ja sakta hai / kisi bhi cheez / ke saath jo leti hai @Place? 
+Misaal ke taur par @Stage mein ek @Place hota hai jo tay karta hai ke is ka camera kahan dekh raha hai.
+Aayein aazmayein ke @Placement ke liye @Stage ki jagah tay karein, aur dekhein kya hota hai.
+
+\
+Stage(
+  [
+	Jumla('🐈' jagah: Jagah(-2m 2m))
+	Jumla('🐈' jagah: Jagah(2m -2m))
+	Jumla('🐈' jagah: Jagah(-1m 3m))
+  ]
+  jagah: Thikana(Jagah(0m 0m -10m))
+)
+\
+
+ Is se camera hilta hai! (Dhyaan dein: hum aaghaz karte hain @Placement ke saath ek \z\ qeemat se \10m\ taake camera har cheez se peeche rahe.)
+
+animated-scene

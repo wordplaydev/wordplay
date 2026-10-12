@@ -1,0 +1,22 @@
+Apna banaya hua character dikhayein
+
+Emoji, huroof aur nishaan bahut achhe hain! Lekin kabhi kabhi aap apne khud ke character banana chahte hain.
+Aap apna character kaise banayein aur dikhayein?
+
+Sab se pehle, is page par character banayein: < Kirdaar @://characters> page. 
+Aap pixel, chaukor, gole aur raaste istemaal kar sakte hain. 
+Usay ek naam dein, uske baare mein likhein, phir aap apna user naam aur character ka naam is tarah istemaal kar sakte hain:
+
+\
+Phrase(`Mera shandaar @username/charactername dekhein!`)
+\
+
+ Yeh user naam aur character ka naam maujood nahin hai, is liye yeh khaali chaukor ki tarah dikhega.
+Apna asli user naam aur character ka naam hi istemaal karein
+
+Dekhein, matn mein quote ke nishaan ki jagah backtick istemaal hua hai? Yeh zaroori hai. 
+Yeh batata hai ke aap saja hua matn istemaal kar rahe hain, aur apne banaye hue character ko dikhane ke liye yeh zaroori hai.
+
+Matn ko saja kar likhne ke baare mein aap mazeed seekh sakte hain: @Phrase na ho.
+
+animate-phrase

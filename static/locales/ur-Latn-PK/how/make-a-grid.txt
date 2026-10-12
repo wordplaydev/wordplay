@@ -1,0 +1,27 @@
+Huroof ka jaal banayein
+
+Agar hum qataarein / aur / sutoon ek hi waqt mein chahein to? Iske liye @Grid hota hai.
+
+Ek @Grid qataaron ki tadaad, sutoon ki tadaad, aur khaanon ke darmiyaan kitni jagah chhorni hai, yeh poochta hai.
+
+\
+Group(Jaal(2 3 0.25m) [
+    Jumla('🍎') Jumla('🍌') Jumla('🍇')
+    Jumla('🥕') Jumla('🥦') Jumla('🌽')
+])
+\
+
+ Yeh 2 by 3 ka phal aur sabzi ka baagh banata hai!
+
+Agar aap chahte hain ke har khaana ek hi naap ka ho, to @Grid ko chaudaai aur unchaai bhi dein. Is tarah huroof apne chaukor khaanon ke andar saaf suthre rehte hain, chahe woh alag alag naap ke hon:
+
+\
+Group(Jaal(2 2 0.1m 1.5m 1.5m) [
+    Jumla('🐈' size: 1m)
+    Jumla('🐶' size: 1.5m)
+    Jumla('🦊' size: 0.5m)
+    Jumla('🐻' size: 2m)
+])
+\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

@@ -11,6 +11,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🎉 `Phrase` has a new `poses` input that gives each letter its own color, tilt, size, or position, taking turns through a list of `Pose`.
 - 🎞️ `Stage` has a new `effects` input that lays film looks over everything on it, like `Blur`, `Grain`, `Wave`, `Damage`, and `Flicker`, with a new how-to in the [Guide](https://wordplay.dev/guide).
 - ✍️ You can now change the code examples on the [home page](https://wordplay.dev/) and in the Guide and watch them run right away, and ↺ puts back the original.
+- 🌐 We added support for Roman Urdu (`ur-Latn-PK`), which is Urdu written with Latin letters! (#1457)
 
 ### Changed
 

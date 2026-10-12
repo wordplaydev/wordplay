@@ -1052,6 +1052,8 @@
         "eea7bd4500f37": "$~Jede Seite des <Leitfadens@https://wordplay.dev/guide> hat jetzt eine eigene Adresse. Die Tabs und die Brotkrumen-Navigation zeigen jetzt, wohin die Seite gehört, die du gerade liest.",
         "e2cbfa3574467": "$~Die Vorwärts-Schaltfläche des Browsers funktioniert jetzt im <Leitfaden@https://wordplay.dev/guide>. Wenn du einen Link zu einer seiner Seiten öffnest, siehst du nicht mehr zuerst eine andere Seite.",
         "ed96f186e4b18": "$~Wir haben Code leichter lesbar gemacht: \\?\\, \\??\\ und \\???\\ haben jetzt dieselbe Farbe, ein Typ, der alles annimmt, wird als \\◌\\ angezeigt, und ein Bereichstyp wird als \\‥\\ statt als orangefarbenes Label angezeigt.",
-        "ea6d52130d864": "$~Platzhalter im Code im <Leitfaden@https://wordplay.dev/guide> zeigen ihren Typ jetzt klein und grau an, und zwar nur dann, wenn nichts anderes sagt, was dort hingehört."
+        "ea6d52130d864": "$~Platzhalter im Code im <Leitfaden@https://wordplay.dev/guide> zeigen ihren Typ jetzt klein und grau an, und zwar nur dann, wenn nichts anderes sagt, was dort hingehört.",
+        "eb84dbea56e6e": "$~Du kannst jetzt die Code-Beispiele auf der <Startseite@https://wordplay.dev/> und im Leitfaden ändern und sofort ansehen, wie sie laufen. Mit ↺ bekommst du das Original zurück.",
+        "e91e2af40d2f4": "$~Wir unterstützen jetzt Roman-Urdu (\\ur-Latn-PK\\). Das ist Urdu, das mit lateinischen Buchstaben geschrieben wird! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
     }
 }

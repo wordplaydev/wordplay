@@ -1,0 +1,54 @@
+Chuni ja sakne wali ikhtiyaarat dikhayein
+
+Kabhi kabhi aap screen par bohat se ikhtiyaarat dikhana chahte hain, aur dekhne walon ke chune hue ikhtiyaar ke mutabiq kuch karna chahte hain. Iske liye hamein do cheezein chahiye:
+
+• Ek ya zyada @Phrase jo chuni ja sakne wali hon aur jin ka alag naam ho (misaal ke taur par, \Jumla('intekhaab 1' chunaJaSakneWala naam: 'ek')\)
+• Us content ki ek @Choice, jo sab se aakhir mein chune gaye @Phrase ke naam mein badal jata hai.
+
+Misaal ke taur par, yahan hum teen ikhtiyaarat dikhate hain, har ek ka alag naam hai.
+
+\
+intikhaab: Intikhaab()
+
+Group(
+	Tah() [
+		Jumla('intekhaab 1' chunaJaSakneWala naam: 'ek')
+		Jumla('intekhaab 2' chunaJaSakneWala naam: 'do')
+		Jumla('intekhaab 3' chunaJaSakneWala naam: 'teen')
+		Jumla(intikhaab)
+	]
+)
+\
+
+ Jab bhi koi ek chuna jata hai, aakhir mein chuna gaya @Phrase chuna hua naam dikhata hai.
+
+Aap is tareeqe se kisi ikhtiyaar ke jawab mein kaam karwa sakte hain. Misaal ke taur par, hum upar wali mansooba ko badal kar chune hue ikhtiyaar ke mutabiq ek posheeda emoji dikha sakte hain:
+
+\
+intikhaab: Intikhaab()
+
+intikhaab = '' ?
+	Group(
+		Tah() [
+			Jumla('intekhaab 1' chunaJaSakneWala: ⊤ naam: 'one')
+			Jumla('intekhaab 2' chunaJaSakneWala: ⊤ naam: 'two')
+			Jumla('intekhaab 3' chunaJaSakneWala: ⊤ naam: 'three')
+		]
+	)
+	Jumla(
+		{
+			'one': '😡'
+			'two': '🏀'
+			'three': '❤'
+		}{intikhaab} ?? '?'
+	)
+\
+
+ Yeh @Choice khaali @Text se shuru hota hai, is liye jab mansooba shuru hoti hai to hum yeh jaanchte hain, aur teen ikhtiyaarat dikhate hain.
+Jab ikhtiyaar chun liya jata hai, to yeh teen @Phrase naamon mein se ek ban jata hai.
+
+Chune hue ikhtiyaar ke mutabiq emoji dikhane ke liye hum ek @Map istemaal kar sakte hain jo naam ko posheeda emoji mein badal de.
+Jab hum @Map se koi qeemat hasil karte hain aur koi mel nahin milta, to woh \ø\ ban jati hai, is liye hum \??\ istemaal karte hain taake agar ikhtiyaar map mein na ho to \'?'\ par aa jaye. 
+Is misaal mein aisa kabhi nahin ho sakta, lekin hum itne samajhdaar nahin ke yeh jaan sakein!
+
+move-phrase

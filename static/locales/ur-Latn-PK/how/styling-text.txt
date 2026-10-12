@@ -1,0 +1,51 @@
+Apne matn ko saja hua banayein
+
+Kabhi kabhi hum chahte hain ke hamara matn alag nazar aaye. Hum yeh is tarah kar sakte hain: / tirchha karke /, * mota karke *, aur bhi bohat kuchh!
+
+Misaal ke taur par, matn ko tirchha karne ke liye usay do slash // mein band karein, jaise //Hello//. Misaal:
+
+
+\
+Group(Tah() [
+        Jumla(`Kya aap apne matn mein /tirchhe huroof/ istemaal karna chahte hain?`)
+        Jumla(`Yeh kisi baat par zor dene ke liye ya apne alfaaz ko /khaas andaaz/ dene ke liye achha hai.`)
+        Jumla(`Bas lafz ya jumle se pehle aur baad mein slash (//) lagayein, /is tarah/.`)
+    ]
+)
+\
+
+
+@Phrase matn ko mota bhi kar sakta hai. Iske liye apne matn ko do sitaron ** mein band karein, jaise **Hello**. Misaal:
+
+\
+Group(Tah() [
+        Jumla(`Kya aap apne matn ko *mote huroof* se numaya karna chahte hain?`)
+        Jumla(`Jab aapko *zor se pukarna* ho, tab yeh bilkul munasib hai.`)
+        Jumla(`Bas apne alfaaz ke aas paas ek ek asterisk (**) lagayein, jaise *wah!*, aur farq dekhein.`)
+      ]
+)
+\
+
+@Phrase matn ko bohat hi mota bhi bana sakta hai. Iske liye apne matn ko do caret ^^ mein band karein, jaise ^^Hello^^. Misaal:
+
+\
+Group(Tah() [
+        Jumla(`Jab aapko andaaz sab se zyada tez karna ho, tab ^bohat mote^ huroof sab se behtareen hain.`)
+        Jumla(`Yeh mote huroof jaisa hai lekin zyada ^zordaar^, aur aam taur par ek ek caret (^^) lagane se banta hai.`)
+        Jumla(`Isay ^sarkhiyon^ ya ^bari baaton^ ko numaya karne ke liye istemaal karein.`)
+    ]
+)
+\
+
+ Aakhir mein, @Phrase matn ke neeche lakeer bhi laga sakta hai. Iske liye apne matn ko do underscore __ mein band karein, jaise __Hello__. Misaal:
+
+\
+Group(Tah() [
+        Jumla(`Jab aap matn ko saada rakhna chahte hain lekin phir bhi numaya karna chahte hain, tab _lakeer_ bohat achhi hai.`)
+        Jumla(`Apne matn se pehle aur baad mein ek ek underscore (__) lagayein, _is tarah_, aur saaf zor mil jata hai.`)
+        Jumla(`Yeh apni baat kehne ke liye _bilkul theek_ hai, bina _zarurat se zyada_ kiye.`)
+    ]
+)
+\
+
+custom-characters

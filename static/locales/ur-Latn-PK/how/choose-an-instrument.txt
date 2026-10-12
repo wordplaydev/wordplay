@@ -1,0 +1,53 @@
+Apne dekhne walon ko saaz chunne dein
+
+Iske baare mein sab kuch @Music ke bajne ke dauran tay kiya ja sakta hai, yahan tak ke yeh bhi ke use kaun bajaye. Dosre @Track ko ek alag @Instrument dein aur dhun apni jagah qaayam rehti hai — sirf aawaaz badalti hai.
+
+@Choice us muntakhab hone wale output ki \name\ wapas deta hai jo dekhne walon ne chuna, is liye ek shart hi kaafi hai ke use saaz bana diya jaye:
+
+\
+chunaGaya: Intikhaab()
+
+Stage([
+	Group(Qataar() [
+		Jumla('🎹' chunaJaSakneWala naam: 'piano')
+		Jumla('🎻' chunaJaSakneWala naam: 'violin')
+	])
+	Mauseeqi(
+		Dhun(
+			[1 3 5 6 5 3]
+			saaz: (chunaGaya = 'violin') ? Saaz.violin Saaz.piano
+		)
+	)
+])
+\
+
+ Yeh do muntakhab hone wale phrase hi is ko kaam karne ke qaabil banate hain — @Choice ke paas parhne ko kuch nahin hota jab tak stage par koi cheez \chunneKeQabil: ⊤\ na ho.
+
+Do saaz ek shart mein aa jaate hain. Poori palette nahin aati, aur aap list do baar likhne par majboor ho jaate hain: ek baar buttons ke liye aur ek baar aawaaz ke liye. Is ke bajaye unhein apni banai hui ek structure mein ek saath rakhein, aur dono usi se banayein:
+
+\
+•aawaaz2(nishaan2•'' aawaaz3•Saaz)
+
+aawaazein•[aawaaz2]: [
+	aawaaz2('🎹' Saaz.piano)
+	aawaaz2('🎺' Saaz.bigul)
+	aawaaz2('🔔' Saaz.ghanti)
+]
+
+chunaGaya: Intikhaab()
+milGaya: aawaazein.dhoondo(ƒ(aawaaz4•aawaaz2) aawaaz4.nishaan2 = chunaGaya)
+maujooda•aawaaz2: milGaya•ø ? aawaazein[1] milGaya
+
+Stage([
+	Group(Qataar() [
+		:aawaazein.badlo(
+			ƒ(aawaaz5•aawaaz2) Jumla(aawaaz5.nishaan2 chunaJaSakneWala naam: aawaaz5.nishaan2)
+		)
+	])
+	Mauseeqi(Dhun([1 3 5 6 5 3] saaz: maujooda.aawaaz3))
+])
+\
+
+ Chauthi aawaaz shamil karna ab sirf ek line hai, aur button khud ba khud nazar aa jaata hai. Is \found•ø ?\ nigehbaan par ghaur karein: @List/find jab kuch bhi mel na khaye to \ø\ wapas deta hai, aur aisa tab hota hai jab tak kisi ne kuch chuna na ho — aur badal poora \Bolna\ hona chahiye, kyunki \current\ yehi wada karta hai.
+
+music-follows-the-action, offer-choices, layer-an-arrangement

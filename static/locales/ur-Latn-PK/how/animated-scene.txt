@@ -1,0 +1,52 @@
+Manazir ki ek animated silsila banayein
+
+Kabhi kabhi hum kahaniyan sunana, geet ke bol dikhana, ya shayari ko animate karna chahte hain.
+Iske liye hum istemaal kar sakte hain @Scene aur @Phrase ko saath mein, taake ek tarteeb dikha sakein.
+
+Misaal ke taur par, sochein ke hum chhoti si bachchon ki nazm "Jack be Nimble" ko animate karna chahte hain.
+Hum ek @Scene bana sakte hain jis mein har misra ek @Phrase ho, aur har misre ki @Phrase/duration tay karke, @Scene aage barhega jab har lafzon ka tukda mukammal ho jaye.
+
+\
+Manzar([
+  Jumla('Jack phurteela bano' muddat: 1s)
+  Jumla('Jack tez bano' muddat: 1s)
+  Jumla('Jack mombatti ke stand ke upar se koodo' muddat: 1s)
+])
+\
+
+@Scene ek @Sequence ke mukammal hone ka bhi intezaar karega. Chalein, mombatti wale misre ko uchhalne dein!
+
+\
+Manzar([
+		Jumla('Jack phurteela bano' muddat: 1s)
+		Jumla('Jack tez bano' muddat: 1s)
+		Jumla('Jack mombatti ke stand ke upar se koodo' aana: Silsila.uchhalna(muddat: 1s))
+	])
+\
+
+@Scene ek @Group bhi le sakta hai matn ki, aur woh uske tamaam mawaad ki animation khatam hone ka intezaar karega.
+
+\
+Manzar([
+		Group(Tah() [
+      Jumla('Jack phurteela bano')
+		  Jumla('Jack tez bano')
+    ] muddat: 2s)
+		Jumla('Jack mombatti ke stand ke upar se koodo' aana: Silsila.uchhalna(muddat: 1s))
+	])
+\
+
+ Kabhi kabhi nazm ko chalte rehna chahiye. @Scene/loop  @Scene ko wapas ghuma kar apne pehle @Phrase par le aata hai jab aakhri khatam ho jaye, is liye woh khud ko baar baar dohrata hai.
+
+\
+Manzar([
+		Jumla('Jack phurteela bano' muddat: 1s)
+		Jumla('Jack tez bano' muddat: 1s)
+		Jumla('Jack mombatti ke stand ke upar se koodo' muddat: 1s)
+	] chakkar: ⊤)
+\
+
+ Yaad rakhein: ek @Scene tabhi wapas ghoomta hai jab list mein koi cheez waqai intezaar karti ho.
+Woh list jis mein har @Phrase ki @Phrase/duration  \0s\ ho, computer ki poori raftaar se ghoomti rahegi, is liye woh aakhir mein ruk jati hai.
+
+interactive-scene, repeat-a-round

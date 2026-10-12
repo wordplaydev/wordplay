@@ -1,0 +1,938 @@
+{
+    "$schema": "../../../static/schemas/sections/input.json",
+    "input": {
+        "Random": {
+            "doc": [
+                "$~Yeh har baar jab aap ise chalate hain ek alag number banata hai.",
+                "17!",
+                "Yeh ek khoobsurat afra-tafri paida karta hai jo na-qabil-e-pesh-goi se aati hai.",
+                "By default, yeh \\0\\ aur \\1\\ ke darmiyan @Number qeematein deta hai:",
+                "\\Random()\\",
+                "Lekin aap ise @value de sakte hain, aur yeh \\0\\ aur us qeemat ke darmiyan qeematein banayega:",
+                "\\Random(10)\\",
+                "Aur agar aap ise do qeematein dein, to yeh un dono qeematon ke darmiyan, un ko shaamil karte hue, qeematein banayega:",
+                "\\Random(-10 10)\\",
+                "Agar aapki hadon mein ikaiyan hon, to woh barqarar rahengi (aur agar woh mel na khayein, to kam az kam ki ikai istemaal hogi):",
+                "\\Random(-10m 10m)\\",
+                "Aur agar aap aise number dein jin mein ashariya ke baad khaas tadaad mein ankon ki darustgi ho, to woh darustgi barqarar rahegi.",
+                "\\Random(1.00 10.00)\\"
+            ],
+            "names": ["$~Ittefaqi"],
+            "inputs": [
+                {
+                    "names": "$~kamtareen",
+                    "doc": "$~Sab se kam @value jo banaya jayega, ya agar woh 0 se bada ho to sab se zyada qeemat. Agar @None diya jaye, to sab se kam \\0\\ hoga."
+                },
+                {
+                    "names": "$~zyadatareen",
+                    "doc": "$~Sab se zyada @value jo banaya jayega, ya agar yeh diye gaye kam se kam se chhota ho, to kam se kam. Agar @None diya jaye, to sab se zyada \\1\\ hoga."
+                }
+            ]
+        },
+        "Choice": {
+            "doc": [
+                "$~Yeh un naamon ki @stream hai jo aap ke dekhne wale click karke, tap karke, ya kisi naam wale @Phrase par /Enter/ dabakar chunte hain.",
+                "/clickety tap!/",
+                "Is liye ise istemaal karne ka sab se achha tareeqa yeh hai ke naam wale chune ja sakne wale phrases @Phrase ke saath ek performance banayein, aur phir @Reaction se tay karein ke woh naam chune jane par kya karna hai.",
+                "Yeh sab se aasaan misaal hai:",
+                "\\Group(\n\tStack()\n\t[\n\t\tPhrase('ek' chunaJaSakneWala: ⊤ naam: '1')\n\t\tPhrase('do' chunaJaSakneWala: ⊤ naam: '2')\n\t\tPhrase(Choice())\n\t]\n)\\",
+                "Ise @editor mein copy karein aur phir dono @Phrase mein se ek chunein. Aap dekhenge ke teesra @Phrase woh naam dikhata hai jo chuna gaya."
+            ],
+            "names": ["$~Intikhaab"]
+        },
+        "Button": {
+            "doc": [
+                "$~Yeh batata hai ke mouse ya trackpad ka pehla button dabaya gaya hai ya nahin, @stream ki shakal mein @Boolean.",
+                "/click click click/",
+                "Beshak, mouse ya trackpad dekhne walon ki baat sunne ke liye behtareen intikhab nahin hai, kyunke har koi ise istemaal nahin kar sakta. Zyada aasaan intikhab @Choice hai.",
+                "Lekin agar aap ko /waqai/ mouse button sunna ho, to yeh tareeqa hai. Yeh @Boolean ki dhaara dega, jo batati hai ke pehla button upar \\⊥\\ hai ya neeche \\⊤\\.",
+                "Yeh ek aasaan misaal hai:",
+                "\\Phrase(Button() → '')\\",
+                "Yeh bas ek @Phrase banata hai jo dhaare ki @value ko matn ki shakal mein dikhata hai. Agar aap ise @editor mein copy karke click karein, to aap dekhenge ke yeh \\⊥\\ aur \\⊤\\ ke beech badalta rehta hai."
+            ],
+            "names": ["$~🖱️", "$~Button"],
+            "down": {
+                "names": "$~dabaHua",
+                "doc": "$~Agar @None ho, to @stream upar aur neeche dono @values dega. Agar \\⊤\\ ho, to yeh sirf button dabane par badlega. Agar \\⊥\\ diya jaye, to yeh sirf button chhodne par badlega."
+            }
+        },
+        "Pointer": {
+            "doc": [
+                "$~Yeh dekhta hai ke aap ke dekhne wale @Stage par kahan ishara kar rahe hain.",
+                "/whrrrrrr/",
+                "Beshak, yeh aisa intikhab nahin hai jo sab ke liye ho: har koi dekh nahin sakta ya aasaani se ishara nahin kar sakta, is liye pakka karein ke is @stream ko istemaal karke aap kisi ko shamil hone se rok nahin rahe.",
+                "Agar aap ko yaqeen hai ke koi bahar nahin, to @Pointer istemaal karna bas ek dhaara banane jitna aasaan hai:",
+                "\\Pointer()\\",
+                "Is ka diya hua @Place us jagah ke mutabiq hoga jahan @Stage par ishara kiya ja raha hai."
+            ],
+            "names": ["$~Nishaana"]
+        },
+        "Key": {
+            "doc": [
+                "$~Yeh batata hai ke aap ke dekhne wale keyboard ka kaun sa @key daba rahe hain aur chhod rahe hain.",
+                "/clickety/",
+                "Yeh aazmayein",
+                "\\Key()\\",
+                "Dekhein jab aap koi kunji type karte hain, to woh @Stage par kaise nazar aati hai? Jab bhi koi kunji dabai jati hai, @stream mein ek naya @Text jud jata hai, jo dabai gayi kunji batata hai.",
+                "Jo kunji kisi harf ko zaahir karti hai, uske liye @value woh harf @Text ki shakal mein hoga.",
+                "Khaas kunjiyon ke liye, jaise /Escape/ kunji, yeh @Text hoga jo kunji ko bayan karta hai, ek <pehle se tay shuda naam@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values> istemaal karke, jo afsos ke saath sirf angrezi mein maujood hai.",
+                "Agar aap sirf kisi khaas kunji ke baare mein jaanna chahte hain, to aap use de sakte hain:",
+                "\\Key('a')\\",
+                "Aur agar aap sirf yeh jaanna chahte hain ke @Key kab dabane ke bajaye chhodi gayi, to aap @Boolean de sakte hain:",
+                "\\Key('a' ⊥)\\"
+            ],
+            "names": ["$~Kunji"],
+            "key": {
+                "names": "$~kunji",
+                "doc": "$~Agar @None ho, to tamam kunjiyan di jati hain. Agar koi khaas @Text ho, to sirf wohi kunji di jati hai."
+            },
+            "down": {
+                "names": "$~dabaHua",
+                "doc": "$~Agar @None ho, to @key neeche dabane se inputs bante hain. Agar \\⊤\\ ho, to sirf neeche dabane wale inputs diye jate hain, aur agar \\⊥\\ ho, to sirf chhodne wale inputs diye jate hain."
+            },
+            "keys": {
+                "Shift": ["$~Shift"],
+                "Control": ["$~Control", "$~Ctrl"],
+                "Alt": ["$~Alt", "$~Option"],
+                "Meta": ["$~Meta", "$~Command", "$~Windows"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~CapsLock", "$~Caps Lock"],
+                "NumLock": ["$~NumLock", "$~Num Lock"],
+                "ScrollLock": ["$~ScrollLock", "$~Scroll Lock"],
+                "Enter": ["$~Enter", "$~Return"],
+                "Tab": ["$~Tab"],
+                " ": ["$~Space", "$~Spacebar", "$~"],
+                "ArrowUp": ["$~ArrowUp", "$~Oopar"],
+                "ArrowDown": ["$~ArrowDown", "$~Neeche"],
+                "ArrowLeft": ["$~ArrowLeft", "$~Baayein"],
+                "ArrowRight": ["$~ArrowRight", "$~Daayein"],
+                "Home": ["$~Ghar"],
+                "End": ["$~End"],
+                "PageUp": ["$~PageUp", "$~Page Up"],
+                "PageDown": ["$~PageDown", "$~Page Down"],
+                "Backspace": ["$~Backspace"],
+                "Delete": ["$~Mitayein", "$~Del"],
+                "Insert": ["$~Daakhil karein", "$~Ins"],
+                "Clear": ["$~Saaf karein"],
+                "Cut": ["$~Kaatein"],
+                "Copy": ["$~Copy karein"],
+                "Paste": ["$~Chipkaayein"],
+                "Undo": ["$~Wapas karein"],
+                "Redo": ["$~Dobara karein"],
+                "Escape": ["$~Escape", "$~Esc"],
+                "Pause": ["$~Pause"],
+                "ContextMenu": ["$~ContextMenu", "$~Menu"],
+                "Help": ["$~Madad"],
+                "Convert": ["$~Convert"],
+                "NonConvert": ["$~NonConvert"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~HangulMode"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
+            }
+        },
+        "Time": {
+            "doc": [
+                "$~Yeh us raftaar se aage barhta hai jo aap chunte hain.",
+                "/tik tik tik/",
+                "Har baar aisa hone par, @Program naye waqt @value ke saath dobara chalta hai.",
+                "Misaal ke taur par:",
+                "\\Time()\\",
+                "Agar aap waqt ko @Time.frequency dein, to yeh usi raftaar se tik karega. Misaal ke taur par:",
+                "\\Time(1000ms)\\",
+                "Lekin yeh kitna chhota ho sakta hai, is ki hadd hai, kyunke @Program ko agli tik ka jawab dene se pehle chalne ke liye waqt chahiye hota hai.",
+                "Sab se chhota shayad \\20ms\\ ke aas paas hai."
+            ],
+            "names": ["$~Waqt"],
+            "frequency": {
+                "names": ["$~raftaar"],
+                "doc": "$~Yeh woh raftaar hai jis par waqt ko tik karna chahiye. Pehle se yeh \\33ms\\ hoti hai, jo taqreeban har second mein 30 baar hai."
+            },
+            "relative": {
+                "names": ["$~nisbati"],
+                "doc": "$~Agar \\⊤\\ ho, to waqt 0 se shuru hota hai, jab program pehli baar chalta hai. Warna yeh aaj ke din ke aaghaz se ab tak ke milli seconds se shuru hota hai, UTC (Coordinated Universal Time) mein, taake aap din ka waqt maaloom rakh sakein."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Main aapki pasand ki raftaar se naya @Moment banata hoon, is liye program ko hamesha aaj ki tareekh aur abhi ka waqt maaloom hota hai.",
+                "Is se muqaami gharyaal @code ki sirf ek line mein ban jata hai:",
+                "\\Phrase(Now() → '')\\",
+                "By default main har second tick karta hoon. Raftaar badalne ke liye mujhe seconds, minute, ya ghanton mein @Now.frequency dein:",
+                "\\Now(1min)\\",
+                "Mera @Now.timezone aur @Now.calendar @Moment ke inputs jaise hain, aur woh un Moments ko tarteeb dete hain jo main banata hoon. Misaal ke taur par, yeh gharyaal Tokyo ka abhi ka waqt Japani calendar mein dikhata hai:",
+                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "Agar yeh inputs badal jayein, jaise koi reaction mujhe doosra time zone de, to main naye settings ke saath Moments banana shuru kar deta hoon.",
+                "Main @Time se kaise mukhtalif hoon? @Time program shuru hone ke baad se milli seconds ginta hai, jo animation ke liye acha hai. Main calendar aur time zone mein deewar gharyaal ki tareekh aur waqt batata hoon, jo gharyaalon aur calendaron ke liye acha hai."
+            ],
+            "names": ["$~Abhi"],
+            "frequency": {
+                "names": ["$~raftaar"],
+                "doc": "$~Main kitni dair mein naya @Moment banata hoon, seconds, minute, ya ghanton mein. Agar \\ø\\ ho, to main har \\1s\\ tick karta hoon."
+            },
+            "timezone": {
+                "names": ["$~waqtKaIlaaqa"],
+                "doc": "$~Un Moments ke liye time zone ka muayyar naam jo main banata hoon, jo ek @region aur ek shehar se banta hai, jaise \\'America/New_York'\\ ya \\'Asia/Tokyo'\\. Naam nahin pata? Apna jaana pehchaana shehar likhein, main sab se qareeb time zone suggest karunga. Agar \\ø\\ ho, to main us device ka time zone istemaal karta hoon jis par program chal raha hai."
+            },
+            "calendar": {
+                "names": ["$~calendar"],
+                "doc": "$~Un Moments ke liye Unicode calendar ka naam jo main banata hoon, jaise \\'gregory'\\, \\'hebrew'\\, \\'chinese'\\, ya \\'japanese'\\. Agar \\ø\\ ho, to main parhne wale ke locale ka calendar istemaal karta hoon."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Main waqt ka ek lamha hoon: calendar par ek tareekh, din ka ek waqt, aur woh time zone aur calendar jin mein yeh bayan hain.",
+                "Mere tamam @properties ikhtiyari hain. Tareekh batane ke liye mujhe tareekh ke hisse dein:",
+                "\\Moment(2026 7 1) → ''\\",
+                "Ya din ke waqt ke liye sirf waqt ke hisse:",
+                "\\Moment(ghanta: 15 minute: 30) → ''\\",
+                "Agar aap mujhe koi hissa nahin dete, to main abhi ki tareekh aur waqt ke taur par tabdeel hota hoon, jahan bhi program chal raha ho. Agar aap kuch hisse chhor dein, to aapke diye hue sab se bade hisse se bada har hissa abhi ki tareekh aur waqt se aata hai, aur chhote hisse apne aaghaz se shuru hote hain: is liye \\Moment(maheena: 12) → ''\\ is saal ki 1 December hai, aadhi raat par. Mujhe tabdeel karne par sirf wohi qisam ke hisse dikhte hain jo aapne diye: tareekh ke hisse se tareekh banti hai, waqt ke hisse se waqt, aur dono se dono:",
+                "\\Moment() → ''\\",
+                "Mera @Moment.timezone IANA ka muayyar time zone naam leta hai jaise \\'America/Los_Angeles'\\ ya \\'Asia/Tokyo'\\; agar aap ise \\ø\\ chhor dein, to main us device ka time zone istemaal karta hoon jis par program chal raha hai. Mera @Moment.calendar Unicode calendar ka naam leta hai jaise \\'gregory'\\, \\'hebrew'\\, ya \\'japanese'\\; agar aap ise \\ø\\ chhor dein, to main parhne wale ke locale ka calendar istemaal karta hoon. Mera @Moment.year, @Moment.month, aur @Moment.day usi calendar mein hote hain:",
+                "\\Moment(5786 10 4 calendar: 'hebrew') → ''\\",
+                "Mujhe @Text mein tabdeel karne se main parhne wale ke locale ke mutabiq likha jata hoon: wahi Moment angrezi, 中文, ya हिन्दी mein mukhtalif nazar aata hai, aur parhne wale ka locale badalne par badal jata hai.",
+                "Mera @Moment.era, @Moment.week, aur @Moment.weekday sirf maloomati hain: @Now Moments banate waqt unhein bharta hai, lekin formatting mein unhein nazar-andaaz kiya jata hai.",
+                "Agar aap Moments ka aisa @stream chahte hain jo waqt guzarne ke saath badalta rahe, yaani gharyaal, to @Now dekhein. Agar aap program shuru hone ke baad guzre hue milli seconds chahte hain, animation ke liye, to @Time dekhein."
+            ],
+            "names": ["$~Lamha"],
+            "year": {
+                "names": ["$~saal"],
+                "doc": "$~Saal, mere calendar mein. Misaal ke taur par, Gregorian saal \\2026\\ Ibrani saal \\5786\\ hai."
+            },
+            "month": {
+                "names": ["$~maheena"],
+                "doc": "$~Saal ka mahina, mere calendar mein, jo \\1\\ se shuru hota hai."
+            },
+            "day": {
+                "names": ["$~din"],
+                "doc": "$~Mahine ka din."
+            },
+            "hour": {
+                "names": ["$~ghanta"],
+                "doc": "$~Din ka ghanta, \\0\\ se \\23\\ tak."
+            },
+            "minute": {
+                "names": ["$~minute"],
+                "doc": "$~Ghante ka minute."
+            },
+            "second": {
+                "names": ["$~second"],
+                "doc": "$~Minute ka second."
+            },
+            "millisecond": {
+                "names": ["$~millisecond"],
+                "doc": "$~Second ka milli second."
+            },
+            "timezone": {
+                "names": ["$~waqtKaIlaaqa"],
+                "doc": "$~Time zone ka muayyar naam, jo ek @region aur ek shehar se banta hai, jaise \\'America/New_York'\\, \\'Europe/Paris'\\, ya \\'Asia/Tokyo'\\. Naam nahin pata? Apna jaana pehchaana shehar likhein, main sab se qareeb time zone suggest karunga. Agar \\ø\\ ho, to main us device ka time zone istemaal karta hoon jis par program chal raha hai."
+            },
+            "calendar": {
+                "names": ["$~calendar"],
+                "doc": "$~Unicode calendar ka naam, jaise \\'gregory'\\, \\'hebrew'\\, \\'chinese'\\, ya \\'japanese'\\. Agar \\ø\\ ho, to parhne wale ke locale ka calendar."
+            },
+            "era": {
+                "names": ["$~daurEZamana"],
+                "doc": "$~Woh @iteration jis mein mera saal hai, jaise \\'ce'\\ ya \\'reiwa'\\. Sirf maloomati: @Now ise tay karta hai, aur formatting ise nazar-andaaz karti hai."
+            },
+            "week": {
+                "names": ["$~hafta"],
+                "doc": "$~Saal ka hafta, jo \\1\\ se shuru hota hai. Sirf maloomati: @Now ise tay karta hai, aur formatting ise nazar-andaaz karti hai."
+            },
+            "weekday": {
+                "names": ["$~hafteKaDin"],
+                "doc": "$~Hafte ka din, \\1\\ (Peer) se \\7\\ (Itwaar) tak. Sirf maloomati: @Now ise tay karta hai, aur formatting ise nazar-andaaz karti hai."
+            },
+            "conversion": {
+                "text": "$~Mera ek @Text roop, parhne wale ke locale ke mutabiq, mere calendar aur time zone mein. Kisi khaas locale ke liye format karne ke liye @Text qism ke baad ek zubaan likhein, jaise \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~yeh waqt ke ilaaqe ka durust naam nahin hai",
+                "calendar": "$~yeh kisi qabil-e-qabool calendar ka naam nahin hai"
+            }
+        },
+        "Volume": {
+            "doc": [
+                "$~Yeh microphone ki aawaaz ki tezi ka @stream hai, 0 se 1 tak.",
+                "/bzzzzzzz/",
+                "Yeh aapki pasand ki tawaatur par naapa jaata hai. Aam tor par tawaatur \\30hz\\ hota hai, yaani ek second mein 30 baar, lekin aap ise kam kar sakte hain.",
+                "\\Volume()\\",
+                "Yeh sunne ke liye bahut acha hai ke sunne walay kitna shor kar rahe hain!"
+            ],
+            "names": ["$~AwaazKiUnchaai"],
+            "frequency": {
+                "names": ["$~raftaar"],
+                "doc": "$~Do naapon ke darmiyaan ka waqt."
+            }
+        },
+        "Pitch": {
+            "doc": [
+                "$~Yeh microphone ki aawaaz ki unchaai ka @stream hai, hertz mein.",
+                "/hummmmm/",
+                "Yeh aapki pasand ki tawaatur par naapa jaata hai. Insaani aawaaz 20Hz se 5000Hz ke darmiyaan hoti hai, is liye isi daayre ke adaad socheen.",
+                "\\Pitch()\\",
+                "Yeh yeh sunne ke liye bahut acha hai ke koi kis sur mein bol ya ga raha hai."
+            ],
+            "names": ["$~Oonchaai"],
+            "frequency": {
+                "names": ["$~raftaar"],
+                "doc": "$~Do naapon ke darmiyaan ka waqt."
+            }
+        },
+        "Speech": {
+            "doc": [
+                "$~Yeh bol-chaal ko pehchaanta hai aur use @Text mein badal deta hai.",
+                "/hello there!/",
+                "Yeh aapke browser ki bol-chaal pehchaan istemaal karta hai taa-ke jo aap kehte hain use sun kar alfaaz mein badal de (kya yeh kamaal nahin hai?!).",
+                "\\Speech()\\",
+                "Yeh un logon ke liye behtareen hai jo @language bol sakte hain lekin abhi use parhna ya likhna seekh rahe hain (aur bhi bahut kuch)...",
+                "Aap kisi khaas zubaan mein bol-chaal pehchaanne ke liye zubaan @code bata sakte hain:",
+                "\\Speech(zubaan: 'es-MX')\\",
+                "Agar koi zubaan na batayi jaye to aapki pasandeeda zubaan istemaal hoti hai.",
+                "Bol-chaal pehchaan ke liye microphone tak rasai aur internet chahiye (meherbani karke ijaazat dein!). Istemaal ki hadd bhi ho sakti hai, is liye ise bahut der tak chalta na chhorein (nooooo)!"
+            ],
+            "names": ["$~Bolna", "$~Awaaz"],
+            "reset": {
+                "names": ["$~dobaraShuru", "$~saaf"],
+                "doc": "$~Jab yeh @value badle, to jama ki hui bol-chaal saaf karein aur naye sire se shuru karein."
+            },
+            "language": {
+                "names": ["$~zubaan", "$~zbn"],
+                "doc": "$~Ek BCP 47 @language @code (jaise en-US). Agar aapke browser ki bol-chaal pehchaan ise nahin maanti to galti aayegi. Aam tor par aapki pasandeeda zubaan istemaal hoti hai."
+            },
+            "limit": {
+                "names": ["$~hadd", "$~alfaaz"],
+                "doc": "$~Jama ki hui bol-chaal mein rakhe jaane wale alfaaz ki zyada se zyada tadaad (sirakti khidki). Jab yeh tay ho, sirf sabse naye alfaaz rakhe jaate hain aur purane alfaaz hata diye jaate hain. Agar tay na ho to saare alfaaz hamesha rakhe jaate hain."
+            },
+            "error": {
+                "browserNotSupported": "$~yeh khidmat is browser mein maujood nahin",
+                "noConnection": "$~internet se rabta nahin hai",
+                "serviceNotAllowed": "$~khidmat dastiyaab nahin",
+                "micNotAllowed": "$~microphone tak rasai ki ijaazat nahin",
+                "noMicrophone": "$~koi microphone nahin mila",
+                "languageNotSupported": "$~zubaan ko nahin maana gaya",
+                "limit": "$~kai koshishon ke baad bhi nakaam"
+            }
+        },
+        "Camera": {
+            "doc": [
+                "$~Yeh aapke camera se @List deta hai @Color ka, har frame ke liye ek.",
+                "/bzzzzzzz/",
+                "Woh @List asal mein ek tasveer ko dikhata hai, lekin us ke saath kya karna hai yeh aap tay karte hain.",
+                "Aap tasveer ko bahut se @Phrase se dikhane ki koshish kar sakte hain, jo bahut acha lag sakta hai! Isay copy karke dekhein...",
+                "\\rang: Camera(32px 24px 33ms)\n\nStage(\n\trang.combine(\n\t\t[]\n\t\tƒ(jumle•[Phrase] qataar•[Color] y2•#)\n\t\t\tjumle.append(\n\t\t\t\tqataar.translate(\n\t\t\t\t\tƒ(rang2•Color x2•#)\n\t\t\t\t\t\tPhrase(\n\t\t\t\t\t\t\t'ya'\n\t\t\t\t\t\t\tjagah: Place((x2 - 1) × 0.5m y2 × -0.5m)\n\t\t\t\t\t\t\trang: rang2\n\t\t\t\t\t\t\tmuddat: 0s\n\t\t\t\t\t\t)\n\t\t\t\t)\n\t\t\t)\n\t)\n)\\",
+                "Lekin aap rangon ko jaanch kar yeh bhi tay kar sakte hain ke roshni on hai ya off, ya koi khaas rang zyada hai, taa-ke sunne walay apne dikhaye hue rangon se performance par asar daal sakein."
+            ],
+            "names": ["$~🎥", "$~Camera"],
+            "width": {
+                "names": ["$~chaurai"],
+                "doc": "$~Ek qataar mein naapne ke liye @Color ki tadaad."
+            },
+            "height": {
+                "names": ["$~unchaai"],
+                "doc": "$~Ek @column mein naapne ke liye @Color ki tadaad."
+            },
+            "frequency": {
+                "names": ["$~raftaar"],
+                "doc": "$~@Color naapon ke darmiyaan ka waqt."
+            }
+        },
+        "Hand": {
+            "doc": [
+                "$~Yeh aapke camera ko nazar aane wale haath ko dekhta hai — woh kahan hai, kaun si ungliyan uthi hain, aur uska rukh kis taraf hai.",
+                "/wiggle wiggle/",
+                "Haath uthayein, hilayein, ungliyon par ginein — @Hand saath saath chalta hai.",
+                "Pardey ke peeche, @Hand ek machine-learning model istemaal karta hai. Jab aap ise pehli baar kisi program mein istemaal karte hain to model ko download hone mein kuch second lagte hain, aur us dauraan stage ke oopar daayen kone mein ek chhota ghoomta hua haath nazar aata hai. Uske baad yeh mehfooz rehta hai aur foran shuru ho jaata hai.",
+                "Har frame mein @Hand aapko ek @Gesture deta hai — inputs ki poori fehrist aur unke matlab wahan dekhein.",
+                "Yeh aazmayein — yeh aapke haath ki shakal se milta hua emoji wahin dikhata hai jahan aapka asal haath hai:",
+                "\\haath: Hand()\nPhrase((haath.open ? '🖐' '✊') jagah: haath.place)\\"
+            ],
+            "names": ["$~Haath"],
+            "frequency": {
+                "names": ["$~raftaar"],
+                "doc": "$~Do naapon ke darmiyaan ka waqt."
+            },
+            "resolution": {
+                "names": ["$~wazahat"],
+                "doc": "$~Haath ka model chalane se pehle camera ko naapne ki chaudai, pixels mein. Zyada @values se nishaan thode zyada durust mil sakte hain lekin har frame par zyada waqt lagta hai."
+            }
+        },
+        "Face": {
+            "doc": [
+                "$~Yeh aapke camera ko nazar aane wale chehre ko dekhta hai — woh kahan hai, aur kya kar raha hai: aankhen khuli ya band, munh khula, muskuraahat, bhaunhain sikodna, bhaunhain uthana, aur sar kis taraf ghoomā hai.",
+                "/say cheese/",
+                "Camera ki taraf dekhein, muskuraayein, aankh maarein, munh kholein — @Face saath saath chalta hai.",
+                "Pardey ke peeche, @Face ek machine-learning model istemaal karta hai. Jab aap ise pehli baar kisi program mein istemaal karte hain to model ko download hone mein kuch second lagte hain, aur us dauraan stage ke oopar daayen kone mein ek chhota ghoomta hua chehra nazar aata hai. Uske baad yeh mehfooz rehta hai aur foran shuru ho jaata hai.",
+                "Har frame mein @Face aapko ek @Expression deta hai. Inputs ki poori fehrist aur unke matlab wahan dekhein.",
+                "Yeh misaal aapke chehre se milta hua emoji wahin dikhati hai jahan aapka asal chehra hai:",
+                "\\chehra: Face()\nPhrase(\n\t(chehra.smiling ? '😀' chehra.mouthOpen ? '😮' '😐')\n\tjagah: chehra.place\n)\\"
+            ],
+            "names": ["$~Chehra"],
+            "frequency": {
+                "names": ["$~raftaar"],
+                "doc": "$~Do naapon ke darmiyaan ka waqt."
+            },
+            "resolution": {
+                "names": ["$~wazahat"],
+                "doc": "$~Woh chaurai pixels mein, jis par face model chalane se pehle camera se tasveer li jaati hai. Zyada @values se nishaan thode se zyada durust mil sakte hain, lekin har frame mein zyada waqt lagta hai."
+            }
+        },
+        "Objects": {
+            "doc": [
+                "$~Yeh aapko batata hai ke aapka camera kaun si cheezein dekhta hai, jaise billi, pyaala, kitaab, aur woh kahan hain.",
+                "/what's that/",
+                "Camera ke saamne koi cheez pakdein aur @Objects uska naam batane ki koshish karega.",
+                "Pardey ke peechhe, @Objects ek machine-learning model istemaal karta hai jo rozmarra ki 80 qism ki cheezein pehchanta hai.",
+                "Har frame mein, @Objects aapko @Thing ki ek @List deta hai, jo is tarteeb se hoti hai ke model jis par sabse zyada yaqeen rakhta hai woh pehle aata hai. Har ek se kya pata chalta hai, yeh dekhne ke liye @Thing dekhein.",
+                "Model sirf andaza lagata hai, is liye kabhi woh ghalat hota hai ya kuch bhi nahin dekhta. Sirf woh andaze sunne ke liye jin par usay sabse zyada yaqeen ho, zyada `confidence` maangein.",
+                "Yeh ek misaal hai jo camera ki dekhi hui har cheez ko naam deti hai:",
+                "\\Stage(Objects() ↦ Phrase(⬚.name jagah: ⬚.place))\\",
+                "Aap sirf ek qism ki cheez bhi @query kar sakte hain, aur baqi ko nazar andaaz kar sakte hain:",
+                "\\cheezein: Objects(zumra: 'cat')\nPhrase(cheezein.length() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~Cheezein"],
+            "inputs": [
+                {
+                    "doc": "$~Do naapon ke darmiyaan ka waqt.",
+                    "names": "$~raftaar"
+                },
+                {
+                    "doc": "$~Woh chaurai pixels mein, jis par cheezein dhoondne se pehle camera se tasveer li jaati hai. Model 320 pixel ka chaukor dekhta hai, is liye bade @values zyada tar sirf waqt lete hain.",
+                    "names": "$~wazahat"
+                },
+                {
+                    "doc": "$~Dhoondne ke liye ek ikhtiyaari qism ki cheez, baqi sab ko nazar andaaz karte hue.",
+                    "names": "$~zumra"
+                },
+                {
+                    "doc": "$~Kisi cheez ka zikr karne se pehle model ko kitna yaqeen hona chahiye, 0 se 1 tak. Zyada ka matlab hai kam lekin behtar andaze.",
+                    "names": "$~yaqeen"
+                },
+                {
+                    "doc": "$~Ek saath zikr ki jaane wali cheezon ki zyada se zyada tadaad.",
+                    "names": "$~ginti"
+                }
+            ],
+            "categories": {
+                "person": ["$~insaan", "$~log", "$~aadmi", "$~koi shakhs"],
+                "bicycle": ["$~saikil", "$~bike"],
+                "car": ["$~gaari", "$~motor car"],
+                "motorcycle": ["$~motor saikil", "$~motorbike"],
+                "airplane": ["$~hawai jahaaz", "$~jahaaz", "$~tayyaara"],
+                "bus": ["$~bus"],
+                "train": ["$~rail gaari"],
+                "truck": ["$~truck", "$~lorry"],
+                "boat": ["$~kashti", "$~samundri jahaaz"],
+                "traffic light": ["$~traffic signal"],
+                "fire hydrant": ["$~aag bujhane ka hydrant", "$~hydrant"],
+                "stop sign": ["$~ruko ka nishaan"],
+                "parking meter": ["$~parking meter"],
+                "bench": ["$~bench"],
+                "bird": ["$~parinda"],
+                "cat": ["$~cat", "$~billi"],
+                "dog": ["$~kutta", "$~pilla"],
+                "horse": ["$~ghora"],
+                "sheep": ["$~bhed"],
+                "cow": ["$~gaay"],
+                "elephant": ["$~haathi"],
+                "bear": ["$~reechh"],
+                "zebra": ["$~zebra"],
+                "giraffe": ["$~zarafa"],
+                "backpack": ["$~backpack", "$~peeth ka thaila"],
+                "umbrella": ["$~chhatri"],
+                "handbag": ["$~haath ka baig", "$~purse"],
+                "tie": ["$~baandhna", "$~necktie"],
+                "suitcase": ["$~suitcase", "$~saman"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~ski"],
+                "snowboard": ["$~snowboard"],
+                "sports ball": ["$~gend", "$~khel ki gend"],
+                "kite": ["$~patang"],
+                "baseball bat": ["$~baseball ka balla", "$~balla"],
+                "baseball glove": ["$~baseball ka dastaana", "$~dastaana"],
+                "skateboard": ["$~skateboard"],
+                "surfboard": ["$~surfboard"],
+                "tennis racket": ["$~tennis ka raket", "$~raket"],
+                "bottle": ["$~botal"],
+                "wine glass": ["$~sharab ka gilaas"],
+                "cup": ["$~cup", "$~mag"],
+                "fork": ["$~kaanta"],
+                "knife": ["$~chaaqoo"],
+                "spoon": ["$~chamcha"],
+                "bowl": ["$~katora"],
+                "banana": ["$~kela"],
+                "apple": ["$~seb"],
+                "sandwich": ["$~sandwich"],
+                "orange": ["$~narangi"],
+                "broccoli": ["$~broccoli"],
+                "carrot": ["$~gajar"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~donut", "$~doughnut"],
+                "cake": ["$~cake"],
+                "chair": ["$~kursi"],
+                "couch": ["$~sofa"],
+                "potted plant": [
+                    "$~gamle ka paudha",
+                    "$~ghar ka paudha",
+                    "$~paudha"
+                ],
+                "bed": ["$~bistar"],
+                "dining table": ["$~jadwal", "$~khaane ki mez"],
+                "toilet": ["$~ghusalkhana"],
+                "tv": ["$~TV", "$~tv", "$~television"],
+                "laptop": ["$~laptop", "$~computer"],
+                "mouse": ["$~choohaa"],
+                "remote": ["$~remote", "$~remote control"],
+                "keyboard": ["$~keyboard"],
+                "cell phone": ["$~phone", "$~mobile phone"],
+                "microwave": ["$~microwave"],
+                "oven": ["$~tandoor"],
+                "toaster": ["$~toaster"],
+                "sink": ["$~sink"],
+                "refrigerator": ["$~fridge"],
+                "book": ["$~book"],
+                "clock": ["$~gharri"],
+                "vase": ["$~phooldaan"],
+                "scissors": ["$~qainchi"],
+                "teddy bear": ["$~teddy bear", "$~bhara hua khilona jaanwar"],
+                "hair drier": ["$~hair dryer"],
+                "toothbrush": ["$~toothbrush"]
+            }
+        },
+        "Scene": {
+            "doc": [
+                "$~Yeh @Phrase ka ek @List dikhata hai, @Group ya @Shape, ek waqt mein ek, aur aakhri par ruk jata hai.",
+                "/Boop boop boop/",
+                "Waqt ko qaboo karne ke liye, aap har output par @Phrase.duration set kar sakte hain, aur woh agle par jaane se pehle utni der dikhayega, aur jo @Phrase.entering ya @Phrase.exiting transition aapne set kiye hon woh istemaal karega. Agar aap unhein @Sequence par set karein, to woh uska dauraniya istemaal karega.",
+                "In sab se aap is chhote @Scene jaisi cheezein bana sakte hain, jo yeh teen jumle ek ke baad ek dikhata hai:",
+                "\\Scene(\n\t[\n\t\tPhrase('Hello' muddat: 1s)\n\t\tPhrase(\n\t\t\t'Aap kaise hain?'\n\t\t\tmuddat: 2s\n\t\t\tghumaao: 5°\n\t\t\taana: Pose(ghumaao: 0°)\n\t\t)\n\t\tPhrase('Main theek hoon')\n\t]\n)\\",
+                "Dekhein kaise pehla output ek second ke liye dikhta hai, phir agla do second ke liye, lekin paanch degree ghoomte hue, aur phir woh aakhri wala dikhata hai?",
+                "Aap @Scene ke saath output aur animation ke bahut tafseeli silsile bana sakte hain, aur un ke kuch hisson ko mutaharrik ya interactive bhi bana sakte hain, jaise kisi bhi doosre @Phrase ya @Group ke saath.",
+                "Agar aap ke paas animated output hai jo ander ander hai (ek @Group jis ke ander animated @Phrase hon), to @Scene @Group ke tamam animated hisson ke khatam hone ka intezaar karega.",
+                "Aur ek aakhri chhota raaz! Aap list mein @Boolean bhi daal sakte hain, aur agar woh \\⊥\\ hon, to @Scene ruk kar intezaar karega jab tak woh sach na ho jaye.",
+                "Misaal ke taur par, agar aap @Phrase ka silsila banana chahte hain aur sirf tab aage barhna chahte hain jab @Button badle, to aap yeh kar sakte hain:",
+                "\\click2: ∆ Button()\nScene(\n\t[\n\t\tPhrase('Hello')\n\t\tclick2\n\t\tPhrase(\n\t\t\t'Aap kaise hain?'\n\t\t\tmuddat: 0.25s\n\t\t\tghumaao: 5°\n\t\t\taana: Pose(ghumaao: 0°)\n\t\t)\n\t\tclick2\n\t\tPhrase('Main theek hoon')\n\t]\n)\\",
+                "Dekhein kaise har @Phrase ke baad ruk jata hai, aur aage barhne se pehle @Button ke badalne ka intezaar karta hai?",
+                "By default main apne aakhri output par ruk jata hoon. Mujhe @Scene/loop dein aur main phir apne pehle output par wapas aa jaunga, jo woh khel chahta hai jo har round ke baad ek aur sawaal poochta hai.",
+                "Main @Scene/loop ko har baar dekhta hoon jab aap ka program badalta hai, is liye chakkar shuru bhi ho sakta hai aur khatam bhi. Yahan main poochta rehta hoon jab tak woh sahi jawab na de, aur phir ruk jata hoon:",
+                "\\andaaza: Chat()\ndaayein: andaaza = 'cat'\nScene(\n\t[\n\t\tPhrase('Janwar ka andaaza lagayein!' muddat: 2s)\n\t\t∆ andaaza\n\t\tPhrase(daayein ? 'Haan!' 'Nahin!' muddat: 2s)\n\t]\n\tchakkar: ~daayein\n)\\",
+                "@Scene/replay mujhe dobara shuru karta hai, @Scene/pause mujhe jahan hoon wahin rok deta hai, aur @Scene/go mujhe seedha mere kisi ek output par bhej deta hai. @Scene/pause ko \\⊤\\ par set karein aur main apne aap kabhi aage nahin barhta, is liye @Scene/go hi akela mujhe aage barhane wala ban jata hai — is tarah aap woh slide show banate hain jo aage /aur/ peechhe jaye.",
+                "Aur agar aap janna chahte hain ke main kahan hoon, taake /3 of 10/ dikhayein ya kahani ke alag hisson mein alag music bajayein, to @Spotlight isi ke liye hai."
+            ],
+            "names": ["$~Manzar"],
+            "outputs": {
+                "names": "$~nataij",
+                "doc": "$~Un outputs ki list jo ek ke baad ek dikhane hain."
+            },
+            "loop": {
+                "names": "$~chakkar",
+                "doc": "$~Kya main apna aakhri output khatam hone par apne pehle output par wapas aaunga. Jab tak yeh \\⊤\\ na ho, main aakhri par ruk jata hoon. Main ise har evaluation par dekhta hoon, is liye aap chakkar ko shuru bhi kar sakte hain aur khatam bhi."
+            },
+            "until": {
+                "names": "$~jabTak",
+                "doc": [
+                    "$~Ek @condition jis ka intezaar main apne har output ke baad karoon, jab us ka @Phrase/duration poora ho jaye ya animation khatam ho jaye.",
+                    "Yeh bilkul aisa hai jaise us @Boolean ko meri list ke har output ke darmiyan likh diya jaye, jo aap tab karte hain jab mere kisi output ko intezaar karwana ho. Yeh use ek hi baar kehta hai:",
+                    "\\Scene(\n\t[Phrase('ek') Phrase('do') Phrase('teen')]\n\tjabTak: ∆ Button()\n)\\",
+                    "List mein likha hua @Boolean phir bhi kaam karta hai, aur dono intezaar alag alag hain, is liye aap kisi ek khaas jagah par zyada der rok sakte hain."
+                ]
+            },
+            "replay": {
+                "names": "$~dobaara",
+                "doc": [
+                    "$~Jab yeh kisi evaluation par \\⊤\\ ho, to main apne pehle output se dobara shuru karta hoon, chahe main kahin bhi pohnch chuka ho, aur mera @Slate/lap wapas 0 par aa jata hai.",
+                    "Mujhe ek /lamhaati/ @condition dein, aisi jo sirf us evaluation par sach ho jis par event hua, jaise \\∆ Button()\\. \\score > 10\\🪲 jaisi lambi chalne wali shart ek baar sach hone ke baad sach hi rehti hai, is liye woh us ke baad har evaluation par mujhe dobara shuru karti rahegi."
+                ]
+            },
+            "pause": {
+                "names": "$~waqfa",
+                "doc": [
+                    "$~Jab tak yeh \\⊤\\ hai main ruka rehta hoon, aur jab yeh wapas \\⊥\\ ho jaye to main aage barhta hoon. Jis output ki ulti ginti chal rahi thi woh apna bacha hua waqt apne paas rakhta hai, is liye kisi lambe @Phrase ke beech mein rukne se woh dobara shuru nahin hota.",
+                    "@Scene/replay ke bar'aks mujhe ek /dairmi/ @condition chahiye, jo utni der sach rahe jitni der aap mujhe intezaar karwana chahte hain. Mujhe hamesha ke liye roke rakhein to main apne aap kabhi aage nahin barhta, jo bilkul slide show ki zaroorat hai: tab @Scene/go hi akela mujhe aage barhane wala hota hai."
+                ]
+            },
+            "go": {
+                "names": "$~chalo",
+                "doc": [
+                    "$~Aage kahan jana hai. Mujhe ek number dein to main woh output dikhata hoon, 1 se ginte hue; mujhe ek naam dein to main woh output dikhata hoon jise aapne woh @Phrase/name diya tha.",
+                    "Main sirf outputs ginta hoon, beech ke @Boolean ko kabhi nahin, is liye mujhe 2 par bhejne ka matlab hai mera doosra @Phrase, chahe raaste mein kitni hi sharten hon.",
+                    "@Scene/replay ki tarah, yeh bhi ek /lamhaati/ @condition chahta hai — aisi cheez jo \\ø\\ rehti hai siwaye us evaluation ke jis par aap mujhe hilana chahte hain. Jo number wahin tika rahe woh mujhe hamesha ke liye wahin rok dega.",
+                    "Agar aap mujhe kisi bhi sire se aage bhejein to main wahin ruk jata hoon, siwaye jab @Scene/loop \\⊤\\ ho, us surat mein main wapas ghoom kar aa jata hoon. Is ka matlab hai ke aapko kabhi jaanchne ki zaroorat nahin. Yahan teer wali kunjiyan slide show ko dono taraf chalati hain:",
+                    "Agar aap /number teen/ ke bajaye /ek aage/ kehna chahte hain to woh @Scene/step hai.",
+                    "\\slides2: [Phrase('ek') Phrase('do') Phrase('teen')]\nkunji: Key()\npar: Spotlight()\nScene(\n\tslides2\n\twaqfa: ⊤\n\tchalo: ∆ kunji ? ((kunji = 'ArrowLeft') ? par.index - 1 (kunji = 'ArrowRight') ? par.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "step": {
+                "names": "$~qadam",
+                "doc": [
+                    "$~Main jahan hoon wahan se kitne outputs hilne hain: \\1\\ ka matlab ek aage aur \\-1\\ ka matlab ek peeche. Yeh @Scene/go hi hai, bas jagah ke bajaye faasle ke taur par kaha gaya.",
+                    "@Scene/go ki tarah, main apne sirhon par ruk jata hoon siwaye jab @Scene/loop \\⊤\\ ho, is liye aapko kabhi jaanchne ki zaroorat nahin, aur mujhe ek /lamhaati/ @condition chahiye — aisi cheez jo \\ø\\ rehti hai siwaye us evaluation ke jis par aap mujhe hilana chahte hain.",
+                    "\\slides2: [Phrase('ek') Phrase('do') Phrase('teen')]\nkunji: Key()\nScene(\n\tslides2\n\twaqfa: ⊤\n\tqadam: ∆ kunji ? ((kunji = 'ArrowLeft') ? -1 (kunji = 'ArrowRight') ? 1 ø) ø\n)\\",
+                    "Yahan kisi cheez ko yeh jaanne ki zaroorat nahin ke kaun sa @Phrase dikh raha hai, aur @Scene/go se yahi farq hai. Agar aap stage par yeh batana chahte hain to @Spotlight se poochein."
+                ]
+            },
+            "name": {
+                "names": "$~naam",
+                "doc": "$~Mera naam. @Spotlight isay istemaal karta hai taake mujhe ek hi waqt mein chalne wale kisi doosre @Scene se alag pehchaan sake; sirf ek scene ho to aap isay chhod sakte hain."
+            }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Main batata hoon ke @Scene abhi kahan hai: woh kaun sa output dikha raha hai, uske paas kitne hain, aur kya woh kisi ka intezaar kar raha hai.",
+                "@Scene cheezein dikhata hai; main woh hoon jis se program ka baqi hissa jaanta hai ke woh kya dikha raha hai. Isi se aap slide show ke neeche counter laga sakte hain, kahani ke alag hisson mein alag music baja sakte hain, ya /koi bhi kunji dabayein/ ka ishara sirf tab dikha sakte hain jab scene waqai intezaar mein ho.",
+                "\\slides2: [Phrase('ek') Phrase('do') Phrase('teen')]\npar: Spotlight()\nStage(\n\t[\n\t\tScene(slides2 chakkar: ⊤)\n\t\tPhrase(\n\t\t\t`\\par.total\\ mein se \\par.index\\`\n\t\t\tsize: 0.3m\n\t\t\tjagah: Place(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Mere paas hamesha ek @Slate hoti hai, chahe abhi kuch hua bhi na ho, is liye aapko mujhe \\ø\\ ke liye jaanchne ki zaroorat nahin."
+            ],
+            "names": "$~Roshni",
+            "name": {
+                "names": "$~naam",
+                "doc": "$~Jis scene ko follow karna hai uska @Scene/name. Isay \\ø\\ rehne dein to main har scene ko follow karta hoon."
+            }
+        },
+        "Slate": {
+            "doc": "$~@Scene kahan hai: woh kya dikha raha hai, kitna aage badh chuka hai, aur kya woh intezaar mein hai.",
+            "names": "$~Takhti",
+            "scene": {
+                "names": "$~manzar",
+                "doc": "$~Us scene ka @Scene/name jis se main aaya hoon, ya \\''\\ agar uska koi na ho."
+            },
+            "index": {
+                "names": "$~number",
+                "doc": "$~@Scene kaun sa output dikha raha hai, 1 se ginte hue. Main sirf outputs ginta hoon, beech ke @Boolean ko kabhi nahin."
+            },
+            "total": {
+                "names": "$~kul",
+                "doc": "$~@Scene ke paas kitne outputs hain, beech ke @Boolean ko gine baghair."
+            },
+            "lap": {
+                "names": "$~phera",
+                "doc": "$~@Scene kitni baar ghoom kar apne pehle output par wapas aaya hai. Pehli baar guzarte waqt yeh 0 hota hai."
+            },
+            "waiting": {
+                "names": "$~intezaar",
+                "doc": "$~Kya @Scene ruka hua hai: @Boolean ke sach hone ka intezaar kar raha hai, ya @Scene/pause ne use rok rakha hai. /Koi bhi kunji dabayein/ ka ishara isi par nazar rakhe."
+            }
+        },
+        "Motion": {
+            "doc": [
+                "$~Yeh ek shuruati @Phrase ko gravity aur physics ke saath hilata hai.",
+                "/boing boing boing/",
+                "Aap ise ek shuruati @Phrase dete hain, phir yeh gravity ke hisaab se naye maqam aur ghumaav ke saath ise behtar banata hai.",
+                "Is se aap bahut saadi cheezein bana sakte hain, jaise uchhalte hue emoji:",
+                "\\Motion(Phrase('ya') startplace: Place(0m 10m))\\🪲",
+                "Dekhein o kaise uchhalta hai? Pehle evaluation par aap ise @Stage par oonchi jagah dete hain, lekin uske baad ise @None milta hai, jis se @Motion use us position par badal deta hai jahan gravity use rakhti.",
+                "Ise chalane ke aur bahut se tareeqe neeche dekhein."
+            ],
+            "names": ["$~Harkat"],
+            "place": {
+                "doc": "$~Shuruati jagah.",
+                "names": "$~jagah"
+            },
+            "velocity": {
+                "doc": "$~Shuruati raftaar",
+                "names": "$~raftaar"
+            },
+            "nextplace": {
+                "doc": "$~Agli jagah, jo physics ko ulat deti hai.",
+                "names": "$~aglijagah"
+            },
+            "nextvelocity": {
+                "doc": "$~Agli jagah, jo raftaar ko ulat deti hai.",
+                "names": "$~agliraftaar"
+            }
+        },
+        "Chat": {
+            "doc": [
+                "$~Yeh aapke sunne walon ke likhe hue @Text paighaamat ka ek @stream hai.",
+                "Misaal ke taur par, yeh saada program dekhta hai ke paighaam 'hello' hai ya nahin, aur agar hai to program 'hi' ban jata hai. Warna woh 'huh' ban jata hai?",
+                "\\Chat().has('salaam') ? 'salaam!' 'kya?'\\",
+                "Bas itna hi! Aap is se har qism ki performances bana sakte hain, jaise chat bots, matn par mabni adventures, ya doosri performances ke liye matn par mabni control tareeqe."
+            ],
+            "names": ["$~Guftagu"]
+        },
+        "Contour": {
+            "doc": [
+                "$~Yeh har harf ke glyph ki outline ko @Place ke @List ki shakal mein banata hai.",
+                "Ise kuch matn aur ek font face dein, aur yeh har glyph ki outline nuqta ba nuqta banayega.",
+                "\\Contour('a' \"Noto Sans\")\\",
+                "In @Place @values ko @Phrase ke @List mein dein taake outline nuqton ki shakal mein dikhe:",
+                "\\Stage(\n\tContour('a' \"Noto Sans\" 10m).translate(\n\t\tƒ(nuqta) Phrase('•' jagah: nuqta)\n\t)\n)\\",
+                "Aap outline ko meters ke @Number se chhota bada kar sakte hain, uski origin ko @Place se hila sakte hain, font ka wazan chun sakte hain, italics laga sakte hain, aur nuqton ke beech `spacing` ko meters mein faasle ke taur par rakh sakte hain. Chhoti `spacing` outline ko zyada qareeb se banati hai, lakeeron aur mudaaron dono par barabar faasle ke nuqton ke saath.",
+                "Kuch glyphs, jaise rangeen emoji, ki outline nahin hoti, is liye woh koi nuqta nahin jodte. Jab tak yeh font laata hai, yeh aapko ek khaali @List dega, phir tayyar hone par use bhar dega."
+            ],
+            "names": ["$~Khaaka"],
+            "inputs": [
+                {
+                    "doc": "$~Woh matn jiske huroof ka khaaka mujhe banana hai.",
+                    "names": "$~huroof"
+                },
+                {
+                    "doc": "$~Woh font face jis mein huroof ka khaaka banana hai.",
+                    "names": "$~khat"
+                },
+                {
+                    "doc": "$~Harf ki unchaai meter mein, jo khaake ka size tay karti hai.",
+                    "names": "$~size"
+                },
+                {
+                    "doc": "$~Ek ikhtiyari @Place jis se har nuqte ko hilaya jaye.",
+                    "names": "$~jagah"
+                },
+                {
+                    "doc": "$~Font ki motaai, jo face ki madad wali sab se qareeb motaai par laga di jati hai.",
+                    "names": "$~wazan"
+                },
+                {
+                    "doc": "$~Kya face ka italic roop istemaal karna hai, agar woh maujood ho.",
+                    "names": "$~tircha"
+                },
+                {
+                    "doc": "$~Khaake ke saath chune gaye nuqton ke darmiyan faasla meter mein, jo lakeeron aur mudey hue hisson mein yaksaan rehta hai. Chhota @values zyada baareeki se khaaka banata hai, kam se kam 0.01 meter tak.",
+                    "names": "$~faasla"
+                },
+                {
+                    "doc": "$~Nuqton ki tarteeb: 'forward' ya 'backward'.",
+                    "names": "$~simt"
+                }
+            ],
+            "error": {
+                "connection": "$~Font lene ke liye main internet tak nahin pahunch saka, is liye uske huroof ka khaaka nahin bana sakta.",
+                "unavailable": "$~Mujhe us font ki file nahin mili, is liye uske huroof ka khaaka nahin bana sakta.",
+                "unreadable": "$~Maine font download kiya, lekin use parh nahin saka, is liye uske huroof ka khaaka nahin bana sakta.",
+                "outline": "$~Maine font load kar liya, lekin in huroof ki shakal nahin le saka."
+            }
+        },
+        "Placement": {
+            "doc": [
+                "$~Yeh aapke dekhne walon ko @Output ko @Stage par @Place tak kheenchne deta hai.",
+                "@Output ko @Stage par rakhne ke kai tareeqe hain: unhein saaf @Place dein, @Motion istemaal karein aur kashish ko apna kaam karne dein, ya unhein tarteeb dene ke liye @Group mein rakhein.",
+                "Lekin kabhi kabhi aap chahte hain ke /dekhne walon/ ke paas yeh ikhtiyar ho ke @Output @Stage par kahan jaye.",
+                "Yeh aise kaam karta hai: ek @Placement banayein aur use @Output ke @Place ko dein:",
+                "\\Phrase('hi' jagah: Placement())\\",
+                "phir jab bhi dekhne wale teer @key dabayein ya stage par click ya tap karein, to @Placement ek naya @Place banayega jo chahi gayi simt mein hilega.",
+                "Ise apne program mein copy karke dekhein aur @Output ko pointer ya keyboard se hilayein.",
+                "Aap @Placement ko apni marzi ke mutabiq bana sakte hain: kuch simton mein hilna chalu ya band karein, @Place kitna door hile yeh badlein, aur woh shuruaati @Place tay karein jis se @stream shuru hota hai."
+            ],
+            "names": ["$~Thikana"],
+            "inputs": [
+                {
+                    "doc": "$~Woh shuruaati jagah jahan se aaghaz karna hai.",
+                    "names": "$~aaghaz"
+                },
+                {
+                    "doc": "$~Jab dekhne wale hilane ki farmaish karein to jagah kitne meter hile.",
+                    "names": "$~doori"
+                },
+                {
+                    "doc": "$~Agar sach ho, to ufuqi mehwar par hilna mumkin hota hai. Pehle se chalu hai.",
+                    "names": "$~ufuqi"
+                },
+                {
+                    "doc": "$~Agar sach ho, to amoodi mehwar par hilna mumkin hota hai. Pehle se chalu hai.",
+                    "names": "$~amoodi"
+                },
+                {
+                    "doc": "$~Agar sach ho, to + aur - kunjiyon se z-mehwar par hilna mumkin hota hai.",
+                    "names": "$~gehraai"
+                }
+            ]
+        },
+        "Webpage": {
+            "doc": [
+                "$~Yeh aapke diye gaye web address se matn le aata hai.",
+                "Internet dilchasp hai: jude hue computers ki poori duniya jo ek doosre ke saath dastaveezein baantte hain.",
+                "Yeh @stream us se judta hai. Ise ek URL dein, jaise yeh:",
+                "\\Webpage('https://wordplay.dev')\\",
+                "Aur ek cheez hai jise <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS> kehte hain, jo web page par cheezon ko @query karne deti hai. Ise CSS chunne ki talaash dein aur yeh sirf wohi matn laayega jo us talaash se milta ho. Jaise is misaal mein, jo pehle darje ke unwaan laata hai.",
+                "\\Webpage('https://wordplay.dev' 'h1')\\",
+                "Is mein bahut si cheezein ghalat ho sakti hain. Agar aapka internet chala jaye, ya URL kisi cheez tak na pahunchaye, ya URL aam na ho, ya URL HTML page na ho… In sab se istesna ban sakta hai. Agar aapko aisa page mil jaye jo chalta ho, to aapko pehle kuch @Number milega jo kitna faisad poora hua yeh batayega, aur phir page ke alfaaz ki @List."
+            ],
+            "names": ["$~Websafha"],
+            "url": {
+                "doc": "$~Woh HTML web page URL jo lana hai.",
+                "names": "$~pata"
+            },
+            "query": {
+                "doc": "$~Woh CSS @query jo HTML par chalana hai",
+                "names": "$~talaash"
+            },
+            "frequency": {
+                "doc": "$~Minton ki woh tadaad jo guzarni chahiye us se pehle ke page dobara laya jaye.",
+                "names": "$~raftaar"
+            },
+            "error": {
+                "invalid": "$~yeh durust URL nahin hai",
+                "unvailable": "$~yeh URL tak rasai nahin ho sakti",
+                "notHTML": "$~jawab HTML nahin tha",
+                "noConnection": "$~Wordplay se koi rabta nahin",
+                "limit": "$~is domain par bohat zyada darkhwastein"
+            }
+        },
+        "Collision": {
+            "names": "$~Takkar",
+            "doc": [
+                "$~Yeh @Rebound @values ka ek @stream hai. Yeh tab kaam aata hai jab naam wale @Output aapas mein takraate hain.",
+                "Agar aap chahte hain ke do @Output ko ek doosre ka pata chale, to dono ko naam dein. Phir woh dono naam mujhe dein. Jab bhi woh chhooenge, main ek naya @Rebound banaunga. Is ke liye unhein @Matter ki zaroorat nahin. Kisi cheez par nazar rakhne ke liye mujhe sirf us ka naam chahiye.",
+                "Agar aap mujhe sirf ek naam dein, to main aap ko bataunga jab bhi woh @Output physics ki duniya mein kisi aur cheez ko chhooega. Koi @Output physics ki duniya mein tab hota hai jab us ke paas @Matter ho, ya koi @Motion use rakhe, ya woh seedha @Stage par ek @Shape ho, ya main us ke naam par bhi nazar rakh raha hoon.",
+                "Chhoona aur uchhalna ek jaisa nahin hai. @Output doosre @Output ko sirf tab dhakelta hai jab us ke paas @Matter ho aur koi @Motion use hila raha ho. Jo @Output aap ka program rakhta hai, woh bilkul wahin jaata hai jahan aap use rakhte hain. Is liye woh jis cheez ko chhoota hai, us ke aar paar guzar jaata hai. Main phir bhi aap ko chhoone ke baare mein bataunga.",
+                "Ek @Rebound mein woh naam hote hain jo aapas mein chhooe. Is mein woh simt bhi hoti hai jis taraf se unhon ne chhooa. Ek banane ke foran baad main ek \\ø\\ banaunga, kyunke takkar hote hi khatam ho jaati hai.",
+                "Main sirf un @Output par nazar rakh sakta hoon jo seedha @Stage par rakhe gaye hon. @Group ke andar ki har cheez us group ki apni jagah mein hilti hai, is liye main use nahin dekh sakta. @Group ko naam dein aur us par nazar rakhein."
+            ],
+            "subject": {
+                "names": "$~mauzoo",
+                "doc": "$~us @Output ka naam jise mujhe dekhna hai. Use dekhna hi use jismani duniya mein rakhne ke liye kaafi hai, is liye use @Matter ki zaroorat nahin."
+            },
+            "object": {
+                "names": "$~doosra",
+                "doc": "$~doosre @Output ka naam jise mujhe dekhna hai. Yeh dene par main sirf un do ka chhoona batata hoon; na dein to main pehle wale ka jismani duniya mein kisi bhi cheez ko chhoona batata hoon."
+            }
+        },
+        "Beat": {
+            "doc": [
+                "$~Jab bhi chalti hui @Music kisi beat par pahunchti hai, main ek naya @value deta hoon, taake aap aisi tasveerein bana sakein jo mausiqi ke saath hilein. Mere paas aap ke liye hamesha ek @Downbeat hota hai, is liye aap use foran parh sakte hain: koi mausiqi bajne se pehle main beat zero par hota hoon aur kuch nahin baj raha hota, aur mera \\tempo\\ shuru hone tak zero rehta hai.",
+                "Yahan teen track baari baari bajte hain, is liye har beat par alag tadaad mein saaz bajte hain — aur heera utna hi bada hota hai jitne saaz baj rahe hon:",
+                "\\dhun: Beat()\nStage(\n\t[\n\t\tPhrase('◆' ((dhun.instruments.length() · 1.4m) + 0.6m))\n\t\tMusic(\n\t\t\t[\n\t\t\t\tTrack([1 1 1 ø] saaz: Instrument.drums)\n\t\t\t\tTrack([3 ø 3 ø] saaz: Instrument.piano)\n\t\t\t\tTrack([ø ø 5 5] saaz: Instrument.bell)\n\t\t\t]\n\t\t\traftaar: 100beats/min\n\t\t)\n\t]\n)\\",
+                "Mujhe ek @Music naam dein aur main sirf wahi mausiqi sunta hoon. Neeche do beat sun rahe hain, usi do mausiqi ko: upar wala sab kuch sunta hai, is liye jab har mausiqi beat par pahunchti hai to woh dono naamon ke beech jhilmilata hai, aur neeche wala sirf dhol sunta hai aur kuch aur nahin kehta. Yahi farq filter hai.",
+                "\\sabKuch: Beat()\nsirfDhol: Beat('tik')\nStage(\n\t[\n\t\tGroup(\n\t\t\tStack(haashiya: 0.5m)\n\t\t\t[\n\t\t\t\tPhrase(sabKuch.name 1.4m)\n\t\t\t\tPhrase(sirfDhol.name 1.4m)\n\t\t\t]\n\t\t)\n\t\tMusic(\n\t\t\tTrack([1 ø] saaz: Instrument.drums)\n\t\t\traftaar: 120beats/min\n\t\t\tnaam: 'tik'\n\t\t)\n\t\tMusic(\n\t\t\tTrack([5 5 5] saaz: Instrument.bell)\n\t\t\traftaar: 90beats/min\n\t\t\tnaam: 'ghanti'\n\t\t)\n\t]\n)\\",
+                "Jo kuch main chalata hoon woh us rendering ke /ilawa/ hota hai jo dekhne wale ne chuni hai; aap us mein izafa karte hain, use kabhi badalte nahin."
+            ],
+            "names": "$~Thaap",
+            "name": {
+                "doc": "$~sunne ke liye @Music ka naam, jo us ke @Music/name se milta ho. \\ø\\ ke saath main har bajti hui mausiqi sunta hoon — aur alag alag mausiqi ke beat milay jule aate hain, is liye unhein alag karne ke liye @Downbeat/name parhein.",
+                "names": "$~naam"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Main woh hoon jo ek @Beat aap ko deta hai: woh sab kuch jo player ko beat sunte waqt maaloom hota hai, taake ek visualization dikha sake ke asal mein kya baj raha hai.",
+                "Har @Music apne beat khud ginti hai, is liye jab ek @Beat ek se zyada sunta hai to mera @Downbeat/count us mausiqi ka hota hai jis se yeh beat aaya — kaun si mausiqi hai yeh jaanne ke liye mera @Downbeat/name dekhein."
+            ],
+            "names": "$~PehliThaap",
+            "name": {
+                "doc": "$~us @Music ka naam jis se yeh beat aaya, jis par @Beat/name filter karta hai.",
+                "names": "$~naam"
+            },
+            "count": {
+                "doc": "$~is mausiqi ne kitne beat baje hain, \\0\\ se shuru karke.\n\nginti tab shuru hoti hai jab mausiqi /shuru/ hoti hai, aur dobara shuru hone par phir se shuru hoti hai — ek @Music/replay, ya stage chhor kar wapas aana. Mausiqi ko bajte hue badalne se mujhe /reset/ nahin kiya jata, aur @Music/pause se bhi nahin — rokhi hui mausiqi ginti rok deti hai aur wahin se dobara shuru karti hai. Tabdeeli beech mein judti hai aur ginti jaari rehti hai, jis se tabdeeli dobara shuru hone jaisi nahin lagti.",
+                "names": "$~ginti"
+            },
+            "tempo": {
+                "doc": "$~mausiqi ki raftaar, beat fi minute mein.",
+                "names": "$~raftaar"
+            },
+            "volume": {
+                "doc": "$~mausiqi ki kul awaaz, \\0%\\ se \\100%\\ tak. Har @Part ki apni hoti hai.",
+                "names": "$~awaaz"
+            },
+            "key": {
+                "doc": "$~mausiqi ki apni @Music/key. Ek track ise badal sakta hai, is liye jaanne ke liye ke woh track asal mein kya baja raha hai, ek @Part ki kunji parhein.",
+                "names": "$~kunji"
+            },
+            "scale": {
+                "doc": "$~mausiqi ka apna @Music/scale. Ek track ise badal sakta hai, is liye jaanne ke liye ke woh track asal mein kya istemaal kar raha hai, ek @Part ka scale parhein.",
+                "names": "$~paimaana"
+            },
+            "instruments": {
+                "doc": "$~is beat par bajne wale @Instrument, har ek sirf ek baar likha hua. Aam surat ke liye ek shortcut; tafseel @Downbeat/parts mein hai.",
+                "names": "$~saaz"
+            },
+            "words": {
+                "doc": "$~is beat par gaaye ja rahe alfaaz ke hisse, track ki tarteeb mein, ya khaali list agar koi nahin gaa raha. Aam surat ke liye ek shortcut, jaise @Downbeat/instruments hai; tafseel @Downbeat/parts mein hai.",
+                "names": "$~alfaaz"
+            },
+            "parts": {
+                "doc": "$~har @Track ke liye ek @Part, usi tarteeb mein jis mein woh likhe gaye, chahe woh baj raha ho ya na. Yeh is beat par mausiqi ka poora @state hai.",
+                "names": "$~hisse"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Main ek @Track ka @state hoon, ek beat par: yeh kya baja raha hai, kitni awaaz mein, aur kis scale mein. Ek @Downbeat har track ke liye mera ek rakhta hai, taake visualization har awaaz ko alag dikha sake, mili hui awaaz ko nahin.",
+                "Mere @values woh hain jo player asal mein istemaal kar raha hai, jab har default aur override lag chuka ho. Is liye jab track apna scale aur key khud tay kare, to mere scale aur key us track ke hote hain, music ke nahin."
+            ],
+            "names": "$~Hissa",
+            "instrument": {
+                "doc": "$~Woh @Instrument jo mujhe baja raha hai.",
+                "names": "$~saaz"
+            },
+            "sounding": {
+                "doc": "$~Kya is beat par koi note sunai deta hai. Rukka hua note bhi gina jata hai, is liye main un beats mein bhi \\⊤\\ rehta hoon jin mein woh qaayam rehta hai, sirf us beat mein nahin jahan woh shuru hua.",
+                "names": "$~bajtaHua"
+            },
+            "degrees": {
+                "doc": "$~Is beat ko dhakne wale note, jaise likhe gaye hain. Khamoshi par khaali hota hai, aur chord ke liye ek se zyada.",
+                "names": "$~darje"
+            },
+            "pitch": {
+                "doc": "$~Mera @Part/degrees, mere scale aur key ke mutabiq, pehle note se semitone mein. Note ko unchai se rakhne ke liye ise istemaal karein; jo likha gaya tha woh dikhane ke liye @Part/degrees istemaal karein.",
+                "names": "$~sur"
+            },
+            "volume": {
+                "doc": "$~Is beat par main kitna tez hoon: mere note ki volume ko mere track ki volume se zarb dein. Yeh \\0%\\ se \\100%\\ tak hota hai, aur khamoshi par \\0%\\. Jo kuch aap banayein uska size tay karne ke liye accha hai.",
+                "names": "$~awaaz"
+            },
+            "pan": {
+                "doc": "$~Main donon speakers ke beech kahan hoon: \\-1\\ ka matlab poora baayen, \\0\\ ka matlab beech mein, aur \\1\\ ka matlab poora daayen. Jo kuch aap banayein usay jagah dene ke liye accha hai.",
+                "names": "$~pan"
+            },
+            "scale": {
+                "doc": "$~Woh scale jis ke mutabiq mere degrees tay hote hain, kisi bhi @Track/scale override ke baad.",
+                "names": "$~paimaana"
+            },
+            "key": {
+                "doc": "$~Mujh par lagaya gaya semitone ka farq, kisi bhi @Track/key override ke baad.",
+                "names": "$~kunji"
+            },
+            "loop": {
+                "doc": "$~Kya mera track apne aakhir par pahunch kar dobara shuru hota hai.",
+                "names": "$~chakkar"
+            },
+            "words": {
+                "doc": "$~Woh lafz jo yeh hissa is beat par ga raha hai, ya \\ø\\ agar kuch nahin ga raha, yaani khamoshi ya aisa track jis mein @Track/words nahin.",
+                "names": "$~alfaaz"
+            }
+        },
+        "Rebound": {
+            "names": "$~Uchhaal",
+            "doc": "$~Main @Collision se aata hoon aur batata hoon ke kis se takkar hui aur takkar kis taraf se hui. Mujhe istemaal karein taake faisla karein ke takkar par kisi khaas tareeqe se jawab dena hai ya nahin, aam physics ke ilawa.",
+            "direction": {
+                "names": "$~simt",
+                "doc": "$~Takkar ki simt aur shiddat, takkar ke maozu ke lihaaz se"
+            },
+            "subject": {
+                "names": "$~mauzoo",
+                "doc": "$~Us output ka naam jise maozu ne mara."
+            },
+            "object": {
+                "names": "$~cheez",
+                "doc": "$~Us output ka naam jis ne maozu ko mara"
+            }
+        },
+        "Direction": {
+            "names": "$~Simt",
+            "doc": "$~Main ek simt aur shiddat hoon, x aur y mehwar ke saath.",
+            "x": {
+                "names": "$~x",
+                "doc": "$~x mehwar ke saath simt aur shiddat."
+            },
+            "y": {
+                "names": "$~y",
+                "doc": "$~y mehwar ke saath simt aur shiddat."
+            }
+        }
+    }
+}

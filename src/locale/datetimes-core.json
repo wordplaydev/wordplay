@@ -1115,5 +1115,45 @@
                 }
             }
         }
+    },
+    "ur-Latn-PK": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": "، " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "Janwari",
+                    "M02": "Farwari",
+                    "M03": "Maarch",
+                    "M04": "Aprail",
+                    "M05": "Mai",
+                    "M06": "Joon",
+                    "M07": "Julaai",
+                    "M08": "Agast",
+                    "M09": "Sitambar",
+                    "M10": "Aktoobar",
+                    "M11": "Navambar",
+                    "M12": "Disambar"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
     }
 }

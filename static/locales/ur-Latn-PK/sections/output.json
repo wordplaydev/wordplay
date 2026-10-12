@@ -1,0 +1,2231 @@
+{
+    "$schema": "../../../static/schemas/sections/output.json",
+    "output": {
+        "Output": {
+            "names": "$~Paishkash",
+            "doc": [
+                "$~Main aisa @StructureDefinition nahin hoon jo aap asal mein bana saken. Lekin main bahut aham hoon, kyunki main hamare naach ke sab se aham @elements ko ilham deta hoon: @Phrase, @Group, aur @Stage.",
+                "Inhein istemaal karna seekhne ke liye in se milein."
+            ]
+        },
+        "Group": {
+            "doc": [
+                "$~Main @Phrase, @Shape aur @Group ko ek saath @Stage par ek @Arrangement ke zariye sajata hoon. Arre, adaab, aap kaise hain? Jab doosre aas paas hon to main hamesha theek rehta hoon, is liye aap ke saath hona bahut accha hai!",
+                "Kaam karne ke liye mujhe aap se ek @Arrangement chahiye, aur phir sajane ke liye @Output ki ek @List.",
+                "Masalan, yahan main ek @Stack tarteeb ke saath hoon aur kuch @Phrase ko seedha khade rukh jama rahe hain:",
+                "\\Group(Stack() [Phrase('pehla') Phrase('doosra')])\\",
+                "Main cheezon ko kaise sajata hoon, yeh us @Arrangement par munhasir hai jo aap mujhe dete hain."
+            ],
+            "names": ["$~🔳", "$~Group"],
+            "layout": {
+                "doc": "$~Woh tarteeb jo @Output ko unki jagah par rakhne ke liye istemaal ho.",
+                "names": "$~tarteeb"
+            },
+            "content": {
+                "doc": "$~Sajane ke liye @Output ki fehrist.",
+                "names": "$~mawaad"
+            },
+            "matter": {
+                "doc": "$~Main kitna bhaari, uchhalne wala aur phislan wala hoon, aur jab @Motion mujhe hilaye to kya mujhe thos banata hai.",
+                "names": "$~maadda"
+            },
+            "size": {
+                "doc": "$~Mere andar maujood shaandaar cheezein kitni lambi honi chahiye, jab tak unka apna size na ho!",
+                "names": "$~size"
+            },
+            "face": {
+                "doc": "$~Mere andar maujood cheezon ko kaunsa font face istemaal karna chahiye, jab tak unka apna face na ho.",
+                "names": ["$~khat"]
+            },
+            "place": {
+                "doc": "$~Stage par woh jagah jahan mujhe hona chahiye. Mere andar ka content wahin ke hisaab se saja hoga.",
+                "names": "$~jagah"
+            },
+            "name": {
+                "doc": ["$~@Phrase.name ke barabar!"],
+                "names": "$~naam"
+            },
+            "description": {
+                "doc": [
+                    "$~Un sunne walon ke liye tafseel jo nazar aane wala output nahin dekh sakte."
+                ],
+                "names": "$~bayaan"
+            },
+            "selectable": {
+                "doc": "$~@Phrase.selectable ke barabar!",
+                "names": "$~chunaJaSakneWala"
+            },
+            "color": {
+                "doc": "$~Woh @Color jo mere andar ke content ka hona chahiye, jab tak unka apna rang na ho.",
+                "names": "$~rang"
+            },
+            "background": {
+                "doc": "$~Mere peeche dikhane ke liye @Color.",
+                "names": "$~pasEManzar"
+            },
+            "opacity": {
+                "doc": "$~Mere andar sab kuch kitna shaffaf hona chahiye, \\0\\ aur \\1\\ ke darmiyan, jab tak koi doosra @Pose usay badal na de.",
+                "names": "$~dhundlapan"
+            },
+            "offset": {
+                "doc": "$~Ek @Place jo batata hai ke mere aam @Place se kitna hata hua hona chahiye, jab tak koi doosra @Pose usay badal na de. Apni jagah par hilne ke liye kaam ka hai.",
+                "names": "$~hatao"
+            },
+            "rotation": {
+                "doc": "$~Mujhe apne markaz ke gird kitna tirchha hona chahiye, agar mere @Pose ka apna alag ho.",
+                "names": ["$~ghumaao"]
+            },
+            "scale": {
+                "doc": "$~Mujhe apne asal size ke muqable mein kitna bada hona chahiye.",
+                "names": "$~paimaana"
+            },
+            "flipx": {
+                "doc": "$~@Phrase.flipx ke barabar!",
+                "names": "$~ulatx"
+            },
+            "flipy": {
+                "doc": "$~@Phrase.flipy ke barabar",
+                "names": "$~ulaty"
+            },
+            "entering": {
+                "doc": "$~@Phrase.entering ke barabar!",
+                "names": "$~aana"
+            },
+            "resting": {
+                "doc": "$~@Phrase.resting ke barabar!",
+                "names": "$~rukna"
+            },
+            "moving": {
+                "doc": "$~@Phrase.moving ke barabar!",
+                "names": "$~chalna"
+            },
+            "exiting": {
+                "doc": "$~@Phrase.exiting ke barabar!",
+                "names": "$~jaana"
+            },
+            "duration": {
+                "doc": "$~@Phrase.duration ke barabar!",
+                "names": ["$~muddat"]
+            },
+            "style": {
+                "doc": "$~@Phrase.style ke barabar!",
+                "names": "$~andaaz"
+            },
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
+        },
+        "Phrase": {
+            "doc": [
+                "$~Main @Stage par @Text mein sab se pyaari hoon. Hello, hello! Mujhe yaad hai? Koi mujhe kaise bhool sakta hai /me/.",
+                "Bas mujhe aise banayein, aur main @Stage par nazar aaungi:",
+                "\\Phrase('shaandaar!')\\",
+                "Mujhe dikhne ke liye @TextLiteral ya @FormattedLiteral chahiye. @FormattedLiteral ke saath, main \\`*mota* aur /tirchha/`\\ jaisi cheezein istemaal kar sakti hoon ya aapke banaye hue @ConceptLink ka zikr kar sakti hoon.",
+                "Aap mujhe woh sab kuch bhi de sakte hain jo ek @Output kar sakta hai, jaise mera size, font, ghumaav badalna, aur @Pose aur @Sequence ke saath mere tamam kamaal ke naach.",
+                "Aap mujhe @Stage par chun kar saath wale palette 🎨 se badal bhi sakte hain. Yeh alag alag font aazmane aur apne @Text ke liye sahi /khat/ chunne ka bohat achha tareeqa hai."
+            ],
+            "names": ["$~Jumla"],
+            "text": {
+                "doc": "$~Woh huroof jo @Stage par dikhane hain, ek @TextLiteral ya @FormattedLiteral.",
+                "names": "$~matn"
+            },
+            "size": {
+                "doc": "$~Mujhe kitna lamba hona chahiye, meter mein!",
+                "names": "$~size"
+            },
+            "face": {
+                "doc": "$~Us font face ka naam jo mujhe pehenna chahiye. Chunne ka sab se aasaan tareeqa yeh hai ke mujhe chunein aur saath wala palette 🎨 kholein, jahan aap font ka jaiza le sakte hain aur naam likhe baghair ek /khat/ chun sakte hain.",
+                "names": "$~khat"
+            },
+            "place": {
+                "doc": "$~Stage par woh jagah jahan mujhe hona chahiye.",
+                "names": "$~jagah"
+            },
+            "wrap": {
+                "doc": "$~Woh kinara jahan mujhe alamaat ko lapetna chahiye, ya \\ø\\ agar lapetna na ho.",
+                "names": ["$~lapet"]
+            },
+            "alignment": {
+                "doc": "$~Agar @Phrase.wrap hadd mukarrar ho, to mujhe alamaat ko kinare ke aaghaz, beech ya aakhir mein jamana chahiye.",
+                "names": "$~seedh"
+            },
+            "direction": {
+                "doc": "$~Alamaat ufuqi likhi jayein ya amoodi, aur agar amoodi ho aur @Phrase.wrap mukarrar ho, to matn baayein lapete ya daayein.",
+                "names": "$~simt"
+            },
+            "matter": {
+                "doc": "$~Main kitna bhaari, uchhalne wala aur phislan wala hoon, aur jab @Motion mujhe hilaye to kya mujhe thos banata hai.",
+                "names": "$~maadda"
+            },
+            "aura": {
+                "doc": "$~Mere peeche dikhane ke liye ikhtiyari @Aura. Mujhe chamkayein!",
+                "names": "$~haala"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Baat karne wala bubble jo dikhata hai main kya keh rahi hoon, aur seedha mujh ki taraf ishara karta hai. Yahan chaar alag cheezein ho sakti hain.",
+                    "Saada matn, jo main dikhati hoon aur kuch nahin:",
+                    "\\Phrase('a' bulbula: 'hello!')\\",
+                    "@markup, agar aap mere alfaaz mein *mota* ya /tirchha/ likhna chahein.",
+                    "Ek @Say, jo main dikhati *aur* zor se bolti bhi hoon:",
+                    "\\Phrase('a' bulbula: Say('hello!'))\\",
+                    "Ek @Bubble, jab aap chunna chahein ke main kis taraf se bolun, ise soch bana dein, ya ise rang dein."
+                ],
+                "names": "$~bulbula"
+            },
+            "poses": {
+                "doc": [
+                    "$~Mere har glyph ke liye @Pose, ek ke baad ek. Pehle glyph ko pehla pose milta hai, doosre ko doosra, aur jab poses khatam ho jayein to main phir pehle se shuru karti hoon. @placeholder bhi glyph gine jaate hain.",
+                    "\\Phrase(\n\t'jashn!'\n\tadaayen: [\n\t\tPose(rang: Color(25% 70 250°))\n\t\tPose(rang: Color(50% 80 300°))\n\t\tPose(rang: Color(58% 90 60°))\n\t]\n)\\",
+                    "Har glyph apne beech ke gird ghoomta, barhta aur hilta hai, is liye ek pose har glyph ko apni jagah par tirchha kar deta hai jabke meri line seedhi rehti hai:",
+                    "\\Phrase('daghmagata hua' adaayen: Pose(ghumaao: 15°))\\",
+                    "Glyph ka apna rang mere rang par aur mere animate kiye hue har pose par bhaari hota hai, aur us ki opacity meri opacity ke saath mil jaati hai."
+                ],
+                "names": "$~adaayen"
+            },
+            "name": {
+                "doc": [
+                    "$~Ek naam jo aap mujhe dete hain! Yeh bohat si baaton ke liye madadgaar hai.",
+                    "Pehli baat, agar mera naam ho, to main screen reader ki wazahat mein apne aap ko bayaan karne ke liye isay istemaal karoon ga.",
+                    "Doosri baat, animation karte waqt aap ke paas kai alag @expressions ho sakte hain jo stage par ek hi cheez ko dikhate hon; unhein ek hi naam dein aur woh ek ki tarah animate honge.",
+                    "Aakhir mein, main @Choice ke saath madadgaar hoon: jo naam aap mujhe dete hain woh us @stream mein nazar aate hain.",
+                    "Agar madadgaar ho to aap mujhe kai alag naam de sakte hain, har naam ek alag @language mein. Main hamesha pehli chuni hui zubaan ka naam istemaal karoon ga."
+                ],
+                "names": "$~naam"
+            },
+            "description": {
+                "doc": [
+                    "$~Ek khaas wazahat un sunne walon ke liye jo nazar aane wala output nahin dekh sakte."
+                ],
+                "names": "$~bayaan"
+            },
+            "selectable": {
+                "doc": "$~Agar \\⊤\\ ho, to yeh batata hai ke mujhe pointer ya keyboard se chuna ja sakta hai.",
+                "names": "$~chunaJaSakneWala"
+            },
+            "color": {
+                "doc": "$~Woh @Color jo main aam tor par hoon, jab tak koi doosra @Pose isay na badle.",
+                "names": "$~rang"
+            },
+            "background": {
+                "doc": "$~Mere peeche dikhane ke liye @Color.",
+                "names": "$~pasEManzar"
+            },
+            "opacity": {
+                "doc": "$~Main aam tor par kitna shaffaf hoon, \\0\\ aur \\1\\ ke darmiyan, jab tak koi doosra @Pose isay na badle. Dheere dheere ubharne aur ghaayab hone ke liye madadgaar hai.",
+                "names": "$~dhundlapan"
+            },
+            "offset": {
+                "doc": "$~Ek @Place jo batata hai ke main apne @Place se kitna hata hua hoon, jab tak koi doosra @Pose isay na badle. Apni jagah par hilne ke liye madadgaar hai.",
+                "names": "$~hatao"
+            },
+            "rotation": {
+                "doc": "$~Darjon mein woh miqdaar jitna mujhe apne markaz ke gird ghumaya jaye, jab tak koi doosra @Pose isay na badle.",
+                "names": "$~ghumaao"
+            },
+            "scale": {
+                "doc": "$~Main apne asli size se kitna bada hoon, jab tak koi doosra @Pose isay na badle.",
+                "names": "$~paimaana"
+            },
+            "flipx": {
+                "doc": "$~Kya mujhe x-axis par ulta dikhaya jaye, jab tak koi doosra @Pose isay na badle.",
+                "names": "$~ulatx"
+            },
+            "flipy": {
+                "doc": "$~Kya mujhe y-axis par ulta dikhaya jaye, jab tak koi doosra @Pose isay na badle.",
+                "names": "$~ulaty"
+            },
+            "entering": {
+                "doc": "$~Woh @Pose ya @Sequence jo mujhe stage par aate waqt karna chahiye.",
+                "names": "$~aana"
+            },
+            "resting": {
+                "doc": "$~Woh @Pose ya @Sequence jo mujhe stage par aane ke baad, nikalne se pehle, aur jab mera @Place nahin badal raha ho, karna chahiye. Agar aap mujhe koi na dein, to main apne aam tareeqe istemaal karoon ga.",
+                "names": "$~rukna"
+            },
+            "moving": {
+                "doc": "$~Woh @Pose ya @Sequence jo mujhe stage par jagah badalte waqt karna chahiye, apne aam tareeqon ki jagah.",
+                "names": "$~chalna"
+            },
+            "exiting": {
+                "doc": "$~Woh @Pose ya @Sequence jo mujhe stage se nikalne se pehle karna chahiye.",
+                "names": "$~jaana"
+            },
+            "changing": {
+                "doc": "$~Ek asar ka naam jo mera matn badalte waqt chale, mere @Phrase.duration par, mere @Phrase.style se narm kiya hua. Agar \\ø\\ ho, to mera matn foran badal jata hai. Agar 'edit' ho, to main purana matn wahan tak mitata hoon jahan tak purana aur naya matn ek jaise hain, phir naya matn likhta hoon. Agar 'rewrite' ho, to main naya matn purane ke upar likhta hoon, ek ek nishaan ko be-tarteeb badalte hue. Agar 'random' ho, to mera har nishaan mere matn ke @language (ya jab zubaan maaloom na ho to uski script) ke be-tarteeb nishaanon se guzarta hai, matn ki case ke mutabiq, slot machine ki tarah, jab tak naye matn par na ruk jaye. @FormattedLiteral matn ke saath, badalte nishaan asar ke dauran naye matn ki formatting le lete hain.",
+                "names": "$~badalna"
+            },
+            "duration": {
+                "doc": "$~Woh muddat jo stage par kisi doosri jagah jate waqt lagu hoti hai.",
+                "names": ["$~muddat"]
+            },
+            "style": {
+                "doc": "$~Animation ka andaaz jo stage par kisi doosri jagah jate waqt istemaal ho.",
+                "names": "$~andaaz"
+            },
+            "defaultDescription": "$~$size[$size meter ka |]phrase $text $name[jis ka naam $name hai|] $face[$face|] $animation $color[$color|] $bubble[jo keh raha hai $bubble|]"
+        },
+        "Arrangement": {
+            "doc": "$~Main Verse mein maujood bohat si doosri tarteebon ke liye ek misaal hoon, jin mein @Row, @Stack, @Grid, aur @Free shaamil hain. Main @Group ke saath mil kar tay karta hoon ke har @Output kahan jaye: main har ek ko wahan le jata hoon jahan main kahoon, uska size aur shakal waisi hi rakhte hue. @Free hum mein woh hai jo kuch tay nahin karta, is liye wahan har @Output apne @Place par baitha hota hai. Agar aap kisi cheez ko meri rakhi hui jagah se thoda hilana chahte hain, to use @Place ki bajaye @Phrase/offset dein.",
+            "names": ["$~Tarteeb"]
+        },
+        "Row": {
+            "doc": "$~Main @Row hoon, @Output ki ek afqi @Arrangement, jis mein darmiyan mein chaahein to @placeholder ho sakti hai. Kya aap mere jurwan @Stack se mile hain? Main tay karta hoon ke har ek kitna aage jaye, aur mera pehla input batata hai ke unhein mere neeche kaise barabar karna hai. Un mein se kisi ko @Place dein aur woh iski bajaye us y par baithe ga — lekin @Shape ka apna koi @Place nahin hota, is liye main use baaqi sab ke saath barabar karta hoon.",
+            "names": ["$~Qataar"],
+            "description": "$~qatar jis mein $#count[$count phrase ya group|$count phrases aur groups] hain",
+            "alignment": {
+                "doc": "$~Kya mere mawad ko har @column ke aaghaz, beech, ya aakhir mein barabar karna hai — ya, \\'_'\\ ke saath, us baseline par jis par uske alfaaz baithte hain, taake alag oonchai ke huroof ek line ki tarah parhe jayein.",
+                "names": "$~seedh"
+            },
+            "padding": {
+                "doc": "$~Output ke darmiyan @placeholder ki miqdaar.",
+                "names": "$~haashiya"
+            }
+        },
+        "Stack": {
+            "doc": "$~Main @Stack hoon, @Output ka ek amoodi @Arrangement, jis mein darmiyan mein chaahein to @placeholder ho sakti hai. Kya aap mere jurwan @Row se mile hain? Main tay karta hoon ke har ek kitna neeche jaye, aur mera pehla input batata hai ke unhein mere aar paar kaise barabar karna hai. Un mein se kisi ko @Place dein aur woh iski bajaye us x par baithe ga — lekin @Shape ka apna koi @Place nahin hota, is liye main use baaqi sab ke saath barabar karta hoon.",
+            "names": ["$~Tah"],
+            "description": "$~dher jis mein $#count[$count phrase ya group|$count phrases aur groups] hain",
+            "alignment": {
+                "doc": "$~Kya har row mein matn ko aaghaz par, darmiyan mein, ya aakhir par rakhna hai.",
+                "names": "$~seedh"
+            },
+            "padding": {
+                "doc": "$~Output ke darmiyan @placeholder ki miqdaar.",
+                "names": "$~haashiya"
+            }
+        },
+        "Grid": {
+            "doc": "$~Main @Output ka grid hoon. Mujhe ek row aur @column ginti dein, to main saaf suthra intezaam bana doonga, chahein to @placeholder aur @cell size ke saath. Main dono simton ka faisla karta hoon, is liye @Place kuch bhi daayein baayein ya oopar neeche nahin hilayega, lekin us ka z phir bhi batata hai ke woh kitna qareeb hai.",
+            "names": ["$~Jaal"],
+            "description": "$~$rows row aur $columns column ka grid",
+            "rows": {
+                "doc": "$~Grid mein kitni rows banani hain.",
+                "names": "$~qataarein"
+            },
+            "columns": {
+                "doc": "$~Grid mein kitne columns banane hain.",
+                "names": "$~sutoon"
+            },
+            "padding": {
+                "doc": "$~@cells ke darmiyan kitni @placeholder rakhni hai.",
+                "names": "$~haashiya"
+            },
+            "cellWidth": {
+                "doc": "$~@cells kitna chaura hona chahiye.",
+                "names": "$~khaanaChaurai"
+            },
+            "cellHeight": {
+                "doc": "$~@cells kitna lamba hona chahiye.",
+                "names": "$~khaanaHaashiya"
+            }
+        },
+        "Free": {
+            "doc": [
+                "$~Main ek @Arrangement hoon jo har @Output ko wahin baithne deta hai jahan us ka @Place kehta hai. Main kehta hoon, jo marzi karo. Jahan chaho baitho! Bas kahin baitho! Yaad rakhein ke jitne @Output aap mujhe dein un sab ka ek @Place ho, warna unhein pata nahin chalega ke kahan jaana hai.",
+                "Aur yeh bhi yaad rakhein ke jo @Place aap har @Output ko dein woh @Group ke @Place ke hisaab se hota hai! Is liye agar cheezein wahan nazar nahin aa rahin jahan aap sochte hain, to @Group ko bhi koi jagah dein."
+            ],
+            "names": ["$~Aazaad"],
+            "description": "$~khula $#count[$count output|$count outputs]"
+        },
+        "Shape": {
+            "doc": "$~Main tamam shaklon ki bunyaad hoon. Main @Stage ko yeh batane mein kaam aata hoon ke kaisi shakl bananee hai.",
+            "names": ["$~Shakal"],
+            "form": {
+                "doc": "$~Main woh qism ki shakl hoon jo dikhani hai. Har shakl ke intezaam ke liye alag maloomaat chahiye hoti hai.",
+                "names": "$~shakl"
+            },
+            "name": {
+                "doc": "$~Main woh naam hoon jo aap animations aur @Collision ke liye istemaal kar sakte hain. Misaal ke taur par, agar main zameen ko dikhaoon, to aap mujhe ground keh sakte hain.",
+                "names": "$~naam"
+            },
+            "description": {
+                "doc": [
+                    "$~Un sunne walon ke liye tafseel jo nazar aane wala output nahin dekh sakte."
+                ],
+                "names": "$~bayaan"
+            },
+            "selectable": {
+                "doc": "$~Kya mujhe @Choice ke hisse ke taur par chuna ja sakta hai.",
+                "names": "$~chunaJaSakneWala"
+            },
+            "color": {
+                "doc": "$~Mera rang. Main isse bharta hoon, siwaye is ke ke mera background ho, to phir yeh meri sarhad ko rang deta hai.",
+                "names": "$~rang"
+            },
+            "background": {
+                "doc": "$~Mere background ka rang.",
+                "names": "$~pasEManzar"
+            },
+            "opacity": {
+                "doc": "$~Main kitna shaffaf hona chahiye.",
+                "names": "$~dhundlapan"
+            },
+            "offset": {
+                "doc": "$~Main apni jagah se kitni door nazar aaon, jabke apni jagah par hi rahoon.",
+                "names": "$~hatao"
+            },
+            "rotation": {
+                "doc": "$~Main kitna ghoomा hua hona chahiye. Is ka asar @Collision par parta hai.",
+                "names": "$~ghumaao"
+            },
+            "scale": {
+                "doc": "$~Main kitna bara dikhna chahiye, apna asal size badle baghair.",
+                "names": "$~paimaana"
+            },
+            "flipx": {
+                "doc": "$~Kya mujhe meri x-axis par ulta karna hai.",
+                "names": "$~ulatx"
+            },
+            "flipy": {
+                "doc": "$~Kya mujhe meri y-axis par ulta karna hai.",
+                "names": "$~ulaty"
+            },
+            "entering": {
+                "doc": "$~Woh @Pose ya @Sequence jo mujhe @Stage mein dakhil hote waqt karna chahiye.",
+                "names": "$~aana"
+            },
+            "resting": {
+                "doc": "$~Woh @Pose ya @Sequence jo mujhe dakhil hone ke baad, jab main hil nahin raha hoon, karna chahiye.",
+                "names": "$~rukna"
+            },
+            "moving": {
+                "doc": "$~Woh @Pose ya @Sequence jo mujhe jagah badalte waqt karna chahiye.",
+                "names": "$~chalna"
+            },
+            "exiting": {
+                "doc": "$~Jab main @Stage chhorta hoon to mujhe jo @Pose ya @Sequence karna chahiye.",
+                "names": "$~jaana"
+            },
+            "duration": {
+                "doc": "$~Agar meri animations sirf ek @Pose hain to unhein kitna waqt lena chahiye.",
+                "names": "$~muddat"
+            },
+            "style": {
+                "doc": "$~Mujhe animation ka kaun sa andaaz istemaal karna chahiye.",
+                "names": "$~andaaz"
+            },
+            "filled": {
+                "doc": "$~Kya main apna andar rangoon. Jab tak main band na hoon, mera koi andar nahin hota, is liye khula @Path kabhi nahin bharta.",
+                "names": "$~bhara"
+            },
+            "stroked": {
+                "doc": "$~Kya main apni kinaar rangoon. Na bharaav ho aur na kinaar, to main nazar nahin aata, aur yeh ek tareeqa hai aisi rukaawat banane ka jo cheezon ko rokti hai magar dikhai nahin deti.",
+                "names": "$~lakeerdaar"
+            },
+            "glyphs": {
+                "doc": "$~Woh matn jo meri kinaar ke saath likha jaye, aur bharne tak dohraaya jaye. Jab tak aap mujhe kuch alfaaz na dein, mere paas koi alfaaz nahin hote.",
+                "names": "$~huroof"
+            }
+        },
+        "Image": {
+            "doc": "$~Main rangoon ki ek jaali hoon jo tasveer ki tarah banai jaati hai. Mujhe qataaron ki ek fehrist dein, har qataar @Color ki fehrist ho, aur main har ek ke liye ek chaukor rangoon ga. Mujhe ek /glyph/ dein to main har chaukor mein matn banaoon ga.",
+            "names": ["$~Tasveer"],
+            "colors": {
+                "doc": "$~Rangoon ki meri qataarein, sab se oopar ki qataar pehle. Har qataar ki lambai ek jaisi honi chahiye.",
+                "names": "$~rangon"
+            },
+            "description": {
+                "doc": "$~Main kya dikhata hoon, un ke liye jo mujhe dekh nahin sakte. Main yeh isliye maangta hoon ke rangoon ki jaali ke apne koi alfaaz nahin hote jin par bharosa kiya ja sake.",
+                "names": "$~bayaan"
+            },
+            "width": {
+                "doc": "$~Meri chaudaai kitni honi chahiye. Agar aap mujhe sirf oonchai dein to main apni chaudaai apni shakal se leta hoon. Agar dono dein to mere chaukor kheench kar fit ho jate hain.",
+                "names": "$~chaurai"
+            },
+            "height": {
+                "doc": "$~Meri oonchai kitni honi chahiye. Agar aap mujhe sirf chaudaai dein to main apni oonchai apni shakal se leta hoon.",
+                "names": "$~unchaai"
+            },
+            "glyph": {
+                "doc": "$~Ek function jo meri ek rang se woh matn banata hai jo us ki jagah likha jaye. Is ke baghair main saade chaukor rangoon ga.",
+                "names": "$~nishaan"
+            },
+            "recolor": {
+                "doc": "$~Ek function jo meri ek rang se woh rang banata hai jo us ki jagah istemaal ho. Tasveer ko kam rangoon mein badalne ke liye kaam ka hai.",
+                "names": "$~nayaRang"
+            },
+            "pixel": {
+                "doc": "$~Mere rangoon mein se ek, jo /glyph/ aur /recolor/ ko diya jata hai.",
+                "names": "$~nuqta"
+            },
+            "glyphs": {
+                "doc": "$~Main har chaukor mein kya banata hoon, jo /glyph/ se nikalta hai. Kuch nahin, agar aap ne mujhe /glyph/ nahin diya.",
+                "names": "$~huroof"
+            },
+            "palette": {
+                "doc": "$~Woh rang jo main asal mein banata hoon, jo /recolor/ se nikalte hain. Mere apne rang, agar aap ne mujhe /recolor/ nahin diya.",
+                "names": "$~rangPatti"
+            },
+            "face": {
+                "doc": "$~Us font face ka naam jis mein mere glyphs banaye jayein. Agar mere paas nahin hai to main wohi istemaal karta hoon jo mujhe samet-ta hai.",
+                "names": "$~khat"
+            },
+            "place": {
+                "doc": "$~Stage par woh jagah jahan mujhe hona chahiye.",
+                "names": "$~jagah"
+            },
+            "name": {
+                "doc": "$~Main woh naam hoon jo aap animations aur @Collision ke liye istemaal kar sakte hain.",
+                "names": "$~naam"
+            },
+            "selectable": {
+                "doc": "$~Kya mujhe @Choice ke hisse ke taur par chuna ja sakta hai.",
+                "names": "$~chunaJaSakneWala"
+            },
+            "color": {
+                "doc": "$~Mere glyphs ka ek rang. Is ke baghair har glyph us chaukor ka rang leta hai jis ki woh numaindagi karta hai. Is ke saath sab ek hi rang baantte hain, jo huroof se banane ke liye zaroori hai. Agar mere paas /glyph/ nahin hai to main ise nazarandaaz karta hoon, kyunke tab mere chaukor hi mere rang hain.",
+                "names": "$~rang"
+            },
+            "background": {
+                "doc": "$~Mere peeche ka rang.",
+                "names": "$~pasEManzar"
+            },
+            "opacity": {
+                "doc": "$~Main kitna dhundla honi chahiye.",
+                "names": "$~dhundlapan"
+            },
+            "offset": {
+                "doc": "$~Mujhe meri jagah se kitna door hilana hai, jab main rakha ja chuka hoon.",
+                "names": "$~hatao"
+            },
+            "rotation": {
+                "doc": "$~Mujhe kitna ghumana hai.",
+                "names": "$~ghumaao"
+            },
+            "scale": {
+                "doc": "$~Mujhe kitna bada ya chhota karna hai.",
+                "names": "$~paimaana"
+            },
+            "flipx": {
+                "doc": "$~Kya mujhe aadi taur par ulatna hai.",
+                "names": "$~ulatx"
+            },
+            "flipy": {
+                "doc": "$~Kya mujhe oopar neeche ulatna hai.",
+                "names": "$~ulaty"
+            },
+            "entering": {
+                "doc": "$~Woh @Pose ya @Sequence jo mujhe @Stage mein dakhil hote waqt karna chahiye.",
+                "names": "$~aana"
+            },
+            "resting": {
+                "doc": "$~Jab main hil nahin raha hota, to mujhe @Pose ya @Sequence karna chahiye.",
+                "names": "$~rukna"
+            },
+            "moving": {
+                "doc": "$~Jab main hil raha hota hoon, to mujhe @Pose ya @Sequence karna chahiye.",
+                "names": "$~chalna"
+            },
+            "exiting": {
+                "doc": "$~Jab main @Stage chhorta hoon to mujhe jo @Pose ya @Sequence karna chahiye.",
+                "names": "$~jaana"
+            },
+            "duration": {
+                "doc": "$~Agar meri animations sirf ek @Pose hain to unhein kitna waqt lena chahiye.",
+                "names": "$~muddat"
+            },
+            "style": {
+                "doc": "$~Mujhe animation ka kaun sa andaaz istemaal karna chahiye.",
+                "names": "$~andaaz"
+            },
+            "defaultDescription": "$~$description, ek tasveer $columns baay $rows"
+        },
+        "Say": {
+            "doc": [
+                "$~Main matn ko @Stage par dikhane ke bajaye bol kar sunata hoon. Hi!",
+                "Bas mujhe kuch kehne ko dein, aur jab bhi mujhe diya gaya matn badlega, main usay bolunga:",
+                "\\Say('bla bla bla')\\",
+                "Main matn ko usi @language mein bolta hoon jis ka tag usay laga hota hai, aur bina tag wale matn ko us zubaan mein jo aap ke program ne chuni ho. Agar aap alag alag zubaanon ka matn jodein, to main har hissa us ki apni zubaan mein bolta hoon:",
+                "\\Say('hola '/es + 'dost'/ur)\\",
+                "Aap settings mein ek aawaaz chun sakte hain."
+            ],
+            "names": ["$~Bolo"],
+            "text": {
+                "doc": "$~Woh matn jo mujhe bol kar sunana hai.",
+                "names": "$~matn"
+            },
+            "defaultDescription": "$~Bolein $text"
+        },
+        "Music": {
+            "doc": [
+                "$~Main sur (notes) ko aawaaz mein badalta hoon: ek ya zyada @Track ek saath bajte hain, ek raftaar par, ek kunji mein, ek scale ke mutabiq. Main woh mausiqi hoon jo aap sun /aur/ dekh sakte hain — har dekhne wala khud chunta hai ke main kaise nazar aaun.",
+                "Sab se chhota gaana ek track par teen sur ka hota hai:",
+                "\\Music(Track([1 3 5]))\\",
+                "Sur ginti hote hain. 1 scale ka pehla sur hai — woh jis par dhun mukammal lagti hai — 2 us se agla oopar wala sur hai, aur 8 wahi pehla sur hai, ek octave oopar. ø ek wakfa hai, yaani khamoshi. Ginti dono taraf aage barhti rehti hai: 9 doosra sur hai ek octave oopar, aur 0 aur -1 pehle sur se neeche jaate hain.",
+                "Ek /scale/ un thode se suron ka majmua hai jin se ek tukda banta hai, aur kaun se sur hain, yeh us ke mizaaj ka zyada tar hissa tay karta hai. Agar aap kuch na kahein to @Music/scale \\Music.major\\ hota hai, jo roshan lagta hai; \\Music.minor\\ bilkul unhi ginti se zyada udaas lagta hai. Ek /kunji/ yeh hai ke poora tukda kitna oonchi ya neechi jagah par hai, jo @Music/key se tay hoti hai. Aur @Music/tempo yeh hai ke woh kitni tez bajta hai, har minute ke beats mein — beat woh yaksaan dhadkan hai jis par aap taali bajayenge.",
+                "Kyunki sur ginti hain aur tay shuda aawaaz nahin, is liye teeno cheezein dhun ko chhue baghair badal sakti hain. Yeh wahi teen sur hain, zyada udaas, neeche, aur dheere:",
+                "\\Music(\n\tTrack([1 3 5])\n\tpaimaana: Music.minor\n\tkunji: -5semitones\n\traftaar: 60beats/min\n)\\",
+                "Ek track apne aakhir par pahunch kar dobara shuru ho jaata hai, is liye chhoti si fehrist ek dhun hai jo hamesha bajti rehti hai. Yeh chaar beat lambi hai, aur beech ki khaali jagahon mein wakfe hain:",
+                "\\Music(Track([1 ø 5 ø]) raftaar: 90beats/min)\\",
+                "Mujhe tracks ki fehrist dein to woh ek saath bajte hain, har ek ka apna saaz, raftaar aur awaaz ka zor hota hai. Yahan bass drum aur snare beat ko qaim rakhte hain jabke hi-hat dugni raftaar se chalta hai — ek hi ginti se ek polyrhythm. Drums ek kit hain, sur wale nahin, is liye un ki ginti sur ke bajaye kit ke hisse chunti hain:",
+                "\\Music(\n\t[\n\t\tTrack([1 ø 2 ø 1 ø 2 ø] saaz: Instrument.drums)\n\t\tTrack(\n\t\t\t[3 3 3 3 3 3 3 3]\n\t\t\tsaaz: Instrument.drums\n\t\t\ttaal: 0.5beats\n\t\t\tawaaz: 30%\n\t\t)\n\t]\n\traftaar: 96beats/min\n)\\",
+                "Qaus ke andar ginti ek saath ek chord ki tarah bajti hain, aur kisi ginti par likha gaya sur @value us entry ko apni lambai deta hai. Yahan do poore sur wale chord chalti hui dhun ke neeche tikte hain:",
+                "\\Music(\n\t[\n\t\tTrack([1 2 3 5 3 2 1 ø] saaz: Instrument.flute)\n\t\tTrack(\n\t\t\t[{1𝅝 3 5} {5𝅝 7 9}]\n\t\t\tsaaz: Instrument.piano\n\t\t\tawaaz: 50%\n\t\t)\n\t]\n)\\",
+                "Jo bhi ginti banata hai, woh mausiqi bana sakta hai. Yeh dhun khud ko naye tarteeb mein milati hai, aur is baat ko follow karti hai ke aap kitni zor se bol rahe hain:",
+                "\\Music(\n\tTrack([1 2 3 5 3 2 1].shuffled())\n\traftaar: (60 + (Volume() · 120)) · 1beats/min\n)\\",
+                "Kisi ko mujhe sunna zaroori nahin. @Beat har beat ko bajte waqt bata deta hai, taake aap mausiqi ko bajane ke saath saath bana bhi sakein, us visualization ke saath jo dekhne wale ne chuni ho. @Beat ke paas hamesha ek @Downbeat hota hai, is liye aap use bina kuch jaanche parh sakte hain:",
+                "\\dhun: Beat()\nginti: dhun.count\nStage(\n\t[\n\t\tPhrase(\n\t\t\t'◆'\n\t\t\tsize: 1m + ((ginti % 4) = 0 ? 2m 0m)\n\t\t\tjagah: Place(-2m 2m)\n\t\t)\n\t\tPhrase(\n\t\t\t'◆'\n\t\t\tsize: 1m + ((ginti % 4) = 2 ? 2m 0m)\n\t\t\tjagah: Place(2m 2m)\n\t\t)\n\t\tMusic(Track([1 ø 5 ø] saaz: Instrument.drums))\n\t]\n)\\",
+                "Mera apna koi andaaz nahin jis ko saja saken, is liye main aam zaahiri inputs mein se koi nahin leta — na size, na jagah, na rang, na animation. Main kaisa nazar aaun, yeh dekhne wale ki pasand hai, jo woh apni settings mein karta hai, aur woh stage se jura hota hai, aap ke layout mein nahin; main koi jagah nahin ghairta, is liye mujhe @Row ya @Stack mein rakhne se mere paas ki koi cheez nahin hilti. Mausiqi ko khud banane ke liye @Beat istemaal karein: woh aap ko har beat bajte waqt deta hai, taake aap jo chahein output chala sakein.",
+                "Main evaluation ke dauran bajta rehta hoon: jab main baj raha hoon to mere sur badlein, aur tabdeeli agle beat par jud jaati hai, dobara shuru hone ke bajaye, aur isi se dhun ko beech mein badalna mausiqi jaisa lagta hai. Mujhe shuru se dobara bajane ke liye @Music/replay dekhein; mujhe roke rakhne aur usi jagah se dobara shuru karne ke liye @Music/pause dekhein."
+            ],
+            "names": ["$~Mauseeqi"],
+            "tracks": {
+                "doc": "$~Ek @Track, ya un ki fehrist jo ek hi waqt mein bajti hai. Har track ek aawaaz hai jis ka ek saaz hota hai, is liye un ki fehrist ek toli hai.",
+                "names": "$~dhunein"
+            },
+            "tempo": {
+                "doc": "$~Main kitni tez bajta hoon, har minute ke beats mein. Beat woh yaksaan dhadkan hai jis par aap taali bajayenge, is liye 120beats/min ka matlab har second mein do beat hai, jo tez chalne ki raftaar ke qareeb hai. Ginti ko aadha karne se har cheez do guna der leti hai, aur ek bhi sur nahin badalta.",
+                "names": "$~raftaar"
+            },
+            "key": {
+                "doc": [
+                    "$~Main jo bhi sur bajata hoon, un sab ko kitna upar ya neeche khiskana hai.",
+                    "Ikaai semitone hai. Semitone maghribi mausiqi ka sab se chhota qadam hai: piano par yeh ek kunji se bilkul agli kunji tak ka faasla hai, kaali kunjiyan bhi ginte hue, aur baarah semitone mil kar ek octave banate hain. Is liye \\kunji: 12semitones\\🪲 wahi dhun hai jo ek octave upar ho, \\kunji: -12semitones\\🪲 ek octave neeche, aur \\kunji: 2semitones\\🪲 usay zara sa upar dhakelta hai.",
+                    "Yahan do tarah ki ginti milti hain, aur inhein aapas mein milaana aasaan hai. Sur /scale ke qadam/ ginte hain, jahan octave \\8\\ hota hai: \\1\\ se \\8\\ tak ek octave hai. Kunji /semitone/ ginti hai, jahan octave \\12\\ hota hai. Dono ek hi faasle ko bayaan karte hain: saat surun wale scale mein \\1\\ se \\8\\ tak ke aath qadam baarah semitone ke barabar hain. Kunji semitone mein naapi jaati hai kyunki semitone har scale mein ek jitna hota hai, jabke qadam aisa nahin: @Music/scale ke pentatonic mein ek octave mein paanch sur hain aur major mein saat, is liye qadamon se khiskane par har scale alag faasla tay karta, jabke \\12semitones\\ har scale mein ek octave hai.",
+                    "Kyunki kunji sirf ek number hai, yeh kahin se bhi aa sakti hai. Yahan poori dhun do semitone upar uthti hai jab /up/ muntakhab ho — @Choice ko stage par koi chuni jaane wali cheez chahiye jise woh parh sake, aur yeh dono jumle yahi kaam karte hain:",
+                    "\\Stage(\n\t[\n\t\tPhrase(\n\t\t\t'up'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'up'\n\t\t\tjagah: Place(-2m 0m)\n\t\t)\n\t\tPhrase(\n\t\t\t'ghar'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'ghar'\n\t\t\tjagah: Place(2m 0m)\n\t\t)\n\t\tMusic(\n\t\t\tTrack([1 3 5 8 5 3])\n\t\t\tkunji: (Choice() = 'up' ? 2semitones 0semitones)\n\t\t)\n\t]\n)\\"
+                ],
+                "names": "$~kunji"
+            },
+            "scale": {
+                "doc": [
+                    "$~Mere numberon ka matlab kaun se sur hain: pehle sur se semitone ke faasloon ki list.",
+                    "Scale un chhote surun ka majmua hai jin se dhun banti hai, aur scale chunna mizaaj chunne ka zyada hissa hai. Wahi dhun \\Music.major\\ mein roshan lagti hai, \\Music.minor\\ mein udaas, aur \\Music.wholeTone\\ mein khwaab jaisi, jabke ek bhi number nahin badalta.",
+                    "Mere kuch scales mein koi galat sur nahin hota: \\Music.pentatonic\\, \\Music.minorPentatonic\\ aur \\Music.blues\\ kisi bhi tarteeb mein achhe lagte hain, is liye yeh shuru karne ke liye achhi jagah hain. Doosre jaan boojh kar tez hain — \\Music.altered\\, \\Music.diminished\\ aur \\Music.locrian\\ be-sura sunaai denge, aur yehi unka maqsad hai.",
+                    "Aap apni list bhi likh sakte hain. Yeh ek pentatonic scale hai jo likh kar dikhaya gaya hai: \\[0semitones 2semitones 4semitones 7semitones 9semitones]\\"
+                ],
+                "names": "$~paimaana"
+            },
+            "volume": {
+                "doc": "$~Main kul mila kar kitna buland hoon, \\0%\\ se \\100%\\ tak. Har @Track ki apni awaaz bhi hoti hai, jo is ke muqable mein naapi jaati hai, is liye meri awaaz kam karne se poora gurooh ek saath dheema ho jaata hai.",
+                "names": "$~awaaz"
+            },
+            "replay": {
+                "doc": [
+                    "$~Jab yeh kisi jaanch par \\⊤\\ ho, to main shuru se dobara chalta hoon, chahe mere surun mein koi tabdeeli na hui ho.",
+                    "Yeh un awaazon ke liye hai jo kisi waqiye ka jawab dein, na ke musalsal baje. Agar sahi jawab par ding bajta hai, to lagataar do sahi jawab bilkul ek jaisi mausiqi banate hain, is liye kuch nahin badalta aur kuch dobara nahin bajta. Main woh hoon jis se aap kehte hain /dobara, abhi/ — neeche /right/ do baar chunein to ding do baar bajega:",
+                    "\\Stage(\n\t[\n\t\tPhrase(\n\t\t\t'right'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'right'\n\t\t\tjagah: Place(-2m 0m)\n\t\t)\n\t\tPhrase(\n\t\t\t'ghalat'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'ghalat'\n\t\t\tjagah: Place(2m 0m)\n\t\t)\n\t\tMusic(\n\t\t\tTrack([1 5 8] saaz: Instrument.bell chakkar: ⊥)\n\t\t\tdobaara: ∆ Choice() ? (Choice() = 'right') ⊥\n\t\t)\n\t]\n)\\",
+                    "Mujhe ek /lamhaati/ @condition dein, jo sirf usi jaanch par sach ho jis ko waqiye ne shuru kiya, jaise upar wala \\∆ Choice()\\. \\score > 10\\🪲 jaisi qaayam rehne wali shart ek baar sach hone ke baad sach rehti hai, is liye woh us ke baad har jaanch par mujhe dobara shuru kar degi."
+                ],
+                "names": "$~dobaara"
+            },
+            "pause": {
+                "doc": [
+                    "$~Jab tak yeh \\⊤\\ hai main ruka rehta hoon, aur jab yeh wapas \\⊥\\ hota hai to main usi dhadkan se aage badhta hoon jahan ruka tha.",
+                    "Yehi mujhe @Music/replay se alag karta hai: replay ka matlab /shuru se karo/ hai, aur mera matlab /yahin ruko/ hai. Jo sur rukte waqt bhi baj raha tha, woh dobara shuru hone par apna bacha hua hissa poora bajata hai, is liye lambe chord ke beech mein rukne se woh zaaya nahin hota. Neeche /hold/ aur /go/ chunein:",
+                    "\\Stage(\n\t[\n\t\tPhrase(\n\t\t\t'hold'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'hold'\n\t\t\tjagah: Place(-2m 0m)\n\t\t)\n\t\tPhrase(\n\t\t\t'jaana'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'jaana'\n\t\t\tjagah: Place(2m 0m)\n\t\t)\n\t\tMusic(\n\t\t\tTrack([1 3 5 8 5 3] saaz: Instrument.piano)\n\t\t\twaqfa: Choice() = 'hold'\n\t\t)\n\t]\n)\\",
+                    "Replay ke bar'aks, mujhe ek /qaayam/ @condition chahiye, jo utni der sach rahe jitni der aap khamoshi chahte hain. Mere @Beat ki ginti bhi mere saath ruk jaati hai aur wahin se aage barhti hai, sifar se dobara shuru nahin hoti."
+                ],
+                "names": "$~waqfa"
+            },
+            "name": {
+                "doc": "$~Mera naam, jo meri pehchaan hai. Isay rakhein to mere surun ki tabdeeliyan mere bajte hue andar judti jaati hain; isay badlein to main ek naye tukde ki tarah shuru se chalta hoon. Yehi woh cheez hai jis par @Beat chhaant sakta hai, is liye ek saath bajte do tukde alag pehchane ja sakte hain.",
+                "names": "$~naam"
+            },
+            "description": {
+                "doc": "$~Mera bayaan, jo screen reader tab bolte hain jab mujhe suna nahin ja sakta.",
+                "names": "$~bayaan"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Major scale, meri pehle se tay shuda: roshan aur jaani pehchaani.",
+                    "names": "$~bara"
+                },
+                "minor": {
+                    "doc": "$~Natural minor scale: major se zyada gehri.",
+                    "names": "$~chhota"
+                },
+                "chromatic": {
+                    "doc": "$~Saare baarah semitone, is liye darje aur semitone ek jaise hain.",
+                    "names": "$~rangeen"
+                },
+                "pentatonic": {
+                    "doc": "$~Major pentatonic scale: paanch sur, aur koi galat nahin — har darja har doosre ke saath achha lagta hai.",
+                    "names": "$~paanchSuri"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Minor pentatonic scale: paanch sur, aur koi galat nahin.",
+                    "names": "$~chhotaPaanchSuri"
+                },
+                "blues": {
+                    "doc": "$~Blues scale: minor pentatonic aur ek flat paanch. Yahan bhi koi galat sur nahin.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Dorian mode: minor jis mein chhatha sur uncha hai, jaaz jaisa darmiyaani mizaaj.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Phrygian mode: minor jis mein doosra sur neecha hai, gehra aur Hispani rang liye hue.",
+                    "names": "$~phrygian"
+                },
+                "lydian": {
+                    "doc": "$~Lydian mode: major jis mein chautha sur uncha hai, halka phulka aur roshan.",
+                    "names": "$~lydian"
+                },
+                "mixolydian": {
+                    "doc": "$~Mixolydian mode: major, lekin saatvein sur ko neecha kar ke, blues jaisa aur adhoora sa.",
+                    "names": "$~mixolydian"
+                },
+                "locrian": {
+                    "doc": "$~Locrian mode: jaan boojh kar tanaao wala, jis mein doosra aur paanchwan sur neecha hota hai. Agar aap ne isay aasaan jazz samajh kar chuna tha, to is ke bajaye bemel aawaazon ke liye tayyar rahein.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Melodic minor scale: minor, lekin chhatha aur saatwan sur uncha kar ke. Bohat si jazz harmony ki buniyaad yehi hai.",
+                    "names": "$~sureelaChhota"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Harmonic minor scale: minor, lekin saatwan sur uncha kar ke. Yeh dramaai aur purane zamaane jaisi lagti hai.",
+                    "names": "$~hamaahangChhota"
+                },
+                "lydianDominant": {
+                    "doc": "$~Lydian dominant scale: lydian, lekin saatwan sur neecha kar ke. Yeh melodic minor ka chautha mode hai.",
+                    "names": "$~lydianGhaalib"
+                },
+                "altered": {
+                    "doc": "$~Altered scale: jaan boojh kar bemel, dominant chords par tanaao paida karne ke liye. Yahan kuchh sur ghalat lagte hain, aur yehi is ka maqsad hai.",
+                    "names": "$~badla"
+                },
+                "bebopDominant": {
+                    "doc": "$~Bebop dominant scale: mixolydian aur ek natural saatwan sur, aath sur taake runs beat par khatam hon.",
+                    "names": "$~bebopGhaalib"
+                },
+                "bebopMajor": {
+                    "doc": "$~Bebop major scale: major aur ek uncha paanchwan sur, aath sur taake runs beat par khatam hon.",
+                    "names": "$~bebopBara"
+                },
+                "wholeTone": {
+                    "doc": "$~Whole tone scale: chhe barabar fasle wale sur, khwaab jaisi, jis mein wapas lautne ka koi ghar nahin.",
+                    "names": "$~pooraSur"
+                },
+                "diminished": {
+                    "doc": "$~Diminished scale: baari baari poora aur aadha qadam, tanaao wali aur hum-shakl.",
+                    "names": "$~ghata"
+                }
+            },
+            "defaultDescription": "$~music jis mein $#tracks[ek track|$tracks tracks] hain, $tempo beats fi minute ki raftaar se"
+        },
+        "Track": {
+            "doc": [
+                "$~Main @Music mein ek aawaaz hoon: suron ki ek silsila jo ek @Instrument bajata hai.",
+                "Mere sur adad hain, wohi adad jo @Music samjhata hai — 1 scale ka pehla sur hai, 8 wohi sur ek octave upar hai, ø khaamoshi hai, aur \\{1 3 5}\\ jaise braces mein adad ek saath chord ki tarah bajte hain:",
+                "\\Music(Track([1 ø {1 3 5} 8]))\\",
+                "Sur poore adad hi hon, zaroori nahin. \\1.5\\ pehle aur doosre sur ke darmiyaan hai, aur dono bajte hain — qareeb wala zyada tez — is liye adad ko suron par sarkaana aisa lagta hai jaise piano ki kunjiyaan dabayi jaa rahi hon:",
+                "\\Music(Track([1 1.2 1.4 1.6 1.8 2] taal: 0.5beats))\\",
+                "Mera @Track/mash \\⊥\\ par rakhein, to is tarah ka adad do sur bajane ke bajaye ek sur ko pitch se hata kar mor deta hai.",
+                "Har entry meri @Track/beat tak chalti hai, jo ek beat hai jab tak aap isay na badlein. Isay badalne se main jo kuchh bajata hoon woh sab ek saath dobara tarteeb paata hai.",
+                "Jab koi ek entry baqi se lambi ya chhoti honi ho, to lambaai adad par hi ek note @value ke tor par likhein. \\8𝅗𝅥\\ aadha note hai — ek beat se do guna lamba — aur is ke aas paas kuchh likhne ki zaroorat nahin:",
+                "\\Music(Track([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Paanch qeematein hain: \\𝅝\\ chaar beats tak chalta hai, \\𝅗𝅥\\ do, \\𝅘𝅥\\ ek, \\𝅘𝅥𝅮\\ aadha beat, aur \\𝅘𝅥𝅯\\ ek beat ka chauthaai. In mein se kisi ke baad nuqta lagane se woh aadha aur lamba ho jata hai, to \\𝅘𝅥𝅭\\ derh beat ka hai. Chauthaai note ek beat ka hota hai chahe meri beat kuchh bhi ho, is liye \\dhun: 1𝅘𝅥𝅮\\🪲 wohi kehta hai jo \\0.5beats\\ kehta hai, aur zyada saaf parha jata hai. Chord par, qeemat pehle adad par rakhein: \\{1𝅗𝅥 3 5}\\.",
+                "Yeh dhoondhna mushkil hai, is liye @editor ke neeche ki alaamaton ki qataar inhein tab dikhati hai jab aap ka cursor mere kisi adad ke bilkul baad ho.",
+                "Khaamoshi qeemat nahin rakh sakti, kyunke \\ø\\ adad nahin hai. Do khaamoshiyan ek saath do guni lambi hoti hain, aur is se bareek kaam ke liye @Note hai.",
+                "Jab kisi ek sur ko apni alag awaaz chahiye ho, ya aisi lambaai chahiye jo koi qeemat na likh sake, to us ek ko @Note mein lapeitein. Isay sirf wahin istemaal karein jahan zaroorat ho: saada adad parhna aasaan hai, is liye zyada tar tracks mein yeh hota hi nahin, aur isi nayaab hone se @Note ek waqiye ki tarah numaya hota hai.",
+                "\\khaana: [1 3 5 3]\nMusic(\n\tTrack(\n\t\tkhaana\n\t\t.append(\n\t\t\tkhaana.translate(ƒ(n2•#) n2 + 2)\n\t\t)\n\t\t.append(\n\t\t\tkhaana.reverse()\n\t\t)\n\t\t.append(\n\t\t\tkhaana.translate(ƒ(n3•#) 8 - n3)\n\t\t)\n\t\tsaaz: Instrument.piano\n\t)\n)\\",
+                "Round ke liye bas khaamoshiyon se bharna kaafi hai: dono hisson mein beats ki tadaad barabar hoti hai, is liye woh saath saath chalte hain aur alag nahin hote. Do lists ko : se ek mein phailana unhein banane ka tareeqa hai, kyunke \\append\\ ko dono lists mein ek hi qism ki cheez chahiye.",
+                "\\dhun: [1 2 3 1 1 2 3 1 3 4 5 ø]\nbaqi: [ø ø ø ø]\nMusic(\n\t[\n\t\tTrack([:dhun :baqi] saaz: Instrument.flute)\n\t\tTrack([:baqi :dhun] saaz: Instrument.violin)\n\t]\n)\\"
+            ],
+            "names": ["$~Dhun"],
+            "notes": {
+                "doc": "$~Bajane wale sur, tarteeb se: sur ke liye ek adad, khaamoshi ke liye \\ø\\, chord ke liye \\{1 3 5}\\ jaisa ek set, ya @Note jab kisi ek entry ko apni alag awaaz chahiye. Adad par likha hua note @value — \\3𝅗𝅥\\ — batata hai ke woh ek entry kitni der chalti hai.",
+                "names": "$~sur"
+            },
+            "instrument": {
+                "doc": "$~Woh @Instrument jo mujhe bajata hai. Kuchh instruments pitched hote hain, to mere adad sur chunte hain; doosre kits hote hain, jahan mere adad aawaazein chunte hain. Har instrument batata hai ke woh kaun sa hai.",
+                "names": "$~saaz"
+            },
+            "beat": {
+                "doc": "$~Ek saada entry beats mein kitni der chalti hai. Yeh ek beat hai jab tak aap isay na badlein, aur badalne se main jo kuchh bajata hoon woh sab ek saath dobara tarteeb paata hai: \\0.5beats\\ par har entry aathwan note hai, to main usi list se do guni raftaar se guzarta hoon. Ek note @value wohi baat zyada saaf kehta hai, to \\dhun: 1𝅘𝅥𝅮\\🪲 wohi aathwan note wala grid hai.",
+                "names": "$~taal"
+            },
+            "scale": {
+                "doc": "$~Sirf mere liye ek scale, jo @Music/scale ko badal deti hai, jab ek aawaaz ko baqiyon se alag sur istemaal karne hon.",
+                "names": "$~paimaana"
+            },
+            "key": {
+                "doc": "$~Ek tabdeeli sirf mere liye, semitone mein, jo @Music/key ko badal deti hai — us waqt ke liye jab ek aawaaz baqi se oonchi ya neechi honi chahiye. Ek track ko ek octave neecha karne se bass line unhi numbers se ban jaati hai jinse dhun banti hai.",
+                "names": "$~kunji"
+            },
+            "volume": {
+                "doc": "$~Meri aawaaz kitni tez hai, \\0%\\ se \\100%\\ tak, music ki aawaaz ke muqabil naapi gayi, taake halki si sang-e-saaz dhun ke neeche reh sake.",
+                "names": "$~awaaz"
+            },
+            "pan": {
+                "doc": "$~Main donon speakers ke beech kahan hoon: \\-1\\ poori tarah baayein, \\0\\ beech mein, aur \\1\\ poori tarah daayein. Tracks ko alag alag phailane se har ek ko pehchanna aasaan ho jaata hai.",
+                "names": "$~pan"
+            },
+            "loop": {
+                "doc": "$~Kya main apne aakhir par pohnch kar dobara shuru hota hoon. Main hota hoon, siwaye is ke ke yeh \\⊥\\ ho, jo ek baar ki aawaaz jaise ding ko chahiye.",
+                "names": "$~chakkar"
+            },
+            "mash": {
+                "doc": "$~Do suron ke beech wale sur ka kya hota hai. \\1.5\\ \\1\\ aur \\2\\ ke theek beech mein hai: agar yeh \\⊥\\ na ho, to dono bajte hain, qareeb wala zyada tez, jaise piano ki do chaabiyan ek saath dabane par. \\⊥\\ ke saath aapko ek hi sur milta hai, jo un ke beech apne faasle ke hisaab se pitch se hata hua hota hai.",
+                "names": "$~milaao"
+            },
+            "words": {
+                "doc": "$~@Instrument/voice ke gaane ke liye bol. Har sur ke liye ek bol, @placeholder se alag kiye hue, to \\'so mi fa'\\ teen sur gaata hai aur khaali jagahein batati hain ke ek bol kahan khatam hota hai aur agla kahan shuru hota hai.\n\nKhamoshi ko koi bol nahin chahiye, is liye gaana un suron par aata hai jo waqai bajte hain. Agar bol suron se kam hon, to woh khamosh hone ke bajaye shuru se dobara shuru ho jaate hain. Agar bilkul na hon, to aawaaz ek /uh/ aawaaz rokti hai.\n\nKisi bol ko hyphen par khatam karein to woh agle sur par bhi ruka rehta hai, har hyphen par ek aur sur — yun aap ek bol ko kai suron par gaate hain. \\Track([1 2 3 4] alfaaz: 'la- mi so')\\ mein, \\la\\ pehle do suron ko dhakta hai, phir \\mi\\ aur \\so\\ ek ek lete hain.\n\nHijje <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ke hain, jahan har harf ek aawaaz hai. Har aawaaz dekhne aur sunne ke liye @editor ke neeche 🤖 dabayein. Jo harf main nahin pehchanta woh chhor diye jaate hain. Aawaaz ke siwa har saaz mujhe nazar andaaz karta hai, is liye @Track/instrument badalne aur wapas karne par bhi bol bache rehte hain.",
+                "names": "$~alfaaz"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Main @Track mein ek entry hoon jo apni alag aawaaz rakhti hai, ya aisi lambai jo koi note @value nahin likh sakta.",
+                "Zyadatar notes saade numbers hi rehne chahiyein, aur zyadatar lambaiyan number par hi likhne se chhoti hoti hain: \\1𝅗𝅥\\ aadha note hai. Main tab kaam aata hoon jab ek note ko apni aawaaz chahiye, ya aisi lambai jo qeematon ke beech aaye — aur kyunki \\Note(1 2beats ÷ 3)\\ \\1\\ se kahin zyada kehta hai, mujhe har jagah istemaal karne se zaroori notes dab jayenge.",
+                "Triplet seedha hisaab hai: \\Note(1 2beats ÷ 3)\\ kehta hai ke yeh teen do beat bharte hain. Meri lambai note ki qeemat bhi ho sakti hai, is liye \\Note(1 1𝅗𝅥)\\ aur \\Note(1 2beats)\\ wahi do beat hain.",
+                "\\Music(Track([1 1 Note(5 2beats awaaz: 60%) ø]))\\"
+            ],
+            "names": ["$~Sur"],
+            "degree": {
+                "doc": "$~Kya bajana hai: note ke liye ek number, khamoshi ke liye \\ø\\, ya chord ke liye numbers ka set, bilkul waise hi jaise @Track mein saadi entry hoti. Number par @value wala note — \\3𝅗𝅥\\ — batata hai ke main kitni der chalta hoon, aur agar aap dono likhein to @Note/beat par ghalib aata hai.",
+                "names": "$~darja"
+            },
+            "beat": {
+                "doc": "$~Main kitne beat chalta hoon. Mujhe istemaal karne ki poori wajah yehi hai: @Track mein har saadi entry barabar der chalti hai, aur main woh tareeqa hoon jis se ek note ko alag lambai milti hai. Yahan @value wala note bhi kaam karta hai, is liye \\1𝅗𝅥\\ aur \\2beats\\ ki lambai ek jaisi hai.",
+                "names": "$~taal"
+            },
+            "volume": {
+                "doc": "$~Meri aawaaz kitni tez hai, jo @Track ki aawaaz ko badal deti hai, ek akele note par zor dene ke liye.",
+                "names": "$~awaaz"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "$~Main un saazon mein se ek ka naam hoon jo @Track bajा sakta hai. Main ek tay shuda faehrist hoon: mujhe naam se chunein, jaise \\Instrument.piano\\ ya \\Instrument.🎹\\.",
+                "Hum mein se zyadatar /pitched/ hain, yaani track ke numbers sur chunte hain aur bade numbers oonche sunayi dete hain. Baqi /kits/ hain: number sur ke bajaye ginti wali faehrist mein se ek aawaaz chunta hai, is liye track dhun ke bajaye taal jaisa parha jaata hai, aur faehrist ke aakhir se aage ke numbers ghoom kar uske shuru par aa jaate hain.",
+                "Hum mein se zyadatar asli recordings bhi hain, un saazon se li gayi jo logon ne waqai bajaye. Synthesizers kisi ki naqal nahin karte — woh oscillators se bane hain, aur wahi unki aawaaz hai. Hum mein se har ek neeche batata hai ke hum kaun se hain."
+            ],
+            "names": ["$~Saaz"],
+            "id": {
+                "doc": "$~Main faehrist ki kaun si entry hoon.",
+                "names": "$~shanakht"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": [
+                        "$~Ek piano. Asli piano se record kiya gaya, aur pitched, is liye numbers sur chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.piano\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~🎹", "$~piano"]
+                },
+                "acousticGuitar": {
+                    "doc": [
+                        "$~Ek classical guitar, jis ki nylon taaron ko pick ke bajaye ungliyon se chheda jaata hai. Asli guitar se record ki gayi, aur pitched, is liye numbers sur chunte hain. Saade \\guitar\\ ka matlab yehi hai, is liye purane projects jinhon ne guitar maangi woh yehi bajate hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.acousticGuitar\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~saadaGuitar"]
+                },
+                "electricGuitar": {
+                    "doc": [
+                        "$~Ek electro-acoustic guitar — khokhli body wali, jis ke andar pickup lagi hai aur jis ke taar steel ke hain, is liye is ki aawaaz nylon wali \\Instrument.acousticGuitar\\ se zyada tez aur lambi goonjti hai. Yeh asli guitar se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.electricGuitar\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~bijliGuitar"]
+                },
+                "violin": {
+                    "doc": [
+                        "$~Ek violin. Yeh asli violin se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.violin\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~🎻", "$~violin"]
+                },
+                "drums": {
+                    "doc": [
+                        "$~Ek drum kit. Yeh record ki gayi hai, aur sur wali nahin balki kit hai: adad kisi sur ke bajaye kit ka ek hissa chunte hain — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tom tom, \\6\\ cowbell — aur \\7\\ wapas ghoom kar bass drum par aa jata hai.",
+                        "\\Music(\n\tTrack(\n\t\t[1 2 3 4 5 6]\n\t\ttaal: 2beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.drums\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~dhol"]
+                },
+                "flute": {
+                    "doc": [
+                        "$~Ek flute. Yeh asli flute se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.flute\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~baansuri"]
+                },
+                "trumpet": {
+                    "doc": [
+                        "$~Ek trumpet. Yeh asli trumpet se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.trumpet\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~bigul"]
+                },
+                "saxophone": {
+                    "doc": [
+                        "$~Ek saxophone, yaani tenor. Yeh asli saxophone se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.saxophone\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~🎷", "$~saxophone", "$~sax"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Ek harmonica, woh wali jis ke side mein button hota hai. Yeh asli harmonica se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.harmonica\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~munhBaaja"]
+                },
+                "bell": {
+                    "doc": [
+                        "$~Ek ghanti — orchestra ke chimes, jin par hathauri se chot lagayi jati hai. Yeh record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.bell\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~ghanti"]
+                },
+                "didgeridoo": {
+                    "doc": [
+                        "$~Ek didgeridoo, jo Australia ke asli baashindon ka saaz hai. Yeh asli didgeridoo se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain, magar yeh ek gehri musalsal aawaaz wala saaz hai aur neeche hi rehta hai.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.didgeridoo\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~🪵", "$~didgeridoo"]
+                },
+                "cat": {
+                    "doc": [
+                        "$~Ek billi — asal mein ek billi ka poora kit. Yeh asli billi se record ki gayi hai, aur sur wali nahin balki kit hai: adad kisi sur ke bajaye yeh chunte hain ke billi kya keh rahi hai — \\1\\ chidhi hui, \\2\\ bheekh mangti hui, \\3\\ bhooki, \\4\\ ehtijaj karti hui, \\5\\ minnat karti hui, \\6\\ khwahish karti hui, \\7\\ pareshan, \\8\\ dari hui, \\9\\ nazuk mizaj, \\10\\ sukoon mein, \\11\\ akeli, \\12\\ ghurghurati hui — aur \\13\\ wapas ghoom kar chidhi hui par aa jata hai. Agar aap sur bajane wali billi chahte hain, to \\Instrument.pitchedCat\\ dekhein.",
+                        "\\Music(\n\tTrack(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\ttaal: 2beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.cat\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~billi", "$~miaon"]
+                },
+                "pitchedCat": {
+                    "doc": [
+                        "$~Wohi billi, sur mein ki hui. Jo barah recordings kit \\Instrument.cat\\ bajata hai, un mein se yeh woh hai jo ek hi sur par qaim rehti hai, aur yeh kit nahin balki sur wali hai, is liye adad suron ko chunte hain aur aap is se dhun likh sakte hain. Jis sur par record hui thi us se bohat door bajane par meow gaane ke bajaye khinchi hui lagti hai, is liye yeh darmiyan ke sur ke ek saptak ke andar hi behtar lagti hai.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.pitchedCat\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~surwaaliBilli"]
+                },
+                "dog": {
+                    "doc": [
+                        "$~Ek kutta — asal mein kuttoon ka poora kit. Yeh asli kuttoon se record kiya gaya hai, aur sur wala nahin balki kit hai: adad kisi sur ke bajaye yeh chunte hain ke aap kaun si bhonk sunte hain, jo sab se gehri se sab se tez tak chalti hai — \\1\\ bhaari, \\2\\ khabardar karti hui, \\3\\ pehra deti hui, \\4\\ hoshiyar, \\5\\ zid karti hui, \\6\\ mutalba karti hui, \\7\\ elaan karti hui, \\8\\ betaab, \\9\\ josheeli, \\10\\ be-sabri, \\11\\ chheekhti hui, \\12\\ teekhi — aur \\13\\ wapas ghoom kar bhaari par aa jata hai. Agar aap sur bajane wala kutta chahte hain, to \\Instrument.pitchedDog\\ dekhein.",
+                        "\\Music(\n\tTrack(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\ttaal: 2beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.dog\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~kutta", "$~bhaun"]
+                },
+                "pitchedDog": {
+                    "doc": [
+                        "$~Wohi kutte, sur mein kiye hue. Un tamam bhonkon mein se jin se kit banaya gaya hai, yeh woh hai jo ek hi sur par qaim rehti hai, aur yeh kit nahin balki sur wali hai, is liye adad suron ko chunte hain aur aap is se dhun likh sakte hain. Jis sur par record hui thi us se bohat door bajane par bhonk, bhonkne ke bajaye khinchi hui lagti hai, is liye yeh darmiyan ke sur ke ek saptak ke andar hi behtar lagti hai.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.pitchedDog\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~surwaalaKutta"]
+                },
+                "synth": {
+                    "doc": [
+                        "$~Ek synthesizer lead: tez aur bhinbhinati hui, aur is baat par sharminda nahin ke yeh oscillators se bani hai. Yeh record nahin balki synthesize ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.synth\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~barqiBaaja"]
+                },
+                "synthBass": {
+                    "doc": [
+                        "$~Ek synthesizer bass: bhari aur gehri. Yeh record nahin balki synthesize ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.synthBass\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~barqiBhaariSur"]
+                },
+                "synthPad": {
+                    "doc": [
+                        "$~Ek synthesizer pad: naram, aahista aane wali, aur baaqi sab ke neeche ek chord ko thaame rakhne ke liye achhi. Yeh record nahin balki synthesize ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.synthPad\n\t)\n\traftaar: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~barqiNarmSur"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~Ek gaane wali aawaaz, jo filters se banayi gayi hai, kisi insaan se record nahin ki gayi. Sur wali hai, is liye adad suron ko chunte hain.",
+                        "Main ek synthesizer hoon, jaise @Instrument/synth — kisi gulukaar ki naqal nahin. Main chahe kitna hi unchaa ya neecha gaaon, mera munh ek hi size ka rehta hai, jo koi asli gala nahin kar sakta. Isi liye main aisi machine lagti hoon jo insaan ki naqal utaar rahi ho, aur na mard jaisi lagti hoon na aurat jaisi.",
+                        "Mere @Track ko ek @Track/words dein aur main unhein gaati hoon, har sur par ek hijja. Agar koi na ho, to main ek /uh/ aawaaz thaame rakhti hoon, is liye main hamesha kuch na kuch gaati hoon.",
+                        "\\Music(\n\tTrack(\n\t\t[1 2 3 5]\n\t\talfaaz: 'la la la la'\n\t\tsaaz: Instrument.voice\n\t)\n\traftaar: 120beats/min\n)\\",
+                        "Hijje <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> mein likhe jate hain, ek aisi alphabet jis mein har harf ek /aawaaz/ hota hai, ek hijje nahin — is liye \\'ʃi'\\ /she/ ke shuru ki aawaaz hai, chahe aap kisi bhi @language mein likhein. @editor ke neeche 🤖 dabayein taake main jitni aawaazein nikal sakti hoon woh sab dekh sakein aur har ek ko sun sakein."
+                    ],
+                    "names": ["$~aawaaz"]
+                }
+            }
+        },
+        "Form": {
+            "doc": "$~Main ek tajreedi shakl hoon, jaise @Rectangle ya @Circle.",
+            "names": ["$~Shakl"]
+        },
+        "Rectangle": {
+            "doc": "$~Main ek mustateel hoon, jo @Stage ko aapki chuni hui size ki hadd dene ke kaam aata hai.",
+            "names": ["$~Mustateel"],
+            "left": {
+                "doc": "$~Stage ka baayan kinara x-mehwar par",
+                "names": "$~baayan"
+            },
+            "top": {
+                "doc": "$~Stage ka oopri kinara y-mehwar par",
+                "names": "$~ooper"
+            },
+            "right": {
+                "doc": "$~Stage ka daayan kinara x-mehwar par",
+                "names": "$~daayan"
+            },
+            "bottom": {
+                "doc": "$~Stage ka neeche ka kinara y-mehwar par",
+                "names": "$~neeche"
+            },
+            "z": {
+                "doc": "$~Mustateel ki gehraai ki jagah.",
+                "names": "$~z"
+            }
+        },
+        "Circle": {
+            "doc": "$~Main ek @scope hoon, jo @Stage par shakalein banane ke kaam aata hai.",
+            "names": ["$~Gol"],
+            "radius": {
+                "doc": "$~Daaire ka nisf qutr",
+                "names": "$~nisfqutr"
+            },
+            "x": {
+                "doc": "$~Daaire ka ofuqi markaz.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~Dayre ka umoodi markaz.",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~Dayre ki gehrai ki jagah.",
+                "names": "$~z"
+            }
+        },
+        "Path": {
+            "doc": "$~Main jagahon ki ek fehrist se guzarta hua raasta hoon, jo @Stage par lakeeron, mudi hui lakeeron aur pahaadiyon ke liye kaam aata hoon.",
+            "names": ["$~Raasta"],
+            "points": {
+                "doc": "$~Woh jagahein jin se main tarteeb se guzarta hoon. Main sapaat letta hoon, is liye kisi jagah ki gehrai ke bajaye apna z istemaal karta hoon.",
+                "names": "$~nuqtay"
+            },
+            "closed": {
+                "doc": "$~Kya meri aakhri jagah ko wapas meri pehli jagah se jodna hai.",
+                "names": "$~band"
+            },
+            "smooth": {
+                "doc": "$~Kya meri jagahon par mudne ke bajaye un mein se mud kar guzarna hai. Dono soorat mein meri jagahein nahin hilti.",
+                "names": "$~hamwaar"
+            },
+            "thickness": {
+                "doc": "$~Mujhe kitna chauda banana hai.",
+                "names": "$~motaai"
+            },
+            "z": {
+                "doc": "$~Woh gehrai jis par main letta hoon.",
+                "names": "$~z"
+            }
+        },
+        "Effect": {
+            "doc": [
+                "$~Main ek tajreedi asar hoon, jo poore @Stage par lagta hai taake us par maujood har cheez ka andaaz badal jaye. Mujhe seedha nahin banaya jata; balki un asaraat mein se koi ek banayein jo main hoon, jaise @Blur, @Grain, ya @Wave, aur un ki fehrist stage ke @Stage.effects ko dein.",
+                "Asaraat usi tarteeb se lagte hain jis mein woh likhe hon, is liye @Grain ke baad @Blur daane ko bhi dhundla kar deta hai. Yeh stage ke mawaad ko dhaanpte hain lekin us ke @Stage.overlay ko kabhi nahin, is liye score ya button saaf rehta hai.",
+                "\\Stage(\n\t[Phrase('🐟')]\n\tasraat: [Tint(Color(60% 40 220°)) Wave()]\n)\\"
+            ],
+            "names": ["$~Asar"]
+        },
+        "Blur": {
+            "doc": [
+                "$~Main @Stage par har cheez ko naram kar deta hoon, jaise camera ka focus kharaab ho. Mera thoda sa istemaal khwab ya yaad lagta hai; zyada istemaal jaagne ya chashma kho dene jaisa lagta hai.",
+                "\\Stage(\n\t[Phrase('🤓 meri aink kahan hai?')]\n\tasraat: [Blur(0.05m)]\n)\\"
+            ],
+            "names": ["$~Dhundla"],
+            "amount": {
+                "doc": "$~Main roshni ke har nukte ko kitna phailata hoon. \\0m\\ bilkul saaf hota hai.",
+                "names": "$~miqdaar"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~Main @Stage par maujood har cheez ki roshni, farq, rangon ki gehrai aur rang ko badalta hoon, jaise film ke rang uska mizaaj banane ke liye theek kiye jaate hain. Saari rangon ki gehrai hata dein aur farq badha dein, to aap ko siyah-safaid film noir mil jaati hai.",
+                "\\Stage(\n\t[Phrase('🕵 jasoos ne intezaar kiya')]\n\tasraat: [Grade(rangeeni: 0% tazaad: 150%)]\n)\\"
+            ],
+            "names": ["$~Darja"],
+            "brightness": {
+                "doc": "$~Stage ko kitna roshan karna hai. \\100%\\ kuch nahin badalta, \\0%\\ siyah hai, aur \\100%\\ se zyada zyada roshan hai.",
+                "names": "$~chamak"
+            },
+            "contrast": {
+                "doc": "$~Roshni aur andhere ko kitna door karna hai. \\100%\\ kuch nahin badalta, kam ka matlab zyada sapaat aur dhundla, aur zyada ka matlab zyada tez hai.",
+                "names": "$~tazaad"
+            },
+            "saturation": {
+                "doc": "$~Rang kitne gehre hain. \\100%\\ kuch nahin badalta, \\0%\\ siyah-safaid hai, aur \\100%\\ se zyada khaas taur par gehre hain.",
+                "names": "$~rangeeni"
+            },
+            "hue": {
+                "doc": "$~Har rang ko rang ke chakkar mein kitna ghumana hai. \\0°\\ kuch nahin badalta, aur \\180°\\ har rang ko us ke ulte rang mein badal deta hai.",
+                "names": "$~rang"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~Main @Stage par har cheez ko ek @Color mein dho deta hoon, aur us ki roshni aur andhera rakhta hoon taake matn utna hi parhne mein aaye. Neela-hara manzar ko paani ke neeche jaisa banata hai, bhoora purani tasveer jaisa, aur hara raat ki nazar jaisa.",
+                "\\Stage(\n\t[Phrase('🏰 bohat pehle ki baat hai')]\n\tasraat: [Tint(Color(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~Rangat"],
+            "color": {
+                "doc": "$~Woh @Color jis mein stage ko dhona hai.",
+                "names": "$~rang"
+            },
+            "amount": {
+                "doc": "$~Kitni shiddat se dhona hai. \\0%\\ bilkul nahin, aur \\100%\\ sirf mere rang ke saaye chhorta hai.",
+                "names": "$~miqdaar"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~Main @Stage ko dhund mein lapet deta hoon, jo us par aahista aahista tairti hai. Main subah, dhuein, bhaap aur door ki har cheez ke liye hoon.",
+                "\\Stage([Phrase('🌲🌲 weeraan maidaan 🌲')] asraat: [Haze(60%)])\\"
+            ],
+            "names": ["$~Dhund"],
+            "amount": {
+                "doc": "$~Main kitni ghani hoon. \\0%\\ saaf hawa hai, aur \\100%\\ itni ghani hai ke mushkil se kuch nazar aaye.",
+                "names": "$~miqdaar"
+            },
+            "color": {
+                "doc": "$~Dhund ka @Color. Agar \\ø\\ ho, to main safaid hoon, jaise kohra; dhuein ke liye bhoora ya gard ke liye narangi aazmayein.",
+                "names": "$~rang"
+            },
+            "speed": {
+                "doc": "$~Main kitni tezi se tairti hoon. \\0\\ mujhe thehra deta hai, aur bade number tez tairaate hain.",
+                "names": "$~raftaar"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~Main @Stage par aise shor ke nukte bikher deta hoon jo har lamhe badalte hain. Mera thoda sa istemaal asli film ke daane jaisa hai; zyada istemaal, bade nukton ke saath, aise television jaisa hai jis mein signal na ho.",
+                "Jab main tez hota hoon to dekhne mein masroof lagta hoon, is liye mujhe un logon ke liye mumkin namoone ke taur par likha jayega jo in se hassaas hain.",
+                "\\Stage(\n\t[Phrase('📺 signal nahin hai')]\n\tasraat: [Grain(90% size: 3)]\n)\\"
+            ],
+            "names": ["$~Daanay"],
+            "amount": {
+                "doc": "$~Nukte kitne tez hain. \\0%\\ ka matlab koi nahin, aur \\100%\\ mere neeche sab kuch chhupa deta hai.",
+                "names": "$~miqdaar"
+            },
+            "size": {
+                "doc": "$~Har zarre kitna bada hai. \\1\\ itna bareek hai jitna screen ijazat de.",
+                "names": "$~size"
+            },
+            "color": {
+                "doc": "$~Kya mere zarre rangeen hain. Agar \\⊥\\ ho, to woh sleti hote hain.",
+                "names": "$~rang"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~Main @Stage par purani television screen ki patli kaali lakeerein banata hoon. Mujhe ek /speed/ dein aur main ghoomta hoon, jaise woh TV jo theek se tune nahin hua.",
+                "\\Stage(\n\t[Phrase('📺 channel 3')]\n\tasraat: [Scanlines(40% raftaar: 1)]\n)\\"
+            ],
+            "names": ["$~Lakeerein"],
+            "amount": {
+                "doc": "$~Meri lakeerein kitni gehri hain. \\0%\\ nazar nahin aati, aur \\100%\\ kaali hoti hai.",
+                "names": "$~miqdaar"
+            },
+            "spacing": {
+                "doc": "$~Meri lakeeron mein kitna faasla hai.",
+                "names": "$~faasla"
+            },
+            "speed": {
+                "doc": "$~Main har second kitni lakeerein neeche ghoomta hoon. \\0\\ mujhe ruka rakhta hai, aur manfi speed mujhe oopar ghumati hai.",
+                "names": "$~raftaar"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Main @Stage par output ko lehraata hoon, jaise aap use paani ya uthti garmi ke peechhe se dekh rahe hon.",
+                "Main khud output ko modta hoon, baaqi asraat ke neeche, is liye mujh se pehle likha hua @Grain nahin lehraata.",
+                "\\Stage([Phrase('🐟 blub')] asraat: [Wave(0.2m)])\\"
+            ],
+            "names": ["$~Lehar"],
+            "amount": {
+                "doc": "$~Main output ko apni jagah se kitna dhakelta hoon. \\0m\\ ka matlab koi lehar nahin.",
+                "names": "$~miqdaar"
+            },
+            "scale": {
+                "doc": "$~Meri leheron mein kitna faasla hai. Chhota matlab bareek jhilmil, aur bada matlab dheemi uchhaal.",
+                "names": "$~paimaana"
+            },
+            "speed": {
+                "doc": "$~Meri lehrein kitni tezi se chalti hain. \\0\\ unhein ruka rakhta hai.",
+                "names": "$~raftaar"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Main @Stage par purani, ghisi hui film ke khaarosh aur gard bikherta hoon, jo har frame mein alag hote hain. Mujhe @Grade ke saath rakhein jo rang hata deta hai, aur @Flicker ke saath, aur aapka manzar sau saal purana lagega.",
+                "\\Stage(\n\t[Phrase('🎩 khatam')]\n\tasraat: [Grade(rangeeni: 0%) Damage(80% 60%)]\n)\\"
+            ],
+            "names": ["$~Nuqsaan"],
+            "scratches": {
+                "doc": "$~Film par kitne khaarosh neeche tak chalte hain. \\0%\\ ka matlab koi nahin.",
+                "names": "$~kharaashein"
+            },
+            "dust": {
+                "doc": "$~Film par kitna gard hai. \\0%\\ ka matlab koi nahin.",
+                "names": "$~gard"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Main poore @Stage ko kaanpata hoon, pehle theek rehta hoon phir betarteeb waqt par ek lamhe ke liye andhera ho jata hai, jaise projector ka bulb ya bujhne wala chiraagh.",
+                "Chamakti roshni logon ko takleef de sakti hai, is liye main ek second mein chand baar se zyada nahin kaanpata, chahe aap kitni hi tezi maangein.",
+                "\\Stage([Phrase('💡 roshniyan')] asraat: [Flicker(40% 2)])\\"
+            ],
+            "names": ["$~Jhilmilahat"],
+            "amount": {
+                "doc": "$~Jab main dubta hoon to kitna andhera hota hai. \\0%\\ bilkul dheema nahin karta.",
+                "names": "$~miqdaar"
+            },
+            "rate": {
+                "doc": "$~Main har second takreeban kitni baar kaanp sakta hoon. Main 2.5 se tez nahin hoon ga, taake chamakti roshni se hassaas logon ke liye mehfooz rahe.",
+                "names": "$~raftaar"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~Main @Stage ke kinaaron ko kaala karta hoon aur beech ko saaf chhodta hoon, taake nazrein markaz par jayein. Main purane lens ka kinara, spotlight, ya surang jaisi nazar hoon.",
+                "\\Stage([Phrase('🔦 yahan dekhein')] asraat: [Vignette(70%)])\\"
+            ],
+            "names": ["$~Kinaaray"],
+            "amount": {
+                "doc": "$~Andhera kitni door tak jata hai. \\0%\\ ka matlab koi nahin, aur \\100%\\ tang ho kar band ho jata hai.",
+                "names": "$~miqdaar"
+            },
+            "color": {
+                "doc": "$~Woh @Color jis mein kinare dheere dheere badal jate hain. Agar \\ø\\ ho, to woh kaale mein badal jate hain.",
+                "names": "$~rang"
+            }
+        },
+        "Polygon": {
+            "doc": "$~Main ek baqaida polygon hoon jis ke tamam pehloo aur zaawiye barabar hote hain, @Stage par shaklein banane ke liye kaam ka.",
+            "names": ["$~Kaseerulazlaa"],
+            "radius": {
+                "doc": "$~Polygon ka nisf qutr",
+                "names": "$~nisfqutr"
+            },
+            "sides": {
+                "doc": "$~Polygon ke pehloon ki tadaad",
+                "names": "$~pehlu"
+            },
+            "x": {
+                "doc": "$~Polygon ka ufuqi markaz.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~Polygon ka amoodi markaz.",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~Polygon ki gehrai ki jagah.",
+                "names": "$~z"
+            }
+        },
+        "Pose": {
+            "doc": [
+                "$~Main ek @Pose ko pakadta hoon jise @Output thaamein, aur main unki harkaton ki buniyad hoon. Kya aap ne kabhi dekha hai ke koi kharay hone ka bohat hi kamaal andaaz apnaata hai, ruk jaata hai, aur sab usay dekhne lagte hain? Woh main hoon.",
+                "Ek pose mein bohat kuch shaamil hota hai. Meray kai inputs dekhein aur jaanein ke aap kaise poses bana saktay hain!"
+            ],
+            "names": ["$~Andaaz"],
+            "style": {
+                "doc": "$~Is pose mein jaate waqt istemaal hone wali animation ka andaaz.",
+                "names": "$~andaaz"
+            },
+            "color": {
+                "doc": "$~Woh @Color jo ek @Output ko is pose mein rakhni chahiye, apni asal ki bajaye.",
+                "names": "$~rang"
+            },
+            "opacity": {
+                "doc": "$~Ek @Output kitna shaffaaf ho, \\0\\ aur \\1\\ ke darmiyaan, apni asal ki bajaye. Dheere dheere ubharne aur ghaayab hone ke liye mufeed hai.",
+                "names": "$~dhundlapan"
+            },
+            "offset": {
+                "doc": "$~Ek @Place jo bataata hai ke ek @Output apni jagah se kitna hata hua ho, apni asal ki bajaye. Ek hi jagah par hilne ke liye mufeed hai.",
+                "names": "$~hatao"
+            },
+            "rotation": {
+                "doc": "$~Ek @Output kitna ghooma hua ho, apni asal ki bajaye.",
+                "names": "$~ghumaao"
+            },
+            "scale": {
+                "doc": "$~Ek @Output apne asal size ke muqable mein kitna bara ho, apni asal ki bajaye.",
+                "names": "$~paimaana"
+            },
+            "flipx": {
+                "doc": "$~Kya ek @Output x-axis par ulta kiya jaye, apni asal ki bajaye.",
+                "names": "$~ulatx"
+            },
+            "flipy": {
+                "doc": "$~Kya ek @Output y-axis par ulta kiya jaye, apni asal ki bajaye.",
+                "names": "$~ulaty"
+            },
+            "music": {
+                "doc": "$~Woh @Music jo mujhe tab bajaani chahiye jab meri animation @state shuru ho ya jab ek @Sequence mujh tak pahunche. Ek chhoti si aawaaz hi maqsad hai; main sirf ek baar bajti hoon.",
+                "names": "$~mauseeqi"
+            },
+            "description": "$~$opacity[shaffaaf $opacity|] $rotation[$rotation degree ghooma hua|] $scale[$scale guna bara|] $flipx[ufuqi taur par ulta|] $flipy[amoodi taur par ulta|] $blur[saaya $blur pixel dhundhla|]"
+        },
+        "Color": {
+            "doc": [
+                "$~Main ek nazar aane wala rang hoon, jo teen zaroori pehluon se banta hai.",
+                "Yeh rang ke pahiye ke aas paas ke kuch aam rang hain, darmiyani roshni aur zyada rang ke saath:",
+                "\\Color(50% 100 0°)\\",
+                "\\Color(50% 100 30°)\\",
+                "\\Color(50% 100 60°)\\",
+                "\\Color(50% 100 90°)\\",
+                "\\Color(50% 100 120°)\\",
+                "\\Color(50% 100 150°)\\",
+                "\\Color(50% 100 180°)\\",
+                "\\Color(50% 100 210°)\\",
+                "\\Color(50% 100 240°)\\",
+                "\\Color(50% 100 270°)\\",
+                "\\Color(50% 100 300°)\\",
+                "\\Color(50% 100 330°)\\",
+                "Gyaarah sab se aam rangon ke naam ke liye, aap ko mujhe shuru se banane ki zaroorat nahin. Meray naam par shortcuts maujood hain:",
+                "\\Color.red\\",
+                "\\Color.blue\\",
+                "Yeh shortcuts aap ki @language mein bhi kaam karte hain, is liye ek French bolne wala \\couleur.rouge\\🪲 likh sakta hai aur ek Japani bolne wala \\色.赤\\🪲 likh sakta hai. Shortcuts yeh hain: laal, naarangi, peela, hara, neela, jamni, bhoora, gulaabi, kaala, safaid, aur sleti."
+            ],
+            "names": ["$~Rang"],
+            "lightness": {
+                "doc": "$~Main kitna roshan hoon, \\0\\ se \\1\\ tak: \\0\\ par kaala, \\0.5\\ par sleti, \\1\\ par safaid.",
+                "names": ["$~ujaala", "$~u"]
+            },
+            "chroma": {
+                "doc": "$~Mujh mein kitna rang ho, \\0\\ se \\∞\\ tak. Rang na ho to sleti, bare number ka matlab zyada rang.",
+                "names": ["$~shokhi", "$~s"]
+            },
+            "hue": {
+                "doc": "$~Main rang ke pahiye par kaunsa rang hoon, magenta \\0\\, laal \\30\\, hara \\120\\, se neela \\270\\ tak.",
+                "names": ["$~rang", "$~r"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Buniyadi rang kaala.",
+                    "names": ["$~kaala"]
+                },
+                "white": {
+                    "doc": "$~Buniyadi rang safaid.",
+                    "names": ["$~safaid"]
+                },
+                "gray": {
+                    "doc": "$~Buniyadi rang sleti.",
+                    "names": ["$~salaiti"]
+                },
+                "red": {
+                    "doc": "$~Buniyadi rang laal.",
+                    "names": ["$~laal"]
+                },
+                "orange": {
+                    "doc": "$~Buniyadi rang naarangi.",
+                    "names": ["$~narangi"]
+                },
+                "yellow": {
+                    "doc": "$~Buniyadi rang peela.",
+                    "names": ["$~peela"]
+                },
+                "green": {
+                    "doc": "$~Buniyadi rang hara.",
+                    "names": ["$~hara"]
+                },
+                "blue": {
+                    "doc": "$~Buniyadi rang neela.",
+                    "names": ["$~neela"]
+                },
+                "purple": {
+                    "doc": "$~Buniyadi rang jamni.",
+                    "names": ["$~jamni"]
+                },
+                "brown": {
+                    "doc": "$~Buniyadi rang bhoora.",
+                    "names": ["$~bhoora"]
+                },
+                "pink": {
+                    "doc": "$~Buniyaadi gulaabi rang.",
+                    "names": ["$~gulaabi"]
+                }
+            },
+            "description": {
+                "modified": "$~$modifier $color",
+                "mix": "$~$first-$second",
+                "light": "$~halka",
+                "dark": "$~andhera"
+            },
+            "random": {
+                "doc": [
+                    "$~Ek ittefaqi rang dein.",
+                    "Agar koi rang na ho, to main buniyaadi rangon mein se ek ittefaq se chunta hoon:",
+                    "\\Color.random()\\",
+                    "Agar ek rang ho, to main uski roshni aur chroma rakhta hoon lekin ek ittefaqi hue chunta hoon:",
+                    "\\Color.random(Color.blue)\\",
+                    "Agar do rang hon, to main dono ke darmiyan ek ittefaqi roshni, chroma, aur hue chunta hoon:",
+                    "\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~ittefaqi",
+                "inputs": [
+                    {
+                        "doc": "$~Ek ikhtiyari rang. Akela ho to main uski roshni aur chroma rakhta hoon aur hue ko ittefaqi bana deta hoon. Doosre rang ke saath, yeh chunne ki hadd ka ek sira hai.",
+                        "names": "$~a"
+                    },
+                    {
+                        "doc": "$~Ek ikhtiyari doosra rang. Jab diya jaye, to main dono rangon ke darmiyan ek ittefaqi roshni, chroma, aur hue chunta hoon.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Mera ek ziyada roshan roop dein, meri roshni ko ek fisad se barha kar (pehle se tay 5%).",
+                    "\\Color.blue.lighter()\\",
+                    "\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~halka",
+                "inputs": [
+                    {
+                        "doc": "$~Roshni kitni barhani hai, fisad mein. Pehle se tay 5% hai.",
+                        "names": "$~miqdaar"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Mera ek ziyada gehra roop dein, meri roshni ko ek fisad se ghata kar (pehle se tay 5%).",
+                    "\\Color.blue.darker()\\",
+                    "\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~gehra",
+                "inputs": [
+                    {
+                        "doc": "$~Roshni kitni ghatani hai, fisad mein. Pehle se tay 5% hai.",
+                        "names": "$~miqdaar"
+                    }
+                ]
+            }
+        },
+        "Sequence": {
+            "doc": [
+                "$~Main waqt ke saath @Output ko @Pose ki ek silsile se harkat deta hoon! Kya aap mere saath naachna chahte hain? Yeh aasaan hai.",
+                "Aapko bas mujhe ek @Map dena hai, jahan har @key batata hai ke hum naach mein kitne fisad aage hain, aur un kunjiyon ka har @value ek @Pose hai jo banna hai.",
+                "Is se harkat dene ke /bohat/ saare tareeqe hain! Misal ke taur par, yeh ek saada tareeqa hai:",
+                "\\Phrase(\n\t'hi'\n\tresting: Sequence(\n\t\t{0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)}\n\t)\\🪲",
+                "Yeh kehta hai, /shuru mein (0%), tilt 360 se aaghaz karo, aur tilt 0 par khatam karo/. Yeh hamein hamesha goal chakkar mein ghumata rahega, kyunki main @Phrase ki aaraam wali @state par laga hoon!",
+                "Doosre inputs ke saath khel kar apne khud ke takhleeqi naach aazmayein."
+            ],
+            "names": ["$~Silsila"],
+            "poses": {
+                "doc": "$~0% aur 100% ke darmiyan fisad ki ek @Map, har ek ek @Pose ke saath jora hua. Aapko saare fisad dene zaroori nahin; main aap ke diye hue fisad ke darmiyan ek @Output ko narmi se hilaunga.",
+                "names": "$~adaayen"
+            },
+            "duration": {
+                "doc": "$~Mujhe yeh naach kitni der karna hai? Agar mujhe isay dohrana hai, to main muddat mein waqt nahin barhaunga, bas tez naachunga.",
+                "names": ["$~muddat"]
+            },
+            "style": {
+                "doc": "$~Naach ke liye mujhe kaun sa andaaz istemaal karna chahiye.",
+                "names": "$~andaaz"
+            },
+            "count": {
+                "doc": "$~Silsila kitni baar dohraya jaye is se pehle ke yeh khatam ho. Yeh tab bohat madadgar hai jab main stage par aaun, stage par hilun, ya stage se niklun, lekin aaraam ke silsile ke liye yeh nazar andaaz hota hai, kyunki main hamesha aaraam kar sakta hoon.",
+                "names": "$~ginti"
+            },
+            "description": {
+                "doc": "$~Is silsile ki ek ikhtiyari tafseel un dekhne walon ke liye jo harkat nahin dekh sakte.",
+                "names": "$~bayaan"
+            },
+            "animations": {
+                "sway": {
+                    "doc": [
+                        "$~Main ek @Output ke markaz ke gird aage peeche jhukta hoon, jaise halki hawa mein latakti hui koi cheez. Main ek achhi aaraam wali harkat hoon, kyunki chhota /zaawiya/ bina tawajjo khenche “zinda” lagta hai.",
+                        "\\Phrase('🐈' rukna: Sequence.sway(10°))\\"
+                    ],
+                    "names": ["$~lehrana"],
+                    "angle": {
+                        "doc": "$~Har taraf kitna jhukna hai. Chhote @values narm lagte hain; bade ghabraye hue lagte hain.",
+                        "names": ["$~zaawiya"]
+                    }
+                },
+                "bounce": {
+                    "doc": [
+                        "$~Main ek @Output ko /unchaai/ tak uchhalta hoon aur usay utarne deta hoon, upar aur neeche jate hue thora sa dabta hoon. Mujhe ek aisa @Phrase dein jo abhi aaya hai aur main usay wazni mehsoos karwaunga.",
+                        "\\Phrase('🐈' rukna: Sequence.bounce(3m))\\"
+                    ],
+                    "names": ["$~uchhalna"],
+                    "height": {
+                        "doc": "$~Kitna oonchaa uchhalna hai, meter mein.",
+                        "names": ["$~unchaai"]
+                    }
+                },
+                "spin": {
+                    "doc": [
+                        "$~Main ek @Output ko uske markaz ke gird poora ghumata hoon, 360° se wapas 0° tak. Mujhe aaraam wali harkat bana dein aur main hamesha ghumta rahunga.",
+                        "\\Phrase('🐈' rukna: Sequence.spin(2s))\\"
+                    ],
+                    "names": ["$~ghoomna"]
+                },
+                "fadein": {
+                    "doc": [
+                        "$~Main ek @Output ko nazar na aane se poori tarah nazar aane tak le aata hoon. Main /dakhil hone/ ke liye hoon, jab koi cheez stage par aa rahi ho.",
+                        "\\Phrase('🐈' aana: Sequence.fadein(1s))\\"
+                    ],
+                    "names": ["$~namoodaar"]
+                },
+                "fadeout": {
+                    "doc": [
+                        "$~Main ek @Output ko poori tarah nazar aane se nazar na aane tak le jata hoon. Main /nikalne/ ke liye hoon, jab koi cheez stage chhod rahi ho.",
+                        "\\Phrase('🐈' jaana: Sequence.fadeout(muddat: 1s))\\"
+                    ],
+                    "names": ["$~ghaib"]
+                },
+                "popup": {
+                    "doc": [
+                        "$~Main ek @Output ko kuch nahin se barhata hoon, uski asli jamaat se zara bada karta hoon, phir wapas thehra deta hoon. Yeh zara sa barhna aamad ko mashini ke bajaye shararati banata hai.",
+                        "\\Phrase('🐈' aana: Sequence.popup(0.5s))\\"
+                    ],
+                    "names": ["$~nikalna"]
+                },
+                "shake": {
+                    "doc": [
+                        "$~Main ek @Output ko kai simton mein aage peeche jhatka deta hoon. Main “nahin” ki tarah lagta hoon, ya kisi cheez ke khadakhdane ki tarah. Main tez harkat karta hoon, is liye mujhe mukhtasir rakhein.",
+                        "\\Phrase('🐈' rukna: Sequence.shake(0.5s ginti: 3x))\\"
+                    ],
+                    "names": ["$~hilna"]
+                },
+                "pulse": {
+                    "doc": [
+                        "$~Main ek @Output ko /miqdaar/ tak bada karta hoon aur phir wapas chhota, sirf ek baar. Kuch bhi apni jagah se hilaye baghair “yahan dekhein” kehne ka yeh sab se khamosh tareeqa hai.",
+                        "\\Phrase('🐈' rukna: Sequence.pulse(1.2))\\"
+                    ],
+                    "names": ["$~nabz"],
+                    "amount": {
+                        "doc": "$~Sab se oonchi jagah par kitna bada hona hai. 1 ka matlab hai bilkul koi tabdeeli nahin.",
+                        "names": ["$~miqdaar"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": [
+                        "$~Main do tezi se bade hone ki dhadkanein deta hoon aur phir ruk jata hoon, bilkul dil ki dhadkan ki tarah. Main @Sequence ke /nabz/ se zyada fauri hoon aur /chamak/ se zyada qudrati.",
+                        "\\Phrase('🐈' rukna: Sequence.heartbeat(1.4 1s))\\"
+                    ],
+                    "names": ["$~dhadkan"],
+                    "amount": {
+                        "doc": "$~Har dhadkan par kitna bada hona hai.",
+                        "names": ["$~miqdaar"]
+                    }
+                },
+                "tada": {
+                    "doc": [
+                        "$~Main jashn manata hoon: pehle thoda sa chhota hota hoon, phir bada hota hoon aur idhar udhar hilta hoon. Main jeetne, khatam karne aur sahi jawab dene ke liye hoon.",
+                        "\\Phrase('🐈' rukna: Sequence.tada(1.2 1s))\\"
+                    ],
+                    "names": ["$~wah"],
+                    "amount": {
+                        "doc": "$~Jashn ke dauran kitna bada hona hai.",
+                        "names": ["$~miqdaar"]
+                    }
+                },
+                "wiggle": {
+                    "doc": [
+                        "$~Main ek @Output ko tirchha karte hue ek taraf se doosri taraf sarkata hoon, aur har jhoola pichhle se chhota hota hai. Main thodi zyada shakhsiyat wala hilna hoon.",
+                        "\\Phrase('🐈' rukna: Sequence.wiggle(8°))\\"
+                    ],
+                    "names": ["$~matakna"],
+                    "angle": {
+                        "doc": "$~Har jhoole par kitna tirchha hona hai.",
+                        "names": ["$~zaawiya"]
+                    }
+                },
+                "flash": {
+                    "doc": [
+                        "$~Main ek @Output ko do baar nazar aane aur gayab hone ke beech jhapkata hoon, aur sath sath dheema karta jata hoon. Mujhe nazar andaaz karna mushkil hai, is liye mujhe kam istemaal karein.",
+                        "Main tezi se chamakta hoon, is liye chamak se pareshan hone wala dekhne wala mujhe na-gawaar samajh sakta hai. Agar mujhe dohrana hai to lambi /muddat/ se mujhe dheema karein.",
+                        "\\Phrase('🐈' rukna: Sequence.flash(1s))\\"
+                    ],
+                    "names": ["$~chamak"]
+                },
+                "swing": {
+                    "doc": [
+                        "$~Main ek @Output ko pendulum ki tarah jhulata hoon, /zaawiya/ tak aur phir chhoti hoti hui qaus mein wapas, jab tak woh ruk na jaye. /lehrana/ ke bar-aks, main thehar jata hoon.",
+                        "\\Phrase('🐈' rukna: Sequence.swing(20°))\\"
+                    ],
+                    "names": ["$~jhoolna"],
+                    "angle": {
+                        "doc": "$~Pehla aur sab se bada jhoola kitni door tak jata hai.",
+                        "names": ["$~zaawiya"]
+                    }
+                },
+                "blink": {
+                    "doc": [
+                        "$~Main ek @Output ko baghair dheema kiye band aur phir chalu karta hoon, jaise cursor jhapakta hai. /chamak/ dheema karta hai; main seedha kaat deta hoon.",
+                        "\\Phrase('🐈' rukna: Sequence.blink(1s))\\"
+                    ],
+                    "names": ["$~jhapak"]
+                },
+                "nod": {
+                    "doc": [
+                        "$~Main ek @Output ko do baar neeche aur phir wapas oopar karta hoon, jaise raazi hone par sar hilana. “haan” kehne ka yeh sab se naram tareeqa hai.",
+                        "\\Phrase('🐈' rukna: Sequence.nod(0.4m))\\"
+                    ],
+                    "names": ["$~sarhilana"],
+                    "distance": {
+                        "doc": "$~Har baar sar hilane par kitna neeche jana hai, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "dim": {
+                    "doc": [
+                        "$~Main ek @Output ko /miqdaar/ tak dheema karta hoon aur phir poori tarah wapas laata hoon, use kabhi chhupaye baghair. Main yeh dikhane ke liye hoon ke koi cheez intezaar mein hai ya kaam nahin kar rahi.",
+                        "\\Phrase('🐈' rukna: Sequence.dim(20% 2s))\\"
+                    ],
+                    "names": ["$~madhham"],
+                    "amount": {
+                        "doc": "$~Sab se dhundli jagah par kitna dhundla hona hai.",
+                        "names": ["$~miqdaar"]
+                    }
+                },
+                "zoomin": {
+                    "doc": [
+                        "$~Main ek @Output ko kuch nahin se poore size tak ugata hoon. /nikalna/ ke bar-aks, main zyada bada nahin hota, main saada aur pur-sukoon aamad hoon.",
+                        "\\Phrase('🐈' aana: Sequence.zoomin(0.5s))\\"
+                    ],
+                    "names": ["$~qareebaana"]
+                },
+                "fadeinup": {
+                    "doc": [
+                        "$~Main ek @Output ko dheere dheere zahir karta hoon aur sath sath use /faasla/ neeche se oopar ki taraf apni jagah par sarkata hoon.",
+                        "\\Phrase('🐈' aana: Sequence.fadeinup(2m))\\"
+                    ],
+                    "names": ["$~ubharoopar"],
+                    "distance": {
+                        "doc": "$~Shuru karne ke liye kitna neeche se, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": [
+                        "$~Main ek @Output ko dheere dheere zahir karta hoon aur sath sath use /faasla/ oopar se neeche ki taraf apni jagah par sarkata hoon.",
+                        "\\Phrase('🐈' aana: Sequence.fadeindown(2m))\\"
+                    ],
+                    "names": ["$~ubharneeche"],
+                    "distance": {
+                        "doc": "$~Shuru karne ke liye kitna oopar se, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": [
+                        "$~Main ek @Output ko dheere dheere zahir karta hoon aur sath sath use /faasla/ baayen taraf se daayen taraf apni jagah par sarkata hoon.",
+                        "\\Phrase('🐈' aana: Sequence.fadeinleft(2m))\\"
+                    ],
+                    "names": ["$~ubharbaayen"],
+                    "distance": {
+                        "doc": "$~Shuru karne ke liye baayen taraf kitni door se, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": [
+                        "$~Main ek @Output ko dheere dheere zahir karta hoon aur sath sath use /faasla/ daayen taraf se baayen taraf apni jagah par sarkata hoon.",
+                        "\\Phrase('🐈' aana: Sequence.fadeinright(2m))\\"
+                    ],
+                    "names": ["$~ubhardaayen"],
+                    "distance": {
+                        "doc": "$~Shuru karne ke liye daayen taraf kitni door se, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "rotatein": {
+                    "doc": [
+                        "$~Main ek @Output ko ghumate hue apni jagah par laata hoon aur saath saath use dheere dheere zaahir karta hoon. Yeh /zaawiya/ se ghooma hua shuru hota hai aur seedha hokar khatam hota hai.",
+                        "\\Phrase('🐈' aana: Sequence.rotatein(180°))\\"
+                    ],
+                    "names": ["$~ghoomkeaana"],
+                    "angle": {
+                        "doc": "$~Kitna ghoom kar shuru karna hai, degree mein.",
+                        "names": ["$~zaawiya"]
+                    }
+                },
+                "slidein": {
+                    "doc": [
+                        "$~Main ek @Output ko aap ki pasand ki kisi bhi jagah se sarka kar apni jagah par laata hoon, bina dhundhla kiye. Mujhe ek @Place dein, main wahin se shuru karunga aur rukkar khatam karunga, is liye ek hi animation har simt ke liye kaafi hai.",
+                        "\\Phrase('🐈' aana: Sequence.slidein(Place(0m -4m)))\\"
+                    ],
+                    "names": ["$~phisalkeaana"],
+                    "from": {
+                        "doc": "$~Kahan se shuru karna hai, @Output ki aaraam wali jagah se faasle ke taur par.",
+                        "names": ["$~se"]
+                    }
+                },
+                "zoomout": {
+                    "doc": [
+                        "$~Main ek @Output ko poore size se chhota karte karte ghaayab kar deta hoon.",
+                        "\\Phrase('🐈' jaana: Sequence.zoomout(0.5s))\\"
+                    ],
+                    "names": ["$~doorjaana"]
+                },
+                "fadeoutup": {
+                    "doc": [
+                        "$~Main ek @Output ko /faasla/ oopar sarkate hue dheere dheere ghaayab karta hoon.",
+                        "\\Phrase('🐈' jaana: Sequence.fadeoutup(2m))\\"
+                    ],
+                    "names": ["$~ghaaiboopar"],
+                    "distance": {
+                        "doc": "$~Kitna oopar sarkana hai, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": [
+                        "$~Main ek @Output ko /faasla/ neeche sarkate hue dheere dheere ghaayab karta hoon.",
+                        "\\Phrase('🐈' jaana: Sequence.fadeoutdown(2m))\\"
+                    ],
+                    "names": ["$~ghaaibneeche"],
+                    "distance": {
+                        "doc": "$~Kitna neeche sarkana hai, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": [
+                        "$~Main ek @Output ko /faasla/ bayen taraf sarkate hue dheere dheere ghaayab karta hoon.",
+                        "\\Phrase('🐈' jaana: Sequence.fadeoutleft(2m))\\"
+                    ],
+                    "names": ["$~ghaaibbaayen"],
+                    "distance": {
+                        "doc": "$~Kitna bayen sarkana hai, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": [
+                        "$~Main ek @Output ko /faasla/ dayen taraf sarkate hue dheere dheere ghaayab karta hoon.",
+                        "\\Phrase('🐈' jaana: Sequence.fadeoutright(2m))\\"
+                    ],
+                    "names": ["$~ghaaibdaayen"],
+                    "distance": {
+                        "doc": "$~Kitna dayen sarkana hai, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "rotateout": {
+                    "doc": [
+                        "$~Main ek @Output ko ghumate hue door le jaata hoon aur saath saath use ghaayab karta hoon. Yeh /zaawiya/ se ghooma hua khatam hota hai.",
+                        "\\Phrase('🐈' jaana: Sequence.rotateout(180°))\\"
+                    ],
+                    "names": ["$~ghoomkejaana"],
+                    "angle": {
+                        "doc": "$~Ghaayab hone se pehle kitna ghoomna hai, degree mein.",
+                        "names": ["$~zaawiya"]
+                    }
+                },
+                "slideout": {
+                    "doc": [
+                        "$~Main ek @Output ko aap ki pasand ki kisi bhi jagah tak sarka kar le jaata hoon, bina dhundhla kiye. Mujhe ek @Place dein, main wahin khatam karunga, is liye ek hi animation har simt ke liye kaafi hai.",
+                        "\\Phrase('🐈' jaana: Sequence.slideout(Place(0m -4m)))\\"
+                    ],
+                    "names": ["$~phisalkejaana"],
+                    "to": {
+                        "doc": "$~Kahan par khatam karna hai, @Output ki aaraam wali jagah se faasle ke taur par.",
+                        "names": ["$~tak"]
+                    }
+                },
+                "float": {
+                    "doc": [
+                        "$~Main ek @Output ko /faasla/ tak dheere dheere oopar behne deta hoon aur phir wapas neeche laata hoon. Mujhe lambi /muddat/ dein, main kisi cheez ko halka phulka dikha doonga.",
+                        "\\Phrase('🐈' rukna: Sequence.float(0.5m 3s))\\"
+                    ],
+                    "names": ["$~tairna"],
+                    "distance": {
+                        "doc": "$~Kitna oopar behna hai, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "drift": {
+                    "doc": [
+                        "$~Main ek @Output ko aahista aahista /faasla/ jitna ek taraf le jaata hoon, phir wapas laata hoon. Main /tairna/ hoon, ek taraf ko.",
+                        "\\Phrase('🐈' rukna: Sequence.drift(0.5m 3s))\\"
+                    ],
+                    "names": ["$~behna"],
+                    "distance": {
+                        "doc": "$~Kitna pehlu ki taraf behna hai, meter mein.",
+                        "names": ["$~doori"]
+                    }
+                },
+                "orbit": {
+                    "doc": [
+                        "$~Main ek @Output ko /nisfqutr/ ke ek daire mein ghumata hoon aur wahin wapas pahunchata hoon jahan se shuru kiya tha. Main akela pehle se tay animation hoon jo aage peeche jaane ke bajaye ek raasta banata hai.",
+                        "\\Phrase('🐈' rukna: Sequence.orbit(2m 4s))\\"
+                    ],
+                    "names": ["$~madaar"],
+                    "radius": {
+                        "doc": "$~Daira kitna chauda hai, meter mein.",
+                        "names": ["$~nisfqutr"]
+                    }
+                },
+                "rainbow": {
+                    "doc": [
+                        "$~Main ek @Output ko dhanak ke har rang se guzaar kar wapas wahin le aata hoon jahan se shuru kiya tha.",
+                        "Main rang tezi se badalta hoon, is liye jin logon ko jhilmilate hue roshni se takleef hoti hai unhein main na-gawaar lag sakta hoon. Lambi /muddat/ mujhe bahut narm bana deti hai.",
+                        "\\Phrase('🐈' rukna: Sequence.rainbow(3s))\\"
+                    ],
+                    "names": ["$~qausQuzah"]
+                },
+                "glow": {
+                    "doc": [
+                        "$~Main ek @Output ko /rang/ ki taraf roshan karta hoon aur phir use wapas dheema hone deta hoon, jaise koi cheez garm ho kar thandi ho rahi ho. /qausQuzah/ ke baraks, main ek hi rang mein rehta hoon.",
+                        "\\Phrase('🐈' rukna: Sequence.glow(Color.orange 2s))\\"
+                    ],
+                    "names": ["$~damakna"],
+                    "color": {
+                        "doc": "$~Kaun sa @Color chamakna hai. Main uske aas paas roshan aur gehra karoonga.",
+                        "names": ["$~rang"]
+                    }
+                }
+            }
+        },
+        "Place": {
+            "doc": "$~Main @Stage par ek jagah hoon. Mere tamam inputs marzi ke hain, kyunke main pehle se markaz mein hoon.",
+            "names": ["$~Jagah"],
+            "x": {
+                "doc": "$~x-mehwar par ek maqaam.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~y-mehwar par ek maqaam",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~z-mehwar par ek maqaam",
+                "names": "$~z"
+            },
+            "rotation": {
+                "doc": "$~Is maqaam par ghoomna",
+                "names": ["$~ghumaao"]
+            }
+        },
+        "Gesture": {
+            "doc": "$~Main haath ke andaaz ki ek tasveer hoon jo camera ne pehchaani, aur @Hand @stream ne bheji. Meri jagah batati hai ke haath stage par kahan hai, meri ungliyan batati hain ke kitni phaili hui hain, meri khuli @state sach hoti hai jab haath khula ho (3 ya zyada ungliyan phaili hon), aur mera angootha, @index, beech wali, ring aur chhoti ungli har ek batati hai ke kaun si ungli phaili hui hai. Meri hatheli sach hoti hai jab hatheli camera ki taraf ho, aur jhoot jab haath ki pusht ho.",
+            "names": ["$~Ishaara"],
+            "place": {
+                "doc": "$~Haath stage par kahan hai.",
+                "names": ["$~jagah"]
+            },
+            "open": {
+                "doc": "$~\\⊤\\ agar haath khula ho (3 ya zyada ungliyan phaili hon), \\⊥\\ agar mutthi bandh ho.",
+                "names": ["$~khula"]
+            },
+            "fingers": {
+                "doc": "$~Kitni ungliyan phaili hui hain, 0 (mutthi) se 5 (tamam ungliyan upar, angootha bhi) tak.",
+                "names": ["$~ungliyan"]
+            },
+            "thumb": {
+                "doc": "$~\\⊤\\ agar angootha phaila hua ho.",
+                "names": ["$~angootha"]
+            },
+            "index": {
+                "doc": "$~\\⊤\\ agar @index ungli phaili hui ho.",
+                "names": ["$~number"]
+            },
+            "middle": {
+                "doc": "$~\\⊤\\ agar beech wali ungli phaili hui ho.",
+                "names": ["$~darmiyaani"]
+            },
+            "ring": {
+                "doc": "$~\\⊤\\ agar ring ungli phaili hui ho.",
+                "names": ["$~anaamika"]
+            },
+            "pinky": {
+                "doc": "$~\\⊤\\ agar chhoti ungli phaili hui ho.",
+                "names": ["$~chhungli"]
+            },
+            "palm": {
+                "doc": "$~\\⊤\\ agar hatheli camera ki taraf ho, \\⊥\\ agar haath ki pusht ho.",
+                "names": ["$~hatheli"]
+            }
+        },
+        "Thing": {
+            "doc": "$~Main ek cheez hoon jo camera ne dekhi, aur @List mein @Objects @stream ne bheji. Mera naam batata hai ke main kya hoon, mera yaqeen batata hai ke model kitna pakka hai, meri jagah batati hai ke main stage par kahan tha, aur meri chaurai aur lambai batati hain ke main kitna bada dikha.",
+            "names": ["$~Cheez"],
+            "name": {
+                "doc": "$~Woh cheez kya hai, aapki @language mein.",
+                "names": ["$~naam"]
+            },
+            "confidence": {
+                "doc": "$~Model kitna pakka hai ke yeh wohi cheez hai, 0 (andaaza) se 1 (pakka) tak.",
+                "names": ["$~yaqeen"]
+            },
+            "place": {
+                "doc": "$~Woh cheez stage par kahan hai.",
+                "names": ["$~jagah"]
+            },
+            "width": {
+                "doc": "$~Woh cheez kitni chauri dikhi, meter mein.",
+                "names": ["$~chaurai"]
+            },
+            "height": {
+                "doc": "$~Woh cheez kitni lambi dikhi, meter mein.",
+                "names": ["$~unchaai"]
+            }
+        },
+        "Expression": {
+            "doc": "$~!Main chehre ke taassur ki ek tasveer hoon jo camera ne pehchaani, aur @Face @stream ne bheji. Meri jagah batati hai ke chehra stage par kahan hai. Mere @Expression.leftEyeOpen, @Expression.rightEyeOpen aur @Expression.eyesOpen batate hain ke aankhein khuli hain ya nahin. Mere @Expression.mouthOpen, @Expression.smiling, @Expression.frowning aur @Expression.browsRaised batate hain ke chehra kya kar raha hai, aur har ek ki ek matching miqdaar (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) 0 se 1 tak hai jo batati hai ke woh kitna tez hai. Mere @Expression.turn aur @Expression.tilt batate hain ke sar kis taraf hai, darjon mein.",
+            "names": ["$~Taassur"],
+            "place": {
+                "doc": "$~Chehra stage par kahan hai.",
+                "names": ["$~jagah"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ agar baayein aankh khuli ho, \\⊥\\ agar band ho.",
+                "names": ["$~baayeenAankhKhuli"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ agar daayeen aankh khuli ho, \\⊥\\ agar band ho.",
+                "names": ["$~daayeenAankhKhuli"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ agar dono aankhein khuli hon.",
+                "names": ["$~aankhenKhuli"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ agar munh khula ho.",
+                "names": ["$~moonhKhula"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Munh kitna khula hai, 0 (band) se 1 (poora khula) tak.",
+                "names": ["$~moonhKhulneKiMiqdaar"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ agar chehra muskura raha ho.",
+                "names": ["$~muskurana"]
+            },
+            "smileAmount": {
+                "doc": "$~Chehra kitna muskura raha hai, 0 se 1 tak.",
+                "names": ["$~muskurahatKiMiqdaar"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ agar chehra udaas ho, chahe munh ke kone neeche hon ya bhaunhein jhuki hon.",
+                "names": ["$~tewariCharhana"]
+            },
+            "frownAmount": {
+                "doc": "$~Chehra kitna udaas hai, 0 se 1 tak, munh ke kone aur jhuki bhaunhein dono ginte hue.",
+                "names": ["$~tyoriMiqdaar"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ agar bhaunhein uthi hui hon.",
+                "names": ["$~bhaveinUthi"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Bhaunhein kitni uthi hui hain, 0 se 1 tak.",
+                "names": ["$~bhaveinUthaneKiMiqdaar"]
+            },
+            "turn": {
+                "doc": "$~Sar kitna mura hua hai, degree mein. Baayein taraf manfi, daayein taraf musbat.",
+                "names": ["$~ghumao"]
+            },
+            "tilt": {
+                "doc": "$~Sar kitna jhuka hua hai, degree mein. Neeche manfi, oopar musbat.",
+                "names": ["$~jhukao"]
+            }
+        },
+        "Velocity": {
+            "doc": "$~Main hoon ke @Output @Stage par kitni tezi se hilta hai. Meter fi second x aur y par, aur degree fi second ghoomne ke liye. Meri maloomat zaroori nahin hain. Pehle se kuch nahin hilta.",
+            "names": ["$~Raftaar"],
+            "x": {
+                "doc": "$~Har second x-mehwar par kitne meter hilna hai.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~Har second y-mehwar par kitne meter hilna hai.",
+                "names": "$~y"
+            },
+            "angle": {
+                "doc": "$~Har second kitne degree ghoomna hai.",
+                "names": ["$~zaawiya"]
+            }
+        },
+        "Result": {
+            "doc": "$~Main \\⌕\\ ke saath pattern @query ka ek nateeja hoon. Milta hua matn, woh kahan hai, aur koi bhi capture.",
+            "names": ["$~Nateeja"],
+            "text": {
+                "doc": "$~Poora milta hua matn.",
+                "names": "$~matn"
+            },
+            "start": {
+                "doc": "$~Milaap kahan se shuru hota hai, 1 se ginte hue.",
+                "names": "$~aaghaz"
+            },
+            "end": {
+                "doc": "$~Milaap kahan khatam hota hai, 1 se ginte hue.",
+                "names": "$~aakhir"
+            },
+            "groups": {
+                "doc": "$~Har capture ka naam us matn se jo woh mila.",
+                "names": "$~giroh"
+            },
+            "starts": {
+                "doc": "$~Har capture ka @name us jagah se jahan woh shuru hota hai.",
+                "names": "$~shuru"
+            },
+            "ends": {
+                "doc": "$~Har capture ka @name us jagah se jahan woh khatam hota hai.",
+                "names": "$~khatm"
+            }
+        },
+        "Matter": {
+            "doc": "$~Main batata hoon ke @Output kitna bhaari, uchhalne wala aur phislan wala hai. @Output jis mein main aur ek @Motion ho, thos hota hai: yeh @Stage par maujood @Shape se aur doosre hilte hue @Output se takra kar uchhalta hai. @Output jo aapka program rakhta hai, wahin rehta hai jahan aap usay rakhein, aur jise chhoota hai uske aar-paar guzar jata hai. @Output ko @Collision se nazar aane ke liye meri zaroorat nahin — uske liye ek naam kaafi hai.",
+            "names": ["$~Maadda"],
+            "mass": {
+                "doc": "$~Wazan, kilogram mein",
+                "names": "$~wazan"
+            },
+            "bounciness": {
+                "doc": "$~Takraane par apni kitni taaqat bachani hai, 0 ka matlab kuch nahin, 1 ka matlab saari.",
+                "names": "$~uchhaal"
+            },
+            "friction": {
+                "doc": "$~Kitni der tak phislana hai; 0 ka matlab bilkul nahin, 1 ka matlab hamesha.",
+                "names": "$~ragar"
+            },
+            "roundedness": {
+                "doc": "$~Output ke konay kitne gol karne hain; 0 ka matlab bilkul nahin aur 1 ka matlab uske size ka 100%, jis se size gol ho jaate hain.",
+                "names": "$~golaai"
+            },
+            "text": {
+                "doc": "$~Kya main doosre @Phrase aur @Group se takra sakta hoon ya nahin; ⊥ ka matlab main unhein dekhta hi nahin aur @Collision unke baare mein kuch nahin kehta.",
+                "names": "$~matn"
+            },
+            "shapes": {
+                "doc": "$~Kya main @Stage par maujood @Shape se takra sakta hoon ya nahin; ⊥ ka matlab main deewaron aur farsh se neeche gir jaata hoon aur @Collision unke baare mein kuch nahin kehta.",
+                "names": "$~zameen"
+            },
+            "pull": {
+                "doc": "$~Main doosre output ko kitni zor se apni taraf khainchta hoon. 0 ka matlab bilkul nahin, jo aam baat hai. Bade number zyada zor se khainchte hain, aur manfi number ulta dhakel deta hai. Sirf @Motion ke rakhe hue output khainche ja sakte hain.",
+                "names": "$~khinchaao"
+            },
+            "outline": {
+                "doc": "$~Kya mujhe apne huroof ki shakal se takraana chahiye, un ke ird gird bane chokor dabbe se nahin? ⊤ ka matlab hai ke ek chhota @Phrase ek bare harf ke mor mein beth sakta hai. Yeh emoji ke liye bhi kaam karta hai.",
+                "names": "$~khaaka"
+            }
+        },
+        "Aura": {
+            "doc": [
+                "$~Main @Phrase ko CHAMKAATA hoon! Main ek AURA hoon. Aise:",
+                "\\Phrase(\n\t'Main CHAMAK raha hoon!'\n\taura: Aura(\n\t\tColor(50% 100 118°)\n\t\t0.1m\n\t\t0m\n\t\t0.1m\n\t)\\🪲"
+            ],
+            "names": ["$~Haala"],
+            "color": {
+                "doc": "$~@Aura ka @Color kaisa hona chahiye.",
+                "names": "$~rang"
+            },
+            "blur": {
+                "doc": "$~@Aura kitna dhundhla hona chahiye. \\0m\\ ka matlab bilkul dhundhla nahin.",
+                "names": "$~dhundlaapan"
+            },
+            "offsetX": {
+                "doc": "$~Main kitna left ya right nazar aaoon. \\0m\\ ka matlab theek neeche.",
+                "names": "$~hataoX"
+            },
+            "offsetY": {
+                "doc": "$~Main kitna upar ya neeche nazar aaoon. \\0m\\ ka matlab theek neeche.",
+                "names": "$~hataoY"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Main dikhata hoon ke @Phrase kya keh raha hai, ek bubble mein jo seedha usi ki taraf ishaara karta hai. Mujhe kisi phrase ke @Phrase.bubble ko dein aur huroof ko bolne dein:",
+                "\\Phrase('a' bulbula: 'hello!')\\",
+                "Matn ki jagah mujhe @Say dein to main dikhaya bhi jaaunga aur zor se bola bhi jaaunga.",
+                "Mera @Bubble.kind badal kar soch kar dein to main soch ka bubble ban jaata hoon.",
+                "Main sirf sajaawat hoon, is liye stage par kuch bhi meri jagah banane ke liye hat'ta nahin — lekin @Stage yeh zaroor dekhta hai ke main nazar mein rahoon."
+            ],
+            "names": ["$~Bulbula"],
+            "text": {
+                "doc": [
+                    "$~Main kya dikhata hoon. Mujhe saada matn dein, ya @markup agar aap *mote* ya /tirchhe/ alfaaz chahte hain.",
+                    "Mujhe @Say dein to main dikhaya bhi jaaunga aur zor se bola bhi jaaunga. Phir main un alfaaz ki jagah leta hoon jo aam tor par @Stage ke neeche aate hain, kyunke mere alfaaz pehle hi screen par bolne wale ke saath maujood hain."
+                ],
+                "names": "$~matn"
+            },
+            "side": {
+                "doc": "$~Main @Phrase ki kis taraf baithta hoon, teer ki shakal mein. Agar \\ø\\, to @Stage mujhe wahan rakhta hai jahan main sab se kam rukawat banoon, aur cheezein hilne par dobara chunta hai.",
+                "names": "$~pehlu"
+            },
+            "kind": {
+                "doc": "$~Kya main kahi hui baat hoon (\\'💬'\\) ya soch hui baat (\\'💭'\\). Soch mein sochne wale ki taraf ek nok ki jagah gol daayre chalte hain, aur konay gol ho jaate hain.",
+                "names": "$~qism"
+            },
+            "color": {
+                "doc": "$~Mere alfaaz ka @Color. Agar \\ø\\, to main @Phrase ka apna rang istemaal karta hoon.",
+                "names": "$~rang"
+            },
+            "background": {
+                "doc": "$~Woh @Color jo mujh mein bhara hai. Agar \\ø\\, to main us cheez ke background se bhara hoon jis par main bana hoon.",
+                "names": "$~pasEManzar"
+            },
+            "size": {
+                "doc": "$~Mere alfaaz kitne bade hain. Agar \\ø\\, to woh @Stage par matn ke aam size ke hote hain — bolne wale ke size ke nahin, kyunke kai meter lamba kirdar alfaaz ki deewar bana deta.",
+                "names": "$~size"
+            },
+            "wrap": {
+                "doc": "$~Woh hadd jahan main apne alfaaz ko agli line mein le jaata hoon.",
+                "names": "$~lapet"
+            }
+        },
+        "Stage": {
+            "doc": [
+                "$~MAIN AAPKA @Output HAAZIREEN KO DIKHATA HOON. HI. YAHAN STAGE HOON. MUJHE BATAYEIN KYA DIKHANA HAI AUR MAIN DIKHA DOON GA.",
+                "\\Stage([Phrase('cheezeeeeeen')])\\",
+                "AGAR CHAHEIN TO MUJHE BACKGROUND @Color DEIN AUR MAIN STAGE KI ROSHNI USI HISAAB SE KAR DOON GA.",
+                "\\Stage(\n\t[Phrase('cheezeeeeeen')]\n\tpasEManzar: Color(75% 50 100°)\n)\\",
+                "AAP MUJHE FRAME KI SARHAD BHI DE SAKTE HAIN AUR MAIN KAAT DOON GA.",
+                "\\Stage(\n\t[Phrase('cheezeeeeeen')]\n\tpasEManzar: Color(75% 50 100°)\n\tchaukhat: Rectangle(-1m -1m 1m 1m)\n)\\",
+                "AUR AGAR AAP DRAMA CHAHTE HAIN TO MUJHE @Effect DEIN AUR MAIN HAR CHEEZ KA ANDAAZ BADAL DOON GA. PAANI KE ANDAR! PURANI FILM! STATIC! MUJHE PASAND HAI.",
+                "\\Stage(\n\t[Phrase('🐟 blub')]\n\tasraat: [Wave() Tint(Color(55% 45 220°))]\n)\\"
+            ],
+            "names": ["$~🎭", "$~Stage"],
+            "content": {
+                "doc": "$~DIKHANE KE LIYE @Output KI FEHRIST. YEHI SHO HAI. MAIN ISE DIKHATA HOON.",
+                "names": "$~mawaad"
+            },
+            "frame": {
+                "doc": "$~MERE GIRD FRAME KI SHAKAL AUR SIZE. ISKE BAHAR JO BHI HO, MAIN CHHUPA DETA HOON.",
+                "names": "$~chaukhat"
+            },
+            "size": {
+                "doc": "$~@Group.size KI TARAH",
+                "names": "$~size"
+            },
+            "face": {
+                "doc": "$~@Group.face KI TARAH",
+                "names": "$~khat"
+            },
+            "place": {
+                "doc": "$~AGAR MEIN CAMERA HOTA, TO MEIN YAHAN SE DEKH RAHA HOTA",
+                "names": "$~jagah"
+            },
+            "name": {
+                "doc": ["$~@Phrase.name KE BARABAR!"],
+                "names": "$~naam"
+            },
+            "description": {
+                "doc": [
+                    "$~SHO KI WAZAHAT UN DEKHNE WALON KE LIYE JO ISE DEKH NAHIN SAKTE. UNHEIN BATAEIN KE WOH KYA DEKHNE SE REH GAYE!"
+                ],
+                "names": "$~bayaan"
+            },
+            "selectable": {
+                "doc": "$~@Phrase.selectable KE BARABAR!",
+                "names": "$~chunaJaSakneWala"
+            },
+            "color": {
+                "doc": "$~@Group.color KE BARABAR",
+                "names": "$~rang"
+            },
+            "background": {
+                "doc": "$~@Group.background KE BARABAR",
+                "names": "$~pasEManzar"
+            },
+            "opacity": {
+                "doc": "$~@Group.opacity KE BARABAR",
+                "names": "$~dhundlapan"
+            },
+            "offset": {
+                "doc": "$~@Group.offset KE BARABAR",
+                "names": "$~hatao"
+            },
+            "rotation": {
+                "doc": "$~@Group.rotation KE BARABAR",
+                "names": ["$~ghumaao"]
+            },
+            "scale": {
+                "doc": "$~@Group.scale KE BARABAR",
+                "names": "$~paimaana"
+            },
+            "flipx": {
+                "doc": "$~@Group.flipx KE BARABAR",
+                "names": "$~ulatx"
+            },
+            "flipy": {
+                "doc": "$~@Group.flipy KE BARABAR",
+                "names": "$~ulaty"
+            },
+            "entering": {
+                "doc": "$~@Group.entering KE BARABAR",
+                "names": "$~aana"
+            },
+            "resting": {
+                "doc": "$~@Group.resting KE BARABAR!",
+                "names": "$~rukna"
+            },
+            "moving": {
+                "doc": "$~@Group.moving KE BARABAR!",
+                "names": "$~chalna"
+            },
+            "exiting": {
+                "doc": "$~@Group.exiting KE BARABAR!",
+                "names": "$~jaana"
+            },
+            "duration": {
+                "doc": "$~@Phrase.duration KE BARABAR!",
+                "names": ["$~muddat"]
+            },
+            "style": {
+                "doc": "$~@Phrase.style KE BARABAR!",
+                "names": "$~andaaz"
+            },
+            "gravity": {
+                "doc": "$~MEIN @Motion MEIN RAKHE HUE OUTPUT KO KITNI ZOR SE NEECHE KHEENCHTA HOON. HAR CHEEZ AAKHIR GIR JAATI HAI.",
+                "names": "$~kashish"
+            },
+            "overlay": {
+                "doc": "$~@Output KI FEHRIST JISE MEIN SCOREBOARD KI TARAH SCREEN PAR JAMA DETA HOON. MERA @Place CAMERA AUR MERA @Effect ISE KABHI NAHIN CHHOOTE.",
+                "names": "$~oopriParat"
+            },
+            "air": {
+                "doc": "$~MERI HAWA HILTE HUE OUTPUT KO KITNA SUST KARTI HAI. \\1\\ AAM HAWA HAI, \\0\\ KHALA HAI, JAHAN CHEEZEIN HAMESHA CHALTI RAHTI HAIN, AUR BADE NUMBER HAWA SE ZYADA GAADHE HAIN. JAISE SHORBA.",
+                "names": "$~hawa"
+            },
+            "effects": {
+                "doc": "$~@Effect KI FEHRIST JO MUJH PAR HAR CHEEZ PAR TARTEEB SE LAGAI JAATI HAI, JAISE @Blur, @Grain, YA @Wave. \\ø\\ YA KHAALI FEHRIST KA MATLAB HAI KE MEIN APNE JAISA DIKHTA HOON.",
+                "names": "$~asraat"
+            },
+            "defaultDescription": "$~stage $name[$name |]ke $#count[$count output|$count output]$frame[frame $frame ke saath|] $pose $color[$color|]$effects[ $effects ke saath|]"
+        },
+        "Easing": {
+            "straight": "$~seedha",
+            "cautious": "$~mohtaat",
+            "pokey": "$~sust",
+            "zippy": "$~tez"
+        },
+        "TextEffect": {
+            "edit": "$~tabdeelKarein",
+            "rewrite": "$~dobaraLikhein",
+            "random": "$~ittefaqi"
+        },
+        "Source": {
+            "names": "$~Maakhaz",
+            "doc": [
+                "$~Aap jaante hain na ke mansoobon mein ek se zyada @Source file ho sakti hain? Mein aap ko aap ke mansoobe ke mantiq par ek @Source banane deta hoon. Yeh bohat kaam aata hai agar aap mansoobe ke alag alag chalne ke darmiyan kuch data bachana chahte hain.",
+                "Misaal ke tor par, sochein aap ek seedha sa counter banana chahte hain jo har baar mouse button dabane par ek se barhta hai. Aap ise yaad rakhne ke liye istemaal kar sakte hain ke aap ne koi kaam kitni baar kiya.",
+                "\\↓ count\n[\n\tPhrase(`\\count\\ baar!`)\n\tSource('ginti' count … ∆ Button() … count + 1)\n]\\🪲",
+                "Ise copy karke dekhein, ek naya @Source banayein jis ka naam /count/ ho aur usmein 0 likhein, taake ginti 0 se shuru ho. Yeh chhota sa mansooba /count/ maakhaz mein se @value le ga aur jab bhi mouse button dabaya jaye ga, /count/ @Source ko mojooda /count/ qeemat plus /1/ kar ke badal de ga."
+            ],
+            "name": {
+                "names": "$~naam",
+                "doc": "$~Us maakhaz file ka naam jise banana ya badalna hai."
+            },
+            "value": {
+                "names": "$~qeemat",
+                "doc": "$~Woh data @value jis ke saath maakhaz file banai ya badli jaye."
+            },
+            "DynamicEditLimitException": {
+                "description": "$~mutaharrik maakhaz mein tabdeeli ki had",
+                "explanation": "$~Is mansooben ne @Source files mein data bohat zyada baar aur bohat jaldi mehfooz kiya. Yaqeen karein ke yeh @Source ko sirf kisi input ke jawab mein badle, aur bohat tezi se nahin."
+            },
+            "ReadOnlyEditException": {
+                "description": "$~sirf parhne wale maakhaz mein tabdeeli",
+                "explanation": "$~Yeh mansooba data yaad rakhta hai, lekin aap ko ise badalne ka haq nahin hai. Agar aazmana chahte hain to iski copy banayein."
+            },
+            "EmptySourceNameException": {
+                "description": "$~maakhaz ka naam khaali hai",
+                "explanation": "$~Diye gaye @Source ka naam khaali tha, is liye hum ise mehfooz nahin kar sake."
+            },
+            "ProjectSizeLimitException": {
+                "description": "$~mansooba ke size ki had",
+                "explanation": "$~Is mansooben mein matn bohat zyada hai, is liye hum ise mehfooz nahin kar sakte."
+            }
+        }
+    }
+}

@@ -1,0 +1,29 @@
+Kirdaar ko hilaayein
+
+Kabhi kabhi kirdaar ko kaanptay hue dikhana faaida mand hota hai.
+Aisa karne ke kai tareeqay hain.
+
+Hum istemaal kar sakte hain @Phrase/offset ke saath @Random aur @Time taake aisa ho jaye.
+
+\
+hataHua: 0m … ∆ Waqt() … Ittefaqi(-0.1m 0.1m)
+Jumla('salaam' hatao: Jagah(hataHua 0m))
+\
+
+ Yeh ek qeemat banata hai jiska naam hai \offset\ jo har baar ghari ke chalne par ek naye random qeemat mein badal jati hai.
+Phir yeh us offset ko istemaal karke dikhata hai @Phrase ko utni hi offset ke saath.
+
+Agar hum hilne ko aur behtar tareeqay se qaaboo karna chahein, to hum istemaal kar sakte hain ek @Sequence taake ek random hilne wali animation banayein jo dohraati rahe.
+
+\
+Jumla('salaam' rukna: Silsila({
+			0%: Andaaz(hatao: Jagah(Ittefaqi(-.2m .2m)))
+			15%: Andaaz(hatao: Jagah(Ittefaqi(-.2m .2m)))
+			60%: Andaaz(hatao: Jagah(Ittefaqi(-.2m .2m)))
+			75%: Andaaz(hatao: Jagah(Ittefaqi(-.2m .2m)))
+		} 0.1s))
+\
+
+ Yeh misaal sirf ek baar random qeematein chunti hai, lekin unhein ek dohraane wali tarteeb mein badal deti hai.
+
+move-phrase

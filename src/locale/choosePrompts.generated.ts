@@ -31,6 +31,7 @@ export const ChoosePrompts: Record<string, string> = {
     'te-IN': 'ఒక భాషను ఎంచుకోండి',
     'tl-PH': 'Pumili ng wika',
     'tr-TR': 'Bir dil seç',
+    'ur-Latn-PK': 'zubaan chunein',
     'vi-VN': 'Chọn một ngôn ngữ',
     'zh-CN': '选择一种语言',
     'zh-TW': '選擇一個語言',

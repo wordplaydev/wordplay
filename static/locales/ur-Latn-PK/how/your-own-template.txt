@@ -1,0 +1,26 @@
+Apna khud ka character template banayein
+
+Kabhi kabhi aap ko bohat saare character chahiye hote hain jo lagbhag ek jaise dikhte hain, lekin un mein chhote chhote farq hote hain.
+Ek hi cheez ko baar baar likhne ke bajaye, aap @Phrase ke zariye apna template bana sakte hain. Template ek nuskhe ki tarah hai jis mein khaali jagahein bharni hoti hain. @Structure par ruk jaata hai.
+
+Ek @Structure ek nuskhe ki tarah hai jis mein khaali jagahein bharni hoti hain.
+Yeh ek ghubbare ka template hai jo rang aur label leta hai, aur apne aap ko dikhana jaanta hai:
+
+\
+•ghubbara(rang3•Rang parchi•'') (
+    ƒ dikhayein() Jumla(`🎈 \parchi\` rang: rang3 size: 2m)
+)
+
+Group(Qataar() [
+    ghubbara(Rang(80% 50 240°) 'Aasmaan').dikhayein()
+    ghubbara(Rang(60% 80 0°) 'Gulaab').dikhayein()
+    ghubbara(Rang(90% 80 90°) 'Dhoop').dikhayein()
+])
+\
+
+ Yeh \•Balloon(...)\ hissa template ko tay karta hai, aur \ƒ dikhayein()\ hissa batata hai / ek ko kaise banana hai / par ruk jaata hai.
+Phir hum alag alag rang aur label ke teen ghubbare banate hain, aur har ek se kehte hain ke woh khud ko \show\ kare.
+
+Jab aap apna code saaf suthra aur apne character ek jaise rakhna chahein, tab templates bohat kaam aate hain.
+
+track-game-state, make-many-copies

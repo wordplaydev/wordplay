@@ -1,0 +1,1433 @@
+{
+    "$schema": "../../../static/schemas/sections/ui-page.json",
+    "ui": {
+        "page": {
+            "breadcrumb": {
+                "label": "$~Rasta nishaan",
+                "home": "$~Ghar"
+            },
+            "unknown": {
+                "header": "$~Eep!",
+                "message": "$~Yeh kaun si jagah hai? Kya hum ghar chalein?"
+            },
+            "landing": {
+                "value": "$~Hamaare saath alfaaz, nishaanaat, emoji, aur code se interactive kahaaniyan banayein! Shuru karein",
+                "beta": [
+                    "$~@wordplay *beta* mein hai, is liye mumkin hai ke yeh theek se kaam na kare ya adhoora ho. <GitHub@https://github.com/wordplaydev/wordplay/issues> par bugs bataayein aur khayaalaat baantein, hamaare <1.0 ke mansoobe@https://github.com/wordplaydev/wordplay/milestones/1.0> dekhein, aur <hissa daalein@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                ],
+                "chooseLocales": "$~ya chunein",
+                "tagline": "$~sab ke liye qaabil-e-rasaai, kai zubaanon wali, takhleeqi coding",
+                "tour": {
+                    "button": "$~mujhe dikhayein",
+                    "loading": "$~Load ho raha hai…",
+                    "failed": "$~Misaalein load nahin ho sakeen. Apna connection dekhein aur dobara koshish karein.",
+                    "restart": "$~yeh misaal dobara shuru karein",
+                    "examples": {
+                        "label": "$~Misaali programs",
+                        "tips": [
+                            "$~Matn chamak sakta hai aur harkat kar sakta hai",
+                            "$~Mausiqi data bhi hai, aawaaz bhi, aur manzar bhi",
+                            "$~Waqt chalta hai aur alfaaz kai zubaanon mein hote hain",
+                            "$~Matn pointer, click, tap, aur kunjiyon ka jawaab de sakta hai",
+                            "$~Dekhne wale intikhaab kar sakte hain",
+                            "$~Dekhne wale programs se baat kar sakte hain aur alfaaz shaklein hain",
+                            "$~Physics aur gravity matn ko girne aur uchhalne par majboor kar sakte hain",
+                            "$~Programs aapki bol-chaal sun sakte hain",
+                            "$~Programs aapka chehra, haath, aur cheezein dekh sakte hain"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶@Phrase stage par nazar aata hai, jis rang, chamak aur harkat mein aap chahein.¶\nPhrase(\n\t'hello!'\n\t6m\n\trang: 🌈(60% 90 200°)\n\thaala: Aura(🌈(80% 80 200°) 0.3m)\n\trukna: Sequence.sway(8°)\n)\\",
+                        "music": "$~\\¶Moseeqi asli saazon ki dhunon se banti hai, ek raftaar aur ek kunji ke saath. Stage woh banata hai jo woh sunta hai.¶\nMusic(\n\tTrack([1 3 5 8 5 3] saaz: Instrument.piano)\n\traftaar: 120beats/min\n)\\",
+                        "hello": "$~\\¶Code @Time jaise input par jawab de sakta hai, aur matn kai zubaanon mein ho sakta hai aur bola ja sakta hai.¶\nhellos: ['hello'/ur 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhello: hellos.random() … ∆ Time(1000ms) … hellos.random()\nPhrase(hello 4m)\nSay(hello)\\",
+                        "keys": "$~\\¶Code pointer, kunjiyon, click aur tap par jawab de sakta hai.¶\nkunji: Key()\nclick2: Button()\nchehre: ['🙂' '😮' '😎' '🤩']\nkaunSa: 1 … ∆ kunji | ∆ click2 … (kaunSa % 4) + 1\nStage(\n\t[Phrase(chehre[kaunSa] 5m jagah: Pointer() bulbula: 'hi')]\n\tjagah: Place(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Matn ko sajaayein aur use chunne ke qaabil banayein.¶\nphal: ƒ(e•'') Phrase(e 3m naam: e chunaJaSakneWala: ⊤)\nchunaGaya: Choice()\ndikhayaGaya: '?' … ∆ chunaGaya … chunaGaya\nGroup(\n\tStack(haashiya: 1m)\n\t[\n\t\tPhrase(dikhayaGaya 4m)\n\t\tGroup(Row(haashiya: 1m) [phal('🍎') phal('🍐') phal('🍒')])\n\t]\n)\\",
+                        "letters": "$~\\¶Programs se baat karein aur fonts aur nishaanon ki shakal istemaal karein.¶\npaighaam: Chat()\nlafz: 'hi' … ∆ paighaam … paighaam\nline: Contour(lafz 'Noto Sans' 8m)\ntick: 0 … ∆ Time(30ms) … tick + 1\ndikhayaGaya: ((line.length() × tick) ÷ 66).roundDown() + 1\nnuqtay: line.subsequence(1 dikhayaGaya).translate(\n\t\tƒ(p) Phrase('•' jagah: p)\n\t)\nStage(nuqtay.add(Phrase(lafz 8m dhundlapan: 15%)))\\",
+                        "pile": "$~\\¶Matn mein bhi tabeeyaat ke usool ho sakte hain.¶\nuchhaalein: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tPhrase(\n\t\t\temoji\n\t\t\t2m\n\t\t\tjagah: Motion(Place(x2 y2) Velocity(vx 0m/s))\n\t\t\tmaadda: Matter(1kg 0.55 0.06 0.5)\n\t\t)\nStage(\n\t[\n\t\tuchhaalein('🍎' -2m 5m 2.2m/s)\n\t\tuchhaalein('🍊' 2m 7m -2.6m/s)\n\t\tuchhaalein('🍋' -1m 9m 1.4m/s)\n\t\tuchhaalein('🍇' 1.5m 11m -1.9m/s)\n\t\tuchhaalein('🫐' 0.5m 15m -1.2m/s)\n\t\tShape(Rectangle(-4m -3m 4m -3.6m))\n\t\tShape(Rectangle(-4.6m 4m -4m -3m))\n\t\tShape(Rectangle(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Code aapke mic ki @Volume aur @Pitch par jawab de sakta hai.¶\nPhrase(\n\t'📣'\n\t1m + (Volume() × 8m)\n\tghumaao: (Pitch() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Code aapke @Face aur @Camera par maujood doosri cheezon par jawab de sakta hai.¶\nPhrase(\n\tFace().smiling ? '😄 shukriya!' '🙂 camera ki taraf muskuraein'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay ek programming zubaan hai",
+                        "bullets": [
+                            "$~• Har program ek izhaar hai jo ek qeemat ban jaata hai. \\1 + 1\\ ek program hai, aur \\Phrase('hi')\\ bhi.",
+                            "• Adaad ke saath unit hoti hai, is liye \\1m + 1m\\ meter hai, aur \\1cat + 1dog\\🪲 ek ghalati hai jo @wordplay chalne se pehle pakad leta hai.",
+                            "• Functions woh qeematein hain jinhein aap naam de sakte hain, aage de sakte hain, aur bula sakte hain: \\ƒ dugna(n2•#) n2 × 2\\.",
+                            "• Jab input badalta hai, to @wordplay aapke program ko dobara chalata hai aur uski nayi qeemat dikhata hai. Events ka jawaab dene ki zaroorat nahin.",
+                            "• @wordplay program chalne se pehle ghaltiyan dhoondta hai, aur har masle ki wazaahat karta hai."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay kai zubaanon mein hai",
+                        "bullets": [
+                            "$~• Programming zubaan ki har khaasiyat ka har zubaan mein ek naam hai, is liye code un alfaaz mein parha jaata hai jo aap pehle se jaante hain.",
+                            "• Aap ke apne naam bhi kai zubaanon mein ho sakte hain:\n\\cat2/ur, gato/es: '🐈'\nPhrase(cat2)\\",
+                            "• Matn ke saath ek zubaan hoti hai, aur woh aap ke dekhne walon ki zubaan dikhata hai: \\'salaam'/ur'hola'/es\\.",
+                            "• Yeh site 29 zubaanon mein hai aur aap ek waqt mein ek se zyada chun sakte hain; matn har ek mein nazar aata hai.",
+                            "• Aap @wordplay ka tarjuma karne mein bhi madad kar sakte hain, seedha app ke andar <localize@://localize> par."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay sab ke liye qaabil-e-rasaai hai",
+                        "bullets": [
+                            "$~• Jo kuch aap mouse se kar sakte hain, woh keyboard se bhi kar sakte hain.",
+                            "• Screen reader stage ka haal bayaan karte hain jaise woh badalta hai, aur ikhtiyaari aawaazein batati hain ke kya dobara chala, kya harkat mein hai, aur kya takraaya.",
+                            "• Aap apna code matn ki bajaye blocks ki shakal mein parh aur likh sakte hain, aur jab chahein badal sakte hain.",
+                            "• Harkat ko dheema kiya ja sakta hai, ya bilkul band kiya ja sakta hai.",
+                            "• Bolay gaye output ko stage par likh kar dikhaya ja sakta hai un ke liye jo sun nahin sakte."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay duniya ko mehsoos karta hai",
+                        "bullets": [
+                            "$~• Waqt ka guzarna: \\Time(1000ms)\\ tik tik karta hai, aur \\Now()\\ aap ke apne calendar aur time zone mein aaj ki tareekh jaanta hai.",
+                            "• Aap ke dekhne wale kahan ishaara karte hain, kya chhoote hain, aur kaun si kunjiyan dabate hain.",
+                            "• Programs aap ke mic ka jawab de sakte hain: @Volume se aawaaz kitni tez hai, @Pitch se sur kaisa hai, aur @Speech se kaun se alfaaz bole gaye.",
+                            "• Aap ke dekhne wale @Chat mein likh sakte hain, aur @Choice se stage ka maujood chun sakte hain.",
+                            "• Programs us music ki dhun par bhi jawab de sakte hain jo woh bajate hain, @Beat ke saath."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay pesh karta hai",
+                        "bullets": [
+                            "$~• @Phrase stage par alfaaz aur emoji rakhta hai.",
+                            "• @Group unhein qataron, dheron, jaalon mein, ya jahan aap chahein wahan saja deta hai.",
+                            "• @Pose aur @Sequence cheezon ko ghumate, dhundhla karte, bada chhota karte aur hilate hain.",
+                            "• @Say matn dikhane ke bajaye usay bol kar sunata hai.",
+                            "• @Music asli saazon par suron ke track bajata hai, ek raftaar aur ek kunji ke mutabiq:\n\\Music(\n\tTrack([1 3 5] saaz: Instrument.bell)\n\traftaar: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay khush-khati hai",
+                        "bullets": [
+                            "$~• Sainkdon andaaz, jo duniya ke likhne ke nizaamon ko shaamil karte hain.",
+                            "• Aap apne <khud ke banaye huye huroof@://characters> bana sakte hain aur jahan emoji aata hai wahan istemaal kar sakte hain.",
+                            "• Har harf ka khaaka aisa data hai jo aap parh sakte hain aur hilaa sakte hain, @Contour ke saath: \\Contour('a' 'Noto Sans')\\.",
+                            "• Matn us zubaan ke usool ke mutabiq lapeta jaata hai jis mein woh likha gaya ho.",
+                            "• Daayen se baayen aur khadi likhaai bhi bilkul sahi tareeqe se lagai jaati hai."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay khud ko samjhata hai",
+                        "bullets": [
+                            "$~• Wazahati tehreer @Doc ke saath zubaan ka hissa hai, kisi tabsire ki tarah paas mein nahin.",
+                            "• Talaash karne ke qaabil <rehnuma@://guide> har andar bani khaasiyat ko misaalon ke saath samjhata hai.",
+                            "• Har ghalti wahin samjhai jaati hai jahan hui, aap ki zubaan mein.",
+                            "• Aap program ko aage /aur/ peeche qadam ba qadam chala kar dekh sakte hain ke kya hua.",
+                            "• Qadam chalate waqt har qeemat usi code mein dikhai jaati hai jis ne use banaya."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay baantne ke liye hai",
+                        "bullets": [
+                            "$~• Aap ki mansoobe aap ke apne hain, aur aap tay karte hain ke unhein kaun dekh sakta hai.",
+                            "• Aap doosre logon ko apne saath mansooba banane ke liye bula sakte hain.",
+                            "• <Numaish gaahein@://galleries> kisi mauzu par mansoobon ko jama karti hain.",
+                            "• Ustaad classein bana kar apne shagirdon ka kaam dekh sakte hain: <teach@://teach>.",
+                            "• Aap kisi ka bhi aam mansooba naye andaaz mein bana kar apna bana sakte hain."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay muft aur khula hai",
+                        "bullets": [
+                            "$~• @wordplay muft hai aur hamesha muft rahega.",
+                            "• Yeh open source hai: aap parh sakte hain ke yeh kaise kaam karta hai aur ise badalne mein hamari madad kar sakte hain.",
+                            "• Yeh <University of Washington@https://ischool.uw.edu/> ke Information School se aaya hai.",
+                            "• Yahan banane walon, ustaadon aur madad karne walon ki ek jamaat hai.",
+                            "• <Atiyaat@://donate> se isse chalane ka kharcha poora hota hai."
+                        ]
+                    }
+                },
+                "link": {
+                    "learn": "$~Ek dilchasp kirdaaron ki toli ke saath zubaan seekhein",
+                    "teach": "$~Shagirdon ki classein aur unki mansoobe sanbhaalein",
+                    "guide": "$~Zubaan ke hawale ko talaash karein aur dekhein",
+                    "projects": "$~Performances banayein aur baantein",
+                    "galleries": "$~Doosron ki performances dekhein",
+                    "characters": "$~Apne emoji aur nishaan banayein",
+                    "rights": "$~Zimmedariyan, hamari aur aap ki",
+                    "about": "$~Yeh jagah kyun hai?",
+                    "thanks": "$~Isay banane mein kis ne madad ki?",
+                    "updates": "$~Dekhein Wordplay mein naya kya hai",
+                    "community": {
+                        "label": "$~Bradari",
+                        "subtitle": "$~Discord par hamare saath baat karein"
+                    },
+                    "contribute": {
+                        "label": "$~Hissa daalein",
+                        "subtitle": "$~Wordplay banane mein hamari madad karein"
+                    },
+                    "design": "$~Hissa lene walon ke liye design nizaam ka hawala",
+                    "localize": "$~Wordplay ko apni zubaan mein tarjuma karne mein madad karein",
+                    "moderate": "$~dekhein ke logon ne humse kya dekhne ko kaha hai",
+                    "admin": "$~dekhein ke kaun kya kar sakta hai, aur ise badlein"
+                }
+            },
+            "learn": {
+                "header": "$~Seekhein",
+                "dialogue": "$~sabaq ki guftagu",
+                "says": "$~$character kehta hai",
+                "error": "$~Hum is zubaan ke liye koi sabaq nahin dhoond sake.",
+                "choice": {
+                    "prompt": "$~Aap kaise seekhna chahenge?",
+                    "quick": {
+                        "title": "$~Mukhtasar",
+                        "description": "$~un banane walon ke liye jo doosri programming zubaanon se waaqif hain aur samajhna chahte hain ke Wordplay kaise mukhtalif hai"
+                    },
+                    "complete": {
+                        "title": "$~Mukammal",
+                        "description": "$~un banane walon ke liye jo programming mein naye hain aur tafseeli taaruf chahte hain"
+                    }
+                },
+                "mode": {
+                    "label": "$~sabaq",
+                    "labels": ["$~mukhtasar", "$~mukammal"],
+                    "tips": [
+                        "$~un banane walon ke liye ek chhota sa daura jo koi aur programming zubaan jaante hain",
+                        "$~un banane walon ke liye poora, dilchasp taaruf jo programming mein naye hain"
+                    ]
+                },
+                "contrast": "$~se muqabla karein",
+                "button": {
+                    "next": "$~guftagu mein agla waqfa",
+                    "previous": "$~guftagu mein pichhla waqfa"
+                },
+                "tour": {
+                    "skip": "$~daura chhorein aur aage barhein",
+                    "wait": "$~pehle daura dekhein, ya usay chhor dein, phir hum aage barhein ge."
+                },
+                "options": {
+                    "lesson": "$~maujooda sabaq"
+                },
+                "search": {
+                    "placeholder": "$~talaash",
+                    "noResults": "$~koi nateeja nahin mila"
+                }
+            },
+            "localize": {
+                "header": "$~Zubaan ke mutabiq banayein",
+                "description": [
+                    "$~yahan aap platform ke har woh matn ko dekh sakte hain jiska tarjuma ho sakta hai. Aap un matn ke liye naye tarjume ya tabdeeliyan bhi pesh kar sakte hain jo abhi likhe nahin gaye ya jo machine se tarjuma hue hain. Jab aap tayyar hon, to apni tabdeeliyan jaanch ke liye bhej sakte hain.",
+                    "Likhte waqt yaad rakhein ke aasaan andaaz mein likhein, kyunke parhne wale chhote bachche ho sakte hain jo mushkil alfaaz nahin jaante. Saath hi ek jaisa andaaz rakhein, aur jahan mumkin ho, alag alag matn mein ek hi istilaah istemaal karein."
+                ],
+                "tabs": {
+                    "label": "$~hissa",
+                    "labels": [
+                        "$~Hamare baare mein",
+                        "$~Matn",
+                        "$~Sharaait",
+                        "$~Lughat",
+                        "$~Bhejein"
+                    ],
+                    "tips": [
+                        "$~tarjuma kaise kaam karta hai, aur is zubaan ko likhne walon ke liye nuqaat",
+                        "$~platform ka matn dekhein aur badlein",
+                        "$~aise jumle banayein jo is zubaan ke matn mein dobara istemaal ho saken",
+                        "$~is zubaan ke alfaaz ki jama aur doosri shakalein shamil karein",
+                        "$~apni tabdeeliyan dekhein aur bhej dein"
+                    ]
+                },
+                "toSubmit": "$~apni tabdeeliyan dekhein aur jama karayein",
+                "submitEmpty": "$~abhi aapki koi tabdeeli nahin hai. Kuch likhne ke liye /Text/ tab chunein, ya edit mode se matn ko usi jagah par badlein.",
+                "clear": {
+                    "description": "$~is zubaan ki apni tamam na bheji gayi tabdeeliyan mita dein",
+                    "prompt": "$~sab mita dein?"
+                },
+                "workspaceLink": "$~tamam matn dekhein + jama karayein",
+                "workspaceHeader": "$~likhne ya dekhne ke liye matn",
+                "submitHeader": "$~Bhejein",
+                "submitPrompt": "$~jab aap tabdeeliyon ka yeh majmooa pesh karne ke liye taiyaar hon, to neeche jama karayein.",
+                "oneLocaleNote": "$~har jama karwana ek waqt mein sirf ek zubaan ke liye hota hai. Yeh majmooa $locale ki tabdeeliyon ke taur par jama hoga. Agar aap kisi doosri zubaan mein hissa daalna chahte hain, to pehle zubaan badlein; har zubaan mein mehfooz ki gayi tabdeeliyan alag rakhi jaati hain.",
+                "bundleSummary": "$~is majmooe ki tabdeeliyan",
+                "editEntry": "$~wapas jaa kar is matn ko badlein",
+                "revertEntry": "$~is tabdeeli ko majmooe se hata dein",
+                "prevBundleItem": "$~pichli tabdeeli dekhein",
+                "nextBundleItem": "$~agli tabdeeli dekhein",
+                "descriptionField": {
+                    "description": "$~tabdeeliyon ke majmooe ki mukhtasar wazahat, taake jaanchne walay tabdeeliyan samajh saken",
+                    "placeholder": "$~aap ne kya badla, aur kyun?"
+                },
+                "notSpamLabel": "$~main wada karta hoon ke yeh tabdeeliyan spam nahin hain",
+                "notSpamNote": "$~Wordplay ek ghair munafa bakhsh mansooba hai jo razakaaron ki rehnumaai mein chalta hai.",
+                "requireLogin": "$~tarjume ke mashware dene ke liye aapko log in hona zaroori hai.",
+                "singletonWordsWarning": "$~aapke musawwade ke kuch alfaaz poori zubaan mein sirf ek baar aate hain. Kya aapko yaqeen hai ke unke hijje theek hain aur doosre matn se mel khaate hain?",
+                "literalTermsWarning": "$~aapke musawwade mein lugat ke alfaaz saade matn ki tarah istemaal hue hain. Kisi par dabayein taake woh lugat ka link ban jaye.",
+                "checkReadingLevel": "$~Is matn ki parhne ki sateh jaanchein",
+                "readingLevelComplex": "$~Isay parhna mushkil ho sakta hai. Chhote jumle aur aasaan alfaaz istemaal karke dekhein.",
+                "readingLevelOk": "$~Yeh matn muqarrar kardah parhne ki sateh ke liye saaf parha jaata hai.",
+                "submit": {
+                    "description": "$~Tarmeemon ka yeh majmooa jama karwaein",
+                    "prompt": "$~Bhejein"
+                },
+                "submitSuccess": "$~Shukriya! Aap ki tarmeemein jama ho gayi hain aur jaldi dekhi jayengi.",
+                "viewPR": "$~Pull request dekhein",
+                "submitError": "$~Jama karwate hue koi masla ho gaya. Aap ki tarmeemein is device par mehfooz hain, dobara koshish karein.",
+                "empty": "$~Is filter se koi matn mel nahin khaata.",
+                "prevEntry": "$~Pichhla matn badlein",
+                "nextEntry": "$~Agla matn badlein",
+                "qualityMode": {
+                    "label": "$~dikhayein",
+                    "labels": [
+                        "$~sab",
+                        "$~machine se tarjuma shuda ya ghair likha hua"
+                    ],
+                    "tips": [
+                        "$~tamam matn dikhayein",
+                        "$~sirf machine se tarjuma shuda ya ghair likhe hue matn dikhayein"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~hissa",
+                    "labels": [
+                        "$~sab",
+                        "$~lughat",
+                        "$~token",
+                        "$~node",
+                        "$~buniyaad",
+                        "$~input",
+                        "$~output",
+                        "$~ui",
+                        "$~numaish gah",
+                        "$~nigraani"
+                    ],
+                    "tips": [
+                        "$~tamam hisse dikhayein",
+                        "$~mushtarka istilahaat",
+                        "$~token ki wazahatein",
+                        "$~programming zubaan ke hisse",
+                        "$~pehle se maujood qismein, jaise number, text, list",
+                        "$~dhaara aur input ke zaraye ki wazahatein",
+                        "$~output ki qismon ki wazahatein",
+                        "$~application ka user interface",
+                        "$~numaish gah ka bunyadi mawaad",
+                        "$~mawaad ki nigraani ke paighaam"
+                    ]
+                },
+                "section": {
+                    "glossary": "$~Istilahaat",
+                    "token": "$~Tokens",
+                    "node": "$~Zubaan ke hisse",
+                    "basis": "$~Pehle se mojood qismein",
+                    "input": "$~Inputs",
+                    "output": "$~Output",
+                    "ui": "$~User interface",
+                    "gallery": "$~Numaish gah",
+                    "moderation": "$~Nigraani"
+                }
+            },
+            "teach": {
+                "header": "$~Parhaayein",
+                "prompt": {
+                    "none": "$~Khush aamdeed ustaad! Talaba ke account aur mansooba numaish gah banane aur sambhaalne ke liye ek jamaat banayein.",
+                    "some": "$~Khush aamdeed ustaad! Apni jamaatein sambhaalein ya nayi jamaat banayein."
+                },
+                "error": {
+                    "offline": "$~Hum aapki ustaad hone ki haalat check nahin kar sakay. Kya aap login hain?",
+                    "login": "$~Jamaatein sambhaalne ke liye aapko <login@://login> hona zaroori hai.",
+                    "teacher": "$~Jamaatein banane aur sambhaalne ke liye aapko ustaad ke ikhtiyaar chahiye. Yeh form bharein taake hum ek doosre ko jaan sakein!"
+                },
+                "link": {
+                    "request": "$~Ustaad ke ikhtiyaar ki darkhwast karein",
+                    "new": "$~Jamaat banayein"
+                }
+            },
+            "newclass": {
+                "header": "$~Nayi jamaat",
+                "subheader": {
+                    "class": "$~Aapki jamaat",
+                    "students": "$~Aapke talaba",
+                    "credentials": "$~Usernames aur passwords",
+                    "usernames": "$~Usernames",
+                    "submit": "$~Bhejein"
+                },
+                "prompt": {
+                    "start": "$~Yeh form aapko 1) apni jamaat ke tamam talaba ke account banane aur 2) ek aisi numaish gah banane deta hai jis mein aapke tamam talaba mansoobay shaamil kar sakein. Agar talaba ke pehle se account hain, to aap unhein baad mein numaish gah mein shaamil kar sakte hain.",
+                    "review": "$~Hamare banaye hue usernames aur passwords dekhein. Kya aap aage barhne se pehle unhein *edit* karna chahte hain? Agar aap aisa karein ge, to aap upar diye gaye talaba ke maaloomaat edit nahin kar sakein ge.",
+                    "reviewEmail": "$~Hamare banaye hue usernames dekhein. Kya aap aage barhne se pehle unhein *edit* karna chahte hain? Agar aap aisa karein ge, to aap upar diye gaye talaba ke maaloomaat edit nahin kar sakein ge. Talaba yahan kuch nahin chunte — woh apne naam ke saath diye gaye address se sign in karte hain.",
+                    "ready": "$~Jab aap upar credentials banane ke liye tayyar hon to hamein bataiye. Uske baad aap unhein badal sakte hain.",
+                    "pending": "$~Usernames aur passwords banaye ja rahe hain...",
+                    "submit": "$~Kya aap bhejne ke liye tayyar hain? Kaamyaab hote hi aapko yeh maloomaat download ke taur par mil jayengi. Passwords *dobara nahin mil sakte*, is liye unhein kisi mehfooz jagah par rakhein.",
+                    "submitEmail": "$~Kya aap bhejne ke liye tayyar hain? Kaamyaab hote hi aapko yeh maloomaat download ke taur par mil jayengi. Koi password mehfooz rakhne ki zaroorat nahin: har talib-e-ilm apne naam ke saath likhe pate se sign in karta hai.",
+                    "submitting": "$~Upar diye gaye usernames aur passwords ke saath naye account maange ja rahe hain...",
+                    "download": "$~Aapki jamaat tayyar hai! Aapko apne download folder mein apne talib-e-ilmon ka data download hota nazar aana chahiye. *Passwords dobara nahin mil sakte*, is liye is file ko kisi mehfooz jagah par rakhein!",
+                    "downloadEmail": "$~Aapki jamaat tayyar hai! Aapko apne download folder mein apne talib-e-ilmon ka data download hota nazar aana chahiye. Koi password mehfooz rakhne ki zaroorat nahin: har talib-e-ilm login page par jata hai, apna pata likhta hai, aur link maangta hai."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~jamaat ka naam",
+                        "placeholder": "$~ek chhota naam"
+                    },
+                    "description": {
+                        "description": "$~tafseel",
+                        "placeholder": "$~aapki jamaat ki tafseel, aapke aur aapke talib-e-ilmon ke liye."
+                    },
+                    "existing": {
+                        "label": "$~account wale talib-e-ilm",
+                        "prompt": "$~Kya aapke kuchh talib-e-ilmon ke paas pehle se @wordplay account hain? Unhein yahan shaamil karein."
+                    },
+                    "signin": {
+                        "prompt": "$~Kya aap talib-e-ilmon ke liye naye account banana chahte hain? Pehle faisla karein ke woh kaise sign in karenge. Poori jamaat *ek hi tareeqa* istemaal karti hai, is liye woh tareeqa chunein jo aapke talib-e-ilmon ke liye theek ho.",
+                        "mode": {
+                            "label": "$~aapke talib-e-ilm kaise sign in karenge",
+                            "labels": [
+                                "$~username aur password",
+                                "$~email se bheja gaya link"
+                            ],
+                            "tips": [
+                                "$~hum har talib-e-ilm ke liye ek username aur password banate hain, aur aap unhein baant dete hain",
+                                "$~har talib-e-ilm apne email pate se sign in karta hai, is liye koi password kho jaane ka khatra nahin"
+                            ]
+                        }
+                    },
+                    "metadata": {
+                        "description": "$~talib-e-ilm ki maloomaat",
+                        "placeholder": "$~misal ke taur par, student id, khandaani naam, diya gaya naam",
+                        "prompt": "$~Talib-e-ilmon ke bare mein *koi bhi maloomaat* likhein, har line mein ek talib-e-ilm, aur commas se alag karke. Yeh khandaani naam, diye gaye naam, student number, ya doosri pehchaan ki baatein ho sakti hain. Hum isse usernames banayenge jinhein aap neeche badal sakte hain, taake aap usernames ko talib-e-ilmon se jod saken."
+                    },
+                    "addresses": {
+                        "description": "$~talib-e-ilmon ke email pate",
+                        "placeholder": "$~misal ke taur par, mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Apne talib-e-ilmon ko har line mein ek likhein, aur *pehle un ka email pata* likhein. Comma ke baad aap un ke bare mein aur kuchh bhi likh sakte hain, jaise student number ya khandaani naam. Hum isse usernames banayenge jinhein aap neeche badal sakte hain."
+                    },
+                    "words": {
+                        "description": "$~passwords mein istemaal karne ke alfaaz",
+                        "placeholder": "$~misaal ke taur par: billi kutta chooha...",
+                        "prompt": "$~2-3 alfaaz ke yaad rehne wale passwords banane ke liye kam az kam *25 alfaaz* dein. Woh alfaaz chunein jo aap ke talib-ilm jaante hain, ya unse kahein ke woh alfaaz sochein. Jitne zyada be-tarteeb hon, utna zyada mehfooz hai!"
+                    },
+                    "affirm": {
+                        "prompt": "$~Aap ne email se aane wale links chune hain, is liye hum har talib-ilm ke liye aap ke diye hue pate par account banayenge. Yeh tab hi karein jab woh itne bade hon ke un ke ilaaqe mein un ka email account ho sake. *Jab aap yeh jamaat banayenge to hum kisi ko email nahin bhejenge*: har talib-ilm login page par jaye, apna pata likhe, aur link mangwaye.",
+                        "label": "$~Yeh talib-ilm itne bade hain ke un ke ilaaqe mein un ka email account ho sakta hai."
+                    },
+                    "generate": {
+                        "label": "$~banayein",
+                        "tip": "$~upar di gayi maloomat se username aur password banayein."
+                    },
+                    "edit": {
+                        "label": "$~tarmeem",
+                        "tip": "$~banayi gayi talib-ilm ki maloomat badlein"
+                    },
+                    "submit": {
+                        "label": "$~jamaat banayein",
+                        "tip": "$~in maloomat se nayi jamaat banayein."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Talib-ilm ki maloomat mein koi cheez do baar likhi gayi hai.",
+                    "columns": "$~Yaqeen karein ke har talib-ilm ke khaanon ki tadaad ek jaisi ho.",
+                    "addresses": "$~Har satar email address se shuru honi chahiye.",
+                    "generate": "$~Alag alag username nahin ban sake.",
+                    "taken": "$~Upar diye gaye ek ya zyada username pehle se liye ja chuke hain",
+                    "limit": "$~Aap ek waqt mein 50 se zyada talib-ilm ki jamaat nahin bana sakte.",
+                    "words": "$~Kam az kam 25 alfaaz dein.",
+                    "affirmation": "$~Account banane se pehle batayein ke yeh talib-ilm itne bade hain ke un ke ilaaqe mein un ka email account ho sakta hai.",
+                    "inflight": "$~Ho sakta hai yeh jamaat pehle hi ban chuki ho. Dobara koshish se pehle apni jamaatein dekhein.",
+                    "account": "$~Kuch accounts nahin ban sake.",
+                    "generic": "$~Hum jamaat nahin bana sake. Yeh maloomat developers ko samajhne mein madad degi ke kya galti hui."
+                }
+            },
+            "class": {
+                "header": "$~Jamaat",
+                "subheader": {
+                    "teachers": "$~Ustaad",
+                    "students": "$~Talib-ilm",
+                    "galleries": "$~Numaish gahein"
+                },
+                "prompt": {
+                    "gallery": "$~Apni jamaat ke liye ek numaish gah banayein taake koi kaam ya mansooba tarteeb se rakha ja sake. Mansoobe ke tamam ustaad numaish gah ke nigehbaan honge aur tamam talib-ilm numaish gah ke banane wale.",
+                    "delete": "$~Is class ko mitaane se class ki maloomaat hamesha ke liye mit jaayengi, lekin us ki mansoobay, numaish gahein, ya talib-e-ilm ke account nahin mitenge."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~class ka naam",
+                        "placeholder": "$~naam"
+                    },
+                    "description": {
+                        "description": "$~class ki tafseel",
+                        "placeholder": "$~tafseel"
+                    },
+                    "delete": {
+                        "tip": "$~is class ko hamesha ke liye mitaayein",
+                        "label": "$~Is class ko mitaayein"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Hum yeh class nahin dhoond sake, ya aap ko ise dekhne ki ijaazat nahin hai.",
+                    "gallery": "$~Hum is class ke liye numaish gah nahin bana sake."
+                }
+            },
+            "guide": {
+                "header": "$~Rehnuma",
+                "description": "$~Yeh @wordplay programming zubaan ke har hisse ka rehnuma hai. Kisi nishaan ko talaash karein ya fehrist dekh kar mazeed seekhein."
+            },
+            "projects": {
+                "header": "$~Mansoobay",
+                "projectprompt": "$~Kuch kehne ke liye tayyar hain? Naya mansooba banaayein ya kisi mansooba par kaam karein. Agar aap atak jaayein, to <seekhte rahein@://learn>.",
+                "archiveprompt": "$~Yeh woh mansoobay hain jo aap ne archive kiye hain. Sirf maalik hi inhein hamesha ke liye mita sakte hain ya archive se nikaal sakte hain. Archive kiye gaye mansoobay aakhri tabdeeli ke 30 din baad hamesha ke liye mita diye jaate hain.",
+                "installedprompt": "$~Aap Wordplay ko install ki hui app ki tarah istemaal kar rahe hain, aur yeh apne mansoobay alag rakhti hai, jo aap ke web browser ke mansooboon se juda hain. Browser mein banaye hue aap ke mansoobay ab bhi wahin hain. <Log in karein@://login> taake aap dono jagah ke saare mansoobay dekh sakein.",
+                "subheader": {
+                    "shared": "$~Baanta hua",
+                    "archived": "$~Archive kiya hua"
+                },
+                "search": {
+                    "description": "$~Mansoobay aur maakhaz files talaash karein",
+                    "noResults": "$~Koi nateeja nahin mila."
+                },
+                "button": {
+                    "newproject": "$~naya mansooba",
+                    "editproject": "$~is mansooba mein tabdeeli karein",
+                    "viewproject": "$~is mansooba ka code dekhein",
+                    "unarchive": "$~is mansooba ko archive se nikaalein",
+                    "import": {
+                        "tip": "$~aap ki mehfooz ki hui mansooba file kholein",
+                        "label": "$~mansooba file kholein…"
+                    }
+                },
+                "import": {
+                    "done": "$~$name khul gaya.",
+                    "drop": "$~Mansooba file kholne ke liye ise yahan chhorein.",
+                    "replaced": "$~Is mansooba ko $name se badal diya gaya.",
+                    "replace": {
+                        "header": "$~Kya is mansooba ko badalna hai?",
+                        "explanation": "$~Is mansooba ka code badal diya jayega. Wordplay abhi ka code mehfooz kar leta hai, is liye aap ise mansooba ki tareekh se wapas le sakte hain.",
+                        "prompt": "$~Kya is mansooba ke maujooda code ki jagah $name yahan kholein?",
+                        "confirm": {
+                            "tip": "$~is mansooba ko us file se badal dein jo aapne daali",
+                            "label": "$~badlein"
+                        }
+                    }
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "$~is performance ko baad mein mitaane ke liye archive karein",
+                        "prompt": "$~archive"
+                    },
+                    "delete": {
+                        "description": "$~is performance ko hamesha ke liye mita dein",
+                        "prompt": "$~hamesha ke liye mita dein"
+                    }
+                },
+                "error": {
+                    "noaccess": "$~hum internet tak nahin pahunch sake.",
+                    "newgallery": "$~hum naya numaish gah nahin bana sake.",
+                    "nodeletes": "$~archive kiye hue mansoobe mitaane ke liye aapka <login hona@://login> zaroori hai.",
+                    "delete": "$~afsos, hum mansooba nahin mita sake!",
+                    "importEmpty": "$~is file mein kuch nahin hai.",
+                    "importTooLarge": "$~yeh mansooba Wordplay ke mehfooz karne ke liye bahut bara hai. Koi chhota mansooba aazmayein.",
+                    "importUnreadable": "$~Wordplay yeh file nahin parh saka. Mansooba files ka naam .wp par khatam hota hai."
+                },
+                "sort": {
+                    "label": "$~tarteeb",
+                    "labels": ["$~naam", "$~haal mein badle gaye"],
+                    "tips": [
+                        "$~mansoobon ko naam ke hisaab se tarteeb dein",
+                        "$~mansoobon ko is hisaab se tarteeb dein ke aapne unhein aakhri baar kab badla"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~is folder ka naam",
+                        "placeholder": "$~folder"
+                    },
+                    "none": "$~koi folder nahin",
+                    "button": {
+                        "create": "$~naya folder banayein",
+                        "expand": "$~dekhein is folder mein kya hai",
+                        "collapse": "$~chhupayein ke is folder mein kya hai"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~is folder ko mita dein aur is ke mansoobon ko archive karein",
+                            "prompt": "$~Folder ko mitayein aur uski mansoobon ko archive mein rakhein"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~$project ko $folder mein hilayein",
+                        "moved": "$~$project ko $folder mein hilaya gaya",
+                        "movedOut": "$~$project ko uske folder se bahar hilaya gaya",
+                        "expanded": "$~$folder khul gaya, $#count[1 mansooba|$count mansoobe]",
+                        "collapsed": "$~$folder band ho gaya, $#count[1 mansooba|$count mansoobe]",
+                        "selected": "$~$folder chuna gaya, $#count[1 mansooba|$count mansoobe]",
+                        "projectSelected": "$~$project chuna gaya",
+                        "cleared": "$~kuch nahin chuna gaya",
+                        "created": "$~$folder banaya gaya",
+                        "deleted": "$~$folder mita diya gaya, $#count[1 mansooba archive hua|$count mansoobe archive hue]",
+                        "renamed": "$~folder ka naam badal kar $folder kar diya gaya"
+                    },
+                    "instructions": {
+                        "none": "$~Kisi mansoobe ya folder ko chunne ke liye us par click karein.",
+                        "project": "$~Is mansoobe ko *oopar* aur *neeche* ke teer wali kunjiyon se hilayein, ya usay kisi folder par kheench kar le jayein. Kaam khatam hone par *escape* dabayein.",
+                        "folder": "$~Is folder ka naam badalne ke liye naya naam likhein. Folder ko mitane se uske andar ki har cheez aapke archive mein chali jati hai."
+                    }
+                }
+            },
+            "galleries": {
+                "header": "$~Numaish gahein",
+                "prompt": "$~Numaish gahein mansoobon ke majmoo hote hain, aksar kisi ek mauzoo par, jinhein aap ya doosre banane wale tarteeb dete hain.",
+                "section": {
+                    "tabs": {
+                        "label": "$~numaish gah ki qism",
+                        "labels": ["$~Aapki", "$~Misaalein", "$~Aam"],
+                        "tips": [
+                            "$~woh numaish gahein jinhein aap tarteeb dete hain ya jin mein aap hissa daalte hain",
+                            "$~Wordplay banane walon ki tarteeb di hui numaish gahein",
+                            "$~woh numaish gahein jinhein banane walon ne sab ke liye khol diya hai"
+                        ]
+                    },
+                    "own": [
+                        "$~Jis numaish gah mein aapko bulaya gaya ho, us mein hissa daalein, ya kisi khaas mauzoo par apni numaish gah banayein aur doosron ko bulayein.",
+                        "/Tarteeb dene wale apni numaish gah mein ki gayi shikayaton ko <nigrani ke safhe@://moderate> par dekhte hain./"
+                    ],
+                    "examples": "$~Yeh @wordplay banane walon ki tarteeb di hui numaish gahein hain. Yeh seekhne aur naye khayaal lene ke liye achhi shuruaat hain.",
+                    "public": "$~Yeh woh numaish gahein hain jinhein @wordplay ke banane walon ne sab ke liye khol diya hai. Koi bhi apni numaish gah yahan shamil karne ki darkhwast kar sakta hai, aur ek nigran pehle usay parhta hai taake yeh yaqeen ho jaye ke woh mukammal hai aur qaaidon par poori utarti hai. Kisi bhi numaish gah ko kisi bhi waqt, kisi bhi wajah se is fehrist se hataya ja sakta hai. Yeh har baar alag tarteeb mein dikhayi jati hain, taake har numaish gah ko oopar aane ka mauqa mile."
+                },
+                "button": {
+                    "newgallery": "$~naya numaish gah"
+                },
+                "error": {
+                    "nogalleryedits": "$~numaish gah banane aur badalne ke liye aap ka <login hona@://login> zaroori hai.",
+                    "nopublic": "$~is fehrist ke liye abhi tak koi numaish gah manzoor nahin hui. Jaldi dobara dekhein!"
+                },
+                "search": {
+                    "description": "$~misaalein aur aam numaish gahein talaash karein",
+                    "noResults": "$~Koi nateeja nahin mila.",
+                    "galleries": "$~Numaish gahein",
+                    "examples": "$~misaali mansoobay",
+                    "projects": "$~aam numaish gahon ke mansoobay"
+                }
+            },
+            "characters": {
+                "header": "$~Kirdaar",
+                "prompt": "$~Apni mansooba mein istemaal karne aur doosron ke saath baantne ke liye apne emoji aur nishaan banayein.",
+                "button": {
+                    "new": "$~Naya kirdaar banayein",
+                    "copy": "$~Is kirdaar ki copy banayein",
+                    "remove": {
+                        "tip": "$~is kirdaar ko mita dein",
+                        "prompt": "$~mita dein?"
+                    }
+                },
+                "subheader": {
+                    "shared": "$~Baanta hua"
+                },
+                "unnamed": "$~Be-naam kirdaar",
+                "error": {
+                    "offline": "$~Hum online mehfooz aapke kirdaar tak nahin pahunch sake.",
+                    "noauth": "$~Apne kirdaar dekhne aur naye banane ke liye aapko <login karna hoga@://login>.",
+                    "create": "$~Naya kirdaar nahin ban saka."
+                }
+            },
+            "character": {
+                "header": "$~Kirdaar",
+                "instructions": {
+                    "empty": "$~Shakalein banane ke liye palette mein se drawing ka tareeqa chunein.",
+                    "unselected": "$~Drawing ka tareeqa chunein, ya shakalein chun kar badlein. Sab kuch chunne ke liye *$control-a* aur wapas karne ke liye *$control-z* dabayein.",
+                    "selected": "$~Shakalein hilane ke liye *arrow* kunjiyan istemaal karein. Chunaav mein aur shakalein shaamil karne ke liye *shift* dabaye rakhein. Chunaav hatane ke liye *delete* dabayein. Copy aur paste ke liye *$control-c* aur *$control-v*, aur wapas karne ke liye *$control-z* istemaal karein. Jab ek raasta chuna ho, to uske nuqte badalne ke liye *enter* dabayein. Chuni hui shakalein badalne ke liye neeche diye gaye kantrol istemaal karein.",
+                    "eraser": "$~Shakalein mitane ke liye un par click ya tap karein. Pixel mitane ke liye ghaseetein. Mitane wale ko hilane ke liye *arrow* kunjiyan aur mitane ke liye *space* dabayein.",
+                    "pixel": "$~Pixel banane ke liye rang chunein. Phir canvas par click karein, ya cursor hilane ke liye *arrows* aur pixel banane ke liye *space* dabayein. Bharne ke liye *double-click* karein.",
+                    "rect": "$~Chaukor banane ke liye rang aur lakeer chunein. Phir click kar ke ghaseetein, ya markaz aur size chunne ke liye *arrows* aur *space* kunji istemaal karein.",
+                    "ellipse": "$~Beizvi shakal aur daayre banane ke liye rang aur lakeer chunein. Phir click kar ke ghaseetein, ya markaz aur size chunne ke liye *arrows* aur *space* kunji istemaal karein.",
+                    "path": "$~Raaste seedhi lakeerein, bahu-zaviya shakalein aur ghumaaudar lakeerein ho sakte hain. Nuqte jodne ke liye click karein, ya *arrow* kunjiyan aur *space* istemaal karein. Raasta khatam karne ke liye *escape* dabayein. *delete* aakhri nuqta hata dega.",
+                    "symbol": "$~Chunein ke pixel jodne hain ya khaka, phir koi harf, nishaan ya emoji chunein. Khaka bina dhundhla hue chhota, bada aur ghumaya ja sakta hai; pixel ka rang ek ek kar ke badla ja sakta hai. Pehle se bani hui cheez chunne ke liye us par click ya tap karein.",
+                    "image": "$~Tasveer chunein, phir uska woh chaukor chunein jo rakhna hai. Yeh pixel ki jagah le leta hai, aur aapki banayi hui shakalon ke neeche rehta hai. Pehle se bani hui cheez chunne ke liye us par click ya tap karein.",
+                    "points": "$~Raaste ke nuqton ke darmiyan *Tab* se jayein. Chune hue nuqte ko hilane ke liye *arrow* kunjiyan, uske saath naya nuqta jodne ke liye *enter*, aur hatane ke liye *delete* istemaal karein. Kisi nuqte par aane wale hisse ko modne ke liye *curve* istemaal karein, phir uska handle hilayein; handle par *delete* usay dobara seedha kar deta hai. Jab kaam ho jaye to *escape* dabayein."
+                },
+                "shape": {
+                    "shape": "$~shakal",
+                    "eraser": "$~mitane wala",
+                    "pixel": "$~pixel",
+                    "rect": "$~chaukor",
+                    "ellipse": "$~beizvi",
+                    "path": "$~raasta",
+                    "emoji": "$~emoji",
+                    "glyph": "$~kinaara",
+                    "symbol": "$~nishaan",
+                    "image": "$~tasveer"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Baantein",
+                        "explanation": "$~Chunein ke is kirdaar ko kaun dekh sakta hai, kaun ise banane mein madad kar sakta hai, aur yeh kis numaish gah ka hissa hai."
+                    },
+                    "button": {
+                        "label": "$~baantein",
+                        "tip": "$~is kirdaar ko baantein"
+                    },
+                    "delete": {
+                        "label": "$~mitayein",
+                        "tip": "$~is kirdaar ko mita dein"
+                    },
+                    "public": {
+                        "label": "$~nazar aana",
+                        "labels": ["$~aam", "$~nijji"],
+                        "tips": [
+                            "$~koi bhi is kirdaar ko dekh sakta hai",
+                            "$~sirf aap aur saathi is kirdaar ko dekh sakte hain"
+                        ]
+                    },
+                    "collaborators": "$~saathi",
+                    "gallery": "$~Numaish gah",
+                    "galleryexplanation": "$~Is kirdaar ko apni kisi numaish gah mein rakhein, phir us mein maujood har shakhs ise dekh sakta hai, apni mansoobon mein istemaal kar sakta hai, aur is ka apna version bana sakta hai. Yeh phir bhi aap ka rehta hai; sirf aap ise badal sakte hain.",
+                    "collaboratorsexplanation": "$~Saathi is kirdaar ko dekh sakte hain aur aap ke saath ise badal sakte hain, chahe yeh nijji ho.",
+                    "publicexplanation": "$~Aam ka matlab hai ke koi bhi is kirdaar ko dekh sakta hai aur apni mansoobon mein istemaal kar sakta hai. Nijji ka matlab hai ke sirf aap, aap ke saathi, aur woh log jo aap ki rakhi hui kisi numaish gah mein hain.",
+                    "tab": {
+                        "label": "$~baantne ki settings",
+                        "labels": ["$~Aam", "$~Saathi", "$~Numaish gah"],
+                        "tips": [
+                            "$~chunein ke is kirdaar ko kaun dekh sakta hai",
+                            "$~chunein ke aap ke saath is kirdaar ko kaun badal sakta hai",
+                            "$~woh numaish gah chunein jis mein yeh kirdaar dikhana hai"
+                        ]
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$~kirdaar ka naam",
+                        "placeholder": "$~naam"
+                    },
+                    "description": {
+                        "description": "$~kirdaar ki tafseel",
+                        "placeholder": "$~tafseel"
+                    },
+                    "mode": {
+                        "label": "$~tareeqa",
+                        "labels": [
+                            "$~muntakhab karein",
+                            "$~mitane wala",
+                            "$~pixel",
+                            "$~chaukor",
+                            "$~beizvi",
+                            "$~raasta",
+                            "$~nishaan",
+                            "$~tasveer"
+                        ],
+                        "tips": [
+                            "$~shaklein aur pixel muntakhab karein",
+                            "$~shaklein aur pixel mitaein",
+                            "$~pixel banayein",
+                            "$~mustatil banayein",
+                            "$~baizvi shakal banayein",
+                            "$~raaste banayein",
+                            "$~harf, nishaan, ya emoji shaamil karein",
+                            "$~tasveer ko pixels ki shakal mein shaamil karein"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~bharna",
+                        "labels": [
+                            "$~koi nahin",
+                            "$~wirsa mein lena",
+                            "$~chunein"
+                        ],
+                        "tips": [
+                            "$~koi bharaai nahin",
+                            "$~aas paas ke matn se bharaai ka rang lein",
+                            "$~bharaai ka rang chunein"
+                        ]
+                    },
+                    "stroke": {
+                        "label": "$~lakeer",
+                        "labels": [
+                            "$~koi nahin",
+                            "$~wirsa mein lena",
+                            "$~chunein"
+                        ],
+                        "tips": [
+                            "$~koi lakeer nahin",
+                            "$~aas paas ke matn se lakeer ka rang lein",
+                            "$~lakeer ka rang chunein"
+                        ]
+                    },
+                    "none": "$~koi nahin",
+                    "inherit": "$~matn ka rang",
+                    "strokeWidth": {
+                        "label": "$~lakeer ki chaudaai",
+                        "tip": "$~lakeer kitni chaudi dikhaai jaye"
+                    },
+                    "brushSize": {
+                        "label": "$~jasaamat",
+                        "tip": "$~brush aur eraser kitne khaano par phailte hain"
+                    },
+                    "insertion": {
+                        "label": "$~is tarah shaamil karein",
+                        "labels": ["$~pixels", "$~kinaara"],
+                        "tips": [
+                            "$~nishaan ko pixels ki shakal mein shaamil karein jinka rang aap ek ek karke badal sakein",
+                            "$~nishaan ko aisi aoutline ki shakal mein shaamil karein jise aap bina dhundla kiye bada, chhota aur ghuma sakein"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~font",
+                        "tip": "$~nishaan ki shakal kis font se leni hai"
+                    },
+                    "weight": {
+                        "label": "$~wazan",
+                        "tip": "$~nishaan ki lakeeren kitni mota hain"
+                    },
+                    "italic": "$~tirchha",
+                    "glyphSize": {
+                        "label": "$~nishaan ka size",
+                        "tip": "$~nishaan kitne khaanon mein phaila hai"
+                    },
+                    "radius": {
+                        "label": "$~kone ka gol-pan",
+                        "tip": "$~chaukor ke kone kitne gol hain"
+                    },
+                    "angle": {
+                        "label": "$~zaawiya",
+                        "tip": "$~shakal ko uske markaz ke gird kitna ghumana hai"
+                    },
+                    "width": {
+                        "label": "$~chaudaai",
+                        "tip": "$~shakal kitni chauri hai"
+                    },
+                    "height": {
+                        "label": "$~unchaai",
+                        "tip": "$~shakal kitni oonchi hai"
+                    },
+                    "closed": "$~juda hua"
+                },
+                "button": {
+                    "back": {
+                        "label": "$~peechhe",
+                        "tip": "$~chuni hui shaklon ko peechhe karein."
+                    },
+                    "toBack": {
+                        "label": "$~sab se peechhe",
+                        "tip": "$~chuni hui shaklon ko sab se peechhe le jayein."
+                    },
+                    "forward": {
+                        "label": "$~aage",
+                        "tip": "$~chuni hui shaklon ko aage karein."
+                    },
+                    "toFront": {
+                        "label": "$~sab se aage",
+                        "tip": "$~chuni hui shaklon ko sab se aage le aayein."
+                    },
+                    "copy": {
+                        "label": "$~nakal karein",
+                        "tip": "$~chuni hui shaklon ki nakal clipboard mein rakhein."
+                    },
+                    "paste": {
+                        "label": "$~chipkayein",
+                        "tip": "$~clipboard se nakal ki hui shaklein chipkayein."
+                    },
+                    "clear": {
+                        "label": "$~sab",
+                        "tip": "$~tamaam shaklein hata dein."
+                    },
+                    "clearPixels": {
+                        "label": "$~pixels",
+                        "tip": "$~tamaam pixels hata dein."
+                    },
+                    "undo": {
+                        "label": "$~wapas karein",
+                        "tip": "$~pichle design par wapas jaayein"
+                    },
+                    "redo": {
+                        "label": "$~dobara karein",
+                        "tip": "$~agle design par aage jaayein"
+                    },
+                    "all": {
+                        "label": "$~sab chunein",
+                        "tip": "$~tamam shakalein aur pixels chunein"
+                    },
+                    "allColor": {
+                        "label": "$~is rang ki sab cheezein",
+                        "tip": "$~chuni hui shakal jaisay rang ki tamam shakalein chunein"
+                    },
+                    "saturationUp": {
+                        "label": "$~rang ki gehraai",
+                        "tip": "$~rang ki gehraai badhaayein"
+                    },
+                    "saturationDown": {
+                        "label": "$~rang ki gehraai",
+                        "tip": "$~rang ki gehraai kam karein"
+                    },
+                    "end": {
+                        "label": "$~shakal mukammal karein",
+                        "tip": "$~maujooda raasta khatam karein"
+                    },
+                    "horizontal": {
+                        "label": "$~aadha ulta karein",
+                        "tip": "$~chuni hui cheez ko left right ulta karein"
+                    },
+                    "vertical": {
+                        "label": "$~khadi ulta karein",
+                        "tip": "$~chuni hui cheez ko oopar neeche ulta karein"
+                    },
+                    "fit": {
+                        "label": "$~fit karein",
+                        "tip": "$~shakalon ko canvas mein fit karein"
+                    },
+                    "dismissError": {
+                        "label": "$~band karein",
+                        "tip": "$~galti ka paigham band karein"
+                    },
+                    "editPoints": {
+                        "label": "$~nuqtay",
+                        "tip": "$~chuni hui lakeer ke nuqtay badlein"
+                    },
+                    "donePoints": {
+                        "label": "$~ho gaya",
+                        "tip": "$~nuqtay badalna band karein"
+                    },
+                    "addPoint": {
+                        "label": "$~nuqta shaamil karein",
+                        "tip": "$~chune hue nuqtay ke saath ek naya nuqta shaamil karein"
+                    },
+                    "deletePoint": {
+                        "label": "$~nuqta hataayein",
+                        "tip": "$~chuni hui nuqta hataein"
+                    },
+                    "curve": {
+                        "label": "$~khamdaar",
+                        "tip": "$~chuni hui nuqta par aane wale hisse ko modein"
+                    },
+                    "straighten": {
+                        "label": "$~seedha karein",
+                        "tip": "$~chuni hui nuqta par aane wale hisse ko seedha karein"
+                    }
+                },
+                "image": {
+                    "instructions": "$~Chaukor ko hilane ke liye usay kheenchein, ya tasveer ka kitna hissa rakhna hai yeh badalne ke liye *size* slider istemaal karein. Keyboard se, hilana shuru karne ke liye *enter* dabayein, phir *arrow* kunjiyan istemaal karein, aur kaam khatam hone par dobara *enter* dabayein.",
+                    "add": {
+                        "label": "$~shamil karein",
+                        "tip": "$~chuna hua chaukor pixels ki shakal mein character mein shaamil karein"
+                    },
+                    "size": {
+                        "label": "$~jasaamat",
+                        "tip": "$~tasveer ka kitna hissa rakhna hai"
+                    }
+                },
+                "feedback": {
+                    "glyphLoading": "$~Font mangwaya ja raha hai…",
+                    "glyphMissing": "$~Is font mein us nishan ki koi shakal nahin hai. Doosra font aazmayein.",
+                    "glyphEmpty": "$~Us nishan mein banane ke liye kuch nahin hai.",
+                    "glyphUnreadable": "$~Hum woh font nahin parh sake. Apna connection dekhein, ya doosra font aazmayein.",
+                    "name": "$~Characters ko kam az kam 1 harf ka durust Wordplay naam chahiye. Woh 'UI', ashariya ya hexadecimal adad, ya zubaan ki kisi maujooda sahulat ka naam nahin ho sakta.",
+                    "description": "$~Characters ko ek tafseel chahiye taake jo log dekh nahin sakte woh jaan sakein ke woh kya dikhate hain.",
+                    "end": "$~ya escape dabayein.",
+                    "loadfail": "$~Is character ko kholne mein masla aaya.",
+                    "notfound": "$~Yeh character maujood nahin hai ya aap ko nazar nahin aa sakta.",
+                    "unauthenticated": "$~Character badalne ke liye aap ka <login hona zaroori hai@://login>.",
+                    "taken": "$~Aap ke paas pehle se is naam ka character maujood hai; mehfooz nahin kiya ja raha.",
+                    "projecteditfail": "$~Is character ko istemaal karne wali mansoobon ko naya karne mein masla aaya. In mansoobon ko theek karna zaroori hai:",
+                    "untitledproject": "$~Be-naam Mansooba"
+                },
+                "announce": {
+                    "imported": "$~$x $y se $#count[ek pixel|$count pixels] shaamil kiye gaye",
+                    "position": "$~$x $y par",
+                    "selection": "$~$shapes[chuni hui $shapes|kuch chuna nahin gaya]",
+                    "editing": "$~$#count[ek nuqta|$count nuqtay] mein tabdeeli ho rahi hai",
+                    "editingDone": "$~nuqtay badalna mukammal hua",
+                    "point": "$~nuqta $index $x $y par",
+                    "control": "$~mor $index $x $y par",
+                    "pointAdded": "$~nuqta $index $x $y par shaamil kiya",
+                    "pointRemoved": "$~nuqta $index hata diya, $#count[ek nuqta|$count nuqtay] baaqi",
+                    "curved": "$~hissa $index ko ghumaya",
+                    "straightened": "$~hissa $index ko seedha kiya",
+                    "moved": "$~$x $y par le gaye",
+                    "drew": "$~$x $y par banaya",
+                    "erased": "$~$x $y par mitaya",
+                    "finished": "$~$shape $x par $y banayi",
+                    "deleted": "$~hata diya, $#count[ek shakal|$count shakalein] baaqi",
+                    "undone": "$~qadam $step of $total wapas kiya",
+                    "redone": "$~qadam $step of $total dobara kiya",
+                    "copied": "$~$#count[$shapes ki nakal li|$count shakalon ki nakal li: $shapes]",
+                    "pasted": "$~$x $y par chipka diya",
+                    "arranged": "$~tah $index of $total",
+                    "flipped": "$~ulta kiya, ab $x $y par hai",
+                    "fitted": "$~shakalein barha kar canvas bhar diya"
+                }
+            },
+            "about": {
+                "header": "$~Hamare baare mein",
+                "content": [
+                    "$~Kya aapko kabhi laga ke coding sirf un logon ke liye hai jo angrezi achi tarah bolte hain, jinko koi maazoori nahin, aur jo maghrib mein computer ke saath bade hue?",
+                    "Haan, hamein bhi aisa laga.",
+                    "Yeh koi ittefaq nahin. Computer ke aaghaz se hi programming zubaanein zyadatar ek hi tarah ke logon ne banayi hain -- zyadatar gore, angrezi bolne wale mard, jo America aur Europe ke idaron aur sanaat mein kaam karte the, aur kuch kamaal ki khawateen riyaazi daan. Unhon ne yeh kaam us daur mein kiya jab nau-abaadiyaati taqat ka raaj tha, aur programming zubaanein us taqat ko mazboot rakhne ka aham zariya thin.",
+                    "Is tareekh ki wajah se computing ka tasawwur zyadatar raftaar, mantiq, munaafa aur ghalba paane ke gird ghoomta hai.",
+                    "Yeh na-insaafi hai. Kyunki computing ab hamari rozmarra zindagi mein nazar aane aur na nazar aane wale tareeqon se shaamil hai, aur jin logon ko isse kuch banane ka mauqa milta hai woh zyadatar isse banane walon jaise hi hain. Baaqi insaaniyat is taqat ke aage majboor rehti hai, kyunki kuch alag sochne ke liye parhna likhna aana zaroori hai, jis par zubaan ki rukawatein, rasaai ki rukawatein, maali rukawatein, aur sarkari taleem mein na-barabari ka pehra hai.",
+                    "*Wordplay* is ko badalne mein madad karna chahta hai. Yeh ek programming platform hai jo poori duniya ke liye banaya gaya hai, jo duniya ki /tamaam/ zubaanon ko sahaara deta hai, aur duniya ki zubaanon ke /baare/ mein bhi hai. Aisa platform jahan har koi apni salahiyat ke mutabiq kuch bana sake, aur aisa mawaad baant sake jo koi bhi mehsoos kar sake. Un naujawanon aur bachchon ke liye jo alfaaz, emoji aur typography ke zariye khelte hue aur fankaarana andaaz mein apne aap ko zaahir karna chahte hain. Maqsad apne liye taqat hasil karna nahin, balki aisi computing ki duniya banana hai jo hamare khoobsurat farq ki azeem taqat aur zaroorat ko tasleem kare.",
+                    "Hum designers, ustaadon aur developers ki ek jamaat hain jo is khwab ko haqeeqat banane ki koshish kar rahe hain. Hum rang daar log hain, hum trans hain, hum queer hain, hum maazoor hain, hum musaafir hain, hum panaah guzeen hain. Hamara markaz Seattle, Washington, USA mein <University of Washington@https://washington.edu> ke <Information School@https://ischool.uw.edu/> mein hai, aisi jagah jo sab ko khush aamdeed kehna chahti hai aur nau-abaadiyaat ke un nuqsanaat ko mitana chahti hai jo maazoori aur nasl parasti se judey hain aur aaj bhi jaari hain. Yeh programming zubaan aur platform banana us mishan ka ek chhota sa hissa hai, jo computing ke aise mustaqbil ki jhalak dikhata hai jahan /har koi/ shaamil hai.",
+                    "Hamein aapki madad chahiye. Seekhein <kaise hissa dalein@https://github.com/wordplaydev/wordplay/wiki/contribute>, <chanda dein@://donate>, ya hamari <pesh raft@https://github.com/amyjko/wordplay/milestones> dekhein. Agar koi sawaal ho to hamari jamaat ki muntazim <Amy@https://amyjko.phd> ko likhein."
+                ],
+                "districts": {
+                    "header": "$~school aur zilon ke liye",
+                    "content": [
+                        "$~Kya aap tay kar rahe hain ke *Wordplay* aapke school ya zile mein istemaal ke liye theek hai? Yahan hum jo wada kar sakte hain aur jo nahin kar sakte, woh likha hai.",
+                        "Hum koi company nahin hain. Hum ek community par mabni tehqeeqi mansooba hain jo ek ghair munafa bakhsh university mein chalta hai, aur hamari koi aamdani nahin hai. Is ka matlab hai ke kuch muaahide hain jin par hum dastakhat nahin kar sakte, chahe hum kitna hi madad karna chahein. Hum yeh wada nahin kar sakte ke agar kisi zile par muqadma ho to hum uski qanooni fees ada karein. Hum yeh wada nahin kar sakte ke kisi masle ko tay shuda waqt par theek karein. Aisa wada karna jo hum nibha na sakein kisi ke kaam nahin aata, aapke to bilkul nahin.",
+                        "Hum jo wada kar sakte hain, woh yeh hai. Hum platform ko /WCAG 2.2 Level AA/ accessibility par rakhte hain, har tabdeeli par usay khud-ba-khud jaanchte hain, aur jo masle milte hain unhein utni jaldi theek karte hain jitni jaldi ek razakaar community kar sakti hai. Hum platform istemaal karne walon ke bare mein kam se kam maloomaat jama karte hain, aur sirf platform chalane ke liye istemaal karte hain. Hamara <huqooq@://rights> safha bilkul sahi batata hai ke hum kya mehfooz rakhte hain, aur hamara <maakhaz code@https://github.com/wordplaydev/wordplay> sab ke liye khula hai, is liye aap yeh sab khud jaanch sakte hain.",
+                        "Yeh platform hamesha badalta rehta hai, aur woh qaidey bhi badalte hain jin par aapko chalna hota hai. Agar aapko koi aisi cheez chahiye jo hum abhi nahin karte, to hi@wordplay.dev par humein likhein aur batayein. Nigraan isay parhenge, aur hum jawab likhenge."
+                    ],
+                    "link": "$~Kisi taqaze ke bare mein humein likhein",
+                    "subject": "$~Wordplay school ke bare mein sawaal",
+                    "body": [
+                        "$~School ya zile ka naam:",
+                        "$~Aapka naam:",
+                        "$~Aapka kirdaar:",
+                        "$~Kya koi taqaza ya qaanoon hai jo humein poora karna chahiye lekin hum abhi nahin karte?",
+                        "$~Kya koi aisa hai jo hum maujooda halat mein poora nahin kar sakte?",
+                        "$~Kya koi aur baat hai jo aap humein batana chahein?"
+                    ]
+                }
+            },
+            "updates": {
+                "header": "$~Naye update",
+                "content": [
+                    "$~Yeh @wordplay ki sabse naye khoobiyan, behtariyan, aur ghalatiyon ki durustiyan hain. Hum aksar hafte ko Hafta (Saturday) ke din update jaari karte hain, siwaye is ke ke koi zaroori ghalati mil jaye."
+                ],
+                "tips": {
+                    "expand": "$~Is tareekh ke update failayein",
+                    "collapse": "$~Is tareekh ke update samet lein"
+                },
+                "categories": {
+                    "added": "$~Shamil kiya gaya",
+                    "changed": "$~Badla gaya",
+                    "removed": "$~Hata diya gaya",
+                    "fixed": "$~Theek kiya gaya"
+                }
+            },
+            "login": {
+                "header": "$~Login",
+                "profile": "$~Profile",
+                "subtitle": "$~Mehfooz karein, milkar kaam karein, aur baantein",
+                "anonymous": "$~login",
+                "prompt": {
+                    "login": "$~Apni mansoobe mehfooz karne, milkar kaam karne, aur baantne ke liye login karein:",
+                    "join": "$~Ya shuru karne ke liye <account banayein@://join>.",
+                    "forgot": "$~*Kya aap apna password bhool gaye?* Afsos, hum aapka account wapas nahin la sakte kyunki hum rabta karne ki maloomat jama nahin karte.",
+                    "enter": "$~Lagta hai aapka login link kisi aur browser ya device se aaya hai. Kya aap apna email dobara likh sakte hain, taake hamein yaqeen ho ke yeh aap hi hain?",
+                    "paste": "$~Kya link kisi aur jagah khul gaya? Install ki hui apps kabhi kabhi email ke link web browser ke bajaye apne andar kholti hain. Apne email se link copy karein aur yahan paste karein taake sign in mukammal ho jaye.",
+                    "play": "$~Aap login ho gaye hain, ab hum aapki mansoobe online mehfooz kar sakte hain! Kya aap kuch banana chahte hain?",
+                    "passwordrule": "$~Password kam az kam 6 huroof ka hona chahiye; agar aap password manager istemaal nahin karte, to teen lambe alfaaz chunein jo aapko yaad rahein.",
+                    "changeEmail": "$~Kya aap apna email badalna chahte hain? Naya email likhein aur hum purane email par tasdeeq bhej denge.",
+                    "changePassword": "$~Kya aap apna password badalna chahte hain? Naya password likhein aur use dobara likhein.",
+                    "email": "$~Kya aapka sirf email wala account hai? Apne email se login karein, aur agar us se juda koi account hua, to hum aapko sign in link wala email bhejenge. Raazdaari mehfooz rakhne ke liye naye sirf email wale account nahin banaye ja sakte.",
+                    "sent": "$~Agar yeh email kisi account se juda hai, to us par login link wala email aayega. Isay aane mein kuch minute lag sakte hain. Agar is email se koi account juda nahin hai, to aapko kuch nahin milega.",
+                    "logout": "$~Kya aap shared device istemaal kar rahe hain aur apni mansoobe nijji rakhna chahte hain? Logout karein aur hum is device se aapki mansoobe *mita denge*, lekin woh online mehfooz rahengi.",
+                    "success": "$~Account ban gaya!",
+                    "confirm": "$~Apna naya email tasdeeq karne ke liye apna purana email dekhein.",
+                    "delete": "$~Kya aap chahte hain ke hum woh sab bhool jayen jo aapne yahan banaya hai? Yeh wapas nahin ho sakta.",
+                    "reallyDelete": "$~Kya aapko yaqeen hai? Aapka account aur settings foran mita di jayengi aur aapki mansoobe mitane ke liye tay kar di jayengi. Aapki mansoobon par saath kaam karne walon ki rasai foran khatam ho jayegi. Tasdeeq ke liye apna email ya username likhein ke aap yahi chahte hain.",
+                    "name": "$~Dusron ko apna taaruf dene ke liye ek emoji ya apna banaya hua kirdaar chunein."
+                },
+                "subheader": {
+                    "work": "$~Aapka kaam",
+                    "character": "$~Aapka kirdaar",
+                    "username": "$~Aapka username",
+                    "password": "$~Aapka password",
+                    "email": "$~Email",
+                    "logout": "$~Sign out",
+                    "delete": "$~Apna account mitayein",
+                    "export": "$~Aapka zakheera"
+                },
+                "username": {
+                    "change": "$~Aapka username woh hai jis se dusre log aapko dekhte hain, aur yeh aapke banaye har kirdaar ke naam ki shuruaat hota hai. Aap ise jab chahein badal sakte hain. Aapka purana naam bhi chalta rahega, is liye jo kuch pehle se aapke kirdaron ki taraf ishaara karta hai woh unhein phir bhi dhoond lega.",
+                    "missing": "$~Abhi aapka koi username nahin hai, is liye dusre log aapko *—* ki surat mein dekhte hain aur aap kirdaar nahin bana sakte. Ek chun lein, phir woh pakka ho jayega.",
+                    "changed": "$~Ho gaya. Ab yeh aap ka naam hai.",
+                    "claimed": "$~Ho gaya. Yeh aap ka naam hai.",
+                    "field": {
+                        "description": "$~Woh username jo aap chahte hain",
+                        "placeholder": "$~username"
+                    },
+                    "save": {
+                        "label": "$~Mehfooz karein",
+                        "tip": "$~Ab se yeh username istemaal karein"
+                    }
+                },
+                "signin": {
+                    "usesPassword": "$~Aap username aur password se sign in karte hain. Agar aap password yaad nahin rakhna chahte, to aap us link se sign in karne par ja sakte hain jo hum aap ko email karte hain. Aap ka username wahi rehta hai.",
+                    "usesEmail": "$~Aap apne email address se sign in karte hain. Agar aap username aur password chahte hain, to aap badal sakte hain. Aap ka username wahi rehta hai.",
+                    "notYet": "$~Aap username aur password se sign in karte hain. Jahan aap rehte hain, wahan aap abhi email address istemaal karne ke liye kam umar hain. $date se aap email kiye gaye link se sign in karne par ja sakenge.",
+                    "switched": "$~Ho gaya. Agli baar apne username aur naye password se sign in karein.",
+                    "toPassword": {
+                        "label": "$~Is ke bajaye password istemaal karein",
+                        "tip": "$~Username aur password se sign in karne par jayein"
+                    }
+                },
+                "error": {
+                    "expired": "$~Yeh link khatam ho chuka hai.",
+                    "invalid": "$~Yeh link durust nahin hai.",
+                    "email": "$~Yeh durust email nahin hai.",
+                    "invalidUsername": "$~Username kam az kam 5 huroof ka hona chahiye aur us mein khaali jagah nahin honi chahiye.",
+                    "usernameTaken": "$~Yeh username pehle se liya ja chuka hai.",
+                    "failure": "$~Login nahin ho saka :(",
+                    "unverified": "$~Hum yeh tasdeeq nahin kar sake ke yeh asli browser hai, is liye hum ruk gaye. Aisa school ya daftar ke network par ho sakta hai. Dobara koshish karne se madad nahin milegi, lekin doosra network ya browser madad kar sakta hai. Agar aap school mein hain, to ustaad ko bataein.",
+                    "offline": "$~Hum cloud ☁️ tak nahin pahunch sake.",
+                    "deletePartial": "$~Hum ne aap ke account ka data hata diya, lekin account hatane ka kaam poora nahin kar sake. Meharbani karke dobara koshish karein, ya agar yeh baar baar ho to hum se rabta karein.",
+                    "invalidPassword": "$~Password kam az kam 6 huroof ka hona chahiye.",
+                    "wrongPassword": "$~Username aur password durust nahin hain. Ya to aap ka password ghalat hai, ya yeh username kisi aur ke paas hai.",
+                    "mismatched": "$~Dono password aapas mein nahin milte.",
+                    "tooMany": "$~Aap ne bahut baar login karne ki koshish ki aur nakaam rahe. Dobara koshish ke liye aap ko intezaar karna hoga.",
+                    "unsaved": "$~Aap ki kuch tabdeeliyan abhi online mehfooz nahin hui hain. Agar aap abhi log out karte hain, to woh is device se zaya ho jayengi."
+                },
+                "feedback": {
+                    "changing": "$~Naya email jama kiya ja raha hai...",
+                    "deleting": "$~Theek hai, aapki mansoobay aur settings mitaye ja rahe hain...",
+                    "updatedPassword": "$~Aapka password badal diya gaya hai.",
+                    "match": "$~Yeh aapke account ke username se milna zaroori hai."
+                },
+                "field": {
+                    "email": {
+                        "description": "$~login email badlein",
+                        "placeholder": "$~email"
+                    },
+                    "link": {
+                        "description": "$~login link paste karein",
+                        "placeholder": "$~link"
+                    },
+                    "username": {
+                        "description": "$~login username, apni zaati pehchaan wali maloomaat istemaal na karein",
+                        "placeholder": "$~username"
+                    },
+                    "password": {
+                        "description": "$~login password, kam az kam 6 huroof ka",
+                        "placeholder": "$~password"
+                    },
+                    "currentPassword": {
+                        "description": "$~aapka maujooda login password",
+                        "placeholder": "$~maujooda password"
+                    },
+                    "newPassword": {
+                        "description": "$~aapka naya password",
+                        "placeholder": "$~naya password"
+                    }
+                },
+                "button": {
+                    "logout": {
+                        "tip": "$~apne account se logout karein",
+                        "label": "$~logout"
+                    },
+                    "login": "$~is username aur password se account banayein",
+                    "updateEmail": "$~apna email badlein",
+                    "delete": {
+                        "tip": "$~apna account mitayein",
+                        "label": "$~mera data mitayein…"
+                    },
+                    "reallyDelete": {
+                        "tip": "$~apna account hamesha ke liye mitayein",
+                        "label": "$~mita dein!!!"
+                    },
+                    "updatePassword": "$~naya password jama karein"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$~Password dikhayein",
+                        "off": "$~Password chhupayein"
+                    }
+                },
+                "notifications": {
+                    "header": "$~Mujhe in ke baare mein email karein…",
+                    "noAddress": "$~Upar email address likhein, phir aap chun sakte hain ke Wordplay aap ko kaun si emails bheje.",
+                    "notYet": "$~Jab aap email address istemaal kar sakein gay, tab aap chun sakein gay ke Wordplay aap ko kaun si emails bheje.",
+                    "decisions": {
+                        "label": "$~meri banai hui ya report ki hui cheezon ki nigraani",
+                        "labels": ["$~band", "$~chalu"],
+                        "tips": [
+                            "$~Meri banai hui ya report ki hui cheezon ki nigraani ke baare mein mujhe email na karein",
+                            "$~Meri banai hui ya report ki hui cheezon ki nigraani ke baare mein mujhe email karein"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~meri jaaiza ka intezaar karti hui nigraani",
+                        "labels": ["$~band", "$~chalu"],
+                        "tips": [
+                            "$~Meri jaaiza ka intezaar karti hui nigraani ke baare mein mujhe email na karein",
+                            "$~Meri jaaiza ka intezaar karti hui nigraani ke baare mein mujhe email karein"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~nayi chats aur tareeqa guide",
+                        "labels": ["$~band", "$~chalu"],
+                        "tips": [
+                            "$~Nayi chats aur tareeqa guide ke baare mein mujhe email na karein",
+                            "$~Nayi chats aur tareeqa guide ke baare mein mujhe email karein"
+                        ]
+                    }
+                },
+                "export": {
+                    "prompt": "$~Apni banai hui har cheez ki ek copy download karein. Is mein aap ki mansoobe, kirdaar, numaish gahein, tareeqa guide, kits, baatcheet, jamaatein aur settings hain. Har mansooba ek file ki shakal mein aata hai jo aap Wordplay mein dobara khol sakte hain. Is mein se kuch sirf aap ka nahin hai: baatcheet mein sab ki kahi hui baatein hoti hain, aur jamaat ki fehriston mein doosron ke naam hote hain. Jis ko aap yeh file dein woh sab kuch parh sakta hai, is liye ise kisi mehfooz jagah rakhein.",
+                    "proxy": "$~Aap kisi aur ka account dekh rahe hain, is liye aap is ki copy download nahin kar sakte.",
+                    "button": {
+                        "tip": "$~apne account ki har cheez ki copy download karein",
+                        "label": "$~meri archive download karein…"
+                    },
+                    "progress": "$~$kind jama kiya gaya: ab tak $#count[$count cheez|$count cheezein]",
+                    "started": "$~Aap ki archive ban rahi hai.",
+                    "finished": "$~Aap ki archive $name tayyar hai, is mein $#count[$count cheez|$count cheezein] hain.",
+                    "finishedPartial": "$~Aap ki archive $name tayyar hai, is mein $#count[$count cheez|$count cheezein] hain, lekin $#missing[$missing qism|$missing qismein] parhi nahin ja saki.",
+                    "failed": "$~Aap ki archive nahin ban saki. Thori der baad dobara koshish karein.",
+                    "incomplete": "$~Aap ki archive tayyar hai, lekin yeh parhi nahin ja sakin, is liye yeh is mein nahin hain: $kinds",
+                    "tooLarge": "$~Aap ne itna kuch banaya hai jo ek archive mein nahin sama sakta. Hamein bataein, hum aap ki madad karenge.",
+                    "offline": "$~Wordplay internet tak nahin pahunch sakta, is liye aap ki archive nahin ban sakti.",
+                    "kind": {
+                        "account": "$~aap ka account",
+                        "projects": "$~aap ki mansoobe",
+                        "galleries": "$~aap ki numaish gahein",
+                        "characters": "$~aap ke kirdaar",
+                        "howtos": "$~aap ke tareeqa guide",
+                        "chats": "$~aap ki baatein",
+                        "kits": "$~aap ke kit",
+                        "classes": "$~aap ki jamaatein",
+                        "feedback": "$~aap ke khayaalaat aur bug ki ittelaaein",
+                        "device": "$~is device ki settings",
+                        "archive": "$~archive",
+                        "saving": "$~file"
+                    },
+                    "readme": {
+                        "title": "$~Aap ka Wordplay archive",
+                        "intro": "$~Yeh Wordplay account $name mein maujood har cheez ki ek copy hai. Yeh $date ko banai gayi. Yeh Wordplay ne aap ke liye banai hai. Kisi aur ke paas iski copy nahin hai.",
+                        "contents": "$~Har folder mein ek qism ki cheezein hoti hain. Aap ki mansoobon, kirdaaron, numaish gahon, tareeqa guide, kit, baatein aur jamaaton ke folder hain.",
+                        "relationships": "$~Har folder ke andar cheezein is tarah alag ki gayi hain ke aap ka un se kya taalluq hai. owner naam ke folder mein woh hai jo aap ne banaya. creator mein woh hai jo aap ne likha ya jis mein aap kuch daal sakte hain. curator mein woh hai jis ki dekh bhaal aap karte hain. teacher aur learner mein jamaatein hain. collaborator, commenter aur viewer mein kisi aur ka kaam hai.",
+                        "device": "$~device folder mein woh cheezein hain jo sirf us computer par hain jis par aap ne yeh archive banaya. Isme woh settings hain jo online mehfooz nahin hain, woh tarjume jo aap ne shuru kiye, aur woh kaam jo mehfooz hona baaqi tha. Kisi aur computer par archive banane se yeh shaamil nahin honge.",
+                        "formats": "$~Mansooba dobara kholne ke liye Wordplay mein apne mansoobon ke safhe par jaayein aur \"open a project file\" chunein. Aap .wp file ko us safhe par kheench kar bhi la sakte hain. Jo mansooba aap ke paas pehle se hai use badalne ke liye file ko us par kheenchein, Wordplay pehle aap se poochhega.",
+                        "excluded": "$~Kuch cheezein yahan nahin hain. Wordplay aap ki tabdeeliyon ka qadam ba qadam record chhor deta hai, kyunki mansooba pehle se woh rakhta hai jo in tabdeeliyon se bana. Woh record bhi chhor deta hai ke mansoobe ko kaun dekh raha tha. Toote hue usoolon ki ittelaaein bhi chhor deta hai, kyunki woh unhein jaanchne walon ke liye likhi jaati hain.",
+                        "privacy": "$~Is mein se kuch sirf aap ka nahin hai. Ek baat cheet mein woh sab hota hai jo us mein sab ne kaha. Ek jamaat mein us ke sab logon ke naam hote hain. Jis ko bhi aap yeh file denge woh sab kuch parh sakta hai. Isay kisi nijji jagah rakhein, aur baantne se pehle sochein ke us mein aur kaun hai.",
+                        "missing": "$~Archive banate waqt Wordplay kuch cheezein parh nahin saka. Woh yahan nahin hain:",
+                        "manifest": "$~manifest.json mein wohi baatein is shakal mein hain jo koi program parh sake. Yeh batati hai ke yeh kab bana, har cheez kitni hain, aur kya shaamil nahin ho saka.",
+                        "contentsFiles": "$~Har cheez ki ek .json file hoti hai. Wordplay bilkul wohi mehfooz karta hai. Har mansoobe ki ek .wp file bhi hoti hai. Yeh mansooba is tarah likha hua hai ke aap isay parh sakein aur dobara khol sakein.",
+                        "contentsAccount": "$~account.json batati hai ke aap kaun hain, kab shaamil hue, aur aap ko kya karne ki ijaazat hai. self folder mein woh hai jo Wordplay aap ke baare mein rakhta hai: aap ka username, aap ne kitna tarjuma kiya, aap ko di gayi koi tanbeeh, aur aap ki ittelaaein.",
+                        "relationshipsWords": "$~Ek hi lafz ke do matlab ho sakte hain. Numaish gah ka creator us mein mansoobe daal sakta hai. Tareeqa guide ka creator woh hai jis ne isay likha. Har folder mein ek index.json bhi hai. Woh har cheez se aap ke taalluq ke tamaam tareeqe bataati hai, kyunki ek se zyada sach ho sakte hain."
+                    }
+                }
+            },
+            "join": {
+                "header": "$~Shaamil hon",
+                "prompt": {
+                    "create": "$~Account banayein taake aap apni mansoobay mehfooz kar sakein, doosron ke saath mil kar kaam kar sakein, aur apna kaam baant sakein.",
+                    "username": "$~Username kam az kam /5 huroof/ ka hona chahiye, email nahin ho sakta, aur us mein aapka naam ya koi aur pehchaan wali maloomat nahin honi chahiye.",
+                    "password": "$~Password kam az kam /6 huroof/ ka hona chahiye. Isay do baar likhein aur kisi mehfooz jagah par likh kar rakhein, jaise password manager mein. *Agar aap isay kho dein to account wapas hasil karne ka koi tareeqa nahin hai*, kyunke hum rabta karne ki maloomat jama nahin karte.",
+                    "region": "$~Hum poochte hain ke aap kahan rehte hain taake hum wahan ke bachchon ke accounts ke qawaneen par amal kar sakein. Hum aapka jawab mehfooz nahin rakhte.",
+                    "birthday": "$~Hum aapki saalgirah isi wajah se poochte hain. Isay bhi mehfooz nahin rakhte. Sirf yeh dekhte hain ke aap email address istemaal karne ki umar ko pohonch gaye hain ya nahin, aur kab pohonchenge.",
+                    "choose": "$~Sign in karne ke do tareeqay hain. Jo aapko pasand ho woh chunein.",
+                    "withPassword": "$~*Ek username aur ek password.* Hum aapke baare mein kuch nahin jaanenge. Lekin *agar aap password bhool gaye to account wapas lene ka koi tareeqa nahin*, kyunke hum aap se rabta nahin kar sakte.",
+                    "withEmail": "$~*Ek email address.* Har baar sign in karne par hum aapko ek link email karte hain, is liye bhoolne wala koi password nahin hota. Hum aapka address sirf yeh links bhejne ke liye rakhte hain.",
+                    "tooYoung": "$~Aap jahan rehte hain wahan email address istemaal karne ke liye aapki umar $#age[$age saal|$age saal] honi chahiye. Tab tak username aur password hi istemaal karein. Aap baad mein badal sakte hain.",
+                    "sent": "$~Agar us address se sign in kiya ja sakta hai to ek link aap tak pohonch raha hai. Apna email dekhein."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Woh mulk ya ilaaqa jahan aap rehte hain",
+                        "placeholder": "$~mulk"
+                    },
+                    "year": {
+                        "description": "$~Woh saal jis mein aap paida hue",
+                        "placeholder": "$~saal"
+                    },
+                    "month": {
+                        "description": "$~Woh mahina jis mein aap paida hue",
+                        "placeholder": "$~mahina"
+                    },
+                    "day": {
+                        "description": "$~Woh din jis din aap paida hue",
+                        "placeholder": "$~din"
+                    },
+                    "email": {
+                        "description": "$~Woh email address jis se aap sign in karna chahte hain",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~agla",
+                        "tip": "$~Agle marhale par jayein"
+                    },
+                    "back": {
+                        "label": "$~peechhe",
+                        "tip": "$~Pichhle marhale par wapas jayein"
+                    },
+                    "usePassword": {
+                        "label": "$~Password istemaal karein",
+                        "tip": "$~Username aur password se account banayein"
+                    },
+                    "useEmail": {
+                        "label": "$~Email address istemaal karein",
+                        "tip": "$~Aisa account banayein jisme aap email se aaye hue link ke zariye sign in karein"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Yeh asli taareekh nahin hai. Din aur mahine ko dobara dekhein.",
+                    "taken": "$~Kisi ne abhi abhi yeh username le liya hai. Koi doosra try karein.",
+                    "throttled": "$~Sign in ke bahut zyada link ban chuke hain. Thodi der intezaar karein aur phir koshish karein.",
+                    "failed": "$~Hum account nahin bana sake. Thodi der mein dobara koshish karein."
+                }
+            },
+            "rights": {
+                "header": "$~Huqooq",
+                "content": [
+                    "$~Salaam!",
+                    "Aayiye aap ke aur hamare haqooq ke baare mein kuch baatein saaf kar lein (saath hi policy ke hawale se bhi, jaise <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> aur <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Sab se pehli baat yeh jaanein ke hum koi tijaarati idaara nahin hain. Hum ek bhaichaare par mabni tehqeeqi mansooba hain, jo ek munafa na kamaane wali university mein chalta hai. Hamara maqsad ek aisa platform banana hai jo aap ko khushi de aur hamein computing ki ek ziyada munsifaana aur insaaf par mabni duniya ke baare mein naye inkishaafat karne mein madad de. Hamein is platform se paise kamaane mein koi dilchaspi nahin; jo bhi paisa hum jama karte hain (aam taur par sarkari imdaad se) woh platform ko chalaane ke liye istemaal hota hai, kisi ko ameer karne ke liye nahin jo is par kaam karta hai (ya is mein hissa daalta hai).",
+                    "Chunke hum munafa nahin chahte, is ka matlab yeh bhi hai ke hum platform ke bharosemand hone, dastiyaab hone, ya lambe arse tak chalne ke baare mein koi wada nahin kar sakte. Phir bhi, <Amy@https://amyjko.phd> ne lambe arse tak ise chalaane ka pakka irada kiya hai, aur woh ek mustaqil professor hain, is liye unki naukri kaafi mehfooz hai.",
+                    "Is se hum *data* par aate hain. Yeh woh cheezein hain jo hum jama karte hain aur cloud mein mehfooz rakhte hain:",
+                    "• Aap ki *mansoobe*. Aap jo bhi mansoobe dete hain aur un mein aap ki tabdeeliyan hum mehfooz rakhte hain, siwaaye un mansoobon ke jin mein zaati shanakht wali maloomaat nazar aayein, jaise phone number, email pate, user naam, tax shanakhti nambar, ya ghar ke pate.",
+                    "• Aap ki *settings*. In mein woh zubaanein shaamil hain jo aap chunte hain, aap ki animation pasand, aur sabaq mein aap ki pesh raft. Baaki sab kuch sirf aap ke device par mehfooz hota hai.",
+                    "• Mujmooi *sargarmi*. Hum login aur aap ke dekhe gaye safhe gin lete hain, magar is tarah nahin ke aap ki shanakht ho sake, ya aap ko poori site par ya doosri sites par dhoonda ja sake. Hum Google Analytics ko 'consent denied' mode mein istemaal karte hain, jo safhon ke dekhe jaane ke baare mein sirf bohat kam aisi maloomaat jama karta hai jis se shanakht na ho, na cookies mehfooz karta hai, aur na IP address ki maloomaat Google ko bhejta hai. Hum yeh mujmooi maloomaat funding hasil karne mein madad ke liye istemaal karte hain, yeh batane ke liye ke platform kitna istemaal ho raha hai.",
+                    "• Aap ki *chat ke tarjume*. Agar aap kisi chat ko doosri zubaan mein parhne ko kehte hain, to hum doosron ke paighaam ka tarjuma karte hain, magar aap ke apne paighaam ka kabhi nahin. Kuch browsers yeh tarjuma aap ke device par hi kar sakte hain, aur jab aap ka browser kar sake, to hamein kuch nahin bheja jaata. Warna paighaam ek AI tarjume ki khidmat ko jaate hain (abhi woh Claude hai, jo Anthropic ne banaya hai), aur tarjuma chat ke saath mehfooz kar liya jaata hai taake us mein shaamil kisi aur ko wohi alfaaz dobara tarjuma na karne parein. Sirf us chat mein shaamil log ise parh sakte hain.",
+                    "Hum is ke ilaawa kuch aur mehfooz nahin karte. Hamara <maakhaz code@https://github.com/amyjko/wordplay/tree/main/src> sab ke liye khula hai, is liye koi bhi is ki tasdeeq kar sakta hai, aur kisi ghair iradi nigraani ki ittilaa de sakta hai.",
+                    "*Aap* apne data ke maalik hain, hum nahin. Is ka matlab hai:",
+                    "• Aap tay karte hain ke aap ki mansoobon tak kaun pahunch sakta hai. Yeh pehle se nijee hote hain, lekin aap inhein kisi shakhs ya guroh ke saath baant sakte hain, ya inhein poori tarah aam kar sakte hain.",
+                    "• Aap kisi bhi waqt koi bhi mansooba ya apna account poori tarah mita sakte hain.",
+                    "• Aap kisi bhi waqt kisi mansoobe ya apne poore account ki nakal (export) hasil kar sakte hain.",
+                    "Hum aap ka data kaise istemaal karenge aur kaise nahin:",
+                    "• Hum aap ka data kisi ke saath nahin baantenge, siwaaye is ke ke qanoon saaf taur par taqaza kare. Yeh hamesha mumkin hai ke aap ka data bina ijaazat le liya jaye (ek 'data breach'). Agar hamein pata chala ke aisa hua hai, to hum aap ko us email ke zariye ittilaa denge jo aap ne hamein diya hai.",
+                    "• Hum aap se aap ke email pate par rabta nahin karenge, siwaaye is ke ke 1) aap account mein aisi tabdeeli karein jis ke liye hamein karna parey, 2) aap saaf taur par hamein rabta karne ki ijaazat dein, ya 3) upar bayaan kiye gaye data breach ki soorat mein.",
+                    "• Hum platform par mansoobon, numaish gahon, aur tareeqa guide ke mawaad ka jaiza le sakte hain taake samajh sakein ke sab log kya bana rahe hain aur kaise bana rahe hain. Hum yeh mujmooi, bina naam ki baatein taleemi ishaaton mein baant sakte hain. Hum yeh sirf ek idaarati jaiza board ki nigraani mein karenge, jaisa ke Amreeki wafaaqi qanoon ka taqaza hai.",
+                    "Aakhir mein, bolne ke baare mein ek baat. Mansoobe pehle se nijee hote hain, aur kisi khaas logon ke saath baantne se woh nijee hi rehta hai. Neeche likha hai ke aap jo baantte hain use kaun dekhta hai, is baat par ke use kaun dekh sakta hai.",
+                    "Lekin kisi mansoobe ko *aam* karna, ya use kisi aam numaish gah mein shaamil karna, ek izzat ki baat hai. Yeh platform mohabbat, tasdeeq, ehtiram, aur wiqaar ke liye banaya gaya hai. Is liye hum umeed karte hain ke aap ka koi bhi *aam* mawaad aisa nahin hoga jo:"
+                ],
+                "consequences": [
+                    "$~Agar hamein koi mansooba ya numaish gah mile jo in usoolon ki khilaaf warzi karti ho, to hum banane walon ko dekhne se pehle khabardaar karenge, ya usay dekhne se rok denge. Agar aap baar baar in usoolon ki khilaaf warzi karein, to aap logon ke saamne post karne ka haq kho denge."
+                ],
+                "warnings": [
+                    "$~Agar aap ka public content in usoolon ko tore, to bilkul yeh hota hai. Ek nigraan usay dekhta hai, woh public nahin rehta, aur aap ko apni notifications mein ek khabardaari milti hai jis mein likha hota hai ke kaunsa usool toota. Har signed in shakhs public content par report button se nigraan se kehsakta hai ke usay dekhein.",
+                    "Teen khabardaariyon ke baad bhi aap mansoobe bana sakte hain, unhein apne chune hue logon ke saath baant sakte hain, aur yahan baaqi sab kuch istemaal kar sakte hain. Aap sirf kisi cheez ko public karne ka haq kho dete hain.",
+                    "Agar aap ko lagta hai ke khabardaari ghalti se mili, ya woh bohat pehle ki baat hai aur aap dobara public karna chahte hain, to hi@wordplay.dev par likhein aur hamein apna username aur wajah batayein. Ek insaan usay parhega."
+                ],
+                "license": [
+                    "$~Mansooba *public* karne ke baare mein ek baat aur. Public mansoobe <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/> ke tehat baante jaate hain. Iska matlab hai ke koi bhi aap ke public mansoobe ko /Remix/ kar sakta hai, yaani us ki apni copy bana kar usay badal sakta hai, aur aap bhi kisi aur ke mansoobe ko remix kar sakte hain.",
+                    "Is license ke saath teen cheezein aati hain. Remix karne walon ko asal banane wale ka naam dena hota hai. Unhein apna remix isi license ke tehat baantna hota hai, taake woh agle shakhs ke liye khula rahe. Aur woh kisi public mansoobe ko private karke apne paas nahin rakh sakte.",
+                    "Naam dene mein hum madad karte hain: jab koi mansooba remix karta hai, to hum yaad rakhte hain ke woh kahan se aaya aur us ka link dikhate hain. Mansooba public karna in sab ke liye haan kehne ka tareeqa hai, is liye agar aap nahin chahte ke koi mansooba remix ho, to usay private rakhein."
+                ],
+                "research": [
+                    "$~Aakhri intikhab, aur yeh poori tarah aap ka hai. Hum kabhi kabhi Wordplay ke baare mein likhte aur baat karte hain, jaise research papers mein, taqreeron mein, aur ustaadon aur gharwalon ko dikhaane mein. Hum chahte hain ke log is se jo kuch banate hain woh dikhayein, lekin hum aap ka mansooba tab tak nahin dikhayenge jab tak aap ijaazat na dein.",
+                    "Har mansoobe ki sharing options mein ek *Research* setting hoti hai, aur woh shuru mein band hoti hai. Isay on karne se hum us ek mansoobe ko misaal ke taur par dikha sakte hain, aap ke naam, username, ya aisi kisi cheez ke baghair jo bataye ke account aap ka hai. Yeh har mansoobe ke liye alag hai, is liye ek ke liye haan kehne ka baaqiyon se koi taalluq nahin.",
+                    "Aap isay kabhi bhi band kar sakte hain. Band karne ka matlab hai ke hum aap ka mansooba kisi nayi cheez mein istemaal karna band kar denge, lekin jo cheez hum pehle shaya ya pesh kar chuke hain usay wapas nahin liya ja sakta."
+                ],
+                "responsibility": [
+                    "$~Aap ki baanti hui cheez ko kaun dekhta hai, yeh is par hai ke usay kaun dekh sakta hai.",
+                    "• *Kisi ke saath nahin baanta, ya sirf unhi logon ke saath jin ke naam aap ne diye.* Isay koi nahin dekhta. Na hum, na koi aur.",
+                    "• *Aisi numaish gah mein jis mein doosre log bhi hon.* Us numaish gah ke nigraan usay dekhte hain, aur us ke saath ki chats ko bhi. Yeh is baat se qata nazar hai ke numaish gah public hai ya nahin: us mein maujood log aap ka kaam dekh sakte hain, is liye wahan kisi ki zimmedaari hoti hai.",
+                    "• *Public numaish gah mein.* Us ke nigraan usay dekhte hain, aur hum bhi, kyunke koi bhi usay dhoondh sakta hai.",
+                    "• *Public, aur kisi numaish gah mein nahin.* Hum usay dekhte hain.",
+                    "Jo bhi kisi cheez ko dekh sakta hai woh us par report button se kehsakta hai ke usay dekha jaaye. Hum banane wale ko kabhi nahin batate ke kis ne kaha.",
+                    "Chat ka paigham report karne se woh us waqt tak chhup jaata hai jab tak koi usay dekhta hai. Yeh har paigham ke liye sirf ek baar hota hai: agar woh rakh liya jaaye aur koi dobara report kare, to doosri baar dekhe jaane ke dauraan woh nazar aata rehta hai. Aap apne alfaaz hamesha dekh sakte hain.",
+                    "Faisla batata hai ke upar ke kaun se usool toote paaye gaye, aur us mein faisla karne wale ka ek note bhi ho sakta hai. Aap ko dono apni notifications mein milenge.",
+                    "Numaish gah ke nigraan ka faisla un ki numaish gah par laagu hota hai. Yeh neeche di gayi khabardaariyon mein se nahin hai, aur is ki wajah se aap public karne ka haq kabhi nahin khote."
+                ]
+            },
+            "donate": {
+                "header": "$~Atiya dein",
+                "prompt": "$~@wordplay ki taraqqi ke liye funds dene mein hamari madad karein",
+                "content": [
+                    "$~@wordplay ek muft, bhaichaare par mabni mansooba hai jise <University of Washington@https://washington.edu> ki madad haasil hai. Hum un logon ke tohfon par bharosa karte hain jo hamare maqsad par yaqeen rakhte hain: aisi programming zubaanein jo sab ke liye qaabil-e-rasai hon, har zubaan ko jagah dein, aur taleemi hon.",
+                    "Yeh hamare maujooda akhraajaat hain:",
+                    "• Hum University of Washington ke undergraduate talba ko muaavza dete hain, khaas kar un ko jo maazoor hain ya jin ki pehli zubaan angrezi nahin thi, taa ke woh mansooba taraqqi dein aur sambhaalein. Yeh hamare akhraajaat ka takreeban 90% hai.",
+                    "• Hum un ustaadon ko wazeefa dete hain jin ke saath mil kar hum kai zubaanon mein aur qaabil-e-rasai nisaab banate hain.",
+                    "• Hum Google ko <Firebase@https://firebase.google.com/> ki bandwidth aur storage, aur <Workspace@https://workspace.google.com/> ki khidmaat ke paise dete hain.",
+                    "• Hum domain ke liye har saal <Squarespace@https://www.squarespace.com/> ko paise dete hain.",
+                    "Hamare maujooda akhraajaat, yeh maan kar ke tadreesi saal (36 hafte) mein 5 undergraduate talba $$20 USD//ghanta ke hisaab se hafte mein 10 ghante kaam karein, aur garmiyon (12 hafte) mein 2 talba, aur saath mein cloud khidmaat, saalana takreeban $$60K USD hain.",
+                    "Agar 2,400 log har saal $$25 USD dein, to yeh hamare maujooda akhraajaat poore kar dega, aur jo baqi bachega woh mazeed talba aur ustaadon ko muaavza dene mein lagega.",
+                    "Kya aap un 2,400 logon mein se ek ban sakte hain? Agar haan, to yeh hamara University of Washington ka atiya dene ka link hai:"
+                ]
+            },
+            "design": {
+                "header": "$~Naqsha",
+                "description": "$~Yeh @wordplay ke nazar aane wale naqshe ke nizaam ka hawala hai, jis mein rang, font, faasle, aur dobara istemaal hone wale hisse shaamil hain. Hissa daalne ke liye <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> aur <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> ki rehnumaiyan dekhein.",
+                "theme": "$~Mauzoo",
+                "colors": "$~Rang",
+                "seasons": "$~Mausam",
+                "seasonsDescription": "$~Mausam saaf ke rang badal dete hain aur uske kinaaron mein mausam ke nishaan jod dete hain. Har mausam roshan aur andheray ke saath ek doosra rukh hai, jis mein dono ke liye rangon ka set hota hai, aur har set ko shaamil hone se pehle woh hi contrast ki jaanch paas karni hoti hai jo asal set karta hai. Har mausam ke rang aur nishaan <mausam ke maakhaz@https://github.com/wordplaydev/wordplay/tree/main/src/seasons> mein data ki shakal mein hain.",
+                "accessibility": "$~Rangon ki Rasai",
+                "accessibilityRules": [
+                    "$~Jo kuch bhi *matn* ki shakal mein nazar aaye, woh AA matn ke rangon mein se ek istemaal kare (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, ya koi maani wala mutaghayyar jo inmein se kisi ki taraf ishara karta ho), jo 4.5:1 contrast poora karte hain jo <WCAG 2.2@https://www.w3.org/TR/WCAG22/> ka taqaza hai. Zyada chamakdaar rang sirf peeche ke rang, kinaaron, aur numayaan karne ke liye hain, jinhein 3:1 chahiye ya kuch nahin. Yeh nisbatein unit tests aur har safhe ki khudkaar jaanch se, roshan aur andhere dono mode mein, laagu ki jaati hain. Ek jaan boojh kar rakhi gayi mustasna: roshan mode mein kinaare ka grey 3:1 se neeche hai, kyunke yahan kinaare sirf sajaawati alag karne ke liye hain aur har zaroori hadd ke saath koi aur nishaani bhi hoti hai.",
+                    "Kabhi sirf rang se matlab na batayein: har rang se bataye gaye haalat ke saath ek doosri nishaani bhi dein: koi shakal, lakeer ka andaaz, koi nishaan, ya koi lafz. Misaal ke taur par, editor caret ka numayaan hissa aur bade masle *thos* lakeer se, chuna hua output *toota hua* lakeer se, aur chhote masle *nuqton wali* lakeer se banata hai, taa ke shiddat aur intikhaab rang ke baghair bhi alag nazar aayein.",
+                    "Poori hidayaat ke liye <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> ki rehnuma dekhein."
+                ],
+                "palette": "$~Rangon ka set",
+                "semantic": "$~Maani wale Rang",
+                "fonts": "$~Font",
+                "spacing": "$~Faasla",
+                "typography": "$~Likhaai ka andaaz",
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Wordplay ka logo ek baat karne ka bubble hai jis mein ek harf hai: ek chhota sa stage jis par bubble kuch bhi keh sakta hai: parhne wale ke likhne ke nizaam ka harf, ek emoji, ya jab kuch load ho raha ho to gola, tikona, aur chaukor. App mein, harf aap ki pehli zubaan ke likhne ke nizaam ke mutabiq hota hai; browser icon aur share ki tasveeron jaisi jagahon par, jahan koi khaas likhaai nahin hoti, bubble teen shakalein dikhata hai, jo kuch banane ko tayyar hain.",
+                    "Naqsha khud kabhi harkat nahin dikhata. Harkat rawaiye mein hai: landing page bubble ke kehne ko zubaan chunne wale ke saath saath badalti hai, aur load hote waqt shakalein baari baari uchhalti hain, jaise log lehar banate hon, aur yeh hamesha animation ki raftaar ki tarteeb ke mutabiq hoti hai, aur animation band hone par bilkul ruk jaati hai.",
+                    "Nishaan hamesha maujooda matn ke rang mein banaya jaata hai, is liye jahan bhi matn contrast ki shartein poori karta hai, wahan logo bhi karta hai."
+                ],
+                "components": "$~Hisse",
+                "copyvalue": "$~poori CSS qeemat copy karein",
+                "col": {
+                    "component": "$~Hissa",
+                    "preview": "$~Pesh manzar",
+                    "variable": "$~Mutaghayyar",
+                    "color": "$~Rang",
+                    "hex": "$~Hex",
+                    "contrast": "$~Contrast",
+                    "description": "$~Tafseel",
+                    "cssvalue": "$~CSS qeemat",
+                    "computed": "$~Hisaab shuda",
+                    "primaryface": "$~Asli font"
+                },
+                "demo": {
+                    "button": "$~Misaal",
+                    "note": "$~Yeh ek note hai.",
+                    "notice": "$~Yeh ek ittilaa hai.",
+                    "header": "$~Sarkhi",
+                    "subheader": "$~Zayli sarkhi",
+                    "toggleon": "$~Chalu",
+                    "toggleoff": "$~Band",
+                    "textfieldplaceholder": "$~Matn likhein…",
+                    "textfielddescription": "$~Matn likhne ki misaali jagah",
+                    "optionslabel": "$~Misaal",
+                    "optiona": "$~Intikhaab A",
+                    "optionb": "$~Intikhaab B",
+                    "optionc": "$~Intikhaab C",
+                    "logoresting": "$~Sakoon mein",
+                    "logoloading": "$~Load ho raha hai",
+                    "logoscripts": "$~Alag alag tehreeri nizaamon mein",
+                    "logodownloadsvg": "$~SVG download karein",
+                    "logodownloadpng": "$~PNG (512px) download karein",
+                    "logodownloadcard": "$~Share ki tasweer download karein"
+                }
+            },
+            "thanks": {
+                "header": "$~Shukriya",
+                "intro": "$~@wordplay ke design, tarraqqi, tarjume aur mawad mein hissa daalne ke liye hamare *$#count[$count hissa daar|$count hissa daaron]* ka shukriya! Un bohat se asaatiza aur naujawanon ka bhi shukriya jinhon ne focus group, design nashistoon aur jamaaton mein hamare design ki rehnumai ki. Hum un ki raazdari ke liye un ke naam yahan nahin likh rahe.\n\nYeh mansooba National Science Foundation ke grant 2318257, 2031265, 2100296 aur 2122950, University of Washington, aur aap jaise logon ke fayyaz <atiyaat@://donate> se chal raha hai.",
+                "teachers": "$~Ustaad",
+                "contributors": "$~Hissa daar"
+            },
+            "admin": {
+                "header": "$~Ikhtiyaarat",
+                "prompt": "$~Neeche diye gaye sab log woh kaam kar sakte hain jo zyaada tar log nahin kar sakte. Yahan ki tabdeeli unhein foran mil jaati hai, lekin jo safha unhon ne pehle se khola ho use pata chalne mein ek ghanta lag sakta hai. Superuser mein nigraani aur taleem dena shaamil hain, is liye jis ke paas yeh ho use baaqi do ki zaroorat nahin.",
+                "claim": {
+                    "admin": "$~Superuser",
+                    "mod": "$~Nigraan",
+                    "teacher": "$~Ustaad",
+                    "banned": "$~Aam tor par baant nahin sakte"
+                },
+                "creator": "$~Banane wala",
+                "email": "$~Email",
+                "privileges": "$~Ikhtiyaarat",
+                "button": {
+                    "revoke": "$~Har ijaazat wapas le lein",
+                    "lift": {
+                        "label": "$~Baantna wapas dein",
+                        "tip": "$~Is banane wale ko dobara sab ke saath baantne dein, aur uski tanbeeh ki ginti sifar kar dein"
+                    }
+                },
+                "confirm": "$~Uski tanbeeh ki ginti sifar ho jaati hai aur woh dobara sab ke saath baant sakta hai. Jo kuch hua tha uska record rehta hai, taake baad mein koi nigraan use dekhe to bhi yeh nazar aaye.",
+                "ownAdmin": "$~Aap apni ijaazatein khud wapas nahin le sakte. Kisi doosre admin se kahein.",
+                "nobody": "$~Abhi tak kisi ke paas koi ijaazat nahin hai.",
+                "proxy": {
+                    "header": "$~Kisi aur ki tarah dekhein",
+                    "prompt": "$~Wordplay ko kisi doosre banane wale ki tarah kholein, taake aap dekh sakein ke jab unke liye kuch kaam na kare to unhein kya nazar aata hai. Yeh sirf parhne ke liye hai: aap jo bhi karein woh mehfooz nahin hota, aur unhein pata nahin chalega ke aap wahan the. Yeh naye tab mein khulta hai, aur woh tab band karne se khatam ho jaata hai.\n\nJab bhi koi yeh karta hai, iska record rakha jaata hai.",
+                    "start": {
+                        "label": "$~Dekhein",
+                        "tip": "$~Is banane wale ke taur par naye tab mein sirf parhne wala session kholein"
+                    }
+                },
+                "error": {
+                    "notadmin": "$~Yeh superuser ki jagah hai. Yahan aapke badalne ke liye kuch nahin hai.",
+                    "login": "$~Yeh safha dekhne ke liye aapka <login karna@://login> zaroori hai.",
+                    "offline": "$~Hum yeh load nahin kar sake ke kis ke paas ijaazatein hain. Kya aap online hain?",
+                    "save": "$~Hum woh tabdeeli mehfooz nahin kar sake. Dobara koshish karein?",
+                    "none": "$~Kisi ko shaamil karne se pehle kam az kam ek ijaazat chunein."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,341 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "ur",
+    "regions": ["PK"],
+    "acts": [
+        {
+            "title": "$~Wordplay mukhtalif hai",
+            "performance": { "fit": "#Symbol 💬", "theme": "Quick" },
+            "scenes": [
+                {
+                    "title": "$~Programs qeematein hain",
+                    "subtitle": "$~Izhaar, hidayaat nahin",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ", "theme": "Program" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~@wordplay mein khush aamdeed! Maine suna hai ke aap programming ke baare mein thoda jaante hain? Bahut khoob! Yeh chhota sa daura dikhata hai ke Wordplay mein kya cheezein milti julti hain aur kya alag hain.",
+                            "$~Taake aap is screen par sab kuch samajh sakein: yeh safha @tutorial dialog aur ek @project view dikhata hai. Aap *stage* @UI/stage dekh sakte hain, jo program ka output dikhata hai, aur *@editor* @UI/editor, jo program ka @code hai.",
+                            "$~Yeh program khaali hai, is liye iska output sirf ek yaad-dahani hai ke program likhein.",
+                            "$~Program ko rokne, chalane aur code badalne ke liye aur bhi bahut se controls hain, lekin abhi unki fikr na karein."
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Zyadatar programming @languages mein, program hidayaat ki ek list hota hai jo computer ko batati hai ke kya *karna* hai, jaise @value chhapna:",
+                            "$~\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
+                            "$~@wordplay mein, programs *izhaar* hote hain jo batate hain ke program ka /nateeja/ kya hona chahiye, yeh nahin ke woh kaise banega.",
+                            "$~Yeh program qeemat \\'hi'\\ par khatam hota hai, jo phir stage par dikhai jaati hai. Koi print hukm nahin, bas ek @expression jo batata hai ke kis qeemat par khatam hona hai."
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~Dusri zubaanon mein, *mutaghayyar* ek naam wala dibba hota hai jis mein @value rehta hai, aur uski qeemat badal sakti hai:",
+                            "$~\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
+                            "$~@wordplay mein, naam wali qeematein kabhi nahin badalti. Woh 'na badalne wali' hoti hain, yaani unhein nayi qeemat nahin di ja sakti. Isi liye hum unhein @variable ki bajaye @Bind kehte hain, kyunki woh badal nahin sakti.",
+                            "$~Hum jald baat karenge ke aisay interactive programs kaise likhein jin mein badalne wale mutaghayyar na hon."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Shart jaanchna",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": {
+                        "fit": "#Symbol ?",
+                        "theme": "Conditional"
+                    },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~Doosri programming @languages mein aam taur par ek *if* bayaan hota hai jo @condition ke mutabiq mukhtalif kaam karta hai:",
+                            "$~\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
+                            "$~@wordplay mein har cheez ek @expression hai, is liye @Conditional ek *izhaar* hai jo pehle ek shart se likha jata hai, phir \\?\\, phir sach wala izhaar aur jhoot wala izhaar. Koi keyword zaroori nahin"
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Kuch zubaanon mein ek *switch* bayaan bhi hota hai jo @value ke mutabiq mukhtalif kaam karta hai:",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
+                            "$~@wordplay mein @Match hai, jo qeemat ke zariye nateeja chunta hai."
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Kuch zubaanon mein ek *null coalescing* @operator bhi hota hai jo @variable ke null ya undefined hone par ek default @value deta hai:",
+                            "$~\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
+                            "$~@wordplay mein yehi nateeja hasil karne ke liye @Otherwise amil hai."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Qeematein aur qismein",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣", "theme": "Number" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Zyadatar zubaanon mein bohat si buniyadi @value qismein hoti hain.",
+                            "$~\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
+                            "$~@wordplay mein in qismon ke liye milta julta andaaz hai, lekin aap doosri maloomat bhi shaamil kar sakte hain, jaise kai zubaanon wale matn ke liye @language tag aur adaad par ikaaiyaan."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Programming zubaanon mein qeematon ke majmoo bananay ke tareeqe bhi hote hain, jaise list, set aur map (jinhein aksar dictionary ya hash kehte hain):",
+                            "$~\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
+                            "$~@wordplay in majmoon ke liye mukhtalif andaaz istemaal karta hai, khaas taur par qeematon ko alag karne ke liye commas ki jagah @placeholder istemaal karta hai."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]",
+                                "pair•[# '']: [1 'hi']"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Kuch programming zubaanon mein aap @variable ki @type bata sakte hain, taake yeh yaqeeni ho ke mutaghayyar ka har istemaal durust hai:",
+                            "$~\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
+                            "$~@wordplay mein bhi qismein hoti hain, lekin qismein *khud samajh li jaati* hain. Aam taur par aapko unhein likhne ki zaroorat nahin hoti, lekin kabhi kabhi likhni parti hain agar woh khud na samjhi ja sakein. List ki qism list ki har jagah ke liye bhi ek qism ka naam de sakti hai, jaise \\[# '']\\ do cheezon ki list ke liye: pehle ek adad, phir ek lafz."
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Programming zubaanon mein aksar apni marzi ki data qismein banane ka tareeqa bhi hota hai, taake kai qeematon ko ek hi data dhaanche mein jama kiya ja sake:",
+                            "$~\\py| class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv| public class Pet {\n    private String name;\n    private int age;\n    public Pet(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\",
+                            "$~@wordplay ek @Structure banane ke liye mukhtalif andaaz istemaal karta hai: data qism ko zahir karne ke liye \\•\\, phir @name, phir dhaanche ke khaane."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Tabdeeliyan, majmoo aur functions",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →", "theme": "Convert" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Programming mein ek aam amal data ko ek @type se doosri mein badalna hai. Misaal ke taur par, hum ek adad ko matn @value mein badalna chahte hain:",
+                            "$~\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
+                            "$~@wordplay ki sab qeematon mein ek @Convert tarkeeb hoti hai jo qismon ke darmiyan tabdeeli karne deti hai. Yeh misaal \\1m\\ ko feet mein badalti hai, phir @Text mein. Har qism ki qeemat ke paas tabdeeliyon ka poora majmoo hota hai"
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~List aur array jaise qeematon ke majmoon ke liye, doosri programming @languages *for* aur *while* jaise chakkar istemaal karti hain taake mojooda majmoo ki qeematon se naya majmoo banaya ja sake.",
+                            "$~\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
+                            "$~@wordplay mein ek aasaan @Translate* tarkeeb hai jo \\↦\\ nishaan istemaal karti hai: yeh naya @List, @Set ya @Map banati hai, aur har item (jo \\⬚\\ @placeholder se zahir hota hai) ko ek naye @value se badal deti hai. Yeh har item ko doguna karke \\[2 4 6]\\ banati hai.",
+                            "$~Isse zyada taqatwar cheezein bhi hain, jaise @List.translate aur @List.combine, agar aapko mushkil amal chahiye hon."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Har programming zubaan mein functions hote hain, jo aapko dobara istemaal hone wale @blocks banane dete hain @code ke, jo input lete hain aur un ke mutabiq output dete hain, chahe kitne hi mushkil hon:",
+                            "$~\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
+                            "$~@wordplay mein bhi function ki tareef hoti hai, lekin ƒ nishaan ke saath. Wordplay ke tamam programs ki tarah, functions ka @value par khatam hona zaroori hai."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Output typographic hai, input reactive hai",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬", "theme": "Stage" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~Doosri programming @languages console par matn print karti hain, canvas par draw karti hain, ya webpage ko badalti hain:",
+                            "$~\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
+                            "$~@wordplay ka output typographic hai: ek @Phrase, ek @Group, ya ek @Stage, jo screen par saja hua, harkat karta hua, aur interactive matn dikhata hai, ya screen reader use parhta hai.",
+                            "$~Neeche di gayi misaal mein ek @Stage hai jis mein ek @Phrase hai jo aaram ki @state mein chhota bada hone ki harkat karta hai."
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Zyadatar programming zubaanon mein user se input lene ka koi tareeqa hota hai:",
+                            "$~\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
+                            "$~@wordplay ka input *@streams* se aata hai. Yeh khaas qeematein hain jo waqt ke saath badalti hain, input ke jawab mein badalti hain, aur Wordplay program ko dhaara ki nayi qeemat ke saath dobara chalwati hain.",
+                            "$~Misaal ke taur par, yeh program globe emoji ko ghumane ke liye ek @Time dhaara istemaal karta hai. Jab bhi @Time() dhaara nayi @value par tick karti hai, program nayi qeemat ke saath dobara chalta hai aur @Stage par program ki qeemat naye sire se dikhata hai."
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Doosri zyadatar programming zubaanon mein interactivity ka matlab event handlers aur callbacks darj karna hota hai:",
+                            "$~\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
+                            "$~@wordplay mein, interactivity ke liye hum seedhe @Button, @Key, aur @Pointer jaisi dhaaraein istemaal kar sakte hain taake interactive @elements banayein. Is @Phrase ka matn is par mabni hai ke @Button par click hua ya nahin, aur @Conditional se dekha jata hai ke @Button dhaara @Changed rakhti hai ya nahin."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Doosri programming zubaanein aap ko chalte waqt @variables ki qeematein badalne deti hain, jo dynamic aur interactive applications banane mein kaam aata hai. Lekin aap ko yaad rakhna padta hai ke qeematein sahi jagah par update karein, aur jab qeematein badlein to screen par dikhaya gaya matn bhi update karein:",
+                            "$~\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
+                            "$~@wordplay ise aasaan banata hai. Woh ek @Reaction @expression istemaal karta hai jo ek shuruati qeemat se aaghaz karta hai, ek @condition jaanchta hai jo dhaara ke inputs ka hawala deta hai, aur dhaara ki tabdeeliyon ke mutabiq izhaar ki qeemat update karta hai. Is misaal mein, jab bhi @Button dhaara badalti hai, hum count ki qeemat update karte hain, aur isse @Stage par dikhaya gaya @Phrase badal jata hai."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Masle aur debugging",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": {
+                        "fit": "#Symbol ‼️",
+                        "theme": "UnparsableExpression"
+                    },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~Doosri @languages *errors* phenkti hain — yeh isharaa hota hai ke program ne aisa kuch kiya jo ijazat nahin:",
+                            "$~\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
+                            "$~@wordplay errors ko *@conflicts* kehta hai: do cheezein jo ek saath sach nahin ho sakti, jaise neeche ke program mein ek number aur matn ko jama karna.",
+                            "$~Wordplay masloon ke neeche line lagata hai aur unhein sidebar @UI/conflict mein dikhata hai. Woh masla theek karne ke liye hal ke mashware bhi deta hai."
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Zyadatar programming zubaanein debugging ke kuch auzaar deti hain taake banane wale apne @code ke masle samajh sakein aur hal kar sakein. Lekin bohat se log console mein @variables ki @values dekhne ke liye sirf print statements istemaal karte hain:",
+                            "$~\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
+                            "$~@wordplay debugging ka ek behtar tajurba deta hai, jis mein aap apni evaluation mein *aage* aur *peechhe* qadam rakh sakte hain. Stage ke upar mode switcher @UI/modeSwitcher mein ⏸️ debug button dabayein taake *debug* mode mein jayein: har @expression ki qeemat code mein uske saath nazar aati hai, aur @UI/stepControls har simt mein qadam ba qadam chalta hai, taake aap dekh sakein ke qeemat kaise banti hai. Yeh sab ka rehnuma daura hai: @Tour/stage",
+                            "$~Doosre modes bhi ahem hain: ✏️ *edit* mode program badalne ke liye hai jab ke stage ruka rehta hai, aur ▶️ *play* mode use live chalata hai aur inputs ka foran jawab deta hai.",
+                            "$~Mazeed madad chahiye? Stage ke naam ke saath wala @UI/stageTourLaunch button in controls ka rehnuma daura deta hai."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Sab ko jorna",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨", "theme": "Stage" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Aaiye teen qadmon mein ek chhota sa interactive @project banayein.",
+                            "$~*Pehla:* apna data aur *@streams* batayein. Yahan elapsed naam ki ek @Time dhaara batati hai ke program ko chalte kitna waqt hua."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*Doosra:* dhaara par *react* karein aur nayi @Bind @values banayein. Yahan turn guzra hua waqt degrees mein badalta hai, aur jab bhi elapsed badalta hai dobara hisaab karta hai."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*Teesra:* *output* — apne data ko @Phrase, @Group, ya @Stage se jorein. Ab sitara khud ba khud ghoomta hai!"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Hum ise aur bhi interactive bana sakte hain agar ghoomne ko qaabu karne ke liye user input shamil karein, jaise microphone input ka @Volume. Yeh 0 aur 1 ke darmiyan ek qeemat hai, is liye hum ise 360 degrees par naqsha kar sakte hain.",
+                            "$~Zyada tar mansoobon ki shakal yehi hoti hai: pehle elaanat, phir radd-e-amal, phir output. <Rehnuma@://guide> mein ek @how hissa hai jis mein bahut se nuskhe hain. Unhein parhein, copy karein, aur badlein.",
+                            "$~Khushi se banayein!"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "script": "Latn"
+}

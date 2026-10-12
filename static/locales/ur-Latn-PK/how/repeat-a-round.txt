@@ -1,0 +1,42 @@
+Khel ka ek daur dohraein
+
+Bohat se khel wohi chand lamhon ko baar baar dohrate hain: batana ke kya karna hai, jawab ka intezaar karna, dikhana ke kaisa raha, phir dobara shuru karna.
+Ek @Scene poora woh daur ban sakta hai, aur @Scene/loop use wapas shuru par le aata hai.
+
+Yeh lamhe list ki cheezein hain, aur unke darmiyan ek @Boolean woh jagah hai jahan @Scene khiladi ka intezaar karta hai.
+
+\
+andaaza2: Guftagu()
+daayein2: andaaza2 = 'cat'
+Manzar([
+	Jumla('Janwar ka andaaza lagayein!' muddat: 2s)
+	∆ andaaza2
+	Jumla(daayein2 ? 'Ji haan!' 'Nahin!' muddat: 2s)
+] chakkar: ~daayein2)
+\
+
+ Yeh \∆ guess\ intezaar hai: yeh sirf usi lamhe sahi hota hai jab naya andaza aata hai, is liye @Scene wahin ruka rehta hai jab tak koi kuch type na kare.
+Aur \chakkar2: ~right\ dohrana hai: @Scene baar baar wapas aata rehta hai jab tak woh sahi jawab na de dein, aur phir aakhri @Phrase par ruk jaata hai.
+
+Note: @Scene/loop har baar parha jaata hai jab aapka program badalta hai, is liye aap chakkar ko khatam bhi kar sakte hain aur shuru bhi, jo abhi \~right\ ne kiya.
+
+Daur kahan hai, yeh jaanne ke liye poochein @Spotlight par ruk jaata hai.
+Yeh batata hai ke kaun sa @Phrase nazar aa raha hai, kitne hain, @Scene kitni baar wapas aaya hai, aur kya yeh abhi kisi ka intezaar kar raha hai.
+
+\
+andaaza2: Guftagu()
+par2: Roshni()
+Stage([
+	Manzar([
+		Jumla('Janwar ka andaaza lagayein!' muddat: 2s)
+		∆ andaaza2
+		Jumla('Nahin!' muddat: 2s)
+	] chakkar: ⊤)
+	Jumla(par2.intezaar ? 'apna andaaza likhein' `daur \par2.phera + 1\` size: 0.4m jagah: Jagah(0m -2m))
+])
+\
+
+@Scene/replay daur ko jab chahein dobara shuru karne ka tareeqa hai, chahe woh kahin bhi pahunch chuka ho.
+Ise koi aisi cheez dein jo sirf ek lamhe ke liye sahi ho, jaise \∆ Button()\ par ruk jaata hai.
+
+interactive-scene, animated-scene, track-game-state

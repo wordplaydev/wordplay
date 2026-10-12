@@ -1,0 +1,22 @@
+Ek kirdaar ko apni ungli ke peeche chalaein
+
+Kya aap chahte hain ke ek kirdaar aapke mouse ya ungli ka peecha kare, poore @Stage?
+Hum yeh is ke saath kar sakte hain: @Pointer input.
+
+@Pointer hamein har baar ek naya @Place deta hai jab pointer hilta hai.
+Agar hum is @Place ko @Phrase ki \place\ bana dein, to kirdaar wahin jayega jahan hum ishaara karein.
+
+\
+Stage([Jumla('🐈' jagah: Nishaana())] jagah: Jagah(0m 0m -10m))
+\
+
+ Bas itna hi! Apna mouse hilaein ya ungli ghumaein, aur billi ko peeche aate dekhein.
+
+Aap aur dilchasp cheezein kar sakte hain agar is mein se \x\ aur \y\ ko @Place na ho.
+Yeh ek batakh hai jo hamesha pointer se ek meter upar tairta rehta hai:
+
+\
+Stage([Jumla('🦆' jagah: Jagah(Nishaana().x Nishaana().y + 1m))] jagah: Jagah(0m 0m -10m))
+\
+
+move-phrase, count-with-time
