@@ -5,7 +5,7 @@ Lonceng Angin
 
 Ini adalah alat musik. Alat ini tidak mengeluarkan suara. Angka-angka itu sudah menjadi partitur; hanya saja belum dimainkan. Blok tersembunyi di atas panggung adalah suaranya, menunggu @Music untuk ada.¶
 
-ditekan: Kunci()
+ditekan: Tuts()
 detak2: Waktu(30ms)
 
 ¶Seberapa banyak dentangnya berkurang di setiap bingkai.¶
@@ -16,7 +16,7 @@ peluruhan: 0.03
 
 ¶Pukul lonceng yang tombolnya ditekan, dan biarkan semua lonceng lain menjadi tenang.¶
 ƒ dentang(baris2•[loncengAngin] kena•'' dipukul•?)
-	baris2.menerjemahkan(
+	baris2.petakan(
 		ƒ(dentang2•loncengAngin)
 			(dipukul & (kena = dentang2.kunci2))
 			? dentang2.energi:1

@@ -6,12 +6,12 @@ Sebuah @Scene bisa menjadi seluruh putaran itu, dan @Scene/loop adalah yang memb
 Momen-momen itu adalah hal-hal dalam daftar, dan @Boolean di antaranya adalah tempat @Scene menunggu pemain.
 
 \
-guess: Chat()
+guess: Mengobrol()
 right: guess = 'kucing'
-Scene([
-	Phrase('Tebak hewannya!' lamanya: 2s)
+Adegan([
+	Frasa('Tebak hewannya!' lamanya: 2s)
 	∆ guess
-	Phrase(right ? 'Ya!' 'Bukan!' lamanya: 2s)
+	Frasa(right ? 'Ya!' 'Bukan!' lamanya: 2s)
 ] perulangan: ~right)
 \
 
@@ -24,15 +24,15 @@ Untuk tahu di mana putaran itu berada, tanyakan @Spotlight.
 Ini memberitahumu @Phrase mana yang sedang ditampilkan, ada berapa banyak, berapa kali @Scene sudah berputar, dan apakah sedang menunggu seseorang saat ini.
 
 \
-guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
-		Phrase('Tebak hewannya!' lamanya: 2s)
+guess: Mengobrol()
+at: Sorotan()
+Panggung([
+	Adegan([
+		Frasa('Tebak hewannya!' lamanya: 2s)
 		∆ guess
-		Phrase('Bukan!' lamanya: 2s)
+		Frasa('Bukan!' lamanya: 2s)
 	] perulangan: ⊤)
-	Phrase(at.waiting ? ' sudah berputar kembali, dan apakah sekarang sedang menunggu seseorang.' `ketik sebuah tebakan\at.lap + 1\` ukuran: 0.4m tempat: Place(0m -2m))
+	Frasa(at.menunggu ? ' sudah berputar kembali, dan apakah sekarang sedang menunggu seseorang.' `ketik sebuah tebakan\at.lap + 1\` ukuran: 0.4m tempat: Tempat(0m -2m))
 ])
 \
 

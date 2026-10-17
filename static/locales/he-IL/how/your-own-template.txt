@@ -7,14 +7,14 @@
 הנה תבנית של בלון שמקבלת צבע וכיתוב, ויודעת איך להציג את עצמה:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` צבע: color גודל: 2m)
+•Balloon(color•צבע label•'') (
+    ƒ show() משפט(`🎈\label\` צבע: color גודל: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'שָׁמַיִם').show()
-    Balloon(Color(60% 80 0°) 'וֶרֶד').show()
-    Balloon(Color(90% 80 90°) 'שִׁמשִׁי').show()
+קבוצה(שורה() [
+    Balloon(צבע(80% 50 240°) 'שָׁמַיִם').show()
+    Balloon(צבע(60% 80 0°) 'וֶרֶד').show()
+    Balloon(צבע(90% 80 90°) 'שִׁמשִׁי').show()
 ])
 \
 

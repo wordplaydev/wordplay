@@ -567,7 +567,7 @@ balanceado2: ((∆ llave3) & (llave3 = 'Espacio')) | (∆ tocar)
 sonidoDeGolpe: Música(
 		Pista(
 			notasDeGolpe
-			instrumento: Instrumento.tambores
+			instrumento: Instrumento.batería
 			bucle: ⊥
 		)
 		repetir: balanceado2
@@ -629,7 +629,7 @@ sonidoDeVictoria: Música(
 			)
 			Pista(
 				[1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø]
-				instrumento: Instrumento.tambores
+				instrumento: Instrumento.batería
 				pulso: 0.5beats
 				volumen: 35%
 				bucle: ⊥

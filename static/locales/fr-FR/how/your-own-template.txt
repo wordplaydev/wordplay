@@ -7,14 +7,14 @@ Une @Structure est comme une recette avec des espaces vides à remplir.
 Voici un modèle de ballon qui prend une couleur et une étiquette, et qui sait s'afficher lui-même :
 
 \
-•Balloon(color•Color label•'') (
+•Balloon(color•Couleur label•'') (
     ƒ show() Phrase(`🎈\label\` couleur: color taille: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'Ciel').show()
-    Balloon(Color(60% 80 0°) 'Rose').show()
-    Balloon(Color(90% 80 90°) 'Ensoleillé').show()
+Groupe(Rangée() [
+    Balloon(Couleur(80% 50 240°) 'Ciel').show()
+    Balloon(Couleur(60% 80 0°) 'Rose').show()
+    Balloon(Couleur(90% 80 90°) 'Ensoleillé').show()
 ])
 \
 

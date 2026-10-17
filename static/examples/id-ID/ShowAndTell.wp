@@ -39,7 +39,7 @@ kolam•[target]: [
 penampakan: Objek(hitungan: 10 keyakinan: 0.5)
 
 ¶Tombol → (atau ketukan) untuk melewati.¶
-lewati: Kunci('Panah Kanan' ⊤)
+lewati: Tuts('Panah Kanan' ⊤)
 
 ¶Sebuah jam, untuk hitungan mundur dan untuk menganimasikan konfeti kemenangan. Perburuan itu sendiri tidak memakainya — @Objects yang menjalankannya.¶
 jam2: Waktu(30ms)
@@ -93,7 +93,7 @@ menangPada•#ms: 0ms
 ¶Confetinya dimunculkan sekali saat kamu menang, lalu tidak pernah dibuat ulang. @Objectskeeps terus mendeteksi, jadi setiap pembacaan menjalankan ulang program — membekukan potongan-potongan dalam daftar ini (daftar ini terisi sekali, saat kamu menang, lalu kondisinya berhenti) berarti setiap potongan tetap memakai kecepatan terbang yang sama, bukan dibuat ulang setiap bingkai.¶
 kilau2•[kilau]: []
 	… ((buru2.ditemukan2.panjang() ≥ 5) & (⬚.panjang() = 0)) …
-		(60 → []).menerjemahkan(
+		(60 → []).petakan(
 			ƒ()
 				kilau(
 					buru2.ditemukan2.acak()
@@ -137,7 +137,7 @@ g•#: 9
 ¶Tempatkan setiap kilatan cahaya di sepanjang lengkungannya sendiri, dihitung dari berapa lama ia sudah terbang: ia bergerak keluar dengan kecepatannya sambil gravitasi menariknya ke bawah (rumus klasik ½·g·t²). Karena kita menghitung posisinya sendiri daripada mengandalkan mesin fisika, pembacaan ulang kamera yang terus-menerus hanya menggambar ulang setiap potongan di tempat yang seharusnya — tanpa melompat balik ke tengah.¶
 ƒ confetti() (
 		t3: (jam2 - menangPada) ÷ 1000ms
-		kilau2.menerjemahkan(
+		kilau2.petakan(
 			ƒ(s•kilau)
 				Frasa(
 					s.emoji2

@@ -5,7 +5,7 @@ Kya aap jaante hain ke aapki mansooba aapki baat sun sakti hai? @Volume dhaara a
 Hum is number se kuch bhi qaabu kar sakte hain — jaise @Phrase ka size, uska ghoomna, uska rang.
 
 \
-Phrase('📣' size: (Volume() × 5m) + 1m)
+Jumla('📣' size: (AwaazKiUnchaai() × 5m) + 1m)
 \
 
  Jab khaamoshi ho, to megaphone \1m\ lamba hota hai. Jab aap cheekhte hain, to woh \6m\ tak lamba ho sakta hai.
@@ -13,7 +13,7 @@ Phrase('📣' size: (Volume() × 5m) + 1m)
 Kya aap ek aisa sooraj chahte hain jo aapki awaaz jitni tez ho, utna tez ghoome?
 
 \
-Phrase('🌞' ghumaao: Volume() × 360°)
+Jumla('🌞' ghumaao: AwaazKiUnchaai() × 360°)
 \
 
  Taali bajaein ya gunguna kar dekhein, aur dekhein ke kya hota hai.

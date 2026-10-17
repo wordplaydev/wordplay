@@ -13,14 +13,14 @@ Iată cea mai simplă variantă. Apasă mai întâi pe scenă ca să te asculte,
 \
 slides: ['primul' 'al doilea' 'al treilea']
 
-key: Key()
+key: Tastă()
 
 index•#: 1 … ∆ key …
-	(key = 'SăgeatăDreapta') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'SăgeatăDreapta') ? ((index < slides.lungime()) ? index + 1 index)
 		(key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+Fraza(slides[index])
 \
 
  Elementul @Reaction este inima acestuia. Începe la \1\, și de fiecare dată când @Key se schimbă, decide care ar trebui să fie noul număr.
@@ -38,15 +38,15 @@ Observă că \index\ este doar un număr, deci asta funcționează pentru / oric
 
 \
 slides: [
-	Phrase('o poveste în trei părți' dimensiune: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('apare o pisică')])
-	Phrase('sfârșit 🎉')
+	Fraza('o poveste în trei părți' dimensiune: 3m)
+	Grup(Stivă() [Fraza('🐈') Fraza('apare o pisică')])
+	Fraza('sfârșit 🎉')
 ]
 
-key: Key()
+key: Tastă()
 
 index•#: 1 … ∆ key …
-	(key = 'SăgeatăDreapta') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'SăgeatăDreapta') ? ((index < slides.lungime()) ? index + 1 index)
 		(key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 Dă-i @Scene/pause ca să nu se miște niciodată singură, și @Scene/step ca să o muți cu o bucată în orice direcție:
 
 \
-key: Key()
-Scene([
-		Phrase('o poveste în trei părți' dimensiune: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('apare o pisică')])
-		Phrase('sfârșit 🎉')
+key: Tastă()
+Scenă([
+		Fraza('o poveste în trei părți' dimensiune: 3m)
+		Grup(Stivă() [Fraza('🐈') Fraza('apare o pisică')])
+		Fraza('sfârșit 🎉')
 	] pauză pas: ∆ key ? ((key = 'SăgeatăStânga') ? -1 (key = 'SăgeatăDreapta') ? 1 ø) ø)
 \
 

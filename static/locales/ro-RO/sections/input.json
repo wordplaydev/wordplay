@@ -35,7 +35,7 @@
                 "/apăsare rapidă!/",
                 "Deci, cea mai bună modalitate de a o utiliza este să creezi o performanță cu fraze selectabile denumite @Phrase , și apoi să folosești o @Reaction pentru a decide ce să faci când este ales acel nume.",
                 "Iată cel mai simplu exemplu:",
-                "\\Group(\nStack() \n[\nPhrase('one' selectabil:⊤ nume:'1') \nPhrase('two' selectabil:⊤ nume:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Grup(\nStivă() \n[\nFraza('one' selectabil:⊤ nume:'1') \nFraza('two' selectabil:⊤ nume:'2') \nFraza(Alegere())\n]\n)\\",
                 "Copiați acest @code în @editor și apoi selectați una dintre cele două @Phrase . Veți vedea că a treia @Phrase arată numele selectat."
             ],
             "names": ["$~Alegere"]
@@ -62,7 +62,7 @@
                 "/whrrrrrr/",
                 "Desigur, aceasta nu este o alegere accesibilă: nu toată lumea poate vedea sau arăta cu ușurință, așa că asigură-te că nu excluzi pe cineva de la participare folosind acest @stream.",
                 "Dacă ești sigur că nimeni nu este exclus, atunci utilizarea @Pointer este la fel de simplă ca și crearea unui flux:",
-                "\\Pointer()\\",
+                "\\Indicator()\\",
                 "@Place pe care îl furnizează va corespunde locului în care indică indicatorul pe @Stage ."
             ],
             "names": ["$~Indicator"]
@@ -72,16 +72,16 @@
                 "$~Îți spune ce @key de la tastatură apasă și eliberează publicul tău.",
                 "/clic-clic/",
                 "Încearcă asta",
-                "\\Cheie()\\",
+                "\\Tastă()\\",
                 "Vezi cum, atunci când apeși o tastă, apare pe @Stage? De fiecare dată când o tastă este apăsată, un nou @Text este adăugat la @stream, care descrie tasta apăsată.",
                 "Pentru o tastă care reprezintă un caracter, @value va fi caracterul ca @Text.",
                 "Pentru taste speciale, cum ar fi tasta /Escape/, va fi @Text care descrie tasta, folosind un <nume prestabilit@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, disponibil din păcate doar în engleză.",
                 "Dacă vrei să afli doar despre o anumită tastă, o poți furniza:",
-                "\\Cheie('a')\\",
+                "\\Tastă('a')\\",
                 "Și dacă vrei să afli doar când o @Key este eliberată în loc de apăsată, poți furniza un @Boolean:",
-                "\\Cheie('a' ⊥)\\"
+                "\\Tastă('a' ⊥)\\"
             ],
-            "names": ["$~Cheie"],
+            "names": ["$~Tastă", "$~Cheie"],
             "key": {
                 "names": "$~cheie",
                 "doc": "$~Dacă este @None, atunci sunt furnizate toate cheile. Dacă este un @Text specific, atunci este furnizată doar acea cheie."
@@ -171,7 +171,7 @@
                 "$~Este un @stream al intensității sonore a microfonului, de la 0 la 1.",
                 "/bzzzzzzz/",
                 "Este eșantionat la frecvența aleasă de dvs. În mod implicit, frecvența este \\30hz\\ , adică de 30 de ori pe secundă, dar o puteți schimba la orice @value mai puțin frecventă.",
-                "\\Volume()\\",
+                "\\Volum()\\",
                 "Este excelent pentru a asculta cât de zgomotos este publicul!"
             ],
             "names": ["$~Volum"],
@@ -185,10 +185,10 @@
                 "$~Este un @stream al tonalității microfonului, în herți.",
                 "/hmmm/",
                 "Este eșantionat la frecvența aleasă de tine. Vocea umană este între 20Hz și 5000Hz, așa că planifică frecvențe în acest interval.",
-                "\\Pitch()\\",
+                "\\Înălțime()\\",
                 "Acest lucru este excelent pentru a asculta tonul pe care cineva îl vorbește sau cântă."
             ],
-            "names": ["$~Pas"],
+            "names": ["$~Înălțime", "$~Pas"],
             "frequency": {
                 "names": ["$~frecvenţă"],
                 "doc": "$~Timpul dintre eșantionări."
@@ -235,7 +235,7 @@
                 "/bzzzzzzz/",
                 "Această @List reprezintă în esență o imagine, dar depinde de tine să decizi ce să faci cu ea.",
                 "Ai putea încerca să reprezinți imaginea cu o grămadă de @Phrase , ceea ce ar putea arăta destul de interesant! Încearcă să copiezi asta...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' loc: Place((x - 1) × 0.5m y × -0.5m) culoare: color durată: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Cameră(32px 24px 33ms)\n\nEstradă(\ncolors.combinate(\n[] \nƒ(phrases•[Fraza] row•[Culoare] y•#) \nphrases.cuLista(\nrow.transformă(\nƒ(color•Culoare x•#)\nFraza('o' loc: Loc((x - 1) × 0.5m y × -0.5m) culoare: color durată: 0s\n)\n)\n)\n)\n)\\",
                 "Dar ai putea analiza culorile și pentru a decide dacă o lumină era aprinsă sau stinsă sau dacă o anumită culoare era comună, permițând publicului să influențeze o reprezentație cu culorile pe care le arată."
             ],
             "names": ["$~Cameră"],
@@ -323,7 +323,7 @@
                     "Ca și @Scene/replay, aceasta vrea o @condition /momentană/ — ceva care este \\ø\\ cu excepția evaluării la care vrei să mă mișc. Un număr care rămâne fix m-ar ține acolo pentru totdeauna.",
                     "Trimite-mă dincolo de oricare capăt și mă opresc acolo, cu excepția cazului în care @Scene/loop este \\⊤\\, caz în care revin de la capăt. Asta înseamnă că nu trebuie niciodată să verifici. Aici tastele săgeți parcurg o prezentare de diapozitive în ambele direcții:",
                     "Dacă preferi să spui /un pas înainte/ decât /numărul trei/, la asta se referă @Scene/step.",
-                    "\\diapozitive: [Fraza('unu') Fraza('doi') Fraza('trei')]\ncheie2: Cheie()\nla2: Spotlight()\nScenă(\n\tdiapozitive\n\tpauză: ⊤\n\tpornește: ∆ cheie2 ? ((cheie2 = 'SăgeatăStânga') ? la2.index - 1 (cheie2 = 'SăgeatăDreapta') ? la2.index + 1 ø) ø\n)\\"
+                    "\\diapozitive: [Fraza('unu') Fraza('doi') Fraza('trei')]\ncheie2: Tastă()\nla2: Reflector()\nScenă(\n\tdiapozitive\n\tpauză: ⊤\n\tpornește: ∆ cheie2 ? ((cheie2 = 'SăgeatăStânga') ? la2.index - 1 (cheie2 = 'SăgeatăDreapta') ? la2.index + 1 ø) ø\n)\\"
                 ]
             },
             "name": {
@@ -344,7 +344,7 @@
                 "doc": [
                     "$~Câte ieșiri să mut, numărând de unde sunt: \\1\\ este cu unul înainte și \\-1\\ este cu unul înapoi. Acesta este @Scene/go spus ca o distanță, nu ca un loc.",
                     "Ca și @Scene/go, mă opresc la capetele mele, cu excepția cazului în care @Scene/loop este \\⊤\\, ca să nu trebuiască niciodată să verifici, și vreau un @condition /momentan/ — ceva care este \\ø\\ cu excepția evaluării la care vrei să mă mut.",
-                    "\\diapozitive: [Fraza('unu') Fraza('doi') Fraza('trei')]\ncheie2: Cheie()\nScenă(\n\tdiapozitive\n\tpauză: ⊤\n\tpas: ∆ cheie2 ? ((cheie2 = 'SăgeatăStânga') ? -1 (cheie2 = 'SăgeatăDreapta') ? 1 ø) ø\n)\\",
+                    "\\diapozitive: [Fraza('unu') Fraza('doi') Fraza('trei')]\ncheie2: Tastă()\nScenă(\n\tdiapozitive\n\tpauză: ⊤\n\tpas: ∆ cheie2 ? ((cheie2 = 'SăgeatăStânga') ? -1 (cheie2 = 'SăgeatăDreapta') ? 1 ø) ø\n)\\",
                     "Nimic de aici nu trebuie să știe ce @Phrase este afișat, iar aceasta este diferența față de @Scene/go. Întreabă @Spotlight dacă vrei să spui asta pe scenă."
                 ]
             }
@@ -381,7 +381,7 @@
             "doc": [
                 "$~Este un @stream al mesajelor @Text pe care le tastează publicul tău.",
                 "De exemplu, acest program simplu verifică dacă mesajul este „salut” și, dacă este, programul se evaluează ca „salut”. În caz contrar, se evaluează ca „huh”?",
-                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "\\Chat().are('hello') ? 'hi!' 'huh?'\\",
                 "Asta e tot! Poți crea tot felul de spectacole cu asta, cum ar fi chatbot-uri, aventuri textuale sau scheme de control bazate pe text pentru alte tipuri de spectacole."
             ],
             "names": ["$~🗣️", "$~Chat"]
@@ -503,9 +503,9 @@
             "doc": [
                 "$~Trasează conturul glifului fiecărei litere ca o @List de @Place .",
                 "Dă-i niște text și un font, și va trasa conturul fiecărui glif punct cu punct.",
-                "\\Contour('a' \"Noto Sans\")\\",
+                "\\Contur('a' \"Noto Sans\")\\",
                 "Introduceți acele valori @Place într-o @List de @Phrase pentru a vedea conturul desenat ca puncte:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' loc: point)))\\",
+                "\\Estradă(Contur('a' \"Noto Sans\" 10m).transformă(ƒ(point) Fraza('•' loc: point)))\\",
                 "Puteți scala conturul cu un @Number de metri, puteți muta originea acestuia cu un @Place , puteți alege o grosime a fontului, puteți activa italic și puteți seta `spațierea` dintre puncte ca distanță în metri. O `spațiere` mai mică trasează conturul mai îndeaproape, cu puncte distanțate uniform atât de-a lungul liniilor, cât și de-a lungul curbelor.",
                 "Unele glife, cum ar fi emoji-urile colorate, nu au contur, deci nu adaugă puncte. În timp ce preia fontul, îți va oferi o @List goală, apoi o va completa când este gata."
             ],
@@ -862,7 +862,7 @@
             },
             "sounding": {
                 "doc": "$~Dacă o notă se aude pe acest ritm. O notă susținută încă se numără, așa că rămân \\⊤\\ pe toate ritmurile pe care le ține, nu doar cel pe care a început.",
-                "names": "$~sunet"
+                "names": ["$~sună", "$~sunet"]
             },
             "degrees": {
                 "doc": "$~Notele care acoperă acest ritm, așa cum au fost scrise. Gol pe o pauză, și mai mult de una pentru un acord.",
@@ -901,7 +901,7 @@
             "doc": [
                 "$~Spun unde se află un @Scene chiar acum: ce ieșire afișează, câte are și dacă așteaptă pe cineva.",
                 "Un @Scene afișează lucruri; eu sunt modul în care restul unui program află ce afișează. Asta îți permite să pui un contor sub o prezentare de imagini, să redai muzică diferită în părți diferite ale unei povești sau să afișezi un indiciu de tipul /apasă orice tastă/ doar cât timp scena chiar așteaptă.",
-                "\\diapozitive: [Fraza('unu') Fraza('doi') Fraza('trei')]\nla2: Spotlight()\nEtapă(\n\t[\n\t\tScenă(diapozitive buclă: ⊤)\n\t\tFraza(\n\t\t\t`\\la2.index\\ din \\la2.total\\`\n\t\t\tdimensiune: 0.3m\n\t\t\tloc: Loc(0m -2m)\n\t\t)\n\t]\n)\\",
+                "\\diapozitive: [Fraza('unu') Fraza('doi') Fraza('trei')]\nla2: Reflector()\nEstradă(\n\t[\n\t\tScenă(diapozitive buclă: ⊤)\n\t\tFraza(\n\t\t\t`\\la2.index\\ din \\la2.total\\`\n\t\t\tdimensiune: 0.3m\n\t\t\tloc: Loc(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Am mereu un @Slate, chiar înainte să se întâmple ceva, așa că nu trebuie niciodată să mă verifici pentru \\ø\\."
             ],
             "names": "$~Reflector",

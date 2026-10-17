@@ -19,8 +19,8 @@ Code-Lücke
 				Gruppe(
 					Reihe('|' Polsterung: 0.3m)
 					[
-						Satzglied(füllen(u) Größe: 0.3m)
-						Satzglied(
+						Phrase(füllen(u) Größe: 0.3m)
+						Phrase(
 							`\beschriftungen[i]\ \werte[i]\`
 							Größe: 0.28m
 							Farbe: Farbe(45% 0 0°)
@@ -84,7 +84,7 @@ countsView: Gruppe(
 			Gruppe(
 				Stapel('|' Polsterung: 0.3m)
 				[
-					Satzglied(
+					Phrase(
 						`/Frauen mit Informatik-Abschluss/`
 						Größe: 0.28m
 					)
@@ -94,7 +94,7 @@ countsView: Gruppe(
 			Gruppe(
 				Stapel('|' Polsterung: 0.3m)
 				[
-					Satzglied(
+					Phrase(
 						`/Ihr Anteil an allen Informatik-Abschlüssen/`
 						Größe: 0.28m
 					)
@@ -111,21 +111,21 @@ aktuell: 'time' … ∆ auswahl … auswahl
 tabs: Gruppe(
 		Reihe('|' Polsterung: 0.6m)
 		[
-			Satzglied(
+			Phrase(
 				'▸ Im Zeitverlauf'
 				wählbar
 				Name: 'time'
 				Größe: 0.35m
 				Farbe: Farbe(60% 50 20°)
 			)
-			Satzglied(
+			Phrase(
 				'▸ Nach Fach'
 				wählbar
 				Name: 'fields'
 				Größe: 0.35m
 				Farbe: Farbe(60% 50 140°)
 			)
-			Satzglied(
+			Phrase(
 				'▸ Anzahl und Anteil'
 				wählbar
 				Name: 'Anzahlen'
@@ -140,18 +140,18 @@ inhalt: aktuell = 'time' ? timeView (aktuell = 'fields' ? fieldsView countsView)
 
 fußzeile:
 	aktuell = 'time' ?
-		Satzglied(
+		Phrase(
 			`/Der Anteil der Bachelor-Abschlüsse in Informatik in den USA, die Frauen erreichten, lag 1984 mit 37 % am höchsten. Danach fiel er etwa 25 Jahre lang auf ungefähr 18 % um das Jahr 2008. Seitdem hat er sich nur langsam erholt. Jedes 👩 ≈ 5 %. Quelle: NCES Digest of Education Statistics, Table 325.35./`
 			wickeln: 9m
 			Größe: 0.26m
 		)
 		aktuell = 'fields' ?
-			Satzglied(
+			Phrase(
 				`/Um 2018 erreichten Frauen die meisten Abschlüsse in Psychologie und Biologie. Bei Mathematik und Sozialwissenschaften waren es etwa die Hälfte, bei Informatik aber unter 20 % — fast der niedrigste Anteil aller Fächer. Jedes 👩 ≈ 5 %. Quelle: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
 				wickeln: 9m
 				Größe: 0.26m
 			)
-			Satzglied(
+			Phrase(
 				`/1984 erreichten etwa 12.000 Frauen einen Informatik-Abschluss — das waren 37 %. Bis 2022 waren es über 24.000, doppelt so viele Menschen, aber nur noch 23 %: Das Fach wuchs so schnell, dass die Zahlen der Männer noch schneller wuchsen. Eine steigende Anzahl kann trotzdem einen sinkenden Anteil bedeuten. Quelle: NCES./`
 				wickeln: 9m
 				Größe: 0.26m
@@ -162,12 +162,12 @@ Bühne(
 		Gruppe(
 			Stapel('|' Polsterung: 0.4m)
 			[
-				Satzglied(
+				Phrase(
 					`CODE-LÜCKE`
 					Größe: 0.7m
 					gesicht: 'Monoton'
 				)
-				Satzglied(
+				Phrase(
 					`/Wer erreicht Informatik-Abschlüsse?/`
 					Größe: 0.35m
 				)

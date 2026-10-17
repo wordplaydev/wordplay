@@ -18,7 +18,7 @@ amperi: Volum()
 tic: Timp()
 
 ¶Inițializează ca o listă de litere aleatorii în poziții aleatorii¶
-litere•[literă]: numărare2 → [#].traduce(
+litere•[literă]: numărare2 → [#].transformă(
 		ƒ(_) literă(
 				latin.aleatoriu()
 				Aleatoriu(-mărime2 mărime2)
@@ -30,7 +30,7 @@ litere•[literă]: numărare2 → [#].traduce(
 	)
 	… ∆ tic …
 		¶Dacă litera este deasupra axei y, mut-o puțin în jos și rotește-o.Altfel, repoziționeaz-o deasupra pragului și decide aleatoriu dacă este vizibilă.¶
-		litere.traduce(
+		litere.transformă(
 			ƒ(literă3•literă)
 				literă3.y2 > 0m ? (literă3.y2:literă3.y2 - 0.5m).unghi2:literă3.unghi2 + literă3.viteză2
 					(literă3.y2:mărime2 + 2m).vizibil:Aleatoriu(
@@ -40,7 +40,7 @@ litere•[literă]: numărare2 → [#].traduce(
 		)
 
 ¶Transformă literele în fraze¶
-Etapă(
+Estradă(
 	[
 		Fraza("☁" dimensiune: 3m loc: Loc(-8m 12m))
 		Fraza("☁" dimensiune: 5m loc: Loc(8m 11m))
@@ -49,7 +49,7 @@ Etapă(
 			loc: Loc(-3.5 × mărime2 -0.5m)
 		)
 	].cuLista(
-		litere.traduce(
+		litere.transformă(
 			ƒ(literă4•literă)
 				Fraza(
 					literă4.literă2

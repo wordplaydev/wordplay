@@ -7,14 +7,14 @@ A @Structure jest jak przepis z pustymi miejscami do wypełnienia.
 Oto szablon balonika, który przyjmuje kolor i etykietę, i wie, jak się pokazać:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` kolor: color rozmiar: 2m)
+•Balloon(color•Kolor label•'') (
+    ƒ show() Fraza(`🎈\label\` kolor: color rozmiar: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'Niebo').show()
-    Balloon(Color(60% 80 0°) 'Róża').show()
-    Balloon(Color(90% 80 90°) 'Słoneczny').show()
+Grupa(Wiersz() [
+    Balloon(Kolor(80% 50 240°) 'Niebo').show()
+    Balloon(Kolor(60% 80 0°) 'Róża').show()
+    Balloon(Kolor(90% 80 90°) 'Słoneczny').show()
 ])
 \
 

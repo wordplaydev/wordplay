@@ -8,7 +8,7 @@
 给它起个名字，写点描述，然后你就可以像这样用你的用户名和字符名字了：
 
 \
-Phrase(`看看我的奇思妙想 @username/charactername ！`)
+短语(`看看我的奇思妙想 @username/charactername ！`)
 \
 
  这个用户名和字符名字并不存在，所以它会显示成一个空矩形。

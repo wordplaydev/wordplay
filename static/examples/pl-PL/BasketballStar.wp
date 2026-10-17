@@ -17,7 +17,7 @@ położeniePiłki: (liczbaKliknięć % 2) = 0 ? Miejsce(
 			z: 0m
 		) Ruch(miejsce: Miejsce(xRzutu 8m 0m))
 
-koszykówka: Wyrażenie(
+koszykówka: Fraza(
 		"🏀"
 		0.7m
 		materiał: Materiał(0.623kg 0.5)
@@ -32,7 +32,7 @@ położenieXKosza: (Czas() ÷ 600ms).grzech() · 6m
 xPiłki: (koszykówka.miejsce ?? Miejsce()).X
 yPiłki: (koszykówka.miejsce ?? Miejsce()).y
 
-próba: (liczbaKliknięć ÷ 2).łapanka()
+próba: (liczbaKliknięć ÷ 2).zaokrąglijWGórę()
 
 ¶Zmienna inBin ma wartość prawda zawsze, gdy piłka jest wewnątrz kosza. Reakcja na wynik uruchamia się tylko wtedy, gdy inBin zmienia się na prawda ORAZ bieżąca próba jest wyższa niż wynik. Dzięki temu każde kolejne wejście podczas tego samego rzutu — odbicia wewnątrz kosza albo kosz przesuwający się z powrotem nad piłkę — nic nie zmienia, aż następny rzut zwiększy licznik prób¶
 wKoszu: (((położenieXKosza - 0.9m) ‥ (położenieXKosza + 0.9m)) ∋ xPiłki) & ((0.3m ‥ 2.9m) ∋ yPiłki)
@@ -41,14 +41,14 @@ wynik: 0 … wKoszu & (próba > wynik) … 1 + wynik
 gwiazdaKoszykówki: Grupa(
 		Stos('|' 0.5m)
 		[
-			Wyrażenie(`*Gwiazda koszykówki*` .8m)
-			Wyrażenie('Celuj wskaźnikiem.' .6m)
-			Wyrażenie(
+			Fraza(`*Gwiazda koszykówki*` .8m)
+			Fraza('Celuj wskaźnikiem.' .6m)
+			Fraza(
 				'Kliknij, aby wrzucić 🏀 do poruszającego się kosza.'
 				.6m
 			)
-			Wyrażenie('Wynik: ' + wynik → '' .8m)
-			Wyrażenie('Próby: ' + próba → '' .8m)
+			Fraza('Wynik: ' + wynik → '' .8m)
+			Fraza('Próby: ' + próba → '' .8m)
 		]
 		rozmiar: 2m
 		twarz: "Sue Ellen Francisco"

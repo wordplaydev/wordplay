@@ -11,7 +11,7 @@ haut2: (literacy ⎡?pays n2022⎦ n2022•# ? n2022 < 75 ⊥) → []
 Scène(
 	[
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase(
 					`PATRIARCAT et ALPHABÉTISATION`
@@ -27,7 +27,7 @@ Scène(
 				).sousséquence(
 					1
 					10
-				).traduire(
+				).transformer(
 					ƒ(rangée2) Phrase(
 							`/\rangée2.pays\ \rangée2.n2022•# ? rangée2.n2022.arrondirverslebas(
 								) 0\ %/`

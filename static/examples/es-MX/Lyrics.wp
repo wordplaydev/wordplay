@@ -7076,7 +7076,7 @@ Pista(
 		Nota(ø 0.021beats)
 		Nota({3 4 4} 0.979beats)
 	]
-	instrumento: Instrumento.tambores
+	instrumento: Instrumento.batería
 	bucle: ⊥
 )
 === drums2
@@ -7725,7 +7725,7 @@ Pista(
 		Nota(ø 0.021beats)
 		Nota({2 3 4} 0.979beats 66%)
 	]
-	instrumento: Instrumento.tambores
+	instrumento: Instrumento.batería
 	bucle: ⊥
 )
 === drums3
@@ -8254,7 +8254,7 @@ Pista(
 		Nota(ø 0.021beats)
 		Nota(2 0.979beats 82%)
 	]
-	instrumento: Instrumento.tambores
+	instrumento: Instrumento.batería
 	bucle: ⊥
 )
 === drums4
@@ -8487,7 +8487,7 @@ Pista(
 		Nota(ø 0.021beats)
 		Nota({2 3} 0.979beats 82%)
 	]
-	instrumento: Instrumento.tambores
+	instrumento: Instrumento.batería
 	bucle: ⊥
 )
 === drums5
@@ -8500,7 +8500,7 @@ Pista(
 		Nota(ø 23.021beats)
 		Nota({1 5} 0.979beats 80%)
 	]
-	instrumento: Instrumento.tambores
+	instrumento: Instrumento.batería
 	bucle: ⊥
 )
 === drums6
@@ -8513,7 +8513,7 @@ Pista(
 		Nota(ø 23.021beats)
 		Nota(5 0.979beats 76%)
 	]
-	instrumento: Instrumento.tambores
+	instrumento: Instrumento.batería
 	bucle: ⊥
 )
 === synth2

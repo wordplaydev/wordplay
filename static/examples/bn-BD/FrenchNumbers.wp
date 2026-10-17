@@ -24,7 +24,7 @@ t
 
 ¶সবশেষে কোন চাবি চাপা হয়েছে?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-চাবি3,clé/fr: চাবি()
+চাবি3,clé/fr: কী()
 
 ¶প্রতিবার চাবি চাপলে বর্তমান গোপন সংখ্যার সূচক এক করে বাড়ে, কিন্তু ১০-এ থেমে যায়¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr

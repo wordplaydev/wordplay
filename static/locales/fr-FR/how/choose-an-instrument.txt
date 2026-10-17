@@ -4,13 +4,13 @@ Tout ce qui concerne un  @Music  peut être décidé pendant qu'il joue, y compr
 
 @Choice  redonne la \name\ de la sortie sélectionnable que le public a choisie, donc une condition suffit pour en faire un instrument :
 
-\picked: Choice()
-Stage([
-		Group(Row() [
+\picked: Choix()
+Scène([
+		Groupe(Rangée() [
 				Phrase('🎹' sélectionnable nom: 'piano')
 				Phrase('🎻' sélectionnable nom: 'violon')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'violon') ? Instrument.violin Instrument.piano))
+		Musique(Piste([1 3 5 6 5 3] instrument: (picked = 'violon') ? Instrument.violon Instrument.piano))
 	])\
 
 Les deux phrases sélectionnables sont ce qui fait marcher tout ça —  @Choice  n'a rien à lire tant que rien sur la scène n'est \sélectionnable: ⊤\.
@@ -20,17 +20,17 @@ Deux instruments tiennent dans une seule condition. Une palette entière, non : 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
 		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎺' Instrument.trompette)
+		Voice('🔔' Instrument.cloche)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: Choix()
+found: voices.trouver(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon sélectionnable nom: voice.icon))
+Scène([
+		Groupe(Rangée() [
+				:voices.transformer(ƒ(voice•Voice) Phrase(voice.icon sélectionnable nom: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Musique(Piste([1 3 5 6 5 3] instrument: current.sound))
 	])\
 
 Ajouter une quatrième voix ne prend maintenant qu'une seule ligne, et le bouton apparaît tout seul. Remarque la protection \found•ø ?\ :  @List/find  redonne \ø\ quand rien ne correspond, ce qui arrive avant que quelqu'un ait choisi — et la solution de secours doit être un \Discours\ entier, puisque c'est ce que \current\ promet d'être.

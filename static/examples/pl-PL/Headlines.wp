@@ -8,19 +8,19 @@ nagłówki: Stronainternetowa(
 		'.indicate-hover'
 	)
 nagłówki•# ?
-	Wyrażenie('ładowanie')
+	Fraza('ładowanie')
 	Grupa(
 		Stos('<')
 		[
-			Wyrażenie(
+			Fraza(
 				`*Nagłówki New York Times*`
 				2m
 				twarz: 'Arvo'
 			)
 		].zListą(
-			nagłówki.podsekwencja(1 7).tłumaczyć(
+			nagłówki.podsekwencja(1 7).przekształć(
 				ƒ(nagłówek)
-					Wyrażenie(
+					Fraza(
 						nagłówek
 						zawinąć: 20m
 						wyrównanie: '<'

@@ -8,8 +8,8 @@ En @Image tar ett rutnät av färger och ritar det som en enda bild, så vi kan 
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Kamera(width × 1px height × 1px 33ms)
+Estrad([Bild(colors "what the camera sees" 12m)])
 \
 
  Varje @Image behöver en beskrivning, eftersom ett rutnät av färger inte har några egna ord för den som inte kan se det.
@@ -19,8 +19,8 @@ Vi kan rita bilden med bokstäver istället för rutor genom att ge den en /teck
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m tecken: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Kamera(width × 1px height × 1px 33ms)
+Estrad([Bild(colors "the camera, drawn with dark and light circles" 12m tecken: ƒ(color•Färg) (color.ljushet < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

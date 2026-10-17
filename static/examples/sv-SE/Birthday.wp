@@ -9,7 +9,7 @@ Melodin och stämman rör sig i halva taktslag och ackorden i hela. Varje del an
 
 ¶Taktslag sedan sången började, så att tårtan kan röra sig med den. @Beat räknar från noll innan musiken spelas, så tårtan står bara stilla.¶
 taktslag: Takt()
-räkna2: taktslag.räkna
+räkna2: taktslag.antal
 
 ¶Melodin. Två åttondelar, sedan längre toner. Pauserna skapar rytmen, eftersom varje post varar lika länge: ett halvt taktslag.¶
 melodi2: [
@@ -160,7 +160,7 @@ ackord: [
 		varaktighet: 0.2s
 	)
 
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Stack(stoppning: 0.5m)

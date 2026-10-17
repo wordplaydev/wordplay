@@ -49,17 +49,17 @@ dipilih: Pilihan()
 mode•'': 'tap' … (dipilih = 'hum') | (dipilih = 'tap') … dipilih
 
 ¶Dalam mode tap, kepakkan sayap saat mengeklik atau menekan tombol apa saja.¶
-kepak: (mode = 'tap') & (∆ Tombol() | ∆ Kunci())
+kepak: (mode = 'tap') & (∆ Tombol() | ∆ Tuts())
 
 ¶Dalam mode dengung, burung melayang setinggi nada dengunganmu — nada rendah dekat tanah, nada tinggi dekat langit — dan tidak lebih tinggi lagi.¶
-tinggiNada: Melempar()
+tinggiNada: TinggiNada()
 dengungan: (mode = 'hum') & (tinggiNada > 50hz)
 
 ƒ tinggiNadaKeTinggi(hz•#hz)
-	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
+	hz.ubahSkala(80hz 400hz -4m 5m).batas(-4m 5m)
 
 ¶Bergeraklah sedikit demi sedikit menuju ketinggian dengungan, agar burung meluncur dengan mulus, bukan bergetar setiap kali nada sedikit berubah.¶
-tinggiNadaY•#m: 1m … ∆ tinggiNada … dengungan ? tinggiNadaY.toward(tinggiNadaKeTinggi(tinggiNada) 20%) tinggiNadaY
+tinggiNadaY•#m: 1m … ∆ tinggiNada … dengungan ? tinggiNadaY.menuju(tinggiNadaKeTinggi(tinggiNada) 20%) tinggiNadaY
 
 ¶Burung melayang diam saat hitung mundur, mengepak ke atas atau melayang sesuai nada dengungan saat permainan berjalan, lalu jatuh karena gravitasi setelah menabrak.¶
 tempatBurung: Gerakan(
@@ -88,7 +88,7 @@ burung: Frasa(
 		1m
 		nama: 'burung'
 		tempat: tempatBurung
-		urusan: Urusan(1kg 0.4 0)
+		materi: Materi(1kg 0.4 0)
 		beristirahat:
 		(permainan2.fase = 3) ? Pose(rotasi: 180° flipx)
 			Urutan(
@@ -175,14 +175,14 @@ skor•#: 0 …
 ƒ kolom2(sel2•# genre3•# x4•#m y2•#m)
 	Kelompok(
 		Tumpukan('|' 0m)
-		(sel2 → []).menerjemahkan(
+		(sel2 → []).petakan(
 			ƒ(sel3•#) Frasa(
 					genre[genre3][1 + ((sel3 - 1) % 5)]
 					1m
 				)
 		)
 		tempat: Tempat(x4 y2)
-		urusan: Urusan()
+		materi: Materi()
 		lamanya: 0s
 	)
 
@@ -261,7 +261,7 @@ suaraKepak: Musik(
 	)
 
 ¶Dua puluh gerbang dari yang tenang hingga yang menegangkan. Mengubah tempo akan menyambung pada ketukan berikutnya, bukan mengulang dari awal, sehingga setiap gerbang mempercepat perulangan tanpa pernah kehilangan iramanya — dan sebuah tabrakan mengembalikan skor ke nol, yang memperlambat semuanya kembali dari awal.¶
-ketegangan: (skor ÷ 20).menit(1)
+ketegangan: (skor ÷ 20).minimal(1)
 
 ¶Frigia untuk nada kedua yang datar: satu setengah nada di atas nada dasar, nada paling gelisah yang masih ada dalam tangga nada itu. Bas bersandar padanya setiap dua birama, dan pola synth berakhir di situ, sehingga perulangan tidak pernah terasa tenang.¶
 laguCemas: Musik(

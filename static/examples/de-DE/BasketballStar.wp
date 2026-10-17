@@ -12,14 +12,14 @@ wurfX: 0m … (klick & ((clickCount % 2) = 1)) … Zeiger().X
 
 basketballPlace: (clickCount % 2) = 0 ? Ort(
 			X: Zeiger().X
-			j: 8m
+			Y: 8m
 			z: 0m
 		) Bewegung(Ort: Ort(wurfX 8m 0m))
 
-basketball: Satzglied(
+basketball: Phrase(
 		"🏀"
 		0.7m
-		Gegenstand: Gegenstand(0.623kg 0.5)
+		Material: Material(0.623kg 0.5)
 		Ort: basketballPlace
 		Name: 'Basketball'
 	)
@@ -29,7 +29,7 @@ basketXPlace: (Zeit() ÷ 600ms).sin() · 6m
 
 ¶Lies die aktuelle Position des Balls einmal für die Punkteprüfung aus¶
 ballX: (basketball.Ort ?? Ort()).X
-ballY: (basketball.Ort ?? Ort()).j
+ballY: (basketball.Ort ?? Ort()).Y
 
 versuch: (clickCount ÷ 2).aufrunden()
 
@@ -40,14 +40,14 @@ punktestand: 0 … imBehälter & (versuch > punktestand) … 1 + punktestand
 basketballStar: Gruppe(
 		Stapel('|' 0.5m)
 		[
-			Satzglied(`*Basketball-Star*` .8m)
-			Satzglied('Ziele mit deinem Zeiger.' .6m)
-			Satzglied(
+			Phrase(`*Basketball-Star*` .8m)
+			Phrase('Ziele mit deinem Zeiger.' .6m)
+			Phrase(
 				'Klicke, um den 🏀 in den beweglichen Behälter fallen zu lassen.'
 				.6m
 			)
-			Satzglied('Punkte: ' + punktestand → '' .8m)
-			Satzglied('Versuche: ' + versuch → '' .8m)
+			Phrase('Punkte: ' + punktestand → '' .8m)
+			Phrase('Versuche: ' + versuch → '' .8m)
 		]
 		Größe: 2m
 		gesicht: "Sue Ellen Francisco"
@@ -91,6 +91,6 @@ Bühne(
 		Gestalt(Rechteck(-10m 0.01m 10m -2m))
 		basketballStar
 	]
-	Ort: Ort(X: 0m j: 5m z: -10m)
+	Ort: Ort(X: 0m Y: 5m z: -10m)
 	Schwere: 5m/s^2
 )

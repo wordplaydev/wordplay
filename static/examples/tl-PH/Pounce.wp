@@ -85,5 +85,5 @@ Entablado(
 			kulay: Kulay.puti
 		)
 	]
-	lugar: Lugar(taon: 5m z: -10m)
+	lugar: Lugar(y: 5m z: -10m)
 )

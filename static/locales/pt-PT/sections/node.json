@@ -1044,10 +1044,10 @@
                 "$~Recorro à história de um riacho e conto-lhe um dos seus valores passados. Alguma vez quis se lembrar do passado?",
                 "Eu sou o responsável oficial pelos registos do Verso!",
                 "Por exemplo, veja qual era @Time há cinco ticks:",
-                "\\← 5 Time(1000ms)\\",
+                "\\← 5 Tempo(1000ms)\\",
                 "Vê como aparece @None durante 5 segundos e, de repente, volta a aparecer um horário anterior?",
                 "Se quiser os últimos valores, mostre-me duas setas e eu interpretarei o número como uma contagem:",
-                "\\←← 5 Time(1000ms)\\",
+                "\\←← 5 Tempo(1000ms)\\",
                 "Vê como são as cinco vezes anteriores, em vez de apenas uma vez?",
                 "Sou útil quando se pretende criar performances que dependem do passado."
             ],
@@ -1174,7 +1174,7 @@
             "doc": [
                 "$~Crio um novo @stream que é atualizado sempre que outro fluxo muda. Os fluxos são incríveis!",
                 "Por exemplo, se quisesse que @Time mostrasse o tempo, mas apresentasse palavras em vez de números, poderia fazer algo do género:",
-                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "\\time: Tempo(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "É como dizer \"/começa com a palavra 'início' e, se o tempo mudar, muda para par ou ímpar, dependendo da hora.\"",
                 "Portanto, também sou tipo um streamer, só que baseado noutros streamers. Incrível, certo?"
             ],

@@ -12,16 +12,16 @@ Explore e veja o que consegue criar!
 ¶Nota: Veja a galeria para ver outro projeto.<exemplo@https://wordplay.dev/project/example-Layers?play>de sobreposição de imagens.¶
 
 
-Stage(
+Palco(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotação: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotação: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotação: -25°)
+		Figura(Círculo(3m 0m 1m 0m))
+		Figura(Polígono(2m 3 0m -12m 0m) rotação: -30°)
+		Figura(Polígono(7m 6 0m -6m 0m))
+		Figura(Retângulo(-11m -9m 11m -12m 10m) rotação: 25°)
+		Figura(Retângulo(-11m -9m 11m -12m 10m) rotação: -25°)
 
 	]
-	local: Place(0m 10m -30m)
+	local: Local(0m 10m -30m)
 )
 \
 

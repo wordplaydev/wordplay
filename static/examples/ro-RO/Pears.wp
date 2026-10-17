@@ -69,7 +69,7 @@ acțiuneCrescătoare2: [
 	]
 
 ¶Stabilim locurile dinainte, ca să le putem lăsa să cadă din același loc.¶
-locuri: (6 → []).traduce(
+locuri: (6 → []).transformă(
 		ƒ() Loc(Aleatoriu(-2m 2m) Aleatoriu(-3m -5m))
 	)
 punctCulminant: [
@@ -88,7 +88,7 @@ punctCulminant: [
 			loc: Loc(-3m -7m)
 			selectabil
 		)
-		:locuri.traduce(
+		:locuri.transformă(
 			ƒ(loc2 index2)
 				Fraza(
 					"🍐"
@@ -141,7 +141,7 @@ segment2•#:
 		⊥
 		… segment2 + 1
 
-Etapă(
+Estradă(
 	poveste[segment2]
 	faţă: 'Arvo'
 	loc: Loc(0m 0m -20m)

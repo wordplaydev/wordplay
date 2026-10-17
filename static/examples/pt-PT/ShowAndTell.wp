@@ -39,7 +39,7 @@ conjunto2•[alvo]: [
 avistamentos: Objetos(contagem: 10 confiança: 0.5)
 
 ¶A tecla → (ou um toque) para saltar.¶
-saltar: Chave('Seta para a direita' ⊤)
+saltar: Tecla('Seta para a direita' ⊤)
 
 ¶Um relógio, para a contagem decrescente e para animar os confettis da vitória. A própria caça não o utiliza — quem a conduz é @Objects.¶
 relógio: Tempo(30ms)
@@ -187,7 +187,7 @@ g•#: 9
 ƒ anunciar(h5•caça) Dizer('encontrar ' + h5.alvo2.etiqueta)
 
 ¶A vitória é verificada primeiro, por isso o tempo esgotado só pode significar uma derrota.¶
-Fase(
+Palco(
 	(caça2.encontrado2.comprimento() ≥ 5)
 	? final()
 		((esquerda2 ≤ 0s) ? fimDeJogo(caça2) [

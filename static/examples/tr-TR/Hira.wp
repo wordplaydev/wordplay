@@ -9,15 +9,15 @@ yerÇekimi•#m/s^2: 15m/s^2 … ∆ Düğme() … -yerÇekimi
 
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
 
-harfler2: sayaç → [].tercümeetmek(
+harfler2: sayaç → [].dönüştür(
 		ƒ(sayı2 dizin2)
-			İfadeetmek(
+			Yazı(
 				hiragana[sayı2]
 				yer: Hareket(
 					Yer((dizin2 - (sayaç ÷ 2)) × 0.2m 10m)
 					Hız(açı: Rastgele(-5 5) × 1°/s)
 				)
-				konu: Konu(zıplama: 0.3)
+				madde: Madde(zıplama: 0.3)
 			)
 	)
 

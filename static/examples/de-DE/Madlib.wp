@@ -14,7 +14,7 @@ runden2: [
 		wortart('Adverbien' 4)
 	]
 
-chat: Plaudern()
+chat: Chat()
 ¶Jedes Mal, wenn ein Chat abgeschickt wird, gehe zur nächsten Wortart¶
 reihe: 1 … ∆ chat … reihe + 1
 ¶Jedes Mal, wenn ein Chat abgeschickt wird, teile den Chat an den Leerzeichen und füge ihn zu den Antworten hinzu¶
@@ -35,10 +35,10 @@ Bühne(
 			Gruppe(
 				Stapel('|' 0.25m)
 				[
-					Satzglied(
+					Phrase(
 						`\runden2[reihe].zählung\ \runden2[reihe].beschriftung\ bitte!`
 					)
-					Satzglied('(durch Leerzeichen getrennt)' 0.5m)
+					Phrase('(durch Leerzeichen getrennt)' 0.5m)
 				]
 			)
 			¶Wenn wir die Antworten haben, zeige den Lückentext¶
@@ -58,7 +58,7 @@ Bühne(
 				¶Übersetze sie in Redewendungen¶
 				Gruppe(
 					Stapel('<')
-					sätze.übersetzen(ƒ(satz2) Satzglied(satz2))
+					sätze.übersetzen(ƒ(satz2) Phrase(satz2))
 				)
 			)
 	]

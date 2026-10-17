@@ -20,7 +20,7 @@ posisiBolaBasket: (jumlahKlik % 2) = 0 ? Tempat(
 bolaBasket: Frasa(
 		"🏀"
 		0.7m
-		urusan: Urusan(0.623kg 0.5)
+		materi: Materi(0.623kg 0.5)
 		tempat: posisiBolaBasket
 		nama: 'bola basket'
 	)
@@ -32,7 +32,7 @@ posisiXKeranjang: (Waktu() ÷ 600ms).dosa() · 6m
 xBola: (bolaBasket.tempat ?? Tempat()).X
 yBola: (bolaBasket.tempat ?? Tempat()).y
 
-percobaan: (jumlahKlik ÷ 2).Ringkasan()
+percobaan: (jumlahKlik ÷ 2).bulatkanKeAtas()
 
 ¶inBin bernilai benar setiap kali bola berada di dalam keranjang. Reaksi skor hanya berjalan saat inBin berubah menjadi benar DAN percobaan saat ini lebih besar dari skor. Jadi masuk kedua kali pada tembakan yang sama, misalnya bola memantul di dalam keranjang atau keranjang bergeser kembali ke atas bola, tidak berpengaruh sampai tembakan berikutnya menaikkan penghitung percobaan¶
 diDalamKeranjang: (((posisiXKeranjang - 0.9m) ‥ (posisiXKeranjang + 0.9m)) ∋ xBola) & ((0.3m ‥ 2.9m) ∋ yBola)

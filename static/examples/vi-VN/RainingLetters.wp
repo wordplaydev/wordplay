@@ -18,7 +18,7 @@ biênĐộ: Âmlượng()
 nhịp2: Thờigian()
 
 ¶Khởi tạo một danh sách các chữ cái ngẫu nhiên ở những vị trí ngẫu nhiên¶
-chữCái3•[chữCái]: đếm2 → [#].dịch(
+chữCái3•[chữCái]: đếm2 → [#].biếnĐổi(
 		ƒ(_) chữCái(
 				latin.ngẫunhiên()
 				Ngẫunhiên(-kíchThước2 kíchThước2)
@@ -30,7 +30,7 @@ chữCái3•[chữCái]: đếm2 → [#].dịch(
 	)
 	… ∆ nhịp2 …
 		¶Nếu chữ cái nằm phía trên trục y, di chuyển nó xuống một chút và xoay nó. Nếu không, đặt lại nó lên trên ngưỡng và chọn ngẫu nhiên xem nó có hiện rõ hay không.¶
-		chữCái3.dịch(
+		chữCái3.biếnĐổi(
 			ƒ(chữCái4•chữCái)
 				chữCái4.y2 > 0m ? (chữCái4.y2:chữCái4.y2 - 0.5m).góc2:chữCái4.góc2 + chữCái4.tốcĐộ
 					(chữCái4.y2:kíchThước2 + 2m).hiệnRõ:Ngẫunhiên(
@@ -49,7 +49,7 @@ Sânkhấu(
 			vịTrí: VịTrí(-3.5 × kíchThước2 -0.5m)
 		)
 	].thêm(
-		chữCái3.dịch(
+		chữCái3.biếnĐổi(
 			ƒ(chữCái5•chữCái)
 				Cụmtừ(
 					chữCái5.chữCái2

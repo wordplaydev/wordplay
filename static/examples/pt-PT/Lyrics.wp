@@ -237,7 +237,7 @@ canção: Música(
 		nome: 'airbag'
 	)
 
-Fase(
+Palco(
 	[
 		palavras3()
 		canção

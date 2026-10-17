@@ -20,7 +20,7 @@
             "names": ["$~Acak"],
             "inputs": [
                 {
-                    "names": "$~menit",
+                    "names": ["$~minimal", "$~menit"],
                     "doc": "$~Nilai @value terkecil yang akan dibuat, atau jika lebih besar dari 0, nilai terbesar. Jika @None diberikan, maka nilai terkecilnya adalah \\0\\."
                 },
                 {
@@ -35,7 +35,7 @@
                 "/klik ketuk!/",
                 "Jadi cara terbaik untuk menggunakannya adalah dengan membuat pertunjukan dengan frasa yang dapat dipilih bernama @Phrase , dan kemudian menggunakan @Reaction untuk memutuskan apa yang harus dilakukan ketika nama tersebut dipilih.",
                 "Berikut contoh paling sederhana:",
-                "\\Group(\nStack() \n[\nPhrase('one' dapatdipilih:⊤ nama:'1') \nPhrase('two' dapatdipilih:⊤ nama:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Kelompok(\nTumpukan() \n[\nFrasa('one' dapatdipilih:⊤ nama:'1') \nFrasa('two' dapatdipilih:⊤ nama:'2') \nFrasa(Pilihan())\n]\n)\\",
                 "Salin ini ke @editor, lalu pilih salah satu dari dua @Phrase . Anda akan melihat @Phrase ketiga menampilkan nama yang dipilih."
             ],
             "names": ["$~Pilihan"]
@@ -62,7 +62,7 @@
                 "/whrrrrrr/",
                 "Tentu saja, ini bukanlah pilihan yang mudah diakses: tidak semua orang dapat melihat atau menunjuk dengan mudah, jadi pastikan Anda tidak mengecualikan seseorang dari partisipasi dengan menggunakan @stream ini.",
                 "Jika Anda yakin tidak ada yang dikecualikan, maka menggunakan @Pointer semudah membuat stream:",
-                "\\Pointer()\\",
+                "\\Penunjuk()\\",
                 "@Place yang diberikannya akan sesuai dengan lokasi yang ditunjuk oleh penunjuk pada @Stage ."
             ],
             "names": ["$~Penunjuk"]
@@ -72,16 +72,16 @@
                 "$~Ia memberitahumu tombol keyboard @key mana yang ditekan dan dilepas oleh penontonmu.",
                 "/klikety/",
                 "Coba ini",
-                "\\Kunci()\\",
+                "\\Tuts()\\",
                 "Lihat bagaimana saat kamu mengetik sebuah tombol, ia muncul di @Stage? Setiap kali sebuah tombol ditekan, @Text baru ditambahkan ke @stream, yang menjelaskan tombol yang ditekan.",
                 "Untuk tombol yang mewakili sebuah karakter, @value akan berupa karakter itu sebagai @Text.",
                 "Untuk tombol khusus, seperti tombol /Escape/, ia akan berupa @Text yang menjelaskan tombol itu, menggunakan <nama yang sudah ditentukan@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, sayangnya hanya tersedia dalam @language Inggris.",
                 "Jika kamu hanya ingin tahu tentang tombol tertentu, kamu bisa memberikannya:",
-                "\\Kunci('a')\\",
+                "\\Tuts('a')\\",
                 "Dan jika kamu hanya ingin tahu kapan sebuah @Key dilepas dan bukan ditekan, kamu bisa memberi @Boolean:",
-                "\\Kunci('a' ⊥)\\"
+                "\\Tuts('a' ⊥)\\"
             ],
-            "names": ["$~Kunci"],
+            "names": ["$~Tuts", "$~Kunci"],
             "key": {
                 "names": "$~kunci",
                 "doc": "$~Jika @None, maka semua kunci akan diberikan. Jika @Text tertentu, maka hanya kunci tersebut yang akan diberikan."
@@ -185,10 +185,10 @@
                 "$~Ini adalah @stream frekuensi mikrofon, dalam hertz.",
                 "/hummmmm/",
                 "Suara tersebut diambil sampelnya pada frekuensi pilihan Anda. Suara manusia berada di antara 20Hz dan 5000Hz, jadi rencanakan angka-angka dalam rentang tersebut.",
-                "\\Pitch()\\",
+                "\\TinggiNada()\\",
                 "Ini sangat bagus untuk mendengarkan intonasi suara seseorang saat berbicara atau bernyanyi."
             ],
-            "names": ["$~Melempar"],
+            "names": ["$~TinggiNada", "$~Melempar"],
             "frequency": {
                 "names": ["$~frekuensi"],
                 "doc": "$~Jangka waktu antara pengambilan sampel."
@@ -235,7 +235,7 @@
                 "/bzzzzzzz/",
                 "@List tersebut pada dasarnya mewakili sebuah gambar, tetapi terserah Anda untuk memutuskan apa yang akan dilakukan dengannya.",
                 "Anda bisa mencoba merepresentasikan gambar dengan sejumlah @Phrase , yang mungkin terlihat cukup keren! Coba salin ini...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' tempat: Place((x - 1) × 0.5m y × -0.5m) warna: color lamanya: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Kamera(32px 24px 33ms)\n\nPanggung(\ncolors.gabungan(\n[] \nƒ(phrases•[Frasa] row•[Warna] y•#) \nphrases.denganDaftar(\nrow.petakan(\nƒ(color•Warna x•#)\nFrasa('o' tempat: Tempat((x - 1) × 0.5m y × -0.5m) warna: color lamanya: 0s\n)\n)\n)\n)\n)\\",
                 "Namun Anda juga dapat menganalisis warna untuk menentukan apakah lampu menyala atau mati, atau apakah warna tertentu umum, sehingga penonton dapat memengaruhi pertunjukan dengan warna yang mereka tunjukkan."
             ],
             "names": ["$~Kamera"],
@@ -278,21 +278,21 @@
                 "/Boop boop boop/",
                 "Untuk mengatur waktu, kamu bisa mengatur @Phrase.duration pada tiap output, dan ini akan ditampilkan selama itu sebelum lanjut ke yang berikutnya, memakai transisi @Phrase.entering atau @Phrase.exiting apa pun yang sudah kamu atur. Jika kamu mengaturnya ke @Sequence, ini akan memakai durasinya.",
                 "Semua itu membuatmu bisa melakukan hal seperti @Scene kecil ini, yang menampilkan tiga frasa ini secara berurutan:",
-                "\\Pemandangan(\n\t[\n\t\tFrasa('Halo' lamanya: 1s)\n\t\tFrasa(\n\t\t\t'Apa kabar?'\n\t\t\tlamanya: 2s\n\t\t\trotasi: 5°\n\t\t\tmemasuki: Pose(rotasi: 0°)\n\t\t)\n\t\tFrasa('Saya baik-baik saja')\n\t]\n)\\",
+                "\\Adegan(\n\t[\n\t\tFrasa('Halo' lamanya: 1s)\n\t\tFrasa(\n\t\t\t'Apa kabar?'\n\t\t\tlamanya: 2s\n\t\t\trotasi: 5°\n\t\t\tmemasuki: Pose(rotasi: 0°)\n\t\t)\n\t\tFrasa('Saya baik-baik saja')\n\t]\n)\\",
                 "Lihat bagaimana output pertama ditampilkan selama satu detik, lalu yang berikutnya selama dua detik, tapi dianimasikan berputar lima derajat, dan kemudian menampilkan yang terakhir?",
                 "Kamu bisa membuat urutan output dan animasi yang sangat rumit dengan @Scene, bahkan membuat sebagian darinya dinamis atau interaktif, seperti @Phrase atau @Group lainnya.",
                 "Jika kamu punya output beranimasi yang bersarang (@Group dengan @Phrase beranimasi di dalamnya), @Scene akan menunggu semua konten beranimasi di @Group selesai.",
                 "Oh, dan satu rahasia kecil terakhir! Kamu bahkan bisa menaruh @Boolean di dalam daftar, dan jika mereka \\⊥\\, @Scene akan berhenti sejenak dan menunggu sampai menjadi benar.",
                 "Misalnya, jika kamu ingin membuat urutan @Phrase dan hanya lanjut saat @Button berubah, kamu bisa melakukan ini:",
-                "\\klik: ∆ Tombol()\nPemandangan(\n\t[\n\t\tFrasa('Halo')\n\t\tklik\n\t\tFrasa(\n\t\t\t'Apa kabar?'\n\t\t\tlamanya: 0.25s\n\t\t\trotasi: 5°\n\t\t\tmemasuki: Pose(rotasi: 0°)\n\t\t)\n\t\tklik\n\t\tFrasa('Saya baik-baik saja')\n\t]\n)\\",
+                "\\klik: ∆ Tombol()\nAdegan(\n\t[\n\t\tFrasa('Halo')\n\t\tklik\n\t\tFrasa(\n\t\t\t'Apa kabar?'\n\t\t\tlamanya: 0.25s\n\t\t\trotasi: 5°\n\t\t\tmemasuki: Pose(rotasi: 0°)\n\t\t)\n\t\tklik\n\t\tFrasa('Saya baik-baik saja')\n\t]\n)\\",
                 "Lihat bagaimana ini berhenti sejenak setelah setiap @Phrase, dan menunggu @Button berubah sebelum lanjut?",
                 "Secara bawaan, saya berhenti pada output terakhir saya. Beri saya @Scene/loop dan saya kembali ke output pertama saya lagi, yang cocok untuk permainan yang menanyakan @query lain setiap ronde.",
                 "Saya memeriksa @Scene/loop setiap kali programmu berubah, jadi sebuah perulangan bisa berakhir sekaligus dimulai. Di sini saya terus bertanya sampai mereka menjawab dengan benar, lalu berhenti:",
-                "\\tebak: Mengobrol()\nbenar2: tebak = 'cat'\nPemandangan(\n\t[\n\t\tFrasa('Tebak hewannya!' lamanya: 2s)\n\t\t∆ tebak\n\t\tFrasa(benar2 ? 'Ya!' 'Bukan!' lamanya: 2s)\n\t]\n\tperulangan: ~benar2\n)\\",
+                "\\tebak: Mengobrol()\nbenar2: tebak = 'cat'\nAdegan(\n\t[\n\t\tFrasa('Tebak hewannya!' lamanya: 2s)\n\t\t∆ tebak\n\t\tFrasa(benar2 ? 'Ya!' 'Bukan!' lamanya: 2s)\n\t]\n\tperulangan: ~benar2\n)\\",
                 "@Scene/replay membuat saya mulai dari awal lagi, @Scene/pause membuat saya diam di tempat, dan @Scene/go mengirim saya langsung ke salah satu output saya. Atur @Scene/pause ke \\⊤\\ dan saya tidak akan pernah bergerak sendiri, sehingga @Scene/go menjadi satu-satunya hal yang membuat saya lanjut — begitulah cara membuat tayangan slide yang bisa maju /dan/ mundur.",
                 "Dan jika kamu ingin tahu di posisi mana saya berada, untuk menampilkan /3 dari 10/ atau memutar musik berbeda di bagian cerita yang berbeda, itulah gunanya @Spotlight."
             ],
-            "names": ["$~Pemandangan"],
+            "names": ["$~Adegan", "$~Pemandangan"],
             "outputs": {
                 "names": "$~keluaran",
                 "doc": "$~Daftar output yang akan ditampilkan secara berurutan."
@@ -323,7 +323,7 @@
                     "Seperti @Scene/replay, ini menginginkan @condition yang /sesaat/ — sesuatu yang \\ø\\ kecuali pada evaluasi saat kamu ingin saya bergerak. Sebuah angka yang tetap sama akan membuat saya terjebak di situ selamanya.",
                     "Kirim saya melewati salah satu ujung dan saya akan berhenti di situ, kecuali @Scene/loop adalah \\⊤\\, yang membuat saya berputar kembali ke awal. Artinya kamu tidak perlu memeriksanya. Di sini tombol panah membuat tayangan slide bisa berjalan dua arah:",
                     "Jika kamu lebih suka mengatakan /maju satu/ daripada /nomor tiga/, itulah gunanya @Scene/step.",
-                    "\\slide: [Frasa('satu') Frasa('dua') Frasa('tiga')]\nkunci2: Kunci()\ndi: Spotlight()\nPemandangan(\n\tslide\n\tjeda: ⊤\n\tmulai: ∆ kunci2 ? ((kunci2 = 'Panah Kiri') ? di.index - 1 (kunci2 = 'Panah Kanan') ? di.index + 1 ø) ø\n)\\"
+                    "\\slide: [Frasa('satu') Frasa('dua') Frasa('tiga')]\nkunci2: Tuts()\ndi: Sorotan()\nAdegan(\n\tslide\n\tjeda: ⊤\n\tmulai: ∆ kunci2 ? ((kunci2 = 'Panah Kiri') ? di.indeks - 1 (kunci2 = 'Panah Kanan') ? di.indeks + 1 ø) ø\n)\\"
                 ]
             },
             "name": {
@@ -335,7 +335,7 @@
                 "doc": [
                     "$~Sebuah @condition untuk ditunggu setelah setiap output saya, setelah @Phrase/duration-nya selesai atau animasinya berakhir.",
                     "Ini sama saja dengan menuliskan @Boolean itu di antara setiap output dalam daftar saya, yang harus kamu lakukan untuk membuat salah satu output saya menunggu. Ini menyatakannya sekali saja:",
-                    "\\Pemandangan(\n\t[Frasa('satu') Frasa('dua') Frasa('tiga')]\n\tsampai: ∆ Tombol()\n)\\",
+                    "\\Adegan(\n\t[Frasa('satu') Frasa('dua') Frasa('tiga')]\n\tsampai: ∆ Tombol()\n)\\",
                     "@Boolean yang ditulis dalam daftar tetap berfungsi, dan keduanya adalah waktu tunggu yang terpisah, jadi kamu bisa menahan lebih lama di satu tempat tertentu."
                 ]
             },
@@ -344,7 +344,7 @@
                 "doc": [
                     "$~Berapa banyak output yang harus dipindahkan, dihitung dari tempatku sekarang: \\1\\ adalah maju satu dan \\-1\\ adalah mundur satu. Ini adalah @Scene/go yang dinyatakan sebagai jarak, bukan sebagai tempat.",
                     "Seperti @Scene/go, aku berhenti di ujungku kecuali @Scene/loop adalah \\⊤\\, jadi kamu tidak perlu memeriksanya, dan aku ingin @condition yang /sesaat/ — sesuatu yang \\ø\\ kecuali pada evaluasi saat kamu ingin aku bergerak.",
-                    "\\slide: [Frasa('satu') Frasa('dua') Frasa('tiga')]\nkunci2: Kunci()\nPemandangan(\n\tslide\n\tjeda: ⊤\n\tlangkah: ∆ kunci2 ? ((kunci2 = 'Panah Kiri') ? -1 (kunci2 = 'Panah Kanan') ? 1 ø) ø\n)\\",
+                    "\\slide: [Frasa('satu') Frasa('dua') Frasa('tiga')]\nkunci2: Tuts()\nAdegan(\n\tslide\n\tjeda: ⊤\n\tlangkah: ∆ kunci2 ? ((kunci2 = 'Panah Kiri') ? -1 (kunci2 = 'Panah Kanan') ? 1 ø) ø\n)\\",
                     "Tidak ada yang di sini perlu tahu @Phrase mana yang sedang ditampilkan, dan itulah bedanya dengan @Scene/go. Tanyakan @Spotlight jika kamu ingin menyatakannya di panggung."
                 ]
             }
@@ -381,7 +381,7 @@
             "doc": [
                 "$~Ini adalah @stream pesan @Text yang diketik oleh audiens Anda.",
                 "Sebagai contoh, program sederhana ini memeriksa apakah pesannya adalah 'hello', dan jika ya, program akan menghasilkan 'hi'. Jika tidak, program akan menghasilkan 'huh'?",
-                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "\\Mengobrol().memiliki('hello') ? 'hi!' 'huh?'\\",
                 "Selesai! Anda dapat membuat berbagai macam pertunjukan dengan ini, seperti chatbot, petualangan berbasis teks, atau skema kontrol berbasis teks untuk jenis pertunjukan lainnya."
             ],
             "names": ["$~Mengobrol"]
@@ -503,9 +503,9 @@
             "doc": [
                 "$~Ini menelusuri garis luar setiap glif huruf sebagai @List dari @Place .",
                 "Berikan teks dan jenis huruf, dan alat ini akan menelusuri garis luar setiap glif titik demi titik.",
-                "\\Contour('a' \"Noto Sans\")\\",
+                "\\Kontur('a' \"Noto Sans\")\\",
                 "Masukkan @value @Place tersebut ke dalam @List of @Phrase untuk melihat garis luarnya digambar sebagai titik-titik:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' tempat: point)))\\",
+                "\\Panggung(Kontur('a' \"Noto Sans\" 10m).petakan(ƒ(point) Frasa('•' tempat: point)))\\",
                 "Anda dapat mengubah ukuran garis luar dengan @Number of meters, memindahkan titik asalnya dengan @Place , memilih ketebalan font, mengaktifkan huruf miring, dan mengatur `spacing` antar titik sebagai jarak dalam meter. `spacing` yang lebih kecil akan menelusuri garis luar dengan lebih akurat, dengan titik-titik yang berjarak sama di sepanjang garis dan kurva.",
                 "Beberapa glif, seperti emoji warna, tidak memiliki garis luar, sehingga tidak menambahkan titik. Saat mengambil font, ia akan memberi Anda @List kosong, lalu mengisinya saat sudah siap."
             ],
@@ -642,7 +642,7 @@
                 "doc": "$~Hari dalam minggu, dari \\1\\ (Senin) sampai \\7\\ (Minggu). Bersifat informasi: @Now mengaturnya, dan pemformatan mengabaikannya."
             },
             "conversion": {
-                "text": "$~Versi @Text dari saya, diformat untuk wilayah pembaca, dalam kalender dan zona waktu saya. Tambahkan sebuah bahasa setelah jenis @Text untuk memformat bagi wilayah tertentu, seperti \\Moment(2026 7 1) → ''/es\\."
+                "text": "$~Versi @Text dari saya, diformat untuk wilayah pembaca, dalam kalender dan zona waktu saya. Tambahkan sebuah bahasa setelah jenis @Text untuk memformat bagi wilayah tertentu, seperti \\Momen(2026 7 1) → ''/es\\."
             },
             "error": {
                 "timezone": "$~ini bukan nama zona waktu yang sah",
@@ -910,7 +910,7 @@
             "doc": [
                 "$~Aku menyatakan di mana @Scene berada sekarang: output mana yang sedang ditampilkannya, berapa banyak yang dimilikinya, dan apakah ia sedang menunggu seseorang.",
                 "@Scene menampilkan hal-hal; akulah cara program lainnya mengetahui apa yang sedang ditampilkannya. Itulah yang memungkinkanmu meletakkan penghitung di bawah tayangan slide, memutar musik berbeda di bagian-bagian cerita yang berbeda, atau menampilkan petunjuk /tekan tombol apa saja/ hanya saat adegan benar-benar sedang menunggu.",
-                "\\slide: [Frasa('satu') Frasa('dua') Frasa('tiga')]\ndi: Spotlight()\nPanggung(\n\t[\n\t\tPemandangan(slide perulangan: ⊤)\n\t\tFrasa(\n\t\t\t`\\di.index\\ dari \\di.total\\`\n\t\t\tukuran: 0.3m\n\t\t\ttempat: Tempat(0m -2m)\n\t\t)\n\t]\n)\\",
+                "\\slide: [Frasa('satu') Frasa('dua') Frasa('tiga')]\ndi: Sorotan()\nPanggung(\n\t[\n\t\tAdegan(slide perulangan: ⊤)\n\t\tFrasa(\n\t\t\t`\\di.index\\ dari \\di.total\\`\n\t\t\tukuran: 0.3m\n\t\t\ttempat: Tempat(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Aku selalu memiliki @Slate, bahkan sebelum apa pun terjadi, jadi kamu tidak pernah perlu memeriksaku untuk \\ø\\."
             ],
             "names": "$~Sorotan",

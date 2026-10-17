@@ -25,7 +25,7 @@ lettres: ['un' 'b' 'c' 'd' 'e']
 ¶Les lettres tombent en premier, du même endroit mais à des hauteurs différentes. Chacune tombe donc sur la précédente et le tas monte.
 
 Une lettre n'est solide que parce que sa place est un Motion et qu'elle a de la Matter. Un Output placé par un programme est un fantôme que tout traverse. Leur masse empêche les balles de repousser le tas, et demander un contour à Matter les fait entrer en collision selon la forme de leurs lettres.¶
-tas: lettres.traduire(
+tas: lettres.transformer(
 		ƒ(lettre•'' indice2•#)
 			Phrase(
 				lettre
@@ -48,7 +48,7 @@ tas: lettres.traduire(
 	)
 
 ¶Les cœurs tombent ensuite. Un émoji peut aussi demander son contour, donc chaque cœur entre en collision selon sa forme : sa pointe se glisse dans les creux où une boîte resterait posée dessus.¶
-cœurs: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traduire(
+cœurs: ['🧡' '💛' '💚' '💙' '💜' '🩷'].transformer(
 		ƒ(cœur•'' indice3•#)
 			Phrase(
 				cœur
@@ -69,7 +69,7 @@ cœurs: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traduire(
 	)
 
 ¶Les balles commencent au-dessus de tout, donc elles arrivent une fois le tas posé. Elles ne demandent pas de contour : leur rectangle, arrondi jusqu'au bout, est ce qui les fait rouler.¶
-balles: 18 → [].traduire(
+balles: 18 → [].transformer(
 		ƒ(nombre2)
 			Phrase(
 				"⚽"

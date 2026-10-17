@@ -13,14 +13,14 @@ Bu örüntünün her sürümü aynı üç parçadan oluşur:
 \
 slides: ['birinci' 'ikinci' 'üçüncü']
 
-key: Key()
+key: Tuş()
 
 index•#: 1 … ∆ key …
-	(key = 'Sol Ok') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Sol Ok') ? ((index < slides.uzunluk()) ? index + 1 index)
 		(key = 'üç') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+Yazı(slides[index])
 \
 
  Bu @Reaction bunun kalbidir. \1\ ile başlar ve @Key her değiştiğinde yeni sayının ne olması gerektiğine karar verir.
@@ -38,15 +38,15 @@ yerine bir @List listesi koy @Group ya da tam sahneler koy, kalıbın geri kalan
 
 \
 slides: [
-	Phrase('üç bölümlük bir hikaye' boyut: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('bir kedi belirir')])
-	Phrase('son 🎉')
+	Yazı('üç bölümlük bir hikaye' boyut: 3m)
+	Grup(Yığın() [Yazı('🐈') Yazı('bir kedi belirir')])
+	Yazı('son 🎉')
 ]
 
-key: Key()
+key: Tuş()
 
 index•#: 1 … ∆ key …
-	(key = 'Sol Ok') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Sol Ok') ? ((index < slides.uzunluk()) ? index + 1 index)
 		(key = 'üç') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 Ona @Scene/pause böylece kendi kendine asla hareket etmez, ve @Scene/step bir yöne veya diğerine bir parça hareket ettirmek için:
 
 \
-key: Key()
-Scene([
-		Phrase('üç bölümlük bir hikaye' boyut: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('bir kedi belirir')])
-		Phrase('son 🎉')
+key: Tuş()
+Gösteri([
+		Yazı('üç bölümlük bir hikaye' boyut: 3m)
+		Grup(Yığın() [Yazı('🐈') Yazı('bir kedi belirir')])
+		Yazı('son 🎉')
 	] duraklat adım: ∆ key ? ((key = 'üç') ? -1 (key = 'Sol Ok') ? 1 ø) ø)
 \
 

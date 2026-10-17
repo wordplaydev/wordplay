@@ -1464,7 +1464,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~… Vous savez, je vous disais qu’ils peuvent évaluer n’importe quelle fonction avec des parenthèses \\1.add(1)\\ mais aussi deux fonctions d’entrée avec des opérateurs infixes \\1 + 1\\ ? Eh bien, ils ont une autre astuce pour les fonctions avec une seule entrée : le format unaire."
+                            "$~… Vous savez, je vous disais qu’ils peuvent évaluer n’importe quelle fonction avec des parenthèses \\1.ajouter(1)\\ mais aussi deux fonctions d’entrée avec des opérateurs infixes \\1 + 1\\ ? Eh bien, ils ont une autre astuce pour les fonctions avec une seule entrée : le format unaire."
                         ],
                         null,
                         [
@@ -2719,7 +2719,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Il y a une autre source d'entrée que je veux vous montrer. Vous vous souvenez de \\[].random()\\ de tout à l'heure, à partir de @List ?",
+                            "$~Il y a une autre source d'entrée que je veux vous montrer. Vous vous souvenez de \\[].aléatoire()\\ de tout à l'heure, à partir de @List ?",
                             "$~À l'intérieur, il utilise une @FunctionDefinition appelée @Random, qui fournit une séquence infinie de nombres aléatoires. C'est une sorte de @stream car il génère des entrées de votre monde, pas du nôtre. Mais il est un peu différent des autres flux dans le sens où il ne provoque pas la réévaluation d'un @Program.",
                             "$~Au lieu de cela, chaque fois qu’il est évalué, il donne un nombre aléatoire différent.",
                             "$~Tu vois ce petit bouton ↻ @UI/resetEvaluator dans la barre d'outils de la scène (et aussi sur la ligne du temps) ? Appuie dessus pour réévaluer le programme à la main, et tu verras un nouveau nombre entre \\0\\ et \\1\\ à chaque fois."
@@ -2738,7 +2738,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Le hasard peut être très amusant! Nous pouvons l'utiliser avec des flux pour créer un chaos amusant. Par exemple, ici, nous choisissons un mot au hasard dans une liste de mots. C'est la même chose que \\['kitty' 'cat' 'feline'].random()\\. Continuez à appuyer sur ↻ pour obtenir un synonyme de chat différent! Essayez d'ajouter votre propre mot à la liste et voyez si vous pouvez faire apparaître le mot."
+                            "$~Le hasard peut être très amusant! Nous pouvons l'utiliser avec des flux pour créer un chaos amusant. Par exemple, ici, nous choisissons un mot au hasard dans une liste de mots. C'est la même chose que \\['kitty' 'cat' 'feline'].aléatoire()\\. Continuez à appuyer sur ↻ pour obtenir un synonyme de chat différent! Essayez d'ajouter votre propre mot à la liste et voyez si vous pouvez faire apparaître le mot."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         { "edit": "['kitty' 'cat' 'feline'][Random(1 3)]" }
@@ -3438,7 +3438,7 @@
                             "sad",
                             "$~Oh là là, oh là là, oh là là, je NE peux PAS croire que j'ai oublié la couleur. Bon, alors n'importe quel @Pose peut avoir une couleur, d'accord ? Mais @Color se compose de trois parties. D'abord, un @Color.lightness entre 0 et 100 %, que tu peux imaginer comme la luminosité d'une pièce, du noir au blanc avec la couleur au milieu à 50 %.",
                             "$~Ensuite, un @Color.chroma entre 0 et ∞, qui vous permet de penser à la quantité de couleur qu'il y a, depuis aucune couleur grise jusqu'à la couleur complète.",
-                            "$~Et enfin, une @Color.hue, que vous pouvez considérer comme une roue chromatique, du rouge au vert au bleu en degrés. Vous voulez donc que je sois rouge vif ? Réglez ma couleur de pose de repos sur \\Color(50% 300 30°)\\."
+                            "$~Et enfin, une @Color.hue, que vous pouvez considérer comme une roue chromatique, du rouge au vert au bleu en degrés. Vous voulez donc que je sois rouge vif ? Réglez ma couleur de pose de repos sur \\Couleur(50% 300 30°)\\."
                         ],
                         { "edit": "Phrase('red' color: 🌈(50% 300 30°))" },
                         null,
@@ -3822,7 +3822,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Et si vous vouliez un arrangement très spécifique ? Vous pourriez utiliser @Free et me dire exactement où vous voulez toutes les phrases. Assurez-vous simplement de donner une place à chaque @Phrase, sinon je la placerai simplement à \\Place(0m 0m)\\."
+                            "$~Et si vous vouliez un arrangement très spécifique ? Vous pourriez utiliser @Free et me dire exactement où vous voulez toutes les phrases. Assurez-vous simplement de donner une place à chaque @Phrase, sinon je la placerai simplement à \\Lieu(0m 0m)\\."
                         ],
                         {
                             "edit": [

@@ -23,7 +23,7 @@ Nhóm(
 	Hàngngang()
 	[
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				Cụmtừ('Mèo con')
 				Cụmtừ('Mèo' nghỉngơi: nảyZbounce)
@@ -36,7 +36,7 @@ Nhóm(
 			]
 		)
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				Cụmtừ('Chào')
 				Cụmtừ('Xin chào')

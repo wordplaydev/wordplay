@@ -7,7 +7,7 @@ twarz2: Twarz()
 
 Scena(
 	[
-		Wyrażenie(
+		Fraza(
 			(twarz2.ustaOtwarte ? '😮'
 					twarz2.uśmiech ? '😀'
 						twarz2.grymas ? '🙁'
@@ -19,38 +19,38 @@ Scena(
 		Grupa(
 			Stos('|')
 			[
-				Wyrażenie(
+				Fraza(
 					(twarz2.oczyOtwarte ? '👀' '😑')
 					rozmiar: 1.5m
 				)
-				Wyrażenie(
+				Fraza(
 					'😊'
 					rozmiar: (twarz2.stopieńUśmiechu · 2m) + 0.5m
 				)
-				Wyrażenie(
+				Fraza(
 					'👄'
 					rozmiar: (twarz2.stopieńOtwarciaUst · 2m) + 0.5m
 				)
-				Wyrażenie(
+				Fraza(
 					'🤨'
 					rozmiar: (twarz2.stopieńUniesieniaBrwi · 2m) + 0.5m
 				)
 			]
 			miejsce: Miejsce(-9m 8m)
 		)
-		Wyrażenie(
+		Fraza(
 			'obrót 🧭'
 			miejsce: Miejsce(9m 8m 0m)
 			rozmiar: 2m
 			obrót: twarz2.obrót
 		)
-		Wyrażenie(
+		Fraza(
 			'przechył 🧭'
 			miejsce: Miejsce(9m 2m)
 			obrót: twarz2.przechylenie
 			rozmiar: 2m
 		)
-		Wyrażenie(
+		Fraza(
 			`/Pokaż kamerze swoją twarz/`
 			miejsce: Miejsce(-6m -12m)
 			rozmiar: 1m

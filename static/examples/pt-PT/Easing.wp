@@ -11,10 +11,10 @@ keyframes: {
 		100%: Pose(desvio: Local(-1m 0m))
 	}
 
-Fase(
+Palco(
 	[
 		Grupo(
-			Rede(4 2 acolchoamentodecélulas: 0.25m)
+			Grelha(4 2 acolchoamentodecélulas: 0.25m)
 			[
 				Frase('direto' tamanho: 0.25m)
 				Frase(

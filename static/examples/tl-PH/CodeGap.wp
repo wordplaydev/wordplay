@@ -6,7 +6,7 @@ Kulang na Kodigo
 ↓ fields
 
 ¶Ang fill function ay gumagawa ng isang solidong bar. Uulitin nito ang emoji ng babae ng counteskes at pagsasamahin ang mga ito sa isang piraso ng teksto na walang puwang, para ang roway mabasa bilang isang tuloy-tuloy na bar sa halip na hiwalay na mga tuldok.¶
-ƒ lagyan(bilang2•#) (bilang2 → []).isalin(ƒ() '👩').sumali(
+ƒ lagyan(bilang2•#) (bilang2 → []).isalin(ƒ() '👩').pagdugtungin(
 		''
 	)
 
@@ -35,10 +35,10 @@ mgaHanayNgOras: (years ⎡?taon2 porsyento⎦ ⊤) → []
 tanawinNgOras: tsart(
 		mgaHanayNgOras.isalin(ƒ(hanay) hanay.taon2)
 		mgaHanayNgOras.isalin(
-			ƒ(hanay2) (hanay2.porsyento ÷ 5).bilog()
+			ƒ(hanay2) (hanay2.porsyento ÷ 5).bilugan()
 		)
 		mgaHanayNgOras.isalin(
-			ƒ(hanay3) (hanay3.porsyento.bilog() → '') + '%'
+			ƒ(hanay3) (hanay3.porsyento.bilugan() → '') + '%'
 		)
 	)
 
@@ -47,7 +47,7 @@ mgaHanayNgLarangan: (fields ⎡?larangan porsyento2⎦ ⊤) → []
 tanawinNgMgaLarangan: tsart(
 		mgaHanayNgLarangan.isalin(ƒ(hanay4) hanay4.larangan)
 		mgaHanayNgLarangan.isalin(
-			ƒ(hanay5) (hanay5.porsyento2 ÷ 5).bilog()
+			ƒ(hanay5) (hanay5.porsyento2 ÷ 5).bilugan()
 		)
 		mgaHanayNgLarangan.isalin(
 			ƒ(hanay6) (hanay6.porsyento2 → '') + '%'
@@ -62,20 +62,20 @@ ngayon: mgaHanayNgBilang[2]
 tsartNgMgaBabae: tsart(
 		['1984' '2022']
 		[
-			(dati.mgaBabae ÷ 2000).bilog()
-			(ngayon.mgaBabae ÷ 2000).bilog()
+			(dati.mgaBabae ÷ 2000).bilugan()
+			(ngayon.mgaBabae ÷ 2000).bilugan()
 		]
 		[dati.mgaBabae → '' ngayon.mgaBabae → '']
 	)
 tsartNgBahagi: tsart(
 		['1984' '2022']
 		[
-			(dati.porsyento ÷ 5).bilog()
-			(ngayon.porsyento ÷ 5).bilog()
+			(dati.porsyento ÷ 5).bilugan()
+			(ngayon.porsyento ÷ 5).bilugan()
 		]
 		[
-			(dati.porsyento.bilog() → '') + '%'
-			(ngayon.porsyento.bilog() → '') + '%'
+			(dati.porsyento.bilugan() → '') + '%'
+			(ngayon.porsyento.bilugan() → '') + '%'
 		]
 	)
 tanawinNgMgaBilang: Grupo(

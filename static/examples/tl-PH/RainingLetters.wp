@@ -10,7 +10,7 @@ bilang2: 100
 sukat2: 20m
 
 ¶Ang amplitude ng mikropono¶
-amps: Dami()
+amps: Lakas()
 
 ¶Ang napiling titik at ang posisyon nito, bilis ng pag-ikot, at kung ito ay nakikita o hindi.¶
 •titik2(titik3•"" x2•#m y2•#m anggulo2•# bilis2•# nakikita•?)

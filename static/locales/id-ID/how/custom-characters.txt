@@ -8,7 +8,7 @@ Kamu bisa menggunakan piksel, persegi, lingkaran, dan jalur.
 Berikan nama, jelaskan karakternya, lalu kamu bisa memakai nama penggunamu dan nama karakter seperti ini:
 
 \
-Phrase(`Lihatlah imajinasiku  @username/charactername !`)
+Frasa(`Lihatlah imajinasiku  @username/charactername !`)
 \
 
  Nama pengguna dan nama karakter itu tidak ada, jadi akan muncul sebagai persegi kosong.

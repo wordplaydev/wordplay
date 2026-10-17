@@ -22,7 +22,7 @@ mgaSimbolo: 'typography'/en'tipografía'/es ÷ ''
 			)
 	)
 
-mgaParirala: gawingRandom() … ∆ Susi() | ∆ Butones() … gawingRandom(
+mgaParirala: gawingRandom() … ∆ Susi() | ∆ Pindutan() … gawingRandom(
 		)
 
 Entablado(

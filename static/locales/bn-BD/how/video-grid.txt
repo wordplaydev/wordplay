@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: ক্যামেরা(width × 1px height × 1px 33ms)
+মঞ্চ([ছবি(colors "what the camera sees" 12m)])
 \
 
  প্রতিটি @Image -এর একটি বর্ণনা দরকার, কারণ যে কেউ দেখতে পায় না, তার কাছে রঙের একটি গ্রিডের নিজে থেকে কোনো কথা নেই।
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m অক্ষরচিহ্ন: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: ক্যামেরা(width × 1px height × 1px 33ms)
+মঞ্চ([ছবি(colors "the camera, drawn with dark and light circles" 12m অক্ষরচিহ্ন: ƒ(color•রঙ) (color.উজ্জ্বলতা < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

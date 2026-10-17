@@ -11,11 +11,11 @@ platzieren: Ort(0m 0m) … ∆ zeit … Ort(
 		)
 deckkraft: 1 … ∆ zeit … Zufällig(0.25 1)
 zeigen: ⊤ … ∆ zeit … ~zeigen
-kürbis: Satzglied(
+kürbis: Phrase(
 		'🎃'
 		Opazität: deckkraft
 		Ort: platzieren
-		Eingabe: Reihenfolge(
+		Eingabe: Abfolge(
 			{
 				0%: Pose(Skala: 1.25 Drehung: -21°)
 				20%: Pose(Skala: 0.75 Drehung: 13°)

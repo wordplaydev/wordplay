@@ -7,42 +7,42 @@ Wyobraźmy sobie, że chcemy zamienić w animację krótką rymowankę dla dziec
 Moglibyśmy stworzyć @Scene , w którym każda linijka jest @Phrase, a ustawiając @Phrase/duration każdej linijki, @Scene przechodziłby dalej, gdy każda fraza się skończy.
 
 \
-Scene([
-  Phrase('Jack be nimble' czastrwania: 1s)
-  Phrase('Jack be quick' czastrwania: 1s)
-  Phrase('Jack jump over the candle stick' czastrwania: 1s)
+Pokaz([
+  Fraza('Jack be nimble' czastrwania: 1s)
+  Fraza('Jack be quick' czastrwania: 1s)
+  Fraza('Jack jump over the candle stick' czastrwania: 1s)
 ])
 \
 
 @Scene poczeka też na @Sequence , aż się skończy. Sprawmy, żeby linijka o świecy podskoczyła!
 
 \
-Scene([
-		Phrase('Jack be nimble' czastrwania: 1s)
-		Phrase('Jack be quick' czastrwania: 1s)
-		Phrase('Jack jump over the candle stick' wstępowanie: Sequence.bounce(czastrwania: 1s))
+Pokaz([
+		Fraza('Jack be nimble' czastrwania: 1s)
+		Fraza('Jack be quick' czastrwania: 1s)
+		Fraza('Jack jump over the candle stick' wstępowanie: Sekwencja.odbićsię(czastrwania: 1s))
 	])
 \
 
 @Scene może też przyjąć @Group tekstu i poczeka, aż cała jego zawartość skończy animację.
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack be nimble')
-		  Phrase('Jack be quick')
+Pokaz([
+		Grupa(Stos() [
+      Fraza('Jack be nimble')
+		  Fraza('Jack be quick')
     ] czastrwania: 2s)
-		Phrase('Jack jump over the candle stick' wstępowanie: Sequence.bounce(czastrwania: 1s))
+		Fraza('Jack jump over the candle stick' wstępowanie: Sekwencja.odbićsię(czastrwania: 1s))
 	])
 \
 
  Czasem rymowanka powinna trwać dalej. @Scene/loop sprawia, że @Scene wraca do swojego pierwszego @Phrase , gdy skończy się ostatni, więc mówi samą siebie w kółko.
 
 \
-Scene([
-		Phrase('Jack be nimble' czastrwania: 1s)
-		Phrase('Jack be quick' czastrwania: 1s)
-		Phrase('Jack jump over the candle stick' czastrwania: 1s)
+Pokaz([
+		Fraza('Jack be nimble' czastrwania: 1s)
+		Fraza('Jack be quick' czastrwania: 1s)
+		Fraza('Jack jump over the candle stick' czastrwania: 1s)
 	] pętla: ⊤)
 \
 

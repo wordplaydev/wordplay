@@ -6,8 +6,8 @@ May ilang paraan tayo para mangyari iyon.
 Maaari nating gamitin @Phrase/offset kasama @Random at @Time para mangyari iyon.
 
 \
-offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('kumusta' offset: Place(offset 0m))
+offset: 0m … ∆ Oras() … Random(-0.1m 0.1m)
+Parirala('kumusta' offset: Lugar(offset 0m))
 \
 
  Ito ay gumagawa ng halagang tinatawag na \offset\ na nagbabago sa isang bagong random na halaga tuwing tumitiktik ang orasan.
@@ -16,11 +16,11 @@ Pagkatapos, ginagamit nito ang offset na iyon para ipakita ang @Phrase na inilip
 Kung gusto nating mas tumpak na kontrolin ang pagyanig, maaari tayong gumamit ng @Sequence para gumawa ng random na animation ng pag-alog na nauulit.
 
 \
-Phrase('kumusta' nagpapahinga: Sequence({
-			0%: Pose(offset: Place(Random(-.2m .2m)))
-			15%: Pose(offset: Place(Random(-.2m .2m)))
-			60%: Pose(offset: Place(Random(-.2m .2m)))
-			75%: Pose(offset: Place(Random(-.2m .2m)))
+Parirala('kumusta' nagpapahinga: Pagkakasunodsunod({
+			0%: Pose(offset: Lugar(Random(-.2m .2m)))
+			15%: Pose(offset: Lugar(Random(-.2m .2m)))
+			60%: Pose(offset: Lugar(Random(-.2m .2m)))
+			75%: Pose(offset: Lugar(Random(-.2m .2m)))
 		} 0.1s))
 \
 

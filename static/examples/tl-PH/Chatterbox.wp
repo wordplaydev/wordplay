@@ -26,7 +26,7 @@ mgaPalit: {
 	}
 ƒ salaminin(mgaSalita3•'')•'' mgaSalita3.nakasegment(' ').isalin(
 		ƒ(salita2•'') mgaPalit{salita2} ?? salita2
-	).sumali(
+	).pagdugtungin(
 		' '
 	)
 
@@ -51,7 +51,7 @@ mgaPalit: {
 						(mgaSalita4 ⌕ ⣿ Aa("because")⣿).haba() > 0 ? 'Iyon ba ang tunay na dahilan?'
 							(mgaSalita4 ⌕ ⣿ Aa(("mother" | "father" | "family" | "brother" | "sister"))⣿).haba(
 							) > 0 ? 'Sabihin mo sa akin ang tungkol sa iyong pamilya.'
-								mgaSalita4.mgadulo('?') ? 'Ako ba ang tinatanong mo? Ano sa tingin mo?'
+								mgaSalita4.nagtatapos('?') ? 'Ako ba ang tinatanong mo? Ano sa tingin mo?'
 									(mgaSalita4 ≈ ⣿ Aa(("hi" | "hello" | "hey")) …⣿) ? 'Kumusta! Ano ang nararamdaman mo ngayon?'
 										[
 											'Sabihin mo pa.'

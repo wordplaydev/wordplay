@@ -5,7 +5,7 @@ MỘT @Phrase Ứng dụng sẽ hiển thị bản dịch phù hợp cho từng 
 Hãy đưa ra @TextLiteral Có nhiều bản dịch, bao gồm cả bản dịch đa ngôn ngữ, và @wordplay sẽ chọn bản dịch phù hợp nhất cho mỗi người xem:
 
 \
-Phrase("hola"/es"Xin chào"/en"Chào quý ông"/es_en)
+Cụmtừ("hola"/es"Xin chào"/en"Chào quý ông"/es_en)
 \
 
  Một người xem chỉ sử dụng tiếng Tây Ban Nha sẽ thấy / xin chào / Một người xem chỉ thích tiếng Anh sẽ thấy... / Xin chào / Một người xem thích cả tiếng Tây Ban Nha và tiếng Anh sẽ thấy... / Chào quý ông / — Phiên bản tiếng Tây Ban Nha pha tiếng Anh.
@@ -15,7 +15,7 @@ Trò chơi chữ ưu tiên sự phù hợp chính xác nhất, vì vậy bản d
 Phiên bản Spanglish được đọc to hoàn toàn bằng tiếng Tây Ban Nha, ngôn ngữ chính của nó. Để mỗi từ được đọc bằng đúng ngôn ngữ của nó, hãy gắn nhãn từng phần riêng rồi ghép chúng lại:
 
 \
-Phrase("hola "/es + "gentleman"/en)
+Cụmtừ("hola "/es + "gentleman"/en)
 \
 
 styling-text

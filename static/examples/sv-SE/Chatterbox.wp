@@ -6,7 +6,7 @@ Pratkvarn
 ¶En rad i samtalet: vem som sa något, och vad de sa.¶
 •rad(talare•'' ord3•'')
 
-meddelande: Chatta()
+meddelande: Chatt()
 
 ¶Innan Chatterbox upprepar dina ord byter den ut pronomen, genom att byta varje ord enligt denna lista: min blir din, och jag blir du. På så sätt blir "jag känner att du hatar mig" till "varför känner du att jag hatar dig?"¶
 byten: {
@@ -24,9 +24,9 @@ byten: {
 		'yours': 'mine'
 		'yourself': 'myself'
 	}
-ƒ spegla(ord4•'')•'' ord4.segmenterade(' ').översätta(
+ƒ spegla(ord4•'')•'' ord4.segmenterade(' ').omvandla(
 		ƒ(ord5•'') byten{ord5} ?? ord5
-	).anslutasigtill(
+	).sammanfoga(
 		' '
 	)
 
@@ -75,11 +75,11 @@ senaste: logg.längd() ≤ 8 ? logg logg.efterföljande(
 			logg.längd() - 7
 		)
 
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Stack('<' 0.5m)
-			senaste.översätta(
+			senaste.omvandla(
 				ƒ(rad2•rad)
 					Fras(
 						rad2.talare + ' ' + rad2.ord3

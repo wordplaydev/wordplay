@@ -8,8 +8,8 @@ Isulat ang kondisyon, tapos ang \?\, tapos ang halagang gagamitin kapag totoo it
 Narito ang isang masayang mukha na nagiging malungkot sa tuwing pipindutin mo ang space bar, at pagkatapos ay babalik muli:
 
 \
-happy: ⊤ … ∆ Key(' ') … ~happy
-Phrase(happy ? '😊' '😢')
+happy: ⊤ … ∆ Susi(' ') … ~happy
+Parirala(happy ? '😊' '😢')
 \
 
  Ang @Reaction nagsisimula \happy\ bilang \⊤\ (totoo), at binabaligtad ito gamit ang \~\ tuwing pinipindot ang space.
@@ -18,8 +18,8 @@ Pagkatapos, ang kondisyonal na \?\ ang siyang pumipili ng tamang mukha.
 Maaari kang pumili mula sa higit sa dalawang bagay gamit ang mga conditional chain:
 
 \
-score: 0 … ∆ Key('isang') … score + 1
-Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+score: 0 … ∆ Susi('isang') … score + 1
+Parirala(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
 \
 
  Pindutin \a\ ilang beses at panoorin ang itlog na napisa at maging sisiw!

@@ -20,7 +20,7 @@ WelchesWort
 					"playing"
 )
 
-key/en,tecla/es,مفتاح/ar: Schlüssel()
+key/en,tecla/es,مفتاح/ar: Tastaturtaste()
 
 ¶When the keyboard state changes, the game state changes.¶/en
 ¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
@@ -33,7 +33,7 @@ state/en,estado/es,حالة/ar•Game: Game(
 		key = 'Esc' ? Game([] words.sortiert(ƒ() Zufällig()) ⊥)
 			(state.status ≠ "playing") & (key = 'Leertaste') ? Game(
 					[]
-					state.übrig.ohneVor()
+					state.übrig.ohneErste()
 					⊤
 				)
 				(state.status = "playing") & (key.Länge() = 1) & ~state.guesses.hat(
@@ -45,7 +45,7 @@ state/en,estado/es,حالة/ar•Game: Game(
 ¶The board is a translation of the secret, accounting for guesses¶/en
 ¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
 ¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
-board/en,tabelro/es,طاولة/ar: Satzglied(
+board/en,tabelro/es,طاولة/ar: Phrase(
 		state.geheimnis → [""].übersetzen(
 			ƒ(buchstabe2•"") ((state.status = "lost") | state.guesses.hat(
 							buchstabe2
@@ -66,14 +66,14 @@ screen/en,cine/es,إظهار/ar:
 		"start": Gruppe(
 			Stapel()
 			[
-				Satzglied(
+				Phrase(
 					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
 					3m
 					Ort: Ort(z: -1m)
 					Eingabe: Pose(Opazität: 0%)
-					Ruhen: Reihenfolge.wiegen(Dauer: 1s)
+					Ruhen: Abfolge.wiegen(Dauer: 1s)
 				)
-				Satzglied(
+				Phrase(
 					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
 				)
 			]
@@ -83,7 +83,7 @@ screen/en,cine/es,إظهار/ar:
 			Stapel()
 			[
 				board
-				Satzglied(
+				Phrase(
 					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
 					Eingabe: Pose(Drehung: 0°)
 					Ruhen: Pose(Drehung: -5°)
@@ -94,8 +94,8 @@ screen/en,cine/es,إظهار/ar:
 		"won": Gruppe(
 			Stapel()
 			[
-				board.Ruhen:Reihenfolge.hüpfen(3m 1s)
-				Satzglied(
+				board.Ruhen:Abfolge.hüpfen(3m 1s)
+				Phrase(
 					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
 				)
 			]
@@ -105,7 +105,7 @@ screen/en,cine/es,إظهار/ar:
 			Stapel()
 			[
 				board
-				Satzglied(
+				Phrase(
 					state.guesses.Länge() = 0 ?
 						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.verbinden(
 							' '
@@ -113,9 +113,9 @@ screen/en,cine/es,إظهار/ar:
 							' '
 						)\"/es"التخمينات \state.guesses.verbinden(' ')\"/ar
 				)
-				Satzglied(
+				Phrase(
 					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
-					Ruhen: Reihenfolge.wiegen(
+					Ruhen: Abfolge.wiegen(
 						2°
 						(state.guessesRemaining ÷ 5) × 1s
 					)

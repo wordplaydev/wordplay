@@ -163,7 +163,7 @@ hợpÂm: [
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp(đệm: 0.5m)
+			XếpDọc(đệm: 0.5m)
 			[
 				bánhKem()
 				Cụmtừ('Chúc Mừng Sinh Nhật' 1.3m)
@@ -171,14 +171,14 @@ Sânkhấu(
 		)
 		ÂmNhạc(
 			[
-				BảnNhạc(giaiĐiệu2 nhạcCụ: NhạcCụ.sáo nhịp: 0.5beats)
-				BảnNhạc(
+				Bè(giaiĐiệu2 nhạcCụ: NhạcCụ.sáo nhịp: 0.5beats)
+				Bè(
 					bèTrầm
 					nhạcCụ: NhạcCụ.đànVĩCầm
 					nhịp: 0.5beats
 					âmLượng: 65%
 				)
-				BảnNhạc(
+				Bè(
 					hợpÂm
 					nhạcCụ: NhạcCụ.đànPiano
 					nhịp: 1beats

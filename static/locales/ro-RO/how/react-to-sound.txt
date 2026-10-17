@@ -5,7 +5,7 @@ Crește personajele cu ajutorul sunetului
 Putem folosi acel număr pentru a controla orice — dimensiunea unui @Phrase, rotația sa, culoarea sa.
 
 \
-Phrase('📣' dimensiune: (Volume() × 5m) + 1m)
+Fraza('📣' dimensiune: (Volum() × 5m) + 1m)
 \
 
  Când e liniște, megafonul este \1m\ înalt. Când țipi, poate crește până la \6m\ înalt.
@@ -13,7 +13,7 @@ Phrase('📣' dimensiune: (Volume() × 5m) + 1m)
 Vrei un soare care se rotește mai repede cu cât ești mai zgomotos?
 
 \
-Phrase('🌞' rotaţie: Volume() × 360°)
+Fraza('🌞' rotaţie: Volum() × 360°)
 \
 
  Încearcă să bați din palme sau să fredonezi și vezi ce se întâmplă.

@@ -93,19 +93,19 @@ pokazujące: wersy.znajdować(
 	)
 
 ¶Efekty, po jednym dla każdego rodzaju.¶
-ƒ powiedz(l3•linia)•Wyrażenie
+ƒ powiedz(l3•linia)•Fraza
 	(l3.rodzaj2 = 2) ?
-		Wyrażenie(
+		Fraza(
 			l3.słowa2
 			obrót: 5°
 			wstępowanie: Poza(nieprzezroczystość: 0 obrót: 0°)
 		)
-		(l3.rodzaj2 = 3) ? Wyrażenie(
+		(l3.rodzaj2 = 3) ? Fraza(
 				l3.słowa2
 				wstępowanie: Poza(skala: 2)
 			)
 			(l3.rodzaj2 = 4) ?
-				Wyrażenie(
+				Fraza(
 					l3.słowa2
 					kolor: Kolor(50% 136 337°)
 					wstępowanie: Sekwencja(
@@ -117,7 +117,7 @@ pokazujące: wersy.znajdować(
 						czastrwania: 3s
 					)
 				)
-				(l3.rodzaj2 = 5) ? Wyrażenie(
+				(l3.rodzaj2 = 5) ? Fraza(
 						l3.słowa2
 						wstępowanie: Sekwencja.potrząsnąć(
 							0.75s
@@ -125,7 +125,7 @@ pokazujące: wersy.znajdować(
 						)
 					)
 					(l3.rodzaj2 = 6) ?
-						Wyrażenie(
+						Fraza(
 							l3.słowa2
 							wstępowanie: Sekwencja(
 								{
@@ -138,7 +138,7 @@ pokazujące: wersy.znajdować(
 						)
 						(l3.rodzaj2 = 7) ?
 							¶Działa tak, jak mówi jego nazwa: zaczyna z daleka i prawie z niczego, w ćwierć sekundy przekracza swój rozmiar, a potem lekko odbija się do tyłu i się uspokaja. To przesunięcie z sprawia, że wygląda, jakby leciało prosto na ciebie, a nie tylko rosło. Scena skaluje rzeczy według głębi, więc ruch w stronę widza sam je powiększa.¶
-							Wyrażenie(
+							Fraza(
 								l3.słowa2
 								1.5m
 								wstępowanie: Sekwencja(
@@ -166,11 +166,11 @@ pokazujące: wersy.znajdować(
 								)
 								spoczynkowy: Sekwencja.potrząsnąć(0.4s)
 							)
-							(l3.rodzaj2 = 8) ? Wyrażenie(l3.słowa2 0.7m)
-								Wyrażenie(l3.słowa2)
+							(l3.rodzaj2 = 8) ? Fraza(l3.słowa2 0.7m)
+								Fraza(l3.słowa2)
 
 ¶Gdy nadasz linijce nazwę z jej własnych słów, staje się ona osobnym wyjściem. Wtedy scena wie, że linijka zniknęła, i może odtworzyć jej @Pose wyjścia. Bez nazwy wszystkie linijki tego samego rodzaju byłyby jednym wyjściem, a słowa zmieniałyby się bez znikania.¶
-ƒ zaśpiewane(l4•linia)•Wyrażenie (
+ƒ zaśpiewane(l4•linia)•Fraza (
 		powiedziane: powiedz(l4)
 		((powiedziane.nazwa:l4.słowa2).wychodzenie:Poza(
 				nieprzezroczystość: 0
@@ -182,8 +182,8 @@ glify2: ['♩' '♪' '♫' '♬']
 glif: glify2[((licznik % glify2.długość()) ?? 0) + 1]
 
 ¶Przez większość piosenki scena nie ma słów: w długim wstępie, w przerwach między linijkami i w zakończeniu. Zamiast ciemności pokazuje wtedy rytm. Znak ma własną nazwę, więc każdy pojawia się i znika osobno.¶
-ƒ nuty2()•Wyrażenie
-	Wyrażenie(
+ƒ nuty2()•Fraza
+	Fraza(
 		glif
 		2m
 		nazwa: glif
@@ -194,7 +194,7 @@ glif: glify2[((licznik % glify2.długość()) ?? 0) + 1]
 	)
 
 ¶Zawartość @Stage nie może zawierać ø. Gdy nie ma słów, scena pokazuje rytm zamiast niczego.¶
-ƒ słowa3()•Wyrażenie
+ƒ słowa3()•Fraza
 	pokazujące•ø ? nuty2() zaśpiewane(pokazujące)
 
 ¶Partytura: każda pożyczona ścieżka, grana w tempie, które podaje tekst piosenki. Każda nuta ma własną długość i głośność, więc nic tu nie potrzebuje rytmu. Samo @Music/tempo decyduje, jak szybko to wszystko gra.¶

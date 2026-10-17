@@ -7,7 +7,7 @@ Hier siehst du eine Szene durch Wasser.
 
 \
 Bühne(
-	[Satzglied('🐠') Satzglied('🌿' Ort: Ort(1m -1m))]
+	[Phrase('🐠') Phrase('🌿' Ort: Ort(1m -1m))]
 	Effekte: [Welle(0.15m) Tönung(Farbe(55% 45 220°) 70%) Dunst(40% Farbe(70% 30 200°))]
 )
 \
@@ -20,7 +20,7 @@ Hier ist ein alter Film: @Grade nimmt die Farbe weg, dann @Damage, @Grain und @F
 
 \
 Bühne(
-	[Satzglied('THE END')]
+	[Phrase('THE END')]
 	Effekte: [Farbkorrektur(Kontrast: 130% Sättigung: 0%) Schaden(70% 50%) Körnung(25%) Flackern(15% 2) Vignette(60%)]
 )
 \
@@ -29,7 +29,7 @@ Bühne(
 
 \
 Bühne(
-	[Satzglied('channel 3')]
+	[Phrase('channel 3')]
 	Effekte: [Bildzeilen(40% Tempo: 1) Körnung(50% Größe: 2) Flackern(20%)]
 )
 \
@@ -44,17 +44,17 @@ Ihre Eingaben werden zu den eigenen Einstellungen des Looks. Dieser hier wird tr
 	Unschärfe(0.03m · depth)
 ]
 
-Bühne([Satzglied('🐠')] Effekte: underwater(80%))
+Bühne([Phrase('🐠')] Effekte: underwater(80%))
 \
 
  Ein Look kann sich auch mit dem Zustand eines Spiels ändern.
 Hier wird die Bühne an den Rändern unscharf und dunkel, wenn die Spielerin oder der Spieler nur noch ein Leben hat, und wird wieder klar, wenn es mehr sind.
 
 \
-lives: 3 … ∆ Schlüssel() … lives - 1
+lives: 3 … ∆ Tastaturtaste() … lives - 1
 
 Bühne(
-	[Satzglied(lives → '')]
+	[Phrase(lives → '')]
 	Effekte: lives < 2 ? [Unschärfe(0.05m) Vignette(70% Farbe(30% 80 30°))] []
 )
 \
@@ -64,7 +64,7 @@ Bühne(
 Die ganze Bühne wie bei einem Erdbeben zu schütteln ist gar kein Effekt: Eine @Stage kann sich wie jede andere Ausgabe bewegen, also gib ihm eine @Sequence geben.
 
 \
-Bühne([Satzglied('🏠')] Ruhen: Reihenfolge.schütteln(0.5s zählen: 4x))
+Bühne([Phrase('🏠')] Ruhen: Abfolge.schütteln(0.5s zählen: 4x))
 \
 
  Manche Effekte bewegen sich schnell. Wenn jemand sein Gerät gebeten hat, Bewegung zu verringern, bleibt jeder Effekt stehen.

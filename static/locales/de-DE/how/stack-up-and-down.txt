@@ -4,7 +4,7 @@ Wenn ein @Row steht für nebeneinander, dann ein @Stack ist von oben nach unten.
 @Stack Setzt jedes Zeichen unter das vorhergehende, wie einen Turm.
 
 \
-Group(Stack() [
+Gruppe(Stapel() [
     Phrase('eins')
     Phrase('zwei')
     Phrase('drei')
@@ -15,7 +15,7 @@ Group(Stack() [
 Versuch, alles am linken Rand auszurichten:
 
 \
-Group(Stack('<' 0.25m) [
+Gruppe(Stapel('<' 0.25m) [
     Phrase('🐣 kleines')
     Phrase('🐥 mittel')
     Phrase('🐔 groß')

@@ -4,13 +4,13 @@ Totul despre un  @Music  poate fi decis în timp ce se redă, inclusiv cine îl 
 
 @Choice  dă înapoi \name\ oricărei ieșiri selectabile alese de public, așa că o condiție este suficientă pentru a transforma asta într-un instrument:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' selectabil nume: 'pian')
-				Phrase('🎻' selectabil nume: 'vioară')
+\picked: Alegere()
+Estradă([
+		Grup(Rând() [
+				Fraza('🎹' selectabil nume: 'pian')
+				Fraza('🎻' selectabil nume: 'vioară')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'vioară') ? Instrument.violin Instrument.piano))
+		Muzică(Pistă([1 3 5 6 5 3] instrument: (picked = 'vioară') ? Instrument.vioară Instrument.pian))
 	])\
 
 Cele două fraze selectabile sunt cele care fac ca asta să funcționeze —  @Choice  nu are nimic de citit dacă ceva de pe scenă nu este \selectabil: ⊤\.
@@ -19,18 +19,18 @@ Două instrumente încap într-o singură condiție. O paletă întreagă nu în
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' Instrument.pian)
+		Voice('🎺' Instrument.trompetă)
+		Voice('🔔' Instrument.clopoțel)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: Alegere()
+found: voices.găsi(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectabil nume: voice.icon))
+Estradă([
+		Grup(Rând() [
+				:voices.transformă(ƒ(voice•Voice) Fraza(voice.icon selectabil nume: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Muzică(Pistă([1 3 5 6 5 3] instrument: current.sound))
 	])\
 
 Adăugarea unei a patra voci este acum o singură linie, iar butonul apare de la sine. Observă protecția \found•ø ?\:  @List/find  dă înapoi \ø\ când nimic nu se potrivește, ceea ce se întâmplă înainte ca cineva să fi ales — iar valoarea de rezervă trebuie să fie un întreg \🎙\, pentru că asta este ce \current\ promite să fie.

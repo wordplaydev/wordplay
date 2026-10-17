@@ -12,16 +12,16 @@ Coba-coba saja dan lihat apa yang bisa kamu buat!
 ¶Catatan: Lihat galeri untuk proyek lainnya. <contoh@https://wordplay.dev/project/example-Layers?play> tentang penumpukan gambar.¶
 
 
-Stage(
+Panggung(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotasi: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotasi: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotasi: -25°)
+		Bangun(Lingkaran(3m 0m 1m 0m))
+		Bangun(Poligon(2m 3 0m -12m 0m) rotasi: -30°)
+		Bangun(Poligon(7m 6 0m -6m 0m))
+		Bangun(Persegipanjang(-11m -9m 11m -12m 10m) rotasi: 25°)
+		Bangun(Persegipanjang(-11m -9m 11m -12m 10m) rotasi: -25°)
 
 	]
-	tempat: Place(0m 10m -30m)
+	tempat: Tempat(0m 10m -30m)
 )
 \
 

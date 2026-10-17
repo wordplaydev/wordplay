@@ -4,14 +4,14 @@ Postacie mogą mieć animację odpoczynku, która powtarza się, gdy się nie po
 
 Na przykład, sprawmy, aby ten kot trochę zatańczył, obracając go i przesuwając:
 
-\Phrase('🐈' spoczynkowy: Sequence({
-			0%: Pose(obrót: 0°)
-			15%: Pose(obrót: 15°)
-			30%: Pose(obrót: 0°)
-			45%: Pose(zrównoważyć: Place(-0.25m))
-			60%: Pose(zrównoważyć: Place(0.25m))
-			75%: Pose(zrównoważyć: Place(-0.25m))
-			90%: Pose(zrównoważyć: Place(0m))
+\Fraza('🐈' spoczynkowy: Sekwencja({
+			0%: Poza(obrót: 0°)
+			15%: Poza(obrót: 15°)
+			30%: Poza(obrót: 0°)
+			45%: Poza(zrównoważyć: Miejsce(-0.25m))
+			60%: Poza(zrównoważyć: Miejsce(0.25m))
+			75%: Poza(zrównoważyć: Miejsce(-0.25m))
+			90%: Poza(zrównoważyć: Miejsce(0m))
 		} 2s))\
 
 W tym przykładzie użyto @Sequence różnego @Pose .

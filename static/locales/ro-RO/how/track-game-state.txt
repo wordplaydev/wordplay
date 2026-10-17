@@ -14,12 +14,12 @@ De exemplu, să ne imaginăm un joc simplu în care scrii cuvinte secrete într-
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['pisică' 'câine'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['pisică' 'câine'] 0) … state.secrets.are(Chat()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("ai câștigat!")]
-        [ Group(Stack() [ Phrase("ghicește cuvintele mele secrete") Phrase(`\state.secrets.length() - state.points\ mai multe secrete`)])]
+Estradă(
+    state.points = state.secrets.lungime() ? 
+        [ Fraza("ai câștigat!")]
+        [ Grup(Stivă() [ Fraza("ghicește cuvintele mele secrete") Fraza(`\state.secrets.length() - state.points\ mai multe secrete`)])]
 )
 \
 

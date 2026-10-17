@@ -88,19 +88,19 @@ gösteriyor: satırlar2.bulmak(
 	)
 
 ¶İşlemler, her tür için bir tane.¶
-ƒ söyle(l3•satır)•İfadeetmek
+ƒ söyle(l3•satır)•Yazı
 	(l3.tür2 = 2) ?
-		İfadeetmek(
+		Yazı(
 			l3.kelimeler2
 			rotasyon: 5°
 			giriş: Poz(opaklık: 0 rotasyon: 0°)
 		)
-		(l3.tür2 = 3) ? İfadeetmek(
+		(l3.tür2 = 3) ? Yazı(
 				l3.kelimeler2
 				giriş: Poz(ölçek: 2)
 			)
 			(l3.tür2 = 4) ?
-				İfadeetmek(
+				Yazı(
 					l3.kelimeler2
 					renk: Renk(50% 136 337°)
 					giriş: Sekans(
@@ -112,12 +112,12 @@ gösteriyor: satırlar2.bulmak(
 						süre: 3s
 					)
 				)
-				(l3.tür2 = 5) ? İfadeetmek(
+				(l3.tür2 = 5) ? Yazı(
 						l3.kelimeler2
 						giriş: Sekans.sallamak(0.75s saymak: 5x)
 					)
 					(l3.tür2 = 6) ?
-						İfadeetmek(
+						Yazı(
 							l3.kelimeler2
 							giriş: Sekans(
 								{
@@ -130,7 +130,7 @@ gösteriyor: satırlar2.bulmak(
 						)
 						(l3.tür2 = 7) ?
 							¶Adını taşıdığı şey gibi ateşlenir: uzaktan ve neredeyse hiçbir şeyden başlayıp, çeyrek saniye içinde kendi boyutunu aşar, sonra yerleşirken küçük bir geri sıçrama yapar. Z ofseti, onun sadece büyüyormuş gibi değil, sana doğru geliyormuş gibi görünmesini sağlar — sahne derinliğe göre ölçeklendiği için, izleyiciye doğru hareket kendiliğinden onu büyütür.¶
-							İfadeetmek(
+							Yazı(
 								l3.kelimeler2
 								1.5m
 								giriş: Sekans(
@@ -158,14 +158,14 @@ gösteriyor: satırlar2.bulmak(
 								)
 								dinlenme: Sekans.sallamak(0.4s)
 							)
-							(l3.tür2 = 8) ? İfadeetmek(
+							(l3.tür2 = 8) ? Yazı(
 									l3.kelimeler2
 									0.7m
 								)
-								İfadeetmek(l3.kelimeler2)
+								Yazı(l3.kelimeler2)
 
 ¶Bir satırı kendi kelimelerine göre adlandırmak, onu kendine ait bir çıktı yapar; böylece sahne, satırın ayrıldığını bilir ve kendi çıkış @Pose'ını oynatabilir. İsim olmadan, aynı türden her satır aynı çıktı olurdu ve kelimeler hiç solmadan yer değiştirirdi.¶
-ƒ söylenen(l4•satır)•İfadeetmek (
+ƒ söylenen(l4•satır)•Yazı (
 		denilen: söyle(l4)
 		((denilen.isim:l4.kelimeler2).çıkış:Poz(opaklık: 0)).süre:0.75s
 	)
@@ -175,8 +175,8 @@ harfler2: ['♩' '♪' '♫' '♬']
 harfIşareti: harfler2[((sayaç % harfler2.uzunluk()) ?? 0) + 1]
 
 ¶Sahne, şarkının çoğu kısmında kelime içermez — uzun giriş, satırlar arasındaki boşluklar, çıkış bölümü — bu yüzden kararmak yerine ritmi gösterir. Simge kendi adını taşır, böylece her biri geldiğinde girer ve ayrılır.¶
-ƒ notalar2()•İfadeetmek
-	İfadeetmek(
+ƒ notalar2()•Yazı
+	Yazı(
 		harfIşareti
 		2m
 		isim: harfIşareti
@@ -187,7 +187,7 @@ harfIşareti: harfler2[((sayaç % harfler2.uzunluk()) ?? 0) + 1]
 	)
 
 ¶Bir @Stage'ın içeriği ø tutamaz, bu yüzden kelime olmayan yerlerde sahne hiçbir şey göstermek yerine ritmi gösterir.¶
-ƒ kelimeler3()•İfadeetmek
+ƒ kelimeler3()•Yazı
 	gösteriyor•ø ? notalar2() söylenen(gösteriyor)
 
 ¶Partisyon: ödünç alınan her parça, sözlerin saydığı tempoda çalınır. Her nota kendi uzunluğunu ve ses düzeyini taşır, bu yüzden burada hiçbir şeyin ritme ihtiyacı yoktur — her şeyin ne kadar hızlı gideceğine tek başına @Music/tempo karar verir.¶

@@ -13,11 +13,11 @@ Tula
 tula: [
 		linya(
 			'Ang file ng kompyuter'
-			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+			Pose(kalabuan: 0% offset: Lugar(y: -5m))
 		)
 		linya(
 			'na kung saan'
-			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+			Pose(kalabuan: 0% offset: Lugar(y: -5m))
 		)
 		linya('wala akong maalala' Pose(pagikot: 10°))
 		linya(
@@ -33,42 +33,42 @@ tula: [
 		)
 		linya(
 			'tingnan'
-			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+			Pose(kalabuan: 0% offset: Lugar(y: -5m))
 		)
 		linya(
 			'mag-scroll pa pababa'
-			Pose(kalabuan: 0% offset: Lugar(taon: 5m))
+			Pose(kalabuan: 0% offset: Lugar(y: 5m))
 		)
 		linya(
 			'ang eksena'
-			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+			Pose(kalabuan: 0% offset: Lugar(y: -5m))
 		)
 		linya(
 			'nananatiling maliwanag ang ilaw sa likod ngunit walang laman'
-			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+			Pose(kalabuan: 0% offset: Lugar(y: -5m))
 			Kulay(0 0 0°)
 			Kulay(100 100 0°)
 		)
 		linya(
 			"kaya't nakikita ko muli ang aking sarili"
-			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+			Pose(kalabuan: 0% offset: Lugar(y: -5m))
 		)
 		linya(
 			'puno ng pag-asa ngunit walang kabuluhan'
-			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+			Pose(kalabuan: 0% offset: Lugar(y: -5m))
 		)
 		linya(
 			'isang misteryo'
-			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+			Pose(kalabuan: 0% offset: Lugar(y: -5m))
 		)
 		linya(
 			'eksakto gaya ng ginawa ko dati'
-			Pose(kalabuan: 0% offset: Lugar(taon: -5m))
+			Pose(kalabuan: 0% offset: Lugar(y: -5m))
 		)
 		linya('noong Agosto 19, 2010, 11:08 ng umaga' Pose())
 	]
 
-bilang2: 1 … ∆ Butones() | ∆ Susi() …
+bilang2: 1 … ∆ Pindutan() | ∆ Susi() …
 		(bilang2 = (tula.haba() + 1)) ? 1 bilang2 + 1
 linya2: tula[bilang2]
 

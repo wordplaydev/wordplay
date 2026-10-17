@@ -20,7 +20,7 @@ KataApa
 					"playing"
 )
 
-key/en,tecla/es,مفتاح/ar: Kunci()
+key/en,tecla/es,مفتاح/ar: Tuts()
 
 ¶When the keyboard state changes, the game state changes.¶/en
 ¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
@@ -50,11 +50,11 @@ state/en,estado/es,حالة/ar•Game: Game(
 ¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
 ¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
 board/en,tabelro/es,طاولة/ar: Frasa(
-		state.rahasia → [""].menerjemahkan(
+		state.rahasia → [""].petakan(
 			ƒ(huruf2•"") ((state.status = "lost") | state.guesses.memiliki(
 							huruf2
 						)) ? huruf2 "."
-		).bergabung(
+		).gabungkan(
 			' '
 		)
 		2m
@@ -111,11 +111,11 @@ screen/en,cine/es,إظهار/ar:
 				board
 				Frasa(
 					state.guesses.panjang() = 0 ?
-						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.bergabung(
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.gabungkan(
 							' '
-						)\"/en"Suposiciones: \state.guesses.bergabung(
+						)\"/en"Suposiciones: \state.guesses.gabungkan(
 							' '
-						)\"/es"التخمينات \state.guesses.bergabung(' ')\"/ar
+						)\"/es"التخمينات \state.guesses.gabungkan(' ')\"/ar
 				)
 				Frasa(
 					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
@@ -132,7 +132,7 @@ tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Berapa banyak uang jajanmu yang sudah terpakai, dari 0 saat semuanya masih bisa dimainkan hingga 1 saat tidak ada yang tersisa. Rahasianya kosong sebelum ronde pertama, jadi pembagiannya dijaga agar tidak membagi dengan nol.¶
 jumlahMaksimalTebakan: state.rahasia.panjang() × 3
-tekanan: (jumlahMaksimalTebakan = 0) ? 0 ((1 - (state.guessesRemaining ÷ jumlahMaksimalTebakan)).limit(0 1))
+tekanan: (jumlahMaksimalTebakan = 0) ? 0 ((1 - (state.guessesRemaining ÷ jumlahMaksimalTebakan)).batas(0 1))
 
 ¶Merenung di 54 ketukan per menit, mendesak di 120, dan setiap tebakan menggerakkannya sedikit. Mengubah tempo menyambung di ketukan berikutnya, bukan mulai dari awal, jadi perulangan tetap pada tempatnya dan hanya condong ke depan — drum pelan itu ada agar condongan itu bisa terdengar, karena perubahan tempo di bawah nada panjang sulit dirasakan.¶
 puzzleMusic: Musik(

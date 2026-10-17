@@ -6,15 +6,15 @@ Trou dans le code
 ↓ fields
 
 ¶La fonction fill crée une barre pleine. Elle répète l'émoji de femme count fois et les assemble en un seul texte, sans espace, pour que la rangée forme une seule barre continue et non des points séparés.¶
-ƒ remplissage(compte2•#) (compte2 → []).traduire(ƒ() '👩').rejoindre(
+ƒ remplissage(compte2•#) (compte2 → []).transformer(ƒ() '👩').joindre(
 		''
 	)
 
 ¶La fonction chart dessine un graphique à barres à partir de trois listes qui se correspondent : une étiquette, une longueur de barre en émojis et une valeur. Chaque barre est une rangée d'une pile alignée à gauche, donc toutes les barres commencent au même bord et on peut comparer directement leurs longueurs. L'étiquette et la valeur se placent au bout de chaque barre, sur la même rangée, ce qui les garde alignées avec leur barre.¶
 ƒ graphique(étiquettes•[''] unités•[#] valeurs•[''])
 	Groupe(
-		Empiler('<' rembourrage: 0.2m)
-		unités.traduire(
+		Pile('<' rembourrage: 0.2m)
+		unités.transformer(
 			ƒ(u•# i•#)
 				Groupe(
 					Rangée('|' rembourrage: 0.3m)
@@ -33,23 +33,23 @@ Trou dans le code
 ¶Vue 1 — « La hausse et la baisse ». Pour chaque année des données, nous dessinons une barre dont la longueur est le pourcentage de diplômes d'informatique obtenus par des femmes. Chaque émoji de femme représente environ 5 pour cent, donc nous divisons le pourcentage par 5 pour obtenir la longueur de la barre.¶
 lignesDeTemps: (years ⎡?année2 pourcentage⎦ ⊤) → []
 vueDuTemps: graphique(
-		lignesDeTemps.traduire(ƒ(rangée) rangée.année2)
-		lignesDeTemps.traduire(
-			ƒ(rangée2) (rangée2.pourcentage ÷ 5).rond()
+		lignesDeTemps.transformer(ƒ(rangée) rangée.année2)
+		lignesDeTemps.transformer(
+			ƒ(rangée2) (rangée2.pourcentage ÷ 5).arrondir()
 		)
-		lignesDeTemps.traduire(
-			ƒ(rangée3) (rangée3.pourcentage.rond() → '') + '%'
+		lignesDeTemps.transformer(
+			ƒ(rangée3) (rangée3.pourcentage.arrondir() → '') + '%'
 		)
 	)
 
 ¶Vue 2 — « Un domaine à contre-courant ». Nous comparons la part des femmes dans différents domaines d'études pour une année récente. Les rangées sont déjà classées de celui qui compte le plus de femmes à celui qui en compte le moins, donc l'informatique se retrouve en bas du graphique.¶
 lignesDeDomaines: (fields ⎡?champ pourcentage2⎦ ⊤) → []
 vueDesDomaines: graphique(
-		lignesDeDomaines.traduire(ƒ(rangée4) rangée4.champ)
-		lignesDeDomaines.traduire(
-			ƒ(rangée5) (rangée5.pourcentage2 ÷ 5).rond()
+		lignesDeDomaines.transformer(ƒ(rangée4) rangée4.champ)
+		lignesDeDomaines.transformer(
+			ƒ(rangée5) (rangée5.pourcentage2 ÷ 5).arrondir()
 		)
-		lignesDeDomaines.traduire(
+		lignesDeDomaines.transformer(
 			ƒ(rangée6) (rangée6.pourcentage2 → '') + '%'
 		)
 	)
@@ -62,27 +62,27 @@ maintenant: lignesDeComptage[2]
 graphiqueDesFemmes: graphique(
 		['1984' '2022']
 		[
-			(ancien.femmes ÷ 2000).rond()
-			(maintenant.femmes ÷ 2000).rond()
+			(ancien.femmes ÷ 2000).arrondir()
+			(maintenant.femmes ÷ 2000).arrondir()
 		]
 		[ancien.femmes → '' maintenant.femmes → '']
 	)
 graphiqueDesParts: graphique(
 		['1984' '2022']
 		[
-			(ancien.pourcentage ÷ 5).rond()
-			(maintenant.pourcentage ÷ 5).rond()
+			(ancien.pourcentage ÷ 5).arrondir()
+			(maintenant.pourcentage ÷ 5).arrondir()
 		]
 		[
-			(ancien.pourcentage.rond() → '') + '%'
-			(maintenant.pourcentage.rond() → '') + '%'
+			(ancien.pourcentage.arrondir() → '') + '%'
+			(maintenant.pourcentage.arrondir() → '') + '%'
 		]
 	)
 vueDesComptages: Groupe(
 		Rangée('<' rembourrage: 1.5m)
 		[
 			Groupe(
-				Empiler('|' rembourrage: 0.3m)
+				Pile('|' rembourrage: 0.3m)
 				[
 					Phrase(
 						`/Femmes diplômées en informatique/`
@@ -92,7 +92,7 @@ vueDesComptages: Groupe(
 				]
 			)
 			Groupe(
-				Empiler('|' rembourrage: 0.3m)
+				Pile('|' rembourrage: 0.3m)
 				[
 					Phrase(
 						`/Leur part de tous les diplômes d'informatique/`
@@ -160,7 +160,7 @@ piedDePage:
 Scène(
 	[
 		Groupe(
-			Empiler('|' rembourrage: 0.4m)
+			Pile('|' rembourrage: 0.4m)
 			[
 				Phrase(
 					`ÉCART DE CODE`

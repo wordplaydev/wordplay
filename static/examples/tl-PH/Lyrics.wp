@@ -54,7 +54,7 @@ Bawat tinig ng arrangement ay nakatira sa sariling pinagmulan, kaya walang isang
 
 tibok2: Kumpas()
 ¶Ito ang tanging orasan sa programa. Ang @Beat ay bumibilang mula sa zero hanggang magsimula ang musika, kaya maaari itong basahin agad.¶
-bilang2: tibok2.bilangin
+bilang2: tibok2.bilang
 
 ¶Isang linya: ang mga salita, ang tibok kung saan ito kinakanta, gaano ito tumatagal, at kung ano ang dapat na hitsura nito. Bawat simula ay ang unang tibok ng isang parirala sa saxophone na nagdadala ng boses, at bawat hawak ay nauubos bago magsimula ang susunod — kaya walang linya na humahawak nang higit sa limang tibok, na sa bilis na ito ay tatlo at kalahating segundo na. Ang ilan sa tinutugtog ng saxophone ay walang dalang salita: isang sumasagot na parirala pagkatapos ng karamihan sa mga kalahati ng isang taludtod (mga tibok 54, 78, at 146), isang buntot ng mahabang mga tono pagkatapos ng /car/ at pagkatapos ng bawat /burst/, at ang paglagay ng linya sa isa sa mga iyon ang dahilan kung bakit tumatakbo nang maaga ang liriko. Ang sumasagot na parirala sa 169.75 ang tanging pagbubukod, at sinasabi ito ng melodiya: ito ang parehong anim na tono na may pickup sa unahan, na kung saan lumalago ang isang parirala kapag may pantig na dapat lapatan.¶
 •linya(mgaSalita2•'' simulan2•# hawak•# uri2•#)
@@ -146,7 +146,7 @@ nagpapakita: mgaLinya.hanapin(
 						l3.mgaSalita2
 						pagpasok: Pagkakasunodsunod.iling(
 							0.75s
-							bilangin: 5x
+							bilang: 5x
 						)
 					)
 					(l3.uri2 = 6) ?

@@ -3,8 +3,8 @@ Genlik
 ===
 ¶Mikrofonunun ses düzeyine göre parlayıp sönen bir nokta sırası.¶
 
-genlikler•[#]: ←← 10 Hacim()
-gör: genlikler.tercümeetmek(
-		ƒ(genlik•#) İfadeetmek("⚫" opaklık: genlik boyut: 10m)
+genlikler•[#]: ←← 10 SesSeviyesi()
+gör: genlikler.dönüştür(
+		ƒ(genlik•#) Yazı("⚫" opaklık: genlik boyut: 10m)
 	)
 Sahne([Grup(Sıra() gör)] yer: Yer(0m 0m -50m))

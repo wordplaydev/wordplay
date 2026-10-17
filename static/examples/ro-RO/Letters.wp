@@ -14,7 +14,7 @@ celMaiRecent•['']:
 
 Grup(
 	Grilă(5 5 0.25m 1m 1m)
-	celMaiRecent.traduce(
+	celMaiRecent.transformă(
 		ƒ(literă•"" index2•#)
 			Fraza(
 				literă

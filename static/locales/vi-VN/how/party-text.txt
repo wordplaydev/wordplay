@@ -6,13 +6,13 @@ Ký tự đầu tiên nhận tư thế đầu tiên, ký tự thứ hai nhận t
 Đây là một dòng chữ tiệc tùng, với ba màu thay phiên nhau:
 
 \
-Phrase(
+Cụmtừ(
 	'party time!'
 	khuônmặt: 'Luckiest Guy'
 	tưThế: [
-		Pose(màusắc: Color(25% 70 250°))
-		Pose(màusắc: Color(50% 80 300°))
-		Pose(màusắc: Color(58% 90 60°))
+		Tưthế(màusắc: Màusắc(25% 70 250°))
+		Tưthế(màusắc: Màusắc(50% 80 300°))
+		Tưthế(màusắc: Màusắc(58% 90 60°))
 	]
 )
 \
@@ -23,12 +23,12 @@ Các màu này khác nhau cả về độ sáng lẫn sắc độ, nên những 
 Tư thế làm được nhiều hơn là đổi màu. Mỗi ký tự có thể nghiêng, to lên, mờ đi và di chuyển quanh tâm của nó, nên ta có thể làm cho các chữ cái nảy lên:
 
 \
-Phrase(
+Cụmtừ(
 	'bounce'
 	khuônmặt: 'Luckiest Guy'
 	tưThế: [
-		Pose(màusắc: Color(25% 70 250°) xoay: -10° bùlại: Place(0m 0.1m))
-		Pose(màusắc: Color(58% 90 60°) xoay: 10° độmờđục: 0.6)
+		Tưthế(màusắc: Màusắc(25% 70 250°) xoay: -10° bùlại: VịTrí(0m 0.1m))
+		Tưthế(màusắc: Màusắc(58% 90 60°) xoay: 10° độmờđục: 0.6)
 	]
 )
 \
@@ -37,14 +37,14 @@ Phrase(
 Bức thư tống tiền này chọn một độ nghiêng mới mỗi một phần tư giây:
 
 \
-tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
-Phrase(
+tilt: 0° … ∆ Thờigian(250ms) … Ngẫunhiên(-15° 15°)
+Cụmtừ(
 	`*ransom* /note/`
 	khuônmặt: 'Courier Prime'
 	tưThế: [
-		Pose(xoay: tilt bùlại: Place(0m 0.05m))
-		Pose(xoay: -tilt tỉlệ: 1.2)
-		Pose(xoay: tilt ÷ 2 bùlại: Place(0m -0.05m))
+		Tưthế(xoay: tilt bùlại: VịTrí(0m 0.05m))
+		Tưthế(xoay: -tilt tỉlệ: 1.2)
+		Tưthế(xoay: tilt ÷ 2 bùlại: VịTrí(0m -0.05m))
 	]
 )
 \

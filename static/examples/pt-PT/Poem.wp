@@ -71,12 +71,12 @@ poema: [
 		linha('em 19 de agosto de 2010, às 11h08' Pose())
 	]
 
-número2: 1 … ∆ Botão() | ∆ Chave() …
+número2: 1 … ∆ Botão() | ∆ Tecla() …
 		(número2 = (poema.comprimento() + 1)) ? 1 número2 + 1
 linha2: poema[número2]
 
 número2 ≤ poema.comprimento() ?
-	Fase(
+	Palco(
 		[
 			Frase(
 				linha2.texto2
@@ -89,7 +89,7 @@ número2 ≤ poema.comprimento() ?
 		fundo: linha2.trás
 		descansando: Pose(cor: linha2.frente)
 	)
-	Fase(
+	Palco(
 		[
 			Grupo(
 				Monte()

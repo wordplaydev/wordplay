@@ -23,7 +23,7 @@ Groupe(
 	Rangée()
 	[
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase('Minou')
 				Phrase('Chat' aurepos: zrebond)
@@ -36,7 +36,7 @@ Groupe(
 			]
 		)
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase('Salut')
 				Phrase('Bonjour')

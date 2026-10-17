@@ -8,13 +8,13 @@ możemy użyć liczby w @Sequence i wybrać, ile razy ma się powtórzyć zestaw
 oto piłka do koszykówki, która podskakuje w górę i w dół dwa razy. 
 
 \
-Stage([
-	Phrase('🏀' wstępowanie: Sequence({
-				0%: Pose(zrównoważyć: Place(y: 0.25m))
-				25%: Pose(zrównoważyć: Place(y: 0m))
-				50%: Pose(zrównoważyć: Place(y: -0.25m))
-				75%: Pose(zrównoważyć: Place(y: 0m))
-				100%: Pose(zrównoważyć: Place(y: 0.25m))} liczyć:2x czastrwania:2s))
+Scena([
+	Fraza('🏀' wstępowanie: Sekwencja({
+				0%: Poza(zrównoważyć: Miejsce(y: 0.25m))
+				25%: Poza(zrównoważyć: Miejsce(y: 0m))
+				50%: Poza(zrównoważyć: Miejsce(y: -0.25m))
+				75%: Poza(zrównoważyć: Miejsce(y: 0m))
+				100%: Poza(zrównoważyć: Miejsce(y: 0.25m))} liczyć:2x czastrwania:2s))
 ])
 \
 

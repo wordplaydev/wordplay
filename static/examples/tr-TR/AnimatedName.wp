@@ -28,7 +28,7 @@ Change the locale on stage to see each one!¶/en
 				¶Each Phrase contains one symbol to represent a letter of my name.
 				This allows me to animate each letter individually! I'm using
 				resting Sequences so that the letters move while on stage.¶/en
-				İfadeetmek(
+				Yazı(
 					'A'/en
 					yüz: 'Pacifico'
 					giriş: Sekans(
@@ -50,7 +50,7 @@ Change the locale on stage to see each one!¶/en
 					)
 					süre: 1s
 				)
-				İfadeetmek(
+				Yazı(
 					'd'/en
 					yüz: 'Aclonica'
 					dinlenme: Sekans(
@@ -71,7 +71,7 @@ Change the locale on stage to see each one!¶/en
 					süre: 5s
 					renk: Renk(0.5 100 180°)
 				)
-				İfadeetmek(
+				Yazı(
 					'♪'
 					dinlenme: Sekans(
 						{
@@ -90,7 +90,7 @@ Change the locale on stage to see each one!¶/en
 					süre: 5s
 					renk: Renk(74% 100 292°)
 				)
-				İfadeetmek(
+				Yazı(
 					'♫'
 					dinlenme: Sekans(
 						{
@@ -119,7 +119,7 @@ Change the locale on stage to see each one!¶/en
 			[
 				¶हर बोल एक अक्षर रखता हैं मेरी नाम की। यह मुझे हर अक्षर को हिलाने देता हैं।
 				मैं आराम-वाले @Sequence का इस्तेमाल कर रही हूँ ताकी अक्षर मंच पर हिले।¶/hi
-				İfadeetmek(
+				Yazı(
 					'अ'/hi
 					yüz: 'Pacifico'
 					dinlenme: Sekans(
@@ -133,7 +133,7 @@ Change the locale on stage to see each one!¶/en
 						süre: 2s
 					)
 				)
-				İfadeetmek(
+				Yazı(
 					'दि'/hi
 					dinlenme: Sekans(
 						{
@@ -146,7 +146,7 @@ Change the locale on stage to see each one!¶/en
 					süre: 5s
 					renk: Renk(74% 100 292°)
 				)
-				İfadeetmek(
+				Yazı(
 					'ती'/hi
 					yüz: 'Aclonica'
 					dinlenme: Sekans(

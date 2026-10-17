@@ -31,7 +31,7 @@ verbos: 3
 
 perguntar: respostas.comprimento() < 4
 
-Fase(
+Palco(
 	[
 		¶Antes de termos as respostas, pede respostas¶
 		perguntar ?

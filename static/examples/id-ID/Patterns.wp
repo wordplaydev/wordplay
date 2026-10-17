@@ -17,7 +17,7 @@ Panggung(
 				Frasa(teks2 ukuran: 1m)
 				Kelompok(
 					Tumpukan()
-					angka2.menerjemahkan(
+					angka2.petakan(
 						ƒ(angka3•Hasil)
 							Frasa(
 								angka3.teks

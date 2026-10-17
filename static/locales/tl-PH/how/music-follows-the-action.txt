@@ -4,22 +4,22 @@ Ang isang laro na tumutugtog ng isang awitin mula simula hanggang katapusan ay t
 
 Walang paraan para *itigil* ang isang  @Music  — ang humihinto rito ay ang hindi ito paglalagay sa  @Stage . Kaya panatilihin ang isang piraso ng state, at ilagay sa entablado ang awiting tumutugma rito:
 
-\phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'habulan' 'menu'
+\phase: 'menu' … ∆ Pindutan() … (phase = 'menu') ? 'habulan' 'menu'
 theme: [1 ø 3 ø 5 ø 6 ø]
-Stage([
-		Phrase((phase = 'menu') ? '▶ pindutin para magsimula' '🏃 takbo!' 1m)
-		(phase = 'menu') ? Music(Track(theme instrumento: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrumento: Instrument.synth) tempo: 132beats/min)
+Entablado([
+		Parirala((phase = 'menu') ? '▶ pindutin para magsimula' '🏃 takbo!' 1m)
+		(phase = 'menu') ? Musika(Track(theme instrumento: Instrumento.kampana) tempo: 72beats/min) Musika(Track(theme instrumento: Instrumento.synth) tempo: 132beats/min)
 	])\
 
 Ang dalawang awitin ay pareho ang walong numero. Ang instrumento at bilis lang ang nagbabago, at tila iba na itong piraso — dahil sinasabi ng mga degree kung *aling hakbang ng scale*, hindi kung aling tunog, kaya kaya itong bigyang-kahulugan muli ng isang  @Music . Ibigay ito sa \sukat: 🎼.harmonicMinor\ at ang parehong awitin ay magiging nakakatakot nang walang isang nota na binago.
 
 Ang kabilang kalahati ay musikang tuloy-tuloy na yumuyuko ayon sa kung ano ang nangyayari. Ang pagbabago ng \tempo\ ay hindi nagsisimula muli ng anuman — sumasabit ito sa susunod na beat, kaya bumibilis ang piraso nang hindi nawawala ang lugar nito:
 
-\score: 0 … ∆ Button() … score + 1
-urgency: (score ÷ 10).min(1)
-Stage([
-		Phrase('score \score\' 1m)
-		Music(Track([1 5 8 5] instrumento: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+\score: 0 … ∆ Pindutan() … score + 1
+urgency: (score ÷ 10).pinakamaliit(1)
+Entablado([
+		Parirala('score \score\' 1m)
+		Musika(Track([1 5 8 5] instrumento: Instrumento.mgaTambol) tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Pindutin nang sapat na beses at ang mga tambol ay tutugtog nang dalawang beses na mas malakas kaysa sa simula. Ang isang maikli, tumatambol na nota ang nagpapadinig nito — sa ilalim ng mahahabang notang hawak, mahirap maramdaman ang pagbabago sa bilis.

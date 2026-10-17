@@ -18,7 +18,7 @@ QuelMot
 					"playing"
 )
 
-key/en,tecla/es,مفتاح/ar: Clé()
+key/en,tecla/es,مفتاح/ar: Touche()
 
 ¶When the keyboard state changes, the game state changes.¶/en
 ¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
@@ -48,11 +48,11 @@ state/en,estado/es,حالة/ar•Game: Game(
 ¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
 ¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
 board/en,tabelro/es,طاولة/ar: Phrase(
-		state.secret → [""].traduire(
+		state.secret → [""].transformer(
 			ƒ(lettre2•"") ((state.status = "lost") | state.guesses.a(
 							lettre2
 						)) ? lettre2 "."
-		).rejoindre(
+		).joindre(
 			' '
 		)
 		2m
@@ -66,7 +66,7 @@ fade/en,descolorar/es,يختفي/ar: Pose(opacité: 0)
 screen/en,cine/es,إظهار/ar:
 	state.status ???
 		"start": Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase(
 					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
@@ -82,7 +82,7 @@ screen/en,cine/es,إظهار/ar:
 			sortant: fade
 		)
 		"lost": Groupe(
-			Empiler()
+			Pile()
 			[
 				board
 				Phrase(
@@ -94,7 +94,7 @@ screen/en,cine/es,إظهار/ar:
 			sortant: fade
 		)
 		"won": Groupe(
-			Empiler()
+			Pile()
 			[
 				board.aurepos:Séquence.rebond(3m 1s)
 				Phrase(
@@ -104,16 +104,16 @@ screen/en,cine/es,إظهار/ar:
 			sortant: fade
 		)
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				board
 				Phrase(
 					state.guesses.longueur() = 0 ?
-						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.rejoindre(
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.joindre(
 							' '
-						)\"/en"Suposiciones: \state.guesses.rejoindre(
+						)\"/en"Suposiciones: \state.guesses.joindre(
 							' '
-						)\"/es"التخمينات \state.guesses.rejoindre(' ')\"/ar
+						)\"/es"التخمينات \state.guesses.joindre(' ')\"/ar
 				)
 				Phrase(
 					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar

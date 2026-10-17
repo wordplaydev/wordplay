@@ -10,7 +10,7 @@ taille2: 30
 
 ¶Au début, crée une liste de 20 chatons, chacun placé au hasard. À chaque tic de l'horloge, fais descendre tous les chatons un peu.¶
 chatons•[minou]:
-	compte2 → [].traduire(
+	compte2 → [].transformer(
 		ƒ(_) minou(
 				Aléatoire(-taille2 taille2)
 				Aléatoire(-taille2 taille2)
@@ -20,7 +20,7 @@ chatons•[minou]:
 			)
 	)
 	… ∆ Temps() …
-		chatons.traduire(
+		chatons.transformer(
 			ƒ(minou2•minou)
 				(minou2.y2:minou2.y2 < -taille2 ? taille2 minou2.y2 - 2)
 				.angle2:minou2.angle2 + minou2.vitesse2
@@ -28,7 +28,7 @@ chatons•[minou]:
 
 ¶Transforme les chatons en phrases¶
 Scène(
-	chatons.traduire(
+	chatons.transformer(
 		ƒ(minou3•minou)
 			Phrase(
 				"🐈"

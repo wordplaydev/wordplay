@@ -11,7 +11,7 @@ dernier2•['']:
 
 Groupe(
 	Grille(5 5 0.25m 1m 1m)
-	dernier2.traduire(
+	dernier2.transformer(
 		ƒ(lettre•"" indice2•#)
 			Phrase(
 				lettre

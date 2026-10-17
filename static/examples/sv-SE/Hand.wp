@@ -5,7 +5,7 @@ Hand
 
 hand2: Hand()
 
-Etapp(
+Estrad(
 	[
 		Fras(
 			(hand2.fingrar = 0 ? '✊'

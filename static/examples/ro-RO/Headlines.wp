@@ -14,7 +14,7 @@ titluri•# ?
 		[
 			Fraza(`*Titluri New York Times*` 2m faţă: 'Arvo')
 		].cuLista(
-			titluri.subsecvență(1 7).traduce(
+			titluri.subsecvență(1 7).transformă(
 				ƒ(titlu)
 					Fraza(
 						titlu

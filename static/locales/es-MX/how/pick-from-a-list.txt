@@ -7,7 +7,7 @@ Junta esto para elegir un emoji al azar:
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+Frase(emojis.azar())
 \
 
  También puedes usar @Random con dos números, que elige un número entero entre ellos.
@@ -15,8 +15,8 @@ Por ejemplo, para elegir un emoji / nuevo / al azar cada segundo, mezcla @Time y
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)
+pick: emojis[1] … ∆ Tiempo(1000ms) … emojis[Azar(1 emojis.longitud())]
+Frase(pick)
 \
 
  Cada tic de @Time, el @Reaction elige una nueva sorpresa.

@@ -5,9 +5,9 @@ Satu  @Track  adalah sebuah lagu. Beberapa yang dimainkan bersama adalah sebuah 
 Karena derajat adalah langkah dari sebuah tangga nada, bukan nada tetap, seluruh garis bas bisa berupa angka-angka melodi itu sendiri yang diturunkan satu oktaf.  @Track/key  menggeser satu jalur sebanyak beberapa semiton, dan dua belas semiton persis satu oktaf:
 
 \tune: [1 5 8 5 6 3 1 ø]
-Music([
-		Track(tune alatMusik: Instrument.flute)
-		Track(tune alatMusik: Instrument.synthBass kunci: -12semitones volume: 60%)
+Musik([
+		Trek(tune alatMusik: AlatMusik.seruling)
+		Trek(tune alatMusik: AlatMusik.synthBass kunci: -12semitones volume: 60%)
 	])\
 
 Dua suara, satu daftar. Ubah lagunya dan bas akan mengikuti, karena hanya ada satu lagu untuk diubah.
@@ -15,11 +15,11 @@ Dua suara, satu daftar. Ubah lagunya dan bas akan mengikuti, karena hanya ada sa
 Sekarang isi bagian di sekitarnya. Akor ingin ritmenya sendiri, bukan ritme melodi, dan  @Track/beat  milik sebuah jalur memberinya ritme itu; \pan\ menyebarkan suara-suara ke kiri dan ke kanan agar telinga bisa membedakannya:
 
 \tune: [1 5 8 5 6 3 1 ø]
-Music([
-		Track(tune alatMusik: Instrument.flute geser: 0)
-		Track(tune alatMusik: Instrument.synthBass kunci: -12semitones volume: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] alatMusik: Instrument.synthPad ketukan: 2beats volume: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] alatMusik: Instrument.drums ketukan: 0.5beats volume: 45%)
+Musik([
+		Trek(tune alatMusik: AlatMusik.seruling geser: 0)
+		Trek(tune alatMusik: AlatMusik.synthBass kunci: -12semitones volume: 60%)
+		Trek([{1 3 5} ø {1 4 6} ø] alatMusik: AlatMusik.synthPad ketukan: 2beats volume: 35%)
+		Trek([1 ø 2 ø 1 ø 2 3] alatMusik: AlatMusik.drum ketukan: 0.5beats volume: 45%)
 	])\
 
 Perhatikan volumenya: hanya seruling yang berada pada volume penuh. Bagian-bagian pada volume penuh tidak membuat band terdengar lebih keras, tetapi lebih kacau, karena semua yang berbunyi sekaligus harus melewati pengeras suara yang sama. Mulailah melodi pada \100%\ dan letakkan semua yang lain di bawahnya.

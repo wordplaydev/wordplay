@@ -15,7 +15,7 @@ meong2: Musik(
 
 •posisiKucing(posisi•#m arah2•#)
 
-kunci2: Kunci()
+kunci2: Tuts()
 kecepatan2: 1m
 
 tempatKitty: posisiKucing(5m 1) … ∆ kunci2 …
@@ -45,7 +45,7 @@ kucing2: Frasa(
 			0.25s
 			"zippy"
 		)
-		urusan: Urusan(1000kg kebulatan: 0.5)
+		materi: Materi(1000kg kebulatan: 0.5)
 	)
 
 terkaman: Tabrakan('bola' 'kucing')
@@ -68,7 +68,7 @@ bola: Frasa(
 		"🧶"
 		nama: 'bola'
 		tempat: tempatBola
-		urusan: Urusan(1kg 0.5 0 1)
+		materi: Materi(1kg 0.5 0 1)
 	)
 
 Panggung(

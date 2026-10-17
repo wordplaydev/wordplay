@@ -24,7 +24,7 @@ operator: ø … operatorterpilih … ((pilihan ÷ '')[-1])
 
 ¶Layar untuk memilih angka pertama¶
 angka1daftar: Kelompok(
-		Jaringan(2 5)
+		Kisi(2 5)
 		[
 			Frasa("0⃣" dapatdipilih nama: 'angka1_0')
 			Frasa("1⃣" dapatdipilih nama: 'angka1_1')
@@ -41,7 +41,7 @@ angka1daftar: Kelompok(
 
 ¶Layar untuk memilih angka kedua¶
 angka2daftar: Kelompok(
-		Jaringan(2 5)
+		Kisi(2 5)
 		[
 			Frasa("0⃣" dapatdipilih nama: 'num2_0')
 			Frasa("1⃣" dapatdipilih nama: 'num2_1')
@@ -58,7 +58,7 @@ angka2daftar: Kelompok(
 
 ¶Layar untuk memilih operator¶
 operatordaftar: Kelompok(
-		Jaringan(2 2)
+		Kisi(2 2)
 		[
 			Frasa("➕" dapatdipilih nama: 'op_a')
 			Frasa("➖" dapatdipilih nama: 'op_s')

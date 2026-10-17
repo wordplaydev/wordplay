@@ -58,7 +58,7 @@ Panggung(
 				¶Ubah menjadi frasa¶
 				Kelompok(
 					Tumpukan('<')
-					kalimat.menerjemahkan(
+					kalimat.petakan(
 						ƒ(kalimat2) Frasa(kalimat2)
 					)
 				)

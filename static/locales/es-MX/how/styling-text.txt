@@ -6,10 +6,10 @@ A veces queremos que nuestro texto destaque. Podemos lograrlocursiva,negrita¡Y 
 
 
 \
-Group(Stack() [
-        Phrase(`Want to flex some /italics/ in your text?`)
-        Phrase(`It's good for emphasis or to give your words that /extra jazz/.`)
-        Phrase(`Just put a slash (//) before and after the word or phrase, /like this/.`)
+Grupo(Pila() [
+        Frase(`Want to flex some /italics/ in your text?`)
+        Frase(`It's good for emphasis or to give your words that /extra jazz/.`)
+        Frase(`Just put a slash (//) before and after the word or phrase, /like this/.`)
     ]
 )
 \
@@ -18,10 +18,10 @@ Group(Stack() [
 @Phrase También puedes poner texto en negrita. Puedes hacerlo encerrando el texto entre asteriscos **, como **Hola**. Por ejemplo:
 
 \
-Group(Stack() [
-        Phrase(`Want to make your text pop with *bold*?`)
-        Phrase(`It’s perfect for when you need to *shout somethin’ loud*.`)
-        Phrase(`Just throw single asterisks (**) around your words, like *hey!*, and watch it hit different.`)
+Grupo(Pila() [
+        Frase(`Want to make your text pop with *bold*?`)
+        Frase(`It’s perfect for when you need to *shout somethin’ loud*.`)
+        Frase(`Just throw single asterisks (**) around your words, like *hey!*, and watch it hit different.`)
       ]
 )
 \
@@ -29,10 +29,10 @@ Group(Stack() [
 @Phrase También puedes poner el texto en negrita extra. Para ello, encierra el texto con signos de intercalación ^^, como ^^Hola^^. Por ejemplo:
 
 \
-Group(Stack() [
-        Phrase(`Extra bold is the ^GOAT^ when you need to turn the vibe to the max.`)
-        Phrase(`It’s like bold but more ^fire^, usually done with single carrots around (^^)`)
-        Phrase(`Use it to flex on ^headers^ or ^big ideas^.`)
+Grupo(Pila() [
+        Frase(`Extra bold is the ^GOAT^ when you need to turn the vibe to the max.`)
+        Frase(`It’s like bold but more ^fire^, usually done with single carrots around (^^)`)
+        Frase(`Use it to flex on ^headers^ or ^big ideas^.`)
     ]
 )
 \
@@ -40,10 +40,10 @@ Group(Stack() [
  Finalmente, @Phrase Puedes subrayar el texto. Para ello, encierra el texto entre guiones bajos __, como __Hola__. Por ejemplo:
 
 \
-Group(Stack() [
-        Phrase(`Underline is _lowkey fire_ for when you want to keep text sleek but still stand out.`)
-        Phrase(`Drop a single underscore (__) before and after your text, _like this_, and it’s giving clean emphasis.`)
-        Phrase(`It’s _perfect_ for making your point without being too _extra_.`)
+Grupo(Pila() [
+        Frase(`Underline is _lowkey fire_ for when you want to keep text sleek but still stand out.`)
+        Frase(`Drop a single underscore (__) before and after your text, _like this_, and it’s giving clean emphasis.`)
+        Frase(`It’s _perfect_ for making your point without being too _extra_.`)
     ]
 )
 \

@@ -7,7 +7,7 @@
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+구절(emojis.무작위의())
 \
 
  이렇게 쓸 수도 있어 @Random 두 수를 함께 쓰면, 그 사이의 정수 하나를 고른다
@@ -15,8 +15,8 @@ Phrase(emojis.random())
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)
+pick: emojis[1] … ∆ 시간(1000ms) … emojis[무작위(1 emojis.길이())]
+구절(pick)
 \
 
  매 틱 @Time, 그 @Reaction 새로운 놀라움을 선사합니다.

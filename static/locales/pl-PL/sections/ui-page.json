@@ -57,22 +57,22 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$~\\¶@Phrase pojawia się na scenie, w dowolnym kolorze, blasku i ruchu, jaki chcesz.¶\nWyrażenie(\n\t'witaj!'\n\t6m\n\tkolor: Kolor(60% 90 200°)\n\taura: Aura(Kolor(80% 80 200°) 0.3m)\n\tspoczynkowy: Sekwencja.kołysać(8°)\n)\\",
+                        "phrase": "$~\\¶@Phrase pojawia się na scenie, w dowolnym kolorze, blasku i ruchu, jaki chcesz.¶\nFraza(\n\t'witaj!'\n\t6m\n\tkolor: Kolor(60% 90 200°)\n\taura: Aura(Kolor(80% 80 200°) 0.3m)\n\tspoczynkowy: Sekwencja.kołysać(8°)\n)\\",
                         "music": "$~\\¶Muzyka to dźwięki grane na prawdziwych instrumentach, w danym tempie i tonacji. Scena rysuje to, co słyszy.¶\nMuzyka(\n\tŚcieżka([1 3 5 8 5 3] instrument: Instrument.pianino)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶Kod może reagować na wejście, takie jak @Time, a tekst może być wielojęzyczny i mówiony.¶\npowitania: ['cześć'/pl 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\ncześć: powitania.losowy() … ∆ Czas(1000ms) … powitania.losowy(\n\t\t)\nWyrażenie(cześć 4m)\nMowić(cześć)\\",
-                        "keys": "$~\\¶Kod może reagować na ruch wskaźnika, klawisze, kliknięcia i dotknięcia.¶\nklawisz2: Klawisz()\nkliknięcie: Przycisk()\nbuźki: ['🙂' '😮' '😎' '🤩']\nktóry: 1 … ∆ klawisz2 | ∆ kliknięcie … (który % 4) + 1\nScena(\n\t[\n\t\tWyrażenie(\n\t\t\tbuźki[który]\n\t\t\t5m\n\t\t\tmiejsce: Wskaźnik()\n\t\t\tdymek: 'cześć'\n\t\t)\n\t]\n\tmiejsce: Miejsce(0m 0m -12m)\n)\\",
-                        "choose": "$~\\¶Rozmieszczaj tekst i spraw, aby dało się go zaznaczyć.¶\nowoc: ƒ(e•'') Wyrażenie(e 3m nazwa: e wybieralny: ⊤)\nwybrany: Wybór()\npokazany: '?' … ∆ wybrany … wybrany\nGrupa(\n\tStos(wyściółka: 1m)\n\t[\n\t\tWyrażenie(pokazany 4m)\n\t\tGrupa(\n\t\t\tWiersz(wyściółka: 1m)\n\t\t\t[owoc('🍎') owoc('🍐') owoc('🍒')]\n\t\t)\n\t]\n)\\",
-                        "letters": "$~\\¶Rozmawiaj z programami i wykorzystuj kształt czcionek oraz symboli.¶\nwiadomość: Pogawędzić()\nsłowo2: 'cześć' … ∆ wiadomość … wiadomość\nlinia: Kontur(słowo2 'Noto Sans' 8m)\ntyknięcia: 0 … ∆ Czas(30ms) … tyknięcia + 1\npokazany: ((linia.długość() × tyknięcia) ÷ 66).zaokrąglićwdół(\n\t) + 1\nkropki: linia.podsekwencja(1 pokazany).tłumaczyć(\n\t\tƒ(p) Wyrażenie('•' miejsce: p)\n\t)\nScena(\n\tkropki.z(Wyrażenie(słowo2 8m nieprzezroczystość: 15%))\n)\\",
-                        "pile": "$~\\¶Tekst może mieć fizykę.¶\nrzuć: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tWyrażenie(\n\t\t\temoji\n\t\t\t2m\n\t\t\tmiejsce: Ruch(Miejsce(x2 y2) Prędkość(vx 0m/s))\n\t\t\tmateriał: Materiał(1kg 0.55 0.06 0.5)\n\t\t)\nScena(\n\t[\n\t\trzuć('🍎' -2m 5m 2.2m/s)\n\t\trzuć('🍊' 2m 7m -2.6m/s)\n\t\trzuć('🍋' -1m 9m 1.4m/s)\n\t\trzuć('🍇' 1.5m 11m -1.9m/s)\n\t\trzuć('🫐' 0.5m 15m -1.2m/s)\n\t\tKształt(Prostokąt(-4m -3m 4m -3.6m))\n\t\tKształt(Prostokąt(-4.6m 4m -4m -3m))\n\t\tKształt(Prostokąt(4m 4m 4.6m -3m))\n\t]\n)\\",
-                        "listen": "$~\\¶Kod może reagować na @Volume i @Pitch twojego mikrofonu.¶\nWyrażenie(\n\t'📣'\n\t1m + (Tom() × 8m)\n\tobrót: (Poziom() ÷ 1hz) × 0.1°\n)\\",
-                        "smile": "$~\\¶Kod może reagować na twoją @Face i inne rzeczy na @Camera.¶\nWyrażenie(\n\tTwarz().uśmiech ? '😄 dziękuję!' '🙂 uśmiechnij się do kamery'\n\t2m\n)\\"
+                        "hello": "$~\\¶Kod może reagować na wejście, takie jak @Time, a tekst może być wielojęzyczny i mówiony.¶\npowitania: ['cześć'/pl 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\ncześć: powitania.losowy() … ∆ Czas(1000ms) … powitania.losowy(\n\t\t)\nFraza(cześć 4m)\nMowić(cześć)\\",
+                        "keys": "$~\\¶Kod może reagować na ruch wskaźnika, klawisze, kliknięcia i dotknięcia.¶\nklawisz2: Klawisz()\nkliknięcie: Przycisk()\nbuźki: ['🙂' '😮' '😎' '🤩']\nktóry: 1 … ∆ klawisz2 | ∆ kliknięcie … (który % 4) + 1\nScena(\n\t[\n\t\tFraza(\n\t\t\tbuźki[który]\n\t\t\t5m\n\t\t\tmiejsce: Wskaźnik()\n\t\t\tdymek: 'cześć'\n\t\t)\n\t]\n\tmiejsce: Miejsce(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Rozmieszczaj tekst i spraw, aby dało się go zaznaczyć.¶\nowoc: ƒ(e•'') Fraza(e 3m nazwa: e wybieralny: ⊤)\nwybrany: Wybór()\npokazany: '?' … ∆ wybrany … wybrany\nGrupa(\n\tStos(wyściółka: 1m)\n\t[\n\t\tFraza(pokazany 4m)\n\t\tGrupa(\n\t\t\tWiersz(wyściółka: 1m)\n\t\t\t[owoc('🍎') owoc('🍐') owoc('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Rozmawiaj z programami i wykorzystuj kształt czcionek oraz symboli.¶\nwiadomość: Czat()\nsłowo2: 'cześć' … ∆ wiadomość … wiadomość\nlinia: Kontur(słowo2 'Noto Sans' 8m)\ntyknięcia: 0 … ∆ Czas(30ms) … tyknięcia + 1\npokazany: ((linia.długość() × tyknięcia) ÷ 66).zaokrąglićwdół(\n\t) + 1\nkropki: linia.podsekwencja(1 pokazany).przekształć(\n\t\tƒ(p) Fraza('•' miejsce: p)\n\t)\nScena(\n\tkropki.z(Fraza(słowo2 8m nieprzezroczystość: 15%))\n)\\",
+                        "pile": "$~\\¶Tekst może mieć fizykę.¶\nrzuć: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFraza(\n\t\t\temoji\n\t\t\t2m\n\t\t\tmiejsce: Ruch(Miejsce(x2 y2) Prędkość(vx 0m/s))\n\t\t\tmateriał: Materiał(1kg 0.55 0.06 0.5)\n\t\t)\nScena(\n\t[\n\t\trzuć('🍎' -2m 5m 2.2m/s)\n\t\trzuć('🍊' 2m 7m -2.6m/s)\n\t\trzuć('🍋' -1m 9m 1.4m/s)\n\t\trzuć('🍇' 1.5m 11m -1.9m/s)\n\t\trzuć('🫐' 0.5m 15m -1.2m/s)\n\t\tKształt(Prostokąt(-4m -3m 4m -3.6m))\n\t\tKształt(Prostokąt(-4.6m 4m -4m -3m))\n\t\tKształt(Prostokąt(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kod może reagować na @Volume i @Pitch twojego mikrofonu.¶\nFraza(\n\t'📣'\n\t1m + (Głośność() × 8m)\n\tobrót: (Wysokość() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kod może reagować na twoją @Face i inne rzeczy na @Camera.¶\nFraza(\n\tTwarz().uśmiech ? '😄 dziękuję!' '🙂 uśmiechnij się do kamery'\n\t2m\n)\\"
                     }
                 },
                 "features": {
                     "language": {
                         "title": "$~Wordplay to język programowania",
                         "bullets": [
-                            "$~• Każdy program to wyrażenie, które staje się wartością. \\1 + 1\\ to program, tak samo jak \\Wyrażenie('cześć')\\.",
+                            "$~• Każdy program to wyrażenie, które staje się wartością. \\1 + 1\\ to program, tak samo jak \\Fraza('cześć')\\.",
                             "• Liczby mają jednostki, więc \\1m + 1m\\ to metry, a \\1cat + 1dog\\🪲 to błąd, który @wordplay wyłapuje, zanim program się uruchomi.",
                             "• Funkcje to wartości, którym możesz nadać nazwę, przekazywać dalej i wywoływać: \\ƒ podwójny(n3•#) n3 × 2\\.",
                             "• Gdy dane wejściowe się zmieniają, @wordplay na nowo oblicza twój program i pokazuje jego nową wartość. Nie trzeba samodzielnie reagować na zdarzenia.",
@@ -83,7 +83,7 @@
                         "title": "$~Wordplay jest wielojęzyczny",
                         "bullets": [
                             "$~• Każda funkcja języka programowania ma nazwę w każdym języku, więc kod czytasz w słowach, które już znasz.",
-                            "• Twoje własne nazwy też mogą być wielojęzyczne:\n\\kot2/pl, gato/es: '🐈'\nWyrażenie(kot2)\\",
+                            "• Twoje własne nazwy też mogą być wielojęzyczne:\n\\kot2/pl, gato/es: '🐈'\nFraza(kot2)\\",
                             "• Tekst ma przypisany język i pokazuje ten, który rozumie twoja publiczność: \\'cześć'/pl'hola'/es\\.",
                             "• Sama strona jest dostępna w 29 językach i możesz wybrać więcej niż jeden naraz; tekst pojawi się w każdym z nich.",
                             "• Możesz pomóc przetłumaczyć @wordplay, prosto w aplikacji, tutaj: <localize@://localize>."

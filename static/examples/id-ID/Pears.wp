@@ -38,7 +38,7 @@ aksiMeningkat1: [
 			`👵🏽`
 			nama: 'paupau'
 			ukuran: 2m
-			urusan: Urusan()
+			materi: Materi()
 			tempat: Tempat(6m -6m)
 			gelembung: `/"沙梨🍐, ayo pulang!"/`
 		)
@@ -46,7 +46,7 @@ aksiMeningkat1: [
 			`👧🏻`
 			nama: 'aku'
 			ukuran: 1m
-			urusan: Urusan()
+			materi: Materi()
 			tempat: Penempatan(Tempat(-8m -6m))
 		)
 	]
@@ -81,7 +81,7 @@ aksiMeningkat2: [
 	]
 
 ¶Kami menentukan tempat lebih dulu supaya kami bisa membuatnya jatuh dari tempat yang sama.¶
-tempat2: (6 → []).menerjemahkan(
+tempat2: (6 → []).petakan(
 		ƒ() Tempat(Acak(-2m 2m) Acak(-3m -5m))
 	)
 puncak: [
@@ -103,7 +103,7 @@ puncak: [
 			tempat: Tempat(-3m -7m)
 			dapatdipilih
 		)
-		:tempat2.menerjemahkan(
+		:tempat2.petakan(
 			ƒ(tempat3 indeks2)
 				Frasa(
 					"🍐"

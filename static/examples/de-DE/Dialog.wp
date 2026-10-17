@@ -39,7 +39,7 @@ drehbuch: [
 	]
 
 ¶Mit einer Taste, einem Klick oder einem Tippen geht es weiter, und bei der letzten Zeile hört es auf.¶
-reihe•#: 1 … ∆ Schlüssel() | ∆ Taste() … (reihe < drehbuch.Länge(
+reihe•#: 1 … ∆ Tastaturtaste() | ∆ Taste() … (reihe < drehbuch.Länge(
 				) ? reihe + 1 reihe)
 
 zeile2: drehbuch[reihe]
@@ -63,19 +63,19 @@ Bühne(
 				Gruppe(
 					Reihe('_' 6m)
 					[
-						Satzglied(
+						Phrase(
 							'ein'
 							Größe: 3m
 							sprechblase: blase('ein')
 						)
-						Satzglied(
+						Phrase(
 							'b'
 							Größe: 3m
 							sprechblase: blase('b')
 						)
 					]
 				)
-				Satzglied(
+				Phrase(
 					`/Leertaste, Klick oder Tippen/`
 					Größe: 0.6m
 				)

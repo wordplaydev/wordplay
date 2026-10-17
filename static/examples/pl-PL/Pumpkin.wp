@@ -11,7 +11,7 @@ połóż: Miejsce(0m 0m) … ∆ czas … Miejsce(
 		)
 przezroczystość2: 1 … ∆ czas … Losowy(0.25 1)
 pokaż: ⊤ … ∆ czas … ~pokaż
-dynia: Wyrażenie(
+dynia: Fraza(
 		'🎃'
 		nieprzezroczystość: przezroczystość2
 		miejsce: połóż

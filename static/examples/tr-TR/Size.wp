@@ -3,10 +3,10 @@ Boyut
 === start/en
 ¶Değişen renkler üzerinde BÜYÜK ve küçük arasında geçiş yapmak için tıkla ya da bir tuşa bas.¶
 
-word/en,字/zh: (Düğme(ø) | ∆ Anahtar()) ? İfadeetmek(
+word/en,字/zh: (Düğme(ø) | ∆ Tuş()) ? Yazı(
 			"BIG"/en"大"/zh
 			boyut: 5m
-		) İfadeetmek("small"/en"小"/zh boyut: 1m)
+		) Yazı("small"/en"小"/zh boyut: 1m)
 time/en,時間/zh: ((Zaman(1234ms)) ÷ 1ms) × 1°
 
 Sahne(

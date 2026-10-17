@@ -7,7 +7,7 @@
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+短語(emojis.隨機())
 \
 
  你也可以用 @Random 搭配兩個數字，挑出介於這兩個數字之間的整數。
@@ -15,8 +15,8 @@ Phrase(emojis.random())
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)
+pick: emojis[1] … ∆ 時間(1000ms) … emojis[隨機(1 emojis.長度())]
+短語(pick)
 \
 
  每一次滴答 @Time， 這 @Reaction 挑選出一個新的驚喜。

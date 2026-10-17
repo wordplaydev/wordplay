@@ -55,7 +55,7 @@ insanlar: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ¶Oyuncuya bir adım daha yaklaş: vurulmayı zorlaştırmak için yana kıvırarak ileri hareket et, şeridin çevresindeki bir bandın kenarlarında kıvrılma yönünü değiştir, ve sallanmalar arasında yumuşakça oyuncuyu izle, böylece kaçış sadece kısa bir süre kazandırır.¶
 ƒ oyuncuyaDoğruSaldır(zombi3•zombi kameraX2•#m saldırıHızı•#m) (
 		dokunmuşX: zombi3.x2 + (zombi3.yönX · dokumaHızı)
-		yönlendirilmişX: dokunmuşX + (kameraX2 - dokunmuşX).limit((yuvayaDönüşHızı · -1) yuvayaDönüşHızı)
+		yönlendirilmişX: dokunmuşX + (kameraX2 - dokunmuşX).sınır((yuvayaDönüşHızı · -1) yuvayaDönüşHızı)
 		kenarda: (dokunmuşX > (kameraX2 + dokumaGenişliği)) | (dokunmuşX < (kameraX2 - dokumaGenişliği))
 		zombi(
 			yönlendirilmişX
@@ -85,7 +85,7 @@ insanlar: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 
 ¶Yakından uzağa yayılmış, sağdan sola dağılmış, her biri rastgele bir yönde dolaşan taze bir zombi sahası.¶
 ƒ zombiOluştur()
-	(zombiSayısı → []).tercümeetmek(
+	(zombiSayısı → []).dönüştür(
 		ƒ(dizin2•#)
 			zombi(
 				Rastgele(solSınır sağSınır)
@@ -126,7 +126,7 @@ insanlar: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 
 ¶Şeridini bir adım bir noktaya doğru kaydır, ama asla sınırlarını aşma. İşaretçi, üzerinde bulunduğu dünya noktasını bildirir, bu yüzden şeridine olan uzaklığı, senin soluna mı sağına mı düştüğünü gösterir — o noktaya doğru adım atmak işaretçinin hedef almasını sağlar ve herhangi bir tarafa dokunmak seni o yöne hareket ettirir.¶
 ƒ doğruOdaklan(oyun3•oyun hedef2•#m)
-	oyun3.kameraX:(oyun3.kameraX + (hedef2 - oyun3.kameraX).limit((yanAdım · -1) yanAdım)).limit(solSınır sağSınır)
+	oyun3.kameraX:(oyun3.kameraX + (hedef2 - oyun3.kameraX).sınır((yanAdım · -1) yanAdım)).sınır(solSınır sağSınır)
 
 ¶Oynarken bir tuşa basmak: sola ya da sağa kaymak, ya da bir kalp fırlatmak.¶
 ƒ tuşBasışınıUygula(oyun4•oyun anahtar2•"")
@@ -171,7 +171,7 @@ insanlar: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 			)
 		vurulanDerinlik: (vurulanFigür•ø) ? -999m vurulanFigür.z2
 		dönüştürülüyor: (vurulanFigür•ø) ? ⊥ vurulanFigür.canlı
-		sıradakiZombiler: oyun5.zombiler.tercümeetmek(
+		sıradakiZombiler: oyun5.zombiler.dönüştür(
 				ƒ(zombi9•zombi)
 					zombi9.canlı ?
 						((dönüştürülüyor & (zombi9.z2 = vurulanDerinlik)) ? zombi(
@@ -215,7 +215,7 @@ insanlar: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 		)
 	)
 
-anahtar3: Anahtar()
+anahtar3: Tuş()
 tık: Zaman(30ms)
 işaretçi: İşaretçi()
 dokun: Düğme()
@@ -245,7 +245,7 @@ oyun6•oyun: oyun(
 
 ¶Sahnedeki bir figür: zombiler sallanır, dönüştürülen insanlar mutlu küçük bir sıçrama yapar. Gerisini derinlik halleder — yaklaşan bir zombi yaklaştıkça daha büyük görünür. 0 saniyelik süre, her adımın yumuşatma yerine anında gerçekleşmesini sağlar, böylece hareket geride kalan bir yakalama yerine akıcı kareler gibi görünür.¶
 ƒ zombiGörünümü(zombi11•zombi)
-	İfadeetmek(
+	Yazı(
 		zombi11.yüz2
 		2m
 		süre: 0s
@@ -264,49 +264,49 @@ oyun6•oyun: oyun(
 
 ¶Zemin: yükselen derinliklerde çubuklar, perspektifin ufka doğru uzanan bir zemin düzlemi gibi okuduğu, atmosfer için yeşilden gök mavisine solan çubuklar. İlk çubuk, oyunu bitirmek için bir zombinin geçmesi gereken çizgidir; kural görünür olsun diye uyarı kırmızısıyla çizilmiştir: kamera küçük ekranlarda geriye çekilir ve izleyici uzaklaştırabilir, uzakta görünen bir zombi bile sana ulaştığında hâlâ bu çizginin üzerinde durur.¶
 zemin2: [
-		İfadeetmek(
+		Yazı(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			süre: 0s
 			yer: Yer(0m -2.8m (oyunDerinliği + erişimMesafesi))
 			renk: Renk(58% 55 25°)
 		)
-		İfadeetmek(
+		Yazı(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			süre: 0s
 			yer: Yer(0m -2.8m 4m)
 			renk: Renk(56% 40 130°)
 		)
-		İfadeetmek(
+		Yazı(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			süre: 0s
 			yer: Yer(0m -2.8m 6m)
 			renk: Renk(50% 36 136°)
 		)
-		İfadeetmek(
+		Yazı(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			süre: 0s
 			yer: Yer(0m -2.8m 8m)
 			renk: Renk(45% 32 142°)
 		)
-		İfadeetmek(
+		Yazı(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			süre: 0s
 			yer: Yer(0m -2.8m 11m)
 			renk: Renk(40% 28 148°)
 		)
-		İfadeetmek(
+		Yazı(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			süre: 0s
 			yer: Yer(0m -2.8m 15m)
 			renk: Renk(35% 24 154°)
 		)
-		İfadeetmek(
+		Yazı(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			süre: 0s
@@ -316,13 +316,13 @@ zemin2: [
 	]
 
 ¶Dünyada uçan bir kalp ve sahnenin kaplaması aracılığıyla ekranın üstüne düz şekilde sabitlenmiş bir skor göstergesi, böylece kamera kaydıkça yerinde kalır.¶
-kalpGörünümü: İfadeetmek(
+kalpGörünümü: Yazı(
 		'🫀'
 		1.2m
 		süre: 0s
 		yer: Yer(oyun6.kalpX 0m oyun6.kalpZ)
 	)
-puanGösterimi: İfadeetmek(
+puanGösterimi: Yazı(
 		"🫀 \oyun6.skor\"
 		1.2m
 		yer: Yer(0m 4m)
@@ -340,24 +340,24 @@ ekranGörünümü: [
 		Grup(
 			Yığın()
 			[
-				İfadeetmek(ekranBaşlığı 1.1m)
-				İfadeetmek(ekranAltBaşlığı 0.6m)
-				İfadeetmek(
+				Yazı(ekranBaşlığı 1.1m)
+				Yazı(ekranAltBaşlığı 0.6m)
+				Yazı(
 					'← → veya hedeflemek için işaret et'
 					0.5m
 				)
-				İfadeetmek(
+				Yazı(
 					'Kalp için Boşluk, tıklama ya da dokunma kullan 🫀'
 					0.5m
 				)
-				İfadeetmek(başlangıçSatırı 0.7m)
+				Yazı(başlangıçSatırı 0.7m)
 			]
 		)
 	]
 
 ¶Oynarken alanı ve zeminini göster, diğer zamanlarda menüyü göster. Yanlış aşamada her liste boştur ve boş bir liste hiçbir şeye yayılmaz.¶
 zeminListesi: (oyun6.evre = 2) ? zemin2 []
-zombiListesi: (oyun6.evre = 2) ? oyun6.zombiler.tercümeetmek(
+zombiListesi: (oyun6.evre = 2) ? oyun6.zombiler.dönüştür(
 			ƒ(zombi12•zombi) zombiGörünümü(zombi12)
 		) []
 kalpListesi: ((oyun6.evre = 2) & oyun6.kalp) ? [

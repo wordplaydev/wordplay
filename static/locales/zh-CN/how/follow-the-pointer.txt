@@ -7,7 +7,7 @@
 如果我们把这个 @Place 当作 @Phrase 的 \place\，角色就会跑到我们指的地方。
 
 \
-Stage([Phrase('🐈' 位置: Pointer())] 位置: Place(0m 0m -10m))
+舞台([短语('🐈' 位置: 指针())] 位置: 位置(0m 0m -10m))
 \
 
  就是这样！移动鼠标或拖动手指，就能看到猫咪跟着你走。
@@ -16,7 +16,7 @@ Stage([Phrase('🐈' 位置: Pointer())] 位置: Place(0m 0m -10m))
 这是一只鸭子，它一直悬浮在指针上方一米处：
 
 \
-Stage([Phrase('🦆' 位置: Place(Pointer().x Pointer().y + 1m))] 位置: Place(0m 0m -10m))
+舞台([短语('🦆' 位置: 位置(指针().x 指针().y + 1m))] 位置: 位置(0m 0m -10m))
 \
 
 move-phrase, count-with-time

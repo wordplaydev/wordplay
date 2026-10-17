@@ -27,14 +27,14 @@ punct: Indicator()
 propozițiaCurentă•#: 1 …
 	mutăPropoziții.are(propozițiaCurentă) ?
 		(punct.x > 2m) & (punct.y > 3m)
-		∆ Buton() | ∆ Cheie()
+		∆ Buton() | ∆ Tastă()
 		…
 		(propozițiaCurentă <
 				propoziții.lungime()) ?
 			propozițiaCurentă + 1
 			propozițiaCurentă
 
-Etapă(
+Estradă(
 	[Fraza(propoziții[propozițiaCurentă] înfășura: 10m)]
 	faţă: 'Short Stack'
 )

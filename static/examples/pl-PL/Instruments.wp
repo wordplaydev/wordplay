@@ -75,8 +75,8 @@ tekstPiosenki: 'la li lu le lo li la'
 	Grupa(
 		Stos(wyściółka: 0.1m)
 		[
-			Wyrażenie(głos4.ikona 1.1m)
-			Wyrażenie(głos4.etykieta 0.5m)
+			Fraza(głos4.ikona 1.1m)
+			Fraza(głos4.etykieta 0.5m)
 		]
 		nazwa: głos4.etykieta
 		wybieralny
@@ -95,11 +95,11 @@ Scena(
 		Grupa(
 			Stos(wyściółka: 0.6m)
 			[
-				Wyrażenie(obecny.ikona 2.5m)
-				Wyrażenie(obecny.etykieta 1.2m)
+				Fraza(obecny.ikona 2.5m)
+				Fraza(obecny.etykieta 1.2m)
 				Grupa(
 					Siatka(kolumny: 5 wyściółka: 0.4m)
-					głosy.tłumaczyć(ƒ(głos5•głos2) przycisk(głos5))
+					głosy.przekształć(ƒ(głos5•głos2) przycisk(głos5))
 				)
 			]
 		)

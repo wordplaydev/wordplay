@@ -162,7 +162,7 @@ Escenario(
 				)
 				Pista(
 					remos
-					instrumento: Instrumento.tambores
+					instrumento: Instrumento.batería
 					pulso: 1beats
 					volumen: 45%
 				)

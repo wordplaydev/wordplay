@@ -8,7 +8,7 @@ Sången är i 6/8, så varje takt är sex åttondelsnoter och varje post i dessa
 Båtarna drivs av @Beat i stället för av en klocka, så de drar i takt med musikens slag i stället för att bara ligga nära det — och de ligger stilla tills det börjar, eftersom @Beat stannar på slag noll tills dess.¶
 
 slag2: Takt()
-åratag: slag2.räkna
+åratag: slag2.antal
 
 ¶Melodin. Ro, ro, ro din båt, sakta nerför strömmen — de långa tonerna är långa för att pauserna efter dem håller rutnätet, eftersom varje post varar lika länge, en åttondel.¶
 melodi2: [
@@ -133,7 +133,7 @@ ackord: [
 
 flotta: [båt(0 0) båt(1 6) båt(2 11)]
 
-Etapp(
+Estrad(
 	[
 		:flotta
 		Fras(

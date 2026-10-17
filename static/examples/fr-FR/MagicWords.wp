@@ -44,7 +44,7 @@ humeur: dit(content2) ? "😄"
 Scène(
 	[
 		Groupe(
-			Empiler('|' 1m)
+			Pile('|' 1m)
 			[
 				Phrase(
 					humeur
@@ -52,7 +52,7 @@ Scène(
 					aurepos: dit(tourner2) ? Séquence.tournoiement() ø
 				)
 				Phrase(
-					entendu = '' ? 'dis : ' + sorts.rejoindre(', ') entendu
+					entendu = '' ? 'dis : ' + sorts.joindre(', ') entendu
 					0.75m
 				)
 			]

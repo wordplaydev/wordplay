@@ -7,14 +7,14 @@ Sebuah @Structure seperti resep dengan bagian kosong untuk diisi.
 Ini contoh template balon yang menerima warna dan label, dan tahu cara menampilkan dirinya sendiri:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈 \label\` warna: color ukuran: 2m)
+•Balloon(color•Warna label•'') (
+    ƒ show() Frasa(`🎈 \label\` warna: color ukuran: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'Langit').show()
-    Balloon(Color(60% 80 0°) 'Mawar').show()
-    Balloon(Color(90% 80 90°) 'Cerah').show()
+Kelompok(Baris() [
+    Balloon(Warna(80% 50 240°) 'Langit').show()
+    Balloon(Warna(60% 80 0°) 'Mawar').show()
+    Balloon(Warna(90% 80 90°) 'Cerah').show()
 ])
 \
 

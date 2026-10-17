@@ -21,18 +21,18 @@ propoziții: [
 rosteștePropoziții: [5 7 9]
 
 ¶Locul unde se află povestea. @Scene ține locul, așa că nimic aici nu trebuie numărat.¶
-la2: Spotlight()
+la2: Reflector()
 
 ¶Treci mai departe când microfonul depășește 0,6 la o propoziție vorbită, și când un buton sau o tastă spune asta la orice altă propoziție.¶
 avansează: rosteștePropoziții.are(la2.index) ?
 		Volum() > .6
-		∆ Buton() | ∆ Cheie()
+		∆ Buton() | ∆ Tastă()
 
 ¶@Scene așteaptă /advance/ după fiecare propoziție și se oprește la ultima.¶
-Etapă(
+Estradă(
 	[
 		Scenă(
-			propoziții.traduce(
+			propoziții.transformă(
 				ƒ(propoziție) Fraza(propoziție înfășura: 10m)
 			)
 			pânăLa: avansează

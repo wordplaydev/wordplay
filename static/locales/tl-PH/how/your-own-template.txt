@@ -7,14 +7,14 @@ Ang isang @Structure ay parang resipe na may mga blangko na pupunan.
 Narito ang templeyt ng lobo na tumatanggap ng kulay at label, at alam kung paano ipakita ang sarili nito:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` kulay: color laki: 2m)
+•Balloon(color•Kulay label•'') (
+    ƒ show() Parirala(`🎈\label\` kulay: color laki: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'Langit').show()
-    Balloon(Color(60% 80 0°) 'Rosas').show()
-    Balloon(Color(90% 80 90°) 'Maaraw').show()
+Grupo(Hilera() [
+    Balloon(Kulay(80% 50 240°) 'Langit').show()
+    Balloon(Kulay(60% 80 0°) 'Rosas').show()
+    Balloon(Kulay(90% 80 90°) 'Maaraw').show()
 ])
 \
 

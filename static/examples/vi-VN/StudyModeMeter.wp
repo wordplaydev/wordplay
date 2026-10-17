@@ -37,7 +37,7 @@ The Stack places the title, explanation, number display, message, and selectable
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				Cụmtừ('Đồng Hồ Đo Chế Độ Học' kíchcỡ: 0.5m)
 

@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: கேமரா(width × 1px height × 1px 33ms)
+மேடை([படம்(colors "what the camera sees" 12m)])
 \
 
  ஒவ்வொரு @Image க்கும் ஒரு விளக்கம் தேவை, ஏனெனில் பார்க்க முடியாத ஒருவருக்கு வண்ணங்களின் கட்டத்திற்கு தானாக எந்த வார்த்தைகளும் இல்லை.
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m எழுத்துரு: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: கேமரா(width × 1px height × 1px 33ms)
+மேடை([படம்(colors "the camera, drawn with dark and light circles" 12m எழுத்துரு: ƒ(color•நிறம்) (color.வெளிர்மை < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

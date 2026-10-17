@@ -9,7 +9,7 @@ gravitasi•#m/s^2: 15m/s^2 … ∆ Tombol() … -gravitasi
 
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
 
-huruf: hitungan2 → [].menerjemahkan(
+huruf: hitungan2 → [].petakan(
 		ƒ(angka2 indeks2)
 			Frasa(
 				hiragana[angka2]
@@ -17,7 +17,7 @@ huruf: hitungan2 → [].menerjemahkan(
 					Tempat((indeks2 - (hitungan2 ÷ 2)) × 0.2m 10m)
 					Kecepatan(sudut: Acak(-5 5) × 1°/s)
 				)
-				urusan: Urusan(kekenyalan: 0.3)
+				materi: Materi(kekenyalan: 0.3)
 			)
 	)
 

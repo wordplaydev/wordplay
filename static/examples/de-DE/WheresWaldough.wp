@@ -38,7 +38,7 @@ punkte: neuePunkte() … ∆ (name2) … (name2 = 'ResetButton') ? neuePunkte(
 
 Bühne(
 	[
-		Satzglied(
+		Phrase(
 			"🔁"
 			wählbar
 			Ort: Ort(4m -0.5m)
@@ -46,45 +46,45 @@ Bühne(
 			Dauer: 0.5s
 			Name: 'ResetButton'
 		)
-		Satzglied(
+		Phrase(
 			'Suche den Mann'
 			0.2m
 			Ort: Ort(-6.2m 0.75m)
 			gesicht: 'Carter One'
 		)
-		Satzglied(
+		Phrase(
 			'im orangefarbenen Hemd (er heißt Waldough) und'
 			0.2m
 			Ort: Ort(-6.4m 0.25m)
 			gesicht: 'Carter One'
 		)
-		Satzglied(
+		Phrase(
 			'klicke ihn an, um zu gewinnen!🧍🏻'
 			0.2m
 			Ort: Ort(-6.0m -0.25m)
 			gesicht: 'Carter One'
 		)
-		Satzglied(
+		Phrase(
 			'Punkte: ' + punktestand → ''
 			0.5m
 			Ort: Ort(-5.9m -1m)
 		)
 
-		Satzglied("🏀" Ort: punkte[1])
-		Satzglied("🦧" Ort: punkte[2])
-		Satzglied("🍊" Ort: punkte[3])
-		Satzglied("👻" Ort: punkte[4])
-		Satzglied("🤖" Ort: punkte[5])
-		Satzglied("👽" Ort: punkte[6])
-		Satzglied("🐀" Ort: punkte[7])
-		Satzglied("🦣" Ort: punkte[8])
-		Satzglied("🐸" Ort: punkte[9])
-		Satzglied("🍎" Ort: punkte[10])
-		Satzglied("💧" Ort: punkte[11])
-		Satzglied("🍔" Ort: punkte[12])
-		Satzglied("❤" Ort: punkte[13])
-		Satzglied("🍥" Ort: punkte[14])
-		Satzglied(
+		Phrase("🏀" Ort: punkte[1])
+		Phrase("🦧" Ort: punkte[2])
+		Phrase("🍊" Ort: punkte[3])
+		Phrase("👻" Ort: punkte[4])
+		Phrase("🤖" Ort: punkte[5])
+		Phrase("👽" Ort: punkte[6])
+		Phrase("🐀" Ort: punkte[7])
+		Phrase("🦣" Ort: punkte[8])
+		Phrase("🐸" Ort: punkte[9])
+		Phrase("🍎" Ort: punkte[10])
+		Phrase("💧" Ort: punkte[11])
+		Phrase("🍔" Ort: punkte[12])
+		Phrase("❤" Ort: punkte[13])
+		Phrase("🍥" Ort: punkte[14])
+		Phrase(
 			"🧍🏻"
 			wählbar: ~gefangen
 			Ort: punkte[15]
@@ -92,10 +92,10 @@ Bühne(
 			Dauer: 0s
 			Name: 'Waldough'
 		)
-		Satzglied("🔥" Ort: punkte[16])
-		Satzglied("🎂" Ort: punkte[17])
-		Satzglied("🐕" Ort: punkte[18])
-		Satzglied("🦈" Ort: punkte[19])
+		Phrase("🔥" Ort: punkte[16])
+		Phrase("🎂" Ort: punkte[17])
+		Phrase("🐕" Ort: punkte[18])
+		Phrase("🦈" Ort: punkte[19])
 		Gestalt(Rechteck(-3.5m -3m 3.5m -3.5m))
 		Gestalt(Rechteck(-3.5m 3.5m 3.5m 3m))
 		Gestalt(Rechteck(-3.5m 3.5m -3m -3.5m))

@@ -6,12 +6,12 @@ Nuscheln
 klicks•#: 0 … ∆ Taste() … klicks + 1
 
 klicks < 3 ?
-	Satzglied(
+	Phrase(
 		'murmeln'
 		Größe: 1m
 		Name: 'murmel'
 		Eingabe: Pose(Skala: 0)
-		Ruhen: Reihenfolge(
+		Ruhen: Abfolge(
 			{
 				0%: Pose(Skala: (klicks + 1) × 1.1)
 				50%: Pose(Skala: (klicks + 1) × 0.9)
@@ -19,7 +19,7 @@ klicks < 3 ?
 			}
 			Dauer: 0.5s
 		)
-		Ausstieg: Reihenfolge(
+		Ausstieg: Abfolge(
 			{
 				0%: Pose(Opazität: 1 Skala: 1)
 				100%: Pose(Opazität: 0 Skala: 10)
@@ -27,4 +27,4 @@ klicks < 3 ?
 			Dauer: 2s
 		)
 	)
-	Satzglied('fertig')
+	Phrase('fertig')

@@ -12,16 +12,16 @@ Probiere herum und schau, was du erschaffen kannst!
 ¶Hinweis: Schauen Sie sich die Galerie für ein anderes Projekt an<Beispiel@https://wordplay.dev/project/example-Layers?play>von Bildschichten.¶
 
 
-Stage(
+Bühne(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) Drehung: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) Drehung: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) Drehung: -25°)
+		Gestalt(Kreis(3m 0m 1m 0m))
+		Gestalt(Vieleck(2m 3 0m -12m 0m) Drehung: -30°)
+		Gestalt(Vieleck(7m 6 0m -6m 0m))
+		Gestalt(Rechteck(-11m -9m 11m -12m 10m) Drehung: 25°)
+		Gestalt(Rechteck(-11m -9m 11m -12m 10m) Drehung: -25°)
 
 	]
-	Ort: Place(0m 10m -30m)
+	Ort: Ort(0m 10m -30m)
 )
 \
 

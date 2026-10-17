@@ -13,14 +13,14 @@
 \
 slides: ['पहिला' 'दुसरा' 'तिसरा']
 
-key: Key()
+key: कळ()
 
 index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'ArrowRight') ? ((index < slides.लांबी()) ? index + 1 index)
 		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+वाक्यांश(slides[index])
 \
 
  हा @Reaction हा त्याचा मुख्य भाग आहे. ते \1\ पासून सुरू होते, आणि जेव्हा जेव्हा @Key बदलते, तेव्हा ते नवीन क्रमांक काय असावा हे ठरवते.
@@ -38,15 +38,15 @@ Phrase(slides[index])
 
 \
 slides: [
-	Phrase('तीन भागांची एक कथा' आकार: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('एक मांजर दिसते')])
-	Phrase('शेवट 🎉')
+	वाक्यांश('तीन भागांची एक कथा' आकार: 3m)
+	गट(थप्पी() [वाक्यांश('🐈') वाक्यांश('एक मांजर दिसते')])
+	वाक्यांश('शेवट 🎉')
 ]
 
-key: Key()
+key: कळ()
 
 index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'ArrowRight') ? ((index < slides.लांबी()) ? index + 1 index)
 		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 त्याला दे @Scene/pause म्हणून ते स्वतःहून कधीच हलत नाही, आणि @Scene/step कोणत्याही दिशेला एक तुकडा हलवण्यासाठी:
 
 \
-key: Key()
-Scene([
-		Phrase('तीन भागांची एक कथा' आकार: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('एक मांजर दिसते')])
-		Phrase('शेवट 🎉')
+key: कळ()
+दृश्य([
+		वाक्यांश('तीन भागांची एक कथा' आकार: 3m)
+		गट(थप्पी() [वाक्यांश('🐈') वाक्यांश('एक मांजर दिसते')])
+		वाक्यांश('शेवट 🎉')
 	] थांबवा पायरी: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 

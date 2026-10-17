@@ -7,9 +7,9 @@ Para eso sirven @Motion y @Matter , que juntas simulan física para un @Phrase.
 ¡También necesitamos algo sobre lo cual caer, o si no nuestro personaje seguirá cayendo para siempre! Un @Shape con un @Rectangle ancho hace un buen piso:
 
 \
-Stage([
-    Phrase('🍎' lugar: Motion(Place(0m 5m)) materia: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+Escenario([
+    Frase('🍎' lugar: Movimiento(Lugar(0m 5m)) materia: Materia())
+    Figura(Rectángulo(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Para cambiar cómo / activo / o cómo / pesado / un personaje es, dale tu propio
 @Matter requiere una masa, elasticidad y fricción:
 
 \
-Stage([
-    Phrase('⚽' lugar: Motion(Place(-2m 5m)) materia: Matter(1kg 0.9 0.2))
-    Phrase('🪨' lugar: Motion(Place(2m 5m)) materia: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+Escenario([
+    Frase('⚽' lugar: Movimiento(Lugar(-2m 5m)) materia: Materia(1kg 0.9 0.2))
+    Frase('🪨' lugar: Movimiento(Lugar(2m 5m)) materia: Materia(5kg 0.1 0.8))
+    Figura(Rectángulo(-10m 0m 10m -5m))
 ])
 \
 

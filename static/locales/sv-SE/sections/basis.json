@@ -127,8 +127,8 @@
                 "length": {
                     "doc": [
                         "$~Jag utvärderar till antalet läsbara tecken i texten; en bokstav är ett tecken, en emoji är ett tecken, etc. Till exempel:",
-                        "\\'hej'.length()\\",
-                        "\\'🐈📚'.length()\\"
+                        "\\'hej'.längd()\\",
+                        "\\'🐈📚'.längd()\\"
                     ],
                     "names": ["$~längd"],
                     "inputs": []
@@ -156,7 +156,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ om den givna @Text visas i mig.",
-                        "\\'fann du det du letade efter?'.has('du')\\"
+                        "\\'fann du det du letade efter?'.har('du')\\"
                     ],
                     "names": ["$~har"],
                     "inputs": [
@@ -169,8 +169,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\ om jag börjar med den givna @Text.",
-                        "\\'hej vers!'.starts('hej')\\",
-                        "\\'hej vers!'.starts('vers')\\"
+                        "\\'hej vers!'.startar('hej')\\",
+                        "\\'hej vers!'.startar('vers')\\"
                     ],
                     "names": ["$~startar"],
                     "inputs": [
@@ -183,8 +183,8 @@
                 "ends": {
                     "doc": [
                         "$~\\⊤\\ om jag avslutar med den givna @Text.",
-                        "\\'är jag en fråga?'.ends('?')\\",
-                        "\\'Jag är ingen fråga.'.ends('?')\\"
+                        "\\'är jag en fråga?'.slutar('?')\\",
+                        "\\'Jag är ingen fråga.'.slutar('?')\\"
                     ],
                     "names": ["$~slutar"],
                     "inputs": [
@@ -208,7 +208,7 @@
                     "inputs": [
                         {
                             "doc": "$~Antalet gånger jag ska upprepa mig själv i den nya texten.",
-                            "names": "$~räkna"
+                            "names": ["$~antal", "$~räkna"]
                         }
                     ]
                 },
@@ -232,7 +232,7 @@
                         "$~Ibland är det bra att kombinera två @Text till en. Ge mig en annan @Text så gör jag en ny text som förenar oss:",
                         "\\'hej ' + 'vers'\\"
                     ],
-                    "names": ["$~kombinerad", "$~kombinera"],
+                    "names": ["$~kombinera", "$~kombinerad"],
                     "inputs": [
                         {
                             "doc": "$~@Text som ska läggas till.",
@@ -412,7 +412,7 @@
                         "Om enheterna inte matchar, stoppar jag showen.",
                         "\\3katt + 5hund\\🪲"
                     ],
-                    "names": ["$~tillägga"],
+                    "names": ["$~addera", "$~tillägga"],
                     "inputs": [
                         {
                             "doc": "$~@Number att lägga till.",
@@ -485,7 +485,7 @@
                 "positive": {
                     "doc": [
                         "$~Jag skapar ett nytt @Number som gör mig positiv, om negativ.",
-                        "\\-200.positive()\\"
+                        "\\-200.positiv()\\"
                     ],
                     "names": ["$~positiv"],
                     "inputs": []
@@ -493,21 +493,21 @@
                 "round": {
                     "doc": [
                         "$~Jag skapar ett nytt @Number som avrundar mig till närmaste heltal.",
-                        "\\9.4.round()\\",
-                        "\\9.5.round()\\",
-                        "\\9.6.round()\\"
+                        "\\9.4.avrunda()\\",
+                        "\\9.5.avrunda()\\",
+                        "\\9.6.avrunda()\\"
                     ],
-                    "names": ["$~runda"],
+                    "names": ["$~avrunda", "$~runda"],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": [
                         "$~Jag skapar ett nytt @Number som avrundas till minsta heltal mindre än mig.",
-                        "\\10.5.roundDown()\\",
-                        "\\10.1.roundDown()\\",
-                        "\\10.01.roundDown()\\"
+                        "\\10.5.avrundaNedåt()\\",
+                        "\\10.1.avrundaNedåt()\\",
+                        "\\10.01.avrundaNedåt()\\"
                     ],
-                    "names": ["$~rundaner"],
+                    "names": ["$~avrundaNedåt", "$~rundaner"],
                     "inputs": []
                 },
                 "roundUp": {
@@ -636,12 +636,12 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["$~Beräkna cosinus för mig.", "\\π.cos()\\"],
+                    "doc": ["$~Beräkna cosinus för mig.", "\\π.cosinus()\\"],
                     "names": ["$~cosinus"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~Beräkna sinus för mig.", "\\π.cos()\\"],
+                    "doc": ["$~Beräkna sinus för mig.", "\\π.cosinus()\\"],
                     "names": ["$~synd", "$~sinus"],
                     "inputs": []
                 },
@@ -672,7 +672,7 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Räkna ut tangenten av mig.", "\\π.tan()\\"],
+                    "doc": ["$~Räkna ut tangenten av mig.", "\\π.tangens()\\"],
                     "names": ["$~tangens"],
                     "inputs": []
                 },
@@ -739,7 +739,7 @@
                 "limit": {
                     "doc": [
                         "$~Håll mig mellan ett lågt och ett högt tal: om jag är under det låga talet, får du det, och om jag är över det höga talet, får du det istället.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.gräns(0 10)\\"
                     ],
                     "names": "$~gräns",
                     "inputs": [
@@ -756,7 +756,7 @@
                 "toward": {
                     "doc": [
                         "$~Flytta en bit av vägen från mig till ett annat tal. Vid 0 % får du mig, vid 100 % får du det andra talet, och halvvägs emellan får du talet mitt emellan.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.mot(10m 30%)\\"
                     ],
                     "names": "$~mot",
                     "inputs": [
@@ -773,7 +773,7 @@
                 "rescale": {
                     "doc": [
                         "$~Hitta var jag befinner mig mellan ett par tal, och ge sedan tillbaka talet som ligger på samma sätt mellan ett annat par. Praktiskt för att göra om något du mätt till något du kan visa.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.skalaom(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~skalaom",
                     "inputs": [
@@ -973,7 +973,7 @@
                 "add": {
                     "doc": [
                         "$~Jag skapar en ny @List med det givna objektet i slutet.",
-                        "\\['äpple' 'banan' 'mango'].with('vattenmelon')\\"
+                        "\\['äpple' 'banan' 'mango'].med('vattenmelon')\\"
                     ],
                     "names": ["$~med", "$~tillägga"],
                     "inputs": [
@@ -986,7 +986,7 @@
                 "append": {
                     "doc": [
                         "$~Jag skapar en ny @List med mina värden, sedan alla värden för den givna @List efter mig.",
-                        "\\['äpple' 'banan' 'mango'].withList(['vattenmelon' 'starfruit'])\\",
+                        "\\['äpple' 'banan' 'mango'].medLista(['vattenmelon' 'starfruit'])\\",
                         "Det är dock lite lättare att använda @Spread, så här:",
                         "\\['äpple' 'banan' 'mango' :['vattenmelon' 'starfruit']]\\"
                     ],
@@ -1023,7 +1023,7 @@
                 "random": {
                     "doc": [
                         "$~En slumpmässigt vald av mina objekt, eller @None om jag är tom.",
-                        "\\['äpple' 'banan' 'mango'].random()\\"
+                        "\\['äpple' 'banan' 'mango'].slumpmässig()\\"
                     ],
                     "names": "$~slumpmässig",
                     "inputs": []
@@ -1039,7 +1039,7 @@
                 "first": {
                     "doc": [
                         "$~Det första objektet i mig, eller @None om jag är tom.",
-                        "\\['äpple' 'banan' 'mango'].first()\\"
+                        "\\['äpple' 'banan' 'mango'].första()\\"
                     ],
                     "names": "$~första",
                     "inputs": []
@@ -1055,7 +1055,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ om jag har ett föremål som är lika med det givna föremålet i mig.",
-                        "\\['äpple' 'banan' 'mango'].has('banan')\\"
+                        "\\['äpple' 'banan' 'mango'].har('banan')\\"
                     ],
                     "names": "$~har",
                     "inputs": [
@@ -1068,9 +1068,9 @@
                 "join": {
                     "doc": [
                         "$~Jag kombinerar objekten i min lista till @Text, åtskilda av den givna avgränsaren @Text.",
-                        "\\['äpple' 'banan' 'mango'].join(', ')\\"
+                        "\\['äpple' 'banan' 'mango'].sammanfoga(', ')\\"
                     ],
-                    "names": "$~anslutasigtill",
+                    "names": ["$~sammanfoga", "$~anslutasigtill"],
                     "inputs": [
                         {
                             "doc": "$~Texten att separera objekten med, eventuellt tom.",
@@ -1105,15 +1105,15 @@
                 "sansFirst": {
                     "doc": [
                         "$~Jag skapar en lista utan mitt första objekt.",
-                        "\\['apple' 'banan' 'mango'].sansFirst()\\"
+                        "\\['apple' 'banan' 'mango'].utanFörsta()\\"
                     ],
-                    "names": ["$~utanförst"],
+                    "names": ["$~utanFörsta", "$~utanförst"],
                     "inputs": []
                 },
                 "sansLast": {
                     "doc": [
                         "$~Jag skapar en lista utan mitt sista objekt.",
-                        "\\['apple' 'banan' 'mango'].sansLast()\\"
+                        "\\['apple' 'banan' 'mango'].utanSista()\\"
                     ],
                     "names": ["$~utanSista"],
                     "inputs": []
@@ -1134,7 +1134,7 @@
                 "reverse": {
                     "doc": [
                         "$~Jag, men omvänt!",
-                        "\\['apple' 'banan' 'mango'].reverse()\\"
+                        "\\['apple' 'banan' 'mango'].omvänt()\\"
                     ],
                     "names": ["$~omvänt", "$~motsatt"],
                     "inputs": []
@@ -1169,9 +1169,9 @@
                     "doc": [
                         "$~Ge mig en @FunctionDefinition som tar en @value och en valfri @index som indata och skapar ett värde, så kör jag den på var och en av mina saker och ändrar mina värden till nya värden.",
                         "Tänk dig till exempel att jag var en lista med @Number och att du ville dubbla alla:",
-                        "\\[2 4 6 8].översätta(ƒ(num•#) num × 2)\\"
+                        "\\[2 4 6 8].omvandla(ƒ(num•#) num × 2)\\"
                     ],
-                    "names": "$~översätta",
+                    "names": ["$~omvandla", "$~översätta"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition som kommer att översätta varje objekt.",
@@ -1309,9 +1309,9 @@
                     "doc": [
                         "$~Ge mig en @FunctionDefinition som tar den senaste kombinationen och en nästa @value, och skapar en nästa kombination. Då går jag från mitt första till mitt sista objekt, skapar kombinationer i tur och ordning, och ger till slut den kombination som din @FunctionDefinition ger.",
                         "Detta är verkligen användbart för att slå ihop alla mina objekt till ett enda värde. Tänk dig till exempel att du ville lägga ihop en lista med tal:",
-                        "\\[3 9 2 8 1 4].kombinerad(\n\t0\n\tƒ(summa•# nummer•#) summa + nummer\n)\\"
+                        "\\[3 9 2 8 1 4].kombinera(\n\t0\n\tƒ(summa•# nummer•#) summa + nummer\n)\\"
                     ],
-                    "names": ["$~kombinerad", "$~kombinera"],
+                    "names": ["$~kombinera", "$~kombinerad"],
                     "inputs": [
                         {
                             "doc": "$~Startkombinationen.",
@@ -1369,7 +1369,7 @@
                 "sum": {
                     "doc": [
                         "$~Lägg ihop alla mina tal. Om jag är tom blir det 0, och om mina tal inte alla mäts i samma sak, säger jag till istället för att gissa.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].summa()\\"
                     ],
                     "names": "$~summa",
                     "inputs": []
@@ -1377,7 +1377,7 @@
                 "average": {
                     "doc": [
                         "$~Lägg ihop alla mina tal och dela med hur många de är. Om jag är tom finns det inget att räkna medelvärde på, så du får @None.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].medelvärde()\\"
                     ],
                     "names": "$~medelvärde",
                     "inputs": []
@@ -1510,7 +1510,7 @@
                     "doc": [
                         "$~Ge mig @FunctionDefinition som tar ett objekt och producerar \\⊤\\ om det ska behållas, så gör jag ett @Set som bara innehåller de objekt som uppfyller dina kriterier.",
                         "Låt oss till exempel hitta de udda talen i mig:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.filtrera(ƒ(num•#) (num % 2) = 1)\\"
                     ],
                     "names": "$~filtrera",
                     "inputs": [
@@ -1534,9 +1534,9 @@
                     "doc": [
                         "$~Ge mig @FunctionDefinition som tar ett objekt och producerar ett nytt objekt baserat på det, sedan översätter jag alla objekt i mig till en ny @Set (ta bort eventuella dubbletter).",
                         "Låt oss till exempel göra allt mitt @Number till @Text:",
-                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.omvandla(ƒ(num•#) num→'')\\"
                     ],
-                    "names": "$~översätta",
+                    "names": ["$~omvandla", "$~översätta"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition som översätter ett av mina objekt till det nya objektet du vill ha.",
@@ -1691,7 +1691,7 @@
                         "Låt oss till exempel ge alla en poäng eftersom de har varit så snälla.",
                         "\\{'amy': 5points 'jen': 3points 'tony': 0points}.översätta(\n\tƒ(nyckel•'' värde•#points) värde + 1points\n)\\🪲"
                     ],
-                    "names": "$~översätta",
+                    "names": ["$~omvandla", "$~översätta"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition som översätter varje @value.",
@@ -1863,13 +1863,13 @@
                     "inputs": [
                         {
                             "doc": "$~Antalet gånger jag ska upprepa mig.",
-                            "names": "$~räkna"
+                            "names": ["$~antal", "$~räkna"]
                         }
                     ]
                 },
                 "combine": {
                     "doc": "$~Ge mig en annan @markup så sammanfogar jag oss till en. Om någon av oss har mer än ett stycke behålls styckebrytningarna.",
-                    "names": ["$~kombinerad", "$~kombinera"],
+                    "names": ["$~kombinera", "$~kombinerad"],
                     "inputs": [
                         {
                             "doc": "$~Den formaterade texten som ska läggas till.",

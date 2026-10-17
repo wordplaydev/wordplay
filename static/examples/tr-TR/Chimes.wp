@@ -5,7 +5,7 @@
 
 Bu bir çalgıdır. Ses çıkarmaz. Rakamlar zaten bir nota dizisidir; sadece henüz çalınmamışlardır. Sahnenin üstündeki gizlenmiş blok sestir, @Music'ın var olmasını bekler.¶
 
-basıldı: Anahtar()
+basıldı: Tuş()
 tık: Zaman(30ms)
 
 ¶Bir çanın her karede çınlamasından ne kadar kaybettiği.¶
@@ -16,7 +16,7 @@ sönüm: 0.03
 
 ¶Tuşuna basılan çanı çal, diğer bütün çanların durgunlaşmasına izin ver.¶
 ƒ çınlama(sıra•[çan2] çarptı•'' çalındı•?)
-	sıra.tercümeetmek(
+	sıra.dönüştür(
 		ƒ(çan3•çan2)
 			(çalındı & (çarptı = çan3.anahtar2))
 			? çan3.enerji:1
@@ -37,7 +37,7 @@ sönüm: 0.03
 
 ¶Bir çan çınladıkça kabarıp parlar ve her zaman hafifçe sallanır, böylece kimse çalmasa da sıra canlı kalır.¶
 ƒ çanGörünümü(çan4•çan2)
-	İfadeetmek(
+	Yazı(
 		(çan4.derece2 → '')
 		(2m + (çan4.enerji · 1.5m))
 		yer: Yer(çan4.x2 0m)
@@ -52,7 +52,7 @@ sönüm: 0.03
 
 ¶Her çanı çalan tuş, çanın altında yazılıdır.¶
 ƒ tuşGörünümü(çan5•çan2)
-	İfadeetmek(
+	Yazı(
 		çan5.anahtar2
 		0.7m
 		yer: Yer(çan5.x2 -3m)
@@ -69,7 +69,7 @@ sönüm: 0.03
 
 Sahne(
 	[
-		İfadeetmek(
+		Yazı(
 			'━━━━━━━━━━━━━'
 			1m
 			yer: Yer(-6m 2.5m)

@@ -7,11 +7,11 @@ verlauf•[Ort]: ←← 5 Zeiger()
 Bühne(
 	verlauf.übersetzen(
 		ƒ(stelle•Ort index2•#)
-			Satzglied(
+			Phrase(
 				'●'
 				Farbe: Farbe(75% 100 index2 × 40°)
 				Opazität: index2 ÷ verlauf.Länge()
-				Ort: Ort(stelle.X stelle.j)
+				Ort: Ort(stelle.X stelle.Y)
 			)
 	)
 )

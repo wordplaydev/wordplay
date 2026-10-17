@@ -4,24 +4,24 @@ A co jeśli chcemy wierszy?/I/kolumny w tym samym czasie? To jest to, co @Grid j
 
 A  @Grid pyta o liczbę wierszy, liczbę kolumn i ile miejsca ma być między komórkami.
 
-\Group(Grid(2 3 0.25m) [
-		Phrase('🍎')
-		Phrase('🍌')
-		Phrase('🍇')
-		Phrase('🥕')
-		Phrase('🥦')
-		Phrase('🌽')
+\Grupa(Siatka(2 3 0.25m) [
+		Fraza('🍎')
+		Fraza('🍌')
+		Fraza('🍇')
+		Fraza('🥕')
+		Fraza('🥦')
+		Fraza('🌽')
 	])\
 
 To pozwoli Ci stworzyć ogródek owocowo-warzywny o wymiarach 2 na 3!
 
 Jeśli chcesz, aby każda komórka miała taki sam rozmiar, podaj @Grid szerokość i wysokość również. Dzięki temu znaki pozostają uporządkowane w swoich kwadratach, nawet jeśli mają różne rozmiary:
 
-\Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' rozmiar: 1m)
-		Phrase('🐶' rozmiar: 1.5m)
-		Phrase('🦊' rozmiar: 0.5m)
-		Phrase('🐻' rozmiar: 2m)
+\Grupa(Siatka(2 2 0.1m 1.5m 1.5m) [
+		Fraza('🐈' rozmiar: 1m)
+		Fraza('🐶' rozmiar: 1.5m)
+		Fraza('🦊' rozmiar: 0.5m)
+		Fraza('🐻' rozmiar: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

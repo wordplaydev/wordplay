@@ -4,10 +4,10 @@ Czasem chcemy, żeby tekst układał się obok siebie w równej linii.
 Możemy to zrobić za pomocą @Row, który układa wszystko w @Group od lewej do prawej.
 
 \
-Group(Row() [
-    Phrase('🍎')
-    Phrase('🍌')
-    Phrase('🍇')
+Grupa(Wiersz() [
+    Fraza('🍎')
+    Fraza('🍌')
+    Fraza('🍇')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Row() [
 Oto te same owoce, ale wyrównane do dołu, z odrobiną przestrzeni:
 
 \
-Group(Row('>' 0.5m) [
-    Phrase('🍎' rozmiar: 2m)
-    Phrase('🍌' rozmiar: 1m)
-    Phrase('🍇' rozmiar: 3m)
+Grupa(Wiersz('>' 0.5m) [
+    Fraza('🍎' rozmiar: 2m)
+    Fraza('🍌' rozmiar: 1m)
+    Fraza('🍇' rozmiar: 3m)
 ])
 \
 

@@ -5,12 +5,12 @@ Duyabildiğin müzik, işin yalnızca yarısıdır. @Beat akışı, bir vuru duy
 @Beat her zaman sana verecek bir @Downbeat bulundurur. Bu yüzden onu hemen okuyabilirsin. Herhangi bir müzik başlamadan önce sıfırıncı vuruşta durur ve hiçbir şey çalmaz:
 
 \
-beat: Beat()
-count: beat.count
+beat: Vuruş()
+count: beat.say
 
-Stage([
-	Phrase('🥁' boyut: ((count % 4) = 0) ? 2m 1m)
-	Music(Track([1 1 1 1] çalgı: Instrument.drums))
+Sahne([
+	Yazı('🥁' boyut: ((count % 4) = 0) ? 2m 1m)
+	Müzik(Parça([1 1 1 1] çalgı: Çalgı.davul))
 ])
 \
 
@@ -19,23 +19,23 @@ Stage([
 Bu, bütün müziğin tek bir sayı olarak halidir. Ama bir @Downbeat ayrıca bir \parts\ listesi taşır. Her @Part için bir @Track bulunur ve bir @Part kendi sesinin şu anda ne yaptığını bilir: kendi \pitch\'sini, kendi \volume\'sini, kendi \pan\'sini ve \sounding\ olup olmadığını. Bunları çizersen, karışım yerine her sesi ayrı ayrı görürsün:
 
 \
-beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
+beat: Vuruş()
+parts•[Bölüm]: beat.parçalar.filtre(ƒ(p•Bölüm) p.çalıyor)
 
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
+ƒ height(p•Bölüm)•# p.perde[1] ÷ 1semitones
 
-ƒ dot(p•Part)•Phrase
-	Phrase(
+ƒ dot(p•Bölüm)•Yazı
+	Yazı(
 		'⬤'
-		0.4m + (p.volume · 1m)
-		yer: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
+		0.4m + (p.sesSeviyesi · 1m)
+		yer: Yer((p.denge · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
 	)
 
-Stage([
-	:parts.translate(ƒ(p•Part) dot(p))
-	Music([
-		Track([1 ø 5 ø] çalgı: Instrument.piano kaydırma: -1)
-		Track([ø 8 ø 12] çalgı: Instrument.bell kaydırma: 1)
+Sahne([
+	:parts.dönüştür(ƒ(p•Bölüm) dot(p))
+	Müzik([
+		Parça([1 ø 5 ø] çalgı: Çalgı.piyano kaydırma: -1)
+		Parça([ø 8 ø 12] çalgı: Çalgı.çan kaydırma: 1)
 	])
 ])
 \

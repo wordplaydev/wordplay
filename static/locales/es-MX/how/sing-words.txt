@@ -4,11 +4,11 @@ De cada  @Instrument  en la paleta, \
 Instrumento.voz\ es la única que puede decir algo. Dale a su  @Track  un  @Track/words  y las canta, una sílaba por nota:
 
 \
-Music(
-	Track(
+Música(
+	Pista(
 		[1 2 3 5 3 1]
 		palabras: 'la la la la la la'
-		instrumento: Instrument.voice
+		instrumento: Instrumento.voz
 	)
 	tempo: 120beats/min
 )\
@@ -39,11 +39,11 @@ u\ b/oo/t, \
 Una vocal sola es una sílaba perfectamente buena. Cantarlas en fila es la forma más clara de oír una y distinguirla de otra:
 
 \
-Music(
-	Track(
+Música(
+	Pista(
 		[1 2 3 4 5]
 		palabras: 'a e i o u'
-		instrumento: Instrument.voice
+		instrumento: Instrumento.voz
 	)
 	tempo: 90beats/min
 )\
@@ -69,11 +69,11 @@ w\ suenan casi igual que en inglés. Las que vale la pena aprender son los sonid
 j\ es la /y/ en /yes/. Pon una delante de una vocal y tendrás una palabra:
 
 \
-Music(
-	Track(
+Música(
+	Pista(
 		[5 5 3 3 1]
 		palabras: 'ʃi si mi lo ʌp'
-		instrumento: Instrument.voice
+		instrumento: Instrumento.voz
 	)
 	tempo: 100beats/min
 )\
@@ -81,11 +81,11 @@ Music(
 Una sílaba también puede extenderse a lo largo de varias notas. Termínala con un guion y se mantiene por una nota más por cada guion: la serie de notas sobre una sola sílaba que da su forma a los himnos y las canciones de cuna:
 
 \
-Music(
-	Track(
+Música(
+	Pista(
 		[1 2 3 2 1]
 		palabras: 'glo--- ri'
-		instrumento: Instrument.voice
+		instrumento: Instrumento.voz
 	)
 	tempo: 140beats/min
 )\
@@ -97,18 +97,18 @@ ri\ caiga en la última. Todo lo que la voz no reconoce lo salta en vez de negar
 Para mostrar las palabras tal como se cantan, léelas de nuevo desde  @Beat .  @Downbeat/words  lleva lo que se esté cantando en ese momento, así que una frase es toda una pantalla de karaoke:
 
 \
-beat: Beat()
-Stage(
+beat: Pulso()
+Escenario(
 	[
-		Phrase(
-			((beat.words.length() = 0) ? '' beat.words[1])
+		Frase(
+			((beat.palabras.longitud() = 0) ? '' beat.palabras[1])
 			3m
 		)
-		Music(
-			Track(
+		Música(
+			Pista(
 				[1 2 3 5 3 1]
 				palabras: 'ðɪs ɪz ə soŋ tə si'
-				instrumento: Instrument.voice
+				instrumento: Instrumento.voz
 			)
 			tempo: 100beats/min
 		)

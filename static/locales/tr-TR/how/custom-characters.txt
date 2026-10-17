@@ -8,7 +8,7 @@ Pikseller, dikdörtgenler, daireler ve yollar kullanabilirsin.
 Ona bir isim ver, onu açıkla ve sonra kullanıcı isminle karakter ismini şöyle kullanabilirsin:
 
 \
-Phrase(`Benim fantezime bak @username/charactername !`)
+Yazı(`Benim fantezime bak @username/charactername !`)
 \
 
  Bu kullanıcı ismi ve karakter ismi mevcut değil, bu yüzden boş bir dikdörtgen olarak görünecek.

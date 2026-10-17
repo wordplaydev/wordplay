@@ -4,12 +4,12 @@ Musik du kan höra är bara hälften av det. Strömmen  @Beat  ger dig hela till
 
 @Beat  har alltid ett  @Downbeat  att ge dig, så du kan läsa det direkt. Innan någon musik börjar står den på slag noll utan att något spelas:
 
-\beat: Beat()
-count: beat.count
-Stage(
+\beat: Takt()
+count: beat.antal
+Estrad(
 	[
-		Phrase('🥁' storlek: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrument: Instrument.drums))
+		Fras('🥁' storlek: ((count % 4) = 0) ? 2m 1m)
+		Musik(Spår([1 1 1 1] instrument: Instrument.trummor))
 	]
 )\
 
@@ -17,30 +17,30 @@ Talet \count\ ökar med ett för varje slag, så \count % 4\ är \0\ på vart fj
 
 Det är hela musiken som ett enda tal. Men ett  @Downbeat  har också en \parts\-lista, en  @Part  för varje  @Track , och en  @Part  vet vad dess egen stämma gör just nu: dess \pitch\, dess \volume\, dess \pan\, och om den \sounding\. Ritar du dem får du varje stämma för sig i stället för en blandning:
 
-\beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase(
+\beat: Takt()
+parts•[Del]: beat.delar.filtrera(ƒ(p•Del) p.klingande)
+ƒ height(p•Del)•# p.tonhöjd[1] ÷ 1semitones
+ƒ dot(p•Del)•Fras Fras(
 		'⬤'
-		0.4m + (p.volume · 1m)
-		plats: Place(
-			(p.pan · 3) · 1m
+		0.4m + (p.volym · 1m)
+		plats: Plats(
+			(p.panorering · 3) · 1m
 			((height(p) · 0.2) - 1) · 1m
 		)
 	)
-Stage(
+Estrad(
 	[
-		:parts.translate(ƒ(p•Part) dot(p))
-		Music(
+		:parts.omvandla(ƒ(p•Del) dot(p))
+		Musik(
 			[
-				Track(
+				Spår(
 					[1 ø 5 ø]
 					instrument: Instrument.piano
 					panorering: -1
 				)
-				Track(
+				Spår(
 					[ø 8 ø 12]
-					instrument: Instrument.bell
+					instrument: Instrument.klocka
 					panorering: 1
 				)
 			]

@@ -5,12 +5,12 @@
 @Beat 는 늘 건네줄 @Downbeat 값을 가지고 있어서, 바로 읽을 수 있어. 음악이 시작되기 전에는 0번째 박자에서 아무것도 연주되지 않은 채 멈춰 있지:
 
 \
-beat: Beat()
-count: beat.count
+beat: 박자()
+count: beat.세기
 
-Stage([
-	Phrase('🥁' 크기: ((count % 4) = 0) ? 2m 1m)
-	Music(Track([1 1 1 1] 악기: Instrument.drums))
+무대([
+	구절('🥁' 크기: ((count % 4) = 0) ? 2m 1m)
+	음악(트랙([1 1 1 1] 악기: 악기.드럼))
 ])
 \
 
@@ -19,23 +19,23 @@ Stage([
 이게 음악 전체를 숫자 하나로 표현한 거야. 하지만 @Downbeat 은 \parts\ 목록도 함께 가지고 있어, @Part 마다 하나씩 @Track, 그리고 @Part 은 자기 목소리가 지금 뭘 하고 있는지 알아: 자신의 \pitch\ 과 \volume\ 과 \pan\, 그리고 \sounding\ 상태인지 말이야. 이걸 그리면 섞인 소리 대신 목소리 하나하나를 따로 볼 수 있어:
 
 \
-beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
+beat: 박자()
+parts•[파트]: beat.파트.필터(ƒ(p•파트) p.소리내기)
 
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
+ƒ height(p•파트)•# p.음높이[1] ÷ 1semitones
 
-ƒ dot(p•Part)•Phrase
-	Phrase(
+ƒ dot(p•파트)•구절
+	구절(
 		'⬤'
-		0.4m + (p.volume · 1m)
-		위치: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
+		0.4m + (p.음량 · 1m)
+		위치: 위치((p.좌우 · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
 	)
 
-Stage([
-	:parts.translate(ƒ(p•Part) dot(p))
-	Music([
-		Track([1 ø 5 ø] 악기: Instrument.piano 좌우균형: -1)
-		Track([ø 8 ø 12] 악기: Instrument.bell 좌우균형: 1)
+무대([
+	:parts.변환하다(ƒ(p•파트) dot(p))
+	음악([
+		트랙([1 ø 5 ø] 악기: 악기.피아노 좌우균형: -1)
+		트랙([ø 8 ø 12] 악기: 악기.종 좌우균형: 1)
 	])
 ])
 \

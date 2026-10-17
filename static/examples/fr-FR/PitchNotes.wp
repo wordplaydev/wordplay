@@ -19,17 +19,17 @@ notes2: [
 	]
 noteDe: ƒ(hz•#hz) hz > 0hz ? notes2[(((((12 × (hz ÷ 440hz).log(
 										2
-									)).rond(
+									)).arrondir(
 							)) % 12) + 12) % 12) + 1] '·'
 lisse2: ƒ(signal•…#hz) (
 			entendu: (←← 8 signal).sansTout(0hz)
 			entendu.moyenne() ?? 0hz
 		)
-hauteurDuSon: Pas()
+hauteurDuSon: Hauteur()
 Scène(
 	[
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase('bruité' couleur: Couleur(60% 90 30°))
 				Phrase(
@@ -41,7 +41,7 @@ Scène(
 			lieu: Lieu(-4m 0m)
 		)
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase('lisse' couleur: Couleur(70% 90 240°))
 				Phrase(

@@ -30,7 +30,7 @@ chute: ⊤ … ∆ choix … (choix = 'gravity') ? ~chute chute
 		Aléatoire(-120°/s 120°/s)
 	)
 
-lettres: compte2 → [].traduire(
+lettres: compte2 → [].transformer(
 		ƒ(nombre2)
 			Phrase(
 				glyphes2[nombre2]

@@ -60,6 +60,23 @@ import {
 } from '#util/verify-locales/protect.ts';
 import { must } from '#util/nullable.ts';
 
+/** A name token to rewrite, what to rewrite it to, and — when the token is a built-in still
+ *  spelled as en-US spells it — that English spelling, so a caller can report it. */
+type Rename = { token: Token; name: string; english?: string };
+
+/** Told each English spelling a retarget replaced with the locale's own word (#1465). Called
+ *  only once the renames have been spliced and passed the conflict guard. */
+export type EnglishRenameObserver = (rename: {
+    from: string;
+    to: string;
+}) => void;
+
+function report(renames: Rename[], observe: EnglishRenameObserver | undefined) {
+    if (observe === undefined) return;
+    for (const { english, name } of renames)
+        if (english !== undefined) observe({ from: english, to: name });
+}
+
 /** How an example's names were left, for a caller deciding what to report. */
 export type RetargetResult =
     | { kind: 'unchanged' }
@@ -273,13 +290,14 @@ export function retargetExampleNames(
     localizedCode: string,
     locale: LocaleText,
     language: LanguageCode,
+    observe?: EnglishRenameObserver,
 ): RetargetResult {
     // Building a project can throw on a locale whose basis won't parse (an invalid declared
     // name, which `checkNames` is what reports). Renaming inputs is not the check that should
     // stop a verify run over it, so treat it the way every other unanalyzable example is
     // treated: leave it alone.
     try {
-        return retarget(enCode, localizedCode, locale, language);
+        return retarget(enCode, localizedCode, locale, language, observe);
     } catch {
         return { kind: 'refused' };
     }
@@ -298,9 +316,8 @@ function collectSourceRenames(
     enSource: Source,
     loSource: Source,
     language: LanguageCode,
-): { aligned: boolean; renames: { token: Token; name: string }[] } {
-    // The name token to rewrite, and what to rewrite it to.
-    const renames: { token: Token; name: string }[] = [];
+): { aligned: boolean; renames: Rename[] } {
+    const renames: Rename[] = [];
 
     // Vowel points come off every name the example spells, before anything else. This needs no
     // en-US counterpart — it changes a name's orthography, not which name it is — so unlike
@@ -422,22 +439,39 @@ function collectSourceRenames(
         // Unlike an input — whose name is fully determined by the bind it fills — a
         // reference may use any of a definition's names, and localized examples lean on
         // the symbolic ones constantly (`🕕` for Time, `📏` for length, `⊆` for has).
-        // So this only repairs a reference that has stopped naming the right definition;
-        // rewriting every one to the declared word would have changed 12,027 examples,
-        // nearly all of them for the worse.
-        if (loNode.resolve(loContext) === expected) continue;
+        // Rewriting every one to the declared word would have changed 12,027 examples,
+        // nearly all of them for the worse. So a reference that still names the right
+        // definition is left alone unless it is a word spelled exactly as en-US spells it:
+        // en-US names bind in every locale, so an example the translator left in English
+        // never stops resolving and would otherwise teach English forever (#1465).
+        const name = loNode.getName();
+        const english = /\p{L}/u.test(name) && name === enNode.getName();
+        if (loNode.resolve(loContext) === expected && !english) continue;
 
         // A name written as a word stays a word and an emoji stays an emoji — the
         // `symbolic ?? false` rule, where asking for "any name" is what turned `Phrase(…)`
         // into `💬(…)` in fr-FR. And no falling back across kinds: a locale with no name of
         // the right kind keeps what the example already says.
-        const symbolic = !/\p{L}/u.test(loNode.getName());
+        const symbolic = !/\p{L}/u.test(name);
         const declared = expected.names
             .getNameInLanguage(language, symbolic)
             ?.getName();
-        if (declared === undefined || declared === loNode.getName()) continue;
+        if (declared === undefined || declared === name) continue;
+        // A reference left in English works as it is, so it is renamed only where the
+        // locale's word names the same definition from here. The conflict guard compares
+        // counts, and an example whose own variable already has that word — easy in a script
+        // without case — trades an unused bind for an incompatible input and passes it.
+        if (
+            english &&
+            loNode.getDefinitionOfNameInScope(declared, loContext) !== expected
+        )
+            continue;
 
-        renames.push({ token: loNode.name, name: declared });
+        renames.push({
+            token: loNode.name,
+            name: declared,
+            ...(english ? { english: name } : {}),
+        });
     }
 
     // Key-name literals in data positions follow the locale's key table, not a
@@ -504,6 +538,7 @@ function retarget(
     localizedCode: string,
     locale: LocaleText,
     language: LanguageCode,
+    observe: EnglishRenameObserver | undefined,
 ): RetargetResult {
     const enProject = Project.make(
         null,
@@ -542,7 +577,7 @@ function retarget(
         // option says, so restoring it produced `gato/es, gato/es`.
         conflictCount(restored, locale) <= conflictCount(localizedCode, locale)
     ) {
-        const result = retarget(enCode, restored, locale, language);
+        const result = retarget(enCode, restored, locale, language, observe);
         return result.kind === 'retargeted'
             ? { ...result, renamed: result.renamed + 1 }
             : { kind: 'retargeted', code: restored, renamed: 1 };
@@ -556,13 +591,11 @@ function retarget(
         language,
     );
 
-    if (!aligned)
-        return renames.length === 0
-            ? { kind: 'divergent' }
-            : splice(renames, loSource, localizedCode, locale);
-
-    if (renames.length === 0) return { kind: 'unchanged' };
-    return splice(renames, loSource, localizedCode, locale);
+    if (renames.length === 0)
+        return aligned ? { kind: 'unchanged' } : { kind: 'divergent' };
+    const result = splice(renames, loSource, localizedCode, locale);
+    if (result.kind === 'retargeted') report(renames, observe);
+    return result;
 }
 
 /** What retargeting did to one string, for a caller reporting it. */
@@ -607,6 +640,7 @@ export function retargetExamplesInDocument(
     enItems: string[],
     items: string[],
     locale: LocaleText,
+    observe?: EnglishRenameObserver,
 ): DocumentResult {
     const result: DocumentResult = {
         texts: items,
@@ -651,6 +685,7 @@ export function retargetExamplesInDocument(
                 example.code,
                 locale,
                 locale.language,
+                observe,
             );
             if (retargeted.kind === 'divergent') result.divergent++;
             else if (retargeted.kind === 'refused') result.refused++;
@@ -680,11 +715,13 @@ export function retargetExamplesIn(
     enText: string,
     localizedText: string,
     locale: LocaleText,
+    observe?: EnglishRenameObserver,
 ): StringResult {
     const { texts, ...tally } = retargetExamplesInDocument(
         [enText],
         [localizedText],
         locale,
+        observe,
     );
     return { text: texts[0] ?? localizedText, ...tally };
 }
@@ -703,6 +740,7 @@ export function retargetTutorialExamples(
     defaultTutorial: Tutorial,
     locale: LocaleText,
     apply: boolean,
+    observe?: EnglishRenameObserver,
 ): Omit<StringResult, 'text'> {
     const counterparts = alignTutorialLines(defaultTutorial, tutorial);
     const tally = { renamed: 0, divergent: 0, refused: 0 };
@@ -727,7 +765,12 @@ export function retargetTutorialExamples(
                         !text.includes('\\')
                     )
                         continue;
-                    const result = retargetExamplesIn(english, text, locale);
+                    const result = retargetExamplesIn(
+                        english,
+                        text,
+                        locale,
+                        observe,
+                    );
                     tally.renamed += result.renamed;
                     tally.divergent += result.divergent;
                     tally.refused += result.refused;
@@ -747,7 +790,7 @@ export function retargetTutorialExamples(
  * nothing else.
  */
 function splice(
-    proposed: { token: Token; name: string }[],
+    proposed: Rename[],
     loSource: Source,
     localizedCode: string,
     locale: LocaleText,
@@ -769,7 +812,7 @@ function splice(
  * Returns undefined when the splice can't be done or broke a delimiter.
  */
 function spliceRenames(
-    proposed: { token: Token; name: string }[],
+    proposed: Rename[],
     loSource: Source,
     localizedCode: string,
 ): { code: string; renamed: number } | undefined {
@@ -852,11 +895,19 @@ export function retargetSerializedExample(
     loSources: SerializedExampleSource[],
     locale: LocaleText,
     language: LanguageCode,
+    observe?: EnglishRenameObserver,
 ): SerializedRetargetResult {
     // The same shield retargetExampleNames raises: an unanalyzable locale
     // shouldn't crash the run, just leave the example alone.
     try {
-        return retargetSerialized(enSources, loSources, locale, language, 0);
+        return retargetSerialized(
+            enSources,
+            loSources,
+            locale,
+            language,
+            0,
+            observe,
+        );
     } catch {
         return { kind: 'refused' };
     }
@@ -907,6 +958,7 @@ function retargetSerialized(
     locale: LocaleText,
     language: LanguageCode,
     depth: number,
+    observe: EnglishRenameObserver | undefined,
 ): SerializedRetargetResult {
     if (enSources.length !== loSources.length) return { kind: 'divergent' };
     const enProject = masterProject(enSources);
@@ -951,6 +1003,7 @@ function retargetSerialized(
                     locale,
                     language,
                     1,
+                    observe,
                 );
                 return result.kind === 'retargeted'
                     ? { ...result, renamed: result.renamed + 1 }
@@ -965,6 +1018,7 @@ function retargetSerialized(
 
     let renamed = 0;
     const rewritten: SerializedExampleSource[] = [];
+    const accepted: Rename[] = [];
     for (let index = 0; index < loSources.length; index++) {
         const enSource = enProject.getSources()[index];
         const loSource = loProject.getSources()[index];
@@ -987,6 +1041,7 @@ function retargetSerialized(
         const spliced = spliceRenames(renames, loSource, localizedSource.code);
         if (spliced === undefined) return { kind: 'refused' };
         renamed += spliced.renamed;
+        accepted.push(...renames);
         rewritten.push({ ...localizedSource, code: spliced.code });
     }
     if (renamed === 0) return { kind: 'unchanged' };
@@ -997,5 +1052,6 @@ function retargetSerialized(
         conflictCountOf(revised) > conflictCountOf(loProject)
     )
         return { kind: 'refused' };
+    report(accepted, observe);
     return { kind: 'retargeted', sources: rewritten, renamed };
 }

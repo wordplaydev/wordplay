@@ -51,7 +51,7 @@ Panggung([Frasa('🐠')] efek: underwater(80%))
 Di sini panggung menjadi buram dan gelap di bagian tepinya saat pemain hanya punya satu nyawa, lalu jernih lagi saat nyawanya lebih banyak.
 
 \
-lives: 3 … ∆ Kunci() … lives - 1
+lives: 3 … ∆ Tuts() … lives - 1
 
 Panggung(
 	[Frasa(lives → '')]

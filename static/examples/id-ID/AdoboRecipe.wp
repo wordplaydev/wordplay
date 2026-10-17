@@ -27,7 +27,7 @@ titik2: Penunjuk()
 kalimatSaatIni•#: 1 …
 	pindahkanKalimat.memiliki(kalimatSaatIni) ?
 		(titik2.X > 2m) & (titik2.y > 3m)
-		∆ Tombol() | ∆ Kunci()
+		∆ Tombol() | ∆ Tuts()
 		…
 		(kalimatSaatIni <
 				kalimat.panjang()) ?

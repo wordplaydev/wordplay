@@ -8,7 +8,7 @@ Du kan använda pixlar, rektanglar, cirklar och banor.
 Ge det ett namn, beskriv det, och sedan kan du använda ditt användarnamn och teckennamnet så här:
 
 \
-Phrase(`Titta på min fantasi @username/charactername !`)
+Fras(`Titta på min fantasi @username/charactername !`)
 \
 
  Det användarnamnet och teckennamnet finns inte, så det visas som en tom rektangel.

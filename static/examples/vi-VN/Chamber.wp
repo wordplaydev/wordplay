@@ -30,17 +30,17 @@ rơi: ⊤ … ∆ lựaChọn … (lựaChọn = 'gravity') ? ~rơi rơi
 		Ngẫunhiên(-120°/s 120°/s)
 	)
 
-chữCái: đếm2 → [].dịch(
+chữCái: đếm2 → [].biếnĐổi(
 		ƒ(số2)
 			Cụmtừ(
 				kýTự[số2]
 				tên: "glyph\số2\"
-				vịTrí: Cửđộng(
+				vịTrí: ChuyểnĐộng(
 					VịTrí(Ngẫunhiên(-7.5m 7.5m) Ngẫunhiên(-5.5m 5.5m))
 					phóng()
 					vậntốctiếptheo: lắc2 ? phóng() ø
 				)
-				vấnđề: Vấnđề(độđànhồi: 0.7 masát: 0)
+				vậtChất: VậtChất(độđànhồi: 0.7 masát: 0)
 			)
 	)
 

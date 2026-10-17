@@ -212,7 +212,7 @@
             "doc": [
                 "$~Jestem listą akapitów, używającą wielu rodzajów tekstu z formatowaniem dostępnych w @Doc, takich jak @Words, @WebLink, @ConceptLink i @Example.",
                 "Znajdziesz mnie w @Doc oraz w @FormattedLiteral:",
-                "\\¶Jestem dokumentacją z tekstem *pogrubionym*. Mogę odwoływać się do pojęć, na przykład @Phrase może prowadzić do <różnych rzeczy w sieci@https://wordplay.dev>.¶\nWyrażenie(\n\t`Jestem tekstem z formatowaniem dla @Phrase, używam *pogrubienia*, /kursywy/ i _podkreślenia_`\n)\\"
+                "\\¶Jestem dokumentacją z tekstem *pogrubionym*. Mogę odwoływać się do pojęć, na przykład @Phrase może prowadzić do <różnych rzeczy w sieci@https://wordplay.dev>.¶\nFraza(\n\t`Jestem tekstem z formatowaniem dla @Phrase, używam *pogrubienia*, /kursywy/ i _podkreślenia_`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~akapity"
@@ -782,7 +782,7 @@
                 "$~Jestem danymi wejściowymi podanymi do @Evaluate. Moja nazwa odpowiada nazwie danych wejściowych w @FunctionDefinition lub @StructureDefinition podlegających ocenie.",
                 "Mogę pomóc w przypadku funkcji, które mają wiele wartości domyślnych i w przypadku których chcesz po prostu zastąpić konkretne dane wejściowe, nie podając wszystkich pozostałych.",
                 "Na przykład @Phrase ma wiele, wiele domyślnych wartości, aby kontrolować swój styl. Powiedzmy, że chcesz podać @Text i @Color, ale nic więcej na liście wejściowej. Możesz użyć mnie, aby to zrobić:",
-                "\\Phrase('Jestem fioletowy!' kolor: Color(50% 52 300°))\\"
+                "\\Fraza('Jestem fioletowy!' kolor: Kolor(50% 52 300°))\\"
             ],
             "start": "$~Oceńmy moją wartość."
         },
@@ -868,7 +868,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Powiem ci, czy bieżąca ocena @Program jest pierwszą, oceniającą na @Boolean. Na przykład:",
-                "\\◆ ? Time() 'cześć'\\",
+                "\\◆ ? Czas() 'cześć'\\",
                 "Nie widziałeś tego, ale pierwsza ocena była czasem, ale potem wszystkie przyszłe tyknięcia czasu, byłem \\⊥\\, więc @Conditional utworzył \\⊤\\.",
                 "Mogę być naprawdę pomocny, jeśli pracujesz nad czymś strumieniowym i chcesz zrobić coś tylko raz — albo w ogóle nie robić tego za pierwszym razem!"
             ]
@@ -1045,10 +1045,10 @@
                 "$~Zaglądam w historię strumienia i opowiadam o jednej z jego dawnych wartości. Czy kiedykolwiek chciałeś przypomnieć sobie przeszłość?",
                 "Jestem oficjalnym dokumentalistą The Verse!",
                 "Na przykład, oto jak @Time wyglądał pięć tyknięć temu:",
-                "\\← 5 Time(1000ms)\\",
+                "\\← 5 Czas(1000ms)\\",
                 "Widzisz jak przez 5 sekund jest @None , a potem nagle to samo co wcześniej?",
                 "Jeśli chcesz poznać kilka ostatnich wartości, podaj mi dwie strzałki, a ja zinterpretuję tę liczbę jako liczbę:",
-                "\\←← 5 Time(1000ms)\\",
+                "\\←← 5 Czas(1000ms)\\",
                 "Widzisz, że to już pięć razy, a nie tylko raz?",
                 "Mogę pomóc, gdy chcesz stworzyć występy nawiązujące do przeszłości."
             ],
@@ -1170,7 +1170,7 @@
             "doc": [
                 "$~Tworzę nowy @stream, który aktualizuje się za każdym razem, gdy zmienia się inny strumień. Strumienie są po prostu super!",
                 "Na przykład, jeśli chcesz, aby @Time zaznaczał pole, ale zamiast liczb pokazywał słowa, możesz zrobić coś takiego:",
-                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "\\time: Czas(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "To tak jakby powiedzieć: „/zacznij od słowa „start”, a następnie, jeśli godzina ulegnie zmianie, zmień ją na parzystą lub nieparzystą, w zależności od godziny./”",
                 "Ja też jestem jak strumień, ale oparty na innych strumieniach. Niezłe, co?"
             ],
@@ -1840,7 +1840,7 @@
                 "$~Robię TO SAMO z KAŻDYM elementem zbioru! O O O! To dosłownie jest to, co ROBIĘ!!",
                 "Umieść zbiór po mojej lewej stronie, narysuj moją strzałkę \\↦\\, a po prawej napisz, w co każdy @element ma się ZAMIENIĆ — użyj @This, żeby oznaczyć element, który trzymam WŁAŚNIE TERAZ!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ daje ci \\[2 3 4]\\. BUM! Każda liczba, plus jeden, żadnych pętli, żadnego @FunctionDefinition, żadnych kłopotów!",
-                "Jestem NIESAMOWITY do tworzenia wyników @Phrase z danych! Masz listę imion? \\['Ada' 'Mac' 'Tim'] ↦ Wyrażenie(⬚)\\ i teraz jest fraza dla KAŻDEGO imienia!!",
+                "Jestem NIESAMOWITY do tworzenia wyników @Phrase z danych! Masz listę imion? \\['Ada' 'Mac' 'Tim'] ↦ Fraza(⬚)\\ i teraz jest fraza dla KAŻDEGO imienia!!",
                 "Działam na @List, @Set, @Map (zmieniam WARTOŚCI mapy — klawisze zostają dokładnie tam, gdzie są!), a nawet na @Table!",
                 "Chcesz czegoś bardziej wymyślnego — jak @index każdego elementu albo funkcji, którą możesz użyć w wielu miejscach? Odwiedź moich spokojniejszych, dorosłych kuzynów jak @List.translate. Ale do szybkiego, codziennego mapowania jestem tutaj!!"
             ],

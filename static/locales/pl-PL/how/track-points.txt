@@ -7,15 +7,15 @@ Sztuką jest użyć @Reaction zdefiniować @Bind wartość i dokładnie przemyś
 Wyobraźmy sobie na przykład bardzo prostą grę, w której gracz zdobywa więcej punktów za każdym razem, gdy wciśnie tajny klawisz na klawiaturze. 
 
 \
-points: 0 … ['A' 'mi' 'I' 'o' 'ty'].has(Key()) … points + 1
+points: 0 … ['A' 'mi' 'I' 'o' 'ty'].ma(Klawisz()) … points + 1
 \
 
- W tym przykładzie jest napisane, / Punkty zaczynają się od 0, a następnie po każdym naciśnięciu klawisza (o ile klawisz ten znajduje się na liście samogłosek) punkty stają się bieżącą liczbą punktów plus jeden./ Za każdym razem, gdy \Key()\ stream zmiany, program dokonuje ponownej oceny, sprawdza warunek i jeśli jest prawdziwy, podaje \points\ nowa wartość.
+ W tym przykładzie jest napisane, / Punkty zaczynają się od 0, a następnie po każdym naciśnięciu klawisza (o ile klawisz ten znajduje się na liście samogłosek) punkty stają się bieżącą liczbą punktów plus jeden./ Za każdym razem, gdy \Klawisz()\ stream zmiany, program dokonuje ponownej oceny, sprawdza warunek i jeśli jest prawdziwy, podaje \points\ nowa wartość.
 
 Reakcja składa się z trzech części:
 
 • Wartość początkowa dla punktów (\0\)
-• Warunek, który po spełnieniu tworzy nową wartość (\['A' 'mi' 'I' 'o' 'ty'].has(Key())\)
+• Warunek, który po spełnieniu tworzy nową wartość (\['A' 'mi' 'I' 'o' 'ty'].ma(Klawisz())\)
 • Nowa wartość, jeśli warunek stanie się prawdziwy (\points + 1\)
 
 Aby uzyskać bardziej wyrafinowane śledzenie punktów, po prostu stwórz bardziej wyrafinowane warunki lub nowe wartości. Poświęć trochę czasu na przemyślenie reguł tych warunków i nowych wartości, a następnie spróbuj wyrazić je w kodzie.

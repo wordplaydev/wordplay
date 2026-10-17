@@ -119,8 +119,8 @@ kürekler: [
 	]
 
 ¶Bir tekne. Her vuruşta biraz daha ileri kayıyor ve her seferinde ters yöne sallanıyor; kürek çekmek gibi görünmesini sağlayan da bu. Şerit, teknenin ne kadar yükseğe oturduğunu ve ne kadar önde başladığını belirliyor, böylece hep birlikte hareket etmiyorlar.¶
-ƒ tekne(şerit•# başlangıç2•#)•İfadeetmek
-	İfadeetmek(
+ƒ tekne(şerit•# başlangıç2•#)•Yazı
+	Yazı(
 		'🚣'
 		1.5m
 		yer: Yer(
@@ -136,13 +136,13 @@ filo: [tekne(0 0) tekne(1 6) tekne(2 11)]
 Sahne(
 	[
 		:filo
-		İfadeetmek(
+		Yazı(
 			'〰〰〰〰〰〰〰〰'
 			1m
 			yer: Yer(-8m -3.2m)
 			renk: Renk(48% 22 240°)
 		)
-		İfadeetmek(
+		Yazı(
 			'Row, row, row your boat'
 			0.9m
 			yer: Yer(-4.4m 3.4m)

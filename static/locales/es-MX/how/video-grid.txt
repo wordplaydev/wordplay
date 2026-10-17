@@ -8,8 +8,8 @@ Un @Image toma una cuadrícula de colores y la dibuja como una sola imagen, así
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Cámara(width × 1px height × 1px 33ms)
+Escenario([Imagen(colors "what the camera sees" 12m)])
 \
 
  Cada @Image necesita una descripción, porque una cuadrícula de colores no tiene palabras propias para alguien que no puede verla.
@@ -19,8 +19,8 @@ Podemos dibujar la imagen con letras en vez de cuadros, dándole un /glifo/, una
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m glifo: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Cámara(width × 1px height × 1px 33ms)
+Escenario([Imagen(colors "the camera, drawn with dark and light circles" 12m glifo: ƒ(color•Color) (color.luminosidad < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

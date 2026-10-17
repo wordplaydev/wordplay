@@ -8,8 +8,8 @@
 這是一個笑臉，每次按下空白鍵它就會變成哭臉，然後再變回笑臉：
 
 \
-happy: ⊤ … ∆ Key(' ') … ~happy
-Phrase(happy ? '😊' '😢')
+happy: ⊤ … ∆ 按鍵(' ') … ~happy
+短語(happy ? '😊' '😢')
 \
 
  這個 @Reaction 一開始 \happy\ 是 \⊤\ （true），每次按下空白鍵就用 \~\ 把它反過來。
@@ -18,8 +18,8 @@ Phrase(happy ? '😊' '😢')
 你可以使用條件語句鏈來從兩個以上的選項中進行選擇：
 
 \
-score: 0 … ∆ Key('一個') … score + 1
-Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+score: 0 … ∆ 按鍵('一個') … score + 1
+短語(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
 \
 
  按 \a\ 幾次之後，你就能看到雞蛋孵化成小雞了！

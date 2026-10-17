@@ -24,7 +24,7 @@ t
 
 ¶सबसे हाल में कौन सी चाबी दबाई गई?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-चाबी3,clé/fr: चाबी()
+चाबी3,clé/fr: कुंजी()
 
 ¶हर बार चाबी दबाने पर वर्तमान रहस्य बढ़ता है, लेकिन 10 पर रुक जाता है¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr

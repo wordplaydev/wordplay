@@ -5,7 +5,7 @@ RotatingBinary
 
 rotireLentă: Secvenţă.rotire(10s "straight")
 
-Etapă(
+Estradă(
 	[
 		Fraza(
 			'1'

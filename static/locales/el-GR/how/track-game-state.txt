@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['γάτα' 'σκύλος'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['γάτα' 'σκύλος'] 0) … state.secrets.έχει(Κουβέντα()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("κέρδισες!")]
-        [ Group(Stack() [ Phrase("μάντεψε τις μυστικές μου λέξεις") Phrase(`\state.secrets.length() - state.points\ περισσότερα μυστικά`)])]
+Πλατό(
+    state.points = state.secrets.μήκος() ? 
+        [ Φράση("κέρδισες!")]
+        [ Ομάδα(Σωρός() [ Φράση("μάντεψε τις μυστικές μου λέξεις") Φράση(`\state.secrets.length() - state.points\ περισσότερα μυστικά`)])]
 )
 \
 

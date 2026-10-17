@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['बिल्ली' 'कुत्ता'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['बिल्ली' 'कुत्ता'] 0) … state.secrets.शामिल(चैट()) … state.points: state.points + 1
 
-Stage(
+मंच(
     state.points = state.secrets.length() ? 
-        [ Phrase("तुम जीत गए!")]
-        [ Group(Stack() [ Phrase("मेरे गुप्त शब्दों का अंदाज़ा लगाओ") Phrase(`\state.secrets.length() - state.points\ और गुप्त शब्द`)])]
+        [ वाक्यांश("तुम जीत गए!")]
+        [ समूह(ढेर() [ वाक्यांश("मेरे गुप्त शब्दों का अंदाज़ा लगाओ") वाक्यांश(`\state.secrets.length() - state.points\ और गुप्त शब्द`)])]
 )
 \
 

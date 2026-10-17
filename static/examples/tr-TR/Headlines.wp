@@ -8,19 +8,19 @@ başlıklar: Websayfası(
 		'.indicate-hover'
 	)
 başlıklar•# ?
-	İfadeetmek('yükleniyor')
+	Yazı('yükleniyor')
 	Grup(
 		Yığın('<')
 		[
-			İfadeetmek(
+			Yazı(
 				`*New York Times Başlıkları*`
 				2m
 				yüz: 'Arvo'
 			)
 		].Listeile(
-			başlıklar.altdizi(1 7).tercümeetmek(
+			başlıklar.altdizi(1 7).dönüştür(
 				ƒ(başlık)
-					İfadeetmek(
+					Yazı(
 						başlık
 						dürüm: 20m
 						hizalama: '<'

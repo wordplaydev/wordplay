@@ -4,7 +4,7 @@ Sanal Piyano
 ¶Çalabileceğin tek oktavlık bir piyano! En iyi deneyim için müzik görselleştirmesini kapat.¶
 
 ¶Bu bağ, hangi tuşa bastığını algılayan bir Key akışı saklar.¶
-basıldı: Anahtar()
+basıldı: Tuş()
 
 ¶Burada, bastığın tuşlarla çalacakları notalar eşleştirilir. Notalar iki biçimde saklanır: metin olarak (çalan notayı göstermek için) ve sayısal bir metin değeri olarak (sayıya (#) çevirip bir Track listesine girmek için).
 
@@ -55,79 +55,79 @@ Grup(
 		Grup(
 			Sıra('>' -.3m)
 			[
-				İfadeetmek(
+				Yazı(
 					'▯'
 					isim: 'w'
 					boyut: 3m
 					renk: basıldı = 'w' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▮'
 					isim: '3'
 					boyut: 3m
 					renk: basıldı = '3' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▯'
 					isim: 'e'
 					boyut: 3m
 					renk: basıldı = 'e' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▮'
 					isim: '4'
 					boyut: 3m
 					renk: basıldı = '4' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▯'
 					isim: 'r'
 					boyut: 3m
 					renk: basıldı = 'r' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▯'
 					isim: 't'
 					boyut: 3m
 					renk: basıldı = 't' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▮'
 					isim: '6'
 					boyut: 3m
 					renk: basıldı = '6' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▯'
 					isim: 'y'
 					boyut: 3m
 					renk: basıldı = 'y' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▮'
 					isim: '7'
 					boyut: 3m
 					renk: basıldı = '7' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▯'
 					isim: 'u'
 					boyut: 3m
 					renk: basıldı = 'u' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▮'
 					isim: '8'
 					boyut: 3m
 					renk: basıldı = '8' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▯'
 					isim: 'i'
 					boyut: 3m
 					renk: basıldı = 'i' ? rengeBas boşRenk
 				)
-				İfadeetmek(
+				Yazı(
 					'▯'
 					isim: 'o'
 					boyut: 3m
@@ -139,19 +139,19 @@ Grup(
 		Grup(
 			Sıra('>' 1.1m)
 			[
-				İfadeetmek('w')
-				İfadeetmek('3')
-				İfadeetmek('e')
-				İfadeetmek('4')
-				İfadeetmek('r t')
-				İfadeetmek('6')
-				İfadeetmek('y')
-				İfadeetmek('7')
-				İfadeetmek('u')
-				İfadeetmek('8')
-				İfadeetmek('i  o')
+				Yazı('w')
+				Yazı('3')
+				Yazı('e')
+				Yazı('4')
+				Yazı('r t')
+				Yazı('6')
+				Yazı('y')
+				Yazı('7')
+				Yazı('u')
+				Yazı('8')
+				Yazı('i  o')
 			]
 		)
-		İfadeetmek(metinDöndür(basıldı))
+		Yazı(metinDöndür(basıldı))
 	]
 )

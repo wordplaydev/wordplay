@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: 相機(width × 1px height × 1px 33ms)
+舞台([圖片(colors "what the camera sees" 12m)])
 \
 
  每一個 @Image 都需要一段描述，因為對看不見的人來說，顏色網格本身沒有任何文字說明。
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m 字形: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: 相機(width × 1px height × 1px 33ms)
+舞台([圖片(colors "the camera, drawn with dark and light circles" 12m 字形: ƒ(color•色彩) (color.明度 < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

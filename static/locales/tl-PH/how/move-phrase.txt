@@ -5,9 +5,9 @@ Minsan, nakakatulong ang paggawa ng @Phrase maaaring igalaw gamit ang keyboard, 
 Gawin mo ito, maaari tayong magsama-sama @Phrase kasama @Placement:
 
 \
-Stage(
-	[Phrase('ilipat ako' lugar: Placement())]
-	lugar: Place(0m 0m -10m)
+Entablado(
+	[Parirala('ilipat ako' lugar: Paglalagay())]
+	lugar: Lugar(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Halimbawa, ang isang @Stage ay may @Place na nagsasabi kung saan nakaturo ang ka
 Subukan nating baguhin ang lugar ng isang @Placement para sa isang @Stage, at tingnan natin kung ano ang mangyayari.
 
 \
-Stage(
+Entablado(
   [
-	Phrase('🐈' lugar: Place(-2m 2m))
-	Phrase('🐈' lugar: Place(2m -2m))
-	Phrase('🐈' lugar: Place(-1m 3m))
+	Parirala('🐈' lugar: Lugar(-2m 2m))
+	Parirala('🐈' lugar: Lugar(2m -2m))
+	Parirala('🐈' lugar: Lugar(-1m 3m))
   ]
-  lugar: Placement(Place(0m 0m -10m))
+  lugar: Paglalagay(Lugar(0m 0m -10m))
 )
 \
 

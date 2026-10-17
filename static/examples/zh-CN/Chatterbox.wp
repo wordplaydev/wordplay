@@ -24,7 +24,7 @@ swaps: {
 		'yours': 'mine'
 		'yourself': 'myself'
 	}
-ƒ reflect(words3•'')•'' words3.分段(' ').翻译(
+ƒ reflect(words3•'')•'' words3.分段(' ').映射(
 		ƒ(word2•'') swaps{word2} ?? word2
 	).连接(
 		' '
@@ -73,7 +73,7 @@ recent: log2.长度() ≤ 8 ? log2 log2.子序列(log2.长度() - 7)
 	[
 		组合(
 			堆叠('<' 0.5m)
-			recent.翻译(
+			recent.映射(
 				ƒ(line•行)
 					短语(
 						line.说话者 + ' ' + line.words2

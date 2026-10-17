@@ -8,7 +8,7 @@ Ang kanta ay may padron na 6/8, kaya bawat sukat ay may anim na ikawalong nota, 
 Ang mga bangka ay pinapatakbo ng @Beat sa halip na ng isang orasan, kaya sila'y sumasagwan sabay sa tibok ng musika sa eksaktong sandali, hindi lamang malapit dito — at hindi sila gagalaw hangga't hindi ito nagsisimula, dahil nananatili sa unang tibok ang @Beat hanggang sa oras na iyon.¶
 
 tibok2: Kumpas()
-gaod: tibok2.bilangin
+gaod: tibok2.bilang
 
 ¶Ang himig. Sagwan, sagwan, sagwan ng bangka mo, dahan-dahan sa agos — ang mahahabang nota ay mahaba dahil ang mga pahinga pagkatapos nito ang nagpapanatili sa padron, sapagkat bawat sagisag ay tumatagal ng parehong ikawalong bahagi.¶
 himig2: [

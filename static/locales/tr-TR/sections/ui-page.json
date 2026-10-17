@@ -57,22 +57,22 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$~\\¶@Phrase sahnede görünür; istediğin renkte, parlaklıkta ve hareketle.¶\nİfadeetmek(\n\t'merhaba!'\n\t6m\n\trenk: Renk(60% 90 200°)\n\taura: Aura(Renk(80% 80 200°) 0.3m)\n\tdinlenme: Sekans.sallanmak(8°)\n)\\",
+                        "phrase": "$~\\¶@Phrase sahnede görünür; istediğin renkte, parlaklıkta ve hareketle.¶\nYazı(\n\t'merhaba!'\n\t6m\n\trenk: Renk(60% 90 200°)\n\taura: Aura(Renk(80% 80 200°) 0.3m)\n\tdinlenme: Sekans.sallanmak(8°)\n)\\",
                         "music": "$~\\¶Müzik, gerçek çalgılarda, bir tempoda, bir tonda çalınan notalardan oluşur. Sahne duyduğunu çizer.¶\nMüzik(\n\tParça([1 3 5 8 5 3] çalgı: Çalgı.piyano)\n\ttempo: 120beats/min\n)\\",
-                        "hello": "$~\\¶Kod, @Time gibi girdilere tepki verebilir ve metin çok dilli olup sesli okunabilir.¶\nmerhabalar: ['merhaba'/tr 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nmerhaba: merhabalar.rastgele() … ∆ Zaman(1000ms) … merhabalar.rastgele(\n\t\t)\nİfadeetmek(merhaba 4m)\nSöylemek(merhaba)\\",
-                        "keys": "$~\\¶Kod; işaretçilere, tuşlara, tıklamalara ve dokunuşlara tepki verebilir.¶\nanahtar2: Anahtar()\ntıklama: Düğme()\nyüzler: ['🙂' '😮' '😎' '🤩']\nhangisi: 1 … ∆ anahtar2 | ∆ tıklama … (hangisi % 4) + 1\nSahne(\n\t[\n\t\tİfadeetmek(\n\t\t\tyüzler[hangisi]\n\t\t\t5m\n\t\t\tyer: İşaretçi()\n\t\t\tbalon: 'merhaba'\n\t\t)\n\t]\n\tyer: Yer(0m 0m -12m)\n)\\",
-                        "choose": "$~\\¶Metni yerleştir ve seçilebilir yap.¶\nmeyve: ƒ(e•'') İfadeetmek(e 3m isim: e seçilebilir: ⊤)\nseçildi: Seçenek()\ngösterildi: '?' … ∆ seçildi … seçildi\nGrup(\n\tYığın(dolgu: 1m)\n\t[\n\t\tİfadeetmek(gösterildi 4m)\n\t\tGrup(\n\t\t\tSıra(dolgu: 1m)\n\t\t\t[meyve('🍎') meyve('🍐') meyve('🍒')]\n\t\t)\n\t]\n)\\",
-                        "letters": "$~\\¶Programlarla sohbet et ve yazı tiplerinin ile sembollerin şeklini kullan.¶\nmesaj: Sohbet()\nkelime2: 'selam' … ∆ mesaj … mesaj\nsatır: Kontur(kelime2 'Noto Sans' 8m)\ntikSesleri: 0 … ∆ Zaman(30ms) … tikSesleri + 1\ngösterildi: ((satır.uzunluk() × tikSesleri) ÷ 66).Aşağıyuvarla(\n\t) + 1\nnoktalar: satır.altdizi(1 gösterildi).tercümeetmek(\n\t\tƒ(p) İfadeetmek('•' yer: p)\n\t)\nSahne(noktalar.ile(İfadeetmek(kelime2 8m opaklık: 15%)))\\",
-                        "pile": "$~\\¶Yazının fiziği olabilir.¶\nfırlat: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tİfadeetmek(\n\t\t\temoji\n\t\t\t2m\n\t\t\tyer: Hareket(Yer(x2 y2) Hız(vx 0m/s))\n\t\t\tkonu: Konu(1kg 0.55 0.06 0.5)\n\t\t)\nSahne(\n\t[\n\t\tfırlat('🍎' -2m 5m 2.2m/s)\n\t\tfırlat('🍊' 2m 7m -2.6m/s)\n\t\tfırlat('🍋' -1m 9m 1.4m/s)\n\t\tfırlat('🍇' 1.5m 11m -1.9m/s)\n\t\tfırlat('🫐' 0.5m 15m -1.2m/s)\n\t\tŞekil(Dikdörtgen(-4m -3m 4m -3.6m))\n\t\tŞekil(Dikdörtgen(-4.6m 4m -4m -3m))\n\t\tŞekil(Dikdörtgen(4m 4m 4.6m -3m))\n\t]\n)\\",
-                        "listen": "$~\\¶Kod, mikrofonunun @Volume ve @Pitch değerine tepki verebilir.¶\nİfadeetmek(\n\t'📣'\n\t1m + (Hacim() × 8m)\n\trotasyon: (Saha() ÷ 1hz) × 0.1°\n)\\",
-                        "smile": "$~\\¶Kod, @Face değerine ve @Camera üzerindeki başka şeylere tepki verebilir.¶\nİfadeetmek(\n\tYüz().gülümseme ? '😄 teşekkür ederim!' '🙂 kameraya gülümse'\n\t2m\n)\\"
+                        "hello": "$~\\¶Kod, @Time gibi girdilere tepki verebilir ve metin çok dilli olup sesli okunabilir.¶\nmerhabalar: ['merhaba'/tr 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nmerhaba: merhabalar.rastgele() … ∆ Zaman(1000ms) … merhabalar.rastgele(\n\t\t)\nYazı(merhaba 4m)\nSöylemek(merhaba)\\",
+                        "keys": "$~\\¶Kod; işaretçilere, tuşlara, tıklamalara ve dokunuşlara tepki verebilir.¶\nanahtar2: Tuş()\ntıklama: Düğme()\nyüzler: ['🙂' '😮' '😎' '🤩']\nhangisi: 1 … ∆ anahtar2 | ∆ tıklama … (hangisi % 4) + 1\nSahne(\n\t[\n\t\tYazı(\n\t\t\tyüzler[hangisi]\n\t\t\t5m\n\t\t\tyer: İşaretçi()\n\t\t\tbalon: 'merhaba'\n\t\t)\n\t]\n\tyer: Yer(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Metni yerleştir ve seçilebilir yap.¶\nmeyve: ƒ(e•'') Yazı(e 3m isim: e seçilebilir: ⊤)\nseçildi: Seçenek()\ngösterildi: '?' … ∆ seçildi … seçildi\nGrup(\n\tYığın(dolgu: 1m)\n\t[\n\t\tYazı(gösterildi 4m)\n\t\tGrup(\n\t\t\tSıra(dolgu: 1m)\n\t\t\t[meyve('🍎') meyve('🍐') meyve('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Programlarla sohbet et ve yazı tiplerinin ile sembollerin şeklini kullan.¶\nmesaj: Sohbet()\nkelime2: 'selam' … ∆ mesaj … mesaj\nsatır: Kontur(kelime2 'Noto Sans' 8m)\ntikSesleri: 0 … ∆ Zaman(30ms) … tikSesleri + 1\ngösterildi: ((satır.uzunluk() × tikSesleri) ÷ 66).Aşağıyuvarla(\n\t) + 1\nnoktalar: satır.altdizi(1 gösterildi).dönüştür(\n\t\tƒ(p) Yazı('•' yer: p)\n\t)\nSahne(noktalar.ile(Yazı(kelime2 8m opaklık: 15%)))\\",
+                        "pile": "$~\\¶Yazının fiziği olabilir.¶\nfırlat: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tYazı(\n\t\t\temoji\n\t\t\t2m\n\t\t\tyer: Hareket(Yer(x2 y2) Hız(vx 0m/s))\n\t\t\tmadde: Madde(1kg 0.55 0.06 0.5)\n\t\t)\nSahne(\n\t[\n\t\tfırlat('🍎' -2m 5m 2.2m/s)\n\t\tfırlat('🍊' 2m 7m -2.6m/s)\n\t\tfırlat('🍋' -1m 9m 1.4m/s)\n\t\tfırlat('🍇' 1.5m 11m -1.9m/s)\n\t\tfırlat('🫐' 0.5m 15m -1.2m/s)\n\t\tŞekil(Dikdörtgen(-4m -3m 4m -3.6m))\n\t\tŞekil(Dikdörtgen(-4.6m 4m -4m -3m))\n\t\tŞekil(Dikdörtgen(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kod, mikrofonunun @Volume ve @Pitch değerine tepki verebilir.¶\nYazı(\n\t'📣'\n\t1m + (SesSeviyesi() × 8m)\n\trotasyon: (Perde() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kod, @Face değerine ve @Camera üzerindeki başka şeylere tepki verebilir.¶\nYazı(\n\tYüz().gülümseme ? '😄 teşekkür ederim!' '🙂 kameraya gülümse'\n\t2m\n)\\"
                     }
                 },
                 "features": {
                     "language": {
                         "title": "$~Wordplay bir programlama dilidir",
                         "bullets": [
-                            "$~• Her program, bir değere dönüşen bir ifadedir. \\1 + 1\\ bir programdır, \\İfadeetmek('selam')\\ de öyledir.",
+                            "$~• Her program, bir değere dönüşen bir ifadedir. \\1 + 1\\ bir programdır, \\Yazı('selam')\\ de öyledir.",
                             "• Sayılar birim taşır, bu yüzden \\1m + 1m\\ metredir, \\1cat + 1dog\\🪲 ise @wordplay'ın çalışmadan önce yakaladığı bir hatadır.",
                             "• Fonksiyonlar; isim verebileceğin, aktarabileceğin ve çağırabileceğin değerlerdir: \\ƒ çift2(n3•#) n3 × 2\\.",
                             "• Girdi değiştiğinde, @wordplay programını yeniden değerlendirir ve yeni değerini gösterir. Olaylara tepki vermene gerek yoktur.",
@@ -83,7 +83,7 @@
                         "title": "$~Wordplay çok dillidir",
                         "bullets": [
                             "$~• Her programlama dili özelliğinin her dilde bir ismi vardır, bu yüzden kodu zaten bildiğin kelimelerle okuyabilirsin.",
-                            "• Kendi isimlerin de çok dilli olabilir:\n\\kedi2/tr, gato/es: '🐈'\nİfadeetmek(kedi2)\\",
+                            "• Kendi isimlerin de çok dilli olabilir:\n\\kedi2/tr, gato/es: '🐈'\nYazı(kedi2)\\",
                             "• Metin bir dil taşır ve izleyicinin okuduğu dili gösterir: \\'merhaba'/tr'hola'/es\\.",
                             "• Sitenin kendisi 29 dilde ve aynı anda birden fazla dil seçebilirsin; metin her dilde görünür.",
                             "• @wordplay'ı çevirmeye yardımcı olabilirsin, doğrudan uygulama içinde <localize@://localize> üzerinden."

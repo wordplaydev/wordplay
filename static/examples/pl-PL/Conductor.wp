@@ -12,10 +12,10 @@ ręka: Ręka()
 
 ¶Wysokość dłoni mówi, ile jest orkiestry, a ruch w bok mówi, jak szybko gra. Oba odczytujemy wprost z dłoni, a nie z pamięci, więc podążają za nią bez przerwy. Każdą wartość zaokrąglamy do kroku, więc muzyka zmienia się tylko wtedy, gdy zmiana jest dość duża, żeby ją usłyszeć. Drżąca dłoń nie przepisuje partytury dwadzieścia razy na sekundę.¶
 podnieś: ręka.miejsce.y.przeskaluj(-3m 3m 0 1).granica(0 1)
-warstwy: 1 + ((podnieś · 7).okrągły())
+warstwy: 1 + ((podnieś · 7).zaokrąglij())
 
 zasięg: ręka.miejsce.X.przeskaluj(-5m 5m 0 1).granica(0 1)
-tempo2: 72 + ((zasięg · 8).okrągły() · 12)
+tempo2: 72 + ((zasięg · 8).zaokrąglij() · 12)
 
 ¶Kto gra melodię. Pięść i dłoń poza kadrem liczą się jako zero palców, więc przy zerze palców gra dalej ten, kto grał wcześniej — inaczej odwrócenie wzroku zmieniłoby melodię.¶
 wyróżnione: 5 … ∆ ręka …
@@ -217,7 +217,7 @@ podróż: 0 … ∆ Czas(40ms) … podróż + (tempo2 ÷ 72)
 ƒ stan()•'' '\warstwy\ of 8 playing · \tempo2\ beats a minute'
 
 ¶Jedna linijka instrukcji, przyciemniona, żeby najpierw było widać flotę i wyróżnionego gracza.¶
-ƒ linijka(tekst2•'')•Wyrażenie Wyrażenie(
+ƒ linijka(tekst2•'')•Fraza Fraza(
 		tekst2
 		0.3m
 		kolor: Kolor(64% 4 265°)
@@ -227,12 +227,12 @@ podróż: 0 … ∆ Czas(40ms) … podróż + (tempo2 ÷ 72)
 wyświetl: Grupa(
 		Stos('<' 0.16m)
 		[
-			Wyrażenie(
+			Fraza(
 				ikona(wyróżnione)
 				0.9m
 				kolor: Kolor(56% 65 25°)
 			)
-			Wyrażenie(stan() 0.38m kolor: Kolor(70% 25 30°))
+			Fraza(stan() 0.38m kolor: Kolor(70% 25 30°))
 			linijka('podnieś dłoń — więcej orkiestry')
 			linijka('opuść ją — sama melodia')
 			linijka(
@@ -245,8 +245,8 @@ wyświetl: Grupa(
 	)
 
 ¶Statek przecinający scenę, lecący w pasie wysoko nad instrukcjami, żeby nigdy nie przecinał tekstu. Jego tor określa, jak wysoko leci i jak daleko zaczyna, więc nigdy nie lecą w szyku.¶
-ƒ statek(glif•'' pas•# szybkość•#)•Wyrażenie
-	Wyrażenie(
+ƒ statek(glif•'' pas•# szybkość•#)•Fraza
+	Fraza(
 		glif
 		0.7m
 		miejsce: Miejsce(
@@ -262,8 +262,8 @@ flota: [
 		statek('🛸' 3 5)
 	]
 
-ƒ gwiazda(x2•# y2•# rozmiar2•#)•Wyrażenie
-	Wyrażenie(
+ƒ gwiazda(x2•# y2•# rozmiar2•#)•Fraza
+	Fraza(
 		'✦'
 		rozmiar2 · 1m
 		miejsce: Miejsce(x2 · 1m y2 · 1m)

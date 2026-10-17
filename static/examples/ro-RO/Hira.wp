@@ -9,7 +9,7 @@ gravitație•#m/s^2: 15m/s^2 … ∆ Buton() … -gravitație
 
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
 
-litere: numărare2 → [].traduce(
+litere: numărare2 → [].transformă(
 		ƒ(număr2 index2)
 			Fraza(
 				hiragana[număr2]
@@ -22,7 +22,7 @@ litere: numărare2 → [].traduce(
 	)
 
 
-Etapă(
+Estradă(
 	[:litere Figură(Dreptunghi(-40m 0m 40m -2m))]
 	gravitaţie: gravitație
 	loc: Loc(0m 5m -20m)

@@ -169,8 +169,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\ jika saya mulai dengan @Text yang diberikan.",
-                        "\\'halo bait!'.starts('halo')\\",
-                        "\\'halo bait!'.starts('bait')\\"
+                        "\\'halo bait!'.mulai('halo')\\",
+                        "\\'halo bait!'.mulai('bait')\\"
                     ],
                     "names": ["$~mulai"],
                     "inputs": [
@@ -493,9 +493,9 @@
                 "round": {
                     "doc": [
                         "$~Saya membuat @Number baru yang membulatkan @value saya ke bilangan bulat terdekat.",
-                        "\\9.4.round()\\",
-                        "\\9.5.round()\\",
-                        "\\9.6.round()\\"
+                        "\\9.4.bulat()\\",
+                        "\\9.5.bulat()\\",
+                        "\\9.6.bulat()\\"
                     ],
                     "names": ["$~bulat"],
                     "inputs": []
@@ -503,9 +503,9 @@
                 "roundDown": {
                     "doc": [
                         "$~Saya membuat @Number baru yang membulatkan ke bilangan bulat terkecil yang kurang dari @value saya.",
-                        "\\10.5.roundDown()\\",
-                        "\\10.1.roundDown()\\",
-                        "\\10.01.roundDown()\\"
+                        "\\10.5.bulatkankebawah()\\",
+                        "\\10.1.bulatkankebawah()\\",
+                        "\\10.01.bulatkankebawah()\\"
                     ],
                     "names": ["$~bulatkankebawah"],
                     "inputs": []
@@ -513,11 +513,11 @@
                 "roundUp": {
                     "doc": [
                         "$~Saya membuat @Number baru yang membulatkan ke bilangan bulat terkecil yang lebih besar dari saya.",
-                        "\\10.5.roundUp()\\",
-                        "\\10.9.roundUp()\\",
-                        "\\10.99.roundUp()\\"
+                        "\\10.5.bulatkanKeAtas()\\",
+                        "\\10.9.bulatkanKeAtas()\\",
+                        "\\10.99.bulatkanKeAtas()\\"
                     ],
-                    "names": ["$~Ringkasan"],
+                    "names": ["$~bulatkanKeAtas", "$~Ringkasan"],
                     "inputs": []
                 },
                 "power": {
@@ -636,21 +636,21 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["$~Hitung kosinus dari saya.", "\\π.cos()\\"],
-                    "names": ["$~karena", "$~kosinus"],
+                    "doc": ["$~Hitung kosinus dari saya.", "\\π.kosinus()\\"],
+                    "names": ["$~kosinus"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~Hitung sinus dari saya.", "\\π.cos()\\"],
+                    "doc": ["$~Hitung sinus dari saya.", "\\π.kosinus()\\"],
                     "names": ["$~dosa", "$~sinus"],
                     "inputs": []
                 },
                 "min": {
                     "doc": [
                         "$~Carilah jumlah terkecil dari saya dan orang lain.",
-                        "\\1.min(2 3 -1)\\"
+                        "\\1.minimal(2 3 -1)\\"
                     ],
-                    "names": "$~menit",
+                    "names": ["$~minimal", "$~menit"],
                     "inputs": [
                         {
                             "doc": "$~Anda bisa memberikan angka sebanyak yang Anda inginkan!",
@@ -661,7 +661,7 @@
                 "max": {
                     "doc": [
                         "$~Temukan jumlah terbesar dari saya dan orang lain.",
-                        "\\1.max(2 3 4)\\"
+                        "\\1.maksimal(2 3 4)\\"
                     ],
                     "names": "$~maksimal",
                     "inputs": [
@@ -672,7 +672,7 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Hitung tangen dari saya.", "\\π.tan()\\"],
+                    "doc": ["$~Hitung tangen dari saya.", "\\π.tangen()\\"],
                     "names": ["$~tangen"],
                     "inputs": []
                 },
@@ -742,7 +742,7 @@
                 "limit": {
                     "doc": [
                         "$~Jaga aku tetap di antara angka rendah dan angka tinggi: jika aku di bawah angka rendah, itulah yang kamu dapat, dan jika aku di atas angka tinggi, kamu dapat angka itu sebagai gantinya.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.batas(0 10)\\"
                     ],
                     "names": "$~batas",
                     "inputs": [
@@ -759,7 +759,7 @@
                 "toward": {
                     "doc": [
                         "$~Bergerak sebagian jalan dariku ke angka lain. Pada 0% kamu dapat aku, pada 100% kamu dapat angka lainnya, dan tepat di tengah memberi angka di antaranya.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.menuju(10m 30%)\\"
                     ],
                     "names": "$~menuju",
                     "inputs": [
@@ -776,7 +776,7 @@
                 "rescale": {
                     "doc": [
                         "$~Temukan posisiku di antara satu pasang angka, lalu berikan kembali angka yang berada pada posisi yang sama di antara pasangan angka lain. Berguna untuk mengubah sesuatu yang kamu ukur menjadi sesuatu yang bisa kamu tampilkan.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.ubahSkala(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~ubahSkala",
                     "inputs": [
@@ -976,7 +976,7 @@
                 "add": {
                     "doc": [
                         "$~Saya membuat @List baru dengan item yang diberikan di bagian akhir.",
-                        "\\['apel' 'pisang' 'mangga'].with('semangka')\\"
+                        "\\['apel' 'pisang' 'mangga'].dengan('semangka')\\"
                     ],
                     "names": "$~dengan",
                     "inputs": [
@@ -989,7 +989,7 @@
                 "append": {
                     "doc": [
                         "$~Saya membuat @List baru dengan @value-nilai saya, kemudian semua nilai dari @List yang diberikan setelah saya.",
-                        "\\['apel' 'pisang' 'mangga'].withList(['semangka' 'belimbing'])\\",
+                        "\\['apel' 'pisang' 'mangga'].denganDaftar(['semangka' 'belimbing'])\\",
                         "Menggunakan @Spread sedikit lebih mudah, seperti ini:",
                         "\\['apel' 'pisang' 'mangga' :['semangka' 'belimbing']]\\"
                     ],
@@ -1004,7 +1004,7 @@
                 "replace": {
                     "doc": [
                         "$~Aku membuat daftar baru yang mengganti @value pada @index yang diberikan dengan nilai yang diberikan.",
-                        "\\['apple' 'banana' 'mango'].replace(1 'kiwi')\\"
+                        "\\['apple' 'banana' 'mango'].mengganti(1 'kiwi')\\"
                     ],
                     "names": ["$~mengganti"],
                     "inputs": [
@@ -1026,7 +1026,7 @@
                 "random": {
                     "doc": [
                         "$~Salah satu item saya dipilih secara acak, atau @None jika saya kosong.",
-                        "\\['apel' 'pisang' 'mangga'].random()\\"
+                        "\\['apel' 'pisang' 'mangga'].acak()\\"
                     ],
                     "names": "$~acak",
                     "inputs": []
@@ -1042,7 +1042,7 @@
                 "first": {
                     "doc": [
                         "$~Item pertama di dalam diriku, atau @None jika aku kosong.",
-                        "\\['apple' 'banana' 'mango'].first()\\"
+                        "\\['apple' 'banana' 'mango'].Pertama()\\"
                     ],
                     "names": "$~Pertama",
                     "inputs": []
@@ -1050,7 +1050,7 @@
                 "last": {
                     "doc": [
                         "$~Item terakhir di dalam diriku, atau @None jika aku kosong.",
-                        "\\['apple' 'banana' 'mango'].last()\\"
+                        "\\['apple' 'banana' 'mango'].terakhir()\\"
                     ],
                     "names": "$~terakhir",
                     "inputs": []
@@ -1058,7 +1058,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ jika saya memiliki suatu barang yang sama dengan barang yang diberikan di dalam diri saya.",
-                        "\\['apel' 'pisang' 'mangga'].has('pisang')\\"
+                        "\\['apel' 'pisang' 'mangga'].memiliki('pisang')\\"
                     ],
                     "names": "$~memiliki",
                     "inputs": [
@@ -1071,9 +1071,9 @@
                 "join": {
                     "doc": [
                         "$~Saya menggabungkan item-item dalam daftar saya ke dalam @Text, dipisahkan oleh pemisah @Text yang diberikan.",
-                        "\\['apple' 'banana' 'mango'].join(', ')\\"
+                        "\\['apple' 'banana' 'mango'].gabungkan(', ')\\"
                     ],
-                    "names": "$~bergabung",
+                    "names": ["$~gabungkan", "$~bergabung"],
                     "inputs": [
                         {
                             "doc": "$~Teks yang digunakan untuk memisahkan item, opsional kosong.",
@@ -1108,7 +1108,7 @@
                 "sansFirst": {
                     "doc": [
                         "$~Saya membuat daftar tanpa item pertama saya.",
-                        "\\['apel' 'pisang' 'mangga'].sansFirst()\\"
+                        "\\['apel' 'pisang' 'mangga'].tanpaPertama()\\"
                     ],
                     "names": ["$~tanpaPertama"],
                     "inputs": []
@@ -1116,7 +1116,7 @@
                 "sansLast": {
                     "doc": [
                         "$~Saya membuat daftar tanpa item terakhir saya.",
-                        "\\['apel' 'pisang' 'mangga'].sansLast()\\"
+                        "\\['apel' 'pisang' 'mangga'].tanpaTerakhir()\\"
                     ],
                     "names": ["$~tanpaTerakhir", "$~tanpaterakhir"],
                     "inputs": []
@@ -1137,7 +1137,7 @@
                 "reverse": {
                     "doc": [
                         "$~Aku, tapi kebalikannya!",
-                        "\\['apple' 'banana' 'mango'].reverse()\\"
+                        "\\['apple' 'banana' 'mango'].terbalik()\\"
                     ],
                     "names": ["$~terbalik", "$~balik"],
                     "inputs": []
@@ -1172,9 +1172,9 @@
                     "doc": [
                         "$~Beri saya sebuah @FunctionDefinition yang menerima sebuah @value dan @index opsional sebagai input dan menghasilkan sebuah nilai, lalu saya akan menjalankannya pada setiap item saya, mengubah nilai-nilai saya menjadi nilai-nilai baru.",
                         "Sebagai contoh, bayangkan saya adalah sebuah daftar @Number dan kamu ingin melipatgandakan semuanya:",
-                        "\\[2 4 6 8].menerjemahkan(ƒ(num•#) num × 2)\\"
+                        "\\[2 4 6 8].petakan(ƒ(num•#) num × 2)\\"
                     ],
-                    "names": "$~menerjemahkan",
+                    "names": ["$~petakan", "$~menerjemahkan"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition yang akan menerjemahkan setiap item.",
@@ -1372,7 +1372,7 @@
                 "sum": {
                     "doc": [
                         "$~Jumlahkan semua angkaku. Jika aku kosong, hasilnya 0, dan jika angka-angkaku tidak semuanya diukur dengan satuan yang sama, aku akan mengatakannya daripada menebak.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].total()\\"
                     ],
                     "names": "$~total",
                     "inputs": []
@@ -1380,7 +1380,7 @@
                 "average": {
                     "doc": [
                         "$~Jumlahkan semua angkaku lalu bagi dengan banyaknya angka itu. Jika aku kosong, tidak ada yang bisa dirata-ratakan, jadi kamu dapat @None.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].rataRata()\\"
                     ],
                     "names": "$~rataRata",
                     "inputs": []
@@ -1513,7 +1513,7 @@
                     "doc": [
                         "$~Berikan saya @FunctionDefinition yang menerima sebuah item dan menghasilkan \\⊤\\ jika item tersebut harus dipertahankan, dan saya akan membuat @Set yang hanya berisi item yang memenuhi kriteria Anda.",
                         "Sebagai contoh, mari kita temukan angka ganjil dalam diri saya:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.menyaring(ƒ(num•#) (num % 2) = 1)\\"
                     ],
                     "names": "$~menyaring",
                     "inputs": [
@@ -1537,9 +1537,9 @@
                     "doc": [
                         "$~Berikan saya @FunctionDefinition yang menerima sebuah item dan menghasilkan item baru berdasarkan item tersebut, kemudian saya akan menerjemahkan semua item di dalamnya ke dalam @Set baru (dengan menghapus duplikat apa pun).",
                         "Sebagai contoh, mari kita ubah semua @Number saya menjadi @Text:",
-                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.petakan(ƒ(num•#) num→'')\\"
                     ],
-                    "names": "$~menerjemahkan",
+                    "names": ["$~petakan", "$~menerjemahkan"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition yang menerjemahkan salah satu item saya menjadi item baru yang Anda inginkan.",
@@ -1620,7 +1620,7 @@
                 "set": {
                     "doc": [
                         "$~Aku akan membuat @Map baru dengan semua pasangan yang sama, tapi dengan pasangan baru yang kamu berikan. Jika aku sudah punya @key itu, aku akan memasangkannya ke @value baru.",
-                        "\\{'amy': 6points 'tony':3points}.pair('jen' 0points)\\"
+                        "\\{'amy': 6points 'tony':3points}.pasangan('jen' 0points)\\"
                     ],
                     "names": "$~pasangan",
                     "inputs": [
@@ -1637,7 +1637,7 @@
                 "unset": {
                     "doc": [
                         "$~Aku akan membuat @Map baru tanpa @key yang kamu berikan, menghapus pasangannya.",
-                        "\\{'amy': 6points 'tony':3points}.unpair('amy')\\"
+                        "\\{'amy': 6points 'tony':3points}.lepaskanpasangan('amy')\\"
                     ],
                     "names": "$~lepaskanpasangan",
                     "inputs": [
@@ -1650,7 +1650,7 @@
                 "remove": {
                     "doc": [
                         "$~Aku akan membuat @Map baru tanpa kunci apa pun yang memiliki @value.",
-                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.remove(0points)\\"
+                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.menghapus(0points)\\"
                     ],
                     "names": "$~menghapus",
                     "inputs": [
@@ -1664,7 +1664,7 @@
                     "doc": [
                         "$~Beri aku sebuah @FunctionDefinition yang mengambil @key dan @value lalu menghasilkan \\⊤\\ jika sebuah pasangan harus disimpan. Aku akan membuat @Map baru yang memenuhi ketentuanmu.",
                         "Contohnya, di sini kita ingin menyimpan pasangan mana pun yang bernama Amy atau punya poin lebih dari nol.",
-                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.filter(ƒ(key•'' value•#points) (key = 'amy') | (value > 0points))\\"
+                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.menyaring(ƒ(key•'' value•#points) (key = 'amy') | (value > 0points))\\"
                     ],
                     "names": "$~menyaring",
                     "inputs": [
@@ -1694,7 +1694,7 @@
                         "Contohnya, mari beri semua orang satu poin karena mereka sudah sangat baik.",
                         "\\{'amy': 5points 'jen': 3points 'tony': 0points}.translate(ƒ(key•'' value•#points) value + 1points)\\🪲"
                     ],
-                    "names": "$~menerjemahkan",
+                    "names": ["$~petakan", "$~menerjemahkan"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition yang menerjemahkan setiap @value.",

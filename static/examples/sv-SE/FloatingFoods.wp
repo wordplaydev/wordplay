@@ -11,7 +11,7 @@ senaste•['']:
 
 Grupp(
 	Rutnät(3 3 1m 1m)
-	senaste.översätta(
+	senaste.omvandla(
 		ƒ(maträtt•"" index2•#)
 			Fras(
 				maträtt

@@ -4,10 +4,10 @@
 Ta có thể làm điều đó với một @Row, nó sắp xếp mọi thứ theo một @Group từ trái sang phải.
 
 \
-Group(Row() [
-    Phrase('🍎')
-    Phrase('🍌')
-    Phrase('🍇')
+Nhóm(Hàngngang() [
+    Cụmtừ('🍎')
+    Cụmtừ('🍌')
+    Cụmtừ('🍇')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Row() [
 Đây là cùng loại trái cây đó, nhưng được canh theo mép dưới với một chút khoảng cách:
 
 \
-Group(Row('>' 0.5m) [
-    Phrase('🍎' kíchcỡ: 2m)
-    Phrase('🍌' kíchcỡ: 1m)
-    Phrase('🍇' kíchcỡ: 3m)
+Nhóm(Hàngngang('>' 0.5m) [
+    Cụmtừ('🍎' kíchcỡ: 2m)
+    Cụmtừ('🍌' kíchcỡ: 1m)
+    Cụmtừ('🍇' kíchcỡ: 3m)
 ])
 \
 

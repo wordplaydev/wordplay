@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['ಬೆಕ್ಕು' 'ನಾಯಿ'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['ಬೆಕ್ಕು' 'ನಾಯಿ'] 0) … state.secrets.ಹೊಂದಿದೆ(ಚಾಟ್()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("ನೀವು ಗೆದ್ದಿರಿ!")]
-        [ Group(Stack() [ Phrase("ನನ್ನ ರಹಸ್ಯ ಪದಗಳನ್ನು ಊಹಿಸಿ") Phrase(`\state.secrets.length() - state.points\ ಇನ್ನಷ್ಟು ರಹಸ್ಯಗಳು`)])]
+ವೇದಿಕೆ(
+    state.points = state.secrets.ಉದ್ದ() ? 
+        [ ನುಡಿಗಟ್ಟು("ನೀವು ಗೆದ್ದಿರಿ!")]
+        [ ಗುಂಪು(ಸ್ಟ್ಯಾಕ್() [ ನುಡಿಗಟ್ಟು("ನನ್ನ ರಹಸ್ಯ ಪದಗಳನ್ನು ಊಹಿಸಿ") ನುಡಿಗಟ್ಟು(`\state.secrets.length() - state.points\ ಇನ್ನಷ್ಟು ರಹಸ್ಯಗಳು`)])]
 )
 \
 

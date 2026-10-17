@@ -9,7 +9,7 @@ farbe2: Farbe(0% 0 0°) … ∆ Taste() … Farbe(
 			Zufällig() × 360°
 		)
 
-Satzglied(
+Phrase(
 	'wowie'
 	Name: 'Kätzchen'
 	Größe: 6m

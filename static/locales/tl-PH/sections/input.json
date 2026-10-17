@@ -20,7 +20,7 @@
             "names": ["$~🎲", "$~Random"],
             "inputs": [
                 {
-                    "names": "$~minuto",
+                    "names": ["$~pinakamaliit", "$~minuto"],
                     "doc": "$~Ang pinakamababang @value na gagawin, o kung mas malaki ito sa 0, ang pinakamataas na halaga. Kung ibinigay ang @None, ang pinakamababa ay \\0\\."
                 },
                 {
@@ -35,7 +35,7 @@
                 "/clickety tap!/",
                 "Kaya ang pinakamahusay na paraan upang gamitin ito ay ang lumikha ng isang pagtatanghal na may pinangalanang mga pariralang mapipili @Phrase , at pagkatapos ay gumamit ng @Reaction upang magpasya kung ano ang gagawin kapag ang pangalang iyon ay napili.",
                 "Narito ang pinakasimpleng halimbawa:",
-                "\\Group(\nStack() \n[\nPhrase('one' mapipili:⊤ pangalan:'1') \nPhrase('two' mapipili:⊤ pangalan:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Grupo(\nPatongpatong() \n[\nParirala('one' mapipili:⊤ pangalan:'1') \nParirala('two' mapipili:⊤ pangalan:'2') \nParirala(Pagpipilian())\n]\n)\\",
                 "Kopyahin ito sa @editor at pagkatapos ay pumili ng isa sa dalawang @Phrase . Makikita mo sa pangatlong @Phrase na nagpapakita ng pangalang napili."
             ],
             "names": ["$~Pagpipilian"]
@@ -47,10 +47,10 @@
                 "Siyempre, ang mouse o trackpad ay hindi ang pinakamainam na pagpipilian para makinig sa mga tao, dahil hindi lahat ay makakagamit nito. Ang mas madaling gamitin na pagpipilian ay @Choice.",
                 "Ngunit kung /talagang/ kailangan mong makinig sa isang pindutan ng mouse, ito ang paraan para gawin ito. Magbibigay ito ng isang stream ng @Boolean, na kumakatawan kung ang pangunahing pindutan ay nasa itaas \\⊥\\ o nasa ibaba \\⊤\\.",
                 "Narito ang isang simpleng halimbawa:",
-                "\\Parirala(Butones() → '')\\",
+                "\\Parirala(Pindutan() → '')\\",
                 "Gumagawa lang ito ng @Phrase na siyang @value ng stream bilang teksto. Kung kokopyahin mo ito sa @editor at magki-click ka, makikita mong nagpapalit-palit ito sa pagitan ng \\⊥\\ at \\⊤\\."
             ],
-            "names": ["$~Butones"],
+            "names": ["$~Pindutan", "$~Butones"],
             "down": {
                 "names": "$~pababa",
                 "doc": "$~Kung @None, ang stream ay magbibigay ng parehong pataas at pababa na mga @value. Kung ang isang \\⊤\\, magbabago lamang ito kapag pinindot ang buton. Kung bibigyan ng \\⊥\\, magbabago lamang ito kapag binitawan ang buton."
@@ -62,7 +62,7 @@
                 "/whrrrrrr/",
                 "Siyempre, hindi ito isang madaling pagpipilian: hindi lahat ay makakakita o madaling makakapagturo, kaya siguraduhing hindi mo mapipigilan ang sinuman na lumahok sa pamamagitan ng paggamit ng stream na ito.",
                 "Kung sigurado kang walang sinuman ang hindi kasama, ang paggamit @Pointer ay kasing simple ng paggawa lamang ng stream:",
-                "\\Pointer()\\",
+                "\\Panturo()\\",
                 "Ang @Place na ibinibigay nito ay tutugma sa kung saan sa @Stage nakaturo ang pointer."
             ],
             "names": ["$~Panturo"]
@@ -171,10 +171,10 @@
                 "$~Ito ay isang daloy ng lakas ng tunog ng mikropono, mula 0 hanggang 1.",
                 "/bzzzzzzz/",
                 "Ito ay kinokonsumo sa frequency na iyong napili. Bilang default, ang frequency ay \\30hz\\ , o 30 beses bawat segundo, ngunit maaari mo itong baguhin sa anumang hindi gaanong madalas.",
-                "\\Volume()\\",
+                "\\Lakas()\\",
                 "Ang ganda nito para mapakinggan kung gaano kalakas ang sigawan ng mga manonood!"
             ],
-            "names": ["$~Dami"],
+            "names": ["$~Lakas", "$~Dami"],
             "frequency": {
                 "names": ["$~dalas"],
                 "doc": "$~Ang oras sa pagitan ng mga sampling."
@@ -185,7 +185,7 @@
                 "$~Ito ay isang stream ng pitch ng mikropono, sa hertz.",
                 "/hummmmm/",
                 "Kinokonsumo ito sa frequency na iyong napili. Ang boses ng tao ay nasa pagitan ng 20Hz at 5000Hz, kaya planuhin ang mga numero sa saklaw na iyon.",
-                "\\Pitch()\\",
+                "\\Tono()\\",
                 "Maganda ito para sa pakikinig sa tono ng pagsasalita o pag-awit ng isang tao."
             ],
             "names": ["Tono"],
@@ -235,7 +235,7 @@
                 "/bzzzzzzz/",
                 "@List na iyan ay mahalagang kumakatawan sa isang imahe, ngunit nasa iyo ang desisyon kung ano ang gagawin dito.",
                 "Maaari mong subukang irepresenta ang larawan gamit ang ilang @Phrase , na maaaring magmukhang maganda! Subukan mong kopyahin ito...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' lugar: Place((x - 1) × 0.5m y × -0.5m) kulay: color tagal: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Kamera(32px 24px 33ms)\n\nEntablado(\ncolors.pinagsama(\n[] \nƒ(phrases•[Parirala] row•[Kulay] y•#) \nphrases.kasamaangListahan(\nrow.isalin(\nƒ(color•Kulay x•#)\nParirala('o' lugar: Lugar((x - 1) × 0.5m y × -0.5m) kulay: color tagal: 0s\n)\n)\n)\n)\n)\\",
                 "Ngunit maaari mo ring suriin ang mga kulay upang magpasya kung ang isang ilaw ay naka-on o naka-off, o kung ang isang partikular na kulay ay karaniwan, na hinahayaan ang mga manonood na makaimpluwensya sa isang pagtatanghal gamit ang mga kulay na ipinapakita ng mga ito."
             ],
             "names": ["$~Kamera"],
@@ -264,7 +264,7 @@
                 "Kung may animated na output ka na naka-loob (isang @Group na may animated na @Phrase sa loob), maghihintay ang @Scene hanggang matapos ang lahat ng animated na nilalaman sa @Group.",
                 "Ay, at isa pang maliit na sikreto! Maaari mo ring ilagay ang @Boolean sa listahan, at kung ang mga ito ay \\⊥\\, huminto muna at maghihintay ang @Scene hanggang maging totoo ito.",
                 "Halimbawa, kung gusto mong gumawa ng sunud-sunod na @Phrase at umusad lamang kapag nagbago ang @Button, maaari mong gawin ito:",
-                "\\click: ∆ Butones()\nEksena(\n\t[\n\t\tParirala('Kumusta')\n\t\tclick\n\t\tParirala(\n\t\t\t'Kumusta ka?'\n\t\t\ttagal: 0.25s\n\t\t\tpagikot: 5°\n\t\t\tpagpasok: Pose(pagikot: 0°)\n\t\t)\n\t\tclick\n\t\tParirala('Mabuti ako')\n\t]\n)\\",
+                "\\click: ∆ Pindutan()\nEksena(\n\t[\n\t\tParirala('Kumusta')\n\t\tclick\n\t\tParirala(\n\t\t\t'Kumusta ka?'\n\t\t\ttagal: 0.25s\n\t\t\tpagikot: 5°\n\t\t\tpagpasok: Pose(pagikot: 0°)\n\t\t)\n\t\tclick\n\t\tParirala('Mabuti ako')\n\t]\n)\\",
                 "Napansin mo ba na humihinto ito pagkatapos ng bawat @Phrase, at naghihintay para magbago ang @Button bago umusad?",
                 "Bilang default, huminto ako sa huli kong output. Bigyan mo ako ng @Scene/loop at babalik ako sa una kong output, na siyang gusto ng isang larong nagtatanong muli pagkatapos ng bawat round.",
                 "Sinusuri ko ang @Scene/loop sa tuwing nagbabago ang iyong programa, kaya maaaring magtapos ang isang loop tulad ng pagsisimula nito. Dito, patuloy akong nagtatanong hanggang tama ang sagot nila, at saka lang huminto:",
@@ -285,7 +285,7 @@
                 "names": "$~ulitin",
                 "doc": [
                     "$~Kapag ito ay \\⊤\\ sa isang ebalwasyon, magsisimula ako ulit mula sa una kong output, kahit saan man ako nakarating, at babalik sa 0 ang aking @Slate/lap.",
-                    "Bigyan mo ako ng /panandaliang/ @condition, isang totoo lamang sa ebalwasyon na dulot ng pangyayari, tulad ng \\∆ Butones()\\. Ang isang kondisyong tumatagal tulad ng \\score > 10\\🪲 ay nananatiling totoo kapag naging totoo na ito, kaya isisimula nito ako ulit sa bawat ebalwasyon mula noon."
+                    "Bigyan mo ako ng /panandaliang/ @condition, isang totoo lamang sa ebalwasyon na dulot ng pangyayari, tulad ng \\∆ Pindutan()\\. Ang isang kondisyong tumatagal tulad ng \\score > 10\\🪲 ay nananatiling totoo kapag naging totoo na ito, kaya isisimula nito ako ulit sa bawat ebalwasyon mula noon."
                 ]
             },
             "pause": {
@@ -303,7 +303,7 @@
                     "Tulad ng @Scene/replay, gusto nito ng /panandaliang/ @condition — isang bagay na \\ø\\ maliban sa ebalwasyon kung saan mo ako gustong ilipat. Ang numero na nananatili sa isang lugar ay magpapako sa akin doon magpakailanman.",
                     "Ipadala mo ako lampas sa alinmang dulo at hihinto ako doon, maliban kung @Scene/loop ay \\⊤\\, kung saan babalik ako sa umpisa. Nangangahulugan iyon na hindi mo na kailangang mag-check. Dito, ang mga arrow key ay naglalakad sa slide show sa magkabilang direksyon:",
                     "Kung mas gusto mong sabihing /isa pasulong/ kaysa /numero tatlo/, iyon ay @Scene/step.",
-                    "\\mgaSlide: [\n\t\tParirala('isa')\n\t\tParirala('dalawa')\n\t\tParirala('tatlo')\n\t]\nsusi2: Susi()\nsa: Spotlight()\nEksena(\n\tmgaSlide\n\tiPause: ⊤\n\tumandar: ∆ susi2 ? ((susi2 = 'Palaso Kaliwa') ? sa.index - 1 (susi2 = 'PalasoKanan') ? sa.index + 1 ø) ø\n)\\"
+                    "\\mgaSlide: [\n\t\tParirala('isa')\n\t\tParirala('dalawa')\n\t\tParirala('tatlo')\n\t]\nsusi2: Susi()\nsa: IlawNaPantutok()\nEksena(\n\tmgaSlide\n\tiPause: ⊤\n\tumandar: ∆ susi2 ? ((susi2 = 'Palaso Kaliwa') ? sa.indeks - 1 (susi2 = 'PalasoKanan') ? sa.indeks + 1 ø) ø\n)\\"
                 ]
             },
             "name": {
@@ -315,7 +315,7 @@
                 "doc": [
                     "$~Isang @condition na hihintayin pagkatapos ng bawat isa sa mga output ko, kapag natapos na ang @Phrase/duration nito o natapos na ang animasyon nito.",
                     "Kapareho ito ng pagsulat ng @Boolean na iyon sa pagitan ng bawat output sa aking listahan, na siyang gagawin mo upang maghintay ang isa sa aking mga output. Dito, isang beses lamang isinusulat ito:",
-                    "\\Eksena(\n\t[Parirala('isa') Parirala('dalawa') Parirala('tatlo')]\n\thanggang: ∆ Butones()\n)\\",
+                    "\\Eksena(\n\t[Parirala('isa') Parirala('dalawa') Parirala('tatlo')]\n\thanggang: ∆ Pindutan()\n)\\",
                     "Gumagana pa rin ang isang @Boolean na nakasulat sa listahan, at magkaiba ang dalawang paghihintay, kaya puwede kang tumagal nang mas matagal sa isang partikular na lugar."
                 ]
             },
@@ -361,7 +361,7 @@
             "doc": [
                 "$~Ito ay isang stream ng mga @Text message na tina-type ng iyong audience.",
                 "Halimbawa, sinusuri ng simpleng programang ito kung ang mensahe ay 'hello', at kung oo, ang programa ay magre-rate ng 'hi'. Kung hindi, ang re-rate nito ay 'huh'?",
-                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "\\Makipagchat().mayroon('hello') ? 'hi!' 'huh?'\\",
                 "Ayan na! Maaari kang gumawa ng lahat ng uri ng pagtatanghal gamit ito, tulad ng mga chat bot, text adventure, o mga text-based control scheme para sa iba pang uri ng pagtatanghal."
             ],
             "names": ["$~Makipagchat"]
@@ -475,7 +475,7 @@
                 "doc": "$~Ang direksyon at magnitude ng direksyon sa kahabaan ng x-axis."
             },
             "y": {
-                "names": "$~taon",
+                "names": "$~y",
                 "doc": "$~Ang direksyon at magnitude ng direksyon sa kahabaan ng y-axis."
             }
         },
@@ -503,9 +503,9 @@
             "doc": [
                 "$~Sinusubaybayan nito ang balangkas ng glyph ng bawat letra bilang isang @List of @Place .",
                 "Lagyan ito ng kaunting teksto at font face, at susubaybayan nito ang outline ng bawat glyph punto por punto.",
-                "\\Contour('a' \"Noto Sans\")\\",
+                "\\Kontur('a' \"Noto Sans\")\\",
                 "Ipakain ang mga halagang @Place na iyon sa isang @List of @Phrase upang makita ang balangkas na iginuhit bilang mga tuldok:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' lugar: point)))\\",
+                "\\Entablado(Kontur('a' \"Noto Sans\" 10m).isalin(ƒ(point) Parirala('•' lugar: point)))\\",
                 "Maaari mong i-scale ang outline gamit ang @Number of meters, ilipat ang pinagmulan nito gamit ang @Place , pumili ng font weight, i-on ang italics, at itakda ang `spacing` sa pagitan ng mga punto bilang distansya sa metro. Ang mas maliit na `spacing` ay mas malapit na sumusubaybay sa outline, na may pantay na pagitan ng mga punto sa parehong linya at kurba.",
                 "Ang ilang mga glyph, tulad ng color emoji, ay walang outline, kaya wala silang dinadagdag na mga point. Habang kinukuha nito ang font, bibigyan ka nito ng isang blangkong @List , pagkatapos ay pupunan ito kapag handa na ito."
             ],
@@ -702,7 +702,7 @@
                 },
                 {
                     "doc": "$~Ang pinakamaraming bagay na babanggitin nang sabay-sabay.",
-                    "names": "$~bilangin"
+                    "names": ["$~bilang", "$~bilangin"]
                 }
             ],
             "categories": {
@@ -815,7 +815,7 @@
             "names": "$~Downbeat",
             "count": {
                 "doc": "$~Kung ilang tibok na ang natugtog ng musikang ito, simula sa \\0\\.\n\nNagsisimula ang pagbibilang kapag /nagsimula/ ang musika, at nagsisimula muli kapag nagsimula ito ulit — isang @Music/replay, o pag-alis sa entablado at pagbalik. Ang pag-edit sa musika habang tumutugtog ay /hindi/ nagre-reset sa akin, at hindi rin ang @Music/pause — ang hinintong musika ay tumitigil sa pagbilang at ipinagpapatuloy kung saan ito huminto. Ang pagbabago ay isinisingit at nagpapatuloy ang bilang, at ito ang nagpapaiba sa isang edit sa isang pagsisimula muli.",
-                "names": "$~bilangin"
+                "names": ["$~bilang", "$~bilangin"]
             },
             "instruments": {
                 "doc": "$~Ang @Instrument na tumutunog sa tibok na ito, na binabanggit nang isang beses bawat isa. Isang daanang-madali para sa karaniwang sitwasyon; nasa @Downbeat/parts ang detalye.",
@@ -901,7 +901,7 @@
             "doc": [
                 "$~Sinasabi ko kung nasaan ang isang @Scene ngayon: kung aling output ang ipinapakita nito, ilan ang mayroon ito, at kung naghihintay ba ito ng isang tao.",
                 "Nagpapakita ng mga bagay ang isang @Scene; ako ang paraan kung paano nalalaman ng iba pang bahagi ng isang programa kung ano ang ipinapakita nito. Iyon ang nagpapahintulot sa iyong maglagay ng counter sa ilalim ng isang slide show, magpatugtog ng iba't ibang musika sa iba't ibang bahagi ng isang kuwento, o magpakita ng /press any key/ na paalala lamang habang talagang naghihintay ang eksena.",
-                "\\mgaSlide: [\n\t\tParirala('isa')\n\t\tParirala('dalawa')\n\t\tParirala('tatlo')\n\t]\nsa: Spotlight()\nEntablado(\n\t[\n\t\tEksena(mgaSlide loop: ⊤)\n\t\tParirala(\n\t\t\t`\\sa.index\\ ng \\sa.total\\`\n\t\t\tlaki: 0.3m\n\t\t\tlugar: Lugar(0m -2m)\n\t\t)\n\t]\n)\\",
+                "\\mgaSlide: [\n\t\tParirala('isa')\n\t\tParirala('dalawa')\n\t\tParirala('tatlo')\n\t]\nsa: IlawNaPantutok()\nEntablado(\n\t[\n\t\tEksena(mgaSlide loop: ⊤)\n\t\tParirala(\n\t\t\t`\\sa.index\\ ng \\sa.total\\`\n\t\t\tlaki: 0.3m\n\t\t\tlugar: Lugar(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Lagi akong may @Slate, kahit bago pa may nangyari, kaya hindi mo na kailangang suriin ako para sa \\ø\\."
             ],
             "names": "$~IlawNaPantutok",

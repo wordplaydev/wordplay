@@ -14,7 +14,7 @@ bingkaiKunci: {
 Panggung(
 	[
 		Kelompok(
-			Jaringan(4 2 bantalansel: 0.25m)
+			Kisi(4 2 bantalansel: 0.25m)
 			[
 				Frasa('lurus' ukuran: 0.25m)
 				Frasa(

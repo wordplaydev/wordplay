@@ -200,7 +200,7 @@
                 "/bzzzzzzz/",
                 "Ese @List básicamente representa una imagen, pero tú decides qué hacer con ella.",
                 "Podrías intentar representar la imagen con un montón de @Phrase, ¡lo cual se vería muy padre! Intenta copiar esto...",
-                "\\colores: Cámara(32px 24px 33ms)\n\nEscenario(\n\tcolores.combinar(\n\t\t[]\n\t\tƒ(frases•[Phrase] fila•[Color] y•#)\n\t\t\tfrases.adjuntar(\n\t\t\t\tfila.traducir(\n\t\t\t\t\tƒ(color•Color x•#)\n\t\t\t\t\t\tFrase(\n\t\t\t\t\t\t\t'o'\n\t\t\t\t\t\t\tlugar: Lugar((x - 1) × 0.5m y × -0.5m)\n\t\t\t\t\t\t\tcolor: color\n\t\t\t\t\t\t\tduración: 0s\n\t\t\t\t\t\t)\n\t\t\t\t)\n\t\t\t)\n\t)\n)\\",
+                "\\colores: Cámara(32px 24px 33ms)\n\nEscenario(\n\tcolores.combinar(\n\t\t[]\n\t\tƒ(frases•[Frase] fila•[Color] y•#)\n\t\t\tfrases.adjuntar(\n\t\t\t\tfila.traducir(\n\t\t\t\t\tƒ(color•Color x•#)\n\t\t\t\t\t\tFrase(\n\t\t\t\t\t\t\t'o'\n\t\t\t\t\t\t\tlugar: Lugar((x - 1) × 0.5m y × -0.5m)\n\t\t\t\t\t\t\tcolor: color\n\t\t\t\t\t\t\tduración: 0s\n\t\t\t\t\t\t)\n\t\t\t\t)\n\t\t\t)\n\t)\n)\\",
                 "Pero también podrías analizar los colores para decidir si una luz estaba encendida o apagada, o si un color en particular era común, dejando que el público influya en una actuación con los colores que muestra."
             ],
             "names": ["Cámara"],
@@ -268,7 +268,7 @@
                     "Como @Scene/replay, esto quiere un @condition /momentáneo/ — algo que sea \\ø\\ excepto en la evaluación en la que quieres que me mueva. Un número que se quede fijo me clavaría ahí para siempre.",
                     "Mándame más allá de cualquiera de los extremos y me detengo ahí, a menos que @Scene/loop sea \\⊤\\, en cuyo caso doy la vuelta. Eso significa que nunca tienes que revisarlo. Aquí las teclas de flecha hacen que una presentación de diapositivas avance en ambas direcciones:",
                     "Si prefieres decir /uno adelante/ en vez de /número tres/, para eso es @Scene/step.",
-                    "\\diapositivas: [Frase('uno') Frase('dos') Frase('tres')]\nclave2: Tecla()\nen: Spotlight()\nEscena(\n\tdiapositivas\n\tpausar: ⊤\n\tir: ∆ clave2 ? ((clave2 = 'FlechaIzquierda') ? en.index - 1 (clave2 = 'FlechaDerecha') ? en.index + 1 ø) ø\n)\\"
+                    "\\diapositivas: [Frase('uno') Frase('dos') Frase('tres')]\nclave2: Tecla()\nen: Reflector()\nEscena(\n\tdiapositivas\n\tpausar: ⊤\n\tir: ∆ clave2 ? ((clave2 = 'FlechaIzquierda') ? en.índice - 1 (clave2 = 'FlechaDerecha') ? en.índice + 1 ø) ø\n)\\"
                 ]
             },
             "name": {
@@ -559,7 +559,7 @@
                 "Por defecto marco cada segundo. Dame un @Now.frequency en segundos, minutos u horas para cambiar el ritmo:",
                 "\\⏰(1min)\\",
                 "Mis @Now.timezone y @Now.calendar reflejan las entradas de @Moment, y configuran los Momentos que creo. Por ejemplo, aquí hay un reloj que muestra la hora actual en Tokio, en el calendario japonés:",
-                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "\\Ahora(1s 'Asia/Tokyo' 'japanese')\\",
                 "Si esas entradas cambian —por ejemplo, una reacción me da una zona horaria distinta— empiezo a crear Momentos con los nuevos ajustes.",
                 "¿En qué me diferencio de @Time? @Time cuenta los milisegundos desde que empezó un programa, lo cual sirve para animación. Yo te digo la fecha y la hora de reloj en un calendario y una zona horaria, lo cual sirve para relojes y calendarios."
             ],
@@ -901,7 +901,7 @@
             "doc": [
                 "$~Digo dónde está un @Scene en este momento: qué salida está mostrando, cuántas tiene, y si está esperando a alguien.",
                 "Un @Scene muestra cosas; yo soy cómo el resto de un programa descubre qué está mostrando. Eso es lo que te permite poner un contador debajo de una presentación de diapositivas, tocar música distinta en distintas partes de una historia, o mostrar una pista de /presiona cualquier tecla/ solo mientras la escena realmente está esperando.",
-                "\\diapositivas: [Frase('uno') Frase('dos') Frase('tres')]\nen: Spotlight()\nEscenario(\n\t[\n\t\tEscena(diapositivas bucle: ⊤)\n\t\tFrase(\n\t\t\t`\\en.index\\ de \\en.total\\`\n\t\t\ttamaño: 0.3m\n\t\t\tlugar: Lugar(0m -2m)\n\t\t)\n\t]\n)\\",
+                "\\diapositivas: [Frase('uno') Frase('dos') Frase('tres')]\nen: Reflector()\nEscenario(\n\t[\n\t\tEscena(diapositivas bucle: ⊤)\n\t\tFrase(\n\t\t\t`\\en.index\\ de \\en.total\\`\n\t\t\ttamaño: 0.3m\n\t\t\tlugar: Lugar(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Siempre tengo un @Slate, incluso antes de que haya pasado algo, así que nunca tienes que revisarme para \\ø\\."
             ],
             "names": "$~Reflector",

@@ -9,7 +9,7 @@ gravité•#m/s^2: 15m/s^2 … ∆ Bouton() … -gravité
 
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
 
-lettres: compte2 → [].traduire(
+lettres: compte2 → [].transformer(
 		ƒ(nombre2 indice2)
 			Phrase(
 				hiragana[nombre2]

@@ -24,7 +24,7 @@ bíMật: [:1‥9].xáotrộn()
 
 ¶Phím vừa được nhấn gần đây nhất là gì?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-chìaKhóa2,clé/fr: Chìakhóa()
+chìaKhóa2,clé/fr: Phím()
 
 ¶Số bí mật hiện tại tăng lên mỗi lần một phím được nhấn, nhưng dừng lại ở 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
@@ -59,7 +59,7 @@ Après les 9 secrets, affichez le résultat final.¶/fr
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				kếtThúcTròChơi ?
 					Cụmtừ(

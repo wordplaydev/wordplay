@@ -32,7 +32,7 @@ połóż: Miejsce(0m 0m 0m) … ∆ Czas(1000ms) … złapana ? Miejsce(
 
 Scena(
 	[
-		Wyrażenie(
+		Fraza(
 			"🐭"
 			wybieralny
 			miejsce: połóż

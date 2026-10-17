@@ -24,46 +24,46 @@ operator: ø … ogewaehlt … ((auswahl ÷ '')[-1])
 
 ¶Bildschirm zum Auswählen der ersten Zahl¶
 zahlen1: Gruppe(
-		Netz(2 5)
+		Raster(2 5)
 		[
-			Satzglied("0⃣" wählbar Name: 'zahl1_0')
-			Satzglied("1⃣" wählbar Name: 'zahl1_1')
-			Satzglied("2⃣" wählbar Name: 'num1_2')
-			Satzglied("3⃣" wählbar Name: 'num1_3')
-			Satzglied("4⃣" wählbar Name: 'num1_4')
-			Satzglied("5⃣" wählbar Name: 'num1_5')
-			Satzglied("6⃣" wählbar Name: 'num1_6')
-			Satzglied("7⃣" wählbar Name: 'num1_7')
-			Satzglied("8⃣" wählbar Name: 'num1_8')
-			Satzglied("9⃣" wählbar Name: 'num1_9')
+			Phrase("0⃣" wählbar Name: 'zahl1_0')
+			Phrase("1⃣" wählbar Name: 'zahl1_1')
+			Phrase("2⃣" wählbar Name: 'num1_2')
+			Phrase("3⃣" wählbar Name: 'num1_3')
+			Phrase("4⃣" wählbar Name: 'num1_4')
+			Phrase("5⃣" wählbar Name: 'num1_5')
+			Phrase("6⃣" wählbar Name: 'num1_6')
+			Phrase("7⃣" wählbar Name: 'num1_7')
+			Phrase("8⃣" wählbar Name: 'num1_8')
+			Phrase("9⃣" wählbar Name: 'num1_9')
 		]
 	)
 
 ¶Bildschirm zum Auswählen der zweiten Zahl¶
 zahlen2: Gruppe(
-		Netz(2 5)
+		Raster(2 5)
 		[
-			Satzglied("0⃣" wählbar Name: 'num2_0')
-			Satzglied("1⃣" wählbar Name: 'num2_1')
-			Satzglied("2⃣" wählbar Name: 'num2_2')
-			Satzglied("3⃣" wählbar Name: 'num2_3')
-			Satzglied("4⃣" wählbar Name: 'num2_4')
-			Satzglied("5⃣" wählbar Name: 'num2_5')
-			Satzglied("6⃣" wählbar Name: 'num2_6')
-			Satzglied("7⃣" wählbar Name: 'num2_7')
-			Satzglied("8⃣" wählbar Name: 'num2_8')
-			Satzglied("9⃣" wählbar Name: 'num2_9')
+			Phrase("0⃣" wählbar Name: 'num2_0')
+			Phrase("1⃣" wählbar Name: 'num2_1')
+			Phrase("2⃣" wählbar Name: 'num2_2')
+			Phrase("3⃣" wählbar Name: 'num2_3')
+			Phrase("4⃣" wählbar Name: 'num2_4')
+			Phrase("5⃣" wählbar Name: 'num2_5')
+			Phrase("6⃣" wählbar Name: 'num2_6')
+			Phrase("7⃣" wählbar Name: 'num2_7')
+			Phrase("8⃣" wählbar Name: 'num2_8')
+			Phrase("9⃣" wählbar Name: 'num2_9')
 		]
 	)
 
 ¶Bildschirm zum Auswählen des Operators¶
 operatoren: Gruppe(
-		Netz(2 2)
+		Raster(2 2)
 		[
-			Satzglied("➕" wählbar Name: 'op_a')
-			Satzglied("➖" wählbar Name: 'op_s')
-			Satzglied("✖" wählbar Name: 'op_m')
-			Satzglied("➗" wählbar Name: 'op_d')
+			Phrase("➕" wählbar Name: 'op_a')
+			Phrase("➖" wählbar Name: 'op_s')
+			Phrase("✖" wählbar Name: 'op_m')
+			Phrase("➗" wählbar Name: 'op_d')
 		]
 	)
 

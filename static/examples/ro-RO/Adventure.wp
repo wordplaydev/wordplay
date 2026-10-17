@@ -159,7 +159,7 @@ camere•[cameră2]: [
 			) pachet3
 	)
 
-cheie2: Cheie()
+cheie2: Tastă()
 
 ¶O apăsare de tastă, în ordine: la un final, orice tastă te trezește din nou în prima încăpere; o tastă care nu este 1, 2 sau 3 nu înseamnă nimic; un număr mai mare decât numărul ușilor din această încăpere nu înseamnă nici el nimic; și numai atunci este o ușă. Cel de-al treilea test este cel care merită scris, pentru că accesul la listă se repetă în cerc — fără el, apăsarea tastei 3 într-o încăpere cu două uși ar lua pe tăcute prima ușă.¶
 ƒ pas(t•călătorie c2•'')•călătorie (
@@ -216,7 +216,7 @@ maiJos:
 				intrând: Poză(opacitate: 0%)
 			)
 		]
-		uși3.traduce(
+		uși3.transformă(
 			ƒ(ușă3•ușă index2•#)
 				Fraza(
 					`\index2\. *\ușă3.etichetă\*`
@@ -228,7 +228,7 @@ maiJos:
 				)
 		)
 
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă()

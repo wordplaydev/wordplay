@@ -31,7 +31,7 @@ Change the locale on stage to see each one!¶/en
 				短語(
 					'A'/en
 					表面: 'Pacifico'
-					進入: 排序(
+					進入: 序列(
 						{
 							0%: 姿勢(不透明: 0%)
 							25%: 姿勢(不透明: 25%)
@@ -40,7 +40,7 @@ Change the locale on stage to see each one!¶/en
 							100%: 姿勢()
 						}
 					)
-					休息: 排序(
+					休息: 序列(
 						{
 							0%: 姿勢()
 							50%: 姿勢(旋轉: 180°)
@@ -53,7 +53,7 @@ Change the locale on stage to see each one!¶/en
 				短語(
 					'd'/en
 					表面: 'Aclonica'
-					休息: 排序(
+					休息: 序列(
 						{
 							0%: 姿勢(色彩: 色彩(0.5 100 180°) 水平翻轉)
 							50%: 姿勢(色彩: 色彩(27% 112 267°))
@@ -67,7 +67,7 @@ Change the locale on stage to see each one!¶/en
 				)
 				短語(
 					'♪'
-					休息: 排序(
+					休息: 序列(
 						{
 							0%: 姿勢(
 								偏移: 運動(
@@ -86,7 +86,7 @@ Change the locale on stage to see each one!¶/en
 				)
 				短語(
 					'♫'
-					休息: 排序(
+					休息: 序列(
 						{
 							0%: 姿勢(旋轉: 20°)
 							50%: 姿勢(旋轉: -20°)
@@ -116,7 +116,7 @@ Change the locale on stage to see each one!¶/en
 				短語(
 					'अ'/hi
 					表面: 'Pacifico'
-					休息: 排序(
+					休息: 序列(
 						{
 							0%: 姿勢(不透明: 0%)
 							25%: 姿勢(不透明: 25%)
@@ -129,7 +129,7 @@ Change the locale on stage to see each one!¶/en
 				)
 				短語(
 					'दि'/hi
-					休息: 排序(
+					休息: 序列(
 						{
 							0%: 姿勢(色彩: 色彩(0% 0 0°))
 							50%: 姿勢(色彩: 色彩(74% 100 291°))
@@ -143,7 +143,7 @@ Change the locale on stage to see each one!¶/en
 				短語(
 					'ती'/hi
 					表面: 'Aclonica'
-					休息: 排序(
+					休息: 序列(
 						{
 							0%: 姿勢(色彩: 色彩(0.5 100 180°) 水平翻轉)
 							50%: 姿勢(色彩: 色彩(27% 112 267°))

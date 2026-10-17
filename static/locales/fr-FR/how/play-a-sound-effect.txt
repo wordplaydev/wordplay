@@ -4,10 +4,10 @@ Un « ding » quand la réponse est juste, un « bruit sourd » quand quelque ch
 
 Deux choses en font un effet sonore plutôt qu'une chanson. \boucle: ⊥\ dit au  @Track  de jouer ses notes une seule fois au lieu de les répéter sans fin. Et la liste de notes elle-même vient de l'instant : elle contient des notes quand quelque chose vient de se passer, et reste vide le reste du temps.
 
-\tapped: ∆ Button()
-Stage([
+\tapped: ∆ Bouton()
+Scène([
 		Phrase('👆 tape-moi' sélectionnable nom: 'tape')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell boucle: ⊥) rejouer: tapped)
+		Musique(Piste(tapped ? [1 5 8] [] instrument: Instrument.cloche boucle: ⊥) rejouer: tapped)
 	])\
 
 Ne t'inquiète pas si la liste se vide de nouveau dès l'évaluation suivante — une note qui a commencé joue toujours jusqu'à la fin. Ce que tu ne peux pas laisser de côté, c'est \replay\. Tape deux fois : la deuxième tape produit exactement la même musique que la première, donc rien n'a changé et rien ne se rejouerait ; \replay\ est la façon de dire /encore, maintenant/. 
@@ -16,11 +16,11 @@ Ne t'inquiète pas si la liste se vide de nouveau dès l'évaluation suivante �
 
 Comme les notes ne sont qu'une liste, tu peux les choisir selon *ce qui* s'est passé, au lieu de toujours jouer la même chose :
 
-\key: Key()
+\key: Touche()
 struck: ∆ key
-Stage([
+Scène([
 		Phrase(struck ? key '⌨ appuie sur une touche' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano boucle: ⊥) rejouer: struck)
+		Musique(Piste(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano boucle: ⊥) rejouer: struck)
 	])\
 
 Remarque que \∆ key\ est calculé sur sa propre ligne et que le test de valeur \key = ' '\ se fait séparément. Écrites ensemble comme une seule condition, le son se déclencherait de nouveau à la prochaine touche sans rapport, tandis que \key\ toujours lu comme un espace.

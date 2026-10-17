@@ -8,7 +8,7 @@ Aap pixel, chaukor, gole aur raaste istemaal kar sakte hain.
 Usay ek naam dein, uske baare mein likhein, phir aap apna user naam aur character ka naam is tarah istemaal kar sakte hain:
 
 \
-Phrase(`Mera shandaar @username/charactername dekhein!`)
+Jumla(`Mera shandaar @username/charactername dekhein!`)
 \
 
  Yeh user naam aur character ka naam maujood nahin hai, is liye yeh khaali chaukor ki tarah dikhega.

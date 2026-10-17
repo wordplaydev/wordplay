@@ -14,7 +14,7 @@ ritm: Bătaie()
 număr2: ritm.număr
 
 ¶Doar părțile care chiar sună devin artificii; o pistă care tace rămâne întunecată. Înainte să înceapă muzica nu există nicio parte, așa că cerul este gol.¶
-declanșare•[Parte]: ritm.părți.filtra(ƒ(p•Parte) p.sunet)
+declanșare•[Parte]: ritm.părți.filtra(ƒ(p•Parte) p.sună)
 
 ¶Fiecare instrument explodează ca el însuși, și tocmai asta contează: poți vedea care a cântat chiar acum.¶
 ƒ față2(p2•Parte)•''
@@ -535,9 +535,9 @@ tobe2: [
 		3𝅘𝅥𝅮
 	]
 
-Etapă(
+Estradă(
 	[
-		:declanșare.traduce(ƒ(p6•Parte i2•#) explozie(p6 i2))
+		:declanșare.transformă(ƒ(p6•Parte i2•#) explozie(p6 i2))
 		Muzică(
 			[
 				Pistă(

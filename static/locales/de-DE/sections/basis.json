@@ -127,7 +127,7 @@
                 "length": {
                     "doc": [
                         "$~Ich bewerte nach der Anzahl der lesbaren Zeichen im Text; ein Buchstabe ist ein Zeichen, ein Emoji ist ein Zeichen usw. Beispiel:",
-                        "\\'hallo'.length()\\",
+                        "\\'hallo'.Länge()\\",
                         "\\'🐈📚'.Länge()\\"
                     ],
                     "names": ["$~Länge"],
@@ -202,7 +202,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ wenn der angegebene @Text in mir vorkommt.",
-                        "\\'Haben Sie gefunden, wonach Sie gesucht haben?'.has('Sie')\\"
+                        "\\'Haben Sie gefunden, wonach Sie gesucht haben?'.hat('Sie')\\"
                     ],
                     "names": ["$~hat"],
                     "inputs": [
@@ -215,8 +215,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\, wenn ich mit dem gegebenen @Text beginne.",
-                        "\\'Hallo Vers!'.starts('Hallo')\\",
-                        "\\'Hallo Vers!'.starts('Vers')\\"
+                        "\\'Hallo Vers!'.beginnt('Hallo')\\",
+                        "\\'Hallo Vers!'.beginnt('Vers')\\"
                     ],
                     "names": ["$~beginnt"],
                     "inputs": [
@@ -229,8 +229,8 @@
                 "ends": {
                     "doc": [
                         "$~\\⊤\\, wenn ich mit dem angegebenen @Text beende.",
-                        "\\'bin ich eine Frage?'.ends('?')\\",
-                        "\\'Ich bin keine Frage.'.ends('?')\\"
+                        "\\'bin ich eine Frage?'.endet('?')\\",
+                        "\\'Ich bin keine Frage.'.endet('?')\\"
                     ],
                     "names": ["$~endet"],
                     "inputs": [
@@ -485,7 +485,7 @@
                 "positive": {
                     "doc": [
                         "$~Ich erstelle eine neue @Number, die mich positiv macht, wenn auch negativ.",
-                        "\\-200.positive()\\"
+                        "\\-200.positiv()\\"
                     ],
                     "names": ["$~positiv"],
                     "inputs": []
@@ -493,9 +493,9 @@
                 "round": {
                     "doc": [
                         "$~Ich erstelle eine neue @Number, die auf die nächste Ganzzahl rundet.",
-                        "\\9.4.round()\\",
-                        "\\9.5.round()\\",
-                        "\\9.6.round()\\"
+                        "\\9.4.runden()\\",
+                        "\\9.5.runden()\\",
+                        "\\9.6.runden()\\"
                     ],
                     "names": ["$~runden"],
                     "inputs": []
@@ -503,9 +503,9 @@
                 "roundDown": {
                     "doc": [
                         "$~Ich erstelle eine neue @Number, die auf die kleinste Ganzzahl rundet, die kleiner ist als ich.",
-                        "\\10.5.roundDown()\\",
-                        "\\10.1.roundDown()\\",
-                        "\\10.01.roundDown()\\"
+                        "\\10.5.abrunden()\\",
+                        "\\10.1.abrunden()\\",
+                        "\\10.01.abrunden()\\"
                     ],
                     "names": ["$~abrunden"],
                     "inputs": []
@@ -651,9 +651,9 @@
                 "min": {
                     "doc": [
                         "$~Finde die kleinste Anzahl von mir und anderen.",
-                        "\\1.min(2 3 -1)\\"
+                        "\\1.Minimum(2 3 -1)\\"
                     ],
-                    "names": "$~Mindest",
+                    "names": ["$~Minimum", "$~Mindest"],
                     "inputs": [
                         {
                             "doc": "$~So viele Nummern wie du mir geben möchtest!",
@@ -675,7 +675,10 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Berechne den Tangens von mir.", "\\π.tan()\\"],
+                    "doc": [
+                        "$~Berechne den Tangens von mir.",
+                        "\\π.Tangens()\\"
+                    ],
                     "names": ["$~Tangens"],
                     "inputs": []
                 },
@@ -745,7 +748,7 @@
                 "limit": {
                     "doc": [
                         "$~Halte mich zwischen einer niedrigen und einer hohen Zahl: Wenn ich unter der niedrigen liege, bekommst du diese, und wenn ich über der hohen liege, bekommst du stattdessen diese.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.Grenze(0 10)\\"
                     ],
                     "names": "$~Grenze",
                     "inputs": [
@@ -762,9 +765,9 @@
                 "toward": {
                     "doc": [
                         "$~Bewege dich ein Stück des Weges von mir zu einer anderen Zahl. Bei 0 % bekommst du mich, bei 100 % bekommst du die andere, und in der Mitte bekommst du die Zahl genau dazwischen.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.annähern(10m 30%)\\"
                     ],
-                    "names": "$~gegen",
+                    "names": ["$~annähern", "$~gegen"],
                     "inputs": [
                         {
                             "doc": "$~Die Zahl, zu der hin bewegt werden soll.",
@@ -779,7 +782,7 @@
                 "rescale": {
                     "doc": [
                         "$~Finde heraus, wo ich zwischen einem Zahlenpaar liege, und gib dann die Zahl zurück, die genauso zwischen einem anderen Zahlenpaar liegt. Nützlich, um etwas Gemessenes in etwas Darstellbares zu verwandeln.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.neuSkalieren(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~neuSkalieren",
                     "inputs": [
@@ -992,7 +995,7 @@
                 "append": {
                     "doc": [
                         "$~Ich erstelle eine neue @List mit meinen Werten, danach alle Werte der angegebenen @List.",
-                        "\\['Apfel' 'Banane' 'Mango'].withList(['Wassermelone' 'Sternfrucht'])\\",
+                        "\\['Apfel' 'Banane' 'Mango'].mitListe(['Wassermelone' 'Sternfrucht'])\\",
                         "Es ist jedoch etwas einfacher, @Spread wie folgt zu verwenden:",
                         "\\['Apfel' 'Banane' 'Mango' :['Wassermelone' 'Sternfrucht']]\\"
                     ],
@@ -1029,7 +1032,7 @@
                 "random": {
                     "doc": [
                         "$~Eine zufällig ausgewählte Option aus meinen Artikeln oder @None, wenn ich keine habe.",
-                        "\\['Apfel' 'Banane' 'Mango'].random()\\"
+                        "\\['Apfel' 'Banane' 'Mango'].zufällig()\\"
                     ],
                     "names": "$~zufällig",
                     "inputs": []
@@ -1045,7 +1048,7 @@
                 "first": {
                     "doc": [
                         "$~Das erste @element in mir oder @None, wenn ich leer bin.",
-                        "\\['Apfel' 'Banane' 'Mango'].first()\\"
+                        "\\['Apfel' 'Banane' 'Mango'].Erste()\\"
                     ],
                     "names": "$~Erste",
                     "inputs": []
@@ -1074,7 +1077,7 @@
                 "join": {
                     "doc": [
                         "$~Ich füge die Elemente meiner Liste zu @Text zusammen, getrennt durch das angegebene Trennzeichen @Text.",
-                        "\\['Apfel' 'Banane' 'Mango'].join(', ')\\"
+                        "\\['Apfel' 'Banane' 'Mango'].verbinden(', ')\\"
                     ],
                     "names": "$~verbinden",
                     "inputs": [
@@ -1111,15 +1114,15 @@
                 "sansFirst": {
                     "doc": [
                         "$~Ich erstelle eine Liste ohne mein erstes @element.",
-                        "\\['Apfel' 'Banane' 'Mango'].sansFirst()\\"
+                        "\\['Apfel' 'Banane' 'Mango'].ohneErste()\\"
                     ],
-                    "names": ["$~ohneVor"],
+                    "names": ["$~ohneErste", "$~ohneVor"],
                     "inputs": []
                 },
                 "sansLast": {
                     "doc": [
                         "$~Ich erstelle eine Liste ohne mein letztes @element.",
-                        "\\['Apfel' 'Banane' 'Mango'].sansLast()\\"
+                        "\\['Apfel' 'Banane' 'Mango'].ohneLetzte()\\"
                     ],
                     "names": ["$~ohneLetzte"],
                     "inputs": []
@@ -1139,7 +1142,7 @@
                 "reverse": {
                     "doc": [
                         "$~Ich, aber umgekehrt!",
-                        "\\['Apfel' 'Banane' 'Mango'].reverse()\\"
+                        "\\['Apfel' 'Banane' 'Mango'].umgedreht()\\"
                     ],
                     "names": ["$~umgedreht", "$~umkehren"],
                     "inputs": []
@@ -1374,7 +1377,7 @@
                 "sum": {
                     "doc": [
                         "$~Zähle alle meine Zahlen zusammen. Wenn ich leer bin, ist das Ergebnis 0. Wenn meine Zahlen nicht alle in derselben Einheit gemessen sind, sage ich das, statt zu raten.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].Summe()\\"
                     ],
                     "names": "$~Summe",
                     "inputs": []
@@ -1382,7 +1385,7 @@
                 "average": {
                     "doc": [
                         "$~Zähle alle meine Zahlen zusammen und teile durch ihre Anzahl. Wenn ich leer bin, gibt es nichts zu mitteln, also bekommst du @None.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].Durchschnitt()\\"
                     ],
                     "names": "$~Durchschnitt",
                     "inputs": []
@@ -1501,7 +1504,7 @@
                 "difference": {
                     "doc": [
                         "$~Geben Sie mir @Set und ich erstelle ein neues @Set, das nur die Elemente enthält, die wir gemeinsam haben.",
-                        "\\{1 2 3}.difference({3 4 5})\\"
+                        "\\{1 2 3}.Unterschied({3 4 5})\\"
                     ],
                     "names": "$~Unterschied",
                     "inputs": [

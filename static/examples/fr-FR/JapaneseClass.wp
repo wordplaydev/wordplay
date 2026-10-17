@@ -26,13 +26,13 @@ phrasesÀDire: [5 7 9]
 ¶Passe à la suite quand le micro dépasse 0,6 pendant une phrase à dire, et quand un bouton ou une touche le demande pour toutes les autres.¶
 avancer: phrasesÀDire.a(à3.indice) ?
 		Volume() > .6
-		∆ Bouton() | ∆ Clé()
+		∆ Bouton() | ∆ Touche()
 
 ¶Le @Scene attend /avancer/ après chaque phrase, et s'arrête à la dernière.¶
 Scène(
 	[
 		Diaporama(
-			phrases2.traduire(
+			phrases2.transformer(
 				ƒ(phrase3) Phrase(phrase3 envelopper: 10m)
 			)
 			jusque: avancer

@@ -7,42 +7,42 @@ Halimbawa, isipin nating gusto nating buhayin ang maikling awiting pambata na "J
 Maaari tayong gumawa ng @Scene na may bawat linya bilang isang @Phrase, at sa pamamagitan ng pagtakda ng @Phrase/duration ng bawat linya, ang @Scene ay sasagad kapag tapos na ang bawat parirala.
 
 \
-Scene([
-  Phrase('Jack be nimble' tagal: 1s)
-  Phrase('Jack be quick' tagal: 1s)
-  Phrase('Jack jump over the candle stick' tagal: 1s)
+Eksena([
+  Parirala('Jack be nimble' tagal: 1s)
+  Parirala('Jack be quick' tagal: 1s)
+  Parirala('Jack jump over the candle stick' tagal: 1s)
 ])
 \
 
 @Scene ay maghihintay rin para matapos ang isang @Sequence . Gawin nating tumatalon ang linya ng kandila!
 
 \
-Scene([
-		Phrase('Jack be nimble' tagal: 1s)
-		Phrase('Jack be quick' tagal: 1s)
-		Phrase('Jack jump over the candle stick' pagpasok: Sequence.bounce(tagal: 1s))
+Eksena([
+		Parirala('Jack be nimble' tagal: 1s)
+		Parirala('Jack be quick' tagal: 1s)
+		Parirala('Jack jump over the candle stick' pagpasok: Pagkakasunodsunod.tumalbog(tagal: 1s))
 	])
 \
 
 @Scene ay puwede ring kumuha ng @Group ng teksto, at maghihintay ito hanggang matapos ang buong animation ng lahat ng nilalaman nito.
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack be nimble')
-		  Phrase('Jack be quick')
+Eksena([
+		Grupo(Patongpatong() [
+      Parirala('Jack be nimble')
+		  Parirala('Jack be quick')
     ] tagal: 2s)
-		Phrase('Jack jump over the candle stick' pagpasok: Sequence.bounce(tagal: 1s))
+		Parirala('Jack jump over the candle stick' pagpasok: Pagkakasunodsunod.tumalbog(tagal: 1s))
 	])
 \
 
  Minsan dapat magpatuloy ang isang tula. @Scene/loop ay nagpapabalik sa @Scene pabalik sa unang @Phrase nito kapag tapos na ang huli, kaya ito ay paulit-ulit na sinasabi ang sarili nito.
 
 \
-Scene([
-		Phrase('Jack be nimble' tagal: 1s)
-		Phrase('Jack be quick' tagal: 1s)
-		Phrase('Jack jump over the candle stick' tagal: 1s)
+Eksena([
+		Parirala('Jack be nimble' tagal: 1s)
+		Parirala('Jack be quick' tagal: 1s)
+		Parirala('Jack jump over the candle stick' tagal: 1s)
 	] loop: ⊤)
 \
 

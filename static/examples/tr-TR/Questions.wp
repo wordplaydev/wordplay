@@ -5,7 +5,7 @@ Sorular
 
 •soru(kimlik2•"" vx•#m/s vy•#m/s va•#°/s)
 
-basıldı: ∆ Anahtar()
+basıldı: ∆ Tuş()
 sayaç•#: 0 … basıldı … sayaç + 1
 sorular•[soru]: [] … basıldı … [
 			:sorular
@@ -19,18 +19,18 @@ sorular•[soru]: [] … basıldı … [
 
 Sahne(
 	[
-		İfadeetmek('👨‍👨‍👧‍👦' yer: Yer(0m 0m) yüz: "Noto Emoji")
+		Yazı('👨‍👨‍👧‍👦' yer: Yer(0m 0m) yüz: "Noto Emoji")
 		Şekil(Dikdörtgen(-5m 0m 25m -1m))
-		:sorular.tercümeetmek(
+		:sorular.dönüştür(
 			ƒ(s•soru dizin2•#) (
 					başlat: basıldı & (dizin2 = sorular.uzunluk())
-					İfadeetmek(
+					Yazı(
 						'S'
 						isim: s.kimlik2
 						yer: Hareket(
 							hız: Hız(s.vx s.vy s.va)
 						)
-						konu: Konu()
+						madde: Madde()
 						dinlenme: Poz(
 							opaklık: başlat ? 0% 100%
 						)

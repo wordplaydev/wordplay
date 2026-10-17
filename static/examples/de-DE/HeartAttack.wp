@@ -226,7 +226,7 @@ menschen: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 		)
 	)
 
-schlüssel4: Schlüssel()
+schlüssel4: Tastaturtaste()
 tick: Zeit(30ms)
 zeiger: Zeiger()
 tippen: Taste()
@@ -260,14 +260,14 @@ spiel6•spiel: spiel(
 
 ¶Eine Figur auf der Bühne: Zombies wiegen sich, verwandelte Menschen hüpfen fröhlich ein wenig. Den Rest erledigt die Tiefe: Ein angreifender Zombie wirkt größer, je näher er kommt. Die Dauer von 0s lässt jeden Schritt sofort einrasten, statt sanft überzublenden. So wirkt die Bewegung wie flüssige Einzelbilder und nicht wie ein Hinterherhinken.¶
 ƒ zombieView(zombie11•Zombie)
-	Satzglied(
+	Phrase(
 		zombie11.gesicht2
 		2m
 		Dauer: 0s
 		Ort: Ort(zombie11.x2 0m zombie11.z2)
 		Ruhen: zombie11.lebendig
-		? Reihenfolge.wiegen(4° 1s "zippy")
-			Reihenfolge(
+		? Abfolge.wiegen(4° 1s "zippy")
+			Abfolge(
 				{
 					0%: Pose(Skala: 1)
 					50%: Pose(Skala: 1.2)
@@ -279,49 +279,49 @@ spiel6•spiel: spiel(
 
 ¶Der Boden: Balken in steigenden Tiefen, die durch die Perspektive wie eine Fläche wirken, die sich zum Horizont hin entfernt. Sie verblassen von Grün zu Türkis, damit es nach Atmosphäre aussieht. Der erste Balken ist die Linie, die ein Zombie überqueren muss, um das Spiel zu beenden. Er ist in Warnrot gezeichnet, damit die Regel sichtbar ist: Die Kamera zieht sich auf kleinen Bildschirmen zurück, und der Betrachter kann herauszoomen. Ein Zombie, der weit weg aussieht, steht trotzdem auf dieser Linie, wenn er dich erwischt.¶
 boden: [
-		Satzglied(
+		Phrase(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			Dauer: 0s
 			Ort: Ort(0m -2.8m (spieltiefe + reichweite))
 			Farbe: Farbe(58% 55 25°)
 		)
-		Satzglied(
+		Phrase(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			Dauer: 0s
 			Ort: Ort(0m -2.8m 4m)
 			Farbe: Farbe(56% 40 130°)
 		)
-		Satzglied(
+		Phrase(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			Dauer: 0s
 			Ort: Ort(0m -2.8m 6m)
 			Farbe: Farbe(50% 36 136°)
 		)
-		Satzglied(
+		Phrase(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			Dauer: 0s
 			Ort: Ort(0m -2.8m 8m)
 			Farbe: Farbe(45% 32 142°)
 		)
-		Satzglied(
+		Phrase(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			Dauer: 0s
 			Ort: Ort(0m -2.8m 11m)
 			Farbe: Farbe(40% 28 148°)
 		)
-		Satzglied(
+		Phrase(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			Dauer: 0s
 			Ort: Ort(0m -2.8m 15m)
 			Farbe: Farbe(35% 24 154°)
 		)
-		Satzglied(
+		Phrase(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			Dauer: 0s
@@ -331,13 +331,13 @@ boden: [
 	]
 
 ¶Ein fliegendes Herz in der Welt und eine Punkteanzeige, die über die Überlagerung der Bühne flach am oberen Bildschirmrand befestigt ist. So bleibt sie an ihrem Platz, wenn die Kamera seitwärts wandert.¶
-heartView: Satzglied(
+heartView: Phrase(
 		'🫀'
 		1.2m
 		Dauer: 0s
 		Ort: Ort(spiel6.herzX 0m spiel6.herzZ)
 	)
-punkteanzeige: Satzglied(
+punkteanzeige: Phrase(
 		"🫀 \spiel6.punktestand\"
 		1.2m
 		Ort: Ort(0m 4m)
@@ -355,14 +355,14 @@ bildschirmansicht: [
 		Gruppe(
 			Stapel()
 			[
-				Satzglied(bildschirmtitel 1.1m)
-				Satzglied(screenSubtitle 0.6m)
-				Satzglied('← → oder mit dem Zeiger zielen' 0.5m)
-				Satzglied(
+				Phrase(bildschirmtitel 1.1m)
+				Phrase(screenSubtitle 0.6m)
+				Phrase('← → oder mit dem Zeiger zielen' 0.5m)
+				Phrase(
 					'Leertaste, Klick oder Tippen für ein Herz 🫀'
 					0.5m
 				)
-				Satzglied(startzeile 0.7m)
+				Phrase(startzeile 0.7m)
 			]
 		)
 	]

@@ -4,7 +4,7 @@ Piano virtual
 ¶Um piano de uma oitava que pode tocar! Para ter a melhor experiência, desligue a visualização da música.¶
 
 ¶Esta ligação guarda um fluxo de Tecla que deteta qual a tecla que premiu.¶
-premida: Chave()
+premida: Tecla()
 
 ¶Isto guarda um mapeamento das teclas que prime para as notas que vão tocar, tanto em forma de texto (para mostrar a nota que está a tocar) como num texto numérico literal (para converter num número (#) e usar como entrada numa lista de Faixa).
 

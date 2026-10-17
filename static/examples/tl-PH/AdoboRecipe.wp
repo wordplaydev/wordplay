@@ -25,9 +25,9 @@ ilipatAngMgaPangungusap: [9 11]
 ¶Ang kasalukuyang pangungusap ay nagsisimula sa 1, at dumaragdag kapag napunta ang mouse sa isang tiyak na coordinate sa screen, o kapag pinindot ang isang button o key para sa iba pang mga pangungusap.¶
 puntos: Panturo()
 kasalukuyangPangungusap•#: 1 …
-	ilipatAngMgaPangungusap.aymay(kasalukuyangPangungusap) ?
-		(puntos.x > 2m) & (puntos.taon > 3m)
-		∆ Butones() | ∆ Susi()
+	ilipatAngMgaPangungusap.mayroon(kasalukuyangPangungusap) ?
+		(puntos.x > 2m) & (puntos.y > 3m)
+		∆ Pindutan() | ∆ Susi()
 		…
 		(kasalukuyangPangungusap <
 				mgaPangungusap.haba()) ?

@@ -13,13 +13,13 @@
 <example@https://wordplay.dev/project/example-Layers?play>，
 了解更多关于图像分层的用法。¶
 
-Stage([
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) 旋转: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) 旋转: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) 旋转: -25°)
-	] 位置: Place(0m 10m -30m))\
+舞台([
+		形状(圆圈(3m 0m 1m 0m))
+		形状(多边形(2m 3 0m -12m 0m) 旋转: -30°)
+		形状(多边形(7m 6 0m -6m 0m))
+		形状(矩形(-11m -9m 11m -12m 10m) 旋转: 25°)
+		形状(矩形(-11m -9m 11m -12m 10m) 旋转: -25°)
+	] 位置: 位置(0m 10m -30m))\
 
 你可以用图层制作出一些很酷的东西！快来试试吧！
 

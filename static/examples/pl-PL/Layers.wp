@@ -5,9 +5,9 @@ Warstwy
 
 licznik: 10 → []
 
-ƒ piłki(z2•#m) licznik.tłumaczyć(
+ƒ piłki(z2•#m) licznik.przekształć(
 		ƒ()
-			Wyrażenie(
+			Fraza(
 				'o'
 				miejsce: Ruch(
 					Miejsce(Losowy(-10 10) × 1m Losowy(0 10) × 1m z2)

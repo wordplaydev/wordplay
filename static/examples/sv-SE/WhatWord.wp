@@ -20,7 +20,7 @@ VilketOrd
 					"playing"
 )
 
-key/en,tecla/es,مفتاح/ar: Nyckel()
+key/en,tecla/es,مفتاح/ar: Tangent()
 
 ¶When the keyboard state changes, the game state changes.¶/en
 ¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
@@ -37,7 +37,7 @@ state/en,estado/es,حالة/ar•Game: Game(
 			)
 			(state.status ≠ "playing") & (key = 'Utrymme') ? Game(
 					[]
-					state.återstående.utanförst()
+					state.återstående.utanFörsta()
 					⊤
 				)
 				(state.status = "playing") & (key.längd() = 1) & ~state.guesses.har(
@@ -50,11 +50,11 @@ state/en,estado/es,حالة/ar•Game: Game(
 ¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
 ¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
 board/en,tabelro/es,طاولة/ar: Fras(
-		state.hemlighet → [""].översätta(
+		state.hemlighet → [""].omvandla(
 			ƒ(bokstav2•"") ((state.status = "lost") | state.guesses.har(
 							bokstav2
 						)) ? bokstav2 "."
-		).anslutasigtill(
+		).sammanfoga(
 			' '
 		)
 		2m
@@ -111,11 +111,11 @@ screen/en,cine/es,إظهار/ar:
 				board
 				Fras(
 					state.guesses.längd() = 0 ?
-						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.anslutasigtill(
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.sammanfoga(
 							' '
-						)\"/en"Suposiciones: \state.guesses.anslutasigtill(
+						)\"/en"Suposiciones: \state.guesses.sammanfoga(
 							' '
-						)\"/es"التخمينات \state.guesses.anslutasigtill(
+						)\"/es"التخمينات \state.guesses.sammanfoga(
 							' '
 						)\"/ar
 				)
@@ -134,7 +134,7 @@ tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Hur mycket av din veckopeng som är använd, från 0 där allt återstår till 1 där inget är kvar. Hemligheten är tom före den första omgången, så delningen skyddas i stället för att lämnas att dela med noll.¶
 maxGissningar: state.hemlighet.längd() × 3
-tryck: (maxGissningar = 0) ? 0 ((1 - (state.guessesRemaining ÷ maxGissningar)).limit(0 1))
+tryck: (maxGissningar = 0) ? 0 ((1 - (state.guessesRemaining ÷ maxGissningar)).gräns(0 1))
 
 ¶Eftertänksam vid 54 slag i minuten, brådskande vid 120, och varje gissning flyttar den lite. Att ändra tempot klipps in vid nästa slag i stället för att börja om, så slingan behåller sin plats och lutar sig bara framåt — den tysta trumman finns där för att göra den lutningen hörbar, eftersom en temposändring under långa hållna toner är svår att känna.¶
 pusselmusik: Musik(
@@ -248,7 +248,7 @@ ljudspår: state.status ???
 ¶Create a world with the screen in it¶/en
 ¶Crea un mundo con la pantalla en él¶/es
 ¶اصنع عالمًا مع الشاشة بداخله¶/ar
-Etapp(
+Estrad(
 	[screen ljudspår]
 	plats: Plats(0m 0m -12m)
 	ansikte: "Poor Story"

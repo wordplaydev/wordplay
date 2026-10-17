@@ -4,34 +4,34 @@ Ibland vill vi att vår text ska sticka ut. Vi kan göra det genom att/kursiveri
 
 Om du till exempel vill kursivera text kan du radbryta den med snedstreck //, som //Hej//. Till exempel:
 
-\Group(Stack() [
-		Phrase(`Vill flexa lite/kursiv/i din text?`)
-		Phrase(`Det är bra för betoning eller för att ge dina ord det/extra jazz/.`)
-		Phrase(`Sätt bara ett snedstreck (//) före och efter ordet eller frasen,/så här/.`)
+\Grupp(Stack() [
+		Fras(`Vill flexa lite/kursiv/i din text?`)
+		Fras(`Det är bra för betoning eller för att ge dina ord det/extra jazz/.`)
+		Fras(`Sätt bara ett snedstreck (//) före och efter ordet eller frasen,/så här/.`)
 	])\
 
 @Phrase kan även fetstilsmarkera text. Du kan göra detta genom att radbryta texten inom asterisker **, som **Hej**. Till exempel:
 
-\Group(Stack() [
-		Phrase(`Vill du få din text att sticka ut med*djärv*?`)
-		Phrase(`Den är perfekt när du behöver*ropa något högt*.`)
-		Phrase(`Sätt bara en asterisk (**) runt dina ord, typ*Hej!*, och se det slå annorlunda.`)
+\Grupp(Stack() [
+		Fras(`Vill du få din text att sticka ut med*djärv*?`)
+		Fras(`Den är perfekt när du behöver*ropa något högt*.`)
+		Fras(`Sätt bara en asterisk (**) runt dina ord, typ*Hej!*, och se det slå annorlunda.`)
 	])\
 
 @Phrase kan också göra texten EXTRA fet. För detta, radbryt texten med cirkumflektorer ^^, som ^^Hej^^. Till exempel:
 
-\Group(Stack() [
-		Phrase(`Extra djärv är den^GET^när du behöver maximera stämningen.`)
-		Phrase(`Det är som djärvt men mer^brand^, vanligtvis gjord med enstaka morötter runt (^^)`)
-		Phrase(`Använd den för att böja på^rubriker^eller^stora idéer^.`)
+\Grupp(Stack() [
+		Fras(`Extra djärv är den^GET^när du behöver maximera stämningen.`)
+		Fras(`Det är som djärvt men mer^brand^, vanligtvis gjord med enstaka morötter runt (^^)`)
+		Fras(`Använd den för att böja på^rubriker^eller^stora idéer^.`)
 	])\
 
 Slutligen, @Phrase kan göra texten understruken. För detta, radbryt texten med understreck __, som __Hej__. Till exempel:
 
-\Group(Stack() [
-		Phrase(`Understrykning är_lågmäld eld_för när du vill hålla texten snygg men ändå sticka ut.`)
-		Phrase(`Sätt ett enkelt understreck (__) före och efter din text._så här_, och det ger ren betoning.`)
-		Phrase(`Det är_perfekt_för att du framförde din poäng utan att vara för_extra_.`)
+\Grupp(Stack() [
+		Fras(`Understrykning är_lågmäld eld_för när du vill hålla texten snygg men ändå sticka ut.`)
+		Fras(`Sätt ett enkelt understreck (__) före och efter din text._så här_, och det ger ren betoning.`)
+		Fras(`Det är_perfekt_för att du framförde din poäng utan att vara för_extra_.`)
 	])\
 
 custom-characters

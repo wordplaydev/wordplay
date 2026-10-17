@@ -105,7 +105,7 @@ linijka: wiersz[liczba2]
 liczba2 ≤ wiersz.długość() ?
 	Scena(
 		[
-			Wyrażenie(
+			Fraza(
 				linijka.tekst2
 				wstępowanie: linijka.poza
 				czastrwania: 1s
@@ -121,8 +121,8 @@ liczba2 ≤ wiersz.długość() ?
 			Grupa(
 				Stos()
 				[
-					Wyrażenie('RADA DLA SIEBIE SAMEGO')
-					Wyrażenie('Jane Hirshfield')
+					Fraza('RADA DLA SIEBIE SAMEGO')
+					Fraza('Jane Hirshfield')
 				]
 				wstępowanie: Poza(skala: 0.75)
 			)

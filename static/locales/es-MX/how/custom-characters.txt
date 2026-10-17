@@ -8,7 +8,7 @@ Puedes usar píxeles, rectángulos, círculos y trayectorias.
 Dale un nombre, descríbelo, y luego puedes usar tu nombre de usuaria y el nombre del carácter así:
 
 \
-Phrase(`Mira mi elegante  @username/charactername !`)
+Frase(`Mira mi elegante  @username/charactername !`)
 \
 
  Ese nombre de usuaria y ese nombre de carácter no existen, así que se mostrará como un rectángulo vacío.

@@ -6,12 +6,12 @@
 
 想要别处的时间吗？给  @Now  一个时区。时区是用一个地区和一座城市来命名的，比如 \'America/New_York'\、\'Europe/Paris'\，或者 \'Asia/Tokyo'\。你也可以在文字类型后面加上一种语言，比如 \''/ja\ 表示日语，用那座城市的语言来显示时钟：
 
-\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+\短语(现在(1s 'Asia/Tokyo') → ''/ja)\
 
 不知道时区的名字？只要写下你认识的一座城市——@wordplay 会提醒你这不是一个时区，并推荐最接近的那个，你只要点一下就能改好。
 
 你还可以选择一种历法，比如日本历法，并用字体来设置时钟的样式：
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' 表面: 'Doto')\
+\短语(现在(1s 'Asia/Tokyo' 'japanese') → '' 表面: 'Doto')\
 
 count-with-time

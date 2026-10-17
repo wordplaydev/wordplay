@@ -8,7 +8,7 @@ On peut utiliser le conditionnel \?\ pour choisir entre deux choses.
 Voici un visage souriant qui devient triste à chaque fois que vous appuyez sur la barre d'espace, puis revient à son état initial :
 
 \
-happy: ⊤ … ∆ Key(' ') … ~happy
+happy: ⊤ … ∆ Touche(' ') … ~happy
 Phrase(happy ? '😊' '😢')
 \
 
@@ -18,7 +18,7 @@ Ensuite, le conditionnel \?\ choisit le bon visage.
 Vous pouvez enchaîner les conditions pour choisir parmi plus de deux éléments :
 
 \
-score: 0 … ∆ Key('un') … score + 1
+score: 0 … ∆ Touche('un') … score + 1
 Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
 \
 

@@ -39,7 +39,7 @@ grup•[țintă]: [
 observări: Obiecte(număr: 10 încredere: 0.5)
 
 ¶Tasta → (sau o atingere) pentru a sări peste.¶
-sari: Cheie('SăgeatăDreapta' ⊤)
+sari: Tastă('SăgeatăDreapta' ⊤)
 
 ¶Un ceas, pentru numărătoarea inversă și pentru animația confetiilor de câștig. Vânătoarea în sine nu îl folosește — @Objects o conduce pe aceasta.¶
 ceas: Timp(30ms)
@@ -93,7 +93,7 @@ câștigatLa•#ms: 0ms
 ¶Confetti, generat o singură dată în momentul în care câștigi, și niciodată reconstruit. @Objectskeeps detectează, deci fiecare citire re-evaluează programul — îngheța bucățile în această listă (se umple o dată, când câștigi, apoi condiția ei se oprește) face ca fiecare bucată să păstreze aceeași viteză de zbor, în loc să fie reinventată la fiecare cadru.¶
 scântei•[scânteie]: []
 	… ((vânătoare2.găsit2.lungime() ≥ 5) & (⬚.lungime() = 0)) …
-		(60 → []).traduce(
+		(60 → []).transformă(
 			ƒ()
 				scânteie(
 					vânătoare2.găsit2.aleatoriu()
@@ -137,7 +137,7 @@ g•#: 9
 ¶Așază fiecare scânteie pe propriul arc, calculat din cât timp a zburat: se mișcă spre exterior cu viteza ei în timp ce gravitația o trage înapoi în jos (formula clasică ½·g·t²). Pentru că noi calculăm poziția în loc să ne bazăm pe motorul de fizică, re-evaluarea constantă a camerei doar redesenează fiecare bucată acolo unde ar trebui să fie — fără să sară înapoi în centru.¶
 ƒ confetti() (
 		t3: (ceas - câștigatLa) ÷ 1000ms
-		scântei.traduce(
+		scântei.transformă(
 			ƒ(s•scânteie)
 				Fraza(
 					s.emoji2
@@ -183,7 +183,7 @@ g•#: 9
 	)
 
 ¶Câștigul este verificat primul, deci terminarea timpului poate însemna doar o înfrângere.¶
-Etapă(
+Estradă(
 	(vânătoare2.găsit2.lungime() ≥ 5)
 	? finală()
 		((stânga2 ≤ 0s) ? gameOver(vânătoare2) [

@@ -6,8 +6,8 @@ Il y a plusieurs façons de faire ça.
 Nous pouvons utiliser @Phrase/offset avec @Random et @Time pour que cela se produise.
 
 \
-offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('Salut' compenser: Place(offset 0m))
+offset: 0m … ∆ Temps() … Aléatoire(-0.1m 0.1m)
+Phrase('Salut' compenser: Lieu(offset 0m))
 \
 
  Ceci crée une valeur appelée \offset\ qui change en une nouvelle valeur aléatoire à chaque battement de l'horloge.
@@ -16,11 +16,11 @@ Ensuite, cela utilise ce décalage pour montrer le @Phrase décalé de cette qua
 Si nous voulions contrôler les secousses plus précisément, nous pourrions utiliser un @Sequence pour créer une animation de tremblement aléatoire qui se répète.
 
 \
-Phrase('Salut' aurepos: Sequence({
-			0%: Pose(compenser: Place(Random(-.2m .2m)))
-			15%: Pose(compenser: Place(Random(-.2m .2m)))
-			60%: Pose(compenser: Place(Random(-.2m .2m)))
-			75%: Pose(compenser: Place(Random(-.2m .2m)))
+Phrase('Salut' aurepos: Séquence({
+			0%: Pose(compenser: Lieu(Aléatoire(-.2m .2m)))
+			15%: Pose(compenser: Lieu(Aléatoire(-.2m .2m)))
+			60%: Pose(compenser: Lieu(Aléatoire(-.2m .2m)))
+			75%: Pose(compenser: Lieu(Aléatoire(-.2m .2m)))
 		} 0.1s))
 \
 

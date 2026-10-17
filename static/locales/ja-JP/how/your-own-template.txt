@@ -7,14 +7,14 @@
 色とラベルを受け取って、自分の見せ方を知っている風船のテンプレートを見てみましょう。
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` 色: color 大きさ: 2m)
+•Balloon(color•色 label•'') (
+    ƒ show() フレーズ(`🎈\label\` 色: color 大きさ: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) '空').show()
-    Balloon(Color(60% 80 0°) '薔薇').show()
-    Balloon(Color(90% 80 90°) '晴れ').show()
+グループ(行() [
+    Balloon(色(80% 50 240°) '空').show()
+    Balloon(色(60% 80 0°) '薔薇').show()
+    Balloon(色(90% 80 90°) '晴れ').show()
 ])
 \
 

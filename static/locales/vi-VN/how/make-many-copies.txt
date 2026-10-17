@@ -7,7 +7,7 @@ Nếu ta bắt đầu với số \10\ và chuyển nó bằng \→ []\, ta sẽ 
 Sau đó ta dùng @List/translate để biến mỗi số thành một @Phrase:
 
 \
-Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))
+Nhóm(Hàngngang() (10 → []).biếnĐổi(ƒ() Cụmtừ('🐈')))
 \
 
 @List/translate Hàm này gọi một lần cho mỗi mục và thu thập kết quả vào một danh sách mới.
@@ -15,7 +15,7 @@ Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))
 Để mỗi bản sao có chút khác biệt, hãy sử dụng số mà lệnh translate cung cấp cho chúng ta:
 
 \
-Group(Row('|' 0.2m) [:1‥8].translate(ƒ(n) Phrase('⭐' kíchcỡ: n × 0.5m)))
+Nhóm(Hàngngang('|' 0.2m) [:1‥8].biếnĐổi(ƒ(n) Cụmtừ('⭐' kíchcỡ: n × 0.5m)))
 \
 
  Mỗi ngôi sao đều lớn hơn ngôi sao trước đó, bởi vì \n\ đi từ \1\ ĐẾN \8\.

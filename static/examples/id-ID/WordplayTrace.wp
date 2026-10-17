@@ -21,7 +21,7 @@ jejak: hitungan2 ÷ 2
 kepala: 0 … ∆ Waktu(10ms) … ((kepala + 1) % hitungan2) ?? 0
 
 Panggung(
-	poin.menerjemahkan(
+	poin.petakan(
 		ƒ(titik2•Tempat indeks2•#)
 			(
 				¶Berapa banyak titik di belakang kepala titik ini berada, dengan berputar kembali jika perlu.¶

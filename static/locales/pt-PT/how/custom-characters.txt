@@ -8,7 +8,7 @@ Pode usar pixels, retângulos, círculos e traçados.
 Dê-lhe um nome, descreva-o e depois pode usar o seu nome de utilizador e o nome do carater assim:
 
 \
-Phrase(`Olha só que chique! @username/charactername !`)
+Frase(`Olha só que chique! @username/charactername !`)
 \
 
  Esse nome de utilizador e esse nome de carater não existem, por isso vai aparecer como um retângulo vazio.

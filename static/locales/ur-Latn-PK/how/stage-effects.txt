@@ -21,7 +21,7 @@ Yeh ek purani film hai: @Grade rang khatam kar deta hai, phir @Damage, @Grain, a
 \
 Stage(
 	[Jumla('KHATAM')]
-	asraat: [Darja(tazaad: 130% rangeeni: 0%) Nuqsaan(70% 50%) Daanay(25%) Jhilmilahat(15% 2) Kinaaray(60%)]
+	asraat: [Rangkaari(tazaad: 130% rangeeni: 0%) Nuqsaan(70% 50%) Daanay(25%) Jhilmilahat(15% 2) Kinaaray(60%)]
 )
 \
 

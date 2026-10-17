@@ -14,7 +14,7 @@ humör: ansikte2.ögonÖppna ?
 		'blinking'
 
 ¶Omvandla humöret till en emoji, och ge ansiktet en pratbubbla som säger det. Om bubblan får @Say sägs humöret högt också, inte bara visas, och bubblan ersätter texten längst ner på scenen.¶
-Etapp(
+Estrad(
 	[
 		Fras(
 			(humör = 'blinking' ? '😴'

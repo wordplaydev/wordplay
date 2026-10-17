@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['పిల్లి' 'కుక్క'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['పిల్లి' 'కుక్క'] 0) … state.secrets.ఉంది(చాట్()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("మీరు గెలిచారు!")]
-        [ Group(Stack() [ Phrase("నా రహస్య పదాలను ఊహించండి") Phrase(`\state.secrets.length() - state.points\ మరిన్ని రహస్యాలు`)])]
+స్టేజ్(
+    state.points = state.secrets.పొడవు() ? 
+        [ పదబంధం("మీరు గెలిచారు!")]
+        [ సమూహం(స్టాక్() [ పదబంధం("నా రహస్య పదాలను ఊహించండి") పదబంధం(`\state.secrets.length() - state.points\ మరిన్ని రహస్యాలు`)])]
 )
 \
 

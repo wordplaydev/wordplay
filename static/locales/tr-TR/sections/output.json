@@ -13,7 +13,7 @@
                 "$~@Phrase, @Shape ve @Group'yi @Stage üzerinde @Arrangement ile birlikte düzenlerim. Merhaba, nasılsın? Başkaları yanımdayken hep iyi olurum, o yüzden seninle olmak harika!",
                 "Çalışabilmem için bana bir @Arrangement ve düzenlemek için @Output'den oluşan bir @List vermen gerekir.",
                 "Örneğin, işte bir @Stack düzeniyle ve dikey olarak istiflenecek birkaç @Phrase ile buradayım:",
-                "\\Grup(Yığın() [İfadeetmek('birinci') İfadeetmek('ikinci')])\\",
+                "\\Grup(Yığın() [Yazı('birinci') Yazı('ikinci')])\\",
                 "Şeyleri tam olarak nasıl düzenlediğim, bana verdiğin @Arrangement'e bağlıdır."
             ],
             "names": ["$~Grup"],
@@ -27,7 +27,7 @@
             },
             "matter": {
                 "doc": "$~Ne kadar ağır, ne kadar sekici ve ne kadar kaygan olduğum, ve bir @Motion beni hareket ettirdiğinde beni neyin katı yaptığı.",
-                "names": "$~konu"
+                "names": ["$~madde", "$~konu"]
             },
             "size": {
                 "doc": "$~İçimdeki harika içeriklerin kendilerine ait bir boyutları yoksa, ne kadar uzun olmaları gerekir!",
@@ -117,12 +117,12 @@
             "doc": [
                 "$~@Stage Stage'deki @Text Text'in en güzelini temsil ediyorum. Merhaba, merhaba! Beni hatırlıyor musunuz? Beni kim unutabilir ki?",
                 "Beni böyle yapın, @Stage Stage'de görüneceğim:",
-                "\\Phrase('magnificent!')\\",
+                "\\Yazı('magnificent!')\\",
                 "@TextLiteral veya @FormattedLiteral göstermem gerekiyor. @FormattedLiteral ile \\`*bold* and /italic/`\\ gibi şeyler kullanabilir veya oluşturduğunuz özel @ConceptLink referans verebilirim.",
                 "Ayrıca isteğe bağlı olarak bana @Output yapabileceği her şeyi verebilirsiniz; boyutumu, yazı tipimi, döndürmeyi değiştirmek ve @Pose ve @Sequence ile inanılmaz danslarımı yapmak da dahil.",
                 "Ayrıca beni @Stage Stage'de seçebilir ve yan taraftaki paleti 🎨 kullanarak düzenleyebilirsiniz; bu, farklı yazı tiplerini denemek ve @Text Text'iniz için doğru yazı tipini seçmek için harika bir yöntemdir."
             ],
-            "names": ["$~İfadeetmek"],
+            "names": ["$~Yazı", "$~İfadeetmek"],
             "text": {
                 "doc": "$~@Stage üzerinde gösterilecek karakterler, bir @TextLiteral veya @FormattedLiteral.",
                 "names": "$~metin"
@@ -153,7 +153,7 @@
             },
             "matter": {
                 "doc": "$~Ne kadar ağır, ne kadar sekici ve ne kadar kaygan olduğum, ve bir @Motion beni hareket ettirdiğinde beni neyin katı yaptığı.",
-                "names": "$~konu"
+                "names": ["$~madde", "$~konu"]
             },
             "aura": {
                 "doc": "$~Arkamda gösterilecek isteğe bağlı @Aura. Beni parlat!",
@@ -244,10 +244,10 @@
                 "doc": [
                     "$~Söylediklerimi gösteren, tam bana doğru işaret eden konuşma balonu. Buraya dört farklı şey gelebilir.",
                     "Sadece gösterdiğim, başka bir şey yapmayan düz metin:",
-                    "\\İfadeetmek('bir' balon: 'merhaba!')\\",
+                    "\\Yazı('bir' balon: 'merhaba!')\\",
                     "Söylediklerimde *kalın* veya /italik/ kelimeler istiyorsan, @markup.",
                     "Hem gösterip *hem* sesli söylediğim bir @Say:",
-                    "\\İfadeetmek('bir' balon: Söylemek('merhaba!'))\\",
+                    "\\Yazı('bir' balon: Söylemek('merhaba!'))\\",
                     "Hangi taraftan konuştuğumu seçmek, onu bir düşünceye çevirmek ya da ona bir renk vermek istediğinde, bir @Bubble."
                 ],
                 "names": "$~balon"
@@ -255,9 +255,9 @@
             "poses": {
                 "doc": [
                     "$~@Pose benim her harfim için, birbiri ardına. İlk harf ilk pozu, ikinci harf ikinci pozu alır. Pozlarım bitince yeniden ilkinden başlarım. Boşluklar da harf sayılır.",
-                    "\\İfadeetmek(\n\t'parti!'\n\tpozlar: [\n\t\tPoz(renk: Renk(25% 70 250°))\n\t\tPoz(renk: Renk(50% 80 300°))\n\t\tPoz(renk: Renk(58% 90 60°))\n\t]\n)\\",
+                    "\\Yazı(\n\t'parti!'\n\tpozlar: [\n\t\tPoz(renk: Renk(25% 70 250°))\n\t\tPoz(renk: Renk(50% 80 300°))\n\t\tPoz(renk: Renk(58% 90 60°))\n\t]\n)\\",
                     "Her harf kendi ortası etrafında döner, büyür ve hareket eder. Bu yüzden tek bir poz her harfi olduğu yerde eğer, satırım ise düz kalır:",
-                    "\\İfadeetmek('sallanan' pozlar: Poz(rotasyon: 15°))\\",
+                    "\\Yazı('sallanan' pozlar: Poz(rotasyon: 15°))\\",
                     "Bir harfin kendi rengi benim rengimden ve canlandırdığım her pozdan önce gelir. Harfin saydamlığı ise benimkiyle birleşir."
                 ],
                 "names": "$~pozlar"
@@ -457,7 +457,7 @@
             },
             "y": {
                 "doc": "$~Çemberin dikey merkezi.",
-                "names": "$~ve"
+                "names": ["$~Y", "$~ve"]
             },
             "z": {
                 "doc": "$~Çemberin derinlik konumu.",
@@ -481,7 +481,7 @@
             },
             "y": {
                 "doc": "$~Çokgenin dikey merkezi.",
-                "names": "$~ve"
+                "names": ["$~Y", "$~ve"]
             },
             "z": {
                 "doc": "$~Poligonun derinlik konumu.",
@@ -556,7 +556,7 @@
             "names": ["$~Renk"],
             "lightness": {
                 "doc": "$~\\0\\ ile \\1\\ arasında ne kadar açık olmalıyım, \\0\\'da siyahtan, \\0.5\\'te griye, \\1\\'de beyaza.",
-                "names": ["$~hafiflik", "$~ben"]
+                "names": ["$~açıklık", "$~hafiflik", "$~ben"]
             },
             "chroma": {
                 "doc": "$~Ne kadar renge sahip olmalıyım, \\0\\ ile \\∞\\ arasında. Renk olmaması gri anlamına gelir, daha yüksek sayılar daha fazla renk anlamına gelir.",
@@ -622,11 +622,11 @@
                 "doc": [
                     "$~Rastgele bir renk verin.",
                     "Renk seçeneği yoksa, temel renklerden birini rastgele seçiyorum:",
-                    "\\Color.random()\\",
+                    "\\Renk.rastgele()\\",
                     "Tek bir renk kullanırken, açıklığını ve doygunluğunu koruyorum ama rastgele bir ton seçiyorum:",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Renk.rastgele(Renk.mavi)\\",
                     "İki renk kullanırken, bu iki renk arasından rastgele bir açıklık, doygunluk ve ton seçiyorum:",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Renk.rastgele(Renk.siyah Renk.beyaz)\\"
                 ],
                 "names": "$~rastgele",
                 "inputs": [
@@ -643,10 +643,10 @@
             "lighter": {
                 "doc": [
                     "$~Bana daha açık renkli bir versiyon ver, açıklık oranımı belirli bir yüzde artır (varsayılan olarak %5).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Renk.mavi.dahaAçık()\\",
+                    "\\Renk.mavi.dahaAçık(20%)\\"
                 ],
-                "names": "$~dahahafif",
+                "names": ["$~dahaAçık", "$~dahahafif"],
                 "inputs": [
                     {
                         "doc": "$~Parlaklık seviyesini yüzde olarak ne kadar artırmak istediğinizi belirtin. Varsayılan @value %5'tir.",
@@ -657,8 +657,8 @@
             "darker": {
                 "doc": [
                     "$~Bana daha koyu bir versiyon ver, açıklık oranımı belirli bir yüzde (varsayılan olarak %5) düşür.",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Renk.mavi.dahakoyu()\\",
+                    "\\Renk.mavi.dahakoyu(20%)\\"
                 ],
                 "names": "$~dahakoyu",
                 "inputs": [
@@ -1058,7 +1058,7 @@
             },
             "y": {
                 "doc": "$~Y ekseninde bir konum",
-                "names": "$~ve"
+                "names": ["$~Y", "$~ve"]
             },
             "z": {
                 "doc": "$~Z ekseninde bir konum",
@@ -1078,7 +1078,7 @@
             },
             "y": {
                 "doc": "$~Y ekseninde her saniye kaç metre hareket etmemiz gerekiyor.",
-                "names": "$~ve"
+                "names": ["$~Y", "$~ve"]
             },
             "angle": {
                 "doc": "$~Her saniye kaç derece döndürülmeli",
@@ -1087,7 +1087,7 @@
         },
         "Matter": {
             "doc": "$~@Output'nin ne kadar ağır, sekici ve kaygan olduğunu belirtirim. Bende ve bir @Motion'de olan @Output katıdır: @Stage üzerindeki @Shape'ten ve hareket eden diğer @Output'lerden sekerek geri döner. Programının yerleştirdiği @Output bunun yerine koyduğun yere gider ve değdiği şeylerin içinden geçer. @Output'nin @Collision tarafından fark edilmesi için bana ihtiyacı yoktur — bunun için bir isim yeterlidir.",
-            "names": ["$~Konu"],
+            "names": ["$~Madde", "$~Konu"],
             "mass": {
                 "doc": "$~Bir ağırlık, kilogram cinsinden",
                 "names": "$~yığın"
@@ -1147,13 +1147,13 @@
         "Stage": {
             "doc": [
                 "$~SİZİN @Output İZLEYİCİYE GÖSTERİRİM. MERHABA. BEN SAHNEYİM. NEYİ GÖSTERECEĞİMİ SÖYLEYİN, BEN DE GÖSTEREYİM.",
-                "\\Sahne([İfadeetmek('eşyalaaaaar')])\\",
+                "\\Sahne([Yazı('eşyalaaaaar')])\\",
                 "İSTERSENİZ BANA BİR ARKA PLAN @Color VERİN, SAHNEYİ ONA GÖRE AYDINLATAYIM.",
-                "\\Sahne(\n\t[İfadeetmek('eşyalaaaaar')]\n\tarkaplan: Renk(75% 50 100°)\n)\\",
+                "\\Sahne(\n\t[Yazı('eşyalaaaaar')]\n\tarkaplan: Renk(75% 50 100°)\n)\\",
                 "BANA BİR ÇERÇEVE KENARLIĞI DA VEREBİLİRSİNİZ, BEN DE KIRPAYIM.",
-                "\\Sahne(\n\t[İfadeetmek('eşyalaaaaar')]\n\tarkaplan: Renk(75% 50 100°)\n\tçerçeve: Dikdörtgen(-1m -1m 1m 1m)\n)\\",
+                "\\Sahne(\n\t[Yazı('eşyalaaaaar')]\n\tarkaplan: Renk(75% 50 100°)\n\tçerçeve: Dikdörtgen(-1m -1m 1m 1m)\n)\\",
                 "HEYECAN İSTERSENİZ BANA @Effect VERİN, HER ŞEYİN GÖRÜNÜŞÜNÜ DEĞİŞTİREYİM. SUALTI! ESKİ FİLM! PARAZİT! BAYILIYORUM.",
-                "\\Sahne(\n\t[İfadeetmek('🐟 blub')]\n\tefektler: [Dalga() Renklendirme(Renk(55% 45 220°))]\n)\\"
+                "\\Sahne(\n\t[Yazı('🐟 blub')]\n\tefektler: [Dalga() Renklendirme(Renk(55% 45 220°))]\n)\\"
             ],
             "names": ["$~Sahne"],
             "content": {
@@ -1651,7 +1651,7 @@
                 "Bunları bulmak zordur, bu yüzden düzenleyicinin altındaki simge sırası, imlecin benim sayılarımdan hemen sonra olduğu her yerde bunları sunar.",
                 "Bir es değer taşıyamaz, çünkü \\ø\\ bir sayı değildir. Arka arkaya iki es iki kat uzundur ve daha ince olan her şey için @Note vardır.",
                 "Tek bir nota kendi ses düzeyine ya da hiçbir değerin yazamayacağı bir uzunluğa ihtiyaç duyduğunda, onu bir @Note içine sar. Buna yalnızca ihtiyacın olan yerde başvur: yalın bir sayı daha kolay okunur, bu yüzden çoğu parçada hiç yoktur ve bu nadirlik, bir @Note'yi bir olay olarak öne çıkaran şeydir.",
-                "\\hücre: [1 3 5 3]\n🎼(\n\t🎶(\n\t\thücre\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n•#) n + 2))\n\t\t.Listeile(hücre.tersineçevrilmiş())\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n2•#) 8 - n2))\n\t\tçalgı: 🔈.🎹\n\t)\n)\\",
+                "\\hücre: [1 3 5 3]\n🎼(\n\t🎶(\n\t\thücre\n\t\t.Listeile(hücre.dönüştür(ƒ(n•#) n + 2))\n\t\t.Listeile(hücre.tersineçevrilmiş())\n\t\t.Listeile(hücre.dönüştür(ƒ(n2•#) 8 - n2))\n\t\tçalgı: 🔈.🎹\n\t)\n)\\",
                 "Eslerle doldurmak bir turun ihtiyacı olan tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirinden uzaklaşmak yerine adım adım kalırlar. İki listeyi : ile bir listeye yaymak, onların nasıl oluşturulduğudur, çünkü \\append\\ her iki listenin de aynı türden şeyi tutmasına ihtiyaç duyar.",
                 "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlen: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlen] çalgı: 🔈.🪈)\n\t\t🎶([:dinlen :melodi] çalgı: 🔈.🎻)\n\t])\\"
             ],
@@ -1895,7 +1895,7 @@
         "Bubble": {
             "doc": [
                 "$~Bir @Phrase'in ne söylediğini, tam onu gösteren bir konuşma balonu içinde gösteririm. Beni bir phrase'in @Phrase.bubble'ine ver, harfler konuşsun:",
-                "\\İfadeetmek('bir' balon: 'merhaba!')\\",
+                "\\Yazı('bir' balon: 'merhaba!')\\",
                 "Bana metin yerine bir @Say ver, o zaman hem gösterilirim hem sesli okunurum.",
                 "@Bubble.kind'imi bir düşünceyle değiştir, o zaman bir düşünce balonuna dönüşürüm.",
                 "Ben bir süslemeyim, bu yüzden sahnede bana yer açmak için hiçbir şey kenara kaymaz — ama @Stage görünür olmamı sağlar."
@@ -2050,14 +2050,14 @@
             "doc": [
                 "$~Ben soyut bir efektim. Üzerindeki her şeyin görünüşünü değiştirmek için tüm @Stage üzerine serilirim. Beni doğrudan oluşturmazsın; onun yerine @Blur, @Grain ya da @Wave gibi benim türümden bir efekt oluştur ve bunlardan oluşan bir listeyi sahnenin @Stage.effects özelliğine ver.",
                 "Efektler listelendikleri sırayla uygulanır, bu yüzden bir @Blur efektinden sonra gelen @Grain taneciği de bulanıklaştırır. Sahnenin içeriğini kaplarlar ama @Stage.overlay alanını asla kaplamazlar; böylece bir skor ya da bir düğme net kalır.",
-                "\\Sahne(\n\t[İfadeetmek('🐟')]\n\tefektler: [Renklendirme(Renk(60% 40 220°)) Dalga()]\n)\\"
+                "\\Sahne(\n\t[Yazı('🐟')]\n\tefektler: [Renklendirme(Renk(60% 40 220°)) Dalga()]\n)\\"
             ],
             "names": ["$~Efekt"]
         },
         "Blur": {
             "doc": [
                 "$~@Stage üzerindeki her şeyi yumuşatırım, sanki kamera odaktan çıkmış gibi. Azıcık ben bir rüya ya da bir anıyım; çok ben ise uyanmak ya da gözlüğünü kaybetmek gibiyim.",
-                "\\Sahne(\n\t[İfadeetmek('🤓 gözlüklerim nerede?')]\n\tefektler: [Bulanıklık(0.05m)]\n)\\"
+                "\\Sahne(\n\t[Yazı('🤓 gözlüklerim nerede?')]\n\tefektler: [Bulanıklık(0.05m)]\n)\\"
             ],
             "names": ["$~Bulanıklık"],
             "amount": {
@@ -2068,7 +2068,7 @@
         "Grade": {
             "doc": [
                 "$~@Stage üzerindeki her şeyin parlaklığını, karşıtlığını, doygunluğunu ve tonunu değiştiririm; tıpkı bir filmin renklerinin havasını belirlemek için düzenlenmesi gibi. Tüm doygunluğu kaldırıp karşıtlığı artırırsan siyah beyaz bir kara film elde edersin.",
-                "\\Sahne(\n\t[İfadeetmek('🕵 dedektif bekledi')]\n\tefektler: [RenkAyarı(doygunluk: 0% karşıtlık: 150%)]\n)\\"
+                "\\Sahne(\n\t[Yazı('🕵 dedektif bekledi')]\n\tefektler: [RenkAyarı(doygunluk: 0% karşıtlık: 150%)]\n)\\"
             ],
             "names": ["$~RenkAyarı"],
             "brightness": {
@@ -2091,7 +2091,7 @@
         "Tint": {
             "doc": [
                 "$~@Stage üzerindeki her şeyi tek bir @Color ile yıkarım; açık ve koyu tonlarını korurum, böylece yazı aynı derecede okunaklı kalır. Mavi-yeşil sahneyi su altı gibi gösterir, kahverengi eski bir fotoğraf gibi, yeşil ise gece görüşü gibi.",
-                "\\Sahne(\n\t[İfadeetmek('🏰 çok uzun zaman önce')]\n\tefektler: [Renklendirme(Renk(60% 40 60°) 80%)]\n)\\"
+                "\\Sahne(\n\t[Yazı('🏰 çok uzun zaman önce')]\n\tefektler: [Renklendirme(Renk(60% 40 60°) 80%)]\n)\\"
             ],
             "names": ["$~Renklendirme"],
             "color": {
@@ -2106,7 +2106,7 @@
         "Haze": {
             "doc": [
                 "$~@Stage alanını sisle örterim; sis üzerinde yavaşça süzülür. Sabahlar, duman, buhar ve uzaktaki her şey için varım.",
-                "\\Sahne([İfadeetmek('🌲🌲 çayırlık 🌲')] efektler: [Pus(60%)])\\"
+                "\\Sahne([Yazı('🌲🌲 çayırlık 🌲')] efektler: [Pus(60%)])\\"
             ],
             "names": ["$~Pus"],
             "amount": {
@@ -2126,7 +2126,7 @@
             "doc": [
                 "$~@Stage alanını her an değişen gürültüyle benekleriım. Azıcık ben gerçek filmin tanecikleridir; çok ben, büyük beneklerle, sinyali olmayan bir televizyondur.",
                 "Güçlü olduğumda bakması yorucuyum, bu yüzden buna duyarlı kişiler için olası bir desen olarak not edileceğim.",
-                "\\Sahne(\n\t[İfadeetmek('📺 sinyal yok')]\n\tefektler: [Kumlanma(90% boyut: 3)]\n)\\"
+                "\\Sahne(\n\t[Yazı('📺 sinyal yok')]\n\tefektler: [Kumlanma(90% boyut: 3)]\n)\\"
             ],
             "names": ["$~Kumlanma"],
             "amount": {
@@ -2145,7 +2145,7 @@
         "Scanlines": {
             "doc": [
                 "$~@Stage alanı boyunca eski bir televizyon ekranının ince koyu çizgilerini çizerim. Bana bir /hız/ ver, tam ayarlanmamış bir TV gibi kayarım.",
-                "\\Sahne(\n\t[İfadeetmek('📺 3. kanal')]\n\tefektler: [TaramaÇizgileri(40% hız: 1)]\n)\\"
+                "\\Sahne(\n\t[Yazı('📺 3. kanal')]\n\tefektler: [TaramaÇizgileri(40% hız: 1)]\n)\\"
             ],
             "names": ["$~TaramaÇizgileri"],
             "amount": {
@@ -2165,7 +2165,7 @@
             "doc": [
                 "$~Çıktıyı @Stage üzerinde dalgalandırırım, sanki onu suyun ya da yükselen sıcağın arkasından görüyormuşsun gibi.",
                 "Çıktının kendisini bükerim, diğer tüm efektlerin altında. Bu yüzden benden önce yazılan bir @Grain dalgalanmaz.",
-                "\\Sahne([İfadeetmek('🐟 blub')] efektler: [Dalga(0.2m)])\\"
+                "\\Sahne([Yazı('🐟 blub')] efektler: [Dalga(0.2m)])\\"
             ],
             "names": ["$~Dalga"],
             "amount": {
@@ -2184,7 +2184,7 @@
         "Damage": {
             "doc": [
                 "$~Eski, yıpranmış filmin çizik ve tozlarını @Stage üzerine saçarım, her karede farklı. Beni rengi alan bir @Grade ve bir @Flicker ile birlikte kullan, sahnen yüz yıllık görünsün.",
-                "\\Sahne(\n\t[İfadeetmek('🎩 SON')]\n\tefektler: [RenkAyarı(doygunluk: 0%) Hasar(80% 60%)]\n)\\"
+                "\\Sahne(\n\t[Yazı('🎩 SON')]\n\tefektler: [RenkAyarı(doygunluk: 0%) Hasar(80% 60%)]\n)\\"
             ],
             "names": ["$~Hasar"],
             "scratches": {
@@ -2200,7 +2200,7 @@
             "doc": [
                 "$~Tüm @Stage öğesini titretirim. Bir süre sabit dururum, sonra düzensiz aralıklarla bir an kararırım, tıpkı bir projektörün ampulü ya da sönmek üzere olan bir lamba gibi.",
                 "Yanıp sönen ışık insanlara zarar verebilir. Bu yüzden ne kadar hızlı istersen iste, saniyede birkaç defadan fazla titremem.",
-                "\\Sahne([İfadeetmek('💡 ışıklar')] efektler: [Titreme(40% 2)])\\"
+                "\\Sahne([Yazı('💡 ışıklar')] efektler: [Titreme(40% 2)])\\"
             ],
             "names": ["$~Titreme"],
             "amount": {
@@ -2215,7 +2215,7 @@
         "Vignette": {
             "doc": [
                 "$~@Stage öğesinin kenarlarını karartırım, ortayı açık bırakırım ve gözleri merkeze çekerim. Eski bir merceğin kenarı, bir spot ışığı ya da tünel görüşü gibiyim.",
-                "\\Sahne([İfadeetmek('🔦 buraya bak')] efektler: [KenarKarartma(70%)])\\"
+                "\\Sahne([Yazı('🔦 buraya bak')] efektler: [KenarKarartma(70%)])\\"
             ],
             "names": ["$~KenarKarartma"],
             "amount": {

@@ -28,10 +28,10 @@ Change the locale on stage to see each one!¶/en
 				¶Each Phrase contains one symbol to represent a letter of my name.
 				This allows me to animate each letter individually! I'm using
 				resting Sequences so that the letters move while on stage.¶/en
-				Satzglied(
+				Phrase(
 					'A'/en
 					gesicht: 'Pacifico'
-					Eingabe: Reihenfolge(
+					Eingabe: Abfolge(
 						{
 							0%: Pose(Opazität: 0%)
 							25%: Pose(Opazität: 25%)
@@ -40,7 +40,7 @@ Change the locale on stage to see each one!¶/en
 							100%: Pose()
 						}
 					)
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						{
 							0%: Pose()
 							50%: Pose(Drehung: 180°)
@@ -50,10 +50,10 @@ Change the locale on stage to see each one!¶/en
 					)
 					Dauer: 1s
 				)
-				Satzglied(
+				Phrase(
 					'd'/en
 					gesicht: 'Aclonica'
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						{
 							0%: Pose(Farbe: Farbe(0.5 100 180°) flipx)
 							50%: Pose(Farbe: Farbe(27% 112 267°))
@@ -65,9 +65,9 @@ Change the locale on stage to see each one!¶/en
 					Dauer: 5s
 					Farbe: Farbe(0.5 100 180°)
 				)
-				Satzglied(
+				Phrase(
 					'♪'
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						{
 							0%: Pose(
 								Versatz: Bewegung(
@@ -84,9 +84,9 @@ Change the locale on stage to see each one!¶/en
 					Dauer: 5s
 					Farbe: Farbe(74% 100 292°)
 				)
-				Satzglied(
+				Phrase(
 					'♫'
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						{
 							0%: Pose(Drehung: 20°)
 							50%: Pose(Drehung: -20°)
@@ -113,10 +113,10 @@ Change the locale on stage to see each one!¶/en
 			[
 				¶हर बोल एक अक्षर रखता हैं मेरी नाम की। यह मुझे हर अक्षर को हिलाने देता हैं।
 				मैं आराम-वाले @Sequence का इस्तेमाल कर रही हूँ ताकी अक्षर मंच पर हिले।¶/hi
-				Satzglied(
+				Phrase(
 					'अ'/hi
 					gesicht: 'Pacifico'
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						{
 							0%: Pose(Opazität: 0%)
 							25%: Pose(Opazität: 25%)
@@ -127,9 +127,9 @@ Change the locale on stage to see each one!¶/en
 						Dauer: 2s
 					)
 				)
-				Satzglied(
+				Phrase(
 					'दि'/hi
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						{
 							0%: Pose(Farbe: Farbe(0% 0 0°))
 							50%: Pose(Farbe: Farbe(74% 100 291°))
@@ -140,10 +140,10 @@ Change the locale on stage to see each one!¶/en
 					Dauer: 5s
 					Farbe: Farbe(74% 100 292°)
 				)
-				Satzglied(
+				Phrase(
 					'ती'/hi
 					gesicht: 'Aclonica'
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						{
 							0%: Pose(Farbe: Farbe(0.5 100 180°) flipx)
 							50%: Pose(Farbe: Farbe(27% 112 267°))

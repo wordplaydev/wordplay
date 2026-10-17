@@ -5,7 +5,7 @@ RotatingBinary
 
 långsamSpin: Sekvens.snurra(10s "straight")
 
-Etapp(
+Estrad(
 	[
 		Fras(
 			'1'

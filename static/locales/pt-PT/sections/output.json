@@ -117,7 +117,7 @@
             "doc": [
                 "$~Represento o que há de mais adorável no @Text no @Stage . Olá, olá! Lembra-se de mim? Como é que alguém me poderia esquecer?",
                 "Faz-me assim e eu apareço no @Stage :",
-                "\\Phrase('magnificent!')\\",
+                "\\Frase('magnificent!')\\",
                 "Preciso @TextLiteral ou @FormattedLiteral sejam apresentados. Com @FormattedLiteral , posso utilizar coisas como \\`*bold* and /italic/`\\ ou fazer referência a @ConceptLink personalizado que crie.",
                 "Também pode, opcionalmente, dar-me tudo o que um @Output pode fazer, incluindo alterar o meu tamanho, tipo de letra, rotação e fazer todas as minhas incríveis danças com @Pose e @Sequence .",
                 "Também me pode selecionar no @Stage e editar-me com a paleta 🎨 ao lado — é uma ótima forma de experimentar diferentes tipos de letra e escolher a /cara/ certa para o seu @Text ."
@@ -295,7 +295,7 @@
         },
         "Grid": {
             "doc": "$~Eu sou uma grelha de @Output. Dê-me uma contagem de linhas e @column e eu faço uma disposição organizada com espaçamento opcional e tamanhos @cell. Eu decido ambas as direções, por isso um @Place não vai mover nada para os lados nem para cima e para baixo — embora o seu z continue a dizer o quão perto está.",
-            "names": ["Rede"],
+            "names": ["$~Grelha", "Rede"],
             "description": "Grelha de $rows linhas e $columns colunas",
             "rows": {
                 "doc": "Quantas linhas devo criar na quadrícula?",
@@ -572,7 +572,7 @@
             "names": ["Cor"],
             "lightness": {
                 "doc": "$~como eu deveria ser de \\0\\ a \\1\\, do preto em \\0\\, ao cinzento em \\0.5\\, ao branco em \\1\\.",
-                "names": ["leveza"]
+                "names": ["$~luminosidade", "leveza"]
             },
             "chroma": {
                 "doc": "$~A quantidade de cor que devo ter, de \\0\\ a \\∞\\. Nenhuma cor significa cinzento, números maiores significam mais cor.",
@@ -638,11 +638,11 @@
                 "doc": [
                     "$~Dê uma cor aleatória.",
                     "Sem cores disponíveis, escolho uma das cores básicas de forma aleatória:",
-                    "\\Color.random()\\",
+                    "\\Cor.aleatório()\\",
                     "Com uma cor, mantenho a sua luminosidade e croma, mas escolho uma tonalidade aleatória:",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Cor.aleatório(Cor.azul)\\",
                     "Com duas cores, escolho aleatoriamente um @value de luminosidade, croma e tonalidade entre as duas:",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Cor.aleatório(Cor.preto Cor.branco)\\"
                 ],
                 "names": "aleatório",
                 "inputs": [
@@ -659,10 +659,10 @@
             "lighter": {
                 "doc": [
                     "$~Crie uma versão mais leve de mim, aumentando a minha leveza em percentagem (5% por defeito).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Cor.azul.maisClaro()\\",
+                    "\\Cor.azul.maisClaro(20%)\\"
                 ],
-                "names": "$~isqueiro",
+                "names": ["$~maisClaro", "$~isqueiro"],
                 "inputs": [
                     {
                         "doc": "O quanto aumentar a luminosidade, em percentagem. O predefinido é 5%.",
@@ -673,8 +673,8 @@
             "darker": {
                 "doc": [
                     "$~Crie uma versão mais escura de mim, reduzindo o meu brilho em percentagem (5% por defeito).",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Cor.azul.maisescuro()\\",
+                    "\\Cor.azul.maisescuro(20%)\\"
                 ],
                 "names": "$~maisescuro",
                 "inputs": [
@@ -1163,15 +1163,15 @@
         "Stage": {
             "doc": [
                 "$~EU MOSTRO O SEU @Output AO PÚBLICO. OLÁ. SOU O PALCO. DIGA-ME O QUE MOSTRAR E EU MOSTRO.",
-                "\\Fase([Frase('coisaaaaaas')])\\",
+                "\\Palco([Frase('coisaaaaaas')])\\",
                 "SE QUISER, DÊ-ME UMA @Color DE FUNDO E EU ILUMINO O PALCO EM CONFORMIDADE.",
-                "\\Fase([Frase('coisaaaaaas')] fundo: Cor(75% 50 100°))\\",
+                "\\Palco([Frase('coisaaaaaas')] fundo: Cor(75% 50 100°))\\",
                 "PODE TAMBÉM DAR-ME UMA MOLDURA E EU CORTO.",
-                "\\Fase(\n\t[Frase('coisaaaaaas')]\n\tfundo: Cor(75% 50 100°)\n\tmoldura: Retângulo(-1m -1m 1m 1m)\n)\\",
+                "\\Palco(\n\t[Frase('coisaaaaaas')]\n\tfundo: Cor(75% 50 100°)\n\tmoldura: Retângulo(-1m -1m 1m 1m)\n)\\",
                 "E SE QUISER DRAMA, DÊ-ME @Effect E EU MUDO O ASPETO DE TUDO. DEBAIXO DE ÁGUA! FILME ANTIGO! RUÍDO! ADORO.",
-                "\\Fase(\n\t[Frase('🐟 glub')]\n\tefeitos: [Onda() Tingimento(Cor(55% 45 220°))]\n)\\"
+                "\\Palco(\n\t[Frase('🐟 glub')]\n\tefeitos: [Onda() Tingimento(Cor(55% 45 220°))]\n)\\"
             ],
-            "names": ["Fase"],
+            "names": ["$~Palco", "Fase"],
             "content": {
                 "doc": "$~A LISTA DE @Output A MOSTRAR. ESTE É O ESPETÁCULO. EU MOSTRO-O.",
                 "names": "conteúdo"
@@ -2050,14 +2050,14 @@
             "doc": [
                 "$~Sou um efeito abstrato, colocado sobre todo o @Stage para mudar o aspeto de tudo o que lá está. Nunca sou criado diretamente. Em vez disso, crie um dos efeitos que são eu, como @Blur, @Grain ou @Wave, e dê uma lista deles ao @Stage.effects de um palco.",
                 "Os efeitos aplicam-se pela ordem em que estão na lista, por isso um @Blur depois de um @Grain também desfoca o grão. Cobrem o conteúdo do palco, mas nunca o seu @Stage.overlay, por isso uma pontuação ou um botão continua nítido.",
-                "\\Fase([Frase('🐟')] efeitos: [Tingimento(Cor(60% 40 220°)) Onda()])\\"
+                "\\Palco([Frase('🐟')] efeitos: [Tingimento(Cor(60% 40 220°)) Onda()])\\"
             ],
             "names": ["$~Efeito"]
         },
         "Blur": {
             "doc": [
                 "$~Suavizo tudo o que está em @Stage, como se a câmara estivesse desfocada. Um pouco de mim parece um sonho ou uma memória. Muito de mim é acordar, ou perder os óculos.",
-                "\\Fase(\n\t[Frase('🤓 onde estão os meus óculos?')]\n\tefeitos: [Desfocagem(0.05m)]\n)\\"
+                "\\Palco(\n\t[Frase('🤓 onde estão os meus óculos?')]\n\tefeitos: [Desfocagem(0.05m)]\n)\\"
             ],
             "names": ["$~Desfocagem"],
             "amount": {
@@ -2068,7 +2068,7 @@
         "Grade": {
             "doc": [
                 "$~Mudo o brilho, o contraste, a saturação e o tom de tudo o que está em @Stage, como se corrigem as cores de um filme para criar o ambiente. Retire toda a saturação e aumente o contraste, e fica com um filme noir a preto e branco.",
-                "\\Fase(\n\t[Frase('🕵 o detetive esperou')]\n\tefeitos: [Gradação(saturação: 0% contraste: 150%)]\n)\\"
+                "\\Palco(\n\t[Frase('🕵 o detetive esperou')]\n\tefeitos: [Gradação(saturação: 0% contraste: 150%)]\n)\\"
             ],
             "names": ["$~Gradação"],
             "brightness": {
@@ -2091,7 +2091,7 @@
         "Tint": {
             "doc": [
                 "$~Banho tudo o que está em @Stage numa só @Color, mantendo o claro e o escuro para que o texto continue tão legível como antes. O azul-esverdeado dá a sensação de estar debaixo de água, o castanho faz parecer uma fotografia antiga, e o verde faz parecer visão noturna.",
-                "\\Fase(\n\t[Frase('🏰 há muito tempo')]\n\tefeitos: [Tingimento(Cor(60% 40 60°) 80%)]\n)\\"
+                "\\Palco(\n\t[Frase('🏰 há muito tempo')]\n\tefeitos: [Tingimento(Cor(60% 40 60°) 80%)]\n)\\"
             ],
             "names": ["$~Tingimento"],
             "color": {
@@ -2106,7 +2106,7 @@
         "Haze": {
             "doc": [
                 "$~Cubro o @Stage com nevoeiro, a deslizar devagar sobre ele. Sirvo para manhãs, fumo, vapor e tudo o que está longe.",
-                "\\Fase([Frase('🌲🌲 o pântano 🌲')] efeitos: [Neblina(60%)])\\"
+                "\\Palco([Frase('🌲🌲 o pântano 🌲')] efeitos: [Neblina(60%)])\\"
             ],
             "names": ["$~Neblina"],
             "amount": {
@@ -2126,7 +2126,7 @@
             "doc": [
                 "$~Salpico o @Stage com ruído que muda a cada momento. Um pouco de mim é o grão de um filme a sério. Muito de mim, com pintas grandes, é uma televisão sem sinal.",
                 "Quando sou forte, sou cansativo de ver, por isso serei assinalado como um possível padrão para pessoas sensíveis a eles.",
-                "\\Fase([Frase('📺 sem sinal')] efeitos: [Grão(90% tamanho: 3)])\\"
+                "\\Palco([Frase('📺 sem sinal')] efeitos: [Grão(90% tamanho: 3)])\\"
             ],
             "names": ["$~Grão"],
             "amount": {
@@ -2145,7 +2145,7 @@
         "Scanlines": {
             "doc": [
                 "$~Desenho as linhas escuras e finas de um ecrã de televisão antigo sobre o @Stage. Dê-me uma /velocidade/ e eu desloco-me, como uma televisão que não está bem sintonizada.",
-                "\\Fase(\n\t[Frase('📺 canal 3')]\n\tefeitos: [Linhas(40% velocidade: 1)]\n)\\"
+                "\\Palco(\n\t[Frase('📺 canal 3')]\n\tefeitos: [Linhas(40% velocidade: 1)]\n)\\"
             ],
             "names": ["$~Linhas"],
             "amount": {
@@ -2165,7 +2165,7 @@
             "doc": [
                 "$~Eu faço ondular a saída em @Stage, como se a visse através de água ou de calor a subir.",
                 "Eu dobro a própria saída, por baixo de quaisquer outros efeitos, por isso um @Grain indicado antes de mim não fica ondulado.",
-                "\\Fase([Frase('🐟 glub')] efeitos: [Onda(0.2m)])\\"
+                "\\Palco([Frase('🐟 glub')] efeitos: [Onda(0.2m)])\\"
             ],
             "names": ["$~Onda"],
             "amount": {
@@ -2184,7 +2184,7 @@
         "Damage": {
             "doc": [
                 "$~Eu espalho os riscos e o pó de um filme antigo e gasto sobre o @Stage, diferentes em cada fotograma. Junte-me a um @Grade que tira a cor e a um @Flicker, e a sua cena fica com cem anos.",
-                "\\Fase(\n\t[Frase('🎩 FIM')]\n\tefeitos: [Gradação(saturação: 0%) Desgaste(80% 60%)]\n)\\"
+                "\\Palco(\n\t[Frase('🎩 FIM')]\n\tefeitos: [Gradação(saturação: 0%) Desgaste(80% 60%)]\n)\\"
             ],
             "names": ["$~Desgaste"],
             "scratches": {
@@ -2200,7 +2200,7 @@
             "doc": [
                 "$~Eu faço todo o @Stage tremer, ficando estável e depois escurecendo por um instante em momentos irregulares, como a lâmpada de um projetor ou um candeeiro prestes a apagar-se.",
                 "A luz intermitente pode magoar as pessoas, por isso nunca tremo mais do que algumas vezes por segundo, por mais depressa que se peça.",
-                "\\Fase([Frase('💡 as luzes')] efeitos: [Tremulação(40% 2)])\\"
+                "\\Palco([Frase('💡 as luzes')] efeitos: [Tremulação(40% 2)])\\"
             ],
             "names": ["$~Tremulação"],
             "amount": {
@@ -2215,7 +2215,7 @@
         "Vignette": {
             "doc": [
                 "$~Eu escureço as margens do @Stage e deixo o meio limpo, levando os olhos para o centro. Sou a margem de uma lente antiga, um foco de luz ou uma visão em túnel.",
-                "\\Fase([Frase('🔦 olhe aqui')] efeitos: [Vinheta(70%)])\\"
+                "\\Palco([Frase('🔦 olhe aqui')] efeitos: [Vinheta(70%)])\\"
             ],
             "names": ["$~Vinheta"],
             "amount": {

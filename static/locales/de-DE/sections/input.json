@@ -20,7 +20,7 @@
             "names": ["$~Zufällig"],
             "inputs": [
                 {
-                    "names": "$~Mindest",
+                    "names": ["$~Minimum", "$~Mindest"],
                     "doc": "$~Der kleinste @value, der erstellt wird, oder wenn er größer als 0 ist, der größte Wert. Wenn @None angegeben ist, dann ist der kleinste \\0\\."
                 },
                 {
@@ -35,7 +35,7 @@
                 "/Klick-Tipp!/",
                 "Die beste Vorgehensweise besteht also darin, eine Performance mit benannten, auswählbaren Phrasen @Phrase zu erstellen und dann mit einer @Reaction festzulegen, was zu tun ist, wenn dieser Name ausgewählt wird.",
                 "Hier das einfachste Beispiel:",
-                "\\Group(\nStack() \n[\nPhrase('one' wählbar:⊤ Name:'1') \nPhrase('two' wählbar:⊤ Name:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Gruppe(\nStapel() \n[\nPhrase('one' wählbar:⊤ Name:'1') \nPhrase('two' wählbar:⊤ Name:'2') \nPhrase(Auswahl())\n]\n)\\",
                 "Kopiere dies in den @editor und wähle dann eine der beiden @Phrase Anweisungen aus. Die dritte @Phrase zeigt dann den ausgewählten Namen an."
             ],
             "names": ["$~Auswahl"]
@@ -47,7 +47,7 @@
                 "Natürlich ist eine Maus oder ein Trackpad keine ideale Wahl, um auf ein Publikum zu hören, denn nicht jeder kann eine benutzen. Die zugänglichere Wahl ist @Choice.",
                 "Aber wenn du /wirklich/ auf eine Maustaste hören musst, ist das der Weg dazu. Es gibt einen Datenstrom von @Boolean, der zeigt, ob die Haupttaste oben \\⊥\\ oder unten \\⊤\\.",
                 "Hier ist ein einfaches Beispiel:",
-                "\\Satzglied(Taste() → '')\\",
+                "\\Phrase(Taste() → '')\\",
                 "Das macht einfach ein @Phrase, das der @value des Streams als Text ist. Wenn du es in den @editor kopierst und klickst, siehst du, wie es hin und her wechselt zwischen \\⊥\\ und \\⊤\\."
             ],
             "names": ["$~Taste"],
@@ -62,7 +62,7 @@
                 "/whrrrrrr/",
                 "Natürlich ist dies keine barrierefreie Option: Nicht jeder kann sehen oder leicht darauf zeigen. Stellen Sie daher sicher, dass Sie niemanden von der Teilnahme ausschließen, indem Sie diesen Stream verwenden.",
                 "Wenn Sie sicher sind, dass niemand ausgeschlossen ist, dann ist die Verwendung @Pointer so einfach wie das Erstellen eines Streams:",
-                "\\Pointer()\\",
+                "\\Zeiger()\\",
                 "Der von ihm angegebene @Place entspricht der Position des Zeigers auf @Stage ."
             ],
             "names": ["$~Zeiger"]
@@ -72,16 +72,16 @@
                 "$~Es sagt dir, welche Tastatur-@key dein Publikum drückt und loslässt.",
                 "/klick klick/",
                 "Probiere das aus",
-                "\\Schlüssel()\\",
+                "\\Tastaturtaste()\\",
                 "Siehst du, wie es auf @Stage erscheint, wenn du eine Taste tippst? Jedes Mal, wenn eine Taste gedrückt wird, kommt ein neues @Text zum Stream hinzu, das die gedrückte Taste beschreibt.",
                 "Bei einer Taste, die ein Zeichen darstellt, ist der @value das Zeichen als @Text.",
                 "Bei Sondertasten, wie der /Escape/-Taste, ist es @Text, das die Taste beschreibt. Es nutzt einen <vordefinierten Namen@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, der leider nur auf Englisch verfügbar ist.",
                 "Wenn du nur von einer bestimmten Taste wissen willst, kannst du sie angeben:",
-                "\\Schlüssel('a')\\",
+                "\\Tastaturtaste('a')\\",
                 "Und wenn du nur wissen willst, wann eine @Key losgelassen statt gedrückt wird, kannst du ein @Boolean angeben:",
-                "\\Schlüssel('a' ⊥)\\"
+                "\\Tastaturtaste('a' ⊥)\\"
             ],
-            "names": ["$~Schlüssel"],
+            "names": ["$~Tastaturtaste", "$~Schlüssel"],
             "key": {
                 "names": "$~Schlüssel",
                 "doc": "$~Wenn @None, werden alle Schlüssel bereitgestellt. Wenn es sich um einen bestimmten @Text handelt, wird nur dieser Schlüssel bereitgestellt."
@@ -171,10 +171,10 @@
                 "$~Es handelt sich um einen @stream der Mikrofonlautstärke von 0 bis 1.",
                 "/bzzzzzzz/",
                 "Die Abtastung erfolgt mit der von Ihnen gewählten Frequenz. Standardmäßig beträgt die Frequenz \\30hz\\ , also 30 Mal pro Sekunde, Sie können sie aber auf eine niedrigere Frequenz ändern.",
-                "\\Volume()\\",
+                "\\Lautstärke()\\",
                 "Das eignet sich hervorragend, um die Lautstärke des Publikums zu messen!"
             ],
-            "names": ["$~Volumen"],
+            "names": ["$~Lautstärke", "$~Volumen"],
             "frequency": {
                 "names": ["$~Frequenz"],
                 "doc": "$~Die Zeit zwischen den Probenahmen."
@@ -185,7 +185,7 @@
                 "$~Es handelt sich um einen @stream der Tonhöhe des Mikrofons in Hertz.",
                 "/hmmm/",
                 "Die Abtastung erfolgt mit der von Ihnen gewählten Frequenz. Die menschliche Stimme liegt zwischen 20 Hz und 5000 Hz, planen Sie also mit Werten in diesem Bereich.",
-                "\\Pitch()\\",
+                "\\Tonhöhe()\\",
                 "Das eignet sich hervorragend, um den Tonfall einer Person beim Sprechen oder Singen zu hören."
             ],
             "names": ["$~Tonhöhe"],
@@ -200,7 +200,7 @@
                 "/bzzzzzzz/",
                 "Diese @List stellt im Wesentlichen ein Bild dar, aber es liegt an Ihnen zu entscheiden, was Sie damit machen.",
                 "Du könntest versuchen, das Bild mit einer Reihe von @Phrase darzustellen, das könnte ziemlich cool aussehen! Versuche, das zu kopieren...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' Ort: Place((x - 1) × 0.5m y × -0.5m) Farbe: color Dauer: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Kamera(32px 24px 33ms)\n\nBühne(\ncolors.kombinieren(\n[] \nƒ(phrases•[Phrase] row•[Farbe] y•#) \nphrases.mitListe(\nrow.übersetzen(\nƒ(color•Farbe x•#)\nPhrase('o' Ort: Ort((x - 1) × 0.5m y × -0.5m) Farbe: color Dauer: 0s\n)\n)\n)\n)\n)\\",
                 "Man könnte aber auch die Farben analysieren, um festzustellen, ob ein Licht an oder aus ist oder ob eine bestimmte Farbe häufig vorkommt, sodass das Publikum mit den von ihm gezeigten Farben Einfluss auf die Aufführung nehmen kann."
             ],
             "names": ["Kamera"],
@@ -251,17 +251,17 @@
                 "/Piep piep piep/",
                 "Um den Zeitablauf zu steuern, kannst du entweder die @Phrase.duration bei jeder Ausgabe festlegen. Dann wird sie so lange gezeigt, bevor es zur nächsten weitergeht, und dabei alle @Phrase.entering- oder @Phrase.exiting-Übergänge nutzt, die du festgelegt hast. Wenn du sie auf einen @Sequence setzt, wird dessen Dauer verwendet.",
                 "All das erlaubt dir Dinge wie dieses kleine @Scene, das diese drei Sätze nacheinander zeigt:",
-                "\\Szene(\n\t[\n\t\tSatzglied('Hallo' Dauer: 1s)\n\t\tSatzglied(\n\t\t\t'Wie geht es dir?'\n\t\t\tDauer: 2s\n\t\t\tDrehung: 5°\n\t\t\tEingabe: Pose(Drehung: 0°)\n\t\t)\n\t\tSatzglied('Mir geht es gut')\n\t]\n)\\",
+                "\\Szene(\n\t[\n\t\tPhrase('Hallo' Dauer: 1s)\n\t\tPhrase(\n\t\t\t'Wie geht es dir?'\n\t\t\tDauer: 2s\n\t\t\tDrehung: 5°\n\t\t\tEingabe: Pose(Drehung: 0°)\n\t\t)\n\t\tPhrase('Mir geht es gut')\n\t]\n)\\",
                 "Siehst du, wie die erste Ausgabe eine Sekunde lang gezeigt wird, dann die nächste zwei Sekunden lang, aber animiert mit einer Drehung um fünf Grad, und danach zeigt es die letzte?",
                 "Du kannst mit @Scene sehr aufwendige Abfolgen von Ausgaben und Animationen erstellen und sogar Teile davon dynamisch oder interaktiv gestalten, genau wie bei jedem anderen @Phrase oder @Group.",
                 "Wenn du verschachtelte animierte Ausgaben hast (ein @Group mit animiertem @Phrase darin), wartet @Scene, bis der gesamte animierte Inhalt im @Group fertig ist.",
                 "Oh, und noch ein letztes kleines Geheimnis! Du kannst sogar @Boolean in die Liste setzen, und wenn sie \\⊥\\sind, pausiert die @Scene und wartet darauf, dass es wahr wird.",
                 "Wenn du zum Beispiel eine Abfolge von @Phrase erstellen möchtest, die nur weitergeht, wenn sich @Button ändert, könntest du das so machen:",
-                "\\klicken: ∆ Taste()\nSzene(\n\t[\n\t\tSatzglied('Hallo')\n\t\tklicken\n\t\tSatzglied(\n\t\t\t'Wie geht es dir?'\n\t\t\tDauer: 0.25s\n\t\t\tDrehung: 5°\n\t\t\tEingabe: Pose(Drehung: 0°)\n\t\t)\n\t\tklicken\n\t\tSatzglied('Mir geht es gut')\n\t]\n)\\",
+                "\\klicken: ∆ Taste()\nSzene(\n\t[\n\t\tPhrase('Hallo')\n\t\tklicken\n\t\tPhrase(\n\t\t\t'Wie geht es dir?'\n\t\t\tDauer: 0.25s\n\t\t\tDrehung: 5°\n\t\t\tEingabe: Pose(Drehung: 0°)\n\t\t)\n\t\tklicken\n\t\tPhrase('Mir geht es gut')\n\t]\n)\\",
                 "Siehst du, wie es nach jeder @Phrase pausiert und wartet, bis sich @Button ändert, bevor es weitergeht?",
                 "Standardmäßig stoppe ich bei meiner letzten Ausgabe. Gib mir @Scene/loop und ich fange wieder bei meiner ersten an, was genau das ist, was ein Spiel will, das nach jeder Runde eine weitere Frage stellt.",
                 "Ich prüfe @Scene/loop jedes Mal, wenn sich dein Programm ändert, sodass eine Schleife sowohl enden als auch beginnen kann. Hier frage ich immer weiter, bis sie es richtig machen, und stoppe dann:",
-                "\\raten: Plaudern()\nrichtig: raten = 'cat'\nSzene(\n\t[\n\t\tSatzglied('Errate das Tier!' Dauer: 2s)\n\t\t∆ raten\n\t\tSatzglied(richtig ? 'Ja!' 'Nein!' Dauer: 2s)\n\t]\n\tSchleife: ~richtig\n)\\",
+                "\\raten: Chat()\nrichtig: raten = 'cat'\nSzene(\n\t[\n\t\tPhrase('Errate das Tier!' Dauer: 2s)\n\t\t∆ raten\n\t\tPhrase(richtig ? 'Ja!' 'Nein!' Dauer: 2s)\n\t]\n\tSchleife: ~richtig\n)\\",
                 "@Scene/replay fängt mich von vorne an, @Scene/pause hält mich dort, wo ich bin, und @Scene/go schickt mich direkt zu einer meiner Ausgaben. Setze @Scene/pause auf \\⊤\\ und ich bewege mich nie von selbst, sodass @Scene/go das Einzige wird, das mich weiterbringt — so macht man eine Diashow, die vorwärts /und/ rückwärts geht.",
                 "Und wenn du wissen willst, wo ich gerade bin, um /3 von 10/ zu zeigen oder in verschiedenen Teilen einer Geschichte unterschiedliche Musik abzuspielen, dafür ist @Spotlight da."
             ],
@@ -296,7 +296,7 @@
                     "Wie @Scene/replay will das eine /kurzzeitige/ @condition — etwas, das \\ø\\ ist, außer bei der Auswertung, bei der ich mich bewegen soll. Eine Zahl, die dauerhaft bleibt, würde mich für immer dort festhalten.",
                     "Schicke mich über eines der beiden Enden hinaus und ich bleibe dort stehen, es sei denn @Scene/loop ist \\⊤\\, in welchem Fall ich wieder von vorne beginne. Das bedeutet, du musst nie nachprüfen. Hier bewegen die Pfeiltasten eine Diashow in beide Richtungen:",
                     "Wenn du lieber /einen Schritt vorwärts/ sagen möchtest statt /Nummer drei/, dafür ist @Scene/step da.",
-                    "\\folien: [\n\t\tSatzglied('eins')\n\t\tSatzglied('zwei')\n\t\tSatzglied('drei')\n\t]\nschlüssel2: Schlüssel()\nbei: Spotlight()\nSzene(\n\tfolien\n\tanhalten: ⊤\n\tlos: ∆ schlüssel2 ? ((schlüssel2 = 'Pfeil nach links') ? bei.index - 1 (schlüssel2 = 'Pfeil nach rechts') ? bei.index + 1 ø) ø\n)\\"
+                    "\\folien: [\n\t\tPhrase('eins')\n\t\tPhrase('zwei')\n\t\tPhrase('drei')\n\t]\nschlüssel2: Tastaturtaste()\nbei: Scheinwerfer()\nSzene(\n\tfolien\n\tanhalten: ⊤\n\tlos: ∆ schlüssel2 ? ((schlüssel2 = 'Pfeil nach links') ? bei.Index - 1 (schlüssel2 = 'Pfeil nach rechts') ? bei.Index + 1 ø) ø\n)\\"
                 ]
             },
             "name": {
@@ -308,7 +308,7 @@
                 "doc": [
                     "$~Eine @condition, auf die nach jeder meiner Ausgaben gewartet wird, sobald sie ihre @Phrase/duration gehabt hat oder mit dem Animieren fertig ist.",
                     "Es ist dasselbe, wie wenn man diese @Boolean zwischen jede Ausgabe in meiner Liste schreiben würde, was du tun würdest, um eine meiner Ausgaben warten zu lassen. Dies sagt es einmal statt vielen Malen:",
-                    "\\Szene(\n\t[Satzglied('eins') Satzglied('zwei') Satzglied('drei')]\n\tbis: ∆ Taste()\n)\\",
+                    "\\Szene(\n\t[Phrase('eins') Phrase('zwei') Phrase('drei')]\n\tbis: ∆ Taste()\n)\\",
                     "Eine in der Liste geschriebene @Boolean funktioniert trotzdem, und die beiden sind getrennte Wartezeiten. So kannst du an einer bestimmten Stelle länger warten lassen."
                 ]
             },
@@ -317,7 +317,7 @@
                 "doc": [
                     "$~Wie viele Ausgaben ich mich bewegen soll, gezählt von dort, wo ich bin: \\1\\ ist eine Ausgabe vorwärts und \\-1\\ ist eine Ausgabe zurück. Das ist @Scene/go, ausgedrückt als Abstand statt als Ort.",
                     "Wie @Scene/go halte ich an meinen Enden an, außer wenn @Scene/loop \\⊤\\ ist. So musst du nie nachprüfen, und ich möchte ein /kurzzeitiges/ @condition — etwas, das \\ø\\ ist, außer bei dem @iteration, bei dem ich mich bewegen soll.",
-                    "\\folien: [\n\t\tSatzglied('eins')\n\t\tSatzglied('zwei')\n\t\tSatzglied('drei')\n\t]\nschlüssel2: Schlüssel()\nSzene(\n\tfolien\n\tanhalten: ⊤\n\tSchritt: ∆ schlüssel2 ? ((schlüssel2 = 'Pfeil nach links') ? -1 (schlüssel2 = 'Pfeil nach rechts') ? 1 ø) ø\n)\\",
+                    "\\folien: [\n\t\tPhrase('eins')\n\t\tPhrase('zwei')\n\t\tPhrase('drei')\n\t]\nschlüssel2: Tastaturtaste()\nSzene(\n\tfolien\n\tanhalten: ⊤\n\tSchritt: ∆ schlüssel2 ? ((schlüssel2 = 'Pfeil nach links') ? -1 (schlüssel2 = 'Pfeil nach rechts') ? 1 ø) ø\n)\\",
                     "Nichts hier muss wissen, welche @Phrase gerade angezeigt wird. Das ist der Unterschied zu @Scene/go. Frag @Spotlight, wenn du das auf der Bühne zeigen willst."
                 ]
             }
@@ -326,10 +326,10 @@
             "doc": [
                 "$~Es handelt sich um einen @stream der @Text -Nachrichten, die Ihre Zielgruppe eingibt.",
                 "Dieses einfache Programm prüft beispielsweise, ob die Nachricht „hello“ lautet. Wenn ja, gibt das Programm „hi“ zurück. Andernfalls gibt es „huh?“ zurück.",
-                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "\\Chat().hat('hello') ? 'hi!' 'huh?'\\",
                 "Das war's! Damit lassen sich alle möglichen Darbietungen realisieren, zum Beispiel Chatbots, Textadventures oder textbasierte Steuerungssysteme für andere Darbietungsformen."
             ],
-            "names": ["$~Plaudern"]
+            "names": ["$~Chat"]
         },
         "Placement": {
             "doc": [
@@ -337,7 +337,7 @@
                 "Es gibt viele Wege, @Output auf @Stage zu platzieren: gib ihnen eine feste @Place, nutze @Motion und lass die Schwerkraft arbeiten, oder setze sie in ein @Group, um sie anzuordnen.",
                 "Aber manchmal willst du dem /Publikum/ die Kontrolle darüber geben, wohin @Output auf @Stage geht.",
                 "So geht es: mach ein @Placement und gib es der @Place eines @Output:",
-                "\\Satzglied('hallo' Ort: Platzierung())\\",
+                "\\Phrase('hallo' Ort: Platzierung())\\",
                 "Jedes Mal, wenn das Publikum dann eine Pfeil-@key benutzt oder auf die Bühne klickt oder tippt, macht der @Placement ein neues @Place, das sich in die gewünschte Richtung bewegt.",
                 "Versuche, das in dein Programm zu kopieren und das @Output mit dem Zeiger oder der Tastatur zu bewegen.",
                 "Du kannst den @Placement anpassen: Bewegung in bestimmten Dimensionen an- und ausschalten, ändern, wie weit sich ein @Place bewegt, und die anfängliche @Place, mit der der Stream startet."
@@ -440,7 +440,7 @@
                 "doc": "$~Die Richtung und Größe der Richtung entlang der x-Achse."
             },
             "y": {
-                "names": "$~j",
+                "names": ["$~Y", "$~j"],
                 "doc": "$~Die Richtung und Größe der Richtung entlang der Y-Achse."
             }
         },
@@ -559,7 +559,7 @@
                 "Standardmäßig zähle ich jede Sekunde. Gib mir eine @Now.frequency in Sekunden, Minuten oder Stunden, um den Takt zu ändern:",
                 "\\⏰(1min)\\",
                 "Meine @Now.timezone und @Now.calendar spiegeln die Eingaben von @Moment wider und stellen die Momente ein, die ich erzeuge. Hier ist zum Beispiel eine Uhr, die die aktuelle Zeit in Tokio nach dem japanischen Kalender zeigt:",
-                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "\\Jetzt(1s 'Asia/Tokyo' 'japanese')\\",
                 "Wenn sich diese Eingaben ändern – etwa wenn eine Reaktion mir eine andere Zeitzone gibt – erzeuge ich Momente mit den neuen Einstellungen.",
                 "Wie unterscheide ich mich von @Time? @Time zählt die Millisekunden seit dem Start eines Programms, was gut für Animationen ist. Ich nenne dir das Datum und die Zeit der Uhr an der Wand in einem Kalender und einer Zeitzone, was gut für Uhren und Kalender ist."
             ],
@@ -793,13 +793,13 @@
             }
         },
         "Beat": {
-            "names": "$~Takt",
+            "names": ["$~Schlag", "$~Takt"],
             "doc": [
                 "$~Ich gebe jedes Mal einen neuen @value, wenn das spielende @Music einen Schlag erreicht. So kannst du Bilder bauen, die sich mit der Musik bewegen. Ich habe immer einen @Downbeat für dich, damit du ihn sofort lesen kannst: Bevor Musik spielt, sitze ich auf Schlag null, ohne dass etwas klingt, und mein \\tempo\\ bleibt null, bis es beginnt.",
                 "Hier wechseln sich drei Spuren ab, sodass auf jedem Schlag eine andere Anzahl von Instrumenten klingt — und der Diamant wächst mit der Zahl der spielenden Instrumente:",
-                "\\schlag: Takt()\n🎭([\n\t\t💬('◆' ((schlag.Instrumente.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] Instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] Instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] Instrument: 🔈.🔔)\n\t\t\t]\n\t\t\tTempo: 100beats/min\n\t\t)\n\t])\\",
+                "\\schlag: Schlag()\n🎭([\n\t\t💬('◆' ((schlag.Instrumente.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] Instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] Instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] Instrument: 🔈.🔔)\n\t\t\t]\n\t\t\tTempo: 100beats/min\n\t\t)\n\t])\\",
                 "Gib mir einen @Music-Namen, und ich höre nur diese Musik. Unten hören zwei Schläge auf dieselben zwei Musikstücke: Der obere hört alles, also wechselt er zwischen beiden Namen, wenn jede Musik einen Schlag erreicht, und der untere hört nur die Trommel und sagt nie etwas anderes. Dieser Unterschied ist der Filter.",
-                "\\alles: Takt()\nnurDieTrommel: Takt('Ticken')\n🎭([\n\t\t🔳(\n\t\t\t⬇(Polsterung: 0.5m)\n\t\t\t[\n\t\t\t\t💬(alles.Name 1.4m)\n\t\t\t\t💬(nurDieTrommel.Name 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] Instrument: 🔈.🥁) Tempo: 120beats/min Name: 'Ticken')\n\t\t🎼(🎶([5 5 5] Instrument: 🔈.🔔) Tempo: 90beats/min Name: 'Klang')\n\t])\\",
+                "\\alles: Schlag()\nnurDieTrommel: Schlag('Ticken')\n🎭([\n\t\t🔳(\n\t\t\t⬇(Polsterung: 0.5m)\n\t\t\t[\n\t\t\t\t💬(alles.Name 1.4m)\n\t\t\t\t💬(nurDieTrommel.Name 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] Instrument: 🔈.🥁) Tempo: 120beats/min Name: 'Ticken')\n\t\t🎼(🎶([5 5 5] Instrument: 🔈.🔔) Tempo: 90beats/min Name: 'Klang')\n\t])\\",
                 "Was immer ich steuere, kommt /zusätzlich/ zu der Darstellung, die der Betrachter gewählt hat; du fügst etwas hinzu, ersetzt es aber nie."
             ],
             "name": {
@@ -862,7 +862,7 @@
             },
             "sounding": {
                 "doc": "$~Ob bei diesem Schlag eine Note hörbar ist. Eine gehaltene Note zählt weiter, also bleibe ich \\⊤\\ durch die Schläge, die sie hält, nicht nur bei dem, bei dem sie begann.",
-                "names": "$~Klingen"
+                "names": ["$~klingt", "$~Klingen"]
             },
             "degrees": {
                 "doc": "$~Die Noten, die diesen Schlag abdecken, wie geschrieben. Leer bei einer Pause und mehr als eine bei einem Akkord.",
@@ -901,7 +901,7 @@
             "doc": [
                 "$~Ich sage, wo eine @Scene gerade steht: welche Ausgabe sie zeigt, wie viele sie hat, und ob sie auf jemanden wartet.",
                 "Eine @Scene zeigt Dinge; ich bin es, wodurch der Rest eines Programms herausfindet, was gerade gezeigt wird. Deshalb kannst du zum Beispiel einen Zähler unter eine Diashow setzen, in verschiedenen Teilen einer Geschichte unterschiedliche Musik abspielen, oder einen Hinweis wie /drücke eine beliebige Taste/ nur dann zeigen, wenn die Szene wirklich wartet.",
-                "\\folien: [\n\t\tSatzglied('eins')\n\t\tSatzglied('zwei')\n\t\tSatzglied('drei')\n\t]\nbei: Spotlight()\nBühne(\n\t[\n\t\tSzene(folien Schleife: ⊤)\n\t\tSatzglied(\n\t\t\t`\\bei.index\\ von \\bei.total\\`\n\t\t\tGröße: 0.3m\n\t\t\tOrt: Ort(0m -2m)\n\t\t)\n\t]\n)\\",
+                "\\folien: [\n\t\tPhrase('eins')\n\t\tPhrase('zwei')\n\t\tPhrase('drei')\n\t]\nbei: Scheinwerfer()\nBühne(\n\t[\n\t\tSzene(folien Schleife: ⊤)\n\t\tPhrase(\n\t\t\t`\\bei.index\\ von \\bei.total\\`\n\t\t\tGröße: 0.3m\n\t\t\tOrt: Ort(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Ich habe immer eine @Slate, sogar bevor irgendetwas passiert ist. So musst du mich nie auf \\ø\\ prüfen."
             ],
             "names": "$~Scheinwerfer",

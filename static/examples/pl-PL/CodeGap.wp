@@ -6,7 +6,7 @@ Luka w kodzie
 ↓ fields
 
 ¶Funkcja fill tworzy jeden jednolity pasek. Powtarza emoji kobiety tyle razy, ile wynosi count, i łączy je w jeden tekst bez przerw. Dzięki temu rząd wygląda jak jeden ciągły pasek, a nie osobne kropki.¶
-ƒ wypełnienie(licznik•#) (licznik → []).tłumaczyć(ƒ() '👩').dołączyć(
+ƒ wypełnienie(licznik•#) (licznik → []).przekształć(ƒ() '👩').dołączyć(
 		''
 	)
 
@@ -14,13 +14,13 @@ Luka w kodzie
 ƒ wykres(etykiety•[''] jednostki•[#] wartości•[''])
 	Grupa(
 		Stos('<' wyściółka: 0.2m)
-		jednostki.tłumaczyć(
+		jednostki.przekształć(
 			ƒ(u•# i2•#)
 				Grupa(
 					Wiersz('|' wyściółka: 0.3m)
 					[
-						Wyrażenie(wypełnienie(u) rozmiar: 0.3m)
-						Wyrażenie(
+						Fraza(wypełnienie(u) rozmiar: 0.3m)
+						Fraza(
 							`\etykiety[i2]\ \wartości[i2]\`
 							rozmiar: 0.28m
 							kolor: Kolor(45% 0 0°)
@@ -33,23 +33,23 @@ Luka w kodzie
 ¶Widok 1 — „Wzrost i spadek”. Dla każdego roku w danych rysujemy pasek, którego długość to procent dyplomów z informatyki zdobytych przez kobiety. Każde emoji kobiety oznacza około 5 procent, więc dzielimy procent przez 5, aby otrzymać długość paska.¶
 wierszeCzasu: (years ⎡?rok2 procent⎦ ⊤) → []
 widokCzasu: wykres(
-		wierszeCzasu.tłumaczyć(ƒ(wiersz) wiersz.rok2)
-		wierszeCzasu.tłumaczyć(
-			ƒ(wiersz2) (wiersz2.procent ÷ 5).okrągły()
+		wierszeCzasu.przekształć(ƒ(wiersz) wiersz.rok2)
+		wierszeCzasu.przekształć(
+			ƒ(wiersz2) (wiersz2.procent ÷ 5).zaokrąglij()
 		)
-		wierszeCzasu.tłumaczyć(
-			ƒ(wiersz3) (wiersz3.procent.okrągły() → '') + '%'
+		wierszeCzasu.przekształć(
+			ƒ(wiersz3) (wiersz3.procent.zaokrąglij() → '') + '%'
 		)
 	)
 
 ¶Widok 2 — „Jedna dziedzina nie nadąża”. Porównujemy udział kobiet w różnych dziedzinach nauki w jednym niedawnym roku. Wiersze są już ułożone od dziedziny z największą liczbą kobiet do tej z najmniejszą, więc informatyka ląduje na dole wykresu.¶
 wierszeDziedzin: (fields ⎡?pole procent2⎦ ⊤) → []
 widokDziedzin: wykres(
-		wierszeDziedzin.tłumaczyć(ƒ(wiersz4) wiersz4.pole)
-		wierszeDziedzin.tłumaczyć(
-			ƒ(wiersz5) (wiersz5.procent2 ÷ 5).okrągły()
+		wierszeDziedzin.przekształć(ƒ(wiersz4) wiersz4.pole)
+		wierszeDziedzin.przekształć(
+			ƒ(wiersz5) (wiersz5.procent2 ÷ 5).zaokrąglij()
 		)
-		wierszeDziedzin.tłumaczyć(
+		wierszeDziedzin.przekształć(
 			ƒ(wiersz6) (wiersz6.procent2 → '') + '%'
 		)
 	)
@@ -62,20 +62,20 @@ teraz: wierszeLiczb[2]
 wykresKobiet: wykres(
 		['1984' '2022']
 		[
-			(dawniej.kobiety ÷ 2000).okrągły()
-			(teraz.kobiety ÷ 2000).okrągły()
+			(dawniej.kobiety ÷ 2000).zaokrąglij()
+			(teraz.kobiety ÷ 2000).zaokrąglij()
 		]
 		[dawniej.kobiety → '' teraz.kobiety → '']
 	)
 wykresUdziału: wykres(
 		['1984' '2022']
 		[
-			(dawniej.procent ÷ 5).okrągły()
-			(teraz.procent ÷ 5).okrągły()
+			(dawniej.procent ÷ 5).zaokrąglij()
+			(teraz.procent ÷ 5).zaokrąglij()
 		]
 		[
-			(dawniej.procent.okrągły() → '') + '%'
-			(teraz.procent.okrągły() → '') + '%'
+			(dawniej.procent.zaokrąglij() → '') + '%'
+			(teraz.procent.zaokrąglij() → '') + '%'
 		]
 	)
 widokLiczb: Grupa(
@@ -84,7 +84,7 @@ widokLiczb: Grupa(
 			Grupa(
 				Stos('|' wyściółka: 0.3m)
 				[
-					Wyrażenie(
+					Fraza(
 						`/Kobiety z dyplomem informatyki/`
 						rozmiar: 0.28m
 					)
@@ -94,7 +94,7 @@ widokLiczb: Grupa(
 			Grupa(
 				Stos('|' wyściółka: 0.3m)
 				[
-					Wyrażenie(
+					Fraza(
 						`/Ich udział we wszystkich dyplomach z informatyki/`
 						rozmiar: 0.28m
 					)
@@ -111,21 +111,21 @@ obecny: 'time' … ∆ wybór … wybór
 karty: Grupa(
 		Wiersz('|' wyściółka: 0.6m)
 		[
-			Wyrażenie(
+			Fraza(
 				'▸ W czasie'
 				wybieralny
 				nazwa: 'time'
 				rozmiar: 0.35m
 				kolor: Kolor(60% 50 20°)
 			)
-			Wyrażenie(
+			Fraza(
 				'▸ Według dziedziny'
 				wybieralny
 				nazwa: 'fields'
 				rozmiar: 0.35m
 				kolor: Kolor(60% 50 140°)
 			)
-			Wyrażenie(
+			Fraza(
 				'▸ Liczba a udział'
 				wybieralny
 				nazwa: 'liczby'
@@ -140,18 +140,18 @@ treść2: obecny = 'time' ? widokCzasu (obecny = 'fields' ? widokDziedzin widokL
 
 stopka:
 	obecny = 'time' ?
-		Wyrażenie(
+		Fraza(
 			`/Udział dyplomów licencjackich z informatyki w USA zdobytych przez kobiety osiągnął szczyt 37% w 1984 roku, potem przez około 25 lat spadał do około 18% w okolicach 2008 roku i od tamtej pory rośnie tylko powoli. Każde 👩 ≈ 5%. Źródło: NCES Digest of Education Statistics, Table 325.35./`
 			zawinąć: 9m
 			rozmiar: 0.26m
 		)
 		obecny = 'fields' ?
-			Wyrażenie(
+			Fraza(
 				`/Około 2018 roku kobiety zdobywały większość dyplomów z psychologii i biologii, mniej więcej połowę dyplomów z matematyki i nauk społecznych, ale poniżej 20% dyplomów z informatyki — to prawie najniższy udział spośród wszystkich dziedzin. Każde 👩 ≈ 5%. Źródło: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
 				zawinąć: 9m
 				rozmiar: 0.26m
 			)
-			Wyrażenie(
+			Fraza(
 				`/W 1984 roku około 12 000 kobiet zdobyło dyplom z informatyki — to 37% wszystkich. Do 2022 roku było ich ponad 24 000, czyli dwa razy więcej osób, a jednak to tylko 23%: ta dziedzina rosła tak szybko, że liczba mężczyzn rosła jeszcze szybciej. Rosnąca liczba może oznaczać malejący udział. Źródło: NCES./`
 				zawinąć: 9m
 				rozmiar: 0.26m
@@ -162,12 +162,12 @@ Scena(
 		Grupa(
 			Stos('|' wyściółka: 0.4m)
 			[
-				Wyrażenie(
+				Fraza(
 					`LUKA W KODZIE`
 					rozmiar: 0.7m
 					twarz: 'Monoton'
 				)
-				Wyrażenie(
+				Fraza(
 					`/Kto zdobywa dyplomy z informatyki?/`
 					rozmiar: 0.35m
 				)

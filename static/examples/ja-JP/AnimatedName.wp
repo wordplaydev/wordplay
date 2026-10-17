@@ -31,7 +31,7 @@ Change the locale on stage to see each one!¶/en
 				フレーズ(
 					'A'/en
 					顔: 'Pacifico'
-					登場: つなぎ(
+					登場: シーケンス(
 						{
 							0%: ポーズ(不透明度: 0%)
 							25%: ポーズ(不透明度: 25%)
@@ -40,7 +40,7 @@ Change the locale on stage to see each one!¶/en
 							100%: ポーズ()
 						}
 					)
-					静止: つなぎ(
+					静止: シーケンス(
 						{
 							0%: ポーズ()
 							50%: ポーズ(回転: 180°)
@@ -53,7 +53,7 @@ Change the locale on stage to see each one!¶/en
 				フレーズ(
 					'd'/en
 					顔: 'Aclonica'
-					静止: つなぎ(
+					静止: シーケンス(
 						{
 							0%: ポーズ(色: 色(0.5 100 180°) 横反転)
 							50%: ポーズ(色: 色(27% 112 267°))
@@ -67,7 +67,7 @@ Change the locale on stage to see each one!¶/en
 				)
 				フレーズ(
 					'♪'
-					静止: つなぎ(
+					静止: シーケンス(
 						{
 							0%: ポーズ(
 								ずれ: 動き(
@@ -86,7 +86,7 @@ Change the locale on stage to see each one!¶/en
 				)
 				フレーズ(
 					'♫'
-					静止: つなぎ(
+					静止: シーケンス(
 						{
 							0%: ポーズ(回転: 20°)
 							50%: ポーズ(回転: -20°)
@@ -116,7 +116,7 @@ Change the locale on stage to see each one!¶/en
 				フレーズ(
 					'अ'/hi
 					顔: 'Pacifico'
-					静止: つなぎ(
+					静止: シーケンス(
 						{
 							0%: ポーズ(不透明度: 0%)
 							25%: ポーズ(不透明度: 25%)
@@ -129,7 +129,7 @@ Change the locale on stage to see each one!¶/en
 				)
 				フレーズ(
 					'दि'/hi
-					静止: つなぎ(
+					静止: シーケンス(
 						{
 							0%: ポーズ(色: 色(0% 0 0°))
 							50%: ポーズ(色: 色(74% 100 291°))
@@ -143,7 +143,7 @@ Change the locale on stage to see each one!¶/en
 				フレーズ(
 					'ती'/hi
 					顔: 'Aclonica'
-					静止: つなぎ(
+					静止: シーケンス(
 						{
 							0%: ポーズ(色: 色(0.5 100 180°) 横反転)
 							50%: ポーズ(色: 色(27% 112 267°))

@@ -6,12 +6,12 @@ Zamanı başka bir şehirde göster
 
 Başka bir yerdeki zamanı mı istiyorsun?  @Now  değerine bir saat dilimi ver. Saat dilimleri bir bölge ve bir şehir adıyla anılır, örneğin \'America/New_York'\, \'Europe/Paris'\ veya \'Asia/Tokyo'\. Ayrıca metin türünden sonra bir dil ekleyebilirsin, örneğin Japonca için \''/ja\ yazarak saati o şehrin dilinde gösterebilirsin:
 
-\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+\Yazı(Şimdi(1s 'Asia/Tokyo') → ''/ja)\
 
 Saat diliminin adını bilmiyor musun? Sadece bildiğin bir şehir yaz — @wordplay bunun bir saat dilimi olmadığını sana bildirir ve en yakın olanı önerir, böylece tek tıklamayla düzeltebilirsin.
 
 Ayrıca bir takvim seçebilirsin, örneğin Japon takvimi, ve saati bir yazı tipiyle biçimlendirebilirsin:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' yüz: 'Doto')\
+\Yazı(Şimdi(1s 'Asia/Tokyo' 'japanese') → '' yüz: 'Doto')\
 
 count-with-time

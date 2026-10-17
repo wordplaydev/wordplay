@@ -10,7 +10,7 @@ y2: Losowy(-10m 10m) … ∆ mowa … Losowy(-10m 10m)
 rozmiartekstu: Losowy(1m 3m) … ∆ mowa … Losowy(1m 3m)
 Scena(
 	[
-		Wyrażenie(
+		Fraza(
 			mowa
 			miejsce: Miejsce(x2 y2)
 			kolor: Kolor(0% 0% 0°)

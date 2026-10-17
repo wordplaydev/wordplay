@@ -13,10 +13,10 @@ Voici la plus petite version possible. Cliquez d'abord sur la scène pour qu'ell
 \
 slides: ['premier' 'deuxième' 'troisième']
 
-key: Key()
+key: Touche()
 
 index•#: 1 … ∆ key …
-	(key = 'Flèche droite') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Flèche droite') ? ((index < slides.longueur()) ? index + 1 index)
 		(key = 'Flèche gauche') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -39,14 +39,14 @@ Remplace le @List par une liste de @Group ou de scènes entières, et le reste d
 \
 slides: [
 	Phrase('une histoire en trois parties' taille: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('un chat apparaît')])
+	Groupe(Pile() [Phrase('🐈') Phrase('un chat apparaît')])
 	Phrase('fin 🎉')
 ]
 
-key: Key()
+key: Touche()
 
 index•#: 1 … ∆ key …
-	(key = 'Flèche droite') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Flèche droite') ? ((index < slides.longueur()) ? index + 1 index)
 		(key = 'Flèche gauche') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,10 +57,10 @@ slides[index]
 Donne-lui @Scene/pause pour qu’il ne bouge jamais tout seul, et @Scene/step pour le déplacer d’un cran dans un sens ou dans l’autre :
 
 \
-key: Key()
-Scene([
+key: Touche()
+Diaporama([
 		Phrase('une histoire en trois parties' taille: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('un chat apparaît')])
+		Groupe(Pile() [Phrase('🐈') Phrase('un chat apparaît')])
 		Phrase('fin 🎉')
 	] pause étape: ∆ key ? ((key = 'Flèche gauche') ? -1 (key = 'Flèche droite') ? 1 ø) ø)
 \

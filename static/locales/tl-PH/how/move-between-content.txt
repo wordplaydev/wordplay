@@ -13,14 +13,14 @@ Narito ang pinakamaliit na bersyon nito. I-click muna ang entablado para makinig
 \
 slides: ['una' 'pangalawa' 'pangatlo']
 
-key: Key()
+key: Susi()
 
 index•#: 1 … ∆ key …
-	(key = 'PalasoKanan') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'PalasoKanan') ? ((index < slides.haba()) ? index + 1 index)
 		(key = 'Palaso Kaliwa') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+Parirala(slides[index])
 \
 
  Ang @Reaction ang puso nito. Nagsisimula ito sa \1\, at tuwing nagbabago ang @Key , ito ang nagpapasya kung ano ang dapat na bagong numero.
@@ -38,15 +38,15 @@ Palitan ang @List ng listahan ng @Group o mga buong eksena, at hindi na magbabag
 
 \
 slides: [
-	Phrase('isang kuwento sa tatlong bahagi' laki: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('lumilitaw ang isang pusa')])
-	Phrase('ang wakas 🎉')
+	Parirala('isang kuwento sa tatlong bahagi' laki: 3m)
+	Grupo(Patongpatong() [Parirala('🐈') Parirala('lumilitaw ang isang pusa')])
+	Parirala('ang wakas 🎉')
 ]
 
-key: Key()
+key: Susi()
 
 index•#: 1 … ∆ key …
-	(key = 'PalasoKanan') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'PalasoKanan') ? ((index < slides.haba()) ? index + 1 index)
 		(key = 'Palaso Kaliwa') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 Bigyan ito ng @Scene/pause kaya hindi ito gumagalaw nang mag-isa, at @Scene/step para ilipat ito ng isang piraso sa alinmang direksyon:
 
 \
-key: Key()
-Scene([
-		Phrase('isang kuwento sa tatlong bahagi' laki: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('lumilitaw ang isang pusa')])
-		Phrase('ang wakas 🎉')
+key: Susi()
+Eksena([
+		Parirala('isang kuwento sa tatlong bahagi' laki: 3m)
+		Grupo(Patongpatong() [Parirala('🐈') Parirala('lumilitaw ang isang pusa')])
+		Parirala('ang wakas 🎉')
 	] iPause hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø)
 \
 

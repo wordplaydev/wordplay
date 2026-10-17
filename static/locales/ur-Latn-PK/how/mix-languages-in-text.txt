@@ -5,7 +5,7 @@ Ek @Phrase har dekhne wale ko uski chuni hui zubaanon ke mutabiq theek tarjuma d
 Ek @TextLiteral ko kai tarjume dein, jin mein ek kai zubaanon wala bhi ho, aur @wordplay har dekhne wale ke liye sab se munasib tarjuma chun leta hai:
 
 \
-Phrase("hola"/es"hello"/en"hola gentleman"/es_en)
+Jumla("hola"/es"hello"/en"hola gentleman"/es_en)
 \
 
  Jis dekhne wale ki pasandeeda zubaan sirf Spanish hai, woh yeh dekhta hai: / hola /. Jo sirf English pasand karta hai, woh yeh dekhta hai: / hello /. Jo Spanish aur English dono pasand karta hai, woh yeh dekhta hai: / hola gentleman / — yaani Spanglish wala tarjuma.
@@ -15,7 +15,7 @@ Wordplay sab se khaas mel ko tarjeeh deta hai, is liye jab dono lagu ho sakte ho
 Spanglish wala tarjuma poora Spanish mein parha jaata hai, yaani apni pehli zubaan mein. Har lafz ko uski apni zubaan mein parhwane ke liye, hissaon par alag alag tag lagayein aur unhein jodein:
 
 \
-Phrase("hola "/es + "gentleman"/en)
+Jumla("hola "/es + "gentleman"/en)
 \
 
 styling-text

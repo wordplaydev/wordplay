@@ -5,7 +5,7 @@ Czy wiesz, że Twój projekt może Cię słuchać? @Volume stream używa twojego
 Możemy użyć tej liczby do kontrolowania czegokolwiek — rozmiaru @Phrase, jego obrót, jego kolor.
 
 \
-Phrase('📣' rozmiar: (Volume() × 5m) + 1m)
+Fraza('📣' rozmiar: (Głośność() × 5m) + 1m)
 \
 
  Kiedy jest cicho, megafon jest \1m\ wysoki. Kiedy krzyczysz, może urosnąć do \6m\ wysoki.
@@ -13,7 +13,7 @@ Phrase('📣' rozmiar: (Volume() × 5m) + 1m)
 Chcesz, żeby słońce obracało się szybciej, im głośniej mówisz?
 
 \
-Phrase('🌞' obrót: Volume() × 360°)
+Fraza('🌞' obrót: Głośność() × 360°)
 \
 
  Spróbuj klaskać albo nucić i zobacz, co się stanie.

@@ -5,7 +5,7 @@ A @Phrase Menampilkan terjemahan yang tepat untuk setiap pemirsa berdasarkan bah
 Berikan @TextLiteral beberapa terjemahan, termasuk terjemahan multibahasa, dan @wordplay memilih yang paling sesuai untuk setiap pemirsa:
 
 \
-Phrase("hola"/es"Halo"/en"Halo Tuan-tuan"/es_en)
+Frasa("hola"/es"Halo"/en"Halo Tuan-tuan"/es_en)
 \
 
  Seorang pemirsa yang bahasa pilihannya hanya bahasa Spanyol melihat / halo / Seorang pemirsa yang lebih menyukai bahasa Inggris saja melihat / Halo / Seorang pemirsa yang lebih menyukai bahasa Spanyol dan Inggris melihat / Halo Tuan-tuan / — versi Spanglish.
@@ -15,7 +15,7 @@ Permainan kata mengutamakan kecocokan yang paling spesifik, jadi terjemahan mono
 Versi Spanglish dibacakan semuanya dalam bahasa Spanyol, karena itu bahasa pertamanya. Agar setiap kata dibaca sesuai bahasanya sendiri, tandai setiap bagian secara terpisah lalu gabungkan:
 
 \
-Phrase("hola "/es + "gentleman"/en)
+Frasa("hola "/es + "gentleman"/en)
 \
 
 styling-text

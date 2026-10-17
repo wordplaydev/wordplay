@@ -8,11 +8,11 @@ schlagzeilen: Website(
 		'.indicate-hover'
 	)
 schlagzeilen•# ?
-	Satzglied('lädt')
+	Phrase('lädt')
 	Gruppe(
 		Stapel('<')
 		[
-			Satzglied(
+			Phrase(
 				`*Schlagzeilen der New York Times*`
 				2m
 				gesicht: 'Arvo'
@@ -20,12 +20,12 @@ schlagzeilen•# ?
 		].mitListe(
 			schlagzeilen.Folge(1 7).übersetzen(
 				ƒ(schlagzeile)
-					Satzglied(
+					Phrase(
 						schlagzeile
 						wickeln: 20m
 						Ausrichtung: '<'
 						gesicht: 'Ubuntu'
-						Ruhen: Reihenfolge(
+						Ruhen: Abfolge(
 							{
 								0%: Pose(Drehung: 3°)
 								50%: Pose(Drehung: -3°)

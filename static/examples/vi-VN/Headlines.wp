@@ -10,11 +10,11 @@ tinTức: Trangweb(
 tinTức•# ?
 	Cụmtừ('đang tải')
 	Nhóm(
-		Ngănxếp('<')
+		XếpDọc('<')
 		[
 			Cụmtừ(`*Tin Tức New York Times*` 2m khuônmặt: 'Arvo')
 		].thêm(
-			tinTức.chuỗicon(1 7).dịch(
+			tinTức.chuỗicon(1 7).biếnĐổi(
 				ƒ(tinTức2)
 					Cụmtừ(
 						tinTức2

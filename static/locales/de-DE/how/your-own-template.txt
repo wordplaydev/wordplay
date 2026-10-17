@@ -7,14 +7,14 @@ Eine @Structure ist wie ein Rezept mit Lücken zum Ausfüllen.
 Hier ist eine Luftballon-Vorlage, die eine Farbe und ein Etikett nimmt und weiß, wie sie sich selbst zeigt:
 
 \
-•Balloon(color•Color label•'') (
+•Balloon(color•Farbe label•'') (
     ƒ show() Phrase(`🎈\label\` Farbe: color Größe: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'Himmel').show()
-    Balloon(Color(60% 80 0°) 'Rose').show()
-    Balloon(Color(90% 80 90°) 'Sonnig').show()
+Gruppe(Reihe() [
+    Balloon(Farbe(80% 50 240°) 'Himmel').show()
+    Balloon(Farbe(60% 80 0°) 'Rose').show()
+    Balloon(Farbe(90% 80 90°) 'Sonnig').show()
 ])
 \
 

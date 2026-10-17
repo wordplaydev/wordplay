@@ -6,12 +6,12 @@
 क्षणहरू सूचीमा भएका कुराहरू हुन्, र तीबीचको @Boolean त्यो ठाउँ हो जहाँ @Scene खेलाडीको प्रतीक्षा गर्छ।
 
 \
-guess: Chat()
+guess: च्याट()
 right: guess = 'cat'
-Scene([
-	Phrase('Guess the animal!' अवधि: 2s)
+दृश्य([
+	वाक्यांश('Guess the animal!' अवधि: 2s)
 	∆ guess
-	Phrase(right ? 'Yes!' 'Nope!' अवधि: 2s)
+	वाक्यांश(right ? 'Yes!' 'Nope!' अवधि: 2s)
 ] लूप: ~right)
 \
 
@@ -24,15 +24,15 @@ Scene([
 यसले तपाईंलाई बताउँछ कि कुन @Phrase देखाइँदैछ, कति संख्यामा छन्, @Scene कति पटक घुमेको छ, र यो अहिले कसैको प्रतीक्षा गरिरहेको छ कि छैन।
 
 \
-guess: Chat()
-at: Spotlight()
+guess: च्याट()
+at: स्पटलाइट()
 Stage([
-	Scene([
-		Phrase('Guess the animal!' अवधि: 2s)
+	दृश्य([
+		वाक्यांश('Guess the animal!' अवधि: 2s)
 		∆ guess
-		Phrase('Nope!' अवधि: 2s)
+		वाक्यांश('Nope!' अवधि: 2s)
 	] लूप: ⊤)
-	Phrase(at.waiting ? 'type a guess' `round \at.lap + 1\` आकार: 0.4m स्थान: Place(0m -2m))
+	वाक्यांश(at.पर्खँदै ? 'type a guess' `round \at.lap + 1\` आकार: 0.4m स्थान: स्थान(0m -2m))
 ])
 \
 

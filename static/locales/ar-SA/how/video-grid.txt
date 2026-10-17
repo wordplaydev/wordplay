@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: الكاميرا(width × 1px height × 1px 33ms)
+مسرح([صورة(colors "what the camera sees" 12m)])
 \
 
  كل @Image يحتاج إلى وصف، لأن شبكة الألوان لا تحمل كلمات خاصة بها لمن لا يستطيع رؤيتها.
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m محرف: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: الكاميرا(width × 1px height × 1px 33ms)
+مسرح([صورة(colors "the camera, drawn with dark and light circles" 12m محرف: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

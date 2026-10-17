@@ -52,7 +52,7 @@ Jede Stimme des Arrangements steht in einer eigenen Quelle, damit keine Datei ei
 ↓ sax2
 ↓ sax3
 
-schlag2: Takt()
+schlag2: Schlag()
 ¶Das ist die einzige Uhr im Programm. @Beat zählt ab null, bis die Musik beginnt, und kann deshalb sofort gelesen werden.¶
 zählung: schlag2.Zählung
 
@@ -108,22 +108,22 @@ zeigt: zeilen.finden(
 	)
 
 ¶Die Behandlungen, eine pro Typ.¶
-ƒ sagen(l3•zeile)•Satzglied
+ƒ sagen(l3•zeile)•Phrase
 	(l3.typ = 2) ?
-		Satzglied(
+		Phrase(
 			l3.worte
 			Drehung: 5°
 			Eingabe: Pose(Opazität: 0 Drehung: 0°)
 		)
-		(l3.typ = 3) ? Satzglied(
+		(l3.typ = 3) ? Phrase(
 				l3.worte
 				Eingabe: Pose(Skala: 2)
 			)
 			(l3.typ = 4) ?
-				Satzglied(
+				Phrase(
 					l3.worte
 					Farbe: Farbe(50% 136 337°)
-					Eingabe: Reihenfolge(
+					Eingabe: Abfolge(
 						{
 							0%: Pose(Versatz: Ort(0m -2m))
 							50%: Pose(Versatz: Ort(0m 2m))
@@ -132,17 +132,17 @@ zeigt: zeilen.finden(
 						Dauer: 3s
 					)
 				)
-				(l3.typ = 5) ? Satzglied(
+				(l3.typ = 5) ? Phrase(
 						l3.worte
-						Eingabe: Reihenfolge.schütteln(
+						Eingabe: Abfolge.schütteln(
 							0.75s
 							zählen: 5x
 						)
 					)
 					(l3.typ = 6) ?
-						Satzglied(
+						Phrase(
 							l3.worte
-							Eingabe: Reihenfolge(
+							Eingabe: Abfolge(
 								{
 									0%: Pose(Versatz: Ort(-10m 0m))
 									50%: Pose(Versatz: Ort(1m 0m))
@@ -153,10 +153,10 @@ zeigt: zeilen.finden(
 						)
 						(l3.typ = 7) ?
 							¶Es feuert wie das, was sein Name sagt: von weit weg und fast nichts auf mehr als seine eigene Größe in einer Viertelsekunde, dann ein kleiner Rückprall, während es zur Ruhe kommt. Der z-Versatz sorgt dafür, dass es wirkt, als käme es auf dich zu, und nicht nur größer wird: Die Bühne skaliert nach Tiefe, deshalb vergrößert eine Bewegung zum Betrachter hin es von selbst.¶
-							Satzglied(
+							Phrase(
 								l3.worte
 								1.5m
-								Eingabe: Reihenfolge(
+								Eingabe: Abfolge(
 									{
 										0%: Pose(
 											Versatz: Ort(0m 0m 6m)
@@ -179,13 +179,13 @@ zeigt: zeilen.finden(
 									}
 									Dauer: 0.45s
 								)
-								Ruhen: Reihenfolge.schütteln(0.4s)
+								Ruhen: Abfolge.schütteln(0.4s)
 							)
-							(l3.typ = 8) ? Satzglied(l3.worte 0.7m)
-								Satzglied(l3.worte)
+							(l3.typ = 8) ? Phrase(l3.worte 0.7m)
+								Phrase(l3.worte)
 
 ¶Wenn du eine Zeile nach ihren eigenen Wörtern benennst, wird sie zu ihrer eigenen Ausgabe. So weiß die Bühne, dass sie gegangen ist, und kann ihr Verlassen @Pose abspielen. Ohne den Namen wären alle Zeilen derselben Art dieselbe Ausgabe, und die Wörter würden wechseln, ohne je auszublenden.¶
-ƒ gesungen(l4•zeile)•Satzglied (
+ƒ gesungen(l4•zeile)•Phrase (
 		gesagt: sagen(l4)
 		((gesagt.Name:l4.worte).Ausstieg:Pose(Opazität: 0)).Dauer:0.75s
 	)
@@ -195,8 +195,8 @@ glyphen: ['♩' '♪' '♫' '♬']
 glyphe: glyphen[((zählung % glyphen.Länge()) ?? 0) + 1]
 
 ¶Die Bühne hat für die meiste Zeit des Liedes keine Wörter: das lange Intro, die Pausen zwischen den Zeilen, das Outro. Statt dunkel zu werden, zeigt sie den Takt. Das Symbol ist sein eigener Name, deshalb kommt jedes herein und geht wieder, so wie es erscheint.¶
-ƒ noten()•Satzglied
-	Satzglied(
+ƒ noten()•Phrase
+	Phrase(
 		glyphe
 		2m
 		Name: glyphe
@@ -207,7 +207,7 @@ glyphe: glyphen[((zählung % glyphen.Länge()) ?? 0) + 1]
 	)
 
 ¶Der Inhalt eines @Stage kann kein ø enthalten. Wo es keine Wörter gibt, zeigt die Bühne deshalb den Takt statt nichts.¶
-ƒ worte2()•Satzglied
+ƒ worte2()•Phrase
 	zeigt•ø ? noten() gesungen(zeigt)
 
 ¶Die Partitur: jede geliehene Spur, gespielt in dem Tempo, das der Liedtext vorgibt. Jede Note bringt ihre eigene Länge und Lautstärke mit, deshalb braucht hier nichts einen Takt: @Music/tempo allein bestimmt, wie schnell alles geht.¶

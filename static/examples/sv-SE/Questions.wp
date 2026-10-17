@@ -5,7 +5,7 @@ Frågor
 
 •fråga2(id2•"" vx•#m/s vy•#m/s va•#°/s)
 
-nedtryckt: ∆ Nyckel()
+nedtryckt: ∆ Tangent()
 antal2•#: 0 … nedtryckt … antal2 + 1
 frågor•[fråga2]: [] … nedtryckt … [
 			:frågor
@@ -17,11 +17,11 @@ frågor•[fråga2]: [] … nedtryckt … [
 			)
 		]
 
-Etapp(
+Estrad(
 	[
 		Fras('👨‍👨‍👧‍👦' plats: Plats(0m 0m) ansikte: "Noto Emoji")
 		Figur(Rektangel(-5m 0m 25m -1m))
-		:frågor.översätta(
+		:frågor.omvandla(
 			ƒ(f•fråga2 index2•#) (
 					initiera: nedtryckt & (index2 = frågor.längd())
 					Fras(

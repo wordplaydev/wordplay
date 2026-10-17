@@ -3,7 +3,7 @@ Stoper
 ===
 ¶Rząd kropek, który rośnie do pięciu i zaczyna od nowa, raz na sekundę.¶
 
-Wyrażenie(
+Fraza(
 	"•".powtarzającysię(
 		((Czas(1000ms) → #s) % 5).zaokrąglićwdół() + 1s
 	)

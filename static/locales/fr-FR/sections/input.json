@@ -35,7 +35,7 @@
                 "/clic-clic !/",
                 "La meilleure façon de l'utiliser est donc de créer une performance avec des phrases sélectionnables nommées @Phrase , puis d'utiliser une @Reaction pour décider de ce qu'il faut faire lorsque ce nom est choisi.",
                 "Voici l'exemple le plus simple :",
-                "\\Group(\nStack() \n[\nPhrase('one' sélectionnable:⊤ nom:'1') \nPhrase('two' sélectionnable:⊤ nom:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Groupe(\nPile() \n[\nPhrase('one' sélectionnable:⊤ nom:'1') \nPhrase('two' sélectionnable:⊤ nom:'2') \nPhrase(Choix())\n]\n)\\",
                 "Copiez ceci dans l'@editor, puis sélectionnez l'une des deux @Phrase . Vous verrez que la troisième @Phrase affiche le nom sélectionné."
             ],
             "names": ["$~Choix"]
@@ -62,26 +62,26 @@
                 "/whrrrrrr/",
                 "Bien sûr, ce choix n'est pas accessible à tous : tout le monde ne peut pas voir ou pointer facilement, alors assurez-vous de ne pas exclure quelqu'un de la participation en utilisant ce @stream.",
                 "Si vous êtes sûr que personne n'est exclu, alors utiliser @Pointer est aussi simple que de créer un flux :",
-                "\\Pointer()\\",
+                "\\Pointeur()\\",
                 "L' @Place fourni correspondra à l'emplacement sur @Stage pointé par le pointeur."
             ],
-            "names": ["$~Aiguille"]
+            "names": ["$~Pointeur", "$~Aiguille"]
         },
         "Key": {
             "doc": [
                 "$~Il t'indique quelle @key du clavier ton public appuie et relâche.",
                 "/clic clic/",
                 "Essaie ceci",
-                "\\Clé()\\",
+                "\\Touche()\\",
                 "Tu vois comment, quand tu tapes une touche, elle apparaît sur @Stage ? Chaque fois qu'une touche est appuyée, un nouveau @Text s'ajoute au @stream, décrivant la touche appuyée.",
                 "Pour une touche qui représente un caractère, la @value sera le caractère sous forme de @Text.",
                 "Pour les touches spéciales, comme la touche /Échap/, ce sera @Text qui décrit la touche, en utilisant un <nom prédéfini@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, disponible malheureusement seulement en anglais.",
                 "Si tu veux seulement connaître une touche particulière, tu peux la fournir :",
-                "\\Clé('a')\\",
+                "\\Touche('a')\\",
                 "Et si tu veux seulement savoir quand une @Key est relâchée plutôt qu'appuyée, tu peux fournir un @Boolean :",
-                "\\Clé('a' ⊥)\\"
+                "\\Touche('a' ⊥)\\"
             ],
-            "names": ["$~Clé"],
+            "names": ["$~Touche", "$~Clé"],
             "key": {
                 "names": "$~clé",
                 "doc": "$~Si @None, toutes les clés sont fournies. Si un @Text spécifique, seule cette clé est fournie."
@@ -185,10 +185,10 @@
                 "$~Il s'agit d'un @stream de fréquences provenant du microphone, en hertz.",
                 "/hummmmm/",
                 "L'échantillonnage se fait à la fréquence de votre choix. La voix humaine se situe entre 20 Hz et 5 000 Hz ; prévoyez donc des valeurs dans cette plage.",
-                "\\Pitch()\\",
+                "\\Hauteur()\\",
                 "C'est idéal pour percevoir le ton de la voix de quelqu'un qui parle ou chante."
             ],
-            "names": ["$~Pas"],
+            "names": ["$~Hauteur", "$~Pas"],
             "frequency": {
                 "names": ["$~fréquence"],
                 "doc": "$~Le temps entre les échantillonnages."
@@ -200,7 +200,7 @@
                 "/bzzzzzzz/",
                 "Cette @List représente essentiellement une image, mais c'est à vous de décider quoi en faire.",
                 "Vous pourriez essayer de représenter l'image avec plusieurs @Phrase , ce qui pourrait être vraiment sympa ! Essayez de copier ceci…",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' lieu: Place((x - 1) × 0.5m y × -0.5m) couleur: color durée: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Caméra(32px 24px 33ms)\n\nScène(\ncolors.combiné(\n[] \nƒ(phrases•[Phrase] row•[Couleur] y•#) \nphrases.avecListe(\nrow.transformer(\nƒ(color•Couleur x•#)\nPhrase('o' lieu: Lieu((x - 1) × 0.5m y × -0.5m) couleur: color durée: 0s\n)\n)\n)\n)\n)\\",
                 "Mais on pourrait aussi analyser les couleurs pour déterminer si une lumière était allumée ou éteinte, ou si une couleur particulière était fréquente, permettant ainsi au public d'influencer une performance grâce aux couleurs qu'il affiche."
             ],
             "names": ["$~Caméra"],
@@ -296,7 +296,7 @@
                     "Comme @Scene/replay, ceci veut une @condition /momentanée/ — quelque chose qui est \\ø\\ sauf lors de l'évaluation où tu veux que je bouge. Un nombre qui reste fixe me clouerait là pour toujours.",
                     "Envoie-moi au-delà de l'une ou l'autre extrémité et je m'arrête là, à moins que @Scene/loop soit \\⊤\\, auquel cas je fais le tour. Ça veut dire que tu n'as jamais besoin de vérifier. Ici, les touches fléchées font avancer un diaporama dans les deux sens :",
                     "Si tu préfères dire /un en avant/ plutôt que /numéro trois/, c'est @Scene/step.",
-                    "\\diapositives: [Phrase('un') Phrase('deux') Phrase('trois')]\nclé2: Clé()\nà2: Spotlight()\nDiaporama(\n\tdiapositives\n\tpause: ⊤\n\taller: ∆ clé2 ? ((clé2 = 'Flèche gauche') ? à2.index - 1 (clé2 = 'Flèche droite') ? à2.index + 1 ø) ø\n)\\"
+                    "\\diapositives: [Phrase('un') Phrase('deux') Phrase('trois')]\nclé2: Touche()\nà2: Projecteur()\nDiaporama(\n\tdiapositives\n\tpause: ⊤\n\taller: ∆ clé2 ? ((clé2 = 'Flèche gauche') ? à2.indice - 1 (clé2 = 'Flèche droite') ? à2.indice + 1 ø) ø\n)\\"
                 ]
             },
             "name": {
@@ -317,7 +317,7 @@
                 "doc": [
                     "$~Combien de sorties déplacer, en comptant à partir de l'endroit où je suis : \\1\\ avance d'un et \\-1\\ recule d'un. C'est @Scene/go dit comme une distance plutôt que comme un endroit.",
                     "Comme @Scene/go, je m'arrête à mes bouts sauf si @Scene/loop est \\⊤\\, donc tu n'as jamais besoin de vérifier, et je veux un @condition /momentané/ — quelque chose qui est \\ø\\ sauf pendant l'évaluation où tu veux que je bouge.",
-                    "\\diapositives: [Phrase('un') Phrase('deux') Phrase('trois')]\nclé2: Clé()\nDiaporama(\n\tdiapositives\n\tpause: ⊤\n\tétape: ∆ clé2 ? ((clé2 = 'Flèche gauche') ? -1 (clé2 = 'Flèche droite') ? 1 ø) ø\n)\\",
+                    "\\diapositives: [Phrase('un') Phrase('deux') Phrase('trois')]\nclé2: Touche()\nDiaporama(\n\tdiapositives\n\tpause: ⊤\n\tétape: ∆ clé2 ? ((clé2 = 'Flèche gauche') ? -1 (clé2 = 'Flèche droite') ? 1 ø) ø\n)\\",
                     "Rien ici n'a besoin de savoir quel @Phrase s'affiche, c'est la différence avec @Scene/go. Demande @Spotlight si tu veux le dire sur la scène."
                 ]
             }
@@ -326,7 +326,7 @@
             "doc": [
                 "$~Il s'agit d'un @stream de messages @Text que votre public saisit.",
                 "Par exemple, ce programme simple vérifie si le message est « bonjour », et si c'est le cas, il renvoie « salut ». Sinon, il renvoie « hein ? »",
-                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "\\Chat().a('hello') ? 'hi!' 'huh?'\\",
                 "Et voilà ! Vous pouvez créer toutes sortes de performances avec ça, comme des chatbots, des aventures textuelles ou des systèmes de contrôle textuels pour d'autres types de performances."
             ],
             "names": ["$~🗣️", "$~Chat"]
@@ -440,7 +440,7 @@
                 "doc": "$~La direction et l’ampleur de la direction le long de l’axe des x."
             },
             "y": {
-                "names": "$~et",
+                "names": "$~y",
                 "doc": "$~La direction et l’ampleur de la direction le long de l’axe des y."
             }
         },
@@ -505,7 +505,7 @@
                 "Donne-lui du texte et une police, et il tracera le contour de chaque glyphe point par point.",
                 "\\🖋('un' \"Noto Sans\")\\",
                 "Donne ces valeurs @Place à une @List de @Phrase pour voir le contour dessiné en points :",
-                "\\🎭(🖋('un' \"Noto Sans\" 10m).traduire(ƒ(point) 💬('•' lieu: point)))\\",
+                "\\🎭(🖋('un' \"Noto Sans\" 10m).transformer(ƒ(point) 💬('•' lieu: point)))\\",
                 "Tu peux mettre le contour à l'échelle avec un @Number de mètres, déplacer son origine avec un @Place, choisir l'épaisseur de la police, activer l'italique, et définir l'espacement `spacing` entre les points comme une distance en mètres. Un `spacing` plus petit suit le contour de plus près, avec des points régulièrement espacés le long des lignes et des courbes.",
                 "Certains glyphes, comme les émojis en couleur, n'ont pas de contour, donc ils n'ajoutent aucun point. Pendant qu'il récupère la police, il te donnera une @List vide, puis la remplira quand elle sera prête."
             ],
@@ -559,7 +559,7 @@
                 "Par défaut, j'avance chaque seconde. Donne-moi une @Now.frequency en secondes, en minutes ou en heures pour changer le rythme :",
                 "\\⏰(1min)\\",
                 "Mes @Now.timezone et @Now.calendar reflètent les entrées de @Moment, et règlent les Moments que je crée. Par exemple, voici une horloge qui montre l'heure actuelle à Tokyo, sur le calendrier japonais :",
-                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "\\Maintenant(1s 'Asia/Tokyo' 'japanese')\\",
                 "Si ces entrées changent — par exemple, une réaction me donne un autre fuseau horaire — je commence à faire des Moments avec les nouveaux réglages.",
                 "En quoi suis-je différent de @Time ? @Time compte les millisecondes depuis le démarrage d'un programme, ce qui est utile pour l'animation. Moi, je te donne la date et l'heure réelles dans un calendrier et un fuseau horaire, ce qui est utile pour les horloges et les calendriers."
             ],
@@ -801,13 +801,13 @@
             }
         },
         "Beat": {
-            "names": "$~Rythme",
+            "names": ["$~Pulsation", "$~Rythme"],
             "doc": [
                 "$~Je donne une nouvelle @value chaque fois que @Music joue et atteint un temps, pour que tu puisses créer des images qui bougent avec la musique. J'ai toujours un @Downbeat pour toi, donc tu peux le lire tout de suite : avant qu'une musique joue, je reste sur le temps zéro sans aucun son, et mon \\tempo\\ reste à zéro jusqu'à ce qu'elle commence.",
                 "Ici, trois pistes jouent chacune à leur tour, donc un nombre différent d'instruments sonne à chaque temps — et le losange grandit selon le nombre d'instruments qui jouent :",
-                "\\battement: Rythme()\n🎭([\n\t\t💬('◆' ((battement.instruments.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "\\battement: Pulsation()\n🎭([\n\t\t💬('◆' ((battement.instruments.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Donne-moi un nom de @Music et je n'entends que cette musique. Deux temps écoutent en dessous, les deux mêmes musiques : celui du haut entend tout, donc il change entre les deux noms à mesure que chaque musique atteint un temps, et celui du bas entend seulement le tambour et ne dit jamais rien d'autre. Cette différence, c'est le filtre.",
-                "\\tout: Rythme()\njusteLeTambour: Rythme('tic')\n🎭([\n\t\t🔳(\n\t\t\t⬇(rembourrage: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tout.nom 1.4m)\n\t\t\t\t💬(justeLeTambour.nom 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min nom: 'tic')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min nom: 'carillon')\n\t])\\",
+                "\\tout: Pulsation()\njusteLeTambour: Pulsation('tic')\n🎭([\n\t\t🔳(\n\t\t\t⬇(rembourrage: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tout.nom 1.4m)\n\t\t\t\t💬(justeLeTambour.nom 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min nom: 'tic')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min nom: 'carillon')\n\t])\\",
                 "Ce que je pilote s'ajoute /en plus/ du rendu que le spectateur a choisi ; tu ajoutes à ce rendu, tu ne le remplaces jamais."
             ],
             "name": {
@@ -908,7 +908,7 @@
         "Spotlight": {
             "doc": [
                 "$~Je dis où en est un @Scene en ce moment : quelle sortie il montre, combien il en a, et s'il attend quelqu'un.",
-                "Un @Scene montre des choses ; je suis le moyen par lequel le reste d'un programme découvre ce qu'il montre. C'est ce qui permet de placer un compteur sous un diaporama, de jouer une musique différente selon les parties d'une histoire, ou de montrer une astuce /appuie sur une touche/ seulement quand la scène attend vraiment.\\diapositives: [Phrase('un') Phrase('deux') Phrase('trois')]\nà2: Spotlight()\nScène(\n\t[\n\t\tDiaporama(diapositives boucle: ⊤)\n\t\tPhrase(\n\t\t\t`\\à2.index\\ sur \\à2.total\\`\n\t\t\ttaille: 0.3m\n\t\t\tlieu: Lieu(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Un @Scene montre des choses ; je suis le moyen par lequel le reste d'un programme découvre ce qu'il montre. C'est ce qui permet de placer un compteur sous un diaporama, de jouer une musique différente selon les parties d'une histoire, ou de montrer une astuce /appuie sur une touche/ seulement quand la scène attend vraiment.\\diapositives: [Phrase('un') Phrase('deux') Phrase('trois')]\nà2: Projecteur()\nScène(\n\t[\n\t\tDiaporama(diapositives boucle: ⊤)\n\t\tPhrase(\n\t\t\t`\\à2.index\\ sur \\à2.total\\`\n\t\t\ttaille: 0.3m\n\t\t\tlieu: Lieu(0m -2m)\n\t\t)\n\t]\n)\\",
                 "J'ai toujours un @Slate, même avant que quoi que ce soit ne se soit produit, donc tu n'as jamais besoin de me vérifier pour \\ø\\."
             ],
             "names": "$~Projecteur",

@@ -24,7 +24,7 @@ t
 
 ¶最近按下的是哪个键？¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-键2,clé/fr: 钥匙()
+键2,clé/fr: 按键()
 
 ¶每按一次键，当前秘密数字就会增加，但最多到 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr

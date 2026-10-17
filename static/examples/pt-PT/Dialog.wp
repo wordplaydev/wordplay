@@ -39,7 +39,7 @@ guião: [
 	]
 
 ¶Avança com uma tecla, um clique ou um toque, e para na última linha.¶
-vez•#: 1 … ∆ Chave() | ∆ Botão() … (vez < guião.comprimento(
+vez•#: 1 … ∆ Tecla() | ∆ Botão() … (vez < guião.comprimento(
 				) ? vez + 1 vez)
 
 linha2: guião[vez]
@@ -55,7 +55,7 @@ linha2: guião[vez]
 		ø
 
 ¶Uma fila alinhada na linha de base, para que ambas as letras fiquem na mesma linha. A caixa de uma frase é a sua tinta, por isso colocá-las à mesma altura poria uma letra baixa e uma alta em linhas de base diferentes.¶
-Fase(
+Palco(
 	[
 		Grupo(
 			Monte('|' 1.5m)

@@ -4,22 +4,22 @@ Un joc care redă o singură melodie de la început până la sfârșit pare pla
 
 Nu există o cale de a *opri* un  @Music  — ceea ce îl oprește este să nu fie pe  @Stage . Așa că păstrează o bucată de stare și pune pe scenă melodia care i se potrivește:
 
-\phase: 'meniu' … ∆ Button() … (phase = 'meniu') ? 'urmărire' 'meniu'
+\phase: 'meniu' … ∆ Buton() … (phase = 'meniu') ? 'urmărire' 'meniu'
 theme: [1 ø 3 ø 5 ø 6 ø]
-Stage([
-		Phrase((phase = 'meniu') ? '▶ apasă pentru a începe' '🏃 fugi!' 1m)
-		(phase = 'meniu') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+Estradă([
+		Fraza((phase = 'meniu') ? '▶ apasă pentru a începe' '🏃 fugi!' 1m)
+		(phase = 'meniu') ? Muzică(Pistă(theme instrument: Instrument.clopoțel) tempo: 72beats/min) Muzică(Pistă(theme instrument: Instrument.sintetizator) tempo: 132beats/min)
 	])\
 
 Ambele melodii sunt aceleași opt numere. Doar instrumentul și tempoul se schimbă, și deja sună ca o piesă diferită — pentru că gradele spun *care treaptă a gamei*, nu care înălțime, așa că un  @Music  le poate reinterpreta. Dă-i \scală: 🎼.minorArmonic\ și aceeași melodie devine sinistră fără să fie rescrisă nicio notă.
 
 Cealaltă jumătate este muzica ce se îndoaie continuu după cum merg lucrurile. Schimbarea \tempo\ nu repornește nimic — se îmbină la următorul ritm, așa că piesa accelerează fără să-și piardă locul:
 
-\score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Buton() … score + 1
 urgency: (score ÷ 10).min(1)
-Stage([
-		Phrase('scor \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+Estradă([
+		Fraza('scor \score\' 1m)
+		Muzică(Pistă([1 5 8 5] instrument: Instrument.tobe) tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Apasă de suficiente ori și tobele bat de două ori mai tare decât la început. O notă scurtă și percutantă este ceea ce face asta să se audă — sub note lungi ținute, o schimbare de tempo este greu de simțit.

@@ -672,7 +672,7 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Calcula mi tangente.", "\\π.tan()\\"],
+                    "doc": ["$~Calcula mi tangente.", "\\π.tangente()\\"],
                     "names": ["$~tangente"],
                     "inputs": []
                 },
@@ -742,7 +742,7 @@
                 "limit": {
                     "doc": [
                         "$~Mantenme entre un número bajo y uno alto: si estoy debajo del bajo, eso es lo que obtienes, y si estoy arriba del alto, obtienes ese en su lugar.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.límite(0 10)\\"
                     ],
                     "names": "$~límite",
                     "inputs": [
@@ -759,7 +759,7 @@
                 "toward": {
                     "doc": [
                         "$~Muévete parte del camino desde mí hacia otro número. En 0% me obtienes a mí, en 100% obtienes al otro, y a la mitad obtienes el número que está en medio.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.hacia(10m 30%)\\"
                     ],
                     "names": "$~hacia",
                     "inputs": [
@@ -776,7 +776,7 @@
                 "rescale": {
                     "doc": [
                         "$~Encuentra dónde estoy ubicado entre un par de números, y luego devuelve el número que está en la misma posición entre otro par. Útil para convertir algo que mediste en algo que puedes mostrar.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.reescalar(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~reescalar",
                     "inputs": [
@@ -1371,7 +1371,7 @@
                 "sum": {
                     "doc": [
                         "$~Suma todos mis números. Si estoy vacía, eso es 0, y si mis números no están medidos todos en la misma unidad, te lo diré en lugar de adivinar.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].suma()\\"
                     ],
                     "names": "$~suma",
                     "inputs": []
@@ -1379,7 +1379,7 @@
                 "average": {
                     "doc": [
                         "$~Suma todos mis números y divide entre cuántos hay. Si estoy vacía no hay nada que promediar, así que obtienes @None.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].promedio()\\"
                     ],
                     "names": "$~promedio",
                     "inputs": []

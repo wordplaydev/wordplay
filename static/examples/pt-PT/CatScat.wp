@@ -99,7 +99,7 @@ aCantar: batida2.partes.traduzir(
 ¶A sua boca: aberta exatamente quando uma nota está a soar, fechada quando não está. Nada aqui conta tempos — pergunta à música o que ela está a fazer, para que a expressão nunca fique fora do compasso com o que se ouve. As pausas espalhadas são o que lhe dá espaço para fechar, e é por isso que cerca de uma nota em cada sete fica em silêncio.¶
 boca: aCantar ? '😺' '🐱'
 
-Fase(
+Palco(
 	[
 		Frase(
 			boca

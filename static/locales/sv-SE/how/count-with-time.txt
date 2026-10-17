@@ -7,18 +7,18 @@ En @Reaction har tre delar: ett startvärde, något att bevaka, och ett nytt vä
 Här börjar vi på \0\, bevakar @Time, och lägger till ett varje gång klockan tickar:
 
 \
-count: 0 … ∆ Time(1000ms) … count + 1
-Phrase(count → '')
+count: 0 … ∆ Tid(1000ms) … count + 1
+Fras(count → '')
 \
 
- Varje sekund utlöses @Time , @Reaction märker det med \∆ Time(1000ms)\, och \count\ blir \count + 1\.
+ Varje sekund utlöses @Time , @Reaction märker det med \∆ Tid(1000ms)\, och \count\ blir \count + 1\.
 Den \→ ''\ i slutet gör om talet till text så att @Phrase kan visa det.
 
 Du kan använda vilken inmatning du vill, inte bara tid. Den här räknaren räknar antalet Button()-tryckningar:
 
 \
-count: 0 … ∆ Button() … count + 1
-Phrase(count → '')
+count: 0 … ∆ Knapp() … count + 1
+Fras(count → '')
 \
 
  Varje gång @Button strömmen ändras med ett klick eller tryck, ökar antalet med ett.

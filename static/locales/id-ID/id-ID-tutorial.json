@@ -1468,7 +1468,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~… Anda ingat kan saya tadi mengatakan bahwa mereka dapat mengevaluasi fungsi apa pun dengan tanda kurung \\1.add(1)\\ tetapi juga fungsi dua input dengan @operator infiks \\1 + 1\\? Nah, mereka punya satu trik lagi untuk fungsi dengan hanya satu input: format unary."
+                            "$~… Anda ingat kan saya tadi mengatakan bahwa mereka dapat mengevaluasi fungsi apa pun dengan tanda kurung \\1.menambahkan(1)\\ tetapi juga fungsi dua input dengan @operator infiks \\1 + 1\\? Nah, mereka punya satu trik lagi untuk fungsi dengan hanya satu input: format unary."
                         ],
                         null,
                         [
@@ -2719,7 +2719,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Ada satu sumber input lain yang ingin saya tunjukkan. Ingat \\[].random()\\ dari sebelumnya, dari @List?",
+                            "$~Ada satu sumber input lain yang ingin saya tunjukkan. Ingat \\[].acak()\\ dari sebelumnya, dari @List?",
                             "$~Di dalamnya, ia menggunakan @FunctionDefinition bernama @Random, yang menyediakan urutan angka acak tak terbatas. Ini semacam stream karena menghasilkan input dari dunia Anda, bukan dari dunia kami. Namun, ini sedikit berbeda dari stream lainnya karena tidak menyebabkan @Program dievaluasi ulang.",
                             "$~Sebaliknya, setiap kali dievaluasi, ia memberikan angka acak yang berbeda.",
                             "$~Lihat tombol kecil ↻ @UI/resetEvaluator di bilah alat panggung (dan juga di garis waktu)? Tekan itu untuk menghitung ulang program secara manual, dan kamu akan melihat sebuah angka baru di antara \\0\\ dan \\1\\ setiap kali."
@@ -2738,7 +2738,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Keacakan bisa sangat menyenangkan! Kita bisa menggunakannya dengan @stream data untuk menciptakan kekacauan yang menyenangkan. Misalnya, di sini kita memilih kata secara acak dari daftar kata. Ini sama dengan \\['kitty' 'cat' 'feline'].random()\\. Terus tekan ↻ untuk mendapatkan sinonim kucing yang berbeda! Cobalah menambahkan kata Anda sendiri ke daftar dan lihat apakah Anda bisa membuat kata tersebut muncul."
+                            "$~Keacakan bisa sangat menyenangkan! Kita bisa menggunakannya dengan @stream data untuk menciptakan kekacauan yang menyenangkan. Misalnya, di sini kita memilih kata secara acak dari daftar kata. Ini sama dengan \\['kitty' 'cat' 'feline'].acak()\\. Terus tekan ↻ untuk mendapatkan sinonim kucing yang berbeda! Cobalah menambahkan kata Anda sendiri ke daftar dan lihat apakah Anda bisa membuat kata tersebut muncul."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         { "edit": "['kitty' 'cat' 'feline'][Random(1 3)]" }
@@ -3434,7 +3434,7 @@
                             "sad",
                             "$~Astaga astaga astaga, aku TIDAK percaya aku lupa soal warna. Oke, jadi setiap @Pose bisa punya warna, kan? Tapi @Color terdiri dari tiga bagian. Pertama, @Color.lightness antara 0 dan 100%, yang bisa kamu bayangkan sebagai seterang apa sebuah ruangan, dari hitam ke putih dengan warna di tengah pada 50%.",
                             "$~Kemudian, sebuah @Color.chroma antara 0 dan ∞, yang dapat Anda bayangkan memiliki seberapa banyak warna yang ada, dari abu-abu tanpa warna hingga warna penuh.",
-                            "$~Dan terakhir, @Color.hue, yang bisa Anda bayangkan seperti roda warna, dari merah ke hijau ke biru dalam derajat. Jadi Anda ingin saya berwarna merah terang? Atur warna pose istirahat saya ke \\Color(50% 300 30°)\\."
+                            "$~Dan terakhir, @Color.hue, yang bisa Anda bayangkan seperti roda warna, dari merah ke hijau ke biru dalam derajat. Jadi Anda ingin saya berwarna merah terang? Atur warna pose istirahat saya ke \\Warna(50% 300 30°)\\."
                         ],
                         { "edit": "Phrase('red' color: 🌈(50% 300 30°))" },
                         null,
@@ -3818,7 +3818,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Dan jika Anda menginginkan susunan yang sangat spesifik? Anda bisa menggunakan @Free dan beri tahu saya persis di mana Anda ingin semua frasa tersebut berada. Pastikan untuk memberikan tempat untuk setiap @Phrase, jika tidak, saya hanya akan menempatkannya di \\Place(0m 0m)\\."
+                            "$~Dan jika Anda menginginkan susunan yang sangat spesifik? Anda bisa menggunakan @Free dan beri tahu saya persis di mana Anda ingin semua frasa tersebut berada. Pastikan untuk memberikan tempat untuk setiap @Phrase, jika tidak, saya hanya akan menempatkannya di \\Tempat(0m 0m)\\."
                         ],
                         {
                             "edit": [

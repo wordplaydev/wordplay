@@ -4,13 +4,13 @@ Bir  @Music  hakkındaki her şey, kimin çaldığı da dahil, o çalarken karar
 
 @Choice  izleyicinin seçtiği herhangi bir seçilebilir çıktının \name\ değerini geri verir, bu yüzden bunu bir çalgıya dönüştürmek için bir koşul yeterlidir:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' seçilebilir isim: 'piyano')
-				Phrase('🎻' seçilebilir isim: 'keman')
+\picked: Seçenek()
+Sahne([
+		Grup(Sıra() [
+				Yazı('🎹' seçilebilir isim: 'piyano')
+				Yazı('🎻' seçilebilir isim: 'keman')
 			])
-		Music(Track([1 3 5 6 5 3] çalgı: (picked = 'keman') ? Instrument.violin Instrument.piano))
+		Müzik(Parça([1 3 5 6 5 3] çalgı: (picked = 'keman') ? Çalgı.keman Çalgı.piyano))
 	])\
 
 Bunu işe yarayan şey iki seçilebilir ifadedir —  @Choice  sahnede bir şey \seçilebilir: ⊤\ olmadıkça okuyacak bir şeyi olmaz.
@@ -19,18 +19,18 @@ Bir koşula iki çalgı sığar. Bütün bir palet sığmaz ve listeyi iki kez y
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' Çalgı.piyano)
+		Voice('🎺' Çalgı.trompet)
+		Voice('🔔' Çalgı.çan)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: Seçenek()
+found: voices.bulmak(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon seçilebilir isim: voice.icon))
+Sahne([
+		Grup(Sıra() [
+				:voices.dönüştür(ƒ(voice•Voice) Yazı(voice.icon seçilebilir isim: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] çalgı: current.sound))
+		Müzik(Parça([1 3 5 6 5 3] çalgı: current.sound))
 	])\
 
 Dördüncü bir ses eklemek artık tek satırdır ve düğme kendiliğinden görünür. Şu \found•ø ?\ korumasına dikkat edin:  @List/find  hiçbir şey eşleşmediğinde \ø\ geri verir, ki bu birisi seçim yapmadan önce olan şeydir — ve yedek değer bütün bir \Konuşma\ olmak zorundadır, çünkü \current\ olacağına söz verdiği şey budur.

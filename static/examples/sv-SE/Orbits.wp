@@ -25,7 +25,7 @@ planet: ƒ(tecken2•"" kallad•"" bred•#m långt•#m hastighet2•#m/s)
 		)
 
 ¶Himlen har ingen egen tyngdkraft, annars skulle allt falla ut genom botten. Den har heller ingen luft, så planeterna fortsätter röra sig i stället för att sakta ner och stanna.¶
-Etapp(
+Estrad(
 	[
 		sol
 		planet('🌍' 'jord' 0.8m 3m 11.5m/s)

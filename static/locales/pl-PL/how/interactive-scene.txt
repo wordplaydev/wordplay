@@ -5,14 +5,14 @@ Czasem chcemy opowiadać historie, które czekają, aż widz coś zrobi, zanim p
 Aby to zrobić, możemy użyć @Scene, ale umieścić @Boolean wartości między treściami, które chcemy pokazać. Na przykład, tutaj kliknięcie przenosi do każdej kolejnej treści, używając @Button:
 
 \
-Scene([
-		Phrase('kliknij mnie')
-		Button()
-		Phrase('kliknij mnie jeszcze raz' czastrwania: 1s)
-		Button()
-		Phrase('naprawdę, kliknij mnie tak mocno, jak potrafisz!!' czastrwania: 1s)
-		Button()
-		Phrase('kliknąłeś mnie już?' czastrwania: 1s)
+Pokaz([
+		Fraza('kliknij mnie')
+		Przycisk()
+		Fraza('kliknij mnie jeszcze raz' czastrwania: 1s)
+		Przycisk()
+		Fraza('naprawdę, kliknij mnie tak mocno, jak potrafisz!!' czastrwania: 1s)
+		Przycisk()
+		Fraza('kliknąłeś mnie już?' czastrwania: 1s)
 	])
 \
 
@@ -23,26 +23,26 @@ Na przykład możemy użyć naszego głosu!
 Jeśli krzykniemy wystarczająco głośno, scena przejdzie dalej:
 
 \
-Scene([
-		Phrase('czy jest tam ktoś?')
-		Volume() > .5
-		Phrase("nie słyszę cię, powtórz proszę?" czastrwania: 1s)
-		Volume() > .7
-		Phrase('głośniej proszę...' czastrwania: 1s)
-		Volume() > .9
-		Phrase('o, cześć!' czastrwania: 1s)
+Pokaz([
+		Fraza('czy jest tam ktoś?')
+		Głośność() > .5
+		Fraza("nie słyszę cię, powtórz proszę?" czastrwania: 1s)
+		Głośność() > .7
+		Fraza('głośniej proszę...' czastrwania: 1s)
+		Głośność() > .9
+		Fraza('o, cześć!' czastrwania: 1s)
 	])
 \
 
  Kiedy każda @Phrase powinna czekać na to samo, @Scene/until mówi to raz, zamiast pisać to między każdą z nich. To robi to samo, co pierwszy przykład powyżej:
 
 \
-Scene([
-		Phrase('kliknij mnie')
-		Phrase('kliknij mnie jeszcze raz' czastrwania: 1s)
-		Phrase('naprawdę, kliknij mnie tak mocno, jak potrafisz!!' czastrwania: 1s)
-		Phrase('kliknąłeś mnie już?' czastrwania: 1s)
-	] ażDo: Button())
+Pokaz([
+		Fraza('kliknij mnie')
+		Fraza('kliknij mnie jeszcze raz' czastrwania: 1s)
+		Fraza('naprawdę, kliknij mnie tak mocno, jak potrafisz!!' czastrwania: 1s)
+		Fraza('kliknąłeś mnie już?' czastrwania: 1s)
+	] ażDo: Przycisk())
 \
 
  Napisz @Boolean na liście, gdy czasy oczekiwania są / różne /, tak jak w przykładzie z krzykiem, i użyj @Scene/until , gdy wszystkie są takie same.
@@ -53,11 +53,11 @@ Uwaga: @Scene/until czeka / po / tym, jak każde @Phrase dostanie swoje @Phrase/
 Jeśli wolisz, żeby @Scene nigdy nie poruszało się samo, a jedynie tam, gdzie je wyślesz, użyj @Scene/pause z @Scene/step:
 
 \
-key: Key()
-Scene([
-		Phrase('jeden')
-		Phrase('dwa')
-		Phrase('trzy')
+key: Klawisz()
+Pokaz([
+		Fraza('jeden')
+		Fraza('dwa')
+		Fraza('trzy')
 	] pauza krok: ∆ key ? ((key = 'Strzałka w lewo') ? -1 (key = 'Strzałka w prawo') ? 1 ø) ø)
 \
 

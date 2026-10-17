@@ -23,10 +23,10 @@ kotak: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦
 ¶Bagaimana rupa satu piksel dalam gaya yang sedang digunakan. Piksel yang hampir tidak berwarna tidak punya corak warna yang layak ditampilkan, jadi ia berubah menjadi kotak terang atau gelap.¶
 ƒ glif2(warna3•Warna)
 	(gaya2 = 'ascii') ?
-		"\tangga[((warna3.keringanan × 9).bulat()) + 1]\"
+		"\tangga[((warna3.kecerahan × 9).bulat()) + 1]\"
 		((gaya2 = 'emoji') ?
 				((warna3.kroma < 8) ?
-						((warna3.keringanan < 50%) ? "⬛" "⬜")
+						((warna3.kecerahan < 50%) ? "⬛" "⬜")
 						"\kotak[(((warna3.warna ÷ 1°) ÷ 15).bulatkankebawah(
 							)) + 1]\")
 				'a')
@@ -34,7 +34,7 @@ kotak: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦
 ¶Gambarnya. Sebuah @Image menggambar seluruh kisi sebagai satu output, sehingga satu bingkai hanya membutuhkan satu gambar, bukan satu frasa untuk tiap piksel — yang pada ukuran 32 kali 24 berarti 768 frasa, dibangun ulang tiga puluh kali per detik. /flipx/ membaliknya sehingga terbaca seperti pantulan cermin.
 
 Gaya /letters/ membiarkan setiap glif memakai warna kotak yang diwakilinya, yang juga dilakukan oleh sebuah @Image tanpa warna miliknya sendiri. Kedua gaya lainnya memberinya satu warna, karena huruf hanya terlihat sebagai bayangan ketika warnanya tidak menunjukkan apa-apa, sedangkan emoji kotak berwarna sudah membawa warnanya sendiri.¶
-gambar: Image(
+gambar: Gambar(
 		warna2
 		"camera video drawn with \gaya2\"
 		16m

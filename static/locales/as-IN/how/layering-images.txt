@@ -12,16 +12,16 @@
 ¶বি:দ্ৰ: আন এটা প্ৰকল্পৰ বাবে গেলেৰীখন চাওক <উদাহৰণ@https://wordplay.dev/project/example-Layers?play> লেয়াৰিং ছবিৰ।¶
 
 
-Stage(
+মঞ্চ(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) ঘূৰ্ণন: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) ঘূৰ্ণন: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) ঘূৰ্ণন: -25°)
+		আকাৰ(বৃত্ত(3m 0m 1m 0m))
+		আকাৰ(বহুভুজ(2m 3 0m -12m 0m) ঘূৰ্ণন: -30°)
+		আকাৰ(বহুভুজ(7m 6 0m -6m 0m))
+		আকাৰ(আয়ত(-11m -9m 11m -12m 10m) ঘূৰ্ণন: 25°)
+		আকাৰ(আয়ত(-11m -9m 11m -12m 10m) ঘূৰ্ণন: -25°)
 
 	]
-	স্থান: Place(0m 10m -30m)
+	স্থান: স্থান(0m 10m -30m)
 )
 \
 

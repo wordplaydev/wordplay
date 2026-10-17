@@ -1460,7 +1460,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~… Wissen Sie noch, was ich Ihnen erzählt habe, dass sie jede Funktion mit Klammern \\1.add(1)\\ auswerten können, aber auch zwei Eingabefunktionen mit Infix-Operatoren \\1 + 1\\? Nun, für Funktionen mit nur einer Eingabe haben sie noch einen weiteren Trick: das unäre Format."
+                            "$~… Wissen Sie noch, was ich Ihnen erzählt habe, dass sie jede Funktion mit Klammern \\1.hinzufügen(1)\\ auswerten können, aber auch zwei Eingabefunktionen mit Infix-Operatoren \\1 + 1\\? Nun, für Funktionen mit nur einer Eingabe haben sie noch einen weiteren Trick: das unäre Format."
                         ],
                         null,
                         [
@@ -2703,7 +2703,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Es gibt noch eine weitere Eingabequelle, die ich Ihnen zeigen möchte. Erinnern Sie sich an \\[].random()\\ von vorhin, von @List?",
+                            "$~Es gibt noch eine weitere Eingabequelle, die ich Ihnen zeigen möchte. Erinnern Sie sich an \\[].zufällig()\\ von vorhin, von @List?",
                             "$~Im Inneren nutzt es ein @FunctionDefinition namens @Random, das eine unendliche Folge von Zufallszahlen liefert. Es ist eine Art Stream, weil es Eingaben aus deiner Welt erzeugt, nicht aus unserer. Aber es unterscheidet sich ein wenig von den anderen Streams, denn es lässt ein @Program nicht neu auswerten.",
                             "$~Stattdessen wird bei jeder Auswertung eine andere Zufallszahl ausgegeben.",
                             "$~Siehst du den kleinen Knopf ↻ @UI/resetEvaluator in der Bühnen-Werkzeugleiste (und auch auf der Zeitleiste)? Drücke ihn, um das Programm von Hand neu auszuwerten. Dann siehst du jedes Mal eine neue Zahl zwischen \\0\\ und \\1\\."
@@ -2722,7 +2722,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Zufall kann so viel Spaß machen! Wir können ihn mit Streams verwenden, um lustiges Chaos zu erzeugen. Hier wählen wir beispielsweise ein zufälliges Wort aus einer Liste von Wörtern aus. Dies ist dasselbe wie \\['kitty' 'cat' 'feline'].random()\\. Drücken Sie weiter ↻, um ein anderes Katzensynonym zu erhalten! Versuchen Sie, der Liste Ihr eigenes Wort hinzuzufügen, und sehen Sie, ob Sie das Wort erscheinen lassen können."
+                            "$~Zufall kann so viel Spaß machen! Wir können ihn mit Streams verwenden, um lustiges Chaos zu erzeugen. Hier wählen wir beispielsweise ein zufälliges Wort aus einer Liste von Wörtern aus. Dies ist dasselbe wie \\['kitty' 'cat' 'feline'].zufällig()\\. Drücken Sie weiter ↻, um ein anderes Katzensynonym zu erhalten! Versuchen Sie, der Liste Ihr eigenes Wort hinzuzufügen, und sehen Sie, ob Sie das Wort erscheinen lassen können."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         { "edit": "['kitty' 'cat' 'feline'][Random(1 3)]" }
@@ -3418,7 +3418,7 @@
                             "sad",
                             "$~Ach du meine Güte, ach du meine Güte, ich kann NICHT glauben, dass ich die Farbe vergessen habe. Okay, also kann jedes @Pose eine Farbe haben, richtig? Aber @Color hat drei Teile. Erstens ein @Color.lightness zwischen 0 und 100%, das du dir vorstellen kannst als, wie hell ein Raum ist, von schwarz bis weiß, mit Farbe in der Mitte bei 50%.",
                             "$~Dann eine @Color.chroma zwischen 0 und ∞, die angibt, wie viel Farbe vorhanden ist, von keinem Grau bis hin zu voller Farbe.",
-                            "$~Und schließlich eine @Color.hue Farbton, den Sie sich wie einen Farbkreis vorstellen können, von Rot über Grün bis Blau in Graden. Sie möchten also, dass ich leuchtend rot bin? Stellen Sie meine Ruhepose-Farbe auf \\Color(50% 300 30°)\\ ein."
+                            "$~Und schließlich eine @Color.hue Farbton, den Sie sich wie einen Farbkreis vorstellen können, von Rot über Grün bis Blau in Graden. Sie möchten also, dass ich leuchtend rot bin? Stellen Sie meine Ruhepose-Farbe auf \\Farbe(50% 300 30°)\\ ein."
                         ],
                         { "edit": "Phrase('red' color: 🌈(50% 300 30°))" },
                         null,
@@ -3802,7 +3802,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Und wenn Sie eine ganz bestimmte Anordnung wünschen? Sie könnten @Free verwenden und mir genau sagen, wo Sie alle Phrasen haben möchten. Geben Sie einfach jeder @Phrase einen Platz an, andernfalls platziere ich sie einfach bei \\Place(0m 0m)\\."
+                            "$~Und wenn Sie eine ganz bestimmte Anordnung wünschen? Sie könnten @Free verwenden und mir genau sagen, wo Sie alle Phrasen haben möchten. Geben Sie einfach jeder @Phrase einen Platz an, andernfalls platziere ich sie einfach bei \\Ort(0m 0m)\\."
                         ],
                         {
                             "edit": [

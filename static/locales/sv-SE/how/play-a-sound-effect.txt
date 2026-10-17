@@ -4,10 +4,10 @@ Ett pling när svaret är rätt, en duns när något landar — en ljudeffekt ä
 
 Två saker gör det till en ljudeffekt istället för en sång. \loop: ⊥\ säger till  @Track  att spela sina toner en gång istället för för alltid. Och själva tonlistan kommer från ögonblicket: den innehåller toner när något just hände, och är tom resten av tiden.
 
-\tapped: ∆ Button()
-Stage([
-		Phrase('👆 tryck på mig' valbara namn: 'tryck')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) spelaom: tapped)
+\tapped: ∆ Knapp()
+Estrad([
+		Fras('👆 tryck på mig' valbara namn: 'tryck')
+		Musik(Spår(tapped ? [1 5 8] [] instrument: Instrument.klocka loop: ⊥) spelaom: tapped)
 	])\
 
 Oroa dig inte för att listan blir tom igen vid nästa uträkning — en ton som har börjat spelas alltid till slutet. Det du inte kan lämna ut är \replay\. Tryck två gånger och det andra trycket ger exakt samma musik som det första, så ingenting ändrades och ingenting skulle låta igen; \replay\ är hur du säger /igen, nu/. 
@@ -16,11 +16,11 @@ Oroa dig inte för att listan blir tom igen vid nästa uträkning — en ton som
 
 Eftersom tonerna bara är en lista kan du bestämma dem utifrån *vad* som hände istället för att alltid spela samma sak:
 
-\key: Key()
+\key: Tangent()
 struck: ∆ key
-Stage([
-		Phrase(struck ? key '⌨ tryck på en tangent' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) spelaom: struck)
+Estrad([
+		Fras(struck ? key '⌨ tryck på en tangent' 1m)
+		Musik(Spår(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) spelaom: struck)
 	])\
 
 Lägg märke till att \∆ key\ räknas ut på sin egen rad och värdetestet \key = ' '\ sker separat. Om de skrivs ihop som ett villkor skulle ljudet spelas igen vid nästa orelaterade tangent medan \key\ läses fortfarande som ett mellanslag.

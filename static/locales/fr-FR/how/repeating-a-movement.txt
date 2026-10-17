@@ -8,13 +8,13 @@ on peut utiliser le nombre dans @Sequence et choisir combien de fois un ensemble
 voici un ballon de basket qui rebondit deux fois. 
 
 \
-Stage([
-	Phrase('🏀' entrer: Sequence({
-				0%: Pose(compenser: Place(et: 0.25m))
-				25%: Pose(compenser: Place(et: 0m))
-				50%: Pose(compenser: Place(et: -0.25m))
-				75%: Pose(compenser: Place(et: 0m))
-				100%: Pose(compenser: Place(et: 0.25m))} compter:2x durée:2s))
+Scène([
+	Phrase('🏀' entrer: Séquence({
+				0%: Pose(compenser: Lieu(y: 0.25m))
+				25%: Pose(compenser: Lieu(y: 0m))
+				50%: Pose(compenser: Lieu(y: -0.25m))
+				75%: Pose(compenser: Lieu(y: 0m))
+				100%: Pose(compenser: Lieu(y: 0.25m))} compter:2x durée:2s))
 ])
 \
 

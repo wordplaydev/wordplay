@@ -24,7 +24,7 @@ rahasia: [:1‥9].diacak()
 
 ¶Apa kunci terakhir yang ditekan?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-kunci2,clé/fr: Kunci()
+kunci2,clé/fr: Tuts()
 
 ¶Rahasia saat ini bertambah setiap kali sebuah kunci ditekan, tetapi berhenti di 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr

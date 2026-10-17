@@ -6,13 +6,13 @@ Ang unang glyph ay nakakakuha ng unang pose, ang pangalawang glyph ay nakakakuha
 Narito ang ilang teksto para sa party, na may tatlong kulay na salitan sa paggamit:
 
 \
-Phrase(
+Parirala(
 	'party time!'
 	mukha: 'Luckiest Guy'
 	mgaPosisyon: [
-		Pose(kulay: Color(25% 70 250°))
-		Pose(kulay: Color(50% 80 300°))
-		Pose(kulay: Color(58% 90 60°))
+		Pose(kulay: Kulay(25% 70 250°))
+		Pose(kulay: Kulay(50% 80 300°))
+		Pose(kulay: Kulay(58% 90 60°))
 	]
 )
 \
@@ -23,12 +23,12 @@ Magkakaiba ang mga kulay na ito sa liwanag at sa hue, kaya makikilala pa rin sil
 Mas marami pang magagawa ang mga pose kaysa sa kulay. Ang bawat glyph ay tumatagilid, lumalaki, kumukupas, at gumagalaw sa paligid ng sarili nitong gitna, kaya magagawa nating tumalbog ang mga letra:
 
 \
-Phrase(
+Parirala(
 	'bounce'
 	mukha: 'Luckiest Guy'
 	mgaPosisyon: [
-		Pose(kulay: Color(25% 70 250°) pagikot: -10° offset: Place(0m 0.1m))
-		Pose(kulay: Color(58% 90 60°) pagikot: 10° kalabuan: 0.6)
+		Pose(kulay: Kulay(25% 70 250°) pagikot: -10° offset: Lugar(0m 0.1m))
+		Pose(kulay: Kulay(58% 90 60°) pagikot: 10° kalabuan: 0.6)
 	]
 )
 \
@@ -37,14 +37,14 @@ Phrase(
 Pumipili ang ransom note na ito ng bagong pagtagilid kada kalahating segundo:
 
 \
-tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
-Phrase(
+tilt: 0° … ∆ Oras(250ms) … Random(-15° 15°)
+Parirala(
 	`*ransom* /note/`
 	mukha: 'Courier Prime'
 	mgaPosisyon: [
-		Pose(pagikot: tilt offset: Place(0m 0.05m))
+		Pose(pagikot: tilt offset: Lugar(0m 0.05m))
 		Pose(pagikot: -tilt sukat: 1.2)
-		Pose(pagikot: tilt ÷ 2 offset: Place(0m -0.05m))
+		Pose(pagikot: tilt ÷ 2 offset: Lugar(0m -0.05m))
 	]
 )
 \

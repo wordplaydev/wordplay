@@ -14,7 +14,7 @@ fonturi: [
 simboluri2: 'typography'/en'tipografía'/es ÷ ''
 
 ƒ aleatorizează()
-	simboluri2.traduce(
+	simboluri2.transformă(
 		ƒ(simbol) Fraza(
 				simbol
 				faţă: fonturi.aleatoriu()
@@ -22,7 +22,7 @@ simboluri2: 'typography'/en'tipografía'/es ÷ ''
 			)
 	)
 
-fraze: aleatorizează() … ∆ Cheie() | ∆ Buton() … aleatorizează(
+fraze: aleatorizează() … ∆ Tastă() | ∆ Buton() … aleatorizează(
 		)
 
-Etapă([Grup(Rând('|' 0m) fraze loc: Loc(0m 0m))])
+Estradă([Grup(Rând('|' 0m) fraze loc: Loc(0m 0m))])

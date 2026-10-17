@@ -75,7 +75,7 @@ recente: registo.comprimento() ≤ 8 ? registo registo.subsequência(
 			registo.comprimento() - 7
 		)
 
-Fase(
+Palco(
 	[
 		Grupo(
 			Monte('<' 0.5m)

@@ -25,7 +25,7 @@ planetă: ƒ(glif•"" numit•"" larg•#m departe•#m viteză2•#m/s)
 		)
 
 ¶Cerul nu are gravitație proprie, altfel totul ar cădea pe jos. Nu are nici aer, așa că planetele continuă să se miște, în loc să încetinească și să se oprească.¶
-Etapă(
+Estradă(
 	[
 		soare
 		planetă('🌍' 'pământ' 0.8m 3m 11.5m/s)

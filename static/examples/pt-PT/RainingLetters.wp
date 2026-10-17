@@ -40,7 +40,7 @@ letras•[letra]: contagem2 → [#].traduzir(
 		)
 
 ¶Converter as letras em frases¶
-Fase(
+Palco(
 	[
 		Frase("☁" tamanho: 3m local: Local(-8m 12m))
 		Frase("☁" tamanho: 5m local: Local(8m 11m))

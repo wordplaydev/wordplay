@@ -18,7 +18,7 @@ ampere: Volym()
 tick: Tid()
 
 ¶Starta som en lista med slumpmässiga bokstäver på slumpmässiga platser¶
-bokstäver•[bokstav]: antal2 → [#].översätta(
+bokstäver•[bokstav]: antal2 → [#].omvandla(
 		ƒ(_) bokstav(
 				latin.slumpmässig()
 				Slumpmässig(-storlek2 storlek2)
@@ -30,7 +30,7 @@ bokstäver•[bokstav]: antal2 → [#].översätta(
 	)
 	… ∆ tick …
 		¶Om bokstaven är ovanför y-axeln, flytta den lite nedåt och rotera den.Annars, nollställ den ovanför gränsen och avgör slumpmässigt om den ska vara synlig.¶
-		bokstäver.översätta(
+		bokstäver.omvandla(
 			ƒ(bokstav3•bokstav)
 				bokstav3.y2 > 0m ? (bokstav3.y2:bokstav3.y2 - 0.5m).vinkel2:bokstav3.vinkel2 + bokstav3.hastighet2
 					(bokstav3.y2:storlek2 + 2m).synlig:Slumpmässig(
@@ -40,7 +40,7 @@ bokstäver•[bokstav]: antal2 → [#].översätta(
 		)
 
 ¶Gör om bokstäverna till fraser¶
-Etapp(
+Estrad(
 	[
 		Fras("☁" storlek: 3m plats: Plats(-8m 12m))
 		Fras("☁" storlek: 5m plats: Plats(8m 11m))
@@ -49,7 +49,7 @@ Etapp(
 			plats: Plats(-3.5 × storlek2 -0.5m)
 		)
 	].medLista(
-		bokstäver.översätta(
+		bokstäver.omvandla(
 			ƒ(bokstav4•bokstav)
 				Fras(
 					bokstav4.bokstav2

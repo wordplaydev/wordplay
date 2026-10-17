@@ -4,13 +4,13 @@
 
 @Choice  ಪ್ರೇಕ್ಷಕರು ಆರಿಸಿದ ಯಾವುದೇ ಆಯ್ಕೆ ಮಾಡಬಹುದಾದ ಔಟ್‌ಪುಟ್‌ನ \name\ ಅನ್ನು ಹಿಂತಿರುಗಿಸುತ್ತದೆ, ಆದ್ದರಿಂದ ಅದನ್ನು ವಾದ್ಯವನ್ನಾಗಿ ಮಾಡಲು ಒಂದು condition ಸಾಕು:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' ಆಯ್ಕೆಮಾಡಬಹುದಾದ ಹೆಸರು: 'ಪಿಯಾನೋ')
-				Phrase('🎻' ಆಯ್ಕೆಮಾಡಬಹುದಾದ ಹೆಸರು: 'ಪಿಟೀಲು')
+\picked: ಆಯ್ಕೆ()
+ವೇದಿಕೆ([
+		ಗುಂಪು(ಸಾಲು() [
+				ನುಡಿಗಟ್ಟು('🎹' ಆಯ್ಕೆಮಾಡಬಹುದಾದ ಹೆಸರು: 'ಪಿಯಾನೋ')
+				ನುಡಿಗಟ್ಟು('🎻' ಆಯ್ಕೆಮಾಡಬಹುದಾದ ಹೆಸರು: 'ಪಿಟೀಲು')
 			])
-		Music(Track([1 3 5 6 5 3] ವಾದ್ಯ: (picked = 'ಪಿಟೀಲು') ? Instrument.violin Instrument.piano))
+		ಸಂಗೀತ(ಟ್ರ್ಯಾಕ್([1 3 5 6 5 3] ವಾದ್ಯ: (picked = 'ಪಿಟೀಲು') ? ವಾದ್ಯ.ಪಿಟೀಲು ವಾದ್ಯ.ಪಿಯಾನೊ))
 	])\
 
 ಆಯ್ಕೆ ಮಾಡಬಹುದಾದ ಎರಡು ವಾಕ್ಯಗಳೇ ಇದನ್ನು ಕೆಲಸ ಮಾಡಿಸುತ್ತವೆ —  @Choice  ಗೆ ಓದಲು ಏನೂ ಇಲ್ಲ, ವೇದಿಕೆಯ ಮೇಲಿನ ಏನಾದರೂ \ಆಯ್ಕೆಮಾಡಬಹುದಾದ: ⊤\ ಆಗಿಲ್ಲದಿದ್ದರೆ.
@@ -19,18 +19,18 @@ Stage([
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' ವಾದ್ಯ.ಪಿಯಾನೊ)
+		Voice('🎺' ವಾದ್ಯ.ತುತ್ತೂರಿ)
+		Voice('🔔' ವಾದ್ಯ.ಗಂಟೆ)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: ಆಯ್ಕೆ()
+found: voices.ಹುಡುಕಿ(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon ಆಯ್ಕೆಮಾಡಬಹುದಾದ ಹೆಸರು: voice.icon))
+ವೇದಿಕೆ([
+		ಗುಂಪು(ಸಾಲು() [
+				:voices.ಅನುವಾದಿಸಿ(ƒ(voice•Voice) ನುಡಿಗಟ್ಟು(voice.icon ಆಯ್ಕೆಮಾಡಬಹುದಾದ ಹೆಸರು: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] ವಾದ್ಯ: current.sound))
+		ಸಂಗೀತ(ಟ್ರ್ಯಾಕ್([1 3 5 6 5 3] ವಾದ್ಯ: current.sound))
 	])\
 
 ಈಗ ನಾಲ್ಕನೇ ಧ್ವನಿಯನ್ನು ಸೇರಿಸುವುದು ಒಂದೇ ಸಾಲು, ಮತ್ತು ಬಟನ್ ತಾನಾಗಿಯೇ ಕಾಣಿಸುತ್ತದೆ. \found•ø ?\ ಕಾವಲನ್ನು ಗಮನಿಸಿ:  @List/find  ಯಾವುದೂ ಹೊಂದದಿದ್ದಾಗ \ø\ ಅನ್ನು ಹಿಂತಿರುಗಿಸುತ್ತದೆ, ಇದು ಯಾರೂ ಆರಿಸುವ ಮೊದಲು ಆಗುತ್ತದೆ — ಮತ್ತು ಪರ್ಯಾಯವು ಒಂದು ಪೂರ್ಣ \ಭಾಷಣ\ ಆಗಿರಬೇಕು, ಏಕೆಂದರೆ \current\ ಆಗಿರುತ್ತೇನೆ ಎಂದು ಭರವಸೆ ಕೊಡುತ್ತದೆ.

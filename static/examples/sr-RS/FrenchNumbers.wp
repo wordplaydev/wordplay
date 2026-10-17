@@ -24,7 +24,7 @@ t
 
 ¶Који је последњи притиснути кључ?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-кључ2,clé/fr: Кључ()
+кључ2,clé/fr: Тастер()
 
 ¶Тренутна тајна се повећава сваки пут кад се притисне неки кључ, али стаје на 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
@@ -56,10 +56,10 @@ t
 ¶Прикажи тренутни француски број и тренутне поене. После свих 9 тајни, прикажи коначан резултат¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
-Стаге(
+Позорница(
 	[
 		Група(
-			Стацк()
+			Наслага()
 			[
 				крајИгре ?
 					Фраза(

@@ -117,7 +117,7 @@
             "doc": [
                 "$~Reprezint cea mai frumoasă dintre @Text de pe @Stage . Salut, salut! Îți amintești de mine? Cum ar putea cineva să mă uite pe mine.",
                 "Fă-mă așa și voi apărea pe @Stage :",
-                "\\Phrase('magnificent!')\\",
+                "\\Fraza('magnificent!')\\",
                 "Am nevoie @TextLiteral sau @FormattedLiteral pentru a se afișa. Cu @FormattedLiteral , pot folosi elemente precum \\`*bold* and /italic/`\\ sau pot face referire la @ConceptLink personalizat pe care îl creați.",
                 "De asemenea, poți opțional să-mi dai tot ce poate face un @Output , inclusiv să-mi schimbi dimensiunea, fontul, rotația și să fac toate dansurile mele incredibile cu @Pose și @Sequence .",
                 "De asemenea, mă poți selecta pe @Stage și edita cu paleta 🎨 de alături — e o modalitate excelentă de a încerca diferite fonturi și de a alege /față/ potrivit pentru @Text ."
@@ -572,7 +572,7 @@
             "names": ["$~Culoare"],
             "lightness": {
                 "doc": "$~Cât de ușor ar trebui să fiu de la \\0\\ la \\1\\, de la negru la \\0\\, la gri la \\0.5\\, la alb la \\1\\.",
-                "names": ["$~ușurință"]
+                "names": ["$~luminozitate", "$~ușurință"]
             },
             "chroma": {
                 "doc": "$~Câtă culoare ar trebui să am, de la \\0\\ la \\∞\\. Fără culoare înseamnă gri, numerele mai mari înseamnă mai multă culoare.",
@@ -638,11 +638,11 @@
                 "doc": [
                     "$~Dați o culoare aleatorie.",
                     "Fără culori, aleg una dintre culorile de bază la întâmplare:",
-                    "\\Color.random()\\",
+                    "\\Culoare.aleatoriu()\\",
                     "Cu o singură culoare, îi păstrez luminozitatea și croma, dar aleg o nuanță aleatorie:",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Culoare.aleatoriu(Culoare.albastru)\\",
                     "Cu două culori, aleg o luminozitate, o cromă și o nuanță aleatorie între cele două:",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Culoare.aleatoriu(Culoare.negru Culoare.alb)\\"
                 ],
                 "names": "$~aleatoriu",
                 "inputs": [
@@ -659,10 +659,10 @@
             "lighter": {
                 "doc": [
                     "$~Dă o versiune mai ușoară a mea, crescându-mi luminozitatea cu un procent (5% implicit).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Culoare.albastru.maiDeschis()\\",
+                    "\\Culoare.albastru.maiDeschis(20%)\\"
                 ],
-                "names": "$~brichetă",
+                "names": ["$~maiDeschis", "$~brichetă"],
                 "inputs": [
                     {
                         "doc": "$~Cu cât să crească luminozitatea, ca procent. Implicit, valoarea este 5%.",
@@ -673,8 +673,8 @@
             "darker": {
                 "doc": [
                     "$~Oferă o versiune mai închisă a mea, reducându-mi luminozitatea cu un procent (5% implicit).",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Culoare.albastru.maiîntunecat()\\",
+                    "\\Culoare.albastru.maiîntunecat(20%)\\"
                 ],
                 "names": "$~maiîntunecat",
                 "inputs": [
@@ -1203,15 +1203,15 @@
         "Stage": {
             "doc": [
                 "$~ARĂT @Output TĂU SPECTATORILOR. SALUT. SUNT SCENA. SPUNE-MI CE SĂ ARĂT ȘI O ARĂT.",
-                "\\Etapă([Fraza('lucruuuuuri')])\\",
+                "\\Estradă([Fraza('lucruuuuuri')])\\",
                 "DACĂ VREI, DĂ-MI O @Color DE FUNDAL ȘI VOI LUMINA SCENA ÎN CONSECINȚĂ.",
-                "\\Etapă([Fraza('lucruuuuuri')] fundal: Culoare(75% 50 100°))\\",
+                "\\Estradă([Fraza('lucruuuuuri')] fundal: Culoare(75% 50 100°))\\",
                 "POȚI SĂ-MI DAI ȘI UN CADRU CU MARGINI ȘI VOI TĂIA IMAGINEA.",
-                "\\Etapă(\n\t[Fraza('lucruuuuuri')]\n\tfundal: Culoare(75% 50 100°)\n\tcadru: Dreptunghi(-1m -1m 1m 1m)\n)\\",
+                "\\Estradă(\n\t[Fraza('lucruuuuuri')]\n\tfundal: Culoare(75% 50 100°)\n\tcadru: Dreptunghi(-1m -1m 1m 1m)\n)\\",
                 "IAR DACĂ VREI SPECTACOL, DĂ-MI @Effect ȘI VOI SCHIMBA ASPECTUL A TOT. SUB APĂ! FILM VECHI! PARAZIȚI! ÎMI PLACE.",
-                "\\Etapă(\n\t[Fraza('🐟 glub')]\n\tefecte: [Val() Colorare(Culoare(55% 45 220°))]\n)\\"
+                "\\Estradă(\n\t[Fraza('🐟 glub')]\n\tefecte: [Val() Colorare(Culoare(55% 45 220°))]\n)\\"
             ],
-            "names": ["$~Etapă"],
+            "names": ["$~Estradă", "$~Etapă"],
             "content": {
                 "doc": "$~LISTA DE @Output DE ARĂTAT. ASTA ESTE SPECTACOLUL. EU ÎL ARĂT.",
                 "names": "$~conţinut"
@@ -1651,7 +1651,7 @@
                 "Acestea sunt greu de găsit, așa că rândul de simboluri de sub @editor le oferă ori de câte ori cursorul tău este chiar după unul dintre numerele mele.",
                 "O pauză nu poate purta o valoare, deoarece \\ø\\ nu este un număr. Două pauze la rând sunt de două ori mai lungi, iar pentru ceva mai fin există @Note.",
                 "Când o singură notă are nevoie de propriul volum, sau de o lungime pe care nicio valoare nu o poate exprima, învelește-o pe aceea într-un @Note. Folosește-o doar acolo unde ai nevoie: un număr simplu este mai ușor de citit, așa că majoritatea pieselor nu au niciunul, iar tocmai această raritate face ca un @Note să iasă în evidență ca un eveniment.",
-                "\\celulă: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcelulă\n\t\t.cuLista(celulă.traduce(ƒ(n•#) n + 2))\n\t\t.cuLista(celulă.inversat())\n\t\t.cuLista(celulă.traduce(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "\\celulă: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcelulă\n\t\t.cuLista(celulă.transformă(ƒ(n•#) n + 2))\n\t\t.cuLista(celulă.inversat())\n\t\t.cuLista(celulă.transformă(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
                 "Umplerea cu pauze este tot ce are nevoie un canon: ambele părți țin același număr de bătăi, așa că rămân la pas în loc să se îndepărteze una de alta. Combinarea a două liste într-una singură cu : este modul în care sunt construite, deoarece \\append\\ are nevoie ca ambele liste să conțină același fel de lucru.",
                 "\\melodie: [1 2 3 1 1 2 3 1 3 4 5 ø]\npauză: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodie :pauză] instrument: 🔈.🪈)\n\t\t🎶([:pauză :melodie] instrument: 🔈.🎻)\n\t])\\"
             ],
@@ -2050,14 +2050,14 @@
             "doc": [
                 "$~Sunt un efect abstract, așezat peste întreaga @Stage ca să schimbe felul în care arată tot ce e pe ea. Nu mă creezi niciodată direct; în schimb, creează unul dintre efectele care sunt eu, precum @Blur, @Grain sau @Wave, și dă o listă cu ele la @Stage.effects al unei scene.",
                 "Efectele se aplică în ordinea în care sunt scrise, așa că un @Blur după un @Grain înceațoșează și granulația. Ele acoperă conținutul scenei, dar niciodată @Stage.overlay ei, așa că un scor sau un buton rămâne clar.",
-                "\\Etapă(\n\t[Fraza('🐟')]\n\tefecte: [Colorare(Culoare(60% 40 220°)) Val()]\n)\\"
+                "\\Estradă(\n\t[Fraza('🐟')]\n\tefecte: [Colorare(Culoare(60% 40 220°)) Val()]\n)\\"
             ],
             "names": ["$~Efect"]
         },
         "Blur": {
             "doc": [
                 "$~Înmoi tot ce e pe @Stage, ca și cum camera ar fi scoasă din focus. Puțin din mine înseamnă un vis sau o amintire; mult din mine înseamnă trezirea sau pierderea ochelarilor.",
-                "\\Etapă(\n\t[Fraza('🤓 unde sunt ochelarii mei?')]\n\tefecte: [Estompare(0.05m)]\n)\\"
+                "\\Estradă(\n\t[Fraza('🤓 unde sunt ochelarii mei?')]\n\tefecte: [Estompare(0.05m)]\n)\\"
             ],
             "names": ["$~Estompare"],
             "amount": {
@@ -2068,7 +2068,7 @@
         "Grade": {
             "doc": [
                 "$~Schimb luminozitatea, contrastul, saturația și nuanța a tot ce e pe @Stage, așa cum se corectează culorile unui film ca să creeze atmosfera. Scoate toată saturația și crește contrastul și obții un film noir alb-negru.",
-                "\\Etapă(\n\t[Fraza('🕵 detectivul a așteptat')]\n\tefecte: [Ajustare(saturație: 0% contrast: 150%)]\n)\\"
+                "\\Estradă(\n\t[Fraza('🕵 detectivul a așteptat')]\n\tefecte: [Ajustare(saturație: 0% contrast: 150%)]\n)\\"
             ],
             "names": ["$~Ajustare"],
             "brightness": {
@@ -2091,7 +2091,7 @@
         "Tint": {
             "doc": [
                 "$~Spăl tot ce e pe @Stage într-o singură @Color, păstrând lumina și întunericul, ca textul să rămână la fel de ușor de citit. Albastru-verzui face o scenă să pară sub apă, maro o face o fotografie veche, iar verde o face vedere de noapte.",
-                "\\Etapă(\n\t[Fraza('🏰 demult')]\n\tefecte: [Colorare(Culoare(60% 40 60°) 80%)]\n)\\"
+                "\\Estradă(\n\t[Fraza('🏰 demult')]\n\tefecte: [Colorare(Culoare(60% 40 60°) 80%)]\n)\\"
             ],
             "names": ["$~Colorare"],
             "color": {
@@ -2106,7 +2106,7 @@
         "Haze": {
             "doc": [
                 "$~Acopăr @Stage cu ceață, care se mișcă încet peste ea. Sunt pentru dimineți, fum, aburi și tot ce e departe.",
-                "\\Etapă([Fraza('🌲🌲 mlaștina 🌲')] efecte: [Ceață(60%)])\\"
+                "\\Estradă([Fraza('🌲🌲 mlaștina 🌲')] efecte: [Ceață(60%)])\\"
             ],
             "names": ["$~Ceață"],
             "amount": {
@@ -2126,7 +2126,7 @@
             "doc": [
                 "$~Pun pe @Stage puncte de zgomot care se schimbă în fiecare clipă. Puțin din mine este granulația unui film adevărat; mult din mine, cu puncte mari, este un televizor fără semnal.",
                 "Sunt obositor de privit când sunt puternic, așa că voi fi marcat ca un posibil tipar pentru persoanele sensibile la ele.",
-                "\\Etapă(\n\t[Fraza('📺 fără semnal')]\n\tefecte: [Granulație(90% mărime: 3)]\n)\\"
+                "\\Estradă(\n\t[Fraza('📺 fără semnal')]\n\tefecte: [Granulație(90% mărime: 3)]\n)\\"
             ],
             "names": ["$~Granulație"],
             "amount": {
@@ -2145,7 +2145,7 @@
         "Scanlines": {
             "doc": [
                 "$~Desenez pe @Stage liniile subțiri și întunecate ale ecranului unui televizor vechi. Dă-mi o /viteză/ și mă derulez, ca un televizor care nu e chiar bine reglat.",
-                "\\Etapă(\n\t[Fraza('📺 canalul 3')]\n\tefecte: [LiniiDeEcran(40% viteză: 1)]\n)\\"
+                "\\Estradă(\n\t[Fraza('📺 canalul 3')]\n\tefecte: [LiniiDeEcran(40% viteză: 1)]\n)\\"
             ],
             "names": ["$~LiniiDeEcran"],
             "amount": {
@@ -2165,7 +2165,7 @@
             "doc": [
                 "$~Fac ieșirea să se unduiască pe @Stage, ca și cum ai vedea-o prin apă sau prin aer încins.",
                 "Îndoi chiar ieșirea, sub orice alte efecte, așa că un @Grain pus înaintea mea nu se unduiește.",
-                "\\Etapă([Fraza('🐟 glub')] efecte: [Val(0.2m)])\\"
+                "\\Estradă([Fraza('🐟 glub')] efecte: [Val(0.2m)])\\"
             ],
             "names": ["$~Val"],
             "amount": {
@@ -2184,7 +2184,7 @@
         "Damage": {
             "doc": [
                 "$~Împrăștii zgârieturile și praful unei pelicule vechi și uzate peste @Stage, diferit la fiecare cadru. Pune-mă împreună cu un @Grade care scoate culoarea și cu un @Flicker, și scena ta pare veche de o sută de ani.",
-                "\\Etapă(\n\t[Fraza('🎩 SFÂRȘIT')]\n\tefecte: [Ajustare(saturație: 0%) Deteriorare(80% 60%)]\n)\\"
+                "\\Estradă(\n\t[Fraza('🎩 SFÂRȘIT')]\n\tefecte: [Ajustare(saturație: 0%) Deteriorare(80% 60%)]\n)\\"
             ],
             "names": ["$~Deteriorare"],
             "scratches": {
@@ -2200,7 +2200,7 @@
             "doc": [
                 "$~Fac întregul @Stage să tremure: rămâne stabil, apoi se întunecă pentru o clipă la intervale neregulate, ca becul unui proiector sau o lampă care e pe cale să se stingă.",
                 "Lumina intermitentă poate face rău oamenilor, așa că nu tremur niciodată de mai mult de câteva ori pe secundă, oricât de repede ceri.",
-                "\\Etapă([Fraza('💡 luminile')] efecte: [Pâlpâire(40% 2)])\\"
+                "\\Estradă([Fraza('💡 luminile')] efecte: [Pâlpâire(40% 2)])\\"
             ],
             "names": ["$~Pâlpâire"],
             "amount": {
@@ -2215,7 +2215,7 @@
         "Vignette": {
             "doc": [
                 "$~Întunec marginile @Stage și las mijlocul limpede, atrăgând privirea spre centru. Sunt marginea unei lentile vechi, un reflector sau vederea în tunel.",
-                "\\Etapă([Fraza('🔦 uită-te aici')] efecte: [Vinietă(70%)])\\"
+                "\\Estradă([Fraza('🔦 uită-te aici')] efecte: [Vinietă(70%)])\\"
             ],
             "names": ["$~Vinietă"],
             "amount": {

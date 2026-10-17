@@ -15,7 +15,7 @@ miaou2: Musique(
 
 •positionDuChat(position•#m direction2•#)
 
-clé3: Clé()
+clé3: Touche()
 vitesse2: 1m
 
 placeDuChaton: positionDuChat(5m 1) … ∆ clé3 …
@@ -85,5 +85,5 @@ Scène(
 			couleur: Couleur.blanc
 		)
 	]
-	lieu: Lieu(et: 5m j: -10m)
+	lieu: Lieu(y: 5m j: -10m)
 )

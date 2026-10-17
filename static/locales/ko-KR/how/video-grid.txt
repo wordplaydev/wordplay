@@ -8,8 +8,8 @@ The @Camera 스트림은 세상에서 색상 격자를 얻는 아주 좋은 방�
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: 카메라(width × 1px height × 1px 33ms)
+무대([이미지(colors "what the camera sees" 12m)])
 \
 
  모든 @Image 에는 설명이 필요해. 색상 격자는 그것을 볼 수 없는 사람에게는 아무 말도 해주지 않으니까.
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m 글리프: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: 카메라(width × 1px height × 1px 33ms)
+무대([이미지(colors "the camera, drawn with dark and light circles" 12m 글리프: ƒ(color•색상) (color.밝기 < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

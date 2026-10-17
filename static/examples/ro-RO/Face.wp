@@ -5,7 +5,7 @@ Față
 
 față2: Față()
 
-Etapă(
+Estradă(
 	[
 		Fraza(
 			(față2.gurăDeschisă ? '😮'

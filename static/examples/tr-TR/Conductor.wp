@@ -9,11 +9,11 @@ Elini kaldır, orkestra tek tek katılır, ta ki sekizi de çalana kadar. Elini 
 el: El()
 
 ¶Yükseklik orkestranın ne kadarının çaldığını, yandalık ise ne kadar hızlı çaldığını gösterir. İkisi de hafızada tutulmaz, doğrudan elden okunur, böylece eli sürekli takip ederler. Her biri bir basamağa yuvarlanır, böylece müzik ancak kulakla fark edilecek kadar büyük bir değişiklik olduğunda değişir. Titreyen bir el, notaları saniyede yirmi kez yeniden yazmaz.¶
-kaldırmak2: el.yer.ve.rescale(-3m 3m 0 1).limit(0 1)
-katmanlar: 1 + ((kaldırmak2 · 7).yuvarlak())
+kaldırmak2: el.yer.Y.yenidenÖlçekle(-3m 3m 0 1).sınır(0 1)
+katmanlar: 1 + ((kaldırmak2 · 7).yuvarla())
 
-erişim: el.yer.X.rescale(-5m 5m 0 1).limit(0 1)
-tempo2: 72 + ((erişim · 8).yuvarlak() · 12)
+erişim: el.yer.X.yenidenÖlçekle(-5m 5m 0 1).sınır(0 1)
+tempo2: 72 + ((erişim · 8).yuvarla() · 12)
 
 ¶Melodiyi kim çalar. Yumruk yapılmış bir el de, kadraj dışındaki bir el de sıfır parmak sayılır. Bu yüzden parmak yoksa, önceden çalan çalmaya devam eder — yoksa başka yöne bakmak bile şarkıyı değiştirirdi.¶
 öneÇıkan: 5 … ∆ el …
@@ -215,7 +215,7 @@ yolculuk: 0 … ∆ Zaman(40ms) … yolculuk + (tempo2 ÷ 72)
 ƒ durum()•'' '\katmanlar\ of 8 playing · \tempo2\ beats a minute'
 
 ¶Talimatların bir satırı, soluk renkte; böylece önce filo ve öne çıkan oyuncu okunur.¶
-ƒ satır(metin2•'')•İfadeetmek İfadeetmek(
+ƒ satır(metin2•'')•Yazı Yazı(
 		metin2
 		0.3m
 		renk: Renk(64% 4 265°)
@@ -225,12 +225,12 @@ yolculuk: 0 … ∆ Zaman(40ms) … yolculuk + (tempo2 ÷ 72)
 görüntü: Grup(
 		Yığın('<' 0.16m)
 		[
-			İfadeetmek(
+			Yazı(
 				simge(öneÇıkan)
 				0.9m
 				renk: Renk(56% 65 25°)
 			)
-			İfadeetmek(durum() 0.38m renk: Renk(70% 25 30°))
+			Yazı(durum() 0.38m renk: Renk(70% 25 30°))
 			satır('elini kaldır — orkestra büyür')
 			satır('indir — sadece melodi kalır')
 			satır('el sola — yavaşlar · el sağa — hızlanır')
@@ -241,8 +241,8 @@ görüntü: Grup(
 	)
 
 ¶Sahneyi geçen bir gemi, talimatların oldukça üzerindeki bir şeritte uçar, böylece asla metnin üzerinden geçmez. Bulunduğu şerit, ne kadar yükseğe uçtuğunu ve ne kadar ileriden başladığını belirler, bu yüzden gemiler asla aynı düzende uçmaz.¶
-ƒ gemi(harfIşareti•'' şerit•# hız2•#)•İfadeetmek
-	İfadeetmek(
+ƒ gemi(harfIşareti•'' şerit•# hız2•#)•Yazı
+	Yazı(
 		harfIşareti
 		0.7m
 		yer: Yer(
@@ -258,8 +258,8 @@ filo: [
 		gemi('🛸' 3 5)
 	]
 
-ƒ yıldız(x2•# y2•# boyut2•#)•İfadeetmek
-	İfadeetmek(
+ƒ yıldız(x2•# y2•# boyut2•#)•Yazı
+	Yazı(
 		'✦'
 		boyut2 · 1m
 		yer: Yer(x2 · 1m y2 · 1m)

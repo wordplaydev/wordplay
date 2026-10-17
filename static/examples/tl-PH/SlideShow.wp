@@ -63,7 +63,7 @@ mgaSlide: [
 susi2: Susi()
 
 ¶Kung nasaan ang palabas. Ang @Scene ang nagbabantay sa lugar, kaya walang kailangang bilangin dito.¶
-sa: Spotlight()
+sa: IlawNaPantutok()
 
 ¶Bawat slide, iginuhit na. Hindi ito umaasa sa anumang nagbabago, kaya ito'y ginawa nang isang beses lamang — hindi bawat pindot ng susi — kaya't wala rito ang bilang sa ibaba.¶
 panonood: mgaSlide.isalin(

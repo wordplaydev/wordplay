@@ -24,7 +24,7 @@ contagem2: 10 → []
 			)
 	)
 
-Fase(
+Palco(
 	[
 		:bolas(0m)
 		:bolas(-10m)

@@ -5,9 +5,9 @@ Por vezes é útil fazer um @Phrase Pode ser movido com um teclado, rato ou dedo
 Faça isso, podemos combinar @Phrase com @Placement:
 
 \
-Stage(
-	[Phrase('mova-me' local: Placement())]
-	local: Place(0m 0m -10m)
+Palco(
+	[Frase('mova-me' local: Colocação())]
+	local: Local(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Por exemplo, um @Stage tem um @Place que determina para onde a sua câmara está
 Vamos tentar definir o lugar de um @Placement para um @Stage e ver o que acontece.
 
 \
-Stage(
+Palco(
   [
-	Phrase('🐈' local: Place(-2m 2m))
-	Phrase('🐈' local: Place(2m -2m))
-	Phrase('🐈' local: Place(-1m 3m))
+	Frase('🐈' local: Local(-2m 2m))
+	Frase('🐈' local: Local(2m -2m))
+	Frase('🐈' local: Local(-1m 3m))
   ]
-  local: Placement(Place(0m 0m -10m))
+  local: Colocação(Local(0m 0m -10m))
 )
 \
 

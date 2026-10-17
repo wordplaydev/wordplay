@@ -8,10 +8,10 @@
 
 \
 •Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` لون: color حجم: 2m)
+    ƒ show() عبارة(`🎈\label\` لون: color حجم: 2m)
 )
 
-Group(Row() [
+مجموعة(صف() [
     Balloon(Color(80% 50 240°) 'سماء').show()
     Balloon(Color(60% 80 0°) 'وَردَة').show()
     Balloon(Color(90% 80 90°) 'مشمس').show()

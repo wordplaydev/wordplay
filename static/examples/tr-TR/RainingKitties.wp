@@ -10,7 +10,7 @@ boyut2: 30
 
 ¶Önce, her biri rastgele bir yere yerleştirilmiş 20 kediden oluşan bir liste yap. Saat her tıkladığında, hepsini biraz aşağı kaydır.¶
 kediler•[kedicik]:
-	sayaç → [].tercümeetmek(
+	sayaç → [].dönüştür(
 		ƒ(_) kedicik(
 				Rastgele(-boyut2 boyut2)
 				Rastgele(-boyut2 boyut2)
@@ -20,7 +20,7 @@ kediler•[kedicik]:
 			)
 	)
 	… ∆ Zaman() …
-		kediler.tercümeetmek(
+		kediler.dönüştür(
 			ƒ(kedicik2•kedicik)
 				(kedicik2.y2:kedicik2.y2 < -boyut2 ? boyut2 kedicik2.y2 - 2)
 				.açı2:kedicik2.açı2 + kedicik2.hız2
@@ -28,9 +28,9 @@ kediler•[kedicik]:
 
 ¶Kedileri ifadelere dönüştür¶
 Sahne(
-	kediler.tercümeetmek(
+	kediler.dönüştür(
 		ƒ(kedicik3•kedicik)
-			İfadeetmek(
+			Yazı(
 				"🐈"
 				yüz: "Noto Color Emoji"
 				boyut: 5m

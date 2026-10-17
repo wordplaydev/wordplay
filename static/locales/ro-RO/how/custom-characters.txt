@@ -8,7 +8,7 @@ Poți folosi pixeli, dreptunghiuri, cercuri și trasee.
 Dă-i un nume, descrie-l, apoi poți folosi numele tău de utilizator și numele caracterului astfel:
 
 \
-Phrase(`Uită-te la fantezia mea  @username/charactername !`)
+Fraza(`Uită-te la fantezia mea  @username/charactername !`)
 \
 
  Acel nume de utilizator și acel nume de caracter nu există, deci se va afișa un dreptunghi gol.

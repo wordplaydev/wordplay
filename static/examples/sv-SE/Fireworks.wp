@@ -11,7 +11,7 @@ Melodin är /The Star-Spangled Banner/ — John Stafford Smiths melodi från omk
 ↓ @wordplay/instruments 1
 
 taktslag: Takt()
-räkna2: taktslag.räkna
+räkna2: taktslag.antal
 
 ¶Bara de stämmor som faktiskt ljuder blir fyrverkerier; ett spår som vilar förblir mörkt. Innan musiken startar finns inga stämmor alls, så himlen är tom.¶
 avfyrar•[Del]: taktslag.delar.filtrera(
@@ -537,9 +537,9 @@ trummor2: [
 		3𝅘𝅥𝅮
 	]
 
-Etapp(
+Estrad(
 	[
-		:avfyrar.översätta(ƒ(p6•Del i2•#) explosion(p6 i2))
+		:avfyrar.omvandla(ƒ(p6•Del i2•#) explosion(p6 i2))
 		Musik(
 			[
 				Spår(

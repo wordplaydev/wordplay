@@ -88,8 +88,8 @@ Panggung(
 				Frasa(saatIni.ikon 2.5m)
 				Frasa(saatIni.label 1.2m)
 				Kelompok(
-					Jaringan(kolom: 5 lapisan: 0.4m)
-					voices.menerjemahkan(
+					Kisi(kolom: 5 lapisan: 0.4m)
+					voices.petakan(
 						ƒ(suara6•suara2) tombol(suara6)
 					)
 				)

@@ -4,7 +4,7 @@ Virtuellt piano
 ¶Ett piano med en oktav som du kan spela på! Du får bäst upplevelse om du stänger av musikvisualiseringen.¶
 
 ¶Den här bindningen lagrar en nyckelström som känner av vilken tangent du har tryckt på.¶
-tryckt: Nyckel()
+tryckt: Tangent()
 
 ¶Det här lagrar en koppling mellan tangenterna du trycker på och tonerna de spelar, både som text (för att visa tonen som spelas) och som en numerisk textsträng (som kan göras om till ett tal (#) och matas in i en lista med spår).
 

@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['گربه' 'سگ'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['گربه' 'سگ'] 0) … state.secrets.دارد(گفتگو()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("تو بردی!")]
-        [ Group(Stack() [ Phrase("کلمه‌های راز مرا حدس بزن") Phrase(`\state.secrets.length() - state.points\ راز بیشتر`)])]
+صحنه(
+    state.points = state.secrets.طول() ? 
+        [ عبارت("تو بردی!")]
+        [ گروه(پشته() [ عبارت("کلمه‌های راز مرا حدس بزن") عبارت(`\state.secrets.length() - state.points\ راز بیشتر`)])]
 )
 \
 

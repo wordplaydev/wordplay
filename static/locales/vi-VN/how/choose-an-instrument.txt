@@ -4,13 +4,13 @@ Mọi thứ về một  @Music  đều có thể được quyết định trong 
 
 @Choice  trả lại \name\ của bất kỳ output có thể chọn nào mà khán giả đã chọn, vì vậy một điều kiện là đủ để biến nó thành một nhạc cụ:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' cóthểlựachọn tên: 'đàn piano')
-				Phrase('🎻' cóthểlựachọn tên: 'đàn vĩ cầm')
+\picked: Sựlựachọn()
+Sânkhấu([
+		Nhóm(Hàngngang() [
+				Cụmtừ('🎹' cóthểlựachọn tên: 'đàn piano')
+				Cụmtừ('🎻' cóthểlựachọn tên: 'đàn vĩ cầm')
 			])
-		Music(Track([1 3 5 6 5 3] nhạcCụ: (picked = 'đàn vĩ cầm') ? Instrument.violin Instrument.piano))
+		ÂmNhạc(Bè([1 3 5 6 5 3] nhạcCụ: (picked = 'đàn vĩ cầm') ? NhạcCụ.đànVĩCầm NhạcCụ.đànPiano))
 	])\
 
 Hai cụm từ có thể chọn là điều làm cho việc này hoạt động —  @Choice  không có gì để đọc trừ khi có thứ gì đó trên sân khấu có thể \cóThểChọnĐược: ⊤\.
@@ -19,18 +19,18 @@ Hai nhạc cụ vừa với một điều kiện. Cả một bảng màu thì kh
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' NhạcCụ.đànPiano)
+		Voice('🎺' NhạcCụ.kènTrumpet)
+		Voice('🔔' NhạcCụ.chuông)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: Sựlựachọn()
+found: voices.tìmthấy(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon cóthểlựachọn tên: voice.icon))
+Sânkhấu([
+		Nhóm(Hàngngang() [
+				:voices.biếnĐổi(ƒ(voice•Voice) Cụmtừ(voice.icon cóthểlựachọn tên: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] nhạcCụ: current.sound))
+		ÂmNhạc(Bè([1 3 5 6 5 3] nhạcCụ: current.sound))
 	])\
 
 Thêm một giọng thứ tư bây giờ chỉ là một dòng, và nút xuất hiện tự động. Hãy lưu ý cách bảo vệ \found•ø ?\:  @List/find  trả lại \ø\ khi không có gì khớp, đó là điều xảy ra trước khi có ai đó chọn — và giá trị dự phòng phải là một \🎙\ trọn vẹn, vì đó là những gì \current\ hứa sẽ là.

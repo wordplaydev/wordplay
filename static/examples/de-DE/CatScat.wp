@@ -11,7 +11,7 @@ Die Stimme ist die gestimmte Katze, \Instrument.tonhöheKatze\: ein Miauen, auf 
 
 Für Scat ist es langsam. Ein Miauen dauert etwa acht Zehntelsekunden. Bei einem schnelleren Tempo würden die Viertelnoten die Katze mitten im Wort abschneiden.¶
 
-schlag2: Takt()
+schlag2: Schlag()
 zählung: schlag2.Zählung
 
 ¶Eine Note oder ab und zu nichts: Etwa jede siebte wird still. Das ist genug Luft, damit die Katze hier und da den Mund schließen kann, ohne das Solo auszudünnen. Und weil die Pausen dort landen, wo der Zufall sie hinlegt, atmen keine zwei Refrains an derselben Stelle.¶
@@ -92,7 +92,7 @@ refrain2•refrain: improvisieren() … ∆ schlag2 …
 mager: ((zählung % 2) = 0) ? -1 1
 
 ¶Ob die Katze gerade einen Laut von sich gibt. @Beat liefert für jede Spur ein @Part zurück, und ein Teil bleibt bei jedem Schlag, den eine gehaltene Note andauert, ⊤. Dieser Wert ist also immer dann ⊤, wenn irgendetwas zu hören ist.¶
-gesang: schlag2.Teile.übersetzen(ƒ(teil•Teil) teil.Klingen).hat(
+gesang: schlag2.Teile.übersetzen(ƒ(teil•Teil) teil.klingt).hat(
 		⊤
 	)
 
@@ -101,14 +101,14 @@ mund: gesang ? '😺' '🐱'
 
 Bühne(
 	[
-		Satzglied(
+		Phrase(
 			mund
 			5m
 			Ort: Ort((mager · 0.7) · 1m -0.6m)
 			Drehung: (mager · 7) · 1°
 			Dauer: 0.22s
 		)
-		Satzglied('Katzen-Scat!' 1.4m Ort: Ort(-2.6m 3.6m))
+		Phrase('Katzen-Scat!' 1.4m Ort: Ort(-2.6m 3.6m))
 		Musik(
 			[
 				Spur(

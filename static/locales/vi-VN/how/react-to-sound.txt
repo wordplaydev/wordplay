@@ -5,7 +5,7 @@ Bạn có biết dự án của bạn có thể lắng nghe bạn không? @Volum
 Chúng ta có thể sử dụng con số đó để kiểm soát bất cứ thứ gì — kích thước của một... @Phrase, sự quay của nó, màu sắc của nó.
 
 \
-Phrase('📣' kíchcỡ: (Volume() × 5m) + 1m)
+Cụmtừ('📣' kíchcỡ: (Âmlượng() × 5m) + 1m)
 \
 
  Khi yên tĩnh, chiếc loa phóng thanh được sử dụng. \1m\ cao. Khi bạn hét lên, nó có thể cao tới \6m\ cao.
@@ -13,7 +13,7 @@ Phrase('📣' kíchcỡ: (Volume() × 5m) + 1m)
 Bạn muốn mặt trời quay nhanh hơn khi bạn càng la hét to hơn không?
 
 \
-Phrase('🌞' xoay: Volume() × 360°)
+Cụmtừ('🌞' xoay: Âmlượng() × 360°)
 \
 
  Hãy thử vỗ tay hoặc hát ư ử và xem điều gì xảy ra.

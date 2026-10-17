@@ -7,7 +7,7 @@ câu2: Tròchuyện()
 độDài: Tròchuyện().chiềudài()
 
 Nhóm(
-	Ngănxếp()
+	XếpDọc()
 	[
 		Cụmtừ(
 			`*Xin chào! Chào mừng bạn đến với công cụ tính độ dài câu.*`

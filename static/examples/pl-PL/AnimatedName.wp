@@ -28,7 +28,7 @@ Change the locale on stage to see each one!¶/en
 				¶Each Phrase contains one symbol to represent a letter of my name.
 				This allows me to animate each letter individually! I'm using
 				resting Sequences so that the letters move while on stage.¶/en
-				Wyrażenie(
+				Fraza(
 					'A'/en
 					twarz: 'Pacifico'
 					wstępowanie: Sekwencja(
@@ -50,7 +50,7 @@ Change the locale on stage to see each one!¶/en
 					)
 					czastrwania: 1s
 				)
-				Wyrażenie(
+				Fraza(
 					'd'/en
 					twarz: 'Aclonica'
 					spoczynkowy: Sekwencja(
@@ -65,7 +65,7 @@ Change the locale on stage to see each one!¶/en
 					czastrwania: 5s
 					kolor: Kolor(0.5 100 180°)
 				)
-				Wyrażenie(
+				Fraza(
 					'♪'
 					spoczynkowy: Sekwencja(
 						{
@@ -84,7 +84,7 @@ Change the locale on stage to see each one!¶/en
 					czastrwania: 5s
 					kolor: Kolor(74% 100 292°)
 				)
-				Wyrażenie(
+				Fraza(
 					'♫'
 					spoczynkowy: Sekwencja(
 						{
@@ -113,7 +113,7 @@ Change the locale on stage to see each one!¶/en
 			[
 				¶हर बोल एक अक्षर रखता हैं मेरी नाम की। यह मुझे हर अक्षर को हिलाने देता हैं।
 				मैं आराम-वाले @Sequence का इस्तेमाल कर रही हूँ ताकी अक्षर मंच पर हिले।¶/hi
-				Wyrażenie(
+				Fraza(
 					'अ'/hi
 					twarz: 'Pacifico'
 					spoczynkowy: Sekwencja(
@@ -127,7 +127,7 @@ Change the locale on stage to see each one!¶/en
 						czastrwania: 2s
 					)
 				)
-				Wyrażenie(
+				Fraza(
 					'दि'/hi
 					spoczynkowy: Sekwencja(
 						{
@@ -140,7 +140,7 @@ Change the locale on stage to see each one!¶/en
 					czastrwania: 5s
 					kolor: Kolor(74% 100 292°)
 				)
-				Wyrażenie(
+				Fraza(
 					'ती'/hi
 					twarz: 'Aclonica'
 					spoczynkowy: Sekwencja(

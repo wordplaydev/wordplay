@@ -4,10 +4,10 @@ Si un @Row sirve para poner cosas lado a lado, entonces un @Stack sirve para pon
 @Stack pone cada carácter debajo del anterior, como una torre.
 
 \
-Group(Stack() [
-    Phrase('uno')
-    Phrase('dos')
-    Phrase('tres')
+Grupo(Pila() [
+    Frase('uno')
+    Frase('dos')
+    Frase('tres')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Stack() [
 Intenta alinear todo a lo largo del lado izquierdo:
 
 \
-Group(Stack('<' 0.25m) [
-    Phrase('🐣 pequeño')
-    Phrase('🐥 mediano')
-    Phrase('🐔 grande')
+Grupo(Pila('<' 0.25m) [
+    Frase('🐣 pequeño')
+    Frase('🐥 mediano')
+    Frase('🐔 grande')
 ])
 \
 

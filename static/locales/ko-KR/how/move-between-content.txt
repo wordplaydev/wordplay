@@ -13,14 +13,14 @@
 \
 slides: ['첫째' '둘째' '셋째']
 
-key: Key()
+key: 키()
 
 index•#: 1 … ∆ key …
-	(key = '오른쪽 화살표') ? ((index < slides.length()) ? index + 1 index)
+	(key = '오른쪽 화살표') ? ((index < slides.길이()) ? index + 1 index)
 		(key = '왼쪽 화살표') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+구절(slides[index])
 \
 
  The @Reaction 이 핵심입니다. 이것은 \1\ 에서 시작하고, @Key 가 바뀔 때마다 새 숫자가 무엇이 될지 정합니다.
@@ -38,15 +38,15 @@ Phrase(slides[index])
 
 \
 slides: [
-	Phrase('세 부분으로 된 이야기' 크기: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('고양이가 나타난다')])
-	Phrase('끝 🎉')
+	구절('세 부분으로 된 이야기' 크기: 3m)
+	그룹(스택() [구절('🐈') 구절('고양이가 나타난다')])
+	구절('끝 🎉')
 ]
 
-key: Key()
+key: 키()
 
 index•#: 1 … ∆ key …
-	(key = '오른쪽 화살표') ? ((index < slides.length()) ? index + 1 index)
+	(key = '오른쪽 화살표') ? ((index < slides.길이()) ? index + 1 index)
 		(key = '왼쪽 화살표') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 에게 @Scene/pause 를 주면 스스로 움직이지 않고, @Scene/step 를 주면 한 칸씩 양쪽으로 움직일 수 있습니다.
 
 \
-key: Key()
-Scene([
-		Phrase('세 부분으로 된 이야기' 크기: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('고양이가 나타난다')])
-		Phrase('끝 🎉')
+key: 키()
+장면([
+		구절('세 부분으로 된 이야기' 크기: 3m)
+		그룹(스택() [구절('🐈') 구절('고양이가 나타난다')])
+		구절('끝 🎉')
 	] 멈춤 단계: ∆ key ? ((key = '왼쪽 화살표') ? -1 (key = '오른쪽 화살표') ? 1 ø) ø)
 \
 

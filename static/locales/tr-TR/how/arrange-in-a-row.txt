@@ -4,10 +4,10 @@ Bazen metnin yan yana, düzenli bir sırada durmasını isteriz.
 Bunu bir @Row ile yapabiliriz. Bu, her şeyi soldan sağa bir @Group içinde düzenler.
 
 \
-Group(Row() [
-    Phrase('🍎')
-    Phrase('🍌')
-    Phrase('🍇')
+Grup(Sıra() [
+    Yazı('🍎')
+    Yazı('🍌')
+    Yazı('🍇')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Row() [
 İşte aynı meyve, ama alttan hizalanmış ve biraz boşluk bırakılmış:
 
 \
-Group(Row('>' 0.5m) [
-    Phrase('🍎' boyut: 2m)
-    Phrase('🍌' boyut: 1m)
-    Phrase('🍇' boyut: 3m)
+Grup(Sıra('>' 0.5m) [
+    Yazı('🍎' boyut: 2m)
+    Yazı('🍌' boyut: 1m)
+    Yazı('🍇' boyut: 3m)
 ])
 \
 

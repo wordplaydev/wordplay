@@ -153,7 +153,7 @@ spaltenErzeugen: [-4 -3 -2 2 3 4]
 				spiel3.x4
 				spiel3.z4
 			)) ? spiel3
-		((spiel3.y3:(spiel3.y3 + 1).Mindest(maxY)).hängen:haltetakte)
+		((spiel3.y3:(spiel3.y3 + 1).Minimum(maxY)).hängen:haltetakte)
 
 ¶Schlage auf alles, was vor dir ist. Nur das oberste Stück dieser Säule löst sich. Deshalb braucht ein Baum drei Schläge. So bleibt nie ein Stück in der Luft hängen, und nichts muss herunterfallen. Du kannst nur einen Block erreichen, der einen höher liegt als dein Standort. Eine Krone außer Reichweite löst sich also nicht. Steig höher und schlage noch einmal. Das lose Stück kullert eine Zelle weiter, weg von dir. Ist diese Zelle außerhalb des Feldes oder schon besetzt, fällt es dort herunter, wo es stand. Der Hammer holt aus, egal ob du triffst. Auch ein Fehlschlag zählt als Schlag.¶
 ƒ treffer(spiel4•spiel) (
@@ -317,7 +317,7 @@ spaltenErzeugen: [-4 -3 -2 2 3 4]
 		)
 	)
 
-schlüssel4: Schlüssel()
+schlüssel4: Tastaturtaste()
 tick: Zeit(150ms)
 tippen: Taste()
 
@@ -361,7 +361,7 @@ bodenreihen: [:0 ‥ 4].Filter(
 		ƒ(reihe•#) reihe ≥ (spiel11.z4 - dahinterZeichnen)
 	).übersetzen(
 		ƒ(reihe2•#)
-			Satzglied(
+			Phrase(
 				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
 				kachelgröße
 				Dauer: 0s
@@ -374,7 +374,7 @@ blockansichten: spiel11.blöcke.Filter(
 		ƒ(b8•block) b8.z2 ≥ (spiel11.z4 - dahinterZeichnen)
 	).übersetzen(
 		ƒ(b9•block)
-			Satzglied(
+			Phrase(
 				b9.typ
 				1m
 				Dauer: 0s
@@ -391,7 +391,7 @@ geisteransichten: unerfülltesZiel(
 		ƒ(g2•block) g2.z2 ≥ (spiel11.z4 - dahinterZeichnen)
 	).übersetzen(
 		ƒ(g3•block)
-			Satzglied(
+			Phrase(
 				g3.typ
 				1m
 				Dauer: 0s
@@ -406,7 +406,7 @@ objektansichten: spiel11.gegenstände.Filter(
 		ƒ(i6•gegenstand) i6.z3 ≥ (spiel11.z4 - dahinterZeichnen)
 	).übersetzen(
 		ƒ(i7•gegenstand)
-			Satzglied(
+			Phrase(
 				i7.typ2
 				0.6m
 				Dauer: 0.3s
@@ -422,7 +422,7 @@ objektansichten: spiel11.gegenstände.Filter(
 	)
 
 ¶Erst eine Dauer macht aus einem Schritt überhaupt eine Bewegung. Gibt es keine, baut die Bühne keine Animation für ihn, und jede Bewegung ist ein Sprung. Ein bisschen weniger als ein Takt bedeutet: Jeder Schritt und jeder Hüpfer kommt kurz vor dem nächsten zur Ruhe. Die Zeit, in der er in der Luft ist, funktioniert nach demselben Trick wie der ausgeholte Hammerschlag. Eine andere Haltung wird so lange gehalten, wie der Zustand dauert. Es gibt keine Animation, die man starten und stoppen muss.¶
-spieleransicht: Satzglied(
+spieleransicht: Phrase(
 		'🚶🏻‍♀'
 		1.1m
 		Dauer: 0.14s
@@ -447,7 +447,7 @@ inReichweite: (targetY - 1) ≤ (spiel11.y3 + reichweite)
 vorratHier: (spiel11.ausgewählt = '🪵') ? spiel11.holz spiel11.ziegel
 kannHandeln: gebäudeHier ? (vorratHier > 0) inReichweite
 
-cursoransicht: Satzglied(
+cursoransicht: Phrase(
 		(gebäudeHier ? '🔨' '🪏')
 		0.85m
 		Dauer: 0.12s
@@ -465,7 +465,7 @@ cursorliste: inGrenzen(zielX4 zielZ4) ? [cursoransicht] []
 
 ¶Taschen und aktuelles Material, flach an den Bildschirm geheftet, damit die Tiefe sie nie kleiner macht.¶
 statusanzeige: [
-		Satzglied(
+		Phrase(
 			"🪵 \spiel11.holz\   🧱 \spiel11.ziegel\   🔨 \spiel11.ausgewählt\"
 			0.5m
 			Ort: Ort(-6.6m 4.3m)
@@ -480,28 +480,28 @@ bildschirmansicht: [
 		Gruppe(
 			Stapel()
 			[
-				Satzglied(bildschirmtitel 1.1m Name: 's1')
-				Satzglied(
+				Phrase(bildschirmtitel 1.1m Name: 's1')
+				Phrase(
 					'Pfeiltasten: laufen · du schaust in deine Laufrichtung'
 					0.5m
 					Name: 's2'
 				)
-				Satzglied(
+				Phrase(
 					'Die Leertaste wirkt auf den Cursor: 🪏 baut ab · 🔨 baut auf'
 					0.5m
 					Name: 's3'
 				)
-				Satzglied(
+				Phrase(
 					'Umschalt wechselt 🪵 🧱 · j springt hoch, um etwas zu erreichen'
 					0.5m
 					Name: 's4'
 				)
-				Satzglied(
+				Phrase(
 					'Erreiche einen Block weiter oben · passe die verblassten Blöcke an'
 					0.5m
 					Name: 's5'
 				)
-				Satzglied(startzeile 0.7m Name: 's6')
+				Phrase(startzeile 0.7m Name: 's6')
 			]
 			Hintergrund: Farbe(90% 10 240°)
 		)

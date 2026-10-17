@@ -1460,7 +1460,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~… Pamiętasz, jak mówiłem ci, że mogą oceniać dowolną funkcję z nawiasami \\1.add(1)\\, ale także dwie funkcje wejściowe z operatorami infiksowymi \\1 + 1\\? Cóż, mają jeszcze jedną sztuczkę dla funkcji z tylko jednym wejściem: format unarny."
+                            "$~… Pamiętasz, jak mówiłem ci, że mogą oceniać dowolną funkcję z nawiasami \\1.dodać(1)\\, ale także dwie funkcje wejściowe z operatorami infiksowymi \\1 + 1\\? Cóż, mają jeszcze jedną sztuczkę dla funkcji z tylko jednym wejściem: format unarny."
                         ],
                         null,
                         [
@@ -2711,7 +2711,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Jest jeszcze jedno źródło danych wejściowych, które chcę ci pokazać. Pamiętasz \\[].random()\\ z wcześniej, od @List?",
+                            "$~Jest jeszcze jedno źródło danych wejściowych, które chcę ci pokazać. Pamiętasz \\[].losowy()\\ z wcześniej, od @List?",
                             "$~Wewnątrz używa @FunctionDefinition o nazwie @Random, która zapewnia nieskończoną sekwencję liczb losowych. To rodzaj strumienia, ponieważ generuje dane wejściowe z Twojego świata, a nie naszego. Ale trochę różni się od innych strumieni, ponieważ nie powoduje ponownej oceny @Program.",
                             "$~Zamiast tego, za każdym razem, gdy jest oceniany, zwraca inną liczbę losową.",
                             "$~Widzisz ten mały przycisk ↻ @UI/resetEvaluator na pasku narzędzi sceny (a także na osi czasu)? Naciśnij go, aby ręcznie ponownie uruchomić program, a za każdym razem zobaczysz nową liczbę między \\0\\ a \\1\\."
@@ -2730,7 +2730,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Losowość może być taka zabawna! Możemy jej używać ze strumieniami, aby stworzyć zabawny chaos. Na przykład tutaj wybieramy losowe słowo z listy słów. To samo co \\['kitty' 'cat' 'feline'].random()\\. Naciskaj ↻, aby uzyskać inny synonim słowa cat! Spróbuj dodać własne słowo do listy i zobacz, czy uda Ci się je wyświetlić."
+                            "$~Losowość może być taka zabawna! Możemy jej używać ze strumieniami, aby stworzyć zabawny chaos. Na przykład tutaj wybieramy losowe słowo z listy słów. To samo co \\['kitty' 'cat' 'feline'].losowy()\\. Naciskaj ↻, aby uzyskać inny synonim słowa cat! Spróbuj dodać własne słowo do listy i zobacz, czy uda Ci się je wyświetlić."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         { "edit": "['kitty' 'cat' 'feline'][Random(1 3)]" }
@@ -3426,7 +3426,7 @@
                             "sad",
                             "$~O rany, o rany, o rany, NIE MOGĘ uwierzyć, że zapomniałem o kolorze. Dobrze, więc każdy @Pose może mieć kolor, prawda? Ale @Color składa się z trzech części. Najpierw @Color.lightness między 0 a 100%, który możesz sobie wyobrazić jako to, jak jasny jest pokój, od czarnego do białego, z kolorem pośrodku przy 50%.",
                             "$~Następnie @Color.chroma pomiędzy 0 a ∞, co oznacza, że jest tam dużo koloru – od braku szarości do pełnego koloru.",
-                            "$~I na koniec @Color.hue, który możesz sobie wyobrazić jako koło kolorów, od czerwonego do zielonego i niebieskiego w stopniach. Więc chcesz, żebym był jasnoczerwony? Ustaw kolor mojej pozy odpoczynku na \\Color(50% 300 30°)\\."
+                            "$~I na koniec @Color.hue, który możesz sobie wyobrazić jako koło kolorów, od czerwonego do zielonego i niebieskiego w stopniach. Więc chcesz, żebym był jasnoczerwony? Ustaw kolor mojej pozy odpoczynku na \\Kolor(50% 300 30°)\\."
                         ],
                         { "edit": "Phrase('red' color: 🌈(50% 300 30°))" },
                         null,
@@ -3806,7 +3806,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~A jeśli chcesz bardzo konkretnego układu? Możesz użyć @Free i powiedzieć mi dokładnie, gdzie chcesz wszystkie frazy. Upewnij się tylko, że podasz miejsce każdej @Phrase, w przeciwnym razie po prostu umieszczę ją w \\Place(0m 0m)\\."
+                            "$~A jeśli chcesz bardzo konkretnego układu? Możesz użyć @Free i powiedzieć mi dokładnie, gdzie chcesz wszystkie frazy. Upewnij się tylko, że podasz miejsce każdej @Phrase, w przeciwnym razie po prostu umieszczę ją w \\Miejsce(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -4620,7 +4620,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Wiesz, @Bind współpracuje z wieloma innymi znakami, w tym @Evaluate — widziałeś je, gdy nazywałeś dane wejściowe @FunctionDefinition, jak w \\Pose(kolor: _)\\ — i poznamy kilka z tych innych osób. @Bind, będziesz w pobliżu, żeby pokazać demonstrację?"
+                            "$~Wiesz, @Bind współpracuje z wieloma innymi znakami, w tym @Evaluate — widziałeś je, gdy nazywałeś dane wejściowe @FunctionDefinition, jak w \\Poza(kolor: _)\\ — i poznamy kilka z tych innych osób. @Bind, będziesz w pobliżu, żeby pokazać demonstrację?"
                         ],
                         [
                             "Bind",

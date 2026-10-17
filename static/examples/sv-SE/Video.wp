@@ -23,17 +23,17 @@ rutor: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦
 ¶Hur en bildpunkt ser ut i den aktuella stilen. En bildpunkt med nästan ingen färg har ingen kulör värd att visa, så den faller tillbaka på en ljus eller mörk ruta.¶
 ƒ symbol(färg2•Färg)
 	(stil2 = 'ascii') ?
-		"\skala2[((färg2.lätthet × 9).runda()) + 1]\"
+		"\skala2[((färg2.ljushet × 9).avrunda()) + 1]\"
 		((stil2 = 'emoji') ?
 				((färg2.chroma < 8) ?
-						((färg2.lätthet < 50%) ? "⬛" "⬜")
-						"\rutor[(((färg2.nyans ÷ 1°) ÷ 15).rundaner()) + 1]\")
+						((färg2.ljushet < 50%) ? "⬛" "⬜")
+						"\rutor[(((färg2.nyans ÷ 1°) ÷ 15).avrundaNedåt()) + 1]\")
 				'a')
 
 ¶Bilden. En @Image ritar hela rutnätet som ett enda utdata, så en bildruta kostar en bild istället för en fras per bildpunkt — vilket vid 32 gånger 24 var 768 stycken, ombyggda trettio gånger i sekunden. /flipx/ speglar den så att den läses som en spegel gör.
 
 Stilen /letters/ låter varje tecken behålla färgen på rutan det står för, vilket är vad en @Image gör utan någon egen färg. De andra två ger den en färg, eftersom en bokstav bara läses som skuggning när dess färg inte säger något, och en färgad ruta som emoji redan har sin egen.¶
-bild: Image(
+bild: Bild(
 		färger
 		"camera video drawn with \stil2\"
 		16m
@@ -63,7 +63,7 @@ knappar: Grupp(
 	)
 
 ¶Knapparna ligger i scenens överlägg, som är fast fäst mot skärmen: de behåller samma storlek och plats oavsett hur bilden är beskuren, och bilden beskärs som om de inte fanns där.¶
-Etapp(
+Estrad(
 	[bild]
 	beskrivning: "camera video drawn with \stil2\"
 	överlagring: [knappar]

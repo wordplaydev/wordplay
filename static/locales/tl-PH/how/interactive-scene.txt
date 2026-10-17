@@ -5,14 +5,14 @@ Minsan, gusto nating magkuwento na naghihintay sa manonood na gumawa ng isang ba
 Para gawin ito, maaari tayong gumamit ng @Scene, pero ilagay ang @Boolean na mga halaga sa pagitan ng nilalamang gusto nating ipakita. Halimbawa, narito ang isang click na magpapatuloy sa bawat susunod na nilalaman, gamit ang @Button:
 
 \
-Scene([
-		Phrase('i-click ako')
-		Button()
-		Phrase('i-click ako ulit' tagal: 1s)
-		Button()
-		Phrase('seryoso, i-click ako nang lubusan!!' tagal: 1s)
-		Button()
-		Phrase('na-click mo na ba ako?' tagal: 1s)
+Eksena([
+		Parirala('i-click ako')
+		Pindutan()
+		Parirala('i-click ako ulit' tagal: 1s)
+		Pindutan()
+		Parirala('seryoso, i-click ako nang lubusan!!' tagal: 1s)
+		Pindutan()
+		Parirala('na-click mo na ba ako?' tagal: 1s)
 	])
 \
 
@@ -23,26 +23,26 @@ Halimbawa, puwede nating gamitin ang ating boses!
 Kung sisigaw tayo nang malakas, magpapatuloy ang eksena:
 
 \
-Scene([
-		Phrase('may tao ba diyan?')
-		Volume() > .5
-		Phrase("hindi kita marinig, ulitin mo?" tagal: 1s)
-		Volume() > .7
-		Phrase('lakasan pa please...' tagal: 1s)
-		Volume() > .9
-		Phrase('ay, hi!' tagal: 1s)
+Eksena([
+		Parirala('may tao ba diyan?')
+		Lakas() > .5
+		Parirala("hindi kita marinig, ulitin mo?" tagal: 1s)
+		Lakas() > .7
+		Parirala('lakasan pa please...' tagal: 1s)
+		Lakas() > .9
+		Parirala('ay, hi!' tagal: 1s)
 	])
 \
 
  Kapag ang bawat @Phrase ay dapat maghintay para sa parehong bagay, @Scene/until ay isinasabi ito nang minsan sa halip na isulat ito sa pagitan ng bawat isa. Ginagawa nito ang parehong bagay tulad ng unang halimbawa sa itaas:
 
 \
-Scene([
-		Phrase('i-click ako')
-		Phrase('i-click ako ulit' tagal: 1s)
-		Phrase('seryoso, i-click ako nang lubusan!!' tagal: 1s)
-		Phrase('na-click mo na ba ako?' tagal: 1s)
-	] hanggang: Button())
+Eksena([
+		Parirala('i-click ako')
+		Parirala('i-click ako ulit' tagal: 1s)
+		Parirala('seryoso, i-click ako nang lubusan!!' tagal: 1s)
+		Parirala('na-click mo na ba ako?' tagal: 1s)
+	] hanggang: Pindutan())
 \
 
  Sumulat ng @Boolean sa listahan kapag ang mga paghihintay ay / magkaiba /, tulad ng sa halimbawang pagsigaw, at gamitin ang @Scene/until kapag pareho silang lahat.
@@ -53,11 +53,11 @@ Tandaan: naghihintay ang @Scene/until  / pagkatapos / na may sariling @Phrase an
 Kung gusto mong hindi kailanman kusang gumalaw ang @Scene , at pumunta lang kung saan mo ito ipinadala, gamitin ang @Scene/pause na may @Scene/step:
 
 \
-key: Key()
-Scene([
-		Phrase('isa')
-		Phrase('dalawa')
-		Phrase('tatlo')
+key: Susi()
+Eksena([
+		Parirala('isa')
+		Parirala('dalawa')
+		Parirala('tatlo')
 	] iPause hakbang: ∆ key ? ((key = 'Palaso Kaliwa') ? -1 (key = 'PalasoKanan') ? 1 ø) ø)
 \
 

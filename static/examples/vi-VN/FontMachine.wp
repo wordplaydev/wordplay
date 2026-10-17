@@ -14,7 +14,7 @@ phôngChữ: [
 kýHiệu: 'typography'/en'tipografía'/es ÷ ''
 
 ƒ ngẫuNhiênHóa()
-	kýHiệu.dịch(
+	kýHiệu.biếnĐổi(
 		ƒ(kýHiệu2) Cụmtừ(
 				kýHiệu2
 				khuônmặt: phôngChữ.ngẫunhiên()
@@ -22,7 +22,7 @@ kýHiệu: 'typography'/en'tipografía'/es ÷ ''
 			)
 	)
 
-cụmTừ: ngẫuNhiênHóa() … ∆ Chìakhóa() | ∆ Cáinút() … ngẫuNhiênHóa(
+cụmTừ: ngẫuNhiênHóa() … ∆ Phím() | ∆ Cáinút() … ngẫuNhiênHóa(
 		)
 
 Sânkhấu([Nhóm(Hàngngang('|' 0m) cụmTừ vịTrí: VịTrí(0m 0m))])

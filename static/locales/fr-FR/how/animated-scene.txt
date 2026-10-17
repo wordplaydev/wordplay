@@ -7,7 +7,7 @@ Par exemple, imaginons que nous voulions animer la courte comptine "Jack be Nimb
 Nous pourrions créer un @Scene qui a chaque ligne comme @Phrase, et en réglant le @Phrase/duration de chaque ligne, le @Scene avancerait quand chaque phrase est terminée.
 
 \
-Scene([
+Diaporama([
   Phrase('Jack be nimble' durée: 1s)
   Phrase('Jack be quick' durée: 1s)
   Phrase('Jack jump over the candle stick' durée: 1s)
@@ -17,29 +17,29 @@ Scene([
 @Scene attendra aussi qu'un @Sequence soit terminé. Faisons sauter la ligne de la bougie !
 
 \
-Scene([
+Diaporama([
 		Phrase('Jack be nimble' durée: 1s)
 		Phrase('Jack be quick' durée: 1s)
-		Phrase('Jack jump over the candle stick' entrer: Sequence.bounce(durée: 1s))
+		Phrase('Jack jump over the candle stick' entrer: Séquence.rebond(durée: 1s))
 	])
 \
 
 @Scene peut aussi prendre une @Group de texte, et il attendra que tout son contenu finisse son animation.
 
 \
-Scene([
-		Group(Stack() [
+Diaporama([
+		Groupe(Pile() [
       Phrase('Jack be nimble')
 		  Phrase('Jack be quick')
     ] durée: 2s)
-		Phrase('Jack jump over the candle stick' entrer: Sequence.bounce(durée: 1s))
+		Phrase('Jack jump over the candle stick' entrer: Séquence.rebond(durée: 1s))
 	])
 \
 
  Parfois, une comptine doit continuer. @Scene/loop ramène le @Scene à son premier @Phrase une fois le dernier terminé, pour qu'il se répète sans arrêt.
 
 \
-Scene([
+Diaporama([
 		Phrase('Jack be nimble' durée: 1s)
 		Phrase('Jack be quick' durée: 1s)
 		Phrase('Jack jump over the candle stick' durée: 1s)

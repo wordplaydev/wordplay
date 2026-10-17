@@ -6,7 +6,7 @@ Lipsă în cod
 ↓ fields
 
 ¶Funcția fill face o singură bară plină. Ea repetă emoji-ul femeii de count ori și le unește într-un singur text fără goluri, așa că rândul arată ca o bară continuă, nu ca puncte separate.¶
-ƒ umplere(numărare2•#) (numărare2 → []).traduce(ƒ() '👩').alăturăte(
+ƒ umplere(numărare2•#) (numărare2 → []).transformă(ƒ() '👩').unește(
 		''
 	)
 
@@ -14,7 +14,7 @@ Lipsă în cod
 ƒ grafic(etichete•[''] unități•[#] valori•[''])
 	Grup(
 		Stivă('<' umplutură: 0.2m)
-		unități.traduce(
+		unități.transformă(
 			ƒ(u•# i•#)
 				Grup(
 					Rând('|' umplutură: 0.3m)
@@ -33,23 +33,23 @@ Lipsă în cod
 ¶Vederea 1 — „Creșterea și declinul”. Pentru fiecare an din date desenăm o bară a cărei lungime este procentul de diplome în informatică obținute de femei. Fiecare emoji cu femeie reprezintă aproximativ 5 procente, așa că împărțim procentul la 5 pentru a obține lungimea barei.¶
 rânduriTimp: (years ⎡?an2 procent⎦ ⊤) → []
 vizualizareTimp: grafic(
-		rânduriTimp.traduce(ƒ(rând) rând.an2)
-		rânduriTimp.traduce(
-			ƒ(rând2) (rând2.procent ÷ 5).rundă()
+		rânduriTimp.transformă(ƒ(rând) rând.an2)
+		rânduriTimp.transformă(
+			ƒ(rând2) (rând2.procent ÷ 5).rotunjește()
 		)
-		rânduriTimp.traduce(
-			ƒ(rând3) (rând3.procent.rundă() → '') + '%'
+		rânduriTimp.transformă(
+			ƒ(rând3) (rând3.procent.rotunjește() → '') + '%'
 		)
 	)
 
 ¶Vederea 2 — „Un domeniu ieșit din ritm”. Comparăm proporția femeilor în diferite domenii de studiu într-un an recent. Rândurile sunt deja ordonate de la cel mai mare procent de femei la cel mai mic, astfel informatica ajunge la baza diagramei.¶
 rânduriDomenii: (fields ⎡?câmp procent2⎦ ⊤) → []
 vizualizareDomenii: grafic(
-		rânduriDomenii.traduce(ƒ(rând4) rând4.câmp)
-		rânduriDomenii.traduce(
-			ƒ(rând5) (rând5.procent2 ÷ 5).rundă()
+		rânduriDomenii.transformă(ƒ(rând4) rând4.câmp)
+		rânduriDomenii.transformă(
+			ƒ(rând5) (rând5.procent2 ÷ 5).rotunjește()
 		)
-		rânduriDomenii.traduce(
+		rânduriDomenii.transformă(
 			ƒ(rând6) (rând6.procent2 → '') + '%'
 		)
 	)
@@ -62,20 +62,20 @@ acum: rânduriNumărare[2]
 graficFemei: grafic(
 		['1984' '2022']
 		[
-			(vechi.femei ÷ 2000).rundă()
-			(acum.femei ÷ 2000).rundă()
+			(vechi.femei ÷ 2000).rotunjește()
+			(acum.femei ÷ 2000).rotunjește()
 		]
 		[vechi.femei → '' acum.femei → '']
 	)
 graficCotă: grafic(
 		['1984' '2022']
 		[
-			(vechi.procent ÷ 5).rundă()
-			(acum.procent ÷ 5).rundă()
+			(vechi.procent ÷ 5).rotunjește()
+			(acum.procent ÷ 5).rotunjește()
 		]
 		[
-			(vechi.procent.rundă() → '') + '%'
-			(acum.procent.rundă() → '') + '%'
+			(vechi.procent.rotunjește() → '') + '%'
+			(acum.procent.rotunjește() → '') + '%'
 		]
 	)
 vizualizareNumărători: Grup(
@@ -157,7 +157,7 @@ subsol:
 				dimensiune: 0.26m
 			)
 
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă('|' umplutură: 0.4m)

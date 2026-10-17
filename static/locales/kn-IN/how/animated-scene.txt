@@ -7,42 +7,42 @@
 ನಾವು ಒಂದು @Scene ಅನ್ನು ಮಾಡಬಹುದು, ಅದರಲ್ಲಿ ಪ್ರತಿ ಸಾಲೂ ಒಂದು @Phrase ಆಗಿರುತ್ತದೆ, ಮತ್ತು ಪ್ರತಿ ಸಾಲಿನ @Phrase/duration ಅನ್ನು ಸೆಟ್ ಮಾಡುವ ಮೂಲಕ, @Scene ಪ್ರತಿ ಪದಗುಚ್ಛ ಮುಗಿದಾಗ ಮುಂದೆ ಸಾಗುತ್ತದೆ.
 
 \
-Scene([
-  Phrase('Jack be nimble' ಅವಧಿ: 1s)
-  Phrase('Jack be quick' ಅವಧಿ: 1s)
-  Phrase('Jack jump over the candle stick' ಅವಧಿ: 1s)
+ದೃಶ್ಯ([
+  ನುಡಿಗಟ್ಟು('Jack be nimble' ಅವಧಿ: 1s)
+  ನುಡಿಗಟ್ಟು('Jack be quick' ಅವಧಿ: 1s)
+  ನುಡಿಗಟ್ಟು('Jack jump over the candle stick' ಅವಧಿ: 1s)
 ])
 \
 
 @Scene ಒಂದು @Sequence ಮುಗಿಯುವ ತನಕ ಕೂಡ ಕಾಯುತ್ತದೆ. ಮೇಣಬತ್ತಿಯ ಸಾಲನ್ನು ಜಿಗಿಯುವಂತೆ ಮಾಡೋಣ!
 
 \
-Scene([
-		Phrase('Jack be nimble' ಅವಧಿ: 1s)
-		Phrase('Jack be quick' ಅವಧಿ: 1s)
-		Phrase('Jack jump over the candle stick' ಪ್ರವೇಶಿಸುವುದು: Sequence.bounce(ಅವಧಿ: 1s))
+ದೃಶ್ಯ([
+		ನುಡಿಗಟ್ಟು('Jack be nimble' ಅವಧಿ: 1s)
+		ನುಡಿಗಟ್ಟು('Jack be quick' ಅವಧಿ: 1s)
+		ನುಡಿಗಟ್ಟು('Jack jump over the candle stick' ಪ್ರವೇಶಿಸುವುದು: ಅನುಕ್ರಮ.ಪುಟಿಯುವುದು(ಅವಧಿ: 1s))
 	])
 \
 
 @Scene ಪಠ್ಯದ ಒಂದು @Group ಅನ್ನು ಸಹ ತೆಗೆದುಕೊಳ್ಳಬಹುದು, ಮತ್ತು ಅದು ತನ್ನ ಎಲ್ಲಾ ವಿಷಯದ ಚಲನೆ ಮುಗಿಯುವ ತನಕ ಕಾಯುತ್ತದೆ.
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack be nimble')
-		  Phrase('Jack be quick')
+ದೃಶ್ಯ([
+		ಗುಂಪು(ಸ್ಟ್ಯಾಕ್() [
+      ನುಡಿಗಟ್ಟು('Jack be nimble')
+		  ನುಡಿಗಟ್ಟು('Jack be quick')
     ] ಅವಧಿ: 2s)
-		Phrase('Jack jump over the candle stick' ಪ್ರವೇಶಿಸುವುದು: Sequence.bounce(ಅವಧಿ: 1s))
+		ನುಡಿಗಟ್ಟು('Jack jump over the candle stick' ಪ್ರವೇಶಿಸುವುದು: ಅನುಕ್ರಮ.ಪುಟಿಯುವುದು(ಅವಧಿ: 1s))
 	])
 \
 
  ಕೆಲವೊಮ್ಮೆ ಒಂದು ಪದ್ಯ ಮುಂದುವರೆಯುತ್ತಲೇ ಇರಬೇಕು. @Scene/loop  @Scene ಅನ್ನು ಕೊನೆಯದು ಮುಗಿದ ನಂತರ ಅದರ ಮೊದಲ @Phrase ಗೆ ಮತ್ತೆ ತರುತ್ತದೆ, ಆದ್ದರಿಂದ ಅದು ಮತ್ತೆ ಮತ್ತೆ ತನ್ನನ್ನೇ ಹೇಳುತ್ತಿರುತ್ತದೆ.
 
 \
-Scene([
-		Phrase('Jack be nimble' ಅವಧಿ: 1s)
-		Phrase('Jack be quick' ಅವಧಿ: 1s)
-		Phrase('Jack jump over the candle stick' ಅವಧಿ: 1s)
+ದೃಶ್ಯ([
+		ನುಡಿಗಟ್ಟು('Jack be nimble' ಅವಧಿ: 1s)
+		ನುಡಿಗಟ್ಟು('Jack be quick' ಅವಧಿ: 1s)
+		ನುಡಿಗಟ್ಟು('Jack jump over the candle stick' ಅವಧಿ: 1s)
 	] ಪುನರಾವರ್ತನೆಸುರುಳಿ: ⊤)
 \
 

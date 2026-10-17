@@ -21,12 +21,12 @@ licznik: punkty2.długość()
 głowa: 0 … ∆ Czas(10ms) … ((głowa + 1) % licznik) ?? 0
 
 Scena(
-	punkty2.tłumaczyć(
+	punkty2.przekształć(
 		ƒ(punkt2•Miejsce indeks2•#)
 			(
 				¶O ile punktów za głową znajduje się ten punkt, licząc w kółko dookoła.¶
 				wiek: ((((głowa - indeks2) + 1) + licznik) % licznik) ?? 0
-				Wyrażenie(
+				Fraza(
 					"•"
 					rozmiar: 1m
 					miejsce: punkt2

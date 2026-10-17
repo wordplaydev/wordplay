@@ -70,7 +70,7 @@ letra: 'la li lu le lo li la'
 Os botões ficam numa Grid em vez de numa Row. Todos numa única linha ficariam mais largos do que um telemóvel, e um Stage reduz o seu conteúdo para caber, por isso as etiquetas encolheriam até deixarem de se conseguir ler. Só as colunas são indicadas: deixando as linhas de fora, a Grid calcula quantas precisa, por isso acrescentar um instrumento não obriga a editar isto.
 
 A música mantém um único nome durante todo o tempo, em vez de usar o do instrumento. O nome de um 🎼 é a sua identidade: se o mudar, o leitor ouve uma peça diferente a começar, por isso a melodia voltaria ao início a cada troca, e a partitura desenharia as notas do instrumento antigo ao lado do novo até desaparecerem do ecrã.¶
-Fase(
+Palco(
 	[
 		Grupo(
 			Monte(preenchimento: 0.6m)
@@ -78,7 +78,7 @@ Fase(
 				Frase(atual.ícone 2.5m)
 				Frase(atual.etiqueta 1.2m)
 				Grupo(
-					Rede(colunas: 5 acolchoamento: 0.4m)
+					Grelha(colunas: 5 acolchoamento: 0.4m)
 					vozes.traduzir(ƒ(voz5•voz2) botão(voz5))
 				)
 			]

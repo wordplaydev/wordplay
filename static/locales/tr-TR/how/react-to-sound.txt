@@ -5,7 +5,7 @@ Projenizin sizi dinleyebileceğini biliyor muydunuz? @Volume stream Mikrofonunuz
 Bu sayıyı her şeyi kontrol etmek için kullanabiliriz — bir şeyin boyutunu bile. @Phrase Dönüşü, rengi.
 
 \
-Phrase('📣' boyut: (Volume() × 5m) + 1m)
+Yazı('📣' boyut: (SesSeviyesi() × 5m) + 1m)
 \
 
  Ortam sessiz olduğunda, megafon devreye girer. \1m\ uzun. Bağırdığınızda, boyu uzayabilir. \6m\ uzun.
@@ -13,7 +13,7 @@ Phrase('📣' boyut: (Volume() × 5m) + 1m)
 Ne kadar yüksek sesle konuşursanız, o kadar hızlı dönen bir güneş mi istiyorsunuz?
 
 \
-Phrase('🌞' rotasyon: Volume() × 360°)
+Yazı('🌞' rotasyon: SesSeviyesi() × 360°)
 \
 
  Alkış tutmayı veya mırıldanmayı dene, sonra ne olduğuna bak.

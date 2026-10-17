@@ -8,8 +8,8 @@ Escribe la condición, luego un \?\, luego el valor que se usa cuando es verdade
 Aquí tienes una carita feliz que se vuelve triste cada vez que pulsas la barra espaciadora, y luego vuelve a su estado original:
 
 \
-happy: ⊤ … ∆ Key(' ') … ~happy
-Phrase(happy ? '😊' '😢')
+happy: ⊤ … ∆ Tecla(' ') … ~happy
+Frase(happy ? '😊' '😢')
 \
 
  El @Reaction comienza \happy\ como \⊤\ (verdadero), y lo invierte con \~\ cada vez que se presiona la barra espaciadora.
@@ -18,8 +18,8 @@ Luego el condicional \?\ elige la cara correcta.
 Puedes encadenar condicionales para elegir entre más de dos cosas:
 
 \
-score: 0 … ∆ Key('a') … score + 1
-Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+score: 0 … ∆ Tecla('a') … score + 1
+Frase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
 \
 
  Prensa \a\ ¡Repítelo varias veces y observa cómo el huevo eclosiona y nace un pollito!

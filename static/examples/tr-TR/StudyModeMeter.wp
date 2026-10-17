@@ -39,22 +39,22 @@ Sahne(
 		Grup(
 			Yığın()
 			[
-				İfadeetmek('Çalışma Modu Ölçeği' boyut: 0.5m)
+				Yazı('Çalışma Modu Ölçeği' boyut: 0.5m)
 
 				¶This Phrase shows the explanation on the screen.¶/en
-				İfadeetmek(açıklama2 boyut: 0.4m)
+				Yazı(açıklama2 boyut: 0.4m)
 
 				¶This Phrase shows the current number of study hours.¶/en
-				İfadeetmek(saatMetni boyut: 0.4m)
+				Yazı(saatMetni boyut: 0.4m)
 
-				İfadeetmek(ruhHali boyut: 0.75m)
+				Yazı(ruhHali boyut: 0.75m)
 
 				Grup(
 					Sıra(dolgu: 3m)
 					[
 						¶This selectable Phrase lets the user add one study hour.
 						Its name is add, so selecting it updates the action choice.¶/en
-						İfadeetmek(
+						Yazı(
 							'Çalışma Saati Ekle +1'
 							seçilebilir
 							isim: 'ekle'
@@ -63,7 +63,7 @@ Sahne(
 
 						¶This selectable Phrase lets the user reset the tracker.
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
-						İfadeetmek(
+						Yazı(
 							'Sıfırla'
 							seçilebilir
 							isim: 'reset'

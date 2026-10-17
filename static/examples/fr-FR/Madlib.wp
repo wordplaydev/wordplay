@@ -33,7 +33,7 @@ Scène(
 		¶Avant d'avoir les réponses, demander des réponses¶
 		demander ?
 			Groupe(
-				Empiler('|' 0.25m)
+				Pile('|' 0.25m)
 				[
 					Phrase(
 						`\tours[tour2].compte2\ \tours[tour2].étiquette\ s'il te plaît !`
@@ -57,8 +57,8 @@ Scène(
 					]
 				¶Traduis-les en phrases¶
 				Groupe(
-					Empiler('<')
-					phrases2.traduire(ƒ(phrase3) Phrase(phrase3))
+					Pile('<')
+					phrases2.transformer(ƒ(phrase3) Phrase(phrase3))
 				)
 			)
 	]

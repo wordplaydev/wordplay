@@ -7,7 +7,7 @@ Możemy to zrobić za pomocą wejścia @Pointer .
 Jeśli użyjemy tej @Place jako @Phrase'a \place\, postać pójdzie tam, gdzie wskażemy.
 
 \
-Stage([Phrase('🐈' miejsce: Pointer())] miejsce: Place(0m 0m -10m))
+Scena([Fraza('🐈' miejsce: Wskaźnik())] miejsce: Miejsce(0m 0m -10m))
 \
 
  To wszystko! Poruszaj myszką lub przeciągaj palcem, a kot będzie podążał za tobą.
@@ -16,7 +16,7 @@ Możesz zrobić coś ciekawszego, wyciągając \x\ i \y\ z @Place.
 Oto kaczka, która zawsze unosi się metr nad wskaźnikiem:
 
 \
-Stage([Phrase('🦆' miejsce: Place(Pointer().x Pointer().y + 1m))] miejsce: Place(0m 0m -10m))
+Scena([Fraza('🦆' miejsce: Miejsce(Wskaźnik().X Wskaźnik().y + 1m))] miejsce: Miejsce(0m 0m -10m))
 \
 
 move-phrase, count-with-time

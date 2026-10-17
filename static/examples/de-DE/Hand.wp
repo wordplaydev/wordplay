@@ -7,7 +7,7 @@ hand2: Hand()
 
 Bühne(
 	[
-		Satzglied(
+		Phrase(
 			(hand2.Finger = 0 ? '✊'
 					hand2.Finger = 1 ? '☝'
 						hand2.Finger = 2 ? '✌'
@@ -21,11 +21,11 @@ Bühne(
 		Gruppe(
 			Reihe('<')
 			[
-				Satzglied('1⃣' Versatz: Ort(0m hand2.Daumen ? 1m 0m))
-				Satzglied('2⃣' Versatz: Ort(0m hand2.Index ? 1m 0m))
-				Satzglied('3⃣' Versatz: Ort(0m hand2.Mitte ? 1m 0m))
-				Satzglied('4⃣' Versatz: Ort(0m hand2.Ring ? 1m 0m))
-				Satzglied(
+				Phrase('1⃣' Versatz: Ort(0m hand2.Daumen ? 1m 0m))
+				Phrase('2⃣' Versatz: Ort(0m hand2.Index ? 1m 0m))
+				Phrase('3⃣' Versatz: Ort(0m hand2.Mitte ? 1m 0m))
+				Phrase('4⃣' Versatz: Ort(0m hand2.Ring ? 1m 0m))
+				Phrase(
 					'5⃣'
 					Versatz: Ort(0m hand2.kleinerFinger ? 1m 0m)
 				)
@@ -35,15 +35,15 @@ Bühne(
 		Gruppe(
 			Stapel('|')
 			[
-				Satzglied((hand2.Palme ? '🤚' '🤛') Größe: 2m)
-				Satzglied(
+				Phrase((hand2.Palme ? '🤚' '🤛') Größe: 2m)
+				Phrase(
 					(hand2.offen ? 'offen' 'geschlossen')
 					Größe: 1.5m
 				)
 			]
 			Ort: Ort(-2m -8m)
 		)
-		Satzglied(
+		Phrase(
 			`/Zeige der Kamera deine Hand/`
 			Ort: Ort(-6m -10m)
 			Größe: 1m

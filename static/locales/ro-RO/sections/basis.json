@@ -127,8 +127,8 @@
                 "length": {
                     "doc": [
                         "$~Evaluez în funcție de numărul de caractere lizibile din text; o literă este un caracter, un emoji este un caracter etc. De exemplu:",
-                        "\\'hello'.length()\\",
-                        "\\'🐈📚'.length()\\"
+                        "\\'hello'.lungime()\\",
+                        "\\'🐈📚'.lungime()\\"
                     ],
                     "names": ["$~lungime"],
                     "inputs": []
@@ -156,7 +156,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ dacă @Text-ul dat apare în mine.",
-                        "\\'Ai găsit ce căutai?'.has('tu')\\"
+                        "\\'Ai găsit ce căutai?'.are('tu')\\"
                     ],
                     "names": ["$~are"],
                     "inputs": [
@@ -169,8 +169,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\ dacă încep cu @Text-ul dat.",
-                        "\\'salut verset!'.starts('salut')\\",
-                        "\\'salut verset!'.starts('vers')\\"
+                        "\\'salut verset!'.începe('salut')\\",
+                        "\\'salut verset!'.începe('vers')\\"
                     ],
                     "names": ["$~începe"],
                     "inputs": [
@@ -183,8 +183,8 @@
                 "ends": {
                     "doc": [
                         "$~\\⊤\\ dacă termin cu @Text-ul dat.",
-                        "\\'Sunt o întrebare?'.ends('?')\\",
-                        "\\'Nu sunt o întrebare.'.ends('?')\\"
+                        "\\'Sunt o întrebare?'.setermină('?')\\",
+                        "\\'Nu sunt o întrebare.'.setermină('?')\\"
                     ],
                     "names": ["$~setermină"],
                     "inputs": [
@@ -485,7 +485,7 @@
                 "positive": {
                     "doc": [
                         "$~Creez un nou @Number care mă face pozitiv, dacă este negativ.",
-                        "\\-200.positive()\\"
+                        "\\-200.pozitiv()\\"
                     ],
                     "names": ["$~pozitiv"],
                     "inputs": []
@@ -493,19 +493,19 @@
                 "round": {
                     "doc": [
                         "$~Creez un nou @Number care mă rotunjește la cel mai apropiat număr întreg.",
-                        "\\9.4.round()\\",
-                        "\\9.5.round()\\",
-                        "\\9.6.round()\\"
+                        "\\9.4.rotunjește()\\",
+                        "\\9.5.rotunjește()\\",
+                        "\\9.6.rotunjește()\\"
                     ],
-                    "names": ["$~rundă"],
+                    "names": ["$~rotunjește", "$~rundă"],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": [
                         "$~Creez un nou @Number care rotunjește la cel mai mic număr întreg mai mic decât mine.",
-                        "\\10.5.roundDown()\\",
-                        "\\10.1.roundDown()\\",
-                        "\\10.01.roundDown()\\"
+                        "\\10.5.rotunjireînjos()\\",
+                        "\\10.1.rotunjireînjos()\\",
+                        "\\10.01.rotunjireînjos()\\"
                     ],
                     "names": ["$~rotunjireînjos"],
                     "inputs": []
@@ -513,11 +513,11 @@
                 "roundUp": {
                     "doc": [
                         "$~Creez un nou @Number care rotunjește la cel mai mic număr întreg mai mare decât mine.",
-                        "\\10.5.roundUp()\\",
-                        "\\10.9.roundUp()\\",
-                        "\\10.99.roundUp()\\"
+                        "\\10.5.rotunjireînsus()\\",
+                        "\\10.9.rotunjireînsus()\\",
+                        "\\10.99.rotunjireînsus()\\"
                     ],
-                    "names": ["$~ridica"],
+                    "names": ["$~rotunjireînsus", "$~ridica"],
                     "inputs": []
                 },
                 "power": {
@@ -636,12 +636,12 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["$~Calculați cosinusul meu.", "\\π.cos()\\"],
+                    "doc": ["$~Calculați cosinusul meu.", "\\π.cosinus()\\"],
                     "names": ["$~cosinus"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~Calculați sinusul meu.", "\\π.cos()\\"],
+                    "doc": ["$~Calculați sinusul meu.", "\\π.cosinus()\\"],
                     "names": ["$~păcat", "$~sinus"],
                     "inputs": []
                 },
@@ -661,7 +661,7 @@
                 "max": {
                     "doc": [
                         "$~Găsește cel mai mare număr dintre mine și alții.",
-                        "\\1.max(2 3 4)\\"
+                        "\\1.maxim(2 3 4)\\"
                     ],
                     "names": "$~maxim",
                     "inputs": [
@@ -672,7 +672,7 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Calculează tangenta mea.", "\\π.tan()\\"],
+                    "doc": ["$~Calculează tangenta mea.", "\\π.tangentă()\\"],
                     "names": ["$~tangentă"],
                     "inputs": []
                 },
@@ -742,7 +742,7 @@
                 "limit": {
                     "doc": [
                         "$~Păstrează-mă între un număr mic și unul mare: dacă sunt sub cel mic, acela este rezultatul, iar dacă sunt peste cel mare, primești acela în loc.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.limită(0 10)\\"
                     ],
                     "names": "$~limită",
                     "inputs": [
@@ -759,7 +759,7 @@
                 "toward": {
                     "doc": [
                         "$~Mută-te o parte din drum de la mine către alt număr. La 0% mă primești pe mine, la 100% primești celălalt număr, iar la jumătatea drumului primești numărul din mijloc.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.spre(10m 30%)\\"
                     ],
                     "names": "$~spre",
                     "inputs": [
@@ -776,7 +776,7 @@
                 "rescale": {
                     "doc": [
                         "$~Găsește unde mă aflu între o pereche de numere, apoi întoarce numărul aflat în același loc între altă pereche. Util pentru a transforma ceva măsurat în ceva ce poți arăta.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.reajustare(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~reajustare",
                     "inputs": [
@@ -976,7 +976,7 @@
                 "add": {
                     "doc": [
                         "$~Creez o nouă @List cu elementul dat la sfârșit.",
-                        "\\['măr' 'banană' 'mango'].with('pepene verde')\\"
+                        "\\['măr' 'banană' 'mango'].cu('pepene verde')\\"
                     ],
                     "names": "$~cu",
                     "inputs": [
@@ -989,7 +989,7 @@
                 "append": {
                     "doc": [
                         "$~Creez o nouă @List cu valorile mele, apoi toate valorile @List-ului dat după mine.",
-                        "\\['măr' 'banană' 'mango'].withList(['pepene verde' 'carambola'])\\",
+                        "\\['măr' 'banană' 'mango'].cuLista(['pepene verde' 'carambola'])\\",
                         "Este totuși puțin mai ușor să folosești @Spread, astfel:",
                         "\\['măr' 'banană' 'mango' :['pepene verde' 'carambola']]\\"
                     ],
@@ -1026,7 +1026,7 @@
                 "random": {
                     "doc": [
                         "$~Unul selectat aleatoriu dintre articolele mele sau @None dacă nu am nimic.",
-                        "\\['apple' 'banana' 'mango'].random()\\"
+                        "\\['apple' 'banana' 'mango'].aleatoriu()\\"
                     ],
                     "names": "$~aleatoriu",
                     "inputs": []
@@ -1034,7 +1034,7 @@
                 "shuffled": {
                     "doc": [
                         "$~Alcătuiește o listă nouă cu elementele din listă ordonate aleatoriu.",
-                        "\\['măr' 'banană' 'mango'].shuffled()\\"
+                        "\\['măr' 'banană' 'mango'].amestecat()\\"
                     ],
                     "names": "$~amestecat",
                     "inputs": []
@@ -1042,7 +1042,7 @@
                 "first": {
                     "doc": [
                         "$~Primul @element din mine sau @None dacă sunt gol.",
-                        "\\['măr' 'banană' 'mango'].first()\\"
+                        "\\['măr' 'banană' 'mango'].primul()\\"
                     ],
                     "names": "$~primul",
                     "inputs": []
@@ -1058,7 +1058,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ dacă am în mine un @element egal cu elementul dat.",
-                        "\\['măr' 'banană' 'mango'].has('banană')\\"
+                        "\\['măr' 'banană' 'mango'].are('banană')\\"
                     ],
                     "names": "$~are",
                     "inputs": [
@@ -1071,9 +1071,9 @@
                 "join": {
                     "doc": [
                         "$~Combin elementele din lista mea în @Text, separate prin separatorul dat @Text.",
-                        "\\['măr' 'banană' 'mango'].join(', ')\\"
+                        "\\['măr' 'banană' 'mango'].unește(', ')\\"
                     ],
-                    "names": "$~alăturăte",
+                    "names": ["$~unește", "$~alăturăte"],
                     "inputs": [
                         {
                             "doc": "$~Textul prin care se separă elementele, opțional gol.",
@@ -1108,7 +1108,7 @@
                 "sansFirst": {
                     "doc": [
                         "$~Creez o listă fără primul meu @element.",
-                        "\\['măr' 'banană' 'mango'].sansFirst()\\"
+                        "\\['măr' 'banană' 'mango'].fărăPrimul()\\"
                     ],
                     "names": ["$~fărăPrimul"],
                     "inputs": []
@@ -1116,7 +1116,7 @@
                 "sansLast": {
                     "doc": [
                         "$~Creez o listă fără ultimul meu @element.",
-                        "\\['măr' 'banană' 'mango'].sansLast()\\"
+                        "\\['măr' 'banană' 'mango'].fărăUltimul()\\"
                     ],
                     "names": ["$~fărăUltimul", "$~sansUltima"],
                     "inputs": []
@@ -1137,7 +1137,7 @@
                 "reverse": {
                     "doc": [
                         "$~Eu, dar invers!",
-                        "\\['măr' 'banană' 'mango'].reverse()\\"
+                        "\\['măr' 'banană' 'mango'].inversat()\\"
                     ],
                     "names": ["$~inversat", "$~verso"],
                     "inputs": []
@@ -1172,9 +1172,9 @@
                     "doc": [
                         "$~Dă-mi o @FunctionDefinition care ia un @value și un @index opțional ca intrare și produce o valoare, iar eu o voi evalua pe fiecare dintre elementele mele, transformând valorile mele în valori noi.",
                         "De exemplu, imaginează-ți că eram o listă de @Number și voiai să le dublezi pe toate:",
-                        "\\[2 4 6 8].traduce(ƒ(num•#) num × 2)\\"
+                        "\\[2 4 6 8].transformă(ƒ(num•#) num × 2)\\"
                     ],
-                    "names": "$~traduce",
+                    "names": ["$~transformă", "$~traduce"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition care va traduce fiecare @element.",
@@ -1372,7 +1372,7 @@
                 "sum": {
                     "doc": [
                         "$~Adună toate numerele mele. Dacă sunt goală, rezultatul este 0, iar dacă numerele mele nu sunt toate măsurate în aceeași unitate, îți voi spune asta în loc să ghicesc.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].sumă()\\"
                     ],
                     "names": "$~sumă",
                     "inputs": []
@@ -1380,7 +1380,7 @@
                 "average": {
                     "doc": [
                         "$~Adună toate numerele mele și împarte la câte sunt. Dacă sunt goală, nu este nimic de mediat, așa că primești @None.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].medie()\\"
                     ],
                     "names": "$~medie",
                     "inputs": []
@@ -1499,7 +1499,7 @@
                 "difference": {
                     "doc": [
                         "$~Dă-mi @Set și voi crea un nou @Set care conține doar elementele pe care le avem în comun.",
-                        "\\{1 2 3}.difference({3 4 5})\\"
+                        "\\{1 2 3}.diferenţă({3 4 5})\\"
                     ],
                     "names": "$~diferenţă",
                     "inputs": [
@@ -1513,7 +1513,7 @@
                     "doc": [
                         "$~Dă-mi @FunctionDefinition care preia un @element și produce \\⊤\\ dacă acesta ar trebui păstrat, iar eu voi crea un @Set care conține doar elementele care îndeplinesc criteriile tale.",
                         "De exemplu, să găsim numerele impare din mine:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(număr•#) (număr % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.filtra(ƒ(număr•#) (număr % 2) = 1)\\"
                     ],
                     "names": "$~filtra",
                     "inputs": [
@@ -1537,9 +1537,9 @@
                     "doc": [
                         "$~Dă-mi @FunctionDefinition care ia un @element și produce un element nou bazat pe acesta, apoi voi traduce toate elementele din mine într-un nou @Set (eliminând orice duplicate).",
                         "De exemplu, haideți să transformăm toate @Number-urile mele în @Text:",
-                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(număr•#) număr→'')\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.transformă(ƒ(număr•#) număr→'')\\"
                     ],
-                    "names": "$~traduce",
+                    "names": ["$~transformă", "$~traduce"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition care traduce unul dintre elementele mele în noul @element dorit.",
@@ -1694,7 +1694,7 @@
                         "De exemplu, hai să dăm fiecăruia un punct, pentru că au fost atât de drăguți.",
                         "\\{'amy': 5points 'jen': 3points 'tony': 0points}.traduce(\n\tƒ(cheie•'' valoare•#points) valoare + 1points\n)\\🪲"
                     ],
-                    "names": "$~traduce",
+                    "names": ["$~transformă", "$~traduce"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition care traduce fiecare @value.",

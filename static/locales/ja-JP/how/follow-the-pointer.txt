@@ -7,7 +7,7 @@
 その @Place を @Phrase の \place\ として使えば、キャラクターは指した場所へどこへでも動きます。
 
 \
-Stage([Phrase('🐈' 位置: Pointer())] 位置: Place(0m 0m -10m))
+ステージ([フレーズ('🐈' 位置: ポインター())] 位置: 位置(0m 0m -10m))
 \
 
  これで完了です！マウスを動かすか、指をドラッグすると、猫がついてきます。
@@ -16,7 +16,7 @@ Stage([Phrase('🐈' 位置: Pointer())] 位置: Place(0m 0m -10m))
 これは、ポインターの1メートル上にいつも浮かんでいるアヒルです。
 
 \
-Stage([Phrase('🦆' 位置: Place(Pointer().x Pointer().y + 1m))] 位置: Place(0m 0m -10m))
+ステージ([フレーズ('🦆' 位置: 位置(ポインター().x ポインター().y + 1m))] 位置: 位置(0m 0m -10m))
 \
 
 move-phrase, count-with-time

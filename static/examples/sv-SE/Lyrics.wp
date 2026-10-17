@@ -54,7 +54,7 @@ Varje stämma i arrangemanget finns i sin egen källa, så ingen fil blir en vä
 
 taktslag: Takt()
 ¶Det här är den enda klockan i programmet. @Beat räknar från noll tills musiken börjar, så den kan läsas av direkt.¶
-räkna2: taktslag.räkna
+räkna2: taktslag.antal
 
 ¶En rad: orden, takten den sjungs på, hur länge den hålls och hur den ska se ut. Varje start är första takten i en fras i saxofonen som bär sången, och varje hold tar slut innan nästa börjar, så ingen rad hålls längre än fem takter, vilket i detta tempo redan är tre och en halv sekund. En del av det saxofonen spelar har inga ord alls: en svarsfras efter de flesta halvor av en vers (takt 54, 78 och 146), en svans av långa toner efter /car/ och efter varje /burst/. Att lägga en rad på någon av dem gör att texten går för tidigt. Svarsfrasen vid 169,75 är det enda undantaget, och melodin visar det: det är samma sex toner med en upptakt framför, vilket är vad en fras blir när den har en stavelse att landa på.¶
 •rad(ord3•'' start2•# håll•# sorts•#)
@@ -116,7 +116,7 @@ visar: rader2.hitta(
 				)
 				(r2.sorts = 5) ? Fras(
 						r2.ord3
-						gårin: Sekvens.skaka(0.75s räkna: 5x)
+						gårin: Sekvens.skaka(0.75s antal: 5x)
 					)
 					(r2.sorts = 6) ?
 						Fras(
@@ -239,7 +239,7 @@ låt: Musik(
 		namn: 'krockkudde'
 	)
 
-Etapp(
+Estrad(
 	[
 		ord4()
 		låt

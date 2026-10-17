@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['মেকুৰী' 'কুকুৰ'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['মেকুৰী' 'কুকুৰ'] 0) … state.secrets.আছে(চাট()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("তুমি জিতিলা!")]
-        [ Group(Stack() [ Phrase("মোৰ গোপন শব্দবোৰ অনুমান কৰা") Phrase(`\state.secrets.length() - state.points\ অধিক গোপন শব্দ`)])]
+মঞ্চ(
+    state.points = state.secrets.দৈৰ্ঘ্য() ? 
+        [ বাক্যাংশ("তুমি জিতিলা!")]
+        [ গোট(স্তূপ() [ বাক্যাংশ("মোৰ গোপন শব্দবোৰ অনুমান কৰা") বাক্যাংশ(`\state.secrets.length() - state.points\ অধিক গোপন শব্দ`)])]
 )
 \
 

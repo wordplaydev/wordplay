@@ -5,11 +5,11 @@ Các lớp
 
 đếm2: 10 → []
 
-ƒ nhữngQuảBóng(z2•#m) đếm2.dịch(
+ƒ nhữngQuảBóng(z2•#m) đếm2.biếnĐổi(
 		ƒ()
 			Cụmtừ(
 				'o'
-				vịTrí: Cửđộng(
+				vịTrí: ChuyểnĐộng(
 					VịTrí(
 						Ngẫunhiên(-10 10) × 1m
 						Ngẫunhiên(0 10) × 1m
@@ -20,7 +20,7 @@ Các lớp
 						Ngẫunhiên(-5 5) × 1m/s
 					)
 				)
-				vấnđề: Vấnđề(độđànhồi: 0.8 masát: 0)
+				vậtChất: VậtChất(độđànhồi: 0.8 masát: 0)
 			)
 	)
 

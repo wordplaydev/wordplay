@@ -4,12 +4,12 @@
 
 @Beat  は必ず、渡せる @Downbeat を持っています。だから、いつでもすぐに読み取れます。音楽が始まる前は、拍0番で、何も鳴っていません。
 
-\beat: Beat()
-count: beat.count
-Stage(
+\beat: ビート()
+count: beat.カウント
+ステージ(
 	[
-		Phrase('🥁' 大きさ: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] 楽器: Instrument.drums))
+		フレーズ('🥁' 大きさ: ((count % 4) = 0) ? 2m 1m)
+		音楽(トラック([1 1 1 1] 楽器: 楽器.ドラム))
 	]
 )\
 
@@ -17,30 +17,30 @@ Stage(
 
 これは、音楽全体をひとつの数で表したものです。でも @Downbeat には\parts\のリストもあります。 @Part ごとに1つの @Track があり、 @Part は今、自分のパートが何をしているかを知っています。その\pitch\、その\volume\、その\pan\、そして\sounding\かどうかです。それらを絵に描けば、音を混ぜた1つの音ではなく、パートごとに分けて見ることができます。
 
-\beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase(
+\beat: ビート()
+parts•[パート]: beat.パート.しぼりこむ(ƒ(p•パート) p.鳴っている)
+ƒ height(p•パート)•# p.音の高さ[1] ÷ 1semitones
+ƒ dot(p•パート)•フレーズ フレーズ(
 		'⬤'
-		0.4m + (p.volume · 1m)
-		位置: Place(
-			(p.pan · 3) · 1m
+		0.4m + (p.音量 · 1m)
+		位置: 位置(
+			(p.左右のバランス · 3) · 1m
 			((height(p) · 0.2) - 1) · 1m
 		)
 	)
-Stage(
+ステージ(
 	[
-		:parts.translate(ƒ(p•Part) dot(p))
-		Music(
+		:parts.変換する(ƒ(p•パート) dot(p))
+		音楽(
 			[
-				Track(
+				トラック(
 					[1 ø 5 ø]
-					楽器: Instrument.piano
+					楽器: 楽器.ピアノ
 					パン: -1
 				)
-				Track(
+				トラック(
 					[ø 8 ø 12]
-					楽器: Instrument.bell
+					楽器: 楽器.ベル
 					パン: 1
 				)
 			]

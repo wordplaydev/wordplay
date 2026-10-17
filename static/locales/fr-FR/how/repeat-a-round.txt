@@ -8,7 +8,7 @@ Les moments sont les éléments de la liste, et un @Boolean entre eux est l'endr
 \
 guess: Chat()
 right: guess = 'chat'
-Scene([
+Diaporama([
 	Phrase(«Devine l'animal !» durée: 2s)
 	∆ guess
 	Phrase(right ? 'Oui !' 'Non !' durée: 2s)
@@ -25,14 +25,14 @@ Cela te dit quel @Phrase s'affiche, combien il y en a, combien de fois le @Scene
 
 \
 guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
+at: Projecteur()
+Scène([
+	Diaporama([
 		Phrase(«Devine l'animal !» durée: 2s)
 		∆ guess
 		Phrase('Non !' durée: 2s)
 	] boucle: ⊤)
-	Phrase(at.waiting ? 'taper une réponse' `manche \at.lap + 1\` taille: 0.4m lieu: Place(0m -2m))
+	Phrase(at.enAttente ? 'taper une réponse' `manche \at.lap + 1\` taille: 0.4m lieu: Lieu(0m -2m))
 ])
 \
 

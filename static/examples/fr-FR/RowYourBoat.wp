@@ -7,7 +7,7 @@ La chanson est à 6/8 : chaque mesure compte six croches, et chaque entrée de c
 
 Les bateaux sont pilotés par @Beat et non par une horloge. Ils tirent donc sur le temps de la musique, et pas seulement près de lui. Ils restent immobiles jusqu'au début, car @Beat reste sur le temps zéro jusque-là.¶
 
-temps: Rythme()
+temps: Pulsation()
 coupDeRame: temps.nombre
 
 ¶La mélodie. Row row row your boat, gently down the stream — les notes longues sont longues parce que les silences qui les suivent gardent la grille, puisque chaque entrée dure la même croche.¶

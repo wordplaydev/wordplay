@@ -8,13 +8,13 @@ kan vi använda antalet i @Sequence och välja hur många gånger en uppsättnin
 här studsar en basketboll upp och ner två gånger. 
 
 \
-Stage([
-	Phrase('🏀' gårin: Sequence({
-				0%: Pose(offset: Place(y: 0.25m))
-				25%: Pose(offset: Place(y: 0m))
-				50%: Pose(offset: Place(y: -0.25m))
-				75%: Pose(offset: Place(y: 0m))
-				100%: Pose(offset: Place(y: 0.25m))} räkna:2x varaktighet:2s))
+Estrad([
+	Fras('🏀' gårin: Sekvens({
+				0%: Pose(offset: Plats(y: 0.25m))
+				25%: Pose(offset: Plats(y: 0m))
+				50%: Pose(offset: Plats(y: -0.25m))
+				75%: Pose(offset: Plats(y: 0m))
+				100%: Pose(offset: Plats(y: 0.25m))} antal:2x varaktighet:2s))
 ])
 \
 

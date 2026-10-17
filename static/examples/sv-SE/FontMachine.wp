@@ -14,7 +14,7 @@ typsnitt: [
 symboler: 'typography'/en'tipografía'/es ÷ ''
 
 ƒ slumpa()
-	symboler.översätta(
+	symboler.omvandla(
 		ƒ(symbol) Fras(
 				symbol
 				ansikte: typsnitt.slumpmässig()
@@ -22,6 +22,6 @@ symboler: 'typography'/en'tipografía'/es ÷ ''
 			)
 	)
 
-fraser: slumpa() … ∆ Nyckel() | ∆ Knapp() … slumpa()
+fraser: slumpa() … ∆ Tangent() | ∆ Knapp() … slumpa()
 
-Etapp([Grupp(Rad('|' 0m) fraser plats: Plats(0m 0m))])
+Estrad([Grupp(Rad('|' 0m) fraser plats: Plats(0m 0m))])

@@ -14,12 +14,12 @@ Sebagai contoh, mari bayangkan permainan sederhana yang meminta pemain mengetik 
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['kucing' 'anjing'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['kucing' 'anjing'] 0) … state.secrets.memiliki(Mengobrol()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("kamu menang!")]
-        [ Group(Stack() [ Phrase("tebak kata rahasiaku") Phrase(`\state.secrets.length() - state.points\ rahasia lagi`)])]
+Panggung(
+    state.points = state.secrets.panjang() ? 
+        [ Frasa("kamu menang!")]
+        [ Kelompok(Tumpukan() [ Frasa("tebak kata rahasiaku") Frasa(`\state.secrets.length() - state.points\ rahasia lagi`)])]
 )
 \
 

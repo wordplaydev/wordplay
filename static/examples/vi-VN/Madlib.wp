@@ -36,7 +36,7 @@ Sânkhấu(
 		¶Trước khi có câu trả lời, hãy hỏi để có câu trả lời¶
 		hỏi ?
 			Nhóm(
-				Ngănxếp('|' 0.25m)
+				XếpDọc('|' 0.25m)
 				[
 					Cụmtừ(
 						`\lượt[lượt2].đếm2\ \lượt[lượt2].nhãn\ nhé!`
@@ -59,7 +59,7 @@ Sânkhấu(
 						`Khi về đến nhà, tôi *\câuTrảLời[độngTừ][3]\* mẹ tôi xin một ngày *\câuTrảLời[tínhTừ][4]\* ở sở thú.`
 					]
 				¶Dịch chúng thành các cụm từ¶
-				Nhóm(Ngănxếp('<') câu2.dịch(ƒ(câu3) Cụmtừ(câu3)))
+				Nhóm(XếpDọc('<') câu2.biếnĐổi(ƒ(câu3) Cụmtừ(câu3)))
 			)
 	]
 	khuônmặt: 'Phudu'

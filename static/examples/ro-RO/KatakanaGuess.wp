@@ -20,7 +20,7 @@ Ghicește Katakana
 				配置.スコア - 1
 		)
 
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă()
@@ -31,7 +31,7 @@ Etapă(
 				Fraza(`*\カタカナ[配置.secret]\*` 2m)
 				Grup(
 					Grilă(10 5 1m 1m 1m)
-					ひらがな.traduce(
+					ひらがな.transformă(
 						ƒ(シンボル/ja•'' 指数/ja,index/en)
 							Fraza(シンボル nume: 指数 → '' selectabil)
 					)

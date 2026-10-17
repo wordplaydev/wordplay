@@ -51,7 +51,7 @@ Sânkhấu([Cụmtừ('🐠')] hiệuỨng: underwater(80%))
 Ở đây, sân khấu bị mờ và tối ở các cạnh khi người chơi chỉ còn một mạng, và sáng rõ lại khi họ có nhiều mạng hơn.
 
 \
-lives: 3 … ∆ Chìakhóa() … lives - 1
+lives: 3 … ∆ Phím() … lives - 1
 
 Sânkhấu(
 	[Cụmtừ(lives → '')]

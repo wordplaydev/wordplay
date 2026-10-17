@@ -4,22 +4,22 @@ Gra, która gra jedną melodię od początku do końca, wydaje się nudna. A gdy
 
 Nie da się *zatrzymać* elementu  @Music  — zatrzymuje go to, że nie jest już na  @Stage . Więc przechowuj kawałek state i umieść na scenie piosenkę, która do niego pasuje:
 
-\phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'pościg' 'menu'
+\phase: 'menu' … ∆ Przycisk() … (phase = 'menu') ? 'pościg' 'menu'
 theme: [1 ø 3 ø 5 ø 6 ø]
-Stage([
-		Phrase((phase = 'menu') ? '▶ naciśnij, aby zacząć' '🏃 biegnij!' 1m)
-		(phase = 'menu') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+Scena([
+		Fraza((phase = 'menu') ? '▶ naciśnij, aby zacząć' '🏃 biegnij!' 1m)
+		(phase = 'menu') ? Muzyka(Ścieżka(theme instrument: Instrument.dzwonek) tempo: 72beats/min) Muzyka(Ścieżka(theme instrument: Instrument.syntezator) tempo: 132beats/min)
 	])\
 
 Obie piosenki to te same osiem liczb. Zmienia się tylko instrument i tempo, a już brzmi jak inny utwór — bo stopnie mówią *który krok skali*, a nie który dźwięk, więc  @Music  może je zinterpretować na nowo. Podaj mu \skala: 🎼.molowaHarmoniczna\, a ta sama melodia staje się złowroga, bez przepisywania ani jednej nuty.
 
 Druga połowa to muzyka, która płynnie zmienia się wraz z tym, jak idzie gra. Zmiana \tempo\ niczego nie zaczyna od nowa — wpina się przy następnym uderzeniu, więc utwór przyspiesza, nie tracąc swojego miejsca:
 
-\score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Przycisk() … score + 1
 urgency: (score ÷ 10).min(1)
-Stage([
-		Phrase('wynik \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+Scena([
+		Fraza('wynik \score\' 1m)
+		Muzyka(Ścieżka([1 5 8 5] instrument: Instrument.perkusja) tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Naciśnij wystarczająco wiele razy, a bębny grają dwa razy mocniej niż na początku. Krótka, perkusyjna nuta sprawia, że to słychać — przy długich, trzymanych nutach zmianę tempa trudno wyczuć.

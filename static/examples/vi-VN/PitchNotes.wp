@@ -19,17 +19,17 @@ nốtNhạc2: [
 	]
 nốtCủa: ƒ(hz•#hz) hz > 0hz ? nốtNhạc2[(((((12 × (hz ÷ 440hz).log(
 										2
-									)).tròn(
+									)).làmTròn(
 							)) % 12) + 12) % 12) + 1] '·'
 mượt2: ƒ(tínHiệu•…#hz) (
 			ngheThấy: (←← 8 tínHiệu).khôngcó(0hz)
-			ngheThấy.average() ?? 0hz
+			ngheThấy.trungBình() ?? 0hz
 		)
-caoĐộ2: Sânbóngđá()
+caoĐộ2: CaoĐộ()
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				Cụmtừ('ồn' màusắc: Màusắc(60% 90 30°))
 				Cụmtừ(
@@ -41,7 +41,7 @@ Sânkhấu(
 			vịTrí: VịTrí(-4m 0m)
 		)
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				Cụmtừ('mượt' màusắc: Màusắc(70% 90 240°))
 				Cụmtừ(

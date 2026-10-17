@@ -7,14 +7,14 @@
 हा एक फुग्याचा साचा आहे, जो रंग आणि लेबल घेतो, आणि स्वतःला कसे दाखवायचे हे त्याला माहीत असते:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` रंग: color आकार: 2m)
+•Balloon(color•रंग label•'') (
+    ƒ show() वाक्यांश(`🎈\label\` रंग: color आकार: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'आकाश').show()
-    Balloon(Color(60% 80 0°) 'गुलाब').show()
-    Balloon(Color(90% 80 90°) 'सनी').show()
+गट(रांग() [
+    Balloon(रंग(80% 50 240°) 'आकाश').show()
+    Balloon(रंग(60% 80 0°) 'गुलाब').show()
+    Balloon(रंग(90% 80 90°) 'सनी').show()
 ])
 \
 

@@ -14,7 +14,7 @@ y2: Zufällig(-10m 10m) … ∆ sprache … Zufällig(-10m 10m)
 textgröße: Zufällig(1m 3m) … ∆ sprache … Zufällig(1m 3m)
 Bühne(
 	[
-		Satzglied(
+		Phrase(
 			sprache
 			Ort: Ort(x2 y2)
 			Farbe: Farbe(0% 0% 0°)

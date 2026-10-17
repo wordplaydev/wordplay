@@ -18,7 +18,7 @@ amp: Volume()
 detak2: Waktu()
 
 ¶Membuat daftar awal berisi huruf-huruf acak di posisi acak¶
-huruf3•[huruf]: hitungan2 → [#].menerjemahkan(
+huruf3•[huruf]: hitungan2 → [#].petakan(
 		ƒ(_) huruf(
 				latin.acak()
 				Acak(-ukuran2 ukuran2)
@@ -30,7 +30,7 @@ huruf3•[huruf]: hitungan2 → [#].menerjemahkan(
 	)
 	… ∆ detak2 …
 		¶Jika huruf itu berada di atas sumbu-y, gerakkan sedikit ke bawah dan putar huruf itu.Jika tidak, atur ulang posisinya di atas batas dan pilih secara acak apakah huruf itu terlihat.¶
-		huruf3.menerjemahkan(
+		huruf3.petakan(
 			ƒ(huruf4•huruf)
 				huruf4.y2 > 0m ? (huruf4.y2:huruf4.y2 - 0.5m).sudut2:huruf4.sudut2 + huruf4.kecepatan2
 					(huruf4.y2:ukuran2 + 2m).terlihat:Acak(0 amp) > 0.5
@@ -46,7 +46,7 @@ Panggung(
 			tempat: Tempat(-3.5 × ukuran2 -0.5m)
 		)
 	].denganDaftar(
-		huruf3.menerjemahkan(
+		huruf3.petakan(
 			ƒ(huruf5•huruf)
 				Frasa(
 					huruf5.huruf2

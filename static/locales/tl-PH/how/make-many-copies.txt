@@ -7,7 +7,7 @@ Kung magsisimula tayo sa numerong \10\ at i-convert ito gamit ang \→ []\, maka
 Pagkatapos, gagamitin natin ang @List/translate para gawing @Phrase ang bawat numero:
 
 \
-Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))
+Grupo(Hilera() (10 → []).isalin(ƒ() Parirala('🐈')))
 \
 
 @List/translate Tinatawag ang ating maliit na function nang isang beses para sa bawat item, at kinokolekta ang mga resulta sa isang bagong listahan.
@@ -15,7 +15,7 @@ Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))
 Para gawing medyo magkaiba ang bawat kopya, gamitin ang numerong ibinibigay sa atin ng translate:
 
 \
-Group(Row('|' 0.2m) [:1‥8].translate(ƒ(n) Phrase('⭐' laki: n × 0.5m)))
+Grupo(Hilera('|' 0.2m) [:1‥8].isalin(ƒ(n) Parirala('⭐' laki: n × 0.5m)))
 \
 
  Mas malaki ang bawat bituin kaysa sa nauna, dahil \n\ nagmumula sa \1\ sa \8\.

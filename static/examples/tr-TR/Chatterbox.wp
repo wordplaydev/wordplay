@@ -24,9 +24,9 @@ değişimler: {
 		'yours': 'mine'
 		'yourself': 'myself'
 	}
-ƒ yansıt(kelimeler3•'')•'' kelimeler3.parçalı(' ').tercümeetmek(
+ƒ yansıt(kelimeler3•'')•'' kelimeler3.parçalı(' ').dönüştür(
 		ƒ(kelime2•'') değişimler{kelime2} ?? kelime2
-	).katılmak(
+	).birleştir(
 		' '
 	)
 
@@ -79,9 +79,9 @@ Sahne(
 	[
 		Grup(
 			Yığın('<' 0.5m)
-			son2.tercümeetmek(
+			son2.dönüştür(
 				ƒ(satır2•satır)
-					İfadeetmek(
+					Yazı(
 						satır2.konuşmacı + ' ' + satır2.kelimeler2
 						boyut: 0.75m
 						dürüm: 22m

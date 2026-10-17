@@ -4,10 +4,10 @@ A veces queremos que el texto quede en una fila ordenada, uno junto al otro.
 Podemos hacer eso con una @Row, que acomoda todo en una @Group de izquierda a derecha.
 
 \
-Group(Row() [
-    Phrase('🍎')
-    Phrase('🍌')
-    Phrase('🍇')
+Grupo(Fila() [
+    Frase('🍎')
+    Frase('🍌')
+    Frase('🍇')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Row() [
 Aquí está la misma fruta, pero alineada abajo y con un poco más de espacio:
 
 \
-Group(Row('>' 0.5m) [
-    Phrase('🍎' tamaño: 2m)
-    Phrase('🍌' tamaño: 1m)
-    Phrase('🍇' tamaño: 3m)
+Grupo(Fila('>' 0.5m) [
+    Frase('🍎' tamaño: 2m)
+    Frase('🍌' tamaño: 1m)
+    Frase('🍇' tamaño: 3m)
 ])
 \
 

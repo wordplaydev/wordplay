@@ -88,7 +88,7 @@ ludzie: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 
 ¶Nowe pole zombie, rozłożone od bliska do daleka i rozrzucone od lewej do prawej, a każdy błądzi w losowym kierunku.¶
 ƒ stwórzZombie()
-	(liczbaZombie → []).tłumaczyć(
+	(liczbaZombie → []).przekształć(
 		ƒ(indeks2•#)
 			Zombie(
 				Losowy(lewyLimit prawyLimit)
@@ -181,7 +181,7 @@ ludzie: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 			)
 		głębokośćUderzenia: (uderzonaPostać•ø) ? -999m uderzonaPostać.z2
 		przemienianie: (uderzonaPostać•ø) ? ⊥ uderzonaPostać.żywy
-		następneZombie: gra5.zombie2.tłumaczyć(
+		następneZombie: gra5.zombie2.przekształć(
 				ƒ(zombie11•Zombie)
 					zombie11.żywy ?
 						((przemienianie & (zombie11.z2 = głębokośćUderzenia)) ? Zombie(
@@ -258,7 +258,7 @@ gra6•gra: gra(
 
 ¶Jedna postać na scenie: zombie kołyszą się, a odmienione osoby lekko i radośnie podskakują. Resztę robi głębokość — atakujące zombie wydaje się większe, gdy się zbliża. Czas trwania 0s sprawia, że każdy krok następuje natychmiast, bez płynnego przejścia, więc ruch wygląda jak gładkie klatki, a nie jak doganianie z opóźnieniem.¶
 ƒ widokZombie(zombie13•Zombie)
-	Wyrażenie(
+	Fraza(
 		zombie13.twarz2
 		2m
 		czastrwania: 0s
@@ -277,7 +277,7 @@ gra6•gra: gra(
 
 ¶Podłoga: paski na rosnących głębokościach, które perspektywa odczytuje jako płaszczyznę ziemi oddalającą się ku horyzontowi, przechodzącą z zieleni w turkus dla klimatu. Pierwszy pasek to linia, którą zombie musi przekroczyć, żeby zakończyć grę. Jest narysowany ostrzegawczą czerwienią, żeby zasada była widoczna: kamera odsuwa się na małych ekranach, a widz może ją oddalić, ale zombie, który wydaje się daleko, i tak stoi na tej linii, gdy cię dopada.¶
 podłoga: [
-		Wyrażenie(
+		Fraza(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			czastrwania: 0s
@@ -288,42 +288,42 @@ podłoga: [
 			)
 			kolor: Kolor(58% 55 25°)
 		)
-		Wyrażenie(
+		Fraza(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			czastrwania: 0s
 			miejsce: Miejsce(0m -2.8m 4m)
 			kolor: Kolor(56% 40 130°)
 		)
-		Wyrażenie(
+		Fraza(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			czastrwania: 0s
 			miejsce: Miejsce(0m -2.8m 6m)
 			kolor: Kolor(50% 36 136°)
 		)
-		Wyrażenie(
+		Fraza(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			czastrwania: 0s
 			miejsce: Miejsce(0m -2.8m 8m)
 			kolor: Kolor(45% 32 142°)
 		)
-		Wyrażenie(
+		Fraza(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			czastrwania: 0s
 			miejsce: Miejsce(0m -2.8m 11m)
 			kolor: Kolor(40% 28 148°)
 		)
-		Wyrażenie(
+		Fraza(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			czastrwania: 0s
 			miejsce: Miejsce(0m -2.8m 15m)
 			kolor: Kolor(35% 24 154°)
 		)
-		Wyrażenie(
+		Fraza(
 			"▬▬▬▬▬▬▬▬▬▬"
 			1.4m
 			czastrwania: 0s
@@ -333,13 +333,13 @@ podłoga: [
 	]
 
 ¶Lecące serce na świecie oraz wynik przypięty płasko u góry ekranu przez nakładkę sceny, więc zostaje na miejscu, gdy kamera się przesuwa.¶
-widokSerca: Wyrażenie(
+widokSerca: Fraza(
 		'🫀'
 		1.2m
 		czastrwania: 0s
 		miejsce: Miejsce(gra6.serceX 0m gra6.serceZ)
 	)
-wyświetlaczWyniku: Wyrażenie(
+wyświetlaczWyniku: Fraza(
 		"🫀 \gra6.wynik\"
 		1.2m
 		miejsce: Miejsce(0m 4m)
@@ -357,21 +357,21 @@ widokEkranu: [
 		Grupa(
 			Stos()
 			[
-				Wyrażenie(tytułEkranu 1.1m)
-				Wyrażenie(podtytułEkranu 0.6m)
-				Wyrażenie('← → lub wskaż, aby celować' 0.5m)
-				Wyrażenie(
+				Fraza(tytułEkranu 1.1m)
+				Fraza(podtytułEkranu 0.6m)
+				Fraza('← → lub wskaż, aby celować' 0.5m)
+				Fraza(
 					'Spacja, kliknięcie lub dotknięcie rzuca serce 🫀'
 					0.5m
 				)
-				Wyrażenie(liniaStartu 0.7m)
+				Fraza(liniaStartu 0.7m)
 			]
 		)
 	]
 
 ¶Pokaż pole i jego podłogę podczas gry, a w pozostałych chwilach menu. Każda lista jest pusta w niewłaściwej fazie, a pusta lista rozwija się w nic.¶
 listaPięter: (gra6.faza = 2) ? podłoga []
-listaZombie: (gra6.faza = 2) ? gra6.zombie2.tłumaczyć(
+listaZombie: (gra6.faza = 2) ? gra6.zombie2.przekształć(
 			ƒ(zombie14•Zombie) widokZombie(zombie14)
 		) []
 listaSerc: ((gra6.faza = 2) & gra6.serce) ? [widokSerca] []

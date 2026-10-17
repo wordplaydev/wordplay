@@ -5,7 +5,7 @@ Mão
 
 mão: Mão()
 
-Fase(
+Palco(
 	[
 		Frase(
 			(mão.dedos = 0 ? '✊'

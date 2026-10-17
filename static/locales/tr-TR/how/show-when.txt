@@ -8,8 +8,8 @@ Peki ya şunu istiyorsanız... @Phrase Bir şeye bağlı olarak değişmek — �
 İşte boşluk tuşuna her bastığınızda üzgün bir ifadeye dönüşen, sonra tekrar mutlu bir ifadeye dönen bir yüz:
 
 \
-happy: ⊤ … ∆ Key(' ') … ~happy
-Phrase(happy ? '😊' '😢')
+happy: ⊤ … ∆ Tuş(' ') … ~happy
+Yazı(happy ? '😊' '😢')
 \
 
  Bu @Reaction başlangıçta \happy\ değerini \⊤\ (doğru) olarak alır ve her boşluk tuşuna basıldığında bunu \~\ ile tersine çevirir.
@@ -18,8 +18,8 @@ Sonra koşullu \?\ doğru yüzü seçer.
 İkiden fazla seçenek arasından seçim yapmak için koşullu ifadeleri zincirleyebilirsiniz:
 
 \
-score: 0 … ∆ Key('A') … score + 1
-Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+score: 0 … ∆ Tuş('A') … score + 1
+Yazı(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
 \
 
  Basmak \a\ Birkaç kez deneyin ve yumurtanın civciv haline gelmesini izleyin!

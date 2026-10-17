@@ -12,16 +12,16 @@
 ¶ملاحظة: تفضل بزيارة المعرض للاطلاع على مشروع آخر<مثال@https://wordplay.dev/project/example-Layers?play>من خلال دمج الصور.¶
 
 
-Stage(
+مسرح(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) دوران: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) دوران: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) دوران: -25°)
+		شكل(دائرة(3m 0m 1m 0m))
+		شكل(مضلع(2m 3 0m -12m 0m) دوران: -30°)
+		شكل(مضلع(7m 6 0m -6m 0m))
+		شكل(مستطيل(-11m -9m 11m -12m 10m) دوران: 25°)
+		شكل(مستطيل(-11m -9m 11m -12m 10m) دوران: -25°)
 
 	]
-	مكان: Place(0m 10m -30m)
+	مكان: مكان(0m 10m -30m)
 )
 \
 

@@ -7,14 +7,14 @@
 这是一个气球模板，它接收一个颜色和一个标签，还知道怎么显示自己：
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` 颜色: color 尺寸: 2m)
+•Balloon(color•颜色 label•'') (
+    ƒ show() 短语(`🎈\label\` 颜色: color 尺寸: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) '天空').show()
-    Balloon(Color(60% 80 0°) '玫瑰').show()
-    Balloon(Color(90% 80 90°) '阳光明媚').show()
+组合(横排() [
+    Balloon(颜色(80% 50 240°) '天空').show()
+    Balloon(颜色(60% 80 0°) '玫瑰').show()
+    Balloon(颜色(90% 80 90°) '阳光明媚').show()
 ])
 \
 

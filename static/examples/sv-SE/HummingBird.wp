@@ -46,17 +46,17 @@ vald: Val()
 läge•'': 'tap' … (vald = 'hum') | (vald = 'tap') … vald
 
 ¶I tryckläge flaxar du när du klickar eller trycker på en tangent.¶
-flaxa: (läge = 'tap') & (∆ Knapp() | ∆ Nyckel())
+flaxa: (läge = 'tap') & (∆ Knapp() | ∆ Tangent())
 
 ¶I nynningsläge flyter fågeln till höjden som ditt nynnande har i tonhöjd — låga toner nära marken, höga toner nära himlen — och inte högre än det.¶
 tonhöjd2: Tonhöjd()
 nynnande: (läge = 'hum') & (tonhöjd2 > 50hz)
 
 ƒ tonhöjdTillHöjd(hz•#hz)
-	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
+	hz.skalaom(80hz 400hz -4m 5m).gräns(-4m 5m)
 
 ¶Fågeln närmar sig den nynnade höjden lite i taget, så att den glider i stället för att rycka till vid varje litet skiftning i tonhöjden.¶
-tonhöjdY•#m: 1m … ∆ tonhöjd2 … nynnande ? tonhöjdY.toward(tonhöjdTillHöjd(tonhöjd2) 20%) tonhöjdY
+tonhöjdY•#m: 1m … ∆ tonhöjd2 … nynnande ? tonhöjdY.mot(tonhöjdTillHöjd(tonhöjd2) 20%) tonhöjdY
 
 ¶Fågeln svävar under nedräkningen, flaxar uppåt eller flyter vid den nynnade tonhöjden medan spelet pågår, och faller sedan nedåt av tyngdkraften efter en krock.¶
 fågelPlats: Rörelse(
@@ -163,7 +163,7 @@ poäng•#: 0 …
 ƒ kolumn(celler•# genre2•# x4•#m y2•#m)
 	Grupp(
 		Stack('|' 0m)
-		(celler → []).översätta(
+		(celler → []).omvandla(
 			ƒ(cell2•#) Fras(
 					genrer[genre2][1 + ((cell2 - 1) % 5)]
 					1m
@@ -311,7 +311,7 @@ dödsljud: Musik(
 
 dödslista: (spel2.fas = 3) ? [dödsljud] []
 
-Etapp(
+Estrad(
 	[
 		fågel
 		flaxljud

@@ -7,7 +7,7 @@ Oto scena widziana przez wodę.
 
 \
 Scena(
-	[Wyrażenie('🐠') Wyrażenie('🌿' miejsce: Miejsce(1m -1m))]
+	[Fraza('🐠') Fraza('🌿' miejsce: Miejsce(1m -1m))]
 	efekty: [Fala(0.15m) Zabarwienie(Kolor(55% 45 220°) 70%) Mgiełka(40% Kolor(70% 30 200°))]
 )
 \
@@ -20,7 +20,7 @@ Oto stary film: @Grade odbiera kolor, a potem @Damage, @Grain i @Flicker sprawia
 
 \
 Scena(
-	[Wyrażenie('THE END')]
+	[Fraza('THE END')]
 	efekty: [Korekcja(kontrast: 130% nasycenie: 0%) Zniszczenie(70% 50%) Ziarno(25%) Migotanie(15% 2) Winieta(60%)]
 )
 \
@@ -29,7 +29,7 @@ Scena(
 
 \
 Scena(
-	[Wyrażenie('channel 3')]
+	[Fraza('channel 3')]
 	efekty: [LinieEkranu(40% szybkość: 1) Ziarno(50% rozmiar: 2) Migotanie(20%)]
 )
 \
@@ -44,7 +44,7 @@ Jej dane wejściowe stają się ustawieniami tego wyglądu. Ten robi się coraz 
 	Rozmycie(0.03m · depth)
 ]
 
-Scena([Wyrażenie('🐠')] efekty: underwater(80%))
+Scena([Fraza('🐠')] efekty: underwater(80%))
 \
 
  Wygląd może też zmieniać się wraz ze stanem gry.
@@ -54,7 +54,7 @@ Tutaj scena się rozmywa i ciemnieje na brzegach, gdy graczowi zostało tylko je
 lives: 3 … ∆ Klawisz() … lives - 1
 
 Scena(
-	[Wyrażenie(lives → '')]
+	[Fraza(lives → '')]
 	efekty: lives < 2 ? [Rozmycie(0.05m) Winieta(70% Kolor(30% 80 30°))] []
 )
 \
@@ -64,7 +64,7 @@ Scena(
 Trzęsienie całej sceny, jak podczas trzęsienia ziemi, wcale nie jest efektem: to @Stage może się poruszać jak każde inne wyjście, więc nadaj mu @Sequence.
 
 \
-Scena([Wyrażenie('🏠')] spoczynkowy: Sekwencja.potrząsnąć(0.5s liczyć: 4x))
+Scena([Fraza('🏠')] spoczynkowy: Sekwencja.potrząsnąć(0.5s liczyć: 4x))
 \
 
  Niektóre efekty poruszają się szybko. Gdy ktoś poprosił swoje urządzenie o ograniczenie ruchu, wszystkie efekty stoją w miejscu.
