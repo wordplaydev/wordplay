@@ -1,21 +1,6 @@
 {
-    "created": "2026-10-02T09:04:37.767Z",
+    "created": "2026-10-09T09:05:50.590Z",
     "contributors": [
-        {
-            "login": "amyjko",
-            "name": "Amy J. Ko",
-            "avatar_url": "https://avatars.githubusercontent.com/u/552276?v=4",
-            "html_url": "https://github.com/amyjko",
-            "counts": {
-                "commit": 7076,
-                "issue": 486,
-                "pull_request": 182,
-                "issue_comment": 2139,
-                "pr_review": 346,
-                "pr_review_comment": 80
-            },
-            "latest": "2026-10-02T05:50:03Z"
-        },
         {
             "login": "ellipsis7449",
             "name": "Aditi K",
@@ -25,11 +10,56 @@
                 "commit": 20,
                 "issue": 30,
                 "pull_request": 7,
-                "issue_comment": 39,
+                "issue_comment": 40,
                 "pr_review": 0,
                 "pr_review_comment": 0
             },
-            "latest": "2026-09-16T17:11:46Z"
+            "latest": "2026-10-08T06:44:58Z"
+        },
+        {
+            "login": "amyjko",
+            "name": "Amy J. Ko",
+            "avatar_url": "https://avatars.githubusercontent.com/u/552276?v=4",
+            "html_url": "https://github.com/amyjko",
+            "counts": {
+                "commit": 7109,
+                "issue": 486,
+                "pull_request": 196,
+                "issue_comment": 2143,
+                "pr_review": 346,
+                "pr_review_comment": 80
+            },
+            "latest": "2026-10-06T16:00:22Z"
+        },
+        {
+            "login": "claude",
+            "name": "Claude",
+            "avatar_url": "https://avatars.githubusercontent.com/u/81847?v=4",
+            "html_url": "https://github.com/claude",
+            "counts": {
+                "commit": 34,
+                "issue": 0,
+                "pull_request": 0,
+                "issue_comment": 0,
+                "pr_review": 0,
+                "pr_review_comment": 0
+            },
+            "latest": "2026-10-04T01:23:45Z"
+        },
+        {
+            "login": "susan4syw",
+            "name": "Susan Wu",
+            "avatar_url": "https://avatars.githubusercontent.com/u/174283294?v=4",
+            "html_url": "https://github.com/susan4syw",
+            "counts": {
+                "commit": 5,
+                "issue": 1,
+                "pull_request": 2,
+                "issue_comment": 9,
+                "pr_review": 0,
+                "pr_review_comment": 0
+            },
+            "latest": "2026-10-02T19:55:42Z"
         },
         {
             "login": "tiaL-ops",
@@ -45,36 +75,6 @@
                 "pr_review_comment": 4
             },
             "latest": "2026-09-14T06:51:35Z"
-        },
-        {
-            "login": "claude",
-            "name": "Claude",
-            "avatar_url": "https://avatars.githubusercontent.com/u/81847?v=4",
-            "html_url": "https://github.com/claude",
-            "counts": {
-                "commit": 31,
-                "issue": 0,
-                "pull_request": 0,
-                "issue_comment": 0,
-                "pr_review": 0,
-                "pr_review_comment": 0
-            },
-            "latest": "2026-09-13T16:44:46Z"
-        },
-        {
-            "login": "susan4syw",
-            "name": "Susan Wu",
-            "avatar_url": "https://avatars.githubusercontent.com/u/174283294?v=4",
-            "html_url": "https://github.com/susan4syw",
-            "counts": {
-                "commit": 5,
-                "issue": 1,
-                "pull_request": 2,
-                "issue_comment": 8,
-                "pr_review": 0,
-                "pr_review_comment": 0
-            },
-            "latest": "2026-09-11T02:31:15Z"
         },
         {
             "login": "yeonselily",
