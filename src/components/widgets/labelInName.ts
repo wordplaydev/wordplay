@@ -12,9 +12,10 @@ const Unspoken = /[^\p{L}\p{M}\p{N}\p{P}\s]|[︀-️]/gu;
 const Spoken = /[\p{L}\p{N}]/u;
 const NonWord = /[^\p{L}\p{M}\p{N}]+/gu;
 
-/** Subtrees whose text isn't part of what a control shows as its label: hidden
- *  content, and the dimmed echo of secondary locales, which aria text omits. */
-const Unshown = '[aria-hidden="true"], .secondary';
+/** The dimmed echo of secondary locales, which aria text omits. Text that is
+ *  merely aria-hidden is still shown, so it stays (a conflict shows the name it
+ *  is about in its character's aria-hidden glyph). */
+const Unshown = '.secondary';
 
 /** The words an element shows, without symbols or emoji, or '' if it shows none. */
 export function getShownWords(element: Element): string {
