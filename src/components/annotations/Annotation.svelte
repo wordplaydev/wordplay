@@ -5,6 +5,10 @@
     } from '#components/project/Contexts.ts';
     import Button from '#components/widgets/Button.svelte';
     import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import {
+        getNameWithShownWords,
+        observeShownWords,
+    } from '#components/widgets/labelInName.ts';
     import type {
         ConflictLocaleAccessor,
         Resolution,
@@ -61,6 +65,8 @@
     );
 
     let root: HTMLElement | undefined = $state();
+    // The words the annotation shows, which must lead its name (WCAG 2.5.3).
+    let shown = $state('');
 
     /** Wiggle (infinitely) while the caret is over this conflict in the editor,
      *  but only while collapsed — an expanded conflict is already visible, and
@@ -285,12 +291,17 @@
         role="button"
         tabindex="0"
         aria-expanded={expanded}
-        aria-label={$locales
-            .concretize((l) => l.ui.annotations.conflictLabel, {
-                severity: severityWord,
-                conflict: conflictName ?? '',
-            })
-            .toText()}
+        aria-label={getNameWithShownWords(
+            shown,
+            $locales
+                .concretize((l) => l.ui.annotations.conflictLabel, {
+                    severity: severityWord,
+                    conflict: conflictName ?? '',
+                })
+                .toText(),
+        )}
+        {@attach (element) =>
+            observeShownWords(element, (words) => (shown = words))}
         data-conflict-node-id={annotation.node.id}
         transition:fade|local={{ duration: $animationDuration }}
         onclick={handleClick}

@@ -5,6 +5,10 @@
         canHoverTips,
     } from '#components/widgets/tipTriggers.ts';
     import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import {
+        getNameWithShownWords,
+        observeShownWords,
+    } from '#components/widgets/labelInName.ts';
     import { locales } from '#db/Database.ts';
     import type LocaleText from '#locale/LocaleText.ts';
     import type { TemplateInputs } from '#locale/Locales.ts';
@@ -85,6 +89,8 @@
     );
 
     let view = $state<HTMLButtonElement | undefined>(undefined);
+    // The words the toggle shows, which must lead its name (WCAG 2.5.3).
+    let shown = $state('');
 
     let hint = getTip();
     let localizing = getLocalizing();
@@ -131,12 +137,14 @@
         data-uiid={uiid}
         data-testid={testid}
         class:on
-        aria-label={title}
+        aria-label={getNameWithShownWords(shown, title)}
         aria-disabled={!active}
         aria-pressed={on}
         ondblclick={(event) => event.stopPropagation()}
         onmousedown={(event) => event.preventDefault()}
         bind:this={view}
+        {@attach (element) =>
+            observeShownWords(element, (words) => (shown = words))}
         onpointerenter={() => (canHoverTips() ? showTip() : undefined)}
         onpointerleave={hideTip}
         onfocus={(event) =>

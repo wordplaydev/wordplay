@@ -31,6 +31,8 @@ test('site navigation exposes named links to assistive tech', async ({
     // links' emoji prefixes). The space between emoji and label is the tab
     // variant's doing — its box is a flex container, so name computation
     // treats the two as separate children rather than running them together.
+    // The notifications button shows its count, which leads its name (WCAG
+    // 2.5.3), and the count depends on what earlier tests left behind.
     await expect(page.locator('body')).toMatchAriaSnapshot(`
         - navigation:
           - link "📚 Projects"
@@ -39,7 +41,7 @@ test('site navigation exposes named links to assistive tech', async ({
           - link "🎓 Learn"
           - link "📕 Guide"
           - button "show settings dialog"
-          - button "open notifications dialog"
+          - button /open notifications dialog/
     `);
 });
 
