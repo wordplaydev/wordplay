@@ -4,7 +4,7 @@ Parfois, on veut placer du texte les uns à côté des autres, en une ligne bien
 On peut faire ça avec une @Row, qui range tout en une @Group de gauche à droite.
 
 \
-Group(Row() [
+Groupe(Rangée() [
     Phrase('🍎')
     Phrase('🍌')
     Phrase('🍇')
@@ -15,7 +15,7 @@ Group(Row() [
 Voici les mêmes fruits, mais alignés en bas, avec un petit espace pour respirer :
 
 \
-Group(Row('>' 0.5m) [
+Groupe(Rangée('>' 0.5m) [
     Phrase('🍎' taille: 2m)
     Phrase('🍌' taille: 1m)
     Phrase('🍇' taille: 3m)

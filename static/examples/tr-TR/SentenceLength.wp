@@ -9,19 +9,19 @@ uzunluk2: Sohbet().uzunluk()
 Grup(
 	Yığın()
 	[
-		İfadeetmek(
+		Yazı(
 			`*Merhaba! Cümle uzunluğu hesaplayıcısına hoş geldiniz.*`
 			yer: Yer(0m 1m)
 		)
-		İfadeetmek(
+		Yazı(
 			'Mesaj çubuğuna bir şeyler yazın!'
 			yer: Yer(0m -1m)
 		)
-		İfadeetmek(
+		Yazı(
 			'Cümleniz ' + (uzunluk2 → '') + ' karakter uzunluğunda!'
 			dinlenme: Sekans.sallanmak(süre: 3s)
 			yer: Yer(0m -3m)
 		)
-		İfadeetmek(cümle yer: Yer(0m -5m) dürüm: 25m)
+		Yazı(cümle yer: Yer(0m -5m) dürüm: 25m)
 	]
 )

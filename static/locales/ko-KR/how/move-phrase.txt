@@ -5,9 +5,9 @@
 이렇게 하면 결합할 수 있습니다 @Phrase 와 함께 @Placement:
 
 \
-Stage(
-	[Phrase('나를 움직여' 위치: Placement())]
-	위치: Place(0m 0m -10m)
+무대(
+	[구절('나를 움직여' 위치: 놓기())]
+	위치: 위치(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Stage(
 이제 @Placement 의 @Stage 의 장소를 설정해 보고, 무슨 일이 일어나는지 살펴보자.
 
 \
-Stage(
+무대(
   [
-	Phrase('🐈' 위치: Place(-2m 2m))
-	Phrase('🐈' 위치: Place(2m -2m))
-	Phrase('🐈' 위치: Place(-1m 3m))
+	구절('🐈' 위치: 위치(-2m 2m))
+	구절('🐈' 위치: 위치(2m -2m))
+	구절('🐈' 위치: 위치(-1m 3m))
   ]
-  위치: Placement(Place(0m 0m -10m))
+  위치: 놓기(위치(0m 0m -10m))
 )
 \
 

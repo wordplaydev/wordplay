@@ -11,9 +11,9 @@ enYeni•['']:
 
 Grup(
 	Izgara(3 3 1m 1m)
-	enYeni.tercümeetmek(
+	enYeni.dönüştür(
 		ƒ(yemek2•"" dizin2•#)
-			İfadeetmek(
+			Yazı(
 				yemek2
 				isim: "\yemek2\-\dizin2\"
 				giriş: Poz(opaklık: 0 ölçek: 2)

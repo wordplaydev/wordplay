@@ -154,7 +154,7 @@ akorlar: [
 	]
 
 ¶Pasta her vuruşta büyür ve aralarında sakinleşir.¶
-ƒ pasta() İfadeetmek(
+ƒ pasta() Yazı(
 		'🎂'
 		(4m + ((sayaç % 2) · 0.4m))
 		süre: 0.2s
@@ -166,7 +166,7 @@ Sahne(
 			Yığın(dolgu: 0.5m)
 			[
 				pasta()
-				İfadeetmek('İyi ki Doğdun' 1.3m)
+				Yazı('İyi ki Doğdun' 1.3m)
 			]
 		)
 		Müzik(

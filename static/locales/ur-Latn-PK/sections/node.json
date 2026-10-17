@@ -215,7 +215,7 @@
             "doc": [
                 "$~Main paragraphs ki ek fehrist hoon. Main @Doc mein maujood @markup ki kayi qismein istemaal karti hoon, jaise @Words, @WebLink, @ConceptLink, aur @Example.",
                 "Aap mujhe ek @Doc mein milenge, aur @FormattedLiteral mein bhi:",
-                "\\¶Main *mota* matn wali wazahati tehreer hoon. Main @Phrase jaise tasawwuraat ka hawala de sakti hoon. Main <web par maujood cheezon@https://wordplay.dev> se link kar sakti hoon.¶\nPhrase(\n\t`Main @Phrase ke liye saja hua matn hoon, jis mein *bold*, /italics/, aur _underlines_ istemaal hue hain`\n)\\"
+                "\\¶Main *mota* matn wali wazahati tehreer hoon. Main @Phrase jaise tasawwuraat ka hawala de sakti hoon. Main <web par maujood cheezon@https://wordplay.dev> se link kar sakti hoon.¶\nJumla(\n\t`Main @Phrase ke liye saja hua matn hoon, jis mein *bold*, /italics/, aur _underlines_ istemaal hue hain`\n)\\"
             ]
         },
         "Paragraph": {
@@ -564,7 +564,7 @@
             },
             "doc": [
                 "$~main jaanchta hoon ke kya @stream ki wajah se @Program dobara chala, aur ek @Boolean banata hoon. Is tarah",
-                "\\∆ Time()\\",
+                "\\∆ Waqt()\\",
                 "Main tab bohat kaam aata hoon jab aap chahte hain ke kuch sirf tab badle jab dhaara badle.",
                 "Bas itna hi."
             ],
@@ -674,7 +674,7 @@
                 "$~Main majmue ki HAR cheez ke saath ek hi kaam karta hoon! WAH WAH WAH! Main yehi to karta hoon!!",
                 "Apna majmua meri baaein taraf rakhein, mera teer \\↦\\ banayein, phir meri daaein taraf likhein ke har cheez KIS MEIN BADAL jaye — @This ka matlab hai woh cheez jo main ABHI pakde hue hoon!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ aapko \\[2 3 4]\\ deta hai. DHAMAKA! Har number mein ek ka izafa, na chakkar, na @FunctionDefinition, na koi jhanjhat!",
-                "Main data se @Phrase output banane ke liye BEHTAREEN hoon! Naamon ki list hai? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ aur ab HAR naam ke liye ek jumla ban gaya!!",
+                "Main data se @Phrase output banane ke liye BEHTAREEN hoon! Naamon ki list hai? \\['Ada' 'Mac' 'Tim'] ↦ Jumla(⬚)\\ aur ab HAR naam ke liye ek jumla ban gaya!!",
                 "Main @List, @Set, @Map (main naqshe ki @VALUES badalta hoon — kunjiyan apni jagah rehti hain!), aur @Table par bhi chalta hoon!",
                 "Kuch aur khaas chahiye — jaise har cheez ka @index, ya aisa function jo kayi jagah dobara istemaal ho? Mere zyada thande, samajhdaar rishtedaaron ke paas jayein, jaise @List.translate. Lekin rozmarra ke tez mapping ke liye main hazir hoon!!"
             ],
@@ -732,7 +732,7 @@
                 "$~Main apne pyaare @FunctionDefinition ko chalata hoon, use @argument deta hoon aur uske qadam follow karta hoon. Hi! Is tarah:",
                 "\\ƒ salaam(paigham•'')\n\tsalaam('billi')\\🪲",
                 "Functions kahin se bhi aa sakte hain. Misaal ke taur par, @Text mein functions hain. Is tarah:",
-                "\\'billi'.length()\\",
+                "\\'billi'.lambaai()\\",
                 "Agar kisi function ka naam sirf ek nishaan ka ho, to aap mujhe @BinaryEvaluate ki tarah likh sakte hain.",
                 "\\'billi' ⊆ 'chhoti si'\\",
                 "Yeh bilkul usi ke barabar hai:",
@@ -817,7 +817,7 @@
                 "$~Main ek input hoon jo @Evaluate ko diya gaya hai. Mera naam @FunctionDefinition ya @StructureDefinition ke input ke naam se milta hai jo chalaya ja raha hai.",
                 "Main un functions mein madadgaar hoon jin ke bohot se default @values hote hain, jahan aap sirf ek khaas input badalna chahte hain aur baaqi sab kuch nahin dena chahte.",
                 "Misaal ke taur par, @Phrase ke style ko qaboo karne ke liye bohot saari default qeematein hain. Farz karein aap kuch @Text aur ek @Color dena chahte hain, lekin input list mein aur kuch nahin. Aap yeh karne ke liye mujhe istemaal kar sakte hain:",
-                "\\Phrase('Main jamni hoon!' rang: Color(50% 52 300°))\\"
+                "\\Jumla('Main jamni hoon!' rang: Rang(50% 52 300°))\\"
             ],
             "start": "$~Aaiye meri qeemat chalaein."
         },
@@ -870,7 +870,7 @@
                 "Mere paas aur bhi kai chhote tareeqe hain. Misaal ke taur par, mera naam hona zaroori nahin. Yahan, main seedha @Evaluate ko ek @value ke taur par ja raha hoon.",
                 "\\(ƒ(paigham•'') paigham × 5)('hi')\\",
                 "Ya, yeh ek function hai jo input ke naam ke baad \\…\\ nishaan istemaal kar ke kitne bhi inputs le sakta hai.",
-                "\\ƒ haan(paighamaat…•'') paighamaat.sans('nahin')\nhaan('haan' 'haan' 'nahin' 'haan' 'nahin')\\",
+                "\\ƒ haan(paighamaat…•'') paighamaat.baghair('nahin')\nhaan('haan' 'haan' 'nahin' 'haan' 'nahin')\\",
                 "Dekha, isne saare 'no' le kar hata diye? Is liye ke messages ek @List hai, aur hum @List.sansAll istemaal kar sakte the.",
                 "Kabhi kabhi aap saaf batana chahte hon ke main kis qism ki qeemat deta hoon. Iske liye, inputs ki list ke baad ek @Is likhein:",
                 "\\ƒ shamilKarein(x2•# y2•#)•'' x2 + y2\\🪲",
@@ -903,7 +903,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Main aap ko batata hoon ke @Program ka maujooda @iteration pehla hai ya nahin, aur jawab @Boolean hota hai. Misaal ke taur par:",
-                "\\◆ ? Time() 'hi'\\",
+                "\\◆ ? Waqt() 'hi'\\",
                 "Aap ne dekha nahin, lekin pehla daur ek waqt tha, phir aane wali har tik par main \\⊥\\ tha, is liye @Conditional ne \\⊤\\ banaya.",
                 "Main bohat madadgaar hoon agar aap @stream ke saath kaam kar rahe hain aur sirf pehli baar kuch karna chahte hain -- ya pehli baar kabhi nahin!"
             ]
@@ -1387,10 +1387,10 @@
                 "$~Main @stream ki tareekh mein peeche dekhta hoon aur aapko us ki guzri hui @values mein se ek batata hoon. Kya aapne kabhi maazi yaad rakhna chaha hai?",
                 "Main Verse ka sarkaari record rakhne wala hoon!",
                 "Misaal ke taur par, yeh dekhein ke paanch tick pehle @Time kya tha:",
-                "\\← 5 Time(1000ms)\\",
+                "\\← 5 Waqt(1000ms)\\",
                 "Dekhein, yeh 5 second tak @None rehta hai, phir achanak ek pichhla waqt aa jaata hai!",
                 "Agar aapko pichhli kai qeematein chahiye, to mujhe do teer dein, aur main number ko ginti samjhunga:",
-                "\\←← 5 Time(1000ms)\\",
+                "\\←← 5 Waqt(1000ms)\\",
                 "Dekhein, ab sirf ek waqt ke bajaye pichhle paanch waqt aate hain!",
                 "Main us waqt kaam aata hoon jab aap aisi performance banana chahein jo maazi par munhasir ho."
             ],
@@ -1517,7 +1517,7 @@
             "doc": [
                 "$~Main ek naya dhaara banata hoon jo tab badalta hai jab koi doosra dhaara badalta hai. @Streams kitne zabardast hain!",
                 "Masalan, agar aap chahte hain ke @Time chalta rahe, magar ginti ki jagah lafz dikhaye, to aap kuch aisa kar sakte hain:",
-                "\\waqt: Time(1000ms)\n'aaghaz' … ∆ waqt … ((waqt % 2) = 0ms) ? 'juft' 'taaq'\\",
+                "\\waqt: Waqt(1000ms)\n'aaghaz' … ∆ waqt … ((waqt % 2) = 0ms) ? 'juft' 'taaq'\\",
                 "Yeh aisa hai jaise kehna \"/lafz 'start' se shuru karo, phir jab waqt badle, to waqt ke hisaab se taaq ya joft ho jao./\"",
                 "Is tarah main bhi ek dhaara hoon, magar doosre dhaaron par mabni. Kamaal hai na?"
             ],
@@ -1808,7 +1808,7 @@
                 "@ConversionDefinition ke andar, main woh qeemat hoon jise badla ja raha hai:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "@Reaction ke andar, main sab se taaza qeemat hoon:",
-                "\\2 … ∆ Time(1000ms) … ⬚ × 2\\",
+                "\\2 … ∆ Waqt(1000ms) … ⬚ × 2\\",
                 "@Translate ke andar, main woh maujooda @element hoon jise nakshe mein badla ja raha hai, is liye yeh har qeemat mein ek jama karta hai:",
                 "\\[1 2 3] ↦ ⬚ + 1\\",
                 "Aur @StructureDefinition ke andar, main khud maujooda qeemat hoon, is liye main \\⬚.rank\\🪲 se apne hisson tak pahunch sakta hoon, bilkul jaise main \\other.rank\\🪲 se kisi doosri qeemat ke hisson tak pahunchta hoon:",

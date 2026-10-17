@@ -37,22 +37,22 @@
                         ]
                     },
                     "example": {
-                        "phrase": "$~\\¶@Phrase stage par nazar aata hai, jis rang, chamak aur harkat mein aap chahein.¶\nPhrase(\n\t'hello!'\n\t6m\n\trang: 🌈(60% 90 200°)\n\thaala: Aura(🌈(80% 80 200°) 0.3m)\n\trukna: Sequence.sway(8°)\n)\\",
-                        "music": "$~\\¶Moseeqi asli saazon ki dhunon se banti hai, ek raftaar aur ek kunji ke saath. Stage woh banata hai jo woh sunta hai.¶\nMusic(\n\tTrack([1 3 5 8 5 3] saaz: Instrument.piano)\n\traftaar: 120beats/min\n)\\",
-                        "hello": "$~\\¶Code @Time jaise input par jawab de sakta hai, aur matn kai zubaanon mein ho sakta hai aur bola ja sakta hai.¶\nhellos: ['hello'/ur 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhello: hellos.random() … ∆ Time(1000ms) … hellos.random()\nPhrase(hello 4m)\nSay(hello)\\",
-                        "keys": "$~\\¶Code pointer, kunjiyon, click aur tap par jawab de sakta hai.¶\nkunji: Key()\nclick2: Button()\nchehre: ['🙂' '😮' '😎' '🤩']\nkaunSa: 1 … ∆ kunji | ∆ click2 … (kaunSa % 4) + 1\nStage(\n\t[Phrase(chehre[kaunSa] 5m jagah: Pointer() bulbula: 'hi')]\n\tjagah: Place(0m 0m -12m)\n)\\",
-                        "choose": "$~\\¶Matn ko sajaayein aur use chunne ke qaabil banayein.¶\nphal: ƒ(e•'') Phrase(e 3m naam: e chunaJaSakneWala: ⊤)\nchunaGaya: Choice()\ndikhayaGaya: '?' … ∆ chunaGaya … chunaGaya\nGroup(\n\tStack(haashiya: 1m)\n\t[\n\t\tPhrase(dikhayaGaya 4m)\n\t\tGroup(Row(haashiya: 1m) [phal('🍎') phal('🍐') phal('🍒')])\n\t]\n)\\",
-                        "letters": "$~\\¶Programs se baat karein aur fonts aur nishaanon ki shakal istemaal karein.¶\npaighaam: Chat()\nlafz: 'hi' … ∆ paighaam … paighaam\nline: Contour(lafz 'Noto Sans' 8m)\ntick: 0 … ∆ Time(30ms) … tick + 1\ndikhayaGaya: ((line.length() × tick) ÷ 66).roundDown() + 1\nnuqtay: line.subsequence(1 dikhayaGaya).translate(\n\t\tƒ(p) Phrase('•' jagah: p)\n\t)\nStage(nuqtay.add(Phrase(lafz 8m dhundlapan: 15%)))\\",
-                        "pile": "$~\\¶Matn mein bhi tabeeyaat ke usool ho sakte hain.¶\nuchhaalein: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tPhrase(\n\t\t\temoji\n\t\t\t2m\n\t\t\tjagah: Motion(Place(x2 y2) Velocity(vx 0m/s))\n\t\t\tmaadda: Matter(1kg 0.55 0.06 0.5)\n\t\t)\nStage(\n\t[\n\t\tuchhaalein('🍎' -2m 5m 2.2m/s)\n\t\tuchhaalein('🍊' 2m 7m -2.6m/s)\n\t\tuchhaalein('🍋' -1m 9m 1.4m/s)\n\t\tuchhaalein('🍇' 1.5m 11m -1.9m/s)\n\t\tuchhaalein('🫐' 0.5m 15m -1.2m/s)\n\t\tShape(Rectangle(-4m -3m 4m -3.6m))\n\t\tShape(Rectangle(-4.6m 4m -4m -3m))\n\t\tShape(Rectangle(4m 4m 4.6m -3m))\n\t]\n)\\",
-                        "listen": "$~\\¶Code aapke mic ki @Volume aur @Pitch par jawab de sakta hai.¶\nPhrase(\n\t'📣'\n\t1m + (Volume() × 8m)\n\tghumaao: (Pitch() ÷ 1hz) × 0.1°\n)\\",
-                        "smile": "$~\\¶Code aapke @Face aur @Camera par maujood doosri cheezon par jawab de sakta hai.¶\nPhrase(\n\tFace().smiling ? '😄 shukriya!' '🙂 camera ki taraf muskuraein'\n\t2m\n)\\"
+                        "phrase": "$~\\¶@Phrase stage par nazar aata hai, jis rang, chamak aur harkat mein aap chahein.¶\nJumla(\n\t'hello!'\n\t6m\n\trang: 🌈(60% 90 200°)\n\thaala: Haala(🌈(80% 80 200°) 0.3m)\n\trukna: Silsila.lehrana(8°)\n)\\",
+                        "music": "$~\\¶Moseeqi asli saazon ki dhunon se banti hai, ek raftaar aur ek kunji ke saath. Stage woh banata hai jo woh sunta hai.¶\nMauseeqi(\n\tDhun([1 3 5 8 5 3] saaz: Saaz.piano)\n\traftaar: 120beats/min\n)\\",
+                        "hello": "$~\\¶Code @Time jaise input par jawab de sakta hai, aur matn kai zubaanon mein ho sakta hai aur bola ja sakta hai.¶\nhellos: ['hello'/ur 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhello: hellos.ittefaqi() … ∆ Waqt(1000ms) … hellos.ittefaqi()\nJumla(hello 4m)\nBolo(hello)\\",
+                        "keys": "$~\\¶Code pointer, kunjiyon, click aur tap par jawab de sakta hai.¶\nkunji: Kunji()\nclick2: Button()\nchehre: ['🙂' '😮' '😎' '🤩']\nkaunSa: 1 … ∆ kunji | ∆ click2 … (kaunSa % 4) + 1\nStage(\n\t[Jumla(chehre[kaunSa] 5m jagah: Nishaana() bulbula: 'hi')]\n\tjagah: Jagah(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Matn ko sajaayein aur use chunne ke qaabil banayein.¶\nphal: ƒ(e•'') Jumla(e 3m naam: e chunaJaSakneWala: ⊤)\nchunaGaya: Intikhaab()\ndikhayaGaya: '?' … ∆ chunaGaya … chunaGaya\nGroup(\n\tTah(haashiya: 1m)\n\t[\n\t\tJumla(dikhayaGaya 4m)\n\t\tGroup(Qataar(haashiya: 1m) [phal('🍎') phal('🍐') phal('🍒')])\n\t]\n)\\",
+                        "letters": "$~\\¶Programs se baat karein aur fonts aur nishaanon ki shakal istemaal karein.¶\npaighaam: Guftagu()\nlafz: 'hi' … ∆ paighaam … paighaam\nline: Khaaka(lafz 'Noto Sans' 8m)\ntick: 0 … ∆ Waqt(30ms) … tick + 1\ndikhayaGaya: ((line.lambaai() × tick) ÷ 66).golNeechay() + 1\nnuqtay: line.hissa(1 dikhayaGaya).badlo(\n\t\tƒ(p) Jumla('•' jagah: p)\n\t)\nStage(nuqtay.saath(Jumla(lafz 8m dhundlapan: 15%)))\\",
+                        "pile": "$~\\¶Matn mein bhi tabeeyaat ke usool ho sakte hain.¶\nuchhaalein: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tJumla(\n\t\t\temoji\n\t\t\t2m\n\t\t\tjagah: Harkat(Jagah(x2 y2) Raftaar(vx 0m/s))\n\t\t\tmaadda: Maadda(1kg 0.55 0.06 0.5)\n\t\t)\nStage(\n\t[\n\t\tuchhaalein('🍎' -2m 5m 2.2m/s)\n\t\tuchhaalein('🍊' 2m 7m -2.6m/s)\n\t\tuchhaalein('🍋' -1m 9m 1.4m/s)\n\t\tuchhaalein('🍇' 1.5m 11m -1.9m/s)\n\t\tuchhaalein('🫐' 0.5m 15m -1.2m/s)\n\t\tShakal(Mustateel(-4m -3m 4m -3.6m))\n\t\tShakal(Mustateel(-4.6m 4m -4m -3m))\n\t\tShakal(Mustateel(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Code aapke mic ki @Volume aur @Pitch par jawab de sakta hai.¶\nJumla(\n\t'📣'\n\t1m + (AwaazKiUnchaai() × 8m)\n\tghumaao: (Oonchaai() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Code aapke @Face aur @Camera par maujood doosri cheezon par jawab de sakta hai.¶\nJumla(\n\tChehra().muskurana ? '😄 shukriya!' '🙂 camera ki taraf muskuraein'\n\t2m\n)\\"
                     }
                 },
                 "features": {
                     "language": {
                         "title": "$~Wordplay ek programming zubaan hai",
                         "bullets": [
-                            "$~• Har program ek izhaar hai jo ek qeemat ban jaata hai. \\1 + 1\\ ek program hai, aur \\Phrase('hi')\\ bhi.",
+                            "$~• Har program ek izhaar hai jo ek qeemat ban jaata hai. \\1 + 1\\ ek program hai, aur \\Jumla('hi')\\ bhi.",
                             "• Adaad ke saath unit hoti hai, is liye \\1m + 1m\\ meter hai, aur \\1cat + 1dog\\🪲 ek ghalati hai jo @wordplay chalne se pehle pakad leta hai.",
                             "• Functions woh qeematein hain jinhein aap naam de sakte hain, aage de sakte hain, aur bula sakte hain: \\ƒ dugna(n2•#) n2 × 2\\.",
                             "• Jab input badalta hai, to @wordplay aapke program ko dobara chalata hai aur uski nayi qeemat dikhata hai. Events ka jawaab dene ki zaroorat nahin.",
@@ -63,7 +63,7 @@
                         "title": "$~Wordplay kai zubaanon mein hai",
                         "bullets": [
                             "$~• Programming zubaan ki har khaasiyat ka har zubaan mein ek naam hai, is liye code un alfaaz mein parha jaata hai jo aap pehle se jaante hain.",
-                            "• Aap ke apne naam bhi kai zubaanon mein ho sakte hain:\n\\cat2/ur, gato/es: '🐈'\nPhrase(cat2)\\",
+                            "• Aap ke apne naam bhi kai zubaanon mein ho sakte hain:\n\\cat2/ur, gato/es: '🐈'\nJumla(cat2)\\",
                             "• Matn ke saath ek zubaan hoti hai, aur woh aap ke dekhne walon ki zubaan dikhata hai: \\'salaam'/ur'hola'/es\\.",
                             "• Yeh site 29 zubaanon mein hai aur aap ek waqt mein ek se zyada chun sakte hain; matn har ek mein nazar aata hai.",
                             "• Aap @wordplay ka tarjuma karne mein bhi madad kar sakte hain, seedha app ke andar <localize@://localize> par."
@@ -82,7 +82,7 @@
                     "senses": {
                         "title": "$~Wordplay duniya ko mehsoos karta hai",
                         "bullets": [
-                            "$~• Waqt ka guzarna: \\Time(1000ms)\\ tik tik karta hai, aur \\Now()\\ aap ke apne calendar aur time zone mein aaj ki tareekh jaanta hai.",
+                            "$~• Waqt ka guzarna: \\Waqt(1000ms)\\ tik tik karta hai, aur \\Abhi()\\ aap ke apne calendar aur time zone mein aaj ki tareekh jaanta hai.",
                             "• Aap ke dekhne wale kahan ishaara karte hain, kya chhoote hain, aur kaun si kunjiyan dabate hain.",
                             "• Programs aap ke mic ka jawab de sakte hain: @Volume se aawaaz kitni tez hai, @Pitch se sur kaisa hai, aur @Speech se kaun se alfaaz bole gaye.",
                             "• Aap ke dekhne wale @Chat mein likh sakte hain, aur @Choice se stage ka maujood chun sakte hain.",
@@ -96,7 +96,7 @@
                             "• @Group unhein qataron, dheron, jaalon mein, ya jahan aap chahein wahan saja deta hai.",
                             "• @Pose aur @Sequence cheezon ko ghumate, dhundhla karte, bada chhota karte aur hilate hain.",
                             "• @Say matn dikhane ke bajaye usay bol kar sunata hai.",
-                            "• @Music asli saazon par suron ke track bajata hai, ek raftaar aur ek kunji ke mutabiq:\n\\Music(\n\tTrack([1 3 5] saaz: Instrument.bell)\n\traftaar: 90beats/min\n)\\"
+                            "• @Music asli saazon par suron ke track bajata hai, ek raftaar aur ek kunji ke mutabiq:\n\\Mauseeqi(\n\tDhun([1 3 5] saaz: Saaz.ghanti)\n\traftaar: 90beats/min\n)\\"
                         ]
                     },
                     "typography": {
@@ -104,7 +104,7 @@
                         "bullets": [
                             "$~• Sainkdon andaaz, jo duniya ke likhne ke nizaamon ko shaamil karte hain.",
                             "• Aap apne <khud ke banaye huye huroof@://characters> bana sakte hain aur jahan emoji aata hai wahan istemaal kar sakte hain.",
-                            "• Har harf ka khaaka aisa data hai jo aap parh sakte hain aur hilaa sakte hain, @Contour ke saath: \\Contour('a' 'Noto Sans')\\.",
+                            "• Har harf ka khaaka aisa data hai jo aap parh sakte hain aur hilaa sakte hain, @Contour ke saath: \\Khaaka('a' 'Noto Sans')\\.",
                             "• Matn us zubaan ke usool ke mutabiq lapeta jaata hai jis mein woh likha gaya ho.",
                             "• Daayen se baayen aur khadi likhaai bhi bilkul sahi tareeqe se lagai jaati hai."
                         ]

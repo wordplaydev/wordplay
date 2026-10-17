@@ -8,8 +8,8 @@ Ang isang @Image ay kumukuha ng isang grid ng mga kulay at iginuguhit ito bilang
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Kamera(width × 1px height × 1px 33ms)
+Entablado([Larawan(colors "what the camera sees" 12m)])
 \
 
  Bawat @Image ay nangangailangan ng paglalarawan, dahil ang isang grid ng mga kulay ay walang sariling mga salita para sa taong hindi ito makita.
@@ -19,8 +19,8 @@ Maaari nating iguhit ang larawan gamit ang mga titik sa halip na mga parisukat, 
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m guhit: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Kamera(width × 1px height × 1px 33ms)
+Entablado([Larawan(colors "the camera, drawn with dark and light circles" 12m guhit: ƒ(color•Kulay) (color.liwanag < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

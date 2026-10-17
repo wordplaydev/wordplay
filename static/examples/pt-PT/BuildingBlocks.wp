@@ -297,7 +297,7 @@ gerarColunas: [-4 -3 -2 2 3 4]
 		)
 	)
 
-chave3: Chave()
+chave3: Tecla()
 tique: Tempo(150ms)
 tocar: Botão()
 
@@ -605,7 +605,7 @@ somDeVitória: Música(
 ¶Só está no palco depois de teres ganhado, e uma lista vazia dissolve-se no nada.¶
 listaDeVitória: (jogo11.fase = 3) ? [somDeVitória] []
 
-Fase(
+Palco(
 	[
 		:linhasDoSolo
 		:camadaDoMundo

@@ -10,7 +10,7 @@ zählung: 100
 größe2: 20m
 
 ¶Die Amplitude des Mikrofons¶
-amplituden: Volumen()
+amplituden: Lautstärke()
 
 ¶Der gewählte Buchstabe mit seiner Position, seiner Drehgeschwindigkeit und der Angabe, ob er sichtbar ist.¶
 •buchstabe(buchstabe2•"" x2•#m y2•#m winkel•# geschwindigkeit•# sichtbar•?)
@@ -42,16 +42,16 @@ buchstaben•[buchstabe]: zählung → [#].übersetzen(
 ¶Die Buchstaben in Phrasen umwandeln¶
 Bühne(
 	[
-		Satzglied("☁" Größe: 3m Ort: Ort(-8m 12m))
-		Satzglied("☁" Größe: 5m Ort: Ort(8m 11m))
-		Satzglied(
+		Phrase("☁" Größe: 3m Ort: Ort(-8m 12m))
+		Phrase("☁" Größe: 5m Ort: Ort(8m 11m))
+		Phrase(
 			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
 			Ort: Ort(-3.5 × größe2 -0.5m)
 		)
 	].mitListe(
 		buchstaben.übersetzen(
 			ƒ(buchstabe4•buchstabe)
-				Satzglied(
+				Phrase(
 					buchstabe4.buchstabe2
 					Größe: 1m
 					Ort: Ort(buchstabe4.x2 buchstabe4.y2)

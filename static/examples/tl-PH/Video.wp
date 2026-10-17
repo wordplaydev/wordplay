@@ -23,10 +23,10 @@ mgaParisukat: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦�
 ¶Kung ano ang itsura ng isang pixel sa kasalukuyang estilo. Ang isang pixel na halos walang kulay ay walang hue na sulit ipakita, kaya bumabalik ito sa isang maliwanag o madilim na parisukat.¶
 ƒ glyph2(kulay2•Kulay)
 	(estilo2 = 'ascii') ?
-		"\hagdan[((kulay2.kagaanan × 9).bilog()) + 1]\"
+		"\hagdan[((kulay2.liwanag × 9).bilugan()) + 1]\"
 		((estilo2 = 'emoji') ?
 				((kulay2.kroma < 8) ?
-						((kulay2.kagaanan < 50%) ? "⬛" "⬜")
+						((kulay2.liwanag < 50%) ? "⬛" "⬜")
 						"\mgaParisukat[(((kulay2.kulay ÷ 1°) ÷ 15).roundDown(
 							)) + 1]\")
 				'a')
@@ -34,7 +34,7 @@ mgaParisukat: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦�
 ¶Ang larawan. Iginuguhit ng isang @Image ang buong grid bilang isang output, kaya ang isang frame ay nagkakahalaga ng isang larawan sa halip na isang phrase bawat pixel — na sa 32 by 24 ay 768 nito, muling binubuo tatlumpung beses kada segundo. Ang /flipx/ ay sumasalamin dito para mabasa ito sa paraan ng salamin.
 
 Iniiwan ng estilong /letters/ ang bawat glyph sa kulay ng parisukat na kinakatawan nito, na siyang ginagawa ng isang @Image na walang sariling kulay. Ang dalawang iba pa ay binibigyan ito ng isang kulay, dahil ang isang letra ay nababasa bilang shading lamang kapag walang sinasabi ang kulay nito, at ang isang kulay na parisukat na emoji ay mayroon nang sariling kulay.¶
-larawan: Image(
+larawan: Larawan(
 		mgaKulay
 		"camera video drawn with \estilo2\"
 		16m

@@ -11,9 +11,9 @@ najnowsze•['']:
 
 Grupa(
 	Siatka(5 5 0.25m 1m 1m)
-	najnowsze.tłumaczyć(
+	najnowsze.przekształć(
 		ƒ(litera•"" indeks2•#)
-			Wyrażenie(
+			Fraza(
 				litera
 				nazwa: "\litera\-\indeks2\"
 				wstępowanie: Poza(nieprzezroczystość: 0 skala: 2)

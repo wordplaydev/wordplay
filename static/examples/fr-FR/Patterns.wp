@@ -12,12 +12,12 @@ nombres: texte2 ⌕ ⣿ >0 #⣿
 Scène(
 	[
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase(texte2 taille: 1m)
 				Groupe(
-					Empiler()
-					nombres.traduire(
+					Pile()
+					nombres.transformer(
 						ƒ(nombre2•Résultat)
 							Phrase(
 								nombre2.texte

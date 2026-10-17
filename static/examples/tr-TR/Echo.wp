@@ -13,7 +13,7 @@ boyut2: 2m … ∆ mesaj … Rastgele(1m 4m)
 eğim: 0° … ∆ mesaj … Rastgele(-30 30) × 1°
 ton: 200° … ∆ mesaj … Rastgele(360) × 1°
 
-İfadeetmek(
+Yazı(
 	kelimeler2
 	boyut: boyut2
 	dinlenme: Poz(rotasyon: eğim renk: Renk(25% 100 ton))

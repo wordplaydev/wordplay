@@ -135,7 +135,7 @@ the keyboard arrows or clicking the stage.
 We use it to place the character.¶/en
 ¶यह धारा बीच में शुरु होता है, लेकिन कीबोर्ड या माउस के साथ बदल सकते हैं।
 हम इस के साथ character को मंच पर रखते हैं।¶/hi
-where/en,किधर/hi: Atama(Yer(0m 0m))
+where/en,किधर/hi: Yerleştirme(Yer(0m 0m))
 
 ¶This takes all of the content above and renders it,
 putting each landmark on stage in a particular location
@@ -147,37 +147,37 @@ stream to check collisions.¶/en
 टक्कर-वाला धारा को टक्कर मिलने के लिए।¶/hi
 Sahne(
 	[
-		İfadeetmek(
+		Yazı(
 			'🍂'
 			isim: "Virginia"/en,"वर्जिनिया"/hi
 			yer: Yer(-3m 0m)
-			konu: Konu()
+			madde: Madde()
 		)
-		İfadeetmek(
+		Yazı(
 			`@ellipsis/CuteDuckie`
 			isim: "California"/en,"कॅलिफ़ोर्निया"/hi
 			yer: Yer(-10m 0m)
-			konu: Konu()
+			madde: Madde()
 			boyut: 1.4m
 		)
-		İfadeetmek(
+		Yazı(
 			'🏕'
 			isim: "India"/en,"भारत"/hi
 			yer: Yer(5m -6m)
-			konu: Konu()
+			madde: Madde()
 		)
-		İfadeetmek(
+		Yazı(
 			`@ellipsis/GoDawgs`
 			isim: "Washington"/en,"वाशिंटन"/hi
 			yer: Yer(-10m 6m)
-			konu: Konu()
+			madde: Madde()
 			boyut: 1.4m
 		)
-		İfadeetmek(
+		Yazı(
 			'🐤'
 			isim: "me"/en,"मैं"/hi
 			yer: where
-			konu: Konu()
+			madde: Madde()
 			hareketeden: Sekans(
 				{
 					0%: Poz()

@@ -19,20 +19,20 @@ nuty2: [
 	]
 nutaz: ƒ(hz•#hz) hz > 0hz ? nuty2[(((((12 × (hz ÷ 440hz).log(
 										2
-									)).okrągły(
+									)).zaokrąglij(
 							)) % 12) + 12) % 12) + 1] '·'
 wygładź: ƒ(sygnał•…#hz) (
 			usłyszane: (←← 8 sygnał).bez(0hz)
 			usłyszane.średnia() ?? 0hz
 		)
-wysokośćDźwięku: Poziom()
+wysokośćDźwięku: Wysokość()
 Scena(
 	[
 		Grupa(
 			Stos()
 			[
-				Wyrażenie('zaszumiony' kolor: Kolor(60% 90 30°))
-				Wyrażenie(
+				Fraza('zaszumiony' kolor: Kolor(60% 90 30°))
+				Fraza(
 					nutaz(wysokośćDźwięku)
 					rozmiar: 6m
 					kolor: Kolor(60% 90 30°)
@@ -43,8 +43,8 @@ Scena(
 		Grupa(
 			Stos()
 			[
-				Wyrażenie('wygładź' kolor: Kolor(70% 90 240°))
-				Wyrażenie(
+				Fraza('wygładź' kolor: Kolor(70% 90 240°))
+				Fraza(
 					nutaz(wygładź(wysokośćDźwięku))
 					rozmiar: 6m
 					kolor: Kolor(70% 90 240°)

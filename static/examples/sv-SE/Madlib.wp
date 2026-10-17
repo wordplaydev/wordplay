@@ -14,7 +14,7 @@ omgångar: [
 		ordklass('adverb' 4)
 	]
 
-chatt: Chatta()
+chatt: Chatt()
 ¶Varje gång en chatt skickas in, gå vidare till nästa ordklass¶
 tur: 1 … ∆ chatt … tur + 1
 ¶Varje gång en chatt skickas in, dela upp chatten vid mellanslag och lägg till i svaren¶
@@ -28,7 +28,7 @@ verb: 3
 
 fråga2: svar.längd() < 4
 
-Etapp(
+Estrad(
 	[
 		¶Innan vi har svaren, fråga efter svar¶
 		fråga2 ?
@@ -58,7 +58,7 @@ Etapp(
 				¶Översätt dem till fraser¶
 				Grupp(
 					Stack('<')
-					meningar.översätta(ƒ(mening) Fras(mening))
+					meningar.omvandla(ƒ(mening) Fras(mening))
 				)
 			)
 	]

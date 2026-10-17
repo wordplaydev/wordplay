@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: क्यामेरा(width × 1px height × 1px 33ms)
+Stage([तस्बिर(colors "what the camera sees" 12m)])
 \
 
  हरेक @Image लाई एउटा विवरण चाहिन्छ, किनभने रङहरूको ग्रिडसँग देख्न नसक्ने कसैका लागि आफ्नै कुनै शब्द हुँदैन।
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m अक्षरचिह्न: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: क्यामेरा(width × 1px height × 1px 33ms)
+Stage([तस्बिर(colors "the camera, drawn with dark and light circles" 12m अक्षरचिह्न: ƒ(color•रङ) (color.उज्यालोपन < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

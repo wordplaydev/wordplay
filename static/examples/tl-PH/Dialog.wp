@@ -42,7 +42,7 @@ kodigo: [
 	]
 
 ¶Sumulong gamit ang isang key, isang click, o isang tap, at huminto sa huling linya.¶
-pagkakataon•#: 1 … ∆ Susi() | ∆ Butones() … (pagkakataon < kodigo.haba(
+pagkakataon•#: 1 … ∆ Susi() | ∆ Pindutan() … (pagkakataon < kodigo.haba(
 				) ? pagkakataon + 1 pagkakataon)
 
 linya2: kodigo[pagkakataon]

@@ -16,7 +16,7 @@ nastrój: twarz2.oczyOtwarte ?
 ¶Zamień nastrój na emoji i daj twarzy dymek z mową, który go wypowiada. Dodanie do dymku @Say sprawia, że nastrój jest wypowiadany na głos i pokazywany. Dymek zastępuje podpis na dole sceny.¶
 Scena(
 	[
-		Wyrażenie(
+		Fraza(
 			(nastrój = 'blinking' ? '😴'
 					nastrój = 'smiling' ? '😀'
 						nastrój = 'frowning' ? '🙁'

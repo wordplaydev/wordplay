@@ -4,12 +4,12 @@ A música que pode ouvir é só metade da história. O fluxo  @Beat  entrega-lhe
 
 @Beat  tem sempre um  @Downbeat  para lhe dar, para que possa lê-lo de imediato. Antes de a música começar, fica na batida zero sem nada a tocar:
 
-\beat: Beat()
-count: beat.count
-Stage(
+\beat: Batida()
+count: beat.contar
+Palco(
 	[
-		Phrase('🥁' tamanho: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] instrumento: Instrument.drums))
+		Frase('🥁' tamanho: ((count % 4) = 0) ? 2m 1m)
+		Música(Faixa([1 1 1 1] instrumento: Instrumento.bateria))
 	]
 )\
 
@@ -17,30 +17,30 @@ O \count\ sobe uma unidade a cada batida, por isso \count % 4\ é \0\ a cada qua
 
 Essa é a música toda resumida num só número. Mas um  @Downbeat  também traz uma lista de \parts\, um  @Part  para cada  @Track , e um  @Part  sabe o que a sua própria voz está a fazer neste momento: a sua \pitch\, a sua \volume\, a sua \pan\, e se está \sounding\. Desenhe isso e obtém cada voz em separado, em vez da mistura:
 
-\beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase(
+\beat: Batida()
+parts•[Parte]: beat.partes.filtro(ƒ(p•Parte) p.aSoar)
+ƒ height(p•Parte)•# p.tom[1] ÷ 1semitones
+ƒ dot(p•Parte)•Frase Frase(
 		'⬤'
 		0.4m + (p.volume · 1m)
-		local: Place(
-			(p.pan · 3) · 1m
+		local: Local(
+			(p.balanço · 3) · 1m
 			((height(p) · 0.2) - 1) · 1m
 		)
 	)
-Stage(
+Palco(
 	[
-		:parts.translate(ƒ(p•Part) dot(p))
-		Music(
+		:parts.traduzir(ƒ(p•Parte) dot(p))
+		Música(
 			[
-				Track(
+				Faixa(
 					[1 ø 5 ø]
-					instrumento: Instrument.piano
+					instrumento: Instrumento.piano
 					panorâmica: -1
 				)
-				Track(
+				Faixa(
 					[ø 8 ø 12]
-					instrumento: Instrument.bell
+					instrumento: Instrumento.sino
 					panorâmica: 1
 				)
 			]

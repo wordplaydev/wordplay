@@ -30,7 +30,7 @@ cácGiọng•[giọng]: [
 		giọng('synth' '🎛' NhạcCụ.đànTổngHợp 290°)
 		giọng('âm trầm' '🎛' NhạcCụ.đànBassTổngHợp 310°)
 		giọng('âm nền' '🎛' NhạcCụ.đànPadTổngHợp 200°)
-		giọng('giọng nói' '🤖' NhạcCụ.giọngNói 95°)
+		giọng('giọng nói' '🤖' NhạcCụ.giọngHát 95°)
 	]
 
 ¶Giọng đã chọn, hoặc đàn piano khi chưa ai chọn. find() trả về ø khi không có gì khớp, nên giá trị dự phòng phải là một Voice riêng.¶
@@ -53,7 +53,7 @@ lờiBàiHát: 'la li lu le lo li la'
 ¶Mỗi nhạc cụ có một nút: biểu tượng xếp phía trên tên, để chúng không dính vào nhau. Choice() đọc các cụm từ có thể chọn, và cụm đang chọn được vẽ sáng hơn để bạn biết mình đang ở đâu.¶
 ƒ nút(giọngNói3•giọng)
 	Nhóm(
-		Ngănxếp(đệm: 0.1m)
+		XếpDọc(đệm: 0.1m)
 		[
 			Cụmtừ(giọngNói3.biểuTượng 1.1m)
 			Cụmtừ(giọngNói3.nhãn 0.5m)
@@ -73,18 +73,18 @@ Bản nhạc giữ nguyên một tên suốt thời gian chạy, không lấy t�
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp(đệm: 0.6m)
+			XếpDọc(đệm: 0.6m)
 			[
 				Cụmtừ(hiệnTại.biểuTượng 2.5m)
 				Cụmtừ(hiệnTại.nhãn 1.2m)
 				Nhóm(
 					Lưới(cột: 5 đệm: 0.4m)
-					cácGiọng.dịch(ƒ(giọngNói4•giọng) nút(giọngNói4))
+					cácGiọng.biếnĐổi(ƒ(giọngNói4•giọng) nút(giọngNói4))
 				)
 			]
 		)
 		ÂmNhạc(
-			BảnNhạc(giaiĐiệu2 nhạcCụ: hiệnTại.âm từNgữ: lờiBàiHát)
+			Bè(giaiĐiệu2 nhạcCụ: hiệnTại.âm từNgữ: lờiBàiHát)
 			nhịpĐộ: 120beats/min
 			thangÂm: ÂmNhạc.ngũCung
 			tên: 'giai điệu'

@@ -4,7 +4,7 @@ Virtuelles Klavier
 ¶Ein Klavier mit einer Oktave, das du spielen kannst! Für das beste Erlebnis schalte die Musikvisualisierung aus.¶
 
 ¶Diese Bindung speichert einen Datenstrom für Tasten. Er erkennt, welche Taste du gedrückt hast.¶
-gedrückt: Schlüssel()
+gedrückt: Tastaturtaste()
 
 ¶Hier wird gespeichert, welche Note zu welcher gedrückten Taste gehört. Das gibt es als Text (um die gespielte Note anzuzeigen) und als Zahl im Text (um sie in eine Zahl (#) umzuwandeln und in eine Liste von Spuren einzugeben).
 
@@ -55,79 +55,79 @@ Gruppe(
 		Gruppe(
 			Reihe('>' -.3m)
 			[
-				Satzglied(
+				Phrase(
 					'▯'
 					Name: 'w'
 					Größe: 3m
 					Farbe: gedrückt = 'w' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▮'
 					Name: '3'
 					Größe: 3m
 					Farbe: gedrückt = '3' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▯'
 					Name: 'e'
 					Größe: 3m
 					Farbe: gedrückt = 'e' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▮'
 					Name: '4'
 					Größe: 3m
 					Farbe: gedrückt = '4' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▯'
 					Name: 'r'
 					Größe: 3m
 					Farbe: gedrückt = 'r' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▯'
 					Name: 't'
 					Größe: 3m
 					Farbe: gedrückt = 't' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▮'
 					Name: '6'
 					Größe: 3m
 					Farbe: gedrückt = '6' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▯'
 					Name: 'y'
 					Größe: 3m
 					Farbe: gedrückt = 'y' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▮'
 					Name: '7'
 					Größe: 3m
 					Farbe: gedrückt = '7' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▯'
 					Name: 'u'
 					Größe: 3m
 					Farbe: gedrückt = 'u' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▮'
 					Name: '8'
 					Größe: 3m
 					Farbe: gedrückt = '8' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▯'
 					Name: 'i'
 					Größe: 3m
 					Farbe: gedrückt = 'i' ? farbeBeimDrücken farbeOhneDruck
 				)
-				Satzglied(
+				Phrase(
 					'▯'
 					Name: 'o'
 					Größe: 3m
@@ -139,19 +139,19 @@ Gruppe(
 		Gruppe(
 			Reihe('>' 1.1m)
 			[
-				Satzglied('w')
-				Satzglied('3')
-				Satzglied('e')
-				Satzglied('4')
-				Satzglied('r t')
-				Satzglied('6')
-				Satzglied('y')
-				Satzglied('7')
-				Satzglied('u')
-				Satzglied('8')
-				Satzglied('i  o')
+				Phrase('w')
+				Phrase('3')
+				Phrase('e')
+				Phrase('4')
+				Phrase('r t')
+				Phrase('6')
+				Phrase('y')
+				Phrase('7')
+				Phrase('u')
+				Phrase('8')
+				Phrase('i  o')
 			]
 		)
-		Satzglied(textZurückgeben(gedrückt))
+		Phrase(textZurückgeben(gedrückt))
 	]
 )

@@ -30,7 +30,7 @@ cădere: ⊤ … ∆ choice … (choice = 'gravity') ? ~cădere cădere
 		Aleatoriu(-120°/s 120°/s)
 	)
 
-litere: numărare2 → [].traduce(
+litere: numărare2 → [].transformă(
 		ƒ(număr2)
 			Fraza(
 				simboluri2[număr2]
@@ -61,7 +61,7 @@ agitator: Fraza(
 		loc: Loc(-13m -1m)
 	)
 
-Etapă(
+Estradă(
 	[
 		¶Patru pereți, destul de groși încât nimic nu trece prin ei cu viteză.¶
 		Figură(Dreptunghi(-8.6m 6.6m 8.6m 6m))

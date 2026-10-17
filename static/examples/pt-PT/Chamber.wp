@@ -61,7 +61,7 @@ agitador: Frase(
 		local: Local(-13m -1m)
 	)
 
-Fase(
+Palco(
 	[
 		¶Quatro paredes, suficientemente grossas para que nada as atravesse a alta velocidade.¶
 		Figura(Retângulo(-8.6m 6.6m 8.6m 6m))

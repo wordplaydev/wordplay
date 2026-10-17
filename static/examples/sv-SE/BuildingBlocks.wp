@@ -59,7 +59,7 @@ trädform: [
 	]
 stenblocksform: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
 
-ƒ formVid(form2•[block] cx•# cz•#) form2.översätta(
+ƒ formVid(form2•[block] cx•# cz•#) form2.omvandla(
 		ƒ(b2•block) block(cx b2.y2 cz b2.sorts)
 	)
 
@@ -73,11 +73,11 @@ stenblocksform: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
 ƒ skapaMål() (
 		djup2: maxZ
 		par2: [:-1 ‥ 1].blandade().efterföljande(1 2)
-		par2.kombinerad(
+		par2.kombinera(
 			[]
 			ƒ(struktur•[block] cx2•#)
 				struktur.medLista(
-					(Slumpmässig(1 2) → []).översätta(
+					(Slumpmässig(1 2) → []).omvandla(
 						ƒ(nivå•#)
 							block(
 								cx2
@@ -110,7 +110,7 @@ stenblocksform: [block(0 0 0 '🪨') block(0 1 0 '🪨')]
 skapaKolumner: [-4 -3 -2 2 3 4]
 
 ƒ skapaVärld()
-	skapaKolumner.blandade().kombinerad(
+	skapaKolumner.blandade().kombinera(
 		[]
 		ƒ(fält•[block] cx6•# index2•#)
 			fält.medLista(
@@ -165,7 +165,7 @@ skapaKolumner: [-4 -3 -2 2 3 4]
 		¶Genom att vika in målcellen direkt i biten den ger undviker vi att bära runt på ett kanske-block. En tom kolumn viks helt enkelt till ingenting.¶
 		produkt: (toppY > (spel4.y3 + räckvidd)) ? '' spel4.block2.filtrera(
 					ƒ(b5•block) (b5.x2 = målX2) & (b5.y2 = toppY) & (b5.z2 = målZ2)
-				).kombinerad(
+				).kombinera(
 					''
 					ƒ(hittills•"" b6•block) hittills + produktAv(
 								b6.sorts
@@ -259,7 +259,7 @@ skapaKolumner: [-4 -3 -2 2 3 4]
 
 ¶En bildruta: åldra de lösa bitarna så att de landar, hänger kvar och sedan faller ner på toppen av det du står över, plocka upp allt som ligger på din cell, låt hammaren falla tillbaka och kontrollera tornen.¶
 ƒ låtVärldenGåVidare(spel10•spel) (
-		åldrades: spel10.föremål2.översätta(
+		åldrades: spel10.föremål2.omvandla(
 				ƒ(i•föremål) (i.ålder = 0) ? (i.ålder:1) i
 			)
 		stående: kolumnHöjd(spel10.block2 spel10.x4 spel10.z4)
@@ -299,7 +299,7 @@ skapaKolumner: [-4 -3 -2 2 3 4]
 		)
 	)
 
-nyckel4: Nyckel()
+nyckel4: Tangent()
 tick: Tid(150ms)
 tryck: Knapp()
 
@@ -340,7 +340,7 @@ rutstorlek: 0.8m
 
 markrader: [:0 ‥ 4].filtrera(
 		ƒ(rad•#) rad ≥ (spel11.z4 - ritaBakom)
-	).översätta(
+	).omvandla(
 		ƒ(rad2•#)
 			Fras(
 				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
@@ -353,7 +353,7 @@ markrader: [:0 ‥ 4].filtrera(
 
 blockvyer: spel11.block2.filtrera(
 		ƒ(b8•block) b8.z2 ≥ (spel11.z4 - ritaBakom)
-	).översätta(
+	).omvandla(
 		ƒ(b9•block)
 			Fras(
 				b9.sorts
@@ -367,7 +367,7 @@ blockvyer: spel11.block2.filtrera(
 ¶Tornen du siktar på, bleka, och bara de delar du inte har byggt än.¶
 spökvyer: ouppnåttMål(spel11.block2 spel11.mål).filtrera(
 		ƒ(g2•block) g2.z2 ≥ (spel11.z4 - ritaBakom)
-	).översätta(
+	).omvandla(
 		ƒ(g3•block)
 			Fras(
 				g3.sorts
@@ -382,7 +382,7 @@ spökvyer: ouppnåttMål(spel11.block2 spel11.mål).filtrera(
 ¶En lös bit. Det här är det enda på scenen som mjukt glider i stället för att hoppa till. Dess första bildruta ligger där blocket gick sönder och resten ligger där det landade, och den mjuka övergången däremellan är tumlandet.¶
 föremålsvyer: spel11.föremål2.filtrera(
 		ƒ(i6•föremål) i6.z3 ≥ (spel11.z4 - ritaBakom)
-	).översätta(
+	).omvandla(
 		ƒ(i7•föremål)
 			Fras(
 				i7.sorts2
@@ -521,7 +521,7 @@ gickSönder: spel11.sving = svängtick
 
 Tom resten av tiden, och det är allt som behövs: en ton som har börjat spelas klingar ut, så hammaren ringer ut även om den här listan blir tom redan vid nästa tick.¶
 träffnoter: gickSönder
-	? ((trasigNu.längd() > 0) ? trasigNu.översätta(
+	? ((trasigNu.längd() > 0) ? trasigNu.omvandla(
 					ƒ(i9•föremål) (i9.sorts2 = '🪵') ? 5 1
 				) [3])
 		[]
@@ -604,7 +604,7 @@ vinstljud: Musik(
 ¶Den finns bara på scenen när du har vunnit, och en tom lista sprids till ingenting.¶
 vinstlista: (spel11.fas = 3) ? [vinstljud] []
 
-Etapp(
+Estrad(
 	[:markrader :världslager stämning träffljud :vinstlista]
 	plats: Plats(((spel11.x4 + 0.2) · 1m) cameraY cameraZ)
 	bakgrund: Färg(78% 18 240°)

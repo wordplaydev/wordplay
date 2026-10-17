@@ -28,7 +28,7 @@ yerleştir: Yer(0m 0m 0m) … ∆ Zaman(1000ms) … yakalandı ? Yer(
 
 Sahne(
 	[
-		İfadeetmek(
+		Yazı(
 			"🐭"
 			seçilebilir
 			yer: yerleştir

@@ -31,8 +31,8 @@ Bühne(
 		Gruppe(
 			Stapel()
 			[
-				Satzglied('verrauscht' Farbe: Farbe(60% 90 30°))
-				Satzglied(
+				Phrase('verrauscht' Farbe: Farbe(60% 90 30°))
+				Phrase(
 					noteVon(tonhöhe)
 					Größe: 6m
 					Farbe: Farbe(60% 90 30°)
@@ -43,8 +43,8 @@ Bühne(
 		Gruppe(
 			Stapel()
 			[
-				Satzglied('glatt' Farbe: Farbe(70% 90 240°))
-				Satzglied(
+				Phrase('glatt' Farbe: Farbe(70% 90 240°))
+				Phrase(
 					noteVon(glatt2(tonhöhe))
 					Größe: 6m
 					Farbe: Farbe(70% 90 240°)

@@ -30,9 +30,9 @@ spadanie: ⊤ … ∆ wybór … (wybór = 'gravity') ? ~spadanie spadanie
 		Losowy(-120°/s 120°/s)
 	)
 
-litery: licznik → [].tłumaczyć(
+litery: licznik → [].przekształć(
 		ƒ(liczba2)
-			Wyrażenie(
+			Fraza(
 				glify2[liczba2]
 				nazwa: "glyph\liczba2\"
 				miejsce: Ruch(
@@ -45,7 +45,7 @@ litery: licznik → [].tłumaczyć(
 	)
 
 ¶Dwa elementy sterujące. Nie mają masy, a ich położenie nie jest Ruchem, więc silnik fizyki zostawia je w spokoju.¶
-przełącznik: Wyrażenie(
+przełącznik: Fraza(
 		spadanie ? '⬇ grawitacja' '🌌 unoszenie się'
 		0.7m
 		nazwa: 'gravity'
@@ -53,7 +53,7 @@ przełącznik: Wyrażenie(
 		miejsce: Miejsce(-13m 1m)
 	)
 
-wstrząsarka: Wyrażenie(
+wstrząsarka: Fraza(
 		'🎲 potrząsanie'
 		0.7m
 		nazwa: 'shake'

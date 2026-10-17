@@ -127,7 +127,7 @@
                 "length": {
                     "doc": [
                         "$~Oceniam na podstawie liczby czytelnych znaków w tekście; jedna litera to jeden znak, jeden emoji to jeden znak, itd. Na przykład:",
-                        "\\'cześć'.length()\\",
+                        "\\'cześć'.długość()\\",
                         "\\'🐈📚'.długość()\\"
                     ],
                     "names": ["$~długość"],
@@ -156,7 +156,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ jeśli podany @Text pojawi się u mnie.",
-                        "\\'czy znalazłeś to czego szukałeś?'.has('you')\\"
+                        "\\'czy znalazłeś to czego szukałeś?'.ma('you')\\"
                     ],
                     "names": ["$~ma"],
                     "inputs": [
@@ -169,8 +169,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\ jeśli zacznę od podanego @Text.",
-                        "\\'witaj wierszu!'.starts('witaj')\\",
-                        "\\'witaj wierszu!'.starts('wers')\\"
+                        "\\'witaj wierszu!'.zaczynasię('witaj')\\",
+                        "\\'witaj wierszu!'.zaczynasię('wers')\\"
                     ],
                     "names": ["$~zaczynasię"],
                     "inputs": [
@@ -183,8 +183,8 @@
                 "ends": {
                     "doc": [
                         "$~\\⊤\\ jeśli zakończę podanym @Text.",
-                        "\\'czy jestem pytaniem?'.ends('?')\\",
-                        "\\'Nie jestem pytaniem.'.ends('?')\\"
+                        "\\'czy jestem pytaniem?'.Kończysię('?')\\",
+                        "\\'Nie jestem pytaniem.'.Kończysię('?')\\"
                     ],
                     "names": ["$~Kończysię"],
                     "inputs": [
@@ -232,7 +232,7 @@
                         "$~Czasami przydaje się połączenie dwóch @Text w jeden. Daj mi inny @Text, a stworzę nowy tekst, który nas łączy:",
                         "\\'cześć ' + 'wers'\\"
                     ],
-                    "names": ["$~łączny", "$~łączyć"],
+                    "names": ["$~połącz", "$~łączny", "$~łączyć"],
                     "inputs": [
                         {
                             "doc": "$~@Text do dołączenia.",
@@ -485,27 +485,27 @@
                 "positive": {
                     "doc": [
                         "$~Tworzę nową @Number, który sprawia, że jestem dodatni, mimo że jestem ujemny.",
-                        "\\-200.positive()\\"
+                        "\\-200.dodatni()\\"
                     ],
-                    "names": ["$~pozytywny"],
+                    "names": ["$~dodatni", "$~pozytywny"],
                     "inputs": []
                 },
                 "round": {
                     "doc": [
                         "$~Tworzę nową @Number, która zaokrągla mnie do najbliższej liczby całkowitej.",
-                        "\\9.4.round()\\",
-                        "\\9.5.round()\\",
-                        "\\9.6.round()\\"
+                        "\\9.4.zaokrąglij()\\",
+                        "\\9.5.zaokrąglij()\\",
+                        "\\9.6.zaokrąglij()\\"
                     ],
-                    "names": ["$~okrągły"],
+                    "names": ["$~zaokrąglij", "$~okrągły"],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": [
                         "$~Tworzę nową @Number, która zaokrągla do najmniejszej liczby całkowitej mniejszej ode mnie.",
-                        "\\10.5.roundDown()\\",
-                        "\\10.1.roundDown()\\",
-                        "\\10.01.roundDown()\\"
+                        "\\10.5.zaokrąglićwdół()\\",
+                        "\\10.1.zaokrąglićwdół()\\",
+                        "\\10.01.zaokrąglićwdół()\\"
                     ],
                     "names": ["$~zaokrąglićwdół"],
                     "inputs": []
@@ -513,11 +513,11 @@
                 "roundUp": {
                     "doc": [
                         "$~Tworzę nową @Number, która zaokrągla do najmniejszej liczby całkowitej większej ode mnie.",
-                        "\\10.5.roundUp()\\",
-                        "\\10.9.roundUp()\\",
-                        "\\10.99.roundUp()\\"
+                        "\\10.5.zaokrąglijWGórę()\\",
+                        "\\10.9.zaokrąglijWGórę()\\",
+                        "\\10.99.zaokrąglijWGórę()\\"
                     ],
-                    "names": ["$~łapanka"],
+                    "names": ["$~zaokrąglijWGórę", "$~łapanka"],
                     "inputs": []
                 },
                 "power": {
@@ -636,12 +636,12 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["$~Oblicz mój cosinus.", "\\π.cos()\\"],
-                    "names": ["$~sałata", "$~cosinus"],
+                    "doc": ["$~Oblicz mój cosinus.", "\\π.cosinus()\\"],
+                    "names": ["$~cosinus"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~Oblicz mój sinus.", "\\π.cos()\\"],
+                    "doc": ["$~Oblicz mój sinus.", "\\π.cosinus()\\"],
                     "names": ["$~grzech", "$~sinus"],
                     "inputs": []
                 },
@@ -661,7 +661,7 @@
                 "max": {
                     "doc": [
                         "$~Znajdź największą liczbę mnie i innych.",
-                        "\\1.max(2 3 4)\\"
+                        "\\1.maks(2 3 4)\\"
                     ],
                     "names": "$~maks",
                     "inputs": [
@@ -672,7 +672,7 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Oblicz mój tangens.", "\\π.tan()\\"],
+                    "doc": ["$~Oblicz mój tangens.", "\\π.tangens()\\"],
                     "names": ["$~tangens"],
                     "inputs": []
                 },
@@ -742,7 +742,7 @@
                 "limit": {
                     "doc": [
                         "$~Trzymaj mnie między niską a wysoką liczbą: jeśli jestem poniżej niskiej, dostajesz właśnie ją, a jeśli jestem powyżej wysokiej, dostajesz zamiast tego ją.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.granica(0 10)\\"
                     ],
                     "names": "$~granica",
                     "inputs": [
@@ -759,7 +759,7 @@
                 "toward": {
                     "doc": [
                         "$~Przesuń się częściowo ode mnie do innej liczby. Przy 0% dostajesz mnie, przy 100% dostajesz tę drugą liczbę, a w połowie drogi dostajesz liczbę pośrodku.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.wKierunku(10m 30%)\\"
                     ],
                     "names": "$~wKierunku",
                     "inputs": [
@@ -776,7 +776,7 @@
                 "rescale": {
                     "doc": [
                         "$~Znajdź, gdzie znajduję się między jedną parą liczb, a potem zwróć liczbę, która leży tak samo między inną parą liczb. Przydatne, gdy chcesz zamienić coś, co zmierzyłeś, na coś, co możesz pokazać.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.przeskaluj(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~przeskaluj",
                     "inputs": [
@@ -976,7 +976,7 @@
                 "add": {
                     "doc": [
                         "$~Tworzę nową @List z podanym elementem na końcu.",
-                        "\\['jabłko' 'banan' 'mango'].with('arbuz')\\"
+                        "\\['jabłko' 'banan' 'mango'].z('arbuz')\\"
                     ],
                     "names": "$~z",
                     "inputs": [
@@ -989,7 +989,7 @@
                 "append": {
                     "doc": [
                         "$~Tworzę nową @List ze swoimi wartościami, a następnie wszystkie wartości podanej @List po mnie.",
-                        "\\['jabłko' 'banan' 'mango'].withList(['arbuz' 'karmel'])\\",
+                        "\\['jabłko' 'banan' 'mango'].zListą(['arbuz' 'karmel'])\\",
                         "Trochę łatwiej jest używać @Spread, w ten sposób:",
                         "\\['jabłko' 'banan' 'mango' :['arbuz' 'karmel']]\\"
                     ],
@@ -1026,7 +1026,7 @@
                 "random": {
                     "doc": [
                         "$~Jeden losowo wybrany z moich przedmiotów lub @None, jeśli jest pusty.",
-                        "\\['jabłko' 'banan' 'mango'].random()\\"
+                        "\\['jabłko' 'banan' 'mango'].losowy()\\"
                     ],
                     "names": "$~losowy",
                     "inputs": []
@@ -1042,7 +1042,7 @@
                 "first": {
                     "doc": [
                         "$~Pierwszy @element we mnie, lub @None jeśli jestem pusty.",
-                        "\\['jabłko' 'banan' 'mango'].first()\\"
+                        "\\['jabłko' 'banan' 'mango'].Pierwszy()\\"
                     ],
                     "names": "$~Pierwszy",
                     "inputs": []
@@ -1058,7 +1058,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ jeśli mam w sobie @element równy danemu elementowi.",
-                        "\\['jabłko' 'banan' 'mango'].has('banan')\\"
+                        "\\['jabłko' 'banan' 'mango'].ma('banan')\\"
                     ],
                     "names": "$~ma",
                     "inputs": [
@@ -1071,7 +1071,7 @@
                 "join": {
                     "doc": [
                         "$~Łączę elementy na mojej liście w @Text, oddzielając je podanym separatorem @Text.",
-                        "\\['jabłko' 'banan' 'mango'].join(', ')\\"
+                        "\\['jabłko' 'banan' 'mango'].dołączyć(', ')\\"
                     ],
                     "names": "$~dołączyć",
                     "inputs": [
@@ -1108,7 +1108,7 @@
                 "sansFirst": {
                     "doc": [
                         "$~Tworzę listę bez pierwszego elementu.",
-                        "\\['jabłko' 'banan' 'mango'].sansFirst()\\"
+                        "\\['jabłko' 'banan' 'mango'].bezPierwszego()\\"
                     ],
                     "names": ["$~bezPierwszego", "$~sansPierwszy"],
                     "inputs": []
@@ -1116,7 +1116,7 @@
                 "sansLast": {
                     "doc": [
                         "$~Tworzę listę bez ostatniego elementu.",
-                        "\\['jabłko' 'banan' 'mango'].sansLast()\\"
+                        "\\['jabłko' 'banan' 'mango'].bezOstatniego()\\"
                     ],
                     "names": ["$~bezOstatniego", "$~sansOstatni"],
                     "inputs": []
@@ -1137,9 +1137,9 @@
                 "reverse": {
                     "doc": [
                         "$~Ja, ale na odwrót!",
-                        "\\['jabłko' 'banan' 'mango'].reverse()\\"
+                        "\\['jabłko' 'banan' 'mango'].odwrócony()\\"
                     ],
-                    "names": ["$~wywrócony", "$~odwracać"],
+                    "names": ["$~odwrócony", "$~wywrócony", "$~odwracać"],
                     "inputs": []
                 },
                 "equals": {
@@ -1172,9 +1172,9 @@
                     "doc": [
                         "$~Daj mi @FunctionDefinition, które bierze @value i opcjonalny @index jako wejście i tworzy wartość, a ja obliczę je dla każdego z moich elementów, zamieniając moje wartości w nowe wartości.",
                         "Na przykład wyobraź sobie, że jestem listą @Number, a ty chcesz podwoić je wszystkie:",
-                        "\\[2 4 6 8].tłumaczyć(ƒ(liczba•#) liczba × 2)\\"
+                        "\\[2 4 6 8].przekształć(ƒ(liczba•#) liczba × 2)\\"
                     ],
-                    "names": "$~tłumaczyć",
+                    "names": ["$~przekształć", "$~tłumaczyć"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition, która przetłumaczy każdy @element.",
@@ -1312,9 +1312,9 @@
                     "doc": [
                         "$~Daj mi @FunctionDefinition, które przyjmuje najnowszą kombinację i następny @value oraz tworzy następną kombinację. Przejdę wtedy od pierwszego do ostatniego z moich elementów, tworząc kolejne kombinacje, i obliczę końcową kombinację, do której obliczy się twój @FunctionDefinition.",
                         "To bardzo pomaga połączyć wszystkie moje elementy w jedną wartość. Na przykład wyobraź sobie, że chcesz dodać listę liczb:",
-                        "\\[3 9 2 8 1 4].łączny(0 ƒ(suma•# liczba•#) suma + liczba)\\"
+                        "\\[3 9 2 8 1 4].połącz(0 ƒ(suma•# liczba•#) suma + liczba)\\"
                     ],
-                    "names": ["$~łączny", "$~łączyć"],
+                    "names": ["$~połącz", "$~łączny", "$~łączyć"],
                     "inputs": [
                         {
                             "doc": "$~Kombinacja początkowa.",
@@ -1372,7 +1372,7 @@
                 "sum": {
                     "doc": [
                         "$~Zsumuj wszystkie moje liczby. Jeśli jestem pusta, wynik to 0, a jeśli moje liczby nie są mierzone w tej samej jednostce, powiem ci o tym zamiast zgadywać.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].suma()\\"
                     ],
                     "names": "$~suma",
                     "inputs": []
@@ -1380,7 +1380,7 @@
                 "average": {
                     "doc": [
                         "$~Zsumuj wszystkie moje liczby i podziel przez ich liczbę. Jeśli jestem pusta, nie ma czego uśredniać, więc dostajesz @None.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].średnia()\\"
                     ],
                     "names": "$~średnia",
                     "inputs": []
@@ -1513,7 +1513,7 @@
                     "doc": [
                         "$~Podaj mi @FunctionDefinition, która przyjmuje @element i generuje \\⊤\\, jeśli powinien on zostać zachowany, a ja utworzę @Set zawierający tylko elementy spełniające Twoje kryteria.",
                         "Na przykład znajdźmy liczby nieparzyste we mnie:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(liczba•#) (liczba % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.filtr(ƒ(liczba•#) (liczba % 2) = 1)\\"
                     ],
                     "names": "$~filtr",
                     "inputs": [
@@ -1537,9 +1537,9 @@
                     "doc": [
                         "$~Podaj mi @FunctionDefinition, która przyjmuje @element i tworzy na jego podstawie nowy element, a ja przetłumaczę wszystkie elementy w sobie na nowy @Set (usuwając wszelkie duplikaty).",
                         "Na przykład, zmieńmy wszystkie moje @Number na @Text:",
-                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(liczba•#) liczba→'')\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.przekształć(ƒ(liczba•#) liczba→'')\\"
                     ],
-                    "names": "$~tłumaczyć",
+                    "names": ["$~przekształć", "$~tłumaczyć"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition tłumaczy jeden z moich elementów na nowy @element, którego potrzebujesz.",
@@ -1694,7 +1694,7 @@
                         "Na przykład dajmy każdemu jeden punkt, bo wszyscy byli tacy mili.",
                         "\\{'amy': 5points 'jen': 3points 'tony': 0points}.tłumaczyć(\n\tƒ(klawisz•'' wartość•#points) wartość + 1points\n)\\🪲"
                     ],
-                    "names": "$~tłumaczyć",
+                    "names": ["$~przekształć", "$~tłumaczyć"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition, które tłumaczy każdy @value.",
@@ -1872,7 +1872,7 @@
                 },
                 "combine": {
                     "doc": "$~Daj mi inny sformatowany tekst, a połączę nas w jeden. Jeśli któryś z nas ma więcej niż jeden akapit, podziały akapitów zostają zachowane.",
-                    "names": ["$~łączny", "$~łączyć"],
+                    "names": ["$~połącz", "$~łączny", "$~łączyć"],
                     "inputs": [
                         {
                             "doc": "$~Sformatowany tekst do dołączenia.",

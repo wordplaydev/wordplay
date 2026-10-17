@@ -7,12 +7,12 @@ Cả hai âm thanh đều đến từ chính các dáng đứng. Một @Pose có
 
 ¶Hai đoạn ngắn. Một @Track mặc định sẽ lặp lại, nhưng một dáng đứng chỉ là một khoảnh khắc chứ không kéo dài, nên nhạc của một dáng đứng luôn chỉ phát đúng một lần.¶
 vồ: ÂmNhạc(
-		BảnNhạc([5 1] nhạcCụ: NhạcCụ.chuông nhịp: 1beats)
+		Bè([5 1] nhạcCụ: NhạcCụ.chuông nhịp: 1beats)
 		âmLượng: 50%
 		tên: 'vồ'
 	)
 chạyVụt: ÂmNhạc(
-		BảnNhạc([1 2] nhạcCụ: NhạcCụ.sáo nhịp: 1beats)
+		Bè([1 2] nhạcCụ: NhạcCụ.sáo nhịp: 1beats)
 		âmLượng: 35%
 		tên: 'chạy vụt'
 	)

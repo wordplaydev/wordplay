@@ -165,7 +165,7 @@ rooms•[ruangan2]: [
 			) tas3
 	)
 
-kunci3: Kunci()
+kunci3: Tuts()
 
 ¶Satu tombol ditekan, berurutan: pada sebuah akhir, tombol apa pun membangunkanmu di ruangan pertama lagi. Tombol yang bukan 1, 2, atau 3 tidak berarti apa-apa. Angka yang melebihi jumlah pintu di ruangan ini juga tidak berarti apa-apa. Baru setelah itu tombol dianggap sebuah pintu. Uji yang ketiga itu perlu dicatat, karena akses daftar berputar kembali. Tanpa uji itu, menekan 3 di ruangan dengan dua pintu akan diam-diam membuka pintu pertama.¶
 ƒ langkah2(t•petualangan k•'')•petualangan (
@@ -222,7 +222,7 @@ diBawah:
 				memasuki: Pose(kegelapan: 0%)
 			)
 		]
-		doors.menerjemahkan(
+		doors.petakan(
 			ƒ(pintu3•pintu indeks2•#)
 				Frasa(
 					`\indeks2\. *\pintu3.label\*`

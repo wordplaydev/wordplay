@@ -19,17 +19,17 @@ pytania•[pytanie]: [] … naciśnięty … [
 
 Scena(
 	[
-		Wyrażenie(
+		Fraza(
 			'👨‍👨‍👧‍👦'
 			miejsce: Miejsce(0m 0m)
 			twarz: "Noto Emoji"
 		)
 		Kształt(Prostokąt(-5m 0m 25m -1m))
-		:pytania.tłumaczyć(
+		:pytania.przekształć(
 			ƒ(p•pytanie indeks2•#) (
 					inicjalizuj: naciśnięty & (indeks2 = pytania.długość(
 									))
-					Wyrażenie(
+					Fraza(
 						'P'
 						nazwa: p.identyfikator
 						miejsce: Ruch(

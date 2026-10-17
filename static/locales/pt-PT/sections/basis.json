@@ -169,8 +169,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\ se eu começar com o @Text fornecido.",
-                        "\\'Olá verso!'.starts('olá')\\",
-                        "\\'Olá verso!'.starts('verso')\\"
+                        "\\'Olá verso!'.começa('olá')\\",
+                        "\\'Olá verso!'.começa('verso')\\"
                     ],
                     "names": ["começa"],
                     "inputs": [
@@ -183,8 +183,8 @@
                 "ends": {
                     "doc": [
                         "$~\\⊤\\ se terminar com o @Text fornecido.",
-                        "\\'Sou eu uma pergunta?'.ends('?')\\",
-                        "\\'Eu não sou uma pergunta.'.ends('?')\\"
+                        "\\'Sou eu uma pergunta?'.termina('?')\\",
+                        "\\'Eu não sou uma pergunta.'.termina('?')\\"
                     ],
                     "names": ["termina"],
                     "inputs": [
@@ -636,12 +636,12 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["$~Calcule o coseno de mim.", "\\π.cos()\\"],
+                    "doc": ["$~Calcule o coseno de mim.", "\\π.cosseno()\\"],
                     "names": ["cosseno"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~Calcule o seno de mim.", "\\π.cos()\\"],
+                    "doc": ["$~Calcule o seno de mim.", "\\π.cosseno()\\"],
                     "names": ["pecado", "seno"],
                     "inputs": []
                 },
@@ -672,7 +672,7 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Calcula a minha tangente.", "\\π.tan()\\"],
+                    "doc": ["$~Calcula a minha tangente.", "\\π.tangente()\\"],
                     "names": ["$~tangente"],
                     "inputs": []
                 },
@@ -742,7 +742,7 @@
                 "limit": {
                     "doc": [
                         "$~Mantenha-me entre um número baixo e um número alto: se eu estiver abaixo do número baixo, é isso que recebe, e se eu estiver acima do número alto, recebe esse em vez disso.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.limite(0 10)\\"
                     ],
                     "names": "$~limite",
                     "inputs": [
@@ -759,9 +759,9 @@
                 "toward": {
                     "doc": [
                         "$~Mova-se parte do caminho entre mim e outro número. A 0% recebe-me a mim, a 100% recebe o outro número, e a meio caminho recebe o número intermédio.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.emDireção(10m 30%)\\"
                     ],
-                    "names": "$~paraQue",
+                    "names": ["$~emDireção", "$~paraQue"],
                     "inputs": [
                         {
                             "doc": "$~O número em direção ao qual se deve mover.",
@@ -776,7 +776,7 @@
                 "rescale": {
                     "doc": [
                         "$~Descubra onde me situo entre um par de números e depois devolva o número que se situa da mesma forma entre outro par. Útil para transformar algo que mediu em algo que pode mostrar.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.redimensionar(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~redimensionar",
                     "inputs": [
@@ -989,7 +989,7 @@
                 "append": {
                     "doc": [
                         "$~Crio uma nova @List com os meus valores e, em seguida, todos os valores da @List fornecida após mim.",
-                        "\\['maçã' 'banana' 'manga'].withList(['melancia' 'carambola'])\\",
+                        "\\['maçã' 'banana' 'manga'].comlista(['melancia' 'carambola'])\\",
                         "É um pouco mais fácil usar o @Spread, assim:",
                         "\\['maçã' 'banana' 'manga' :['melancia' 'carambola']]\\"
                     ],
@@ -1108,7 +1108,7 @@
                 "sansFirst": {
                     "doc": [
                         "$~Crio uma lista sem o primeiro item.",
-                        "\\['maçã' 'banana' 'manga'].sansFirst()\\"
+                        "\\['maçã' 'banana' 'manga'].excetoPrimeiro()\\"
                     ],
                     "names": ["excetoPrimeiro", "semprimeiro"],
                     "inputs": []
@@ -1116,7 +1116,7 @@
                 "sansLast": {
                     "doc": [
                         "$~Crio uma lista sem o meu último item.",
-                        "\\['maçã' 'banana' 'manga'].sansLast()\\"
+                        "\\['maçã' 'banana' 'manga'].excetoÚltimo()\\"
                     ],
                     "names": ["excetoÚltimo", "semÚltimo"],
                     "inputs": []
@@ -1136,7 +1136,7 @@
                 "reverse": {
                     "doc": [
                         "$~Eu, mas ao contrário!",
-                        "\\['maçã' 'banana' 'manga'].reverse()\\"
+                        "\\['maçã' 'banana' 'manga'].invertido()\\"
                     ],
                     "names": ["invertido", "invertir"],
                     "inputs": []
@@ -1371,7 +1371,7 @@
                 "sum": {
                     "doc": [
                         "$~Soma todos os meus números. Se estiver vazia, isso é 0, e se os meus números não estiverem todos medidos na mesma unidade, direi isso mesmo em vez de adivinhar.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].soma()\\"
                     ],
                     "names": "$~soma",
                     "inputs": []
@@ -1379,9 +1379,9 @@
                 "average": {
                     "doc": [
                         "$~Soma todos os meus números e divide pelo número total de valores. Se estiver vazia, não há nada para calcular a média, por isso recebe @None.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].média()\\"
                     ],
-                    "names": "$~media",
+                    "names": ["$~média", "$~media"],
                     "inputs": []
                 }
             },
@@ -1512,7 +1512,7 @@
                     "doc": [
                         "$~Forneça-me uma @FunctionDefinition que receba um item e devolva \\⊤\\ se deve ser mantido, e eu criarei um @Set que contenha apenas os itens que correspondam aos seus critérios.",
                         "Por exemplo, vamos encontrar os números ímpares em mim:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.filtro(ƒ(num•#) (num % 2) = 1)\\"
                     ],
                     "names": "filtro",
                     "inputs": [
@@ -1536,7 +1536,7 @@
                     "doc": [
                         "$~Forneça-me uma @FunctionDefinition que receba um item e produza um novo item com base no mesmo; em seguida, traduzirei todos os itens para um novo @Set (removendo quaisquer duplicados).",
                         "Por exemplo, vamos transformar todos os meus @Number em @Text:",
-                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.traduzir(ƒ(num•#) num→'')\\"
                     ],
                     "names": "traduzir",
                     "inputs": [

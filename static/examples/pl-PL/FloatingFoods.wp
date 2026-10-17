@@ -11,9 +11,9 @@ najnowsze•['']:
 
 Grupa(
 	Siatka(3 3 1m 1m)
-	najnowsze.tłumaczyć(
+	najnowsze.przekształć(
 		ƒ(danie•"" indeks2•#)
-			Wyrażenie(
+			Fraza(
 				danie
 				nazwa: "\danie\-\indeks2\"
 				wstępowanie: Poza(nieprzezroczystość: 0 skala: 2)

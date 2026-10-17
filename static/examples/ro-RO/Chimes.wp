@@ -5,7 +5,7 @@ Clopoței
 
 Este un instrument. Nu scoate niciun sunet. Cifrele sunt deja o partitură; doar că încă nu este cântată. Blocul ascuns de deasupra scenei este sunetul, care așteaptă ca @Music să existe.¶
 
-apăsat: Cheie()
+apăsat: Tastă()
 tic: Timp(30ms)
 
 ¶Cât de mult din sunetul său pierde un clopoțel la fiecare cadru.¶
@@ -16,7 +16,7 @@ stingere: 0.03
 
 ¶Lovește clopoțelul a cărui tastă a fost apăsată și lasă toți ceilalți clopoței să se liniștească.¶
 ƒ sunet2(rând•[clopoțel2] lovește•'' lovit•?)
-	rând.traduce(
+	rând.transformă(
 		ƒ(clopoțel3•clopoțel2)
 			(lovit & (lovește = clopoțel3.cheie2))
 			? clopoțel3.energie:1
@@ -75,7 +75,7 @@ melodie2: Muzică(
 		reluare: ∆ apăsat
 	)
 
-Etapă(
+Estradă(
 	[
 		Fraza(
 			'━━━━━━━━━━━━━'

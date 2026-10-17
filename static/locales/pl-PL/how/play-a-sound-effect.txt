@@ -4,10 +4,10 @@ Dźwięk „ding”, gdy odpowiedź jest poprawna, głuchy stuk, gdy coś spada 
 
 Dwie rzeczy sprawiają, że to efekt dźwiękowy, a nie piosenka. \pętla: ⊥\ mówi  @Track , żeby zagrał swoje nuty raz, a nie w kółko. A sama lista nut pochodzi z danej chwili: zawiera nuty, gdy coś właśnie się wydarzyło, a przez resztę czasu jest pusta.
 
-\tapped: ∆ Button()
-Stage([
-		Phrase('👆 dotknij mnie' wybieralny nazwa: 'dotknij')
-		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell pętla: ⊥) powtórka: tapped)
+\tapped: ∆ Przycisk()
+Scena([
+		Fraza('👆 dotknij mnie' wybieralny nazwa: 'dotknij')
+		Muzyka(Ścieżka(tapped ? [1 5 8] [] instrument: Instrument.dzwonek pętla: ⊥) powtórka: tapped)
 	])\
 
 Nie martw się, że lista znów się opróżnia przy kolejnym obliczeniu — nuta, która się zaczęła, zawsze gra do końca. Tego, czego nie możesz pominąć, to \replay\. Dotknij dwa razy, a drugie dotknięcie tworzy dokładnie tę samą muzykę co pierwsze, więc nic się nie zmieniło i nic nie zabrzmiałoby ponownie; \replay\ to sposób, żeby powiedzieć /znowu, teraz/. 
@@ -16,11 +16,11 @@ Nie martw się, że lista znów się opróżnia przy kolejnym obliczeniu — nut
 
 Ponieważ nuty to po prostu lista, możesz je wybrać na podstawie tego, *co* się wydarzyło, zamiast zawsze grać to samo:
 
-\key: Key()
+\key: Klawisz()
 struck: ∆ key
-Stage([
-		Phrase(struck ? key '⌨ naciśnij klawisz' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano pętla: ⊥) powtórka: struck)
+Scena([
+		Fraza(struck ? key '⌨ naciśnij klawisz' 1m)
+		Muzyka(Ścieżka(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.pianino pętla: ⊥) powtórka: struck)
 	])\
 
 Zauważ, że \∆ key\ jest obliczane w osobnej linii, a sprawdzenie wartości \key = ' '\ odbywa się osobno. Zapisane razem jako jeden warunek, dźwięk odezwałby się ponownie przy następnym niezwiązanym klawiszu, gdy \key\ nadal odczytywane jako spacja.

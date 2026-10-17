@@ -170,7 +170,7 @@ stream to check collisions.¶/en
 			名字: "me"/en,"मैं"/hi
 			位置: where
 			物質: 物質()
-			移動: 排序(
+			移動: 序列(
 				{
 					0%: 姿勢()
 					50%: 姿勢(偏移: 位置(0m 1m 0m))

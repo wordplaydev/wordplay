@@ -10,7 +10,7 @@ rozmiar2: 30
 
 ¶Na początku zrób listę 20 kotków, każdego w losowym miejscu. Gdy zegar tyka, przesuń wszystkie trochę w dół.¶
 kotki•[kotek]:
-	licznik → [].tłumaczyć(
+	licznik → [].przekształć(
 		ƒ(_) kotek(
 				Losowy(-rozmiar2 rozmiar2)
 				Losowy(-rozmiar2 rozmiar2)
@@ -20,7 +20,7 @@ kotki•[kotek]:
 			)
 	)
 	… ∆ Czas() …
-		kotki.tłumaczyć(
+		kotki.przekształć(
 			ƒ(kotek2•kotek)
 				(kotek2.y2:kotek2.y2 < -rozmiar2 ? rozmiar2 kotek2.y2 - 2)
 				.kąt2:kotek2.kąt2 + kotek2.szybkość
@@ -28,9 +28,9 @@ kotki•[kotek]:
 
 ¶Zamień kotki na frazy¶
 Scena(
-	kotki.tłumaczyć(
+	kotki.przekształć(
 		ƒ(kotek3•kotek)
-			Wyrażenie(
+			Fraza(
 				"🐈"
 				twarz: "Noto Color Emoji"
 				rozmiar: 5m

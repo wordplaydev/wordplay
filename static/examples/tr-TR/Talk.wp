@@ -3,4 +3,4 @@ Konuş
 === start
 ¶Sesin yükseldiğinde ağzını açan bir emoji.¶
 
-İfadeetmek(Hacim() > 0.5 ? "😮" "😐" 5m)
+Yazı(SesSeviyesi() > 0.5 ? "😮" "😐" 5m)

@@ -23,7 +23,7 @@ carrés: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦�
 ¶L'aspect d'un pixel dans le style actuel. Un pixel presque sans couleur n'a pas de teinte à montrer, alors il devient un carré clair ou foncé.¶
 ƒ glyphe2(couleur2•Couleur)
 	(style2 = 'ascii') ?
-		"\dégradé[((couleur2.luminosité × 9).rond()) + 1]\"
+		"\dégradé[((couleur2.luminosité × 9).arrondir()) + 1]\"
 		((style2 = 'emoji') ?
 				((couleur2.chroma < 8) ?
 						((couleur2.luminosité < 50%) ? "⬛" "⬜")

@@ -5,9 +5,9 @@ Parfois, il est utile de faire un @Phrase déplaçable avec un clavier, une sour
 Fais-le, nous pouvons nous combiner @Phrase avec @Placement:
 
 \
-Stage(
+Scène(
 	[Phrase('bouge-moi' lieu: Placement())]
-	lieu: Place(0m 0m -10m)
+	lieu: Lieu(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Par exemple, un @Stage a un @Place qui détermine où sa caméra est pointée.
 Essayons de régler la place d'un @Placement pour un @Stage, et voyons ce qui se passe.
 
 \
-Stage(
+Scène(
   [
-	Phrase('🐈' lieu: Place(-2m 2m))
-	Phrase('🐈' lieu: Place(2m -2m))
-	Phrase('🐈' lieu: Place(-1m 3m))
+	Phrase('🐈' lieu: Lieu(-2m 2m))
+	Phrase('🐈' lieu: Lieu(2m -2m))
+	Phrase('🐈' lieu: Lieu(-1m 3m))
   ]
-  lieu: Placement(Place(0m 0m -10m))
+  lieu: Placement(Lieu(0m 0m -10m))
 )
 \
 

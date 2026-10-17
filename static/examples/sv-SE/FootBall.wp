@@ -15,8 +15,8 @@ målvaktRäckvidd: 4.5m
 målvaktFart: 0.55m
 
 tick: Tid(50ms)
-tryck: Nyckel(ner)
-släpp: Nyckel(ner: ⊥)
+tryck: Tangent(ner)
+släpp: Tangent(ner: ⊥)
 
 ¶Vilket håll handsken rör sig åt. När du trycker på en piltangent börjar den röra sig, och när du släpper samma piltangent stannar den, så handsken glider så länge du håller ner tangenten. Över ett så brett mål skulle ett steg per tryckning aldrig hinna fram i tid.¶
 driv•#: 0 … ∆ tryck | ∆ släpp …
@@ -316,7 +316,7 @@ ljudlista: omgång.fas ???
 		3: resultatljud
 		[]
 
-Etapp(
+Estrad(
 	[
 		boll
 		målvakt

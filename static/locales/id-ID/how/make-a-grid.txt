@@ -4,24 +4,24 @@ Bagaimana jika kita menginginkan baris? /Dan/ kolom secara bersamaan? Itulah yan
 
 A  @Grid  meminta jumlah baris, jumlah kolom, dan jarak antar sel.
 
-\Group(Grid(2 3 0.25m) [
-		Phrase('🍎')
-		Phrase('🍌')
-		Phrase('🍇')
-		Phrase('🥕')
-		Phrase('🥦')
-		Phrase('🌽')
+\Kelompok(Kisi(2 3 0.25m) [
+		Frasa('🍎')
+		Frasa('🍌')
+		Frasa('🍇')
+		Frasa('🥕')
+		Frasa('🥦')
+		Frasa('🌽')
 	])\
 
 Ini menghasilkan kebun buah dan sayuran berukuran 2 x 3!
 
 Jika Anda ingin setiap sel memiliki ukuran yang sama, berikan  @Grid  serta lebar dan tinggi juga. Dengan begitu, karakter akan tetap rapi di dalam kotaknya, meskipun ukurannya berbeda:
 
-\Group(Grid(2 2 0.1m 1.5m 1.5m) [
-		Phrase('🐈' ukuran: 1m)
-		Phrase('🐶' ukuran: 1.5m)
-		Phrase('🦊' ukuran: 0.5m)
-		Phrase('🐻' ukuran: 2m)
+\Kelompok(Kisi(2 2 0.1m 1.5m 1.5m) [
+		Frasa('🐈' ukuran: 1m)
+		Frasa('🐶' ukuran: 1.5m)
+		Frasa('🦊' ukuran: 0.5m)
+		Frasa('🐻' ukuran: 2m)
 	])\
 
 arrange-in-a-row, stack-up-and-down, make-many-copies

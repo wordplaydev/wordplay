@@ -7,42 +7,42 @@
 आपण असा @Scene बनवू शकतो ज्यात प्रत्येक ओळ एक @Phrase असेल, आणि प्रत्येक ओळीचा @Phrase/duration ठरवून, @Scene प्रत्येक वाक्यरचना पूर्ण झाल्यावर पुढे सरकेल.
 
 \
-Scene([
-  Phrase('Jack be nimble' कालावधी: 1s)
-  Phrase('Jack be quick' कालावधी: 1s)
-  Phrase('Jack jump over the candle stick' कालावधी: 1s)
+दृश्य([
+  वाक्यांश('Jack be nimble' कालावधी: 1s)
+  वाक्यांश('Jack be quick' कालावधी: 1s)
+  वाक्यांश('Jack jump over the candle stick' कालावधी: 1s)
 ])
 \
 
 @Scene ही सुद्धा @Sequence पूर्ण होण्याची वाट पाहील. चला मेणबत्तीच्या ओळीला उडी मारायला लावूया!
 
 \
-Scene([
-		Phrase('Jack be nimble' कालावधी: 1s)
-		Phrase('Jack be quick' कालावधी: 1s)
-		Phrase('Jack jump over the candle stick' प्रवेश: Sequence.bounce(कालावधी: 1s))
+दृश्य([
+		वाक्यांश('Jack be nimble' कालावधी: 1s)
+		वाक्यांश('Jack be quick' कालावधी: 1s)
+		वाक्यांश('Jack jump over the candle stick' प्रवेश: क्रम.उसळी(कालावधी: 1s))
 	])
 \
 
 @Scene मध्ये मजकुराचा @Group सुद्धा घेता येतो, आणि त्यातील सर्व मजकुराचे हालचाल चित्रण पूर्ण होण्याची ती वाट पाहील.
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack be nimble')
-		  Phrase('Jack be quick')
+दृश्य([
+		गट(थप्पी() [
+      वाक्यांश('Jack be nimble')
+		  वाक्यांश('Jack be quick')
     ] कालावधी: 2s)
-		Phrase('Jack jump over the candle stick' प्रवेश: Sequence.bounce(कालावधी: 1s))
+		वाक्यांश('Jack jump over the candle stick' प्रवेश: क्रम.उसळी(कालावधी: 1s))
 	])
 \
 
  कधीकधी कविता सुरूच राहायला हवी. @Scene/loop शेवटची @Scene पूर्ण झाल्यावर @Phrase ला पुन्हा तिच्या पहिल्या ठिकाणी घेऊन जाते, त्यामुळे ती पुन्हा पुन्हा स्वतःला म्हणत राहते.
 
 \
-Scene([
-		Phrase('Jack be nimble' कालावधी: 1s)
-		Phrase('Jack be quick' कालावधी: 1s)
-		Phrase('Jack jump over the candle stick' कालावधी: 1s)
+दृश्य([
+		वाक्यांश('Jack be nimble' कालावधी: 1s)
+		वाक्यांश('Jack be quick' कालावधी: 1s)
+		वाक्यांश('Jack jump over the candle stick' कालावधी: 1s)
 	] फेरा: ⊤)
 \
 

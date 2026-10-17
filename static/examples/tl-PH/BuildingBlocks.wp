@@ -149,7 +149,7 @@ buoHaligi: [-4 -3 -2 2 3 4]
 ¶Lumundag, pero mula lamang sa isang bagay na kinatatayuan mo. Ang pagtatanong kung nasa ibabaw ka ba ng sarili mong tuntungan ang mahalagang pagsubok: ang pagkaubos ng iyong kakayahang lumundag ay hindi katulad ng pagkakadapo, kaya ang isang lundag na tatanggi lamang habang tumatagal ang kakayahang iyon ay maaaring muling ilunsad sa gitna ng pagbagsak, at muli sa pagbaba mula roon — umaakyat sa langit nang isang selula sa isang pagkakataon. Ito ang paraan mo para maabot ang anumang bagay na wala sa saklaw ng iyong braso nang hindi muna gumagawa ng baytang.¶
 ƒ talon(laro3•laro)
 	(laro3.y3 > taasNgHaligi(laro3.blocks laro3.x4 laro3.z4)) ? laro3
-		((laro3.y3:(laro3.y3 + 1).minuto(maximumY)).sabit:mgaTiktikNgPagbitin)
+		((laro3.y3:(laro3.y3 + 1).pinakamaliit(maximumY)).sabit:mgaTiktikNgPagbitin)
 
 ¶Bagsakin ang martilyo sa kung anuman ang nasa harap mo. Isang bloke lamang ang natatanggal, ang pinakaibabaw ng haligi na iyon, kaya't kailangan ng tatlong hampas para sa isang puno — at nangangahulugan ito na hindi ka kailanman makakaiwan ng isang parte na nakalutang, kaya't wala nang kailangang mahulog. Isang bloke lamang na isang antas sa ibabaw ng iyong sariling tuntungan ang maaabot mo, kaya't ang isang tuktok na wala sa saklaw mo ay hindi lamang natatanggal; umakyat pa at humampas ulit. Ang lumuwag na parte ay gumugulong nang isang selula pa palayo sa iyo, maliban kung ang selulang iyon ay wala sa larangan o may okupante na, kung saan naman ito babagsak sa kinatatayuan nito. Umaatras ang martilyo tumama man o hindi, kaya't kahit ang hindi-tumamang bagsak ay may bumabagsak pa ring martilyo.¶
 ƒ tama(laro4•laro) (
@@ -299,7 +299,7 @@ buoHaligi: [-4 -3 -2 2 3 4]
 
 susi3: Susi()
 tik: Oras(150ms)
-tapik: Butones()
+tapik: Pindutan()
 
 ¶Ang tibok ng puso, pinapatakbo ng tatlong input. Habang naglalaro, ang isang tick ay nagpapasulong sa daigdig, ang mga susi ang gumagawa ng lahat ng iba pa, at ang isang click ay nagpapahampas. Mula sa titulo o sa screen ng panalo, ang Enter o isang click ay nagsisimula ng bagong laro.¶
 laro11•laro: laro(

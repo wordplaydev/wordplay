@@ -10,9 +10,9 @@ Phrase(
 	'party time!'
 	affronter: 'Luckiest Guy'
 	poses: [
-		Pose(couleur: Color(25% 70 250°))
-		Pose(couleur: Color(50% 80 300°))
-		Pose(couleur: Color(58% 90 60°))
+		Pose(couleur: Couleur(25% 70 250°))
+		Pose(couleur: Couleur(50% 80 300°))
+		Pose(couleur: Couleur(58% 90 60°))
 	]
 )
 \
@@ -27,8 +27,8 @@ Phrase(
 	'bounce'
 	affronter: 'Luckiest Guy'
 	poses: [
-		Pose(couleur: Color(25% 70 250°) rotation: -10° compenser: Place(0m 0.1m))
-		Pose(couleur: Color(58% 90 60°) rotation: 10° opacité: 0.6)
+		Pose(couleur: Couleur(25% 70 250°) rotation: -10° compenser: Lieu(0m 0.1m))
+		Pose(couleur: Couleur(58% 90 60°) rotation: 10° opacité: 0.6)
 	]
 )
 \
@@ -37,14 +37,14 @@ Phrase(
 Ce message anonyme choisit une nouvelle inclinaison toutes les quarts de seconde :
 
 \
-tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+tilt: 0° … ∆ Temps(250ms) … Aléatoire(-15° 15°)
 Phrase(
 	`*ransom* /note/`
 	affronter: 'Courier Prime'
 	poses: [
-		Pose(rotation: tilt compenser: Place(0m 0.05m))
+		Pose(rotation: tilt compenser: Lieu(0m 0.05m))
 		Pose(rotation: -tilt échelle: 1.2)
-		Pose(rotation: tilt ÷ 2 compenser: Place(0m -0.05m))
+		Pose(rotation: tilt ÷ 2 compenser: Lieu(0m -0.05m))
 	]
 )
 \

@@ -4,12 +4,12 @@ Vẽ theo âm nhạc đang phát
 
 @Beat  luôn có một  @Downbeat  để trao cho em, nên em có thể đọc nó ngay lập tức. Trước khi bản nhạc nào bắt đầu, nó đứng ở nhịp số không, chưa có gì phát ra:
 
-\beat: Beat()
-count: beat.count
-Stage(
+\beat: Nhịp()
+count: beat.đếm
+Sânkhấu(
 	[
-		Phrase('🥁' kíchcỡ: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] nhạcCụ: Instrument.drums))
+		Cụmtừ('🥁' kíchcỡ: ((count % 4) = 0) ? 2m 1m)
+		ÂmNhạc(Bè([1 1 1 1] nhạcCụ: NhạcCụ.trống))
 	]
 )\
 
@@ -17,30 +17,30 @@ Số \count\ tăng thêm một sau mỗi nhịp, nên \count % 4\ là \0\ ở m�
 
 Đó là toàn bộ bản nhạc gói gọn trong một con số. Nhưng một  @Downbeat  cũng mang theo một danh sách \parts\ , mỗi  @Part  ứng với một  @Track , và một  @Part  biết bè của chính nó đang làm gì ngay lúc này: \pitch\ của nó, \volume\ của nó, \pan\ của nó, và liệu nó có đang \sounding\ hay không. Hãy vẽ những thứ đó ra và em sẽ thấy từng bè riêng biệt thay vì bản phối trộn:
 
-\beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase(
+\beat: Nhịp()
+parts•[Phần]: beat.phần.lọc(ƒ(p•Phần) p.phátRaÂm)
+ƒ height(p•Phần)•# p.caoĐộ[1] ÷ 1semitones
+ƒ dot(p•Phần)•Cụmtừ Cụmtừ(
 		'⬤'
-		0.4m + (p.volume · 1m)
-		vịTrí: Place(
-			(p.pan · 3) · 1m
+		0.4m + (p.âmLượng · 1m)
+		vịTrí: VịTrí(
+			(p.cânBằngTráiPhải · 3) · 1m
 			((height(p) · 0.2) - 1) · 1m
 		)
 	)
-Stage(
+Sânkhấu(
 	[
-		:parts.translate(ƒ(p•Part) dot(p))
-		Music(
+		:parts.biếnĐổi(ƒ(p•Phần) dot(p))
+		ÂmNhạc(
 			[
-				Track(
+				Bè(
 					[1 ø 5 ø]
-					nhạcCụ: Instrument.piano
+					nhạcCụ: NhạcCụ.đànPiano
 					cânBằngTráiPhải: -1
 				)
-				Track(
+				Bè(
 					[ø 8 ø 12]
-					nhạcCụ: Instrument.bell
+					nhạcCụ: NhạcCụ.chuông
 					cânBằngTráiPhải: 1
 				)
 			]

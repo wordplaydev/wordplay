@@ -9,8 +9,8 @@ W
 ¶قائمة التخمينات وكلمة سرية¶/ar
 •Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] נותרו•[""] התחלה2•?) (
 	סוד: התחלה2 ? נותרו[1] ""
-	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (סוד.משך(
-			) × 3) - guesses.משך()
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (סוד.אורך(
+			) × 3) - guesses.אורך()
 	status/en,estado/es,حالة/ar:
 		סוד = "" ? "start"
 			סוד → [""].כל(ƒ(אות•"") guesses.יש(אות)) ? "won"
@@ -34,7 +34,7 @@ state/en,estado/es,حالة/ar•Game: Game(
 					state.נותרו.ללאראשונים()
 					⊤
 				)
-				(state.status = "playing") & (key.משך() = 1) & ~state.guesses.יש(
+				(state.status = "playing") & (key.אורך() = 1) & ~state.guesses.יש(
 						key
 					) ?
 					Game(state.guesses.עם(key) state.נותרו ⊤)
@@ -48,7 +48,7 @@ board/en,tabelro/es,طاولة/ar: משפט(
 			ƒ(אות2•"") ((state.status = "lost") | state.guesses.יש(
 							אות2
 						)) ? אות2 "."
-		).להצטרף(
+		).לחבר(
 			' '
 		)
 		2m
@@ -62,7 +62,7 @@ fade/en,descolorar/es,يختفي/ar: פוזה(אטימות: 0)
 screen/en,cine/es,إظهار/ar:
 	state.status ???
 		"start": קבוצה(
-			לערום()
+			ערימה()
 			[
 				משפט(
 					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
@@ -78,7 +78,7 @@ screen/en,cine/es,إظهار/ar:
 			יוצא: fade
 		)
 		"lost": קבוצה(
-			לערום()
+			ערימה()
 			[
 				board
 				משפט(
@@ -90,7 +90,7 @@ screen/en,cine/es,إظهار/ar:
 			יוצא: fade
 		)
 		"won": קבוצה(
-			לערום()
+			ערימה()
 			[
 				board.מנוחה:רצף.לקפוץ(3m 1s)
 				משפט(
@@ -100,14 +100,14 @@ screen/en,cine/es,إظهار/ar:
 			יוצא: fade
 		)
 		קבוצה(
-			לערום()
+			ערימה()
 			[
 				board
 				משפט(
-					state.guesses.משך() = 0 ?
-						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.להצטרף(
+					state.guesses.אורך() = 0 ?
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.לחבר(
 							' '
-						)\"/en"Suposiciones: \state.guesses.להצטרף(' ')\"/es"التخمينات \state.guesses.להצטרף(
+						)\"/en"Suposiciones: \state.guesses.לחבר(' ')\"/es"التخمينات \state.guesses.לחבר(
 							' '
 						)\"/ar
 				)
@@ -125,7 +125,7 @@ screen/en,cine/es,إظهار/ar:
 נושא2: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶כמה מהמקום שהוקצה לך כבר נוצל: מ-0, כשהכול עוד פתוח, עד 1, כשלא נשאר דבר. הסוד ריק לפני הסיבוב הראשון, ולכן החילוק מוגן ואינו מחלק באפס.¶
-מספרניחושיםמרבי: state.סוד.משך() × 3
+מספרניחושיםמרבי: state.סוד.אורך() × 3
 לחץ: (מספרניחושיםמרבי = 0) ? 0 ((1 - (state.guessesRemaining ÷ מספרניחושיםמרבי)).הגבל(
 				0
 				1
@@ -243,7 +243,7 @@ screen/en,cine/es,إظهار/ar:
 ¶Create a world with the screen in it¶/en
 ¶Crea un mundo con la pantalla en él¶/es
 ¶اصنع عالمًا مع الشاشة بداخله¶/ar
-שלב(
+במה(
 	[screen פסקול]
 	מקום: מקום(0m 0m -12m)
 	פנים: "Poor Story"

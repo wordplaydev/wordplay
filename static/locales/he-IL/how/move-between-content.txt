@@ -13,14 +13,14 @@
 \
 slides: ['ראשון' 'שני' 'שלישי']
 
-key: Key()
+key: מפתח()
 
 index•#: 1 … ∆ key …
-	(key = 'חץ ימינה') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'חץ ימינה') ? ((index < slides.אורך()) ? index + 1 index)
 		(key = 'חץ שמאלה') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+משפט(slides[index])
 \
 
  ה @Reaction הוא הלב של זה. הוא מתחיל ב- \1\, ובכל פעם שה- @Key משתנה, הוא מחליט מה יהיה המספר החדש.
@@ -38,15 +38,15 @@ Phrase(slides[index])
 
 \
 slides: [
-	Phrase('סיפור בשלושה חלקים' גודל: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('חתול מופיע')])
-	Phrase('הסוף 🎉')
+	משפט('סיפור בשלושה חלקים' גודל: 3m)
+	קבוצה(ערימה() [משפט('🐈') משפט('חתול מופיע')])
+	משפט('הסוף 🎉')
 ]
 
-key: Key()
+key: מפתח()
 
 index•#: 1 … ∆ key …
-	(key = 'חץ ימינה') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'חץ ימינה') ? ((index < slides.אורך()) ? index + 1 index)
 		(key = 'חץ שמאלה') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 תן לו @Scene/pause כדי שהוא לעולם לא יזוז לבד, ו־ @Scene/step כדי להזיז אותו חלק אחד לכל כיוון:
 
 \
-key: Key()
-Scene([
-		Phrase('סיפור בשלושה חלקים' גודל: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('חתול מופיע')])
-		Phrase('הסוף 🎉')
+key: מפתח()
+סצינה([
+		משפט('סיפור בשלושה חלקים' גודל: 3m)
+		קבוצה(ערימה() [משפט('🐈') משפט('חתול מופיע')])
+		משפט('הסוף 🎉')
 	] השהה צעד: ∆ key ? ((key = 'חץ שמאלה') ? -1 (key = 'חץ ימינה') ? 1 ø) ø)
 \
 

@@ -15,7 +15,7 @@ licznik: uderzenie2.liczba
 
 ¶Fajerwerkami stają się tylko partie, które naprawdę wydają dźwięk; milcząca ścieżka pozostaje ciemna. Zanim muzyka się zacznie, nie ma żadnych partii, więc niebo jest puste.¶
 odpalanie•[Część]: uderzenie2.części.filtr(
-		ƒ(p•Część) p.brzmienie
+		ƒ(p•Część) p.brzmi
 	)
 
 ¶Każdy instrument wybucha jako on sam, i o to właśnie chodzi: widać, który z nich przed chwilą zagrał.¶
@@ -36,8 +36,8 @@ odpalanie•[Część]: uderzenie2.części.filtr(
 ƒ wysokość2(p4•Część)•# p4.stopnie[1]
 
 ¶Jeden wybuch, który unosi się wraz z nutą i rośnie wraz z głośnością.¶
-ƒ wybuch(p5•Część i2•#)•Wyrażenie
-	Wyrażenie(
+ƒ wybuch(p5•Część i2•#)•Fraza
+	Fraza(
 		twarz2(p5)
 		(0.9m + (p5.głośność · 1.6m))
 		miejsce: Miejsce(
@@ -545,7 +545,7 @@ perkusja2: [
 
 Scena(
 	[
-		:odpalanie.tłumaczyć(ƒ(p6•Część i3•#) wybuch(p6 i3))
+		:odpalanie.przekształć(ƒ(p6•Część i3•#) wybuch(p6 i3))
 		Muzyka(
 			[
 				Ścieżka(

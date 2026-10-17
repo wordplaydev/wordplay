@@ -7,7 +7,7 @@ Setze sie zusammen, um ein zufälliges Emoji auszuwählen:
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+Phrase(emojis.zufällig())
 \
 
  Du kannst auch @Random mit zwei Zahlen benutzen. Das wählt eine ganze Zahl zwischen ihnen aus.
@@ -15,7 +15,7 @@ Um zum Beispiel jede Sekunde ein / neues / zufälliges Emoji auszuwählen, misch
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+pick: emojis[1] … ∆ Zeit(1000ms) … emojis[Zufällig(1 emojis.Länge())]
 Phrase(pick)
 \
 

@@ -4,13 +4,13 @@ Lahat ng bahagi ng isang  @Music  ay puwedeng piliin habang ito ay tumutugtog, k
 
 @Choice  ay nagbibigay ng \name\ ng kahit alin sa mga napipiling output na pinili ng madla, kaya sapat na ang isang kondisyon para gawing instrumento iyon:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' mapipili pangalan: 'piyano')
-				Phrase('🎻' mapipili pangalan: 'biyolin')
+\picked: Pagpipilian()
+Entablado([
+		Grupo(Hilera() [
+				Parirala('🎹' mapipili pangalan: 'piyano')
+				Parirala('🎻' mapipili pangalan: 'biyolin')
 			])
-		Music(Track([1 3 5 6 5 3] instrumento: (picked = 'biyolin') ? Instrument.violin Instrument.piano))
+		Musika(Track([1 3 5 6 5 3] instrumento: (picked = 'biyolin') ? Instrumento.biyolin Instrumento.piyano))
 	])\
 
 Ang dalawang napipiling parirala ang nagpapagana nito —  @Choice  ay walang mababasa maliban kung may bagay sa entablado na \napipili: ⊤\.
@@ -19,18 +19,18 @@ Dalawang instrumento ang kasya sa isang kondisyon. Ang isang buong palette ay hi
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' Instrumento.piyano)
+		Voice('🎺' Instrumento.trumpeta)
+		Voice('🔔' Instrumento.kampana)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: Pagpipilian()
+found: voices.hanapin(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon mapipili pangalan: voice.icon))
+Entablado([
+		Grupo(Hilera() [
+				:voices.isalin(ƒ(voice•Voice) Parirala(voice.icon mapipili pangalan: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrumento: current.sound))
+		Musika(Track([1 3 5 6 5 3] instrumento: current.sound))
 	])\
 
 Ang pagdagdag ng ikaapat na tinig ay isang linya na lang ngayon, at kusang lumilitaw ang pindutan. Pansinin ang bantay na \found•ø ?\:  @List/find  ay nagbibigay ng \ø\ kapag walang tumugma, na siyang nangyayari bago pa man may pumili — at ang fallback ay kailangang isang buong \🎙\, dahil iyon ang ipinangako ng \current\.

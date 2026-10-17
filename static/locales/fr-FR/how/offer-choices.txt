@@ -8,10 +8,10 @@ Parfois, on souhaite présenter plusieurs choix à l'écran et exploiter les cho
 Par exemple, nous montrons ici trois choix, chacun avec un nom unique.
 
 \
-option: Choice()
+option: Choix()
 
-Group(
-	Stack() [
+Groupe(
+	Pile() [
 		Phrase('option 1' sélectionnable nom: 'un')
 		Phrase('option 2' sélectionnable nom: 'deux')
 		Phrase('option 3' sélectionnable nom: 'trois')
@@ -25,11 +25,11 @@ Group(
 Vous pouvez utiliser ce modèle pour réagir à un choix. Par exemple, nous pourrions modifier le projet ci-dessus pour afficher un emoji secret basé sur ce choix :
 
 \
-option: Choice()
+option: Choix()
 
 option = '' ?
-	Group(
-		Stack() [
+	Groupe(
+		Pile() [
 			Phrase('option 1' sélectionnable: ⊤ nom: 'un')
 			Phrase('option 2' sélectionnable: ⊤ nom: 'deux')
 			Phrase('option 3' sélectionnable: ⊤ nom: 'trois')

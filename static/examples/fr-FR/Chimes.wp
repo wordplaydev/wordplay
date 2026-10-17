@@ -5,7 +5,7 @@ Carillons
 
 C'est un instrument. Il ne fait aucun son. Les chiffres sont déjà une partition ; ils ne sont simplement pas encore joués. Le bloc élidé au-dessus de la scène est le son, qui attend que @Music existe.¶
 
-appuyée: Clé()
+appuyée: Touche()
 tic: Temps(30ms)
 
 ¶La part de sa résonance qu'un carillon perd à chaque image.¶
@@ -16,7 +16,7 @@ affaiblissement: 0.03
 
 ¶Frappe le carillon dont la touche a été appuyée, et laisse tous les autres revenir au repos.¶
 ƒ résonance(rangée•[carillon] touche•'' frappé•?)
-	rangée.traduire(
+	rangée.transformer(
 		ƒ(carillon2•carillon)
 			(frappé & (touche = carillon2.clé3))
 			? carillon2.énergie:1

@@ -7,9 +7,9 @@ Nếu chúng ta muốn một nhân vật rơi xuống, nảy trên sàn, hoặc 
 Chúng ta cũng cần một thứ gì đó để rơi xuống trúng, nếu không nhân vật của chúng ta sẽ cứ rơi mãi! Một @Shape có @Rectangle rộng sẽ tạo ra một sàn nhà đẹp:
 
 \
-Stage([
-    Phrase('🍎' vịTrí: Motion(Place(0m 5m)) vấnđề: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+Sânkhấu([
+    Cụmtừ('🍎' vịTrí: ChuyểnĐộng(VịTrí(0m 5m)) vậtChất: VậtChất())
+    Hìnhdạng(Hìnhchữnhật(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Khi chạm sàn, nó nảy lên một chút, vì @Phrase có sẵn một @Matter
 @Matter Cần có khối lượng, độ đàn hồi và ma sát:
 
 \
-Stage([
-    Phrase('⚽' vịTrí: Motion(Place(-2m 5m)) vấnđề: Matter(1kg 0.9 0.2))
-    Phrase('🪨' vịTrí: Motion(Place(2m 5m)) vấnđề: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+Sânkhấu([
+    Cụmtừ('⚽' vịTrí: ChuyểnĐộng(VịTrí(-2m 5m)) vậtChất: VậtChất(1kg 0.9 0.2))
+    Cụmtừ('🪨' vịTrí: ChuyểnĐộng(VịTrí(2m 5m)) vậtChất: VậtChất(5kg 0.1 0.8))
+    Hìnhdạng(Hìnhchữnhật(-10m 0m 10m -5m))
 ])
 \
 

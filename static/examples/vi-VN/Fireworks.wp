@@ -537,16 +537,16 @@ trống2: [
 
 Sânkhấu(
 	[
-		:đangNổ.dịch(ƒ(p6•Phần i2•#) chùmNổ(p6 i2))
+		:đangNổ.biếnĐổi(ƒ(p6•Phần i2•#) chùmNổ(p6 i2))
 		ÂmNhạc(
 			[
-				BảnNhạc(
+				Bè(
 					giaiĐiệu2
 					nhạcCụ: NhạcCụ.kènTrumpet
 					âmLượng: 90%
 					vòngLặp: ⊥
 				)
-				BảnNhạc(
+				Bè(
 					trầm
 					nhạcCụ: NhạcCụ.đànPiano
 					chìaKhóa: -12semitones
@@ -554,26 +554,26 @@ Sânkhấu(
 					cânBằngTráiPhải: -0.4
 					vòngLặp: ⊥
 				)
-				BảnNhạc(
+				Bè(
 					chuông2
 					nhạcCụ: NhạcCụ.chuông
 					âmLượng: 55%
 					vòngLặp: ⊥
 				)
-				BảnNhạc(
+				Bè(
 					violin
 					nhạcCụ: NhạcCụ.đànVĩCầm
 					âmLượng: 45%
 					cânBằngTráiPhải: 0.3
 					vòngLặp: ⊥
 				)
-				BảnNhạc(
+				Bè(
 					sáo2
 					nhạcCụ: NhạcCụ.sáo
 					âmLượng: 65%
 					vòngLặp: ⊥
 				)
-				BảnNhạc(
+				Bè(
 					trống2
 					nhạcCụ: NhạcCụ.trống
 					âmLượng: 45%

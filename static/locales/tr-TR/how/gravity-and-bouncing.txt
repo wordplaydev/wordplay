@@ -7,9 +7,9 @@ Ya bir karakterin düşmesini, yere çarpıp zıplamasını ya da gerçek bir ne
 Üzerine düşecek bir şeye de ihtiyacımız var, yoksa karakterimiz sonsuza kadar düşmeye devam eder! Geniş bir @Shape ile @Rectangle güzel bir zemin oluşturur:
 
 \
-Stage([
-    Phrase('🍎' yer: Motion(Place(0m 5m)) konu: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+Sahne([
+    Yazı('🍎' yer: Hareket(Yer(0m 5m)) madde: Madde())
+    Şekil(Dikdörtgen(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Değiştirmek için / zıplayan / veya nasıl / ağır / Bir karakter, ona kendi
 @Matter Bir kütle, bir esneklik ve bir sürtünme katsayısı gerektirir:
 
 \
-Stage([
-    Phrase('⚽' yer: Motion(Place(-2m 5m)) konu: Matter(1kg 0.9 0.2))
-    Phrase('🪨' yer: Motion(Place(2m 5m)) konu: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+Sahne([
+    Yazı('⚽' yer: Hareket(Yer(-2m 5m)) madde: Madde(1kg 0.9 0.2))
+    Yazı('🪨' yer: Hareket(Yer(2m 5m)) madde: Madde(5kg 0.1 0.8))
+    Şekil(Dikdörtgen(-10m 0m 10m -5m))
 ])
 \
 

@@ -39,7 +39,7 @@ skrip: [
 	]
 
 ¶Lanjutkan dengan menekan tombol, klik, atau ketuk, dan berhenti di baris terakhir.¶
-giliran•#: 1 … ∆ Kunci() | ∆ Tombol() … (giliran < skrip.panjang(
+giliran•#: 1 … ∆ Tuts() | ∆ Tombol() … (giliran < skrip.panjang(
 				) ? giliran + 1 giliran)
 
 baris3: skrip[giliran]

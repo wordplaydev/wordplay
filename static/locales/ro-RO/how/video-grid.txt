@@ -8,8 +8,8 @@ O @Image ia o grilă de culori și o desenează ca pe o singură imagine, așa c
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Cameră(width × 1px height × 1px 33ms)
+Estradă([Imagine(colors "what the camera sees" 12m)])
 \
 
  Fiecare @Image are nevoie de o descriere, pentru că o grilă de culori nu spune nimic prin ea însăși cuiva care nu o poate vedea.
@@ -19,8 +19,8 @@ Putem desena imaginea cu litere în loc de pătrate, dându-i un /simbol/, o fun
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m simbol: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Cameră(width × 1px height × 1px 33ms)
+Estradă([Imagine(colors "the camera, drawn with dark and light circles" 12m simbol: ƒ(color•Culoare) (color.luminozitate < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

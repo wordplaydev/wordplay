@@ -7,9 +7,9 @@ Det är vad @Motion och @Matter är till för — tillsammans simulerar de fysik
 Vi behöver också något att falla ner på, annars fortsätter vår figur bara att falla för evigt! En @Shape med en bred @Rectangle fungerar bra som golv:
 
 \
-Stage([
-    Phrase('🍎' plats: Motion(Place(0m 5m)) materia: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+Estrad([
+    Fras('🍎' plats: Rörelse(Plats(0m 5m)) materia: Materia())
+    Figur(Rektangel(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Att ändra hur / studsande / eller hur / tung / en karaktär är, ge den din ege
 @Matter tar en massa, en studsighet och en friktion:
 
 \
-Stage([
-    Phrase('⚽' plats: Motion(Place(-2m 5m)) materia: Matter(1kg 0.9 0.2))
-    Phrase('🪨' plats: Motion(Place(2m 5m)) materia: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+Estrad([
+    Fras('⚽' plats: Rörelse(Plats(-2m 5m)) materia: Materia(1kg 0.9 0.2))
+    Fras('🪨' plats: Rörelse(Plats(2m 5m)) materia: Materia(5kg 0.1 0.8))
+    Figur(Rektangel(-10m 0m 10m -5m))
 ])
 \
 

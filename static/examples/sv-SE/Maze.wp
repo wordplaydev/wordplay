@@ -73,7 +73,7 @@ höger2: labyrint2.cell2(
 	)•''
 vann: nuvarande = '🤩'
 
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Rutnät(3 3 0.25m)

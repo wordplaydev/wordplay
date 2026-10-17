@@ -5,7 +5,7 @@ Sabia que o seu projeto pode ouvi-lo? @Volume stream utiliza o seu microfone par
 Podemos usar este número para controlar qualquer coisa — o tamanho de um @Phrase, a sua rotação, a sua cor.
 
 \
-Phrase('📣' tamanho: (Volume() × 5m) + 1m)
+Frase('📣' tamanho: (Volume() × 5m) + 1m)
 \
 
  Quando está tudo em silêncio, o megafone é \1m\ alto. Quando grita, pode crescer até \6m\ alto.
@@ -13,7 +13,7 @@ Phrase('📣' tamanho: (Volume() × 5m) + 1m)
 Quer um sol que gire mais depressa quanto mais alto gritar?
 
 \
-Phrase('🌞' rotação: Volume() × 360°)
+Frase('🌞' rotação: Volume() × 360°)
 \
 
  Experimente bater palmas ou cantarolar e veja o que acontece.

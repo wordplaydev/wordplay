@@ -7,14 +7,14 @@
 यह रहा एक गुब्बारे का टेम्प्लेट, जो एक रंग और एक लेबल लेता है, और जानता है कि ख़ुद को कैसे दिखाना है:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` रंग: color आकार: 2m)
+•Balloon(color•रंग label•'') (
+    ƒ show() वाक्यांश(`🎈\label\` रंग: color आकार: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'आकाश').show()
-    Balloon(Color(60% 80 0°) 'गुलाब').show()
-    Balloon(Color(90% 80 90°) 'धूप वाला').show()
+समूह(पंक्ति() [
+    Balloon(रंग(80% 50 240°) 'आकाश').show()
+    Balloon(रंग(60% 80 0°) 'गुलाब').show()
+    Balloon(रंग(90% 80 90°) 'धूप वाला').show()
 ])
 \
 

@@ -186,7 +186,7 @@ drzwi5: drogi(tutaj4 wyprawa2.plecak)
 niesiesz:
 	wyprawa2.plecak.długość() > 0
 	? [
-			Wyrażenie(
+			Fraza(
 				`*niesiesz* \wyprawa2.plecak.dołączyć(' · ')\`
 				rozmiar: 0.3m
 				wyrównanie: '|'
@@ -199,7 +199,7 @@ niesiesz:
 poniżej:
 	tutaj4.zakończenie ≠ ''
 	? [
-			Wyrażenie(
+			Fraza(
 				`*\tutaj4.zakończenie\*`
 				rozmiar: 0.8m
 				wyrównanie: '|'
@@ -214,7 +214,7 @@ poniżej:
 					skala: 0.5
 				)
 			)
-			Wyrażenie(
+			Fraza(
 				`naciśnij dowolny klawisz, aby obudzić się znowu`
 				rozmiar: 0.3m
 				wyrównanie: '|'
@@ -222,9 +222,9 @@ poniżej:
 				wstępowanie: Poza(nieprzezroczystość: 0%)
 			)
 		]
-		drzwi5.tłumaczyć(
+		drzwi5.przekształć(
 			ƒ(drzwi6•drzwi indeks2•#)
-				Wyrażenie(
+				Fraza(
 					`\indeks2\. *\drzwi6.etykieta\*`
 					rozmiar: 0.5m
 					wyrównanie: '|'
@@ -239,7 +239,7 @@ Scena(
 		Grupa(
 			Stos()
 			[
-				Wyrażenie(
+				Fraza(
 					tutaj4.opis2
 					rozmiar: 0.5m
 					zawinąć: 14m

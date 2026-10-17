@@ -70,8 +70,8 @@ liedtext: 'la li lu le lo li la'
 	Gruppe(
 		Stapel(Polsterung: 0.1m)
 		[
-			Satzglied(stimme3.symbol 1.1m)
-			Satzglied(stimme3.beschriftung 0.5m)
+			Phrase(stimme3.symbol 1.1m)
+			Phrase(stimme3.beschriftung 0.5m)
 		]
 		Name: stimme3.beschriftung
 		wählbar
@@ -90,10 +90,10 @@ Bühne(
 		Gruppe(
 			Stapel(Polsterung: 0.6m)
 			[
-				Satzglied(aktuell.symbol 2.5m)
-				Satzglied(aktuell.beschriftung 1.2m)
+				Phrase(aktuell.symbol 2.5m)
+				Phrase(aktuell.beschriftung 1.2m)
 				Gruppe(
-					Netz(Säulen: 5 Polsterung: 0.4m)
+					Raster(Säulen: 5 Polsterung: 0.4m)
 					stimmen.übersetzen(
 						ƒ(stimme4•stimme) knopf(stimme4)
 					)

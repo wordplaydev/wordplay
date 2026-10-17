@@ -155,7 +155,7 @@ miejscePiłki: Ruch(
 					ø
 	)
 
-piłka: Wyrażenie(
+piłka: Fraza(
 		'⚽'
 		0.6m
 		nazwa: 'piłka'
@@ -164,7 +164,7 @@ piłka: Wyrażenie(
 	)
 
 ¶Rękawica jest wyżej obserwowana po nazwie, a to wystarczy, żeby znalazła się w świecie fizyki, więc nie potrzebuje @Matter. Ustawia ją program, a nie fizyka, więc przechodzi przez piłkę zamiast ją uderzać. Obrona opisana wyżej odsyła piłkę z powrotem. Jej ruchy nie są płynnie przechodzone, więc jest dokładnie tam, gdzie ją skierowałeś, a nie powoli dąży za tobą.¶
-bramkarz: Wyrażenie(
+bramkarz: Fraza(
 		'🧤'
 		1.2m
 		nazwa: 'bramkarz'
@@ -176,7 +176,7 @@ bramkarz: Wyrażenie(
 	)
 
 ¶Kto zaraz będzie strzelał i skąd. Jest na boisku tylko wtedy, gdy piłka czeka.¶
-kopiący: Wyrażenie(
+kopiący: Fraza(
 		'🦵'
 		1.2m
 		miejsce: Miejsce(
@@ -254,7 +254,7 @@ drżenieBramki: Sekwencja(
 	)
 
 ¶Liczba zablokowanych strzałów. Jej nazwa zawiera numer podania, więc każdy strzał nadaje jej nową tożsamość i jej animacja odtwarza się od nowa. Liczba, której nazwa nigdy się nie zmienia, zanimowałaby się raz i potem stałaby w miejscu.¶
-widokWyniku: Wyrażenie(
+widokWyniku: Fraza(
 		"🧤 \runda2.bloki\"
 		1.4m
 		nazwa: "score\runda2.serwisy\"
@@ -267,7 +267,7 @@ widokWyniku: Wyrażenie(
 	)
 
 ¶Instrukcje są umieszczone na boisku, a nie na nakładce. Na dolnej krawędzi nakładki znajduje się zapis muzyczny, więc tekst w tym miejscu zostałby przykryty.¶
-instrukcje: Wyrażenie(
+instrukcje: Fraza(
 		'przytrzymaj ⬆ ⬇, aby poruszać rękawicą — zablokuj każdy strzał!'
 		0.55m
 		miejsce: Miejsce(-6.4m -6.4m)

@@ -14,13 +14,13 @@ NeKelime
 	status/en,estado/es,حالة/ar:
 		gizli = "" ? "start"
 			gizli → [""].Tümü(
-				ƒ(harf•"") guesses.sahipolmak(harf)
+				ƒ(harf•"") guesses.içerir(harf)
 			) ? "won"
 				guessesRemaining ≤ 0 ? "lost"
 					"playing"
 )
 
-key/en,tecla/es,مفتاح/ar: Anahtar()
+key/en,tecla/es,مفتاح/ar: Tuş()
 
 ¶When the keyboard state changes, the game state changes.¶/en
 ¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
@@ -40,7 +40,7 @@ state/en,estado/es,حالة/ar•Game: Game(
 					state.kalan2.İlkolmadan()
 					⊤
 				)
-				(state.status = "playing") & (key.uzunluk() = 1) & ~state.guesses.sahipolmak(
+				(state.status = "playing") & (key.uzunluk() = 1) & ~state.guesses.içerir(
 						key
 					) ?
 					Game(state.guesses.ile(key) state.kalan2 ⊤)
@@ -49,12 +49,12 @@ state/en,estado/es,حالة/ar•Game: Game(
 ¶The board is a translation of the secret, accounting for guesses¶/en
 ¶El tablero es una traducción del secreto, teniendo en cuenta las conjeturas.¶/es
 ¶اللوحة عبارة عن ترجمة للسرية ، مع مراعاة التخمينات¶/ar
-board/en,tabelro/es,طاولة/ar: İfadeetmek(
-		state.gizli → [""].tercümeetmek(
-			ƒ(harf2•"") ((state.status = "lost") | state.guesses.sahipolmak(
+board/en,tabelro/es,طاولة/ar: Yazı(
+		state.gizli → [""].dönüştür(
+			ƒ(harf2•"") ((state.status = "lost") | state.guesses.içerir(
 							harf2
 						)) ? harf2 "."
-		).katılmak(
+		).birleştir(
 			' '
 		)
 		2m
@@ -70,14 +70,14 @@ screen/en,cine/es,إظهار/ar:
 		"start": Grup(
 			Yığın()
 			[
-				İfadeetmek(
+				Yazı(
 					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
 					3m
 					yer: Yer(z: -1m)
 					giriş: Poz(opaklık: 0%)
 					dinlenme: Sekans.sallanmak(süre: 1s)
 				)
-				İfadeetmek(
+				Yazı(
 					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
 				)
 			]
@@ -87,7 +87,7 @@ screen/en,cine/es,إظهار/ar:
 			Yığın()
 			[
 				board
-				İfadeetmek(
+				Yazı(
 					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
 					giriş: Poz(rotasyon: 0°)
 					dinlenme: Poz(rotasyon: -5°)
@@ -99,7 +99,7 @@ screen/en,cine/es,إظهار/ar:
 			Yığın()
 			[
 				board.dinlenme:Sekans.sıçrama(3m 1s)
-				İfadeetmek(
+				Yazı(
 					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
 				)
 			]
@@ -109,15 +109,15 @@ screen/en,cine/es,إظهار/ar:
 			Yığın()
 			[
 				board
-				İfadeetmek(
+				Yazı(
 					state.guesses.uzunluk() = 0 ?
-						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.katılmak(
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.birleştir(
 							' '
-						)\"/en"Suposiciones: \state.guesses.katılmak(
+						)\"/en"Suposiciones: \state.guesses.birleştir(
 							' '
-						)\"/es"التخمينات \state.guesses.katılmak(' ')\"/ar
+						)\"/es"التخمينات \state.guesses.birleştir(' ')\"/ar
 				)
-				İfadeetmek(
+				Yazı(
 					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
 					dinlenme: Sekans.sallanmak(
 						2°
@@ -132,7 +132,7 @@ tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Harçlığının ne kadarı harcandı, her şeyin oynanabilir olduğu 0'dan hiçbir şeyin kalmadığı 1'e kadar. Gizli değer ilk turdan önce boş, bu yüzden bölme sıfıra bölmeye bırakılmadan korunuyor.¶
 maksimumTahmin: state.gizli.uzunluk() × 3
-baskı: (maksimumTahmin = 0) ? 0 ((1 - (state.guessesRemaining ÷ maksimumTahmin)).limit(0 1))
+baskı: (maksimumTahmin = 0) ? 0 ((1 - (state.guessesRemaining ÷ maksimumTahmin)).sınır(0 1))
 
 ¶Dakikada 54 vuruşta düşünceli, 120'de aceleci, ve her tahmin onu biraz değiştiriyor. Tempoyu değiştirmek baştan başlamak yerine bir sonraki vuruşa ekleniyor, böylece döngü yerini koruyor ve sadece öne doğru yaslanıyor — sessiz davul bu yaslanmayı duyulur kılmak için var, çünkü uzun tutulan notaların altındaki bir tempo değişimini hissetmek zor.¶
 bulmacaMüziği: Müzik(

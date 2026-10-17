@@ -22,7 +22,7 @@ símbolos: 'typography'/en'tipografía'/es ÷ ''
 			)
 	)
 
-frases: tornarAleatório() … ∆ Chave() | ∆ Botão() … tornarAleatório(
+frases: tornarAleatório() … ∆ Tecla() | ∆ Botão() … tornarAleatório(
 		)
 
-Fase([Grupo(Linha('|' 0m) frases local: Local(0m 0m))])
+Palco([Grupo(Linha('|' 0m) frases local: Local(0m 0m))])

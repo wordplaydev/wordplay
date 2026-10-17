@@ -5,7 +5,7 @@ Lager
 
 antal2: 10 → []
 
-ƒ bollar(z2•#m) antal2.översätta(
+ƒ bollar(z2•#m) antal2.omvandla(
 		ƒ()
 			Fras(
 				'o'
@@ -24,7 +24,7 @@ antal2: 10 → []
 			)
 	)
 
-Etapp(
+Estrad(
 	[
 		:bollar(0m)
 		:bollar(-10m)

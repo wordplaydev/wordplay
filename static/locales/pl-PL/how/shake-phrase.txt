@@ -6,8 +6,8 @@ Jest kilka sposobów, żeby to osiągnąć.
 Możemy użyć @Phrase/offset z @Random I @Time aby to się stało.
 
 \
-offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('Cześć' zrównoważyć: Place(offset 0m))
+offset: 0m … ∆ Czas() … Losowy(-0.1m 0.1m)
+Fraza('Cześć' zrównoważyć: Miejsce(offset 0m))
 \
 
  To tworzy wartość o nazwie \offset\ , która zmienia się na nową losową wartość za każdym tyknięciem zegara.
@@ -16,11 +16,11 @@ Potem używa tego przesunięcia, żeby pokazać @Phrase przesunięte o tę warto
 Gdybyśmy chcieli kontrolować wstrząsanie dokładniej, moglibyśmy użyć @Sequence aby utworzyć losową animację potrząsania, która się powtarza.
 
 \
-Phrase('Cześć' spoczynkowy: Sequence({
-			0%: Pose(zrównoważyć: Place(Random(-.2m .2m)))
-			15%: Pose(zrównoważyć: Place(Random(-.2m .2m)))
-			60%: Pose(zrównoważyć: Place(Random(-.2m .2m)))
-			75%: Pose(zrównoważyć: Place(Random(-.2m .2m)))
+Fraza('Cześć' spoczynkowy: Sekwencja({
+			0%: Poza(zrównoważyć: Miejsce(Losowy(-.2m .2m)))
+			15%: Poza(zrównoważyć: Miejsce(Losowy(-.2m .2m)))
+			60%: Poza(zrównoważyć: Miejsce(Losowy(-.2m .2m)))
+			75%: Poza(zrównoważyć: Miejsce(Losowy(-.2m .2m)))
 		} 0.1s))
 \
 

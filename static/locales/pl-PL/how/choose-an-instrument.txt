@@ -4,13 +4,13 @@ Wszystko o  @Music  można ustalić w trakcie odtwarzania, w tym to, kto to odtw
 
 @Choice  zwraca \name\ tego wybieralnego wyniku, który wybrali odbiorcy, więc wystarczy warunek, aby zamienić to w instrument:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' wybieralny nazwa: 'pianino')
-				Phrase('🎻' wybieralny nazwa: 'skrzypce')
+\picked: Wybór()
+Scena([
+		Grupa(Wiersz() [
+				Fraza('🎹' wybieralny nazwa: 'pianino')
+				Fraza('🎻' wybieralny nazwa: 'skrzypce')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'skrzypce') ? Instrument.violin Instrument.piano))
+		Muzyka(Ścieżka([1 3 5 6 5 3] instrument: (picked = 'skrzypce') ? Instrument.skrzypce Instrument.pianino))
 	])\
 
 Dwie wybieralne frazy sprawiają, że to działa —  @Choice  nie ma nic do odczytania, chyba że coś na scenie jest \wybieralne: ⊤\.
@@ -19,18 +19,18 @@ Dwa instrumenty mieszczą się w jednym warunku. Cała paleta już nie, a w efek
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' Instrument.pianino)
+		Voice('🎺' Instrument.trąbka)
+		Voice('🔔' Instrument.dzwonek)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: Wybór()
+found: voices.znajdować(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon wybieralny nazwa: voice.icon))
+Scena([
+		Grupa(Wiersz() [
+				:voices.przekształć(ƒ(voice•Voice) Fraza(voice.icon wybieralny nazwa: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Muzyka(Ścieżka([1 3 5 6 5 3] instrument: current.sound))
 	])\
 
 Dodanie czwartego brzmienia to teraz jedna linia, a przycisk pojawia się sam. Zwróć uwagę na zabezpieczenie \found•ø ?\:  @List/find  zwraca \ø\ gdy nic nie pasuje, co dzieje się zanim ktokolwiek dokona wyboru — a wartość zapasowa musi być pełnym \Przemówienie\, ponieważ tym właśnie ma być \current\.

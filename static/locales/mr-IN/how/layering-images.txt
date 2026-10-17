@@ -12,16 +12,16 @@
 ¶टीप: दुसऱ्या प्रकल्पासाठी गॅलरी पहा.<उदाहरण@https://wordplay.dev/project/example-Layers?play>लेयरिंग प्रतिमांचे.¶
 
 
-Stage(
+रंगमंच(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) फिरवणे: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) फिरवणे: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) फिरवणे: -25°)
+		आकृती(वर्तुळ(3m 0m 1m 0m))
+		आकृती(बहुभुज(2m 3 0m -12m 0m) फिरवणे: -30°)
+		आकृती(बहुभुज(7m 6 0m -6m 0m))
+		आकृती(आयत(-11m -9m 11m -12m 10m) फिरवणे: 25°)
+		आकृती(आयत(-11m -9m 11m -12m 10m) फिरवणे: -25°)
 
 	]
-	ठिकाण: Place(0m 10m -30m)
+	ठिकाण: ठिकाण(0m 10m -30m)
 )
 \
 

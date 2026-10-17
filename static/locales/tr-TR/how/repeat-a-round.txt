@@ -6,12 +6,12 @@ Bir @Scene bu turun tamamı olabilir, @Scene/loop ise onu başa döndüren şeyd
 Anlar, listedeki öğelerdir ve aralarındaki bir @Boolean , @Scene 'nin oyuncuyu beklediği yerdir.
 
 \
-guess: Chat()
+guess: Sohbet()
 right: guess = 'kedi'
-Scene([
-	Phrase('Hayvanı tahmin et!' süre: 2s)
+Gösteri([
+	Yazı('Hayvanı tahmin et!' süre: 2s)
 	∆ guess
-	Phrase(right ? 'Evet!' 'Yanlış!' süre: 2s)
+	Yazı(right ? 'Evet!' 'Yanlış!' süre: 2s)
 ] döngü: ~right)
 \
 
@@ -24,15 +24,15 @@ Turun neresinde olduğunu bilmek için @Spotlight ile birleştirebiliriz.
 Sana hangi @Phrase gösterildiğini, kaç tane olduğunu, @Scene kaç kez döndüğünü ve şu anda birini bekleyip beklemediğini söyler.
 
 \
-guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
-		Phrase('Hayvanı tahmin et!' süre: 2s)
+guess: Sohbet()
+at: Işık()
+Sahne([
+	Gösteri([
+		Yazı('Hayvanı tahmin et!' süre: 2s)
 		∆ guess
-		Phrase('Yanlış!' süre: 2s)
+		Yazı('Yanlış!' süre: 2s)
 	] döngü: ⊤)
-	Phrase(at.waiting ? 'bir tahmin yaz' `tur \at.lap + 1\` boyut: 0.4m yer: Place(0m -2m))
+	Yazı(at.bekliyor ? 'bir tahmin yaz' `tur \at.lap + 1\` boyut: 0.4m yer: Yer(0m -2m))
 ])
 \
 

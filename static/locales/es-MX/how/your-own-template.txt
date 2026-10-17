@@ -8,10 +8,10 @@ Aquí hay una plantilla de globo que toma un color y una etiqueta, y sabe cómo 
 
 \
 •Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` color: color tamaño: 2m)
+    ƒ show() Frase(`🎈\label\` color: color tamaño: 2m)
 )
 
-Group(Row() [
+Grupo(Fila() [
     Balloon(Color(80% 50 240°) 'Cielo').show()
     Balloon(Color(60% 80 0°) 'Rosa').show()
     Balloon(Color(90% 80 90°) 'Soleado').show()

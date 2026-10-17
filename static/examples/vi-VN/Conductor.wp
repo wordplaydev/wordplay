@@ -12,10 +12,10 @@ bànTay: Tay()
 
 ¶Độ cao cho biết có bao nhiêu phần dàn nhạc chơi, còn chuyển động ngang cho biết nhanh đến đâu. Cả hai đều được đọc thẳng từ bàn tay chứ không phải nhớ lại, nên chúng theo bàn tay liên tục. Mỗi giá trị được làm tròn thành một bước, nên nhạc chỉ đổi khi thay đổi đủ lớn để nghe thấy, và một bàn tay run sẽ không viết lại bản nhạc hai mươi lần mỗi giây.¶
 nâng: bànTay.vịTrí.y.đổiTỉLệ(-3m 3m 0 1).giớiHạn(0 1)
-lớp: 1 + ((nâng · 7).tròn())
+lớp: 1 + ((nâng · 7).làmTròn())
 
 tầmVới: bànTay.vịTrí.x.đổiTỉLệ(-5m 5m 0 1).giớiHạn(0 1)
-nhịpĐộ2: 72 + ((tầmVới · 8).tròn() · 12)
+nhịpĐộ2: 72 + ((tầmVới · 8).làmTròn() · 12)
 
 ¶Ai chơi giai điệu. Một nắm tay và một bàn tay ra ngoài khung hình đều được tính là không có ngón tay nào, nên khi không có ngón tay thì phần đang chơi vẫn giữ nguyên — nếu không, chỉ cần nhìn đi chỗ khác là giai điệu đã bị đổi.¶
 nổiBật: 5 … ∆ bànTay …
@@ -153,53 +153,53 @@ bộĐếm: [
 
 bàiHát: ÂmNhạc(
 		[
-			BảnNhạc(
+			Bè(
 				hànhKhúc
 				nhạcCụ: giọngNói2(nổiBật)
 				âmLượng: 55%
 				nhịp: 1𝅘𝅥
 			)
-			BảnNhạc(
+			Bè(
 				âmTrầm
 				nhạcCụ: NhạcCụ.đànBassTổngHợp
 				nhịp: 1𝅘𝅥
 				chìaKhóa: -24semitones
 				âmLượng: đãNghe(2 30%)
 			)
-			BảnNhạc(
+			Bè(
 				trống2
 				nhạcCụ: NhạcCụ.trống
 				nhịp: 1𝅘𝅥
 				âmLượng: đãNghe(3 20%)
 			)
-			BảnNhạc(
+			Bè(
 				hànhKhúc
 				nhạcCụ: NhạcCụ.kènSaxophone
 				nhịp: 1𝅘𝅥
 				chìaKhóa: -12semitones
 				âmLượng: đãNghe(4 22%)
 			)
-			BảnNhạc(
+			Bè(
 				âmNền
 				nhạcCụ: NhạcCụ.đànPadTổngHợp
 				nhịp: 1𝅝
 				chìaKhóa: -12semitones
 				âmLượng: đãNghe(5 16%)
 			)
-			BảnNhạc(
+			Bè(
 				đànDây
 				nhạcCụ: NhạcCụ.đànVĩCầm
 				nhịp: 1𝅘𝅥
 				âmLượng: đãNghe(6 18%)
 			)
-			BảnNhạc(
+			Bè(
 				chuông2
 				nhạcCụ: NhạcCụ.chuông
 				nhịp: 1𝅝
 				chìaKhóa: 12semitones
 				âmLượng: đãNghe(7 12%)
 			)
-			BảnNhạc(
+			Bè(
 				bộĐếm
 				nhạcCụ: NhạcCụ.sáo
 				nhịp: 1𝅘𝅥
@@ -225,7 +225,7 @@ duHành: 0 … ∆ Thờigian(40ms) … duHành + (nhịpĐộ2 ÷ 72)
 
 ¶Các hướng dẫn, xếp sát mép trái chứ không căn giữa, để mắt có thể chạy thẳng xuống theo chúng.¶
 hiểnThị: Nhóm(
-		Ngănxếp('<' 0.16m)
+		XếpDọc('<' 0.16m)
 		[
 			Cụmtừ(
 				biểuTượng(nổiBật)

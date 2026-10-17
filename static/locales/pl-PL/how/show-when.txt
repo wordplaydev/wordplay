@@ -8,8 +8,8 @@ Napisz warunek, potem \?\, potem wartość, która ma być użyta, gdy warunek j
 Oto uśmiechnięta buźka, która po każdym naciśnięciu spacji staje się smutna:
 
 \
-happy: ⊤ … ∆ Key(' ') … ~happy
-Phrase(happy ? '😊' '😢')
+happy: ⊤ … ∆ Klawisz(' ') … ~happy
+Fraza(happy ? '😊' '😢')
 \
 
  Właściwość @Reaction zaczyna \happy\ jako \⊤\ (prawda) i zmienia to na przeciwne za pomocą \~\ za każdym razem, gdy naciśniesz spację.
@@ -18,8 +18,8 @@ Potem warunek \?\ wybiera odpowiednią buźkę.
 Możesz łączyć warunki, aby wybierać spośród więcej niż dwóch rzeczy:
 
 \
-score: 0 … ∆ Key('A') … score + 1
-Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+score: 0 … ∆ Klawisz('A') … score + 1
+Fraza(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
 \
 
  Naciskać \a\ kilka razy i obserwuj, jak z jajka wykluwa się pisklę!

@@ -8,13 +8,13 @@ chúng ta có thể dùng số đếm trong @Sequence và chọn số lần mộ
 đây là một quả bóng rổ nảy lên nảy xuống hai lần. 
 
 \
-Stage([
-	Phrase('🏀' vào: Sequence({
-				0%: Pose(bùlại: Place(y: 0.25m))
-				25%: Pose(bùlại: Place(y: 0m))
-				50%: Pose(bùlại: Place(y: -0.25m))
-				75%: Pose(bùlại: Place(y: 0m))
-				100%: Pose(bùlại: Place(y: 0.25m))} đếm:2x khoảngthờigian:2s))
+Sânkhấu([
+	Cụmtừ('🏀' vào: Sựliêntiếp({
+				0%: Tưthế(bùlại: VịTrí(y: 0.25m))
+				25%: Tưthế(bùlại: VịTrí(y: 0m))
+				50%: Tưthế(bùlại: VịTrí(y: -0.25m))
+				75%: Tưthế(bùlại: VịTrí(y: 0m))
+				100%: Tưthế(bùlại: VịTrí(y: 0.25m))} đếm:2x khoảngthờigian:2s))
 ])
 \
 

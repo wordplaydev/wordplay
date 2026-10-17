@@ -5,7 +5,7 @@ Pertanyaan
 
 •pertanyaan2(id2•"" vx•#m/s vy•#m/s va•#°/s)
 
-ditekan: ∆ Kunci()
+ditekan: ∆ Tuts()
 hitungan2•#: 0 … ditekan … hitungan2 + 1
 pertanyaan3•[pertanyaan2]: [] … ditekan … [
 			:pertanyaan3
@@ -25,7 +25,7 @@ Panggung(
 			menghadapi: "Noto Emoji"
 		)
 		Bangun(Persegipanjang(-5m 0m 25m -1m))
-		:pertanyaan3.menerjemahkan(
+		:pertanyaan3.petakan(
 			ƒ(p•pertanyaan2 indeks2•#) (
 					mulai2: ditekan & (indeks2 = pertanyaan3.panjang(
 									))
@@ -35,7 +35,7 @@ Panggung(
 						tempat: Gerakan(
 							kecepatan: Kecepatan(p.vx p.vy p.va)
 						)
-						urusan: Urusan()
+						materi: Materi()
 						beristirahat: Pose(
 							kegelapan: mulai2 ? 0% 100%
 						)

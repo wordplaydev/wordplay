@@ -4,12 +4,12 @@
 
 @Beat  همیشه یک  @Downbeat  برایت دارد که بدهد، پس می‌توانی همان لحظه آن را بخوانی. پیش از آغاز هر موسیقی، روی ضرب صفر می‌نشیند بدون این‌که چیزی نواخته شود:
 
-\beat: Beat()
-count: beat.count
-Stage(
+\beat: ضرب()
+count: beat.شمار
+صحنه(
 	[
-		Phrase('🥁' اندازه: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] ساز: Instrument.drums))
+		عبارت('🥁' اندازه: ((count % 4) = 0) ? 2m 1m)
+		موسیقی(ترک([1 1 1 1] ساز: ساز.طبل))
 	]
 )\
 
@@ -17,30 +17,30 @@ Stage(
 
 این تمام موسیقی است، به‌صورت یک عدد. اما یک  @Downbeat  یک فهرست از \parts\ را هم با خود دارد، یک  @Part  برای هر  @Track ، و یک  @Part  می‌داند صدای خودش همین حالا چه‌کار می‌کند: \pitch\، \volume\، \pan\، و این‌که آیا \sounding\ است یا نه. این‌ها را بکش تا هر صدا را جدا از هم ببینی، نه به‌صورت مخلوط:
 
-\beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase(
+\beat: ضرب()
+parts•[بخش]: beat.بخش‌ها.صافی(ƒ(p•بخش) p.صدادار)
+ƒ height(p•بخش)•# p.زیروبمی[1] ÷ 1semitones
+ƒ dot(p•بخش)•عبارت عبارت(
 		'⬤'
-		0.4m + (p.volume · 1m)
-		مکان: Place(
-			(p.pan · 3) · 1m
+		0.4m + (p.بلندیصدا · 1m)
+		مکان: مکان(
+			(p.چپوراستصدا · 3) · 1m
 			((height(p) · 0.2) - 1) · 1m
 		)
 	)
-Stage(
+صحنه(
 	[
-		:parts.translate(ƒ(p•Part) dot(p))
-		Music(
+		:parts.تبدیل‌کردن(ƒ(p•بخش) dot(p))
+		موسیقی(
 			[
-				Track(
+				ترک(
 					[1 ø 5 ø]
-					ساز: Instrument.piano
+					ساز: ساز.پیانو
 					چپوراستصدا: -1
 				)
-				Track(
+				ترک(
 					[ø 8 ø 12]
-					ساز: Instrument.bell
+					ساز: ساز.زنگ
 					چپوراستصدا: 1
 				)
 			]

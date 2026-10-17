@@ -151,7 +151,7 @@ mgaSilid•[silid2]: [
 ¶Ang mga pintuang talagang puwede mong daanan mula rito. Ang pintong may kandado na walang kaukulang bagay ay hindi na inaalok, kaya't lumalabas itong isang dingding hanggang sa dumating sa iyong kamay ang bagay na magbubukas nito.¶
 ƒ mgaParaan(dito•silid2 bagahe2•[''])•[pinto]
 	dito.mgaPinto.pansala(
-		ƒ(pinto2•pinto) (pinto2.kailangan = '') | bagahe2.aymay(
+		ƒ(pinto2•pinto) (pinto2.kailangan = '') | bagahe2.mayroon(
 					pinto2.kailangan
 				)
 	)
@@ -160,7 +160,7 @@ mgaSilid•[silid2]: [
 ƒ dumating(dito2•silid2 bagahe3•[''])•paglalakbay
 	paglalakbay(
 		dito2.id2
-		((dito2.kunin ≠ '') & (~bagahe3.aymay(dito2.kunin))) ? bagahe3.kasama(
+		((dito2.kunin ≠ '') & (~bagahe3.mayroon(dito2.kunin))) ? bagahe3.kasama(
 				dito2.kunin
 			) bagahe3
 	)

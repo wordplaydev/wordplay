@@ -66,17 +66,17 @@ klucz: Klawisz()
 w2: Reflektor()
 
 ¶Każdy slajd, narysowany. To nie zależy od niczego, co się zmienia, więc powstaje raz, a nie przy każdym naciśnięciu klawisza — dlatego licznik poniżej nie jest tutaj.¶
-widoki: slajdy2.tłumaczyć(
+widoki: slajdy2.przekształć(
 		ƒ(slajd2•slajd) Grupa(
 				Stos('|' 0.4m)
 				[
-					Wyrażenie(slajd2.emoji rozmiar: 2m)
-					Wyrażenie(
+					Fraza(slajd2.emoji rozmiar: 2m)
+					Fraza(
 						`*\slajd2.tytuł\*`
 						rozmiar: 1.2m
 						wyrównanie: '|'
 					)
-					Wyrażenie(
+					Fraza(
 						slajd2.treść2
 						rozmiar: 0.5m
 						zawinąć: 12m
@@ -95,7 +95,7 @@ Grupa(
 			pauza
 			krok: ∆ klucz ? ((klucz = 'Strzałka w lewo') ? -1 (klucz = 'Strzałka w prawo') ? 1 ø) ø
 		)
-		Wyrażenie(
+		Fraza(
 			`\w2.indeks\ z \w2.suma\`
 			rozmiar: 0.25m
 			wyrównanie: '|'

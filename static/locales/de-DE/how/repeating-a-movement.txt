@@ -8,13 +8,13 @@ können wir die Zählung in @Sequence benutzen und wählen, wie oft eine Reihe v
 hier springt ein Basketball zweimal auf und ab. 
 
 \
-Stage([
-	Phrase('🏀' Eingabe: Sequence({
-				0%: Pose(Versatz: Place(j: 0.25m))
-				25%: Pose(Versatz: Place(j: 0m))
-				50%: Pose(Versatz: Place(j: -0.25m))
-				75%: Pose(Versatz: Place(j: 0m))
-				100%: Pose(Versatz: Place(j: 0.25m))} zählen:2x Dauer:2s))
+Bühne([
+	Phrase('🏀' Eingabe: Abfolge({
+				0%: Pose(Versatz: Ort(Y: 0.25m))
+				25%: Pose(Versatz: Ort(Y: 0m))
+				50%: Pose(Versatz: Ort(Y: -0.25m))
+				75%: Pose(Versatz: Ort(Y: 0m))
+				100%: Pose(Versatz: Ort(Y: 0.25m))} zählen:2x Dauer:2s))
 ])
 \
 

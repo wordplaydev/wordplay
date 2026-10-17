@@ -28,7 +28,7 @@ sayaç: vuruş2.say
 		bir: ses2()
 		b2: ses2()
 		c2: ses2()
-		(32 → []).tercümeetmek(
+		(32 → []).dönüştür(
 			ƒ(i•#)
 				(i = 1) ? bir
 					(i = 2) ? b2
@@ -45,7 +45,7 @@ sayaç: vuruş2.say
 Bunlar eserdeki en kısa notalardır ve kedinin kesildiği tek yerdir: bir vuruşta iki sekizlik, bir miyavın bitebileceğinden daha hızlıdır — zaten hızlı bir scat hecesi de böyle duyulur.¶
 ƒ çalışır2()•[#|ø] (
 		yuva: Rastgele(1 8)
-		(64 → []).tercümeetmek(
+		(64 → []).dönüştür(
 			ƒ(i2•#)
 				~((17‥32) ∋ i2) ? ø
 					belki((((yuva + (i2 - 17)) - 1) % 8) + 1)
@@ -55,7 +55,7 @@ Bunlar eserdeki en kısa notalardır ve kedinin kesildiği tek yerdir: bir vuru�
 ¶Üçlemeler, beşinci ve altıncı ölçüler: üç notalık bir hücre durmadan dönüp durur. İkinin içinde üç, tam olarak öyle yazılır — 2 vuruş ÷ 3 — bu da bir üçlemenin ne olduğunu sözle anlatır.¶
 ƒ salla3()•[#|ø] (
 		hücre2: [ses2() ses2() ses2()]
-		(48 → []).tercümeetmek(
+		(48 → []).dönüştür(
 			ƒ(i3•#)
 				~((25‥36) ∋ i3) ? ø
 					hücre2[(((i3 - 25) % 3) + 1)]
@@ -64,7 +64,7 @@ Bunlar eserdeki en kısa notalardır ve kedinin kesildiği tek yerdir: bir vuru�
 
 ¶İkilik notalar, yedinci ölçü: kedi yavaşlar ve iki uzun notaya konar. Uzatılan bir nota, ses çıktığı sürece ağzı açık tutar; bir notayı tutmak böyle görünür.¶
 ƒ tutar2()•[#|ø]
-	(16 → []).tercümeetmek(
+	(16 → []).dönüştür(
 		ƒ(i4•#)
 			(i4 = 13) ? ses2()
 				(i4 = 14) ? ses2()
@@ -72,7 +72,7 @@ Bunlar eserdeki en kısa notalardır ve kedinin kesildiği tek yerdir: bir vuru�
 	)
 
 ¶Sekizinci ölçüde bir tam nota: derece 1, uzun tutulan. Bir müzik cümlesinin bitmiş gibi değil de sadece durmuş gibi gelmesini önleyen şey, dizinin ilk notasına geri dönmektir.¶
-ƒ kuyruk2()•[#|ø] (8 → []).tercümeetmek(
+ƒ kuyruk2()•[#|ø] (8 → []).dönüştür(
 		ƒ(i5•#) (i5 = 8) ? 1 ø
 	)
 
@@ -92,9 +92,9 @@ koro2•koro: doğaçlamaYap() … ∆ vuruş2 …
 eğil: ((sayaç % 2) = 0) ? -1 1
 
 ¶Kedinin şu anda ses çıkarıp çıkarmadığı. @Beat, her parça için bir @Part değeri döndürür. Bir parça, uzun tutulan bir notanın sürdüğü her vuruş boyunca ⊤ kalır. Bu yüzden bu değer, herhangi bir şey duyulabildiği sürece ⊤ olur.¶
-şarkıSöyleme: vuruş2.parçalar.tercümeetmek(
+şarkıSöyleme: vuruş2.parçalar.dönüştür(
 		ƒ(parça•Bölüm) parça.çalıyor
-	).sahipolmak(
+	).içerir(
 		⊤
 	)
 
@@ -103,14 +103,14 @@ ağız: şarkıSöyleme ? '😺' '🐱'
 
 Sahne(
 	[
-		İfadeetmek(
+		Yazı(
 			ağız
 			5m
 			yer: Yer((eğil · 0.7) · 1m -0.6m)
 			rotasyon: (eğil · 7) · 1°
 			süre: 0.22s
 		)
-		İfadeetmek(
+		Yazı(
 			'Kedi Miyavlaması!'
 			1.4m
 			yer: Yer(-2.6m 3.6m)

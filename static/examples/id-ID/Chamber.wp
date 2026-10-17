@@ -30,7 +30,7 @@ jatuh: ⊤ … ∆ pilihan … (pilihan = 'gravity') ? ~jatuh jatuh
 		Acak(-120°/s 120°/s)
 	)
 
-huruf: hitungan2 → [].menerjemahkan(
+huruf: hitungan2 → [].petakan(
 		ƒ(angka2)
 			Frasa(
 				glif2[angka2]
@@ -40,7 +40,7 @@ huruf: hitungan2 → [].menerjemahkan(
 					meluncurkan()
 					kecepatanberikutnya: mengguncang ? meluncurkan() ø
 				)
-				urusan: Urusan(kekenyalan: 0.7 gesekan: 0)
+				materi: Materi(kekenyalan: 0.7 gesekan: 0)
 			)
 	)
 

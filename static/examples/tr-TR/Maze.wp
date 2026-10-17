@@ -64,33 +64,33 @@ Sahne(
 			Izgara(3 3 0.25m)
 			[
 				ø
-				İfadeetmek(
+				Yazı(
 					'↑'
 					isim: 'up'
 					seçilebilir: yukarı2
 					dinlenme: Poz(opaklık: yukarı2 ? 1 0.2)
 				)
 				ø
-				İfadeetmek(
+				Yazı(
 					'←'
 					isim: 'left'
 					seçilebilir: sol3
 					dinlenme: Poz(opaklık: sol3 ? 1 0.2)
 				)
-				İfadeetmek(
+				Yazı(
 					güncel
 					dinlenme: kazandı ?
 						Sekans.döndürmek(süre: 1s stil: 'straight')
 						Poz()
 				)
-				İfadeetmek(
+				Yazı(
 					'→'
 					isim: 'right'
 					seçilebilir: sağ2
 					dinlenme: Poz(opaklık: sağ2 ? 1 0.2)
 				)
 				ø
-				İfadeetmek(
+				Yazı(
 					'↓'
 					isim: 'down'
 					seçilebilir: aşağı3

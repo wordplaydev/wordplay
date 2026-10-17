@@ -6,13 +6,13 @@ Glif pertama mendapat pose pertama, glif kedua mendapat pose kedua, dan saat pos
 Ini teks pesta, dengan tiga warna yang bergiliran:
 
 \
-Phrase(
+Frasa(
 	'party time!'
 	menghadapi: 'Luckiest Guy'
 	pose: [
-		Pose(warna: Color(25% 70 250°))
-		Pose(warna: Color(50% 80 300°))
-		Pose(warna: Color(58% 90 60°))
+		Pose(warna: Warna(25% 70 250°))
+		Pose(warna: Warna(50% 80 300°))
+		Pose(warna: Warna(58% 90 60°))
 	]
 )
 \
@@ -23,12 +23,12 @@ Warna-warna ini berbeda dalam tingkat terang dan juga corak, jadi orang yang mel
 Pose bisa melakukan lebih dari sekadar warna. Setiap glif bisa miring, membesar, memudar, dan bergerak di sekitar titik tengahnya sendiri, jadi kita bisa membuat huruf-hurufnya memantul:
 
 \
-Phrase(
+Frasa(
 	'bounce'
 	menghadapi: 'Luckiest Guy'
 	pose: [
-		Pose(warna: Color(25% 70 250°) rotasi: -10° mengimbangi: Place(0m 0.1m))
-		Pose(warna: Color(58% 90 60°) rotasi: 10° kegelapan: 0.6)
+		Pose(warna: Warna(25% 70 250°) rotasi: -10° mengimbangi: Tempat(0m 0.1m))
+		Pose(warna: Warna(58% 90 60°) rotasi: 10° kegelapan: 0.6)
 	]
 )
 \
@@ -37,14 +37,14 @@ Phrase(
 Surat kaleng ini memilih kemiringan baru setiap seperempat detik:
 
 \
-tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
-Phrase(
+tilt: 0° … ∆ Waktu(250ms) … Acak(-15° 15°)
+Frasa(
 	`*ransom* /note/`
 	menghadapi: 'Courier Prime'
 	pose: [
-		Pose(rotasi: tilt mengimbangi: Place(0m 0.05m))
+		Pose(rotasi: tilt mengimbangi: Tempat(0m 0.05m))
 		Pose(rotasi: -tilt skala: 1.2)
-		Pose(rotasi: tilt ÷ 2 mengimbangi: Place(0m -0.05m))
+		Pose(rotasi: tilt ÷ 2 mengimbangi: Tempat(0m -0.05m))
 	]
 )
 \

@@ -153,7 +153,7 @@ phòng4•[phòng2]: [
 			) gói4
 	)
 
-chìaKhóa2: Chìakhóa()
+chìaKhóa2: Phím()
 
 ¶Một lần nhấn phím, theo thứ tự: ở phần kết, bất kỳ phím nào cũng đánh thức bạn lại ở căn phòng đầu tiên; một phím không phải 1, 2 hay 3 thì không có nghĩa gì; một số vượt quá số cửa trong căn phòng này cũng không có nghĩa gì; và chỉ khi đó nó mới là một cánh cửa. Phép thử thứ ba đó đáng để ghi lại, vì việc truy cập danh sách sẽ quay vòng — nếu không có nó, nhấn 3 trong một căn phòng có hai cửa sẽ âm thầm chọn cánh cửa đầu tiên.¶
 ƒ bước(t•hànhTrình k•'')•hànhTrình (
@@ -210,7 +210,7 @@ dướiĐây:
 				vào: Tưthế(độmờđục: 0%)
 			)
 		]
-		cửa5.dịch(
+		cửa5.biếnĐổi(
 			ƒ(cửa6•cửa chỉMục2•#)
 				Cụmtừ(
 					`\chỉMục2\. *\cửa6.nhãn\*`
@@ -225,7 +225,7 @@ dướiĐây:
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				Cụmtừ(
 					ởĐây4.môTả2

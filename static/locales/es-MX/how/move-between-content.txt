@@ -13,14 +13,14 @@ aquí está la versión más pequeña de esto. Haz clic en el escenario primero 
 \
 slides: ['primero' 'segundo' 'tercero']
 
-key: Key()
+key: Tecla()
 
 index•#: 1 … ∆ key …
-	(key = 'FlechaDerecha') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'FlechaDerecha') ? ((index < slides.longitud()) ? index + 1 index)
 		(key = 'FlechaIzquierda') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+Frase(slides[index])
 \
 
  El @Reaction es el corazón de todo esto. Comienza en \1\, y cada vez que @Key cambia, decide cuál debe ser el nuevo número.
@@ -38,15 +38,15 @@ Cambia la @List por una lista de @Group o escenas completas, y el resto del patr
 
 \
 slides: [
-	Phrase('una historia en tres partes' tamaño: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('aparece un gato')])
-	Phrase('el final 🎉')
+	Frase('una historia en tres partes' tamaño: 3m)
+	Grupo(Pila() [Frase('🐈') Frase('aparece un gato')])
+	Frase('el final 🎉')
 ]
 
-key: Key()
+key: Tecla()
 
 index•#: 1 … ∆ key …
-	(key = 'FlechaDerecha') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'FlechaDerecha') ? ((index < slides.longitud()) ? index + 1 index)
 		(key = 'FlechaIzquierda') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 Dale @Scene/pause para que nunca se mueva sola, y @Scene/step para moverla una pieza hacia un lado u otro:
 
 \
-key: Key()
-Scene([
-		Phrase('una historia en tres partes' tamaño: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('aparece un gato')])
-		Phrase('el final 🎉')
+key: Tecla()
+Escena([
+		Frase('una historia en tres partes' tamaño: 3m)
+		Grupo(Pila() [Frase('🐈') Frase('aparece un gato')])
+		Frase('el final 🎉')
 	] pausar paso: ∆ key ? ((key = 'FlechaIzquierda') ? -1 (key = 'FlechaDerecha') ? 1 ø) ø)
 \
 

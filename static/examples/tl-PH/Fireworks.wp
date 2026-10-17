@@ -11,7 +11,7 @@ Ang tugtugin ay ang /The Star-Spangled Banner/ — ang himig ni John Stafford Sm
 ↓ @wordplay/instruments 1
 
 tibok2: Kumpas()
-bilang2: tibok2.bilangin
+bilang2: tibok2.bilang
 
 ¶Ang mga bahaging talagang tumutunog lang ang nagiging paputok; ang isang track na nagpapahinga ay nananatiling madilim. Bago magsimula ang tugtugin, wala pang anumang bahagi, kaya walang laman ang langit.¶
 pagputok•[Bahagi]: tibok2.mgaBahagi.pansala(

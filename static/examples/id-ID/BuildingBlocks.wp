@@ -59,7 +59,7 @@ bentukPohon: [
 	]
 bentukBatuBesar: [balok(0 0 0 '🪨') balok(0 1 0 '🪨')]
 
-ƒ bentukDi(bentuk2•[balok] cx•# cz•#) bentuk2.menerjemahkan(
+ƒ bentukDi(bentuk2•[balok] cx•# cz•#) bentuk2.petakan(
 		ƒ(b2•balok) balok(cx b2.y2 cz b2.jenis2)
 	)
 
@@ -77,7 +77,7 @@ bentukBatuBesar: [balok(0 0 0 '🪨') balok(0 1 0 '🪨')]
 			[]
 			ƒ(struktur•[balok] cx2•#)
 				struktur.denganDaftar(
-					(Acak(1 2) → []).menerjemahkan(
+					(Acak(1 2) → []).petakan(
 						ƒ(tingkat•#)
 							balok(
 								cx2
@@ -157,7 +157,7 @@ munculkanKolom: [-4 -3 -2 2 3 4]
 				permainan3.x4
 				permainan3.z4
 			)) ? permainan3
-		((permainan3.y3:(permainan3.y3 + 1).menit(yMaks)).gantung:detakGantung)
+		((permainan3.y3:(permainan3.y3 + 1).minimal(yMaks)).gantung:detakGantung)
 
 ¶Ayunkan palu ke apa pun yang ada di depanmu. Hanya potongan paling atas dari kolom itu yang lepas, jadi sebuah pohon butuh tiga pukulan. Karena itu, tidak akan ada potongan yang melayang, jadi tidak ada yang perlu jatuh. Kamu hanya bisa menjangkau blok yang satu tingkat di atas pijakanmu. Jika puncaknya terlalu tinggi, ia tidak akan lepas. Naiklah lebih tinggi, lalu ayunkan lagi. Potongan yang lepas akan menggelinding satu sel lebih jauh, menjauhi kamu. Kalau sel itu di luar lapangan atau sudah terisi, potongan itu jatuh di tempatnya. Palu selalu terangkat, baik kena maupun tidak, jadi pukulan yang meleset tetap terayun.¶
 ƒ tabrak(permainan4•permainan) (
@@ -276,7 +276,7 @@ munculkanKolom: [-4 -3 -2 2 3 4]
 
 ¶Satu bingkai: potongan yang lepas bertambah umur agar mendarat, melayang, lalu jatuh ke puncak apa pun yang ada di bawahmu. Lalu ambil apa pun yang ada di selmu, biarkan palu turun kembali, dan periksa menaranya.¶
 ƒ majukanDunia(permainan10•permainan) (
-		menua: permainan10.benda2.menerjemahkan(
+		menua: permainan10.benda2.petakan(
 				ƒ(i•benda) (i.usia = 0) ? (i.usia:1) i
 			)
 		berdiri: tinggiKolom(
@@ -320,7 +320,7 @@ munculkanKolom: [-4 -3 -2 2 3 4]
 		)
 	)
 
-kunci4: Kunci()
+kunci4: Tuts()
 tik: Waktu(150ms)
 ketuk: Tombol()
 
@@ -362,7 +362,7 @@ ukuranPetak: 0.8m
 
 barisTanah: [:0 ‥ 4].menyaring(
 		ƒ(baris2•#) baris2 ≥ (permainan11.z4 - gambarBelakang)
-	).menerjemahkan(
+	).petakan(
 		ƒ(baris3•#)
 			Frasa(
 				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
@@ -375,7 +375,7 @@ barisTanah: [:0 ‥ 4].menyaring(
 
 tampilanBalok: permainan11.blok.menyaring(
 		ƒ(b8•balok) b8.z2 ≥ (permainan11.z4 - gambarBelakang)
-	).menerjemahkan(
+	).petakan(
 		ƒ(b9•balok)
 			Frasa(
 				b9.jenis2
@@ -392,7 +392,7 @@ tampilanHantu: tujuanBelumTercapai(
 		permainan11.tujuan
 	).menyaring(
 		ƒ(g2•balok) g2.z2 ≥ (permainan11.z4 - gambarBelakang)
-	).menerjemahkan(
+	).petakan(
 		ƒ(g3•balok)
 			Frasa(
 				g3.jenis2
@@ -407,7 +407,7 @@ tampilanHantu: tujuanBelumTercapai(
 ¶Sebuah potongan lepas. Ini satu-satunya benda di panggung yang bergerak halus, bukan langsung berpindah. Bingkai pertamanya ada di atas tempat blok pecah, sisanya ada di tempat ia mendarat, dan gerak halus di antaranya adalah gulingannya.¶
 tampilanBenda: permainan11.benda2.menyaring(
 		ƒ(i6•benda) i6.z3 ≥ (permainan11.z4 - gambarBelakang)
-	).menerjemahkan(
+	).petakan(
 		ƒ(i7•benda)
 			Frasa(
 				i7.jenis3
@@ -548,7 +548,7 @@ rusak: permainan11.ayun2 = detakAyun
 
 Kosong pada waktu lainnya, dan itu sudah cukup: nada yang sudah mulai akan dimainkan sampai habis, jadi palu tetap berdenting meskipun daftar ini kosong pada detik berikutnya.¶
 nadaPukulan: rusak
-	? ((rusakSekarang.panjang() > 0) ? rusakSekarang.menerjemahkan(
+	? ((rusakSekarang.panjang() > 0) ? rusakSekarang.petakan(
 					ƒ(i9•benda) (i9.jenis3 = '🪵') ? 5 1
 				) [3])
 		[]

@@ -27,7 +27,7 @@ single run for the speech bubble to wrap however it likes.¶/en
 ताकि बातचीत का बुलबुला उन्हें अपनी तरह से लपेट सके।¶/hi
 ƒ प्रवाह(लाइनहरू•[`…`])
 	लाइनहरू.लम्बाइ() < 2 ? लाइनहरू[1]
-		लाइनहरू.उपक्रम(2).जोडिएको(लाइनहरू[1] ƒ(जम्मा अर्को2) जम्मा + `` + अर्को2)
+		लाइनहरू.अंश(2).जोडिएको(लाइनहरू[1] ƒ(जम्मा अर्को2) जम्मा + `` + अर्को2)
 
 ¶This 'otherwise' checks the name of the collided object
 and chooses a list of formatted text based on the name.
@@ -132,7 +132,7 @@ the keyboard arrows or clicking the stage.
 We use it to place the character.¶/en
 ¶यह धारा बीच में शुरु होता है, लेकिन कीबोर्ड या माउस के साथ बदल सकते हैं।
 हम इस के साथ character को मंच पर रखते हैं।¶/hi
-where/en,किधर/hi: स्थापना(स्थान(0m 0m))
+where/en,किधर/hi: स्थाननिर्धारण(स्थान(0m 0m))
 
 ¶This takes all of the content above and renders it,
 putting each landmark on stage in a particular location

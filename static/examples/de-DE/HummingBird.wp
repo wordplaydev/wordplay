@@ -46,7 +46,7 @@ ausgewählt: Auswahl()
 modus•'': 'tap' … (ausgewählt = 'hum') | (ausgewählt = 'tap') … ausgewählt
 
 ¶Im /tap/-Modus flatterst du, wenn du klickst oder eine beliebige Taste drückst.¶
-flattern: (modus = 'tap') & (∆ Taste() | ∆ Schlüssel())
+flattern: (modus = 'tap') & (∆ Taste() | ∆ Tastaturtaste())
 
 ¶Im /hum/-Modus schwebt der Vogel auf die Höhe deines Summtons: tiefe Töne nahe am Boden, hohe Töne nahe am Himmel, aber nicht höher.¶
 tonhöhe: Tonhöhe()
@@ -56,7 +56,7 @@ summen: (modus = 'hum') & (tonhöhe > 50hz)
 	hz.neuSkalieren(80hz 400hz -4m 5m).Grenze(-4m 5m)
 
 ¶Bewege dich Stück für Stück zur gesummten Höhe. So gleitet der Vogel, statt bei jedem Wackeln des Tons zu zittern.¶
-tonhöheY•#m: 1m … ∆ tonhöhe … summen ? tonhöheY.gegen(
+tonhöheY•#m: 1m … ∆ tonhöhe … summen ? tonhöheY.annähern(
 				tonhöheZuHöhe(tonhöhe)
 				20%
 			) tonhöheY
@@ -80,15 +80,15 @@ birdPlace: Bewegung(
 	)
 
 ¶Das Küken-Emoji schaut nach links. Darum dreht jede Pose es in die Richtung, in die es fliegt.¶
-vogel: Satzglied(
+vogel: Phrase(
 		'🐤'
 		1m
 		Name: 'Vogel'
 		Ort: birdPlace
-		Gegenstand: Gegenstand(1kg 0.4 0)
+		Material: Material(1kg 0.4 0)
 		Ruhen:
 		(spiel2.phase = 3) ? Pose(Drehung: 180° flipx)
-			Reihenfolge(
+			Abfolge(
 				{
 					0%: Pose(flipx Drehung: -12°)
 					50%: Pose(flipx Drehung: 12°)
@@ -189,13 +189,13 @@ punktestand•#: 0 …
 	Gruppe(
 		Stapel('|' 0m)
 		(zellen → []).übersetzen(
-			ƒ(zelle2•#) Satzglied(
+			ƒ(zelle2•#) Phrase(
 					genres[genre2][1 + ((zelle2 - 1) % 5)]
 					1m
 				)
 		)
 		Ort: Ort(x4 y2)
-		Gegenstand: Gegenstand()
+		Material: Material()
 		Dauer: 0s
 	)
 
@@ -219,19 +219,19 @@ himmel: Gestalt(Rechteck(-8m 7m 8m 6m) Name: 'sky')
 linkeWand: Gestalt(Rechteck(-8.4m 6m -8m -6m))
 rechteWand: Gestalt(Rechteck(8m 6m 8.4m -6m))
 
-punkteanzeige: Satzglied(
+punkteanzeige: Phrase(
 		"\punktestand\"
 		1.5m
 		Ort: Ort(-0.5m 4m)
 	)
 überlagerungen:
 	spiel2.phase ???
-		1: [Satzglied("\zählung\" 3m Ort: Ort(-1m -1.5m))]
-		3: [Satzglied('💥' 3m Ort: Ort(-1.5m -1.5m))]
+		1: [Phrase("\zählung\" 3m Ort: Ort(-1m -1.5m))]
+		3: [Phrase('💥' 3m Ort: Ort(-1.5m -1.5m))]
 		[]
 
 ¶Der /Modus-Umschalter/: Die gewählte Spielart leuchtet hell, die andere ist gedimmt.¶
-humButton: Satzglied(
+humButton: Phrase(
 		'🎤'
 		0.8m
 		Name: 'hum'
@@ -239,7 +239,7 @@ humButton: Satzglied(
 		Ort: Ort(-4.2m 4.7m)
 		Ruhen: (modus = 'hum') ? Pose() Pose(Opazität: 40%)
 	)
-tapButton: Satzglied(
+tapButton: Phrase(
 		'⌨'
 		0.8m
 		Name: 'tap'
@@ -248,12 +248,12 @@ tapButton: Satzglied(
 		Ruhen: (modus = 'tap') ? Pose() Pose(Opazität: 40%)
 	)
 
-anleitung1: Satzglied(
+anleitung1: Phrase(
 		'Wähle ⌨, um mit Klicks und Tasten zu flattern, oder 🎤, um die Höhe deines Vogels zu summen!'
 		0.45m
 		Ort: Ort(-6.9m -4.7m)
 	)
-anleitung2: Satzglied(
+anleitung2: Phrase(
 		'Fliege durch die Lücken. Berühre die Stapel nicht!'
 		0.4m
 		Ort: Ort(-4.5m -5.4m)
@@ -274,7 +274,7 @@ flapSound: Musik(
 	)
 
 ¶Zwanzig Tore von unruhig bis panisch. Wenn sich das Tempo ändert, wird es beim nächsten Schlag eingefügt, statt von vorn zu beginnen. So wird die Schleife mit jedem Tor enger, ohne ihre Stelle zu verlieren. Ein Absturz setzt die Punktzahl auf null zurück, und dann wird die Musik wieder ganz langsam.¶
-dringlichkeit: (punktestand ÷ 20).Mindest(1)
+dringlichkeit: (punktestand ÷ 20).Minimum(1)
 
 ¶Phrygisch mit der tiefen zweiten Stufe: ein Halbton über dem Grundton, die unruhigste Note, die es gibt, ohne die Tonleiter zu verlassen. Der Bass stützt sich in jedem zweiten Takt darauf, und die Synthesizer-Figur endet dort. So kommt die Schleife nie zur Ruhe.¶
 ängstlichesLied: Musik(

@@ -10,14 +10,14 @@ neueste•['']:
 		neueste.ersetzen(Zufällig(1 25) buchstaben.zufällig())
 
 Gruppe(
-	Netz(5 5 0.25m 1m 1m)
+	Raster(5 5 0.25m 1m 1m)
 	neueste.übersetzen(
 		ƒ(buchstabe•"" index2•#)
-			Satzglied(
+			Phrase(
 				buchstabe
 				Name: "\buchstabe\-\index2\"
 				Eingabe: Pose(Opazität: 0 Skala: 2)
-				Ruhen: Reihenfolge.wiegen(Dauer: 0.25s)
+				Ruhen: Abfolge.wiegen(Dauer: 0.25s)
 				Dauer: 0.5s
 			)
 	)

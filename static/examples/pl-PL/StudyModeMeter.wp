@@ -39,22 +39,22 @@ Scena(
 		Grupa(
 			Stos()
 			[
-				Wyrażenie('Miernik trybu nauki' rozmiar: 0.5m)
+				Fraza('Miernik trybu nauki' rozmiar: 0.5m)
 
 				¶This Phrase shows the explanation on the screen.¶/en
-				Wyrażenie(wyjaśnienie rozmiar: 0.4m)
+				Fraza(wyjaśnienie rozmiar: 0.4m)
 
 				¶This Phrase shows the current number of study hours.¶/en
-				Wyrażenie(tekstGodzin rozmiar: 0.4m)
+				Fraza(tekstGodzin rozmiar: 0.4m)
 
-				Wyrażenie(nastrój rozmiar: 0.75m)
+				Fraza(nastrój rozmiar: 0.75m)
 
 				Grupa(
 					Wiersz(wyściółka: 3m)
 					[
 						¶This selectable Phrase lets the user add one study hour.
 						Its name is add, so selecting it updates the action choice.¶/en
-						Wyrażenie(
+						Fraza(
 							'Dodaj godzinę nauki +1'
 							wybieralny
 							nazwa: 'dodaj'
@@ -63,7 +63,7 @@ Scena(
 
 						¶This selectable Phrase lets the user reset the tracker.
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
-						Wyrażenie(
+						Fraza(
 							'Resetuj'
 							wybieralny
 							nazwa: 'reset'

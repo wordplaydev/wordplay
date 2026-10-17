@@ -1468,7 +1468,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~... Size parantezli herhangi bir fonksiyonu \\1.add(1)\\ değerlendirebileceklerini ama aynı zamanda infix operatörleri \\1 + 1\\ olan iki girdi fonksiyonunu da değerlendirebileceklerini söylediğimi hatırlıyor musunuz? Pekala, sadece bir girdisi olan fonksiyonlar için bir numaraları daha var: tekli format."
+                            "$~... Size parantezli herhangi bir fonksiyonu \\1.eklemek(1)\\ değerlendirebileceklerini ama aynı zamanda infix operatörleri \\1 + 1\\ olan iki girdi fonksiyonunu da değerlendirebileceklerini söylediğimi hatırlıyor musunuz? Pekala, sadece bir girdisi olan fonksiyonlar için bir numaraları daha var: tekli format."
                         ],
                         null,
                         [
@@ -2731,7 +2731,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Size göstermek istediğim bir girdi kaynağı daha var. Daha önceki @List'ten \\[].random()\\'ı hatırlıyor musunuz?",
+                            "$~Size göstermek istediğim bir girdi kaynağı daha var. Daha önceki @List'ten \\[].rastgele()\\'ı hatırlıyor musunuz?",
                             "$~İçeride, sonsuz bir rastgele sayı dizisi sağlayan @Random adlı bir @FunctionDefinition kullanır. Bu bir tür akıştır çünkü girdiyi bizimkinden değil, sizin dünyanızdan üretir. Ancak diğer akışlardan biraz farklıdır çünkü bir @Program'ın yeniden değerlendirilmesine neden olmaz.",
                             "$~Bunun yerine her değerlendirildiğinde farklı bir rastgele sayı verir.",
                             "$~Sahne araç çubuğundaki (ve zaman çizelgesindeki) o küçük ↻ @UI/resetEvaluator düğmesini görüyor musun? Programı elle yeniden hesaplamak için ona bas; her seferinde \\0\\ ile \\1\\ arasında yeni bir sayı göreceksin."
@@ -3450,7 +3450,7 @@
                             "sad",
                             "$~Aman tanrım aman tanrım aman tanrım, rengi unuttuğuma İNANAMIYORUM. Tamam, yani herhangi bir @Pose bir renge sahip olabilir, değil mi? Ama @Color üç parçadan oluşur. İlk olarak, 0 ile %100 arasında bir @Color.lightness. Bunu bir odanın ne kadar parlak olduğu gibi düşünebilirsin, siyahtan beyaza kadar, ortada %50'de renk vardır.",
                             "$~Daha sonra 0 ile ∞ arasında bir @Color.chroma değeri, hiç renk olmayan griden tam renkliye kadar ne kadar renk olduğunu ifade eder.",
-                            "$~Ve son olarak, bir renk tekerleği gibi düşünebileceğiniz, kırmızıdan yeşile ve maviye dereceler halinde bir @Color.hue. Yani parlak kırmızı olmamı mı istiyorsunuz? Dinlenme poz rengimi \\Color(50% 300 30°)\\ olarak ayarlayın."
+                            "$~Ve son olarak, bir renk tekerleği gibi düşünebileceğiniz, kırmızıdan yeşile ve maviye dereceler halinde bir @Color.hue. Yani parlak kırmızı olmamı mı istiyorsunuz? Dinlenme poz rengimi \\Renk(50% 300 30°)\\ olarak ayarlayın."
                         ],
                         { "edit": "Phrase('red' color: 🌈(50% 300 30°))" },
                         null,
@@ -3830,7 +3830,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Ve eğer çok belirli bir düzenleme istiyorsanız? @Free kullanabilir ve tüm ifadelerin tam olarak nerede olmasını istediğinizi bana söyleyebilirsiniz. Sadece her @Phrase'e bir yer verdiğinizden emin olun, aksi takdirde onu sadece \\Place(0m 0m)\\'e yerleştiririm."
+                            "$~Ve eğer çok belirli bir düzenleme istiyorsanız? @Free kullanabilir ve tüm ifadelerin tam olarak nerede olmasını istediğinizi bana söyleyebilirsiniz. Sadece her @Phrase'e bir yer verdiğinizden emin olun, aksi takdirde onu sadece \\Yer(0m 0m)\\'e yerleştiririm."
                         ],
                         {
                             "edit": [
@@ -4652,7 +4652,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Biliyorsunuz, @Bind, @Evaluate dahil olmak üzere birçok başka karakterle çalışıyor — bunları bir @FunctionDefinition girdisini adlandırdığınızda gördünüz, örneğin \\Pose(renk: _)\\ — ve bu diğer kişilerden birkaçıyla tanışacağız. @Bind, demo için burada olacak mısın?"
+                            "$~Biliyorsunuz, @Bind, @Evaluate dahil olmak üzere birçok başka karakterle çalışıyor — bunları bir @FunctionDefinition girdisini adlandırdığınızda gördünüz, örneğin \\Poz(renk: _)\\ — ve bu diğer kişilerden birkaçıyla tanışacağız. @Bind, demo için burada olacak mısın?"
                         ],
                         [
                             "Bind",

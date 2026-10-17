@@ -27,14 +27,14 @@ ponto: Ponteiro()
 fraseAtual•#: 1 …
 	moverFrases.tem(fraseAtual) ?
 		(ponto.x > 2m) & (ponto.y > 3m)
-		∆ Botão() | ∆ Chave()
+		∆ Botão() | ∆ Tecla()
 		…
 		(fraseAtual <
 				frases.comprimento()) ?
 			fraseAtual + 1
 			fraseAtual
 
-Fase(
+Palco(
 	[Frase(frases[fraseAtual] envolver: 10m)]
 	fonte: 'Short Stack'
 )

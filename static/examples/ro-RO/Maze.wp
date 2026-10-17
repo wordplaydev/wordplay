@@ -67,7 +67,7 @@ dreapta2: labirint2.celulă2(
 	)•''
 aCâștigat: curent = '🤩'
 
-Etapă(
+Estradă(
 	[
 		Grup(
 			Grilă(3 3 0.25m)

@@ -10,7 +10,7 @@ mărime2: 30
 
 ¶La început, fă o listă cu 20 de pisicuțe, fiecare așezată într-un loc aleatoriu. Când ceasul bate, mută-le pe toate puțin în jos.¶
 pisicuțe•[pisicuță]:
-	numărare2 → [].traduce(
+	numărare2 → [].transformă(
 		ƒ(_) pisicuță(
 				Aleatoriu(-mărime2 mărime2)
 				Aleatoriu(-mărime2 mărime2)
@@ -20,15 +20,15 @@ pisicuțe•[pisicuță]:
 			)
 	)
 	… ∆ Timp() …
-		pisicuțe.traduce(
+		pisicuțe.transformă(
 			ƒ(pisicuță2•pisicuță)
 				(pisicuță2.y2:pisicuță2.y2 < -mărime2 ? mărime2 pisicuță2.y2 - 2)
 				.unghi2:pisicuță2.unghi2 + pisicuță2.viteză2
 		)
 
 ¶Transformă pisicuțele în fraze¶
-Etapă(
-	pisicuțe.traduce(
+Estradă(
+	pisicuțe.transformă(
 		ƒ(pisicuță3•pisicuță)
 			Fraza(
 				"🐈"

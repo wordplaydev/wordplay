@@ -13,12 +13,12 @@ Bühne(
 		Gruppe(
 			Stapel()
 			[
-				Satzglied(
+				Phrase(
 					`PATRIARCHAT und ALPHABETISIERUNG`
 					wickeln: 25m
 					gesicht: 'Monoton'
 				)
-				Satzglied(
+				Phrase(
 					`/Weltweit drücken patriarchale Ungerechtigkeiten wie Gewalt gegen Frauen, Kinderehen und Schulverbote die Alphabetisierungsrate von Frauen ungerecht nach unten. Laut Daten der Weltbank sind dies die 10 schlimmsten Länder…/`
 					wickeln: 25m
 				)
@@ -28,7 +28,7 @@ Bühne(
 					1
 					10
 				).übersetzen(
-					ƒ(reihe2) Satzglied(
+					ƒ(reihe2) Phrase(
 							`/\reihe2.land\ \reihe2.n2022•# ? reihe2.n2022.abrunden(
 								) 0\%/`
 						)

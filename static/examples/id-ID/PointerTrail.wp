@@ -5,7 +5,7 @@ Jejak penunjuk
 
 riwayat•[Tempat]: ←← 5 Penunjuk()
 Panggung(
-	riwayat.menerjemahkan(
+	riwayat.petakan(
 		ƒ(pointer•Tempat indeks2•#)
 			Frasa(
 				'●'

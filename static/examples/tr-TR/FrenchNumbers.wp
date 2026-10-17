@@ -24,7 +24,7 @@ gizliSayılar: [:1‥9].karıştırılmış()
 
 ¶En son hangi tuşa basıldı?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-anahtar2,clé/fr: Anahtar()
+anahtar2,clé/fr: Tuş()
 
 ¶Bir tuşa her basıldığında şimdiki gizli sayı artar, ama 10'da durur¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
@@ -62,15 +62,15 @@ Sahne(
 			Yığın()
 			[
 				oyunBitti ?
-					İfadeetmek(
+					Yazı(
 						kazan ?
 							'Fransızca sayıları biliyorsun!'"Tu connais les chiffres français!"/fr
 							'neredeyse, tekrar dene'"presque, réessaye"/fr
 						boyut: 2m
 					)
-					İfadeetmek(numeros[secretActuel] boyut: 2m)
-				İfadeetmek("\puanlar\ points!" boyut: 1m)
-				İfadeetmek(
+					Yazı(numeros[secretActuel] boyut: 2m)
+				Yazı("\puanlar\ points!" boyut: 1m)
+				Yazı(
 					gizliSayıDizini = 1 ?
 						'bu hangi sayı?''quel est ce numéro ?'/fr
 						doğru2 ?

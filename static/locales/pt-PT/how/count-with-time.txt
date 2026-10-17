@@ -7,18 +7,18 @@ Uma @Reaction tem três partes: um valor inicial, algo a observar, e um novo val
 Aqui, começamos em \0\, observamos @Time, e somamos um sempre que o relógio marca:
 
 \
-count: 0 … ∆ Time(1000ms) … count + 1
-Phrase(count → '')
+count: 0 … ∆ Tempo(1000ms) … count + 1
+Frase(count → '')
 \
 
- A cada segundo, @Time dispara, o @Reaction repara com \∆ Time(1000ms)\, e \count\ passa a ser \count + 1\.
+ A cada segundo, @Time dispara, o @Reaction repara com \∆ Tempo(1000ms)\, e \count\ passa a ser \count + 1\.
 O \→ ''\ no final converte o número em texto para que @Phrase o possa mostrar.
 
 Pode usar qualquer entrada que desejar, não apenas o tempo. Este contador contabiliza o número de vezes que o botão Button() é premido:
 
 \
-count: 0 … ∆ Button() … count + 1
-Phrase(count → '')
+count: 0 … ∆ Botão() … count + 1
+Frase(count → '')
 \
 
  Cada vez que o @Button A cada clique ou toque no ecrã, a contagem aumenta em um.

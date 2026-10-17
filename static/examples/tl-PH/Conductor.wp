@@ -11,11 +11,11 @@ Nakalimbag sa entablado ang bawat panuto, kaya matututunan mo ito kahit hindi mo
 kamay: Kamay()
 
 ¶Ang taas ay kung gaano karami ang orkestra, at ang gilid-gilid na galaw ay kung gaano kabilis. Parehong direktang binabasa mula sa kamay, hindi tinatandaan, kaya sinusunod nila ito nang tuloy-tuloy. Naka-ikot ang bawat isa sa isang hakbang, kaya nagbabago lang ang musika kapag sapat na kalaki ang pagbabago para marinig, at hindi ito muling isusulat nang dalawampung beses kada segundo dahil lang sa nanginginig na kamay.¶
-itaas: kamay.lugar.taon.rescale(-3m 3m 0 1).limit(0 1)
-mgaLayer: 1 + ((itaas · 7).bilog())
+itaas: kamay.lugar.y.mulingIskala(-3m 3m 0 1).hangganan(0 1)
+mgaLayer: 1 + ((itaas · 7).bilugan())
 
-abot: kamay.lugar.x.rescale(-5m 5m 0 1).limit(0 1)
-bilis2: 72 + ((abot · 8).bilog() · 12)
+abot: kamay.lugar.x.mulingIskala(-5m 5m 0 1).hangganan(0 1)
+bilis2: 72 + ((abot · 8).bilugan() · 12)
 
 ¶Sino ang tumutugtog ng himig. Kapwa binibilang na walang daliri ang isang kamaong nakasara at ang kamay na wala sa larawan, kaya nananatili sa dating tumutugtog ang walang daliri — kung hindi, magbabago ang tono kapag tumingin ka sa ibang dako.¶
 itinatampok: 5 … ∆ kamay …

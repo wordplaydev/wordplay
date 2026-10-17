@@ -4,13 +4,13 @@
 
 @Choice  δίνει πίσω το \name\ όποιας επιλέξιμης εξόδου διάλεξε το κοινό, οπότε μια συνθήκη αρκεί για να το μετατρέψεις σε όργανο:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' επιλέξιμος όνομα: 'πιάνο')
-				Phrase('🎻' επιλέξιμος όνομα: 'βιολί')
+\picked: Επιλογή()
+Πλατό([
+		Ομάδα(Σειρά() [
+				Φράση('🎹' επιλέξιμος όνομα: 'πιάνο')
+				Φράση('🎻' επιλέξιμος όνομα: 'βιολί')
 			])
-		Music(Track([1 3 5 6 5 3] όργανο: (picked = 'βιολί') ? Instrument.violin Instrument.piano))
+		Μουσική(Κανάλι([1 3 5 6 5 3] όργανο: (picked = 'βιολί') ? Όργανο.βιολί Όργανο.πιάνο))
 	])\
 
 Οι δύο επιλέξιμες φράσεις είναι αυτό που κάνει αυτό να δουλεύει —  @Choice  δεν έχει τίποτα να διαβάσει εκτός αν κάτι στη σκηνή είναι \επιλέξιμο: ⊤\.
@@ -19,18 +19,18 @@ Stage([
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' Όργανο.πιάνο)
+		Voice('🎺' Όργανο.τρομπέτα)
+		Voice('🔔' Όργανο.καμπάνα)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: Επιλογή()
+found: voices.εύρημα(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon επιλέξιμος όνομα: voice.icon))
+Πλατό([
+		Ομάδα(Σειρά() [
+				:voices.μετασχηματίζω(ƒ(voice•Voice) Φράση(voice.icon επιλέξιμος όνομα: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] όργανο: current.sound))
+		Μουσική(Κανάλι([1 3 5 6 5 3] όργανο: current.sound))
 	])\
 
 Το να προσθέσεις μια τέταρτη φωνή είναι τώρα μία γραμμή, και το κουμπί εμφανίζεται μόνο του. Πρόσεξε τη φύλαξη \found•ø ?\:  @List/find  δίνει πίσω \ø\ όταν τίποτα δεν ταιριάζει, κάτι που συμβαίνει πριν διαλέξει κανείς — και η εναλλακτική πρέπει να είναι ένα ολόκληρο \Ομιλία\, αφού αυτό είναι που \current\ υπόσχεται να είναι.

@@ -168,7 +168,7 @@ räume•[raum2]: [
 			) rucksack3
 	)
 
-schlüssel3: Schlüssel()
+schlüssel3: Tastaturtaste()
 
 ¶Ein Tastendruck, in dieser Reihenfolge: Bei einem Ende weckt dich jede Taste wieder im ersten Raum. Eine Taste, die nicht 1, 2 oder 3 ist, bedeutet nichts. Eine Zahl über der Anzahl der Türen in diesem Raum bedeutet ebenfalls nichts. Erst danach ist es eine Tür. Der dritte Test ist der, den man aufschreiben sollte, denn der Zugriff auf eine Liste springt am Ende wieder an den Anfang. Ohne den Test würde die 3 in einem Raum mit zwei Türen einfach die erste nehmen.¶
 ƒ schritt(r•reise s•'')•reise (
@@ -192,7 +192,7 @@ türen3: wege(hier4 reise2.rucksack)
 tragen:
 	reise2.rucksack.Länge() > 0
 	? [
-			Satzglied(
+			Phrase(
 				`*trägst* \reise2.rucksack.verbinden(' · ')\`
 				Größe: 0.3m
 				Ausrichtung: '|'
@@ -205,7 +205,7 @@ tragen:
 unten2:
 	hier4.ende ≠ ''
 	? [
-			Satzglied(
+			Phrase(
 				`*\hier4.ende\*`
 				Größe: 0.8m
 				Ausrichtung: '|'
@@ -217,7 +217,7 @@ unten2:
 				Dauer: 1.5s
 				Eingabe: Pose(Opazität: 0% Skala: 0.5)
 			)
-			Satzglied(
+			Phrase(
 				`drücke eine beliebige Taste, um wieder aufzuwachen`
 				Größe: 0.3m
 				Ausrichtung: '|'
@@ -227,7 +227,7 @@ unten2:
 		]
 		türen3.übersetzen(
 			ƒ(tür3•tür index2•#)
-				Satzglied(
+				Phrase(
 					`\index2\. *\tür3.beschriftung\*`
 					Größe: 0.5m
 					Ausrichtung: '|'
@@ -242,7 +242,7 @@ Bühne(
 		Gruppe(
 			Stapel()
 			[
-				Satzglied(
+				Phrase(
 					hier4.beschreibung
 					Größe: 0.5m
 					wickeln: 14m

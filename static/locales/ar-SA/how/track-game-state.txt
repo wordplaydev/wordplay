@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['قطة' 'كلب'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['قطة' 'كلب'] 0) … state.secrets.يحتوي(الدردشة()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("لقد فزت!")]
-        [ Group(Stack() [ Phrase("خمّن كلماتي السرية") Phrase(`\state.secrets.length() - state.points\ أسرار أخرى`)])]
+مسرح(
+    state.points = state.secrets.الطول() ? 
+        [ عبارة("لقد فزت!")]
+        [ مجموعة(كومة() [ عبارة("خمّن كلماتي السرية") عبارة(`\state.secrets.length() - state.points\ أسرار أخرى`)])]
 )
 \
 

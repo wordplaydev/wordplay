@@ -4,10 +4,10 @@ Jika sebuah @Row adalah untuk berdampingan, lalu sebuah @Stack Ini untuk dari at
 @Stack menempatkan setiap karakter di bawah karakter sebelumnya, seperti sebuah menara.
 
 \
-Group(Stack() [
-    Phrase('satu')
-    Phrase('dua')
-    Phrase('tiga')
+Kelompok(Tumpukan() [
+    Frasa('satu')
+    Frasa('dua')
+    Frasa('tiga')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Stack() [
 Coba ratakan semuanya ke sisi kiri:
 
 \
-Group(Stack('<' 0.25m) [
-    Phrase('🐣 kecil')
-    Phrase('🐥 sedang')
-    Phrase('🐔 besar')
+Kelompok(Tumpukan('<' 0.25m) [
+    Frasa('🐣 kecil')
+    Frasa('🐥 sedang')
+    Frasa('🐔 besar')
 ])
 \
 

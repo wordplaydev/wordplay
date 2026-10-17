@@ -12,16 +12,16 @@ Joacă-te și vezi ce poți crea!
 ¶Notă: Consultați galeria pentru un alt proiect <exemplu@https://wordplay.dev/project/example-Layers?play> de stratificare a imaginilor.¶
 
 
-Stage(
+Estradă(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotaţie: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotaţie: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotaţie: -25°)
+		Figură(Cerc(3m 0m 1m 0m))
+		Figură(Poligon(2m 3 0m -12m 0m) rotaţie: -30°)
+		Figură(Poligon(7m 6 0m -6m 0m))
+		Figură(Dreptunghi(-11m -9m 11m -12m 10m) rotaţie: 25°)
+		Figură(Dreptunghi(-11m -9m 11m -12m 10m) rotaţie: -25°)
 
 	]
-	loc: Place(0m 10m -30m)
+	loc: Loc(0m 10m -30m)
 )
 \
 

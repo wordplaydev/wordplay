@@ -151,33 +151,33 @@ Panggung(
 			'🍂'
 			nama: "Virginia"/en,"वर्जिनिया"/hi
 			tempat: Tempat(-3m 0m)
-			urusan: Urusan()
+			materi: Materi()
 		)
 		Frasa(
 			`@ellipsis/CuteDuckie`
 			nama: "California"/en,"कॅलिफ़ोर्निया"/hi
 			tempat: Tempat(-10m 0m)
-			urusan: Urusan()
+			materi: Materi()
 			ukuran: 1.4m
 		)
 		Frasa(
 			'🏕'
 			nama: "India"/en,"भारत"/hi
 			tempat: Tempat(5m -6m)
-			urusan: Urusan()
+			materi: Materi()
 		)
 		Frasa(
 			`@ellipsis/GoDawgs`
 			nama: "Washington"/en,"वाशिंटन"/hi
 			tempat: Tempat(-10m 6m)
-			urusan: Urusan()
+			materi: Materi()
 			ukuran: 1.4m
 		)
 		Frasa(
 			'🐤'
 			nama: "me"/en,"मैं"/hi
 			tempat: where
-			urusan: Urusan()
+			materi: Materi()
 			pindah: Urutan(
 				{
 					0%: Pose()

@@ -36,6 +36,10 @@ const PhraseBubble = new LocalePath(
     [],
 );
 
+/** `output.Phrase.names` and `input.Key.names`, read for the English-spelling rule (#1465). */
+const PhraseNames = new LocalePath(['output', 'Phrase'], 'names', []);
+const KeyNames = new LocalePath(['input', 'Key'], 'names', []);
+
 /**
  * A copy of a locale with one name changed — and a region nobody uses, because
  * `Basis.getLocalizedBasis` memoizes on the locale's language and regions, so a copy that
@@ -151,9 +155,11 @@ test('a name is retargeted inside a doc, keeping its markup and annotations', ()
     const source = "Give me a bubble:\n\n\\Phrase('a' bubble: 'hello!')\\";
     const localized = "Gib mir eine Blase:\n\n\\Phrase('a' bubble: 'hallo!')\\";
     const result = retargetExamplesIn(source, localized, German);
-    expect(result.renamed).toBe(1);
+    // The input, and the type too if German has its own word for it (#1465).
+    const phrase = declared(PhraseNames, German);
+    expect(result.renamed).toBe(phrase === 'Phrase' ? 1 : 2);
     expect(result.text).toContain('Gib mir eine Blase:');
-    expect(result.text).toContain('\\Phrase(');
+    expect(result.text).toContain(`\\${phrase}(`);
     expect(result.text).not.toContain('bubble:');
 });
 
@@ -197,6 +203,61 @@ test('a reference that still names the right definition is left alone', () => {
             'el',
         ).kind,
     ).toBe('unchanged');
+});
+
+test('a built-in still spelled in English becomes the locale’s word', () => {
+    // en-US names bind in every locale, so an example the translator left in English never
+    // stops resolving — and would otherwise teach English forever (#1465).
+    const seen: { from: string; to: string }[] = [];
+    const result = retargetExampleNames(
+        "Phrase('a')",
+        "Phrase('ένα')",
+        Greek,
+        'el',
+        (rename) => seen.push(rename),
+    );
+    expect(result.kind).toBe('retargeted');
+    if (result.kind !== 'retargeted') return;
+    const word = declared(PhraseNames);
+    expect(result.code).toBe(`${word}('ένα')`);
+    expect(seen).toEqual([{ from: 'Phrase', to: word }]);
+});
+
+test('a locale that kept the English word is left alone', () => {
+    const kept = withNames(Greek, 'LV', PhraseNames, ['💬', 'Phrase']);
+    expect(
+        retargetExampleNames("Phrase('a')", "Phrase('ένα')", kept, 'el').kind,
+    ).toBe('unchanged');
+});
+
+test('a name the locale has not written yet stays English', () => {
+    const unwritten = withNames(Greek, 'LT', PhraseNames, ['💬', '$?Phrase']);
+    expect(
+        retargetExampleNames("Phrase('a')", "Phrase('ένα')", unwritten, 'el')
+            .kind,
+    ).toBe('unchanged');
+});
+
+test('a symbolic name spelled as en-US spells it is left alone', () => {
+    expect(retargetExampleNames("💬('a')", "💬('ένα')", Greek, 'el').kind).toBe(
+        'unchanged',
+    );
+});
+
+test('an English spelling whose word the example has taken stays English', () => {
+    // Renaming would make the reference name the example's own number — which the conflict
+    // guard misses, since an unused bind is traded for an incompatible input.
+    const word = declared(PhraseNames);
+    const seen: unknown[] = [];
+    const result = retargetExampleNames(
+        "phrase: 1\nPhrase('a')",
+        `${word}: 1\nPhrase('ένα')`,
+        Greek,
+        'el',
+        (rename) => seen.push(rename),
+    );
+    expect(result.kind).toBe('unchanged');
+    expect(seen).toEqual([]);
 });
 
 test('an infix operator keeps its symbol', () => {
@@ -451,7 +512,7 @@ test('a key name already in the locale display form is left alone', () => {
     const lo = [
         {
             names: 'start',
-            code: `key: Key()\nstarted: key = '${expected}'\n`,
+            code: `key: ${declared(KeyNames)}()\nstarted: key = '${expected}'\n`,
         },
     ];
     expect(retargetSerializedExample(en, lo, Greek, 'el').kind).toBe(

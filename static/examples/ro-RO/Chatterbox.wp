@@ -24,9 +24,9 @@ schimbări: {
 		'yours': 'mine'
 		'yourself': 'myself'
 	}
-ƒ reflectă(cuvinte3•'')•'' cuvinte3.segmentat(' ').traduce(
+ƒ reflectă(cuvinte3•'')•'' cuvinte3.segmentat(' ').transformă(
 		ƒ(cuvânt2•'') schimbări{cuvânt2} ?? cuvânt2
-	).alăturăte(
+	).unește(
 		' '
 	)
 
@@ -73,11 +73,11 @@ recent: jurnal.lungime() ≤ 8 ? jurnal jurnal.subsecvență(
 			jurnal.lungime() - 7
 		)
 
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă('<' 0.5m)
-			recent.traduce(
+			recent.transformă(
 				ƒ(rând2•rând)
 					Fraza(
 						rând2.vorbitor + ' ' + rând2.cuvinte2

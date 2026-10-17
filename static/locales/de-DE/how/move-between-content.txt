@@ -13,10 +13,10 @@ Hier ist die kleinste Version davon. Klicke zuerst auf die Bühne, damit sie zuh
 \
 slides: ['erstes' 'zweites' 'drittes']
 
-key: Key()
+key: Tastaturtaste()
 
 index•#: 1 … ∆ key …
-	(key = 'Pfeil nach rechts') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Pfeil nach rechts') ? ((index < slides.Länge()) ? index + 1 index)
 		(key = 'Pfeil nach links') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -39,14 +39,14 @@ Tausche die @List gegen eine Liste von @Group oder ganzen Szenen aus, und der Re
 \
 slides: [
 	Phrase('eine Geschichte in drei Teilen' Größe: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('eine Katze erscheint')])
+	Gruppe(Stapel() [Phrase('🐈') Phrase('eine Katze erscheint')])
 	Phrase('das Ende 🎉')
 ]
 
-key: Key()
+key: Tastaturtaste()
 
 index•#: 1 … ∆ key …
-	(key = 'Pfeil nach rechts') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Pfeil nach rechts') ? ((index < slides.Länge()) ? index + 1 index)
 		(key = 'Pfeil nach links') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,10 +57,10 @@ slides[index]
 Gib ihm @Scene/pause damit es sich nie von selbst bewegt, und @Scene/step um es Stück für Stück in beide Richtungen zu bewegen:
 
 \
-key: Key()
-Scene([
+key: Tastaturtaste()
+Szene([
 		Phrase('eine Geschichte in drei Teilen' Größe: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('eine Katze erscheint')])
+		Gruppe(Stapel() [Phrase('🐈') Phrase('eine Katze erscheint')])
 		Phrase('das Ende 🎉')
 	] anhalten Schritt: ∆ key ? ((key = 'Pfeil nach links') ? -1 (key = 'Pfeil nach rechts') ? 1 ø) ø)
 \

@@ -5,9 +5,9 @@ Bir  @Track  bir ezgidir. Birlikte çalınan birkaçı bir gruptur — ve birini
 Dereceler sabit sesler değil, bir gamın adımları olduğu için, tüm bir bas hattı, ezginin kendi sayılarının bir oktav aşağı indirilmiş halidir.  @Track/key  tek bir parçayı belli bir yarım ses kadar kaydırır ve on iki yarım ses tam olarak bir oktavdır:
 
 \tune: [1 5 8 5 6 3 1 ø]
-Music([
-		Track(tune çalgı: Instrument.flute)
-		Track(tune çalgı: Instrument.synthBass anahtar: -12semitones sesDüzeyi: 60%)
+Müzik([
+		Parça(tune çalgı: Çalgı.flüt)
+		Parça(tune çalgı: Çalgı.synthBass anahtar: -12semitones sesDüzeyi: 60%)
 	])\
 
 İki ses, tek bir liste. Ezgiyi düzenle, bas onu takip etsin; çünkü düzenlenecek yalnızca tek bir ezgi var.
@@ -15,11 +15,11 @@ Music([
 Şimdi çevresini doldur. Akorlar ezginin ritmini değil, kendi ritmini ister ve bir parçanın kendi  @Track/beat  ona bunu verir; \pan\ sesleri sağa ve sola yayar, böylece kulak onları birbirinden ayırabilir:
 
 \tune: [1 5 8 5 6 3 1 ø]
-Music([
-		Track(tune çalgı: Instrument.flute kaydırma: 0)
-		Track(tune çalgı: Instrument.synthBass anahtar: -12semitones sesDüzeyi: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] çalgı: Instrument.synthPad vuruş: 2beats sesDüzeyi: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] çalgı: Instrument.drums vuruş: 0.5beats sesDüzeyi: 45%)
+Müzik([
+		Parça(tune çalgı: Çalgı.flüt kaydırma: 0)
+		Parça(tune çalgı: Çalgı.synthBass anahtar: -12semitones sesDüzeyi: 60%)
+		Parça([{1 3 5} ø {1 4 6} ø] çalgı: Çalgı.synthPad vuruş: 2beats sesDüzeyi: 35%)
+		Parça([1 ø 2 ø 1 ø 2 3] çalgı: Çalgı.davul vuruş: 0.5beats sesDüzeyi: 45%)
 	])\
 
 Ses düzeylerine dikkat et: yalnızca flüt tam sesle çalıyor. Tam sesle çalan parçalar daha gür bir grup oluşturmaz, daha bulanık bir grup oluşturur; çünkü aynı anda çalan her şey aynı hoparlörden geçmek zorundadır. Ezgiyi \100%\ ile başlat ve her şeyi onun altına yerleştir.

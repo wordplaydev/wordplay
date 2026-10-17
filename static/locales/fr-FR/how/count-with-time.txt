@@ -7,17 +7,17 @@ Une @Reaction a trois parties : une valeur de départ, une chose à surveiller, 
 Ici, on commence à \0\, on surveille @Time, et on ajoute un à chaque battement de l'horloge :
 
 \
-count: 0 … ∆ Time(1000ms) … count + 1
+count: 0 … ∆ Temps(1000ms) … count + 1
 Phrase(count → '')
 \
 
- Chaque seconde, @Time se déclenche, le @Reaction le remarque avec \∆ Time(1000ms)\, et \count\ devient \count + 1\.
+ Chaque seconde, @Time se déclenche, le @Reaction le remarque avec \∆ Temps(1000ms)\, et \count\ devient \count + 1\.
 Le \→ ''\ à la fin transforme le nombre en texte pour que @Phrase puisse l'afficher.
 
 Vous pouvez utiliser n'importe quelle entrée, pas seulement le temps. Ce compteur compte le nombre d'appuis sur le bouton Button().
 
 \
-count: 0 … ∆ Button() … count + 1
+count: 0 … ∆ Bouton() … count + 1
 Phrase(count → '')
 \
 

@@ -56,7 +56,7 @@ t
 ¶현재 프랑스어 숫자와 현재 점수를 보여주고, 9개의 비밀이 모두 끝나면 최종 결과를 보여줍니다¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
-단계(
+무대(
 	[
 		그룹(
 			스택()

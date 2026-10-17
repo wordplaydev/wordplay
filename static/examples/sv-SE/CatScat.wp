@@ -12,7 +12,7 @@ Rösten är den stämda katten, \Instrument.tonsattKatt\: ett jam, med en tonhö
 Det är långsamt för en scat. Ett jam tar ungefär åtta tiondels sekund att säga, och i ett snabbare tempo skulle fjärdedelsnoterna klippa av katten mitt i ordet.¶
 
 slag2: Takt()
-antal2: slag2.räkna
+antal2: slag2.antal
 
 ¶En ton, eller ibland ingenting: ungefär var sjunde blir tyst. Det ger katten lagom med luft för att stänga munnen då och då utan att göra solot tunnare — och eftersom pauserna hamnar där slumpen vill, andas inga två refränger på samma ställe.¶
 ƒ kanske(ton•#)•#|ø (Slumpmässig() > 0.15) ? ton ø
@@ -28,7 +28,7 @@ antal2: slag2.räkna
 		en2: röst2()
 		b2: röst2()
 		c2: röst2()
-		(32 → []).översätta(
+		(32 → []).omvandla(
 			ƒ(i•#)
 				(i = 1) ? en2
 					(i = 2) ? b2
@@ -45,7 +45,7 @@ antal2: slag2.räkna
 Detta är de kortaste tonerna i stycket, och den enda platsen där katten blir avklippt: två åttondelar på ett slag är snabbare än ett jam hinner avsluta, vilket är precis hur en snabb scat-stavelse låter ändå.¶
 ƒ kör2()•[#|ø] (
 		hem: Slumpmässig(1 8)
-		(64 → []).översätta(
+		(64 → []).omvandla(
 			ƒ(i2•#)
 				~((17‥32) ∋ i2) ? ø
 					kanske((((hem + (i2 - 17)) - 1) % 8) + 1)
@@ -55,7 +55,7 @@ Detta är de kortaste tonerna i stycket, och den enda platsen där katten blir a
 ¶Trioler, takt fem och sex: en cell med tre toner som vänds om och om igen. Tre på plats av två skrivs exakt så — 2 slag ÷ 3 — vilket säger rakt ut vad en triol är.¶
 ƒ svinga2()•[#|ø] (
 		cell2: [röst2() röst2() röst2()]
-		(48 → []).översätta(
+		(48 → []).omvandla(
 			ƒ(i3•#)
 				~((25‥36) ∋ i3) ? ø
 					cell2[(((i3 - 25) % 3) + 1)]
@@ -64,7 +64,7 @@ Detta är de kortaste tonerna i stycket, och den enda platsen där katten blir a
 
 ¶Halvnoter, takt sju: katten saktar ner och landar på två långa toner. En hållen ton håller munnen öppen hela tiden den låter, vilket är precis hur det ser ut att hålla en ton.¶
 ƒ håller2()•[#|ø]
-	(16 → []).översätta(
+	(16 → []).omvandla(
 		ƒ(i4•#)
 			(i4 = 13) ? röst2()
 				(i4 = 14) ? röst2()
@@ -72,7 +72,7 @@ Detta är de kortaste tonerna i stycket, och den enda platsen där katten blir a
 	)
 
 ¶En helnot, takt åtta: ton 1, hållen. Att komma hem till den första tonen i skalan är det som får en fras att låta avslutad, inte bara stoppad.¶
-ƒ svans2()•[#|ø] (8 → []).översätta(ƒ(i5•#) (i5 = 8) ? 1 ø)
+ƒ svans2()•[#|ø] (8 → []).omvandla(ƒ(i5•#) (i5 = 8) ? 1 ø)
 
 ƒ improvisera()•refräng refräng(
 		anrop2()
@@ -90,14 +90,14 @@ refräng2•refräng: improvisera() … ∆ slag2 …
 luta2: ((antal2 % 2) = 0) ? -1 1
 
 ¶Om katten låter just nu. @Beat ger tillbaka en @Part för varje spår, och en del förblir ⊤ genom hela det slag som en hållen ton varar. Så detta är ⊤ närhelst något hörs.¶
-sjunger: slag2.delar.översätta(ƒ(del•Del) del.klingande).har(
+sjunger: slag2.delar.omvandla(ƒ(del•Del) del.klingande).har(
 		⊤
 	)
 
 ¶Munnen: öppen precis när en ton låter, stängd när ingen gör det. Inget här räknar slag — den frågar musiken vad den gör, så ansiktet kan aldrig hamna ur takt med det du hör. De utspridda tystnaderna är det som ger munnen något att stänga kring, vilket är varför ungefär var sjunde ton blir tyst.¶
 mun: sjunger ? '😺' '🐱'
 
-Etapp(
+Estrad(
 	[
 		Fras(
 			mun

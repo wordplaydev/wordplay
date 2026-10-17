@@ -5,9 +5,9 @@ Czasami pomocne jest zrobienie @Phrase można przesuwać za pomocą klawiatury, 
 Zrób to, możemy połączyć @Phrase z @Placement:
 
 \
-Stage(
-	[Phrase('przenieś mnie' miejsce: Placement())]
-	miejsce: Place(0m 0m -10m)
+Scena(
+	[Fraza('przenieś mnie' miejsce: Umieszczenie())]
+	miejsce: Miejsce(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Na przykład @Stage ma @Place , która określa, gdzie skierowana jest jej kamer
 Spróbujmy ustawić miejsce dla @Placement dla @Stage i zobaczmy, co się stanie.
 
 \
-Stage(
+Scena(
   [
-	Phrase('🐈' miejsce: Place(-2m 2m))
-	Phrase('🐈' miejsce: Place(2m -2m))
-	Phrase('🐈' miejsce: Place(-1m 3m))
+	Fraza('🐈' miejsce: Miejsce(-2m 2m))
+	Fraza('🐈' miejsce: Miejsce(2m -2m))
+	Fraza('🐈' miejsce: Miejsce(-1m 3m))
   ]
-  miejsce: Placement(Place(0m 0m -10m))
+  miejsce: Umieszczenie(Miejsce(0m 0m -10m))
 )
 \
 

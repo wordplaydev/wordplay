@@ -7,15 +7,15 @@
                 "17!",
                 "Yeh ek khoobsurat afra-tafri paida karta hai jo na-qabil-e-pesh-goi se aati hai.",
                 "By default, yeh \\0\\ aur \\1\\ ke darmiyan @Number qeematein deta hai:",
-                "\\Random()\\",
+                "\\Ittefaqi()\\",
                 "Lekin aap ise @value de sakte hain, aur yeh \\0\\ aur us qeemat ke darmiyan qeematein banayega:",
-                "\\Random(10)\\",
+                "\\Ittefaqi(10)\\",
                 "Aur agar aap ise do qeematein dein, to yeh un dono qeematon ke darmiyan, un ko shaamil karte hue, qeematein banayega:",
-                "\\Random(-10 10)\\",
+                "\\Ittefaqi(-10 10)\\",
                 "Agar aapki hadon mein ikaiyan hon, to woh barqarar rahengi (aur agar woh mel na khayein, to kam az kam ki ikai istemaal hogi):",
-                "\\Random(-10m 10m)\\",
+                "\\Ittefaqi(-10m 10m)\\",
                 "Aur agar aap aise number dein jin mein ashariya ke baad khaas tadaad mein ankon ki darustgi ho, to woh darustgi barqarar rahegi.",
-                "\\Random(1.00 10.00)\\"
+                "\\Ittefaqi(1.00 10.00)\\"
             ],
             "names": ["$~Ittefaqi"],
             "inputs": [
@@ -35,7 +35,7 @@
                 "/clickety tap!/",
                 "Is liye ise istemaal karne ka sab se achha tareeqa yeh hai ke naam wale chune ja sakne wale phrases @Phrase ke saath ek performance banayein, aur phir @Reaction se tay karein ke woh naam chune jane par kya karna hai.",
                 "Yeh sab se aasaan misaal hai:",
-                "\\Group(\n\tStack()\n\t[\n\t\tPhrase('ek' chunaJaSakneWala: ⊤ naam: '1')\n\t\tPhrase('do' chunaJaSakneWala: ⊤ naam: '2')\n\t\tPhrase(Choice())\n\t]\n)\\",
+                "\\Group(\n\tTah()\n\t[\n\t\tJumla('ek' chunaJaSakneWala: ⊤ naam: '1')\n\t\tJumla('do' chunaJaSakneWala: ⊤ naam: '2')\n\t\tJumla(Intikhaab())\n\t]\n)\\",
                 "Ise @editor mein copy karein aur phir dono @Phrase mein se ek chunein. Aap dekhenge ke teesra @Phrase woh naam dikhata hai jo chuna gaya."
             ],
             "names": ["$~Intikhaab"]
@@ -47,7 +47,7 @@
                 "Beshak, mouse ya trackpad dekhne walon ki baat sunne ke liye behtareen intikhab nahin hai, kyunke har koi ise istemaal nahin kar sakta. Zyada aasaan intikhab @Choice hai.",
                 "Lekin agar aap ko /waqai/ mouse button sunna ho, to yeh tareeqa hai. Yeh @Boolean ki dhaara dega, jo batati hai ke pehla button upar \\⊥\\ hai ya neeche \\⊤\\.",
                 "Yeh ek aasaan misaal hai:",
-                "\\Phrase(Button() → '')\\",
+                "\\Jumla(Button() → '')\\",
                 "Yeh bas ek @Phrase banata hai jo dhaare ki @value ko matn ki shakal mein dikhata hai. Agar aap ise @editor mein copy karke click karein, to aap dekhenge ke yeh \\⊥\\ aur \\⊤\\ ke beech badalta rehta hai."
             ],
             "names": ["$~🖱️", "$~Button"],
@@ -62,7 +62,7 @@
                 "/whrrrrrr/",
                 "Beshak, yeh aisa intikhab nahin hai jo sab ke liye ho: har koi dekh nahin sakta ya aasaani se ishara nahin kar sakta, is liye pakka karein ke is @stream ko istemaal karke aap kisi ko shamil hone se rok nahin rahe.",
                 "Agar aap ko yaqeen hai ke koi bahar nahin, to @Pointer istemaal karna bas ek dhaara banane jitna aasaan hai:",
-                "\\Pointer()\\",
+                "\\Nishaana()\\",
                 "Is ka diya hua @Place us jagah ke mutabiq hoga jahan @Stage par ishara kiya ja raha hai."
             ],
             "names": ["$~Nishaana"]
@@ -72,14 +72,14 @@
                 "$~Yeh batata hai ke aap ke dekhne wale keyboard ka kaun sa @key daba rahe hain aur chhod rahe hain.",
                 "/clickety/",
                 "Yeh aazmayein",
-                "\\Key()\\",
+                "\\Kunji()\\",
                 "Dekhein jab aap koi kunji type karte hain, to woh @Stage par kaise nazar aati hai? Jab bhi koi kunji dabai jati hai, @stream mein ek naya @Text jud jata hai, jo dabai gayi kunji batata hai.",
                 "Jo kunji kisi harf ko zaahir karti hai, uske liye @value woh harf @Text ki shakal mein hoga.",
                 "Khaas kunjiyon ke liye, jaise /Escape/ kunji, yeh @Text hoga jo kunji ko bayan karta hai, ek <pehle se tay shuda naam@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values> istemaal karke, jo afsos ke saath sirf angrezi mein maujood hai.",
                 "Agar aap sirf kisi khaas kunji ke baare mein jaanna chahte hain, to aap use de sakte hain:",
-                "\\Key('a')\\",
+                "\\Kunji('a')\\",
                 "Aur agar aap sirf yeh jaanna chahte hain ke @Key kab dabane ke bajaye chhodi gayi, to aap @Boolean de sakte hain:",
-                "\\Key('a' ⊥)\\"
+                "\\Kunji('a' ⊥)\\"
             ],
             "names": ["$~Kunji"],
             "key": {
@@ -150,9 +150,9 @@
                 "/tik tik tik/",
                 "Har baar aisa hone par, @Program naye waqt @value ke saath dobara chalta hai.",
                 "Misaal ke taur par:",
-                "\\Time()\\",
+                "\\Waqt()\\",
                 "Agar aap waqt ko @Time.frequency dein, to yeh usi raftaar se tik karega. Misaal ke taur par:",
-                "\\Time(1000ms)\\",
+                "\\Waqt(1000ms)\\",
                 "Lekin yeh kitna chhota ho sakta hai, is ki hadd hai, kyunke @Program ko agli tik ka jawab dene se pehle chalne ke liye waqt chahiye hota hai.",
                 "Sab se chhota shayad \\20ms\\ ke aas paas hai."
             ],
@@ -170,11 +170,11 @@
             "doc": [
                 "$~Main aapki pasand ki raftaar se naya @Moment banata hoon, is liye program ko hamesha aaj ki tareekh aur abhi ka waqt maaloom hota hai.",
                 "Is se muqaami gharyaal @code ki sirf ek line mein ban jata hai:",
-                "\\Phrase(Now() → '')\\",
+                "\\Jumla(Abhi() → '')\\",
                 "By default main har second tick karta hoon. Raftaar badalne ke liye mujhe seconds, minute, ya ghanton mein @Now.frequency dein:",
-                "\\Now(1min)\\",
+                "\\Abhi(1min)\\",
                 "Mera @Now.timezone aur @Now.calendar @Moment ke inputs jaise hain, aur woh un Moments ko tarteeb dete hain jo main banata hoon. Misaal ke taur par, yeh gharyaal Tokyo ka abhi ka waqt Japani calendar mein dikhata hai:",
-                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "\\Abhi(1s 'Asia/Tokyo' 'japanese')\\",
                 "Agar yeh inputs badal jayein, jaise koi reaction mujhe doosra time zone de, to main naye settings ke saath Moments banana shuru kar deta hoon.",
                 "Main @Time se kaise mukhtalif hoon? @Time program shuru hone ke baad se milli seconds ginta hai, jo animation ke liye acha hai. Main calendar aur time zone mein deewar gharyaal ki tareekh aur waqt batata hoon, jo gharyaalon aur calendaron ke liye acha hai."
             ],
@@ -196,13 +196,13 @@
             "doc": [
                 "$~Main waqt ka ek lamha hoon: calendar par ek tareekh, din ka ek waqt, aur woh time zone aur calendar jin mein yeh bayan hain.",
                 "Mere tamam @properties ikhtiyari hain. Tareekh batane ke liye mujhe tareekh ke hisse dein:",
-                "\\Moment(2026 7 1) → ''\\",
+                "\\Lamha(2026 7 1) → ''\\",
                 "Ya din ke waqt ke liye sirf waqt ke hisse:",
-                "\\Moment(ghanta: 15 minute: 30) → ''\\",
-                "Agar aap mujhe koi hissa nahin dete, to main abhi ki tareekh aur waqt ke taur par tabdeel hota hoon, jahan bhi program chal raha ho. Agar aap kuch hisse chhor dein, to aapke diye hue sab se bade hisse se bada har hissa abhi ki tareekh aur waqt se aata hai, aur chhote hisse apne aaghaz se shuru hote hain: is liye \\Moment(maheena: 12) → ''\\ is saal ki 1 December hai, aadhi raat par. Mujhe tabdeel karne par sirf wohi qisam ke hisse dikhte hain jo aapne diye: tareekh ke hisse se tareekh banti hai, waqt ke hisse se waqt, aur dono se dono:",
-                "\\Moment() → ''\\",
+                "\\Lamha(ghanta: 15 minute: 30) → ''\\",
+                "Agar aap mujhe koi hissa nahin dete, to main abhi ki tareekh aur waqt ke taur par tabdeel hota hoon, jahan bhi program chal raha ho. Agar aap kuch hisse chhor dein, to aapke diye hue sab se bade hisse se bada har hissa abhi ki tareekh aur waqt se aata hai, aur chhote hisse apne aaghaz se shuru hote hain: is liye \\Lamha(maheena: 12) → ''\\ is saal ki 1 December hai, aadhi raat par. Mujhe tabdeel karne par sirf wohi qisam ke hisse dikhte hain jo aapne diye: tareekh ke hisse se tareekh banti hai, waqt ke hisse se waqt, aur dono se dono:",
+                "\\Lamha() → ''\\",
                 "Mera @Moment.timezone IANA ka muayyar time zone naam leta hai jaise \\'America/Los_Angeles'\\ ya \\'Asia/Tokyo'\\; agar aap ise \\ø\\ chhor dein, to main us device ka time zone istemaal karta hoon jis par program chal raha hai. Mera @Moment.calendar Unicode calendar ka naam leta hai jaise \\'gregory'\\, \\'hebrew'\\, ya \\'japanese'\\; agar aap ise \\ø\\ chhor dein, to main parhne wale ke locale ka calendar istemaal karta hoon. Mera @Moment.year, @Moment.month, aur @Moment.day usi calendar mein hote hain:",
-                "\\Moment(5786 10 4 calendar: 'hebrew') → ''\\",
+                "\\Lamha(5786 10 4 calendar: 'hebrew') → ''\\",
                 "Mujhe @Text mein tabdeel karne se main parhne wale ke locale ke mutabiq likha jata hoon: wahi Moment angrezi, 中文, ya हिन्दी mein mukhtalif nazar aata hai, aur parhne wale ka locale badalne par badal jata hai.",
                 "Mera @Moment.era, @Moment.week, aur @Moment.weekday sirf maloomati hain: @Now Moments banate waqt unhein bharta hai, lekin formatting mein unhein nazar-andaaz kiya jata hai.",
                 "Agar aap Moments ka aisa @stream chahte hain jo waqt guzarne ke saath badalta rahe, yaani gharyaal, to @Now dekhein. Agar aap program shuru hone ke baad guzre hue milli seconds chahte hain, animation ke liye, to @Time dekhein."
@@ -257,7 +257,7 @@
                 "doc": "$~Hafte ka din, \\1\\ (Peer) se \\7\\ (Itwaar) tak. Sirf maloomati: @Now ise tay karta hai, aur formatting ise nazar-andaaz karti hai."
             },
             "conversion": {
-                "text": "$~Mera ek @Text roop, parhne wale ke locale ke mutabiq, mere calendar aur time zone mein. Kisi khaas locale ke liye format karne ke liye @Text qism ke baad ek zubaan likhein, jaise \\Moment(2026 7 1) → ''/es\\."
+                "text": "$~Mera ek @Text roop, parhne wale ke locale ke mutabiq, mere calendar aur time zone mein. Kisi khaas locale ke liye format karne ke liye @Text qism ke baad ek zubaan likhein, jaise \\Lamha(2026 7 1) → ''/es\\."
             },
             "error": {
                 "timezone": "$~yeh waqt ke ilaaqe ka durust naam nahin hai",
@@ -269,7 +269,7 @@
                 "$~Yeh microphone ki aawaaz ki tezi ka @stream hai, 0 se 1 tak.",
                 "/bzzzzzzz/",
                 "Yeh aapki pasand ki tawaatur par naapa jaata hai. Aam tor par tawaatur \\30hz\\ hota hai, yaani ek second mein 30 baar, lekin aap ise kam kar sakte hain.",
-                "\\Volume()\\",
+                "\\AwaazKiUnchaai()\\",
                 "Yeh sunne ke liye bahut acha hai ke sunne walay kitna shor kar rahe hain!"
             ],
             "names": ["$~AwaazKiUnchaai"],
@@ -283,7 +283,7 @@
                 "$~Yeh microphone ki aawaaz ki unchaai ka @stream hai, hertz mein.",
                 "/hummmmm/",
                 "Yeh aapki pasand ki tawaatur par naapa jaata hai. Insaani aawaaz 20Hz se 5000Hz ke darmiyaan hoti hai, is liye isi daayre ke adaad socheen.",
-                "\\Pitch()\\",
+                "\\Oonchaai()\\",
                 "Yeh yeh sunne ke liye bahut acha hai ke koi kis sur mein bol ya ga raha hai."
             ],
             "names": ["$~Oonchaai"],
@@ -297,10 +297,10 @@
                 "$~Yeh bol-chaal ko pehchaanta hai aur use @Text mein badal deta hai.",
                 "/hello there!/",
                 "Yeh aapke browser ki bol-chaal pehchaan istemaal karta hai taa-ke jo aap kehte hain use sun kar alfaaz mein badal de (kya yeh kamaal nahin hai?!).",
-                "\\Speech()\\",
+                "\\Bolna()\\",
                 "Yeh un logon ke liye behtareen hai jo @language bol sakte hain lekin abhi use parhna ya likhna seekh rahe hain (aur bhi bahut kuch)...",
                 "Aap kisi khaas zubaan mein bol-chaal pehchaanne ke liye zubaan @code bata sakte hain:",
-                "\\Speech(zubaan: 'es-MX')\\",
+                "\\Bolna(zubaan: 'es-MX')\\",
                 "Agar koi zubaan na batayi jaye to aapki pasandeeda zubaan istemaal hoti hai.",
                 "Bol-chaal pehchaan ke liye microphone tak rasai aur internet chahiye (meherbani karke ijaazat dein!). Istemaal ki hadd bhi ho sakti hai, is liye ise bahut der tak chalta na chhorein (nooooo)!"
             ],
@@ -333,7 +333,7 @@
                 "/bzzzzzzz/",
                 "Woh @List asal mein ek tasveer ko dikhata hai, lekin us ke saath kya karna hai yeh aap tay karte hain.",
                 "Aap tasveer ko bahut se @Phrase se dikhane ki koshish kar sakte hain, jo bahut acha lag sakta hai! Isay copy karke dekhein...",
-                "\\rang: Camera(32px 24px 33ms)\n\nStage(\n\trang.combine(\n\t\t[]\n\t\tƒ(jumle•[Phrase] qataar•[Color] y2•#)\n\t\t\tjumle.append(\n\t\t\t\tqataar.translate(\n\t\t\t\t\tƒ(rang2•Color x2•#)\n\t\t\t\t\t\tPhrase(\n\t\t\t\t\t\t\t'ya'\n\t\t\t\t\t\t\tjagah: Place((x2 - 1) × 0.5m y2 × -0.5m)\n\t\t\t\t\t\t\trang: rang2\n\t\t\t\t\t\t\tmuddat: 0s\n\t\t\t\t\t\t)\n\t\t\t\t)\n\t\t\t)\n\t)\n)\\",
+                "\\rang: Camera(32px 24px 33ms)\n\nStage(\n\trang.joraHua(\n\t\t[]\n\t\tƒ(jumle•[Jumla] qataar•[Rang] y2•#)\n\t\t\tjumle.fehristKeSaath(\n\t\t\t\tqataar.badlo(\n\t\t\t\t\tƒ(rang2•Rang x2•#)\n\t\t\t\t\t\tJumla(\n\t\t\t\t\t\t\t'ya'\n\t\t\t\t\t\t\tjagah: Jagah((x2 - 1) × 0.5m y2 × -0.5m)\n\t\t\t\t\t\t\trang: rang2\n\t\t\t\t\t\t\tmuddat: 0s\n\t\t\t\t\t\t)\n\t\t\t\t)\n\t\t\t)\n\t)\n)\\",
                 "Lekin aap rangon ko jaanch kar yeh bhi tay kar sakte hain ke roshni on hai ya off, ya koi khaas rang zyada hai, taa-ke sunne walay apne dikhaye hue rangon se performance par asar daal sakein."
             ],
             "names": ["$~🎥", "$~Camera"],
@@ -358,7 +358,7 @@
                 "Pardey ke peeche, @Hand ek machine-learning model istemaal karta hai. Jab aap ise pehli baar kisi program mein istemaal karte hain to model ko download hone mein kuch second lagte hain, aur us dauraan stage ke oopar daayen kone mein ek chhota ghoomta hua haath nazar aata hai. Uske baad yeh mehfooz rehta hai aur foran shuru ho jaata hai.",
                 "Har frame mein @Hand aapko ek @Gesture deta hai — inputs ki poori fehrist aur unke matlab wahan dekhein.",
                 "Yeh aazmayein — yeh aapke haath ki shakal se milta hua emoji wahin dikhata hai jahan aapka asal haath hai:",
-                "\\haath: Hand()\nPhrase((haath.open ? '🖐' '✊') jagah: haath.place)\\"
+                "\\haath: Haath()\nJumla((haath.khula ? '🖐' '✊') jagah: haath.jagah)\\"
             ],
             "names": ["$~Haath"],
             "frequency": {
@@ -378,7 +378,7 @@
                 "Pardey ke peeche, @Face ek machine-learning model istemaal karta hai. Jab aap ise pehli baar kisi program mein istemaal karte hain to model ko download hone mein kuch second lagte hain, aur us dauraan stage ke oopar daayen kone mein ek chhota ghoomta hua chehra nazar aata hai. Uske baad yeh mehfooz rehta hai aur foran shuru ho jaata hai.",
                 "Har frame mein @Face aapko ek @Expression deta hai. Inputs ki poori fehrist aur unke matlab wahan dekhein.",
                 "Yeh misaal aapke chehre se milta hua emoji wahin dikhati hai jahan aapka asal chehra hai:",
-                "\\chehra: Face()\nPhrase(\n\t(chehra.smiling ? '😀' chehra.mouthOpen ? '😮' '😐')\n\tjagah: chehra.place\n)\\"
+                "\\chehra: Chehra()\nJumla(\n\t(chehra.muskurana ? '😀' chehra.moonhKhula ? '😮' '😐')\n\tjagah: chehra.jagah\n)\\"
             ],
             "names": ["$~Chehra"],
             "frequency": {
@@ -399,9 +399,9 @@
                 "Har frame mein, @Objects aapko @Thing ki ek @List deta hai, jo is tarteeb se hoti hai ke model jis par sabse zyada yaqeen rakhta hai woh pehle aata hai. Har ek se kya pata chalta hai, yeh dekhne ke liye @Thing dekhein.",
                 "Model sirf andaza lagata hai, is liye kabhi woh ghalat hota hai ya kuch bhi nahin dekhta. Sirf woh andaze sunne ke liye jin par usay sabse zyada yaqeen ho, zyada `confidence` maangein.",
                 "Yeh ek misaal hai jo camera ki dekhi hui har cheez ko naam deti hai:",
-                "\\Stage(Objects() ↦ Phrase(⬚.name jagah: ⬚.place))\\",
+                "\\Stage(Cheezein() ↦ Jumla(⬚.naam jagah: ⬚.jagah))\\",
                 "Aap sirf ek qism ki cheez bhi @query kar sakte hain, aur baqi ko nazar andaaz kar sakte hain:",
-                "\\cheezein: Objects(zumra: 'cat')\nPhrase(cheezein.length() > 0 ? '🐈' '…')\\"
+                "\\cheezein: Cheezein(zumra: 'cat')\nJumla(cheezein.lambaai() > 0 ? '🐈' '…')\\"
             ],
             "names": ["$~Cheezein"],
             "inputs": [
@@ -519,17 +519,17 @@
                 "/Boop boop boop/",
                 "Waqt ko qaboo karne ke liye, aap har output par @Phrase.duration set kar sakte hain, aur woh agle par jaane se pehle utni der dikhayega, aur jo @Phrase.entering ya @Phrase.exiting transition aapne set kiye hon woh istemaal karega. Agar aap unhein @Sequence par set karein, to woh uska dauraniya istemaal karega.",
                 "In sab se aap is chhote @Scene jaisi cheezein bana sakte hain, jo yeh teen jumle ek ke baad ek dikhata hai:",
-                "\\Scene(\n\t[\n\t\tPhrase('Hello' muddat: 1s)\n\t\tPhrase(\n\t\t\t'Aap kaise hain?'\n\t\t\tmuddat: 2s\n\t\t\tghumaao: 5°\n\t\t\taana: Pose(ghumaao: 0°)\n\t\t)\n\t\tPhrase('Main theek hoon')\n\t]\n)\\",
+                "\\Manzar(\n\t[\n\t\tJumla('Hello' muddat: 1s)\n\t\tJumla(\n\t\t\t'Aap kaise hain?'\n\t\t\tmuddat: 2s\n\t\t\tghumaao: 5°\n\t\t\taana: Andaaz(ghumaao: 0°)\n\t\t)\n\t\tJumla('Main theek hoon')\n\t]\n)\\",
                 "Dekhein kaise pehla output ek second ke liye dikhta hai, phir agla do second ke liye, lekin paanch degree ghoomte hue, aur phir woh aakhri wala dikhata hai?",
                 "Aap @Scene ke saath output aur animation ke bahut tafseeli silsile bana sakte hain, aur un ke kuch hisson ko mutaharrik ya interactive bhi bana sakte hain, jaise kisi bhi doosre @Phrase ya @Group ke saath.",
                 "Agar aap ke paas animated output hai jo ander ander hai (ek @Group jis ke ander animated @Phrase hon), to @Scene @Group ke tamam animated hisson ke khatam hone ka intezaar karega.",
                 "Aur ek aakhri chhota raaz! Aap list mein @Boolean bhi daal sakte hain, aur agar woh \\⊥\\ hon, to @Scene ruk kar intezaar karega jab tak woh sach na ho jaye.",
                 "Misaal ke taur par, agar aap @Phrase ka silsila banana chahte hain aur sirf tab aage barhna chahte hain jab @Button badle, to aap yeh kar sakte hain:",
-                "\\click2: ∆ Button()\nScene(\n\t[\n\t\tPhrase('Hello')\n\t\tclick2\n\t\tPhrase(\n\t\t\t'Aap kaise hain?'\n\t\t\tmuddat: 0.25s\n\t\t\tghumaao: 5°\n\t\t\taana: Pose(ghumaao: 0°)\n\t\t)\n\t\tclick2\n\t\tPhrase('Main theek hoon')\n\t]\n)\\",
+                "\\click2: ∆ Button()\nManzar(\n\t[\n\t\tJumla('Hello')\n\t\tclick2\n\t\tJumla(\n\t\t\t'Aap kaise hain?'\n\t\t\tmuddat: 0.25s\n\t\t\tghumaao: 5°\n\t\t\taana: Andaaz(ghumaao: 0°)\n\t\t)\n\t\tclick2\n\t\tJumla('Main theek hoon')\n\t]\n)\\",
                 "Dekhein kaise har @Phrase ke baad ruk jata hai, aur aage barhne se pehle @Button ke badalne ka intezaar karta hai?",
                 "By default main apne aakhri output par ruk jata hoon. Mujhe @Scene/loop dein aur main phir apne pehle output par wapas aa jaunga, jo woh khel chahta hai jo har round ke baad ek aur sawaal poochta hai.",
                 "Main @Scene/loop ko har baar dekhta hoon jab aap ka program badalta hai, is liye chakkar shuru bhi ho sakta hai aur khatam bhi. Yahan main poochta rehta hoon jab tak woh sahi jawab na de, aur phir ruk jata hoon:",
-                "\\andaaza: Chat()\ndaayein: andaaza = 'cat'\nScene(\n\t[\n\t\tPhrase('Janwar ka andaaza lagayein!' muddat: 2s)\n\t\t∆ andaaza\n\t\tPhrase(daayein ? 'Haan!' 'Nahin!' muddat: 2s)\n\t]\n\tchakkar: ~daayein\n)\\",
+                "\\andaaza: Guftagu()\ndaayein: andaaza = 'cat'\nManzar(\n\t[\n\t\tJumla('Janwar ka andaaza lagayein!' muddat: 2s)\n\t\t∆ andaaza\n\t\tJumla(daayein ? 'Haan!' 'Nahin!' muddat: 2s)\n\t]\n\tchakkar: ~daayein\n)\\",
                 "@Scene/replay mujhe dobara shuru karta hai, @Scene/pause mujhe jahan hoon wahin rok deta hai, aur @Scene/go mujhe seedha mere kisi ek output par bhej deta hai. @Scene/pause ko \\⊤\\ par set karein aur main apne aap kabhi aage nahin barhta, is liye @Scene/go hi akela mujhe aage barhane wala ban jata hai — is tarah aap woh slide show banate hain jo aage /aur/ peechhe jaye.",
                 "Aur agar aap janna chahte hain ke main kahan hoon, taake /3 of 10/ dikhayein ya kahani ke alag hisson mein alag music bajayein, to @Spotlight isi ke liye hai."
             ],
@@ -547,7 +547,7 @@
                 "doc": [
                     "$~Ek @condition jis ka intezaar main apne har output ke baad karoon, jab us ka @Phrase/duration poora ho jaye ya animation khatam ho jaye.",
                     "Yeh bilkul aisa hai jaise us @Boolean ko meri list ke har output ke darmiyan likh diya jaye, jo aap tab karte hain jab mere kisi output ko intezaar karwana ho. Yeh use ek hi baar kehta hai:",
-                    "\\Scene(\n\t[Phrase('ek') Phrase('do') Phrase('teen')]\n\tjabTak: ∆ Button()\n)\\",
+                    "\\Manzar(\n\t[Jumla('ek') Jumla('do') Jumla('teen')]\n\tjabTak: ∆ Button()\n)\\",
                     "List mein likha hua @Boolean phir bhi kaam karta hai, aur dono intezaar alag alag hain, is liye aap kisi ek khaas jagah par zyada der rok sakte hain."
                 ]
             },
@@ -573,7 +573,7 @@
                     "@Scene/replay ki tarah, yeh bhi ek /lamhaati/ @condition chahta hai — aisi cheez jo \\ø\\ rehti hai siwaye us evaluation ke jis par aap mujhe hilana chahte hain. Jo number wahin tika rahe woh mujhe hamesha ke liye wahin rok dega.",
                     "Agar aap mujhe kisi bhi sire se aage bhejein to main wahin ruk jata hoon, siwaye jab @Scene/loop \\⊤\\ ho, us surat mein main wapas ghoom kar aa jata hoon. Is ka matlab hai ke aapko kabhi jaanchne ki zaroorat nahin. Yahan teer wali kunjiyan slide show ko dono taraf chalati hain:",
                     "Agar aap /number teen/ ke bajaye /ek aage/ kehna chahte hain to woh @Scene/step hai.",
-                    "\\slides2: [Phrase('ek') Phrase('do') Phrase('teen')]\nkunji: Key()\npar: Spotlight()\nScene(\n\tslides2\n\twaqfa: ⊤\n\tchalo: ∆ kunji ? ((kunji = 'ArrowLeft') ? par.index - 1 (kunji = 'ArrowRight') ? par.index + 1 ø) ø\n)\\"
+                    "\\slides2: [Jumla('ek') Jumla('do') Jumla('teen')]\nkunji: Kunji()\npar: Roshni()\nManzar(\n\tslides2\n\twaqfa: ⊤\n\tchalo: ∆ kunji ? ((kunji = 'ArrowLeft') ? par.number - 1 (kunji = 'ArrowRight') ? par.number + 1 ø) ø\n)\\"
                 ]
             },
             "step": {
@@ -581,7 +581,7 @@
                 "doc": [
                     "$~Main jahan hoon wahan se kitne outputs hilne hain: \\1\\ ka matlab ek aage aur \\-1\\ ka matlab ek peeche. Yeh @Scene/go hi hai, bas jagah ke bajaye faasle ke taur par kaha gaya.",
                     "@Scene/go ki tarah, main apne sirhon par ruk jata hoon siwaye jab @Scene/loop \\⊤\\ ho, is liye aapko kabhi jaanchne ki zaroorat nahin, aur mujhe ek /lamhaati/ @condition chahiye — aisi cheez jo \\ø\\ rehti hai siwaye us evaluation ke jis par aap mujhe hilana chahte hain.",
-                    "\\slides2: [Phrase('ek') Phrase('do') Phrase('teen')]\nkunji: Key()\nScene(\n\tslides2\n\twaqfa: ⊤\n\tqadam: ∆ kunji ? ((kunji = 'ArrowLeft') ? -1 (kunji = 'ArrowRight') ? 1 ø) ø\n)\\",
+                    "\\slides2: [Jumla('ek') Jumla('do') Jumla('teen')]\nkunji: Kunji()\nManzar(\n\tslides2\n\twaqfa: ⊤\n\tqadam: ∆ kunji ? ((kunji = 'ArrowLeft') ? -1 (kunji = 'ArrowRight') ? 1 ø) ø\n)\\",
                     "Yahan kisi cheez ko yeh jaanne ki zaroorat nahin ke kaun sa @Phrase dikh raha hai, aur @Scene/go se yahi farq hai. Agar aap stage par yeh batana chahte hain to @Spotlight se poochein."
                 ]
             },
@@ -594,7 +594,7 @@
             "doc": [
                 "$~Main batata hoon ke @Scene abhi kahan hai: woh kaun sa output dikha raha hai, uske paas kitne hain, aur kya woh kisi ka intezaar kar raha hai.",
                 "@Scene cheezein dikhata hai; main woh hoon jis se program ka baqi hissa jaanta hai ke woh kya dikha raha hai. Isi se aap slide show ke neeche counter laga sakte hain, kahani ke alag hisson mein alag music baja sakte hain, ya /koi bhi kunji dabayein/ ka ishara sirf tab dikha sakte hain jab scene waqai intezaar mein ho.",
-                "\\slides2: [Phrase('ek') Phrase('do') Phrase('teen')]\npar: Spotlight()\nStage(\n\t[\n\t\tScene(slides2 chakkar: ⊤)\n\t\tPhrase(\n\t\t\t`\\par.total\\ mein se \\par.index\\`\n\t\t\tsize: 0.3m\n\t\t\tjagah: Place(0m -2m)\n\t\t)\n\t]\n)\\",
+                "\\slides2: [Jumla('ek') Jumla('do') Jumla('teen')]\npar: Roshni()\nStage(\n\t[\n\t\tManzar(slides2 chakkar: ⊤)\n\t\tJumla(\n\t\t\t`\\par.total\\ mein se \\par.index\\`\n\t\t\tsize: 0.3m\n\t\t\tjagah: Jagah(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Mere paas hamesha ek @Slate hoti hai, chahe abhi kuch hua bhi na ho, is liye aapko mujhe \\ø\\ ke liye jaanchne ki zaroorat nahin."
             ],
             "names": "$~Roshni",
@@ -659,7 +659,7 @@
             "doc": [
                 "$~Yeh aapke sunne walon ke likhe hue @Text paighaamat ka ek @stream hai.",
                 "Misaal ke taur par, yeh saada program dekhta hai ke paighaam 'hello' hai ya nahin, aur agar hai to program 'hi' ban jata hai. Warna woh 'huh' ban jata hai?",
-                "\\Chat().has('salaam') ? 'salaam!' 'kya?'\\",
+                "\\Guftagu().rakhta('salaam') ? 'salaam!' 'kya?'\\",
                 "Bas itna hi! Aap is se har qism ki performances bana sakte hain, jaise chat bots, matn par mabni adventures, ya doosri performances ke liye matn par mabni control tareeqe."
             ],
             "names": ["$~Guftagu"]
@@ -668,9 +668,9 @@
             "doc": [
                 "$~Yeh har harf ke glyph ki outline ko @Place ke @List ki shakal mein banata hai.",
                 "Ise kuch matn aur ek font face dein, aur yeh har glyph ki outline nuqta ba nuqta banayega.",
-                "\\Contour('a' \"Noto Sans\")\\",
+                "\\Khaaka('a' \"Noto Sans\")\\",
                 "In @Place @values ko @Phrase ke @List mein dein taake outline nuqton ki shakal mein dikhe:",
-                "\\Stage(\n\tContour('a' \"Noto Sans\" 10m).translate(\n\t\tƒ(nuqta) Phrase('•' jagah: nuqta)\n\t)\n)\\",
+                "\\Stage(\n\tKhaaka('a' \"Noto Sans\" 10m).badlo(\n\t\tƒ(nuqta) Jumla('•' jagah: nuqta)\n\t)\n)\\",
                 "Aap outline ko meters ke @Number se chhota bada kar sakte hain, uski origin ko @Place se hila sakte hain, font ka wazan chun sakte hain, italics laga sakte hain, aur nuqton ke beech `spacing` ko meters mein faasle ke taur par rakh sakte hain. Chhoti `spacing` outline ko zyada qareeb se banati hai, lakeeron aur mudaaron dono par barabar faasle ke nuqton ke saath.",
                 "Kuch glyphs, jaise rangeen emoji, ki outline nahin hoti, is liye woh koi nuqta nahin jodte. Jab tak yeh font laata hai, yeh aapko ek khaali @List dega, phir tayyar hone par use bhar dega."
             ],
@@ -722,7 +722,7 @@
                 "@Output ko @Stage par rakhne ke kai tareeqe hain: unhein saaf @Place dein, @Motion istemaal karein aur kashish ko apna kaam karne dein, ya unhein tarteeb dene ke liye @Group mein rakhein.",
                 "Lekin kabhi kabhi aap chahte hain ke /dekhne walon/ ke paas yeh ikhtiyar ho ke @Output @Stage par kahan jaye.",
                 "Yeh aise kaam karta hai: ek @Placement banayein aur use @Output ke @Place ko dein:",
-                "\\Phrase('hi' jagah: Placement())\\",
+                "\\Jumla('hi' jagah: Thikana())\\",
                 "phir jab bhi dekhne wale teer @key dabayein ya stage par click ya tap karein, to @Placement ek naya @Place banayega jo chahi gayi simt mein hilega.",
                 "Ise apne program mein copy karke dekhein aur @Output ko pointer ya keyboard se hilayein.",
                 "Aap @Placement ko apni marzi ke mutabiq bana sakte hain: kuch simton mein hilna chalu ya band karein, @Place kitna door hile yeh badlein, aur woh shuruaati @Place tay karein jis se @stream shuru hota hai."
@@ -756,9 +756,9 @@
                 "$~Yeh aapke diye gaye web address se matn le aata hai.",
                 "Internet dilchasp hai: jude hue computers ki poori duniya jo ek doosre ke saath dastaveezein baantte hain.",
                 "Yeh @stream us se judta hai. Ise ek URL dein, jaise yeh:",
-                "\\Webpage('https://wordplay.dev')\\",
+                "\\Websafha('https://wordplay.dev')\\",
                 "Aur ek cheez hai jise <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS> kehte hain, jo web page par cheezon ko @query karne deti hai. Ise CSS chunne ki talaash dein aur yeh sirf wohi matn laayega jo us talaash se milta ho. Jaise is misaal mein, jo pehle darje ke unwaan laata hai.",
-                "\\Webpage('https://wordplay.dev' 'h1')\\",
+                "\\Websafha('https://wordplay.dev' 'h1')\\",
                 "Is mein bahut si cheezein ghalat ho sakti hain. Agar aapka internet chala jaye, ya URL kisi cheez tak na pahunchaye, ya URL aam na ho, ya URL HTML page na ho… In sab se istesna ban sakta hai. Agar aapko aisa page mil jaye jo chalta ho, to aapko pehle kuch @Number milega jo kitna faisad poora hua yeh batayega, aur phir page ke alfaaz ki @List."
             ],
             "names": ["$~Websafha"],
@@ -805,9 +805,9 @@
             "doc": [
                 "$~Jab bhi chalti hui @Music kisi beat par pahunchti hai, main ek naya @value deta hoon, taake aap aisi tasveerein bana sakein jo mausiqi ke saath hilein. Mere paas aap ke liye hamesha ek @Downbeat hota hai, is liye aap use foran parh sakte hain: koi mausiqi bajne se pehle main beat zero par hota hoon aur kuch nahin baj raha hota, aur mera \\tempo\\ shuru hone tak zero rehta hai.",
                 "Yahan teen track baari baari bajte hain, is liye har beat par alag tadaad mein saaz bajte hain — aur heera utna hi bada hota hai jitne saaz baj rahe hon:",
-                "\\dhun: Beat()\nStage(\n\t[\n\t\tPhrase('◆' ((dhun.instruments.length() · 1.4m) + 0.6m))\n\t\tMusic(\n\t\t\t[\n\t\t\t\tTrack([1 1 1 ø] saaz: Instrument.drums)\n\t\t\t\tTrack([3 ø 3 ø] saaz: Instrument.piano)\n\t\t\t\tTrack([ø ø 5 5] saaz: Instrument.bell)\n\t\t\t]\n\t\t\traftaar: 100beats/min\n\t\t)\n\t]\n)\\",
+                "\\dhun: Thaap()\nStage(\n\t[\n\t\tJumla('◆' ((dhun.saaz.lambaai() · 1.4m) + 0.6m))\n\t\tMauseeqi(\n\t\t\t[\n\t\t\t\tDhun([1 1 1 ø] saaz: Saaz.dhol)\n\t\t\t\tDhun([3 ø 3 ø] saaz: Saaz.piano)\n\t\t\t\tDhun([ø ø 5 5] saaz: Saaz.ghanti)\n\t\t\t]\n\t\t\traftaar: 100beats/min\n\t\t)\n\t]\n)\\",
                 "Mujhe ek @Music naam dein aur main sirf wahi mausiqi sunta hoon. Neeche do beat sun rahe hain, usi do mausiqi ko: upar wala sab kuch sunta hai, is liye jab har mausiqi beat par pahunchti hai to woh dono naamon ke beech jhilmilata hai, aur neeche wala sirf dhol sunta hai aur kuch aur nahin kehta. Yahi farq filter hai.",
-                "\\sabKuch: Beat()\nsirfDhol: Beat('tik')\nStage(\n\t[\n\t\tGroup(\n\t\t\tStack(haashiya: 0.5m)\n\t\t\t[\n\t\t\t\tPhrase(sabKuch.name 1.4m)\n\t\t\t\tPhrase(sirfDhol.name 1.4m)\n\t\t\t]\n\t\t)\n\t\tMusic(\n\t\t\tTrack([1 ø] saaz: Instrument.drums)\n\t\t\traftaar: 120beats/min\n\t\t\tnaam: 'tik'\n\t\t)\n\t\tMusic(\n\t\t\tTrack([5 5 5] saaz: Instrument.bell)\n\t\t\traftaar: 90beats/min\n\t\t\tnaam: 'ghanti'\n\t\t)\n\t]\n)\\",
+                "\\sabKuch: Thaap()\nsirfDhol: Thaap('tik')\nStage(\n\t[\n\t\tGroup(\n\t\t\tTah(haashiya: 0.5m)\n\t\t\t[\n\t\t\t\tJumla(sabKuch.naam 1.4m)\n\t\t\t\tJumla(sirfDhol.naam 1.4m)\n\t\t\t]\n\t\t)\n\t\tMauseeqi(\n\t\t\tDhun([1 ø] saaz: Saaz.dhol)\n\t\t\traftaar: 120beats/min\n\t\t\tnaam: 'tik'\n\t\t)\n\t\tMauseeqi(\n\t\t\tDhun([5 5 5] saaz: Saaz.ghanti)\n\t\t\traftaar: 90beats/min\n\t\t\tnaam: 'ghanti'\n\t\t)\n\t]\n)\\",
                 "Jo kuch main chalata hoon woh us rendering ke /ilawa/ hota hai jo dekhne wale ne chuni hai; aap us mein izafa karte hain, use kabhi badalte nahin."
             ],
             "names": "$~Thaap",

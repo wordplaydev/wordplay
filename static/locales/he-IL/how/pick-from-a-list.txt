@@ -7,7 +7,7 @@
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+משפט(emojis.אקראי())
 \
 
  אפשר גם להשתמש ב־ @Random עם שני מספרים, שבוחר מספר שלם ביניהם.
@@ -15,8 +15,8 @@ Phrase(emojis.random())
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)
+pick: emojis[1] … ∆ זמן(1000ms) … emojis[אקראי(1 emojis.אורך())]
+משפט(pick)
 \
 
  כל טיק של @Time, ה- @Reaction בוחר הפתעה חדשה.

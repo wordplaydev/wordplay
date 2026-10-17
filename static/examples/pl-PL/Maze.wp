@@ -64,7 +64,7 @@ Scena(
 			Siatka(3 3 0.25m)
 			[
 				ø
-				Wyrażenie(
+				Fraza(
 					'↑'
 					nazwa: 'up'
 					wybieralny: góra2
@@ -73,7 +73,7 @@ Scena(
 					)
 				)
 				ø
-				Wyrażenie(
+				Fraza(
 					'←'
 					nazwa: 'left'
 					wybieralny: lewo2
@@ -81,7 +81,7 @@ Scena(
 						nieprzezroczystość: lewo2 ? 1 0.2
 					)
 				)
-				Wyrażenie(
+				Fraza(
 					obecny
 					spoczynkowy: wygrana ?
 						Sekwencja.obrót(
@@ -90,7 +90,7 @@ Scena(
 						)
 						Poza()
 				)
-				Wyrażenie(
+				Fraza(
 					'→'
 					nazwa: 'right'
 					wybieralny: prawo2
@@ -99,7 +99,7 @@ Scena(
 					)
 				)
 				ø
-				Wyrażenie(
+				Fraza(
 					'↓'
 					nazwa: 'down'
 					wybieralny: dół2

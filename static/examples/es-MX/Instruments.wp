@@ -21,7 +21,7 @@ voces•[voz2]: [
 		voz2('saxofón' '🎷' Instrumento.saxofón 70°)
 		voz2('armónica' '🌬' Instrumento.armónica 150°)
 		voz2('campana' '🔔' Instrumento.campana 55°)
-		voz2('batería' '🥁' Instrumento.tambores 0°)
+		voz2('batería' '🥁' Instrumento.batería 0°)
 		voz2('didjeridú' '🎶' Instrumento.didgeridoo 15°)
 		voz2('gato' '🐱' Instrumento.gato 330°)
 		voz2('gato afinado' '😺' Instrumento.gatoAfinado 350°)

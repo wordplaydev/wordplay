@@ -25,15 +25,15 @@ w2: Reflektor()
 
 ¶Przejdź dalej, gdy mikrofon przekroczy 0,6 przy zdaniu mówionym oraz gdy przycisk lub klawisz tak postanowi przy każdym innym zdaniu.¶
 dalej: mówZdania.ma(w2.indeks) ?
-		Tom() > .6
+		Głośność() > .6
 		∆ Przycisk() | ∆ Klawisz()
 
 ¶@Scene czeka na /dalej/ po każdym zdaniu i zatrzymuje się na ostatnim.¶
 Scena(
 	[
 		Pokaz(
-			zdania.tłumaczyć(
-				ƒ(zdanie2) Wyrażenie(zdanie2 zawinąć: 10m)
+			zdania.przekształć(
+				ƒ(zdanie2) Fraza(zdanie2 zawinąć: 10m)
 			)
 			ażDo: dalej
 		)

@@ -60,15 +60,15 @@ trangChiếu2: [
 		)
 	]
 
-chìaKhóa2: Chìakhóa()
+chìaKhóa2: Phím()
 
 ¶Nơi buổi trình diễn diễn ra. @Scene giữ vị trí, nên ở đây không cần đếm gì cả.¶
-tại: Spotlight()
+tại: ĐènSânKhấu()
 
 ¶Mỗi trang trình chiếu được vẽ ra. Điều này không phụ thuộc vào bất cứ thứ gì thay đổi, nên nó chỉ được dựng một lần chứ không phải mỗi lần nhấn phím — đó là lý do vì sao bộ đếm bên dưới không nằm ở đây.¶
-lượtXem: trangChiếu2.dịch(
+lượtXem: trangChiếu2.biếnĐổi(
 		ƒ(trangChiếu3•trangChiếu) Nhóm(
-				Ngănxếp('|' 0.4m)
+				XếpDọc('|' 0.4m)
 				[
 					Cụmtừ(trangChiếu3.biểuTượngCảmXúc kíchcỡ: 2m)
 					Cụmtừ(
@@ -88,9 +88,9 @@ lượtXem: trangChiếu2.dịch(
 
 ¶Buổi trình diễn không tự chuyển sang trang khác; các phím mũi tên giúp chuyển từng trang một theo hai hướng. Nó dừng lại ở mỗi đầu cho chúng ta, nên không cần kiểm tra gì thêm.¶
 Nhóm(
-	Ngănxếp('|' 0.4m)
+	XếpDọc('|' 0.4m)
 	[
-		Bốicảnh(
+		Cảnh(
 			lượtXem
 			tạmDừng
 			bước: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? -1 (chìaKhóa2 = 'Mũi tên phải') ? 1 ø) ø

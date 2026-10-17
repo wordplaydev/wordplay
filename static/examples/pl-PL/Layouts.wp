@@ -25,21 +25,21 @@ Grupa(
 		Grupa(
 			Stos()
 			[
-				Wyrażenie('Kotek')
-				Wyrażenie('Kot' spoczynkowy: odbijaj)
+				Fraza('Kotek')
+				Fraza('Kot' spoczynkowy: odbijaj)
 				Grupa(
 					Wiersz()
-					[Wyrażenie('Pies') Wyrażenie('Psowaty')]
+					[Fraza('Pies') Fraza('Psowaty')]
 					spoczynkowy: pulsuj
 				)
-				Wyrażenie('Kotowaty')
+				Fraza('Kotowaty')
 			]
 		)
 		Grupa(
 			Stos()
 			[
-				Wyrażenie('Cześć')
-				Wyrażenie('Witaj')
+				Fraza('Cześć')
+				Fraza('Witaj')
 			]
 			spoczynkowy: Sekwencja.obrót(2s "straight")
 		)

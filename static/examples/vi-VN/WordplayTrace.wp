@@ -21,7 +21,7 @@ sốLượng: điểm2.chiềudài()
 đầuVệt: 0 … ∆ Thờigian(10ms) … ((đầuVệt + 1) % sốLượng) ?? 0
 
 Sânkhấu(
-	điểm2.dịch(
+	điểm2.biếnĐổi(
 		ƒ(điểm3•VịTrí chỉMục2•#)
 			(
 				¶Điểm này cách đầu vệt bao nhiêu điểm phía sau, tính theo vòng.¶

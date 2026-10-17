@@ -4,13 +4,13 @@
 
 @Choice  ਵਾਪਸ ਦਿੰਦਾ ਹੈ \name\ ਜੋ ਵੀ ਚੁਣਨਯੋਗ ਆਉਟਪੁੱਟ ਦਰਸ਼ਕਾਂ ਨੇ ਚੁਣੀ, ਇਸ ਲਈ ਇੱਕ condition ਇਸਨੂੰ ਸਾਜ਼ ਵਿੱਚ ਬਦਲਣ ਲਈ ਕਾਫ਼ੀ ਹੈ:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' ਚੋਣਯੋਗ ਨਾਮ: 'ਪਿਆਨੋ')
-				Phrase('🎻' ਚੋਣਯੋਗ ਨਾਮ: 'ਵਾਇਲਿਨ')
+\picked: ਚੋਣ()
+ਸਟੇਜ([
+		ਸਮੂਹ(ਕਤਾਰ() [
+				ਵਾਕੰਸ਼('🎹' ਚੋਣਯੋਗ ਨਾਮ: 'ਪਿਆਨੋ')
+				ਵਾਕੰਸ਼('🎻' ਚੋਣਯੋਗ ਨਾਮ: 'ਵਾਇਲਿਨ')
 			])
-		Music(Track([1 3 5 6 5 3] ਸਾਜ਼: (picked = 'ਵਾਇਲਿਨ') ? Instrument.violin Instrument.piano))
+		ਸੰਗੀਤ(ਟ੍ਰੈਕ([1 3 5 6 5 3] ਸਾਜ਼: (picked = 'ਵਾਇਲਿਨ') ? ਸਾਜ਼.ਵਾਇਲਿਨ ਸਾਜ਼.ਪਿਆਨੋ))
 	])\
 
 ਦੋ ਚੁਣਨਯੋਗ ਵਾਕ ਹੀ ਹਨ ਜੋ ਇਸਨੂੰ ਕੰਮ ਕਰਦੇ ਹਨ —  @Choice  ਕੋਲ ਪੜ੍ਹਨ ਲਈ ਕੁਝ ਨਹੀਂ ਹੈ ਜਦੋਂ ਤੱਕ ਸਟੇਜ ਉੱਤੇ ਕੁਝ \ਚੁਣਨਯੋਗ: ⊤\ ਨਾ ਹੋਵੇ।
@@ -19,18 +19,18 @@ Stage([
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' ਸਾਜ਼.ਪਿਆਨੋ)
+		Voice('🎺' ਸਾਜ਼.ਤੁਰ੍ਹੀ)
+		Voice('🔔' ਸਾਜ਼.ਘੰਟੀ)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: ਚੋਣ()
+found: voices.ਲੱਭੋ(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon ਚੋਣਯੋਗ ਨਾਮ: voice.icon))
+ਸਟੇਜ([
+		ਸਮੂਹ(ਕਤਾਰ() [
+				:voices.ਰੂਪਾਂਤਰਕਰੋ(ƒ(voice•Voice) ਵਾਕੰਸ਼(voice.icon ਚੋਣਯੋਗ ਨਾਮ: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] ਸਾਜ਼: current.sound))
+		ਸੰਗੀਤ(ਟ੍ਰੈਕ([1 3 5 6 5 3] ਸਾਜ਼: current.sound))
 	])\
 
 ਹੁਣ ਚੌਥੀ ਆਵਾਜ਼ ਜੋੜਨਾ ਇੱਕ ਲਾਈਨ ਹੈ, ਅਤੇ ਬਟਨ ਆਪਣੇ ਆਪ ਦਿਖਾਈ ਦਿੰਦਾ ਹੈ। ਧਿਆਨ ਦਿਓ \found•ø ?\ ਗਾਰਡ:  @List/find  ਵਾਪਸ ਦਿੰਦਾ ਹੈ \ø\ ਜਦੋਂ ਕੁਝ ਵੀ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ, ਜੋ ਉਦੋਂ ਹੁੰਦਾ ਹੈ ਜਦੋਂ ਕਿਸੇ ਨੇ ਅਜੇ ਤੱਕ ਨਹੀਂ ਚੁਣਿਆ — ਅਤੇ ਬਦਲ ਇੱਕ ਪੂਰਾ \ਭਾਸ਼ਣ\ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ, ਕਿਉਂਕਿ ਇਹੀ ਹੈ ਜੋ \current\ ਹੋਣ ਦਾ ਵਾਅਦਾ ਕਰਦਾ ਹੈ।

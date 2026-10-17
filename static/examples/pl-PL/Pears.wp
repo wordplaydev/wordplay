@@ -4,26 +4,26 @@ Gruszki
 ¶To jest interaktywne krótkie opowiadanie. Ma kilka osobnych scen i przechodzi między nimi, gdy coś zrobisz, na przykład klikniesz, dojdzie do zderzenia albo wykonasz inną czynność. Część zabawy polega na odkrywaniu, co trzeba zrobić, żeby opowieść poszła dalej.¶
 
 wprowadzenie: [
-		Wyrażenie(
+		Fraza(
 			`Mój tata chciał wyjść.`
 			miejsce: Miejsce(-9m 0m)
 		)
 	]
 
 konflikt: [
-		Wyrażenie(
+		Fraza(
 			`„Mamo”, musimy iść.`
 			miejsce: Miejsce(-8m 7m)
 		)
-		Wyrażenie(
+		Fraza(
 			`/„Weź i idź do domu.”/`
 			miejsce: Miejsce(1m 4m)
 		)
-		Wyrażenie(
+		Fraza(
 			`„Mamo, my niczego nie chcemy!”`
 			miejsce: Miejsce(-8m 1m)
 		)
-		Wyrażenie(
+		Fraza(
 			`„Weź i idź do domu!”`
 			rozmiar: 2m
 			miejsce: Miejsce(-6m -4m)
@@ -32,15 +32,15 @@ konflikt: [
 	]
 
 narastanieAkcji1: [
-		Wyrażenie(
+		Fraza(
 			`Moja 炮炮👵🏽 weszła na podwórko za domem`
 			miejsce: Miejsce(-9m 7m)
 		)
-		Wyrażenie(
+		Fraza(
 			`Poszłam za nią, bo byłam ciekawa`
 			miejsce: Miejsce(-6m 4m)
 		)
-		Wyrażenie(
+		Fraza(
 			`👵🏽`
 			nazwa: 'paupau'
 			rozmiar: 2m
@@ -48,7 +48,7 @@ narastanieAkcji1: [
 			miejsce: Miejsce(6m -6m)
 			dymek: `/„沙梨🍐, weź i idź do domu!”/`
 		)
-		Wyrażenie(
+		Fraza(
 			`👧🏻`
 			nazwa: 'ja'
 			rozmiar: 1m
@@ -58,26 +58,26 @@ narastanieAkcji1: [
 	]
 
 narastanieAkcji2: [
-		Wyrażenie(
+		Fraza(
 			`Zatrzymała się przy małym drzewie.`
 			miejsce: Miejsce(-9m 6m)
 		)
-		Wyrażenie(
+		Fraza(
 			`Wisiały na nim dziesiątki jasnożółtych 沙梨`
 			miejsce: Miejsce(-9m 1m)
 			zawinąć: 10m
 		)
-		Wyrażenie(
+		Fraza(
 			`"Mamo, nie chcemy żadnych gruszek."`
 			rozmiar: .75m
 			miejsce: Miejsce(-4m 0m)
 		)
-		Wyrażenie(
+		Fraza(
 			`/Chciałam gruszkę./`
 			rozmiar: 2m
 			miejsce: Miejsce(-8m -3m)
 		)
-		Wyrażenie(
+		Fraza(
 			"🍐"
 			rozmiar: 2m
 			miejsce: Miejsce(-1m -7m)
@@ -87,60 +87,60 @@ narastanieAkcji2: [
 	]
 
 ¶Wybieramy miejsca z góry, żeby gruszki spadały z tego samego punktu.¶
-miejsca: (6 → []).tłumaczyć(
+miejsca: (6 → []).przekształć(
 		ƒ() Miejsce(Losowy(-2m 2m) Losowy(-3m -5m))
 	)
 punktKulminacyjny: [
-		Wyrażenie(`Uklękła w ziemi.` miejsce: Miejsce(-9m 6m))
-		Wyrażenie(`Wzięła nóż` miejsce: Miejsce(-9m 4m))
-		Wyrażenie(
+		Fraza(`Uklękła w ziemi.` miejsce: Miejsce(-9m 6m))
+		Fraza(`Wzięła nóż` miejsce: Miejsce(-9m 4m))
+		Fraza(
 			`I ostrożnie odcięła sześć`
 			miejsce: Miejsce(-9m 2m)
 		)
-		Wyrażenie(
+		Fraza(
 			`Wrzuciła je do koszyka pod spodem`
 			miejsce: Miejsce(-9m 0m)
 		)
-		Wyrażenie("🧺" rozmiar: 4m miejsce: Miejsce(-2m -12m))
-		Wyrażenie(
+		Fraza("🧺" rozmiar: 4m miejsce: Miejsce(-2m -12m))
+		Fraza(
 			"🌳"
 			nazwa: "tree"
 			rozmiar: 5m
 			miejsce: Miejsce(-3m -7m)
 			wybieralny
 		)
-		:miejsca.tłumaczyć(
+		:miejsca.przekształć(
 			ƒ(połóż indeks2)
-				Wyrażenie(
+				Fraza(
 					"🍐"
 					nazwa: "pear\indeks2\"
 					miejsce: Wybór() = 'tree' ? Ruch(połóż) połóż
 				)
 		)
-		Wyrażenie("🔪" miejsce: Wskaźnik())
+		Fraza("🔪" miejsce: Wskaźnik())
 	]
 
 rozwiązanie: [
-		Wyrażenie(
+		Fraza(
 			`Zaniosła je do mnie`
 			miejsce: Miejsce(-9m 6m)
 		)
-		Wyrażenie(
+		Fraza(
 			`Uklękła przede mną`
 			miejsce: Miejsce(-8m 4m)
 		)
-		Wyrażenie(
+		Fraza(
 			`I podała mi koszyk`
 			miejsce: Miejsce(-7m 2m)
 		)
-		Wyrażenie(
+		Fraza(
 			`/"Weź i idź do domu"/`
 			miejsce: Miejsce(0m -2m)
 		)
 	]
 
 napisyKońcowe: [
-		Wyrażenie(`autorka: /Amy J. Ko/`)
+		Fraza(`autorka: /Amy J. Ko/`)
 	]
 
 opowieść: [

@@ -39,7 +39,7 @@ pool•[mål]: [
 observationer: Objekt(antal: 10 säkerhet: 0.5)
 
 ¶Tangenten → (eller ett tryck) för att hoppa över.¶
-hoppaÖver: Nyckel('Pil Höger' ⊤)
+hoppaÖver: Tangent('Pil Höger' ⊤)
 
 ¶En klocka, för nedräkningen och för att animera konfettin när man vinner. Själva jakten använder den inte. @Objects styr den.¶
 klocka2: Tid(30ms)
@@ -90,7 +90,7 @@ vannVid•#ms: 0ms
 ¶Konfettin skapas en gång när du vinner och byggs sedan aldrig om. @Objects fortsätter att känna av, så varje avläsning kör programmet igen. Genom att frysa styckena i den här listan (den fylls en gång, när du vinner, och sedan upphör dess villkor) behåller varje stycke samma hastighet att flyga med, i stället för att hitta på en ny i varje bild.¶
 gnistor•[gnista]: []
 	… ((jakt2.hittad2.längd() ≥ 5) & (⬚.längd() = 0)) …
-		(60 → []).översätta(
+		(60 → []).omvandla(
 			ƒ()
 				gnista(
 					jakt2.hittad2.slumpmässig()
@@ -134,7 +134,7 @@ g•#: 9
 ¶Placera varje gnista längs sin egen båge, beräknad utifrån hur länge den har flugit: den rör sig utåt med sin hastighet medan tyngdkraften drar ner den igen (den klassiska ½·g·t²). Eftersom vi räknar ut positionen i stället för att förlita oss på fysikmotorn ritar kamerans ständiga omräkning bara om varje stycke där det ska vara, utan att det hoppar tillbaka till mitten.¶
 ƒ konfetti() (
 		f3: (klocka2 - vannVid) ÷ 1000ms
-		gnistor.översätta(
+		gnistor.omvandla(
 			ƒ(s•gnista)
 				Fras(
 					s.emoji2
@@ -178,7 +178,7 @@ g•#: 9
 ƒ kungör(h5•jakt) Säga('hitta ' + h5.mål2.etikett)
 
 ¶Vinst kontrolleras först, så att tiden som tar slut bara kan betyda en förlust.¶
-Etapp(
+Estrad(
 	(jakt2.hittad2.längd() ≥ 5)
 	? final()
 		((kvar ≤ 0s) ? speletÄrSlut(jakt2) [

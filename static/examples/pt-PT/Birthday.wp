@@ -160,7 +160,7 @@ acordes: [
 		duração: 0.2s
 	)
 
-Fase(
+Palco(
 	[
 		Grupo(
 			Monte(preenchimento: 0.5m)

@@ -6,7 +6,7 @@ Celah Kode
 ↓ fields
 
 ¶Fungsi fill membuat satu batang penuh. Fungsi ini mengulang emoji perempuan sebanyak count kali dan menggabungkannya menjadi satu teks tanpa jarak, sehingga rowterlihat seperti satu batang menyambung, bukan titik-titik terpisah.¶
-ƒ isi2(hitungan2•#) (hitungan2 → []).menerjemahkan(ƒ() '👩').bergabung(
+ƒ isi2(hitungan2•#) (hitungan2 → []).petakan(ƒ() '👩').gabungkan(
 		''
 	)
 
@@ -14,7 +14,7 @@ Celah Kode
 ƒ grafik(label•[''] satuan•[#] nilai2•[''])
 	Kelompok(
 		Tumpukan('<' lapisan: 0.2m)
-		satuan.menerjemahkan(
+		satuan.petakan(
 			ƒ(u•# i•#)
 				Kelompok(
 					Baris('|' lapisan: 0.3m)
@@ -33,11 +33,11 @@ Celah Kode
 ¶Tampilan 1 — "Naik dan Turun".Untuk setiap tahun dalam data, kita menggambar batang yang panjangnya sesuai persentase gelar ilmu komputer yang diraih perempuan. Setiap emoji perempuan mewakili sekitar 5 persen, jadi kita bagi persentasenya dengan 5 untuk mendapatkan panjang batang.¶
 barisWaktu: (years ⎡?tahun2 persen⎦ ⊤) → []
 tampilanWaktu: grafik(
-		barisWaktu.menerjemahkan(ƒ(baris2) baris2.tahun2)
-		barisWaktu.menerjemahkan(
+		barisWaktu.petakan(ƒ(baris2) baris2.tahun2)
+		barisWaktu.petakan(
 			ƒ(baris3) (baris3.persen ÷ 5).bulat()
 		)
-		barisWaktu.menerjemahkan(
+		barisWaktu.petakan(
 			ƒ(baris4) (baris4.persen.bulat() → '') + '%'
 		)
 	)
@@ -45,11 +45,11 @@ tampilanWaktu: grafik(
 ¶Tampilan 2 — "Satu Bidang yang Berbeda Arah".Kita membandingkan proporsi perempuan di berbagai bidang studi pada satu tahun terbaru. Baris-barisnya sudah diurutkan dari jumlah perempuan terbanyak ke tersedikit, sehingga ilmu komputer berada di bagian paling bawah diagram.¶
 barisBidang: (fields ⎡?bidang persen2⎦ ⊤) → []
 tampilanBidang: grafik(
-		barisBidang.menerjemahkan(ƒ(baris5) baris5.bidang)
-		barisBidang.menerjemahkan(
+		barisBidang.petakan(ƒ(baris5) baris5.bidang)
+		barisBidang.petakan(
 			ƒ(baris6) (baris6.persen2 ÷ 5).bulat()
 		)
-		barisBidang.menerjemahkan(
+		barisBidang.petakan(
 			ƒ(baris7) (baris7.persen2 → '') + '%'
 		)
 	)

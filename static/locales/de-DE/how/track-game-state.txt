@@ -14,12 +14,12 @@ Stellen wir uns zum Beispiel ein einfaches Spiel vor: Man tippt geheime Wörter 
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['Katze' 'Hund'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['Katze' 'Hund'] 0) … state.secrets.hat(Chat()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
+Bühne(
+    state.points = state.secrets.Länge() ? 
         [ Phrase("du hast gewonnen!")]
-        [ Group(Stack() [ Phrase("errate meine geheimen Wörter") Phrase(`\state.secrets.length() - state.points\ weitere Geheimnisse`)])]
+        [ Gruppe(Stapel() [ Phrase("errate meine geheimen Wörter") Phrase(`\state.secrets.length() - state.points\ weitere Geheimnisse`)])]
 )
 \
 

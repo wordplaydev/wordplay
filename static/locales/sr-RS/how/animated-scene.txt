@@ -7,42 +7,42 @@
 Могли бисмо да направимо @Scene у којем свака линија представља @Phrase, и подешавањем @Phrase/duration сваке линије, @Scene би напредовао када се свака фраза заврши.
 
 \
-Scene([
-  Phrase('Jack be nimble' трајање: 1s)
-  Phrase('Jack be quick' трајање: 1s)
-  Phrase('Jack jump over the candle stick' трајање: 1s)
+Сцена([
+  Фраза('Jack be nimble' трајање: 1s)
+  Фраза('Jack be quick' трајање: 1s)
+  Фраза('Jack jump over the candle stick' трајање: 1s)
 ])
 \
 
 @Scene ће такође сачекати да се @Sequence заврши. Хајде да учинимо да стих о свећи скочи!
 
 \
-Scene([
-		Phrase('Jack be nimble' трајање: 1s)
-		Phrase('Jack be quick' трајање: 1s)
-		Phrase('Jack jump over the candle stick' улазећи: Sequence.bounce(трајање: 1s))
+Сцена([
+		Фраза('Jack be nimble' трајање: 1s)
+		Фраза('Jack be quick' трајање: 1s)
+		Фраза('Jack jump over the candle stick' улазећи: Секвенца.одскочити(трајање: 1s))
 	])
 \
 
 @Scene такође може да прими @Group текста, и сачекаће да се заврши анимација целог садржаја.
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack be nimble')
-		  Phrase('Jack be quick')
+Сцена([
+		Група(Наслага() [
+      Фраза('Jack be nimble')
+		  Фраза('Jack be quick')
     ] трајање: 2s)
-		Phrase('Jack jump over the candle stick' улазећи: Sequence.bounce(трајање: 1s))
+		Фраза('Jack jump over the candle stick' улазећи: Секвенца.одскочити(трајање: 1s))
 	])
 \
 
  Понекад песмица треба да се наставља. @Scene/loop враћа @Scene назад на њен први @Phrase када се последњи заврши, тако да се понавља изнова и изнова.
 
 \
-Scene([
-		Phrase('Jack be nimble' трајање: 1s)
-		Phrase('Jack be quick' трајање: 1s)
-		Phrase('Jack jump over the candle stick' трајање: 1s)
+Сцена([
+		Фраза('Jack be nimble' трајање: 1s)
+		Фраза('Jack be quick' трајање: 1s)
+		Фраза('Jack jump over the candle stick' трајање: 1s)
 	] петља: ⊤)
 \
 

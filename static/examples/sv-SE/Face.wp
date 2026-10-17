@@ -5,7 +5,7 @@ Ansikte
 
 ansikte2: Ansikte()
 
-Etapp(
+Estrad(
 	[
 		Fras(
 			(ansikte2.munÖppen ? '😮'

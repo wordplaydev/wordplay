@@ -4,22 +4,22 @@ Un jeu qui joue un seul air du début à la fin semble plat. Et si la musique sa
 
 Il n'y a aucun moyen d'*arrêter* un  @Music  — ce qui l'arrête, c'est de ne plus être sur la  @Stage . Alors garde un peu d'état, et mets sur la scène la chanson qui lui correspond :
 
-\phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'poursuite' 'menu'
+\phase: 'menu' … ∆ Bouton() … (phase = 'menu') ? 'poursuite' 'menu'
 theme: [1 ø 3 ø 5 ø 6 ø]
-Stage([
+Scène([
 		Phrase((phase = 'menu') ? '▶ appuie pour commencer' '🏃 cours !' 1m)
-		(phase = 'menu') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+		(phase = 'menu') ? Musique(Piste(theme instrument: Instrument.cloche) tempo: 72beats/min) Musique(Piste(theme instrument: Instrument.synthé) tempo: 132beats/min)
 	])\
 
 Les deux chansons sont les mêmes huit nombres. Seuls l'instrument et le tempo changent, et cela sonne déjà comme un morceau différent — car les degrés indiquent *quel pas de la gamme*, et non quelle hauteur de note, donc un  @Music  peut les réinterpréter. Donne-lui \échelle: 🎼.mineurHarmonique\ et le même air devient inquiétant sans qu'une seule note soit réécrite.
 
 L'autre moitié est une musique qui se plie sans cesse à la façon dont les choses se passent. Changer \tempo\ ne redémarre rien — cela s'insère au temps suivant, donc le morceau accélère sans perdre sa place :
 
-\score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Bouton() … score + 1
 urgency: (score ÷ 10).min(1)
-Stage([
+Scène([
 		Phrase('partition \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+		Musique(Piste([1 5 8 5] instrument: Instrument.batterie) tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Appuie assez de fois et les tambours frappent deux fois plus fort qu'au début. Une note courte et percutante est ce qui rend cela audible — sous de longues notes tenues, un changement de tempo est difficile à ressentir.

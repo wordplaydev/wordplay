@@ -25,7 +25,7 @@ planeta: ƒ(glifo•"" chamado•"" largo•#m longe•#m velocidade2•#m/s)
 		)
 
 ¶O céu não tem gravidade própria, senão tudo cairia pelo fundo.Também não tem ar, por isso os planetas continuam a mover-se em vez de abrandar até parar.¶
-Fase(
+Palco(
 	[
 		sol
 		planeta('🌍' 'terra' 0.8m 3m 11.5m/s)

@@ -134,7 +134,7 @@
                 "$~J'organise @Phrase, @Shape et @Group ensemble sur @Stage avec un @Arrangement. Oh bonjour, comment vas-tu ? Je vais toujours bien quand les autres sont là, alors c'est super d'être avec toi !",
                 "Pour fonctionner, j'ai besoin que tu me donnes un @Arrangement, puis un @List de @Output à organiser.",
                 "Par exemple, voici un agencement en @Stack avec quelques @Phrase empilés à la verticale :",
-                "\\Groupe(Empiler() [Phrase('premier') Phrase('deuxième')])\\",
+                "\\Groupe(Pile() [Phrase('premier') Phrase('deuxième')])\\",
                 "La façon exacte dont j'organise les choses dépend du @Arrangement que tu me donnes."
             ],
             "description": {
@@ -401,7 +401,7 @@
             }
         },
         "Stack": {
-            "names": ["$~Empiler"],
+            "names": ["$~Pile", "$~Empiler"],
             "doc": "$~Je suis @Stack, un @Arrangement vertical de @Output, avec un espacement facultatif entre eux. As-tu rencontré mon jumeau, @Row ? Je décide jusqu'où descend chacun, et ma première entrée indique comment les aligner horizontalement à travers moi. Donne à l'un d'eux un @Place et il se placera à ce x à la place — mais un @Shape n'a pas de @Place propre, donc je l'aligne avec tout le reste.",
             "description": "$~pile de $#count[$#count phrase ou groupe|$count phrases et groupes|$count phrases et groupes]",
             "padding": {
@@ -577,7 +577,7 @@
             },
             "y": {
                 "doc": "$~Le centre vertical du cercle.",
-                "names": "$~et"
+                "names": "$~y"
             },
             "z": {
                 "doc": "$~La position de profondeur du cercle.",
@@ -601,7 +601,7 @@
             },
             "y": {
                 "doc": "$~Le centre vertical du polygone.",
-                "names": "$~et"
+                "names": "$~y"
             },
             "z": {
                 "doc": "$~La position de profondeur du polygone.",
@@ -742,11 +742,11 @@
                 "doc": [
                     "$~Attribuez une couleur aléatoire.",
                     "En l'absence de couleurs, je choisis au hasard une des couleurs de base :",
-                    "\\Color.random()\\",
+                    "\\Couleur.aléatoire()\\",
                     "Pour une couleur, je conserve sa luminosité et son intensité, mais je choisis une teinte aléatoire :",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Couleur.aléatoire(Couleur.bleu)\\",
                     "Avec deux couleurs, je choisis aléatoirement la luminosité, la saturation et la teinte parmi les deux :",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Couleur.aléatoire(Couleur.noir Couleur.blanc)\\"
                 ],
                 "names": "$~aléatoire",
                 "inputs": [
@@ -763,10 +763,10 @@
             "lighter": {
                 "doc": [
                     "$~Donnez-moi une version plus claire, en augmentant ma luminosité d'un pour cent (5 % par défaut).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Couleur.bleu.plusclair()\\",
+                    "\\Couleur.bleu.plusclair(20%)\\"
                 ],
-                "names": "$~plusléger",
+                "names": ["$~plusclair", "$~plusléger"],
                 "inputs": [
                     {
                         "doc": "$~Augmenter la luminosité en pourcentage. Par défaut : 5 %.",
@@ -777,8 +777,8 @@
             "darker": {
                 "doc": [
                     "$~Donne-moi une version plus sombre, en diminuant ma luminosité d'un pour cent (5 % par défaut).",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Couleur.bleu.plussombre()\\",
+                    "\\Couleur.bleu.plussombre(20%)\\"
                 ],
                 "names": "$~plussombre",
                 "inputs": [
@@ -1178,7 +1178,7 @@
             },
             "y": {
                 "doc": "$~Une position sur l'axe des y",
-                "names": "$~et"
+                "names": "$~y"
             },
             "z": {
                 "doc": "$~Une position sur l'axe z",
@@ -1198,7 +1198,7 @@
             },
             "y": {
                 "doc": "$~Combien de mètres parcourir chaque seconde sur l'axe des y.",
-                "names": "$~et"
+                "names": "$~y"
             },
             "angle": {
                 "doc": "$~De combien de degrés faire une rotation chaque seconde",
@@ -1494,7 +1494,7 @@
                 "Tout ce qui produit des nombres peut faire de la musique. Cette mélodie se mélange dans un nouvel ordre, et suit le volume de ta voix quand tu parles :",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].mélangé())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Personne n'a besoin de m'entendre. @Beat annonce chaque temps au moment où il sonne, donc tu peux dessiner la musique en plus de la jouer, à côté de la visualisation que le spectateur a choisie. @Beat a toujours un @Downbeat, donc tu peux le lire sans rien vérifier :",
-                "\\battement: Rythme()\ncompte: battement.nombre\n🎭([\n\t\t💬('◆' taille: 1m + ((compte % 4) = 0 ? 2m 0m) lieu: 📍(-2m 2m))\n\t\t💬('◆' taille: 1m + ((compte % 4) = 2 ? 2m 0m) lieu: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "\\battement: Pulsation()\ncompte: battement.nombre\n🎭([\n\t\t💬('◆' taille: 1m + ((compte % 4) = 0 ? 2m 0m) lieu: 📍(-2m 2m))\n\t\t💬('◆' taille: 1m + ((compte % 4) = 2 ? 2m 0m) lieu: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
                 "Je n'ai aucune apparence à moi à mettre en forme, donc je ne prends aucune des entrées d'apparence habituelles — pas de taille, de place, de couleur ni d'animation. Mon apparence est le choix du spectateur, fait dans ses réglages, et elle est fixée à la scène plutôt que placée dans ta mise en page ; je ne prends aucune place, donc me mettre dans une @Row ou une @Stack ne déplace jamais rien à côté de moi. Pour dessiner toi-même la musique, utilise @Beat : il te donne chaque temps au moment où il sonne, pour piloter la sortie que tu veux.",
                 "Je continue à jouer au fil des évaluations : modifie mes notes pendant que je joue et le changement s'insère au temps suivant au lieu de tout recommencer, et c'est ce qui rend musical le fait de changer une mélodie en cours de jeu. Pour me rejouer depuis le début, vois @Music/replay ; pour me tenir immobile et reprendre au même endroit, vois @Music/pause."
             ],
@@ -1651,7 +1651,7 @@
                 "Elles sont difficiles à trouver, donc la rangée de symboles sous l'@editor les propose chaque fois que ton curseur est juste après un de mes nombres.",
                 "Un silence ne peut pas porter de valeur, car \\ø\\ n'est pas un nombre. Deux silences de suite durent deux fois plus longtemps, et pour quelque chose de plus fin il y a @Note.",
                 "Quand une seule note a besoin de son propre volume, ou d'une durée qu'aucune valeur ne peut écrire, mets cette note dans un @Note. Utilise-le seulement là où tu en as besoin : un nombre simple est plus facile à lire, donc la plupart des pistes n'en ont aucun, et c'est cette rareté qui fait ressortir un @Note comme un évènement.",
-                "\\cellule: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcellule\n\t\t.avecListe(cellule.traduire(ƒ(n•#) n + 2))\n\t\t.avecListe(cellule.renversé())\n\t\t.avecListe(cellule.traduire(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "\\cellule: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcellule\n\t\t.avecListe(cellule.transformer(ƒ(n•#) n + 2))\n\t\t.avecListe(cellule.inversé())\n\t\t.avecListe(cellule.transformer(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
                 "Remplir avec des silences est tout ce dont un canon a besoin : les deux parties tiennent le même nombre de temps, donc elles restent ensemble au lieu de s'éloigner. Étaler deux listes en une seule avec : est la façon de les construire, car \\append\\ a besoin que les deux listes tiennent le même genre de chose.",
                 "\\mélodie: [1 2 3 1 1 2 3 1 3 4 5 ø]\npause: [ø ø ø ø]\n🎼([\n\t\t🎶([:mélodie :pause] instrument: 🔈.🪈)\n\t\t🎶([:pause :mélodie] instrument: 🔈.🎻)\n\t])\\"
             ],

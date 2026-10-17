@@ -27,7 +27,7 @@ diChuyểnCácCâu: [9 11]
 câuHiệnTại•#: 1 …
 	diChuyểnCácCâu.có(câuHiệnTại) ?
 		(điểm2.x > 2m) & (điểm2.y > 3m)
-		∆ Cáinút() | ∆ Chìakhóa()
+		∆ Cáinút() | ∆ Phím()
 		…
 		(câuHiệnTại <
 				câu2.chiềudài()) ?

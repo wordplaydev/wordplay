@@ -5,9 +5,9 @@ Ibland är det bra att göra en @Phrase rörlig med tangentbord, mus eller finge
 Gör det här, vi kan kombinera @Phrase med @Placement:
 
 \
-Stage(
-	[Phrase('flytta mig' plats: Placement())]
-	plats: Place(0m 0m -10m)
+Estrad(
+	[Fras('flytta mig' plats: Placering())]
+	plats: Plats(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Till exempel har en @Stage en @Place som avgör vart kameran pekar.
 Låt oss prova att ändra platsen för en @Placement för en @Stage och se vad som händer.
 
 \
-Stage(
+Estrad(
   [
-	Phrase('🐈' plats: Place(-2m 2m))
-	Phrase('🐈' plats: Place(2m -2m))
-	Phrase('🐈' plats: Place(-1m 3m))
+	Fras('🐈' plats: Plats(-2m 2m))
+	Fras('🐈' plats: Plats(2m -2m))
+	Fras('🐈' plats: Plats(-1m 3m))
   ]
-  plats: Placement(Place(0m 0m -10m))
+  plats: Placering(Plats(0m 0m -10m))
 )
 \
 

@@ -28,7 +28,7 @@ nhịp2: Nhịp()
 		a2: giọng()
 		b2: giọng()
 		c2: giọng()
-		(32 → []).dịch(
+		(32 → []).biếnĐổi(
 			ƒ(i•#)
 				(i = 1) ? a2
 					(i = 2) ? b2
@@ -45,7 +45,7 @@ nhịp2: Nhịp()
 Đây là những nốt ngắn nhất trong bản nhạc, và cũng là chỗ duy nhất chú mèo bị cắt ngang: hai nốt móc đơn trong một phách nhanh hơn cả thời gian để kêu xong một tiếng meo, mà đó cũng chính là cách một âm tiết scat nhanh nghe như thế nào.¶
 ƒ chạy2()•[#|ø] (
 		nhà: Ngẫunhiên(1 8)
-		(64 → []).dịch(
+		(64 → []).biếnĐổi(
 			ƒ(i2•#)
 				~((17‥32) ∋ i2) ? ø
 					cóThể((((nhà + (i2 - 17)) - 1) % 8) + 1)
@@ -55,7 +55,7 @@ nhịp2: Nhịp()
 ¶Chùm ba, ô nhịp năm và sáu: một nhóm ba nốt lặp đi lặp lại. Ba nốt trong khoảng thời gian của hai phách được viết đúng như vậy — 2 phách ÷ 3 — nói rõ ra chùm ba là gì.¶
 ƒ đungĐưa3()•[#|ø] (
 		phòngGiam: [giọng() giọng() giọng()]
-		(48 → []).dịch(
+		(48 → []).biếnĐổi(
 			ƒ(i3•#)
 				~((25‥36) ∋ i3) ? ø
 					phòngGiam[(((i3 - 25) % 3) + 1)]
@@ -64,7 +64,7 @@ nhịp2: Nhịp()
 
 ¶Nốt trắng, ô nhịp bảy: chú mèo chậm lại và dừng ở hai nốt dài. Một nốt ngân giữ cho miệng mở suốt thời gian nó vang lên, và đó chính là hình ảnh của việc ngân một nốt.¶
 ƒ giữ2()•[#|ø]
-	(16 → []).dịch(
+	(16 → []).biếnĐổi(
 		ƒ(i4•#)
 			(i4 = 13) ? giọng()
 				(i4 = 14) ? giọng()
@@ -72,7 +72,7 @@ nhịp2: Nhịp()
 	)
 
 ¶Một nốt tròn, ô nhịp thứ tám: bậc 1, ngân dài. Trở về nốt đầu tiên của thang âm chính là điều khiến một câu nhạc nghe như đã hoàn tất, chứ không chỉ dừng lại giữa chừng.¶
-ƒ đuôi2()•[#|ø] (8 → []).dịch(ƒ(i5•#) (i5 = 8) ? 1 ø)
+ƒ đuôi2()•[#|ø] (8 → []).biếnĐổi(ƒ(i5•#) (i5 = 8) ? 1 ø)
 
 ƒ ứngTác()•hợpXướng hợpXướng(
 		gọi2()
@@ -90,7 +90,7 @@ nhịp2: Nhịp()
 nghiêng2: ((đếm2 % 2) = 0) ? -1 1
 
 ¶Liệu chú mèo có đang phát ra âm thanh ngay lúc này hay không. @Beat trả về một @Part cho mỗi bè nhạc, và một bè giữ giá trị ⊤ suốt mọi phách mà một nốt ngân dài kéo dài, nên giá trị này là ⊤ bất cứ khi nào có âm thanh phát ra.¶
-hát: nhịp2.phần.dịch(ƒ(phần2•Phần) phần2.phátRaÂm).có(⊤)
+hát: nhịp2.phần.biếnĐổi(ƒ(phần2•Phần) phần2.phátRaÂm).có(⊤)
 
 ¶Miệng của nó: mở đúng lúc một nốt nhạc đang vang lên, khép lại khi không có nốt nào. Không có gì ở đây đếm phách cả — nó hỏi bản nhạc xem đang xảy ra chuyện gì, nên gương mặt không bao giờ lệch nhịp so với âm thanh bạn nghe được. Những khoảng lặng rải rác chính là nơi để nó khép miệng lại, đó là lý do cứ khoảng bảy nốt thì có một nốt im lặng.¶
 miệng: hát ? '😺' '🐱'
@@ -107,27 +107,27 @@ Sânkhấu(
 		Cụmtừ('Mèo Hát Scat!' 1.4m vịTrí: VịTrí(-2.6m 3.6m))
 		ÂmNhạc(
 			[
-				BảnNhạc(
+				Bè(
 					điệpKhúc.gọi
 					nhạcCụ: NhạcCụ.mèoTheoCaoĐộ
 					nhịp: 1beats
 				)
-				BảnNhạc(
+				Bè(
 					điệpKhúc.chạy
 					nhạcCụ: NhạcCụ.mèoTheoCaoĐộ
 					nhịp: 0.5beats
 				)
-				BảnNhạc(
+				Bè(
 					điệpKhúc.đungĐưa2
 					nhạcCụ: NhạcCụ.mèoTheoCaoĐộ
 					nhịp: 2beats ÷ 3
 				)
-				BảnNhạc(
+				Bè(
 					điệpKhúc.giữ
 					nhạcCụ: NhạcCụ.mèoTheoCaoĐộ
 					nhịp: 2beats
 				)
-				BảnNhạc(
+				Bè(
 					điệpKhúc.đuôi
 					nhạcCụ: NhạcCụ.mèoTheoCaoĐộ
 					nhịp: 4beats

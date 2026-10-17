@@ -13,14 +13,14 @@
 \
 slides: ['প্রথম' 'দ্বিতীয়' 'তৃতীয়']
 
-key: Key()
+key: কী()
 
 index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'ArrowRight') ? ((index < slides.দৈর্ঘ্য()) ? index + 1 index)
 		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+বাক্যাংশ(slides[index])
 \
 
  এই @Reaction এটাই এর মূল অংশ। এটা শুরু হয় \1\ থেকে, আর যতবার @Key বদলায়, ততবার এটা ঠিক করে নতুন সংখ্যাটা কী হবে।
@@ -38,15 +38,15 @@ Phrase(slides[index])
 
 \
 slides: [
-	Phrase('তিন অংশের একটা গল্প' আকার: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('একটা বিড়াল দেখা যায়')])
-	Phrase('শেষ 🎉')
+	বাক্যাংশ('তিন অংশের একটা গল্প' আকার: 3m)
+	দল(স্তূপ() [বাক্যাংশ('🐈') বাক্যাংশ('একটা বিড়াল দেখা যায়')])
+	বাক্যাংশ('শেষ 🎉')
 ]
 
-key: Key()
+key: কী()
 
 index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'ArrowRight') ? ((index < slides.দৈর্ঘ্য()) ? index + 1 index)
 		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 এটাকে দাও @Scene/pause যাতে এটা নিজে থেকে কখনও না সরে, এবং @Scene/step দিয়ে এটাকে একদিকে এক ধাপ সরাতে:
 
 \
-key: Key()
-Scene([
-		Phrase('তিন অংশের একটা গল্প' আকার: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('একটা বিড়াল দেখা যায়')])
-		Phrase('শেষ 🎉')
+key: কী()
+দৃশ্য([
+		বাক্যাংশ('তিন অংশের একটা গল্প' আকার: 3m)
+		দল(স্তূপ() [বাক্যাংশ('🐈') বাক্যাংশ('একটা বিড়াল দেখা যায়')])
+		বাক্যাংশ('শেষ 🎉')
 	] থামাও ধাপ: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 

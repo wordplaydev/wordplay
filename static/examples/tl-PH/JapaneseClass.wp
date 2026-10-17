@@ -21,12 +21,12 @@ mgaPangungusap: [
 sabihinAngMgaPangungusap: [5 7 9]
 
 ¶Kung nasaan ang kuwento. Ang @Scene ang nagtatabi ng lugar, kaya walang kailangang bilangin dito.¶
-sa: Spotlight()
+sa: IlawNaPantutok()
 
 ¶Sumulong kapag ang mikropono ay lumagpas sa .6 sa isang pangungusap na sinasalita, at kapag ang isang buton o susi ay nagsabi nito sa iba pang pangungusap.¶
-sumulong: sabihinAngMgaPangungusap.aymay(sa.index) ?
-		Dami() > .6
-		∆ Butones() | ∆ Susi()
+sumulong: sabihinAngMgaPangungusap.mayroon(sa.indeks) ?
+		Lakas() > .6
+		∆ Pindutan() | ∆ Susi()
 
 ¶Ang @Scene ay naghihintay ng /advance/ pagkatapos ng bawat pangungusap, at humihinto sa huli.¶
 Entablado(

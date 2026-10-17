@@ -7,9 +7,9 @@ Untuk itulah @Motion dan @Matter digunakan — bersama-sama mereka meniru fisika
 Kita juga butuh sesuatu untuk ditimpa, kalau tidak karakter kita akan terus jatuh selamanya! Sebuah @Shape dengan @Rectangle yang lebar membuat lantai yang bagus:
 
 \
-Stage([
-    Phrase('🍎' tempat: Motion(Place(0m 5m)) urusan: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+Panggung([
+    Frasa('🍎' tempat: Gerakan(Tempat(0m 5m)) materi: Materi())
+    Bangun(Persegipanjang(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Untuk mengubah cara / goyang / atau bagaimana / berat / Sebuah karakter, berikan
 @Matter Membutuhkan massa, daya pantul, dan gesekan:
 
 \
-Stage([
-    Phrase('⚽' tempat: Motion(Place(-2m 5m)) urusan: Matter(1kg 0.9 0.2))
-    Phrase('🪨' tempat: Motion(Place(2m 5m)) urusan: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+Panggung([
+    Frasa('⚽' tempat: Gerakan(Tempat(-2m 5m)) materi: Materi(1kg 0.9 0.2))
+    Frasa('🪨' tempat: Gerakan(Tempat(2m 5m)) materi: Materi(5kg 0.1 0.8))
+    Bangun(Persegipanjang(-10m 0m 10m -5m))
 ])
 \
 

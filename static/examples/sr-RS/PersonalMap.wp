@@ -135,7 +135,7 @@ the keyboard arrows or clicking the stage.
 We use it to place the character.¶/en
 ¶यह धारा बीच में शुरु होता है, लेकिन कीबोर्ड या माउस के साथ बदल सकते हैं।
 हम इस के साथ character को मंच पर रखते हैं।¶/hi
-where/en,किधर/hi: Пласман(Место(0m 0m))
+where/en,किधर/hi: Постављање(Место(0m 0m))
 
 ¶This takes all of the content above and renders it,
 putting each landmark on stage in a particular location
@@ -145,7 +145,7 @@ stream to check collisions.¶/en
 ¶यह ऊपर सब मंच पर दिखाता हैं। हर स्थान मंच पर किसी जगह डालता हैं, और
 शब्दों की सूची बदलता हैं ताकी मंच पर दिखाई दे। हर स्थान एक नाम और माल चहिए,
 टक्कर-वाला धारा को टक्कर मिलने के लिए।¶/hi
-Стаге(
+Позорница(
 	[
 		Фраза(
 			'🍂'
@@ -178,11 +178,11 @@ stream to check collisions.¶/en
 			име: "me"/en,"मैं"/hi
 			место: where
 			материја: Материја()
-			крећесе: Секуенце(
+			крећесе: Секвенца(
 				{
-					0%: Посе()
-					50%: Посе(оффсет: Место(0m 1m 0m))
-					100%: Посе(оффсет: Место(0m 0m 0m))
+					0%: Поза()
+					50%: Поза(оффсет: Место(0m 1m 0m))
+					100%: Поза(оффсет: Место(0m 0m 0m))
 				}
 				трајање: 0.5s
 			)

@@ -7,9 +7,9 @@
 떨어질 곳도 있어야 합니다. 그렇지 않으면 캐릭터가 끝없이 떨어지기만 하니까요! 넓은 @Shape (와)과 @Rectangle (을)를 가진 것이 멋진 바닥이 됩니다:
 
 \
-Stage([
-    Phrase('🍎' 위치: Motion(Place(0m 5m)) 문제: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+무대([
+    구절('🍎' 위치: 움직임(위치(0m 5m)) 물질: 물질())
+    모양(직사각형(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Stage([
 @Matter 질량, 탄성, 마찰력이 필요합니다.
 
 \
-Stage([
-    Phrase('⚽' 위치: Motion(Place(-2m 5m)) 문제: Matter(1kg 0.9 0.2))
-    Phrase('🪨' 위치: Motion(Place(2m 5m)) 문제: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+무대([
+    구절('⚽' 위치: 움직임(위치(-2m 5m)) 물질: 물질(1kg 0.9 0.2))
+    구절('🪨' 위치: 움직임(위치(2m 5m)) 물질: 물질(5kg 0.1 0.8))
+    모양(직사각형(-10m 0m 10m -5m))
 ])
 \
 

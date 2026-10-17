@@ -17,7 +17,7 @@ Sânkhấu(
 			kíchcỡ: 4m
 		)
 		Nhóm(
-			Ngănxếp('|')
+			XếpDọc('|')
 			[
 				Cụmtừ((khuônMặt2.mắtMở ? '👀' '😑') kíchcỡ: 1.5m)
 				Cụmtừ(

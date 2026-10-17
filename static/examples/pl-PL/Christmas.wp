@@ -14,7 +14,7 @@ dzwonek2: Muzyka(
 		nazwa: 'dzwonek'
 	)
 
-Wyrażenie(
+Fraza(
 	'🎄'
 	spoczynkowy: Sekwencja(
 		{

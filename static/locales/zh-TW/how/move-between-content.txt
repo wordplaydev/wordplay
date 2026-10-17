@@ -13,14 +13,14 @@
 \
 slides: ['第一' '第二' '第三']
 
-key: Key()
+key: 按鍵()
 
 index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'ArrowRight') ? ((index < slides.長度()) ? index + 1 index)
 		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+短語(slides[index])
 \
 
  這個 @Reaction 是整個運作的核心。它從 \1\ 開始，每次 @Key 改變時，它就會決定新的數字該是多少。
@@ -38,15 +38,15 @@ Phrase(slides[index])
 
 \
 slides: [
-	Phrase('一個分成三段的故事' 尺寸: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('一隻貓出現了')])
-	Phrase('結束了 🎉')
+	短語('一個分成三段的故事' 尺寸: 3m)
+	組合(堆疊() [短語('🐈') 短語('一隻貓出現了')])
+	短語('結束了 🎉')
 ]
 
-key: Key()
+key: 按鍵()
 
 index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'ArrowRight') ? ((index < slides.長度()) ? index + 1 index)
 		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 給它 @Scene/pause 所以它永遠不會自己移動，而 @Scene/step 用來將它往任一方向移動一格：
 
 \
-key: Key()
-Scene([
-		Phrase('一個分成三段的故事' 尺寸: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('一隻貓出現了')])
-		Phrase('結束了 🎉')
+key: 按鍵()
+場景([
+		短語('一個分成三段的故事' 尺寸: 3m)
+		組合(堆疊() [短語('🐈') 短語('一隻貓出現了')])
+		短語('結束了 🎉')
 	] 暫停 步驟: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 

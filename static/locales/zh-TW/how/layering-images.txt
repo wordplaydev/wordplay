@@ -12,16 +12,16 @@
 ¶注意：請查看圖庫以了解另一個項目<例子@https://wordplay.dev/project/example-Layers?play>分層影像。¶
 
 
-Stage(
+舞台(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) 自轉: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) 自轉: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) 自轉: -25°)
+		形(圓形(3m 0m 1m 0m))
+		形(多邊形(2m 3 0m -12m 0m) 自轉: -30°)
+		形(多邊形(7m 6 0m -6m 0m))
+		形(矩形(-11m -9m 11m -12m 10m) 自轉: 25°)
+		形(矩形(-11m -9m 11m -12m 10m) 自轉: -25°)
 
 	]
-	位置: Place(0m 10m -30m)
+	位置: 位置(0m 10m -30m)
 )
 \
 

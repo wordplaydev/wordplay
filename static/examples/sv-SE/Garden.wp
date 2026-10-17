@@ -17,7 +17,7 @@ guppa: Sekvens(
 		varaktighet: 1.5s
 	)
 
-Etapp(
+Estrad(
 	[
 		Fras(
 			'█'

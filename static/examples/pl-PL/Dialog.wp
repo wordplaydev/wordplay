@@ -63,15 +63,15 @@ Scena(
 				Grupa(
 					Wiersz('_' 6m)
 					[
-						Wyrażenie(
+						Fraza(
 							'jeden'
 							rozmiar: 3m
 							dymek: dymek2('jeden')
 						)
-						Wyrażenie('b' rozmiar: 3m dymek: dymek2('b'))
+						Fraza('b' rozmiar: 3m dymek: dymek2('b'))
 					]
 				)
-				Wyrażenie(
+				Fraza(
 					`/spacja, kliknięcie lub dotknięcie/`
 					rozmiar: 0.6m
 				)

@@ -24,9 +24,9 @@ message: Chat()
 		'yours': 'mine'
 		'yourself': 'myself'
 	}
-ƒ refléter(mots3•'')•'' mots3.segmenté(' ').traduire(
+ƒ refléter(mots3•'')•'' mots3.segmenté(' ').transformer(
 		ƒ(mot2•'') échanges{mot2} ?? mot2
-	).rejoindre(
+	).joindre(
 		' '
 	)
 
@@ -81,8 +81,8 @@ récent: journal.longueur() ≤ 8 ? journal journal.sousséquence(
 Scène(
 	[
 		Groupe(
-			Empiler('<' 0.5m)
-			récent.traduire(
+			Pile('<' 0.5m)
+			récent.transformer(
 				ƒ(ligne2•ligne)
 					Phrase(
 						ligne2.locuteur + ' ' + ligne2.mots2

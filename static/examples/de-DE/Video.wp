@@ -47,7 +47,7 @@ bild: Bild(
 
 ¶Eine Stil-Schaltfläche, die hell leuchtet, wenn ihr Stil gerade zu sehen ist. Der Name ist das, was Choice meldet, wenn die Schaltfläche angeklickt oder mit der Tastatur gewählt wird.¶
 ƒ knopf(id2•'')
-	Satzglied(
+	Phrase(
 		id2
 		0.5m
 		Name: id2

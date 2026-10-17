@@ -7,7 +7,7 @@ Det kan vi göra med @Pointer -inmatningen.
 Om vi använder den @Place som @Phrase s \place\, flyttar sig figuren dit vi pekar.
 
 \
-Stage([Phrase('🐈' plats: Pointer())] plats: Place(0m 0m -10m))
+Estrad([Fras('🐈' plats: Pekare())] plats: Plats(0m 0m -10m))
 \
 
  Det var allt! Rör musen eller dra med fingret och se katten följa efter.
@@ -16,7 +16,7 @@ Du kan göra mer spännande saker genom att plocka ut \x\ och \y\ från @Place.
 Här är en anka som alltid svävar en meter ovanför pekaren:
 
 \
-Stage([Phrase('🦆' plats: Place(Pointer().x Pointer().y + 1m))] plats: Place(0m 0m -10m))
+Estrad([Fras('🦆' plats: Plats(Pekare().x Pekare().y + 1m))] plats: Plats(0m 0m -10m))
 \
 
 move-phrase, count-with-time

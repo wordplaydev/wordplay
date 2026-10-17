@@ -4,10 +4,10 @@ Jeśli @Row jest obok siebie, a następnie @Stack jest od góry do dołu.
 @Stack umieszcza każdy znak pod znakiem poprzedzającym, jak wieżę.
 
 \
-Group(Stack() [
-    Phrase('jeden')
-    Phrase('dwa')
-    Phrase('trzy')
+Grupa(Stos() [
+    Fraza('jeden')
+    Fraza('dwa')
+    Fraza('trzy')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Stack() [
 Spróbuj ułożyć wszystko wzdłuż lewej strony:
 
 \
-Group(Stack('<' 0.25m) [
-    Phrase('🐣 trochę')
-    Phrase('🐥 średni')
-    Phrase('🐔 duży')
+Grupa(Stos('<' 0.25m) [
+    Fraza('🐣 trochę')
+    Fraza('🐥 średni')
+    Fraza('🐔 duży')
 ])
 \
 

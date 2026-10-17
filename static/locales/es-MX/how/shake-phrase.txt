@@ -6,8 +6,8 @@ Hay varias formas de lograr eso.
 Podemos usar @Phrase/offset con @Random y @Time para lograr eso.
 
 \
-offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('hola' desplazamiento: Place(offset 0m))
+offset: 0m … ∆ Tiempo() … Azar(-0.1m 0.1m)
+Frase('hola' desplazamiento: Lugar(offset 0m))
 \
 
  Esto crea un valor llamado \offset\ que cambia a un nuevo valor aleatorio cada vez que el reloj hace tic.
@@ -16,11 +16,11 @@ Luego, usa ese desplazamiento para mostrar la @Phrase desplazada esa cantidad.
 Si quisiéramos controlar el temblor con más precisión, podríamos usar una @Sequence para hacer una animación de temblor aleatorio que se repite.
 
 \
-Phrase('hola' inmóvil: Sequence({
-			0%: Pose(desplazamiento: Place(Random(-.2m .2m)))
-			15%: Pose(desplazamiento: Place(Random(-.2m .2m)))
-			60%: Pose(desplazamiento: Place(Random(-.2m .2m)))
-			75%: Pose(desplazamiento: Place(Random(-.2m .2m)))
+Frase('hola' inmóvil: Secuencia({
+			0%: Pose(desplazamiento: Lugar(Azar(-.2m .2m)))
+			15%: Pose(desplazamiento: Lugar(Azar(-.2m .2m)))
+			60%: Pose(desplazamiento: Lugar(Azar(-.2m .2m)))
+			75%: Pose(desplazamiento: Lugar(Azar(-.2m .2m)))
 		} 0.1s))
 \
 

@@ -9,7 +9,7 @@ gravitation•#m/s^2: 15m/s^2 … ∆ Knapp() … -gravitation
 
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
 
-bokstäver: antal2 → [].översätta(
+bokstäver: antal2 → [].omvandla(
 		ƒ(nummer2 index2)
 			Fras(
 				hiragana[nummer2]
@@ -22,7 +22,7 @@ bokstäver: antal2 → [].översätta(
 	)
 
 
-Etapp(
+Estrad(
 	[:bokstäver Figur(Rektangel(-40m 0m 40m -2m))]
 	allvar: gravitation
 	plats: Plats(0m 5m -20m)

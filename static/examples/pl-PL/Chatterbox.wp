@@ -6,7 +6,7 @@ Gadatliwiec
 ¶Jedna linijka rozmowy: kto ją powiedział i co powiedział.¶
 •linia(mówca•'' słowa2•'')
 
-wiadomość: Pogawędzić()
+wiadomość: Czat()
 
 ¶Zanim Gadatliwy powtórzy Twoje słowa, zamienia zaimki. Każde słowo zmienia według tej mapy: moje zamienia się w twoje, a ja zamienia się w ty. Dzięki temu zdanie „Czuję, że mnie nienawidzisz” wraca jako „Dlaczego czujesz, że cię nienawidzę?”¶
 zamiany: {
@@ -24,7 +24,7 @@ zamiany: {
 		'yours': 'mine'
 		'yourself': 'myself'
 	}
-ƒ odbij(słowa3•'')•'' słowa3.segmentowany(' ').tłumaczyć(
+ƒ odbij(słowa3•'')•'' słowa3.segmentowany(' ').przekształć(
 		ƒ(słowo2•'') zamiany{słowo2} ?? słowo2
 	).dołączyć(
 		' '
@@ -79,9 +79,9 @@ Scena(
 	[
 		Grupa(
 			Stos('<' 0.5m)
-			ostatnie.tłumaczyć(
+			ostatnie.przekształć(
 				ƒ(linijka•linia)
-					Wyrażenie(
+					Fraza(
 						linijka.mówca + ' ' + linijka.słowa2
 						rozmiar: 0.75m
 						zawinąć: 22m

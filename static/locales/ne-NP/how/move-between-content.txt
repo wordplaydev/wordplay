@@ -13,14 +13,14 @@
 \
 slides: ['first' 'second' 'third']
 
-key: Key()
+key: कुञ्जी()
 
 index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'ArrowRight') ? ((index < slides.लम्बाइ()) ? index + 1 index)
 		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+वाक्यांश(slides[index])
 \
 
  यो @Reaction यसको मुख्य भाग हो। यो \1\ बाट सुरु हुन्छ, र @Key परिवर्तन हुनेबित्तिकै, यसले नयाँ सङ्ख्या के हुनुपर्छ भनेर तय गर्छ।
@@ -38,15 +38,15 @@ Phrase(slides[index])
 
 \
 slides: [
-	Phrase('a story in three parts' आकार: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('a cat appears')])
-	Phrase('the end 🎉')
+	वाक्यांश('a story in three parts' आकार: 3m)
+	समूह(Stack() [वाक्यांश('🐈') वाक्यांश('a cat appears')])
+	वाक्यांश('the end 🎉')
 ]
 
-key: Key()
+key: कुञ्जी()
 
 index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'ArrowRight') ? ((index < slides.लम्बाइ()) ? index + 1 index)
 		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 यसलाई @Scene/pause दिनुहोस् ताकि यो आफैं कहिल्यै नचलोस्, र @Scene/step दिनुहोस् ताकि यसलाई एक टुक्रा जुनसुकै दिशातिर सार्न सकियोस्:
 
 \
-key: Key()
-Scene([
-		Phrase('a story in three parts' आकार: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('a cat appears')])
-		Phrase('the end 🎉')
+key: कुञ्जी()
+दृश्य([
+		वाक्यांश('a story in three parts' आकार: 3m)
+		समूह(Stack() [वाक्यांश('🐈') वाक्यांश('a cat appears')])
+		वाक्यांश('the end 🎉')
 	] रोक्नुहोस् पाइला: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 

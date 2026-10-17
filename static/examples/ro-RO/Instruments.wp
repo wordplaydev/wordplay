@@ -73,7 +73,7 @@ versuri: 'la li lu le lo li la'
 Butoanele intră într-un Grid, nu într-un Row. Toate pe un singur rând sunt mai late decât un telefon, iar o Stage își micșorează conținutul ca să încapă, așa că etichetele se micșorează până nu mai pot fi citite. Se dau doar coloanele: dacă lași rândurile deoparte, Grid-ul calculează câte are nevoie, așa că adăugarea unui instrument nu înseamnă să modifici acest cod.
 
 Muzica păstrează același nume tot timpul, în loc să ia numele instrumentului. Numele unui 🎼 este identitatea lui: dacă îl schimbi, cine ascultă aude o piesă nouă începând, așa că melodia ar sări înapoi la început la fiecare schimbare, iar partitura ar desena notele vechiului instrument lângă cele ale noului, până ar ieși din ecran.¶
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă(umplutură: 0.6m)
@@ -82,7 +82,7 @@ Etapă(
 				Fraza(curentă.etichetă 1.2m)
 				Grup(
 					Grilă(coloane: 5 umplutură: 0.4m)
-					voci.traduce(ƒ(voce5•voce2) buton(voce5))
+					voci.transformă(ƒ(voce5•voce2) buton(voce5))
 				)
 			]
 		)

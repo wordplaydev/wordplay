@@ -12,16 +12,16 @@
 ¶नोट: किसी अन्य प्रोजेक्ट के लिए गैलरी देखें<उदाहरण@https://wordplay.dev/project/example-Layers?play>छवियों को स्तरित करने की.¶
 
 
-Stage(
+मंच(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) घुमाव: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) घुमाव: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) घुमाव: -25°)
+		आकार(वृत्त(3m 0m 1m 0m))
+		आकार(बहुभुज(2m 3 0m -12m 0m) घुमाव: -30°)
+		आकार(बहुभुज(7m 6 0m -6m 0m))
+		आकार(आयत(-11m -9m 11m -12m 10m) घुमाव: 25°)
+		आकार(आयत(-11m -9m 11m -12m 10m) घुमाव: -25°)
 
 	]
-	स्थल: Place(0m 10m -30m)
+	स्थल: स्थल(0m 10m -30m)
 )
 \
 

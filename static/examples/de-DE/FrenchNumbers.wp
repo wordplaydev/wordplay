@@ -24,7 +24,7 @@ geheimnisse: [:1 ‥ 9].gemischt()
 
 ¶Welche Taste wurde zuletzt gedrückt?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-schlüssel3,clé/fr: Schlüssel()
+schlüssel3,clé/fr: Tastaturtaste()
 
 ¶Das aktuelle Geheimnis wird bei jedem Tastendruck größer, hört aber bei 10 auf¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
@@ -62,15 +62,15 @@ Bühne(
 			Stapel()
 			[
 				spielende ?
-					Satzglied(
+					Phrase(
 						gewonnen ?
 							'Du kennst die französischen Zahlen!'"Tu connais les chiffres français!"/fr
 							'fast, versuche es nochmal'"presque, réessaye"/fr
 						Größe: 2m
 					)
-					Satzglied(numeros[secretActuel] Größe: 2m)
-				Satzglied("\punkte\ points!" Größe: 1m)
-				Satzglied(
+					Phrase(numeros[secretActuel] Größe: 2m)
+				Phrase("\punkte\ points!" Größe: 1m)
+				Phrase(
 					secretIndex = 1 ?
 						'Welche Zahl ist das?''quel est ce numéro ?'/fr
 						richtig2 ?

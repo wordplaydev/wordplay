@@ -148,7 +148,7 @@ kuwento: [
 	]
 
 ¶Bilangin ang mga click at tap¶
-click: ∆ Butones()
+click: ∆ Pindutan()
 ¶Bilangin kung gaano katagal matapos i-click ang puno¶
 orasPagkataposNgPutol: 0ms … Pagpipilian() = 'tree' … Oras(
 			1000ms
@@ -166,7 +166,7 @@ bahagi•#:
 		3: saPauPau
 		4: piniliAngPear
 		5: orasPagkataposNgPutol > 1500ms
-		6: ∆ Butones()
+		6: ∆ Pindutan()
 		⊥
 		… bahagi + 1
 

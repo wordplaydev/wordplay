@@ -3,10 +3,10 @@ Größe
 === start/en
 ¶Klicke oder drücke eine Taste, um zwischen GROSS und klein zu wechseln, während sich die Farben verändern.¶
 
-word/en,字/zh: (Taste(ø) | ∆ Schlüssel()) ? Satzglied(
+word/en,字/zh: (Taste(ø) | ∆ Tastaturtaste()) ? Phrase(
 			"BIG"/en"大"/zh
 			Größe: 5m
-		) Satzglied("small"/en"小"/zh Größe: 1m)
+		) Phrase("small"/en"小"/zh Größe: 1m)
 time/en,時間/zh: ((Zeit(1234ms)) ÷ 1ms) × 1°
 
 Bühne(

@@ -35,7 +35,7 @@
                 "/klik!/",
                 "Najlepszym sposobem na jego wykorzystanie jest utworzenie występu z nazwanymi frazami wybieralnymi @Phrase , a następnie użycie @Reaction , aby zdecydować, co zrobić po wybraniu tej nazwy.",
                 "Oto najprostszy przykład:",
-                "\\Group(\nStack() \n[\nPhrase('one' wybieralny:⊤ nazwa:'1') \nPhrase('two' wybieralny:⊤ nazwa:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Grupa(\nStos() \n[\nFraza('one' wybieralny:⊤ nazwa:'1') \nFraza('two' wybieralny:⊤ nazwa:'2') \nFraza(Wybór())\n]\n)\\",
                 "Skopiuj to do edytora, a następnie wybierz jedną z dwóch @Phrase . Zobaczysz, że trzeci @Phrase pokazuje wybraną nazwę."
             ],
             "names": ["$~Wybór"]
@@ -47,7 +47,7 @@
                 "Oczywiście mysz lub gładzik nie są idealnym wyborem do słuchania odbiorców, bo nie każdy może ich używać. Bardziej dostępnym wyborem jest @Choice.",
                 "Ale jeśli /naprawdę/ musisz słuchać przycisku myszy, to jest na to sposób. Zapewni strumień @Boolean, mówiący, czy główny przycisk jest uniesiony \\⊥\\ czy wciśnięty \\⊤\\.",
                 "Oto prosty przykład:",
-                "\\Wyrażenie(Przycisk() → '')\\",
+                "\\Fraza(Przycisk() → '')\\",
                 "To po prostu tworzy @Phrase, która jest @value strumienia jako tekst. Jeśli skopiujesz to do edytora i klikniesz, zobaczysz, jak przełącza się w przód i w tył między \\⊥\\ a \\⊤\\."
             ],
             "names": ["$~Przycisk"],
@@ -62,7 +62,7 @@
                 "/wrrrrrr/",
                 "Oczywiście, nie jest to dostępny wybór: nie każdy może to zobaczyć lub łatwo wskazać, więc upewnij się, że nie wykluczasz nikogo z uczestnictwa, korzystając z tej transmisji.",
                 "Jeśli masz pewność, że nikt nie został wykluczony, użycie @Pointer jest tak proste, jak utworzenie strumienia:",
-                "\\Pointer()\\",
+                "\\Wskaźnik()\\",
                 "@Place które podaje, będzie odpowiadać miejscu, na które wskazuje wskaźnik na @Stage ."
             ],
             "names": ["$~Wskaźnik"]
@@ -171,10 +171,10 @@
                 "$~Jest to @stream głośności mikrofonu od 0 do 1.",
                 "/bzzzzzzzz/",
                 "Próbkowanie odbywa się z wybraną przez Ciebie częstotliwością. Domyślnie częstotliwość wynosi \\30hz\\ , czyli 30 razy na sekundę, ale możesz ją zmienić na rzadszą.",
-                "\\Volume()\\",
+                "\\Głośność()\\",
                 "To świetne narzędzie, aby sprawdzić, jak głośna jest publiczność!"
             ],
-            "names": ["$~Tom"],
+            "names": ["$~Głośność", "$~Tom"],
             "frequency": {
                 "names": ["$~częstotliwość"],
                 "doc": "$~Czas pomiędzy pobraniami próbek."
@@ -185,10 +185,10 @@
                 "$~To @stream wysokości dźwięku mikrofonu w hercach.",
                 "/hummmm/",
                 "Jest próbkowany z wybraną przez Ciebie częstotliwością. Głos ludzki ma częstotliwość od 20 Hz do 5000 Hz, więc zaplanuj wartości w tym zakresie.",
-                "\\Pitch()\\",
+                "\\Wysokość()\\",
                 "To świetne rozwiązanie, jeśli chcesz wsłuchać się w ton głosu osoby mówiącej lub śpiewającej."
             ],
-            "names": ["$~Poziom"],
+            "names": ["$~Wysokość", "$~Poziom"],
             "frequency": {
                 "names": ["$~częstotliwość"],
                 "doc": "$~Czas pomiędzy pobraniami próbek."
@@ -200,7 +200,7 @@
                 "/bzzzzzzzz/",
                 "@List zasadniczo reprezentuje obraz, ale od Ciebie zależy, co z nim zrobisz.",
                 "Możesz spróbować przedstawić obraz za pomocą @Phrase , co mogłoby wyglądać całkiem fajnie! Spróbuj skopiować to...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' miejsce: Place((x - 1) × 0.5m y × -0.5m) kolor: color czastrwania: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Kamera(32px 24px 33ms)\n\nScena(\ncolors.połącz(\n[] \nƒ(phrases•[Fraza] row•[Kolor] y•#) \nphrases.zListą(\nrow.przekształć(\nƒ(color•Kolor x•#)\nFraza('o' miejsce: Miejsce((x - 1) × 0.5m y × -0.5m) kolor: color czastrwania: 0s\n)\n)\n)\n)\n)\\",
                 "Można również analizować kolory, aby ustalić, czy światło było włączone czy wyłączone, albo czy dany kolor był powszechny. W ten sposób widzowie mogą wpływać na występ za pomocą pokazywanych kolorów."
             ],
             "names": ["$~Kamera"],
@@ -223,17 +223,17 @@
                 "/Boop boop boop/",
                 "Aby kontrolować czas, możesz albo ustawić @Phrase.duration na każdym wyjściu — wtedy będzie pokazywane przez tyle czasu, zanim pojawi się następne — i użyć dowolnych przejść @Phrase.entering lub @Phrase.exiting, jakie ustawiłeś. Jeśli ustawisz je na @Sequence, użyje jego czasu trwania.",
                 "Dzięki temu możesz robić takie rzeczy jak ten mały @Scene, który pokazuje po kolei te trzy frazy:",
-                "\\Pokaz(\n\t[\n\t\tWyrażenie('Cześć' czastrwania: 1s)\n\t\tWyrażenie(\n\t\t\t'Jak się masz?'\n\t\t\tczastrwania: 2s\n\t\t\tobrót: 5°\n\t\t\twstępowanie: Poza(obrót: 0°)\n\t\t)\n\t\tWyrażenie('Mam się dobrze')\n\t]\n)\\",
+                "\\Pokaz(\n\t[\n\t\tFraza('Cześć' czastrwania: 1s)\n\t\tFraza(\n\t\t\t'Jak się masz?'\n\t\t\tczastrwania: 2s\n\t\t\tobrót: 5°\n\t\t\twstępowanie: Poza(obrót: 0°)\n\t\t)\n\t\tFraza('Mam się dobrze')\n\t]\n)\\",
                 "Widzisz, jak pierwsze wyjście pokazuje się przez sekundę, potem następne przez dwie sekundy, ale z animacją obrotu o pięć stopni, a na końcu pokazuje się ostatnie?",
                 "Możesz tworzyć bardzo rozbudowane sekwencje wyjść i animacji za pomocą @Scene, a nawet uczynić ich fragmenty dynamicznymi lub interaktywnymi, tak jak w przypadku każdego innego @Phrase czy @Group.",
                 "Jeśli masz zagnieżdżone animowane wyjście (@Group z animowanym @Phrase w środku), @Scene poczeka, aż cała animowana zawartość w @Group się skończy.",
                 "A, i jeszcze jeden mały sekret! Możesz nawet umieścić @Boolean na liście, i jeśli są \\⊥\\, @Scene zatrzyma się i będzie czekać, aż stanie się prawdziwe.",
                 "Na przykład, gdybyś chciał zrobić sekwencję @Phrase i przechodzić dalej tylko wtedy, gdy zmienia się @Button, mógłbyś zrobić tak:",
-                "\\kliknij: ∆ Przycisk()\nPokaz(\n\t[\n\t\tWyrażenie('Cześć')\n\t\tkliknij\n\t\tWyrażenie(\n\t\t\t'Jak się masz?'\n\t\t\tczastrwania: 0.25s\n\t\t\tobrót: 5°\n\t\t\twstępowanie: Poza(obrót: 0°)\n\t\t)\n\t\tkliknij\n\t\tWyrażenie('Mam się dobrze')\n\t]\n)\\",
+                "\\kliknij: ∆ Przycisk()\nPokaz(\n\t[\n\t\tFraza('Cześć')\n\t\tkliknij\n\t\tFraza(\n\t\t\t'Jak się masz?'\n\t\t\tczastrwania: 0.25s\n\t\t\tobrót: 5°\n\t\t\twstępowanie: Poza(obrót: 0°)\n\t\t)\n\t\tkliknij\n\t\tFraza('Mam się dobrze')\n\t]\n)\\",
                 "Widzisz, jak zatrzymuje się po każdym @Phrase i czeka, aż @Button się zmieni, zanim przejdzie dalej?",
                 "Domyślnie zatrzymuję się na ostatnim wyjściu. Daj mi @Scene/loop, a wrócę znowu do pierwszego — tak działa gra, która po każdej rundzie zadaje kolejne pytanie.",
                 "Sprawdzam @Scene/loop za każdym razem, gdy twój program się zmienia, więc pętla może się zarówno kończyć, jak i zaczynać. Tutaj pytam w kółko, aż odpowiedzą dobrze, a potem się zatrzymuję:",
-                "\\zgadnij: Pogawędzić()\ndobrze: zgadnij = 'cat'\nPokaz(\n\t[\n\t\tWyrażenie('Zgadnij zwierzę!' czastrwania: 2s)\n\t\t∆ zgadnij\n\t\tWyrażenie(dobrze ? 'Tak!' 'Nie!' czastrwania: 2s)\n\t]\n\tpętla: ~dobrze\n)\\",
+                "\\zgadnij: Czat()\ndobrze: zgadnij = 'cat'\nPokaz(\n\t[\n\t\tFraza('Zgadnij zwierzę!' czastrwania: 2s)\n\t\t∆ zgadnij\n\t\tFraza(dobrze ? 'Tak!' 'Nie!' czastrwania: 2s)\n\t]\n\tpętla: ~dobrze\n)\\",
                 "@Scene/replay zaczyna mnie od nowa, @Scene/pause trzyma mnie w miejscu, a @Scene/go wysyła mnie prosto do jednego z moich wyjść. Ustaw @Scene/pause na \\⊤\\ i nigdy nie ruszę się sam, więc @Scene/go staje się jedyną rzeczą, która mnie przesuwa — tak właśnie robi się pokaz slajdów, który idzie /do przodu i do tyłu/.",
                 "A jeśli chcesz wiedzieć, gdzie jestem, żeby pokazać /3 z 10/ albo grać inną muzykę w różnych częściach historii, właśnie do tego służy @Spotlight."
             ],
@@ -268,7 +268,7 @@
                     "Tak jak @Scene/replay, to chce /chwilowego/ @condition — czegoś, co jest \\ø\\ poza oceną, podczas której chcesz, żebym się przesunął. Liczba, która by tak została, przypięłaby mnie tam na zawsze.",
                     "Wyślij mnie poza dowolny koniec, a zatrzymam się tam, chyba że @Scene/loop jest \\⊤\\, w takim przypadku wracam dookoła. To znaczy, że nigdy nie musisz tego sprawdzać. Tutaj klawisze strzałek przesuwają pokaz slajdów w obie strony:",
                     "Jeśli wolisz powiedzieć /jeden do przodu/ zamiast /numer trzy/, właśnie do tego służy @Scene/step.",
-                    "\\slajdy: [\n\t\tWyrażenie('jeden')\n\t\tWyrażenie('dwa')\n\t\tWyrażenie('trzy')\n\t]\nklawisz2: Klawisz()\nw: Spotlight()\nPokaz(\n\tslajdy\n\tpauza: ⊤\n\tstart: ∆ klawisz2 ? ((klawisz2 = 'Strzałka w lewo') ? w.index - 1 (klawisz2 = 'Strzałka w prawo') ? w.index + 1 ø) ø\n)\\"
+                    "\\slajdy: [\n\t\tFraza('jeden')\n\t\tFraza('dwa')\n\t\tFraza('trzy')\n\t]\nklawisz2: Klawisz()\nw: Reflektor()\nPokaz(\n\tslajdy\n\tpauza: ⊤\n\tstart: ∆ klawisz2 ? ((klawisz2 = 'Strzałka w lewo') ? w.indeks - 1 (klawisz2 = 'Strzałka w prawo') ? w.indeks + 1 ø) ø\n)\\"
                 ]
             },
             "name": {
@@ -280,7 +280,7 @@
                 "doc": [
                     "$~@condition, na który trzeba czekać po każdym z moich wyjść, gdy skończy się jego @Phrase/duration lub gdy skończy animację.",
                     "To to samo, co wpisanie tego @Boolean między każdym wyjściem na mojej liście — tak zrobiłbyś, żeby kazać jednemu z moich wyjść czekać. To mówi to samo, ale tylko raz:",
-                    "\\Pokaz(\n\t[Wyrażenie('jeden') Wyrażenie('dwa') Wyrażenie('trzy')]\n\tażDo: ∆ Przycisk()\n)\\",
+                    "\\Pokaz(\n\t[Fraza('jeden') Fraza('dwa') Fraza('trzy')]\n\tażDo: ∆ Przycisk()\n)\\",
                     "@Boolean zapisany w liście nadal działa, a te dwa czekania są osobne, więc możesz zatrzymać się dłużej w jednym konkretnym miejscu."
                 ]
             },
@@ -289,7 +289,7 @@
                 "doc": [
                     "$~Ile wyjść przesunąć, licząc od miejsca, w którym jestem: \\1\\ to jeden do przodu, a \\-1\\ to jeden do tyłu. To jest @Scene/go wyrażone jako odległość, a nie miejsce.",
                     "Tak jak @Scene/go, zatrzymuję się na moich końcach, chyba że @Scene/loop jest \\⊤\\, więc nigdy nie musisz tego sprawdzać, a ja chcę /chwilowego/ @condition — czegoś, co jest \\ø\\ z wyjątkiem tego przebiegu, w którym chcesz, żebym się przesunął.",
-                    "\\slajdy: [\n\t\tWyrażenie('jeden')\n\t\tWyrażenie('dwa')\n\t\tWyrażenie('trzy')\n\t]\nklawisz2: Klawisz()\nPokaz(\n\tslajdy\n\tpauza: ⊤\n\tkrok: ∆ klawisz2 ? ((klawisz2 = 'Strzałka w lewo') ? -1 (klawisz2 = 'Strzałka w prawo') ? 1 ø) ø\n)\\",
+                    "\\slajdy: [\n\t\tFraza('jeden')\n\t\tFraza('dwa')\n\t\tFraza('trzy')\n\t]\nklawisz2: Klawisz()\nPokaz(\n\tslajdy\n\tpauza: ⊤\n\tkrok: ∆ klawisz2 ? ((klawisz2 = 'Strzałka w lewo') ? -1 (klawisz2 = 'Strzałka w prawo') ? 1 ø) ø\n)\\",
                     "Nic tutaj nie musi wiedzieć, który @Phrase jest pokazywany — to jest różnica względem @Scene/go. Zapytaj @Spotlight, jeśli chcesz to pokazać na scenie."
                 ]
             }
@@ -326,10 +326,10 @@
             "doc": [
                 "$~To @stream wiadomości @Text wpisywanych przez Twoją publiczność.",
                 "Na przykład ten prosty program sprawdza, czy wiadomość brzmi „hello” i jeśli tak, program interpretuje ją jako „hi”. W przeciwnym razie interpretuje ją jako „huh”?",
-                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "\\Czat().ma('hello') ? 'hi!' 'huh?'\\",
                 "To wszystko! Możesz tworzyć za jego pomocą wszelkiego rodzaju występy, takie jak boty czatowe, przygody tekstowe czy tekstowe schematy sterowania do innych rodzajów występów."
             ],
-            "names": ["$~Pogawędzić"]
+            "names": ["$~Czat", "$~Pogawędzić"]
         },
         "Placement": {
             "doc": [
@@ -337,7 +337,7 @@
                 "Jest wiele sposobów umieszczania @Output na @Stage: nadaj im wyraźną @Place, użyj @Motion i pozwól, aby grawitacja zrobiła swoje, albo umieść je w @Group, aby je uporządkować.",
                 "Czasem jednak chcesz dać /widowni/ kontrolę nad tym, gdzie @Output trafia na @Stage.",
                 "Oto jak to działa: stwórz @Placement i przekaż go do @Place elementu @Output:",
-                "\\Wyrażenie('cześć' miejsce: Umieszczenie())\\",
+                "\\Fraza('cześć' miejsce: Umieszczenie())\\",
                 "Wtedy, za każdym razem, gdy widownia użyje strzałki @key albo kliknie lub dotknie sceny, @Placement stworzy nowy @Place, który porusza się w wybranym kierunku.",
                 "Spróbuj skopiować to do swojego programu i poruszać @Output wskaźnikiem lub klawiaturą.",
                 "Możesz dostosować @Placement, włączając i wyłączając ruch w niektórych kierunkach, zmieniając, jak daleko porusza się @Place, oraz początkowy @Place, od którego @stream się zaczyna."
@@ -505,7 +505,7 @@
                 "Daj mu trochę tekstu i krój pisma, a obrysuje kontur każdego kształtu punkt po punkcie.",
                 "\\🖋('a' \"Noto Sans\")\\",
                 "Podaj te wartości @Place do @List elementów @Phrase, aby zobaczyć kontur narysowany jako kropki:",
-                "\\🎭(🖋('a' \"Noto Sans\" 10m).tłumaczyć(ƒ(punkt) 💬('•' miejsce: punkt)))\\",
+                "\\🎭(🖋('a' \"Noto Sans\" 10m).przekształć(ƒ(punkt) 💬('•' miejsce: punkt)))\\",
                 "Możesz skalować kontur za pomocą @Number metrów, przesunąć jego początek za pomocą @Place, wybrać grubość pisma, włączyć kursywę i ustawić `spacing` między punktami jako odległość w metrach. Mniejszy `spacing` śledzi kontur dokładniej, z równomiernie rozmieszczonymi punktami zarówno na liniach, jak i na krzywych.",
                 "Niektóre kształty, jak kolorowe emoji, nie mają konturu, więc nie dodają punktów. Podczas pobierania kroju pisma da ci pustą @List, a potem wypełni ją, gdy będzie gotowa."
             ],
@@ -559,7 +559,7 @@
                 "Domyślnie odliczam co sekundę. Podaj mi @Now.frequency w sekundach, minutach lub godzinach, aby zmienić tempo:",
                 "\\⏰(1min)\\",
                 "Moje @Now.timezone i @Now.calendar odzwierciedlają wejścia @Moment i ustawiają Momenty, które tworzę. Na przykład oto zegar pokazujący aktualny czas w Tokio, według kalendarza japońskiego:",
-                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "\\Teraz(1s 'Asia/Tokyo' 'japanese')\\",
                 "Jeśli te wejścia się zmienią — powiedzmy, reakcja da mi inną strefę czasową — zaczynam tworzyć Momenty z nowymi ustawieniami.",
                 "Czym różnię się od @Time? @Time liczy milisekundy od chwili uruchomienia programu, co jest dobre do animacji. Ja podaję datę i czas zegarowy w danym kalendarzu i strefie czasowej, co jest dobre do zegarów i kalendarzy."
             ],
@@ -869,7 +869,7 @@
             },
             "sounding": {
                 "doc": "$~Czy nuta jest słyszalna na tym uderzeniu. Przytrzymana nuta wciąż się liczy, więc pozostaję \\⊤\\ przez uderzenia, które podtrzymuje, a nie tylko to, na którym się zaczęła.",
-                "names": "$~brzmienie"
+                "names": ["$~brzmi", "$~brzmienie"]
             },
             "degrees": {
                 "doc": "$~Nuty pokrywające to uderzenie, tak jak zostały zapisane. Puste przy pauzie, i więcej niż jedna przy akordzie.",
@@ -908,7 +908,7 @@
             "doc": [
                 "$~Mówię, gdzie jest teraz @Scene: które wyjście pokazuje, ile ich ma i czy czeka na kogoś.",
                 "@Scene pokazuje rzeczy; ja jestem tym, dzięki czemu reszta programu dowiaduje się, co jest pokazywane. To właśnie dzięki mnie możesz umieścić licznik pod pokazem slajdów, odtwarzać inną muzykę w różnych częściach opowieści albo pokazać podpowiedź /naciśnij dowolny klawisz/ tylko wtedy, gdy scena naprawdę czeka.",
-                "\\slajdy: [\n\t\tWyrażenie('jeden')\n\t\tWyrażenie('dwa')\n\t\tWyrażenie('trzy')\n\t]\nw: Spotlight()\nScena(\n\t[\n\t\tPokaz(slajdy pętla: ⊤)\n\t\tWyrażenie(\n\t\t\t`\\w.index\\ z \\w.total\\`\n\t\t\trozmiar: 0.3m\n\t\t\tmiejsce: Miejsce(0m -2m)\n\t\t)\n\t]\n)\\",
+                "\\slajdy: [\n\t\tFraza('jeden')\n\t\tFraza('dwa')\n\t\tFraza('trzy')\n\t]\nw: Reflektor()\nScena(\n\t[\n\t\tPokaz(slajdy pętla: ⊤)\n\t\tFraza(\n\t\t\t`\\w.index\\ z \\w.total\\`\n\t\t\trozmiar: 0.3m\n\t\t\tmiejsce: Miejsce(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Zawsze mam @Slate, nawet zanim cokolwiek się wydarzyło, więc nigdy nie musisz sprawdzać mnie pod kątem \\ø\\."
             ],
             "names": "$~Reflektor",

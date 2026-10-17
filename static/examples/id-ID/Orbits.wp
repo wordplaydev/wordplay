@@ -9,7 +9,7 @@ matahari: Frasa(
 		2m
 		nama: 'matahari'
 		tempat: Tempat(-1m -1m)
-		urusan: Urusan(2000kg tarik: 1)
+		materi: Materi(2000kg tarik: 1)
 	)
 
 ¶Sebuah planet sama sekali tidak butuh @Matter. Memiliki @Motion adalah yang membuat tarikan bintang bisa menggerakkannya. Seberapa cepat ia harus bergerak untuk berputar mengelilingi bukannya jatuh ke dalam bergantung pada seberapa jauh jaraknya, jadi setiap planet diberi kecepatan yang membuatnya tetap pada lingkarannya sendiri.¶

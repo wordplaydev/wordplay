@@ -16,8 +16,8 @@ Scena(
 		Grupa(
 			Siatka(4 2 wypełnieniekomórek: 0.25m)
 			[
-				Wyrażenie('prosto' rozmiar: 0.25m)
-				Wyrażenie(
+				Fraza('prosto' rozmiar: 0.25m)
+				Fraza(
 					"🚗"
 					spoczynkowy: Sekwencja(
 						klatkiKluczowe
@@ -25,8 +25,8 @@ Scena(
 						styl: "straight"
 					)
 				)
-				Wyrażenie('ostrożnie' rozmiar: 0.25m)
-				Wyrażenie(
+				Fraza('ostrożnie' rozmiar: 0.25m)
+				Fraza(
 					"🚚"
 					spoczynkowy: Sekwencja(
 						klatkiKluczowe
@@ -34,8 +34,8 @@ Scena(
 						styl: "cautious"
 					)
 				)
-				Wyrażenie('powoli' rozmiar: 0.25m)
-				Wyrażenie(
+				Fraza('powoli' rozmiar: 0.25m)
+				Fraza(
 					"🚙"
 					spoczynkowy: Sekwencja(
 						klatkiKluczowe
@@ -43,8 +43,8 @@ Scena(
 						styl: "pokey"
 					)
 				)
-				Wyrażenie('żwawo' rozmiar: 0.25m)
-				Wyrażenie(
+				Fraza('żwawo' rozmiar: 0.25m)
+				Fraza(
 					"🏎"
 					spoczynkowy: Sekwencja(
 						klatkiKluczowe

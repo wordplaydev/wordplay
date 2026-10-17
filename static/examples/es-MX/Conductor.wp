@@ -168,7 +168,7 @@ canción: Música(
 			)
 			Pista(
 				batería
-				instrumento: Instrumento.tambores
+				instrumento: Instrumento.batería
 				pulso: 1𝅘𝅥
 				volumen: escuchado(3 20%)
 			)

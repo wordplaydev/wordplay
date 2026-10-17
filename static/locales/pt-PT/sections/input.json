@@ -35,7 +35,7 @@
                 "/clique-toque!/",
                 "Assim, a melhor forma de o utilizar é criar uma performance com frases selecionáveis nomeadas @Phrase e, em seguida, utilizar uma @Reaction para decidir o que fazer quando esse nome for escolhido.",
                 "Eis o exemplo mais simples:",
-                "\\Group(\nStack() \n[\nPhrase('one' selecionável:⊤ nome:'1') \nPhrase('two' selecionável:⊤ nome:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Grupo(\nMonte() \n[\nFrase('one' selecionável:⊤ nome:'1') \nFrase('two' selecionável:⊤ nome:'2') \nFrase(Escolha())\n]\n)\\",
                 "Copie isto para o @editor e selecione uma das duas @Phrase . Verá que a terceira @Phrase mostra o nome que foi selecionado."
             ],
             "names": ["Escolha"]
@@ -62,7 +62,7 @@
                 "/whrrrrrr/",
                 "É claro que esta não é uma opção acessível: nem todos conseguem ver ou apontar com facilidade, por isso certifique-se de que não está a excluir ninguém da participação ao utilizar esta funcionalidade.",
                 "Se tiver a certeza de que ninguém será eliminado, utilizar @Pointer é tão simples como criar um @stream (stream):",
-                "\\Pointer()\\",
+                "\\Ponteiro()\\",
                 "O @Place fornecido corresponderá ao local no @Stage para onde o ponteiro está a apontar."
             ],
             "names": ["Ponteiro"]
@@ -72,16 +72,16 @@
                 "$~Diz-lhe que @key do teclado a sua audiência está a pressionar e a largar.",
                 "/clique clique/",
                 "Experimente isto",
-                "\\Chave()\\",
+                "\\Tecla()\\",
                 "Vê como, quando escreve uma tecla, ela aparece em @Stage? Sempre que uma tecla é pressionada, um novo @Text é adicionado ao @stream, a descrever a tecla que foi pressionada.",
                 "Para uma tecla que representa um caráter, o @value será o caráter como @Text.",
                 "Para teclas especiais, como a tecla /Escape/, será @Text que descreve a tecla, usando um <nome pré-definido@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, infelizmente disponível apenas em inglês.",
                 "Se só quiser saber sobre uma tecla específica, pode indicá-la:",
-                "\\Chave('a')\\",
+                "\\Tecla('a')\\",
                 "E se só quiser saber quando uma @Key é largada em vez de pressionada, pode indicar um @Boolean:",
-                "\\Chave('a' ⊥)\\"
+                "\\Tecla('a' ⊥)\\"
             ],
-            "names": ["Chave"],
+            "names": ["$~Tecla", "Chave"],
             "key": {
                 "names": "chave",
                 "doc": "$~Se for @None, então todas as teclas são fornecidas. Se for um @Text específico, então só essa tecla é fornecida."
@@ -185,7 +185,7 @@
                 "$~É um @stream do tom do microfone, em hertz.",
                 "/hummmmm/",
                 "A amostragem é feita à frequência da sua escolha. A voz humana está entre os 20Hz e os 5000Hz, por isso considere valores nessa gama.",
-                "\\Pitch()\\",
+                "\\Tom()\\",
                 "Isto é ótimo para ouvir o tom de voz de alguém quando fala ou canta."
             ],
             "names": ["Tom"],
@@ -235,7 +235,7 @@
                 "/bzzzzzzz/",
                 "Esta @List representa essencialmente uma imagem, mas cabe-lhe a si decidir o que fazer com ela.",
                 "Podias tentar representar a imagem com um monte de @Phrase , o que poderia ficar muito giro! Experimente copiar isso...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' local: Place((x - 1) × 0.5m y × -0.5m) cor: color duração: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Câmera(32px 24px 33ms)\n\nPalco(\ncolors.combinado(\n[] \nƒ(phrases•[Frase] row•[Cor] y•#) \nphrases.comlista(\nrow.traduzir(\nƒ(color•Cor x•#)\nFrase('o' local: Local((x - 1) × 0.5m y × -0.5m) cor: color duração: 0s\n)\n)\n)\n)\n)\\",
                 "Mas também podia analisar as cores para decidir se uma luz estava acesa ou apagada, ou se uma determinada cor era comum, permitindo ao público influenciar uma apresentação com as cores que demonstrava."
             ],
             "names": ["Câmera"],
@@ -303,7 +303,7 @@
                     "Tal como @Scene/replay, isto quer uma @condition /momentânea/ — algo que seja \\ø\\ exceto na avaliação em que quer que eu avance. Um número que se mantivesse fixo prender-me-ia ali para sempre.",
                     "Envie-me para além de qualquer um dos extremos e paro ali, a não ser que @Scene/loop seja \\⊤\\, caso em que dou a volta. Isso significa que nunca tem de verificar. Aqui as teclas de setas percorrem uma apresentação de diapositivos nos dois sentidos:",
                     "Se preferir dizer /um à frente/ em vez de /número três/, é para isso que serve @Scene/step.",
-                    "\\diapositivos: [Frase('um') Frase('dois') Frase('três')]\nchave2: Chave()\nem: Spotlight()\nCena(\n\tdiapositivos\n\tpausar: ⊤\n\tavançar: ∆ chave2 ? ((chave2 = 'Seta para a esquerda') ? em.index - 1 (chave2 = 'Seta para a direita') ? em.index + 1 ø) ø\n)\\"
+                    "\\diapositivos: [Frase('um') Frase('dois') Frase('três')]\nchave2: Tecla()\nem: Destaque()\nCena(\n\tdiapositivos\n\tpausar: ⊤\n\tavançar: ∆ chave2 ? ((chave2 = 'Seta para a esquerda') ? em.índice - 1 (chave2 = 'Seta para a direita') ? em.índice + 1 ø) ø\n)\\"
                 ]
             },
             "name": {
@@ -324,7 +324,7 @@
                 "doc": [
                     "$~Quantas saídas mover, a contar a partir de onde estou: \\1\\ é avançar uma e \\-1\\ é recuar uma. Isto é @Scene/go dito como uma distância e não como um lugar.",
                     "Tal como @Scene/go, paro nas minhas pontas a não ser que @Scene/loop seja \\⊤\\, por isso nunca tem de verificar, e quero um @condition /momentâneo/ — algo que seja \\ø\\ exceto na avaliação em que quer que eu me mova.",
-                    "\\diapositivos: [Frase('um') Frase('dois') Frase('três')]\nchave2: Chave()\nCena(\n\tdiapositivos\n\tpausar: ⊤\n\tpasso: ∆ chave2 ? ((chave2 = 'Seta para a esquerda') ? -1 (chave2 = 'Seta para a direita') ? 1 ø) ø\n)\\",
+                    "\\diapositivos: [Frase('um') Frase('dois') Frase('três')]\nchave2: Tecla()\nCena(\n\tdiapositivos\n\tpausar: ⊤\n\tpasso: ∆ chave2 ? ((chave2 = 'Seta para a esquerda') ? -1 (chave2 = 'Seta para a direita') ? 1 ø) ø\n)\\",
                     "Nada aqui tem de saber qual @Phrase está a mostrar, e é essa a diferença em relação a @Scene/go. Pergunte a @Spotlight se quiser dizê-lo no palco."
                 ]
             }
@@ -361,7 +361,7 @@
             "doc": [
                 "$~É um @stream das mensagens @Text pelo seu público.",
                 "Por exemplo, este programa simples verifica se a mensagem é 'olá' e, em caso afirmativo, o programa devolve 'olá'. Caso contrário, retorna 'hã?'.",
-                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "\\Conversa().tem('hello') ? 'hi!' 'huh?'\\",
                 "É por aí! Pode criar todos os tipos de performances com isto, como chatbots, aventuras em texto ou esquemas de controlo baseados em texto para outros tipos de performances."
             ],
             "names": ["Conversa"]
@@ -503,9 +503,9 @@
             "doc": [
                 "$~Traça o contorno do glifo de cada letra como uma @List de @Place .",
                 "Forneça um texto e um tipo de letra, e ele traçará o contorno de cada glifo ponto a ponto.",
-                "\\Contour('a' \"Noto Sans\")\\",
+                "\\Contorno('a' \"Noto Sans\")\\",
                 "Forneça estes valores @Place a uma @List de @Phrase para ver o contorno desenhado como pontos:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' local: point)))\\",
+                "\\Palco(Contorno('a' \"Noto Sans\" 10m).traduzir(ƒ(point) Frase('•' local: point)))\\",
                 "Pode dimensionar o contorno com um @Number de metros, mover a sua origem com um @Place , escolher uma espessura de fonte, ativar o itálico e definir o `espaçamento` entre os pontos como uma distância em metros. Um `espaçamento` mais pequeno traça o contorno mais de perto, com pontos uniformemente espaçados ao longo de linhas e curvas.",
                 "Alguns glifos, como os emojis coloridos, não têm contorno, pelo que não acrescentam pontos. Enquanto a fonte é carregada, esta irá apresentar uma lista vazia @List ) e preenchê-la quando estiver pronta."
             ],
@@ -642,7 +642,7 @@
                 "doc": "$~O dia da semana, de \\1\\ (segunda-feira) até \\7\\ (domingo). Informativo: @Now define-o, e a formatação ignora-o."
             },
             "conversion": {
-                "text": "$~Uma versão em @Text de mim, formatada para a região do leitor, no meu calendário e fuso horário. Adiciona um idioma depois do tipo @Text para formatar para uma região específica, como \\Moment(2026 7 1) → ''/es\\."
+                "text": "$~Uma versão em @Text de mim, formatada para a região do leitor, no meu calendário e fuso horário. Adiciona um idioma depois do tipo @Text para formatar para uma região específica, como \\Momento(2026 7 1) → ''/es\\."
             },
             "error": {
                 "timezone": "$~este não é um nome de fuso horário válido",
@@ -905,7 +905,7 @@
             "doc": [
                 "$~Eu digo onde está um @Scene neste momento: qual resultado está a mostrar, quantos tem, e se está à espera de alguém.",
                 "Um @Scene mostra coisas; eu sou a forma como o resto de um programa descobre o que está a ser mostrado. É isso que permite colocar um contador debaixo de uma apresentação de diapositivos, tocar músicas diferentes em partes diferentes de uma história, ou mostrar uma dica de /prima qualquer tecla/ apenas enquanto a cena está mesmo à espera.",
-                "\\diapositivos: [Frase('um') Frase('dois') Frase('três')]\nem: Spotlight()\nFase(\n\t[\n\t\tCena(diapositivos ciclo: ⊤)\n\t\tFrase(\n\t\t\t`\\em.index\\ de \\em.total\\`\n\t\t\ttamanho: 0.3m\n\t\t\tlocal: Local(0m -2m)\n\t\t)\n\t]\n)\\",
+                "\\diapositivos: [Frase('um') Frase('dois') Frase('três')]\nem: Destaque()\nPalco(\n\t[\n\t\tCena(diapositivos ciclo: ⊤)\n\t\tFrase(\n\t\t\t`\\em.index\\ de \\em.total\\`\n\t\t\ttamanho: 0.3m\n\t\t\tlocal: Local(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Eu tenho sempre um @Slate, mesmo antes de acontecer alguma coisa, para nunca precisar de me verificar quanto a \\ø\\."
             ],
             "names": "$~Destaque",

@@ -37,7 +37,7 @@ The Stack places the title, explanation, number display, message, and selectable
 மேடை(
 	[
 		குழு(
-			அடுக்கிவைக்கவும்()
+			அடுக்கு()
 			[
 				சொற்றொடர்('படிப்பு முறை அளவீடு' அளவு: 0.5m)
 

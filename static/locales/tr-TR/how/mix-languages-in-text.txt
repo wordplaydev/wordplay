@@ -5,7 +5,7 @@ A @Phrase Seçtikleri dillere göre her izleyiciye doğru çeviriyi gösterir. �
 Bir tane verin @TextLiteral Çok dilli bir çeviri de dahil olmak üzere çeşitli çeviriler mevcuttur ve @wordplay her izleyici için en uygun olanı seçer:
 
 \
-Phrase("hola"/es"Merhaba"/en"merhaba beyefendi"/es_en)
+Yazı("hola"/es"Merhaba"/en"merhaba beyefendi"/es_en)
 \
 
  Tercih ettiği dil yalnızca İspanyolca olan bir izleyici şunu görür: / hola / Sadece İngilizce izlemeyi tercih eden bir izleyici şunu görür: / Merhaba / Hem İspanyolca hem de İngilizceyi tercih eden bir izleyici şunu görür: / merhaba beyefendi / — İspanyolca ve İngilizce karışımı versiyon.
@@ -15,7 +15,7 @@ Kelime oyunları en uygun eşleşmeyi tercih eder, bu nedenle her ikisi de geçe
 Spanglish sürümü, ilk dili olan İspanyolca ile tamamen İspanyolca okunur. Her kelimenin kendi dilinde okunması için, parçaları ayrı ayrı etiketle ve sonra birleştir:
 
 \
-Phrase("hola "/es + "gentleman"/en)
+Yazı("hola "/es + "gentleman"/en)
 \
 
 styling-text

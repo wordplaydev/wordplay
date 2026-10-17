@@ -7,14 +7,14 @@ Uma @Structure é como uma receita com espaços em branco para preencher.
 Aqui está um modelo de balão que recebe uma cor e um rótulo, e sabe como se mostrar:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` cor: color tamanho: 2m)
+•Balloon(color•Cor label•'') (
+    ƒ show() Frase(`🎈\label\` cor: color tamanho: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'Céu').show()
-    Balloon(Color(60% 80 0°) 'Rosa').show()
-    Balloon(Color(90% 80 90°) 'Ensolarado').show()
+Grupo(Linha() [
+    Balloon(Cor(80% 50 240°) 'Céu').show()
+    Balloon(Cor(60% 80 0°) 'Rosa').show()
+    Balloon(Cor(90% 80 90°) 'Ensolarado').show()
 ])
 \
 

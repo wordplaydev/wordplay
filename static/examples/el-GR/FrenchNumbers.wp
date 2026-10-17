@@ -24,7 +24,7 @@ t
 
 ¶Ποιο είναι το τελευταίο πλήκτρο που πατήθηκε;¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-κλειδί3,clé/fr: Κλειδί()
+κλειδί3,clé/fr: Πλήκτρο()
 
 ¶Το τρέχον μυστικό αυξάνεται κάθε φορά που πατιέται ένα πλήκτρο, αλλά σταματά στο 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
@@ -56,7 +56,7 @@ t
 ¶Δείξε τον τρέχοντα γαλλικό αριθμό και τους τρέχοντες πόντους. Μετά και τα 9 μυστικά, δείξε ένα τελικό αποτέλεσμα¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
-Στάδιο(
+Πλατό(
 	[
 		Ομάδα(
 			Σωρός()

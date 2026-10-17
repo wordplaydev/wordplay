@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['貓' '狗'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['貓' '狗'] 0) … state.secrets.包含(聊天()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("你贏了！")]
-        [ Group(Stack() [ Phrase("猜猜我的秘密單字") Phrase(`\state.secrets.length() - state.points\ 個秘密`)])]
+舞台(
+    state.points = state.secrets.長度() ? 
+        [ 短語("你贏了！")]
+        [ 組合(堆疊() [ 短語("猜猜我的秘密單字") 短語(`\state.secrets.length() - state.points\ 個秘密`)])]
 )
 \
 

@@ -7,14 +7,14 @@
 Ево шаблона балона који узима боју и натпис, и зна како да прикаже себе:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` боја: color величина: 2m)
+•Balloon(color•Боја label•'') (
+    ƒ show() Фраза(`🎈\label\` боја: color величина: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'Небо').show()
-    Balloon(Color(60% 80 0°) 'Ружа').show()
-    Balloon(Color(90% 80 90°) 'Сунчано').show()
+Група(Ред() [
+    Balloon(Боја(80% 50 240°) 'Небо').show()
+    Balloon(Боја(60% 80 0°) 'Ружа').show()
+    Balloon(Боја(90% 80 90°) 'Сунчано').show()
 ])
 \
 

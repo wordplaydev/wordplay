@@ -4,12 +4,12 @@ Musik yang bisa kamu dengar hanyalah separuh ceritanya. Aliran  @Beat  memberimu
 
 @Beat  selalu punya  @Downbeat  untuk diberikan kepadamu, jadi kamu bisa langsung membacanya. Sebelum musik apa pun dimulai, ia berada di ketukan nol tanpa apa pun yang dimainkan:
 
-\beat: Beat()
-count: beat.count
-Stage(
+\beat: Ketukan()
+count: beat.hitung
+Panggung(
 	[
-		Phrase('🥁' ukuran: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] alatMusik: Instrument.drums))
+		Frasa('🥁' ukuran: ((count % 4) = 0) ? 2m 1m)
+		Musik(Trek([1 1 1 1] alatMusik: AlatMusik.drum))
 	]
 )\
 
@@ -17,30 +17,30 @@ Angka \count\ naik satu setiap ketukan, jadi \count % 4\ adalah \0\ pada setiap 
 
 Itu adalah seluruh musik sebagai satu angka. Tapi sebuah  @Downbeat  juga membawa sebuah daftar \parts\, satu  @Part  untuk setiap  @Track , dan sebuah  @Part  tahu apa yang sedang dilakukan suaranya sendiri saat ini: \pitch\-nya, \volume\-nya, \pan\-nya, dan apakah sedang \sounding\. Gambarkan itu semua dan kamu mendapatkan setiap suara secara terpisah, bukan campurannya:
 
-\beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase(
+\beat: Ketukan()
+parts•[Bagian]: beat.bagian.menyaring(ƒ(p•Bagian) p.berbunyi)
+ƒ height(p•Bagian)•# p.nada[1] ÷ 1semitones
+ƒ dot(p•Bagian)•Frasa Frasa(
 		'⬤'
 		0.4m + (p.volume · 1m)
-		tempat: Place(
-			(p.pan · 3) · 1m
+		tempat: Tempat(
+			(p.geser · 3) · 1m
 			((height(p) · 0.2) - 1) · 1m
 		)
 	)
-Stage(
+Panggung(
 	[
-		:parts.translate(ƒ(p•Part) dot(p))
-		Music(
+		:parts.petakan(ƒ(p•Bagian) dot(p))
+		Musik(
 			[
-				Track(
+				Trek(
 					[1 ø 5 ø]
-					alatMusik: Instrument.piano
+					alatMusik: AlatMusik.piano
 					geser: -1
 				)
-				Track(
+				Trek(
 					[ø 8 ø 12]
-					alatMusik: Instrument.bell
+					alatMusik: AlatMusik.lonceng
 					geser: 1
 				)
 			]

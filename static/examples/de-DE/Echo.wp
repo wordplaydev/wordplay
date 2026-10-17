@@ -3,7 +3,7 @@ Echo
 === start
 ¶Alles, was das Publikum in die Chat-Leiste tippt, wird zu dieser Phrase.¶
 
-nachricht: Plaudern()
+nachricht: Chat()
 
 ¶Beginne mit einer Aufforderung und gib dann jede neue Nachricht wieder. Der Text verwandelt sich von den alten Wörtern zu den neuen, Buchstabe für Buchstabe.¶
 worte: 'sag etwas!' … ∆ nachricht … nachricht
@@ -13,7 +13,7 @@ größe2: 2m … ∆ nachricht … Zufällig(1m 4m)
 neigung: 0° … ∆ nachricht … Zufällig(-30 30) × 1°
 farbton: 200° … ∆ nachricht … Zufällig(360) × 1°
 
-Satzglied(
+Phrase(
 	worte
 	Größe: größe2
 	Ruhen: Pose(

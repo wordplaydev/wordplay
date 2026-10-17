@@ -55,7 +55,7 @@ personer: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ¶Vandra ett steg mot spelaren: framåt i djup medan den slingrar sig i sidled för att vara svårare att träffa, byter riktning på slingringen vid kanterna av ett band runt din bana, och siktar mjukt in sig mot dig mellan svängarna så att en undanmanöver bara vinner ett ögonblick.¶
 ƒ anfallaMotSpelare(zombie3•zombie kameraX2•#m anfallsHastighet•#m) (
 		vävdX: zombie3.x2 + (zombie3.riktningx · vävhastighet)
-		styrdX: vävdX + (kameraX2 - vävdX).limit((hemhastighet · -1) hemhastighet)
+		styrdX: vävdX + (kameraX2 - vävdX).gräns((hemhastighet · -1) hemhastighet)
 		vidKant: (vävdX > (kameraX2 + vävbredd)) | (vävdX < (kameraX2 - vävbredd))
 		zombie(
 			styrdX
@@ -85,7 +85,7 @@ personer: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 
 ¶Nytt fält med zombier, utspridda från nära till långt bort, spridda från vänster till höger, var och en vandrande i en slumpmässig riktning.¶
 ƒ skapaZombier()
-	(zombieantal → []).översätta(
+	(zombieantal → []).omvandla(
 		ƒ(index2•#)
 			zombie(
 				Slumpmässig(vänstergräns högergräns)
@@ -126,7 +126,7 @@ personer: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 
 ¶Knuffa ditt spårfält ett steg mot en plats, men aldrig förbi dina gränser. Pekaren visar vilken plats i världen den är över, så avståndet från ditt spårfält visar hur långt den sitter till vänster eller höger om dig — att flytta mot den låter pekaren sikta, och ett tryck på endera sidan flyttar dig åt det hållet.¶
 ƒ fokuseraMot(spel3•spel mål•#m)
-	spel3.kameraX:(spel3.kameraX + (mål - spel3.kameraX).limit((sidosteg · -1) sidosteg)).limit(vänstergräns högergräns)
+	spel3.kameraX:(spel3.kameraX + (mål - spel3.kameraX).gräns((sidosteg · -1) sidosteg)).gräns(vänstergräns högergräns)
 
 ¶En knapptryckning medan du spelar: flytta i sidled åt vänster eller höger, eller kasta ett hjärta.¶
 ƒ tillämpaTangenttryckning(spel4•spel nyckel2•"")
@@ -170,7 +170,7 @@ personer: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 			)
 		träffatDjup: (träffadFigur•ø) ? -999m träffadFigur.z2
 		omvandlar: (träffadFigur•ø) ? ⊥ träffadFigur.levande
-		nästaZombier: spel5.zombier.översätta(
+		nästaZombier: spel5.zombier.omvandla(
 				ƒ(zombie9•zombie)
 					zombie9.levande ?
 						((omvandlar & (zombie9.z2 = träffatDjup)) ? zombie(
@@ -214,7 +214,7 @@ personer: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 		)
 	)
 
-nyckel3: Nyckel()
+nyckel3: Tangent()
 tick: Tid(30ms)
 pekare: Pekare()
 tryck: Knapp()
@@ -347,7 +347,7 @@ skärmvy: [
 
 ¶Visa fältet och dess golv medan du spelar, och menyn annars. Varje lista är tom i fel skede, och en tom lista sprider sig till ingenting.¶
 golvLista: (spel6.fas = 2) ? golv []
-zombieLista: (spel6.fas = 2) ? spel6.zombier.översätta(
+zombieLista: (spel6.fas = 2) ? spel6.zombier.omvandla(
 			ƒ(zombie12•zombie) zombieVy(zombie12)
 		) []
 hjärtaLista: ((spel6.fas = 2) & spel6.hjärta) ? [hjärtaVy] [
@@ -501,7 +501,7 @@ ljudspår: spel6.fas ???
 		4: förlustSång
 		jaktSång
 
-Etapp(
+Estrad(
 	[
 		:golvLista
 		:zombieLista

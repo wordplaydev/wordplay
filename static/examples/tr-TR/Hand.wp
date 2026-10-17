@@ -7,7 +7,7 @@ el: El()
 
 Sahne(
 	[
-		İfadeetmek(
+		Yazı(
 			(el.parmaklar = 0 ? '✊'
 					el.parmaklar = 1 ? '☝'
 						el.parmaklar = 2 ? '✌'
@@ -21,23 +21,23 @@ Sahne(
 		Grup(
 			Sıra('<')
 			[
-				İfadeetmek(
+				Yazı(
 					'1⃣'
 					telafietmek: Yer(0m el.başparmak ? 1m 0m)
 				)
-				İfadeetmek(
+				Yazı(
 					'2⃣'
 					telafietmek: Yer(0m el.indeks ? 1m 0m)
 				)
-				İfadeetmek(
+				Yazı(
 					'3⃣'
 					telafietmek: Yer(0m el.orta ? 1m 0m)
 				)
-				İfadeetmek(
+				Yazı(
 					'4⃣'
 					telafietmek: Yer(0m el.yüzük ? 1m 0m)
 				)
-				İfadeetmek(
+				Yazı(
 					'5⃣'
 					telafietmek: Yer(0m el.serçeparmak ? 1m 0m)
 				)
@@ -47,12 +47,12 @@ Sahne(
 		Grup(
 			Yığın('|')
 			[
-				İfadeetmek((el.avuçiçi ? '🤚' '🤛') boyut: 2m)
-				İfadeetmek((el.açık ? 'açık' 'kapalı') boyut: 1.5m)
+				Yazı((el.avuçiçi ? '🤚' '🤛') boyut: 2m)
+				Yazı((el.açık ? 'açık' 'kapalı') boyut: 1.5m)
 			]
 			yer: Yer(-2m -8m)
 		)
-		İfadeetmek(
+		Yazı(
 			`/Elini kameraya göster/`
 			yer: Yer(-6m -10m)
 			boyut: 1m

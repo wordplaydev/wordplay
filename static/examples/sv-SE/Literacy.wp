@@ -8,7 +8,7 @@ Data om patriarkatet
 topp: (literacy ⎡?land n2022⎦ n2022•# ? n2022 < 75 ⊥) → []
 
 
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Stack()
@@ -25,7 +25,7 @@ Etapp(
 				:topp.sorterad(ƒ(rad) rad.n2022•# ? rad.n2022 0).efterföljande(
 					1
 					10
-				).översätta(
+				).omvandla(
 					ƒ(rad2) Fras(
 							`/\rad2.land\ \rad2.n2022•# ? rad2.n2022.rundaner(
 								) 0\%/`

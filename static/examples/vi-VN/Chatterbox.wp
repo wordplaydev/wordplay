@@ -24,9 +24,9 @@ hoánĐổi: {
 		'yours': 'mine'
 		'yourself': 'myself'
 	}
-ƒ phảnChiếu(từNgữ3•'')•'' từNgữ3.phânđoạn(' ').dịch(
+ƒ phảnChiếu(từNgữ3•'')•'' từNgữ3.phânđoạn(' ').biếnĐổi(
 		ƒ(từ3•'') hoánĐổi{từ3} ?? từ3
-	).thamgia(
+	).nối(
 		' '
 	)
 
@@ -81,8 +81,8 @@ gầnĐây: nhậtKý.chiềudài() ≤ 8 ? nhậtKý nhậtKý.chuỗicon(
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp('<' 0.5m)
-			gầnĐây.dịch(
+			XếpDọc('<' 0.5m)
+			gầnĐây.biếnĐổi(
 				ƒ(dòng2•dòng)
 					Cụmtừ(
 						dòng2.ngườiNói + ' ' + dòng2.từNgữ2

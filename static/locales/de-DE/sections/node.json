@@ -212,7 +212,7 @@
             "doc": [
                 "$~Ich bin eine Liste von Absätzen und nutze die vielen Arten von formatiertem Text, die es in @Doc gibt, wie zum Beispiel @Words, @WebLink, @ConceptLink und @Example.",
                 "Du findest mich in einer @Doc und in @FormattedLiteral:",
-                "\\¶Ich bin eine Dokumentation mit *fett* geschriebenem Text. Ich kann auf Konzepte wie @Phrase verweisen und zu <Dingen im Internet@https://wordplay.dev> verlinken.¶\nSatzglied(\n\t`Ich bin formatierter Text für ein @Phrase und nutze *fett*, /kursiv/ und _unterstrichen_`\n)\\"
+                "\\¶Ich bin eine Dokumentation mit *fett* geschriebenem Text. Ich kann auf Konzepte wie @Phrase verweisen und zu <Dingen im Internet@https://wordplay.dev> verlinken.¶\nPhrase(\n\t`Ich bin formatierter Text für ein @Phrase und nutze *fett*, /kursiv/ und _unterstrichen_`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~Absätze"
@@ -1033,10 +1033,10 @@
                 "$~Ich blicke in die Geschichte eines Baches zurück und erzähle Ihnen von einem seiner früheren Werte. Wollten Sie sich jemals an die Vergangenheit erinnern?",
                 "Ich bin der offizielle Chronist des Verses!",
                 "Hier ist beispielsweise der Stand von @Time vor fünf Ticks:",
-                "\\← 5 Time(1000ms)\\",
+                "\\← 5 Zeit(1000ms)\\",
                 "Siehst du, wie es 5 Sekunden lang @None anzeigt und dann plötzlich zu einem früheren Zeitpunkt?",
                 "Wenn Sie die letzten paar Werte benötigen, geben Sie mir zwei Pfeile, und ich interpretiere die Zahl als Zählwert:",
-                "\\←← 5 Time(1000ms)\\",
+                "\\←← 5 Zeit(1000ms)\\",
                 "Siehst du, dass es die fünf vorherigen Male sind, anstatt nur eines Mal?",
                 "Ich bin hilfreich, wenn Sie Aufführungen kreieren möchten, die auf der Vergangenheit basieren."
             ],
@@ -1158,7 +1158,7 @@
             "doc": [
                 "$~Ich erstelle einen neuen Stream, der sich automatisch aktualisiert, sobald sich ein anderer Stream ändert. Streams sind einfach genial!",
                 "Wenn du beispielsweise möchtest, dass @Time tickt, aber Wörter statt Zahlen anzeigt, könntest du das so machen:",
-                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "\\time: Zeit(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "Das ist so, als würde man sagen: „Beginne mit dem Wort ‚Start‘ und wechsle dann je nach Uhrzeit zu gerade oder ungerade.“",
                 "Ich bin also auch so etwas wie ein Stream, nur einer, der auf anderen Streams basiert. Krass, oder?"
             ],
@@ -1840,7 +1840,7 @@
                 "$~Ich mache mit JEDEM @element einer Sammlung das GLEICHE! OH OH OH! Genau das ist mein JOB!!",
                 "Stell eine Sammlung links von mir hin, zeichne meinen Pfeil \\↦\\, und schreibe rechts, in was sich jedes Element VERWANDELN soll — benutze @This für das Element, das ich GERADE JETZT halte!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ ergibt \\[2 3 4]\\. BUMM! Jede Zahl plus eins, keine Schleifen, kein @FunctionDefinition, kein Aufwand!",
-                "Ich bin GROSSARTIG, um @Phrase-Ausgaben aus Daten zu machen! Hast du eine Liste von Namen? \\['Ada' 'Mac' 'Tim'] ↦ Satzglied(⬚)\\ und schon gibt es eine Phrase für JEDEN Namen!!",
+                "Ich bin GROSSARTIG, um @Phrase-Ausgaben aus Daten zu machen! Hast du eine Liste von Namen? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ und schon gibt es eine Phrase für JEDEN Namen!!",
                 "Ich arbeite mit @List, @Set, @Map (ich ändere die WERTE der Map — die Schlüssel bleiben genau dort, wo sie sind!) und sogar @Table!",
                 "Willst du etwas Feineres — wie den @index jedes Elements oder eine Funktion, die du an vielen Stellen wiederverwenden kannst? Dann besuche meine ruhigeren, erwachsenen Verwandten wie @List.translate. Aber für schnelles alltägliches Abbilden bin ich hier!!"
             ],

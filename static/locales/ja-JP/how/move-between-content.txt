@@ -13,14 +13,14 @@
 \
 slides: ['1つめ' '2つめ' '3つめ']
 
-key: Key()
+key: キー()
 
 index•#: 1 … ∆ key …
-	(key = '右矢印キー') ? ((index < slides.length()) ? index + 1 index)
+	(key = '右矢印キー') ? ((index < slides.長さ()) ? index + 1 index)
 		(key = '左矢印キー') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+フレーズ(slides[index])
 \
 
  この @Reaction は、この仕組みの中心です。まずは \1\ から始まり、 @Key が変わるたびに、新しい数を決めます。
@@ -38,15 +38,15 @@ Phrase(slides[index])
 
 \
 slides: [
-	Phrase('三つの部分からなる物語' 大きさ: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('猫があらわれる')])
-	Phrase('おわり 🎉')
+	フレーズ('三つの部分からなる物語' 大きさ: 3m)
+	グループ(積み重ね() [フレーズ('🐈') フレーズ('猫があらわれる')])
+	フレーズ('おわり 🎉')
 ]
 
-key: Key()
+key: キー()
 
 index•#: 1 … ∆ key …
-	(key = '右矢印キー') ? ((index < slides.length()) ? index + 1 index)
+	(key = '右矢印キー') ? ((index < slides.長さ()) ? index + 1 index)
 		(key = '左矢印キー') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 次のように渡します： @Scene/pause ので、これは自分では動きません。そして @Scene/step を使って、コマを一方向にひとつ動かします：
 
 \
-key: Key()
-Scene([
-		Phrase('三つの部分からなる物語' 大きさ: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('猫があらわれる')])
-		Phrase('おわり 🎉')
+key: キー()
+シーン([
+		フレーズ('三つの部分からなる物語' 大きさ: 3m)
+		グループ(積み重ね() [フレーズ('🐈') フレーズ('猫があらわれる')])
+		フレーズ('おわり 🎉')
 	] 一時停止 ステップ: ∆ key ? ((key = '左矢印キー') ? -1 (key = '右矢印キー') ? 1 ø) ø)
 \
 

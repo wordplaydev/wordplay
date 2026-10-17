@@ -3,7 +3,7 @@ Muster
 === start
 ¶Schreibe einen Satz mit ein paar Zahlen. Ich finde jede Zahl und zeige sie unten an. Sie wachsen nach und nach ins Bild, sobald ich sie finde. Ein Muster beschreibt die Form eines Textes. Hier bedeutet \⣿ >0 #⣿\ „eine oder mehrere Ziffern“, und ⌕ findet jede Stelle, an der sie vorkommt.¶
 
-eingabe: Plaudern()
+eingabe: Chat()
 text2: 'Ich habe 3 Katzen, 12 Fische und 144 Ameisen' … ∆ eingabe … eingabe
 
 ¶Durchsuche den Text nach jeder Ziffernfolge. Jedes Ergebnis ist ein Result mit seinem gefundenen Text.¶
@@ -14,12 +14,12 @@ Bühne(
 		Gruppe(
 			Stapel()
 			[
-				Satzglied(text2 Größe: 1m)
+				Phrase(text2 Größe: 1m)
 				Gruppe(
 					Stapel()
 					zahlen.übersetzen(
 						ƒ(zahl2•Ergebnis)
-							Satzglied(
+							Phrase(
 								zahl2.Text
 								Größe: 1.5m
 								Eingabe: Pose(Opazität: 0 Skala: 0.5)

@@ -21,18 +21,18 @@ kalimat: [
 ucapkanKalimat: [5 7 9]
 
 ¶Di mana cerita ini berada. @Scene menyimpan posisinya, jadi tidak ada yang perlu dihitung di sini.¶
-di: Spotlight()
+di: Sorotan()
 
 ¶Lanjut ketika mikrofon naik di atas .6 pada kalimat yang diucapkan, dan ketika tombol atau tuts mengatakan begitu pada kalimat lainnya.¶
-lanjut: ucapkanKalimat.memiliki(di.index) ?
+lanjut: ucapkanKalimat.memiliki(di.indeks) ?
 		Volume() > .6
-		∆ Tombol() | ∆ Kunci()
+		∆ Tombol() | ∆ Tuts()
 
 ¶@Scene menunggu /advance/ setelah setiap kalimat, dan berhenti pada kalimat terakhir.¶
 Panggung(
 	[
-		Pemandangan(
-			kalimat.menerjemahkan(
+		Adegan(
+			kalimat.petakan(
 				ƒ(kalimat2) Frasa(kalimat2 membungkus: 10m)
 			)
 			sampai: lanjut

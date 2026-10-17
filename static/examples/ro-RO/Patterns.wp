@@ -9,7 +9,7 @@ text2: 'Am 3 pisici, 12 pești și 144 de furnici' … ∆ intrare … intrare
 ¶Caută în text fiecare șir de cifre. Fiecare rezultat este un Result cu textul găsit.¶
 numere2: text2 ⌕ ⣿ >0 #⣿
 
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă()
@@ -17,7 +17,7 @@ Etapă(
 				Fraza(text2 dimensiune: 1m)
 				Grup(
 					Stivă()
-					numere2.traduce(
+					numere2.transformă(
 						ƒ(număr2•Rezultat)
 							Fraza(
 								număr2.text

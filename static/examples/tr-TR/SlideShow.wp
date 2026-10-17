@@ -60,23 +60,23 @@ slaytlar: [
 		)
 	]
 
-anahtar2: Anahtar()
+anahtar2: Tuş()
 
 ¶Gösterinin olduğu yer. @Scene yeri korur, bu yüzden burada hiçbir şeyin sayılması gerekmez.¶
-içinde: Spotlight()
+içinde: Işık()
 
 ¶Her slayt çizilmiş durumda. Bu, değişen hiçbir şeye bağlı değil. Bu yüzden her tuşa basışta değil, yalnızca bir kez oluşturuluyor. İşte bu yüzden aşağıdaki sayaç burada yok.¶
-görüntülenme: slaytlar.tercümeetmek(
+görüntülenme: slaytlar.dönüştür(
 		ƒ(slayt2•slayt) Grup(
 				Yığın('|' 0.4m)
 				[
-					İfadeetmek(slayt2.emoji boyut: 2m)
-					İfadeetmek(
+					Yazı(slayt2.emoji boyut: 2m)
+					Yazı(
 						`*\slayt2.başlık\*`
 						boyut: 1.2m
 						hizalama: '|'
 					)
-					İfadeetmek(
+					Yazı(
 						slayt2.gövde
 						boyut: 0.5m
 						dürüm: 12m
@@ -95,7 +95,7 @@ Grup(
 			duraklat
 			adım: ∆ anahtar2 ? ((anahtar2 = 'Sol Ok') ? -1 (anahtar2 = 'Sağ Ok') ? 1 ø) ø
 		)
-		İfadeetmek(
+		Yazı(
 			`\içinde.index\ / \içinde.total\`
 			boyut: 0.25m
 			hizalama: '|'

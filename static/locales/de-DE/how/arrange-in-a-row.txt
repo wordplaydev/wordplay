@@ -4,7 +4,7 @@ Manchmal wollen wir, dass Text ordentlich in einer Reihe nebeneinander steht.
 Das können wir mit einer @Row machen, die alles in einer @Group von links nach rechts anordnet.
 
 \
-Group(Row() [
+Gruppe(Reihe() [
     Phrase('🍎')
     Phrase('🍌')
     Phrase('🍇')
@@ -15,7 +15,7 @@ Group(Row() [
 Hier ist dieselbe Frucht, aber unten ausgerichtet und mit etwas Platz dazwischen:
 
 \
-Group(Row('>' 0.5m) [
+Gruppe(Reihe('>' 0.5m) [
     Phrase('🍎' Größe: 2m)
     Phrase('🍌' Größe: 1m)
     Phrase('🍇' Größe: 3m)

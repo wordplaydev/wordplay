@@ -7,7 +7,7 @@ Stell dir zum Beispiel vor, wir wollen den kurzen Kinderreim „Jack be Nimble�
 Wir könnten eine @Scene erstellen, in der jede Zeile eine @Phrase ist. Indem wir die @Phrase/duration jeder Zeile festlegen, würde die @Scene weiterrücken, sobald jeder Satz fertig ist.
 
 \
-Scene([
+Szene([
   Phrase('Jack sei flink' Dauer: 1s)
   Phrase('Jack sei schnell' Dauer: 1s)
   Phrase('Jack spring über den Kerzenstock' Dauer: 1s)
@@ -17,29 +17,29 @@ Scene([
 @Scene wartet auch darauf, dass eine @Sequence fertig ist. Lass uns die Kerzenzeile springen lassen!
 
 \
-Scene([
+Szene([
 		Phrase('Jack sei flink' Dauer: 1s)
 		Phrase('Jack sei schnell' Dauer: 1s)
-		Phrase('Jack spring über den Kerzenstock' Eingabe: Sequence.bounce(Dauer: 1s))
+		Phrase('Jack spring über den Kerzenstock' Eingabe: Abfolge.hüpfen(Dauer: 1s))
 	])
 \
 
 @Scene kann auch eine @Group aus Text annehmen, und sie wartet dann, bis der ganze Inhalt mit der Animation fertig ist.
 
 \
-Scene([
-		Group(Stack() [
+Szene([
+		Gruppe(Stapel() [
       Phrase('Jack sei flink')
 		  Phrase('Jack sei schnell')
     ] Dauer: 2s)
-		Phrase('Jack spring über den Kerzenstock' Eingabe: Sequence.bounce(Dauer: 1s))
+		Phrase('Jack spring über den Kerzenstock' Eingabe: Abfolge.hüpfen(Dauer: 1s))
 	])
 \
 
  Manchmal soll ein Reim weitergehen. @Scene/loop bringt die @Scene wieder zurück zu ihrer ersten @Phrase , sobald die letzte fertig ist, sodass sie sich immer wieder selbst wiederholt.
 
 \
-Scene([
+Szene([
 		Phrase('Jack sei flink' Dauer: 1s)
 		Phrase('Jack sei schnell' Dauer: 1s)
 		Phrase('Jack spring über den Kerzenstock' Dauer: 1s)

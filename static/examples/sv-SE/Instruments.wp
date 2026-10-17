@@ -68,7 +68,7 @@ sångtext: 'la li lu le lo li la'
 Knapparna läggs i ett Grid i stället för en Row. Alla i en enda rad är bredare än en telefon, och en Stage skalar ner sitt innehåll för att få plats, så etiketterna krymper tills de inte går att läsa. Bara kolumnerna anges: lämnar du ut raderna räknar Grid ut hur många som behövs, så att du inte behöver ändra något här när du lägger till ett instrument.
 
 Musiken behåller samma namn hela tiden i stället för att ta instrumentets namn. Namnet på en 🎼 är dess identitet: byter du namn hör spelaren att ett nytt stycke börjar. Då skulle melodin hoppa tillbaka till början vid varje byte, och notbilden skulle rita det gamla instrumentets toner bredvid det nya tills de hade rullat förbi.¶
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Stack(stoppning: 0.6m)
@@ -77,7 +77,7 @@ Etapp(
 				Fras(nuvarande.etikett 1.2m)
 				Grupp(
 					Rutnät(kolumner: 5 stoppning: 0.4m)
-					röster.översätta(ƒ(röst5•röst2) knapp(röst5))
+					röster.omvandla(ƒ(röst5•röst2) knapp(röst5))
 				)
 			]
 		)

@@ -6,12 +6,12 @@ Pokaż czas w innym mieście
 
 Chcesz zobaczyć czas gdzie indziej? Podaj  @Now  strefę czasową. Strefy czasowe nazywają się od regionu i miasta, jak \'America/New_York'\, \'Europe/Paris'\ lub \'Asia/Tokyo'\. Możesz też dodać język po typie tekstowym, jak \''/ja\ dla japońskiego, aby pokazać zegar w języku tego miasta:
 
-\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+\Fraza(Teraz(1s 'Asia/Tokyo') → ''/ja)\
 
 Nie znasz nazwy strefy czasowej? Po prostu wpisz miasto, które znasz — @wordplay ostrzeże cię, że to nie jest strefa czasowa, i zaproponuje najbliższą, więc możesz to poprawić jednym kliknięciem.
 
 Możesz też wybrać kalendarz, jak kalendarz japoński, i nadać zegarowi styl za pomocą czcionki:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' twarz: 'Doto')\
+\Fraza(Teraz(1s 'Asia/Tokyo' 'japanese') → '' twarz: 'Doto')\
 
 count-with-time

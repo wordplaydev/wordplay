@@ -8,7 +8,7 @@ Die Momente sind die Dinge in der Liste, und ein @Boolean zwischen ihnen ist die
 \
 guess: Chat()
 right: guess = 'Katze'
-Scene([
+Szene([
 	Phrase('Errate das Tier!' Dauer: 2s)
 	∆ guess
 	Phrase(right ? 'Ja!' 'Nein!' Dauer: 2s)
@@ -25,14 +25,14 @@ Es sagt dir, welche @Phrase gerade angezeigt wird, wie viele es gibt, wie oft @S
 
 \
 guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
+at: Scheinwerfer()
+Bühne([
+	Szene([
 		Phrase('Errate das Tier!' Dauer: 2s)
 		∆ guess
 		Phrase('Nein!' Dauer: 2s)
 	] Schleife: ⊤)
-	Phrase(at.waiting ? 'eine Vermutung eintippen' `Runde \at.lap + 1\` Größe: 0.4m Ort: Place(0m -2m))
+	Phrase(at.wartend ? 'eine Vermutung eintippen' `Runde \at.lap + 1\` Größe: 0.4m Ort: Ort(0m -2m))
 ])
 \
 

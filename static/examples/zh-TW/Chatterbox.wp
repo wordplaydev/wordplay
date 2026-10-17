@@ -24,7 +24,7 @@ swaps: {
 		'yours': 'mine'
 		'yourself': 'myself'
 	}
-ƒ reflect(words3•'')•'' words3.分段(' ').翻譯(
+ƒ reflect(words3•'')•'' words3.分段(' ').轉換(
 		ƒ(word2•'') swaps{word2} ?? word2
 	).連線(
 		' '
@@ -73,7 +73,7 @@ recent: log2.長度() ≤ 8 ? log2 log2.子序列(log2.長度() - 7)
 	[
 		組合(
 			堆疊('<' 0.5m)
-			recent.翻譯(
+			recent.轉換(
 				ƒ(line•行2)
 					短語(
 						line.speaker + ' ' + line.words2

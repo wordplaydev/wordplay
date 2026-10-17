@@ -5,7 +5,7 @@ Chuông gió
 
 Đây là một nhạc cụ. Nó không phát ra âm thanh. Các con số đã là một bản nhạc; chỉ là chưa được chơi mà thôi. Khối bị ẩn phía trên sân khấu chính là âm thanh, đang chờ @Music xuất hiện.¶
 
-đãNhấn: Chìakhóa()
+đãNhấn: Phím()
 nhịp2: Thờigian(30ms)
 
 ¶Một chiếc chuông mất bao nhiêu độ vang của nó mỗi khung hình.¶
@@ -16,7 +16,7 @@ suyGiảm: 0.03
 
 ¶Gõ chiếc chuông có phím vừa được nhấn, và để mọi chiếc chuông khác lắng xuống.¶
 ƒ vang(hàng2•[chuôngGió] chạm•'' đãGõ•?)
-	hàng2.dịch(
+	hàng2.biếnĐổi(
 		ƒ(chuôngGió2•chuôngGió)
 			(đãGõ & (chạm = chuôngGió2.chìaKhóa2))
 			? chuôngGió2.năngLượng:1
@@ -66,7 +66,7 @@ nhữngChiếcChuôngGió•[chuôngGió]: [
 		ƒ(chuôngGió5•chuôngGió) chuôngGió5.năngLượng = 1
 	)
 bàiHát: ÂmNhạc(
-		BảnNhạc(
+		Bè(
 			đangVang ↦ ⬚.bậc2
 			nhạcCụ: NhạcCụ.chuông
 			vòngLặp: ⊥

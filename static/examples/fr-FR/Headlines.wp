@@ -10,7 +10,7 @@ titres: Pageweb(
 titres•# ?
 	Phrase('chargement')
 	Groupe(
-		Empiler('<')
+		Pile('<')
 		[
 			Phrase(
 				`*Titres du New York Times*`
@@ -18,7 +18,7 @@ titres•# ?
 				affronter: 'Arvo'
 			)
 		].avecListe(
-			titres.sousséquence(1 7).traduire(
+			titres.sousséquence(1 7).transformer(
 				ƒ(titre)
 					Phrase(
 						titre

@@ -6,12 +6,12 @@ Ang isang @Scene ay maaaring ang buong ikot na iyon, at @Scene/loop ang nagpapab
 Ang mga bahaging iyon ang mga bagay sa listahan, at ang isang @Boolean sa pagitan nila ang kung saan naghihintay ang @Scene sa manlalaro.
 
 \
-guess: Chat()
+guess: Makipagchat()
 right: guess = 'pusa'
-Scene([
-	Phrase('Hulaan ang hayop!' tagal: 2s)
+Eksena([
+	Parirala('Hulaan ang hayop!' tagal: 2s)
 	∆ guess
-	Phrase(right ? 'Oo!' 'Hindi!' tagal: 2s)
+	Parirala(right ? 'Oo!' 'Hindi!' tagal: 2s)
 ] loop: ~right)
 \
 
@@ -24,19 +24,19 @@ Para malaman kung nasaan na ang ikot, tanungin ang @Spotlight.
 Sinasabi nito kung aling @Phrase ang ipinapakita, ilan ang mga ito, ilang beses nang bumalik ang @Scene ay bumalik na sa simula, at kung naghihintay ito ng sagot ngayon.
 
 \
-guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
-		Phrase('Hulaan ang hayop!' tagal: 2s)
+guess: Makipagchat()
+at: IlawNaPantutok()
+Entablado([
+	Eksena([
+		Parirala('Hulaan ang hayop!' tagal: 2s)
 		∆ guess
-		Phrase('Hindi!' tagal: 2s)
+		Parirala('Hindi!' tagal: 2s)
 	] loop: ⊤)
-	Phrase(at.waiting ? 'mag-type ng hula' `round \at.lap + 1\` laki: 0.4m lugar: Place(0m -2m))
+	Parirala(at.naghihintay ? 'mag-type ng hula' `round \at.lap + 1\` laki: 0.4m lugar: Lugar(0m -2m))
 ])
 \
 
 @Scene/replay ay isang paraan para simulan ulit ang ikot kahit kailan mo gustuhin, anuman ang huling narating nito.
-Bigyan ito ng isang bagay na totoo lang sa isang sandali, tulad ng \∆ Butones()\.
+Bigyan ito ng isang bagay na totoo lang sa isang sandali, tulad ng \∆ Pindutan()\.
 
 interactive-scene, animated-scene, track-game-state

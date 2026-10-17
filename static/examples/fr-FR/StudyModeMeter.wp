@@ -37,7 +37,7 @@ The Stack places the title, explanation, number display, message, and selectable
 Scène(
 	[
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase("Jauge du mode d'étude" taille: 0.5m)
 

@@ -15,7 +15,7 @@ miau2: Muzică(
 
 •pozițiaPisicii(poziție•#m direcție•#)
 
-cheie2: Cheie()
+cheie2: Tastă()
 viteză2: 1m
 
 loculPisicuței: pozițiaPisicii(5m 1) … ∆ cheie2 …
@@ -74,7 +74,7 @@ minge: Fraza(
 		materie: Materie(1kg 0.5 0 1)
 	)
 
-Etapă(
+Estradă(
 	[
 		Figură(Dreptunghi(-10m 0m 10m -3m))
 		Figură(Dreptunghi(-10m -1m -9m 11m))

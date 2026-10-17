@@ -162,7 +162,7 @@ divisões•[divisão2]: [
 			) mala3
 	)
 
-chave2: Chave()
+chave2: Tecla()
 
 ¶Uma tecla premida, por ordem: num final, qualquer tecla acorda-o de novo na primeira sala; uma tecla que não seja 1, 2 ou 3 não significa nada; um número maior do que o número de portas desta sala também não significa nada; e só depois disso é que é uma porta. Esse terceiro teste é o que vale a pena escrever, porque o acesso à lista dá a volta — sem ele, premir 3 numa sala com duas portas escolheria silenciosamente a primeira.¶
 ƒ passo(t•jornada c2•'')•jornada (
@@ -227,7 +227,7 @@ abaixo:
 				)
 		)
 
-Fase(
+Palco(
 	[
 		Grupo(
 			Monte()

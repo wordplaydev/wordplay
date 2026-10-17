@@ -21,19 +21,19 @@ cümleler: [
 cümleleriKonuş: [5 7 9]
 
 ¶Hikayenin nerede olduğu. @Scene yeri tutar, bu yüzden burada sayı tutmaya gerek kalmaz.¶
-içinde: Spotlight()
+içinde: Işık()
 
 ¶Konuşulan bir cümlede mikrofon .6'nın üstüne çıkınca, diğer her cümlede de bir düğme ya da tuş söylediğinde ilerle.¶
-ilerle: cümleleriKonuş.sahipolmak(içinde.index) ?
-		Hacim() > .6
-		∆ Düğme() | ∆ Anahtar()
+ilerle: cümleleriKonuş.içerir(içinde.dizin) ?
+		SesSeviyesi() > .6
+		∆ Düğme() | ∆ Tuş()
 
 ¶@Scene her cümleden sonra /advance/ komutunu bekler ve son cümlede durur.¶
 Sahne(
 	[
 		Gösteri(
-			cümleler.tercümeetmek(
-				ƒ(cümle) İfadeetmek(cümle dürüm: 10m)
+			cümleler.dönüştür(
+				ƒ(cümle) Yazı(cümle dürüm: 10m)
 			)
 			kadar: ilerle
 		)

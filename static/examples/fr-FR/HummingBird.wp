@@ -43,10 +43,10 @@ choisi: Choix()
 mode•'': 'tap' … (choisi = 'hum') | (choisi = 'tap') … choisi
 
 ¶En mode clic, l'oiseau bat des ailes quand tu cliques ou appuies sur une touche.¶
-battreDesAiles: (mode = 'tap') & (∆ Bouton() | ∆ Clé())
+battreDesAiles: (mode = 'tap') & (∆ Bouton() | ∆ Touche())
 
 ¶En mode fredonnement, l'oiseau flotte à la hauteur de ta note fredonnée : les notes graves près du sol, les notes aiguës près du ciel, et pas plus haut.¶
-hauteurDuSon: Pas()
+hauteurDuSon: Hauteur()
 fredonnement: (mode = 'hum') & (hauteurDuSon > 50hz)
 
 ƒ hauteurDuSonVersHauteur(hz•#hz)
@@ -184,8 +184,8 @@ score•#: 0 …
 ¶Construis une pile d'émojis comme une vraie colonne. La durée de 0s fait revenir la colonne à droite tout de suite, sans qu'on la voie glisser.¶
 ƒ colonne(cellules•# genre3•# x4•#m y2•#m)
 	Groupe(
-		Empiler('|' 0m)
-		(cellules → []).traduire(
+		Pile('|' 0m)
+		(cellules → []).transformer(
 			ƒ(cellule2•#) Phrase(
 					genres[genre3][1 + ((cellule2 - 1) % 5)]
 					1m

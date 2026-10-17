@@ -10,7 +10,7 @@ storlek2: 30
 
 ¶Skapa först en lista med 20 kissekatter, var och en placerad på en slumpmässig plats. När klockan tickar flyttas de alla ner lite grann.¶
 kissekatter•[kissekatt]:
-	antal2 → [].översätta(
+	antal2 → [].omvandla(
 		ƒ(_) kissekatt(
 				Slumpmässig(-storlek2 storlek2)
 				Slumpmässig(-storlek2 storlek2)
@@ -20,15 +20,15 @@ kissekatter•[kissekatt]:
 			)
 	)
 	… ∆ Tid() …
-		kissekatter.översätta(
+		kissekatter.omvandla(
 			ƒ(kisse•kissekatt)
 				(kisse.y2:kisse.y2 < -storlek2 ? storlek2 kisse.y2 - 2)
 				.vinkel2:kisse.vinkel2 + kisse.hastighet2
 		)
 
 ¶Gör om kissekatterna till fraser¶
-Etapp(
-	kissekatter.översätta(
+Estrad(
+	kissekatter.omvandla(
 		ƒ(kisse2•kissekatt)
 			Fras(
 				"🐈"

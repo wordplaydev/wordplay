@@ -3,7 +3,7 @@ Echo
 === start
 ¶Cokolwiek widownia wpisze na pasku czatu, staje się tym napisem.¶
 
-wiadomość: Pogawędzić()
+wiadomość: Czat()
 
 ¶Zacznij od podpowiedzi, a potem powtarzaj każdą nową wiadomość. Tekst zmienia się ze starych słów w nowe, litera po literze.¶
 słowa2: 'powiedz coś!' … ∆ wiadomość … wiadomość
@@ -13,7 +13,7 @@ rozmiar2: 2m … ∆ wiadomość … Losowy(1m 4m)
 przechył: 0° … ∆ wiadomość … Losowy(-30 30) × 1°
 barwa2: 200° … ∆ wiadomość … Losowy(360) × 1°
 
-Wyrażenie(
+Fraza(
 	słowa2
 	rozmiar: rozmiar2
 	spoczynkowy: Poza(

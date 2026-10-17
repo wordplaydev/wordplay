@@ -7,14 +7,14 @@ Bir @Structure doldurulacak boşlukları olan bir tarif gibidir.
 İşte bir renk ve bir etiket alan, kendini nasıl göstereceğini bilen bir balon şablonu:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` renk: color boyut: 2m)
+•Balloon(color•Renk label•'') (
+    ƒ show() Yazı(`🎈\label\` renk: color boyut: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'Gökyüzü').show()
-    Balloon(Color(60% 80 0°) 'Gül').show()
-    Balloon(Color(90% 80 90°) 'Güneşli').show()
+Grup(Sıra() [
+    Balloon(Renk(80% 50 240°) 'Gökyüzü').show()
+    Balloon(Renk(60% 80 0°) 'Gül').show()
+    Balloon(Renk(90% 80 90°) 'Güneşli').show()
 ])
 \
 

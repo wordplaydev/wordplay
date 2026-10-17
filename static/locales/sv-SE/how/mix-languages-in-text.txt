@@ -5,7 +5,7 @@ En @Phrase visar rätt översättning för varje tittare baserat på de språk d
 Ge en @TextLiteral flera översättningar, inklusive en flerspråkig, och @wordplay väljer den som passar bäst för varje tittare:
 
 \
-Phrase("hola"/es"Hej"/en"hej gentleman"/es_en)
+Fras("hola"/es"Hej"/en"hej gentleman"/es_en)
 \
 
  En tittare vars föredragna språk bara är spanska ser / hej / En tittare som föredrar att bara tala engelska ser / Hej / En tittare som föredrar både spanska och engelska ser / hej gentleman / — den spansktalande versionen.
@@ -15,7 +15,7 @@ Ordlek gynnar den mest specifika matchningen, så en enspråkig översättning v
 Spanglish-versionen läses högt helt på spanska, dess första språk. För att få varje ord uppläst på sitt eget språk, märk delarna var för sig och slå ihop dem:
 
 \
-Phrase("hola "/es + "gentleman"/en)
+Fras("hola "/es + "gentleman"/en)
 \
 
 styling-text

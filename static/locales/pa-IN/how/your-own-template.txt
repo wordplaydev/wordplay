@@ -7,14 +7,14 @@
 ਇਹ ਇੱਕ ਗੁਬਾਰੇ ਦਾ ਨਮੂਨਾ ਹੈ ਜੋ ਇੱਕ ਰੰਗ ਅਤੇ ਇੱਕ ਲੇਬਲ ਲੈਂਦਾ ਹੈ, ਅਤੇ ਖੁਦ ਨੂੰ ਦਿਖਾਉਣਾ ਜਾਣਦਾ ਹੈ:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` ਰੰਗ: color ਆਕਾਰ: 2m)
+•Balloon(color•ਰੰਗ label•'') (
+    ƒ show() ਵਾਕੰਸ਼(`🎈\label\` ਰੰਗ: color ਆਕਾਰ: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'ਅਸਮਾਨ').show()
-    Balloon(Color(60% 80 0°) 'ਗੁਲਾਬ').show()
-    Balloon(Color(90% 80 90°) 'ਧੁੱਪ ਵਾਲਾ').show()
+ਸਮੂਹ(ਕਤਾਰ() [
+    Balloon(ਰੰਗ(80% 50 240°) 'ਅਸਮਾਨ').show()
+    Balloon(ਰੰਗ(60% 80 0°) 'ਗੁਲਾਬ').show()
+    Balloon(ਰੰਗ(90% 80 90°) 'ਧੁੱਪ ਵਾਲਾ').show()
 ])
 \
 

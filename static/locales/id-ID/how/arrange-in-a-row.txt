@@ -4,10 +4,10 @@ Terkadang kita ingin teks berjejer rapi dalam satu baris.
 Kita bisa melakukannya dengan @Row, yang menyusun semuanya dalam sebuah @Group dari kiri ke kanan.
 
 \
-Group(Row() [
-    Phrase('🍎')
-    Phrase('🍌')
-    Phrase('🍇')
+Kelompok(Baris() [
+    Frasa('🍎')
+    Frasa('🍌')
+    Frasa('🍇')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Row() [
 Ini buah yang sama, tetapi disejajarkan di bawah dengan sedikit ruang lega:
 
 \
-Group(Row('>' 0.5m) [
-    Phrase('🍎' ukuran: 2m)
-    Phrase('🍌' ukuran: 1m)
-    Phrase('🍇' ukuran: 3m)
+Kelompok(Baris('>' 0.5m) [
+    Frasa('🍎' ukuran: 2m)
+    Frasa('🍌' ukuran: 1m)
+    Frasa('🍇' ukuran: 3m)
 ])
 \
 

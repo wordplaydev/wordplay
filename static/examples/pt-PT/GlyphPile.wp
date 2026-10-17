@@ -83,7 +83,7 @@ bolas: 18 → [].traduzir(
 			)
 	)
 
-Fase(
+Palco(
 	[
 		¶Um chão, e duas paredes encostadas aos lados do balde.¶
 		Figura(Retângulo(-10m -11m 10m -12m))

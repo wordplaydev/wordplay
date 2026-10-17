@@ -5,7 +5,7 @@ Mână
 
 mână: Mână()
 
-Etapă(
+Estradă(
 	[
 		Fraza(
 			(mână.degete = 0 ? '✊'

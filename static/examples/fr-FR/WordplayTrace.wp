@@ -21,7 +21,7 @@ traînée: compte2 ÷ 2
 tête: 0 … ∆ Temps(10ms) … ((tête + 1) % compte2) ?? 0
 
 Scène(
-	points2.traduire(
+	points2.transformer(
 		ƒ(point2•Lieu indice2•#)
 			(
 				¶Combien de points ce point se trouve derrière la tête, en revenant au début si besoin.¶

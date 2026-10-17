@@ -27,7 +27,7 @@
             },
             "matter": {
                 "doc": "$~Seberapa berat, seberapa memantul, dan seberapa licin aku, dan apa yang membuatku padat ketika sebuah @Motion menggerakkanku.",
-                "names": "$~urusan"
+                "names": ["$~materi", "$~urusan"]
             },
             "size": {
                 "doc": "$~Betapa tingginya isi yang luar biasa di dalam diriku seharusnya, kecuali jika mereka memiliki ukuran sendiri!",
@@ -117,7 +117,7 @@
             "doc": [
                 "$~Aku mewakili @Text terindah di @Stage . Halo, halo! Ingat aku? Bagaimana mungkin ada yang melupakan /aku/.",
                 "Buat saja aku seperti ini, dan aku akan muncul di @Stage :",
-                "\\Phrase('magnificent!')\\",
+                "\\Frasa('magnificent!')\\",
                 "Saya membutuhkan @TextLiteral atau @FormattedLiteral untuk ditampilkan. Dengan @FormattedLiteral , saya dapat menggunakan hal-hal seperti \\`*bold* and /italic/`\\ atau merujuk ke @ConceptLink kustom yang Anda buat.",
                 "Anda juga dapat secara opsional memberi saya semua yang dapat dilakukan oleh @Output , termasuk mengubah ukuran, font, rotasi, dan melakukan semua tarian luar biasa saya dengan @Pose dan @Sequence .",
                 "Anda juga dapat memilih saya di @Stage dan mengedit saya dengan palet 🎨 di sebelahnya — ini adalah cara yang bagus untuk mencoba berbagai font dan memilih /menghadapi/ yang tepat untuk @Text Anda."
@@ -153,7 +153,7 @@
             },
             "matter": {
                 "doc": "$~Seberapa berat, seberapa memantul, dan seberapa licin aku, dan apa yang membuatku padat ketika sebuah @Motion menggerakkanku.",
-                "names": "$~urusan"
+                "names": ["$~materi", "$~urusan"]
             },
             "aura": {
                 "doc": "$~Opsi @Aura untuk ditampilkan di belakangku. Buat aku bersinar!",
@@ -295,7 +295,7 @@
         },
         "Grid": {
             "doc": "$~Aku adalah kisi dari @Output. Berikan aku jumlah baris dan @column, maka aku akan membuat susunan yang rapi dengan jarak antar bagian yang bisa diatur dan ukuran @cell. Aku menentukan kedua arah, jadi @Place tidak akan memindahkan apa pun ke samping atau ke atas dan bawah — meskipun z-nya tetap menyatakan seberapa dekat itu.",
-            "names": ["$~Jaringan"],
+            "names": ["$~Kisi", "$~Jaringan"],
             "description": "$~$rows baris $columns kolom kisi",
             "rows": {
                 "doc": "$~Berapa banyak baris yang harus dibuat dalam grid.",
@@ -572,7 +572,7 @@
             "names": ["$~Warna"],
             "lightness": {
                 "doc": "$~Seberapa terang aku seharusnya, dari \\0\\ sampai \\1\\, dari hitam pada \\0\\, ke abu-abu pada \\0.5\\, ke putih pada \\1\\.",
-                "names": ["$~keringanan"]
+                "names": ["$~kecerahan", "$~keringanan"]
             },
             "chroma": {
                 "doc": "$~Seberapa banyak warna yang seharusnya aku punya, dari \\0\\ sampai \\∞\\. Tanpa warna berarti abu-abu, angka lebih tinggi berarti lebih banyak warna.",
@@ -638,11 +638,11 @@
                 "doc": [
                     "$~Berikan warna secara acak.",
                     "Karena tidak ada warna lain, saya memilih salah satu warna dasar secara acak:",
-                    "\\Color.random()\\",
+                    "\\Warna.acak()\\",
                     "Dengan satu warna, saya mempertahankan kecerahan dan kroma-nya tetapi memilih corak secara acak:",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Warna.acak(Warna.biru)\\",
                     "Dengan dua warna, saya memilih tingkat kecerahan, kroma, dan corak secara acak di antara keduanya:",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Warna.acak(Warna.hitam Warna.putih)\\"
                 ],
                 "names": "$~acak",
                 "inputs": [
@@ -659,10 +659,10 @@
             "lighter": {
                 "doc": [
                     "$~Berikan versi diriku yang lebih ringan, dengan meningkatkan keringananku sebesar satu persen (5% secara default).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Warna.biru.lebihTerang()\\",
+                    "\\Warna.biru.lebihTerang(20%)\\"
                 ],
-                "names": "$~lebihringan",
+                "names": ["$~lebihTerang", "$~lebihringan"],
                 "inputs": [
                     {
                         "doc": "$~Besarnya peningkatan kecerahan, dalam persentase. @value default adalah 5%.",
@@ -673,8 +673,8 @@
             "darker": {
                 "doc": [
                     "$~Berikan versi diriku yang lebih gelap, dengan menurunkan tingkat kecerahanku sebesar satu persen (5% secara default).",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Warna.biru.lebihgelap()\\",
+                    "\\Warna.biru.lebihgelap(20%)\\"
                 ],
                 "names": "$~lebihgelap",
                 "inputs": [
@@ -1143,7 +1143,7 @@
         },
         "Matter": {
             "doc": "$~Aku menyatakan seberapa berat, seberapa memantul, dan seberapa licin @Output. @Output yang memiliki aku dan sebuah @Motion bersifat padat: ia memantul dari @Shape di @Stage dan dari @Output lain yang bergerak. @Output yang ditempatkan programmu pergi ke tempat kamu meletakkannya, dan menembus apa yang disentuhnya. @Output tidak perlu aku untuk disadari oleh @Collision — sebuah nama saja sudah cukup untuk itu.",
-            "names": ["$~Urusan"],
+            "names": ["$~Materi", "$~Urusan"],
             "mass": {
                 "doc": "$~Berat, dalam kilogram",
                 "names": "$~massa"
@@ -1651,7 +1651,7 @@
                 "Ini sulit ditemukan, jadi baris simbol di bawah @editor menawarkannya setiap kali kursormu berada tepat setelah salah satu angka milikku.",
                 "Sebuah jeda tidak bisa membawa nilai, karena \\ø\\ bukan sebuah angka. Dua jeda berturut-turut dua kali lebih panjang, dan untuk sesuatu yang lebih halus ada @Note.",
                 "Ketika satu nada butuh volume sendiri, atau panjang yang tidak bisa dieja oleh nilai apa pun, bungkus yang satu itu dalam sebuah @Note. Gunakan hanya di tempat yang kamu butuhkan: angka telanjang lebih mudah dibaca, jadi kebanyakan trek tidak punya sama sekali, dan kelangkaan itulah yang membuat sebuah @Note menonjol sebagai sebuah peristiwa.",
-                "\\sel: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tsel\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n•#) n + 2))\n\t\t.denganDaftar(sel.terbalik())\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n2•#) 8 - n2))\n\t\talatMusik: 🔈.🎹\n\t)\n)\\",
+                "\\sel: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tsel\n\t\t.denganDaftar(sel.petakan(ƒ(n•#) n + 2))\n\t\t.denganDaftar(sel.terbalik())\n\t\t.denganDaftar(sel.petakan(ƒ(n2•#) 8 - n2))\n\t\talatMusik: 🔈.🎹\n\t)\n)\\",
                 "Mengisi dengan jeda adalah semua yang dibutuhkan sebuah putaran: kedua bagian menahan jumlah ketukan yang sama, jadi mereka tetap seirama alih-alih terpisah. Menyebarkan dua daftar menjadi satu dengan : adalah cara mereka dibangun, karena \\append\\ butuh kedua daftar untuk menahan jenis hal yang sama.",
                 "\\nada: [1 2 3 1 1 2 3 1 3 4 5 ø]\nistirahat: [ø ø ø ø]\n🎼([\n\t\t🎶([:nada :istirahat] alatMusik: 🔈.🪈)\n\t\t🎶([:istirahat :nada] alatMusik: 🔈.🎻)\n\t])\\"
             ],

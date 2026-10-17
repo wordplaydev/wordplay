@@ -39,7 +39,7 @@ kịchBản: [
 	]
 
 ¶Nhấn một phím, bấm chuột, hoặc chạm để đi tiếp, và dừng lại ở dòng cuối cùng.¶
-lượt•#: 1 … ∆ Chìakhóa() | ∆ Cáinút() … (lượt < kịchBản.chiềudài(
+lượt•#: 1 … ∆ Phím() | ∆ Cáinút() … (lượt < kịchBản.chiềudài(
 				) ? lượt + 1 lượt)
 
 dòng2: kịchBản[lượt]
@@ -58,7 +58,7 @@ dòng2: kịchBản[lượt]
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp('|' 1.5m)
+			XếpDọc('|' 1.5m)
 			[
 				Nhóm(
 					Hàngngang('_' 6m)

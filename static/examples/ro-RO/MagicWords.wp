@@ -39,7 +39,7 @@ stareDeSpirit: spus(vesel) ? "😄"
 			spus(somnoros) ? "😴"
 				"😐"
 
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă('|' 1m)
@@ -50,7 +50,7 @@ Etapă(
 					odihnă: spus(rotire2) ? Secvenţă.rotire() ø
 				)
 				Fraza(
-					auzit = '' ? 'spune: ' + vrăji.alăturăte(', ') auzit
+					auzit = '' ? 'spune: ' + vrăji.unește(', ') auzit
 					0.75m
 				)
 			]

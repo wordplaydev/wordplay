@@ -3,7 +3,7 @@ Bituin ng Basketbol
 === start
 ¶Itutok ang iyong pointer at mag-click para magshoot ng bola sa hoops.¶
 
-click: ∆ Butones()
+click: ∆ Pindutan()
 
 bilangNgClick: 0 … click … 1 + ⬚
 
@@ -12,7 +12,7 @@ shotX: 0m … (click & ((bilangNgClick % 2) = 1)) … Panturo().x
 
 lugarNgBasketbol: (bilangNgClick % 2) = 0 ? Lugar(
 			x: Panturo().x
-			taon: 8m
+			y: 8m
 			z: 0m
 		) Paggalaw(lugar: Lugar(shotX 8m 0m))
 
@@ -29,7 +29,7 @@ lugarNgBasketX: (Oras() ÷ 600ms).kasalanan() · 6m
 
 ¶Basahin ang kasalukuyang posisyon ng bola nang isang beses para sa pagsusuri ng iskor¶
 bolaX: (basketbol.lugar ?? Lugar()).x
-bolaY: (basketbol.lugar ?? Lugar()).taon
+bolaY: (basketbol.lugar ?? Lugar()).y
 
 pagtatangka: (bilangNgClick ÷ 2).roundUp()
 
@@ -91,6 +91,6 @@ Entablado(
 		Hugis(Parihaba(-10m 0.01m 10m -2m))
 		bituinNgBasketbol
 	]
-	lugar: Lugar(x: 0m taon: 5m z: -10m)
+	lugar: Lugar(x: 0m y: 5m z: -10m)
 	grabidad: 5m/s^2
 )

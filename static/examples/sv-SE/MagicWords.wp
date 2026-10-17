@@ -39,7 +39,7 @@ humör: sa(glad) ? "😄"
 			sa(sömnig) ? "😴"
 				"😐"
 
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Stack('|' 1m)
@@ -50,7 +50,7 @@ Etapp(
 					vilande: sa(snurra2) ? Sekvens.snurra() ø
 				)
 				Fras(
-					hörde = '' ? 'säg: ' + trollformler.anslutasigtill(
+					hörde = '' ? 'säg: ' + trollformler.sammanfoga(
 								', '
 							) hörde
 					0.75m

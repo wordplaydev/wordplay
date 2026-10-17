@@ -782,7 +782,7 @@
                 "$~Sunt o intrare dată unei @Evaluate. Numele meu corespunde numelui intrării din @FunctionDefinition sau @StructureDefinition care este evaluată.",
                 "Sunt de ajutor cu funcțiile care au multe valori implicite, unde vrei doar să suprascrii o anumită intrare, fără a oferi tot restul.",
                 "De exemplu, @Phrase are foarte multe valori implicite pentru a-i controla stilul. Să presupunem că vrei să dai niște @Text și o @Color, dar nimic altceva în lista de input. Mă poți folosi pentru asta:",
-                "\\Phrase('Sunt mov!' culoare: Color(50% 52 300°))\\"
+                "\\Fraza('Sunt mov!' culoare: Culoare(50% 52 300°))\\"
             ],
             "start": "$~Hai să-mi evaluăm valoarea."
         },
@@ -868,7 +868,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Îți spun dacă evaluarea curentă a lui @Program este prima, care evaluează ca un @Boolean. De exemplu:",
-                "\\◆ ? Time() 'salut'\\",
+                "\\◆ ? Timp() 'salut'\\",
                 "Nu ai văzut, dar prima evaluare a fost un moment, dar apoi toate momentele viitoare ticăie, eu eram \\⊥\\, așa că @Conditional a făcut \\⊤\\.",
                 "Sunt de mare ajutor dacă lucrezi cu un @stream și vrei să faci ceva doar de prima dată -- sau niciodată de prima dată!"
             ]
@@ -1045,10 +1045,10 @@
                 "$~Mă uit înapoi la istoria unui pârâu și vă spun una dintre valorile sale din trecut. Ți-ai dorit vreodată să-ți amintești de trecut?",
                 "Eu sunt arhivistul oficial al Verse-ului!",
                 "De exemplu, iată cum era @Time acum cinci secunde:",
-                "\\← 5 Time(1000ms)\\",
+                "\\← 5 Timp(1000ms)\\",
                 "Vezi cum e @None timp de 5 secunde, apoi dintr-o dată o dată anterioară?",
                 "Dacă vrei ultimele câteva valori, dă-mi două săgeți și voi interpreta numărul ca un numărător:",
-                "\\←← 5 Time(1000ms)\\",
+                "\\←← 5 Timp(1000ms)\\",
                 "Vezi cum e de cinci ori, în loc de o singură dată?",
                 "Sunt de ajutor atunci când vrei să creezi spectacole care depind de trecut."
             ],
@@ -1175,7 +1175,7 @@
             "doc": [
                 "$~Creez un stream nou care se actualizează de fiecare dată când se schimbă un alt stream. Streamurile sunt atât de grozave!",
                 "De exemplu, dacă ai vrea ca @Time să bifeze, dar să afișeze cuvinte în loc de numere, ai putea face ceva de genul:",
-                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "\\time: Timp(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "E ca și cum ai spune „/încep cu cuvântul «start» și apoi, dacă ora se schimbă, schimbă în pară sau impară, în funcție de oră./”",
                 "Deci sunt și eu ca un stream, dar unul bazat pe alte stream-uri. Nenorocit, nu-i așa?"
             ],

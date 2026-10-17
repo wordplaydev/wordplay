@@ -5,7 +5,7 @@ Rosto
 
 rosto2: Cara()
 
-Fase(
+Palco(
 	[
 		Frase(
 			(rosto2.bocaAberta ? '😮'

@@ -7,7 +7,7 @@ Das können wir mit dem @Pointer -Eingabe machen.
 Wenn wir diesen @Place als @Phrase von einer \place\ verwenden, geht die Figur immer dorthin, wo wir hinzeigen.
 
 \
-Stage([Phrase('🐈' Ort: Pointer())] Ort: Place(0m 0m -10m))
+Bühne([Phrase('🐈' Ort: Zeiger())] Ort: Ort(0m 0m -10m))
 \
 
  Das war's! Bewegen Sie Ihre Maus oder ziehen Sie Ihren Finger, und die Katze folgt Ihnen.
@@ -16,7 +16,7 @@ Du kannst noch interessantere Dinge tun, indem du \x\ und \y\ aus der @Place kom
 Hier ist eine Ente, die immer einen Meter über dem Zeiger schwebt:
 
 \
-Stage([Phrase('🦆' Ort: Place(Pointer().x Pointer().y + 1m))] Ort: Place(0m 0m -10m))
+Bühne([Phrase('🦆' Ort: Ort(Zeiger().X Zeiger().Y + 1m))] Ort: Ort(0m 0m -10m))
 \
 
 move-phrase, count-with-time

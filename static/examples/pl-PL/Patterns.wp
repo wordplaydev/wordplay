@@ -3,7 +3,7 @@ Wzory
 === start
 ¶Wpisz zdanie z kilkoma liczbami. Znajdę każdą liczbę i pokażę je poniżej, a każda będzie się pojawiać stopniowo, gdy ją znajdę. Wzorzec opisuje kształt tekstu — tutaj \⣿ >0 #⣿\ oznacza „jedną lub więcej cyfr”, a ⌕ znajduje każde miejsce, w którym ten wzorzec występuje.¶
 
-wejście: Pogawędzić()
+wejście: Czat()
 tekst2: 'Mam 3 koty, 12 ryb i 144 mrówki' … ∆ wejście … wejście
 
 ¶Przeszukaj tekst i znajdź każdy ciąg cyfr. Każdy wynik to Result z dopasowanym tekstem.¶
@@ -14,12 +14,12 @@ Scena(
 		Grupa(
 			Stos()
 			[
-				Wyrażenie(tekst2 rozmiar: 1m)
+				Fraza(tekst2 rozmiar: 1m)
 				Grupa(
 					Stos()
-					liczby.tłumaczyć(
+					liczby.przekształć(
 						ƒ(liczba2•Wynik)
-							Wyrażenie(
+							Fraza(
 								liczba2.tekst
 								rozmiar: 1.5m
 								wstępowanie: Poza(

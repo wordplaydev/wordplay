@@ -24,7 +24,7 @@ t
 
 ¶கடைசியாக அழுத்திய விசை என்ன?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-முக்கிய2,clé/fr: முக்கிய()
+முக்கிய2,clé/fr: விசை()
 
 ¶ஒவ்வொரு முறை விசை அழுத்தும்போதும் இப்போதைய மறைவெண் அதிகரிக்கும், ஆனால் 10 இல் நிற்கும்¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
@@ -59,7 +59,7 @@ Après les 9 secrets, affichez le résultat final.¶/fr
 மேடை(
 	[
 		குழு(
-			அடுக்கிவைக்கவும்()
+			அடுக்கு()
 			[
 				விளையாட்டுமுடிந்தது ?
 					சொற்றொடர்(

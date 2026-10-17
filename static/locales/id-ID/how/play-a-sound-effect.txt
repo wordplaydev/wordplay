@@ -4,10 +4,10 @@ Bunyi "ding" saat jawaban benar, bunyi "buk" saat sesuatu jatuh — efek suara a
 
 Dua hal membuatnya menjadi efek suara, bukan lagu. \pengulangan: ⊥\ memberi tahu  @Track  untuk memainkan nadanya sekali saja, bukan selamanya. Dan daftar nadanya sendiri berasal dari momen itu: daftar berisi nada saat sesuatu baru saja terjadi, dan kosong di waktu lainnya.
 
-\tapped: ∆ Button()
-Stage([
-		Phrase('👆 sentuh aku' dapatdipilih nama: 'sentuh')
-		Music(Track(tapped ? [1 5 8] [] alatMusik: Instrument.bell perulangan: ⊥) putarUlang: tapped)
+\tapped: ∆ Tombol()
+Panggung([
+		Frasa('👆 sentuh aku' dapatdipilih nama: 'sentuh')
+		Musik(Trek(tapped ? [1 5 8] [] alatMusik: AlatMusik.lonceng perulangan: ⊥) putarUlang: tapped)
 	])\
 
 Jangan khawatir jika daftar kembali kosong pada evaluasi berikutnya — nada yang sudah mulai selalu berbunyi sampai selesai. Yang tidak boleh kamu hilangkan adalah \replay\. Sentuh dua kali, dan sentuhan kedua menghasilkan musik yang persis sama dengan yang pertama, jadi tidak ada yang berubah dan tidak ada yang berbunyi lagi; \replay\ adalah cara kamu mengatakan /lagi, sekarang/. 
@@ -16,11 +16,11 @@ Jangan khawatir jika daftar kembali kosong pada evaluasi berikutnya — nada yan
 
 Karena nada hanya sebuah daftar, kamu bisa menentukannya dari *apa* yang terjadi, bukan selalu memainkan hal yang sama:
 
-\key: Key()
+\key: Tuts()
 struck: ∆ key
-Stage([
-		Phrase(struck ? key '⌨ tekan sebuah tombol' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] alatMusik: Instrument.piano perulangan: ⊥) putarUlang: struck)
+Panggung([
+		Frasa(struck ? key '⌨ tekan sebuah tombol' 1m)
+		Musik(Trek(struck ? [((key = ' ') ? 1 8)] [] alatMusik: AlatMusik.piano perulangan: ⊥) putarUlang: struck)
 	])\
 
 Perhatikan bahwa \∆ key\ dikerjakan di barisnya sendiri, dan pengujian value \key = ' '\ terjadi secara terpisah. Jika ditulis bersama sebagai satu condition, suara akan berbunyi lagi pada tombol berikutnya yang tidak berkaitan, selagi \key\ tetap dibaca sebagai spasi.

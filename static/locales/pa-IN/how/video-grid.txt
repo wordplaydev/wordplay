@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: ਕੈਮਰਾ(width × 1px height × 1px 33ms)
+ਸਟੇਜ([ਤਸਵੀਰ(colors "what the camera sees" 12m)])
 \
 
  ਹਰ @Image ਨੂੰ ਇੱਕ ਵਰਣਨ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ, ਕਿਉਂਕਿ ਰੰਗਾਂ ਦੀ ਗਰਿੱਡ ਦੇ ਆਪਣੇ ਕੋਈ ਸ਼ਬਦ ਨਹੀਂ ਹੁੰਦੇ ਉਸ ਵਿਅਕਤੀ ਲਈ ਜੋ ਦੇਖ ਨਹੀਂ ਸਕਦਾ।
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m ਅੱਖਰਚਿੰਨ੍ਹ: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: ਕੈਮਰਾ(width × 1px height × 1px 33ms)
+ਸਟੇਜ([ਤਸਵੀਰ(colors "the camera, drawn with dark and light circles" 12m ਅੱਖਰਚਿੰਨ੍ਹ: ƒ(color•ਰੰਗ) (color.ਹਲਕਾਪਨ < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

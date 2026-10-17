@@ -15,8 +15,8 @@ penjagaJangkauan: 4.5m
 penjagaKecepatan: 0.55m
 
 detak2: Waktu(50ms)
-tekan: Kunci(turun)
-lepas: Kunci(turun: ⊥)
+tekan: Tuts(turun)
+lepas: Tuts(turun: ⊥)
 
 ¶Ke arah mana sarung tangan bergerak. Menekan sebuah tombol panah membuatnya bergerak, dan melepas tombol panah yang sama menghentikannya, jadi sarung tangan bergeser selama kamu menahan tombol itu. Melintasi mulut gawang yang selebar ini, satu langkah setiap tekanan tidak akan pernah sampai tepat waktu.¶
 hanyut•#: 0 … ∆ tekan | ∆ lepas …
@@ -28,7 +28,7 @@ hanyut•#: 0 … ∆ tekan | ∆ lepas …
 
 ¶Sarung tangan tidak digerakkan oleh fisika, jadi ia bisa dikendalikan secara langsung. Ia berhenti di ujung-ujung jangkauannya, jadi ia tidak akan pernah keluar dari gawang.¶
 penjagaY•#m: 0m … ∆ detak2 …
-		(penjagaY + (hanyut × penjagaKecepatan)).limit((penjagaJangkauan · -1) penjagaJangkauan)
+		(penjagaY + (hanyut × penjagaKecepatan)).batas((penjagaJangkauan · -1) penjagaJangkauan)
 
 ¶Sebuah penyelamatan dan sebuah gol. Setiap @Collision melaporkan awal sentuhan dan akhir sentuhan, jadi keduanya dipasangkan dengan sebuah pemeriksaan bahwa ini adalah sebuah awal: tanpa itu, setiap penyelamatan dan setiap gol akan terhitung dua kali.¶
 sarungTanganKena: Tabrakan('bola' 'penjaga')
@@ -157,7 +157,7 @@ bola: Frasa(
 		0.6m
 		nama: 'bola'
 		tempat: tempatBola
-		urusan: Urusan(0.45kg 0.7 0.02)
+		materi: Materi(0.45kg 0.7 0.02)
 	)
 
 ¶Sarung tangan diawasi lewat nama di atas, dan itu saja sudah cukup untuk membuatnya ada di dunia fisik, jadi ia tidak perlu @Matter. Ia ditempatkan oleh program, bukan oleh fisika, jadi ia melewati bola begitu saja tanpa memukulnya; penyelamatan di atas adalah yang mengirim bola kembali. Gerakannya tidak dihaluskan, jadi ia berada persis di tempat kamu arahkan, bukan bergerak perlahan mengikutimu.¶

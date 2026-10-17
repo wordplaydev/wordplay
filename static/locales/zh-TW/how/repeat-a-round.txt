@@ -6,12 +6,12 @@
 這些時刻就是清單裡的元素，而它們之間的 @Boolean 就是 @Scene 等待玩家的地方。
 
 \
-guess: Chat()
+guess: 聊天()
 right: guess = '貓咪'
-Scene([
-	Phrase('猜猜這是什麼動物！' 持續時間: 2s)
+場景([
+	短語('猜猜這是什麼動物！' 持續時間: 2s)
 	∆ guess
-	Phrase(right ? '對了！' '不對！' 持續時間: 2s)
+	短語(right ? '對了！' '不對！' 持續時間: 2s)
 ] 迴圈: ~right)
 \
 
@@ -24,15 +24,15 @@ Scene([
 它會告訴你現在顯示哪一個 @Phrase 、總共有幾個、 @Scene 已經重複了幾次，還有現在是不是正在等待某人。
 
 \
-guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
-		Phrase('猜猜這是什麼動物！' 持續時間: 2s)
+guess: 聊天()
+at: 聚光燈()
+舞台([
+	場景([
+		短語('猜猜這是什麼動物！' 持續時間: 2s)
 		∆ guess
-		Phrase('不對！' 持續時間: 2s)
+		短語('不對！' 持續時間: 2s)
 	] 迴圈: ⊤)
-	Phrase(at.waiting ? '輸入一個猜測' `回合 \at.lap + 1\` 尺寸: 0.4m 位置: Place(0m -2m))
+	短語(at.等待中 ? '輸入一個猜測' `回合 \at.lap + 1\` 尺寸: 0.4m 位置: 位置(0m -2m))
 ])
 \
 

@@ -8,8 +8,8 @@ Bir @Image , renklerden oluşan bir ızgarayı alır ve onu tek bir resim olarak
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Kamera(width × 1px height × 1px 33ms)
+Sahne([Görsel(colors "what the camera sees" 12m)])
 \
 
  Her @Image , bir açıklamaya ihtiyaç duyar. Çünkü bir renk ızgarasının, onu göremeyen biri için kendi başına hiçbir sözü yoktur.
@@ -19,8 +19,8 @@ Resmi karelerle değil harflerle çizmek için ona bir /harf/ verebiliriz. Bu, b
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m harf: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Kamera(width × 1px height × 1px 33ms)
+Sahne([Görsel(colors "the camera, drawn with dark and light circles" 12m harf: ƒ(color•Renk) (color.açıklık < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

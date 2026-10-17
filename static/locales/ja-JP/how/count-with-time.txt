@@ -7,18 +7,18 @@
 ここでは \0\ から始めて、 @Time を見張り、時計が時を刻むたびに1を足します。
 
 \
-count: 0 … ∆ Time(1000ms) … count + 1
-Phrase(count → '')
+count: 0 … ∆ 時間(1000ms) … count + 1
+フレーズ(count → '')
 \
 
- 毎秒、 @Time が発生し、 @Reaction が \∆ Time(1000ms)\ で気づき、 \count\ が \count + 1\ になります。
+ 毎秒、 @Time が発生し、 @Reaction が \∆ 時間(1000ms)\ で気づき、 \count\ が \count + 1\ になります。
 この \→ ''\ の最後にある変換で、数を文章に変えるので @Phrase がそれを表示できます。
 
 時間だけでなく、任意の入力を使用できます。このカウンターは、Button() が押された回数をカウントします。
 
 \
-count: 0 … ∆ Button() … count + 1
-Phrase(count → '')
+count: 0 … ∆ ボタン() … count + 1
+フレーズ(count → '')
 \
 
  毎回 @Button ストリームはクリックまたはタップで変更され、カウントが1つ増加します。

@@ -73,7 +73,7 @@ Mazes are generated randomly.¶/en
 				フレーズ(
 					現在
 					静止: 勝った ?
-						つなぎ.くるくる(長さ: 1s スタイル: 'straight')
+						シーケンス.くるくる(長さ: 1s スタイル: 'straight')
 						ポーズ()
 				)
 				フレーズ(

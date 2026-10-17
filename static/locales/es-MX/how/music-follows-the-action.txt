@@ -4,22 +4,22 @@ Un juego que toca una sola melodía de principio a fin se siente plano. ¿Y si l
 
 No hay forma de *detener* un  @Music  — lo que lo detiene es que ya no esté en el  @Stage . Así que guarda un poco de state y pon en el escenario la canción que le corresponde:
 
-\phase: 'menú' … ∆ Button() … (phase = 'menú') ? 'persecución' 'menú'
+\phase: 'menú' … ∆ Botón() … (phase = 'menú') ? 'persecución' 'menú'
 theme: [1 ø 3 ø 5 ø 6 ø]
-Stage([
-		Phrase((phase = 'menú') ? '▶ presiona para empezar' '🏃 ¡corre!' 1m)
-		(phase = 'menú') ? Music(Track(theme instrumento: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrumento: Instrument.synth) tempo: 132beats/min)
+Escenario([
+		Frase((phase = 'menú') ? '▶ presiona para empezar' '🏃 ¡corre!' 1m)
+		(phase = 'menú') ? Música(Pista(theme instrumento: Instrumento.campana) tempo: 72beats/min) Música(Pista(theme instrumento: Instrumento.sintetizador) tempo: 132beats/min)
 	])\
 
 Las dos canciones son los mismos ocho números. Solo cambian el instrumento y el tempo, y ya suena como una pieza distinta — porque los grados dicen *qué paso de la escala*, no qué tono, así que un  @Music  puede reinterpretarlos. Dale \escala: 🎼.menorArmónica\ y la misma melodía se vuelve siniestra sin reescribir una sola nota.
 
 La otra mitad es música que se dobla sin parar según cómo van las cosas. Cambiar \tempo\ no reinicia nada — se une en el siguiente tiempo, así que la pieza acelera sin perder su lugar:
 
-\score: 0 … ∆ Button() … score + 1
-urgency: (score ÷ 10).min(1)
-Stage([
-		Phrase('partitura \score\' 1m)
-		Music(Track([1 5 8 5] instrumento: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+\score: 0 … ∆ Botón() … score + 1
+urgency: (score ÷ 10).mínimo(1)
+Escenario([
+		Frase('partitura \score\' 1m)
+		Música(Pista([1 5 8 5] instrumento: Instrumento.batería) tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Presiona suficientes veces y los tambores golpean el doble de fuerte que al principio. Una nota corta y percusiva es lo que lo hace audible — bajo notas largas y sostenidas es difícil sentir un cambio de tempo.

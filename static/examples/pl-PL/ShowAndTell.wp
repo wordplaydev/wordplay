@@ -96,7 +96,7 @@ wygranoO•#ms: 0ms
 ¶Konfetti, utworzone raz w chwili wygranej i potem już nie przebudowywane. @Objects wciąż wykrywa obiekty, więc każdy odczyt ponownie oblicza program. Zamrożenie elementów na tej liście (wypełnia się raz, gdy wygrywasz, a potem jej warunek przestaje działać) sprawia, że każdy kawałek zachowuje tę samą prędkość lotu, zamiast być wymyślany na nowo w każdej klatce.¶
 iskry•[iskra]: []
 	… ((polowanie2.znaleziono2.długość() ≥ 5) & (⬚.długość() = 0)) …
-		(60 → []).tłumaczyć(
+		(60 → []).przekształć(
 			ƒ()
 				iskra(
 					polowanie2.znaleziono2.losowy()
@@ -115,21 +115,21 @@ c2•#: 9
 		Grupa(
 			Stos('|' 0.4m)
 			[
-				Wyrażenie(
+				Fraza(
 					p2.cel2.emoji
 					twarz: "Noto Color Emoji"
 					rozmiar: duży + 1m
 				)
-				Wyrażenie(p2.cel2.etykieta rozmiar: duży)
-				Wyrażenie(
+				Fraza(p2.cel2.etykieta rozmiar: duży)
+				Fraza(
 					`znaleziono \p2.znaleziono2.długość() → ''\ z 5`
 					rozmiar: 0.7m
 				)
-				Wyrażenie(
+				Fraza(
 					`⏳ zostało \(lewo ÷ 1s).łapanka() → ''\ sekund`
 					rozmiar: 0.6m
 				)
-				Wyrażenie(
+				Fraza(
 					'nie masz tego? naciśnij →, aby dostać inne'
 					rozmiar: 0.5m
 				)
@@ -140,9 +140,9 @@ c2•#: 9
 ¶Umieść każdą iskrę na jej własnym łuku, obliczonym na podstawie tego, jak długo leci: leci na zewnątrz z swoją prędkością, a grawitacja ściąga ją z powrotem w dół (klasyczny wzór ½·g·t²). Ponieważ obliczamy położenie, zamiast polegać na silniku fizyki, ciągłe ponowne przeliczanie kamery po prostu rysuje każdy element tam, gdzie powinien być — bez przeskakiwania z powrotem na środek.¶
 ƒ konfetti() (
 		w4: (zegar - wygranoO) ÷ 1000ms
-		iskry.tłumaczyć(
+		iskry.przekształć(
 			ƒ(s•iskra)
-				Wyrażenie(
+				Fraza(
 					s.emoji2
 					twarz: "Noto Color Emoji"
 					rozmiar: 1.5m
@@ -157,7 +157,7 @@ c2•#: 9
 
 ¶Wygrywasz, gdy znajdziesz pięć: pośrodku pojawia się napis „Wygrałeś!”, który jest też wypowiadany na głos, a znalezione emoji wybuchają nad nim jak konfetti i odsłaniają go, gdy konfetti opada.¶
 ƒ finał() [
-		Grupa(Stos() [Wyrażenie('Wygrałeś!' rozmiar: 2m)])
+		Grupa(Stos() [Fraza('Wygrałeś!' rozmiar: 2m)])
 		Mowić('Wygrałeś!')
 		:konfetti()
 	]
@@ -167,9 +167,9 @@ c2•#: 9
 		Grupa(
 			Stos('|' 0.4m)
 			[
-				Wyrażenie('⌛' twarz: "Noto Color Emoji" rozmiar: 3m)
-				Wyrażenie('Koniec czasu!' rozmiar: 2m)
-				Wyrażenie(
+				Fraza('⌛' twarz: "Noto Color Emoji" rozmiar: 3m)
+				Fraza('Koniec czasu!' rozmiar: 2m)
+				Fraza(
 					`znalazłeś \p3.znaleziono2.długość() → ''\ z 5`
 					rozmiar: 0.7m
 				)

@@ -27,14 +27,14 @@ punkt2: Pekare()
 aktuellMening•#: 1 …
 	flyttaMeningar.har(aktuellMening) ?
 		(punkt2.x > 2m) & (punkt2.y > 3m)
-		∆ Knapp() | ∆ Nyckel()
+		∆ Knapp() | ∆ Tangent()
 		…
 		(aktuellMening <
 				meningar.längd()) ?
 			aktuellMening + 1
 			aktuellMening
 
-Etapp(
+Estrad(
 	[Fras(meningar[aktuellMening] sjal: 10m)]
 	ansikte: 'Short Stack'
 )

@@ -34,7 +34,7 @@ colocar: Local(0m 0m 0m) … ∆ Tempo(1000ms) … apanhado ? Local(
 				0m
 			) Local(Aleatório(-2m 2m) Aleatório(-2m 2m))
 
-Fase(
+Palco(
 	[
 		Frase(
 			"🐭"

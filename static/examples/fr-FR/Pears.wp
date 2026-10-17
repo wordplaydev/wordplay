@@ -78,7 +78,7 @@ actionMontante2: [
 	]
 
 ¶Nous choisissons les endroits à l'avance pour pouvoir les faire tomber du même point.¶
-lieux: (6 → []).traduire(
+lieux: (6 → []).transformer(
 		ƒ() Lieu(Aléatoire(-2m 2m) Aléatoire(-3m -5m))
 	)
 pointCulminant: [
@@ -103,7 +103,7 @@ pointCulminant: [
 			lieu: Lieu(-3m -7m)
 			sélectionnable
 		)
-		:lieux.traduire(
+		:lieux.transformer(
 			ƒ(placer indice2)
 				Phrase(
 					"🍐"
@@ -111,7 +111,7 @@ pointCulminant: [
 					lieu: Choix() = 'tree' ? Mouvement(placer) placer
 				)
 		)
-		Phrase("🔪" lieu: Aiguille())
+		Phrase("🔪" lieu: Pointeur())
 	]
 
 dénouement: [

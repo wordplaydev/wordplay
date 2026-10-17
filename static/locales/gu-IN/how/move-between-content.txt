@@ -13,14 +13,14 @@
 \
 slides: ['પહેલું' 'બીજું' 'ત્રીજું']
 
-key: Key()
+key: કી()
 
 index•#: 1 … ∆ key …
-	(key = 'એરોરાઇટ') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'એરોરાઇટ') ? ((index < slides.લંબાઈ()) ? index + 1 index)
 		(key = 'તીરડાબું') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+વાક્ય(slides[index])
 \
 
  આ @Reaction તેનું હૃદય છે. તે \1\ થી શરૂ થાય છે, અને દર વખતે જ્યારે @Key બદલાય છે, ત્યારે તે નક્કી કરે છે કે નવો નંબર શું હોવો જોઈએ.
@@ -38,15 +38,15 @@ Phrase(slides[index])
 
 \
 slides: [
-	Phrase('ત્રણ ભાગોમાં એક વાર્તા' કદ: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('એક બિલાડી દેખાય છે')])
-	Phrase('અંત 🎉')
+	વાક્ય('ત્રણ ભાગોમાં એક વાર્તા' કદ: 3m)
+	સમૂહ(સ્ટેક() [વાક્ય('🐈') વાક્ય('એક બિલાડી દેખાય છે')])
+	વાક્ય('અંત 🎉')
 ]
 
-key: Key()
+key: કી()
 
 index•#: 1 … ∆ key …
-	(key = 'એરોરાઇટ') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'એરોરાઇટ') ? ((index < slides.લંબાઈ()) ? index + 1 index)
 		(key = 'તીરડાબું') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 તેને @Scene/pause જેથી તે ક્યારેય જાતે ખસે નહીં, અને @Scene/step તેને એક તરફ એક ટુકડો ખસેડવા માટે:
 
 \
-key: Key()
-Scene([
-		Phrase('ત્રણ ભાગોમાં એક વાર્તા' કદ: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('એક બિલાડી દેખાય છે')])
-		Phrase('અંત 🎉')
+key: કી()
+દ્રશ્ય([
+		વાક્ય('ત્રણ ભાગોમાં એક વાર્તા' કદ: 3m)
+		સમૂહ(સ્ટેક() [વાક્ય('🐈') વાક્ય('એક બિલાડી દેખાય છે')])
+		વાક્ય('અંત 🎉')
 	] થોભાવો પગલું: ∆ key ? ((key = 'તીરડાબું') ? -1 (key = 'એરોરાઇટ') ? 1 ø) ø)
 \
 

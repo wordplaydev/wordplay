@@ -7,7 +7,7 @@ Dacă începem cu numărul \10\ și îl convertim cu \→ []\, obținem o listă
 Apoi folosim @List/translate ca să transformăm fiecare număr într-un @Phrase:
 
 \
-Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))
+Grup(Rând() (10 → []).transformă(ƒ() Fraza('🐈')))
 \
 
 @List/translate apelează mica noastră funcție o dată pentru fiecare element și colectează rezultatele într-o listă nouă.
@@ -15,7 +15,7 @@ Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))
 Pentru a face fiecare copie puțin diferită, folosiți numărul pe care ni-l oferă traducerea:
 
 \
-Group(Row('|' 0.2m) [:1‥8].translate(ƒ(n) Phrase('⭐' dimensiune: n × 0.5m)))
+Grup(Rând('|' 0.2m) [:1‥8].transformă(ƒ(n) Fraza('⭐' dimensiune: n × 0.5m)))
 \
 
  Fiecare stea este mai mare decât precedenta, pentru că \n\ merge de la \1\ la \8\.

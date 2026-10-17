@@ -10,11 +10,11 @@ Jeder Ausbruch trägt die Nummer des Schlags als Namen. So sind die Ausbrüche j
 Die Melodie ist /The Star-Spangled Banner/ — die Melodie von John Stafford Smith von etwa 1773, die schon lange gemeinfrei ist — von Anfang bis Ende, mit der letzten Zeile als Schluss. Jede Note trägt ihre eigene Länge als Notenwert, der an der Zahl steht — \8𝅘𝅥𝅮\ ist eine Achtel, \13𝅗𝅥\ eine halbe, \13𝅗𝅥𝅭\ eine punktierte halbe Note. So sind die Auftakte, die punktierten Figuren und die langen gehaltenen Noten echte Dauern und kein Raster aus gleich langen Schlägen. Eine einfache Zahl ist ein Schlag. Pausen brauchen weiterhin ein @Note, denn \ø\ ist keine Zahl und kann deshalb keinen Wert tragen. Es ist die chromatische Tonleiter, damit die erhöhte Quarte überhaupt geschrieben werden kann: Jeder Schritt ist ein Halbton.¶
 ↓ @wordplay/instruments 1
 
-schlag2: Takt()
+schlag2: Schlag()
 zählung: schlag2.Zählung
 
 ¶Nur die Teile, die wirklich einen Ton spielen, werden zu Feuerwerk; eine pausierende Spur bleibt dunkel. Bevor die Musik beginnt, gibt es gar keine Teile, also ist der Himmel leer.¶
-feuern•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
+feuern•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.klingt)
 
 ¶Jedes Instrument bricht als es selbst aus, und genau darum geht es: Du siehst, welches gerade gespielt hat.¶
 ƒ gesicht2(p2•Teil)•''
@@ -34,8 +34,8 @@ feuern•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
 ƒ höhe(p4•Teil)•# p4.Stufen[1]
 
 ¶Ein Ausbruch, der mit seiner Note steigt und mit seiner Lautstärke anschwillt.¶
-ƒ ausbruch(p5•Teil i•#)•Satzglied
-	Satzglied(
+ƒ ausbruch(p5•Teil i•#)•Phrase
+	Phrase(
 		gesicht2(p5)
 		(0.9m + (p5.Lautstärke · 1.6m))
 		Ort: Ort(
@@ -43,7 +43,7 @@ feuern•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
 			(((höhe(p5) · 0.22) - 1.8) · 1m)
 		)
 		Name: 'burst \zählung\ \i\'
-		Eingabe: Reihenfolge(
+		Eingabe: Abfolge(
 			{
 				0%: Pose(Skala: 0.1 Opazität: 0%)
 				40%: Pose(Skala: 1.35 Opazität: 100%)
@@ -51,7 +51,7 @@ feuern•[Teil]: schlag2.Teile.Filter(ƒ(p•Teil) p.Klingen)
 			}
 			0.3s
 		)
-		Ausstieg: Reihenfolge(
+		Ausstieg: Abfolge(
 			{
 				0%: Pose(Versatz: Ort(0m 0m) Opazität: 100%)
 				100%: Pose(Versatz: Ort(0m -5m) Opazität: 0%)

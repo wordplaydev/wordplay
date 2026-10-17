@@ -3,14 +3,14 @@ Layouts
 === start
 ¶Reihen, Stapel und Gruppen von Sätzen, die jeweils auffällige animierte Posen zeigen.¶
 
-pochen: Reihenfolge(
+pochen: Abfolge(
 		{
 			0%: Pose(Skala: .9)
 			50%: Pose(Skala: 1.1)
 			100%: Pose(Skala: .9)
 		}
 	)
-zhüpfen: Reihenfolge(
+zhüpfen: Abfolge(
 		{
 			0%: Pose(Versatz: Ort(z: 0m))
 			50%: Pose(Versatz: Ort(z: -2m))
@@ -25,23 +25,23 @@ Gruppe(
 		Gruppe(
 			Stapel()
 			[
-				Satzglied('Kätzchen')
-				Satzglied('Katze' Ruhen: zhüpfen)
+				Phrase('Kätzchen')
+				Phrase('Katze' Ruhen: zhüpfen)
 				Gruppe(
 					Reihe()
-					[Satzglied('Hund') Satzglied('Hundeartig')]
+					[Phrase('Hund') Phrase('Hundeartig')]
 					Ruhen: pochen
 				)
-				Satzglied('Katzenartig')
+				Phrase('Katzenartig')
 			]
 		)
 		Gruppe(
 			Stapel()
 			[
-				Satzglied('Hi')
-				Satzglied('Hallo')
+				Phrase('Hi')
+				Phrase('Hallo')
 			]
-			Ruhen: Reihenfolge.drehen(2s "straight")
+			Ruhen: Abfolge.drehen(2s "straight")
 		)
 	]
 )

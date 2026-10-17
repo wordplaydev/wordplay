@@ -4,10 +4,10 @@ Một tiếng "ding" khi câu trả lời đúng, một tiếng "thịch" khi c�
 
 Hai điều làm cho nó thành hiệu ứng âm thanh chứ không phải một bài hát. \vòngLặp: ⊥\ bảo  @Track  phát các nốt nhạc một lần thay vì phát mãi mãi. Và danh sách nốt nhạc đến từ đúng khoảnh khắc đó: nó chứa các nốt khi vừa có việc gì đó xảy ra, và rỗng vào lúc còn lại.
 
-\tapped: ∆ Button()
-Stage([
-		Phrase('👆 chạm vào tôi' cóthểlựachọn tên: 'chạm')
-		Music(Track(tapped ? [1 5 8] [] nhạcCụ: Instrument.bell vòngLặp: ⊥) phátLại: tapped)
+\tapped: ∆ Cáinút()
+Sânkhấu([
+		Cụmtừ('👆 chạm vào tôi' cóthểlựachọn tên: 'chạm')
+		ÂmNhạc(Bè(tapped ? [1 5 8] [] nhạcCụ: NhạcCụ.chuông vòngLặp: ⊥) phátLại: tapped)
 	])\
 
 Đừng lo rằng danh sách lại rỗng ngay ở lần chạy tiếp theo — một nốt nhạc đã bắt đầu thì luôn phát cho đến hết. Điều bạn không thể bỏ qua là \replay\. Chạm hai lần và lần chạm thứ hai tạo ra đúng bản nhạc giống hệt lần đầu, nên không có gì thay đổi và cũng không có gì kêu lại; \replay\ là cách bạn nói /lại, ngay bây giờ/. 
@@ -16,11 +16,11 @@ Stage([
 
 Vì các nốt nhạc chỉ là một danh sách, bạn có thể quyết định chúng dựa trên *việc gì* đã xảy ra thay vì luôn phát cùng một thứ:
 
-\key: Key()
+\key: Phím()
 struck: ∆ key
-Stage([
-		Phrase(struck ? key '⌨ nhấn một phím' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] nhạcCụ: Instrument.piano vòngLặp: ⊥) phátLại: struck)
+Sânkhấu([
+		Cụmtừ(struck ? key '⌨ nhấn một phím' 1m)
+		ÂmNhạc(Bè(struck ? [((key = ' ') ? 1 8)] [] nhạcCụ: NhạcCụ.đànPiano vòngLặp: ⊥) phátLại: struck)
 	])\
 
 Hãy để ý rằng \∆ key\ được tính riêng trên dòng của nó và phép kiểm tra giá trị \key = ' '\ xảy ra riêng biệt. Nếu viết chung thành một điều kiện, âm thanh sẽ lại kêu ở phím tiếp theo không liên quan trong khi \key\ vẫn được đọc như một khoảng trắng.

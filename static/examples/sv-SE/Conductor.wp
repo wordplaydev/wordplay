@@ -11,11 +11,11 @@ Varje instruktion visas på scenen, så du kan lära dig det utan att läsa dett
 hand2: Hand()
 
 ¶Höjden visar hur mycket orkester som spelar, och sidled visar hur snabbt det går. Båda läses direkt av handen istället för att sparas i minnet, så de följer handen hela tiden. Vardera avrundas till ett steg, så musiken ändras bara när förändringen är stor nog att höra. En hand som skakar skriver alltså inte om notbladet tjugo gånger i sekunden.¶
-lyft: hand2.plats.y.rescale(-3m 3m 0 1).limit(0 1)
-lager: 1 + ((lyft · 7).runda())
+lyft: hand2.plats.y.skalaom(-3m 3m 0 1).gräns(0 1)
+lager: 1 + ((lyft · 7).avrunda())
 
-räckvidd: hand2.plats.x.rescale(-5m 5m 0 1).limit(0 1)
-takt2: 72 + ((räckvidd · 8).runda() · 12)
+räckvidd: hand2.plats.x.skalaom(-5m 5m 0 1).gräns(0 1)
+takt2: 72 + ((räckvidd · 8).avrunda() · 12)
 
 ¶Vem som spelar melodin. En knuten näve och en hand utanför bild räknas båda som noll fingrar, så noll fingrar behåller den som redan spelade — annars skulle det byta melodi bara för att man tittade bort.¶
 utvald: 5 … ∆ hand2 …
@@ -278,7 +278,7 @@ stjärnor: [
 		stjärna(4.6 2.7 0.14)
 	]
 
-Etapp(
+Estrad(
 	[:stjärnor :flotta visning sång]
 	bakgrund: Färg(7% 6 275°)
 	färg: Färg(88% 3 265°)

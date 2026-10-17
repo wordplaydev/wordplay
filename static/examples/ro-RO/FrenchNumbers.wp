@@ -24,7 +24,7 @@ secrete: [:1‥9].amestecat()
 
 ¶Care e ultima tastă apăsată?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-cheie2,clé/fr: Cheie()
+cheie2,clé/fr: Tastă()
 
 ¶Secretul curent crește de fiecare dată când e apăsată o tastă, dar se oprește la 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
@@ -56,7 +56,7 @@ jocTerminat: indexSecret = 10
 ¶Arată numărul curent în franceză și punctele curenteDupă toate cele 9 secrete, arată un rezultat final¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă()

@@ -34,7 +34,7 @@ stareDeSpirit:
 
 ¶Stage creates the visible scene.
 The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă()

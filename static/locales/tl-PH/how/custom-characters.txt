@@ -8,7 +8,7 @@ Puwede kang gumamit ng pixel, parihaba, bilog, at path.
 Bigyan ito ng pangalan, ilarawan ito, at pagkatapos ay maaari mong gamitin ang iyong pangalan bilang user at ang pangalan ng karakter na ganito:
 
 \
-Phrase(`Tingnan mo ang aking pagnanasa @username/charactername !`)
+Parirala(`Tingnan mo ang aking pagnanasa @username/charactername !`)
 \
 
  Wala pang ganitong pangalan ng user at pangalan ng karakter, kaya magpapakita ito bilang isang walang laman na parihaba.

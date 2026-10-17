@@ -6,12 +6,12 @@ Visa tiden i en annan stad
 
 Vill du ha tiden någon annanstans? Ge  @Now  en tidszon. Tidszoner är uppkallade efter en region och en stad, som \'America/New_York'\, \'Europe/Paris'\, eller \'Asia/Tokyo'\. Du kan också lägga till ett språk efter texttypen, som \''/ja\ för japanska, för att visa klockan på den stadens språk:
 
-\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+\Fras(Nu(1s 'Asia/Tokyo') → ''/ja)\
 
 Vet du inte tidszonens namn? Skriv bara en stad du känner till — @wordplay varnar dig att det inte är en tidszon och föreslår den närmaste, så du kan fixa det med ett klick.
 
 Du kan också välja en kalender, som den japanska kalendern, och forma klockan med ett typsnitt:
 
-\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' ansikte: 'Doto')\
+\Fras(Nu(1s 'Asia/Tokyo' 'japanese') → '' ansikte: 'Doto')\
 
 count-with-time

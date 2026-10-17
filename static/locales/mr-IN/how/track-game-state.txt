@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['मांजर' 'कुत्रा'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['मांजर' 'कुत्रा'] 0) … state.secrets.आहे(गप्पा()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("तू जिंकलास!")]
-        [ Group(Stack() [ Phrase("माझे गुप्त शब्द ओळख") Phrase(`\state.secrets.length() - state.points\ अजून गुपिते`)])]
+रंगमंच(
+    state.points = state.secrets.लांबी() ? 
+        [ वाक्यांश("तू जिंकलास!")]
+        [ गट(थप्पी() [ वाक्यांश("माझे गुप्त शब्द ओळख") वाक्यांश(`\state.secrets.length() - state.points\ अजून गुपिते`)])]
 )
 \
 

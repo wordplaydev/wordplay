@@ -10,8 +10,8 @@ terbaru•['']:
 		terbaru.mengganti(Acak(1 6) makanan.acak())
 
 Kelompok(
-	Jaringan(3 3 1m 1m)
-	terbaru.menerjemahkan(
+	Kisi(3 3 1m 1m)
+	terbaru.petakan(
 		ƒ(hidangan•"" indeks2•#)
 			Frasa(
 				hidangan

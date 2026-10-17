@@ -24,7 +24,7 @@ t
 
 ¶最近按下的鍵是什麼？¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-鑰匙2,clé/fr: 鑰匙()
+鑰匙2,clé/fr: 按鍵()
 
 ¶每按一次鍵，目前的祕密就會增加，但最多到 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr

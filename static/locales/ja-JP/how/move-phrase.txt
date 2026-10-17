@@ -5,9 +5,9 @@
 これをやれば、組み合わせることができます @Phrase と @Placement：
 
 \
-Stage(
-	[Phrase('感動させる' 位置: Placement())]
-	位置: Place(0m 0m -10m)
+ステージ(
+	[フレーズ('感動させる' 位置: 配置())]
+	位置: 位置(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Stage(
 では、 @Placement として使い、 @Stage の場所を設定して、どうなるか見てみましょう。
 
 \
-Stage(
+ステージ(
   [
-	Phrase('🐈' 位置: Place(-2m 2m))
-	Phrase('🐈' 位置: Place(2m -2m))
-	Phrase('🐈' 位置: Place(-1m 3m))
+	フレーズ('🐈' 位置: 位置(-2m 2m))
+	フレーズ('🐈' 位置: 位置(2m -2m))
+	フレーズ('🐈' 位置: 位置(-1m 3m))
   ]
-  位置: Placement(Place(0m 0m -10m))
+  位置: 配置(位置(0m 0m -10m))
 )
 \
 

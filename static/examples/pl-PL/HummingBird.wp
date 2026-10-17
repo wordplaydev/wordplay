@@ -49,7 +49,7 @@ tryb•'': 'tap' … (wybrano = 'hum') | (wybrano = 'tap') … wybrano
 trzepot: (tryb = 'tap') & (∆ Przycisk() | ∆ Klawisz())
 
 ¶W trybie nucenia ptak unosi się na wysokość dźwięku, który nucisz: niskie dźwięki blisko ziemi, wysokie blisko nieba, ale nie wyżej.¶
-wysokośćDźwięku: Poziom()
+wysokośćDźwięku: Wysokość()
 nucenie: (tryb = 'hum') & (wysokośćDźwięku > 50hz)
 
 ƒ wysokośćDźwiękuNaWysokość(hz•#hz)
@@ -77,7 +77,7 @@ miejscePtaka: Ruch(
 	)
 
 ¶Emoji pisklaka patrzy w lewo, więc każda poza odwraca je tak, by patrzyło tam, dokąd leci.¶
-ptak: Wyrażenie(
+ptak: Fraza(
 		'🐤'
 		1m
 		nazwa: 'ptak'
@@ -153,8 +153,8 @@ wynik•#: 0 …
 ƒ kolumna(komórki•# gatunek2•# x4•#m y2•#m)
 	Grupa(
 		Stos('|' 0m)
-		(komórki → []).tłumaczyć(
-			ƒ(cela•#) Wyrażenie(
+		(komórki → []).przekształć(
+			ƒ(cela•#) Fraza(
 					gatunki[gatunek2][1 + ((cela - 1) % 5)]
 					1m
 				)
@@ -184,7 +184,7 @@ niebo: Kształt(Prostokąt(-8m 7m 8m 6m) nazwa: 'sky')
 lewaŚciana: Kształt(Prostokąt(-8.4m 6m -8m -6m))
 prawaŚciana: Kształt(Prostokąt(8m 6m 8.4m -6m))
 
-widokWyniku: Wyrażenie(
+widokWyniku: Fraza(
 		"\wynik\"
 		1.5m
 		miejsce: Miejsce(-0.5m 4m)
@@ -192,13 +192,13 @@ widokWyniku: Wyrażenie(
 nakładki:
 	gra2.faza ???
 		1: [
-			Wyrażenie("\licznik\" 3m miejsce: Miejsce(-1m -1.5m))
+			Fraza("\licznik\" 3m miejsce: Miejsce(-1m -1.5m))
 		]
-		3: [Wyrażenie('💥' 3m miejsce: Miejsce(-1.5m -1.5m))]
+		3: [Fraza('💥' 3m miejsce: Miejsce(-1.5m -1.5m))]
 		[]
 
 ¶Przełącznik trybu: wybrany sposób gry jest jasny, a drugi przyciemniony.¶
-przyciskNucenia: Wyrażenie(
+przyciskNucenia: Fraza(
 		'🎤'
 		0.8m
 		nazwa: 'hum'
@@ -208,7 +208,7 @@ przyciskNucenia: Wyrażenie(
 				nieprzezroczystość: 40%
 			)
 	)
-przyciskDotknięcia: Wyrażenie(
+przyciskDotknięcia: Fraza(
 		'⌨'
 		0.8m
 		nazwa: 'tap'
@@ -219,12 +219,12 @@ przyciskDotknięcia: Wyrażenie(
 			)
 	)
 
-instrukcje1: Wyrażenie(
+instrukcje1: Fraza(
 		'Wybierz ⌨, aby machać skrzydłami kliknięciami i klawiszami, albo 🎤, aby nuceniem sterować wysokością ptaka!'
 		0.45m
 		miejsce: Miejsce(-6.9m -4.7m)
 	)
-instrukcje2: Wyrażenie(
+instrukcje2: Fraza(
 		'Przeleć przez szczeliny. Nie dotykaj stosów!'
 		0.4m
 		miejsce: Miejsce(-4.5m -5.4m)

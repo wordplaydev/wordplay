@@ -8,8 +8,8 @@ Ein @Image nimmt ein Gitter aus Farben und zeichnet es als ein Bild, sodass wir 
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Kamera(width × 1px height × 1px 33ms)
+Bühne([Bild(colors "what the camera sees" 12m)])
 \
 
  Jedes @Image braucht eine Beschreibung, weil ein Gitter aus Farben für jemanden, der es nicht sehen kann, keine eigenen Worte hat.
@@ -19,8 +19,8 @@ Wir können das Bild mit Buchstaben statt mit Quadraten zeichnen, indem wir ihm 
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m Zeichen: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Kamera(width × 1px height × 1px 33ms)
+Bühne([Bild(colors "the camera, drawn with dark and light circles" 12m Zeichen: ƒ(color•Farbe) (color.Helligkeit < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

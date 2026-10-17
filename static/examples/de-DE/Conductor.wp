@@ -11,7 +11,7 @@ Jede Anweisung steht auf der Bühne, du kannst sie also lernen, ohne diesen Text
 hand2: Hand()
 
 ¶Die Höhe bestimmt, wie viel Orchester spielt, und die Seitwärtsbewegung, wie schnell. Beides wird direkt von der Hand abgelesen und nicht gespeichert, daher folgt es ihr ständig. Jeder Wert wird auf eine Stufe gerundet. So ändert sich die Musik nur, wenn die Änderung groß genug ist, um sie zu hören, und eine zitternde Hand schreibt die Noten nicht zwanzigmal pro Sekunde neu.¶
-anheben: hand2.Ort.j.neuSkalieren(-3m 3m 0 1).Grenze(0 1)
+anheben: hand2.Ort.Y.neuSkalieren(-3m 3m 0 1).Grenze(0 1)
 ebenen: 1 + ((anheben · 7).runden())
 
 reichweite: hand2.Ort.X.neuSkalieren(-5m 5m 0 1).Grenze(
@@ -220,7 +220,7 @@ reise: 0 … ∆ Zeit(40ms) … reise + (tempo2 ÷ 72)
 ƒ status()•'' '\ebenen\ of 8 playing · \tempo2\ beats a minute'
 
 ¶Eine Zeile der Anweisungen, gedämpft, damit zuerst die Flotte und der hervorgehobene Spieler auffallen.¶
-ƒ zeile(text2•'')•Satzglied Satzglied(
+ƒ zeile(text2•'')•Phrase Phrase(
 		text2
 		0.3m
 		Farbe: Farbe(64% 4 265°)
@@ -230,12 +230,12 @@ reise: 0 … ∆ Zeit(40ms) … reise + (tempo2 ÷ 72)
 anzeige: Gruppe(
 		Stapel('<' 0.16m)
 		[
-			Satzglied(
+			Phrase(
 				symbol(hervorgehoben)
 				0.9m
 				Farbe: Farbe(56% 65 25°)
 			)
-			Satzglied(status() 0.38m Farbe: Farbe(70% 25 30°))
+			Phrase(status() 0.38m Farbe: Farbe(70% 25 30°))
 			zeile('Heb deine Hand — mehr vom Orchester')
 			zeile('Senk sie — nur die Melodie')
 			zeile(
@@ -246,8 +246,8 @@ anzeige: Gruppe(
 	)
 
 ¶Ein Schiff, das über die Bühne fliegt, in einem Streifen weit über den Anweisungen, damit es nie den Text kreuzt. Seine Bahn bestimmt, wie hoch es fliegt und wie weit vorn es startet, damit sie nie in Formation fliegen.¶
-ƒ schiff(glyphe•'' spur•# geschwindigkeit•#)•Satzglied
-	Satzglied(
+ƒ schiff(glyphe•'' spur•# geschwindigkeit•#)•Phrase
+	Phrase(
 		glyphe
 		0.7m
 		Ort: Ort(
@@ -263,8 +263,8 @@ flotte: [
 		schiff('🛸' 3 5)
 	]
 
-ƒ stern(x2•# y2•# größe2•#)•Satzglied
-	Satzglied(
+ƒ stern(x2•# y2•# größe2•#)•Phrase
+	Phrase(
 		'✦'
 		größe2 · 1m
 		Ort: Ort(x2 · 1m y2 · 1m)

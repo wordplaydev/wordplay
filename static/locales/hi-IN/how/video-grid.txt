@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: कैमरा(width × 1px height × 1px 33ms)
+मंच([छवि(colors "what the camera sees" 12m)])
 \
 
  हर @Image को एक विवरण चाहिए, क्योंकि रंगों की एक ग्रिड के अपने कोई शब्द नहीं होते, उस व्यक्ति के लिए जो इसे देख नहीं सकता।
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m अक्षरचित्र: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: कैमरा(width × 1px height × 1px 33ms)
+मंच([छवि(colors "the camera, drawn with dark and light circles" 12m अक्षरचित्र: ƒ(color•रंग) (color.हल्कापन < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

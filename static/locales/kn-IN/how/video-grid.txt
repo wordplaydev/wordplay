@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: ಕ್ಯಾಮೆರಾ(width × 1px height × 1px 33ms)
+ವೇದಿಕೆ([ಚಿತ್ರ(colors "what the camera sees" 12m)])
 \
 
  ಪ್ರತಿಯೊಂದು @Image ಗೂ ಒಂದು ವಿವರಣೆ ಬೇಕು, ಏಕೆಂದರೆ ಬಣ್ಣಗಳ ಚೌಕಟ್ಟಿಗೆ, ಅದನ್ನು ನೋಡಲಾಗದವರಿಗಾಗಿ ಸ್ವಂತ ಪದಗಳೇನೂ ಇರುವುದಿಲ್ಲ.
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m ಅಕ್ಷರಚಿಹ್ನೆ: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: ಕ್ಯಾಮೆರಾ(width × 1px height × 1px 33ms)
+ವೇದಿಕೆ([ಚಿತ್ರ(colors "the camera, drawn with dark and light circles" 12m ಅಕ್ಷರಚಿಹ್ನೆ: ƒ(color•ಬಣ್ಣ) (color.ತಿಳಿತನ < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

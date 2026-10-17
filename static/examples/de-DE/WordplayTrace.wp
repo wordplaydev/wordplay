@@ -26,7 +26,7 @@ Bühne(
 			(
 				¶Wie viele Punkte dieser Punkt hinter dem Kopf liegt, und zwar rund um das Wort herum.¶
 				alter: ((((kopf - index2) + 1) + zählung) % zählung) ?? 0
-				Satzglied(
+				Phrase(
 					"•"
 					Größe: 1m
 					Ort: punkt2

@@ -15,7 +15,7 @@ miau: Musik(
 
 •katzenposition(position•#m richtung•#)
 
-schlüssel3: Schlüssel()
+schlüssel3: Tastaturtaste()
 geschwindigkeit: 1m
 
 kätzchenplatz: katzenposition(5m 1) … ∆ schlüssel3 …
@@ -29,14 +29,14 @@ kätzchenplatz: katzenposition(5m 1) … ∆ schlüssel3 …
 				)
 				kätzchenplatz
 
-kätzchen: Satzglied(
+kätzchen: Phrase(
 		"🐈"
 		gesicht: "Noto Color Emoji"
 		Name: 'Kätzchen'
 		Größe: 2m
 		Ort: Ort(kätzchenplatz.position 0m)
 		Ruhen: Pose(flipx: kätzchenplatz.richtung < 0)
-		ziehenum: Reihenfolge(
+		ziehenum: Abfolge(
 			{
 				0%: Pose(Drehung: -5° Musik: miau)
 				50%: Pose(Drehung: 5°)
@@ -45,7 +45,7 @@ kätzchen: Satzglied(
 			0.25s
 			"zippy"
 		)
-		Gegenstand: Gegenstand(1000kg Rundung: 0.5)
+		Material: Material(1000kg Rundung: 0.5)
 	)
 
 sprung: Kollision('Ball' 'Kätzchen')
@@ -64,11 +64,11 @@ ballposition: Bewegung(
 			)
 	)
 
-ball: Satzglied(
+ball: Phrase(
 		"🧶"
 		Name: 'Ball'
 		Ort: ballposition
-		Gegenstand: Gegenstand(1kg 0.5 0 1)
+		Material: Material(1kg 0.5 0 1)
 	)
 
 Bühne(
@@ -79,11 +79,11 @@ Bühne(
 		Gestalt(Rechteck(-10m 10m 10m 11m))
 		ball
 		kätzchen
-		Satzglied(
+		Phrase(
 			'drücke ← →, um zu spielen!'
 			Ort: Ort(-4m -2m)
 			Farbe: Farbe.Weiß
 		)
 	]
-	Ort: Ort(j: 5m z: -10m)
+	Ort: Ort(Y: 5m z: -10m)
 )

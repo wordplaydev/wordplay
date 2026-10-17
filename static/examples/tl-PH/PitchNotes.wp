@@ -19,11 +19,11 @@ mgaTono: [
 	]
 notaNg: ƒ(hz•#hz) hz > 0hz ? mgaTono[(((((12 × (hz ÷ 440hz).log(
 										2
-									)).bilog(
+									)).bilugan(
 							)) % 12) + 12) % 12) + 1] '·'
 makinis2: ƒ(senyales•…#hz) (
 			narinig: (←← 8 senyales).nangwalang(0hz)
-			narinig.average() ?? 0hz
+			narinig.katamtaman() ?? 0hz
 		)
 tono2: Tono()
 Entablado(

@@ -55,7 +55,7 @@ mgaTao: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 ¶Maglakad ng isang hakbang patungo sa manlalaro: pasulong sa lalim habang gumagalaw-galaw pakaliwa't pakanan upang mahirap tamaan, binabaligtad ang galaw-galaw sa mga gilid ng isang banda sa paligid ng iyong linya, at dahan-dahang humahabol sa'yo sa pagitan ng mga galaw upang ang isang paglusot ay panandalian lang.¶
 ƒ sugodPapuntaSaManlalaro(zombi2•zombie kameraX2•#m bilisNgSugod•#m) (
 		iniikotX: zombi2.x2 + (zombi2.direksyonX · bilisNgPaghabi)
-		sinundanX: iniikotX + (kameraX2 - iniikotX).limit((bilisPauwi · -1) bilisPauwi)
+		sinundanX: iniikotX + (kameraX2 - iniikotX).hangganan((bilisPauwi · -1) bilisPauwi)
 		saGilid: (iniikotX > (kameraX2 + lawakNgPaghabi)) | (iniikotX < (kameraX2 - lawakNgPaghabi))
 		zombie(
 			sinundanX
@@ -126,7 +126,7 @@ mgaTao: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 
 ¶Igalaw ang iyong daanan nang isang hakbang patungo sa isang puntos, huwag lalampas sa iyong mga hangganan. Ang turo ay nag-uulat ng puntos sa mundo kung saan ito nakatapat, kaya ang layo nito mula sa iyong daanan ang siyang nagsasabi kung gaano ito kalayo sa iyong kaliwa o kanan — ang pag-usad papunta rito ay nagpapahintulot sa turo na tumutok, at ang pag-tap sa alinmang panig ay magpapagalaw sa iyo pauna.¶
 ƒ tumuonPatungo(laro3•laro target•#m)
-	laro3.kameraX:(laro3.kameraX + (target - laro3.kameraX).limit((hakbangNgPadaskol · -1) hakbangNgPadaskol)).limit(limitasyonSaKaliwa limitasyonSaKanan)
+	laro3.kameraX:(laro3.kameraX + (target - laro3.kameraX).hangganan((hakbangNgPadaskol · -1) hakbangNgPadaskol)).hangganan(limitasyonSaKaliwa limitasyonSaKanan)
 
 ¶Isang pindot ng susi habang naglalaro: kumilos pakaliwa o pakanan, o maghagis ng puso.¶
 ƒ ilapatAngPindotNgSusi(laro4•laro susi2•"")
@@ -217,7 +217,7 @@ mgaTao: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '
 susi3: Susi()
 tik: Oras(30ms)
 pointer: Panturo()
-tapik: Butones()
+tapik: Pindutan()
 
 ¶Ang tibok ng puso ng laro, kinokontrol ng apat na pasok: isang tiktak ng orasan, isang susi, galaw ng turo, at isang click o tap. Habang naglalaro, ang tiktak ay nagpapasulong sa mundo, ang mga susi ay gumagalaw pakaliwa't pakanan at naghahagis, ang galaw ng turo ay tumutok sa iyong daanan, at ang tap ay naghahagis ng puso. Mula sa isang menu, ang pindot ng Enter o isang tap ay nagsisimula ng bagong laro — isang tap upang makapagsimula ang mga manlalarong gumagamit ng touch, at Enter (hindi Space) upang ang paulit-ulit na pagpindot ng Space para maghagis ay hindi maaksidenteng magpapasimula ulit.¶
 laro6•laro: laro(

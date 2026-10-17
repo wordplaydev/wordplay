@@ -7,7 +7,7 @@ Das Lied steht im 6/8-Takt. Jeder Takt hat also sechs Achtelnoten, und jeder Ein
 
 Die Boote werden von @Beat angetrieben und nicht von einer Uhr. So ziehen sie genau im Takt der Musik und nicht nur ungefähr. Sie bleiben stehen, bis die Musik beginnt, denn @Beat bleibt bis dahin auf Schlag null.¶
 
-schlag2: Takt()
+schlag2: Schlag()
 ruderschlag: schlag2.Zählung
 
 ¶Die Melodie. Row row row your boat, gently down the stream. Die langen Noten sind lang, weil die Pausen danach das Raster halten. Jeder Eintrag dauert nämlich gleich lang, eine Achtelnote.¶
@@ -119,8 +119,8 @@ ruder: [
 	]
 
 ¶Ein Boot. Es gleitet bei jedem Schlag ein Stück weiter und schaukelt jedes Mal in die andere Richtung. Genau das sieht aus wie Rudern. Die Bahn bestimmt, wie hoch es liegt und wie weit vorn es gestartet ist, damit sich nicht alle Boote gleich bewegen.¶
-ƒ boot(spur•# anfang•#)•Satzglied
-	Satzglied(
+ƒ boot(spur•# anfang•#)•Phrase
+	Phrase(
 		'🚣'
 		1.5m
 		Ort: Ort(
@@ -136,13 +136,13 @@ flotte: [boot(0 0) boot(1 6) boot(2 11)]
 Bühne(
 	[
 		:flotte
-		Satzglied(
+		Phrase(
 			'〰〰〰〰〰〰〰〰'
 			1m
 			Ort: Ort(-8m -3.2m)
 			Farbe: Farbe(48% 22 240°)
 		)
-		Satzglied(
+		Phrase(
 			'Row, row, row your boat'
 			0.9m
 			Ort: Ort(-4.4m 3.4m)

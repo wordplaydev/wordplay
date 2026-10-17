@@ -15,14 +15,14 @@ symbole: 'typography'/en'tipografía'/es ÷ ''
 
 ƒ zufälligMischen()
 	symbole.übersetzen(
-		ƒ(symbol) Satzglied(
+		ƒ(symbol) Phrase(
 				symbol
 				gesicht: schriftarten.zufällig()
 				Dauer: 0s
 			)
 	)
 
-phrasen: zufälligMischen() … ∆ Schlüssel() | ∆ Taste() … zufälligMischen(
+phrasen: zufälligMischen() … ∆ Tastaturtaste() | ∆ Taste() … zufälligMischen(
 		)
 
 Bühne([Gruppe(Reihe('|' 0m) phrasen Ort: Ort(0m 0m))])

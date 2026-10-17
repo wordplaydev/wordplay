@@ -2,20 +2,20 @@ Afișați opțiunile selectabile
 
 Uneori vrei să arăți o grămadă de opțiuni pe ecran și să faci ceva cu ceea ce alege publicul. Pentru a face acest lucru, avem nevoie de două lucruri:
 
-• Unul sau mai multe @Phrase care sunt marcate ca selectabile și au un nume unic (de exemplu, \Phrase('opțiunea 1' selectabil nume: 'unul')\)
+• Unul sau mai multe @Phrase care sunt marcate ca selectabile și au un nume unic (de exemplu, \Fraza('opțiunea 1' selectabil nume: 'unul')\)
 • Un @Choice, care se schimbă în numele @Phrase ales cel mai recent.
 
 De exemplu, aici afișăm trei opțiuni, fiecare cu un nume unic.
 
 \
-option: Choice()
+option: Alegere()
 
-Group(
-	Stack() [
-		Phrase('opțiunea 1' selectabil nume: 'unul')
-		Phrase('opțiunea 2' selectabil nume: 'două')
-		Phrase('opțiunea 3' selectabil nume: 'trei')
-		Phrase(option)
+Grup(
+	Stivă() [
+		Fraza('opțiunea 1' selectabil nume: 'unul')
+		Fraza('opțiunea 2' selectabil nume: 'două')
+		Fraza('opțiunea 3' selectabil nume: 'trei')
+		Fraza(option)
 	]
 )
 \
@@ -25,17 +25,17 @@ Group(
 Poți folosi acest model pentru a face lucruri ca răspuns la o alegere. De exemplu, am putea modifica proiectul de mai sus pentru a afișa un emoji secret bazat pe alegere:
 
 \
-option: Choice()
+option: Alegere()
 
 option = '' ?
-	Group(
-		Stack() [
-			Phrase('opțiunea 1' selectabil: ⊤ nume: 'unul')
-			Phrase('opțiunea 2' selectabil: ⊤ nume: 'două')
-			Phrase('opțiunea 3' selectabil: ⊤ nume: 'trei')
+	Grup(
+		Stivă() [
+			Fraza('opțiunea 1' selectabil: ⊤ nume: 'unul')
+			Fraza('opțiunea 2' selectabil: ⊤ nume: 'două')
+			Fraza('opțiunea 3' selectabil: ⊤ nume: 'trei')
 		]
 	)
-	Phrase(
+	Fraza(
 		{
 			'unul': '😡'
 			'două': '🏀'

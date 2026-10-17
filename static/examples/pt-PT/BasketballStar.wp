@@ -55,7 +55,7 @@ estrelaDoBasquetebol: Grupo(
 		desvio: Local(0m 8m 0m)
 	)
 
-Fase(
+Palco(
 	[
 		basquetebol
 		¶As paredes do cesto foram alargadas para 0,3 m de espessura (a partir de 0,1 m), para que o cesto em movimento lateral não consiga atravessar a bola, e aumentadas para 3 m de altura (a partir de 2 m), para que uma bola com 0,5 de elasticidade não consiga saltar de volta por cima do aro¶

@@ -44,7 +44,7 @@ nhóm•[mụcTiêu]: [
 lầnNhìnThấy: ĐốiTượng(sốĐếm: 10 độTinCậy: 0.5)
 
 ¶Phím → (hoặc chạm vào màn hình) để bỏ qua.¶
-bỏQua: Chìakhóa('Mũi tên phải' ⊤)
+bỏQua: Phím('Mũi tên phải' ⊤)
 
 ¶Một chiếc đồng hồ, dùng để đếm ngược và để tạo hoạt ảnh cho pháo giấy khi thắng. Cuộc săn tìm không dùng nó — @Objects lo việc đó.¶
 đồngHồ: Thờigian(30ms)
@@ -102,7 +102,7 @@ thắngLúc•#ms: 0ms
 ¶Pháo giấy, được tạo một lần vào khoảnh khắc bạn thắng và sau đó không dựng lại. @Objects vẫn tiếp tục nhận diện, nên mỗi kết quả đọc đều tính lại chương trình — việc cố định các mảnh trong danh sách này (nó chỉ được điền một lần, khi bạn thắng, rồi điều kiện của nó dừng lại) nghĩa là mỗi mảnh giữ nguyên vận tốc để bay, thay vì bị tạo mới ở mỗi khung hình.¶
 tiaLửa2•[tiaLửa]: []
 	… ((săn.đãTìmThấy2.chiềudài() ≥ 5) & (⬚.chiềudài() = 0)) …
-		(60 → []).dịch(
+		(60 → []).biếnĐổi(
 			ƒ()
 				tiaLửa(
 					săn.đãTìmThấy2.ngẫunhiên()
@@ -119,7 +119,7 @@ g•#: 9
 ƒ lờinhắc(h3•cuộcSăn) (
 		to2: (2m + (h3.đãTìmThấy2.chiềudài() · 0.3m))
 		Nhóm(
-			Ngănxếp('|' 0.4m)
+			XếpDọc('|' 0.4m)
 			[
 				Cụmtừ(
 					h3.mụcTiêu2.biểuTượngCảmXúc
@@ -146,7 +146,7 @@ g•#: 9
 ¶Đặt mỗi tia lửa dọc theo cung bay riêng của nó, tính từ thời gian nó đã bay: nó bay ra theo vận tốc của nó trong khi trọng lực kéo nó xuống (công thức quen thuộc ½·g·t²). Vì chúng ta tính vị trí chứ không dựa vào công cụ vật lý, nên việc camera liên tục tính lại chỉ vẽ lại mỗi mảnh đúng chỗ của nó — không bị giật về giữa.¶
 ƒ hoagiấy() (
 		t3: (đồngHồ - thắngLúc) ÷ 1000ms
-		tiaLửa2.dịch(
+		tiaLửa2.biếnĐổi(
 			ƒ(s•tiaLửa)
 				Cụmtừ(
 					s.biểuTượngCảmXúc2
@@ -163,7 +163,7 @@ g•#: 9
 
 ¶Bạn thắng khi tìm đủ năm: dòng "Bạn thắng!" ở giữa, được đọc to và hiển thị, cùng các biểu tượng cảm xúc đã tìm thấy nổ tung như pháo giấy bên trên, hiện ra khi pháo giấy rơi đi.¶
 ƒ màngkếtthúc() [
-		Nhóm(Ngănxếp() [Cụmtừ('Bạn thắng!' kíchcỡ: 2m)])
+		Nhóm(XếpDọc() [Cụmtừ('Bạn thắng!' kíchcỡ: 2m)])
 		Nói('Bạn thắng!')
 		:hoagiấy()
 	]
@@ -171,7 +171,7 @@ g•#: 9
 ¶Hết một phút: bạn đã đi được bao xa, được đọc to và hiển thị.¶
 ƒ tròChơiKếtThúc(h4•cuộcSăn) [
 		Nhóm(
-			Ngănxếp('|' 0.4m)
+			XếpDọc('|' 0.4m)
 			[
 				Cụmtừ('⌛' khuônmặt: "Noto Color Emoji" kíchcỡ: 3m)
 				Cụmtừ('Hết giờ!' kíchcỡ: 2m)

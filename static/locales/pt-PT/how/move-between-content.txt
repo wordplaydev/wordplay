@@ -13,14 +13,14 @@ Aqui está a versão mais pequena disto. Clique primeiro no palco para que fique
 \
 slides: ['primeiro' 'segundo' 'terceiro']
 
-key: Key()
+key: Tecla()
 
 index•#: 1 … ∆ key …
-	(key = 'Seta para a direita') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Seta para a direita') ? ((index < slides.comprimento()) ? index + 1 index)
 		(key = 'Seta para a esquerda') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+Frase(slides[index])
 \
 
  O @Reaction é o centro de tudo. Começa em \1\, e sempre que @Key muda, decide qual deve ser o novo número.
@@ -38,15 +38,15 @@ Troque a @List por uma lista de @Group ou cenas inteiras, e o resto do padrão n
 
 \
 slides: [
-	Phrase('uma história em três partes' tamanho: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('aparece um gato')])
-	Phrase('o fim 🎉')
+	Frase('uma história em três partes' tamanho: 3m)
+	Grupo(Monte() [Frase('🐈') Frase('aparece um gato')])
+	Frase('o fim 🎉')
 ]
 
-key: Key()
+key: Tecla()
 
 index•#: 1 … ∆ key …
-	(key = 'Seta para a direita') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Seta para a direita') ? ((index < slides.comprimento()) ? index + 1 index)
 		(key = 'Seta para a esquerda') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 Dê-lhe @Scene/pause para que nunca se mova sozinho, e @Scene/step para o mover uma peça para qualquer lado:
 
 \
-key: Key()
-Scene([
-		Phrase('uma história em três partes' tamanho: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('aparece um gato')])
-		Phrase('o fim 🎉')
+key: Tecla()
+Cena([
+		Frase('uma história em três partes' tamanho: 3m)
+		Grupo(Monte() [Frase('🐈') Frase('aparece um gato')])
+		Frase('o fim 🎉')
 	] pausar passo: ∆ key ? ((key = 'Seta para a esquerda') ? -1 (key = 'Seta para a direita') ? 1 ø) ø)
 \
 

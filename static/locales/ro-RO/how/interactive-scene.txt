@@ -5,14 +5,14 @@ Uneori vrem să spunem povești care așteaptă ca cel care privește să facă 
 Pentru a face asta, putem folosi un @Scene, dar să punem @Boolean valori între conținutul pe care vrem să-l arătăm. De exemplu, iată un clic care va trece la fiecare conținut următor, folosind un @Button:
 
 \
-Scene([
-		Phrase('dă-mi clic')
-		Button()
-		Phrase('dă-mi clic din nou' durată: 1s)
-		Button()
-		Phrase('nu glumesc, dă-mi clic cât de tare poți!!' durată: 1s)
-		Button()
-		Phrase('mi-ai dat deja clic?' durată: 1s)
+Scenă([
+		Fraza('dă-mi clic')
+		Buton()
+		Fraza('dă-mi clic din nou' durată: 1s)
+		Buton()
+		Fraza('nu glumesc, dă-mi clic cât de tare poți!!' durată: 1s)
+		Buton()
+		Fraza('mi-ai dat deja clic?' durată: 1s)
 	])
 \
 
@@ -23,26 +23,26 @@ De exemplu, am putea folosi vocea noastră!
 Dacă strigăm suficient de tare, scena va avansa:
 
 \
-Scene([
-		Phrase('e cineva acolo?')
-		Volume() > .5
-		Phrase("nu te aud, poți repeta?" durată: 1s)
-		Volume() > .7
-		Phrase('mai tare, te rog...' durată: 1s)
-		Volume() > .9
-		Phrase('a, bună!' durată: 1s)
+Scenă([
+		Fraza('e cineva acolo?')
+		Volum() > .5
+		Fraza("nu te aud, poți repeta?" durată: 1s)
+		Volum() > .7
+		Fraza('mai tare, te rog...' durată: 1s)
+		Volum() > .9
+		Fraza('a, bună!' durată: 1s)
 	])
 \
 
  Când fiecare @Phrase ar trebui să aștepte același lucru, @Scene/until îl spune o singură dată, în loc să-l scrie între fiecare. Asta face exact ce face primul exemplu de mai sus:
 
 \
-Scene([
-		Phrase('dă-mi clic')
-		Phrase('dă-mi clic din nou' durată: 1s)
-		Phrase('nu glumesc, dă-mi clic cât de tare poți!!' durată: 1s)
-		Phrase('mi-ai dat deja clic?' durată: 1s)
-	] pânăLa: Button())
+Scenă([
+		Fraza('dă-mi clic')
+		Fraza('dă-mi clic din nou' durată: 1s)
+		Fraza('nu glumesc, dă-mi clic cât de tare poți!!' durată: 1s)
+		Fraza('mi-ai dat deja clic?' durată: 1s)
+	] pânăLa: Buton())
 \
 
  Scrie un @Boolean în listă atunci când așteptările sunt / diferite /, ca în exemplul cu strigatul, și folosește @Scene/until când toate sunt la fel.
@@ -53,11 +53,11 @@ Notă: @Scene/until așteaptă / după / ce fiecare @Phrase și-a avut @Phrase/d
 Dacă preferi ca @Scene să nu se miște niciodată singur, ci doar acolo unde îl trimiți, folosește @Scene/pause cu @Scene/step:
 
 \
-key: Key()
-Scene([
-		Phrase('unu')
-		Phrase('doi')
-		Phrase('trei')
+key: Tastă()
+Scenă([
+		Fraza('unu')
+		Fraza('doi')
+		Fraza('trei')
 	] pauză pas: ∆ key ? ((key = 'SăgeatăStânga') ? -1 (key = 'SăgeatăDreapta') ? 1 ø) ø)
 \
 

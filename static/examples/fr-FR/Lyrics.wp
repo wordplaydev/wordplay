@@ -52,7 +52,7 @@ Chaque voix de l'arrangement vit dans sa propre source, donc aucun fichier n'est
 ↓ sax2
 ↓ sax3
 
-temps: Rythme()
+temps: Pulsation()
 ¶C'est la seule horloge du programme. @Beat compte à partir de zéro jusqu'au début de la musique, donc on peut le lire tout de suite.¶
 compte2: temps.nombre
 

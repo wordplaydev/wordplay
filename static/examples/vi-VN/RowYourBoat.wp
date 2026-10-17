@@ -149,14 +149,14 @@ Sânkhấu(
 		)
 		ÂmNhạc(
 			[
-				BảnNhạc(giaiĐiệu2 nhạcCụ: NhạcCụ.sáo nhịp: 0.5beats)
-				BảnNhạc(
+				Bè(giaiĐiệu2 nhạcCụ: NhạcCụ.sáo nhịp: 0.5beats)
+				Bè(
 					hợpÂm
 					nhạcCụ: NhạcCụ.đànPiano
 					nhịp: 1beats
 					âmLượng: 60%
 				)
-				BảnNhạc(
+				Bè(
 					máiChèo
 					nhạcCụ: NhạcCụ.trống
 					nhịp: 1beats

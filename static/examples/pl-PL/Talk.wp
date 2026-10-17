@@ -3,4 +3,4 @@ Rozmowa
 === start
 ¶Emoji, które otwiera buzię, gdy zrobi się głośno.¶
 
-Wyrażenie(Tom() > 0.5 ? "😮" "😐" 5m)
+Fraza(Głośność() > 0.5 ? "😮" "😐" 5m)

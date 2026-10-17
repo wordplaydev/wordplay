@@ -162,7 +162,7 @@ pièces•[pièce2]: [
 			) sac3
 	)
 
-clé3: Clé()
+clé3: Touche()
 
 ¶Une touche pressée, dans l'ordre : à une fin, n'importe quelle touche te réveille de nouveau dans la première salle ; une touche qui n'est pas 1, 2 ou 3 ne veut rien dire ; un numéro plus grand que le nombre de portes de cette salle ne veut rien dire non plus ; et seulement après, c'est une porte. Ce troisième test est celui qu'il faut noter, car l'accès à une liste revient au début en boucle. Sans lui, appuyer sur 3 dans une salle de deux portes prendrait sans bruit la première.¶
 ƒ étape2(t2•périple k•'')•périple (
@@ -219,7 +219,7 @@ below:
 				entrer: Pose(opacité: 0%)
 			)
 		]
-		portes3.traduire(
+		portes3.transformer(
 			ƒ(porte3•porte indice2•#)
 				Phrase(
 					`\indice2\. *\porte3.étiquette\*`
@@ -234,7 +234,7 @@ below:
 Scène(
 	[
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase(
 					ici4.description2

@@ -7,7 +7,7 @@ Putem face asta cu intrarea @Pointer .
 Dacă folosim acel @Place ca @Phrase al lui \place\, personajul va merge oriunde arătăm.
 
 \
-Stage([Phrase('🐈' loc: Pointer())] loc: Place(0m 0m -10m))
+Estradă([Fraza('🐈' loc: Indicator())] loc: Loc(0m 0m -10m))
 \
 
  Asta e tot! Mișcă mouse-ul sau trage degetul și urmărește cum pisica te urmărește.
@@ -16,7 +16,7 @@ Poți face lucruri mai interesante extrăgând \x\ și \y\ din @Place.
 Iată o rață care plutește mereu la un metru deasupra indicatorului:
 
 \
-Stage([Phrase('🦆' loc: Place(Pointer().x Pointer().y + 1m))] loc: Place(0m 0m -10m))
+Estradă([Fraza('🦆' loc: Loc(Indicator().x Indicator().y + 1m))] loc: Loc(0m 0m -10m))
 \
 
 move-phrase, count-with-time

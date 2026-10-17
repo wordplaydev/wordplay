@@ -13,14 +13,14 @@ Här är den minsta versionen av det. Klicka på scenen först så att den lyssn
 \
 slides: ['första' 'andra' 'tredje']
 
-key: Key()
+key: Tangent()
 
 index•#: 1 … ∆ key …
-	(key = 'Pil Höger') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Pil Höger') ? ((index < slides.längd()) ? index + 1 index)
 		(key = 'Pil vänster') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+Fras(slides[index])
 \
 
  Den @Reaction är kärnan i det. Den börjar på \1\, och varje gång @Key ändras, bestämmer den vad det nya talet ska bli.
@@ -38,15 +38,15 @@ Byt ut @List mot en lista med @Group eller hela scener, och resten av mönstret 
 
 \
 slides: [
-	Phrase('en berättelse i tre delar' storlek: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('en katt dyker upp')])
-	Phrase('slutet 🎉')
+	Fras('en berättelse i tre delar' storlek: 3m)
+	Grupp(Stack() [Fras('🐈') Fras('en katt dyker upp')])
+	Fras('slutet 🎉')
 ]
 
-key: Key()
+key: Tangent()
 
 index•#: 1 … ∆ key …
-	(key = 'Pil Höger') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Pil Höger') ? ((index < slides.längd()) ? index + 1 index)
 		(key = 'Pil vänster') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 Ge den @Scene/pause så den aldrig rör sig av sig själv, och @Scene/step för att flytta den ett steg åt endera hållet:
 
 \
-key: Key()
-Scene([
-		Phrase('en berättelse i tre delar' storlek: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('en katt dyker upp')])
-		Phrase('slutet 🎉')
+key: Tangent()
+Scen([
+		Fras('en berättelse i tre delar' storlek: 3m)
+		Grupp(Stack() [Fras('🐈') Fras('en katt dyker upp')])
+		Fras('slutet 🎉')
 	] pausa steg: ∆ key ? ((key = 'Pil vänster') ? -1 (key = 'Pil Höger') ? 1 ø) ø)
 \
 

@@ -14,39 +14,39 @@ schlüsselbilder: {
 Bühne(
 	[
 		Gruppe(
-			Netz(4 2 Zellenpolsterung: 0.25m)
+			Raster(4 2 Zellenpolsterung: 0.25m)
 			[
-				Satzglied('gleichmäßig' Größe: 0.25m)
-				Satzglied(
+				Phrase('gleichmäßig' Größe: 0.25m)
+				Phrase(
 					"🚗"
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						schlüsselbilder
 						3s
 						Stil: "straight"
 					)
 				)
-				Satzglied('vorsichtig' Größe: 0.25m)
-				Satzglied(
+				Phrase('vorsichtig' Größe: 0.25m)
+				Phrase(
 					"🚚"
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						schlüsselbilder
 						3s
 						Stil: "cautious"
 					)
 				)
-				Satzglied('lahm' Größe: 0.25m)
-				Satzglied(
+				Phrase('lahm' Größe: 0.25m)
+				Phrase(
 					"🚙"
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						schlüsselbilder
 						3s
 						Stil: "pokey"
 					)
 				)
-				Satzglied('flott' Größe: 0.25m)
-				Satzglied(
+				Phrase('flott' Größe: 0.25m)
+				Phrase(
 					"🏎"
-					Ruhen: Reihenfolge(
+					Ruhen: Abfolge(
 						schlüsselbilder
 						3s
 						Stil: "zippy"

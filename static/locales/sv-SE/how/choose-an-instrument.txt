@@ -4,13 +4,13 @@ Allt om en  @Music  kan bestämmas medan den spelar, även vem som spelar den. G
 
 @Choice  ger tillbaka \name\ för vilken valbar utdata som publiken valde, så en condition räcker för att göra det till ett instrument:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' valbara namn: 'piano')
-				Phrase('🎻' valbara namn: 'fiol')
+\picked: Val()
+Estrad([
+		Grupp(Rad() [
+				Fras('🎹' valbara namn: 'piano')
+				Fras('🎻' valbara namn: 'fiol')
 			])
-		Music(Track([1 3 5 6 5 3] instrument: (picked = 'fiol') ? Instrument.violin Instrument.piano))
+		Musik(Spår([1 3 5 6 5 3] instrument: (picked = 'fiol') ? Instrument.fiol Instrument.piano))
 	])\
 
 De två valbara fraserna är det som får detta att fungera —  @Choice  har inget att läsa om inte något på scenen är \valbar: ⊤\.
@@ -21,16 +21,16 @@ Två instrument får plats i en condition. En hel palett gör det inte, och du s
 voices•[Voice]: [
 		Voice('🎹' Instrument.piano)
 		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🔔' Instrument.klocka)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: Val()
+found: voices.hitta(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon valbara namn: voice.icon))
+Estrad([
+		Grupp(Rad() [
+				:voices.omvandla(ƒ(voice•Voice) Fras(voice.icon valbara namn: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+		Musik(Spår([1 3 5 6 5 3] instrument: current.sound))
 	])\
 
 Att lägga till en fjärde röst är nu en rad, och knappen visas av sig själv. Lägg märke till skyddet \found•ø ?\:  @List/find  ger tillbaka \ø\ när inget matchar, vilket är vad som händer innan någon har valt — och reservvärdet måste vara en hel \Tal\, eftersom det är vad \current\ lovar att vara.

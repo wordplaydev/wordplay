@@ -12,16 +12,16 @@
 ¶نکته: نگارخانه را ببین تا یک <نمونهٔ@https://wordplay.dev/project/example-Layers?play> دیگر از لایه کردن تصویرها پیدا کنی.¶
 
 
-Stage(
+صحنه(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) چرخش: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) چرخش: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) چرخش: -25°)
+		شکل(دایره(3m 0m 1m 0m))
+		شکل(چندضلعی(2m 3 0m -12m 0m) چرخش: -30°)
+		شکل(چندضلعی(7m 6 0m -6m 0m))
+		شکل(مستطیل(-11m -9m 11m -12m 10m) چرخش: 25°)
+		شکل(مستطیل(-11m -9m 11m -12m 10m) چرخش: -25°)
 
 	]
-	مکان: Place(0m 10m -30m)
+	مکان: مکان(0m 10m -30m)
 )
 \
 

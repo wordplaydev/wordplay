@@ -7,7 +7,7 @@
 그 @Place 을(를) @Phrase 의 \place\(으)로 쓰면, 캐릭터가 우리가 가리키는 곳마다 따라가요.
 
 \
-Stage([Phrase('🐈' 위치: Pointer())] 위치: Place(0m 0m -10m))
+무대([구절('🐈' 위치: 포인터())] 위치: 위치(0m 0m -10m))
 \
 
  자, 이제 끝입니다! 마우스를 움직이거나 손가락을 드래그하면 고양이가 따라옵니다.
@@ -16,7 +16,7 @@ Stage([Phrase('🐈' 위치: Pointer())] 위치: Place(0m 0m -10m))
 포인터 위 1미터를 항상 떠다니는 오리를 만들어 볼게요:
 
 \
-Stage([Phrase('🦆' 위치: Place(Pointer().x Pointer().y + 1m))] 위치: Place(0m 0m -10m))
+무대([구절('🦆' 위치: 위치(포인터().엑스 포인터().와이 + 1m))] 위치: 위치(0m 0m -10m))
 \
 
 move-phrase, count-with-time

@@ -117,7 +117,7 @@
             "doc": [
                 "$~Jag representerar det vackraste av @Text på @Stage . Hallå, hallå! Kommer ni ihåg mig? Hur kan någon glömma /mig/.",
                 "Få mig bara att gilla det här, så dyker jag upp på @Stage :",
-                "\\Phrase('magnificent!')\\",
+                "\\Fras('magnificent!')\\",
                 "Jag behöver @TextLiteral eller @FormattedLiteral för att visa. Med @FormattedLiteral kan jag använda saker som \\`*bold* and /italic/`\\ eller referera till en anpassad @ConceptLink som du skapar.",
                 "Du kan också valfritt ge mig allt en @Output kan göra, inklusive att ändra min storlek, teckensnitt, rotation och göra alla mina otroliga danser med @Pose och @Sequence .",
                 "Du kan också välja mig på @Stage och redigera mig med paletten 🎨 bredvid — det är ett bra sätt att testa olika typsnitt och välja rätt /typsnitt/ till din @Text ."
@@ -556,7 +556,7 @@
             "names": ["$~Färg"],
             "lightness": {
                 "doc": "$~Hur ljus jag ska vara från \\0\\ till \\1\\, från svart vid \\0\\, till grå vid \\0.5\\, till vit vid \\1\\.",
-                "names": ["$~lätthet"]
+                "names": ["$~ljushet", "$~lätthet"]
             },
             "chroma": {
                 "doc": "$~Hur mycket färg ska jag ha, från \\0\\ till \\∞\\. Ingen färg betyder grå, högre siffror betyder mer färg.",
@@ -622,11 +622,11 @@
                 "doc": [
                     "$~Ge en slumpmässig färg.",
                     "Utan färger väljer jag en av grundfärgerna slumpmässigt:",
-                    "\\Color.random()\\",
+                    "\\Färg.slumpmässig()\\",
                     "Med en färg behåller jag dess ljushet och kroma men väljer en slumpmässig nyans:",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Färg.slumpmässig(Färg.blå)\\",
                     "Med två färger väljer jag en slumpmässig ljusstyrka, kroma och nyans mellan de två:",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Färg.slumpmässig(Färg.svart Färg.vit)\\"
                 ],
                 "names": "$~slumpmässig",
                 "inputs": [
@@ -643,10 +643,10 @@
             "lighter": {
                 "doc": [
                     "$~Ge en ljusare version av mig, och öka min ljushet med en procentandel (5 % som standard).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Färg.blå.ljusare()\\",
+                    "\\Färg.blå.ljusare(20%)\\"
                 ],
-                "names": "$~tändare",
+                "names": ["$~ljusare", "$~tändare"],
                 "inputs": [
                     {
                         "doc": "$~Hur mycket ljusstyrkan ska höjas, i procent. Standardinställningen är 5 %.",
@@ -657,8 +657,8 @@
             "darker": {
                 "doc": [
                     "$~Ge en mörkare version av mig, sänk min ljusstyrka med en procentandel (5 % som standard).",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Färg.blå.mörkare()\\",
+                    "\\Färg.blå.mörkare(20%)\\"
                 ],
                 "names": "$~mörkare",
                 "inputs": [
@@ -693,7 +693,7 @@
             },
             "count": {
                 "doc": "$~Hur många gånger sekvensen ska upprepas innan den är klar. Det här är verkligen användbart när jag går in på scenen, rör mig på scenen eller går ut på scenen, men när det gäller en vilosekvens ignoreras det, eftersom jag kan vila för evigt.",
-                "names": "$~räkna"
+                "names": ["$~antal", "$~räkna"]
             },
             "description": {
                 "doc": "$~En valfri beskrivning av den här sekvensen för tittare som inte kan se animationen.",
@@ -753,7 +753,7 @@
                 "shake": {
                     "doc": [
                         "$~Jag rycker en @Output fram och tillbaka i flera riktningar. Jag läses som \"nej\", eller som något som skallrar. Jag rör mig snabbt, så håll mig kort.",
-                        "\\💬('🐈' vilande: 💃.skaka(0.5s räkna: 3x))\\"
+                        "\\💬('🐈' vilande: 💃.skaka(0.5s antal: 3x))\\"
                     ],
                     "names": ["$~skaka"]
                 },
@@ -1147,15 +1147,15 @@
         "Stage": {
             "doc": [
                 "$~JAG VISAR DINA @Output FÖR PUBLIKEN. HEJ. SCENEN HÄR. SÄG VAD JAG SKA VISA SÅ VISAR JAG DET.",
-                "\\Etapp([Fras('grejjjjjjjj')])\\",
+                "\\Estrad([Fras('grejjjjjjjj')])\\",
                 "OM DU VILL KAN DU GE MIG EN BAKGRUND @Color SÅ BELYSER JAG SCENEN EFTER DEN.",
-                "\\Etapp([Fras('grejjjjjjjj')] bakgrund: Färg(75% 50 100°))\\",
+                "\\Estrad([Fras('grejjjjjjjj')] bakgrund: Färg(75% 50 100°))\\",
                 "DU KAN OCKSÅ GE MIG EN RAMKANT SÅ BESKÄR JAG BILDEN.",
-                "\\Etapp(\n\t[Fras('grejjjjjjjj')]\n\tbakgrund: Färg(75% 50 100°)\n\tram: Rektangel(-1m -1m 1m 1m)\n)\\",
+                "\\Estrad(\n\t[Fras('grejjjjjjjj')]\n\tbakgrund: Färg(75% 50 100°)\n\tram: Rektangel(-1m -1m 1m 1m)\n)\\",
                 "OCH OM DU VILL HA DRAMA, GE MIG @Effect SÅ ÄNDRAR JAG HUR ALLT SER UT. UNDER VATTEN! GAMMAL FILM! BRUS! JAG ÄLSKAR DET.",
-                "\\Etapp(\n\t[Fras('🐟 blubb')]\n\teffekter: [Våg() Toning(Färg(55% 45 220°))]\n)\\"
+                "\\Estrad(\n\t[Fras('🐟 blubb')]\n\teffekter: [Våg() Toning(Färg(55% 45 220°))]\n)\\"
             ],
-            "names": ["$~Etapp"],
+            "names": ["$~Estrad", "$~Etapp"],
             "content": {
                 "doc": "$~LISTAN MED @Output ATT VISA. DET HÄR ÄR FÖRESTÄLLNINGEN. JAG VISAR DEN.",
                 "names": "$~innehåll"
@@ -1494,7 +1494,7 @@
                 "Allt som skapar tal kan skapa musik. Denna melodi blandar om sig själv i en ny ordning, och följer hur högt du talar:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].blandade())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Ingen behöver höra mig. @Beat rapporterar varje taktslag när det låter, så du kan rita musiken lika väl som spela den, tillsammans med vilken visualisering betraktaren än valde. @Beat har alltid ett @Downbeat, så du kan läsa det utan att kolla efter något:",
-                "\\slag: Takt()\nantal: slag.räkna\n🎭([\n\t\t💬('◆' storlek: 1m + ((antal % 4) = 0 ? 2m 0m) plats: 📍(-2m 2m))\n\t\t💬('◆' storlek: 1m + ((antal % 4) = 2 ? 2m 0m) plats: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "\\slag: Takt()\nantal: slag.antal\n🎭([\n\t\t💬('◆' storlek: 1m + ((antal % 4) = 0 ? 2m 0m) plats: 📍(-2m 2m))\n\t\t💬('◆' storlek: 1m + ((antal % 4) = 2 ? 2m 0m) plats: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
                 "Jag har inget eget utseende att styla, så jag tar inga av de vanliga utseendeindata — ingen storlek, plats, färg eller animering. Hur jag ser ut är betraktarens val, gjort i deras inställningar, och det är förankrat till scenen snarare än placerat i din layout; jag tar ingen plats, så att sätta mig i en @Row eller en @Stack flyttar aldrig något bredvid mig. För att rita musiken själv, använd @Beat: den ger dig varje taktslag när det låter, för att styra vilken utdata du vill.",
                 "Jag fortsätter spela genom utvärderingar: ändra mina noter medan jag spelar så vävs ändringen in vid nästa taktslag i stället för att starta om, vilket är det som gör att ändra en melodi mitt i spelningen känns musikaliskt. För att spela mig igen från början, se @Music/replay; för att hålla mig stilla och ta upp på samma ställe, se @Music/pause."
             ],
@@ -1651,7 +1651,7 @@
                 "De är svåra att hitta, så raden med symboler under redigeraren erbjuder dem när din markör står precis efter ett av mina nummer.",
                 "En paus kan inte bära ett @value, eftersom \\ø\\ inte är ett nummer. Två pauser i rad är dubbelt så långa, och för något finare finns @Note.",
                 "När en enda ton behöver sin egen volym, eller en längd som inget värde kan skriva, linda in just den i en @Note. Ta till den bara där du behöver den: ett naket nummer är lättare att läsa, så de flesta spår har inga alls, och just den sällsyntheten är det som gör att en @Note sticker ut som en händelse.",
-                "\\cell: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcell\n\t\t.medLista(cell.översätta(ƒ(n•#) n + 2))\n\t\t.medLista(cell.omvänt())\n\t\t.medLista(cell.översätta(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "\\cell: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcell\n\t\t.medLista(cell.omvandla(ƒ(n•#) n + 2))\n\t\t.medLista(cell.omvänt())\n\t\t.medLista(cell.omvandla(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
                 "Att fylla ut med pauser är allt en runda behöver: båda delarna håller samma antal slag, så de håller takten i stället för att glida isär. Att sprida ut två listor till en med : är hur de byggs, eftersom \\append\\ kräver att båda listorna håller samma slags sak.",
                 "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\nvila: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :vila] instrument: 🔈.🪈)\n\t\t🎶([:vila :melodi] instrument: 🔈.🎻)\n\t])\\"
             ],
@@ -2050,14 +2050,14 @@
             "doc": [
                 "$~Jag är en abstrakt effekt som läggs över hela @Stage för att ändra hur allt på den ser ut. Jag skapas aldrig direkt. Skapa i stället en av effekterna som är jag, som @Blur, @Grain eller @Wave, och ge en lista med dem till en scens @Stage.effects.",
                 "Effekter används i den ordning de står i listan, så en @Blur efter en @Grain gör också kornigheten suddig. De täcker scenens innehåll men aldrig dess @Stage.overlay, så en poäng eller en knapp förblir tydlig.",
-                "\\Etapp([Fras('🐟')] effekter: [Toning(Färg(60% 40 220°)) Våg()])\\"
+                "\\Estrad([Fras('🐟')] effekter: [Toning(Färg(60% 40 220°)) Våg()])\\"
             ],
             "names": ["$~Effekt"]
         },
         "Blur": {
             "doc": [
                 "$~Jag mjukar upp allt på @Stage, som om kameran var ur fokus. Lite av mig är en dröm eller ett minne. Mycket av mig är att vakna eller tappa bort sina glasögon.",
-                "\\Etapp(\n\t[Fras('🤓 var är mina glasögon?')]\n\teffekter: [Oskärpa(0.05m)]\n)\\"
+                "\\Estrad(\n\t[Fras('🤓 var är mina glasögon?')]\n\teffekter: [Oskärpa(0.05m)]\n)\\"
             ],
             "names": ["$~Oskärpa"],
             "amount": {
@@ -2068,7 +2068,7 @@
         "Grade": {
             "doc": [
                 "$~Jag ändrar ljusstyrka, kontrast, mättnad och nyans för allt på @Stage, så som en films färger justeras för att skapa stämning. Ta bort all mättnad och höj kontrasten, så får du en svartvit film noir.",
-                "\\Etapp(\n\t[Fras('🕵 detektiven väntade')]\n\teffekter: [Färgton(mättnad: 0% kontrast: 150%)]\n)\\"
+                "\\Estrad(\n\t[Fras('🕵 detektiven väntade')]\n\teffekter: [Färgton(mättnad: 0% kontrast: 150%)]\n)\\"
             ],
             "names": ["$~Färgton"],
             "brightness": {
@@ -2091,7 +2091,7 @@
         "Tint": {
             "doc": [
                 "$~Jag tvättar allt på @Stage i en enda @Color och behåller dess ljusa och mörka delar så att text förblir lika lättläst. Blågrönt får en scen att kkännas som under vatten, brunt gör den till ett gammalt fotografi och grönt gör den till mörkerseende.",
-                "\\Etapp(\n\t[Fras('🏰 för länge sedan')]\n\teffekter: [Toning(Färg(60% 40 60°) 80%)]\n)\\"
+                "\\Estrad(\n\t[Fras('🏰 för länge sedan')]\n\teffekter: [Toning(Färg(60% 40 60°) 80%)]\n)\\"
             ],
             "names": ["$~Toning"],
             "color": {
@@ -2106,7 +2106,7 @@
         "Haze": {
             "doc": [
                 "$~Jag sveper @Stage i dimma som sakta driver över den. Jag passar för morgnar, rök, ånga och allt som är långt borta.",
-                "\\Etapp([Fras('🌲🌲 heden 🌲')] effekter: [Dis(60%)])\\"
+                "\\Estrad([Fras('🌲🌲 heden 🌲')] effekter: [Dis(60%)])\\"
             ],
             "names": ["$~Dis"],
             "amount": {
@@ -2126,7 +2126,7 @@
             "doc": [
                 "$~Jag strör prickar av brus över @Stage som ändras hela tiden. Lite av mig är kornigheten i riktig film. Mycket av mig, med stora prickar, är en tv utan signal.",
                 "Jag är jobbig att titta på när jag är stark, så jag markeras som ett möjligt mönster för personer som är känsliga för sådana.",
-                "\\Etapp(\n\t[Fras('📺 ingen signal')]\n\teffekter: [Korn(90% storlek: 3)]\n)\\"
+                "\\Estrad(\n\t[Fras('📺 ingen signal')]\n\teffekter: [Korn(90% storlek: 3)]\n)\\"
             ],
             "names": ["$~Korn"],
             "amount": {
@@ -2145,7 +2145,7 @@
         "Scanlines": {
             "doc": [
                 "$~Jag ritar de tunna mörka linjerna från en gammal tv-skärm över @Stage. Ge mig en /hastighet/ så rullar jag, som en tv som inte är riktigt rätt inställd.",
-                "\\Etapp(\n\t[Fras('📺 kanal 3')]\n\teffekter: [Skanningslinjer(40% hastighet: 1)]\n)\\"
+                "\\Estrad(\n\t[Fras('📺 kanal 3')]\n\teffekter: [Skanningslinjer(40% hastighet: 1)]\n)\\"
             ],
             "names": ["$~Skanningslinjer"],
             "amount": {
@@ -2165,7 +2165,7 @@
             "doc": [
                 "$~Jag får utdata på @Stage att krusa sig, som om du såg det genom vatten eller het luft.",
                 "Jag böjer själva utdatan, under alla andra effekter, så en @Grain som står före mig blir inte krusad.",
-                "\\Etapp([Fras('🐟 blubb')] effekter: [Våg(0.2m)])\\"
+                "\\Estrad([Fras('🐟 blubb')] effekter: [Våg(0.2m)])\\"
             ],
             "names": ["$~Våg"],
             "amount": {
@@ -2184,7 +2184,7 @@
         "Damage": {
             "doc": [
                 "$~Jag strör repor och damm från gammal, sliten film över @Stage, olika för varje bildruta. Sätt mig tillsammans med en @Grade som tar bort färg och en @Flicker, så ser din scen hundra år gammal ut.",
-                "\\Etapp(\n\t[Fras('🎩 SLUT')]\n\teffekter: [Färgton(mättnad: 0%) Skada(80% 60%)]\n)\\"
+                "\\Estrad(\n\t[Fras('🎩 SLUT')]\n\teffekter: [Färgton(mättnad: 0%) Skada(80% 60%)]\n)\\"
             ],
             "names": ["$~Skada"],
             "scratches": {
@@ -2200,7 +2200,7 @@
             "doc": [
                 "$~Jag får hela @Stage att flimra: den är stadig och blir sedan mörk en kort stund vid oregelbundna tider, som en projektorlampa eller en lampa som snart slocknar.",
                 "Blinkande ljus kan skada människor, så jag flimrar aldrig mer än några gånger per sekund, hur snabbt du än ber mig.",
-                "\\Etapp([Fras('💡 lamporna')] effekter: [Flimmer(40% 2)])\\"
+                "\\Estrad([Fras('💡 lamporna')] effekter: [Flimmer(40% 2)])\\"
             ],
             "names": ["$~Flimmer"],
             "amount": {
@@ -2215,7 +2215,7 @@
         "Vignette": {
             "doc": [
                 "$~Jag gör kanterna på @Stage mörkare och lämnar mitten klar, så att blicken dras mot mitten. Jag är kanten på en gammal lins, en strålkastare eller tunnelseende.",
-                "\\Etapp([Fras('🔦 titta här')] effekter: [Vinjett(70%)])\\"
+                "\\Estrad([Fras('🔦 titta här')] effekter: [Vinjett(70%)])\\"
             ],
             "names": ["$~Vinjett"],
             "amount": {

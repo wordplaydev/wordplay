@@ -44,7 +44,7 @@ réserve•[cible]: [
 observations: Objets(nombre: 10 confiance: 0.5)
 
 ¶La touche → (ou un toucher) pour passer.¶
-passer: Clé('Flèche droite' ⊤)
+passer: Touche('Flèche droite' ⊤)
 
 ¶Une horloge, pour le compte à rebours et pour animer les confettis de la victoire. La chasse elle-même ne l'utilise pas : c'est @Objects qui la pilote.¶
 horloge: Temps(30ms)
@@ -96,7 +96,7 @@ gagnéÀ•#ms: 0ms
 ¶Les confettis, créés une seule fois au moment de ta victoire, puis jamais reconstruits. @Objects continue de détecter, donc chaque lecture réévalue le programme : figer les éléments de cette liste (elle se remplit une fois, quand tu gagnes, puis sa condition s'arrête) fait que chacun garde la même vitesse pour voler, au lieu d'être réinventé à chaque image.¶
 étincelles•[étincelle]: []
 	… ((chasse2.trouvé2.longueur() ≥ 5) & (⬚.longueur() = 0)) …
-		(60 → []).traduire(
+		(60 → []).transformer(
 			ƒ()
 				étincelle(
 					chasse2.trouvé2.aléatoire()
@@ -113,7 +113,7 @@ g•#: 9
 ƒ consigne(h3•chasse) (
 		grand: (2m + (h3.trouvé2.longueur() · 0.3m))
 		Groupe(
-			Empiler('|' 0.4m)
+			Pile('|' 0.4m)
 			[
 				Phrase(
 					h3.cible2.émoji
@@ -140,7 +140,7 @@ g•#: 9
 ¶Place chaque étincelle sur sa propre trajectoire, calculée d'après le temps depuis lequel elle vole : elle s'éloigne à sa vitesse pendant que la gravité la tire vers le bas (la formule classique ½·g·t²). Comme nous calculons la position au lieu de nous appuyer sur le moteur de physique, la réévaluation constante de la caméra redessine simplement chaque morceau là où il doit être, sans revenir d'un coup au centre.¶
 ƒ confettis() (
 		t4: (horloge - gagnéÀ) ÷ 1000ms
-		étincelles.traduire(
+		étincelles.transformer(
 			ƒ(s•étincelle)
 				Phrase(
 					s.émoji2
@@ -157,7 +157,7 @@ g•#: 9
 
 ¶Tu gagnes en trouvant cinq objets : un « Tu as gagné ! » centré, dit à voix haute et affiché, avec les emojis trouvés qui explosent comme des confettis par-dessus, révélé quand les confettis retombent.¶
 ƒ finale() [
-		Groupe(Empiler() [Phrase('Tu as gagné !' taille: 2m)])
+		Groupe(Pile() [Phrase('Tu as gagné !' taille: 2m)])
 		Dire('Tu as gagné !')
 		:confettis()
 	]
@@ -165,7 +165,7 @@ g•#: 9
 ¶La minute est écoulée : jusqu'où tu es arrivé, dit à voix haute et affiché.¶
 ƒ partieTerminée(h4•chasse) [
 		Groupe(
-			Empiler('|' 0.4m)
+			Pile('|' 0.4m)
 			[
 				Phrase('⌛' affronter: "Noto Color Emoji" taille: 3m)
 				Phrase('Le temps est écoulé !' taille: 2m)

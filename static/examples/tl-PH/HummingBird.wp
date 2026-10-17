@@ -46,17 +46,17 @@ pinili: Pagpipilian()
 mode•'': 'tap' … (pinili = 'hum') | (pinili = 'tap') … pinili
 
 ¶Sa tap mode, pumagaspas kapag nag-click o pumindot ng anumang key.¶
-flap: (mode = 'tap') & (∆ Butones() | ∆ Susi())
+flap: (mode = 'tap') & (∆ Pindutan() | ∆ Susi())
 
 ¶Sa hum mode, lumulutang ang ibon sa taas ayon sa taas ng iyong ugong — mababang tunog malapit sa lupa, mataas na tunog malapit sa langit — at wala nang mas mataas pa.¶
 tono2: Tono()
 humming: (mode = 'hum') & (tono2 > 50hz)
 
 ƒ tonoHanggangTaas(hz•#hz)
-	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
+	hz.mulingIskala(80hz 400hz -4m 5m).hangganan(-4m 5m)
 
 ¶Dahan-dahang lumalapit sa inugong na taas nang paunti-unti, para dumausdos ang ibon sa halip na yumugyog sa bawat pagbabago ng tono.¶
-tonoY•#m: 1m … ∆ tono2 … humming ? tonoY.toward(tonoHanggangTaas(tono2) 20%) tonoY
+tonoY•#m: 1m … ∆ tono2 … humming ? tonoY.patungo(tonoHanggangTaas(tono2) 20%) tonoY
 
 ¶Lumulutang ang ibon habang binibilang pababa, pumapaitaas o lumulutang ayon sa inugong na tono habang naglalaro, at gumugulong dahil sa gravity pagkatapos ng banggaan.¶
 lugarNgIbon: Paggalaw(
@@ -237,7 +237,7 @@ tunogNgPagpakpak: Musika(
 	)
 
 ¶Dalawampung gate mula sa balisa hanggang desperado. Ang pagpapalit ng tempo ay ipinapasok sa susunod na tibok, sa halip na magsimula ulit, kaya bawat gate ay pumipigil sa loop sa ilalim mo nang hindi ito nawawalan ng lugar — at ang pagbangga ay ibinabalik ang iskor sa zero, na nag-uumpisa ulit nito mula sa simula.¶
-pagmamadali: (iskor ÷ 20).minuto(1)
+pagmamadali: (iskor ÷ 20).pinakamaliit(1)
 
 ¶Phrygian para sa patag na ikalawang nota: isang semitono lang sa itaas ng home, ang pinakabalisang tunog na maaaring marinig nang hindi umaalis sa scale. Umaasa dito ang bass tuwing bawat ikalawang bar, at doon din natatapos ang figure ng synth, kaya hindi kailanman tumitigil ang loop.¶
 kantangBalisa: Musika(

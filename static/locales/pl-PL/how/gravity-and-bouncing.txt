@@ -7,9 +7,9 @@ Właśnie do tego służą @Motion i @Matter — razem symulują fizykę dla @Ph
 Potrzebujemy też czegoś, na co postać spadnie, inaczej nasza postać będzie spadać w nieskończoność! @Shape z szeroką @Rectangle tworzy fajną podłogę:
 
 \
-Stage([
-    Phrase('🍎' miejsce: Motion(Place(0m 5m)) materiał: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+Scena([
+    Fraza('🍎' miejsce: Ruch(Miejsce(0m 5m)) materiał: Materiał())
+    Kształt(Prostokąt(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Aby zmienić sposób / sprężysty / lub jak / ciężki / postać jest, daj jej 
 @Matter wymaga masy, sprężystości i tarcia:
 
 \
-Stage([
-    Phrase('⚽' miejsce: Motion(Place(-2m 5m)) materiał: Matter(1kg 0.9 0.2))
-    Phrase('🪨' miejsce: Motion(Place(2m 5m)) materiał: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+Scena([
+    Fraza('⚽' miejsce: Ruch(Miejsce(-2m 5m)) materiał: Materiał(1kg 0.9 0.2))
+    Fraza('🪨' miejsce: Ruch(Miejsce(2m 5m)) materiał: Materiał(5kg 0.1 0.8))
+    Kształt(Prostokąt(-10m 0m 10m -5m))
 ])
 \
 

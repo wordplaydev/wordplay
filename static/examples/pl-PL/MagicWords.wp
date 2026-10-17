@@ -46,13 +46,13 @@ Scena(
 		Grupa(
 			Stos('|' 1m)
 			[
-				Wyrażenie(
+				Fraza(
 					nastrój
 					8m
 					spoczynkowy: powiedziane(kręć) ? Sekwencja.obrót(
 						) ø
 				)
-				Wyrażenie(
+				Fraza(
 					usłyszane = '' ? 'powiedz: ' + zaklęcia.dołączyć(
 								', '
 							) usłyszane

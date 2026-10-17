@@ -5,7 +5,7 @@ Vệt con trỏ
 
 lịchSử•[VịTrí]: ←← 5 Contrỏ()
 Sânkhấu(
-	lịchSử.dịch(
+	lịchSử.biếnĐổi(
 		ƒ(vịTrí2•VịTrí chỉMục2•#)
 			Cụmtừ(
 				'●'

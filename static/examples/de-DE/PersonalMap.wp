@@ -147,38 +147,38 @@ stream to check collisions.¶/en
 टक्कर-वाला धारा को टक्कर मिलने के लिए।¶/hi
 Bühne(
 	[
-		Satzglied(
+		Phrase(
 			'🍂'
 			Name: "Virginia"/en,"वर्जिनिया"/hi
 			Ort: Ort(-3m 0m)
-			Gegenstand: Gegenstand()
+			Material: Material()
 		)
-		Satzglied(
+		Phrase(
 			`@ellipsis/CuteDuckie`
 			Name: "California"/en,"कॅलिफ़ोर्निया"/hi
 			Ort: Ort(-10m 0m)
-			Gegenstand: Gegenstand()
+			Material: Material()
 			Größe: 1.4m
 		)
-		Satzglied(
+		Phrase(
 			'🏕'
 			Name: "India"/en,"भारत"/hi
 			Ort: Ort(5m -6m)
-			Gegenstand: Gegenstand()
+			Material: Material()
 		)
-		Satzglied(
+		Phrase(
 			`@ellipsis/GoDawgs`
 			Name: "Washington"/en,"वाशिंटन"/hi
 			Ort: Ort(-10m 6m)
-			Gegenstand: Gegenstand()
+			Material: Material()
 			Größe: 1.4m
 		)
-		Satzglied(
+		Phrase(
 			'🐤'
 			Name: "me"/en,"मैं"/hi
 			Ort: where
-			Gegenstand: Gegenstand()
-			ziehenum: Reihenfolge(
+			Material: Material()
+			ziehenum: Abfolge(
 				{
 					0%: Pose()
 					50%: Pose(Versatz: Ort(0m 1m 0m))

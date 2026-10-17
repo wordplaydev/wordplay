@@ -3,7 +3,7 @@ Gedicht
 === start
 ¶Ein Gedicht, dessen Zeilen hereinschweben und jede ihren eigenen Auftritt hat.¶
 
-•zeile(text2•"" pose•Pose|Reihenfolge hinten: Farbe(
+•zeile(text2•"" pose•Pose|Abfolge hinten: Farbe(
 			100
 			100
 			100°
@@ -13,16 +13,16 @@ Gedicht
 gedicht: [
 		zeile(
 			'Die Computerdatei'
-			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+			Pose(Opazität: 0% Versatz: Ort(Y: -5m))
 		)
 		zeile(
 			'von der'
-			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+			Pose(Opazität: 0% Versatz: Ort(Y: -5m))
 		)
 		zeile('ich keine Erinnerung habe' Pose(Drehung: 10°))
 		zeile(
 			'ich klicke sie auf'
-			Reihenfolge(
+			Abfolge(
 				{
 					0%: Pose(Skala: 1)
 					50%: Pose(Skala: 0.7)
@@ -31,48 +31,48 @@ gedicht: [
 				0.25s
 			)
 		)
-		zeile('sieh' Pose(Opazität: 0% Versatz: Ort(j: -5m)))
+		zeile('sieh' Pose(Opazität: 0% Versatz: Ort(Y: -5m)))
 		zeile(
 			'weiter nach unten scrollen'
-			Pose(Opazität: 0% Versatz: Ort(j: 5m))
+			Pose(Opazität: 0% Versatz: Ort(Y: 5m))
 		)
 		zeile(
 			'der Bildschirm'
-			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+			Pose(Opazität: 0% Versatz: Ort(Y: -5m))
 		)
 		zeile(
 			'bleibt hell erleuchtet und leer'
-			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+			Pose(Opazität: 0% Versatz: Ort(Y: -5m))
 			Farbe(0 0 0°)
 			Farbe(100 100 0°)
 		)
 		zeile(
 			'so begegne ich mir wieder'
-			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+			Pose(Opazität: 0% Versatz: Ort(Y: -5m))
 		)
 		zeile(
 			'hoffnungsvoll und nutzlos'
-			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+			Pose(Opazität: 0% Versatz: Ort(Y: -5m))
 		)
 		zeile(
 			'ein Rätsel'
-			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+			Pose(Opazität: 0% Versatz: Ort(Y: -5m))
 		)
 		zeile(
 			'genau wie ich es getan haben muss'
-			Pose(Opazität: 0% Versatz: Ort(j: -5m))
+			Pose(Opazität: 0% Versatz: Ort(Y: -5m))
 		)
 		zeile('am 19. August 2010, 11:08 Uhr' Pose())
 	]
 
-zahl2: 1 … ∆ Taste() | ∆ Schlüssel() …
+zahl2: 1 … ∆ Taste() | ∆ Tastaturtaste() …
 		(zahl2 = (gedicht.Länge() + 1)) ? 1 zahl2 + 1
 zeile2: gedicht[zahl2]
 
 zahl2 ≤ gedicht.Länge() ?
 	Bühne(
 		[
-			Satzglied(
+			Phrase(
 				zeile2.text2
 				Eingabe: zeile2.pose
 				Dauer: 1s
@@ -88,8 +88,8 @@ zahl2 ≤ gedicht.Länge() ?
 			Gruppe(
 				Stapel()
 				[
-					Satzglied('RAT AN MICH SELBST')
-					Satzglied('Jane Hirshfield')
+					Phrase('RAT AN MICH SELBST')
+					Phrase('Jane Hirshfield')
 				]
 				Eingabe: Pose(Skala: 0.75)
 			)

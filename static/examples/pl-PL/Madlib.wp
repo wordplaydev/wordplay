@@ -14,7 +14,7 @@ tury: [
 		częśćMowy('przysłówki' 4)
 	]
 
-czat: Pogawędzić()
+czat: Czat()
 ¶Za każdym razem, gdy ktoś wyśle wiadomość na czacie, przejdź do następnej części mowy¶
 kolej: 1 … ∆ czat … kolej + 1
 ¶Za każdym razem, gdy ktoś wyśle wiadomość na czacie, podziel ją po spacjach i dodaj do odpowiedzi¶
@@ -35,10 +35,10 @@ Scena(
 			Grupa(
 				Stos('|' 0.25m)
 				[
-					Wyrażenie(
+					Fraza(
 						`\tury[kolej].licznik\ \tury[kolej].etykieta\ poproszę!`
 					)
-					Wyrażenie('(oddzielone spacjami)' 0.5m)
+					Fraza('(oddzielone spacjami)' 0.5m)
 				]
 			)
 			¶Gdy mamy już odpowiedzi, pokaż historyjkę¶
@@ -58,7 +58,7 @@ Scena(
 				¶Przetłumacz je na frazy¶
 				Grupa(
 					Stos('<')
-					zdania.tłumaczyć(ƒ(zdanie2) Wyrażenie(zdanie2))
+					zdania.przekształć(ƒ(zdanie2) Fraza(zdanie2))
 				)
 			)
 	]

@@ -14,7 +14,7 @@ celMaiRecent•['']:
 
 Grup(
 	Grilă(3 3 1m 1m)
-	celMaiRecent.traduce(
+	celMaiRecent.transformă(
 		ƒ(felDeMâncare•"" index2•#)
 			Fraza(
 				felDeMâncare

@@ -28,7 +28,7 @@ hitungan2: ketukan2.hitung
 		a2: suara2()
 		b2: suara2()
 		c2: suara2()
-		(32 → []).menerjemahkan(
+		(32 → []).petakan(
 			ƒ(i•#)
 				(i = 1) ? a2
 					(i = 2) ? b2
@@ -45,7 +45,7 @@ hitungan2: ketukan2.hitung
 Inilah nada-nada terpendek dalam karya ini, dan satu-satunya bagian di mana suara kucing terpotong: dua not seperdelapan dalam satu ketukan lebih cepat daripada waktu yang dibutuhkan untuk menyelesaikan satu suara meong, dan begitulah suara suku kata scat yang cepat memang terdengar.¶
 ƒ berjalan2()•[#|ø] (
 		rumah: Acak(1 8)
-		(64 → []).menerjemahkan(
+		(64 → []).petakan(
 			ƒ(i2•#)
 				~((17‥32) ∋ i2) ? ø
 					mungkin((((rumah + (i2 - 17)) - 1) % 8) + 1)
@@ -55,7 +55,7 @@ Inilah nada-nada terpendek dalam karya ini, dan satu-satunya bagian di mana suar
 ¶Not bertiga, birama lima dan enam: satu kelompok tiga nada yang berputar terus-menerus. Tiga nada dalam ruang dua ketukan ditulis persis seperti itu — 2 ketukan ÷ 3 — yang menjelaskan dengan jelas apa itu not bertiga.¶
 ƒ ayun3()•[#|ø] (
 		sel2: [suara2() suara2() suara2()]
-		(48 → []).menerjemahkan(
+		(48 → []).petakan(
 			ƒ(i3•#)
 				~((25‥36) ∋ i3) ? ø
 					sel2[(((i3 - 25) % 3) + 1)]
@@ -64,7 +64,7 @@ Inilah nada-nada terpendek dalam karya ini, dan satu-satunya bagian di mana suar
 
 ¶Not setengah, birama tujuh: kucing melambat dan berhenti pada dua nada panjang. Nada yang ditahan membuat mulut tetap terbuka selama nada itu berbunyi, dan itulah rupa dari menahan sebuah nada.¶
 ƒ menyimpan2()•[#|ø]
-	(16 → []).menerjemahkan(
+	(16 → []).petakan(
 		ƒ(i4•#)
 			(i4 = 13) ? suara2()
 				(i4 = 14) ? suara2()
@@ -72,7 +72,7 @@ Inilah nada-nada terpendek dalam karya ini, dan satu-satunya bagian di mana suar
 	)
 
 ¶Not penuh, birama delapan: nada 1, ditahan. Kembali ke nada pertama dari tangga nada adalah hal yang membuat sebuah frasa terdengar selesai, bukan sekadar berhenti.¶
-ƒ ekor2()•[#|ø] (8 → []).menerjemahkan(
+ƒ ekor2()•[#|ø] (8 → []).petakan(
 		ƒ(i5•#) (i5 = 8) ? 1 ø
 	)
 
@@ -92,7 +92,7 @@ paduanSuara2•paduanSuara: berimprovisasi() … ∆ ketukan2 …
 miring2: ((hitungan2 % 2) = 0) ? -1 1
 
 ¶Apakah kucing itu sedang mengeluarkan suara sekarang. @Beat memberikan satu @Part untuk setiap trek, dan sebuah bagian tetap ⊤ selama setiap ketukan yang ditahan oleh sebuah nada, sehingga ini bernilai ⊤ kapan pun ada sesuatu yang terdengar.¶
-bernyanyi: ketukan2.bagian.menerjemahkan(
+bernyanyi: ketukan2.bagian.petakan(
 		ƒ(bagian2•Bagian) bagian2.berbunyi
 	).memiliki(
 		⊤

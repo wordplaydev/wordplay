@@ -8,8 +8,8 @@ Một @Image nhận một lưới màu và vẽ nó thành một bức tranh, n�
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Máyảnh(width × 1px height × 1px 33ms)
+Sânkhấu([HìnhẢnh(colors "what the camera sees" 12m)])
 \
 
  Mỗi @Image cần một lời mô tả, vì một lưới màu tự nó không có từ ngữ nào cho người không thể nhìn thấy nó.
@@ -19,8 +19,8 @@ Ta có thể vẽ bức tranh bằng chữ cái thay vì ô vuông, bằng cách
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m kýTự: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Máyảnh(width × 1px height × 1px 33ms)
+Sânkhấu([HìnhẢnh(colors "the camera, drawn with dark and light circles" 12m kýTự: ƒ(color•Màusắc) (color.độSáng < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

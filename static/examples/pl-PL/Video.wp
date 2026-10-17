@@ -23,10 +23,10 @@ kwadraty: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦�
 ¶Jak wygląda jeden piksel w bieżącym stylu. Piksel prawie bez koloru nie ma barwy wartej pokazania, więc zamienia się w jasny lub ciemny kwadrat.¶
 ƒ glif(kolor2•Kolor)
 	(styl2 = 'ascii') ?
-		"\paleta2[((kolor2.lekkość × 9).okrągły()) + 1]\"
+		"\paleta2[((kolor2.jasność × 9).zaokrąglij()) + 1]\"
 		((styl2 = 'emoji') ?
 				((kolor2.barwa < 8) ?
-						((kolor2.lekkość < 50%) ? "⬛" "⬜")
+						((kolor2.jasność < 50%) ? "⬛" "⬜")
 						"\kwadraty[(((kolor2.odcień ÷ 1°) ÷ 15).zaokrąglićwdół(
 							)) + 1]\")
 				'jeden')
@@ -47,7 +47,7 @@ obraz: Obraz(
 
 ¶Jeden przycisk stylu, jasny, gdy ten styl jest pokazany. Nazwa to to, co Wybór podaje, gdy przycisk zostanie kliknięty lub wybrany klawiaturą.¶
 ƒ przycisk(identyfikator•'')
-	Wyrażenie(
+	Fraza(
 		identyfikator
 		0.5m
 		nazwa: identyfikator

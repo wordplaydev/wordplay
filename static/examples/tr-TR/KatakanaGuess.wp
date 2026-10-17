@@ -25,18 +25,18 @@ Sahne(
 		Grup(
 			Yığın()
 			[
-				İfadeetmek(
+				Yazı(
 					`/What is the matching hiragana?/``/対応するひらがなは何ですか？/`/ja
 				)
-				İfadeetmek(`*\カタカナ[配置.secret]\*` 2m)
+				Yazı(`*\カタカナ[配置.secret]\*` 2m)
 				Grup(
 					Izgara(10 5 1m 1m 1m)
-					ひらがな.tercümeetmek(
+					ひらがな.dönüştür(
 						ƒ(シンボル/ja•'' 指数/ja,index/en)
-							İfadeetmek(シンボル isim: 指数 → '' seçilebilir)
+							Yazı(シンボル isim: 指数 → '' seçilebilir)
 					)
 				)
-				İfadeetmek(
+				Yazı(
 					`*\配置.score\* points!``*\配置.score\* 正解です！`/ja
 				)
 			]

@@ -152,7 +152,7 @@ segmento2•#:
 		⊥
 		… segmento2 + 1
 
-Fase(
+Palco(
 	história[segmento2]
 	fonte: 'Arvo'
 	local: Local(0m 0m -20m)

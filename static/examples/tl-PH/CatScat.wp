@@ -12,7 +12,7 @@ Ang boses ay ang pusang naka-tune, \Instrumento.pusangMayTono\: isang meow, may 
 Mabagal ito para sa isang "scat". Tumatagal ng humigit-kumulang walong ikasampu ng segundo ang isang meow, at kung mas mabilis ang tempo, naputol ang pusa sa kalagitnaan ng meow ng mga quarter note.¶
 
 tibok2: Kumpas()
-bilang2: tibok2.bilangin
+bilang2: tibok2.bilang
 
 ¶Isang nota, o kung minsan ay walang tunog: humigit-kumulang isa sa pito ang natatahimik. Sapat na ito para makasarado ng bibig ang pusa paminsan-minsan nang hindi pinapanghina ang solo — at dahil ang mga saglit ng katahimikan ay nahuhulog kung saan man itinakda ng tsansa, walang dalawang koro ang humihinga sa parehong lugar.¶
 ƒ maaari(nota•#)•#|ø (Random() > 0.15) ? nota ø
@@ -92,7 +92,7 @@ kiling: ((bilang2 % 2) = 0) ? -1 1
 ¶Kung gumagawa ba ang pusa ng tunog ngayon. Ibinabalik ng @Beat ang isang @Part para sa bawat track, at nananatiling ⊤ ang isang bahagi sa buong tagal ng tibok na pinapanatili ng isang tinagal na nota, kaya ito ay ⊤ tuwing may naririnig na tunog.¶
 kumakanta: tibok2.mgaBahagi.isalin(
 		ƒ(bahagi•Bahagi) bahagi.tumutunog
-	).aymay(
+	).mayroon(
 		⊤
 	)
 

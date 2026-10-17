@@ -63,7 +63,7 @@ paroles: 'la li lu le lo li la'
 ¶Un bouton par instrument : l'icône est placée au-dessus de son nom, pour que les boutons ne se touchent pas. Les phrases sélectionnables sont celles que Choice() lit, et la phrase en cours est dessinée plus claire pour que tu voies où tu en es.¶
 ƒ bouton(voix5•voix2)
 	Groupe(
-		Empiler(rembourrage: 0.1m)
+		Pile(rembourrage: 0.1m)
 		[
 			Phrase(voix5.icône 1.1m)
 			Phrase(voix5.étiquette 0.5m)
@@ -83,13 +83,13 @@ La musique garde le même nom tout le long, au lieu de prendre celui de l'instru
 Scène(
 	[
 		Groupe(
-			Empiler(rembourrage: 0.6m)
+			Pile(rembourrage: 0.6m)
 			[
 				Phrase(actuel.icône 2.5m)
 				Phrase(actuel.étiquette 1.2m)
 				Groupe(
 					Grille(colonnes: 5 rembourrage: 0.4m)
-					voix3.traduire(ƒ(voix6•voix2) bouton(voix6))
+					voix3.transformer(ƒ(voix6•voix2) bouton(voix6))
 				)
 			]
 		)

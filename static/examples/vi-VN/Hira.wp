@@ -9,15 +9,15 @@ trọngLực•#m/s^2: 15m/s^2 … ∆ Cáinút() … -trọngLực
 
 chữHiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
 
-chữCái: đếm2 → [].dịch(
+chữCái: đếm2 → [].biếnĐổi(
 		ƒ(số2 chỉMục2)
 			Cụmtừ(
 				chữHiragana[số2]
-				vịTrí: Cửđộng(
+				vịTrí: ChuyểnĐộng(
 					VịTrí((chỉMục2 - (đếm2 ÷ 2)) × 0.2m 10m)
 					Vậntốc(góc: Ngẫunhiên(-5 5) × 1°/s)
 				)
-				vấnđề: Vấnđề(độđànhồi: 0.3)
+				vậtChất: VậtChất(độđànhồi: 0.3)
 			)
 	)
 

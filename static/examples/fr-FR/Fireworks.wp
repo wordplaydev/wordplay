@@ -10,7 +10,7 @@ Chaque éclat porte le numéro du temps comme nom. Les éclats de chaque temps s
 L'air est /The Star-Spangled Banner/ — la mélodie de John Stafford Smith, écrite vers 1773 et depuis longtemps dans le domaine public — jouée en entier, jusqu'à la dernière ligne. Chaque note porte sa propre durée, écrite comme une valeur de note sur le nombre : \8𝅘𝅥𝅮\ est une croche, \13𝅗𝅥\ une blanche, \13𝅗𝅥𝅭\ une blanche pointée. Les levées, les rythmes pointés et les notes longues tenues ont donc de vraies durées, et non une grille de temps égaux. Un nombre seul vaut un temps. Les silences ont toujours besoin d'un @Note, car \ø\ n'est pas un nombre et ne peut donc pas porter de valeur. Elle utilise la gamme chromatique pour que la quarte augmentée puisse s'écrire : chaque pas est un demi-ton.¶
 ↓ @wordplay/instruments 1
 
-temps: Rythme()
+temps: Pulsation()
 compte2: temps.nombre
 
 ¶Seules les parties qui font vraiment du bruit deviennent des feux d'artifice ; une piste au repos reste sombre. Avant le début de la musique, il n'y a aucune partie, donc le ciel est vide.¶
@@ -537,7 +537,7 @@ batterie2: [
 
 Scène(
 	[
-		:tir.traduire(ƒ(p6•Partie i2•#) éclat(p6 i2))
+		:tir.transformer(ƒ(p6•Partie i2•#) éclat(p6 i2))
 		Musique(
 			[
 				Piste(

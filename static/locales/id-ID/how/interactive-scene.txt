@@ -5,14 +5,14 @@ Kadang kita ingin bercerita dengan cara menunggu penonton melakukan sesuatu sebe
 Untuk melakukan ini, kita bisa memakai @Scene, tapi meletakkan @Boolean nilai di antara isi yang ingin kita tampilkan. Sebagai contoh, berikut ini sebuah klik akan lanjut ke isi berikutnya, memakai sebuah @Button:
 
 \
-Scene([
-		Phrase('klik aku')
-		Button()
-		Phrase('klik aku lagi' lamanya: 1s)
-		Button()
-		Phrase('beneran, klik aku sekeras mungkin!!' lamanya: 1s)
-		Button()
-		Phrase('apa kamu sudah mengklik aku?' lamanya: 1s)
+Adegan([
+		Frasa('klik aku')
+		Tombol()
+		Frasa('klik aku lagi' lamanya: 1s)
+		Tombol()
+		Frasa('beneran, klik aku sekeras mungkin!!' lamanya: 1s)
+		Tombol()
+		Frasa('apa kamu sudah mengklik aku?' lamanya: 1s)
 	])
 \
 
@@ -23,26 +23,26 @@ Misalnya, kita bisa memakai suara kita!
 Jika kita berteriak cukup keras, adegan akan melanjut:
 
 \
-Scene([
-		Phrase('apakah ada orang di sana?')
+Adegan([
+		Frasa('apakah ada orang di sana?')
 		Volume() > .5
-		Phrase("aku tidak bisa mendengarmu, coba ulangi?" lamanya: 1s)
+		Frasa("aku tidak bisa mendengarmu, coba ulangi?" lamanya: 1s)
 		Volume() > .7
-		Phrase('lebih keras dong...' lamanya: 1s)
+		Frasa('lebih keras dong...' lamanya: 1s)
 		Volume() > .9
-		Phrase('oh, hai!' lamanya: 1s)
+		Frasa('oh, hai!' lamanya: 1s)
 	])
 \
 
  Ketika setiap @Phrase harus menunggu hal yang sama, @Scene/until cukup menuliskannya sekali, bukan di antara setiap bagian. Ini melakukan hal yang sama seperti contoh pertama di atas:
 
 \
-Scene([
-		Phrase('klik aku')
-		Phrase('klik aku lagi' lamanya: 1s)
-		Phrase('beneran, klik aku sekeras mungkin!!' lamanya: 1s)
-		Phrase('apa kamu sudah mengklik aku?' lamanya: 1s)
-	] sampai: Button())
+Adegan([
+		Frasa('klik aku')
+		Frasa('klik aku lagi' lamanya: 1s)
+		Frasa('beneran, klik aku sekeras mungkin!!' lamanya: 1s)
+		Frasa('apa kamu sudah mengklik aku?' lamanya: 1s)
+	] sampai: Tombol())
 \
 
  Tulis sebuah @Boolean dalam daftar saat waktu tunggunya / berbeda-beda /, seperti pada contoh teriakan, dan pakai @Scene/until saat semuanya sama.
@@ -53,11 +53,11 @@ Catatan: @Scene/until menunggu / setelah / setiap @Phrase selesai dengan @Phrase
 Jika kamu lebih suka @Scene tidak pernah bergerak sendiri, dan hanya pergi ke tempat yang kamu tentukan, gunakan @Scene/pause dengan @Scene/step:
 
 \
-key: Key()
-Scene([
-		Phrase('satu')
-		Phrase('dua')
-		Phrase('tiga')
+key: Tuts()
+Adegan([
+		Frasa('satu')
+		Frasa('dua')
+		Frasa('tiga')
 	] jeda langkah: ∆ key ? ((key = 'Panah Kiri') ? -1 (key = 'Panah Kanan') ? 1 ø) ø)
 \
 

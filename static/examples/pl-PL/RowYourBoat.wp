@@ -119,8 +119,8 @@ wiosła: [
 	]
 
 ¶Łódka. Z każdym uderzeniem przesuwa się trochę dalej i za każdym razem kołysze się w drugą stronę, dzięki temu wygląda, jakby wiosłowała; tor określa, jak wysoko łódka się znajduje i jak daleko z przodu zaczęła, więc łódki nie poruszają się razem.¶
-ƒ łódka(pas•# początek2•#)•Wyrażenie
-	Wyrażenie(
+ƒ łódka(pas•# początek2•#)•Fraza
+	Fraza(
 		'🚣'
 		1.5m
 		miejsce: Miejsce(
@@ -136,13 +136,13 @@ flota: [łódka(0 0) łódka(1 6) łódka(2 11)]
 Scena(
 	[
 		:flota
-		Wyrażenie(
+		Fraza(
 			'〰〰〰〰〰〰〰〰'
 			1m
 			miejsce: Miejsce(-8m -3.2m)
 			kolor: Kolor(48% 22 240°)
 		)
-		Wyrażenie(
+		Fraza(
 			'Row, row, row your boat'
 			0.9m
 			miejsce: Miejsce(-4.4m 3.4m)

@@ -8,8 +8,8 @@ A co, jeśli chcemy zobaczyć te kolory i odtworzyć obraz, który widzi @Camera
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Kamera(width × 1px height × 1px 33ms)
+Scena([Obraz(colors "what the camera sees" 12m)])
 \
 
  Każdy @Image potrzebuje opisu, bo siatka kolorów nie ma żadnych słów dla kogoś, kto jej nie widzi.
@@ -19,8 +19,8 @@ Możemy narysować obraz literami zamiast kwadratów, dając mu /znak/, czyli fu
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m znak: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Kamera(width × 1px height × 1px 33ms)
+Scena([Obraz(colors "the camera, drawn with dark and light circles" 12m znak: ƒ(color•Kolor) (color.jasność < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

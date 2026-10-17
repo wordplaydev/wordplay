@@ -26,16 +26,16 @@ operator: ø … operatorwybrany … ((wybór ÷ '')[-1])
 liczby1: Grupa(
 		Siatka(2 5)
 		[
-			Wyrażenie("0⃣" wybieralny nazwa: 'liczba1_0')
-			Wyrażenie("1⃣" wybieralny nazwa: 'liczba1_1')
-			Wyrażenie("2⃣" wybieralny nazwa: 'num1_2')
-			Wyrażenie("3⃣" wybieralny nazwa: 'num1_3')
-			Wyrażenie("4⃣" wybieralny nazwa: 'num1_4')
-			Wyrażenie("5⃣" wybieralny nazwa: 'num1_5')
-			Wyrażenie("6⃣" wybieralny nazwa: 'num1_6')
-			Wyrażenie("7⃣" wybieralny nazwa: 'num1_7')
-			Wyrażenie("8⃣" wybieralny nazwa: 'num1_8')
-			Wyrażenie("9⃣" wybieralny nazwa: 'num1_9')
+			Fraza("0⃣" wybieralny nazwa: 'liczba1_0')
+			Fraza("1⃣" wybieralny nazwa: 'liczba1_1')
+			Fraza("2⃣" wybieralny nazwa: 'num1_2')
+			Fraza("3⃣" wybieralny nazwa: 'num1_3')
+			Fraza("4⃣" wybieralny nazwa: 'num1_4')
+			Fraza("5⃣" wybieralny nazwa: 'num1_5')
+			Fraza("6⃣" wybieralny nazwa: 'num1_6')
+			Fraza("7⃣" wybieralny nazwa: 'num1_7')
+			Fraza("8⃣" wybieralny nazwa: 'num1_8')
+			Fraza("9⃣" wybieralny nazwa: 'num1_9')
 		]
 	)
 
@@ -43,16 +43,16 @@ liczby1: Grupa(
 liczby2: Grupa(
 		Siatka(2 5)
 		[
-			Wyrażenie("0⃣" wybieralny nazwa: 'num2_0')
-			Wyrażenie("1⃣" wybieralny nazwa: 'num2_1')
-			Wyrażenie("2⃣" wybieralny nazwa: 'num2_2')
-			Wyrażenie("3⃣" wybieralny nazwa: 'num2_3')
-			Wyrażenie("4⃣" wybieralny nazwa: 'num2_4')
-			Wyrażenie("5⃣" wybieralny nazwa: 'num2_5')
-			Wyrażenie("6⃣" wybieralny nazwa: 'num2_6')
-			Wyrażenie("7⃣" wybieralny nazwa: 'num2_7')
-			Wyrażenie("8⃣" wybieralny nazwa: 'num2_8')
-			Wyrażenie("9⃣" wybieralny nazwa: 'num2_9')
+			Fraza("0⃣" wybieralny nazwa: 'num2_0')
+			Fraza("1⃣" wybieralny nazwa: 'num2_1')
+			Fraza("2⃣" wybieralny nazwa: 'num2_2')
+			Fraza("3⃣" wybieralny nazwa: 'num2_3')
+			Fraza("4⃣" wybieralny nazwa: 'num2_4')
+			Fraza("5⃣" wybieralny nazwa: 'num2_5')
+			Fraza("6⃣" wybieralny nazwa: 'num2_6')
+			Fraza("7⃣" wybieralny nazwa: 'num2_7')
+			Fraza("8⃣" wybieralny nazwa: 'num2_8')
+			Fraza("9⃣" wybieralny nazwa: 'num2_9')
 		]
 	)
 
@@ -60,10 +60,10 @@ liczby2: Grupa(
 operatory: Grupa(
 		Siatka(2 2)
 		[
-			Wyrażenie("➕" wybieralny nazwa: 'op_a')
-			Wyrażenie("➖" wybieralny nazwa: 'op_s')
-			Wyrażenie("✖" wybieralny nazwa: 'op_m')
-			Wyrażenie("➗" wybieralny nazwa: 'op_d')
+			Fraza("➕" wybieralny nazwa: 'op_a')
+			Fraza("➖" wybieralny nazwa: 'op_s')
+			Fraza("✖" wybieralny nazwa: 'op_m')
+			Fraza("➗" wybieralny nazwa: 'op_d')
 		]
 	)
 

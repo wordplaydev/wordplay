@@ -7,7 +7,7 @@ Podemos lograrlo con la entrada @Pointer .
 Si usamos ese @Place como @Phrase de un \place\, el personaje irá a donde señalemos.
 
 \
-Stage([Phrase('🐈' lugar: Pointer())] lugar: Place(0m 0m -10m))
+Escenario([Frase('🐈' lugar: Puntero())] lugar: Lugar(0m 0m -10m))
 \
 
 ¡Eso es todo! Mueve el ratón o arrastra el dedo y observa cómo el gato te sigue.
@@ -16,7 +16,7 @@ Puedes hacer cosas más interesantes si sacas \x\ y \y\ del @Place.
 Aquí hay un pato que siempre flota a un metro sobre el puntero:
 
 \
-Stage([Phrase('🦆' lugar: Place(Pointer().x Pointer().y + 1m))] lugar: Place(0m 0m -10m))
+Escenario([Frase('🦆' lugar: Lugar(Puntero().x Puntero().y + 1m))] lugar: Lugar(0m 0m -10m))
 \
 
 move-phrase, count-with-time

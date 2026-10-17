@@ -13,14 +13,14 @@ atışX: 0m … (tıkla & ((tıklamaSayısı % 2) = 1)) … İşaretçi(
 
 basketbolKonumu: (tıklamaSayısı % 2) = 0 ? Yer(
 			X: İşaretçi().X
-			ve: 8m
+			Y: 8m
 			z: 0m
 		) Hareket(yer: Yer(atışX 8m 0m))
 
-basketbol: İfadeetmek(
+basketbol: Yazı(
 		"🏀"
 		0.7m
-		konu: Konu(0.623kg 0.5)
+		madde: Madde(0.623kg 0.5)
 		yer: basketbolKonumu
 		isim: 'basketbol'
 	)
@@ -30,9 +30,9 @@ sepetXKonumu: (Zaman() ÷ 600ms).günah() · 6m
 
 ¶Skor kontrolü için topun şu anki konumunu bir kez oku¶
 topX: (basketbol.yer ?? Yer()).X
-topY: (basketbol.yer ?? Yer()).ve
+topY: (basketbol.yer ?? Yer()).Y
 
-deneme: (tıklamaSayısı ÷ 2).hesabıyuvarlamak()
+deneme: (tıklamaSayısı ÷ 2).yukarıYuvarla()
 
 ¶inBin, top sepetin içindeyken her zaman doğrudur. Skor tepkisi yalnızca inBin doğruya döndüğünde VE şu anki deneme skordan ilerideyken tetiklenir. Böylece aynı atış sırasında ikinci bir giriş — sepetin içinde sekmeler ya da sepetin topun üzerine geri kayması — bir sonraki atış deneme sayacını artırana kadar hiçbir etki yaratmaz¶
 sepetteMi: (((sepetXKonumu - 0.9m)‥(sepetXKonumu + 0.9m)) ∋ topX) & ((0.3m‥2.9m) ∋ topY)
@@ -41,14 +41,14 @@ skor: 0 … sepetteMi & (deneme > skor) … 1 + skor
 basketbolYıldızı: Grup(
 		Yığın('|' 0.5m)
 		[
-			İfadeetmek(`*Basketbol Yıldızı*` .8m)
-			İfadeetmek('İmleçle nişan al.' .6m)
-			İfadeetmek(
+			Yazı(`*Basketbol Yıldızı*` .8m)
+			Yazı('İmleçle nişan al.' .6m)
+			Yazı(
 				"🏀'yi hareket eden sepete düşürmek için tıkla."
 				.6m
 			)
-			İfadeetmek('Skor: ' + skor → '' .8m)
-			İfadeetmek('Denemeler: ' + deneme → '' .8m)
+			Yazı('Skor: ' + skor → '' .8m)
+			Yazı('Denemeler: ' + deneme → '' .8m)
 		]
 		boyut: 2m
 		yüz: "Sue Ellen Francisco"
@@ -92,6 +92,6 @@ Sahne(
 		Şekil(Dikdörtgen(-10m 0.01m 10m -2m))
 		basketbolYıldızı
 	]
-	yer: Yer(X: 0m ve: 5m z: -10m)
+	yer: Yer(X: 0m Y: 5m z: -10m)
 	yerçekimi: 5m/s^2
 )

@@ -11,7 +11,7 @@ cangkir: Frasa(
 		nama: 'cangkir'
 		tempat: Gerakan(Tempat(-8.1m -11m))
 		warna: Warna(85% 10 250°)
-		urusan: Urusan(massa: 5000kg gesekan: 0.9 garisLuar: ⊤)
+		materi: Materi(massa: 5000kg gesekan: 0.9 garisLuar: ⊤)
 	)
 
 ¶Sebuah gaya tampilan yang tebal, karena huruf yang gemuk punya mangkuk yang cukup lebar untuk menangkap bola. Huruf-hurufnya dipilih karena kait dan mangkuknya.¶
@@ -21,7 +21,7 @@ huruf: ['a' 'b' 'c' 'd' 'e']
 ¶Huruf-huruf jatuh lebih dulu, dari tempat yang sama tapi dengan ketinggian berbeda, sehingga masing-masing jatuh di atas yang sebelumnya dan tumpukan makin tinggi.
 
 Sebuah huruf menjadi padat hanya karena posisinya adalah sebuah Motion dan ia memiliki Matter — keluaran yang ditempatkan oleh sebuah program adalah hantu yang bisa dilewati apa saja. Massanya itulah yang mencegah bola-bola mendorong tumpukan sampai terpisah, dan meminta garis luar dari Matter itulah yang membuat mereka bertabrakan menurut bentuk hurufnya.¶
-tumpukan: huruf.menerjemahkan(
+tumpukan: huruf.petakan(
 		ƒ(huruf2•'' indeks2•#)
 			Frasa(
 				huruf2
@@ -35,7 +35,7 @@ tumpukan: huruf.menerjemahkan(
 					)
 				)
 				warna: Warna(75% 80 (indeks2 × 62°))
-				urusan: Urusan(
+				materi: Materi(
 					massa: 60kg
 					gesekan: 0.9
 					garisLuar: ⊤
@@ -44,7 +44,7 @@ tumpukan: huruf.menerjemahkan(
 	)
 
 ¶Hati-hati jatuh berikutnya. Sebuah emoji juga bisa meminta garis luarnya sendiri, jadi setiap hati bertabrakan menurut bentuknya: ujungnya menyelip masuk ke celah-celah yang seharusnya ditempati sebuah kotak.¶
-hati: ['🧡' '💛' '💚' '💙' '💜' '🩷'].menerjemahkan(
+hati: ['🧡' '💛' '💚' '💙' '💜' '🩷'].petakan(
 		ƒ(hati2•'' indeks3•#)
 			Frasa(
 				hati2
@@ -56,7 +56,7 @@ hati: ['🧡' '💛' '💚' '💙' '💜' '🩷'].menerjemahkan(
 						((indeks3 × 1.5m) + 34m)
 					)
 				)
-				urusan: Urusan(
+				materi: Materi(
 					massa: 20kg
 					gesekan: 0.8
 					garisLuar: ⊤
@@ -65,7 +65,7 @@ hati: ['🧡' '💛' '💚' '💙' '💜' '🩷'].menerjemahkan(
 	)
 
 ¶Bola-bola mulai di atas segalanya, jadi mereka tiba setelah tumpukan selesai mengendap. Mereka tidak meminta garis luar: kotak mereka, yang dibulatkan di semua sisi, itulah yang membuat mereka bisa menggelinding.¶
-bola: 18 → [].menerjemahkan(
+bola: 18 → [].petakan(
 		ƒ(angka2)
 			Frasa(
 				"⚽"
@@ -75,7 +75,7 @@ bola: 18 → [].menerjemahkan(
 					Tempat(Acak(-2m 2m) ((angka2 × 1.8m) + 44m))
 					Kecepatan(Acak(-1m/s 1m/s) 0m/s)
 				)
-				urusan: Urusan(
+				materi: Materi(
 					kekenyalan: 0.3
 					gesekan: 0.4
 					kebulatan: 0.5

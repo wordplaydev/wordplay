@@ -3,4 +3,4 @@ Dinle
 === start
 ¶Mikrofonunun sesi ne kadar yüksekse o kadar büyüyen bir hoparlör emojisi.¶
 
-İfadeetmek("🔈" dinlenme: Poz(ölçek: Hacim()))
+Yazı("🔈" dinlenme: Poz(ölçek: SesSeviyesi()))

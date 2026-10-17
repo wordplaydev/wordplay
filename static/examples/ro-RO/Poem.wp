@@ -68,12 +68,12 @@ poem: [
 		rând('pe 19 august 2010, ora 11:08' Poză())
 	]
 
-număr2: 1 … ∆ Buton() | ∆ Cheie() …
+număr2: 1 … ∆ Buton() | ∆ Tastă() …
 		(număr2 = (poem.lungime() + 1)) ? 1 număr2 + 1
 rând2: poem[număr2]
 
 număr2 ≤ poem.lungime() ?
-	Etapă(
+	Estradă(
 		[
 			Fraza(
 				rând2.text2
@@ -86,7 +86,7 @@ număr2 ≤ poem.lungime() ?
 		fundal: rând2.înapoi
 		odihnă: Poză(culoare: rând2.înainte)
 	)
-	Etapă(
+	Estradă(
 		[
 			Grup(
 				Stivă()

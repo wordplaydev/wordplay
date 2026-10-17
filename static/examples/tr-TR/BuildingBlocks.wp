@@ -59,7 +59,7 @@ ağaçŞekli: [
 	]
 kayaŞekli: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 
-ƒ şekilKonumu(şekil•[blok] kx•# kz•#) şekil.tercümeetmek(
+ƒ şekilKonumu(şekil•[blok] kx•# kz•#) şekil.dönüştür(
 		ƒ(b2•blok) blok(kx b2.y2 kz b2.tür2)
 	)
 
@@ -77,7 +77,7 @@ kayaŞekli: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 			[]
 			ƒ(yapı•[blok] kx2•#)
 				yapı.Listeile(
-					(Rastgele(1 2) → []).tercümeetmek(
+					(Rastgele(1 2) → []).dönüştür(
 						ƒ(seviye•#)
 							blok(
 								kx2
@@ -157,7 +157,7 @@ kolonlarıOluştur: [-4 -3 -2 2 3 4]
 				oyun3.x4
 				oyun3.z4
 			)) ? oyun3
-		((oyun3.y3:(oyun3.y3 + 1).dakika(maksY)).asılıDur:asılıKalmaTikleri)
+		((oyun3.y3:(oyun3.y3 + 1).enKüçük(maksY)).asılıDur:asılıKalmaTikleri)
 
 ¶Önündeki her şeye sallan. Yalnızca o sütunun en üstteki parçası çıkar — bu yüzden bir ağacın çıkması üç vuruş alır — ve bu, bir parçayı asla havada bırakamayacağın anlamına gelir, böylece hiçbir şey düşmek zorunda kalmaz. Yalnızca kendi ayak bastığın yerin bir üstündeki bir bloğa ulaşabilirsin, bu yüzden erişemeyeceğin bir tepe basitçe çıkmaz; daha yükseğe çık ve tekrar sallan. Serbest kalan parça senden uzağa, bir hücre daha yuvarlanır — o hücre alanın dışındaysa veya zaten doluysa, bulunduğu yerde düşer. Çekiç, vurup vurmadığına bakmaksızın geri çekilir, yani ıskalasa bile sallanmış olur.¶
 ƒ çarptı(oyun4•oyun) (
@@ -269,7 +269,7 @@ kolonlarıOluştur: [-4 -3 -2 2 3 4]
 
 ¶Bir kare: gevşek parçaların olgunlaşıp yerine oturmasını, asılı kalıp ardından üzerinde durduğun şeyin en üstüne düşmesini sağla, hücrende olan her şeyi cebine at, çekici geri getir ve kuleleri kontrol et.¶
 ƒ dünyaʼyıIlerlet(oyun10•oyun) (
-		yaşlandı: oyun10.öğeler.tercümeetmek(
+		yaşlandı: oyun10.öğeler.dönüştür(
 				ƒ(i•öğe2) (i.yaş = 0) ? (i.yaş:1) i
 			)
 		ayakta: kolonYüksekliği(
@@ -309,7 +309,7 @@ kolonlarıOluştur: [-4 -3 -2 2 3 4]
 		)
 	)
 
-anahtar3: Anahtar()
+anahtar3: Tuş()
 tık: Zaman(150ms)
 dokun: Düğme()
 
@@ -349,9 +349,9 @@ karoBoyutu: 0.8m
 
 zeminSıraları: [:0‥4].filtre(
 		ƒ(sıra•#) sıra ≥ (oyun11.z4 - arkayaÇiz)
-	).tercümeetmek(
+	).dönüştür(
 		ƒ(sıra2•#)
-			İfadeetmek(
+			Yazı(
 				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
 				karoBoyutu
 				süre: 0s
@@ -362,9 +362,9 @@ zeminSıraları: [:0‥4].filtre(
 
 blokGörünümleri: oyun11.bloklar.filtre(
 		ƒ(b8•blok) b8.z2 ≥ (oyun11.z4 - arkayaÇiz)
-	).tercümeetmek(
+	).dönüştür(
 		ƒ(b9•blok)
-			İfadeetmek(
+			Yazı(
 				b9.tür2
 				1m
 				süre: 0s
@@ -379,9 +379,9 @@ hayaletGörünümleri: ulaşılmamışHedef(
 		oyun11.hedef2
 	).filtre(
 		ƒ(g2•blok) g2.z2 ≥ (oyun11.z4 - arkayaÇiz)
-	).tercümeetmek(
+	).dönüştür(
 		ƒ(g3•blok)
-			İfadeetmek(
+			Yazı(
 				g3.tür2
 				1m
 				süre: 0s
@@ -394,9 +394,9 @@ hayaletGörünümleri: ulaşılmamışHedef(
 ¶Gevşek bir parça. Sahnede aniden değil, yumuşak geçişle hareket eden tek şey budur: ilk karesi bloğun kırıldığı yerde, geri kalanı ise indiği yerdedir; ikisi arasındaki yumuşak geçiş de yuvarlanmanın kendisidir.¶
 öğeGörünümleri: oyun11.öğeler.filtre(
 		ƒ(i6•öğe2) i6.z3 ≥ (oyun11.z4 - arkayaÇiz)
-	).tercümeetmek(
+	).dönüştür(
 		ƒ(i7•öğe2)
-			İfadeetmek(
+			Yazı(
 				i7.tür3
 				0.6m
 				süre: 0.3s
@@ -414,7 +414,7 @@ hayaletGörünümleri: ulaşılmamışHedef(
 	)
 
 ¶Bir adımı hareket haline getiren şey aslında süredir: süre olmadığında sahne, onun için bir animasyon oluşturmayı atlar ve her hareket ışınlanma gibi anında olur. Bir tikten biraz kısa bir süre, her adımın ve her zıplamanın bir sonraki gelmeden hemen önce yerine oturması demektir. Havadayken gerilmesi, çekicin geriye çekilmiş vuruşuyla aynı numaradır: başlayıp biten bir animasyon yerine, durum sürdüğü sürece tutulan farklı bir duruş.¶
-oyuncuGörünümü: İfadeetmek(
+oyuncuGörünümü: Yazı(
 		'🚶🏻‍♀'
 		1.1m
 		süre: 0.14s
@@ -439,7 +439,7 @@ erişimde: (hedefY - 1) ≤ (oyun11.y3 + erişim)
 buradaStok: (oyun11.seçili = '🪵') ? oyun11.tahta oyun11.tuğla
 davranabilir: buradaİnşaEdiliyor ? (buradaStok > 0) erişimde
 
-imleçGörünümü: İfadeetmek(
+imleçGörünümü: Yazı(
 		(buradaİnşaEdiliyor ? '🔨' '🪏')
 		0.85m
 		süre: 0.12s
@@ -459,7 +459,7 @@ imleçListesi: sınırlarIçinde(hedefX4 hedefZ4) ? [
 
 ¶Cepler ve kullanılan malzeme, derinlik onları küçültmesin diye ekrana düz olarak sabitlenmiştir.¶
 göstergePaneli: [
-		İfadeetmek(
+		Yazı(
 			"🪵 \oyun11.tahta\   🧱 \oyun11.tuğla\   🔨 \oyun11.seçili\"
 			0.5m
 			yer: Yer(-6.6m 4.3m)
@@ -474,28 +474,28 @@ ekranGörünümü: [
 		Grup(
 			Yığın()
 			[
-				İfadeetmek(ekranBaşlığı 1.1m isim: 's1')
-				İfadeetmek(
+				Yazı(ekranBaşlığı 1.1m isim: 's1')
+				Yazı(
 					'Oklar yürür · yürüdüğün yöne dönersin'
 					0.5m
 					isim: 's2'
 				)
-				İfadeetmek(
+				Yazı(
 					'Boşluk tuşu imleci etkiler: 🪏 kırar · 🔨 inşa eder'
 					0.5m
 					isim: 's3'
 				)
-				İfadeetmek(
+				Yazı(
 					'Shift 🪵 ile 🧱 arasında geçiş yapar · j, yukarı ulaşmak için zıplar'
 					0.5m
 					isim: 's4'
 				)
-				İfadeetmek(
+				Yazı(
 					'Bir blok yukarı ulaş · soluk blokları eşleştir'
 					0.5m
 					isim: 's5'
 				)
-				İfadeetmek(başlangıçSatırı 0.7m isim: 's6')
+				Yazı(başlangıçSatırı 0.7m isim: 's6')
 			]
 			arkaplan: Renk(90% 10 240°)
 		)
@@ -535,7 +535,7 @@ kırıldı: oyun11.salla2 = salınımTikleri
 
 Geri kalan zamanlarda boştur, ve bu yeterlidir: başlamış bir nota sonuna kadar çalar, bu yüzden bu liste bir sonraki adımda boşalsa bile çekiç sesi yankılanmaya devam eder.¶
 vuruşNotaları: kırıldı
-	? ((şuAnKırık.uzunluk() > 0) ? şuAnKırık.tercümeetmek(
+	? ((şuAnKırık.uzunluk() > 0) ? şuAnKırık.dönüştür(
 					ƒ(i9•öğe2) (i9.tür3 = '🪵') ? 5 1
 				) [3])
 		[]

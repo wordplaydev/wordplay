@@ -7,7 +7,7 @@ Kita bisa melakukannya dengan input @Pointer .
 Jika kita memakai @Place itu sebagai @Phrase milik \place\, karakternya akan pergi ke mana pun kita tunjuk.
 
 \
-Stage([Phrase('🐈' tempat: Pointer())] tempat: Place(0m 0m -10m))
+Panggung([Frasa('🐈' tempat: Penunjuk())] tempat: Tempat(0m 0m -10m))
 \
 
  Selesai! Gerakkan mouse Anda atau seret jari Anda, dan saksikan kucing itu mengikuti.
@@ -16,7 +16,7 @@ Kamu bisa membuat hal yang lebih menarik dengan mengambil \x\ dan \y\ dari @Plac
 Ini contoh bebek yang selalu melayang satu meter di atas penunjuk:
 
 \
-Stage([Phrase('🦆' tempat: Place(Pointer().x Pointer().y + 1m))] tempat: Place(0m 0m -10m))
+Panggung([Frasa('🦆' tempat: Tempat(Penunjuk().X Penunjuk().y + 1m))] tempat: Tempat(0m 0m -10m))
 \
 
 move-phrase, count-with-time

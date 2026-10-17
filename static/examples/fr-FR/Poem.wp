@@ -13,11 +13,11 @@ Poème
 poème: [
 		ligne(
 			"Le fichier d'ordinateur"
-			Pose(opacité: 0% compenser: Lieu(et: -5m))
+			Pose(opacité: 0% compenser: Lieu(y: -5m))
 		)
 		ligne(
 			'dont'
-			Pose(opacité: 0% compenser: Lieu(et: -5m))
+			Pose(opacité: 0% compenser: Lieu(y: -5m))
 		)
 		ligne("je n'ai aucun souvenir" Pose(rotation: 10°))
 		ligne(
@@ -33,42 +33,42 @@ poème: [
 		)
 		ligne(
 			'regarde'
-			Pose(opacité: 0% compenser: Lieu(et: -5m))
+			Pose(opacité: 0% compenser: Lieu(y: -5m))
 		)
 		ligne(
 			'défile encore plus bas'
-			Pose(opacité: 0% compenser: Lieu(et: 5m))
+			Pose(opacité: 0% compenser: Lieu(y: 5m))
 		)
 		ligne(
 			"l'écran"
-			Pose(opacité: 0% compenser: Lieu(et: -5m))
+			Pose(opacité: 0% compenser: Lieu(y: -5m))
 		)
 		ligne(
 			'reste éclairé et vide'
-			Pose(opacité: 0% compenser: Lieu(et: -5m))
+			Pose(opacité: 0% compenser: Lieu(y: -5m))
 			Couleur(0 0 0°)
 			Couleur(100 100 0°)
 		)
 		ligne(
 			'ainsi je me retrouve moi-même'
-			Pose(opacité: 0% compenser: Lieu(et: -5m))
+			Pose(opacité: 0% compenser: Lieu(y: -5m))
 		)
 		ligne(
 			"plein d'espoir et inutile"
-			Pose(opacité: 0% compenser: Lieu(et: -5m))
+			Pose(opacité: 0% compenser: Lieu(y: -5m))
 		)
 		ligne(
 			'un mystère'
-			Pose(opacité: 0% compenser: Lieu(et: -5m))
+			Pose(opacité: 0% compenser: Lieu(y: -5m))
 		)
 		ligne(
 			"exactement comme j'ai dû le faire"
-			Pose(opacité: 0% compenser: Lieu(et: -5m))
+			Pose(opacité: 0% compenser: Lieu(y: -5m))
 		)
 		ligne('le 19 août 2010, à 11 h 08' Pose())
 	]
 
-nombre2: 1 … ∆ Bouton() | ∆ Clé() …
+nombre2: 1 … ∆ Bouton() | ∆ Touche() …
 		(nombre2 = (poème.longueur() + 1)) ? 1 nombre2 + 1
 ligne2: poème[nombre2]
 
@@ -89,7 +89,7 @@ nombre2 ≤ poème.longueur() ?
 	Scène(
 		[
 			Groupe(
-				Empiler()
+				Pile()
 				[
 					Phrase('CONSEIL À MOI-MÊME')
 					Phrase('Jane Hirshfield')

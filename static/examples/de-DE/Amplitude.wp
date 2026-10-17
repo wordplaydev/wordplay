@@ -3,8 +3,8 @@ Amplitude
 ===
 ¶Eine Reihe von Punkten, die mit der Lautstärke deines Mikrofons leuchten und verblassen.¶
 
-amplituden•[#]: ←← 10 Volumen()
+amplituden•[#]: ←← 10 Lautstärke()
 vis: amplituden.übersetzen(
-		ƒ(amp•#) Satzglied("⚫" Opazität: amp Größe: 10m)
+		ƒ(amp•#) Phrase("⚫" Opazität: amp Größe: 10m)
 	)
 Bühne([Gruppe(Reihe() vis)] Ort: Ort(0m 0m -50m))

@@ -28,13 +28,13 @@ platzieren: Ort(0m 0m 0m) … ∆ Zeit(1000ms) … gefangen ? Ort(
 
 Bühne(
 	[
-		Satzglied(
+		Phrase(
 			"🐭"
 			wählbar
 			Ort: platzieren
 			Ruhen: gefangen ? Pose(Drehung: 180° Musik: sprung) Pose(
 				)
-			ziehenum: gefangen ? Pose() Reihenfolge(
+			ziehenum: gefangen ? Pose() Abfolge(
 					{
 						0%: Pose(Drehung: 0°)
 						50%: Pose(Drehung: 180° Musik: huschen)

@@ -8,4 +8,4 @@ Uhr
 	'japanese'
 )\.¶
 
-Satzglied(Jetzt() → '' gesicht: 'Doto')
+Phrase(Jetzt() → '' gesicht: 'Doto')

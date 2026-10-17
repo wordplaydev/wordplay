@@ -14,15 +14,15 @@ yazıTipleri: [
 simgeler: 'typography'/en'tipografía'/es ÷ ''
 
 ƒ rastgeleYap()
-	simgeler.tercümeetmek(
-		ƒ(simge) İfadeetmek(
+	simgeler.dönüştür(
+		ƒ(simge) Yazı(
 				simge
 				yüz: yazıTipleri.rastgele()
 				süre: 0s
 			)
 	)
 
-cümleler: rastgeleYap() … ∆ Anahtar() | ∆ Düğme() … rastgeleYap(
+cümleler: rastgeleYap() … ∆ Tuş() | ∆ Düğme() … rastgeleYap(
 		)
 
 Sahne([Grup(Sıra('|' 0m) cümleler yer: Yer(0m 0m))])

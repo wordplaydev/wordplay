@@ -11,7 +11,7 @@ trên: (literacy ⎡?quốcGia n2022⎦ n2022•# ? n2022 < 75 ⊥) → []
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				Cụmtừ(
 					`CHẾ ĐỘ PHỤ QUYỀN và KHẢ NĂNG BIẾT CHỮ`
@@ -27,7 +27,7 @@ Sânkhấu(
 				).chuỗicon(
 					1
 					10
-				).dịch(
+				).biếnĐổi(
 					ƒ(hàng3) Cụmtừ(
 							`/\hàng3.quốcGia\ \hàng3.n2022•# ? hàng3.n2022.làmtrònxuống(
 								) 0\%/`

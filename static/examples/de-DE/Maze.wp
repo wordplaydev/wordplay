@@ -67,36 +67,36 @@ gewonnen: aktuell = '🤩'
 Bühne(
 	[
 		Gruppe(
-			Netz(3 3 0.25m)
+			Raster(3 3 0.25m)
 			[
 				ø
-				Satzglied(
+				Phrase(
 					'↑'
 					Name: 'up'
 					wählbar: hoch3
 					Ruhen: Pose(Opazität: hoch3 ? 1 0.2)
 				)
 				ø
-				Satzglied(
+				Phrase(
 					'←'
 					Name: 'left'
 					wählbar: links3
 					Ruhen: Pose(Opazität: links3 ? 1 0.2)
 				)
-				Satzglied(
+				Phrase(
 					aktuell
 					Ruhen: gewonnen ?
-						Reihenfolge.drehen(Dauer: 1s Stil: 'straight')
+						Abfolge.drehen(Dauer: 1s Stil: 'straight')
 						Pose()
 				)
-				Satzglied(
+				Phrase(
 					'→'
 					Name: 'right'
 					wählbar: rechts2
 					Ruhen: Pose(Opazität: rechts2 ? 1 0.2)
 				)
 				ø
-				Satzglied(
+				Phrase(
 					'↓'
 					Name: 'down'
 					wählbar: runter3

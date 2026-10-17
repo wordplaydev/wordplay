@@ -59,7 +59,7 @@ formeDʼarbre: [
 	]
 formeDeRocher: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
 
-ƒ formeÀ(forme•[bloc] cx•# cz•#) forme.traduire(
+ƒ formeÀ(forme•[bloc] cx•# cz•#) forme.transformer(
 		ƒ(b2•bloc) bloc(cx b2.y2 cz b2.quel)
 	)
 
@@ -77,7 +77,7 @@ formeDeRocher: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
 			[]
 			ƒ(structure•[bloc] cx2•#)
 				structure.avecListe(
-					(Aléatoire(1 2) → []).traduire(
+					(Aléatoire(1 2) → []).transformer(
 						ƒ(niveau•#)
 							bloc(
 								cx2
@@ -274,7 +274,7 @@ créerLesColonnes: [-4 -3 -2 2 3 4]
 
 ¶Une image : fait vieillir les morceaux détachés pour qu'ils atterrissent, restent en l'air puis tombent au sommet de ce qui se trouve sous tes pieds, ramasse tout ce qui est sur ta cellule, laisse le marteau retomber et vérifie les tours.¶
 ƒ faireAvancerLeMonde(jeu10•jeu) (
-		vieilli: jeu10.objets.traduire(
+		vieilli: jeu10.objets.transformer(
 				ƒ(i•objet2) (i.âge = 0) ? (i.âge:1) i
 			)
 		debout: hauteurDeColonne(jeu10.blocs jeu10.x4 jeu10.z4)
@@ -314,7 +314,7 @@ créerLesColonnes: [-4 -3 -2 2 3 4]
 		)
 	)
 
-clé4: Clé()
+clé4: Touche()
 tic: Temps(150ms)
 toucher: Bouton()
 
@@ -355,7 +355,7 @@ tailleDeLaTuile: 0.8m
 
 rangéesDuSol: [:0 ‥ 4].filtre(
 		ƒ(rangée•#) rangée ≥ (jeu11.z4 - dessinerDerrière)
-	).traduire(
+	).transformer(
 		ƒ(rangée2•#)
 			Phrase(
 				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
@@ -368,7 +368,7 @@ rangéesDuSol: [:0 ‥ 4].filtre(
 
 vuesDesBlocs: jeu11.blocs.filtre(
 		ƒ(b8•bloc) b8.z2 ≥ (jeu11.z4 - dessinerDerrière)
-	).traduire(
+	).transformer(
 		ƒ(b9•bloc)
 			Phrase(
 				b9.quel
@@ -382,7 +382,7 @@ vuesDesBlocs: jeu11.blocs.filtre(
 ¶Les tours que tu vises, estompées, avec seulement les parties que tu n'as pas encore construites.¶
 vuesDesFantômes: objectifNonAtteint(jeu11.blocs jeu11.but).filtre(
 		ƒ(g2•bloc) g2.z2 ≥ (jeu11.z4 - dessinerDerrière)
-	).traduire(
+	).transformer(
 		ƒ(g3•bloc)
 			Phrase(
 				g3.quel
@@ -397,7 +397,7 @@ vuesDesFantômes: objectifNonAtteint(jeu11.blocs jeu11.but).filtre(
 ¶Un morceau détaché. C'est la seule chose sur la scène qui s'adoucit au lieu de sauter : sa première image est en haut, là où le bloc s'est cassé, et les autres sont là où il a atterri. L'adoucissement entre les deux, c'est la culbute.¶
 vuesDesObjets: jeu11.objets.filtre(
 		ƒ(i6•objet2) i6.z3 ≥ (jeu11.z4 - dessinerDerrière)
-	).traduire(
+	).transformer(
 		ƒ(i7•objet2)
 			Phrase(
 				i7.quel2
@@ -473,7 +473,7 @@ ligneDeDépart: (jeu11.phase = 3) ? 'Appuie sur Entrée ou clique pour construir
 ¶Les écrans sont posés à plat au-dessus d'un champ plein d'arbres et de personnages. Le groupe a donc son propre fond opaque : des mots sombres sur des branches et des toits sont difficiles à lire. Un panneau plein les garde lisibles, tout en laissant voir le monde autour.¶
 vueDeLʼécran: [
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase(titreDeLʼécran 1.1m nom: 's1')
 				Phrase(
@@ -534,7 +534,7 @@ cassé: jeu11.balancer2 = ticksDeBalancement
 
 Vide le reste du temps, et cela suffit : une note commencée joue jusqu'à sa fin, donc le marteau résonne même si cette liste devient vide dès le tic suivant.¶
 notesDeCoup: cassé
-	? ((casséMaintenant.longueur() > 0) ? casséMaintenant.traduire(
+	? ((casséMaintenant.longueur() > 0) ? casséMaintenant.transformer(
 					ƒ(i9•objet2) (i9.quel2 = '🪵') ? 5 1
 				) [3])
 		[]

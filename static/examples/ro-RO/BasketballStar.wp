@@ -32,7 +32,7 @@ pozițiaXACoșului: (Timp() ÷ 600ms).păcat() · 6m
 mingeX: (mingeDeBaschet.loc ?? Loc()).x
 mingeY: (mingeDeBaschet.loc ?? Loc()).y
 
-încercare: (numărulDeClicuri ÷ 2).ridica()
+încercare: (numărulDeClicuri ÷ 2).rotunjireînsus()
 
 ¶inBin este adevărat atunci când mingea se află înăuntrul coșului. Reacția de marcare a scorului se declanșează doar când inBin trece la adevărat ȘI încercarea curentă este mai mare decât scorul, astfel încât o a doua intrare în timpul aceleiași aruncări — o ricoșare în interiorul coșului, sau coșul care se mișcă înapoi peste minge — nu are niciun efect până când următoarea aruncare nu mărește numărul de încercări¶
 înCoș: (((pozițiaXACoșului - 0.9m)‥(pozițiaXACoșului + 0.9m)) ∋ mingeX) & ((0.3m‥2.9m) ∋ mingeY)
@@ -55,7 +55,7 @@ vedetaBaschetului: Grup(
 		compensare: Loc(0m 8m 0m)
 	)
 
-Etapă(
+Estradă(
 	[
 		mingeDeBaschet
 		¶Pereții coșului au fost lăsați la o grosime de 0,3 m (de la 0,1 m), ca coșul care se mișcă lateral să nu poată trece prin minge, și la o înălțime de 3 m (de la 2 m), ca o minge cu o elasticitate de 0,5 să nu poată ricoșa înapoi peste margine¶

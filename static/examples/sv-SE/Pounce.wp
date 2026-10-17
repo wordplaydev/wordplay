@@ -15,7 +15,7 @@ mjau2: Musik(
 
 •kattensPosition(position•#m riktning2•#)
 
-nyckel3: Nyckel()
+nyckel3: Tangent()
 fart: 1m
 
 kattensPlats: kattensPosition(5m 1) … ∆ nyckel3 …
@@ -74,7 +74,7 @@ boll: Fras(
 		materia: Materia(1kg 0.5 0 1)
 	)
 
-Etapp(
+Estrad(
 	[
 		Figur(Rektangel(-10m 0m 10m -3m))
 		Figur(Rektangel(-10m -1m -9m 11m))

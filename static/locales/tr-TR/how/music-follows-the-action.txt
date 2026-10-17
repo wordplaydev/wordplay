@@ -4,22 +4,22 @@ Baştan sona tek bir ezgi çalan bir oyun düz gelir. Ya müzik senin kazanıp k
 
 Bir *durdurmak* için bir  @Music  yoktur — onu durduran şey, sahnede olmamasıdır. Bu yüzden bir parça durum tut ve ona uyan şarkıyı sahneye koy: @Stage . Bu yüzden bir parça durum tut ve ona uyan şarkıyı sahneye koy:
 
-\phase: 'menü' … ∆ Button() … (phase = 'menü') ? 'kovalamaca' 'menü'
+\phase: 'menü' … ∆ Düğme() … (phase = 'menü') ? 'kovalamaca' 'menü'
 theme: [1 ø 3 ø 5 ø 6 ø]
-Stage([
-		Phrase((phase = 'menü') ? '▶ başlamak için bas' '🏃 koş!' 1m)
-		(phase = 'menü') ? Music(Track(theme çalgı: Instrument.bell) tempo: 72beats/min) Music(Track(theme çalgı: Instrument.synth) tempo: 132beats/min)
+Sahne([
+		Yazı((phase = 'menü') ? '▶ başlamak için bas' '🏃 koş!' 1m)
+		(phase = 'menü') ? Müzik(Parça(theme çalgı: Çalgı.çan) tempo: 72beats/min) Müzik(Parça(theme çalgı: Çalgı.synth) tempo: 132beats/min)
 	])\
 
 İki şarkı da aynı sekiz sayıdır. Yalnızca çalgı ve tempo değişir, ama bu bile farklı bir parça gibi duyulur — çünkü dereceler perdeyi değil, *ölçeğin hangi adımını* söyler; böylece bir  @Music  onları yeniden yorumlayabilir. Ona \ölçek: 🎼.harmonikMinör\ ver, aynı ezgi tek bir nota yeniden yazılmadan uğursuz bir hâl alır.
 
 Diğer yarısı ise işlerin nasıl gittiğine göre sürekli bükülen müziktir. \tempo\ değiştirmek hiçbir şeyi baştan başlatmaz — bir sonraki vuruşta araya girer, böylece parça yerini kaybetmeden hızlanır:
 
-\score: 0 … ∆ Button() … score + 1
-urgency: (score ÷ 10).min(1)
-Stage([
-		Phrase('puan \score\' 1m)
-		Music(Track([1 5 8 5] çalgı: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+\score: 0 … ∆ Düğme() … score + 1
+urgency: (score ÷ 10).enKüçük(1)
+Sahne([
+		Yazı('puan \score\' 1m)
+		Müzik(Parça([1 5 8 5] çalgı: Çalgı.davul) tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Yeterince bas, davullar başladıklarından iki kat daha güçlü çalar. Kısa, vurmalı bir nota bunu duyulur kılar — uzun tutulan notaların altında tempo değişimini hissetmek zordur.

@@ -68,7 +68,7 @@ puisi: [
 		baris2('pada 19 Agustus 2010, pukul 11:08' Pose())
 	]
 
-angka2: 1 … ∆ Tombol() | ∆ Kunci() …
+angka2: 1 … ∆ Tombol() | ∆ Tuts() …
 		(angka2 = (puisi.panjang() + 1)) ? 1 angka2 + 1
 baris3: puisi[angka2]
 

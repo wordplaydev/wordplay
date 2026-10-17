@@ -60,13 +60,13 @@ diapozitive: [
 		)
 	]
 
-cheie2: Cheie()
+cheie2: Tastă()
 
 ¶Locul unde se desfășoară spectacolul. @Scene păstrează locul, așa că nimic de aici nu trebuie numărat.¶
-la2: Spotlight()
+la2: Reflector()
 
 ¶Fiecare diapozitiv, desenat. Acesta nu depinde de nimic care se schimbă, așa că este construit o singură dată, nu la fiecare apăsare de tastă — de aceea contorul de mai jos nu apare aici.¶
-vizualizări: diapozitive.traduce(
+vizualizări: diapozitive.transformă(
 		ƒ(diapozitiv2•diapozitiv) Grup(
 				Stivă('|' 0.4m)
 				[

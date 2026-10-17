@@ -212,7 +212,7 @@
             "doc": [
                 "$~Ben bir paragraf listesiyim ve @Doc içinde bulunan birçok @markup türünü kullanıyorum, örneğin @Words, @WebLink, @ConceptLink ve @Example.",
                 "Beni bir @Doc içinde ve @FormattedLiteral içinde bulabilirsin:",
-                "\\¶Ben *kalın* metin içeren bir dokümantasyonum. @Phrase gibi kavramlara başvurabilir, <web'deki şeylere@https://wordplay.dev> bağlantı verebilirim.¶\nİfadeetmek(\n\t`Ben bir @Phrase için biçimli metnim, *kalın*, /italik/ ve _altı çizili_ kullanıyorum`\n)\\"
+                "\\¶Ben *kalın* metin içeren bir dokümantasyonum. @Phrase gibi kavramlara başvurabilir, <web'deki şeylere@https://wordplay.dev> bağlantı verebilirim.¶\nYazı(\n\t`Ben bir @Phrase için biçimli metnim, *kalın*, /italik/ ve _altı çizili_ kullanıyorum`\n)\\"
             ],
             "label": {
                 "paragraphs": "$~paragraflar"
@@ -696,7 +696,7 @@
                 "Bir fonksiyonun tek bir simgeden oluşan bir ismi varsa, beni bir @BinaryEvaluate olarak yazabilirsin.",
                 "\\'kedicik' ⊆ 'cik'\\",
                 "Bu, şununla aynı şeyi yapar:",
-                "\\'kedicik'.sahipolmak('cik')\\",
+                "\\'kedicik'.içerir('cik')\\",
                 "Tabii ki, @FunctionDefinition olmadan hiçbir şey değilim. Tek yaptığım onlara girdiler vermek ve sonra adımlarını izlemek.",
                 "Aslında kendime ait bazı becerilerim de var. Örneğin, bir @FunctionDefinition için bir girdi @Boolean ise, ona bir @value vermek yerine, açmak için ismini tek başına yazabilirsin."
             ],
@@ -782,7 +782,7 @@
                 "$~@Evaluate'e verilen bir girdiyim. Adım, değerlendirilen @FunctionDefinition veya @StructureDefinition'daki girdinin adına karşılık gelir.",
                 "Sadece belirli bir girdiyi geçersiz kılmak istediğiniz, ancak diğer her şeyi vermek istemediğiniz, birçok varsayılan değere sahip fonksiyonlarda yardımcı oluyorum.",
                 "Örneğin, @Phrase stilini kontrol etmek için birçok varsayılan değere sahiptir. Diyelim ki biraz @Text ve bir @Color vermek istediniz, ancak giriş listesinde başka hiçbir şey vermek istemediniz. Bunu yapmak için beni kullanabilirsiniz:",
-                "\\Phrase('Ben morum!' renk: Color(50% 52 300°))\\"
+                "\\Yazı('Ben morum!' renk: Renk(50% 52 300°))\\"
             ],
             "start": "$~Değerimi ölçelim."
         },
@@ -868,7 +868,7 @@
             "emotion": "curious",
             "doc": [
                 "$~@Program'ın mevcut değerlendirmesinin @Boolean'a değerlendirilen ilk değerlendirme olup olmadığını söylüyorum. Örneğin:",
-                "\\◆ ? Time() 'merhaba'\\",
+                "\\◆ ? Zaman() 'merhaba'\\",
                 "Görmedin ama ilk değerlendirme bir zamandı, ama sonra tüm gelecek zaman tikleri, ben \\⊥\\ idim, bu yüzden @Conditional \\⊤\\ yaptı.",
                 "Bir yayın üzerinde çalışıyorsanız ve bir şeyi yalnızca ilk seferde yapmak istiyorsanız -- ya da hiç ilk seferde yapmak istemiyorsanız -- gerçekten yardımcı olurum!"
             ]
@@ -1045,10 +1045,10 @@
                 "$~Bir akarsuyun tarihine bakıyorum ve size geçmişteki değerlerinden birini anlatıyorum. Hiç geçmişi hatırlamak istediniz mi?",
                 "Ben, Verse'ün resmi kayıt tutucusuyum!",
                 "Örneğin, @Time beş saniye önceki paylaşımı şöyleydi:",
-                "\\← 5 Time(1000ms)\\",
+                "\\← 5 Zaman(1000ms)\\",
                 "Bakın, 5 saniye boyunca @None oluyor, sonra aniden önceki bir zamana dönüyor?",
                 "Son birkaç değeri istiyorsanız, bana iki ok işareti verin, ben de sayıyı bir sayım olarak yorumlayacağım:",
-                "\\←← 5 Time(1000ms)\\",
+                "\\←← 5 Zaman(1000ms)\\",
                 "Bakın, sadece bir kez değil, önceki beş kez olmuş.",
                 "Geçmişe dayalı performanslar yaratmak istediğinizde yardımcı olabilirim."
             ],
@@ -1170,7 +1170,7 @@
             "doc": [
                 "$~Yeni bir yayın oluşturuyorum ve başka bir yayın değiştiğinde o yayın da güncelleniyor. Yayınlar gerçekten harika!",
                 "Örneğin, @Time zaman sayacının çalışmasını ama sayılar yerine kelimeler göstermesini istiyorsanız, şöyle bir şey yapabilirsiniz:",
-                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "\\time: Zaman(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "Bu, \"/'başlangıç' kelimesiyle başlayın ve zaman değişirse, zamana bağlı olarak çift veya tek sayıya geçin./\" demek gibi bir şey.",
                 "Yani ben de bir akıntı gibiyim, ama diğer akıntılara dayalı bir akıntı. Harika, değil mi?"
             ],
@@ -1840,7 +1840,7 @@
                 "$~Bir koleksiyondaki HER öğeye AYNI şeyi yaparım! OH OH OH! Tam olarak YAPTIĞIM şey bu!!",
                 "Soluma bir koleksiyon koy, okumu çiz \\↦\\, sonra sağıma her öğenin NEYE DÖNÜŞECEĞİNİ yaz — ŞU AN elimde tuttuğum öğeyi belirtmek için @This kullan!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ sana şunu verir: \\[2 3 4]\\. BUMM! Her sayı, artı bir, döngü yok, @FunctionDefinition yok, telaş yok!",
-                "Veriden @Phrase çıktı üretmekte HARİKAYIM! Bir isim listen mi var? \\['Ada' 'Mac' 'Tim'] ↦ İfadeetmek(⬚)\\ ve artık HER isim için bir söz öbeği var!!",
+                "Veriden @Phrase çıktı üretmekte HARİKAYIM! Bir isim listen mi var? \\['Ada' 'Mac' 'Tim'] ↦ Yazı(⬚)\\ ve artık HER isim için bir söz öbeği var!!",
                 "@List, @Set, @Map (haritanın DEĞERLERİNİ değiştiririm — anahtarlar oldukları yerde kalır!) ve hatta @Table üzerinde çalışırım!",
                 "Daha süslü bir şey mi istiyorsun — her öğenin @index gibi, ya da birçok yerde tekrar kullanabileceğin bir fonksiyon gibi? @List.translate gibi daha sakin, yetişkin kuzenlerimi ziyaret et. Ama hızlı, günlük eşleme için ben buradayım!!"
             ],

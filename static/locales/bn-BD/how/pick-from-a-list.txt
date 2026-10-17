@@ -7,7 +7,7 @@
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+বাক্যাংশ(emojis.এলোমেলো())
 \
 
  তুমি এটাও ব্যবহার করতে পারো @Random দুটি সংখ্যা দিয়ে, যা তাদের মাঝখানে একটি পূর্ণসংখ্যা বেছে নেয়।
@@ -15,8 +15,8 @@ Phrase(emojis.random())
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)
+pick: emojis[1] … ∆ সময়(1000ms) … emojis[এলোমেলো(1 emojis.দৈর্ঘ্য())]
+বাক্যাংশ(pick)
 \
 
  প্রতিটি টিকের @Time, @Reaction একটি নতুন চমক বেছে নেয়।

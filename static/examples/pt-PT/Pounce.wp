@@ -15,7 +15,7 @@ miau2: Música(
 
 •posiçãoDoGato(posição•#m direção2•#)
 
-tecla: Chave()
+tecla: Tecla()
 velocidade2: 1m
 
 lugarDoGatinho: posiçãoDoGato(5m 1) … ∆ tecla …
@@ -71,7 +71,7 @@ bola: Frase(
 		matéria: Matéria(1kg 0.5 0 1)
 	)
 
-Fase(
+Palco(
 	[
 		Figura(Retângulo(-10m 0m 10m -3m))
 		Figura(Retângulo(-10m -1m -9m 11m))

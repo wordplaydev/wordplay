@@ -7,9 +7,9 @@ Pentru asta există @Motion și @Matter — împreună, ele simulează fizica pe
 Avem nevoie și de ceva pe care să cadă, altfel personajul nostru ar cădea la nesfârșit! O @Shape cu o @Rectangle lată face o podea bună:
 
 \
-Stage([
-    Phrase('🍎' loc: Motion(Place(0m 5m)) materie: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+Estradă([
+    Fraza('🍎' loc: Mişcare(Loc(0m 5m)) materie: Materie())
+    Figură(Dreptunghi(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Pentru a schimba modul în care / elastic / sau cum / greu / un personaj este, d
 @Matter ia o masă, o elasticitate și o frecare:
 
 \
-Stage([
-    Phrase('⚽' loc: Motion(Place(-2m 5m)) materie: Matter(1kg 0.9 0.2))
-    Phrase('🪨' loc: Motion(Place(2m 5m)) materie: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+Estradă([
+    Fraza('⚽' loc: Mişcare(Loc(-2m 5m)) materie: Materie(1kg 0.9 0.2))
+    Fraza('🪨' loc: Mişcare(Loc(2m 5m)) materie: Materie(5kg 0.1 0.8))
+    Figură(Dreptunghi(-10m 0m 10m -5m))
 ])
 \
 

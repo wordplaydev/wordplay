@@ -7,7 +7,7 @@ zählung: 10 → []
 
 ƒ bälle(z2•#m) zählung.übersetzen(
 		ƒ()
-			Satzglied(
+			Phrase(
 				'o'
 				Ort: Bewegung(
 					Ort(Zufällig(-10 10) × 1m Zufällig(0 10) × 1m z2)
@@ -16,7 +16,7 @@ zählung: 10 → []
 						Zufällig(-5 5) × 1m/s
 					)
 				)
-				Gegenstand: Gegenstand(Sprungkraft: 0.8 Reibung: 0)
+				Material: Material(Sprungkraft: 0.8 Reibung: 0)
 			)
 	)
 

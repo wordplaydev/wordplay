@@ -28,4 +28,4 @@ abóbora: Frase(
 		)
 	)
 
-Fase(mostrar ? [abóbora] [] fundo: Cor(0% 0 0°))
+Palco(mostrar ? [abóbora] [] fundo: Cor(0% 0 0°))

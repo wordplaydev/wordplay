@@ -7,7 +7,7 @@ phrase3: Chat()
 longueur2: Chat().longueur()
 
 Groupe(
-	Empiler()
+	Pile()
 	[
 		Phrase(
 			`*Bonjour ! Bienvenue dans le calculateur de longueur de phrase.*`
