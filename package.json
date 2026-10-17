@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.39.0",
+    "version": "0.40.0",
     "type": "module",
     "imports": {
         "#components/*": "./src/components/*",
@@ -150,7 +150,7 @@
         "vitest": "^5.0.3"
     },
     "dependencies": {
-        "@anthropic-ai/sdk": "^0.133.0",
+        "@anthropic-ai/sdk": "^0.135.0",
         "@dimforge/rapier2d-compat": "^0.21.0",
         "@mediapipe/tasks-vision": "^1",
         "@types/fontkit": "^2",

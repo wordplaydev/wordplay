@@ -1034,12 +1034,17 @@ test('resolving a color needs no basis', () => {
 // keeps a plain click in place, the chooser's "current but not selected" state in
 // `Tabbed` and `Mode`, and Tabbed knowing which tabs sit above a wrapped bar's bottom
 // row are the rest.
+//
+// Label in Name (WCAG 2.5.3) is **+1 file on every graph**: `labelInName.ts`, a
+// leaf with no imports that `Button`, `Toggle`, `Switch` and `Annotation` use to
+// lead their tip-derived names with the words they show. Page and galleries
+// had the least byte slack, so their budgets move by a hundredth.
 test.each([
-    ['src/routes/+layout.svelte', 540, 4.22],
-    ['src/components/app/Page.svelte', 563, 4.47],
-    ['src/routes/[[locale]]/+page.svelte', 578, 4.57],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 583, 4.57],
-    ['src/routes/[[locale]]/projects/+page.svelte', 592, 4.61],
+    ['src/routes/+layout.svelte', 541, 4.22],
+    ['src/components/app/Page.svelte', 564, 4.48],
+    ['src/routes/[[locale]]/+page.svelte', 579, 4.57],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 584, 4.58],
+    ['src/routes/[[locale]]/projects/+page.svelte', 593, 4.61],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

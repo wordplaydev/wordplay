@@ -14,9 +14,13 @@
     import { locales } from '#db/Database.ts';
     import { type LocaleTextAccessor } from '#locale/Locales.ts';
     import { withMonoEmoji } from '#unicode/emoji.ts';
+    import {
+        getNameWithShownWords,
+        observeShownWords,
+    } from '#components/widgets/labelInName.ts';
 
     interface Props {
-        /** Tooltip and ARIA label for the button. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */
+        /** Tooltip for the button, and its ARIA label after any words it shows. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */
         tip: LocaleTextAccessor | (() => string);
         /** Optional label; if children provided, they override */
         label?: LocaleTextAccessor | undefined;
@@ -135,6 +139,8 @@
                   (shortcut ? ` (${shortcut})` : ''),
     );
     let pressed = $state(false);
+    // The words the button shows, which must lead its name (WCAG 2.5.3).
+    let shown = $state('');
 
     let hint = getTip();
     let localizing = getLocalizing();
@@ -189,7 +195,7 @@
     data-uiid={uiid}
     class={classes}
     type={submit ? 'submit' : 'button'}
-    aria-label={tooltip}
+    aria-label={getNameWithShownWords(shown, tooltip)}
     aria-disabled={!active}
     aria-keyshortcuts={ariaShortcut}
     aria-expanded={expanded}
@@ -235,6 +241,8 @@
         canFocusTips(event.currentTarget) ? showTip() : undefined}
     onblur={hideTip}
     bind:this={_}
+    {@attach (element) =>
+        observeShownWords(element, (words) => (shown = words))}
     ondblclick={(event) => event.stopPropagation()}
     onclick={acting
         ? null

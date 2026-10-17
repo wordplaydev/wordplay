@@ -4,11 +4,10 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.39.0 - 2026-10-10
+## 0.40.0 - 2026-10-17
 
 ### Added
 
-- 🎉 `Phrase` has a new `poses` input that gives each letter its own color, tilt, size, or position, taking turns through a list of `Pose`.
 - 🎞️ `Stage` has a new `effects` input that lays film looks over everything on it, like `Blur`, `Grain`, `Wave`, `Damage`, and `Flicker`, with a new how-to in the [Guide](https://wordplay.dev/guide).
 - ✍️ You can now change the code examples on the [home page](https://wordplay.dev/) and in the Guide and watch them run right away, and ↺ puts back the original.
 - 🌐 We added support for Roman Urdu (`ur-Latn-PK`), which is Urdu written with Latin letters! (#1457)
@@ -22,9 +21,18 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🧭 The browser's Forward button now works in the [Guide](https://wordplay.dev/guide), and opening a link to one of its pages no longer shows a different page first.
-- 📖 Code examples in the [Guide](https://wordplay.dev/guide) no longer start with an empty line.
 - 🎞️ A `Stage` with its own `resting` animation no longer jumps away from where the camera shows it while the animation plays.
 - 🧭 Going back from a page in the [Guide](https://wordplay.dev/guide) returns to the list you opened it from.
+
+## 0.39.0 - 2026-10-10
+
+### Added
+
+- 🎉 `Phrase` has a new `poses` input that gives each letter its own color, tilt, size, or position, taking turns through a list of `Pose`.
+
+### Fixed
+
+- 📖 Code examples in the [Guide](https://wordplay.dev/guide) no longer start with an empty line.
 
 ## 0.38.6 - 2026-10-10
 

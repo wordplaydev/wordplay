@@ -5,6 +5,10 @@
         canHoverTips,
     } from '#components/widgets/tipTriggers.ts';
     import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import {
+        getNameWithShownWords,
+        observeShownWords,
+    } from '#components/widgets/labelInName.ts';
     import { locales } from '#db/Database.ts';
     import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import { withMonoEmoji } from '#unicode/emoji.ts';
@@ -37,6 +41,10 @@
     let onTipText = $derived($locales.getPrimaryPlainText(onTip) + suffix);
     let offTipText = $derived($locales.getPrimaryPlainText(offTip) + suffix);
 
+    // The words each half shows, which must lead its name (WCAG 2.5.3).
+    let offShown = $state('');
+    let onShown = $state('');
+
     let hint = getTip();
     let localizing = getLocalizing();
     let offEditing = $state(false);
@@ -54,7 +62,9 @@
         class={`button off ${on ? 'inactive' : 'active'}`}
         role="button"
         aria-disabled={!on}
-        aria-label={offTipText}
+        aria-label={getNameWithShownWords(offShown, offTipText)}
+        {@attach (element) =>
+            observeShownWords(element, (words) => (offShown = words))}
         tabindex="0"
         onpointerdown={(event) => event.preventDefault()}
         onclick={(event) => {
@@ -77,7 +87,9 @@
         class={`button on ${on ? 'active' : 'inactive'}`}
         role="button"
         aria-disabled={on}
-        aria-label={onTipText}
+        aria-label={getNameWithShownWords(onShown, onTipText)}
+        {@attach (element) =>
+            observeShownWords(element, (words) => (onShown = words))}
         tabindex="0"
         onpointerdown={(event) => event.preventDefault()}
         onpointerenter={(event) =>

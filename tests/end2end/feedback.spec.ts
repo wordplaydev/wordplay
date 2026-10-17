@@ -71,7 +71,8 @@ test('voting on feedback atomically increments the votes counter', async ({
     // Use the aria-label attribute directly rather than getByRole, because the
     // row's header element is also role=button and its computed accessible
     // name encompasses the like button's label, which would otherwise match.
-    await row.locator('button[aria-label="Like this feedback"]').click();
+    // The name ends with the tip, after the vote count the button shows.
+    await row.locator('button[aria-label$="Like this feedback"]').click();
 
     const updated = await waitForDocumentUpdate(
         page,
