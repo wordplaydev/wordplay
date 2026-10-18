@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: カメラ(width × 1px height × 1px 33ms)
+ステージ([画像(colors "what the camera sees" 12m)])
 \
 
  どの「 @Image 」にも説明が必要です。色のグリッドには、それを見ることができない人のための言葉が何もないからです。
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m 文字: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: カメラ(width × 1px height × 1px 33ms)
+ステージ([画像(colors "the camera, drawn with dark and light circles" 12m 文字: ƒ(color•色) (color.明るさ < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

@@ -8,7 +8,7 @@ Date despre patriarhat
 sus: (literacy ⎡?țară n2022⎦ n2022•# ? n2022 < 75 ⊥) → []
 
 
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă()
@@ -25,7 +25,7 @@ Etapă(
 				:sus.sortat(ƒ(rând) rând.n2022•# ? rând.n2022 0).subsecvență(
 					1
 					10
-				).traduce(
+				).transformă(
 					ƒ(rând2) Fraza(
 							`/\rând2.țară\ \rând2.n2022•# ? rând2.n2022.rotunjireînjos(
 								) 0\%/`

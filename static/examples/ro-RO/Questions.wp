@@ -5,7 +5,7 @@
 
 •întrebare(id2•"" vx•#m/s vy•#m/s va•#°/s)
 
-apăsat: ∆ Cheie()
+apăsat: ∆ Tastă()
 numărare2•#: 0 … apăsat … numărare2 + 1
 întrebări•[întrebare]: [] … apăsat … [
 			:întrebări
@@ -17,11 +17,11 @@ numărare2•#: 0 … apăsat … numărare2 + 1
 			)
 		]
 
-Etapă(
+Estradă(
 	[
 		Fraza('👨‍👨‍👧‍👦' loc: Loc(0m 0m) faţă: "Noto Emoji")
 		Figură(Dreptunghi(-5m 0m 25m -1m))
-		:întrebări.traduce(
+		:întrebări.transformă(
 			ƒ(î•întrebare index2•#) (
 					inițializează: apăsat & (index2 = întrebări.lungime(
 									))

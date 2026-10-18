@@ -33,7 +33,7 @@ Scène(
 			lieu: Lieu(-4.5m 5m)
 		)
 		Groupe(
-			Empiler('|')
+			Pile('|')
 			[
 				Phrase((main.palmier ? '🤚' '🤛') taille: 2m)
 				Phrase(

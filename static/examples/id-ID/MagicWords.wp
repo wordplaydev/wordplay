@@ -51,7 +51,7 @@ Panggung(
 						) ø
 				)
 				Frasa(
-					terdengar = '' ? 'katakan: ' + mantra.bergabung(
+					terdengar = '' ? 'katakan: ' + mantra.gabungkan(
 								', '
 							) terdengar
 					0.75m

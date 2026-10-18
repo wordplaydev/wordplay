@@ -6,7 +6,7 @@ Putem face la fel dacă îi dăm unui @Stage o listă de @Effect.
 Iată o scenă văzută prin apă.
 
 \
-Etapă(
+Estradă(
 	[Fraza('🐠') Fraza('🌿' loc: Loc(1m -1m))]
 	efecte: [Val(0.15m) Colorare(Culoare(55% 45 220°) 70%) Ceață(40% Culoare(70% 30 200°))]
 )
@@ -19,7 +19,7 @@ Poți combina zece efecte: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @Wav
 Iată un film vechi: @Grade scoate culoarea, apoi @Damage, @Grain și @Flicker îl fac uzat și nesigur.
 
 \
-Etapă(
+Estradă(
 	[Fraza('THE END')]
 	efecte: [Ajustare(contrast: 130% saturație: 0%) Deteriorare(70% 50%) Granulație(25%) Pâlpâire(15% 2) Vinietă(60%)]
 )
@@ -28,7 +28,7 @@ Etapă(
  Și iată o televiziune care pierde semnalul.
 
 \
-Etapă(
+Estradă(
 	[Fraza('channel 3')]
 	efecte: [LiniiDeEcran(40% viteză: 1) Granulație(50% mărime: 2) Pâlpâire(20%)]
 )
@@ -44,16 +44,16 @@ Intrările ei devin setările aspectului. Acesta devine tot mai tulbure cu cât 
 	Estompare(0.03m · depth)
 ]
 
-Etapă([Fraza('🐠')] efecte: underwater(80%))
+Estradă([Fraza('🐠')] efecte: underwater(80%))
 \
 
  Un aspect se poate schimba și după starea unui joc.
 Aici scena se încețoșează și se întunecă la margini când jucătorul mai are o singură viață, și se limpezește la loc când are mai multe.
 
 \
-lives: 3 … ∆ Cheie() … lives - 1
+lives: 3 … ∆ Tastă() … lives - 1
 
-Etapă(
+Estradă(
 	[Fraza(lives → '')]
 	efecte: lives < 2 ? [Estompare(0.05m) Vinietă(70% Culoare(30% 80 30°))] []
 )
@@ -64,7 +64,7 @@ Etapă(
 Scuturarea întregii scene, ca la un cutremur, nu este deloc un efect: un @Stage se poate mișca la fel ca orice altă ieșire, așa că dă-i o @Sequence.
 
 \
-Etapă([Fraza('🏠')] odihnă: Secvenţă.scutura(0.5s conta: 4x))
+Estradă([Fraza('🏠')] odihnă: Secvenţă.scutura(0.5s conta: 4x))
 \
 
  Unele efecte se mișcă repede. Când cineva a cerut dispozitivului să reducă mișcarea, toate efectele rămân nemișcate.

@@ -15,8 +15,8 @@ torwartReichweite: 4.5m
 torwartTempo: 0.55m
 
 tick: Zeit(50ms)
-drücken: Schlüssel(runter)
-loslassen: Schlüssel(runter: ⊥)
+drücken: Tastaturtaste(runter)
+loslassen: Tastaturtaste(runter: ⊥)
 
 ¶In welche Richtung sich der Handschuh bewegt. Wenn du einen Pfeil drückst, setzt er sich in Bewegung. Wenn du denselben Pfeil loslässt, hält er an. So gleitet der Handschuh, solange du die Taste hältst. Bei einer so breiten Öffnung käme man mit einem Schritt pro Tastendruck nie rechtzeitig an.¶
 abdrift•#: 0 … ∆ drücken | ∆ loslassen …
@@ -160,16 +160,16 @@ ballposition: Bewegung(
 					ø
 	)
 
-ball: Satzglied(
+ball: Phrase(
 		'⚽'
 		0.6m
 		Name: 'Ball'
 		Ort: ballposition
-		Gegenstand: Gegenstand(0.45kg 0.7 0.02)
+		Material: Material(0.45kg 0.7 0.02)
 	)
 
 ¶Der Handschuh wird oben über seinen Namen beobachtet. Das reicht schon, um in der physikalischen Welt zu sein, darum braucht er kein @Matter. Er wird vom Programm platziert und nicht von der Physik. Darum geht er durch den Ball hindurch und schlägt ihn nicht. Die Parade oben schickt den Ball zurück. Seine Bewegungen werden nicht weich überblendet. Er ist also genau dort, wohin du ihn gesteuert hast, und gleitet dir nicht hinterher.¶
-torwart: Satzglied(
+torwart: Phrase(
 		'🧤'
 		1.2m
 		Name: 'Torwart'
@@ -178,7 +178,7 @@ torwart: Satzglied(
 	)
 
 ¶Wer gleich schießt und von wo. Er ist nur auf dem Spielfeld, solange der Ball wartet.¶
-schütze: Satzglied(
+schütze: Phrase(
 		'🦵'
 		1.2m
 		Ort: Ort(
@@ -219,7 +219,7 @@ wandRechts: Gestalt(
 	)
 
 ¶Eine Parade: Die Zahl springt ein Stück hoch und bleibt einen Moment dort, bevor sie sich beruhigt.¶
-paradenbewegung: Reihenfolge(
+paradenbewegung: Abfolge(
 		{
 			0%: Pose(Skala: 1)
 			30%: Pose(Skala: 1.5 Versatz: Ort(0m 0.4m))
@@ -230,7 +230,7 @@ paradenbewegung: Reihenfolge(
 	)
 
 ¶Ein Tor: Die Zahl schwillt an, bis sie den Bildschirm füllt, und wackelt. So kannst du es nie übersehen, wenn ein Schuss an dir vorbeigeht.¶
-torwackeln: Reihenfolge(
+torwackeln: Abfolge(
 		{
 			0%: Pose(Skala: 1)
 			8%: Pose(Skala: 3.6 Drehung: -10°)
@@ -256,7 +256,7 @@ torwackeln: Reihenfolge(
 	)
 
 ¶Die Anzahl der gehaltenen Schüsse. Ihr Name enthält die Aufschlagnummer, darum bekommt sie bei jedem Schuss eine neue Identität und ihre Animation spielt wieder ab. Eine Zahl, deren Name sich nie ändert, würde einmal animiert werden und dann stillstehen.¶
-punkteanzeige: Satzglied(
+punkteanzeige: Phrase(
 		"🧤 \runde2.blöcke\"
 		1.4m
 		Name: "score\runde2.anstöße\"
@@ -269,7 +269,7 @@ punkteanzeige: Satzglied(
 	)
 
 ¶Die Anleitung steht auf dem Spielfeld und nicht im Overlay. Am unteren Rand des Overlays steht die Musikdarstellung, und Text dort würde überdeckt werden.¶
-anleitung: Satzglied(
+anleitung: Phrase(
 		'halte ⬆ ⬇, um deinen Handschuh zu bewegen – halte jeden Schuss!'
 		0.55m
 		Ort: Ort(-6.4m -6.4m)

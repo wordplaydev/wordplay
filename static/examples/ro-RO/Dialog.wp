@@ -36,7 +36,7 @@ scenariu: [
 	]
 
 ¶Avansează la o tastă, un clic sau o atingere și oprește-te la ultima linie.¶
-rând2•#: 1 … ∆ Cheie() | ∆ Buton() … (rând2 < scenariu.lungime(
+rând2•#: 1 … ∆ Tastă() | ∆ Buton() … (rând2 < scenariu.lungime(
 				) ? rând2 + 1 rând2)
 
 rând3: scenariu[rând2]
@@ -52,7 +52,7 @@ rând3: scenariu[rând2]
 		ø
 
 ¶Un rând aliniat pe linia de bază, astfel încât ambele litere să stea pe o singurălinie. Cutia unei fraze este cerneala ei, deci așezarea lor la aceeași înălțime arpune o literă scurtă și una înaltă pe linii de bază diferite.¶
-Etapă(
+Estradă(
 	[
 		Grup(
 			Stivă('|' 1.5m)

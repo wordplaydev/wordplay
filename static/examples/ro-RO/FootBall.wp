@@ -15,8 +15,8 @@ portarRază: 4.5m
 portarViteză: 0.55m
 
 tic: Timp(50ms)
-apasă: Cheie(jos)
-eliberează: Cheie(jos: ⊥)
+apasă: Tastă(jos)
+eliberează: Tastă(jos: ⊥)
 
 ¶În ce direcție se mișcă mănușa. O săgeată apăsată o pornește, iar când lași aceeași săgeată, mănușa se oprește. Astfel mănușa alunecă atât timp cât ții tasta apăsată. Pe o deschidere atât de lată, un pas la fiecare apăsare nu ar ajunge niciodată la timp.¶
 derivă•#: 0 … ∆ apasă | ∆ eliberează …
@@ -316,7 +316,7 @@ listăSunete: rundă3.fază ???
 		3: sunetRezultat
 		[]
 
-Etapă(
+Estradă(
 	[
 		minge
 		portar

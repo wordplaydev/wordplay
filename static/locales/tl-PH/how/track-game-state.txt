@@ -14,12 +14,12 @@ Halimbawa, isipin natin ang isang simpleng laro kung saan nagta-type ka ng mga l
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['pusa' 'aso'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['pusa' 'aso'] 0) … state.secrets.mayroon(Makipagchat()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("panalo ka!")]
-        [ Group(Stack() [ Phrase("hulaan ang aking mga lihim na salita") Phrase(`\state.secrets.length() - state.points\ pang lihim`)])]
+Entablado(
+    state.points = state.secrets.haba() ? 
+        [ Parirala("panalo ka!")]
+        [ Grupo(Patongpatong() [ Parirala("hulaan ang aking mga lihim na salita") Parirala(`\state.secrets.length() - state.points\ pang lihim`)])]
 )
 \
 

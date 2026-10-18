@@ -60,13 +60,13 @@ slide2: [
 		)
 	]
 
-kunci2: Kunci()
+kunci2: Tuts()
 
 ¶Tempat pertunjukan berada. @Scene menyimpan tempatnya, jadi tidak ada yang perlu dihitung di sini.¶
-di: Spotlight()
+di: Sorotan()
 
 ¶Setiap slide, digambar. Ini tidak bergantung pada apa pun yang berubah, jadi ini dibuat sekali saja, bukan setiap kali tombol ditekan — itulah sebabnya penghitung di bawah tidak ada di sini.¶
-dilihat: slide2.menerjemahkan(
+dilihat: slide2.petakan(
 		ƒ(slide3•slide) Kelompok(
 				Tumpukan('|' 0.4m)
 				[
@@ -90,7 +90,7 @@ dilihat: slide2.menerjemahkan(
 Kelompok(
 	Tumpukan('|' 0.4m)
 	[
-		Pemandangan(
+		Adegan(
 			dilihat
 			jeda
 			langkah: ∆ kunci2 ? ((kunci2 = 'Panah Kiri') ? -1 (kunci2 = 'Panah Kanan') ? 1 ø) ø

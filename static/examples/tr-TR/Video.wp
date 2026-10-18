@@ -23,10 +23,10 @@ kareler: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦�
 ¶Geçerli stilde bir pikselin nasıl göründüğü. Neredeyse hiç rengi olmayan bir piksel, gösterilecek bir renk tonuna sahip olmadığı için açık ya da koyu bir kareye döner.¶
 ƒ harfBiçimi(renk2•Renk)
 	(stil2 = 'ascii') ?
-		"\geçiş[((renk2.hafiflik × 9).yuvarlak()) + 1]\"
+		"\geçiş[((renk2.açıklık × 9).yuvarla()) + 1]\"
 		((stil2 = 'emoji') ?
 				((renk2.renk < 8) ?
-						((renk2.hafiflik < 50%) ? "⬛" "⬜")
+						((renk2.açıklık < 50%) ? "⬛" "⬜")
 						"\kareler[(((renk2.renktonu ÷ 1°) ÷ 15).Aşağıyuvarla(
 							)) + 1]\")
 				'bir')
@@ -34,7 +34,7 @@ kareler: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦�
 ¶Resim. Bir @Image tüm ızgarayı tek bir çıktı olarak çizer, böylece bir kare her piksel için bir ifade yerine tek bir resme mal olur — bu da 32'ye 24'lük bir ızgarada saniyede otuz kez yeniden oluşturulan 768 ifade demekti. /flipx/ resmi bir aynanın gösterdiği gibi ters çevirir.
 
 /letters/ stili her harfi temsil ettiği karenin rengiyle bırakır, bu da bir @Image'in kendi rengi olmadığında yaptığı şeydir. Diğer iki stil ona bir renk verir, çünkü bir harf ancak rengi hiçbir şey söylemediğinde gölgeleme gibi okunur, oysa renkli bir kare emojisi zaten kendi rengini taşır.¶
-resim: Image(
+resim: Görsel(
 		renkler
 		"camera video drawn with \stil2\"
 		16m
@@ -47,7 +47,7 @@ resim: Image(
 
 ¶Bir stil düğmesi, gösterilen stil kendisiyse parlak olur. İsim, düğmeye tıklandığında ya da klavyeyle seçildiğinde Choice'ın bildirdiği şeydir.¶
 ƒ düğme(kimlik2•'')
-	İfadeetmek(
+	Yazı(
 		kimlik2
 		0.5m
 		isim: kimlik2

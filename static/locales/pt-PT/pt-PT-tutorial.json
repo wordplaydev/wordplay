@@ -1456,7 +1456,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "… Sabem quando vos disse que podem avaliar qualquer função com parêntesis \\1.add(1)\\ mas também funções de duas entradas com operadores infixos \\1 + 1\\? Bem, eles têm mais um truque para funções com apenas uma entrada: o formato unário."
+                            "… Sabem quando vos disse que podem avaliar qualquer função com parêntesis \\1.adicionar(1)\\ mas também funções de duas entradas com operadores infixos \\1 + 1\\? Bem, eles têm mais um truque para funções com apenas uma entrada: o formato unário."
                         ],
                         null,
                         [
@@ -2691,7 +2691,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Há uma outra fonte de entrada que vos quero mostrar. Lembram-se do \\[].random()\\ de antes, da @List?",
+                            "Há uma outra fonte de entrada que vos quero mostrar. Lembram-se do \\[].aleatório()\\ de antes, da @List?",
                             "Internamente, utiliza uma @FunctionDefinition chamada @Random, que fornece uma sequência infinita de números aleatórios. É uma espécie de @stream, uma vez que gera entrada do seu mundo, não do nosso. Mas é um pouco diferente dos outros fluxos, pois não faz com que um @Program seja reavaliado.",
                             "Em vez disso, a cada avaliação, gera um número aleatório diferente.",
                             "Vê aquele pequeno botão ↻ @UI/resetEvaluator na barra de ferramentas do palco (e também na linha do tempo)? Prima-o para reavaliar o programa manualmente e verá um novo número entre \\0\\ e \\1\\ de cada vez."
@@ -2710,7 +2710,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "O aleatório pode ser muito divertido! Podemos usá-lo com fluxos de dados para criar um caos divertido. Por exemplo, aqui escolhemos uma palavra aleatória de uma lista de palavras. Isto é o mesmo que \\['kitty' 'cat' 'feline'].random()\\. Continue a premir ↻ para obter um sinónimo diferente para \"gato\"! Experimente adicionar a sua própria palavra à lista e veja se consegue fazê-la aparecer."
+                            "O aleatório pode ser muito divertido! Podemos usá-lo com fluxos de dados para criar um caos divertido. Por exemplo, aqui escolhemos uma palavra aleatória de uma lista de palavras. Isto é o mesmo que \\['kitty' 'cat' 'feline'].aleatório()\\. Continue a premir ↻ para obter um sinónimo diferente para \"gato\"! Experimente adicionar a sua própria palavra à lista e veja se consegue fazê-la aparecer."
                         ],
                         ["Random", "neutral", "1… 2… 2… 1… 3…"],
                         { "edit": "['kitty' 'cat' 'feline'][Random(1 3)]" }
@@ -3790,7 +3790,7 @@
                         [
                             "Group",
                             "excited",
-                            "E se quisesse uma disposição muito específica? Poderia usar @Free e dizer-me exatamente onde quer todas as frases. Só não se esqueça de indicar um local para cada @Phrase, caso contrário, colocá-lo-ei em \\Place(0m 0m)\\."
+                            "E se quisesse uma disposição muito específica? Poderia usar @Free e dizer-me exatamente onde quer todas as frases. Só não se esqueça de indicar um local para cada @Phrase, caso contrário, colocá-lo-ei em \\Local(0m 0m)\\."
                         ],
                         {
                             "edit": [

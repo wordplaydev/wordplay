@@ -12,16 +12,16 @@
 ¶참고: 다른 프로젝트에 대한 갤러리를 확인하세요<예@https://wordplay.dev/project/example-Layers?play>이미지를 레이어링하는 것.¶
 
 
-Stage(
+무대(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) 회전: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) 회전: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) 회전: -25°)
+		모양(원(3m 0m 1m 0m))
+		모양(다각형(2m 3 0m -12m 0m) 회전: -30°)
+		모양(다각형(7m 6 0m -6m 0m))
+		모양(직사각형(-11m -9m 11m -12m 10m) 회전: 25°)
+		모양(직사각형(-11m -9m 11m -12m 10m) 회전: -25°)
 
 	]
-	위치: Place(0m 10m -30m)
+	위치: 위치(0m 10m -30m)
 )
 \
 

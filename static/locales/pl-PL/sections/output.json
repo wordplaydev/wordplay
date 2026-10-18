@@ -13,7 +13,7 @@
                 "$~Układam @Phrase, @Shape i @Group razem na @Stage z @Arrangement. Cześć, jak się masz? Zawsze czuję się świetnie, gdy inni są w pobliżu, więc cieszę się, że jestem z tobą!",
                 "Aby działać, potrzebuję, żebyś dał mi @Arrangement, a potem @List z @Output do ułożenia.",
                 "Na przykład tutaj jestem z układem @Stack i kilkoma @Phrase ułożonymi pionowo w stos:",
-                "\\Grupa(Stos() [Wyrażenie('pierwszy') Wyrażenie('drugi')])\\",
+                "\\Grupa(Stos() [Fraza('pierwszy') Fraza('drugi')])\\",
                 "Jak dokładnie układam rzeczy, zależy od @Arrangement, które mi dasz."
             ],
             "names": ["$~Grupa"],
@@ -117,12 +117,12 @@
             "doc": [
                 "$~Reprezentuję najwspanialszą z @Text na @Stage . Cześć, cześć! Pamiętasz mnie? Jak ktokolwiek mógłby zapomnieć o /mnie/.",
                 "Zrób mi to tak, a pojawię się na @Stage :",
-                "\\Phrase('magnificent!')\\",
+                "\\Fraza('magnificent!')\\",
                 "Potrzebuję @TextLiteral lub @FormattedLiteral do wyświetlenia. Dzięki @FormattedLiteral mogę używać elementów takich jak \\`*bold* and /italic/`\\ lub odwoływać się do utworzonego przez siebie niestandardowego @ConceptLink .",
                 "Możesz też opcjonalnie udostępnić mi wszystkie funkcje @Output , w tym zmianę rozmiaru, czcionki, obrotu oraz wykonywanie wszystkich moich niesamowitych tańców za pomocą @Pose i @Sequence .",
                 "Możesz mnie również wybrać na @Stage i edytować za pomocą palety 🎨 obok — to świetny sposób na wypróbowanie różnych czcionek i wybranie właściwej /Twarz/ dla Twojego @Text ."
             ],
-            "names": ["$~Wyrażenie"],
+            "names": ["$~Fraza", "$~Wyrażenie"],
             "text": {
                 "doc": "$~Znaki do pokazania na @Stage, @TextLiteral lub @FormattedLiteral.",
                 "names": "$~tekst"
@@ -244,10 +244,10 @@
                 "doc": [
                     "$~Dymek pokazujący, co mówię, wskazujący prosto na mnie. Mogą tu być cztery różne rzeczy.",
                     "Zwykły tekst, który tylko pokazuję i nic więcej:",
-                    "\\Wyrażenie('a' dymek: 'cześć!')\\",
+                    "\\Fraza('a' dymek: 'cześć!')\\",
                     "Sformatowany tekst, jeśli chcesz *pogrubionych* lub /pochylonych/ słów w tym, co mówię.",
                     "@Say, który pokazuję *i* wypowiadam na głos:",
-                    "\\Wyrażenie('a' dymek: Mowić('cześć!'))\\",
+                    "\\Fraza('a' dymek: Mowić('cześć!'))\\",
                     "@Bubble, gdy chcesz wybrać, z której strony mówię, zmienić to w myśl albo nadać temu kolor."
                 ],
                 "names": "$~dymek"
@@ -255,9 +255,9 @@
             "poses": {
                 "doc": [
                     "$~@Pose dla każdego z moich glifów, jeden po drugim. Pierwszy glif dostaje pierwszą pozę, drugi dostaje drugą, a gdy skończą mi się pozy, zaczynam od pierwszej. Spacje też są glifami.",
-                    "\\Wyrażenie(\n\t'impreza!'\n\tpozy: [\n\t\tPoza(kolor: Kolor(25% 70 250°))\n\t\tPoza(kolor: Kolor(50% 80 300°))\n\t\tPoza(kolor: Kolor(58% 90 60°))\n\t]\n)\\",
+                    "\\Fraza(\n\t'impreza!'\n\tpozy: [\n\t\tPoza(kolor: Kolor(25% 70 250°))\n\t\tPoza(kolor: Kolor(50% 80 300°))\n\t\tPoza(kolor: Kolor(58% 90 60°))\n\t]\n)\\",
                     "Każdy glif obraca się, rośnie i porusza wokół swojego środka, więc jedna poza pochyla każdy glif w jego miejscu, a moja linia pozostaje prosta:",
-                    "\\Wyrażenie('chwiejny' pozy: Poza(obrót: 15°))\\",
+                    "\\Fraza('chwiejny' pozy: Poza(obrót: 15°))\\",
                     "Własny kolor glifu jest ważniejszy niż mój i niż kolor każdej pozy, którą animuję, a jego przezroczystość łączy się z moją."
                 ],
                 "names": "$~pozy"
@@ -556,7 +556,7 @@
             "names": ["$~Kolor"],
             "lightness": {
                 "doc": "$~jak jasny powinienem być od \\0\\ do \\1\\, od czerni przy \\0\\, do szarości przy \\0.5\\, do bieli przy \\1\\.",
-                "names": ["$~lekkość", "$~ja"]
+                "names": ["$~jasność", "$~lekkość", "$~ja"]
             },
             "chroma": {
                 "doc": "$~Ile koloru powinienem mieć, od \\0\\ do \\∞\\. Brak koloru oznacza szarość, wyższe liczby oznaczają więcej koloru.",
@@ -622,11 +622,11 @@
                 "doc": [
                     "$~Podaj losowy kolor.",
                     "Ponieważ nie mam wyboru kolorów, wybieram losowo jeden z kolorów podstawowych:",
-                    "\\Color.random()\\",
+                    "\\Kolor.losowy()\\",
                     "W przypadku jednego koloru zachowuję jego jasność i nasycenie, ale wybieram losowy odcień:",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Kolor.losowy(Kolor.niebieski)\\",
                     "Mając dwa kolory, wybieram losowo jasność, nasycenie i odcień spośród dwóch:",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Kolor.losowy(Kolor.czarny Kolor.biały)\\"
                 ],
                 "names": "$~losowy",
                 "inputs": [
@@ -643,10 +643,10 @@
             "lighter": {
                 "doc": [
                     "$~Pokaż lżejszą wersję mnie, zwiększając moją lekkość o pewien procent (domyślnie 5%).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Kolor.niebieski.jaśniejszy()\\",
+                    "\\Kolor.niebieski.jaśniejszy(20%)\\"
                 ],
-                "names": "$~zapalniczka",
+                "names": ["$~jaśniejszy", "$~zapalniczka"],
                 "inputs": [
                     {
                         "doc": "$~O ile zwiększyć jasność (w procentach). Domyślnie 5%.",
@@ -657,8 +657,8 @@
             "darker": {
                 "doc": [
                     "$~Pokaż ciemniejszą wersję mnie, zmniejszając jasność o pewien procent (domyślnie 5%).",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Kolor.niebieski.ciemniejszy()\\",
+                    "\\Kolor.niebieski.ciemniejszy(20%)\\"
                 ],
                 "names": "$~ciemniejszy",
                 "inputs": [
@@ -1147,13 +1147,13 @@
         "Stage": {
             "doc": [
                 "$~POKAZUJĘ TWOJE @Output WIDOWNI. CZEŚĆ. TU SCENA. POWIEDZ MI, CO POKAZAĆ, A JA TO POKAŻĘ.",
-                "\\Scena([Wyrażenie('rzeczyyyyyyy')])\\",
+                "\\Scena([Fraza('rzeczyyyyyyy')])\\",
                 "JEŚLI CHCESZ, DAJ MI @Color TŁA, A JA OŚWIETLĘ SCENĘ ZGODNIE Z NIM.",
-                "\\Scena([Wyrażenie('rzeczyyyyyyy')] tło: Kolor(75% 50 100°))\\",
+                "\\Scena([Fraza('rzeczyyyyyyy')] tło: Kolor(75% 50 100°))\\",
                 "MOŻESZ TEŻ DAĆ MI RAMKĘ, A JA PRZYTNĘ OBRAZ.",
-                "\\Scena(\n\t[Wyrażenie('rzeczyyyyyyy')]\n\ttło: Kolor(75% 50 100°)\n\trama: Prostokąt(-1m -1m 1m 1m)\n)\\",
+                "\\Scena(\n\t[Fraza('rzeczyyyyyyy')]\n\ttło: Kolor(75% 50 100°)\n\trama: Prostokąt(-1m -1m 1m 1m)\n)\\",
                 "A JEŚLI CHCESZ DRAMATU, DAJ MI @Effect, A JA ZMIENIĘ WYGLĄD WSZYSTKIEGO. POD WODĄ! STARY FILM! ZAKŁÓCENIA! UWIELBIAM TO.",
-                "\\Scena(\n\t[Wyrażenie('🐟 blub')]\n\tefekty: [Fala() Zabarwienie(Kolor(55% 45 220°))]\n)\\"
+                "\\Scena(\n\t[Fraza('🐟 blub')]\n\tefekty: [Fala() Zabarwienie(Kolor(55% 45 220°))]\n)\\"
             ],
             "names": ["$~Scena"],
             "content": {
@@ -1651,7 +1651,7 @@
                 "Są one trudne do znalezienia, więc rząd symboli pod edytorem podpowiada je zawsze, gdy kursor stoi tuż za jedną z moich liczb.",
                 "Pauza nie może nieść wartości, bo \\ø\\ nie jest liczbą. Dwie pauzy z rzędu są dwa razy dłuższe, a dla czegoś drobniejszego jest @Note.",
                 "Gdy jedna nuta potrzebuje własnej głośności albo długości, której żadna wartość nie zapisze, otocz tę jedną znakiem @Note. Sięgaj po to tylko tam, gdzie tego potrzebujesz: samą liczbę czyta się łatwiej, więc większość ścieżek nie ma go wcale, i właśnie ta rzadkość sprawia, że @Note wyróżnia się jako zdarzenie.",
-                "\\komórka: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tkomórka\n\t\t.zListą(komórka.tłumaczyć(ƒ(n•#) n + 2))\n\t\t.zListą(komórka.wywrócony())\n\t\t.zListą(komórka.tłumaczyć(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "\\komórka: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tkomórka\n\t\t.zListą(komórka.przekształć(ƒ(n•#) n + 2))\n\t\t.zListą(komórka.odwrócony())\n\t\t.zListą(komórka.przekształć(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
                 "Uzupełnianie pauzami to wszystko, czego potrzebuje kanon: obie części trzymają tę samą liczbę uderzeń, więc idą w takt, zamiast się rozjeżdżać. Buduje się je, łącząc dwie listy w jedną za pomocą :, bo \\append\\ wymaga, aby obie listy trzymały ten sam rodzaj rzeczy.",
                 "\\melodia: [1 2 3 1 1 2 3 1 3 4 5 ø]\npauza: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodia :pauza] instrument: 🔈.🪈)\n\t\t🎶([:pauza :melodia] instrument: 🔈.🎻)\n\t])\\"
             ],
@@ -1895,7 +1895,7 @@
         "Bubble": {
             "doc": [
                 "$~Pokazuję, co mówi @Phrase, w dymku, który wskazuje prosto na niego. Podaj mnie do @Phrase.bubble frazy i pozwól literom mówić:",
-                "\\Wyrażenie('a' dymek: 'cześć!')\\",
+                "\\Fraza('a' dymek: 'cześć!')\\",
                 "Daj mi @Say zamiast tekstu, a zostanę wypowiedziana na głos, a nie tylko pokazana.",
                 "Zmień moją @Bubble.kind na myśl, a stanę się dymkiem myśli.",
                 "Jestem ozdobą, więc nic na scenie nie przesuwa się, by zrobić mi miejsce — ale @Stage dba o to, bym była widoczna."
@@ -2050,14 +2050,14 @@
             "doc": [
                 "$~Jestem abstrakcyjnym efektem, nakładanym na całą @Stage, żeby zmienić wygląd wszystkiego, co na niej jest. Nigdy nie tworzy się mnie bezpośrednio. Zamiast tego stwórz jeden z efektów, które są mną, np. @Blur, @Grain lub @Wave, i podaj ich listę do @Stage.effects sceny.",
                 "Efekty działają w takiej kolejności, w jakiej są na liście, więc @Blur po @Grain rozmywa też ziarno. Obejmują zawartość sceny, ale nigdy jej @Stage.overlay, więc wynik albo przycisk pozostają wyraźne.",
-                "\\Scena(\n\t[Wyrażenie('🐟')]\n\tefekty: [Zabarwienie(Kolor(60% 40 220°)) Fala()]\n)\\"
+                "\\Scena(\n\t[Fraza('🐟')]\n\tefekty: [Zabarwienie(Kolor(60% 40 220°)) Fala()]\n)\\"
             ],
             "names": ["$~Efekt"]
         },
         "Blur": {
             "doc": [
                 "$~Zmiękczam wszystko na @Stage, jakby kamera była nieostra. Odrobina mnie to sen albo wspomnienie, a dużo mnie to budzenie się albo zgubienie okularów.",
-                "\\Scena(\n\t[Wyrażenie('🤓 gdzie są moje okulary?')]\n\tefekty: [Rozmycie(0.05m)]\n)\\"
+                "\\Scena(\n\t[Fraza('🤓 gdzie są moje okulary?')]\n\tefekty: [Rozmycie(0.05m)]\n)\\"
             ],
             "names": ["$~Rozmycie"],
             "amount": {
@@ -2068,7 +2068,7 @@
         "Grade": {
             "doc": [
                 "$~Zmieniam jasność, kontrast, nasycenie i odcień wszystkiego na @Stage, tak jak koloryzuje się film, żeby nadać mu nastrój. Zabierz całe nasycenie i podkręć kontrast, a dostaniesz czarno-biały film noir.",
-                "\\Scena(\n\t[Wyrażenie('🕵 detektyw czekał')]\n\tefekty: [Korekcja(nasycenie: 0% kontrast: 150%)]\n)\\"
+                "\\Scena(\n\t[Fraza('🕵 detektyw czekał')]\n\tefekty: [Korekcja(nasycenie: 0% kontrast: 150%)]\n)\\"
             ],
             "names": ["$~Korekcja"],
             "brightness": {
@@ -2091,7 +2091,7 @@
         "Tint": {
             "doc": [
                 "$~Zalewam wszystko na @Stage jednym @Color, zachowując jasność i ciemność, żeby tekst był nadal czytelny. Niebieskozielony sprawia, że scena wygląda jak pod wodą, brązowy jak stara fotografia, a zielony jak noktowizor.",
-                "\\Scena(\n\t[Wyrażenie('🏰 dawno temu')]\n\tefekty: [Zabarwienie(Kolor(60% 40 60°) 80%)]\n)\\"
+                "\\Scena(\n\t[Fraza('🏰 dawno temu')]\n\tefekty: [Zabarwienie(Kolor(60% 40 60°) 80%)]\n)\\"
             ],
             "names": ["$~Zabarwienie"],
             "color": {
@@ -2106,7 +2106,7 @@
         "Haze": {
             "doc": [
                 "$~Spowijam @Stage mgłą, która powoli po niej płynie. Jestem na poranki, dym, parę i wszystko, co jest daleko.",
-                "\\Scena([Wyrażenie('🌲🌲 wrzosowisko 🌲')] efekty: [Mgiełka(60%)])\\"
+                "\\Scena([Fraza('🌲🌲 wrzosowisko 🌲')] efekty: [Mgiełka(60%)])\\"
             ],
             "names": ["$~Mgiełka"],
             "amount": {
@@ -2126,7 +2126,7 @@
             "doc": [
                 "$~Pokrywam @Stage plamkami szumu, który zmienia się w każdej chwili. Odrobina mnie to ziarno prawdziwego filmu, a dużo mnie, z dużymi plamkami, to telewizor bez sygnału.",
                 "Gdy jestem mocny, trudno na mnie patrzeć, więc zostanę oznaczony jako możliwy wzór dla osób, które są na nie wrażliwe.",
-                "\\Scena(\n\t[Wyrażenie('📺 brak sygnału')]\n\tefekty: [Ziarno(90% rozmiar: 3)]\n)\\"
+                "\\Scena(\n\t[Fraza('📺 brak sygnału')]\n\tefekty: [Ziarno(90% rozmiar: 3)]\n)\\"
             ],
             "names": ["$~Ziarno"],
             "amount": {
@@ -2145,7 +2145,7 @@
         "Scanlines": {
             "doc": [
                 "$~Rysuję cienkie ciemne linie ze starego ekranu telewizora na @Stage. Daj mi /szybkość/, a będę się przewijać, jak telewizor, który nie jest do końca nastrojony.",
-                "\\Scena(\n\t[Wyrażenie('📺 kanał 3')]\n\tefekty: [LinieEkranu(40% szybkość: 1)]\n)\\"
+                "\\Scena(\n\t[Fraza('📺 kanał 3')]\n\tefekty: [LinieEkranu(40% szybkość: 1)]\n)\\"
             ],
             "names": ["$~LinieEkranu"],
             "amount": {
@@ -2165,7 +2165,7 @@
             "doc": [
                 "$~Falują wyjście na @Stage, jakbyś widział je przez wodę albo przez gorące powietrze.",
                 "Zaginam samo wyjście, pod innymi efektami, więc @Grain umieszczony przed mną nie jest falowany.",
-                "\\Scena([Wyrażenie('🐟 blub')] efekty: [Fala(0.2m)])\\"
+                "\\Scena([Fraza('🐟 blub')] efekty: [Fala(0.2m)])\\"
             ],
             "names": ["$~Fala"],
             "amount": {
@@ -2184,7 +2184,7 @@
         "Damage": {
             "doc": [
                 "$~Rozsypuję rysy i kurz starej, zniszczonej taśmy filmowej na @Stage, inaczej w każdej klatce. Połącz mnie z @Grade, który odbiera kolory, i z @Flicker, a twoja scena będzie miała sto lat.",
-                "\\Scena(\n\t[Wyrażenie('🎩 KONIEC')]\n\tefekty: [Korekcja(nasycenie: 0%) Zniszczenie(80% 60%)]\n)\\"
+                "\\Scena(\n\t[Fraza('🎩 KONIEC')]\n\tefekty: [Korekcja(nasycenie: 0%) Zniszczenie(80% 60%)]\n)\\"
             ],
             "names": ["$~Zniszczenie"],
             "scratches": {
@@ -2200,7 +2200,7 @@
             "doc": [
                 "$~Sprawiam, że cały @Stage drga: świeci równo, a potem na chwilę ciemnieje w nierównych odstępach, jak żarówka projektora albo lampa, która zaraz zgaśnie.",
                 "Migające światło może szkodzić ludziom, więc nigdy nie drgam częściej niż kilka razy na sekundę, choćby nie wiem jak szybko mnie o to prosić.",
-                "\\Scena([Wyrażenie('💡 światła')] efekty: [Migotanie(40% 2)])\\"
+                "\\Scena([Fraza('💡 światła')] efekty: [Migotanie(40% 2)])\\"
             ],
             "names": ["$~Migotanie"],
             "amount": {
@@ -2215,7 +2215,7 @@
         "Vignette": {
             "doc": [
                 "$~Przyciemniam brzegi @Stage, a środek zostawiam jasny, aby przyciągnąć wzrok do środka. Jestem brzegiem starego obiektywu, reflektorem albo widzeniem tunelowym.",
-                "\\Scena(\n\t[Wyrażenie('🔦 spójrz tutaj')]\n\tefekty: [Winieta(70%)]\n)\\"
+                "\\Scena(\n\t[Fraza('🔦 spójrz tutaj')]\n\tefekty: [Winieta(70%)]\n)\\"
             ],
             "names": ["$~Winieta"],
             "amount": {

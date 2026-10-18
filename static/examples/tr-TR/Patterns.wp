@@ -14,12 +14,12 @@ Sahne(
 		Grup(
 			Yığın()
 			[
-				İfadeetmek(metin2 boyut: 1m)
+				Yazı(metin2 boyut: 1m)
 				Grup(
 					Yığın()
-					sayılar2.tercümeetmek(
+					sayılar2.dönüştür(
 						ƒ(sayı2•Sonuç)
-							İfadeetmek(
+							Yazı(
 								sayı2.metin
 								boyut: 1.5m
 								giriş: Poz(opaklık: 0 ölçek: 0.5)

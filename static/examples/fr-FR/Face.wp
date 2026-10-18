@@ -17,7 +17,7 @@ Scène(
 			taille: 4m
 		)
 		Groupe(
-			Empiler('|')
+			Pile('|')
 			[
 				Phrase((visage2.yeuxOuverts ? '👀' '😑') taille: 1.5m)
 				Phrase(

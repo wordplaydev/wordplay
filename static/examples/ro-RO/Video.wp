@@ -23,10 +23,10 @@ pătrate: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦�
 ¶Cum arată un pixel în stilul curent. Un pixel cu aproape deloc culoare nu are o nuanță care merită arătată, așa că se lasă un pătrat deschis sau întunecat în loc.¶
 ƒ simbol(culoare2•Culoare)
 	(stil2 = 'ascii') ?
-		"\gradient[((culoare2.ușurință × 9).rundă()) + 1]\"
+		"\gradient[((culoare2.luminozitate × 9).rotunjește()) + 1]\"
 		((stil2 = 'emoji') ?
 				((culoare2.cromă < 8) ?
-						((culoare2.ușurință < 50%) ? "⬛" "⬜")
+						((culoare2.luminozitate < 50%) ? "⬛" "⬜")
 						"\pătrate[(((culoare2.nuanţă ÷ 1°) ÷ 15).rotunjireînjos(
 							)) + 1]\")
 				'un')
@@ -34,7 +34,7 @@ pătrate: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦�
 ¶Imaginea. Un @Image desenează întreaga grilă ca un singur output, deci un cadru costă o singură imagine, nu o frază pentru fiecare pixel — ceea ce la 32 pe 24 însemna 768 dintre ele, reconstruite de treizeci de ori pe secundă. /flipx/ o oglindește, ca să se citească așa cum se vede într-o oglindă.
 
 Stilul /letters/ lasă fiecare glif de culoarea pătratului pe care îl reprezintă, ceea ce face un @Image fără culoare proprie. Celelalte două îi dau o culoare, pentru că o literă se citește ca umbrire doar când culoarea ei nu spune nimic, iar un emoji de pătrat colorat are deja culoarea lui.¶
-imagine: Image(
+imagine: Imagine(
 		culori
 		"camera video drawn with \stil2\"
 		16m
@@ -64,7 +64,7 @@ butoane: Grup(
 	)
 
 ¶Butoanele stau în suprapunerea scenei, care este fixată plat pe ecran: rămân la aceeași mărime și loc indiferent cum este încadrată imaginea, iar imaginea este încadrată ca și cum ele nu ar exista.¶
-Etapă(
+Estradă(
 	[imagine]
 	descriere: "camera video drawn with \stil2\"
 	suprapunere: [butoane]

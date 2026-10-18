@@ -59,7 +59,7 @@ kształtDrzewa: [
 	]
 kształtGłazu: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 
-ƒ kształtWMiejscu(kształt•[blok] cx•# cz•#) kształt.tłumaczyć(
+ƒ kształtWMiejscu(kształt•[blok] cx•# cz•#) kształt.przekształć(
 		ƒ(b2•blok) blok(cx b2.y2 cz b2.rodzaj2)
 	)
 
@@ -73,11 +73,11 @@ kształtGłazu: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 ƒ utwórzCel() (
 		głębokość2: maksZ
 		para2: [:-1 ‥ 1].przetasowany().podsekwencja(1 2)
-		para2.łączny(
+		para2.połącz(
 			[]
 			ƒ(struktura•[blok] cx2•#)
 				struktura.zListą(
-					(Losowy(1 2) → []).tłumaczyć(
+					(Losowy(1 2) → []).przekształć(
 						ƒ(poziom•#)
 							blok(
 								cx2
@@ -110,7 +110,7 @@ kształtGłazu: [blok(0 0 0 '🪨') blok(0 1 0 '🪨')]
 twórzkolumny: [-4 -3 -2 2 3 4]
 
 ƒ twórzświat()
-	twórzkolumny.przetasowany().łączny(
+	twórzkolumny.przetasowany().połącz(
 		[]
 		ƒ(pole•[blok] cx6•# indeks2•#)
 			pole.zListą(
@@ -169,7 +169,7 @@ twórzkolumny: [-4 -3 -2 2 3 4]
 		¶Wrzucenie docelowej komórki prosto w element, który by dała, pozwala uniknąć noszenia ze sobą może-bloku: pusta kolumna po prostu zamienia się w nic.¶
 		iloczyn2: (górney > (gra4.y3 + zasięg)) ? '' gra4.bloki.filtr(
 					ƒ(b5•blok) (b5.x2 = celx2) & (b5.y2 = górney) & (b5.z2 = celz2)
-				).łączny(
+				).połącz(
 					''
 					ƒ(dotychczas•"" b6•blok) dotychczas + iloczyn(
 								b6.rodzaj2
@@ -263,7 +263,7 @@ twórzkolumny: [-4 -3 -2 2 3 4]
 
 ¶Jedna klatka: postarzaj luźne elementy, aby wylądowały, zawisły, a potem spadły na szczyt tego, nad czym stoisz. Zbierz wszystko, co leży na twojej komórce, pozwól młotowi opaść i sprawdź wieże.¶
 ƒ przesuńŚwiat(gra10•gra) (
-		zestarzałSię: gra10.przedmioty.tłumaczyć(
+		zestarzałSię: gra10.przedmioty.przekształć(
 				ƒ(i2•przedmiot2) (i2.wiek = 0) ? (i2.wiek:1) i2
 			)
 		stoi: wysokośćkolumny(gra10.bloki gra10.x4 gra10.z4)
@@ -344,9 +344,9 @@ rozmiarKafelka: 0.8m
 
 wierszeZiemi: [:0 ‥ 4].filtr(
 		ƒ(wiersz•#) wiersz ≥ (gra11.z4 - rysujZTyłu)
-	).tłumaczyć(
+	).przekształć(
 		ƒ(wiersz2•#)
-			Wyrażenie(
+			Fraza(
 				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
 				rozmiarKafelka
 				czastrwania: 0s
@@ -357,9 +357,9 @@ wierszeZiemi: [:0 ‥ 4].filtr(
 
 widokiBloków: gra11.bloki.filtr(
 		ƒ(b8•blok) b8.z2 ≥ (gra11.z4 - rysujZTyłu)
-	).tłumaczyć(
+	).przekształć(
 		ƒ(b9•blok)
-			Wyrażenie(
+			Fraza(
 				b9.rodzaj2
 				1m
 				czastrwania: 0s
@@ -371,9 +371,9 @@ widokiBloków: gra11.bloki.filtr(
 ¶Wieże, do których dążysz, wyblakłe, i tylko te części, których jeszcze nie zbudowałeś.¶
 widokiDuchów: niespełnionycel(gra11.bloki gra11.cel).filtr(
 		ƒ(c6•blok) c6.z2 ≥ (gra11.z4 - rysujZTyłu)
-	).tłumaczyć(
+	).przekształć(
 		ƒ(c7•blok)
-			Wyrażenie(
+			Fraza(
 				c7.rodzaj2
 				1m
 				czastrwania: 0s
@@ -386,9 +386,9 @@ widokiDuchów: niespełnionycel(gra11.bloki gra11.cel).filtr(
 ¶Luźny element. To jedyna rzecz na scenie, która płynnie się porusza, a nie skacze. Jej pierwsza klatka jest tam, gdzie blok się rozbił, a reszta tam, gdzie wylądował. Płynne przejście pomiędzy to toczenie.¶
 widokiPrzedmiotów: gra11.przedmioty.filtr(
 		ƒ(i7•przedmiot2) i7.z3 ≥ (gra11.z4 - rysujZTyłu)
-	).tłumaczyć(
+	).przekształć(
 		ƒ(i8•przedmiot2)
-			Wyrażenie(
+			Fraza(
 				i8.rodzaj3
 				0.6m
 				czastrwania: 0.3s
@@ -404,7 +404,7 @@ widokiPrzedmiotów: gra11.przedmioty.filtr(
 	)
 
 ¶Czas trwania w ogóle zamienia krok w ruch: bez niego scena nie buduje dla niego animacji i każdy ruch jest teleportacją. Odrobinę mniej niż jeden tik sprawia, że każdy krok i podskok kończy się tuż przed następnym. Czas, gdy jest w powietrzu, działa tak samo jak zamach młota: inna poza utrzymywana tak długo, jak trwa stan, a nie animacja do włączenia i wyłączenia.¶
-widokGracza: Wyrażenie(
+widokGracza: Fraza(
 		'🚶🏻‍♀'
 		1.1m
 		czastrwania: 0.14s
@@ -429,7 +429,7 @@ wZasięgu: (celY - 1) ≤ (gra11.y3 + zasięg)
 zapasTutaj: (gra11.zaznaczone = '🪵') ? gra11.drewno gra11.cegła
 możeDziałać: budowlaTutaj ? (zapasTutaj > 0) wZasięgu
 
-widokKursora: Wyrażenie(
+widokKursora: Fraza(
 		(budowlaTutaj ? '🔨' '🪏')
 		0.85m
 		czastrwania: 0.12s
@@ -447,7 +447,7 @@ listaKursora: wgranicach(celx4 celz4) ? [widokKursora] []
 
 ¶Kieszenie i bieżący materiał, przypięte płasko do ekranu, żeby głębia ich nie zmniejszała.¶
 wyświetlacz: [
-		Wyrażenie(
+		Fraza(
 			"🪵 \gra11.drewno\   🧱 \gra11.cegła\   🔨 \gra11.zaznaczone\"
 			0.5m
 			miejsce: Miejsce(-6.6m 4.3m)
@@ -462,28 +462,28 @@ widokEkranu: [
 		Grupa(
 			Stos()
 			[
-				Wyrażenie(tytułEkranu 1.1m nazwa: 's1')
-				Wyrażenie(
+				Fraza(tytułEkranu 1.1m nazwa: 's1')
+				Fraza(
 					'Strzałki prowadzą cię · patrzysz w stronę, w którą szedłeś'
 					0.5m
 					nazwa: 's2'
 				)
-				Wyrażenie(
+				Fraza(
 					'Spacja działa na kursor: 🪏 rozbija · 🔨 buduje'
 					0.5m
 					nazwa: 's3'
 				)
-				Wyrażenie(
+				Fraza(
 					'/Shift/ zamienia 🪵 🧱 · /j/ skacze w górę, żeby dosięgnąć'
 					0.5m
 					nazwa: 's4'
 				)
-				Wyrażenie(
+				Fraza(
 					'Dosięgnij o jeden klocek wyżej · dopasuj blade klocki'
 					0.5m
 					nazwa: 's5'
 				)
-				Wyrażenie(liniaStartu 0.7m nazwa: 's6')
+				Fraza(liniaStartu 0.7m nazwa: 's6')
 			]
 			tło: Kolor(90% 10 240°)
 		)
@@ -521,7 +521,7 @@ zepsuł: gra11.wahanie = tyknięciaZamachu
 
 Przez resztę czasu jest puste i to wystarczy: rozpoczęta nuta gra do końca, więc młot dzwoni, mimo że ta lista robi się pusta już w następnym takcie.¶
 nutyUderzenia: zepsuł
-	? ((zepsuteTeraz.długość() > 0) ? zepsuteTeraz.tłumaczyć(
+	? ((zepsuteTeraz.długość() > 0) ? zepsuteTeraz.przekształć(
 					ƒ(i10•przedmiot2) (i10.rodzaj3 = '🪵') ? 5 1
 				) [3])
 		[]

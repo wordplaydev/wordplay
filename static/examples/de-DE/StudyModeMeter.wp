@@ -39,22 +39,22 @@ Bühne(
 		Gruppe(
 			Stapel()
 			[
-				Satzglied('Lernmodus-Anzeige' Größe: 0.5m)
+				Phrase('Lernmodus-Anzeige' Größe: 0.5m)
 
 				¶This Phrase shows the explanation on the screen.¶/en
-				Satzglied(erklärung Größe: 0.4m)
+				Phrase(erklärung Größe: 0.4m)
 
 				¶This Phrase shows the current number of study hours.¶/en
-				Satzglied(stundentext Größe: 0.4m)
+				Phrase(stundentext Größe: 0.4m)
 
-				Satzglied(mood Größe: 0.75m)
+				Phrase(mood Größe: 0.75m)
 
 				Gruppe(
 					Reihe(Polsterung: 3m)
 					[
 						¶This selectable Phrase lets the user add one study hour.
 						Its name is add, so selecting it updates the action choice.¶/en
-						Satzglied(
+						Phrase(
 							'Lernstunde hinzufügen +1'
 							wählbar
 							Name: 'hinzufügen'
@@ -63,7 +63,7 @@ Bühne(
 
 						¶This selectable Phrase lets the user reset the tracker.
 						Its name is reset, so selecting it sets study hours back to 0.¶/en
-						Satzglied(
+						Phrase(
 							'Zurücksetzen'
 							wählbar
 							Name: 'reset'

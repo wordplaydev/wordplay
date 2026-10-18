@@ -7,42 +7,42 @@ Ví dụ, hãy tưởng tượng ta muốn làm hoạt hình cho bài đồng da
 Ta có thể tạo một @Scene có mỗi dòng là một @Phrase, và bằng cách đặt @Phrase/duration của mỗi dòng, @Scene sẽ tiến tới khi mỗi câu đã xong.
 
 \
-Scene([
-  Phrase('Jack be nimble' khoảngthờigian: 1s)
-  Phrase('Jack be quick' khoảngthờigian: 1s)
-  Phrase('Jack jump over the candle stick' khoảngthờigian: 1s)
+Cảnh([
+  Cụmtừ('Jack be nimble' khoảngthờigian: 1s)
+  Cụmtừ('Jack be quick' khoảngthờigian: 1s)
+  Cụmtừ('Jack jump over the candle stick' khoảngthờigian: 1s)
 ])
 \
 
 @Scene cũng sẽ chờ cho một @Sequence hoàn thành. Hãy làm cho dòng về ngọn nến nhảy lên!
 
 \
-Scene([
-		Phrase('Jack be nimble' khoảngthờigian: 1s)
-		Phrase('Jack be quick' khoảngthờigian: 1s)
-		Phrase('Jack jump over the candle stick' vào: Sequence.bounce(khoảngthờigian: 1s))
+Cảnh([
+		Cụmtừ('Jack be nimble' khoảngthờigian: 1s)
+		Cụmtừ('Jack be quick' khoảngthờigian: 1s)
+		Cụmtừ('Jack jump over the candle stick' vào: Sựliêntiếp.nảy(khoảngthờigian: 1s))
 	])
 \
 
 @Scene cũng có thể nhận một @Group chữ, và nó sẽ chờ cho toàn bộ nội dung của nó hoàn thành hoạt cảnh.
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack be nimble')
-		  Phrase('Jack be quick')
+Cảnh([
+		Nhóm(XếpDọc() [
+      Cụmtừ('Jack be nimble')
+		  Cụmtừ('Jack be quick')
     ] khoảngthờigian: 2s)
-		Phrase('Jack jump over the candle stick' vào: Sequence.bounce(khoảngthờigian: 1s))
+		Cụmtừ('Jack jump over the candle stick' vào: Sựliêntiếp.nảy(khoảngthờigian: 1s))
 	])
 \
 
  Đôi khi một bài vè nên cứ tiếp tục mãi. @Scene/loop đưa @Scene quay trở lại @Phrase đầu tiên của nó ngay khi cái cuối cùng hoàn thành, để nó tự lặp lại mãi mãi.
 
 \
-Scene([
-		Phrase('Jack be nimble' khoảngthờigian: 1s)
-		Phrase('Jack be quick' khoảngthờigian: 1s)
-		Phrase('Jack jump over the candle stick' khoảngthờigian: 1s)
+Cảnh([
+		Cụmtừ('Jack be nimble' khoảngthờigian: 1s)
+		Cụmtừ('Jack be quick' khoảngthờigian: 1s)
+		Cụmtừ('Jack jump over the candle stick' khoảngthờigian: 1s)
 	] vòngLặp: ⊤)
 \
 

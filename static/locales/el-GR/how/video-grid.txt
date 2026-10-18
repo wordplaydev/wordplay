@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Κάμερα(width × 1px height × 1px 33ms)
+Πλατό([Εικόνα(colors "what the camera sees" 12m)])
 \
 
  Κάθε @Image χρειάζεται μια περιγραφή, γιατί ένα πλέγμα χρωμάτων δεν έχει δικά του λόγια για κάποιον που δεν μπορεί να το δει.
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m σύμβολο: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Κάμερα(width × 1px height × 1px 33ms)
+Πλατό([Εικόνα(colors "the camera, drawn with dark and light circles" 12m σύμβολο: ƒ(color•Χρώμα) (color.φωτεινότητα < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

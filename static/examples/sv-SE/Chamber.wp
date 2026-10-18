@@ -30,7 +30,7 @@ fallande: ⊤ … ∆ val … (val = 'gravity') ? ~fallande fallande
 		Slumpmässig(-120°/s 120°/s)
 	)
 
-bokstäver: antal2 → [].översätta(
+bokstäver: antal2 → [].omvandla(
 		ƒ(nummer2)
 			Fras(
 				tecken2[nummer2]
@@ -64,7 +64,7 @@ skakare: Fras(
 		plats: Plats(-13m -1m)
 	)
 
-Etapp(
+Estrad(
 	[
 		¶Fyra väggar, tillräckligt tjocka så att ingenting går igenom dem i hög fart.¶
 		Figur(Rektangel(-8.6m 6.6m 8.6m 6m))

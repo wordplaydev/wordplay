@@ -127,8 +127,8 @@
                 "length": {
                     "doc": [
                         "$~J'évalue le nombre de caractères lisibles dans le texte ; une lettre est un caractère, un emoji est un caractère, etc. Par exemple :",
-                        "\\'bonjour'.length()\\",
-                        "\\'🐈📚'.length()\\"
+                        "\\'bonjour'.longueur()\\",
+                        "\\'🐈📚'.longueur()\\"
                     ],
                     "names": ["$~longueur"],
                     "inputs": []
@@ -202,7 +202,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ si le @Text donné apparaît dans moi.",
-                        "\\'avez-vous trouvé ce que vous cherchiez ?'.has('vous')\\"
+                        "\\'avez-vous trouvé ce que vous cherchiez ?'.a('vous')\\"
                     ],
                     "names": ["$~a"],
                     "inputs": [
@@ -215,8 +215,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\ si je commence avec le @Text donné.",
-                        "\\'bonjour verset!'.starts('bonjour')\\",
-                        "\\'bonjour verset!'.starts('verse')\\"
+                        "\\'bonjour verset!'.commence('bonjour')\\",
+                        "\\'bonjour verset!'.commence('verse')\\"
                     ],
                     "names": ["$~commence"],
                     "inputs": [
@@ -229,8 +229,8 @@
                 "ends": {
                     "doc": [
                         "$~\\⊤\\ si je termine avec le @Text donné.",
-                        "\\'suis-je une question ?'.ends('?')\\",
-                        "\\'Je ne suis pas une question.'.ends('?')\\"
+                        "\\'suis-je une question ?'.setermine('?')\\",
+                        "\\'Je ne suis pas une question.'.setermine('?')\\"
                     ],
                     "names": ["$~setermine"],
                     "inputs": [
@@ -493,19 +493,19 @@
                 "round": {
                     "doc": [
                         "$~Je crée un nouveau @Number qui m'arrondit à l'entier le plus proche.",
-                        "\\9.4.round()\\",
-                        "\\9.5.round()\\",
-                        "\\9.6.round()\\"
+                        "\\9.4.arrondir()\\",
+                        "\\9.5.arrondir()\\",
+                        "\\9.6.arrondir()\\"
                     ],
-                    "names": ["$~rond"],
+                    "names": ["$~arrondir", "$~rond"],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": [
                         "$~Je crée un nouveau @Number qui s'arrondit au plus petit entier inférieur à moi.",
-                        "\\10.5.roundDown()\\",
-                        "\\10.1.roundDown()\\",
-                        "\\10.01.roundDown()\\"
+                        "\\10.5.arrondirverslebas()\\",
+                        "\\10.1.arrondirverslebas()\\",
+                        "\\10.01.arrondirverslebas()\\"
                     ],
                     "names": ["$~arrondirverslebas"],
                     "inputs": []
@@ -672,7 +672,7 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Calcule ma tangente.", "\\π.tan()\\"],
+                    "doc": ["$~Calcule ma tangente.", "\\π.tangente()\\"],
                     "names": ["$~tangente"],
                     "inputs": []
                 },
@@ -742,7 +742,7 @@
                 "limit": {
                     "doc": [
                         "$~Garde-moi entre un nombre bas et un nombre haut : si je suis en dessous du bas, c'est celui-là que tu reçois, et si je suis au-dessus du haut, tu reçois celui-là à la place.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.limite(0 10)\\"
                     ],
                     "names": "$~limite",
                     "inputs": [
@@ -759,7 +759,7 @@
                 "toward": {
                     "doc": [
                         "$~Avance une partie du chemin entre moi et un autre nombre. À 0 %, tu me reçois, à 100 %, tu reçois l'autre, et à mi-chemin, tu reçois le nombre du milieu.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.vers(10m 30%)\\"
                     ],
                     "names": "$~vers",
                     "inputs": [
@@ -776,7 +776,7 @@
                 "rescale": {
                     "doc": [
                         "$~Trouve où je me situe entre une première paire de nombres, puis donne le nombre qui se situe de la même façon entre une autre paire. Pratique pour transformer une mesure en quelque chose que tu peux montrer.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.redimensionner(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~redimensionner",
                     "inputs": [
@@ -976,7 +976,7 @@
                 "add": {
                     "doc": [
                         "$~Je crée une nouvelle @List avec l'@element donné à la fin.",
-                        "\\['pomme' 'banane' 'mangue'].with('pastèque')\\"
+                        "\\['pomme' 'banane' 'mangue'].avec('pastèque')\\"
                     ],
                     "names": "$~avec",
                     "inputs": [
@@ -989,7 +989,7 @@
                 "append": {
                     "doc": [
                         "$~Je crée une nouvelle @List avec mes valeurs, puis toutes les valeurs de la @List donnée après moi.",
-                        "\\['pomme' 'banane' 'mangue'].withList(['pastèque' 'carambole'])\\",
+                        "\\['pomme' 'banane' 'mangue'].avecListe(['pastèque' 'carambole'])\\",
                         "C'est un peu plus simple d'utiliser @Spread, comme ceci :",
                         "\\['pomme' 'banane' 'mangue' :['pastèque' 'carambole']]\\"
                     ],
@@ -1026,7 +1026,7 @@
                 "random": {
                     "doc": [
                         "$~Un de mes articles sélectionné au hasard, ou @None si je suis vide.",
-                        "\\['pomme' 'banane' 'mangue'].random()\\"
+                        "\\['pomme' 'banane' 'mangue'].aléatoire()\\"
                     ],
                     "names": "$~aléatoire",
                     "inputs": []
@@ -1042,9 +1042,9 @@
                 "first": {
                     "doc": [
                         "$~Le premier @element en moi, ou @None si je suis vide.",
-                        "\\['pomme' 'banane' 'mangue'].first()\\"
+                        "\\['pomme' 'banane' 'mangue'].premier()\\"
                     ],
-                    "names": "$~dabord",
+                    "names": ["$~premier", "$~dabord"],
                     "inputs": []
                 },
                 "last": {
@@ -1058,7 +1058,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ si j'ai un @element égal à l'élément donné en moi.",
-                        "\\['pomme' 'banane' 'mangue'].has('banane')\\"
+                        "\\['pomme' 'banane' 'mangue'].a('banane')\\"
                     ],
                     "names": "$~a",
                     "inputs": [
@@ -1071,9 +1071,9 @@
                 "join": {
                     "doc": [
                         "$~Je combine les éléments de ma liste dans @Text, séparés par le séparateur donné @Text.",
-                        "\\['pomme' 'banane' 'mangue'].join(', ')\\"
+                        "\\['pomme' 'banane' 'mangue'].joindre(', ')\\"
                     ],
-                    "names": "$~rejoindre",
+                    "names": ["$~joindre", "$~rejoindre"],
                     "inputs": [
                         {
                             "doc": "$~Le texte par lequel séparer les éléments, éventuellement vide.",
@@ -1108,7 +1108,7 @@
                 "sansFirst": {
                     "doc": [
                         "$~Je crée une liste sans mon premier @element.",
-                        "\\['pomme' 'banane' 'mangue'].sansFirst()\\"
+                        "\\['pomme' 'banane' 'mangue'].sansPremier()\\"
                     ],
                     "names": ["$~sansPremier"],
                     "inputs": []
@@ -1116,7 +1116,7 @@
                 "sansLast": {
                     "doc": [
                         "$~Je crée une liste sans mon dernier @element.",
-                        "\\['pomme' 'banane' 'mangue'].sansLast()\\"
+                        "\\['pomme' 'banane' 'mangue'].sansDernier()\\"
                     ],
                     "names": ["$~sansDernier"],
                     "inputs": []
@@ -1136,9 +1136,9 @@
                 "reverse": {
                     "doc": [
                         "$~Moi, mais à l'envers !",
-                        "\\['pomme' 'banane' 'mangue'].reverse()\\"
+                        "\\['pomme' 'banane' 'mangue'].inversé()\\"
                     ],
-                    "names": ["$~renversé", "$~inverse"],
+                    "names": ["$~inversé", "$~renversé", "$~inverse"],
                     "inputs": []
                 },
                 "equals": {
@@ -1171,9 +1171,9 @@
                     "doc": [
                         "$~Donne-moi un @FunctionDefinition qui prend un @value et un @index optionnel en entrée et produit une valeur. Je vais l'évaluer sur chacun de mes éléments, en transformant mes valeurs en nouvelles valeurs.",
                         "Par exemple, imagine que je sois une liste de @Number et que tu veuilles tous les doubler :",
-                        "\\[2 4 6 8].traduire(ƒ(num•#) num × 2)\\"
+                        "\\[2 4 6 8].transformer(ƒ(num•#) num × 2)\\"
                     ],
-                    "names": "$~traduire",
+                    "names": ["$~transformer", "$~traduire"],
                     "inputs": [
                         {
                             "doc": "$~La @FunctionDefinition qui traduira chaque @element.",
@@ -1371,7 +1371,7 @@
                 "sum": {
                     "doc": [
                         "$~Additionne tous mes nombres ensemble. Si je suis vide, ça fait 0, et si mes nombres ne sont pas tous mesurés dans la même unité, je te le dirai plutôt que de deviner.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].somme()\\"
                     ],
                     "names": "$~somme",
                     "inputs": []
@@ -1379,7 +1379,7 @@
                 "average": {
                     "doc": [
                         "$~Additionne tous mes nombres ensemble et divise par leur nombre total. Si je suis vide, il n'y a rien à moyenner, donc tu reçois @None.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].moyenne()\\"
                     ],
                     "names": "$~moyenne",
                     "inputs": []

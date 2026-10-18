@@ -13,14 +13,14 @@
 \
 slides: ['প্ৰথম' 'দ্বিতীয়' 'তৃতীয়']
 
-key: Key()
+key: কী()
 
 index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'ArrowRight') ? ((index < slides.দৈৰ্ঘ্য()) ? index + 1 index)
 		(key = 'কাঁড় বাওঁফালে') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+বাক্যাংশ(slides[index])
 \
 
  এই @Reaction এইটোৰ মূল অংশ। ই আৰম্ভ হয় \1\ ৰ পৰা, আৰু প্ৰতিবাৰ @Key সলনি হ'লে, ই নিৰ্ণয় কৰে নতুন সংখ্যাটো কি হ'ব লাগে।
@@ -38,15 +38,15 @@ Phrase(slides[index])
 
 \
 slides: [
-	Phrase('তিনি ভাগৰ এটা কাহিনী' আকাৰ: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('এটা মেকুৰী ওলাল')])
-	Phrase('শেষ 🎉')
+	বাক্যাংশ('তিনি ভাগৰ এটা কাহিনী' আকাৰ: 3m)
+	গোট(স্তূপ() [বাক্যাংশ('🐈') বাক্যাংশ('এটা মেকুৰী ওলাল')])
+	বাক্যাংশ('শেষ 🎉')
 ]
 
-key: Key()
+key: কী()
 
 index•#: 1 … ∆ key …
-	(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'ArrowRight') ? ((index < slides.দৈৰ্ঘ্য()) ? index + 1 index)
 		(key = 'কাঁড় বাওঁফালে') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 ইয়াক দিয়ক @Scene/pause যাতে ই কেতিয়াও নিজে লৰচৰ নকৰে, আৰু @Scene/step ইয়াক এফাল বা সিফাল এটা টুকুৰা লৰাবলৈ:
 
 \
-key: Key()
-Scene([
-		Phrase('তিনি ভাগৰ এটা কাহিনী' আকাৰ: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('এটা মেকুৰী ওলাল')])
-		Phrase('শেষ 🎉')
+key: কী()
+দৃশ্য([
+		বাক্যাংশ('তিনি ভাগৰ এটা কাহিনী' আকাৰ: 3m)
+		গোট(স্তূপ() [বাক্যাংশ('🐈') বাক্যাংশ('এটা মেকুৰী ওলাল')])
+		বাক্যাংশ('শেষ 🎉')
 	] ৰখাওক খোজ: ∆ key ? ((key = 'কাঁড় বাওঁফালে') ? -1 (key = 'ArrowRight') ? 1 ø) ø)
 \
 

@@ -46,12 +46,12 @@ Bühne(
 		Gruppe(
 			Stapel('|' 1m)
 			[
-				Satzglied(
+				Phrase(
 					mood
 					8m
-					Ruhen: gesagt(drehen2) ? Reihenfolge.drehen() ø
+					Ruhen: gesagt(drehen2) ? Abfolge.drehen() ø
 				)
-				Satzglied(
+				Phrase(
 					gehört = '' ? 'sage: ' + zaubersprüche.verbinden(
 								', '
 							) gehört

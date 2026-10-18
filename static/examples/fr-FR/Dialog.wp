@@ -39,7 +39,7 @@ script: [
 	]
 
 ¶Avance avec une touche, un clic ou un toucher, et arrête-toi à la dernière ligne.¶
-tour2•#: 1 … ∆ Clé() | ∆ Bouton() … (tour2 < script.longueur(
+tour2•#: 1 … ∆ Touche() | ∆ Bouton() … (tour2 < script.longueur(
 				) ? tour2 + 1 tour2)
 
 ligne2: script[tour2]
@@ -58,7 +58,7 @@ ligne2: script[tour2]
 Scène(
 	[
 		Groupe(
-			Empiler('|' 1.5m)
+			Pile('|' 1.5m)
 			[
 				Groupe(
 					Rangée('_' 6m)

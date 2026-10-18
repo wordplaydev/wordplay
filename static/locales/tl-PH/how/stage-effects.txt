@@ -64,7 +64,7 @@ Entablado(
 Ang pag-uga sa buong entablado, tulad ng lindol, ay hindi epekto: isang @Stage ay maaaring gumalaw tulad ng ibang output, kaya bigyan ito ng @Sequence.
 
 \
-Entablado([Parirala('🏠')] nagpapahinga: Pagkakasunodsunod.iling(0.5s bilangin: 4x))
+Entablado([Parirala('🏠')] nagpapahinga: Pagkakasunodsunod.iling(0.5s bilang: 4x))
 \
 
  May mga epekto na mabilis gumalaw. Kapag humiling ang isang tao sa kanyang device na bawasan ang galaw, titigil sa paggalaw ang bawat epekto.

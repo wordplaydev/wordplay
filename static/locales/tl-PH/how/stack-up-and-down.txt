@@ -4,10 +4,10 @@ Kung ang isang @Row ay para sa magkatabi, pagkatapos ay isang @Stack ay para sa 
 @Stack inilalagay ang bawat karakter sa ibaba ng nauna rito, tulad ng isang tore.
 
 \
-Group(Stack() [
-    Phrase('isa')
-    Phrase('dalawa')
-    Phrase('tatlo')
+Grupo(Patongpatong() [
+    Parirala('isa')
+    Parirala('dalawa')
+    Parirala('tatlo')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Stack() [
 Subukang ihanay ang lahat sa gilid na kaliwa:
 
 \
-Group(Stack('<' 0.25m) [
-    Phrase('🐣 maliit')
-    Phrase('🐥 katamtaman')
-    Phrase('🐔 malaki')
+Grupo(Patongpatong('<' 0.25m) [
+    Parirala('🐣 maliit')
+    Parirala('🐥 katamtaman')
+    Parirala('🐔 malaki')
 ])
 \
 

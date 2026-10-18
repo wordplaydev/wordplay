@@ -133,7 +133,7 @@ remos: [
 
 frota: [barco(0 0) barco(1 6) barco(2 11)]
 
-Fase(
+Palco(
 	[
 		:frota
 		Frase(

@@ -13,12 +13,12 @@ Scena(
 		Grupa(
 			Stos()
 			[
-				Wyrażenie(
+				Fraza(
 					`PATRIARCHAT i UMIEJĘTNOŚĆ CZYTANIA I PISANIA`
 					zawinąć: 25m
 					twarz: 'Monoton'
 				)
-				Wyrażenie(
+				Fraza(
 					`/Na całym świecie patriarchalne nierówności, takie jak przemoc ze względu na płeć, wczesne małżeństwa dzieci i zakaz chodzenia do szkoły, niesprawiedliwie obniżają wskaźniki umiejętności czytania i pisania wśród kobiet. Według danych Banku Światowego te kraje są dziesięcioma najgorszymi przypadkami…/`
 					zawinąć: 25m
 				)
@@ -27,8 +27,8 @@ Scena(
 				).podsekwencja(
 					1
 					10
-				).tłumaczyć(
-					ƒ(wiersz2) Wyrażenie(
+				).przekształć(
+					ƒ(wiersz2) Fraza(
 							`/\wiersz2.kraj\ \wiersz2.n2022•# ? wiersz2.n2022.zaokrąglićwdół(
 								) 0\%/`
 						)

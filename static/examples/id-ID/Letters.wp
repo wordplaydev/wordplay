@@ -10,8 +10,8 @@ terbaru•['']:
 		terbaru.mengganti(Acak(1 25) huruf.acak())
 
 Kelompok(
-	Jaringan(5 5 0.25m 1m 1m)
-	terbaru.menerjemahkan(
+	Kisi(5 5 0.25m 1m 1m)
+	terbaru.petakan(
 		ƒ(huruf2•"" indeks2•#)
 			Frasa(
 				huruf2

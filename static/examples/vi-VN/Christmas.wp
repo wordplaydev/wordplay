@@ -8,7 +8,7 @@ Bản nhạc gắn với @Pose đầu tiên của điệu nhảy. Một @Pose c�
 Hai độ dài được chọn để khớp nhau: tám nhịp ở tốc độ 160 kéo dài ba giây, và năm bước nửa giây cũng kéo dài ba giây. Một dáng đứng chỉ là một khoảnh khắc chứ không phải thứ kéo dài liên tục, nên vòng lặp thường thấy của @Track không áp dụng ở đây — nhạc của một dáng đứng luôn chỉ vang lên đúng một lần.¶
 
 lengKeng: ÂmNhạc(
-		BảnNhạc([3 3 3𝅗𝅥 3 3 3𝅗𝅥] nhạcCụ: NhạcCụ.chuông)
+		Bè([3 3 3𝅗𝅥 3 3 3𝅗𝅥] nhạcCụ: NhạcCụ.chuông)
 		nhịpĐộ: 160beats/min
 		âmLượng: 55%
 		tên: 'leng keng'

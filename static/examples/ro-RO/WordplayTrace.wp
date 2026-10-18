@@ -20,8 +20,8 @@ urmă: numărare2 ÷ 2
 ¶Un index al capului care avansează cu un punct la fiecare pas și se reia de la început în jurul cuvântului.¶
 cap: 0 … ∆ Timp(10ms) … ((cap + 1) % numărare2) ?? 0
 
-Etapă(
-	puncte2.traduce(
+Estradă(
+	puncte2.transformă(
 		ƒ(punct•Loc index2•#)
 			(
 				¶Câte puncte în urma capului se află acesta, reluându-se de la început.¶

@@ -30,9 +30,9 @@ düşme: ⊤ … ∆ seçim … (seçim = 'gravity') ? ~düşme düşme
 		Rastgele(-120°/s 120°/s)
 	)
 
-harfler3: sayaç → [].tercümeetmek(
+harfler3: sayaç → [].dönüştür(
 		ƒ(sayı2)
-			İfadeetmek(
+			Yazı(
 				harfler2[sayı2]
 				isim: "glyph\sayı2\"
 				yer: Hareket(
@@ -40,12 +40,12 @@ harfler3: sayaç → [].tercümeetmek(
 					başlat()
 					sonrakihız: sallanma ? başlat() ø
 				)
-				konu: Konu(zıplama: 0.7 sürtünme: 0)
+				madde: Madde(zıplama: 0.7 sürtünme: 0)
 			)
 	)
 
 ¶İki kontrol. Kütleleri yoktur ve konumları bir Motion olmadığından fizik motoru onlara dokunmaz.¶
-anahtar2: İfadeetmek(
+anahtar2: Yazı(
 		düşme ? '⬇ yer çekimi' '🌌 süzülme'
 		0.7m
 		isim: 'gravity'
@@ -53,7 +53,7 @@ anahtar2: İfadeetmek(
 		yer: Yer(-13m 1m)
 	)
 
-sallayıcı: İfadeetmek(
+sallayıcı: Yazı(
 		'🎲 sallanma'
 		0.7m
 		isim: 'shake'

@@ -5,7 +5,7 @@ Sinos
 
 É um instrumento. Não faz nenhum som. Os números já são uma partitura; só ainda não foram tocados. O bloco omitido acima do palco é o som, à espera de @Music existir.¶
 
-pressionada: Chave()
+pressionada: Tecla()
 tique: Tempo(30ms)
 
 ¶Quanto toque um sino perde em cada fotograma.¶
@@ -71,7 +71,7 @@ canção: Música(
 		repetir: ∆ pressionada
 	)
 
-Fase(
+Palco(
 	[
 		Frase(
 			'━━━━━━━━━━━━━'

@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: కెమెరా(width × 1px height × 1px 33ms)
+స్టేజ్([చిత్రం(colors "what the camera sees" 12m)])
 \
 
  ప్రతి @Image కు ఒక వివరణ కావాలి, ఎందుకంటే చూడలేని వారికి రంగుల గ్రిడ్‌కు తనంతట తానుగా మాటలు ఉండవు.
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m గ్లిఫ్: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: కెమెరా(width × 1px height × 1px 33ms)
+స్టేజ్([చిత్రం(colors "the camera, drawn with dark and light circles" 12m గ్లిఫ్: ƒ(color•రంగు) (color.లేతదనం < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

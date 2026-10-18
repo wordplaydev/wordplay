@@ -33,7 +33,7 @@ fallen: ⊤ … ∆ auswahl … (auswahl = 'gravity') ? ~fallen fallen
 
 buchstaben: zählung → [].übersetzen(
 		ƒ(zahl2)
-			Satzglied(
+			Phrase(
 				glyphen[zahl2]
 				Name: "glyph\zahl2\"
 				Ort: Bewegung(
@@ -41,12 +41,12 @@ buchstaben: zählung → [].übersetzen(
 					abschießen()
 					nächsteGeschwindigkeit: schütteln2 ? abschießen() ø
 				)
-				Gegenstand: Gegenstand(Sprungkraft: 0.7 Reibung: 0)
+				Material: Material(Sprungkraft: 0.7 Reibung: 0)
 			)
 	)
 
 ¶Die zwei Steuerelemente. Sie haben keine Masse und ihr Ort ist keine Bewegung, darum lässt die Physik-Engine sie in Ruhe.¶
-schalter: Satzglied(
+schalter: Phrase(
 		fallen ? '⬇ Schwerkraft' '🌌 schwebend'
 		0.7m
 		Name: 'gravity'
@@ -54,7 +54,7 @@ schalter: Satzglied(
 		Ort: Ort(-13m 1m)
 	)
 
-schüttler: Satzglied(
+schüttler: Phrase(
 		'🎲 schütteln'
 		0.7m
 		Name: 'shake'

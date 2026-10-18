@@ -5,7 +5,7 @@ Perguntas
 
 •pergunta2(id2•"" vx•#m/s vy•#m/s va•#°/s)
 
-pressionada: ∆ Chave()
+pressionada: ∆ Tecla()
 contagem2•#: 0 … pressionada … contagem2 + 1
 perguntas•[pergunta2]: [] … pressionada … [
 			:perguntas
@@ -17,7 +17,7 @@ perguntas•[pergunta2]: [] … pressionada … [
 			)
 		]
 
-Fase(
+Palco(
 	[
 		Frase('👨‍👨‍👧‍👦' local: Local(0m 0m) fonte: "Noto Emoji")
 		Figura(Retângulo(-5m 0m 25m -1m))

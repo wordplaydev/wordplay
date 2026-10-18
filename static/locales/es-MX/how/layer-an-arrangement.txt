@@ -5,9 +5,9 @@ Una  @Track  es una melodía. Varias tocadas juntas forman una banda, y el truco
 Como los grados son pasos de una escala y no tonos fijos, toda una línea de bajo puede ser los mismos números de la melodía, bajados una octava.  @Track/key  mueve una sola pista por un número de semitonos, y doce semitonos son exactamente una octava:
 
 \tune: [1 5 8 5 6 3 1 ø]
-Music([
-		Track(tune instrumento: Instrument.flute)
-		Track(tune instrumento: Instrument.synthBass clave: -12semitones volumen: 60%)
+Música([
+		Pista(tune instrumento: Instrumento.flauta)
+		Pista(tune instrumento: Instrumento.bajoSintetizador clave: -12semitones volumen: 60%)
 	])\
 
 Dos voces, una lista. Cambia la melodía y el bajo la sigue, porque solo hay una melodía que cambiar.
@@ -15,11 +15,11 @@ Dos voces, una lista. Cambia la melodía y el bajo la sigue, porque solo hay una
 Ahora llena lo que la rodea. Los acordes quieren su propio ritmo en lugar del de la melodía, y el propio  @Track/beat  de una pista le da uno; \pan\ reparte las voces a la izquierda y a la derecha para que el oído pueda separarlas:
 
 \tune: [1 5 8 5 6 3 1 ø]
-Music([
-		Track(tune instrumento: Instrument.flute balance: 0)
-		Track(tune instrumento: Instrument.synthBass clave: -12semitones volumen: 60%)
-		Track([{1 3 5} ø {1 4 6} ø] instrumento: Instrument.synthPad pulso: 2beats volumen: 35%)
-		Track([1 ø 2 ø 1 ø 2 3] instrumento: Instrument.drums pulso: 0.5beats volumen: 45%)
+Música([
+		Pista(tune instrumento: Instrumento.flauta balance: 0)
+		Pista(tune instrumento: Instrumento.bajoSintetizador clave: -12semitones volumen: 60%)
+		Pista([{1 3 5} ø {1 4 6} ø] instrumento: Instrumento.padSintetizador pulso: 2beats volumen: 35%)
+		Pista([1 ø 2 ø 1 ø 2 3] instrumento: Instrumento.batería pulso: 0.5beats volumen: 45%)
 	])\
 
 Observa los volúmenes: solo la flauta está al máximo. Las partes a todo volumen no forman una banda más fuerte, forman una más turbia, porque todo lo que suena a la vez tiene que caber por la misma bocina. Empieza la melodía en \100%\ y coloca todo lo demás por debajo de ella.

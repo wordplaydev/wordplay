@@ -7,14 +7,14 @@
 આ રહ્યું એક ફુગ્ગાનું ટેમ્પલેટ જે રંગ અને લેબલ લે છે, અને પોતાને કેવી રીતે બતાવવું તે જાણે છે:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` રંગ: color કદ: 2m)
+•Balloon(color•રંગ label•'') (
+    ƒ show() વાક્ય(`🎈\label\` રંગ: color કદ: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'આકાશ').show()
-    Balloon(Color(60% 80 0°) 'ગુલાબ').show()
-    Balloon(Color(90% 80 90°) 'સન્ની').show()
+સમૂહ(પંક્તિ() [
+    Balloon(રંગ(80% 50 240°) 'આકાશ').show()
+    Balloon(રંગ(60% 80 0°) 'ગુલાબ').show()
+    Balloon(રંગ(90% 80 90°) 'સન્ની').show()
 ])
 \
 

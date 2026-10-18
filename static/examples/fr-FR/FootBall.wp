@@ -15,8 +15,8 @@ portéeDuGardien: 4.5m
 vitesseDuGardien: 0.55m
 
 tic: Temps(50ms)
-appuyer: Clé(verslebas)
-relâcher: Clé(verslebas: ⊥)
+appuyer: Touche(verslebas)
+relâcher: Touche(verslebas: ⊥)
 
 ¶Dans quelle direction le gant se déplace. Appuyer sur une flèche le met en mouvement, et relâcher cette même flèche l'arrête. Le gant glisse donc tant que tu gardes la touche enfoncée. Devant une ouverture aussi large, un pas par appui n'arriverait jamais à temps.¶
 dérive•#: 0 … ∆ appuyer | ∆ relâcher …

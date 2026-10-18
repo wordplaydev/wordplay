@@ -10,7 +10,7 @@ sayaç: 100
 boyut2: 20m
 
 ¶Mikrofonun genliği¶
-amper: Hacim()
+amper: SesSeviyesi()
 
 ¶Seçilen harf ve onun konumu, dönüş hızı ve görünür olup olmadığı.¶
 •harf(harf2•"" x2•#m y2•#m açı2•# hız2•# görünür•?)
@@ -18,7 +18,7 @@ amper: Hacim()
 tık: Zaman()
 
 ¶Rastgele konumlarda rastgele harflerden oluşan bir liste olarak başlat¶
-harfler2•[harf]: sayaç → [#].tercümeetmek(
+harfler2•[harf]: sayaç → [#].dönüştür(
 		ƒ(_) harf(
 				latin.rastgele()
 				Rastgele(-boyut2 boyut2)
@@ -30,7 +30,7 @@ harfler2•[harf]: sayaç → [#].tercümeetmek(
 	)
 	… ∆ tık …
 		¶Harf y ekseninin üzerindeyse, onu biraz aşağı hareket ettir ve döndür. Değilse, eşik değerinin üzerine sıfırla ve rastgele olarak görünür olup olmayacağına karar ver.¶
-		harfler2.tercümeetmek(
+		harfler2.dönüştür(
 			ƒ(harf3•harf)
 				harf3.y2 > 0m ? (harf3.y2:harf3.y2 - 0.5m).açı2:harf3.açı2 + harf3.hız2
 					(harf3.y2:boyut2 + 2m).görünür:Rastgele(0 amper) > 0.5
@@ -39,16 +39,16 @@ harfler2•[harf]: sayaç → [#].tercümeetmek(
 ¶Harfleri kelime öbeklerine dönüştür¶
 Sahne(
 	[
-		İfadeetmek("☁" boyut: 3m yer: Yer(-8m 12m))
-		İfadeetmek("☁" boyut: 5m yer: Yer(8m 11m))
-		İfadeetmek(
+		Yazı("☁" boyut: 3m yer: Yer(-8m 12m))
+		Yazı("☁" boyut: 5m yer: Yer(8m 11m))
+		Yazı(
 			"🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
 			yer: Yer(-3.5 × boyut2 -0.5m)
 		)
 	].Listeile(
-		harfler2.tercümeetmek(
+		harfler2.dönüştür(
 			ƒ(harf4•harf)
-				İfadeetmek(
+				Yazı(
 					harf4.harf2
 					boyut: 1m
 					yer: Yer(harf4.x2 harf4.y2)

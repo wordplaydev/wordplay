@@ -61,7 +61,7 @@ menang: saatIni = '🤩'
 Panggung(
 	[
 		Kelompok(
-			Jaringan(3 3 0.25m)
+			Kisi(3 3 0.25m)
 			[
 				ø
 				Frasa(

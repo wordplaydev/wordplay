@@ -56,7 +56,7 @@ t
 ¶ಈಗಿನ ಫ್ರೆಂಚ್ ಸಂಖ್ಯೆ ಮತ್ತು ಈಗಿನ ಅಂಕಗಳನ್ನು ತೋರಿಸಿ. ಎಲ್ಲಾ 9 ರಹಸ್ಯಗಳ ನಂತರ, ಅಂತಿಮ ಫಲಿತಾಂಶ ತೋರಿಸಿ¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
-ಹಂತ(
+ವೇದಿಕೆ(
 	[
 		ಗುಂಪು(
 			ಸ್ಟ್ಯಾಕ್()

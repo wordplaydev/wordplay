@@ -6,7 +6,7 @@ Kodglapp
 ↓ fields
 
 ¶Funktionen fill gör en hel stapel. Den upprepar kvinno-emojin count gånger och fogar ihop dem till en enda text utan mellanrum, så raden ser ut som en sammanhängande stapel i stället för separata prickar.¶
-ƒ fyllning(räkna2•#) (räkna2 → []).översätta(ƒ() '👩').anslutasigtill(
+ƒ fyllning(räkna2•#) (räkna2 → []).omvandla(ƒ() '👩').sammanfoga(
 		''
 	)
 
@@ -14,7 +14,7 @@ Kodglapp
 ƒ diagram(etiketter•[''] enheter•[#] värden•[''])
 	Grupp(
 		Stack('<' stoppning: 0.2m)
-		enheter.översätta(
+		enheter.omvandla(
 			ƒ(e•# i•#)
 				Grupp(
 					Rad('|' stoppning: 0.3m)
@@ -33,21 +33,21 @@ Kodglapp
 ¶Vy 1 — "Uppgång och nedgång". För varje år i datan ritar vi en stapel vars längd är andelen datavetenskapliga examina som tagits av kvinnor, i procent. Varje kvinno-emoji står för ungefär 5 procent, så vi delar procenttalet med 5 för att få stapelns längd.¶
 tidrader: (years ⎡?år2 procent⎦ ⊤) → []
 tidvy: diagram(
-		tidrader.översätta(ƒ(rad) rad.år2)
-		tidrader.översätta(ƒ(rad2) (rad2.procent ÷ 5).runda())
-		tidrader.översätta(
-			ƒ(rad3) (rad3.procent.runda() → '') + '%'
+		tidrader.omvandla(ƒ(rad) rad.år2)
+		tidrader.omvandla(ƒ(rad2) (rad2.procent ÷ 5).avrunda())
+		tidrader.omvandla(
+			ƒ(rad3) (rad3.procent.avrunda() → '') + '%'
 		)
 	)
 
 ¶Vy 2 — "Ett område som sticker ut". Vi jämför andelen kvinnor inom olika studieområden ett nyligt år. Raderna är redan ordnade från flest kvinnor till färrest, så datavetenskap hamnar längst ner i diagrammet.¶
 fältrader: (fields ⎡?fält procent2⎦ ⊤) → []
 fältvy: diagram(
-		fältrader.översätta(ƒ(rad4) rad4.fält)
-		fältrader.översätta(
-			ƒ(rad5) (rad5.procent2 ÷ 5).runda()
+		fältrader.omvandla(ƒ(rad4) rad4.fält)
+		fältrader.omvandla(
+			ƒ(rad5) (rad5.procent2 ÷ 5).avrunda()
 		)
-		fältrader.översätta(ƒ(rad6) (rad6.procent2 → '') + '%')
+		fältrader.omvandla(ƒ(rad6) (rad6.procent2 → '') + '%')
 	)
 
 ¶Vy 3 — "Fler kvinnor, mindre andel". Det här är två olika mått, så vi ritar dem som två separata diagram bredvid varandra. Det vänstra diagrammet räknar kvinnor (varje emoji är ungefär 2 000 personer). Det högra visar deras andel av alla examina (varje emoji är ungefär 5 procent). I varje diagram har de två staplarna samma enhet, så de går att jämföra: antalet nästan fördubblas medan andelen sjunker.¶
@@ -58,17 +58,17 @@ nu: antalrader[2]
 kvinnordiagram: diagram(
 		['1984' '2022']
 		[
-			(gammal.kvinnor ÷ 2000).runda()
-			(nu.kvinnor ÷ 2000).runda()
+			(gammal.kvinnor ÷ 2000).avrunda()
+			(nu.kvinnor ÷ 2000).avrunda()
 		]
 		[gammal.kvinnor → '' nu.kvinnor → '']
 	)
 andeldiagram: diagram(
 		['1984' '2022']
-		[(gammal.procent ÷ 5).runda() (nu.procent ÷ 5).runda()]
+		[(gammal.procent ÷ 5).avrunda() (nu.procent ÷ 5).avrunda()]
 		[
-			(gammal.procent.runda() → '') + '%'
-			(nu.procent.runda() → '') + '%'
+			(gammal.procent.avrunda() → '') + '%'
+			(nu.procent.avrunda() → '') + '%'
 		]
 	)
 antalvy: Grupp(
@@ -150,7 +150,7 @@ sidfot:
 				storlek: 0.26m
 			)
 
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Stack('|' stoppning: 0.4m)

@@ -4,22 +4,22 @@
 
 沒有辦法*停止*一個 @Music ——讓它停下來的方法，是不要把它放在 @Stage 上。所以保留一段狀態，並把符合它的歌曲放到舞台上：
 
-\phase: '選單' … ∆ Button() … (phase = '選單') ? '追逐' '選單'
+\phase: '選單' … ∆ 按鈕() … (phase = '選單') ? '追逐' '選單'
 theme: [1 ø 3 ø 5 ø 6 ø]
-Stage([
-		Phrase((phase = '選單') ? '▶ 按下開始' '🏃 跑！' 1m)
-		(phase = '選單') ? Music(Track(theme 樂器: Instrument.bell) 速度: 72beats/min) Music(Track(theme 樂器: Instrument.synth) 速度: 132beats/min)
+舞台([
+		短語((phase = '選單') ? '▶ 按下開始' '🏃 跑！' 1m)
+		(phase = '選單') ? 音樂(音軌(theme 樂器: 樂器.鈴鐺) 速度: 72beats/min) 音樂(音軌(theme 樂器: 樂器.合成器) 速度: 132beats/min)
 	])\
 
 兩首歌都是同樣的八個數字。只有樂器和速度改變了，聽起來卻已經像是不同的曲子——因為音級表示的是*音階裡的哪一個階*，而不是哪一個音高，所以一個 @Music 可以重新詮釋它們。把\縮放: 🎼.和聲小調\交給它，同樣的旋律就會變得陰森，卻不用重寫任何一個音符。
 
 另一半，是能隨著情況變化而連續彎曲的音樂。改變\tempo\不會重新開始任何東西——它會在下一拍接上，所以曲子會加快，卻不會失去它的位置：
 
-\score: 0 … ∆ Button() … score + 1
-urgency: (score ÷ 10).min(1)
-Stage([
-		Phrase('樂譜 \score\' 1m)
-		Music(Track([1 5 8 5] 樂器: Instrument.drums) 速度: (90 + (urgency · 90)) · 1beats/min)
+\score: 0 … ∆ 按鈕() … score + 1
+urgency: (score ÷ 10).最小(1)
+舞台([
+		短語('樂譜 \score\' 1m)
+		音樂(音軌([1 5 8 5] 樂器: 樂器.鼓) 速度: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 按下夠多次，鼓聲就會比一開始快上一倍。一個短促、有敲擊感的音符，才能讓這件事聽得出來——在長長持續的音符底下，速度的改變很難感覺到。

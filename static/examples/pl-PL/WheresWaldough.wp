@@ -38,7 +38,7 @@ plamki: nowePlamki() … ∆ (nazwa3) … (nazwa3 = 'ResetButton') ? nowePlamki(
 
 Scena(
 	[
-		Wyrażenie(
+		Fraza(
 			"🔁"
 			wybieralny
 			miejsce: Miejsce(4m -0.5m)
@@ -46,45 +46,45 @@ Scena(
 			czastrwania: 0.5s
 			nazwa: 'ResetButton'
 		)
-		Wyrażenie(
+		Fraza(
 			'Szukaj pomarańczowej koszulki'
 			0.2m
 			miejsce: Miejsce(-6.2m 0.75m)
 			twarz: 'Carter One'
 		)
-		Wyrażenie(
+		Fraza(
 			'mężczyzny (o imieniu Waldough) i'
 			0.2m
 			miejsce: Miejsce(-6.4m 0.25m)
 			twarz: 'Carter One'
 		)
-		Wyrażenie(
+		Fraza(
 			'kliknij go, aby wygrać!🧍🏻'
 			0.2m
 			miejsce: Miejsce(-6.0m -0.25m)
 			twarz: 'Carter One'
 		)
-		Wyrażenie(
+		Fraza(
 			'Wynik: ' + wynik → ''
 			0.5m
 			miejsce: Miejsce(-5.9m -1m)
 		)
 
-		Wyrażenie("🏀" miejsce: plamki[1])
-		Wyrażenie("🦧" miejsce: plamki[2])
-		Wyrażenie("🍊" miejsce: plamki[3])
-		Wyrażenie("👻" miejsce: plamki[4])
-		Wyrażenie("🤖" miejsce: plamki[5])
-		Wyrażenie("👽" miejsce: plamki[6])
-		Wyrażenie("🐀" miejsce: plamki[7])
-		Wyrażenie("🦣" miejsce: plamki[8])
-		Wyrażenie("🐸" miejsce: plamki[9])
-		Wyrażenie("🍎" miejsce: plamki[10])
-		Wyrażenie("💧" miejsce: plamki[11])
-		Wyrażenie("🍔" miejsce: plamki[12])
-		Wyrażenie("❤" miejsce: plamki[13])
-		Wyrażenie("🍥" miejsce: plamki[14])
-		Wyrażenie(
+		Fraza("🏀" miejsce: plamki[1])
+		Fraza("🦧" miejsce: plamki[2])
+		Fraza("🍊" miejsce: plamki[3])
+		Fraza("👻" miejsce: plamki[4])
+		Fraza("🤖" miejsce: plamki[5])
+		Fraza("👽" miejsce: plamki[6])
+		Fraza("🐀" miejsce: plamki[7])
+		Fraza("🦣" miejsce: plamki[8])
+		Fraza("🐸" miejsce: plamki[9])
+		Fraza("🍎" miejsce: plamki[10])
+		Fraza("💧" miejsce: plamki[11])
+		Fraza("🍔" miejsce: plamki[12])
+		Fraza("❤" miejsce: plamki[13])
+		Fraza("🍥" miejsce: plamki[14])
+		Fraza(
 			"🧍🏻"
 			wybieralny: ~złapana
 			miejsce: plamki[15]
@@ -92,10 +92,10 @@ Scena(
 			czastrwania: 0s
 			nazwa: 'Waldough'
 		)
-		Wyrażenie("🔥" miejsce: plamki[16])
-		Wyrażenie("🎂" miejsce: plamki[17])
-		Wyrażenie("🐕" miejsce: plamki[18])
-		Wyrażenie("🦈" miejsce: plamki[19])
+		Fraza("🔥" miejsce: plamki[16])
+		Fraza("🎂" miejsce: plamki[17])
+		Fraza("🐕" miejsce: plamki[18])
+		Fraza("🦈" miejsce: plamki[19])
 		Kształt(Prostokąt(-3.5m -3m 3.5m -3.5m))
 		Kształt(Prostokąt(-3.5m 3.5m 3.5m 3m))
 		Kształt(Prostokąt(-3.5m 3.5m -3m -3.5m))

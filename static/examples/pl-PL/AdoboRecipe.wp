@@ -35,6 +35,6 @@ bieżąceZdanie•#: 1 …
 			bieżąceZdanie
 
 Scena(
-	[Wyrażenie(zdania[bieżąceZdanie] zawinąć: 10m)]
+	[Fraza(zdania[bieżąceZdanie] zawinąć: 10m)]
 	twarz: 'Short Stack'
 )

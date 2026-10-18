@@ -13,7 +13,7 @@
                 "$~Tôi sắp xếp @Phrase, @Shape và @Group cùng nhau trên @Stage với một @Arrangement. Ồ xin chào, bạn khỏe không? Tôi luôn ổn khi có người khác ở bên, nên thật tuyệt khi được ở cùng bạn!",
                 "Để hoạt động, tôi cần bạn cho tôi một @Arrangement, và sau đó một @List gồm @Output để sắp xếp.",
                 "Ví dụ, đây là tôi với một cách sắp xếp @Stack và vài @Phrase để xếp chồng theo chiều dọc:",
-                "\\Nhóm(Ngănxếp() [Cụmtừ('thứ nhất') Cụmtừ('thứ hai')])\\",
+                "\\Nhóm(XếpDọc() [Cụmtừ('thứ nhất') Cụmtừ('thứ hai')])\\",
                 "Cách tôi sắp xếp mọi thứ chính xác như thế nào phụ thuộc vào @Arrangement mà bạn đưa cho tôi."
             ],
             "names": ["$~Nhóm"],
@@ -27,7 +27,7 @@
             },
             "matter": {
                 "doc": "$~Tôi nặng, nảy và trơn đến mức nào, và điều gì làm tôi rắn chắc khi một @Motion di chuyển tôi.",
-                "names": "$~vấnđề"
+                "names": ["$~vậtChất", "$~vấnđề"]
             },
             "size": {
                 "doc": "$~Nội dung tuyệt vời bên trong tôi hẳn phải cao đến mức nào, trừ khi chúng có kích thước riêng!",
@@ -117,7 +117,7 @@
             "doc": [
                 "$~Tôi đại diện cho những người đáng yêu nhất của @Text trên @Stage . Xin chào, xin chào! Mọi người còn nhớ tôi không? Làm sao ai có thể quên tôi được chứ.",
                 "Hãy tạo hình tôi như thế này, và tôi sẽ xuất hiện trên @Stage :",
-                "\\Phrase('magnificent!')\\",
+                "\\Cụmtừ('magnificent!')\\",
                 "Tôi cần sử dụng @TextLiteral hoặc @FormattedLiteral để hiển thị. Với @FormattedLiteral , tôi có thể sử dụng các kiểu chữ như \\`*bold* and /italic/`\\ hoặc tham chiếu đến @ConceptLink tùy chỉnh mà bạn tạo.",
                 "Bạn cũng có thể tùy chọn cung cấp cho tôi tất cả những gì mà @Output có thể làm, bao gồm thay đổi kích thước, phông chữ, xoay và thực hiện tất cả các điệu nhảy tuyệt vời của tôi với @Pose và @Sequence .",
                 "Bạn cũng có thể chọn tôi trên @Stage và chỉnh sửa tôi bằng bảng màu 🎨 bên cạnh — đó là một cách tuyệt vời để thử các phông chữ khác nhau và chọn kiểu chữ phù hợp cho @Text của bạn."
@@ -153,7 +153,7 @@
             },
             "matter": {
                 "doc": "$~Tôi nặng, nảy và trơn đến mức nào, và điều gì làm tôi rắn chắc khi một @Motion di chuyển tôi.",
-                "names": "$~vấnđề"
+                "names": ["$~vậtChất", "$~vấnđề"]
             },
             "aura": {
                 "doc": "$~Thêm hiệu ứng @Aura tùy chọn để hiển thị phía sau tôi. Hãy làm tôi tỏa sáng!",
@@ -282,7 +282,7 @@
         },
         "Stack": {
             "doc": "$~Tôi là @Stack, một @Arrangement theo chiều dọc của @Output, có đệm tùy chọn ở giữa. Bạn đã gặp anh em sinh đôi của tôi, @Row chưa? Tôi quyết định mỗi cái đi xuống bao xa, và đầu vào đầu tiên của tôi cho biết cách xếp hàng chúng theo chiều ngang qua tôi. Cho một trong chúng một @Place và nó sẽ ngồi ở vị trí x đó thay vào đó — nhưng một @Shape không có @Place riêng của nó, nên tôi xếp nó thẳng hàng với mọi thứ khác.",
-            "names": ["$~Ngănxếp"],
+            "names": ["$~XếpDọc", "$~Ngănxếp"],
             "description": "$~chồng gồm $#count[$count cụm từ hoặc nhóm]",
             "alignment": {
                 "doc": "$~Chọn căn chỉnh văn bản ở đầu, giữa hoặc cuối mỗi dòng.",
@@ -556,7 +556,7 @@
             "names": ["$~Màusắc"],
             "lightness": {
                 "doc": "$~Tôi nên sáng như thế nào từ \\0\\ đến \\1\\, từ màu đen tại \\0\\, đến màu xám tại \\0.5\\, đến màu trắng tại \\1\\.",
-                "names": ["$~ánhsáng"]
+                "names": ["$~độSáng", "$~ánhsáng"]
             },
             "chroma": {
                 "doc": "$~Tôi nên có bao nhiêu màu sắc, từ \\0\\ đến \\∞\\. Không có màu nghĩa là màu xám, số càng cao thì màu càng nhiều.",
@@ -622,11 +622,11 @@
                 "doc": [
                     "$~Chọn một màu ngẫu nhiên.",
                     "Nếu không có màu nào cụ thể, tôi sẽ chọn ngẫu nhiên một trong những màu cơ bản:",
-                    "\\Color.random()\\",
+                    "\\Màusắc.ngẫunhiên()\\",
                     "Với một màu duy nhất, tôi giữ nguyên độ sáng và độ bão hòa nhưng chọn một sắc độ ngẫu nhiên:",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Màusắc.ngẫunhiên(Màusắc.màuxanhdatrời)\\",
                     "Với hai màu, tôi chọn ngẫu nhiên độ sáng, độ bão hòa và sắc độ giữa hai màu đó:",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Màusắc.ngẫunhiên(Màusắc.đen Màusắc.trắng)\\"
                 ],
                 "names": "$~ngẫunhiên",
                 "inputs": [
@@ -643,10 +643,10 @@
             "lighter": {
                 "doc": [
                     "$~Hãy cho tôi một phiên bản nhẹ hơn, tăng độ sáng của tôi lên một tỷ lệ phần trăm (mặc định là 5%).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Màusắc.màuxanhdatrời.sángHơn()\\",
+                    "\\Màusắc.màuxanhdatrời.sángHơn(20%)\\"
                 ],
-                "names": "$~nhẹhơn",
+                "names": ["$~sángHơn", "$~nhẹhơn"],
                 "inputs": [
                     {
                         "doc": "$~Mức độ tăng độ sáng, tính theo phần trăm. Mặc định là 5%.",
@@ -657,8 +657,8 @@
             "darker": {
                 "doc": [
                     "$~Hãy cho tôi một phiên bản tối hơn, giảm độ sáng của tôi đi một phần trăm (mặc định là 5%).",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Màusắc.màuxanhdatrời.tốihơn()\\",
+                    "\\Màusắc.màuxanhdatrời.tốihơn(20%)\\"
                 ],
                 "names": "$~tốihơn",
                 "inputs": [
@@ -714,9 +714,9 @@
                 "bounce": {
                     "doc": [
                         "$~Tôi nhảy một @Output lên tới /chiềuCao/ rồi để nó đáp xuống, hơi bẹp lại một chút khi lên và khi xuống. Cho tôi một @Phrase vừa mới đến và tôi sẽ làm nó có cảm giác có trọng lượng.",
-                        "\\Cụmtừ('🐈' nghỉngơi: 💃.tunglên(3m))\\"
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.nảy(3m))\\"
                     ],
-                    "names": ["$~tunglên"],
+                    "names": ["$~nảy", "$~tunglên"],
                     "height": {
                         "doc": "$~Nhảy cao bao nhiêu, tính bằng mét.",
                         "names": ["$~chiềucao"]
@@ -1087,7 +1087,7 @@
         },
         "Matter": {
             "doc": "$~Tôi cho biết @Output nặng, nảy và trơn đến mức nào. @Output có tôi và một @Motion thì rắn chắc: nó bật lại khỏi @Shape trên @Stage và khỏi các @Output khác đang chuyển động. @Output mà chương trình của bạn đặt vào sẽ đi đến đúng nơi bạn đặt nó, và xuyên qua bất cứ thứ gì nó chạm vào. @Output không cần tôi để được @Collision nhận ra — chỉ cần có tên là đủ cho việc đó.",
-            "names": ["$~Vấnđề"],
+            "names": ["$~VậtChất", "$~Vấnđề"],
             "mass": {
                 "doc": "$~@blocks lượng, tính bằng kilogam.",
                 "names": "$~khối"
@@ -1651,11 +1651,11 @@
                 "Những thứ này khó tìm, nên hàng ký hiệu bên dưới @editor sẽ cung cấp chúng bất cứ khi nào con trỏ của bạn nằm ngay sau một con số của tôi.",
                 "Một dấu lặng không thể mang giá trị, vì \\ø\\ không phải là con số. Hai dấu lặng liền nhau dài gấp đôi, và với bất cứ điều gì tinh tế hơn thì có @Note.",
                 "Khi một nốt đơn cần âm lượng riêng, hoặc một độ dài mà không giá trị nào diễn tả được, hãy bọc nốt đó trong một @Note. Chỉ dùng nó ở nơi bạn cần: một con số trần trụi thì dễ đọc hơn, nên hầu hết các bản nhạc chẳng có cái nào cả, và sự hiếm hoi đó chính là điều khiến một @Note nổi bật như một sự kiện.",
-                "\\tếBào: [1 3 5 3]\n🎼(\n\t🎶(\n\t\ttếBào\n\t\t.withList(tếBào.dịch(ƒ(n•#) n + 2))\n\t\t.withList(tếBào.đảongược())\n\t\t.withList(tếBào.dịch(ƒ(n2•#) 8 - n2))\n\t\tnhạcCụ: 🔈.🎹\n\t)\n)\\",
+                "\\tếBào: [1 3 5 3]\n🎼(\n\t🎶(\n\t\ttếBào\n\t\t.withList(tếBào.biếnĐổi(ƒ(n•#) n + 2))\n\t\t.withList(tếBào.đảongược())\n\t\t.withList(tếBào.biếnĐổi(ƒ(n2•#) 8 - n2))\n\t\tnhạcCụ: 🔈.🎹\n\t)\n)\\",
                 "Thêm các dấu lặng vào là tất cả những gì một vòng cần: cả hai phần giữ cùng số nhịp, nên chúng đi cùng bước thay vì trôi xa nhau. Trải hai danh sách thành một bằng : là cách chúng được tạo nên, vì \\append\\ cần cả hai danh sách giữ cùng một kiểu thứ.",
                 "\\giaiĐiệu: [1 2 3 1 1 2 3 1 3 4 5 ø]\nnghỉ: [ø ø ø ø]\n🎼([\n\t\t🎶([:giaiĐiệu :nghỉ] nhạcCụ: 🔈.🪈)\n\t\t🎶([:nghỉ :giaiĐiệu] nhạcCụ: 🔈.🎻)\n\t])\\"
             ],
-            "names": ["$~BảnNhạc"],
+            "names": ["$~Bè", "$~BảnNhạc"],
             "notes": {
                 "doc": "$~Các nốt cần chơi, theo thứ tự: một số cho một nốt, \\ø\\ cho một dấu lặng, một tập hợp như \\{1 3 5}\\ cho một hợp âm, hoặc một @Note khi một mục cần âm lượng riêng. Một @value nốt viết trên một số — \\3𝅗𝅥\\ — cho biết mục đó kéo dài bao lâu.",
                 "names": "$~nốtNhạc"
@@ -1852,12 +1852,12 @@
                         "\\🎼(🎶([1 2 3 5] từNgữ: 'la la la la' nhạcCụ: 🔈.🤖) nhịpĐộ: 120beats/min)\\",
                         "Các âm tiết được viết bằng <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, một bảng chữ cái trong đó mỗi chữ cái là một /âm/ chứ không phải một cách viết — nên \\'ʃi'\\ là âm ở đầu từ /cô ấy/, dù bạn viết bằng @language nào. Nhấn 🤖 bên dưới @editor để xem mọi âm mà tôi có thể tạo ra và nghe từng âm một."
                     ],
-                    "names": ["$~giọngNói"]
+                    "names": ["$~giọngHát", "$~giọngNói"]
                 },
                 "harmonica": {
                     "doc": [
                         "$~Một cây khẩu cầm, loại có nút bấm bên hông. Được thu âm từ một cây thật, và được chỉnh cao độ, nên các con số sẽ chọn nốt nhạc.",
-                        "\\ÂmNhạc(\n\tBảnNhạc([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: NhạcCụ.🌬)\n\tnhịpĐộ: 60beats/min\n)\\"
+                        "\\ÂmNhạc(\n\tBè([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: NhạcCụ.🌬)\n\tnhịpĐộ: 60beats/min\n)\\"
                     ],
                     "names": ["$~kènHarmonica"]
                 }

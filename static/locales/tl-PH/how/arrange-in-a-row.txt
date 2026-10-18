@@ -4,10 +4,10 @@ Minsan gusto nating magkatabi ang teksto sa isang maayos na linya.
 Magagawa natin iyon gamit ang @Row, na naghahanay ng lahat sa isang @Group mula kaliwa pakanan.
 
 \
-Group(Row() [
-    Phrase('🍎')
-    Phrase('🍌')
-    Phrase('🍇')
+Grupo(Hilera() [
+    Parirala('🍎')
+    Parirala('🍌')
+    Parirala('🍇')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Row() [
 Narito ang parehong prutas, pero nakahanay sa ibaba na may kaunting puwang:
 
 \
-Group(Row('>' 0.5m) [
-    Phrase('🍎' laki: 2m)
-    Phrase('🍌' laki: 1m)
-    Phrase('🍇' laki: 3m)
+Grupo(Hilera('>' 0.5m) [
+    Parirala('🍎' laki: 2m)
+    Parirala('🍌' laki: 1m)
+    Parirala('🍇' laki: 3m)
 ])
 \
 

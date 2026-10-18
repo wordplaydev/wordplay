@@ -64,10 +64,10 @@ direita2: labirinto2.cela(
 	)•''
 ganhou: atual = '🤩'
 
-Fase(
+Palco(
 	[
 		Grupo(
-			Rede(3 3 0.25m)
+			Grelha(3 3 0.25m)
 			[
 				ø
 				Frase(

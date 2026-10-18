@@ -33,7 +33,7 @@ yazı: [
 	]
 
 ¶Bir tuşa basarak, tıklayarak ya da dokunarak ilerle ve son satırda dur.¶
-sıra•#: 1 … ∆ Anahtar() | ∆ Düğme() … (sıra < yazı.uzunluk(
+sıra•#: 1 … ∆ Tuş() | ∆ Düğme() … (sıra < yazı.uzunluk(
 				) ? sıra + 1 sıra)
 
 satır2: yazı[sıra]
@@ -57,11 +57,11 @@ Sahne(
 				Grup(
 					Sıra('_' 6m)
 					[
-						İfadeetmek('bir' boyut: 3m balon: balon2('bir'))
-						İfadeetmek('b' boyut: 3m balon: balon2('b'))
+						Yazı('bir' boyut: 3m balon: balon2('bir'))
+						Yazı('b' boyut: 3m balon: balon2('b'))
 					]
 				)
-				İfadeetmek(
+				Yazı(
 					`/boşluk, tıklama ya da dokunma/`
 					boyut: 0.6m
 				)

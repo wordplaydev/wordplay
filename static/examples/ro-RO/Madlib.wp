@@ -31,7 +31,7 @@ verbe: 3
 
 întreabă: răspunsuri.lungime() < 4
 
-Etapă(
+Estradă(
 	[
 		¶Înainte să avem răspunsurile, cerem răspunsuri¶
 		întreabă ?
@@ -61,7 +61,7 @@ Etapă(
 				¶Transformă-le în propoziții¶
 				Grup(
 					Stivă('<')
-					propoziții.traduce(
+					propoziții.transformă(
 						ƒ(propoziție) Fraza(propoziție)
 					)
 				)

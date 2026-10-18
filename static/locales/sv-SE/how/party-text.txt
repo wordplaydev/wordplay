@@ -6,13 +6,13 @@ Det första tecknet får den första posen, det andra tecknet får den andra, oc
 Här är en festtext där tre färger turas om:
 
 \
-Phrase(
+Fras(
 	'party time!'
 	ansikte: 'Luckiest Guy'
 	poser: [
-		Pose(färg: Color(25% 70 250°))
-		Pose(färg: Color(50% 80 300°))
-		Pose(färg: Color(58% 90 60°))
+		Pose(färg: Färg(25% 70 250°))
+		Pose(färg: Färg(50% 80 300°))
+		Pose(färg: Färg(58% 90 60°))
 	]
 )
 \
@@ -23,12 +23,12 @@ Färgerna skiljer sig både i ljushet och i nyans, så att personer som ser fär
 Poser kan göra mer än att ändra färg. Varje tecken kan luta, växa, tonas ut och röra sig runt sin egen mitt, så vi kan få bokstäverna att studsa:
 
 \
-Phrase(
+Fras(
 	'bounce'
 	ansikte: 'Luckiest Guy'
 	poser: [
-		Pose(färg: Color(25% 70 250°) rotation: -10° offset: Place(0m 0.1m))
-		Pose(färg: Color(58% 90 60°) rotation: 10° opacitet: 0.6)
+		Pose(färg: Färg(25% 70 250°) rotation: -10° offset: Plats(0m 0.1m))
+		Pose(färg: Färg(58% 90 60°) rotation: 10° opacitet: 0.6)
 	]
 )
 \
@@ -37,14 +37,14 @@ Phrase(
 Det här utpressningsbrevet väljer en ny lutning var fjärde sekund.
 
 \
-tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
-Phrase(
+tilt: 0° … ∆ Tid(250ms) … Slumpmässig(-15° 15°)
+Fras(
 	`*ransom* /note/`
 	ansikte: 'Courier Prime'
 	poser: [
-		Pose(rotation: tilt offset: Place(0m 0.05m))
+		Pose(rotation: tilt offset: Plats(0m 0.05m))
 		Pose(rotation: -tilt skala: 1.2)
-		Pose(rotation: tilt ÷ 2 offset: Place(0m -0.05m))
+		Pose(rotation: tilt ÷ 2 offset: Plats(0m -0.05m))
 	]
 )
 \

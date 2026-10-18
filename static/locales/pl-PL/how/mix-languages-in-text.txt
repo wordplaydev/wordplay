@@ -5,7 +5,7 @@ A @Phrase pokazuje właściwe tłumaczenie każdemu widzowi na podstawie wybrany
 Daj @TextLiteral kilka tłumaczeń, w tym jedno wielojęzyczne, a @wordplay wybiera najbardziej odpowiednie dla każdego widza:
 
 \
-Phrase("hola"/es"Witam"/en"Cześć, dżentelmenie"/es_en)
+Fraza("hola"/es"Witam"/en"Cześć, dżentelmenie"/es_en)
 \
 
  Widz, którego preferowanym językiem jest po prostu hiszpański, widzi / cześć / Widz, który woli tylko język angielski, zobaczy / Witam / Widz, który woli zarówno język hiszpański, jak i angielski, zobaczy / Cześć, dżentelmenie / — wersja Spanglish.
@@ -15,7 +15,7 @@ Gra słów faworyzuje najbardziej szczegółowe dopasowanie, więc tłumaczenie 
 Wersja hiszpańsko-angielska jest czytana na głos po hiszpańsku, bo to jej pierwszy język. Aby każde słowo było czytane we własnym języku, oznacz osobno każdą część i połącz je:
 
 \
-Phrase("hola "/es + "gentleman"/en)
+Fraza("hola "/es + "gentleman"/en)
 \
 
 styling-text

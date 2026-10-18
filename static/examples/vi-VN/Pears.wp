@@ -32,7 +32,7 @@ caoTràoDângLên1: [
 			`👵🏽`
 			tên: 'paupau'
 			kíchcỡ: 2m
-			vấnđề: Vấnđề()
+			vậtChất: VậtChất()
 			vịTrí: VịTrí(6m -6m)
 			bongBóng: `/"沙梨🍐, cầm lấy về nhà đi!"/`
 		)
@@ -40,8 +40,8 @@ caoTràoDângLên1: [
 			`👧🏻`
 			tên: 'tôi'
 			kíchcỡ: 1m
-			vấnđề: Vấnđề()
-			vịTrí: Vịtrí(VịTrí(-8m -6m))
+			vậtChất: VậtChất()
+			vịTrí: ĐặtVịTrí(VịTrí(-8m -6m))
 		)
 	]
 
@@ -75,7 +75,7 @@ caoTràoDângLên2: [
 	]
 
 ¶Chúng ta chọn trước những vị trí để chúng rơi xuống đúng chỗ đó.¶
-địaĐiểm: (6 → []).dịch(
+địaĐiểm: (6 → []).biếnĐổi(
 		ƒ() VịTrí(Ngẫunhiên(-2m 2m) Ngẫunhiên(-3m -5m))
 	)
 đỉnhĐiểm: [
@@ -94,12 +94,12 @@ caoTràoDângLên2: [
 			vịTrí: VịTrí(-3m -7m)
 			cóthểlựachọn
 		)
-		:địaĐiểm.dịch(
+		:địaĐiểm.biếnĐổi(
 			ƒ(đặt chỉMục2)
 				Cụmtừ(
 					"🍐"
 					tên: "pear\chỉMục2\"
-					vịTrí: Sựlựachọn() = 'tree' ? Cửđộng(đặt) đặt
+					vịTrí: Sựlựachọn() = 'tree' ? ChuyểnĐộng(đặt) đặt
 				)
 		)
 		Cụmtừ("🔪" vịTrí: Contrỏ())

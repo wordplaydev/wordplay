@@ -4,7 +4,7 @@
 ¶Một cây đàn piano một quãng tám để bạn chơi! Để có trải nghiệm tốt nhất, hãy tắt phần hiển thị hình ảnh của nhạc.¶
 
 ¶Phép gán này lưu một luồng Key để nhận biết bạn đã nhấn phím nào.¶
-đãNhấn: Chìakhóa()
+đãNhấn: Phím()
 
 ¶Phần này lưu cách ghép các phím bạn nhấn với các nốt mà chúng sẽ phát. Nốt được lưu ở dạng văn bản (để hiển thị nốt đang phát) và ở dạng văn bản số (để đổi thành một số (#) và đưa vào danh sách Track).
 
@@ -34,7 +34,7 @@ bảnĐồNốt: {
 	]
 
 ¶Hàm này nhận vào một danh sách số và trả về một Track có danh sách nốt nhạc đó. Vòng lặp được tắt để nốt nhạc chỉ phát một lần khi nhấn phím.¶
-ƒ trảVềTrack(nốt•[#]) BảnNhạc(nốt vòngLặp: ⊥)
+ƒ trảVềTrack(nốt•[#]) Bè(nốt vòngLặp: ⊥)
 
 ¶Hai phép gán này của map xác định màu mà phím tương ứng sẽ có khi được nhấn và khi không được nhấn.¶
 nhấnColor: Màusắc(10 270 50°)
@@ -49,7 +49,7 @@ rỗngColor: Màusắc(0 0 0°)
 
 ¶Hiển thị đàn piano, các phím cần nhấn và nốt nhạc được phát khi nhấn một phím.¶
 Nhóm(
-	Ngănxếp('>' 1m)
+	XếpDọc('>' 1m)
 	[
 		Nhóm(
 			Hàngngang('>' -.3m)

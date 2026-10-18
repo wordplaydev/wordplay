@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['举个例子，我们来想象一个简单的游戏：在文本框里输入秘密单词，每猜中一个秘密单词就得一分：' '猫'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['举个例子，我们来想象一个简单的游戏：在文本框里输入秘密单词，每猜中一个秘密单词就得一分：' '猫'] 0) … state.secrets.包含(聊天()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("狗")]
-        [ Group(Stack() [ Phrase("你赢啦！") Phrase(`\state.secrets.length() - state.points\猜猜我的秘密单词`)])]
+舞台(
+    state.points = state.secrets.长度() ? 
+        [ 短语("狗")]
+        [ 组合(堆叠() [ 短语("你赢啦！") 短语(`\state.secrets.length() - state.points\猜猜我的秘密单词`)])]
 )
 \
 

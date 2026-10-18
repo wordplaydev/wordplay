@@ -4,7 +4,7 @@ Si un @Row est pour côte à côte, puis un @Stack est pour aller de haut en bas
 @Stack place chaque caractère en dessous de celui qui le précède, comme une tour.
 
 \
-Group(Stack() [
+Groupe(Pile() [
     Phrase('un')
     Phrase('deux')
     Phrase('trois')
@@ -15,7 +15,7 @@ Group(Stack() [
 Essaie d'aligner tout le long du côté gauche :
 
 \
-Group(Stack('<' 0.25m) [
+Groupe(Pile('<' 0.25m) [
     Phrase('🐣 petit')
     Phrase('🐥 moyen')
     Phrase('🐔 grand')

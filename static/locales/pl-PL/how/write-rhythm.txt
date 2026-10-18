@@ -4,16 +4,16 @@ Lista samych liczb sprawia, że każda nuta ma tę samą długość, co brzmi ja
 
 @Track/beat  ustawia siatkę. Każdy pojedynczy wpis trwa tak długo — i tak samo każdy \ø\, dlatego pauzy to najłatwiejszy sposób na przedłużenie nuty:
 
-\Music([
-		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums rytm: 0.5beats)
+\Muzyka([
+		Ścieżka([1 ø ø ø 5 ø 8 ø] instrument: Instrument.pianino)
+		Ścieżka([1 1 1 1 1 1 1 1] instrument: Instrument.perkusja rytm: 0.5beats)
 	])\
 
 Po pierwszej nucie fortepianu następują trzy pauzy, więc brzmi ona przez cztery uderzenia. Siatka bębna to pół uderzenia, więc jego osiem wpisów wypełnia cztery uderzenia, a osiem wpisów fortepianu wypełnia osiem — bęben przechodzi cykl dwa razy na jeden cykl fortepianu. Ścieżki zapętlają się według własnej długości i tak jedna liczba tworzy polirytmię.
 
 Liczenie pauz męczy, więc możesz zapisać długość na samej liczbie. Sama liczba wciąż oznacza „jeden krok siatki”; wszystko z wartością nuty ma swoją własną długość:
 
-\Music(Track([
+\Muzyka(Ścieżka([
 			5
 			5
 			5
@@ -23,10 +23,10 @@ Liczenie pauz męczy, więc możesz zapisać długość na samej liczbie. Sama l
 			1𝅘𝅥𝅮𝅭
 			8𝅘𝅥𝅯
 			5𝅗𝅥
-		] instrument: Instrument.trumpet rytm: 1𝅘𝅥))\
+		] instrument: Instrument.trąbka rytm: 1𝅘𝅥))\
 
 To dwa takty po cztery uderzenia. \𝅝\ to cała nuta, \𝅗𝅥\ połowa, \𝅘𝅥\ ćwiartka, \𝅘𝅥𝅮\ ósemka, a \𝅘𝅥𝅯\ szesnastka, a kropka \𝅭\ wydłuża każdą z nich o połowę — więc \𝅘𝅥𝅮𝅭\ to ósemka z kropką, która popycha ten marsz do przodu. Rząd symboli pod edytorem pokazuje je po wpisaniu liczby.
 
-Jednej rzeczy nie potrafią: nie umieją odpocząć: \ø\ nie jest liczbą, więc nie ma miejsca na wartość. Zamiast tego podwój pauzy albo sięgnij po  @Note , które daje też długości, których żadna wartość nuty nie zapisze — \Note(1 2beats ÷ 3)\ to triola, trzy nuty w miejscu dwóch.
+Jednej rzeczy nie potrafią: nie umieją odpocząć: \ø\ nie jest liczbą, więc nie ma miejsca na wartość. Zamiast tego podwój pauzy albo sięgnij po  @Note , które daje też długości, których żadna wartość nuty nie zapisze — \Nuta(1 2beats ÷ 3)\ to triola, trzy nuty w miejscu dwóch.
 
 layer-an-arrangement, draw-the-music

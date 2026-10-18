@@ -5,7 +5,7 @@ Questions
 
 •question(id2•"" vx•#m/s vy•#m/s va•#°/s)
 
-appuyée: ∆ Clé()
+appuyée: ∆ Touche()
 compte2•#: 0 … appuyée … compte2 + 1
 questions•[question]: [] … appuyée … [
 			:questions
@@ -21,7 +21,7 @@ Scène(
 	[
 		Phrase('👨‍👨‍👧‍👦' lieu: Lieu(0m 0m) affronter: "Noto Emoji")
 		Forme(Rectangle(-5m 0m 25m -1m))
-		:questions.traduire(
+		:questions.transformer(
 			ƒ(q•question indice2•#) (
 					initialiser: appuyée & (indice2 = questions.longueur(
 									))

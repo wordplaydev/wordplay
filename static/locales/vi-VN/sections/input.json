@@ -20,7 +20,7 @@
             "names": ["$~Ngẫunhiên"],
             "inputs": [
                 {
-                    "names": "$~phút",
+                    "names": ["$~nhỏNhất", "$~phút"],
                     "doc": "$~@value nhỏ nhất sẽ được tạo ra, hoặc nếu nó lớn hơn 0 thì là giá trị lớn nhất. Nếu @None được cung cấp, thì giá trị nhỏ nhất là \\0\\."
                 },
                 {
@@ -35,7 +35,7 @@
                 "/Tiếng gõ lách cách!/",
                 "Vì vậy, cách tốt nhất để sử dụng nó là tạo một màn trình diễn với các cụm từ có thể chọn được đặt tên @Phrase , và sau đó sử dụng @Reaction để quyết định hành động cần thực hiện khi tên đó được chọn.",
                 "Đây là ví dụ đơn giản nhất:",
-                "\\Group(\nStack() \n[\nPhrase('one' cóthểlựachọn:⊤ tên:'1') \nPhrase('two' cóthểlựachọn:⊤ tên:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Nhóm(\nXếpDọc() \n[\nCụmtừ('one' cóthểlựachọn:⊤ tên:'1') \nCụmtừ('two' cóthểlựachọn:⊤ tên:'2') \nCụmtừ(Sựlựachọn())\n]\n)\\",
                 "Sao chép đoạn mã này vào @editor rồi chọn một trong hai @Phrase . Bạn sẽ thấy @Phrase thứ ba hiển thị tên đã được chọn."
             ],
             "names": ["$~Sựlựachọn"]
@@ -62,7 +62,7 @@
                 "/whrrrrrr/",
                 "Tất nhiên, đây không phải là lựa chọn dễ tiếp cận: không phải ai cũng có thể nhìn thấy hoặc dễ dàng chỉ trỏ, vì vậy hãy chắc chắn rằng bạn không loại trừ bất kỳ ai khỏi việc tham gia bằng cách sử dụng @stream phát này.",
                 "Nếu bạn chắc chắn không có ai bị loại trừ, thì việc sử dụng @Pointer đơn giản chỉ là tạo một luồng:",
-                "\\Pointer()\\",
+                "\\Contrỏ()\\",
                 "Thuộc @Place mà nó cung cấp sẽ tương ứng với vị trí mà con trỏ đang trỏ tới trên @Stage ."
             ],
             "names": ["$~Contrỏ"]
@@ -72,16 +72,16 @@
                 "$~Nó cho bạn biết khán giả của bạn đang nhấn và thả phím nào trên bàn phím @key.",
                 "/lách cách/",
                 "Hãy thử điều này",
-                "\\Chìakhóa()\\",
+                "\\Phím()\\",
                 "Bạn có thấy khi bạn gõ một phím, nó hiện ra trên @Stage không? Mỗi lần một phím được nhấn xuống, một @Text mới sẽ được thêm vào @stream, mô tả phím vừa được nhấn.",
                 "Với một phím đại diện cho một ký tự, @value sẽ là ký tự đó dưới dạng @Text.",
                 "Với các phím đặc biệt, như phím /Escape/, nó sẽ là @Text mô tả phím đó, dùng một <tên định sẵn@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, tiếc là chỉ có bằng tiếng Anh.",
                 "Nếu bạn chỉ muốn biết về một phím cụ thể, bạn có thể cung cấp nó:",
-                "\\Chìakhóa('a')\\",
+                "\\Phím('a')\\",
                 "Và nếu bạn chỉ muốn biết khi nào một @Key được thả ra thay vì được nhấn xuống, bạn có thể cung cấp một @Boolean:",
-                "\\Chìakhóa('a' ⊥)\\"
+                "\\Phím('a' ⊥)\\"
             ],
-            "names": ["$~Chìakhóa"],
+            "names": ["$~Phím", "$~Chìakhóa"],
             "key": {
                 "names": "$~chìakhóa",
                 "doc": "$~Nếu là @None, thì tất cả các khóa đều được cung cấp. Nếu là @Text cụ thể, thì chỉ khóa đó được cung cấp."
@@ -171,7 +171,7 @@
                 "$~Đó là một @stream thể hiện độ lớn âm thanh của micro, từ 0 đến 1.",
                 "/bzzzzzzz/",
                 "Nó được lấy mẫu ở tần số bạn chọn. Theo mặc định, tần số là \\30hz\\ , hoặc 30 lần mỗi giây, nhưng bạn có thể thay đổi nó thành bất kỳ tần số nào thấp hơn.",
-                "\\Volume()\\",
+                "\\Âmlượng()\\",
                 "Đây là công cụ tuyệt vời để nghe xem khán giả hò reo lớn đến mức nào!"
             ],
             "names": ["$~Âmlượng"],
@@ -185,10 +185,10 @@
                 "$~Đây là chuỗi tín hiệu âm thanh từ micro, tính bằng hertz.",
                 "/Hừm/",
                 "Âm thanh được lấy mẫu ở tần số bạn chọn. Giọng nói con người nằm trong khoảng từ 20Hz đến 5000Hz, vì vậy hãy chọn các con số trong @scope đó.",
-                "\\Pitch()\\",
+                "\\CaoĐộ()\\",
                 "Đây là công cụ tuyệt vời để nghe rõ giọng điệu khi ai đó nói hoặc hát."
             ],
-            "names": ["$~Sânbóngđá"],
+            "names": ["$~CaoĐộ", "$~Sânbóngđá"],
             "frequency": {
                 "names": ["$~Tínhthườngxuyên"],
                 "doc": "$~Khoảng thời gian giữa các lần lấy mẫu."
@@ -200,7 +200,7 @@
                 "/bzzzzzzz/",
                 "Về cơ bản, @List đại diện cho một hình ảnh, nhưng bạn sẽ quyết định sử dụng nó như thế nào.",
                 "Bạn có thể thử thể hiện hình ảnh bằng nhiều @Phrase , trông sẽ khá thú vị đấy! Hãy thử sao chép đoạn mã này...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' vịTrí: Place((x - 1) × 0.5m y × -0.5m) màusắc: color khoảngthờigian: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Máyảnh(32px 24px 33ms)\n\nSânkhấu(\ncolors.kếthợp(\n[] \nƒ(phrases•[Cụmtừ] row•[Màusắc] y•#) \nphrases.thêm(\nrow.biếnĐổi(\nƒ(color•Màusắc x•#)\nCụmtừ('o' vịTrí: VịTrí((x - 1) × 0.5m y × -0.5m) màusắc: color khoảngthờigian: 0s\n)\n)\n)\n)\n)\\",
                 "Nhưng bạn cũng có thể phân tích màu sắc để quyết định xem đèn có bật hay tắt, hoặc liệu một màu cụ thể có phổ biến hay không, cho phép khán giả tác động đến màn trình diễn bằng màu sắc mà họ thể hiện."
             ],
             "names": ["$~Máyảnh"],
@@ -223,21 +223,21 @@
                 "/Boop boop boop/",
                 "Để điều khiển thời gian, bạn có thể đặt @Phrase.duration trên mỗi đầu ra, và nó sẽ hiển thị đầu ra đó trong khoảng thời gian ấy trước khi chuyển sang cái tiếp theo, dùng bất kỳ hiệu ứng chuyển cảnh @Phrase.entering hoặc @Phrase.exiting nào bạn đã đặt. Nếu bạn đặt chúng thành một @Sequence, nó sẽ dùng thời lượng của cái đó.",
                 "Tất cả những điều đó cho phép bạn làm những thứ như @Scene nhỏ này, hiển thị ba cụm từ theo thứ tự:",
-                "\\Bốicảnh(\n\t[\n\t\tCụmtừ('Xin chào' khoảngthờigian: 1s)\n\t\tCụmtừ(\n\t\t\t'Bạn khỏe không?'\n\t\t\tkhoảngthờigian: 2s\n\t\t\txoay: 5°\n\t\t\tvào: Tưthế(xoay: 0°)\n\t\t)\n\t\tCụmtừ('Tôi khỏe')\n\t]\n)\\",
+                "\\Cảnh(\n\t[\n\t\tCụmtừ('Xin chào' khoảngthờigian: 1s)\n\t\tCụmtừ(\n\t\t\t'Bạn khỏe không?'\n\t\t\tkhoảngthờigian: 2s\n\t\t\txoay: 5°\n\t\t\tvào: Tưthế(xoay: 0°)\n\t\t)\n\t\tCụmtừ('Tôi khỏe')\n\t]\n)\\",
                 "Bạn có thấy đầu ra đầu tiên hiện ra trong một giây, rồi cái tiếp theo trong hai giây, nhưng lại có hiệu ứng xoay năm độ, và sau đó nó hiện cái cuối cùng không?",
                 "Bạn có thể tạo ra những chuỗi đầu ra và hoạt ảnh rất công phu với @Scene, và thậm chí làm cho một phần trong đó trở nên năng động hoặc tương tác, giống như với bất kỳ @Phrase hay @Group nào khác.",
                 "Nếu bạn có một đầu ra hoạt ảnh được lồng bên trong (một @Group có @Phrase hoạt ảnh bên trong), @Scene sẽ đợi tất cả nội dung hoạt ảnh trong @Group hoàn tất.",
                 "À, và còn một bí mật nhỏ cuối cùng nữa! Bạn thậm chí có thể đặt @Boolean vào trong danh sách, và nếu chúng là \\⊥\\, @Scene sẽ tạm dừng và chờ cho đến khi nó trở thành đúng.",
                 "Ví dụ, nếu bạn muốn tạo một chuỗi @Phrase và chỉ tiến tới khi @Button thay đổi, bạn có thể làm như sau:",
-                "\\nhấpChuột: ∆ Cáinút()\nBốicảnh(\n\t[\n\t\tCụmtừ('Xin chào')\n\t\tnhấpChuột\n\t\tCụmtừ(\n\t\t\t'Bạn khỏe không?'\n\t\t\tkhoảngthờigian: 0.25s\n\t\t\txoay: 5°\n\t\t\tvào: Tưthế(xoay: 0°)\n\t\t)\n\t\tnhấpChuột\n\t\tCụmtừ('Tôi khỏe')\n\t]\n)\\",
+                "\\nhấpChuột: ∆ Cáinút()\nCảnh(\n\t[\n\t\tCụmtừ('Xin chào')\n\t\tnhấpChuột\n\t\tCụmtừ(\n\t\t\t'Bạn khỏe không?'\n\t\t\tkhoảngthờigian: 0.25s\n\t\t\txoay: 5°\n\t\t\tvào: Tưthế(xoay: 0°)\n\t\t)\n\t\tnhấpChuột\n\t\tCụmtừ('Tôi khỏe')\n\t]\n)\\",
                 "Bạn có thấy nó tạm dừng sau mỗi @Phrase, và chờ @Button thay đổi trước khi tiến tới không?",
                 "Mặc định thì tôi dừng ở đầu ra cuối cùng của mình. Cho tôi @Scene/loop và tôi sẽ quay lại đầu ra đầu tiên, đó là điều mà một trò chơi hỏi thêm câu hỏi sau mỗi vòng muốn có.",
                 "Tôi kiểm tra @Scene/loop mỗi khi chương trình của bạn thay đổi, vì vậy một vòng lặp có thể kết thúc cũng như bắt đầu. Ở đây tôi cứ hỏi mãi cho đến khi họ trả lời đúng, rồi mới dừng lại:",
-                "\\đoán: Tròchuyện()\nđúng2: đoán = 'cat'\nBốicảnh(\n\t[\n\t\tCụmtừ('Đoán con vật!' khoảngthờigian: 2s)\n\t\t∆ đoán\n\t\tCụmtừ(\n\t\t\tđúng2 ? 'Đúng rồi!' 'Sai rồi!'\n\t\t\tkhoảngthờigian: 2s\n\t\t)\n\t]\n\tvòngLặp: ~đúng2\n)\\",
+                "\\đoán: Tròchuyện()\nđúng2: đoán = 'cat'\nCảnh(\n\t[\n\t\tCụmtừ('Đoán con vật!' khoảngthờigian: 2s)\n\t\t∆ đoán\n\t\tCụmtừ(\n\t\t\tđúng2 ? 'Đúng rồi!' 'Sai rồi!'\n\t\t\tkhoảngthờigian: 2s\n\t\t)\n\t]\n\tvòngLặp: ~đúng2\n)\\",
                 "@Scene/replay khiến tôi bắt đầu lại từ đầu, @Scene/pause giữ tôi ở nguyên chỗ tôi đang ở, và @Scene/go gửi tôi thẳng đến một trong các đầu ra của tôi. Đặt @Scene/pause thành \\⊤\\ và tôi sẽ không bao giờ tự di chuyển, vì vậy @Scene/go trở thành thứ duy nhất khiến tôi tiến tới — đó là cách bạn tạo một buổi trình chiếu vừa đi tới /vừa/ đi lui.",
                 "Và nếu bạn muốn biết tôi đang ở đâu, để hiển thị /3 trên 10/ hoặc phát nhạc khác nhau ở các phần khác nhau của một câu chuyện, đó chính là mục đích của @Spotlight."
             ],
-            "names": ["$~Bốicảnh"],
+            "names": ["$~Cảnh", "$~Bốicảnh"],
             "outputs": {
                 "names": "$~đầura",
                 "doc": "$~Danh sách các kết quả cần hiển thị theo trình tự."
@@ -268,7 +268,7 @@
                     "Giống như @Scene/replay, điều này cần một @condition /tức thời/ — một thứ chỉ là \\ø\\ ngoại trừ ở lần đánh giá mà bạn muốn tôi di chuyển. Một con số giữ nguyên mãi sẽ ghim tôi lại đó vĩnh viễn.",
                     "Gửi tôi qua khỏi một trong hai đầu và tôi dừng lại ở đó, trừ khi @Scene/loop là \\⊤\\, trong trường hợp đó tôi sẽ quay vòng lại. Điều đó có nghĩa là bạn không bao giờ phải kiểm tra. Ở đây các phím mũi tên cho phép đi cả hai chiều trong một buổi trình chiếu:",
                     "Nếu bạn muốn nói /tiến một bước/ thay vì /số ba/, đó chính là @Scene/step.",
-                    "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\nchìaKhóa2: Chìakhóa()\ntại: Spotlight()\nBốicảnh(\n\ttrangChiếu\n\ttạmDừng: ⊤\n\tđi: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? tại.index - 1 (chìaKhóa2 = 'Mũi tên phải') ? tại.index + 1 ø) ø\n)\\"
+                    "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\nchìaKhóa2: Phím()\ntại: ĐènSânKhấu()\nCảnh(\n\ttrangChiếu\n\ttạmDừng: ⊤\n\tđi: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? tại.chỉMục - 1 (chìaKhóa2 = 'Mũi tên phải') ? tại.chỉMục + 1 ø) ø\n)\\"
                 ]
             },
             "name": {
@@ -280,7 +280,7 @@
                 "doc": [
                     "$~Một @condition để chờ sau mỗi đầu ra của tôi, một khi nó đã có đủ @Phrase/duration hoặc đã hoạt ảnh xong.",
                     "Điều này cũng giống như viết @Boolean đó giữa mỗi đầu ra trong danh sách của tôi, đây là cách bạn làm để khiến một trong các đầu ra của tôi chờ đợi. Cách này nói điều đó một lần thay vì lặp lại:",
-                    "\\Bốicảnh(\n\t[Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\n\tchoĐếnKhi: ∆ Cáinút()\n)\\",
+                    "\\Cảnh(\n\t[Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\n\tchoĐếnKhi: ∆ Cáinút()\n)\\",
                     "Một @Boolean được viết trong danh sách vẫn hoạt động, và hai lần chờ này tách biệt nhau, nên em có thể giữ lâu hơn ở một chỗ nào đó."
                 ]
             },
@@ -289,7 +289,7 @@
                 "doc": [
                     "$~Số lượng đầu ra cần di chuyển, tính từ vị trí hiện tại của tôi: \\1\\ là tiến một bước và \\-1\\ là lùi một bước. Đây là @Scene/go được nói dưới dạng khoảng cách thay vì vị trí.",
                     "Giống như @Scene/go, tôi dừng lại ở hai đầu của mình trừ khi @Scene/loop là \\⊤\\, để em không bao giờ phải kiểm tra, và tôi muốn một @condition /tạm thời/ — thứ gì đó vẫn là \\ø\\ ngoại trừ ở lần đánh giá mà em muốn tôi di chuyển.",
-                    "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\nchìaKhóa2: Chìakhóa()\nBốicảnh(\n\ttrangChiếu\n\ttạmDừng: ⊤\n\tbước: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? -1 (chìaKhóa2 = 'Mũi tên phải') ? 1 ø) ø\n)\\",
+                    "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\nchìaKhóa2: Phím()\nCảnh(\n\ttrangChiếu\n\ttạmDừng: ⊤\n\tbước: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? -1 (chìaKhóa2 = 'Mũi tên phải') ? 1 ø) ø\n)\\",
                     "Không có gì ở đây cần biết @Phrase nào đang hiển thị, đó là điểm khác biệt so với @Scene/go. Hãy hỏi @Spotlight nếu em muốn nói điều đó trên sân khấu."
                 ]
             }
@@ -304,7 +304,7 @@
                 "Bạn thấy chữ o nảy lên không? Trong lần đánh giá đầu tiên, bạn đặt nó ở vị trí cao trên @Stage , nhưng sau đó, nó được đặt trên @None , cho phép @Motion thay đổi vị trí của nó đến bất kỳ vị trí nào mà trọng lực đặt nó vào.",
                 "Hãy xem các cách cấu hình khác bên dưới."
             ],
-            "names": ["$~Cửđộng"],
+            "names": ["$~ChuyểnĐộng", "$~Cửđộng"],
             "place": {
                 "doc": "$~Điểm xuất phát.",
                 "names": "$~vịTrí"
@@ -326,7 +326,7 @@
             "doc": [
                 "$~Đây là @stream tin nhắn @Text mà người xem của bạn nhập vào.",
                 "Ví dụ, chương trình đơn giản này kiểm tra xem thông điệp có phải là 'hello' hay không, và nếu đúng thì chương trình sẽ trả về 'hi'. Nếu không thì nó sẽ trả về 'huh'?",
-                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "\\Tròchuyện().có('hello') ? 'hi!' 'huh?'\\",
                 "Vậy là xong! Bạn có thể tạo ra đủ loại hình trình diễn với công cụ này, chẳng hạn như chatbot, trò chơi phiêu lưu bằng văn bản, hoặc các sơ đồ điều khiển dựa trên văn bản cho các loại hình trình diễn khác."
             ],
             "names": ["$~Tròchuyện"]
@@ -337,12 +337,12 @@
                 "Có nhiều cách để đặt @Output trên @Stage: cho chúng một @Place rõ ràng, dùng @Motion và để trọng lực làm việc, hoặc đặt chúng vào một @Group để được sắp xếp.",
                 "Nhưng đôi khi bạn muốn cho /khán giả/ quyền điều khiển nơi @Output đi trên @Stage.",
                 "Đây là cách nó hoạt động: tạo một @Placement và đưa nó cho @Place của một @Output:",
-                "\\Cụmtừ('chào' vịTrí: Vịtrí())\\",
+                "\\Cụmtừ('chào' vịTrí: ĐặtVịTrí())\\",
                 "Sau đó, bất cứ khi nào khán giả dùng một phím mũi tên @key hoặc nhấp hay chạm vào sân khấu, @Placement sẽ tạo ra một @Place mới di chuyển theo hướng mong muốn.",
                 "Hãy thử sao chép cái này vào chương trình của bạn và di chuyển @Output bằng con trỏ hoặc bàn phím.",
                 "Bạn có thể tùy chỉnh @Placement, bật và tắt chuyển động theo một số chiều nhất định, thay đổi mức độ di chuyển của một @Place, và @Place ban đầu mà @stream khởi đầu."
             ],
-            "names": ["$~Vịtrí"],
+            "names": ["$~ĐặtVịTrí", "$~Vịtrí"],
             "inputs": [
                 {
                     "doc": "$~Điểm khởi đầu đầu tiên.",
@@ -503,9 +503,9 @@
             "doc": [
                 "$~Nó phác họa đường viền của từng ký tự dưới dạng @List của @Place .",
                 "Hãy cung cấp cho nó một đoạn văn bản và một kiểu phông chữ, và nó sẽ đồ lại đường viền của từng ký tự từng điểm một.",
-                "\\Contour('a' \"Noto Sans\")\\",
+                "\\Đườngviền('a' \"Noto Sans\")\\",
                 "Hãy đưa các @value @Place đó vào một @List gồm @Phrase để thấy đường viền được vẽ dưới dạng các chấm:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' vịTrí: point)))\\",
+                "\\Sânkhấu(Đườngviền('a' \"Noto Sans\" 10m).biếnĐổi(ƒ(point) Cụmtừ('•' vịTrí: point)))\\",
                 "Bạn có thể điều chỉnh kích thước đường viền bằng @Number of meters, di chuyển điểm gốc bằng @Place , chọn độ đậm phông chữ, bật chế độ in nghiêng và đặt `spacing` giữa các điểm theo khoảng cách tính bằng mét. `spacing` nhỏ hơn sẽ vẽ đường viền sát hơn, với các điểm cách đều nhau dọc theo cả đường thẳng và đường cong.",
                 "Một số ký tự, như biểu tượng cảm xúc màu sắc, không có đường viền, vì vậy chúng không được tính điểm. Trong khi tải phông chữ, nó sẽ trả về một @List trống, sau đó sẽ điền thông tin vào khi hoàn tất."
             ],
@@ -901,7 +901,7 @@
             "doc": [
                 "$~Tôi cho biết một @Scene đang ở đâu ngay lúc này: nó đang hiển thị đầu ra nào, nó có bao nhiêu đầu ra, và nó có đang chờ ai đó hay không.",
                 "Một @Scene hiển thị các thứ; tôi là cách phần còn lại của một chương trình biết được nó đang hiển thị gì. Đó là điều cho phép em đặt một bộ đếm bên dưới một buổi trình chiếu ảnh, phát nhạc khác nhau ở các phần khác nhau của một câu chuyện, hoặc chỉ hiển thị gợi ý /nhấn phím bất kỳ/ trong khi cảnh thực sự đang chờ.",
-                "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\ntại: Spotlight()\nSânkhấu(\n\t[\n\t\tBốicảnh(trangChiếu vòngLặp: ⊤)\n\t\tCụmtừ(\n\t\t\t`\\tại.index\\ của \\tại.total\\`\n\t\t\tkíchcỡ: 0.3m\n\t\t\tvịTrí: VịTrí(0m -2m)\n\t\t)\n\t]\n)\\",
+                "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\ntại: ĐènSânKhấu()\nSânkhấu(\n\t[\n\t\tCảnh(trangChiếu vòngLặp: ⊤)\n\t\tCụmtừ(\n\t\t\t`\\tại.index\\ của \\tại.total\\`\n\t\t\tkíchcỡ: 0.3m\n\t\t\tvịTrí: VịTrí(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Tôi luôn có một @Slate, ngay cả trước khi có bất cứ điều gì xảy ra, nên em không bao giờ phải kiểm tra tôi để tìm \\ø\\."
             ],
             "names": "$~ĐènSânKhấu",

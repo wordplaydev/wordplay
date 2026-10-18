@@ -8,8 +8,8 @@ Scrie condiția, apoi un \?\, apoi valoarea de folosit când este adevărat, apo
 Iată o față fericită care se întristează de fiecare dată când apeși bara de spațiu, apoi se întristează din nou:
 
 \
-happy: ⊤ … ∆ Key(' ') … ~happy
-Phrase(happy ? '😊' '😢')
+happy: ⊤ … ∆ Tastă(' ') … ~happy
+Fraza(happy ? '😊' '😢')
 \
 
  Elementul @Reaction începe \happy\ ca \⊤\ (adevărat) și o schimbă cu \~\ de fiecare dată când este apăsată bara de spațiu.
@@ -18,8 +18,8 @@ Apoi condiția \?\ alege fața potrivită.
 Puteți înlănțui condiționalități pentru a alege dintre mai mult de două lucruri:
 
 \
-score: 0 … ∆ Key('o') … score + 1
-Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+score: 0 … ∆ Tastă('o') … score + 1
+Fraza(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
 \
 
  Presa \a\ de câteva ori și urmăriți cum eclozează oul și se transformă într-un pui!

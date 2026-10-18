@@ -7,14 +7,14 @@ A @Structure 은 빈칸을 채우는 조리법 같은 거야.
 색깔과 이름표를 받아서 스스로를 어떻게 보여줄지 아는 풍선 템플릿을 하나 보자:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` 색상: color 크기: 2m)
+•Balloon(color•색상 label•'') (
+    ƒ show() 구절(`🎈\label\` 색상: color 크기: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) '하늘').show()
-    Balloon(Color(60% 80 0°) '장미').show()
-    Balloon(Color(90% 80 90°) '화창한').show()
+그룹(행() [
+    Balloon(색상(80% 50 240°) '하늘').show()
+    Balloon(색상(60% 80 0°) '장미').show()
+    Balloon(색상(90% 80 90°) '화창한').show()
 ])
 \
 

@@ -16,7 +16,7 @@ ruhHali: yüz2.gözlerAçık ?
 ¶Ruh halini bir emojiye çevir ve yüze bunu söyleyen bir konuşma balonu ver. Balona @Say vermek, ruh halinin hem gösterilmesini hem de sesli söylenmesini sağlar ve balon, sahnenin altındaki altyazının yerine geçer.¶
 Sahne(
 	[
-		İfadeetmek(
+		Yazı(
 			(ruhHali = 'blinking' ? '😴'
 					ruhHali = 'smiling' ? '😀'
 						ruhHali = 'frowning' ? '🙁'

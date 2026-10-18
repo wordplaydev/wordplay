@@ -127,8 +127,8 @@
                 "length": {
                     "doc": [
                         "$~Sinusuri ko ang bilang ng mga nababasang karakter sa teksto; ang isang letra ay isang karakter, ang isang emoji ay isang karakter, atbp. Halimbawa:",
-                        "\\'hello'.length()\\",
-                        "\\'🐈📚'.length()\\"
+                        "\\'hello'.haba()\\",
+                        "\\'🐈📚'.haba()\\"
                     ],
                     "names": ["$~haba"],
                     "inputs": []
@@ -156,9 +156,9 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ kung ang ibinigay na @Text ay lilitaw sa akin.",
-                        "\\'nahanap mo ba ang hinahanap mo?'.has('you')\\"
+                        "\\'nahanap mo ba ang hinahanap mo?'.mayroon('you')\\"
                     ],
-                    "names": ["$~aymay"],
+                    "names": ["$~mayroon", "$~aymay"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Text na hahanapin sa akin.",
@@ -169,8 +169,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\ kung magsisimula ako sa ibinigay na @Text.",
-                        "\\'hello verse!'.starts('hello')\\",
-                        "\\'kumusta taludtod!'.starts('taludtod')\\"
+                        "\\'hello verse!'.nagsisimula('hello')\\",
+                        "\\'kumusta taludtod!'.nagsisimula('taludtod')\\"
                     ],
                     "names": ["$~nagsisimula"],
                     "inputs": [
@@ -183,10 +183,10 @@
                 "ends": {
                     "doc": [
                         "$~\\⊤\\ kung magtatapos ako sa ibinigay na @Text.",
-                        "\\'Ako ba ay isang tanong?'.ends('?')\\",
-                        "\\'Hindi ako isang tanong.'.ends('?')\\"
+                        "\\'Ako ba ay isang tanong?'.nagtatapos('?')\\",
+                        "\\'Hindi ako isang tanong.'.nagtatapos('?')\\"
                     ],
-                    "names": ["$~mgadulo"],
+                    "names": ["$~nagtatapos", "$~mgadulo"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Text na dapat tignan sa dulo ng akin.",
@@ -208,7 +208,7 @@
                     "inputs": [
                         {
                             "doc": "$~Ang bilang ng beses na inulit ko ang sarili ko sa bagong teksto.",
-                            "names": "$~bilangin"
+                            "names": ["$~bilang", "$~bilangin"]
                         }
                     ]
                 },
@@ -485,7 +485,7 @@
                 "positive": {
                     "doc": [
                         "$~Gumagawa ako ng bagong @Number na nagpapa-positibo sa akin, kung negatibo man.",
-                        "\\-200.positive()\\"
+                        "\\-200.positibo()\\"
                     ],
                     "names": ["$~positibo"],
                     "inputs": []
@@ -493,11 +493,11 @@
                 "round": {
                     "doc": [
                         "$~Lumilikha ako ng isang bagong @Number na nag-round out sa akin sa pinakamalapit na integer.",
-                        "\\9.4.round()\\",
-                        "\\9.5.round()\\",
-                        "\\9.6.round()\\"
+                        "\\9.4.bilugan()\\",
+                        "\\9.5.bilugan()\\",
+                        "\\9.6.bilugan()\\"
                     ],
-                    "names": ["$~bilog"],
+                    "names": ["$~bilugan", "$~bilog"],
                     "inputs": []
                 },
                 "roundDown": {
@@ -636,21 +636,21 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["$~Kwentahin ang cosine ng ako.", "\\π.cos()\\"],
+                    "doc": ["$~Kwentahin ang cosine ng ako.", "\\π.kosino()\\"],
                     "names": ["$~kosino"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~Kwentahin ang sine ng ako.", "\\π.cos()\\"],
+                    "doc": ["$~Kwentahin ang sine ng ako.", "\\π.kosino()\\"],
                     "names": ["$~kasalanan"],
                     "inputs": []
                 },
                 "min": {
                     "doc": [
                         "$~Hanapin ang pinakamaliit na bilang ng ako at ng iba pa.",
-                        "\\1.min(2 3 -1)\\"
+                        "\\1.pinakamaliit(2 3 -1)\\"
                     ],
-                    "names": "$~minuto",
+                    "names": ["$~pinakamaliit", "$~minuto"],
                     "inputs": [
                         {
                             "doc": "$~Kahit ilang numero ang gusto mong ibigay sa akin!",
@@ -661,7 +661,7 @@
                 "max": {
                     "doc": [
                         "$~Hanapin ang pinakamalaking bilang ng ako at iba pa.",
-                        "\\1.max(2 3 4)\\"
+                        "\\1.pinakamataas(2 3 4)\\"
                     ],
                     "names": "$~pinakamataas",
                     "inputs": [
@@ -672,7 +672,10 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Kalkulahin ang tangent ko.", "\\π.tan()\\"],
+                    "doc": [
+                        "$~Kalkulahin ang tangent ko.",
+                        "\\π.tanghente()\\"
+                    ],
                     "names": ["$~tanghente"],
                     "inputs": []
                 },
@@ -742,7 +745,7 @@
                 "limit": {
                     "doc": [
                         "$~Panatilihin akong nasa pagitan ng mababang numero at mataas na numero: kung mas mababa ako sa mababang numero, iyon ang makukuha mo, at kung mas mataas ako sa mataas na numero, iyon naman ang makukuha mo.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.hangganan(0 10)\\"
                     ],
                     "names": "$~hangganan",
                     "inputs": [
@@ -759,7 +762,7 @@
                 "toward": {
                     "doc": [
                         "$~Gumalaw ng bahagi ng daan mula sa akin patungo sa ibang numero. Sa 0% makukuha mo ako, sa 100% makukuha mo ang isa pa, at sa kalagitnaan ay makukuha mo ang numerong nasa gitna.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.patungo(10m 30%)\\"
                     ],
                     "names": "$~patungo",
                     "inputs": [
@@ -776,7 +779,7 @@
                 "rescale": {
                     "doc": [
                         "$~Hanapin kung saan ako nasa pagitan ng isang pares ng mga numero, pagkatapos ibigay ang numerong nasa parehong posisyon sa ibang pares. Kapaki-pakinabang para gawing maipapakita ang isang bagay na iyong sinukat.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.mulingIskala(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~mulingIskala",
                     "inputs": [
@@ -976,7 +979,7 @@
                 "add": {
                     "doc": [
                         "$~Gumagawa ako ng bagong @List gamit ang ibinigay na item sa dulo.",
-                        "\\['apple' 'banana' 'mango'].with('watermelon')\\"
+                        "\\['apple' 'banana' 'mango'].kasama('watermelon')\\"
                     ],
                     "names": "$~kasama",
                     "inputs": [
@@ -989,7 +992,7 @@
                 "append": {
                     "doc": [
                         "$~Gumagawa ako ng bagong @List kasama ang aking mga @value, pagkatapos ay lahat ng mga halaga ng ibinigay na @List pagkatapos ko.",
-                        "\\['mansanas' 'saging' 'mangga'].withList(['pakwan' 'bituin'])\\",
+                        "\\['mansanas' 'saging' 'mangga'].kasamaangListahan(['pakwan' 'bituin'])\\",
                         "Medyo mas madaling gamitin ang @Spread, gaya nito:",
                         "\\['mansanas' 'saging' 'mangga' :['pakwan' 'bituin']]\\"
                     ],
@@ -1034,7 +1037,7 @@
                 "shuffled": {
                     "doc": [
                         "$~Gumawa ng bagong listahan gamit ang mga aytem sa listahan na random na nakaayos.",
-                        "\\['apple' 'banana' 'mango'].shuffled()\\"
+                        "\\['apple' 'banana' 'mango'].hinalo()\\"
                     ],
                     "names": "$~hinalo",
                     "inputs": []
@@ -1058,9 +1061,9 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ kung mayroon akong aytem na katumbas ng ibinigay na aytem sa akin.",
-                        "\\['mansanas' 'saging' 'mangga'].has('saging')\\"
+                        "\\['mansanas' 'saging' 'mangga'].mayroon('saging')\\"
                     ],
-                    "names": "$~aymay",
+                    "names": ["$~mayroon", "$~aymay"],
                     "inputs": [
                         {
                             "doc": "$~Ang @value na hahanapin.",
@@ -1071,9 +1074,9 @@
                 "join": {
                     "doc": [
                         "$~Pinagsasama ko ang mga item sa aking listahan sa @Text, na pinaghihiwalay ng ibinigay na separator na @Text.",
-                        "\\['mansanas' 'saging' 'mangga'].join(', ')\\"
+                        "\\['mansanas' 'saging' 'mangga'].pagdugtungin(', ')\\"
                     ],
-                    "names": "$~sumali",
+                    "names": ["$~pagdugtungin", "$~sumali"],
                     "inputs": [
                         {
                             "doc": "$~Ang teksto para paghiwalayin ang mga item, opsyonal na blangko.",
@@ -1108,7 +1111,7 @@
                 "sansFirst": {
                     "doc": [
                         "$~Gumagawa ako ng listahan nang wala ang una kong aytem.",
-                        "\\['mansanas' 'saging' 'mangga'].sansFirst()\\"
+                        "\\['mansanas' 'saging' 'mangga'].walangUna()\\"
                     ],
                     "names": ["$~walangUna"],
                     "inputs": []
@@ -1116,7 +1119,7 @@
                 "sansLast": {
                     "doc": [
                         "$~Gumagawa ako ng listahan nang wala ang aking huling aytem.",
-                        "\\['mansanas' 'saging' 'mangga'].sansLast()\\"
+                        "\\['mansanas' 'saging' 'mangga'].walangHuling()\\"
                     ],
                     "names": ["$~walangHuling"],
                     "inputs": []
@@ -1142,7 +1145,7 @@
                 "reverse": {
                     "doc": [
                         "$~Ako, pero pabaligtad!",
-                        "\\['apple' 'banana' 'mango'].reverse()\\"
+                        "\\['apple' 'banana' 'mango'].baligtad()\\"
                     ],
                     "names": ["$~baligtad"],
                     "inputs": []
@@ -1377,7 +1380,7 @@
                 "sum": {
                     "doc": [
                         "$~Idagdag ang lahat ng aking mga numero nang sama-sama. Kung ako ay walang laman, ang @value ay 0, at kung ang aking mga numero ay hindi lahat sinusukat sa parehong bagay, sasabihin ko iyon sa halip na hulaan.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].kabuuan()\\"
                     ],
                     "names": "$~kabuuan",
                     "inputs": []
@@ -1385,9 +1388,9 @@
                 "average": {
                     "doc": [
                         "$~Idagdag ang lahat ng aking mga numero nang sama-sama at hatiin sa bilang ng mga ito. Kung ako ay walang laman, walang mapagkukunang average, kaya ang makukuha mo ay @None.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].katamtaman()\\"
                     ],
-                    "names": "$~karaniwan",
+                    "names": ["$~katamtaman", "$~karaniwan"],
                     "inputs": []
                 }
             },
@@ -1518,7 +1521,7 @@
                     "doc": [
                         "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng isang item at naglalabas ng \\⊤\\ kung dapat itong itago, at gagawa ako ng @Set na naglalaman lamang ng mga item na nakakatugon sa iyong pamantayan.",
                         "Halimbawa, hanapin natin ang mga kakaibang numero sa akin:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.pansala(ƒ(num•#) (num % 2) = 1)\\"
                     ],
                     "names": "$~pansala",
                     "inputs": [
@@ -1542,7 +1545,7 @@
                     "doc": [
                         "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng isang item at gumagawa ng isang bagong item batay dito, pagkatapos ay isasalin ko ang lahat ng mga item sa akin sa isang bagong @Set (tinatanggal ang anumang mga duplicate).",
                         "Halimbawa, gawin nating @Text ang lahat ng aking @Number:",
-                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.isalin(ƒ(num•#) num→'')\\"
                     ],
                     "names": "$~isalin",
                     "inputs": [
@@ -1740,7 +1743,7 @@
                 "O baka gusto mong gumawa ng bagong talahanayan na may ibang mga halaga para sa mga hilerang tumutugma sa isang kondisyon:",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
                 "O baka gusto mong tanggalin ang mga hilerang tumutugma sa isang kondisyon:",
-                "\\mgaBato: ⎡pangalan•'' kulay•''⎦\n\t⎡'obsidian' 'itim'⎦\n\t⎡'pumice' 'kulay-abo'⎦\n\t⎡'citrine' 'dilaw'⎦\nmgaBato ⎡- pangalan.aymay('ako')\\",
+                "\\mgaBato: ⎡pangalan•'' kulay•''⎦\n\t⎡'obsidian' 'itim'⎦\n\t⎡'pumice' 'kulay-abo'⎦\n\t⎡'citrine' 'dilaw'⎦\nmgaBato ⎡- pangalan.mayroon('ako')\\",
                 "At kung gusto mong kumuha ng tiyak na mga halaga mula sa akin, maaari mong gawing listahan ang anumang talahanayan at kunin ang bawat hilera gamit ang @PropertyReference",
                 "\\mgaBato: ⎡pangalan•'' kulay•''⎦\n\t⎡'obsidian' 'itim'⎦\n\t⎡'pumice' 'kulay-abo'⎦\n\t⎡'citrine' 'dilaw'⎦\n(mgaBato → [])[1].pangalan\\"
             ],
@@ -1837,7 +1840,7 @@
                 },
                 "has": {
                     "doc": "$~\\⊤\\ kung ang aking plain text ay naglalaman ng ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
-                    "names": ["$~aymay"],
+                    "names": ["$~mayroon", "$~aymay"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Text na dapat hanapin sa aking teksto.",
@@ -1857,7 +1860,7 @@
                 },
                 "ends": {
                     "doc": "$~\\⊤\\ kung ang aking plain text ay nagtatapos sa ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
-                    "names": ["$~mgadulo"],
+                    "names": ["$~nagtatapos", "$~mgadulo"],
                     "inputs": [
                         {
                             "doc": "$~Ang @Text na dapat tingnan sa dulo ng aking teksto.",
@@ -1871,7 +1874,7 @@
                     "inputs": [
                         {
                             "doc": "$~Ang dami ng beses na inuulit ko ang sarili ko.",
-                            "names": "$~bilangin"
+                            "names": ["$~bilang", "$~bilangin"]
                         }
                     ]
                 },

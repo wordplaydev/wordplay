@@ -4,14 +4,14 @@ Karakter dapat memiliki animasi istirahat yang berulang saat mereka tidak berger
 
 Sebagai contoh, mari kita buat kucing ini menari sedikit dengan membuatnya berputar dan bergeser:
 
-\Phrase('🐈' beristirahat: Sequence({
+\Frasa('🐈' beristirahat: Urutan({
 			0%: Pose(rotasi: 0°)
 			15%: Pose(rotasi: 15°)
 			30%: Pose(rotasi: 0°)
-			45%: Pose(mengimbangi: Place(-0.25m))
-			60%: Pose(mengimbangi: Place(0.25m))
-			75%: Pose(mengimbangi: Place(-0.25m))
-			90%: Pose(mengimbangi: Place(0m))
+			45%: Pose(mengimbangi: Tempat(-0.25m))
+			60%: Pose(mengimbangi: Tempat(0.25m))
+			75%: Pose(mengimbangi: Tempat(-0.25m))
+			90%: Pose(mengimbangi: Tempat(0m))
 		} 2s))\
 
 Contoh ini menggunakan sebuah  @Sequence  dari yang berbeda  @Pose .

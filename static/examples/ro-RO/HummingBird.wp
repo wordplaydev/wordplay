@@ -46,17 +46,17 @@ ales: Alegere()
 mod•'': 'tap' … (ales = 'hum') | (ales = 'tap') … ales
 
 ¶În modul de apăsare, batele din aripi când faci clic sau apeși orice tastă.¶
-flutură: (mod = 'tap') & (∆ Buton() | ∆ Cheie())
+flutură: (mod = 'tap') & (∆ Buton() | ∆ Tastă())
 
 ¶În modul de fredonat, pasărea plutește la înălțimea date de tonul vocii tale — notele joase aproape de sol, notele înalte aproape de cer — și nu mai sus.¶
-înălțimeSunet: Pas()
+înălțimeSunet: Înălțime()
 fredonat: (mod = 'hum') & (înălțimeSunet > 50hz)
 
 ƒ înălțimeSunetSpreÎnălțime(hz•#hz)
-	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
+	hz.reajustare(80hz 400hz -4m 5m).limită(-4m 5m)
 
 ¶Pasărea se apropie treptat de înălțimea fredonată, puțin câte puțin, ca să plutească lin în loc să tresară la fiecare mică variație a tonului.¶
-înălțimeSunetY•#m: 1m … ∆ înălțimeSunet … fredonat ? înălțimeSunetY.toward(înălțimeSunetSpreÎnălțime(înălțimeSunet) 20%) înălțimeSunetY
+înălțimeSunetY•#m: 1m … ∆ înălțimeSunet … fredonat ? înălțimeSunetY.spre(înălțimeSunetSpreÎnălțime(înălțimeSunet) 20%) înălțimeSunetY
 
 ¶Pasărea plutește pe loc în timpul numărătorii inverse, bate din aripi în sus sau plutește la tonul fredonat cât timp joci, și se rostogolește sub greutatea gravitației după o coliziune.¶
 locPasăre: Mişcare(
@@ -166,7 +166,7 @@ scor•#: 0 …
 ƒ coloană(celule•# gen2•# x4•#m y2•#m)
 	Grup(
 		Stivă('|' 0m)
-		(celule → []).traduce(
+		(celule → []).transformă(
 			ƒ(celulă2•#) Fraza(
 					genuri[gen2][1 + ((celulă2 - 1) % 5)]
 					1m
@@ -314,7 +314,7 @@ sunetDeMoarte: Muzică(
 
 listăDeMoarte: (joc2.fază = 3) ? [sunetDeMoarte] []
 
-Etapă(
+Estradă(
 	[
 		pasăre
 		sunetBătaieDinAripi

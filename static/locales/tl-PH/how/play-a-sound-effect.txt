@@ -4,10 +4,10 @@ Isang "ding" kapag tama ang sagot, isang "lagapak" kapag may bumagsak — ang is
 
 Dalawang bagay ang gumagawa nitong "sound effect" sa halip na kanta. \loop: ⊥\ ang nagsasabi sa  @Track  na tugtugin ang mga nota nang isang beses lang sa halip na paulit-ulit magpakailanman. At ang listahan ng nota mismo ay galing sa sandaling iyon: may mga nota ito kapag may kakatapos lang mangyari, at walang laman ito sa ibang oras.
 
-\tapped: ∆ Button()
-Stage([
-		Phrase('👆 pindutin mo ako' mapipili pangalan: 'pindutin')
-		Music(Track(tapped ? [1 5 8] [] instrumento: Instrument.bell loop: ⊥) iReplay: tapped)
+\tapped: ∆ Pindutan()
+Entablado([
+		Parirala('👆 pindutin mo ako' mapipili pangalan: 'pindutin')
+		Musika(Track(tapped ? [1 5 8] [] instrumento: Instrumento.kampana loop: ⊥) iReplay: tapped)
 	])\
 
 Huwag kang mag-alala na nauubusan uli ng laman ang listahan sa susunod na pagsusuri — ang notang nagsimula na ay palaging tumutugtog hanggang sa dulo nito. Ang hindi mo maaaring alisin ay \replay\. Pindutin nang dalawang beses at ang pangalawang pindot ay gumagawa ng eksaktong parehong musika gaya ng una, kaya walang nagbago at walang tutunog uli; \replay\ ang paraan mo para sabihing /uli, ngayon/. 
@@ -16,11 +16,11 @@ Huwag kang mag-alala na nauubusan uli ng laman ang listahan sa susunod na pagsus
 
 Dahil ang mga nota ay isa lang listahan, maaari mong pagpasyahan ang mga ito batay sa *kung ano* ang nangyari sa halip na palaging tumugtog ng parehong bagay:
 
-\key: Key()
+\key: Susi()
 struck: ∆ key
-Stage([
-		Phrase(struck ? key '⌨ pindutin ang isang key' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrumento: Instrument.piano loop: ⊥) iReplay: struck)
+Entablado([
+		Parirala(struck ? key '⌨ pindutin ang isang key' 1m)
+		Musika(Track(struck ? [((key = ' ') ? 1 8)] [] instrumento: Instrumento.piyano loop: ⊥) iReplay: struck)
 	])\
 
 Pansinin na ang \∆ key\ ay isinasaayos sa sarili nitong linya at ang pagsusuri ng value na \key = ' '\ ay nangyayari nang hiwalay. Kapag pinagsama bilang isang kundisyon, muling tutunog ang tunog sa susunod na hindi kaugnay na key habang \key\ pa rin ay binabasa bilang isang puwang.

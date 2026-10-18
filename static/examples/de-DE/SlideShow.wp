@@ -60,7 +60,7 @@ folien2: [
 		)
 	]
 
-schlüssel3: Schlüssel()
+schlüssel3: Tastaturtaste()
 
 ¶Hier ist die Stelle, an der die Show gerade ist. Das @Scene merkt sich den Ort, also muss hier nichts mitgezählt werden.¶
 bei2: Scheinwerfer()
@@ -70,13 +70,13 @@ ansichten: folien2.übersetzen(
 		ƒ(folie2•folie) Gruppe(
 				Stapel('|' 0.4m)
 				[
-					Satzglied(folie2.emoji Größe: 2m)
-					Satzglied(
+					Phrase(folie2.emoji Größe: 2m)
+					Phrase(
 						`*\folie2.titel\*`
 						Größe: 1.2m
 						Ausrichtung: '|'
 					)
-					Satzglied(
+					Phrase(
 						folie2.inhalt
 						Größe: 0.5m
 						wickeln: 12m
@@ -95,7 +95,7 @@ Gruppe(
 			anhalten
 			Schritt: ∆ schlüssel3 ? ((schlüssel3 = 'Pfeil nach links') ? -1 (schlüssel3 = 'Pfeil nach rechts') ? 1 ø) ø
 		)
-		Satzglied(
+		Phrase(
 			`\bei2.Index\ von \bei2.gesamt\`
 			Größe: 0.25m
 			Ausrichtung: '|'

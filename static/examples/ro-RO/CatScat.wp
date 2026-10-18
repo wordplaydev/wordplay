@@ -28,7 +28,7 @@ numărare2: puls2.număr
 		un: voce2()
 		b2: voce2()
 		c2: voce2()
-		(32 → []).traduce(
+		(32 → []).transformă(
 			ƒ(i•#)
 				(i = 1) ? un
 					(i = 2) ? b2
@@ -45,7 +45,7 @@ numărare2: puls2.număr
 Acestea sunt cele mai scurte note din piesă și singurul loc unde pisica este întreruptă: doi optimi într-un timp este mai rapid decât poate termina un miaunat, ceea ce este exact cum sună o silabă rapidă de scat oricum.¶
 ƒ rulează2()•[#|ø] (
 		acasă: Aleatoriu(1 8)
-		(64 → []).traduce(
+		(64 → []).transformă(
 			ƒ(i2•#)
 				~((17‥32) ∋ i2) ? ø
 					poate((((acasă + (i2 - 17)) - 1) % 8) + 1)
@@ -55,7 +55,7 @@ Acestea sunt cele mai scurte note din piesă și singurul loc unde pisica este �
 ¶Triolete, măsurile cinci și șase: o celulă de trei note care se repetă la nesfârșit. Trei în spațiul a doi este scris exact așa — 2 timpi ÷ 3 — ceea ce spune cu voce tare ce este un triolet.¶
 ƒ balansare2()•[#|ø] (
 		celulă2: [voce2() voce2() voce2()]
-		(48 → []).traduce(
+		(48 → []).transformă(
 			ƒ(i3•#)
 				~((25‥36) ∋ i3) ? ø
 					celulă2[(((i3 - 25) % 3) + 1)]
@@ -64,7 +64,7 @@ Acestea sunt cele mai scurte note din piesă și singurul loc unde pisica este �
 
 ¶Doimi, măsura șapte: pisica încetinește și ajunge pe două note lungi. O notă ținută menține gura deschisă tot timpul cât sună, ceea ce arată cum se ține o notă.¶
 ƒ conține2()•[#|ø]
-	(16 → []).traduce(
+	(16 → []).transformă(
 		ƒ(i4•#)
 			(i4 = 13) ? voce2()
 				(i4 = 14) ? voce2()
@@ -72,7 +72,7 @@ Acestea sunt cele mai scurte note din piesă și singurul loc unde pisica este �
 	)
 
 ¶O notă întreagă, măsura opt: gradul 1, ținută. Revenirea la prima notă a gamei este ceea ce face ca o frază să sune terminată, nu doar oprită.¶
-ƒ coadă2()•[#|ø] (8 → []).traduce(ƒ(i5•#) (i5 = 8) ? 1 ø)
+ƒ coadă2()•[#|ø] (8 → []).transformă(ƒ(i5•#) (i5 = 8) ? 1 ø)
 
 ƒ improvizează()•refren refren(
 		apeluri2()
@@ -90,14 +90,14 @@ refren2•refren: improvizează() … ∆ puls2 …
 apleacă: ((numărare2 % 2) = 0) ? -1 1
 
 ¶Dacă pisica scoate un sunet chiar acum. @Beat dă înapoi câte un @Part pentru fiecare pistă, iar o parte rămâne ⊤ pe toată durata bătăilor cât ține o notă susținută, așa că această valoare este ⊤ oricând se aude ceva.¶
-cântând: puls2.părți.traduce(ƒ(parte2•Parte) parte2.sunet).are(
+cântând: puls2.părți.transformă(ƒ(parte2•Parte) parte2.sună).are(
 		⊤
 	)
 
 ¶Gura ei: deschisă exact atunci când o notă sună, închisă când nu sună niciuna. Nimic aici nu numără bătăile — se întreabă muzica ce face, astfel încât fața nu poate ieși niciodată din ritm cu ceea ce auzi. Pauzele răzlețe sunt ceea ce îi dă un moment să se închidă, de aceea aproximativ o notă din șapte rămâne tăcută.¶
 gură: cântând ? '😺' '🐱'
 
-Etapă(
+Estradă(
 	[
 		Fraza(
 			gură

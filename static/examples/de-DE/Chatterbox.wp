@@ -6,7 +6,7 @@ Plappermaul
 ¶Eine Zeile des Gesprächs: wer sie gesagt hat und was gesagt wurde.¶
 •zeile(sprecher•'' worte•'')
 
-nachricht: Plaudern()
+nachricht: Chat()
 
 ¶Bevor Chatterbox deine Worte zurückgibt, vertauscht er die Pronomen. Dazu tauscht er jedes Wort mit dieser Map aus: mein wird zu dein und ich wird zu du. So wird aus "Ich glaube, du hasst mich" die Antwort "Warum glaubst du, dass ich dich hasse?"¶
 tausch: {
@@ -81,7 +81,7 @@ Bühne(
 			Stapel('<' 0.5m)
 			neueste.übersetzen(
 				ƒ(zeile2•zeile)
-					Satzglied(
+					Phrase(
 						zeile2.sprecher + ' ' + zeile2.worte
 						Größe: 0.75m
 						wickeln: 22m

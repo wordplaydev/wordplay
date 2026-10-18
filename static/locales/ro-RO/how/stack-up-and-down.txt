@@ -4,10 +4,10 @@ Dacă un @Row este pentru alăturat, apoi un @Stack este de sus în jos.
 @Stack plasează fiecare personaj sub cel dinainte, ca un turn.
 
 \
-Group(Stack() [
-    Phrase('unul')
-    Phrase('două')
-    Phrase('trei')
+Grup(Stivă() [
+    Fraza('unul')
+    Fraza('două')
+    Fraza('trei')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Stack() [
 Încearcă să aliniezi totul de-a lungul marginii din stânga:
 
 \
-Group(Stack('<' 0.25m) [
-    Phrase('🐣 mic')
-    Phrase('🐥 mediu')
-    Phrase('🐔 mare')
+Grup(Stivă('<' 0.25m) [
+    Fraza('🐣 mic')
+    Fraza('🐥 mediu')
+    Fraza('🐔 mare')
 ])
 \
 

@@ -34,7 +34,7 @@ It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
 
 ¶Stage creates the visible scene.
 The Stack places the title, explanation, number display, message, and selectable text controls vertically.¶/en
-단계(
+무대(
 	[
 		그룹(
 			스택()

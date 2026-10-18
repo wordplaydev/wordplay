@@ -6,12 +6,12 @@
 这些时刻就是列表中的项目，而它们之间的 @Boolean 就是 @Scene 等待玩家的地方。
 
 \
-guess: Chat()
+guess: 聊天()
 right: guess = '猫'
-Scene([
-	Phrase('猜猜是什么动物！' 持续时间: 2s)
+场景([
+	短语('猜猜是什么动物！' 持续时间: 2s)
 	∆ guess
-	Phrase(right ? '对啦！' '不对哦！' 持续时间: 2s)
+	短语(right ? '对啦！' '不对哦！' 持续时间: 2s)
 ] 循环: ~right)
 \
 
@@ -24,15 +24,15 @@ Scene([
 它会告诉你，现在正显示哪个 @Phrase ，一共有多少个，这个 @Scene 已经循环了多少次，以及此刻是不是正在等待某个人。
 
 \
-guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
-		Phrase('猜猜是什么动物！' 持续时间: 2s)
+guess: 聊天()
+at: 聚光灯()
+舞台([
+	场景([
+		短语('猜猜是什么动物！' 持续时间: 2s)
 		∆ guess
-		Phrase('不对哦！' 持续时间: 2s)
+		短语('不对哦！' 持续时间: 2s)
 	] 循环: ⊤)
-	Phrase(at.waiting ? '输入一个猜测' `轮 \at.lap + 1\` 尺寸: 0.4m 位置: Place(0m -2m))
+	短语(at.等待中 ? '输入一个猜测' `轮 \at.lap + 1\` 尺寸: 0.4m 位置: 位置(0m -2m))
 ])
 \
 

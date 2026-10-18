@@ -4,7 +4,7 @@ Amplitudo
 ¶Sebaris titik yang menyala dan meredup mengikuti volume mikrofonmu.¶
 
 amplitudo•[#]: ←← 10 Volume()
-vis: amplitudo.menerjemahkan(
+vis: amplitudo.petakan(
 		ƒ(amp•#) Frasa("⚫" kegelapan: amp ukuran: 10m)
 	)
 Panggung([Kelompok(Baris() vis)] tempat: Tempat(0m 0m -50m))

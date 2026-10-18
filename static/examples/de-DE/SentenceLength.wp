@@ -3,25 +3,25 @@ Satzlänge
 ===
 ¶Tippe etwas in die Chatleiste. Dann zählt das Programm die Zeichen deines Satzes.¶
 
-satz2: Plaudern()
-länge: Plaudern().Länge()
+satz2: Chat()
+länge: Chat().Länge()
 
 Gruppe(
 	Stapel()
 	[
-		Satzglied(
+		Phrase(
 			`*Hallo! Willkommen beim Rechner für die Satzlänge.*`
 			Ort: Ort(0m 1m)
 		)
-		Satzglied(
+		Phrase(
 			'Tippe etwas in die Nachrichtenleiste!'
 			Ort: Ort(0m -1m)
 		)
-		Satzglied(
+		Phrase(
 			'Dein Satz ist ' + (länge → '') + ' Zeichen lang!'
-			Ruhen: Reihenfolge.wiegen(Dauer: 3s)
+			Ruhen: Abfolge.wiegen(Dauer: 3s)
 			Ort: Ort(0m -3m)
 		)
-		Satzglied(satz2 Ort: Ort(0m -5m) wickeln: 25m)
+		Phrase(satz2 Ort: Ort(0m -5m) wickeln: 25m)
 	]
 )

@@ -60,15 +60,15 @@ diapositives2: [
 		)
 	]
 
-clé3: Clé()
+clé3: Touche()
 
 ¶L'endroit où en est le spectacle. Le @Scene garde la place, donc rien ici n'a besoin de compter.¶
 à3: Projecteur()
 
 ¶Chaque diapositive, dessinée. Cela ne dépend de rien qui change, donc c'est construit une seule fois plutôt qu'à chaque appui sur une touche — c'est pourquoi le compteur ci-dessous n'est pas ici.¶
-vues: diapositives2.traduire(
+vues: diapositives2.transformer(
 		ƒ(diapositive2•diapositive) Groupe(
-				Empiler('|' 0.4m)
+				Pile('|' 0.4m)
 				[
 					Phrase(diapositive2.émoji taille: 2m)
 					Phrase(
@@ -88,7 +88,7 @@ vues: diapositives2.traduire(
 
 ¶Le spectacle n'avance jamais tout seul ; les flèches le font passer d'une diapositive dans un sens ou dans l'autre. Il s'arrête à chaque bout pour nous, donc il n'y a rien à vérifier.¶
 Groupe(
-	Empiler('|' 0.4m)
+	Pile('|' 0.4m)
 	[
 		Diaporama(
 			vues

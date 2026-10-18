@@ -27,7 +27,7 @@ ikot2: 7
 narinig: Pagsasalita(limitasyon: 3).maliliitNaTitik()
 
 ¶Kung isa ba ang gayuma sa tatlong huling salitang sinabi. Ang paghahati muna base sa mga puwang ay nangangahulugang ang pagsabi ng spread ay hindi mabibilang na pagsabi ng pula.¶
-ƒ sinabi(alin•#)•? (' ' + narinig + ' ').aymay(' ' + mgaGayuma[alin] + ' ')
+ƒ sinabi(alin•#)•? (' ' + narinig + ' ').mayroon(' ' + mgaGayuma[alin] + ' ')
 
 langit: sinabi(pula2) ? Kulay.pula
 		sinabi(asul2) ? Kulay.asul
@@ -51,7 +51,7 @@ Entablado(
 						) ø
 				)
 				Parirala(
-					narinig = '' ? 'sabihin: ' + mgaGayuma.sumali(
+					narinig = '' ? 'sabihin: ' + mgaGayuma.pagdugtungin(
 								', '
 							) narinig
 					0.75m

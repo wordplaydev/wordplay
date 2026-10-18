@@ -7,14 +7,14 @@
 এইটো এটা বেলুন টেমপ্লেট, যিয়ে ৰং আৰু লেবেল এটা লয়, আৰু নিজকে কেনেকৈ দেখুৱাব লাগে জানে:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈 \label\` ৰং: color আকাৰ: 2m)
+•Balloon(color•ৰং label•'') (
+    ƒ show() বাক্যাংশ(`🎈 \label\` ৰং: color আকাৰ: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'আকাশ').show()
-    Balloon(Color(60% 80 0°) 'ৰোজ').show()
-    Balloon(Color(90% 80 90°) 'ৰ’দ দিয়া').show()
+গোট(শাৰী() [
+    Balloon(ৰং(80% 50 240°) 'আকাশ').show()
+    Balloon(ৰং(60% 80 0°) 'ৰোজ').show()
+    Balloon(ৰং(90% 80 90°) 'ৰ’দ দিয়া').show()
 ])
 \
 

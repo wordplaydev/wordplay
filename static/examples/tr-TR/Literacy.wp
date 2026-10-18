@@ -13,20 +13,20 @@ Sahne(
 		Grup(
 			Yığın()
 			[
-				İfadeetmek(
+				Yazı(
 					`ATAERKİLLİK ve OKURYAZARLIK`
 					dürüm: 25m
 					yüz: 'Monoton'
 				)
-				İfadeetmek(
+				Yazı(
 					`/Dünya genelinde, toplumsal cinsiyet şiddeti, çocuk evlilikleri ve okula gitmenin yasaklanması gibi ataerkil eşitsizlikler, kadınların okuryazarlık oranlarını haksız yere düşürüyor. Dünya Bankası verilerine göre, bu konuda en kötü 10 ülke şunlar…/`
 					dürüm: 25m
 				)
 				:üst.sıralanmış(ƒ(sıra) sıra.n2022•# ? sıra.n2022 0).altdizi(
 					1
 					10
-				).tercümeetmek(
-					ƒ(sıra2) İfadeetmek(
+				).dönüştür(
+					ƒ(sıra2) Yazı(
 							`/\sıra2.ülke\ \sıra2.n2022•# ? sıra2.n2022.Aşağıyuvarla(
 								) 0\%/`
 						)

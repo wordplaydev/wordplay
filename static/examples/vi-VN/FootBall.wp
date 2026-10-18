@@ -15,8 +15,8 @@ thủMônTầmVới: 4.5m
 thủMônTốcĐộ: 0.55m
 
 nhịp2: Thờigian(50ms)
-nhấn: Chìakhóa(xuống)
-thả: Chìakhóa(xuống: ⊥)
+nhấn: Phím(xuống)
+thả: Phím(xuống: ⊥)
 
 ¶Chiều mà chiếc găng tay đang di chuyển. Nhấn một mũi tên sẽ làm nó bắt đầu di chuyển vàthả cùng mũi tên đó sẽ làm nó dừng lại, vậy nên chiếc găng tay trượt trong suốt thời gian bạn giữphím đó. Với một khung thành rộng như vậy, mỗi lần nhấn chỉ dịch một bước sẽ không bao giờ tới kịp.¶
 trôi•#: 0 … ∆ nhấn | ∆ thả …
@@ -28,7 +28,7 @@ trôi•#: 0 … ∆ nhấn | ∆ thả …
 
 ¶Chiếc găng tay không di chuyển theo vật lý, vậy nên nó có thể được điều khiển trực tiếp. Nó dừng lạiở hai đầu tầm với của nó, vậy nên nó không bao giờ có thể trôi ra khỏi khung thành.¶
 thủMônY•#m: 0m … ∆ nhịp2 …
-		(thủMônY + (trôi × thủMônTốcĐộ)).limit((thủMônTầmVới · -1) thủMônTầmVới)
+		(thủMônY + (trôi × thủMônTốcĐộ)).giớiHạn((thủMônTầmVới · -1) thủMônTầmVới)
 
 ¶Một pha cứu bóng và một quả bàn thắng. Mỗi @Collision báo một lần chạm bắt đầu và một lần chạmkết thúc, vậy nên cả hai đều được ghép với một kiểm tra rằng đây là một lần bắt đầu: khôngcó nó, mỗi pha cứu bóng và mỗi quả bàn thắng sẽ được tính hai lần.¶
 găngTayVa: Vachạm('bóng' 'thủ môn')
@@ -127,7 +127,7 @@ hiệp•lượt: lượt(1 0 0 0 0 cúSútMới()) …
 đãĐá: (∆ nhịp2) & (hiệp.giaiĐoạn = 2) & (hiệp.tiếngTíchTắc = 0)
 
 ¶Được giữ yên trong khi chờ, bị đánh dọc theo đường nhắm của nó khi được sút, vàbị đẩy trở lại lên sân bởi một pha cứu bóng hoặc bởi mặt sau lưới — đó cũng là điều giữcho quả bóng không lăn lộn liên tục trong khung thành và làm rung lưới nhiềulần. Không khí làm chậm một quả bóng đang lăn, giống như cỏ, vậy nên các cú sút giảm dần.¶
-vịTríBóng: Cửđộng(
+vịTríBóng: ChuyểnĐộng(
 		VịTrí(
 			(hiệp.cúSút2.sx - bóngNửa)
 			(hiệp.cúSút2.sy - bóngNửa)
@@ -157,7 +157,7 @@ bóng: Cụmtừ(
 		0.6m
 		tên: 'bóng'
 		vịTrí: vịTríBóng
-		vấnđề: Vấnđề(0.45kg 0.7 0.02)
+		vậtChất: VậtChất(0.45kg 0.7 0.02)
 	)
 
 ¶Chiếc găng tay được theo dõi bằng tên ở trên, và đó là tất cả những gì cần để có mặt trong thếgiới vật lý, vậy nên nó không cần @Matter. Nó được đặt bởi chương trình chứ không phải bởivật lý, vậy nên nó đi xuyên qua quả bóng thay vì đánh vào nó; pha cứu bóng ở trên mới làthứ làm quả bóng bật trở lại. Các bước di chuyển của nó không được làm mượt, vậy nên nó nằm chính xác ở nơi bạnđiều khiển tới thay vì trượt dần theo sau bạn.¶
@@ -263,7 +263,7 @@ hướngDẫn: Cụmtừ(
 
 Viết theo cách này nói lên điều mà chỉ riêng các nốt nhạc không thể nói: mỗi âm thanh thuộc về một giai đoạn của vòng chơi, và kéo dài đúng bằng thời gian của giai đoạn đó. @Music.replay là cách viết khác, dành cho một âm thanh đáp lại một khoảnh khắc duy nhất thay vì một khoảng thời gian.¶
 âmThanhĐáBóng: ÂmNhạc(
-		BảnNhạc(
+		Bè(
 			[1]
 			nhạcCụ: NhạcCụ.trống
 			nhịp: 0.25beats
@@ -274,7 +274,7 @@ Viết theo cách này nói lên điều mà chỉ riêng các nốt nhạc khô
 	)
 
 âmThanhCảnPhá: ÂmNhạc(
-		BảnNhạc(
+		Bè(
 			[8 12 15]
 			nhạcCụ: NhạcCụ.chuông
 			nhịp: 0.2beats
@@ -285,7 +285,7 @@ Viết theo cách này nói lên điều mà chỉ riêng các nốt nhạc khô
 	)
 
 âmThanhGhiBàn: ÂmNhạc(
-		BảnNhạc(
+		Bè(
 			[5 4 2 1]
 			nhạcCụ: NhạcCụ.kènTrumpet
 			nhịp: 0.3beats

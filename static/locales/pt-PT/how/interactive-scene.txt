@@ -5,14 +5,14 @@ Criar uma série interativa de cenas
 Para isso, podemos usar um @Scene, mas colocando @Boolean valores entre o conteúdo que queremos mostrar. Por exemplo, aqui um clique avança para cada conteúdo seguinte, usando um @Button:
 
 \
-Scene([
-		Phrase('clica em mim')
-		Button()
-		Phrase('clica em mim outra vez' duração: 1s)
-		Button()
-		Phrase('a sério, clica em mim com toda a força!!' duração: 1s)
-		Button()
-		Phrase('já clicaste em mim?' duração: 1s)
+Cena([
+		Frase('clica em mim')
+		Botão()
+		Frase('clica em mim outra vez' duração: 1s)
+		Botão()
+		Frase('a sério, clica em mim com toda a força!!' duração: 1s)
+		Botão()
+		Frase('já clicaste em mim?' duração: 1s)
 	])
 \
 
@@ -23,26 +23,26 @@ Por exemplo, podíamos usar a nossa voz!
 Se gritarmos alto o suficiente, a cena avança:
 
 \
-Scene([
-		Phrase('está aí alguém?')
+Cena([
+		Frase('está aí alguém?')
 		Volume() > .5
-		Phrase("não te consigo ouvir, podes repetir?" duração: 1s)
+		Frase("não te consigo ouvir, podes repetir?" duração: 1s)
 		Volume() > .7
-		Phrase('mais alto, por favor...' duração: 1s)
+		Frase('mais alto, por favor...' duração: 1s)
 		Volume() > .9
-		Phrase('olá!' duração: 1s)
+		Frase('olá!' duração: 1s)
 	])
 \
 
  Quando cada @Phrase deve esperar pela mesma coisa, @Scene/until diz isso uma vez, em vez de o escrever entre cada uma. Isto faz o mesmo que o primeiro exemplo acima:
 
 \
-Scene([
-		Phrase('clica em mim')
-		Phrase('clica em mim outra vez' duração: 1s)
-		Phrase('a sério, clica em mim com toda a força!!' duração: 1s)
-		Phrase('já clicaste em mim?' duração: 1s)
-	] até: Button())
+Cena([
+		Frase('clica em mim')
+		Frase('clica em mim outra vez' duração: 1s)
+		Frase('a sério, clica em mim com toda a força!!' duração: 1s)
+		Frase('já clicaste em mim?' duração: 1s)
+	] até: Botão())
 \
 
  Escreva um @Boolean na lista quando as esperas forem / diferentes /, como no exemplo do grito, e use @Scene/until quando forem todas iguais.
@@ -53,11 +53,11 @@ Nota: @Scene/until espera / depois / de cada @Phrase ter tido o seu @Phrase/dura
 Se preferir que o @Scene nunca se movesse sozinho, e fosse só para onde o mandar, use @Scene/pause com @Scene/step:
 
 \
-key: Key()
-Scene([
-		Phrase('um')
-		Phrase('dois')
-		Phrase('três')
+key: Tecla()
+Cena([
+		Frase('um')
+		Frase('dois')
+		Frase('três')
 	] pausar passo: ∆ key ? ((key = 'Seta para a esquerda') ? -1 (key = 'Seta para a direita') ? 1 ø) ø)
 \
 

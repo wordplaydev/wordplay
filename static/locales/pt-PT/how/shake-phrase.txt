@@ -6,8 +6,8 @@ Há algumas formas de conseguir isso.
 Podemos usar @Phrase/offset com @Random e @Time Para que isso aconteça.
 
 \
-offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('Olá' desvio: Place(offset 0m))
+offset: 0m … ∆ Tempo() … Aleatório(-0.1m 0.1m)
+Frase('Olá' desvio: Local(offset 0m))
 \
 
  Isto cria um valor chamado \offset\ que muda para um novo valor aleatório sempre que o relógio avança.
@@ -16,11 +16,11 @@ Depois, usa esse deslocamento para mostrar o @Phrase deslocado por essa quantida
 Se quiséssemos controlar a vibração com mais precisão, poderíamos utilizar um @Sequence Para criar uma animação de tremor aleatório que se repete.
 
 \
-Phrase('Olá' descansar: Sequence({
-			0%: Pose(desvio: Place(Random(-.2m .2m)))
-			15%: Pose(desvio: Place(Random(-.2m .2m)))
-			60%: Pose(desvio: Place(Random(-.2m .2m)))
-			75%: Pose(desvio: Place(Random(-.2m .2m)))
+Frase('Olá' descansar: Sequência({
+			0%: Pose(desvio: Local(Aleatório(-.2m .2m)))
+			15%: Pose(desvio: Local(Aleatório(-.2m .2m)))
+			60%: Pose(desvio: Local(Aleatório(-.2m .2m)))
+			75%: Pose(desvio: Local(Aleatório(-.2m .2m)))
 		} 0.1s))
 \
 

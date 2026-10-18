@@ -8,10 +8,10 @@ Momentele sunt lucrurile din listă, iar o @Boolean între ele este locul unde @
 \
 guess: Chat()
 right: guess = 'pisică'
-Scene([
-	Phrase('Ghicește animalul!' durată: 2s)
+Scenă([
+	Fraza('Ghicește animalul!' durată: 2s)
 	∆ guess
-	Phrase(right ? 'Da!' 'Nu!' durată: 2s)
+	Fraza(right ? 'Da!' 'Nu!' durată: 2s)
 ] buclă: ~right)
 \
 
@@ -25,14 +25,14 @@ Pentru a afla unde se află runda, întreabă @Spotlight.
 
 \
 guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
-		Phrase('Ghicește animalul!' durată: 2s)
+at: Reflector()
+Estradă([
+	Scenă([
+		Fraza('Ghicește animalul!' durată: 2s)
 		∆ guess
-		Phrase('Nu!' durată: 2s)
+		Fraza('Nu!' durată: 2s)
 	] buclă: ⊤)
-	Phrase(at.waiting ? 'scrie o ghicire' `rundă \at.lap + 1\` dimensiune: 0.4m loc: Place(0m -2m))
+	Fraza(at.așteaptă ? 'scrie o ghicire' `rundă \at.lap + 1\` dimensiune: 0.4m loc: Loc(0m -2m))
 ])
 \
 

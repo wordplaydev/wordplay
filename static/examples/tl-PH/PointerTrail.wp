@@ -11,7 +11,7 @@ Entablado(
 				'●'
 				kulay: Kulay(75% 100 indeks2 × 40°)
 				kalabuan: indeks2 ÷ kasaysayan.haba()
-				lugar: Lugar(batik.x batik.taon)
+				lugar: Lugar(batik.x batik.y)
 			)
 	)
 )

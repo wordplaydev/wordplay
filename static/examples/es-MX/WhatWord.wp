@@ -156,7 +156,7 @@ músicaDelAcertijo: Música(
 			)
 			Pista(
 				[1 ø ø ø 1 ø ø ø]
-				instrumento: Instrumento.tambores
+				instrumento: Instrumento.batería
 				pulso: 1beats
 				volumen: 20%
 			)
@@ -190,7 +190,7 @@ canciónDeVictoria: Música(
 			)
 			Pista(
 				[1 ø 3 ø 2 ø 3 ø]
-				instrumento: Instrumento.tambores
+				instrumento: Instrumento.batería
 				pulso: 1beats
 				volumen: 30%
 			)
@@ -224,7 +224,7 @@ canciónDeDerrota: Música(
 			)
 			Pista(
 				[1 ø ø ø ø ø ø ø]
-				instrumento: Instrumento.tambores
+				instrumento: Instrumento.batería
 				pulso: 1beats
 				volumen: 20%
 			)

@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['ねこ' 'いぬ'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['ねこ' 'いぬ'] 0) … state.secrets.ふくむ(チャット()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("あなたの勝ち！")]
-        [ Group(Stack() [ Phrase("わたしの秘密の言葉を当ててみて") Phrase(`\state.secrets.length() - state.points\ 個の秘密`)])]
+ステージ(
+    state.points = state.secrets.長さ() ? 
+        [ フレーズ("あなたの勝ち！")]
+        [ グループ(積み重ね() [ フレーズ("わたしの秘密の言葉を当ててみて") フレーズ(`\state.secrets.length() - state.points\ 個の秘密`)])]
 )
 \
 

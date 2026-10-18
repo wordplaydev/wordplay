@@ -9,7 +9,7 @@ renk2: Renk(0% 0 0°) … ∆ Düğme() … Renk(
 			Rastgele() × 360°
 		)
 
-İfadeetmek(
+Yazı(
 	'wowie'
 	isim: 'kedicik'
 	boyut: 6m

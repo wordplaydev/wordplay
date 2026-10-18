@@ -27,7 +27,7 @@ single run for the speech bubble to wrap however it likes.¶/en
 ताकि बातचीत का बुलबुला उन्हें अपनी तरह से लपेट सके।¶/hi
 ƒ przepływ(wersy•[`…`])
 	wersy.długość() < 2 ? wersy[1]
-		wersy.podsekwencja(2).łączny(
+		wersy.podsekwencja(2).połącz(
 			wersy[1]
 			ƒ(przyspieszenie następny) przyspieszenie + `` + następny
 		)
@@ -147,33 +147,33 @@ stream to check collisions.¶/en
 टक्कर-वाला धारा को टक्कर मिलने के लिए।¶/hi
 Scena(
 	[
-		Wyrażenie(
+		Fraza(
 			'🍂'
 			nazwa: "Virginia"/en,"वर्जिनिया"/hi
 			miejsce: Miejsce(-3m 0m)
 			materiał: Materiał()
 		)
-		Wyrażenie(
+		Fraza(
 			`@ellipsis/CuteDuckie`
 			nazwa: "California"/en,"कॅलिफ़ोर्निया"/hi
 			miejsce: Miejsce(-10m 0m)
 			materiał: Materiał()
 			rozmiar: 1.4m
 		)
-		Wyrażenie(
+		Fraza(
 			'🏕'
 			nazwa: "India"/en,"भारत"/hi
 			miejsce: Miejsce(5m -6m)
 			materiał: Materiał()
 		)
-		Wyrażenie(
+		Fraza(
 			`@ellipsis/GoDawgs`
 			nazwa: "Washington"/en,"वाशिंटन"/hi
 			miejsce: Miejsce(-10m 6m)
 			materiał: Materiał()
 			rozmiar: 1.4m
 		)
-		Wyrażenie(
+		Fraza(
 			'🐤'
 			nazwa: "me"/en,"मैं"/hi
 			miejsce: where

@@ -60,10 +60,10 @@ diapositivos: [
 		)
 	]
 
-chave2: Chave()
+chave2: Tecla()
 
 ¶Onde está a apresentação. O @Scene guarda o lugar, por isso não há nada aqui que precise de ser contado.¶
-em: Spotlight()
+em: Destaque()
 
 ¶Cada diapositivo, desenhado. Isto não depende de nada que mude, por isso é construído uma vez — e não a cada tecla premida — e é por isso que o contador abaixo não está aqui.¶
 visualizações: diapositivos.traduzir(

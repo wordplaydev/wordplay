@@ -7,42 +7,42 @@ Por ejemplo, imagina que quisiéramos animar la rima infantil corta, "Jack be Ni
 Podríamos hacer un @Scene que tenga cada línea como una @Phrase, y al establecer la @Phrase/duration de cada línea, la @Scene avanzaría cuando cada frase termine.
 
 \
-Scene([
-  Phrase('Jack be nimble' duración: 1s)
-  Phrase('Jack be quick' duración: 1s)
-  Phrase('Jack jump over the candle stick' duración: 1s)
+Escena([
+  Frase('Jack be nimble' duración: 1s)
+  Frase('Jack be quick' duración: 1s)
+  Frase('Jack jump over the candle stick' duración: 1s)
 ])
 \
 
 @Scene esperará también a que un @Sequence termine. ¡Hagamos que la línea de la vela salte!
 
 \
-Scene([
-		Phrase('Jack be nimble' duración: 1s)
-		Phrase('Jack be quick' duración: 1s)
-		Phrase('Jack jump over the candle stick' entrando: Sequence.bounce(duración: 1s))
+Escena([
+		Frase('Jack be nimble' duración: 1s)
+		Frase('Jack be quick' duración: 1s)
+		Frase('Jack jump over the candle stick' entrando: Secuencia.rebote(duración: 1s))
 	])
 \
 
 @Scene también puede recibir una @Group de texto, y esperará a que todo su contenido termine de animarse.
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack be nimble')
-		  Phrase('Jack be quick')
+Escena([
+		Grupo(Pila() [
+      Frase('Jack be nimble')
+		  Frase('Jack be quick')
     ] duración: 2s)
-		Phrase('Jack jump over the candle stick' entrando: Sequence.bounce(duración: 1s))
+		Frase('Jack jump over the candle stick' entrando: Secuencia.rebote(duración: 1s))
 	])
 \
 
  A veces una rima debe seguir. @Scene/loop trae de vuelta el @Scene a su primer @Phrase una vez que el último termina, así que se dice a sí mismo una y otra vez.
 
 \
-Scene([
-		Phrase('Jack be nimble' duración: 1s)
-		Phrase('Jack be quick' duración: 1s)
-		Phrase('Jack jump over the candle stick' duración: 1s)
+Escena([
+		Frase('Jack be nimble' duración: 1s)
+		Frase('Jack be quick' duración: 1s)
+		Frase('Jack jump over the candle stick' duración: 1s)
 	] bucle: ⊤)
 \
 

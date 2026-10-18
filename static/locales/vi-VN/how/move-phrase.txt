@@ -5,9 +5,9 @@ Làm cho nhân vật có thể di chuyển được
 Hãy làm điều này, chúng ta có thể kết hợp. @Phrase với @Placement:
 
 \
-Stage(
-	[Phrase('làm tôi xúc động' vịTrí: Placement())]
-	vịTrí: Place(0m 0m -10m)
+Sânkhấu(
+	[Cụmtừ('làm tôi xúc động' vịTrí: ĐặtVịTrí())]
+	vịTrí: VịTrí(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Ví dụ, một @Stage có một @Place quyết định camera của nó đang h
 Hãy thử đặt vị trí của một @Placement cho một @Stage, rồi xem điều gì xảy ra.
 
 \
-Stage(
+Sânkhấu(
   [
-	Phrase('🐈' vịTrí: Place(-2m 2m))
-	Phrase('🐈' vịTrí: Place(2m -2m))
-	Phrase('🐈' vịTrí: Place(-1m 3m))
+	Cụmtừ('🐈' vịTrí: VịTrí(-2m 2m))
+	Cụmtừ('🐈' vịTrí: VịTrí(2m -2m))
+	Cụmtừ('🐈' vịTrí: VịTrí(-1m 3m))
   ]
-  vịTrí: Placement(Place(0m 0m -10m))
+  vịTrí: ĐặtVịTrí(VịTrí(0m 0m -10m))
 )
 \
 

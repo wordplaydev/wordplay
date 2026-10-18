@@ -6,12 +6,12 @@ En @Scene kan vara hela den omgången, och @Scene/loop är det som för den till
 Ögonblicken är sakerna i listan, och en @Boolean mellan dem är där @Scene väntar på spelaren.
 
 \
-guess: Chat()
+guess: Chatt()
 right: guess = 'katt'
-Scene([
-	Phrase('Gissa djuret!' varaktighet: 2s)
+Scen([
+	Fras('Gissa djuret!' varaktighet: 2s)
 	∆ guess
-	Phrase(right ? 'Ja!' 'Nej!' varaktighet: 2s)
+	Fras(right ? 'Ja!' 'Nej!' varaktighet: 2s)
 ] upprepa: ~right)
 \
 
@@ -24,15 +24,15 @@ För att veta var omgången är, fråga @Spotlight.
 Den talar om vilken @Phrase som visas, hur många det finns, hur många gånger @Scene har kommit runt igen, och om den väntar på någon just nu.
 
 \
-guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
-		Phrase('Gissa djuret!' varaktighet: 2s)
+guess: Chatt()
+at: Strålkastare()
+Estrad([
+	Scen([
+		Fras('Gissa djuret!' varaktighet: 2s)
 		∆ guess
-		Phrase('Nej!' varaktighet: 2s)
+		Fras('Nej!' varaktighet: 2s)
 	] upprepa: ⊤)
-	Phrase(at.waiting ? 'skriv en gissning' `omgång \at.lap + 1\` storlek: 0.4m plats: Place(0m -2m))
+	Fras(at.väntar ? 'skriv en gissning' `omgång \at.lap + 1\` storlek: 0.4m plats: Plats(0m -2m))
 ])
 \
 

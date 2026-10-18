@@ -14,7 +14,7 @@ dernier2•['']:
 
 Groupe(
 	Grille(3 3 1m 1m)
-	dernier2.traduire(
+	dernier2.transformer(
 		ƒ(plat•"" indice2•#)
 			Phrase(
 				plat

@@ -7,7 +7,7 @@ Chúng ta có thể làm điều đó với đầu vào @Pointer .
 Nếu chúng ta dùng @Place đó làm @Phrase của một \place\, nhân vật sẽ đi tới bất cứ nơi nào ta chỉ tới.
 
 \
-Stage([Phrase('🐈' vịTrí: Pointer())] vịTrí: Place(0m 0m -10m))
+Sânkhấu([Cụmtừ('🐈' vịTrí: Contrỏ())] vịTrí: VịTrí(0m 0m -10m))
 \
 
  Vậy thôi! Di chuyển chuột hoặc kéo ngón tay, và xem con mèo đi theo.
@@ -16,7 +16,7 @@ Bạn có thể làm những điều thú vị hơn bằng cách lấy ra \x\ v�
 Đây là một chú vịt luôn nổi lơ lửng cách con trỏ một mét:
 
 \
-Stage([Phrase('🦆' vịTrí: Place(Pointer().x Pointer().y + 1m))] vịTrí: Place(0m 0m -10m))
+Sânkhấu([Cụmtừ('🦆' vịTrí: VịTrí(Contrỏ().x Contrỏ().y + 1m))] vịTrí: VịTrí(0m 0m -10m))
 \
 
 move-phrase, count-with-time

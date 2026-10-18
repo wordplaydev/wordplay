@@ -19,20 +19,20 @@ notalar2: [
 	]
 notaOf: ƒ(hz•#hz) hz > 0hz ? notalar2[(((((12 × (hz ÷ 440hz).log(
 										2
-									)).yuvarlak(
+									)).yuvarla(
 							)) % 12) + 12) % 12) + 1] '·'
 yumuşak: ƒ(sinyal•…#hz) (
 			duyulmuş: (←← 8 sinyal).olmadan(0hz)
-			duyulmuş.average() ?? 0hz
+			duyulmuş.ortalama() ?? 0hz
 		)
-perde2: Saha()
+perde2: Perde()
 Sahne(
 	[
 		Grup(
 			Yığın()
 			[
-				İfadeetmek('gürültülü' renk: Renk(60% 90 30°))
-				İfadeetmek(
+				Yazı('gürültülü' renk: Renk(60% 90 30°))
+				Yazı(
 					notaOf(perde2)
 					boyut: 6m
 					renk: Renk(60% 90 30°)
@@ -43,8 +43,8 @@ Sahne(
 		Grup(
 			Yığın()
 			[
-				İfadeetmek('yumuşak' renk: Renk(70% 90 240°))
-				İfadeetmek(
+				Yazı('yumuşak' renk: Renk(70% 90 240°))
+				Yazı(
 					notaOf(yumuşak(perde2))
 					boyut: 6m
 					renk: Renk(70% 90 240°)

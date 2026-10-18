@@ -4,10 +4,10 @@ Nếu một @Row là viết tắt của "side by side" (cạnh nhau), sau đó l
 @Stack Mỗi ký tự được đặt bên dưới ký tự trước đó, giống như một tòa tháp.
 
 \
-Group(Stack() [
-    Phrase('một')
-    Phrase('hai')
-    Phrase('ba')
+Nhóm(XếpDọc() [
+    Cụmtừ('một')
+    Cụmtừ('hai')
+    Cụmtừ('ba')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Stack() [
 Hãy thử xếp mọi thứ thẳng hàng theo cạnh trái:
 
 \
-Group(Stack('<' 0.25m) [
-    Phrase('🐣 bé nhỏ')
-    Phrase('🐥 cỡ trung bình')
-    Phrase('🐔 lớn')
+Nhóm(XếpDọc('<' 0.25m) [
+    Cụmtừ('🐣 bé nhỏ')
+    Cụmtừ('🐥 cỡ trung bình')
+    Cụmtừ('🐔 lớn')
 ])
 \
 

@@ -14,9 +14,9 @@ enYeni•['']:
 
 Grup(
 	Izgara(5 5 0.25m 1m 1m)
-	enYeni.tercümeetmek(
+	enYeni.dönüştür(
 		ƒ(harf•"" dizin2•#)
-			İfadeetmek(
+			Yazı(
 				harf
 				isim: "\harf\-\dizin2\"
 				giriş: Poz(opaklık: 0 ölçek: 2)

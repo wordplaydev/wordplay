@@ -7,7 +7,7 @@
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+சொற்றொடர்(emojis.சீரற்ற())
 \
 
  நீங்கள் இதையும் பயன்படுத்தலாம் @Random இரண்டு எண்களுடன், இது அவற்றுக்கு இடையே ஒரு முழு எண்ணைத் தேர்ந்தெடுக்கும்.
@@ -15,8 +15,8 @@ Phrase(emojis.random())
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)
+pick: emojis[1] … ∆ நேரம்(1000ms) … emojis[சீரற்ற(1 emojis.நீளம்())]
+சொற்றொடர்(pick)
 \
 
  ஒவ்வொரு டிக் @Time, அந்த @Reaction ஒரு புதிய ஆச்சரியத்தைத் தேர்ந்தெடுக்கிறது.

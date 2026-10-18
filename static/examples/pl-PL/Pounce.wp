@@ -29,7 +29,7 @@ miejsceKotka: pozycjaKota(5m 1) … ∆ klucz …
 				)
 				miejsceKotka
 
-kotek: Wyrażenie(
+kotek: Fraza(
 		"🐈"
 		twarz: "Noto Color Emoji"
 		nazwa: 'kotek'
@@ -64,7 +64,7 @@ miejscePiłki: Ruch(
 			)
 	)
 
-piłka: Wyrażenie(
+piłka: Fraza(
 		"🧶"
 		nazwa: 'piłka'
 		miejsce: miejscePiłki
@@ -79,7 +79,7 @@ Scena(
 		Kształt(Prostokąt(-10m 10m 10m 11m))
 		piłka
 		kotek
-		Wyrażenie(
+		Fraza(
 			'naciśnij ← →, aby zagrać!'
 			miejsce: Miejsce(-4m -2m)
 			kolor: Kolor.biały

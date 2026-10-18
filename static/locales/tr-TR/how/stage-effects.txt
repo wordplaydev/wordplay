@@ -7,7 +7,7 @@ Aynısını şuna vererek yapabiliriz: @Stage bir liste: @Effect.
 
 \
 Sahne(
-	[İfadeetmek('🐠') İfadeetmek('🌿' yer: Yer(1m -1m))]
+	[Yazı('🐠') Yazı('🌿' yer: Yer(1m -1m))]
 	efektler: [Dalga(0.15m) Renklendirme(Renk(55% 45 220°) 70%) Pus(40% Renk(70% 30 200°))]
 )
 \
@@ -20,7 +20,7 @@ Birleştirebileceğin on efekt var: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanli
 
 \
 Sahne(
-	[İfadeetmek('THE END')]
+	[Yazı('THE END')]
 	efektler: [RenkAyarı(karşıtlık: 130% doygunluk: 0%) Hasar(70% 50%) Kumlanma(25%) Titreme(15% 2) KenarKarartma(60%)]
 )
 \
@@ -29,7 +29,7 @@ Sahne(
 
 \
 Sahne(
-	[İfadeetmek('channel 3')]
+	[Yazı('channel 3')]
 	efektler: [TaramaÇizgileri(40% hız: 1) Kumlanma(50% boyut: 2) Titreme(20%)]
 )
 \
@@ -44,17 +44,17 @@ Girdileri, görünümün kendi ayarları olur. Bu görünüm, derine indikçe da
 	Bulanıklık(0.03m · depth)
 ]
 
-Sahne([İfadeetmek('🐠')] efektler: underwater(80%))
+Sahne([Yazı('🐠')] efektler: underwater(80%))
 \
 
  Bir görünüm, oyunun durumuna göre de değişebilir.
 Burada oyuncunun yalnızca bir canı kaldığında sahne bulanıklaşır ve kenarları kararır; daha fazla canı olunca yeniden netleşir.
 
 \
-lives: 3 … ∆ Anahtar() … lives - 1
+lives: 3 … ∆ Tuş() … lives - 1
 
 Sahne(
-	[İfadeetmek(lives → '')]
+	[Yazı(lives → '')]
 	efektler: lives < 2 ? [Bulanıklık(0.05m) KenarKarartma(70% Renk(30% 80 30°))] []
 )
 \
@@ -64,7 +64,7 @@ Sahne(
 Tüm sahneyi sallamak, örneğin deprem gibi, hiç de bir efekt değildir: bir @Stage diğer çıktılar gibi hareket edebilir, bu yüzden ona bir @Sequence.
 
 \
-Sahne([İfadeetmek('🏠')] dinlenme: Sekans.sallamak(0.5s saymak: 4x))
+Sahne([Yazı('🏠')] dinlenme: Sekans.sallamak(0.5s saymak: 4x))
 \
 
  Bazı efektler hızlı hareket eder. Biri cihazından hareketi azaltmasını istediğinde, tüm efektler yerinde durur.

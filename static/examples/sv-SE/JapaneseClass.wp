@@ -21,18 +21,18 @@ meningar: [
 sägMeningar: [5 7 9]
 
 ¶Var berättelsen befinner sig. @Scene håller reda på platsen, så inget här behöver räknas.¶
-vid: Spotlight()
+vid: Strålkastare()
 
 ¶Gå vidare när mikrofonen går över .6 på en talad mening, och när en knapp eller en tangent säger till på alla andra.¶
 gåVidare: sägMeningar.har(vid.index) ?
 		Volym() > .6
-		∆ Knapp() | ∆ Nyckel()
+		∆ Knapp() | ∆ Tangent()
 
 ¶@Scene väntar på /advance/ efter varje mening, och stannar på den sista.¶
-Etapp(
+Estrad(
 	[
 		Scen(
-			meningar.översätta(ƒ(mening) Fras(mening sjal: 10m))
+			meningar.omvandla(ƒ(mening) Fras(mening sjal: 10m))
 			tills: gåVidare
 		)
 	]

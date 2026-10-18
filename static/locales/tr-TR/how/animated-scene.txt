@@ -7,42 +7,42 @@ Bunu yapmak için, bir sıra göstermek üzere @Scene ile @Phrase birlikte kulla
 Her satırı bir @Scene olarak içeren bir @Phrase oluşturabiliriz. Her satırın @Phrase/duration unu ayarlayarak, @Scene her cümle tamamlandığında ilerler.
 
 \
-Scene([
-  Phrase('Jack çevik olsun' süre: 1s)
-  Phrase('Jack hızlı olsun' süre: 1s)
-  Phrase('Jack mum direğinin üzerinden atlasın' süre: 1s)
+Gösteri([
+  Yazı('Jack çevik olsun' süre: 1s)
+  Yazı('Jack hızlı olsun' süre: 1s)
+  Yazı('Jack mum direğinin üzerinden atlasın' süre: 1s)
 ])
 \
 
 @Scene ayrıca bir @Sequence 'in bitmesini de bekleyecek. Hadi mum satırını zıplatalım!
 
 \
-Scene([
-		Phrase('Jack çevik olsun' süre: 1s)
-		Phrase('Jack hızlı olsun' süre: 1s)
-		Phrase('Jack mum direğinin üzerinden atlasın' giriş: Sequence.bounce(süre: 1s))
+Gösteri([
+		Yazı('Jack çevik olsun' süre: 1s)
+		Yazı('Jack hızlı olsun' süre: 1s)
+		Yazı('Jack mum direğinin üzerinden atlasın' giriş: Sekans.sıçrama(süre: 1s))
 	])
 \
 
 @Scene ayrıca bir metin @Group 'ini de alabilir, ve içindeki tüm içeriğin hareketlenmesinin bitmesini bekler.
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack çevik olsun')
-		  Phrase('Jack hızlı olsun')
+Gösteri([
+		Grup(Yığın() [
+      Yazı('Jack çevik olsun')
+		  Yazı('Jack hızlı olsun')
     ] süre: 2s)
-		Phrase('Jack mum direğinin üzerinden atlasın' giriş: Sequence.bounce(süre: 1s))
+		Yazı('Jack mum direğinin üzerinden atlasın' giriş: Sekans.sıçrama(süre: 1s))
 	])
 \
 
  Bazen bir şarkı devam etmelidir. @Scene/loop son @Scene 'i bittiğinde @Phrase 'i tekrar ilk haline döndürür, böylece kendini tekrar tekrar söyler.
 
 \
-Scene([
-		Phrase('Jack çevik olsun' süre: 1s)
-		Phrase('Jack hızlı olsun' süre: 1s)
-		Phrase('Jack mum direğinin üzerinden atlasın' süre: 1s)
+Gösteri([
+		Yazı('Jack çevik olsun' süre: 1s)
+		Yazı('Jack hızlı olsun' süre: 1s)
+		Yazı('Jack mum direğinin üzerinden atlasın' süre: 1s)
 	] döngü: ⊤)
 \
 

@@ -42,7 +42,7 @@ tâmTrạng: đãNói(vui) ? "😄"
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp('|' 1m)
+			XếpDọc('|' 1m)
 			[
 				Cụmtừ(
 					tâmTrạng
@@ -50,7 +50,7 @@ Sânkhấu(
 					nghỉngơi: đãNói(xoay2) ? Sựliêntiếp.quay() ø
 				)
 				Cụmtừ(
-					đãNghe = '' ? 'nói: ' + câuThầnChú.thamgia(', ') đãNghe
+					đãNghe = '' ? 'nói: ' + câuThầnChú.nối(', ') đãNghe
 					0.75m
 				)
 			]

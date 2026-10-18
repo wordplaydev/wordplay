@@ -135,7 +135,7 @@ the keyboard arrows or clicking the stage.
 We use it to place the character.¶/en
 ¶यह धारा बीच में शुरु होता है, लेकिन कीबोर्ड या माउस के साथ बदल सकते हैं।
 हम इस के साथ character को मंच पर रखते हैं।¶/hi
-where/en,किधर/hi: வேலைவாய்ப்பு(இடம்(0m 0m))
+where/en,किधर/hi: இடமளிப்பு(இடம்(0m 0m))
 
 ¶This takes all of the content above and renders it,
 putting each landmark on stage in a particular location
@@ -151,33 +151,33 @@ stream to check collisions.¶/en
 			'🍂'
 			பெயர்: "Virginia"/en,"वर्जिनिया"/hi
 			இடம்: இடம்(-3m 0m)
-			விஷயம்: விஷயம்()
+			பருப்பொருள்: பருப்பொருள்()
 		)
 		சொற்றொடர்(
 			`@ellipsis/CuteDuckie`
 			பெயர்: "California"/en,"कॅलिफ़ोर्निया"/hi
 			இடம்: இடம்(-10m 0m)
-			விஷயம்: விஷயம்()
+			பருப்பொருள்: பருப்பொருள்()
 			அளவு: 1.4m
 		)
 		சொற்றொடர்(
 			'🏕'
 			பெயர்: "India"/en,"भारत"/hi
 			இடம்: இடம்(5m -6m)
-			விஷயம்: விஷயம்()
+			பருப்பொருள்: பருப்பொருள்()
 		)
 		சொற்றொடர்(
 			`@ellipsis/GoDawgs`
 			பெயர்: "Washington"/en,"वाशिंटन"/hi
 			இடம்: இடம்(-10m 6m)
-			விஷயம்: விஷயம்()
+			பருப்பொருள்: பருப்பொருள்()
 			அளவு: 1.4m
 		)
 		சொற்றொடர்(
 			'🐤'
 			பெயர்: "me"/en,"मैं"/hi
 			இடம்: where
-			விஷயம்: விஷயம்()
+			பருப்பொருள்: பருப்பொருள்()
 			நகரும்: வரிசைமுறை(
 				{
 					0%: போஸ்()

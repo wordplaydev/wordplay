@@ -24,7 +24,7 @@ operator: ø … opicked … ((choice ÷ '')[-1])
 
 ¶Ecrã para selecionar o primeiro número¶
 numbers1: Grupo(
-		Rede(2 5)
+		Grelha(2 5)
 		[
 			Frase("0⃣" selecionável nome: 'num1_0')
 			Frase("1⃣" selecionável nome: 'num1_1')
@@ -41,7 +41,7 @@ numbers1: Grupo(
 
 ¶Ecrã para selecionar o segundo número¶
 numbers2: Grupo(
-		Rede(2 5)
+		Grelha(2 5)
 		[
 			Frase("0⃣" selecionável nome: 'num2_0')
 			Frase("1⃣" selecionável nome: 'num2_1')
@@ -58,7 +58,7 @@ numbers2: Grupo(
 
 ¶Ecrã para selecionar o operador¶
 operators: Grupo(
-		Rede(2 2)
+		Grelha(2 2)
 		[
 			Frase("➕" selecionável nome: 'op_a')
 			Frase("➖" selecionável nome: 'op_s')

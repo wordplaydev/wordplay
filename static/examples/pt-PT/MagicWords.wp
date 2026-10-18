@@ -39,7 +39,7 @@ humor: dito(feliz) ? "😄"
 			dito(sonolento) ? "😴"
 				"😐"
 
-Fase(
+Palco(
 	[
 		Grupo(
 			Monte('|' 1m)

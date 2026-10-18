@@ -14,7 +14,7 @@ Melodi, dansın ilk @Pose öğesine bağlıdır. Bir @Pose bir @Music taşıyabi
 		isim: 'çıngırak'
 	)
 
-İfadeetmek(
+Yazı(
 	'🎄'
 	dinlenme: Sekans(
 		{

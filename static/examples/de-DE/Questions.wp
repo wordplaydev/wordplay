@@ -5,7 +5,7 @@ Fragen
 
 •frage(id2•"" vx•#m/s vy•#m/s va•#°/s)
 
-gedrückt: ∆ Schlüssel()
+gedrückt: ∆ Tastaturtaste()
 zählung•#: 0 … gedrückt … zählung + 1
 fragen•[frage]: [] … gedrückt … [
 			:fragen
@@ -19,12 +19,12 @@ fragen•[frage]: [] … gedrückt … [
 
 Bühne(
 	[
-		Satzglied('👨‍👨‍👧‍👦' Ort: Ort(0m 0m) gesicht: "Noto Emoji")
+		Phrase('👨‍👨‍👧‍👦' Ort: Ort(0m 0m) gesicht: "Noto Emoji")
 		Gestalt(Rechteck(-5m 0m 25m -1m))
 		:fragen.übersetzen(
 			ƒ(f2•frage index2•#) (
 					starten: gedrückt & (index2 = fragen.Länge())
-					Satzglied(
+					Phrase(
 						'F'
 						Name: f2.id2
 						Ort: Bewegung(
@@ -34,7 +34,7 @@ Bühne(
 								f2.va
 							)
 						)
-						Gegenstand: Gegenstand()
+						Material: Material()
 						Ruhen: Pose(
 							Opazität: starten ? 0% 100%
 						)

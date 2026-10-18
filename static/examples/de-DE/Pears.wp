@@ -4,71 +4,71 @@ Birnen
 ¶Das ist eine interaktive Kurzgeschichte. Sie hat mehrere einzelne Szenen und wechselt zwischen ihnen, je nachdem, was gemacht wird, zum Beispiel bei Klicks, Zusammenstößen und anderen Aktionen. Ein Teil des Spaßes an der Geschichte ist es, herauszufinden, welche Aktionen die Geschichte weiterbringen.¶
 
 exposition: [
-		Satzglied(`Mein Papa wollte gehen.` Ort: Ort(-9m 0m))
+		Phrase(`Mein Papa wollte gehen.` Ort: Ort(-9m 0m))
 	]
 
 konflikt: [
-		Satzglied(`„Mama“, wir müssen los.` Ort: Ort(-8m 7m))
-		Satzglied(
+		Phrase(`„Mama“, wir müssen los.` Ort: Ort(-8m 7m))
+		Phrase(
 			`/„Nimm das mit nach Hause.“/`
 			Ort: Ort(1m 4m)
 		)
-		Satzglied(
+		Phrase(
 			`„Mama, wir wollen nichts!“`
 			Ort: Ort(-8m 1m)
 		)
-		Satzglied(
+		Phrase(
 			`„Nimm das mit nach Hause!“`
 			Größe: 2m
 			Ort: Ort(-6m -4m)
-			Ruhen: Reihenfolge.schütteln()
+			Ruhen: Abfolge.schütteln()
 		)
 	]
 
 steigendeHandlung1: [
-		Satzglied(
+		Phrase(
 			`Meine 炮炮👵🏽 ging in den Garten hinter dem Haus`
 			Ort: Ort(-9m 7m)
 		)
-		Satzglied(`Ich folgte ihr neugierig` Ort: Ort(-6m 4m))
-		Satzglied(
+		Phrase(`Ich folgte ihr neugierig` Ort: Ort(-6m 4m))
+		Phrase(
 			`👵🏽`
 			Name: 'Paupau'
 			Größe: 2m
-			Gegenstand: Gegenstand()
+			Material: Material()
 			Ort: Ort(6m -6m)
 			sprechblase: `/„沙梨🍐, nimm das mit nach Hause!“/`
 		)
-		Satzglied(
+		Phrase(
 			`👧🏻`
 			Name: 'ich'
 			Größe: 1m
-			Gegenstand: Gegenstand()
+			Material: Material()
 			Ort: Platzierung(Ort(-8m -6m))
 		)
 	]
 
 steigendeHandlung2: [
-		Satzglied(
+		Phrase(
 			`Sie blieb an einem kleinen Baum stehen.`
 			Ort: Ort(-9m 6m)
 		)
-		Satzglied(
+		Phrase(
 			`Daran hingen Dutzende leuchtend gelbe 沙梨`
 			Ort: Ort(-9m 1m)
 			wickeln: 10m
 		)
-		Satzglied(
+		Phrase(
 			`"Mama, wir wollen keine Birnen."`
 			Größe: .75m
 			Ort: Ort(-4m 0m)
 		)
-		Satzglied(
+		Phrase(
 			`/Ich wollte eine Birne./`
 			Größe: 2m
 			Ort: Ort(-8m -3m)
 		)
-		Satzglied(
+		Phrase(
 			"🍐"
 			Größe: 2m
 			Ort: Ort(-1m -7m)
@@ -82,21 +82,21 @@ orte: (6 → []).übersetzen(
 		ƒ() Ort(Zufällig(-2m 2m) Zufällig(-3m -5m))
 	)
 höhepunkt: [
-		Satzglied(
+		Phrase(
 			`Sie kniete sich in die Erde.`
 			Ort: Ort(-9m 6m)
 		)
-		Satzglied(`Nahm ein Messer` Ort: Ort(-9m 4m))
-		Satzglied(
+		Phrase(`Nahm ein Messer` Ort: Ort(-9m 4m))
+		Phrase(
 			`Und schnitt vorsichtig sechs ab`
 			Ort: Ort(-9m 2m)
 		)
-		Satzglied(
+		Phrase(
 			`Ließ sie in ihren Korb darunter fallen`
 			Ort: Ort(-9m 0m)
 		)
-		Satzglied("🧺" Größe: 4m Ort: Ort(-2m -12m))
-		Satzglied(
+		Phrase("🧺" Größe: 4m Ort: Ort(-2m -12m))
+		Phrase(
 			"🌳"
 			Name: "tree"
 			Größe: 5m
@@ -105,27 +105,27 @@ höhepunkt: [
 		)
 		:orte.übersetzen(
 			ƒ(platzieren index2)
-				Satzglied(
+				Phrase(
 					"🍐"
 					Name: "pear\index2\"
 					Ort: Auswahl() = 'tree' ? Bewegung(platzieren) platzieren
 				)
 		)
-		Satzglied("🔪" Ort: Zeiger())
+		Phrase("🔪" Ort: Zeiger())
 	]
 
 auflösung: [
-		Satzglied(`Sie trug sie zu mir` Ort: Ort(-9m 6m))
-		Satzglied(
+		Phrase(`Sie trug sie zu mir` Ort: Ort(-9m 6m))
+		Phrase(
 			`Kniete sich zu mir hinunter`
 			Ort: Ort(-8m 4m)
 		)
-		Satzglied(`Und reichte mir den Korb` Ort: Ort(-7m 2m))
-		Satzglied(`/"Nimm, geh nach Hause"/` Ort: Ort(0m -2m))
+		Phrase(`Und reichte mir den Korb` Ort: Ort(-7m 2m))
+		Phrase(`/"Nimm, geh nach Hause"/` Ort: Ort(0m -2m))
 	]
 
 abspann: [
-		Satzglied(`von /Amy J. Ko/`)
+		Phrase(`von /Amy J. Ko/`)
 	]
 
 geschichte: [

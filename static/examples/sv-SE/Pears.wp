@@ -75,7 +75,7 @@ stigandeHandling2: [
 	]
 
 ¶Vi bestämmer platser i förväg så att vi kan få dem att falla från samma ställe.¶
-platser: (6 → []).översätta(
+platser: (6 → []).omvandla(
 		ƒ() Plats(Slumpmässig(-2m 2m) Slumpmässig(-3m -5m))
 	)
 höjdpunkt: [
@@ -97,7 +97,7 @@ höjdpunkt: [
 			plats: Plats(-3m -7m)
 			valbara
 		)
-		:platser.översätta(
+		:platser.omvandla(
 			ƒ(plats2 index2)
 				Fras(
 					"🍐"
@@ -150,7 +150,7 @@ del•#:
 		⊥
 		… del + 1
 
-Etapp(
+Estrad(
 	berättelse[del]
 	ansikte: 'Arvo'
 	plats: Plats(0m 0m -20m)

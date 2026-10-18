@@ -9,7 +9,7 @@ texto2: 'Tenho 3 gatos, 12 peixes e 144 formigas' … ∆ entrada … entrada
 ¶Procura no texto cada sequência de dígitos. Cada resultado é um Resultado com o seu texto correspondente.¶
 números2: texto2 ⌕ ⣿ >0 #⣿
 
-Fase(
+Palco(
 	[
 		Grupo(
 			Monte()

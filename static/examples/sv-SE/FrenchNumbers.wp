@@ -24,7 +24,7 @@ hemligheter: [:1‥9].blandade()
 
 ¶Vilken är den senaste tangenten som tryckts?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-nyckel2,clé/fr: Nyckel()
+nyckel2,clé/fr: Tangent()
 
 ¶Den nuvarande hemligheten ökar varje gång en tangent trycks, men stannar vid 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
@@ -56,7 +56,7 @@ speletSlut: hemligtIndex = 10
 ¶Visa det nuvarande franska talet och den nuvarande poängen. Efter alla 9 hemligheter, visa ett slutresultat¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Stack()

@@ -21,12 +21,12 @@ iz: sayaç ÷ 2
 baş: 0 … ∆ Zaman(10ms) … ((baş + 1) % sayaç) ?? 0
 
 Sahne(
-	puanlar.tercümeetmek(
+	puanlar.dönüştür(
 		ƒ(nokta•Yer dizin2•#)
 			(
 				¶Bu noktanın baştan kaç nokta geride olduğu; sona gelince başa döner.¶
 				yaş: ((((baş - dizin2) + 1) + sayaç) % sayaç) ?? 0
-				İfadeetmek(
+				Yazı(
 					"•"
 					boyut: 1m
 					yer: nokta

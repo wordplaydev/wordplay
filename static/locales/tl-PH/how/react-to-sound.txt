@@ -5,7 +5,7 @@ Alam mo ba na ang iyong proyekto ay maaaring makinig sa iyo? Ang @Volume stream 
 Magagamit natin ang numerong iyan para kontrolin ang kahit ano — kasinlaki ng isang @Phrase, ang pag-ikot nito, ang kulay nito.
 
 \
-Phrase('📣' laki: (Volume() × 5m) + 1m)
+Parirala('📣' laki: (Lakas() × 5m) + 1m)
 \
 
  Kapag tahimik, ang megaphone ay \1m\ matangkad. Kapag sumigaw ka, maaari itong lumaki hanggang \6m\ matangkad.
@@ -13,7 +13,7 @@ Phrase('📣' laki: (Volume() × 5m) + 1m)
 Gusto mo ba ng araw na mas mabilis umikot habang mas malakas ang tibok ng puso mo?
 
 \
-Phrase('🌞' pagikot: Volume() × 360°)
+Parirala('🌞' pagikot: Lakas() × 360°)
 \
 
  Subukan mong pumakpak o humuni, at tingnan mo ang mangyayari.

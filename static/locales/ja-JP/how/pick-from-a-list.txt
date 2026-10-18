@@ -7,7 +7,7 @@
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+フレーズ(emojis.ランダム())
 \
 
  また、 @Random を2つの数字と一緒に使うこともできます。すると、その2つの数字の間にある整数がひとつ選ばれます。
@@ -15,8 +15,8 @@ Phrase(emojis.random())
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)
+pick: emojis[1] … ∆ 時間(1000ms) … emojis[ランダム(1 emojis.長さ())]
+フレーズ(pick)
 \
 
  ティックごとに @Time、 @Reaction 新たなサプライズを選びます。

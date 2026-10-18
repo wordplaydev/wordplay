@@ -14,7 +14,7 @@ polices: [
 symboles: 'typography'/en'tipografía'/es ÷ ''
 
 ƒ mélanger()
-	symboles.traduire(
+	symboles.transformer(
 		ƒ(symbole) Phrase(
 				symbole
 				affronter: polices.aléatoire()
@@ -22,6 +22,6 @@ symboles: 'typography'/en'tipografía'/es ÷ ''
 			)
 	)
 
-phrases2: mélanger() … ∆ Clé() | ∆ Bouton() … mélanger()
+phrases2: mélanger() … ∆ Touche() | ∆ Bouton() … mélanger()
 
 Scène([Groupe(Rangée('|' 0m) phrases2 lieu: Lieu(0m 0m))])

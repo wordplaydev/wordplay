@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: دوربین(width × 1px height × 1px 33ms)
+صحنه([تصویر(colors "what the camera sees" 12m)])
 \
 
  هر @Image به یک توضیح نیاز دارد، چون یک شبکه از رنگ‌ها برای کسی که نمی‌تواند آن را ببیند، هیچ کلمه‌ای ندارد.
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m نشانه: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: دوربین(width × 1px height × 1px 33ms)
+صحنه([تصویر(colors "the camera, drawn with dark and light circles" 12m نشانه: ƒ(color•رنگ) (color.روشنی < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

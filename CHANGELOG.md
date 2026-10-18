@@ -23,6 +23,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🧭 The browser's Forward button now works in the [Guide](https://wordplay.dev/guide), and opening a link to one of its pages no longer shows a different page first.
 - 🎞️ A `Stage` with its own `resting` animation no longer jumps away from where the camera shows it while the animation plays.
 - 🧭 Going back from a page in the [Guide](https://wordplay.dev/guide) returns to the list you opened it from.
+- 🌐 Code examples in other languages now use that language's own names for built-in types and functions, and we fixed many names that were translated with the wrong meaning, like a color's `lighter` becoming a cigarette lighter. (#1465)
 
 ## 0.39.0 - 2026-10-10
 

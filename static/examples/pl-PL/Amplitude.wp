@@ -3,9 +3,9 @@ Amplituda
 ===
 ¶Rząd kropek, które świecą i gasną zależnie od głośności twojego mikrofonu.¶
 
-amplitudy•[#]: ←← 10 Tom()
-wiz: amplitudy.tłumaczyć(
-		ƒ(amp•#) Wyrażenie(
+amplitudy•[#]: ←← 10 Głośność()
+wiz: amplitudy.przekształć(
+		ƒ(amp•#) Fraza(
 				"⚫"
 				nieprzezroczystość: amp
 				rozmiar: 10m

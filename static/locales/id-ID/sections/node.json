@@ -782,7 +782,7 @@
                 "$~Saya adalah input yang diberikan ke @Evaluate. Nama saya sesuai dengan nama input dalam @FunctionDefinition atau @StructureDefinition yang sedang dievaluasi.",
                 "Saya bisa membantu dengan fungsi yang memiliki banyak @value default, di mana Anda hanya ingin mengganti input tertentu, tanpa mengubah semua yang lain.",
                 "Misalnya, @Phrase memiliki banyak sekali nilai default untuk mengontrol gayanya. Katakanlah Anda ingin memberikan @Text dan @Color, tetapi tidak ada yang lain dalam daftar inputnya. Anda dapat menggunakan saya untuk melakukan itu:",
-                "\\Phrase('Saya berwarna ungu!' warna: Color(50% 52 300°))\\"
+                "\\Frasa('Saya berwarna ungu!' warna: Warna(50% 52 300°))\\"
             ],
             "start": "$~Mari kita evaluasi nilai saya."
         },
@@ -1045,10 +1045,10 @@
                 "$~Saya menelusuri sejarah suatu @stream sungai dan menceritakan salah satu @value yang dimilikinya di masa lalu. Pernahkah Anda ingin mengingat masa lalu?",
                 "Saya adalah pencatat resmi Verse!",
                 "Sebagai contoh, berikut adalah nilai @Time lima detik yang lalu:",
-                "\\← 5 Time(1000ms)\\",
+                "\\← 5 Waktu(1000ms)\\",
                 "Lihat bagaimana awalnya @None selama 5 detik, lalu tiba-tiba berubah menjadi waktu sebelumnya?",
                 "Jika Anda menginginkan beberapa nilai terakhir, berikan saya dua tanda panah, dan saya akan menginterpretasikan angka tersebut sebagai hitungan:",
-                "\\←← 5 Time(1000ms)\\",
+                "\\←← 5 Waktu(1000ms)\\",
                 "Lihat, ini terjadi lima kali sebelumnya, bukan hanya sekali?",
                 "Saya bisa membantu jika Anda ingin menciptakan pertunjukan yang bergantung pada masa lalu."
             ],
@@ -1175,7 +1175,7 @@
             "doc": [
                 "$~Saya membuat siaran langsung baru yang diperbarui setiap kali ada perubahan di siaran langsung lainnya. Siaran langsung itu sangat keren!",
                 "Misalnya, jika Anda ingin @Time berdetik, tetapi menampilkan kata-kata alih-alih angka, Anda bisa melakukan sesuatu seperti ini:",
-                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "\\time: Waktu(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "Itu seperti mengatakan \"/dimulai dengan kata 'mulai' dan kemudian jika waktu berubah, ubah menjadi genap atau ganjil, berdasarkan waktu tersebut./\"",
                 "Jadi aku juga seperti @stream, tapi aliran yang terbentuk dari aliran lain. Keren, kan?"
             ],

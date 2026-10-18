@@ -1456,7 +1456,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~… Du vet hur jag sa till dig att de kan utvärdera vilken funktion som helst med parenteser \\1.add(1)\\ men också två inmatningsfunktioner med infixoperatorer \\1 + 1\\? Tja, de har ytterligare ett knep för funktioner med bara en ingång: det unära formatet."
+                            "$~… Du vet hur jag sa till dig att de kan utvärdera vilken funktion som helst med parenteser \\1.addera(1)\\ men också två inmatningsfunktioner med infixoperatorer \\1 + 1\\? Tja, de har ytterligare ett knep för funktioner med bara en ingång: det unära formatet."
                         ],
                         null,
                         [
@@ -2719,7 +2719,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Det finns en annan inputkälla som jag vill visa dig. Kommer du ihåg \\[].random()\\ från tidigare, från @List?",
+                            "$~Det finns en annan inputkälla som jag vill visa dig. Kommer du ihåg \\[].slumpmässig()\\ från tidigare, från @List?",
                             "$~Inuti använder den en @FunctionDefinition som heter @Random, som ger en oändlig sekvens av slumptal. Det är en slags @stream eftersom det genererar input från din värld, inte vår. Men det skiljer sig lite från de andra strömmarna genom att det inte får ett @Program att omvärdera.",
                             "$~Varje gång den utvärderas ger den istället ett annat slumptal.",
                             "$~Ser du den lilla knappen ↻ @UI/resetEvaluator i verktygsfältet på scenen (och även på tidslinjen)? Tryck på den för att köra programmet igen själv, så ser du ett nytt tal mellan \\0\\ och \\1\\ varje gång."
@@ -2738,7 +2738,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Random kan vara så kul! Vi kan använda det med strömmar för att skapa roligt kaos. Till exempel väljer vi här ett slumpmässigt ord från en lista med ord. Detta är samma sak som \\['kitty' 'cat' 'feline'].random()\\. Fortsätt att trycka på ↻ för att få en annan kattsynonym! Testa att lägga till ditt eget ord i listan och se om du kan få ordet att visas."
+                            "$~Random kan vara så kul! Vi kan använda det med strömmar för att skapa roligt kaos. Till exempel väljer vi här ett slumpmässigt ord från en lista med ord. Detta är samma sak som \\['kitty' 'cat' 'feline'].slumpmässig()\\. Fortsätt att trycka på ↻ för att få en annan kattsynonym! Testa att lägga till ditt eget ord i listan och se om du kan få ordet att visas."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         { "edit": "['kitty' 'cat' 'feline'][Random(1 3)]" }
@@ -3438,7 +3438,7 @@
                             "sad",
                             "$~Omigod omigod omigod, jag kan inte tro att jag glömde färgen. Okej, så vilken @Pose som helst kan ha en färg, eller hur? Men @Color finns i tre delar. Först en @Color.lightness mellan 0 och 100%, vilket man kan tänka sig som hur ljust ett rum är, från svart till vitt med färg i mitten på 50%.",
                             "$~Sedan har en @Color.chroma mellan 0 och ∞, som du kan tänka dig, hur mycket färg det finns, från ingen färg grå till fullfärg.",
-                            "$~Och slutligen en @Color.hue, som du kan tänka dig som ett färghjul, från rött till grönt till blått i grader. Så du vill att jag ska vara knallröd? Ställ in min viloställningsfärg på \\Color(50% 300 30°)\\."
+                            "$~Och slutligen en @Color.hue, som du kan tänka dig som ett färghjul, från rött till grönt till blått i grader. Så du vill att jag ska vara knallröd? Ställ in min viloställningsfärg på \\Färg(50% 300 30°)\\."
                         ],
                         { "edit": "Phrase('red' color: 🌈(50% 300 30°))" },
                         null,

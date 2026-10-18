@@ -6,14 +6,14 @@ Dos cosas lo hacen un efecto de sonido en vez de una canción. \
 bucle: ⊥\ le dice al  @Track  que reproduzca sus notas una vez en lugar de para siempre. Y la lista de notas viene del momento: tiene notas cuando algo acaba de pasar, y está vacía el resto del tiempo.
 
 \
-tapped: ∆ Button()
-Stage(
+tapped: ∆ Botón()
+Escenario(
 	[
-		Phrase('👆 tócame' seleccionable nombre: 'toca')
-		Music(
-			Track(
+		Frase('👆 tócame' seleccionable nombre: 'toca')
+		Música(
+			Pista(
 				tapped ? [1 5 8] []
-				instrumento: Instrument.bell
+				instrumento: Instrumento.campana
 				bucle: ⊥
 			)
 			repetir: tapped
@@ -32,15 +32,15 @@ score > 10\, se queda verdadero para siempre después y reiniciaría el sonido e
 Como las notas son solo una lista, puedes decidirlas según *qué* pasó en vez de reproducir siempre lo mismo:
 
 \
-key: Key()
+key: Tecla()
 struck: ∆ key
-Stage(
+Escenario(
 	[
-		Phrase(struck ? key '⌨ presiona una tecla' 1m)
-		Music(
-			Track(
+		Frase(struck ? key '⌨ presiona una tecla' 1m)
+		Música(
+			Pista(
 				struck ? [((key = ' ') ? 1 8)] []
-				instrumento: Instrument.piano
+				instrumento: Instrumento.piano
 				bucle: ⊥
 			)
 			repetir: struck

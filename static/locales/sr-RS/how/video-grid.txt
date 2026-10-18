@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Камера(width × 1px height × 1px 33ms)
+Позорница([Слика(colors "what the camera sees" 12m)])
 \
 
  Сваки @Image треба опис, јер мрежа боја нема сопствене речи за некога ко не може да је види.
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m глиф: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Камера(width × 1px height × 1px 33ms)
+Позорница([Слика(colors "the camera, drawn with dark and light circles" 12m глиф: ƒ(color•Боја) (color.светлина < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

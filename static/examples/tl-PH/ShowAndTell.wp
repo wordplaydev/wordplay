@@ -36,12 +36,12 @@ pondo•[target]: [
 	(nahanap.haba() ≥ 4)
 	? target('👥' 'dalawang tao' 'tao' 2)
 		pondo.nangwalang(iwasan).pansala(
-			ƒ(t•target) ~(nahanap.aymay(t.emoji))
+			ƒ(t•target) ~(nahanap.mayroon(t.emoji))
 		).random(
 		)
 
 ¶Ang kamera. Hindi ito sinasabihan kung ano ang hahanapin — sinasabi lang nito lahat ng nakikita nito, at kusa itong tumatakbo, kaya ang laro ay tumutugon dito nang direkta nang walang orasan.¶
-nakita: MgaBagay(bilangin: 10 tiwala: 0.5)
+nakita: MgaBagay(bilang: 10 tiwala: 0.5)
 
 ¶Ang → na susi (o isang tapik) para lumaktaw.¶
 laktawan: Susi('PalasoKanan' ⊤)

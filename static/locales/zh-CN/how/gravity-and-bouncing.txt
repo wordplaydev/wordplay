@@ -7,9 +7,9 @@
 我们还需要一个能让它落下去的东西，不然角色就会一直往下掉，永远掉不停！一个 @Shape 配上宽宽的 @Rectangle 就能做出一个不错的地板：
 
 \
-Stage([
-    Phrase('🍎' 位置: Motion(Place(0m 5m)) 物质: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+舞台([
+    短语('🍎' 位置: 运动(位置(0m 5m)) 物质: 物质())
+    形状(矩形(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Stage([
 @Matter 它需要质量、弹性和摩擦力：
 
 \
-Stage([
-    Phrase('⚽' 位置: Motion(Place(-2m 5m)) 物质: Matter(1kg 0.9 0.2))
-    Phrase('🪨' 位置: Motion(Place(2m 5m)) 物质: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+舞台([
+    短语('⚽' 位置: 运动(位置(-2m 5m)) 物质: 物质(1kg 0.9 0.2))
+    短语('🪨' 位置: 运动(位置(2m 5m)) 物质: 物质(5kg 0.1 0.8))
+    形状(矩形(-10m 0m 10m -5m))
 ])
 \
 

@@ -4,10 +4,10 @@ Ein Klingeln, wenn die Antwort stimmt, ein Plumps, wenn etwas landet – ein Kla
 
 Zwei Dinge machen daraus einen Klangeffekt statt ein Lied. \schleife: ⊥\ sagt dem  @Track , seine Noten einmal zu spielen statt für immer. Und die Notenliste selbst kommt aus dem Moment: Sie enthält Noten, wenn gerade etwas passiert ist, und ist die restliche Zeit leer.
 
-\tapped: ∆ Button()
-Stage([
+\tapped: ∆ Taste()
+Bühne([
 		Phrase('👆 tippe mich an' wählbar Name: 'tippen')
-		Music(Track(tapped ? [1 5 8] [] Instrument: Instrument.bell Schleife: ⊥) Wiederholen: tapped)
+		Musik(Spur(tapped ? [1 5 8] [] Instrument: Instrument.Glocke Schleife: ⊥) Wiederholen: tapped)
 	])\
 
 Mach dir keine Sorgen, dass die Liste bei der nächsten Auswertung wieder leer wird – eine Note, die begonnen hat, spielt immer bis zum Ende. Was du nicht weglassen darfst, ist \replay\. Tippe zweimal, und das zweite Tippen erzeugt genau dieselbe Musik wie das erste. Also hat sich nichts geändert und nichts würde erneut klingen. \replay\ ist die Art, wie du sagst: /noch einmal, jetzt/. 
@@ -16,11 +16,11 @@ Mach dir keine Sorgen, dass die Liste bei der nächsten Auswertung wieder leer w
 
 Da die Noten nur eine Liste sind, kannst du sie danach bestimmen, *was* passiert ist, statt immer dasselbe zu spielen:
 
-\key: Key()
+\key: Tastaturtaste()
 struck: ∆ key
-Stage([
+Bühne([
 		Phrase(struck ? key '⌨ drücke eine Taste' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] Instrument: Instrument.piano Schleife: ⊥) Wiederholen: struck)
+		Musik(Spur(struck ? [((key = ' ') ? 1 8)] [] Instrument: Instrument.Klavier Schleife: ⊥) Wiederholen: struck)
 	])\
 
 Beachte, dass \∆ key\ in einer eigenen Zeile berechnet wird und der Werttest \key = ' '\ getrennt passiert. Zusammen als eine condition geschrieben, würde der Klang bei der nächsten unabhängigen Taste erneut auslösen, während \key\ wird weiterhin als Leerzeichen gelesen.

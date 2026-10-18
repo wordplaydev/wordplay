@@ -6,7 +6,7 @@ Kod Boşluğu
 ↓ fields
 
 ¶fill fonksiyonu tek bir dolu çubuk yapar. Kadın emojisini countkez tekrarlar ve bunları aralarında boşluk olmadan tek bir metin parçasında birleştirir. Böylece rowayrı noktalar gibi değil, tek bir sürekli çubuk gibi görünür.¶
-ƒ doldur(sayaç•#) (sayaç → []).tercümeetmek(ƒ() '👩').katılmak(
+ƒ doldur(sayaç•#) (sayaç → []).dönüştür(ƒ() '👩').birleştir(
 		''
 	)
 
@@ -14,13 +14,13 @@ Kod Boşluğu
 ƒ grafik(etiketler•[''] birimler•[#] değerler•[''])
 	Grup(
 		Yığın('<' dolgu: 0.2m)
-		birimler.tercümeetmek(
+		birimler.dönüştür(
 			ƒ(u•# i•#)
 				Grup(
 					Sıra('|' dolgu: 0.3m)
 					[
-						İfadeetmek(doldur(u) boyut: 0.3m)
-						İfadeetmek(
+						Yazı(doldur(u) boyut: 0.3m)
+						Yazı(
 							`\etiketler[i]\ \değerler[i]\`
 							boyut: 0.28m
 							renk: Renk(45% 0 0°)
@@ -33,23 +33,23 @@ Kod Boşluğu
 ¶Görünüm 1 — "Yükseliş ve Düşüş".Verideki her yıl için, bilgisayar bilimi diplomalarının kadınlar tarafından kazanılan yüzdesini gösteren bir çubuk çizeriz. Her kadın emojisi yaklaşık yüzde 5'i temsil eder. Bu yüzden çubuk uzunluğunu bulmak için yüzdeyi 5'e böleriz.¶
 zamanSatırları: (years ⎡?yıl2 yüzde⎦ ⊤) → []
 zamanGörünümü: grafik(
-		zamanSatırları.tercümeetmek(ƒ(sıra) sıra.yıl2)
-		zamanSatırları.tercümeetmek(
-			ƒ(sıra2) (sıra2.yüzde ÷ 5).yuvarlak()
+		zamanSatırları.dönüştür(ƒ(sıra) sıra.yıl2)
+		zamanSatırları.dönüştür(
+			ƒ(sıra2) (sıra2.yüzde ÷ 5).yuvarla()
 		)
-		zamanSatırları.tercümeetmek(
-			ƒ(sıra3) (sıra3.yüzde.yuvarlak() → '') + '%'
+		zamanSatırları.dönüştür(
+			ƒ(sıra3) (sıra3.yüzde.yuvarla() → '') + '%'
 		)
 	)
 
 ¶Görünüm 2 — "Uyumsuz Bir Alan".Yakın bir yıldaki farklı çalışma alanlarında kadınların oranını karşılaştırırız. Satırlar, en çok kadından en aza doğru sıralanmıştır. Bu yüzden bilgisayar bilimi grafiğin en altına düşer.¶
 alanSatırları: (fields ⎡?alan yüzde2⎦ ⊤) → []
 alanlarGörünümü: grafik(
-		alanSatırları.tercümeetmek(ƒ(sıra4) sıra4.alan)
-		alanSatırları.tercümeetmek(
-			ƒ(sıra5) (sıra5.yüzde2 ÷ 5).yuvarlak()
+		alanSatırları.dönüştür(ƒ(sıra4) sıra4.alan)
+		alanSatırları.dönüştür(
+			ƒ(sıra5) (sıra5.yüzde2 ÷ 5).yuvarla()
 		)
-		alanSatırları.tercümeetmek(
+		alanSatırları.dönüştür(
 			ƒ(sıra6) (sıra6.yüzde2 → '') + '%'
 		)
 	)
@@ -62,20 +62,20 @@ eski: sayımSatırları[1]
 kadınlarGrafiği: grafik(
 		['1984' '2022']
 		[
-			(eski.kadınlar ÷ 2000).yuvarlak()
-			(şimdi.kadınlar ÷ 2000).yuvarlak()
+			(eski.kadınlar ÷ 2000).yuvarla()
+			(şimdi.kadınlar ÷ 2000).yuvarla()
 		]
 		[eski.kadınlar → '' şimdi.kadınlar → '']
 	)
 payGrafiği: grafik(
 		['1984' '2022']
 		[
-			(eski.yüzde ÷ 5).yuvarlak()
-			(şimdi.yüzde ÷ 5).yuvarlak()
+			(eski.yüzde ÷ 5).yuvarla()
+			(şimdi.yüzde ÷ 5).yuvarla()
 		]
 		[
-			(eski.yüzde.yuvarlak() → '') + '%'
-			(şimdi.yüzde.yuvarlak() → '') + '%'
+			(eski.yüzde.yuvarla() → '') + '%'
+			(şimdi.yüzde.yuvarla() → '') + '%'
 		]
 	)
 sayımlarGörünümü: Grup(
@@ -84,7 +84,7 @@ sayımlarGörünümü: Grup(
 			Grup(
 				Yığın('|' dolgu: 0.3m)
 				[
-					İfadeetmek(
+					Yazı(
 						`/Bilgisayar bilimi diploması kazanan kadınlar/`
 						boyut: 0.28m
 					)
@@ -94,7 +94,7 @@ sayımlarGörünümü: Grup(
 			Grup(
 				Yığın('|' dolgu: 0.3m)
 				[
-					İfadeetmek(
+					Yazı(
 						`/Tüm bilgisayar bilimi diplomaları içindeki payları/`
 						boyut: 0.28m
 					)
@@ -111,21 +111,21 @@ güncel: 'time' … ∆ seçim … seçim
 sekmeler: Grup(
 		Sıra('|' dolgu: 0.6m)
 		[
-			İfadeetmek(
+			Yazı(
 				'▸ Zamana göre'
 				seçilebilir
 				isim: 'time'
 				boyut: 0.35m
 				renk: Renk(60% 50 20°)
 			)
-			İfadeetmek(
+			Yazı(
 				'▸ Alana göre'
 				seçilebilir
 				isim: 'fields'
 				boyut: 0.35m
 				renk: Renk(60% 50 140°)
 			)
-			İfadeetmek(
+			Yazı(
 				'▸ Sayı mı oran mı'
 				seçilebilir
 				isim: 'sayılar'
@@ -140,18 +140,18 @@ gövde: güncel = 'time' ? zamanGörünümü (güncel = 'fields' ? alanlarGörü
 
 altbilgi:
 	güncel = 'time' ?
-		İfadeetmek(
+		Yazı(
 			`/ABD'de bilgisayar bilimi lisans diplomalarında kadınların payı 1984'te yüzde 37 ile zirveye çıktı, ardından yaklaşık 25 yıl boyunca düşerek 2008 civarında yaklaşık yüzde 18'e indi ve o zamandan sonra yalnızca yavaşça toparlandı. Her 👩 ≈ yüzde 5. Kaynak: NCES Digest of Education Statistics, Tablo 325.35./`
 			dürüm: 9m
 			boyut: 0.26m
 		)
 		güncel = 'fields' ?
-			İfadeetmek(
+			Yazı(
 				`/2018 civarında kadınlar psikoloji ve biyoloji diplomalarının çoğunu, matematik ve sosyal bilim diplomalarının yaklaşık yarısını kazandı, ama bilgisayar bilimi diplomalarının yüzde 20'sinden azını aldı — bu, tüm alanlar arasında en düşük orana yakın bir değer. Her 👩 ≈ yüzde 5. Kaynak: NSF NCSES, Women, Minorities, and Persons with Disabilities in S&E./`
 				dürüm: 9m
 				boyut: 0.26m
 			)
-			İfadeetmek(
+			Yazı(
 				`/1984'te yaklaşık 12.000 kadın bilgisayar bilimi diploması aldı — bu, o yılın diplomalarının yüzde 37'siydi. 2022'de bu sayı 24.000'i geçti, yani iki kat daha çok kişi, ama yalnızca yüzde 23'ü oluşturuyordu: alan öyle hızlı büyüdü ki erkeklerin sayısı daha da hızlı büyüdü. Artan bir sayı, yine de küçülen bir oran olabilir. Kaynak: NCES./`
 				dürüm: 9m
 				boyut: 0.26m
@@ -162,8 +162,8 @@ Sahne(
 		Grup(
 			Yığın('|' dolgu: 0.4m)
 			[
-				İfadeetmek(`KOD BOŞLUĞU` boyut: 0.7m yüz: 'Monoton')
-				İfadeetmek(
+				Yazı(`KOD BOŞLUĞU` boyut: 0.7m yüz: 'Monoton')
+				Yazı(
 					`/Bilgisayar bilimi diplomasını kimler alıyor?/`
 					boyut: 0.35m
 				)

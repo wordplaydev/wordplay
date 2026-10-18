@@ -77,7 +77,6 @@ export const SiblingNameExemptions: Record<string, readonly string[]> = {
         'basis.List.function.until.checker সূচী',
         'basis.List.function.find.checker সূচী',
         'basis.List.function.combine.combiner সূচী',
-        'output.Group বিষয়',
     ],
     'de-DE': ['output.Result Ende'],
     'gu-IN': ['output.Result અંત'],

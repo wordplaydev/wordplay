@@ -14,7 +14,7 @@ font2: [
 simbol: 'typography'/en'tipografía'/es ÷ ''
 
 ƒ acak2()
-	simbol.menerjemahkan(
+	simbol.petakan(
 		ƒ(simbol2) Frasa(
 				simbol2
 				menghadapi: font2.acak()
@@ -22,7 +22,7 @@ simbol: 'typography'/en'tipografía'/es ÷ ''
 			)
 	)
 
-frasa2: acak2() … ∆ Kunci() | ∆ Tombol() … acak2()
+frasa2: acak2() … ∆ Tuts() | ∆ Tombol() … acak2()
 
 Panggung(
 	[Kelompok(Baris('|' 0m) frasa2 tempat: Tempat(0m 0m))]

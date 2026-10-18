@@ -158,7 +158,7 @@ rum4•[rum2]: [
 			) packa3
 	)
 
-nyckel3: Nyckel()
+nyckel3: Tangent()
 
 ¶Ett tangenttryck, i ordning: vid ett slut väcker vilken tangent som helst dig i det första rummet igen; en tangent som inte är 1, 2 eller 3 betyder ingenting; ett nummer som är större än antalet dörrar i det här rummet betyder inte heller något; och först därefter är det en dörr. Det tredje testet är värt att skriva ner, eftersom liståtkomst börjar om från början — utan det skulle ett tryck på 3 i ett rum med två dörrar i tysthet ta den första.¶
 ƒ steg2(f•färd n3•'')•färd (
@@ -215,7 +215,7 @@ nedanför:
 				gårin: Pose(opacitet: 0%)
 			)
 		]
-		dörrar3.översätta(
+		dörrar3.omvandla(
 			ƒ(dörr3•dörr index2•#)
 				Fras(
 					`\index2\. *\dörr3.etikett\*`
@@ -227,7 +227,7 @@ nedanför:
 				)
 		)
 
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Stack()

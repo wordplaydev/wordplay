@@ -7,7 +7,7 @@
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+Фраза(emojis.насумично())
 \
 
  Можеш такође користити @Random са два броја, што бира цео број између њих.
@@ -15,8 +15,8 @@ Phrase(emojis.random())
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)
+pick: emojis[1] … ∆ Време(1000ms) … emojis[Рандом(1 emojis.дужина())]
+Фраза(pick)
 \
 
  Сваки откуцај @Time, @Reaction бира ново изненађење.

@@ -4,12 +4,12 @@
 
 @Beat  ਕੋਲ ਹਮੇਸ਼ਾ ਦੇਣ ਲਈ ਇੱਕ  @Downbeat  ਹੁੰਦਾ ਹੈ, ਤਾਂ ਜੋ ਤੁਸੀਂ ਇਸਨੂੰ ਸਿੱਧਾ ਪੜ੍ਹ ਸਕੋ। ਕਿਸੇ ਵੀ ਸੰਗੀਤ ਦੇ ਸ਼ੁਰੂ ਹੋਣ ਤੋਂ ਪਹਿਲਾਂ ਇਹ ਬੀਟ ਸਿਫ਼ਰ ਉੱਤੇ ਬੈਠਦਾ ਹੈ, ਬਿਨਾਂ ਕੁਝ ਵੱਜੇ:
 
-\beat: Beat()
-count: beat.count
-Stage(
+\beat: ਤਾਲ()
+count: beat.ਗਿਣਤੀ
+ਸਟੇਜ(
 	[
-		Phrase('🥁' ਆਕਾਰ: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] ਸਾਜ਼: Instrument.drums))
+		ਵਾਕੰਸ਼('🥁' ਆਕਾਰ: ((count % 4) = 0) ? 2m 1m)
+		ਸੰਗੀਤ(ਟ੍ਰੈਕ([1 1 1 1] ਸਾਜ਼: ਸਾਜ਼.ਢੋਲ))
 	]
 )\
 
@@ -17,30 +17,30 @@ Stage(
 
 ਇਹ ਪੂਰਾ ਸੰਗੀਤ ਇੱਕ ਨੰਬਰ ਵਜੋਂ ਹੈ। ਪਰ ਇੱਕ  @Downbeat  ਇੱਕ \parts\ ਸੂਚੀ ਵੀ ਰੱਖਦਾ ਹੈ, ਹਰ  @Part  ਲਈ ਇੱਕ  @Track , ਅਤੇ ਇੱਕ  @Part  ਨੂੰ ਪਤਾ ਹੈ ਕਿ ਇਸਦੀ ਆਪਣੀ ਆਵਾਜ਼ ਹੁਣੇ ਕੀ ਕਰ ਰਹੀ ਹੈ: ਇਸਦੀ \pitch\, ਇਸਦੀ \volume\, ਇਸਦੀ \pan\, ਅਤੇ ਕੀ ਇਹ \sounding\ ਹੈ। ਇਹਨਾਂ ਨੂੰ ਬਣਾਓ ਅਤੇ ਤੁਹਾਨੂੰ ਮਿਲਾਵਟ ਦੀ ਥਾਂ ਹਰ ਆਵਾਜ਼ ਵੱਖਰੀ ਵੱਖਰੀ ਮਿਲਦੀ ਹੈ:
 
-\beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase(
+\beat: ਤਾਲ()
+parts•[ਹਿੱਸਾ]: beat.ਹਿੱਸੇ.ਫਿਲਟਰ(ƒ(p•ਹਿੱਸਾ) p.ਵੱਜਣਾ)
+ƒ height(p•ਹਿੱਸਾ)•# p.ਸੁਰ[1] ÷ 1semitones
+ƒ dot(p•ਹਿੱਸਾ)•ਵਾਕੰਸ਼ ਵਾਕੰਸ਼(
 		'⬤'
-		0.4m + (p.volume · 1m)
-		ਸਥਾਨ: Place(
-			(p.pan · 3) · 1m
+		0.4m + (p.ਵਾਲੀਅਮ · 1m)
+		ਸਥਾਨ: ਸਥਾਨ(
+			(p.ਪੈਨ · 3) · 1m
 			((height(p) · 0.2) - 1) · 1m
 		)
 	)
-Stage(
+ਸਟੇਜ(
 	[
-		:parts.translate(ƒ(p•Part) dot(p))
-		Music(
+		:parts.ਰੂਪਾਂਤਰਕਰੋ(ƒ(p•ਹਿੱਸਾ) dot(p))
+		ਸੰਗੀਤ(
 			[
-				Track(
+				ਟ੍ਰੈਕ(
 					[1 ø 5 ø]
-					ਸਾਜ਼: Instrument.piano
+					ਸਾਜ਼: ਸਾਜ਼.ਪਿਆਨੋ
 					ਪੈਨ: -1
 				)
-				Track(
+				ਟ੍ਰੈਕ(
 					[ø 8 ø 12]
-					ਸਾਜ਼: Instrument.bell
+					ਸਾਜ਼: ਸਾਜ਼.ਘੰਟੀ
 					ਪੈਨ: 1
 				)
 			]

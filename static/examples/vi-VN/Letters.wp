@@ -11,7 +11,7 @@ mớiNhất•['']:
 
 Nhóm(
 	Lưới(5 5 0.25m 1m 1m)
-	mớiNhất.dịch(
+	mớiNhất.biếnĐổi(
 		ƒ(chữCái2•"" chỉMục2•#)
 			Cụmtừ(
 				chữCái2

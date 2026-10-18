@@ -10,9 +10,9 @@ Phrase(
 	'party time!'
 	gesicht: 'Luckiest Guy'
 	Posen: [
-		Pose(Farbe: Color(25% 70 250°))
-		Pose(Farbe: Color(50% 80 300°))
-		Pose(Farbe: Color(58% 90 60°))
+		Pose(Farbe: Farbe(25% 70 250°))
+		Pose(Farbe: Farbe(50% 80 300°))
+		Pose(Farbe: Farbe(58% 90 60°))
 	]
 )
 \
@@ -27,8 +27,8 @@ Phrase(
 	'bounce'
 	gesicht: 'Luckiest Guy'
 	Posen: [
-		Pose(Farbe: Color(25% 70 250°) Drehung: -10° Versatz: Place(0m 0.1m))
-		Pose(Farbe: Color(58% 90 60°) Drehung: 10° Opazität: 0.6)
+		Pose(Farbe: Farbe(25% 70 250°) Drehung: -10° Versatz: Ort(0m 0.1m))
+		Pose(Farbe: Farbe(58% 90 60°) Drehung: 10° Opazität: 0.6)
 	]
 )
 \
@@ -37,14 +37,14 @@ Phrase(
 Dieser Erpresserbrief wählt alle Viertelsekunde eine neue Neigung:
 
 \
-tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
+tilt: 0° … ∆ Zeit(250ms) … Zufällig(-15° 15°)
 Phrase(
 	`*ransom* /note/`
 	gesicht: 'Courier Prime'
 	Posen: [
-		Pose(Drehung: tilt Versatz: Place(0m 0.05m))
+		Pose(Drehung: tilt Versatz: Ort(0m 0.05m))
 		Pose(Drehung: -tilt Skala: 1.2)
-		Pose(Drehung: tilt ÷ 2 Versatz: Place(0m -0.05m))
+		Pose(Drehung: tilt ÷ 2 Versatz: Ort(0m -0.05m))
 	]
 )
 \

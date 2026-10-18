@@ -13,14 +13,14 @@ Ini versi paling sederhana. Klik panggung dulu agar ia mendengarkan, lalu tekan 
 \
 slides: ['pertama' 'kedua' 'ketiga']
 
-key: Key()
+key: Tuts()
 
 index•#: 1 … ∆ key …
-	(key = 'Panah Kanan') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Panah Kanan') ? ((index < slides.panjang()) ? index + 1 index)
 		(key = 'Panah Kiri') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+Frasa(slides[index])
 \
 
  The @Reaction adalah intinya. Ini dimulai pada \1\, dan setiap kali @Key berubah, ini menentukan angka baru apa yang seharusnya.
@@ -38,15 +38,15 @@ Gantilah @List dengan daftar @Group atau seluruh adegan, dan pola sisanya tidak 
 
 \
 slides: [
-	Phrase('sebuah cerita dalam tiga bagian' ukuran: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('seekor kucing muncul')])
-	Phrase('selesai 🎉')
+	Frasa('sebuah cerita dalam tiga bagian' ukuran: 3m)
+	Kelompok(Tumpukan() [Frasa('🐈') Frasa('seekor kucing muncul')])
+	Frasa('selesai 🎉')
 ]
 
-key: Key()
+key: Tuts()
 
 index•#: 1 … ∆ key …
-	(key = 'Panah Kanan') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Panah Kanan') ? ((index < slides.panjang()) ? index + 1 index)
 		(key = 'Panah Kiri') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 Berikan itu @Scene/pause jadi ini tidak pernah bergerak sendiri, dan @Scene/step untuk menggerakkannya satu bagian ke arah mana pun:
 
 \
-key: Key()
-Scene([
-		Phrase('sebuah cerita dalam tiga bagian' ukuran: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('seekor kucing muncul')])
-		Phrase('selesai 🎉')
+key: Tuts()
+Adegan([
+		Frasa('sebuah cerita dalam tiga bagian' ukuran: 3m)
+		Kelompok(Tumpukan() [Frasa('🐈') Frasa('seekor kucing muncul')])
+		Frasa('selesai 🎉')
 	] jeda langkah: ∆ key ? ((key = 'Panah Kiri') ? -1 (key = 'Panah Kanan') ? 1 ø) ø)
 \
 

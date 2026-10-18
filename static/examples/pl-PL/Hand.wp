@@ -7,7 +7,7 @@ ręka: Ręka()
 
 Scena(
 	[
-		Wyrażenie(
+		Fraza(
 			(ręka.palce = 0 ? '✊'
 					ręka.palce = 1 ? '☝'
 						ręka.palce = 2 ? '✌'
@@ -21,23 +21,23 @@ Scena(
 		Grupa(
 			Wiersz('<')
 			[
-				Wyrażenie(
+				Fraza(
 					'1⃣'
 					zrównoważyć: Miejsce(0m ręka.kciuk ? 1m 0m)
 				)
-				Wyrażenie(
+				Fraza(
 					'2⃣'
 					zrównoważyć: Miejsce(0m ręka.indeks ? 1m 0m)
 				)
-				Wyrażenie(
+				Fraza(
 					'3⃣'
 					zrównoważyć: Miejsce(0m ręka.środek ? 1m 0m)
 				)
-				Wyrażenie(
+				Fraza(
 					'4⃣'
 					zrównoważyć: Miejsce(0m ręka.pierścień ? 1m 0m)
 				)
-				Wyrażenie(
+				Fraza(
 					'5⃣'
 					zrównoważyć: Miejsce(0m ręka.małypalec ? 1m 0m)
 				)
@@ -47,15 +47,15 @@ Scena(
 		Grupa(
 			Stos('|')
 			[
-				Wyrażenie((ręka.palma ? '🤚' '🤛') rozmiar: 2m)
-				Wyrażenie(
+				Fraza((ręka.palma ? '🤚' '🤛') rozmiar: 2m)
+				Fraza(
 					(ręka.Otwarte ? 'otwarta' 'zamknięta')
 					rozmiar: 1.5m
 				)
 			]
 			miejsce: Miejsce(-2m -8m)
 		)
-		Wyrażenie(
+		Fraza(
 			`/Pokaż kamerze swoją dłoń/`
 			miejsce: Miejsce(-6m -10m)
 			rozmiar: 1m

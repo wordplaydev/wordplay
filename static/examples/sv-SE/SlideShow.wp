@@ -60,13 +60,13 @@ bilder: [
 		)
 	]
 
-nyckel2: Nyckel()
+nyckel2: Tangent()
 
 ¶Där föreställningen är. @Scene håller platsen, så inget här behöver räknas.¶
-vid: Spotlight()
+vid: Strålkastare()
 
 ¶Varje bild är ritad. Detta beror inte på något som ändras, så det byggs en gång — inte vid varje tangenttryckning — vilket är varför räknaren nedan inte finns med här.¶
-visningar: bilder.översätta(
+visningar: bilder.omvandla(
 		ƒ(bild2•bild) Grupp(
 				Stack('|' 0.4m)
 				[

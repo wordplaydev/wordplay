@@ -8,13 +8,13 @@ sayıyı şurada kullanabiliriz: @Sequence ve bir poz kümesinin kaç kez gerçe
 işte iki kez yukarı aşağı zıplayan bir basketbol topu. 
 
 \
-Stage([
-	Phrase('🏀' giriş: Sequence({
-				0%: Pose(telafietmek: Place(ve: 0.25m))
-				25%: Pose(telafietmek: Place(ve: 0m))
-				50%: Pose(telafietmek: Place(ve: -0.25m))
-				75%: Pose(telafietmek: Place(ve: 0m))
-				100%: Pose(telafietmek: Place(ve: 0.25m))} saymak:2x süre:2s))
+Sahne([
+	Yazı('🏀' giriş: Sekans({
+				0%: Poz(telafietmek: Yer(Y: 0.25m))
+				25%: Poz(telafietmek: Yer(Y: 0m))
+				50%: Poz(telafietmek: Yer(Y: -0.25m))
+				75%: Poz(telafietmek: Yer(Y: 0m))
+				100%: Poz(telafietmek: Yer(Y: 0.25m))} saymak:2x süre:2s))
 ])
 \
 

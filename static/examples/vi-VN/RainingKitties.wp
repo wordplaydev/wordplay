@@ -10,7 +10,7 @@ kíchThước2: 30
 
 ¶Đầu tiên, tạo một danh sách 20 con mèo con, mỗi con đặt ở một vị trí ngẫu nhiên. Khi đồng hồ tích tắc, di chuyển tất cả chúng xuống một chút.¶
 mèoCon2•[mèoCon]:
-	đếm2 → [].dịch(
+	đếm2 → [].biếnĐổi(
 		ƒ(_) mèoCon(
 				Ngẫunhiên(-kíchThước2 kíchThước2)
 				Ngẫunhiên(-kíchThước2 kíchThước2)
@@ -20,7 +20,7 @@ mèoCon2•[mèoCon]:
 			)
 	)
 	… ∆ Thờigian() …
-		mèoCon2.dịch(
+		mèoCon2.biếnĐổi(
 			ƒ(mèoCon3•mèoCon)
 				(mèoCon3.y2:mèoCon3.y2 < -kíchThước2 ? kíchThước2 mèoCon3.y2 - 2)
 				.góc2:mèoCon3.góc2 + mèoCon3.tốcĐộ
@@ -28,7 +28,7 @@ mèoCon2•[mèoCon]:
 
 ¶Chuyển các con mèo con thành các cụm từ¶
 Sânkhấu(
-	mèoCon2.dịch(
+	mèoCon2.biếnĐổi(
 		ƒ(mèoCon4•mèoCon)
 			Cụmtừ(
 				"🐈"

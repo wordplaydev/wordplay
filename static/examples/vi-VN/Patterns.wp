@@ -12,12 +12,12 @@ số2: vănBản2 ⌕ ⣿ >0 #⣿
 Sânkhấu(
 	[
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				Cụmtừ(vănBản2 kíchcỡ: 1m)
 				Nhóm(
-					Ngănxếp()
-					số2.dịch(
+					XếpDọc()
+					số2.biếnĐổi(
 						ƒ(số3•Kếtquả)
 							Cụmtừ(
 								số3.chữ

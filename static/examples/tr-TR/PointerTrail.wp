@@ -5,13 +5,13 @@
 
 geçmiş•[Yer]: ←← 5 İşaretçi()
 Sahne(
-	geçmiş.tercümeetmek(
+	geçmiş.dönüştür(
 		ƒ(nokta•Yer dizin2•#)
-			İfadeetmek(
+			Yazı(
 				'●'
 				renk: Renk(75% 100 dizin2 × 40°)
 				opaklık: dizin2 ÷ geçmiş.uzunluk()
-				yer: Yer(nokta.X nokta.ve)
+				yer: Yer(nokta.X nokta.Y)
 			)
 	)
 )

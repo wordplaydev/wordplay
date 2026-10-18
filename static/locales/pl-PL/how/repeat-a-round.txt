@@ -6,12 +6,12 @@ A @Scene może być całą tą rundą, a @Scene/loop sprawia, że wraca do pocz�
 Chwile to rzeczy na liście, a @Boolean pomiędzy nimi to miejsce, w którym @Scene czeka na gracza.
 
 \
-guess: Chat()
+guess: Czat()
 right: guess = 'cat'
-Scene([
-	Phrase('Guess the animal!' czastrwania: 2s)
+Pokaz([
+	Fraza('Guess the animal!' czastrwania: 2s)
 	∆ guess
-	Phrase(right ? 'Yes!' 'Nope!' czastrwania: 2s)
+	Fraza(right ? 'Yes!' 'Nope!' czastrwania: 2s)
 ] pętla: ~right)
 \
 
@@ -24,15 +24,15 @@ Aby dowiedzieć się, na jakim etapie jest runda, zapytaj @Spotlight.
 To mówi ci, który @Phrase jest teraz pokazywany, ile ich jest, ile razy @Scene powrócił, i czy właśnie teraz czeka na kogoś.
 
 \
-guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
-		Phrase('Guess the animal!' czastrwania: 2s)
+guess: Czat()
+at: Reflektor()
+Scena([
+	Pokaz([
+		Fraza('Guess the animal!' czastrwania: 2s)
 		∆ guess
-		Phrase('Nope!' czastrwania: 2s)
+		Fraza('Nope!' czastrwania: 2s)
 	] pętla: ⊤)
-	Phrase(at.waiting ? 'type a guess' `round \at.lap + 1\` rozmiar: 0.4m miejsce: Place(0m -2m))
+	Fraza(at.czekanie ? 'type a guess' `round \at.lap + 1\` rozmiar: 0.4m miejsce: Miejsce(0m -2m))
 ])
 \
 

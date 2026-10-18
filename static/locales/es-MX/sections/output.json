@@ -1744,7 +1744,7 @@
                         "$~Una batería. Grabada, y es un kit en lugar de estar afinada: los números eligen una pieza del kit en lugar de una nota — \\1\\ bombo, \\2\\ tarola, \\3\\ charles, \\4\\ platillo, \\5\\ tom, \\6\\ cencerro — y \\7\\ vuelve otra vez al bombo.",
                         "\\🎼(\n\t🎶([1 2 3 4 5 6] pulso: 2beats bucle: ⊥ instrumento: 🔈.🥁)\n\ttempo: 60beats/min\n)\\"
                     ],
-                    "names": ["$~tambores"]
+                    "names": ["$~batería", "$~tambores"]
                 },
                 "flute": {
                     "doc": [

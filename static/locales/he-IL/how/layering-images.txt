@@ -12,16 +12,16 @@
 ¶הערה: צפו בגלריה לפרויקט נוסף<דוּגמָה@https://wordplay.dev/project/example-Layers?play>של שכבות תמונות.¶
 
 
-Stage(
+במה(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) רוטציה: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) רוטציה: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) רוטציה: -25°)
+		צורה(מעגל(3m 0m 1m 0m))
+		צורה(מצולע(2m 3 0m -12m 0m) רוטציה: -30°)
+		צורה(מצולע(7m 6 0m -6m 0m))
+		צורה(מלבן(-11m -9m 11m -12m 10m) רוטציה: 25°)
+		צורה(מלבן(-11m -9m 11m -12m 10m) רוטציה: -25°)
 
 	]
-	מקום: Place(0m 10m -30m)
+	מקום: מקום(0m 10m -30m)
 )
 \
 

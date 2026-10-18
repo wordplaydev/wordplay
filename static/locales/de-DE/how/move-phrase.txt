@@ -5,9 +5,9 @@ Manchmal ist es hilfreich, eine @Phrase beweglich mit Tastatur, Maus oder Finger
 Tun Sie dies, wir können kombinieren @Phrase mit @Placement:
 
 \
-Stage(
-	[Phrase('bewege mich' Ort: Placement())]
-	Ort: Place(0m 0m -10m)
+Bühne(
+	[Phrase('bewege mich' Ort: Platzierung())]
+	Ort: Ort(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Zum Beispiel hat eine @Stage eine @Place , die bestimmt, wohin ihre Kamera zeigt
 Versuchen wir, den Platz einer @Placement für ein @Stage festzulegen, und schauen wir, was passiert.
 
 \
-Stage(
+Bühne(
   [
-	Phrase('🐈' Ort: Place(-2m 2m))
-	Phrase('🐈' Ort: Place(2m -2m))
-	Phrase('🐈' Ort: Place(-1m 3m))
+	Phrase('🐈' Ort: Ort(-2m 2m))
+	Phrase('🐈' Ort: Ort(2m -2m))
+	Phrase('🐈' Ort: Ort(-1m 3m))
   ]
-  Ort: Placement(Place(0m 0m -10m))
+  Ort: Platzierung(Ort(0m 0m -10m))
 )
 \
 

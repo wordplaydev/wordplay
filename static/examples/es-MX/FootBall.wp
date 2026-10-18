@@ -279,7 +279,7 @@ Escribirlos así dice algo que las notas solas no dirían: cada sonido pertenece
 sonidoDePatada: Música(
 		Pista(
 			[1]
-			instrumento: Instrumento.tambores
+			instrumento: Instrumento.batería
 			pulso: 0.25beats
 			volumen: 60%
 			bucle: ⊥

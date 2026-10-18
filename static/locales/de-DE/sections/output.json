@@ -12,13 +12,13 @@
             "names": ["$~Bühne"],
             "doc": [
                 "$~ICH ZEIGE DEINE @Output DEM PUBLIKUM. HALLO. HIER SPRICHT DIE BÜHNE. SAG MIR, WAS ICH ZEIGEN SOLL, UND ICH ZEIGE ES.",
-                "\\Bühne([Satzglied('Kraaaams')])\\",
+                "\\Bühne([Phrase('Kraaaams')])\\",
                 "WENN DU MAGST, GIB MIR EINE HINTERGRUND-@Color UND ICH BELEUCHTE DIE BÜHNE ENTSPRECHEND.",
-                "\\Bühne(\n\t[Satzglied('Kraaaams')]\n\tHintergrund: Farbe(75% 50 100°)\n)\\",
+                "\\Bühne(\n\t[Phrase('Kraaaams')]\n\tHintergrund: Farbe(75% 50 100°)\n)\\",
                 "DU KANNST MIR AUCH EINEN RAHMEN GEBEN, UND ICH SCHNEIDE ZU.",
-                "\\Bühne(\n\t[Satzglied('Kraaaams')]\n\tHintergrund: Farbe(75% 50 100°)\n\trahmen: Rechteck(-1m -1m 1m 1m)\n)\\",
+                "\\Bühne(\n\t[Phrase('Kraaaams')]\n\tHintergrund: Farbe(75% 50 100°)\n\trahmen: Rechteck(-1m -1m 1m 1m)\n)\\",
                 "UND WENN DU DRAMA WILLST, GIB MIR @Effect UND ICH VERÄNDERE, WIE ALLES AUSSIEHT. UNTER WASSER! ALTER FILM! RAUSCHEN! ICH LIEBE ES.",
-                "\\Bühne(\n\t[Satzglied('🐟 blub')]\n\tEffekte: [Welle() Tönung(Farbe(55% 45 220°))]\n)\\"
+                "\\Bühne(\n\t[Phrase('🐟 blub')]\n\tEffekte: [Welle() Tönung(Farbe(55% 45 220°))]\n)\\"
             ],
             "description": {
                 "names": "$~Beschreibung",
@@ -134,7 +134,7 @@
                 "$~Ich ordne @Phrase, @Shape und @Group zusammen auf @Stage mit einer @Arrangement an. Oh hallo, wie geht es dir? Mir geht es immer gut, wenn andere da sind, also ist es toll, bei dir zu sein!",
                 "Um zu funktionieren, brauche ich von dir eine @Arrangement, und dann eine @List von @Output, die ich anordnen soll.",
                 "Hier bin ich zum Beispiel mit einer @Stack-Anordnung und ein paar @Phrase, die senkrecht gestapelt werden:",
-                "\\Gruppe(Stapel() [Satzglied('erste') Satzglied('zweite')])\\",
+                "\\Gruppe(Stapel() [Phrase('erste') Phrase('zweite')])\\",
                 "Wie genau ich Dinge anordne, hängt von der @Arrangement ab, die du mir gibst."
             ],
             "description": {
@@ -153,7 +153,7 @@
             },
             "matter": {
                 "doc": "$~Wie schwer, sprunghaft und rutschig ich bin, und was mich fest macht, wenn ein @Motion mich bewegt.",
-                "names": "$~Gegenstand"
+                "names": ["$~Material", "$~Gegenstand"]
             },
             "size": {
                 "doc": "$~Wie groß müsste der wunderbare Inhalt in mir sein, wenn er nicht seine eigene Größe hätte!",
@@ -234,7 +234,7 @@
             "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
-            "names": ["Satzglied"],
+            "names": ["$~Phrase"],
             "doc": [
                 "$~Ich repräsentiere die Liebste von @Text auf @Stage . Hallo, hallo! Erinnert ihr euch an mich? Wie könnte man mich vergessen?",
                 "Mach mich einfach so, und ich werde auf @Stage erscheinen:",
@@ -279,7 +279,7 @@
             },
             "matter": {
                 "doc": "$~Wie schwer, sprunghaft und rutschig ich bin, und was mich fest macht, wenn ein @Motion mich bewegt.",
-                "names": "$~Gegenstand"
+                "names": ["$~Material", "$~Gegenstand"]
             },
             "aura": {
                 "doc": "$~Die optionale @Aura, die hinter mir angezeigt wird. Bring mich zum Leuchten!",
@@ -364,10 +364,10 @@
                 "doc": [
                     "$~Die Sprechblase zeigt, was ich sage, und zeigt direkt auf mich. Vier verschiedene Dinge können hier stehen.",
                     "Einfacher Text, den ich nur anzeige, ohne mehr:",
-                    "\\Satzglied('ein' sprechblase: 'hallo!')\\",
+                    "\\Phrase('ein' sprechblase: 'hallo!')\\",
                     "@markup, wenn du *fette* oder /kursive/ Wörter in dem willst, was ich sage.",
                     "Ein @Say, das ich *anzeige und* laut vorlese:",
-                    "\\Satzglied('ein' sprechblase: Sagen('hallo!'))\\",
+                    "\\Phrase('ein' sprechblase: Sagen('hallo!'))\\",
                     "Ein @Bubble, wenn du wählen willst, von welcher Seite ich spreche, es stattdessen zu einem Gedanken machen willst, oder ihm eine Farbe geben willst."
                 ],
                 "names": "$~sprechblase"
@@ -375,9 +375,9 @@
             "poses": {
                 "doc": [
                     "$~@Pose für jedes meiner Glyphen, eins nach dem anderen. Das erste Glyph bekommt die erste Pose, das zweite bekommt die zweite, und wenn mir die Posen ausgehen, fange ich wieder bei der ersten an. Leerzeichen zählen auch als Glyphen.",
-                    "\\Satzglied(\n\t'Party!'\n\tPosen: [\n\t\tPose(Farbe: Farbe(25% 70 250°))\n\t\tPose(Farbe: Farbe(50% 80 300°))\n\t\tPose(Farbe: Farbe(58% 90 60°))\n\t]\n)\\",
+                    "\\Phrase(\n\t'Party!'\n\tPosen: [\n\t\tPose(Farbe: Farbe(25% 70 250°))\n\t\tPose(Farbe: Farbe(50% 80 300°))\n\t\tPose(Farbe: Farbe(58% 90 60°))\n\t]\n)\\",
                     "Jedes Glyph dreht sich, wächst und bewegt sich um seine eigene Mitte. So kippt eine einzelne Pose jedes Glyph an Ort und Stelle, während meine Zeile gerade bleibt:",
-                    "\\Satzglied('wackelig' Posen: Pose(Drehung: 15°))\\",
+                    "\\Phrase('wackelig' Posen: Pose(Drehung: 15°))\\",
                     "Die eigene Farbe eines Glyphs hat Vorrang vor meiner und vor jeder Pose, die ich animiere. Seine Deckkraft wird mit meiner kombiniert."
                 ],
                 "names": "$~Posen"
@@ -414,7 +414,7 @@
             }
         },
         "Grid": {
-            "names": ["$~Netz"],
+            "names": ["$~Raster", "$~Netz"],
             "doc": "$~Ich bin ein Gitter aus @Output. Gib mir eine Anzahl an Zeilen und @column, und ich mache daraus eine ordentliche Anordnung mit optionalem Abstand und @cell-Größen. Ich entscheide über beide Richtungen, deshalb bewegt eine @Place nichts seitlich oder auf und ab — auch wenn ihr z-@value weiterhin sagt, wie nah es ist.",
             "description": "$~$rows Zeile $columns Spaltenraster",
             "rows": {
@@ -577,7 +577,7 @@
             },
             "y": {
                 "doc": "$~Der vertikale Mittelpunkt des Kreises.",
-                "names": "$~j"
+                "names": ["$~Y", "$~j"]
             },
             "z": {
                 "doc": "$~Die Tiefenposition des Kreises.",
@@ -601,7 +601,7 @@
             },
             "y": {
                 "doc": "$~Der vertikale Mittelpunkt des Polygons.",
-                "names": "$~j"
+                "names": ["$~Y", "$~j"]
             },
             "z": {
                 "doc": "$~Die Tiefenposition des Polygons.",
@@ -742,11 +742,11 @@
                 "doc": [
                     "$~Wähle eine zufällige Farbe.",
                     "Da keine Farben verfügbar sind, wähle ich zufällig eine der Grundfarben aus:",
-                    "\\Color.random()\\",
+                    "\\Farbe.zufällig()\\",
                     "Bei einer Farbe behalte ich deren Helligkeit und Farbsättigung bei, wähle aber einen zufälligen Farbton:",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Farbe.zufällig(Farbe.Blau)\\",
                     "Bei zwei Farben wähle ich zufällig eine Helligkeit, Farbsättigung und einen Farbton aus beiden Werten aus:",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Farbe.zufällig(Farbe.Schwarz Farbe.Weiß)\\"
                 ],
                 "names": "$~zufällig",
                 "inputs": [
@@ -763,10 +763,10 @@
             "lighter": {
                 "doc": [
                     "$~Erstelle eine leichtere Version von mir, indem du meine Helligkeit um einen Prozentsatz erhöhst (standardmäßig 5 %).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Farbe.Blau.heller()\\",
+                    "\\Farbe.Blau.heller(20%)\\"
                 ],
-                "names": "$~Feuerzeug",
+                "names": ["$~heller", "$~Feuerzeug"],
                 "inputs": [
                     {
                         "doc": "$~Um wie viel Prozent soll die Helligkeit erhöht werden? Standardwert: 5 %.",
@@ -777,8 +777,8 @@
             "darker": {
                 "doc": [
                     "$~Erstelle eine dunklere Version von mir, indem du meine Helligkeit um einen Prozentsatz reduzierst (standardmäßig 5 %).",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Farbe.Blau.dunkler()\\",
+                    "\\Farbe.Blau.dunkler(20%)\\"
                 ],
                 "names": "$~dunkler",
                 "inputs": [
@@ -790,7 +790,7 @@
             }
         },
         "Sequence": {
-            "names": ["$~Reihenfolge"],
+            "names": ["$~Abfolge", "$~Reihenfolge"],
             "doc": [
                 "$~Ich animiere @Output über die Zeit durch eine Reihe von @Pose! Willst du mit mir tanzen? Es ist ganz leicht.",
                 "Du musst mir nur einen @Map geben, wobei jeder @key darstellt, wie viel Prozent des Tanzes wir schon geschafft haben, und jeder @value dieser Schlüssel ist ein @Pose, der sein soll.",
@@ -1178,7 +1178,7 @@
             },
             "y": {
                 "doc": "$~Eine Position auf der y-Achse",
-                "names": "$~j"
+                "names": ["$~Y", "$~j"]
             },
             "z": {
                 "doc": "$~Eine Position auf der Z-Achse",
@@ -1198,7 +1198,7 @@
             },
             "y": {
                 "doc": "$~Wie viele Meter pro Sekunde auf der Y-Achse zurückgelegt werden sollen.",
-                "names": "$~j"
+                "names": ["$~Y", "$~j"]
             },
             "angle": {
                 "doc": "$~Um wie viele Grad soll pro Sekunde gedreht werden?",
@@ -1207,7 +1207,7 @@
         },
         "Matter": {
             "doc": "$~Ich sage, wie schwer, sprunghaft und rutschig @Output ist. @Output, das mich und ein @Motion hat, ist fest: Es prallt ab von @Shape auf dem @Stage und von anderen sich bewegenden @Output. @Output, das dein Programm platziert, geht stattdessen genau dorthin, wohin du es setzt, und geht durch das hindurch, was es berührt. @Output braucht mich nicht, um von @Collision bemerkt zu werden — dafür reicht ein Name aus.",
-            "names": ["$~Gegenstand"],
+            "names": ["$~Material", "$~Gegenstand"],
             "mass": {
                 "doc": "$~Ein Gewicht in Kilogramm",
                 "names": "$~Masse"
@@ -1494,7 +1494,7 @@
                 "Alles, was Zahlen macht, kann Musik machen. Diese Melodie mischt sich in eine neue Reihenfolge und folgt dem, wie laut du sprichst:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].gemischt())\n\tTempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Niemand muss mich hören. @Beat meldet jeden Schlag, wenn er klingt, sodass du die Musik zeichnen und auch spielen kannst, neben der Darstellung, die der Betrachter gewählt hat. @Beat hat immer einen @Downbeat, sodass du ihn lesen kannst, ohne etwas zu prüfen:",
-                "\\takt: Takt()\nzählen: takt.Zählung\n🎭([\n\t\t💬('◆' Größe: 1m + ((zählen % 4) = 0 ? 2m 0m) Ort: 📍(-2m 2m))\n\t\t💬('◆' Größe: 1m + ((zählen % 4) = 2 ? 2m 0m) Ort: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] Instrument: 🔈.🥁))\n\t])\\",
+                "\\takt: Schlag()\nzählen: takt.Zählung\n🎭([\n\t\t💬('◆' Größe: 1m + ((zählen % 4) = 0 ? 2m 0m) Ort: 📍(-2m 2m))\n\t\t💬('◆' Größe: 1m + ((zählen % 4) = 2 ? 2m 0m) Ort: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] Instrument: 🔈.🥁))\n\t])\\",
                 "Ich habe kein eigenes Aussehen, das man gestalten könnte, also nehme ich keine der üblichen Aussehen-Eingaben — keine Größe, keinen Ort, keine Farbe und keine Animation. Wie ich erscheine, ist die Wahl des Betrachters, in seinen Einstellungen getroffen, und ich bin an die Bühne verankert, nicht in dein Layout gesetzt; ich nehme keinen Platz ein, also verschiebt es nie etwas neben mir, wenn du mich in eine @Row oder einen @Stack setzt. Um die Musik selbst zu zeichnen, nutze @Beat: Es gibt dir jeden Schlag, wenn er klingt, um jede beliebige Ausgabe zu steuern.",
                 "Ich spiele über Auswertungen hinweg weiter: Bearbeite meine Noten, während ich spiele, und die Änderung fügt sich beim nächsten Schlag ein, statt neu zu starten. Das lässt das Ändern einer Melodie während des Spiels musikalisch wirken. Um mich von vorn wieder zu spielen, siehe @Music/replay; um mich anzuhalten und an derselben Stelle weiterzumachen, siehe @Music/pause."
             ],
@@ -1895,7 +1895,7 @@
         "Bubble": {
             "doc": [
                 "$~Ich zeige, was eine @Phrase sagt, in einer Sprechblase, die direkt auf sie zeigt. Gib mich zum @Phrase.bubble einer Phrase, und lass die Buchstaben sprechen:",
-                "\\Satzglied('ein' sprechblase: 'hallo!')\\",
+                "\\Phrase('ein' sprechblase: 'hallo!')\\",
                 "Gib mir eine @Say statt Text, und ich werde laut vorgelesen und zugleich angezeigt.",
                 "Ändere mein @Bubble.kind zu einem Gedanken, und ich werde stattdessen eine Gedankenblase.",
                 "Ich bin eine Dekoration. Deshalb rückt nichts auf der Bühne zur Seite, um Platz für mich zu machen — aber die @Stage sorgt dafür, dass ich sichtbar bleibe."
@@ -2050,14 +2050,14 @@
             "doc": [
                 "$~Ich bin ein abstrakter Effekt. Ich werde über die ganze @Stage gelegt und verändere, wie alles darauf aussieht. Mich selbst kann man nie direkt erstellen. Erstelle stattdessen einen der Effekte, die ich bin, zum Beispiel @Blur, @Grain oder @Wave, und gib eine Liste davon an die @Stage.effects einer Bühne.",
                 "Die Effekte werden in der Reihenfolge der Liste angewendet. Ein @Blur nach einem @Grain macht also auch das Korn unscharf. Sie bedecken den Inhalt der Bühne, aber nie ihre @Stage.overlay. So bleiben ein Punktestand oder ein Knopf deutlich sichtbar.",
-                "\\Bühne(\n\t[Satzglied('🐟')]\n\tEffekte: [Tönung(Farbe(60% 40 220°)) Welle()]\n)\\"
+                "\\Bühne(\n\t[Phrase('🐟')]\n\tEffekte: [Tönung(Farbe(60% 40 220°)) Welle()]\n)\\"
             ],
             "names": ["$~Effekt"]
         },
         "Blur": {
             "doc": [
                 "$~Ich mache alles auf @Stage weicher, als wäre die Kamera nicht scharf gestellt. Ein bisschen von mir wirkt wie ein Traum oder eine Erinnerung. Viel von mir ist wie Aufwachen oder wie eine verlorene Brille.",
-                "\\Bühne(\n\t[Satzglied('🤓 wo ist meine Brille?')]\n\tEffekte: [Unschärfe(0.05m)]\n)\\"
+                "\\Bühne(\n\t[Phrase('🤓 wo ist meine Brille?')]\n\tEffekte: [Unschärfe(0.05m)]\n)\\"
             ],
             "names": ["$~Unschärfe"],
             "amount": {
@@ -2068,7 +2068,7 @@
         "Grade": {
             "doc": [
                 "$~Ich ändere Helligkeit, Kontrast, Sättigung und Farbton von allem auf @Stage, so wie die Farben eines Films abgestimmt werden, um Stimmung zu erzeugen. Nimm die ganze Sättigung weg und erhöhe den Kontrast, dann hast du einen Schwarz-Weiß-Film noir.",
-                "\\Bühne(\n\t[Satzglied('🕵 der Detektiv wartete')]\n\tEffekte: [Farbkorrektur(Sättigung: 0% Kontrast: 150%)]\n)\\"
+                "\\Bühne(\n\t[Phrase('🕵 der Detektiv wartete')]\n\tEffekte: [Farbkorrektur(Sättigung: 0% Kontrast: 150%)]\n)\\"
             ],
             "names": ["$~Farbkorrektur"],
             "brightness": {
@@ -2091,7 +2091,7 @@
         "Tint": {
             "doc": [
                 "$~Ich tauche alles auf @Stage in eine einzige @Color und behalte dabei Hell und Dunkel, damit Text gut lesbar bleibt. Blaugrün lässt eine Szene unter Wasser wirken, Braun macht sie zu einem alten Foto, und Grün macht daraus Nachtsicht.",
-                "\\Bühne(\n\t[Satzglied('🏰 vor langer Zeit')]\n\tEffekte: [Tönung(Farbe(60% 40 60°) 80%)]\n)\\"
+                "\\Bühne(\n\t[Phrase('🏰 vor langer Zeit')]\n\tEffekte: [Tönung(Farbe(60% 40 60°) 80%)]\n)\\"
             ],
             "names": ["$~Tönung"],
             "color": {
@@ -2106,7 +2106,7 @@
         "Haze": {
             "doc": [
                 "$~Ich hülle die @Stage in Nebel, der langsam darüber zieht. Ich bin für Morgen, Rauch, Dampf und alles, was weit weg ist.",
-                "\\Bühne([Satzglied('🌲🌲 das Moor 🌲')] Effekte: [Dunst(60%)])\\"
+                "\\Bühne([Phrase('🌲🌲 das Moor 🌲')] Effekte: [Dunst(60%)])\\"
             ],
             "names": ["$~Dunst"],
             "amount": {
@@ -2126,7 +2126,7 @@
             "doc": [
                 "$~Ich bestreue die @Stage mit Rauschen, das sich in jedem Moment ändert. Ein bisschen von mir ist das Korn eines echten Films. Viel von mir, mit großen Punkten, ist ein Fernseher ohne Signal.",
                 "Wenn ich stark bin, bin ich anstrengend anzusehen. Deshalb werde ich als mögliches Muster vermerkt, für Menschen, die darauf empfindlich reagieren.",
-                "\\Bühne(\n\t[Satzglied('📺 kein Signal')]\n\tEffekte: [Körnung(90% Größe: 3)]\n)\\"
+                "\\Bühne(\n\t[Phrase('📺 kein Signal')]\n\tEffekte: [Körnung(90% Größe: 3)]\n)\\"
             ],
             "names": ["$~Körnung"],
             "amount": {
@@ -2145,7 +2145,7 @@
         "Scanlines": {
             "doc": [
                 "$~Ich zeichne die dünnen dunklen Linien eines alten Fernsehbildschirms über die @Stage. Gib mir eine /Geschwindigkeit/, dann rolle ich, wie ein Fernseher, der nicht ganz richtig eingestellt ist.",
-                "\\Bühne(\n\t[Satzglied('📺 Kanal 3')]\n\tEffekte: [Bildzeilen(40% Tempo: 1)]\n)\\"
+                "\\Bühne(\n\t[Phrase('📺 Kanal 3')]\n\tEffekte: [Bildzeilen(40% Tempo: 1)]\n)\\"
             ],
             "names": ["$~Bildzeilen"],
             "amount": {
@@ -2165,7 +2165,7 @@
             "doc": [
                 "$~Ich lasse die Ausgabe auf @Stage wellen, als würdest du sie durch Wasser oder aufsteigende Hitze sehen.",
                 "Ich verbiege die Ausgabe selbst, unter allen anderen Effekten. Ein @Grain vor mir in der Liste wird also nicht gewellt.",
-                "\\Bühne([Satzglied('🐟 blub')] Effekte: [Welle(0.2m)])\\"
+                "\\Bühne([Phrase('🐟 blub')] Effekte: [Welle(0.2m)])\\"
             ],
             "names": ["$~Welle"],
             "amount": {
@@ -2184,7 +2184,7 @@
         "Damage": {
             "doc": [
                 "$~Ich streue die Kratzer und den Staub alter, abgenutzter Filmrollen über die @Stage, bei jedem Bild anders. Kombiniere mich mit einem @Grade, der die Farbe wegnimmt, und einem @Flicker, und deine Szene wirkt hundert Jahre alt.",
-                "\\Bühne(\n\t[Satzglied('🎩 ENDE')]\n\tEffekte: [Farbkorrektur(Sättigung: 0%) Schaden(80% 60%)]\n)\\"
+                "\\Bühne(\n\t[Phrase('🎩 ENDE')]\n\tEffekte: [Farbkorrektur(Sättigung: 0%) Schaden(80% 60%)]\n)\\"
             ],
             "names": ["$~Schaden"],
             "scratches": {
@@ -2200,7 +2200,7 @@
             "doc": [
                 "$~Ich lasse die ganze @Stage flackern. Sie bleibt ruhig und wird dann zu unregelmäßigen Zeiten kurz dunkel, wie die Lampe eines Projektors oder eine Lampe, die gleich ausgeht.",
                 "Blitzendes Licht kann Menschen schaden. Darum flackere ich nie öfter als ein paar Mal pro Sekunde, egal wie schnell du es willst.",
-                "\\Bühne([Satzglied('💡 das Licht')] Effekte: [Flackern(40% 2)])\\"
+                "\\Bühne([Phrase('💡 das Licht')] Effekte: [Flackern(40% 2)])\\"
             ],
             "names": ["$~Flackern"],
             "amount": {
@@ -2215,7 +2215,7 @@
         "Vignette": {
             "doc": [
                 "$~Ich verdunkle die Ränder der @Stage und lasse die Mitte hell. So lenke ich die Blicke zur Mitte. Ich bin der Rand einer alten Linse, ein Scheinwerfer oder ein Tunnelblick.",
-                "\\Bühne(\n\t[Satzglied('🔦 schau hierher')]\n\tEffekte: [Vignette(70%)]\n)\\"
+                "\\Bühne(\n\t[Phrase('🔦 schau hierher')]\n\tEffekte: [Vignette(70%)]\n)\\"
             ],
             "names": ["$~Vignette"],
             "amount": {

@@ -11,7 +11,7 @@ La voix est le chat accordé, \Instrument.chatAvecHauteur\ : un seul miaou, acco
 
 C'est lent pour du scat. Un miaou dure environ huit dixièmes de seconde, et avec un tempo plus rapide, les noires couperaient le chat au milieu du mot.¶
 
-temps: Rythme()
+temps: Pulsation()
 compte2: temps.nombre
 
 ¶Une note, ou parfois rien : environ une fois sur sept, c'est un silence. C'est juste assez d'air pour que le chat ferme la bouche de temps en temps sans alléger le solo. Et comme les silences tombent là où le hasard les met, deux refrains ne respirent jamais au même endroit.¶
@@ -28,7 +28,7 @@ compte2: temps.nombre
 		un2: voix2()
 		b2: voix2()
 		c2: voix2()
-		(32 → []).traduire(
+		(32 → []).transformer(
 			ƒ(i•#)
 				(i = 1) ? un2
 					(i = 2) ? b2
@@ -45,7 +45,7 @@ compte2: temps.nombre
 Ce sont les notes les plus courtes du morceau, et le seul endroit où le chat est coupé : deux croches dans un temps, c'est plus rapide qu'un miaou ne peut finir, et c'est justement le son d'une syllabe de scat rapide.¶
 ƒ passages2()•[#|ø] (
 		maison: Aléatoire(1 8)
-		(64 → []).traduire(
+		(64 → []).transformer(
 			ƒ(i2•#)
 				~((17 ‥ 32) ∋ i2) ? ø
 					maybe((((maison + (i2 - 17)) - 1) % 8) + 1)
@@ -55,7 +55,7 @@ Ce sont les notes les plus courtes du morceau, et le seul endroit où le chat es
 ¶Des triolets, mesures cinq et six : une cellule de trois notes qui tourne en boucle. Trois dans la durée de deux s'écrit exactement ainsi, 2beats ÷ 3, ce qui dit à voix haute ce qu'est un triolet.¶
 ƒ balancer3()•[#|ø] (
 		cellule2: [voix2() voix2() voix2()]
-		(48 → []).traduire(
+		(48 → []).transformer(
 			ƒ(i3•#)
 				~((25 ‥ 36) ∋ i3) ? ø
 					cellule2[(((i3 - 25) % 3) + 1)]
@@ -64,7 +64,7 @@ Ce sont les notes les plus courtes du morceau, et le seul endroit où le chat es
 
 ¶Des blanches, mesure sept : le chat ralentit et se pose sur deux longues notes. Une note tenue garde la bouche ouverte tout le temps qu'elle sonne, et c'est à cela que ressemble une note tenue.¶
 ƒ tenues2()•[#|ø]
-	(16 → []).traduire(
+	(16 → []).transformer(
 		ƒ(i4•#)
 			(i4 = 13) ? voix2()
 				(i4 = 14) ? voix2()
@@ -72,7 +72,7 @@ Ce sont les notes les plus courtes du morceau, et le seul endroit où le chat es
 	)
 
 ¶Une ronde, mesure huit : le degré 1, tenu. Revenir à la première note de la gamme donne à la phrase l'air d'être terminée plutôt que simplement arrêtée.¶
-ƒ queue2()•[#|ø] (8 → []).traduire(ƒ(i5•#) (i5 = 8) ? 1 ø)
+ƒ queue2()•[#|ø] (8 → []).transformer(ƒ(i5•#) (i5 = 8) ? 1 ø)
 
 ƒ improviser()•refrain refrain(
 		appels2()
@@ -90,7 +90,7 @@ refrain2•refrain: improviser() … ∆ temps …
 maigre: ((compte2 % 2) = 0) ? -1 1
 
 ¶Indique si le chat fait un son en ce moment. @Beat renvoie un @Part pour chaque piste, et une partie reste ⊤ pendant tous les temps d'une note tenue, donc c'est ⊤ dès que quelque chose est audible.¶
-chant: temps.parties.traduire(
+chant: temps.parties.transformer(
 		ƒ(partie•Partie) partie.sonnant
 	).a(
 		⊤

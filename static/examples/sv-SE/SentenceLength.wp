@@ -3,8 +3,8 @@ Meningslängd
 ===
 ¶Skriv i chattfältet så räknar den tecknen i din mening.¶
 
-mening: Chatta()
-längd2: Chatta().längd()
+mening: Chatt()
+längd2: Chatt().längd()
 
 Grupp(
 	Stack()

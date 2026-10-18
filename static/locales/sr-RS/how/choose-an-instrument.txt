@@ -4,13 +4,13 @@
 
 @Choice  враћа \name\ оног излаза који је публика изабрала, па је услов довољан да то претворите у инструмент:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' избор име: 'клавир')
-				Phrase('🎻' избор име: 'виолина')
+\picked: Избор()
+Позорница([
+		Група(Ред() [
+				Фраза('🎹' избор име: 'клавир')
+				Фраза('🎻' избор име: 'виолина')
 			])
-		Music(Track([1 3 5 6 5 3] инструмент: (picked = 'виолина') ? Instrument.violin Instrument.piano))
+		Музика(Деоница([1 3 5 6 5 3] инструмент: (picked = 'виолина') ? Инструмент.виолина Инструмент.клавир))
 	])\
 
 Две фразе које се могу изабрати чине да ово ради —  @Choice  нема шта да чита осим ако нешто на сцени није \можеСеИзабрати: ⊤\.
@@ -19,18 +19,18 @@ Stage([
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' Инструмент.клавир)
+		Voice('🎺' Инструмент.труба)
+		Voice('🔔' Инструмент.звоно)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: Избор()
+found: voices.наћи(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon избор име: voice.icon))
+Позорница([
+		Група(Ред() [
+				:voices.преводити(ƒ(voice•Voice) Фраза(voice.icon избор име: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] инструмент: current.sound))
+		Музика(Деоница([1 3 5 6 5 3] инструмент: current.sound))
 	])\
 
 Додавање четвртог гласа сада је једна линија, а дугме се појављује само. Обрати пажњу на заштиту \found•ø ?\:  @List/find  враћа \ø\ када ништа не одговара, а то се дешава пре него што било ко изабере — и резервна вредност мора бити цео \Говор\, јер је то оно што \current\ обећава да буде.

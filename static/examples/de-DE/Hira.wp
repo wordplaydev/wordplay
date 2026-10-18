@@ -11,13 +11,13 @@ hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざし
 
 buchstaben: zählung → [].übersetzen(
 		ƒ(zahl2 index2)
-			Satzglied(
+			Phrase(
 				hiragana[zahl2]
 				Ort: Bewegung(
 					Ort((index2 - (zählung ÷ 2)) × 0.2m 10m)
 					Geschwindigkeit(Winkel: Zufällig(-5 5) × 1°/s)
 				)
-				Gegenstand: Gegenstand(Sprungkraft: 0.3)
+				Material: Material(Sprungkraft: 0.3)
 			)
 	)
 

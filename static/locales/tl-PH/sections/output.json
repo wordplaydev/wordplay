@@ -117,7 +117,7 @@
             "doc": [
                 "$~Ako ang kumakatawan sa pinakamaganda sa @Text sa @Stage . Kumusta, kumusta! Natatandaan mo pa ba ako? Paano naman makakalimutan ng sinuman ang /ako/.",
                 "Gawin mo lang akong ganito, at lalabas ako sa @Stage :",
-                "\\Phrase('magnificent!')\\",
+                "\\Parirala('magnificent!')\\",
                 "Kailangan ko @TextLiteral o @FormattedLiteral para maipakita. Gamit ang @FormattedLiteral , magagamit ko ang mga bagay tulad ng \\`*bold* and /italic/`\\ o kaya'y sumangguni sa custom @ConceptLink na iyong ginawa.",
                 "Maaari mo ring opsyonal na ibigay sa akin ang lahat ng kayang gawin ng isang @Output , kabilang ang pagpapalit ng aking laki, font, rotation, at gawin ang lahat ng aking mga hindi kapani-paniwalang sayaw gamit ang @Pose at @Sequence .",
                 "Maaari mo rin akong piliin sa @Stage at i-edit gamit ang palette 🎨 sa tabi ko — isa itong magandang paraan para subukan ang iba't ibang font at piliin ang tamang /mukha/ para sa iyong @Text ."
@@ -473,7 +473,7 @@
             },
             "y": {
                 "doc": "$~Ang patayong gitna ng bilog.",
-                "names": "$~taon"
+                "names": "$~y"
             },
             "z": {
                 "doc": "$~Ang lalim na posisyon ng bilog.",
@@ -497,7 +497,7 @@
             },
             "y": {
                 "doc": "$~Ang patayong gitna ng polygon.",
-                "names": "$~taon"
+                "names": "$~y"
             },
             "z": {
                 "doc": "$~Ang lalim na posisyon ng polygon.",
@@ -572,7 +572,7 @@
             "names": ["$~Kulay"],
             "lightness": {
                 "doc": "$~Gaano ako dapat kagaan mula \\0\\ hanggang \\1\\, mula itim sa \\0\\, hanggang abo sa \\0.5\\, hanggang puti sa \\1\\.",
-                "names": ["$~kagaanan"]
+                "names": ["$~liwanag", "$~kagaanan"]
             },
             "chroma": {
                 "doc": "$~Gaano karaming kulay ang dapat kong magkaroon, mula \\0\\ hanggang \\∞\\. Ang walang kulay ay nangangahulugang kulay abo, ang mas mataas na numero ay nangangahulugang mas maraming kulay.",
@@ -638,11 +638,11 @@
                 "doc": [
                     "$~Magbigay ng kulay na walang kapareha.",
                     "Dahil walang kulay, pipili ako ng isa sa mga pangunahing kulay nang random:",
-                    "\\Color.random()\\",
+                    "\\Kulay.random()\\",
                     "Sa isang kulay, pinapanatili ko ang gaan at kroma nito ngunit pumipili ng iba't ibang kulay:",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Kulay.random(Kulay.asul)\\",
                     "Gamit ang dalawang kulay, pipili ako ng random na gaan, kroma, at kulay sa pagitan ng dalawa:",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Kulay.random(Kulay.itim Kulay.puti)\\"
                 ],
                 "names": "$~random",
                 "inputs": [
@@ -659,10 +659,10 @@
             "lighter": {
                 "doc": [
                     "$~Magbigay ng mas magaan na bersyon ko, na pinapataas ang aking gaan ng isang porsyento (5% bilang default).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Kulay.asul.masmaliwanag()\\",
+                    "\\Kulay.asul.masmaliwanag(20%)\\"
                 ],
-                "names": "$~masmagaan",
+                "names": ["$~masmaliwanag", "$~masmagaan"],
                 "inputs": [
                     {
                         "doc": "$~Gaano kalaki ang dapat itaas ang gaan, bilang porsyento. Nakatakda sa 5% ayon sa default.",
@@ -673,8 +673,8 @@
             "darker": {
                 "doc": [
                     "$~Bigyan ng mas madilim na bersyon ko, na binabawasan ang aking kagaanan ng isang porsyento (5% bilang default).",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Kulay.asul.masmadilim()\\",
+                    "\\Kulay.asul.masmadilim(20%)\\"
                 ],
                 "names": "$~masmadilim",
                 "inputs": [
@@ -709,7 +709,7 @@
             },
             "count": {
                 "doc": "$~Ilang beses dapat ulitin ang pagkakasunod-sunod bago ito matapos. Malaking tulong ito kapag papasok ako sa entablado, lilipat sa entablado, o lalabas sa entablado, ngunit kapag para sa isang pagkakasunod-sunod ng pahinga, hindi ito pinapansin, dahil maaari akong magpahinga magpakailanman.",
-                "names": "$~bilangin"
+                "names": ["$~bilang", "$~bilangin"]
             },
             "description": {
                 "doc": "$~Isang opsyonal na paglalarawan ng pagkakasunod-sunod na ito para sa mga manonood na hindi makakakita ng animation.",
@@ -769,7 +769,7 @@
                 "shake": {
                     "doc": [
                         "$~Kinakalabit ko ang isang @Output pabalik-balik sa iba't ibang direksyon. Nababasa ako bilang “hindi”, o parang may kumakalampag. Mabilis akong gumalaw, kaya panatilihin akong maikli.",
-                        "\\💬('🐈' nagpapahinga: 💃.iling(0.5s bilangin: 3x))\\"
+                        "\\💬('🐈' nagpapahinga: 💃.iling(0.5s bilang: 3x))\\"
                     ],
                     "names": ["$~iling"]
                 },
@@ -1074,7 +1074,7 @@
             },
             "y": {
                 "doc": "$~Isang posisyon sa y-axis",
-                "names": "$~taon"
+                "names": "$~y"
             },
             "z": {
                 "doc": "$~Isang posisyon sa z-axis",
@@ -1094,7 +1094,7 @@
             },
             "y": {
                 "doc": "$~Ilang metro ang dapat igalaw bawat segundo sa y-axis.",
-                "names": "$~taon"
+                "names": "$~y"
             },
             "angle": {
                 "doc": "$~Ilang digri ang iikot bawat segundo",
@@ -1384,7 +1384,7 @@
             },
             "ends": {
                 "doc": "$~Ang @name ng bawat pagkuha patungo sa kung saan ito nagtatapos.",
-                "names": "$~mgadulo"
+                "names": ["$~nagtatapos", "$~mgadulo"]
             }
         },
         "TextEffect": {
@@ -1494,7 +1494,7 @@
                 "Anumang gumagawa ng mga numero ay maaaring gumawa ng musika. Ang melodiyang ito ay ginugulo ang sarili nito sa bagong ayos, at sinusunod kung gaano ka kalakas magsalita:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].hinalo())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
                 "Hindi kailangang marinig ako ng sinuman. Iniuulat ng @Beat ang bawat beat habang tumutunog ito, kaya maaari mong iguhit ang musika pati na rin tugtugin ito, kasama ang anumang visualization na pinili ng manonood. Lagi may @Downbeat ang @Beat, kaya mababasa mo ito nang hindi nagsusuri ng anuman:",
-                "\\beat: Kumpas()\nbilang: beat.bilangin\n🎭([\n\t\t💬('◆' laki: 1m + ((bilang % 4) = 0 ? 2m 0m) lugar: 📍(-2m 2m))\n\t\t💬('◆' laki: 1m + ((bilang % 4) = 2 ? 2m 0m) lugar: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrumento: 🔈.🥁))\n\t])\\",
+                "\\beat: Kumpas()\nbilang: beat.bilang\n🎭([\n\t\t💬('◆' laki: 1m + ((bilang % 4) = 0 ? 2m 0m) lugar: 📍(-2m 2m))\n\t\t💬('◆' laki: 1m + ((bilang % 4) = 2 ? 2m 0m) lugar: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrumento: 🔈.🥁))\n\t])\\",
                 "Wala akong sariling anyo na maaaring i-estilo, kaya wala akong kinukuha sa karaniwang mga input ng hitsura — walang sukat, lugar, kulay, o animasyon. Ang paglitaw ko ay pinili ng manonood, ginawa sa kanilang mga setting, at nakaangkla ito sa stage sa halip na inilagay sa iyong layout; wala akong inuubos na espasyo, kaya ang paglalagay sa akin sa isang @Row o @Stack ay hindi kailanman naglilipat ng anuman sa tabi ko. Para iguhit mo mismo ang musika, gamitin ang @Beat: ibinibigay nito sa iyo ang bawat beat habang tumutunog ito, para patakbuhin ang anumang output na gusto mo.",
                 "Patuloy akong tumutugtog sa buong mga pagsusuri: i-edit ang aking mga nota habang tumutugtog ako at ang pagbabago ay ipinapasok sa susunod na beat sa halip na magsimulang muli, na siyang gumagawa na parang musikal ang pagbabago ng melodiya habang tumutugtog. Para tugtugin ako ulit mula sa itaas, tingnan ang @Music/replay; para pigilin ako at ituloy sa parehong lugar, tingnan ang @Music/pause."
             ],

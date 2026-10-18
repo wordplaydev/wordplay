@@ -9,7 +9,7 @@ Gumagalaw ang himig at ang harmonya sa kalahating tibok, at ang mga kord naman s
 
 ¶Bilang ng tibok mula nang magsimula ang kanta, para makagalaw ang keyk kasabay nito. Nagbibilang ang @Beat mula sa zero bago pa man tumugtog ang musika, kaya nananatiling tahimik lang ang keyk.¶
 tibok2: Kumpas()
-bilang2: tibok2.bilangin
+bilang2: tibok2.bilang
 
 ¶Ang himig. Dalawang ikawalo, pagkatapos ay mas mahahabang nota — ang mga pahinga ang bumubuo sa ritmo, dahil bawat entrada ay tumatagal ng parehong kalahating tibok.¶
 himig2: [

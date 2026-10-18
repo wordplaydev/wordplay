@@ -5,9 +5,9 @@ Bazen bir tane yapmak faydalıdır @Phrase klavye, fare veya parmakla hareket et
 Bunu yapın, birleştirebiliriz @Phrase ile @Placement:
 
 \
-Stage(
-	[Phrase('beni hareket ettir' yer: Placement())]
-	yer: Place(0m 0m -10m)
+Sahne(
+	[Yazı('beni hareket ettir' yer: Yerleştirme())]
+	yer: Yer(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Ama şunu biliyor muydun, @Placement şununla kullanılabilir: / her şey / bir 
 Hadi bir @Placement için @Stage'in yerini ayarlayıp ne olduğunu görelim.
 
 \
-Stage(
+Sahne(
   [
-	Phrase('🐈' yer: Place(-2m 2m))
-	Phrase('🐈' yer: Place(2m -2m))
-	Phrase('🐈' yer: Place(-1m 3m))
+	Yazı('🐈' yer: Yer(-2m 2m))
+	Yazı('🐈' yer: Yer(2m -2m))
+	Yazı('🐈' yer: Yer(-1m 3m))
   ]
-  yer: Placement(Place(0m 0m -10m))
+  yer: Yerleştirme(Yer(0m 0m -10m))
 )
 \
 

@@ -7,7 +7,7 @@ Gabungkan semuanya untuk memilih emoji acak:
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+Frasa(emojis.acak())
 \
 
  Kamu juga bisa memakai @Random dengan dua angka, yang memilih bilangan bulat di antara keduanya.
@@ -15,8 +15,8 @@ Contohnya, untuk memilih / baru / emoji acak setiap detik, gabungkan dengan @Tim
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)
+pick: emojis[1] … ∆ Waktu(1000ms) … emojis[Acak(1 emojis.panjang())]
+Frasa(pick)
 \
 
  Setiap detik dari @Time, itu @Reaction memilih kejutan baru.

@@ -5,7 +5,7 @@ Klockspel
 
 Det är ett instrument. Det låter inte. Siffrorna är redan ett notblad, de bara spelas inte ännu. Det uteslutna blocket ovanför scenen är ljudet, som väntar på att @Music ska finnas.¶
 
-nedtryckt: Nyckel()
+nedtryckt: Tangent()
 tick: Tid(30ms)
 
 ¶Hur mycket av sin klang en klocka förlorar varje bildruta.¶
@@ -16,7 +16,7 @@ avklingning: 0.03
 
 ¶Slå an klockan vars tangent trycktes ner, och låt alla andra klockor lugna sig.¶
 ƒ klang(rad•[klockspel] träff•'' slagen•?)
-	rad.översätta(
+	rad.omvandla(
 		ƒ(klocka2•klockspel)
 			(slagen & (träff = klocka2.nyckel2))
 			? klocka2.energi:1
@@ -73,7 +73,7 @@ sång: Musik(
 		spelaom: ∆ nedtryckt
 	)
 
-Etapp(
+Estrad(
 	[
 		Fras(
 			'━━━━━━━━━━━━━'

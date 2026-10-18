@@ -3,26 +3,26 @@ DługośćZdania
 ===
 ¶Wpisz coś w pasku czatu, a policzę znaki w twoim zdaniu.¶
 
-zdanie2: Pogawędzić()
-długość2: Pogawędzić().długość()
+zdanie2: Czat()
+długość2: Czat().długość()
 
 Grupa(
 	Stos()
 	[
-		Wyrażenie(
+		Fraza(
 			`*Cześć! Witaj w kalkulatorze długości zdania.*`
 			miejsce: Miejsce(0m 1m)
 		)
-		Wyrażenie(
+		Fraza(
 			'Wpisz coś w pasku wiadomości!'
 			miejsce: Miejsce(0m -1m)
 		)
-		Wyrażenie(
+		Fraza(
 			'Twoje zdanie ma ' + (długość2 → '') + ' znaków!'
 			spoczynkowy: Sekwencja.kołysać(czastrwania: 3s)
 			miejsce: Miejsce(0m -3m)
 		)
-		Wyrażenie(
+		Fraza(
 			zdanie2
 			miejsce: Miejsce(0m -5m)
 			zawinąć: 25m

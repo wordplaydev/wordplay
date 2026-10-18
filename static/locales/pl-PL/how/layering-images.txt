@@ -12,16 +12,16 @@ Poeksperymentuj i zobacz, co potrafisz stworzyć!
 ¶Uwaga: Sprawdź galerię, aby zobaczyć inny projekt<przykład@https://wordplay.dev/project/example-Layers?play>warstwowania obrazów.¶
 
 
-Stage(
+Scena(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) obrót: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) obrót: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) obrót: -25°)
+		Kształt(Koło(3m 0m 1m 0m))
+		Kształt(Wielokąt(2m 3 0m -12m 0m) obrót: -30°)
+		Kształt(Wielokąt(7m 6 0m -6m 0m))
+		Kształt(Prostokąt(-11m -9m 11m -12m 10m) obrót: 25°)
+		Kształt(Prostokąt(-11m -9m 11m -12m 10m) obrót: -25°)
 
 	]
-	miejsce: Place(0m 10m -30m)
+	miejsce: Miejsce(0m 10m -30m)
 )
 \
 

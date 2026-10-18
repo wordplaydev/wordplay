@@ -5,14 +5,14 @@ Ibland vill vi berätta historier som väntar på att den som tittar gör något
 För att göra detta kan vi använda en @Scene, men lägga in @Boolean värden mellan innehållet vi vill visa. Här är till exempel ett klick som går vidare till varje nytt innehåll, med hjälp av en @Button:
 
 \
-Scene([
-		Phrase('klicka på mig')
-		Button()
-		Phrase('klicka på mig igen' varaktighet: 1s)
-		Button()
-		Phrase('nej, allvarligt, klicka på mig så hårt du kan!!' varaktighet: 1s)
-		Button()
-		Phrase('har du klickat på mig än?' varaktighet: 1s)
+Scen([
+		Fras('klicka på mig')
+		Knapp()
+		Fras('klicka på mig igen' varaktighet: 1s)
+		Knapp()
+		Fras('nej, allvarligt, klicka på mig så hårt du kan!!' varaktighet: 1s)
+		Knapp()
+		Fras('har du klickat på mig än?' varaktighet: 1s)
 	])
 \
 
@@ -23,26 +23,26 @@ Vi kan till exempel använda vår röst!
 Om vi ropar högt nog går scenen vidare:
 
 \
-Scene([
-		Phrase('är det någon där?')
-		Volume() > .5
-		Phrase("jag hör dig inte, kan du säga det igen?" varaktighet: 1s)
-		Volume() > .7
-		Phrase('högre tack...' varaktighet: 1s)
-		Volume() > .9
-		Phrase('åh, hej!' varaktighet: 1s)
+Scen([
+		Fras('är det någon där?')
+		Volym() > .5
+		Fras("jag hör dig inte, kan du säga det igen?" varaktighet: 1s)
+		Volym() > .7
+		Fras('högre tack...' varaktighet: 1s)
+		Volym() > .9
+		Fras('åh, hej!' varaktighet: 1s)
 	])
 \
 
  När varje @Phrase ska vänta på samma sak, säger @Scene/until det en gång istället för att skriva det mellan varje. Detta gör samma sak som exemplet ovan:
 
 \
-Scene([
-		Phrase('klicka på mig')
-		Phrase('klicka på mig igen' varaktighet: 1s)
-		Phrase('nej, allvarligt, klicka på mig så hårt du kan!!' varaktighet: 1s)
-		Phrase('har du klickat på mig än?' varaktighet: 1s)
-	] tills: Button())
+Scen([
+		Fras('klicka på mig')
+		Fras('klicka på mig igen' varaktighet: 1s)
+		Fras('nej, allvarligt, klicka på mig så hårt du kan!!' varaktighet: 1s)
+		Fras('har du klickat på mig än?' varaktighet: 1s)
+	] tills: Knapp())
 \
 
  Skriv en @Boolean i listan när väntetiderna är / olika /, som i exemplet med ropandet, och använd @Scene/until när de alla är lika.
@@ -53,11 +53,11 @@ Obs: @Scene/until väntar / efter / varje @Phrase har fått sin @Phrase/duration
 Om du hellre vill att @Scene aldrig rörde sig av sig själv, och bara gick dit du skickade den, använd @Scene/pause med @Scene/step:
 
 \
-key: Key()
-Scene([
-		Phrase('ett')
-		Phrase('två')
-		Phrase('tre')
+key: Tangent()
+Scen([
+		Fras('ett')
+		Fras('två')
+		Fras('tre')
 	] pausa steg: ∆ key ? ((key = 'Pil vänster') ? -1 (key = 'Pil Höger') ? 1 ø) ø)
 \
 

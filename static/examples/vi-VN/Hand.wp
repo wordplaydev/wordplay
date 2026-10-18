@@ -33,7 +33,7 @@ Sânkhấu(
 			vịTrí: VịTrí(-4.5m 5m)
 		)
 		Nhóm(
-			Ngănxếp('|')
+			XếpDọc('|')
 			[
 				Cụmtừ((bànTay.câycọ ? '🤚' '🤛') kíchcỡ: 2m)
 				Cụmtừ((bànTay.mở ? 'mở' 'đóng') kíchcỡ: 1.5m)

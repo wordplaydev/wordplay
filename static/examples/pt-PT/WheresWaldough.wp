@@ -36,7 +36,7 @@ manchas: novasManchas() … ∆ (nome3) … (nome3 = 'ResetButton') ? novasManch
 			) manchas
 
 
-Fase(
+Palco(
 	[
 		Frase(
 			"🔁"

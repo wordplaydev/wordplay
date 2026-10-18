@@ -65,7 +65,7 @@ bàiThơ: [
 		)
 	]
 
-số2: 1 … ∆ Cáinút() | ∆ Chìakhóa() …
+số2: 1 … ∆ Cáinút() | ∆ Phím() …
 		(số2 = (bàiThơ.chiềudài() + 1)) ? 1 số2 + 1
 dòng2: bàiThơ[số2]
 
@@ -86,7 +86,7 @@ số2 ≤ bàiThơ.chiềudài() ?
 	Sânkhấu(
 		[
 			Nhóm(
-				Ngănxếp()
+				XếpDọc()
 				[
 					Cụmtừ('LỜI KHUYÊN CHO CHÍNH MÌNH')
 					Cụmtừ('Jane Hirshfield')

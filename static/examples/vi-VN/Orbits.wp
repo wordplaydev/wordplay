@@ -9,7 +9,7 @@ mặtTrời: Cụmtừ(
 		2m
 		tên: 'mặt trời'
 		vịTrí: VịTrí(-1m -1m)
-		vấnđề: Vấnđề(2000kg kéo: 1)
+		vậtChất: VậtChất(2000kg kéo: 1)
 	)
 
 ¶Một hành tinh không cần @Matter nào cả. Có @Motion là điều khiến lực kéo của ngôi sao có thể di chuyển nó. Nó phải di chuyển nhanh đến mức nào để quay vòng thay vì rơi vào trong phụ thuộc vào việc nó ở xa bao nhiêu, vì vậy mỗi hành tinh được cho tốc độ giữ nó ở đúng vòng của mình.¶
@@ -18,7 +18,7 @@ hànhTinh: ƒ(kýHiệu•"" đượcGọiLà•"" rộng•#m xa•#m tốcĐ�
 			kýHiệu
 			rộng
 			tên: đượcGọiLà
-			vịTrí: Cửđộng(
+			vịTrí: ChuyểnĐộng(
 				VịTrí(xa - (rộng ÷ 2) 0m - (rộng ÷ 2))
 				Vậntốc(0m/s tốcĐộ)
 			)

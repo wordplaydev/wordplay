@@ -8,13 +8,13 @@ kita bisa menggunakan hitungan di @Sequence dan memilih berapa kali sekumpulan p
 ini bola basket yang memantul naik turun dua kali. 
 
 \
-Stage([
-	Phrase('🏀' memasuki: Sequence({
-				0%: Pose(mengimbangi: Place(y: 0.25m))
-				25%: Pose(mengimbangi: Place(y: 0m))
-				50%: Pose(mengimbangi: Place(y: -0.25m))
-				75%: Pose(mengimbangi: Place(y: 0m))
-				100%: Pose(mengimbangi: Place(y: 0.25m))} menghitung:2x lamanya:2s))
+Panggung([
+	Frasa('🏀' memasuki: Urutan({
+				0%: Pose(mengimbangi: Tempat(y: 0.25m))
+				25%: Pose(mengimbangi: Tempat(y: 0m))
+				50%: Pose(mengimbangi: Tempat(y: -0.25m))
+				75%: Pose(mengimbangi: Tempat(y: 0m))
+				100%: Pose(mengimbangi: Tempat(y: 0.25m))} menghitung:2x lamanya:2s))
 ])
 \
 

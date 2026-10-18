@@ -7,14 +7,14 @@
 यहाँ एउटा बेलुनको ढाँचा छ, जसले रङ र लेबल लिन्छ, र आफैंलाई कसरी देखाउने भन्ने जान्दछ:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈 \label\` रङ: color आकार: 2m)
+•Balloon(color•रङ label•'') (
+    ƒ show() वाक्यांश(`🎈 \label\` रङ: color आकार: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'Sky').show()
-    Balloon(Color(60% 80 0°) 'Rose').show()
-    Balloon(Color(90% 80 90°) 'Sunny').show()
+समूह(Row() [
+    Balloon(रङ(80% 50 240°) 'Sky').show()
+    Balloon(रङ(60% 80 0°) 'Rose').show()
+    Balloon(रङ(90% 80 90°) 'Sunny').show()
 ])
 \
 

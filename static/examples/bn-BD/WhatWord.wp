@@ -18,7 +18,7 @@ W
 					"playing"
 )
 
-key/en,tecla/es,مفتاح/ar: চাবি()
+key/en,tecla/es,مفتاح/ar: কী()
 
 ¶When the keyboard state changes, the game state changes.¶/en
 ¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es

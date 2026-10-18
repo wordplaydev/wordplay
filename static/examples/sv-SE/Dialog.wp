@@ -39,7 +39,7 @@ skript: [
 	]
 
 ¶Gå vidare med en tangent, ett klick eller en knapptryckning, och stoppa på sista raden.¶
-tur•#: 1 … ∆ Nyckel() | ∆ Knapp() … (tur < skript.längd() ? tur + 1 tur)
+tur•#: 1 … ∆ Tangent() | ∆ Knapp() … (tur < skript.längd() ? tur + 1 tur)
 
 rad2: skript[tur]
 
@@ -54,7 +54,7 @@ rad2: skript[tur]
 		ø
 
 ¶En rad som ligger jämnt på baslinjen, så att båda bokstäverna står på samma linje. En fras låda är dess bläck, så att placera dem på samma höjd skulle sätta en kort bokstav och en hög bokstav på olika baslinjer.¶
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Stack('|' 1.5m)

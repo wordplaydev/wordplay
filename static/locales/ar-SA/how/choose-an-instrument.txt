@@ -4,13 +4,13 @@
 
 @Choice  يعيد الـ\name\ الخاص بأي مخرج قابل للاختيار اختاره الجمهور، لذا يكفي شرط واحد لتحويل ذلك إلى آلة موسيقية:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' قابلللتحديد اسم: 'بيانو')
-				Phrase('🎻' قابلللتحديد اسم: 'كمان')
+\picked: اختيار()
+مسرح([
+		مجموعة(صف() [
+				عبارة('🎹' قابلللتحديد اسم: 'بيانو')
+				عبارة('🎻' قابلللتحديد اسم: 'كمان')
 			])
-		Music(Track([1 3 5 6 5 3] آلة: (picked = 'كمان') ? Instrument.violin Instrument.piano))
+		موسيقى(مسار([1 3 5 6 5 3] آلة: (picked = 'كمان') ? آلة.كمان آلة.بيانو))
 	])\
 
 العبارتان القابلتان للاختيار هما ما يجعل هذا يعمل —  @Choice  لا يجد شيئًا ليقرأه إلا إذا كان شيء على المسرح \قابلللتحديد: ⊤\.
@@ -19,18 +19,18 @@ Stage([
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' آلة.بيانو)
+		Voice('🎺' آلة.بوق)
+		Voice('🔔' آلة.جرس)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: اختيار()
+found: voices.ابحث(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon قابلللتحديد اسم: voice.icon))
+مسرح([
+		مجموعة(صف() [
+				:voices.ترجم(ƒ(voice•Voice) عبارة(voice.icon قابلللتحديد اسم: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] آلة: current.sound))
+		موسيقى(مسار([1 3 5 6 5 3] آلة: current.sound))
 	])\
 
 إضافة صوت رابع الآن هي سطر واحد، ويظهر الزر بنفسه. لاحظ الحماية \found•ø ?\:  @List/find  يعيد \ø\ عندما لا يطابق شيء، وهذا ما يحدث قبل أن يختار أحد — ويجب أن يكون البديل الاحتياطي \🎙\ كاملًا، لأن هذا ما \current\ يعد بأن يكونه.

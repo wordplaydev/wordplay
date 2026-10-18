@@ -8,14 +8,14 @@ Con mèo kêu meo mỗi khi nó di chuyển. Tiếng kêu meo gắn vào @Pose �
 
 ¶Một tiếng kêu ngắn. Hai lần di chuyển gần nhau sẽ dùng chung một tiếng meo thay vì phát hai tiếng chồng lên nhau, vì lần thứ hai đến khi dáng lắc lư đầu tiên vẫn còn đang lắc.¶
 meo: ÂmNhạc(
-		BảnNhạc([1] nhạcCụ: NhạcCụ.mèo)
+		Bè([1] nhạcCụ: NhạcCụ.mèo)
 		âmLượng: 45%
 		tên: 'meo'
 	)
 
 •vịTríConMèo(vịTrí2•#m hướng•#)
 
-chìaKhóa2: Chìakhóa()
+chìaKhóa2: Phím()
 tốcĐộ: 1m
 
 chỗMèoCon: vịTríConMèo(5m 1) … ∆ chìaKhóa2 …
@@ -45,12 +45,12 @@ mèoCon: Cụmtừ(
 			0.25s
 			"zippy"
 		)
-		vấnđề: Vấnđề(1000kg độtròn: 0.5)
+		vậtChất: VậtChất(1000kg độtròn: 0.5)
 	)
 
 vồ: Vachạm('bóng' 'mèo con')
 
-vịTríBóng: Cửđộng(
+vịTríBóng: ChuyểnĐộng(
 		VịTrí(0m 9m)
 		vậntốctiếptheo:
 		vồ•ø ? ø
@@ -68,7 +68,7 @@ bóng: Cụmtừ(
 		"🧶"
 		tên: 'bóng'
 		vịTrí: vịTríBóng
-		vấnđề: Vấnđề(1kg 0.5 0 1)
+		vậtChất: VậtChất(1kg 0.5 0 1)
 	)
 
 Sânkhấu(

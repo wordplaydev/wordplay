@@ -18,7 +18,7 @@ beritaUtama•# ?
 				menghadapi: 'Arvo'
 			)
 		].denganDaftar(
-			beritaUtama.suburutan(1 7).menerjemahkan(
+			beritaUtama.suburutan(1 7).petakan(
 				ƒ(beritaUtama2)
 					Frasa(
 						beritaUtama2

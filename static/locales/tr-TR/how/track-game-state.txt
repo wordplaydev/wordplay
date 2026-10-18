@@ -14,12 +14,12 @@ Herhangi bir oyun için genel bir kalıp üç şey yapar:
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['kedi' 'köpek'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['kedi' 'köpek'] 0) … state.secrets.içerir(Sohbet()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("kazandın!")]
-        [ Group(Stack() [ Phrase("gizli kelimelerimi tahmin et") Phrase(`\state.secrets.length() - state.points\ daha fazla gizli kelime`)])]
+Sahne(
+    state.points = state.secrets.uzunluk() ? 
+        [ Yazı("kazandın!")]
+        [ Grup(Yığın() [ Yazı("gizli kelimelerimi tahmin et") Yazı(`\state.secrets.length() - state.points\ daha fazla gizli kelime`)])]
 )
 \
 

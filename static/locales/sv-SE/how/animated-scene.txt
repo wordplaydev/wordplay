@@ -7,42 +7,42 @@ Föreställ dig till exempel att vi ville animera den korta barnrimen "Jack be N
 Vi skulle kunna göra en @Scene som har varje rad som en @Phrase, och genom att ställa in @Phrase/duration för varje rad skulle @Scene gå vidare när varje fras är klar.
 
 \
-Scene([
-  Phrase('Jack var vig' varaktighet: 1s)
-  Phrase('Jack var snabb' varaktighet: 1s)
-  Phrase('Jack hoppade över ljusstaken' varaktighet: 1s)
+Scen([
+  Fras('Jack var vig' varaktighet: 1s)
+  Fras('Jack var snabb' varaktighet: 1s)
+  Fras('Jack hoppade över ljusstaken' varaktighet: 1s)
 ])
 \
 
 @Scene kommer också att vänta på att en @Sequence blir klar. Låt oss få ljusraden att hoppa!
 
 \
-Scene([
-		Phrase('Jack var vig' varaktighet: 1s)
-		Phrase('Jack var snabb' varaktighet: 1s)
-		Phrase('Jack hoppade över ljusstaken' gårin: Sequence.bounce(varaktighet: 1s))
+Scen([
+		Fras('Jack var vig' varaktighet: 1s)
+		Fras('Jack var snabb' varaktighet: 1s)
+		Fras('Jack hoppade över ljusstaken' gårin: Sekvens.studsa(varaktighet: 1s))
 	])
 \
 
 @Scene kan också ta en @Group med text, och den kommer att vänta tills allt innehåll är klart med sin animering.
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack var vig')
-		  Phrase('Jack var snabb')
+Scen([
+		Grupp(Stack() [
+      Fras('Jack var vig')
+		  Fras('Jack var snabb')
     ] varaktighet: 2s)
-		Phrase('Jack hoppade över ljusstaken' gårin: Sequence.bounce(varaktighet: 1s))
+		Fras('Jack hoppade över ljusstaken' gårin: Sekvens.studsa(varaktighet: 1s))
 	])
 \
 
  Ibland ska ett rim fortsätta. @Scene/loop tar @Scene tillbaka till sin första @Phrase när den sista är klar, så att den säger sig själv om och om igen.
 
 \
-Scene([
-		Phrase('Jack var vig' varaktighet: 1s)
-		Phrase('Jack var snabb' varaktighet: 1s)
-		Phrase('Jack hoppade över ljusstaken' varaktighet: 1s)
+Scen([
+		Fras('Jack var vig' varaktighet: 1s)
+		Fras('Jack var snabb' varaktighet: 1s)
+		Fras('Jack hoppade över ljusstaken' varaktighet: 1s)
 	] upprepa: ⊤)
 \
 

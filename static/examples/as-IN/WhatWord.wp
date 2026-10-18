@@ -18,7 +18,7 @@ W
 					"playing"
 )
 
-key/en,tecla/es,مفتاح/ar: চাবি()
+key/en,tecla/es,مفتاح/ar: কী()
 
 ¶When the keyboard state changes, the game state changes.¶/en
 ¶Cuando cambia el estado del teclado, cambia el estado del juego.¶/es
@@ -48,7 +48,7 @@ board/en,tabelro/es,طاولة/ar: বাক্যাংশ(
 			ƒ(আখৰ3•"") ((state.status = "lost") | state.guesses.আছে(
 							আখৰ3
 						)) ? আখৰ3 "."
-		).যোগদানকৰক(
+		).সংযুক্তকৰক(
 			' '
 		)
 		2m
@@ -105,9 +105,9 @@ screen/en,cine/es,إظهار/ar:
 				board
 				বাক্যাংশ(
 					state.guesses.দৈৰ্ঘ্য() = 0 ?
-						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.যোগদানকৰক(
+						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "Guesses: \state.guesses.সংযুক্তকৰক(
 							' '
-						)\"/en"Suposiciones: \state.guesses.যোগদানকৰক(' ')\"/es"التخمينات \state.guesses.যোগদানকৰক(
+						)\"/en"Suposiciones: \state.guesses.সংযুক্তকৰক(' ')\"/es"التخمينات \state.guesses.সংযুক্তকৰক(
 							' '
 						)\"/ar
 				)

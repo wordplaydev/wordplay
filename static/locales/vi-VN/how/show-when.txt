@@ -8,8 +8,8 @@ Viết điều kiện, rồi đến một \?\, rồi đến giá trị dùng khi
 Đây là một khuôn mặt tươi cười, nhưng sẽ chuyển sang buồn mỗi khi bạn nhấn phím cách, rồi lại trở lại bình thường:
 
 \
-happy: ⊤ … ∆ Key(' ') … ~happy
-Phrase(happy ? '😊' '😢')
+happy: ⊤ … ∆ Phím(' ') … ~happy
+Cụmtừ(happy ? '😊' '😢')
 \
 
  Cái @Reaction bắt đầu \happy\ là \⊤\ (đúng), và đổi ngược lại bằng \~\ mỗi khi phím cách được nhấn.
@@ -18,8 +18,8 @@ Sau đó điều kiện \?\ chọn đúng khuôn mặt.
 Bạn có thể kết hợp các câu lệnh điều kiện để chọn từ nhiều hơn hai tùy chọn:
 
 \
-score: 0 … ∆ Key('Một') … score + 1
-Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+score: 0 … ∆ Phím('Một') … score + 1
+Cụmtừ(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
 \
 
  Nhấn \a\ Vài lần như vậy và bạn sẽ thấy quả trứng nở thành gà con!

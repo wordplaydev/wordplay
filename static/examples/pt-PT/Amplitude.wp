@@ -7,4 +7,4 @@ amplitudes•[#]: ←← 10 Volume()
 vis: amplitudes.traduzir(
 		ƒ(amp•#) Frase("⚫" opacidade: amp tamanho: 10m)
 	)
-Fase([Grupo(Linha() vis)] local: Local(0m 0m -50m))
+Palco([Grupo(Linha() vis)] local: Local(0m 0m -50m))

@@ -4,7 +4,7 @@ Piano virtuel
 ¶Un piano d'une octave sur lequel tu peux jouer ! Pour une meilleure expérience, désactive la visualisation de la musique.¶
 
 ¶Cette liaison stocke un flux Key qui détecte quelle touche tu as appuyée.¶
-appuyée: Clé()
+appuyée: Touche()
 
 ¶Ceci stocke une correspondance entre les touches sur lesquelles tu appuies et les notes qu'elles jouent, sous forme de texte (pour afficher la note jouée) et sous forme de texte numérique littéral (à convertir en nombre (#) et à donner à une liste Track).
 
@@ -50,7 +50,7 @@ Musique(
 
 ¶Affichage du piano, des touches à appuyer et de la note jouée quand une touche est appuyée.¶
 Groupe(
-	Empiler('>' 1m)
+	Pile('>' 1m)
 	[
 		Groupe(
 			Rangée('>' -.3m)

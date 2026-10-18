@@ -15,7 +15,7 @@ tamanhoDoTexto: Aleatório(1m 3m) … ∆ discurso … Aleatório(
 			1m
 			3m
 		)
-Fase(
+Palco(
 	[
 		Frase(
 			discurso

@@ -8,12 +8,12 @@ clic: ∆ Bouton()
 nombreDeClics: 0 … clic … 1 + ⬚
 
 ¶Garde la position x du pointeur au moment du tir, pour que le ballon tombe là où le joueur a visé au lieu de revenir à x = 0¶
-xDuTir: 0m … (clic & ((nombreDeClics % 2) = 1)) … Aiguille(
+xDuTir: 0m … (clic & ((nombreDeClics % 2) = 1)) … Pointeur(
 		).x
 
 positionDuBallon: (nombreDeClics % 2) = 0 ? Lieu(
-			x: Aiguille().x
-			et: 8m
+			x: Pointeur().x
+			y: 8m
 			j: 0m
 		) Mouvement(lieu: Lieu(xDuTir 8m 0m))
 
@@ -30,7 +30,7 @@ positionXDuPanier: (Temps() ÷ 600ms).sin() · 6m
 
 ¶Lis une seule fois la position actuelle du ballon pour vérifier le score¶
 xDuBallon: (ballonDeBasket.lieu ?? Lieu()).x
-yDuBallon: (ballonDeBasket.lieu ?? Lieu()).et
+yDuBallon: (ballonDeBasket.lieu ?? Lieu()).y
 
 essai: (nombreDeClics ÷ 2).tourdHorizon()
 
@@ -39,7 +39,7 @@ dansLePanier: (((positionXDuPanier - 0.9m) ‥ (positionXDuPanier + 0.9m)) ∋ x
 score: 0 … dansLePanier & (essai > score) … 1 + score
 
 starDuBasket: Groupe(
-		Empiler('|' 0.5m)
+		Pile('|' 0.5m)
 		[
 			Phrase(`*Star du basket*` .8m)
 			Phrase('Vise avec ton pointeur.' .6m)
@@ -92,6 +92,6 @@ Scène(
 		Forme(Rectangle(-10m 0.01m 10m -2m))
 		starDuBasket
 	]
-	lieu: Lieu(x: 0m et: 5m j: -10m)
+	lieu: Lieu(x: 0m y: 5m j: -10m)
 	pesanteur: 5m/s^2
 )

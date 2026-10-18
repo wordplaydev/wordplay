@@ -6,7 +6,7 @@ Vi kan göra samma sak genom att ge en @Stage en lista med @Effect.
 Här är en scen sedd genom vatten.
 
 \
-Etapp(
+Estrad(
 	[Fras('🐠') Fras('🌿' plats: Plats(1m -1m))]
 	effekter: [Våg(0.15m) Toning(Färg(55% 45 220°) 70%) Dis(40% Färg(70% 30 200°))]
 )
@@ -19,7 +19,7 @@ Det finns tio att kombinera: @Blur, @Grade, @Tint, @Haze, @Grain, @Scanlines, @W
 Här är en gammal film: @Grade tar bort färgen, och sedan @Damage, @Grain och @Flicker gör den sliten och ostadig.
 
 \
-Etapp(
+Estrad(
 	[Fras('THE END')]
 	effekter: [Färgton(kontrast: 130% mättnad: 0%) Skada(70% 50%) Korn(25%) Flimmer(15% 2) Vinjett(60%)]
 )
@@ -28,7 +28,7 @@ Etapp(
  Och här är en tv som tappar signalen.
 
 \
-Etapp(
+Estrad(
 	[Fras('channel 3')]
 	effekter: [Skanningslinjer(40% hastighet: 1) Korn(50% storlek: 2) Flimmer(20%)]
 )
@@ -44,16 +44,16 @@ Dess indata blir lookens egna inställningar. Den här blir grumligare ju djupar
 	Oskärpa(0.03m · depth)
 ]
 
-Etapp([Fras('🐠')] effekter: underwater(80%))
+Estrad([Fras('🐠')] effekter: underwater(80%))
 \
 
  En look kan också ändras med tillståndet i ett spel.
 Här blir scenen suddig och mörk i kanterna när spelaren bara har ett liv kvar, och blir klar igen när spelaren har fler.
 
 \
-lives: 3 … ∆ Nyckel() … lives - 1
+lives: 3 … ∆ Tangent() … lives - 1
 
-Etapp(
+Estrad(
 	[Fras(lives → '')]
 	effekter: lives < 2 ? [Oskärpa(0.05m) Vinjett(70% Färg(30% 80 30°))] []
 )
@@ -64,7 +64,7 @@ Etapp(
 Att skaka hela scenen, som vid en jordbävning, är inte en effekt alls: en @Stage kan röra sig som all annan utdata, så ge den en @Sequence.
 
 \
-Etapp([Fras('🏠')] vilande: Sekvens.skaka(0.5s räkna: 4x))
+Estrad([Fras('🏠')] vilande: Sekvens.skaka(0.5s antal: 4x))
 \
 
  Vissa effekter rör sig snabbt. När någon har bett sin enhet att minska rörelser står alla effekter stilla.

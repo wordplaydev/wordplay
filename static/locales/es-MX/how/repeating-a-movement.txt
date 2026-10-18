@@ -8,13 +8,13 @@ podemos usar el conteo en @Sequence y elegir cuántas veces ocurre un conjunto d
 aquí hay una pelota de basquetbol rebotando hacia arriba y hacia abajo dos veces. 
 
 \
-Stage([
-	Phrase('🏀' entrando: Sequence({
-				0%: Pose(desplazamiento: Place(y: 0.25m))
-				25%: Pose(desplazamiento: Place(y: 0m))
-				50%: Pose(desplazamiento: Place(y: -0.25m))
-				75%: Pose(desplazamiento: Place(y: 0m))
-				100%: Pose(desplazamiento: Place(y: 0.25m))} cuenta:2x duración:2s))
+Escenario([
+	Frase('🏀' entrando: Secuencia({
+				0%: Pose(desplazamiento: Lugar(y: 0.25m))
+				25%: Pose(desplazamiento: Lugar(y: 0m))
+				50%: Pose(desplazamiento: Lugar(y: -0.25m))
+				75%: Pose(desplazamiento: Lugar(y: 0m))
+				100%: Pose(desplazamiento: Lugar(y: 0.25m))} cuenta:2x duración:2s))
 ])
 \
 

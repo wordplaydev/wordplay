@@ -5,7 +5,7 @@ BinárioRotativo
 
 rotaçãoLenta: Sequência.rodar(10s "straight")
 
-Fase(
+Palco(
 	[
 		Frase(
 			'1'

@@ -46,17 +46,17 @@ escolhido: Escolha()
 modo•'': 'tap' … (escolhido = 'hum') | (escolhido = 'tap') … escolhido
 
 ¶No modo de toque, bate as asas ao clicar ou premir qualquer tecla.¶
-baterAsas: (modo = 'tap') & (∆ Botão() | ∆ Chave())
+baterAsas: (modo = 'tap') & (∆ Botão() | ∆ Tecla())
 
 ¶No modo de zumbido, o pássaro flutua até à altura do tom do seu zumbido — notas baixas perto do solo, notas altas perto do céu — e nunca mais alto do que isso.¶
 tom2: Tom()
 aCantarolar: (modo = 'hum') & (tom2 > 50hz)
 
 ƒ tomParaAltura(hz•#hz)
-	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
+	hz.redimensionar(80hz 400hz -4m 5m).limite(-4m 5m)
 
 ¶Aproxima-se da altura zumbida pouco a pouco, para que o pássaro deslize em vez de tremer a cada oscilação do tom.¶
-tomY•#m: 1m … ∆ tom2 … aCantarolar ? tomY.toward(tomParaAltura(tom2) 20%) tomY
+tomY•#m: 1m … ∆ tom2 … aCantarolar ? tomY.emDireção(tomParaAltura(tom2) 20%) tomY
 
 ¶O pássaro flutua durante a contagem decrescente, bate as asas para subir ou flutua no tom zumbido enquanto joga, e cai sob a gravidade depois de um choque.¶
 posiçãoDoPássaro: Movimento(
@@ -337,7 +337,7 @@ somDeMorte: Música(
 
 listaDeMorte: (jogo2.fase = 3) ? [somDeMorte] []
 
-Fase(
+Palco(
 	[
 		pássaro
 		somDoBaterDeAsas

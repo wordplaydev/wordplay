@@ -17,7 +17,7 @@ balançar2: Sequência(
 		duração: 1.5s
 	)
 
-Fase(
+Palco(
 	[
 		Frase(
 			'█'

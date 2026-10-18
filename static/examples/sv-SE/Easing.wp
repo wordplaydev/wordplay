@@ -11,7 +11,7 @@ nyckelbilder: {
 		100%: Pose(offset: Plats(-1m 0m))
 	}
 
-Etapp(
+Estrad(
 	[
 		Grupp(
 			Rutnät(4 2 cellstoppning: 0.25m)

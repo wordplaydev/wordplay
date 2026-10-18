@@ -21,7 +21,7 @@ litere: ['a' 'b' 'c' 'd' 'e']
 ¶Literele cad primele, din același loc, dar de la înălțimi diferite, astfel încât fiecare cade peste ultima, iar grămada crește în sus.
 
 O literă este solidă doar pentru că locul ei este o Mișcare și are Materie — o ieșire pe care un program o plasează este o fantomă prin care totul trece. Masa lor este cea care împiedică mingile să împrăștie grămada, iar faptul că cer Materiei un contur este ceea ce le face să se lovească după forma literelor.¶
-grămadă: litere.traduce(
+grămadă: litere.transformă(
 		ƒ(literă•'' index2•#)
 			Fraza(
 				literă
@@ -37,7 +37,7 @@ grămadă: litere.traduce(
 	)
 
 ¶Inimile cad apoi. Un emoji poate cere și el conturul lui, așa că fiecare inimă se lovește după forma ei: vârful ei alunecă în golurile peste care o cutie ar sta deasupra.¶
-inimi: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traduce(
+inimi: ['🧡' '💛' '💚' '💙' '💜' '🩷'].transformă(
 		ƒ(inimă•'' index3•#)
 			Fraza(
 				inimă
@@ -54,7 +54,7 @@ inimi: ['🧡' '💛' '💚' '💙' '💜' '🩷'].traduce(
 	)
 
 ¶Mingile pornesc deasupra tuturor, așa că ajung după ce grămada s-a așezat. Ele nu cer un contur: dreptunghiul lor, rotunjit peste tot, este cel care le face să se rostogolească.¶
-mingi: 18 → [].traduce(
+mingi: 18 → [].transformă(
 		ƒ(număr2)
 			Fraza(
 				"⚽"
@@ -72,7 +72,7 @@ mingi: 18 → [].traduce(
 			)
 	)
 
-Etapă(
+Estradă(
 	[
 		¶O podea și doi pereți lipiți de marginile găleții.¶
 		Figură(Dreptunghi(-10m -11m 10m -12m))

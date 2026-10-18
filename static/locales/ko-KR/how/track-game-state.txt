@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['고양이' '강아지'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['고양이' '강아지'] 0) … state.secrets.가지다(채팅()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("네가 이겼어!")]
-        [ Group(Stack() [ Phrase("내 비밀 단어를 맞혀 봐") Phrase(`\state.secrets.length() - state.points\ 더 많은 비밀`)])]
+무대(
+    state.points = state.secrets.길이() ? 
+        [ 구절("네가 이겼어!")]
+        [ 그룹(스택() [ 구절("내 비밀 단어를 맞혀 봐") 구절(`\state.secrets.length() - state.points\ 더 많은 비밀`)])]
 )
 \
 

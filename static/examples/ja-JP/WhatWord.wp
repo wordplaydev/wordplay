@@ -69,7 +69,7 @@ screen/en,cine/es,إظهار/ar:
 					3m
 					位置: 位置(z: -1m)
 					登場: ポーズ(不透明度: 0%)
-					静止: つなぎ.ゆれ(長さ: 1s)
+					静止: シーケンス.ゆれ(長さ: 1s)
 				)
 				フレーズ(
 					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
@@ -92,7 +92,7 @@ screen/en,cine/es,إظهار/ar:
 		"won": グループ(
 			積み重ね()
 			[
-				board.静止:つなぎ.はずむ(3m 1s)
+				board.静止:シーケンス.はずむ(3m 1s)
 				フレーズ(
 					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
 				)
@@ -113,7 +113,7 @@ screen/en,cine/es,إظهار/ar:
 				)
 				フレーズ(
 					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
-					静止: つなぎ.ゆれ(
+					静止: シーケンス.ゆれ(
 						2°
 						(state.guessesRemaining ÷ 5) × 1s
 					)
@@ -126,7 +126,7 @@ screen/en,cine/es,إظهار/ar:
 
 ¶お小遣いのうち、どれだけ使ったかを表します。0はまだ全部残っている状態、1は何も残っていない状態です。最初のラウンドの前は秘密が空なので、0で割ることのないよう、割り算は守られています。¶
 最大推測回数: state.秘密.長さ() × 3
-プレッシャー: (最大推測回数 = 0) ? 0 ((1 - (state.guessesRemaining ÷ 最大推測回数)).limit(0 1))
+プレッシャー: (最大推測回数 = 0) ? 0 ((1 - (state.guessesRemaining ÷ 最大推測回数)).制限(0 1))
 
 ¶物思いにふけるような1分間54拍から、せわしない120拍まで、推測するたびに少しずつ変わります。テンポが変わるときは最初からやり直すのではなく、次の拍でつなぎ替えられるので、ループは自分の位置を保ったまま、少しだけ前のめりになります。静かなドラムは、その前のめりの変化をはっきり聞こえるようにするためのものです。長く伸ばした音の下でテンポが変わっても、気づきにくいからです。¶
 パズル音楽: 音楽(

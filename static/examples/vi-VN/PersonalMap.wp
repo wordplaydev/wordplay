@@ -135,7 +135,7 @@ the keyboard arrows or clicking the stage.
 We use it to place the character.¶/en
 ¶यह धारा बीच में शुरु होता है, लेकिन कीबोर्ड या माउस के साथ बदल सकते हैं।
 हम इस के साथ character को मंच पर रखते हैं।¶/hi
-where/en,किधर/hi: Vịtrí(VịTrí(0m 0m))
+where/en,किधर/hi: ĐặtVịTrí(VịTrí(0m 0m))
 
 ¶This takes all of the content above and renders it,
 putting each landmark on stage in a particular location
@@ -151,33 +151,33 @@ Sânkhấu(
 			'🍂'
 			tên: "Virginia"/en,"वर्जिनिया"/hi
 			vịTrí: VịTrí(-3m 0m)
-			vấnđề: Vấnđề()
+			vậtChất: VậtChất()
 		)
 		Cụmtừ(
 			`@ellipsis/CuteDuckie`
 			tên: "California"/en,"कॅलिफ़ोर्निया"/hi
 			vịTrí: VịTrí(-10m 0m)
-			vấnđề: Vấnđề()
+			vậtChất: VậtChất()
 			kíchcỡ: 1.4m
 		)
 		Cụmtừ(
 			'🏕'
 			tên: "India"/en,"भारत"/hi
 			vịTrí: VịTrí(5m -6m)
-			vấnđề: Vấnđề()
+			vậtChất: VậtChất()
 		)
 		Cụmtừ(
 			`@ellipsis/GoDawgs`
 			tên: "Washington"/en,"वाशिंटन"/hi
 			vịTrí: VịTrí(-10m 6m)
-			vấnđề: Vấnđề()
+			vậtChất: VậtChất()
 			kíchcỡ: 1.4m
 		)
 		Cụmtừ(
 			'🐤'
 			tên: "me"/en,"मैं"/hi
 			vịTrí: where
-			vấnđề: Vấnđề()
+			vậtChất: VậtChất()
 			dichuyển: Sựliêntiếp(
 				{
 					0%: Tưthế()

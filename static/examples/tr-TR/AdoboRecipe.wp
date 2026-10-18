@@ -25,9 +25,9 @@ cümleleriTaşı: [9 11]
 ¶Şimdiki cümle 1'den başlar. Fare ekranda belirli bir noktaya gidince ya da bir düğmeye veya tuşa basılınca diğer cümleler için ilerler.¶
 nokta: İşaretçi()
 şimdikiCümle•#: 1 …
-	cümleleriTaşı.sahipolmak(şimdikiCümle) ?
-		(nokta.X > 2m) & (nokta.ve > 3m)
-		∆ Düğme() | ∆ Anahtar()
+	cümleleriTaşı.içerir(şimdikiCümle) ?
+		(nokta.X > 2m) & (nokta.Y > 3m)
+		∆ Düğme() | ∆ Tuş()
 		…
 		(şimdikiCümle <
 				cümleler.uzunluk()) ?
@@ -35,6 +35,6 @@ nokta: İşaretçi()
 			şimdikiCümle
 
 Sahne(
-	[İfadeetmek(cümleler[şimdikiCümle] dürüm: 10m)]
+	[Yazı(cümleler[şimdikiCümle] dürüm: 10m)]
 	yüz: 'Short Stack'
 )

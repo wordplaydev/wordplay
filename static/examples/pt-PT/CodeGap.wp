@@ -161,7 +161,7 @@ rodapé:
 				tamanho: 0.26m
 			)
 
-Fase(
+Palco(
 	[
 		Grupo(
 			Monte('|' preenchimento: 0.4m)

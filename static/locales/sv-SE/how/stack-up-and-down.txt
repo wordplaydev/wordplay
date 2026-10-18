@@ -4,10 +4,10 @@ Om en @Row är för sida vid sida, då en @Stack är för topp till botten.
 @Stack placerar varje tecken under det föregående, som ett torn.
 
 \
-Group(Stack() [
-    Phrase('en')
-    Phrase('två')
-    Phrase('tre')
+Grupp(Stack() [
+    Fras('en')
+    Fras('två')
+    Fras('tre')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Stack() [
 Prova att rada upp allt längs vänster sida:
 
 \
-Group(Stack('<' 0.25m) [
-    Phrase('🐣 liten')
-    Phrase('🐥 medelstor')
-    Phrase('🐔 stor')
+Grupp(Stack('<' 0.25m) [
+    Fras('🐣 liten')
+    Fras('🐥 medelstor')
+    Fras('🐔 stor')
 ])
 \
 

@@ -14,12 +14,12 @@ Ví dụ, hãy tưởng tượng một trò chơi đơn giản: gõ các từ b�
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['mèo' 'chó'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['mèo' 'chó'] 0) … state.secrets.có(Tròchuyện()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("bạn thắng rồi!")]
-        [ Group(Stack() [ Phrase("đoán từ bí mật của tôi") Phrase(`\state.secrets.length() - state.points\ từ bí mật nữa`)])]
+Sânkhấu(
+    state.points = state.secrets.chiềudài() ? 
+        [ Cụmtừ("bạn thắng rồi!")]
+        [ Nhóm(XếpDọc() [ Cụmtừ("đoán từ bí mật của tôi") Cụmtừ(`\state.secrets.length() - state.points\ từ bí mật nữa`)])]
 )
 \
 

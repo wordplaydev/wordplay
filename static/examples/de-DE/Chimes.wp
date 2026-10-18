@@ -5,7 +5,7 @@ Glockenspiel
 
 Das ist ein Instrument. Es macht aber keinen Ton. Die Ziffern sind schon eine Partitur, sie werden nur noch nicht gespielt. Der ausgelassene Block über der Bühne ist der Klang. Er wartet darauf, dass @Music existiert.¶
 
-gedrückt: Schlüssel()
+gedrückt: Tastaturtaste()
 tick: Zeit(30ms)
 
 ¶Wie viel von seinem Nachklang ein Klangstab in jedem Bild verliert.¶
@@ -39,7 +39,7 @@ klangstäbe•[klangspiel]: [
 
 ¶Ein Klangstab wird mit seinem Nachklang größer und heller. Er schwingt außerdem immer ein wenig, damit die Reihe lebendig wirkt, auch wenn niemand spielt.¶
 ƒ chimeView(klangstab2•klangspiel)
-	Satzglied(
+	Phrase(
 		(klangstab2.stufe → '')
 		(2m + (klangstab2.energie · 1.5m))
 		Ort: Ort(klangstab2.x2 0m)
@@ -49,12 +49,12 @@ klangstäbe•[klangspiel]: [
 			(20 + (klangstab2.energie · 80))
 			klangstab2.farbton
 		)
-		Ruhen: Reihenfolge.wiegen(3° 2.5s)
+		Ruhen: Abfolge.wiegen(3° 2.5s)
 	)
 
 ¶Die Taste, die jeden Klangstab anschlägt, steht unter ihm.¶
 ƒ keyView(klangstab3•klangspiel)
-	Satzglied(
+	Phrase(
 		klangstab3.schlüssel3
 		0.7m
 		Ort: Ort(klangstab3.x2 -3m)
@@ -77,7 +77,7 @@ lied: Musik(
 
 Bühne(
 	[
-		Satzglied(
+		Phrase(
 			'━━━━━━━━━━━━━'
 			1m
 			Ort: Ort(-6m 2.5m)

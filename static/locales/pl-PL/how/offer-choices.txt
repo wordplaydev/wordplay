@@ -2,20 +2,20 @@ Pokaż możliwe do wyboru opcje
 
 Czasami chcesz pokazać na ekranie wiele wyborów i zrobić coś z tym, co wybierze publiczność. Aby to zrobić, potrzebujemy dwóch rzeczy:
 
-• Jedno lub więcej @Phrase , które są oznaczone jako wybieralne i mają unikalną nazwę (np. \Phrase('opcja 1' wybieralny nazwa: 'jeden')\)
+• Jedno lub więcej @Phrase , które są oznaczone jako wybieralne i mają unikalną nazwę (np. \Fraza('opcja 1' wybieralny nazwa: 'jeden')\)
 • @Choice, która zmienia się na nazwę @Phrase ostatnio wybraną.
 
 Na przykład tutaj pokazujemy trzy opcje, każda z nich ma unikalną nazwę.
 
 \
-option: Choice()
+option: Wybór()
 
-Group(
-	Stack() [
-		Phrase('opcja 1' wybieralny nazwa: 'jeden')
-		Phrase('opcja 2' wybieralny nazwa: 'dwa')
-		Phrase('opcja 3' wybieralny nazwa: 'trzy')
-		Phrase(option)
+Grupa(
+	Stos() [
+		Fraza('opcja 1' wybieralny nazwa: 'jeden')
+		Fraza('opcja 2' wybieralny nazwa: 'dwa')
+		Fraza('opcja 3' wybieralny nazwa: 'trzy')
+		Fraza(option)
 	]
 )
 \
@@ -25,17 +25,17 @@ Group(
 Możesz użyć tego wzorca, aby wykonać czynności w odpowiedzi na wybór. Na przykład moglibyśmy zmienić projekt powyżej, aby pokazać sekretny emoji na podstawie wyboru:
 
 \
-option: Choice()
+option: Wybór()
 
 option = '' ?
-	Group(
-		Stack() [
-			Phrase('opcja 1' wybieralny: ⊤ nazwa: 'jeden')
-			Phrase('opcja 2' wybieralny: ⊤ nazwa: 'dwa')
-			Phrase('opcja 3' wybieralny: ⊤ nazwa: 'trzy')
+	Grupa(
+		Stos() [
+			Fraza('opcja 1' wybieralny: ⊤ nazwa: 'jeden')
+			Fraza('opcja 2' wybieralny: ⊤ nazwa: 'dwa')
+			Fraza('opcja 3' wybieralny: ⊤ nazwa: 'trzy')
 		]
 	)
-	Phrase(
+	Fraza(
 		{
 			'jeden': '😡'
 			'dwa': '🏀'

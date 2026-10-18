@@ -13,14 +13,14 @@ Oto najmniejsza wersja tego wzorca. Kliknij najpierw scenę, aby zaczęła nasł
 \
 slides: ['pierwszy' 'drugi' 'trzeci']
 
-key: Key()
+key: Klawisz()
 
 index•#: 1 … ∆ key …
-	(key = 'Strzałka w prawo') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Strzałka w prawo') ? ((index < slides.długość()) ? index + 1 index)
 		(key = 'Strzałka w lewo') ? ((index > 1) ? index - 1 index)
 			index
 
-Phrase(slides[index])
+Fraza(slides[index])
 \
 
  Właściwość @Reaction jest sercem tego wszystkiego. Zaczyna się od \1\, i za każdym razem, gdy @Key się zmienia, decyduje, jaka ma być nowa liczba.
@@ -38,15 +38,15 @@ Zamień @List na listę @Group albo całych scen, a reszta wzorca w ogóle się 
 
 \
 slides: [
-	Phrase('historia w trzech częściach' rozmiar: 3m)
-	Group(Stack() [Phrase('🐈') Phrase('pojawia się kot')])
-	Phrase('koniec 🎉')
+	Fraza('historia w trzech częściach' rozmiar: 3m)
+	Grupa(Stos() [Fraza('🐈') Fraza('pojawia się kot')])
+	Fraza('koniec 🎉')
 ]
 
-key: Key()
+key: Klawisz()
 
 index•#: 1 … ∆ key …
-	(key = 'Strzałka w prawo') ? ((index < slides.length()) ? index + 1 index)
+	(key = 'Strzałka w prawo') ? ((index < slides.długość()) ? index + 1 index)
 		(key = 'Strzałka w lewo') ? ((index > 1) ? index - 1 index)
 			index
 
@@ -57,11 +57,11 @@ slides[index]
 Podaj mu @Scene/pause więc nigdy nie porusza się samo, i @Scene/step żeby przesunąć to o jeden element w jedną lub drugą stronę:
 
 \
-key: Key()
-Scene([
-		Phrase('historia w trzech częściach' rozmiar: 3m)
-		Group(Stack() [Phrase('🐈') Phrase('pojawia się kot')])
-		Phrase('koniec 🎉')
+key: Klawisz()
+Pokaz([
+		Fraza('historia w trzech częściach' rozmiar: 3m)
+		Grupa(Stos() [Fraza('🐈') Fraza('pojawia się kot')])
+		Fraza('koniec 🎉')
 	] pauza krok: ∆ key ? ((key = 'Strzałka w lewo') ? -1 (key = 'Strzałka w prawo') ? 1 ø) ø)
 \
 

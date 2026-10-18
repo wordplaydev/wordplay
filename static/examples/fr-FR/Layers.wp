@@ -5,7 +5,7 @@ Calques
 
 compte2: 10 → []
 
-ƒ balles(z2•#m) compte2.traduire(
+ƒ balles(z2•#m) compte2.transformer(
 		ƒ()
 			Phrase(
 				'o'

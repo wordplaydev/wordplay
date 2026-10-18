@@ -24,7 +24,7 @@ segredos: [:1‥9].embaralhado()
 
 ¶Qual foi a última tecla pressionada?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-chave2,clé/fr: Chave()
+chave2,clé/fr: Tecla()
 
 ¶O segredo atual aumenta cada vez que uma tecla é pressionada, mas para no 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
@@ -56,7 +56,7 @@ fimDeJogo: índiceDoSegredo = 10
 ¶Mostre o número francês atual e os pontos atuais. Depois dos 9 segredos, mostre um resultado final¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
-Fase(
+Palco(
 	[
 		Grupo(
 			Monte()

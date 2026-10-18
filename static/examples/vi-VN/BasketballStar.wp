@@ -14,12 +14,12 @@ vịTríBóngRổ: (sốLầnNhấp % 2) = 0 ? VịTrí(
 			x: Contrỏ().x
 			y: 8m
 			z: 0m
-		) Cửđộng(vịTrí: VịTrí(némX 8m 0m))
+		) ChuyểnĐộng(vịTrí: VịTrí(némX 8m 0m))
 
 bóngRổ: Cụmtừ(
 		"🏀"
 		0.7m
-		vấnđề: Vấnđề(0.623kg 0.5)
+		vậtChất: VậtChất(0.623kg 0.5)
 		vịTrí: vịTríBóngRổ
 		tên: 'bóng rổ'
 	)
@@ -38,7 +38,7 @@ trongGiỏ: (((vịTríXCủaGiỏ - 0.9m)‥(vịTríXCủaGiỏ + 0.9m)) ∋ b
 điểmSố: 0 … trongGiỏ & (lầnThử > điểmSố) … 1 + điểmSố
 
 ngôiSaoBóngRổ: Nhóm(
-		Ngănxếp('|' 0.5m)
+		XếpDọc('|' 0.5m)
 		[
 			Cụmtừ(`*Ngôi sao bóng rổ*` .8m)
 			Cụmtừ('Ngắm bằng con trỏ của bạn.' .6m)

@@ -145,7 +145,7 @@ odalar•[oda2]: [
 ¶Buradan gerçekten geçebileceğin kapılar. Elinde hiçbir şeyin olmadığı kilitli bir kapı sana hiç sunulmaz; onu açacak şey ellerine geçene kadar sadece bir duvar gibi görünür.¶
 ƒ yollar(burada•oda2 topla2•[''])•[kapı]
 	burada.kapılar.filtre(
-		ƒ(kapı2•kapı) (kapı2.gerekli = '') | topla2.sahipolmak(
+		ƒ(kapı2•kapı) (kapı2.gerekli = '') | topla2.içerir(
 					kapı2.gerekli
 				)
 	)
@@ -154,12 +154,12 @@ odalar•[oda2]: [
 ƒ ulaş(burada2•oda2 topla3•[''])•yolculuk
 	yolculuk(
 		burada2.kimlik2
-		((burada2.al ≠ '') & (~topla3.sahipolmak(burada2.al))) ? topla3.ile(
+		((burada2.al ≠ '') & (~topla3.içerir(burada2.al))) ? topla3.ile(
 				burada2.al
 			) topla3
 	)
 
-anahtar2: Anahtar()
+anahtar2: Tuş()
 
 ¶Bir tuşa basma sırası şöyle işler: bir bitişte, herhangi bir tuş seni yeniden ilk odada uyandırır; 1, 2 ya da 3 olmayan bir tuş hiçbir şey yapmaz; bu odadaki kapı sayısını aşan bir sayı da hiçbir şey yapmaz; ve ancak bundan sonra bir kapı sayılır. O üçüncü kontrol, not almaya değer bir şeydir, çünkü liste erişimi baştan başlar — bu kontrol olmadan, iki kapılı bir odada 3'e basmak sessizce ilk kapıyı seçerdi.¶
 ƒ adım(t•yolculuk k•'')•yolculuk (
@@ -183,7 +183,7 @@ kapılar3: yollar(burada4 yolculuk2.topla)
 taşımak:
 	yolculuk2.topla.uzunluk() > 0
 	? [
-			İfadeetmek(
+			Yazı(
 				`*taşınıyor* \yolculuk2.topla.katılmak(' · ')\`
 				boyut: 0.3m
 				hizalama: '|'
@@ -196,7 +196,7 @@ taşımak:
 aşağıda:
 	burada4.bitiş ≠ ''
 	? [
-			İfadeetmek(
+			Yazı(
 				`*\burada4.bitiş\*`
 				boyut: 0.8m
 				hizalama: '|'
@@ -208,7 +208,7 @@ aşağıda:
 				süre: 1.5s
 				giriş: Poz(opaklık: 0% ölçek: 0.5)
 			)
-			İfadeetmek(
+			Yazı(
 				`yeniden uyanmak için herhangi bir tuşa bas`
 				boyut: 0.3m
 				hizalama: '|'
@@ -216,9 +216,9 @@ aşağıda:
 				giriş: Poz(opaklık: 0%)
 			)
 		]
-		kapılar3.tercümeetmek(
+		kapılar3.dönüştür(
 			ƒ(kapı3•kapı dizin2•#)
-				İfadeetmek(
+				Yazı(
 					`\dizin2\. *\kapı3.etiket\*`
 					boyut: 0.5m
 					hizalama: '|'
@@ -233,7 +233,7 @@ Sahne(
 		Grup(
 			Yığın()
 			[
-				İfadeetmek(
+				Yazı(
 					burada4.açıklama2
 					boyut: 0.5m
 					dürüm: 14m

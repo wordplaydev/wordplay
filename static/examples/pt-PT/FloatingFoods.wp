@@ -13,7 +13,7 @@ maisRecente•['']:
 		)
 
 Grupo(
-	Rede(3 3 1m 1m)
+	Grelha(3 3 1m 1m)
 	maisRecente.traduzir(
 		ƒ(prato•"" índice2•#)
 			Frase(

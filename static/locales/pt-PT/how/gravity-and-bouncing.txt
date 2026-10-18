@@ -7,9 +7,9 @@ E se quisermos que uma personagem caia, ressalte no chão ou seja empurrada como
 Também precisamos de algo para cair em cima, senão a nossa personagem cai para sempre! Uma @Shape com uma @Rectangle larga faz um bom chão:
 
 \
-Stage([
-    Phrase('🍎' local: Motion(Place(0m 5m)) matéria: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+Palco([
+    Frase('🍎' local: Movimento(Local(0m 5m)) matéria: Matéria())
+    Figura(Retângulo(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Para mudar como / saltitante / ou como / pesado / Um personagem é, dê-lhe o se
 @Matter É necessário ter massa, elasticidade e atrito:
 
 \
-Stage([
-    Phrase('⚽' local: Motion(Place(-2m 5m)) matéria: Matter(1kg 0.9 0.2))
-    Phrase('🪨' local: Motion(Place(2m 5m)) matéria: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+Palco([
+    Frase('⚽' local: Movimento(Local(-2m 5m)) matéria: Matéria(1kg 0.9 0.2))
+    Frase('🪨' local: Movimento(Local(2m 5m)) matéria: Matéria(5kg 0.1 0.8))
+    Figura(Retângulo(-10m 0m 10m -5m))
 ])
 \
 

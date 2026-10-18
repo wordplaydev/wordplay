@@ -8,7 +8,7 @@ Schreibe zuerst die Bedingung, dann ein \?\, dann den Wert, der gilt, wenn sie w
 Hier ist ein fröhliches Gesicht, das jedes Mal traurig wird, wenn man die Leertaste drückt, und dann wieder zurück:
 
 \
-happy: ⊤ … ∆ Key(' ') … ~happy
+happy: ⊤ … ∆ Tastaturtaste(' ') … ~happy
 Phrase(happy ? '😊' '😢')
 \
 
@@ -18,7 +18,7 @@ Dann wählt der bedingte \?\ das richtige Gesicht aus.
 Sie können Bedingungen verketten, um aus mehr als zwei Dingen auszuwählen:
 
 \
-score: 0 … ∆ Key('A') … score + 1
+score: 0 … ∆ Tastaturtaste('A') … score + 1
 Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
 \
 

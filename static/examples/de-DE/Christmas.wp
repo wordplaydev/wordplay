@@ -14,9 +14,9 @@ klingeln: Musik(
 		Name: 'Klingeln'
 	)
 
-Satzglied(
+Phrase(
 	'🎄'
-	Ruhen: Reihenfolge(
+	Ruhen: Abfolge(
 		{
 			0: Pose(Drehung: 0° Musik: klingeln)
 			1: Pose(Drehung: 15°)

@@ -8,8 +8,8 @@
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: מצלמה(width × 1px height × 1px 33ms)
+במה([תמונה(colors "what the camera sees" 12m)])
 \
 
  כל @Image זקוק לתיאור, כי לרשת של צבעים אין מילים משלה עבור מי שלא יכול לראות אותה.
@@ -19,8 +19,8 @@ Stage([Image(colors "what the camera sees" 12m)])
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m סימן: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: מצלמה(width × 1px height × 1px 33ms)
+במה([תמונה(colors "the camera, drawn with dark and light circles" 12m סימן: ƒ(color•צבע) (color.בהירות < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

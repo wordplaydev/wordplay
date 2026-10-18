@@ -3,4 +3,4 @@ Zuhören
 === start
 ¶Ein Lautsprecher-Emoji, das größer wird, wenn dein Mikrofon lauter ist.¶
 
-Satzglied("🔈" Ruhen: Pose(Skala: Volumen()))
+Phrase("🔈" Ruhen: Pose(Skala: Lautstärke()))

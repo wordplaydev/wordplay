@@ -16,7 +16,7 @@ wygasanie: 0.03
 
 ¶Uderz dzwonek, którego klawisz został naciśnięty, i pozwól wszystkim pozostałym dzwonkom się uspokoić.¶
 ƒ dźwięk(wiersz•[dzwonek2] trafienie•'' uderzony•?)
-	wiersz.tłumaczyć(
+	wiersz.przekształć(
 		ƒ(dzwonek3•dzwonek2)
 			(uderzony & (trafienie = dzwonek3.klucz))
 			? dzwonek3.energia:1
@@ -39,7 +39,7 @@ dzwonki•[dzwonek2]: [
 
 ¶Dzwonek rośnie i jaśnieje razem ze swoim dźwiękiem i zawsze się lekko kołysze, więc rząd żyje, nawet gdy nikt nie gra.¶
 ƒ widokDzwonka(dzwonek4•dzwonek2)
-	Wyrażenie(
+	Fraza(
 		(dzwonek4.stopień2 → '')
 		(2m + (dzwonek4.energia · 1.5m))
 		miejsce: Miejsce(dzwonek4.x2 0m)
@@ -54,7 +54,7 @@ dzwonki•[dzwonek2]: [
 
 ¶Klawisz, który uderza każdy dzwonek, wypisany pod nim.¶
 ƒ widokKlawisza(dzwonek5•dzwonek2)
-	Wyrażenie(
+	Fraza(
 		dzwonek5.klucz
 		0.7m
 		miejsce: Miejsce(dzwonek5.x2 -3m)
@@ -77,7 +77,7 @@ piosenka: Muzyka(
 
 Scena(
 	[
-		Wyrażenie(
+		Fraza(
 			'━━━━━━━━━━━━━'
 			1m
 			miejsce: Miejsce(-6m 2.5m)

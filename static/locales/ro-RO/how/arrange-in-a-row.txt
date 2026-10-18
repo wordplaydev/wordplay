@@ -4,10 +4,10 @@ Uneori vrem ca textul să stea unul lângă altul, într-un rând ordonat.
 Putem face asta cu un @Row, care așază totul într-un @Group de la stânga la dreapta.
 
 \
-Group(Row() [
-    Phrase('🍎')
-    Phrase('🍌')
-    Phrase('🍇')
+Grup(Rând() [
+    Fraza('🍎')
+    Fraza('🍌')
+    Fraza('🍇')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Row() [
 Iată același fruct, dar aliniat jos, cu puțin spațiu în plus:
 
 \
-Group(Row('>' 0.5m) [
-    Phrase('🍎' dimensiune: 2m)
-    Phrase('🍌' dimensiune: 1m)
-    Phrase('🍇' dimensiune: 3m)
+Grup(Rând('>' 0.5m) [
+    Fraza('🍎' dimensiune: 2m)
+    Fraza('🍌' dimensiune: 1m)
+    Fraza('🍇' dimensiune: 3m)
 ])
 \
 

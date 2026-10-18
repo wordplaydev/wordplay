@@ -4,10 +4,10 @@ Eğer bir @Row yan yana anlamına gelir, o zaman bir @Stack Yukarıdan aşağıy
 @Stack Her karakteri bir öncekinin altına, bir kule gibi yerleştirir.
 
 \
-Group(Stack() [
-    Phrase('bir')
-    Phrase('iki')
-    Phrase('üç')
+Grup(Yığın() [
+    Yazı('bir')
+    Yazı('iki')
+    Yazı('üç')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Stack() [
 Her şeyi sol kenar boyunca hizalamayı deneyelim:
 
 \
-Group(Stack('<' 0.25m) [
-    Phrase('🐣 küçük')
-    Phrase('🐥 orta')
-    Phrase('🐔 büyük')
+Grup(Yığın('<' 0.25m) [
+    Yazı('🐣 küçük')
+    Yazı('🐥 orta')
+    Yazı('🐔 büyük')
 ])
 \
 

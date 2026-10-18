@@ -20,7 +20,7 @@ rasto: contagem2 ÷ 2
 ¶Um índice de cabeça que avança um ponto a cada instante e volta ao início da palavra.¶
 cabeça: 0 … ∆ Tempo(10ms) … ((cabeça + 1) % contagem2) ?? 0
 
-Fase(
+Palco(
 	pontos2.traduzir(
 		ƒ(ponto•Local índice2•#)
 			(

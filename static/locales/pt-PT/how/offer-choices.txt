@@ -2,20 +2,20 @@ Mostrar opções selecionáveis
 
 Por vezes, quer mostrar várias opções no ecrã e fazer algo com a escolha do público. Para isso, precisamos de duas coisas:
 
-• Um ou mais @Phrase que estão marcados como selecionáveis e têm um nome único (por exemplo, \Phrase('opção 1' selecionável nome: 'um')\)
+• Um ou mais @Phrase que estão marcados como selecionáveis e têm um nome único (por exemplo, \Frase('opção 1' selecionável nome: 'um')\)
 • Uma @Choice, que muda para o nome @Phrase escolhido mais recentemente.
 
 Por exemplo, aqui mostramos três opções, cada uma com um nome único.
 
 \
-option: Choice()
+option: Escolha()
 
-Group(
-	Stack() [
-		Phrase('opção 1' selecionável nome: 'um')
-		Phrase('opção 2' selecionável nome: 'dois')
-		Phrase('opção 3' selecionável nome: 'três')
-		Phrase(option)
+Grupo(
+	Monte() [
+		Frase('opção 1' selecionável nome: 'um')
+		Frase('opção 2' selecionável nome: 'dois')
+		Frase('opção 3' selecionável nome: 'três')
+		Frase(option)
 	]
 )
 \
@@ -25,17 +25,17 @@ Group(
 Pode utilizar este padrão para executar ações em resposta a uma escolha. Por exemplo, poderíamos modificar o projeto acima para exibir um emoji secreto com base na escolha:
 
 \
-option: Choice()
+option: Escolha()
 
 option = '' ?
-	Group(
-		Stack() [
-			Phrase('opção 1' selecionável: ⊤ nome: 'um')
-			Phrase('opção 2' selecionável: ⊤ nome: 'dois')
-			Phrase('opção 3' selecionável: ⊤ nome: 'três')
+	Grupo(
+		Monte() [
+			Frase('opção 1' selecionável: ⊤ nome: 'um')
+			Frase('opção 2' selecionável: ⊤ nome: 'dois')
+			Frase('opção 3' selecionável: ⊤ nome: 'três')
 		]
 	)
-	Phrase(
+	Frase(
 		{
 			'um': '😡'
 			'dois': '🏀'

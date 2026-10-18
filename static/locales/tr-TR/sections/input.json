@@ -20,7 +20,7 @@
             "names": ["$~Rastgele"],
             "inputs": [
                 {
-                    "names": "$~dakika",
+                    "names": ["$~enKüçük", "$~dakika"],
                     "doc": "$~Oluşturulacak en küçük @value, ya da 0'dan büyükse en büyük değer. Eğer @None verilirse, en küçük değer şudur: \\0\\."
                 },
                 {
@@ -35,7 +35,7 @@
                 "/tıkır tıkır!/",
                 "Dolayısıyla bunu kullanmanın en iyi yolu, adlandırılmış seçilebilir ifadeler içeren bir performans @Phrase ) oluşturmak ve ardından bu ad seçildiğinde ne yapılacağına karar vermek için bir @Reaction kullanmaktır.",
                 "İşte en basit örnek:",
-                "\\Group(\nStack() \n[\nPhrase('one' seçilebilir:⊤ isim:'1') \nPhrase('two' seçilebilir:⊤ isim:'2') \nPhrase(Choice())\n]\n)\\",
+                "\\Grup(\nYığın() \n[\nYazı('one' seçilebilir:⊤ isim:'1') \nYazı('two' seçilebilir:⊤ isim:'2') \nYazı(Seçenek())\n]\n)\\",
                 "Bunu düzenleyiciye kopyalayın ve ardından iki @Phrase birini seçin. Üçüncü @Phrase seçilen adı gösterdiğini göreceksiniz."
             ],
             "names": ["$~Seçenek"]
@@ -47,7 +47,7 @@
                 "Elbette fare veya izleme dörtgeni bir izleyici kitlesini dinlemek için ideal bir seçim değildir, çünkü herkes birini kullanamaz. Daha erişilebilir seçim @Choice'dir.",
                 "Ama bir fare düğmesini /gerçekten/ dinlemen gerekiyorsa, bunu yapmanın yolu budur. Ana düğmenin yukarıda mı olduğunu gösteren bir @Boolean akışı sağlar \\⊥\\ ya da aşağıda mı \\⊤\\.",
                 "İşte basit bir örnek:",
-                "\\İfadeetmek(Düğme() → '')\\",
+                "\\Yazı(Düğme() → '')\\",
                 "Bu sadece, akışın @value değerini metin olarak gösteren bir @Phrase yapar. Bunu düzenleyiciye kopyalayıp tıklarsan, iki @state arasında gidip geldiğini görürsün: \\⊥\\ ve \\⊤\\."
             ],
             "names": ["$~Düğme"],
@@ -62,7 +62,7 @@
                 "/whrrrrrr/",
                 "Elbette, bu herkes için erişilebilir bir seçenek değil: herkes göremez veya kolayca işaret edemez, bu nedenle bu akışı kullanarak birinin katılımını engellemediğinizden emin olun.",
                 "Eğer kimsenin dışlanmadığından eminseniz, @Pointer kullanmak bir @stream oluşturmak kadar basittir:",
-                "\\Pointer()\\",
+                "\\İşaretçi()\\",
                 "Sağladığı @Place , işaretçinin @Stage üzerinde nereye işaret ettiğine karşılık gelir."
             ],
             "names": ["$~İşaretçi"]
@@ -72,16 +72,16 @@
                 "$~Sana izleyicinin hangi klavye @key tuşuna bastığını ve bıraktığını söyler.",
                 "/tık tık/",
                 "Bunu dene",
-                "\\Anahtar()\\",
+                "\\Tuş()\\",
                 "Bir tuşa bastığında, tuşun @Stage üzerinde nasıl belirdiğini görüyor musun? Bir tuşa her basıldığında, akışa basılan tuşu anlatan yeni bir @Text eklenir.",
                 "Bir karakteri temsil eden bir tuş için, @value o karakter olarak @Text biçiminde olur.",
                 "Özel tuşlar için, örneğin /Escape/ tuşu için, o tuşu anlatan bir @Text olur. Bunun için <önceden tanımlı bir isim@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values> kullanılır. Ne yazık ki bu isim yalnızca İngilizce mevcuttur.",
                 "Sadece belirli bir tuşu öğrenmek istiyorsan, onu verebilirsin:",
-                "\\Anahtar('a')\\",
+                "\\Tuş('a')\\",
                 "Ve sadece bir @Key tuşunun basılmasını değil, bırakılmasını öğrenmek istiyorsan, bir @Boolean verebilirsin:",
-                "\\Anahtar('a' ⊥)\\"
+                "\\Tuş('a' ⊥)\\"
             ],
-            "names": ["$~Anahtar"],
+            "names": ["$~Tuş", "$~Anahtar"],
             "key": {
                 "names": "$~anahtar",
                 "doc": "$~@None ise, tüm anahtarlar sağlanır. Belirli bir @Text ise, yalnızca o anahtar sağlanır."
@@ -171,10 +171,10 @@
                 "$~Bu, mikrofonun ses yüksekliğinin 0 ile 1 arasında değişen bir akışıdır.",
                 "/bzzzzzzz/",
                 "İstediğiniz frekansta örnekleme yapılır. Varsayılan olarak frekans \\30hz\\ , yani saniyede 30 defadır, ancak bunu daha düşük bir frekansa değiştirebilirsiniz.",
-                "\\Volume()\\",
+                "\\SesSeviyesi()\\",
                 "Bu, dinleyicilerin ne kadar yüksek sesle konuştuğunu duymak için harika!"
             ],
-            "names": ["$~Hacim"],
+            "names": ["$~SesSeviyesi", "$~Hacim"],
             "frequency": {
                 "names": ["$~sıklık"],
                 "doc": "$~Örneklemeler arasındaki zaman."
@@ -185,10 +185,10 @@
                 "$~Bu, mikrofonun frekansını hertz cinsinden gösteren bir veri akışıdır.",
                 "/hımmm/",
                 "Örnekleme, sizin seçtiğiniz frekansta yapılır. İnsan sesi 20 Hz ile 5000 Hz arasındadır, bu nedenle bu aralıkta sayılar bekleyebilirsiniz.",
-                "\\Pitch()\\",
+                "\\Perde()\\",
                 "Bu, birinin konuşma veya şarkı söyleme tonunu duymak için harika."
             ],
-            "names": ["$~Saha"],
+            "names": ["$~Perde", "$~Saha"],
             "frequency": {
                 "names": ["$~sıklık"],
                 "doc": "$~Örneklemeler arasındaki zaman."
@@ -200,7 +200,7 @@
                 "/bzzzzzzz/",
                 "@List etiketi aslında bir görseli temsil ediyor, ancak onunla ne yapacağınıza siz karar veriyorsunuz.",
                 "Görseli bir sürü @Phrase kullanarak temsil etmeyi deneyebilirsiniz, oldukça havalı görünebilir! Bunu kopyalamayı deneyin...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' yer: Place((x - 1) × 0.5m y × -0.5m) renk: color süre: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Kamera(32px 24px 33ms)\n\nSahne(\ncolors.birleştirilmiş(\n[] \nƒ(phrases•[Yazı] row•[Renk] y•#) \nphrases.Listeile(\nrow.dönüştür(\nƒ(color•Renk x•#)\nYazı('o' yer: Yer((x - 1) × 0.5m y × -0.5m) renk: color süre: 0s\n)\n)\n)\n)\n)\\",
                 "Ancak renkleri analiz ederek bir ışığın açık mı kapalı mı olduğuna veya belirli bir rengin sık kullanılıp kullanılmadığına karar verebilir, böylece izleyicilerin gösterdikleri renklerle performansı etkilemelerini sağlayabilirsiniz."
             ],
             "names": ["$~Kamera"],
@@ -223,17 +223,17 @@
                 "/Bip bip bip/",
                 "Zamanlamayı kontrol etmek için her çıktıya @Phrase.duration ayarlayabilirsin. Böylece sonrakine geçmeden önce o kadar süre gösterilir ve varsa ayarladığın @Phrase.entering veya @Phrase.exiting geçişlerini kullanır. Eğer bunları bir @Sequence'e ayarlarsan, onun süresini kullanır.",
                 "Tüm bunlar, şu üç ifadeyi sırayla gösteren şu küçük @Scene gibi şeyler yapmanı sağlar:",
-                "\\Gösteri(\n\t[\n\t\tİfadeetmek('Merhaba' süre: 1s)\n\t\tİfadeetmek(\n\t\t\t'Nasılsın?'\n\t\t\tsüre: 2s\n\t\t\trotasyon: 5°\n\t\t\tgiriş: Poz(rotasyon: 0°)\n\t\t)\n\t\tİfadeetmek('İyiyim')\n\t]\n)\\",
+                "\\Gösteri(\n\t[\n\t\tYazı('Merhaba' süre: 1s)\n\t\tYazı(\n\t\t\t'Nasılsın?'\n\t\t\tsüre: 2s\n\t\t\trotasyon: 5°\n\t\t\tgiriş: Poz(rotasyon: 0°)\n\t\t)\n\t\tYazı('İyiyim')\n\t]\n)\\",
                 "İlk çıktının bir saniye, sonrakinin iki saniye gösterildiğini fakat beş derecelik bir dönüşle canlandırıldığını, ardından da sonuncusunun gösterildiğini gördün mü?",
                 "@Scene ile çok ayrıntılı çıktı ve animasyon dizileri oluşturabilir, hatta bunların bir kısmını başka bir @Phrase veya @Group'de olduğu gibi dinamik ya da etkileşimli hale getirebilirsin.",
                 "Eğer iç içe geçmiş animasyonlu bir çıktın varsa (içinde animasyonlu @Phrase bulunan bir @Group), @Scene, @Group içindeki tüm animasyonlu içeriğin bitmesini bekler.",
                 "Ah, ve son küçük bir sır daha! Listeye @Boolean de koyabilirsin, eğer bunlar \\⊥\\ ise, @Scene duraklar ve doğru olmasını bekler.",
                 "Örneğin, bir dizi @Phrase oluşturmak istesen ve yalnızca @Button değiştiğinde ilerlesen, şunu yapabilirsin:",
-                "\\tıkla: ∆ Düğme()\nGösteri(\n\t[\n\t\tİfadeetmek('Merhaba')\n\t\ttıkla\n\t\tİfadeetmek(\n\t\t\t'Nasılsın?'\n\t\t\tsüre: 0.25s\n\t\t\trotasyon: 5°\n\t\t\tgiriş: Poz(rotasyon: 0°)\n\t\t)\n\t\ttıkla\n\t\tİfadeetmek('İyiyim')\n\t]\n)\\",
+                "\\tıkla: ∆ Düğme()\nGösteri(\n\t[\n\t\tYazı('Merhaba')\n\t\ttıkla\n\t\tYazı(\n\t\t\t'Nasılsın?'\n\t\t\tsüre: 0.25s\n\t\t\trotasyon: 5°\n\t\t\tgiriş: Poz(rotasyon: 0°)\n\t\t)\n\t\ttıkla\n\t\tYazı('İyiyim')\n\t]\n)\\",
                 "Her @Phrase'dan sonra durakladığını ve ilerlemeden önce @Button'in değişmesini beklediğini gördün mü?",
                 "Varsayılan olarak son çıktımda dururum. Bana @Scene/loop ver, o zaman tekrar ilk çıktıma dönerim; bu, her turdan sonra başka bir soru soran bir oyunun isteyeceği şeydir.",
                 "Programın her değiştiğinde @Scene/loop'ü kontrol ederim, böylece bir döngü hem başlayabilir hem de bitebilir. İşte burada, doğru cevabı bulana kadar sormaya devam ederim, sonra dururum:",
-                "\\tahminEt: Sohbet()\ndoğru2: tahminEt = 'cat'\nGösteri(\n\t[\n\t\tİfadeetmek('Hayvanı tahmin et!' süre: 2s)\n\t\t∆ tahminEt\n\t\tİfadeetmek(doğru2 ? 'Evet!' 'Yanlış!' süre: 2s)\n\t]\n\tdöngü: ~doğru2\n)\\",
+                "\\tahminEt: Sohbet()\ndoğru2: tahminEt = 'cat'\nGösteri(\n\t[\n\t\tYazı('Hayvanı tahmin et!' süre: 2s)\n\t\t∆ tahminEt\n\t\tYazı(doğru2 ? 'Evet!' 'Yanlış!' süre: 2s)\n\t]\n\tdöngü: ~doğru2\n)\\",
                 "@Scene/replay beni baştan başlatır, @Scene/pause beni olduğum yerde tutar ve @Scene/go beni doğrudan çıktılarımdan birine gönderir. @Scene/pause'ü şuna ayarla: \\⊤\\ o zaman kendiliğimden asla ilerlemem, böylece @Scene/go beni ilerleten tek şey olur — hem ileri /hem de/ geri giden bir slayt gösterisi böyle yapılır.",
                 "Ve eğer /10'da 3/ göstermek ya da bir hikayenin farklı bölümlerinde farklı müzik çalmak için nerede olduğumu bilmek istersen, işte @Spotlight bunun içindir."
             ],
@@ -268,7 +268,7 @@
                     "@Scene/replay gibi, bu da /anlık/ bir @condition ister — yani şu olan bir şey: \\ø\\, tabii benim ilerlemeni istediğin değerlendirme dışında. Sabit kalan bir sayı beni orada sonsuza kadar sabitler.",
                     "Beni herhangi bir uçtan öteye gönderirsen orada dururum, tabii @Scene/loop \\⊤\\ değilse; bu durumda tekrar başa dönerim. Bu, hiçbir zaman kontrol etmen gerekmediği anlamına gelir. İşte burada ok tuşları bir slayt gösterisinde her iki yönde de gezinir:",
                     "/üçüncü sayı/ yerine /bir ileri/ demeyi tercih edersen, işte bu @Scene/step'dır.",
-                    "\\slaytlar: [\n\t\tİfadeetmek('bir')\n\t\tİfadeetmek('iki')\n\t\tİfadeetmek('üç')\n\t]\nanahtar2: Anahtar()\niçinde: Spotlight()\nGösteri(\n\tslaytlar\n\tduraklat: ⊤\n\tgit: ∆ anahtar2 ? ((anahtar2 = 'Sol Ok') ? içinde.index - 1 (anahtar2 = 'Sağ Ok') ? içinde.index + 1 ø) ø\n)\\"
+                    "\\slaytlar: [\n\t\tYazı('bir')\n\t\tYazı('iki')\n\t\tYazı('üç')\n\t]\nanahtar2: Tuş()\niçinde: Işık()\nGösteri(\n\tslaytlar\n\tduraklat: ⊤\n\tgit: ∆ anahtar2 ? ((anahtar2 = 'Sol Ok') ? içinde.dizin - 1 (anahtar2 = 'Sağ Ok') ? içinde.dizin + 1 ø) ø\n)\\"
                 ]
             },
             "name": {
@@ -280,7 +280,7 @@
                 "doc": [
                     "$~Her çıktımdan sonra, @Phrase/duration'i tamamlandığında ya da animasyonu bittiğinde beklenecek bir @condition.",
                     "Bu, listemdeki her çıktının arasına o @Boolean'i yazmakla aynı şeydir; bu da çıktılarımdan birinin beklemesini sağlamak için yapacağın şeydir. Bu ise onu bir kez söyler:",
-                    "\\Gösteri(\n\t[İfadeetmek('bir') İfadeetmek('iki') İfadeetmek('üç')]\n\tkadar: ∆ Düğme()\n)\\",
+                    "\\Gösteri(\n\t[Yazı('bir') Yazı('iki') Yazı('üç')]\n\tkadar: ∆ Düğme()\n)\\",
                     "Listeye yazılan bir @Boolean yine de çalışır ve ikisi ayrı bekleme olur. Böylece belirli bir yerde daha uzun bekleyebilirsin."
                 ]
             },
@@ -289,7 +289,7 @@
                 "doc": [
                     "$~Bulunduğum yerden sayarak, kaç çıktının hareket edeceği: \\1\\ bir ileri, \\-1\\ bir geridir. Bu, @Scene/go'in bir yer olarak değil, bir uzaklık olarak söylenmiş hâlidir.",
                     "@Scene/go gibi ben de uçlarımda dururum, tabi @Scene/loop şu değilse: \\⊤\\, bu yüzden hiç kontrol etmek zorunda kalmazsın. Ben senin beni hareket ettirmek istediğin değerlendirme dışında hep aynı kalan, /anlık/ bir @condition isterim — yani \\ø\\ olan bir şey.",
-                    "\\slaytlar: [\n\t\tİfadeetmek('bir')\n\t\tİfadeetmek('iki')\n\t\tİfadeetmek('üç')\n\t]\nanahtar2: Anahtar()\nGösteri(\n\tslaytlar\n\tduraklat: ⊤\n\tadım: ∆ anahtar2 ? ((anahtar2 = 'Sol Ok') ? -1 (anahtar2 = 'Sağ Ok') ? 1 ø) ø\n)\\",
+                    "\\slaytlar: [\n\t\tYazı('bir')\n\t\tYazı('iki')\n\t\tYazı('üç')\n\t]\nanahtar2: Tuş()\nGösteri(\n\tslaytlar\n\tduraklat: ⊤\n\tadım: ∆ anahtar2 ? ((anahtar2 = 'Sol Ok') ? -1 (anahtar2 = 'Sağ Ok') ? 1 ø) ø\n)\\",
                     "Burada hiçbir şeyin hangi @Phrase'in gösterildiğini bilmesi gerekmez; işte @Scene/go'den farkı budur. Bunu sahnede söylemek istersen @Spotlight'e sor."
                 ]
             }
@@ -326,7 +326,7 @@
             "doc": [
                 "$~Bu, hedef kitlenizin yazdığı @Text mesajlarının bir akışıdır.",
                 "Örneğin, bu basit program mesajın 'hello' olup olmadığını kontrol eder ve eğer öyleyse, program 'hi' olarak değerlendirilir. Aksi takdirde, 'huh?' olarak değerlendirilir.",
-                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "\\Sohbet().içerir('hello') ? 'hi!' 'huh?'\\",
                 "İşte bu kadar! Bununla sohbet botları, metin tabanlı macera oyunları veya diğer performans türleri için metin tabanlı kontrol şemaları gibi her türlü performansı oluşturabilirsiniz."
             ],
             "names": ["$~Sohbet"]
@@ -337,12 +337,12 @@
                 "@Stage üzerine @Output yerleştirmenin birçok yolu vardır: onlara açık bir @Place ver, @Motion kullan ve yer çekiminin işini yapmasına izin ver, ya da düzenlenmeleri için onları bir @Group içine koy.",
                 "Ama bazen @Output öğesinin @Stage üzerinde nereye gideceğini /izleyicinin/ kontrol etmesini istersin.",
                 "İşte nasıl çalıştığı: bir @Placement oluştur ve onu bir @Output öğesinin @Place değerine ver:",
-                "\\İfadeetmek('merhaba' yer: Atama())\\",
+                "\\Yazı('merhaba' yer: Yerleştirme())\\",
                 "Sonra, izleyici bir ok @key tuşunu kullandığında ya da sahnede tıkladığında veya dokunduğunda, @Placement istenen yönde hareket eden yeni bir @Place oluşturur.",
                 "Bunu programına kopyalamayı ve @Output öğesini işaretçi ya da klavyeyle hareket ettirmeyi dene.",
                 "@Placement öğesini özelleştirebilirsin; belirli boyutlarda hareketi açıp kapatabilir, bir @Place öğesinin ne kadar uzağa hareket edeceğini ve akışın başladığı ilk @Place değerini değiştirebilirsin."
             ],
-            "names": ["$~Atama"],
+            "names": ["$~Yerleştirme", "$~Atama"],
             "inputs": [
                 {
                     "doc": "$~Başlamak için ilk yer.",
@@ -440,7 +440,7 @@
                 "doc": "$~X ekseni boyunca yönün yönü ve büyüklüğü."
             },
             "y": {
-                "names": "$~ve",
+                "names": ["$~Y", "$~ve"],
                 "doc": "$~Y ekseni boyunca yönün yönü ve büyüklüğü."
             }
         },
@@ -503,9 +503,9 @@
             "doc": [
                 "$~Her harfin sembolünün ana hatlarını @List of @Place şeklinde izler.",
                 "Ona biraz metin ve bir yazı tipi verin, o da her bir karakterin ana hatlarını nokta nokta takip edecektir.",
-                "\\Contour('a' \"Noto Sans\")\\",
+                "\\Kontur('a' \"Noto Sans\")\\",
                 "@Place değerlerini bir @Phrase @List besleyerek ana hatların noktalar halinde çizildiğini görebilirsiniz:",
-                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' yer: point)))\\",
+                "\\Sahne(Kontur('a' \"Noto Sans\" 10m).dönüştür(ƒ(point) Yazı('•' yer: point)))\\",
                 "Anahatı @Number metre ile ölçeklendirebilir, başlangıç noktasını @Place ile taşıyabilir, yazı tipi kalınlığı seçebilir, italik yazı tipini açabilir ve noktalar arasındaki `aralığı` metre cinsinden mesafe olarak ayarlayabilirsiniz. Daha küçük bir `aralık`, anahatı daha yakından takip eder ve hem çizgiler hem de eğriler boyunca eşit aralıklı noktalar oluşturur.",
                 "Renk emojileri gibi bazı karakterlerin kenar çizgisi yoktur, bu nedenle puan eklemezler. Yazı tipini getirirken size boş bir @List verecek, hazır olduğunda ise dolduracaktır."
             ],
@@ -559,7 +559,7 @@
                 "Varsayılan olarak her saniye tıklarım. Hızı değiştirmek için bana saniye, dakika veya saat cinsinden bir @Now.frequency ver:",
                 "\\⏰(1min)\\",
                 "@Now.timezone ve @Now.calendar özelliklerim @Moment'in girdilerini yansıtır ve oluşturduğum anları yapılandırır. Örneğin, Japon takvimine göre Tokyo'daki şu anki saati gösteren bir saat burada:",
-                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "\\Şimdi(1s 'Asia/Tokyo' 'japanese')\\",
                 "Bu girdiler değişirse — diyelim ki bir tepki bana farklı bir saat dilimi verir — yeni ayarlarla anlar oluşturmaya başlarım.",
                 "@Time'dan nasıl farklıyım? @Time bir program başladığından beri geçen milisaniyeleri sayar, bu animasyon için iyidir. Ben sana bir takvim ve saat diliminde duvar saati tarihini ve saatini söylerim, bu saatler ve takvimler için iyidir."
             ],
@@ -642,7 +642,7 @@
                 "doc": "$~Haftanın günü, \\1\\ (Pazartesi) ile \\7\\ (Pazar) arası. Bilgilendirici: @Now bunu ayarlar ve biçimlendirme bunu göz ardı eder."
             },
             "conversion": {
-                "text": "$~Benim bir @Text sürümüm, okuyucunun yerel ayarına göre, benim takvimim ve zaman dilimimde biçimlendirilmiş. Belirli bir yerel ayara göre biçimlendirmek için @Text tipinden sonra bir dil ekle, örneğin \\Moment(2026 7 1) → ''/es\\."
+                "text": "$~Benim bir @Text sürümüm, okuyucunun yerel ayarına göre, benim takvimim ve zaman dilimimde biçimlendirilmiş. Belirli bir yerel ayara göre biçimlendirmek için @Text tipinden sonra bir dil ekle, örneğin \\An(2026 7 1) → ''/es\\."
             },
             "error": {
                 "timezone": "$~bu geçerli bir zaman dilimi ismi değil",
@@ -901,7 +901,7 @@
             "doc": [
                 "$~Bir @Scene'in şu an ne durumda olduğunu söylerim: hangi çıktıyı gösterdiğini, kaç tane çıktısı olduğunu ve birini bekleyip beklemediğini.",
                 "Bir @Scene şeyler gösterir; ben ise programın geri kalanının onun ne gösterdiğini öğrenme yoluyum. Bu sayede bir slayt gösterisinin altına sayaç koyabilir, bir hikâyenin farklı bölümlerinde farklı müzik çalabilir ya da sahne gerçekten beklerken /herhangi bir tuşa bas/ ipucunu yalnızca o sırada gösterebilirsin.",
-                "\\slaytlar: [\n\t\tİfadeetmek('bir')\n\t\tİfadeetmek('iki')\n\t\tİfadeetmek('üç')\n\t]\niçinde: Spotlight()\nSahne(\n\t[\n\t\tGösteri(slaytlar döngü: ⊤)\n\t\tİfadeetmek(\n\t\t\t`\\içinde.index\\ / \\içinde.total\\`\n\t\t\tboyut: 0.3m\n\t\t\tyer: Yer(0m -2m)\n\t\t)\n\t]\n)\\",
+                "\\slaytlar: [\n\t\tYazı('bir')\n\t\tYazı('iki')\n\t\tYazı('üç')\n\t]\niçinde: Işık()\nSahne(\n\t[\n\t\tGösteri(slaytlar döngü: ⊤)\n\t\tYazı(\n\t\t\t`\\içinde.index\\ / \\içinde.total\\`\n\t\t\tboyut: 0.3m\n\t\t\tyer: Yer(0m -2m)\n\t\t)\n\t]\n)\\",
                 "Her zaman bir @Slate'im vardır, henüz hiçbir şey olmadan bile. Bu yüzden beni hiç \\ø\\ için kontrol etmek zorunda kalmazsın."
             ],
             "names": "$~Işık",

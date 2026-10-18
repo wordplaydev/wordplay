@@ -11,14 +11,14 @@ Toutes les consignes sont écrites sur la scène : tu peux donc les apprendre sa
 main: Main()
 
 ¶La hauteur dit combien d'orchestre on entend, et le côté dit à quelle vitesse. Les deux se lisent directement sur la main, sans être mémorisés, donc ils la suivent en continu. Chacun est arrondi à un palier : la musique ne change que lorsque le changement est assez grand pour s'entendre, et une main qui tremble ne réécrit pas la partition vingt fois par seconde.¶
-soulever: main.lieu.et.redimensionner(-3m 3m 0 1).limite(
+soulever: main.lieu.y.redimensionner(-3m 3m 0 1).limite(
 		0
 		1
 	)
-calques: 1 + ((soulever · 7).rond())
+calques: 1 + ((soulever · 7).arrondir())
 
 portée: main.lieu.x.redimensionner(-5m 5m 0 1).limite(0 1)
-rythme: 72 + ((portée · 8).rond() · 12)
+rythme: 72 + ((portée · 8).arrondir() · 12)
 
 ¶Qui joue la mélodie. Un poing et une main hors du cadre comptent tous les deux zéro doigt, donc zéro doigt garde celui qui jouait déjà. Sinon, détourner le regard changerait l'air.¶
 àLaUne: 5 … ∆ main …
@@ -228,7 +228,7 @@ voyage: 0 … ∆ Temps(40ms) … voyage + (rythme ÷ 72)
 
 ¶Les consignes, alignées sur le bord gauche plutôt que centrées, pour que l'œil puisse les parcourir de haut en bas.¶
 affichage: Groupe(
-		Empiler('<' 0.16m)
+		Pile('<' 0.16m)
 		[
 			Phrase(
 				icône(àLaUne)

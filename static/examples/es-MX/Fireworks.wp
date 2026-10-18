@@ -583,7 +583,7 @@ Escenario(
 				)
 				Pista(
 					batería
-					instrumento: Instrumento.tambores
+					instrumento: Instrumento.batería
 					volumen: 45%
 					bucle: ⊥
 				)

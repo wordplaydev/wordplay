@@ -8,7 +8,7 @@ Możesz używać pikseli, prostokątów, kół i ścieżek.
 Nadaj mu nazwę, opisz go, a potem możesz użyć swojej nazwy użytkownika i nazwy znaku w ten sposób:
 
 \
-Phrase(`Spójrz na moją wyobraźnię @username/charactername !`)
+Fraza(`Spójrz na moją wyobraźnię @username/charactername !`)
 \
 
  Taka nazwa użytkownika i nazwa znaku nie istnieją, więc pokaże się pusty prostokąt.

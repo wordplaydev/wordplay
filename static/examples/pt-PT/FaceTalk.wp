@@ -14,7 +14,7 @@ estadoDeEspírito: rosto2.olhosAbertos ?
 		'blinking'
 
 ¶Converta o estado de espírito num emoji, e dê ao rosto um balão de fala que o diga. Dar ao balão um @Say significa que o estado de espírito é dito em voz alta além de mostrado, e o balão substitui a legenda no rodapé do palco.¶
-Fase(
+Palco(
 	[
 		Frase(
 			(estadoDeEspírito = 'blinking' ? '😴'

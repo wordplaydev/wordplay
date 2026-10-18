@@ -4,7 +4,7 @@ Piano Virtual
 ¶Piano satu oktaf yang bisa kamu mainkan! Untuk pengalaman terbaik, matikan visualisasi musik.¶
 
 ¶Pengikatan ini menyimpan aliran Kunci yang mendeteksi tombol mana yang kamu tekan.¶
-ditekan: Kunci()
+ditekan: Tuts()
 
 ¶Ini menyimpan pemetaan dari tombol yang kamu tekan ke nada yang akan dimainkan. Pemetaan ini ada dalam bentuk teks (untuk menampilkan nada yang dimainkan) dan teks literal angka (untuk diubah menjadi angka (#) dan dimasukkan ke daftar Trek).
 

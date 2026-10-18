@@ -23,10 +23,10 @@ quadrados: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦
 ¶O aspeto de um pixel no estilo atual. Um pixel quase sem cor não tem um tom que valha a pena mostrar, por isso usa um quadrado claro ou escuro.¶
 ƒ glifo(cor2•Cor)
 	(estilo2 = 'ascii') ?
-		"\gradiente[((cor2.leveza × 9).redondo()) + 1]\"
+		"\gradiente[((cor2.luminosidade × 9).redondo()) + 1]\"
 		((estilo2 = 'emoji') ?
 				((cor2.croma < 8) ?
-						((cor2.leveza < 50%) ? "⬛" "⬜")
+						((cor2.luminosidade < 50%) ? "⬛" "⬜")
 						"\quadrados[(((cor2.matiz ÷ 1°) ÷ 15).arredondarParaBaixo(
 							)) + 1]\")
 				'um')
@@ -34,7 +34,7 @@ quadrados: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦
 ¶A imagem. Um @Image desenha toda a grelha como uma única saída, por isso uma imagem custa uma imagem em vez de uma frase por pixel — o que, a 32 por 24, dava 768 delas, reconstruídas trinta vezes por segundo. /flipx/ espelha-a para que se leia como um espelho.
 
 O estilo /letters/ deixa cada glifo com a cor do quadrado que representa, que é o que um @Image faz sem ter cor própria. Os outros dois dão-lhe uma cor, porque uma letra só se lê como sombreado quando a sua cor não diz nada, e um emoji de quadrado colorido já traz a sua própria cor.¶
-imagem: Image(
+imagem: Imagem(
 		cores
 		"camera video drawn with \estilo2\"
 		16m
@@ -66,7 +66,7 @@ botões: Grupo(
 	)
 
 ¶Os botões vão na sobreposição do palco, que fica fixa ao ecrã: mantêm o mesmo tamanho e posição seja como for que a imagem esteja enquadrada, e a imagem é enquadrada como se eles não estivessem lá.¶
-Fase(
+Palco(
 	[imagem]
 	descrição: "camera video drawn with \estilo2\"
 	sobreposição: [botões]

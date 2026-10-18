@@ -54,79 +54,79 @@ Grupa(
 		Grupa(
 			Wiersz('>' -.3m)
 			[
-				Wyrażenie(
+				Fraza(
 					'▯'
 					nazwa: 'w'
 					rozmiar: 3m
 					kolor: naciśnięty = 'w' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▮'
 					nazwa: '3'
 					rozmiar: 3m
 					kolor: naciśnięty = '3' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▯'
 					nazwa: 'e'
 					rozmiar: 3m
 					kolor: naciśnięty = 'e' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▮'
 					nazwa: '4'
 					rozmiar: 3m
 					kolor: naciśnięty = '4' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▯'
 					nazwa: 'r'
 					rozmiar: 3m
 					kolor: naciśnięty = 'r' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▯'
 					nazwa: 't'
 					rozmiar: 3m
 					kolor: naciśnięty = 't' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▮'
 					nazwa: '6'
 					rozmiar: 3m
 					kolor: naciśnięty = '6' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▯'
 					nazwa: 'y'
 					rozmiar: 3m
 					kolor: naciśnięty = 'y' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▮'
 					nazwa: '7'
 					rozmiar: 3m
 					kolor: naciśnięty = '7' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▯'
 					nazwa: 'u'
 					rozmiar: 3m
 					kolor: naciśnięty = 'u' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▮'
 					nazwa: '8'
 					rozmiar: 3m
 					kolor: naciśnięty = '8' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▯'
 					nazwa: 'i'
 					rozmiar: 3m
 					kolor: naciśnięty = 'i' ? kolorNaciśnięcia kolorPusty
 				)
-				Wyrażenie(
+				Fraza(
 					'▯'
 					nazwa: 'o'
 					rozmiar: 3m
@@ -138,19 +138,19 @@ Grupa(
 		Grupa(
 			Wiersz('>' 1.1m)
 			[
-				Wyrażenie('w')
-				Wyrażenie('3')
-				Wyrażenie('e')
-				Wyrażenie('4')
-				Wyrażenie('r t')
-				Wyrażenie('6')
-				Wyrażenie('y')
-				Wyrażenie('7')
-				Wyrażenie('u')
-				Wyrażenie('8')
-				Wyrażenie('i  o')
+				Fraza('w')
+				Fraza('3')
+				Fraza('e')
+				Fraza('4')
+				Fraza('r t')
+				Fraza('6')
+				Fraza('y')
+				Fraza('7')
+				Fraza('u')
+				Fraza('8')
+				Fraza('i  o')
 			]
 		)
-		Wyrażenie(zwróćTekst(naciśnięty))
+		Fraza(zwróćTekst(naciśnięty))
 	]
 )

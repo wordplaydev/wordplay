@@ -4,10 +4,10 @@ Ibland vill vi att text ska stå bredvid varandra i en prydlig rad.
 Vi kan göra det med en @Row, som ordnar allt i en @Group från vänster till höger.
 
 \
-Group(Row() [
-    Phrase('🍎')
-    Phrase('🍌')
-    Phrase('🍇')
+Grupp(Rad() [
+    Fras('🍎')
+    Fras('🍌')
+    Fras('🍇')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Row() [
 Här är samma frukt, men nu justerad mot botten med lite andrum:
 
 \
-Group(Row('>' 0.5m) [
-    Phrase('🍎' storlek: 2m)
-    Phrase('🍌' storlek: 1m)
-    Phrase('🍇' storlek: 3m)
+Grupp(Rad('>' 0.5m) [
+    Fras('🍎' storlek: 2m)
+    Fras('🍌' storlek: 1m)
+    Fras('🍇' storlek: 3m)
 ])
 \
 

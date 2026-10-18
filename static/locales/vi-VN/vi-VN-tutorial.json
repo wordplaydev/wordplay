@@ -1464,7 +1464,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~… Bạn còn nhớ tôi đã nói với bạn rằng họ có thể đánh giá bất kỳ hàm nào có dấu ngoặc đơn \\1.add(1)\\ nhưng cũng có thể đánh giá các hàm có hai đầu vào với @operator trung tố \\1 + 1\\? Chà, họ còn có thêm một thủ thuật nữa cho các hàm chỉ có một đầu vào: định dạng một ngôi."
+                            "$~… Bạn còn nhớ tôi đã nói với bạn rằng họ có thể đánh giá bất kỳ hàm nào có dấu ngoặc đơn \\1.thêmvào(1)\\ nhưng cũng có thể đánh giá các hàm có hai đầu vào với @operator trung tố \\1 + 1\\? Chà, họ còn có thêm một thủ thuật nữa cho các hàm chỉ có một đầu vào: định dạng một ngôi."
                         ],
                         null,
                         [
@@ -2750,7 +2750,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Ngẫu nhiên thật thú vị! Chúng ta có thể sử dụng nó với các @stream dữ liệu để tạo ra sự hỗn loạn vui nhộn. Ví dụ, ở đây chúng ta chọn một từ ngẫu nhiên từ một danh sách các từ. Điều này tương đương với \\['kitty' 'cat' 'feline'].random()\\. Cứ nhấn phím ↻ để nhận được một từ đồng nghĩa khác của từ \"mèo\"! Hãy thử thêm từ của riêng bạn vào danh sách và xem bạn có thể làm cho từ đó xuất hiện không."
+                            "$~Ngẫu nhiên thật thú vị! Chúng ta có thể sử dụng nó với các @stream dữ liệu để tạo ra sự hỗn loạn vui nhộn. Ví dụ, ở đây chúng ta chọn một từ ngẫu nhiên từ một danh sách các từ. Điều này tương đương với \\['kitty' 'cat' 'feline'].ngẫunhiên()\\. Cứ nhấn phím ↻ để nhận được một từ đồng nghĩa khác của từ \"mèo\"! Hãy thử thêm từ của riêng bạn vào danh sách và xem bạn có thể làm cho từ đó xuất hiện không."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         { "edit": "['kitty' 'cat' 'feline'][Random(1 3)]" }
@@ -3450,7 +3450,7 @@
                             "sad",
                             "$~Ôi trời ôi trời ôi trời, tôi KHÔNG thể tin là mình đã quên mất màu sắc. Được rồi, vậy bất kỳ @Pose nào cũng có thể có màu, đúng không? Nhưng @Color có ba phần. Đầu tiên, một @Color.lightness từ 0 đến 100%, bạn có thể coi nó như độ sáng của một căn phòng, từ đen đến trắng với màu sắc ở giữa tại 50%.",
                             "$~Tiếp theo là @parameter @Color.chroma nằm giữa 0 và ∞, bạn có thể hiểu nó như là chỉ số thể hiện độ đậm nhạt của màu sắc, từ màu xám không màu đến màu sắc rực rỡ.",
-                            "$~Và cuối cùng, một @Color.hue, mà bạn có thể hình dung như một vòng tròn màu sắc, từ đỏ đến xanh lá cây đến xanh dương theo độ. Vậy bạn muốn tôi có màu đỏ tươi? Hãy đặt màu tư thế nghỉ của tôi thành \\Color(50% 300 30°)\\."
+                            "$~Và cuối cùng, một @Color.hue, mà bạn có thể hình dung như một vòng tròn màu sắc, từ đỏ đến xanh lá cây đến xanh dương theo độ. Vậy bạn muốn tôi có màu đỏ tươi? Hãy đặt màu tư thế nghỉ của tôi thành \\Màusắc(50% 300 30°)\\."
                         ],
                         { "edit": "Phrase('red' color: 🌈(50% 300 30°))" },
                         null,
@@ -3834,7 +3834,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Và nếu bạn muốn một cách sắp xếp rất cụ thể? Bạn có thể sử dụng @Free và cho tôi biết chính xác vị trí bạn muốn đặt tất cả các cụm từ. Chỉ cần đảm bảo cung cấp vị trí cho mỗi @Phrase, nếu không tôi sẽ chỉ đặt nó tại \\Place(0m 0m)\\."
+                            "$~Và nếu bạn muốn một cách sắp xếp rất cụ thể? Bạn có thể sử dụng @Free và cho tôi biết chính xác vị trí bạn muốn đặt tất cả các cụm từ. Chỉ cần đảm bảo cung cấp vị trí cho mỗi @Phrase, nếu không tôi sẽ chỉ đặt nó tại \\VịTrí(0m 0m)\\."
                         ],
                         {
                             "edit": [
@@ -4652,7 +4652,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Bạn biết đấy, @Bind hoạt động với rất nhiều ký tự khác, bao gồm cả @Evaluate — bạn đã thấy chúng khi đặt tên cho một input @FunctionDefinition, ví dụ như \\Pose(màusắc: _)\\ — và chúng ta sẽ làm quen với một vài ký tự khác nữa. @Bind, bạn có mặt để trình diễn không?"
+                            "$~Bạn biết đấy, @Bind hoạt động với rất nhiều ký tự khác, bao gồm cả @Evaluate — bạn đã thấy chúng khi đặt tên cho một input @FunctionDefinition, ví dụ như \\Tưthế(màusắc: _)\\ — và chúng ta sẽ làm quen với một vài ký tự khác nữa. @Bind, bạn có mặt để trình diễn không?"
                         ],
                         [
                             "Bind",

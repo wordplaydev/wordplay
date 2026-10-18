@@ -14,7 +14,7 @@ senaste•['']:
 
 Grupp(
 	Rutnät(5 5 0.25m 1m 1m)
-	senaste.översätta(
+	senaste.omvandla(
 		ƒ(bokstav•"" index2•#)
 			Fras(
 				bokstav

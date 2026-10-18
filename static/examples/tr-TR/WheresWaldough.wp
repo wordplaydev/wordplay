@@ -38,7 +38,7 @@ noktalar2: yeniNoktalar() … ∆ (isim3) … (isim3 = 'ResetButton') ? yeniNokt
 
 Sahne(
 	[
-		İfadeetmek(
+		Yazı(
 			"🔁"
 			seçilebilir
 			yer: Yer(4m -0.5m)
@@ -46,45 +46,45 @@ Sahne(
 			süre: 0.5s
 			isim: 'ResetButton'
 		)
-		İfadeetmek(
+		Yazı(
 			'Turuncu tişörtü ara'
 			0.2m
 			yer: Yer(-6.2m 0.75m)
 			yüz: 'Carter One'
 		)
-		İfadeetmek(
+		Yazı(
 			'adamı (adı Waldough) bul ve'
 			0.2m
 			yer: Yer(-6.4m 0.25m)
 			yüz: 'Carter One'
 		)
-		İfadeetmek(
+		Yazı(
 			'kazanmak için ona tıkla!🧍🏻'
 			0.2m
 			yer: Yer(-6.0m -0.25m)
 			yüz: 'Carter One'
 		)
-		İfadeetmek(
+		Yazı(
 			'Skor: ' + skor → ''
 			0.5m
 			yer: Yer(-5.9m -1m)
 		)
 
-		İfadeetmek("🏀" yer: noktalar2[1])
-		İfadeetmek("🦧" yer: noktalar2[2])
-		İfadeetmek("🍊" yer: noktalar2[3])
-		İfadeetmek("👻" yer: noktalar2[4])
-		İfadeetmek("🤖" yer: noktalar2[5])
-		İfadeetmek("👽" yer: noktalar2[6])
-		İfadeetmek("🐀" yer: noktalar2[7])
-		İfadeetmek("🦣" yer: noktalar2[8])
-		İfadeetmek("🐸" yer: noktalar2[9])
-		İfadeetmek("🍎" yer: noktalar2[10])
-		İfadeetmek("💧" yer: noktalar2[11])
-		İfadeetmek("🍔" yer: noktalar2[12])
-		İfadeetmek("❤" yer: noktalar2[13])
-		İfadeetmek("🍥" yer: noktalar2[14])
-		İfadeetmek(
+		Yazı("🏀" yer: noktalar2[1])
+		Yazı("🦧" yer: noktalar2[2])
+		Yazı("🍊" yer: noktalar2[3])
+		Yazı("👻" yer: noktalar2[4])
+		Yazı("🤖" yer: noktalar2[5])
+		Yazı("👽" yer: noktalar2[6])
+		Yazı("🐀" yer: noktalar2[7])
+		Yazı("🦣" yer: noktalar2[8])
+		Yazı("🐸" yer: noktalar2[9])
+		Yazı("🍎" yer: noktalar2[10])
+		Yazı("💧" yer: noktalar2[11])
+		Yazı("🍔" yer: noktalar2[12])
+		Yazı("❤" yer: noktalar2[13])
+		Yazı("🍥" yer: noktalar2[14])
+		Yazı(
 			"🧍🏻"
 			seçilebilir: ~yakalandı
 			yer: noktalar2[15]
@@ -92,10 +92,10 @@ Sahne(
 			süre: 0s
 			isim: 'Waldough'
 		)
-		İfadeetmek("🔥" yer: noktalar2[16])
-		İfadeetmek("🎂" yer: noktalar2[17])
-		İfadeetmek("🐕" yer: noktalar2[18])
-		İfadeetmek("🦈" yer: noktalar2[19])
+		Yazı("🔥" yer: noktalar2[16])
+		Yazı("🎂" yer: noktalar2[17])
+		Yazı("🐕" yer: noktalar2[18])
+		Yazı("🦈" yer: noktalar2[19])
 		Şekil(Dikdörtgen(-3.5m -3m 3.5m -3.5m))
 		Şekil(Dikdörtgen(-3.5m 3.5m 3.5m 3m))
 		Şekil(Dikdörtgen(-3.5m 3.5m -3m -3.5m))

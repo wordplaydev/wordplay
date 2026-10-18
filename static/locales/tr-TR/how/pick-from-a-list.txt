@@ -7,7 +7,7 @@ Rastgele bir emoji seçmek için bunları birleştir:
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())
+Yazı(emojis.rastgele())
 \
 
  Ayrıca şunu da kullanabilirsin: @Random iki sayıyla birlikte, bu ikisi arasında rastgele bir tam sayı seçer.
@@ -15,8 +15,8 @@ Phrase(emojis.random())
 
 \
 emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
-Phrase(pick)
+pick: emojis[1] … ∆ Zaman(1000ms) … emojis[Rastgele(1 emojis.uzunluk())]
+Yazı(pick)
 \
 
  Her bir tik @Time, o @Reaction Yeni bir sürpriz seçiyor.

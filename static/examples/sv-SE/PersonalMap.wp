@@ -27,7 +27,7 @@ single run for the speech bubble to wrap however it likes.¶/en
 ताकि बातचीत का बुलबुला उन्हें अपनी तरह से लपेट सके।¶/hi
 ƒ flöde(linjer•[`…`])
 	linjer.längd() < 2 ? linjer[1]
-		linjer.efterföljande(2).kombinerad(
+		linjer.efterföljande(2).kombinera(
 			linjer[1]
 			ƒ(ack nästa2) ack + `` + nästa2
 		)
@@ -145,7 +145,7 @@ stream to check collisions.¶/en
 ¶यह ऊपर सब मंच पर दिखाता हैं। हर स्थान मंच पर किसी जगह डालता हैं, और
 शब्दों की सूची बदलता हैं ताकी मंच पर दिखाई दे। हर स्थान एक नाम और माल चहिए,
 टक्कर-वाला धारा को टक्कर मिलने के लिए।¶/hi
-Etapp(
+Estrad(
 	[
 		Fras(
 			'🍂'

@@ -6,8 +6,8 @@ Es gibt ein paar Wege, das zu erreichen.
 Wir können @Phrase/offset mit @Random Und @Time um das zu ermöglichen.
 
 \
-offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
-Phrase('Hi' Versatz: Place(offset 0m))
+offset: 0m … ∆ Zeit() … Zufällig(-0.1m 0.1m)
+Phrase('Hi' Versatz: Ort(offset 0m))
 \
 
  Das erzeugt einen Wert namens \offset\ , der sich bei jedem Tick der Uhr zu einem neuen zufälligen Wert ändert.
@@ -16,11 +16,11 @@ Dann nutzt es diesen Versatz, um @Phrase um diesen Betrag verschoben zu zeigen.
 Wenn wir das Schütteln genauer steuern wollten, könnten wir ein @Sequence um eine zufällige, sich wiederholende Schüttelanimation zu erstellen.
 
 \
-Phrase('Hi' Ruhen: Sequence({
-			0%: Pose(Versatz: Place(Random(-.2m .2m)))
-			15%: Pose(Versatz: Place(Random(-.2m .2m)))
-			60%: Pose(Versatz: Place(Random(-.2m .2m)))
-			75%: Pose(Versatz: Place(Random(-.2m .2m)))
+Phrase('Hi' Ruhen: Abfolge({
+			0%: Pose(Versatz: Ort(Zufällig(-.2m .2m)))
+			15%: Pose(Versatz: Ort(Zufällig(-.2m .2m)))
+			60%: Pose(Versatz: Ort(Zufällig(-.2m .2m)))
+			75%: Pose(Versatz: Ort(Zufällig(-.2m .2m)))
 		} 0.1s))
 \
 

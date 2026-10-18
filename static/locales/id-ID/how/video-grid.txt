@@ -8,8 +8,8 @@ Sebuah @Image mengambil kisi warna dan menggambarnya sebagai satu gambar, sehing
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Kamera(width × 1px height × 1px 33ms)
+Panggung([Gambar(colors "what the camera sees" 12m)])
 \
 
  Setiap @Image perlu deskripsi, karena kisi warna tidak punya kata-kata sendiri bagi seseorang yang tidak bisa melihatnya.
@@ -19,8 +19,8 @@ Kita bisa menggambar gambar itu dengan huruf, bukan kotak, dengan memberinya seb
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m glyph: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Kamera(width × 1px height × 1px 33ms)
+Panggung([Gambar(colors "the camera, drawn with dark and light circles" 12m glyph: ƒ(color•Warna) (color.kecerahan < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

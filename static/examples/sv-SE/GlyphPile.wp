@@ -21,7 +21,7 @@ bokstäver: ['a' 'b' 'c' 'd' 'e']
 ¶Bokstäverna faller först, från samma plats men på olika höjd, så att varje bokstav landar på den förra och högen växer uppåt.
 
 En bokstav är bara fast om dess plats är en Motion och den har Matter. Utdata som ett program placerar är ett spöke som allt går rakt igenom. Deras massa gör att bollarna inte skjuter isär högen, och när man ber Matter om en kontur krockar de efter sina bokstavsformer.¶
-hög2: bokstäver.översätta(
+hög2: bokstäver.omvandla(
 		ƒ(bokstav•'' index2•#)
 			Fras(
 				bokstav
@@ -41,7 +41,7 @@ hög2: bokstäver.översätta(
 	)
 
 ¶Hjärtana faller härnäst. En emoji kan också be om sin kontur, så varje hjärta krockar efter sin form: dess spets glider ner i luckor där en ruta skulle ha stannat ovanpå.¶
-hjärtan: ['🧡' '💛' '💚' '💙' '💜' '🩷'].översätta(
+hjärtan: ['🧡' '💛' '💚' '💙' '💜' '🩷'].omvandla(
 		ƒ(hjärta•'' index3•#)
 			Fras(
 				hjärta
@@ -62,7 +62,7 @@ hjärtan: ['🧡' '💛' '💚' '💙' '💜' '🩷'].översätta(
 	)
 
 ¶Bollarna börjar ovanför allt, så de kommer fram sedan högen har lagt sig. De ber inte om någon kontur. Deras rektangel, helt rundad, är det som får dem att rulla.¶
-bollar: 18 → [].översätta(
+bollar: 18 → [].omvandla(
 		ƒ(nummer2)
 			Fras(
 				"⚽"
@@ -83,7 +83,7 @@ bollar: 18 → [].översätta(
 			)
 	)
 
-Etapp(
+Estrad(
 	[
 		¶Ett golv och två väggar mot hinkens sidor.¶
 		Figur(Rektangel(-10m -11m 10m -12m))

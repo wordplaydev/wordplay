@@ -4,12 +4,12 @@
 
 @Beat  के पास हमेशा देने के लिए एक  @Downbeat  होती है, ताकि तुम उसे तुरंत पढ़ सको। किसी भी संगीत के शुरू होने से पहले यह बीट शून्य पर रहती है, जब कुछ नहीं बज रहा होता:
 
-\beat: Beat()
-count: beat.count
-Stage(
+\beat: बीट()
+count: beat.गिनती
+मंच(
 	[
-		Phrase('🥁' आकार: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] वाद्य: Instrument.drums))
+		वाक्यांश('🥁' आकार: ((count % 4) = 0) ? 2m 1m)
+		संगीत(ट्रैक([1 1 1 1] वाद्य: वाद्य.ड्रम))
 	]
 )\
 
@@ -17,30 +17,30 @@ Stage(
 
 यह पूरा संगीत एक अंक के रूप में है। लेकिन एक  @Downbeat  एक \parts\ सूची भी रखती है, हर  @Part  के लिए एक  @Track , और एक  @Part  जानती है कि उसकी अपनी आवाज़ अभी क्या कर रही है: उसका \pitch\, उसका \volume\, उसका \pan\, और क्या वह \sounding\ है। इन्हें बनाओ और मिश्रण के बजाय तुम्हें हर आवाज़ अलग-अलग मिलेगी:
 
-\beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase(
+\beat: बीट()
+parts•[भाग]: beat.भाग.छानो(ƒ(p•भाग) p.बजना)
+ƒ height(p•भाग)•# p.स्वर[1] ÷ 1semitones
+ƒ dot(p•भाग)•वाक्यांश वाक्यांश(
 		'⬤'
-		0.4m + (p.volume · 1m)
-		स्थल: Place(
-			(p.pan · 3) · 1m
+		0.4m + (p.आवाज़ · 1m)
+		स्थल: स्थल(
+			(p.पैन · 3) · 1m
 			((height(p) · 0.2) - 1) · 1m
 		)
 	)
-Stage(
+मंच(
 	[
-		:parts.translate(ƒ(p•Part) dot(p))
-		Music(
+		:parts.बदलो(ƒ(p•भाग) dot(p))
+		संगीत(
 			[
-				Track(
+				ट्रैक(
 					[1 ø 5 ø]
-					वाद्य: Instrument.piano
+					वाद्य: वाद्य.पियानो
 					पैन: -1
 				)
-				Track(
+				ट्रैक(
 					[ø 8 ø 12]
-					वाद्य: Instrument.bell
+					वाद्य: वाद्य.घंटी
 					पैन: 1
 				)
 			]

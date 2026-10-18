@@ -8,7 +8,7 @@ Aquí empezamos en \0\, observamos @Time y sumamos uno cada vez que el reloj ava
 
 \
 contar: 0 … ∆ Tiempo(1000ms) … contar + 1
-Phrase(contar → '')
+Frase(contar → '')
 \
 
 Cada segundo, @Time se activa, el @Reaction lo nota con \∆ Tiempo(1000ms)\, y \contar\ se convierte en \contar + 1\.
@@ -18,7 +18,7 @@ Puedes usar cualquier entrada que quieras, no solo el tiempo. Este contador cuen
 
 \
 contar: 0 … ∆ Botón() … contar + 1
-Phrase(contar → '')
+Frase(contar → '')
 \
 
 Cada vez que el flujo @Button cambia con un clic o un toque, la cuenta aumenta en uno.

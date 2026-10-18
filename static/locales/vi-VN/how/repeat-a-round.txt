@@ -6,12 +6,12 @@ Một @Scene có thể là cả vòng đó, và @Scene/loop là thứ đưa nó 
 Các khoảnh khắc là những thứ trong danh sách, và một @Boolean giữa chúng là nơi @Scene chờ người chơi.
 
 \
-guess: Chat()
+guess: Tròchuyện()
 right: guess = 'mèo'
-Scene([
-	Phrase('Đoán con vật!' khoảngthờigian: 2s)
+Cảnh([
+	Cụmtừ('Đoán con vật!' khoảngthờigian: 2s)
 	∆ guess
-	Phrase(right ? 'Đúng rồi!' 'Sai rồi!' khoảngthờigian: 2s)
+	Cụmtừ(right ? 'Đúng rồi!' 'Sai rồi!' khoảngthờigian: 2s)
 ] vòngLặp: ~right)
 \
 
@@ -24,15 +24,15 @@ Lưu ý: @Scene/loop được đọc mỗi khi chương trình của bạn thay 
 Nó cho bạn biết @Phrase nào đang hiển thị, có bao nhiêu cái, @Scene đã quay vòng bao nhiêu lần, và liệu nó có đang chờ ai đó ngay lúc này hay không.
 
 \
-guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
-		Phrase('Đoán con vật!' khoảngthờigian: 2s)
+guess: Tròchuyện()
+at: ĐènSânKhấu()
+Sânkhấu([
+	Cảnh([
+		Cụmtừ('Đoán con vật!' khoảngthờigian: 2s)
 		∆ guess
-		Phrase('Sai rồi!' khoảngthờigian: 2s)
+		Cụmtừ('Sai rồi!' khoảngthờigian: 2s)
 	] vòngLặp: ⊤)
-	Phrase(at.waiting ? 'gõ một dự đoán' `vòng \at.lap + 1\` kíchcỡ: 0.4m vịTrí: Place(0m -2m))
+	Cụmtừ(at.đangChờ ? 'gõ một dự đoán' `vòng \at.lap + 1\` kíchcỡ: 0.4m vịTrí: VịTrí(0m -2m))
 ])
 \
 

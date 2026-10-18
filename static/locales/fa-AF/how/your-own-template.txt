@@ -7,14 +7,14 @@
 این یک الگوی بادکنک است که یک رنگ و یک برچسب می‌گیرد و می‌داند چگونه خودش را نشان دهد:
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈 \label\` رنگ: color اندازه: 2m)
+•Balloon(color•رنگ label•'') (
+    ƒ show() عبارت(`🎈 \label\` رنگ: color اندازه: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) 'آسمانی').show()
-    Balloon(Color(60% 80 0°) 'گلی').show()
-    Balloon(Color(90% 80 90°) 'آفتابی').show()
+گروه(سطر() [
+    Balloon(رنگ(80% 50 240°) 'آسمانی').show()
+    Balloon(رنگ(60% 80 0°) 'گلی').show()
+    Balloon(رنگ(90% 80 90°) 'آفتابی').show()
 ])
 \
 

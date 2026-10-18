@@ -6,7 +6,7 @@ Mırıldan
 tıklama•#: 0 … ∆ Düğme() … tıklama + 1
 
 tıklama < 3 ?
-	İfadeetmek(
+	Yazı(
 		'mırıldan'
 		boyut: 1m
 		isim: 'mır'
@@ -27,4 +27,4 @@ tıklama < 3 ?
 			süre: 2s
 		)
 	)
-	İfadeetmek('bitti')
+	Yazı('bitti')

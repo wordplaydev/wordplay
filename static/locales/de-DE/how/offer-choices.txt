@@ -8,10 +8,10 @@ Manchmal möchte man eine Reihe von Auswahlmöglichkeiten auf dem Bildschirm zei
 Hier zeigen wir beispielsweise drei Auswahlmöglichkeiten, jede mit einem eindeutigen Namen.
 
 \
-option: Choice()
+option: Auswahl()
 
-Group(
-	Stack() [
+Gruppe(
+	Stapel() [
 		Phrase('Option 1' wählbar Name: 'eins')
 		Phrase('Option 2' wählbar Name: 'zwei')
 		Phrase('Option 3' wählbar Name: 'drei')
@@ -25,11 +25,11 @@ Group(
 Sie können dieses Muster verwenden, um auf eine Auswahl zu reagieren. Beispielsweise könnten wir das obige Projekt so ändern, dass basierend auf der Auswahl ein geheimes Emoji angezeigt wird:
 
 \
-option: Choice()
+option: Auswahl()
 
 option = '' ?
-	Group(
-		Stack() [
+	Gruppe(
+		Stapel() [
 			Phrase('Option 1' wählbar: ⊤ Name: 'eins')
 			Phrase('Option 2' wählbar: ⊤ Name: 'zwei')
 			Phrase('Option 3' wählbar: ⊤ Name: 'drei')

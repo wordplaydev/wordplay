@@ -36,8 +36,8 @@ ateşleme•[Bölüm]: vuruş2.parçalar.filtre(
 ƒ yükseklik2(p4•Bölüm)•# p4.dereceler[1]
 
 ¶Tek bir patlama: notasıyla birlikte yükselir ve ses şiddetiyle birlikte büyür.¶
-ƒ patlama(p5•Bölüm i•#)•İfadeetmek
-	İfadeetmek(
+ƒ patlama(p5•Bölüm i•#)•Yazı
+	Yazı(
 		yüz2(p5)
 		(0.9m + (p5.sesSeviyesi · 1.6m))
 		yer: Yer(
@@ -539,7 +539,7 @@ davul2: [
 
 Sahne(
 	[
-		:ateşleme.tercümeetmek(ƒ(p6•Bölüm i2•#) patlama(p6 i2))
+		:ateşleme.dönüştür(ƒ(p6•Bölüm i2•#) patlama(p6 i2))
 		Müzik(
 			[
 				Parça(

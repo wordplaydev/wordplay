@@ -4,10 +4,10 @@ Coloque o texto lado a lado
 Podemos fazer isso com uma @Row, que organiza tudo numa @Group da esquerda para a direita.
 
 \
-Group(Row() [
-    Phrase('🍎')
-    Phrase('🍌')
-    Phrase('🍇')
+Grupo(Linha() [
+    Frase('🍎')
+    Frase('🍌')
+    Frase('🍇')
 ])
 \
 
@@ -15,10 +15,10 @@ Group(Row() [
 Aqui está a mesma fruta, mas alinhada pela base e com um pouco mais de espaço:
 
 \
-Group(Row('>' 0.5m) [
-    Phrase('🍎' tamanho: 2m)
-    Phrase('🍌' tamanho: 1m)
-    Phrase('🍇' tamanho: 3m)
+Grupo(Linha('>' 0.5m) [
+    Frase('🍎' tamanho: 2m)
+    Frase('🍌' tamanho: 1m)
+    Frase('🍇' tamanho: 3m)
 ])
 \
 

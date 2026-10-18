@@ -21,18 +21,18 @@ câu2: [
 nóiCâu: [5 7 9]
 
 ¶Nơi câu chuyện đang diễn ra. @Scene giữ vị trí đó, nên không có gì ở đây cần phải đếm.¶
-tại: Spotlight()
+tại: ĐènSânKhấu()
 
 ¶Chuyển tiếp khi micrô vượt quá 0,6 ở một câu cần nói, và khi một nút bấm hoặc một phím báo hiệu như vậy ở bất kỳ trường hợp nào khác.¶
-tiếnTới: nóiCâu.có(tại.index) ?
+tiếnTới: nóiCâu.có(tại.chỉMục) ?
 		Âmlượng() > .6
-		∆ Cáinút() | ∆ Chìakhóa()
+		∆ Cáinút() | ∆ Phím()
 
 ¶@Scene chờ /advance/ sau mỗi câu, và dừng lại ở câu cuối cùng.¶
 Sânkhấu(
 	[
-		Bốicảnh(
-			câu2.dịch(ƒ(câu3) Cụmtừ(câu3 bọc: 10m))
+		Cảnh(
+			câu2.biếnĐổi(ƒ(câu3) Cụmtừ(câu3 bọc: 10m))
 			choĐếnKhi: tiếnTới
 		)
 	]

@@ -8,8 +8,8 @@ Un @Image prend une grille de couleurs et la dessine comme une seule image, pour
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "what the camera sees" 12m)])
+colors: Caméra(width × 1px height × 1px 33ms)
+Scène([Image(colors "what the camera sees" 12m)])
 \
 
  Chaque @Image a besoin d'une description, parce qu'une grille de couleurs n'a pas de mots pour quelqu'un qui ne peut pas la voir.
@@ -19,8 +19,8 @@ On peut dessiner l'image avec des lettres au lieu de carrés, en lui donnant un 
 \
 width: 24
 height: 24
-colors: Camera(width × 1px height × 1px 33ms)
-Stage([Image(colors "the camera, drawn with dark and light circles" 12m glyphe: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+colors: Caméra(width × 1px height × 1px 33ms)
+Scène([Image(colors "the camera, drawn with dark and light circles" 12m glyphe: ƒ(color•Couleur) (color.luminosité < 50%) ? "⬤" "◯")])
 \
 
 interactive-scene

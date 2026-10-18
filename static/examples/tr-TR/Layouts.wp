@@ -25,21 +25,21 @@ Grup(
 		Grup(
 			Yığın()
 			[
-				İfadeetmek('Kedicik')
-				İfadeetmek('Kedi' dinlenme: zsıçra)
+				Yazı('Kedicik')
+				Yazı('Kedi' dinlenme: zsıçra)
 				Grup(
 					Sıra()
-					[İfadeetmek('Köpek') İfadeetmek('Köpekgil')]
+					[Yazı('Köpek') Yazı('Köpekgil')]
 					dinlenme: nabız2
 				)
-				İfadeetmek('Kedigil')
+				Yazı('Kedigil')
 			]
 		)
 		Grup(
 			Yığın()
 			[
-				İfadeetmek('Selam')
-				İfadeetmek('Merhaba')
+				Yazı('Selam')
+				Yazı('Merhaba')
 			]
 			dinlenme: Sekans.döndürmek(2s "straight")
 		)

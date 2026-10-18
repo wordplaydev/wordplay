@@ -25,15 +25,15 @@ bei2: Scheinwerfer()
 
 ¶Gehe weiter, wenn das Mikrofon bei einem Sprechsatz über 0,6 geht, und bei jedem anderen Satz, wenn ein Knopf oder eine Taste es sagt.¶
 weiter: sätzeSprechen.hat(bei2.Index) ?
-		Volumen() > .6
-		∆ Taste() | ∆ Schlüssel()
+		Lautstärke() > .6
+		∆ Taste() | ∆ Tastaturtaste()
 
 ¶Das @Scene wartet nach jedem Satz auf /weiter/ und bleibt beim letzten Satz stehen.¶
 Bühne(
 	[
 		Szene(
 			sätze.übersetzen(
-				ƒ(satz2) Satzglied(satz2 wickeln: 10m)
+				ƒ(satz2) Phrase(satz2 wickeln: 10m)
 			)
 			bis: weiter
 		)

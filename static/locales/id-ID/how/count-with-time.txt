@@ -7,18 +7,18 @@ Sebuah @Reaction punya tiga bagian: nilai awal, sesuatu yang diamati, dan nilai 
 Di sini, kita mulai dari \0\, mengamati @Time, dan menambah satu setiap kali jam berdetak:
 
 \
-count: 0 … ∆ Time(1000ms) … count + 1
-Phrase(count → '')
+count: 0 … ∆ Waktu(1000ms) … count + 1
+Frasa(count → '')
 \
 
- Setiap detik, @Time bekerja, @Reaction menyadarinya dengan \∆ Time(1000ms)\, dan \count\ menjadi \count + 1\.
+ Setiap detik, @Time bekerja, @Reaction menyadarinya dengan \∆ Waktu(1000ms)\, dan \count\ menjadi \count + 1\.
 The \→ ''\ di akhir mengubah angka menjadi teks agar @Phrase bisa menampilkannya.
 
 Anda dapat menggunakan input apa pun yang Anda inginkan, bukan hanya waktu. Penghitung ini menghitung jumlah penekanan tombol Button():
 
 \
-count: 0 … ∆ Button() … count + 1
-Phrase(count → '')
+count: 0 … ∆ Tombol() … count + 1
+Frasa(count → '')
 \
 
  Setiap kali @Button Aliran data berubah dengan sekali klik atau sentuhan, jumlahnya bertambah satu.

@@ -4,7 +4,7 @@ Orbity
 ¶Trzy planety krążą wokół gwiazdy, która je przyciąga.¶
 
 ¶Gwiazda przyciąga planety, więc potrzebuje @Matter z przyciąganiem. Nie ma @Motion, więc nic jej nie przyciąga z powrotem i zostaje w miejscu. @Place to róg wyniku, a nie jego środek, więc gwiazda jest przesunięta o połowę swojego rozmiaru, żeby jej środek wypadł w środku nieba.¶
-słońce: Wyrażenie(
+słońce: Fraza(
 		'⭐'
 		2m
 		nazwa: 'słońce'
@@ -14,7 +14,7 @@ słońce: Wyrażenie(
 
 ¶Planeta w ogóle nie potrzebuje @Matter. Dzięki @Motion przyciąganie gwiazdy może ją poruszać. To, jak szybko musi lecieć, żeby krążyć zamiast spaść, zależy od tego, jak daleko się znajduje. Dlatego każda planeta dostaje taką prędkość, która utrzymuje ją na jej własnej orbicie.¶
 planeta: ƒ(glif•"" nazwana•"" szeroki•#m daleko•#m szybkość•#m/s)
-		Wyrażenie(
+		Fraza(
 			glif
 			szeroki
 			nazwa: nazwana

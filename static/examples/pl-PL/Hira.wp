@@ -9,9 +9,9 @@ grawitacja•#m/s^2: 15m/s^2 … ∆ Przycisk() … -grawitacja
 
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"/ja → ['']
 
-litery: licznik → [].tłumaczyć(
+litery: licznik → [].przekształć(
 		ƒ(liczba2 indeks2)
-			Wyrażenie(
+			Fraza(
 				hiragana[liczba2]
 				miejsce: Ruch(
 					Miejsce((indeks2 - (licznik ÷ 2)) × 0.2m 10m)

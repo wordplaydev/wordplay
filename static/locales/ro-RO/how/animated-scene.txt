@@ -7,42 +7,42 @@ De exemplu, să ne imaginăm că am vrea să animăm o poezioară scurtă pentru
 Am putea face un @Scene care are fiecare vers ca un @Phrase, și, punând @Phrase/duration fiecărui vers, @Scene ar trece mai departe când fiecare parte se termină.
 
 \
-Scene([
-  Phrase('Jack e sprinten' durată: 1s)
-  Phrase('Jack e iute' durată: 1s)
-  Phrase('Jack sare peste sfeșnicul cu lumânare' durată: 1s)
+Scenă([
+  Fraza('Jack e sprinten' durată: 1s)
+  Fraza('Jack e iute' durată: 1s)
+  Fraza('Jack sare peste sfeșnicul cu lumânare' durată: 1s)
 ])
 \
 
 @Scene va aștepta să se termine și un @Sequence . Hai să facem ca versul cu lumânarea să sară!
 
 \
-Scene([
-		Phrase('Jack e sprinten' durată: 1s)
-		Phrase('Jack e iute' durată: 1s)
-		Phrase('Jack sare peste sfeșnicul cu lumânare' intrând: Sequence.bounce(durată: 1s))
+Scenă([
+		Fraza('Jack e sprinten' durată: 1s)
+		Fraza('Jack e iute' durată: 1s)
+		Fraza('Jack sare peste sfeșnicul cu lumânare' intrând: Secvenţă.sări(durată: 1s))
 	])
 \
 
 @Scene poate primi și o @Group de text și va aștepta ca tot conținutul ei să termine animația.
 
 \
-Scene([
-		Group(Stack() [
-      Phrase('Jack e sprinten')
-		  Phrase('Jack e iute')
+Scenă([
+		Grup(Stivă() [
+      Fraza('Jack e sprinten')
+		  Fraza('Jack e iute')
     ] durată: 2s)
-		Phrase('Jack sare peste sfeșnicul cu lumânare' intrând: Sequence.bounce(durată: 1s))
+		Fraza('Jack sare peste sfeșnicul cu lumânare' intrând: Secvenţă.sări(durată: 1s))
 	])
 \
 
  Uneori o poezie ar trebui să continue la nesfârșit. @Scene/loop aduce @Scene înapoi la prima sa @Phrase odată ce ultima s-a terminat, așa că se repetă la nesfârșit.
 
 \
-Scene([
-		Phrase('Jack e sprinten' durată: 1s)
-		Phrase('Jack e iute' durată: 1s)
-		Phrase('Jack sare peste sfeșnicul cu lumânare' durată: 1s)
+Scenă([
+		Fraza('Jack e sprinten' durată: 1s)
+		Fraza('Jack e iute' durată: 1s)
+		Fraza('Jack sare peste sfeșnicul cu lumânare' durată: 1s)
 	] buclă: ⊤)
 \
 

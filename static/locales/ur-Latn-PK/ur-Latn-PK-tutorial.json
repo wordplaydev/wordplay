@@ -1468,7 +1468,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~… Aap ko yaad hai main ne bataya tha ke woh kisi bhi function ko qoson \\1.add(1)\\ ke saath chala sakte hain, aur do input wale function ko darmiyani shakal @operators \\1 + 1\\ mein bhi? Un ke paas sirf ek input wale function ke liye ek aur tareeqa bhi hai: yaki shakal."
+                            "$~… Aap ko yaad hai main ne bataya tha ke woh kisi bhi function ko qoson \\1.jama(1)\\ ke saath chala sakte hain, aur do input wale function ko darmiyani shakal @operators \\1 + 1\\ mein bhi? Un ke paas sirf ek input wale function ke liye ek aur tareeqa bhi hai: yaki shakal."
                         ],
                         null,
                         [
@@ -2719,7 +2719,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Ek aur zariya hai jo main aapko dikhana chahta hoon. Yaad hai pehle \\[].random()\\, @List se?",
+                            "$~Ek aur zariya hai jo main aapko dikhana chahta hoon. Yaad hai pehle \\[].ittefaqi()\\, @List se?",
                             "$~Andar se yeh @Random naam ki ek @FunctionDefinition istemaal karta hai, jo ittifaqi adaad ka ek be-intiha silsila deta hai. Yeh ek tarah ki dhaara hai kyunke yeh aapki duniya se input banata hai, hamari duniya se nahin. Lekin yeh baqi @streams se thoda mukhtalif hai, kyunke yeh @Program ko dobara chalne par majboor nahin karta.",
                             "$~Iske bajaye, jab bhi isay chalaya jata hai, yeh ek alag ittifaqi adad deta hai.",
                             "$~Stage ke toolbar mein (aur timeline par bhi) woh chhota sa ↻ @UI/resetEvaluator button dekha? Isay dabayein taake program haath se dobara chale, aur aap har baar \\0\\ aur \\1\\ ke darmiyan ek naya adad dekhenge."
@@ -2738,7 +2738,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Ittifaqi kitna maza ka hai! Hum isay dhaaron ke saath istemaal kar ke mazedaar afra-tafri bana sakte hain. Misaal ke taur par, yahan hum alfaaz ki ek fehrist mein se ek ittifaqi lafz chunte hain. Yeh \\['billi' 'cat' 'billi jaisa'].random()\\ jaisa hi hai. ↻ dabate rahein taake billi ka ek aur hum-maani lafz mile! Fehrist mein apna lafz daal kar dekhein, kya woh nazar aata hai?"
+                            "$~Ittifaqi kitna maza ka hai! Hum isay dhaaron ke saath istemaal kar ke mazedaar afra-tafri bana sakte hain. Misaal ke taur par, yahan hum alfaaz ki ek fehrist mein se ek ittifaqi lafz chunte hain. Yeh \\['billi' 'cat' 'billi jaisa'].ittefaqi()\\ jaisa hi hai. ↻ dabate rahein taake billi ka ek aur hum-maani lafz mile! Fehrist mein apna lafz daal kar dekhein, kya woh nazar aata hai?"
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         { "edit": "['kitty' 'cat' 'feline'][Random(1 3)]" }
@@ -3434,7 +3434,7 @@
                             "sad",
                             "$~Haaye haaye haaye, mujhe yaqeen nahin aata ke main rang ko bhool gaya. Acha, to har @Pose ka ek rang ho sakta hai, theek hai? Lekin @Color teen hisson mein aata hai. Pehla, 0 aur 100% ke beech ek @Color.lightness, jise aap yun samajh sakte hain jaise kamre mein kitni roshni hai, kaale se safed tak, aur 50% par rang beech mein hota hai.",
                             "$~Phir, 0 aur ∞ ke beech ek @Color.chroma, jise aap yun samajh sakte hain ke rang kitna gehra hai, be-rang slati se le kar poore rang tak.",
-                            "$~Aur aakhir mein, ek @Color.hue, jise aap rang ke pahiye ki tarah samajh sakte hain, laal se hara aur neela, degree mein. To aap chahte hain main chamakdar laal ho jaaun? Meri aaraam wali pose ka rang \\Color(50% 300 30°)\\ par set kar dein."
+                            "$~Aur aakhir mein, ek @Color.hue, jise aap rang ke pahiye ki tarah samajh sakte hain, laal se hara aur neela, degree mein. To aap chahte hain main chamakdar laal ho jaaun? Meri aaraam wali pose ka rang \\Rang(50% 300 30°)\\ par set kar dein."
                         ],
                         { "edit": "Phrase('red' color: 🌈(50% 300 30°))" },
                         null,
@@ -3818,7 +3818,7 @@
                         [
                             "Group",
                             "excited",
-                            "$~Aur agar aap ek bilkul khaas tarteeb chahte hain? To aap @Free istemaal kar sakte hain aur mujhe bilkul bata sakte hain ki aap sab jumle kahan chahte hain. Bas har @Phrase ko ek jagah dena na bhoolein, warna main use \\Place(0m 0m)\\ par rakh doonga."
+                            "$~Aur agar aap ek bilkul khaas tarteeb chahte hain? To aap @Free istemaal kar sakte hain aur mujhe bilkul bata sakte hain ki aap sab jumle kahan chahte hain. Bas har @Phrase ko ek jagah dena na bhoolein, warna main use \\Jagah(0m 0m)\\ par rakh doonga."
                         ],
                         {
                             "edit": [
@@ -4070,7 +4070,7 @@
                             "Music",
                             "kind",
                             "$~Aath adaad nahin badle. Sirf bajane wala badla.",
-                            "$~Chunne ke liye unnees hain. \\Instrument.violin\\, ya \\Instrument.trumpet\\, ya \\Instrument.dog\\ azmayein."
+                            "$~Chunne ke liye unnees hain. \\Saaz.violin\\, ya \\Saaz.bigul\\, ya \\Saaz.kutta\\ azmayein."
                         ],
                         null,
                         [
@@ -4644,7 +4644,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Aap jaante hain, @Bind bohat se doosre kirdaron ke saath kaam karta hai, jin mein @Evaluate bhi shamil hain. Aap ne unhein tab dekha tha jab aap ne @FunctionDefinition ke input ka naam rakha, jaise \\Pose(rang: _)\\ mein. Ab hum in doosre kirdaron mein se kuch se milenge. @Bind, kya aap dikhane ke liye maujood hain?"
+                            "$~Aap jaante hain, @Bind bohat se doosre kirdaron ke saath kaam karta hai, jin mein @Evaluate bhi shamil hain. Aap ne unhein tab dekha tha jab aap ne @FunctionDefinition ke input ka naam rakha, jaise \\Andaaz(rang: _)\\ mein. Ab hum in doosre kirdaron mein se kuch se milenge. @Bind, kya aap dikhane ke liye maujood hain?"
                         ],
                         [
                             "Bind",

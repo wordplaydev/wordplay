@@ -555,7 +555,7 @@
             },
             "doc": [
                 "$~Tôi kiểm tra xem một @stream có khiến @Program đánh giá lại hay không, và tạo một @Boolean. Ví dụ như thế này.",
-                "\\∆ Time()\\",
+                "\\∆ Thờigian()\\",
                 "Tôi thực sự hữu ích khi bạn muốn một thứ gì đó chỉ thay đổi khi luồng dữ liệu thay đổi.",
                 "Vậy thôi."
             ],
@@ -782,7 +782,7 @@
                 "$~Tôi là một @parameter đầu vào được truyền cho @Evaluate. Tên của tôi tương ứng với tên của tham số đầu vào trong @FunctionDefinition hoặc @StructureDefinition đang được đánh giá.",
                 "Tôi có thể hỗ trợ xử lý các hàm có nhiều @value mặc định, trong trường hợp bạn chỉ muốn ghi đè một giá trị đầu vào cụ thể mà không cần cung cấp tất cả các giá trị khác.",
                 "Ví dụ, @Phrase có rất nhiều giá trị mặc định để điều khiển kiểu dáng của nó. Giả sử bạn muốn gán một số @Text và @Color, nhưng không muốn thêm bất cứ thứ gì khác vào danh sách đầu vào của nó. Bạn có thể sử dụng tôi để làm điều đó:",
-                "\\Phrase('Tôi màu tím!' màusắc: Color(50% 52 300°))\\"
+                "\\Cụmtừ('Tôi màu tím!' màusắc: Màusắc(50% 52 300°))\\"
             ],
             "start": "$~Hãy cùng đánh giá giá trị của tôi."
         },
@@ -868,7 +868,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Tôi sẽ cho bạn biết liệu @value đánh giá hiện tại của @Program có phải là giá trị đánh giá đầu tiên, trả về một giá trị @Boolean hay không. Ví dụ:",
-                "\\◆ ? Time() 'hi'\\",
+                "\\◆ ? Thờigian() 'hi'\\",
                 "Bạn không thấy điều đó, nhưng lần đánh giá đầu tiên là một khoảng thời gian, nhưng sau đó tất cả các lần cập nhật thời gian tiếp theo, tôi đều là \\⊥\\, vì vậy @Conditional đã tạo ra \\⊤\\.",
                 "Tôi thực sự hữu ích nếu bạn đang làm việc với @stream dữ liệu và chỉ muốn thực hiện một thao tác nào đó lần đầu tiên -- hoặc thậm chí không bao giờ thực hiện lần đầu tiên!"
             ]
@@ -1045,10 +1045,10 @@
                 "$~Tôi nhìn lại lịch sử của một dòng suối và kể cho bạn nghe một trong những @value quá khứ của nó. Bạn đã bao giờ muốn nhớ về quá khứ chưa?",
                 "Tôi là người ghi chép chính thức của câu thơ này!",
                 "Ví dụ, đây là @state @Time cách đây năm giây:",
-                "\\← 5 Time(1000ms)\\",
+                "\\← 5 Thờigian(1000ms)\\",
                 "Bạn thấy đấy, nó hiển thị @None trong 5 giây, rồi đột nhiên trở lại thời điểm trước đó?",
                 "Nếu bạn muốn lấy một vài giá trị gần nhất, hãy gửi cho tôi hai mũi tên, và tôi sẽ hiểu con số đó là số lượng:",
-                "\\←← 5 Time(1000ms)\\",
+                "\\←← 5 Thờigian(1000ms)\\",
                 "Bạn thấy đấy, đó là năm lần trước đó, chứ không phải chỉ một lần?",
                 "Tôi có thể giúp ích khi bạn muốn tạo ra những màn trình diễn dựa trên quá khứ."
             ],
@@ -1175,7 +1175,7 @@
             "doc": [
                 "$~Tôi tạo một @stream phát trực tiếp mới và nó sẽ cập nhật mỗi khi có sự thay đổi từ luồng phát khác. Phát trực tiếp thật tuyệt vời!",
                 "Ví dụ, nếu bạn muốn biến @Time thành tiếng tích tắc, nhưng thay vì hiển thị số, bạn có thể làm như thế này:",
-                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "\\time: Thờigian(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "Điều đó giống như nói \"/bắt đầu bằng từ 'bắt đầu' và sau đó nếu thời gian thay đổi, hãy chuyển sang số chẵn hoặc số lẻ, tùy thuộc vào thời gian.\"",
                 "Vậy là tôi cũng giống như một dòng chảy, nhưng là dòng chảy dựa trên các dòng chảy khác. Tuyệt vời, phải không?"
             ],

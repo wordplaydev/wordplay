@@ -4,13 +4,13 @@
 
 @Choice  પ્રેક્ષકોએ પસંદ કરેલા કોઈ પણ પસંદ કરી શકાય તેવા આઉટપુટનું \name\ પાછું આપે છે, તેથી તેને વાદ્યમાં ફેરવવા માટે એક condition પૂરતું છે:
 
-\picked: Choice()
-Stage([
-		Group(Row() [
-				Phrase('🎹' પસંદકરીશકાયતેવું નામ: 'પિયાનો')
-				Phrase('🎻' પસંદકરીશકાયતેવું નામ: 'વાયોલિન')
+\picked: પસંદગી()
+સ્ટેજ([
+		સમૂહ(પંક્તિ() [
+				વાક્ય('🎹' પસંદકરીશકાયતેવું નામ: 'પિયાનો')
+				વાક્ય('🎻' પસંદકરીશકાયતેવું નામ: 'વાયોલિન')
 			])
-		Music(Track([1 3 5 6 5 3] વાદ્ય: (picked = 'વાયોલિન') ? Instrument.violin Instrument.piano))
+		સંગીત(ટ્રેક([1 3 5 6 5 3] વાદ્ય: (picked = 'વાયોલિન') ? વાદ્ય.વાયોલિન વાદ્ય.પિયાનો))
 	])\
 
 બે પસંદ કરી શકાય તેવા શબ્દસમૂહો જ આ કામ કરાવે છે —  @Choice  પાસે વાંચવા માટે કંઈ નથી, જ્યાં સુધી સ્ટેજ પર કંઈક \પસંદકરીશકાયતેવું: ⊤\ ન હોય.
@@ -19,18 +19,18 @@ Stage([
 
 \•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-		Voice('🎹' Instrument.piano)
-		Voice('🎺' Instrument.trumpet)
-		Voice('🔔' Instrument.bell)
+		Voice('🎹' વાદ્ય.પિયાનો)
+		Voice('🎺' વાદ્ય.ટ્રમ્પેટ)
+		Voice('🔔' વાદ્ય.ઘંટડી)
 	]
-picked: Choice()
-found: voices.find(ƒ(voice•Voice) voice.icon = picked)
+picked: પસંદગી()
+found: voices.શોધો(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-Stage([
-		Group(Row() [
-				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon પસંદકરીશકાયતેવું નામ: voice.icon))
+સ્ટેજ([
+		સમૂહ(પંક્તિ() [
+				:voices.અનુવાદ(ƒ(voice•Voice) વાક્ય(voice.icon પસંદકરીશકાયતેવું નામ: voice.icon))
 			])
-		Music(Track([1 3 5 6 5 3] વાદ્ય: current.sound))
+		સંગીત(ટ્રેક([1 3 5 6 5 3] વાદ્ય: current.sound))
 	])\
 
 ચોથો અવાજ ઉમેરવો હવે એક લીટીનું કામ છે, અને બટન જાતે જ દેખાય છે. \found•ø ?\ ના રક્ષણને ધ્યાનમાં લો:  @List/find  જ્યારે કંઈ મળતું ન આવે ત્યારે \ø\ પાછું આપે છે, જે કોઈ પસંદ કરે તે પહેલાં થાય છે — અને પાછું આપવાનું મૂલ્ય આખું \ભાષણ\ હોવું જોઈએ, કારણ કે \current\ એ જ હોવાનું વચન આપે છે.

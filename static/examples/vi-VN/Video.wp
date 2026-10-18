@@ -23,17 +23,17 @@ dảiMàu: "@%#*+=-:. " → []
 ¶Một điểm ảnh trông như thế nào trong kiểu hiện tại. Một điểm ảnh gần như không có màu thì không có sắc màu nào đáng để hiển thị, nên nó sẽ chuyển về một ô vuông sáng hoặc tối.¶
 ƒ kýTự(màu•Màusắc)
 	(kiểu2 = 'ascii') ?
-		"\dảiMàu[((màu.ánhsáng × 9).tròn()) + 1]\"
+		"\dảiMàu[((màu.độSáng × 9).làmTròn()) + 1]\"
 		((kiểu2 = 'emoji') ?
 				((màu.màusắc < 8) ?
-						((màu.ánhsáng < 50%) ? "⬛" "⬜")
+						((màu.độSáng < 50%) ? "⬛" "⬜")
 						"\ôVuông[(((màu.sắcđộ ÷ 1°) ÷ 15).làmtrònxuống()) + 1]\")
 				'một')
 
 ¶Hình ảnh. Một @Image vẽ toàn bộ lưới như một kết xuất duy nhất, nên một khung hình chỉ tốn một hình ảnh thay vì một cụm từ cho mỗi điểm ảnh — mà ở kích thước 32 nhân 24 thì đó là 768 cụm từ, được dựng lại ba mươi lần mỗi giây. /flipx/ lật ngược nó để nó đọc được giống như trong gương.
 
 Kiểu /letters/ để mỗi ký tự giữ màu của ô vuông mà nó đại diện, đó cũng là cách một @Image hoạt động khi không có màu riêng. Hai kiểu còn lại thì gán cho nó một màu, vì một chữ cái chỉ đọc được như bóng đổ khi màu của nó không nói lên điều gì, còn một biểu tượng cảm xúc ô vuông có màu thì đã tự mang màu riêng của nó rồi.¶
-hìnhẢnh: Image(
+hìnhẢnh: HìnhẢnh(
 		màuSắc2
 		"camera video drawn with \kiểu2\"
 		16m

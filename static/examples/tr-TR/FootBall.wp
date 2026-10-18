@@ -15,8 +15,8 @@ kaleciErişim: 4.5m
 kaleciHız: 0.55m
 
 tık: Zaman(50ms)
-bas: Anahtar(aşağı)
-bırak: Anahtar(aşağı: ⊥)
+bas: Tuş(aşağı)
+bırak: Tuş(aşağı: ⊥)
 
 ¶Eldivenin hangi yöne gittiği. Basılan bir ok tuşu eldiveni harekete geçirir, aynı tuşu bırakmak ise onu durdurur. Böylece eldiven, tuşu bastığın sürece kayar. Bu genişlikteki bir ağız boyunca, her basışta bir adım atmak asla zamanında oraya varmazdı.¶
 kayma•#: 0 … ∆ bas | ∆ bırak …
@@ -28,7 +28,7 @@ kayma•#: 0 … ∆ bas | ∆ bırak …
 
 ¶Eldiven fizik kurallarıyla hareket etmez, bu yüzden doğrudan yönlendirilebilir. Ulaşabildiği sınırların ucunda durur, böylece asla kaleden dışarı çıkamaz.¶
 kaleciY•#m: 0m … ∆ tık …
-		(kaleciY + (kayma × kaleciHız)).limit((kaleciErişim · -1) kaleciErişim)
+		(kaleciY + (kayma × kaleciHız)).sınır((kaleciErişim · -1) kaleciErişim)
 
 ¶Bir kurtarış ve bir gol. Her @Collision, bir temasın başladığını ve bir temasın bittiğini bildirir. Bu yüzden ikisi de bunun bir başlangıç olduğunu kontrol eden bir denetimle eşleştirilir: bu denetim olmadan her kurtarış ve her gol iki kez sayılırdı.¶
 eldivenVuruşu: Çarpışma('top' 'kaleci')
@@ -149,16 +149,16 @@ topYerleştir: Hareket(
 					ø
 	)
 
-top2: İfadeetmek(
+top2: Yazı(
 		'⚽'
 		0.6m
 		isim: 'top'
 		yer: topYerleştir
-		konu: Konu(0.45kg 0.7 0.02)
+		madde: Madde(0.45kg 0.7 0.02)
 	)
 
 ¶Eldiven, yukarıda isimle izlenir; fiziksel dünyada olmak için gereken tek şey budur, bu yüzden bir @Matter'a ihtiyacı yoktur. Fizik yerine program tarafından yerleştirilir, bu yüzden topa çarpmak yerine topun içinden geçer; yukarıdaki kurtarış topu geri gönderen şeydir. Hareketleri yumuşatılmamıştır, bu yüzden peşinden yavaşça gelmek yerine tam olarak yönlendirdiğin yerdedir.¶
-kaleci: İfadeetmek(
+kaleci: Yazı(
 		'🧤'
 		1.2m
 		isim: 'kaleci'
@@ -167,7 +167,7 @@ kaleci: İfadeetmek(
 	)
 
 ¶Şut çekmek üzere olan kişi ve nereden çektiği. Sadece top beklerken sahada bulunur.¶
-vurucu: İfadeetmek(
+vurucu: Yazı(
 		'🦵'
 		1.2m
 		yer: Yer((tur2.atış.sx + 0.5m) (tur2.atış.sy - 0.6m))
@@ -242,7 +242,7 @@ golSarsıntısı: Sekans(
 	)
 
 ¶Engellenen şut sayısı. İsmi servis numarasını taşır, bu yüzden her şut ona yeni bir kimlik verir ve animasyonu tekrar oynar — ismi hiç değişmeyen bir sayı yalnızca bir kez animasyon oynar ve sonra hareketsiz kalırdı.¶
-skorGörünümü: İfadeetmek(
+skorGörünümü: Yazı(
 		"🧤 \tur2.bloklar\"
 		1.4m
 		isim: "score\tur2.servisler\"
@@ -255,7 +255,7 @@ skorGörünümü: İfadeetmek(
 	)
 
 ¶Talimatlar, kaplama katmanında değil sahada yer alır: kaplama katmanının alt kenarı müziğin çizildiği yerdir, oraya yazılan metin üzerine çizilirdi.¶
-talimatlar: İfadeetmek(
+talimatlar: Yazı(
 		'eldivenini hareket ettirmek için ⬆ ⬇ tuşlarına bas — her şutu engelle!'
 		0.55m
 		yer: Yer(-6.4m -6.4m)

@@ -59,7 +59,7 @@ formăCopac: [
 	]
 formăBolovan: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
 
-ƒ formăLa(formă2•[bloc] cx•# cz•#) formă2.traduce(
+ƒ formăLa(formă2•[bloc] cx•# cz•#) formă2.transformă(
 		ƒ(b2•bloc) bloc(cx b2.y2 cz b2.fel2)
 	)
 
@@ -77,7 +77,7 @@ formăBolovan: [bloc(0 0 0 '🪨') bloc(0 1 0 '🪨')]
 			[]
 			ƒ(structură•[bloc] cx2•#)
 				structură.cuLista(
-					(Aleatoriu(1 2) → []).traduce(
+					(Aleatoriu(1 2) → []).transformă(
 						ƒ(nivel•#)
 							bloc(
 								cx2
@@ -267,7 +267,7 @@ genereazăColoane: [-4 -3 -2 2 3 4]
 
 ¶Un cadru: îmbătrânește piesele desprinse ca să aterizeze, să stea în aer și apoi să cadă peste partea de sus a ceea ce se află sub ele. Ia tot ce este în celula ta, lasă ciocanul să revină și verifică turnurile.¶
 ƒ avanseazăLumea(joc10•joc) (
-		îmbătrânit: joc10.obiecte.traduce(
+		îmbătrânit: joc10.obiecte.transformă(
 				ƒ(i•obiect2) (i.vârstă = 0) ? (i.vârstă:1) i
 			)
 		înPicioare: înălțimeColoană(
@@ -311,7 +311,7 @@ genereazăColoane: [-4 -3 -2 2 3 4]
 		)
 	)
 
-tastă2: Cheie()
+tastă2: Tastă()
 tic: Timp(150ms)
 atingere: Buton()
 
@@ -351,7 +351,7 @@ mărimePătrat: 0.8m
 
 rânduriSol: [:0 ‥ 4].filtra(
 		ƒ(rând•#) rând ≥ (joc11.z4 - deseneazăÎnSpate)
-	).traduce(
+	).transformă(
 		ƒ(rând2•#)
 			Fraza(
 				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
@@ -364,7 +364,7 @@ rânduriSol: [:0 ‥ 4].filtra(
 
 vederiBlocuri: joc11.blocuri.filtra(
 		ƒ(b8•bloc) b8.z2 ≥ (joc11.z4 - deseneazăÎnSpate)
-	).traduce(
+	).transformă(
 		ƒ(b9•bloc)
 			Fraza(
 				b9.fel2
@@ -381,7 +381,7 @@ vederiFantome: obiectivNeîndeplinit(
 		joc11.țintă
 	).filtra(
 		ƒ(o3•bloc) o3.z2 ≥ (joc11.z4 - deseneazăÎnSpate)
-	).traduce(
+	).transformă(
 		ƒ(o4•bloc)
 			Fraza(
 				o4.fel2
@@ -396,7 +396,7 @@ vederiFantome: obiectivNeîndeplinit(
 ¶O piesă desprinsă. Este singurul lucru de pe scenă care se mișcă lin, nu brusc. Primul său cadru este sus, unde s-a rupt blocul, iar restul sunt acolo unde a aterizat. Atenuarea dintre ele este rostogolirea.¶
 vederiObiecte: joc11.obiecte.filtra(
 		ƒ(i6•obiect2) i6.z3 ≥ (joc11.z4 - deseneazăÎnSpate)
-	).traduce(
+	).transformă(
 		ƒ(i7•obiect2)
 			Fraza(
 				i7.fel3
@@ -523,7 +523,7 @@ broke: joc11.balansare = tacturiDeBalans
 
 Restul timpului este gol, și atât e de ajuns: o notă începută cântă până la capăt, așa că ciocanul răsună chiar dacă această listă se golește la tic-ul următor.¶
 noteDeLovire: broke
-	? ((stricatAcum.lungime() > 0) ? stricatAcum.traduce(
+	? ((stricatAcum.lungime() > 0) ? stricatAcum.transformă(
 					ƒ(i9•obiect2) (i9.fel3 = '🪵') ? 5 1
 				) [3])
 		[]
@@ -606,7 +606,7 @@ sunetDeVictorie: Muzică(
 ¶Este pe scenă doar după ce ai câștigat, iar o listă goală nu se întinde în nimic.¶
 listăDeVictorie: (joc11.fază = 3) ? [sunetDeVictorie] []
 
-Etapă(
+Estradă(
 	[
 		:rânduriSol
 		:stratLume

@@ -154,7 +154,7 @@ akordy: [
 	]
 
 ¶Tort rośnie na każdym uderzeniu i uspokaja się między nimi.¶
-ƒ tort() Wyrażenie(
+ƒ tort() Fraza(
 		'🎂'
 		(4m + ((licznik % 2) · 0.4m))
 		czastrwania: 0.2s
@@ -166,7 +166,7 @@ Scena(
 			Stos(wyściółka: 0.5m)
 			[
 				tort()
-				Wyrażenie('Sto lat' 1.3m)
+				Fraza('Sto lat' 1.3m)
 			]
 		)
 		Muzyka(

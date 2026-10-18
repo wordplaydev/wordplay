@@ -127,8 +127,8 @@
                 "length": {
                     "doc": [
                         "$~Main matn mein parhne ke qabil huroof ki tadaad ke barabar hota hoon; ek harf ek character hai, ek emoji ek character hai, waghaira. Misal ke taur par:",
-                        "\\'salaam'.length()\\",
-                        "\\'🐈📚'.length()\\"
+                        "\\'salaam'.lambaai()\\",
+                        "\\'🐈📚'.lambaai()\\"
                     ],
                     "names": ["$~lambaai"],
                     "inputs": []
@@ -156,7 +156,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ agar diya gaya @Text mujh mein maujood ho.",
-                        "\\'kya aap ko woh mil gaya jo aap dhoondh rahe the?'.has(\n\t'aap'\n)\\"
+                        "\\'kya aap ko woh mil gaya jo aap dhoondh rahe the?'.rakhta(\n\t'aap'\n)\\"
                     ],
                     "names": ["$~rakhta"],
                     "inputs": [
@@ -169,8 +169,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\ agar main di gayi @Text se shuru hota hoon.",
-                        "\\'salaam shair!'.starts('salaam')\\",
-                        "\\'salaam shair!'.starts('shair')\\"
+                        "\\'salaam shair!'.shuru('salaam')\\",
+                        "\\'salaam shair!'.shuru('shair')\\"
                     ],
                     "names": ["$~shuru"],
                     "inputs": [
@@ -183,8 +183,8 @@
                 "ends": {
                     "doc": [
                         "$~\\⊤\\ agar main di gayi @Text par khatam hota hoon.",
-                        "\\'kya main ek sawaal hoon?'.ends('?')\\",
-                        "\\'main sawaal nahin hoon.'.ends('?')\\"
+                        "\\'kya main ek sawaal hoon?'.khatm('?')\\",
+                        "\\'main sawaal nahin hoon.'.khatm('?')\\"
                     ],
                     "names": ["$~khatm"],
                     "inputs": [
@@ -197,11 +197,11 @@
                 "uppercase": {
                     "doc": [
                         "$~Main ek naya @Text banata hoon jo main hi hoon, lekin har harf bade (uppercase) mein hota hai:",
-                        "\\'salaam'.uppercase()\\",
+                        "\\'salaam'.barehuroof()\\",
                         "Harfon ke bade aur chhote roop sirf kuch likhaai ke nizaamon mein hote hain. Jin mein yeh nahin hote, jaise Japani ya Arabi, un ka matn badalta nahin.",
                         "Mera @language tag tay karta hai ke kis zubaan ke usool istemaal hon. Turki mein noqte wali aur bina noqte wali i hoti hai, aur sirf Turki likha hua matn unhein Turki tareeqe se bada karta hai:",
-                        "\\'iyi'/tr.uppercase()\\",
-                        "\\'iyi'.uppercase()\\"
+                        "\\'iyi'/tr.barehuroof()\\",
+                        "\\'iyi'.barehuroof()\\"
                     ],
                     "names": ["$~barehuroof"],
                     "inputs": []
@@ -209,9 +209,9 @@
                 "lowercase": {
                     "doc": [
                         "$~Main ek naya @Text banata hoon jo main hi hoon, lekin har harf chhote (lowercase) mein hota hai:",
-                        "\\'SALAAM'.lowercase()\\",
+                        "\\'SALAAM'.chhotehuroof()\\",
                         "Do matn ko chhote harfon mein karein taake unhein bade chhote ka farq dekhe baghair milaya ja sake. Yeh har woh lafz rakhta hai jo a se shuru hota hai, chahe woh bade harf mein ho ya na ho:",
-                        "\\['Seb' 'khubaani' 'Kela'].filter(\n\tƒ(lafz•'') lafz.lowercase().starts('a')\n)\\",
+                        "\\['Seb' 'khubaani' 'Kela'].chhaanna(\n\tƒ(lafz•'') lafz.chhotehuroof().shuru('a')\n)\\",
                         "@Text/uppercase ki tarah, harfon ke bade chhote roop sirf kuch likhaai ke nizaamon mein hote hain, aur mera @language tag tay karta hai ke kis zubaan ke usool istemaal hon."
                     ],
                     "names": ["$~chhotehuroof"],
@@ -220,11 +220,11 @@
                 "subsequence": {
                     "doc": [
                         "$~Main apne ek hisse se naya @Text banata hoon. Ginti 1 se shuru hoti hai, aur dono sire shaamil hain:",
-                        "\\'salaam'.subsequence(2 4)\\",
+                        "\\'salaam'.hissa(2 4)\\",
                         "Aakhir chhor dein to main apni aakhri alaamat tak jaata hoon:",
-                        "\\'salaam'.subsequence(3)\\",
+                        "\\'salaam'.hissa(3)\\",
                         "Main alaamaton ko waise ginta hoon jaise aap unhein dekhte hain, is liye kai hisson se bana emoji bhi ek hi alaamat hai aur kabhi aadha nahin kata jaata:",
-                        "\\'🐈📚!'.subsequence(1 2)\\",
+                        "\\'🐈📚!'.hissa(1 2)\\",
                         "Agar aap mere paas maujood se zyada maangein, to main jo mere paas hai woh de deta hoon."
                     ],
                     "names": ["$~hissa"],
@@ -242,11 +242,11 @@
                 "index": {
                     "doc": [
                         "$~Main batata hoon ke di gayi @Text mujh mein pehli baar kahan aati hai, 1 se ginti karte hue:",
-                        "\\'salaam'.index('ll')\\",
+                        "\\'salaam'.number('ll')\\",
                         "Agar woh mujh mein bilkul nahin hai, to main uski jagah @None deta hoon:",
-                        "\\'salaam'.index('z')\\",
+                        "\\'salaam'.number('z')\\",
                         "@Text/subsequence ke saath main kisi cheez tak ka sab kuch le sakta hoon — yahan, pehla lafz:",
-                        "\\jumla: 'salaam duniya'\njumla.subsequence(1 (jumla.index(' ') ?? 1) - 1)\\"
+                        "\\jumla: 'salaam duniya'\njumla.hissa(1 (jumla.number(' ') ?? 1) - 1)\\"
                     ],
                     "names": ["$~number"],
                     "inputs": [
@@ -259,9 +259,9 @@
                 "replace": {
                     "doc": [
                         "$~Main ek naya @Text banata hoon jis mein ek @Text ki har maujoodgi doosri se badal di jaati hai:",
-                        "\\'2026-08-21'.replace('-' '/')\\",
+                        "\\'2026-08-21'.badlein('-' '/')\\",
                         "Har maujoodgi badalti hai, sirf pehli nahin:",
-                        "\\'ha ha ha'.replace('ha' 'ho')\\",
+                        "\\'ha ha ha'.badlein('ha' 'ho')\\",
                         "Agar aap mujhe khaali @Text badalne ko kahein, to main khud ko bina badle wapas de deta hoon."
                     ],
                     "names": ["$~badlein"],
@@ -279,7 +279,7 @@
                 "trim": {
                     "doc": [
                         "$~Main ek naya @Text banata hoon jis mein mere dono sirson se @placeholder hata di jaati hai. Beech ki jagah rehti hai:",
-                        "\\'  salaam  '.trim()\\",
+                        "\\'  salaam  '.kaatein()\\",
                         "Yeh us matn ke liye kaam ka hai jo kisi ne likha ho, kyunke us mein aksar faaltu spaces hote hain jo aap ne nahin maange the."
                     ],
                     "names": ["$~kaatein"],
@@ -288,9 +288,9 @@
                 "reverse": {
                     "doc": [
                         "$~Main ek naya @Text banata hoon jis mein meri alaamaten ulti tarteeb mein hoti hain:",
-                        "\\'salaam'.reverse()\\",
+                        "\\'salaam'.ulta()\\",
                         "Main apni alaamaton ki tarteeb waise ulatta hoon jaise aap unhein dekhte hain, is liye emoji poore rehte hain aur harfon ke nishaan barqarar rehte hain:",
-                        "\\'🐈📚'.reverse()\\"
+                        "\\'🐈📚'.ulta()\\"
                     ],
                     "names": ["$~ulta", "$~ultaKarein"],
                     "inputs": []
@@ -443,7 +443,7 @@
                 "uppercase": {
                     "doc": [
                         "$~Main naya @markup banata hoon jo main hi hoon, lekin har harf bade (uppercase) mein. Sirf mere alfaaz badalte hain; meri formatting, links, aur misalein waise hi rehti hain:",
-                        "\\`*salaam* aap ko`.uppercase()\\",
+                        "\\`*salaam* aap ko`.barehuroof()\\",
                         "@Text/uppercase ki tarah, harf ke bade chhote hone ka tasawwur sirf kuch tehreeri nizaamon mein hota hai, aur mera @language tag tay karta hai ke kiske usool istemaal hon."
                     ],
                     "names": ["$~barehuroof"],
@@ -452,7 +452,7 @@
                 "lowercase": {
                     "doc": [
                         "$~Main naya @markup banata hoon jo main hi hoon, lekin har harf chhote (lowercase) mein. Sirf mere alfaaz badalte hain; meri formatting, links, aur misalein waise hi rehti hain:",
-                        "\\`*SALAAM* AAP KO`.lowercase()\\",
+                        "\\`*SALAAM* AAP KO`.chhotehuroof()\\",
                         "@Text/lowercase ki tarah, harf ke bade chhote hone ka tasawwur sirf kuch tehreeri nizaamon mein hota hai, aur mera @language tag tay karta hai ke kiske usool istemaal hon."
                     ],
                     "names": ["$~chhotehuroof"],
@@ -596,7 +596,7 @@
                 "positive": {
                     "doc": [
                         "$~Main ek naya @Number banata hoon jo mujhe musbat bana deta hai, agar main manfi hoon.",
-                        "\\-200.positive()\\"
+                        "\\-200.musbat()\\"
                     ],
                     "names": ["$~musbat"],
                     "inputs": []
@@ -604,9 +604,9 @@
                 "round": {
                     "doc": [
                         "$~Main ek naya @Number banata hoon jo mujhe sab se qareeb ke poore number tak gol kar deta hai.",
-                        "\\9.4.round()\\",
-                        "\\9.5.round()\\",
-                        "\\9.6.round()\\"
+                        "\\9.4.gol()\\",
+                        "\\9.5.gol()\\",
+                        "\\9.6.gol()\\"
                     ],
                     "names": ["$~gol"],
                     "inputs": []
@@ -614,9 +614,9 @@
                 "roundDown": {
                     "doc": [
                         "$~Main ek naya @Number banata hoon jo mujhe mujh se chhote sab se bade poore number tak gol kar deta hai.",
-                        "\\10.5.roundDown()\\",
-                        "\\10.1.roundDown()\\",
-                        "\\10.01.roundDown()\\"
+                        "\\10.5.golNeechay()\\",
+                        "\\10.1.golNeechay()\\",
+                        "\\10.01.golNeechay()\\"
                     ],
                     "names": ["$~golNeechay"],
                     "inputs": []
@@ -624,9 +624,9 @@
                 "roundUp": {
                     "doc": [
                         "$~Main ek naya @Number banata hoon jo mujhe mujh se bade sab se chhote poore number tak gol kar deta hai.",
-                        "\\10.5.roundUp()\\",
-                        "\\10.9.roundUp()\\",
-                        "\\10.99.roundUp()\\"
+                        "\\10.5.golOopar()\\",
+                        "\\10.9.golOopar()\\",
+                        "\\10.99.golOopar()\\"
                     ],
                     "names": ["$~golOopar"],
                     "inputs": []
@@ -827,7 +827,7 @@
                 "min": {
                     "doc": [
                         "$~Mere aur doosre numbers mein se sab se chhota number dhoondein.",
-                        "\\1.min(2 3 -1)\\"
+                        "\\1.kamtareen(2 3 -1)\\"
                     ],
                     "names": "$~kamtareen",
                     "inputs": [
@@ -840,7 +840,7 @@
                 "max": {
                     "doc": [
                         "$~Mere aur doosre numbers mein se sab se bara number dhoondein.",
-                        "\\1.max(2 3 4)\\"
+                        "\\1.zyadatareen(2 3 4)\\"
                     ],
                     "names": "$~zyadatareen",
                     "inputs": [
@@ -853,7 +853,7 @@
                 "limit": {
                     "doc": [
                         "$~Mujhe ek kam aur ek zyada number ke darmiyan rakhein: agar main kam wale se neeche hoon to wohi milta hai, aur agar main zyada wale se upar hoon to woh milta hai.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.hadd(0 10)\\"
                     ],
                     "names": "$~hadd",
                     "inputs": [
@@ -870,7 +870,7 @@
                 "toward": {
                     "doc": [
                         "$~Mujh se doosre number ki taraf raaste ka kuch hissa chalein. 0% par aap ko main milta hoon, 100% par doosra number milta hai, aur beech mein aadhe raaste par darmiyan ka number milta hai.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.taraf(10m 30%)\\"
                     ],
                     "names": "$~taraf",
                     "inputs": [
@@ -887,7 +887,7 @@
                 "rescale": {
                     "doc": [
                         "$~Dhoondein ke main numbers ki ek jodi ke darmiyan kahan hoon, phir doosri jodi ke darmiyan usi jagah wala number wapas dein. Yeh us cheez ko jo aap ne naapi ho us cheez mein badalne ke liye kaam ka hai jo aap dikha sakein.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.paimanaBadlo(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~paimanaBadlo",
                     "inputs": [
@@ -1138,7 +1138,7 @@
                 "Misaal ke taur par, is list mein doosra @value \\['kela']\\ hai",
                 "\\['seb' 'kela' 'aam'][2]\\",
                 "Mujh mein kuch bhi ho sakta hai. Is list ko dekhein, jis mein @Text, @Number, aur @Time hain!",
-                "\\['seb' 10 + 10 Time()]\\",
+                "\\['seb' 10 + 10 Waqt()]\\",
                 "Jab aap mujhe bohat si cheezon ki list dete hain, to agar un mein @type mushtarak ho to main un ko aam bana deti hoon. Lekin kabhi kabhi aap ka matlab sirf wohi khaas cheezein hota hai. Aisa ho to meri baad ! laga dein, aur main yaqeeni banaungi ke main sirf unhi qeematon ki list hoon.",
                 "\\['seb' 'kela' 'aam']!\\",
                 "Bas itna hi hai. Lekin main apne @FunctionDefinition ke saath aur bhi bohat dilchasp kaam kar sakti hoon!"
@@ -1151,7 +1151,7 @@
                 "add": {
                     "doc": [
                         "$~Main ek naya @List banata hoon jis ke aakhir mein diya gaya @element hota hai.",
-                        "\\['seb' 'kela' 'aam'].with('tarbooz')\\"
+                        "\\['seb' 'kela' 'aam'].saath('tarbooz')\\"
                     ],
                     "names": ["$~saath", "$~jama"],
                     "inputs": [
@@ -1164,7 +1164,7 @@
                 "append": {
                     "doc": [
                         "$~Main ek naya @List banata hoon jis mein pehle mera @values hota hai, phir mere baad diye gaye @List ki saari qeematein.",
-                        "\\['seb' 'kela' 'aam'].withList(['tarbooz' 'kamrakh'])\\",
+                        "\\['seb' 'kela' 'aam'].fehristKeSaath(['tarbooz' 'kamrakh'])\\",
                         "lekin @Spread istemaal karna thoda aasaan hai, is tarah:",
                         "\\['seb' 'kela' 'aam' :['tarbooz' 'kamrakh']]\\"
                     ],
@@ -1179,7 +1179,7 @@
                 "replace": {
                     "doc": [
                         "$~Main ek nayi fehrist banata hoon jis mein diye gaye @index par maujood @value ko di gayi qeemat se badal diya jata hai.",
-                        "\\['seb' 'kela' 'aam'].replace(1 'kiwi')\\"
+                        "\\['seb' 'kela' 'aam'].badlein(1 'kiwi')\\"
                     ],
                     "names": ["$~badlein"],
                     "inputs": [
@@ -1201,7 +1201,7 @@
                 "random": {
                     "doc": [
                         "$~Mere arkaan mein se ek, jo ittefaq se chuna gaya ho, ya agar main khaali hoon to @None.",
-                        "\\['seb' 'kela' 'aam'].random()\\"
+                        "\\['seb' 'kela' 'aam'].ittefaqi()\\"
                     ],
                     "names": "$~ittefaqi",
                     "inputs": []
@@ -1209,7 +1209,7 @@
                 "shuffled": {
                     "doc": [
                         "$~Ek nayi fehrist banayein jis mein fehrist ke arkaan ittefaq se alag tarteeb mein hon.",
-                        "\\['seb' 'kela' 'aam'].shuffled()\\"
+                        "\\['seb' 'kela' 'aam'].betarteeb()\\"
                     ],
                     "names": "$~betarteeb",
                     "inputs": []
@@ -1217,7 +1217,7 @@
                 "first": {
                     "doc": [
                         "$~Mera pehla @element, ya agar main khaali hoon to @None.",
-                        "\\['seb' 'kela' 'aam'].first()\\"
+                        "\\['seb' 'kela' 'aam'].pehla()\\"
                     ],
                     "names": "$~pehla",
                     "inputs": []
@@ -1225,7 +1225,7 @@
                 "last": {
                     "doc": [
                         "$~Mera aakhri @element, ya agar main khaali hoon to @None.",
-                        "\\['seb' 'kela' 'aam'].last()\\"
+                        "\\['seb' 'kela' 'aam'].aakhri()\\"
                     ],
                     "names": "$~aakhri",
                     "inputs": []
@@ -1233,7 +1233,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ agar mere andar diye gaye @element ke barabar koi rukn maujood ho.",
-                        "\\['seb' 'kela' 'aam'].has('kela')\\"
+                        "\\['seb' 'kela' 'aam'].rakhta('kela')\\"
                     ],
                     "names": "$~rakhta",
                     "inputs": [
@@ -1246,7 +1246,7 @@
                 "join": {
                     "doc": [
                         "$~Main apni fehrist ke arkaan ko @Text mein jorta hoon, jinhein diya gaya alag karne wala @Text alag karta hai.",
-                        "\\['seb' 'kela' 'aam'].join(', ')\\"
+                        "\\['seb' 'kela' 'aam'].milana(', ')\\"
                     ],
                     "names": "$~milana",
                     "inputs": [
@@ -1259,14 +1259,14 @@
                 "subsequence": {
                     "doc": [
                         "$~Mein is fehrist ke andar se ek fehrist banata hoon. Yeh us @index se shuru hoti hai jo aap dein, aur aakhri @element par khatam hoti hai, ya agar aap dein to kisi khaas rukn par.",
-                        "\\['seb' 'kela' 'aam'].subsequence(2)\\",
-                        "\\['seb' 'kela' 'aam'].subsequence(1 2)\\",
+                        "\\['seb' 'kela' 'aam'].hissa(2)\\",
+                        "\\['seb' 'kela' 'aam'].hissa(1 2)\\",
                         "Aur dekhein! Agar aap number ulte tarteeb mein dein, to mein ulti fehrist deta hoon.",
-                        "\\['seb' 'kela' 'aam'].subsequence(3 1)\\",
+                        "\\['seb' 'kela' 'aam'].hissa(3 1)\\",
                         "Agar aap index ke liye 1 se chhota number dein, to mein samjhoonga ke aap ka matlab 1 hai.",
-                        "\\['seb' 'kela' 'aam'].subsequence(-1003243 2)\\",
+                        "\\['seb' 'kela' 'aam'].hissa(-1003243 2)\\",
                         "Aur agar aap sabse bade index se bada number dein, to mein samjhoonga ke aap ka matlab aakhir hai.",
-                        "\\['seb' 'kela' 'aam'].subsequence(3 2304032432)\\"
+                        "\\['seb' 'kela' 'aam'].hissa(3 2304032432)\\"
                     ],
                     "names": "$~hissa",
                     "inputs": [
@@ -1283,7 +1283,7 @@
                 "sansFirst": {
                     "doc": [
                         "$~Mein apne pehle @element ke baghair ek nayi fehrist banata hoon.",
-                        "\\['seb' 'kela' 'aam'].sansFirst()\\"
+                        "\\['seb' 'kela' 'aam'].pehleKeBaghair()\\"
                     ],
                     "names": ["$~pehleKeBaghair", "$~pehlaHatao"],
                     "inputs": []
@@ -1291,7 +1291,7 @@
                 "sansLast": {
                     "doc": [
                         "$~Mein apne aakhri @element ke baghair ek nayi fehrist banata hoon.",
-                        "\\['seb' 'kela' 'aam'].sansLast()\\"
+                        "\\['seb' 'kela' 'aam'].aakhriKeBaghair()\\"
                     ],
                     "names": ["$~aakhriKeBaghair", "$~aakhriHatao"],
                     "inputs": []
@@ -1299,7 +1299,7 @@
                 "sansAll": {
                     "doc": [
                         "$~Mein, magar diye gaye @value ke baghair. Har nakal hat jati hai, sirf pehli nahin, chahe aap mere kisi bhi naam se bulayein:",
-                        "\\['seb' 'kela' 'aam' 'seb'].without('seb')\\"
+                        "\\['seb' 'kela' 'aam' 'seb'].baghair('seb')\\"
                     ],
                     "names": [
                         "$~baghair",
@@ -1317,7 +1317,7 @@
                 "reverse": {
                     "doc": [
                         "$~Mein, magar ulta!",
-                        "\\['seb' 'kela' 'aam'].reverse()\\"
+                        "\\['seb' 'kela' 'aam'].ulta()\\"
                     ],
                     "names": ["$~ulta", "$~ultaKarein"],
                     "inputs": []
@@ -1352,7 +1352,7 @@
                     "doc": [
                         "$~Mujhe ek @FunctionDefinition dein jo ek @value aur chahein to @index ko input leti hai aur ek qeemat banati hai. Mein use apne har @element par chalaunga aur apni qeematon ko nayi qeematon mein badal dunga.",
                         "Misal ke taur par, sochein ke mein @Number ki fehrist hoon aur aap un sab ko doguna karna chahte hain:",
-                        "\\[2 4 6 8].translate(ƒ(adad•#) adad × 2)\\"
+                        "\\[2 4 6 8].badlo(ƒ(adad•#) adad × 2)\\"
                     ],
                     "names": "$~badlo",
                     "inputs": [
@@ -1380,7 +1380,7 @@
                     "doc": [
                         "$~Mujhe ek @FunctionDefinition dein jo ek @value aur chahein to @index ko input leti hai aur ek @Boolean banati hai. Mein ek nayi fehrist banaunga jis mein sirf woh @element hongay jin ka nateeja \\⊤\\ aaye.",
                         "Misal ke taur par, sochein ke mein @Number ki fehrist hoon aur aap sirf musbat number chahte hain:",
-                        "\\[2 -4 8 -16].filter(ƒ(adad•#) adad ≥ 0)\\"
+                        "\\[2 -4 8 -16].chhaanna(ƒ(adad•#) adad ≥ 0)\\"
                     ],
                     "names": "$~chhaanna",
                     "inputs": [
@@ -1408,7 +1408,7 @@
                     "doc": [
                         "$~Mujhe ek @FunctionDefinition dein jo ek @value ko input leti hai aur ek @Boolean banati hai agar woh kisi @condition se mel khaye. Agar saare @element shart se mel khayein to mein \\⊤\\ banaunga.",
                         "Misal ke taur par, sochein ke mein @Number ki fehrist hoon aur aap jaanna chahte hain ke kya sab musbat hain:",
-                        "\\[2 -4 8 -16].all(ƒ(adad•#) adad ≥ 0)\\"
+                        "\\[2 -4 8 -16].sab(ƒ(adad•#) adad ≥ 0)\\"
                     ],
                     "names": "$~sab",
                     "inputs": [
@@ -1492,7 +1492,7 @@
                     "doc": [
                         "$~Mujhe ek @FunctionDefinition dein jo sabse taaza milaap aur agla @value le, aur agla milaap banaye. Phir main apni pehli se aakhri cheez tak chalta hoon, ek ke baad ek milaap banata hoon, aur aakhri milaap wapas deta hoon jo aapka @FunctionDefinition banata hai.",
                         "Yeh un sab cheezon ko ek hi qeemat mein jama karne ke liye bahut kaam ka hai. Misaal ke taur par, farz karein aap adadon ki fehrist ko jama karna chahte hain:",
-                        "\\[3 9 2 8 1 4].combine(0 ƒ(majmooa•# adad•#) majmooa + adad)\\"
+                        "\\[3 9 2 8 1 4].joraHua(0 ƒ(majmooa•# adad•#) majmooa + adad)\\"
                     ],
                     "names": ["$~joraHua", "$~jorein"],
                     "inputs": [
@@ -1527,13 +1527,13 @@
                 "sorted": {
                     "doc": [
                         "$~Main ek fehrist le kar ek nayi fehrist bana sakta hoon jis ke @values tarteeb se lage hon. Is tarah:",
-                        "\\[1 5 8 0 2].sorted()\\",
+                        "\\[1 5 8 0 2].tarteebShuda()\\",
                         "Main yeh @Text qeematon ke liye bhi kar sakta hoon, alif-be ki tarteeb mein. Bara harf apne chhote harf ke saath lagta hai, is liye koi lafz sirf bare harf se shuru hone ki wajah se aakhir mein nahin jata:",
-                        "\\['Narangi' 'kiwi' 'Kela' 'seb'].sorted()\\",
+                        "\\['Narangi' 'kiwi' 'Kela' 'seb'].tarteebShuda()\\",
                         "Aur agar aapke paas aisi qeematon ki fehrist hai jo @Number ya @Text nahin hain, to aap mujhe ek @FunctionDefinition de sakte hain jo har cheez ko @Number ya @Text mein badal de taake main tarteeb laga sakoon. Misaal ke taur par, yahan alag alag lambai ki fehriston ki fehrist hai; agar aap mujhe aisa function dein jo har fehrist ko uski lambai mein badal de, to main unhein lambai ke hisaab se tarteeb de sakta hoon.",
-                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(fehrist) fehrist.length())\\",
+                        "\\[[1] [2 3] [4 8 12] [8]].tarteebShuda(ƒ(fehrist) fehrist.lambaai())\\",
                         "Jo function @Text banata hai, us se aap kisi aise lafz ke hisaab se tarteeb lagate hain jo aap hisaab se nikalte hain, na ke khud qeemat ke hisaab se. Yahan main naamon ko aakhri naam ke hisaab se tarteeb deta hoon:",
-                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorted(\n\tƒ(naam•'') (naam ÷ ' ').last()\n)\\"
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].tarteebShuda(\n\tƒ(naam•'') (naam ÷ ' ').aakhri()\n)\\"
                     ],
                     "names": "$~tarteebShuda",
                     "inputs": [
@@ -1552,7 +1552,7 @@
                 "sum": {
                     "doc": [
                         "$~Mere saare adad jama kar deta hoon. Agar main khaali hoon to jawab 0 hai, aur agar mere saare adad ek hi cheez mein nahin naape gaye to main andaza lagane ke bajaye bata doonga.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].jor()\\"
                     ],
                     "names": "$~jor",
                     "inputs": []
@@ -1560,7 +1560,7 @@
                 "average": {
                     "doc": [
                         "$~Mere saare adad jama kar ke unki tadaad se taqseem karta hoon. Agar main khaali hoon to ausat nikalne ke liye kuch nahin, is liye aapko @None milta hai.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].ausat()\\"
                     ],
                     "names": "$~ausat",
                     "inputs": []
@@ -1679,7 +1679,7 @@
                 "difference": {
                     "doc": [
                         "$~Mujhe @Set dein aur main ek naya @Set banaoon ga jis mein sirf woh @element hon jo hum dono mein ek jaise hain.",
-                        "\\{1 2 3}.difference({3 4 5})\\"
+                        "\\{1 2 3}.farq({3 4 5})\\"
                     ],
                     "names": "$~farq",
                     "inputs": [
@@ -1693,7 +1693,7 @@
                     "doc": [
                         "$~Mujhe @FunctionDefinition dein jo ek @element le aur agar use rakhna hai to \\⊤\\ de. Phir main ek @Set banaoon ga jis mein sirf woh rukn hon jo aap ki @condition poori karte hain.",
                         "Misaal ke taur par, mujh mein se taaq adaad dhoondhte hain:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(adad•#) (adad % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.chhaanna(ƒ(adad•#) (adad % 2) = 1)\\"
                     ],
                     "names": "$~chhaanna",
                     "inputs": [
@@ -1717,7 +1717,7 @@
                     "doc": [
                         "$~Mujhe @FunctionDefinition dein jo ek @element le kar us ke mutabiq ek naya rukn banaye. Phir main apne tamam rukn ko ek naye @Set mein badal doon ga (aur dohraaye hue rukn hata doon ga).",
                         "Misaal ke taur par, mere tamam @Number ko @Text mein badalte hain:",
-                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(adad•#) adad → '')\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.badlo(ƒ(adad•#) adad → '')\\"
                     ],
                     "names": "$~badlo",
                     "inputs": [
@@ -1800,7 +1800,7 @@
                 "set": {
                     "doc": [
                         "$~Main ek naya @Map banaoon ga jis mein sab wahi jode hon, lekin us naye jode ke saath jo aap mujhe dein. Agar mere paas pehle se @key hai, to main use naye @value se jod doon ga.",
-                        "\\{'amy': 6points 'tony': 3points}.pair('jen' 0points)\\"
+                        "\\{'amy': 6points 'tony': 3points}.jora('jen' 0points)\\"
                     ],
                     "names": "$~jora",
                     "inputs": [
@@ -1817,7 +1817,7 @@
                 "unset": {
                     "doc": [
                         "$~Main ek naya @Map banaoon ga jis mein woh @key na ho jo aap mujhe dein, yaani us ka jora hata doon ga.",
-                        "\\{'amy': 6points 'tony': 3points}.unpair('amy')\\"
+                        "\\{'amy': 6points 'tony': 3points}.joraTodo('amy')\\"
                     ],
                     "names": "$~joraTodo",
                     "inputs": [
@@ -1830,7 +1830,7 @@
                 "remove": {
                     "doc": [
                         "$~Main ek naya @Map banaunga jis mein woh kunjiyan nahin hongi jin ki @value hai.",
-                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.remove(\n\t0points\n)\\"
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.hatao(\n\t0points\n)\\"
                     ],
                     "names": "$~hatao",
                     "inputs": [
@@ -1844,7 +1844,7 @@
                     "doc": [
                         "$~Mujhe ek @FunctionDefinition dein jo ek @key aur @value le, aur agar jorha rakhna ho to \\⊤\\ dein. Main ek naya @Map banaunga jo aapki sharait poori kare.",
                         "Masalan, yahan hum woh jorhe rakhna chahte hain jo Amy ke hon ya jin ke points sifar se zyada hon.",
-                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.filter(\n\tƒ(kunji•'' qeemat2•#points) (kunji = 'amy') | (qeemat2 > 0points)\n)\\"
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.chhaanna(\n\tƒ(kunji•'' qeemat2•#points) (kunji = 'amy') | (qeemat2 > 0points)\n)\\"
                     ],
                     "names": "$~chhaanna",
                     "inputs": [
@@ -1915,7 +1915,7 @@
                 "Ya shayad aap aisi nayi table banana chahte hain jis mein shart poori karne wali qataron ki qeematein alag hon:",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
                 "Ya shayad aap shart poori karne wali qatarein mita dena chahte hain:",
-                "\\patthar: ⎡naam•'' rang•''⎦\n\t⎡'obsidian' 'kaala'⎦\n\t⎡'jhaanwaan' 'bhoora'⎦\n\t⎡'citrine' 'peela'⎦\npatthar ⎡- naam.has('i')\\",
+                "\\patthar: ⎡naam•'' rang•''⎦\n\t⎡'obsidian' 'kaala'⎦\n\t⎡'jhaanwaan' 'bhoora'⎦\n\t⎡'citrine' 'peela'⎦\npatthar ⎡- naam.rakhta('i')\\",
                 "Aur agar aap kabhi mujh se khaas qeematein lena chahein, to aap kisi bhi table ko list mein badal kar @PropertyReference se alag alag qataron tak pahunch sakte hain",
                 "\\patthar: ⎡naam•'' rang•''⎦\n\t⎡'obsidian' 'kaala'⎦\n\t⎡'jhaanwaan' 'bhoora'⎦\n\t⎡'citrine' 'peela'⎦\n(patthar → [])[1].naam\\"
             ],

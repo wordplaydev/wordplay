@@ -246,7 +246,7 @@ notasDeAleteo: aleteo ? [3] []
 sonidoDeAleteo: Música(
 		Pista(
 			notasDeAleteo
-			instrumento: Instrumento.tambores
+			instrumento: Instrumento.batería
 			volumen: 70%
 			bucle: ⊥
 		)
@@ -274,7 +274,7 @@ canciónAnsiosa: Música(
 			)
 			Pista(
 				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 3 3]
-				instrumento: Instrumento.tambores
+				instrumento: Instrumento.batería
 				pulso: 0.5beats
 				volumen: 35%
 			)
@@ -301,7 +301,7 @@ sonidoDeCaída: Música(
 			)
 			Pista(
 				[4 ø]
-				instrumento: Instrumento.tambores
+				instrumento: Instrumento.batería
 				pulso: 1beats
 				volumen: 50%
 				bucle: ⊥

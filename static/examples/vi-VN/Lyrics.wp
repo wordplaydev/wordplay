@@ -246,7 +246,7 @@ Sânkhấu(
 === guitar1
 ¶Guitar, bè 1 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 3.5beats)
 		NốtNhạc(-19 0.479beats 68%)
@@ -1521,7 +1521,7 @@ BảnNhạc(
 === guitar2
 ¶Guitar, bè 2 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 32beats)
 		NốtNhạc(0 7.729beats 49%)
@@ -1577,7 +1577,7 @@ BảnNhạc(
 === guitar3
 ¶Guitar, bè 3 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 32.25beats)
 		NốtNhạc(2 7.729beats 45%)
@@ -1590,7 +1590,7 @@ BảnNhạc(
 === guitar4
 ¶Guitar, bè 4 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 303.25beats)
 		NốtNhạc(9 5.229beats 79%)
@@ -1601,7 +1601,7 @@ BảnNhạc(
 === violin1
 ¶Dây, bè 1 trong 2. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 3.5beats)
 		NốtNhạc(-19 0.479beats 63%)
@@ -1744,7 +1744,7 @@ BảnNhạc(
 === guitar5
 ¶Guitar, bè 5 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 4beats)
 		NốtNhạc(3 0.729beats 63%)
@@ -1875,7 +1875,7 @@ BảnNhạc(
 === guitar6
 ¶Guitar, bè 6 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 16beats)
 		NốtNhạc(5 1.229beats 69%)
@@ -3544,7 +3544,7 @@ BảnNhạc(
 === guitar7
 ¶Guitar, bè 7 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 16.25beats)
 		NốtNhạc(3 0.229beats 69%)
@@ -3759,7 +3759,7 @@ BảnNhạc(
 === guitar8
 ¶Guitar, bè 8 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 17.75beats)
 		NốtNhạc(3 0.229beats 69%)
@@ -3820,7 +3820,7 @@ BảnNhạc(
 === guitar9
 ¶Guitar, bè 9 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 213.5beats)
 		NốtNhạc(12 0.167beats 69%)
@@ -3833,7 +3833,7 @@ BảnNhạc(
 === guitar10
 ¶Guitar, bè 10 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 40beats)
 		NốtNhạc(-14 0.979beats 71%)
@@ -4934,7 +4934,7 @@ BảnNhạc(
 === guitar11
 ¶Guitar, bè 11 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 40beats)
 		NốtNhạc({-2 5} 0.729beats 71%)
@@ -5279,7 +5279,7 @@ BảnNhạc(
 === guitar12
 ¶Guitar, bè 12 trong 12. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 56beats)
 		NốtNhạc(5 0.229beats 71%)
@@ -5352,7 +5352,7 @@ BảnNhạc(
 === flute1
 ¶Sáo, bè 1 trong 1. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 64beats)
 		NốtNhạc(17 3.979beats 74%)
@@ -5379,7 +5379,7 @@ BảnNhạc(
 === violin2
 ¶Dây, bè 2 trong 2. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 112beats)
 		NốtNhạc(10 19.979beats 58%)
@@ -5508,7 +5508,7 @@ BảnNhạc(
 === synth1
 ¶Synth, bè 1 trong 2. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 292.375beats)
 		NốtNhạc({43 57} 0.104beats 51%)
@@ -5635,7 +5635,7 @@ BảnNhạc(
 === bass1
 ¶Bass, bè 1 trong 2. Tệp bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 47.75beats)
 		NốtNhạc(-31 0.229beats 76%)
@@ -6408,7 +6408,7 @@ BảnNhạc(
 === bass2
 ¶Bass, giọng 2 trên 2. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 252beats)
 		NốtNhạc(-28 0.229beats 76%)
@@ -6419,7 +6419,7 @@ BảnNhạc(
 === drums1
 ¶Trống, giọng 1 trên 6. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 22.75beats)
 		NốtNhạc({2 2} 0.979beats 82%)
@@ -7074,7 +7074,7 @@ BảnNhạc(
 === drums2
 ¶Trống, giọng 2 trên 6. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 23beats)
 		NốtNhạc({2 2} 0.979beats 82%)
@@ -7723,7 +7723,7 @@ BảnNhạc(
 === drums3
 ¶Trống, giọng 3 trên 6. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 23.25beats)
 		NốtNhạc({2 2} 0.979beats 82%)
@@ -8252,7 +8252,7 @@ BảnNhạc(
 === drums4
 ¶Trống, giọng 4 trên 6. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 23.5beats)
 		NốtNhạc({1 1 5} 0.979beats 80%)
@@ -8485,7 +8485,7 @@ BảnNhạc(
 === drums5
 ¶Trống, giọng 5 trên 6. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 226.25beats)
 		NốtNhạc({1 5} 0.979beats 80%)
@@ -8498,7 +8498,7 @@ BảnNhạc(
 === drums6
 ¶Trống, giọng 6 trên 6. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 226.292beats)
 		NốtNhạc(5 0.979beats 76%)
@@ -8511,7 +8511,7 @@ BảnNhạc(
 === synth2
 ¶Synth, giọng 2 trên 2. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 298.75beats)
 		NốtNhạc(-5 33.979beats 68%)
@@ -8522,7 +8522,7 @@ BảnNhạc(
 === bell1
 ¶Chuông, giọng 1 trên 10. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 299beats)
 		NốtNhạc(9 4.979beats 67%)
@@ -8535,7 +8535,7 @@ BảnNhạc(
 === bell2
 ¶Chuông, giọng 2 trên 10. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 299.25beats)
 		NốtNhạc(26 4.479beats 67%)
@@ -8548,7 +8548,7 @@ BảnNhạc(
 === bell3
 ¶Chuông, giọng 3 trên 10. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 299.25beats)
 		NốtNhạc(31 5.229beats 67%)
@@ -8561,7 +8561,7 @@ BảnNhạc(
 === bell4
 ¶Chuông, giọng 4 trên 10. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 299.5beats)
 		NốtNhạc(29 4.479beats 67%)
@@ -8572,7 +8572,7 @@ BảnNhạc(
 === bell5
 ¶Chuông, giọng 5 trên 10. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 299.75beats)
 		NốtNhạc(13 6.229beats 67%)
@@ -8583,7 +8583,7 @@ BảnNhạc(
 === bell6
 ¶Chuông, giọng 6 trên 10. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 300beats)
 		NốtNhạc(18 1.979beats 67%)
@@ -8596,7 +8596,7 @@ BảnNhạc(
 === bell7
 ¶Chuông, giọng 7 trên 10. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 300.25beats)
 		NốtNhạc(3 3.479beats 67%)
@@ -8607,7 +8607,7 @@ BảnNhạc(
 === bell8
 ¶Chuông, giọng 8 trên 10. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 300.25beats)
 		NốtNhạc(21 1.729beats 67%)
@@ -8620,7 +8620,7 @@ BảnNhạc(
 === bell9
 ¶Chuông, giọng 9 trên 10. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 301.5beats)
 		NốtNhạc(14 3.479beats 67%)
@@ -8631,7 +8631,7 @@ BảnNhạc(
 === bell10
 ¶Chuông, giọng 10 trên 10. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 302.5beats)
 		NốtNhạc(19 1.729beats 67%)
@@ -8642,7 +8642,7 @@ BảnNhạc(
 === pad1
 ¶Pad, giọng 1 trên 3. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 297.25beats)
 		NốtNhạc(-20 21.729beats 50%)
@@ -8657,7 +8657,7 @@ BảnNhạc(
 === pad2
 ¶Pad, giọng 2 trên 3. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 309.5beats)
 		NốtNhạc(-15 10.729beats 50%)
@@ -8672,7 +8672,7 @@ BảnNhạc(
 === pad3
 ¶Pad, giọng 3 trên 3. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 348beats)
 		NốtNhạc(46 5.979beats 50%)
@@ -8687,7 +8687,7 @@ BảnNhạc(
 === sax1
 ¶Kèn, giọng 1 trên 3. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 319beats)
 		NốtNhạc({-19 5} 0.979beats 48%)
@@ -8750,7 +8750,7 @@ BảnNhạc(
 === sax2
 ¶Kèn, giọng 2 trên 3. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 320beats)
 		NốtNhạc(3 1.729beats 48%)
@@ -8791,7 +8791,7 @@ BảnNhạc(
 === sax3
 ¶Kèn, giọng 3 trên 3. Tệp nguồn bắt đầu mượn nó theo tên.¶
 
-BảnNhạc(
+Bè(
 	[
 		NốtNhạc(ø 39beats)
 		NốtNhạc(-7 0.229beats 90%)

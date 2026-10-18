@@ -4,22 +4,22 @@ Ett spel som spelar samma melodi från början till slut känns platt. Tänk om 
 
 Det finns inget sätt att *stoppa* en  @Music  — det som stoppar den är att den inte finns på  @Stage . Så behåll en bit state, och sätt den låt som passar den på scenen:
 
-\phase: 'meny' … ∆ Button() … (phase = 'meny') ? 'jakt' 'meny'
+\phase: 'meny' … ∆ Knapp() … (phase = 'meny') ? 'jakt' 'meny'
 theme: [1 ø 3 ø 5 ø 6 ø]
-Stage([
-		Phrase((phase = 'meny') ? '▶ tryck för att börja' '🏃 spring!' 1m)
-		(phase = 'meny') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+Estrad([
+		Fras((phase = 'meny') ? '▶ tryck för att börja' '🏃 spring!' 1m)
+		(phase = 'meny') ? Musik(Spår(theme instrument: Instrument.klocka) tempo: 72beats/min) Musik(Spår(theme instrument: Instrument.synt) tempo: 132beats/min)
 	])\
 
 Båda låtarna är samma åtta tal. Bara instrumentet och tempot ändras, och det låter redan som ett annat stycke — eftersom stegen säger *vilket steg i skalan*, inte vilken ton, så en  @Music  kan tolka dem på nytt. Ge den \skala: 🎼.harmoniskMoll\ och samma melodi blir olycksbådande utan att en enda ton skrivs om.
 
 Den andra halvan är musik som böjer sig hela tiden efter hur det går. Att ändra \tempo\ startar inte om något — det fogas in vid nästa taktslag, så stycket snabbar upp utan att tappa sin plats:
 
-\score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Knapp() … score + 1
 urgency: (score ÷ 10).min(1)
-Stage([
-		Phrase('partitur \score\' 1m)
-		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+Estrad([
+		Fras('partitur \score\' 1m)
+		Musik(Spår([1 5 8 5] instrument: Instrument.trummor) tempo: (90 + (urgency · 90)) · 1beats/min)
 	])\
 
 Tryck tillräckligt många gånger så slår trummorna dubbelt så hårt som i början. En kort, rytmisk ton är vad som gör det hörbart — under långa uthållna toner är en tempoändring svår att känna.

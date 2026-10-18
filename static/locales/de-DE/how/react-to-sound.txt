@@ -5,7 +5,7 @@ Wussten Sie, dass Ihr Projekt Ihnen zuhören kann? @Volume stream benutzt Ihr Mi
 Wir können diese Zahl nutzen, um alles zu steuern – die Größe eines @Phrase, seine Rotation, seine Farbe.
 
 \
-Phrase('📣' Größe: (Volume() × 5m) + 1m)
+Phrase('📣' Größe: (Lautstärke() × 5m) + 1m)
 \
 
  Wenn es ruhig ist, wird das Megafon benutzt. \1m\ groß. Wenn man ruft, kann es bis zu ... wachsen. \6m\ groß.
@@ -13,7 +13,7 @@ Phrase('📣' Größe: (Volume() × 5m) + 1m)
 Wollt ihr eine Sonne, die sich umso schneller dreht, je lauter ihr seid?
 
 \
-Phrase('🌞' Drehung: Volume() × 360°)
+Phrase('🌞' Drehung: Lautstärke() × 360°)
 \
 
  Versuch zu klatschen oder zu summen und schau, was passiert.

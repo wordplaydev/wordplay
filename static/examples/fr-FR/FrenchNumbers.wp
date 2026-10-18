@@ -24,7 +24,7 @@ secrets: [:1 ‥ 9].mélangé()
 
 ¶What's the latest key pressed?¶
 ¶Quelle est la dernière touche appuyée ?¶/fr
-key,clé/fr: Clé()
+key,clé/fr: Touche()
 
 ¶The current secret is increased each time a key is pressed, but stops at 10¶
 ¶Le secret actuel est augmenté à chaque fois qu'une touche est enfoncée, mais s'arrête à 10¶/fr
@@ -60,7 +60,7 @@ Après les 9 secrets, affichez le résultat final.¶/fr
 Scène(
 	[
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				finjeu ?
 					Phrase(

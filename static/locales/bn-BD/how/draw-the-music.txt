@@ -4,12 +4,12 @@
 
 @Beat তোমাকে দেওয়ার জন্য  @Downbeat  সবসময় একটা 
 
-\beat: Beat()
-count: beat.count
-Stage(
+\beat: তাল()
+count: beat.গণনা
+মঞ্চ(
 	[
-		Phrase('🥁' আকার: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] বাদ্যযন্ত্র: Instrument.drums))
+		বাক্যাংশ('🥁' আকার: ((count % 4) = 0) ? 2m 1m)
+		সঙ্গীত(ট্র্যাক([1 1 1 1] বাদ্যযন্ত্র: বাদ্যযন্ত্র.ড্রাম))
 	]
 )\
 
@@ -17,30 +17,30 @@ Stage(
 
  হয়, আর ড্রাম লাফিয়ে ওঠে। @Downbeat এটাই পুরো গানকে একটা সংখ্যা হিসেবে দেখায়। কিন্তু একটা \parts\ এর সাথে একটা  @Part  তালিকাও বহন করে, প্রতিটি  @Track -এর জন্য একটা করে  @Part , আর একটা \pitch\ জানে যে এই মুহূর্তে তার নিজের কণ্ঠস্বর কী করছে: তার \volume\ জানে যে এই মুহূর্তে তার নিজের কণ্ঠস্বর কী করছে: তার \pan\, তার \sounding\, এবং এটা 
 
-\beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase(
+\beat: তাল()
+parts•[অংশ]: beat.অংশ.ছাঁকো(ƒ(p•অংশ) p.বাজছে)
+ƒ height(p•অংশ)•# p.সুর[1] ÷ 1semitones
+ƒ dot(p•অংশ)•বাক্যাংশ বাক্যাংশ(
 		'⬤'
-		0.4m + (p.volume · 1m)
-		স্থান: Place(
-			(p.pan · 3) · 1m
+		0.4m + (p.শব্দমাত্রা · 1m)
+		স্থান: স্থান(
+			(p.প্যান · 3) · 1m
 			((height(p) · 0.2) - 1) · 1m
 		)
 	)
-Stage(
+মঞ্চ(
 	[
-		:parts.translate(ƒ(p•Part) dot(p))
-		Music(
+		:parts.রূপান্তর(ƒ(p•অংশ) dot(p))
+		সঙ্গীত(
 			[
-				Track(
+				ট্র্যাক(
 					[1 ø 5 ø]
-					বাদ্যযন্ত্র: Instrument.piano
+					বাদ্যযন্ত্র: বাদ্যযন্ত্র.পিয়ানো
 					প্যান: -1
 				)
-				Track(
+				ট্র্যাক(
 					[ø 8 ø 12]
-					বাদ্যযন্ত্র: Instrument.bell
+					বাদ্যযন্ত্র: বাদ্যযন্ত্র.ঘণ্টা
 					প্যান: 1
 				)
 			]

@@ -5,13 +5,13 @@ Parfois, nous voulons raconter des histoires qui attendent que la personne qui r
 Pour faire cela, nous pouvons utiliser un @Scene, mais en mettant des valeurs @Boolean entre le contenu que nous voulons montrer. Par exemple, voici un clic qui fera avancer vers chaque contenu suivant, en utilisant un @Button:
 
 \
-Scene([
+Diaporama([
 		Phrase('clique sur moi')
-		Button()
+		Bouton()
 		Phrase('clique sur moi encore' durée: 1s)
-		Button()
+		Bouton()
 		Phrase('non vraiment, clique sur moi aussi fort que tu peux !!' durée: 1s)
-		Button()
+		Bouton()
 		Phrase('est-ce que tu as déjà cliqué sur moi ?' durée: 1s)
 	])
 \
@@ -23,7 +23,7 @@ Par exemple, on pourrait utiliser notre voix !
 Si on crie assez fort, la scène avance :
 
 \
-Scene([
+Diaporama([
 		Phrase(«est-ce qu'il y a quelqu'un ?»)
 		Volume() > .5
 		Phrase("je ne t'entends pas, tu peux répéter ?" durée: 1s)
@@ -37,12 +37,12 @@ Scene([
  Quand chaque @Phrase doit attendre la même chose, @Scene/until le dit une seule fois au lieu de l'écrire entre chacun. Cela fait la même chose que le premier exemple ci-dessus :
 
 \
-Scene([
+Diaporama([
 		Phrase('clique sur moi')
 		Phrase('clique sur moi encore' durée: 1s)
 		Phrase('non vraiment, clique sur moi aussi fort que tu peux !!' durée: 1s)
 		Phrase('est-ce que tu as déjà cliqué sur moi ?' durée: 1s)
-	] jusque: Button())
+	] jusque: Bouton())
 \
 
  Écris un @Boolean dans la liste quand les attentes sont / différentes /, comme dans l'exemple des cris, et utilise @Scene/until quand elles sont toutes les mêmes.
@@ -53,8 +53,8 @@ Remarque : @Scene/until attend / après / que chaque @Phrase ait eu son @Phrase/
 Si tu préfères que la @Scene ne bouge jamais toute seule, et qu'elle aille seulement là où tu l'envoies, utilise @Scene/pause avec @Scene/step:
 
 \
-key: Key()
-Scene([
+key: Touche()
+Diaporama([
 		Phrase('un')
 		Phrase('deux')
 		Phrase('trois')

@@ -16,7 +16,7 @@ mood: gesicht2.augenOffen ?
 ¶Wandle die Stimmung in ein Emoji um und gib dem Gesicht eine Sprechblase, die sie ausspricht. Wenn die Sprechblase @Say hat, wird die Stimmung laut gesprochen und auch angezeigt. Die Sprechblase ersetzt dann die Bildunterschrift am unteren Rand der Bühne.¶
 Bühne(
 	[
-		Satzglied(
+		Phrase(
 			(mood = 'blinking' ? '😴'
 					mood = 'smiling' ? '😀'
 						mood = 'frowning' ? '🙁'

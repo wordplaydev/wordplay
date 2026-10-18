@@ -7,8 +7,8 @@ Un @Reaction are trei părți: o valoare de început, un lucru de urmărit și o
 Aici, începem de la \0\, urmărim @Time și adăugăm unu de fiecare dată când ceasul bate:
 
 \
-count: 0 … ∆ Time(1000ms) … count + 1
-Phrase(count → '')
+count: 0 … ∆ Timp(1000ms) … count + 1
+Fraza(count → '')
 \
 
  În fiecare secundă, @Time pornește, @Reaction observă cu \∆ Timp(1000ms)\, și \count\ devine \count + 1\.
@@ -17,8 +17,8 @@ Elementul \→ ''\ de la final transformă numărul în text, ca @Phrase să îl
 Puteți folosi orice intrare doriți, nu doar timpul. Acest contor numără numărul de apăsări ale butonului Button():
 
 \
-count: 0 … ∆ Button() … count + 1
-Phrase(count → '')
+count: 0 … ∆ Buton() … count + 1
+Fraza(count → '')
 \
 
  De fiecare dată când @Button modificările din flux cu un clic sau o atingere, numărul crește cu unu.

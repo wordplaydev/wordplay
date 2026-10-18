@@ -7,18 +7,18 @@ Bir @Reaction üç bölümden oluşur: bir başlangıç değeri, izlenecek bir �
 Burada \0\ değerinden başlıyoruz, @Time değerini izliyoruz ve saat her tik attığında bir ekliyoruz:
 
 \
-count: 0 … ∆ Time(1000ms) … count + 1
-Phrase(count → '')
+count: 0 … ∆ Zaman(1000ms) … count + 1
+Yazı(count → '')
 \
 
- Her saniye @Time tetiklenir, @Reaction bunu \∆ Time(1000ms)\ ile fark eder ve \count\ şu değere dönüşür: \count + 1\ ile birleştirebiliriz.
+ Her saniye @Time tetiklenir, @Reaction bunu \∆ Zaman(1000ms)\ ile fark eder ve \count\ şu değere dönüşür: \count + 1\ ile birleştirebiliriz.
 Bu \→ ''\ sonundaki ifade, sayıyı yazıya çevirir, böylece @Phrase onu gösterebilir.
 
 Zaman dışında istediğiniz herhangi bir girdiyi kullanabilirsiniz. Bu sayaç, Button() düğmesine basılma sayısını sayar:
 
 \
-count: 0 … ∆ Button() … count + 1
-Phrase(count → '')
+count: 0 … ∆ Düğme() … count + 1
+Yazı(count → '')
 \
 
  Her seferinde @Button Tıklama veya dokunma ile akış değişir, sayım bir artar.

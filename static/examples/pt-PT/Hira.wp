@@ -22,7 +22,7 @@ letras: contagem2 → [].traduzir(
 	)
 
 
-Fase(
+Palco(
 	[:letras Figura(Retângulo(-40m 0m 40m -2m))]
 	gravidade: gravidade2
 	local: Local(0m 5m -20m)

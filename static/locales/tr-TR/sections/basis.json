@@ -127,7 +127,7 @@
                 "length": {
                     "doc": [
                         "$~Metindeki okunabilir karakter sayısına göre değerlendirme yapıyorum; bir harf bir karakterdir, bir emoji bir karakterdir, vb. Örneğin:",
-                        "\\'merhaba'.length()\\",
+                        "\\'merhaba'.uzunluk()\\",
                         "\\'🐈📚'.uzunluk()\\"
                     ],
                     "names": ["$~uzunluk"],
@@ -156,9 +156,9 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ eğer verilen @Text bende görünüyorsa.",
-                        "\\'aradığınızı buldunuz mu?'.has('you')\\"
+                        "\\'aradığınızı buldunuz mu?'.içerir('you')\\"
                     ],
-                    "names": ["$~sahipolmak"],
+                    "names": ["$~içerir", "$~sahipolmak"],
                     "inputs": [
                         {
                             "doc": "$~İçimde aranacak @Text.",
@@ -169,8 +169,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\ eğer verilen @Text ile başlarsam.",
-                        "\\'merhaba mısra!'.starts('merhaba')\\",
-                        "\\'merhaba mısra!'.starts('mısra')\\"
+                        "\\'merhaba mısra!'.başlar('merhaba')\\",
+                        "\\'merhaba mısra!'.başlar('mısra')\\"
                     ],
                     "names": ["$~başlar"],
                     "inputs": [
@@ -183,8 +183,8 @@
                 "ends": {
                     "doc": [
                         "$~\\⊤\\ eğer verilen @Text ile bitirirsem.",
-                        "\\'Ben bir soru muyum?'.ends('?')\\",
-                        "\\'Ben bir soru değilim.'.ends('?')\\"
+                        "\\'Ben bir soru muyum?'.biter('?')\\",
+                        "\\'Ben bir soru değilim.'.biter('?')\\"
                     ],
                     "names": ["$~biter"],
                     "inputs": [
@@ -485,27 +485,27 @@
                 "positive": {
                     "doc": [
                         "$~Negatifse pozitif, negatifse pozitif yapan yeni bir @Number oluşturuyorum.",
-                        "\\-200.positive()\\"
+                        "\\-200.pozitif()\\"
                     ],
-                    "names": ["$~olumlu"],
+                    "names": ["$~pozitif", "$~olumlu"],
                     "inputs": []
                 },
                 "round": {
                     "doc": [
                         "$~Beni en yakın tam sayıya yuvarlayan yeni bir @Number oluşturuyorum.",
-                        "\\9.4.round()\\",
-                        "\\9.5.yuvarlak()\\",
-                        "\\9.6.yuvarlak()\\"
+                        "\\9.4.yuvarla()\\",
+                        "\\9.5.yuvarla()\\",
+                        "\\9.6.yuvarla()\\"
                     ],
-                    "names": ["$~yuvarlak"],
+                    "names": ["$~yuvarla", "$~yuvarlak"],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": [
                         "$~Benden küçük en küçük tam sayıya yuvarlayan yeni bir @Number oluşturuyorum.",
-                        "\\10.5.roundDown()\\",
-                        "\\10.1.roundDown()\\",
-                        "\\10.01.roundDown()\\"
+                        "\\10.5.Aşağıyuvarla()\\",
+                        "\\10.1.Aşağıyuvarla()\\",
+                        "\\10.01.Aşağıyuvarla()\\"
                     ],
                     "names": ["$~Aşağıyuvarla"],
                     "inputs": []
@@ -513,11 +513,11 @@
                 "roundUp": {
                     "doc": [
                         "$~Benden büyük olan en küçük tam sayıya yuvarlanan yeni bir @Number oluşturuyorum.",
-                        "\\10.5.roundUp()\\",
-                        "\\10.9.roundUp()\\",
-                        "\\10.99.roundUp()\\"
+                        "\\10.5.yukarıYuvarla()\\",
+                        "\\10.9.yukarıYuvarla()\\",
+                        "\\10.99.yukarıYuvarla()\\"
                     ],
-                    "names": ["$~hesabıyuvarlamak"],
+                    "names": ["$~yukarıYuvarla", "$~hesabıyuvarlamak"],
                     "inputs": []
                 },
                 "power": {
@@ -636,21 +636,24 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["$~Benim kosinüsümü hesaplayın.", "\\π.cos()\\"],
-                    "names": ["$~çünkü", "$~kosinüs"],
+                    "doc": [
+                        "$~Benim kosinüsümü hesaplayın.",
+                        "\\π.kosinüs()\\"
+                    ],
+                    "names": ["$~kosinüs", "$~çünkü"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~Sinüsümü hesaplayın.", "\\π.cos()\\"],
+                    "doc": ["$~Sinüsümü hesaplayın.", "\\π.kosinüs()\\"],
                     "names": ["$~günah", "$~sinüs"],
                     "inputs": []
                 },
                 "min": {
                     "doc": [
                         "$~Ben ve diğerlerinin en küçük sayısını bulun.",
-                        "\\1.min(2 3 -1)\\"
+                        "\\1.enKüçük(2 3 -1)\\"
                     ],
-                    "names": "$~dakika",
+                    "names": ["$~enKüçük", "$~dakika"],
                     "inputs": [
                         {
                             "doc": "$~Bana istediğin kadar sayı ver!",
@@ -672,7 +675,7 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Benim tanjantımı hesapla.", "\\π.tan()\\"],
+                    "doc": ["$~Benim tanjantımı hesapla.", "\\π.tanjant()\\"],
                     "names": ["$~tanjant"],
                     "inputs": []
                 },
@@ -742,7 +745,7 @@
                 "limit": {
                     "doc": [
                         "$~Beni düşük ve yüksek bir sayı arasında tut: eğer düşük olandan küçüksem, sonucun o olur, eğer yüksek olandan büyüksem, sonucun bu olur.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.sınır(0 10)\\"
                     ],
                     "names": "$~sınır",
                     "inputs": [
@@ -759,9 +762,9 @@
                 "toward": {
                     "doc": [
                         "$~Benden başka bir sayıya doğru yolun bir kısmını git. %0'da beni alırsın, %100'de diğerini alırsın, tam ortada ise ikisinin arasındaki sayıyı alırsın.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.yaklaş(10m 30%)\\"
                     ],
-                    "names": "$~doğru",
+                    "names": ["$~yaklaş", "$~doğru"],
                     "inputs": [
                         {
                             "doc": "$~Doğru gidilecek sayı.",
@@ -776,7 +779,7 @@
                 "rescale": {
                     "doc": [
                         "$~Bir sayı çiftinin arasında nerede durduğumu bul, sonra başka bir çiftin arasında aynı şekilde duran sayıyı geri ver. Ölçtüğün bir şeyi gösterebileceğin bir şeye çevirmek için işe yarar.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.yenidenÖlçekle(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~yenidenÖlçekle",
                     "inputs": [
@@ -976,7 +979,7 @@
                 "add": {
                     "doc": [
                         "$~Sonuna belirtilen öğeyi koyarak yeni bir @List oluşturuyorum.",
-                        "\\['elma' 'muz' 'mango'].with('karpuz')\\"
+                        "\\['elma' 'muz' 'mango'].ile('karpuz')\\"
                     ],
                     "names": "$~ile",
                     "inputs": [
@@ -989,7 +992,7 @@
                 "append": {
                     "doc": [
                         "$~Değerlerimle yeni bir @List oluşturuyorum, ardından verilen @List'in tüm değerlerini benden sonra oluşturuyorum.",
-                        "\\['elma' 'muz' 'mango'].withList(['karpuz' 'karabuğday'])\\",
+                        "\\['elma' 'muz' 'mango'].Listeile(['karpuz' 'karabuğday'])\\",
                         "@Spread'i kullanmak biraz daha kolay, şöyle:",
                         "\\['elma' 'muz' 'mango' :['karpuz' 'karabuğday']]\\"
                     ],
@@ -1042,7 +1045,7 @@
                 "first": {
                     "doc": [
                         "$~İçimdeki ilk madde, ya da boşsam @None.",
-                        "\\['elma' 'muz' 'mango'].first()\\"
+                        "\\['elma' 'muz' 'mango'].Birinci()\\"
                     ],
                     "names": "$~Birinci",
                     "inputs": []
@@ -1058,9 +1061,9 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ eğer içimde verilen öğeye eşit bir @element varsa.",
-                        "\\['elma' 'muz' 'mango'].has('muz')\\"
+                        "\\['elma' 'muz' 'mango'].içerir('muz')\\"
                     ],
-                    "names": "$~sahipolmak",
+                    "names": ["$~içerir", "$~sahipolmak"],
                     "inputs": [
                         {
                             "doc": "$~Aranacak @value.",
@@ -1071,9 +1074,9 @@
                 "join": {
                     "doc": [
                         "$~Listemdeki öğeleri @Text ayırıcısı ile ayırarak @Text'te birleştiriyorum.",
-                        "\\['elma' 'muz' 'mango'].join(', ')\\"
+                        "\\['elma' 'muz' 'mango'].birleştir(', ')\\"
                     ],
-                    "names": "$~katılmak",
+                    "names": ["$~birleştir", "$~katılmak"],
                     "inputs": [
                         {
                             "doc": "$~Öğeleri ayırmak için kullanılacak metin, isteğe bağlı olarak boş bırakılabilir.",
@@ -1108,7 +1111,7 @@
                 "sansFirst": {
                     "doc": [
                         "$~İlk maddemi yazmadan bir liste oluşturuyorum.",
-                        "\\['elma' 'muz' 'mango'].sansFirst()\\"
+                        "\\['elma' 'muz' 'mango'].İlkolmadan()\\"
                     ],
                     "names": ["$~İlkolmadan", "$~sansİlk"],
                     "inputs": []
@@ -1116,7 +1119,7 @@
                 "sansLast": {
                     "doc": [
                         "$~Son maddemi yazmadan bir liste oluşturuyorum.",
-                        "\\['elma' 'muz' 'mango'].sansLast()\\"
+                        "\\['elma' 'muz' 'mango'].Sonolmadan()\\"
                     ],
                     "names": ["$~Sonolmadan", "$~sansSon"],
                     "inputs": []
@@ -1137,7 +1140,7 @@
                 "reverse": {
                     "doc": [
                         "$~Ben, ama tam tersi!",
-                        "\\['apple' 'banana' 'mango'].reverse()\\"
+                        "\\['apple' 'banana' 'mango'].tersineçevrilmiş()\\"
                     ],
                     "names": ["$~tersineçevrilmiş", "$~tersi"],
                     "inputs": []
@@ -1172,9 +1175,9 @@
                     "doc": [
                         "$~Bana girdi olarak bir @value ve isteğe bağlı bir @index alıp bir değer üreten bir @FunctionDefinition ver, ben de onu her öğemde çalıştırıp değerlerimi yeni değerlere çeviririm.",
                         "Örneğin, bir @Number listesi olduğumu ve hepsini iki katına çıkarmak istediğini düşün:",
-                        "\\[2 4 6 8].tercümeetmek(ƒ(num•#) num × 2)\\"
+                        "\\[2 4 6 8].dönüştür(ƒ(num•#) num × 2)\\"
                     ],
-                    "names": "$~tercümeetmek",
+                    "names": ["$~dönüştür", "$~tercümeetmek"],
                     "inputs": [
                         {
                             "doc": "$~Her bir öğeyi çevirecek olan @FunctionDefinition.",
@@ -1372,7 +1375,7 @@
                 "sum": {
                     "doc": [
                         "$~Tüm sayılarımı topla. Eğer boşsam, sonuç 0 olur, ve eğer sayılarımın hepsi aynı şeyde ölçülmemişse, tahmin etmek yerine bunu söylerim.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].toplam()\\"
                     ],
                     "names": "$~toplam",
                     "inputs": []
@@ -1380,7 +1383,7 @@
                 "average": {
                     "doc": [
                         "$~Tüm sayılarımı topla ve kaç tane olduklarına böl. Eğer boşsam ortalama alınacak bir şey yok demektir, bu yüzden @None alırsın.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].ortalama()\\"
                     ],
                     "names": "$~ortalama",
                     "inputs": []
@@ -1513,7 +1516,7 @@
                     "doc": [
                         "$~Bana bir öğeyi alıp tutulması gerekiyorsa \\⊤\\ üreten bir @FunctionDefinition verin, ben de yalnızca kriterlerinizi karşılayan öğeleri içeren bir @Set oluşturayım.",
                         "Mesela bendeki tek sayıları bulalım:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.filtre(ƒ(num•#) (num % 2) = 1)\\"
                     ],
                     "names": "$~filtre",
                     "inputs": [
@@ -1537,9 +1540,9 @@
                     "doc": [
                         "$~Bana bir öğeyi alıp ona dayalı yeni bir @element üreten @FunctionDefinition verin, sonra bendeki tüm öğeleri yeni bir @Set'e çevireceğim (tekrarlananları kaldırarak).",
                         "Örneğin, tüm @Number'larımı @Text'e dönüştürelim:",
-                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.dönüştür(ƒ(num•#) num→'')\\"
                     ],
-                    "names": "$~tercümeetmek",
+                    "names": ["$~dönüştür", "$~tercümeetmek"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition, öğelerimden birini istediğiniz yeni öğeye dönüştüren fonksiyondur.",
@@ -1694,7 +1697,7 @@
                         "Örneğin, herkes çok kibar olduğu için hepsine birer puan verelim.",
                         "\\{'amy': 5points 'jen': 3points 'tony': 0points}.tercümeetmek(\n\tƒ(anahtar•'' değer•#points) değer + 1points\n)\\🪲"
                     ],
-                    "names": "$~tercümeetmek",
+                    "names": ["$~dönüştür", "$~tercümeetmek"],
                     "inputs": [
                         {
                             "doc": "$~Her @value öğesini çeviren @FunctionDefinition.",
@@ -1735,7 +1738,7 @@
                 "Ya da bir koşulla eşleşen satırlar için farklı değerleri olan güncellenmiş bir tablo yapmak isteyebilirsin:",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
                 "Ya da bir koşulla eşleşen satırları silmek isteyebilirsin:",
-                "\\kayalar: ⎡isim•'' renk•''⎦\n\t⎡'obsidyen' 'siyah'⎦\n\t⎡'ponza' 'gri'⎦\n\t⎡'sitrin' 'sarı'⎦\nkayalar ⎡- isim.sahipolmak('i')\\",
+                "\\kayalar: ⎡isim•'' renk•''⎦\n\t⎡'obsidyen' 'siyah'⎦\n\t⎡'ponza' 'gri'⎦\n\t⎡'sitrin' 'sarı'⎦\nkayalar ⎡- isim.içerir('i')\\",
                 "Benden belirli değerler almak istersen, herhangi bir tabloyu bir listeye dönüştürebilir ve @PropertyReference ile tek tek satırlara erişebilirsin",
                 "\\kayalar: ⎡isim•'' renk•''⎦\n\t⎡'obsidiyen' 'siyah'⎦\n\t⎡'pomza' 'gri'⎦\n\t⎡'sitrin' 'sarı'⎦\n(kayalar → [])[1].isim\\"
             ],
@@ -1832,7 +1835,7 @@
                 },
                 "has": {
                     "doc": "$~\\⊤\\ düz metnim verilen @Text içeriyorsa, biçimlendirmeyi ve paragraf sonlarını dikkate almıyorum.",
-                    "names": ["$~sahipolmak"],
+                    "names": ["$~içerir", "$~sahipolmak"],
                     "inputs": [
                         {
                             "doc": "$~Metnimde aranacak @Text ifadesi.",

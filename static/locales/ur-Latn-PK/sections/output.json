@@ -13,7 +13,7 @@
                 "$~Main @Phrase, @Shape aur @Group ko ek saath @Stage par ek @Arrangement ke zariye sajata hoon. Arre, adaab, aap kaise hain? Jab doosre aas paas hon to main hamesha theek rehta hoon, is liye aap ke saath hona bahut accha hai!",
                 "Kaam karne ke liye mujhe aap se ek @Arrangement chahiye, aur phir sajane ke liye @Output ki ek @List.",
                 "Masalan, yahan main ek @Stack tarteeb ke saath hoon aur kuch @Phrase ko seedha khade rukh jama rahe hain:",
-                "\\Group(Stack() [Phrase('pehla') Phrase('doosra')])\\",
+                "\\Group(Tah() [Jumla('pehla') Jumla('doosra')])\\",
                 "Main cheezon ko kaise sajata hoon, yeh us @Arrangement par munhasir hai jo aap mujhe dete hain."
             ],
             "names": ["$~🔳", "$~Group"],
@@ -117,7 +117,7 @@
             "doc": [
                 "$~Main @Stage par @Text mein sab se pyaari hoon. Hello, hello! Mujhe yaad hai? Koi mujhe kaise bhool sakta hai /me/.",
                 "Bas mujhe aise banayein, aur main @Stage par nazar aaungi:",
-                "\\Phrase('shaandaar!')\\",
+                "\\Jumla('shaandaar!')\\",
                 "Mujhe dikhne ke liye @TextLiteral ya @FormattedLiteral chahiye. @FormattedLiteral ke saath, main \\`*mota* aur /tirchha/`\\ jaisi cheezein istemaal kar sakti hoon ya aapke banaye hue @ConceptLink ka zikr kar sakti hoon.",
                 "Aap mujhe woh sab kuch bhi de sakte hain jo ek @Output kar sakta hai, jaise mera size, font, ghumaav badalna, aur @Pose aur @Sequence ke saath mere tamam kamaal ke naach.",
                 "Aap mujhe @Stage par chun kar saath wale palette 🎨 se badal bhi sakte hain. Yeh alag alag font aazmane aur apne @Text ke liye sahi /khat/ chunne ka bohat achha tareeqa hai."
@@ -163,10 +163,10 @@
                 "doc": [
                     "$~Baat karne wala bubble jo dikhata hai main kya keh rahi hoon, aur seedha mujh ki taraf ishara karta hai. Yahan chaar alag cheezein ho sakti hain.",
                     "Saada matn, jo main dikhati hoon aur kuch nahin:",
-                    "\\Phrase('a' bulbula: 'hello!')\\",
+                    "\\Jumla('a' bulbula: 'hello!')\\",
                     "@markup, agar aap mere alfaaz mein *mota* ya /tirchha/ likhna chahein.",
                     "Ek @Say, jo main dikhati *aur* zor se bolti bhi hoon:",
-                    "\\Phrase('a' bulbula: Say('hello!'))\\",
+                    "\\Jumla('a' bulbula: Bolo('hello!'))\\",
                     "Ek @Bubble, jab aap chunna chahein ke main kis taraf se bolun, ise soch bana dein, ya ise rang dein."
                 ],
                 "names": "$~bulbula"
@@ -174,9 +174,9 @@
             "poses": {
                 "doc": [
                     "$~Mere har glyph ke liye @Pose, ek ke baad ek. Pehle glyph ko pehla pose milta hai, doosre ko doosra, aur jab poses khatam ho jayein to main phir pehle se shuru karti hoon. @placeholder bhi glyph gine jaate hain.",
-                    "\\Phrase(\n\t'jashn!'\n\tadaayen: [\n\t\tPose(rang: Color(25% 70 250°))\n\t\tPose(rang: Color(50% 80 300°))\n\t\tPose(rang: Color(58% 90 60°))\n\t]\n)\\",
+                    "\\Jumla(\n\t'jashn!'\n\tadaayen: [\n\t\tAndaaz(rang: Rang(25% 70 250°))\n\t\tAndaaz(rang: Rang(50% 80 300°))\n\t\tAndaaz(rang: Rang(58% 90 60°))\n\t]\n)\\",
                     "Har glyph apne beech ke gird ghoomta, barhta aur hilta hai, is liye ek pose har glyph ko apni jagah par tirchha kar deta hai jabke meri line seedhi rehti hai:",
-                    "\\Phrase('daghmagata hua' adaayen: Pose(ghumaao: 15°))\\",
+                    "\\Jumla('daghmagata hua' adaayen: Andaaz(ghumaao: 15°))\\",
                     "Glyph ka apna rang mere rang par aur mere animate kiye hue har pose par bhaari hota hai, aur us ki opacity meri opacity ke saath mil jaati hai."
                 ],
                 "names": "$~adaayen"
@@ -533,9 +533,9 @@
             "doc": [
                 "$~Main matn ko @Stage par dikhane ke bajaye bol kar sunata hoon. Hi!",
                 "Bas mujhe kuch kehne ko dein, aur jab bhi mujhe diya gaya matn badlega, main usay bolunga:",
-                "\\Say('bla bla bla')\\",
+                "\\Bolo('bla bla bla')\\",
                 "Main matn ko usi @language mein bolta hoon jis ka tag usay laga hota hai, aur bina tag wale matn ko us zubaan mein jo aap ke program ne chuni ho. Agar aap alag alag zubaanon ka matn jodein, to main har hissa us ki apni zubaan mein bolta hoon:",
-                "\\Say('hola '/es + 'dost'/ur)\\",
+                "\\Bolo('hola '/es + 'dost'/ur)\\",
                 "Aap settings mein ek aawaaz chun sakte hain."
             ],
             "names": ["$~Bolo"],
@@ -549,21 +549,21 @@
             "doc": [
                 "$~Main sur (notes) ko aawaaz mein badalta hoon: ek ya zyada @Track ek saath bajte hain, ek raftaar par, ek kunji mein, ek scale ke mutabiq. Main woh mausiqi hoon jo aap sun /aur/ dekh sakte hain — har dekhne wala khud chunta hai ke main kaise nazar aaun.",
                 "Sab se chhota gaana ek track par teen sur ka hota hai:",
-                "\\Music(Track([1 3 5]))\\",
+                "\\Mauseeqi(Dhun([1 3 5]))\\",
                 "Sur ginti hote hain. 1 scale ka pehla sur hai — woh jis par dhun mukammal lagti hai — 2 us se agla oopar wala sur hai, aur 8 wahi pehla sur hai, ek octave oopar. ø ek wakfa hai, yaani khamoshi. Ginti dono taraf aage barhti rehti hai: 9 doosra sur hai ek octave oopar, aur 0 aur -1 pehle sur se neeche jaate hain.",
-                "Ek /scale/ un thode se suron ka majmua hai jin se ek tukda banta hai, aur kaun se sur hain, yeh us ke mizaaj ka zyada tar hissa tay karta hai. Agar aap kuch na kahein to @Music/scale \\Music.major\\ hota hai, jo roshan lagta hai; \\Music.minor\\ bilkul unhi ginti se zyada udaas lagta hai. Ek /kunji/ yeh hai ke poora tukda kitna oonchi ya neechi jagah par hai, jo @Music/key se tay hoti hai. Aur @Music/tempo yeh hai ke woh kitni tez bajta hai, har minute ke beats mein — beat woh yaksaan dhadkan hai jis par aap taali bajayenge.",
+                "Ek /scale/ un thode se suron ka majmua hai jin se ek tukda banta hai, aur kaun se sur hain, yeh us ke mizaaj ka zyada tar hissa tay karta hai. Agar aap kuch na kahein to @Music/scale \\Mauseeqi.bara\\ hota hai, jo roshan lagta hai; \\Mauseeqi.chhota\\ bilkul unhi ginti se zyada udaas lagta hai. Ek /kunji/ yeh hai ke poora tukda kitna oonchi ya neechi jagah par hai, jo @Music/key se tay hoti hai. Aur @Music/tempo yeh hai ke woh kitni tez bajta hai, har minute ke beats mein — beat woh yaksaan dhadkan hai jis par aap taali bajayenge.",
                 "Kyunki sur ginti hain aur tay shuda aawaaz nahin, is liye teeno cheezein dhun ko chhue baghair badal sakti hain. Yeh wahi teen sur hain, zyada udaas, neeche, aur dheere:",
-                "\\Music(\n\tTrack([1 3 5])\n\tpaimaana: Music.minor\n\tkunji: -5semitones\n\traftaar: 60beats/min\n)\\",
+                "\\Mauseeqi(\n\tDhun([1 3 5])\n\tpaimaana: Mauseeqi.chhota\n\tkunji: -5semitones\n\traftaar: 60beats/min\n)\\",
                 "Ek track apne aakhir par pahunch kar dobara shuru ho jaata hai, is liye chhoti si fehrist ek dhun hai jo hamesha bajti rehti hai. Yeh chaar beat lambi hai, aur beech ki khaali jagahon mein wakfe hain:",
-                "\\Music(Track([1 ø 5 ø]) raftaar: 90beats/min)\\",
+                "\\Mauseeqi(Dhun([1 ø 5 ø]) raftaar: 90beats/min)\\",
                 "Mujhe tracks ki fehrist dein to woh ek saath bajte hain, har ek ka apna saaz, raftaar aur awaaz ka zor hota hai. Yahan bass drum aur snare beat ko qaim rakhte hain jabke hi-hat dugni raftaar se chalta hai — ek hi ginti se ek polyrhythm. Drums ek kit hain, sur wale nahin, is liye un ki ginti sur ke bajaye kit ke hisse chunti hain:",
-                "\\Music(\n\t[\n\t\tTrack([1 ø 2 ø 1 ø 2 ø] saaz: Instrument.drums)\n\t\tTrack(\n\t\t\t[3 3 3 3 3 3 3 3]\n\t\t\tsaaz: Instrument.drums\n\t\t\ttaal: 0.5beats\n\t\t\tawaaz: 30%\n\t\t)\n\t]\n\traftaar: 96beats/min\n)\\",
+                "\\Mauseeqi(\n\t[\n\t\tDhun([1 ø 2 ø 1 ø 2 ø] saaz: Saaz.dhol)\n\t\tDhun(\n\t\t\t[3 3 3 3 3 3 3 3]\n\t\t\tsaaz: Saaz.dhol\n\t\t\ttaal: 0.5beats\n\t\t\tawaaz: 30%\n\t\t)\n\t]\n\traftaar: 96beats/min\n)\\",
                 "Qaus ke andar ginti ek saath ek chord ki tarah bajti hain, aur kisi ginti par likha gaya sur @value us entry ko apni lambai deta hai. Yahan do poore sur wale chord chalti hui dhun ke neeche tikte hain:",
-                "\\Music(\n\t[\n\t\tTrack([1 2 3 5 3 2 1 ø] saaz: Instrument.flute)\n\t\tTrack(\n\t\t\t[{1𝅝 3 5} {5𝅝 7 9}]\n\t\t\tsaaz: Instrument.piano\n\t\t\tawaaz: 50%\n\t\t)\n\t]\n)\\",
+                "\\Mauseeqi(\n\t[\n\t\tDhun([1 2 3 5 3 2 1 ø] saaz: Saaz.baansuri)\n\t\tDhun(\n\t\t\t[{1𝅝 3 5} {5𝅝 7 9}]\n\t\t\tsaaz: Saaz.piano\n\t\t\tawaaz: 50%\n\t\t)\n\t]\n)\\",
                 "Jo bhi ginti banata hai, woh mausiqi bana sakta hai. Yeh dhun khud ko naye tarteeb mein milati hai, aur is baat ko follow karti hai ke aap kitni zor se bol rahe hain:",
-                "\\Music(\n\tTrack([1 2 3 5 3 2 1].shuffled())\n\traftaar: (60 + (Volume() · 120)) · 1beats/min\n)\\",
+                "\\Mauseeqi(\n\tDhun([1 2 3 5 3 2 1].betarteeb())\n\traftaar: (60 + (AwaazKiUnchaai() · 120)) · 1beats/min\n)\\",
                 "Kisi ko mujhe sunna zaroori nahin. @Beat har beat ko bajte waqt bata deta hai, taake aap mausiqi ko bajane ke saath saath bana bhi sakein, us visualization ke saath jo dekhne wale ne chuni ho. @Beat ke paas hamesha ek @Downbeat hota hai, is liye aap use bina kuch jaanche parh sakte hain:",
-                "\\dhun: Beat()\nginti: dhun.count\nStage(\n\t[\n\t\tPhrase(\n\t\t\t'◆'\n\t\t\tsize: 1m + ((ginti % 4) = 0 ? 2m 0m)\n\t\t\tjagah: Place(-2m 2m)\n\t\t)\n\t\tPhrase(\n\t\t\t'◆'\n\t\t\tsize: 1m + ((ginti % 4) = 2 ? 2m 0m)\n\t\t\tjagah: Place(2m 2m)\n\t\t)\n\t\tMusic(Track([1 ø 5 ø] saaz: Instrument.drums))\n\t]\n)\\",
+                "\\dhun: Thaap()\nginti: dhun.ginti\nStage(\n\t[\n\t\tJumla(\n\t\t\t'◆'\n\t\t\tsize: 1m + ((ginti % 4) = 0 ? 2m 0m)\n\t\t\tjagah: Jagah(-2m 2m)\n\t\t)\n\t\tJumla(\n\t\t\t'◆'\n\t\t\tsize: 1m + ((ginti % 4) = 2 ? 2m 0m)\n\t\t\tjagah: Jagah(2m 2m)\n\t\t)\n\t\tMauseeqi(Dhun([1 ø 5 ø] saaz: Saaz.dhol))\n\t]\n)\\",
                 "Mera apna koi andaaz nahin jis ko saja saken, is liye main aam zaahiri inputs mein se koi nahin leta — na size, na jagah, na rang, na animation. Main kaisa nazar aaun, yeh dekhne wale ki pasand hai, jo woh apni settings mein karta hai, aur woh stage se jura hota hai, aap ke layout mein nahin; main koi jagah nahin ghairta, is liye mujhe @Row ya @Stack mein rakhne se mere paas ki koi cheez nahin hilti. Mausiqi ko khud banane ke liye @Beat istemaal karein: woh aap ko har beat bajte waqt deta hai, taake aap jo chahein output chala sakein.",
                 "Main evaluation ke dauran bajta rehta hoon: jab main baj raha hoon to mere sur badlein, aur tabdeeli agle beat par jud jaati hai, dobara shuru hone ke bajaye, aur isi se dhun ko beech mein badalna mausiqi jaisa lagta hai. Mujhe shuru se dobara bajane ke liye @Music/replay dekhein; mujhe roke rakhne aur usi jagah se dobara shuru karne ke liye @Music/pause dekhein."
             ],
@@ -582,15 +582,15 @@
                     "Ikaai semitone hai. Semitone maghribi mausiqi ka sab se chhota qadam hai: piano par yeh ek kunji se bilkul agli kunji tak ka faasla hai, kaali kunjiyan bhi ginte hue, aur baarah semitone mil kar ek octave banate hain. Is liye \\kunji: 12semitones\\🪲 wahi dhun hai jo ek octave upar ho, \\kunji: -12semitones\\🪲 ek octave neeche, aur \\kunji: 2semitones\\🪲 usay zara sa upar dhakelta hai.",
                     "Yahan do tarah ki ginti milti hain, aur inhein aapas mein milaana aasaan hai. Sur /scale ke qadam/ ginte hain, jahan octave \\8\\ hota hai: \\1\\ se \\8\\ tak ek octave hai. Kunji /semitone/ ginti hai, jahan octave \\12\\ hota hai. Dono ek hi faasle ko bayaan karte hain: saat surun wale scale mein \\1\\ se \\8\\ tak ke aath qadam baarah semitone ke barabar hain. Kunji semitone mein naapi jaati hai kyunki semitone har scale mein ek jitna hota hai, jabke qadam aisa nahin: @Music/scale ke pentatonic mein ek octave mein paanch sur hain aur major mein saat, is liye qadamon se khiskane par har scale alag faasla tay karta, jabke \\12semitones\\ har scale mein ek octave hai.",
                     "Kyunki kunji sirf ek number hai, yeh kahin se bhi aa sakti hai. Yahan poori dhun do semitone upar uthti hai jab /up/ muntakhab ho — @Choice ko stage par koi chuni jaane wali cheez chahiye jise woh parh sake, aur yeh dono jumle yahi kaam karte hain:",
-                    "\\Stage(\n\t[\n\t\tPhrase(\n\t\t\t'up'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'up'\n\t\t\tjagah: Place(-2m 0m)\n\t\t)\n\t\tPhrase(\n\t\t\t'ghar'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'ghar'\n\t\t\tjagah: Place(2m 0m)\n\t\t)\n\t\tMusic(\n\t\t\tTrack([1 3 5 8 5 3])\n\t\t\tkunji: (Choice() = 'up' ? 2semitones 0semitones)\n\t\t)\n\t]\n)\\"
+                    "\\Stage(\n\t[\n\t\tJumla(\n\t\t\t'up'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'up'\n\t\t\tjagah: Jagah(-2m 0m)\n\t\t)\n\t\tJumla(\n\t\t\t'ghar'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'ghar'\n\t\t\tjagah: Jagah(2m 0m)\n\t\t)\n\t\tMauseeqi(\n\t\t\tDhun([1 3 5 8 5 3])\n\t\t\tkunji: (Intikhaab() = 'up' ? 2semitones 0semitones)\n\t\t)\n\t]\n)\\"
                 ],
                 "names": "$~kunji"
             },
             "scale": {
                 "doc": [
                     "$~Mere numberon ka matlab kaun se sur hain: pehle sur se semitone ke faasloon ki list.",
-                    "Scale un chhote surun ka majmua hai jin se dhun banti hai, aur scale chunna mizaaj chunne ka zyada hissa hai. Wahi dhun \\Music.major\\ mein roshan lagti hai, \\Music.minor\\ mein udaas, aur \\Music.wholeTone\\ mein khwaab jaisi, jabke ek bhi number nahin badalta.",
-                    "Mere kuch scales mein koi galat sur nahin hota: \\Music.pentatonic\\, \\Music.minorPentatonic\\ aur \\Music.blues\\ kisi bhi tarteeb mein achhe lagte hain, is liye yeh shuru karne ke liye achhi jagah hain. Doosre jaan boojh kar tez hain — \\Music.altered\\, \\Music.diminished\\ aur \\Music.locrian\\ be-sura sunaai denge, aur yehi unka maqsad hai.",
+                    "Scale un chhote surun ka majmua hai jin se dhun banti hai, aur scale chunna mizaaj chunne ka zyada hissa hai. Wahi dhun \\Mauseeqi.bara\\ mein roshan lagti hai, \\Mauseeqi.chhota\\ mein udaas, aur \\Mauseeqi.pooraSur\\ mein khwaab jaisi, jabke ek bhi number nahin badalta.",
+                    "Mere kuch scales mein koi galat sur nahin hota: \\Mauseeqi.paanchSuri\\, \\Mauseeqi.chhotaPaanchSuri\\ aur \\Mauseeqi.blues\\ kisi bhi tarteeb mein achhe lagte hain, is liye yeh shuru karne ke liye achhi jagah hain. Doosre jaan boojh kar tez hain — \\Mauseeqi.tabdeelShuda\\, \\Mauseeqi.ghata\\ aur \\Mauseeqi.locrian\\ be-sura sunaai denge, aur yehi unka maqsad hai.",
                     "Aap apni list bhi likh sakte hain. Yeh ek pentatonic scale hai jo likh kar dikhaya gaya hai: \\[0semitones 2semitones 4semitones 7semitones 9semitones]\\"
                 ],
                 "names": "$~paimaana"
@@ -603,8 +603,8 @@
                 "doc": [
                     "$~Jab yeh kisi jaanch par \\⊤\\ ho, to main shuru se dobara chalta hoon, chahe mere surun mein koi tabdeeli na hui ho.",
                     "Yeh un awaazon ke liye hai jo kisi waqiye ka jawab dein, na ke musalsal baje. Agar sahi jawab par ding bajta hai, to lagataar do sahi jawab bilkul ek jaisi mausiqi banate hain, is liye kuch nahin badalta aur kuch dobara nahin bajta. Main woh hoon jis se aap kehte hain /dobara, abhi/ — neeche /right/ do baar chunein to ding do baar bajega:",
-                    "\\Stage(\n\t[\n\t\tPhrase(\n\t\t\t'right'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'right'\n\t\t\tjagah: Place(-2m 0m)\n\t\t)\n\t\tPhrase(\n\t\t\t'ghalat'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'ghalat'\n\t\t\tjagah: Place(2m 0m)\n\t\t)\n\t\tMusic(\n\t\t\tTrack([1 5 8] saaz: Instrument.bell chakkar: ⊥)\n\t\t\tdobaara: ∆ Choice() ? (Choice() = 'right') ⊥\n\t\t)\n\t]\n)\\",
-                    "Mujhe ek /lamhaati/ @condition dein, jo sirf usi jaanch par sach ho jis ko waqiye ne shuru kiya, jaise upar wala \\∆ Choice()\\. \\score > 10\\🪲 jaisi qaayam rehne wali shart ek baar sach hone ke baad sach rehti hai, is liye woh us ke baad har jaanch par mujhe dobara shuru kar degi."
+                    "\\Stage(\n\t[\n\t\tJumla(\n\t\t\t'right'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'right'\n\t\t\tjagah: Jagah(-2m 0m)\n\t\t)\n\t\tJumla(\n\t\t\t'ghalat'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'ghalat'\n\t\t\tjagah: Jagah(2m 0m)\n\t\t)\n\t\tMauseeqi(\n\t\t\tDhun([1 5 8] saaz: Saaz.ghanti chakkar: ⊥)\n\t\t\tdobaara: ∆ Intikhaab() ? (Intikhaab() = 'right') ⊥\n\t\t)\n\t]\n)\\",
+                    "Mujhe ek /lamhaati/ @condition dein, jo sirf usi jaanch par sach ho jis ko waqiye ne shuru kiya, jaise upar wala \\∆ Intikhaab()\\. \\score > 10\\🪲 jaisi qaayam rehne wali shart ek baar sach hone ke baad sach rehti hai, is liye woh us ke baad har jaanch par mujhe dobara shuru kar degi."
                 ],
                 "names": "$~dobaara"
             },
@@ -612,7 +612,7 @@
                 "doc": [
                     "$~Jab tak yeh \\⊤\\ hai main ruka rehta hoon, aur jab yeh wapas \\⊥\\ hota hai to main usi dhadkan se aage badhta hoon jahan ruka tha.",
                     "Yehi mujhe @Music/replay se alag karta hai: replay ka matlab /shuru se karo/ hai, aur mera matlab /yahin ruko/ hai. Jo sur rukte waqt bhi baj raha tha, woh dobara shuru hone par apna bacha hua hissa poora bajata hai, is liye lambe chord ke beech mein rukne se woh zaaya nahin hota. Neeche /hold/ aur /go/ chunein:",
-                    "\\Stage(\n\t[\n\t\tPhrase(\n\t\t\t'hold'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'hold'\n\t\t\tjagah: Place(-2m 0m)\n\t\t)\n\t\tPhrase(\n\t\t\t'jaana'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'jaana'\n\t\t\tjagah: Place(2m 0m)\n\t\t)\n\t\tMusic(\n\t\t\tTrack([1 3 5 8 5 3] saaz: Instrument.piano)\n\t\t\twaqfa: Choice() = 'hold'\n\t\t)\n\t]\n)\\",
+                    "\\Stage(\n\t[\n\t\tJumla(\n\t\t\t'hold'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'hold'\n\t\t\tjagah: Jagah(-2m 0m)\n\t\t)\n\t\tJumla(\n\t\t\t'jaana'\n\t\t\tchunaJaSakneWala: ⊤\n\t\t\tnaam: 'jaana'\n\t\t\tjagah: Jagah(2m 0m)\n\t\t)\n\t\tMauseeqi(\n\t\t\tDhun([1 3 5 8 5 3] saaz: Saaz.piano)\n\t\t\twaqfa: Intikhaab() = 'hold'\n\t\t)\n\t]\n)\\",
                     "Replay ke bar'aks, mujhe ek /qaayam/ @condition chahiye, jo utni der sach rahe jitni der aap khamoshi chahte hain. Mere @Beat ki ginti bhi mere saath ruk jaati hai aur wahin se aage barhti hai, sifar se dobara shuru nahin hoti."
                 ],
                 "names": "$~waqfa"
@@ -684,7 +684,7 @@
                 },
                 "altered": {
                     "doc": "$~Altered scale: jaan boojh kar bemel, dominant chords par tanaao paida karne ke liye. Yahan kuchh sur ghalat lagte hain, aur yehi is ka maqsad hai.",
-                    "names": "$~badla"
+                    "names": ["$~tabdeelShuda", "$~badla"]
                 },
                 "bebopDominant": {
                     "doc": "$~Bebop dominant scale: mixolydian aur ek natural saatwan sur, aath sur taake runs beat par khatam hon.",
@@ -709,20 +709,20 @@
             "doc": [
                 "$~Main @Music mein ek aawaaz hoon: suron ki ek silsila jo ek @Instrument bajata hai.",
                 "Mere sur adad hain, wohi adad jo @Music samjhata hai — 1 scale ka pehla sur hai, 8 wohi sur ek octave upar hai, ø khaamoshi hai, aur \\{1 3 5}\\ jaise braces mein adad ek saath chord ki tarah bajte hain:",
-                "\\Music(Track([1 ø {1 3 5} 8]))\\",
+                "\\Mauseeqi(Dhun([1 ø {1 3 5} 8]))\\",
                 "Sur poore adad hi hon, zaroori nahin. \\1.5\\ pehle aur doosre sur ke darmiyaan hai, aur dono bajte hain — qareeb wala zyada tez — is liye adad ko suron par sarkaana aisa lagta hai jaise piano ki kunjiyaan dabayi jaa rahi hon:",
-                "\\Music(Track([1 1.2 1.4 1.6 1.8 2] taal: 0.5beats))\\",
+                "\\Mauseeqi(Dhun([1 1.2 1.4 1.6 1.8 2] taal: 0.5beats))\\",
                 "Mera @Track/mash \\⊥\\ par rakhein, to is tarah ka adad do sur bajane ke bajaye ek sur ko pitch se hata kar mor deta hai.",
                 "Har entry meri @Track/beat tak chalti hai, jo ek beat hai jab tak aap isay na badlein. Isay badalne se main jo kuchh bajata hoon woh sab ek saath dobara tarteeb paata hai.",
                 "Jab koi ek entry baqi se lambi ya chhoti honi ho, to lambaai adad par hi ek note @value ke tor par likhein. \\8𝅗𝅥\\ aadha note hai — ek beat se do guna lamba — aur is ke aas paas kuchh likhne ki zaroorat nahin:",
-                "\\Music(Track([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "\\Mauseeqi(Dhun([1 ø {1 3 5} 8𝅗𝅥]))\\",
                 "Paanch qeematein hain: \\𝅝\\ chaar beats tak chalta hai, \\𝅗𝅥\\ do, \\𝅘𝅥\\ ek, \\𝅘𝅥𝅮\\ aadha beat, aur \\𝅘𝅥𝅯\\ ek beat ka chauthaai. In mein se kisi ke baad nuqta lagane se woh aadha aur lamba ho jata hai, to \\𝅘𝅥𝅭\\ derh beat ka hai. Chauthaai note ek beat ka hota hai chahe meri beat kuchh bhi ho, is liye \\dhun: 1𝅘𝅥𝅮\\🪲 wohi kehta hai jo \\0.5beats\\ kehta hai, aur zyada saaf parha jata hai. Chord par, qeemat pehle adad par rakhein: \\{1𝅗𝅥 3 5}\\.",
                 "Yeh dhoondhna mushkil hai, is liye @editor ke neeche ki alaamaton ki qataar inhein tab dikhati hai jab aap ka cursor mere kisi adad ke bilkul baad ho.",
                 "Khaamoshi qeemat nahin rakh sakti, kyunke \\ø\\ adad nahin hai. Do khaamoshiyan ek saath do guni lambi hoti hain, aur is se bareek kaam ke liye @Note hai.",
                 "Jab kisi ek sur ko apni alag awaaz chahiye ho, ya aisi lambaai chahiye jo koi qeemat na likh sake, to us ek ko @Note mein lapeitein. Isay sirf wahin istemaal karein jahan zaroorat ho: saada adad parhna aasaan hai, is liye zyada tar tracks mein yeh hota hi nahin, aur isi nayaab hone se @Note ek waqiye ki tarah numaya hota hai.",
-                "\\khaana: [1 3 5 3]\nMusic(\n\tTrack(\n\t\tkhaana\n\t\t.append(\n\t\t\tkhaana.translate(ƒ(n2•#) n2 + 2)\n\t\t)\n\t\t.append(\n\t\t\tkhaana.reverse()\n\t\t)\n\t\t.append(\n\t\t\tkhaana.translate(ƒ(n3•#) 8 - n3)\n\t\t)\n\t\tsaaz: Instrument.piano\n\t)\n)\\",
+                "\\khaana: [1 3 5 3]\nMauseeqi(\n\tDhun(\n\t\tkhaana\n\t\t.fehristKeSaath(\n\t\t\tkhaana.badlo(ƒ(n2•#) n2 + 2)\n\t\t)\n\t\t.fehristKeSaath(\n\t\t\tkhaana.ulta()\n\t\t)\n\t\t.fehristKeSaath(\n\t\t\tkhaana.badlo(ƒ(n3•#) 8 - n3)\n\t\t)\n\t\tsaaz: Saaz.piano\n\t)\n)\\",
                 "Round ke liye bas khaamoshiyon se bharna kaafi hai: dono hisson mein beats ki tadaad barabar hoti hai, is liye woh saath saath chalte hain aur alag nahin hote. Do lists ko : se ek mein phailana unhein banane ka tareeqa hai, kyunke \\append\\ ko dono lists mein ek hi qism ki cheez chahiye.",
-                "\\dhun: [1 2 3 1 1 2 3 1 3 4 5 ø]\nbaqi: [ø ø ø ø]\nMusic(\n\t[\n\t\tTrack([:dhun :baqi] saaz: Instrument.flute)\n\t\tTrack([:baqi :dhun] saaz: Instrument.violin)\n\t]\n)\\"
+                "\\dhun: [1 2 3 1 1 2 3 1 3 4 5 ø]\nbaqi: [ø ø ø ø]\nMauseeqi(\n\t[\n\t\tDhun([:dhun :baqi] saaz: Saaz.baansuri)\n\t\tDhun([:baqi :dhun] saaz: Saaz.violin)\n\t]\n)\\"
             ],
             "names": ["$~Dhun"],
             "notes": {
@@ -762,16 +762,16 @@
                 "names": "$~milaao"
             },
             "words": {
-                "doc": "$~@Instrument/voice ke gaane ke liye bol. Har sur ke liye ek bol, @placeholder se alag kiye hue, to \\'so mi fa'\\ teen sur gaata hai aur khaali jagahein batati hain ke ek bol kahan khatam hota hai aur agla kahan shuru hota hai.\n\nKhamoshi ko koi bol nahin chahiye, is liye gaana un suron par aata hai jo waqai bajte hain. Agar bol suron se kam hon, to woh khamosh hone ke bajaye shuru se dobara shuru ho jaate hain. Agar bilkul na hon, to aawaaz ek /uh/ aawaaz rokti hai.\n\nKisi bol ko hyphen par khatam karein to woh agle sur par bhi ruka rehta hai, har hyphen par ek aur sur — yun aap ek bol ko kai suron par gaate hain. \\Track([1 2 3 4] alfaaz: 'la- mi so')\\ mein, \\la\\ pehle do suron ko dhakta hai, phir \\mi\\ aur \\so\\ ek ek lete hain.\n\nHijje <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ke hain, jahan har harf ek aawaaz hai. Har aawaaz dekhne aur sunne ke liye @editor ke neeche 🤖 dabayein. Jo harf main nahin pehchanta woh chhor diye jaate hain. Aawaaz ke siwa har saaz mujhe nazar andaaz karta hai, is liye @Track/instrument badalne aur wapas karne par bhi bol bache rehte hain.",
+                "doc": "$~@Instrument/voice ke gaane ke liye bol. Har sur ke liye ek bol, @placeholder se alag kiye hue, to \\'so mi fa'\\ teen sur gaata hai aur khaali jagahein batati hain ke ek bol kahan khatam hota hai aur agla kahan shuru hota hai.\n\nKhamoshi ko koi bol nahin chahiye, is liye gaana un suron par aata hai jo waqai bajte hain. Agar bol suron se kam hon, to woh khamosh hone ke bajaye shuru se dobara shuru ho jaate hain. Agar bilkul na hon, to aawaaz ek /uh/ aawaaz rokti hai.\n\nKisi bol ko hyphen par khatam karein to woh agle sur par bhi ruka rehta hai, har hyphen par ek aur sur — yun aap ek bol ko kai suron par gaate hain. \\Dhun([1 2 3 4] alfaaz: 'la- mi so')\\ mein, \\la\\ pehle do suron ko dhakta hai, phir \\mi\\ aur \\so\\ ek ek lete hain.\n\nHijje <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ke hain, jahan har harf ek aawaaz hai. Har aawaaz dekhne aur sunne ke liye @editor ke neeche 🤖 dabayein. Jo harf main nahin pehchanta woh chhor diye jaate hain. Aawaaz ke siwa har saaz mujhe nazar andaaz karta hai, is liye @Track/instrument badalne aur wapas karne par bhi bol bache rehte hain.",
                 "names": "$~alfaaz"
             }
         },
         "Note": {
             "doc": [
                 "$~Main @Track mein ek entry hoon jo apni alag aawaaz rakhti hai, ya aisi lambai jo koi note @value nahin likh sakta.",
-                "Zyadatar notes saade numbers hi rehne chahiyein, aur zyadatar lambaiyan number par hi likhne se chhoti hoti hain: \\1𝅗𝅥\\ aadha note hai. Main tab kaam aata hoon jab ek note ko apni aawaaz chahiye, ya aisi lambai jo qeematon ke beech aaye — aur kyunki \\Note(1 2beats ÷ 3)\\ \\1\\ se kahin zyada kehta hai, mujhe har jagah istemaal karne se zaroori notes dab jayenge.",
-                "Triplet seedha hisaab hai: \\Note(1 2beats ÷ 3)\\ kehta hai ke yeh teen do beat bharte hain. Meri lambai note ki qeemat bhi ho sakti hai, is liye \\Note(1 1𝅗𝅥)\\ aur \\Note(1 2beats)\\ wahi do beat hain.",
-                "\\Music(Track([1 1 Note(5 2beats awaaz: 60%) ø]))\\"
+                "Zyadatar notes saade numbers hi rehne chahiyein, aur zyadatar lambaiyan number par hi likhne se chhoti hoti hain: \\1𝅗𝅥\\ aadha note hai. Main tab kaam aata hoon jab ek note ko apni aawaaz chahiye, ya aisi lambai jo qeematon ke beech aaye — aur kyunki \\Sur(1 2beats ÷ 3)\\ \\1\\ se kahin zyada kehta hai, mujhe har jagah istemaal karne se zaroori notes dab jayenge.",
+                "Triplet seedha hisaab hai: \\Sur(1 2beats ÷ 3)\\ kehta hai ke yeh teen do beat bharte hain. Meri lambai note ki qeemat bhi ho sakti hai, is liye \\Sur(1 1𝅗𝅥)\\ aur \\Sur(1 2beats)\\ wahi do beat hain.",
+                "\\Mauseeqi(Dhun([1 1 Sur(5 2beats awaaz: 60%) ø]))\\"
             ],
             "names": ["$~Sur"],
             "degree": {
@@ -789,7 +789,7 @@
         },
         "Instrument": {
             "doc": [
-                "$~Main un saazon mein se ek ka naam hoon jo @Track bajा sakta hai. Main ek tay shuda faehrist hoon: mujhe naam se chunein, jaise \\Instrument.piano\\ ya \\Instrument.🎹\\.",
+                "$~Main un saazon mein se ek ka naam hoon jo @Track bajा sakta hai. Main ek tay shuda faehrist hoon: mujhe naam se chunein, jaise \\Saaz.piano\\ ya \\Saaz.🎹\\.",
                 "Hum mein se zyadatar /pitched/ hain, yaani track ke numbers sur chunte hain aur bade numbers oonche sunayi dete hain. Baqi /kits/ hain: number sur ke bajaye ginti wali faehrist mein se ek aawaaz chunta hai, is liye track dhun ke bajaye taal jaisa parha jaata hai, aur faehrist ke aakhir se aage ke numbers ghoom kar uske shuru par aa jaate hain.",
                 "Hum mein se zyadatar asli recordings bhi hain, un saazon se li gayi jo logon ne waqai bajaye. Synthesizers kisi ki naqal nahin karte — woh oscillators se bane hain, aur wahi unki aawaaz hai. Hum mein se har ek neeche batata hai ke hum kaun se hain."
             ],
@@ -802,126 +802,126 @@
                 "piano": {
                     "doc": [
                         "$~Ek piano. Asli piano se record kiya gaya, aur pitched, is liye numbers sur chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.piano\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.piano\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~🎹", "$~piano"]
                 },
                 "acousticGuitar": {
                     "doc": [
                         "$~Ek classical guitar, jis ki nylon taaron ko pick ke bajaye ungliyon se chheda jaata hai. Asli guitar se record ki gayi, aur pitched, is liye numbers sur chunte hain. Saade \\guitar\\ ka matlab yehi hai, is liye purane projects jinhon ne guitar maangi woh yehi bajate hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.acousticGuitar\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.saadaGuitar\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~saadaGuitar"]
                 },
                 "electricGuitar": {
                     "doc": [
-                        "$~Ek electro-acoustic guitar — khokhli body wali, jis ke andar pickup lagi hai aur jis ke taar steel ke hain, is liye is ki aawaaz nylon wali \\Instrument.acousticGuitar\\ se zyada tez aur lambi goonjti hai. Yeh asli guitar se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.electricGuitar\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "$~Ek electro-acoustic guitar — khokhli body wali, jis ke andar pickup lagi hai aur jis ke taar steel ke hain, is liye is ki aawaaz nylon wali \\Saaz.saadaGuitar\\ se zyada tez aur lambi goonjti hai. Yeh asli guitar se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.bijliGuitar\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~bijliGuitar"]
                 },
                 "violin": {
                     "doc": [
                         "$~Ek violin. Yeh asli violin se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.violin\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.violin\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~🎻", "$~violin"]
                 },
                 "drums": {
                     "doc": [
                         "$~Ek drum kit. Yeh record ki gayi hai, aur sur wali nahin balki kit hai: adad kisi sur ke bajaye kit ka ek hissa chunte hain — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tom tom, \\6\\ cowbell — aur \\7\\ wapas ghoom kar bass drum par aa jata hai.",
-                        "\\Music(\n\tTrack(\n\t\t[1 2 3 4 5 6]\n\t\ttaal: 2beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.drums\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1 2 3 4 5 6]\n\t\ttaal: 2beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.dhol\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~dhol"]
                 },
                 "flute": {
                     "doc": [
                         "$~Ek flute. Yeh asli flute se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.flute\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.baansuri\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~baansuri"]
                 },
                 "trumpet": {
                     "doc": [
                         "$~Ek trumpet. Yeh asli trumpet se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.trumpet\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.bigul\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~bigul"]
                 },
                 "saxophone": {
                     "doc": [
                         "$~Ek saxophone, yaani tenor. Yeh asli saxophone se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.saxophone\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.saxophone\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~🎷", "$~saxophone", "$~sax"]
                 },
                 "harmonica": {
                     "doc": [
                         "$~Ek harmonica, woh wali jis ke side mein button hota hai. Yeh asli harmonica se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.harmonica\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.munhBaaja\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~munhBaaja"]
                 },
                 "bell": {
                     "doc": [
                         "$~Ek ghanti — orchestra ke chimes, jin par hathauri se chot lagayi jati hai. Yeh record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.bell\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.ghanti\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~ghanti"]
                 },
                 "didgeridoo": {
                     "doc": [
                         "$~Ek didgeridoo, jo Australia ke asli baashindon ka saaz hai. Yeh asli didgeridoo se record ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain, magar yeh ek gehri musalsal aawaaz wala saaz hai aur neeche hi rehta hai.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.didgeridoo\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.didgeridoo\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "doc": [
-                        "$~Ek billi — asal mein ek billi ka poora kit. Yeh asli billi se record ki gayi hai, aur sur wali nahin balki kit hai: adad kisi sur ke bajaye yeh chunte hain ke billi kya keh rahi hai — \\1\\ chidhi hui, \\2\\ bheekh mangti hui, \\3\\ bhooki, \\4\\ ehtijaj karti hui, \\5\\ minnat karti hui, \\6\\ khwahish karti hui, \\7\\ pareshan, \\8\\ dari hui, \\9\\ nazuk mizaj, \\10\\ sukoon mein, \\11\\ akeli, \\12\\ ghurghurati hui — aur \\13\\ wapas ghoom kar chidhi hui par aa jata hai. Agar aap sur bajane wali billi chahte hain, to \\Instrument.pitchedCat\\ dekhein.",
-                        "\\Music(\n\tTrack(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\ttaal: 2beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.cat\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "$~Ek billi — asal mein ek billi ka poora kit. Yeh asli billi se record ki gayi hai, aur sur wali nahin balki kit hai: adad kisi sur ke bajaye yeh chunte hain ke billi kya keh rahi hai — \\1\\ chidhi hui, \\2\\ bheekh mangti hui, \\3\\ bhooki, \\4\\ ehtijaj karti hui, \\5\\ minnat karti hui, \\6\\ khwahish karti hui, \\7\\ pareshan, \\8\\ dari hui, \\9\\ nazuk mizaj, \\10\\ sukoon mein, \\11\\ akeli, \\12\\ ghurghurati hui — aur \\13\\ wapas ghoom kar chidhi hui par aa jata hai. Agar aap sur bajane wali billi chahte hain, to \\Saaz.surwaaliBilli\\ dekhein.",
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\ttaal: 2beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.billi\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~billi", "$~miaon"]
                 },
                 "pitchedCat": {
                     "doc": [
-                        "$~Wohi billi, sur mein ki hui. Jo barah recordings kit \\Instrument.cat\\ bajata hai, un mein se yeh woh hai jo ek hi sur par qaim rehti hai, aur yeh kit nahin balki sur wali hai, is liye adad suron ko chunte hain aur aap is se dhun likh sakte hain. Jis sur par record hui thi us se bohat door bajane par meow gaane ke bajaye khinchi hui lagti hai, is liye yeh darmiyan ke sur ke ek saptak ke andar hi behtar lagti hai.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.pitchedCat\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "$~Wohi billi, sur mein ki hui. Jo barah recordings kit \\Saaz.billi\\ bajata hai, un mein se yeh woh hai jo ek hi sur par qaim rehti hai, aur yeh kit nahin balki sur wali hai, is liye adad suron ko chunte hain aur aap is se dhun likh sakte hain. Jis sur par record hui thi us se bohat door bajane par meow gaane ke bajaye khinchi hui lagti hai, is liye yeh darmiyan ke sur ke ek saptak ke andar hi behtar lagti hai.",
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.surwaaliBilli\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~surwaaliBilli"]
                 },
                 "dog": {
                     "doc": [
-                        "$~Ek kutta — asal mein kuttoon ka poora kit. Yeh asli kuttoon se record kiya gaya hai, aur sur wala nahin balki kit hai: adad kisi sur ke bajaye yeh chunte hain ke aap kaun si bhonk sunte hain, jo sab se gehri se sab se tez tak chalti hai — \\1\\ bhaari, \\2\\ khabardar karti hui, \\3\\ pehra deti hui, \\4\\ hoshiyar, \\5\\ zid karti hui, \\6\\ mutalba karti hui, \\7\\ elaan karti hui, \\8\\ betaab, \\9\\ josheeli, \\10\\ be-sabri, \\11\\ chheekhti hui, \\12\\ teekhi — aur \\13\\ wapas ghoom kar bhaari par aa jata hai. Agar aap sur bajane wala kutta chahte hain, to \\Instrument.pitchedDog\\ dekhein.",
-                        "\\Music(\n\tTrack(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\ttaal: 2beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.dog\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "$~Ek kutta — asal mein kuttoon ka poora kit. Yeh asli kuttoon se record kiya gaya hai, aur sur wala nahin balki kit hai: adad kisi sur ke bajaye yeh chunte hain ke aap kaun si bhonk sunte hain, jo sab se gehri se sab se tez tak chalti hai — \\1\\ bhaari, \\2\\ khabardar karti hui, \\3\\ pehra deti hui, \\4\\ hoshiyar, \\5\\ zid karti hui, \\6\\ mutalba karti hui, \\7\\ elaan karti hui, \\8\\ betaab, \\9\\ josheeli, \\10\\ be-sabri, \\11\\ chheekhti hui, \\12\\ teekhi — aur \\13\\ wapas ghoom kar bhaari par aa jata hai. Agar aap sur bajane wala kutta chahte hain, to \\Saaz.surwaalaKutta\\ dekhein.",
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\ttaal: 2beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.kutta\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~kutta", "$~bhaun"]
                 },
                 "pitchedDog": {
                     "doc": [
                         "$~Wohi kutte, sur mein kiye hue. Un tamam bhonkon mein se jin se kit banaya gaya hai, yeh woh hai jo ek hi sur par qaim rehti hai, aur yeh kit nahin balki sur wali hai, is liye adad suron ko chunte hain aur aap is se dhun likh sakte hain. Jis sur par record hui thi us se bohat door bajane par bhonk, bhonkne ke bajaye khinchi hui lagti hai, is liye yeh darmiyan ke sur ke ek saptak ke andar hi behtar lagti hai.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.pitchedDog\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.surwaalaKutta\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~surwaalaKutta"]
                 },
                 "synth": {
                     "doc": [
                         "$~Ek synthesizer lead: tez aur bhinbhinati hui, aur is baat par sharminda nahin ke yeh oscillators se bani hai. Yeh record nahin balki synthesize ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.synth\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.barqiBaaja\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~barqiBaaja"]
                 },
                 "synthBass": {
                     "doc": [
                         "$~Ek synthesizer bass: bhari aur gehri. Yeh record nahin balki synthesize ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.synthBass\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.barqiBhaariSur\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~barqiBhaariSur"]
                 },
                 "synthPad": {
                     "doc": [
                         "$~Ek synthesizer pad: naram, aahista aane wali, aur baaqi sab ke neeche ek chord ko thaame rakhne ke liye achhi. Yeh record nahin balki synthesize ki gayi hai, aur sur wali hai, is liye adad suron ko chunte hain.",
-                        "\\Music(\n\tTrack(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Instrument.synthPad\n\t)\n\traftaar: 60beats/min\n)\\"
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1]\n\t\ttaal: 4beats\n\t\tchakkar: ⊥\n\t\tsaaz: Saaz.barqiNarmSur\n\t)\n\traftaar: 60beats/min\n)\\"
                     ],
                     "names": ["$~barqiNarmSur"]
                 },
@@ -930,7 +930,7 @@
                         "$~Ek gaane wali aawaaz, jo filters se banayi gayi hai, kisi insaan se record nahin ki gayi. Sur wali hai, is liye adad suron ko chunte hain.",
                         "Main ek synthesizer hoon, jaise @Instrument/synth — kisi gulukaar ki naqal nahin. Main chahe kitna hi unchaa ya neecha gaaon, mera munh ek hi size ka rehta hai, jo koi asli gala nahin kar sakta. Isi liye main aisi machine lagti hoon jo insaan ki naqal utaar rahi ho, aur na mard jaisi lagti hoon na aurat jaisi.",
                         "Mere @Track ko ek @Track/words dein aur main unhein gaati hoon, har sur par ek hijja. Agar koi na ho, to main ek /uh/ aawaaz thaame rakhti hoon, is liye main hamesha kuch na kuch gaati hoon.",
-                        "\\Music(\n\tTrack(\n\t\t[1 2 3 5]\n\t\talfaaz: 'la la la la'\n\t\tsaaz: Instrument.voice\n\t)\n\traftaar: 120beats/min\n)\\",
+                        "\\Mauseeqi(\n\tDhun(\n\t\t[1 2 3 5]\n\t\talfaaz: 'la la la la'\n\t\tsaaz: Saaz.aawaaz\n\t)\n\traftaar: 120beats/min\n)\\",
                         "Hijje <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> mein likhe jate hain, ek aisi alphabet jis mein har harf ek /aawaaz/ hota hai, ek hijje nahin — is liye \\'ʃi'\\ /she/ ke shuru ki aawaaz hai, chahe aap kisi bhi @language mein likhein. @editor ke neeche 🤖 dabayein taake main jitni aawaazein nikal sakti hoon woh sab dekh sakein aur har ek ko sun sakein."
                     ],
                     "names": ["$~aawaaz"]
@@ -1013,14 +1013,14 @@
             "doc": [
                 "$~Main ek tajreedi asar hoon, jo poore @Stage par lagta hai taake us par maujood har cheez ka andaaz badal jaye. Mujhe seedha nahin banaya jata; balki un asaraat mein se koi ek banayein jo main hoon, jaise @Blur, @Grain, ya @Wave, aur un ki fehrist stage ke @Stage.effects ko dein.",
                 "Asaraat usi tarteeb se lagte hain jis mein woh likhe hon, is liye @Grain ke baad @Blur daane ko bhi dhundla kar deta hai. Yeh stage ke mawaad ko dhaanpte hain lekin us ke @Stage.overlay ko kabhi nahin, is liye score ya button saaf rehta hai.",
-                "\\Stage(\n\t[Phrase('🐟')]\n\tasraat: [Tint(Color(60% 40 220°)) Wave()]\n)\\"
+                "\\Stage(\n\t[Jumla('🐟')]\n\tasraat: [Rangat(Rang(60% 40 220°)) Lehar()]\n)\\"
             ],
             "names": ["$~Asar"]
         },
         "Blur": {
             "doc": [
                 "$~Main @Stage par har cheez ko naram kar deta hoon, jaise camera ka focus kharaab ho. Mera thoda sa istemaal khwab ya yaad lagta hai; zyada istemaal jaagne ya chashma kho dene jaisa lagta hai.",
-                "\\Stage(\n\t[Phrase('🤓 meri aink kahan hai?')]\n\tasraat: [Blur(0.05m)]\n)\\"
+                "\\Stage(\n\t[Jumla('🤓 meri aink kahan hai?')]\n\tasraat: [Dhundla(0.05m)]\n)\\"
             ],
             "names": ["$~Dhundla"],
             "amount": {
@@ -1031,9 +1031,9 @@
         "Grade": {
             "doc": [
                 "$~Main @Stage par maujood har cheez ki roshni, farq, rangon ki gehrai aur rang ko badalta hoon, jaise film ke rang uska mizaaj banane ke liye theek kiye jaate hain. Saari rangon ki gehrai hata dein aur farq badha dein, to aap ko siyah-safaid film noir mil jaati hai.",
-                "\\Stage(\n\t[Phrase('🕵 jasoos ne intezaar kiya')]\n\tasraat: [Grade(rangeeni: 0% tazaad: 150%)]\n)\\"
+                "\\Stage(\n\t[Jumla('🕵 jasoos ne intezaar kiya')]\n\tasraat: [Rangkaari(rangeeni: 0% tazaad: 150%)]\n)\\"
             ],
-            "names": ["$~Darja"],
+            "names": ["$~Rangkaari", "$~Darja"],
             "brightness": {
                 "doc": "$~Stage ko kitna roshan karna hai. \\100%\\ kuch nahin badalta, \\0%\\ siyah hai, aur \\100%\\ se zyada zyada roshan hai.",
                 "names": "$~chamak"
@@ -1054,7 +1054,7 @@
         "Tint": {
             "doc": [
                 "$~Main @Stage par har cheez ko ek @Color mein dho deta hoon, aur us ki roshni aur andhera rakhta hoon taake matn utna hi parhne mein aaye. Neela-hara manzar ko paani ke neeche jaisa banata hai, bhoora purani tasveer jaisa, aur hara raat ki nazar jaisa.",
-                "\\Stage(\n\t[Phrase('🏰 bohat pehle ki baat hai')]\n\tasraat: [Tint(Color(60% 40 60°) 80%)]\n)\\"
+                "\\Stage(\n\t[Jumla('🏰 bohat pehle ki baat hai')]\n\tasraat: [Rangat(Rang(60% 40 60°) 80%)]\n)\\"
             ],
             "names": ["$~Rangat"],
             "color": {
@@ -1069,7 +1069,7 @@
         "Haze": {
             "doc": [
                 "$~Main @Stage ko dhund mein lapet deta hoon, jo us par aahista aahista tairti hai. Main subah, dhuein, bhaap aur door ki har cheez ke liye hoon.",
-                "\\Stage([Phrase('🌲🌲 weeraan maidaan 🌲')] asraat: [Haze(60%)])\\"
+                "\\Stage([Jumla('🌲🌲 weeraan maidaan 🌲')] asraat: [Dhund(60%)])\\"
             ],
             "names": ["$~Dhund"],
             "amount": {
@@ -1089,7 +1089,7 @@
             "doc": [
                 "$~Main @Stage par aise shor ke nukte bikher deta hoon jo har lamhe badalte hain. Mera thoda sa istemaal asli film ke daane jaisa hai; zyada istemaal, bade nukton ke saath, aise television jaisa hai jis mein signal na ho.",
                 "Jab main tez hota hoon to dekhne mein masroof lagta hoon, is liye mujhe un logon ke liye mumkin namoone ke taur par likha jayega jo in se hassaas hain.",
-                "\\Stage(\n\t[Phrase('📺 signal nahin hai')]\n\tasraat: [Grain(90% size: 3)]\n)\\"
+                "\\Stage(\n\t[Jumla('📺 signal nahin hai')]\n\tasraat: [Daanay(90% size: 3)]\n)\\"
             ],
             "names": ["$~Daanay"],
             "amount": {
@@ -1108,7 +1108,7 @@
         "Scanlines": {
             "doc": [
                 "$~Main @Stage par purani television screen ki patli kaali lakeerein banata hoon. Mujhe ek /speed/ dein aur main ghoomta hoon, jaise woh TV jo theek se tune nahin hua.",
-                "\\Stage(\n\t[Phrase('📺 channel 3')]\n\tasraat: [Scanlines(40% raftaar: 1)]\n)\\"
+                "\\Stage(\n\t[Jumla('📺 channel 3')]\n\tasraat: [Lakeerein(40% raftaar: 1)]\n)\\"
             ],
             "names": ["$~Lakeerein"],
             "amount": {
@@ -1128,7 +1128,7 @@
             "doc": [
                 "$~Main @Stage par output ko lehraata hoon, jaise aap use paani ya uthti garmi ke peechhe se dekh rahe hon.",
                 "Main khud output ko modta hoon, baaqi asraat ke neeche, is liye mujh se pehle likha hua @Grain nahin lehraata.",
-                "\\Stage([Phrase('🐟 blub')] asraat: [Wave(0.2m)])\\"
+                "\\Stage([Jumla('🐟 blub')] asraat: [Lehar(0.2m)])\\"
             ],
             "names": ["$~Lehar"],
             "amount": {
@@ -1147,7 +1147,7 @@
         "Damage": {
             "doc": [
                 "$~Main @Stage par purani, ghisi hui film ke khaarosh aur gard bikherta hoon, jo har frame mein alag hote hain. Mujhe @Grade ke saath rakhein jo rang hata deta hai, aur @Flicker ke saath, aur aapka manzar sau saal purana lagega.",
-                "\\Stage(\n\t[Phrase('🎩 khatam')]\n\tasraat: [Grade(rangeeni: 0%) Damage(80% 60%)]\n)\\"
+                "\\Stage(\n\t[Jumla('🎩 khatam')]\n\tasraat: [Rangkaari(rangeeni: 0%) Nuqsaan(80% 60%)]\n)\\"
             ],
             "names": ["$~Nuqsaan"],
             "scratches": {
@@ -1163,7 +1163,7 @@
             "doc": [
                 "$~Main poore @Stage ko kaanpata hoon, pehle theek rehta hoon phir betarteeb waqt par ek lamhe ke liye andhera ho jata hai, jaise projector ka bulb ya bujhne wala chiraagh.",
                 "Chamakti roshni logon ko takleef de sakti hai, is liye main ek second mein chand baar se zyada nahin kaanpata, chahe aap kitni hi tezi maangein.",
-                "\\Stage([Phrase('💡 roshniyan')] asraat: [Flicker(40% 2)])\\"
+                "\\Stage([Jumla('💡 roshniyan')] asraat: [Jhilmilahat(40% 2)])\\"
             ],
             "names": ["$~Jhilmilahat"],
             "amount": {
@@ -1178,7 +1178,7 @@
         "Vignette": {
             "doc": [
                 "$~Main @Stage ke kinaaron ko kaala karta hoon aur beech ko saaf chhodta hoon, taake nazrein markaz par jayein. Main purane lens ka kinara, spotlight, ya surang jaisi nazar hoon.",
-                "\\Stage([Phrase('🔦 yahan dekhein')] asraat: [Vignette(70%)])\\"
+                "\\Stage([Jumla('🔦 yahan dekhein')] asraat: [Kinaaray(70%)])\\"
             ],
             "names": ["$~Kinaaray"],
             "amount": {
@@ -1262,21 +1262,21 @@
             "doc": [
                 "$~Main ek nazar aane wala rang hoon, jo teen zaroori pehluon se banta hai.",
                 "Yeh rang ke pahiye ke aas paas ke kuch aam rang hain, darmiyani roshni aur zyada rang ke saath:",
-                "\\Color(50% 100 0°)\\",
-                "\\Color(50% 100 30°)\\",
-                "\\Color(50% 100 60°)\\",
-                "\\Color(50% 100 90°)\\",
-                "\\Color(50% 100 120°)\\",
-                "\\Color(50% 100 150°)\\",
-                "\\Color(50% 100 180°)\\",
-                "\\Color(50% 100 210°)\\",
-                "\\Color(50% 100 240°)\\",
-                "\\Color(50% 100 270°)\\",
-                "\\Color(50% 100 300°)\\",
-                "\\Color(50% 100 330°)\\",
+                "\\Rang(50% 100 0°)\\",
+                "\\Rang(50% 100 30°)\\",
+                "\\Rang(50% 100 60°)\\",
+                "\\Rang(50% 100 90°)\\",
+                "\\Rang(50% 100 120°)\\",
+                "\\Rang(50% 100 150°)\\",
+                "\\Rang(50% 100 180°)\\",
+                "\\Rang(50% 100 210°)\\",
+                "\\Rang(50% 100 240°)\\",
+                "\\Rang(50% 100 270°)\\",
+                "\\Rang(50% 100 300°)\\",
+                "\\Rang(50% 100 330°)\\",
                 "Gyaarah sab se aam rangon ke naam ke liye, aap ko mujhe shuru se banane ki zaroorat nahin. Meray naam par shortcuts maujood hain:",
-                "\\Color.red\\",
-                "\\Color.blue\\",
+                "\\Rang.laal\\",
+                "\\Rang.neela\\",
                 "Yeh shortcuts aap ki @language mein bhi kaam karte hain, is liye ek French bolne wala \\couleur.rouge\\🪲 likh sakta hai aur ek Japani bolne wala \\色.赤\\🪲 likh sakta hai. Shortcuts yeh hain: laal, naarangi, peela, hara, neela, jamni, bhoora, gulaabi, kaala, safaid, aur sleti."
             ],
             "names": ["$~Rang"],
@@ -1348,11 +1348,11 @@
                 "doc": [
                     "$~Ek ittefaqi rang dein.",
                     "Agar koi rang na ho, to main buniyaadi rangon mein se ek ittefaq se chunta hoon:",
-                    "\\Color.random()\\",
+                    "\\Rang.ittefaqi()\\",
                     "Agar ek rang ho, to main uski roshni aur chroma rakhta hoon lekin ek ittefaqi hue chunta hoon:",
-                    "\\Color.random(Color.blue)\\",
+                    "\\Rang.ittefaqi(Rang.neela)\\",
                     "Agar do rang hon, to main dono ke darmiyan ek ittefaqi roshni, chroma, aur hue chunta hoon:",
-                    "\\Color.random(Color.black Color.white)\\"
+                    "\\Rang.ittefaqi(Rang.kaala Rang.safaid)\\"
                 ],
                 "names": "$~ittefaqi",
                 "inputs": [
@@ -1369,8 +1369,8 @@
             "lighter": {
                 "doc": [
                     "$~Mera ek ziyada roshan roop dein, meri roshni ko ek fisad se barha kar (pehle se tay 5%).",
-                    "\\Color.blue.lighter()\\",
-                    "\\Color.blue.lighter(20%)\\"
+                    "\\Rang.neela.halka()\\",
+                    "\\Rang.neela.halka(20%)\\"
                 ],
                 "names": "$~halka",
                 "inputs": [
@@ -1383,8 +1383,8 @@
             "darker": {
                 "doc": [
                     "$~Mera ek ziyada gehra roop dein, meri roshni ko ek fisad se ghata kar (pehle se tay 5%).",
-                    "\\Color.blue.darker()\\",
-                    "\\Color.blue.darker(20%)\\"
+                    "\\Rang.neela.gehra()\\",
+                    "\\Rang.neela.gehra(20%)\\"
                 ],
                 "names": "$~gehra",
                 "inputs": [
@@ -1429,7 +1429,7 @@
                 "sway": {
                     "doc": [
                         "$~Main ek @Output ke markaz ke gird aage peeche jhukta hoon, jaise halki hawa mein latakti hui koi cheez. Main ek achhi aaraam wali harkat hoon, kyunki chhota /zaawiya/ bina tawajjo khenche “zinda” lagta hai.",
-                        "\\Phrase('🐈' rukna: Sequence.sway(10°))\\"
+                        "\\Jumla('🐈' rukna: Silsila.lehrana(10°))\\"
                     ],
                     "names": ["$~lehrana"],
                     "angle": {
@@ -1440,7 +1440,7 @@
                 "bounce": {
                     "doc": [
                         "$~Main ek @Output ko /unchaai/ tak uchhalta hoon aur usay utarne deta hoon, upar aur neeche jate hue thora sa dabta hoon. Mujhe ek aisa @Phrase dein jo abhi aaya hai aur main usay wazni mehsoos karwaunga.",
-                        "\\Phrase('🐈' rukna: Sequence.bounce(3m))\\"
+                        "\\Jumla('🐈' rukna: Silsila.uchhalna(3m))\\"
                     ],
                     "names": ["$~uchhalna"],
                     "height": {
@@ -1451,42 +1451,42 @@
                 "spin": {
                     "doc": [
                         "$~Main ek @Output ko uske markaz ke gird poora ghumata hoon, 360° se wapas 0° tak. Mujhe aaraam wali harkat bana dein aur main hamesha ghumta rahunga.",
-                        "\\Phrase('🐈' rukna: Sequence.spin(2s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.ghoomna(2s))\\"
                     ],
                     "names": ["$~ghoomna"]
                 },
                 "fadein": {
                     "doc": [
                         "$~Main ek @Output ko nazar na aane se poori tarah nazar aane tak le aata hoon. Main /dakhil hone/ ke liye hoon, jab koi cheez stage par aa rahi ho.",
-                        "\\Phrase('🐈' aana: Sequence.fadein(1s))\\"
+                        "\\Jumla('🐈' aana: Silsila.namoodaar(1s))\\"
                     ],
                     "names": ["$~namoodaar"]
                 },
                 "fadeout": {
                     "doc": [
                         "$~Main ek @Output ko poori tarah nazar aane se nazar na aane tak le jata hoon. Main /nikalne/ ke liye hoon, jab koi cheez stage chhod rahi ho.",
-                        "\\Phrase('🐈' jaana: Sequence.fadeout(muddat: 1s))\\"
+                        "\\Jumla('🐈' jaana: Silsila.ghaib(muddat: 1s))\\"
                     ],
                     "names": ["$~ghaib"]
                 },
                 "popup": {
                     "doc": [
                         "$~Main ek @Output ko kuch nahin se barhata hoon, uski asli jamaat se zara bada karta hoon, phir wapas thehra deta hoon. Yeh zara sa barhna aamad ko mashini ke bajaye shararati banata hai.",
-                        "\\Phrase('🐈' aana: Sequence.popup(0.5s))\\"
+                        "\\Jumla('🐈' aana: Silsila.nikalna(0.5s))\\"
                     ],
                     "names": ["$~nikalna"]
                 },
                 "shake": {
                     "doc": [
                         "$~Main ek @Output ko kai simton mein aage peeche jhatka deta hoon. Main “nahin” ki tarah lagta hoon, ya kisi cheez ke khadakhdane ki tarah. Main tez harkat karta hoon, is liye mujhe mukhtasir rakhein.",
-                        "\\Phrase('🐈' rukna: Sequence.shake(0.5s ginti: 3x))\\"
+                        "\\Jumla('🐈' rukna: Silsila.hilna(0.5s ginti: 3x))\\"
                     ],
                     "names": ["$~hilna"]
                 },
                 "pulse": {
                     "doc": [
                         "$~Main ek @Output ko /miqdaar/ tak bada karta hoon aur phir wapas chhota, sirf ek baar. Kuch bhi apni jagah se hilaye baghair “yahan dekhein” kehne ka yeh sab se khamosh tareeqa hai.",
-                        "\\Phrase('🐈' rukna: Sequence.pulse(1.2))\\"
+                        "\\Jumla('🐈' rukna: Silsila.nabz(1.2))\\"
                     ],
                     "names": ["$~nabz"],
                     "amount": {
@@ -1497,7 +1497,7 @@
                 "heartbeat": {
                     "doc": [
                         "$~Main do tezi se bade hone ki dhadkanein deta hoon aur phir ruk jata hoon, bilkul dil ki dhadkan ki tarah. Main @Sequence ke /nabz/ se zyada fauri hoon aur /chamak/ se zyada qudrati.",
-                        "\\Phrase('🐈' rukna: Sequence.heartbeat(1.4 1s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.dhadkan(1.4 1s))\\"
                     ],
                     "names": ["$~dhadkan"],
                     "amount": {
@@ -1508,7 +1508,7 @@
                 "tada": {
                     "doc": [
                         "$~Main jashn manata hoon: pehle thoda sa chhota hota hoon, phir bada hota hoon aur idhar udhar hilta hoon. Main jeetne, khatam karne aur sahi jawab dene ke liye hoon.",
-                        "\\Phrase('🐈' rukna: Sequence.tada(1.2 1s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.wah(1.2 1s))\\"
                     ],
                     "names": ["$~wah"],
                     "amount": {
@@ -1519,7 +1519,7 @@
                 "wiggle": {
                     "doc": [
                         "$~Main ek @Output ko tirchha karte hue ek taraf se doosri taraf sarkata hoon, aur har jhoola pichhle se chhota hota hai. Main thodi zyada shakhsiyat wala hilna hoon.",
-                        "\\Phrase('🐈' rukna: Sequence.wiggle(8°))\\"
+                        "\\Jumla('🐈' rukna: Silsila.matakna(8°))\\"
                     ],
                     "names": ["$~matakna"],
                     "angle": {
@@ -1531,14 +1531,14 @@
                     "doc": [
                         "$~Main ek @Output ko do baar nazar aane aur gayab hone ke beech jhapkata hoon, aur sath sath dheema karta jata hoon. Mujhe nazar andaaz karna mushkil hai, is liye mujhe kam istemaal karein.",
                         "Main tezi se chamakta hoon, is liye chamak se pareshan hone wala dekhne wala mujhe na-gawaar samajh sakta hai. Agar mujhe dohrana hai to lambi /muddat/ se mujhe dheema karein.",
-                        "\\Phrase('🐈' rukna: Sequence.flash(1s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.chamak(1s))\\"
                     ],
                     "names": ["$~chamak"]
                 },
                 "swing": {
                     "doc": [
                         "$~Main ek @Output ko pendulum ki tarah jhulata hoon, /zaawiya/ tak aur phir chhoti hoti hui qaus mein wapas, jab tak woh ruk na jaye. /lehrana/ ke bar-aks, main thehar jata hoon.",
-                        "\\Phrase('🐈' rukna: Sequence.swing(20°))\\"
+                        "\\Jumla('🐈' rukna: Silsila.jhoolna(20°))\\"
                     ],
                     "names": ["$~jhoolna"],
                     "angle": {
@@ -1549,14 +1549,14 @@
                 "blink": {
                     "doc": [
                         "$~Main ek @Output ko baghair dheema kiye band aur phir chalu karta hoon, jaise cursor jhapakta hai. /chamak/ dheema karta hai; main seedha kaat deta hoon.",
-                        "\\Phrase('🐈' rukna: Sequence.blink(1s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.jhapak(1s))\\"
                     ],
                     "names": ["$~jhapak"]
                 },
                 "nod": {
                     "doc": [
                         "$~Main ek @Output ko do baar neeche aur phir wapas oopar karta hoon, jaise raazi hone par sar hilana. “haan” kehne ka yeh sab se naram tareeqa hai.",
-                        "\\Phrase('🐈' rukna: Sequence.nod(0.4m))\\"
+                        "\\Jumla('🐈' rukna: Silsila.sarhilana(0.4m))\\"
                     ],
                     "names": ["$~sarhilana"],
                     "distance": {
@@ -1567,7 +1567,7 @@
                 "dim": {
                     "doc": [
                         "$~Main ek @Output ko /miqdaar/ tak dheema karta hoon aur phir poori tarah wapas laata hoon, use kabhi chhupaye baghair. Main yeh dikhane ke liye hoon ke koi cheez intezaar mein hai ya kaam nahin kar rahi.",
-                        "\\Phrase('🐈' rukna: Sequence.dim(20% 2s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.madhham(20% 2s))\\"
                     ],
                     "names": ["$~madhham"],
                     "amount": {
@@ -1578,14 +1578,14 @@
                 "zoomin": {
                     "doc": [
                         "$~Main ek @Output ko kuch nahin se poore size tak ugata hoon. /nikalna/ ke bar-aks, main zyada bada nahin hota, main saada aur pur-sukoon aamad hoon.",
-                        "\\Phrase('🐈' aana: Sequence.zoomin(0.5s))\\"
+                        "\\Jumla('🐈' aana: Silsila.qareebaana(0.5s))\\"
                     ],
                     "names": ["$~qareebaana"]
                 },
                 "fadeinup": {
                     "doc": [
                         "$~Main ek @Output ko dheere dheere zahir karta hoon aur sath sath use /faasla/ neeche se oopar ki taraf apni jagah par sarkata hoon.",
-                        "\\Phrase('🐈' aana: Sequence.fadeinup(2m))\\"
+                        "\\Jumla('🐈' aana: Silsila.ubharoopar(2m))\\"
                     ],
                     "names": ["$~ubharoopar"],
                     "distance": {
@@ -1596,7 +1596,7 @@
                 "fadeindown": {
                     "doc": [
                         "$~Main ek @Output ko dheere dheere zahir karta hoon aur sath sath use /faasla/ oopar se neeche ki taraf apni jagah par sarkata hoon.",
-                        "\\Phrase('🐈' aana: Sequence.fadeindown(2m))\\"
+                        "\\Jumla('🐈' aana: Silsila.ubharneeche(2m))\\"
                     ],
                     "names": ["$~ubharneeche"],
                     "distance": {
@@ -1607,7 +1607,7 @@
                 "fadeinleft": {
                     "doc": [
                         "$~Main ek @Output ko dheere dheere zahir karta hoon aur sath sath use /faasla/ baayen taraf se daayen taraf apni jagah par sarkata hoon.",
-                        "\\Phrase('🐈' aana: Sequence.fadeinleft(2m))\\"
+                        "\\Jumla('🐈' aana: Silsila.ubharbaayen(2m))\\"
                     ],
                     "names": ["$~ubharbaayen"],
                     "distance": {
@@ -1618,7 +1618,7 @@
                 "fadeinright": {
                     "doc": [
                         "$~Main ek @Output ko dheere dheere zahir karta hoon aur sath sath use /faasla/ daayen taraf se baayen taraf apni jagah par sarkata hoon.",
-                        "\\Phrase('🐈' aana: Sequence.fadeinright(2m))\\"
+                        "\\Jumla('🐈' aana: Silsila.ubhardaayen(2m))\\"
                     ],
                     "names": ["$~ubhardaayen"],
                     "distance": {
@@ -1629,7 +1629,7 @@
                 "rotatein": {
                     "doc": [
                         "$~Main ek @Output ko ghumate hue apni jagah par laata hoon aur saath saath use dheere dheere zaahir karta hoon. Yeh /zaawiya/ se ghooma hua shuru hota hai aur seedha hokar khatam hota hai.",
-                        "\\Phrase('🐈' aana: Sequence.rotatein(180°))\\"
+                        "\\Jumla('🐈' aana: Silsila.ghoomkeaana(180°))\\"
                     ],
                     "names": ["$~ghoomkeaana"],
                     "angle": {
@@ -1640,7 +1640,7 @@
                 "slidein": {
                     "doc": [
                         "$~Main ek @Output ko aap ki pasand ki kisi bhi jagah se sarka kar apni jagah par laata hoon, bina dhundhla kiye. Mujhe ek @Place dein, main wahin se shuru karunga aur rukkar khatam karunga, is liye ek hi animation har simt ke liye kaafi hai.",
-                        "\\Phrase('🐈' aana: Sequence.slidein(Place(0m -4m)))\\"
+                        "\\Jumla('🐈' aana: Silsila.phisalkeaana(Jagah(0m -4m)))\\"
                     ],
                     "names": ["$~phisalkeaana"],
                     "from": {
@@ -1651,14 +1651,14 @@
                 "zoomout": {
                     "doc": [
                         "$~Main ek @Output ko poore size se chhota karte karte ghaayab kar deta hoon.",
-                        "\\Phrase('🐈' jaana: Sequence.zoomout(0.5s))\\"
+                        "\\Jumla('🐈' jaana: Silsila.doorjaana(0.5s))\\"
                     ],
                     "names": ["$~doorjaana"]
                 },
                 "fadeoutup": {
                     "doc": [
                         "$~Main ek @Output ko /faasla/ oopar sarkate hue dheere dheere ghaayab karta hoon.",
-                        "\\Phrase('🐈' jaana: Sequence.fadeoutup(2m))\\"
+                        "\\Jumla('🐈' jaana: Silsila.ghaaiboopar(2m))\\"
                     ],
                     "names": ["$~ghaaiboopar"],
                     "distance": {
@@ -1669,7 +1669,7 @@
                 "fadeoutdown": {
                     "doc": [
                         "$~Main ek @Output ko /faasla/ neeche sarkate hue dheere dheere ghaayab karta hoon.",
-                        "\\Phrase('🐈' jaana: Sequence.fadeoutdown(2m))\\"
+                        "\\Jumla('🐈' jaana: Silsila.ghaaibneeche(2m))\\"
                     ],
                     "names": ["$~ghaaibneeche"],
                     "distance": {
@@ -1680,7 +1680,7 @@
                 "fadeoutleft": {
                     "doc": [
                         "$~Main ek @Output ko /faasla/ bayen taraf sarkate hue dheere dheere ghaayab karta hoon.",
-                        "\\Phrase('🐈' jaana: Sequence.fadeoutleft(2m))\\"
+                        "\\Jumla('🐈' jaana: Silsila.ghaaibbaayen(2m))\\"
                     ],
                     "names": ["$~ghaaibbaayen"],
                     "distance": {
@@ -1691,7 +1691,7 @@
                 "fadeoutright": {
                     "doc": [
                         "$~Main ek @Output ko /faasla/ dayen taraf sarkate hue dheere dheere ghaayab karta hoon.",
-                        "\\Phrase('🐈' jaana: Sequence.fadeoutright(2m))\\"
+                        "\\Jumla('🐈' jaana: Silsila.ghaaibdaayen(2m))\\"
                     ],
                     "names": ["$~ghaaibdaayen"],
                     "distance": {
@@ -1702,7 +1702,7 @@
                 "rotateout": {
                     "doc": [
                         "$~Main ek @Output ko ghumate hue door le jaata hoon aur saath saath use ghaayab karta hoon. Yeh /zaawiya/ se ghooma hua khatam hota hai.",
-                        "\\Phrase('🐈' jaana: Sequence.rotateout(180°))\\"
+                        "\\Jumla('🐈' jaana: Silsila.ghoomkejaana(180°))\\"
                     ],
                     "names": ["$~ghoomkejaana"],
                     "angle": {
@@ -1713,7 +1713,7 @@
                 "slideout": {
                     "doc": [
                         "$~Main ek @Output ko aap ki pasand ki kisi bhi jagah tak sarka kar le jaata hoon, bina dhundhla kiye. Mujhe ek @Place dein, main wahin khatam karunga, is liye ek hi animation har simt ke liye kaafi hai.",
-                        "\\Phrase('🐈' jaana: Sequence.slideout(Place(0m -4m)))\\"
+                        "\\Jumla('🐈' jaana: Silsila.phisalkejaana(Jagah(0m -4m)))\\"
                     ],
                     "names": ["$~phisalkejaana"],
                     "to": {
@@ -1724,7 +1724,7 @@
                 "float": {
                     "doc": [
                         "$~Main ek @Output ko /faasla/ tak dheere dheere oopar behne deta hoon aur phir wapas neeche laata hoon. Mujhe lambi /muddat/ dein, main kisi cheez ko halka phulka dikha doonga.",
-                        "\\Phrase('🐈' rukna: Sequence.float(0.5m 3s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.tairna(0.5m 3s))\\"
                     ],
                     "names": ["$~tairna"],
                     "distance": {
@@ -1735,7 +1735,7 @@
                 "drift": {
                     "doc": [
                         "$~Main ek @Output ko aahista aahista /faasla/ jitna ek taraf le jaata hoon, phir wapas laata hoon. Main /tairna/ hoon, ek taraf ko.",
-                        "\\Phrase('🐈' rukna: Sequence.drift(0.5m 3s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.behna(0.5m 3s))\\"
                     ],
                     "names": ["$~behna"],
                     "distance": {
@@ -1746,7 +1746,7 @@
                 "orbit": {
                     "doc": [
                         "$~Main ek @Output ko /nisfqutr/ ke ek daire mein ghumata hoon aur wahin wapas pahunchata hoon jahan se shuru kiya tha. Main akela pehle se tay animation hoon jo aage peeche jaane ke bajaye ek raasta banata hai.",
-                        "\\Phrase('🐈' rukna: Sequence.orbit(2m 4s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.madaar(2m 4s))\\"
                     ],
                     "names": ["$~madaar"],
                     "radius": {
@@ -1758,14 +1758,14 @@
                     "doc": [
                         "$~Main ek @Output ko dhanak ke har rang se guzaar kar wapas wahin le aata hoon jahan se shuru kiya tha.",
                         "Main rang tezi se badalta hoon, is liye jin logon ko jhilmilate hue roshni se takleef hoti hai unhein main na-gawaar lag sakta hoon. Lambi /muddat/ mujhe bahut narm bana deti hai.",
-                        "\\Phrase('🐈' rukna: Sequence.rainbow(3s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.qausQuzah(3s))\\"
                     ],
                     "names": ["$~qausQuzah"]
                 },
                 "glow": {
                     "doc": [
                         "$~Main ek @Output ko /rang/ ki taraf roshan karta hoon aur phir use wapas dheema hone deta hoon, jaise koi cheez garm ho kar thandi ho rahi ho. /qausQuzah/ ke baraks, main ek hi rang mein rehta hoon.",
-                        "\\Phrase('🐈' rukna: Sequence.glow(Color.orange 2s))\\"
+                        "\\Jumla('🐈' rukna: Silsila.damakna(Rang.narangi 2s))\\"
                     ],
                     "names": ["$~damakna"],
                     "color": {
@@ -2025,7 +2025,7 @@
         "Bubble": {
             "doc": [
                 "$~Main dikhata hoon ke @Phrase kya keh raha hai, ek bubble mein jo seedha usi ki taraf ishaara karta hai. Mujhe kisi phrase ke @Phrase.bubble ko dein aur huroof ko bolne dein:",
-                "\\Phrase('a' bulbula: 'hello!')\\",
+                "\\Jumla('a' bulbula: 'hello!')\\",
                 "Matn ki jagah mujhe @Say dein to main dikhaya bhi jaaunga aur zor se bola bhi jaaunga.",
                 "Mera @Bubble.kind badal kar soch kar dein to main soch ka bubble ban jaata hoon.",
                 "Main sirf sajaawat hoon, is liye stage par kuch bhi meri jagah banane ke liye hat'ta nahin — lekin @Stage yeh zaroor dekhta hai ke main nazar mein rahoon."
@@ -2066,13 +2066,13 @@
         "Stage": {
             "doc": [
                 "$~MAIN AAPKA @Output HAAZIREEN KO DIKHATA HOON. HI. YAHAN STAGE HOON. MUJHE BATAYEIN KYA DIKHANA HAI AUR MAIN DIKHA DOON GA.",
-                "\\Stage([Phrase('cheezeeeeeen')])\\",
+                "\\Stage([Jumla('cheezeeeeeen')])\\",
                 "AGAR CHAHEIN TO MUJHE BACKGROUND @Color DEIN AUR MAIN STAGE KI ROSHNI USI HISAAB SE KAR DOON GA.",
-                "\\Stage(\n\t[Phrase('cheezeeeeeen')]\n\tpasEManzar: Color(75% 50 100°)\n)\\",
+                "\\Stage(\n\t[Jumla('cheezeeeeeen')]\n\tpasEManzar: Rang(75% 50 100°)\n)\\",
                 "AAP MUJHE FRAME KI SARHAD BHI DE SAKTE HAIN AUR MAIN KAAT DOON GA.",
-                "\\Stage(\n\t[Phrase('cheezeeeeeen')]\n\tpasEManzar: Color(75% 50 100°)\n\tchaukhat: Rectangle(-1m -1m 1m 1m)\n)\\",
+                "\\Stage(\n\t[Jumla('cheezeeeeeen')]\n\tpasEManzar: Rang(75% 50 100°)\n\tchaukhat: Mustateel(-1m -1m 1m 1m)\n)\\",
                 "AUR AGAR AAP DRAMA CHAHTE HAIN TO MUJHE @Effect DEIN AUR MAIN HAR CHEEZ KA ANDAAZ BADAL DOON GA. PAANI KE ANDAR! PURANI FILM! STATIC! MUJHE PASAND HAI.",
-                "\\Stage(\n\t[Phrase('🐟 blub')]\n\tasraat: [Wave() Tint(Color(55% 45 220°))]\n)\\"
+                "\\Stage(\n\t[Jumla('🐟 blub')]\n\tasraat: [Lehar() Rangat(Rang(55% 45 220°))]\n)\\"
             ],
             "names": ["$~🎭", "$~Stage"],
             "content": {

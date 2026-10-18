@@ -7,7 +7,7 @@ Jeśli zaczniemy od liczby \10\ i przekształcimy ją za pomocą \→ []\, otrzy
 Potem używamy @List/translate , żeby zamienić każdą liczbę na @Phrase:
 
 \
-Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))
+Grupa(Wiersz() (10 → []).przekształć(ƒ() Fraza('🐈')))
 \
 
 @List/translate wywołuje naszą małą funkcję raz dla każdego elementu i zbiera wyniki na nowej liście.
@@ -15,7 +15,7 @@ Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))
 Aby każda kopia była nieco inna, skorzystaj z liczby podanej przez translator:
 
 \
-Group(Row('|' 0.2m) [:1‥8].translate(ƒ(n) Phrase('⭐' rozmiar: n × 0.5m)))
+Grupa(Wiersz('|' 0.2m) [:1‥8].przekształć(ƒ(n) Fraza('⭐' rozmiar: n × 0.5m)))
 \
 
  Każda gwiazda jest większa od poprzedniej, ponieważ \n\ idzie z \1\ Do \8\.

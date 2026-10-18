@@ -6,12 +6,12 @@ Una @Scene puede ser esa vuelta completa, y @Scene/loop es lo que la regresa al 
 Los momentos son las cosas en la lista, y un @Boolean entre ellos es donde el @Scene espera al jugador.
 
 \
-guess: Chat()
+guess: Charla()
 right: guess = 'gato'
-Scene([
-	Phrase('¡Adivina el animal!' duración: 2s)
+Escena([
+	Frase('¡Adivina el animal!' duración: 2s)
 	∆ guess
-	Phrase(right ? '¡Sí!' '¡No!' duración: 2s)
+	Frase(right ? '¡Sí!' '¡No!' duración: 2s)
 ] bucle: ~right)
 \
 
@@ -24,15 +24,15 @@ Para saber en qué punto va la vuelta, pregúntale a @Spotlight.
 Te dice cuál @Phrase se está mostrando, cuántas hay, cuántas veces ha dado la vuelta @Scene , y si en este momento está esperando a alguien.
 
 \
-guess: Chat()
-at: Spotlight()
-Stage([
-	Scene([
-		Phrase('¡Adivina el animal!' duración: 2s)
+guess: Charla()
+at: Reflector()
+Escenario([
+	Escena([
+		Frase('¡Adivina el animal!' duración: 2s)
 		∆ guess
-		Phrase('¡No!' duración: 2s)
+		Frase('¡No!' duración: 2s)
 	] bucle: ⊤)
-	Phrase(at.waiting ? 'escribe un intento' `ronda \at.lap + 1\` tamaño: 0.4m lugar: Place(0m -2m))
+	Frase(at.esperando ? 'escribe un intento' `ronda \at.lap + 1\` tamaño: 0.4m lugar: Lugar(0m -2m))
 ])
 \
 

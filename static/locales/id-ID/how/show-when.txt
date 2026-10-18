@@ -8,8 +8,8 @@ Tulis kondisinya, lalu \?\, lalu nilai yang dipakai jika benar, lalu nilai yang 
 Ini dia wajah bahagia yang berubah menjadi sedih setiap kali Anda menekan spasi, lalu kembali lagi:
 
 \
-happy: ⊤ … ∆ Key(' ') … ~happy
-Phrase(happy ? '😊' '😢')
+happy: ⊤ … ∆ Tuts(' ') … ~happy
+Frasa(happy ? '😊' '😢')
 \
 
  The @Reaction mulai \happy\ sebagai \⊤\ (benar), dan membaliknya dengan \~\ setiap kali tombol spasi ditekan.
@@ -18,8 +18,8 @@ Lalu kondisional \?\ memilih wajah yang tepat.
 Anda dapat menggabungkan kondisi untuk memilih lebih dari dua hal:
 
 \
-score: 0 … ∆ Key('A') … score + 1
-Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+score: 0 … ∆ Tuts('A') … score + 1
+Frasa(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
 \
 
  Tekan \a\ Beberapa kali dan saksikan telur menetas menjadi anak ayam!

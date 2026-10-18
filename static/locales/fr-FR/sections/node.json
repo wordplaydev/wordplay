@@ -830,7 +830,7 @@
                 "J'ai plein d'autres petits tours. Par exemple, je n'ai pas besoin d'avoir un nom. Ici, je vais directement à @Evaluate comme un @value.",
                 "\\(ƒ(message•'') message × 5)('salut')\\",
                 "Ou bien, voici une fonction qui prend n'importe quel nombre d'entrées, en utilisant le caractère \\…\\ après un nom d'entrée.",
-                "\\ƒ oui(messages…•'') messages.sans('non')\noui('oui' 'oui' 'non' 'oui' 'non')\\",
+                "\\ƒ oui(messages…•'') messages.sansTout('non')\noui('oui' 'oui' 'non' 'oui' 'non')\\",
                 "Tu vois comment il a pris tous les « non » et les a supprimés ? C'est parce que messages est une @List, et donc nous pouvions utiliser @List.sansAll.",
                 "Parfois, tu voudras montrer clairement quel type de valeur je produis. Pour cela, ajoute un @Is après la liste des entrées :",
                 "\\ƒ ajouter(x•# y•#)•'' x + y\\🪲",
@@ -868,7 +868,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Je vous indique si l'évaluation actuelle de @Program est la première, évaluée en @Boolean. Par exemple :",
-                "\\◆ ? Time() 'hi'\\",
+                "\\◆ ? Temps() 'hi'\\",
                 "Vous ne l'avez pas vu, mais la première évaluation était un temps, mais ensuite tous les futurs temps ont coché, j'étais \\⊥\\, donc @Conditional a fait \\⊤\\.",
                 "Je suis vraiment utile si vous travaillez avec un @stream et que vous ne voulez faire quelque chose que la première fois - ou jamais la première fois!"
             ]
@@ -1045,10 +1045,10 @@
                 "$~Je me penche sur l'historique d'un cours d'eau et vous révèle une de ses valeurs passées. Avez-vous déjà souhaité vous souvenir du passé ?",
                 "Je suis le gardien officiel des archives du Verset !",
                 "Par exemple, voici ce qu'affichait @Time il y a cinq ticks :",
-                "\\← 5 Time(1000ms)\\",
+                "\\← 5 Temps(1000ms)\\",
                 "Vous voyez comment ça affiche @None pendant 5 secondes, puis soudainement une heure précédente ?",
                 "Si vous souhaitez obtenir les dernières valeurs, indiquez-moi deux flèches, et j'interpréterai le nombre comme un décompte :",
-                "\\←← 5 Time(1000ms)\\",
+                "\\←← 5 Temps(1000ms)\\",
                 "Vous voyez, il s'agit des cinq fois précédentes, et non d'une seule ?",
                 "Je suis utile lorsque vous souhaitez créer des performances qui s'appuient sur le passé."
             ],
@@ -1170,7 +1170,7 @@
             "doc": [
                 "$~Je crée un nouveau @stream qui se met à jour dès qu'un autre flux est modifié. Les flux, c'est génial !",
                 "Par exemple, si vous vouliez que @Time s'affiche, mais avec des mots au lieu de chiffres, vous pourriez faire quelque chose comme ceci :",
-                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "\\time: Temps(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "C'est comme dire : « /commencez par le mot 'début' et ensuite, si l'heure change, passez à pair ou impair, en fonction de l'heure./ »",
                 "Je suis donc comme un flux moi aussi, mais un flux basé sur d'autres flux. Génial, non ?"
             ],

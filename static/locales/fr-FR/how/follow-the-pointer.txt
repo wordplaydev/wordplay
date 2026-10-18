@@ -7,7 +7,7 @@ On peut faire ça avec l'entrée @Pointer .
 Si on utilise cette @Place comme @Phrase de \place\, le personnage ira où on pointe.
 
 \
-Stage([Phrase('🐈' lieu: Pointer())] lieu: Place(0m 0m -10m))
+Scène([Phrase('🐈' lieu: Pointeur())] lieu: Lieu(0m 0m -10m))
 \
 
  Et voilà ! Déplacez votre souris ou faites glisser votre doigt, et regardez le chat vous suivre.
@@ -16,7 +16,7 @@ Tu peux faire des choses plus intéressantes en extrayant les \x\ et \y\ de @Pla
 Voici un canard qui flotte toujours à un mètre au-dessus du pointeur :
 
 \
-Stage([Phrase('🦆' lieu: Place(Pointer().x Pointer().y + 1m))] lieu: Place(0m 0m -10m))
+Scène([Phrase('🦆' lieu: Lieu(Pointeur().x Pointeur().y + 1m))] lieu: Lieu(0m 0m -10m))
 \
 
 move-phrase, count-with-time

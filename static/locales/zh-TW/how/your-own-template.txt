@@ -7,14 +7,14 @@
 這裡有一個氣球樣板（Template），它會接收一個顏色和一個標籤，並且知道怎麼顯示自己：
 
 \
-•Balloon(color•Color label•'') (
-    ƒ show() Phrase(`🎈\label\` 色彩: color 尺寸: 2m)
+•Balloon(color•色彩 label•'') (
+    ƒ show() 短語(`🎈\label\` 色彩: color 尺寸: 2m)
 )
 
-Group(Row() [
-    Balloon(Color(80% 50 240°) '天空').show()
-    Balloon(Color(60% 80 0°) '玫瑰').show()
-    Balloon(Color(90% 80 90°) '陽光明媚').show()
+組合(行() [
+    Balloon(色彩(80% 50 240°) '天空').show()
+    Balloon(色彩(60% 80 0°) '玫瑰').show()
+    Balloon(色彩(90% 80 90°) '陽光明媚').show()
 ])
 \
 

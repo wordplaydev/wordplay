@@ -11,7 +11,7 @@ yerleştir: Yer(0m 0m) … ∆ zaman … Yer(
 		)
 saydamlık: 1 … ∆ zaman … Rastgele(0.25 1)
 göster: ⊤ … ∆ zaman … ~göster
-balkabağı: İfadeetmek(
+balkabağı: Yazı(
 		'🎃'
 		opaklık: saydamlık
 		yer: yerleştir

@@ -5,16 +5,16 @@ Kirdaar ki ek aaraam ki animation ho sakti hai jo us waqt dohraati rehti hai jab
 Misaal ke taur par, aayein is billi ko ghoomne aur khisakne se thoda sa nachaain:
 
 \
-Phrase(
+Jumla(
     '🐈' 
-    rukna: Sequence({
-        0%: Pose(ghumaao: 0°)
-        15%: Pose(ghumaao: 15°)
-        30%: Pose(ghumaao: 0°)
-        45%: Pose(hatao: Place(-0.25m))
-        60%: Pose(hatao: Place(0.25m))
-        75%: Pose(hatao: Place(-0.25m))
-        90%: Pose(hatao: Place(0m))
+    rukna: Silsila({
+        0%: Andaaz(ghumaao: 0°)
+        15%: Andaaz(ghumaao: 15°)
+        30%: Andaaz(ghumaao: 0°)
+        45%: Andaaz(hatao: Jagah(-0.25m))
+        60%: Andaaz(hatao: Jagah(0.25m))
+        75%: Andaaz(hatao: Jagah(-0.25m))
+        90%: Andaaz(hatao: Jagah(0m))
     } 2s)
 )
 \

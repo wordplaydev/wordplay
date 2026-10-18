@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['பூனை' 'நாய்'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['பூனை' 'நாய்'] 0) … state.secrets.உள்ளது(அரட்டை()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("நீங்கள் வெற்றி பெற்றீர்கள்!")]
-        [ Group(Stack() [ Phrase("என் ரகசிய சொற்களை யூகி") Phrase(`\state.secrets.length() - state.points\ மேலும் ரகசியங்கள்`)])]
+மேடை(
+    state.points = state.secrets.நீளம்() ? 
+        [ சொற்றொடர்("நீங்கள் வெற்றி பெற்றீர்கள்!")]
+        [ குழு(அடுக்கு() [ சொற்றொடர்("என் ரகசிய சொற்களை யூகி") சொற்றொடர்(`\state.secrets.length() - state.points\ மேலும் ரகசியங்கள்`)])]
 )
 \
 

@@ -101,7 +101,7 @@ personnes: [
 
 ¶Un nouveau terrain de zombies, répartis du plus proche au plus lointain, dispersés de gauche à droite, chacun rôdant dans une direction au hasard.¶
 ƒ faireApparaîtreDesZombies()
-	(nombreDeZombies → []).traduire(
+	(nombreDeZombies → []).transformer(
 		ƒ(indice2•#)
 			Zombie(
 				Aléatoire(limiteGauche limiteDroite)
@@ -190,11 +190,11 @@ personnes: [
 				) []
 		figureTouchée: figuresSurLeChemin.trié(
 				ƒ(zombie8•Zombie) zombie8.z2
-			).dabord(
+			).premier(
 			)
 		profondeurTouchée: (figureTouchée•ø) ? -999m figureTouchée.z2
 		conversion: (figureTouchée•ø) ? ⊥ figureTouchée.enVie
-		prochainsZombies: jeu5.zombies.traduire(
+		prochainsZombies: jeu5.zombies.transformer(
 				ƒ(zombie9•Zombie)
 					zombie9.enVie ?
 						((conversion & (zombie9.z2 = profondeurTouchée)) ? Zombie(
@@ -238,9 +238,9 @@ personnes: [
 		)
 	)
 
-clé4: Clé()
+clé4: Touche()
 tic: Temps(30ms)
-pointeur: Aiguille()
+pointeur: Pointeur()
 toucher: Bouton()
 
 ¶Le cœur du jeu, piloté par quatre entrées : un tic d'horloge, une touche, un mouvement du pointeur et un clic ou toucher. Pendant le jeu, un tic fait avancer le monde, les touches décalent et lancent, le mouvement du pointeur vise ta voie, et un toucher lance un cœur. Depuis un menu, la touche Entrée ou un toucher lance une nouvelle partie — un toucher pour que les joueurs sur écran tactile puissent commencer, et Entrée (pas Espace) pour qu'en martelant Espace pour lancer, on ne recommence jamais par accident.¶
@@ -365,7 +365,7 @@ ligneDeDépart: (jeu6.phase = 1) ? 'Appuie sur Entrée ou touche pour commencer'
 
 vueDeLʼécran: [
 		Groupe(
-			Empiler()
+			Pile()
 			[
 				Phrase(titreDeLʼécran 1.1m)
 				Phrase(screenSubtitle 0.6m)
@@ -381,7 +381,7 @@ vueDeLʼécran: [
 
 ¶Affiche le terrain et son sol pendant le jeu, et le menu sinon. Chaque liste est vide dans la mauvaise phase, et une liste vide se répand en rien.¶
 listeDesÉtages: (jeu6.phase = 2) ? sol2 []
-listeDesZombies: (jeu6.phase = 2) ? jeu6.zombies.traduire(
+listeDesZombies: (jeu6.phase = 2) ? jeu6.zombies.transformer(
 			ƒ(zombie12•Zombie) vueDuZombie(zombie12)
 		) []
 listeDesCœurs: ((jeu6.phase = 2) & jeu6.cœur) ? [vueDuCœur] [

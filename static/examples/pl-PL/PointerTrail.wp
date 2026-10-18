@@ -5,9 +5,9 @@
 
 historia•[Miejsce]: ←← 5 Wskaźnik()
 Scena(
-	historia.tłumaczyć(
+	historia.przekształć(
 		ƒ(punkt2•Miejsce indeks2•#)
-			Wyrażenie(
+			Fraza(
 				'●'
 				kolor: Kolor(75% 100 indeks2 × 40°)
 				nieprzezroczystość: indeks2 ÷ historia.długość()

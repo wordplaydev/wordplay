@@ -8,13 +8,13 @@ putem folosi numărul din @Sequence și alege de câte ori se întâmplă un set
 iată o minge de baschet care sare în sus și în jos de două ori. 
 
 \
-Stage([
-	Phrase('🏀' intrând: Sequence({
-				0%: Pose(compensare: Place(y: 0.25m))
-				25%: Pose(compensare: Place(y: 0m))
-				50%: Pose(compensare: Place(y: -0.25m))
-				75%: Pose(compensare: Place(y: 0m))
-				100%: Pose(compensare: Place(y: 0.25m))} conta:2x durată:2s))
+Estradă([
+	Fraza('🏀' intrând: Secvenţă({
+				0%: Poză(compensare: Loc(y: 0.25m))
+				25%: Poză(compensare: Loc(y: 0m))
+				50%: Poză(compensare: Loc(y: -0.25m))
+				75%: Poză(compensare: Loc(y: 0m))
+				100%: Poză(compensare: Loc(y: 0.25m))} conta:2x durată:2s))
 ])
 \
 

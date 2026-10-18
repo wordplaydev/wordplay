@@ -5,7 +5,7 @@ Straturi
 
 numărare2: 10 → []
 
-ƒ mingi(z2•#m) numărare2.traduce(
+ƒ mingi(z2•#m) numărare2.transformă(
 		ƒ()
 			Fraza(
 				'o'
@@ -24,7 +24,7 @@ numărare2: 10 → []
 			)
 	)
 
-Etapă(
+Estradă(
 	[
 		:mingi(0m)
 		:mingi(-10m)

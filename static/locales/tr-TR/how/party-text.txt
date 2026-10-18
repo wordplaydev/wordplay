@@ -6,13 +6,13 @@ Bir @Phrase her glifine farklı bir @Pose verebilir: @Phrase/poses.
 İşte sırayla üç renk kullanan eğlenceli bir metin:
 
 \
-Phrase(
+Yazı(
 	'party time!'
 	yüz: 'Luckiest Guy'
 	pozlar: [
-		Pose(renk: Color(25% 70 250°))
-		Pose(renk: Color(50% 80 300°))
-		Pose(renk: Color(58% 90 60°))
+		Poz(renk: Renk(25% 70 250°))
+		Poz(renk: Renk(50% 80 300°))
+		Poz(renk: Renk(58% 90 60°))
 	]
 )
 \
@@ -23,12 +23,12 @@ Bu renklerin hem tonu hem de açıklığı farklıdır. Böylece renkleri farkl�
 Pozlar yalnızca renk vermez. Her glif eğilebilir, büyüyebilir, solabilir ve kendi merkezi etrafında hareket edebilir. Böylece harfleri zıplatabiliriz:
 
 \
-Phrase(
+Yazı(
 	'bounce'
 	yüz: 'Luckiest Guy'
 	pozlar: [
-		Pose(renk: Color(25% 70 250°) rotasyon: -10° telafietmek: Place(0m 0.1m))
-		Pose(renk: Color(58% 90 60°) rotasyon: 10° opaklık: 0.6)
+		Poz(renk: Renk(25% 70 250°) rotasyon: -10° telafietmek: Yer(0m 0.1m))
+		Poz(renk: Renk(58% 90 60°) rotasyon: 10° opaklık: 0.6)
 	]
 )
 \
@@ -37,14 +37,14 @@ Phrase(
 Bu fidye mektubu her çeyrek saniyede yeni bir eğim seçer:
 
 \
-tilt: 0° … ∆ Time(250ms) … Random(-15° 15°)
-Phrase(
+tilt: 0° … ∆ Zaman(250ms) … Rastgele(-15° 15°)
+Yazı(
 	`*ransom* /note/`
 	yüz: 'Courier Prime'
 	pozlar: [
-		Pose(rotasyon: tilt telafietmek: Place(0m 0.05m))
-		Pose(rotasyon: -tilt ölçek: 1.2)
-		Pose(rotasyon: tilt ÷ 2 telafietmek: Place(0m -0.05m))
+		Poz(rotasyon: tilt telafietmek: Yer(0m 0.05m))
+		Poz(rotasyon: -tilt ölçek: 1.2)
+		Poz(rotasyon: tilt ÷ 2 telafietmek: Yer(0m -0.05m))
 	]
 )
 \

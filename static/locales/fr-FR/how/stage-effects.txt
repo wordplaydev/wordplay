@@ -51,7 +51,7 @@ Scène([Phrase('🐠')] effets: underwater(80%))
 Ici, la scène devient floue et sombre sur les bords quand le joueur n'a plus qu'une vie, et redevient claire quand il en a plus.
 
 \
-lives: 3 … ∆ Clé() … lives - 1
+lives: 3 … ∆ Touche() … lives - 1
 
 Scène(
 	[Phrase(lives → '')]

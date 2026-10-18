@@ -59,7 +59,7 @@ hìnhCây: [
 	]
 hìnhTảngĐá: [khối2(0 0 0 '🪨') khối2(0 1 0 '🪨')]
 
-ƒ hìnhTại(hìnhDạng•[khối2] cx•# cz•#) hìnhDạng.dịch(
+ƒ hìnhTại(hìnhDạng•[khối2] cx•# cz•#) hìnhDạng.biếnĐổi(
 		ƒ(b2•khối2) khối2(cx b2.y2 cz b2.loại2)
 	)
 
@@ -77,7 +77,7 @@ hìnhTảngĐá: [khối2(0 0 0 '🪨') khối2(0 1 0 '🪨')]
 			[]
 			ƒ(cấuTrúc•[khối2] cx2•#)
 				cấuTrúc.thêm(
-					(Ngẫunhiên(1 2) → []).dịch(
+					(Ngẫunhiên(1 2) → []).biếnĐổi(
 						ƒ(cấpĐộ•#)
 							khối2(
 								cx2
@@ -157,7 +157,7 @@ sinhCột: [-4 -3 -2 2 3 4]
 				tròChơi3.x4
 				tròChơi3.z4
 			)) ? tròChơi3
-		((tròChơi3.y3:(tròChơi3.y3 + 1).phút(yLớnNhất)).treo:sốNhịpTreo)
+		((tròChơi3.y3:(tròChơi3.y3 + 1).nhỏNhất(yLớnNhất)).treo:sốNhịpTreo)
 
 ¶Vung búa vào bất cứ thứ gì trước mặt bạn. Chỉ miếng ở trên cùng của cột đó rơi ra, đó là lý do một cây cần ba lần đập — và điều này cũng có nghĩa là bạn không bao giờ để lại một miếng lơ lửng, nên không có gì cần phải rơi xuống cả. Bạn chỉ có thể chạm tới một khối cao hơn chỗ đứng của mình đúng một mức, nên một chỏm cây ngoài tầm tay sẽ không rơi ra; hãy lên cao hơn rồi vung búa lại. Miếng rời sẽ lăn thêm một tế bào nữa, xa khỏi bạn, trừ khi tế bào đó nằm ngoài sân hoặc đã có vật chiếm chỗ, thì nó sẽ rơi ngay tại chỗ nó đang đứng. Cây búa luôn lên đà dù có trúng hay không, nên một lần đập hụt vẫn tính là một lần vung.¶
 ƒ chạm(tròChơi4•tròChơi) (
@@ -280,7 +280,7 @@ sinhCột: [-4 -3 -2 2 3 4]
 
 ¶Một khung hình: cho các mảnh rời rơi xuống, treo lại rồi rơi tiếp lên đỉnh của bất cứ thứ gì bạn đang đứng trên, cho vào túi bất cứ thứ gì trên tế bào của bạn, cho búa hạ xuống trở lại, và kiểm tra các tòa tháp.¶
 ƒ tiếnTớiThếGiới(tròChơi10•tròChơi) (
-		đãGià: tròChơi10.vậtPhẩm.dịch(
+		đãGià: tròChơi10.vậtPhẩm.biếnĐổi(
 				ƒ(i•mục2) (i.tuổi = 0) ? (i.tuổi:1) i
 			)
 		đangĐứng: chiềuCaoCột(
@@ -320,7 +320,7 @@ sinhCột: [-4 -3 -2 2 3 4]
 		)
 	)
 
-chìaKhóa3: Chìakhóa()
+chìaKhóa3: Phím()
 nhịp2: Thờigian(150ms)
 chạm2: Cáinút()
 
@@ -361,7 +361,7 @@ kíchThướcÔ: 0.8m
 
 hàngNền: [:0‥4].lọc(
 		ƒ(hàng2•#) hàng2 ≥ (tròChơi11.z4 - vẽPhíaSau)
-	).dịch(
+	).biếnĐổi(
 		ƒ(hàng3•#)
 			Cụmtừ(
 				"🟩🟩🟩🟩🟩🟩🟩🟩🟩"
@@ -374,7 +374,7 @@ hàngNền: [:0‥4].lọc(
 
 khungNhìnKhối: tròChơi11.khối3.lọc(
 		ƒ(b8•khối2) b8.z2 ≥ (tròChơi11.z4 - vẽPhíaSau)
-	).dịch(
+	).biếnĐổi(
 		ƒ(b9•khối2)
 			Cụmtừ(
 				b9.loại2
@@ -391,7 +391,7 @@ khungNhìnBóngMa: mụcTiêuChưaĐạt(
 		tròChơi11.mụcTiêu
 	).lọc(
 		ƒ(g2•khối2) g2.z2 ≥ (tròChơi11.z4 - vẽPhíaSau)
-	).dịch(
+	).biếnĐổi(
 		ƒ(g3•khối2)
 			Cụmtừ(
 				g3.loại2
@@ -406,7 +406,7 @@ khungNhìnBóngMa: mụcTiêuChưaĐạt(
 ¶Một mảnh rời. Đây là thứ duy nhất trên sân khấu có chuyển động mượt thay vì bật ngay tức khắc — khung hình đầu tiên của nó ở nơi khối bị vỡ ra, còn phần còn lại ở nơi nó rơi xuống, và chuyển động mượt ở giữa chính là cú lăn.¶
 khungNhìnVậtPhẩm: tròChơi11.vậtPhẩm.lọc(
 		ƒ(i6•mục2) i6.z3 ≥ (tròChơi11.z4 - vẽPhíaSau)
-	).dịch(
+	).biếnĐổi(
 		ƒ(i7•mục2)
 			Cụmtừ(
 				i7.loại3
@@ -482,7 +482,7 @@ dòngBắtĐầu: (tròChơi11.giaiĐoạn = 3) ? 'Nhấn Enter hoặc bấm chu
 ¶Các màn hình nằm phẳng trên một khu vực đầy cây cối và hình người, vì vậy nhóm này cần có một lớp nền không trong suốt phía sau — chữ tối trên nền cành cây và mái nhà rất khó đọc, và một tấm nền đặc giúp chữ dễ đọc trong khi vẫn để lộ thế giới xung quanh.¶
 khungNhìnMànHình: [
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				Cụmtừ(tiêuĐềMànHình 1.1m tên: 's1')
 				Cụmtừ(
@@ -545,7 +545,7 @@ vừaVỡ: tròChơi11.vậtPhẩm.lọc(ƒ(i8•mục2) i8.tuổi = 0)
 
 Còn lại thời gian thì trống rỗng, và như vậy là đủ: một nốt nhạc đã bắt đầu phát sẽ chơi đến hết, nên tiếng búa vẫn ngân vang dù danh sách này trở nên trống ngay ở nhịp tiếp theo.¶
 nốtTrúng: đãVỡ
-	? ((vừaVỡ.chiềudài() > 0) ? vừaVỡ.dịch(
+	? ((vừaVỡ.chiềudài() > 0) ? vừaVỡ.biếnĐổi(
 					ƒ(i9•mục2) (i9.loại3 = '🪵') ? 5 1
 				) [3])
 		[]
@@ -554,7 +554,7 @@ nốtTrúng: đãVỡ
 đãVung2: ((∆ chìaKhóa3) & (chìaKhóa3 = 'Không gian')) | (∆ chạm2)
 
 âmThanhTrúng: ÂmNhạc(
-		BảnNhạc(nốtTrúng nhạcCụ: NhạcCụ.trống vòngLặp: ⊥)
+		Bè(nốtTrúng nhạcCụ: NhạcCụ.trống vòngLặp: ⊥)
 		phátLại: đãVung2
 		tên: 'chạm'
 	)
@@ -562,19 +562,19 @@ nốtTrúng: đãVỡ
 ¶Một nơi để ở cùng trong khi bạn làm việc: một giai điệu ngũ cung chậm rãi trên sáo, một tiếng chuông thỉnh thoảng đáp lại, và một âm nền trầm bên dưới. Dùng thang ngũ cung vì không có nốt nào trong đó xung khắc với nhau, nên vòng lặp không bao giờ cần kết thúc ở một nốt cụ thể và không bao giờ nghe lạc quẻ khi tiếng búa vang lên bên trên nó. Dài mười sáu nhịp thay vì tám nhịp, nên phải mất một lúc mới quay trở lại từ đầu.¶
 âmThanhNền: ÂmNhạc(
 		[
-			BảnNhạc(
+			Bè(
 				[1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø]
 				nhạcCụ: NhạcCụ.sáo
 				nhịp: 1beats
 				âmLượng: 30%
 			)
-			BảnNhạc(
+			Bè(
 				[ø ø ø ø ø ø 8 ø ø ø ø ø ø ø 6 ø]
 				nhạcCụ: NhạcCụ.chuông
 				nhịp: 1beats
 				âmLượng: 20%
 			)
-			BảnNhạc(
+			Bè(
 				[{1 5} {1 5} {4 8} {1 5}]
 				nhạcCụ: NhạcCụ.đànPadTổngHợp
 				nhịp: 4beats
@@ -592,27 +592,27 @@ nốtTrúng: đãVỡ
 Không có gì ở đây lặp lại, và chính điều đó khiến nó trở thành một khúc kèn chiến thắng chứ không phải một nền nhạc mới. Một âm thanh chỉ phát một lần, sau khi đã phát xong, sẽ im lặng trong khi vẫn còn trên sân khấu, nên màn hình chiến thắng trở lại yên tĩnh và nhường chỗ cho âm thanh nền; bắt đầu một vòng chơi mới sẽ đưa nó ra khỏi sân khấu và quên nó đi, nên công trình tiếp theo mà bạn hoàn thành sẽ khiến nó vang lên lại từ đầu.¶
 âmThanhThắng: ÂmNhạc(
 		[
-			BảnNhạc(
+			Bè(
 				[1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø]
 				nhạcCụ: NhạcCụ.kènTrumpet
 				nhịp: 0.5beats
 				vòngLặp: ⊥
 			)
-			BảnNhạc(
+			Bè(
 				[ø ø ø ø ø ø ø ø 8 ø 10 ø 12 ø ø ø]
 				nhạcCụ: NhạcCụ.chuông
 				nhịp: 0.5beats
 				âmLượng: 45%
 				vòngLặp: ⊥
 			)
-			BảnNhạc(
+			Bè(
 				[{1 3 5} ø {4 6 8} ø]
 				nhạcCụ: NhạcCụ.đànPiano
 				nhịp: 2beats
 				âmLượng: 40%
 				vòngLặp: ⊥
 			)
-			BảnNhạc(
+			Bè(
 				[1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø]
 				nhạcCụ: NhạcCụ.trống
 				nhịp: 0.5beats

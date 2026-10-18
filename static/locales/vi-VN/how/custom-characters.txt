@@ -8,7 +8,7 @@ Em có thể dùng điểm ảnh, hình chữ nhật, hình tròn và đường 
 Đặt tên cho nó, mô tả nó, rồi em có thể dùng tên người dùng và tên ký tự của mình như thế này:
 
 \
-Phrase(`Hãy nhìn vào chiếc váy lộng lẫy của tôi này. @username/charactername !`)
+Cụmtừ(`Hãy nhìn vào chiếc váy lộng lẫy của tôi này. @username/charactername !`)
 \
 
  Tên người dùng và tên ký tự đó không tồn tại, nên nó sẽ hiển thị thành một hình chữ nhật trống.

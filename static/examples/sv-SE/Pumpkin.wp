@@ -24,8 +24,8 @@ pumpa: Fras(
 				100%: Pose()
 			}
 			0.5s
-			räkna: 3x
+			antal: 3x
 		)
 	)
 
-Etapp(visa ? [pumpa] [] bakgrund: Färg(0% 0 0°))
+Estrad(visa ? [pumpa] [] bakgrund: Färg(0% 0 0°))

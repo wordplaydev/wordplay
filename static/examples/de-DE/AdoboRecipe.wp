@@ -26,8 +26,8 @@ sätzeBewegen: [9 11]
 punkt2: Zeiger()
 aktuellerSatz•#: 1 …
 	sätzeBewegen.hat(aktuellerSatz) ?
-		(punkt2.X > 2m) & (punkt2.j > 3m)
-		∆ Taste() | ∆ Schlüssel()
+		(punkt2.X > 2m) & (punkt2.Y > 3m)
+		∆ Taste() | ∆ Tastaturtaste()
 		…
 		(aktuellerSatz <
 				sätze.Länge()) ?
@@ -35,6 +35,6 @@ aktuellerSatz•#: 1 …
 			aktuellerSatz
 
 Bühne(
-	[Satzglied(sätze[aktuellerSatz] wickeln: 10m)]
+	[Phrase(sätze[aktuellerSatz] wickeln: 10m)]
 	gesicht: 'Short Stack'
 )

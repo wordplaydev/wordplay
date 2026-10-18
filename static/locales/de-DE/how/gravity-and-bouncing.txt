@@ -7,9 +7,9 @@ Genau dafür gibt es @Motion und @Matter — zusammen simulieren sie Physik für
 Wir brauchen auch etwas, worauf es fallen kann, sonst fällt unsere Figur einfach ewig weiter! Eine @Shape mit einer breiten @Rectangle ergibt einen schönen Boden:
 
 \
-Stage([
-    Phrase('🍎' Ort: Motion(Place(0m 5m)) Gegenstand: Matter())
-    Shape(Rectangle(-10m 0m 10m -5m))
+Bühne([
+    Phrase('🍎' Ort: Bewegung(Ort(0m 5m)) Material: Material())
+    Gestalt(Rechteck(-10m 0m 10m -5m))
 ])
 \
 
@@ -20,10 +20,10 @@ Um zu ändern, wie / federnd / oder wie / schwer / Eine Figur ist, gib ihr deine
 @Matter benötigt Masse, Sprungkraft und Reibung:
 
 \
-Stage([
-    Phrase('⚽' Ort: Motion(Place(-2m 5m)) Gegenstand: Matter(1kg 0.9 0.2))
-    Phrase('🪨' Ort: Motion(Place(2m 5m)) Gegenstand: Matter(5kg 0.1 0.8))
-    Shape(Rectangle(-10m 0m 10m -5m))
+Bühne([
+    Phrase('⚽' Ort: Bewegung(Ort(-2m 5m)) Material: Material(1kg 0.9 0.2))
+    Phrase('🪨' Ort: Bewegung(Ort(2m 5m)) Material: Material(5kg 0.1 0.8))
+    Gestalt(Rechteck(-10m 0m 10m -5m))
 ])
 \
 

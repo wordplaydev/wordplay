@@ -4,10 +4,10 @@ Cevap doğru olduğunda bir zil sesi, bir şey yere düştüğünde bir gümbür
 
 İki şey onu bir şarkı değil de ses efekti yapar. \döngü: ⊥\ komutu  @Track  öğesine notalarını sonsuza kadar değil, bir kez çalmasını söyler. Ve nota listesinin kendisi o andan gelir: bir şey daha yeni olduğunda notalar tutar, geri kalan zamanda ise boştur.
 
-\tapped: ∆ Button()
-Stage([
-		Phrase('👆 bana dokun' seçilebilir isim: 'dokun')
-		Music(Track(tapped ? [1 5 8] [] çalgı: Instrument.bell döngü: ⊥) tekrarOynat: tapped)
+\tapped: ∆ Düğme()
+Sahne([
+		Yazı('👆 bana dokun' seçilebilir isim: 'dokun')
+		Müzik(Parça(tapped ? [1 5 8] [] çalgı: Çalgı.çan döngü: ⊥) tekrarOynat: tapped)
 	])\
 
 Listenin bir sonraki hesaplamada tekrar boşalmasından endişe etme — başlamış bir nota her zaman sonuna kadar çalar. Dışarıda bırakamayacağın şey \replay\. İki kez dokun, ikinci dokunuş birinciyle tam olarak aynı müziği üretir, yani hiçbir şey değişmedi ve hiçbir şey tekrar seslenmez; \replay\ şunu söylemenin yoludur: /tekrar, şimdi/. 
@@ -16,11 +16,11 @@ Listenin bir sonraki hesaplamada tekrar boşalmasından endişe etme — başlam
 
 Notalar sadece bir liste olduğundan, her zaman aynı şeyi çalmak yerine *neyin* olduğuna göre notaları belirleyebilirsin:
 
-\key: Key()
+\key: Tuş()
 struck: ∆ key
-Stage([
-		Phrase(struck ? key '⌨ bir tuşa bas' 1m)
-		Music(Track(struck ? [((key = ' ') ? 1 8)] [] çalgı: Instrument.piano döngü: ⊥) tekrarOynat: struck)
+Sahne([
+		Yazı(struck ? key '⌨ bir tuşa bas' 1m)
+		Müzik(Parça(struck ? [((key = ' ') ? 1 8)] [] çalgı: Çalgı.piyano döngü: ⊥) tekrarOynat: struck)
 	])\
 
 Şuna dikkat et: \∆ key\ kendi satırında hesaplanır ve değer testi \key = ' '\ ayrı olarak gerçekleşir. Tek bir koşul olarak birlikte yazılırsa, ses ilgisiz bir sonraki tuşta tekrar çalar, çünkü \key\ hâlâ boşluk olarak okunur.

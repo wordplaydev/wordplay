@@ -14,8 +14,8 @@ czcionki: [
 symbole: 'typography'/en'tipografía'/es ÷ ''
 
 ƒ losuj()
-	symbole.tłumaczyć(
-		ƒ(symbol) Wyrażenie(
+	symbole.przekształć(
+		ƒ(symbol) Fraza(
 				symbol
 				twarz: czcionki.losowy()
 				czastrwania: 0s

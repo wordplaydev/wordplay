@@ -3,7 +3,7 @@ Zeitmesser
 ===
 ¶Eine Reihe von Punkten, die bis auf fünf wächst und dann von vorn beginnt, einmal pro Sekunde.¶
 
-Satzglied(
+Phrase(
 	"•".wiederholen(((Zeit(1000ms) → #s) % 5).abrunden() + 1s)
 	Dauer: 0s
 )

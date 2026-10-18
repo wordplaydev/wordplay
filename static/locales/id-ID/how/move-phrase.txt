@@ -5,9 +5,9 @@ Terkadang bermanfaat untuk membuat @Phrase dapat digerakkan dengan keyboard, mou
 Lakukan ini, kita bisa menggabungkannya @Phrase dengan @Placement:
 
 \
-Stage(
-	[Phrase('gerakkan aku' tempat: Placement())]
-	tempat: Place(0m 0m -10m)
+Panggung(
+	[Frasa('gerakkan aku' tempat: Penempatan())]
+	tempat: Tempat(0m 0m -10m)
 )
 \
 
@@ -18,13 +18,13 @@ Misalnya, sebuah @Stage punya @Place yang menentukan ke arah mana kameranya meng
 Ayo coba mengatur tempat sebuah @Placement untuk sebuah @Stage, lalu lihat apa yang terjadi.
 
 \
-Stage(
+Panggung(
   [
-	Phrase('🐈' tempat: Place(-2m 2m))
-	Phrase('🐈' tempat: Place(2m -2m))
-	Phrase('🐈' tempat: Place(-1m 3m))
+	Frasa('🐈' tempat: Tempat(-2m 2m))
+	Frasa('🐈' tempat: Tempat(2m -2m))
+	Frasa('🐈' tempat: Tempat(-1m 3m))
   ]
-  tempat: Placement(Place(0m 0m -10m))
+  tempat: Penempatan(Tempat(0m 0m -10m))
 )
 \
 

@@ -14,12 +14,12 @@
 \
 •Game(secrets•[''] points•#)
 
-state: Game(['мачка' 'пас'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+state: Game(['мачка' 'пас'] 0) … state.secrets.има(Ћаскање()) … state.points: state.points + 1
 
-Stage(
-    state.points = state.secrets.length() ? 
-        [ Phrase("победио си!")]
-        [ Group(Stack() [ Phrase("погоди моје тајне речи") Phrase(`\state.secrets.length() - state.points\ још тајни`)])]
+Позорница(
+    state.points = state.secrets.дужина() ? 
+        [ Фраза("победио си!")]
+        [ Група(Наслага() [ Фраза("погоди моје тајне речи") Фраза(`\state.secrets.length() - state.points\ још тајни`)])]
 )
 \
 

@@ -8,7 +8,7 @@ Jeder Teil ist in Stufen der Tonleiter geschrieben. 1 ist also der Grundton und 
 Die Melodie und die Harmonie bewegen sich in halben Schlägen und die Akkorde in ganzen. Jeder Teil gibt an, wie lang seine eigenen Einträge sind, und trotzdem passen alle zusammen.¶
 
 ¶Die Schläge, seit das Lied begonnen hat, damit sich der Kuchen mitbewegen kann. @Beat zählt vor dem Beginn der Musik von null, darum bleibt der Kuchen dann still stehen.¶
-schlag2: Takt()
+schlag2: Schlag()
 zählung: schlag2.Zählung
 
 ¶Die Melodie. Zwei Achtel, dann längere Töne. Die Pausen machen den Rhythmus, denn jeder Eintrag dauert gleich lang, nämlich einen halben Schlag.¶
@@ -154,7 +154,7 @@ akkorde: [
 	]
 
 ¶Der Kuchen schwillt bei jedem Schlag an und beruhigt sich dazwischen.¶
-ƒ kuchen() Satzglied(
+ƒ kuchen() Phrase(
 		'🎂'
 		(4m + ((zählung % 2) · 0.4m))
 		Dauer: 0.2s
@@ -166,7 +166,7 @@ Bühne(
 			Stapel(Polsterung: 0.5m)
 			[
 				kuchen()
-				Satzglied('Happy Birthday' 1.3m)
+				Phrase('Happy Birthday' 1.3m)
 			]
 		)
 		Musik(

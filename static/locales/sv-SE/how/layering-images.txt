@@ -12,16 +12,16 @@ Prova dig fram och se vad du kan skapa!
 ¶Obs: Kolla in galleriet för ett annat projekt<exempel@https://wordplay.dev/project/example-Layers?play>av att lägga bilder i lager.¶
 
 
-Stage(
+Estrad(
 	[
-		Shape(Circle(3m 0m 1m 0m))
-		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
-		Shape(Polygon(7m 6 0m -6m 0m))
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
-		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+		Figur(Cirkel(3m 0m 1m 0m))
+		Figur(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Figur(Polygon(7m 6 0m -6m 0m))
+		Figur(Rektangel(-11m -9m 11m -12m 10m) rotation: 25°)
+		Figur(Rektangel(-11m -9m 11m -12m 10m) rotation: -25°)
 
 	]
-	plats: Place(0m 10m -30m)
+	plats: Plats(0m 10m -30m)
 )
 \
 

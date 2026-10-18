@@ -14,7 +14,7 @@ rubriker•# ?
 		[
 			Fras(`*New York Times rubriker*` 2m ansikte: 'Arvo')
 		].medLista(
-			rubriker.efterföljande(1 7).översätta(
+			rubriker.efterföljande(1 7).omvandla(
 				ƒ(rubrik)
 					Fras(
 						rubrik

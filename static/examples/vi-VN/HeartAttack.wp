@@ -55,7 +55,7 @@ người: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ¶Lê một bước về phía người chơi: tiến về phía trước theo chiều sâu trong khi lắc qua lại hai bên để khó bị bắn trúng hơn, đổi hướng lắc ở rìa của một dải quanh làn của bạn, và bám nhẹ theo bạn giữa các lần lắc để né tránh chỉ có tác dụng trong chốc lát.¶
 ƒ laoVềPhíaNgườiChơi(thâyMa5•thâyMa cameraX2•#m tốcĐộLaoTới•#m) (
 		đãUốnX: thâyMa5.x2 + (thâyMa5.hướngX · tốcĐộĐanXen)
-		đãHướngVềX: đãUốnX + (cameraX2 - đãUốnX).limit((tốcĐộVềNhà · -1) tốcĐộVềNhà)
+		đãHướngVềX: đãUốnX + (cameraX2 - đãUốnX).giớiHạn((tốcĐộVềNhà · -1) tốcĐộVềNhà)
 		ởRìa: (đãUốnX > (cameraX2 + độRộngĐanXen)) | (đãUốnX < (cameraX2 - độRộngĐanXen))
 		thâyMa(
 			đãHướngVềX
@@ -85,7 +85,7 @@ người: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 
 ¶Một sân xác sống mới, trải dài từ gần đến xa, rải rác từ trái sang phải, mỗi con lang thang theo một hướng ngẫu nhiên.¶
 ƒ sinhRaThâyMa()
-	(sốLượngThâyMa → []).dịch(
+	(sốLượngThâyMa → []).biếnĐổi(
 		ƒ(chỉMục2•#)
 			thâyMa(
 				Ngẫunhiên(giớiHạnTrái giớiHạnPhải)
@@ -126,7 +126,7 @@ người: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 
 ¶Dịch làn đường của bạn một bước về phía một điểm, nhưng không bao giờ vượt quá giới hạn của bạn. Con trỏ báo điểm trong thế giới mà nó đang ở trên, vậy khoảng cách từ làn đường của bạn tới điểm đó cho biết nó ở bên trái hay bên phải bạn bao xa — bước về phía nó giúp con trỏ nhắm, và chạm vào một trong hai bên sẽ khiến bạn di chuyển theo hướng đó.¶
 ƒ hướngTới(tròChơi3•tròChơi mụcTiêu•#m)
-	tròChơi3.cameraX:(tròChơi3.cameraX + (mụcTiêu - tròChơi3.cameraX).limit((bướcTạtNgang · -1) bướcTạtNgang)).limit(giớiHạnTrái giớiHạnPhải)
+	tròChơi3.cameraX:(tròChơi3.cameraX + (mụcTiêu - tròChơi3.cameraX).giớiHạn((bướcTạtNgang · -1) bướcTạtNgang)).giớiHạn(giớiHạnTrái giớiHạnPhải)
 
 ¶Một lần nhấn phím khi đang chơi: né sang trái hoặc phải, hoặc ném một trái tim.¶
 ƒ ápDụngPhímBấm(tròChơi4•tròChơi chìaKhóa2•"")
@@ -170,7 +170,7 @@ người: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 			)
 		độSâuBịĐánhTrúng: (hìnhBịĐánhTrúng•ø) ? -999m hìnhBịĐánhTrúng.z2
 		đangChuyểnĐổi: (hìnhBịĐánhTrúng•ø) ? ⊥ hìnhBịĐánhTrúng.cònSống
-		thâyMaKếTiếp: tròChơi5.thâyMa2.dịch(
+		thâyMaKếTiếp: tròChơi5.thâyMa2.biếnĐổi(
 				ƒ(thâyMa11•thâyMa)
 					thâyMa11.cònSống ?
 						((đangChuyểnĐổi & (thâyMa11.z2 = độSâuBịĐánhTrúng)) ? thâyMa(
@@ -214,7 +214,7 @@ người: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 		)
 	)
 
-chìaKhóa3: Chìakhóa()
+chìaKhóa3: Phím()
 nhịp2: Thờigian(30ms)
 conTrỏ: Contrỏ()
 chạm: Cáinút()
@@ -338,7 +338,7 @@ dòngBắtĐầu: (tròChơi6.giaiĐoạn = 1) ? 'Nhấn Enter hoặc chạm đ�
 
 khungNhìnMànHình: [
 		Nhóm(
-			Ngănxếp()
+			XếpDọc()
 			[
 				Cụmtừ(tiêuĐềMànHình 1.1m)
 				Cụmtừ(phụĐềMànHình 0.6m)
@@ -354,7 +354,7 @@ khungNhìnMànHình: [
 
 ¶Hiện khu vực chơi và sàn của nó khi đang chơi, còn không thì hiện trình đơn. Mỗi danh sách sẽ trống trong giai đoạn không phù hợp, và một danh sách trống sẽ trải ra thành không có gì.¶
 danhSáchNền: (tròChơi6.giaiĐoạn = 2) ? sànNhà []
-danhSáchXácSống: (tròChơi6.giaiĐoạn = 2) ? tròChơi6.thâyMa2.dịch(
+danhSáchXácSống: (tròChơi6.giaiĐoạn = 2) ? tròChơi6.thâyMa2.biếnĐổi(
 			ƒ(thâyMa14•thâyMa) khungNhìnThâyMa(thâyMa14)
 		) []
 danhSáchTráiTim: ((tròChơi6.giaiĐoạn = 2) & tròChơi6.tráiTim) ? [
@@ -378,25 +378,25 @@ chủĐề: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
 ¶Đang chờ để bắt đầu: một âm trầm chậm, chủ đề âm nhạc vang xa trên một tiếng chuông, và một nhịp tim ở phía dưới.¶
 bàiHátMenu: ÂmNhạc(
 		[
-			BảnNhạc(
+			Bè(
 				chủĐề
 				nhạcCụ: NhạcCụ.chuông
 				nhịp: 0.5beats
 				âmLượng: 45%
 			)
-			BảnNhạc(
+			Bè(
 				[{1 3 5} {1 3 5} {6 8 10} {5 7 9}]
 				nhạcCụ: NhạcCụ.đànPadTổngHợp
 				nhịp: 2beats
 				âmLượng: 40%
 			)
-			BảnNhạc(
+			Bè(
 				[1 ø 1 ø 6 ø 5 ø]
 				nhạcCụ: NhạcCụ.đànBassTổngHợp
 				nhịp: 1beats
 				âmLượng: 50%
 			)
-			BảnNhạc(
+			Bè(
 				[1 ø ø ø 1 ø ø ø]
 				nhạcCụ: NhạcCụ.trống
 				nhịp: 1beats
@@ -411,19 +411,19 @@ bàiHátMenu: ÂmNhạc(
 ¶Cuộc rượt đuổi: cùng một chủ đề nhưng nhanh gấp gần hai lần, trên nền bass chạy đều và một nhịp trống không bao giờ ngừng.¶
 bàiHátRượtĐuổi: ÂmNhạc(
 		[
-			BảnNhạc(
+			Bè(
 				chủĐề
 				nhạcCụ: NhạcCụ.đànTổngHợp
 				nhịp: 0.5beats
 				âmLượng: 45%
 			)
-			BảnNhạc(
+			Bè(
 				[1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5]
 				nhạcCụ: NhạcCụ.đànBassTổngHợp
 				nhịp: 0.5beats
 				âmLượng: 55%
 			)
-			BảnNhạc(
+			Bè(
 				[1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3]
 				nhạcCụ: NhạcCụ.trống
 				nhịp: 0.5beats
@@ -438,26 +438,26 @@ bàiHátRượtĐuổi: ÂmNhạc(
 ¶Chiến thắng: cùng một chủ đề nhưng ở âm giai trưởng, được nhân đôi cao hơn một quãng tám trên sáo, trên nền hợp âm sáng nhất trong ví dụ này. Đây là giai điệu vui duy nhất.¶
 bàiHátThắng: ÂmNhạc(
 		[
-			BảnNhạc(
+			Bè(
 				chủĐề
 				nhạcCụ: NhạcCụ.chuông
 				nhịp: 0.5beats
 				âmLượng: 55%
 			)
-			BảnNhạc(
+			Bè(
 				chủĐề
 				nhạcCụ: NhạcCụ.sáo
 				nhịp: 0.5beats
 				chìaKhóa: 12semitones
 				âmLượng: 40%
 			)
-			BảnNhạc(
+			Bè(
 				[{1 3 5} {5 7 9} {6 8 10} {4 6 8}]
 				nhạcCụ: NhạcCụ.đànPiano
 				nhịp: 2beats
 				âmLượng: 45%
 			)
-			BảnNhạc(
+			Bè(
 				[1 ø 3 ø 2 ø 3 ø]
 				nhạcCụ: NhạcCụ.trống
 				nhịp: 1beats
@@ -472,26 +472,26 @@ bàiHátThắng: ÂmNhạc(
 ¶Thất bại: chủ đề thấp hơn một quãng tám và chậm bằng nửa tốc độ của menu, trên nền âm trầm didgeridoo và các hợp âm không cố quay về nốt chủ — chúng kết thúc ở nốt thứ sáu thay vì nốt chủ, nên vòng lặp không bao giờ được giải quyết.¶
 bàiHátThua: ÂmNhạc(
 		[
-			BảnNhạc(
+			Bè(
 				chủĐề
 				nhạcCụ: NhạcCụ.chuông
 				nhịp: 0.5beats
 				chìaKhóa: -12semitones
 				âmLượng: 45%
 			)
-			BảnNhạc(
+			Bè(
 				[1 ø ø ø]
 				nhạcCụ: NhạcCụ.kènDidgeridoo
 				nhịp: 2beats
 				âmLượng: 50%
 			)
-			BảnNhạc(
+			Bè(
 				[{1 3 5} {1 3 5} {6 8 10} {6 8 10}]
 				nhạcCụ: NhạcCụ.đànPadTổngHợp
 				nhịp: 2beats
 				âmLượng: 40%
 			)
-			BảnNhạc(
+			Bè(
 				[1 ø ø ø ø ø ø ø]
 				nhạcCụ: NhạcCụ.trống
 				nhịp: 1beats

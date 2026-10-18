@@ -493,19 +493,19 @@
                 "round": {
                     "doc": [
                         "$~Tôi tạo một biến @Number mới để làm tròn số đến số nguyên gần nhất.",
-                        "\\9.4.round()\\",
-                        "\\9.5.round()\\",
-                        "\\9.6.round()\\"
+                        "\\9.4.làmTròn()\\",
+                        "\\9.5.làmTròn()\\",
+                        "\\9.6.làmTròn()\\"
                     ],
-                    "names": ["$~tròn"],
+                    "names": ["$~làmTròn", "$~tròn"],
                     "inputs": []
                 },
                 "roundDown": {
                     "doc": [
                         "$~Tôi tạo một biến @Number mới làm tròn đến số nguyên nhỏ nhất nhỏ hơn tôi.",
-                        "\\10.5.roundDown()\\",
-                        "\\10.1.roundDown()\\",
-                        "\\10.01.roundDown()\\"
+                        "\\10.5.làmtrònxuống()\\",
+                        "\\10.1.làmtrònxuống()\\",
+                        "\\10.01.làmtrònxuống()\\"
                     ],
                     "names": ["$~làmtrònxuống"],
                     "inputs": []
@@ -636,21 +636,21 @@
                     ]
                 },
                 "cos": {
-                    "doc": ["$~Tính cosin của tôi.", "\\π.cos()\\"],
+                    "doc": ["$~Tính cosin của tôi.", "\\π.côsin()\\"],
                     "names": ["$~côsin"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~Tính sin của tôi.", "\\π.cos()\\"],
+                    "doc": ["$~Tính sin của tôi.", "\\π.côsin()\\"],
                     "names": ["$~tộilỗi"],
                     "inputs": []
                 },
                 "min": {
                     "doc": [
                         "$~Tìm số nhỏ nhất trong số tôi và những người khác.",
-                        "\\1.min(2 3 -1)\\"
+                        "\\1.nhỏNhất(2 3 -1)\\"
                     ],
-                    "names": "$~phút",
+                    "names": ["$~nhỏNhất", "$~phút"],
                     "inputs": [
                         {
                             "doc": "$~Bạn có thể cung cấp cho tôi bao nhiêu số tùy thích!",
@@ -661,7 +661,7 @@
                 "max": {
                     "doc": [
                         "$~Tìm số lượng lớn nhất của tôi và những người khác.",
-                        "\\1.max(2 3 4)\\"
+                        "\\1.tốiđa(2 3 4)\\"
                     ],
                     "names": "$~tốiđa",
                     "inputs": [
@@ -672,7 +672,7 @@
                     ]
                 },
                 "tan": {
-                    "doc": ["$~Tính tang của tôi.", "\\π.tan()\\"],
+                    "doc": ["$~Tính tang của tôi.", "\\π.tang()\\"],
                     "names": ["$~tang"],
                     "inputs": []
                 },
@@ -742,7 +742,7 @@
                 "limit": {
                     "doc": [
                         "$~Giữ tôi ở giữa một số thấp và một số cao: nếu tôi thấp hơn số thấp, bạn sẽ nhận được số thấp đó, và nếu tôi cao hơn số cao, bạn sẽ nhận được số cao đó thay thế.",
-                        "\\12.limit(0 10)\\"
+                        "\\12.giớiHạn(0 10)\\"
                     ],
                     "names": "$~giớiHạn",
                     "inputs": [
@@ -759,7 +759,7 @@
                 "toward": {
                     "doc": [
                         "$~Di chuyển một phần quãng đường từ tôi đến một số khác. Ở 0% bạn nhận được tôi, ở 100% bạn nhận được số kia, và ở giữa sẽ cho ra số nằm chính giữa.",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.hướngTới(10m 30%)\\"
                     ],
                     "names": "$~hướngTới",
                     "inputs": [
@@ -776,7 +776,7 @@
                 "rescale": {
                     "doc": [
                         "$~Tìm xem tôi nằm ở đâu giữa một cặp số, rồi trả về số nằm ở vị trí tương tự giữa một cặp số khác. Hữu ích khi biến một thứ bạn đã đo được thành thứ bạn có thể hiển thị.",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.đổiTỉLệ(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~đổiTỉLệ",
                     "inputs": [
@@ -989,7 +989,7 @@
                 "append": {
                     "doc": [
                         "$~Tôi tạo một @List mới với các @value của mình, sau đó thêm tất cả các giá trị của @List đã cho sau tôi.",
-                        "\\['apple' 'banana' 'mango'].withList(['watermelon' 'starfruit'])\\",
+                        "\\['apple' 'banana' 'mango'].thêm(['watermelon' 'starfruit'])\\",
                         "Sử dụng @Spread sẽ dễ hơn một chút, như thế này:",
                         "\\['táo' 'chuối' 'xoài' :['dưa hấu' 'quả khế']]\\"
                     ],
@@ -1026,7 +1026,7 @@
                 "random": {
                     "doc": [
                         "$~Một mục được chọn ngẫu nhiên từ danh sách của tôi, hoặc @None nếu danh sách trống.",
-                        "\\['apple' 'banana' 'mango'].random()\\"
+                        "\\['apple' 'banana' 'mango'].ngẫunhiên()\\"
                     ],
                     "names": "$~ngẫunhiên",
                     "inputs": []
@@ -1042,7 +1042,7 @@
                 "first": {
                     "doc": [
                         "$~Mục đầu tiên trong tôi, hoặc @None nếu tôi trống.",
-                        "\\['apple' 'banana' 'mango'].first()\\"
+                        "\\['apple' 'banana' 'mango'].Đầutiên()\\"
                     ],
                     "names": "$~Đầutiên",
                     "inputs": []
@@ -1058,7 +1058,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ nếu tôi có một vật phẩm tương đương với vật phẩm đã cho trong tôi.",
-                        "\\['apple' 'banana' 'mango'].has('banana')\\"
+                        "\\['apple' 'banana' 'mango'].có('banana')\\"
                     ],
                     "names": "$~có",
                     "inputs": [
@@ -1071,9 +1071,9 @@
                 "join": {
                     "doc": [
                         "$~Tôi kết hợp các mục trong danh sách của mình thành @Text, được phân tách bằng dấu phân cách @Text đã cho.",
-                        "\\['apple' 'banana' 'mango'].join(', ')\\"
+                        "\\['apple' 'banana' 'mango'].nối(', ')\\"
                     ],
-                    "names": "$~thamgia",
+                    "names": ["$~nối", "$~thamgia"],
                     "inputs": [
                         {
                             "doc": "$~Văn bản dùng để phân tách các mục, có thể để trống.",
@@ -1108,15 +1108,15 @@
                 "sansFirst": {
                     "doc": [
                         "$~Tôi tạo một danh sách mà không có mục đầu tiên.",
-                        "\\['apple' 'banana' 'mango'].sansFirst()\\"
+                        "\\['apple' 'banana' 'mango'].bỏĐầu()\\"
                     ],
-                    "names": ["$~khôngcóFirst"],
+                    "names": ["$~bỏĐầu", "$~khôngcóFirst"],
                     "inputs": []
                 },
                 "sansLast": {
                     "doc": [
                         "$~Tôi tạo một danh sách mà không có mục cuối cùng.",
-                        "\\['apple' 'banana' 'mango'].sansLast()\\"
+                        "\\['apple' 'banana' 'mango'].khôngcócuốicùng()\\"
                     ],
                     "names": ["$~khôngcócuốicùng"],
                     "inputs": []
@@ -1136,7 +1136,7 @@
                 "reverse": {
                     "doc": [
                         "$~Tôi, nhưng theo chiều ngược lại!",
-                        "\\['apple' 'banana' 'mango'].reverse()\\"
+                        "\\['apple' 'banana' 'mango'].đảongược()\\"
                     ],
                     "names": ["$~đảongược"],
                     "inputs": []
@@ -1171,9 +1171,9 @@
                     "doc": [
                         "$~Hãy đưa cho mình một @FunctionDefinition nhận vào một @value và một @index tùy chọn rồi tạo ra một giá trị, và mình sẽ chạy nó trên từng @element của mình, biến các giá trị của mình thành các giá trị mới.",
                         "Ví dụ, hãy tưởng tượng mình là một danh sách @Number và bạn muốn nhân đôi tất cả chúng:",
-                        "\\[2 4 6 8].dịch(ƒ(số•#) số × 2)\\"
+                        "\\[2 4 6 8].biếnĐổi(ƒ(số•#) số × 2)\\"
                     ],
-                    "names": "$~dịch",
+                    "names": ["$~biếnĐổi", "$~dịch"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition sẽ dịch từng mục.",
@@ -1371,7 +1371,7 @@
                 "sum": {
                     "doc": [
                         "$~Cộng tất cả các số của tôi lại với nhau. Nếu tôi rỗng, kết quả là 0, và nếu các số của tôi không cùng đơn vị đo, tôi sẽ báo cho bạn biết thay vì đoán bừa.",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].tổng()\\"
                     ],
                     "names": "$~tổng",
                     "inputs": []
@@ -1379,7 +1379,7 @@
                 "average": {
                     "doc": [
                         "$~Cộng tất cả các số của tôi lại với nhau rồi chia cho số lượng của chúng. Nếu tôi rỗng thì không có gì để tính trung bình, nên bạn sẽ nhận được @None.",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].trungBình()\\"
                     ],
                     "names": "$~trungBình",
                     "inputs": []
@@ -1498,7 +1498,7 @@
                 "difference": {
                     "doc": [
                         "$~Hãy đưa cho tôi @Set và tôi sẽ tạo một @Set mới chỉ chứa các mục mà chúng ta có chung.",
-                        "\\{1 2 3}.difference({3 4 5})\\"
+                        "\\{1 2 3}.sựkhácbiệt({3 4 5})\\"
                     ],
                     "names": "$~sựkhácbiệt",
                     "inputs": [
@@ -1512,7 +1512,7 @@
                     "doc": [
                         "$~Hãy cung cấp cho tôi một @FunctionDefinition nhận vào một mục và trả về \\⊤\\ nếu mục đó nên được giữ lại, và tôi sẽ tạo một @Set chỉ chứa các mục đáp ứng tiêu chí của bạn.",
                         "Ví dụ, hãy tìm những số lẻ trong tôi:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.lọc(ƒ(num•#) (num % 2) = 1)\\"
                     ],
                     "names": "$~lọc",
                     "inputs": [
@@ -1536,9 +1536,9 @@
                     "doc": [
                         "$~Hãy cung cấp cho tôi một @FunctionDefinition nhận vào một mục và tạo ra một mục mới dựa trên mục đó, sau đó tôi sẽ chuyển đổi tất cả các mục trong đó thành một @Set mới (loại bỏ bất kỳ mục trùng lặp nào).",
                         "Ví dụ, hãy chuyển tất cả các @Number của tôi thành @Text:",
-                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.biếnĐổi(ƒ(num•#) num→'')\\"
                     ],
-                    "names": "$~dịch",
+                    "names": ["$~biếnĐổi", "$~dịch"],
                     "inputs": [
                         {
                             "doc": "$~Đây là chú thích @FunctionDefinition dùng để chuyển đổi một trong các mục của tôi thành mục mới mà bạn muốn.",
@@ -1693,7 +1693,7 @@
                         "Ví dụ, hãy cho mỗi người thêm một điểm vì họ đã rất tử tế.",
                         "\\{'amy': 5points 'jen': 3points 'tony': 0points}.dịch(\n\tƒ(chìaKhóa•'' giáTrị•#points) giáTrị + 1points\n)\\🪲"
                     ],
-                    "names": "$~dịch",
+                    "names": ["$~biếnĐổi", "$~dịch"],
                     "inputs": [
                         {
                             "doc": "$~@FunctionDefinition để dịch mỗi @value.",

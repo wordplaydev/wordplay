@@ -23,11 +23,11 @@ phrases2: [
 phrasesÀDéplacer: [9 11]
 
 ¶La phrase actuelle commence à 1. Elle augmente de 1 quand la souris va à un certain point de l'écran. Pour les autres phrases, elle augmente quand on appuie sur un bouton ou sur une touche.¶
-point2: Aiguille()
+point2: Pointeur()
 phraseActuelle•#: 1 …
 	phrasesÀDéplacer.a(phraseActuelle) ?
-		(point2.x > 2m) & (point2.et > 3m)
-		∆ Bouton() | ∆ Clé()
+		(point2.x > 2m) & (point2.y > 3m)
+		∆ Bouton() | ∆ Touche()
 		…
 		(phraseActuelle <
 				phrases2.longueur()) ?

@@ -88,7 +88,7 @@ orang: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 
 ¶Lapangan zombi yang baru, tersebar dari dekat sampai jauh, tersebar dari kiri ke kanan, masing-masing berkeliaran ke arah acak.¶
 ƒ munculkanZombi()
-	(jumlahZombi → []).menerjemahkan(
+	(jumlahZombi → []).petakan(
 		ƒ(indeks2•#)
 			zombi(
 				Acak(batasKiri batasKanan)
@@ -181,7 +181,7 @@ orang: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 			)
 		kedalamanYangTerkena: (tokohYangTerkena•ø) ? -999m tokohYangTerkena.z2
 		mengubah: (tokohYangTerkena•ø) ? ⊥ tokohYangTerkena.hidup
-		zombiBerikutnya: permainan5.zombi2.menerjemahkan(
+		zombiBerikutnya: permainan5.zombi2.petakan(
 				ƒ(zombi11•zombi)
 					zombi11.hidup ?
 						((mengubah & (zombi11.z2 = kedalamanYangTerkena)) ? zombi(
@@ -228,7 +228,7 @@ orang: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫' '�
 		)
 	)
 
-kunci4: Kunci()
+kunci4: Tuts()
 tik: Waktu(30ms)
 penunjuk: Penunjuk()
 ketuk: Tombol()
@@ -376,7 +376,7 @@ tampilanLayar: [
 
 ¶Tampilkan lapangan dan lantainya saat bermain, dan tampilkan menu di saat lain. Setiap daftar kosong pada fase yang salah, dan daftar kosong tidak menghasilkan apa-apa.¶
 daftarLantai: (permainan6.tahap = 2) ? lantai []
-daftarZombi: (permainan6.tahap = 2) ? permainan6.zombi2.menerjemahkan(
+daftarZombi: (permainan6.tahap = 2) ? permainan6.zombi2.petakan(
 			ƒ(zombi14•zombi) tampilanZombi(zombi14)
 		) []
 daftarHati: ((permainan6.tahap = 2) & permainan6.hati) ? [

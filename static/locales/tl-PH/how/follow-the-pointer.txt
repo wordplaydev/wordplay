@@ -7,7 +7,7 @@ Magagawa natin iyan gamit ang @Pointer na input.
 Kung gagamitin natin ang @Place bilang @Phrase ng \place\, pupunta ang tauhan kung saan man natin ituturo.
 
 \
-Stage([Phrase('🐈' lugar: Pointer())] lugar: Place(0m 0m -10m))
+Entablado([Parirala('🐈' lugar: Panturo())] lugar: Lugar(0m 0m -10m))
 \
 
  Ayan na! Igalaw ang iyong mouse o i-drag ang iyong daliri, at panoorin ang pusang sumusunod.
@@ -16,7 +16,7 @@ Mas kawili-wiling bagay ang magagawa mo kapag kinuha mo ang \x\ at \y\ mula sa @
 Narito ang isang pato na palaging lumulutang nang isang metro sa itaas ng pointer:
 
 \
-Stage([Phrase('🦆' lugar: Place(Pointer().x Pointer().y + 1m))] lugar: Place(0m 0m -10m))
+Entablado([Parirala('🦆' lugar: Lugar(Panturo().x Panturo().y + 1m))] lugar: Lugar(0m 0m -10m))
 \
 
 move-phrase, count-with-time

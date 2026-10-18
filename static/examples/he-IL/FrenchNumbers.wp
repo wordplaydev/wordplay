@@ -56,10 +56,10 @@ t
 ¶להציג את המספר הצרפתי הנוכחי ואת הנקודות הנוכחיות. אחרי כל 9 הסודות, להציג תוצאה סופית¶
 ¶Affichez le nombre de français actuel et le nombre de points actuel.
 Après les 9 secrets, affichez le résultat final.¶/fr
-שלב(
+במה(
 	[
 		קבוצה(
-			לערום()
+			ערימה()
 			[
 				סוףהמשחק ?
 					משפט(

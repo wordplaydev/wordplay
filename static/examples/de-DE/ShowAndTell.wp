@@ -39,7 +39,7 @@ vorrat•[ziel]: [
 sichtungen: Objekte(Anzahl: 10 Zuversicht: 0.5)
 
 ¶Die →-Taste (oder ein Tippen) zum Überspringen.¶
-überspringen: Schlüssel('Pfeil nach rechts' ⊤)
+überspringen: Tastaturtaste('Pfeil nach rechts' ⊤)
 
 ¶Eine Uhr für den Countdown und für die Animation des Gewinn-Konfettis. Die Suche selbst nutzt sie nicht. Die steuert @Objects.¶
 uhr: Zeit(30ms)
@@ -109,21 +109,21 @@ g•#: 9
 		Gruppe(
 			Stapel('|' 0.4m)
 			[
-				Satzglied(
+				Phrase(
 					h3.ziel2.emoji
 					gesicht: "Noto Color Emoji"
 					Größe: groß + 1m
 				)
-				Satzglied(h3.ziel2.beschriftung Größe: groß)
-				Satzglied(
+				Phrase(h3.ziel2.beschriftung Größe: groß)
+				Phrase(
 					`\h3.gefunden2.Länge() → ''\ von 5 gefunden`
 					Größe: 0.7m
 				)
-				Satzglied(
+				Phrase(
 					`⏳ noch \(links2 ÷ 1s).aufrunden() → ''\ Sekunden`
 					Größe: 0.6m
 				)
-				Satzglied(
+				Phrase(
 					'nicht dabei? drücke → für ein anderes'
 					Größe: 0.5m
 				)
@@ -136,7 +136,7 @@ g•#: 9
 		r3: (uhr - gewonnenUm) ÷ 1000ms
 		funken.übersetzen(
 			ƒ(s•funke)
-				Satzglied(
+				Phrase(
 					s.emoji2
 					gesicht: "Noto Color Emoji"
 					Größe: 1.5m
@@ -153,7 +153,7 @@ g•#: 9
 ƒ finale() [
 		Gruppe(
 			Stapel()
-			[Satzglied('Du hast gewonnen!' Größe: 2m)]
+			[Phrase('Du hast gewonnen!' Größe: 2m)]
 		)
 		Sagen('Du hast gewonnen!')
 		:konfetti()
@@ -164,9 +164,9 @@ g•#: 9
 		Gruppe(
 			Stapel('|' 0.4m)
 			[
-				Satzglied('⌛' gesicht: "Noto Color Emoji" Größe: 3m)
-				Satzglied('Die Zeit ist um!' Größe: 2m)
-				Satzglied(
+				Phrase('⌛' gesicht: "Noto Color Emoji" Größe: 3m)
+				Phrase('Die Zeit ist um!' Größe: 2m)
+				Phrase(
 					`du hast \h4.gefunden2.Länge() → ''\ von 5 gefunden`
 					Größe: 0.7m
 				)

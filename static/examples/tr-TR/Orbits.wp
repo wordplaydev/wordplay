@@ -4,17 +4,17 @@ Yörüngeler
 ¶Kendilerini çeken bir yıldızın etrafında dönen üç gezegen.¶
 
 ¶Çekme işini yıldız yaptığı için, onun bir çekiş gücü olan @Matter'a ihtiyacı vardır. Onun @Motion'ı yoktur, bu yüzden hiçbir şey onu geri çekmez ve o olduğu yerde kalır. Bir @Place, bir çıktının ortası değil köşesidir. Bu yüzden yıldız, ortasını gökyüzünün merkezine koymak için kendi boyunun yarısı kadar kaydırılır.¶
-güneş: İfadeetmek(
+güneş: Yazı(
 		'⭐'
 		2m
 		isim: 'güneş'
 		yer: Yer(-1m -1m)
-		konu: Konu(2000kg çek: 1)
+		madde: Madde(2000kg çek: 1)
 	)
 
 ¶Bir gezegenin hiç @Matter'a ihtiyacı yoktur. Bir @Motion'a sahip olmak, yıldızın çekiş gücünün onu hareket ettirmesini sağlar. Düşmek yerine dönebilmesi için ne kadar hızlı gitmesi gerektiği, ne kadar uzakta olduğuna bağlıdır. Bu yüzden her gezegene, kendi yörüngesinde kalmasını sağlayan hız verilir.¶
 gezegen: ƒ(harfIşareti•"" adında•"" geniş•#m uzak•#m hız2•#m/s)
-		İfadeetmek(
+		Yazı(
 			harfIşareti
 			geniş
 			isim: adında

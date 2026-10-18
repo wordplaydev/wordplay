@@ -11,11 +11,11 @@ Fiecare instrucțiune este afișată pe scenă, ca s-o poți învăța fără s�
 mână: Mână()
 
 ¶Înălțimea arată câtă orchestră cântă, iar mișcarea spre lateral arată cât de repede, ambele citite direct de pe mână, nu memorate, așa că urmăresc mâna neîntrerupt. Fiecare valoare este rotunjită la o treaptă, așa că muzica se schimbă doar când schimbarea e destul de mare ca să se audă, iar o mână care tremură nu rescrie partitura de douăzeci de ori pe secundă.¶
-ridicare: mână.loc.y.rescale(-3m 3m 0 1).limit(0 1)
-straturi: 1 + ((ridicare · 7).rundă())
+ridicare: mână.loc.y.reajustare(-3m 3m 0 1).limită(0 1)
+straturi: 1 + ((ridicare · 7).rotunjește())
 
-razăDeAcțiune: mână.loc.x.rescale(-5m 5m 0 1).limit(0 1)
-ritm: 72 + ((razăDeAcțiune · 8).rundă() · 12)
+razăDeAcțiune: mână.loc.x.reajustare(-5m 5m 0 1).limită(0 1)
+ritm: 72 + ((razăDeAcțiune · 8).rotunjește() · 12)
 
 ¶Cine cântă melodia. Un pumn strâns și o mână ieșită din cadru contează amândouă drept zero degete, așa că zero degete păstrează pe cine cânta deja — altfel, dacă te uiți în altă parte, ar schimba melodia.¶
 recomandat: 5 … ∆ mână …
@@ -282,7 +282,7 @@ stele: [
 		stea(4.6 2.7 0.14)
 	]
 
-Etapă(
+Estradă(
 	[:stele :flotă afișaj melodie2]
 	fundal: Culoare(7% 6 275°)
 	culoare: Culoare(88% 3 265°)

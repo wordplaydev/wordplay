@@ -127,8 +127,8 @@
                 "length": {
                     "doc": [
                         "$~私はテキストの中の読める文字の数になります。文字1つが1文字、絵文字1つが1文字、という具合です。例えば、",
-                        "\\'hello'.length()\\",
-                        "\\'🐈📚'.length()\\"
+                        "\\'hello'.長さ()\\",
+                        "\\'🐈📚'.長さ()\\"
                     ],
                     "names": ["$~長さ"],
                     "inputs": []
@@ -156,7 +156,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ 与えられた@Text。",
-                        "\\'did you find what you were looking for?'.has('you')\\"
+                        "\\'did you find what you were looking for?'.含む('you')\\"
                     ],
                     "names": ["$~含む"],
                     "inputs": [
@@ -169,8 +169,8 @@
                 "starts": {
                     "doc": [
                         "$~\\⊤\\ 私が与えられた@Text。",
-                        "\\'hello verse!'.starts('hello')\\",
-                        "\\'hello verse!'.starts('verse')\\"
+                        "\\'hello verse!'.で始まる('hello')\\",
+                        "\\'hello verse!'.で始まる('verse')\\"
                     ],
                     "names": ["$~で始まる"],
                     "inputs": [
@@ -183,8 +183,8 @@
                 "ends": {
                     "doc": [
                         "$~\\⊤\\ 私が与えられた@Text。",
-                        "\\'am I a question?'.ends('?')\\",
-                        "\\'I am not a question.'.ends('?')\\"
+                        "\\'am I a question?'.で終わる('?')\\",
+                        "\\'I am not a question.'.で終わる('?')\\"
                     ],
                     "names": ["$~で終わる"],
                     "inputs": [
@@ -485,7 +485,7 @@
                 "positive": {
                     "doc": [
                         "$~私は、負の数の場合に自分自身を正の数にする新しい@Number。",
-                        "\\-200.positive()\\"
+                        "\\-200.正の数()\\"
                     ],
                     "names": ["$~正の数"],
                     "inputs": []
@@ -493,9 +493,9 @@
                 "round": {
                     "doc": [
                         "$~私は、自分自身を一番近い整数に丸める新しい@Number。",
-                        "\\9.4.round()\\",
-                        "\\9.5.round()\\",
-                        "\\9.6.round()\\"
+                        "\\9.4.四捨五入()\\",
+                        "\\9.5.四捨五入()\\",
+                        "\\9.6.四捨五入()\\"
                     ],
                     "names": ["$~四捨五入"],
                     "inputs": []
@@ -503,9 +503,9 @@
                 "roundDown": {
                     "doc": [
                         "$~私は、自分自身より小さい一番大きい整数に丸める新しい@Number。",
-                        "\\10.5.roundDown()\\",
-                        "\\10.1.roundDown()\\",
-                        "\\10.01.roundDown()\\"
+                        "\\10.5.切り捨て()\\",
+                        "\\10.1.切り捨て()\\",
+                        "\\10.01.切り捨て()\\"
                     ],
                     "names": ["$~切り捨て"],
                     "inputs": []
@@ -513,9 +513,9 @@
                 "roundUp": {
                     "doc": [
                         "$~私は、自分自身より大きい一番小さい整数に丸める新しい@Number。",
-                        "\\10.5.roundUp()\\",
-                        "\\10.9.roundUp()\\",
-                        "\\10.99.roundUp()\\"
+                        "\\10.5.切り上げ()\\",
+                        "\\10.9.切り上げ()\\",
+                        "\\10.99.切り上げ()\\"
                     ],
                     "names": ["$~切り上げ"],
                     "inputs": []
@@ -638,20 +638,20 @@
                 "cos": {
                     "doc": [
                         "$~私の余弦(コサイン)を計算します。",
-                        "\\π.cos()\\"
+                        "\\π.余弦()\\"
                     ],
                     "names": ["$~余弦"],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": ["$~私の正弦(サイン)を計算します。", "\\π.cos()\\"],
+                    "doc": ["$~私の正弦(サイン)を計算します。", "\\π.余弦()\\"],
                     "names": ["$~正弦"],
                     "inputs": []
                 },
                 "min": {
                     "doc": [
                         "$~私と他の数の中で一番小さい数を見つけます。",
-                        "\\1.min(2 3 -1)\\"
+                        "\\1.最小(2 3 -1)\\"
                     ],
                     "names": "$~最小",
                     "inputs": [
@@ -664,7 +664,7 @@
                 "max": {
                     "doc": [
                         "$~私と他の数の中で一番大きい数を見つけます。",
-                        "\\1.max(2 3 4)\\"
+                        "\\1.最大(2 3 4)\\"
                     ],
                     "names": "$~最大",
                     "inputs": [
@@ -677,7 +677,7 @@
                 "tan": {
                     "doc": [
                         "$~わたしの正接（タンジェント）を計算します。",
-                        "\\π.tan()\\"
+                        "\\π.タンジェント()\\"
                     ],
                     "names": ["$~タンジェント"],
                     "inputs": []
@@ -748,7 +748,7 @@
                 "limit": {
                     "doc": [
                         "$~わたしを、小さい数と大きい数の間におさめてね。わたしがその小さい数より下なら、その小さい数がわたされます。わたしがその大きい数より上なら、その大きい数がわたされます。",
-                        "\\12.limit(0 10)\\"
+                        "\\12.制限(0 10)\\"
                     ],
                     "names": "$~制限",
                     "inputs": [
@@ -765,7 +765,7 @@
                 "toward": {
                     "doc": [
                         "$~わたしから別の数まで、とちゅうまで動くよ。0%ならわたしのまま、100%なら相手の数になり、50%ならちょうど真ん中の数になります。",
-                        "\\0m.toward(10m 30%)\\"
+                        "\\0m.向かって(10m 30%)\\"
                     ],
                     "names": "$~向かって",
                     "inputs": [
@@ -782,7 +782,7 @@
                 "rescale": {
                     "doc": [
                         "$~わたしがひと組の数の間のどこにいるかを見つけて、別の組の数の中で同じ位置にある数をわたします。測ったものを、見せられるものに変えるときに便利です。",
-                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                        "\\300hz.再スケール(80hz 400hz -4m 5m)\\"
                     ],
                     "names": "$~再スケール",
                     "inputs": [
@@ -982,7 +982,7 @@
                 "add": {
                     "doc": [
                         "$~わたしは、指定された要素を最後につけた新しい@List。",
-                        "\\['apple' 'banana' 'mango'].with('watermelon')\\"
+                        "\\['apple' 'banana' 'mango'].追加して('watermelon')\\"
                     ],
                     "names": ["$~追加して", "$~加える"],
                     "inputs": [
@@ -995,7 +995,7 @@
                 "append": {
                     "doc": [
                         "$~わたしは、まず自分の値を並べ、そのうしろに指定された@Listのすべての値を並べた新しい@List。",
-                        "\\['apple' 'banana' 'mango'].withList(['watermelon' 'starfruit'])\\",
+                        "\\['apple' 'banana' 'mango'].リストと合わせて(['watermelon' 'starfruit'])\\",
                         "でも、@Spread。こんなふうに書きます。",
                         "\\['apple' 'banana' 'mango' :['watermelon' 'starfruit']]\\"
                     ],
@@ -1032,7 +1032,7 @@
                 "random": {
                     "doc": [
                         "$~わたしの要素の中からランダムに選んだ1つ、または空っぽなら@None。",
-                        "\\['apple' 'banana' 'mango'].random()\\"
+                        "\\['apple' 'banana' 'mango'].ランダム()\\"
                     ],
                     "names": "$~ランダム",
                     "inputs": []
@@ -1040,7 +1040,7 @@
                 "shuffled": {
                     "doc": [
                         "$~リストの要素をランダムな順番にならべた新しいリストを作ります。",
-                        "\\['apple' 'banana' 'mango'].shuffled()\\"
+                        "\\['apple' 'banana' 'mango'].シャッフル済み()\\"
                     ],
                     "names": "$~シャッフル済み",
                     "inputs": []
@@ -1048,7 +1048,7 @@
                 "first": {
                     "doc": [
                         "$~わたしの最初の要素、または空っぽなら@None。",
-                        "\\['apple' 'banana' 'mango'].first()\\"
+                        "\\['apple' 'banana' 'mango'].最初()\\"
                     ],
                     "names": "$~最初",
                     "inputs": []
@@ -1056,7 +1056,7 @@
                 "last": {
                     "doc": [
                         "$~わたしの最後の要素、または空っぽなら@None。",
-                        "\\['apple' 'banana' 'mango'].last()\\"
+                        "\\['apple' 'banana' 'mango'].最後()\\"
                     ],
                     "names": "$~最後",
                     "inputs": []
@@ -1064,7 +1064,7 @@
                 "has": {
                     "doc": [
                         "$~\\⊤\\ わたしの中に、指定された要素と等しい要素があるかどうかです。",
-                        "\\['apple' 'banana' 'mango'].has('banana')\\"
+                        "\\['apple' 'banana' 'mango'].ふくむ('banana')\\"
                     ],
                     "names": "$~ふくむ",
                     "inputs": [
@@ -1077,7 +1077,7 @@
                 "join": {
                     "doc": [
                         "$~わたしは、リストの要素をまとめて@Textにします。指定された区切りの@Text。",
-                        "\\['apple' 'banana' 'mango'].join(', ')\\"
+                        "\\['apple' 'banana' 'mango'].つなぐ(', ')\\"
                     ],
                     "names": "$~つなぐ",
                     "inputs": [
@@ -1090,14 +1090,14 @@
                 "subsequence": {
                     "doc": [
                         "$~わたしは、このリストの中から一部のリストを取り出します。あなたが指定した@index、最後の要素で終わります。もう1つ指定すれば、その特定の要素で終わります。",
-                        "\\['apple' 'banana' 'mango'].subsequence(2)\\",
-                        "\\['apple' 'banana' 'mango'].subsequence(1 2)\\",
+                        "\\['apple' 'banana' 'mango'].一部分(2)\\",
+                        "\\['apple' 'banana' 'mango'].一部分(1 2)\\",
                         "そして見てください！ 番号を逆の順で指定すると、わたしは逆向きにして返します。",
-                        "\\['apple' 'banana' 'mango'].subsequence(3 1)\\",
+                        "\\['apple' 'banana' 'mango'].一部分(3 1)\\",
                         "インデックスに1より小さいものを渡すと、わたしは1のことだと考えます。",
-                        "\\['apple' 'banana' 'mango'].subsequence(-1003243 2)\\",
+                        "\\['apple' 'banana' 'mango'].一部分(-1003243 2)\\",
                         "そして、いちばん大きいインデックスより大きいものを渡すと、わたしは最後のことだと考えます。",
-                        "\\['apple' 'banana' 'mango'].subsequence(3 2304032432)\\"
+                        "\\['apple' 'banana' 'mango'].一部分(3 2304032432)\\"
                     ],
                     "names": "$~一部分",
                     "inputs": [
@@ -1114,7 +1114,7 @@
                 "sansFirst": {
                     "doc": [
                         "$~わたしは、最初の要素をのぞいたリストを作ります。",
-                        "\\['apple' 'banana' 'mango'].sansFirst()\\"
+                        "\\['apple' 'banana' 'mango'].最初をのぞいて()\\"
                     ],
                     "names": ["$~最初をのぞいて", "$~最初なし"],
                     "inputs": []
@@ -1122,7 +1122,7 @@
                 "sansLast": {
                     "doc": [
                         "$~わたしは、最後の要素をのぞいたリストを作ります。",
-                        "\\['apple' 'banana' 'mango'].sansLast()\\"
+                        "\\['apple' 'banana' 'mango'].最後をのぞいて()\\"
                     ],
                     "names": ["$~最後をのぞいて", "$~最後なし"],
                     "inputs": []
@@ -1148,7 +1148,7 @@
                 "reverse": {
                     "doc": [
                         "$~わたしですが、逆向きです！",
-                        "\\['apple' 'banana' 'mango'].reverse()\\"
+                        "\\['apple' 'banana' 'mango'].逆順()\\"
                     ],
                     "names": ["$~逆順", "$~逆にする"],
                     "inputs": []
@@ -1323,7 +1323,7 @@
                     "doc": [
                         "$~最新の組み合わせと次の@valueを受け取って次の組み合わせを作る@FunctionDefinitionをわたしにわたしてください。すると、わたしは最初の項目から最後の項目まで順に進み、次々と組み合わせを作ります。そして、あなたの@FunctionDefinitionが返す最終的な組み合わせに評価します。",
                         "これは、わたしの中のすべての項目を一つの値にまとめるのにとても役立ちます。たとえば、数字のリストを足したいとしましょう。",
-                        "\\[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)\\"
+                        "\\[3 9 2 8 1 4].まとめた結果(0 ƒ(sum•# number•#) sum + number)\\"
                     ],
                     "names": ["$~まとめた結果", "$~まとめる"],
                     "inputs": [
@@ -1383,7 +1383,7 @@
                 "sum": {
                     "doc": [
                         "$~わたしの中の数を全部足します。わたしが空っぽなら答えは0です。数の単位がそろっていないときは、あてずっぽうにせず、そのことを伝えます。",
-                        "\\[1m 2m 3m].sum()\\"
+                        "\\[1m 2m 3m].合計()\\"
                     ],
                     "names": "$~合計",
                     "inputs": []
@@ -1391,7 +1391,7 @@
                 "average": {
                     "doc": [
                         "$~わたしの中の数を全部足して、個数で割ります。わたしが空っぽなら平均する数がないので、@Noneがわたされます。",
-                        "\\[1m 2m 3m].average()\\"
+                        "\\[1m 2m 3m].平均()\\"
                     ],
                     "names": "$~平均",
                     "inputs": []
@@ -1510,7 +1510,7 @@
                 "difference": {
                     "doc": [
                         "$~@Setを渡してください。共通して持っている項目だけを持つ新しい@Set。",
-                        "\\{1 2 3}.difference({3 4 5})\\"
+                        "\\{1 2 3}.差({3 4 5})\\"
                     ],
                     "names": "$~差",
                     "inputs": [
@@ -1524,7 +1524,7 @@
                     "doc": [
                         "$~項目を受け取って \\⊤\\ を返す@FunctionDefinition。残すべき項目のときに返します。すると私は、あなたの条件に合う項目だけを持つ@Set。",
                         "たとえば、私の中の奇数を見つけてみましょう:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.絞り込み(ƒ(num•#) (num % 2) = 1)\\"
                     ],
                     "names": "$~絞り込み",
                     "inputs": [
@@ -1548,7 +1548,7 @@
                     "doc": [
                         "$~項目を受け取って、それをもとに新しい項目を作る@FunctionDefinition。すると私は、私の中のすべての項目を新しい@Set（重複は取り除きます）。",
                         "たとえば、私のすべての@Number@Text:",
-                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.変換(ƒ(num•#) num→'')\\"
                     ],
                     "names": "$~変換",
                     "inputs": [
@@ -1631,7 +1631,7 @@
                 "set": {
                     "doc": [
                         "$~同じ対応づけをすべて持ちつつ、あなたが渡した新しい対応づけを加えた新しい@Map。すでにその@key、それを新しい@value。",
-                        "\\{'amy': 6points 'tony':3points}.pair('jen' 0points)\\"
+                        "\\{'amy': 6points 'tony':3points}.ペア('jen' 0points)\\"
                     ],
                     "names": "$~ペア",
                     "inputs": [
@@ -1648,7 +1648,7 @@
                 "unset": {
                     "doc": [
                         "$~あなたが渡した@Map、その対応づけを消した新しい@key。",
-                        "\\{'amy': 6points 'tony':3points}.unpair('amy')\\"
+                        "\\{'amy': 6points 'tony':3points}.ペア解除('amy')\\"
                     ],
                     "names": "$~ペア解除",
                     "inputs": [
@@ -1661,7 +1661,7 @@
                 "remove": {
                     "doc": [
                         "$~その@Map@value。",
-                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.remove(0points)\\"
+                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.取り除く(0points)\\"
                     ],
                     "names": "$~取り除く",
                     "inputs": [
@@ -1675,7 +1675,7 @@
                     "doc": [
                         "$~@FunctionDefinition@key \\⊤\\ に評価される@value。対応づけを残すべきときに返します。私はあなたの条件に合う新しい@Map。",
                         "たとえば、ここでは Amy であるか、0点より多い点を持つ対応づけを残したいとします。",
-                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.filter(ƒ(key•'' value•#points) (key = 'amy') | (value > 0points))\\"
+                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.絞り込み(ƒ(key•'' value•#points) (key = 'amy') | (value > 0points))\\"
                     ],
                     "names": "$~絞り込み",
                     "inputs": [
@@ -1746,7 +1746,7 @@
                 "また、条件に合う行に違う値を入れた、作り直したテーブルを作りたいこともあるでしょう:",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
                 "また、条件に合う行を削除したいこともあるでしょう:",
-                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡- name.has('i')\\",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡- name.含む('i')\\",
                 "そして、私から特定の値を取り出したいときは、どんなテーブルもリストに変えて、@PropertyReference。",
                 "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
             ],

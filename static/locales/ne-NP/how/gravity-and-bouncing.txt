@@ -8,7 +8,7 @@
 
 \
 Stage([
-    Phrase('🍎' स्थान: Motion(Place(0m 5m)) पदार्थ: Matter())
+    वाक्यांश('🍎' स्थान: गति(स्थान(0m 5m)) पदार्थ: पदार्थ())
     Shape(Rectangle(-10m 0m 10m -5m))
 ])
 \
@@ -21,8 +21,8 @@ Stage([
 
 \
 Stage([
-    Phrase('⚽' स्थान: Motion(Place(-2m 5m)) पदार्थ: Matter(1kg 0.9 0.2))
-    Phrase('🪨' स्थान: Motion(Place(2m 5m)) पदार्थ: Matter(5kg 0.1 0.8))
+    वाक्यांश('⚽' स्थान: गति(स्थान(-2m 5m)) पदार्थ: पदार्थ(1kg 0.9 0.2))
+    वाक्यांश('🪨' स्थान: गति(स्थान(2m 5m)) पदार्थ: पदार्थ(5kg 0.1 0.8))
     Shape(Rectangle(-10m 0m 10m -5m))
 ])
 \

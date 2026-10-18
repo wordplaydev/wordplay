@@ -4,12 +4,12 @@
 
 @Beat  手里总有一个  @Downbeat  可以给你，所以你可以马上读到它。音乐还没开始的时候，它停在第零拍，什么都没有播放：
 
-\beat: Beat()
-count: beat.count
-Stage(
+\beat: 节拍()
+count: beat.计数
+舞台(
 	[
-		Phrase('🥁' 尺寸: ((count % 4) = 0) ? 2m 1m)
-		Music(Track([1 1 1 1] 乐器: Instrument.drums))
+		短语('🥁' 尺寸: ((count % 4) = 0) ? 2m 1m)
+		音乐(音轨([1 1 1 1] 乐器: 乐器.鼓))
 	]
 )\
 
@@ -17,30 +17,30 @@ Stage(
 
 这就是把整段音乐变成一个数字。不过一个  @Downbeat  还带着一个 \parts\ 列表，每个  @Part  对应一个  @Track ，而一个  @Part  知道它自己的声部现在在做什么：它的 \pitch\，它的 \volume\，它的 \pan\，还有它是不是 \sounding\。把这些画出来，你就能分别看到每个声部，而不只是混在一起的声音：
 
-\beat: Beat()
-parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
-ƒ dot(p•Part)•Phrase Phrase(
+\beat: 节拍()
+parts•[声部]: beat.声部.过滤器(ƒ(p•声部) p.发声)
+ƒ height(p•声部)•# p.音高[1] ÷ 1semitones
+ƒ dot(p•声部)•短语 短语(
 		'⬤'
-		0.4m + (p.volume · 1m)
-		位置: Place(
-			(p.pan · 3) · 1m
+		0.4m + (p.音量 · 1m)
+		位置: 位置(
+			(p.声像 · 3) · 1m
 			((height(p) · 0.2) - 1) · 1m
 		)
 	)
-Stage(
+舞台(
 	[
-		:parts.translate(ƒ(p•Part) dot(p))
-		Music(
+		:parts.映射(ƒ(p•声部) dot(p))
+		音乐(
 			[
-				Track(
+				音轨(
 					[1 ø 5 ø]
-					乐器: Instrument.piano
+					乐器: 乐器.钢琴
 					声像: -1
 				)
-				Track(
+				音轨(
 					[ø 8 ø 12]
-					乐器: Instrument.bell
+					乐器: 乐器.铃
 					声像: 1
 				)
 			]

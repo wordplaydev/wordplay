@@ -62,15 +62,15 @@ Scena(
 			Stos()
 			[
 				koniecGry ?
-					Wyrażenie(
+					Fraza(
 						wygrana ?
 							'Znasz francuskie liczby!'"Tu connais les chiffres français!"/fr
 							'prawie, spróbuj jeszcze raz'"presque, réessaye"/fr
 						rozmiar: 2m
 					)
-					Wyrażenie(numeros[secretActuel] rozmiar: 2m)
-				Wyrażenie("\punkty2\ points!" rozmiar: 1m)
-				Wyrażenie(
+					Fraza(numeros[secretActuel] rozmiar: 2m)
+				Fraza("\punkty2\ points!" rozmiar: 1m)
+				Fraza(
 					indeksSekretu = 1 ?
 						'co to za liczba?''quel est ce numéro ?'/fr
 						poprawne ?

@@ -24,9 +24,9 @@ pertukaran: {
 		'yours': 'mine'
 		'yourself': 'myself'
 	}
-ƒ pantulkan(kata3•'')•'' kata3.tersegmentasi(' ').menerjemahkan(
+ƒ pantulkan(kata3•'')•'' kata3.tersegmentasi(' ').petakan(
 		ƒ(kata4•'') pertukaran{kata4} ?? kata4
-	).bergabung(
+	).gabungkan(
 		' '
 	)
 
@@ -79,7 +79,7 @@ Panggung(
 	[
 		Kelompok(
 			Tumpukan('<' 0.5m)
-			terbaru.menerjemahkan(
+			terbaru.petakan(
 				ƒ(baris3•baris2)
 					Frasa(
 						baris3.pembicara + ' ' + baris3.kata2

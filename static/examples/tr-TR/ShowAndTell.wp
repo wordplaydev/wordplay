@@ -36,7 +36,7 @@ havuz•[hedef2]: [
 	(bulundu.uzunluk() ≥ 4)
 	? hedef2('👥' 'iki kişi' 'kişi' 2)
 		havuz.olmadan(kaçın).filtre(
-			ƒ(t•hedef2) ~(bulundu.sahipolmak(t.emoji))
+			ƒ(t•hedef2) ~(bulundu.içerir(t.emoji))
 		).rastgele(
 		)
 
@@ -44,7 +44,7 @@ havuz•[hedef2]: [
 görülmeler: Nesneler(sayı: 10 güven: 0.5)
 
 ¶Atlamak için → tuşuna bas (ya da ekrana dokun).¶
-atla: Anahtar('Sağ Ok' ⊤)
+atla: Tuş('Sağ Ok' ⊤)
 
 ¶Geri sayım ve kazanma konfetisinin animasyonu için bir saat. Av kendisi bunu kullanmaz — onu @Objects yönetir.¶
 saat2: Zaman(30ms)
@@ -95,7 +95,7 @@ kazanmaZamanı•#ms: 0ms
 ¶Konfeti, kazandığın anda bir kez oluşturulur ve bir daha yeniden kurulmaz. @Objects algılamaya devam eder, bu yüzden her okuma programı yeniden değerlendirir. Parçaları bu listede dondurmak (liste kazandığında bir kez dolar, sonra koşulu durur) her parçanın uçarken aynı hızı korumasını sağlar. Her karede yeniden icat edilmezler.¶
 kıvılcımlar•[kıvılcım]: []
 	… ((av2.bulundu2.uzunluk() ≥ 5) & (⬚.uzunluk() = 0)) …
-		(60 → []).tercümeetmek(
+		(60 → []).dönüştür(
 			ƒ()
 				kıvılcım(
 					av2.bulundu2.rastgele()
@@ -114,21 +114,21 @@ g•#: 9
 		Grup(
 			Yığın('|' 0.4m)
 			[
-				İfadeetmek(
+				Yazı(
 					h3.hedef3.emoji
 					yüz: "Noto Color Emoji"
 					boyut: büyük + 1m
 				)
-				İfadeetmek(h3.hedef3.etiket boyut: büyük)
-				İfadeetmek(
+				Yazı(h3.hedef3.etiket boyut: büyük)
+				Yazı(
 					`\h3.bulundu2.uzunluk() → ''\ / 5 bulundu`
 					boyut: 0.7m
 				)
-				İfadeetmek(
+				Yazı(
 					`⏳ \(kalan2 ÷ 1s).hesabıyuvarlamak() → ''\ saniye kaldı`
 					boyut: 0.6m
 				)
-				İfadeetmek(
+				Yazı(
 					'Yok mu? Başka biri için → tuşuna bas'
 					boyut: 0.5m
 				)
@@ -139,9 +139,9 @@ g•#: 9
 ¶Her kıvılcımı kendi yayı boyunca yerleştir. Yay, ne kadar süredir uçtuğuna göre hesaplanır. Kıvılcım hızıyla dışarı doğru gider, yerçekimi onu geri aşağı çeker (klasik ½·g·t²). Konumu fizik motoruna güvenmek yerine hesapladığımız için kameranın sürekli yeniden değerlendirmesi her parçayı olması gereken yere yeniden çizer. Merkeze geri sıçrama olmaz.¶
 ƒ konfeti() (
 		t3: (saat2 - kazanmaZamanı) ÷ 1000ms
-		kıvılcımlar.tercümeetmek(
+		kıvılcımlar.dönüştür(
 			ƒ(s•kıvılcım)
-				İfadeetmek(
+				Yazı(
 					s.emoji2
 					yüz: "Noto Color Emoji"
 					boyut: 1.5m
@@ -156,7 +156,7 @@ g•#: 9
 
 ¶Beş şey bulunca kazanırsın: ortada bir "Kazandın!" yazısı çıkar, hem gösterilir hem sesli söylenir. Bulunan emojiler üstünde konfeti gibi patlar ve konfeti düşerken yazı ortaya çıkar.¶
 ƒ final() [
-		Grup(Yığın() [İfadeetmek('Kazandın!' boyut: 2m)])
+		Grup(Yığın() [Yazı('Kazandın!' boyut: 2m)])
 		Söylemek('Kazandın!')
 		:konfeti()
 	]
@@ -166,9 +166,9 @@ g•#: 9
 		Grup(
 			Yığın('|' 0.4m)
 			[
-				İfadeetmek('⌛' yüz: "Noto Color Emoji" boyut: 3m)
-				İfadeetmek('Süre doldu!' boyut: 2m)
-				İfadeetmek(
+				Yazı('⌛' yüz: "Noto Color Emoji" boyut: 3m)
+				Yazı('Süre doldu!' boyut: 2m)
+				Yazı(
 					`\h4.bulundu2.uzunluk() → ''\ / 5 buldun`
 					boyut: 0.7m
 				)
