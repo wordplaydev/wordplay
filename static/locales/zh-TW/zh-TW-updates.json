@@ -862,7 +862,6 @@
         "e193813904392": "$~我們修好了原本使用者名稱檢查提示的版面配置。",
         "ed79037af5759": "$~我們修好了 @Example 說明文件裡一些壞掉的程式碼。",
         "e0fafeaeade58": "$~我們新增了一個 @Speech 串流，只要你允許使用麥克風，工程就能對說話做出回應（<394@https://github.com/wordplaydev/wordplay/issues/394>）。",
-        "ed8f5d2616b96": "$~我們新增了希伯來語地區（<411@https://github.com/wordplaydev/wordplay/issues/411>）的機器翻譯。",
         "edf20e612fc1a": "$~我們新增了越南語地區（<985@https://github.com/wordplaydev/wordplay/issues/985>）的機器翻譯。",
         "e54e4fdcb3b60": "$~我們讓轉換（Conversion）的自動完成功能更聰明、更少錯誤了。",
         "ec504cb44ecf3": "$~我們為程式碼編輯器新增了縮放控制，方便無障礙使用（<772@https://github.com/wordplaydev/wordplay/issues/772>）。",
@@ -1054,6 +1053,12 @@
         "ed96f186e4b18": "$~我們讓程式碼更容易閱讀：\\?\\、\\??\\ 和 \\???\\ 現在使用相同的顏色，可以接受任何東西的型別會顯示為 \\◌\\，範圍型別會顯示為 \\‥\\，不再是橘色標籤。",
         "ea6d52130d864": "$~<指南@https://wordplay.dev/guide>裡程式碼中的佔位符，現在會用小小的灰色字顯示它的型別，而且只有在沒有其他地方說明這裡該放什麼時才會顯示。",
         "eb84dbea56e6e": "$~你現在可以修改<首頁@https://wordplay.dev/>和指南裡的程式碼範例，並馬上看到執行結果，按 ↺ 就能還原成原本的範例。",
-        "e91e2af40d2f4": "$~我們新增了羅馬烏爾都語（\\ur-Latn-PK\\）的支援，這是用拉丁字母書寫的烏爾都語！（<1457@https://github.com/wordplaydev/wordplay/issues/1457>）"
+        "e91e2af40d2f4": "$~我們新增了羅馬烏爾都語（\\ur-Latn-PK\\）的支援，這是用拉丁字母書寫的烏爾都語！（<1457@https://github.com/wordplaydev/wordplay/issues/1457>）",
+        "e49d853150432": "$~其他語言的程式碼範例，現在會使用該語言自己的內建型別與函式名稱。我們也修正了許多翻錯意思的名稱，例如顏色的 \\lighter\\ 被翻成了打火機。（<1465@https://github.com/wordplaydev/wordplay/issues/1465>）",
+        "ea322ff354a63": "$~老師現在可以用學生的學校電子郵件地址建立班級，不用再為每位學生建立使用者名稱和密碼。（<1347@https://github.com/wordplaydev/wordplay/issues/1347>）",
+        "eff192c2e6b21": "$~你現在可以在顏色選擇器裡輸入顏色，可以輸入顏色名稱，也可以輸入網頁會用的任何顏色代碼。（<443@https://github.com/wordplaydev/wordplay/issues/443>）",
+        "edd342aefe00f": "$~我們加入了希伯來語地區設定的機器翻譯（<441@https://github.com/wordplaydev/wordplay/issues/441>）。",
+        "ee9e6be8c1dfa": "$~*檢視者與留言者*。你現在可以讓別人查看你的工程，或是查看並一起討論，但不讓他們編輯。作品集裡的工程也可以只給策展人看（<819@https://github.com/wordplaydev/wordplay/issues/819>、<738@https://github.com/wordplaydev/wordplay/issues/738>）。",
+        "eba572ebe4c3f": "$~作品集現在有操作指南空間，策展人和創作者可以在這裡互相分享自己學到的方法。（<825@https://github.com/wordplaydev/wordplay/issues/825>）"
     }
 }

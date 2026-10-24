@@ -863,7 +863,6 @@
         "e193813904392": "$~既存のユーザー名確認のフィードバックのレイアウトを修正しました。",
         "ed79037af5759": "$~@Exampleのドキュメントにあった壊れたコードを修正しました。",
         "e0fafeaeade58": "$~新しい@Speechストリームを追加しました。マイクの使用を許可すると、プロジェクトが話し声に反応できるようになります（<394@https://github.com/wordplaydev/wordplay/issues/394>）。",
-        "ed8f5d2616b96": "$~ヘブライ語ロケール（<411@https://github.com/wordplaydev/wordplay/issues/411>）の機械翻訳を追加しました。",
         "edf20e612fc1a": "$~ベトナム語ロケール（<985@https://github.com/wordplaydev/wordplay/issues/985>）の機械翻訳を追加しました。",
         "e54e4fdcb3b60": "$~変換のオートコンプリートをより賢く、バグを減らしました。",
         "ec504cb44ecf3": "$~アクセシビリティのため、コードエディターにズームコントロールを追加しました（<772@https://github.com/wordplaydev/wordplay/issues/772>）。",
@@ -1054,6 +1053,12 @@
         "ed96f186e4b18": "$~コードを読みやすくしました。\\?\\、\\??\\、\\???\\が同じ色になりました。何でも受け取れる型は\\◌\\と表示されます。範囲の型は、オレンジ色のラベルではなく\\‥\\と表示されます。",
         "ea6d52130d864": "$~<ガイド@https://wordplay.dev/guide>のコードにあるプレースホルダーは、型が小さく灰色で表示されるようになりました。ほかに何を入れるのか分かるものがないときだけ表示されます。",
         "eb84dbea56e6e": "$~<ホームページ@https://wordplay.dev/>とガイドにあるコードの例を、いまは自由に書きかえられるようになりました。書きかえると、すぐに実行されます。↺を押すと、元のコードにもどります。",
-        "e91e2af40d2f4": "$~ローマ字ウルドゥー語（\\ur-Latn-PK\\）に対応しました！ ウルドゥー語を、ラテン文字で書いたものです。（<1457@https://github.com/wordplaydev/wordplay/issues/1457>）"
+        "e91e2af40d2f4": "$~ローマ字ウルドゥー語（\\ur-Latn-PK\\）に対応しました！ ウルドゥー語を、ラテン文字で書いたものです。（<1457@https://github.com/wordplaydev/wordplay/issues/1457>）",
+        "e49d853150432": "$~他の言語のコード例では、組み込みの型や関数に、その言語ならではの名前が使われるようになりました。また、意味をまちがえて翻訳されていた多くの名前も直しました。たとえば、色の\\lighter\\がライターになっていたものです。(<1465@https://github.com/wordplaydev/wordplay/issues/1465>)",
+        "ea322ff354a63": "$~先生は、生徒ひとりひとりにユーザー名とパスワードを作らなくても、生徒の学校のメールアドレスからクラスを作れるようになりました。(<1347@https://github.com/wordplaydev/wordplay/issues/1347>)",
+        "eff192c2e6b21": "$~色選びの画面に、色の名前や、ウェブページで使えるコードを入力できるようになりました。(<443@https://github.com/wordplaydev/wordplay/issues/443>)",
+        "edd342aefe00f": "$~ヘブライ語のロケールの機械翻訳を追加しました。(<441@https://github.com/wordplaydev/wordplay/issues/441>)",
+        "ee9e6be8c1dfa": "$~*閲覧者とコメントする人*。プロジェクトを、見るだけ、または見てチャットだけできる人を、編集させずに追加できるようになりました。また、ギャラリーのプロジェクトを、キュレーターだけに見せることもできます。(<819@https://github.com/wordplaydev/wordplay/issues/819>、<738@https://github.com/wordplaydev/wordplay/issues/738>)",
+        "eba572ebe4c3f": "$~ギャラリーに、やり方ガイドのスペースができました。キュレーターと作った人が、気づいたことをおたがいに共有できます。(<825@https://github.com/wordplaydev/wordplay/issues/825>)"
     }
 }
