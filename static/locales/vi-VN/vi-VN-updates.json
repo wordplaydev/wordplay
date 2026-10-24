@@ -862,7 +862,6 @@
         "e193813904392": "$~Chúng tôi đã sửa cách trình bày phản hồi kiểm tra tên người dùng hiện có.",
         "ed79037af5759": "$~Chúng tôi đã sửa một số mã bị lỗi trong tài liệu @Example.",
         "e0fafeaeade58": "$~Chúng tôi đã thêm một luồng @Speech mới, để nếu bạn cho phép dùng micrô, các dự án có thể phản hồi lại giọng nói (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~Chúng tôi đã thêm bản dịch máy cho một ngôn ngữ vùng đất tiếng Do Thái (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~Chúng tôi đã thêm bản dịch máy cho một ngôn ngữ vùng đất tiếng Việt (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~Chúng tôi đã làm cho việc tự động gợi ý các phép chuyển đổi thông minh hơn và ít lỗi hơn.",
         "ec504cb44ecf3": "$~Chúng tôi đã thêm nút phóng to thu nhỏ cho trình soạn thảo mã số để hỗ trợ khả năng tiếp cận (<772@https://github.com/wordplaydev/wordplay/issues/772>).",

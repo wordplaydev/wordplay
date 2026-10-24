@@ -863,7 +863,6 @@
         "e193813904392": "$~既存のユーザー名確認のフィードバックのレイアウトを修正しました。",
         "ed79037af5759": "$~@Exampleのドキュメントにあった壊れたコードを修正しました。",
         "e0fafeaeade58": "$~新しい@Speechストリームを追加しました。マイクの使用を許可すると、プロジェクトが話し声に反応できるようになります（<394@https://github.com/wordplaydev/wordplay/issues/394>）。",
-        "ed8f5d2616b96": "$~ヘブライ語ロケール（<411@https://github.com/wordplaydev/wordplay/issues/411>）の機械翻訳を追加しました。",
         "edf20e612fc1a": "$~ベトナム語ロケール（<985@https://github.com/wordplaydev/wordplay/issues/985>）の機械翻訳を追加しました。",
         "e54e4fdcb3b60": "$~変換のオートコンプリートをより賢く、バグを減らしました。",
         "ec504cb44ecf3": "$~アクセシビリティのため、コードエディターにズームコントロールを追加しました（<772@https://github.com/wordplaydev/wordplay/issues/772>）。",

@@ -863,7 +863,6 @@
         "e193813904392": "$~기존 사용자 이름 확인 피드백의 배치 문제를 고쳤습니다.",
         "ed79037af5759": "$~@Example 선적 서류 비치에 있던 오류가 있는 코드를 고쳤습니다.",
         "e0fafeaeade58": "$~마이크 사용을 허용하면 프로젝트가 말소리에 반응할 수 있도록 새로운 @Speech 스트림을 추가했습니다 (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~히브리어 지역(<411@https://github.com/wordplaydev/wordplay/issues/411>)의 기계 번역을 추가했습니다.",
         "edf20e612fc1a": "$~베트남어 지역(<985@https://github.com/wordplaydev/wordplay/issues/985>)의 기계 번역을 추가했습니다.",
         "e54e4fdcb3b60": "$~변환 자동 완성을 더 똑똑하고 오류 없이 만들었습니다.",
         "ec504cb44ecf3": "$~접근성을 위해 코드 편집기에 확대/축소 조절 기능을 추가했습니다(<772@https://github.com/wordplaydev/wordplay/issues/772>).",

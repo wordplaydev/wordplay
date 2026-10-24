@@ -864,7 +864,6 @@
         "e193813904392": "$~Kami memperbaiki tata letak masukan pemeriksaan nama pengguna yang sudah ada.",
         "ed79037af5759": "$~Kami memperbaiki beberapa kode yang rusak dalam dokumentasi @Example.",
         "e0fafeaeade58": "$~Kami menambahkan aliran @Speech baru, jadi jika kamu mengizinkan mikrofon, proyek bisa merespons suara (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~Kami menambahkan terjemahan mesin untuk bahasa Ibrani (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~Kami menambahkan terjemahan mesin untuk bahasa Vietnam (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~Kami membuat pelengkapan otomatis untuk konversi lebih pintar dan lebih sedikit kesalahannya.",
         "ec504cb44ecf3": "$~Kami menambahkan kontrol zum pada editor kode untuk aksesibilitas (<772@https://github.com/wordplaydev/wordplay/issues/772>).",

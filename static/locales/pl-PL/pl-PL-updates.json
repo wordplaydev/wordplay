@@ -862,7 +862,6 @@
         "e193813904392": "$~Naprawiliśmy układ istniejącej opinii sprawdzającej nazwę użytkownika.",
         "ed79037af5759": "$~Naprawiliśmy niedziałający kod w dokumentacji @Example.",
         "e0fafeaeade58": "$~Dodaliśmy nowy strumień @Speech, dzięki czemu — jeśli zezwolisz na dostęp do mikrofonu — projekty mogą reagować na mowę (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~Dodaliśmy tłumaczenie maszynowe wersji hebrajskiej (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~Dodaliśmy tłumaczenie maszynowe wersji wietnamskiej (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~Uczyniliśmy autouzupełnianie konwersji mądrzejszym i mniej podatnym na błędy.",
         "ec504cb44ecf3": "$~Dodaliśmy sterowanie powiększeniem w edytorach kodu, aby zwiększyć dostępność (<772@https://github.com/wordplaydev/wordplay/issues/772>).",

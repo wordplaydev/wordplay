@@ -863,7 +863,6 @@
         "e193813904392": "$~תיקנו את הפריסה של המשוב הקיים לבדיקת שם משתמש.",
         "ed79037af5759": "$~תיקנו קוד שבור בתיעוד של @Example.",
         "e0fafeaeade58": "$~הוספנו זרם חדש בשם @Speech, כך שאם תאפשרו גישה למיקרופון שלכם, פרויקטים יוכלו להגיב לדיבור (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~הוספנו תרגום מכונה לעברית (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~הוספנו תרגום מכונה לווייטנאמית (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~עשינו את ההשלמה האוטומטית של המרות חכמה יותר ועם פחות באגים.",
         "ec504cb44ecf3": "$~הוספנו פקד זום לעורכי קוד, כדי שיהיו נגישים יותר (<772@https://github.com/wordplaydev/wordplay/issues/772>).",

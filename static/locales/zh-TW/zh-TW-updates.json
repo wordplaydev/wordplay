@@ -862,7 +862,6 @@
         "e193813904392": "$~我們修好了原本使用者名稱檢查提示的版面配置。",
         "ed79037af5759": "$~我們修好了 @Example 說明文件裡一些壞掉的程式碼。",
         "e0fafeaeade58": "$~我們新增了一個 @Speech 串流，只要你允許使用麥克風，工程就能對說話做出回應（<394@https://github.com/wordplaydev/wordplay/issues/394>）。",
-        "ed8f5d2616b96": "$~我們新增了希伯來語地區（<411@https://github.com/wordplaydev/wordplay/issues/411>）的機器翻譯。",
         "edf20e612fc1a": "$~我們新增了越南語地區（<985@https://github.com/wordplaydev/wordplay/issues/985>）的機器翻譯。",
         "e54e4fdcb3b60": "$~我們讓轉換（Conversion）的自動完成功能更聰明、更少錯誤了。",
         "ec504cb44ecf3": "$~我們為程式碼編輯器新增了縮放控制，方便無障礙使用（<772@https://github.com/wordplaydev/wordplay/issues/772>）。",

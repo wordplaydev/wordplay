@@ -864,7 +864,6 @@
         "e193813904392": "$~Am corectat aspectul feedback-ului existent pentru verificarea numelui de utilizator.",
         "ed79037af5759": "$~Am corectat cod defect din documentarea @Example.",
         "e0fafeaeade58": "$~Am adăugat un nou flux @Speech, astfel încât, dacă permiți accesul la microfon, proiectele pot răspunde la vorbire (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~Am adăugat o traducere automată pentru limba ebraică (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~Am adăugat o traducere automată pentru limba vietnameză (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~Am făcut ca autocompletarea conversiilor să fie mai inteligentă și cu mai puține erori.",
         "ec504cb44ecf3": "$~Am adăugat un control de zoom în editoarele de cod, pentru accesibilitate (<772@https://github.com/wordplaydev/wordplay/issues/772>).",

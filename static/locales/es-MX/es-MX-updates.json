@@ -863,7 +863,6 @@
         "e193813904392": "$~Corregimos el diseño del comentario sobre la verificación de nombres de usuario existentes.",
         "ed79037af5759": "$~Corregimos código roto en la documentación de @Example.",
         "e0fafeaeade58": "$~Agregamos un flujo nuevo de @Speech, para que, si permites el uso de tu micrófono, los proyectos puedan responder al habla (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~Agregamos una traducción automática al idioma hebreo (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~Agregamos una traducción automática al idioma vietnamita (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~Hicimos que el autocompletado de conversiones fuera más inteligente y con menos errores.",
         "ec504cb44ecf3": "$~Agregamos un control de zoom a los editores de código para mejorar la accesibilidad (<772@https://github.com/wordplaydev/wordplay/issues/772>).",

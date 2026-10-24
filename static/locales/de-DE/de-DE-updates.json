@@ -864,7 +864,6 @@
         "e193813904392": "$~Wir haben das Layout der bestehenden Rückmeldung zur Benutzernamenprüfung repariert.",
         "ed79037af5759": "$~Wir haben fehlerhaften Code in der Dokumentation zu @Example repariert.",
         "e0fafeaeade58": "$~Wir haben einen neuen Datenstrom @Speech hinzugefügt. Wenn du dein Mikrofon erlaubst, können Projekte jetzt auf Sprache reagieren (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~Wir haben eine maschinelle Übersetzung für eine hebräische Sprachregion (<411@https://github.com/wordplaydev/wordplay/issues/411>) hinzugefügt.",
         "edf20e612fc1a": "$~Wir haben eine maschinelle Übersetzung für eine vietnamesische Sprachregion (<985@https://github.com/wordplaydev/wordplay/issues/985>) hinzugefügt.",
         "e54e4fdcb3b60": "$~Wir haben die automatische Vervollständigung von Umwandlungen schlauer und weniger fehleranfällig gemacht.",
         "ec504cb44ecf3": "$~Wir haben eine Zoom-Steuerung für Code-Editoren hinzugefügt, um sie besser zugänglich zu machen (<772@https://github.com/wordplaydev/wordplay/issues/772>).",

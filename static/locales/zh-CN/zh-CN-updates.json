@@ -864,7 +864,6 @@
         "e193813904392": "$~我们修复了现有用户名检查反馈的排版问题。",
         "ed79037af5759": "$~我们修复了 @Example 文档里一些出错的代码。",
         "e0fafeaeade58": "$~我们添加了一个新的 @Speech 流，只要你允许使用麦克风，项目就能对语音做出反应（<394@https://github.com/wordplaydev/wordplay/issues/394>）。",
-        "ed8f5d2616b96": "$~我们新增了希伯来语地区（<411@https://github.com/wordplaydev/wordplay/issues/411>）的机器翻译。",
         "edf20e612fc1a": "$~我们新增了越南语地区（<985@https://github.com/wordplaydev/wordplay/issues/985>）的机器翻译。",
         "e54e4fdcb3b60": "$~我们让转换的自动补全变得更智能、更少出错。",
         "ec504cb44ecf3": "$~我们为代码编辑器新增了缩放控件，方便无障碍访问（<772@https://github.com/wordplaydev/wordplay/issues/772>）。",

@@ -864,7 +864,6 @@
         "e193813904392": "$~Mevcut kullanıcı adı kontrolü geri bildiriminin düzenini düzelttik.",
         "ed79037af5759": "$~@Example dokümantasyonundaki bazı hatalı kodları düzelttik.",
         "e0fafeaeade58": "$~Yeni bir @Speech akışı ekledik. Mikrofonunuza izin verirseniz, projeler artık konuşmaya tepki verebilir (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~İbranice dilinin makine çevirisini ekledik (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~Vietnamca dilinin makine çevirisini ekledik (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~Dönüşümlerin otomatik tamamlanmasını daha akıllı ve daha az hatalı hale getirdik.",
         "ec504cb44ecf3": "$~Erişilebilirlik için kod düzenleyicilerine bir yakınlaştırma denetimi ekledik (<772@https://github.com/wordplaydev/wordplay/issues/772>).",

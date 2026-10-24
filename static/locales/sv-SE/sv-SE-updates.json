@@ -864,7 +864,6 @@
         "e193813904392": "$~Vi rättade utformningen av den befintliga återkopplingen för kontroll av användarnamn.",
         "ed79037af5759": "$~Vi rättade trasig kod i dokumentationen för @Example.",
         "e0fafeaeade58": "$~Vi lade till en ny ström för @Speech, så om du tillåter din mikrofon kan projekt reagera på tal (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~Vi lade till en maskinöversättning för hebreiska (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~Vi lade till en maskinöversättning för vietnamesiska (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~Vi gjorde autokompletteringen av omvandlingar smartare och mindre felbenägen.",
         "ec504cb44ecf3": "$~Vi lade till en zoomkontroll i kodredigerare för tillgänglighet (<772@https://github.com/wordplaydev/wordplay/issues/772>).",
