@@ -1053,6 +1053,12 @@
         "ed96f186e4b18": "$~Tornámos o código mais fácil de ler: \\?\\, \\??\\ e \\???\\ agora partilham uma cor, um tipo que aceita qualquer coisa aparece como \\◌\\ e um tipo de intervalo aparece como \\‥\\ em vez de uma etiqueta laranja.",
         "ea6d52130d864": "$~Os marcadores de posição no código do <Guia@https://wordplay.dev/guide> agora mostram o seu tipo pequeno e cinzento, e só quando mais nada indica o que pertence ali.",
         "eb84dbea56e6e": "$~Agora pode alterar os exemplos de código na <página inicial@https://wordplay.dev/> e no guia e ver logo o resultado a atuar, e o ↺ repõe o original.",
-        "e91e2af40d2f4": "$~Adicionámos suporte para urdu romanizado (\\ur-Latn-PK\\), que é o urdu escrito com letras latinas! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
+        "e91e2af40d2f4": "$~Adicionámos suporte para urdu romanizado (\\ur-Latn-PK\\), que é o urdu escrito com letras latinas! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)",
+        "e49d853150432": "$~Os exemplos de código noutros idiomas passam agora a usar os nomes desse idioma para os tipos e as funções incluídas, e corrigimos muitos nomes que tinham sido traduzidos com o significado errado, como o \\lighter\\ de uma cor que se tornava um isqueiro. (<1465@https://github.com/wordplaydev/wordplay/issues/1465>)",
+        "ea322ff354a63": "$~Os professores podem agora criar uma turma a partir dos endereços de correio eletrónico escolares dos alunos, em vez de criarem um nome de utilizador e uma palavra-passe para cada aluno. (<1347@https://github.com/wordplaydev/wordplay/issues/1347>)",
+        "eff192c2e6b21": "$~Agora pode escrever uma cor no seletor de cores, pelo seu nome ou por qualquer código que uma página web use. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
+        "edd342aefe00f": "$~Adicionámos uma tradução automática de uma localização em hebraico (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
+        "ee9e6be8c1dfa": "$~*Visualizadores e comentadores*. Agora pode deixar alguém ver o seu projeto, ou vê-lo e conversar sobre ele, sem lhe permitir editá-lo, e um projeto numa galeria pode ser mostrado apenas aos seus curadores (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
+        "eba572ebe4c3f": "$~As galerias passam a ter um espaço de guias práticos, onde os curadores e os criadores podem partilhar entre si o que descobriram. (<825@https://github.com/wordplaydev/wordplay/issues/825>)"
     }
 }

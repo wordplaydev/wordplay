@@ -1053,6 +1053,12 @@
         "ed96f186e4b18": "$~Wir haben Code leichter lesbar gemacht: \\?\\, \\??\\ und \\???\\ haben jetzt dieselbe Farbe, ein Typ, der alles annimmt, wird als \\◌\\ angezeigt, und ein Bereichstyp wird als \\‥\\ statt als orangefarbenes Label angezeigt.",
         "ea6d52130d864": "$~Platzhalter im Code im <Leitfaden@https://wordplay.dev/guide> zeigen ihren Typ jetzt klein und grau an, und zwar nur dann, wenn nichts anderes sagt, was dort hingehört.",
         "eb84dbea56e6e": "$~Du kannst jetzt die Code-Beispiele auf der <Startseite@https://wordplay.dev/> und im Leitfaden ändern und sofort ansehen, wie sie laufen. Mit ↺ bekommst du das Original zurück.",
-        "e91e2af40d2f4": "$~Wir unterstützen jetzt Roman-Urdu (\\ur-Latn-PK\\). Das ist Urdu, das mit lateinischen Buchstaben geschrieben wird! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
+        "e91e2af40d2f4": "$~Wir unterstützen jetzt Roman-Urdu (\\ur-Latn-PK\\). Das ist Urdu, das mit lateinischen Buchstaben geschrieben wird! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)",
+        "e49d853150432": "$~Code-Beispiele in anderen Sprachen verwenden jetzt die eigenen Namen dieser Sprache für eingebaute Typen und Funktionen. Außerdem haben wir viele Namen korrigiert, die mit der falschen Bedeutung übersetzt waren, zum Beispiel wurde der \\lighter\\ einer Farbe zu einem Feuerzeug. (<1465@https://github.com/wordplaydev/wordplay/issues/1465>)",
+        "ea322ff354a63": "$~Lehrkräfte können jetzt eine Klasse aus den Schul-E-Mail-Adressen der Schüler erstellen. Sie müssen dann nicht mehr für jeden Schüler einen Benutzernamen und ein Passwort anlegen. (<1347@https://github.com/wordplaydev/wordplay/issues/1347>)",
+        "eff192c2e6b21": "$~Du kannst jetzt eine Farbe in die Farbauswahl eintippen, mit ihrem Namen oder mit einem beliebigen Code, den eine Webseite verwendet. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
+        "edd342aefe00f": "$~Wir haben eine maschinelle Übersetzung für eine hebräische Sprachversion hinzugefügt (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
+        "ee9e6be8c1dfa": "$~*Betrachtende und Kommentierende*. Du kannst jetzt jemanden dein Projekt ansehen lassen, oder es ansehen und darüber chatten lassen, ohne dass die Person es bearbeiten darf. Ein Projekt in einer Galerie kann außerdem nur für die Kuratoren sichtbar sein (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
+        "eba572ebe4c3f": "$~Galerien haben jetzt einen Anleitungs-Bereich. Dort können Kuratoren und Ersteller einander zeigen, was sie herausgefunden haben (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
     }
 }

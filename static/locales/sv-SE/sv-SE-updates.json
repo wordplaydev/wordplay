@@ -1053,6 +1053,12 @@
         "ed96f186e4b18": "$~Vi har gjort koden lättare att läsa: \\?\\, \\??\\ och \\???\\ har nu samma färg, en typ som tar emot vad som helst visas som \\◌\\, och en intervalltyp visas som \\‥\\ i stället för en orange etikett.",
         "ea6d52130d864": "$~Platshållare i koden i <guiden@https://wordplay.dev/guide> visar nu sin typ liten och grå, och bara när inget annat säger vad som ska stå där.",
         "eb84dbea56e6e": "$~Nu kan du ändra kodexemplen på <startsidan@https://wordplay.dev/> och i guiden och se dem köras direkt, och ↺ sätter tillbaka originalet.",
-        "e91e2af40d2f4": "$~Vi har lagt till stöd för romaniserad urdu (\\ur-Latn-PK\\), som är urdu skrivet med latinska bokstäver! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
+        "e91e2af40d2f4": "$~Vi har lagt till stöd för romaniserad urdu (\\ur-Latn-PK\\), som är urdu skrivet med latinska bokstäver! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)",
+        "e49d853150432": "$~Kodexempel på andra språk använder nu det språkets egna namn för inbyggda typer och funktioner. Vi har också rättat många namn som hade översatts med fel betydelse, till exempel en färgs \\lighter\\ som blev en cigarettändare. (<1465@https://github.com/wordplaydev/wordplay/issues/1465>)",
+        "ea322ff354a63": "$~Lärare kan nu skapa en klass från elevernas skolmejladresser, i stället för att göra ett användarnamn och ett lösenord åt varje elev. (<1347@https://github.com/wordplaydev/wordplay/issues/1347>)",
+        "eff192c2e6b21": "$~Du kan nu skriva in en färg i färgväljaren, med dess namn eller med vilken kod som helst som en webbsida kan använda. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
+        "edd342aefe00f": "$~Vi har lagt till en maskinöversättning av ett hebreiskt språkpaket (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
+        "ee9e6be8c1dfa": "$~*Tittare och kommentatorer*. Du kan nu låta någon se ditt projekt, eller se det och chatta om det, utan att låta personen redigera det. Ett projekt i ett galleri kan också visas bara för galleriets kuratorer (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
+        "eba572ebe4c3f": "$~Gallerier har nu ett utrymme för instruktioner, där kuratorer och skapare kan dela med sig av vad de har kommit på (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
     }
 }

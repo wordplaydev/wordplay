@@ -1053,6 +1053,12 @@
         "ed96f186e4b18": "$~Chúng tôi đã làm cho mã số dễ đọc hơn: \\?\\, \\??\\ và \\???\\ giờ có chung một màu, một kiểu nhận mọi thứ được hiện là \\◌\\, và một kiểu phạm vi được hiện là \\‥\\ thay vì một nhãn màu cam.",
         "ea6d52130d864": "$~Các chỗ giữ chỗ trong mã số ở <Sổ tay hướng dẫn@https://wordplay.dev/guide> giờ hiện kiểu của chúng nhỏ và màu xám, và chỉ khi không có gì khác cho biết thứ gì thuộc về đó.",
         "eb84dbea56e6e": "$~Bây giờ bạn có thể thay đổi các ví dụ mã số trên <trang chủ@https://wordplay.dev/> và trong sổ tay hướng dẫn, rồi xem chúng chạy ngay lập tức. Nút ↺ sẽ đưa mã số về bản gốc.",
-        "e91e2af40d2f4": "$~Chúng tôi đã thêm hỗ trợ cho tiếng Urdu La Mã (\\ur-Latn-PK\\), là tiếng Urdu được viết bằng chữ cái Latin! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
+        "e91e2af40d2f4": "$~Chúng tôi đã thêm hỗ trợ cho tiếng Urdu La Mã (\\ur-Latn-PK\\), là tiếng Urdu được viết bằng chữ cái Latin! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)",
+        "e49d853150432": "$~Các ví dụ mã số bằng ngôn ngữ khác giờ dùng chính tên của ngôn ngữ đó cho các kiểu và hàm có sẵn. Chúng tôi cũng sửa nhiều tên bị dịch sai nghĩa, ví dụ \\lighter\\ của một màu bị dịch thành cái bật lửa. (<1465@https://github.com/wordplaydev/wordplay/issues/1465>)",
+        "ea322ff354a63": "$~Giáo viên giờ có thể tạo một lớp từ địa chỉ email của trường học sinh, thay vì tạo tên người dùng và mật khẩu cho từng học sinh. (<1347@https://github.com/wordplaydev/wordplay/issues/1347>)",
+        "eff192c2e6b21": "$~Giờ bạn có thể gõ một màu vào bộ chọn màu, bằng tên của màu hoặc bằng bất kỳ mã nào mà một trang web sẽ dùng. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
+        "edd342aefe00f": "$~Chúng tôi đã thêm một bản dịch máy cho ngôn ngữ vùng tiếng Do Thái (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
+        "ee9e6be8c1dfa": "$~*Người xem và người bình luận*. Giờ bạn có thể cho ai đó xem dự án của bạn, hoặc xem và trò chuyện về dự án, mà không cho họ chỉnh sửa. Một dự án trong phòng trưng bày cũng có thể chỉ hiện cho những người phụ trách của nó (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
+        "eba572ebe4c3f": "$~Các phòng trưng bày giờ có một không gian làm cách nào để, nơi người phụ trách và người sáng tạo có thể chia sẻ với nhau những điều họ đã tìm ra (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
     }
 }
