@@ -864,7 +864,6 @@
         "e193813904392": "$~Mevcut kullanıcı adı kontrolü geri bildiriminin düzenini düzelttik.",
         "ed79037af5759": "$~@Example dokümantasyonundaki bazı hatalı kodları düzelttik.",
         "e0fafeaeade58": "$~Yeni bir @Speech akışı ekledik. Mikrofonunuza izin verirseniz, projeler artık konuşmaya tepki verebilir (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~İbranice dilinin makine çevirisini ekledik (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~Vietnamca dilinin makine çevirisini ekledik (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~Dönüşümlerin otomatik tamamlanmasını daha akıllı ve daha az hatalı hale getirdik.",
         "ec504cb44ecf3": "$~Erişilebilirlik için kod düzenleyicilerine bir yakınlaştırma denetimi ekledik (<772@https://github.com/wordplaydev/wordplay/issues/772>).",
@@ -1054,6 +1053,12 @@
         "ed96f186e4b18": "$~Kodu okumayı kolaylaştırdık: \\?\\, \\??\\ ve \\???\\ artık aynı rengi paylaşıyor, her şeyi kabul eden bir tip \\◌\\ olarak görünüyor ve bir aralık tipi turuncu etiket yerine \\‥\\ olarak görünüyor.",
         "ea6d52130d864": "$~<Rehber@https://wordplay.dev/guide> içindeki koddaki yer tutucular artık tiplerini küçük ve gri gösteriyor, bunu da yalnızca orada ne olması gerektiğini başka hiçbir şey söylemiyorsa yapıyor.",
         "eb84dbea56e6e": "$~Artık <ana sayfa@https://wordplay.dev/> ve Rehber'deki kod örneklerini değiştirebilir ve hemen çalıştığını görebilirsin. ↺ düğmesi özgün örneği geri getirir.",
-        "e91e2af40d2f4": "$~Romanlaştırılmış Urduca (\\ur-Latn-PK\\) desteği ekledik. Bu, Latin harfleriyle yazılan Urduca! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
+        "e91e2af40d2f4": "$~Romanlaştırılmış Urduca (\\ur-Latn-PK\\) desteği ekledik. Bu, Latin harfleriyle yazılan Urduca! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)",
+        "e49d853150432": "$~Diğer dillerdeki kod örnekleri artık yerleşik tipler ve fonksiyonlar için o dilin kendi isimlerini kullanıyor. Ayrıca yanlış anlamla çevrilmiş birçok ismi düzelttik; örneğin bir rengin \\lighter\\ değerinin çakmak olarak çevrilmesi gibi. (<1465@https://github.com/wordplaydev/wordplay/issues/1465>)",
+        "ea322ff354a63": "$~Öğretmenler artık her öğrenci için kullanıcı adı ve parola oluşturmak yerine, öğrencilerin okul e-posta adreslerinden bir sınıf oluşturabilir. (<1347@https://github.com/wordplaydev/wordplay/issues/1347>)",
+        "eff192c2e6b21": "$~Artık renk seçiciye bir renk yazabilirsin. Rengin adını ya da bir web sayfasının kullandığı herhangi bir kodu yazabilirsin. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
+        "edd342aefe00f": "$~İbranice bir yerel ayarın makine çevirisini ekledik (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
+        "ee9e6be8c1dfa": "$~*İzleyiciler ve yorumcular*. Artık birine projeni düzenlemesine izin vermeden görmesine, ya da görüp hakkında sohbet etmesine izin verebilirsin. Galerideki bir proje de yalnızca düzenleyicilerine gösterilebilir (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
+        "eba572ebe4c3f": "$~Galerilerde artık bir nasıl yapılır kılavuzu alanı var. Düzenleyiciler ve yaratıcılar burada öğrendiklerini birbirleriyle paylaşabilir (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
     }
 }

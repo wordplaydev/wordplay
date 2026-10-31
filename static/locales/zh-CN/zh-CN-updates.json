@@ -864,7 +864,6 @@
         "e193813904392": "$~我们修复了现有用户名检查反馈的排版问题。",
         "ed79037af5759": "$~我们修复了 @Example 文档里一些出错的代码。",
         "e0fafeaeade58": "$~我们添加了一个新的 @Speech 流，只要你允许使用麦克风，项目就能对语音做出反应（<394@https://github.com/wordplaydev/wordplay/issues/394>）。",
-        "ed8f5d2616b96": "$~我们新增了希伯来语地区（<411@https://github.com/wordplaydev/wordplay/issues/411>）的机器翻译。",
         "edf20e612fc1a": "$~我们新增了越南语地区（<985@https://github.com/wordplaydev/wordplay/issues/985>）的机器翻译。",
         "e54e4fdcb3b60": "$~我们让转换的自动补全变得更智能、更少出错。",
         "ec504cb44ecf3": "$~我们为代码编辑器新增了缩放控件，方便无障碍访问（<772@https://github.com/wordplaydev/wordplay/issues/772>）。",
@@ -1054,6 +1053,12 @@
         "ed96f186e4b18": "$~我们让代码更容易阅读了：\\?\\、\\??\\ 和 \\???\\ 现在共用同一种颜色，可以接受任何值的类型显示为 \\◌\\，范围类型显示为 \\‥\\，不再是橙色标签。",
         "ea6d52130d864": "$~<指南@https://wordplay.dev/guide>里代码中的占位符，现在会用灰色小字显示它的类型，而且只在没有其他内容说明这里该放什么时才显示。",
         "eb84dbea56e6e": "$~现在你可以修改<首页@https://wordplay.dev/>和指南里的代码示例，并立刻看到它们运行，点击 ↺ 就能恢复原来的代码。",
-        "e91e2af40d2f4": "$~我们新增了对罗马乌尔都语（\\ur-Latn-PK\\）的支持，它就是用拉丁字母书写的乌尔都语！（<1457@https://github.com/wordplaydev/wordplay/issues/1457>）"
+        "e91e2af40d2f4": "$~我们新增了对罗马乌尔都语（\\ur-Latn-PK\\）的支持，它就是用拉丁字母书写的乌尔都语！（<1457@https://github.com/wordplaydev/wordplay/issues/1457>）",
+        "e49d853150432": "$~其他语言的代码示例现在使用该语言自己的名字来表示内置类型和函数。我们还修正了许多译错意思的名字，比如颜色的 \\lighter\\ 被译成了打火机。（<1465@https://github.com/wordplaydev/wordplay/issues/1465>）",
+        "ea322ff354a63": "$~老师现在可以用学生的学校邮箱地址来创建班级，不用再给每个学生设置用户名和密码了。（<1347@https://github.com/wordplaydev/wordplay/issues/1347>）",
+        "eff192c2e6b21": "$~你现在可以在颜色选择器里输入颜色，可以输入颜色的名字，也可以输入网页使用的任意颜色代码。（<443@https://github.com/wordplaydev/wordplay/issues/443>）",
+        "edd342aefe00f": "$~我们添加了希伯来语地区版本的机器翻译。（<441@https://github.com/wordplaydev/wordplay/issues/441>）",
+        "ee9e6be8c1dfa": "$~*查看者和评论者*。你现在可以让别人查看你的项目，或者查看并聊天讨论，但不让他们编辑。作品库里的项目也可以只展示给策展人看。（<819@https://github.com/wordplaydev/wordplay/issues/819>，<738@https://github.com/wordplaydev/wordplay/issues/738>）",
+        "eba572ebe4c3f": "$~作品库现在有了如何空间，策展人和创作者可以在这里互相分享自己琢磨出来的方法。（<825@https://github.com/wordplaydev/wordplay/issues/825>）"
     }
 }

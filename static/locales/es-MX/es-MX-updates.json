@@ -863,7 +863,6 @@
         "e193813904392": "$~Corregimos el diseño del comentario sobre la verificación de nombres de usuario existentes.",
         "ed79037af5759": "$~Corregimos código roto en la documentación de @Example.",
         "e0fafeaeade58": "$~Agregamos un flujo nuevo de @Speech, para que, si permites el uso de tu micrófono, los proyectos puedan responder al habla (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~Agregamos una traducción automática al idioma hebreo (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~Agregamos una traducción automática al idioma vietnamita (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~Hicimos que el autocompletado de conversiones fuera más inteligente y con menos errores.",
         "ec504cb44ecf3": "$~Agregamos un control de zoom a los editores de código para mejorar la accesibilidad (<772@https://github.com/wordplaydev/wordplay/issues/772>).",
@@ -1054,6 +1053,12 @@
         "ed96f186e4b18": "$~Hicimos que el código sea más fácil de leer: \\?\\, \\??\\ y \\???\\ ahora comparten un color, un tipo que acepta cualquier cosa se muestra como \\◌\\, y un tipo de rango se muestra como \\‥\\ en lugar de una etiqueta naranja.",
         "ea6d52130d864": "$~Los marcadores de posición en el código de la <Guía@https://wordplay.dev/guide> ahora muestran su tipo pequeño y en gris, y solo cuando nada más indica qué va ahí.",
         "eb84dbea56e6e": "$~Ahora puedes cambiar los ejemplos de código de la <página de inicio@https://wordplay.dev/> y de la guía, y ver cómo se ejecutan de inmediato. El botón ↺ restaura el original.",
-        "e91e2af40d2f4": "$~¡Agregamos compatibilidad con el urdu romano (\\ur-Latn-PK\\), que es el urdu escrito con letras latinas! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
+        "e91e2af40d2f4": "$~¡Agregamos compatibilidad con el urdu romano (\\ur-Latn-PK\\), que es el urdu escrito con letras latinas! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)",
+        "e49d853150432": "$~Los ejemplos de código en otros idiomas ahora usan los nombres propios de ese idioma para los tipos y las funciones integrados. También corregimos muchos nombres que estaban traducidos con el significado equivocado, como el \\lighter\\ de un color que se convertía en un encendedor. (<1465@https://github.com/wordplaydev/wordplay/issues/1465>)",
+        "ea322ff354a63": "$~Ahora las maestras pueden crear una clase usando los correos electrónicos escolares de sus estudiantes, en lugar de crear un nombre de usuaria y una contraseña para cada estudiante. (<1347@https://github.com/wordplaydev/wordplay/issues/1347>)",
+        "eff192c2e6b21": "$~Ahora puedes escribir un color en el selector de color, con su nombre o con cualquier código que usaría una página web. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
+        "edd342aefe00f": "$~Agregamos una traducción automática de una configuración regional en hebreo (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
+        "ee9e6be8c1dfa": "$~*Espectadoras y comentaristas*. Ahora puedes dejar que alguien vea tu proyecto, o que lo vea y converse sobre él, sin dejar que lo edite. Además, un proyecto en una galería puede mostrarse solo a sus curadoras (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
+        "eba572ebe4c3f": "$~Ahora las galerías tienen un espacio de guías prácticas, donde las curadoras y las creadoras pueden compartir entre sí lo que descubrieron (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
     }
 }

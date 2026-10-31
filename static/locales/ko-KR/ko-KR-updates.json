@@ -863,7 +863,6 @@
         "e193813904392": "$~기존 사용자 이름 확인 피드백의 배치 문제를 고쳤습니다.",
         "ed79037af5759": "$~@Example 선적 서류 비치에 있던 오류가 있는 코드를 고쳤습니다.",
         "e0fafeaeade58": "$~마이크 사용을 허용하면 프로젝트가 말소리에 반응할 수 있도록 새로운 @Speech 스트림을 추가했습니다 (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~히브리어 지역(<411@https://github.com/wordplaydev/wordplay/issues/411>)의 기계 번역을 추가했습니다.",
         "edf20e612fc1a": "$~베트남어 지역(<985@https://github.com/wordplaydev/wordplay/issues/985>)의 기계 번역을 추가했습니다.",
         "e54e4fdcb3b60": "$~변환 자동 완성을 더 똑똑하고 오류 없이 만들었습니다.",
         "ec504cb44ecf3": "$~접근성을 위해 코드 편집기에 확대/축소 조절 기능을 추가했습니다(<772@https://github.com/wordplaydev/wordplay/issues/772>).",
@@ -1054,6 +1053,12 @@
         "ed96f186e4b18": "$~코드를 더 읽기 쉽게 만들었습니다. \\?\\, \\??\\, \\???\\ 이제 같은 색을 함께 씁니다. 무엇이든 받는 유형은 \\◌\\ 으로 보이고, 범위 유형은 주황색 라벨 대신 \\‥\\ 으로 보입니다.",
         "ea6d52130d864": "$~<안내서@https://wordplay.dev/guide>의 코드에 있는 자리 표시자는 이제 유형을 작고 회색으로 보여 줍니다. 그 자리에 무엇이 들어가야 하는지 다른 곳에서 알려 주지 않을 때만 보입니다.",
         "eb84dbea56e6e": "$~이제 <홈페이지@https://wordplay.dev/>와 안내서에 있는 코드 예제를 바꾸고 바로 실행되는 모습을 볼 수 있습니다. ↺ 버튼을 누르면 원래 코드로 돌아갑니다.",
-        "e91e2af40d2f4": "$~로마자 우르두어(\\ur-Latn-PK\\)를 지원합니다. 로마자 우르두어는 라틴 문자로 쓴 우르두어입니다! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
+        "e91e2af40d2f4": "$~로마자 우르두어(\\ur-Latn-PK\\)를 지원합니다. 로마자 우르두어는 라틴 문자로 쓴 우르두어입니다! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)",
+        "e49d853150432": "$~다른 언어의 코드 예제가 이제 기본 제공 유형과 함수에 그 언어의 고유한 이름을 사용합니다. 또 뜻이 잘못 번역된 이름도 많이 고쳤습니다. 예를 들어 색의 \\lighter\\이(가) 라이터로 번역되던 문제가 있었습니다. (<1465@https://github.com/wordplaydev/wordplay/issues/1465>)",
+        "ea322ff354a63": "$~이제 선생님은 학생마다 사용자 이름과 비밀번호를 만들지 않고, 학생들의 학교 이메일 주소로 학급을 만들 수 있습니다. (<1347@https://github.com/wordplaydev/wordplay/issues/1347>)",
+        "eff192c2e6b21": "$~이제 색 선택기에 색의 이름이나 웹 페이지에서 쓰는 코드를 직접 입력할 수 있습니다. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
+        "edd342aefe00f": "$~히브리어 지역 설정의 기계 번역을 추가했습니다 (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
+        "ee9e6be8c1dfa": "$~*보는 사람과 댓글 작성자*. 이제 다른 사람이 프로젝트를 보거나, 보고 대화할 수 있게 하면서도 수정은 못 하게 할 수 있습니다. 또 갤러리에 있는 프로젝트를 큐레이터에게만 보이게 할 수도 있습니다 (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
+        "eba572ebe4c3f": "$~이제 갤러리에 방법 안내 공간이 생겼습니다. 큐레이터와 창작자가 알아낸 것을 서로 나눌 수 있습니다 (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
     }
 }

@@ -864,7 +864,6 @@
         "e193813904392": "$~Am corectat aspectul feedback-ului existent pentru verificarea numelui de utilizator.",
         "ed79037af5759": "$~Am corectat cod defect din documentarea @Example.",
         "e0fafeaeade58": "$~Am adăugat un nou flux @Speech, astfel încât, dacă permiți accesul la microfon, proiectele pot răspunde la vorbire (<394@https://github.com/wordplaydev/wordplay/issues/394>).",
-        "ed8f5d2616b96": "$~Am adăugat o traducere automată pentru limba ebraică (<411@https://github.com/wordplaydev/wordplay/issues/411>).",
         "edf20e612fc1a": "$~Am adăugat o traducere automată pentru limba vietnameză (<985@https://github.com/wordplaydev/wordplay/issues/985>).",
         "e54e4fdcb3b60": "$~Am făcut ca autocompletarea conversiilor să fie mai inteligentă și cu mai puține erori.",
         "ec504cb44ecf3": "$~Am adăugat un control de zoom în editoarele de cod, pentru accesibilitate (<772@https://github.com/wordplaydev/wordplay/issues/772>).",
@@ -1054,6 +1053,12 @@
         "ed96f186e4b18": "$~Am făcut codul mai ușor de citit: \\?\\, \\??\\ și \\???\\ au acum aceeași culoare, un tip care acceptă orice apare ca \\◌\\, iar un tip de interval apare ca \\‥\\ în loc de o etichetă portocalie.",
         "ea6d52130d864": "$~Substituenții din codul din <Ghid@https://wordplay.dev/guide> își arată acum tipul mic și gri, și doar atunci când nimic altceva nu spune ce trebuie pus acolo.",
         "eb84dbea56e6e": "$~Acum poți schimba exemplele de cod de pe <pagina principală@https://wordplay.dev/> și din Ghid și le poți vedea rulând imediat, iar ↺ readuce exemplul original.",
-        "e91e2af40d2f4": "$~Am adăugat suport pentru urdu romanizat (\\ur-Latn-PK\\), adică urdu scris cu litere latine! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)"
+        "e91e2af40d2f4": "$~Am adăugat suport pentru urdu romanizat (\\ur-Latn-PK\\), adică urdu scris cu litere latine! (<1457@https://github.com/wordplaydev/wordplay/issues/1457>)",
+        "e49d853150432": "$~Exemplele de cod în alte limbi folosesc acum numele proprii ale limbii respective pentru tipurile și funcțiile încorporate. Am corectat și multe nume traduse cu sens greșit, de exemplu \\lighter\\ al unei culori care devenise o brichetă. (<1465@https://github.com/wordplaydev/wordplay/issues/1465>)",
+        "ea322ff354a63": "$~Profesorii pot acum crea o clasă pornind de la adresele de e-mail școlare ale elevilor, în loc să creeze un nume de utilizator și o parolă pentru fiecare elev. (<1347@https://github.com/wordplaydev/wordplay/issues/1347>)",
+        "eff192c2e6b21": "$~Acum poți scrie o culoare în selectorul de culori, după nume sau după orice cod folosit într-o pagină web. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
+        "edd342aefe00f": "$~Am adăugat o traducere automată pentru o localizare în ebraică (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
+        "ee9e6be8c1dfa": "$~*Spectatori și comentatori*. Acum poți lăsa pe cineva să îți vadă proiectul, sau să îl vadă și să discute despre el, fără să îl poată modifica. Un proiect dintr-o galerie poate fi arătat doar curatorilor săi (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
+        "eba572ebe4c3f": "$~Galeriile au acum un spațiu de instrucțiuni, unde curatorii și creatorii pot împărtăși unii cu alții ce au descoperit (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
     }
 }
