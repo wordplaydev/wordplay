@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.40.1 - 2026-10-31
+
+### Fixed
+
+- 📐 On smaller screens, the stage and the code no longer trade sides when you switch between editing and playing. (#1477)
+
 ## 0.40.0 - 2026-10-17
 
 ### Added

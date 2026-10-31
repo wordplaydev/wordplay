@@ -470,6 +470,18 @@ export default class Layout {
               ]);
     }
 
+    /** In the given mode, moved last only if that puts it on screen, since
+     *  moving a showing tile only reorders it (#1477). Free order is stacking. */
+    withTileRaised(tile: Tile, mode: TileMode, arrangement: ArrangementType) {
+        const showing =
+            arrangement !== Arrangement.Free &&
+            tile.mode === mode &&
+            this.getVisibleTiles(arrangement).some((t) => t.id === tile.id);
+        return showing
+            ? this.withTileInMode(tile, mode)
+            : this.withTileLast(tile.withMode(mode));
+    }
+
     /**
      * This layout with the given tile inserted directly after the tile with the
      * given id, or appended if there is none. Order matters because `onAxes`
@@ -597,7 +609,7 @@ export default class Layout {
             : arrangement === Arrangement.Horizontal
               ? this.horizontal(placement, width, height)
               : arrangement === Arrangement.Split
-                ? this.split(width, height)
+                ? this.split(placement, width, height)
                 : arrangement === Arrangement.Single
                   ? this.single(width, height)
                   : arrangement === Arrangement.Free
@@ -737,10 +749,18 @@ export default class Layout {
         );
     }
 
-    /** Only two visible at a time, whichever two are last in the list of tiles */
-    split(width: number, height: number) {
-        // Find the last two visible tiles
-        const visibleTiles = this.getVisibleTiles(Arrangement.Split);
+    /** The last two expanded tiles, the stage placed as on axes, so it doesn't
+     *  jump sides when a window crosses into split (#1477). */
+    split(placement: StagePlacementType, width: number, height: number) {
+        const stacked = width < height;
+        const stageRank = (stacked ? isTop(placement) : isLeft(placement))
+            ? -1
+            : 1;
+        const rank = (tile: Tile) =>
+            tile.kind === TileKind.Output ? stageRank : 0;
+        const visibleTiles = this.getVisibleTiles(Arrangement.Split).toSorted(
+            (a, b) => rank(a) - rank(b),
+        );
 
         let newLayout: Layout = this;
 
@@ -749,7 +769,7 @@ export default class Layout {
             const first = visibleTiles[0] === tile;
             newLayout = newLayout.withTileBounds(
                 tile,
-                width < height
+                stacked
                     ? {
                           left: 0,
                           top: first ? 0 : height / visibleTiles.length,
