@@ -22,9 +22,15 @@ npx lint-staged || exit 1
 # so a one-locale commit pays a few seconds rather than a minute. CI never sets it
 # and always runs every locale. Repair with `npm run locales-fix`; bypass with
 # --no-verify or WORDPLAY_SKIP_SWEEP=1.
+#
+# CHANGELOG.md is corpus too: an entry's id hashes its text, so rewording one
+# orphans its translation in every locale's updates bundle. The sweep reads the
+# gitignored static/updates.json, so it is rebuilt first or the check passes on
+# the old changelog.
 if [ -z "$WORDPLAY_SKIP_SWEEP" ] && git diff --cached --name-only |
-	grep -qE '^(static/examples/|static/locales/|src/locale/en-US\.json$|src/util/verify-locales/|src/examples/)'; then
+	grep -qE '^(static/examples/|static/locales/|src/locale/en-US\.json$|src/util/verify-locales/|src/examples/|CHANGELOG\.md$)'; then
 	echo "Corpus staged; running the sweep for what changed..."
+	npm run updates >/dev/null || exit 1
 	WORDPLAY_SWEEP_CHANGED=1 npm run test:sweep || exit 1
 fi
 
