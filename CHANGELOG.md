@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 📐 On smaller screens, the stage and the code no longer trade sides when you switch between editing and playing. (#1477)
+- 🔊 Projects that borrow a kit, like the Conductor example with `@wordplay/instruments`, no longer stop with an error the moment the camera sees a hand or another input changes.
 
 ## 0.40.0 - 2026-10-17
 
