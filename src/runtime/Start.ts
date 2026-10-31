@@ -1,4 +1,6 @@
+import Block from '#nodes/Block.ts';
 import Borrow from '#nodes/Borrow.ts';
+import Program from '#nodes/Program.ts';
 import Changed from '#nodes/Changed.ts';
 import Initial from '#nodes/Initial.ts';
 import type Expression from '#nodes/Expression.ts';
@@ -74,6 +76,10 @@ export function shouldSkip(evaluator: Evaluator, expr: Expression) {
         // source or share into the current evaluation, which is fresh on every reevaluation.
         // Skipping it leaves the borrowed names unbound and its Finish popping an empty stack.
         !(expr instanceof Borrow) &&
+        // Never skip a source's program or root block: the block's evaluation is the scope a
+        // Borrow reads borrowed names from, and its statements still reuse their stored values.
+        !(expr instanceof Program) &&
+        !(expr instanceof Block && expr.isRoot()) &&
         // Never skip an expression dependent on a Changed or Initial expression, as they can always change with it.
         !evaluator.project.isChangedDependentExpression(expr) &&
         // Don't reevaluate constants
