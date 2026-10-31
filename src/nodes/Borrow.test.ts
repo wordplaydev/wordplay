@@ -307,6 +307,43 @@ test('no kits means no offers', () => {
     ).toEqual([]);
 });
 
+// A borrow reads the borrowed names out of the evaluation of the source's root block. A
+// reevaluation skipped that block when nothing in it depended on the stream that changed, so
+// there was no evaluation to read and the Conductor example threw a NameException naming its
+// kit on the first hand reading.
+test.each([
+    ['a whole kit', '↓ @amy/colors 1', 'kit'],
+    ['one kit share', '↓ @amy/colors.sunset 1', 'kit'],
+    ['one share of a local source', '↓ colors.sunset', 'local'],
+])('borrowing %s survives a stream reevaluation', (_, borrow, from) => {
+    const code = `${borrow}\n\nchoice: Choice()\ncurrent: 'a' … ∆ choice … choice\n[current sunset]`;
+    const kit = '↑ sunset: 1';
+    const project =
+        from === 'kit'
+            ? projectWithKit(code, kit)
+            : Project.make(
+                  null,
+                  'test',
+                  new Source('main', code),
+                  [new Source('colors', kit)],
+                  DefaultLocale,
+              );
+    const main = project.getMain();
+    const evaluator = new Evaluator(project, DB, [DefaultLocale], true);
+    evaluator.getInitialValue();
+    evaluator.play();
+    expect(evaluator.getLatestSourceValue(main)?.toString()).toBe('["a" 1]');
+
+    for (const name of ['b', 'c']) {
+        evaluator.singletonReact(Choice, (stream) => stream.react(name));
+        expect(evaluator.getLatestSourceValue(main)?.toString()).toBe(
+            `["${name}" 1]`,
+        );
+    }
+
+    evaluator.stop();
+});
+
 test('a bind-all kit borrow puts its shares in scope, not just in the evaluation', () => {
     // Evaluation and scope are two different questions, and the evaluation tests above
     // passed for a long time while the editor reported `sunset` as an unknown name:
