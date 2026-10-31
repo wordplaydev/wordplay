@@ -72,12 +72,9 @@ export function shouldSkip(evaluator: Evaluator, expr: Expression) {
         // depends on no stream, so reusing its stored value left `◆` true on every reevaluation.
         !(expr instanceof Changed) &&
         !(expr instanceof Initial) &&
-        // Never skip a Borrow: its whole purpose is the side effect of binding the borrowed
-        // source or share into the current evaluation, which is fresh on every reevaluation.
-        // Skipping it leaves the borrowed names unbound and its Finish popping an empty stack.
+        // Never skip a Borrow, which binds borrowed names fresh on every reevaluation, nor the
+        // program or root block of a source, whose evaluation is where it finds them.
         !(expr instanceof Borrow) &&
-        // Never skip a source's program or root block: the block's evaluation is the scope a
-        // Borrow reads borrowed names from, and its statements still reuse their stored values.
         !(expr instanceof Program) &&
         !(expr instanceof Block && expr.isRoot()) &&
         // Never skip an expression dependent on a Changed or Initial expression, as they can always change with it.
