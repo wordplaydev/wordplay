@@ -1,7 +1,7 @@
 import Layout, { mirrorAxes, type Axis } from '#components/project/Layout.ts';
 import Tile, { TileMode } from '#components/project/Tile.ts';
 import { TileKind } from '#components/project/TileKind.ts';
-import Arrangement from '#db/settings/Arrangement.ts';
+import Arrangement, { type ArrangementType } from '#db/settings/Arrangement.ts';
 import StagePlacement, {
     StagePlacementOrder,
 } from '#db/settings/StagePlacement.ts';
@@ -167,6 +167,47 @@ describe('switching which tile is showing', () => {
     });
 });
 
+/* Play mode's toolbar can take a laptop window from the axis arrangements into
+   split, so split has to put the stage where they do or it jumps sides (#1477). */
+describe('split puts the stage where the axis arrangements do', () => {
+    const collapsed = (id: string, kind: TileKind) =>
+        tile(id, kind, TileMode.Collapsed);
+    /** Whether the stage comes before the source on the given axis. */
+    function stageFirst(layout: Layout, axis: 'left' | 'top') {
+        const stage = layout.getTileWithID(output.id)?.bounds?.[axis];
+        const code = layout.getTileWithID(source.id)?.bounds?.[axis];
+        if (stage === undefined || code === undefined)
+            throw new Error('Expected both tiles to be laid out.');
+        return stage < code;
+    }
+
+    for (const placement of StagePlacementOrder)
+        for (const order of [
+            [output, source],
+            [source, output],
+        ])
+            test(`${placement}, ${order.map((t) => t.kind).join(' then ')}`, () => {
+                const layout = layoutOf(
+                    collapsed(TileKind.Documentation, TileKind.Documentation),
+                    collapsed(TileKind.Palette, TileKind.Palette),
+                    ...order,
+                );
+                const side = (
+                    arrangement: ArrangementType,
+                    w: number,
+                    h: number,
+                ) => layout.resized(arrangement, placement, w, h);
+                expect(
+                    stageFirst(side(Arrangement.Split, 900, 550), 'left'),
+                ).toBe(
+                    stageFirst(side(Arrangement.Horizontal, 900, 650), 'left'),
+                );
+                expect(
+                    stageFirst(side(Arrangement.Split, 550, 900), 'top'),
+                ).toBe(stageFirst(side(Arrangement.Vertical, 650, 900), 'top'));
+            });
+});
+
 describe('withTileRaised', () => {
     const collapsedDocs = tile(
         TileKind.Documentation,
@@ -183,17 +224,12 @@ describe('withTileRaised', () => {
     /* Pressing play raises the stage; in split it was already one of the two panes,
        and moving it last swapped it with the code (#1477). */
     test('a tile already showing in split keeps its pane', () => {
-        const layout = layoutOf(
-            collapsedDocs,
-            collapsedPalette,
-            output,
-            source,
-        );
+        const layout = layoutOf(collapsedPalette, output, docs, source);
         const raised = layout
-            .withTileRaised(output, TileMode.Expanded, Arrangement.Split)
+            .withTileRaised(docs, TileMode.Expanded, Arrangement.Split)
             .resized(Arrangement.Split, StagePlacement.TopRight, 900, 550);
         expect(ids(raised)).toEqual(ids(layout));
-        expect(raised.getTileWithID(output.id)?.bounds?.left).toBe(0);
+        expect(raised.getTileWithID(docs.id)?.bounds?.left).toBe(0);
         expect(raised.getTileWithID(source.id)?.bounds?.left).toBe(450);
     });
 
