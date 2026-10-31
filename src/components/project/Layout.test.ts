@@ -167,6 +167,76 @@ describe('switching which tile is showing', () => {
     });
 });
 
+describe('withTileRaised', () => {
+    const collapsedDocs = tile(
+        TileKind.Documentation,
+        TileKind.Documentation,
+        TileMode.Collapsed,
+    );
+    const collapsedPalette = tile(
+        TileKind.Palette,
+        TileKind.Palette,
+        TileMode.Collapsed,
+    );
+    const ids = (layout: Layout) => layout.tiles.map((t) => t.id);
+
+    /* Pressing play raises the stage; in split it was already one of the two panes,
+       and moving it last swapped it with the code (#1477). */
+    test('a tile already showing in split keeps its pane', () => {
+        const layout = layoutOf(
+            collapsedDocs,
+            collapsedPalette,
+            output,
+            source,
+        );
+        const raised = layout
+            .withTileRaised(output, TileMode.Expanded, Arrangement.Split)
+            .resized(Arrangement.Split, StagePlacement.TopRight, 900, 550);
+        expect(ids(raised)).toEqual(ids(layout));
+        expect(raised.getTileWithID(output.id)?.bounds?.left).toBe(0);
+        expect(raised.getTileWithID(source.id)?.bounds?.left).toBe(450);
+    });
+
+    test('a hidden tile in split is raised into the last pane', () => {
+        const layout = layoutOf(collapsedDocs, source, output);
+        const raised = layout.withTileRaised(
+            collapsedDocs,
+            TileMode.Expanded,
+            Arrangement.Split,
+        );
+        expect(
+            raised.getVisibleTiles(Arrangement.Split).map((t) => t.id),
+        ).toEqual([output.id, collapsedDocs.id]);
+    });
+
+    test('a tile already showing on axes keeps its place in its group', () => {
+        const second = tile(Layout.getSourceID(1), TileKind.Source);
+        const layout = layoutOf(source, second, output);
+        expect(
+            ids(
+                layout.withTileRaised(
+                    source,
+                    TileMode.Expanded,
+                    Arrangement.Vertical,
+                ),
+            ),
+        ).toEqual(ids(layout));
+    });
+
+    test('free still brings a showing tile to the front', () => {
+        const layout = layoutOf(source, output, docs);
+        expect(
+            ids(
+                layout.withTileRaised(
+                    source,
+                    TileMode.Expanded,
+                    Arrangement.Free,
+                ),
+            ),
+        ).toEqual([output.id, docs.id, source.id]);
+    });
+});
+
 describe('stage placement', () => {
     const collaborate = tile(TileKind.Collaborate, TileKind.Collaborate);
     const Width = 1000;

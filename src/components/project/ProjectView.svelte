@@ -2402,14 +2402,14 @@
         }
     }
 
-    /** Update the mode and move the tile last to bring it to the front. */
+    /** Update the mode and, if it isn't already showing, move the tile last to bring it on screen. */
     function setMode(tile: Tile, mode: TileMode) {
         // Collapsing the palette used to clear the output selection here, but that covered
         // only this one gesture — play mode, fullscreen, and one-tile arrangements all hid
         // the palette and left the selection underlining code. Palette.svelte now clears it
         // when it unmounts, which is every route.
         layout = layout
-            .withTileLast(tile.withMode(mode))
+            .withTileRaised(tile, mode, currentArrangement)
             .resized($arrangement, $stagePlacement, canvasWidth, canvasHeight);
     }
 

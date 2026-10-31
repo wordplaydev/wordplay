@@ -471,6 +471,22 @@ export default class Layout {
     }
 
     /**
+     * This layout with the given tile in the given mode, moved last only if that is
+     * what puts it on screen. Raising a tile that is already showing only moves it
+     * to the other pane in split, or reorders a group on axes (#1477); free is the
+     * exception, since there order is stacking and raising brings it to the front.
+     */
+    withTileRaised(tile: Tile, mode: TileMode, arrangement: ArrangementType) {
+        const showing =
+            arrangement !== Arrangement.Free &&
+            tile.mode === mode &&
+            this.getVisibleTiles(arrangement).some((t) => t.id === tile.id);
+        return showing
+            ? this.withTileInMode(tile, mode)
+            : this.withTileLast(tile.withMode(mode));
+    }
+
+    /**
      * This layout with the given tile inserted directly after the tile with the
      * given id, or appended if there is none. Order matters because `onAxes`
      * divides a split group's band among its tiles in array order, so a
