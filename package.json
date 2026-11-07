@@ -83,6 +83,7 @@
         "fonts-download": "npx tsx scripts/fonts/start.ts download && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts src/basis/faces/renderable.generated.ts",
         "logo": "npx tsx scripts/logo/start.ts verify",
         "logo-fix": "npx tsx scripts/logo/start.ts fix && npx prettier --write scripts/logo/logo.lock.json",
+        "stickers": "npx tsx scripts/logo/start.ts stickers",
         "instruments": "npx tsx scripts/instruments/start.ts verify",
         "midi": "npx tsx scripts/midi/start.ts",
         "instruments-build": "npx tsx scripts/instruments/start.ts build && npx prettier --write src/output/Music/samples.generated.ts scripts/instruments/instruments.lock.json",

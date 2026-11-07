@@ -88,6 +88,27 @@ export const EmojiFontPath = 'scripts/logo/fonts/NotoEmoji-400.ttf';
  *  See src/components/app/cast.ts for what's in it and why. */
 export const CARD_CAST = Cast;
 
+/** The printable sticker, written on demand by `npm run stickers` into the
+ *  gitignored StickerDir rather than locked, since nothing serves it. A
+ *  square, so it packs well; the print shop cuts the rounded corners, and
+ *  the cast's margin keeps the crowd clear of them. */
+export const StickerName = 'wordplay-sticker';
+/** The canvas side in card units, which sets the cast's size relative to it. */
+export const StickerSide = 1100;
+/** The printed side, which with StickerDPI sets the PNG's pixel size. */
+export const StickerInches = 1.5;
+
+/** Hung under the wordmark's end, so the lockup reads as the address
+ *  (wordplay.dev) without repeating the name. */
+export const StickerSuffix = '.dev';
+/** The lockup runs up the diagonal, bottom left to top right, which is both
+ *  livelier and larger than it could be lying flat. */
+export const StickerAngle = -45;
+/** Print resolution for the sticker's PNG: twice Sticker Mule's 300 DPI
+ *  minimum, since at 1.5" that minimum is only 450 pixels. */
+export const StickerDPI = 600;
+export const StickerDir = 'build/stickers';
+
 /** Inputs whose change must force a regeneration: geometry, this manifest,
  *  the generator itself, and the card font. Hashes are recorded in the lock
  *  and verified by `npm run logo` / logoSync.test.ts. */
@@ -96,6 +117,7 @@ export const InputFiles = [
     'src/components/app/cast.ts',
     'scripts/logo/manifest.ts',
     'scripts/logo/generate.ts',
+    'scripts/logo/lockup.ts',
     'scripts/logo/ico.ts',
     CardFontPath,
     EmojiFontPath,

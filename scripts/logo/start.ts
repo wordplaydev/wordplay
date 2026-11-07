@@ -5,6 +5,7 @@ import { checkInputs, checkOutputs } from './verify';
  * Logo asset tooling dispatcher, mirroring the fonts pattern:
  *   npm run logo       — verify (drift check); nonzero exit on drift
  *   npm run logo-fix   — regenerate all assets from logoMark.ts + manifest
+ *   npm run stickers   — write printable stickers to build/stickers (unlocked)
  *
  * Verification is pure hashing and runs everywhere (including logoSync.test.ts
  * in `npm test`); regeneration loads the resvg rasterizer and is a manual,
@@ -27,7 +28,10 @@ if (command === 'verify') {
     // Dynamic import so verify never loads the native rasterizer.
     const { fix } = await import('./generate');
     fix();
+} else if (command === 'stickers') {
+    const { writeStickers } = await import('./stickers');
+    await writeStickers();
 } else {
-    console.error(`Unknown command ${command}; use verify or fix.`);
+    console.error(`Unknown command ${command}; use verify, fix, or stickers.`);
     process.exit(1);
 }
