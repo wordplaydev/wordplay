@@ -485,7 +485,8 @@
                 "label": "$~ਸਵੈ-ਮੁਕੰਮਲ ਮੀਨੂ",
                 "show": "$~ਆਟੋਕੰਪਲੀਟ ਮੀਨੂ ਦਿਖਾਓ",
                 "empty": "$~ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ।",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~ਇੱਕ ਚੀਜ਼ ਜੋੜੋ"
             },
             "cursor": {
                 "priorLine": "$~ਕਰਸਰ ਨੂੰ ਲਾਈਨ ਤੋਂ ਪਹਿਲਾਂ ਲੈ ਜਾਓ",

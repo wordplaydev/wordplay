@@ -925,7 +925,8 @@
                 "label": "$~khud mukammal karne wala menu",
                 "show": "$~khud mukammal karne wala menu dikhayein",
                 "empty": "$~Koi mashwara nahin.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~ek item shamil karein"
             },
             "cursor": {
                 "priorLine": "$~cursor ko pichli line par le jaayein",

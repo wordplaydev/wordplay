@@ -746,7 +746,8 @@
                 "label": "$~menu pelengkap otomatis",
                 "show": "$~Tampilkan menu pelengkapan otomatis",
                 "empty": "$~Tidak ada saran.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~tambahkan satu item"
             },
             "cursor": {
                 "priorLine": "$~pindahkan kursor ke baris sebelumnya",

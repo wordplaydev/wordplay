@@ -480,7 +480,8 @@
                 "label": "$~自動補完メニュー",
                 "show": "$~自動補完メニューを表示",
                 "empty": "$~候補はありません。",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~項目を追加する"
             },
             "cursor": {
                 "priorLine": "$~カーソルを前の行へ移動",

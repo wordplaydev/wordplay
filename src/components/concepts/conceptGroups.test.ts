@@ -1,6 +1,7 @@
 import {
     canRecycleDraggedNode,
     getConceptGroups,
+    getPaletteGroups,
 } from '#components/concepts/conceptGroups.ts';
 import ConceptIndex from '#concepts/ConceptIndex.ts';
 import { must } from '#util/nullable.ts';
@@ -191,4 +192,55 @@ test('inputs are grouped by what they sense, each stream just before the values 
             groups.filter((group) => group.concepts.includes(concept)).length,
             concept.getName(DefaultLocales, false),
         ).toBe(1);
+});
+
+// The drag palette shows code without labels, so two concepts that render the same
+// read as a duplicate (#1484). The palette's categories are the first sixteen
+// purposes, the ones ui.docs.mode.purpose names.
+const PaletteCategories = Object.values(Purpose).slice(
+    0,
+    DefaultLocale.ui.docs.mode.purpose.labels.length,
+);
+
+function paletteRendering(purpose: (typeof PaletteCategories)[number]) {
+    const { project: p } = project('_');
+    const index = ConceptIndex.make(p, DefaultLocales, undefined, undefined);
+    return getPaletteGroups(purpose, index, p)
+        .flatMap((group) => group.concepts)
+        .map((concept) => ({
+            concept,
+            text: concept.getRepresentation(DefaultLocales, true).toWordplay(),
+        }));
+}
+
+test.each(PaletteCategories)(
+    'no two palette entries in %s render the same',
+    (purpose) => {
+        const entries = paletteRendering(purpose);
+        const texts = entries.map(({ text }) => text);
+        // Name every concept that shares a rendering, so a failure says which.
+        const repeated = entries
+            .filter(
+                ({ text }) => texts.indexOf(text) !== texts.lastIndexOf(text),
+            )
+            .map(
+                ({ concept, text }) =>
+                    `${text} (${concept.getName(DefaultLocales, false)})`,
+            );
+        expect(repeated).toEqual([]);
+    },
+);
+
+test('the palette shows Words, the pattern type and translations under Advanced, not at home', () => {
+    const kinds = (purpose: (typeof PaletteCategories)[number]) =>
+        paletteRendering(purpose)
+            .map(({ concept }) => concept)
+            .filter((concept) => concept instanceof NodeConcept)
+            .map((concept) => concept.template.constructor.name);
+    expect(kinds(Purpose.Advanced)).toEqual(
+        expect.arrayContaining(['Words', 'PatternType', 'Translation']),
+    );
+    expect(kinds(Purpose.Documentation)).not.toContain('Words');
+    expect(kinds(Purpose.Patterns)).not.toContain('PatternType');
+    expect(kinds(Purpose.Text)).not.toContain('Translation');
 });

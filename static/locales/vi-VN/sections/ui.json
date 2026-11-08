@@ -745,7 +745,8 @@
                 "label": "$~menu tự động hoàn thành",
                 "show": "$~hiển thị menu tự động hoàn thành",
                 "empty": "$~Không có gợi ý nào.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~thêm một mục"
             },
             "cursor": {
                 "priorLine": "$~Di chuyển con trỏ đến dòng trước đó",

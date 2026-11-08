@@ -746,7 +746,8 @@
                 "label": "$~awtomatikong pagkumpleto ng menu",
                 "show": "$~ipakita ang menu ng awtomatikong pagkumpleto",
                 "empty": "$~Walang mga mungkahi.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~magdagdag ng item"
             },
             "cursor": {
                 "priorLine": "$~ilipat ang cursor sa linya bago",

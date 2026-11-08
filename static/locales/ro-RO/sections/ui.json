@@ -746,7 +746,8 @@
                 "label": "$~meniu de completare automată",
                 "show": "$~afișați meniul de completare automată",
                 "empty": "$~Nicio sugestie.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~adaugă un element"
             },
             "cursor": {
                 "priorLine": "$~mutați cursorul la linia dinainte",

@@ -461,7 +461,8 @@
                 "label": "$~Autovervollständigungsmenü",
                 "show": "$~Autovervollständigungsmenü anzeigen",
                 "empty": "$~Keine Vorschläge.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~ein Element hinzufügen"
             },
             "cursor": {
                 "priorLine": "$~Bewegen Sie den Cursor zur Zeile davor.",

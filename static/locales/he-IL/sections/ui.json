@@ -738,7 +738,8 @@
                 "label": "$~תפריט השלמה אוטומטית",
                 "show": "$~הצג תפריט השלמה אוטומטית",
                 "empty": "$~אין הצעות.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~הוספת פריט"
             },
             "cursor": {
                 "priorLine": "$~הזזת הסמן לשורה שלפני",

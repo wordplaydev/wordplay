@@ -161,7 +161,11 @@
         targetAnchorNode,
     } from '#edit/drag/Drag.ts';
     import Menu, { RevisionSet, liveMenuFollows } from '#edit/menu/Menu.ts';
-    import { getEditsAt } from '#edit/menu/PossibleEdits.ts';
+    import {
+        getEditsAt,
+        getInsertionPosition,
+    } from '#edit/menu/PossibleEdits.ts';
+    import Append from '#edit/revision/Append.ts';
     import getActionsAt from '#edit/menu/PossibleActions.ts';
     import type Revision from '#edit/revision/Revision.ts';
     import type Locale from '#locale/Locale.ts';
@@ -923,6 +927,7 @@
         toggleMenu,
         grabFocus,
         setCaretPosition,
+        appendSlot,
         revealNode,
         refreshHighlights,
         foldAll,
@@ -1167,6 +1172,34 @@
     // True right after an ignored keystroke, so the caret shakes regardless of
     // whether the program is playing or stopped.
     let shakeCaret = $derived(lastKeyDownIgnored);
+
+    /** A list's "+" appends an empty slot and selects it rather than opening
+     *  a menu that starts with outputs (#1484); typing then fills the slot,
+     *  and the slot's own menu offers more of what the list already holds. */
+    function appendSlot(list: FieldPosition) {
+        const values = list.parent.getField(list.field);
+        if (!Array.isArray(values)) return;
+        const revision = new Append(
+            context,
+            getInsertionPosition(
+                context,
+                list.parent,
+                list.field,
+                values,
+                values.length,
+            ),
+            list.parent,
+            values,
+            values.length,
+            ExpressionPlaceholder.make(),
+        );
+        const edit = revision.getEdit($locales);
+        if (edit === undefined) return;
+        // Focus is on the "+", outside this editor, when the caret moves; the
+        // cause is what lets the move be spoken, as it is for a menu choice.
+        pendingCaretCause = 'menu';
+        handleEdit(edit, IdleKind.Typed, true, { kind: 'menu', revision });
+    }
 
     function setMenuAnchor(anchor: CaretPosition | FieldPosition) {
         if (
@@ -3765,6 +3798,7 @@
                 project: _project,
                 focused: isFocused,
                 toggleMenu,
+                appendSlot,
                 grabFocus,
                 setCaretPosition,
                 revealNode,

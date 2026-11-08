@@ -480,7 +480,8 @@
                 "label": "$~menu autouzupełniania",
                 "show": "$~pokaż menu autouzupełniania",
                 "empty": "$~Brak sugestii.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~dodaj element"
             },
             "cursor": {
                 "priorLine": "$~przesuń kursor do wiersza przed",

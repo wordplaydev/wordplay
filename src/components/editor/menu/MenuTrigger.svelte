@@ -16,15 +16,24 @@
     interface Props {
         anchor: CaretPosition | FieldPosition;
         insert?: boolean;
+        /** Done instead of opening the menu, for a trigger that acts directly
+         *  (a list's "+" that appends an empty slot). */
+        activate?: (() => void) | undefined;
     }
 
-    let { anchor, insert = false }: Props = $props();
+    let { anchor, insert = false, activate }: Props = $props();
 
     const menuNode = getSetMenuAnchor();
     const field = $derived(isFieldPosition(anchor) ? anchor.field : undefined);
 
     function show(event: PointerEvent | KeyboardEvent) {
         if (event instanceof PointerEvent && event.button !== 0) return;
+        if (activate) {
+            event.stopPropagation();
+            event.preventDefault();
+            activate();
+            return;
+        }
         if (menuNode === undefined) return;
 
         if ($menuNode) {
@@ -45,8 +54,10 @@
     data-field={field}
     role="button"
     tabindex="0"
-    aria-haspopup="menu"
-    aria-label={$locales.getPrimaryPlainText((l) => l.ui.source.menu.show)}
+    aria-haspopup={activate ? undefined : 'menu'}
+    aria-label={$locales.getPrimaryPlainText((l) =>
+        activate ? l.ui.source.menu.append : l.ui.source.menu.show,
+    )}
     onpointerdown={(event) => {
         if (event.button !== 0) return;
         // Claim the gesture so the editor beneath doesn't move the caret, which

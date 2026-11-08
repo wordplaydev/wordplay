@@ -248,6 +248,8 @@
             focused,
             blocks: false,
             toggleMenu: () => {},
+            // Markup has no blocks, so no list "+" to append a slot.
+            appendSlot: () => {},
             grabFocus: (message: string) => focus(message),
             setCaretPosition: (position) => {
                 apply(new Caret(source, position, undefined, undefined));

@@ -12,6 +12,7 @@
     } from '#components/project/Contexts.ts';
     import getScrollParent from '#components/util/getScrollParent.ts';
     import RootView from '#components/project/RootView.svelte';
+    import getNodeView from '#components/editor/nodes/nodeToView.ts';
     import type Concept from '#concepts/Concept.ts';
     import GalleryHowConcept from '#concepts/GalleryHowConcept.ts';
     import HowConcept from '#concepts/HowConcept.ts';
@@ -59,6 +60,13 @@
     /** The caller's choice when it made one, otherwise the viewer's app-wide
      *  mode. Read once here so the class hooks and the RootView can't disagree. */
     const asBlocks = $derived(blocksMode ?? $blocks);
+
+    /** Whether the block for this node draws no box of its own (a lone name,
+     *  number, unit or type), so a palette can give it one to grab (#1484). */
+    const chromeless = $derived.by(() => {
+        const kind = getNodeView(node).style.kind;
+        return asBlocks && (kind === 'none' || kind === 'type');
+    });
 
     let dragged = getDragged();
 
@@ -213,6 +221,7 @@
             )}
             aria-readonly="true"
             class:blocks={asBlocks}
+            class:chromeless
             class="node"
             class:outline={outline && !asBlocks}
             class:draggable={dragged !== undefined && draggable}

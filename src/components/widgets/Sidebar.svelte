@@ -4,8 +4,8 @@
      * Annotations and Wellspring panels, and any future ones). It owns the
      * boilerplate that used to be duplicated in each: the frame + resize knob,
      * the `<section>` with its width/collapse transition, the expand/collapse
-     * Expander, the whole-bar toggle (click empty space), and the whole-bar
-     * tooltip. Only the side, the persisted settings, and the content differ —
+     * Expander, the whole-bar toggle (click empty space while collapsed), and
+     * the whole-bar tooltip. Only the side, the persisted settings, and the content differ —
      * those come in as props and snippets.
      */
     import { getTip } from '#components/project/Contexts.ts';
@@ -111,20 +111,25 @@
         );
     }
 
+    /** Only a collapsed bar toggles as a whole: an expanded one is full of
+     *  drag targets, and a press that just misses one shouldn't close it (#1484).
+     *  The Expander still collapses it. */
+    let wholeBarToggles = $derived(toggleable && !expanded);
+
     /**
-     * Toggle when empty bar space is pressed. We use `pointerdown` (not `click`)
+     * Expand when empty bar space is pressed. We use `pointerdown` (not `click`)
      * because expanding changes the layout mid-gesture, which would defeat a
      * click-target guard and toggle twice.
      */
     function handlePointerDown(event: PointerEvent) {
-        if (toggleable && overEmptySpace(event)) toggle();
+        if (wholeBarToggles && overEmptySpace(event)) toggle();
     }
 
     /** Show the toggle tooltip over non-interactive bar area; hide otherwise.
      *  `pointerover` bubbles and fires per element entered, so it tracks the
      *  pointer moving between background and content. */
     function handlePointerOver(event: PointerEvent) {
-        if (toggleable && overEmptySpace(event) && tipAnchor)
+        if (wholeBarToggles && overEmptySpace(event) && tipAnchor)
             hint.showMarkup(
                 $locales.getMultilingualMarkup(toggleLabel),
                 tipAnchor,
@@ -151,7 +156,7 @@
         />
     {/if}
     <!-- The Expander is the keyboard-accessible toggle; the section handlers are
-         a convenience so empty space toggles and shows the tooltip too. -->
+         a convenience so a collapsed bar's empty space expands it too. -->
     <!-- svelte-ignore a11y_no_static_element_interactions, a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
     <section
         aria-label={$locales.getPrimaryPlainText(label)}
@@ -215,8 +220,6 @@
            (and any sticky header inside the content) stays pinned. */
         overflow: hidden;
         height: 100%;
-        /* The whole bar toggles expand/collapse, so show the hand cursor. */
-        cursor: pointer;
         max-width: 2em;
         min-width: 2em;
         display: flex;
@@ -242,9 +245,10 @@
         transition: none;
     }
 
-    /* A fixed (non-toggleable) sidebar isn't clickable as a whole. */
-    section.fixed {
-        cursor: default;
+    /* A collapsed bar expands when pressed anywhere, so show the hand cursor;
+       an expanded or fixed one isn't clickable as a whole. */
+    section:not(.expanded):not(.fixed) {
+        cursor: pointer;
     }
 
     /* Center the expander, collapsed content, and footer in the thin bar. */

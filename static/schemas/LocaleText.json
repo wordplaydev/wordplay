@@ -30208,6 +30208,10 @@
                                 "menu": {
                                     "additionalProperties": false,
                                     "properties": {
+                                        "append": {
+                                            "description": "[plain] The button after a list that adds an empty item to fill in",
+                                            "type": "string"
+                                        },
                                         "empty": {
                                             "description": "[plain] What to say when the menu is empty",
                                             "type": "string"
@@ -30228,6 +30232,7 @@
                                     "required": [
                                         "label",
                                         "show",
+                                        "append",
                                         "empty",
                                         "item"
                                     ],

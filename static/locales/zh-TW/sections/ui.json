@@ -456,7 +456,8 @@
                 "label": "自動完成選單",
                 "show": "顯示自動完成選單",
                 "empty": "$~沒有建議。",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~新增項目"
             },
             "cursor": {
                 "priorLine": "將遊標移至前一行",
