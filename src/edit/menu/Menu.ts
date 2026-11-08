@@ -8,7 +8,7 @@ import type LocaleText from '#locale/LocaleText.ts';
 import type Project from '#db/projects/Project.ts';
 import { type CaretPosition } from '#edit/caret/Caret.ts';
 import type Locales from '#locale/Locales.ts';
-import type { FieldPosition } from '#nodes/Node.ts';
+import Node, { isFieldPosition, type FieldPosition } from '#nodes/Node.ts';
 import Reference from '#nodes/Reference.ts';
 import type Source from '#nodes/Source.ts';
 import Token from '#nodes/Token.ts';
@@ -17,6 +17,38 @@ import Append from '#edit/revision/Append.ts';
 import Assign from '#edit/revision/Assign.ts';
 import MenuAction from '#edit/menu/MenuAction.ts';
 import Revision from '#edit/revision/Revision.ts';
+
+/**
+ * The other items in the list the anchor adds to or stands in, so the menu can
+ * offer more of what is already there (#1484): inserting into `[1 2 3]` should
+ * lead with a number, not an output. Placeholders say nothing about the list.
+ */
+function getSiblings(source: Source, anchor: CaretPosition | FieldPosition) {
+    const list = isFieldPosition(anchor)
+        ? anchor.parent.getField(anchor.field)
+        : anchor instanceof Node
+          ? (() => {
+                const parent = source.root.getParent(anchor);
+                const field = parent?.getFieldOfChild(anchor);
+                return field ? parent?.getField(field.name) : undefined;
+            })()
+          : undefined;
+    return Array.isArray(list)
+        ? list.filter((node) => node !== anchor && !node.isPlaceholder())
+        : [];
+}
+
+/** Whether a candidate is written like an existing item: the same kind of node,
+ *  whose first token claims no kind the item's lacks. A suggested `0` is just a
+ *  number, so it is written like `1` (a decimal number); `π` is not. */
+function writtenLike(candidate: Node | undefined, item: Node) {
+    if (candidate === undefined || candidate.constructor !== item.constructor)
+        return false;
+    const kinds = item.leaves()[0]?.getTypes() ?? [];
+    return (candidate.leaves()[0]?.getTypes() ?? []).every((kind) =>
+        kinds.includes(kind),
+    );
+}
 
 /** The first number is the selected revision or revision set, the second number is the optional revision in a selected revision set. */
 export type MenuSelection = [number, number | undefined];
@@ -181,11 +213,66 @@ export default class Menu {
             // 2. RevisionSets organized by node kind, or the single Revision if there's only one, sorted by Purpose.
             // 3. Any removals, which are likely the least relevant.
             // RevisionSets are organized alphabetically by locale.
-            const priority = visibleRevisions.filter((revision) => {
-                if (revision.isCompletion(this.concepts.locales)) return true;
+            // When everything already in the list is one kind of thing, lead
+            // with one more of it, and rank its purpose first.
+            const siblings = getSiblings(source, anchor);
+            const siblingPurposes = new Set(
+                siblings.map(
+                    (sibling) =>
+                        concepts.getRelevantConcept(sibling)?.getPurpose() ??
+                        sibling.getPurpose(),
+                ),
+            );
+            const siblingPurpose =
+                siblingPurposes.size === 1
+                    ? [...siblingPurposes][0]
+                    : undefined;
+            const siblingKinds = new Set(
+                siblings.map((sibling) => sibling.constructor),
+            );
+            const likeSiblings = (revision: Revision) => {
                 const newNode = revision.getNewNode(this.concepts.locales);
-                return newNode instanceof Reference;
-            });
+                return (
+                    newNode !== undefined &&
+                    !revision.isRemoval() &&
+                    siblingKinds.has(newNode.constructor)
+                );
+            };
+            const unitless = (revision: Revision) => {
+                const newNode = revision.getNewNode(this.concepts.locales);
+                return (
+                    newNode !== undefined && getUnitGroup(newNode) === undefined
+                );
+            };
+            // Prefer one written like an item already there, then one without a
+            // unit, so [1 2 3] is offered a plain numeral rather than π.
+            const preferences: ((revision: Revision) => boolean)[] = [
+                (revision) =>
+                    likeSiblings(revision) &&
+                    unitless(revision) &&
+                    siblings.some((sibling) =>
+                        writtenLike(
+                            revision.getNewNode(this.concepts.locales),
+                            sibling,
+                        ),
+                    ),
+                (revision) => likeSiblings(revision) && unitless(revision),
+                likeSiblings,
+            ];
+            const another = preferences
+                .map((preferred) => visibleRevisions.find(preferred))
+                .find((revision) => revision !== undefined);
+
+            const priority = [
+                ...(another ? [another] : []),
+                ...visibleRevisions.filter((revision) => {
+                    if (revision === another) return false;
+                    if (revision.isCompletion(this.concepts.locales))
+                        return true;
+                    const newNode = revision.getNewNode(this.concepts.locales);
+                    return newNode instanceof Reference;
+                }),
+            ];
             const removals = visibleRevisions.filter((revision) =>
                 revision.isRemoval(),
             );
@@ -225,11 +312,12 @@ export default class Menu {
                 group === undefined
                     ? -1
                     : groupOrder.indexOf(group) + 1 || groupOrder.length + 1;
+            const relevance = (purpose: PurposeType) =>
+                purpose === siblingPurpose ? -1 : PurposeRelevance[purpose];
             const grouped = Array.from(kinds.values())
                 .toSorted(
                     (a, b) =>
-                        PurposeRelevance[a.purpose] -
-                            PurposeRelevance[b.purpose] ||
+                        relevance(a.purpose) - relevance(b.purpose) ||
                         rank(a.group) - rank(b.group),
                 )
                 .map(

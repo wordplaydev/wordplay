@@ -456,7 +456,8 @@
                 "label": "自动完成菜单",
                 "show": "显示自动完成菜单",
                 "empty": "$~没有建议。",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~添加一项"
             },
             "cursor": {
                 "priorLine": "将光标移至前一行",

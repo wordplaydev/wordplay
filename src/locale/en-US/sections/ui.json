@@ -919,6 +919,7 @@
             "menu": {
                 "label": "autocomplete menu",
                 "show": "show autocomplete menu",
+                "append": "add an item",
                 "empty": "No suggestions.",
                 "item": "$code, $description"
             },

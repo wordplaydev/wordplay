@@ -461,7 +461,8 @@
                 "label": "$~menu de saisie semi-automatique",
                 "show": "$~afficher le menu de saisie semi-automatique",
                 "empty": "$~Aucune suggestion.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~ajouter un élément"
             },
             "cursor": {
                 "priorLine": "$~déplacer le curseur sur la ligne avant",

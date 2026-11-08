@@ -485,7 +485,8 @@
                 "label": "$~otomatik tamamlama menüsü",
                 "show": "$~otomatik tamamlama menüsünü göster",
                 "empty": "$~Önerim yok.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~bir öğe ekle"
             },
             "cursor": {
                 "priorLine": "$~imleci önceki satıra taşı",

@@ -485,14 +485,13 @@ function getFieldAssignments(fieldPosition: FieldPosition, edit: EditContext) {
         (Array.isArray(fieldValue) && index !== undefined)
     ) {
         // Figure out where the insertion is happening, so we know how to split space.
-        // Index 0 means "before everything", so there is no preceding item to measure from —
-        // reading fieldValue[-1] threw. Use the field's own start position instead.
-        const position =
-            fieldValue === undefined ||
-            fieldValue.length === 0 ||
-            (index ?? 1) === 0
-                ? (context.source.getFieldPosition(parent, field) ?? 0)
-                : (lastPositionOf(context, fieldValue[(index ?? 1) - 1]) ?? 0);
+        const position = getInsertionPosition(
+            context,
+            parent,
+            field,
+            fieldValue,
+            index,
+        );
 
         for (const kind of fieldInfo.kind.enumerate()) {
             if (kind !== undefined)
@@ -1254,6 +1253,26 @@ function isWildcardSymbol(sym: SymType): sym is WildcardSym {
 }
 
 /** A node's last position in its source, or undefined when there is no node. */
+/**
+ * Where in the source an insertion into a field lands, so the edit knows how to
+ * split the space around it. Index 0 means "before everything", so there is no
+ * preceding item to measure from — reading fieldValue[-1] threw. Use the field's
+ * own start position instead.
+ */
+export function getInsertionPosition(
+    context: Context,
+    parent: Node,
+    field: string,
+    fieldValue: Node[] | undefined,
+    index: number | undefined,
+): number {
+    return fieldValue === undefined ||
+        fieldValue.length === 0 ||
+        (index ?? 1) === 0
+        ? (context.source.getFieldPosition(parent, field) ?? 0)
+        : (lastPositionOf(context, fieldValue[(index ?? 1) - 1]) ?? 0);
+}
+
 function lastPositionOf(
     context: Context,
     node: Node | undefined,

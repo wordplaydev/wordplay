@@ -485,7 +485,8 @@
                 "label": "$~autoslutförande-menyn",
                 "show": "$~visa autoslutförandemenyn",
                 "empty": "$~Inga förslag.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~lägg till ett objekt"
             },
             "cursor": {
                 "priorLine": "$~flytta markören till raden innan",

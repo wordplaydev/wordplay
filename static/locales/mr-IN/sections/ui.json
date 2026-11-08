@@ -485,7 +485,8 @@
                 "label": "$~स्वयंपूर्ती यादी",
                 "show": "$~स्वयंपूर्ती यादी दाखवा",
                 "empty": "$~सूचना नाहीत.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~एक घटक जोडा"
             },
             "cursor": {
                 "priorLine": "$~कर्सर आधीच्या ओळीकडे हलवा",

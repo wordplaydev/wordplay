@@ -456,7 +456,8 @@
                 "label": "$~자동완성 메뉴",
                 "show": "$~자동완성 메뉴 표시",
                 "empty": "$~제안 사항이 없습니다.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~항목 추가"
             },
             "cursor": {
                 "priorLine": "$~커서를 이전 줄로 이동",

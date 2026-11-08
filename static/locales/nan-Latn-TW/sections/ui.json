@@ -933,7 +933,8 @@
                 "label": "$~ū-tsū-tōng-pó-uân ê tsiah-tuann",
                 "show": "$~hián-sī ū-tsū-tōng-pó-uân ê tsiah-tuann",
                 "empty": "$~Bô kiàn-gī.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~Thiam tsi̍t-ê hāng-bo̍k"
             },
             "cursor": {
                 "priorLine": "$~kā kuang-piau suá kàu téng tsit-hâng",

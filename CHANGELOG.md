@@ -11,9 +11,14 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🌐 We added Russian, Ukrainian, Malayalam, Cantonese, and Taiwanese Hokkien (written in Tâi-lô), so more of you can use Wordplay in the language you speak at home!
 - 🏫 Teachers can now make an account for a student who joins a class late, right from the class page.
 
+### Changed
+
+- 🧩 In blocks mode, the `+` after a list now adds an empty spot you can type into, its menu suggests more of what the list already holds, and each number shows one unit menu instead of two. (#1484)
+
 ### Fixed
 
 - 🔑 Joining with a username and password no longer says it failed when it actually made your account, and trying again now signs you in.
+- 🧩 The code palette in blocks mode no longer closes when you miss a block, no longer shows blocks that look the same, and gives tiny blocks a box that's easier to grab. (#1484)
 
 ## 0.40.1 - 2026-10-31
 

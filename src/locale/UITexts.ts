@@ -795,6 +795,8 @@ type UITexts = {
             label: string;
             /** [plain] The menu show button and keyboard shortcut */
             show: string;
+            /** [plain] The button after a list that adds an empty item to fill in */
+            append: string;
             /** [plain] What to say when the menu is empty */
             empty: string;
             /** [plain] An autocomplete suggestion: the code it would insert, then what it is */

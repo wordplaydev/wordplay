@@ -325,6 +325,9 @@ export type EditorState = {
     toggleMenu: () => void;
     grabFocus: (message: string) => void;
     setCaretPosition: (position: CaretPosition) => void;
+    /** Append an empty slot to the end of a list and select it, so typing
+     *  fills it in: what a list's "+" does where the list holds expressions. */
+    appendSlot: (list: FieldPosition) => void;
     /** Scroll a node into view and center it, scrolling a virtualized (off-window)
      *  statement in first if needed. Used by the Annotations sidebar to reveal a
      *  conflict on click. */

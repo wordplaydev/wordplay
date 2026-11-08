@@ -11,10 +11,16 @@ import Menu, { liveMenuFollows, RevisionSet } from '#edit/menu/Menu.ts';
 import { getEditsAt } from '#edit/menu/PossibleEdits.ts';
 import DefaultLocale from '#locale/DefaultLocale.ts';
 import DefaultLocales from '#locale/DefaultLocales.ts';
+import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import ListLiteral from '#nodes/ListLiteral.ts';
+import NumberLiteral from '#nodes/NumberLiteral.ts';
 import Reference from '#nodes/Reference.ts';
 import Replace from '#edit/revision/Replace.ts';
 import Source from '#nodes/Source.ts';
 import Unit from '#nodes/Unit.ts';
+import { must } from '#util/nullable.ts';
+import type { MenuOrganization } from '#edit/menu/Menu.ts';
+import Revision from '#edit/revision/Revision.ts';
 import { expect, test } from 'vitest';
 
 /** The menu a creator would see at a caret offset in this code. */
@@ -275,4 +281,88 @@ test.each<[string, string, number, string, number, boolean]>([
             position,
         ),
     ).toBe(expected);
+});
+
+/** The menu the "+" after a list (an insertion at its end) or a placeholder's
+ *  ▾ (a replacement) would show. */
+function listMenu(code: string, at: 'end' | 'placeholder') {
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const list = must(source.find(ListLiteral), 'ListLiteral');
+    const field = { parent: list, field: 'values', index: list.values.length };
+    const placeholder = must(
+        source.find(ExpressionPlaceholder),
+        'ExpressionPlaceholder',
+    );
+    const anchor = at === 'end' ? field : placeholder;
+    const revisions =
+        at === 'end'
+            ? getEditsAt(
+                  project,
+                  new Caret(
+                      source,
+                      source.code.getLength(),
+                      undefined,
+                      undefined,
+                  ),
+                  field,
+                  DefaultLocales,
+              )
+            : getEditsAt(
+                  project,
+                  new Caret(source, placeholder, undefined, undefined),
+                  undefined,
+                  DefaultLocales,
+              );
+    const concepts = ConceptIndex.make(
+        project,
+        DefaultLocales,
+        undefined,
+        undefined,
+    );
+    return new Menu(
+        project,
+        source,
+        anchor,
+        revisions,
+        [],
+        undefined,
+        concepts,
+        [0, undefined],
+        () => true,
+    ).getOrganization();
+}
+
+const purposes = (organization: MenuOrganization) =>
+    organization
+        .filter((entry) => entry instanceof RevisionSet)
+        .map((set) => set.purpose);
+
+// #1484: adding to a list of numbers opened a menu that began with outputs.
+test.each(['end', 'placeholder'] as const)(
+    'a list of numbers offers another number first (%s)',
+    (at) => {
+        const organization = listMenu('[1 2 _]', at);
+        const first = organization[0];
+        expect(first).toBeInstanceOf(Revision);
+        const offered =
+            first instanceof Revision
+                ? first.getNewNode(DefaultLocales)
+                : undefined;
+        expect(offered).toBeInstanceOf(NumberLiteral);
+        // A numeral like the ones there, not π or ∞.
+        expect(offered?.toWordplay()).toMatch(/^\d+$/);
+        const sets = purposes(organization);
+        if (sets.includes(Purpose.Outputs))
+            expect(sets.indexOf(Purpose.Numbers)).toBeLessThan(
+                sets.indexOf(Purpose.Outputs),
+            );
+    },
+);
+
+test('a list of mixed kinds keeps the usual order', () => {
+    const sets = purposes(listMenu("[1 'a' _]", 'placeholder'));
+    expect(sets.indexOf(Purpose.Outputs)).toBeLessThan(
+        sets.indexOf(Purpose.Numbers),
+    );
 });

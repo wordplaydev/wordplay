@@ -4,8 +4,9 @@
     import ConceptPreview from '#components/concepts/ConceptPreview.svelte';
     import {
         canRecycleDraggedNode,
-        getConceptGroups,
+        getPaletteGroups,
         getPurposeIcons,
+        isPaletteConcept,
         recycleDraggedNode,
     } from '#components/concepts/conceptGroups.ts';
     import {
@@ -63,19 +64,18 @@
     let queryActive = $derived(query.trim().length > 0);
     let results = $derived(
         debouncedQuery.current.trim().length >= MIN_QUERY_LENGTH
-            ? index?.getQuery(debouncedQuery.current)
+            ? index
+                  ?.getQuery(debouncedQuery.current)
+                  .filter(([concept]) => isPaletteConcept(concept))
             : undefined,
     );
 
     // --- Browse -------------------------------------------------------------
     let purpose = $state<PurposeType>(Purpose.Outputs);
-    /** The same groups the guide shows for this purpose, minus empty ones. */
+    /** The same groups the guide shows for this purpose, as the palette shows
+     *  them (see getPaletteGroups). */
     let groups = $derived(
-        index
-            ? getConceptGroups(purpose, index, project).filter(
-                  (g) => g.concepts.length > 0,
-              )
-            : [],
+        index ? getPaletteGroups(purpose, index, project) : [],
     );
 
     // --- Recycle bin --------------------------------------------------------
@@ -343,6 +343,19 @@
         background: none;
         padding-inline-start: 0;
         padding-inline-end: 0;
+        /* Every entry is something to drag, so none is smaller than WCAG
+           2.5.8's minimum pointer target. */
+        min-inline-size: var(--wordplay-target-size);
+        min-block-size: var(--wordplay-target-size);
+    }
+
+    /* A lone name, number, unit or type draws no block of its own, which left
+       a target no bigger than its glyphs (#1484); frame it like a block. */
+    .code-views :global(.view .node.chromeless) {
+        padding: var(--wordplay-spacing-half);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        background: var(--wordplay-background);
     }
 
     /* The footer pins to the block-end and is demarcated from the scrolling

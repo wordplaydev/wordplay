@@ -461,7 +461,8 @@
                 "label": "menú de autocompletar",
                 "show": "mostrar menú de autocompletar",
                 "empty": "$~No hay sugerencias.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~agregar un elemento"
             },
             "cursor": {
                 "priorLine": "mover el cursor a la línea anterior",

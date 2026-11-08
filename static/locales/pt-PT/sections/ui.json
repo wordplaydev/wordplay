@@ -744,7 +744,8 @@
                 "label": "menu de preenchimento automático",
                 "show": "Mostrar menu de preenchimento automático",
                 "empty": "Sem sugestões.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~adicionar um item"
             },
             "cursor": {
                 "priorLine": "mover o cursor para a linha anterior",

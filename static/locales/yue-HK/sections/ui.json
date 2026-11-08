@@ -918,7 +918,8 @@
                 "label": "$~自動完成選單",
                 "show": "$~顯示自動完成選單",
                 "empty": "$~冇建議。",
-                "item": "$~$code，$description"
+                "item": "$~$code，$description",
+                "append": "$~加一個項目"
             },
             "cursor": {
                 "priorLine": "$~將游標移去上一行",

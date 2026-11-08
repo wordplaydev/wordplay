@@ -11,8 +11,9 @@
     } from '#components/editor/util/windowModel.ts';
     import { getDragTarget, getEditor } from '#components/project/Contexts.ts';
     import { spaceIndicator } from '#db/Database.ts';
-    import { InsertionPoint } from '#edit/drag/Drag.ts';
+    import { InsertionPoint, kindAcceptsDrop } from '#edit/drag/Drag.ts';
     import Block from '#nodes/Block.ts';
+    import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
     import Node from '#nodes/Node.ts';
     import { EXPLICIT_NEWLINE_TEXT } from '#parser/Spaces.ts';
     import type { Segment } from '#nodes/Paragraph.ts';
@@ -76,6 +77,16 @@
             : [];
     });
 
+    /** Whether this list holds expressions, so its "+" can append an empty
+     *  slot to type into rather than open a menu (#1484). */
+    let takesSlot = $derived.by(() => {
+        const kind = node.getFieldNamed(String(field))?.kind;
+        return (
+            kind !== undefined &&
+            kindAcceptsDrop(kind, [ExpressionPlaceholder.make()])
+        );
+    });
+
     // Virtualize only an editor's root block's (long) statement list in text mode;
     // every other list and blocks mode renders normally. Gated OFF by
     // WINDOWING_ENABLED. The editor-context check excludes read-only RootViews
@@ -99,11 +110,15 @@
     <div class="insertion-feedback">&ZeroWidthSpace;</div>
 {/snippet}
 
-{#snippet append()}{#if format.editable && nodes.length > 0 && add}<div
+{#snippet append()}{#if format.editable && nodes.length > 0 && add}{@const anchor =
+            { parent: node, field: String(field), index: nodes.length }}<div
             class="append"
             ><MenuTrigger
-                anchor={{ parent: node, field, index: nodes.length }}
+                {anchor}
                 insert
+                activate={takesSlot && $editor
+                    ? () => $editor?.appendSlot(anchor)
+                    : undefined}
             /></div
         >{/if}{/snippet}
 

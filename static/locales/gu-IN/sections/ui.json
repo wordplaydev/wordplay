@@ -485,7 +485,8 @@
                 "label": "$~સ્વતઃપૂર્ણ મેનુ",
                 "show": "$~સ્વતઃપૂર્ણ મેનુ બતાવો",
                 "empty": "$~કોઈ સૂચનો નથી.",
-                "item": "$~$code, $description"
+                "item": "$~$code, $description",
+                "append": "$~એક વસ્તુ ઉમેરો"
             },
             "cursor": {
                 "priorLine": "$~કર્સરને પહેલા લીટી પર ખસેડો",

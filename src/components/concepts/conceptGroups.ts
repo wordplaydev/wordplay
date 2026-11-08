@@ -23,11 +23,18 @@ import type { HeaderAndExplanationText } from '#locale/UITexts.ts';
 import CompositeLiteral from '#nodes/CompositeLiteral.ts';
 import Expression from '#nodes/Expression.ts';
 import ExpressionPlaceholder from '#nodes/ExpressionPlaceholder.ts';
+import Dimension from '#nodes/Dimension.ts';
+import Input from '#nodes/Input.ts';
 import Literal from '#nodes/Literal.ts';
+import Name from '#nodes/Name.ts';
 import type Node from '#nodes/Node.ts';
+import Paragraph from '#nodes/Paragraph.ts';
 import PatternType from '#nodes/PatternType.ts';
+import Program from '#nodes/Program.ts';
 import Source from '#nodes/Source.ts';
 import type StructureDefinition from '#nodes/StructureDefinition.ts';
+import Translation from '#nodes/Translation.ts';
+import Words from '#nodes/Words.ts';
 import {
     BIND_SYMBOL,
     BORROW_SYMBOL,
@@ -327,6 +334,74 @@ export function getConceptGroups(
             concepts: index.getPrimaryConceptsWithPurpose(purpose),
         },
     ];
+}
+
+/**
+ * Fragments the drag palette leaves out, though the guide documents them. Each
+ * renders exactly like a concept beside it — a Name and a Reference are both
+ * "name", an Input and a Bind both "name: value", a Dimension's placeholder
+ * becomes "name" too, a Paragraph is "…" like Words, and a Program or Source is
+ * "_" like a placeholder — so in a palette without labels they read as
+ * duplicates (#1484). Filtered here rather than by purpose, because purpose also
+ * orders the editor's menu, where an Input is a common suggestion.
+ */
+export function isPaletteConcept(concept: Concept): boolean {
+    return !(
+        concept instanceof NodeConcept &&
+        (concept.template instanceof Name ||
+            concept.template instanceof Input ||
+            concept.template instanceof Dimension ||
+            concept.template instanceof Paragraph ||
+            concept.template instanceof Program ||
+            concept.template instanceof Source)
+    );
+}
+
+/** Concepts the palette shows under Advanced rather than at home, because at
+ *  home they render like a neighbor (`…` beside Markup, `⣿⣿` beside the pattern
+ *  literal, `''` beside Text). The guide keeps them at home. */
+function isRegroupedToAdvanced(concept: Concept): boolean {
+    return (
+        concept instanceof NodeConcept &&
+        (concept.template instanceof Words ||
+            concept.template instanceof PatternType ||
+            concept.template instanceof Translation)
+    );
+}
+
+/** The guide's groups for a purpose as the drag palette shows them: without
+ *  the fragments it leaves out, with look-alikes moved to Advanced, and
+ *  without groups that leaves empty. */
+export function getPaletteGroups(
+    purpose: PurposeType,
+    index: ConceptIndex,
+    project: Project,
+): ConceptGroup[] {
+    const groups = getConceptGroups(purpose, index, project).map((group) => ({
+        ...group,
+        concepts: group.concepts.filter(
+            (concept) =>
+                isPaletteConcept(concept) && !isRegroupedToAdvanced(concept),
+        ),
+    }));
+    if (purpose === Purpose.Advanced) {
+        const regrouped = [
+            Purpose.Documentation,
+            Purpose.Patterns,
+            Purpose.Text,
+        ].flatMap((home) =>
+            index
+                .getPrimaryConceptsWithPurpose(home)
+                .filter(isRegroupedToAdvanced),
+        );
+        const [first, ...rest] = groups;
+        if (first !== undefined)
+            return [
+                { ...first, concepts: [...first.concepts, ...regrouped] },
+                ...rest,
+            ].filter((group) => group.concepts.length > 0);
+    }
+    return groups.filter((group) => group.concepts.length > 0);
 }
 
 /**
