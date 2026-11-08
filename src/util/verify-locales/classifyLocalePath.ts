@@ -80,6 +80,20 @@ export function isTermPhrasePath(segments: (string | number)[]): boolean {
     return segments[0] === 'terms' && segments.length === 2;
 }
 
+/**
+ * Whether a path is a locale's own `script` — the ISO 15924 subtag a
+ * script-variant locale like `ur-Latn-PK` declares because it is not written in
+ * its language's dominant script.
+ *
+ * en-US declares none, being written in Latin, so measured against en-US the
+ * key is always "extra". Pruning it renamed the locale (`ur-Latn-PK` became
+ * `ur-PK`): right to left, keyed to a folder that doesn't exist, and every
+ * artifact derived from its name rewritten to match.
+ */
+export function isLocaleScriptPath(segments: (string | number)[]): boolean {
+    return segments.length === 1 && segments[0] === 'script';
+}
+
 /** Whether a path is declared as `NameText` — a Wordplay identifier (or list
  *  of identifiers) fed to `Name.make` via `getNameLocales`. This is the scope
  *  for name repair (`toValidName`) and single-token validation: it covers

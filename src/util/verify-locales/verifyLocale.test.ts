@@ -55,6 +55,16 @@ test("removeExtraKeys keeps a locale's own terms, which en-US has none of", () =
     });
 });
 
+test("removeExtraKeys keeps a script-variant locale's script", () => {
+    // en-US declares no script, so `script` always looked extra, and pruning it
+    // renamed ur-Latn-PK to ur-PK and nan-Latn-TW to nan-TW: their manifests
+    // deleted, en-US's manifest overwritten with Roman Urdu set right to left.
+    const source = { language: 'en', regions: ['US'] };
+    const target = { language: 'ur', regions: ['PK'], script: 'Latn' };
+    removeExtraKeys(collectingLog().log, source, target);
+    expect(target.script).toBe('Latn');
+});
+
 test('removeExtraKeys still removes a key that is genuinely extra', () => {
     // The exemption is for `terms` alone; everything else still conforms to
     // en-US, or the check would stop catching renamed and deleted keys.
