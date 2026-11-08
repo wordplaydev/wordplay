@@ -1,0 +1,472 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "yue",
+    "regions": ["HK"],
+    "guidance": "•用香港粵語書面語寫，即係跟返日常講嘢嘅講法：嘅、咗、喺、唔、冇、佢、啲、嚟、睇、畀。唔好寫成標準書面中文（的、了、在、不、沒有、他、看、給）。\n\n•用香港繁體字同香港用詞：程式、電腦、螢幕、滑鼠、鍵盤、設定、檔案、網絡、按鈕、貼上。\n\n•稱呼讀者一律用你。語氣親切輕鬆，好似同小學生傾偈咁，可以用啦、喎、吖、㗎、囉等語氣助詞。\n\n•用全形標點（，。：？！、），引號用「」同『』。中文同英文字、程式碼或者數字之間加一個半形空格，例如 Wordplay 係一種程式語言。",
+    "glossary": {
+        "wordplay": {
+            "word": "$~Wordplay",
+            "definition": "$~呢個平台，同埋用嚟喺呢個平台創作專案嘅程式@language。"
+        },
+        "value": {
+            "word": "$~值",
+            "forms": ["values"],
+            "definition": "$~一項資料，例如@Number、一啲文字，或者@List。"
+        },
+        "type": {
+            "word": "$~類型",
+            "forms": ["types"],
+            "definition": "$~@value嘅種類，例如@Number或者@Text。一個值嘅類型決定你可以用佢做啲乜。"
+        },
+        "expression": {
+            "word": "$~表達式",
+            "forms": ["expressions"],
+            "definition": "$~一段會喺運行時產生@value嘅@code。"
+        },
+        "variable": {
+            "word": "$~變數",
+            "forms": ["variables"],
+            "definition": "$~一個@name，佢嘅@value可以喺@Program運行期間改變。"
+        },
+        "parameter": {
+            "word": "$~參數",
+            "forms": ["parameters"],
+            "definition": "$~一個有名稱嘅 @Input，係你叫用 @FunctionDefinition 嗰陣佢需要嘅嘢。"
+        },
+        "argument": {
+            "word": "$~引數",
+            "forms": ["arguments"],
+            "definition": "$~你為@FunctionDefinition其中一個@parameters畀嘅@value。"
+        },
+        "operator": {
+            "word": "$~運算符",
+            "forms": ["operators"],
+            "definition": "$~一個符號，例如 + 或者 -，用嚟合併或者比較值。"
+        },
+        "condition": {
+            "word": "$~條件",
+            "forms": ["conditions"],
+            "definition": "$~一個真或者假嘅測試，決定@Program下一步做啲乜。"
+        },
+        "loop": {
+            "word": "$~迴圈",
+            "forms": ["loops", "looping"],
+            "definition": "$~重複做一個動作好多次嘅@code。"
+        },
+        "iteration": {
+            "word": "$~迭代",
+            "forms": ["iterations"],
+            "definition": "$~走過@loop一次。"
+        },
+        "recursion": {
+            "word": "$~遞迴",
+            "forms": ["recursive"],
+            "definition": "$~當@FunctionDefinition呼叫自己，去處理問題入面較細嘅一部分。"
+        },
+        "property": {
+            "word": "$~屬性",
+            "forms": ["properties"],
+            "definition": "$~@value嘅一個有名稱嘅部分，例如@Color嘅亮度。"
+        },
+        "element": {
+            "word": "$~元素",
+            "forms": ["elements"],
+            "definition": "$~@List或者群組入面嘅其中一項。"
+        },
+        "scope": {
+            "word": "$~作用範圍",
+            "forms": ["scopes"],
+            "definition": "$~@Program入面可以用到@name嘅部分。"
+        },
+        "state": {
+            "word": "$~狀態",
+            "forms": ["states"],
+            "definition": "$~@Program記住，而且可以隨時間改變嘅資料。"
+        },
+        "stream": {
+            "word": "$~串流",
+            "forms": ["streams"],
+            "definition": "$~一個會隨住你個世界改變而改變嘅@value，例如@Time一路行，或者按住一個@Key。每次佢改變，@Program就會用新嘅@value再運算一次。"
+        },
+        "sideEffect": {
+            "word": "$~副作用",
+            "forms": ["side effects"],
+            "definition": "$~@Program除咗傳回@value之外所做嘅改變，例如顯示@Output。"
+        },
+        "abstraction": {
+            "word": "$~抽象化",
+            "forms": ["abstractions"],
+            "definition": "$~收埋啲細節，等你唔使知內裡點運作都可以用到某樣嘢。"
+        },
+        "project": {
+            "word": "$~專案",
+            "forms": ["projects"],
+            "definition": "$~組成一個@wordplay@Program嘅所有檔案。"
+        },
+        "source": {
+            "word": "$~源檔",
+            "forms": ["sources"],
+            "definition": "$~@project入面嘅一份@code文件。一個@project可以有多過一份，而且每一份都可以@share其他份所@borrow嘅嘢。"
+        },
+        "borrow": {
+            "word": "$~借用",
+            "forms": ["borrows", "borrowed", "borrowing"],
+            "definition": "$~用另一個@Source分享咗嘅嘢，方法係寫 ↓ 加上嗰個@source嘅名稱。"
+        },
+        "share": {
+            "word": "$~分享",
+            "forms": ["shares", "shared", "sharing"],
+            "definition": "$~喺@Source入面用 ↑ 標記某樣嘢，等其他@source檔案可以@borrow佢。"
+        },
+        "kit": {
+            "word": "$~工具包",
+            "forms": ["kits"],
+            "definition": "$~有人發佈嘅@Source，等其他人可以喺自己嘅@project@borrow佢。"
+        },
+        "code": {
+            "word": "$~程式碼",
+            "definition": "$~你寫落去，用嚟叫@Program做嘢嘅文字。"
+        },
+        "act": {
+            "word": "$~幕",
+            "forms": ["acts"],
+            "definition": "$~@tutorial入面一大部分，好似戲劇入面嘅一幕。"
+        },
+        "how": {
+            "word": "$~教學指南",
+            "forms": ["how-tos"],
+            "definition": "$~一份簡短嘅@guide，教你點樣做一件事。"
+        },
+        "gallery": {
+            "word": "$~作品展覽館",
+            "forms": ["galleries"],
+            "definition": "$~大家分享同探索專案嘅地方。"
+        },
+        "blocks": {
+            "word": "$~積木",
+            "definition": "$~一種用拖拉積木嚟編輯@code，而唔使打字嘅方法。"
+        },
+        "editor": {
+            "word": "$~編輯器",
+            "forms": ["editors"],
+            "definition": "$~你寫@code嘅格仔。你喺度打咩，@wordplay就會做咩。"
+        },
+        "stage": {
+            "word": "$~舞台",
+            "forms": ["stages"],
+            "definition": "$~@wordplay顯示你嘅@code做出嚟嘅嘢嘅空間。"
+        },
+        "placeholder": {
+            "word": "$~佔位符",
+            "forms": ["placeholders"],
+            "definition": "$~一個空位，顯示邊度欠咗@code或者@value。"
+        },
+        "conflict": {
+            "word": "$~衝突",
+            "forms": ["conflicts"],
+            "definition": "$~@code入面嘅問題，@wordplay會標記出嚟，等你可以修正。"
+        },
+        "checkpoint": {
+            "word": "$~檢查點",
+            "forms": ["checkpoints"],
+            "definition": "$~你作品入面一個儲存咗嘅位置，你可以返去嗰度。"
+        },
+        "guide": {
+            "word": "$~指南",
+            "forms": ["guides"],
+            "definition": "$~可以搜尋嘅參考資料，解釋@wordplay嘅概念。"
+        },
+        "tutorial": {
+            "word": "$~教學",
+            "forms": ["tutorials"],
+            "definition": "$~一步一步教你@wordplay嘅課堂。"
+        },
+        "name": {
+            "word": "$~名稱",
+            "forms": ["named", "naming"],
+            "definition": "$~指住@value或者@FunctionDefinition嘅一個字。"
+        },
+        "markup": {
+            "word": "$~標記文字",
+            "definition": "$~有格式嘅文字，例如粗體字或者連結。"
+        },
+        "language": {
+            "word": "$~語言",
+            "forms": ["languages"],
+            "definition": "$~@name或者文字所用嘅人類語言。"
+        },
+        "documentation": {
+            "word": "$~說明文件",
+            "definition": "$~解釋@code做緊啲乜嘅文字。"
+        },
+        "region": {
+            "word": "$~地區",
+            "forms": ["regions"],
+            "definition": "$~使用@language嘅地方，會影響數字同日期點樣顯示。"
+        },
+        "start": {
+            "word": "$~起點",
+            "definition": "$~@project開始嘅主要源檔。"
+        },
+        "query": {
+            "word": "$~查詢",
+            "forms": ["queries"],
+            "definition": "$~一種從@Table揀出列嘅方法。"
+        },
+        "key": {
+            "word": "$~鍵",
+            "forms": ["keys"],
+            "definition": "$~用嚟喺@Map入面搵項目嘅@value。"
+        },
+        "index": {
+            "word": "$~索引",
+            "forms": ["indexes", "indices"],
+            "definition": "$~用位置喺@List入面揀項目嘅@Number。"
+        },
+        "moved": {
+            "word": "$~已移動",
+            "definition": "$~喺舞台上換咗位置嘅@Output。"
+        },
+        "entered": {
+            "word": "$~新出現",
+            "definition": "$~第一次喺舞台上出現嘅@Output。"
+        },
+        "cell": {
+            "word": "$~儲存格",
+            "forms": ["cells"],
+            "definition": "$~@Table一列入面嘅一個@value。"
+        },
+        "column": {
+            "word": "$~欄",
+            "forms": ["columns"],
+            "definition": "$~@Table入面一個有名嘅欄位。"
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "$~警告",
+            "explanation": "$~有審核員覺得呢啲內容可能會："
+        },
+        "blocked": {
+            "header": "$~已封鎖",
+            "explanation": "$~有審核員覺得呢啲內容可能會："
+        },
+        "unmoderated": {
+            "header": "$~備註",
+            "explanation": "$~呢啲內容仲未經審核。佢可能會："
+        },
+        "moderate": {
+            "header": "$~審核",
+            "explanation": "$~睇下呢個專案，決定佢嘅內容有冇以下任何一樣情況。如果有，內容就會被警告或者封鎖。如果你唔肯定，可以跳過。"
+        },
+        "queue": {
+            "label": "$~要審核乜嘢",
+            "labels": [
+                "$~專案",
+                "$~作品展覽館",
+                "$~工具包",
+                "$~教學指南",
+                "$~舉報"
+            ],
+            "tips": [
+                "$~審核人哋公開咗嘅專案",
+                "$~審核申請公開列出嘅作品展覽館",
+                "$~審核申請列入指南嘅工具包",
+                "$~審核申請列入指南嘅教學指南",
+                "$~審核人哋請你睇嘅嘢"
+            ]
+        },
+        "noAddress": "$~Wordplay 冇你嘅電郵地址，所以呢度嘅嘢冇辦法用電郵通知你。你可以喺你嘅<個人檔案@://profile>入面加一個。",
+        "subject": {
+            "project": "$~專案",
+            "gallery": "$~作品展覽館",
+            "howto": "$~教學指南",
+            "character": "$~角色",
+            "kit": "$~工具包",
+            "chat": "$~聊天"
+        },
+        "flags": {
+            "violence": "$~煽動、鼓勵或者歌頌針對任何人嘅暴力、傷害或者自我傷害。",
+            "dehumanization": "$~因為一啲人或者一班人嘅種族、民族、國籍、種姓、性取向、性別、宗教、年齡、能力或者外貌，就當佢哋唔係人咁睇待。",
+            "disclosure": "$~公開其他人嘅私人資料，例如姓名、聯絡方法或者實際地址",
+            "misinformation": "$~包含假嘅、誤導人、欺騙人或者操控人嘅資料"
+        },
+        "progress": "$~已審核 *$moderated* 個，仲有 *$remaining* 個未審核",
+        "done": "$~冇其他嘢需要審核喇！",
+        "button": {
+            "submit": {
+                "tip": "$~儲存呢啲審核設定",
+                "label": "$~儲存"
+            },
+            "skip": {
+                "tip": "$~跳過呢個專案",
+                "label": "$~跳過"
+            }
+        },
+        "report": {
+            "button": "$~請管理員睇下呢個",
+            "confirm": "$~舉報",
+            "sent": "$~已經請咗管理員睇下呢個",
+            "announce": "$~已經請咗管理員睇下 $project",
+            "flagged": "$~有人舉報咗呢個專案，所以排喺最前面。"
+        },
+        "strike": {
+            "issue": "$~警告呢位創作者",
+            "consequence": "$~呢個會係呢位創作者嘅第 $#count[$count] 次警告。$banning[呢次警告會令佢冇得再公開任何嘢。|佢仲可以再公開嘢，直至再有 $#remaining[$remaining] 次警告。]",
+            "confirm": {
+                "description": "$~記錄呢個決定，並警告創作者",
+                "prompt": "$~警告佢"
+            },
+            "banned": "$~你已經因為公開內容被警告過三次，所以你唔可以再將專案或者作品展覽館公開。你仍然可以建立專案，亦可以同你揀嘅人分享。如果你覺得係搞錯咗，或者已經過咗好耐，想再公開分享，請寫信去 hi@wordplay.dev，話我哋知你嘅用戶名稱同原因。",
+            "warned": "$~你有啲公開內容違反咗分享規則，所以佢已經唔再公開。呢個係第 $#count[$count] 次警告。$#remaining[再多 $remaining 次，你就唔可以再公開任何嘢喇。]",
+            "notification": "$~關於你公開分享嘅嘢，呢個係第 $#count[$count] 次警告。"
+        },
+        "gallery": {
+            "pending": "$~管理員而家睇緊你嘅作品展覽館，決定可唔可以公開列出。喺嗰之前，只有你分享連結畀佢哋嘅人先睇到。",
+            "approved": "$~你嘅作品展覽館已經列喺<公開作品展覽館頁面@://galleries?tab=public>！佢隨時都可以因為任何原因被移走。",
+            "denied": "$~管理員決定唔公開列出你嘅作品展覽館。你可以繼續改進，再將佢設做公開，咁就可以再申請一次。",
+            "explain": "$~呢個作品展覽館申請公開列出。請睇下佢同入面嘅專案，決定佢夠唔夠完整畀大家睇。",
+            "done": "$~冇作品展覽館等緊決定。多謝你！",
+            "approve": {
+                "label": "$~列出佢",
+                "tip": "$~將呢個作品展覽館列喺公開作品展覽館頁面度"
+            },
+            "deny": {
+                "label": "$~唔列出佢",
+                "tip": "$~唔畀呢個作品展覽館出現喺公開作品展覽館頁面度"
+            },
+            "skip": {
+                "label": "$~跳過",
+                "tip": "$~留低呢個作品展覽館畀另一位管理員決定"
+            },
+            "notification": {
+                "approved": "$~$name 而家公開列出咗。",
+                "denied": "$~$name 冇被公開列出。"
+            }
+        },
+        "kit": {
+            "pending": "$~有管理員睇緊你嘅工具包，決定可唔可以列入指南。佢標示咗做「已列出」，但喺管理員決定之前，冇人搵得到佢。",
+            "approved": "$~你嘅工具包已經列喺<指南@://guide?section=kits>入面！佢隨時都可以因為任何原因被移走。",
+            "denied": "$~管理員決定唔將你嘅工具包列入指南。你可以發佈新版本，再申請多一次。",
+            "header": "$~工具包",
+            "explain": "$~呢個工具包申請列入指南。睇下佢分享咗啲乜嘢，再決定其他人應唔應該搵得到佢。",
+            "done": "$~冇工具包等緊決定。多謝你！",
+            "approve": {
+                "label": "$~列出佢",
+                "tip": "$~將呢個工具包列入指南"
+            },
+            "deny": {
+                "label": "$~唔列出佢",
+                "tip": "$~唔將呢個工具包列入指南"
+            },
+            "skip": {
+                "label": "$~跳過",
+                "tip": "$~留低呢個工具包畀另一位管理員決定"
+            },
+            "notification": {
+                "approved": "$~$name 而家列咗入指南。",
+                "denied": "$~$name 冇被列入指南。"
+            }
+        },
+        "howto": {
+            "pending": "$~有管理員睇緊你嘅教學指南，決定可唔可以列入指南。喺嗰之前，只有本身睇得到佢嘅人先睇得到。",
+            "approved": "$~你嘅教學指南已經列喺<指南@://guide?section=howto>入面！佢隨時都可以因為任何原因被移走。",
+            "denied": "$~管理員決定唔將你嘅教學指南列入指南。你可以繼續改進佢，再申請多一次。",
+            "unready": "$~請先張貼你嘅教學指南，並將佢設為公開。管理員只可以批准人人都睇得到嘅內容。",
+            "header": "$~教學指南",
+            "explain": "$~呢份教學指南申請列入指南。睇下內容，再決定學緊 @wordplay 嘅其他人應唔應該喺嗰度搵到佢。",
+            "done": "$~冇教學指南等緊你決定。多謝你！",
+            "approve": {
+                "label": "$~列出佢",
+                "tip": "$~喺指南入面列出呢個教學指南"
+            },
+            "deny": {
+                "label": "$~唔列出佢",
+                "tip": "$~唔好喺指南入面放呢個教學指南"
+            },
+            "skip": {
+                "label": "$~跳過",
+                "tip": "$~留畀另一位管理員決定呢個教學指南"
+            },
+            "notification": {
+                "approved": "$~$name 而家列咗入指南。",
+                "denied": "$~$name 冇被列入指南。"
+            }
+        },
+        "error": {
+            "notmod": "$~呢度冇嘢需要你審核。Wordplay 嘅管理員會審核公開內容，而作品展覽館嘅策展人就會審核自己作品展覽館入面嘅內容。如果你啱啱先獲授管理員權限，可能要重新登入。",
+            "unreachable": "$~我讀唔到呢個隊列，所以唔知有冇嘢等緊。請稍後再試。",
+            "unreadable": "$~呢度有啲嘢等緊審核，但我讀唔到，所以冇顯示出嚟。"
+        },
+        "responsibility": {
+            "none": "$~你喺呢度分享嘅嘢冇人審核。只有你同你揀嘅人先睇得到。",
+            "curators": "$~呢個作品展覽館嘅策展人會審核喺呢度分享嘅內容，包括聊天室。",
+            "both": "$~呢個作品展覽館嘅策展人會審核喺呢度分享嘅內容，Wordplay 嘅管理員都會審核，因為任何人都睇得到。",
+            "platform": "$~Wordplay 嘅<管理員@://rights>會審核呢樣嘢，因為任何人都睇得到。"
+        }
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~留意吓",
+            "explanation": "$~呢個專案嘅畫面可能會令部分人唔舒服，甚至引發癲癇。可能包括："
+        },
+        "categories": {
+            "flashing": "$~快速閃爍或者對比變化",
+            "redflash": "$~快速閃爍、好鮮豔嘅紅色",
+            "strobe": "$~成個螢幕好似頻閃燈咁閃",
+            "pattern": "$~密集、對比好強烈嘅幾何圖案",
+            "motion": "$~大細、位置或者透明度嘅快速動畫"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~前面有聲音",
+            "explanation": "$~呢個專案嘅音樂可能會嚇親人，或者對部分人嚟講太大聲。可能包括："
+        },
+        "categories": {
+            "startle": "$~音量突然大聲咗，尤其係喺好靜之後",
+            "loudness": "$~長時間用最大音量，或者好多音軌疊埋一齊好大聲",
+            "pulse": "$~節拍快到令畫面閃爍",
+            "register": "$~高過或者低過舒服範圍好多嘅音符",
+            "tracks": "$~同一時間有太多樂器，好難跟得上"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "$~遊戲",
+            "description": "$~用文字同符號玩嘅互動遊戲。"
+        },
+        "visualizations": {
+            "name": "$~視覺化",
+            "description": "$~用文字，或者將文字變成圖像嘅視覺化作品。"
+        },
+        "motion": {
+            "name": "$~動態",
+            "description": "$~移動同碰撞嘅例子。"
+        },
+        "music": {
+            "name": "$~音樂",
+            "description": "$~歌曲、樂器，同跟住節拍郁動嘅文字設計。"
+        },
+        "av": {
+            "name": "$~音訊／影片",
+            "description": "$~用音量、音高同影片做輸入，用語音做輸出。"
+        },
+        "tools": {
+            "name": "$~工具",
+            "description": "$~簡單嘅小工具同應用程式。"
+        },
+        "stories": {
+            "name": "$~故事",
+            "description": "$~互動故事同敘事作品。"
+        }
+    },
+    "system": {
+        "imageDescription": "$~Wordplay 嘅標誌：一個對話氣泡，入面有一個圓形、一個三角形同一個正方形，放喺 Wordplay 呢個名旁邊，四周有一大堆淡淡嘅符號，代表 Wordplay 程式可以感應同表達嘅所有嘢。",
+        "noscript": "$~Wordplay 需要用 JavaScript。你嘅瀏覽器唔支援，或者已經關咗佢。",
+        "unsupportedHeading": "$~唔支援嘅瀏覽器",
+        "unsupportedBody": "$~你嘅瀏覽器唔支援一啲重要功能。要用 Wordplay，你需要更新到較新嘅版本。",
+        "appDescription": "$~人人都用得到、支援多種語言、可以用程式控制嘅文字設計。"
+    }
+}

@@ -1,0 +1,1429 @@
+{
+    "$schema": "../../../static/schemas/sections/ui-page.json",
+    "ui": {
+        "page": {
+            "breadcrumb": {
+                "label": "$~Lōo-tsing",
+                "home": "$~Thâu-iah"
+            },
+            "unknown": {
+                "header": "$~Ah!",
+                "message": "$~Tsit-ê tē-hng sī tsiah-nī? Lán thang tńg-khì lah?"
+            },
+            "landing": {
+                "value": "$~Kah lán tī tsia, ēng tsù-tsi̍t, hû-hō, emoji kah code lâi tsò ū hỏk-tōng ê kòo-sū! Tsit-má khai-sí tī",
+                "beta": [
+                    "$~@wordplay iáu tī *beta*, ka-ī khó-lîng bē-tsiànn-tsiok, mā khó-lîng iáu bē-tsiânn. Lí ē-sái tī <GitHub@https://github.com/wordplaydev/wordplay/issues> pò-kò bug kah hun-hióng ì-kiàn, khuànn lán ê <1.0 kè-ōe@https://github.com/wordplaydev/wordplay/milestones/1.0>, mā thang <kàu-tīn@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                ],
+                "chooseLocales": "$~á-sī suán",
+                "tagline": "$~lâng lâng lóng ē-sái ēng, ke-guā gí-giân, ū tshòng-tsok-le̍k ê siá-code",
+                "tour": {
+                    "button": "$~hōo guá khuànn",
+                    "loading": "$~Tsāi-ji̍p tiong…",
+                    "failed": "$~Tsiah ê lē-á tsāi-bē-ji̍p-lâi. Kiám-tsa lí ê bāng-lōo, koh sè-sī ê.",
+                    "restart": "$~tuì-thâu lâi tsit-ê lē-á",
+                    "examples": {
+                        "label": "$~Lē-á tsîng-sik",
+                        "tips": [
+                            "$~Bûn-jī ē-sái huat-kng, mā ē tín-tāng",
+                            "$~Im-ga̍k sī tsu-liāu, siaⁿ-im, mā sī khuànn-tio̍h ê",
+                            "$~Sî-kan teh tī-tak, bûn-jī mā ē kóng ke-guā gí-giân",
+                            "$~Bûn-jī ē-sái huê-èng tsí-tshiu, tshi̍h, tshi̍h-phiann kah kiān-pan",
+                            "$~Kuan-tsiòng ē-sái tsò suán-tik",
+                            "$~Kuan-tsiòng ē-sái kah tsîng-sik liâm-thian, bûn-jī mā sī hîng-á",
+                            "$~Bu̍t-lí kap tiōng-li̍k ē-sái hōo bûn-jī tīng-tīng-á kap tiāu-tiāu-á",
+                            "$~Tsheng-sik ē-sái thiann lí kóng ê uē",
+                            "$~Tsheng-sik ē-sái khuànn lí ê bīn, tshiú, kap bu̍t-kiānn"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶@Phrase tī bú-tâi téng-bīn tshut-hiān, lí ài sánn-sik, sánn-kng, tsit-kâi tōng-tsok lóng thang.¶\nKù(\n\t'lí-hó!'\n\t6m\n\tsik: Siktshái(60% 90 200°)\n\tkongkhuân: Kongkhuân(Siktshái(80% 80 200°) 0.3m)\n\thiohkhùn: Sūnsū.iô(8°)\n)\\",
+                        "music": "$~\\¶Im-ga̍k sī ēng si̍t-tsāi ê ga̍k-khì, tuì-tio̍h tsi̍t-ê phài-tsí, tī tsi̍t-ê kiān lāi-té phuànn--tshut-lâi ê im. Bú-tâi ē kā thiann-tio̍h ê im uē--tshut-lâi.¶\nImga̍k(\n\tImkuí([1 3 5 8 5 3] ga̍kkhì: Ga̍kkhì.kongkhîm)\n\tsoktōo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Code ē tàu-tsun @Time chit-khuá su-ji̍p lâi hóo-èng, bûn-jī mā ē-sái hōo tsē-tsē gí-giân siá, koh ē-sái thang kóng--tshut-lâi.¶\nhellos: ['lí-hó'/nan 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhello: hellos.tshìntshái() … ∆ Sîkan(1000ms) … hellos.tshìntshái(\n\t\t)\nKù(hello 4m)\nKóng(hello)\\",
+                        "keys": "$~\\¶Code ē-sái tuì tsí-piau, kiān, tiám-kik kah the̍h-tshi̍t hóo-èng.¶\nkiān2: Kiān()\ntiám2: Button()\nbīn: ['🙂' '😮' '😎' '🤩']\nwhich: 1 … ∆ kiān2 | ∆ tiám2 … (which % 4) + 1\nBútâi(\n\t[Kù(bīn[which] 5m uītì: Tsípiau() phā: 'hāi')]\n\tuītì: Uītì(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Pâi-lia̍t bûn-jī, koh hōo i thang kéng.¶\nfruit: ƒ(e•'') Kù(e 3m miâ: e ētàngkíng: ⊤)\npicked: Suánti̍k()\nshown: '?' … ∆ picked … picked\nKûntsoo(\n\tTha̍h(lāikū: 1m)\n\t[\n\t\tKù(shown 4m)\n\t\tKûntsoo(\n\t\t\tTsuā(lāikū: 1m)\n\t\t\t[fruit('🍎') fruit('🍐') fruit('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Kah tsiông-sik lâi lia̍h-kóng, koh ēng jī-thé kah hû-hō ê hîng-iūnn.¶\nmessage: Khaikáng()\nsû: 'hāi' … ∆ message … message\nsòaⁿ: Lûnkhok(sû 'Noto Sans' 8m)\nticks: 0 … ∆ Sîkan(30ms) … ticks + 1\nshown: ((sòaⁿ.tn̂gtō() × ticks) ÷ 66).tsíngsòoLo̍h() + 1\ndots: sòaⁿ.pōohūn(1 shown).huani̍k(ƒ(p) Kù('•' uītì: p))\nBútâi(dots.kah(Kù(sû 8m putthàumîng: 15%)))\\",
+                        "pile": "$~\\¶Bûn-jī ē-sái ū bu̍t-lí.¶\npàng: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tKù(\n\t\t\temoji\n\t\t\t2m\n\t\t\tuītì: Tíntāng(Uītì(x2 y2) Soktōo(vx 0m/s))\n\t\t\tbu̍ttsit: Bu̍ttsit(1kg 0.55 0.06 0.5)\n\t\t)\nBútâi(\n\t[\n\t\tpàng('🍎' -2m 5m 2.2m/s)\n\t\tpàng('🍊' 2m 7m -2.6m/s)\n\t\tpàng('🍋' -1m 9m 1.4m/s)\n\t\tpàng('🍇' 1.5m 11m -1.9m/s)\n\t\tpàng('🫐' 0.5m 15m -1.2m/s)\n\t\tHîngtsōng(Tn̂ghonghîng(-4m -3m 4m -3.6m))\n\t\tHîngtsōng(Tn̂ghonghîng(-4.6m 4m -4m -3m))\n\t\tHîngtsōng(Tn̂ghonghîng(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Code ē-sái huan-ìng lí ê mic ê @Volume kap @Pitch.¶\nKù(\n\t'📣'\n\t1m + (Imliōng() × 8m)\n\tsuântsuán: (Imtiāu() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Code ē-sái huan-ìng lí ê @Face, kap @Camera téng ê kî-thann tāi-tsì.¶\nKù(\n\tBīn().tshiòbîn ? '😄 to-siā!' '🙂 tuì-tio̍h sià-iánn-ki tsàu-tsiūnn-tshuì-khiāu'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay sī tsi̍t khuán thîng-sik gí-giân",
+                        "bullets": [
+                            "$~• Múi tsi̍t ê tsheng-sik lóng sī tsi̍t ê piáu-ta̍t-sik, ē piàn-tsò ta̍t. \\1 + 1\\ sī tsheng-sik, \\Kù('hāi')\\ mā sī.",
+                            "• Sò-jī ē tshua tan-uī, ٰsóo-í \\1m + 1m\\ sī kong-tshioh, \\1cat + 1dog\\🪲 sī tsi̍t ê tshò-gō͘, @wordplay ē tī ûn-hîng tsìn-uē tō khuànn-tio̍h.",
+                            "• Hâm-sòo mā sī ta̍t, lí ē-sái kā i khioh miâ, thàn-kòo, koh hiânn lâi iōng: \\ƒ double(n2•#) n2 × 2\\.",
+                            "• Tng-tsūn su-ji̍p piàn-uā, @wordplay ē tsài sǹg lí ê tsheng-sik, koh the̍h sin ê ta̍t lâi hián-sī. Bián tshù-lí sū-kiānn.",
+                            "• @wordplay ē tī tsheng-sik ûn-hîng ciân tō tshuē tio̍h tshò-gō͘, koh kā múi ê būn-tê kái-suat."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay ū tsē-tsē gí-giân",
+                        "bullets": [
+                            "$~• Gí-giân ê múi tsi̍t ê kong-lêng, tī múi tsi̍t khuán gí-giân lóng ū miâ, thîng-sik-bé tō iōng lí í-king bat ê jī lâi tha̍k.",
+                            "• Lí ka-kī khioh ê miâ mā ē-sái sī tsē-tsē gí-giân:\n\\cat2/nan, gato/es: '🐈'\nKù(cat2)\\",
+                            "• Bûn-jī ē tshua gí-giân, mā ē hián-sī lí ê koan-tsiòng tha̍k ê gí-giân: \\'lí-hó'/nan'hola'/es\\.",
+                            "• Hit ê bāng-tsāi pún-sin ū 29 khuán gí-giân, lí ē-sái tsi̍t-pái kéng tsē-tsē khuán, bûn-jī ē tī múi khuán gí-giân lóng hián-sī.",
+                            "• Lí ē-sái tī app lāi-té tō pang-bāng huan-êk @wordplay pún-sin, tī <localize@://localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay múi lâng lóng ē-sái iōng",
+                        "bullets": [
+                            "$~• Lí iōng tuā-hōo-á ē-sái tsò ê, iōng kiān-pang mā ē-sái tsò.",
+                            "• Hōo bak-tsiu khuànn bô ê lâng ê hiann-siann tshì-khì ē kā bú-tâi piàn-uā kóng hōo lí thiann, koh ū tsū-giòng hiann-siann piau-sī siánn-mih tsài sǹg, siánn-mih teh tín-tāng, siánn-mih sio-phōng.",
+                            "• Lí ē-sái iōng tsik-bo̍k lâi tha̍k kap siá thîng-sik-bé, bián iōng bûn-jī, mā ē-sái sûi-sî tshiáⁿ-uānn.",
+                            "• Tín-tāng ē-sái hōo tshiám khah bān, mā ē-sái kui-ê koan tiāu.",
+                            "• Kóng-tshut-lâi ê siann-im ē-sái tī bú-tâi hián-sī jī-bō͘, hōo thiann bô ê lâng mā khuànn ē hiáu."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay ē kám-kak sè-kài",
+                        "bullets": [
+                            "$~• Sî-kan kuè: \\Sîkan(1000ms)\\ tsiām-tsiām-á tín, \\Tsitmá()\\ ē tsai-iánn kin-á-ji̍t, tī lí ka-kī ê ji̍t-le̍k kap sî-khu.",
+                            "• Koan-tsiòng tsí tī toh, tshiok tio̍h siánn-mih, ànn siánn-mih kiān.",
+                            "• Tsheng-sik ē-sái huan-ìng lí ê mài-khuh-hong: iōng @Volume khuànn siann-im tsiok tuā siann, iōng @Pitch khuànn im-tē, iōng @Speech khuànn siánn-mih uē.",
+                            "• Lí ê koan-tsiòng ē-sái tī @Chat su-ji̍p, iōng @Choice kéng bú-tâi lāi-té ê loē-iông.",
+                            "• Tsheng-sik ē-sái huan-ìng i teh pàng ê im-ga̍k ê phik, iōng @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay ē piáu-ián",
+                        "bullets": [
+                            "$~• @Phrase tshiânn jī kap emoji khìg tī bú-tâi.",
+                            "• @Group kā in tshiânn tsò tsâi, tsân-tiap, keh-á, tshiūnn lí khìg ê uī-tì.",
+                            "• @Pose kap @Sequence ē hōo mih-kiānn tńg, tàu, tsiàng-tuā-sè, koh suá-uī.",
+                            "• @Say ē kā bûn-jī tuā-siann kóng, m̄-tsū hián-sī.",
+                            "• @Music iōng tsiàⁿ ê ga̍k-khì pàng im-ga̍k, ū sok-tōo, ū im-tiāu:\n\\Imga̍k(\n\tImkuí([1 3 5] ga̍kkhì: Ga̍kkhì.lînglông)\n\tsoktōo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay sī jī-hîng ê gī-su̍t",
+                        "bullets": [
+                            "$~• Sann-pah-tsōng ê jī-thé, kài-kuí sè-kài ê siá-jī hē-thóng.",
+                            "• Lí ē-sái ka-kī uē <custom characters@://characters>, koh tī emoji ē-sái khìg ê tsuí-uī lóng ē-sái iōng.",
+                            "• Múi ê jī ê lûn-khuàt sī tsu-liāu, lí ē-sái tha̍k, mā ē-sái hōo i tín: iōng @Contour: \\Lûnkhok('a' 'Noto Sans')\\.",
+                            "• Bûn-jī ē tuè i ê gí-giân ê kui-tse̍k huan-hâng.",
+                            "• Tuì-tshiú-tsuí kap tī-tsik-siá ê bûn-jī mā ē tuè tio̍h tsiàⁿ-tsiànn ê hong-sik pâi-lia̍t."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay ē ka-kī kái-suat",
+                        "bullets": [
+                            "$~• Suat-bîng bûn-kiānn sī gí-giân ê tsi̍t pō͘-hūn, iōng @Doc, m̄-sī khìg tī pâng-pinn ê pì-tsù.",
+                            "• Tsi̍t ê thang tshuē ê <guide@://guide> kái-suat múi tsi̍t ê loā-tsāi ê kong-lêng, koh ū sī-lē.",
+                            "• Múi ê tshò-gō͘ tī hoat-sing ê tuā-tsūn tō ū kái-suat, iōng lí ê gí-giân.",
+                            "• Lí ē-sái tuì thîng-sik tsìn-tshú /kap/ tò-thè, lâi tshuē hoat-sing siánn-mih.",
+                            "• Lí tsìn-tshú ê sî, múi ê ta̍t lóng tī tsáu-tshut i ê thîng-sik-bé hia hián-sī."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay sī lâi hun-hióng ê",
+                        "bullets": [
+                            "$~• Lí ê tsuan-àn sī lí ê, lí ka-kī kóng-tsún siáng ē-sái khuànn.",
+                            "• Lí ē-sái iau-tshiánn pa̍t-lâng tàu-tīn lí tsò tsi̍t ê tsuan-àn.",
+                            "• <Galleries@://galleries> ē ēng tsi̍t ê tê-mi̍k lâi tsi̍p-hôo tsuan-àn.",
+                            "• Lāu-su ē-sái khí pan, koh kuan-tshah ha̍k-seng ê tsok-phín: <teach@://teach>.",
+                            "• Lí ē-sái kái-tsò pa̍t-lâng ê kong-khai tsuan-àn, piàn-tsò lí ka-kī ê."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay bián-tsînn koh khui-hòng",
+                        "bullets": [
+                            "$~• @wordplay bián-tsînn, mā ē ta̍k-sî bián-tsînn.",
+                            "• I sī khui-hòng guân-sí-tóng: lí ē-sái khuànn i án-tsuánn teh ûn-tsok, mā ē-sái pang-tsān lán kái-piàn.",
+                            "• I lâi-uân sī <University of Washington@https://ischool.uw.edu/> ê Information School.",
+                            "• Hia ū tsi̍t ê tsok-tsiá, lāu-su, kap kòng-hiàn-tsiá ê siā-kûn.",
+                            "• <Donations@://donate> ēng-lâi hó-tsiah ûn-hîng ê huì-iōng."
+                        ]
+                    }
+                },
+                "link": {
+                    "learn": "$~Kap tsi̍t tīn ū-tsiah-ê kak-sik kui-ê ha̍k gí-giân",
+                    "teach": "$~Kuán-lí ha̍k-seng ê pan kap in ê tsuan-àn",
+                    "guide": "$~Tshuē kap tshiau-lám gí-giân ê khó-kháu-su",
+                    "projects": "$~Tsòng-tsiânn kap hun-hióng piáu-ián",
+                    "galleries": "$~Khuànn pat-lâng ê pió-hiān",
+                    "characters": "$~Tsò lí ka-kī ê emoji kap hû-hō",
+                    "rights": "$~Guán ê tsik-tsāi, kap lí ê tsik-tsāi",
+                    "about": "$~Tsit ê tē-hng sī ūi sím-mih tshòng-tsō ê?",
+                    "thanks": "$~Siáng lâi pang-bāng tsò tsit ê?",
+                    "updates": "$~Khuànn Wordplay ū sím-mih sin ê",
+                    "community": {
+                        "label": "$~Siā-khu",
+                        "subtitle": "$~Tī Discord kap guán liâu-thian"
+                    },
+                    "contribute": {
+                        "label": "$~Kòng-hiàn",
+                        "subtitle": "$~Pang guán tsò Wordplay"
+                    },
+                    "design": "$~Siat-kè hē-thóng ê tsham-khó, hōo kòng-hiàn ê lâng khuànn",
+                    "localize": "$~Pang Wordplay huan-ik sîng lí ê gí-giân",
+                    "moderate": "$~khuànn lâng-kiā mn̄g guán khuànn ê tāi-tsì",
+                    "admin": "$~khuànn siáng ē-sái tsò sím-mih, iā ē-sái kái"
+                }
+            },
+            "learn": {
+                "header": "$~Ha̍k",
+                "dialogue": "$~khò-têng tuì-uē",
+                "says": "$~$character kóng",
+                "error": "$~Guán tshuē bô tsit ê gí-giân ê kàu-ha̍k.",
+                "choice": {
+                    "prompt": "$~Lí beh án-tsuánn ha̍k?",
+                    "quick": {
+                        "title": "$~Khuài",
+                        "description": "$~Hōo í-keng sik-sāi pat-khuán thîng-sik gí-giân, siūnn beh liáu-kái Wordplay ū sím-mih put-tâng ê tsò-tsiá"
+                    },
+                    "complete": {
+                        "title": "$~Uân-pī",
+                        "description": "$~Hōo thâu-tsi̍t-pái ha̍k siá thîng-sik, siūnn beh ū siông-sè kài-siāu ê tsò-tsiá"
+                    }
+                },
+                "mode": {
+                    "label": "$~kàu-ha̍k",
+                    "labels": ["$~khuài", "$~uân-sîng"],
+                    "tips": [
+                        "$~Hō͘ í-king ē-hiáu kî-thaʼ thîng-sik gí-giân ê tsò-tsok-tsiá, tsi̍t-ê koh-tsiok ê tsham-koan",
+                        "$~Hō͘ tsiah-beh ha̍k thîng-sik ê tsò-tsok-tsiá, uân-uân-tsiânn-tsiânn koh sing-tōng ê kài-siāu"
+                    ]
+                },
+                "contrast": "$~kap--ê pí-kàu",
+                "button": {
+                    "next": "$~tuì-uē ē-tsi̍t-ê thîng-tiám",
+                    "previous": "$~tuì-uē téng-tsi̍t-ê thîng-tiám"
+                },
+                "tour": {
+                    "skip": "$~bē-tsham-koan, kè-sio̍k lâi",
+                    "wait": "$~Lí ē-sái seng tsham-koan, mā ē-sái bē-tsham-koan, liân-á bóe lán koh kè-sio̍k."
+                },
+                "options": {
+                    "lesson": "$~tsit-má ê khò-thîng"
+                },
+                "search": {
+                    "placeholder": "$~tshiau-tshuē",
+                    "noResults": "$~Tshuē bô kiat-kó"
+                }
+            },
+            "localize": {
+                "header": "$~Pian-ik",
+                "description": [
+                    "$~Tsia lí ē-sái khuànn tio̍h pênn-thâi lāi-té múi-tsi̍t-ê ē-sái huan-ik ê bûn-jī, mā ē-sái thê-tshut huan-ik iah-sī kái-tsìn, kàu-uī bē-tsia̍h-tio̍h sńg-tshiūnn koh kì-khì huan-ik ê bûn-jī. Lí chún-pī hó-ah, tō ē-sái kā lí ê kái-tsìn sàng-khì kiám-khuànn.",
+                    "Lí siá ê sî-tsūn, ài kì-tit iōng kán-tan ê uē, hō͘ siàu-liân ê tāi-ka lóng khuànn-lȧh bat. Mā ài tsiâu-tâi, ū-tsiah-ê tsì-tsūn tō iōng tsiok-tsâi ê tsu-gí."
+                ],
+                "tabs": {
+                    "label": "$~tsiát",
+                    "labels": [
+                        "$~Koan-hē",
+                        "$~Bûn-jī",
+                        "$~Tsu-gí",
+                        "$~Sû-ia̍h-pió",
+                        "$~Sàng-tsáu"
+                    ],
+                    "tips": [
+                        "$~Án-nuá huan-ik, kap hō͘ siá tsit-ê gí-giân ê lâng ê pì-ki",
+                        "$~khuànn kap kái pênn-thâi ê bûn-jī",
+                        "$~tìng-gī lí ē-sái tsāi-lāi tsit-ê gí-giân ê bûn-jī tiong-tiōng iōng ê uē",
+                        "$~ka-thiam tsit-ê gí-giân ê tsu-gí ē-sái siá--ê ê ke-sòo kap kî-thaʼ siá-huat",
+                        "$~kiám-khuànn lí ê kái-tsìn, jî-āu sàng-khì"
+                    ]
+                },
+                "toSubmit": "$~kiám-khuànn kap sàng-tsáu lí ê kái-tsìn",
+                "submitEmpty": "$~Lí iáu-bē ū kái-tsìn. Kái-tsit-tsiah Bûn-jī ê tsiap-á tsit-ē lâi siá, iah-sī iōng pian-tsi̍p mô-sik tsāi-lāi kái bûn-jī.",
+                "clear": {
+                    "description": "$~kā tsit-ê gí-giân lí iáu-bē sàng-khì ê kái-tsìn lóng thâi-tiāu",
+                    "prompt": "$~lóng thâi-tiāu?"
+                },
+                "workspaceLink": "$~khuànn-lóng bûn-jī + sàng-tsáu",
+                "workspaceHeader": "$~Beh siá á-sī khuànn--ê bûn-jī",
+                "submitHeader": "$~Sàng-tsáu",
+                "submitPrompt": "$~Nā lí sù-pī-hó beh kā chit-tsūn kái--ê thê-ì sàng-tshut-khì, ē-sái tī lak-bīn sàng.",
+                "oneLocaleNote": "$~Tsi̍t-pái tsí ē-tàng sàng tsi̍t-ê gí-giân. Chit-tsūn ê kái-tsit ē sàng khì $locale. Nā lí beh tsham-kah pa̍t-ê gí-giân, tio̍h seng suan gí-giân; lí tī múi-ê gí-giân kái-ê, ē tuì-tuì khai-khai pó-tsûn.",
+                "bundleSummary": "$~Chit-tsūn ê kái-tsit",
+                "editEntry": "$~Tńg-khì kái chit-tsuā bûn-jī",
+                "revertEntry": "$~Kā chit-ê kái-tsit tùi chit-tsūn tiah-tiāu",
+                "prevBundleItem": "$~Khuànn téng-tsi̍t-ê kái-tsit",
+                "nextBundleItem": "$~Khuànn kàu-ē-tsi̍t-ê kái-tsit",
+                "descriptionField": {
+                    "description": "$~Tsi̍t-tsūn kái-tsit ê kán-tan suat-bîng, hō khuànn-tsit--ê ê lâng ē-hiáu lí kái siánn-mih",
+                    "placeholder": "$~Lí kái-kuè siánn-mih? Ûi-siánn-mih?"
+                },
+                "notSpamLabel": "$~Guá pó-tsìng chiah-ê kái-tsit m̄-sī lah-sap",
+                "notSpamNote": "$~Wordplay sī tsi̍t-ê bô-sik-lī ê tsuan-àn, iû tsì-guān-tsiá lîng-tuā.",
+                "requireLogin": "$~Lí tio̍h tuè teng-ji̍p, chiah ē-tàng thê-kiōng hoan-ik ê kiàn-gī.",
+                "singletonWordsWarning": "$~Lí ê tsháu-kó lāi-té ū ê tsṳ̄ tī kui-ê gí-giân tsí tshut-hiān tsi̍t-pái. Lí khak-tsit sī siá tio̍h, mā hām pa̍t-ê bûn-jī siá-huat it-tsì--bô?",
+                "literalTermsWarning": "$~Lí ê tsháu-kó kā sû-huē-tsṳ̄ tsò phó-thong bûn-jī iōng. Tshiám tsi̍t-ê, ē-tàng kái-tsò sû-huē liân-kiat.",
+                "checkReadingLevel": "$~Kiám-tsa chit-tsuā bûn-jī ê tha̍k-tsiòh tsún-uī",
+                "readingLevelComplex": "$~Chit-tsuā kiám-pái bô-hán-tshài tha̍k. Tshì-khuànn iōng khah té ê kù, khah kán-tan ê tsṳ̄.",
+                "readingLevelOk": "$~Chit-tsuā tuì bóo-piau ê tha̍k-tsiòh tsún-uī lâi-kóng, tha̍k--khí-lâi bîng-pe̍h.",
+                "submit": {
+                    "description": "$~Sàng-tshut chit-tsūn ê kái-tsit",
+                    "prompt": "$~Sàng-tsáu"
+                },
+                "submitSuccess": "$~Kám-siā! Lí ê kái-tsit í-king sàng-tshut-khì, mā-ē-chiàⁿ kín ū lâng kiám-tsa.",
+                "viewPR": "$~Khuànn pull request",
+                "submitError": "$~Sàng ê sî-tsūn tshut-būn-tê. Lí ê kái-tsit iáu pó-tsûn tī chit-ê kì-ki, chhiáⁿ koh tshì-khuànn.",
+                "empty": "$~Bô tsūn-tī ê bûn-jī hām chit-ê kuè-lī tsio-tî.",
+                "prevEntry": "$~Pian-tsi̍p téng-tsi̍t-tsuā bûn-jī",
+                "nextEntry": "$~Pian-tsi̍p kàu-ē-tsi̍t-tsuā bûn-jī",
+                "qualityMode": {
+                    "label": "$~hián-sī",
+                    "labels": [
+                        "$~tsuân-pó͘",
+                        "$~ki-khì huan-ik á-sī iáu bē siá"
+                    ],
+                    "tips": [
+                        "$~khuànn kui-pak jī-tsuān",
+                        "$~kan-tann khuànn ki-khì huan-ik á-sī iáu bē siá ê jī-tsuān"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~tsiát",
+                    "labels": [
+                        "$~tsuân-pó͘",
+                        "$~tsuí-kuí-pió",
+                        "$~token",
+                        "$~node",
+                        "$~ki-pún",
+                        "$~su-ji̍p",
+                        "$~su-tshut",
+                        "$~ui",
+                        "$~tián-lám-kuán",
+                        "$~kuán-lí"
+                    ],
+                    "tips": [
+                        "$~khuànn kui-pak tsiat",
+                        "$~kāng-sing ê sut-gí",
+                        "$~token ê suat-bîng",
+                        "$~thîng-sik gí-giân ê kau-tsō",
+                        "$~ka-tsāi ê luī-hîng, ná-tshiūnn sò-ji, jī, lia̍t-piáu",
+                        "$~tsu-liāu-liû kah su-ji̍p lâi-guân ê suat-bîng",
+                        "$~su-tshut luī-hîng ê suat-bîng",
+                        "$~ìng-iōng-thê-sik ê iōng-tsiá kài-biān",
+                        "$~tāi-sing tián-lám-kuán ê lōo-iōng",
+                        "$~lōo-iōng kuán-lí ê sìn-sit"
+                    ]
+                },
+                "section": {
+                    "glossary": "$~Sut-gí",
+                    "token": "$~Token",
+                    "node": "$~Gí-giân kau-tsō",
+                    "basis": "$~Ka-tsāi luī-hîng",
+                    "input": "$~Ji̍p-liōng",
+                    "output": "$~Su-tshut",
+                    "ui": "$~Iōng-tsiá kài-biān",
+                    "gallery": "$~Tián-lám-kuán",
+                    "moderation": "$~Kuán-lí"
+                }
+            },
+            "teach": {
+                "header": "$~Kà",
+                "prompt": {
+                    "none": "$~Huan-ngîng, lāu-su! Khí tsi̍t-ê pan, lâi siat-tīng kap kuán-lí ha̍k-sing ê tsiàu-hō kap tsuan-àn tián-lám-kuán.",
+                    "some": "$~Huan-ngîng, lāu-su! Lí ē-sái kuán-lí lí ê pan, mā ē-sái khí sin ê pan."
+                },
+                "error": {
+                    "offline": "$~Guán bô-hoat-tōo khuànn lí sī-m̄-sī lāu-su. Lí ū teng-ji̍p--bô?",
+                    "login": "$~Lí tio̍h-ài <teng-ji̍p@://login>, tsiah ē-tàng kuán-lí pan.",
+                    "teacher": "$~Lí tio̍h-ài ū lāu-su ê khuân-lī, tsiah ē-tàng khí pan kap kuán-lí pan. Tshiánn thiâm tsit-tiunn piáu, lán lâi sio-tsiah-sik!"
+                },
+                "link": {
+                    "request": "$~Sin-tshiánn lāu-su khuân-lī",
+                    "new": "$~Khí tsi̍t-ê pan"
+                }
+            },
+            "newclass": {
+                "header": "$~Sin ê pan",
+                "subheader": {
+                    "class": "$~Lí ê pan",
+                    "students": "$~Lí ê ha̍k-sing",
+                    "credentials": "$~Iōng-tsiá miâ kap bi̍t-bé",
+                    "usernames": "$~Iōng-tsiá miâ",
+                    "submit": "$~Sàng-tsáu"
+                },
+                "prompt": {
+                    "start": "$~Tsit-tiunn piáu ē-tàng 1) ūi lí pan-lāi ê ha̍k-sing lóng khí tsiàu-hō, 2) koh khí tsi̍t-ê tián-lám-kuán, hō lí ê ha̍k-sing lóng ē-tàng kā tsuan-àn kiann--ji̍p-khì. Nā-sī ha̍k-sing í-king ū tsiàu-hō, lí ē-sái āu--lâi tsiah kā in ka-ji̍p tián-lám-kuán.",
+                    "review": "$~Khuànn-māi guán khí ê iōng-tsiá miâ kap bi̍t-bé. Lí beh-m̄-beh tī kè-sio̍k chìn-hâng chìn-chêng *pian-tsi̍p* in? Nā ū pian-tsi̍p, lí tō bô-hoat-tōo kái téng-bīn ê ha̍k-sing tsu-liāu ah.",
+                    "reviewEmail": "$~Khuànn-māi guán khí ê iōng-tsiá miâ. Lí beh-m̄-beh tī kè-sio̍k chìn-hâng chìn-chêng *pian-tsi̍p* in? Nā ū pian-tsi̍p, lí tō bô-hoat-tōo kái téng-bīn ê ha̍k-sing tsu-liāu ah. Ha̍k-sing tsia bōe-sái kéng siánn-mih, in iōng miâ-á piah-thâu ê tē-tsí lâi teng-ji̍p.",
+                    "ready": "$~Lí chún-pī-hó beh se̍h tsiànn-tsú ê sî-tsūn, tsiūnn-téng-bīn kā guá-tī kóng. Lí se̍h liáu-āu iā ē-sái kái.",
+                    "pending": "$~Tng-teh tshòng-tso̍h iōng-tsiá miâ kap bi̍t-bé...",
+                    "submit": "$~Tsún-puī-hó beh sàng-chhut--khì--bô? Sàng-chhut sêng-kong ê sî, lí ē siu-tio̍h tsit-ê tsu-liāu ê há-tsài. Bi̍t-bé *bē-sái tshuē-tńg-lâi*, ūi-tio̍h í-āu, tshiánn khǹg tī an-tsuân ê tē-hng.",
+                    "submitEmail": "$~Tsún-puī-hó beh sàng-chhut--khì--bô? Sàng-chhut sêng-kong ê sî, lí ē siu-tio̍h tsit-ê tsu-liāu ê há-tsài. Tsia bô bi̍t-bé tio̍h-ài khǹg hō an-tsuân — múi-ê ha̍k-sing iōng miâ-á piah-thâu ê tē-tsí lâi teng-ji̍p.",
+                    "submitting": "$~Tng-teh iōng téng-bīn ê iōng-tsiá miâ kap bi̍t-bé tshiánn-kiû sin ê tsiàu-hō...",
+                    "download": "$~Lí ê pan khí hó ah! Lí ê há-tsài tsu-liāu-kuá--lāi ē khuànn-tio̍h ha̍k-sing tsu-liāu ê há-tsài. *Bi̍t-bé bē-sái tshuē-tńg-lâi*, tshiánn kā tsit-ê tóng-àn khǹg tī an-tsuân ê tē-hng!",
+                    "downloadEmail": "$~Lí ê pan khí hó ah! Lí ê há-tsài tsu-liāu-kuá--lāi ē khuànn-tio̍h ha̍k-sing tsu-liāu ê há-tsài. Tsia bô bi̍t-bé tio̍h-ài khǹg hō an-tsuân: múi-ê ha̍k-sing khì teng-ji̍p ia̍h, siá in ê tē-tsí, tsiah thang-ài tsi̍t-ê liên-kiat."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~pan ê miâ",
+                        "placeholder": "$~tsi̍t-ê tshíng-tshíng ê miâ"
+                    },
+                    "description": {
+                        "description": "$~suat-bîng",
+                        "placeholder": "$~lí tuì pān-kip ê soat-bîng, hōo lí kap lí ê ha̍k-sing khòaⁿ."
+                    },
+                    "existing": {
+                        "label": "$~ū tsiòng-hō ê ha̍k-sing",
+                        "prompt": "$~lí ū ê ha̍k-sing kàu-tuà ū @wordplay tsiòng-hō tsìnn? Kā in kuàn-ji̍p tsia."
+                    },
+                    "signin": {
+                        "prompt": "$~Beh tuì ha̍k-sing kiàn-li̍p sin tsiòng-hō? Khah-tsîng, tiāⁿ-ê in beh án-tsuánn tsìn-lâi. Pān-kip *tsiah-ê kan-na ē-sái tsit khuán*, kah-ì lí ê ha̍k-sing tshiūnn ê hit khuán.",
+                        "mode": {
+                            "label": "$~lí ê ha̍k-sing án-tsuánn tsìn-lâi",
+                            "labels": [
+                                "$~tsiòng-hō kap bi̍t-bé",
+                                "$~tī email siu tio̍h ê liân-kiat"
+                            ],
+                            "tips": [
+                                "$~guán kā múi-ê ha̍k-sing tsò tsit-ê tsiòng-hō kap tsit-ê bi̍t-bé, lí tsiah tshuā hōo in",
+                                "$~múi-ê ha̍k-sing iōng ka-tī ê email tē-tsí tsìn-lâi, tāng-sî bô bi̍t-bé ē-sái bē-kì"
+                            ]
+                        }
+                    },
+                    "metadata": {
+                        "description": "$~ha̍k-sing ê tsu-liāu",
+                        "placeholder": "$~pí-uh, ha̍k-hō, sè-miâ, miâ",
+                        "prompt": "$~kā ha̍k-sing ê *tsū-liāu* tsiah-ê, tsit-hâng tsit-ê, ēng phuè-hō tsù-pia̍t. Ē-sái-sī sè, miâ, ha̍k-hō, iah-sī pa̍t-hāng ē-hiáu pun-pia̍t ê tsu-liāu. Guán ē iōng tse tshòng-tsō tsiòng-hō, lí ē-sái tī ē-bīn kái, tsīn-pōo lí tsai-iáⁿ tó-ê tsiòng-hō sī tó-ê ha̍k-sing."
+                    },
+                    "addresses": {
+                        "description": "$~ha̍k-sing ê email tē-tsí",
+                        "placeholder": "$~pí-uh, mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~kā lí ê ha̍k-sing tsit-hâng tsit-ê liat-tshut-lâi, *tāi-tsîng-sī in ê email tē-tsí*. Tī phuè-hō ê āu-bīn ē-sái ka-thiap pa̍t-hāng tsu-liāu — ha̍k-hō, sè — guán ē iōng tse tshòng-tsō tsiòng-hō, lí ē-sái tī ē-bīn kái."
+                    },
+                    "words": {
+                        "description": "$~tshòng-tsō bi̍t-bé ê jī",
+                        "placeholder": "$~pí-uh, niau tiám sū...",
+                        "prompt": "$~Ke-tsái *25 ê jī* tsiah ē-sái lia̍h-tsú 2-3 ê jī ê hó-kì ê bi̍t-bé. Kéng lí ê ha̍k-sing tsai-iáⁿ ê jī, iah-sī iāu in ka-tī siūnn. Sī lia̍h-tsú, kú khah an-tsuân!"
+                    },
+                    "affirm": {
+                        "prompt": "$~Lí kéng emailed liân-kiat, guán ē iōng lí hōo guán ê tē-tsí kā múi-ê ha̍k-sing tsò tsit-ê tsiòng-hō. Tsit-ê tsiah-ē tsò, tiāⁿ-ê in tī in sóo-tsāi ê tē-hng ū-kàu hān-tsù ē-sái ū email tsiòng-hō. *Guán kiàn-li̍p pān-kip ê sî bē kià email hōo lâng*: múi-ê ha̍k-sing ka-tī khì tsìn-lâi ê ia̍h, phah in ê tē-tsí, iāu tsit-ê liân-kiat.",
+                        "label": "$~Tsiah-ê ha̍k-sing tī in sóo-tsāi ê tē-hng ū-kàu hān-tsù ē-sái ū email tsiòng-hō."
+                    },
+                    "generate": {
+                        "label": "$~tshòng-tsō",
+                        "tip": "$~kin-pún téng-bīn ê tsu-liāu tshòng-tsō tsiòng-hō kap bi̍t-bé."
+                    },
+                    "edit": {
+                        "label": "$~pian-tsi̍p",
+                        "tip": "$~kái tshòng-tsō ê ha̍k-sing tsu-liāu"
+                    },
+                    "submit": {
+                        "label": "$~kiàn-li̍p pān-kip",
+                        "tip": "$~iōng tsiah-ê tsu-liāu kiàn-li̍p tsit-ê sin pān-kip."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Ha̍k-seng tsu-liāu lāi-té ū tshiông-hok ê hāng-bo̍k.",
+                    "columns": "$~Tio̍h khak-tsāi múi-ê ha̍k-sing ê lân-uī sò͘-liōng lóng sio-kâng.",
+                    "addresses": "$~Múi tsi̍t hâng tio̍h iōng tiān-tsú-iû-kiānn ê tē-tsí khai-sí.",
+                    "generate": "$~Bô-huat-tō tshòng-tshú bô-tuì-tīng ê iōng-tsia miâ-tsōo.",
+                    "taken": "$~Téng-bīn ū tsi̍t-ê á-sī lió̍k-ê iōng-tsia miâ-tsōo í-king ū lâng teh iōng.",
+                    "limit": "$~Lí tsi̍t-sî bô-thang tshòng-tshú tsiânn-kòe 50 ê ha̍k-sing ê pān-kip.",
+                    "words": "$~Tshiánn thê-kiong ten-kòe 25 ê tsṳ̄.",
+                    "affirmation": "$~Tī guá-tī kā in tshòng-tshú tiāu-hō sìh-tsiah, tshiánn kā kóng tsia ê ha̍k-sing ê huân-lîng í-king ū-kàu thang ū tiān-tsú-iû-kiānn tiāu-hō.",
+                    "inflight": "$~Tsit-ê pān-kip kiám-sī í-king tshòng-tshú kòe--ah. Tshiánn tāi-seng khuànn lí ê pān-kip, tsiah koh tshì.",
+                    "account": "$~Bô-huat-tō tshòng-tshú tsi̍t-kuá tiāu-hō.",
+                    "generic": "$~Guá bô-hāin tshòng-tshú pān-kip. Ka-ni ū tsi̍t-kuá sìn-sik, thang tàu khai-hoat-tsia tshē-tshut tsuí-tāi tsháu-tsiōng."
+                }
+            },
+            "class": {
+                "header": "$~Pān-kip",
+                "subheader": {
+                    "teachers": "$~Lāu-su",
+                    "students": "$~Ha̍k-sing",
+                    "galleries": "$~Tián-lám-kuán"
+                },
+                "prompt": {
+                    "gallery": "$~Ūi lí ê pān-kip tshòng-tshú tsi̍t-ê tián-lám-kuán, lâi tsíng-lí tsok-gia̍p á-sī tsuan-àn. Tsuan-àn lāi-té ê lóng-sī lāu-su ē tsò tián-lám-kuán ê kuán-lí-lâng, lóng-sī ha̍k-sing ē tsò tián-lám-kuán ê tsòe-tsiá.",
+                    "delete": "$~Kā tsit-ê pān-kip thâi-tiāu ē éng-oán sái-tiāu pān-kip ê sìn-sik, m̄-koh pān-kip ê tsuan-àn, tián-lám-kuán, ha̍k-sing ê tiāu-hō bē tsiu-tiāu."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~pān-kip ê miâ",
+                        "placeholder": "$~miâ"
+                    },
+                    "description": {
+                        "description": "$~pān-kip ê suat-bîng",
+                        "placeholder": "$~suat-bîng"
+                    },
+                    "delete": {
+                        "tip": "$~éng-oán thâi-tiāu tsit-ê pān-kip",
+                        "label": "$~Thâi-tiāu tsit-ê pān-kip"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Guá tshē bô tsit-ê pān-kip, á-sī lí bô-khuànn--tio̍h ê khuân-hān.",
+                    "gallery": "$~Guá bô-hāin ūi tsit-ê pān-kip tshòng-tshú tián-lám-kuán."
+                }
+            },
+            "guide": {
+                "header": "$~Tsí-lâm",
+                "description": "$~Tsit-ê sī @wordplay thîng-sik gí-giân múi-ê pōo-hūn ê tsham-khó. Tshiánn tshuē tsi̍t-ê tsṳ̄-guân, á-sī khuànn tsit-ê miâ-tuann lâi khah tsiōng-sè liáu-kái."
+            },
+            "projects": {
+                "header": "$~Tsuan-àn",
+                "projectprompt": "$~Beh kóng-sím-mi̍h lah? Tshòng-tshú tsi̍t-ê tsuan-àn, á-sī kè-sio̍k tsò tsi̍t-ê. Nā kah tiâu-tsū, tshiánn kè-sio̍k <ha̍k-si̍p@://learn>.",
+                "archiveprompt": "$~Tsia sī lí í-king kuì-tông ê tsuan-àn. Tsí-ū sóo-iû-lâng ē-sái éng-oán thâi-tiāu á-sī huê-ho̍k. Kuì-tông ê tsuan-àn tī siōng-āu pian-tsi̍p liáu 30 ji̍t āu ē éng-oán thâi-tiāu.",
+                "installedprompt": "$~Lí tshái-iōng Wordplay tsò àn-tsng ê app, i ū ka-kī ê tsuan-àn, kap lí ê ōng-ló-lám-khì ê tsuan-àn pat-pat. Lí tī ōng-ló-lám-khì tshòng-tshú ê tsuan-àn iáu tī-tsia. <Teng-ji̍p@://login> tsiah ē-sái tī nn̄g-ê tē-hng khuànn-tio̍h lí ê sóo-iû tsuan-àn.",
+                "subheader": {
+                    "shared": "$~Í-hun-hióng",
+                    "archived": "$~Í-kui-tông"
+                },
+                "search": {
+                    "description": "$~Tshuē tsuan-àn kap guân-sí-tóng",
+                    "noResults": "$~Tshuē bô kiat-kó."
+                },
+                "button": {
+                    "newproject": "$~sin tsuan-àn",
+                    "editproject": "$~pian-tsi̍p tsit-ê tsuan-àn",
+                    "viewproject": "$~khuànn tsit-ê tsuan-àn ê thîng-sik-bé",
+                    "unarchive": "$~kā tsit-ê tsuan-àn uānn tshut-lâi",
+                    "import": {
+                        "tip": "$~khui lí khì-tsîng kì-lio̍k ê tsuan-àn tóng",
+                        "label": "$~khui tsuan-àn tóng…"
+                    }
+                },
+                "import": {
+                    "done": "$~Í-king khui $name.",
+                    "drop": "$~Kā tsuan-àn tóng pàng tī tsia, tō ē khui.",
+                    "replaced": "$~Í-king kā tsit-ê tsuan-àn thè-uānn tsò $name.",
+                    "replace": {
+                        "header": "$~Beh thè-uānn tsit-ê tsuan-àn bô?",
+                        "explanation": "$~Tsit-ê tsuan-àn ê thîng-sik-bé ē hőng thè-uānn. Wordplay ē kā hiān-tsāi ê kì-lio̍k khí-lâi, lí ē-sái tuì tsuan-àn ê le̍k-sú ná tńg-lâi.",
+                        "prompt": "$~Beh tsāi tsia khui $name, bē-tsāi tsit-ê tsuan-àn hiān-tsāi ê?",
+                        "confirm": {
+                            "tip": "$~iōng lí pàng-lo̍h-lâi ê tsuan-àn tóng thè-uānn tsit-ê tsuan-àn",
+                            "label": "$~thè-tsuān"
+                        }
+                    }
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "$~kā tsit-ê piáu-ián í-kui-tông, āu-pái tsiah thâi-tiāu",
+                        "prompt": "$~í-kui-tông"
+                    },
+                    "delete": {
+                        "description": "$~éng-kú thâi-tiāu tsit-ê piáu-ián",
+                        "prompt": "$~éng-kú thâi-tiāu"
+                    }
+                },
+                "error": {
+                    "noaccess": "$~Guán liân-bô-tio̍h bāng-lo̍h.",
+                    "newgallery": "$~Guán bô-huat-tō khí sin ê tián-lám-kuán.",
+                    "nodeletes": "$~Lí tio̍h-ài <tshiànn-tsuē-hâu@://login> tsiah ē-sái thâi-tiāu í-kui-tông ê tsuan-àn.",
+                    "delete": "$~Aiyo, guán bô-huat-tō thâi-tiāu tsit-ê tsuan-àn!",
+                    "importEmpty": "$~Hit-ê tóng-àn lāi-té senn-mih to bô.",
+                    "importTooLarge": "$~Hit-ê tsuan-àn thài tuā, Wordplay khià bô lo̍h-khì. Lí tshì-khuànn tshíng-tsi̍t khah sió ê tsuan-àn.",
+                    "importUnreadable": "$~Wordplay khuànn bô hit-ê tóng-àn. Tsuan-àn ê tóng-àn ē-tsāi-sî-tsiu .wp."
+                },
+                "sort": {
+                    "label": "$~sūn-sī",
+                    "labels": ["$~miâ", "$~tsòe-kīn pian-tsi̍p"],
+                    "tips": [
+                        "$~ēng miâ lâi pâi tsuan-àn ê sūn-sī",
+                        "$~ēng lí tsòe-āu kái ê sî-kan lâi pâi tsuan-àn ê sūn-sī"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~tsit-ê tóng-àn-kléi ê miâ",
+                        "placeholder": "$~tóng-àn-kléi"
+                    },
+                    "none": "$~bô tóng-àn-kléi",
+                    "button": {
+                        "create": "$~khai tsi̍t-ê sin ê tóng-àn-kléi",
+                        "expand": "$~khuànn tsit-ê tóng-àn-kléi lāi-té ê mih-kiānn",
+                        "collapse": "$~khàm-khí-lâi tsit-ê tóng-àn-kléi lāi-té ê mih-kiānn"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~thâi-tiāu tsit-ê tóng-àn-kléi, ūi lāi-té ê tsuan-àn tsò kuí-tòng",
+                            "prompt": "$~Thâi-tiāu tóng-àn-kléi, ūi i ê tsuan-àn tsò kuí-tòng"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~kā $project suá khì $folder",
+                        "moved": "$~$project í-king suá khì $folder",
+                        "movedOut": "$~$project í-king suá tshut-khì i ê tóng-àn-kléi",
+                        "expanded": "$~$folder í-king khui-khui, $#count[1 ê tsuan-àn|$count ê tsuan-àn]",
+                        "collapsed": "$~$folder í-king ha̍p-khí-lâi, $#count[1 ê tsuan-àn|$count ê tsuan-àn]",
+                        "selected": "$~$folder í-king tǹg-tio̍h, $#count[1 ê tsuan-àn|$count ê tsuan-àn]",
+                        "projectSelected": "$~$project í-king tǹg-tio̍h",
+                        "cleared": "$~senn-mih to bô tǹg",
+                        "created": "$~$folder í-king khai-hó",
+                        "deleted": "$~$folder í-king thâi-tiāu, $#count[1 ê tsuan-àn í-king kuí-tòng|$count ê tsuan-àn í-king kuí-tòng]",
+                        "renamed": "$~tsū-liāu-kheh kái-miâ hō-tsò $folder"
+                    },
+                    "instructions": {
+                        "none": "$~Tshik tsi̍t-ê tsuan-àn á-sī tsū-liāu-kheh lâi kéng i.",
+                        "project": "$~Ēng *téng* kah *lo̍h* ê tsìm-kiān lâi suá tsit-ê tsuan-àn, á-sī thua kàu tsū-liāu-kheh nih-té. Òng-hó liáu, ànn *escape*.",
+                        "folder": "$~Phah miâ lâi kái tsit-ê tsū-liāu-kheh ê miâ. Nā kā thâi-tiāu, nīng-bīn ê tsōng-tsōng ē tsiūnn khì lí ê tông-àn-kuán."
+                    }
+                }
+            },
+            "galleries": {
+                "header": "$~Tián-lám-kuán",
+                "prompt": "$~Tián-lám-kuán sī tsuan-àn ê tsi̍p-hô, siông-siông ûi-tio̍h tsi̍t-ê tsú-tê, iû lí á-sī kî-tha tsòe-tsiá lâi tsíng-lí.",
+                "section": {
+                    "tabs": {
+                        "label": "$~tián-lám-kuán ê lōo-hîng",
+                        "labels": ["$~Lí ê", "$~Lē-tsú", "$~Kong-khai"],
+                        "tips": [
+                            "$~lí tsíng-lí á-sī kàu-tshú ê tián-lám-kuán",
+                            "$~Wordplay khai-huat-tsiá tsíng-lí ê tián-lám-kuán",
+                            "$~tsòe-tsiá khai-hòng ê tián-lám-kuán"
+                        ]
+                    },
+                    "own": [
+                        "$~Lí ē-tàng tàu-tīn lí tsiòng-iáu ê tián-lám-kuán, á-sī ka-kī tsíng-lí ê tián-lám-kuán, ū tsi̍t-ê tsú-tê, koh iau-tshíng pa̍t-lâng lâi.",
+                        "/Tsíng-lí-tsiá ē tuì <tsú-tī-ia̍h@://moderate> khuànn in tián-lám-kuán ê kià-pò./"
+                    ],
+                    "examples": "$~Tsiah-ê sī @wordplay khai-huat-tsiá tsíng-lí ê tián-lám-kuán. Tsiah-ê tsió-hó lâi khai-sí ha̍k-si̍p, mā ē hō lí ling-kám.",
+                    "public": "$~Tsiah-ê sī @wordplay tsòe-tsiá khai-hòng ê tián-lám-kuán. Siánn-lâng long ē-sái iau-tshíng ka-kī ê tián-lám-kuán lia̍t tī tsia, sin-sá-guân ē sian-khuànn, khak-tīng ū tsò-liáu mā ū tuè kui-tik. Tián-lám-kuán sūi-sî ē-sái tuì tsit-ê lia̍t-tn̂g thè-tiāu, bô-lūn siánn-mih lí-iû. Múi-pái lâi tsiah-ê sūn-sī long bô-kāng, hō múi-ê tián-lám-kuán lóng ū ki-huē khiā tī tsiūnn-bīn."
+                },
+                "button": {
+                    "newgallery": "$~sin ê tián-lám-kuán"
+                },
+                "error": {
+                    "nogalleryedits": "$~Lí tio̍h-ài <teng-ji̍p@://login> tsiah ē-tàng khí-tsō kah kái tián-lám-kuán.",
+                    "nopublic": "$~Tsit-ê lia̍t-tn̂g iáu-bōe ū tián-lám-kuán thàu-kuè. Kě-sī khah-kín koh lâi khuànn!"
+                },
+                "search": {
+                    "description": "$~Tshâ lē-tsú kah kong-khai ê tián-lám-kuán",
+                    "noResults": "$~Tshuē bô kiat-kó.",
+                    "galleries": "$~Tián-lám-kuán",
+                    "examples": "$~Lē-tsú tsuan-àn",
+                    "projects": "$~Kong-khai tián-lám-kuán lāi-té ê tsuan-àn"
+                }
+            },
+            "characters": {
+                "header": "$~Jī-hu",
+                "prompt": "$~Khí-tsō ka-kī ê emoji kah hû-hō, ēng tī lí ê tsuan-àn, mā hun-hióng hō pa̍t-lâng.",
+                "button": {
+                    "new": "$~Khí-tsō sin ê jī",
+                    "copy": "$~Khók-pún tsit-ê jī",
+                    "remove": {
+                        "tip": "$~thâi-tiāu tsit-ê jī",
+                        "prompt": "$~Thâi-tiāu?"
+                    }
+                },
+                "subheader": {
+                    "shared": "$~Í-hun-hióng"
+                },
+                "unnamed": "$~Bô miâ ê jī-hu̍t",
+                "error": {
+                    "offline": "$~Guá-lán bô-hoat-tōo khì khuànn-tio̍h lí khǹg tī bāng-lōo-téng ê jī-hu̍t.",
+                    "noauth": "$~Lí tio̍h-ài <teng-ji̍p@://login> tsiah khuànn-ē-tio̍h lí ê jī-hu̍t, mā ē-sái tshòng-tsō sin ê.",
+                    "create": "$~Bô-hoat-tōo tshòng-tsō sin ê jī-hu̍t."
+                }
+            },
+            "character": {
+                "header": "$~Jī-hu̍t",
+                "instructions": {
+                    "empty": "$~Tī tiāu-sik-pan tsiong ūi-tsi̍t ê huah-tô͘ pān-sik, tsiah ē-sái huah hîng-siōng.",
+                    "unselected": "$~Kéng ūi-tsi̍t ê huah-tô͘ pān-sik, tî-á kéng-tshú kap pian-tsi̍p hîng-siōng. Àn *$control-a* kéng-tshú lóng-tsóng, àn *$control-z* tshiau-huē.",
+                    "selected": "$~Iōng *arrow* kiān lâi suá hîng-siōng. Ak-tiâu *shift* ē-sái ke kéng-tshú. Àn *delete* lâi bô-khì kéng-tió ê. Àn *$control-c* kap *$control-v* lâi khóo-pih kap thiap-tsiàⁿ, àn *$control-z* tshiau-huē. Kéng-tió tsi̍t tiâu lōo-kìⁿ ê sî, àn *enter* lâi pian-tsi̍p i ê tiám. Iōng ē-bīn ê khòng-tsè lâi kái kéng-tió ê hîng-siōng.",
+                    "eraser": "$~Beh sak-tsò hîng-siōng, tiám-ji̍p-khì. Thuā-tshuā lâi sak-tsò siōng-sòo. Iōng *arrow* kiān lâi suá sak-pit, àn *space* lâi bô-khì.",
+                    "pixel": "$~Beh huah siōng-sòo, tio̍h-ài kéng tsi̍t ê sik-tshái. Liáu-āu tiám hōe-pò, a-sī iōng *arrows* suá kuí-piáu, àn *space* tshòng-tsō tsi̍t ê siōng-sòo. *Lióng-kái tiám* lâi thiⁿ-bóo.",
+                    "rect": "$~Beh huah tn̂g-hông-hîng, tio̍h-ài kéng sik-tshái kap soh-tsiânn. Liáu-āu thuā-tshuā, a-sī iōng *arrows* kap *space* kiān lâi kéng tiong-sim kap tuā-sè.",
+                    "ellipse": "$~Beh huah thò-uân-hîng kap uân-hîng, tio̍h-ài kéng sik-tshái kap soh-tsiânn. Liáu-āu thuā-tshuā, a-sī iōng *arrows* kap *space* kiān lâi kéng tiong-sim kap tuā-sè.",
+                    "path": "$~Lōo-kìⁿ ē-sái sī soh-tn̂g, to-pian-hîng, a-sī khiok-soh. Tiám hōe-pò khai-sí ke tiám, a-sī iōng *arrow* kiān kap *space*. Àn *escape* lâi uân-sîng lōo-kìⁿ. Àn *delete* lâi bô-khì siōng āu-tsi̍t ê tiám.",
+                    "symbol": "$~Seng kéng beh ke siōng-sòo á-sī gōa-lîng, ju-āu tsiah kéng jī-bó, hû-hō, á-sī emoji. Gōa-lîng ē-sái siu-hòng tuā-sè kap tńg-hiòng, bē bô-bêng; siōng-sòo ē-sái tsi̍t-ê tsi̍t-ê koh-sik. Tiám a-sī àn lí í-keng tsò hó ê mi̍h-kiānn, tō ē-sái kéng-tshú i.",
+                    "image": "$~Kéng tsi̍t tiuⁿ tô-siōng, ju-āu kéng i ê tsi̍t ê sì-hông-hîng lâi pó-liû. I ē thè-tsò siōng-sòo, mā tī lí huah ê hîng-siōng ē-bīn. Tiám a-sī àn lí í-keng tsò hó ê mi̍h-kiānn, tō ē-sái kéng-tshú i.",
+                    "points": "$~Iōng *Tab* tī lōo-kìⁿ ê tiám tsi-kan suá. Iōng *arrow* kiān lâi suá kéng-tió ê tiám, *enter* tī i pâng-piⁿ ke tsi̍t ê tiám, *delete* lâi bô-khì i. Iōng *curve* lâi uan-khiau lâi kàu tsit ê tiám ê soh-tn̂g, jiân-āu suá i ê phiⁿ-á; tī phiⁿ-á àn *delete* tō koh thîng-ti̍t. Uân-sîng ê sî àn *escape*."
+                },
+                "shape": {
+                    "shape": "$~hîng-siōng",
+                    "eraser": "$~sak-pit",
+                    "pixel": "$~siōng-sòo",
+                    "rect": "$~tn̂g-hông-hîng",
+                    "ellipse": "$~thò-uân-hîng",
+                    "path": "$~lōo-kìⁿ",
+                    "emoji": "$~emoji",
+                    "glyph": "$~gōa-lîng",
+                    "symbol": "$~hû-hō",
+                    "image": "$~tôo-siōng"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Hun-hióng",
+                        "explanation": "$~Kéng-tse̍k siáng ē-tàng khuànn tsit ê jī-hîng, siáng ē-tàng tàu tsò, koh tsit ê jī-hîng sio̍k-î toh̍ tián-lám-kuán."
+                    },
+                    "button": {
+                        "label": "$~hun-hióng",
+                        "tip": "$~hun-hióng tsit ê jī-hîng"
+                    },
+                    "delete": {
+                        "label": "$~thâi-tiāu",
+                        "tip": "$~thâi-tiāu tsit-ê jī"
+                    },
+                    "public": {
+                        "label": "$~khuànn-tio̍h ê khuân-hān",
+                        "labels": ["$~kong-khai", "$~khuè-sè"],
+                        "tips": [
+                            "$~múi-ê lâng lóng ē-tàng khuànn tsit ê jī-hîng",
+                            "$~kan-tann lí kap hap-tsok ê lâng ē-tàng khuànn tsit ê jī-hîng"
+                        ]
+                    },
+                    "collaborators": "$~hap-tsok ê lâng",
+                    "gallery": "$~Tián-lám-kuán",
+                    "galleryexplanation": "$~Pàng tsit ê jī-hîng kàu lí ê tián-lám-kuán, tī hia ê lâng lóng khuànn ē-tio̍h, ē-tàng tī in ê tsuan-àn lāi-té iōng, mā ē-tàng tsò in ka-tī ê pán-pún. Iáu-sī lí ê; kan-tann lí ē-tàng kái.",
+                    "collaboratorsexplanation": "$~Hap-tsok ê lâng ē-tàng khuànn tsit ê jī-hîng, mā ē-tàng kap lí tâng-tsiūnn kái, tsiah-sī sè-jī-á siá khí-lâi mā án-ne.",
+                    "publicexplanation": "$~Kong-khai ê ì-sù sī múi-ê lâng lóng ē-tàng khuànn tsit ê jī-hîng, mā ē-tàng tī in ê tsuan-àn iōng. Sī-lâng ê ì-sù sī kan-tann lí, lí ê hap-tsok ê lâng, kap lí pàng-kàu ê tián-lám-kuán lāi-té ê lâng ē-tàng khuànn.",
+                    "tab": {
+                        "label": "$~hun-hióng ê siat-tīng",
+                        "labels": [
+                            "$~Kong-khai",
+                            "$~Hap-tsok ê lâng",
+                            "$~Tián-lám-kuán"
+                        ],
+                        "tips": [
+                            "$~kéng-tse̍k siáng ē-tàng khuànn tsit ê jī-hîng",
+                            "$~kéng-tse̍k siáng ē-tàng kap lí tâng-tsiūnn kái tsit ê jī-hîng",
+                            "$~kéng tián-lám-kuán lâi tián-sī tsit ê jī-hîng"
+                        ]
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$~jī-hîng ê miâ",
+                        "placeholder": "$~miâ"
+                    },
+                    "description": {
+                        "description": "$~jī-hîng ê suat-bîng",
+                        "placeholder": "$~suat-bîng"
+                    },
+                    "mode": {
+                        "label": "$~mô-sik",
+                        "labels": [
+                            "$~kéng",
+                            "$~sak-pit",
+                            "$~siōng-sòo",
+                            "$~tn̂g-hông-hîng",
+                            "$~thò-uân-hîng",
+                            "$~lōo-kìⁿ",
+                            "$~hû-hō",
+                            "$~tôo-siōng"
+                        ],
+                        "tips": [
+                            "$~kéng hîng-tsōng kap siōng-sòo",
+                            "$~tshāi-tiāu hîng-tsōng kap siōng-sòo",
+                            "$~uē siōng-sòo",
+                            "$~uē tè-hîng",
+                            "$~uē thô-uân-hîng",
+                            "$~uē lō-suànn",
+                            "$~ka jī, hû-hō, ia̍h-sī emoji",
+                            "$~ka tsiunn-phìnn tsò siōng-sòo"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~thinn-tsiâm",
+                        "labels": ["$~bô", "$~kè-sîng", "$~suán"],
+                        "tips": [
+                            "$~bô thiînn-bî",
+                            "$~ùi pâng-pinn ê bûn-jī kè-sîng thiînn-bî ê hué-sik",
+                            "$~suán thiînn-bî ê hué-sik"
+                        ]
+                    },
+                    "stroke": {
+                        "label": "$~suànn-tiâu",
+                        "labels": ["$~bô", "$~kè-sîng", "$~suán"],
+                        "tips": [
+                            "$~bô suànn-tiâu",
+                            "$~ùi pâng-pinn ê bûn-jī kè-sîng suànn-tiâu ê hué-sik",
+                            "$~suán suànn-tiâu ê hué-sik"
+                        ]
+                    },
+                    "none": "$~bô",
+                    "inherit": "$~bûn-jī hué-sik",
+                    "strokeWidth": {
+                        "label": "$~suànn-tiâu ê khuah-tō",
+                        "tip": "$~suànn-tiâu uì-tshut-lâi ê khuah-tō"
+                    },
+                    "brushSize": {
+                        "label": "$~tōa-sè",
+                        "tip": "$~pit-á kah khí-pit-á tsi̍t-pái ka-tsiah kuí keh-á khuah"
+                    },
+                    "insertion": {
+                        "label": "$~ka-khuá tsòe",
+                        "labels": ["$~siōng-sòo", "$~gōa-lîng"],
+                        "tips": [
+                            "$~kā hû-hō ka-khuá tsòe siōng-sòo, lí ē-sái tsi̍t-ê tsi̍t-ê kái hué-sik",
+                            "$~kā hû-hō ka-khuá tsòe lún-khuè, lí ē-sái kái tōa-sè kah soan, mā bē bô-hôo"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~jī-thé",
+                        "tip": "$~hû-hō ê hîng-tsōng ùi tó-tsi̍t-ê jī-thé tshú"
+                    },
+                    "weight": {
+                        "label": "$~tāng-liōng",
+                        "tip": "$~hû-hō ê suànn-tiâu ū guā tshim"
+                    },
+                    "italic": "$~tshi-thé",
+                    "glyphSize": {
+                        "label": "$~hû-hō ê tōa-sè",
+                        "tip": "$~hû-hō khuah kuí keh-á"
+                    },
+                    "radius": {
+                        "label": "$~kak-tshuì ê uân-tō",
+                        "tip": "$~tîng-hîng ê kak ū guā uân"
+                    },
+                    "angle": {
+                        "label": "$~kak-tōo",
+                        "tip": "$~kā hîng-tsōng í i ê tiong-sim tsuán kuí-nā tōo"
+                    },
+                    "width": {
+                        "label": "$~khuah",
+                        "tip": "$~hîng-tsōng ê khuah-tōo"
+                    },
+                    "height": {
+                        "label": "$~koân",
+                        "tip": "$~hîng-tsōng ê koân-tōo"
+                    },
+                    "closed": "$~liân-tiông"
+                },
+                "button": {
+                    "back": {
+                        "label": "$~āu-piah",
+                        "tip": "$~kā suán-tio̍h ê hîng-tsōng suá kàu āu-piah."
+                    },
+                    "toBack": {
+                        "label": "$~suá kàu āu-piah",
+                        "tip": "$~kā suán-tio̍h ê hîng-tsōng suá kàu tsuē-āu-piah."
+                    },
+                    "forward": {
+                        "label": "$~tsiàn-piah",
+                        "tip": "$~kā suán-tio̍h ê hîng-tsōng suá kàu tsiàn-piah."
+                    },
+                    "toFront": {
+                        "label": "$~suá kàu tsiàn-piah",
+                        "tip": "$~kā suán-tio̍h ê hîng-tsōng suá kàu tsuē-tsiàn-piah."
+                    },
+                    "copy": {
+                        "label": "$~khóo-pih",
+                        "tip": "$~kā suán-tio̍h ê hîng-tsōng khóo-pih kàu clipboard."
+                    },
+                    "paste": {
+                        "label": "$~thiap-tsiūnn",
+                        "tip": "$~tuì clipboard kā khóo-pih ê hîng-tsōng thiap-tsiūnn lâi."
+                    },
+                    "clear": {
+                        "label": "$~tsuân-pó͘",
+                        "tip": "$~kā ta̍uh-ê hîng-tsōng lóng tshun tiāu."
+                    },
+                    "clearPixels": {
+                        "label": "$~siōng-sòo",
+                        "tip": "$~kā ta̍uh-ê siong-sòo lóng tshun tiāu."
+                    },
+                    "undo": {
+                        "label": "$~tshiah-tsò",
+                        "tip": "$~tńg khì téng it-ê siat-kè"
+                    },
+                    "redo": {
+                        "label": "$~tshiah-tsò tńg-lâi",
+                        "tip": "$~koh tsiūnn-khì ē it-ê siat-kè"
+                    },
+                    "all": {
+                        "label": "$~kui-ê kéng",
+                        "tip": "$~kā hîng-tsōng kah siong-sòo lóng kéng"
+                    },
+                    "allColor": {
+                        "label": "$~kāng-sik-ê lóng-tsóng",
+                        "tip": "$~kā kah kéng-ê kāng-sik-ê hîng-tsōng lóng kéng"
+                    },
+                    "saturationUp": {
+                        "label": "$~sik-tō",
+                        "tip": "$~kā sik-tō tshiânn koh-khah tsē"
+                    },
+                    "saturationDown": {
+                        "label": "$~sik-tō",
+                        "tip": "$~kā sik-tō kiám koh-khah tsió"
+                    },
+                    "end": {
+                        "label": "$~uân-sîng hîng-tsōng",
+                        "tip": "$~kā tsit-ê lō-kìng kiat-sok"
+                    },
+                    "horizontal": {
+                        "label": "$~tsuí-pîng huan-tńg",
+                        "tip": "$~kā kéng-ê tsuí-pîng huan-tńg"
+                    },
+                    "vertical": {
+                        "label": "$~tsik-tsuann huan-tńg",
+                        "tip": "$~kā kéng-ê tsik-tsuann huan-tńg"
+                    },
+                    "fit": {
+                        "label": "$~tsiânn-hap",
+                        "tip": "$~kā hîng-tsōng tsiânn-hap kàu tshái-tó͘ ê tuā-sè"
+                    },
+                    "dismissError": {
+                        "label": "$~koh-tshìn",
+                        "tip": "$~kā tshò-gō͘ sìn-sit koaih tiāu"
+                    },
+                    "editPoints": {
+                        "label": "$~tiám",
+                        "tip": "$~pian-tsi̍p kéng-tiỏh ê lō-kìng ê tiám"
+                    },
+                    "donePoints": {
+                        "label": "$~uân-sîng",
+                        "tip": "$~thêng-tsí pian-tsi̍p tiám"
+                    },
+                    "addPoint": {
+                        "label": "$~ka-tiám",
+                        "tip": "$~tī the-tsiah-sán ê tiám pâng-pinn ka-thiam tsi̍t-ê tiám"
+                    },
+                    "deletePoint": {
+                        "label": "$~khí tiám",
+                        "tip": "$~ka the-tsiah-sán ê tiám khí-tiāu"
+                    },
+                    "curve": {
+                        "label": "$~khiau",
+                        "tip": "$~ka kàu the-tsiah-sán ê tiám ê tuānn khiau--khí-lâi"
+                    },
+                    "straighten": {
+                        "label": "$~phah-ti̍t",
+                        "tip": "$~ka kàu the-tsiah-sán ê tiám ê tuānn phah-ti̍t"
+                    }
+                },
+                "image": {
+                    "instructions": "$~Lí ēng sú-á thoa sì-hong-keh lâi suá-uī, á-sī ēng *size* ê thoa-á lâi kái beh pàng guā-tsē ê ìnn-siōng. Nā-sī ēng kiān-pan, kā *enter* ang, tsiah ēng *arrow* kiān suá-uī, suá-uī suah koh ang *enter* tō hó-ah.",
+                    "add": {
+                        "label": "$~ka-ji̍p",
+                        "tip": "$~ka sûn-tio̍h ê sì-hong-keh ēng siōng-sòo ê hêng-sik ka-thiam kàu jī-guân"
+                    },
+                    "size": {
+                        "label": "$~tōa-sè",
+                        "tip": "$~ìnn-siōng beh pàng guā-tsē"
+                    }
+                },
+                "feedback": {
+                    "glyphLoading": "$~Teh khioh jī-hîng…",
+                    "glyphMissing": "$~Tsit-ê jī-hîng bô hit-ê hû-hō ê hêng. Lí ēng khác-ê jī-hîng khuànn-māi.",
+                    "glyphEmpty": "$~Hit-ê hû-hō bô thang uē ê mih.",
+                    "glyphUnreadable": "$~Guán tāi-tsì bē-tàng tha̍k hit-ê jī-hîng. Lí khuànn-māi lí ê liân-sòaⁿ, á-sī ēng khác-ê jī-hîng.",
+                    "name": "$~Jī-guân tio̍h-ài ū hó-ē-iōng ê Wordplay miâ, tsiah-bái ū 1 ê jī. Bē-sái sī 'UI', bē-sái sī tsa̍p-tsìn-uī á-sī tsa̍p-lio̍k-tsìn-uī ê sòo-jī, mā bē-sái sī gí-giân lāi-tsāi kang-lêng ê miâ.",
+                    "description": "$~Jī-guân tio̍h-ài ū suat-bîng, hō khuànn-bē-tio̍h ê lâng mā tsai-iánn hit-ê tsāi-tāi-piáu sím-mih.",
+                    "end": "$~á-sī ang escape.",
+                    "loadfail": "$~Tsāi-ji̍p tsit-ê jī-guân ê sî ū būn-tê.",
+                    "notfound": "$~Tsit-ê jī-guân bô tsāi-tī, á-sī lí khuànn-bē-tio̍h.",
+                    "unauthenticated": "$~Lí tio̍h-ài <teng-ji̍p@://login> tsiah thang kái jī-guân.",
+                    "taken": "$~Lí í-king ū tsit-ê miâ ê jī-guân, bô khǹg.",
+                    "projecteditfail": "$~Kái ēng tsit-ê jī-guân ê tsuan-àn ê sî ū būn-tê. Ē-bīn ê tsuan-àn tio̍h-ài siu-lí:",
+                    "untitledproject": "$~Bô miâ ê tsuan-àn"
+                },
+                "announce": {
+                    "imported": "$~ùi $x $y ka-thiam $#count[1 ê siōng-sòo|$count ê siōng-sòo]",
+                    "position": "$~tī $x $y",
+                    "selection": "$~$shapes[the-tsit $shapes | tsit-ê mā bô the]",
+                    "editing": "$~teh pian-tsi̍p $#count[tsi̍t-ê tiám|$count ê tiám]",
+                    "editingDone": "$~pian-tsi̍p tiám suah-lo̍h",
+                    "point": "$~tē $index ê tiám, tī $x $y",
+                    "control": "$~tē $index ê khoán-tsiàⁿ, tī $x $y",
+                    "pointAdded": "$~ka tē $index ê tiám thiam-ka tī $x $y",
+                    "pointRemoved": "$~ka tē $index ê tiám tshú-tiāu, iáu-koh $#count[tsi̍t-ê tiám|$count ê tiám]",
+                    "curved": "$~wan-khiau ê tē $index toān",
+                    "straightened": "$~thîng-ti̍t ê tē $index toān",
+                    "moved": "$~suá khì $x $y",
+                    "drew": "$~tī $x $y uē",
+                    "erased": "$~tī $x $y phiah-tiāu",
+                    "finished": "$~tī $shape $x tsò $y",
+                    "deleted": "$~thâi-tiāu--ah, iáu-koh $#count[tsi̍t-ê hîng|$count ê hîng]",
+                    "undone": "$~thè-tńg tē $step pōo, tsóng-kiōng $total pōo",
+                    "redone": "$~koh tsò tē $step pōo, tsóng-kiōng $total pōo",
+                    "copied": "$~khok-pi $#count[tsi̍t-ê $shapes|$count ê hîng: $shapes]",
+                    "pasted": "$~tiàm tī $x $y thiap-khì",
+                    "arranged": "$~tē $index tsân, tsóng-kiōng $total tsân",
+                    "flipped": "$~píng-bīn--ah, tsit-má tī $x $y",
+                    "fitted": "$~ka hîng-ì khuànn-tuā kàu phāng-bīn phīⁿ-kah-tsiâⁿ"
+                }
+            },
+            "about": {
+                "header": "$~Koan-hē",
+                "content": [
+                    "$~Lí bat kám-kak, siá code kan-ta sī hō͘ Ìng-gí kóng kah thài-lió, sin-thé bô būn-tê, tī Se-hng tshut-sì, ùi sió tō kap tiān-náu tsò-hóe tuā-hàn ê lâng?",
+                    "Tioh, lán mā án-ne.",
+                    "Tse m̄-sī gî-gú. Tùi tiān-náu khai-sí ê sî-chūn, thîng-sik gí-giân tuà-tī tsit-tsióng tsin-sī-sī ê tsit-kuí-ê lâng teh siá kap khí--ê — tsuí-iàu sī Bí-kok kap Ou-tsiu tsāi tāi-ha̍k kap kang-siā ê Peh-lâng, ìng-gí-kóng ê lâm-lâng, iū koh ū kuí-ê liāu-put-khí ê lú-sìng sò-ha̍k-ka. In tsò-khang ê sî-tāi, sī tsi̍t-ê tsa̍p-bîn-tī liáu-āu, sìnn-tsiàⁿ ê khuân-lī chiàm-chhut-khi ê sî-tāi, thîng-sik gí-giân tō sī pó-tsāi tsit-ê khuân-lī ê tsiòng-tsāu kang-kū.",
+                    "Tsit-ê le̍k-sú hō͘ lâng tuè-leh siūⁿ, tiān-náu tō sī beh kah kín, lô-tsi̍p, tsuân-chîⁿ, kap khòng-tsè.",
+                    "Tse sī put-gī. In-uī tiān-náu, bô lūn hó-pháinn, tsit-má tī lâng ê ji̍t-siông seng-ua̍h lāi-té, ū khuànn-tio̍h ê, mā ū khuànn-bô-tio̍h ê. Ē-sái ēng-tio̍h khì tshòng-tsō ê lâng, tō sī kap tsòe-iû-lâng siāng-khoán ê lâng. Pâi-tsāi-gōa ê lâng-luī tō iáu-sī tsú tī tsit-ê khuân-lī ē-bīn, in-uī siūⁿ ê kap tsit-ê bô siāng ê tāi-tsì tiōng-iàu ū bûn-tsù, ū gí-giân ê tî-ngē, ū hó-ēng ê tî-ngē, ū king-tsè ê tî-ngē, kap kong-lip kàu-io̍k ê put-kong-pîng.",
+                    "*Wordplay* hi-bāng tshiong tse kái-piàn. Tse sī tsi̍t-ê siá thîng-sik ê pîng-tâi, siūⁿ beh tsò-kah thàng sè-kài, ûi-tio̍h /só͘-ū/ sè-kài ê gí-giân, mā sī /kuan-îng/ sè-kài ê gí-giân. Tsit-ê pîng-tâi, múi-ê lâng bô lūn sin-thé án-nuá, lóng ē-sái tsò, tsò-chhut-lâi hun-hióng ê hu-tōng lāi-iông, ta̍k-ê lóng ē-sái thé-giām. Hō͘ siàu-liân-lâng kap tsiúⁿ-tsiāⁿ ê lâng, ē-sái ēng hu-tōng ê jī, emoji, kap pán-bīn, ēng khuì-kut kap sik-ē kóng-tshut ka-tī ê sim-sī. Bô sī beh uî-tio̍h ka-tī tit-tio̍h khuân-lī, sī beh tsò tsi̍t-ê tiān-náu ê sè-kài, sûn-tshiūⁿ-khuànn tsiūⁿ-tsāi lán suî-ê put-kâng ê tsiòng-tuā kap tsit-iàu.",
+                    "Lán sī tsi̍t-ê siat-kè-su, kàu-su, kap khai-hoat-tsiá ê siā-khu, teh kiann-sim hō͘ tsit-ê siūⁿ-hoat sit-hiān. Lán ū siùⁿ-hùn lâng, lán ū khuè-hui lâng, lán ū kui-ûi, lán ū sin-thé bô-pian-lī, lán ū ì-bîn, lán ū lân-bîn. Lán ê tsiong-sim tī <University of Washington@https://washington.edu> ê <Information School@https://ischool.uw.edu/>, tī Bí-kok Washington Tsiu ê Seattle, tsit-ê tē-hng hi-bāng huan-gîng múi-ê lâng, mā beh tshiau-tsú sik-bîn tsú-gī kap tsíng-tsio̍k kî-sī ê thóng-khó, tse kàu kin-á-ji̍t iáu tī. Tsò tsit-ê thîng-sik gí-giân kap pîng-tâi, sī tsit-ê sè-kâng ê sio̍k-bo̍k, hō͘ lâng khuànn-tio̍h tsiong-lâi tiān-náu ê bô-lāi, /múi-ê lâng/ lóng ū ka-tī ê uī.",
+                    "Lán siūⁿ beh lí lâi pang-bāng. Lâi sió-kái <án-tsuánn kòng-hiàn@https://github.com/wordplaydev/wordplay/wiki/contribute>, <kuàn-tsí@://donate>, a̍h-sī tsuí-tsong lán ê <chìn-tsìn@https://github.com/amyjko/wordplay/milestones>. Nā ū būn-tê, siá-phoe hō͘ lán ê siā-khu tsō-tsit-tsiá <Amy@https://amyjko.phd>."
+                ],
+                "districts": {
+                    "header": "$~Hō͘ ha̍k-hāu kap ha̍k-khu",
+                    "content": [
+                        "$~Lí teh sim-sī *Wordplay* thang-bē-thang tī lí ê ha̍k-hāu a̍h-sī ha̍k-khu iōng--ah? Tsia sī guán tsiàⁿ-kàu ē-sái kap bē-sái ànn-tsuè ê tāi-tsì.",
+                        "Guán m̄-sī kong-si. Guán sī tsi̍t-ê siā-khu ê gián-kiù kè-ōe, khiā tī pháng-lī-ê tāi-ha̍k, bô siu-ji̍p. Che ê ì-sù sī, ū-ê iok guán bē-sái tshiam, tsiāu-sī guán kiông-kiông beh pang-kah. Guán bē-sái ànn-tsuè nā ha̍k-khu hōo-lâng kò, guán ē kā tsū-tsī huat-lu̍t huì-iōng. Guán bē-sái ànn-tsuè tī tīng-hó ê sî-kan lāi kái-koat būn-tê. Tshiam tsi̍t-ê guán ê bē-tsò--tio̍h ê iok, bô-lâng ē ū pang-tsān, siōng-bōe sī lí.",
+                        "Tsia sī guán ē-sái ànn-tsuè ê. Guán ū kā phîng-tâi tsūn-siú /WCAG 2.2 Level AA/ ê bô-tióng-ngāi tsún-tsik, múi-pái kái guán ū ḿ-tōng-á kiám-tshâ, khuànn-tio̍h ê būn-tê guán ē ná tsiah-kín ná tsiah-kín kái, kah ū-sim-lâng ê siā-khu ē-sái tsò ê sok-tō. Guán tshú-tsi̍p iōng-tsiá ê tsu-liāu tsin-tsió, ma tsí iōng lâi ûn-tsò phîng-tâi. Guán ê <kuân-lī@://rights> ia̍h kóng-tshing-tshó guán khǹg siánn, guán ê <guân-sí-tóng@https://github.com/wordplaydev/wordplay> sī kong-khai ê, lí ē-sái ka-kī tsāi-khuànn.",
+                        "Phîng-tâi tsit-ê sî-tsūn tio̍h teh piàn, lí ài tsūn-siú ê kui-tīng ia̍h teh piàn. Nā-sī ū siánn lí su-iàu, guán iáu bô tsò, tshiánn tī hi@wordplay.dev siá phue kā guán kóng. Guán ê tsú-tshî-tsiá ē khuànn, ma ē hôe-phue."
+                    ],
+                    "link": "$~Siá phue kā guán kóng tsi̍t-ê su-iàu",
+                    "subject": "$~Wordplay ha̍k-hāu sūn-mn̄g",
+                    "body": [
+                        "$~Ha̍k-hāu a̍h-sī ha̍k-khu ê miâ:",
+                        "$~Lí ê miâ:",
+                        "$~Lí ê tsit-bu̍t:",
+                        "$~Ū siánn su-iàu a̍h-sī kui-tīng guán tsit-má iáu bô tsò-kàu--ê?",
+                        "$~Ū siánn guán tsiòng tsit-má ê iūⁿ bē-tsò-tit--ê?",
+                        "$~Ū siánn-mih kî-thaⁿ beh hōo guán tsai--ê?"
+                    ]
+                }
+            },
+            "updates": {
+                "header": "$~Keng-sin",
+                "content": [
+                    "$~Tsia sī @wordplay siōng sin ê sin kong-lîng, kái-tsìn kap kái-tiòh ê bug. Guán tuā-pō-hūn tsa-pó-lé-pài-la̍k lâi huat-piáu keng-sin, tsí-iáu bô khuànn-tio̍h kín-kip ê bug."
+                ],
+                "tips": {
+                    "expand": "$~Khui-khai tsit-ji̍t ê keng-sin",
+                    "collapse": "$~Siu-khí-lâi tsit-ji̍t ê keng-sin"
+                },
+                "categories": {
+                    "added": "$~Ke-thiam",
+                    "changed": "$~Kái-piàn",
+                    "removed": "$~Tshú-tiāu",
+                    "fixed": "$~Kái-hó"
+                }
+            },
+            "login": {
+                "header": "$~Teng-ji̍p",
+                "profile": "$~Kò-lâng tsu-liāu",
+                "subtitle": "$~Pó-tsûn, ha̍p-tsok, hun-hióng",
+                "anonymous": "$~teng-ji̍p",
+                "prompt": {
+                    "login": "$~Teng-ji̍p lâi pó-tsûn lí ê tsuan-àn, ha̍p-tsok, hun-hióng:",
+                    "join": "$~A̍h-sī <khai tsi̍t-ê tsiāu-hō@://join> lâi khai-sí.",
+                    "forgot": "$~*Bē-kì-tit bi̍t-bé?* Phah-sǹg-á, guán bē-sái tín lí ê tsiāu-hō, in-ūi guán bô tshú-tsi̍p liân-lo̍k ê tsu-liāu.",
+                    "enter": "$~Khuànn-khí-lâi lí ê teng-ji̍p liân-kiat sī tuì pa̍t-ê liû-lám-khì a̍h-sī tsi̍t-ê siat-pī lâi--ê. Lí ē-sái koh su-ji̍p lí ê email, hōo guán khak-tīng sī lí--bô?",
+                    "paste": "$~Liân-kiat khui tī pa̍t-uī--ah? Ūi-tio̍h ê app, ū-sî-tsūn ē iōng bāng-lō liû-lám-khì khui email ê liân-kiat. Lí kā email lāi-té ê liân-kiat khó-pué, thiah-thīnn tī tsia, tō ē tsiânn-kang tīnn-ji̍p.",
+                    "play": "$~Lí tīnn-ji̍p ah, taⁿ ē-sái kā lí ê tsuan-àn khǹg tī bāng-lō-téng! Beh khai-sí tsò sím-mih--bô?",
+                    "passwordrule": "$~Bi̍t-bé tsió-tshiáⁿ ài ū 6 ê jī-goân; nā-bô iōng bi̍t-bé kuán-lí-khì, tshiànn 3 ê lí ē kì-tit ê tn̂g-tn̂g ê jī.",
+                    "changeEmail": "$~Beh kái lí ê email--bô? Ti̍h sin ê email, lán ē kā kū ê email ham-tsāi-tsuē khak-jīn ê sìn.",
+                    "changePassword": "$~Beh kái lí ê bi̍t-bé--bô? Ti̍h sin ê bi̍t-bé, koh ti̍h tsi̍t-pái.",
+                    "email": "$~Lí ū-sī kan-nā email ê tsiòng-ho̍h--bô? Iōng lí ê email tīnn-ji̍p, nā-ū tsiòng-ho̍h kap in sio liân, lán ē kā lí kià tsi̍t-tsiunn ū tīnn-ji̍p liân-kiat ê email. Sin ê kan-nā email tsiòng-ho̍h bô khuànn tsāi, in-ūi beh pó-hōo lí ê im-su.",
+                    "sent": "$~Nā-sī tsit ê email ū kap tsi̍t ê tsiòng-ho̍h sio liân, ē siu-tio̍h tsi̍t-tsiunn ū tīnn-ji̍p liân-kiat ê email. Khó-lêng ài tán kuí hun-tsióng tsiah ē tuè. Nā-sī tsit ê email bô kap tsiòng-ho̍h sio liân, lí tō bē siu-tio̍h sím-mih.",
+                    "logout": "$~Lí ū-sī iōng kiōng-iōng ê ki-khì, koh beh kā lí ê tsuan-àn pó-bi̍t--bô? Tshut-khì ê sî-tsūn, lán ē *kā lí ê tsuan-àn tuì tsit ê ki-khì thâi-tiāu*, m̄-koh in ē-ìn khǹg tī bāng-lō-téng.",
+                    "success": "$~Tsiòng-ho̍h khai-hó ah!",
+                    "confirm": "$~Khì khuànn lí kū ê email, khak-jīn lí sin ê email.",
+                    "delete": "$~Beh kā lí tī tsia tsò ê tsoo-tsoo lóng bē-kì--bô? Tsit-ê bē-tàng huê-tsiông.",
+                    "reallyDelete": "$~Lí khak-sik--bô? Lí ê tsiòng-ho̍h kap siat-tīng ē lì-tsik thâi-tiāu, lí ê tsuan-àn mā ē an-pâi thâi-tiāu. Kap lí kāng-tsò ê lâng ē lì-tsik bē-tàng iōng tsia ê tsuan-àn. Su-ji̍p lí ê email á-sī iōng-tsiá miâ, lâi khak-jīn tse sī lí beh ê.",
+                    "name": "$~Tshiànn tsi̍t ê emoji á-sī tsū-tīng-gī ê jī-hu, ēng lâi tāi-piáu lí tsū-kí hō pa̍t-lâng khuànn."
+                },
+                "subheader": {
+                    "work": "$~Lí ê tso-phín",
+                    "character": "$~Lí ê jī-hu",
+                    "username": "$~Lí ê iōng-tsiá miâ",
+                    "password": "$~Lí ê bi̍t-bé",
+                    "email": "$~Email",
+                    "logout": "$~Tshut-khì",
+                    "delete": "$~Thâi-tiāu lí ê tsiòng-ho̍h",
+                    "export": "$~Lí ê tóng-àn"
+                },
+                "username": {
+                    "change": "$~Lí ê iōng-tsiá miâ, sī pa̍t-lâng khuànn-tio̍h lí ê miâ, mā sī lí tsò ê múi-ê jī-hu ê miâ ê khai-thâu. Lí sūi-sî lóng ē-sái kái. Lí kū ê miâ iáu-sī ē-tàng iōng, só-í tsit-má tsí-tio̍h lí ê jī-hu ê, iáu-sī tshuē-ē-tio̍h.",
+                    "missing": "$~Lí iáu-bē ū iōng-tsiá miâ, só-í pa̍t-lâng khuànn lí sī *—*, lí mā bē-tàng tsò jī-hu. Tshiànn tsi̍t ê, tō tīng ah.",
+                    "changed": "$~Hó ah. Tse tsit-má tō sī lí ê miâ.",
+                    "claimed": "$~Hó ah. Tse sī lí ê miâ.",
+                    "field": {
+                        "description": "$~Lí beh ê iōng-tsia̍h-miâ",
+                        "placeholder": "$~iōng-tsia̍h-miâ"
+                    },
+                    "save": {
+                        "label": "$~Khǹg",
+                        "tip": "$~Tuì tann khai-sí iōng tsit-ê iōng-tsia̍h-miâ"
+                    }
+                },
+                "signin": {
+                    "usesPassword": "$~Lí iōng iōng-tsia̍h-miâ kap bi̍t-bé lâi teng-ji̍p. Nā-sī lí m̄-ài kì bi̍t-bé, ē-sái kái iōng guán ēmail hōo lí ê liân-kiat lâi teng-ji̍p — lí ê iōng-tsia̍h-miâ iû-guân sio-kâng.",
+                    "usesEmail": "$~Lí iōng lí ê ēmail tē-tsí lâi teng-ji̍p. Nā-sī lí khah ài iōng iōng-tsia̍h-miâ kap bi̍t-bé, ē-sái kái — lí ê iōng-tsia̍h-miâ iû-guân sio-kâng.",
+                    "notYet": "$~Lí iōng iōng-tsia̍h-miâ kap bi̍t-bé lâi teng-ji̍p. Lí khiā ê tē-hng, lí ê huè-sòo iáu-buē kàu, bē-sái tsia iōng ēmail tē-tsí — tuì $date khai-sí, lí ē-sái kái iōng ēmail ê liân-kiat lâi teng-ji̍p.",
+                    "switched": "$~Á-ló. Āu-pái, iōng lí ê iōng-tsia̍h-miâ kap sin ê bi̍t-bé lâi teng-ji̍p.",
+                    "toPassword": {
+                        "label": "$~Kái iōng bi̍t-bé",
+                        "tip": "$~Kái iōng iōng-tsia̍h-miâ kap bi̍t-bé lâi teng-ji̍p"
+                    }
+                },
+                "error": {
+                    "expired": "$~Tsit-ê liân-kiat kuè-kî ah.",
+                    "invalid": "$~Tsit-ê liân-kiat bô-iōng.",
+                    "email": "$~Tse m̄-sī ū-hāu ê ēmail.",
+                    "invalidUsername": "$~Iōng-tsia̍h-miâ tio̍h-ài ít-tsió 5 ê jī, mā bē-sái ū khang-keh.",
+                    "usernameTaken": "$~Tsit-ê iōng-tsia̍h-miâ í-keng ū lâng iōng ah.",
+                    "failure": "$~Bē-tàng teng-ji̍p :(",
+                    "unverified": "$~Guán bē-tàng khak-tīng tse sī tsiàn-sit ê liû-lám-khì, in-ūi án-ne guán tsiūnn-tsia thîng-lo̍h-lâi. Tse ē tī ha̍k-hāu á-sī kang-tsok ê bāng-ló͘ hoat-seng. Koh tāi-tsì bô-iōng, ē-sái ūnn kî-thaⁿ bāng-ló͘ á-sī liû-lám-khì. Nā-sī lí tī ha̍k-hāu, kā lāu-su kóng.",
+                    "offline": "$~Guán liân-bē tio̍h hun-ûn ☁️.",
+                    "deletePartial": "$~Guán í-keng kā lí ê tsiàu-hō ê tsu-liāu sak-tiāu, mā bē-tàng pān-uân sak-tiāu lí ê tsiàu-hō. Chhiáⁿ koh tshì-khuànn, á-sī nā tsit-ê būn-tê it-ti̍t ū, chhiáⁿ liân-lo̍k guán.",
+                    "invalidPassword": "$~Bi̍t-bé tio̍h-ài ít-tsió 6 ê jī-goân.",
+                    "wrongPassword": "$~Iōng-tsia̍h-miâ kap bi̍t-bé m̄-tio̍h. Ia̍h-sī lí ê bi̍t-bé tshò, ia̍h-sī ū pat-ê lâng teh iōng tsit-ê iōng-tsia̍h-miâ.",
+                    "mismatched": "$~Nn̄g-pái ê bi̍t-bé bô sio-kâng.",
+                    "tooMany": "$~Lí teng-ji̍p tshì-khuànn siuⁿ-kòo pái-sòo, lóng bô sêng-kong. Tio̍h-ài tán tsi̍t-tsūn-á tsiah ē-tàng koh tshì.",
+                    "unsaved": "$~Lí ū siu-kái iáu-buē khǹg tī bāng-ló͘ téng. Nā-sī lí tann teng-chhut, tsia-ê siu-kái ē tuì tsit-ê tsông-tī sit-khì."
+                },
+                "feedback": {
+                    "changing": "$~Teh kā sin ê ēmail sàng-chhut-khì...",
+                    "deleting": "$~Hó, teh sak-tiāu lí ê tsuan-àn kap siat-tīng...",
+                    "updatedPassword": "$~Lí ê bi̍t-bé í-king kái-hó khì.",
+                    "match": "$~Tse tio̍h-ài kap lí ê tsiàu-ho ê īng-hōo-miâ ū-kāng."
+                },
+                "field": {
+                    "email": {
+                        "description": "$~pian-tsi̍p tǹg-ji̍p ê email",
+                        "placeholder": "$~email"
+                    },
+                    "link": {
+                        "description": "$~thiap tǹg-ji̍p ê link",
+                        "placeholder": "$~link"
+                    },
+                    "username": {
+                        "description": "$~tǹg-ji̍p ê īng-hōo-miâ, mài īng ē-tàng khuànn-tshut lí sī siáng ê tsu-liāu",
+                        "placeholder": "$~iōng-tsia̍h-miâ"
+                    },
+                    "password": {
+                        "description": "$~tǹg-ji̍p ê bi̍t-bé, tsió-tsió 6 ê jī",
+                        "placeholder": "$~bi̍t-bé"
+                    },
+                    "currentPassword": {
+                        "description": "$~lí bàng-á-tsái teh ēng ê tǹg-ji̍p bi̍t-bé",
+                        "placeholder": "$~hiān-tsāi ê bi̍t-bé"
+                    },
+                    "newPassword": {
+                        "description": "$~lí ê sin bi̍t-bé",
+                        "placeholder": "$~sin bi̍t-bé"
+                    }
+                },
+                "button": {
+                    "logout": {
+                        "tip": "$~tuì lí ê tsiàu-ho tǹg-tshut",
+                        "label": "$~tǹg-tshut"
+                    },
+                    "login": "$~ēng tsit ê īng-hōo-miâ kap bi̍t-bé khai tsiàu-ho",
+                    "updateEmail": "$~kái lí ê email",
+                    "delete": {
+                        "tip": "$~thâi-tiāu lí ê tsiàu-ho",
+                        "label": "$~thâi-tiāu guá ê tsu-liāu…"
+                    },
+                    "reallyDelete": {
+                        "tip": "$~éng-uán thâi-tiāu lí ê tsiàu-ho",
+                        "label": "$~thâi-tiāu!!!"
+                    },
+                    "updatePassword": "$~sàng-tshut sin bi̍t-bé"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$~hián-sī bi̍t-bé",
+                        "off": "$~khàm-khí-lai bi̍t-bé"
+                    }
+                },
+                "notifications": {
+                    "header": "$~Email kā guá kóng…",
+                    "noAddress": "$~Tī téng-kha ke tsi̍t-ê email tē-tsí, lí tsiah ē-tàng kéng Wordplay beh kià siánn-mih email hōo lí.",
+                    "notYet": "$~Tann lí ē-tàng iōng email tē-tsí ê sî-tsūn, lí tō ē-tàng kéng Wordplay beh kià siánn-mih email hōo lí.",
+                    "decisions": {
+                        "label": "$~guá tsò ê á-sī tsú-kuat ê tāi-tsì ê tsíng-kuánn",
+                        "labels": ["$~koaiⁿ", "$~khui"],
+                        "tips": [
+                            "$~Mài kià email kā guá kóng guá tsò ê á-sī tsú-kuat ê tāi-tsì ê tsíng-kuánn",
+                            "$~Kià email kā guá kóng guá tsò ê á-sī tsú-kuat ê tāi-tsì ê tsíng-kuánn"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~teh tán guá khuànn ê tsíng-kuánn",
+                        "labels": ["$~koaiⁿ", "$~khui"],
+                        "tips": [
+                            "$~Mài kià email kā guá kóng teh tán guá khuànn ê tsíng-kuánn",
+                            "$~Kià email kā guá kóng teh tán guá khuànn ê tsíng-kuánn"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~sin ê liáu-thiann kap tsò-huat",
+                        "labels": ["$~koaiⁿ", "$~khui"],
+                        "tips": [
+                            "$~Mài kià email kā guá kóng sin ê liáu-thiann kap tsò-huat",
+                            "$~Kià email kā guá kóng sin ê liáu-thiann kap tsò-huat"
+                        ]
+                    }
+                },
+                "export": {
+                    "prompt": "$~Hiânn-lâi tsi̍t-pún lí só· tsò ê tsióng-tsióng mih-kiānn. Lāi-té ū lí ê tsuan-àn, kak-sik, tián-lám-kuán, tsò-huat, thò-kiānn, tuì-uē, pan-kip, kap siat-tīng. Múi-ê tsuan-àn lóng sī tsi̍t-ê tóng-àn, ē-tàng koh tī Wordplay khui. Ū ê bô-sī kan-tan lí ê: tuì-uē ū lóng-tsóng lâng kóng ê uē, pan-kip miâ-tuann ū pa̍t-lâng ê miâ. Lí kā tóng-àn kau hōo siáng, siáng tō ē-tàng khuànn-kiàn kui-ê, só·-í tio̍h pàng tī pì-bi̍t ê tē-hng.",
+                    "proxy": "$~Lí teh khuànn pa̍t-lâng ê tsiàu-hō, só·-í bô-hiáu-tit hiânn-lâi i ê tsi̍t-pún.",
+                    "button": {
+                        "tip": "$~hiânn-lâi lí tsiàu-hō lāi-té kui-ê ê tsi̍t-pún",
+                        "label": "$~hiânn-lâi guá ê tóng-àn…"
+                    },
+                    "progress": "$~Tsit-má í-kin tshiu-tsi̍p $kind: $#count[$count mih|$count mih]",
+                    "started": "$~Teh tsò lí ê tóng-àn.",
+                    "finished": "$~Lí ê tóng-àn $name tsún-pī hó à, lāi-té ū $#count[$count mih|$count mih].",
+                    "finishedPartial": "$~Lí ê tóng-àn $name tsún-pī hó à, lāi-té ū $#count[$count mih|$count mih], m̄-koh ū $#missing[$missing khuán|$missing khuán] bô-hōo tshuē-tio̍h.",
+                    "failed": "$~Lí ê tóng-àn tsò bô-tsiânn. Tán tsi̍t-ē koh tshì khuànn-māi.",
+                    "incomplete": "$~Lí ê tóng-àn tsún-pī hó à, m̄-koh ē-kha tsiah-ê bô-hōo tshuē-tio̍h, só·-í bô tī lāi-té: $kinds",
+                    "tooLarge": "$~Lí tsò ê khah-tsē, 1 ê tông-àn khǹg bē lloh. Kā lán kóng, lán lâi kā lí thàn-tsān.",
+                    "offline": "$~Wordplay liân-bē-tio̍h bāng-lo̍h, só-í bē-tàng kā lí tsò tông-àn.",
+                    "kind": {
+                        "account": "$~lí ê tsiàu-hō",
+                        "projects": "$~lí ê tsuan-àn",
+                        "galleries": "$~lí ê tián-lám-kuán",
+                        "characters": "$~lí ê kak-sik",
+                        "howtos": "$~lí ê tsò-huat",
+                        "chats": "$~lí ê tuì-ōe",
+                        "kits": "$~lí ê thò-kiānn",
+                        "classes": "$~lí ê pan-kip",
+                        "feedback": "$~lí ê khuán-sī kap bug pò-kò",
+                        "device": "$~tsit ê tsōng-tì ê siat-tīng",
+                        "archive": "$~tông-àn",
+                        "saving": "$~tông-àn-kiānn"
+                    },
+                    "readme": {
+                        "title": "$~Lí ê Wordplay tông-àn",
+                        "intro": "$~Tsit-ê sī Wordplay tsiàu-hō $name lāi-té ê só-ū tāi-tsì ê hu-pún. Tī $date tsò ê. Wordplay thì lí tsò ê. Pat-lâng lóng bô hu-pún.",
+                        "contents": "$~Múi ê tsióng-lōo-á khǹg 1 khuán mih-kiānn. Ū lí ê tsuan-àn, kak-sik, tián-lám-kuán, tsò-huat, thò-kiānn, tuì-ōe kap pan-kip ê tsióng-lōo-á.",
+                        "relationships": "$~Múi ê tsióng-lōo-á lāi-té, mih-kiānn ùi lí kap i ê kuan-hē lâi hun. Miâ-tsò owner ê khǹg lí tsò ê. creator khǹg lí siá ê, á-sī lí thang kenn-ka ê. curator khǹg lí tsiàu-kòo ê. teacher kap learner khǹg pan-kip. collaborator, commenter kap viewer khǹg pa̍t-lâng ê tsok-phín.",
+                        "device": "$~device tsióng-lōo-á khǹg tsí ū tī lí tsò tsit ê tông-àn ê tiān-náu-ĺ ê mih-kiānn. Ū bô khǹg tī bāng-lo̍h ê siat-tīng, lí khai-sí ê hui-ik, kap iáu-bē khǹg-hó ê tsok-phín. Tī pa̍t-tsâi tiān-náu tsò tông-àn, bē ū tsiah-ê.",
+                        "formats": "$~Beh koh phah-khui tsuan-àn, khì Wordplay ê lí ê tsuan-àn hia̍h-bīn, kéng \"phah-khui tsuan-àn tông-àn-kiānn\". Lí mā ē-sái kā .wp tông-àn-kiānn thua kàu hia̍h-bīn hit-ê. Beh thè-tsōo lí í-keng ū ê tsuan-àn, kā tông-àn-kiānn thua-kàu i, Wordplay ē seng mn̄g lí.",
+                        "excluded": "$~Ū kuí hāng bô tī tsia. Wordplay bô khǹg lí kái-kiàn ê tsi̍p-lōo kì-lia̍h, in-ūi tsuan-àn í-keng ū-khǹg hiah-ê kái-kiàn ê kiat-kó. Mā bô khǹg ūi-á khuànn-kòe tsuan-àn ê kì-lia̍h. Koh-ū, bô khǹg ūi-huán kui-tik ê pò-kò, in-ūi hiah-ê sī siá hōo kiám-tsa ê lâng khuànn ê.",
+                        "privacy": "$~Tsiah-ê tsit-kuá bô tiātsi̍t sī lí ka-kī ê. Tuì-ōe khǹg tsiok-lâng kóng ê ōe. Pan-kip khǹg pan-lāi lóng-tsóng ê miâ. Lí hōo ê lâng, lóng ē-sái khuànn tsiah-ê. Khǹg tī sī-lâng khuànn bē tio̍h ê tē-hng, koh-tio̍h seng siūnn lí beh hun-hióng hōo siáng, kàu-sī-tsia̍p iáu ū siáng.",
+                        "missing": "$~Wordplay tsò tsit ê tông-àn ê sî, ū kuí hāng thàu-bē-tio̍h. Bô tī tsia:",
+                        "manifest": "$~manifest.json khǹg kāng-khuán ê tsu-liāu, siá-tsò tiān-náu thang thàu ê hîng-sik. I kóng tsit-ê sī sím-mi̍h sî-tsūn tsò ê, múi khuán mih-kiānn ū kuí-ê, kap sím-mi̍h bô-tàng khǹg lo̍h-khì.",
+                        "contentsFiles": "$~Múi hāng mih-kiānn lóng ū 1 ê .json tông-àn-kiānn. Hit-ê tō-sī Wordplay khǹg ê guân-pún. Múi ê tsuan-àn mā ū 1 ê .wp tông-àn-kiānn. Hit-ê sī kā tsuan-àn siá-tshut-lâi, hōo lí thang khuànn, mā thang koh phah-khui.",
+                        "contentsAccount": "$~account.json kóng lí sī siáng, tī sím-mi̍h sî-tsūn kah-ji̍p, kah lí ē-sái tsò sím-mi̍h. Self tsit-ê tóng-àn-kah khǹg Wordplay kì-lo̍k kàu-uī lí ê tsu-liāu: lí ê iōng-tsiá miâ, lí hoan-ik kuí-nā phòo, lí siūnn-tio̍h ê kéng-kó, kah lí ê thong-tsconvert.",
+                        "relationshipsWords": "$~Kâng-tsit-ê jī ē ū nn̄g-khuán ì-sù. Tián-lám-kuán ê tsòng-tsok-tsiá ē-sái kā tsuan-àn ka-ji̍p-khì. Tsò-huat ê tsòng-tsok-tsiá sī siá tsit-ê tsò-huat ê lâng. Múi-ê tóng-àn-kah mā ū index.json. I lia̍t-tshut lí kah múi-ê hāng-bo̍k ê múi-khuán kuan-hē, in-uī ē-sái kâng-sî tsiânn kuí-khuán."
+                    }
+                }
+            },
+            "join": {
+                "header": "$~Ka-ji̍p",
+                "prompt": {
+                    "create": "$~Khui tsit-ê kháu-tsō lâi pó-tsûn lí ê tsuan-àn, kap pa̍t-lâng ha̍p-tsok, koh hun-hióng lí ê tso-phín.",
+                    "username": "$~Iōng-tsiá miâ ài ít-tsuè /5 ê jī/ í-siōng, bē-sái sī email, mā m̄-thang ū lí ê miâ á-sī pa̍t-ê ē-sái khuànn-tshut lí sī siáng ê tsu-liāu.",
+                    "password": "$~Bi̍t-bé ài ít-tsuè /6 ê jī/ í-siōng. Siá nn̄g-kái, koh kì-lo̍k tī an-tsuân ê tē-hng, tshiūnn bi̍t-bé kuán-lí-khì. *Nā bē-kì-tit, lí ê kháu-tsō bô-huat-tōo tshōe tńg-lâi*, in-uī guán bô siu-tsi̍p liân-lo̍k tsu-liāu.",
+                    "region": "$~Guán mn̄g lí khiā tī tá-uī, thang tsun-siú hia tui siàu-liân-lâng kháu-tsō ê kui-tik. Guán bô kì lí ê tah-àn.",
+                    "birthday": "$~Guán mn̄g lí ê seng-ji̍t mā sī kâng-khuán ê lí-iû. Guán mā bô kì — tsí kì lí kàu-tsiah-liáu-bē ē-sái iōng email, kap sím-mi̍h sî-tsūn ē kàu.",
+                    "choose": "$~Ū nn̄g-khuán tâng-ji̍p ê pān-huat. Kéng lí kah-ì ê.",
+                    "withPassword": "$~*Tsit-ê iōng-tsiá miâ kap bi̍t-bé.* Guán m̄-tsai lí ê tsu-liāu — ǹg-sīng *nā bē-kì-tit bi̍t-bé, kháu-tsō bô-huat-tōo tshōe tńg-lâi*, in-uī guán bô-huat-tōo liân-lo̍k lí.",
+                    "withEmail": "$~*Tsit-ê email tsū-tsí.* Múi-kái lí tâng-ji̍p, guán kià tsit-ê link hōo lí, in-án bô bi̍t-bé ē-sái bē-kì. Guán tsí kì lí ê tsū-tsí lâi kià hia-ê link.",
+                    "tooYoung": "$~Lí khiā ê tē-hng, ài $#age[$age tsè|$age tsè] í-siōng tsiah ē-sái tī-tsia iōng email. Tsiah-kú tsìn, iōng iōng-tsiá miâ kap bi̍t-bé — āu-piah lí ē-sái hōo-khì kái.",
+                    "sent": "$~Nā tsit-ê tsū-tsí ē-sái iōng lâi tâng-ji̍p, ū tsit-ê link tng teh lâi. Khuànn lí ê email."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Lí khiā ê kok-ka á-sī tē-khu",
+                        "placeholder": "$~kok-ka"
+                    },
+                    "year": {
+                        "description": "$~Lí tshut-sì ê nî",
+                        "placeholder": "$~nî"
+                    },
+                    "month": {
+                        "description": "$~Lí tshut-sì ê guē̍h",
+                        "placeholder": "$~guē̍h"
+                    },
+                    "day": {
+                        "description": "$~Lí tshut-sì ê ji̍t",
+                        "placeholder": "$~ji̍t"
+                    },
+                    "email": {
+                        "description": "$~Lí beh iōng ê tâng-ji̍p email tsū-tsí",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~hâng-kin",
+                        "tip": "$~Kè-sio̍k khì hā tsit-ê pōo-tsiu"
+                    },
+                    "back": {
+                        "label": "$~āu-piah",
+                        "tip": "$~Tńg khì téng tsit-ê pōo-tsiu"
+                    },
+                    "usePassword": {
+                        "label": "$~Iōng bi̍t-bé",
+                        "tip": "$~Iōng iōng-tsiá miâ kap bi̍t-bé khui tsuè tsiàu-hō"
+                    },
+                    "useEmail": {
+                        "label": "$~Iōng tiān-tsú-phoe tē-tsí",
+                        "tip": "$~Khui tsuè tsiàu-hō, iōng ke tiān-tsú-phoe ê liân-kiat lâi tshù-ji̍p"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Hit-ê bô-sī tsió ê ji̍t-kî. Khuànn-māi ji̍t kap guā̍t.",
+                    "taken": "$~Ū lâng tú-tsiah kā hit-ê iōng-tsiá miâ iōng khì--ah. Kái pa̍t-ê khuànn-māi.",
+                    "throttled": "$~Tshù-ji̍p ê liân-kiat tâi-kài tsiok tsē--ah. Ànn-tsuā tán--tsi̍t-ē, koh tshì-khuànn-māi.",
+                    "failed": "$~Bô-hoat-tī khui tsuè tsiàu-hō. Tán--tsi̍t-ē, koh tshì-khuànn-māi."
+                }
+            },
+            "rights": {
+                "header": "$~Khuân-lī",
+                "content": [
+                    "$~Lí-hó!",
+                    "Kā lí kóng-tsheh guán kap lí ê khuân-lī, mā kóng tio̍h tsìng-tsik (pí-lūn <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> kap <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Tē-it, guán m̄-sī siōng-giāp ê tsóo-tsit. Guán sī tsi̍t-ê siā-khu ê gián-kiù kè-ua̍h, tsāi tsi̍t-keng bô-ing-lī ê tāi-ha̍k. Guán ê bo̍k-piau sī tsò tsi̍t-ê pêng-tâi, hōo lí hoaⁿ-hí, mā tsān guán hoat-hiān khah kong-pîng ê tiān-náu sè-kài. Guán bô beh tī tsit-ê pêng-tâi tsuân-tsînn; guán siu--lâi ê tsînn (siāng-tsia̍p sī kong-kiōng ê kàu-hué), kan-tan thang kā pêng-tâi thîn-sí, m̄-sī beh hōo lâng hoat-tâi.",
+                    "Guán m̄-sī beh tsuân-tsînn, sóo-ì guán bē-tàng pó-tsìng pêng-tâi tsiāⁿ-sîng hó-iōng, sî-sî thang iōng, iáh-sī iōng khah kú. M̄-kuán án-ne, <Amy@https://amyjko.phd> bat tuì-khì beh tshiân-kî pó-tshî tsit-ê pêng-tâi, mā in-ūi sī lāu-su, tsit-ê kang-tsok iân-thiām khah ân-tīng.",
+                    "Kè-lo̍h-lâi kóng *tsu-liāu*. Guán tī hûn-tuann siu-tsông ê:",
+                    "• Lí ê *tsuan-àn*. Lí khioh-hóo ê tsuan-àn kap lí kái ê tāi-tsì, guán lóng ē pó-tsûn, tsí-iáu tsuan-àn lāi-té bô khuànn-tio̍h ē hōo lâng tsiah-tsāi sī lí ê tsu-liāu, pí-lūn tiān-uē hō-bé, tiān-tsú-iû-kiāⁿ, iōng-hōo-miâ, soe-bû pian-hō, ûi-tsi.",
+                    "• Lí ê *siat-tīng*. Pau-kuat lí kéng ê gí-giân, tín-tāi ê uân-hó, kap kàu-ha̍k ê tsìn-tō. Kî-thaⁿ ê lóng kan-tan pó-tsûn tī lí ê ki-tsíng.",
+                    "• Tsóng-hô ê *oa̍h-tōng*. Guán ē kì-lio̍k lí ê teng-ji̍p kap khuànn kuè ê ia̍h, m̄-kuān bē-sái ēng--tsiah sik-piáu lí, tsuí-tsong lí tī tsit-ê bāng-tsām, iáh-sī tī kî-thaⁿ bāng-tsām. Guán iōng Google Analytics ê 'put-tông-ì' bîng-sik, kan-tan siu-tsông siōng-sió ê, bē sik-piáu lâng ê ia̍h-sò, bô tshun-tsûn cookie, mā bô kā IP ê tsu-liāu sàng hōo Google. Guán ēng tsia-ê tsóng-hô ê tsu-liāu kā lâng kóng pêng-tâi ū jōa-tsōe lâng teh iōng, lâi tsān guán sin-tshíng kong-kiōng ê tsu-tsō.",
+                    "• Lí ê *liân-thiⁿ hoan-èk*. Nā lí ài khuànn kî-thaⁿ gí-giân ê liân-thiⁿ, guán ē kā pa̍t-lâng ê sìn-sit hoan-èk, m̄-kuān lí ka-tī ê lóng bē. Ū-ê liû-lám-khì ē-tàng tī lí ê ki-tsíng hoan-èk, án-ne tō bô sàng-tsuè guán. Nā bô, sìn-sit tō ē sàng khì AI hoan-èk hok-bū (hiān-tsāi sī Anthropic ê Claude), hoan-èk ê kiat-kó ē kap liân-thiⁿ pó-tsûn tī tsi̍t-tsú, án-ne pa̍t-lâng bē-su̍t koh hoan-èk siāng-ê. Kan-tan tsit-ê liân-thiⁿ ê lâng ē-tàng khuànn.",
+                    "Guán bô pó-tsûn kî-thaⁿ ê. Guán ê <guân-sí-tóng@https://github.com/amyjko/wordplay/tree/main/src> sī kong-khai ê, sóo-ì lâng lóng ē-tàng kiám-tsa, nā ū bô-ì-tsit ê tsuí-tsong tō ē-tàng kā guán kóng.",
+                    "*Lí* tsiàm-ū lí ê tsu-liāu, m̄-sī guán. Án-ne ê ì-sù sī:",
+                    "• Lí kóng-tsún siáng thang khuànn lí ê tsuan-àn. In pún-lâi sī sik-ka̍k, m̄-kuān lí ē-tàng hun-hióng hōo tsi̍t-ê lâng, tsi̍t-tsoo, iáh-sī hōo kong-khai.",
+                    "• Lí ē-tàng sím-mi sî-chūn lóng kā tsuan-àn iáh-sī lí ka-tī ê tsiòng-hō tsuân-pōo thâi-tiāu.",
+                    "• Lí ē-tàng sím-mi sî-chūn lóng kā tsuan-àn iáh-sī lí ê tsiòng-hō tsuân-pōo tshut-kháu.",
+                    "Guán ē án-nuá iōng, bē án-nuá iōng lí ê tsu-liāu:",
+                    "• Guán bē kā lí ê tsu-liāu sàng hōo pa̍t-lâng, tsí-iáu huat-lu̍t ū ēng-ê. Kó-lí ê tsu-liāu sī ū khó-lîng bô tsún-kè tō hōo lâng tshiūⁿ-khì (kiò-tsò 'tsu-liāu sán-sit'). Nā guán hoat-hiān án-ne, guán ē iōng lí kap guán tsū-ê ê tiān-tsú-iû-kiāⁿ ká-lí.",
+                    "• Guán bē iōng lí ê tiān-tsú-iû-kiāⁿ liân-lo̍k lí, tsí-iáu 1) lí kái tsiòng-hō ê tāi-tsì, tsiah ài, 2) lí bêng-bêng-pe̍h-pe̍h hōo guán tông-ì, 3) iáh-sī tī téng-bīn ê tsu-liāu sán-sit ê tsōng-hóng.",
+                    "• Guán ē-tàng hun-sik pêng-tâi téng ê tsuan-àn, tián-lám-kuán, kap tsò-huat ê lōo-iōng, lâi liáu-kái ta̍k-ê lâng tsò sím-mi, án-nuá tsò. Guán ē-tàng tī ha̍k-su̍t ê kî-khan hun-hióng tsia-ê hun-sik ê kiat-kó, m̄-kuān bē khuànn tio̍h sím-mi lâng. Guán tsí-ē tī ki-kau ê sím-tsa uí-uân-hōe ê kàm-tok ē, tsiàu bí-kok liân-pang huat-lu̍t ê kui-tīng tsiah án-ne tsò.",
+                    "siōng-āu, kóng-kóng *kóng-uē*. Tsuan-àn pún-lâi sī sik-ka̍k, hun-hióng hōo tsi̍t-kuá lâng mā iû-goân sik-ka̍k. Ē-tsit ê sī kóng khuànn lí hun-hióng ê sī siáng sím-tsa, ke̍h tsuí ē-tàng khuànn.",
+                    "M̄-kuān kā tsuan-àn *kong-khai*, iáh-sī khǹg tī kong-khai ê tián-lám-kuán, sī tsi̍t-ê thê-lô. Tsit-ê pêng-tâi sī uī-tio̍h ài, khéng-tīng, tsun-tiōng, kap tsun-giân tsiah tsò ê. Sóo-ì guán kî-bāng lí ê *kong-khai* lōo-iōng bē:"
+                ],
+                "consequences": [
+                    "$~Nā guán khuànn-tio̍h tsuan-àn á-sī tián-lám-kuán phoà-huāi tsia-ê kui-tik, guán ē tī tsok-tsiá khuànn-tio̍h í-tsîng sian kiám-tshik, á-sī put-tuān hōo lâng khuànn. Nā lí tsiāng-tsiāng phoà-huāi tsia-ê kui-tik, lí ē sit-khì kong-khai huat-piáu ê khuân-lī."
+                ],
+                "warnings": [
+                    "$~Nā-sī lí kong-khai ê loo̍h-iông phoà-huāi tsia ê kui-tik, tsiū ē án-ne: tsi̍t-ê kuán-lí-tsiá ē khuànn kòe, he bē koh kong-khai, mā ē tī lí ê thong-ti lāi-té siūnn-tio̍h tsi̍t-ê kíng-kò, kā lí kóng sī too̍h tsi̍t tiâu. Kìnn-tio̍h ū teng-ji̍p ê lâng, lóng ē-sái iōng kong-khai loo̍h-iông téng-bīn ê kí-pò àn-liú, kiò kuán-lí-tsiá lâi khuànn.",
+                    "Tsiah-ê kíng-kò kàu sann-pái liáu-āu, lí iáu-sī ē-sái tsò tsuan-àn, iáu-sī ē-sái hun-hióng hōo lí ka-kī kéng ê lâng, mā iáu-sī ē-sái iōng tsia ê kî-thaⁿ ê kang-lêng. Lí tsí-ū bē-sái koh kong-khai tó-ūi tsit-khuán mi̍h.",
+                    "Nā-sī lí siūnn kíng-kò sī tsò-tshò, tshiánn-sī í-tsíng kòe-liáu tsiok kú, lí beh koh kong-khai, tshiánn siá phoe kàu hi@wordplay.dev, kā guán kóng lí ê īng-hōo-miâ kap ǹg-bāng ê lí-iû. Ē ū lâng lâi khuànn."
+                ],
+                "license": [
+                    "$~Koh ū tsi̍t-hāng kap kong-khai tsuan-àn ū-khuan-hē ê tāi-tsì. Kong-khai ê tsuan-àn sī iōng <Creative Commons Attribution-ShareAlike ê ū-khó-tsìng@https://creativecommons.org/licenses/by-sa/4.0/> lâi hun-hióng. Che ê ì-sù sī ta̍k-ê lâng lóng ē-tàng /Remix/ lí kong-khai ê tsuan-àn — tsò in ka-tī ê hu-pún, koh kái — lí mā ē-tàng remix pa̍t-lâng ê.",
+                    "Chit-ê ū-khó-tsìng ū sann-hāng tāi-tsì. Remix ê lâng tio̍h kā guân-pún ê tsok-tsiá kì-miâ. In tio̍h iōng kāng-khuán ê ū-khó-tsìng hun-hióng in ê remix, án-ne ē-tàng khai-hòng hōo ē-tsa̍p-ê lâng. Koh-ū in bē-sái kā kong-khai ê tsuan-àn piàn-sîng sì-jîn, ka-tī tshun-khí-lâi.",
+                    "Guán ē pang-chān kì-miâ ê pō͘-hūn: ū lâng remix tsi̍t-ê tsuan-àn ê sî-tsūn, guán ē kì-tit sī uì tsia lâi, koh hōo lí khuànn-tio̍h tńg-khì ê liên-kiat. Kā tsuan-àn siúnn-tsò kong-khai, tō-sī lí kóng hó tsiah-ê tāi-tsì, ná-sī lí bô-ài lâng remix, tō kā i pó-liû tsò sì-jîn."
+                ],
+                "research": [
+                    "$~Siōng-bóe tsi̍t-ê kéng-tik, kui-ê sī lí ê. Guán ū-sî ē siá kap kóng Wordplay ê tāi-tsì — tī gián-kiù lūn-bûn, tī kóng-kái, kap hōo lāu-su kap ke-têng khuànn ê. Guán siōng-ài hōo lâng khuànn-tio̍h ta̍k-ê lâng tsit-kái iōng i tsò siánn, ták-ê guán bē tsiàu-hōo lí ê tsuan-àn, tî-hui lí kóng ē-sái.",
+                    "Ta̍k-ê tsuan-àn ê hun-hióng siat-tīng lāi-té lóng ū *Research* tsit-hāng, khai-sí sî sī koaiⁿ-tio̍h ê. Kā i khui, guán ē-tàng kā tsit-ê tsuan-àn tòng-tsò lē-tsú khuànn, bô-tsāi lí ê miâ, lí ê iōng-tsiá miâ, á-sī pa̍t-hāng tsí-tshut sī lí ê tāi-tsì. Che sī ta̍k-ê tsuan-àn kok-ê siat-tīng, tsí-tshut-tsi̍t-ê kóng hó, bē tāi-piáu pa̍t-ê.",
+                    "Lí ē-tàng sím-mi sî-tsūn lóng koaiⁿ-tio̍h i. Koaiⁿ-tio̍h ê ì-sù sī guán bē koh tī sin ê tāi-tsì lāi-té iōng lí ê tsuan-àn, m̄-kuá bē-tàng siu-tńg guán í-keng huat-piáu á-sī kóng kuè ê."
+                ],
+                "responsibility": [
+                    "$~Siáng ē khuànn-kuè lí hun-hióng ê, ài khuànn siáng khuànn ē-tio̍h.",
+                    "• *Bô hun-hióng hōo lâng, á-sī tsí hun-hióng hōo lí kóng-miâ ê lâng.* Bô lâng khuànn-kuè. Guán mā bô, siánn-lâng lóng bô.",
+                    "• *Tī ū pa̍t-lâng ê tián-lám-kuán lāi-té.* Tsit-ê tián-lám-kuán ê kuán-lí-guân ē khuànn-kuè, kap sûi-tsiàu tsit-ê ê liâu-thiann. Bô-lūn tián-lám-kuán sī kong-khai á-bô, lóng sī án-ne: tsia ê lâng ē-tàng khuànn-tio̍h lí ê tsok-phín, só-í ū lâng tiàm-tsia ū-tsek-jīm.",
+                    "• *Tī kong-khai ê tián-lám-kuán.* I ê kuán-lí-guân ē khuànn-kuè, guán mā ē, in-uī ta̍k-ê lâng lóng tshuē-ē-tio̍h.",
+                    "• *Kong-khai, m̄-sī tī tián-lám-kuán lāi-té.* Guán khuànn-kuè.",
+                    "Ta̍k-ê khuànn-ē-tio̍h ê lâng lóng ē-tàng iōng pò-kò àn-liú, iâu-kiû khuànn-kuè. Guán tsiōng-bô kā tsok-tsiá kóng sī siáng iâu-kiû.",
+                    "Pò-kò liâu-thiann ê sìn-sit ē-sái tsiàm-sî khàm-khí-lâi, tán lâng lâi khuànn. Tsit-ê tsí ū-tsi̍t-pái: nā pó-liû, koh ū lâng pò-kò, i iáu-sī khuànn-ē-tio̍h, tán tē-jī-pái khuànn-kuè. Lí lóng khuànn-ē-tio̍h ka-tī siá ê.",
+                    "Tsi̍t-ê kuat-tīng ē kóng sī tsiah-ê kui-tik tsiah-tsi̍t-tiâu phoà-huāi, koh ē-sái ū-tsi̍t-tsiah kuán-lí-guân ê pí-tsù. Lí ē tī thong-tsconvert-á lāi-té siu-tio̍h nn̄g-hāng.",
+                    "Tián-lám-kuán kuán-lí-guân ê kuat-tīng tsí ē iōng tī in ê tián-lám-kuán. Bē sī ē-té ê kéng-kò, mā bē ù-tsiūnn lí hun-hióng kong-khai ê lêng-lik."
+                ]
+            },
+            "donate": {
+                "header": "$~Kuān-tsìn",
+                "prompt": "$~Pang-chān guán tsū-tsāi @wordplay ê khai-hoat",
+                "content": [
+                    "$~@wordplay sī tsi̍t-ê bián-huê, siā-khu-hòng-hāu ê tsuan-àn, tsiânn <Uá-sîn-tùn Tāi-ha̍k@https://washington.edu> tsi-tshî. Guán khò kūn-tsú ê pòo-tsō. In-uī in sìn-siōng guán ê su-bēng: ták-ê lóng iōng-ē-tio̍h, gí-giân lóng pau-hâm, kàu-io̍k ê thîng-sik gí-giân.",
+                    "Liân-kuè guán tsit-má ê khai-siáu:",
+                    "• Guán hō Uá-sîn-tùn Tāi-ha̍k ê tāi-ha̍k-seng tsînn, tshiū-á sī tsiah-ê ū tshân-tsì, á sī thâu-tsi̍t-ê gí-giân m̄-sī Eng-gí ê, lâi kái-liông kap pó-tsùn tsuan-àn. Tse tsiām-liáu guán khai-siáu ê 90%.",
+                    "• Guán hō kap guán tsò-hué khai-hoat to-gí-giân, ū-tsînn ê kàu-châi ê lāu-su pòo-tsō-kim.",
+                    "• Guán hō Google kè <Firebase@https://firebase.google.com/> ê tuann-uân kap khùn-kang-kan, koh ū <Workspace@https://workspace.google.com/> ê hok-bū.",
+                    "• Guán múi nî hō <Squarespace@https://www.squarespace.com/> kè uī-tsí ê tshun-hūn.",
+                    "Guán tsit-má ê khai-siáu, sǹg 5 ê tāi-ha̍k-seng, múi sió-sî $$20 bí-kim, ha̍k-nî tiong múi lé-pài 10 ê tsîng-thâu (36 lé-pài), 7-gue̍h tiong ū 2 ê tāi-ha̍k-seng (12 lé-pài), tsiāu-tshiūnn hûn-tuān hok-bū, tsóng-kiōng múi nî iok $$60K bí-kim.",
+                    "Ná ū 2,400 ê lâng múi nî hō $$25 bí-kim, tō ē-sái kè-tshái guán tsit-má ê khai-siáu, tshun-lòh-lâi ê tō hō khah-tsē ha̍k-seng kap lāu-su.",
+                    "Lí ē-sái sī tsit 2,400 ê lâng tiong-kan ê tsi̍t-ê bô? Nā ē-sái, tsia sī guán Uá-sîn-tùn Tāi-ha̍k ê pòo-tsō liân-kiat:"
+                ]
+            },
+            "design": {
+                "header": "$~Siat-kè",
+                "description": "$~Tse sī @wordplay ê khuànn-kìnn siat-kè hē-thóng ê tsham-khó, pau-kuat sik-tshái, jī-thé, kan-kik, kap thang tsài-iōng ê tsō-kiāⁿ. Beh khuànn-kuè kòng-hiàn ê tsí-lâm, ē-sái khuànn <siat-kè wiki@https://github.com/wordplaydev/wordplay/wiki/design> kap <khai-hoat wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
+                "theme": "$~Tsú-tê",
+                "colors": "$~Sik-tshái",
+                "seasons": "$~Kè-tsiat",
+                "seasonsDescription": "$~Kè-tsiat ē kā bāng-tsām tāi sin ê sik-tshái, koh tī piⁿ-á ka-thiam kè-tsiat ê tô-àn. Múi-tsi̍t-ê kè-tsiat sī tī ìng-kng kap àm-sik í-gōa ê tē-jī-ê tsuh, nn̄g-ê khuán-sik lóng ū sik-tshái, mā tio̍h kuè kap siōng-ki-pún kâng-khuán ê tuì-pí-tōo kiám-tsa, tsiah ē-sái huat-piáu. Múi-ê kè-tsiat ê sik-tshái kap tô-àn lóng sī tsu-liāu, tī <kè-tsiat guân-sí-tóng@https://github.com/wordplaydev/wordplay/tree/main/src/seasons>.",
+                "accessibility": "$~Sik-tshái ê Bô-tsiong-ngāi",
+                "accessibilityRules": [
+                    "$~Kui-ê ē-sái-tsò *bûn-jī* ê, tio̍h iōng AA bûn-jī ê pían-thé (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, á sī tsí-tio̍h tsiah-ê ê gí-gī piàn-sòo), tse tuì-pí-tōo ē kàu <WCAG 2.2@https://www.w3.org/TR/WCAG22/> iau-kiû ê 4.5:1. Khah kng ê phín-pâi sik-tshái tsí-ē-sái iōng tī pōe-kíng, piⁿ-kôo, kap kang-tiàm, tsiah-ê tsí-iau 3:1, á sī bô-iau-kín. Tsiah-ê pí-lī ē iōng tan-guân tshìn-tshì kap múi-tsi̍t-ia ê ka-tōng só-bió lâi pó-tsīng, ìng-kng kap àm-sik nn̄g-khuán lóng ū. Ū tsi̍t-ê ū-ì ê lē-gōa: ìng-kng ê piⁿ-kôo hôo-sik ê tuì-pí-tōo kuí-ná 3:1, in-uī tsia ê piⁿ-kôo tsí-sī hō lâng hun-khui, múi-ê tiōng-iàu ê kài-sòaⁿ lóng ū pa̍t-ê siòng-sîn.",
+                    "Mài tsí-iōng sik-tshái lâi piáu-tsi ì-sù: múi-ê iōng sik-tshái hun-lui ê tsōng-thāi, lóng ài ka-thiam tē-jī-ê siòng-sîn, tshiūnn-sī hîng-siōng, sòaⁿ-iūⁿ, tô-àn, á sī jī. Pí-lī, pian-tsi̍t-khì ê kuann-piau kap tiōng-tāi tshiong-tu̍t ēng *si̍t-sòaⁿ*, tsíng-tiōng ê su-tshut ēng *tuān-sòaⁿ*, sió-ê tshiong-tu̍t ēng *tiám-sòaⁿ*, án-ne bô sik-tshái mā ē-sái hun-piàt tshiong-tu̍t ê tiōng-tāi kap huān-uî.",
+                    "Ài khuànn uân-tsióng ê kòng-hiàn-tsiá tsí-lâm, khuànn <siat-kè wiki@https://github.com/wordplaydev/wordplay/wiki/design>."
+                ],
+                "palette": "$~Phín-pâi",
+                "semantic": "$~Gí-gī Sik-tshái",
+                "fonts": "$~Jī-thé",
+                "spacing": "$~Kan-kik",
+                "typography": "$~Pâi-jī",
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Wordplay ê logo sī tsi̍t-ê kóng-uē ê phāu-phāu, lāi-té ū tsi̍t-ê jī: tsi̍t-ê sió sió ê bú-tâi, phāu-phāu ē-sái kóng tsiah-nī-tsē-mi̍h — tsi̍t-ê tuā-puànn tha̍k-tsiá ê su-siá hē-thóng ê jī, tsi̍t-ê emoji, á sī tsiânn-tsāi ê sî ê hîng-khuân, saⁿ-kak-hîng, kap sì-kak-hîng. Tī app lāi-té, jī ē suî lí ê tsú-iàu gí-giân ê su-siá hē-thóng; tī bô-tuì-tsiok-jī ê tē-hng, tshiūnn-sī ia̍h-lāi ê tô-àn kap hun-hióng ê siòng-phìnn, phāu-phāu tō sī sann-ê hîng-khuân, tsun-pī beh tsò-tsi̍t-ê mi̍h-kiāⁿ.",
+                    "Tô-àn pún-sin tsin-bô ē tsit-tsāi tōng-tsok. Tōng-tsok sī hêng-uī-sèng ê — tshòng-lāi ê tâu-ia̍h ē kap gí-giân ê suán-tsik-khì tsi̍t-sî, tsuán tsi̍t-ê kóng ê mi̍h-kiāⁿ; tsiânn-tsāi ê sî, hîng-khuân ē lûn-liû thiàu, tshiūnn-sī koàn-tsiòng tsò-bú-sé-tsi̍t-pái — mā tio̍h suî tōng-uē sok-tōo ê siat-tīng lâi su-hòng, tōng-uē koaiⁿ-tiāu ê sî tō kui-ê thîng.",
+                    "Logo siông-siông iōng tsit-má ê bûn-jī sik-tshái ê huē, só-í bûn-jī tī tó-uī ū tuì-pí-tōo iau-kiû, logo mā tī hia."
+                ],
+                "components": "$~Tsō-kiāⁿ",
+                "copyvalue": "$~khóo-pih uân-tsióng ê CSS ta̍t",
+                "col": {
+                    "component": "$~Tsō-kiāⁿ",
+                    "preview": "$~Sing-khuànn",
+                    "variable": "$~Piàn-sòo",
+                    "color": "$~Sik-tshái",
+                    "hex": "$~Hex",
+                    "contrast": "$~Tuì-pí-tōo",
+                    "description": "$~Suat-bîng",
+                    "cssvalue": "$~CSS ta̍t",
+                    "computed": "$~Ê-tsū-tāng-kè-sǹg ê",
+                    "primaryface": "$~Tsú-tsuè-hîng"
+                },
+                "demo": {
+                    "button": "$~Lē-tsú",
+                    "note": "$~Chit-ê sī pit-kì.",
+                    "notice": "$~Chit-ê sī thong-tsconvert.",
+                    "header": "$~Tuā-piau-tê",
+                    "subheader": "$~Sió-piau-tê",
+                    "toggleon": "$~Khui",
+                    "toggleoff": "$~Koo̍h",
+                    "textfieldplaceholder": "$~Su-ji̍p bûn-jī…",
+                    "textfielddescription": "$~Lē-tsú bûn-jī-khuán",
+                    "optionslabel": "$~Lē-tsú",
+                    "optiona": "$~Sûn-hāng A",
+                    "optionb": "$~Sûn-hāng B",
+                    "optionc": "$~Sûn-hāng C",
+                    "logoresting": "$~Tsāi-hia-khùn",
+                    "logoloading": "$~Tsiāⁿ-teh kah-tsāi",
+                    "logoscripts": "$~Kuè-tsē-tsióng bûn-jī-hē-thóng",
+                    "logodownloadsvg": "$~Há-tsài SVG",
+                    "logodownloadpng": "$~Há-tsài PNG (512px)",
+                    "logodownloadcard": "$~Há-tsài hun-hióng ê tuè-siōng"
+                }
+            },
+            "thanks": {
+                "header": "$~To-siā",
+                "intro": "$~Kám-siā lán ê *$#count[$count-ê kòng-hióng-tsiá|$count-ê kòng-hióng-tsiá]*, tsò-tsō @wordplay ê siat-kè, khai-hoat, pún-tē-huà, kah loē-iông! Mā kám-siā tsiok-tsē lāu-su kah tsheⁿ-siàu-liân, in tī tsiōng-tsóng-tsú-tsí-tsu-tsóng-lūn, siat-kè-huē-gī, kah ha̍k-tông-sī-tsuè tsiong-tsīn bē-kì, in ê miâ lán bô liat tī chia, ûi-tióh pó-hōo in ê un-sū.\n\nChit-ê tsuan-àn sī Bí-kok Kok-ka Kho-ha̍k Ki-kim-huē (National Science Foundation, hōo-gī 2318257, 2031265, 2100296, kah 2122950), Hua-sìng-tùn Tāi-ha̍k, kah ná lí án-ni ê lâng ê tuā-hong <siōng-tsi̍h@://donate> lâi tsi-tshî.",
+                "teachers": "$~Lāu-su",
+                "contributors": "$~Kòng-hióng-tsiá"
+            },
+            "admin": {
+                "header": "$~Su-kuân",
+                "prompt": "$~Ē-kha ê lâng lóng ē-tàng tsò ta̍k-ke bē-tàng tsò ê tāi-tsì. Tsia ê piàn-kiù ē liâm-mê hōo in, m̄-koh in í-king khui-leh ê tsiah-ūi, khó-lîn ài tsit-tiám-tsing tsiah ē khuànn-tio̍h. Superuser pau-hâm tsú-tshî kah kà-tó, in-ūi án-ni, ū hit-ê su-kuân ê lâng bô-su-iàu kî-tha nn̄g-ê.",
+                "claim": {
+                    "admin": "$~Tsiok-kip iōng-tsiá",
+                    "mod": "$~Kuán-lí-guân",
+                    "teacher": "$~Lāu-su",
+                    "banned": "$~Bē-tàng kong-khai hun-hióng"
+                },
+                "creator": "$~Tsòe-tsiá",
+                "email": "$~Email",
+                "privileges": "$~Su-kuân",
+                "button": {
+                    "revoke": "$~Pa̍h-tsuè khuân-lī lóng tshú-tiāu",
+                    "lift": {
+                        "label": "$~Hôan-khuè hun-hióng",
+                        "tip": "$~Hōo tsit-ê tsòe-tsiá koh-tsài-ū thang kong-khai hun-hióng, mā kā i ê kíng-kò tsú-sò kui-nn̄g"
+                    }
+                },
+                "confirm": "$~I ê kíng-kò tsú-sò kui-nn̄g, koh ū thang kong-khai hun-hióng. Tse sī án-tsuánn ê kì-lio̍k ē lâu-leh, āu-lâi ê kuán-lí-guân khuànn-i ê sî-tsūn iáu-sī khuànn-ē-tio̍h.",
+                "ownAdmin": "$~Lí bē-tàng kā ka-tī ê khuân-lī tshú-tiāu. Tshiánn kiò kî-thuann ê kuán-lí-guân.",
+                "nobody": "$~Iáu-bē ū lâng ū khuân-lī.",
+                "proxy": {
+                    "header": "$~Án-nā ta̍k-ê khuànn",
+                    "prompt": "$~Ná-chhin kî-thuann ê tsòe-tsiá, khui Wordplay, khuànn i tī sī-tsū bô-tsiàu-kuí ê sî-tsūn khuànn-tio̍h siánn-mih. Tse tsí-ē-tàng khuànn: lí tsò siánn-mih lóng bē tâi-á-kì, i mā bē tsai-iánn lí ū lâi. Tse ē tī sin ê hā̍k-sip-ia khui, kā hit-ê ia koân-kàu tō kiat-sok.\n\nMn̄-kuán siáng tsò tse, lóng ē ki-lio̍k.",
+                    "start": {
+                        "label": "$~Khuànn",
+                        "tip": "$~Tī sin ê ia, ná-chhin tsit-ê tsòe-tsiá khui tsí-ē-tàng khuànn ê liân-ka"
+                    }
+                },
+                "error": {
+                    "notadmin": "$~Tse sī tsiok-kip iōng-tsiá ê khong-kan. Tsia bô siánn-mih ū-thang lí kái-piàn ê.",
+                    "login": "$~Lí tio̍h-ài <teng-ji̍p@://login> tsiah khuànn ē-tio̍h tsit-ia.",
+                    "offline": "$~Bô-hoat-tō kā ū khuân-lī ê lâng tsàu-tio̍h. Lí ū liân-sòa-ing-uân bô?",
+                    "save": "$~Bô-hoat-tō kā tsit-ê kái-piàn khǹg-khí-lâi. Koh tshìn-khuànn-māi?",
+                    "none": "$~Ti̍h-ài sian-tsú tsi̍t-ê khuân-lī tsiah thang ka-ji̍p lâng."
+                }
+            }
+        }
+    }
+}

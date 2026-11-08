@@ -1,0 +1,39 @@
+Hōo im-ga̍k tuè-leh tsò-tāng-tsîng ê tōng-tsok
+
+Tsit-ê iû-hì ū tsi̍t-tsiah khik-á tuì khai-sí pìnn kàu soah, tio̍h-sī bô piàn-uā. Nā-sī im-ga̍k tsai-iánn lí kám ū-leh ìnn, tse tsiūnn án-ne?
+
+Bô huat-tō̍ʼkā * thîng * tsi̍t-ê @Music — ē thîng-lo̍h-lâi, sī in-uī bô-tī @Stage. Số-ì lí tio̍h-ài kì-tsú tsi̍t-ê tsōng-thāi, koh hōo kah tsit-ê tsōng-thāi sio-tsiah ê kua-khik khìg tī bú-tâi:
+
+\
+phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'tsui' 'menu'
+
+theme: [1 ø 3 ø 5 ø 6 ø]
+
+Bútâi([
+	Kù((phase = 'menu') ? '▶ ǹg-kha khai-sí' '🏃 tsáu!' 1m)
+	(phase = 'menu')
+		? Imga̍k(Imkuí(theme ga̍kkhì: Ga̍kkhì.lînglông) soktōo: 72beats/min)
+		Imga̍k(Imkuí(theme ga̍kkhì: Ga̍kkhì.ha̍psîngkhì) soktōo: 132beats/min)
+])
+\
+
+ Nn̄g-tsiah kua-khik tio̍h-sī kāng-khuán ê poeh-ê sò-jī. Tsí-sī lehn-khì kah sok-tó-tō piàn, thian-khí-lâi tio̍h-sī bô-kāng ê khik-á — in-uī tó-sòo kóng ê sī * im-kai ê tē kúi-kai *, m̄-sī tó-tsi̍t-ê im-kó, số-ì tsi̍t-ê @Music ē-sái tsài-kái-sik. Hōo i \scale: Imga̍k.hôsiannSiótiāu\ tsit-tsiah khik-á tō ē piàn kah hōo lâng tshàm-tshàm-khuànn, m̄-bián kái-tio̍h tsi̍t-ê im-hû.
+
+Lēng-gua̍h-ê it-puànn sī im-ga̍k ē tuè-leh tsōng-khuànn tsiām-tsiām piàn. Kái \tempo\ bē tsài-lâi, tsí-sī tī ē-tsi̍t-phah tsiap-tī-liáu, hōo khik-á kiat-khuài, m̄-bián sit-khì uī-tì:
+
+\
+score: 0 … ∆ Button() … score + 1
+urgency: (score ÷ 10).siōngsió(1)
+
+Bútâi([
+	Kù('score \score\' 1m)
+	Imga̍k(
+		Imkuí([1 5 8 5] ga̍kkhì: Ga̍kkhì.kóo)
+		soktōo: (90 + (urgency · 90)) · 1beats/min
+	)
+])
+\
+
+ Ná ànn kúi-nā-pái, kó tō-ē tshiânn-lah kah khai-sí ê nn̄g-puē. Tsi̍t-ê té-tshuì ê im-hû tō-sī hōo lí thia̍h-tio̍h ê tsiàu-lí — tī tn̄g-im ê ē-bīn, sok-tó-tō ê piàn-uā ū-iánn-sī-bái kám-kak.
+
+choose-an-instrument, play-a-sound-effect, track-game-state

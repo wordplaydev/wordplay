@@ -1059,6 +1059,9 @@
         "eff192c2e6b21": "$~이제 색 선택기에 색의 이름이나 웹 페이지에서 쓰는 코드를 직접 입력할 수 있습니다. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
         "edd342aefe00f": "$~히브리어 지역 설정의 기계 번역을 추가했습니다 (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
         "ee9e6be8c1dfa": "$~*보는 사람과 댓글 작성자*. 이제 다른 사람이 프로젝트를 보거나, 보고 대화할 수 있게 하면서도 수정은 못 하게 할 수 있습니다. 또 갤러리에 있는 프로젝트를 큐레이터에게만 보이게 할 수도 있습니다 (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
-        "eba572ebe4c3f": "$~이제 갤러리에 방법 안내 공간이 생겼습니다. 큐레이터와 창작자가 알아낸 것을 서로 나눌 수 있습니다 (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
+        "eba572ebe4c3f": "$~이제 갤러리에 방법 안내 공간이 생겼습니다. 큐레이터와 창작자가 알아낸 것을 서로 나눌 수 있습니다 (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
+        "e559bcfa865df": "$~러시아어, 우크라이나어, 말라얄람어, 광둥어, 대만 민난어(타이로 표기)를 추가했습니다. 이제 더 많은 분들이 집에서 쓰는 언어로 Wordplay를 사용할 수 있습니다!",
+        "e53524c65f4f2": "$~작은 화면에서 편집 모드와 재생 모드를 바꿀 때 무대와 코드가 더 이상 서로 자리를 바꾸지 않습니다. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
+        "ee481670339a2": "$~\\@wordplay/instruments\\ 이 들어 있는 지휘자 예제처럼 키트를 빌려 쓰는 프로젝트가 이제 카메라에 손이 보이거나 다른 입력이 바뀌어도 오류를 내며 멈추지 않습니다."
     }
 }

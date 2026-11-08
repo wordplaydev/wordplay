@@ -1,0 +1,27 @@
+Tsò tsi̍t-ê tsu-guân ê keh-á piáu
+
+Nā-sī lán beh ài hâng / kap / lân tsāi-tsi̍t-tsūn leh? Tse tō-sī @Grid ê iōng-tīng.
+
+Tsi̍t ê @Grid ē mn̄g hâng ê sòo-liāng, lân ê sòo-liāng, kah keh-á tiong-kan beh kuè jōa kuân ê khang-uī.
+
+\
+Kûntsoo(Kehá(2 3 0.25m) [
+    Kù('🍎') Kù('🍌') Kù('🍇')
+    Kù('🥕') Kù('🥦') Kù('🌽')
+])
+\
+
+ Tse tsò tsi̍t-ê 2 hâng 3 lân ê tsuí-kó kah tshài-á hn̄g-á!
+
+Nā-sī lí ài múi-ê keh-á lóng kāng-khuán tuā, mā hō· @Grid khuah-tō kah koân-tō. án-ne tsu-guân tō ē sūn-sūn-á tòa tī in ê hong-keh nih-té, kiânn-tshiūnn in ê tuā-sè bô kāng mā ē-tit:
+
+\
+Kûntsoo(Kehá(2 2 0.1m 1.5m 1.5m) [
+    Kù('🐈' tuātsè: 1m)
+    Kù('🐶' tuātsè: 1.5m)
+    Kù('🦊' tuātsè: 0.5m)
+    Kù('🐻' tuātsè: 2m)
+])
+\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

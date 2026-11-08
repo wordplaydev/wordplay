@@ -1,0 +1,2231 @@
+{
+    "$schema": "../../../static/schemas/sections/output.json",
+    "output": {
+        "Output": {
+            "names": "$~Sutshut",
+            "doc": [
+                "$~Guá m̄-sī lí ū-thang tsòe-tshut-lâi ê @StructureDefinition. Ṅ-koh guá tsiok tiōng-iàu, in-ūi guá khí-hing lán bú ê tsòe tiōng-iàu ê @elements: @Phrase、@Group kap @Stage.",
+                "Khì tsap-tsap in, khuànn kám ē-sái ka-tī iōng."
+            ]
+        },
+        "Group": {
+            "doc": [
+                "$~Guá ēng tsi̍t-ê @Arrangement kā @Phrase、@Shape kap @Group tī @Stage siōng-tsiòng-tsò-hóe. Ah, lí-hó, lí án-tsuánn? Pa̍k-lâng tī-teh ê sî guá tsiok hó, hōo lí tī-tsia ū tsiok hoan-hí!",
+                "Beh khai-sí tsò-kang, guá su-iàu lí hōo guá tsi̍t-ê @Arrangement, jiân-āu tsi̍t-ê @Output ê @List lâi an-pâi.",
+                "Pí-lūn, tsia sī guá ēng tsi̍t-ê @Stack ê an-pâi, kap kuí-ê beh tsīng-tit-tsiūnn tíng-tsiūnn ê @Phrase:",
+                "\\Kûntsoo(Tha̍h() [Kù('tē-it') Kù('tē-jī')])\\",
+                "Guá tsin-tsiànn án-tsuánn an-pâi mi̍h-kiānn, tio̍h khuànn lí hōo guá ê @Arrangement."
+            ],
+            "names": ["$~Kûntsoo"],
+            "layout": {
+                "doc": "$~Ēng-lâi kā @Output pâi-tī in ê uī-tì ê an-pâi.",
+                "names": "$~pâipán"
+            },
+            "content": {
+                "doc": "$~Beh an-pâi ê @Output ê lia̍h-tsông.",
+                "names": "$~lāiiông"
+            },
+            "matter": {
+                "doc": "$~Guá ū guā tāng、guā ē tsông、guā hōo-hōo-tsù, kap @Motion suá guá ê sî sím-mih lâi hōo guá tsiânn kiānn-kò.",
+                "names": "$~bu̍ttsit"
+            },
+            "size": {
+                "doc": "$~Guá lāi-bīn hit-ê hó-sè ê lāi-iông ài guā koân, nā-bô in ka-tī ê tuā-sè.",
+                "names": "$~tuātsè"
+            },
+            "face": {
+                "doc": "$~Guá lāi-bīn ê lāi-iông ài ēng ê jī-thé ê miâ, nā-bô in ka-tī ê jī-thé.",
+                "names": ["$~jīthé"]
+            },
+            "place": {
+                "doc": "$~Tī bú-tâi téng guá ài tī ê uī-tì. Guá lāi-té ê loē-iông ē kui-tī hia lâi pâi-liat.",
+                "names": "$~uītì"
+            },
+            "name": {
+                "doc": ["$~Kap @Phrase.name kāng-khuán!"],
+                "names": "$~miâ"
+            },
+            "description": {
+                "doc": [
+                    "$~Siá hō bô-hoat-tōo khuànn-tio̍h-ing-siōng ê thiann-tsiòng ê suat-bîng."
+                ],
+                "names": "$~suatbîng"
+            },
+            "selectable": {
+                "doc": "$~Kap @Phrase.selectable kāng-khuán!",
+                "names": "$~ētàngkíng"
+            },
+            "color": {
+                "doc": "$~Guá lāi-té ê loē-iông ài iōng ê @Color, nā bô ka-kī ê iânn-sik.",
+                "names": "$~sik"
+            },
+            "background": {
+                "doc": "$~Tsiah tī guá āu-piah ê @Color.",
+                "names": "$~puèkíng"
+            },
+            "opacity": {
+                "doc": "$~Guá lāi-té ê tsit-tsuā ài jōa-tuā-sìng thàu-bîng, tī \\0\\ kap \\1\\ tsi-kan, nā bô hō pa̍t-ê @Pose kái-tiāu.",
+                "names": "$~putthàumîng"
+            },
+            "offset": {
+                "doc": "$~Tsit ê @Place kóng guá kap goân-pún @Place ê uī-tì ài tshun jōa-hn̄g, nā bô hō pa̍t-ê @Pose kái-tiāu. Ē-sái hō guá tī-tshù iāⁿ-tāng.",
+                "names": "$~phianî"
+            },
+            "rotation": {
+                "doc": "$~Guá ài uân-tsiông tiong-sim khiau jōa-tuā, nā guá ê @Pose ū pa̍t-ê tō ēng pa̍t-ê.",
+                "names": ["$~suântsuán"]
+            },
+            "scale": {
+                "doc": "$~Guá ài kap goân-pún ê tōa-sè pí jōa-tuā.",
+                "names": "$~imkai"
+            },
+            "flipx": {
+                "doc": "$~Kap @Phrase.flipx kāng-khuán!",
+                "names": "$~huanx"
+            },
+            "flipy": {
+                "doc": "$~Kap @Phrase.flipy kāng-khuán",
+                "names": "$~huany"
+            },
+            "entering": {
+                "doc": "$~Kap @Phrase.entering kāng-khuán!",
+                "names": "$~ji̍plâi"
+            },
+            "resting": {
+                "doc": "$~Kap @Phrase.resting kāng-khuán!",
+                "names": "$~hiohkhùn"
+            },
+            "moving": {
+                "doc": "$~Kap @Phrase.moving kāng-khuán!",
+                "names": "$~suátāng"
+            },
+            "exiting": {
+                "doc": "$~Kap @Phrase.exiting kāng-khuán!",
+                "names": "$~tshutkhì"
+            },
+            "duration": {
+                "doc": "$~Kap @Phrase.duration kāng-khuán!",
+                "names": ["$~sîtn̂g"]
+            },
+            "style": {
+                "doc": "$~Kap @Phrase.style kāng-khuán!",
+                "names": "$~hongkeh"
+            },
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
+        },
+        "Phrase": {
+            "doc": [
+                "$~Guá tāi-piáu @Text tiong siōng thang-thiànn ê tsit-ê, tī @Stage téng. Lí-hó, lí-hó! Ū kì-tit guá bô? Án-tsuánn ē bē-kì-tit /guá/.",
+                "Tsí-ài kā guá siá-tsò án-ni, guá tō ē tshut-hiān tī @Stage:",
+                "\\Kù('tsiok-kuân-ê!')\\",
+                "Guá ài @TextLiteral á-sī @FormattedLiteral tsiah ē hián-sī. Ēng @FormattedLiteral, guá ē-sái ēng \\`*tshoo-thé* kap /pháng-uē/`\\ chit-khuán, mā ē-sái kā lí ka-kī tsò ê @ConceptLink ēng--khí-lái.",
+                "Lí mā ē-sái hō guá @Output ê su-tsuè lóng ū, pau-kuat kái guá ê tōa-sè, tsu-thé, soaⁿ-tsuan, mā ē-sái ēng @Pose kap @Sequence thiàu guá ê koh-iūnn sin-kî ê bú.",
+                "Lí mā ē-sái tī @Stage téng suán guá, ēng piah-pinn ê tiāu-sik-pán 🎨 lâi pian-tsi̍p guá — tse sī si̍t-sī ê hó-huat, ē-sái sì kuí-nā-khuán tsu-thé, suán-tio̍h tsiok-tsiâⁿ lí @Text ê /jīthé/."
+            ],
+            "names": ["$~Kù"],
+            "text": {
+                "doc": "$~Tioh̍ tī @Stage hián-sī ê jī, sī @TextLiteral á-sī @FormattedLiteral.",
+                "names": "$~bûnjī"
+            },
+            "size": {
+                "doc": "$~Guá ài jōa-koân, ēng kong-tshioh lâi sǹg!",
+                "names": "$~tuātsè"
+            },
+            "face": {
+                "doc": "$~Guá ài tshēnn ê tsu-thé miâ. Siōng khuài ê suán-hhuat sī suán guá, jiân-āu khui piah-pinn ê tiāu-sik-pán 🎨, tī hia ē-sái khuànn tsu-thé ê iáⁿ, suán tsit-ê /jīthé/, m̄-bián phah i ê miâ.",
+                "names": "$~jīthé"
+            },
+            "place": {
+                "doc": "$~Tī bú-tâi téng guá ài tī ê uī-tì.",
+                "names": "$~uītì"
+            },
+            "wrap": {
+                "doc": "$~Guá ài tī toh-tsi̍t-pinn tsóng-hâng hu-hō, á-sī \\ø\\ nā m̄-ài tsóng-hâng.",
+                "names": ["$~uānnhâng"]
+            },
+            "alignment": {
+                "doc": "$~Nā ū siat @Phrase.wrap pinn-kài, hu-hō ài tùi-tsê khai-thâu, tiong-ng, á-sī kiat-bué.",
+                "names": "$~tuìtsê"
+            },
+            "direction": {
+                "doc": "$~Hu-hō sī hâng-siá á-sī ti̍t-siá, nā sī ti̍t-siá koh ū siat @Phrase.wrap, bûn-jī sī tuì tsái-pinn á-sī iū-pinn tsóng-hâng.",
+                "names": "$~honghiòng"
+            },
+            "matter": {
+                "doc": "$~Guá ū guā tāng、guā ē tsông、guā hōo-hōo-tsù, kap @Motion suá guá ê sî sím-mih lâi hōo guá tsiânn kiānn-kò.",
+                "names": "$~bu̍ttsit"
+            },
+            "aura": {
+                "doc": "$~Beh tī guá āu-piah hián-sī ê @Aura, kap-tsâi khì. Hō guá huat-kng!",
+                "names": "$~kongkhuân"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Guá teh kóng ê uē, ēng sio̍k-thâu khuán-á ê tui-uē-khuànn, tsí-tio̍h guá. Tsia ē-sái khǹg sì-khuán tāng-tsāi.",
+                    "Phó-thong ê jī, guá kan-nā hián-sī, mā-bô pa̍t-ê:",
+                    "\\Kù('a' phā: 'lí-hó!')\\",
+                    "Iū-pàng-sik ê jī, nā beh tī guá kóng ê uē ē ū *tshâ-thê* á-sī /pinn-khuànn/ ê jī.",
+                    "Í @Say, guá *hián-sī koh* tshut-siann kóng:",
+                    "\\Kù('a' phā: Kóng('lí-hó!'))\\",
+                    "Í @Bubble, nā beh suán guá tuì tá-pinn kóng, siá-tsò siūnn-ê, á-sī hō i iânn-sik."
+                ],
+                "names": "$~phā"
+            },
+            "poses": {
+                "doc": [
+                    "$~Hō guá múi-ê jī-hîng ê @Pose, tsi̍t-ê tsi̍t-ê lâi. Tē-it-ê jī-hîng ū tē-it-ê pose, tē-jī-ê ū tē-jī-ê, pose iōng-bué ê sî, tuì tē-it-ê koh khai-sí. Khang-keh mā sǹg-sī jī-hîng.",
+                    "\\Kù(\n\t'phuè-tuì!'\n\ttsusè: [\n\t\tTsusè(sik: Siktshái(25% 70 250°))\n\t\tTsusè(sik: Siktshái(50% 80 300°))\n\t\tTsusè(sik: Siktshái(58% 90 60°))\n\t]\n)\\",
+                    "Múi-ê jī-hîng ka-kī ê tiong-sim lâi soaⁿ, tuā, suá, só-í tsi̍t-ê pose ē hō múi-ê jī-hîng tī-tshù khiau, guá ê hâng tsiū kāng-khuán tî-tî:",
+                    "\\Kù('khiau-khiau-iāⁿ' tsusè: Tsusè(suântsuán: 15°))\\",
+                    "Jī-hîng ka-kī ê iânn-sik pí guá ê kap guá teh tsò tāng-tsok ê pose lóng tsiàu, i ê thàu-bîng-tōo kap guá ê ē hap-tsò-hóe."
+                ],
+                "names": "$~tsusè"
+            },
+            "name": {
+                "doc": [
+                    "$~Lí ê hō guá ê tsit-ê miâ! Tse ū hó-kuí-khuán iōng-tshù.",
+                    "Tē-it, nā guá ū miâ, guá ē ēng tse lâi tī pīnn-bīn-iok tuh-thak-khì ê suat-bîng-tsūn ê suat-bîng ka-kī.",
+                    "Tē-jī, tsò tāng-tsok ê sî, lí ē-sái ū hó-kuí-ê @expressions tsiàu tsit-ê loē-iông tī bú-tâi téng; hō i-tī kāng-khuán ê miâ, i tō ē tsò-hóe tāng-tsok.",
+                    "Sòo-bué, guá tùi @Choice mā ū-ēng: lí hō guá ê miâ ē tshut-hiān tī tsit-ê @stream.",
+                    "Lí ē-sái hō guá hó-kuí-ê miâ, múi-ê ēng bô-kāng ê @language, nā ū-ēng ê uē. Guá ē-tsióng ēng tē-it-ê suán-ê gí-giân ê miâ."
+                ],
+                "names": "$~miâ"
+            },
+            "description": {
+                "doc": [
+                    "$~Ka-kī siá ê suat-bîng, hō bô-hoat-tōo khuànn-tio̍h-ing-siōng ê thiann-tsiòng."
+                ],
+                "names": "$~suatbîng"
+            },
+            "selectable": {
+                "doc": "$~Nā sī \\⊤\\, tō-sī kóng lí ē-sái ēng tsí-piau á-sī kiān-pan tsí-tshú góa.",
+                "names": "$~ētàngkíng"
+            },
+            "color": {
+                "doc": "$~Góa ê @Color tsū-sī án-nuā, tiāⁿ-sī ū pa̍t-ê @Pose lâi kái-tiāu.",
+                "names": "$~sik"
+            },
+            "background": {
+                "doc": "$~Tsiah tī guá āu-piah ê @Color.",
+                "names": "$~puèkíng"
+            },
+            "opacity": {
+                "doc": "$~Góa tsū-sī án-nuā thàu-bîng, tī \\0\\ kah \\1\\ tsi-kan, tiāⁿ-sī ū pa̍t-ê @Pose lâi kái-tiāu. Ēng-lâi tàu tâⁿ-tâⁿ kah tshut-khì ē-sái pang-pâng.",
+                "names": "$~putthàumîng"
+            },
+            "offset": {
+                "doc": "$~Tsit ê @Place kóng góa tùi @Place ài phian-suá guā-ê, tiāⁿ-sī ū pa̍t-ê @Pose lâi kái-tiāu. Ēng-lâi tī-tsāi-uī khiáu-khiáu-á lia̍h-lia̍h-á ē-sái pang-pâng.",
+                "names": "$~phianî"
+            },
+            "rotation": {
+                "doc": "$~Góa ài uan kuí-tō (iōng tō-sòo kì), uan-tiong-sim sī góa ê tiong-ng, tiāⁿ-sī ū pa̍t-ê @Pose lâi kái-tiāu.",
+                "names": "$~suântsuán"
+            },
+            "scale": {
+                "doc": "$~Góa ài khuah-tuā guā-tuā, kap goân-pún ê tuā-sè sio-pí, tiāⁿ-sī ū pa̍t-ê @Pose lâi kái-tiāu.",
+                "names": "$~imkai"
+            },
+            "flipx": {
+                "doc": "$~Góa ài m̄-ài tī x-tsik ê hong-hiòng tùi-tshiùⁿ huan-tīng, tiāⁿ-sī ū pa̍t-ê @Pose lâi kái-tiāu.",
+                "names": "$~huanx"
+            },
+            "flipy": {
+                "doc": "$~Góa ài m̄-ài tī y-tsik ê hong-hiòng tùi-tshiùⁿ huan-tīng, tiāⁿ-sī ū pa̍t-ê @Pose lâi kái-tiāu.",
+                "names": "$~huany"
+            },
+            "entering": {
+                "doc": "$~Góa ji̍p-lâi bú-tâi ê sî, ài tsò ê @Pose á-sī @Sequence.",
+                "names": "$~ji̍plâi"
+            },
+            "resting": {
+                "doc": "$~Góa ji̍p-lâi bú-tâi liáu-āu, boē lī-khui chìn-chiah, mā @Place bô piàn ê sî, ài tsò ê @Pose á-sī @Sequence. Nā lí bô hōo góa, góa tō ēng góa ê tsū-sī-tāi.",
+                "names": "$~hiohkhùn"
+            },
+            "moving": {
+                "doc": "$~Góa tī bú-tâi suá-uī ê sî, ài tsò ê @Pose á-sī @Sequence, m̄-ēng góa ê tsū-sī-tāi.",
+                "names": "$~suátāng"
+            },
+            "exiting": {
+                "doc": "$~Lī-khui bú-tâi chìn-chiah, ài tsò ê @Pose á-sī @Sequence.",
+                "names": "$~tshutkhì"
+            },
+            "changing": {
+                "doc": "$~Góa ê bûn-jī piàn-tsó ê sî, ài ēng tó-chı̍t-ê hāu-kó, tī góa ê @Phrase.duration lāi-té, ēng góa ê @Phrase.style lâi tiâu-sok. Nā sī \\ø\\, góa ê bûn-jī tō tsiōng-sî piàn. Nā sī 'edit', góa tō kā kū bûn-jī tè tsiah-kàu sin-kū bûn-jī kāng-khuán ê só-tsāi, tsiah-āu koh phah sin-ê. Nā sī 'rewrite', góa tō tī kū bûn-jī téng-bīn phah sin-ê, tsi̍t-ê hû-hō tsi̍t-ê hû-hō, sūn-sī sûi-ki. Nā sī 'random', góa ê múi-ê hû-hō tō tuì góa ê bûn-jī ê @language (á-sī gí-giân m̄-bat sî, ēng ê bûn-jī-hē) lāi-té liàn-sûi-ki ê hû-hō, kap góa ê bûn-jī ê tuā-sè-siá siâng, kui-ê tō-sī án-ne hiòng lài-hué-hué-ki, kàu soāⁿ tī sin ê bûn-jī. Nā sī @FormattedLiteral bûn-jī, piàn-tong ê hû-hō tī hāu-kó tiong ē ēng sin bûn-jī ê keh-sik.",
+                "names": "$~tehpiàn"
+            },
+            "duration": {
+                "doc": "$~Suá kàu bú-tâi tse̍k-ê pa̍t-uī ê sî, ài ēng ê sî-kan tn̂g-té.",
+                "names": ["$~sîtn̂g"]
+            },
+            "style": {
+                "doc": "$~Suá kàu bú-tâi tse̍k-ê pa̍t-uī ê sî, ài ēng ê tōng-ōe hong-keh.",
+                "names": "$~hongkeh"
+            },
+            "defaultDescription": "$~$size[$size kong-tshiânn |]phrase $text $name[miâ-tsò $name|] $face[$face|] $animation $color[$color|] $bubble[kóng $bubble|]"
+        },
+        "Arrangement": {
+            "doc": "$~Góa sī Verse lāi-té kî-thann tsin-tsōng pâi-liat ê kì-hōo, pau-koat @Row, @Stack, @Grid, kap @Free. Góa kap @Group tàu-tīn tī kuè-tsiâⁿ kóng múi-ê @Output ài khì tó-uī: góa kā múi-ê suá kàu góa kóng ê só-tsāi, in ê tuā-sè kap hîng-sīng lóng bô piàn. @Free sī lán tsiong-tiong tsi̍t-ê bô thîn-tiāⁿ ê, ná-án múi-ê @Output tō tī ka-kī ê @Place. Nā lí siūⁿ-beh kā ta̍k-ê tsit-tiám-á tùi góa án-ne-á suá, hōo i tsi̍t-ê @Phrase/offset, m̄-tio̍h @Place.",
+            "names": ["$~Pâilia̍t"]
+        },
+        "Row": {
+            "doc": "$~Góa sī @Row, tsi̍t-tsūn @Output ê @Arrangement tsuí-pîng pâi-liat, tiong-kan ū ē-sái ū ê pó-liû @placeholder. Lí ū tú-tio̍h góa ê siang-siⁿ-á @Stack bô? Góa kóng múi-ê ài tsāu guā-tn̂g, góa tē-it ê ji̍p-sè kóng án-nuā kā in tùi-tsê tī góa ê lāi-té. Hōo tsi̍t-ê @Place, i tō ē tsē tī hit-ê y, ū-bô kāng-khuán — m̄-koh @Shape bô ka-kī ê @Place, só-í góa kā i kap kî-thann ê lóng tùi-tsê.",
+            "names": ["$~Tsuā"],
+            "description": "$~row $#count[$count phrase á-sī group|$count phrases kap groups]",
+            "alignment": {
+                "doc": "$~Ài m̄-ài kā góa ê lāi-iông tùi-tsê tī ta̍k-ê @column ê khai-sí, tiong-ng, á-sī kiat-bóe — á-sī, ēng \\'_'\\, tī bûn-jī sóo-tsāi ê ki-sian, hōo koh-iūⁿ ko-tuā ê jī khuànn-tio̍h sī tsi̍t-hàng.",
+                "names": "$~tuìtsê"
+            },
+            "padding": {
+                "doc": "$~Tī tshut-tshut ê tiong-kan ài kàu guā-tuā ê pó-liû @placeholder.",
+                "names": "$~lāikū"
+            }
+        },
+        "Stack": {
+            "doc": "$~Góa sī @Stack, tsi̍t-tsūn @Output ê @Arrangement tsú-ti̍t pâi-liat, tiong-kan ū ē-sái ū ê pó-liû @placeholder. Lí ū tú-tio̍h góa ê siang-siⁿ-á @Row bô? Góa kóng múi-ê ài tsāu guā-tn̂g, góa tē-it ê ji̍p-sè kóng án-nuā kā in tùi-tsê tī góa ê lāi-té. Hōo tsi̍t-ê @Place, i tō ē tsē tī hit-ê x, ū-bô kāng-khuán — m̄-koh @Shape bô ka-kī ê @Place, só-í góa kā i kap kî-thann ê lóng tùi-tsê.",
+            "names": ["$~Tha̍h"],
+            "description": "$~stack $#count[$count phrase á-sī group|$count phrases kap groups]",
+            "alignment": {
+                "doc": "$~Ài m̄-ài tī múi-tsi̍t-hâng kā bûn-jī tùi-tsê tī khai-sí, tiong-ng, á-sī kiat-bóe.",
+                "names": "$~tuìtsê"
+            },
+            "padding": {
+                "doc": "$~Tī tshut-tshut ê tiong-kan ài kàu guā-tuā ê pó-liû @placeholder.",
+                "names": "$~lāikū"
+            }
+        },
+        "Grid": {
+            "doc": "$~Góa sī @Output ê grid. Hōo góa tsi̍t-ê row kap @column ê sòo-liōng, góa tō ē tsò tsi̍t-ê sè-jī ê pâi-liat, ū ē-sái ū ê pó-liû @placeholder kap @cell ê tuā-sè. Góa ê nn̄g-ê hong-hiòng lóng kóng-liáu, só-í @Place bē kā siánn-mih tsuí-pîng á-sī tsú-ti̍t suá — m̄-koh i ê z iáu-sī kóng i kīn guā-kīn.",
+            "names": ["$~Kehá"],
+            "description": "$~$rows tsuā $columns tsàng ê keh-á",
+            "rows": {
+                "doc": "$~Tī @cell lāi-té ài tsò gōo-tsuā.",
+                "names": "$~tsuā"
+            },
+            "columns": {
+                "doc": "$~Tī @cell lāi-té ài tsò gōo-tsàng.",
+                "names": "$~lânuī"
+            },
+            "padding": {
+                "doc": "$~Tī @cells tsit-kàu ài khǹg gōo-tuā ê khang-tsiah.",
+                "names": "$~lāikū"
+            },
+            "cellWidth": {
+                "doc": "$~@cells ài gōo-khuah.",
+                "names": "$~kehákhuah"
+            },
+            "cellHeight": {
+                "doc": "$~@cells ài gōo-kôo.",
+                "names": "$~kehálāikū"
+            }
+        },
+        "Free": {
+            "doc": [
+                "$~Guá sī tsi̍t-ê @Arrangement, ē-sái hōo múi-ê @Output tsē tī @Place kóng ê só-tsāi. Guá kám-kak sī: Bô-iàu-kín! Lí ài tsē tī tá-lo̍h tō tsē tī tá-lo̍h! Tsīnn-sī ài tsē tsi̍t-ê tē-hng! Lí hōo guá ê @Output lóng ài ū @Place, bô--ê in bē tsai-iánn ài khì tá-lo̍h.",
+                "Òo, koh ài kì-tit, lí hōo múi-ê @Place ê @Output sī sio-tuì tī @Group ê @Place lâi kóng ê! Sóo-í nā-sī lí siūnn-bô sū-tsāi bē tshut-hiān tī lí siūnn-beh ê só-tsāi, tshì-khuànn mā hōo @Group tsi̍t-ê uī-tì."
+            ],
+            "names": ["$~Tsūiû"],
+            "description": "$~tsū-iû-hîng-sik $#count[$count ê tshut-lâi ê tāi-tsì|$count ê tshut-lâi ê tāi-tsì]"
+        },
+        "Shape": {
+            "doc": "$~Guá sī lóng-tsóng hîng-tsōng ê khuè-hùi. Guá ē-sái kā @Stage kóng ài sán-mih hîng-tsōng.",
+            "names": ["$~Hîngtsōng"],
+            "form": {
+                "doc": "$~Guá sī beh hián-sī ê hîng-tsōng ê lūi-hîng. Múi-ê hîng-tsōng tio̍h-ài put-tông ê tsu-liāu, tsiah ē-tàng tīng-ì in ê phài-lia̍t.",
+                "names": "$~hîngsik"
+            },
+            "name": {
+                "doc": "$~Guá sī lí ē-sái iōng ê miâ, hōo tōng-ōe kap @Collision iōng. Pí-phuànn kóng, nā-sī tsi̍t-ê hîng-tsōng tāi-piáu tē-puànn, lí ē-sái kā guá hoo-tsò 'ground'.",
+                "names": "$~miâ"
+            },
+            "description": {
+                "doc": [
+                    "$~Siá hō bô-hoat-tōo khuànn-tio̍h-ing-siōng ê thiann-tsiòng ê suat-bîng."
+                ],
+                "names": "$~suatbîng"
+            },
+            "selectable": {
+                "doc": "$~Guá ē-sái-tit sī-m̄-sī ū-thang tsú-tsit tsò @Choice ê tsi̍t-pōo-hūn.",
+                "names": "$~ētàngkíng"
+            },
+            "color": {
+                "doc": "$~Guá ê tsháu-sik. Guá ēng i lâi thiām, tsīnn-sī nā-ū pōo-kíng, tō ēng i lâi tsháu guá ê piⁿ-kài.",
+                "names": "$~sik"
+            },
+            "background": {
+                "doc": "$~Guá ê pōo-kíng ê tsháu-sik.",
+                "names": "$~puèkíng"
+            },
+            "opacity": {
+                "doc": "$~Guá ài tsiok thàu-bêng.",
+                "names": "$~putthàumîng"
+            },
+            "offset": {
+                "doc": "$~Guá ài lī guá ê uī-tì gōo-hn̄g, in-ūi guá iû-guân tī uī-tì.",
+                "names": "$~phianî"
+            },
+            "rotation": {
+                "doc": "$~Guá ài suan gōo-tuā ê kak-tōo. Tse ē iáⁿ-hióng @Collision.",
+                "names": "$~suântsuán"
+            },
+            "scale": {
+                "doc": "$~Guá ài hòng-tuā gōo-tuā, m̄-koh guá si̍t-tsāi ê tuā-sè bô piàn.",
+                "names": "$~imkai"
+            },
+            "flipx": {
+                "doc": "$~Sī-m̄-sī ài tuì guá ê x-tsuàⁿ kàu-iánn.",
+                "names": "$~huanx"
+            },
+            "flipy": {
+                "doc": "$~Sī-m̄-sī ài tuì guá ê y-tsuàⁿ kàu-iánn.",
+                "names": "$~huany"
+            },
+            "entering": {
+                "doc": "$~Guá ji̍p-lâi @Stage ê sî-tsūn, ài tsò ê @Pose á-sī @Sequence.",
+                "names": "$~ji̍plâi"
+            },
+            "resting": {
+                "doc": "$~Guá ji̍p-lâi liáu-āu, kap guá bô tī-teh suá ê sî-tsūn, ài tsò ê @Pose á-sī @Sequence.",
+                "names": "$~hiohkhùn"
+            },
+            "moving": {
+                "doc": "$~Guá suá-uī ê sî-tsūn ài tsò ê @Pose á-sī @Sequence.",
+                "names": "$~suátāng"
+            },
+            "exiting": {
+                "doc": "$~Guá lī-khui @Stage ê sî-tsūn, ài tsò ê @Pose á-sī @Sequence.",
+                "names": "$~tshutkhì"
+            },
+            "duration": {
+                "doc": "$~Nā-sī guá ê tōng-ōe sī tsi̍t-ê @Pose, ài hōo i tsò gōo-kú.",
+                "names": "$~sîtn̂g"
+            },
+            "style": {
+                "doc": "$~Guá ài īng ê tōng-ōe huē-sik.",
+                "names": "$~hongkeh"
+            },
+            "filled": {
+                "doc": "$~Beh bē-tshiah guá ê lāi-té. Guá nā bô koh-ìnn tō bô lāi-té, só·í khui-khuànn ê @Path bē kàu sik.",
+                "names": "$~thiânmuá"
+            },
+            "stroked": {
+                "doc": "$~Beh bē-tshiah guá ê ûi-kuat-sòaⁿ. Nā-sī bô tsiah-sik mā bô ûi-kuat-sòaⁿ, guá tō khuànn-bô, he sī tsò tsit-khuán tòng-tsū ê tsit-ê hong-hoat, tòng tio̍h mi̍h-kiānn kî-sī khuànn-bô.",
+                "names": "$~biâupinn"
+            },
+            "glyphs": {
+                "doc": "$~Tsiàm guá ê ûi-kuat-sòaⁿ ê bûn-jī, tsiū-sī tsiông-ho̍k kàu thiⁿ-bóo. Lí nā bô hō guá, guá tō bô ōe.",
+                "names": "$~jīhîng"
+            }
+        },
+        "Image": {
+            "doc": "$~Guá sī sik-tsháu ê @cell, ìn tsò tsit-tiuⁿ tô. Hō guá tsi̍t-tsūn tsit hâng ê lia̍t, múi hâng sī @Color ê tsi̍t-tsūn, guá tō ūi múi tsi̍t keh tshiah tsi̍t-ê sik. Lí nā hō guá tsi̍t-ê /glyph/, guá tō tī múi keh lāi-té tshiá bûn-jī.",
+            "names": ["$~Tôophìnn"],
+            "colors": {
+                "doc": "$~Guá ê sik-tsháu ê hâng, tē-it hâng tī téng-bīn. Múi hâng ê tn̂g-tō tio̍h kāng.",
+                "names": "$~siktshái"
+            },
+            "description": {
+                "doc": "$~Hō khuànn-bô guá ê lâng thiaⁿ ê. Guá ài lí tsit-ê, in-ūi sik-tsháu ê @cell bô ka-kī ê ōe thang tshiūⁿ.",
+                "names": "$~suatbîng"
+            },
+            "width": {
+                "doc": "$~Guá ài tsiok kuân. Lí nā kan-tan hō guá koân-tō, guá ê khuah-tō tō tuì guá ê hîng-tsōng lâi; nā nn̄g-ê lóng hō, guá ê @cell tō ia̍h-tn̂g khì tsiâⁿ.",
+                "names": "$~khuahtōo"
+            },
+            "height": {
+                "doc": "$~Guá ài tsiok koân. Lí nā kan-tan hō guá khuah-tō, guá ê koân-tō tō tuì guá ê hîng-tsōng lâi.",
+                "names": "$~kuântōo"
+            },
+            "glyph": {
+                "doc": "$~Tsi̍t-ê hâm-sò, tuì guá ê tsi̍t-ê sik, píng-tsò guá ài tī hia ōaⁿ-tsò ê bûn-jī. Bô ê tòa, guá tō tshiah bô tsâi-liāu ê @cell.",
+                "names": "$~jīhîng"
+            },
+            "recolor": {
+                "doc": "$~Tsi̍t-ê hâm-sò, tuì guá ê tsi̍t-ê sik, píng-tsò guá ài ōaⁿ ê sik. Ē-sái kā tsi̍t-tiuⁿ tô piàn-tsò khah-tsió ê sik.",
+                "names": "$~uānnsik"
+            },
+            "pixel": {
+                "doc": "$~Guá ê tsi̍t-ê sik, /glyph/ kap /recolor/ múi-ê tō-sī tsiah-ê.",
+                "names": "$~siōngsòo"
+            },
+            "glyphs": {
+                "doc": "$~Guá tī múi keh ōaⁿ ê mi̍h, tuì /glyph/ sǹg--chhut-lâi. Lí nā bô hō guá /glyph/, tō sī sáⁿ-mi̍h to bô.",
+                "names": "$~jīhîngpió"
+            },
+            "palette": {
+                "doc": "$~Guá si̍t-tsāi ōaⁿ ê sik, tuì /recolor/ sǹg--chhut-lâi. Lí nā bô hō guá /recolor/, tō sī guá ka-kī ê sik.",
+                "names": "$~tiâusikpuânn"
+            },
+            "face": {
+                "doc": "$~Guá ê glyph ài īng ê jī-thé ê miâ. Guá nā bô, tō īng khǹg guá ê hit-ê.",
+                "names": "$~jīthé"
+            },
+            "place": {
+                "doc": "$~Tī bú-tâi téng guá ài tī ê uī-tì.",
+                "names": "$~uītì"
+            },
+            "name": {
+                "doc": "$~Guá sī lí thang īng ê miâ, hō tōng-ōe kap @Collision īng.",
+                "names": "$~miâ"
+            },
+            "selectable": {
+                "doc": "$~Guá ē-sái-tit sī-m̄-sī ū-thang tsú-tsit tsò @Choice ê tsi̍t-pōo-hūn.",
+                "names": "$~ētàngkíng"
+            },
+            "color": {
+                "doc": "$~Guá ê glyph ê sik. Bô ê tòa, múi-ê glyph tō īng ka-kī tsit-keh ê sik; ū ê tòa, tsiah-ê lóng kāng-sik, tsit-ê sī īng jī-bó ōaⁿ-tô beh ài ê. Guá nā bô /glyph/, guá tō bô-tshuân tsit-ê, in-ūi án-ne guá ê @cell tō-sī guá ê sik.",
+                "names": "$~sik"
+            },
+            "background": {
+                "doc": "$~Guá āu-bīn ê sik.",
+                "names": "$~puèkíng"
+            },
+            "opacity": {
+                "doc": "$~Guá ài tsiok put-thàu-bîng.",
+                "names": "$~putthàumîng"
+            },
+            "offset": {
+                "doc": "$~Guá hőng tsāi-hō-liáu-āu, tuì guá ê uī-tì ài suá gōa-tn̂g.",
+                "names": "$~phianî"
+            },
+            "rotation": {
+                "doc": "$~Ài kā guá soan gōa-tsōe.",
+                "names": "$~suântsuán"
+            },
+            "scale": {
+                "doc": "$~Ài kā guá sak-hòng gōa-tsōe.",
+                "names": "$~imkai"
+            },
+            "flipx": {
+                "doc": "$~Beh-bē kā guá tsuí-pîng hoan-tńg.",
+                "names": "$~huanx"
+            },
+            "flipy": {
+                "doc": "$~Beh-bē kā guá tsit-ti̍t hoan-tńg.",
+                "names": "$~huany"
+            },
+            "entering": {
+                "doc": "$~Guá ji̍p-lâi @Stage ê sî-tsūn, ài tsò ê @Pose á-sī @Sequence.",
+                "names": "$~ji̍plâi"
+            },
+            "resting": {
+                "doc": "$~Guá bô tī suá ê sî, ài tsò ê @Pose á-sī @Sequence.",
+                "names": "$~hiohkhùn"
+            },
+            "moving": {
+                "doc": "$~Guá teh sóng--ê sî-tsūn, @Pose á-sī @Sequence tio̍h-ài tsò--ê.",
+                "names": "$~suátāng"
+            },
+            "exiting": {
+                "doc": "$~Guá lī-khui @Stage ê sî-tsūn, ài tsò ê @Pose á-sī @Sequence.",
+                "names": "$~tshutkhì"
+            },
+            "duration": {
+                "doc": "$~Nā-sī guá ê tōng-ōe sī tsi̍t-ê @Pose, ài hōo i tsò gōo-kú.",
+                "names": "$~sîtn̂g"
+            },
+            "style": {
+                "doc": "$~Guá ài īng ê tōng-ōe huē-sik.",
+                "names": "$~hongkeh"
+            },
+            "defaultDescription": "$~$description, tsi̍t tiunn $columns tsâng kah $rows hâng ê tiùnn-á"
+        },
+        "Say": {
+            "doc": [
+                "$~Guá ēng kóng--ê lâi kóng būn-jī, m̄-tsū-tsāi @Stage nih hián-sī. Lí-hó!",
+                "Tan-tan hōo guá tsi̍t-kù ài kóng--ê, ma̍k-sī hōo guá ê ūi-jī piàn--khì, guá tō kóng:",
+                "\\Kóng('kóng kóng kóng')\\",
+                "Guá ē ēng @language ê gí-giân kóng, tsiah-ê ūi-jī ū tah-tsiūⁿ--ê; bô tah-tsiūⁿ--ê, tō ēng lí ê Program soán-ê gí-giân. Nā-sī lí kā put-tsū gí-giân ê ūi-jī liân tī tsi̍t-tīn, guá ē ēng ta̍k-tsi̍t-tsuā ka-tī ê gí-giân kóng:",
+                "\\Kóng('hola '/es + 'pâng-iú'/nan)\\",
+                "Lí ē-tàng tī siat-tīng nih soán siaⁿ-im."
+            ],
+            "names": ["$~Kóng"],
+            "text": {
+                "doc": "$~Guá tio̍h-ài kóng--ê ūi-jī.",
+                "names": "$~bûnjī"
+            },
+            "defaultDescription": "$~Kóng $text"
+        },
+        "Music": {
+            "doc": [
+                "$~Guá kā im-hû piàn--tsîng siaⁿ-im: tsi̍t-ê á-sī lóng-tsóng @Track tsò-hóe pàng, ū sok-tō, ū iāⁿ-tiāu, khiā tī tsi̍t-ê im-kài. Guá sī lí ē-tàng thiann /kap/ khuànn--ê im-ga̍k, ta̍k-ê ê khuànn-ê lâng ē ka-tī soán guá án-nuá hián-sī.",
+                "siōng sè-ê koo-á sī tsi̍t-tiâu im-kuì-á ê saⁿ-ê im-hû:",
+                "\\Imga̍k(Imkuí([1 3 5]))\\",
+                "Im-hû sī sòo-jī. 1 sī im-kài ê tē-it-ê im, bāng-á tsò-tsiū sī tsit-ê im hō lâng ná-ē tsiânn kiat-sok; 2 sī lóng-tsóng khah koân ê hit-ê im, 8 koh sī hit-ê tē-it-ê im, khah koân tsi̍t-ê pat-tō. ø sī hioh-khùn, tō sī bô siaⁿ. Sòo-jī ē koh khì kuè nn̄g-piah: 9 sī koân tsi̍t-ê pat-tō ê tē-jī-ê im, 0 kap -1 tsiū tī tē-it-ê im ê ē-kha.",
+                "Tsi̍t-ê /im-kài/ sī tsi̍t-tsiah im-ga̍k iōng--ê sè-ê im ê tsóng-hap, tsiah-ê im sī siánn-mih sī tsiah-ê khuàn-sik ê tsú-iàu. @Music/scale nā-bô kóng sī \\Imga̍k.tuātiāu\\, thiann--khí-lâi kng-liông; \\Imga̍k.siótiāu\\ ēng tsit-ê sòo-jī, thiann--khí-lâi khah pi-ai. /Im-tiāu/ sī tsit-tsiah im-ga̍k tsiânn koân á-sī tsiânn kē, iōng @Music/key siat-tīng. Koh @Music/tempo sī iáⁿ-tsiūⁿ ê sok-tō, ta̍k hun-tsing ê phik-sòo; phik sī lí ē-tàng phah-phok kap--teh ê hit-ê khùi-tāng.",
+                "Inn-uī im-hû sī sòo-jī, bô sī ūn-tiāu ê im-kuì, sann-ê lóng ē-tàng piàn, m̄-bián tshuā-tiō tsit-ê ki-tiāu. Tse sī kāng-khuán saⁿ-ê im-hû, khah pi-ai, khah kē, khah bān:",
+                "\\Imga̍k(\n\tImkuí([1 3 5])\n\timkai: Imga̍k.siótiāu\n\tkiān: -5semitones\n\tsoktōo: 60beats/min\n)\\",
+                "Tsi̍t-tiâu im-kuì-á kàu bué ē tuì-thâu koh khai-sí, sóo-í sió-sió ê tsi̍t-lia̍p ē bô-hôo-liú tsāi-tsāi pàng. Tsit-tsua sī sì phik tn̄g, tiong-kan ū hioh-khùn:",
+                "\\Imga̍k(Imkuí([1 ø 5 ø]) soktōo: 90beats/min)\\",
+                "Kā guá tsi̍t-ê im-kuì-á ê lia̍t-pió, in ē tsò-hóe pàng, ta̍k-tiâu ū ka-tī ê ga̍k-khì, sok-tō, kap siaⁿ-liōng. Tsia ū tuā-kó kap siáu-kó tī-teh phah phik, hi-hat ê sok-tō sī nn̄g-puē — tsi̍t-ê sòo-jī tsò-tshut to-tsióng ê phik-tāng. Kó sī tsi̍t-tsūn thò-kiānn, m̄-sī ū im-kāu--ê, sóo-í in ê sòo-jī soán ê sī thò-kiānn ê pō͘-hūn, m̄-sī im:",
+                "\\Imga̍k(\n\t[\n\t\tImkuí([1 ø 2 ø 1 ø 2 ø] ga̍kkhì: Ga̍kkhì.kóo)\n\t\tImkuí(\n\t\t\t[3 3 3 3 3 3 3 3]\n\t\t\tga̍kkhì: Ga̍kkhì.kóo\n\t\t\tphik: 0.5beats\n\t\t\timliōng: 30%\n\t\t)\n\t]\n\tsoktōo: 96beats/min\n)\\",
+                "Tsāi tuā-khuah-hō nih ê sòo-jī ē tsò-hóe pàng, sīm-ē sī hô-siân, koh tsi̍t-ê im @value siá tī sòo-jī téng ē hōo hit-ê hāng ka-tī ê tn̄g-tōo. Tsia nn̄g-ê tuā-im hô-siân tī tín-tāng ê khiok-tiāu ē-kha khioh:",
+                "\\Imga̍k(\n\t[\n\t\tImkuí([1 2 3 5 3 2 1 ø] ga̍kkhì: Ga̍kkhì.ti̍ká)\n\t\tImkuí(\n\t\t\t[{1𝅝 3 5} {5𝅝 7 9}]\n\t\t\tga̍kkhì: Ga̍kkhì.kongkhîm\n\t\t\timliōng: 50%\n\t\t)\n\t]\n)\\",
+                "Kàu-tsiàn ē tsò sòo-jī--ê, lóng ē-tàng tsò im-ga̍k. Tsit-ê khiok-tiāu ē ka-tī tshú-sūn piàn sin ê sūn-sī, koh ē tòe lí kóng-uē ê tuā-siaⁿ:",
+                "\\Imga̍k(\n\tImkuí([1 2 3 5 3 2 1].lāngluān())\n\tsoktōo: (60 + (Imliōng() × 120)) × 1beats/min\n)\\",
+                "M̄-bián ū lâng thiann guá. @Beat tsāi ta̍k-phik hiáng ê sî kā lí kóng, sóo-í lí ē-tàng kā im-ga̍k uē-tshut-lâi, m̄-nā pàng, koh kap sū-sik-tsú soán ê khuànn-ê hông-sik tī tsi̍t-tsūn. @Beat lóng ū @Downbeat, sóo-í lí bián khuànn ū bô, tō ē-tàng thak:",
+                "\\beat: Phah()\ncount: beat.kuípái\nBútâi(\n\t[\n\t\tKù(\n\t\t\t'◆'\n\t\t\ttuātsè: 1m + ((count % 4) = 0 ? 2m 0m)\n\t\t\tuītì: Uītì(-2m 2m)\n\t\t)\n\t\tKù(\n\t\t\t'◆'\n\t\t\ttuātsè: 1m + ((count % 4) = 2 ? 2m 0m)\n\t\t\tuītì: Uītì(2m 2m)\n\t\t)\n\t\tImga̍k(Imkuí([1 ø 5 ø] ga̍kkhì: Ga̍kkhì.kóo))\n\t]\n)\\",
+                "Guá bô ka-tī ê iūⁿ-tsāi ē-tàng siat-kè, sóo-í guá bô iōng thóng-siông ê gua-kuan @argument — bô tuā-sè, ūi-tì, sik-tshái, á-sī tāng-ōe. Guá án-nuá hián-sī sī khuànn--ê lâng ê soán-tik, tī in ê siat-tīng nih tsò, koh tīng tī bú-tâi, m̄-sī tī lí ê pâi-pán nih; guá bô tsiāu-tsú ūi-tì, sóo-í kā guá khǹg tī @Row á-sī @Stack ū-ê tsiah-ê bē suá tsi̍t-hāng. Nā-ài ka-tī uē im-ga̍k, ēng @Beat: i ē tī ta̍k-phik hiáng ê sî hōo lí, thang kā tsiânn-hō lí ài--ê output.",
+                "Guá ē tsāi tsiânn-tsiūⁿ ê ê tsāi-sī ē kè-sio̍k pàng: tī guá teh pàng ê sî kái guá ê im-hû, ē tī ē-tsi̍t-phik tshap--ji̍p-khì, m̄-sī tuì-thâu khai-sí, tse tō sī ūi-tsiánn tsāi pàng ê tiong-kan kái khiok-tiāu ē hōo lâng kám-kak tshing-kāng. Nā-ài tuì-thâu koh pàng, khuànn @Music/replay; nā-ài hōo guá tsāi-tsāi, kàu tsāi-tsāi ê só-tsāi koh tsiūⁿ-phàng, khuànn @Music/pause."
+            ],
+            "names": ["$~Imga̍k"],
+            "tracks": {
+                "doc": "$~Tsi̍t-ê @Track, á-sī tsi̍t-tsūn tsò-hóe pàng ê. Ta̍k-tiâu tsi̍t-ê siaⁿ-im ēng tsi̍t-khuán ga̍k-khì, sóo-í tsi̍t-tsūn tiâu sī tsi̍t-tīn ga̍k-tuā.",
+                "names": "$~imkuí"
+            },
+            "tempo": {
+                "doc": "$~Guá pàng ê sok-tō, ta̍k hun-tsing ê phik-sòo. Phik sī lí ē-tàng phah-phok kap--teh ê hit-ê khùi-tāng, sóo-í 120phik/hun-tsing sī ta̍k-miâ ê nn̄g-phik, khah-tsiok sī khiàⁿ-lōo khuài-khuài ê sok-tō. Sòo-jī koh-puànn, tsióng-tsâi ê sî-kan puē-puē, m̄-koh tsi̍t-ê im to bô piàn.",
+                "names": "$~soktōo"
+            },
+            "key": {
+                "doc": [
+                    "$~Lí beh kā guá khàm--ê múi tè im-hû ûi-tī khiā-khí-lâi á-sī loh-khì kuí-ê pan-im.",
+                    "Tan-uī sī pan-im (semitone). Pan-im sī sai-iûnn im-ga̍k tsuē sió-ê pōo: tī kng-khîm téng, ū-sī tsit-ê kiān kàu kàu-tsiah-ê tsiap-kīn ê kiān, bô-tsīng o-kiān mā sǹg, tsa̍p-jī-ê pan-im tsiū sī tsi̍t-ê pat-tō (octave). Sóo-í \\kiān2: 12semitones\\🪲 sī kāng-tsi̍t-tsiuⁿ kok, khah ko tsi̍t-ê pat-tō, \\kiān2: -12semitones\\🪲 sī khah kē tsi̍t-ê pat-tō, \\kiān2: 2semitones\\🪲 tsiū sī khah-khah-á thiu-koh-khì.",
+                    "Tsia ū nn̄g-khuán sǹg-huat, ê-tsiah-kah-tshèng. Im-hû sǹg /im-kài ê pōo/, pat-tō sī \\8\\: tùi \\1\\ kàu \\8\\ sī tsi̍t-ê pat-tō. Kiān sǹg /pan-im/, pat-tō sī \\12\\. Nn̄g-khuán lóng sī kâng-khuán ê kú-lī: tùi \\1\\ kàu \\8\\ khóo-tsiūⁿ tshit-ê im ê im-kài ê peh-ê pōo, sī tsa̍p-jī-ê pan-im. Kiān iōng pan-im lâi kiám-tshiâ-sī in-uī pan-im tī múi-ê im-kài lóng kâng-khuán tuā, mā pōo-sī bô: @Music/scale ê ngóo-im-kài tsi̍t-ê pat-tō ū gōo-ê im, tōa-tiāu ū tshit-ê, sóo-í nā-sī iōng pōo lâi suá, múi-ê ē suá bô kâng ê kú-lī, \\12semitones\\ tī lóng-sī im-kài lóng sī tsi̍t-ê pat-tō.",
+                    "In-uī i tsí-sī tsi̍t-ê sò-jī, kiān khó-ēng tùi tó-uī lâi. Tsia, kui-ê kok tī /up/ sī soán-tse ê sî tsiū ko nn̄g-ê pan-im — @Choice ài ū thang tī bú-tâi-téng soán ê mi̍h-kiānn lâi tha̍k, sóo-í nn̄g-ê phrase tsiū sī ūi-tio̍h ê:",
+                    "\\Bútâi(\n\t[\n\t\tKù('up' ētàngkíng: ⊤ miâ: 'up' uītì: Uītì(-2m 0m))\n\t\tKù('tshù' ētàngkíng: ⊤ miâ: 'tshù' uītì: Uītì(2m 0m))\n\t\tImga̍k(\n\t\t\tImkuí([1 3 5 8 5 3])\n\t\t\tkiān: (Suánti̍k() = 'up' ? 2semitones 0semitones)\n\t\t)\n\t]\n)\\"
+                ],
+                "names": "$~kiān"
+            },
+            "scale": {
+                "doc": [
+                    "$~Guá ê sò-jī sī tsi̍h tó-ê im: tsi̍t-ê pan-im phiàn-suá ê lia̍t-piáu, tùi tē-it-ê im khai-sí.",
+                    "Im-kài sī tsi̍t-ê kok ê tsò-kiānn ê sió-sió-ê im ê tsip-ha̍p, soán tsi̍t-ê im-kài tsiū-sī soán tsi̍t-ê khuì-hùn ê tōa-pòo-hūn. Kāng-tsi̍t-ê kok tī \\Imga̍k.tuātiāu\\ thiann-khí-lâi kng-liông, tī \\Imga̍k.siótiāu\\ thiann-khí-lâi pi-siong, tī \\Imga̍k.tsuânim\\ thiann-khí-lâi tshiūⁿ bāng, tsi̍t-ê sò-jī lóng bô piàn.",
+                    "Tsi̍t-kuá guá ê im-kài bô tshò-im: \\Imga̍k.ngóosiann\\、\\Imga̍k.siótiāuNgóosiann\\、\\Imga̍k.nâtiāu\\ bô-lūn án-tsuánn pâi lóng hó-thiann, sī tsiânn hó ê khai-sí. Kî-thaⁿ ê sī ū-ì tshú-tsîng ê — \\Imga̍k.piànhuà\\、\\Imga̍k.kiámim\\、\\Imga̍k.locrian\\ ē thiann-khí-lâi bô hô-hiânn, tsit sī in ê iōng-tô.",
+                    "Lí mā ē-sái siá lí ka-tī ê lia̍t-piáu. Tsit-ê sī gōo-im-kài siá-chhut-lâi: \\[0semitones 2semitones 4semitones 7semitones 9semitones]\\"
+                ],
+                "names": "$~imkai"
+            },
+            "volume": {
+                "doc": "$~Guá kui-ê ê im-liōng, tùi \\0%\\ kàu \\100%\\. Múi-ê @Track mā ū ka-tī ê im-liōng, sī kap tsit-ê pí--ê, sóo-í nā kā guá ê kiám-sió, kui-tsoo ê lóng tsiū kiám-sió.",
+                "names": "$~imliōng"
+            },
+            "replay": {
+                "doc": [
+                    "$~Tsit-ê tī tsi̍t-piàn pió-ku̍t sī \\⊤\\ ê sî, guá tsiū tùi-thâu koh lâi, tsiūⁿ-sī guá ê im lóng bô piàn mā án-ne.",
+                    "Tsit-ê sī ūi-tio̍h huê-ìng tsi̍t-ê sū-kiāⁿ ê siaⁿ-im, m̄-sī it-ti̍t pàng. Nā tsiànn-tap pàng ding tsi̍t-siaⁿ, liông-ê tsiànn-tap liân-sio̍k tsiū-sī kāng-khuán ê im-ga̍k, sóo-í bô piàn, mā bô koh pàng. Guá tsiū-sī lí kóng /koh pàng, tan/ ê pān-huat — tī ē-kha soán /tsiànn/ nn̄g-piàn, tsiū ding nn̄g-siaⁿ:",
+                    "\\Bútâi(\n\t[\n\t\tKù(\n\t\t\t'right'\n\t\t\tētàngkíng: ⊤\n\t\t\tmiâ: 'right'\n\t\t\tuītì: Uītì(-2m 0m)\n\t\t)\n\t\tKù(\n\t\t\t'm̄-tio̍h'\n\t\t\tētàngkíng: ⊤\n\t\t\tmiâ: 'm̄-tio̍h'\n\t\t\tuītì: Uītì(2m 0m)\n\t\t)\n\t\tImga̍k(\n\t\t\tImkuí([1 5 8] ga̍kkhì: Ga̍kkhì.lînglông huêkhuan: ⊥)\n\t\t\ttîngpàng: ∆ Suánti̍k() ? (Suánti̍k() = 'right') ⊥\n\t\t)\n\t]\n)\\",
+                    "Kho guá /sî-tsūn/ @condition, tsit-ê tsí-ū tī sū-kiāⁿ khí ê tsit-piàn pió-ku̍t tsiah sī true, tshiūⁿ téng-bīn ê \\∆ Suánti̍k()\\. Tsi̍t-ê kú-ku̍t ê tiâu-kiānn, tshiūⁿ \\score > 10\\🪲, tsi̍t-piàn sī true tsiū it-ti̍t sī true, sóo-í tùi hit-tiám khí múi-piàn pió-ku̍t lóng ē kā guá tāi-sin khai-sí."
+                ],
+                "names": "$~tîngpàng"
+            },
+            "pause": {
+                "doc": [
+                    "$~Tsit-ê sī \\⊤\\ ê sî, guá tsiū khiā-tiàm, tán i tńg-khì \\⊥\\ ê sî, guá tùi thêng-tiàm hit-ê phài khai-sí tsiām-sio̍k.",
+                    "Tsit-ê tsiū sī guá kap @Music/replay bô kāng ê tē-hng: replay sī /tùi-thâu/, guá sī /tán tsia/. Tsi̍t-ê guá thêng ê sî iáu teh hiàng ê im, guá koh khai-sí ê sî ē pàng-uân i iáu-kah-ê pōo-hūn, sóo-í tī tsi̍t-ê tn̂g ê hô-hiânn tiong-kan thêng, bē sit-khì. Tī ē-kha soán /hold/ kap /go/:",
+                    "\\Bútâi(\n\t[\n\t\tKù('hold' ētàngkíng: ⊤ miâ: 'hold' uītì: Uītì(-2m 0m))\n\t\tKù('go' ētàngkíng: ⊤ miâ: 'go' uītì: Uītì(2m 0m))\n\t\tImga̍k(\n\t\t\tImkuí([1 3 5 8 5 3] ga̍kkhì: Ga̍kkhì.kongkhîm)\n\t\t\tthîngtùn: Suánti̍k() = 'hold'\n\t\t)\n\t]\n)\\",
+                    "Kap replay bô kāng, guá ài tsi̍t-ê /kú-ku̍t/ @condition, tsi̍t-ê tsiah tī lí ài tsiah-kú ê chiah-bîn lóng sī true. Guá ê @Beat kè-sǹg mā kap guá tsi̍t-khuán tán, tùi hit-ê tē-hng tsiām-sio̍k, m̄-sī tùi 0 koh khai-sí."
+                ],
+                "names": "$~thîngtùn"
+            },
+            "name": {
+                "doc": "$~Guá ê miâ, sī guá ê sin-hūn. Kā i pó-liû, kái guá ê im ê sî tsiū tī guá teh pàng ê tiong-kan kap-ji̍p-khì; kái i, guá tsiū tī sin-ê kok tùi-thâu khai-sí. I mā sī @Beat thang kuè-lū ê tsun-tsiok, sóo-í nn̄g-ê tsit-sî pàng ê kok ē-sái hun-piat.",
+                "names": "$~miâ"
+            },
+            "description": {
+                "doc": "$~Tsi̍t-ê guá ê suat-bîng, tī lâng thiann bô guá ê sî, iōng-hōo-tha̍k-khì kā lí kóng.",
+                "names": "$~suatbîng"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Tōa-tiāu (major scale), guá ê í-kiat tsú-ì: kng-liông koh su-sit.",
+                    "names": "$~tuātiāu"
+                },
+                "minor": {
+                    "doc": "$~Ka-jiân sió-tiāu (natural minor scale): pí tōa-tiāu khah àm.",
+                    "names": "$~siótiāu"
+                },
+                "chromatic": {
+                    "doc": "$~Tsa̍p-jī-ê pan-im lóng ū, sóo-í im-kài ê pōo kap pan-im tsiū-sī kāng-tsi̍t.",
+                    "names": "$~puànnim"
+                },
+                "pentatonic": {
+                    "doc": "$~Tōa-tiāu ngóo-im-kài (major pentatonic scale): gōo-ê im, bô tshò-im — múi-ê im kap kî-thaⁿ ê lóng hó-thiann.",
+                    "names": "$~ngóosiann"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Sió-tiāu ngóo-im-kài (minor pentatonic scale): gōo-ê im, bô tshò-im.",
+                    "names": "$~siótiāuNgóosiann"
+                },
+                "blues": {
+                    "doc": "$~Lam-tiāu im-kài (blues scale): sió-tiāu ngóo-im-kài ka tsi̍t-ê pan-im ê tē-gōo im. Tsia mā bô tshò-im.",
+                    "names": "$~nâtiāu"
+                },
+                "dorian": {
+                    "doc": "$~Dorian bo̍k-sik: sió-tiāu, tē-la̍k im khah ko, ū-iânn ê tiong-kan khuì-hùn, tshiūⁿ jazz.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Phrygian bo̍k-sik: sió-tiāu, tē-jī im khah kē, àm koh ū Se-pan-gâ ê bī.",
+                    "names": "$~phrygian"
+                },
+                "lydian": {
+                    "doc": "$~Lydian bo̍k-sik: tōa-tiāu, tē-sì im khah ko, hû-hû-ê koh kng-liông.",
+                    "names": "$~lydian"
+                },
+                "mixolydian": {
+                    "doc": "$~Mixolydian mode: tōa-tiau kā tē-tshit-ê im kàng pòaⁿ-im, ū bluesy ê bī, khah bô kiat-sok ê kám-kak.",
+                    "names": "$~mixolydian"
+                },
+                "locrian": {
+                    "doc": "$~Locrian mode: tsit-ê im-kai uî-tio̍h kāng-ì tsò kín-tiunn, tē-jī kah tē-gōo-ê im kàng pòaⁿ-im. Nā lí sak tsit-ê sī siūnn-beh thiaⁿ khin-sang ê jazz, tō ài-ài khì thiaⁿ-tio̍h put-hô-hiân ê siaⁿ.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Melodic minor im-kai: sió-tiau kā tē-la̍k kah tē-tshit-ê im sè-kó pòaⁿ-im, sī tsin-tsē jazz hô-siaⁿ ê tshù-kin.",
+                    "names": "$~suânlu̍tSiótiāu"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Harmonic minor im-kai: sió-tiau kā tē-tshit-ê im sè-kó pòaⁿ-im, ū lo̍h-ūi ê kiat-sik, ū kó-lāu Âu-tsiu ê bī.",
+                    "names": "$~hôsiannSiótiāu"
+                },
+                "lydianDominant": {
+                    "doc": "$~Lydian dominant im-kai: lydian kā tē-tshit-ê im kàng pòaⁿ-im, sī melodic minor ê tē-sì-ê mode.",
+                    "names": "$~lydianSio̍kim"
+                },
+                "altered": {
+                    "doc": "$~Altered im-kai: ū-ì-tsāi put-hô-hiân, ēng tī dominant hô-siaⁿ siōng-bīn tsò kín-tiunn. Tsia ū ê im thiaⁿ-khí-lâi kah-ná tshò, tse tō sī tsiah ê bo̍k-tiu̍t.",
+                    "names": "$~piànhuà"
+                },
+                "bebopDominant": {
+                    "doc": "$~Bebop dominant im-kai: mixolydian ke tsi̍t-ê tshài-sik ê tē-tshit-im, pat-ê im, hōo kuè-siaⁿ ê tsáu-kuè tsiàm-tsiàm lo̍h tī phah-tsiap-tiám.",
+                    "names": "$~bebopSio̍kim"
+                },
+                "bebopMajor": {
+                    "doc": "$~Bebop major im-kai: tōa-tiau ke tsi̍t-ê kó-ko ê tē-gōo-im, pat-ê im, hōo kuè-siaⁿ ê tsáu-kuè tsiàm-tsiàm lo̍h tī phah-tsiap-tiám.",
+                    "names": "$~bebopTuātiāu"
+                },
+                "wholeTone": {
+                    "doc": "$~Whole tone im-kai: la̍k-ê kan-keh pêng-pêng ê im, ū bāng-kíng ê kám-kak, bô tsi̍t-ê ka ē-tàng tńg-khì ê só͘-tsāi.",
+                    "names": "$~tsuânim"
+                },
+                "diminished": {
+                    "doc": "$~Diminished im-kai: tsi̍t-kuè-im kah pòaⁿ-im @value-ta̍t liân-hôo, ū kín-tiunn koh tùi-tshing.",
+                    "names": "$~kiámim"
+                }
+            },
+            "defaultDescription": "$~im-ga̍k, ū $#tracks[tsi̍t-ê im-kui|$tracks ê im-kui], múi hun-tsing $tempo phà"
+        },
+        "Track": {
+            "doc": [
+                "$~Guá sī @Music lāi-bīn ê tsi̍t-ê siaⁿ-á: tsi̍t-ê @Instrument pûn-tsò ê tsi̍t-liát im.",
+                "Guá ê im sī sò-jī, kap @Music kóng ê sò-jī kāng-khuán — 1 sī im-kai ê tē-it-ê im, 8 sī tsit-ê im téng-khì tsi̍t-ê pat-tō, ø sī hioh-khùn, koh-ū iōng tuā-khuah-hōo khi-tsiâu ê sò-jī, ná-ba \\{1 3 5}\\, ē kāng-sî hioh-hiàn tsò tsi̍t-ê hô-siaⁿ:",
+                "\\Imga̍k(Imkuí([1 ø {1 3 5} 8]))\\",
+                "Im bô-tsi̍t-tīng ài sī tsíng-sò. \\1.5\\ sī tī tē-it-ê im kah tē-jī-ê im tiong-kan, nn̄g-ê lóng ē pûn, khah kīn ê khah tōa-siaⁿ, ǹg-á ka sò-jī tuā tī im-tsiong thuh-lâi-thuh-khì, thiaⁿ-khí-lâi tō kah-ná lí teh phah-luân kng-khîm ê kiān:",
+                "\\Imga̍k(Imkuí([1 1.2 1.4 1.6 1.8 2] phik: 0.5beats))\\",
+                "Nā bē guá ê @Track/mash siat-tsò \\⊥\\, án-ne tsit-khuán ê sò-jī tō ē ka tsi̍t-ê im phiang-khui im-tiāⁿ, m̄-sī pûn nn̄g-ê im.",
+                "Múi-tsi̍t-hāng ê tn̂g-té sī guá ê @Track/beat, nā bô kái tō sī tsi̍t-phà. Kái-tsit-ê tō ē ka guá só͘ pûn ê lóng tsi̍t-piàn koh-tsài-phiann-keh.",
+                "Nā tsi̍t-hāng iau-sī beh khah tn̂g tshiūnn khah té, ka tn̂g-té siá tī sò-jī pún-sin, tsò tsi̍t-ê im @value. \\8𝅗𝅥\\ sī pòaⁿ-im — ū nn̄g-phà tn̂g — m̄-bián siá khah-tsē:",
+                "\\Imga̍k(Imkuí([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Tsit-ê ū gōo-khuán ta̍t: \\𝅝\\ ū sì-phà, \\𝅗𝅥\\ nn̄g-phà, \\𝅘𝅥\\ tsi̍t-phà, \\𝅘𝅥𝅮\\ pòaⁿ-phà, \\𝅘𝅥𝅯\\ sì-hun-tsi̍t-phà. Nā tī lōe-bīn ê liân-ni̍h ke tsi̍t-tiám, tō ke pòaⁿ-puē, ná-ba \\𝅘𝅥𝅭\\ sī tsi̍t-phà pòaⁿ. Sì-hun im-hû sī tsi̍t-phà, bô-lūn guá ê phà sī án-nuá, só͘-ì \\beat: 1𝅘𝅥𝅮\\🪲 kap \\0.5beats\\ sī kāng-khuán ê ì-sù, siá-tsit-ê khah-kán-tan. Tī hô-siaⁿ siōng-bīn, ka ta̍t siá tī tē-it-ê sò-jī: \\{1𝅗𝅥 3 5}\\.",
+                "Tse khah-gân-tshuē, só͘-ì @editor ē-bīn ê hu-hō-lia̍t, tshiūnn lí ê kî-hō̍k tsiok-tī guá ê tsi̍t-ê sò-jī ê āu-bīn, tō ē thê-kiong.",
+                "Hioh-khùn bē-sái tòa ta̍t, in-uī \\ø\\ m̄-sī sò-jī. Nn̄g-ê hioh-khùn liân-sòa sī nn̄g-puē tn̂g, koh-khah sè ê tō ēng @Note.",
+                "Nā tsi̍t-ê im ài ka-tī ê im-liōng, tsi̍t-ê tn̂g-té bô tsi̍t-ê ta̍t ē-tàng siá, tō ka tsit-ê pau tī tsi̍t-ê @Note lāi-bīn. Tsi̍t-ê tsiah ài-ēng ê sî-tsūn tsiah ēng: kan-tan ê sò-jī khah-khuànn, tsin-tsē im-kui lóng bô, tsiah-ê sió-sió-ê khah-kiàm, tō sī @Note ē phah-ê-tsū-ê ê guân-in.",
+                "\\cell: [1 3 5 3]\nImga̍k(\n\tImkuí(\n\t\tcell\n\t\t.kapTshingtuann(\n\t\t\tcell.huani̍k(ƒ(n2•#) n2 + 2)\n\t\t)\n\t\t.kapTshingtuann(\n\t\t\tcell.tòtńgê()\n\t\t)\n\t\t.kapTshingtuann(\n\t\t\tcell.huani̍k(ƒ(n3•#) 8 - n3)\n\t\t)\n\t\tga̍kkhì: Ga̍kkhì.kongkhîm\n\t)\n)\\",
+                "Iōng hioh-khùn khǹg-tsù khah-bōe, tsit-ê tsiah-sī lûn-tsò só͘-ài: nn̄g-pō͘ hun-phiann ê phà-sò sio-kāng, só͘-ì sio-kap-teh tsiânn, m̄-sī loān-khui. Iōng : ka nn̄g-ê lia̍t khan-sa̍p-kah-tsi̍t-ê, tse tō sī in tsiânn-tsò ê hong-sik, in-uī \\append\\ ài nn̄g-ê lia̍t lóng sī kāng-khuán ê tâng-sāi.",
+                "\\tune: [1 2 3 1 1 2 3 1 3 4 5 ø]\nrest: [ø ø ø ø]\nImga̍k(\n\t[\n\t\tImkuí([:tune :rest] ga̍kkhì: Ga̍kkhì.ti̍ká)\n\t\tImkuí([:rest :tune] ga̍kkhì: Ga̍kkhì.sióthêkhîm)\n\t]\n)\\"
+            ],
+            "names": ["$~Imkuí"],
+            "notes": {
+                "doc": "$~Beh pûn ê im, tshiūnn-tsi̍t-ê tshiūnn-tsi̍t-ê: iōng tsi̍t-ê sò-jī tsò tsi̍t-ê im, \\ø\\ tsò hioh-khùn, iōng \\{1 3 5}\\ án-ne ê tsi̍p-hap tsò tsi̍t-ê hô-siaⁿ, ia-sī @Note nā tsi̍t-hāng ài ka-tī ê im-liōng. Siá tī sò-jī siōng-bīn ê im @value — \\3𝅗𝅥\\ — kóng tsit-tsi̍t-hāng tn̂g gōng-kú.",
+                "names": "$~imphù"
+            },
+            "instrument": {
+                "doc": "$~Pûn guá ê @Instrument. Ū-ê im-khì ū im-tiāⁿ, só͘-ì guá ê sò-jī tsiah ē tsió im; ū-ê sī thò-kiānn, guá ê sò-jī tsiah ē tsió siaⁿ. Múi-tsi̍t-ê im-khì ē kóng-tsit-ê sī to̍h-tsi̍t-khuán.",
+                "names": "$~ga̍kkhì"
+            },
+            "beat": {
+                "doc": "$~Tsi̍t-hāng bô-siá-tn̂g-té ê tn̂g gōng-kú, ēng phà lâi sǹg. Nā bô kái tō sī tsi̍t-phà, kái-tsit-ê tō ē ka guá só͘ pûn ê lóng tsi̍t-piàn koh-tsài-phiann-keh: tī \\0.5beats\\, múi-hāng lóng sī pat-hun-im-hû, só͘-ì guá tsáu-kuè kāng-ê lia̍t kuá-tsiàm-tsiàm khah-kín nn̄g-puē. Tsi̍t-ê im @value kóng-ê kāng-khuán ê ì-sù, siá-tsit-ê khah-kán-tan, só͘-ì \\beat: 1𝅘𝅥𝅮\\🪲 tō sī kāng-khuán ê pat-hun-im-hû @cell.",
+                "names": "$~phik"
+            },
+            "scale": {
+                "doc": "$~Kan-ta tsò guá iōng ê im-kai, ka @Music/scale khah-tsiàm, tī tsi̍t-ê siaⁿ-á ài iōng kap kî-thaⁿ tsiânn bô-kāng ê im ê sî-tsūn.",
+                "names": "$~imkai"
+            },
+            "key": {
+                "doc": "$~Tsi̍t-ê kan-ta kàu guá ê piàn-uānn, ēng pòaⁿ-im lâi sǹg, tshiân-kòe @Music/key — tsāi-tī tsi̍t-ê siaⁿ-im ài khah koân á-sī khah kē ê sî-tsūn. Kā tsi̍t-tiâu im-kuè ē kē tsi̍t-ê bat-tāu, tō-sī ēng kāng-khuán ê sòo-jī, tsiah tsò-tshut tē-pá-suh ê im, kap kua-tiāu pênn-pênn.",
+                "names": "$~kiān"
+            },
+            "volume": {
+                "doc": "$~Guá ê siaⁿ-tuā, uì \\0%\\ kàu \\100%\\, kap im-ga̍k ê tuā-siaⁿ lâi pí, hō͘ siáⁿ-siaⁿ ê puānn-tsàu ē tī kua-tiāu ê hā-bīn.",
+                "names": "$~imliōng"
+            },
+            "pan": {
+                "doc": "$~Guá tī nn̄g-ê lah-pa tiong-kan ê uī-tì: \\-1\\ sī lóng-tsóng tī tsò-pîng, \\0\\ sī tī tiong-ng, \\1\\ sī lóng-tsóng tī tshiàu-pîng. Kā im-kuè phah-khui, múi-tiâu tō khah-ài thiaⁿ-tshut-lâi.",
+                "names": "$~tsóoiū"
+            },
+            "loop": {
+                "doc": "$~Guá kàu bué ê sî, ē-tsài tuè-tsing khai-sí á-bē. Tshíng-liáu \\⊥\\ tsiah bē, tse tō-sī 「tin」 hit-khuán tsi̍t-pái-nā ê siaⁿ-im beh ê.",
+                "names": "$~huêkhuan"
+            },
+            "mash": {
+                "doc": "$~Tī nn̄g-ê im tiong-kan ê im, ē án-tsuánn. \\1.5\\ tī \\1\\ kap \\2\\ ê tiong-kan: tshíng-liáu \\⊥\\, nn̄g-ê lóng ē hoat-siaⁿ, khah-kīn ê hit-ê khah-tuā-siaⁿ, tō-ná nn̄g-ê káng-khîm-kiān kāng-sî ánn-lo̍h. Ēng \\⊥\\ tō tsí ū tsi̍t-ê im, tuì in tiong-kan ê uī-tì piàn-kàu khah-koân á-sī khah-kē.",
+                "names": "$~lām"
+            },
+            "words": {
+                "doc": "$~@Instrument/voice beh chhiùnn ê im-tsiat. Múi-ê im tsi̍t-ê im-tsiat, ēng khang-keh kā hun-khui, ná-tsūn \\'so mi fa'\\ chhiùnn sann-ê im, khang-keh tō-sī kā lí kóng tsi̍t-ê im-tsiat tī tó-uī kiat-sok, ē-tsiah-ê tī tó-uī khai-sí.\n\nHioh-im bô im-tsiat, in-uī ke-sû tsiah-sī lo̍h tī ū-siaⁿ ê im. Nā-sī im-tsiat khah-tsió, in ē tuì thâu koh-tsài khai-sí, bē bô-siaⁿ. Nā-sī lóng-bô, siaⁿ-im ē thîn tsi̍t-ê /uh/ ê siaⁿ.\n\nIm-tsiat ê bué ēng liân-jī-hû, tō ē kā ē-tsi̍t-ê im ia̍h thîn-tiâu, múi-ê liân-jī-hû ke tsi̍t-ê im — án-ni tō ē-sái tī kuí-ê im chhiùnn tsi̍t-ê im-tsiat. Tī \\Imkuí([1 2 3 4] jī: 'la- mi so')\\, \\la\\ kài-tsāi thâu nn̄g-ê im, \\mi\\ kap \\so\\ múi-ê tsi̍t-ê.\n\nPhīnn-siá sī <Kok-tsè Im-piau@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, múi-ê jī-bú tō-sī tsi̍t-ê siaⁿ. Ánn tī @editor ē-bīn ê 🤖, tō ē khuànn-tio̍h kap thiaⁿ-tio̍h múi-ê siaⁿ. Guá bē-sioh-bat ê jī-bú ē tiô-kòe. Tsí-iáu siaⁿ-im í-gōa ê ga̍k-khì lóng bē ìn-tsāi guá, số-í ke-sû tī uānn @Track/instrument liáu koh uānn tńg-lâi iû-goân tī.",
+                "names": "$~jī"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Guá sī @Track tiong-ê tsi̍t-hāng, ū ka-tī ê siaⁿ-tuā, á-sī tsi̍t-ê bô im @value ē-sái siá ê tn̂g-té.",
+                "Tsiâu-tuā-pō ê im ài hō͘ in tsiâu-tsiāu sī sòo-jī, tsiâu-tuā-pō ê tn̂g-té tī sòo-jī ka-tī siá khah-kán-tan: \\1𝅗𝅥\\ tō-sī puànn-im. Tsi̍t-ê im ài ū ka-tī ê siaⁿ-tuā, á-sī ū tsi̍t-ê tī tn̂g-té tiong-kan ê tn̂g-té, tsiah-ū guá ê īng-tshù — in-uī \\Imphù(1 2beats ÷ 3)\\ ē-tsāi kóng ê ke-uē, pí \\1\\ koh-khah-tsē, nā múi-ê só-tsāi lóng ēng guá, tō ē kā tsiong-iàu ê im tshàng khì.",
+                "Sann-lián-im sī tsiàⁿ-tik ê sǹg-su̍t: \\Imphù(1 2beats ÷ 3)\\ kóng sann-ê tsia-ê tsha̍p nn̄g-phài. Guá ê tn̂g-té mā ē-sái sī im-tsik, số-í \\Imphù(1 1𝅗𝅥)\\ kap \\Imphù(1 2beats)\\ sī kāng-khuán ê nn̄g-phài.",
+                "\\Imga̍k(Imkuí([1 1 Imphù(5 2beats imliōng: 60%) ø]))\\"
+            ],
+            "names": ["$~Imphù"],
+            "degree": {
+                "doc": "$~Beh pûn siáⁿ: sòo-jī tō-sī tsi̍t-ê im, \\ø\\ sī hioh-im, nn̄g-ê í-siōng ê sòo-jī tō-sī hô-suân, kap @Track tiong-ê bô-thiok ê tsi̍t-hāng kāng-khuán. Tsi̍t-ê im @value tī sòo-jī — \\3𝅗𝅥\\ — kóng guá ē kuè-kuí-kú, nā lóng siá, ē pí @Note/beat ū-iōng.",
+                "names": "$~kip"
+            },
+            "beat": {
+                "doc": "$~Guá ū kuí-phài. Tse tō-sī guá tsia ê su-iàu: @Track tiong-ê múi-ê bô-thiok ê tsi̍t-hāng, tn̂g-té lóng kāng-khuán, guá tō-sī hō͘ tsi̍t-ê im ū put-kāng tn̂g-té ê hong-huat. Tsi̍t-ê im @value tsia mā ē-sái ēng, số-í \\1𝅗𝅥\\ kap \\2beats\\ sī kāng-khuán ê tn̂g-té.",
+                "names": "$~phik"
+            },
+            "volume": {
+                "doc": "$~Guá ê siaⁿ-tuā, kā @Track ê siaⁿ-tuā tshiân-kòe, ēng lâi kiông-tiāu tsi̍t-ê im.",
+                "names": "$~imliōng"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "$~Guá sī @Track ē-sái tsò ê ga̍k-khì tiong-ê tsi̍t-hāng. Guá sī kòo-tīng ê tiāu-sik-pân: ēng miâ lâi kéng guá, ná-tsūn \\Ga̍kkhì.kongkhîm\\ á-sī \\Ga̍kkhì.kongkhîm\\.",
+                "Tsē-sòo ê guá-tī sī /ū im-kao/ ê, ì-sù sī im-tsik ê sòo-jī kéng im, sòo-jī khah-tuā ê im khah-koân. Kî-thaⁿ ê sī /thò-kiānn/: sòo-jī tuì tsi̍t-tsiap ū pian-hō ê tshing-tan lah-tsun kéng tsi̍t-ê siaⁿ, bô sī kéng im, số-í im-tsik khuànn-khí-lâi sī ka-tsòu bô-sī-ki-tiāu, sòo-jī kòe tshing-tan ê bué, ē tńg-lâi tuì thâu khai-sí.",
+                "Tsē-sòo ê guá mā sī tsin-tsiàⁿ ê lō̍k-im, tuì lâng tsiàⁿ-tsiàⁿ ánn ê ga̍k-khì tshú-iūⁿ lâi ê. Hap-sîng-khì bô-sī tī bô-lâng-khuán — in sī ēng tín-tōng-khì tsò ê, tsiah-sī in beh ê siaⁿ-im. Múi-ê guá ē tī ē-bīn kóng guá sī tó-ê."
+            ],
+            "names": ["$~Ga̍kkhì"],
+            "id": {
+                "doc": "$~Guá sī tiāu-sik-pân tiong-ê tó-tsi̍t-hāng.",
+                "names": "$~pianhō"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": [
+                        "$~Káng-khîm. Tuì tsin-tsiàⁿ ê káng-khîm lō̍k-im, mā ū im-kao, số-í sòo-jī kéng im.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.kongkhîm\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~kongkhîm"]
+                },
+                "acousticGuitar": {
+                    "doc": [
+                        "$~Kó-tián kî-tha, ēng nái-lóng-sòaⁿ, ēng ... tshiú-tsí-thâu khioh, bô-sī ēng khioh-á. Tuì tsin-tsiàⁿ ê lō̍k-im, mā ū im-kao, số-í sòo-jī kéng im. Tse tō-sī pîn-tshiòng \\guitar\\ ê ì-sù, số-í khah-kū ê tsuan-àn beh kî-tha ê, tō ē tsò tsit-ê.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.bo̍kkìtah\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~bo̍kkìtah", "$~kìtah"]
+                },
+                "electricGuitar": {
+                    "doc": [
+                        "$~Tsi̍t tè tiān-khik-im ki-tha — khang-khang ê khiū-thé, lāi-té ū tsi̍t ê kiat-tā, ēng kang-sûn-sòaⁿ, số-í lió-liāng ê sia-tsiàⁿ khah kng, mā khah kú, pí-khì sò-liāu-sòaⁿ ê \\Ga̍kkhì.bo̍kkìtah\\. Sī tuì tsin-tsiàⁿ ê ki-tha lio̍k--lȯh-lâi ê, koh ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.tiānkìtah\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~tiānkìtah"]
+                },
+                "violin": {
+                    "doc": [
+                        "$~Tsi̍t ki violin. Sī tuì tsin-tsiàⁿ ê violin lio̍k--lȯh-lâi ê, koh ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.sióthêkhîm\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~sióthêkhîm"]
+                },
+                "drums": {
+                    "doc": [
+                        "$~Tsi̍t tho kó-thóng. Sī lio̍k--lȯh-lâi ê, sī tsi̍t tho ê kó, m̄-sī ū im-kó ê: sò-ī sī kéng kó-thóng ê tsi̍t-pōo-hūn, m̄-sī kéng im — \\1\\ tuā-kó, \\2\\ sió-kó, \\3\\ hi-hat, \\4\\ lô-pa, \\5\\ tom tom, \\6\\ gû-lênn — \\7\\ tō huê-khì tuā-kó.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1 2 3 4 5 6]\n\t\tphik: 2beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.kóo\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~kóo"]
+                },
+                "flute": {
+                    "doc": [
+                        "$~Tsi̍t ki tsiāu-á (flute). Sī tuì tsin-tsiàⁿ ê tsiāu-á lio̍k--lȯh-lâi ê, koh ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "\\Imga̍k(\n\tImkuí([1] phik: 4beats huêkhuan: ⊥ ga̍kkhì: Ga̍kkhì.ti̍ká)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~ti̍ká"]
+                },
+                "trumpet": {
+                    "doc": [
+                        "$~Tsi̍t ki lah-pah (trumpet). Sī tuì tsin-tsiàⁿ ê lah-pah lio̍k--lȯh-lâi ê, koh ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "\\Imga̍k(\n\tImkuí([1] phik: 4beats huêkhuan: ⊥ ga̍kkhì: Ga̍kkhì.lápah)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~lápah"]
+                },
+                "saxophone": {
+                    "doc": [
+                        "$~Tsi̍t ki saxophone, sī tenor ê. Sī tuì tsin-tsiàⁿ ê saxophone lio̍k--lȯh-lâi ê, koh ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.saxophone\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~🎷", "$~saxophone", "$~sax"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Tsi̍t ki khiàm-á-khîm (harmonica), sī pâng-pinn ū àn-liú ê hit-lō. Sī tuì tsin-tsiàⁿ ê harmonica lio̍k--lȯh-lâi ê, koh ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.kháukhîm\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~kháukhîm"]
+                },
+                "bell": {
+                    "doc": [
+                        "$~Tsi̍t ê tsiong — sī kuan-hiân-ga̍k ê tsiong, ēng tûi-á khok--ê. Sī lio̍k--lȯh-lâi ê, koh ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.lînglông\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~lînglông"]
+                },
+                "didgeridoo": {
+                    "doc": [
+                        "$~Tsit-ê sī didgeridoo, uì Ò-tsiu ê guân-tsū-bîn hia lâi ê. Lán uì tsin-ê didgeridoo liàh-im, koh tiau-tsíng im-ko, sóo-í sòo-jī ē-tàng kéng im. M̄-koh, i sī tshui tn̂g-im ê ga̍k-khì, siann lóng tī kē-im.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.didgeridoo\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~🪵", "$~didgeridoo"]
+                },
+                "cat": {
+                    "doc": [
+                        "$~Tsi̍t tsiah niau — kî-sit sī tsi̍t tho. Sī tuì tsin-tsiàⁿ ê niau lio̍k--lȯh-lâi ê, sī tsi̍t tho, m̄-sī ū im-kó ê: sò-ī sī kéng niau teh kóng sián-mih, m̄-sī kéng im — \\1\\ pháiⁿ-sìn-sîng, \\2\\ khún-kiû, \\3\\ iau, \\4\\ khòng-gī, \\5\\ ai-kiû, \\6\\ khì-bāng, \\7\\ hoân-ló, \\8\\ kiaⁿ, \\9\\ bín-kám, \\10\\ an-uì, \\11\\ koo-tn̄g, \\12\\ kûn-kûn-kiò — \\13\\ tō huê-khì pháiⁿ-sìn-sîng. Nā beh khuàⁿ ē-tsuè im-hû ê niau, khuàⁿ \\Ga̍kkhì.imtiāuniau\\.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\tphik: 2beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.niau\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~niau", "$~ngiau"]
+                },
+                "pitchedCat": {
+                    "doc": [
+                        "$~Kāng tsi̍t tsiah niau, ū tiāu-kuè im. Tsit tho \\Ga̍kkhì.niau\\ ē khan-tshut ê tsa̍p-jī khoán lio̍k-im lāi-té, tsit khoán sī būn-tīng ê im-kó, mā sī ū im-kó ê, m̄-sī tho, số-í ēng sò-ī kéng im, lí ē-tàng ēng i siá tsi̍t tsiah tiāu. Nā tuì lio̍k-im ê im tsin-hn̄g ê só-tsāi khan, niau-sia ē thiaⁿ-khí-lâi pit-tn̄g, m̄-sī teh tshiùⁿ, số-í tī tiong-ng im ê tsi̍t ê pat-tuh (octave) lāi-té siōng sù-kái.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.imtiāuniau\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~imtiāuniau"]
+                },
+                "dog": {
+                    "doc": [
+                        "$~Tsi̍t tsiah káu — kî-sit sī tsi̍t tho. Sī tuì tsin-tsiàⁿ ê káu lio̍k--lȯh-lâi ê, sī tsi̍t tho, m̄-sī ū im-kó ê: sò-ī sī kéng thiaⁿ tó tsi̍t khoán kâu-sia, m̄-sī kéng im, uì siōng tshim kàu siōng jiām — \\1\\ tshàu-sia, \\2\\ ké-kíng, \\3\\ siu-hōo, \\4\\ kíng-kak, \\5\\ kiân-tshî, \\6\\ iau-kiû, \\7\\ tuan-kâu, \\8\\ kip-tsiok, \\9\\ hing-hùn, \\10\\ bô-nāi-sim, \\11\\ kiò-kiò, \\12\\ jiām-jiām — \\13\\ tō huê-khì tshàu-sia. Nā beh khuàⁿ ē-tsuè im-hû ê káu, khuàⁿ \\Ga̍kkhì.imtiāukáu\\.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1 2 3 4 5 6 7 8 9 10 11 12]\n\t\tphik: 2beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.káu\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~káu", "$~puī"]
+                },
+                "pitchedDog": {
+                    "doc": [
+                        "$~Kāng tsi̍t tsiah káu, ū tiāu-kuè im. Tsit tho ê kâu-sia lāi-té, tsit khoán sī būn-tīng ê im-kó, mā sī ū im-kó ê, m̄-sī tho, số-í ēng sò-ī kéng im, lí ē-tàng ēng i siá tsi̍t tsiah tiāu. Nā tuì lio̍k-im ê im tsin-hn̄g ê só-tsāi khan, kâu-sia ē thiaⁿ-khí-lâi pit-tn̄g, m̄-sī teh kâu, số-í tī tiong-ng im ê tsi̍t ê pat-tuh (octave) lāi-té siōng sù-kái.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.imtiāukáu\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~imtiāukáu"]
+                },
+                "synth": {
+                    "doc": [
+                        "$~Tsi̍t ê synthesizer lead: sia-tsiàⁿ kng koh ū tsi̍t-tsân hiòng-hiòng-kiò ê bī-tāo, mā m̄-bián sio-sī sī ēng oscillator tsò--ê. Sī ho̍p-sîng--ê, m̄-sī lio̍k-im--ê, koh ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.ha̍psîngkhì\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~ha̍psîngkhì"]
+                },
+                "synthBass": {
+                    "doc": [
+                        "$~Tsi̍t ê synthesizer bass: tn̄g koh tshim. Sī ho̍p-sîng--ê, m̄-sī lio̍k-im--ê, koh ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.hapsîngtēim\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~hapsîngtēim"]
+                },
+                "synthPad": {
+                    "doc": [
+                        "$~Tsi̍t ê synthesizer pad: bó-luh, lâi tsiok bān, tsiok sik-ha̍p ēng lâi tī kî-thaⁿ im ē-bīn khan-tiāu tsi̍t ê hô-hiân. Sī ho̍p-sîng--ê, m̄-sī lio̍k-im--ê, koh ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "\\Imga̍k(\n\tImkuí(\n\t\t[1]\n\t\tphik: 4beats\n\t\thuêkhuan: ⊥\n\t\tga̍kkhì: Ga̍kkhì.hapsîngpuēkíng\n\t)\n\tsoktōo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~hapsîngpuēkíng"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~Tsi̍t ê tshiùⁿ-kua ê sia, sī ēng lī-pō-khì (filter) ho̍p-sîng--ê, m̄-sī tuì lâng lio̍k--lȯh-lâi ê. Ū im-kó, số-í ēng sò-ī lâi kéng im.",
+                        "Guá sī synthesizer, kap @Instrument/synth kāng-khoán — m̄-sī teh bô-hîng tshiùⁿ-kua ê lâng. Bô-lūn guá tshiùⁿ tsiok koân á-sī tsiok kē, guá ê tsuí khá-á lóng sī kāng tsi̍t-ê tuā-sè, tse tsin-tsiàⁿ ê ham-áu bē-tàng. In-uī án-ne, guá thiaⁿ-khí-lâi tō-sī ki-khì teh hók-gī lâng, mā bô-sī lâm-sing, mā bô-sī lí-sing.",
+                        "Kā guá ê @Track hōo tsi̍t ê @Track/words, guá tō ē tshiùⁿ, tsi̍t ê im tsi̍t ê im-tsiat. Nā bô hōo, guá tō hoo̍h /uh/ ê sia, số-í guá lóng ū tshiùⁿ tāi-tsì.",
+                        "\\Imga̍k(\n\tImkuí([1 2 3 5] jī: 'la la la la' ga̍kkhì: Ga̍kkhì.siann)\n\tsoktōo: 120beats/min\n)\\",
+                        "Im-tsiat sī ēng <Kok-tsè Im-piau@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> siá--ê, tsit ê im-piau sī tsi̍t ê jī-bóe tō-sī tsi̍t ê /sia/, m̄-sī tsi̍t khoán phêng-im — số-í \\'ʃi'\\ tō-sī /she/ khai-thâu hit ê sia, bô-lūn lí ēng tó tsi̍t ê @language siá. Tī @editor ē-bīn àn 🤖, tō ē khuàⁿ-tio̍h guá lóng-tsóng ē-tàng hoat ê sia, mā ē-tàng tuè-teh thiaⁿ."
+                    ],
+                    "names": ["$~siann"]
+                }
+            }
+        },
+        "Form": {
+            "doc": "$~Guá sī tsi̍t ê @abstraction ê hîng-sik, kap @Rectangle á-sī @Circle kāng-khoán.",
+            "names": ["$~Tôohîng"]
+        },
+        "Rectangle": {
+            "doc": "$~Guá sī tsı̍t ê tn̂g-hông-hîng, ē-tàng ng̍h @Stage ū tsı̍t ê lí kéng ê tuā-sè ê kài-sòaⁿ.",
+            "names": ["$~Tn̂ghonghîng"],
+            "left": {
+                "doc": "$~Bú-tâi tī x-tsik ê tsó-pinn kéng-kài",
+                "names": "$~tò"
+            },
+            "top": {
+                "doc": "$~Bú-tâi tī y-tsik ê téng-pinn kéng-kài",
+                "names": "$~tíng"
+            },
+            "right": {
+                "doc": "$~Bú-tâi tī x-tsik ê iū-pinn kéng-kài",
+                "names": "$~tsiànn"
+            },
+            "bottom": {
+                "doc": "$~Bú-tâi tī y-tsik ê ē-pinn kéng-kài",
+                "names": "$~ē"
+            },
+            "z": {
+                "doc": "$~Tn̂g-hông-hîng ê tshim-tōo uī-tì.",
+                "names": "$~z"
+            }
+        },
+        "Circle": {
+            "doc": "$~Guá sī tsı̍t ê îⁿ-hîng, ē-tàng ng̍h @Stage hòa hîng-tsōng.",
+            "names": ["$~Înnhîng"],
+            "radius": {
+                "doc": "$~Îⁿ-hîng ê pan-kîng",
+                "names": "$~puànkìng"
+            },
+            "x": {
+                "doc": "$~Îⁿ-hîng ê tsuí-pîng tiong-sim.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~Îⁿ-hîng ê tsú-ti̍t tiong-sim.",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~Îⁿ-hîng ê tshim-tōo uī-tì.",
+                "names": "$~z"
+            }
+        },
+        "Path": {
+            "doc": "$~Guá sī tsı̍t tiâu uì tsı̍t-tsūn uī-tì tsit-lia̍t hòa--tshut-lâi ê lōo-kinn, ē-tàng ng̍h @Stage hòa sòaⁿ, khu-sòaⁿ kap sann.",
+            "names": ["$~Lōokìng"],
+            "points": {
+                "doc": "$~Guá king-kuè ê uī-tì, tsiàu sūn-sī. Guá phah-pênn, ſo-í guá iōng guá ka-kī ê z, m̄-sī tó-tsı̍t ê uī-tì ê tshim-tōo.",
+                "names": "$~tiám"
+            },
+            "closed": {
+                "doc": "$~Sī-m̄-sī ài ka guá siōng-āu ê uī-tì liân-tńg-khì tē-it ê uī-tì.",
+                "names": "$~kuainn"
+            },
+            "smooth": {
+                "doc": "$~Sī-m̄-sī ài ka guá king-kuè ê uī-tì liân-sòaⁿ khu-sòaⁿ, m̄-sī tī uī-tì tsuán-uānn. Guá ê uī-tì ūi-lūn án-tsuánn lóng bē tín-tāng.",
+                "names": "$~ku̍tliu"
+            },
+            "thickness": {
+                "doc": "$~Hòa guá ài hòa gōa khuah.",
+                "names": "$~kāutōo"
+            },
+            "z": {
+                "doc": "$~Guá thǹg ê tshim-tōo.",
+                "names": "$~z"
+            }
+        },
+        "Effect": {
+            "doc": [
+                "$~Guá sī tsı̍t ê @abstraction ê hāu-kuə, tah tī tsiâⁿ-ê @Stage téng-bīn, ka tsiâⁿ-ê siōng-khuànn ê khuànn-hoat piàn. Guá bô-tsit-tsiap hōo lâng tsò; ài tsò guá ê hāu-kuə tiong-ê tsı̍t-khuán, ná-tshiūⁿ @Blur, @Grain, ia-sī @Wave, jiân-āu ka in ê lia̍t-piáu hōo bú-tâi ê @Stage.effects.",
+                "Hāu-kuə tsiàu in lia̍t ê sūn-sī sit-iōng, sóo-í @Grain āu-bīn ê @Blur ia ē ka lî-á sio-lām. In ê hōo-tsáu tsı̍t-tsūn bú-tâi ê loē-iōng, m̄-koh bē tshap @Stage.overlay, sóo-í hun-sòo ia-sī ānn-liū iû-guân tshing-tshó.",
+                "\\Bútâi(\n\t[Kù('🐟')]\n\thāukó: [Jiámsik(Siktshái(60% 40 220°)) Íng()]\n)\\"
+            ],
+            "names": ["$~Hāukó"]
+        },
+        "Blur": {
+            "doc": [
+                "$~Guá ē ka @Stage téng-bīn ê tsiâⁿ-ê óo-bông-bông, ná-tshiūⁿ siòng-tsı̍t-ki bô tùi-tiāu tsiau-tiám. Tsiòh-ê guá sī bāng ia-sī kì-ik; tsin-tsē ê guá sī tsı̍t-ê tshíng-lâi, ia-sī bak-kiàⁿ hō lí tshōe bô.",
+                "\\Bútâi(\n\t[Kù('🤓 guá ê gán-kiàⁿ tī tá-lo̍h?')]\n\thāukó: [Bôohôo(0.05m)]\n)\\"
+            ],
+            "names": ["$~Bôohôo"],
+            "amount": {
+                "doc": "$~Guá ē ka muí tsı̍t-tiám kng-sòaⁿ khok-sàn kah gōa-hn̂g. \\0m\\ sī tsiok tshing-tshó.",
+                "names": "$~sòoliōng"
+            }
+        },
+        "Grade": {
+            "doc": [
+                "$~Guá ē-tàng kái @Stage tíng-kuân it-tshè mi̍h-kiānn ê kng-tōo, tuì-pí-tōo, sik-tshái pháu-hô-tōo kah sik-siòng. Tsit-ê tō ká-ná tiān-iánn tiâu-tsíng sik-tshái, hōo tiān-iánn ū bô kâng ê kám-kak. Nā lí kā sik-tshái pháu-hô-tōo lóng the̍h-tiāu, koh kā tuì-pí-tōo tiâu khah kuân, lí tō ē tshut-hiān tsi̍t-tshut o͘-pe̍h ê tiān-iánn.",
+                "\\Bútâi(\n\t[Kù('🕵 thàm-tsíng teh tán')]\n\thāukó: [Tiâusik(páhôtōo: 0% tuìpí: 150%)]\n)\\"
+            ],
+            "names": ["$~Tiâusik"],
+            "brightness": {
+                "doc": "$~Ài ka bú-tâi tsò gōa-kng. \\100%\\ bô-piàn, \\0%\\ sī óo-sik, koh-ūi \\100%\\ ê tō khah-kng.",
+                "names": "$~kngtōo"
+            },
+            "contrast": {
+                "doc": "$~Ài ka kng kap àm phuaⁿ-khui gōa-hn̂g. \\100%\\ bô-piàn, khah-sió ê khah-phîⁿ koh khah-hui, khah-tsē ê khah-tshiàng-iàn.",
+                "names": "$~tuìpí"
+            },
+            "saturation": {
+                "doc": "$~Sik-tsái ū gōa-tsiān-ê. \\100%\\ bô-piàn, \\0%\\ sī óo-pe̍h, koh-ūi \\100%\\ ê tō ūi-guân tsiān-ê.",
+                "names": "$~páhôtōo"
+            },
+            "hue": {
+                "doc": "$~Ài ka muí tsı̍t-tsióng sik-tsái uì sik-lûn tín-tāng gōa-hn̂g. \\0°\\ bô-piàn, \\180°\\ ē ka muí-tsióng sik-tsái piàn tsò in ê hóan-pinn.",
+                "names": "$~siktiāu"
+            }
+        },
+        "Tint": {
+            "doc": [
+                "$~Guá ēng tsi̍t-ê @Color kā @Stage téng-thâu ê lóng-sī sái tsiūnn-khì, iáu-sī pó-liû liô-kng kap àm-kng, hō͘ jī khuànn-khí-lái kāng-khoán tsheng-tshó. Lam-lio̍k sái tsiūnn-khì ē hō͘ tshiûn-bīn khuànn-khí-lái kah tī tsuí-kha, kiâm-tshia̍h-á sik ē piàn-tsò lāu-tsiàu-phìnn, lio̍k-sik ē piàn-tsò iā-kan khuànn-ê iánn-siōng.",
+                "\\Bútâi(\n\t[Kù('🏰 kú-kú í-tsîng')]\n\thāukó: [Jiámsik(Siktshái(60% 40 60°) 80%)]\n)\\"
+            ],
+            "names": ["$~Jiámsik"],
+            "color": {
+                "doc": "$~Beh sái tī bú-tâi téng-bīn ê @Color.",
+                "names": "$~sik"
+            },
+            "amount": {
+                "doc": "$~Sái ê khuì-lát gōo-tuā. \\0%\\ sī bô sái, \\100%\\ tsí-ū pó-liû guá ê sik ê àm-kng tuā-sè.",
+                "names": "$~sòoliōng"
+            }
+        },
+        "Haze": {
+            "doc": [
+                "$~Guá ēng bū kā @Stage the̍h-khí-lái, bān-bān-á tī téng-bīn phiau. Guá sī ēng tī tsá-khí, hun-ién, tsìng-khì, kap hńg-hńg ê tāi-tsì.",
+                "\\Bútâi([Kù('🌲🌲 tsit tè khuànn-tsiah 🌲')] hāukó: [Bū(60%)])\\"
+            ],
+            "names": ["$~Bū"],
+            "amount": {
+                "doc": "$~Guá gōo-tshiū. \\0%\\ sī tshing-tshing ê khong-khì, \\100%\\ sī tshiū kah kiông-kiông khuànn-bô.",
+                "names": "$~sòoliōng"
+            },
+            "color": {
+                "doc": "$~Bū ê @Color. Nā \\ø\\, guá sī peh-sik, tshiūnn bū; sái-khuànn-māi ēng hue-sik ê hun-ién, á-sī kam-á-sik ê hu-tshiûnn.",
+                "names": "$~sik"
+            },
+            "speed": {
+                "doc": "$~Guá phiau ê sok-tōo. \\0\\ hō͘ guá put-tōng, khah tuā ê sò-jī phiau khah kín.",
+                "names": "$~soktōo"
+            }
+        },
+        "Grain": {
+            "doc": [
+                "$~Guá ēng múi tsi̍t-ê sî-tsūn lóng teh piàn ê tsháu-im-tiám tshiúnn tī @Stage téng-bīn. Tsi̍t-ê tsió-tsió ê guá, sī tsin-tsiàn tiān-iánn-phìnn ê khuân-lia̍p; tsin-tsē ê guá, kah tuā-lia̍p-ê tiám-tiám, tō sī bô-sìn-hō ê tiān-sī.",
+                "Nā guá kiông, khuànn-khí-lái bô-êng, só͘-í guá ē hō͘ tuì án-ne sing-khuànn-ê lâng tsù-kì sī khó-lêng ê tòo-àn.",
+                "\\Bútâi([Kù('📺 bô sìn-hō')] hāukó: [Kholia̍p(90% tuātsè: 3)])\\"
+            ],
+            "names": ["$~Kholia̍p"],
+            "amount": {
+                "doc": "$~Tiám-tiám ê khuì-lát gōo-tuā. \\0%\\ sī bô, \\100%\\ hō͘ guá ē-bīn ê lóng khuànn-bô.",
+                "names": "$~sòoliōng"
+            },
+            "size": {
+                "doc": "$~Múi tsi̍t-lia̍p tiám-tiám ê tuā-sè. \\1\\ sī bîn-á-tsài ê kài sè.",
+                "names": "$~tuātsè"
+            },
+            "color": {
+                "doc": "$~Guá ê tiám-tiám ū-bô sik. Nā \\⊥\\, in sī hue-sik.",
+                "names": "$~sik"
+            }
+        },
+        "Scanlines": {
+            "doc": [
+                "$~Guá tī @Stage tíng-bīn uē tsi̍t-tiâu-tiâu iù-iù, oo-oo ê suànn, ná-tsún kū-sik tiān-sī ê bīn. Hōo guá tsi̍t-ê /sok-tōo/, guá tō ē liû--khí-lâi, ná-tsún tiān-sī ê tâi bô tiâu hó-sè.",
+                "\\Bútâi(\n\t[Kù('📺 tē 3 phîn-tō')]\n\thāukó: [Sàubiâusuànn(40% soktōo: 1)]\n)\\"
+            ],
+            "names": ["$~Sàubiâusuànn"],
+            "amount": {
+                "doc": "$~Guá ê sòaⁿ gōo-àm. \\0%\\ sī khuànn-bô, \\100%\\ sī o͘-sik.",
+                "names": "$~sòoliōng"
+            },
+            "spacing": {
+                "doc": "$~Guá ê sòaⁿ kap sòaⁿ tsi-kan ê kuē-hiah.",
+                "names": "$~kankeh"
+            },
+            "speed": {
+                "doc": "$~Guá múi tsi̍t-bió ē kún kuí-tiâu sòaⁿ. \\0\\ hō͘ guá put-tōng, hū-sò ê sok-tōo tō sī ǹg-téng kún.",
+                "names": "$~soktōo"
+            }
+        },
+        "Wave": {
+            "doc": [
+                "$~Guá kā @Stage téng-bīn ê su-tshut hō͘ i phiau-tāng, tshiūnn kah tsuí-tiong, á-sī jia̍t-khì téng-sîng ê tsîng-hîng khuànn-ê.",
+                "Guá phiau-tāng ê sī su-tshut pún-sin, tī kî-thaⁿ hāu-kó ē-bīn, só͘-í tī guá téng-bīn ê @Grain bô phiau-tāng.",
+                "\\Bútâi([Kù('🐟 phu-phu')] hāukó: [Íng(0.2m)])\\"
+            ],
+            "names": ["$~Íng"],
+            "amount": {
+                "doc": "$~Guá kā su-tshut tuì pún-uī thui-khui gōo-hńg. \\0m\\ sī bô phiau-tāng.",
+                "names": "$~sòoliōng"
+            },
+            "scale": {
+                "doc": "$~Guá ê phiau-tāng tsi-kan kuē-hiah. Sè-ê sī sè-sè ê siám-iāu, tuā-ê sī bān-bān ê tuā-lông.",
+                "names": "$~imkai"
+            },
+            "speed": {
+                "doc": "$~Guá ê phiau-tāng ê sok-tōo. \\0\\ hō͘ in put-tōng.",
+                "names": "$~soktōo"
+            }
+        },
+        "Damage": {
+            "doc": [
+                "$~Guá kā lāu-kuân, phòa-phòa ê iánn-phìnn ê tshiū-hūn kap hún-thûn tshiúnn tī @Stage téng-bīn, múi tsi̍t-tsiu lóng bô-kâng. Kā guá kap tshú-tsáu sik-tshái ê @Grade kap tsi̍t-ê @Flicker hōo-tsò-hué, lí ê tshiûn-bīn tō ê it-pah nî ê.",
+                "\\Bútâi(\n\t[Kù('🎩 kiat-sok')]\n\thāukó: [Tiâusik(páhôtōo: 0%) Súnhuāi(80% 60%)]\n)\\"
+            ],
+            "names": ["$~Súnhuāi"],
+            "scratches": {
+                "doc": "$~Kuí-tiâu tshiū-hūn tuì iánn-phìnn lo̍h-khì. \\0%\\ sī bô.",
+                "names": "$~kuehhûn"
+            },
+            "dust": {
+                "doc": "$~Iánn-phìnn téng-bīn ū guā-tsē hún-thûn. \\0%\\ sī bô.",
+                "names": "$~thôohún"
+            }
+        },
+        "Flicker": {
+            "doc": [
+                "$~Guá hō͘ tsóng-kiōng ê @Stage kháu-kháu-tshuah-tshuah, pó-tshî-tsiām-tsiām, jiân-āu bô-tīng-sî ê khùi-àm tsi̍t-ē, tshiūnn iánn-kuan ê tiān-tsuì, á-sī beh sit ê tiān-hué-teng.",
+                "Sih-kng ē siong-hāi lâng, só͘-í bô-lūn lí kiò guá guā-kín, guá it-tīng bô tshiūnn tsi̍t-bió kuí-kái nā-ē kháu-tshuah.",
+                "\\Bútâi([Kù('💡 tiān-teng')] hāukó: [Siámsih(40% 2)])\\"
+            ],
+            "names": ["$~Siámsih"],
+            "amount": {
+                "doc": "$~Guá khùi-àm ê sî ē àm gōo-tuā. \\0%\\ bô àm.",
+                "names": "$~sòoliōng"
+            },
+            "rate": {
+                "doc": "$~Guá múi tsi̍t-bió tuā-iok ē kháu-tshuah kuí-kái. Guá bē kín kòe 2.5, beh hō͘ tuì sih-kng sing-khuànn ê lâng an-tsuân.",
+                "names": "$~soklu̍t"
+            }
+        },
+        "Vignette": {
+            "doc": [
+                "$~Guá ē khiām-àm @Stage ê piinn-kéng, mā ē lâng tiong-ng khong khah-kng, hō͘ lâng ê ak-tsiu khòaⁿ tiong-ng. Guá sī lāu-sî kàu-kiānn ê piinn-kéng, ia-sī tiám-kng-tn, ia-sī tsi̍t-tiám-á-nā khòaⁿ ê kám-kak.",
+                "\\Bútâi([Kù('🔦 khuànn tsia')] hāukó: [Àmkak(70%)])\\"
+            ],
+            "names": ["$~Àmkak"],
+            "amount": {
+                "doc": "$~Àm ê khuí-lâi ūi kàu guā-uan. \\0%\\ sī bô, \\100%\\ tō ē siàu-kín-kín.",
+                "names": "$~sòoliōng"
+            },
+            "color": {
+                "doc": "$~Piinn-kéng ē tsiām-tsiām tshè-lòh ê @Color. Nā sī \\ø\\, tō ē tshè kàu àm-àm.",
+                "names": "$~sik"
+            }
+        },
+        "Polygon": {
+            "doc": "$~Guá sī 'tsìn-tsíng' ê to-pi-kiōng, piinn-piinn lóng saⁿ-kâng tn̂g, kak mā lóng saⁿ-kâng, ē-sái ēng-lâi tī @Stage tsò hîng-sīng.",
+            "names": ["$~Topianhîng"],
+            "radius": {
+                "doc": "$~To-pi-kiōng ê pan-kíng",
+                "names": "$~puànkìng"
+            },
+            "sides": {
+                "doc": "$~To-pi-kiōng ê piinn-sòo",
+                "names": "$~pinn"
+            },
+            "x": {
+                "doc": "$~To-pi-kiōng ê tsuí-pîng tiong-sim.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~To-pi-kiōng ê tsú-ti̍t tiong-sim.",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~To-pi-kiōng ê sin-tn̂g uī-tì.",
+                "names": "$~z"
+            }
+        },
+        "Pose": {
+            "doc": [
+                "$~Guá ūi @Output lia̍h-tiâu tsi̍t-ê @Pose, mā sī in tsīnn-tsò tōng-tsok ê khuí-lâi. Lí bat khòaⁿ-kuè ū lâng pàng-tsò siōng-kài sîn ê khiā-hîng, thîng-tsi̍t-ē, tāi-ke lóng khòaⁿ-tio̍h bô? Hiông-sī guá.",
+                "Pose ū tsin-tsē tāi-tsì. Khòaⁿ guá ê tsin-tsē ji̍p-ua̍t, lí tō ē tsai-iánn ē-sái tsò siáⁿ-mi̍h pose!"
+            ],
+            "names": ["$~Tsusè"],
+            "style": {
+                "doc": "$~Suá kàu tsit-ê pose ê sî, beh ēng siáⁿ-mi̍h tōng-ōe hong-sik.",
+                "names": "$~hongkeh"
+            },
+            "color": {
+                "doc": "$~Tsit-ê pose ê sî, @Output ài ê @Color, m̄-sī i ê bo̍k-jiân tsí.",
+                "names": "$~sik"
+            },
+            "opacity": {
+                "doc": "$~@Output ài tuā-iūnn thàu-bîng, tī \\0\\ kah \\1\\ tsi-kan, m̄-sī i ê bo̍k-jiân tsí. Ē-sái ēng-lâi tsò tàu-ji̍p tàu-tshut.",
+                "names": "$~putthàumîng"
+            },
+            "offset": {
+                "doc": "$~Tsi̍t-ê @Place, piáu-sī @Output ê uī-tì ài phiann-suá guā-tsē, m̄-sī i ê bo̍k-jiân tsí. Ē-sái ēng-lâi tsò tsāi-uī-tsāi-uī iô-tāng.",
+                "names": "$~phianî"
+            },
+            "rotation": {
+                "doc": "$~@Output ài tsuan guā-tsē, m̄-sī i ê bo̍k-jiân tsí.",
+                "names": "$~suântsuán"
+            },
+            "scale": {
+                "doc": "$~@Output ài pàng-tuā guā-tsē, kap guân-pún ê tuā-sè sio-pí, m̄-sī i ê bo̍k-jiân tsí.",
+                "names": "$~imkai"
+            },
+            "flipx": {
+                "doc": "$~@Output ài-m̄-ài tuì x-tsuh kiàⁿ-siōng, m̄-sī i ê bo̍k-jiân tsí.",
+                "names": "$~huanx"
+            },
+            "flipy": {
+                "doc": "$~@Output ài-m̄-ài tuì y-tsuh kiàⁿ-siōng, m̄-sī i ê bo̍k-jiân tsí.",
+                "names": "$~huany"
+            },
+            "music": {
+                "doc": "$~Guá ê tōng-ōe @state khai-sí, ia-sī ū @Sequence kàu guá ê sî, guá ài pàng ê @Music. Sió-sió-á siann tō-sī tiōng-tiám; guá tsí ē pàng tsi̍t-pái.",
+                "names": "$~imga̍k"
+            },
+            "description": "$~$opacity[thàu-bîng $opacity|] $rotation[tsuan $rotation tōo|] $scale[sak-hòng $scale|] $flipx[tsuí-pîng hoan-tńg|] $flipy[tsú-ti̍t hoan-tńg|] $blur[iáⁿ-á bō-hû $blur pixels|]"
+        },
+        "Color": {
+            "doc": [
+                "$~Guá sī khòaⁿ-ē-tio̍h ê iân-sik, ùi saⁿ-ê tsiok-tsiōng-iàu ê uî-tōo kau-tsò-ê.",
+                "À-tsia sī sik-lûn-téng tsi̍t-kuá tsiāng-kiàn ê iân-sik, liōng-tōo tiong-téng, sik-tōo siōng-kau:",
+                "\\Siktshái(50% 100 0°)\\",
+                "\\Siktshái(50% 100 30°)\\",
+                "\\Siktshái(50% 100 60°)\\",
+                "\\Siktshái(50% 100 90°)\\",
+                "\\Siktshái(50% 100 120°)\\",
+                "\\Siktshái(50% 100 150°)\\",
+                "\\Siktshái(50% 100 180°)\\",
+                "\\Siktshái(50% 100 210°)\\",
+                "\\Siktshái(50% 100 240°)\\",
+                "\\Siktshái(50% 100 270°)\\",
+                "\\Siktshái(50% 100 300°)\\",
+                "\\Siktshái(50% 100 330°)\\",
+                "Tsiàu tsap-it-ê siōng-tsiāng-kiàn ê iân-sik miâ, lí m̄-bián uân-uân tùi-thâu tsò. Guá ê miâ-téng ū kin-lōo:",
+                "\\Siktshái.âng\\",
+                "\\Siktshái.nâ\\",
+                "Tsia-ê kin-lōo mā ē-sái ēng tī lí ê @language, só͘-í Huat-gú ê lâng ē-sái siá \\couleur.rouge\\🪲, Ji̍t-gú ê lâng ē-sái siá \\色.赤\\🪲. Kin-lōo sī: âng, kam-á, ng, tshenn, lâm, tsú, tsiah-sik, hoo-âng, o͘, peh, kuân-tsháu-bô."
+            ],
+            "names": ["$~Siktshái"],
+            "lightness": {
+                "doc": "$~Guá ài guā-kng, ùi \\0\\ kàu \\1\\, \\0\\ sī o͘, \\0.5\\ sī huinn-sik, \\1\\ sī peh.",
+                "names": ["$~kngtōo", "$~k"]
+            },
+            "chroma": {
+                "doc": "$~Guá ài guā-tsē iân-sik, ùi \\0\\ kàu \\∞\\. Bô iân-sik tō sī huinn-sik, sòo-jī koh-khah-tuā tō iân-sik koh-khah-tsē.",
+                "names": ["$~tsháitōo", "$~t"]
+            },
+            "hue": {
+                "doc": "$~Guá ài sī siáⁿ-mi̍h iân-sik, tī sik-lûn-téng, ùi pâng-âng \\0\\, âng \\30\\, tshenn \\120\\, kàu lâm \\270\\.",
+                "names": ["$~siktiāu", "$~s"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Ki-pún iân-sik o͘-sik.",
+                    "names": ["$~oo"]
+                },
+                "white": {
+                    "doc": "$~Siōng ki-pún ê sik: pe̍h-sik.",
+                    "names": ["$~pe̍h"]
+                },
+                "gray": {
+                    "doc": "$~Siōng ki-pún ê sik: huì-sik.",
+                    "names": ["$~phú"]
+                },
+                "red": {
+                    "doc": "$~Siōng ki-pún ê sik: âng-sik.",
+                    "names": ["$~âng"]
+                },
+                "orange": {
+                    "doc": "$~Siōng ki-pún ê sik: kam-á-sik.",
+                    "names": ["$~kamásik"]
+                },
+                "yellow": {
+                    "doc": "$~Siōng ki-pún ê sik: n̂g-sik.",
+                    "names": ["$~n̂g"]
+                },
+                "green": {
+                    "doc": "$~Siōng ki-pún ê sik: lio̍k-sik.",
+                    "names": ["$~tshenn"]
+                },
+                "blue": {
+                    "doc": "$~Siōng ki-pún ê sik: lâm-sik.",
+                    "names": ["$~nâ"]
+                },
+                "purple": {
+                    "doc": "$~Siōng ki-pún ê sik: tsú-sik.",
+                    "names": ["$~tsí"]
+                },
+                "brown": {
+                    "doc": "$~Siōng ki-pún ê sik: kong-sik.",
+                    "names": ["$~kapisik"]
+                },
+                "pink": {
+                    "doc": "$~Siōng ki-pún ê sik: hún-âng-sik.",
+                    "names": ["$~húnâng"]
+                }
+            },
+            "description": {
+                "modified": "$~$modifier $color",
+                "mix": "$~$first-$second",
+                "light": "$~khin",
+                "dark": "$~àm"
+            },
+            "random": {
+                "doc": [
+                    "$~Hō· lí chi̍t-ê lām-sè ê sik.",
+                    "Nā bô sik, góa lām-sè kéng chi̍t-ê ki-pún ê sik:",
+                    "\\Siktshái.tshìntshái()\\",
+                    "Nā chi̍t-ê sik, góa pó-liû ták-ê ê kng-àm kah sik-tō·, kan-tan lām-sè kéng sik-siōng:",
+                    "\\Siktshái.tshìntshái(Siktshái.nâ)\\",
+                    "Nā nn̄g-ê sik, góa tī chit nn̄g-ê tsi-kan lām-sè kéng kng-àm, sik-tō· kah sik-siōng:",
+                    "\\Siktshái.tshìntshái(Siktshái.oo Siktshái.pe̍h)\\"
+                ],
+                "names": "$~tshìntshái",
+                "inputs": [
+                    {
+                        "doc": "$~Ē-sái bô-ìn ê sik. Nā tn̄g-tn̄g chi̍t-ê, góa pó-liû i ê kng-àm kah sik-tō·, kan-tan lām-sè kéng sik-siōng. Nā koh ū tē-jī-ê sik, i tō sī ū-uî ê chi̍t-thâu.",
+                        "names": "$~a"
+                    },
+                    {
+                        "doc": "$~Ē-sái bô-ìn ê tē-jī-ê sik. Nā ū hō·, góa tī chit nn̄g-ê sik tsi-kan lām-sè kéng kng-àm, sik-tō· kah sik-siōng.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Hō· lí khah kng ê góa, kā góa ê kng-àm kè-kuè chi̍t-ê pah-hun-pí (kai-sí sī 5%).",
+                    "\\Siktshái.nâ.khahkng()\\",
+                    "\\Siktshái.nâ.khahkng(20%)\\"
+                ],
+                "names": "$~khahkng",
+                "inputs": [
+                    {
+                        "doc": "$~Beh kè-kuè guā-ni̍h kng-àm, ēng pah-hun-pí. Kai-sí sī 5%.",
+                        "names": "$~sòoliōng"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Hō· lí khah àm ê góa, kā góa ê kng-àm kiám-khì chi̍t-ê pah-hun-pí (kai-sí sī 5%).",
+                    "\\Siktshái.nâ.khahàm()\\",
+                    "\\Siktshái.nâ.khahàm(20%)\\"
+                ],
+                "names": "$~khahàm",
+                "inputs": [
+                    {
+                        "doc": "$~Beh kiám-khì guā-ni̍h kng-àm, ēng pah-hun-pí. Kai-sí sī 5%.",
+                        "names": "$~sòoliōng"
+                    }
+                ]
+            }
+        },
+        "Sequence": {
+            "doc": [
+                "$~Góa ē kā @Output ēng chi̍t-sī-liā ê @Pose lâi tông-ōe tsò tōng-tsok! Lí beh kah góa chò-hué thiàn-bú--bô? Tsin kán-tan.",
+                "Lí kan-tan hō· góa chi̍t-ê @Map, múi-ê @key tāi-piáu bú-tsiah tsiàu tsit-ê pah-hun-pí kàu tó-uī, múi-ê @value ê kiān ê tsú-ì tō sī chi̍t-ê @Pose beh piàn-sêng ê iūⁿ-á.",
+                "Iū /tsin-tsiàⁿ/ chē khoán ê hong-sik ē-sái ēng chit-ê lâi tsò tōng-ōe! Pí-lūn, án-ne tō sī chi̍t-ê kán-tan ê:",
+                "\\Kù(\n\t'hāi'\n\thiohkhùn: Sūnsū(\n\t\t{0%: Tsusè(suântsuán: 360°) 100%: Tsusè(suântsuán: 0°)}\n\t)\\🪲",
+                "Tse sī kóng, /tī khai-sí (0%), tuì khuè-tshuì 360 khai-sí, kàu khuè-tshuì 0 soah-bóe/. Án-ne ē kā lán sûn-tsiūⁿ-tsiūⁿ lìn khì, in-uī góa sī @Phrase ê hioh-sit tsu-sè!",
+                "Khì ēng pa̍t-ê @argument, siá lí ka-kī ê chhòng-khì thiàn-bú."
+            ],
+            "names": ["$~Sūnsū"],
+            "poses": {
+                "doc": "$~Tsi̍t ê @Map, lāi-té ū 0% kàu 100% tsi̍t-tsūn ê pah-hun-pí, múi ê lóng kap tsi̍t ê @Pose tsò-hóe. Lí bōo-tsāi kā pah-hun-pí lóng pàng--tsiūnn; guá ē tī lí hōo guá ê tsiah-ê tiong-kan, kā tsi̍t ê @Output liú-liú-á suá.",
+                "names": "$~tsusè"
+            },
+            "duration": {
+                "doc": "$~Tsit khuán bú-tō guá ài thiàu guā-kú? Nā-sī ài tshiúnn-hok, guá bē ke sî-kan, tsí-sī thiàu khah kín.",
+                "names": ["$~sîtn̂g"]
+            },
+            "style": {
+                "doc": "$~Thiàu bú-tō ài iōng siánn-mih iūⁿ-sik.",
+                "names": "$~hongkeh"
+            },
+            "count": {
+                "doc": "$~Tsit tsuān tōng-tsok tsiong-kuí-pái tsiah ē soah. Tsit ê tī guá jip-tshiū, tī bú-tâi-téng suá-uī, iā-sī lī-khui ê sî-tsūn tsiok-ū-iōng. Put-kò nā-sī hioh-khùn ê tōng-tsok, tsit ê ē hōo guá bián-tshap, in-uī guá thang tsi̍t-tit hioh-khùn.",
+                "names": "$~kuípái"
+            },
+            "description": {
+                "doc": "$~Tsit tsuān tōng-tsok ê suat-bîng (ma̍k-tsiòng ê); hōo khuànn-bē-tio̍h tōng-uē ê lâng khuànn.",
+                "names": "$~suatbîng"
+            },
+            "animations": {
+                "sway": {
+                    "doc": [
+                        "$~Guá ūi tsi̍t ê @Output ê tiong-sim, tńg-lâi tńg-khì tín-tōng, tshiūnn tiàu-tī sió-sió-á hong-lāi ê mih-kiānn. Guá sī hó ê hioh-khùn tōng-uē, in-uī sió-sió ê /kaktōo/ khuànn--khì-lâi ū oa̍h-oa̍h ê kám-kak, mā bē siunn khiû-ia̍h lâng ê tsù-ì.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.iô(10°))\\"
+                    ],
+                    "names": ["$~iô"],
+                    "angle": {
+                        "doc": "$~Ìn-á-nn-tsi̍t-pêng tín-tōng tio̍h-ài guā-tsē. Sió ê @values khuànn--khì-lâi sûn-sûn; tuā ê tō khuànn--khì-lâi hui-hui.",
+                        "names": ["$~kaktōo"]
+                    }
+                },
+                "bounce": {
+                    "doc": [
+                        "$~Guá kā tsi̍t ê @Output thiàu khí-lâi kàu /kuântōo/ koh hōo i lo̍h--lâi, khí--khì kap lo̍h--lâi ê sî ū sió-khuá khók-khók-á. Hōo guá tsi̍t ê @Phrase tsiah-á kàu--ê, guá ē hōo i ū tāng-liōng ê kám-kak.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.tiô(3m))\\"
+                    ],
+                    "names": ["$~tiô"],
+                    "height": {
+                        "doc": "$~Thiàu guā-koân, iōng bí-á tsò tan-uī.",
+                        "names": ["$~kuântōo"]
+                    }
+                },
+                "spin": {
+                    "doc": [
+                        "$~Guá ē hōo @Output tuè i ê tiong-sim-tiám tńg tsi̍t-liàn, uì 360° tńg-khì 0°. Kā guá siat-tīng tsò thîng--leh ê tōng-uā, guá tō ē it-ti̍t tńg, tńg bē soah.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.se̍h(2s))\\"
+                    ],
+                    "names": ["$~se̍h"]
+                },
+                "fadein": {
+                    "doc": [
+                        "$~Guá hōo tsi̍t ê @Output uì khuànn-bē-tio̍h piàn-kah khuànn-tit-tio̍h. Guá sī ûi /entering/ tsùn-pī--ê, tsiòng-sī ū mih-kiānn beh jip bú-tâi ê sî-tsūn.",
+                        "\\Kù('🐈' ji̍plâi: Sūnsū.tsiāmtsiāmtshut(1s))\\"
+                    ],
+                    "names": ["$~tsiāmtsiāmtshut"]
+                },
+                "fadeout": {
+                    "doc": [
+                        "$~Guá kā tsi̍t ê @Output uì khuànn-tit-tio̍h piàn-kah khuànn-bē-tio̍h. Guá sī ûi /exiting/ tsùn-pī--ê, tsiòng-sī ū mih-kiānn beh lī-khui bú-tâi ê sî-tsūn.",
+                        "\\Kù('🐈' tshutkhì: Sūnsū.tsiāmtsiāmsiau(sîtn̂g: 1s))\\"
+                    ],
+                    "names": ["$~tsiāmtsiāmsiau"]
+                },
+                "popup": {
+                    "doc": [
+                        "$~Guá hōo tsi̍t-ê @Output uì bô-mi̍h tuā khí-lâi, tuā kah siunn kuè in tsin-tsiànn ê tuā-sè, liâu-āu koh suah tńg-khì. Tsit-tiám-á siunn kuè, hōo i tshut-hiān ê sî-tsūn khuànn-khí-lâi tsin ài-tshit-thô, m̄ sī tshin-tshiūnn ki-hâi.",
+                        "\\Kù('🐈' ji̍plâi: Sūnsū.phokkhílâi(0.5s))\\"
+                    ],
+                    "names": ["$~phokkhílâi"]
+                },
+                "shake": {
+                    "doc": [
+                        "$~Guá kā @Output tī kuí-nā ê hong-hiòng kín-kín iô--lâi iô--khì. Lâng khuànn--tio̍h guá, ē siūnn-tio̍h “bô”, á-sī ū mi̍h-kiānn teh phi̍k-phi̍k-tshuah. Guá tín-tāng kah tsiok kín, sóo-í lí ài hōo guá té-té--ê.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.tsùn(0.5s kuípái: 3x))\\"
+                    ],
+                    "names": ["$~tsùn"]
+                },
+                "pulse": {
+                    "doc": [
+                        "$~Guá ē kā @Output pàng-tuā kàu /sòoliōng/, koh sok--tńg-khì, kan-na tsi̍t-pái. Guá sī siōng tiām-tiām ê pān-huat, ē-tàng kóng “khuànn tsia”. Guá bē kā siánn-mih mi̍h-kiānn suá-uī.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.meh(1.2))\\"
+                    ],
+                    "names": ["$~meh"],
+                    "amount": {
+                        "doc": "$~Tī siōng-koân ê sî-tsūn tio̍h-ài tuā guā-tsē. 1 tō sī lóng bô piàn.",
+                        "names": ["$~sòoliōng"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": [
+                        "$~Guá ē kín-kín pìnn-tuā nn̄g-pái, liáu-āu hioh-khùn tsi̍t-ē. Tse tō sī sim-tsōng phi̍k-phi̍k-tiô ê tsiat-phik. Guá pí @Sequence ê /me̍htōng/ khah kín-kip, mā pí /siámsih/ khah tsū-jiân.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.simthiàu(1.4 1s))\\"
+                    ],
+                    "names": ["$~simthiàu"],
+                    "amount": {
+                        "doc": "$~Múi phah tsi̍t-kái tio̍h-ài tuā guā-tsē.",
+                        "names": ["$~sòoliōng"]
+                    }
+                },
+                "tada": {
+                    "doc": [
+                        "$~Guá teh tshiánn-tsiù: sió-khuá tshiok-sè, ê-tsiah tuā-khí, kàu-bé koh tsia-lâi tsia-khì ê tín. Guá sī ūi sit-ī, thàn, kap tsò-tio̍h ê.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.tángtáng(1.2 1s))\\"
+                    ],
+                    "names": ["$~tángtáng"],
+                    "amount": {
+                        "doc": "$~Tshiánn-tsiù ê sî-tsūn tio̍h-ài tuā guā-tsē.",
+                        "names": ["$~sòoliōng"]
+                    }
+                },
+                "wiggle": {
+                    "doc": [
+                        "$~Guá kā tsi̍t ê @Output tsiàm piah-á suá-tsia suá-tsia, mā kā i tín-tín-á, múi-pái tín lóng pí téng-pái khah sió. Guá sī ū khah-tsē khuán-sik ê tín.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.iôlâiiôkhì(8°))\\"
+                    ],
+                    "names": ["$~iôlâiiôkhì"],
+                    "angle": {
+                        "doc": "$~Múi-pái tín tio̍h-ài tín guā-tsē.",
+                        "names": ["$~kaktōo"]
+                    }
+                },
+                "flash": {
+                    "doc": [
+                        "$~Guá ē hōo @Output tsit-ē khuàinn-ē-tio̍h, tsit-ē khuàinn-bē-tio̍h, nā-sih nn̄g-pái, koh ān-tsuánn bān-bān tām--khì. Lâng tsin kán-tan tō khuàinn-tio̍h guá. Mā in-uī án-ne, lâng tsin oh bô tsù-ì tio̍h guá, sóo-í mài iōng siunn tsē.",
+                        "Guá nā-sih kah tsin kín. Ū-ê lâng tuì nā-sih khah bín-kám, khuàinn tio̍h guá ē bē sóng-khuài. Nā guá ē tsit-tit tîng-ho̍k, tō hōo /sîtn̂g/ khah tn̂g--leh, hōo guá khah bān.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.siám(1s))\\"
+                    ],
+                    "names": ["$~siám"]
+                },
+                "swing": {
+                    "doc": [
+                        "$~Guá kā tsi̍t ê @Output tshiūnn pendulum án-nā tín, tín kàu /kaktōo/ ê-tsiah koh tín-tńg-lâi, tīng-tīng-á sió-sió-á ê khoân, kàu-bé tsiah thîng-lo̍h. Kap /iô/ put-tông, guá ē thîng-lo̍h.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.hàinn(20°))\\"
+                    ],
+                    "names": ["$~hàinn"],
+                    "angle": {
+                        "doc": "$~Tē-it-kái, siōng-tuā ê tín, tín guā-hn̄g.",
+                        "names": ["$~kaktōo"]
+                    }
+                },
+                "blink": {
+                    "doc": [
+                        "$~Guá kā @Output koaiñ tiām koh khui, tiong-kan bô tsiām-tsiām tshàng-lo̍h-khì, tòng-tòng kah kuí-piáu ê sih-sih-á. /siámsih/ sī tsiām-tsiām tshàng; guá sī kōng-kōng tuāt.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.nihba̍k(1s))\\"
+                    ],
+                    "names": ["$~nihba̍k"]
+                },
+                "nod": {
+                    "doc": [
+                        "$~Guá kā @Output tsit-ē lo̍h-khì koh sàng-khí-lâi, lióng pái, tòng-tòng kah tsiàu-tsiàu tûn-thâu. Guá sī uē “sī” siōng ūn-hô ê pān-huat.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.tìmthâu(0.4m))\\"
+                    ],
+                    "names": ["$~tìmthâu"],
+                    "distance": {
+                        "doc": "$~Múi pái tûn-thâu, tsit-ē lo̍h-khì lōng-kôo, ē-sái ēng bí lâi kì.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "dim": {
+                    "doc": [
+                        "$~Guá kā @Output tsiām-tsiām tshàng kàu /sòoliōng/, koh tńg-lâi tsiânn-tsiânn, m̄-bat kā i khàm-khí-lâi. Guá sī ēng-lâi hō lâng khuànn tsit-ê mi̍h teh tán a̍h-sī bô teh ēng.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.tsuānàm(20% 2s))\\"
+                    ],
+                    "names": ["$~tsuānàm"],
+                    "amount": {
+                        "doc": "$~Siōng àm ê sî-tsūn, ài tshàng kah gōng-ê.",
+                        "names": ["$~sòoliōng"]
+                    }
+                },
+                "zoomin": {
+                    "doc": [
+                        "$~Guá kā @Output uì-bô tsiām-tsiām tuā kàu tsiânn-tuā. Kah /phokkhílâi/ bô kāng, guá bô tuā kòe-thâu — guá sī khah tsa̍p-tsa̍p, khah pîng-tsīng ê tshut-hiān.",
+                        "\\Kù('🐈' ji̍plâi: Sūnsū.pàngtuā(0.5s))\\"
+                    ],
+                    "names": ["$~pàngtuā"]
+                },
+                "fadeinup": {
+                    "doc": [
+                        "$~Guá kā @Output tsiām-tsiām tshàng-tshut-lâi, kāng-sî uì ē-bīn /kīlî/ ê só͘-tsāi hiòng téng tshuā kàu uī.",
+                        "\\Kù('🐈' ji̍plâi: Sūnsū.tsiāmtsiāmtshutkhí(2m))\\"
+                    ],
+                    "names": ["$~tsiāmtsiāmtshutkhí"],
+                    "distance": {
+                        "doc": "$~Uì ē-bīn gōng-ê hia khai-sí, ē-sái ēng bí lâi kì.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": [
+                        "$~Guá kā @Output tsiām-tsiām tshàng-tshut-lâi, kāng-sî uì téng-bīn /kīlî/ ê só͘-tsāi hiòng ē tshuā kàu uī.",
+                        "\\Kù('🐈' ji̍plâi: Sūnsū.tsiāmtsiāmtshutlo̍h(2m))\\"
+                    ],
+                    "names": ["$~tsiāmtsiāmtshutlo̍h"],
+                    "distance": {
+                        "doc": "$~Uì téng-bīn gōng-ê hia khai-sí, ē-sái ēng bí lâi kì.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": [
+                        "$~Guá kā @Output tsiām-tsiām tshàng-tshut-lâi, kāng-sî uì tsò-pîng /kīlî/ ê só͘-tsāi hiòng tsiàu-pîng tshuā kàu uī.",
+                        "\\Kù('🐈' ji̍plâi: Sūnsū.tsiāmtsiāmtshuttòo(2m))\\"
+                    ],
+                    "names": ["$~tsiāmtsiāmtshuttòo"],
+                    "distance": {
+                        "doc": "$~Uì tsò-pîng gōng-ê hia khai-sí, ē-sái ēng bí lâi kì.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": [
+                        "$~Guá kā @Output tsiām-tsiām tshàng-tshut-lâi, kāng-sî uì iū-pîng /kīlî/ ê só͘-tsāi hiòng tsò-pîng tshuā kàu uī.",
+                        "\\Kù('🐈' ji̍plâi: Sūnsū.tsiāmtsiāmtshuttsiànn(2m))\\"
+                    ],
+                    "names": ["$~tsiāmtsiāmtshuttsiànn"],
+                    "distance": {
+                        "doc": "$~Uì iū-pîng gōng-ê hia khai-sí, ē-sái ēng bí lâi kì.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "rotatein": {
+                    "doc": [
+                        "$~Guá kā @Output piàn-tsiânn-tsin-tsiânn ê lìn-á tsuan-kàu uī, kāng-sî tsiām-tsiām tshàng-tshut-lâi, uì /kaktōo/ ê kak-tōo khai-sí, siōng-bué tsiàu-tsiàu khiā-ti̍t.",
+                        "\\Kù('🐈' ji̍plâi: Sūnsū.se̍hji̍p(180°))\\"
+                    ],
+                    "names": ["$~se̍hji̍p"],
+                    "angle": {
+                        "doc": "$~Uì gōng-ê kak-tōo khai-sí tsuan, ē-sái ēng tōo lâi kì.",
+                        "names": ["$~kaktōo"]
+                    }
+                },
+                "slidein": {
+                    "doc": [
+                        "$~Guá kā @Output uì lí ài ê tó-uī thui kàu uī, bô tsiām-tsiām tshàng. Hō guá tsit-ê @Place, guá tō uì hia khai-sí, siōng-bué tiām-tiām tī-leh, kàu-sî tsit-ê tōng-uē tō ē-sái ēng tī múi-ê hong-hiòng.",
+                        "\\Kù('🐈' ji̍plâi: Sūnsū.liuji̍p(Uītì(0m -4m)))\\"
+                    ],
+                    "names": ["$~liuji̍p"],
+                    "from": {
+                        "doc": "$~Uì toh-uī khai-sí, sī kap @Output tiām ê uī ê tsham-tsiàu kàu-tsi̍t-ê pîng-sing.",
+                        "names": ["$~uì"]
+                    }
+                },
+                "zoomout": {
+                    "doc": [
+                        "$~Guá kā @Output uì tsiânn-tuā sió kàu bô.",
+                        "\\Kù('🐈' tshutkhì: Sūnsū.soksió(0.5s))\\"
+                    ],
+                    "names": ["$~soksió"]
+                },
+                "fadeoutup": {
+                    "doc": [
+                        "$~Guá kā @Output tsiām-tsiām tshàng-lo̍h-khì, kāng-sî hiòng téng thui /kīlî/.",
+                        "\\Kù('🐈' tshutkhì: Sūnsū.tsiāmtsiāmsiaukhí(2m))\\"
+                    ],
+                    "names": ["$~tsiāmtsiāmsiaukhí"],
+                    "distance": {
+                        "doc": "$~Hiòng téng thui gōng-ê hia, ē-sái ēng bí lâi kì.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": [
+                        "$~Guá kā @Output tsiām-tsiām tshàng-lo̍h-khì, kāng-sî hiòng ē thui /kīlî/.",
+                        "\\Kù('🐈' tshutkhì: Sūnsū.siausitlo̍h(2m))\\"
+                    ],
+                    "names": ["$~siausitlo̍h"],
+                    "distance": {
+                        "doc": "$~Hiòng ē thui gōng-ê hia, ē-sái ēng bí lâi kì.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": [
+                        "$~Guá kā @Output tsiām-tsiām tshàng-lo̍h-khì, kāng-sî hiòng tsò-pîng thui /kīlî/.",
+                        "\\Kù('🐈' tshutkhì: Sūnsū.siausittò(2m))\\"
+                    ],
+                    "names": ["$~siausittò"],
+                    "distance": {
+                        "doc": "$~Hiòng tsò-pîng thui gōng-ê hia, ē-sái ēng bí lâi kì.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": [
+                        "$~Guá kā @Output tsiām-tsiām tshíng-bông, kāng-sî ùi tn̂g-tsuí tsiàⁿ-pîng suá /kīlî/ hiòng iū-pîng.",
+                        "\\Kù('🐈' tshutkhì: Sūnsū.siausittsiànn(2m))\\"
+                    ],
+                    "names": ["$~siausittsiànn"],
+                    "distance": {
+                        "doc": "$~Ùi iū-pîng suá guā-tn̂g, ēng bé (meters) lâi sǹg.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "rotateout": {
+                    "doc": [
+                        "$~Guá kā @Output tsùn kàu bô-khuànn-kìnn, kāng-sî tsiām-tsiām tshíng-bông, siāu-sit ê sî tsùn /kaktōo/ tsit-ē ê kak-tōo.",
+                        "\\Kù('🐈' tshutkhì: Sūnsū.se̍hsiausit(180°))\\"
+                    ],
+                    "names": ["$~se̍hsiausit"],
+                    "angle": {
+                        "doc": "$~Siāu-sit tsìn-ì-tsîng tsùn tsōng-tsōng guā-tōo, ēng tōo-sòo (degrees) lâi sǹg.",
+                        "names": ["$~kaktōo"]
+                    }
+                },
+                "slideout": {
+                    "doc": [
+                        "$~Guá kā @Output suá khì lí siūnn beh khì ê tē-hng, bô tshíng-bông. Lí hōo guá tsit-ê @Place, guá tō suá kàu hia, in-uī án-ni tsit-ê tōng-uē tō ē-tàng ká-ì ê hong-hiòng.",
+                        "\\Kù('🐈' tshutkhì: Sūnsū.liutshut(Uītì(0m -4m)))\\"
+                    ],
+                    "names": ["$~liutshut"],
+                    "to": {
+                        "doc": "$~Beh suá kàu toh-ūi, ùi @Output khǹg ê uī-tì khai-sí sǹg ê phiau-suá.",
+                        "names": ["$~kàu"]
+                    }
+                },
+                "float": {
+                    "doc": [
+                        "$~Guá kā @Output bān-bān hiòng-téng phiau /kīlî/, koh phiau tńg-lâi. Lí hōo guá tsit-ê tn̂g ê /sîtn̂g/, guá tō ē hōo siánn-mih khuànn-khí-lâi kánn-kak bô tāng-liōng.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.phû(0.5m 3s))\\"
+                    ],
+                    "names": ["$~phû"],
+                    "distance": {
+                        "doc": "$~Hiòng-téng phiau guā-tn̂g, ēng bé (meters) lâi sǹg.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "drift": {
+                    "doc": [
+                        "$~Guá kā @Output bān-bān hiòng piⁿ-á phiau /kīlî/, koh phiau tńg-lâi. Guá sī /phû/, sī pîng-hiòng ê.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.phiau(0.5m 3s))\\"
+                    ],
+                    "names": ["$~phiau"],
+                    "distance": {
+                        "doc": "$~Hiòng piⁿ-á phiau guā-tn̂g, ēng bé (meters) lâi sǹg.",
+                        "names": ["$~kīlî"]
+                    }
+                },
+                "orbit": {
+                    "doc": [
+                        "$~Guá kā @Output tòe tsit-ê pòaⁿ-kèng /puànkìng/ ê îⁿ-khuann-á suan, siōng-āu tńg-khì khai-sí ê tē-hng. Guá sī it-tsi̍t-ê ūi-tsí khí-lâi ê tōng-uē, ē tòe lō-suànn kiânn, m̄-sī lâi-lâi-khì-khì.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.se̍hlin(2m 4s))\\"
+                    ],
+                    "names": ["$~se̍hlin"],
+                    "radius": {
+                        "doc": "$~Îⁿ-khuann-á ê khuah-tōo, ēng bé (meters) lâi sǹg.",
+                        "names": ["$~puànkìng"]
+                    }
+                },
+                "rainbow": {
+                    "doc": [
+                        "$~Guá kā @Output tsoh-hôe-tsoh-hôe piàn-kuè sè-hiōng-tsînn ê múi-tsi̍t-ê sik-sò͘, siōng-āu tńg-khì khai-sí ê sik.",
+                        "Guá piàn-sik tsiok-kín, só-í kám-tio̍h siánn-sih ê lâng ē bô-sóng-khuài. Kā /sîtn̂g/ tshiânn-tn̂g, guá tō ē wenn-hô-tsuē.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.khīng(3s))\\"
+                    ],
+                    "names": ["$~khīng"]
+                },
+                "glow": {
+                    "doc": [
+                        "$~Guá kā @Output tsiām-tsiām piàn-kng, hiòng /sik/ khah-ân, jiân-āu koh piàn-tńg-khì, tshiūⁿ-sī jia̍t-khí-lâi koh lîng-lōh-khì. Kap /khīng/ bô-kāng, guá lóng-sī tsit-ê sik.",
+                        "\\Kù('🐈' hiohkhùn: Sūnsū.huatkng(Siktshái.kamásik 2s))\\"
+                    ],
+                    "names": ["$~huatkng"],
+                    "color": {
+                        "doc": "$~Beh hōo toh-tsi̍t-ê @Color hoat-kng. Guá ē uî-tsio ê kng kap àm lâi piàn.",
+                        "names": ["$~sik"]
+                    }
+                }
+            }
+        },
+        "Place": {
+            "doc": "$~Guá sī @Stage téng-bīn ê tsi̍t-ê uī-tì. Guá ê ta̍k-hāng su-ji̍p lóng ē-tàng bô siá, in-uī guá ê siòng-tsāi sī tiong-sim.",
+            "names": ["$~Uītì"],
+            "x": {
+                "doc": "$~X-tsiu téng ê uī-tì.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~Y-tsiu téng ê uī-tì",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~Z-tsiu téng ê uī-tì",
+                "names": "$~z"
+            },
+            "rotation": {
+                "doc": "$~Tsit-ê uī-tì ê soan-tsuán",
+                "names": ["$~suântsuán"]
+            }
+        },
+        "Gesture": {
+            "doc": "$~Guá sī siàng-sik-kì khuànn tio̍h ê tshiú ê tsuì-sè ê tsi̍t-ē kuè-ing, ùi @Hand @stream hoat-tshut-lâi. Guá ê place kā lí kóng tshiú tī bú-tâi ê toh-ūi, guá ê fingers kā lí kóng kuí-ki ba̍k-tsí tīn-khai, guá ê open tī tshiú khui-khui (3 ki iah-sī koh khah-tsē ba̍k-tsí tīn-khai) ê sî sī true, guá ê thumb, @index, middle, ring, kap pinky ta̍k-ê kóng toh-tsi̍t-ki ba̍k-tsí tīn-khai. Guá ê palm tī tsiúⁿ-sim hiòng siàng-sik-kì ê sî sī true, tshiú-bīn-piah hiòng siàng-sik-kì ê sî sī false.",
+            "names": ["$~Tshiútsè"],
+            "place": {
+                "doc": "$~Tshiú tī bú-tâi ê toh-ūi.",
+                "names": ["$~uītì"]
+            },
+            "open": {
+                "doc": "$~Tshiú khui-khui (3 ki iah-sī koh khah-tsē ba̍k-tsí tīn-khai) ê sî sī \\⊤\\, khuân-khí-lâi tsiânn-tsuì-thâu ê sî sī \\⊥\\.",
+                "names": ["$~phahkhui"]
+            },
+            "fingers": {
+                "doc": "$~Kuí-ki ba̍k-tsí tīn-khai, ùi 0 (khuân-tsuì-thâu) kàu 5 (ba̍k-tsí lóng tīn-khai, kàu bóe-tsí-bú-á).",
+                "names": ["$~tsíngthâuá"]
+            },
+            "thumb": {
+                "doc": "$~Bóe-tsí-bú-á tīn-khai ê sî sī \\⊤\\.",
+                "names": ["$~tuāthâubó"]
+            },
+            "index": {
+                "doc": "$~Nā-sī @index ê tsṳ́-thâu-á thàng-tshut-lâi, tō sī \\⊤\\.",
+                "names": ["$~sikín"]
+            },
+            "middle": {
+                "doc": "$~Nā-sī tiong-tsí thàng-tshut-lâi, tō sī \\⊤\\.",
+                "names": ["$~tiongtsáinn"]
+            },
+            "ring": {
+                "doc": "$~Nā-sī bîn-miâ-tsí thàng-tshut-lâi, tō sī \\⊤\\.",
+                "names": ["$~bômiâtsáinn"]
+            },
+            "pinky": {
+                "doc": "$~Nā-sī sè-tsí thàng-tshut-lâi, tō sī \\⊤\\.",
+                "names": ["$~buétsáinn"]
+            },
+            "palm": {
+                "doc": "$~Nā-sī chhiú-chiáng tsiàu-tuì siàng-ki, sī \\⊤\\; nā-sī chhiú-bīn ê āu-piah tsiàu-tuì, sī \\⊥\\.",
+                "names": ["$~tshiúté"]
+            }
+        },
+        "Thing": {
+            "doc": "$~Guá sī siàng-ki khuànn-tio̍h ê tsi̍t-kiānn tāi-tsì, sī @Objects @stream ti̍t-tsiap tuì @List lāi-té sàng-tshut-lâi ê. Guá ê miâ kóng guá sī sím-mih, guá ê tuā-tām-tō kóng bo̍k-tsiu kah-tsiânn-bô tshuè-tio̍h, guá ê uī-tì kóng guá tī bú-tâi ê toh-uī, guá ê khuah-tō kah koân-tō kóng guá khuànn-khí-lâi gōng gōng-tuā.",
+            "names": ["$~Mi̍h"],
+            "name": {
+                "doc": "$~Hit-kiānn tāi-tsì sī sím-mih, ēng lí ê @language lâi kóng.",
+                "names": ["$~miâ"]
+            },
+            "confidence": {
+                "doc": "$~Mô-hîng kah-tsiânn-bô tsuè-tsiàⁿ sī hit-kiānn, uì 0 (lia̍h-tsiânn-bô) kàu 1 (khak-sit).",
+                "names": ["$~khósìntōo"]
+            },
+            "place": {
+                "doc": "$~Hit-kiānn tāi-tsì tī bú-tâi ê toh-uī.",
+                "names": ["$~uītì"]
+            },
+            "width": {
+                "doc": "$~Hit-kiānn tāi-tsì khuànn-khí-lâi gōng-tuā, ēng tshiah-bí lâi sǹg.",
+                "names": ["$~khuahtōo"]
+            },
+            "height": {
+                "doc": "$~Hit-kiānn tāi-tsì khuànn-khí-lâi koân-tuā, ēng tshiah-bí lâi sǹg.",
+                "names": ["$~kuântōo"]
+            }
+        },
+        "Expression": {
+            "doc": "$~!Guá sī siàng-ki khuànn-tio̍h ê bīn-tsìng tsi̍t-tiuⁿ kuì-tsiàu, sī @Face @stream sàng-tshut-lâi ê. Guá ê place kā lí kóng bīn tī bú-tâi ê toh-uī. Guá ê @Expression.leftEyeOpen, @Expression.rightEyeOpen kah @Expression.eyesOpen kóng bak-tsiu ná-ū khui. Guá ê @Expression.mouthOpen, @Expression.smiling, @Expression.frowning kah @Expression.browsRaised kóng bīn teh tsò sím-mih, múi-tsi̍t-ê lóng-ū tsi̍t-ê tùi-ìng ê sòo-liōng (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount), uì 0 kàu 1, kóng ū gōng-kiānn. Guá ê @Expression.turn kah @Expression.tilt kóng thâu tuì tó-pîng, ēng tō-sòo lâi sǹg.",
+            "names": ["$~Piáutsîng"],
+            "place": {
+                "doc": "$~Bīn tī bú-tâi ê toh-uī.",
+                "names": ["$~uītì"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~Nā-sī tsó-pîng ê bak-tsiu khui-khui, tō sī \\⊤\\; nā-sī bih-tio̍h, tō sī \\⊥\\.",
+                "names": ["$~tòba̍kkhui"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~Nā-sī iū-pîng ê bak-tsiu khui-khui, tō sī \\⊤\\; nā-sī bih-tio̍h, tō sī \\⊥\\.",
+                "names": ["$~tsiànba̍kkhui"]
+            },
+            "eyesOpen": {
+                "doc": "$~Nā-sī nn̄g-tsiah bak-tsiu lóng khui-khui, tō sī \\⊤\\.",
+                "names": ["$~ba̍ktsiukhui"]
+            },
+            "mouthOpen": {
+                "doc": "$~Nā-sī tsuì khui-khui, tō sī \\⊤\\.",
+                "names": ["$~tshuìkhui"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Tsuì khui-tsiâⁿ-tuā, uì 0 (kuainn-khí-lâi) kàu 1 (khui kah tsiok tuā).",
+                "names": ["$~tshuìkhuitōo"]
+            },
+            "smiling": {
+                "doc": "$~Nā-sī bīn teh bî-bî-tshiò, tō sī \\⊤\\.",
+                "names": ["$~tshiòbîn"]
+            },
+            "smileAmount": {
+                "doc": "$~Bīn bî-tshiò kah gōng-kiānn, uì 0 kàu 1.",
+                "names": ["$~tshiòtōo"]
+            },
+            "frowning": {
+                "doc": "$~Nā-sī bīn teh pê-bīn, tsuì-kak lo̍h-khì á-sī bâi-mî lo̍h-lâi, tō sī \\⊤\\.",
+                "names": ["$~katbâi"]
+            },
+            "frownAmount": {
+                "doc": "$~Bīn pê-bīn kah gōng-kiānn, uì 0 kàu 1, tsuì-kak kah bâi-mî lóng ū sǹg.",
+                "names": ["$~katbâitōo"]
+            },
+            "browsRaised": {
+                "doc": "$~Nā-sī bâi-mî kiù-khí-lâi, tō sī \\⊤\\.",
+                "names": ["$~bâimôogiâ"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Bâi-mî kiù-khí-lâi kah gōng-kiānn, uì 0 kàu 1.",
+                "names": ["$~bâimôogiâtōo"]
+            },
+            "turn": {
+                "doc": "$~Thâu tńg-khì kah gōng-kiānn, ēng tō-sòo lâi sǹg — hu-sòo sī tuì tsó-pîng, tsìng-sòo sī tuì iū-pîng.",
+                "names": ["$~tsuán"]
+            },
+            "tilt": {
+                "doc": "$~Thâu khing-tuà guā-tuā, ēng tō-sòo lâi kì — ûi-hā sī hù-sòo, ûi-téng sī tsìng-sòo.",
+                "names": ["$~khi"]
+            }
+        },
+        "Velocity": {
+            "doc": "$~Guá sī @Output tī @Stage téng-bīn suá-tāng ê sok-tōo — x kap y kuí-bí múi-miā, koh ū tsuan-tāng ê tō-sòo múi-miā. Guá ê @argument thang kā tshiūnn-bô; siat-tiāⁿ ê tāi-tsì sī tsīng-ló bē suá-tāng.",
+            "names": ["$~Soktōo"],
+            "x": {
+                "doc": "$~Tī x-tsuh múi-miā beh suá kuí-bí.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~Tī y-tsuh múi-miā beh suá kuí-bí.",
+                "names": "$~y"
+            },
+            "angle": {
+                "doc": "$~Múi-miā beh tsuan kuí-tō.",
+                "names": ["$~kaktōo"]
+            }
+        },
+        "Result": {
+            "doc": "$~Guá sī \\⌕\\ tshiau-tshuē iūnn-tsū ê tsi̍t-ê tsiah-tio̍h: tsiah-tio̍h ê bûn-jī, i tī toh-uī, kap pau-tio̍h ê pō-hūn.",
+            "names": ["$~Kiatkó"],
+            "text": {
+                "doc": "$~Tsiah-tio̍h ê uân-pún bûn-jī.",
+                "names": "$~bûnjī"
+            },
+            "start": {
+                "doc": "$~Tsiah-tio̍h ùi toh-uī khai-sí, ùi 1 khai-sí sǹg.",
+                "names": "$~khaisí"
+            },
+            "end": {
+                "doc": "$~Tsiah-tio̍h tī toh-uī suah-bué, ùi 1 khai-sí sǹg.",
+                "names": "$~bué"
+            },
+            "groups": {
+                "doc": "$~Múi-ê pau-tio̍h ê miâ tùi-ìng i tsiah-tio̍h ê bûn-jī.",
+                "names": "$~kûntsoo"
+            },
+            "starts": {
+                "doc": "$~Múi-ê pau-tio̍h ê @name tùi-ìng i khai-sí ê uī-tì.",
+                "names": "$~khaisítuī"
+            },
+            "ends": {
+                "doc": "$~Múi-ê pau-tio̍h ê @name tùi-ìng i suah-bué ê uī-tì.",
+                "names": "$~kiatbué"
+            }
+        },
+        "Matter": {
+            "doc": "$~Guá kóng @Output guā-tshia̍p, guā-ták, guā-hua̍h. Ū guá kap @Motion ê @Output sī kiōng-ke: ē tuì tī @Stage téng ê @Shape kap pa̍t-ê teh suá ê @Output pōng--khì. Lí ê thîng-sik tshāi ê @Output ē tī lí khǹg ê uī-tì, mā ē thàu-kuè i tsiap-tio̍h ê mi̍h. @Output m̄ sái guá, @Collision mā ē chù-ì tio̍h — kan-tan ū tsi̍t-ê miâ tō-ē-sái.",
+            "names": ["$~Bu̍ttsit"],
+            "mass": {
+                "doc": "$~Tsiāng-liōng, ēng kong-kin lâi kì",
+                "names": "$~tsitliōng"
+            },
+            "bounciness": {
+                "doc": "$~Pōng-tio̍h ê sî-tsūn beh kā guá ê le̍k-liōng pó-liû guā-tsē; 0 sī lóng bô, 1 sī kui-ê lóng pó-liû.",
+                "names": "$~tânsìng"
+            },
+            "friction": {
+                "doc": "$~Beh kā hua̍h-tāng pó-liû guā-tsē; 0 sī lóng bô, 1 sī éng-oán.",
+                "names": "$~buatshat"
+            },
+            "roundedness": {
+                "doc": "$~Beh kā su-tshut ê kak ng-uân guā-tsē; 0 sī bô, 1 sī i tāi-sè ê 100%, ē hō tāi-sè pìⁿ-tsò ng-uân.",
+                "names": "$~întōo"
+            },
+            "text": {
+                "doc": "$~Guá ē-sái pōng-tio̍h pa̍t-ê @Phrase kap @Group bô; ⊥ sī guá khuànn-bô i-tī, @Collision mā tshiūnn-bô kóng i-tī.",
+                "names": "$~bûnjī"
+            },
+            "shapes": {
+                "doc": "$~Guá ē-sái pōng-tio̍h @Stage téng ê @Shape bô; ⊥ sī guá ē ùi tshiûnn kap tē-pán lak-lo̍h-khì, @Collision mā tshiūnn-bô kóng i-tī.",
+                "names": "$~thôokha"
+            },
+            "pull": {
+                "doc": "$~Guá khiú pa̍t-ê su-tshut lâi guá ê le̍k-tō guā-tuā. 0 sī lóng bô, he sī tsiàⁿ-siông. Sòo-jī koh-khah tuā, khiú ê le̍k-tō koh-khah tshiân; hù-sòo ê sòo-jī ē tshiàng-hóe tshuā-khui. Tsí ū @Motion khǹg ê su-tshut tsiah ē hō khiú.",
+                "names": "$~khiú"
+            },
+            "outline": {
+                "doc": "$~Beh ūi guá ê jī ê hîng-ìng lâi pōng, m̄-sī ūi i pak-tsiūnn ê hong-keh lâi pōng. ⊤ sī sió-ê @Phrase ē-sái tsáu-ji̍p tuā-ê ê kauh-á ni̍h. Emoji mā ē-sái.",
+                "names": "$~lûnkhok"
+            }
+        },
+        "Aura": {
+            "doc": [
+                "$~Guá hō @Phrase HUAT-KONG! Guá sī AURA. Án-ne:",
+                "\\Kù(\n\t'Guá teh puh-kng!'\n\tkongkhuân: Kongkhuân(\n\t\tSiktshái(50% 100 118°)\n\t\t0.1m\n\t\t0m\n\t\t0.1m\n\t)\\🪲"
+            ],
+            "names": ["$~Kongkhuân"],
+            "color": {
+                "doc": "$~@Aura ài ê @Color.",
+                "names": "$~sik"
+            },
+            "blur": {
+                "doc": "$~@Aura ài guā-tshíng-bông. \\0m\\ sī tsíng-tsiàⁿ bô-bông.",
+                "names": "$~bôohôo"
+            },
+            "offsetX": {
+                "doc": "$~Guá ài tshut-hiān tī tsó-pîng á-sī iū-pîng guā-hn̄g. \\0m\\ sī tsiàⁿ-tsiàⁿ tī lo̍h-bīn.",
+                "names": "$~phianîX"
+            },
+            "offsetY": {
+                "doc": "$~Guá tio̍h tī gōa kôo á gōa kē ê uī-tì tshut-hiān. \\0m\\ tsiū-sī tī tsiah-ê tsi̍t-ē.",
+                "names": "$~phianîY"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Guá ē khàn-tshut @Phrase teh kóng sím-mi̍h, ēng tsi̍t-ê ì-sù tsí-hiòng i ê tuā-ê kóng-uē-tshut. Pàng guá tī phrase ê @Phrase.bubble, hō i ê jī lâi kóng-uē:",
+                "\\Kù('a' phā: 'lí-hó!')\\",
+                "Nā-sī lí kā guá @Say ê tāi-tsi̍t, bô-sī jī, guá ē khuànn-tio̍h mā ē ho̍k-tshut-lâi kóng.",
+                "Buē guá ê @Bubble.kind kái-tsò siūnn-hoat, guá tsiū piàn-tsò siūnn-hoat ê tuā-ê.",
+                "Guá sī tsit-ê tsông-sik, só-í bú-tâi-siōng ê mih-kiānn buē suá-khui lâi hō guá @placeholder — m̄-koh @Stage ē khak-tīng guá tshut-hiān tī khuànn-ē-tio̍h ê só-tsāi."
+            ],
+            "names": ["$~Phāuá"],
+            "text": {
+                "doc": [
+                    "$~Guá ê lōe-iông. Hō guá tsa̍p-sù-á bûn-jī, á-sī ū keh-sik ê bûn-jī, nā-sī beh *tsim* á-sī /tshiah-sè/ ê jī.",
+                    "Nā-sī lí hō guá @Say, guá ē khuànn-tio̍h mā ē ho̍k-tshut-lâi kóng. Án-ne guá tsiū tāi-thè @Stage ê té-pōo hiah-ê jī, in-ūi guá ê jī í-king tī kóng-uē ê lâng ê pâng-pinn."
+                ],
+                "names": "$~bûnjī"
+            },
+            "side": {
+                "doc": "$~Guá tsē tī @Phrase ê toh tsi̍t-pinn, ēng ìnn-á lâi piáu-sī. Nā-sī \\ø\\, @Stage ē kā guá khǹg tī siōng bô tih-ngāi ê só-tsāi, mā tī mih-kiānn suá-uī ê sî koh tshiânn-tse̍k.",
+                "names": "$~pinn"
+            },
+            "kind": {
+                "doc": "$~Guá sī kóng ê uē (\\'💬'\\) á-sī siūnn ê uē (\\'💭'\\). Siūnn ê uē ē ēng khuân-á tsiah-tsò-tsi̍t-tsūn-tsi̍t-tsūn hiòng siūnn ê lâng, m̄-sī tsi̍t-ê kak, mā ē uân-uân-uân.",
+                "names": "$~tsiónglūi"
+            },
+            "color": {
+                "doc": "$~Guá ê jī ê @Color. Nā-sī \\ø\\, guá ēng @Phrase ka-tī ê iân-sik.",
+                "names": "$~sik"
+            },
+            "background": {
+                "doc": "$~Guá ēng @Color lâi thiām. Nā-sī \\ø\\, guá ēng guá tsiah-ê tshù-khuànn ê pōo-kéng ê iân-sik thiām.",
+                "names": "$~puèkíng"
+            },
+            "size": {
+                "doc": "$~Guá ê jī ū tsiok tuā. Nā-sī \\ø\\, in tsiū-sī bûn-jī tī @Stage siōng-siông ê tuā-sè — m̄-sī teh kóng-uē ê lâng ê tuā-sè, in-ūi kuí-kang-tshiah-kuí-kang ke kôan ê kak-sik ē hō jī tsiâⁿ-tsò tsi̍t-tè-tshiûⁿ.",
+                "names": "$~tuātsè"
+            },
+            "wrap": {
+                "doc": "$~Guá tī tī tó-uī kā jī tsuán-hâng ê kài-sòo.",
+                "names": "$~uānnhâng"
+            }
+        },
+        "Stage": {
+            "doc": [
+                "$~GUÁ KA LÍ Ê @Output HŌO KHUÀNN-HÌ Ê LÂNG KHUÀNN. HÁI! GUÁ SĪ BÚ-TÂI. KĀ GUÁ KÓNG BEH HŌO IN KHUÀNN SIÁNN-MI̍H, GUÁ TŌ HŌO IN KHUÀNN.",
+                "\\Bútâi([Kù('tsiânn-tsiânn-tsiânn-tsiânn-tsiânn tang-sai')])\\",
+                "NĀ LÍ BEH, HŌO GUÁ TSI̍T-Ê PUE-KÍNG @Color, GUÁ TŌ ĪNG I LÂI TSIÒ BÚ-TÂI.",
+                "\\Bútâi(\n\t[Kù('tsiânn-tsiânn-tsiânn-tsiânn-tsiânn tang-sai')]\n\tpuèkíng: Siktshái(75% 50 100°)\n)\\",
+                "LÍ MĀ Ē-SÁI HŌO GUÁ TSI̍T-Ê KHING-PINN, GUÁ TŌ KA KHING-PINN GUĀ-KHÁU Ê KA-TIĀU.",
+                "\\Bútâi(\n\t[Kù('tsiânn-tsiânn-tsiânn-tsiânn-tsiânn tang-sai')]\n\tpuèkíng: Siktshái(75% 50 100°)\n\tkhing: Tn̂ghonghîng(-1m -1m 1m 1m)\n)\\",
+                "NĀ LÍ BEH KHAH TSIĀNN HÌ, HŌO GUÁ @Effect, GUÁ TŌ KA SÓO-Ū MI̍H-KIĀNN Ê IŪNN UĀNN-KHÌ. TSUÍ-TÉ! KŪ ÍNN-PHÌNN! TSA̍P-TIÁM! GUÁ TSIÂNN KAH-Ì!",
+                "\\Bútâi(\n\t[Kù('🐟 phu-phu')]\n\thāukó: [Íng() Jiámsik(Siktshái(55% 45 220°))]\n)\\"
+            ],
+            "names": ["$~Bútâi"],
+            "content": {
+                "doc": "$~Ê @Output Ê LIST, TSIÒ KHUÀNN. TSIT SĪ Ê KHUÀNN. GUÁ KHUÀNN.",
+                "names": "$~lāiiông"
+            },
+            "frame": {
+                "doc": "$~GUÁ Ê KHUÀNN-TSÍ Ê HÎNG-ÀM Ê TUĀ-SÈ. TĒ-KHÙ Ê, GUÁ TSIŪ THÂN-KHUÀNN.",
+                "names": "$~khing"
+            },
+            "size": {
+                "doc": "$~KOO-TSHÌ @Group.size",
+                "names": "$~tuātsè"
+            },
+            "face": {
+                "doc": "$~KOO-TSHÌ @Group.face",
+                "names": "$~jīthé"
+            },
+            "place": {
+                "doc": "$~NĀ GUÁ SĪ TSI̍T-Ê KHA-MÊ-LÀ, TSIT SĪ GUÁ KHUÀNN Ê ŪI-TÌ",
+                "names": "$~uītì"
+            },
+            "name": {
+                "doc": ["$~HŌ @Phrase.name KOO-TSHÌ!"],
+                "names": "$~miâ"
+            },
+            "description": {
+                "doc": [
+                    "$~KHUÀNN-BŌ-KIÀNN Ê KHÙ-KHE KÀ KHUÀNN Ê THÂN-LÂNG Ê SUAT-BÎNG. KÀ IN KHUÀNN-BŌ-KIÀNN Ê MIH!"
+                ],
+                "names": "$~suatbîng"
+            },
+            "selectable": {
+                "doc": "$~HŌ @Phrase.selectable KOO-TSHÌ!",
+                "names": "$~ētàngkíng"
+            },
+            "color": {
+                "doc": "$~KOO-TSHÌ @Group.color",
+                "names": "$~sik"
+            },
+            "background": {
+                "doc": "$~KOO-TSHÌ @Group.background",
+                "names": "$~puèkíng"
+            },
+            "opacity": {
+                "doc": "$~KOO-TSHÌ @Group.opacity",
+                "names": "$~putthàumîng"
+            },
+            "offset": {
+                "doc": "$~KOO-TSHÌ @Group.offset",
+                "names": "$~phianî"
+            },
+            "rotation": {
+                "doc": "$~KOO-TSHÌ @Group.rotation",
+                "names": ["$~suântsuán"]
+            },
+            "scale": {
+                "doc": "$~KOO-TSHÌ @Group.scale",
+                "names": "$~imkai"
+            },
+            "flipx": {
+                "doc": "$~KOO-TSHÌ @Group.flipx",
+                "names": "$~huanx"
+            },
+            "flipy": {
+                "doc": "$~KOO-TSHÌ @Group.flipy",
+                "names": "$~huany"
+            },
+            "entering": {
+                "doc": "$~KOO-TSHÌ @Group.entering",
+                "names": "$~ji̍plâi"
+            },
+            "resting": {
+                "doc": "$~HŌ @Group.resting KOO-TSHÌ!",
+                "names": "$~hiohkhùn"
+            },
+            "moving": {
+                "doc": "$~HŌ @Group.moving KOO-TSHÌ!",
+                "names": "$~suátāng"
+            },
+            "exiting": {
+                "doc": "$~HŌ @Group.exiting KOO-TSHÌ!",
+                "names": "$~tshutkhì"
+            },
+            "duration": {
+                "doc": "$~HŌ @Phrase.duration KOO-TSHÌ!",
+                "names": ["$~sîtn̂g"]
+            },
+            "style": {
+                "doc": "$~HŌ @Phrase.style KOO-TSHÌ!",
+                "names": "$~hongkeh"
+            },
+            "gravity": {
+                "doc": "$~GUÁ HIÀNG-TĒ SIÒNG-KÓ-THÀN Ê Ê ŪI Ê @Motion Ê PHAH TSIÒ-LI̍T. MIH-KIÀNN KÒ-ÊN KHÙN-TSÂI LĀN-TSIAH.",
+                "names": "$~tiōngli̍k"
+            },
+            "overlay": {
+                "doc": "$~@Output Ê LIST, GUÁ THÂI-TSÍ TĒ TSIÒ-TSÍ, KOO-TSHÌ TSIÒ-PHÀI-KOÀN. GUÁ Ê @Place KHA-MÊ-LÀ KÀ GUÁ Ê @Effect BŌ-BÚ TUĀ-TSÍ.",
+                "names": "$~tha̍h"
+            },
+            "air": {
+                "doc": "$~GUÁ Ê KHÙ-KHÌ Ê SIÒNG-KÓ TSIÒ-LI̍T KÀ SUÁ-TÒNG Ê SIÒNG. \\1\\ SĪ SIÒNG-SIÔNG KHÙ-KHÌ, \\0\\ SĪ ÍN-NĀ Ê KHÙ-KHÀ, MIH-KIÀNN TSIÒNG-TSÒ-TSIÒNG TSÒ, KÀ TUĀ-LÂ Ê SÒO-JĪ KÀ KHÙ-KHÌ KÀ TÂNG. KOO-TSHÌ BIÁ.",
+                "names": "$~khongkhì"
+            },
+            "effects": {
+                "doc": "$~@Effect Ê LIST, THÂNG-TSIÒ TĒ TUĀ-PHÀI-KOÀN GUÁ, KOO-TSHÌ @Blur, @Grain, Á-SĪ @Wave, TĒ-TSÒ. \\ø\\ Á-SĪ KHAN-KHÙ Ê LIST BIÁ GUÁ KHUÀNN-TSÒ GUÁ-KA-TĪ.",
+                "names": "$~hāukó"
+            },
+            "defaultDescription": "$~bú-tâi $name[$name |]ê $#count[$count ê output|$count ê output]$frame[ ū khuànn-tsí $frame|] $pose $color[$color|]$effects[ ū $effects|]"
+        },
+        "Easing": {
+            "straight": "$~ti̍t",
+            "cautious": "$~sèjī",
+            "pokey": "$~bān",
+            "zippy": "$~kín"
+        },
+        "TextEffect": {
+            "edit": "$~piantsi̍p",
+            "rewrite": "$~tîngsiá",
+            "random": "$~tshìntshái"
+        },
+        "Source": {
+            "names": "$~Guânsítóng",
+            "doc": [
+                "$~Lí ū tsai-iáⁿ tsuan-àn thang ū tsōng-tsiah ê @Source tóng-àn bô? Guá ē tuè lí tsuan-àn ê lō-tsîng, hō lí khai-sí tsi̍t-ê @Source. Nā-sī lí beh tī tsuan-àn ê kuí-ē ê tsun-sîn tsi̍t-tsūn tsāi-hiàn tsi̍t-kuá tsu-liāu, tse tsiok ū-ēng.",
+                "Ma-kiān, siūnn-khuànn-māi lí beh tsò tsi̍t-ê kán-tan ê kè-sǹg-khì, múi-pái khǹg tsi̍t-ē buē-su ê àn-liú, tō ke 1. Lí thang ēng tse lâi kì-tsù lí tsò kuí-pái.",
+                "\\↓ count\n[\n\tKù(`\\count\\ pái!`)\n\tGuânsítóng('kè-sǹg' count … ∆ Button() … count + 1)\n]\\🪲",
+                "Sió-tsha kóng, kā i huê-tsè khì, tsò tsi̍t-ê sin @Source miâ /count/, koh kā 0 kì-ì, kā kè-sǹg ùi 0 khai-sí. Tsit-ê sió tsuan-àn ē tshú-tuè /count/ source ê @value, múi-pái buē-su àn-liú, tō kā /count/ @Source kái-tsò hiān-tsāi ê /count/ ta̍t ke /1/."
+            ],
+            "name": {
+                "names": "$~miâ",
+                "doc": "$~Beh khai-sí á-sī kái-kàu ê source tóng-àn ê miâ."
+            },
+            "value": {
+                "names": "$~ta̍t",
+                "doc": "$~Source tóng-àn beh ēng sím-mi̍h tsu-liāu khai-sí á-sī kái-kàu ê @value."
+            },
+            "DynamicEditLimitException": {
+                "description": "$~tòng-thāi guân-sí-tóng pian-tsi̍p ê kuí-hān",
+                "explanation": "$~Tsit ê tsuan-àn kā tsu-liāu khià kàu @Source tóng-àn thài tsē-kái, thài kín. Khuànn-māi tsí-ū tī @Source siūnn-tio̍h ín-ji̍p ê sî-tsūn tsiah koh-sin, mài thài kín."
+            },
+            "ReadOnlyEditException": {
+                "description": "$~tsí-thang to̍k ê guân-sí-tóng pian-tsi̍p",
+                "explanation": "$~Tsit ê tsuan-àn ē kì-tit tsu-liāu, m̄-kú lí bô khuân-lī pian-tsi̍p. Nā-sī beh sè-khuànn, tshiánn khó-pi."
+            },
+            "EmptySourceNameException": {
+                "description": "$~khang ê guân-sí-tóng miâ",
+                "explanation": "$~Hit ê @Source ê miâ sī khang--ê, só·-í bô-hoat-tōo khià."
+            },
+            "ProjectSizeLimitException": {
+                "description": "$~tsuan-àn tuā-sè ê kuí-hān",
+                "explanation": "$~Tsit ê tsuan-àn ê bûn-jī thài tsē, só·-í bô-hoat-tōo khià."
+            }
+        }
+    }
+}

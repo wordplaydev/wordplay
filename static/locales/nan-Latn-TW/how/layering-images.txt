@@ -1,0 +1,30 @@
+Kā tshiàu-phìnn tshing-tînn tī sio-khàm-tsòng
+
+Ū-sî lán beh kā tshiàu-phìnn tshing-tînn, lâi tsò hó-tshiàu ê tshíng-kíng, á-sī ū-tshòng-ì ê hîng-tsōng.
+
+Pí-lī kóng, lí ē-sái tī @Stage ê tsuan-àn lāi-té iōng tsiok-tsē tsîng, kā tshiàu-phìnn tshing khí-lâi, ài án-tsuánn pâi lóng ē-sái.
+
+Khuànn! Tse sī guá kan-tan iōng hîng-tsōng tsò ê hué-kui!
+Lí lâi kái-khuànn-māi múi-ê hîng-tsōng ê sò-jī. Lí ē-sái suá in ê uī-tì, kái in ê tuā-sè, mā ē-sái hōo in píng-tńg.
+Lí khuànn-māi tsit-ê, khuànn-māi ē-sái tsò-tshut siánn!
+
+\
+¶Chù-ì: Khì tián-lám-kuán khuànn lēng-guā ê tsuan-àn <khuànn-māi@https://wordplay.dev/project/example-Layers?play>, sī kā iáⁿ-siōng tiùnn-tiàm ê lē-tsú.¶
+
+
+Bútâi(
+	[
+		Hîngtsōng(Înnhîng(3m 0m 1m 0m))
+		Hîngtsōng(Topianhîng(2m 3 0m -12m 0m) suântsuán: -30°)
+		Hîngtsōng(Topianhîng(7m 6 0m -6m 0m))
+		Hîngtsōng(Tn̂ghonghîng(-11m -9m 11m -12m 10m) suântsuán: 25°)
+		Hîngtsōng(Tn̂ghonghîng(-11m -9m 11m -12m 10m) suântsuán: -25°)
+
+	]
+	uītì: Uītì(0m 10m -30m)
+)
+\
+
+ Iōng tsîng ē-sái tsò-tshut tsiok-tsē siōng-hó-khuànn ê mih-kiānn! Lí lâi sī-khuànn-māi!
+
+custom-characters

@@ -1,3 +1,4 @@
+import { splitMarkupAndCode } from '#util/verify-locales/protect.ts';
 import type { GlossaryWord, LiteralTermFinding } from 'shared-types';
 
 /**
@@ -20,8 +21,6 @@ const MENTION_RE = /(?<!\$)\$([a-zA-Z0-9]+|\?|!)/g;
  *  and breaking it. Mirrors `ConceptRegExPattern` in the tokenizer, which allows
  *  either separator. */
 const CONCEPT_RE = /@[\p{L}][\p{L}\p{N}]*(?:[./][\p{L}][\p{L}\p{N}]*)?/gu;
-/** An embedded `\code\` block (Wordplay program). */
-const CODE_RE = /\\[^\\]*\\?/g;
 /** A `<label@url>` web link. The `@` inside one is a separator, not a
  *  reference, so linking a term in the label ran the two together:
  *  `<2-letter code@https://…>` became `<2-letter @code@https://…>`, which is no
@@ -41,7 +40,16 @@ function isWordChar(c: string | undefined): boolean {
  *  references, and existing mentions. */
 function protectedRanges(text: string): Array<[number, number]> {
     const ranges: Array<[number, number]> = [];
-    for (const re of [CODE_RE, WEBLINK_RE, CONCEPT_RE, MENTION_RE]) {
+    // Examples come from the splitter rather than a regex: a `\` pairs with the
+    // next `\` only at the top level, since inside a text literal it opens an
+    // interpolation, and pairing by alternation linked a word inside one.
+    let offset = 0;
+    for (const segment of splitMarkupAndCode(text)) {
+        if (segment.kind === 'code')
+            ranges.push([offset, offset + segment.text.length]);
+        offset += segment.text.length;
+    }
+    for (const re of [WEBLINK_RE, CONCEPT_RE, MENTION_RE]) {
         re.lastIndex = 0;
         let m: RegExpExecArray | null;
         while ((m = re.exec(text)) !== null) {

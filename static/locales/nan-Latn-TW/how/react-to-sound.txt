@@ -1,0 +1,22 @@
+Hō͘ jī-hu̍t tuè siaⁿ-im tsiūnn-tuā
+
+Lí tsai-iánn lí ê tsuan-àn ē-tàng thiaⁿ lí kóng-uē bô? Hit ê @Volume tsu-liāu-liû ēng lí ê bái-khuh-hong, hō͘ guán chi̍t ê sò-ba̍k, uì \0\ (bô siaⁿ) kàu \1\ (tuā-siaⁿ).
+
+Guán ē-sái ēng hit ê sò-ba̍k lâi khòng-tsè kâng-khuán mi̍h-kiānn — @Phrase ê tuā-sè, uân-tsuán ê kak-tō͘, iah-sī sik-tsái.
+
+\
+Kù('📣' tuātsè: (Imliōng() × 5m) + 1m)
+\
+
+ Tsiah-ê tsāi-tsēng, tuā-siaⁿ-kang ê koân-tō͘ sī \1m\ . Lí hoah ê sî, ē-sái tsiūnn-koân kàu \6m\ .
+
+Lí siūnn beh í-ê thài-iông, lí tsông tuā-siaⁿ, i tsông kín-tsóng ê uân-tsuán?
+
+\
+Kù('🌞' suântsuán: Imliōng() × 360°)
+\
+
+ Lí lâi phah-tshiú iah-sī hm-hm-kiò, khuànn siáⁿ-mih tāi-tsì ē hoat-sing.
+(Tē-it-pái, lí ê tiān-náu khó-lêng ē mn̄g lí ē-sái ēng bái-khuh-hong á-bô.)
+
+count-with-time, follow-the-pointer

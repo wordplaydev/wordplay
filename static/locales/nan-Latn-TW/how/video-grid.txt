@@ -1,0 +1,26 @@
+Ēng siòng-tsi̍h-ki tsò tsi̍t tuānn ìn-sàu
+
+Tsit ê @Camera tsu-liāu-liû sī tsi̍t ê hó hong-hoat, thang tuì sè-kài tshú-tio̍h tsi̍t keh tsi̍t keh ê iân-sik. 
+Nā-sī lán siūnn beh khuànn hiah-ê iân-sik, kā hit tiunn ìn-siōng koh tsò--tshut-lâi, @Camera khuànn-tio̍h--ê, tio̍h-án-tsuánn?
+
+Tsi̍t ê @Image tshú tsi̍t keh tsi̍t keh ê iân-sik, ùi-tsò tsi̍t tiunn tô, án-ne lán tō ē-sái ka-tī kā @Camera ê iân-sik tsik-chiap tsō--i.
+
+\
+khuah: 24
+koân: 24
+colors: Siòngki(khuah × 1px koân × 1px 33ms)
+Bútâi([Tôophìnn(colors 'siòng-tàu khuànn-tio̍h ê tāi-tsì' 12m)])
+\
+
+ Múi tsi̍t ê @Image lóng su-iàu tsi̍t ê suat-bîng, in-uī tsi̍t keh tsi̍t keh ê iân-sik, tuì khuànn bē-tio̍h ê lâng lâi kóng, bô ka-tī ê uē.
+
+Lán ē-sái ēng jī-bó lâi uē tô, m̄-tsū ēng hong-khuì, ka-tī hō i tsi̍t ê / jī-hîng /, tō-sī tsi̍t ê hâm-sǹg, kā tsi̍t ê iân-sik piàn-tsò tī-tshú-tâi ê bûn-jī.
+
+\
+khuah: 24
+koân: 24
+colors: Siòngki(khuah × 1px koân × 1px 33ms)
+Bútâi([Tôophìnn(colors 'siòng-tàu, ēng àm kap kng ê îⁿ-khuann lâi liô' 12m jīhîng: ƒ(color•Siktshái) (color.kngtōo < 50%) ? "⬤" "◯")])
+\
+
+interactive-scene

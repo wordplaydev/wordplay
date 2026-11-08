@@ -1,0 +1,26 @@
+Tsò lí ka-kī ê kak-sik bô-pán
+
+Ū-sî lí beh ū chiâⁿ-tsōe khuànn-khí-lâi kan-nā sio-kâng, m̄-kú ū sió-sió put-kâng ê kak-sik.
+Lí m̄ tio̍h tsiūⁿ-tsò tsit-ê @Phrase tsiok-tsiok siá, lí ē-sái ka-kī tsò bô-pán, iōng @Structure.
+
+Tsi̍t ê @Structure tshiūⁿ tsit-tsâng ê tsò-huat, ū khang-uī thang ka-kā.
+Tsia ū tsit-ê khì-kiû ê bô-pán, ē tshiânn tsit-ê sik-tsháinn kah tsit-ê piau-tê, mā tsai-iáⁿ án-tsuánn ka-kī hián-sī:
+
+\
+•Balloon(color•Siktshái label•'') (
+    ƒ show() Kù(`🎈 \label\` sik: color tuātsè: 2m)
+)
+
+Kûntsoo(Tsuā() [
+    Balloon(Siktshái(80% 50 240°) 'Thinn').show()
+    Balloon(Siktshái(60% 80 0°) 'Mê-kui').show()
+    Balloon(Siktshái(90% 80 90°) 'Tshing-lng').show()
+])
+\
+
+ Tsit ê \•Balloon(...)\ tsit-pō-hūn tìng-gī bô-pán, \ƒ show()\ tsit-pō-hūn kóng / án-tsuánn ōe tsit-ê /.
+Ka-lâi guán tsò saⁿ-ê khì-kiû, sik-tsháinn kah piau-tê lóng bô-kâng, jî-tsiāu kiò múi-ê ka-kī \show\ tsit-ē.
+
+Lí beh ka-tī ê code tsiânn tsíng-lí, kak-sik mā it-tsì, bô-pán tsiânn hó-iōng.
+
+track-game-state, make-many-copies

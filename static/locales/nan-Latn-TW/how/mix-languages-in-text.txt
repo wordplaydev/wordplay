@@ -1,0 +1,21 @@
+Kâ tsē-tsē gí-giân ê thiaⁿ-tsóng tsò-hôo
+
+Tsi̍t ê @Phrase ka̍h-ê pháng-sī, uī-tio̍h múi ūi khuànn-ê lâng, ìn-tio̍h in suán ê gí-giân ê hoan-ik. Nā-sī lí ê thiaⁿ-tsóng kóng Se-pan-gâ-ōe, lí ē-sái kâ in kóng Se-pan-gâ-ōe; nā-sī in Se-pan-gâ-ōe kap Eng-gí lóng kóng — Spanglish! — lí ē-sái ha̍h-tsò-hóe.
+
+Hō tsit-ê @TextLiteral tsē-tsē ê hoan-ik, ū tsi̍t-ê kap-ê gí-giân ê, ē-sái, @wordplay ē uī múi ūi khuànn-ê lâng, kéng tsuí-ha̍h in ê hit-ê:
+
+\
+Kù("hola"/es"hello"/en"hola gentleman"/es_en)
+\
+
+ Nā-sī khuànn-ê lâng, ū-ài ê gí-giân tsí-ū Se-pan-gâ-ōe, tō khuànn tio̍h / Lí-hó /. Nā-sī tsí-ū ài Eng-gí ê khuànn-ê lâng, tō khuànn tio̍h / lí-hó /. Nā-sī Se-pan-gâ-ōe kap Eng-gí lóng ài ê khuànn-ê lâng, tō khuànn tio̍h / hola gentleman / — Spanglish ê pán-pún.
+
+Wordplay tshiūⁿ-ài siōng tsiok-tshiàng ê ha̍h-pān, sóo-í tsi̍t-tsióng gí-giân ê hoan-ik lóng ē iâⁿ kòe tsē-tsióng gí-giân ê, nā-sī nn̄g-ê lóng ē-sái iōng ê sî-tsūn.
+
+Spanglish ê pán-pún ē tsiâⁿ-ê iōng Se-pan-gâ-ōe, in ê tē-it-ê gí-giân, tuì-thâu tuì-bé tshiò-tshuā. Beh hō múi-ê tsú-ji iōng ka-tī ê gí-giân tshiò, lí tio̍h hun-khai tsú-ji ê bûn-pit, koh kā in liân-tsò-hóe:
+
+\
+Kù("hola "/es + "gentleman"/en)
+\
+
+styling-text

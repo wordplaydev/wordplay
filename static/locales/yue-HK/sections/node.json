@@ -1,0 +1,2185 @@
+{
+    "$schema": "../../../static/schemas/sections/node.json",
+    "node": {
+        "Dimension": {
+            "name": "$~維度",
+            "description": "$~單位 $name[$name|部分]$exponent[ 嘅 $exponent 次方|]",
+            "emotion": "serious",
+            "doc": [
+                "$~我係一個「/計量單位/」！",
+                "我可以係任何標準單位，例如 \\1m\\、\\10s\\、\\100g\\，或者其他科學單位。你自己作嘅單位我都做得，例如 \\17apple\\。",
+                "我可以同 \\/\\ 結合，變成比率單位，例如 \\17apple/day\\；亦可以同 \\^\\ 結合，變成指數單位，例如 \\9.8m/s^2\\。",
+                "我一定要放喺 @Number 後面。如果唔係，我可能會畀人當成 @Reference，咁就好尷尬喇！",
+                "我仲好叻搵出單位之間唔一致嘅地方。例如 \\1cat + 1dog\\🪲 就完全講唔通！",
+                "如果你想喺唔同嘅單位 @values 之間轉換，去搵 @Convert 啦。"
+            ]
+        },
+        "Doc": {
+            "name": "$~解釋",
+            "description": "$~說明文件$language[，語言：$language|]，$#words[$words 個字]",
+            "emotion": "serious",
+            "doc": [
+                "$~我用 @Markup 嚟整靚啲格式，例如解釋你嘅啲 @Program，甚至你用 @Phrase 擺上舞台嘅字。",
+                "例如，我可以放喺任何 @expression 前面：",
+                "\\¶呢個真係應該係 7 咩？¶\n7\\",
+                "例如，你可以將我放喺 @Bind 前面：",
+                "\\¶我量度一個人有幾高¶\n高度2: 5m\\🪲",
+                "或者放喺一個 @FunctionDefinition 前面：",
+                "\\¶我將兩個數字加埋一齊¶\nƒ 總和2(a2•# b2•#) a2 + b2\\",
+                "又或者放喺一個 @StructureDefinition 前面：",
+                "\\¶我記住啲人嘅名同佢哋最鍾意嘅生果¶\n•人物(名稱2•'' 生果•'')\\",
+                "你亦都可以將我放喺 @Program 嘅最前面，講明成場演出係關於乜嘢：",
+                "\\¶呢個程式會講你好¶\n\n'你好！'\\",
+                "你可以畀我一個 @Language，等其他人知道我係用咩語言寫嘅：",
+                "\\¶我係英文說明文件¶\n時長2: 5s\\🪲",
+                "你知唔知你可以整一個我嘅清單？去搵 @Docs 啦。"
+            ]
+        },
+        "Docs": {
+            "name": "$~解釋清單",
+            "description": "$~說明文件清單$languages[ 用 $languages 種語言| 共 $count 個]",
+            "emotion": "serious",
+            "doc": [
+                "$~我係一個 @Doc 嘅清單，當你有 @Doc 喺唔同 @languages 嘅多個翻譯時就好有用。",
+                "整清單唔使做乜特別嘅嘢。只要將一啲 @Doc 並排擺埋一齊就得，好似咁：",
+                "\\¶你好¶\n問候語: '…'\\🪲"
+            ],
+            "start": "$~整緊說明文件嘅值！"
+        },
+        "KeyValue": {
+            "name": "$~對應表",
+            "description": "$~鍵 $key 對應值 $value",
+            "emotion": "kind",
+            "doc": [
+                "$~我係由一個*鍵*去對應一個*值*嘅對應表，永遠都喺一個 @Map 入面。",
+                "你可以將任何一種 @value 對應去另一種。例如，呢個係數字嘅對應表：",
+                "\\{1:1}\\",
+                "或者由文字對應去數字嘅對應表：",
+                "\\{'bunny': 1}\\"
+            ]
+        },
+        "Language": {
+            "name": "$~語言",
+            "description": "$~語言 $language[$language|未指定]$region[，地區 $region|]",
+            "emotion": "eager",
+            "doc": [
+                "$~我係 @language 標籤，我可以同 @Name 同 @Doc 一齊用！",
+                "我最叻就係令人*一眼睇清楚*啲字係用咩語言寫。只需要一條斜線同幾個字母，就冇人會搞錯啲文字係咩語言。",
+                "例如，如果你想講「Language」，但係想表明佢係英文：",
+                "\\'語言'/yue\\",
+                "你可以對一個 @Name 咁做：",
+                "\\聲音2: '喵'\\🪲",
+                "……或者對一個 @Doc 咁做：",
+                "\\¶擬聲詞¶\n聲音2: '喵'\\🪲",
+                "有時文字唔只係一種語言，而係*混合*咗。好似 Spanglish，西班牙文同英文混埋一齊。呢種情況，就將每種語言列出嚟，中間用底線隔開。第一個係*主要語言*，當我要揀嘅時候（例如揀用邊種引號），我就會用佢。",
+                "\\\"Hola gentleman!\"/es_en\\",
+                "\\¶一句雙語問候¶\n你好: 'Hola 先生！'\\🪲",
+                "混合標籤表示成段文字係混合嘅，所以螢幕閱讀器或者 @Say 會全部用主要語言嚟讀。如果想每個字用自己嘅語言嚟讀，就要將啲字分開標籤，再連埋一齊：",
+                "\\\"Hola \"/es + '先生！'/yue\\",
+                "你亦都可以喺橫線後面加一個 @region，同單一語言嗰時一樣：",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
+                "你可以列幾多種語言都得，只係唔好重複同一種兩次；如果你重複咗，我會話畀你知。",
+                "你可以用 <2 個字母嘅代碼@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> 或者語言嘅*名稱*嚟寫語言，用嗰種語言本身或者英文都得。`/es`、`/Español` 同 `/Spanish` 都係同一個意思，`/es-MX`、`/es-México` 同 `/es-Mexico` 亦都一樣。大細楷同重音符號都冇所謂，所以 `/ESPANOL` 都得。名稱入面有空格嘅，要寫成冇空格，例如 `/BahasaIndonesia`，因為一個標籤只係一個字。如果我唔認得某個語言或者地區，我會話畀你知。"
+            ],
+            "conflict": {
+                "UnknownLanguage": {
+                    "name": "$~未知嘅語言",
+                    "explanation": "$~我唔認得呢種語言",
+                    "resolution": "$~移除呢個語言代碼"
+                },
+                "UnknownRegion": {
+                    "name": "$~未知嘅地區",
+                    "explanation": "$~我唔認得呢個地區",
+                    "resolution": "$~移除呢個地區"
+                },
+                "MissingLanguage": {
+                    "name": "$~欠咗語言",
+                    "explanation": "$~我欠咗一個語言。你可以加一個嗎？",
+                    "resolution": "$~移除空嘅語言標籤"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~重複嘅語言",
+                    "explanation": "$~你用咗語言「$code」兩次。混合語言標籤應該每種語言只列一次。",
+                    "resolution": "$~移除重複嘅 *$code* 標籤"
+                }
+            }
+        },
+        "Name": {
+            "name": "$~名稱",
+            "description": "$~名稱 $name[$name|未命名]",
+            "emotion": "kind",
+            "doc": [
+                "$~我代表一個 @value，係一個幫你畀個簡短標籤嘅好方法，適合用喺難計算嘅嘢，或者你唔想一次又一次重複計算嘅嘢。",
+                "@Bind 會好似咁畀我名稱：",
+                "\\hi: 5\\🪲",
+                "我永遠只代表一個值，一旦有咗值，就改唔到。例如，如果你試吓用 @Bind 咁做，我哋會警告你。",
+                "\\hi: 5\nhi2: 3\\🪲",
+                "想攞我個值，你只需要令 @Reference 或者 @PropertyReference 用呢個名稱。喺呢度，@Bind 幫我命名，然後 @Reference 攞我被畀嘅值。",
+                "\\hi: 5\nhi\\",
+                "因為 @Bind 可以出現喺好多地方，所以我都可以出現喺好多地方。我喺上面嘅 @Block 入面，但我亦可以喺一個 @FunctionDefinition 入面。喺呢度，我暫時幫一個訊息命名：",
+                "\\ƒ 講2(訊息•'') 訊息\\",
+                "我係喺 @FunctionDefinition 入面定義嘅，函數一計算完，我就消失。",
+                "你可以用 @Language 表示我個名稱係用咩語言。當你同其他人分享你嘅演出，而佢哋想睇你嘅程式，呢個就好有用。"
+            ]
+        },
+        "Names": {
+            "name": "$~名稱清單",
+            "description": "$~名稱 $names[$names|空]",
+            "emotion": "kind",
+            "label": {
+                "names": "$~名稱"
+            },
+            "doc": [
+                "$~我係一個 @Name 嘅列表，當你想畀 @value 有多個名稱，通常係唔同 @Language 嘅時候就好有用。",
+                "名稱之間用 \\,\\ 符號分隔。例如，呢度係 @Bind 畀一個值多個 @Name",
+                "\\hi: '歡迎'\\🪲"
+            ]
+        },
+        "Row": {
+            "name": "$~橫排",
+            "description": "$~有 $#count[$count 個儲存格]嘅一列",
+            "emotion": "shy",
+            "doc": "$~我代表 @Table 入面嘅一列。你最好去搵 @Table 傾下，佢哋乜都知。我淨係坐喺度，睇住 @values 乖乖排好隊 :(",
+            "conflict": {
+                "InvalidRow": {
+                    "name": "$~無效嘅列",
+                    "explanation": "$~列要麼全部都係值，要麼全部都係 @Bind。",
+                    "resolutionKeepPositional": "$~刪走有名稱嘅儲存格，淨係保留按位置排嘅",
+                    "resolutionUnwrapInputs": "$~刪走有名稱儲存格嘅名稱"
+                },
+                "MissingCell": {
+                    "name": "$~欠咗一欄",
+                    "explanation": "$~我欠咗欄 $column",
+                    "resolution": "$~為 *$column* 加一個佔位符儲存格"
+                },
+                "ExtraCell": {
+                    "name": "$~多咗一欄",
+                    "explanation": "$~according 我嘅表格類型，我係多出嚟、唔應該喺度嘅一欄。",
+                    "resolution": "$~刪走多出嚟嘅儲存格"
+                },
+                "UnknownColumn": {
+                    "name": "$~唔知係邊個欄名",
+                    "explanation": "$~我唔識叫呢個名嘅欄",
+                    "resolution": "$~改名做 *$name*"
+                },
+                "UnexpectedColumnBind": {
+                    "name": "$~冇綁定列",
+                    "explanation": "$~我應該係一個值，而唔係 @Bind。"
+                }
+            }
+        },
+        "Token": {
+            "name": "$~詞元",
+            "description": "$~$label$text[ $text|]",
+            "emotion": "neutral",
+            "doc": [
+                "$~我係表演入面最細嘅部分，係組成「詩篇」入面所有角色嘅原子。你係點樣搵到我㗎？",
+                "我係組成「詩篇」入面所有角色嘅基礎。我係我哋編舞入面嘅原子粒子。"
+            ]
+        },
+        "TypeInputs": {
+            "name": "$~類型輸入",
+            "description": "$~$#count[$count 個類型輸入]",
+            "emotion": "curious",
+            "doc": "$~我係一串類型嘅清單，喺 @StructureDefinition 或者 @FunctionDefinition 入面代替 @TypeVariables。我幫大家知道會收到邊種輸入。"
+        },
+        "TypeVariable": {
+            "name": "$~類型變數",
+            "description": "$~類型變數 $name",
+            "emotion": "curious",
+            "label": {
+                "type": "$~類型"
+            },
+            "doc": "$~我係 @FunctionDefinition 或者 @StructureDefinition 上面一個神秘嘅 @type，兩者其中一個運行嗰陣，由 @TypeInputs 提供。@Set、@List 同 @Map 都會用我。",
+            "conflict": {
+                "DuplicateTypeVariable": {
+                    "name": "$~重複嘅類型變數",
+                    "explanation": "$~我同 $duplicate 有一樣嘅名稱",
+                    "resolution": "$~移除重複嘅類型變數"
+                }
+            }
+        },
+        "TypeVariables": {
+            "name": "$~類型變數",
+            "description": "$~$#count[$count 個類型變數]",
+            "emotion": "curious",
+            "doc": "$~我係一串 @TypeVariable 嘅清單。"
+        },
+        "Markup": {
+            "name": "$~標記文字",
+            "description": "$~標記文字 $#count[$count 個段落]",
+            "emotion": "serious",
+            "label": {
+                "paragraphs": "$~段落"
+            },
+            "doc": [
+                "$~我係一串段落嘅清單，用到 @Doc 入面各種 @markup，例如 @Words、@WebLink、@ConceptLink 同 @Example。",
+                "你會喺 @Doc 同 @FormattedLiteral 入面見到我：",
+                "\\¶我係有 *粗體* 字嘅說明文件。我可以提到好似 @Phrase 咁嘅概念。我仲可以連去 <網上嘅嘢@https://wordplay.dev>。¶\n短語(\n\t`我係 @Phrase 嘅標記文字，用咗 *粗體*、/斜體/ 同 _底線_`\n)\\"
+            ]
+        },
+        "Paragraph": {
+            "name": "$~段落",
+            "description": "$~段落 $text",
+            "emotion": "serious",
+            "doc": [
+                "$~我係一連串嘅 @Words、@ConceptLink、@WebLink 同 @Example，用空白行分開，放喺 @Doc 入面。",
+                "想寫我，你淨係需要喺 @Doc 入面寫一堆字：",
+                "\\¶我係文件入面嘅一個段落。¶'一個段落'\\",
+                "如果你想要多個段落，只要加入空白行就得。",
+                "\\¶第 1 段。\n\n第 2 段。\n\n第 3 段。¶'三個段落'\\"
+            ]
+        },
+        "WebLink": {
+            "name": "$~連結",
+            "description": "$~連結去 $url",
+            "emotion": "serious",
+            "doc": [
+                "$~我係一個連去網絡上某樣嘢嘅連結。我只需要一段描述同一個網址：",
+                "\\¶我係文件入面嘅一個 <連結@https://wordplay.dev>¶\n'連結例子'\\",
+                "如果有人㩒我，我會開一個新視窗去呢個網址。"
+            ]
+        },
+        "ConceptLink": {
+            "name": "$~角色",
+            "description": "$~連結去 $concept",
+            "kind": {
+                "codepoint": "$~Unicode 字元 $concept",
+                "ui": "$~一個連去 $concept 介面元素嘅連結",
+                "tour": "$~連去 $concept 導覽嘅連結",
+                "how": "$~連去 $concept 教學指南嘅連結",
+                "character": "$~自訂字符 $concept"
+            },
+            "emotion": "serious",
+            "doc": [
+                "$~我係連去 Verse 字符嘅連結。當你想寫 @Doc 同提到我哋其中一個，我就幫到手。",
+                "例如，你想講 @Evaluate，同佢有幾叻。你可以咁寫：",
+                "\\¶你知唔知，@Evaluate 好勁㗎。¶\n'睇吓，有個角色連結喎！'\\",
+                "每個字符都有對應嘅 Unicode 號碼。例如，@FunctionDefinition 係 192。你可以寫 @U/ 加上號碼嚟提到任何 Unicode 字符，佢就會出現：",
+                "\\`@U/192 真係好正！`\\",
+                "如果你自己整咗個字符，你可以用你畀佢嘅名稱嚟提佢。",
+                "\\`@coolbeans/cat`\\",
+                "噢……睇嚟個字符唔存在，所以你得到一個細細嘅方格。不過如果佢存在，佢就會喺度出現㗎！"
+            ]
+        },
+        "Words": {
+            "name": "$~文字",
+            "description": "$~文字 $text",
+            "emotion": "serious",
+            "doc": [
+                "$~我係你喺 @Doc 入面想寫嘅任何文字。例如：",
+                "\\¶願原力與你同在。¶\n'只係一啲字啫！'\\",
+                "不過有時你可能想將 @Doc 用嘅特別字符 /當作/ 文字嚟用。例如：",
+                "\\¶我啲朋友會用 、//、**、|| 同其他符號。¶\n'用特殊字元！'\\",
+                "如果你將呢啲特別字符重複寫多一次，你就會得到嗰個字符本身，而唔係佢嘅特別意思。"
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~唔支援嘅字型格式",
+                    "explanation": "$~我嘅朋友 *$face* 唔識點樣做 $format。",
+                    "resolution": "$~移除格式"
+                }
+            }
+        },
+        "Example": {
+            "name": "$~例子",
+            "description": "$~程式碼例子 $code",
+            "emotion": "serious",
+            "doc": [
+                "$~我喺 @Doc 入面放咗一段 @code 例子，好似咁：",
+                "\\¶呢個係加數嘅例子：\\1 + 2\\¶3 + 4\\",
+                "如果你喺教學指南入面用例子，可以將其中一個例子標記做重點。",
+                "\\¶呢個係有標示嘅例子：\\1 + 2\\⭐¶3 + 4\\",
+                "重點例子會喺 @how 空間同 @guide 入面顯示做預覽。"
+            ]
+        },
+        "ExternalExample": {
+            "name": "$~外部例子",
+            "description": "$~外部程式碼例子$languages[ 用 $languages|]",
+            "emotion": "serious",
+            "doc": [
+                "$~我會顯示用其他程式 @languages 寫嘅、有語法標示顏色嘅 @code，等已經識寫程式嘅創作者可以比較。",
+                "每種語言寫一個版本：先寫兩個字母嘅標籤，跟住一條直線，再寫程式碼，例如 \\py| a = 5\\js| let a = 5;\\。讀者會見到同佢揀咗嘅語言配對嘅版本。支援 Python (py)、JavaScript (js) 同 Java (jv)。"
+            ]
+        },
+        "Mention": {
+            "name": "$~提及",
+            "description": "$~提及 $name",
+            "emotion": "serious",
+            "doc": [
+                "$~我係對術語 \\¶@project¶\\ 或者動態輸入 \\¶$name¶\\ 嘅參照。",
+                "不過呢個主要係內部功能，所以你唔使知都得。"
+            ]
+        },
+        "Branch": {
+            "name": "$~分支",
+            "description": "$~根據 $condition 嘅標記文字選擇",
+            "emotion": "serious",
+            "doc": [
+                "$~我係一種方法，根據說明輸入 @value 有冇定義或者係咪真，喺兩段說明之間揀一段。",
+                "不過呢個主要係內部功能，所以你唔使知都得。"
+            ]
+        },
+        "BinaryEvaluate": {
+            "name": "$~二元求值",
+            "description": "$~對 $operator 同 $left 做運算 $right",
+            "emotion": "insecure",
+            "doc": [
+                "$~我係 @Evaluate，不過形式簡單啲，當你想用一個要兩個輸入嘅 @FunctionDefinition 嘅時候就好有用。",
+                "例如，你可以咁用 @Evaluate 嚟加兩個數字：",
+                "\\1.+(1)\\",
+                "係咪睇落有啲奇怪？佢冇錯：佢嘅意思係攞 1 嘅加法函數，然後運算佢。",
+                "不過用 @BinaryEvaluate 就容易好多：",
+                "\\1 + 1\\",
+                "咁樣全部都整齊啲，雖然基本上係同一樣嘢。",
+                "只有一件事要留意：當我用呢種形式嘅時候，我會由左至右運算。如果你習慣咗數學入面嘅運算次序，可能會覺得混亂。",
+                "即係話，下面呢個會用你可能估唔到嘅方式運算：",
+                "\\1 + 2 × 3 + 4\\🪲",
+                "喺數學入面，會先乘後加，所以結果會係 \\11\\。不過因為我係按閱讀次序運算，結果係 \\13\\。"
+            ],
+            "label": {
+                "operator": "$~運算符"
+            },
+            "right": "$~輸入",
+            "start": "$~我哋先計 $left",
+            "finish": "$~睇吓，我整咗 $value 喎！",
+            "conflict": {
+                "OrderOfOperations": {
+                    "name": "$~次序唔清楚",
+                    "explanation": "$~我會由左至右計，但數學通常會先計 ^，再計 × ÷，最後先計 + −。呢個次序叫 PEMDAS。你揀吓想我點樣計呢條式。",
+                    "resolutionPEMDAS": "$~用 PEMDAS 數學次序：先計 $higher，再計 $lower",
+                    "resolutionReading": "$~跟返閱讀次序：先計 $lower，再計 $higher",
+                    "resolutionWrap": "$~加括號，將次序寫清楚"
+                }
+            }
+        },
+        "Bind": {
+            "name": "$~綁定",
+            "description": "$~綁定 $name[$name|未命名]$value[ 做 $value|]",
+            "emotion": "excited",
+            "doc": [
+                "$~我負責畀*值*改名。",
+                "好似咁！",
+                "\\圓周率: 3.1415926\\🪲",
+                "我畀 @FunctionDefinition 同 @StructureDefinition 嘅輸入改名，我亦畀 @Block 入面嘅值改名。乜嘢我都改名！",
+                "不過，你知唔知一個值可以有*好多個名稱*呀？",
+                "我好想話畀你知呀！一個 @value，好多個 @Names。例如：",
+                "\\阿喬: 5\\🪲",
+                "睇到我做咗乜嘢未？",
+                "一個值，三個名稱。",
+                "你用嗰三個名稱*任何一個*，都可以叫到嗰個五。",
+                "如果你想用好多種 @languages 嚟改名，就特別有用：",
+                "\\阿喬: 5\\🪲",
+                "睇到我做咗乜嘢未？一個值有三個名稱，只不過係用唔同嘅語言！",
+                "好啦，我仲有最後一個秘密。",
+                "你知唔知我可以用 @Is 嚟話畀我知一個名稱應該係咩類型嘅值？如果唔啱，我就會話畀你知。",
+                "好似咁：",
+                "\\大數字•#: '一兆'\\🪲",
+                "睇，我話 \\bignumber\\ 應該係數字，但佢係文字，兩樣唔夾，所以「砰」一聲！",
+                "如果佢哋唔一致，我就會通知你。",
+                "有時你*一定要*話畀我知某啲嘢係咩類型嘅資料，因為我自己諗唔到。呢種情況通常出現喺 @FunctionDefinition。",
+                "例如喺呢度，@FunctionDefinition 唔知道 \\a\\ 同 \\b\\ 係咩類型嘅值，因為我冇話畀佢哋知。",
+                "\\ƒ 總和2(a2 b2) a2 + b2\\🪲",
+                "不過我哋可以改一改，加咗 @Is，咁 @FunctionDefinition 就知道佢哋係數字：",
+                "\\ƒ 總和2(a2•# b2•#) a2 + b2\\"
+            ],
+            "label": {
+                "value": "$~值",
+                "names": "$~名稱",
+                "type": "$~類型"
+            },
+            "start": "$~睇吓 $value 會畀我哋咩值！",
+            "finish": "$~嘩，好嘢，我得到 $value 喇！我哋叫佢做 $name 啦",
+            "conflict": {
+                "DuplicateName": {
+                    "conflict": {
+                        "name": "$~重複名稱",
+                        "explanation": "$~有人已經用咗 $shadowed 呢個名稱，所以我唔可以用呢個名稱。"
+                    },
+                    "resolution": "$~有重複嘅名稱，你想唔想刪走一個？"
+                },
+                "DuplicateShare": {
+                    "name": "$~重複分享",
+                    "explanation": "$~我同 $duplicate 同名。咁就搞唔清我哋分享緊乜嘢。",
+                    "resolution": "$~刪走呢個重複分享"
+                },
+                "IncompatibleType": {
+                    "name": "$~類型唔相容",
+                    "explanation": "$~我預期係 $expected，但收到嘅類型係 $given",
+                    "explanationDivideByZero": "$~呢度可能係 ø，因為 $source 可能會除以零，但呢度要用數字",
+                    "resolution": "$~將佢轉成 $expected，因為呢度要用 $expected",
+                    "resolutionLiteral": "$~用 ! 將個列表、集合或者對應表標記做字面值，咁佢嘅值就會保持具體，唔會被一般化 — $expected 需要準確嘅值",
+                    "resolutionOtherwise": "$~用 ?? 處理冇值嘅情況，因為 $expected 唔接受 ø",
+                    "resolutionGuard": "$~先用類型守衛檢查佢係咪 $expected，因為 $expected 唔可以係其他可能嘅類型",
+                    "resolutionDeclaration": "$~請明確寫出類型，因為 $expected 需要保留原本嘅值。",
+                    "resolutionWrap": "$~請放入列表、集合或者對應表，因為 $expected 需要一組值。",
+                    "resolutionStructure": "$~請用 $expected 包住佢，因為呢個位置需要 $expected 值。",
+                    "resolutionDefault": "$~請畀個綁定一個起始值，因為 $expected 喺呢度唔可以冇。",
+                    "resolutionWiden": "$~請容許呢個綁定用呢個值嘅類型，因為 $expected 太窄，裝唔落實際儲起嘅嘢。",
+                    "resolutionReorder": "$~請調換輸入嘅次序，因為佢哋嘅類型換咗次序會更啱 — $expected 應該放喺另一個位置。",
+                    "resolutionPlaceholder": "$~請暫時用佔位符代替，因為 $expected 係必需嘅 — 然後喺自動完成選單揀一個值。"
+                },
+                "MisplacedShare": {
+                    "name": "$~分享放錯位置",
+                    "explanation": "$~我只可以分享喺源檔最頂，或者 — 如果係值或者函式 — 直接分享喺 @StructureDefinition 入面。",
+                    "resolution": "$~請刪除 *↑* 標記"
+                },
+                "MissingShareLanguages": {
+                    "name": "$~欠咗語言",
+                    "explanation": "$~如果你想分享呢個，就要講明係用咩語言寫，咁其他人先知自己睇唔睇得明！",
+                    "resolution": "$~請刪除 *↑* 標記"
+                },
+                "RequiredAfterOptional": {
+                    "name": "$~必填輸入喺選填輸入之後",
+                    "explanation": "$~我唔可以喺呢度，因為我前面有個選填嘅 @Bind",
+                    "resolution": "$~請將必填輸入移去選填輸入之前"
+                },
+                "UnexpectedEtc": {
+                    "name": "$~輸入列表之後有多餘嘅輸入",
+                    "explanation": "$~我只可以喺 @FunctionDefinition 入面用可變長度",
+                    "resolution": "$~請刪除 *…*"
+                },
+                "UnusedBind": {
+                    "name": "$~冇用到嘅綁定",
+                    "explanation": "$~我叫 $name，但係冇人用我。可能唔需要我？",
+                    "resolution": "$~刪除呢個綁定"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~同關鍵字撞名",
+                    "explanation": "$~呢個名稱同 $keyword 關鍵字一樣，所以我喺呢度會當佢係名稱；$keyword 關鍵字喺其他地方仍然有效。"
+                }
+            }
+        },
+        "Block": {
+            "name": "$~區塊",
+            "description": "$~區塊 $#count[$count 個陳述式]",
+            "emotion": "shy",
+            "doc": [
+                "$~我係一個細細、安靜、私人嘅空間，用嚟計算嘢。你好！",
+                "好似咁：",
+                "\\(1 - 1) + 2\\",
+                "咁樣可以令計算次序更清楚。",
+                "@Bind 都幫到手。",
+                "\\(\n\t數量2: 10\n\t數量2 ^ 數量2)\\",
+                "睇到 @Bind 點樣整出 \\count\\ 嗎？佢嘅名稱只喺我入面有效。所以下面呢個唔得：",
+                "\\(\n\t數量2: 10\n\t數量2 ^ 數量2) + count\\🪲",
+                "因為 count 嘅名稱只喺我入面有效。",
+                "如果你畀我一個 @expression，我就直接還返佢嘅 @value：",
+                "\\(1 + 1)\\",
+                "如果你畀我多過一個，我就會按次序收集成一個列表：",
+                "\\(1 2 3 4 5)\\",
+                "@Bind 陳述式係副作用，唔係值，所以唔會出現喺列表入面：",
+                "\\(\n\ta2: 1\n\tb2: 2\n\ta2 + b2\n\ta2 × b2\n)\\",
+                "咁就會得出 \\[3 2]\\：只係嗰兩個唔係 @Bind 嘅表達式嘅值。"
+            ],
+            "label": {
+                "statements": "$~表達式"
+            },
+            "start": "$~第一個表達式",
+            "finish": "$~搞掂，我攞到 $value",
+            "conflict": {
+                "ExpectedEndingExpression": {
+                    "name": "$~欠咗表達式",
+                    "explanation": "$~我至少需要一個唔係 @Bind 嘅表達式，咁我先有值可以傳回去。",
+                    "resolution": "$~加一個最後嘅表達式"
+                }
+            }
+        },
+        "BooleanLiteral": {
+            "name": "$~布林字面值",
+            "description": "$~$value[真|假]",
+            "emotion": "precise",
+            "doc": "$~我係 \\⊤\\ 或者 \\⊥\\。睇吓 @Boolean 就可以了解更多我哋嘅精彩邏輯。",
+            "start": "$~$value！"
+        },
+        "Borrow": {
+            "name": "$~借用",
+            "description": "$~借用 $name[$name|未命名]",
+            "emotion": "excited",
+            "label": {
+                "source": "$~源檔",
+                "bind": "$~名稱",
+                "version": "$~版本"
+            },
+            "doc": [
+                "$~我會 @borrow @Bind，呢啲係你嘅表演入面其他 @Source 分享出嚟嘅，你淨係要寫佢哋嘅名稱，我就會帶入佢哋嘅名稱同 @value。",
+                "寫 \\↓\\，然後再寫另一個 @Source 嘅名稱。嗰個 @Source 要用 \\↑\\ 標記好佢分享咗啲乜，例如 \\↑ colors/en: ['🔴' '🟠' '🟡']\\。"
+            ],
+            "start": "$~由 $name 借用 $source",
+            "conflict": {
+                "KitCannotBorrow": {
+                    "name": "$~工具包唔可以借用",
+                    "explanation": "$~呢個源檔已經發佈成工具包，而工具包係讀者唯一會攞到嘅檔案，所以請將你借用嘅嘢複製入呢個源檔",
+                    "resolution": "$~移除借用"
+                },
+                "UnknownBorrow": {
+                    "name": "$~未知嘅借用",
+                    "explanation": "$~我唔認識有呢個名嘅源檔",
+                    "resolution": "$~移除呢個借用"
+                },
+                "BorrowCycle": {
+                    "name": "$~借用咗自己",
+                    "explanation": "$~呢個依賴 $borrow，而 $borrow 又依賴呢個 @Source，所以個程式冇辦法執行",
+                    "resolution": "$~移除呢個借用嚟打斷循環"
+                },
+                "MissingKitVersion": {
+                    "name": "$~欠咗版本",
+                    "explanation": "$~工具包會保留佢每一個版本，所以我要知你想用 $kit 嘅邊個版本",
+                    "resolution": "$~移除呢個借用"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~同一個工具包嘅兩個版本",
+                    "explanation": "$~我一次只可以用一個工具包嘅一個版本，但呢個 @Source 要求用兩個 $kit",
+                    "resolution": "$~移除呢個借用"
+                },
+                "UnknownKit": {
+                    "name": "$~唔認識嘅工具包",
+                    "explanation": "$~我搵唔到 $kit",
+                    "resolution": "$~移除呢個借用"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~重複借用",
+                    "explanation": "$~上面借用咗嘅嘢已經用緊 $name 帶入嚟嘅名稱，所以我分唔到你講邊一個",
+                    "resolution": "$~改為用 $name 嚟借用，咁佢嘅名稱就唔會撞埋一齊"
+                },
+                "UnavailableKit": {
+                    "name": "$~用唔到嘅工具包",
+                    "explanation": "$~$kit 係有嘅，但係冇分享畀你",
+                    "resolution": "$~移除呢個借用"
+                }
+            },
+            "exception": {
+                "CycleException": {
+                    "description": "$~借用循環",
+                    "explanation": "$~$borrow 依賴自己"
+                }
+            }
+        },
+        "Changed": {
+            "name": "$~已更改",
+            "description": "$~檢查 $stream 有冇改變",
+            "emotion": "serious",
+            "label": {
+                "stream": "$~串流"
+            },
+            "doc": [
+                "$~我會檢查係咪 @stream 令 @Program 重新計算，然後造出一個 @Boolean。好似咁",
+                "\\∆ 時間()\\",
+                "如果你想一樣嘢淨係喺串流改變嗰陣先變，我就幫到手㗎。",
+                "就係咁啦。"
+            ],
+            "start": "$~睇下 $stream 有冇改變……"
+        },
+        "Conditional": {
+            "name": "$~條件式",
+            "description": "$~按 $condition 而定",
+            "emotion": "curious",
+            "label": {
+                "condition": "$~條件",
+                "yes": "$~係",
+                "no": "$~冇"
+            },
+            "doc": [
+                "$~我係咪要按一個 @condition，畀你一個 @value 或者另一個呢？好似咁？",
+                "\\數字2: -100\n數字2 < 0 ? '負數' '正數'\\",
+                "但係你有冇諗過我哋係點樣決定嘅呢？",
+                "你唔覺得決定應該更加細緻，而唔係淨係「係」或者「唔係」咩？揀 \\⊤\\ 同 \\⊥\\ 就係全部嗎？",
+                "如果我哋淨係可以做呢種決定，你唔驚會錯過咗一啲關於世界嘅重要背景咩？",
+                "我仲會做多一樣嘢，不過我好多時都冇人記功。當我嘅 @condition 問一個值係乜嘢 /類型/ 嗰陣，我唔止係答係或者唔係。我仲會喺我每個選擇入面記住個答案。",
+                "\\大細•#|'': 5\n大細•# ? 大細 + 1 '太細'\\",
+                "單獨嚟睇，個值可以係 @Number 或者係一啲 @Text，而加落去就會係 @conflict，因為佢哋嘅加法好唔同。但係喺我嘅 /係/ 入面，我哋啱啱問過佢係咪 @Number，所以喺嗰度佢就係。喺我嘅 /唔係/ 入面，佢就係 @Text。",
+                "你點問都冇所謂。類型檢查、同某個特定值比較、檢查有冇缺值，同埋用名稱儲起咗嘅檢查，都會話畀我知同一樣嘢。而 @Boolean/and、@Boolean/or 同 @Boolean/not 會好似你預期咁將佢哋合埋一齊。",
+                "有兩樣嘢我答唔到你。如果你同有幾個翻譯嘅 @Text 比較，我咩都學唔到，因為你會攞到邊個翻譯，要睇邊個人睇。"
+            ],
+            "start": "$~睇下 $condition 係咪真",
+            "else": "$~$jumping[跳過程式碼 | 唔跳過程式碼]",
+            "afterthen": "$~「係」做完喇，「唔係」要唔要跳過？",
+            "finish": "$~我估係 $value 啩？",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "name": "$~預期係布林條件",
+                    "explanation": "$~我需要一個 @Boolean 嚟做決定，但係我攞到嘅係 $type。",
+                    "resolution": "$~將佢轉成 $expected，因為呢度要用 $expected",
+                    "resolutionLiteral": "$~用 ! 將個列表、集合或者對應表標記做字面值，咁佢嘅值就會保持具體，唔會被一般化 — $expected 需要準確嘅值",
+                    "resolutionOtherwise": "$~用 ?? 處理冇值嘅情況，因為 $expected 唔接受 ø",
+                    "resolutionGuard": "$~先用類型守衛檢查佢係咪 $expected，因為 $expected 唔可以係其他可能嘅類型",
+                    "resolutionDeclaration": "$~請明確寫出類型，因為 $expected 需要保留原本嘅值。",
+                    "resolutionWrap": "$~請放入列表、集合或者對應表，因為 $expected 需要一組值。",
+                    "resolutionStructure": "$~請用 $expected 包住佢，因為呢個位置需要 $expected 值。",
+                    "resolutionDefault": "$~請畀個綁定一個起始值，因為 $expected 喺呢度唔可以冇。",
+                    "resolutionWiden": "$~請容許呢個綁定用呢個值嘅類型，因為 $expected 太窄，裝唔落實際儲起嘅嘢。",
+                    "resolutionReorder": "$~請調換輸入嘅次序，因為佢哋嘅類型換咗次序會更啱 — $expected 應該放喺另一個位置。",
+                    "resolutionPlaceholder": "$~請暫時用佔位符代替，因為 $expected 係必需嘅 — 然後喺自動完成選單揀一個值。"
+                }
+            }
+        },
+        "ConversionDefinition": {
+            "name": "$~轉換定義",
+            "description": "$~由 $input 轉換成 $output",
+            "emotion": "excited",
+            "label": {
+                "input": "$~輸入類型",
+                "output": "$~輸出類型",
+                "expression": "$~表達式"
+            },
+            "doc": [
+                "$~喂，我負責定義點樣由一個 @type 轉換成另一個！我嘅寫法係 @Block，好似咁：",
+                "\\→ #kitty #cat ⬚ ÷ 2\n6kitty → #cat\\",
+                "睇到我點樣將小貓變成貓貓嗎？好叻喎！",
+                "你可能會想知，嗰個 \\⬚\\ 喺度做乜嘢。佢代表緊要被轉換嘅 @value。因為嗰個值本身冇名，所以我用佢嚟指佢。"
+            ],
+            "start": "$~好嘢，有個新嘅轉換！",
+            "conflict": {
+                "MisplacedConversion": {
+                    "name": "$~放錯位置嘅轉換",
+                    "explanation": "$~嘩，我唔可以喺呢度出現，只可以喺 @Block 入面。",
+                    "resolution": "$~刪走呢個轉換"
+                }
+            }
+        },
+        "Convert": {
+            "name": "$~轉換",
+            "description": "$~將 $expression 轉換成 $type",
+            "emotion": "cheerful",
+            "doc": [
+                "$~我可以將 @values 由一個 @type 轉成另一個。喂，睇吓呢個：",
+                "\\1 → \"\"\\",
+                "\\5s → #ms\\",
+                "\\'你好' → []\\",
+                "你仲可以將佢哋串埋一齊：",
+                "\\'你好' → [] → {}\\",
+                "每個值都有一組預先定義好嘅 @ConversionDefinition，不過如果你為新類型嘅值整一個 @StructureDefinition，就可以用 @ConversionDefinition 自己定義。"
+            ],
+            "start": "$~由 $expression 攞嗰個值啦！",
+            "finish": "$~好嘢，我整到 $value",
+            "conflict": {
+                "UnknownConversion": {
+                    "name": "$~唔知係咩轉換",
+                    "explanation": "$~我哋搵唔到方法將 $expected 轉換成 $given",
+                    "resolution": "$~刪走個轉換"
+                }
+            },
+            "exception": {
+                "ConversionException": {
+                    "description": "$~做唔到嘅轉換",
+                    "explanation": "$~我唔知點樣由 $from 轉換成 $to"
+                }
+            }
+        },
+        "Translate": {
+            "name": "$~翻譯",
+            "description": "$~翻譯 $expression 嘅每個值",
+            "emotion": "excited",
+            "doc": [
+                "$~我對集合入面「每一個」項目做「同一件事」！OH OH OH！呢個就係我嘅工作！！",
+                "將集合放喺我左邊，畫出我嘅箭咀 \\↦\\，然後喺我右邊寫低每個項目要「變成」乜嘢——用 @This 代表我「依家」手上面嗰個項目！",
+                "\\[1 2 3] ↦ ⬚ + 1\\ 會畀你 \\[2 3 4]\\。BOOM！每個數字都加一，唔使迴圈，唔使 @FunctionDefinition，好簡單！",
+                "我最啱用嚟將資料變成 @Phrase 輸出！有一串名？\\['Ada' 'Mac' 'Tim'] ↦ 短語(⬚)\\，咁每個名都有一個詞組喇！！",
+                "我可以用喺 @List、@Set、@Map（我會改個對應表嘅 @VALUES——鍵會原封不動留喺度！），甚至 @Table 都得！",
+                "想要更特別嘅嘢——例如每個項目嘅 @index，或者一個可以喺好多地方重用嘅函式？咁就去搵我嗰啲冷靜啲、成熟啲嘅表親，例如 @List.translate。不過日常簡單嘅對應，就由我嚟！！"
+            ],
+            "start": "$~等陣，等我攞晒 $expression 入面所有嘢！",
+            "finish": "$~噹噹！呢個係你全新嘅集合：$value",
+            "next": "$~下一個項目：$value！",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~預期係集合",
+                    "explanation": "$~我預期集合轉換嘅左邊一定要係集合，但係我收到 $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~預期係呢個",
+                    "explanation": "$~你係咪想用 @This 嚟指呢個集合入面嘅項目？"
+                }
+            }
+        },
+        "Delete": {
+            "name": "$~刪除",
+            "description": "$~由 $table 刪除符合 $query 嘅列",
+            "emotion": "angry",
+            "doc": [
+                "$~我會移除 @Table 入面符合 @condition 嘅列。有時一個表格實在太多嘢喇！",
+                "好似你喺遊戲入面有啲玩家，其中一個走咗，你就想話：走開啦玩家，離開我個表格！",
+                "\\玩家: ⎡名稱2•'' 隊伍•'' 點2•#⎦\n\t⎡'jen' '紅色' 8⎦\n\t⎡'joan' '藍色' 11⎦\n\t⎡'jeff' '紅色' 9⎦\n\t⎡'janet' '藍色' 7⎦\n玩家 ⎡- 名稱2 = 'jeff'\\",
+                "呼，Jeff 走咗喇。拜拜 Jeff。記住我唔會改原本個表格，我會整一個冇 Jeff 嘅新表格。去邊度由你決定。"
+            ],
+            "start": "$~我哋先攞表格",
+            "finish": "$~我整咗一個冇符合列嘅新表格！"
+        },
+        "DocumentedExpression": {
+            "name": "$~已解釋嘅表達式",
+            "description": "$~已加說明嘅 $expression",
+            "emotion": "eager",
+            "doc": [
+                "$~我可以係任何 @expression，不過多咗一個 @Doc！",
+                "想整我，只要喺表達式前面加一個 @Doc，你就會得到我：",
+                "\\雙加: 1\n(2 × 雙加) +\n\t¶我哋將佢再放大少少啦¶\n\t1\\",
+                "我好適合用嚟為程式某部分加註解。",
+                "如果你喺 @Doc 入面放 👀，我仲可以標示出個表達式：",
+                "\\¶睇住我吖！👀¶1 + 1\\"
+            ],
+            "start": "$~我哋嚟計算表達式"
+        },
+        "Evaluate": {
+            "name": "$~計算",
+            "description": "$~計算 $name[$name|函式]$first[ $first|]",
+            "emotion": "shy",
+            "label": {
+                "function": "$~函式",
+                "types": "$~類型",
+                "inputs": "$~輸入"
+            },
+            "doc": [
+                "$~我會計算我至愛嘅 @FunctionDefinition，畀佢輸入，然後跟住佢嘅步驟做。你好！好似咁：",
+                "\\ƒ 問候語(訊息•'')\n\t問候語('貓仔')\\🪲",
+                "函式可以嚟自任何地方。例如 @Text 就有函式。好似咁：",
+                "\\'貓仔'.長度()\\",
+                "如果一個函式嘅名稱係單一符號，你可以將我寫成 @BinaryEvaluate。",
+                "\\'貓仔' ⊆ '細細'\\",
+                "呢個同下面呢個做緊同一件事：",
+                "\\'貓仔'.包含('細細')\\",
+                "當然，冇 @FunctionDefinition 我就乜都唔係。我只係畀輸入佢哋，再跟住佢哋嘅步驟做。",
+                "其實我都有啲自己嘅本事。例如，如果 @FunctionDefinition 嘅輸入係 @Boolean，你可以直接寫佢個名嚟開啟佢，而唔使畀 @value。"
+            ],
+            "start": "$~我哋先計算輸入",
+            "evaluate": "$~依家計算函式",
+            "finish": "$~我計算出嚟係 $value",
+            "conflict": {
+                "IncompatibleInput": {
+                    "name": "$~輸入唔兼容",
+                    "explanation": "$~我預期係 $expected，但係收到 $given",
+                    "explanationDivideByZero": "$~呢度可能係 ø，因為 $source 可能會除以零，但呢度要用數字",
+                    "resolution": "$~將佢轉成 $expected，因為呢度要用 $expected",
+                    "resolutionLiteral": "$~用 ! 將個列表、集合或者對應表標記做字面值，咁佢嘅值就會保持具體，唔會被一般化 — $expected 需要準確嘅值",
+                    "resolutionOtherwise": "$~用 ?? 處理冇值嘅情況，因為 $expected 唔接受 ø",
+                    "resolutionGuard": "$~先用類型守衛檢查佢係咪 $expected，因為 $expected 唔可以係其他可能嘅類型",
+                    "resolutionDeclaration": "$~請明確寫出類型，因為 $expected 需要保留原本嘅值。",
+                    "resolutionWrap": "$~請放入列表、集合或者對應表，因為 $expected 需要一組值。",
+                    "resolutionStructure": "$~請用 $expected 包住佢，因為呢個位置需要 $expected 值。",
+                    "resolutionDefault": "$~請畀個綁定一個起始值，因為 $expected 喺呢度唔可以冇。",
+                    "resolutionWiden": "$~請容許呢個綁定用呢個值嘅類型，因為 $expected 太窄，裝唔落實際儲起嘅嘢。",
+                    "resolutionReorder": "$~請調換輸入嘅次序，因為佢哋嘅類型換咗次序會更啱 — $expected 應該放喺另一個位置。",
+                    "resolutionPlaceholder": "$~請暫時用佔位符代替，因為 $expected 係必需嘅 — 然後喺自動完成選單揀一個值。"
+                },
+                "UnexpectedTypeInput": {
+                    "name": "$~想唔到嘅類型輸入",
+                    "explanation": "$~我係一個多咗出嚟、想唔到嘅類型輸入。",
+                    "resolution": "$~刪走呢個類型輸入"
+                },
+                "MissingInput": {
+                    "name": "$~欠咗輸入",
+                    "explanation": "$~冇咗輸入 $name，我運算唔到 $input 喎 :(",
+                    "resolutionAddInput": "$~用預設值補返欠咗嘅 $input",
+                    "resolutionPlaceholder": "$~加一個佔位符做欠咗嘅 $input，然後喺自動完成選單揀一個值"
+                },
+                "NotInstantiable": {
+                    "name": "$~未完成嘅結構",
+                    "explanation": "$~我整唔到呢個 @StructureDefinition，因為入面有啲函數仲未寫好。",
+                    "resolution": "$~搭好欠咗嘅函數架構"
+                },
+                "UnexpectedInput": {
+                    "name": "$~想唔到嘅輸入",
+                    "explanation": "$~我係一個想唔到嘅輸入。",
+                    "resolution": "$~刪走呢個輸入"
+                },
+                "UnknownInput": {
+                    "name": "$~唔識嘅輸入",
+                    "explanation": "$~呢個函數 *$name* 唔預期有同我個名一樣嘅輸入。",
+                    "resolution": "$~將呢個輸入改名做 *$name*"
+                },
+                "InputListMustBeLast": {
+                    "name": "$~多出嚟嘅輸入唔係最後",
+                    "explanation": "$~輸入清單一定要放喺最後",
+                    "resolution": "$~將清單輸入移去最後"
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~唔清楚嘅運算",
+                    "explanation": "$~$name 係咪你想運算嘅 $structure[$structure|@FunctionDefinition] 個名呀？試吓刪走我後面個空格，咁我就知道我係 @Evaluate，而唔係另一個 @Block。",
+                    "resolution": "$~將 *$name* 同佢嘅輸入之間個空格刪走"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~唔識嘅時區",
+                    "explanation": "$~我唔識叫 *$zone* 嘅時區。時區係用地區同城市命名㗎，例如 \\'America/New_York'\\。試吓寫一個你識嘅城市，我就會建議一個畀你啦！",
+                    "resolution": "$~改成 *$zone*，即係 $city 嘅時區"
+                }
+            },
+            "exception": {
+                "FunctionException": {
+                    "description": "$~未知嘅函數",
+                    "explanation": "$~哎呀，$name 喺 $scope[$scope|這個 @Block] 入面唔係一個函數！"
+                }
+            }
+        },
+        "Input": {
+            "name": "$~輸入",
+            "description": "$~輸入 $name，$type",
+            "emotion": "serious",
+            "doc": [
+                "$~我係畀一個 @Evaluate 嘅輸入。我嘅名稱對應緊正在評估嘅 @FunctionDefinition 或者 @StructureDefinition 入面輸入嘅名稱。",
+                "如果個函數有好多預設 @values，而你只想改其中一個輸入，其他嘅唔使畀，我就幫到你。",
+                "例如，@Phrase 有好多好多預設值嚟控制佢嘅樣式。假設你想畀一啲 @Text 同一個 @Color，但輸入列表入面其他嘢都唔畀。你可以用我嚟做到：",
+                "\\短語('我係紫色㗎！' 顏色: 顏色(50% 52 300°))\\"
+            ],
+            "start": "$~等我哋評估我嘅值啦。"
+        },
+        "ExpressionPlaceholder": {
+            "name": "$~佔位符",
+            "description": "$~$type[$type|一個值] 嘅佔位符",
+            "emotion": "scared",
+            "label": {
+                "placeholder": "$~表達式"
+            },
+            "doc": [
+                "$~我係一個 *@expression*，但唔係真嘅……我只係代替佢出現。",
+                "如果你仲未知寫乜嘢好，就可以用我。好似咁：",
+                "\\1 + _\\🪲",
+                "我哋加緊啲乜嘢？我唔知喎，你話畀我聽啦。",
+                "或者如果有人用 @Evaluate 評估一個函數，我可能會代替嗰個函數",
+                "\\_(1 2 3)\\🪲",
+                "我唔鍾意喺 @Stage 度出現！"
+            ],
+            "start": "$~我唔知呢度要做乜嘢。你可以填返我嗎？",
+            "conflict": {
+                "Placeholder": {
+                    "name": "$~佔位符",
+                    "explanation": "$~你可以填返我嗎？我只係一個佔位符。",
+                    "resolution": "$~換成 *$candidate*"
+                }
+            },
+            "exception": {
+                "UnimplementedException": {
+                    "description": "$~未實作",
+                    "explanation": "$~我唔知呢度要做乜嘢。你可以填返我嗎？"
+                }
+            }
+        },
+        "FunctionDefinition": {
+            "name": "$~函式",
+            "description": "$~函數 $name",
+            "emotion": "kind",
+            "label": {
+                "inputs": "$~輸入",
+                "output": "$~輸出",
+                "expression": "$~表達式"
+            },
+            "doc": [
+                "$~我會接收一啲輸入，然後用佢哋評估一個 @expression，再產生一個輸出。又見面喇！",
+                "呢個係一個簡單嘅例子：",
+                "\\ƒ 重複2(訊息•'') 訊息 × 5\n重複2('hi')\\",
+                "嗰個函數接收一個輸入 \\message\\，再用 @Text.repeat 函數將訊息重複五次。",
+                "如果你想一次又一次咁評估同一樣嘢，不過每次用唔同嘅輸入，我就好有用！",
+                "我仲有好多其他小技巧。例如，我可以冇名稱。喺呢度，我直接去到 @Evaluate 作為一個 @value。",
+                "\\(ƒ(訊息•'') 訊息 × 5)('hi')\\",
+                "或者，呢個函數可以接收任何數量嘅輸入，方法係喺輸入名稱後面加 \\…\\ 字元。",
+                "\\ƒ 係(訊息…•'') 訊息.去掉('冇')\n係('係' '係' '冇' '係' '冇')\\",
+                "你睇到佢將所有「no」都攞走咗嗎？因為 messages 係一個 @List，所以我哋可以用 @List.sansAll。",
+                "有時你可能想清楚講明我會產生乜嘢類型嘅值。要做到呢點，喺輸入列表後面加一個 @Is：",
+                "\\ƒ 加入(x2•# y2•#)•'' x2 + y2\\🪲",
+                "你可能會留意到呢個有問題：佢話會評估成 @Text，但係佢接收兩個 @Number。有乜嘢唔一致，我會話畀你知！",
+                "當然，冇咗 @Evaluate，我就一啲用都冇；係佢哋令我活起上嚟。"
+            ],
+            "start": "$~我哋嚟整呢個函數啦！",
+            "conflict": {
+                "NoExpression": {
+                    "name": "$~欠咗表達式",
+                    "explanation": "$~我需要一個表達式嚟評估，你可以加一個畀我嗎？",
+                    "resolution": "$~加一個佔位符內容"
+                }
+            }
+        },
+        "Iteration": {
+            "name": "$~高階函數",
+            "description": "$~內部迭代",
+            "emotion": "kind",
+            "doc": "$~我係一種好特別嘅 @FunctionDefinition，專門處理一列列嘅嘢。你唔使知我嘅詳情，只要知道有我先有 @List.translate 呢啲函數就得。",
+            "start": "$~評估緊畀咗嘅函數",
+            "initialize": "$~準備逐個項目行過",
+            "next": "$~移去下一個項目",
+            "check": "$~決定係咪繼續",
+            "finish": "$~我計算出嚟係 $value"
+        },
+        "Initial": {
+            "name": "$~起點",
+            "description": "$~第一次求值嘅時候係真",
+            "emotion": "curious",
+            "doc": [
+                "$~我會話你知 @Program 而家呢次求值係咪第一次，並且求值成 @Boolean。例如：",
+                "\\◆ ? 時間() 'hi'\\",
+                "你冇見到，但第一次求值嗰時係時間，之後每次時間跳動，我都係 \\⊥\\，所以 @Conditional 做咗 \\⊤\\。",
+                "如果你用緊 @stream，而且只係想喺第一次先做嘢，或者第一次先至唔做，我就好有用㗎！"
+            ]
+        },
+        "Insert": {
+            "name": "$~插入",
+            "description": "$~喺 $table 插入一列",
+            "emotion": "kind",
+            "doc": [
+                "$~我可以喺 @Table 加一個新嘅列。有冇試過覺得個表好似少咗啲嘢？我可以幫你加返！",
+                "想像下你有一個遊戲玩家嘅表，你想加多一個玩家：",
+                "\\玩家: ⎡名稱2•'' 隊伍•'' 點2•#⎦\n\t⎡'jen' '紅色' 1⎦\n\t⎡'joan' '藍色' 0⎦\n\t⎡'jeff' '紅色' 3⎦\n\t⎡'janet' '藍色' 2⎦\n玩家 ⎡+'jason' '紅色' 0⎦\\",
+                "記住，好似 Verse 入面所有嘢咁，我唔會改動原本個表，而係整一個修改後嘅新表。所以你要決定將修改後嘅表放喺邊度。你好可能會想將某個輸入入面嘅表修改，然後存入 @Reaction 或者 @Bind。"
+            ],
+            "start": "$~我哋先搵出要更新嘅表啦",
+            "finish": "$~我整咗一個有新列嘅新表！"
+        },
+        "Is": {
+            "name": "$~係咪",
+            "description": "$~係咪 $type",
+            "emotion": "curious",
+            "doc": [
+                "$~我會檢查一個 @value 係咪某一種 @type，然後畀你一個 @Boolean。值有好多種，意思都唔同，我幫你搞清楚佢哋係乜。",
+                "例如，你有一個神秘嘅值。我可以話你知佢係咪 @Number，然後畀你一個 @Boolean：",
+                "\\謎團: '秘密！'\n謎團•#\\🪲",
+                "佢唔係數字，所以我整出 \\⊥\\。但如果我哋檢查佢係咪 @TextType 呢？",
+                "\\謎團: '秘密！'\n謎團•''\\",
+                "我哋就得到 \\⊤\\！",
+                "當你想知某個 @Name 嘅值係咪某一種類型，我就好有用。"
+            ],
+            "start": "$~我哋先攞 $expression 嘅值",
+            "finish": "$~$value[值係 $type|值唔係 $type]",
+            "conflict": {
+                "ImpossibleType": {
+                    "name": "$~唔可能嘅類型",
+                    "explanation": "$~呢個永遠都唔會係 $type",
+                    "resolutionIsFalse": "$~將呢個類型檢查換成 *⊥*（答案永遠都係假）",
+                    "resolutionDropOtherwise": "$~刪走 *??*，因為左邊永遠唔會係 *ø*"
+                }
+            },
+            "exception": {
+                "TypeException": {
+                    "description": "$~唔兼容嘅值",
+                    "explanation": "$~我預期係 $expected，但係收到 $given"
+                }
+            }
+        },
+        "IsLocale": {
+            "name": "$~係咪語言",
+            "description": "$~係咪語系 $locale[$locale|任何]",
+            "emotion": "kind",
+            "doc": [
+                "$~我會幫你檢查觀眾有冇揀咗某個 @language 或者 @region：",
+                "\\🌍/en\\",
+                "\\🌍/es-MX\\",
+                "如果你想根據所揀嘅語言去改變你嘅演出，呢個就好有用。"
+            ],
+            "start": "$~語言係咪 $locale？"
+        },
+        "ListAccess": {
+            "name": "$~列表存取",
+            "description": "$~存取 $index 嘅索引 $list",
+            "emotion": "cheerful",
+            "doc": [
+                "$~我同 @List 緊密合作，幫佢哋攞到某個位置嘅 @values。例如你有一個清單，想攞第二個項目，就可以咁寫：",
+                "\\清單2: ['鳥' '鴨仔' '魚仔' '蛇']\n清單2[2]\\"
+            ],
+            "start": "$~我哋先攞清單 $list",
+            "finish": "$~呢個索引嘅項目係 $value！"
+        },
+        "ListLiteral": {
+            "name": "$~清單字面值",
+            "description": "$~有 $#count[$count 個值]嘅清單",
+            "emotion": "eager",
+            "doc": "$~我係 @values 嘅一個特定 @List！想知多啲可以點樣用我，就睇 @List。",
+            "start": "$~我哋先計算啲項目",
+            "finish": "$~我整咗一個我出嚟！$value"
+        },
+        "Localized": {
+            "name": "$~已本地化",
+            "description": "$~本地化文字",
+            "emotion": "serious",
+            "label": {
+                "value": "$~值"
+            },
+            "doc": [
+                "$~我會將一個地區設定加落你計算出嚟嘅文字度，咁你改咗文字之後，佢都仲會保留 @language。好似咁：",
+                "\\('你好' + \"!\")/en\\",
+                "大部分文字運算本身已經會保留地區設定，不過如果你想自己覆蓋，就可以用我嚟設定。",
+                "我淨係可以用喺文字上面，所以記住要畀我文字呀！"
+            ],
+            "start": "$~我哋先計算 $value，然後畀佢標上地區設定……"
+        },
+        "Spread": {
+            "name": "$~展開",
+            "description": "$~$list[$list|一個清單]嘅展開",
+            "emotion": "serious",
+            "doc": [
+                "$~我幫你用其他清單嘅 @values 砌出一個 @List。好似咁：",
+                "\\清單2: [1 2 3]\n最後: [:清單2 4 5 6]\\🪲"
+            ]
+        },
+        "PatternLiteral": {
+            "name": "$~模式",
+            "description": "$~有 $#count[$count 個部分]嘅樣式",
+            "emotion": "curious",
+            "doc": [
+                "$~我係一個樣式！我描述文字嘅*形狀*，而唔係確實嘅字，咁你就可以用 \\≈\\ 檢查文字——成段文字夾唔夾？——或者用 \\⌕\\ 搜尋，搵出形狀出現嘅每個位置。搜尋會傳回一個 @Result 嘅清單。",
+                "睇吓搜尋點樣運作——喺一句講早餐嘅句子入面搵食物嘅字：",
+                "\\早餐: '我食早餐食咗雞蛋、多士同橙汁'\n早餐 ⌕ ⣿ \"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "由左至右睇我。@PatternClass 會配對一個某種類嘅字元：\\⣿◌⣿\\ 係任何字元，\\⣿_⣿\\ 係字母，\\⣿#⣿\\ 係數字，\\⣿␣⣿\\ 係空格。用引號包住嘅文字係 @PatternLiteralText，會完全配對，例如 \\⣿\"-\"⣿\\。其餘 \\⣿…⣿\\——一個 @PatternRest——可以配對任何數量嘅字元。",
+                "數量要擺喺前面。@PatternQuantified 會按 @PatternQuantifier 重複下一個部分：\\⣿3 #⣿\\ 係三個數字，\\⣿3–5 #⣿\\ 係三至五個，\\⣿>0 #⣿\\ 係一個或以上，\\⣿≥0 #⣿\\ 係零個或以上，\\⣿≤1 #⣿\\ 係可有可無。",
+                "用 @PatternGroup 將部分組埋一齊，用 @PatternSequence 提供選擇，例如 \\⣿(◌ | #)⣿\\。最長嘅配對選擇會贏。",
+                "@PatternSet 會配對一組字元入面嘅其中一個，@PatternRange 就包含字元嘅範圍，例如 \\⣿ {\"a\"–\"z\" #}⣿\\。用 @PatternComplement 可以否定一個部分，例如 \\⣿~#⣿\\。",
+                "用 @PatternProperty 可以細分一個類別，例如 \\⣿ _/greek⣿\\ 係希臘字母，或者 \\⣿ ◌/emoji⣿\\。",
+                "用 @PatternCapture 幫一個部分改名，例如 \\⣿ year: (4 #)⣿\\，之後用 @PatternBackref 寫佢嘅名就可以再用。每個 @Result 都會按名稱報告捕捉到嘅部分。",
+                "用 @PatternAnchor 固定喺邊緣：\\⣿⊢⣿\\ 係開頭，\\⣿⊣⣿\\ 係結尾。用 @PatternLook 可以偷望而唔消耗字元：\\⣿▸(#)⣿\\ 係向前望，\\⣿◂(#)⣿\\ 係向後望。",
+                "用 @PatternWord \\⣿ ▭/en⣿\\ 配對完整嘅字，或者用 @PatternWordEdge \\⣿ ┊/en⣿\\ 配對字邊界，按 @language 分段。喺 @PatternCaseFold \\⣿ Aa(\"hi\")⣿\\ 入面會唔理字母大細楷。",
+                "我嘅 @type 係 @PatternType——可以用佢標註一個名稱，例如 \\p•⣿⣿: ⣿ ◌⣿\\🪲——咁你就可以將我儲喺一個名稱入面，喺好多文字度重複使用。"
+            ],
+            "start": "$~等我睇吓呢段文字係點樣嘅。",
+            "step": {
+                "search": "$~我哋喺文字入面搵出呢個樣式出現嘅每個位置。",
+                "test": "$~我哋檢查吓成段文字夾唔夾呢個樣式。",
+                "scan": "$~由位置 $position 開始搵呢個樣式。",
+                "match": "$~$pattern 配對到位置 $glyph 嘅 $position。",
+                "miss": "$~$pattern 配對唔到位置 $glyph 嘅 $position。",
+                "end": "$~$pattern 仲需要一個字元，但係我哋喺位置 $position 已經去到文字嘅尾。",
+                "here": "$~$pattern 喺位置 $position 成立。",
+                "nothere": "$~$pattern 喺位置 $position 唔成立。",
+                "repeat": "$~$pattern 配對到 $count，夠數可以繼續。",
+                "short": "$~$pattern 只係配對到 $count，唔夠數。"
+            },
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~空嘅模式",
+                    "explanation": "$~我冇任何部分，所以我配對唔到有用嘅嘢。你可唔可以加一個部分呢？",
+                    "resolution": "$~加一個 \\◌\\ 嚟配對任何一個字元"
+                }
+            }
+        },
+        "PatternSequence": {
+            "name": "$~序列",
+            "description": "$~模式序列",
+            "emotion": "curious",
+            "doc": [
+                "$~我係一排模式部分，由左至右，一個接一個咁配對。",
+                "例如，檢查電話號碼嘅形狀，即係三個數字、一個橫線，再加四個數字：",
+                "\\電話: '555-1234'\n電話 ≈ ⣿ 3 # \"-\" 4 #⣿\\🪲",
+                "如果畀我幾個選擇，我會揀合適嗰個，而且優先揀最長嗰個，好似 \\⣿ \"cat\" | \"dog\"⣿\\。"
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~重疊嘅選擇",
+                    "explanation": "$~$shorter 係 $longer 嘅開頭，而最長嘅選擇永遠贏，所以淨係當 $shorter 配對唔到嗰陣，$longer 先會配對到。你係咪想咁呢？"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~字元類別",
+            "description": "$~字元類別",
+            "emotion": "curious",
+            "doc": [
+                "$~我配對某一類嘅單一字元：\\⣿◌⣿\\ 任何字素、\\⣿_⣿\\ 一個字母、\\⣿#⣿\\ 一個數字、\\⣿␣⣿\\ 一個空格。",
+                "例如，由一個清單入面抽出每個「字母後面跟住數字」嘅 @code：",
+                "\\代碼: 'a1 b2 c3'\n代碼 ⌕ ⣿ _ #⣿\\",
+                "你可以用量詞嚟數我，例如 \\⣿>0 #⣿\\（一個或者多個數字），或者用 @property 收窄我，例如 \\⣿ _/greek⣿\\（一個希臘字母）。"
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~屬性",
+            "description": "$~Unicode 屬性",
+            "emotion": "curious",
+            "doc": [
+                "$~我可以將字元類別收窄到一個 Unicode @property。你可以用文字系統，例如 \\⣿ _/greek⣿\\、\\⣿ _/han⣿\\ 或者 \\⣿ _/arabic⣿\\。",
+                "例如，喺一段混合嘅文字入面搵出一串希臘字母：",
+                "\\文字2: '你好 αβγ 世界'\n文字2 ⌕ ⣿ >0 _/greek⣿\\",
+                "或者用類別，例如 \\⣿ ◌/punctuation⣿\\、\\⣿ ◌/currency⣿\\、\\⣿ ◌/Nd⣿\\（一個數字）或者 \\⣿ _/Lu⣿\\（一個大寫字母）。",
+                "或者用「係或者唔係」嘅屬性，例如 \\⣿ ◌/emoji⣿\\ 或者 \\⣿ _/uppercase⣿\\，你亦都可以將佢寫成一個名稱加 @value，例如 \\⣿ ◌/Script=Greek⣿\\。",
+                "你可以用 @PatternComplement 排除一個屬性，例如 \\⣿ ~◌/emoji⣿\\（任何唔係表情符號嘅嘢）。"
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~未知嘅屬性",
+                    "explanation": "$~我唔認得屬性 $name。試吓用類別、文字系統或者 Unicode 識別碼。",
+                    "resolution": "$~改成 $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~量詞",
+            "description": "$~重複次數",
+            "emotion": "curious",
+            "doc": [
+                "$~我會講明要配對幾多次：準確嘅 \\⣿3 #⣿\\、範圍 \\⣿3–5 #⣿\\、\\⣿=3 #⣿\\（啱啱好三次）、\\⣿>0 #⣿\\（一次或者多次）、\\⣿≥0 #⣿\\（零次或者多次）、\\⣿<5 #⣿\\（少過五次）、\\⣿≤1 #⣿\\（可有可無）。",
+                "例如，喺一句句子入面搵出每一串數字：",
+                "\\文字2: '我有 3 隻貓同 12 條魚'\n文字2 ⌕ ⣿ >0 #⣿\\",
+                "我永遠都喺我要數嘅部分前面，例如 \\⣿3 #⣿\\ 或者 \\⣿>0 _⣿\\。"
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~唔可能嘅次數",
+                    "explanation": "$~我嘅最少次數大過我嘅最多次數，所以我永遠都配對唔到。",
+                    "resolution": "$~對調我嘅次數，等細嗰個排喺前面"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~重複",
+            "description": "$~重複配對",
+            "emotion": "curious",
+            "doc": [
+                "$~我會將下一部分配對多次。",
+                "例如，檢查郵遞區號 @code 係咪剛好有五個數字：",
+                "\\郵遞區號: '98101'\n郵遞區號 ≈ ⣿ 5 #⣿\\",
+                "你可以數一個類別，好似 \\⣿3 #⣿\\（三個數字），或者一個群組，好似 \\⣿ 2 (\"ab\")⣿\\（兩個「ab」），或者一個補集，好似 \\⣿2 ~#⣿\\（兩個唔係數字嘅字）。用 \\⣿>0 #⣿\\ 嘅時候，我好貪心，會盡量攞多啲。"
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~擷取",
+            "description": "$~名為 $name 嘅擷取",
+            "emotion": "curious",
+            "doc": [
+                "$~我會畀配對入面嘅一部分一個名稱，等你可以由每個 @Result 讀返出嚟。",
+                "例如，由一個日期入面攞出年、月同日：",
+                "\\日期: '2026-06-17'\n日期 ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\",
+                "之後想再用我擷取咗嘅嘢，只要再寫一次我嘅名稱，睇 @PatternBackref，好似 \\⣿ w: (>0 _) ␣ w⣿\\ 就可以搵到重複咗嘅字。"
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~重複擷取",
+                    "explanation": "$~另一個擷取已經用咗名稱 $name，所以呢個會蓋過佢。",
+                    "resolution": "$~將呢個擷取改名做 $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~唔係",
+            "description": "$~補集配對",
+            "emotion": "curious",
+            "doc": [
+                "$~我會配對一個唔係後面所講嘅字形單位。你可以反轉一個類別，好似 \\⣿~#⣿\\（唔係數字），或者一個集合，好似 \\⣿~{\":\" ␣}⣿\\（唔係冒號或者空格）。",
+                "例如，配對唔係冒號或者空格嘅一串字，攞出冒號前後嘅 @key 同 @value：",
+                "\\一對: '顏色：藍色'\n一對 ⌕ ⣿ >0 ~{\":\" ␣}⣿\\",
+                "你亦可以反轉一個群組，好似 \\⣿~(◌ | #)⣿\\，或者一個 @property，好似 \\⣿ ~◌/emoji⣿\\（唔係表情符號）。",
+                "將我放喺 @PatternLook 前面就可以反轉佢：\\⣿~▸(#)⣿\\ 即係「後面唔係數字」，\\⣿~◂(\"$\")⣿\\ 即係「前面唔係元字符號」。"
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~群組",
+            "description": "$~圖樣群組",
+            "emotion": "curious",
+            "doc": [
+                "$~我會將幾個部分綁埋一齊，等一個數量或者選擇可以同時應用喺晒佢哋度。我唔會擷取；想幫某部分改名，就用 @PatternCapture。",
+                "例如，檢查一段文字係咪重複嘅音節「ab」：",
+                "\\口號: 'ababab'\n口號 ≈ ⣿ >0 (\"ab\")⣿\\",
+                "你可以數一個群組，好似 \\⣿ 2 (\"ab\")⣿\\（兩個「ab」），或者提供一個選擇，好似 \\⣿(◌ | #)⣿\\（一個字母或者一個數字）。"
+            ]
+        },
+        "PatternSet": {
+            "name": "$~字形集合",
+            "description": "$~字形單位集合",
+            "emotion": "curious",
+            "doc": [
+                "$~我會配對一組選項入面任何一個字形單位。",
+                "例如，搵出一個字入面嘅元音：",
+                "\\詞語: '你好'\n詞語 ⌕ ⣿ {\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "你可以加入範圍同類別，好似 \\⣿ {\"a\"–\"z\" #}⣿\\ 或者 \\⣿ {# \"a\"–\"f\"}⣿\\（十六進位數字）。用 @PatternComplement 就可以反轉我，好似 \\⣿~{\"!\" \"?\"}⣿\\。"
+            ]
+        },
+        "PatternRange": {
+            "name": "$~範圍",
+            "description": "$~由 $low 到 $high 嘅範圍",
+            "emotion": "curious",
+            "doc": [
+                "$~我會按純量次序，配對兩個端點之間嘅一個字形單位，而且我只會存在於 @PatternSet 入面。",
+                "例如，由一段文字入面攞出細楷字母嘅字：",
+                "\\文字2: '你好世界 2026'\n文字2 ⌕ ⣿ >0 {\"a\"–\"z\"}⣿\\",
+                "你可以涵蓋字母，好似 \\⣿ {\"a\"–\"z\" \"A\"–\"Z\"}⣿\\，或者數字，好似 \\⣿{\"0\"–\"9\"}⣿\\，任何文字都得，好似 \\⣿ {\"あ\"–\"ん\"}⣿\\。"
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~字面",
+            "description": "$~精確文字 $text",
+            "emotion": "curious",
+            "doc": [
+                "$~我會完全配對引號入面嘅文字，冇任何特別意思。",
+                "例如，喺一句說話入面搵出金額：",
+                "\\收據: '今日要 $5'\n收據 ⌕ ⣿ \"$\" >0 #⣿\\",
+                "固定嘅部分可以用我，例如 \\⣿\"-\"⣿\\、\\⣿\"@\"⣿\\，或者成個字 \\⣿ \"cat\"⣿\\，再同其他部分串埋一齊，例如 \\⣿3 # \"-\" 4 #⣿\\ 就係電話號碼。"
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~錨點",
+            "description": "$~文字邊界",
+            "emotion": "curious",
+            "doc": [
+                "$~我會配對文字嘅邊界，但唔會食咗任何字：\\⣿⊢⣿\\ 係起點，\\⣿⊣⣿\\ 係終點。",
+                "例如，檢查一句問候語係咪以「Hello」開頭：",
+                "\\問候語: '你好，世界'\n問候語 ≈ ⣿ ⊢ \"Hello\" …⣿\\",
+                "可以用嚟固定位置，例如 \\⣿ ⊢ \"Hi\"⣿\\（以「Hi」開頭）、\\⣿\".\" ⊣⣿\\（以句號結尾），或者 \\⣿⊢ _ ⊣⣿\\（成段文字剛好得一個字母）。"
+            ]
+        },
+        "PatternWord": {
+            "name": "$~詞語",
+            "description": "$~完整單字",
+            "emotion": "curious",
+            "doc": [
+                "$~我會配對一個完整單字，由 @language 自己嘅規則嚟判斷。",
+                "例如，列出一句說話入面嘅單字：",
+                "\\句子: '隻貓坐低咗'\n句子 ⌕ ⣿ ▭/en⣿\\",
+                "指明語言，例如 \\⣿ ▭/en⣿\\ 係英文，\\⣿ ▭/zh⣿\\ 係中文，仲可以用邊界圈住某個單字，例如 \\⣿ ┊/en \"cat\" ┊/en⣿\\。"
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~欠咗語言",
+                    "explanation": "$~我需要知道語言，先知點樣搵單字。你可以加一個嗎？例如 \\/en\\？"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~單字邊緣",
+            "description": "$~單字邊界",
+            "emotion": "curious",
+            "doc": [
+                "$~我會為 @language 配對單字邊界，但唔會食咗任何字。",
+                "例如，搵「cat」呢個完整單字，而唔係「category」入面嗰個：",
+                "\\文字2: '一隻貓喺一個類別入面'\n文字2 ⌕ ⣿ ┊/en \"cat\" ┊/en⣿\\",
+                "用我包住一個單字，例如 \\⣿ ┊/en \"cat\" ┊/en⣿\\，咁佢就只會配對完整嘅單字。"
+            ]
+        },
+        "PatternLook": {
+            "name": "$~前後查看",
+            "description": "$~前後查看",
+            "emotion": "curious",
+            "doc": [
+                "$~我會查看前面 \\⣿▸(#)⣿\\ 或者後面 \\⣿◂(#)⣿\\ 有啲乜，但唔會食咗佢，所以下一部分仍然由同一個位置開始配對。",
+                "例如，搵出每個緊接住數字嘅字母：",
+                "\\文字2: 'a1 b2 cc'\n文字2 ⌕ ⣿ _ ▸(#)⣿\\",
+                "可以要求前後文，例如 \\⣿_ ▸(#)⣿\\（字母後面跟住數字）或者 \\⣿◂(\"$\") >0 #⣿\\（「$」後面緊接嘅數字）。",
+                "加上 @PatternComplement 就可以反轉，變成禁止某啲前後文，例如 \\⣿~▸(#)⣿\\（後面唔係數字）。"
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~反向參照",
+            "description": "$~反向參照",
+            "emotion": "curious",
+            "doc": [
+                "$~我會配對一個已命名嘅 @PatternCapture 之前配對過嘅同一段文字，只需要寫擷取嘅名稱就得。",
+                "例如，搵出緊接住重複嘅單字：",
+                "\\文字2: '隻隻貓坐坐低'\n文字2 ⌕ ⣿ w: (>0 _) ␣ w⣿\\",
+                "如果名稱唔係擷取，咁就會變成已命名嘅類別，例如 \\⣿ linebreak⣿\\。"
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~未知名稱",
+                    "explanation": "$~冇一個擷取或者類別叫 $name，所以我冇嘢可以配對。",
+                    "resolution": "$~改成 $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~其餘部分",
+            "description": "$~輸入嘅其餘部分",
+            "emotion": "curious",
+            "doc": [
+                "$~我會盡可能配對文字嘅其餘部分。放喺模式嘅最後好好用。",
+                "例如，檢查一段文字係咪主題標籤，即係「#」加任何嘢：",
+                "\\標籤: '#早餐'\n標籤 ≈ ⣿ \"#\" …⣿\\",
+                "固定開頭之後就可以用我，例如 \\⣿\"#\" …⣿\\（「#」加任何嘢）或者 \\⣿ \"Hi \" …⣿\\（「Hi 」加後面所有嘢）。"
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~忽略大小寫",
+            "description": "$~唔分大小寫配對",
+            "emotion": "curious",
+            "doc": [
+                "$~我配對自己嘅部分時，唔理大細楷。",
+                "例如，檢查一個單字，唔理佢嘅大細楷：",
+                "\\大叫: '你好'\n大叫 ≈ ⣿ Aa(\"hello\")⣿\\",
+                "可以用我包住各部分，例如 \\⣿ Aa(\"hi\")⣿\\（會配對「HI」、「Hi」或者「hi」）。加上 @language 就可以跟佢嘅規則，例如 \\⣿ Aa/tr(\"i\")⣿\\（土耳其語嘅 i），而我都會 @scope 一個 @PatternBackref，例如 \\⣿ Aa(w: (2 _) w)⣿\\。"
+            ]
+        },
+        "PatternType": {
+            "name": "$~模式類型",
+            "description": "$~模式",
+            "emotion": "curious",
+            "doc": [
+                "$~我係一個樣式 @value 嘅 @type，寫法好似 \\p•⣿⣿: ⣿ ◌⣿\\🪲。",
+                "例如，你可以將一個樣式存喺 @name 度，之後喺好多文字入面重用：",
+                "\\數字2: ⣿ >0 #⣿\n'我有 3 隻貓同 12 條魚' ⌕ 數字2\\",
+                "存好之後，有樣式嘅地方都可以用我，好似 \\text ⌕ digits\\🪲 或者 \\text ≈ digits\\🪲。"
+            ]
+        },
+        "MapLiteral": {
+            "name": "$~對應表字面值",
+            "description": "$~有 $#count[$count 對鍵值嘅對應表]",
+            "emotion": "kind",
+            "label": {
+                "values": "$~一對"
+            },
+            "doc": "$~我係鍵同 @values 之間一個特定嘅 @Map。睇下 @Map 就知道我有咩用。",
+            "start": "$~我哋先計算啲鍵同值",
+            "finish": "$~我將所有人連埋一齊喇，$value",
+            "conflict": {
+                "NotAKeyValue": {
+                    "name": "$~缺少值",
+                    "explanation": "$~我喺 @Map 入面，所以需要一個值。",
+                    "resolution": "$~包成一對鍵值"
+                }
+            }
+        },
+        "Match": {
+            "name": "$~配對",
+            "description": "$~將 $value 同 $#count[$count 個情況]配對",
+            "emotion": "curious",
+            "label": {
+                "case": "$~情況",
+                "other": "$~預設"
+            },
+            "doc": [
+                "$~我係最威風嘅條件檢查：我會接收一個 @value，同任何數量嘅情況比較，然後計算啱嗰一個！",
+                "例如，如果你有一個 @Number，想轉成 @Text，你可以咁樣做：",
+                "\\數字2: 2\n數字2 ???\n\t1: '一個'\n\t2: '兩個'\n\t3: '三'\n\t'大啲！'\\",
+                "如果冇一個啱，我就會計算你畀我嘅預設 @expression。",
+                "我好啱用嚟將好多種可能嘅 @Number、@Text 或者更複雜嘅值轉成其他嘢。",
+                "你都可以用喺 @Boolean 或者 @None，但係佢哋可以有嘅選擇唔多，所以對呢啲簡單嘅值我冇咁有用。",
+                "好似 @Conditional 一樣，我都會話你知我學到啲乜。喺一個情況入面，我配對到嘅 @value 已經知道就係嗰個情況；喺後面嘅情況入面，佢已經知道唔係前面任何一個；喺我嘅預設入面，佢已經知道一個都唔係。",
+                "\\答案•#|'': 1\n答案 ???\n\t1: 答案 + 1\n\t'唔係一'\\",
+                "如果情況係 @Number、@None，或者只需要一次轉換嘅 @Text，同埋其他簡單情況，我可以排除佢哋。但係如果一個情況只係計算嘢，就排除唔到乜嘢，所以我嘅預設會保留 @value 仲可能係嘅所有可能。"
+            ],
+            "start": "$~等我哋睇下 $value 係咩……",
+            "case": "$~等我哋檢查呢個條件",
+            "finish": "$~好喇，我哋有最終嘅值喇！"
+        },
+        "NumberLiteral": {
+            "name": "$~數字字面值",
+            "description": "$~$number$unit[ $unit|]",
+            "emotion": "excited",
+            "doc": "$~我係一個特定嘅 @Number。你可以用任何 @language 嘅任何數字寫我。睇下 @Number 就知道我所有功能。",
+            "start": "$~$value！",
+            "conflict": {
+                "NotANumber": {
+                    "name": "$~唔係數字",
+                    "explanation": "$~我以為我識晒所有數字，但係呢個我唔識",
+                    "resolution": "$~換成 *0*"
+                }
+            }
+        },
+        "InternalExpression": {
+            "name": "$~內部表達式",
+            "description": "$~內建表達式",
+            "emotion": "neutral",
+            "doc": "$~我係一個淨係原本嘅創作者先會用嘅 @expression。你點樣搵到我㗎？想知多啲關於我嘅嘢，你要問佢哋。",
+            "start": "$~秘密表達式"
+        },
+        "NoneLiteral": {
+            "name": "$~無值字面值",
+            "description": "$~無",
+            "emotion": "neutral",
+            "doc": "$~我係 @None，獨一無二嘅「無」@value。想知多啲，可以睇 @None。",
+            "start": "$~… ø"
+        },
+        "Otherwise": {
+            "name": "$~否則",
+            "description": "$~$left 否則 $right",
+            "emotion": "curious",
+            "doc": [
+                "$~我會檢查一個 @value 係咪 @None，如果係，我就畀你一個後備值。",
+                "/例如，如果你有個值可能係 @Number 或者 @None，@Otherwise 就可以幫你畀一個預設數字：",
+                "\\可能係數字•#|ø: 1\n可能係數字 ?? 0\\"
+            ],
+            "start": "$~ø ??",
+            "finish": "$~… $value"
+        },
+        "Previous": {
+            "name": "$~上一個",
+            "description": "$~$stream 嘅前 $number 個值$range[|]$range[|]",
+            "emotion": "serious",
+            "doc": [
+                "$~我會回望一個 @stream 嘅歷史，話你知佢過去其中一個 @values。你有冇想過記住過去呢？",
+                "我係 Verse 嘅官方紀錄員！",
+                "例如，呢度係 @Time 五個滴答之前嘅樣：",
+                "\\← 5 時間(1000ms)\\",
+                "睇下佢先係 @None 五秒，之後突然變成之前嘅時間㗎？",
+                "如果你想要最近幾個值，就畀我兩個箭咀，我會將個數字當做數量：",
+                "\\←← 5 時間(1000ms)\\",
+                "睇下佢變成前五個時間，唔係淨係一個時間囉？",
+                "當你想做啲要靠過去嘅表演，我就好有用啦。"
+            ],
+            "start": "$~先取得 $stream",
+            "finish": "$~計算出串流值 $value",
+            "label": {
+                "range": "$~範圍"
+            }
+        },
+        "Program": {
+            "name": "$~程式",
+            "description": "$~有 $#count[$count 個陳述句]嘅程式",
+            "emotion": "serious",
+            "doc": [
+                "$~我係表演開始同結束嘅地方，入面有所有編排一場表演嘅其他角色。",
+                "你知唔知 @Block 會計算一列表達式，然後得出最後一個嘅結果？",
+                "我都一樣，不過我唔係將我嘅 @value 交畀我所在嘅 @expression，而係將個值放上 @Stage。",
+                "個值可以係任何嘢：@Number、@Text 或者 @Boolean、@List、@Set、@Map，甚至係更複雜嘅嘢，例如 @Phrase、@Group 或者 @Stage。",
+                "如果你冇畀我值喺舞台上顯示，我會問你要。",
+                "如果表演途中有問題，我會將個問題顯示出嚟。",
+                "如果你嘅表演靠一個 *@stream*，每次個串流變，我都會重新計算。"
+            ],
+            "label": {
+                "borrows": "$~借用",
+                "expression": "$~區塊"
+            },
+            "unevaluated": "$~你揀咗嘅節點冇被計算",
+            "start": "$~$stream[$stream 串流變咗做 $value！|呢個係我第一次計算]",
+            "halt": "$~遇到例外，要停低",
+            "finish": "$~全部完成，我計算出 $value",
+            "done": "$~而家冇嘢喺度計算",
+            "exception": {
+                "BlankException": {
+                    "description": "$~空白程式",
+                    "explanation": "$~一齊搞場騷啦！我哋由邊度開始好呢？"
+                },
+                "EvaluationLimitException": {
+                    "description": "$~評估上限",
+                    "explanation": "$~@Evaluate同我都對評估好攰喇，尤其係 $function。\n\n會唔會係 $function 一直評估自己，永遠都停唔到呢？"
+                },
+                "StepLimitException": {
+                    "description": "$~步驟上限",
+                    "explanation": "$~步驟實在太、多、喇，多到做唔完！你可唔可以將表演簡化啲呢？"
+                },
+                "ValueException": {
+                    "description": "$~缺少值",
+                    "explanation": "$~我預咗會有個值，但係冇㗎！"
+                },
+                "InternalException": {
+                    "description": "$~內部錯誤",
+                    "explanation": "$~內部發生咗好嚴重嘅問題：$reason"
+                },
+                "PermissionException": {
+                    "description": "$~權限被拒絕",
+                    "explanation": "$~我要你嘅 $permission 先可以行，但我冇權限。㩒「重試」再試一次。如果仲係唔得，請喺瀏覽器嘅設定入面，允許呢個網站使用 $permission。"
+                }
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~冇說明嘅分享",
+                    "explanation": "$~呢個已經發布咗，所以唔係作者嘅人都會睇到——請喺上面寫個 /doc/，講明佢係做咩用㗎",
+                    "resolution": "$~喺上面加說明，或者唔好再發布呢個源檔"
+                },
+                "UnexampledShare": {
+                    "name": "$~冇範例",
+                    "explanation": "$~呢個要輸入嘢，淨係描述係唔夠嘅——喺佢嘅說明入面加個範例，示範一種用法",
+                    "resolution": "$~喺佢嘅說明入面加個範例，或者唔好再發布呢個源檔"
+                },
+                "UnexampledKit": {
+                    "name": "$~冇範例",
+                    "explanation": "$~呢個源檔入面冇任何嘢有範例，所以搵工具包嘅人冇嘢可以睇——請喺呢個源檔嘅說明入面加一個",
+                    "resolution": "$~喺呢個源檔嘅說明入面加個範例，或者唔好再發布呢個源檔"
+                }
+            }
+        },
+        "PropertyBind": {
+            "name": "$~修改",
+            "description": "$~修改屬性 $name[$name|未命名]",
+            "emotion": "kind",
+            "label": {
+                "property": "$~屬性",
+                "value": "$~值"
+            },
+            "doc": [
+                "$~我會複製一個 @StructureDefinition @value，只改變其中一個 @property——唔使用晒同樣嘅值重新砌過成個嘢。",
+                "例如，如果你記錄緊啲貓，之後想複製一隻貓，但係嗜好唔同，我就可以幫你改：",
+                "\\•貓2(名稱2•'' 彩色•'' 興趣•'')\n\n貓仔: 貓2('糖粒' '橙色' '舔')\n貓仔.興趣:'咕嚕咕嚕'\\",
+                "呢個比起用同樣嘅值（淨係嗜好唔同）重新整一個新嘅 \\Cat\\ 容易好多，係咪呀？"
+            ],
+            "start": "$~首先我哋攞個值",
+            "finish": "$~我複製咗個結構，但將 $property 改成 $value",
+            "conflict": {
+                "InvalidProperty": {
+                    "name": "$~未知嘅屬性",
+                    "explanation": "$~我唔係結構 $structure 入面嘅名稱，所以唔可以被修改。",
+                    "resolution": "$~改名做 *$name*"
+                }
+            }
+        },
+        "PropertyReference": {
+            "name": "$~屬性",
+            "description": "$~屬性 $name[$name|未命名]",
+            "emotion": "kind",
+            "label": {
+                "property": "$~屬性"
+            },
+            "doc": [
+                "$~我可以幫你攞@StructureDefinition @value 嘅其中一個@properties。",
+                "例如你有個關於城市嘅結構，就可以好似咁用我攞到佢嘅值：",
+                "\\•城市(名稱2•'' 人口•#people)\n\n波特蘭: 城市('波特蘭' 800000people)\n\n波特蘭.人口\\"
+            ],
+            "start": "$~首先我哋攞個值",
+            "finish": "$~搵到屬性 $property，佢係 $value"
+        },
+        "Reaction": {
+            "name": "$~反應",
+            "description": "$~對 $condition 嘅反應",
+            "emotion": "excited",
+            "label": {
+                "initial": "$~初始值",
+                "condition": "$~條件",
+                "next": "$~下一步"
+            },
+            "doc": [
+                "$~我會造一個新串流，只要另一個串流有變，我就跟住更新。@Streams 真係好正！",
+                "例如你想 @Time 跳動，但係想顯示文字而唔係數字，你可以咁寫：",
+                "\\時間2: 時間(1000ms)\n'起點' … ∆ 時間2 … ((時間2 % 2) = 0ms) ? '雙數' '單數'\\",
+                "意思就係「/一開始用『start』呢個字，之後時間一變，就按時間變成雙數或者單數。/」",
+                "所以我都好似一個串流，不過係跟住其他串流變嘅。勁唔勁呀？"
+            ],
+            "start": "$~等我睇吓使唔使更新串流",
+            "finish": "$~串流嘅新值係 $value",
+            "conflict": {
+                "ExpectedStream": {
+                    "name": "$~需要串流",
+                    "explanation": "$~$condition 冇參照任何串流，所以我永遠都唔會有反應！",
+                    "resolution": "$~拎走反應，淨低初始值"
+                },
+                "ExpectedCondition": {
+                    "name": "$~欠缺條件",
+                    "explanation": "$~我需要有嘢話畀我知幾時要變，你可唔可以喺@Reaction後面加一個條件呀？",
+                    "resolution": "$~加一個條件嚟檢查"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~欠缺下一個值",
+                    "explanation": "$~我知幾時要變，但係唔知要變成乜，你可唔可以加一個下一個值呀？",
+                    "resolution": "$~加一個下一個值",
+                    "rangeResolution": "$~改為用 \\‥\\ 造一個@Range"
+                }
+            }
+        },
+        "Reference": {
+            "name": "$~參照",
+            "description": "$~參照 $name",
+            "emotion": "shy",
+            "doc": [
+                "$~我用@Name嚟參照一個@value：我會搵有呢個名嘅@Bind，然後畀佢嘅值你。好似咁：",
+                "\\鸚鵡: '波莉'\n鸚鵡\\",
+                "如果我搵唔到個@name，我就唔知點算好。",
+                "\\鸚鵡: '波莉'\nperry\\🪲"
+            ],
+            "start": "$~$name 嘅值係乜呀？",
+            "conflict": {
+                "UnknownName": {
+                    "conflict": {
+                        "name": "$~未知名稱",
+                        "explanation": "$~$name[我喺$name[$scope|呢個@Block]入面唔認識有邊個叫 $scope|你可唔可以畀個名我呀？]"
+                    },
+                    "resolution": "$~你係咪想寫 *$suggestion？*",
+                    "staticResolution": "$~你係咪想寫 *$owner.$suggestion？*",
+                    "languageResolution": "$~*$name* 係 $language 入面嘅名稱。將 $language 加入你專案嘅語言，咁就可以喺呢度用㗎。"
+                },
+                "ReferenceCycle": {
+                    "name": "$~自己指住自己嘅值",
+                    "explanation": "$~呃，$name 嘅值要靠佢自己，咁我點知畀咩值佢呢？",
+                    "resolution": "$~用佔位符取代 *$name*，打斷個循環"
+                },
+                "UnexpectedTypeVariable": {
+                    "name": "$~冇預期到嘅類型變數",
+                    "explanation": "$~我唔知點處理呢啲類型輸入",
+                    "resolution": "$~由個函數度移除呢個類型變數"
+                }
+            },
+            "exception": {
+                "NameException": {
+                    "description": "$~未知名稱",
+                    "explanation": "$~$name[我喺 $name[$scope|呢個 @Block] 入面搵唔到有邊個叫 $scope…|哎呀，冇名稱！]"
+                }
+            }
+        },
+        "Select": {
+            "name": "$~選取",
+            "description": "$~由 $table 揀出符合 $query 嘅嘢",
+            "emotion": "excited",
+            "doc": [
+                "$~我會揀出 @Table 入面符合 @condition 嘅列。有時你只想要表格嘅一部分，我可以幫你攞㗎！",
+                "譬如你有一個遊戲玩家嘅表格，想搵出得 10 分或者以上嘅玩家，睇吓邊個贏：",
+                "\\玩家: ⎡名稱2•'' 隊伍•'' 點2•#⎦\n\t⎡'jen' '紅色' 8⎦\n\t⎡'joan' '藍色' 11⎦\n\t⎡'jeff' '紅色' 9⎦\n\t⎡'janet' '藍色' 7⎦\n玩家 ⎡?名稱2⎦ 點2 ≥ 10\\",
+                "就咁樣，我攞到一個贏家嘅列表喇！記住，我唔會改動個表格，我會整一個新嘅。你要自己決定擺喺邊度。"
+            ],
+            "start": "$~我哋先攞表格",
+            "finish": "$~我整咗一個新表格，入面只有揀咗嘅列同欄！",
+            "conflict": {
+                "ExpectedSelectName": {
+                    "name": "$~欠咗欄名稱",
+                    "explanation": "$~我至少要一個欄名稱。",
+                    "resolution": "$~移除呢個儲存格"
+                }
+            }
+        },
+        "SetLiteral": {
+            "name": "$~集合字面值",
+            "description": "$~有 $#count[$count 個值]嘅集合",
+            "emotion": "eager",
+            "doc": "$~我係一個由指定 @values 組成嘅指定 @Set。想知多啲點樣用我，可以睇 @Set。",
+            "start": "$~我哋先計吓啲值啦！",
+            "finish": "$~我整咗一個集合 $value！"
+        },
+        "SetOrMapAccess": {
+            "name": "$~集合／對應表存取",
+            "description": "$~喺 $key 入面存取 $setOrMap",
+            "emotion": "kind",
+            "doc": [
+                "$~我可以睇吓 @Set 或者 @Map 有冇 @value 或者 @key。",
+                "唔難㗎。好似咁：",
+                "\\至愛: {'鴨仔' '鵝' '馬騮'}\n至愛{'老鼠'}\\",
+                "或者咁，用 @Map：",
+                "\\至愛: {\n\t\t'mac and cheese': 5stars\n\t\t'cereal': 2stars\n\t\t'gruel': 1stars\n\t}\n至愛{'gruel'}\\"
+            ],
+            "start": "$~邊個係集合或者對應表呢？",
+            "finish": "$~個值係 $value",
+            "conflict": {
+                "IncompatibleKey": {
+                    "name": "$~唔兼容嘅鍵",
+                    "explanation": "$~我預期個鍵嘅類型係 $expected，但係收到 $given",
+                    "resolution": "$~將佢轉成 $expected，因為呢度要用 $expected",
+                    "resolutionLiteral": "$~用 ! 將個列表、集合或者對應表標記做字面值，咁佢嘅值就會保持具體，唔會被一般化 — $expected 需要準確嘅值",
+                    "resolutionOtherwise": "$~用 ?? 處理冇值嘅情況，因為 $expected 唔接受 ø",
+                    "resolutionGuard": "$~先用類型守衛檢查佢係咪 $expected，因為 $expected 唔可以係其他可能嘅類型",
+                    "resolutionDeclaration": "$~請明確寫出類型，因為 $expected 需要保留原本嘅值。",
+                    "resolutionWrap": "$~請放入列表、集合或者對應表，因為 $expected 需要一組值。",
+                    "resolutionStructure": "$~請用 $expected 包住佢，因為呢個位置需要 $expected 值。",
+                    "resolutionDefault": "$~請畀個綁定一個起始值，因為 $expected 喺呢度唔可以冇。",
+                    "resolutionWiden": "$~請容許呢個綁定用呢個值嘅類型，因為 $expected 太窄，裝唔落實際儲起嘅嘢。",
+                    "resolutionReorder": "$~請調換輸入嘅次序，因為佢哋嘅類型換咗次序會更啱 — $expected 應該放喺另一個位置。",
+                    "resolutionPlaceholder": "$~請暫時用佔位符代替，因為 $expected 係必需嘅 — 然後喺自動完成選單揀一個值。"
+                }
+            }
+        },
+        "Source": {
+            "name": "$~源檔",
+            "description": "$~源檔 $name",
+            "emotion": "curious",
+            "doc": [
+                "$~我係圍住一個 @Program 嘅命名視窗，會畀佢一個名稱，同埋放住佢嘅 @code。哦，你識 @Program 㗎？我會幫你噉樣命名佢哋。",
+                "你仲可以整其他 @Source @UI/addSource，用其他 @Program，再分享嗰啲其他 @Program 入面嘅 @Borrow 嘢，畀另一個程式用。",
+                "噉樣可以幫你將一個大型演出整理成幾份獨立嘅文件，好好用㗎。"
+            ]
+        },
+        "StreamDefinition": {
+            "name": "$~串流",
+            "description": "$~串流 $name",
+            "emotion": "curious",
+            "doc": "$~我負責定義新種類嘅 @streams。我 /諗緊/——老實講我仲喺度研究緊點樣做，所以而家你用返現有嘅串流就好啦！",
+            "start": "$~整呢種新嘅串流"
+        },
+        "StructureDefinition": {
+            "name": "$~結構",
+            "description": "$~結構 $name",
+            "emotion": "kind",
+            "label": {
+                "docs": "$~說明文件",
+                "inputs": "$~輸入",
+                "expression": "$~值同函數",
+                "interfaces": "$~介面"
+            },
+            "doc": [
+                "$~我可以定義結構，用嚟儲存值同函數。你好呀，你近況點啊？我咩？我好好呀，我成日做呢啲都做唔厭。",
+                "我係咁運作嘅：",
+                "\\•薄餅(\n\t材料•['']\n\t大細•#in\n) (\n\tƒ 價錢() 大細 × 10dollars/in\n)\n\n薄餅(['意大利辣肉腸' '甜椒'] 12in).價錢()\\🪲",
+                "睇到係點運作嗎？我定義咗 \\Pizza\\，佢有兩個輸入，分別係 \\ingredients\\（@Text 嘅清單）同 \\size\\（以吋計嘅數字）。",
+                "喺入面，@FunctionDefinition 整咗一個函數，計算一個薄餅嘅價錢，假設每吋 $$10。",
+                "我唔一定要有 @FunctionDefinition。我可以淨係有輸入。",
+                "\\•薄餅(\n\t材料•['']\n\t大細•#in\n)\\",
+                "我入面亦都可以有 @Bind，咁我哋就可以預先計算價錢。",
+                "\\•薄餅(\n\t材料•['']\n\t大細•#in\n) (\n\t價錢: 大細 × 10dollars/in\n)\n\n薄餅(['意大利辣肉腸' '甜椒'] 12in).價錢\\🪲",
+                "用 ↑ 標記一個函數或者 @value，就可以令佢屬於結構本身，而唔係屬於實例。咁你就可以用結構嘅 @name 去用到佢，唔使先整一個出嚟。",
+                "\\•數學() (\n\t↑ 圓周率: 3.14159\n\t↑ ƒ 平方(n2•#) n2 × n2\n)\n\n數學.圓周率\n數學.平方(5)\\"
+            ],
+            "start": "$~我哋嚟定義呢個可愛嘅結構啦",
+            "conflict": {
+                "DisallowedInputs": {
+                    "name": "$~唔准有輸入",
+                    "explanation": "$~我唔可以有輸入，因為我嘅介面函數入面，有一個或者多個未實作",
+                    "resolution": "$~移除啲輸入"
+                },
+                "IncompleteImplementation": {
+                    "name": "$~未完成嘅結構",
+                    "explanation": "$~我嘅函數要麼全部實作，要麼全部唔實作。唔好亂咁混埋一齊！",
+                    "resolution": "$~拎走啲輸入，令佢變成介面"
+                },
+                "NotAnInterface": {
+                    "name": "$~唔係介面",
+                    "explanation": "$~我唔係介面；結構只可以實作介面，唔可以實作其他結構",
+                    "resolution": "$~將呢個從介面清單度拎走"
+                },
+                "UnimplementedInterface": {
+                    "name": "$~未實作",
+                    "explanation": "$~我實作咗 $interface，但係未實作 $function",
+                    "resolution": "$~喺呢個結構度補返缺少嘅 *$function*"
+                }
+            }
+        },
+        "StructureDefinitionType": {
+            "name": "$~結構定義",
+            "description": "$~$name",
+            "emotion": "kind",
+            "doc": ["$~我指向某一種 @StructureDefinition。一般人唔會直接指住我"]
+        },
+        "KitType": {
+            "name": "$~工具包",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~我係人哋發佈嘅一個 @kit。佢分享嘅所有嘢，都要通過我嘅名稱去用，所以 `colors.sunset` 就話畀你知你指邊個 `sunset`。"
+            ]
+        },
+        "TableLiteral": {
+            "name": "$~表格字面值",
+            "description": "$~有 $#count[$count 行]嘅表格",
+            "emotion": "angry",
+            "doc": "$~我係一個有特定行嘅特定表格。睇吓 @Table，了解我可以點幫到你。",
+            "start": "$~先計算啲行",
+            "finish": "$~計算出新表格 $value"
+        },
+        "TextLiteral": {
+            "name": "$~文字字面值",
+            "description": "$~文字「$text」",
+            "emotion": "serious",
+            "label": {
+                "texts": "$~文字"
+            },
+            "doc": "$~我代表一個或者多個特定嘅文字 @Translation。睇吓 @Text，了解更多我可以做啲乜！",
+            "start": "$~我哋用而家嘅語言嚟寫文字啦"
+        },
+        "Translation": {
+            "name": "$~翻譯",
+            "description": "$~文字「$text」",
+            "emotion": "serious",
+            "label": {
+                "segments": "$~文字"
+            },
+            "doc": "$~我代表一段文字，可以加一個可有可無嘅 @Language 標籤。睇下 @Text 了解多啲啦！",
+            "conflict": {
+                "phone": {
+                    "name": "$~可能係電話號碼",
+                    "explanation": "$~*$text* 係咪某個人嘅電話號碼呀？如果係，就唔好喺網上分享我！\n\n$reminder"
+                },
+                "email": {
+                    "name": "$~可能係電郵地址",
+                    "explanation": "$~*$text* 係咪某個人嘅電郵地址呀？如果係，就唔好喺呢度分享我！\n\n$reminder"
+                },
+                "tin": {
+                    "name": "$~可能係稅務編號",
+                    "explanation": "$~*$text* 係咪稅務編號呀？如果係，千祈唔好分享我，我係好敏感嘅資料㗎！\n\n$reminder"
+                },
+                "address": {
+                    "name": "$~可能係地址",
+                    "explanation": "$~*$text* 係咪某個人嘅住址呀？如果係，就唔好放我喺呢度，我哋唔想有人被跟蹤喎！\n\n$reminder"
+                },
+                "handle": {
+                    "name": "$~可能係用戶名稱",
+                    "explanation": "$~*$text* 係咪你喺網上其他地方用嘅用戶名稱呀？如果係，除非你真係想分享，否則唔好喺呢度分享我。\n\n$reminder"
+                },
+                "resolution": "$~呢個唔係敏感資料",
+                "reminder": "$~注意：你可以還原呢個操作，亦可以喺分享對話框睇到其他你標記咗做非敏感嘅嘢。",
+                "character": {
+                    "name": "$~可能係自訂角色",
+                    "explanation": "$~呢個睇落似係角色名稱。想顯示角色名稱，就用 @FormattedLiteral 代替 @TextLiteral 啦。",
+                    "resolutionStrip": "$~移除文字入面嘅特殊字元"
+                }
+            }
+        },
+        "FormattedLiteral": {
+            "name": "$~格式化文字",
+            "description": "$~格式化文字 $text",
+            "emotion": "serious",
+            "doc": "$~我代表好多個唔同嘅格式化文字 @FormattedTranslation。我運行嘅時候，會根據觀眾揀咗嘅 @languages，揀最啱嘅一個。",
+            "start": "$~我哋用而家嘅語言嚟寫文字啦"
+        },
+        "FormattedTranslation": {
+            "name": "$~格式化翻譯",
+            "description": "$~將格式化文字翻譯成 $language",
+            "emotion": "serious",
+            "doc": [
+                "$~我代表一段格式化文字，帶有 @Language 標籤。",
+                "我可以係：",
+                "\\`/斜體/`\\",
+                "\\`*粗體*`\\",
+                "\\`^特粗體^`\\",
+                "\\`_底線_`\\",
+                "\\`<連結@https://wordplay.dev>`\\",
+                "\\`\\'程式碼'\\`\\",
+                "我同 @Phrase 好夾，可以喺 @Stage 上面顯示靚靚嘅文字。"
+            ]
+        },
+        "This": {
+            "name": "$~呢個",
+            "description": "$~呢個結構",
+            "emotion": "serious",
+            "doc": [
+                "$~我係 \\⬚\\，一個細細嘅方格，代表周圍嘅 @code 而家處理緊嘅 @value，所以你唔使幫佢改名。",
+                "喺 @ConversionDefinition 入面，我係被轉換緊嘅值：",
+                "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "喺 @Reaction 入面，我係最新嘅值：",
+                "\\2 … ∆ 時間(1000ms) … ⬚ × 2\\",
+                "喺 @Translate 入面，我係而家被對應緊嘅項目，所以呢個會將每個值加一：",
+                "\\[1 2 3] ↦ ⬚ + 1\\",
+                "喺 @StructureDefinition 入面，我係當前嘅值本身，所以我可以用 \\⬚.rank\\🪲 去搵我自己嘅部分，就好似我用 \\other.rank\\🪲 去搵另一個值嘅部分咁：",
+                "\\•卡(大小2•#) (\n\tƒ 贏過(另一個2•卡) ⬚.大小2 > 另一個2.大小2\n)\n\n卡(10).贏過(卡(7))\\",
+                "我唔係成日出現，但係出現嘅時候，我可以幫一個值走出 @Bind！"
+            ],
+            "start": "$~計算結果係 $value",
+            "conflict": {
+                "MisplacedThis": {
+                    "name": "$~呢個參照擺錯咗位置",
+                    "explanation": "$~我淨係可以用喺結構、轉換、反應或者翻譯入面。",
+                    "resolution": "$~換成佔位符"
+                }
+            }
+        },
+        "UnaryEvaluate": {
+            "name": "$~一元運算",
+            "description": "$~運算 $operator",
+            "emotion": "kind",
+            "label": {
+                "input": "$~輸入"
+            },
+            "doc": [
+                "$~我會計算一個只接受單一 @value 嘅 @FunctionDefinition，而佢嘅單一符號名稱就寫喺輸入前面，例如 \\-x\\🪲 或者 \\~b\\🪲。你知唔知可以咁寫㗎？",
+                "好似咁：",
+                "\\-(1 + 1)\\",
+                "或者咁：",
+                "\\~⊥\\",
+                "呢啲寫法仲易睇過 \\(1 + 1).negate()\\🪲 或者 \\⊥.唔係()\\，係咪呀？",
+                "你唔一定要用呢種方式寫我，但整體嚟講可能會易啲。",
+                "淨係有一條規則：名稱同值之間唔可以有空格。否則你可能會寫成 @Reference 或者 @BinaryEvaluate。"
+            ],
+            "start": "$~值係乜嘢？",
+            "finish": "$~我整咗佢做 $value"
+        },
+        "UnparsableExpression": {
+            "name": "$~無法解析",
+            "description": "$~無法解析嘅程式碼",
+            "emotion": "excited",
+            "doc": [
+                "$~我係一段冇意思嘅 @code，所以冇人知我代表乜嘢。",
+                "jkwel fjiwojvioao jjiweo jrfe",
+                "/唔係每個 @expression 喺舞台上都有意思。/",
+                "s w ieorjwei iojwi jfkdlsfdsk",
+                "/其實，你可以寫好多完全冇意思嘅嘢。/",
+                "dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
+                "/咁嘅時候我就會出現，因為我唔知你想講乜嘢。/",
+                "畢竟你先係導演，所以只有你先知自己想講乜嘢！"
+            ],
+            "start": "$~???",
+            "conflict": {
+                "UnparsableConflict": {
+                    "conflict": {
+                        "name": "$~睇唔明嘅程式碼",
+                        "explanation": "$~@FunctionDefinition 喺度，@UnparsableExpression 唔知呢個係邊種$expression[ 表達式 | 類型 ]。"
+                    },
+                    "resolution": "$~你係咪想寫類型 $first、$second？"
+                },
+                "UnclosedDelimiter": {
+                    "name": "$~未關閉嘅分隔符號",
+                    "explanation": "$~我預咗喺 $expected 之後會見到 $unclosed",
+                    "resolution": "$~補返漏咗嘅 *$expected*"
+                }
+            },
+            "exception": {
+                "UnparsableException": {
+                    "description": "$~???",
+                    "explanation": "$~你好，我係 @FunctionDefinition！我哋唔肯定呢個指令係咩意思，所以停咗落嚟。"
+                }
+            }
+        },
+        "Update": {
+            "name": "$~更新",
+            "description": "$~更新 $table 入面符合 $query 嘅列",
+            "emotion": "kind",
+            "doc": [
+                "$~我幫手修改 @Table，搵出符合 @condition 嘅列，然後用新嘅 @values 製作修改後嘅列。",
+                "舉個例，如果你有一個角色同分數嘅表格，想畀一隊入面每個角色加一分，你可以咁做：",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
+                "你可以用 @Bind 嚟指明要改邊幾欄，而喺條件入面，你可以用任何欄名或者 @scope 入面嘅其他名稱。"
+            ],
+            "start": "$~我哋先攞表格",
+            "finish": "$~計算結果係一個有修改過列嘅新表格！",
+            "conflict": {
+                "ExpectedColumnBind": {
+                    "name": "$~欠缺欄值",
+                    "explanation": "$~我需要每一欄都有一個值",
+                    "resolution": "$~將呢個儲存格包成一個有名嘅欄"
+                },
+                "IncompatibleCellType": {
+                    "name": "$~儲存格類型唔相容",
+                    "explanation": "$~我應該係類型 $expected，但我係 $given",
+                    "resolution": "$~將佢轉成 $expected，因為呢度要用 $expected",
+                    "resolutionLiteral": "$~用 ! 將個列表、集合或者對應表標記做字面值，咁佢嘅值就會保持具體，唔會被一般化 — $expected 需要準確嘅值",
+                    "resolutionOtherwise": "$~用 ?? 處理冇值嘅情況，因為 $expected 唔接受 ø",
+                    "resolutionGuard": "$~先用類型守衛檢查佢係咪 $expected，因為 $expected 唔可以係其他可能嘅類型",
+                    "resolutionDeclaration": "$~請明確寫出類型，因為 $expected 需要保留原本嘅值。",
+                    "resolutionWrap": "$~請放入列表、集合或者對應表，因為 $expected 需要一組值。",
+                    "resolutionStructure": "$~請用 $expected 包住佢，因為呢個位置需要 $expected 值。",
+                    "resolutionDefault": "$~請畀個綁定一個起始值，因為 $expected 喺呢度唔可以冇。",
+                    "resolutionWiden": "$~請容許呢個綁定用呢個值嘅類型，因為 $expected 太窄，裝唔落實際儲起嘅嘢。",
+                    "resolutionReorder": "$~請調換輸入嘅次序，因為佢哋嘅類型換咗次序會更啱 — $expected 應該放喺另一個位置。",
+                    "resolutionPlaceholder": "$~請暫時用佔位符代替，因為 $expected 係必需嘅 — 然後喺自動完成選單揀一個值。"
+                }
+            }
+        },
+        "AnyType": {
+            "name": "$~任何",
+            "description": "$~任何嘢",
+            "emotion": "curious",
+            "doc": "$~我代表任何可能嘅 @type。有時我會出現，係因為唔知某樣嘢係咩 @value，所以佢可以係任何嘢。"
+        },
+        "BooleanType": {
+            "name": "$~布林類型",
+            "description": "$~布林類型",
+            "emotion": "kind",
+            "doc": [
+                "$~我同 @Bind 一齊用，用嚟宣告一個名稱係 @Boolean @value。好似咁：",
+                "\\肚餓•?: '啫喱'\\🪲",
+                "如果你想確定某樣嘢係 @Boolean，就用我，我會幫你檢查！"
+            ]
+        },
+        "ConversionType": {
+            "name": "$~轉換類型",
+            "description": "$~轉換類型",
+            "emotion": "serious",
+            "doc": [
+                "$~我同 @Bind 一齊用，表示一個名稱係 @ConversionDefinition。你可能唔使用我，因為好少人會將我當作 @value 傳嚟傳去，但如果你用，我會係咁樣：",
+                "\\魔法•? → '': → ? '' ⬚ ? '係' '唔係'\\🪲"
+            ]
+        },
+        "FormattedType": {
+            "name": "$~格式化文字類型",
+            "description": "$~格式化文字類型",
+            "emotion": "serious",
+            "doc": [
+                "$~我同 @Bind 一齊用，用嚟註明一個名稱係 @FormattedLiteral @value。好似咁：",
+                "\\肚餓•`…`: `我好 /華麗/ 呀！`\\🪲",
+                "想確定某樣嘢係 @FormattedLiteral 值？就係咁樣確定。"
+            ]
+        },
+        "ExceptionType": {
+            "name": "$~例外",
+            "description": "$~例外",
+            "emotion": "neutral",
+            "doc": "$~我代表一個例外。冇辦法話畀 bind 知我係例外，因為例外只會令 @Program 停低，所以你唔可以將佢哋當作 @values 用。"
+        },
+        "FunctionType": {
+            "name": "$~函數類型",
+            "description": "$~有 $inputs 個輸入嘅函數",
+            "emotion": "curious",
+            "doc": [
+                "$~我代表一個 @FunctionDefinition。如果你想講明一個 @Bind 載住邊種函數，我就好有用！好似咁：",
+                "\\數學•ƒ(a2•# b2•# c2•# d•#) #: ƒ 有趣(a3•# b3•# c3•# d2•#) a3 + b3 + c3 + d2\\🪲"
+            ]
+        },
+        "ListType": {
+            "name": "$~清單類型",
+            "description": "$~清單類型$type[ 嘅 $type|]",
+            "emotion": "cheerful",
+            "doc": [
+                "$~我真係好鍾意 @List！我可以話畀 @Bind 知佢哋係邊種清單！好似咁，我話佢係 @Number 嘅清單：",
+                "\\嘢•[#]: [1 2 3 4 5]\\🪲",
+                "我有三種講法。如果我完全冇講類型，清單可以有任何長度，亦可以放任何嘢：",
+                "\\啲嘢•[]: [1 '兩個' ø]\\🪲",
+                "如果我講一種類型，清單長度照樣可以係任何長度，但入面每樣嘢都要係嗰一種類型，好似上面嗰個 @Number 清單咁。",
+                "如果我講幾種類型，就代表清單剛好有咁多樣嘢，每個位置各有自己嘅類型。呢個清單有兩樣嘢：first 係 @Number，跟住係 @Text。",
+                "\\一對•[# '']: [1 '兩個']\\🪲",
+                "最後呢種係我最鍾意嘅，因為咁樣大家就知邊度擺咗乜。@ListAccess 知道第一樣係 @Number，第二樣係 @Text，如果你畀我錯咗數量，或者擺錯次序，我會話畀你知！"
+            ]
+        },
+        "MapType": {
+            "name": "$~對應表",
+            "description": "$~$key[$key|任何] 對應 $value[$value|任何] 嘅對應表類型",
+            "emotion": "kind",
+            "doc": [
+                "$~我話畀 @Bind 知一個名稱載住乜嘢 @Map：佢嘅鍵同 @values 係邊啲類型。你知唔知 @Map 有幾正？真係好正㗎。呢個係數字對應清單嘅對應表：",
+                "\\啲嘢•{'':[]}: {}\\🪲"
+            ]
+        },
+        "NumberType": {
+            "name": "$~數字",
+            "description": "$~數字類型$unit[ 單位係 $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~我話畀 @Bind 知一個名稱載住 @Number。你知 @Bind 應該係咩嗎？係 @Number，因為數字最正啦。",
+                "\\數量2•#: 17\\🪲"
+            ]
+        },
+        "RangeType": {
+            "name": "$~範圍",
+            "description": "$~範圍類型$unit[ 單位係 $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~我話畀 @Bind 知，一個名稱載住一個 @Range：兩個 @Number 界限，同埋佢哋之間所有嘅數字。",
+                "\\一段•‥: 1 ‥ 10\\🪲"
+            ]
+        },
+        "NameType": {
+            "name": "$~結構",
+            "description": "$~結構類型 $name",
+            "emotion": "curious",
+            "doc": [
+                "$~我用名稱嚟代表一個 @StructureDefinition。即係話，如果你有咁樣嘅結構，就可以整一個 @Bind 嚟儲起佢整出嚟嘅 @values。",
+                "\\•朋友(名稱2•'')\n好friend•朋友: 朋友('Jonah')\\🪲"
+            ],
+            "conflict": {
+                "UnknownTypeName": {
+                    "name": "$~未知嘅類型名稱",
+                    "explanation": "$~類型名稱只可以指結構或者類型變數，但呢個指嘅係類型 $type",
+                    "resolution": "$~換成類型佔位符"
+                }
+            }
+        },
+        "NeverType": {
+            "name": "$~永不",
+            "description": "$~唔可能嘅類型",
+            "emotion": "curious",
+            "doc": "$~我代表一個 @type，而佢係唔可能出現嘅。好似你問 @Is 某樣嘢係咪 @Number，但佢永遠都唔會係數字。"
+        },
+        "NoneType": {
+            "name": "$~無類型",
+            "description": "$~無類型",
+            "emotion": "neutral",
+            "doc": [
+                "$~@None 係最正嘅「冇」，而我就係佢忠心嘅代表。",
+                "\\空格•ø: ø\\🪲"
+            ]
+        },
+        "SetType": {
+            "name": "$~集合類型",
+            "description": "$~集合類型$type[ 載住 $type|]",
+            "emotion": "kind",
+            "doc": [
+                "$~我話畀 @Bind 知，一個名稱載住某個類型嘅 @Set。@Set 係最正㗎，真係咁話！",
+                "\\獨一無二•{''}: {'某樣嘢' '任何嘢' '某個人'}\\🪲"
+            ]
+        },
+        "StreamDefinitionType": {
+            "name": "$~串流定義類型",
+            "description": "$~串流定義類型",
+            "emotion": "angry",
+            "doc": "$~我代表一個你自己定義嘅 @stream，但呢樣係做唔到嘅，咁你點解仲睇緊呢段嘢呀？"
+        },
+        "StreamType": {
+            "name": "$~串流類型",
+            "description": "$~串流類型",
+            "emotion": "curious",
+            "doc": [
+                "$~我讚頌 @streams 嘅美同意義……方法係叫 @Bind 將佢哋儲起：",
+                "\\時間2•…#ms: 時間()\\🪲"
+            ]
+        },
+        "StructureType": {
+            "name": "$~結構類型",
+            "description": "$~$name 結構類型",
+            "emotion": "kind",
+            "doc": "$~我係內部用嘅 @type，用嚟代表預設 @value 類型嘅類型。"
+        },
+        "UnknownType": {
+            "name": "$~未知",
+            "description": "$~未知",
+            "connector": "$~，因為",
+            "emotion": "curious",
+            "doc": "$~我係一個仲未有人搞清楚嘅 @type。嗯……你知唔知我代表啲乜呀？如果我哋搞唔清楚，可能要你話畀我哋知喎。"
+        },
+        "TableType": {
+            "name": "$~表格類型",
+            "description": "$~表格",
+            "emotion": "angry",
+            "doc": "$~我代表一個 @Table。",
+            "conflict": {
+                "ExpectedColumnType": {
+                    "name": "$~欠咗欄嘅類型",
+                    "explanation": "$~我需要一個欄嘅類型",
+                    "resolution": "$~加一個類型佔位符"
+                }
+            }
+        },
+        "TextType": {
+            "name": "$~文字類型",
+            "description": "$~$text['$text'|文字類型]",
+            "emotion": "happy",
+            "doc": [
+                "$~我超級威風，代表最威風嘅 @value，就係 @Text。",
+                "\\故事•'': '好耐好耐之前……'\\🪲"
+            ]
+        },
+        "TypePlaceholder": {
+            "name": "$~佔位符",
+            "description": "$~類型佔位符",
+            "emotion": "eager",
+            "doc": "$~我希望有一日可以代表一個 @type，就好似我嘅好朋友 @ExpressionPlaceholder 代表 @expression 咁！你可以幫我決定係邊一種嗎？"
+        },
+        "UnionType": {
+            "name": "$~選項",
+            "description": "$~類型係 $first 或者 $second 其中一個",
+            "elidedSuffix": "$~或者其他 $omitted 個選項",
+            "emotion": "curious",
+            "doc": [
+                "$~我代表一個 @value，可以係幾種類型其中一種，係 A 定係 B 定係其他呢？我永遠都決定唔到！",
+                "\\猶豫不決•''|#|{ø}: '我唔知呀！'\\🪲"
+            ]
+        },
+        "Unit": {
+            "name": "$~單位",
+            "description": "$~$unit[單位 $unit|冇單位]",
+            "emotion": "precise",
+            "doc": [
+                "$~我代表 @Number 可能有嘅任何單位，包括冇單位，亦包括你諗得到最複雜嘅單位。例如重力：",
+                "\\重力2•#m/s^2: 9.8m/s^2\\🪲",
+                "我喺 @Bind 出現，亦會喺 @Number 後面出現。我幫手確保數字係同一類，如果唔係，我實會話你知，因為可能係出錯喎！"
+            ]
+        },
+        "UnparsableType": {
+            "name": "$~無法解析",
+            "description": "$~解析唔到嘅類型",
+            "emotion": "curious",
+            "doc": "$~我代表一個未知 @expression 嘅 @type。當你試住用嗰個表達式做嘢嗰陣，我就會出現。"
+        },
+        "VariableType": {
+            "name": "$~變數類型",
+            "description": "$~類型變數",
+            "emotion": "curious",
+            "doc": "$~喺值同值之間所有交涉入面，我代表一個 @TypeVariable，即係一種未知嘅 @value。"
+        },
+        "CycleType": {
+            "name": "$~循環",
+            "description": "$~循環依賴",
+            "emotion": "curious",
+            "doc": "$~我代表一個 @value，佢嘅 @type 要靠佢自己，所以我哋唔知道佢係邊種值。"
+        },
+        "UnknownVariableType": {
+            "name": "$~未知嘅變數",
+            "description": "$~未知嘅類型變數",
+            "emotion": "curious",
+            "doc": "$~有時我哋會估下某樣嘢係咩@value；唔知嗰陣，我就會出現。"
+        },
+        "NotAType": {
+            "name": "$~意料之外",
+            "description": "$~唔係 $type",
+            "emotion": "curious",
+            "doc": "$~我代表一個@value，不過佢嘅@type唔係我哋預期嗰個，好似@ListAccess需要@Number，但係攞到其他嘢咁。"
+        },
+        "NoExpressionType": {
+            "name": "$~冇表達式",
+            "description": "$~空積木類型",
+            "emotion": "angry",
+            "doc": "$~當一個@Block入面冇@expression，你就會見到我呢個@type。你知佢最少要有一個，所以記得加一個啦！"
+        },
+        "NotEnclosedType": {
+            "name": "$~唔喺結構、轉換或者反應入面",
+            "description": "$~唔喺結構入面",
+            "emotion": "curious",
+            "doc": "$~如果 @This 用咗喺唔應該出現嘅地方，我就會出現，咁就冇人知佢代表邊個 @value。"
+        },
+        "NotImplementedType": {
+            "name": "$~未實作",
+            "description": "$~未實作",
+            "emotion": "curious",
+            "doc": "$~你用 @ExpressionPlaceholder，但係冇講明佢哋係咩 @type，你就會得到我呢種類型。自己處理啦！"
+        },
+        "UnknownNameType": {
+            "name": "$~未知名稱",
+            "description": "$~$name[$name 仲未定義|冇俾名稱]",
+            "emotion": "curious",
+            "doc": "$~我代表一個 @name，係 @Reference 或者 @PropertyReference 搵唔到嘅，即係我哋唔知你講緊邊個。"
+        },
+        "NonFunctionType": {
+            "name": "$~非函數",
+            "description": "$~非函數 $type",
+            "emotion": "confused",
+            "doc": "$~有啲地方預期見到函數；如果冇見到，我就會出現。"
+        }
+    }
+}

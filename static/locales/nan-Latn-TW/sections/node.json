@@ -1,0 +1,2187 @@
+{
+    "$schema": "../../../static/schemas/sections/node.json",
+    "node": {
+        "Dimension": {
+            "name": "$~uî-tō",
+            "description": "$~tan-uī $name[$name|pōo-hūn]$exponent[ tsū-hông $exponent|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī /tan-uī/!",
+                "Guá ē-sái sī jīm-hô piau-tsún tan-uī, ná-ūn \\1m\\, \\10s\\, \\100g\\, iah-sī jīm-hô kî-thuann ê kho-ha̍k tan-uī. Guá mā iōng-ē-tiāu lí ka-tī siūnn ê tan-uī, ná-ūn \\17apple\\.",
+                "Guá ē-sái kap \\/\\ kap-hô tsò pí-lī tan-uī, ná-ūn \\17apple/day\\, mā ē-sái kap \\^\\ kap-hô tsò tsū-hông tan-uī, ná-ūn \\9.8m/s^2\\",
+                "Guá tio̍h-ài kui-tsūn tī @Number ê āu-bīn. Nā m̄-sī án-ne, guá ē hōo lâng kóng-tsò @Reference, hit-tang tō ū-tsit-ê khùn-nn̄g!",
+                "Guá mā kài kuè-hóo tshōe tan-uī tsiong-kan ê m̄-kah. Pí-lūn kóng, \\1cat + 1dog\\🪲 sī bô-tó-lí ê!",
+                "Nā lí siūnn-beh tī put-tông @values ê tan-uī tsiong-kan tsuán-uānn, tsiah khì tshōe @Convert."
+            ]
+        },
+        "Doc": {
+            "name": "$~kái-sik",
+            "description": "$~suat-bîng bûn-kiānn$language[ ê $language|], $#words[$words ê jī|$words ê jī]",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá ē-tàng kā tsit-ê tōng-tsò @Markup lâi hōo mih-kiāⁿ ū hô-khuànn ê keh-sik, pí-ká lí ê @Program ê suat-bîng, iā-sī lí tī bú-tâi @Phrase ê tsṳ̄-jī.",
+                "Pí-ká, guá ē-sái khǹg tī tsiah-ê @expression ê thâu-chêng:",
+                "\\¶Tse tio̍h-sī 7 mah?¶\n7\\",
+                "Pí-ká, lí ē-sái kā guá khǹg tī @Bind ê thâu-chêng:",
+                "\\¶Guá liōng lâng ê sin-kó tsiok kuânn¶\nkoân: 5m\\🪲",
+                "Iā-sī khǹg tī @FunctionDefinition ê thâu-chêng:",
+                "\\¶Guá kā nn̄g ê sò-ba̍k tsiânn tsò-hué¶\nƒ sum(a2•# b2•#) a2 + b2\\",
+                "Iā-sī khǹg tī @StructureDefinition ê thâu-chêng:",
+                "\\¶Guá kì-tit lâng ê miâ kah in siāng-kah-ì ê tsuí-kó¶\n•lâng(miâ2•'' fruit•'')\\",
+                "Lí mā ē-sái kā guá khǹg tī @Program siōng thâu-chêng, kóng-tsit-ê piáu-ián kàu-té teh kóng siánn-mih:",
+                "\\¶Tsit ê thîng-sik kóng halo¶\n\n'lí-hó!'\\",
+                "Lí ē-sái hōo guá tsi̍t-ê @Language, tsān-tsān pa̍t-lâng bat guá sī ēng siánn-mih gí-giân siá ê:",
+                "\\¶Guá sī Eng-gí ê suat-bîng¶\nduration: 5s\\🪲",
+                "Lí kám bat tsai, lí ē-sái tsò tsi̍t-ê guá ê list? Khì mn̄g @Docs."
+            ]
+        },
+        "Docs": {
+            "name": "$~suat-bîng list",
+            "description": "$~suat-bîng bûn-kiānn list$languages[ tī $languages| ê $count]",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī tsi̍t-ê @Doc ê list, tng lí ū @Doc tī put-tông @languages ê tsoân-huat ê sî-tsūn ē iōng-tit-tio̍h.",
+                "Lí bián tsò siánn-mih tèh-pia̍t ê tāi-tsì tsiah ē-tàng tsò list. Kan-tan kā tsiann-tsiann @Doc khǹg tī sio-tsi̍h, án-ne:",
+                "\\¶Halo¶\ngreeting: '…'\\🪲"
+            ],
+            "start": "$~Teh tsò suat-bîng ê ta̍t!"
+        },
+        "KeyValue": {
+            "name": "$~tuì-ìng",
+            "description": "$~kiān $key tuì-ìng ta̍t $value",
+            "emotion": "kind",
+            "doc": [
+                "$~Guá sī tsi̍t-ê tuì-ìng, ùi tsi̍t-ê *kiān* tuì kàu tsi̍t-ê *ta̍t*, lóng tī @Map lāi-té.",
+                "Lí ē-sái kā bô-kâng ê @value siōng-hô tuì-ìng. Pí-ká, tsit-ê sī sò-jī ê tuì-ìng:",
+                "\\{1:1}\\",
+                "Iā-sī ùi bûn-jī tuì kàu sò-jī ê tuì-ìng:",
+                "\\{'bunny': 1}\\"
+            ]
+        },
+        "Language": {
+            "name": "$~gí-giân",
+            "description": "$~gí-giân $language[$language|bô tsí-tīng]$region[, tē-khu $region|]",
+            "emotion": "eager",
+            "doc": [
+                "$~Guá sī tsi̍t-ê @language piau-ki, guá kap @Name kap @Doc tsò-hóe tsò-kang!",
+                "Guá tsiok kam-tsūn ē-sái hōo lí *khuànn-liáu tsin-tsheng-tshó* tsi̍t-kù ōe sī iōng siánn-mih gí-giân siá ê. Tsí-ū tsi̍t-ê siòng-sian kap kuí-ê jī-bú, tō bē ū lâng bē-tsai-iánn tsit-tuānn jī sī siánn-mih gí-giân.",
+                "Pí-uí kóng, lí beh kóng \"Language\", ǹ-koh beh hōo lâng bat sī iōng Eng-gí:",
+                "\\'Gí-giân'/nan\\",
+                "Lí ē-sái tuì @Name án-ne tsò:",
+                "\\sia: 'niau'\\🪲",
+                "…hia̍h-sī tuì @Doc:",
+                "\\¶Siong-siann-tsu¶\nsia: 'niau'\\🪲",
+                "Û-sî-á bûn-jī m̄-sī tsí-ū tsi̍t-khuán gí-giân — sī *tsham-tsa*. Tshiūnn Spanglish, Se-pan-gâ-gí kap Eng-gí kui-ê tsham-tsa. Án-ne ê tāi-tsì, ta̍k-ê gí-giân tiong-kan iōng ke-sàⁿ ê tē-á-sian-suànn (underscore) kā-hun. Tē-it-ê sī *tsú-iàu* ê — guá tio̍h-ài kéng ê sî, tō iōng ê sī án-ne (pí-uí kéng beh iōng siánn-mih ìn-hō).",
+                "\\\"Hola gentleman!\"/es_en\\",
+                "\\¶Lióng-ê gí-giân ê the-gua¶\nhello/es_en: 'Hola gentleman!'\\🪲",
+                "Tsham-tsa ê piau-ki sī kóng kui-ê bûn-jī sī tsham-tsa ê, in-uī án-ne bān-bīn tuì-tāi-khì @Say ē-sái iōng tsú-iàu gí-giân kā tsuân-pōo tiō-tshut-lâi. Beh hōo múi-ê jī iōng ka-kī ê gí-giân tiō, tio̍h kā jī ta̍k-ê piau-ki, ànn-āu koh kap-tsò-hóe:",
+                "\\\"Hola \"/es + 'gentleman!'/nan\\",
+                "Lí mā ē-sái ke-thiam tsi̍t-ê @region, tī tsi̍t-ê ham-hō āu-bīn, kap tsi̍t-khuán gí-giân kāng-khuán:",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
+                "Gí-giân ê sò-liōng bô hān-tsè — tsí-ū m̄-thang tsìng-hok kāng-khuán ê; nā-sī lí án-ne tsò, guá ē kā lí kóng.",
+                "Lí ē-sái iōng <2 ê jī-bú ê tāi-bé@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> hia̍h-sī iōng gí-giân ê *miâ* lâi siá, iōng hit-khuán gí-giân hia̍h-sī iōng Eng-gí lóng ē-sái — `/es`, `/Español`, kap `/Spanish` lóng sī kāng-khuán ê ì-sù, `/es-MX`, `/es-México`, kap `/es-Mexico` mā sī. Tuā-siá kap im-tiāu-hû-hō bô koan-hē, in-uī án-ne `/ESPANOL` mā ē-sái. Nā-sī miâ lāi-té ū khòng-keh, tio̍h siá bô khòng-keh, pí-uí `/BahasaIndonesia`, in-uī tsi̍t-ê piau-ki sī kui-ê tsi̍t-ê jī. Nā-sī guá bô tsāi-iánn gí-giân hia̍h-sī tē-khu, guá ē kā lí kóng."
+            ],
+            "conflict": {
+                "UnknownLanguage": {
+                    "name": "$~bô-bat ê gí-giân",
+                    "explanation": "$~Guá bô bat tsit-ê gí-giân",
+                    "resolution": "$~Kā tsit-ê gí-giân tāi-bé thâi-tiāu"
+                },
+                "UnknownRegion": {
+                    "name": "$~bô-bat ê tē-khu",
+                    "explanation": "$~Guá bô bat tsit-ê tē-khu",
+                    "resolution": "$~Kā tsit-ê tē-khu thâi-tiāu"
+                },
+                "MissingLanguage": {
+                    "name": "$~khuí gí-giân",
+                    "explanation": "$~Guá ū tsi̍t-ê gí-giân khuí-tiāu. Lí ē-sái ka-tī thinn-ke̍h tsi̍t-ê bô?",
+                    "resolution": "$~Kā khang ê gí-giân tag thâi-tiāu"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~tiōng-hok ê gí-giân",
+                    "explanation": "$~Lí ēng-kòe gí-giân '$code' nn̄g-pái. Hûn-ha̍p gí-giân ê tag múi-tsióng gí-giân tsí-ē-sái lia̍t tsi̍t-pái.",
+                    "resolution": "$~Kā tiōng-hok ê *$code* tag thâi-tiāu"
+                }
+            }
+        },
+        "Name": {
+            "name": "$~miâ",
+            "description": "$~miâ $name[$name|bô miâ]",
+            "emotion": "kind",
+            "doc": [
+                "$~Guá piáu-tsi̍t-ê @value, sī tsi̍t-ê ū-iōng ê hong-huat, kā hui-siông oh tsú-tsò ê mih, iā-sī lí m̄-bián tsāi-tsāi tsò ê mih, hōo tsi̍t-ê kán-tan ê miâ-piau.",
+                "@Bind án-ne hōo guá miâ:",
+                "\\hāi: 5\\🪲",
+                "Guá tsí-ē-sái tsit-tsi̍t-ê ta̍t, tsì-ê tsiū-tsāi-tsāi bē-tàng kái. Pí-ká, nā-sī lí kā @Bind án-ne tsò, guá-lán ē khiàn-khiàn.",
+                "\\hāi: 5\nhāi2: 3\\🪲",
+                "Lí beh tit-tio̍h guá ê ta̍t, tsí-ū @Reference iā-sī @PropertyReference ēng tsit-ê miâ. Tsia, @Bind kā guá kiò-miâ, jiân-āu @Reference tit-tio̍h guá ê ta̍t.",
+                "\\hāi: 5\nhāi\\",
+                "In-uī @Bind ē tshut-hiān tī hui-siông tsē ê tē-hng, guá mā ē tshut-hiān tī hui-siông tsē ê tē-hng. Guá téng-bīn tī tsi̍t-ê @Block lāi-té, m̄-koh guá mā ē tī tsi̍t-ê @FunctionDefinition lāi-té. Tsia guá teh án-tsuánn kā tsi̍t-ê sìn-sit tsām-sî kiò-miâ:",
+                "\\ƒ kóng(message•'') message\\",
+                "Guá tī @FunctionDefinition lāi-té tīng-gī, jiân-āu hâm-sò tsiah tsūn khàu-bue, guá tō lī-khui.",
+                "Lí ē-sái ēng @Language lâi piáu-bîng guá ê miâ sī siánn-mih gí-giân. Tng lí kap pa̍t-lâng hun-hióng lí ê piáu-ián, nā-sī in beh tha̍k lí ê Program, tsit-ê ē ū-iōng."
+            ]
+        },
+        "Names": {
+            "name": "$~miâ list",
+            "description": "$~miâ $names[$names|khang]",
+            "emotion": "kind",
+            "label": {
+                "names": "$~miâ"
+            },
+            "doc": [
+                "$~Guá sī tsi̍t tsōng @Name ê lia̍t-piáu, lí beh hōo @value kài tsōe ê miâ ê sî-tsūn ē iōng-tio̍h, tsia̍p-tsia̍p mā ē ū put-tông ê @Language.",
+                "Miâ kap miâ tsi̍t-tsūn ēng \\,\\ hû-hō khai. Kó-lē, tsia sī @Bind, hōo tsi̍t ê ta̍t ū kuí-ê @Name",
+                "\\hāi: 'hoan-gîng'\\🪲"
+            ]
+        },
+        "Row": {
+            "name": "$~tsi̍t-hâng",
+            "description": "$~ū $#count[$count ê keh-á|$count ê keh-á] ê tsi̍t hâng",
+            "emotion": "shy",
+            "doc": "$~Guá tāi-piáu @Table lāi-té ê tsi̍t hâng. Lí siōng-hó khì mn̄g @Table, in tsai-iáⁿ guá ê tsiok-tsōe tsāi-tsī. Guá tsí-sī tsē-tsia, tī-hia kuán @values tsiàu sūn-sī pâi :(",
+            "conflict": {
+                "InvalidRow": {
+                    "name": "$~bô-hāu ê hâng",
+                    "explanation": "$~Hâng tio̍h-ài lóng-sī ta̍t, á-sī lóng-sī @Bind.",
+                    "resolutionKeepPositional": "$~Pàng-sak ū miâ ê keh-á, tsí pó-liû ūi-tì ê",
+                    "resolutionUnwrapInputs": "$~Tshú-tiāu ū miâ ê keh-á ê miâ"
+                },
+                "MissingCell": {
+                    "name": "$~tsió lân-uī",
+                    "explanation": "$~Guá tsió lân-uī $column",
+                    "resolution": "$~Tī *$column* ka-thiam tsi̍t ê khang-uī keh-á"
+                },
+                "ExtraCell": {
+                    "name": "$~tsē ê lân-uī",
+                    "explanation": "$~Tuì guá ê tábn luī-hîng lâi khuànn, guá sī tsi̍t ê m̄-tio̍h tī tsia ê hó-tsò lân-uī.",
+                    "resolution": "$~Tshú-tiāu tsē-tshut-lâi ê keh-á"
+                },
+                "UnknownColumn": {
+                    "name": "$~m̄-tsai ê lân-uī miâ",
+                    "explanation": "$~Guá m̄-tsai ū tsit-ê miâ ê lân-uī",
+                    "resolution": "$~Kái-miâ tsò *$name*"
+                },
+                "UnexpectedColumnBind": {
+                    "name": "$~bô binds ê hâng",
+                    "explanation": "$~Guá tio̍h sī ta̍t, m̄-sī @Bind."
+                }
+            }
+        },
+        "Token": {
+            "name": "$~token",
+            "description": "$~$label$text[ $text|]",
+            "emotion": "neutral",
+            "doc": [
+                "$~Guá sī iân-tshut tsòe-sió ê pōo-hūn — kó-tsiah Verse lāi-té jīn-hô tsu-hūn ê guân-tsú. Lí án-tsuánn tshē-tio̍h guá?",
+                "Guá sī Verse lāi-té jīn-hô tsu-hūn ê ki-tshó. Guá sī guán ê bú-tō ê guân-tsú lia̍p-á."
+            ]
+        },
+        "TypeInputs": {
+            "name": "$~luī-hîng ìm-ji̍p",
+            "description": "$~$#count[$count ê luī-hîng ìm-ji̍p|$count ê luī-hîng ìm-ji̍p]",
+            "emotion": "curious",
+            "doc": "$~Guá sī luī-hîng ê tsîng-tuann, tshiūnn tī @StructureDefinition á-sī @FunctionDefinition lāi-té thèh-tshú @TypeVariables ê uī-tì. Guá kā ta̍k-ê tsai-iánn in ē siu-tio̍h siánn-mih luī-hîng ê ìm-ji̍p."
+        },
+        "TypeVariable": {
+            "name": "$~luī-hîng piàn-sòo",
+            "description": "$~luī-hîng piàn-sòo $name",
+            "emotion": "curious",
+            "label": {
+                "type": "$~luī-hîng"
+            },
+            "doc": "$~Guá sī @FunctionDefinition á-sī @StructureDefinition tíng-kuân ê tsi̍t-ê sin-pì ê @type. Tng in tó tsi̍t-ê leh tsip-hîng ê sî-tsūn, @TypeInputs ē thê-kiong guá. @Set, @List kap @Map ē iōng guá.",
+            "conflict": {
+                "DuplicateTypeVariable": {
+                    "name": "$~tiōng-hok ê luī-hîng piàn-sòo",
+                    "explanation": "$~Guá kap $duplicate ê miâ kāng-khuán",
+                    "resolution": "$~Kā tiōng-hok ê luī-hîng piàn-sòo thâi-tiāu"
+                }
+            }
+        },
+        "TypeVariables": {
+            "name": "$~luī-hîng piàn-sòo",
+            "description": "$~$#count[$count ê luī-hîng piàn-sòo|$count ê luī-hîng piàn-sòo]",
+            "emotion": "curious",
+            "doc": "$~Guá sī @TypeVariable ê tsîng-tuann."
+        },
+        "Markup": {
+            "name": "$~piau-kì",
+            "description": "$~piau-kì $#count[$count tsiuⁿ-lo̍h|$count tsiuⁿ-lo̍h]",
+            "emotion": "serious",
+            "label": {
+                "paragraphs": "$~tsiuⁿ-lo̍h"
+            },
+            "doc": [
+                "$~Guá sī tsi̍t-tsâng tn̄g-lo̍h, iōng @Doc lāi-té ū ê tsin-tsē khuán @markup, pí-uí @Words, @WebLink, @ConceptLink, kap @Example.",
+                "Lí ē-sái tī @Doc kap @FormattedLiteral tshuē-tio̍h guá:",
+                "\\¶Guá sī ū *tshu* jī ê suat-bîng bûn-kiānn. Guá ē-tàng kóng tio̍h @Phrase chit-lūi ê khuan-liām. Guá ē-tàng liân kàu <bāng-lō͘ téng ê tāi-tsì@https://wordplay.dev>.¶\nKù(\n\t`Guá sī @Phrase ê piau-kì, ēng *tshu*, /pinn-khuànn/, kap _té-sûn_`\n)\\"
+            ]
+        },
+        "Paragraph": {
+            "name": "$~tsiuⁿ-lo̍h",
+            "description": "$~tsiuⁿ-lo̍h $text",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī @Words、@ConceptLink、@WebLink kap @Example ê it-tsuè, tiong-kan ēng khang-pe̍h ê tsi̍t-hâng lâi hun-khai, koh tī @Doc lāi-té.",
+                "Lí beh siá guá, tsí-ū tī @Doc siá tsi̍t-tīnn ê ōe tō hó:",
+                "\\¶Guá sī bûn-kiānn lāi-té ê tsi̍t-tsiat.¶'tsi̍t-tsiat'\\",
+                "Nā-sī beh tsē-tsē tsiuⁿ-lo̍h, tō tī tiong-kan thiⁿ khang-pe̍h ê tsi̍t-hâng.",
+                "\\¶Tē 1 tsiat.\n\nTē 2 tsiat.\n\nTē 3 tsiat.¶'sann-tsiat'\\"
+            ]
+        },
+        "WebLink": {
+            "name": "$~link",
+            "description": "$~liân-kiat kàu $url",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī liân kàu bāng-lōo tsi̍t-ê tāng-sài ê liân-kiat. Lí tsí-ū tsiàu-iàu siá suat-bîng kap URL:",
+                "\\¶Guá sī bûn-kiānn lāi-té ê <link@https://wordplay.dev>¶\n'link ê lē-tsú'\\",
+                "Nā ū lâng kná guá, guá ē khui sin ê thang-á kàu hit-ê URL."
+            ]
+        },
+        "ConceptLink": {
+            "name": "$~jîn-bu̍t",
+            "description": "$~liân-kiat kàu $concept",
+            "kind": {
+                "codepoint": "$~Unicode ê jī-hu $concept",
+                "ui": "$~liân kàu $concept kài-bīn guân-sòo ê liân-kiat",
+                "tour": "$~liân-kiat khì $concept ê iû-lám",
+                "how": "$~liân-kiat khì $concept ê tsò-huat",
+                "character": "$~ka-kī tsò ê jī-guân $concept"
+            },
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī liân-kiat khì Verse jī-guân ê link. Lí beh siá @Doc, koh beh kóng-tio̍h guán tsit-tsi̍t ê, guá tsiū ū-iōng.",
+                "Pí-phuànn kóng, lí beh kóng @Evaluate, koh kóng i guā-nī kiōng. Lí ē-sái án-ne siá:",
+                "\\¶Lí tsai, @Evaluate chiâⁿ hó.¶\n'Khòaⁿ, tsi̍t-ê jī-goân ê link!'\\",
+                "Jī-guân mā ū Unicode hō-má. Pí-phuànn kóng, @FunctionDefinition sī 192. Lí ē-sái siá @U/ kah i ê hō-má, tsiū ē tshut-hiān tsit ê jī-guân:",
+                "\\`@U/192 chiâⁿ súi!`\\",
+                "Nā-sī lí ka-kī tsò jī-guân, mā ē-sái iōng lí tshi̍h hō i ê miâ lâi kóng-tio̍h i.",
+                "\\`@coolbeans/cat`\\",
+                "Oh... Tsit ê jī-guân bô-tsāi, in-uī án-ne tsiah ū tsi̍t ê sió sì-hông-á. Nā ū, i tsiū ē tshut-hiān tī tsia!"
+            ]
+        },
+        "Words": {
+            "name": "$~jī",
+            "description": "$~jī-ku $text",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī lí tī @Doc nih beh siá ê jī-ku. Pí-phuànn kóng:",
+                "\\¶Būn Force kap lí tsòe-hué.¶\n'Kan-na tsi̍t-kuá jī!'\\",
+                "Û-sî lí koh beh iōng @Doc ê te̍k-piạt jī-guân /lâi/ tsò jī-ku. Pí-phuànn kóng:",
+                "\\¶Guá ê pêng-iú ē iōng 、//、**、||, kah kî-tha hû-hō.¶\n'iōng the̍k-pia̍t ê jī-goân!'\\",
+                "Nā-sī lí kan-tan tīng-ho̍k siá tsiah-ê te̍k-piạt jī-guân, tsiū ē tshut-hiān tsit ê jī-guân, m̄-sī i ê te̍k-piạt ì-sù."
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~bô-tshiūnn-tshiūnn ê jī-thé keh-sik",
+                    "explanation": "$~Guá ê pêng-iú *$face* m̄-tsai beh án-nuá tsò $format.",
+                    "resolution": "$~Bē-sái iōng keh-sik"
+                }
+            }
+        },
+        "Example": {
+            "name": "$~lē",
+            "description": "$~thîng-sik-bé lē $code",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá tī @Doc nih khǹg tsi̍t-tsūn @code ê lē, án-ne:",
+                "\\¶Tsia sī tsi̍t-ê ka ê lē-tsú: \\1 + 2\\¶3 + 4\\",
+                "Nā-sī lí tī tsò-huat nih iōng Example, ē-sái kā tsi̍t ê Example tsò khan-tshiú ê tsu-iàu.",
+                "\\¶Tsia sī tsi̍t-ê tah-tshiū ê lē-tsú: \\1 + 2\\⭐¶3 + 4\\",
+                "Khan-tshiú ê lē ē tī @how khang-kan kah @guide hián-sī tsò sió-khuànn-tsú."
+            ]
+        },
+        "ExternalExample": {
+            "name": "$~guā-pōo ê lē",
+            "description": "$~guā-pōo ê thîng-sik-bé lē$languages[ iōng $languages|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá hián-sī iōng pat-tsióng thîng-sik @languages siá ê @code, iū sik-tsháu ê sik-kuat, hō í-keng ē siá code ê lâng ē-sái pí-kàu.",
+                "Mī gí-giân siá tsi̍t-khuán, iōng nn̄g-ê jī-bú ê @markup, tsi̍t-tiâu piànn-sûn, ê-hō code, ná \\py| a = 5\\js| let a = 5;\\. Tāi-ke ē khuànn-tio̍h i sóo kéng ê gí-giân ê hit-khuán. Python (py), JavaScript (js), kah Java (jv) lóng ū-tsi̍t-tshī."
+            ]
+        },
+        "Mention": {
+            "name": "$~thê-kí",
+            "description": "$~thê-kí $name",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī tsi̍t ê iōng-lâi kóng-tio̍h sû-hōe \\¶@project¶\\ ia̍h-sī tōng-thài \\¶$name¶\\ ê ín-iōng.",
+                "Tsit-ê tsú-iàu sī lāi-pōo ê kong-lêng, lí bô-su-iàu tsai-iánn."
+            ]
+        },
+        "Branch": {
+            "name": "$~hun-tsi",
+            "description": "$~piau-kì kéng-tek tī $condition",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī tsi̍t-ê kàu-lí ê hong-hправа, ūi-tio̍h suat-bîng ê @value ū tìng-gī ia̍h-sī tsiàⁿ, tsiah tī nn̄g-tsūn suat-bîng tiong-kan kéng tsi̍t-ê.",
+                "Tsit-ê tsú-iàu sī lāi-pōo ê kong-lêng, lí bô-su-iàu tsai-iánn."
+            ]
+        },
+        "BinaryEvaluate": {
+            "name": "$~nn̄g-ê ín-sòo ê khuànn-hōo",
+            "description": "$~ūn-sǹg $operator tī $left kah $right",
+            "emotion": "insecure",
+            "doc": [
+                "$~Guá sī @Evaluate, put-kò iōng khah kán-tan ê hîng-sik, lí beh iōng tsi̍t-ê tsiap-siu nn̄g-ê @argument ê @FunctionDefinition ê sî-tsūn tsiū ū-iōng.",
+                "Pí-phuànn kóng, @Evaluate ē-sái án-ne kā nn̄g-ê sò-jī ka:",
+                "\\1.+(1)\\",
+                "Khuànn-khí-lâi bô tsiok-tshiūnn, lí kám-ū? Tse bô tshò: i kan-tan kóng tāi-seng ná 1 ê add hâm-sik, liân-sûn lâi sǹg.",
+                "Nā-sī iōng @BinaryEvaluate khah khuì-lia̍t",
+                "\\1 + 1\\",
+                "Án-ne tāi-ke lóng khah tsíng-lí, sui-bóng tsit-ê pún-tsiah sī tsit-khuán.",
+                "Tsí-ū tsi̍t-kâng tio̍h tsù-ì: guá tī tsit-ê hîng-sik ê sî, sī tsò-tsîng tsiàm ê tsūn-sī lâi sǹg. Nā-sī lí kuàn-sì sò-ha̍k ê sǹg-sū sūn-sī, tse khó-lîng ē hō lí hôo-tôo.",
+                "Tse ê ì-sù sī án-ne ê sǹg-huat ê kiat-kó ē kah lí sóo siūnn ê bô-kâng:",
+                "\\1 + 2 × 3 + 4\\🪲",
+                "Tī sò-ha̍k, tsāi-sǹg ē tī ka ê mà-tāi, in-uī án-ne kiat-kó ē sī \\11\\. Put-kò guá sī tsiàu thak-bûn ê sūn-sī lâi sǹg, kiat-kó sī \\13\\."
+            ],
+            "label": {
+                "operator": "$~ūn-sǹg-hû"
+            },
+            "right": "$~su-ji̍p",
+            "start": "$~Lán seng lâi sǹg $left",
+            "finish": "$~Lí khuànn, guá tsò-tsîng $value ah!",
+            "conflict": {
+                "OrderOfOperations": {
+                    "name": "$~sûn-sī bô tshing-tshó",
+                    "explanation": "$~Guá sī tuì tsiah-pêng sǹg khì tsiū-pêng, m̄-koh sò-ha̍k tsiânn-tsiânn sī seng sǹg ^ tsiah sǹg × ÷, koh seng sǹg × ÷ tsiah sǹg + −. Hit ê sûn-sī kiò-tsò PEMDAS. Lí kéng beh án-nuá hōo guá sǹg tsit ê.",
+                    "resolutionPEMDAS": "$~Iōng PEMDAS ê sò-ha̍k sûn-sī: seng sǹg $higher tsiah sǹg $lower",
+                    "resolutionReading": "$~Tsio khuànn ê sûn-sī: seng sǹg $lower tsiah sǹg $higher",
+                    "resolutionWrap": "$~Ka-tīng khuah-hō hōo sûn-sī tshing-tshó"
+                }
+            }
+        },
+        "Bind": {
+            "name": "$~kiat-ha̍p",
+            "description": "$~kiat-ha̍p $name[$name|bô miâ]$value[ kàu $value|]",
+            "emotion": "excited",
+            "doc": [
+                "$~Guá ti̍h *ta̍t* khioh miâ.",
+                "Tsiū-sī án-ni!",
+                "\\pài: 3.1415926\\🪲",
+                "Guá ti̍h @FunctionDefinition kap @StructureDefinition ê @argument khioh miâ, mā ti̍h @Block lāi-té ê ta̍t khioh miâ. Guá ti̍h tsăng-tsāi khioh miâ!",
+                "O͘, lí ū-tsai-iánn tsit ê ta̍t ē-sái ū *tsin-tsē miâ* bô?",
+                "Guá cháinn kah beh kā lí kóng tsit-ê! Tsit ê @value, tsin-tsē ê @Names. Pí-lām:",
+                "\\joe: 5\\🪲",
+                "Lí khuànn tio̍h guá tsò siánn-mih bô?",
+                "Tsit ê ta̍t, saⁿ ê miâ.",
+                "Lí ē-sái iōng hia *sûi* tsit ê miâ lâi tsí-tio̍h hit ê gō͘.",
+                "Lí beh iōng tsin-tsē @languages hōo miâ ê sî-chūn, tsit ê ē-tsin ū-iōng:",
+                "\\joe: 5\\🪲",
+                "Lí khuànn tio̍h guá tsò siánn-mih bô? Saⁿ ê miâ, tsit ê ta̍t, kan-na sī iōng put-tong ê gí-giân!",
+                "Hó, guá koh ū tsit ê siōng-āu ê pì-bi̍t.",
+                "Lí ū-tsai-iánn guá ē-sái ēng @Is lâi kā guá kóng, tsit ê miâ ê ta̍t ài sī siánn luī-hîng bô? Nā-sī guá bô, guá ē kā lí kóng!",
+                "Tsiū-sī án-ni:",
+                "\\bignumber•#: 'tsi̍t-pah-tsiauⁿ'\\🪲",
+                "Lí khuànn, guá kóng \\bignumber\\ tio̍h-ài sī sò-jī, m̄-koh i sī bûn-jī, nn̄g-ê bô sio-tsiām, tsiū BOOM!",
+                "Nā-sī in bô tuì, guá ē kā lí kóng.",
+                "Iū-sî lí *tio̍h-ài* kā guá kóng tsit-ê tsu-liāu sī siánn luī-hîng, in-uī guá ka-kī bē-hiáu hit-ê. Tsit-khuán tsiânn-tsiânn tī @FunctionDefinition.",
+                "Pí-lām, tsia @FunctionDefinition m̄-tsai \\a\\ kap \\b\\ ê ta̍t sī siánn luī-hîng, in-uī guá bô kā in kóng.",
+                "\\ƒ sum(a2 b2) a2 + b2\\🪲",
+                "M̄-koh lán ē-sái kái tsit-ê, ka-tīng @Is, tsit-má @FunctionDefinition tsiū tsai in sī sò-jī:",
+                "\\ƒ sum(a2•# b2•#) a2 + b2\\"
+            ],
+            "label": {
+                "value": "$~ta̍t",
+                "names": "$~miâ",
+                "type": "$~luī-hîng"
+            },
+            "start": "$~Lán lâi khuànn tuì $value ē tit-tio̍h siánn ta̍t!",
+            "finish": "$~Ooh hó, guá tit-tio̍h $value! Lán kā i khioh miâ kiò $name",
+            "conflict": {
+                "DuplicateName": {
+                    "conflict": {
+                        "name": "$~miâ tîng-tsiàu",
+                        "explanation": "$~Ū lâng ū $shadowed tsit ê miâ, só͘-í guá bē-sái iōng tsit ê miâ."
+                    },
+                    "resolution": "$~Ū tîng-tsiàu ê miâ, lí beh kā tsi̍t ê thâi-tiāu bô?"
+                },
+                "DuplicateShare": {
+                    "name": "$~hun-hióng tîng-tsiàu",
+                    "explanation": "$~Guá ê miâ kap $duplicate saⁿ-kâng. Án-ni lán beh hun-hióng siánn bô tshing-tsho.",
+                    "resolution": "$~Thâi-tiāu tsit ê tîng-tsiàu ê hun-hióng"
+                },
+                "IncompatibleType": {
+                    "name": "$~luī-hîng bô sio-tsiām",
+                    "explanation": "$~Guá ìn-sióng ài $expected, m̄-koh siu-tio̍h ê luī-hîng sī $given",
+                    "explanationDivideByZero": "$~Tsit ê khó-lîng sī ø, in-uī $source khó-lîng tuì khòng-sǹg, mā tsia ài sò-jī",
+                    "resolution": "$~Kā i kái-tsò $expected, in-uī tsia ài $expected",
+                    "resolutionLiteral": "$~Iōng ! kā tsit ê list, set á-sī map piau-kì tsò literal, ta̍t tsiū ē pó-tshî tsi̍t-tīng, m̄-tsiū-sī pian-tsò tsiàu-kuat — $expected ài ê sī tsi̍t-tīng ê ta̍t",
+                    "resolutionOtherwise": "$~Iōng ?? lâi tshú-lí khuí-sit ê ta̍t, in-uī $expected m̄ ún-hú ø",
+                    "resolutionGuard": "$~Seng iōng luī-hîng siu-huē khuànn i sī m̄-sī $expected, in-uī $expected bē-sái sī pat-ê khó-lîng ê luī-hîng",
+                    "resolutionDeclaration": "$~Ài kā luī-hîng siá hō͘ tshing-tshó, in-uī $expected ài pó-liû ta̍t-ê guân-bīn ê ta̍t.",
+                    "resolutionWrap": "$~Kā i pàng tī list, set á-sī map lāi-té, in-uī $expected ài chi̍t-tīn ta̍t.",
+                    "resolutionStructure": "$~Kā i pau tī $expected lāi-té, in-uī che ê khang-uī ài $expected ta̍t.",
+                    "resolutionDefault": "$~Hō͘ tsit-ê binding chi̍t-ê khai-sí ê ta̍t, in-uī $expected tsia bē-sái thiàu-kuè.",
+                    "resolutionWiden": "$~Hō͘ tsit-ê binding ê ta̍t ê luī-hîng khuah-sut-leh, in-uī $expected thài sió, bē-tòng-tit kî-sit tshun-leh ê mih.",
+                    "resolutionReorder": "$~Kā ín-sòo ê sūn-sī hōo-sio-huānn, in-uī in ê luī-hîng án-ne khah tsiâu-tâng — $expected tio̍h-ài tī tsi̍t-ê khang-uī.",
+                    "resolutionPlaceholder": "$~Seng ēng khang-uī thè-tāi, in-uī $expected ài ê — liáu-āu tuì autocomplete ê tsu-tuann kéng chi̍t-ê ta̍t."
+                },
+                "MisplacedShare": {
+                    "name": "$~hun-hióng ê uī-tì m̄-tio̍h",
+                    "explanation": "$~Guá tsí-ū ē-sái tī source ê téng-bīn hun-hióng, á-sī — nā-sī ta̍t á-sī FunctionDefinition — tit-tsiap tī @StructureDefinition ê lāi-té.",
+                    "resolution": "$~Kā *↑* ê kì-hō thâi-tiāu"
+                },
+                "MissingShareLanguages": {
+                    "name": "$~khuí gí-giân",
+                    "explanation": "$~Lí nā beh hun-hióng tsit-ê, tio̍h-ài kóng i sī siánn gí-giân, án-ne pa̍t-lâng tsiah tsai-iánn ē-sái tha̍k lí!",
+                    "resolution": "$~Kā *↑* ê kì-hō thâi-tiāu"
+                },
+                "RequiredAfterOptional": {
+                    "name": "$~pit-su ê ín-sòo tī sûi-ì ê āu-bīn",
+                    "explanation": "$~Guá bē-sái tī tsia, tī guá téng-bīn u sûi-ì ê @Bind",
+                    "resolution": "$~Kā pit-su ê ín-sòo suá khì sûi-ì ê ín-sòo ê tsiah-bīn"
+                },
+                "UnexpectedEtc": {
+                    "name": "$~ín-sòo lia̍t-piáu ê āu-bīn tshut-hiān bô-iàu-kín ê ín-sòo",
+                    "explanation": "$~Guá tsí-ū ē-sái tī @FunctionDefinition lāi-té tshiūnn ti̍t-tn̂g bô-kòng-tīng",
+                    "resolution": "$~Kā *…* thâi-tiāu"
+                },
+                "UnusedBind": {
+                    "name": "$~bô-ēng ê bind",
+                    "explanation": "$~Guá ê miâ sī $name, M̄-koh bô-lâng teh ēng guá. Ân-ná guá bô-su-iàu?",
+                    "resolution": "$~Kā tsit-ê binding thâi-tiāu"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~hām khuân-kiàn-jī tâng-miâ",
+                    "explanation": "$~Tsit-ê miâ mā sī $keyword khuân-kiàn-jī, số-í guá tī tsia ē kā i tòng-chò miâ lâi tha̍k; $keyword khuân-kiàn-jī tī pa̍t-uī iáu-sī ū-iōng."
+                }
+            }
+        },
+        "Block": {
+            "name": "$~block",
+            "description": "$~block $#count[$count ê statement|$count ê statement]",
+            "emotion": "shy",
+            "doc": [
+                "$~Guá tsò chi̍t-ê sió-sió, tsīng-tsīng, su-jîn ê khong-kan lâi sǹg mi̍h-kiānn. Lí-hó!",
+                "Ik án-ne:",
+                "\\(1 - 1) + 2\\",
+                "Án-ne ē-sái pang-tsān sak-tshing sǹg ê sūn-sī.",
+                "@Bind mā ū pang-tsān.",
+                "\\(\n\tcount: 10\n\tcount ^ count)\\",
+                "Khuànn @Bind tsuè-tshut \\count\\ bô? I tsí-ū tī guá lāi-té ū miâ. Số-í án-ne bē-sái:",
+                "\\(\n\tcount: 10\n\tcount ^ count) + count\\🪲",
+                "In-uī count tsí-ū tī guá lāi-té ū miâ.",
+                "Lí nā tsí hō͘ guá chi̍t-ê @expression, guá tō kā i ê @value pàng-tńg-lâi hō͘ lí:",
+                "\\(1 + 1)\\",
+                "Nā hō͘ guá khah-tsē, guá ē kā in sio̍k-tsi̍p tsiânn list, uì sūn-sī:",
+                "\\(1 2 3 4 5)\\",
+                "@Bind statement sī @sideEffect, m̄-sī ta̍t, số-í bē tshut-hiān tī list lāi-té:",
+                "\\(\n\ta2: 1\n\tb2: 2\n\ta2 + b2\n\ta2 × b2\n)\\",
+                "Án-ne ē tit-tio̍h \\[3 2]\\: tsí-ū tuì nn̄g-ê hui-@Bind ê piáu-ta̍t-sik lâi ê ta̍t."
+            ],
+            "label": {
+                "statements": "$~piáu-ta̍t-sik"
+            },
+            "start": "$~Tē-it ê piáu-ta̍t-sik",
+            "finish": "$~Tsò-uân lah, guá tit-tio̍h $value",
+            "conflict": {
+                "ExpectedEndingExpression": {
+                    "name": "$~khuí-khuá piáu-ta̍t-sik",
+                    "explanation": "$~Guá siōng-kiám-sớ ài ū tsi̍t ê m̄-sī @Bind ê piáu-ta̍t-sik, án-ne tsiah ū ta̍t thang tńg-tsuán.",
+                    "resolution": "$~Ka-thiam siōng-bué ê piáu-ta̍t-sik"
+                }
+            }
+        },
+        "BooleanLiteral": {
+            "name": "$~tsin-ké bûn-ji ta̍t",
+            "description": "$~$value[tsin|ké]",
+            "emotion": "precise",
+            "doc": "$~Guá sī \\⊤\\ iah-sī \\⊥\\. Khuànn @Boolean lâi tsai-iánn goán hit-ê súi-súi ê lō-tsi̍p ê koh-ke.",
+            "start": "$~$value!"
+        },
+        "Borrow": {
+            "name": "$~tsioh",
+            "description": "$~tsioh $name[$name|bô miâ]",
+            "emotion": "excited",
+            "label": {
+                "source": "$~guân-sí-tóng",
+                "bind": "$~miâ",
+                "version": "$~pán-pún"
+            },
+            "doc": [
+                "$~Guá @borrow @Bind, he sī lí ê piáu-iān tiong kî-thaⁿ @Source hun-hióng--ê. Kan-tan íng in ê miâ, guá tō ē kā in ê miâ kap @value tshiânn lâi.",
+                "Sià \\↓\\, ránn-āu sià kî-thaⁿ @Source ê miâ. Hit ê @Source tio̍h-ài ēng \\↑\\ lâi @markup i beh hun-hióng siánn-mih, tshiūnn \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
+            "start": "$~Tùi $name tsioh $source",
+            "conflict": {
+                "KitCannotBorrow": {
+                    "name": "$~thò-kiānn bē-tàng tsioh",
+                    "explanation": "$~Tsit ê guân-sí-tóng í-king hoat-piáu tsò thò-kiānn, thò-kiānn ê tāi-tsì-tsiá kan-nā ē thàu-tio̍h tsit ê tóng-àn. Lí tio̍h kā beh tsioh ê mih khóo-pih lâi tsit ê guân-sí-tóng.",
+                    "resolution": "$~Thâi-tiāu tsit ê tsioh"
+                },
+                "UnknownBorrow": {
+                    "name": "$~m̄-tsai ê tsioh",
+                    "explanation": "$~Guá m̄-tsai ū siánn guân-sí-tóng kiò tsit ê miâ",
+                    "resolution": "$~Thâi-tiāu tsit ê tsioh"
+                },
+                "BorrowCycle": {
+                    "name": "$~tsioh kàu ka-kī",
+                    "explanation": "$~Tsit ê í-khò $borrow, $borrow koh í-khò tsit ê @Source, sóo-í Program bē-tàng uân-sîng sǹg",
+                    "resolution": "$~Thâi-tiāu tsit ê tsioh, tsiah ē phah-tuāng huê-khuan"
+                },
+                "MissingKitVersion": {
+                    "name": "$~khuí-khuá pán-pún",
+                    "explanation": "$~Tsi̍t-ê thò-kiānn ē kā i bat ū kòe ê múi-ê pán-pún lóng khǹg-leh, in-uī án-ne guá tio̍h-ài tsai-iánn lí beh ê sī $kit ê tó tsi̍t-ê pán-pún",
+                    "resolution": "$~Thâi-tiāu tsit ê tsioh"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~Tsi̍t ê thò-kiānn ê nn̄g ê pán-pún",
+                    "explanation": "$~Tsi̍t-sî guá tsí-ū thang iōng thò-kiānn ê tsi̍t ê pán-pún, mā tsit ê @Source tio̍h-ài $kit ê nn̄g ê pán-pún",
+                    "resolution": "$~Thâi-tiāu tsit ê tsioh"
+                },
+                "UnknownKit": {
+                    "name": "$~Bô-tsai-iánn ê thò-kiānn",
+                    "explanation": "$~Guá tshuē bô $kit",
+                    "resolution": "$~Thâi-tiāu tsit ê tsioh"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~tsioh tuā-tāi",
+                    "explanation": "$~Téng-bīn tsioh--lâi ê mih-kiānn í-king ū iōng $name ē khiàm--lâi ê miâ, số-í guá hōo-tāi bē-hiáu lí sī kóng tó tsi̍t ê",
+                    "resolution": "$~Kái-iōng $name lâi tsioh, án-ne i ê miâ tō bē lám-tsháu"
+                },
+                "UnavailableKit": {
+                    "name": "$~bē-iōng-tit ê thò-kiānn",
+                    "explanation": "$~$kit ū tsāi-tsāi, m̄-koh bô hun-hióng hōo lí",
+                    "resolution": "$~Thâi-tiāu tsit ê tsioh"
+                }
+            },
+            "exception": {
+                "CycleException": {
+                    "description": "$~tsioh ê huê-khuan",
+                    "explanation": "$~$borrow tuā-tāi i ka-tī"
+                }
+            }
+        },
+        "Changed": {
+            "name": "$~kái-kuè--ah",
+            "description": "$~kiám-tsa $stream ū piàn bô",
+            "emotion": "serious",
+            "label": {
+                "stream": "$~tsu-liāu-liû"
+            },
+            "doc": [
+                "$~Guá ē kiám-tsa sī-m̄-sī @stream hōo @Program tsài sǹg tsi̍t piàn, ê tsò @Boolean. Án-ne lah",
+                "\\∆ Sîkan()\\",
+                "Lí ngóh-beh tsi̍t-ê mih-kiānn tsí-ū tsu-liāu-liû piàn ê sî-tsūn tsiah piàn, guá siōng ū-iōng.",
+                "Ik-tsiah án-ne niā-niā."
+            ],
+            "start": "$~Lán khuànn-māi $stream ū piàn bô…"
+        },
+        "Conditional": {
+            "name": "$~tiâu-kiānn",
+            "description": "$~khuànn $condition lâi koat-tīng",
+            "emotion": "curious",
+            "label": {
+                "condition": "$~tiâu-kiānn",
+                "yes": "$~sī",
+                "no": "$~bô"
+            },
+            "doc": [
+                "$~Guá ài kā lí tsi̍t ê @value á sī lēng-gua̍h tsi̍t ê, tòa-tī tsi̍t ê @condition lâi koat-tīng, hó bô? Án-ne lah?",
+                "\\number: -100\nnumber < 0 ? 'hu-sòo' 'tsìng-sòo'\\",
+                "M̄-koh lí ū siūnn-kuè lán án-nuá lâi koat-tīng bô?",
+                "Kám m̄-sī koat-tīng ài khah-kín-tshè, m̄-sī tsí-ū sī-á-sī-m̄-sī niā-niā? Tsí-ū \\⊤\\ kah \\⊥\\ tsit-nn̄g ê, tō-sī lóng-tsóng?",
+                "Ná bián-tshìn lí m̄-tsái, nā-sī lán tsí-ū tsia-ê koat-tīng, ē-sái siōng-tsiàu ū tsi̍t-kuá tsiong-iàu ê sè-kài ê kuan-hē bē-tsai?",
+                "Guá ū koh tsò tsi̍t-kiānn, m̄-koh bô-tsiok-tsiok ū lâng kóng guá ū-kang. Guá ê @condition mn̄g tsi̍t ê ta̍t sī sím-mih /luī-hîng/ ê sî, guá m̄-sī tsí-ū tuè-tap sī á m̄-sī. Guá ē kì-tsú tap-àn tī guá múi ê soán-tik lāi-té.",
+                "\\size•#|'': 5\nsize•# ? size + 1 'siunn sió'\\",
+                "I ka-tī, tsit ê ta̍t khó-lîng sī @Number á sī tsi̍t-kuá @Text, mā kā i ka-tsi̍t ē sī @conflict, in-ūi tsia-ê ka ê hong-sik bô-kāng. M̄-koh tī guá ê /sī/ lāi-té, lán tsiah-á mn̄g kuè i sī-m̄-sī @Number, số-í tī tsia i tō sī. Tī guá ê /m̄-sī/ lāi-té, i tō sī @Text.",
+                "Lí án-nuá mn̄g lóng kāng-khuán. Luī-hîng kiám-tsa, kah tsi̍t ê tik-piát ê ta̍t pí-kàu, kiám-tsa khiàm ê ta̍t, kah tī miâ-lāi khǹg ê kiám-tsa, lóng kā guá kóng kāng-khuán ê tāi-tsì. Koh-ū @Boolean/and, @Boolean/or, kah @Boolean/not ē uân-tsiàn lí siūnn ê hong-sik kā i-lâng ha̍p-tsò-hóe.",
+                "Guá ū nn̄g-kiānn bē-sái kā lí kóng. Nā lí kah ū tsua̍t-tuā ê huan-ik ê @Text pí-kàu, guá tō siánn mā bô ha̍k tio̍h, in-ūi lí ē tit-tio̍h tó tsi̍t ê huan-ik, sī khuànn sím-mih lâng teh khuànn."
+            ],
+            "start": "$~Lán khuànn-māi $condition sī-m̄-sī ū-tsiàⁿ",
+            "else": "$~$jumping[tiô-kuè thîng-sik-bé | bô tiô-kuè thîng-sik-bé]",
+            "afterthen": "$~sī tsò-uân--lah, lán thiàu-kuè m̄-sī hó bô?",
+            "finish": "$~Guá tsāi-tsāi sī $value--ah?",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "name": "$~siūnn-beh ê sī boolean ê tiâu-kiānn",
+                    "explanation": "$~Guá su-iàu @Boolean lâi tsò kuat-tīng, m̄-koh guá tshiū-tio̍h $type.",
+                    "resolution": "$~Kā i kái-tsò $expected, in-uī tsia ài $expected",
+                    "resolutionLiteral": "$~Iōng ! kā tsit ê list, set á-sī map piau-kì tsò literal, ta̍t tsiū ē pó-tshî tsi̍t-tīng, m̄-tsiū-sī pian-tsò tsiàu-kuat — $expected ài ê sī tsi̍t-tīng ê ta̍t",
+                    "resolutionOtherwise": "$~Iōng ?? lâi tshú-lí khuí-sit ê ta̍t, in-uī $expected m̄ ún-hú ø",
+                    "resolutionGuard": "$~Seng iōng luī-hîng siu-huē khuànn i sī m̄-sī $expected, in-uī $expected bē-sái sī pat-ê khó-lîng ê luī-hîng",
+                    "resolutionDeclaration": "$~Ài kā luī-hîng siá hō͘ tshing-tshó, in-uī $expected ài pó-liû ta̍t-ê guân-bīn ê ta̍t.",
+                    "resolutionWrap": "$~Kā i pàng tī list, set á-sī map lāi-té, in-uī $expected ài chi̍t-tīn ta̍t.",
+                    "resolutionStructure": "$~Kā i pau tī $expected lāi-té, in-uī che ê khang-uī ài $expected ta̍t.",
+                    "resolutionDefault": "$~Hō͘ tsit-ê binding chi̍t-ê khai-sí ê ta̍t, in-uī $expected tsia bē-sái thiàu-kuè.",
+                    "resolutionWiden": "$~Hō͘ tsit-ê binding ê ta̍t ê luī-hîng khuah-sut-leh, in-uī $expected thài sió, bē-tòng-tit kî-sit tshun-leh ê mih.",
+                    "resolutionReorder": "$~Kā ín-sòo ê sūn-sī hōo-sio-huānn, in-uī in ê luī-hîng án-ne khah tsiâu-tâng — $expected tio̍h-ài tī tsi̍t-ê khang-uī.",
+                    "resolutionPlaceholder": "$~Seng ēng khang-uī thè-tāi, in-uī $expected ài ê — liáu-āu tuì autocomplete ê tsu-tuann kéng chi̍t-ê ta̍t."
+                }
+            }
+        },
+        "ConversionDefinition": {
+            "name": "$~tsuán-uānn tīng-gī",
+            "description": "$~tuì $input tsuán-uānn kàu $output",
+            "emotion": "excited",
+            "label": {
+                "input": "$~su-ji̍p luī-hîng",
+                "output": "$~su-tshut luī-hîng",
+                "expression": "$~piáu-ta̍t-sik"
+            },
+            "doc": [
+                "$~Hiannn-tī, guá tīng-gī tuì tsi̍t-ê @type tsuán-uānn tsò lìng-tsi̍t-ê! Guá tuà tī @Block lāi-té, tshin-tshiūnn án-ne:",
+                "\\→ #kitty #cat ⬚ ÷ 2\n6kitty → #cat\\",
+                "Lí ū khuànn-tio̍h guá kā niau-á piàn tsò niau bô? Tsin siàu-phè!",
+                "Lí khó-lîng leh siūnn hit-ê \\⬚\\ tī hia leh tsò siánn. I tāi-piáu teh tsuán-uānn ê @value. Guá īng i, in-uī hit-ê ta̍t bô kî-thann ê miâ."
+            ],
+            "start": "$~Siuⁿ-hó, sin ê tsuán-uānn!",
+            "conflict": {
+                "MisplacedConversion": {
+                    "name": "$~tshò-uī ê tsuán-uānn",
+                    "explanation": "$~ah, guá bē-sái tī-tsia, tsí-ū tī @Block.",
+                    "resolution": "$~Thâi-tiāu tsit-ê tsuán-uānn"
+                }
+            }
+        },
+        "Convert": {
+            "name": "$~tsuán-uānn",
+            "description": "$~kā $expression tsuán-uānn kàu $type",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Guá kā @values tuì tsi̍t-ê @type tsuán-uānn kàu lēng-gua̍h tsi̍t-ê. Lé — lí khuànn:",
+                "\\1 → \"\"\\",
+                "\\5s → #ms\\",
+                "\\'lí-hó' → []\\",
+                "Lí iā ē-sái kā tsia-ê liâm-tsò-hué:",
+                "\\'lí-hó' → [] → {}\\",
+                "Ta̍t ū tsi̍t-tsoo @ConversionDefinition sian-tsiân tīng-hó-ê, m̄-koh nā-sī lí uì sin luī-hîng ê ta̍t tsò tsi̍t-ê @StructureDefinition, lí ē-sái iōng @ConversionDefinition ka-tī tīng-gī."
+            ],
+            "start": "$~Uì $expression tshú-tsiūnn hit-ê ta̍t!",
+            "finish": "$~Siuⁿ-hó, guá tsò-tsiânn $value",
+            "conflict": {
+                "UnknownConversion": {
+                    "name": "$~m̄-tsai ê tsuán-uānn",
+                    "explanation": "$~Lán tshuē bô huat-tō͘ kā $expected tsuán-uānn kàu $given",
+                    "resolution": "$~Thâi-tiāu tsuán-uānn"
+                }
+            },
+            "exception": {
+                "ConversionException": {
+                    "description": "$~bô-khó-lêng ê tsuán-uānn",
+                    "explanation": "$~Guá m̄-tsai beh án-tsuánn tuì $from tsuán-uānn kàu $to"
+                }
+            }
+        },
+        "Translate": {
+            "name": "$~hoan-ik",
+            "description": "$~kā $expression ê múi ê ta̍t huan-ik",
+            "emotion": "excited",
+            "doc": [
+                "$~Guá tuì kui-ê kui-kui-ê tāi-tsi lóng tsò Kāng-iūnn ê tāi-tsì! OH OH OH! Che tō-sī guá teh tsò ê!!",
+                "Phah tsi̍t ê kui-kui tī guá ê tò-pîng, ōe guá ê ĩnn-á \\↦\\, ránn tī guá ê ȳu-pîng siá múi ê hāng-bo̍k beh piàn-sîng siánn — ēng @This lâi kóng guá tsit-má tshìu-tsiah ê hāng-bo̍k!",
+                "\\[1 2 3] ↦ ⬚ + 1\\ ē hōo lí \\[2 3 4]\\. BOOM! Múi ê sò-jī, ke tsi̍t, bô huê-khuan, bô @FunctionDefinition, bô huân-ló!",
+                "Guá tsin-tsiàⁿ ê sik-hap thàu tuì tsu-liāu lâi tsò @Phrase ê su-tshut! Ū tsi̍t tsiah miâ-tshiann ê lia̍t-piáu? \\['Ada' 'Mac' 'Tim'] ↦ Kù(⬚)\\ tsit-má múi ê miâ lóng ū tsi̍t ê kù!!",
+                "Guá ē-tàng tī @List, @Set, @Map (guá kái-piàn tē-tô ê @VALUES — kiān iáu-sī tī-án-nā!), kap @Table téng-bīn tsò-iōng!",
+                "Beh khah ho-ka̍t ê — pí-lūn múi ê hāng-bo̍k ê @index, á-sī tsi̍t ê ē-tàng tī tsiok-tsē tē-hng tsài-ēng ê hâm-sik? Khì khuànn guá khah-sim-lēng ê tuā-lâng tshin-tsiânn, ná-ū @List.translate. Tān-sī kàu khah kín ê thang-ji ê tuì-ìng, guá tsāi-chia!!"
+            ],
+            "start": "$~Tán-tsi̍t-ē, hōo guá kā $expression lāi-té ê kui-ê lóng tsiah-lâi!",
+            "finish": "$~TA-DA! Tsit-ê sī lí sin ê kui-kui: $value",
+            "next": "$~Hē-tsi̍t-ê hāng-bo̍k: $value!",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~siūnn-beh ê kui-kui",
+                    "explanation": "$~Guá siūnn-beh kui-kui tsuán-hōan ê tò-pîng tio̍h-sī kui-kui, tān-sī guá tiòh-tio̍h $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~siūnn-beh tsit-ê",
+                    "explanation": "$~Lí sī beh ēng @This lâi kóng tsit-ê kui-kui lāi-té ê tsi̍t-ê hāng-bo̍k mah?"
+                }
+            }
+        },
+        "Delete": {
+            "name": "$~thâi-tiāu",
+            "description": "$~tuì $table sak-tiāu tsham $query tuì-tsiàu ê hâng",
+            "emotion": "angry",
+            "doc": [
+                "$~Guá ē sak-tiāu @Table lāi-té kap @condition sio-tuì ê hâng. Ū-tang-sî tsi̍t ê toh-á TSIN-TSIÀⁿ TSIOK-TSĒ!",
+                "Pí-lūn lí ê iû-hì ū kuí-ê uân-ka, tsi̍t-ê lī-khui, lí tō siūnn-beh kóng LÍ KHÌ KHUI, LÍ ĒNG KHUI LÍ Ê TOH-Á!",
+                "\\players: ⎡miâ2•'' tuān•'' tiám2•#⎦\n\t⎡'jen' 'red' 8⎦\n\t⎡'joan' 'lâm' 11⎦\n\t⎡'jeff' 'red' 9⎦\n\t⎡'janet' 'lâm' 7⎦\nplayers ⎡- miâ2 = 'jeff'\\",
+                "Huh, Jeff bô-tsāi ah. BYE JEFF. Kì-tit guá bô kái-piàn guân-lâi ê toh-á, guá tsò tsi̍t ê sin ê, bô JEFF. Lí kuat-tīng tsāi tó-uī."
+            ],
+            "start": "$~Seng ná-tsi̍t-ê toh-á",
+            "finish": "$~Guá tsò tsi̍t ê sin ê toh-á, bô tuì-tsiàu ê hâng!"
+        },
+        "DocumentedExpression": {
+            "name": "$~ū suat-bîng ê piáu-ta̍t-sik",
+            "description": "$~ū suat-bîng bûn-kiānn ê $expression",
+            "emotion": "eager",
+            "doc": [
+                "$~Guá sī lóng-tsóng @expression, tān-sī ū @Doc!",
+                "Beh tsò guá, tō tī tsi̍t ê piáu-@value-sik ê tsîng-bīn ê hē @Doc, lí tō ē tit-tio̍h guá:",
+                "\\nn̄gkè: 1\n(2 × nn̄gkè) +\n\t¶Lán kā i piàn-tuā tsi̍t-tsuā-á¶\n\t1\\",
+                "Guá tsin ū ēng, thang tī tsi̍t-ê Program ê mī-tsi̍t-pōo ê tsò pī-tsù.",
+                "Nā lí tī @Doc hē 👀, guá mā ē-tàng kā piáu-ta̍t-sik tsiàu-liông:",
+                "\\¶Khuànn guá! 👀¶1 + 1\\"
+            ],
+            "start": "$~Lán lâi suàn piáu-ta̍t-sik"
+        },
+        "Evaluate": {
+            "name": "$~suàn",
+            "description": "$~suàn $name[$name|hâm-sik]$first[ $first|]",
+            "emotion": "shy",
+            "label": {
+                "function": "$~hâm-sik",
+                "types": "$~luī-hîng",
+                "inputs": "$~su-ji̍p"
+            },
+            "doc": [
+                "$~Guá suàn guá siōng thiàⁿ ê @FunctionDefinition, hōo i @argument, kā i ê pōo-tsiú tuè-lo̍h. Hi! Án-ne:",
+                "\\ƒ greeting(message•'')\n\tgreeting('niau-á')\\🪲",
+                "Hâm-sik ē-tàng uì tó-uī lâi. Pí-lūn, @Text ū hâm-sik. Án-ne:",
+                "\\'niau-á'.tn̂gtō()\\",
+                "Nā hâm-sik ê miâ tsí-ū tsi̍t ê hû-hō, lí ē-tàng kā guá siá-tsò @BinaryEvaluate.",
+                "\\'niau-á' ⊆ 'sió-sió'\\",
+                "Án-ne kap án-ne ê tsò-hāng kāng-khuán:",
+                "\\'niau-á'.ū('sió-sió')\\",
+                "Tiòh, bô @FunctionDefinition guá sī sím-mih to bô. Guá tsí-ū hōo in ín-sòo, jiân-āu tuè in ê pōo-tsiú.",
+                "Sit-tsāi, guá iā ū guá ka-kī ê pún-tsāi. Pí-lūn, nā @FunctionDefinition ê tsi̍t-ê ín-sòo sī @Boolean, lí ē-tàng kā i ê miâ tok-ka siá-tshut-lâi kā i khui, m̄-tio̍h hōo i @value."
+            ],
+            "start": "$~Lán seng suàn ín-sòo",
+            "evaluate": "$~tsit-má lán suàn hâm-sik",
+            "finish": "$~Guá suàn-tsò $value",
+            "conflict": {
+                "IncompatibleInput": {
+                    "name": "$~bô sio-tàng ê ín-sòo",
+                    "explanation": "$~Guá siūnn-boeh $expected, ḿ-koh siu-tio̍h $given",
+                    "explanationDivideByZero": "$~Tsit ê khó-lîng sī ø, in-uī $source khó-lîng tuì khòng-sǹg, mā tsia ài sò-jī",
+                    "resolution": "$~Kā i kái-tsò $expected, in-uī tsia ài $expected",
+                    "resolutionLiteral": "$~Iōng ! kā tsit ê list, set á-sī map piau-kì tsò literal, ta̍t tsiū ē pó-tshî tsi̍t-tīng, m̄-tsiū-sī pian-tsò tsiàu-kuat — $expected ài ê sī tsi̍t-tīng ê ta̍t",
+                    "resolutionOtherwise": "$~Iōng ?? lâi tshú-lí khuí-sit ê ta̍t, in-uī $expected m̄ ún-hú ø",
+                    "resolutionGuard": "$~Seng iōng luī-hîng siu-huē khuànn i sī m̄-sī $expected, in-uī $expected bē-sái sī pat-ê khó-lîng ê luī-hîng",
+                    "resolutionDeclaration": "$~Ài kā luī-hîng siá hō͘ tshing-tshó, in-uī $expected ài pó-liû ta̍t-ê guân-bīn ê ta̍t.",
+                    "resolutionWrap": "$~Kā i pàng tī list, set á-sī map lāi-té, in-uī $expected ài chi̍t-tīn ta̍t.",
+                    "resolutionStructure": "$~Kā i pau tī $expected lāi-té, in-uī che ê khang-uī ài $expected ta̍t.",
+                    "resolutionDefault": "$~Hō͘ tsit-ê binding chi̍t-ê khai-sí ê ta̍t, in-uī $expected tsia bē-sái thiàu-kuè.",
+                    "resolutionWiden": "$~Hō͘ tsit-ê binding ê ta̍t ê luī-hîng khuah-sut-leh, in-uī $expected thài sió, bē-tòng-tit kî-sit tshun-leh ê mih.",
+                    "resolutionReorder": "$~Kā ín-sòo ê sūn-sī hōo-sio-huānn, in-uī in ê luī-hîng án-ne khah tsiâu-tâng — $expected tio̍h-ài tī tsi̍t-ê khang-uī.",
+                    "resolutionPlaceholder": "$~Seng ēng khang-uī thè-tāi, in-uī $expected ài ê — liáu-āu tuì autocomplete ê tsu-tuann kéng chi̍t-ê ta̍t."
+                },
+                "UnexpectedTypeInput": {
+                    "name": "$~siūnn-bē-kàu ê luī-hîng ji̍p-ta̍t",
+                    "explanation": "$~Guá sī tsit-ê siūnn-bē-kàu, khah-tsē ê luī-hîng ji̍p-ta̍t.",
+                    "resolution": "$~Kā tsit-ê luī-hîng ji̍p-ta̍t thâi-tiāu"
+                },
+                "MissingInput": {
+                    "name": "$~tsió ji̍p-ta̍t",
+                    "explanation": "$~Bô $name tsit-ê ji̍p-ta̍t, guá bē-sái ūn-sǹg $input :(",
+                    "resolutionAddInput": "$~Kā tsió-khuat ê $input ka-ji̍p, iōng i ê khai-sí-ta̍t",
+                    "resolutionPlaceholder": "$~Kā tsió-khuat ê $input ka-ji̍p, tsòe khang-uī, tsiah tuì ka-tī-poo-tuân ê tsuann-tan tíng-á kéng tsi̍t-ê ta̍t"
+                },
+                "NotInstantiable": {
+                    "name": "$~khuí-khuat ê kiat-kò",
+                    "explanation": "$~Guá bē-tàng tsò tsit-ê @StructureDefinition, in ū-ê hâm-sik-á iáu-bē sing-tshiūnn tsò-hó.",
+                    "resolution": "$~Kā tsió-khuat ê hâm-sik-á tâi-hó-khí-lâi"
+                },
+                "UnexpectedInput": {
+                    "name": "$~siūnn-bē-kàu ê ji̍p-ta̍t",
+                    "explanation": "$~Guá sī tsi̍t-ê siūnn-bē-kàu ê ji̍p-ta̍t.",
+                    "resolution": "$~Kā tsit-ê ji̍p-ta̍t thâi-tiāu"
+                },
+                "UnknownInput": {
+                    "name": "$~m̄-bat ê ji̍p-ta̍t",
+                    "explanation": "$~Tsit-ê hâm-sik *$name* bô siūnn-boeh ū kap guá siâng-miâ ê ji̍p-ta̍t.",
+                    "resolution": "$~Kā tsit-ê ji̍p-ta̍t kái-miâ tsò *$name*"
+                },
+                "InputListMustBeLast": {
+                    "name": "$~khah-tsē ê ji̍p-ta̍t bô tī ue̍h-bóe",
+                    "explanation": "$~ji̍p-ta̍t ê lia̍h-pió tio̍h tī ue̍h-bóe",
+                    "resolution": "$~Kā lia̍h-pió ji̍p-ta̍t suá khì ue̍h-bóe"
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~bē-tshing-tshó ê ūn-sǹg",
+                    "explanation": "$~$name sī lí siūnn-boeh ūn-sǹg ê $structure[$structure|@FunctionDefinition] ê miâ--mah? Kā tī guá āu-piah ê khang-keh thâi-tiāu khuànn-māi, án-ne guá tsiah ē tsai-iánn sī @Evaluate, m̄-sī kơ-li̍p ê @Block.",
+                    "resolution": "$~Kā *$name* kap i ê ji̍p-ta̍t tsiong-kan ê khang-keh siu-kòng"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~m̄-bat ê sî-khu",
+                    "explanation": "$~Guá m̄-bat tsit-ê sî-khu *$zone*. Sî-khu ê miâ sī iōng tē-khu kap tsiânn-tshī tsò-miâ, ná-tshiūnn \\'America/New_York'\\. Lí tshiau-tshuē tsi̍t-ê lí bat ê tsiânn-tshī, guá tsiah lâi kā lí kiàn-gī!",
+                    "resolution": "$~Kái-sè *$zone*, tse sī $city ê sî-khu"
+                }
+            },
+            "exception": {
+                "FunctionException": {
+                    "description": "$~m̄-tsai ê kong-lîng",
+                    "explanation": "$~ai-yo, $name ná bô sī $scope[$scope|tsit @Block] lāi-té ê kong-lîng!"
+                }
+            }
+        },
+        "Input": {
+            "name": "$~Su-ji̍p",
+            "description": "$~su-ji̍p $name, $type",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī hōo @Evaluate ê tsi̍t-ê su-ji̍p. Guá ê miâ kap @FunctionDefinition ia̍h-sī @StructureDefinition tng teh sǹg ê su-ji̍p miâ sio-kâng.",
+                "Ná-sī ū kuí-nā-ê @values ê kong-lîng, lí tsí-ài kái tsi̍t-ê su-ji̍p, guá tō ē tàu-sann-kang, bián kā kî-thann ê lóng hōo.",
+                "M̄-nā @Phrase ū hó-kuí-ê môo-sî ê khiau-tsīng ê pau-hâm-tāi-á, lín kóng lí kan-tan beh hōo tsi̍t-kuá @Text kap tsi̍t-ê @Color, kî-thann ê lóng m̄-bián. Lí ē-sái iōng guá lâi tsò:",
+                "\\Kù('Guá sī àm-âng-sik!' sik: Siktshái(50% 52 300°))\\"
+            ],
+            "start": "$~Lán lâi sǹg guá ê ta̍t."
+        },
+        "ExpressionPlaceholder": {
+            "name": "$~khang-uī",
+            "description": "$~$type[$type|tsi̍t-ê ta̍t] ê khang-uī",
+            "emotion": "scared",
+            "label": {
+                "placeholder": "$~piáu-ta̍t-sik"
+            },
+            "doc": [
+                "$~Guá sī *@expression*, m̄-koh m̄-sī tsiok-tsiàn-ê… guá tsí-sī thèh tsi̍t-ê ê uī-tsi̍t.",
+                "Lí nā iáu m̄-tsai beh siá siánn, guá tō ē-sái tàu-tsān. Án-ni:",
+                "\\1 + _\\🪲",
+                "Tse beh ke siánn? Guá m̄-tsai. Lí kā guá kóng.",
+                "Ia̍h-sī ū-lâng teh sǹg ū @Evaluate ê kong-lîng, guá ē-sái thèh-tsi̍t-ê kong-lîng ê uī",
+                "\\_(1 2 3)\\🪲",
+                "Guá m̄-kah-ì tī @Stage téng-bīn!"
+            ],
+            "start": "$~Guá m̄-tsai tī-tsia beh tsò siánn. Lí ē-sái kā guá thīnn-tshiânn bô?",
+            "conflict": {
+                "Placeholder": {
+                    "name": "$~khang-uī",
+                    "explanation": "$~Lí ē-sái kā guá thīnn-tshiânn bô? Guá tsí-sī khang-uī.",
+                    "resolution": "$~Thè-tshiânn kah *$candidate*"
+                }
+            },
+            "exception": {
+                "UnimplementedException": {
+                    "description": "$~iáu-bē tsò",
+                    "explanation": "$~Guá m̄-tsai tī-tsia beh tsò siánn. Lí ē-sái kā guá thīnn-tshiânn bô?"
+                }
+            }
+        },
+        "FunctionDefinition": {
+            "name": "$~hâm-sik",
+            "description": "$~kong-lîng $name",
+            "emotion": "kind",
+            "label": {
+                "inputs": "$~su-ji̍p",
+                "output": "$~su-tshut",
+                "expression": "$~piáu-ta̍t-sik"
+            },
+            "doc": [
+                "$~Guá siu tsi̍t-kuá su-ji̍p, jiân-āu iōng in lâi sǹg tsi̍t-ê @expression, sán-tshut tsi̍t-ê su-tshut. Koh-lâi gī lí-hó!",
+                "Tse sī tsi̍t-ê kán-tan ê lē:",
+                "\\ƒ repeat(message•'') message × 5\nrepeat('hāi')\\",
+                "Tsit-ê kong-lîng siu tsi̍t-ê su-ji̍p, \\message\\, iōng @Text.repeat kong-lîng lâi kā sùn-sit tāi-tāi ngóo-pái.",
+                "Lí nā beh tsiāu-tsiāu-tsāi ê koh sǹg tsi̍t-ê tāi-tsì, m̄-koh su-ji̍p bô-kâng, guá tsin ū-iōng!",
+                "Guá iáu ū hó-kuí-ê kî-thann ê sió-ki-kiāu. Pí-lūn kóng, guá m̄-bián ū miâ. Tsia, guá tsit-tsūn tsí-sī ti̍t-tsih khì @Evaluate tsò @value.",
+                "\\(ƒ(message•'') message × 5)('hāi')\\",
+                "Ia̍h-sī, tse sī tsi̍t-ê ē-sái siu kuí-ê su-ji̍p ê kong-lîng, tī su-ji̍p miâ ê āu-bīn iōng \\…\\ tsit-ê jī-guân.",
+                "\\ƒ sī(messages…•'') messages.tûkhì('bô')\nsī('sī' 'sī' 'bô' 'sī' 'bô')\\",
+                "Lí khuànn-tio̍h in kā sìn-sit lóng 'no' thâi-tiāu bô? Tse sī in-uī messages sī @List, sóo-í lán ē-sái iōng @List.sansAll.",
+                "Tsi̍t-kuá sî-tsūn lí ē siūnn-beh kā guá sán-tshut ê ta̍t ê luī-hîng kóng hō-tshing-tshó. Tsiah tsò, tō tī su-ji̍p lia̍t-pió ê āu-bīn ke tsi̍t-ê @Is:",
+                "\\ƒ add(x2•# y2•#)•'' x2 + y2\\🪲",
+                "Lí khó-lêng ē khuànn-tio̍h tsit-ê ū būn-tê: i kóng i ê kiat-kó sī @Text, m̄-koh i siu nn̄g-ê @Number. Tsit-khài bô-tsi̍t-tsì ê sî, guá ē kā lí kóng!",
+                "Án-ni, bô @Evaluate ê sî-tsūn, guá tsin bô-ū-iōng; in tsiah ē hōo guá ū sìnn-miā."
+            ],
+            "start": "$~Lán lâi tsò tsit-ê kong-lîng!",
+            "conflict": {
+                "NoExpression": {
+                    "name": "$~khuí-khuá piáu-ta̍t-sik",
+                    "explanation": "$~Guá su-iàu tsi̍t-ê piáu-ta̍t-sik lâi sǹg, lí ē-sái ke tsi̍t-ê bô?",
+                    "resolution": "$~Ke tsi̍t-ê khang-uī ê pún-thé"
+                }
+            }
+        },
+        "Iteration": {
+            "name": "$~koân-tsân kong-lîng",
+            "description": "$~lāi-té ti̍t-tāi",
+            "emotion": "kind",
+            "doc": "$~Guá sī tsi̍t-khuán tsiok-tuè-piát ê @FunctionDefinition, tshāu-tsok tī tāi-tsì ê lia̍t-pió. Lí m̄-bián tsai-iánn guá ê siánn-mih, tsí-iàu tsai guá hōo @List.translate án-ni ê kong-lîng ē-sái tsò tio̍h hó.",
+            "start": "$~Teh sǹg hōo-ê ê kong-lîng",
+            "initialize": "$~tsún-pī tsi̍t-ê tsi̍t-ê khì khuànn hāng-bo̍k",
+            "next": "$~beh khì ē-tsi̍t-ê hāng-bo̍k",
+            "check": "$~koh-beh kiâⁿ-hîng--bô kiat-tīng",
+            "finish": "$~Guá suàn-tsò $value"
+        },
+        "Initial": {
+            "name": "$~khai-sí",
+            "description": "$~tē-it-kái khòaⁿ ê sî sī tsiàn",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kā lí kóng @Program tsit-kái ê khòaⁿ ê kiat-ko̍k sī-m̄-sī tē-it-kái, tsiū-sī @Boolean. Pí-lí kóng:",
+                "\\◆ ? Sîkan() 'hāi'\\",
+                "Lí khòaⁿ bô, m̄-koh tē-it-kái sī sî-kan, āu-piah ê sî-kan tshik-tshik tāu, guá lóng sī \\⊥\\, số-í @Conditional tsò-chhut \\⊤\\.",
+                "Nā-sī lí teh iōng @stream, koh kan-tann beh tī tē-it-kái tsò tāi-tsì, ia̍h-sī tī tē-it-kái ê sî m̄-thang tsò, guá tsiok pang-bán!"
+            ]
+        },
+        "Insert": {
+            "name": "$~tshap-ji̍p",
+            "description": "$~kā tsi̍t-hâng tshap-ji̍p kàu $table",
+            "emotion": "kind",
+            "doc": [
+                "$~Guá ē kā @Table ka-thiam sin ê tsi̍t-hâng. Lí ū khuànn-kuè tsi̍t-ê pió-keh kám-kak khah-bô-sián? Guá ē-sái kā thiam-tsīnn!",
+                "Sióng-khuànn lí ū tsi̍t-ê iû-hì ê ìn-iû-á pió-keh, lí beh thiam tsi̍t-ê sin-ê:",
+                "\\players: ⎡miâ2•'' tuān•'' tiám2•#⎦\n\t⎡'jen' 'red' 1⎦\n\t⎡'joan' 'lâm' 0⎦\n\t⎡'jeff' 'red' 3⎦\n\t⎡'janet' 'lâm' 2⎦\nplayers ⎡+'jason' 'red' 0⎦\\",
+                "Tsiàⁿ-kì, kap Verse lāi-té ê sán-sán tāi-tsì kāng-khuán, guá bē kái pió-keh, guá tsí-sī kái-tsìn. Số-í lí tio̍h siūnn beh kā kái-tsìn ê pió-keh pàng tī toh. Siōng-ū-khó-lîng lí beh tī @Reaction kā pió-keh kái-tsìn kàu tsi̍t-ê ji̍p-tē, koh khǹg tī @Bind."
+            ],
+            "start": "$~Lán lâi tshuē beh kái ê pió-keh",
+            "finish": "$~Guá tsò-chhut tsi̍t-ê ū kái-tsìn ê hâng ê sin pió-keh!"
+        },
+        "Is": {
+            "name": "$~sī",
+            "description": "$~sī $type",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá ē khòaⁿ tsi̍t-ê @value sī-m̄-sī tsi̍t-ê tek-pia̍t ê @type, hō lí tsi̍t-ê @Boolean. Ta̍t ū hiah-nī-chē khuán, ê-ì-sù mā tsiok-chē-khuán — guá pang-tsān khòaⁿ in sī sián-mih.",
+                "Pí-lí kóng, ná-ū tsi̍t-ê sîn-bi̍t ê ta̍t. Guá ē kā lí kóng i sī-m̄-sī @Number, hō lí tsi̍t-ê @Boolean:",
+                "\\mystery: 'pì-bi̍t!'\nmystery•#\\🪲",
+                "I m̄-sī sò-jī, số-í guá tsò-chhut \\⊥\\. M̄-koh nā-sī khòaⁿ i sī-m̄-sī @TextType?",
+                "\\mystery: 'pì-bi̍t!'\nmystery•''\\",
+                "Lán tit-tio̍h \\⊤\\!",
+                "Lí nā beh tsai @Name ū-bô tsi̍t-khuán tek-pia̍t ê ta̍t, guá tsiok pang-bán."
+            ],
+            "start": "$~Lán sian khòaⁿ $expression ê ta̍t",
+            "finish": "$~$value[ta̍t sī $type|ta̍t m̄-sī $type]",
+            "conflict": {
+                "ImpossibleType": {
+                    "name": "$~bô-khó-lîng ê luī-hîng",
+                    "explanation": "$~tsit-ê éng-oân bē-sái sī $type",
+                    "resolutionIsFalse": "$~Kā tsit-ê luī-hîng kiám-tsa tshân-tsò *⊥* (tap-àn tsiāu-tsiāu sī ka)",
+                    "resolutionDropOtherwise": "$~Kā *??* khàm-tiāu — tsó-pîng éng-oân bē sī *ø*"
+                }
+            },
+            "exception": {
+                "TypeException": {
+                    "description": "$~bē-sángê ta̍t",
+                    "explanation": "$~Guá siūnn-boeh $expected, ḿ-koh siu-tio̍h $given"
+                }
+            }
+        },
+        "IsLocale": {
+            "name": "$~sī gí-giân",
+            "description": "$~sī locale $locale[$locale|siánn lóng ē-sái]",
+            "emotion": "kind",
+            "doc": [
+                "$~Guá ē pang lí khòaⁿ koan-tsiòng ū-bô kéng tek-pia̍t ê @language ia̍h-sī @region:",
+                "\\🌍/en\\",
+                "\\🌍/es-MX\\",
+                "Lí nā beh uī-tio̍h koan-tsiòng kéng ê gí-giân lâi kái lí ê piáu-ián, tse tsiok ū-iōng."
+            ],
+            "start": "$~Gí-giân sī-m̄-sī $locale?"
+        },
+        "ListAccess": {
+            "name": "$~List ê tshiau-tshuē",
+            "description": "$~tshiau-tshuē $index ê tē $list ê sik-ín",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Guá kap @List tsin kīn, pang-kàu in tī tsi̍t-ê uī-tì khuànn tio̍h @values. Pí-lūn kóng, nā lí ū tsi̍t-ê list, siūnn beh tshiūnn tē-jī-ê hāng-bo̍k, lí tio̍h siá:",
+                "\\list: ['bird' 'ia̍h-á' 'hî' 'tsôa']\nlist[2]\\"
+            ],
+            "start": "$~Lán sian tshōe tio̍h list $list",
+            "finish": "$~Tī sik-ín hit-ê uī-tì ê hāng-bo̍k sī $value!"
+        },
+        "ListLiteral": {
+            "name": "$~list sû-tsù",
+            "description": "$~$#count[$count ê ta̍t ê list|$count ê ta̍t ê list]",
+            "emotion": "eager",
+            "doc": "$~Guá sī @values ê tsi̍t-ê tek-tīng @List! Khuànn @List lâi liáu-kái lí ē-sái kap guá tsò siá-mih.",
+            "start": "$~Lán sian sǹg hāng-bo̍k",
+            "finish": "$~Guá tsò tsi̍t-ê guá! $value"
+        },
+        "Localized": {
+            "name": "$~pún-tē-hua",
+            "description": "$~pún-tē-hua ê bûn-jī",
+            "emotion": "serious",
+            "label": {
+                "value": "$~ta̍t"
+            },
+            "doc": [
+                "$~Guá kā tsi̍t-ê locale iōng tī lí sǹg--tshut-lâi ê bûn-jī, hō· in kái-liáu liáu-āu iáu-sī pó-liû in ê @language. Án-ne:",
+                "\\('lí-hó' + \"!\")/en\\",
+                "Tsē-tsē bûn-jī ê tsò-hoat bô-lūn kám kái lóng ē pó-liû locale, m̄-koh lí nā siūnn-beh ka-kī siat-tīng, guá ē-sái pang-chān lí.",
+                "Guá tsí-ū ē-sái tī bûn-jī-siōng tsò-khang, ài khak-tsiok hō· guá bûn-jī!"
+            ],
+            "start": "$~Lán sian sǹg $value, ánn-āu kā ia̍h tsi̍t-ê locale…"
+        },
+        "Spread": {
+            "name": "$~spread",
+            "description": "$~$list[$list|tsi̍t-ê list] ê spread",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá pang-chān lí iōng pa̍t-ê list ê @values khí-tsò tsi̍t-ê @List. Án-ne:",
+                "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\🪲"
+            ]
+        },
+        "PatternLiteral": {
+            "name": "$~hōo-bóng",
+            "description": "$~$#count[$count ê pō͘-hūn ê pattern|$count ê pō͘-hūn ê pattern]",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá sī tsi̍t-ê pattern! Guá miâ-siá ê sī bûn-jī ê *hîng-sīng*, m̄-sī tsîng-tsiânn ê jī, ïnn-uī án-ne lí ē-sái iōng \\≈\\ kiám-tsa ——tsióng-ê bûn-jī hap--bô?—— a̍h-sī iōng \\⌕\\ tshōe hit-ê hîng-sīng tī tá-lo̍h tshut-hiān. Tshōe--tshut-lâi ē hoê-tsiá tsi̍t-ê @Result ê list.",
+                "Tse sī tsi̍t-ê tshōe ê lē —— tī kóng tsá-tǹg ê kù-á tsiong tshōe tsiah-mi̍h-kiānn ê jī:",
+                "\\breakfast: 'Guá tsá-tǹg tsia̍h ke-nn̄g, thò-sū, kah kam-á-tsap'\nbreakfast ⌕ ⣿ \"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "Tòa tsò-pêng khuànn kàu tsiàⁿ-pêng. @PatternClass hap tsi̍t-ê tsióng-lūi ê jī-guân: \\⣿◌⣿\\ sī sím-mi̍h lóng hó, \\⣿_⣿\\ sī tsi̍t-ê jī-bó, \\⣿#⣿\\ sī tsi̍t-ê sò-jī, \\⣿␣⣿\\ sī tsi̍t-ê khang-keh. Ēng tshiùnn-tsì khǹg--ê ê bûn-jī sī @PatternLiteralText, ē tsiok-tsiânn hap, tshiūnn \\⣿\"-\"⣿\\. Sīnn-ê \\⣿…⣿\\ —— tsi̍t-ê @PatternRest —— ē hap jīm-hô sò-liōng ê jī-guân.",
+                "Sò-liōng sian lâi. @PatternQuantified ē kā āu-bīn hit-pō͘ tsiōng @PatternQuantifier tîng-hok: \\⣿3 #⣿\\ sī sann-ê sò-jī, \\⣿3–5 #⣿\\ sī sann kàu ngóo-ê, \\⣿>0 #⣿\\ sī tsi̍t-ê í-siōng, \\⣿≥0 #⣿\\ sī 0 ê í-siōng, \\⣿≤1 #⣿\\ sī ē-sái bô.",
+                "Iōng @PatternGroup pa̍k-hūn pō͘-hūn, iōng @PatternSequence thê-kiong sán-te̍k, tshiūnn \\⣿(◌ | #)⣿\\. Tsuàn-tsò-tī-tsi̍t-ê siōng tn̂g ê sán-te̍k thàn.",
+                "@PatternSet hap tsi̍t-ê tsi̍p-hap lāi-té ê tsi̍t-ê jī-guân, @PatternRange ē khuànn-tuè jī-guân ê @scope, tshiūnn \\⣿ {\"a\"–\"z\" #}⣿\\. Iōng @PatternComplement lâi hui-tīng tsi̍t-ê pō͘-hūn, tshiūnn \\⣿~#⣿\\.",
+                "Iōng @PatternProperty lâi sè-hūn tsi̍t-ê lūi-pia̍t, tshiūnn \\⣿ _/greek⣿\\ sī Hi-lia̍p jī-bó, a̍h-sī \\⣿ ◌/emoji⣿\\.",
+                "Iōng @PatternCapture kā tsi̍t-tsūn tsiok-tsiânn miâ-miâ, tshiūnn \\⣿ year: (4 #)⣿\\, ānn-āu iōng @PatternBackref tsi̍t-ê kan-tan ê miâ lâi tsài iōng. Muí-ê @Result ē iōng miâ pò-kò pa̍k-tio̍h ê tsūn.",
+                "Iōng @PatternAnchor tsuân-tsāi piⁿ-iân: \\⣿⊢⣿\\ khai-sí, \\⣿⊣⣿\\ kiat-sok. Iōng @PatternLook khuànn bô tsiah-ê: \\⣿▸(#)⣿\\ ia̍h-tsiân, \\⣿◂(#)⣿\\ ia̍h-āu.",
+                "Iōng @PatternWord \\⣿ ▭/en⣿\\ hap tsuân-ê tsi̍t-ê jī, a̍h-sī iōng @PatternWordEdge \\⣿ ┊/en⣿\\ hap jī ê piⁿ-kài, ūi @language lâi tsiat. Tī @PatternCaseFold \\⣿ Aa(\"hi\")⣿\\ lāi-té bô-khuànn tuā-sè-siá.",
+                "Guá ê @type sī tsi̍t-ê @PatternType —— kā tsi̍t-ê miâ tsù-kái tsiah-ê, tshiūnn \\p•⣿⣿: ⣿ ◌⣿\\🪲 —— án-ne lí ē-sái kā guá khǹg tī tsi̍t-ê miâ, tī tsē-tsē bûn-jī tsiong-tsò tsài iōng."
+            ],
+            "start": "$~Hō· guá khuànn tsit-ê bûn-jī sī án-tsuánn.",
+            "step": {
+                "search": "$~Lán tshōe tsit-ê pattern tī bûn-jī lāi-té tī tá-lo̍h tshut-hiān.",
+                "test": "$~Lán kiám-tsa tsit-ê tsuân-ê bûn-jī hap--bô hap tsit-ê pattern.",
+                "scan": "$~Tùi uī-tì $position khai-sí tshōe pattern.",
+                "match": "$~$pattern tī uī-tì $glyph hap $position.",
+                "miss": "$~$pattern tī uī-tì $glyph bô hap $position.",
+                "end": "$~$pattern iáu-ài tsi̍t-ê jī-guân, m̄-koh lán tī uī-tì $position í-king kàu bûn-jī ê bué-tsîng.",
+                "here": "$~$pattern tī uī-tì $position sêng-li̍p.",
+                "nothere": "$~$pattern tī uī-tì $position bô sio-hôo.",
+                "repeat": "$~$pattern sio-hôo $count kái — kàu-giáu, thang kè-sio̍k.",
+                "short": "$~$pattern tsí sio-hôo $count kái — m̄-kàu."
+            },
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~khòng ê pattern",
+                    "explanation": "$~Guá bô lōo-hūn, số-í guá sio-hôo bô siánn-mih ū-iōng ê. Lí ē-sái ka-thiam tsi̍t-ê lōo-hūn bô?",
+                    "resolution": "$~Ka-thiam tsi̍t-ê \\◌\\ lâi sio-hôo lūi-ná ê tsi̍t-ê jī-goân"
+                }
+            }
+        },
+        "PatternSequence": {
+            "name": "$~sūn-sī",
+            "description": "$~pattern sūn-sī",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá sī tsi̍t-pâi pattern lōo-hūn, ùi tsó-pîng kàu iū-pîng, tsi̍t-ê tòe tsi̍t-ê lâi sio-hôo.",
+                "Ma-sī lán lâi khuànn tsi̍t-ê tiān-uē hō-bé ê hîng-á — sann-ê sò-jī, tsi̍t-tiâu tshuā-suànn, ê-hō̍ sì-ê:",
+                "\\phone: '555-1234'\nphone ≈ ⣿ 3 # \"-\" 4 #⣿\\🪲",
+                "Ná-sī hō guá kuí-ê soán-tik, guá tō ká-í tsit-ê ū-hap ê, khah-ài siōng tn̂g ê, kah \\⣿ \"cat\" | \"dog\"⣿\\ siâng-khuán."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~tiòng-tîng ê soán-tik",
+                    "explanation": "$~$shorter sī $longer ê khai-thâu, koh-thài siōng tn̂g ê soán-tik tsóng-sī tshiânn-ing, số-í $shorter tsí ū tī $longer bô-hō sio-hôo ê sî-tsūn tsiah ē sio-hôo. Lí sī-m̄-sī ài án-ne?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~jī-goân lūi-pia̍t",
+            "description": "$~jī-goân lūi-pia̍t",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá sio-hôo tsi̍t-lūi ê tsi̍t-ê jī-goân: \\⣿◌⣿\\ lām-ê grapheme, \\⣿_⣿\\ tsi̍t-ê jī-bó, \\⣿#⣿\\ tsi̍t-ê sò-jī, \\⣿␣⣿\\ tsi̍t-ê khang-keh.",
+                "Tshiūnn-ná, tùi tsi̍t-ê lia̍h-tsio̍h-ê tsi̍t-ê jī-bó tòe sò-jī @code khià tshut-lâi:",
+                "\\codes: 'a1 b2 c3'\ncodes ⌕ ⣿ _ #⣿\\",
+                "Lí ē-sái iōng quantifier ná \\⣿>0 #⣿\\ (tsi̍t-ê á-sī koh-khah-tsē ê sò-jī) lâi kè guá, á-sī iōng @property ná \\⣿ _/greek⣿\\ (Hi-lia̍p jī-bó) lâi siáu-iok guá."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~sio̍k-sìng",
+            "description": "$~Unicode sio̍k-sìng",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá ē ka jī-goân lūi-pia̍t siáu-iok kàu tsi̍t-ê Unicode @property. Iōng tsi̍t-ê jī-thé, ná \\⣿ _/greek⣿\\, \\⣿ _/han⣿\\, á-sī \\⣿ _/arabic⣿\\.",
+                "Tshiūnn-ná, tī sio-tsham ê bûn-jī lāi-té tshiau-tshē Hi-lia̍p jī-bó ê tsi̍t-tsūn:",
+                "\\text: 'hello αβγ world'\ntext ⌕ ⣿ >0 _/greek⣿\\",
+                "Á-sī tsi̍t-ê lūi-pia̍t, ná \\⣿ ◌/punctuation⣿\\, \\⣿ ◌/currency⣿\\, \\⣿ ◌/Nd⣿\\ (tsi̍t-ê sò-jī), á-sī \\⣿ _/Lu⣿\\ (tsi̍t-ê tuā-sia jī-bó).",
+                "Á-sī sī-tsi̍t-ê sī-á-m̄-sī ê sio̍k-sìng, ná \\⣿ ◌/emoji⣿\\ á-sī \\⣿ _/uppercase⣿\\ — lí iā ē-sái siá-tshut miâ kah @value, ná \\⣿ ◌/Script=Greek⣿\\.",
+                "Iōng @PatternComplement lâi pâi-tû tsi̍t-ê sio̍k-sìng, ná \\⣿ ~◌/emoji⣿\\ (m̄-sī emoji ê lóng ū)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~bô-tsai-iánn ê sio̍k-sìng",
+                    "explanation": "$~Guá bô-jīn-bat sio̍k-sìng $name. Lí tshìn-tshái tsi̍t-ê lūi-pia̍t, jī-thé, á-sī Unicode id.",
+                    "resolution": "$~Kái-sûn $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~quantifier",
+            "description": "$~tiōng-hok ê kái-sò",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kóng aū sio-hôo kuí-kái: tsi̍t-ê tik-tik ê \\⣿3 #⣿\\, tsi̍t-ê @scope \\⣿3–5 #⣿\\, \\⣿=3 #⣿\\ (tik-tik sann-kái), \\⣿>0 #⣿\\ (tsi̍t-kái á-sī koh-khah-tsē), \\⣿≥0 #⣿\\ (khòng-kái á-sī koh-khah-tsē), \\⣿<5 #⣿\\ (tsió-kî gōo-kái), \\⣿≤1 #⣿\\ (ē-sái ū ē-sái bô).",
+                "Tshiūnn-ná, tshiau-tshē tsi̍t-kù uē-lāi ê múi-tsi̍t-tsūn sò-jī:",
+                "\\text: 'Guá ū 3 tsiah niau kah 12 tsiah hî'\ntext ⌕ ⣿ >0 #⣿\\",
+                "Guá tsiàu-sī tī guá beh kè ê lōo-hūn ê thâu-chêng, ná \\⣿3 #⣿\\ á-sī \\⣿>0 _⣿\\."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~bô khó-lêng ê kái-sò",
+                    "explanation": "$~Guá ê tsió-sò khah tuā kuè guá ê tuā-sò, số-í guá lóng bē-sio-hôo-tit.",
+                    "resolution": "$~Ka guá ê kái-sò tuì-tāu, hō khah-sè ê tī thâu-chêng"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~tiōng-hok",
+            "description": "$~tiōng-hok tuì-tio̍h",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá ē tuì-tio̍h āu-tsūn ê pōo-hūn tsit-kuá pái.",
+                "Pí-lih kóng, kiám-tsa ZIP @code sī-m̄-sī tsiok-tsāi 5 ê sò-jī:",
+                "\\zip: '98101'\nzip ≈ ⣿ 5 #⣿\\",
+                "Guá thang sǹg 1 lūi, pí-lih \\⣿3 #⣿\\ (3 ê sò-jī), 1 tīng, pí-lih \\⣿ 2 (\"ab\")⣿\\ (2 ê \"ab\"), iā-sī 1 ê hóo-tsī-ê, pí-lih \\⣿2 ~#⣿\\ (2 ê m̄-sī sò-jī). Ti-ê \\⣿>0 #⣿\\, guá tsiok tham — guá ē ná-tsiah-tsiok-ê ná-tsiah-tsiok-ê."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~tiāⁿ-tio̍h",
+            "description": "$~tiāⁿ-tio̍h miâ-kiò $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá ê miâ kàu 1 ê tuì-tio̍h ê pōo-hūn, hōo lí thang tuì tsit-ê @Result ê mi̍h tshiūⁿ-khuànn.",
+                "Pí-lih kóng, tuì 1 ê ji̍t-kî ê nî, gue̍h, ji̍t tshuā-tshut-lâi:",
+                "\\date: '2026-06-17'\ndate ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\",
+                "Sòo-ê āu-bīn ê @how, koh siá guá ê miâ tō ē-tàng iōng — khuànn @PatternBackref — pí-lih \\⣿ w: (>0 _) ␣ w⣿\\ lâi tshē tiōng-hok ê jī."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~tiōng-hok ê tiāⁿ-tio̍h",
+                    "explanation": "$~Lēng-gua 1 ê tiāⁿ-tio̍h í-king iōng $name tsit-ê miâ, só-í tsit-ê ē khàm-tiāu i.",
+                    "resolution": "$~Kái tsit-ê tiāⁿ-tio̍h ê miâ, kiò-tsò $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~m̄-sī",
+            "description": "$~hóo-tsī-ê tuì-tio̍h",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá tuì-tio̍h 1 ê ji̍t-tsú-ê, m̄-sī āu-bīn ê hit-ê. Thang hóo-tsī 1 ê lūi, pí-lih \\⣿~#⣿\\ (m̄-sī sò-jī), iā-sī 1 ê tsi̍p-ha̍p, pí-lih \\⣿~{\":\" ␣}⣿\\ (m̄-sī mn̄g-tiám iā-sī khang-kheh).",
+                "Pí-lih kóng, kā mn̄g-tiám ê @key kap @value tshuā-tshut-lâi, tuì-tio̍h m̄-sī mn̄g-tiám iā-sī khang-kheh ê 1 tsūn:",
+                "\\tuì: 'tshiūnn-sik: lâm'\ntuì ⌕ ⣿ >0 ~{\":\" ␣}⣿\\",
+                "Iā thang hóo-tsī 1 ê tsōo, pí-lih \\⣿~(◌ | #)⣿\\, iā-sī 1 ê @property pí-lih \\⣿ ~◌/emoji⣿\\ (m̄-sī emoji).",
+                "Phāng guá tī @PatternLook ê tsiàn-bīn lâi hóo-tsī i: \\⣿~▸(#)⣿\\ ê ì-sù sī \"āu-bīn m̄-sī sò-jī\", \\⣿~◂(\"$\")⣿\\ ê ì-sù sī \"tsiàn-bīn m̄-sī kim-kuân-hû\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~tsōo",
+            "description": "$~muí-tsōo",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kā tsiok-tsiok pōo-hūn pau-tsò-hóo, hōo 1 ê sò-bo̍k iā-sī 1 ê kéng-tsik thang kàu in uân-pōo. Guá bē tiāⁿ-tio̍h; beh kiò-miâ tō iōng @PatternCapture.",
+                "Pí-lih kóng, kiám-tsa 1 kóa jī-bûn sī-m̄-sī \"ab\" tsit-ê im-tsiat tiōng-hok:",
+                "\\chant: 'ababab'\nchant ≈ ⣿ >0 (\"ab\")⣿\\",
+                "Sǹg 1 ê tsōo, pí-lih \\⣿ 2 (\"ab\")⣿\\ (2 ê \"ab\"), iā-sī 1 ê kéng-tsik, pí-lih \\⣿(◌ | #)⣿\\ (1 ê jī-bó iā-sī 1 ê sò-jī)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~jī-hing tsi̍p-ha̍p",
+            "description": "$~grapheme tsi̍p-ha̍p",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá tuì-tio̍h 1 ê tsi̍p-ha̍p lāi-té ê ta̍k-ê grapheme.",
+                "Pí-lih kóng, tshē 1 ê jī ê bó-im:",
+                "\\sû: 'lí-hó'\nsû ⌕ ⣿ {\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "Kā @scope kap lūi ha̍p-tsò-hóo, pí-lih \\⣿ {\"a\"–\"z\" #}⣿\\ iā-sī \\⣿ {# \"a\"–\"f\"}⣿\\ (1 ê tsa̍p-lio̍k-ûn sò-jī). Iōng @PatternComplement lâi hóo-tsī, pí-lih \\⣿~{\"!\" \"?\"}⣿\\."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~huān-uî",
+            "description": "$~huān-uî tuì $low kàu $high",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá tuì-tio̍h 2 ê tsit-tsūn tsiong-kan, uī-tsū kâng-tsūn sūn-sī lāi-té ê grapheme, guá tiàm @PatternSet lāi-té.",
+                "Pí-lih kóng, tuì 1 kóa jī-bûn tshuā-tshut sió-siá jī-bó ê jī:",
+                "\\text: 'hello world 2026'\ntext ⌕ ⣿ >0 {\"a\"–\"z\"}⣿\\",
+                "Kā jī-bó, pí-lih \\⣿ {\"a\"–\"z\" \"A\"–\"Z\"}⣿\\, iā-sī sò-jī, pí-lih \\⣿{\"0\"–\"9\"}⣿\\, tuì sím-mih bûn-jī lóng ē-tàng, pí-lih \\⣿ {\"あ\"–\"ん\"}⣿\\."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~lí-sik",
+            "description": "$~tsiânn-tsiânn ê bûn-jī $text",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kap kue-hioh-ē ê bûn-jī tsiânn-tsiânn kâng, bô lia̍h-tshut kî-thiann ê ì-sù.",
+                "Mā-sī kóng, tī tsi̍t-kù uē lāi-té tshuē tshut kim-ia̍h:",
+                "\\receipt: 'Kin-á-ji̍t tse tio̍h $5'\nreceipt ⌕ ⣿ \"$\" >0 #⣿\\",
+                "Lí thang iōng guá lâi phah koo-tīng ê pōo-hūn, pí-lūn \\⣿\"-\"⣿\\, \\⣿\"@\"⣿\\, kàu-sī sì-kì ê tsi̍t-ê jī \\⣿ \"cat\"⣿\\, kap kî-thann pōo-hūn liâm-teh, pí-lūn \\⣿3 # \"-\" 4 #⣿\\ tsuè tiān-uē hō-bé."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~tīng-tiám",
+            "description": "$~bûn-jī ê piⁿ",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kap bûn-jī ê piⁿ tui-tioh, m̄ tah-tsuè tio̍h-ê kî-thann: \\⣿⊢⣿\\ sī khai-thâu, \\⣿⊣⣿\\ sī kiat-bué.",
+                "Mā-sī kóng, kiám-tsa tsi̍t-kù pìn-hōo-uē sī-m̄-sī í \"Hello\" khai-thâu:",
+                "\\greeting: 'Sè-kài, lí-hó'\ngreeting ≈ ⣿ ⊢ \"Hello\" …⣿\\",
+                "Ke-tshiu uī-tì, pí-lūn \\⣿ ⊢ \"Hi\"⣿\\ (í \"Hi\" khai-thâu), \\⣿\".\" ⊣⣿\\ (í ku-tiám kiat-bué), kàu-sī \\⣿⊢ _ ⊣⣿\\ (tsiah-ê bûn-jī tsí-ū tsi̍t-ê jī)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~sû",
+            "description": "$~tsi̍t-ê uān-tsíng ê jī",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kap tsi̍t-ê uān-tsíng ê jī tui-tioh, iōng @language ka-tī ê kui-tsik lâi tshuē.",
+                "Mā-sī kóng, lia̍t-tshut tsi̍t-kù uē lāi-té ê jī:",
+                "\\sentence: 'niau tsē leh'\nsentence ⌕ ⣿ ▭/en⣿\\",
+                "Kóng-tshut gí-giân, pí-lūn \\⣿ ▭/en⣿\\ sī Eng-gí, \\⣿ ▭/zh⣿\\ sī Tiong-bûn, koh iōng piⁿ lâi kai-tīng tsi̍t-ê jī, pí-lūn \\⣿ ┊/en \"cat\" ┊/en⣿\\."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~khuí gí-giân",
+                    "explanation": "$~Guá su-iàu tsi̍t-ê gí-giân tsiah tsai-iánn án-tsuánn tshuē jī. Lí thang kha-ke tsi̍t-ê, pí-lūn \\/en\\ buē?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~jī ê piⁿ",
+            "description": "$~jī ê kài-sòaⁿ",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kap @language ê jī kài-sòaⁿ tui-tioh, m̄ tah-tsuè tio̍h-ê kî-thann.",
+                "Mā-sī kóng, tshuē \"cat\" tsit-ê uān-tsíng ê jī, m̄-sī tī \"category\" lāi-té:",
+                "\\text: 'tsi̍t tsiah niau tī tsi̍t ê lūi-pia̍t'\ntext ⌕ ⣿ ┊/en \"cat\" ┊/en⣿\\",
+                "Kā tsi̍t-ê jī lī-tsāi ê lāng-á, pí-lūn \\⣿ ┊/en \"cat\" ┊/en⣿\\, tsiah-ē tsí kap uān-tsíng ê jī tui-tioh."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~khuànn-tsiânn-uî",
+            "description": "$~khuànn-tsiânn-uî",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá khuànn tsîng-bīn \\⣿▸(#)⣿\\ iah-sī āu-bīn \\⣿◂(#)⣿\\ ê tsit-ê, m̄ tah-tsuè tio̍h-ê, só-í ē-té ê pōo-hūn iû-guân ē tùi-tsi̍t-ê uī-tì khai-sí tui-tioh.",
+                "Mā-sī kóng, tshuē múi-ê āu-bīn kīnn-tio̍h su-jī ê jī-bú:",
+                "\\text: 'a1 b2 cc'\ntext ⌕ ⣿ _ ▸(#)⣿\\",
+                "Í-iāu-kiû tsiânn-tsiānn ê sîng-hōo, pí-lūn \\⣿_ ▸(#)⣿\\ (jī-bú āu-bīn kīnn-tio̍h su-jī) iah-sī \\⣿◂(\"$\") >0 #⣿\\ (\"$\" āu-bīn ê su-jī).",
+                "Iōng @PatternComplement lâi hoán-kuè-lâi, put-tsun-iōng sîng-hōo, pí-lūn \\⣿~▸(#)⣿\\ (āu-bīn bô kīnn-tio̍h su-jī)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~hôe-tsí",
+            "description": "$~hôe-tsí",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kap @PatternCapture í-king tui-tioh ê bûn-jī kâng-khuán — tsí-ài siá tsit-ê pua̍t-miâ ê pún-miâ.",
+                "Mā-sī kóng, tshuē tsi̍t-ê liân-sòa tsîng-hok ê jī:",
+                "\\text: 'niau niau tsē tsē leh'\ntext ⌕ ⣿ w: (>0 _) ␣ w⣿\\",
+                "Nā-sī tsi̍t-ê m̄-sī pua̍t-miâ ê pún-miâ, tō ē-sī tsi̍t-ê ū-miâ ê lūi-pia̍t, pí-lūn \\⣿ linebreak⣿\\."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~bô-tsai ê miâ",
+                    "explanation": "$~Bô miâ-tsò $name ê pua̍t-miâ iah-sī lūi-pia̍t, guá bô-ta̍t thang tui.",
+                    "resolution": "$~Kái-sûn $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~sió-khuá",
+            "description": "$~tshun-lo̍h-lâi ê bûn-jī",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kap tshun-lo̍h-lâi ê bûn-jī tui-tioh, ē-sái tsiok-tsē. Tī tsi̍t-ê pōo-hūn ê bué-tsîng, guá tsiok-hó iōng.",
+                "Mā-sī kóng, kiám-tsa tsi̍t-kù uē sī-m̄-sī hashtag — \"#\" āu-bīn ê sím-mih lóng ē-sái:",
+                "\\tag: '#tsá-tǹg'\ntag ≈ ⣿ \"#\" …⣿\\",
+                "Tī koo-tīng ê khai-thâu āu-bīn iōng guá, pí-lūn \\⣿\"#\" …⣿\\ (\"#\" āu-bīn ê sím-mih lóng ē-sái) iah-sī \\⣿ \"Hi \" …⣿\\ (\"Hi \" āu-bīn ê lóng-sī)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~put-tsuè tuā-sè-jī",
+            "description": "$~put-lūn tuā-sè-jī ê tui-tioh",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá tui-tioh ê pōo-hūn bô-tsuè tuā-jī sió-jī.",
+                "Mā-sī kóng, kiám-tsa tsi̍t-ê jī, put-tsuè ka-tī tuā-jī iah-sī sió-jī:",
+                "\\huah: 'LÍ-HÓ'\nhuah ≈ ⣿ Aa(\"hello\")⣿\\",
+                "Kā guá ê pōo-hūn kheh-tī, pí-lūn \\⣿ Aa(\"hi\")⣿\\ (ē kap \"HI\", \"Hi\", iah-sī \"hi\" tui-tioh). Ka-tī tsi̍t-ê @language lâi iōng i ê kui-tsik, pí-lūn \\⣿ Aa/tr(\"i\")⣿\\ (Turkic ê i), guá mā @scope tsi̍t-ê @PatternBackref, pí-lūn \\⣿ Aa(w: (2 _) w)⣿\\."
+            ]
+        },
+        "PatternType": {
+            "name": "$~pōo-hūn ê luī-hîng",
+            "description": "$~hōo-bóng",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá sī tsit-ê @type ê tôo-iūnn @value, tsù-kái ê khuán-sik sa̍h \\p•⣿⣿: ⣿ ◌⣿\\🪲.",
+                "Mé-kuá, lí thang kā tsit-ê tôo-iūnn khǹg tī @name, jiân-āu tī chiâu-chē bûn-jī lāi-té tsài-sú-iōng:",
+                "\\digits: ⣿ >0 #⣿\n'Guá ū 3 tsiah niau kah 12 tsiah hî' ⌕ digits\\",
+                "Khǹg-hó liáu-āu, tī tsū-tsiah tôo-iūnn ē-sái ê tē-hng lóng thang iōng guá, ná-tshái \\text ⌕ digits\\🪲 á-sī \\text ≈ digits\\🪲."
+            ]
+        },
+        "MapLiteral": {
+            "name": "$~Map jī-bīn-ta̍t",
+            "description": "$~Map, ū $#count[$count tè kiān-ta̍t-tuì|$count tè kiān-ta̍t-tuì]",
+            "emotion": "kind",
+            "label": {
+                "values": "$~tuì"
+            },
+            "doc": "$~Guá sī kiān kap @values tsiong-kan ê tsi̍t-ê @Map. Khuànn @Map, tsae-iáu guá án-tsuánn ū-iōng.",
+            "start": "$~Lán tāi-sian sǹg kiān kap ta̍t",
+            "finish": "$~Guá kā ta̍k-ê liân-tī-tsi̍t-tsūn, $value",
+            "conflict": {
+                "NotAKeyValue": {
+                    "name": "$~khuatta̍t",
+                    "explanation": "$~Guá tī @Map lāi-té, só-í sî-iàu ta̍t.",
+                    "resolution": "$~Pau-tsò kiān-ta̍t-tuì"
+                }
+            }
+        },
+        "Match": {
+            "name": "$~phāinn-tuì",
+            "description": "$~Kā $value kap $#count[$count ê ke-sū|$count ê ke-sū] phāinn-tuì",
+            "emotion": "curious",
+            "label": {
+                "case": "$~ke-sū",
+                "other": "$~khì-sū-tāi"
+            },
+            "doc": [
+                "$~Guá sī @condition kiám-tsa lāi-té siōng bē-sai ê: guá ná @value, kap kuí-nā-ê ke-sū pí-kàu, jiân-āu sǹg tsiah-ê phāinn-tuì ê!",
+                "Mé-kuá, ná-sī lí ū @Number, siūnn-beh kā i piàn-tsò @Text, ē-sái án-ne tsò:",
+                "\\number: 2\nnumber ???\n\t1: 'tsi̍t'\n\t2: 'nn̄g'\n\t3: 'sann'\n\t'koh khah tuā!'\\",
+                "Ná-sī lóng bô phāinn-tuì, guá tō sǹg lí hōo guá ê siūnn-tshái @expression.",
+                "Guá tuì-kā tsòng-tsiàu in-uī ū-bē-tsió ê @Number, @Text, á-sī khah ho̍k-tsa ê ta̍t, piàn-tsò pat-ê tāi-tsì, tsin ū-iōng.",
+                "Lí mā ē-sái iōng tī @Boolean á-sī @None, m̄-kú in bē ū hiah-nī-tsē khuán, só-í tuì hiah-ê kán-tan ê ta̍t, guá bô-án-tsuánn ū-iōng.",
+                "Kap @Conditional kāng-khuán, guá mā ē kā lí kóng guá ha̍k-tio̍h siánn. Tī tsi̍t-ê ke-sū lāi-té, guá phāinn-tuì ê @value tsai-iánn tō-sī hit-ê ke-sū; tī āu-bīn ê ke-sū, i tsai-iánn bô-sī tsìn-tsîng ê lóng-tsóng tsi̍t-ê; tī guá ê siūnn-tshái, i tsai-iánn kui-ê lóng m̄-sī.",
+                "\\answer•#|'': 1\nanswer ???\n\t1: answer + 1\n\t'm̄-sī tsi̍t'\\",
+                "Guá thang pâi-tû @Number, @None, á-sī @Text tshiū tsi̍t-ê tsuan-huànn ê ke-sū, kap pat-khuán kán-tan ê ke-sū. M̄-kú tsi̍t-ê ke-sū nā-sī sǹg tsi̍t-ê tāi-tsì, tō bô pâi-tû siánn-mih, só-í guá ê siūnn-tshái lóng tshun-lâi @value iáu ū khó-lîng sī ê lóng-tsóng."
+            ],
+            "start": "$~Lán lâi khuànn $value sī siánn...",
+            "case": "$~Lán lâi kiám-tsa tsit-ê tiâu-kiānn",
+            "finish": "$~Hó, lán ū siōng-āu ê ta̍t!"
+        },
+        "NumberLiteral": {
+            "name": "$~Sò-jī jī-bīn-ta̍t",
+            "description": "$~$number$unit[ $unit|]",
+            "emotion": "excited",
+            "doc": "$~Guá sī tsi̍t-ê @Number. Lí ē-sái iōng @language ê ta̍k-khuán sò-jī lâi siá guá. Khuànn @Number, tsai-iáu guá ē-sái tsò siánn.",
+            "start": "$~$value!",
+            "conflict": {
+                "NotANumber": {
+                    "name": "$~bô-sī sò-jī",
+                    "explanation": "$~Guá siūnn guá tsai-iánn ta̍k-ê sò-jī, m̄-kú tsit-ê guá m̄ tsai",
+                    "resolution": "$~Tshiân-tsò *0*"
+                }
+            }
+        },
+        "InternalExpression": {
+            "name": "$~lāi-pōo piáu-ta̍t-sik",
+            "description": "$~ka-tsāi piáu-ta̍t-sik",
+            "emotion": "neutral",
+            "doc": "$~Guá sī tsi̍t-ê tsí-iōng guân-pún tsok-tsia ê @expression. Lí án-tsuánn tshuē-tio̍h guá? Siūnn-beh khah tsē liáu-kái guá, lí tio̍h kap in kóng.",
+            "start": "$~Pì-bi̍t piáu-ta̍t-sik"
+        },
+        "NoneLiteral": {
+            "name": "$~bô ê bûn-jī-ta̍t",
+            "description": "$~bô-mā",
+            "emotion": "neutral",
+            "doc": "$~Guá tsò @None, tsit-ê khá-it-bô-jī ê bô-mā @value. Khuànn @None lâi liáu-kái khah-tsē.",
+            "start": "$~… ø"
+        },
+        "Otherwise": {
+            "name": "$~bô--ê-ūi",
+            "description": "$~$left bô--ê-ūi $right",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kiám-tsa @value sī-m̄-sī @None, nā sī, guá tō tsóng lí tsi̍t-ê pī-iōng ê ta̍t.",
+                "/Pí-lih kóng, nā lí ū tsi̍t-ê ta̍t khó-lîng sī @Number iáu-sī @None, @Otherwise ē pang-tsān lí hōo tsi̍t-ê ân-sin ê sò-jī:",
+                "\\maybeNumber•#|ø: 1\nmaybeNumber ?? 0\\"
+            ],
+            "start": "$~ø ??",
+            "finish": "$~… $value"
+        },
+        "Previous": {
+            "name": "$~siōng-tsîng",
+            "description": "$~$number ê siōng-tsîng $range-ê ta̍t$stream[|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá ē tńg-thâu khuànn @stream ê le̍k-sú, kā lí kóng i kuè-khì ê tsi̍t-ê @values. Lí ū siūnn-kuè beh kì-tit kuè-khì ê tāi-tsì bô?",
+                "Guá sī Verse ê kuan-hong kì-lio̍k-guân!",
+                "Pí-lih kóng, @Time ngóo tsiūnn-tī nn̄g-tsiap-á tsîng sī án-ne:",
+                "\\← 5 Sîkan(1000ms)\\",
+                "Khuànn i ū-khah-bô @None 5 miáu, ê āu-lâi tsuah-jiân sī tsi̍t-ê siōng-tsîng ê sî-kan?",
+                "Nā-sī lí beh siōng-kîn ê kuí-ê ta̍t, hōo guá nn̄g-ê ȷiòng-thâu, guá ē kā sò-jī tòng-tsò ê sò-liōng:",
+                "\\←← 5 Sîkan(1000ms)\\",
+                "Khuànn i sī siōng-tsîng ê gōo-pái sî-kan, m̄-sī tsi̍t-pái nā-tiāu-á?",
+                "Lí beh tsò ê piáu-iân ài ēng-tio̍h kuè-khì ê sî, guá tō ū-ēng."
+            ],
+            "start": "$~Seng ta̍k $stream",
+            "finish": "$~Sǹg-tshut tsu-liāu-liû ê ta̍t $value",
+            "label": {
+                "range": "$~huān-uî"
+            }
+        },
+        "Program": {
+            "name": "$~tshing-sik",
+            "description": "$~ū $#count[$count-kuá kù|$count-kuá kù] ê tshing-sik",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī piáu-iân khai-sí kap kiat-sok ê tē-tī, pau-hâm kî-thaⁿ ê kak-sik, kā tsit-tsháng piáu-iân tsò khí-lâi.",
+                "Lí tsai-iánn @Block ē sǹg tsi̍t-tsūn piáu-ta̍t-sik, siōng-āu-ê tsiū-sī i ê kiat-kó--m?",
+                "Guá mā-sī án-ne, m̄-koh bô-sī kā guá ê @value hōo guá sóo-tsāi ê @expression, guá sī kā ta̍t pàng tī @Stage.",
+                "Ta̍t thang sī tāi-tsì: @Number, @Text, @Boolean, @List, @Set, @Map, mā thang sī khah ho̍k-tsa̍p ê, ná-tshiūnn @Phrase, @Group, @Stage.",
+                "Nā lí bô hōo guá ta̍t thang tī bú-tâi tsi̍t-ê, guá ē tsit lí.",
+                "Nā-sī piáu-iân ê tiong-kan ū būn-tê, guá ē kā būn-tê khuànn hōo lí.",
+                "Nā-sī lí ê piáu-iân tuè *@stream*, tsu-liāu-liû múi pìⁿ, guá tō koh sǹg tsi̍t-pái."
+            ],
+            "label": {
+                "borrows": "$~tsioh",
+                "expression": "$~block"
+            },
+            "unevaluated": "$~lí kéng ê tsit-ê tsiám-tiám bô sǹg",
+            "start": "$~$stream[$stream tsu-liāu-liû piàn-sêng $value--aʔ!|Tse sī guá tē-it-pái sǹg]",
+            "halt": "$~tú-tio̍h ê-gōa, thêng-tsī",
+            "finish": "$~lóng sǹg uân-liáu, kiat-kó sī $value",
+            "done": "$~bô-siánn teh sǹg",
+            "exception": {
+                "BlankException": {
+                    "description": "$~khang ê tshing-sik",
+                    "explanation": "$~Lán lâi piáu-iân! Beh uì tá-lī khai-sí?"
+                },
+                "EvaluationLimitException": {
+                    "description": "$~ping-ka̍k siàn-tsè",
+                    "explanation": "$~@Evaluate kap guá tshiok-kah sǹg-tsiok-lah, nā-sī $function. Tse ū khó-lîng $function tī-tsia ka-kī sǹg bē-soah, tsiok-ê bē-tsîng?"
+                },
+                "StepLimitException": {
+                    "description": "$~pōo-sòo siàn-tsè",
+                    "explanation": "$~Pōo-sòo ke-kah-á! Tsiok-tsē bē-soah! Lí ē-tàng ba̍k-tsiūⁿ tsiok-kán-tan ê piáu-iân bô?"
+                },
+                "ValueException": {
+                    "description": "$~khuatta̍t",
+                    "explanation": "$~Guá siūⁿ-beh ta̍t, m̄-koh bô tshuē-tio̍h!"
+                },
+                "InternalException": {
+                    "description": "$~lāi-pōo tshò-gō͘",
+                    "explanation": "$~Lāi-pōo tshut-sū, tsiok-bái-ê: $reason"
+                },
+                "PermissionException": {
+                    "description": "$~bô-tsún tsu-gî",
+                    "explanation": "$~Guá siūⁿ-beh lí ê $permission lâi khí-tāng, m̄-koh guá bô. Tshiann Retry koh sī-khuànn. Nā-sī iû-goân bô-iōng, tī lí ê liû-lám-khì siat-tīng-lāi hōo chit-ê bāng-tsām $permission."
+                }
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~bô-suat-bîng ê hun-hióng",
+                    "explanation": "$~Chit-ê í-king hun-hióng, ē ū pat-lâng lâi khuànn, in bô siá--ê — tī téng-bīn siá /doc/ suat-bîng chit-ê ūi-tio̍h siánn-mih.",
+                    "resolution": "$~Tī téng-bīn siá suat-bîng, ia-sī mài koh hun-hióng chit-ê guân-sí-tóng"
+                },
+                "UnexampledShare": {
+                    "name": "$~bô lē-tsuā",
+                    "explanation": "$~Chit-ê ài ín-sòo, kan-tan suat-bîng m̄-tsiânn-kàu — tī doc lāi-bīn kā lē-tsuā tsáu-chhut, kóng án-tsuánn iōng.",
+                    "resolution": "$~Tī doc ka-thiam lē-tsuā, ia-sī mài koh hun-hióng chit-ê guân-sí-tóng"
+                },
+                "UnexampledKit": {
+                    "name": "$~bô lē-tsuā",
+                    "explanation": "$~Chit-ê guân-sí-tóng-lāi bô-ló-lē-tsuā, ū-lâng lâi tshuē thò-kiānn ê sî-tsūn bô-mih-tàng khuànn — kā chit-ê guân-sí-tóng ê doc ka-thiam lē-tsuā.",
+                    "resolution": "$~Tī chit-ê guân-sí-tóng ê doc ka-thiam lē-tsuā, ia-sī mài koh hun-hióng chit-ê guân-sí-tóng"
+                }
+            }
+        },
+        "PropertyBind": {
+            "name": "$~kái-liông",
+            "description": "$~kái-liông sio̍k-sìng $name[$name|bô-miâ]",
+            "emotion": "kind",
+            "label": {
+                "property": "$~sio̍k-sìng",
+                "value": "$~ta̍t"
+            },
+            "doc": [
+                "$~Guá ē tsò @StructureDefinition @value ê hu-pún, kan-na kái tsi̍t-ê @property — m̄-bián kā tsuân-pōo tāi-tsì ê ta̍t lóng tsò tsi̍t-pái.",
+                "Pí-lē kóng, lí teh kì-lo̍k niau-á, mā siūⁿ-beh tsò tsi̍t-tsiah niau-á ê hu-pún, m̄-koh ài-hō tsi̍t-ê pat-ê hó-khuànn ê ti̍t-tsīng. Guá ē-tàng pang lí kái:",
+                "\\•niau2(miâ2•'' color•'' hobby•'')\n\nkitty: niau2('sap-tshuā' 'kam-á' 'tshnuā')\nkitty.hobby:'ho̍k-ho̍k-kiò'\\",
+                "Chit-ê pí tsò tsi̍t-ê sin ê \\Cat\\, ta̍t kāng-khuán, kan-na ti̍t-tsīng bô-kāng, koh khah kán-tan, m̄-sī?"
+            ],
+            "start": "$~Seng ná-tsiah ta̍t",
+            "finish": "$~Guá kā kiat-kò͘ khóo-pih, m̄-koh $property ê ta̍t sī $value",
+            "conflict": {
+                "InvalidProperty": {
+                    "name": "$~bô-tsai-iánn ê sio̍k-sìng",
+                    "explanation": "$~Guá m̄-sī kiat-kò͘ $structure ê miâ, só͘-í bē-tàng kái-liông.",
+                    "resolution": "$~Kái-miâ tsò *$name*"
+                }
+            }
+        },
+        "PropertyReference": {
+            "name": "$~sio̍k-sìng",
+            "description": "$~sio̍k-sìng $name[$name|bô-miâ]",
+            "emotion": "kind",
+            "label": {
+                "property": "$~sio̍k-sìng"
+            },
+            "doc": [
+                "$~Guá tsò lí tsua̍h tsit ê @StructureDefinition @value ê @properties.",
+                "Tah-sī lí ū tsit ê kè-khuì kuan-hē tsiânn-tshī ê kiōng-sik, lí tō ē-tàng án-ne uì guá thàn-tiỏh i ê ta̍t:",
+                "\\•City(miâ2•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
+            ],
+            "start": "$~Seng ná-tsiah ta̍t",
+            "finish": "$~Tshuē-tio̍h sio̍k-sìng $property, i sī $value"
+        },
+        "Reaction": {
+            "name": "$~hóan-ìng",
+            "description": "$~tuì $condition ê hóan-ìng",
+            "emotion": "excited",
+            "label": {
+                "initial": "$~tshiah-khai-sí",
+                "condition": "$~tiâu-kiānn",
+                "next": "$~hâng-kin"
+            },
+            "doc": [
+                "$~Guá ē tsò tsit ê sin ê tsu-liāu-liû, kàu pa̍t-ê tsu-liāu-liû piàn--khì ê sî-tsūn, i tō tòe-teh kái-piàn. @Streams tsiok kah-ì!",
+                "Tah-sī lí siūnn-beh @Time tshoh-tshoh, m̄-koh beh khuànn-tio̍h ê m̄-sī sò-jī, sī bûn-jī, lí tō ē-tàng án-ne siá:",
+                "\\time: Sîkan(1000ms)\n'khai-sí' … ∆ time … ((time % 2) = 0ms) ? 'siang-sòo' 'tuann-sòo'\\",
+                "âng-á tshiūnn-sī teh kóng \"/tùi 'start' tsit ê jī khai-sí, āu-lāi nā-sī sî-kan piàn--khì, tō khuànn sî-kan sī suann-tsiah ah-sī suann-tsiah-sio̍k, tuà-lo̍h-lâi piàn/.\"",
+                "Guá mā sī tsu-liāu-liû, m̄-koh sī tòe-tio̍h pa̍t-ê tsu-liāu-liû teh piàn ê. Tsiok sin-kî, hōnn?"
+            ],
+            "start": "$~Lán lâi khuànn tsit ê tsu-liāu-liû ū-tióng-ài kái-piàn bô",
+            "finish": "$~Sin ê tsu-liāu-liû ta̍t sī $value",
+            "conflict": {
+                "ExpectedStream": {
+                    "name": "$~siūnn-beh ê tsu-liāu-liû",
+                    "explanation": "$~$condition bô ìn-iōng tsu-liāu-liû, só-í guá tō bē ū hóan-ìng ah!",
+                    "resolution": "$~Khàng-tiāⁿ hóan-ìng, tsí-ū tshun tshiah-khai-sí ê ta̍t"
+                },
+                "ExpectedCondition": {
+                    "name": "$~khuí tiâu-kiānn",
+                    "explanation": "$~Guá siūnn-beh tsai-iáⁿ sím-mi sî-tsūn tióng-ài kái-piàn, lí ē-tàng tī @Reaction ê āu-bīn ka-thiam tsit ê tiâu-kiānn bô?",
+                    "resolution": "$~Ka-thiam tsit ê beh kiám-tsa ê tiâu-kiānn"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~khuí ē-tsit ê ta̍t",
+                    "explanation": "$~Guá tsai-iáⁿ sím-mi sî-tsūn tióng-ài piàn, m̄-koh m̄-tsai beh piàn tsò sím-mi, lí ē-tàng ka-thiam ē-tsit ê ta̍t bô?",
+                    "resolution": "$~Ka-thiam ē-tsit ê ta̍t",
+                    "rangeResolution": "$~Kái-yōng \\‥\\ lâi tsò @Range"
+                }
+            }
+        },
+        "Reference": {
+            "name": "$~ín-iōng",
+            "description": "$~ín-iōng $name",
+            "emotion": "shy",
+            "doc": [
+                "$~Guá iōng @Name lâi ín-iōng tsit ê @value: guá tshuē ū hit ê miâ ê @Bind, ánn-ni kā lí i ê ta̍t. Tshiūnn án-ne:",
+                "\\parrot: 'polly'\nparrot\\",
+                "Nā-sī guá tshuē bô @name, guá tō m̄-tsai tio̍h án-tsuánn.",
+                "\\parrot: 'polly'\nperry\\🪲"
+            ],
+            "start": "$~$name ê ta̍t sī sím-mi?",
+            "conflict": {
+                "UnknownName": {
+                    "conflict": {
+                        "name": "$~bô-tsai ê miâ",
+                        "explanation": "$~$name[Guá tī $name[$scope|tsit ê @Block] bô tsai-iáⁿ tó-ūi hō-tsò $scope ê|Lí ē-tàng kā guá tsi̍t ê miâ bô?]"
+                    },
+                    "resolution": "$~Lí sī-m̄-sī siūnn-beh kóng *$suggestion?*",
+                    "staticResolution": "$~Lí sī-m̄-sī siūnn-beh kóng *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name* sī $language ê miâ. Kā $language ka-ji̍p lí tsuan-àn ê gí-giân, chiah ē-tàng tī tsia iōng."
+                },
+                "ReferenceCycle": {
+                    "name": "$~tsū-kí tsíng-iōng ê ta̍t",
+                    "explanation": "$~ợ, $name ê ta̍t tio̍h khò ka-kī, án-tsuánn lí ē-tsai-iánn góa tio̍h kho ta̍t-sím-mih khì?",
+                    "resolution": "$~Iōng khang-uī thè *$name*, kā tsit-ê huê-khuan phah-tuān"
+                },
+                "UnexpectedTypeVariable": {
+                    "name": "$~bô-tuē-siūnn ê luī-hîng piàn-sòo",
+                    "explanation": "$~Góa m̄-tsai-iánn tsiah-ê luī-hîng ín-sòo beh án-tsuánn tshú-lí",
+                    "resolution": "$~Kā tsit-ê luī-hîng piàn-sòo uì hâm-sòo lāi-té tshú-tiāu"
+                }
+            },
+            "exception": {
+                "NameException": {
+                    "description": "$~bô-tsai ê miâ",
+                    "explanation": "$~$name[Góa tī $name[$scope|tsit-ê @Block]…bô tsay-iánn ū siánn-lâng kiò $scope|Ài-iah, bô miâ!]"
+                }
+            }
+        },
+        "Select": {
+            "name": "$~kéng",
+            "description": "$~uì $table tsíng tshéng-ho̍h $query ê",
+            "emotion": "excited",
+            "doc": [
+                "$~Góa kā @Table lāi-té ho̍h-ha̍p @condition ê hâng tshéng--tshut-lâi. Ū-sî lí tsí-sī iáu-ài piáu-keh ê tsit-pōo-hūn — góa ē-tàng pang lí khioh!",
+                "Pí-phang-kóng lí ū tsi̍t-tè iû-hì ê óng-ka piáu-keh, beh tshuē 10 hun ia-sī koh-khah-tsōo ê lâng, khuànn sím-lâng iânn:",
+                "\\players: ⎡miâ2•'' tuān•'' tiám2•#⎦\n\t⎡'jen' 'red' 8⎦\n\t⎡'joan' 'lâm' 11⎦\n\t⎡'jeff' 'red' 9⎦\n\t⎡'janet' 'lâm' 7⎦\nplayers ⎡?miâ2⎦ tiám2 ≥ 10\\",
+                "Hō-án-ne, góa tō tit-tio̍h tsi̍t-tīn iânn-ka ê hâng! Kì-tit, góa bē kái-piàn piáu-keh, góa sī tso̍h tsi̍t-ê sin ê. Tshun--ê, tio̍h-ài lí ka-kī kuat-tīng beh khǹg tī toh-uī."
+            ],
+            "start": "$~Seng ná-tsi̍t-ê toh-á",
+            "finish": "$~Góa tso̍h-tsi̍t-ê sin ê piáu-keh, tsí-ū kā soán--tio̍h ê hâng kap lân-uī khǹg-tsāi lāi-té!",
+            "conflict": {
+                "ExpectedSelectName": {
+                    "name": "$~khuí-tsuah lân-uī miâ",
+                    "explanation": "$~Góa tshìng-khuann tsi̍t-ê lân-uī miâ.",
+                    "resolution": "$~Kā tsit-ê keh-á tshú-tiāu"
+                }
+            }
+        },
+        "SetLiteral": {
+            "name": "$~tsi̍p-ha̍p bīn-tsú-liāng",
+            "description": "$~ū $#count[$count ê ta̍t|$count ê ta̍t] ê tsi̍p-ha̍p",
+            "emotion": "eager",
+            "doc": "$~Góa sī @values ê tōng-tshî @Set. Khuànn @Set lâi-liáu-kái án-tsuánn kap góa tsò-tīn.",
+            "start": "$~Lán ka-sing sǹg tsiah-ê ta̍t!",
+            "finish": "$~Góa tso̍h-tsi̍t-ê tsi̍p-ha̍p $value!"
+        },
+        "SetOrMapAccess": {
+            "name": "$~tsi̍p-ha̍p/tùi-ìng-tô tshiúnn-tshuē",
+            "description": "$~tī $key tshiúnn-tshuē $setOrMap",
+            "emotion": "kind",
+            "doc": [
+                "$~Góa ē-tàng khuànn @Set ia-sī @Map ū-bô @value ia-sī @key.",
+                "Bē-sī kài-oân. Án-ne:",
+                "\\faves: {'ia̍h-á' 'gô·' 'kó-á'}\nfaves{'niáu-tshú'}\\",
+                "Ia-sī án-ne, ū @Map:",
+                "\\faves: {\n\t\t'mac and cheese': 5stars\n\t\t'cereal': 2stars\n\t\t'gruel': 1stars\n\t}\nfaves{'gruel'}\\"
+            ],
+            "start": "$~Tsi̍p-ha̍p ia-sī tùi-ìng-tô sī sím-mih?",
+            "finish": "$~Ta̍t sī $value",
+            "conflict": {
+                "IncompatibleKey": {
+                    "name": "$~bē-sio-ha̍p ê kiān",
+                    "explanation": "$~Guá siūnn-beh tshiūnn-tio̍h luī-hîng sī $expected ê kiān, m̄-kú siu-tio̍h $given",
+                    "resolution": "$~Kā i kái-tsò $expected, in-uī tsia ài $expected",
+                    "resolutionLiteral": "$~Iōng ! kā tsit ê list, set á-sī map piau-kì tsò literal, ta̍t tsiū ē pó-tshî tsi̍t-tīng, m̄-tsiū-sī pian-tsò tsiàu-kuat — $expected ài ê sī tsi̍t-tīng ê ta̍t",
+                    "resolutionOtherwise": "$~Iōng ?? lâi tshú-lí khuí-sit ê ta̍t, in-uī $expected m̄ ún-hú ø",
+                    "resolutionGuard": "$~Seng iōng luī-hîng siu-huē khuànn i sī m̄-sī $expected, in-uī $expected bē-sái sī pat-ê khó-lîng ê luī-hîng",
+                    "resolutionDeclaration": "$~Ài kā luī-hîng siá hō͘ tshing-tshó, in-uī $expected ài pó-liû ta̍t-ê guân-bīn ê ta̍t.",
+                    "resolutionWrap": "$~Kā i pàng tī list, set á-sī map lāi-té, in-uī $expected ài chi̍t-tīn ta̍t.",
+                    "resolutionStructure": "$~Kā i pau tī $expected lāi-té, in-uī che ê khang-uī ài $expected ta̍t.",
+                    "resolutionDefault": "$~Hō͘ tsit-ê binding chi̍t-ê khai-sí ê ta̍t, in-uī $expected tsia bē-sái thiàu-kuè.",
+                    "resolutionWiden": "$~Hō͘ tsit-ê binding ê ta̍t ê luī-hîng khuah-sut-leh, in-uī $expected thài sió, bē-tòng-tit kî-sit tshun-leh ê mih.",
+                    "resolutionReorder": "$~Kā ín-sòo ê sūn-sī hōo-sio-huānn, in-uī in ê luī-hîng án-ne khah tsiâu-tâng — $expected tio̍h-ài tī tsi̍t-ê khang-uī.",
+                    "resolutionPlaceholder": "$~Seng ēng khang-uī thè-tāi, in-uī $expected ài ê — liáu-āu tuì autocomplete ê tsu-tuann kéng chi̍t-ê ta̍t."
+                }
+            }
+        },
+        "Source": {
+            "name": "$~guân-sí-tóng",
+            "description": "$~guân-sí-tóng $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá sī @Program ê ū miâ ê thang-á — guá ĉhōo i tsi̍t ê miâ, koh kuán i ê @code. Ah, lí tsai-iánn @Program bô? Guá lâi kàu lí tsāi-án-tsuánn kā in khì-miâ.",
+                "Lí mā ē-sái tsò khah-tsōng ê @Source @UI/addSource, ū khah-tsōng ê @Program, koh tùi hit-kuá khah-tsōng ê @Program hun-hióng @Borrow ê tāi-tsì, hōo kah-ī ê thîng-sik tsioh-iōng.",
+                "Tse ē-sái pang lí kā tsi̍t ê tuā ê piáu-ián tsiông-lí sûn-sī̍t, hun-khui tsò put-tông ê bûn-kiānn."
+            ]
+        },
+        "StreamDefinition": {
+            "name": "$~tsu-liāu-liû",
+            "description": "$~tsu-liāu-liû $name",
+            "emotion": "curious",
+            "doc": "$~Guá lâi tīng-gī sin ê @streams. Guá /siūnn/ — kóng-sit-tsāi, guá iáu teh bat án-tsuánn tsò, sóo-í ta̍k-hā tsí ài iōng í-keng ū ê tsu-liāu-liû!",
+            "start": "$~Tsò tsit-khuán sin ê tsu-liāu-liû"
+        },
+        "StructureDefinition": {
+            "name": "$~kiat-kò",
+            "description": "$~kiat-kò $name",
+            "emotion": "kind",
+            "label": {
+                "docs": "$~suat-bîng bûn-kiānn",
+                "inputs": "$~su-ji̍p",
+                "expression": "$~ta̍t kap kang-lîng",
+                "interfaces": "$~kài-bīn"
+            },
+            "doc": [
+                "$~Guá ē tī-gī tsió-tsio̍h ta̍t kap hâm-sòo ê kiat-kò. Lí-hó, lí án-tsuánn? Guá ho̍k-hó, guá siōng-huann-hí kui-ji̍t tsò tsit-ê.",
+                "Guá án-ni tsò:",
+                "\\•pizza(\n\tingredients•['']\n\tsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\npizza(['pepperoni' 'tshài-ta-kiû'] 12in).cost()\\🪲",
+                "Lí khuànn-tio̍h án-tsuánn tsò bô? Guá tī-gī \\Pizza\\, ū nn̄g-ê ín-ji̍p, \\ingredients\\ (tsit-ê @Text ê list) kap \\size\\ (ìn-tshùn ê sò-jī).",
+                "Tsiah-ni̍h, @FunctionDefinition tsò tsit-ê hâm-sòo, ēng lâi sǹg pi-sa ê kè-tsînn, ká-sū ta̍k-ê ìn-tshùn $$10.",
+                "Guá bián ū @FunctionDefinition. Guá kan-tan ū ín-ji̍p tō hó.",
+                "\\•pizza(\n\tingredients•['']\n\tsize•#in\n)\\",
+                "Guá mā ē tī lāi-bīn ū @Bind, án-ni lán ē-sái ka-sian sǹg kè-tsînn.",
+                "\\•pizza(\n\tingredients•['']\n\tsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\npizza(['pepperoni' 'tshài-ta-kiû'] 12in).cost\\🪲",
+                "ēng ↑ kì-hō hō hâm-sòo á-sī @value sio̍k-ū kiat-kò pún-sin, m̄-sī sio̍k-ū ê si̍t-lē. Án-ni lí ēng kiat-kò ê @name tō ē-sái tio̍h-tio̍h, m̄-bián tsò tsi̍t-ê.",
+                "\\•Math() (\n\t↑ pài: 3.14159\n\t↑ ƒ square(n2•#) n2 × n2\n)\n\nMath.pài\nMath.square(5)\\"
+            ],
+            "start": "$~Lán lâi tī-gī tsit-ê hó-khuànn ê kiat-kò",
+            "conflict": {
+                "DisallowedInputs": {
+                    "name": "$~m̄-pin ín-ji̍p",
+                    "explanation": "$~Guá bē-sái ū ín-ji̍p, in-uī guá ê kài-bīn hâm-sòo tiong-kan ū tsi̍t-ê á-sī koh-khah-tsē bô si̍t-hiān",
+                    "resolution": "$~Bô-tiāu ín-ji̍p"
+                },
+                "IncompleteImplementation": {
+                    "name": "$~khuí-khuat ê kiat-kò",
+                    "explanation": "$~guá ê hâm-sòo it-tīng tio̍h tsiong-bú si̍t-hiān, á-sī tsiong-bú bô si̍t-hiān. M̄-thang tsham-tsham-lām!",
+                    "resolution": "$~Pàng-sak ín-ji̍p, hō i piàn-tsò kài-bīn"
+                },
+                "NotAnInterface": {
+                    "name": "$~m̄-sī kài-bīn",
+                    "explanation": "$~Guá m̄-sī kài-bīn; kiat-kò tsí-ē si̍t-hiān kài-bīn, bē-sái si̍t-hiān khah-kî-thann ê kiat-kò",
+                    "resolution": "$~Tuì kài-bīn ê list pàng-sak tsit-ê"
+                },
+                "UnimplementedInterface": {
+                    "name": "$~iáu-bē tsò",
+                    "explanation": "$~Guá si̍t-hiān $interface, ū-kàu $function bē si̍t-hiān",
+                    "resolution": "$~Tī tsit-ê kiat-kò téng-bīn, kā khuì-ê *$function* pó-tsāi"
+                }
+            }
+        },
+        "StructureDefinitionType": {
+            "name": "$~kiat-kò tī-gī",
+            "description": "$~$name",
+            "emotion": "kind",
+            "doc": [
+                "$~Guá tsí-ê sī tsi̍t-khuán @StructureDefinition. Lâng bô-sì-hāng tsit-tsiap kā guá tsí."
+            ]
+        },
+        "KitType": {
+            "name": "$~thò-kiānn",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá sī lâng hoat-piáu ê @kit. I hun-hióng ê taⁿ-hāng lóng ài thàng-kòe guá ê miâ, só-í `colors.sunset` kā lí kóng sī ǹg-bāng tó-tsi̍t-ê `sunset`."
+            ]
+        },
+        "TableLiteral": {
+            "name": "$~table jī-bīn-liōng",
+            "description": "$~$#count[$count tsiah ê table|$count tsiah ê table]",
+            "emotion": "angry",
+            "doc": "$~Guá sī tsi̍t-ê ū tik-tīng hâng ê table. Khuànn @Table tsai-iánn guá ē-sái án-tsuánn pang-tsān.",
+            "start": "$~Seng sǹg hâng",
+            "finish": "$~Sǹg-tsiânn sin ê table $value"
+        },
+        "TextLiteral": {
+            "name": "$~bûn-jī jī-bīn-liōng",
+            "description": "$~bûn-jī '$text'",
+            "emotion": "serious",
+            "label": {
+                "texts": "$~bûn-jī"
+            },
+            "doc": "$~Guá tāi-piáu tsi̍t-ê á-sī tsē-ê @Translation ê bûn-jī. Khuànn @Text lâi tsai-iánn guá ē-tàng tsò siánn-mih!",
+            "start": "$~Lán lâi ēng taⁿ ê gí-giân tsò bûn-jī"
+        },
+        "Translation": {
+            "name": "$~huan-ik",
+            "description": "$~bûn-jī '$text'",
+            "emotion": "serious",
+            "label": {
+                "segments": "$~bûn-jī"
+            },
+            "doc": "$~Guá tsò-tsiah tsi̍t-tuānn bûn-jī, ē-sái ka @Language tó-lia̍p. Khuànn @Text lâi kah-tsē liáu-kái!",
+            "conflict": {
+                "phone": {
+                    "name": "$~khó-lîng sī tiān-uē hō-bé",
+                    "explanation": "$~*$text* sī-bô sī pa̍t-lâng ê tiān-uē hō-bé? Nā sī, mài kā guá hun-hióng tī bāng-lō͘-téng!\n\n$reminder"
+                },
+                "email": {
+                    "name": "$~khó-lîng sī tiān-tsú-iû-kiāⁿ",
+                    "explanation": "$~*$text* sī-bô sī pa̍t-lâng ê tiān-tsú-iû-kiāⁿ? Nā sī, mài kā guá hun-hióng tī tsia!\n\n$reminder"
+                },
+                "tin": {
+                    "name": "$~khó-lîng sī sè-bū pian-hō",
+                    "explanation": "$~*$text* sī-bô sī sè-bū pian-hō? Nā sī, tsiok-tuì mài hun-hióng guá, guá sī tsiok bân-kám ê tsu-liāu!\n\n$reminder"
+                },
+                "address": {
+                    "name": "$~khó-lîng sī tē-tsí",
+                    "explanation": "$~*$text* sī-bô sī pa̍t-lâng tsū-tsiah ê tē-tsí? Nā sī, mài kā guá khǹg tī tsia, mài hō lâng hō-lâng ê tuì-tsiânn!\n\n$reminder"
+                },
+                "handle": {
+                    "name": "$~khó-lîng sī iōng-tsiá miâ-tsheng",
+                    "explanation": "$~*$text* sī-bô sī lí tī bāng-lō͘ pa̍t-uī ê iōng-tsiá miâ-tsheng? Nā sī, tsún-pī bô siūnn-beh tsiū mài kā guá hun-hióng tī tsia.\n\n$reminder"
+                },
+                "resolution": "$~Tsit-ê m̄-sī bân-kám ê tsu-liāu",
+                "reminder": "$~Tsù-ì: Lí ē-sái tī hun-hióng ê tuì-uē-khuànn-á hôe-tsheh tsit-ê tōng-tsok, mā ē-sái khuànn lí piau-kì kòe m̄-sī bân-kám ê kî-thaⁿ tāi-tsì.",
+                "character": {
+                    "name": "$~khó-lîng sī tsū-tīng-gī ê jī-hu",
+                    "explanation": "$~Tsit-ê khuànn-khí-lâi sī jī-hu ê miâ. Beh hián-sī in, iōng @FormattedLiteral, mài iōng @TextLiteral.",
+                    "resolutionStrip": "$~Kā bûn-jī lāi-té ê tsi̍t-tsióng-hû-hō khìnn-tiāu"
+                }
+            }
+        },
+        "FormattedLiteral": {
+            "name": "$~ū-keh-sik ê bûn-jī",
+            "description": "$~ū-keh-sik ê bûn-jī $text",
+            "emotion": "serious",
+            "doc": "$~Guá tsò-tsiah chē-chē ê ū-keh-sik bûn-jī ê @FormattedTranslation. Guá tsio̍h-liáu ê sî-tsūn, ē sī-kuân-tsiá siōng-kah-sī ê @languages tsú-tsiah siōng-kah-tsiâu ê.",
+            "start": "$~Lán lâi ēng taⁿ ê gí-giân tsò bûn-jī"
+        },
+        "FormattedTranslation": {
+            "name": "$~ū-keh-sik ê huan-ik",
+            "description": "$~Kā ū-keh-sik ê bûn-jī huan-ik tsò $language",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá tsò-tsiah tsi̍t-tuānn ū-keh-sik ê bûn-jī, ē-sái ka @Language tó-lia̍p.",
+                "Guá ē-sái sī:",
+                "\\`/sai-thé/`\\",
+                "\\`*tshia̍t-tuā*`\\",
+                "\\`^tshiām-tshiām-tuā^`\\",
+                "\\`_ē-té-sòaⁿ_`\\",
+                "\\`<liân-kiat@https://wordplay.dev>`\\",
+                "\\`\\'thîng-sik-bé'\\`\\",
+                "Guá kap @Phrase tsiok ha̍p, ē-sái kā súi-súi ê bûn-jī khǹg tī @Stage téng."
+            ]
+        },
+        "This": {
+            "name": "$~tsit-ê",
+            "description": "$~tsit-ê kiat-kóo",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá sī \\⬚\\, tsi̍t-ê sè-sè-á ê tsìng-hîng, tāi-piáu @code tng teh tsò ê @value, lí bē-su-iàu kā guá khí-miâ.",
+                "Tī @ConversionDefinition lāi-té, guá sī tsiânn-teh pìnn ê ta̍t:",
+                "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "Tī @Reaction lāi-té, guá sī tsòe-kīn ê ta̍t:",
+                "\\2 … ∆ Sîkan(1000ms) … ⬚ × 2\\",
+                "Tī @Translate lāi-té, guá sī tsiânn-teh tuì-ing ê hit-ê hāng-ba̍k, tsiū-sī tse ē kā múi-ê ta̍t ke tsi̍t:",
+                "\\[1 2 3] ↦ ⬚ + 1\\",
+                "Iā tī @StructureDefinition lāi-té, guá sī tsit-sî ê ta̍t pún-sin, sóo-í guá ē-sái iōng \\⬚.rank\\🪲 khì kàu guá ka-tī ê pō-hūn, tō-pí-lí iōng \\other.rank\\🪲 khì kàu pa̍t-ê ta̍t ê pō-hūn:",
+                "\\•phái(rank•#) (\n\tƒ beats(other•phái) ⬚.rank > other.rank\n)\n\nphái(10).beats(phái(7))\\",
+                "Guá bô tsiok-tsi̍t tshut-hiān, m̄-koh tshut-hiān ê sî, ē-sái tsin-tsiàⁿ pang-tsō tsi̍t-ê ta̍t lī-khui @Bind!"
+            ],
+            "start": "$~Kè-sǹg ê kiat-kó sī $value",
+            "conflict": {
+                "MisplacedThis": {
+                    "name": "$~tsit ê tsù-tsiàu khǹg tshò uī-tì",
+                    "explanation": "$~Guá tsí-ū ē-sái tī kiat-kò, tsuán-huān, huán-ìng, a̍h-sī huan-ik lāi-té.",
+                    "resolution": "$~Thè-tsiânn khang-uī"
+                }
+            }
+        },
+        "UnaryEvaluate": {
+            "name": "$~tuann-ûn-sǹg-hû kè-sǹg",
+            "description": "$~ûn-sǹg $operator",
+            "emotion": "kind",
+            "label": {
+                "input": "$~su-ji̍p"
+            },
+            "doc": [
+                "$~Guá ē kè-sǹg tsi̍t ê @FunctionDefinition, i tsí tshiú tsi̍t ê @value, i ê it-ê-hû-hō miâ siá tī su-ji̍p ê thâu-tsîng — pí-lūn \\-x\\🪲 a̍h-sī \\~b\\🪲. Lí bat tsai-iánn lí ē-sái án-ne siá bô?",
+                "An-ne:",
+                "\\-(1 + 1)\\",
+                "A̍h-sī án-ne:",
+                "\\~⊥\\",
+                "Tsiah-ê pí \\(1 + 1).negate()\\🪲 a̍h-sī \\⊥.m̄sī()\\ khah-iông-ì khuànn, mài-sī?",
+                "Lí bián án-ne siá guá, m̄-koh khó-lîng ē khah-pán-piān.",
+                "Tsí-ū tsi̍t ê kui-tik: miâ kap ta̍t tiong-kan bē-sái ū khòng-keh. Nā-bô lí khó-lîng tī-teh tsò @Reference a̍h-sī @BinaryEvaluate."
+            ],
+            "start": "$~Ta̍t sī sím-mih?",
+            "finish": "$~Guá hō i piàn-tsiânn $value"
+        },
+        "UnparsableExpression": {
+            "name": "$~bē-tàng hun-sik",
+            "description": "$~bē-tàng hun-sik ê code",
+            "emotion": "excited",
+            "doc": [
+                "$~Guá sī tsi̍t tsām @code, bô-tō-lí, in-uī án-ne bô lâng tsai-iánn guá sī sím-mih ì-sù.",
+                "jkwel fjiwojvioao jjiweo jrfe",
+                "/Bô-sī múi ê @expression tī bú-tâi-téng lóng ū ì-sù./",
+                "s w ieorjwei iojwi jfkdlsfdsk",
+                "/Sit-tsāi, lí ē-sái kóng ê uē, ū siuⁿ-tsiâⁿ bô-tō-lí ê./",
+                "dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
+                "/Lí án-ne siá ê sî, guá tō tshut-hiān, in-uī guá m̄-tsai lí sī beh kóng sím-mih./",
+                "Lí sī tó-iân, só-í tsí-ū lí tsiah tsai-iánn lí khó-lîng sī beh kóng sím-mih!"
+            ],
+            "start": "$~???",
+            "conflict": {
+                "UnparsableConflict": {
+                    "conflict": {
+                        "name": "$~khuànn-bô ê code",
+                        "explanation": "$~@FunctionDefinition tī tsia, @UnparsableExpression m̄-tsai tsit ê $expression[ piáu-ta̍t-sik | luī-hîng ] sī siánn-mih luī-hîng."
+                    },
+                    "resolution": "$~Lí sī beh kóng luī-hîng $first, $second mah?"
+                },
+                "UnclosedDelimiter": {
+                    "name": "$~bô koh-tsiūnn ê hun-kâi hû-hō",
+                    "explanation": "$~Guá siūnn-beh tī $expected ê āu-bīn khuànn-tio̍h $unclosed",
+                    "resolution": "$~Kā khuà-tio̍h ê *$expected* kha-jip"
+                }
+            },
+            "exception": {
+                "UnparsableException": {
+                    "description": "$~???",
+                    "explanation": "$~Lín-hó, guá sī @FunctionDefinition! Guán m̄-tsai tsit ê tsí-lēng sī sím-mih ì-sù, só-í teh-tsū."
+                }
+            }
+        },
+        "Update": {
+            "name": "$~keng-sin",
+            "description": "$~keng-sin $table lāi-té ū tùi-tio̍h $query ê hâng",
+            "emotion": "kind",
+            "doc": [
+                "$~Guá pang-bāng siu-kái tsi̍t ê @Table, tshuē-tshut tùi-tio̍h tsi̍t ê @condition ê hâng, jiân-āu tsò-tshut ū sin @values ê siu-kái-kuè ê hâng.",
+                "Pí-lūn, nā-sī lí ū tsi̍t tiuⁿ kak-sik kap hun-sòo ê piáu, lí beh hō tsi̍t tūi lāi-té múi ê kak-sik tsi̍t hun, lí ē-sái án-ne:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
+                "Lí ē-sái iōng @Bind kóng beh kái tó-ê lân-uī, mā ē-sái tī tiâu-kiānn lāi-té iōng @scope ê lân-uī miâ a̍h-sī kî-thâ miâ."
+            ],
+            "start": "$~Seng ná-tsi̍t-ê toh-á",
+            "finish": "$~Kè-sǹg ê kiat-kó sī tsi̍t tiuⁿ ū siu-kái-kuè ê hâng ê sin piáu!",
+            "conflict": {
+                "ExpectedColumnBind": {
+                    "name": "$~khuí lân-uī ê ta̍t",
+                    "explanation": "$~Guá siong-iàu múi-tsı̍t lân-uī lóng ài ū ta̍t",
+                    "resolution": "$~Kā tsit keh-á pau tsò ū miâ ê lân-uī"
+                },
+                "IncompatibleCellType": {
+                    "name": "$~keh-á ê luī-hîng bô sio-tâng",
+                    "explanation": "$~Guá ài sī luī-hîng $expected, m̄-koh guá sī $given",
+                    "resolution": "$~Kā i kái-tsò $expected, in-uī tsia ài $expected",
+                    "resolutionLiteral": "$~Iōng ! kā tsit ê list, set á-sī map piau-kì tsò literal, ta̍t tsiū ē pó-tshî tsi̍t-tīng, m̄-tsiū-sī pian-tsò tsiàu-kuat — $expected ài ê sī tsi̍t-tīng ê ta̍t",
+                    "resolutionOtherwise": "$~Iōng ?? lâi tshú-lí khuí-sit ê ta̍t, in-uī $expected m̄ ún-hú ø",
+                    "resolutionGuard": "$~Seng iōng luī-hîng siu-huē khuànn i sī m̄-sī $expected, in-uī $expected bē-sái sī pat-ê khó-lîng ê luī-hîng",
+                    "resolutionDeclaration": "$~Ài kā luī-hîng siá hō͘ tshing-tshó, in-uī $expected ài pó-liû ta̍t-ê guân-bīn ê ta̍t.",
+                    "resolutionWrap": "$~Kā i pàng tī list, set á-sī map lāi-té, in-uī $expected ài chi̍t-tīn ta̍t.",
+                    "resolutionStructure": "$~Kā i pau tī $expected lāi-té, in-uī che ê khang-uī ài $expected ta̍t.",
+                    "resolutionDefault": "$~Hō͘ tsit-ê binding chi̍t-ê khai-sí ê ta̍t, in-uī $expected tsia bē-sái thiàu-kuè.",
+                    "resolutionWiden": "$~Hō͘ tsit-ê binding ê ta̍t ê luī-hîng khuah-sut-leh, in-uī $expected thài sió, bē-tòng-tit kî-sit tshun-leh ê mih.",
+                    "resolutionReorder": "$~Kā ín-sòo ê sūn-sī hōo-sio-huānn, in-uī in ê luī-hîng án-ne khah tsiâu-tâng — $expected tio̍h-ài tī tsi̍t-ê khang-uī.",
+                    "resolutionPlaceholder": "$~Seng ēng khang-uī thè-tāi, in-uī $expected ài ê — liáu-āu tuì autocomplete ê tsu-tuann kéng chi̍t-ê ta̍t."
+                }
+            }
+        },
+        "AnyType": {
+            "name": "$~sím-mih lóng ū thang",
+            "description": "$~sím-mi lóng ē-sái",
+            "emotion": "curious",
+            "doc": "$~Guá tāi-piáu tout-hōe @type. Ū-sî guá tshut-hiān, sī in-uī guá m̄ tsai @value sī sím-mih luī-hîng, số-í tshái-tshái lóng ū khó-lîng."
+        },
+        "BooleanType": {
+            "name": "$~boolean luī-hîng",
+            "description": "$~boolean luī-hîng",
+            "emotion": "kind",
+            "doc": [
+                "$~Guá kap @Bind tàu-tīn, suat-bîng tsı̍t-ê miâ sī @Boolean @value. Án-ne:",
+                "\\hungry•?: 'jello'\\🪲",
+                "Ná-sī lí siūnn beh khak-tīng sió-mih sī @Boolean, iōng guá, guá tō kā lí kiám-tsa!"
+            ]
+        },
+        "ConversionType": {
+            "name": "$~conversion luī-hîng",
+            "description": "$~conversion luī-hîng",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá kap @Bind tàu-tīn, piáu-sī tsı̍t-ê miâ sī @ConversionDefinition. Lí khó-lîng bô-tsiáu-ài iōng guá, in-uī bô guā-tsē lâng kā guá ták-lâng tsò @value lâi thoân, m̄-koh nā ū, guá ê khuànn-sik tō án-ne:",
+                "\\magic•? → '': → ? '' ⬚ ? 'sī' 'm̄-sī'\\🪲"
+            ]
+        },
+        "FormattedType": {
+            "name": "$~ū-kué-sik bûn-jī luī-hîng",
+            "description": "$~ū-kué-sik bûn-jī luī-hîng",
+            "emotion": "serious",
+            "doc": [
+                "$~Guá kap @Bind tàu-tīn, kì-lio̍k tsı̍t-ê miâ sī @FormattedLiteral @value. Án-ne:",
+                "\\hungry•`…`: `Guá tsiok phiau-liāng ê!`\\🪲",
+                "Siūnn beh khak-tīng sió-mih sī @FormattedLiteral ta̍t? Án-ne tō tit-tio̍h khak-tīng."
+            ]
+        },
+        "ExceptionType": {
+            "name": "$~lī-guā",
+            "description": "$~lī-guā",
+            "emotion": "neutral",
+            "doc": "$~Guá tāi-piáu tsı̍t-ê lī-guā. Bô-hoat-tōo kā bind kóng guá sī lī-guā, in-uī lī-guā tsí ē kā @Program thîng-tsí, số-í lí bē-sái kā in tsò @values iōng."
+        },
+        "FunctionType": {
+            "name": "$~function luī-hîng",
+            "description": "$~ū $inputs ê input ê function",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá tāi-piáu tsı̍t-ê @FunctionDefinition. Nā-sī lí siūnn beh kóng @Bind lāi-té khǹg ê sī sím-mih function, guá tsin ū-iōng! Án-ne:",
+                "\\math•ƒ(a2•# b2•# c2•# d•#) #: ƒ interesting(a3•# b3•# c3•# d2•#) a3 + b3 + c3 + d2\\🪲"
+            ]
+        },
+        "ListType": {
+            "name": "$~list luī-hîng",
+            "description": "$~list luī-hîng$type[ ê $type| ]",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Guá tsin /kah-ì/ @List. Guá thang kā @Bind kóng in sī sím-mih list! Án-ne, guá kóng tse sī @Number ê list:",
+                "\\things•[#]: [1 2 3 4 5]\\🪲",
+                "Guá ū saⁿ-khuán kóng-hoat. Nā-sī guá lóng bô kóng luī-hîng, list ê tn̂g-té bô-hān-tsè, mā thang khǹg sím-mih lóng ū:",
+                "\\stuff•[]: [1 'nn̄g' ø]\\🪲",
+                "Nā-sī guá kóng tsı̍t-khuán luī-hîng, list ê tn̂g-té iû-guân bô-hān-tsè, m̄-koh lāi-té ê mih lóng ài sī hit-khuán luī-hîng, tō-sī téng-bīn hit-ê @Number ê list.",
+                "Nā-sī guá kóng kuí-khuán luī-hîng, guá ê ì-sì tō-sī chiok-chāi hit-kuá-ê mih ê list, múi-ê uī-tī lóng ū tsı̍t-khuán luī-hîng. Tsit-ê sī nn̄g-ê mih ê list: thâu-tsiūnn sī @Number, āu-pêng sī @Text.",
+                "\\tuì•[# '']: [1 'nn̄g']\\🪲",
+                "Tsòng-āu hit-ê guá siōng kah-ì, in-uī án-ne ták-ê lâng lóng tsai sím-mih tī tá-lìn. @ListAccess tsai thâu-tsiūnn sī @Number, tē-jī-ê sī @Text; nā-sī lí hō guá ê mih ê sò-liōng m̄-tio̍h, á-sī sūn-sī pàng m̄-tio̍h, guá ē kā lí kóng!"
+            ]
+        },
+        "MapType": {
+            "name": "$~map",
+            "description": "$~map luī-hîng, $key[$key|sím-mih lóng ū thang] tùi $value[$value|sím-mih lóng ū thang]",
+            "emotion": "kind",
+            "doc": [
+                "$~Guá kā @Bind kóng tsı̍t-ê miâ khǹg ê sī sím-mih @Map — in ê kiān kap @values sī sím-mih luī-hîng. Lí tsai @Map guā-nī tsiok-hó? Sī tsin-tsiàⁿ tsiok-hó. Tsia ū tsı̍t-ê sò-jī tùi list ê map:",
+                "\\stuff•{'':[]}: {}\\🪲"
+            ]
+        },
+        "NumberType": {
+            "name": "$~sò·-jī",
+            "description": "$~sò-jī luī-hîng$unit[ ê $unit| ]",
+            "emotion": "precise",
+            "doc": [
+                "$~Guá kā @Bind kóng tsı̍t-ê miâ khǹg ê sī @Number. Lí tsai @Bind ài sī sím-mih? Sī @Number — in-uī sò-jī siōng hó!",
+                "\\count•#: 17\\🪲"
+            ]
+        },
+        "RangeType": {
+            "name": "$~huān-uî",
+            "description": "$~huān-uî luī-hîng$unit[ ê $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Guá kā @Bind kóng, tsit-ê miâ ê @value sī @Range — nn̄g-ê @Number kài-hān, kap tsāi in tiong-kan ê múi-ê sòo-jī.",
+                "\\span•‥: 1 ‥ 10\\🪲"
+            ]
+        },
+        "NameType": {
+            "name": "$~kiat-kò",
+            "description": "$~kiat-kò͘ luī-hîng $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá ēng miâ lâi tāi-piáu @StructureDefinition. Pí-lūn kóng, nā-sī lí ū tsit-khuán kiat-kò͘, lí tō ē-sái tsò tsi̍t-ê @Bind lâi khǹg i sán-sing ê @values.",
+                "\\•Friend(miâ2•'')\nbestie•Friend: Friend('Jonah')\\🪲"
+            ],
+            "conflict": {
+                "UnknownTypeName": {
+                    "name": "$~bô-tsai-iánn ê luī-hîng miâ",
+                    "explanation": "$~Luī-hîng miâ tsí ē-sái tsí kiat-kò͘ ia̍h-sī luī-hîng piàn-sòo, m̄-koh tsit-ê tsí-kàu ê sī luī-hîng $type",
+                    "resolution": "$~Thè-tsiânn tsò luī-hîng khang-uī"
+                }
+            }
+        },
+        "NeverType": {
+            "name": "$~bô-khó-lêng",
+            "description": "$~bô-khó-lîng ê luī-hîng",
+            "emotion": "curious",
+            "doc": "$~Guá tāi-piáu tsi̍t-ê bô-khó-lêng ê @type. Pí-lūn lí mn̄g @Is tsit-ê @value sī-m̄-sī @Number, m̄-koh i tsiânn-tsiânn bē-sái sī sòo-jī."
+        },
+        "NoneType": {
+            "name": "$~bô luī-hîng",
+            "description": "$~bô luī-hîng",
+            "emotion": "neutral",
+            "doc": [
+                "$~@None sī tsòng-tsòng bô ê tsòng-tsòng, guá tō sī in ê tiōng-sīn tāi-piáu.",
+                "\\space•ø: ø\\🪲"
+            ]
+        },
+        "SetType": {
+            "name": "$~tsi̍p-ha̍p luī-hîng",
+            "description": "$~tsi̍p-ha̍p luī-hîng$type[ ê $type|]",
+            "emotion": "kind",
+            "doc": [
+                "$~Guá kā @Bind kóng, tsit-ê miâ ê @value sī mi̍h-kiānn luī-hîng ê @Set. @Set sī tsòe hó ê, sī tsin-tsiànn ê!",
+                "\\unique•{''}: {'ta̍k-mi̍h' 'sím-mi lóng ē-sái' 'ta̍k-lâng'}\\🪲"
+            ]
+        },
+        "StreamDefinitionType": {
+            "name": "$~tsu-liāu-liû tīng-gī luī-hîng",
+            "description": "$~tsu-liāu-liû tīng-gī luī-hîng",
+            "emotion": "angry",
+            "doc": "$~Guá tāi-piáu lí tīng-gī ê @stream, tse sī bē-sái ê, án-ne lí uī-sím-mi̍h iáu teh khuànn tsit-tuānn?"
+        },
+        "StreamType": {
+            "name": "$~tsu-liāu-liû luī-hîng",
+            "description": "$~tsu-liāu-liû luī-hîng",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá kóng-kì @streams ê súi kap ì-sù… hōo @Bind lâi khǹg in:",
+                "\\time•…#ms: Sîkan()\\🪲"
+            ]
+        },
+        "StructureType": {
+            "name": "$~kiat-kò͘ luī-hîng",
+            "description": "$~$name kiat-kò͘ luī-hîng",
+            "emotion": "kind",
+            "doc": "$~Guá sī lāi-pōo ê @type, lâi tāi-piáu ê-sìng @value luī-hîng ê luī-hîng."
+        },
+        "UnknownType": {
+            "name": "$~bô-tsai-iánn",
+            "description": "$~bô-tsai-iánn",
+            "connector": "$~, in-uī",
+            "emotion": "curious",
+            "doc": "$~Guá sī tsi̍t-ê iáu-bô lâng khuànn-tshut-lâi ê @type. Ùmm… lí tsai guá tāi-piáu siánn-mi̍h bô? Nā-sī guán khuànn bô, lí khó-lêng ài kā guán kóng."
+        },
+        "TableType": {
+            "name": "$~piáu-keh luī-hîng",
+            "description": "$~piáu-keh",
+            "emotion": "angry",
+            "doc": "$~Guá tāi-piáu tsi̍t-ê @Table.",
+            "conflict": {
+                "ExpectedColumnType": {
+                    "name": "$~khuí-khuat lân-uī luī-hîng",
+                    "explanation": "$~Guá su-iàu tsi̍t-ê lân-uī luī-hîng",
+                    "resolution": "$~ka-thiam tsi̍t-ê luī-hîng khang-uī"
+                }
+            }
+        },
+        "TextType": {
+            "name": "$~bûn-jī luī-hîng",
+            "description": "$~$text['$text'|bûn-jī luī-hîng]",
+            "emotion": "happy",
+            "doc": [
+                "$~Guá tshiūnn-tsiah tāi-piáu sī sè-kan tsuè kah-uè ê @value, tō-sī @Text.",
+                "\\story•'': 'Tsa̍p-tsa̍p-kuè, u tsi̍t-ê sî-tsūn...'\\🪲"
+            ]
+        },
+        "TypePlaceholder": {
+            "name": "$~khang-uī",
+            "description": "$~luī-hîng khang-uī",
+            "emotion": "eager",
+            "doc": "$~Guá hi-bāng í-āu ē-sái tāi-piáu tsi̍t-ê @type, tō-ná guá ê hó-pîng-iú @ExpressionPlaceholder tāi-piáu tsi̍t-ê @expression án-ne! Lí beh tsān guá kéng sím-mih luī-hîng bô?"
+        },
+        "UnionType": {
+            "name": "$~suán-hāng",
+            "description": "$~luī-hîng sī $first á-sī $second tsi̍t-ê",
+            "elidedSuffix": "$~á-sī lēng-guā $omitted ê suán-hāng",
+            "emotion": "curious",
+            "doc": [
+                "$~Guá tāi-piáu tsi̍t-ê @value, ē-sái sī kuí-nā khuán luī-hîng tiong-kan ê tsi̍t-khuán — A á-sī B á-sī pa̍t-khuán? Guá lóng bô-hoat-tōo kéng!",
+                "\\indecision•''|#|{ø}: 'Guá m̄ tsconvert!'\\🪲"
+            ]
+        },
+        "Unit": {
+            "name": "$~tan-uī",
+            "description": "$~$unit[tan-uī $unit|bô tan-uī]",
+            "emotion": "precise",
+            "doc": [
+                "$~Guá tāi-piáu @Number ē-sái ū ê jīm-hô tan-uī, kuí-nā bô tan-uī, kàu lí siūnn ē-tio̍h-ê tsuè hok-tsa̍p ê tan-uī. Pí-hóo tsúi-lia̍t-lik:",
+                "\\gravity•#m/s^2: 9.8m/s^2\\🪲",
+                "Guá tshut-hiān tī @Bind, mā tshut-hiān tī @Number ê āu-bīn. Guá tsān lí khak-tīng sò-jī ê khuán sī kāng-khuán, nā bô kāng, guá it-tīng ē kā lí kóng, kiaN-sī tshò-gō!"
+            ]
+        },
+        "UnparsableType": {
+            "name": "$~bē-tàng hun-sik",
+            "description": "$~bē-sái hun-sik ê luī-hîng",
+            "emotion": "curious",
+            "doc": "$~Guá tāi-piáu put-bîng @expression ê @type. Lí beh iōng hit-ê piáu-@value-sik tsò sím-mih ê sî-tsūn, guá tō ē tshut-hiān."
+        },
+        "VariableType": {
+            "name": "$~piàn-sòo luī-hîng",
+            "description": "$~luī-hîng piàn-sòo",
+            "emotion": "curious",
+            "doc": "$~Guá tshiūnn @TypeVariable — put-bîng khuán @value ê tāi-thè — tī ta̍t kap ta̍t ê só-ū pí-phīng tiong-kan."
+        },
+        "CycleType": {
+            "name": "$~khuân",
+            "description": "$~tsùn-khuân ê ì-tuà",
+            "emotion": "curious",
+            "doc": "$~Guá tāi-piáu tsi̍t-ê @value, i ê @type ì-tuà tī i ka-kī, sò-í lán bē-tsai-iánn i sī sím-mih khuán ê ta̍t."
+        },
+        "UnknownVariableType": {
+            "name": "$~put-bîng ê piàn-sòo",
+            "description": "$~put-bîng ê luī-hîng piàn-sòo",
+            "emotion": "curious",
+            "doc": "$~Ū-sî lán ē khuànn-khuànn-māi sím-mih @value ê tāi-tsì; guá tī lán m̄-tsai ê sî-tsūn tshut-hiān."
+        },
+        "NotAType": {
+            "name": "$~bô liāu-tio̍h",
+            "description": "$~m̄-sī $type",
+            "emotion": "curious",
+            "doc": "$~Guá tāi-piáu @value, kî @type m̄-sī lán beh ê hit-ê — ná-tshiūnn @ListAccess su-iàu @Number, tān-sī tshōe-tio̍h pa̍t-ê."
+        },
+        "NoExpressionType": {
+            "name": "$~bô piáu-ta̍t-sik",
+            "description": "$~khang ê tsik-bo̍k luī-hîng",
+            "emotion": "angry",
+            "doc": "$~Guá sī @type tī @Block lāi-té bô @expression ê sî-tsūn lí ē tiùnn-tio̍h ê. Lí tsai-iánn tsit-ê ná-bô it-tsíng ài tsi̍t-ê — tō kā ì-ê hōo guá!"
+        },
+        "NotEnclosedType": {
+            "name": "$~bô tī kiat-kò͘, tsuán-uānn, iah-sī hhuán-èng lāi-té",
+            "description": "$~bô tī kiat-kò͘ lāi-té",
+            "emotion": "curious",
+            "doc": "$~@This tī bô-tî-tòa ê tē-hng hō͘ lâng iōng, lâng tō m̄ tsai @value sī siánn-mih, án-ne góa tō tshut-hiān."
+        },
+        "NotImplementedType": {
+            "name": "$~iáu-bē tsò",
+            "description": "$~iáu-bē tsò",
+            "emotion": "curious",
+            "doc": "$~Lí iōng @ExpressionPlaceholder, kàu-sī bô kóng @type sī siánn-mih, góa tō sī lí ē tiòh ê luī-hîng. Tio̍h àn-ne tshú-lí!"
+        },
+        "UnknownNameType": {
+            "name": "$~bô-tsai ê miâ",
+            "description": "$~$name[$name iáu bô hōo lâng tìng-gī|Miâ bô hōo lâng kóng]",
+            "emotion": "curious",
+            "doc": "$~Góa tsú-piáu @name, @Reference ia̍h-sī @PropertyReference tshuē bô, in-uī lán m̄ tsai lí teh kóng siáng."
+        },
+        "NonFunctionType": {
+            "name": "$~bô-sī-hâm-sòo",
+            "description": "$~bô-sī-hâm-sòo ê $type",
+            "emotion": "confused",
+            "doc": "$~Ū ê lâng iân-kiû ài hâm-sòo; bô tiòh hâm-sòo ê sî, góa tō tshut-hiān."
+        }
+    }
+}

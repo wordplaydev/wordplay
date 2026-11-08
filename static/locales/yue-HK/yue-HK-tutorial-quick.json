@@ -1,0 +1,340 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "yue",
+    "regions": ["HK"],
+    "acts": [
+        {
+            "title": "$~Wordplay 好唔同",
+            "performance": { "fit": "#Symbol 💬", "theme": "Quick" },
+            "scenes": [
+                {
+                    "title": "$~程式就係值",
+                    "subtitle": "$~係表達式，唔係語句",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ", "theme": "Program" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~歡迎嚟到 @wordplay！我聽講你識少少寫程式？好呀！呢個簡短嘅導覽會講 Wordplay 有啲咩一樣、有啲咩唔同。",
+                            "$~等你知道呢個螢幕上面每樣嘢：呢頁會顯示 @tutorial 對話框同一個 @project 檢視。你可以睇到 *舞台* @UI/stage，用嚟顯示程式嘅輸出，仲有 *@editor* @UI/editor，就係程式嘅 @code。",
+                            "$~呢個程式係空白嘅，所以佢嘅輸出只係提示你寫個程式。",
+                            "$~仲有好多其他控制可以暫停、播放程式同編輯程式碼，不過而家唔使理住佢哋。"
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~喺大部分程式 @languages 入面，程式係一列語句，叫電腦去 *做* 啲嘢，例如印出一個 @value：",
+                            "$~\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
+                            "$~喺 @wordplay 入面，程式係 *表達式*，講明程式嘅 /結果/ 應該係咩，而唔係點樣得出嚟。",
+                            "$~呢個程式計算出嚟嘅值係 \\'hi'\\，然後就會顯示喺舞台上面。冇列印指令，只係一個 @expression 講明要計算成咩值。"
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~喺其他語言入面，*變數* 係一個有名嘅容器，用嚟裝 @value，而且佢嘅值可以改變：",
+                            "$~\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
+                            "$~喺 @wordplay 入面，有名稱嘅值永遠唔可以改變。佢哋係「不可變」嘅，即係話唔可以重新畀個新值佢。所以我哋叫佢哋做 @Bind 而唔係 @variable，因為佢哋唔會變。",
+                            "$~我哋好快就會講，唔用可以改變嘅變數，點樣寫互動程式。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~檢查條件",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": {
+                        "fit": "#Symbol ?",
+                        "theme": "Conditional"
+                    },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~其他程式 @languages 通常有 *if* 語句，根據一個 @condition 去做唔同嘅事：",
+                            "$~\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
+                            "$~喺 @wordplay 入面，每樣嘢都係 @expression，所以 @Conditional 係一個 *表達式*，先寫條件，跟住係 \\?\\，之後係條件成立嘅表達式同條件唔成立嘅表達式。唔使用關鍵字"
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~有啲語言仲有 *switch* 語句，根據一個 @value 去做唔同嘅事：",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
+                            "$~@wordplay 有 @Match，可以按值揀出結果。"
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~有啲語言仲有 *空值合併* @operator，當 @variable 係空值或者未定義嘅時候，就提供一個預設 @value：",
+                            "$~\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
+                            "$~@wordplay 有 @Otherwise 運算符，可以得到同樣嘅結果。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~值同類型",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣", "theme": "Number" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~大部分語言都有好多「基本」嘅 @value 類型。",
+                            "$~\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
+                            "$~@wordplay 對呢啲類型用相似嘅語法，不過仲可以加其他資料，例如多語言文字用嘅 @language 標籤，同數字嘅單位。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~程式語言都有方法建立值嘅集合，例如列表、集合同對應表（通常叫字典或者雜湊）：",
+                            "$~\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
+                            "$~@wordplay 對呢啲集合用唔同嘅語法，最明顯係用空格嚟分隔值，而唔係用逗號。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]",
+                                "pair•[# '']: [1 'hi']"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~有啲程式語言可以畀你指定一個 @variable 嘅 @type，咁你就可以確保用個變數嘅每一種方法都啱晒規矩：",
+                            "$~\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
+                            "$~@wordplay 都有類型，不過類型係 *推斷* 出嚟嘅。你通常唔使宣告佢哋，但如果推斷唔到，有時就要自己寫。清單類型仲可以為清單入面每個位置指定類型，例如 \\[# '']\\ 就代表剛好有兩樣嘢嘅清單：先係一個數字，再係一個字。"
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~程式語言通常都可以自訂資料類型，將多個值合併成一個資料結構：",
+                            "$~\\py| class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv| public class Pet {\n    private String name;\n    private int age;\n    public Pet(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\",
+                            "$~@wordplay 用另一種語法嚟宣告 @Structure：用 \\•\\ 代表資料類型，跟住係 @name，再跟住係結構入面嘅欄位。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~轉換、集合同函數",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →", "theme": "Convert" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~程式設計入面有個常見嘅操作，就係將資料由一個 @type 轉成另一個。例如，我哋可能想將一個數字轉成文字 @value：",
+                            "$~\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
+                            "$~@wordplay 嘅值全部都有 @Convert 語法，可以喺類型之間轉換。呢個例子將 \\1m\\ 轉成英尺，再轉成 @Text。每種類型嘅值都有一整套支援嘅轉換。"
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~對於清單同陣列呢類值嘅集合，其他程式 @languages 會用 *for* 同 *while* 迴圈呢類語法，由現有集合嘅值建立新集合。",
+                            "$~\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
+                            "$~@wordplay 有個簡單嘅 @Translate* 語法，用 \\↦\\ 符號：佢會建立一個新嘅 @List、@Set 或者 @Map，將每一項（用 \\⬚\\ @placeholder 代表）換成一個新嘅 @value。呢個例子將每一項乘兩倍，變成 \\[2 4 6]\\。",
+                            "$~如果你要做更複雜嘅操作，仲有更強大嘅工具，例如 @List.translate 同 @List.combine。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~每種程式語言都有函數，可以畀你宣告可重用嘅 @blocks 同 @code，接收輸入，然後根據輸入產生輸出，複雜程度冇上限：",
+                            "$~\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
+                            "$~@wordplay 都支援函數定義，不過用 ƒ 符號。同所有 Wordplay 程式一樣，函數一定要求值成一個 @value。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~輸出係字體排印，輸入係即時反應",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬", "theme": "Stage" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~其他程式 @languages 會將文字印喺主控台、喺畫布上面畫畫，或者修改網頁：",
+                            "$~\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
+                            "$~@wordplay 嘅輸出係字體排印式嘅：一個 @Phrase、一個 @Group 或者一個 @Stage，喺螢幕上面顯示有樣式、有動畫、可互動嘅文字，亦可以由螢幕閱讀器讀出嚟。",
+                            "$~下面嘅例子顯示一個 @Stage，入面得一個 @Phrase，有個靜止時嘅縮放動畫。"
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~大部分程式語言都有方法接收用家嘅輸入：",
+                            "$~\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
+                            "$~@wordplay 嘅輸入嚟自 *@streams*，即係會隨時間變化嘅特別值，會因應輸入而改變，令 Wordplay 程式用串流嘅新值重新求值。",
+                            "$~例如呢個程式用 @Time 串流嚟控制地球 emoji 嘅旋轉。每次 @Time() 串流跳到新嘅 @value，程式就用新值重新求值，更新 @Stage 上面程式嘅值。"
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~其他地方嘅大部分程式語言，要做互動就要登記事件處理器同回呼函數：",
+                            "$~\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
+                            "$~喺 @wordplay 入面，要做互動我哋可以直接用 @Button、@Key 同 @Pointer 呢啲串流嚟建立可互動嘅 @elements。呢個 @Phrase 嘅文字係睇 @Button 有冇被撳，用 @Conditional 檢查 @Button 串流有冇 @Changed。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~其他程式語言可以喺執行時改變 @variables 嘅值，對於製作動態同互動嘅應用程式好有用。不過你要記得喺啱嘅位置更新個值，仲要喺值改變嗰陣更新螢幕上面顯示嘅嘢：",
+                            "$~\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
+                            "$~@wordplay 用 @Reaction @expression 令呢件事簡單啲：佢由一個初始值開始，檢查一個參照串流輸入嘅 @condition，再根據串流嘅變化更新表達式嘅值。喺呢個例子入面，每次 @Button 串流改變，我哋就更新 count 嘅值，而咁樣就會更新 @Stage 上面顯示嘅 @Phrase。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~衝突同除錯",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": {
+                        "fit": "#Symbol ‼️",
+                        "theme": "UnparsableExpression"
+                    },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~其他 @languages 會拋出 *錯誤* ——代表程式做咗唔允許嘅嘢：",
+                            "$~\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
+                            "$~@wordplay 將錯誤叫做 *@conflicts*：即係兩樣唔可能同時成立嘅嘢，好似下面段程式入面，將數字同文字加埋一齊咁。",
+                            "$~Wordplay 會喺有衝突嘅地方畫底線，亦會喺側邊欄 @UI/conflict 顯示出嚟。佢仲會建議點樣解決衝突，幫你修正問題。"
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~大部分程式語言都有啲除錯工具，幫創作者了解同解決 @code 入面嘅問題。但好多時只係用列印指令，喺主控台睇 @variables 嘅 @values：",
+                            "$~\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
+                            "$~@wordplay 提供更先進嘅除錯體驗，等你可以向前同向後逐步睇佢點樣運算。㩒舞台上面模式切換器 @UI/modeSwitcher 嘅 ⏸️ 除錯按鈕，就會進入 *除錯* 模式：每個 @expression 嘅值會喺程式碼旁邊顯示出嚟，而 @UI/stepControls 可以向任何方向逐步運算，等你睇到一個值係點樣建立出嚟。呢度有一個完整嘅導覽：@Tour/stage",
+                            "$~其他模式都好重要：✏️ *編輯* 模式用嚟修改程式，舞台會保持凍結；▶️ *播放* 模式就會即時運行程式，並且即時回應輸入。",
+                            "$~想有多啲指引？舞台名稱旁邊嘅 @UI/stageTourLaunch 按鈕會帶你導覽呢啲控制項。"
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~合埋一齊",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨", "theme": "Stage" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~我哋用三個步驟，砌一個細細嘅互動 @project。",
+                            "$~*第一步：* 宣告你嘅資料同 *@streams*。呢度有個叫 elapsed 嘅 @Time 串流，會報告程式已經運行咗幾耐。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*第二步：* 對串流作出 *反應*，推算出新嘅 @Bind @values。呢度 turn 將經過嘅時間轉成度數，每次 elapsed 改變都會重新計算。"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*第三步：* *輸出* — 將你嘅資料對應去 @Phrase、@Group 或者 @Stage。而家粒星會自己轉囉！"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~我哋仲可以加入使用者輸入嚟控制旋轉，例如麥克風輸入嘅 @Volume。佢係 0 至 1 之間嘅值，所以我哋可以將佢對應去 360 度。",
+                            "$~大部分專案都係呢個結構：先宣告，跟住反應，最後輸出。<指南@://guide> 有一個 @how 部分，裏面有好多食譜式範例，可以研究、複製同修改。",
+                            "$~創作愉快！"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

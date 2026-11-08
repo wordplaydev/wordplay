@@ -1,0 +1,52 @@
+Tsò tsi̍t tsuā ū tōng-tsok ê tshíng-kíng
+
+Ū-sî lán beh kóng kó·-tsāi, hiòng lâng khuànn koh-sû, á-sī ùi si-kù tsò tōng-tsok.
+Beh án-ne tsò, lán thang iōng @Scene kap @Phrase tsò-hué, lâi hián-sī tsi̍t tsuā sūn-sī.
+
+Pí-phong kóng, lán beh ùi tsi̍t tsiah té-á ê thâu-lō· gî-iâu "Jack be Nimble" tsò tōng-tsok.
+Lán thang tsò tsi̍t ê @Scene , mî tsi̍t kâu lóng sī tsi̍t ê @Phrase, koh siat-tīng múi tsi̍t kâu ê @Phrase/duration , hō· @Scene tī múi kù tsò-uân liáu-āu tsiah tsìn-khì.
+
+\
+Tiûnnkíng([
+  Kù('Jack ài kín-tsiáu' sîtn̂g: 1s)
+  Kù('Jack ài kín-sái' sîtn̂g: 1s)
+  Kù('Jack thiàu kuè la̍h-tsi̍t-tâi' sîtn̂g: 1s)
+])
+\
+
+@Scene mā ē tán @Sequence tsò-uân. Lán lâi hō· lia̍p-tsiok hit kù thiàu-khí-lâi!
+
+\
+Tiûnnkíng([
+		Kù('Jack ài kín-tsiáu' sîtn̂g: 1s)
+		Kù('Jack ài kín-sái' sîtn̂g: 1s)
+		Kù('Jack thiàu kuè la̍h-tsi̍t-tâi' ji̍plâi: Sūnsū.tiô(sîtn̂g: 1s))
+	])
+\
+
+@Scene mā thang tsiap-siū tsi̍t ê @Group ê bûn-jī, in ē tán sûi-ê lōo-bīn ê tōng-tsok lóng tsò-uân.
+
+\
+Tiûnnkíng([
+		Kûntsoo(Tha̍h() [
+      Kù('Jack ài kín-tsiáu')
+		  Kù('Jack ài kín-sái')
+    ] sîtn̂g: 2s)
+		Kù('Jack thiàu kuè la̍h-tsi̍t-tâi' ji̍plâi: Sūnsū.tiô(sîtn̂g: 1s))
+	])
+\
+
+ Ū-sî kó-lō· ài tsi̍t-ti̍t tsú-tsú-lâi. @Scene/loop ē khiā @Scene tńg-tsáu-khì thâu-chiân hit ê @Phrase , tsòng-uân siōng-āu tsi̍t ê liáu-āu, in ē tsāi-sin tsi̍t-ti̍t kóng.
+
+\
+Tiûnnkíng([
+		Kù('Jack ài kín-tsiáu' sîtn̂g: 1s)
+		Kù('Jack ài kín-sái' sîtn̂g: 1s)
+		Kù('Jack thiàu kuè la̍h-tsi̍t-tâi' sîtn̂g: 1s)
+	] huêkhuan: ⊤)
+\
+
+ Chù-ì: @Scene tsí-ū tī lia̍t-piáu lāi-té ū tsit-kuá tsiòng tán ê sî-chūn, tsiah ē tńg-tsáu-khì.
+Tsi̍t ê lia̍t-piáu, nā-sī múi ê @Phrase lóng ū @Phrase/duration sī \0s\ ē suá kah tiān-náu liáu-kái-tsiok ê sok-tōo, só·-í tī bué-tsiòng tsiah tsū-tsāi tī hia.
+
+interactive-scene, repeat-a-round

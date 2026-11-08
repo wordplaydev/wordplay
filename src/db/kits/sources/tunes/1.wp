@@ -434,8 +434,78 @@ Har gaana suron ke darjon ki ek list hai: 1 sargam ka pehla sur hai, 8 us se ek 
 		)
 	)
 )\⭐¶/ur
+¶എല്ലാവർക്കും അറിയാവുന്ന പാട്ടുകളും, ഒരു നിമിഷം അടയാളപ്പെടുത്താനുള്ള ശബ്ദങ്ങളും.
 
-effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্টবিট/bn,effektBeat/de,εφέΧτύπημα/el,اثرضرب/fa,effetRythme/fr,અસરધબકારો/gu,אפקטפעימה/he,प्रभावबीट/hi,efekKetukan/id,効果音ビート/ja,ಪರಿಣಾಮತಾಳ/kn,효과음박자/ko,परिणामठोका/mr,असरबीट/ne,ਅਸਰਬੀਟ/pa,efektRytm/pl,efeitoBatida/pt,efectRitm/ro,ефекатТакт/sr,effektTakt/sv,விளைவுதாளம்/ta,ఎఫెక్ట్బీట్/te,epektoRitmo/tl,etkiRitim/tr,hiệuỨngNhịp/vi,效果节拍/zh,efectoCompás/es,aawaazKaAsar/ur: 0.25beats
+ഓരോ പാട്ടും സ്കെയിൽ സ്ഥാനങ്ങളുടെ ഒരു ലിസ്റ്റാണ്: 1 സ്കെയിലിലെ ആദ്യത്തെ സ്വരമാണ്, 8 അതിന് ഒരു ഒക്ടേവ് മുകളിലുള്ളതാണ്, 1-ന് താഴെയുള്ള സംഖ്യകൾ അതിന് താഴേക്ക് പോകുന്നു. ഒരു ലിസ്റ്റ് @Track-ന് നൽകി നിങ്ങൾക്ക് ഇഷ്ടമുള്ള വാദ്യോപകരണം തിരഞ്ഞെടുക്കുക. ശബ്ദങ്ങൾ അതേപടി വായിക്കാൻ തയ്യാറാണ്.
+
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/ml
+¶Lâng-lâng lóng tsai-iánn ê kua, kap thang tsí-sī tsi̍t-sî-tsūn ê siann-im.
+
+Múi tsiah kua lóng sī tsi̍t-tsūn im-kài ê hō-bé: 1 sī im-kài ê tē-it ê im, 8 sī koân tsi̍t-ê pat-tuh-ba̍h ê im, 1 í-lo̍h ê hō-bé tō khah-kē. Pat tsi̍t-tsūn hō-bé kau hō @Track, koh kéng lí kah-ì ê lo̍k-khì. Siann-im tō ē-sái tshiūnn án-ne phah.
+
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/nan
+¶Песни, которые знают все, и звуки, которые отмечают важный момент.
+
+Каждая песня — это список ступеней гаммы: 1 — первая нота гаммы, 8 — та же нота на октаву выше, а числа меньше 1 уходят ниже. Передай список в @Track и выбери любой инструмент. Звуки готовы к игре прямо так.
+
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/ru
+¶Пісні, які знають усі, і звуки, щоб позначити важливу мить.
+
+Кожна пісня — це список ступенів гами: 1 — це перша нота гами, 8 — та сама нота на октаву вище, а числа менші за 1 ідуть нижче. Дай список @Track і вибери будь-який інструмент. Звуки вже готові, їх можна грати одразу.
+
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/uk
+¶人人都識嘅歌，仲有用嚟標記一刻嘅聲音。
+
+每首歌都係一個音階級數嘅列表：1 係音階嘅第一個音，8 係高一個八度嘅音，細過 1 嘅數字就係更低嘅音。將列表交畀 @Track，再揀你鍾意嘅樂器。啲聲音可以直接播放。
+
+\Phrase(
+	'🎶'
+	5m
+	resting: Pose(
+		music: Music(
+			Track(twinkle 🔈.🎹 loop: ⊥)
+			tempo: 100beats/min
+		)
+	)
+)\⭐¶/yue
+
+effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্টবিট/bn,effektBeat/de,εφέΧτύπημα/el,اثرضرب/fa,effetRythme/fr,અસરધબકારો/gu,אפקטפעימה/he,प्रभावबीट/hi,efekKetukan/id,効果音ビート/ja,ಪರಿಣಾಮತಾಳ/kn,효과음박자/ko,परिणामठोका/mr,असरबीट/ne,ਅਸਰਬੀਟ/pa,efektRytm/pl,efeitoBatida/pt,efectRitm/ro,ефекатТакт/sr,effektTakt/sv,விளைவுதாளம்/ta,ఎఫెక్ట్బీట్/te,epektoRitmo/tl,etkiRitim/tr,hiệuỨngNhịp/vi,效果节拍/zh,efectoCompás/es,aawaazKaAsar/ur,ഇഫക്റ്റ്ബീറ്റ്/ml,тактЭффекта/ru,ритмЕфекту/uk,效果節拍/yue: 0.25beats
 
 ¶Twinkle, Twinkle, Little Star, from the French tune /Ah! vous dirai-je, maman/. Both verses and the middle.¶
 ¶تلألئي يا نجمتي الصغيرة، من اللحن الفرنسي /Ah! vous dirai-je, maman/. تشمل المقطعين والوسط.¶/ar
@@ -468,7 +538,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶《一闪一闪亮晶晶》，改编自法国曲调 /Ah! vous dirai-je, maman/。包含前后两段歌词，还有中间部分。¶/zh
 ¶Estrellita, dónde estás, basada en la melodía francesa /Ah! vous dirai-je, maman/. Con ambas estrofas y la parte del medio.¶/es
 ¶Jhilmil, Jhilmil, Chhote Taare, French dhun /Ah! vous dirai-je, maman/ se. Dono bol aur beech ka hissa.¶/ur
-↑ twinkle/en,تلألؤ/ar,জিলিকনি/as,টুইঙ্কল/bn,funkeln/de,τρεμόπαιξε/el,چشمک‌زن/fa,scintille/fr,ટમટમાટ/gu,נצנוץ/he,टिमटिमाना/hi,きらきら星/ja,ಮಿನುಗು/kn,반짝반짝/ko,चांदणी/mr,टिमटिम/ne,ਟਿਮਟਿਮਾਓ/pa,migotanie/pl,cintilar/pt,sclipici/ro,трепери/sr,blinka2/sv,மின்னுமின்னு/ta,మిణుకుమిణుకు/te,kislap2/tl,pırılPırıl/tr,lấpLánh/vi,一闪一闪/zh,berkelip/id,estrellita/es,jhilmil/ur•[#]: [
+¶ട്വിങ്കിൾ, ട്വിങ്കിൾ, ലിറ്റിൽ സ്റ്റാർ, ഫ്രഞ്ച് ഈണമായ /Ah! vous dirai-je, maman/ എന്നതിൽ നിന്ന്. രണ്ട് വരികളും നടുവിലെ ഭാഗവും ഉൾപ്പെടെ.¶/ml
+¶Siám-siám Sió Sing, uân-pún sī Huat-kok ê kua-á /Ah! vous dirai-je, maman/. Nn̄g-tsūn kua-sû kap tiong-kan ê bu̍t-hūn.¶/nan
+¶«Twinkle, Twinkle, Little Star» — «Мерцай, мерцай, звёздочка», на мелодию французской песни /Ah! vous dirai-je, maman/. Оба куплета и середина.¶/ru
+¶«Мерехти, мерехти, зіронько», за французькою мелодією /Ah! vous dirai-je, maman/. Обидва куплети та середня частина.¶/uk
+¶《小星星》，旋律嚟自法國歌曲 /Ah! vous dirai-je, maman/。有兩段歌詞同中間部分。¶/yue
+↑ twinkle/en,تلألؤ/ar,জিলিকনি/as,টুইঙ্কল/bn,funkeln/de,τρεμόπαιξε/el,چشمک‌زن/fa,scintille/fr,ટમટમાટ/gu,נצנוץ/he,टिमटिमाना/hi,きらきら星/ja,ಮಿನುಗು/kn,반짝반짝/ko,चांदणी/mr,टिमटिम/ne,ਟਿਮਟਿਮਾਓ/pa,migotanie/pl,cintilar/pt,sclipici/ro,трепери/sr,blinka2/sv,மின்னுமின்னு/ta,మిణుకుమిణుకు/te,kislap2/tl,pırılPırıl/tr,lấpLánh/vi,一闪一闪/zh,berkelip/id,estrellita/es,jhilmil/ur,ട്വിങ്കിൾ/ml,звёздочка/ru,мерехтіння/uk,閃爍2/yue•[#]: [
 		1
 		1
 		5
@@ -544,7 +619,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶《划呀划小船》。这首歌可以自己和自己轮唱，相隔四拍。¶/zh
 ¶Rema, Rema, Rema Tu Barca. Se canta como un canon contra sí misma, con cuatro tiempos de diferencia.¶/es
 ¶Naao Chalaao, Chalaao, Chalaao. Yeh apne aap se chaar dhadkanon ke fasle par gol dhun ki tarah gaaya jaata hai.¶/ur
-↑ rowYourBoat/en,جدفقاربك/ar,নাওবাওক/as,রোইওরবোট/bn,rudereDeinBoot/de,κωπηλάταΤηΒάρκαΣου/el,قایقتراپاروبزن/fa,rameSurTonBateau/fr,તારીહોડીચલાવો/gu,שיטושיטו/he,नावचलाओ/hi,dayungPerahumu/id,こげよマイケル/ja,ದೋಣಿನಡೆಸು/kn,노저어라/ko,नावमाझीहोडी/mr,डुंगाकुदाऊ/ne,ਕਿਸ਼ਤੀਚਲਾਓ/pa,płyńTwojąŁódką/pl,remaOTeuBarco/pt,vâsleșteBarcaTa/ro,веслајЧамцем/sr,roDinBåt/sv,தோணிவலி/ta,నీపడవనునడుపు/te,gaodAngIyongBangka/tl,kürekÇekTeknen/tr,chèoThuyềnCủaBạn/vi,划呀划小船/zh,remaTuBarca/es,naaoChalaao/ur•[#]: [
+¶റോ, റോ, റോ യുവർ ബോട്ട്. നാല് ബീറ്റ് വ്യത്യാസത്തിൽ സ്വയം ഒരു റൗണ്ടായി പാടുന്നു.¶/ml
+¶Row, Row, Row Your Boat. Ē-sái tsiūnn-tsò lîn-tsiùnn, kap ka-kī sio-tsiùnn, tî sì-phaiⁿ.¶/nan
+¶«Row, Row, Row Your Boat» — «Греби, греби на лодке». Поётся как канон, с разницей в четыре доли.¶/ru
+¶«Греби, греби на човні». Співається як канон сам із собою, зі зсувом на чотири долі.¶/uk
+¶《划船歌》。可以同自己輪唱，相隔四拍。¶/yue
+↑ rowYourBoat/en,جدفقاربك/ar,নাওবাওক/as,রোইওরবোট/bn,rudereDeinBoot/de,κωπηλάταΤηΒάρκαΣου/el,قایقتراپاروبزن/fa,rameSurTonBateau/fr,તારીહોડીચલાવો/gu,שיטושיטו/he,नावचलाओ/hi,dayungPerahumu/id,こげよマイケル/ja,ದೋಣಿನಡೆಸು/kn,노저어라/ko,नावमाझीहोडी/mr,डुंगाकुदाऊ/ne,ਕਿਸ਼ਤੀਚਲਾਓ/pa,płyńTwojąŁódką/pl,remaOTeuBarco/pt,vâsleșteBarcaTa/ro,веслајЧамцем/sr,roDinBåt/sv,தோணிவலி/ta,నీపడవనునడుపు/te,gaodAngIyongBangka/tl,kürekÇekTeknen/tr,chèoThuyềnCủaBạn/vi,划呀划小船/zh,remaTuBarca/es,naaoChalaao/ur,റോയുവർബോട്ട്/ml,гребиНаЛодке/ru,гребиНаЧовні/uk,盪舟/yue•[#]: [
 		1
 		1
 		1
@@ -605,7 +685,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶《雅克兄弟》。也是一首轮唱曲，相隔两小节。最后一句会低于音阶的第一个音。¶/zh
 ¶Frère Jacques. También es un canon, con dos compases de diferencia. La última frase baja por debajo de la primera nota de la escala.¶/es
 ¶Frere Jacques. Yeh bhi gol dhun hai, do bar ke fasle par. Aakhri jumla sargam ke pehle sur se neeche jaata hai.¶/ur
-↑ frereJacques/en,فريرجاك/ar,ফ্ৰেৰেজেক্‌ছ/as,ফ্রেয়ারজাক/bn,bruderJakob/de,φρερΖακ/el,فررژاک/fa,frèreJacques/fr,ફ્રેરજાક/gu,פרֶרזʼאק/he,फ्रेरजाक/hi,frereJacques2/id,フレール・ジャック/ja,ಫ್ರೇರ್ಜಾಕ್/kn,자크형제/ko,फ्रेरजाक2/mr,फ्रेरजाक3/ne,ਫਰੇਰੇਜਾਕ/pa,panieJanie/pl,frereJacques3/pt,frereJacques4/ro,бралеЖаче/sr,broderJakob/sv,ஃப்ரேர்ழாக்/ta,ఫ్రెరెజాక్/te,frereJacques5/tl,frèreJacques2/tr,frèreJacques3/vi,雅克兄弟/zh,frereJacques6/es,frereJaak/ur•[#]: [
+¶ഫ്രെർ ഷാക്. ഇതും ഒരു റൗണ്ടാണ്, രണ്ട് ബാർ വ്യത്യാസത്തിൽ. അവസാന വരി സ്കെയിലിലെ ആദ്യത്തെ സ്വരത്തിന് താഴേക്ക് പോകുന്നു.¶/ml
+¶Frère Jacques. Mā sī lîn-tsiùnn, tî nn̄g-tsiat. Siōng-āu tsi̍t-kù ē tsiūnn-kè im-kài ê tē-it ê im ê ē-kha.¶/nan
+¶«Frère Jacques» — «Брат Жак». Это тоже канон, с разницей в два такта. Последняя фраза уходит ниже первой ноты гаммы.¶/ru
+¶«Брате Жак». Це теж канон, зі зсувом на два такти. Остання фраза опускається нижче за першу ноту гами.¶/uk
+¶《雅克兄弟》。都係輪唱，相隔兩小節。最後一句會低過音階嘅第一個音。¶/yue
+↑ frereJacques/en,فريرجاك/ar,ফ্ৰেৰেজেক্‌ছ/as,ফ্রেয়ারজাক/bn,bruderJakob/de,φρερΖακ/el,فررژاک/fa,frèreJacques/fr,ફ્રેરજાક/gu,פרֶרזʼאק/he,फ्रेरजाक/hi,frereJacques2/id,フレール・ジャック/ja,ಫ್ರೇರ್ಜಾಕ್/kn,자크형제/ko,फ्रेरजाक2/mr,फ्रेरजाक3/ne,ਫਰੇਰੇਜਾਕ/pa,panieJanie/pl,frereJacques3/pt,frereJacques4/ro,бралеЖаче/sr,broderJakob/sv,ஃப்ரேர்ழாக்/ta,ఫ్రెరెజాక్/te,frereJacques5/tl,frèreJacques2/tr,frèreJacques3/vi,雅克兄弟/zh,frereJacques6/es,frereJaak/ur,ഫ്രെർഷാക്/ml,frèreJacques4/nan,братЖак/ru,братеЖак/uk,雅克兄弟2/yue•[#]: [
 		1
 		2
 		3
@@ -671,7 +756,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶贝多芬第九交响曲里的《欢乐颂》主题。¶/zh
 ¶El tema de la Oda a la Alegría, de la novena sinfonía de Beethoven.¶/es
 ¶Beethoven ki nauvin symphony ki Khushi ka Geet wali dhun.¶/ur
-↑ odeToJoy/en,نشيدالفرح/ar,আনন্দৰগীত/as,ওডটুজয়/bn,odeAnDieFreude/de,ωδήΣτηΧαρά/el,سرودشادی/fa,hymneÀLaJoie/fr,આનંદનુંગીત/gu,אודהלשמחה/he,आनंदकीकविता/hi,odeUntukKegembiraan/id,歓喜の歌/ja,ಆನಂದಗೀತೆ/kn,환희의송가/ko,आनंदाचेगीत/mr,आनन्दकोस्वर/ne,ਖੁਸ਼ੀਦਾਗੀਤ/pa,odaDoRadości/pl,odeÀAlegria/pt,odăBucuriei/ro,одаРадости/sr,odeTillGlädjen/sv,மகிழ்ச்சிக்கானபாடல்/ta,ఆనందగీతం/te,awitNgKagalakan/tl,neşeyeÖvgü/tr,khúcCaHoanLạc/vi,欢乐颂/zh,odaALaAlegría/es,khushiKaGeet/ur•[#]: [
+¶ബീഥോവന്റെ ഒമ്പതാം സിംഫണിയിലെ ഓഡ് ടു ജോയ് ഈണം.¶/ml
+¶Pi-to-hùn tē káu hō kau-hióng-khik ê Hoaⁿ-hí Kua tsú-tāi.¶/nan
+¶Тема «Оды к радости» из девятой симфонии Бетховена.¶/ru
+¶Тема «Оди до радості» з дев'ятої симфонії Бетховена.¶/uk
+¶貝多芬第九交響曲嘅《歡樂頌》主題。¶/yue
+↑ odeToJoy/en,نشيدالفرح/ar,আনন্দৰগীত/as,ওডটুজয়/bn,odeAnDieFreude/de,ωδήΣτηΧαρά/el,سرودشادی/fa,hymneÀLaJoie/fr,આનંદનુંગીત/gu,אודהלשמחה/he,आनंदकीकविता/hi,odeUntukKegembiraan/id,歓喜の歌/ja,ಆನಂದಗೀತೆ/kn,환희의송가/ko,आनंदाचेगीत/mr,आनन्दकोस्वर/ne,ਖੁਸ਼ੀਦਾਗੀਤ/pa,odaDoRadości/pl,odeÀAlegria/pt,odăBucuriei/ro,одаРадости/sr,odeTillGlädjen/sv,மகிழ்ச்சிக்கானபாடல்/ta,ఆనందగీతం/te,awitNgKagalakan/tl,neşeyeÖvgü/tr,khúcCaHoanLạc/vi,欢乐颂/zh,odaALaAlegría/es,khushiKaGeet/ur,ഓഡ്ടുജോയ്/ml,одаКРадости/ru,одаДоРадості/uk,歡樂頌/yue•[#]: [
 		3
 		3
 		4
@@ -735,7 +825,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶《铃儿响叮当》的副歌部分。¶/zh
 ¶El coro de Cascabeles.¶/es
 ¶Ghanti ki Dhun ka mukhda.¶/ur
-↑ jingleBells/en,أجراسصغيرة/ar,জিংগলবেল/as,জিঙ্গলবেলস/bn,klingelndeGlocken/de,τζίνγκλΜπελς/el,زنگ‌هایشادی/fa,grelots/fr,ઝણઝણતીઘંટડીઓ/gu,פעמוניםמצלצלים/he,घंटीबजाओ/hi,loncengKerincing/id,ジングルベル/ja,ಜಿಂಗಲ್ಬೆಲ್ಸ್/kn,징글벨/ko,घंटानाद/mr,जिंगलबेल्स/ne,ਜਿੰਗਲਬੈੱਲਸ/pa,dzwoneczki/pl,sinosATocar/pt,clopoței/ro,звончићи/sr,pinglaKlockor/sv,ஜிங்கிள்பெல்ஸ்/ta,జింగిల్బెల్స్/te,kulilingNgKampanilya/tl,çıngırakSesleri/tr,tiếngChuôngLengKeng/vi,铃儿响叮当/zh,cascabeles/es,ghantiKiDhun/ur•[#]: [
+¶ജിംഗിൾ ബെൽസിന്റെ കോറസ്.¶/ml
+¶Tīng-tang Tsîng ê hap-tshiùnn.¶/nan
+¶Припев песни «Jingle Bells» — «Бубенцы».¶/ru
+¶Приспів пісні «Дзвіночки».¶/uk
+¶《叮噹鈴聲》嘅副歌。¶/yue
+↑ jingleBells/en,أجراسصغيرة/ar,জিংগলবেল/as,জিঙ্গলবেলস/bn,klingelndeGlocken/de,τζίνγκλΜπελς/el,زنگ‌هایشادی/fa,grelots/fr,ઝણઝણતીઘંટડીઓ/gu,פעמוניםמצלצלים/he,घंटीबजाओ/hi,loncengKerincing/id,ジングルベル/ja,ಜಿಂಗಲ್ಬೆಲ್ಸ್/kn,징글벨/ko,घंटानाद/mr,जिंगलबेल्स/ne,ਜਿੰਗਲਬੈੱਲਸ/pa,dzwoneczki/pl,sinosATocar/pt,clopoței/ro,звончићи/sr,pinglaKlockor/sv,ஜிங்கிள்பெல்ஸ்/ta,జింగిల్బెల్స్/te,kulilingNgKampanilya/tl,çıngırakSesleri/tr,tiếngChuôngLengKeng/vi,铃儿响叮当/zh,cascabeles/es,ghantiKiDhun/ur,ജിംഗിൾബെൽസ്/ml,бубенцы/ru,дзвіночки/uk,叮噹鈴聲/yue•[#]: [
 		3
 		3
 		3
@@ -794,7 +889,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶《生日快乐歌》。开头低于音阶的第一个音，所以前四个数字是负数。¶/zh
 ¶Feliz Cumpleaños a Ti. Empieza por debajo de la primera nota de la escala, por eso los primeros cuatro números son negativos.¶/es
 ¶Saalgirah Mubarak. Sargam ke pehle sur se neeche se shuru hota hai, isi liye pehle chaar number manfi hain.¶/ur
-↑ happyBirthday/en,عيدميلادسعيد/ar,শুভজন্মদিন/as,হ্যাপিবার্থডে/bn,allesGuteZumGeburtstag/de,χρόνιαΠολλά/el,تولدتمبارک/fa,joyeuxAnniversaire/fr,જન્મદિવસમુબારક/gu,יוםהולדתשמח/he,जन्मदिनमुबारक/hi,selamatUlangTahun/id,ハッピーバースデー/ja,ಹುಟ್ಟುಹಬ್ಬದಶುಭಾಶಯ/kn,생일축하해/ko,वाढदिवसाच्याशुभेच्छा/mr,जन्मदिनकोशुभकामना/ne,ਜਨਮਦਿਨਮੁਬਾਰਕ/pa,stoLat/pl,parabénsAVocê/pt,laMulțiAni/ro,срећанРођендан/sr,grattisPåFödelsedagen/sv,பிறந்தநாள்வாழ்த்து/ta,పుట్టినరోజుశుభాకాంక్షలు/te,maligayangBati/tl,mutluYıllar/tr,chúcMừngSinhNhật/vi,生日快乐/zh,felizCumpleaños/es,saalgirahMubarak/ur•[#]: [
+¶ഹാപ്പി ബർത്ത്ഡേ ടു യു. സ്കെയിലിലെ ആദ്യത്തെ സ്വരത്തിന് താഴെ തുടങ്ങുന്നു, അതുകൊണ്ടാണ് ആദ്യത്തെ നാല് സംഖ്യകൾ നെഗറ്റീവ് ആയിരിക്കുന്നത്.¶/ml
+¶Sing-jı̍t khuài-lo̍k. Tùi im-kài ê tē-it ê im ê ē-kha khai-sí, sóo-í thâu-tsîng ê sì-ê hō-bé sī hù-sòo.¶/nan
+¶«Happy Birthday to You» — «С днём рождения». Начинается ниже первой ноты гаммы, поэтому первые четыре числа отрицательные.¶/ru
+¶«З днем народження». Починається нижче за першу ноту гами, тому перші чотири числа від'ємні.¶/uk
+¶《祝你生日快樂》。由低過音階第一個音開始，所以頭四個數字係負數。¶/yue
+↑ happyBirthday/en,عيدميلادسعيد/ar,শুভজন্মদিন/as,হ্যাপিবার্থডে/bn,allesGuteZumGeburtstag/de,χρόνιαΠολλά/el,تولدتمبارک/fa,joyeuxAnniversaire/fr,જન્મદિવસમુબારક/gu,יוםהולדתשמח/he,जन्मदिनमुबारक/hi,selamatUlangTahun/id,ハッピーバースデー/ja,ಹುಟ್ಟುಹಬ್ಬದಶುಭಾಶಯ/kn,생일축하해/ko,वाढदिवसाच्याशुभेच्छा/mr,जन्मदिनकोशुभकामना/ne,ਜਨਮਦਿਨਮੁਬਾਰਕ/pa,stoLat/pl,parabénsAVocê/pt,laMulțiAni/ro,срећанРођендан/sr,grattisPåFödelsedagen/sv,பிறந்தநாள்வாழ்த்து/ta,పుట్టినరోజుశుభాకాంక్షలు/te,maligayangBati/tl,mutluYıllar/tr,chúcMừngSinhNhật/vi,生日快乐/zh,felizCumpleaños/es,saalgirahMubarak/ur,ഹാപ്പിബർത്ത്ഡേ/ml,сДнёмРождения/ru,зДнемНародження/uk,生日快樂/yue•[#]: [
 		-2
 		-2
 		-1
@@ -946,7 +1046,24 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 	[8 5]
 	🔈.🔔
 )\ do suron ki ghanti hai.¶/ur
-↑ ƒ sting/en,لسعةصوت/ar,স্টিং/as,স্টিং2/bn,stich/de,τσίμπημα/el,نیش‌صدا/fa,piqûre/fr,ડંખ/gu,עוקץ/he,चुभन/hi,sengat/id,スティング/ja,ಚುಚ್ಚುಶಬ್ದ/kn,강조음/ko,चटका/mr,चोट/ne,ਸਟਿੰਗ/pa,żądło/pl,toque/pt,țiuit/ro,убод/sr,sting2/sv,கூர்ஒலி/ta,స్టింగ్/te,tunogNaMatalim/tl,vuruş2/tr,tiếngChích/vi,刺音/zh,golpe/es,tezDhun/ur(notes,نغمات2/ar,স্বৰ/as,নোট/bn,noten/de,νότες2/el,نُت‌ها2/fa,notes2/fr,સૂરો2/gu,תווים2/he,स्वर2/hi,nada2/id,音符2/ja,ಸ್ವರಗಳು2/kn,음표2/ko,सूर2/mr,स्वरहरू/ne,ਸੁਰਾਂ/pa,nuty2/pl,notas3/pt,note2/ro,ноте2/sr,toner/sv,குறிப்புகள்/ta,స్వరాలు/te,mgaNota2/tl,notalar2/tr,nốtNhạc2/vi,音符3/zh,notas2/es,sur/ur•[#] instrument,آلة2/ar,বাদ্যযন্ত্ৰ2/as,যন্ত্র/bn,instrument2/de,όργανο2/el,ساز2/fa,instrument3/fr,વાદ્ય2/gu,כלינגינה2/he,वाद्ययंत्र2/hi,alatMusik2/id,楽器2/ja,ವಾದ್ಯ2/kn,악기2/ko,वाद्य2/mr,वाद्ययन्त्र/ne,ਸਾਜ਼2/pa,instrument4/pl,instrumento3/pt,instrument5/ro,инструмент2/sr,instrument6/sv,கருவி/ta,వాయిద్యం2/te,instrumento4/tl,çalgı2/tr,nhạcCụ2/vi,乐器2/zh,instrumento2/es,saaz/ur•🔈)•🎼
+¶ഒരു ചെറിയ സ്വരങ്ങളുടെ ലിസ്റ്റിനെ @Pose-ൽ ഇടാവുന്ന ഒരു ശബ്ദമാക്കി മാറ്റുന്നു, അങ്ങനെ നിങ്ങൾക്ക് സ്വന്തം ഇഫക്റ്റുകൾ ഉണ്ടാക്കാം — \sting(
+	[8 5]
+	🔈.🔔
+)\ രണ്ട് സ്വരമുള്ള ഒരു മണിനാദമാണ്.¶/ml
+¶Kā tsi̍t-tsūn té-té ê im-hû pìⁿ-tsò sió siann-im, thang kā tshāi tī @Pose téng, án-ne lí tō ē-tàng tsō-tshut ka-kī ê hāu-kó — \sting(
+	[8 5]
+	🔈.🔔
+)\ tō sī nn̄g-ê im ê tīng-tang siann.¶/nan
+¶Превращает короткий список нот в звук, который можно поставить на @Pose. Так ты можешь создавать свои эффекты — \sting(
+	[8 5]
+	🔈.🔔
+)\ это звон из двух нот.¶/ru
+¶Перетворює короткий список нот на звук, який можна покласти на @Pose, щоб створювати власні ефекти — \sting(
+	[8 5]
+	🔈.🔔
+)\ це дзвін із двох нот.¶/uk
+¶將一短串音符變成可以放喺 @Pose 上面嘅聲音，咁你就可以整自己嘅音效 — \sting([8 5] 🔈.🔔)\ 係兩個音嘅鈴聲。¶/yue
+↑ ƒ sting/en,لسعةصوت/ar,স্টিং/as,স্টিং2/bn,stich/de,τσίμπημα/el,نیش‌صدا/fa,piqûre/fr,ડંખ/gu,עוקץ/he,चुभन/hi,sengat/id,スティング/ja,ಚುಚ್ಚುಶಬ್ದ/kn,강조음/ko,चटका/mr,चोट/ne,ਸਟਿੰਗ/pa,żądło/pl,toque/pt,țiuit/ro,убод/sr,sting2/sv,கூர்ஒலி/ta,స్టింగ్/te,tunogNaMatalim/tl,vuruş2/tr,tiếngChích/vi,刺音/zh,golpe/es,tezDhun/ur,സ്റ്റിങ്/ml,фанфарка/ru,акцент/uk,短音效/yue(notes,نغمات2/ar,স্বৰ/as,নোট/bn,noten/de,νότες2/el,نُت‌ها2/fa,notes2/fr,સૂરો2/gu,תווים2/he,स्वर2/hi,nada2/id,音符2/ja,ಸ್ವರಗಳು2/kn,음표2/ko,सूर2/mr,स्वरहरू/ne,ਸੁਰਾਂ/pa,nuty2/pl,notas3/pt,note2/ro,ноте2/sr,toner/sv,குறிப்புகள்/ta,స్వరాలు/te,mgaNota2/tl,notalar2/tr,nốtNhạc2/vi,音符3/zh,notas2/es,sur/ur,സ്വരങ്ങൾ2/ml,ноты2/ru,ноти2/uk,音符4/yue•[#] instrument,آلة2/ar,বাদ্যযন্ত্ৰ2/as,যন্ত্র/bn,instrument2/de,όργανο2/el,ساز2/fa,instrument3/fr,વાદ્ય2/gu,כלינגינה2/he,वाद्ययंत्र2/hi,alatMusik2/id,楽器2/ja,ವಾದ್ಯ2/kn,악기2/ko,वाद्य2/mr,वाद्ययन्त्र/ne,ਸਾਜ਼2/pa,instrument4/pl,instrumento3/pt,instrument5/ro,инструмент2/sr,instrument6/sv,கருவி/ta,వాయిద్యం2/te,instrumento4/tl,çalgı2/tr,nhạcCụ2/vi,乐器2/zh,instrumento2/es,saaz/ur,വാദ്യോപകരണം2/ml,инструмент3/ru,інструмент2/uk,樂器2/yue•🔈)•🎼
 	Music(
 		Track(
 			notes
@@ -988,7 +1105,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶一声清脆的铃响，用来表示答对了。¶/zh
 ¶Un timbre brillante, para cuando algo sale bien.¶/es
 ¶Ek roshan khanak, kisi cheez ko sahi karne par.¶/ur
-↑ ding/en,دنغ/ar,ডিং/as,ডিং2/bn,ding2/de,ντινγκ/el,دینگ/fa,ding3/fr,ડિંગ/gu,דינג/he,टन/hi,ting/id,ディン/ja,ಡಿಂಗ್/kn,딩/ko,टण/mr,घण्टी2/ne,ਟਨ/pa,dzyń/pl,dim2/pt,clinchet/ro,динг/sr,ding4/sv,டிங்/ta,డింగ్/te,kiling/tl,çın/tr,tiếngKeng/vi,叮/zh,tin/es,ting2/ur•🎼: sting(
+¶ഒരു കാര്യം ശരിയാക്കിയതിന്, തെളിഞ്ഞ ഒരു മണിനാദം.¶/ml
+¶Tsi̍t-ê kng-lìm ê tīng-siann, tsí-sī tsò-tiòh.¶/nan
+¶Яркий звон, когда что-то получилось правильно.¶/ru
+¶Яскравий дзвін, щоб відзначити правильну відповідь.¶/uk
+¶一下清脆嘅鈴聲，用喺做啱嘢嗰陣。¶/yue
+↑ ding/en,دنغ/ar,ডিং/as,ডিং2/bn,ding2/de,ντινγκ/el,دینگ/fa,ding3/fr,ડિંગ/gu,דינג/he,टन/hi,ting/id,ディン/ja,ಡಿಂಗ್/kn,딩/ko,टण/mr,घण्टी2/ne,ਟਨ/pa,dzyń/pl,dim2/pt,clinchet/ro,динг/sr,ding4/sv,டிங்/ta,డింగ్/te,kiling/tl,çın/tr,tiếngKeng/vi,叮/zh,tin/es,ting2/ur,ഡിങ്/ml,tīng/nan,динь/ru,дзень/uk,叮2/yue•🎼: sting(
 		[8]
 		🔈.🔔
 	)
@@ -1024,7 +1146,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶一声低沉的敲击，像是落地或撞到了什么东西。¶/zh
 ¶Un golpe grave, para caer o chocar con algo.¶/es
 ¶Ek gehri thak thak, kisi cheez par utarne ya takraane par.¶/ur
-↑ thud/en,طبطبة/ar,ধপ/as,থাড/bn,wummern/de,γδούπος/el,تاپ/fa,boum/fr,ધબાક/gu,חבטה/he,धम्म/hi,gedebuk/id,ドスン/ja,ಧಡ್/kn,쿵/ko,धप्प/mr,ढ्याम्म/ne,ਧੱਪ/pa,łubudu/pl,baque/pt,bufnet/ro,туп/sr,duns/sv,தட்/ta,థడ్/te,dagundong/tl,güm/tr,tiếngBịch/vi,咚/zh,golpeSordo/es,dhamm/ur•🎼: sting(
+¶എവിടെയെങ്കിലും വന്നിറങ്ങുമ്പോഴോ എന്തിലെങ്കിലും ഇടിക്കുമ്പോഴോ, ഒരു താഴ്ന്ന മുട്ടൽ.¶/ml
+¶Tsi̍t-ē tāi-tāi ê khà-siann, tsí-sī lo̍h-tē ia̍h-sī tú-tiòh tsi̍t-ê mi̍h-kiānn.¶/nan
+¶Глухой стук, когда что-то приземляется или во что-то врезается.¶/ru
+¶Низький стук, коли щось приземлилося або вдарилося об щось.¶/uk
+¶一下低沉嘅敲擊聲，用喺著地或者撞到嘢嗰陣。¶/yue
+↑ thud/en,طبطبة/ar,ধপ/as,থাড/bn,wummern/de,γδούπος/el,تاپ/fa,boum/fr,ધબાક/gu,חבטה/he,धम्म/hi,gedebuk/id,ドスン/ja,ಧಡ್/kn,쿵/ko,धप्प/mr,ढ्याम्म/ne,ਧੱਪ/pa,łubudu/pl,baque/pt,bufnet/ro,туп/sr,duns/sv,தட்/ta,థడ్/te,dagundong/tl,güm/tr,tiếngBịch/vi,咚/zh,golpeSordo/es,dhamm/ur,തഡ്/ml,tok/nan,бум/ru,глухийСтук/uk,咚2/yue•🎼: sting(
 		[1]
 		🔈.🥁
 	)
@@ -1060,7 +1187,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶一声短促的“嘀”，像是按了按钮或得了一分。¶/zh
 ¶Un pitido corto, para un botón o un punto ganado.¶/es
 ¶Ek chhoti si aawaaz, button dabane ya point milne ke liye.¶/ur
-↑ pop/en,فرقعة/ar,পপ/as,পপ2/bn,plopp/de,ποπ/el,پاپ/fa,pop3/fr,પોપ/gu,פופ/he,पॉप/hi,pop4/id,ポン/ja,ಪಾಪ್/kn,뽕/ko,फट/mr,पप/ne,ਪੌਪ/pa,puk/pl,estalo/pt,poc/ro,поп/sr,puts/sv,பப்/ta,పాప్/te,putok/tl,pat/tr,tiếngBốp/vi,啵/zh,pop2/es,phut/ur•🎼: sting(
+¶ഒരു ബട്ടണിനോ നേടിയ പോയിന്റിനോ വേണ്ടിയുള്ള ഒരു ചെറിയ ബീപ് ശബ്ദം.¶/ml
+¶Tsi̍t-ē té-té ê sia, hōo button á-sī tit-hun the̍h-lâi iōng.¶/nan
+¶Короткий писк для кнопки или набранного очка.¶/ru
+¶Короткий звуковий сигнал, наприклад для кнопки або зароблених очок.¶/uk
+¶一下短促嘅「嘟」聲，適合用喺按鈕或者得分嗰陣。¶/yue
+↑ pop/en,فرقعة/ar,পপ/as,পপ2/bn,plopp/de,ποπ/el,پاپ/fa,pop3/fr,પોપ/gu,פופ/he,पॉप/hi,pop4/id,ポン/ja,ಪಾಪ್/kn,뽕/ko,फट/mr,पप/ne,ਪੌਪ/pa,puk/pl,estalo/pt,poc/ro,поп/sr,puts/sv,பப்/ta,పాప్/te,putok/tl,pat/tr,tiếngBốp/vi,啵/zh,pop2/es,phut/ur,പോപ്/ml,phok/nan,хлопок/ru,лясь/uk,啪/yue•🎼: sting(
 		[5 8]
 		🔈.🪈
 	)
@@ -1096,7 +1228,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶一段小小的花腔，像是赢了。¶/zh
 ¶Un pequeño toque festivo, para cuando ganas.¶/es
 ¶Ek chhoti si khushi ki dhun, jeetne ke liye.¶/ur
-↑ fanfare/en,فنفار/ar,ফেনফেয়াৰ/as,ফ্যানফেয়ার/bn,fanfare2/de,φανφάρα/el,شیپورشادباش/fa,fanfare3/fr,ધૂમધામસૂર/gu,תרועה/he,धूमधाम/hi,fanfar/id,ファンファーレ/ja,ವಾದ್ಯಘೋಷ/kn,팡파르/ko,शिंगनाद/mr,शुभारम्भधुन/ne,fanfara/pl,fanfarra/pt,fanfară/ro,фанфара/sr,fanfar2/sv,முழக்குஒலி/ta,ఫన్‌ఫేర్/te,tugtogNgPapuri/tl,fanfar3/tr,tiếngKènHiệu/vi,号角声/zh,ਜਿੱਤਦਾਬਾਜਾ/pa,fanfarria/es,jashnKiDhun/ur•🎼: sting(
+¶ജയിക്കുമ്പോൾ കേൾക്കാനുള്ള ഒരു ചെറിയ സന്തോഷസംഗീതം.¶/ml
+¶Tsi̍t-tsuā khuài-lia̍h ê sió-khuá im-lia̍h, tsiàⁿ-sí khah ìn-siōng, hōo lí thàn-tio̍h ê sî iōng.¶/nan
+¶Небольшая весёлая мелодия для победы.¶/ru
+¶Невелика мелодійна заставка для перемоги.¶/uk
+¶一小段歡快嘅音樂，適合用喺勝出嗰陣。¶/yue
+↑ fanfare/en,فنفار/ar,ফেনফেয়াৰ/as,ফ্যানফেয়ার/bn,fanfare2/de,φανφάρα/el,شیپورشادباش/fa,fanfare3/fr,ધૂમધામસૂર/gu,תרועה/he,धूमधाम/hi,fanfar/id,ファンファーレ/ja,ವಾದ್ಯಘೋಷ/kn,팡파르/ko,शिंगनाद/mr,शुभारम्भधुन/ne,fanfara/pl,fanfarra/pt,fanfară/ro,фанфара/sr,fanfar2/sv,முழக்குஒலி/ta,ఫన్‌ఫేర్/te,tugtogNgPapuri/tl,fanfar3/tr,tiếngKènHiệu/vi,号角声/zh,ਜਿੱਤਦਾਬਾਜਾ/pa,fanfarria/es,jashnKiDhun/ur,ഫാൻഫെയർ/ml,фанфары/ru,фанфари/uk,號角聲/yue•🎼: sting(
 		[1 3 5 8]
 		🔈.🎺
 	)
@@ -1132,7 +1269,12 @@ effectBeat,أثرإيقاع/ar,প্ৰভাৱবিট/as,এফেক্ট
 ¶一声粗鲁的噪音，像是弄错了什么。¶/zh
 ¶Un ruido grosero, para cuando algo sale mal.¶/es
 ¶Ek bhaddi aawaaz, kuch ghalat hone ke liye.¶/ur
-↑ buzz/en,طنين/ar,গুণগুণনি/as,বাজ/bn,summen/de,βόμβος/el,وزوز/fa,bourdonnement/fr,ભણભણાટ/gu,זמזום/he,भनभनाहट/hi,dengung/id,ブザー/ja,ಝೇಂಕಾರ/kn,부웅/ko,गुणगुण/mr,भुनभुन/ne,ਭਿਣਭਿਣਾਹਟ/pa,brzęczenie/pl,zumbido2/pt,bâzâit/ro,зујање/sr,surr/sv,சுரீர்/ta,జుమ్మ్/te,ugong/tl,vızıltı/tr,tiếngVoVe/vi,嗡嗡声/zh,zumbido/es,bhinBhin/ur•🎼: sting(
+¶എന്തെങ്കിലും തെറ്റിപ്പോയാൽ കേൾക്കാനുള്ള ഒരു അരോചക ശബ്ദം.¶/ml
+¶Tsi̍t-ē bô lé-māu ê sia, tsò-m̄-tio̍h ê sî iōng.¶/nan
+¶Грубый звук для ошибки.¶/ru
+¶Грубий звук, коли щось пішло не так.¶/uk
+¶一下難聽嘅怪聲，適合用喺答錯嘢嗰陣。¶/yue
+↑ buzz/en,طنين/ar,গুণগুণনি/as,বাজ/bn,summen/de,βόμβος/el,وزوز/fa,bourdonnement/fr,ભણભણાટ/gu,זמזום/he,भनभनाहट/hi,dengung/id,ブザー/ja,ಝೇಂಕಾರ/kn,부웅/ko,गुणगुण/mr,भुनभुन/ne,ਭਿਣਭਿਣਾਹਟ/pa,brzęczenie/pl,zumbido2/pt,bâzâit/ro,зујање/sr,surr/sv,சுரீர்/ta,జుమ్మ్/te,ugong/tl,vızıltı/tr,tiếngVoVe/vi,嗡嗡声/zh,zumbido/es,bhinBhin/ur,ബസ്/ml,ngiāu/nan,гудок/ru,дзижчання/uk,嗡嗡聲/yue•🎼: sting(
 		[1 1]
 		🔈.⚡
 	)

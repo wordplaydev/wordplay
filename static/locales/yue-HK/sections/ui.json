@@ -1,0 +1,3073 @@
+{
+    "$schema": "../../../static/schemas/sections/ui.json",
+    "ui": {
+        "email": {
+            "notice": {
+                "subject": {
+                    "reported": "$~有人舉報咗你嘅 $kind",
+                    "received": "$~我哋收到你嘅舉報",
+                    "decision": "$~關於你嘅 $kind 嘅決定",
+                    "review": "$~有嘢等緊你審核",
+                    "warning": "$~關於你分享嘅內容嘅警告",
+                    "listing": "$~關於公開列出你嘅 $kind 嘅決定",
+                    "howto": "$~你嘅作品展覽館有新嘅教學指南"
+                },
+                "body": {
+                    "reported": "$~有人想搵人睇吓你喺「$title」入面整嘅嘢。負責嘅人會去睇吓。",
+                    "received": "$~你對「$title」嘅舉報已經送到負責審查嘅人手上。",
+                    "decision": "$~你喺「$title」入面整嘅嘢，已經有咗決定。",
+                    "review": "$~有人想搵人審查「$title」。",
+                    "warning": "$~呢個係關於你公開分享嘅嘢嘅第 $#count[$count] 次警告。",
+                    "listing": "$~「$title」係咪會公開列出，已經有咗決定。",
+                    "howto": "$~「$title」已經喺你所屬嘅作品展覽館發佈。"
+                },
+                "open": "$~睇吓",
+                "manage": "$~更改通知設定",
+                "heading": {
+                    "reported": "$~已舉報",
+                    "decision": "$~管理決定",
+                    "review": "$~等緊審查",
+                    "warning": "$~警告",
+                    "listing": "$~列出決定",
+                    "howto": "$~新教學指南",
+                    "chat": "$~新傾偈"
+                }
+            },
+            "review": {
+                "subject": "$~有 $#count[$count] 件嘢等你審查",
+                "heading": "$~有 $#count[$count] 件嘢要審查",
+                "body": "$~舉報同列出申請會喺管理隊列等，直到有人作出決定。",
+                "open": "$~開始審查"
+            },
+            "chat": {
+                "subject": "$~你有未讀嘅傾偈",
+                "heading": "$~新傾偈",
+                "body": "$~你喺 $#count[$count 個對話]入面有未讀嘅訊息。",
+                "open": "$~去睇吓"
+            },
+            "signin": {
+                "subject": "$~你嘅 Wordplay 登入連結",
+                "heading": "$~登入 Wordplay",
+                "body": "$~㩒下面個按鈕就可以登入。呢個連結只可以用一次，而且只喺一段短時間內有效。",
+                "button": "$~登入",
+                "disclaimer": "$~如果你冇要求登入，唔使理呢封電郵。冇咗呢個連結，冇人可以入到你嘅帳戶。"
+            }
+        },
+        "font": {
+            "app": "$~Noto Sans",
+            "code": "$~Noto Sans Mono",
+            "missing": "$~冇",
+            "form": {
+                "sans": "$~無襯線字體",
+                "serif": "$~襯線字體",
+                "slab": "$~粗襯線字體",
+                "typewriter": "$~打字機字體",
+                "handwriting": "$~手寫字",
+                "brush": "$~毛筆字體",
+                "script": "$~草書字體",
+                "poster": "$~海報字體",
+                "pixel": "$~像素字體",
+                "outline": "$~空心字體",
+                "textured": "$~有紋理嘅字體",
+                "emoji": "$~係圖畫，唔係文字"
+            },
+            "impression": {
+                "calm": "$~平靜",
+                "oldFashioned": "$~古老",
+                "strong": "$~強勁",
+                "quirky": "$~古靈精怪",
+                "playful": "$~好玩",
+                "excited": "$~興奮",
+                "childlike": "$~好似細路咁",
+                "artistic": "$~有藝術感",
+                "futuristic": "$~好有未來感",
+                "energetic": "$~充滿活力",
+                "cute": "$~可愛",
+                "cheerful": "$~開心",
+                "fancy": "$~華麗"
+            },
+            "mechanic": {
+                "sameWidth": "$~每個字母一樣闊",
+                "tallLowercase": "$~細楷字母同大楷字母一樣高",
+                "shortLowercase": "$~細楷字母比大楷字母矮好多"
+            },
+            "description": {
+                "and": "$~$first 同 $second",
+                "full": "$~$form$impression[、$impression|]$mechanics[、$mechanics|]"
+            }
+        },
+        "phrases": {
+            "welcome": "$~你好"
+        },
+        "widget": {
+            "confirm": {
+                "cancel": "$~取消"
+            },
+            "dialog": {
+                "close": "$~關閉"
+            },
+            "loading": {
+                "message": "$~載入緊，多謝你等一等！"
+            },
+            "home": "$~去主頁",
+            "synced": {
+                "saved": "$~喺所有裝置上儲存",
+                "signedOut": "$~登入咗之後，會喺所有裝置上儲存"
+            },
+            "logo": {
+                "description": "$~一個對話框，入面有你書寫系統嘅一個字母"
+            },
+            "table": {
+                "cell": {
+                    "description": "$~編輯呢個儲存格",
+                    "placeholder": "$~值"
+                },
+                "addcolumn": "$~喺呢一欄前面加一欄",
+                "removecolumn": "$~刪除呢一欄"
+            },
+            "formatted": {
+                "edit": "$~編輯格式化文字",
+                "preview": "$~預覽格式化文字",
+                "highlight": "$~標示範例",
+                "defect": "$~將範例標記為預期內嘅缺陷",
+                "bullet": "$~項目符號",
+                "attention": "$~標示呢個表達式"
+            },
+            "color": {
+                "field": "$~顏色區域",
+                "instructions": "$~用左右方向鍵轉色相，用上下方向鍵轉彩度，用 Page Up 同 Page Down 鍵轉明度。按住 Shift 可以調得細啲。如果用螢幕閱讀器，請先同呢個控制項互動，或者用下面嘅明度、彩度同色相滑桿。",
+                "value": "$~$color，LCH $l、$c、$h",
+                "input": {
+                    "description": "$~輸入任何網頁格式嘅顏色",
+                    "placeholder": "$~#f00、rgb()、hsl()、red",
+                    "invalid": "$~認唔到呢個顏色",
+                    "format": "$~偵測到嘅格式"
+                },
+                "pick": {
+                    "tip": "$~喺你嘅螢幕揀顏色"
+                }
+            },
+            "backtotop": "$~返回頂部",
+            "overflow": {
+                "button": {
+                    "on": "$~收埋額外控制項",
+                    "off": "$~顯示額外控制項"
+                },
+                "popup": "$~額外控制項"
+            },
+            "readAloud": {
+                "on": "$~停止朗讀",
+                "off": "$~朗讀呢段內容"
+            }
+        },
+        "tile": {
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~退出全螢幕",
+                    "off": "$~將視窗方塊放大到全螢幕"
+                },
+                "show": {
+                    "on": "$~隱藏 $name",
+                    "off": "$~顯示 $name"
+                },
+                "showSource": {
+                    "on": "$~隱藏源檔 $name",
+                    "off": "$~顯示源檔 $name"
+                }
+            },
+            "label": {
+                "output": "$~舞台",
+                "palette": "$~調色盤",
+                "docs": "$~指南",
+                "source": "$~源檔",
+                "collaborate": "$~一齊合作"
+            },
+            "button": {
+                "collapse": "$~收埋視窗"
+            }
+        },
+        "project": {
+            "label": "$~專案",
+            "defaults": {
+                "starterCode": "$~¶歡迎嚟到你嘅空白專案！呢個係註解。\n你可以用佢嚟描述你嘅專案、記筆記，\n同埋講俾人知你想佢哋知道啲乜嘢。\n佢支援 *粗體*、/斜體/、<連結@https://wordplay.dev> 同更多功能。¶\nPhrase('hi')"
+            },
+            "scratch": "$~呢個係範例嘅臨時副本。按改編就可以保留佢。",
+            "untitled": "$~未命名專案",
+            "error": {
+                "unknown": "$~呢個專案唔存在，或者你冇權限開啟佢。",
+                "translate": "$~翻譯你嘅專案時出咗問題。",
+                "translateBroken": "$~翻譯會令你嘅程式出錯，所以乜都冇改。試吓用另一種語言，或者再翻譯一次。",
+                "tile": "$~哎呀，出咗錯",
+                "reset": "$~試吓重設……"
+            },
+            "button": {
+                "share": {
+                    "tip": "$~顯示專案分享選項",
+                    "label": "$~分享"
+                },
+                "removeCollaborator": "$~移除合作者",
+                "copy": {
+                    "tip": "$~將專案以文字複製到剪貼簿",
+                    "label": "$~複製成文字"
+                },
+                "addSource": "$~新增另一個 @Source：可以係空白嘅，或者用圖片或者歌曲整出嚟嘅",
+                "remix": {
+                    "tip": "$~整一份自己嘅專案副本嚟修改",
+                    "label": "$~改編"
+                },
+                "revert": "$~還原返做原本嘅程式碼",
+                "focusOutput": "$~將鍵盤焦點放喺舞台度",
+                "focusSource": "$~將焦點移去下一個源檔",
+                "focusDocs": "$~將焦點移去說明文件",
+                "focusPalette": "$~將焦點移去調色盤",
+                "focusCycle": "$~將焦點移去下一個圖塊",
+                "savedLocally": "$~專案只會儲存喺呢部電腦度，唔會儲存喺網上",
+                "savedOnline": "$~專案會儲存喺網上",
+                "unsaved": "$~顯示儲存錯誤",
+                "translate": {
+                    "tip": "$~將呢個專案翻譯成新語言，令佢變成多語言專案",
+                    "label": "$~翻譯"
+                },
+                "primary": "$~冇標明語言嘅書寫語言",
+                "destination": "$~翻譯成呢種語言",
+                "languages": "$~顯示呢個專案用緊嘅語言",
+                "addLanguage": "$~用呢種語言寫埋呢個專案",
+                "removeLanguage": "$~唔再用呢種語言寫呢個專案",
+                "firstLanguage": "$~設定呢種語言做專案嘅第一語言",
+                "removeUnusedLanguages": {
+                    "tip": "$~移除呢個專案程式碼冇用過嘅語言",
+                    "label": "$~移除冇用過嘅"
+                },
+                "tinker": {
+                    "label": "$~試吓佢…",
+                    "tip": "$~喺新視窗開啟呢個範例嘅副本，咁你就可以改吓佢，睇吓會發生咩事"
+                }
+            },
+            "field": {
+                "name": {
+                    "description": "$~編輯專案名稱",
+                    "placeholder": "$~名稱",
+                    "invalid": "$~翻譯未完整，請檢查你嘅引號同語言標籤，例如 \"hi\"/en\"hola\"/es。"
+                }
+            },
+            "help": "$~顯示鍵盤快速鍵",
+            "collapsed": "$~你所有視窗都收埋咗！你可以喺下面嘅工具列搵返佢哋",
+            "save": {
+                "projectsNotLoadingOnline": "$~載入唔到網上嘅專案。",
+                "projectsNotSavingOnline": "$~有啲專案淨係喺呢部裝置度，仲未上網。",
+                "settingsUnsaved": "$~儲存唔到設定上網。",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~你嘅瀏覽器儲存唔到呢啲專案喺呢部裝置度。",
+                    "localProjectStorageFailed": "$~呢部裝置冇晒位置儲存，而且呢啲專案仲未上雲端，所以有風險。<登入@://login>，咁就可以將佢哋儲存喺網上，而唔係淨係喺呢部裝置度。",
+                    "indexedDBUnsupported": "$~你嘅瀏覽器唔俾 @wordplay 喺呢部裝置儲存專案。",
+                    "firestoreBatchFailed": "$~我哋送唔到呢啲去雲端。佢哋仲安全咁喺呢部裝置度。",
+                    "cloudWriteRefused": "$~雲端唔接受呢啲更改，所以我哋用咗網上嗰份複本。如果你覺得你應該可以改呢啲，就問吓分享畀你嘅人啦。",
+                    "projectContainsPII": "$~呢啲專案好似有個人資料，所以我哋冇儲存佢哋上網。逐個打開，睇吓邊度似個人資料啦。",
+                    "projectTooLarge": "$~呢啲專案太大，儲存唔到上網。佢哋仲安全咁喺呢部裝置度。試吓整細啲佢哋啦。",
+                    "noCloudTarget": "$~呢啲專案淨係喺呢部裝置度，因為 @wordplay 冇地方將佢哋儲存上網。<登入@://login>就可以儲存佢哋。"
+                }
+            },
+            "dialog": {
+                "languages": {
+                    "header": "$~語言",
+                    "tab": {
+                        "label": "$~語言設定",
+                        "labels": ["$~用乜寫", "$~翻譯"],
+                        "tips": [
+                            "$~睇同更改呢個專案用嘅語言",
+                            "$~將呢個專案嘅名稱、文字同說明文件翻譯成另一種語言"
+                        ]
+                    },
+                    "explanation": [
+                        "$~呢度係你專案用緊嘅語言。",
+                        "你可以加一種語言嚟寫，刪除一種你冇用嘅語言，或者將成個專案翻譯成新嘅語言。"
+                    ],
+                    "count": "$~$#count[$count 種語言]",
+                    "prompt": "$~翻譯",
+                    "mode": {
+                        "label": "$~翻譯會做啲乜",
+                        "labels": ["$~加入", "$~改寫"],
+                        "tips": [
+                            "$~將新語言加入你嘅專案，你寫嘅嘢全部保留",
+                            "$~用新語言改寫你嘅專案，取代你寫嘅嘢"
+                        ]
+                    },
+                    "meaning": [
+                        "$~專案嘅語言決定咗程式碼可以用邊啲名稱同字詞。如果你嘅專案係用西班牙文寫，呢度就要有西班牙文，否則好似 \\Frase\\ 呢啲名稱就冇意思。",
+                        "每個打開你專案嘅人都會載入呢啲語言，而第一個語言會決定輸出點樣排版。英文名稱喺每個專案入面都一直用得。"
+                    ],
+                    "source": "$~標咗語言嘅文字同名稱，例如 \\'hola'/es\\，會由嗰種語言翻譯。請揀返冇標語言嘅所有內容係用邊種語言。",
+                    "unused": "$~未用到",
+                    "unloaded": "$~載入唔到",
+                    "checking": "$~搵緊你嘅程式碼用到嘅語言⋯⋯",
+                    "complete": "$~你嘅程式碼冇用到任何你專案缺少嘅語言。",
+                    "search": {
+                        "description": "$~按名稱或者地區篩選語言",
+                        "placeholder": "$~語言或者地區"
+                    }
+                }
+            },
+            "subheader": {
+                "missing": "$~可能缺少",
+                "source": "$~來源",
+                "destination": "$~目的地"
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~自動：而家係 $layout"
+                }
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~退出瀏覽器全螢幕",
+                    "off": "$~進入瀏覽器全螢幕"
+                },
+                "editName": {
+                    "on": "$~顯示你嘅語言嘅名稱",
+                    "off": "$~編輯每種語言嘅名稱"
+                }
+            },
+            "link": {
+                "remixOf": "$~去呢個專案原本改編自嘅專案",
+                "backTo": "$~返去 $place"
+            },
+            "tour": {
+                "launch": "$~睇下專案控制項嘅導覽",
+                "controls": "$~喺底部嘅呢啲 /控制項/ 係用嚟控制*成個專案*，唔理你而家喺邊個圖塊度做嘢。",
+                "name": "$~/名稱/ 欄係你專案嘅名稱。名稱會喺*專案*同*作品展覽館*畫面度顯示。",
+                "sourceToggle": "$~呢個 /開關/ 可以顯示或者隱藏*源檔*。呢一行嘅*其他開關*對其他圖塊都係咁用。",
+                "addSource": "$~有啲專案用*多個*源檔會好啲，例如將資料放喺一個源檔，再匯入去*主要*源檔。/新增源檔/ 按鈕提供幾種新增方法：空白檔案、圖片、歌曲或者資料。",
+                "share": "$~/分享/ 對話方塊可以畀你將專案分享到*作品展覽館*、公開畀*所有人*，或者複製成*文字*去其他地方分享。",
+                "languages": "$~/語言/ 按鈕會顯示你專案係用邊啲語言寫，可以新增或者移除語言，亦可以將專案嘅*名稱*、*文字*同*說明文件*翻譯成新語言。",
+                "checkpoints": "$~/修訂/ 面板可以等你 *返去* 專案嘅舊版本，亦可以為你想記住嘅版本 *影個快照*。"
+            }
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~而家",
+                "history": "$~版本",
+                "restore": "$~呢個係呢個專案嘅舊版本。",
+                "ago": "$~$amount $unit 前"
+            },
+            "button": {
+                "clear": "$~刪除歷史",
+                "select": "$~睇呢個版本",
+                "checkpoint": "$~儲存呢個版本嘅專案",
+                "back": "$~返去上一個版本",
+                "forward": "$~返去下一個版本",
+                "restore": "$~還原呢個版本",
+                "now": "$~返去而家嘅版本"
+            },
+            "diff": {
+                "summary": "$~還原呢個版本會帶返 $#back[$back 樣嘢]，同時移走 $#gone[$gone 樣嘢]。",
+                "unchanged": "$~還原呢個版本唔會改變任何嘢。",
+                "atReturns": "$~如果你還原就會返嚟",
+                "atLeaves": "$~如果你還原，$code 就會消失",
+                "atBoth": "$~如果你還原就會返嚟，取代 $code"
+            }
+        },
+        "gallery": {
+            "untitled": "$~未命名",
+            "undescribed": "$~冇描述",
+            "projects": "$~$#count[$count 個專案]",
+            "characters": "$~$#count[$count 個字元]",
+            "subheader": {
+                "classes": {
+                    "header": "$~班別",
+                    "explanation": "$~同呢個作品展覽館有關嘅班別。"
+                },
+                "curators": {
+                    "header": "$~策展人",
+                    "explanation": [
+                        "$~策展人可以編輯專案同作品展覽館嘅設定，亦可以喺所有專案入面傾偈。",
+                        "/策展人會喺 <審核頁面@://moderate> 睇人哋舉報嘅嘢，包括佢哋作品展覽館入面嘅專案、教學指南同相關嘅對話。策展人嘅決定只適用於佢自己嘅作品展覽館，唔會變成 Wordplay 嘅 <警告@://rights>。/"
+                    ]
+                },
+                "creators": {
+                    "header": "$~創作者",
+                    "explanation": "$~創作者可以睇到作品展覽館入面所有專案，亦可以加入新專案。"
+                },
+                "projects": {
+                    "header": "$~專案",
+                    "explanation": "$~呢度分享咗嘅專案。呢個作品展覽館入面嘅人都可以打開一個專案，再整一個自己嘅版本嚟改。"
+                },
+                "characters": {
+                    "header": "$~角色",
+                    "explanation": "$~呢度分享咗嘅角色。呢個作品展覽館入面嘅人都可以喺自己嘅專案用一個角色，或者整一個自己嘅版本嚟改。"
+                },
+                "delete": {
+                    "header": "$~刪除",
+                    "explanation": "$~刪除呢個作品展覽館唔會刪除佢入面嘅專案，但係會刪除佢嘅教學指南。呢個作品展覽館會永久刪除。"
+                }
+            },
+            "tab": {
+                "label": "$~作品展覽館設定",
+                "labels": ["$~創作者", "$~策展人", "$~可見度", "$~刪除"],
+                "tips": [
+                    "$~揀邊個可以加作品入呢個作品展覽館",
+                    "$~揀邊個可以管理呢個作品展覽館",
+                    "$~揀邊個可以睇到呢個作品展覽館",
+                    "$~刪除呢個作品展覽館"
+                ]
+            },
+            "button": {
+                "editcharacter": "$~編輯呢個角色",
+                "copyreference": "$~複製呢個角色嘅參照，貼上去專案入面",
+                "copied": "$~已複製！"
+            },
+            "confirm": {
+                "delete": {
+                    "description": "$~刪除作品展覽館",
+                    "prompt": "$~刪除"
+                },
+                "remove": {
+                    "description": "$~將專案移出作品展覽館",
+                    "prompt": "$~移除"
+                },
+                "removecharacter": {
+                    "description": "$~將角色移出作品展覽館",
+                    "prompt": "$~移除"
+                }
+            },
+            "error": {
+                "unknown": "$~呢個作品展覽館唔存在，或者冇公開。",
+                "unreachable": "$~我哋載入唔到呢個作品展覽館。如果你應該可以進入，請檢查吓你嘅網絡連線。VPN、瀏覽器擴充功能或者網絡過濾器可能擋住咗佢。"
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~連結",
+                    "explanation": "$~為呢個作品展覽館嘅連結揀一個短名稱，咁就更易分享同講出口。可以用字母、數字同連字號。你嘅作品展覽館用舊連結都照樣用得。"
+                },
+                "unavailable": "$~等呢個作品展覽館公開，而且有管理員批准咗之後，你就可以為呢個連結揀名稱。",
+                "save": {
+                    "label": "$~儲存",
+                    "tip": "$~畀呢個作品展覽館呢條連結"
+                },
+                "copy": {
+                    "tip": "$~複製呢個作品展覽館嘅連結"
+                },
+                "copied": "$~已複製！",
+                "claimed": "$~已經儲存咗。呢個作品展覽館而家有條短啲嘅連結。",
+                "release": {
+                    "description": "$~永久放棄呢個名稱，咁任何人都可以用",
+                    "prompt": "$~確定要放棄？"
+                },
+                "released": "$~個名稱而家任何人都可以用。",
+                "names": "$~名稱：",
+                "currentName": "$~而家使用緊",
+                "error": {
+                    "taken": "$~另一個作品展覽館已經用緊呢個名稱。",
+                    "invalid": "$~作品展覽館嘅連結唔可以用呢個名稱。",
+                    "unlisted": "$~作品展覽館要公開同通過審批，先可以有名稱。",
+                    "failure": "$~儲存唔到個名稱。再試多次吖？",
+                    "notYours": "$~呢個名稱唔係呢個作品展覽館可以放棄嘅。"
+                }
+            },
+            "field": {
+                "name": {
+                    "description": "$~作品展覽館名稱",
+                    "placeholder": "$~名稱"
+                },
+                "description": {
+                    "description": "$~作品展覽館簡介",
+                    "placeholder": "$~介紹下你嘅作品展覽館。佢嘅主題、目標或者社群係乜嘢？"
+                },
+                "path": {
+                    "description": "$~作品展覽館連結名稱",
+                    "placeholder": "$~名稱"
+                }
+            }
+        },
+        "gallerymoderation": {
+            "header": "$~舉報",
+            "description": "$~人哋請你審核嘅內容，最舊嘅排最先。你做決定嗰陣，要講明發現咗乜嘢規則被違反，而製作者會知道你嘅決定。",
+            "labels": {
+                "subject": "$~被舉報嘅內容",
+                "reason": "$~違反咗邊啲規則",
+                "action": "$~點處理"
+            },
+            "note": {
+                "description": "$~想對製作者講乜嘢",
+                "placeholder": "$~同佢哋講啲嘢（可以唔填）"
+            },
+            "view": {
+                "label": "$~睇下佢",
+                "tip": "$~打開被舉報嘅內容"
+            },
+            "remove": {
+                "label": "$~移除",
+                "tip": "$~呢個違反規則"
+            },
+            "keep": {
+                "label": "$~保留",
+                "tip": "$~呢個冇違反規則"
+            },
+            "remaining": "$~$#count[有 $count 個舉報等緊處理]",
+            "empty": "$~暫時冇嘢等緊決定。",
+            "error": "$~你要先登入，先可以審核舉報。"
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~教學指南",
+                "subheader": "$~$#total[$total 個教學指南]，其中 $new 個新出現",
+                "subheaderEmpty": "$~寫第一個啦！",
+                "prompt": "$~教學指南係簡短嘅說明同範例程式碼，講解點樣用 @wordplay 做某樣嘢。如果你發現咗啲想分享嘅嘢，就寫一個畀呢個作品展覽館入面嘅其他創作者啦，等佢哋都可以學到！"
+            },
+            "drafts": {
+                "header": "$~📝 教學指南草稿",
+                "prompt": "$~呢度係放你草稿嘅地方！淨係你同你嘅合作者先睇到呢啲草稿。",
+                "tooltip": "$~睇你嘅草稿",
+                "note": "$~呢個係教學指南嘅草稿。淨係你同你嘅合作者先睇到。"
+            },
+            "bookmarks": {
+                "header": "$~🔖 書籤",
+                "tooltip": "$~去呢個教學指南",
+                "canBookmark": {
+                    "label": "$~🔖 加書籤",
+                    "tip": "$~畀呢個教學指南加書籤，之後就容易搵返"
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 移除書籤",
+                    "tip": "$~將呢個教學指南從你嘅書籤移除"
+                },
+                "empty": "$~你可以畀想之後再睇嘅教學指南加書籤。",
+                "notLoggedIn": "$~你要先<登入@://login>，先可以用書籤"
+            },
+            "navigationtooltip": "$~前往某個教學指南",
+            "button": {
+                "reset": {
+                    "label": "$~置中",
+                    "tip": "$~將畫布置中"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~建立新嘅教學指南",
+                    "explanation": "$~寫低你嘅新教學指南嘅名稱同內容。"
+                },
+                "editForm": {
+                    "header": "$~編輯教學指南",
+                    "explanation": "$~編輯你嘅教學指南嘅名稱同內容。"
+                },
+                "post": {
+                    "label": "$~📣 發佈",
+                    "tip": "$~將你嘅教學指南發佈到呢個空間"
+                },
+                "save": {
+                    "label": "$~💾 儲存為草稿",
+                    "tip": "$~將你嘅教學指南儲存為草稿"
+                },
+                "notification": {
+                    "label": "$~通知訂閱者",
+                    "labels": ["$~通知", "$~唔通知"],
+                    "tips": [
+                        "$~發佈呢個教學指南嗰陣通知訂閱者",
+                        "$~發佈呢個教學指南嗰陣唔通知訂閱者"
+                    ]
+                },
+                "editor": {
+                    "placeholder": "$~喺度寫你嘅教學指南，用格式同程式碼嚟教人。",
+                    "description": "$~寫教學指南用嘅文字方格"
+                },
+                "title": {
+                    "description": "$~你嘅教學指南嘅標題",
+                    "placeholder": "$~標題"
+                },
+                "untitledHowToPlaceholder": "$~未有標題嘅教學指南",
+                "noGuidingQuestions": "$~呢個作品展覽館仲未有引導問題，所以未有嘢可以寫。策展人要先加最少一條引導問題，先可以寫教學指南。",
+                "collaborators": {
+                    "header": "$~👥 協作者",
+                    "explanation": "$~協作者可以編輯呢個教學指南，亦可以喺草稿入面睇到佢。"
+                },
+                "collaboratorsToggle": {
+                    "on": "$~收埋協作者面板",
+                    "off": "$~展開協作者面板"
+                },
+                "access": {
+                    "header": "$~↗ 分享",
+                    "explanation": "$~呢個作品展覽館嘅管理員可以畀佢管理嘅其他作品展覽館嘅創作者同管理員睇呢份教學指南。如果你唔想佢哋睇到，你可以限制只有呢個作品展覽館嘅管理員同創作者先可以睇呢份教學指南。"
+                },
+                "accessToggle": {
+                    "on": "$~收埋存取權限設定面板",
+                    "off": "$~展開存取權限設定面板"
+                },
+                "accessMode": {
+                    "label": "$~限制邊個可以睇呢份教學指南",
+                    "labels": ["$~受限制", "$~已展開"],
+                    "tips": [
+                        "$~只有呢個作品展覽館嘅創作者先可以睇",
+                        "$~管理員所管理嘅任何作品展覽館嘅創作者同管理員都可以睇"
+                    ]
+                },
+                "localeOptionsLabel": "$~編輯器輸入語言",
+                "publicExplanation": "$~如果你想任何有連結嘅人都睇到你嘅教學指南，你可以將佢設為公開。",
+                "publicMode": {
+                    "label": "$~將呢份教學指南設為公開",
+                    "labels": ["$~私人", "$~公開"],
+                    "tips": [
+                        "$~只有可以直接存取呢份教學指南嘅 Wordplay 用家先睇到",
+                        "$~任何有連結嘅人都可以睇呢份教學指南"
+                    ]
+                }
+            },
+            "viewer": {
+                "edit": {
+                    "label": "$~✏️ 編輯",
+                    "tip": "$~編輯呢份教學指南"
+                },
+                "delete": {
+                    "description": "$~刪除呢份教學指南",
+                    "prompt": "$~🗑️ 刪除"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 提交到指南",
+                        "tip": "$~提交呢份教學指南，等人考慮加入指南！"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ 已提交到指南",
+                        "tip": "$~呢份教學指南已經提交咗，等人考慮加入指南。"
+                    },
+                    "label": "$~指南"
+                },
+                "usedBy": {
+                    "label": "$~用於",
+                    "empty": "$~你仲未有任何專案或者已發佈嘅教學指南。試吓整一個啦！",
+                    "countDisplay": "$~其他 Wordplay 導演喺 $#count[$count 個其他專案或者教學指南]用過呢個",
+                    "selector": "$~專案同教學指南選擇器",
+                    "removeButton": "$~由清單移除專案或者教學指南",
+                    "addButton": "$~加入專案或者教學指南"
+                },
+                "repost": {
+                    "prompt": "$~其他作品展覽館",
+                    "add": "$~分享到另一個作品展覽館",
+                    "selector": "$~用嚟分享呢個教學指南嘅作品展覽館",
+                    "addButton": "$~將呢個教學指南分享到揀咗嘅作品展覽館",
+                    "removeButton": "$~停止喺呢個作品展覽館分享呢個教學指南",
+                    "from": "$~主要作品展覽館",
+                    "same": "$~呢個教學指南無論分享到邊度，反應同留言都係一樣㗎。",
+                    "failed": "$~呢個教學指南未能分享或者取消分享。請檢查你嘅網絡連線，再試多次。"
+                },
+                "responses": "$~回應",
+                "sharing": "$~分享",
+                "reactions": "$~反應",
+                "chatPrompt": "$~畀創作者留個留言或者問題吖！",
+                "link": {
+                    "label": "$~🔗 複製教學指南連結",
+                    "tip": "$~複製呢個教學指南嘅連結"
+                },
+                "collaborators": "$~作者",
+                "view": {
+                    "tip": "$~睇教學指南"
+                }
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~教學指南空間設定",
+                    "explanation": "$~設定呢個教學指南空間。撳下面嘅儲存按鈕嚟儲存你嘅設定。"
+                },
+                "configurationButton": {
+                    "tip": "$~設定呢個教學指南空間",
+                    "label": "$~⚙️ 設定"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~可見度",
+                        "explanation": "$~設定邊個預設可以睇呢個空間入面嘅教學指南"
+                    },
+                    "mode": {
+                        "label": "$~預設可見度",
+                        "labels": ["$~有限", "$~已展開"],
+                        "tips": [
+                            "$~淨係呢個作品展覽館嘅協作者先可以睇教學指南",
+                            "$~你喺下面指定嘅作品展覽館嘅協作者可以睇教學指南"
+                        ]
+                    },
+                    "expandedOptions": "$~畀所選作品展覽館嘅策展人同創作者睇呢個作品展覽館嘅教學指南",
+                    "expandedAdd": "$~將作品展覽館加入清單",
+                    "expandedRemove": "$~將作品展覽館由清單移除"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~引導問題",
+                        "explanation": "$~設定建立新教學指南時顯示嘅引導問題。每條引導問題用換行分隔。"
+                    },
+                    "descriptor": "$~一個文字方塊，用嚟寫你嘅引導問題，用換行分隔。",
+                    "default": ["$~你學到啲咩？舉例講下點樣做。"]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~反應",
+                        "explanation": "$~設定觀看者可以喺新教學指南留低嘅回應"
+                    },
+                    "reactionPickerTip": "$~揀一個字元做回應",
+                    "reactionDescriptionTip": "$~描述呢個回應代表啲咩",
+                    "addReactionTip": "$~新增一個回應",
+                    "removeReactionTip": "$~移除呢個回應",
+                    "default": {
+                        "👍": "$~我鍾意呢個！",
+                        "💭": "$~呢個畀到我靈感！",
+                        "🙏": "$~多謝你！",
+                        "🎉": "$~慶祝一下！",
+                        "🤩": "$~我想試下呢個！",
+                        "😁": "$~呢個令我好開心！"
+                    }
+                },
+                "submit": {
+                    "error": "$~引導問題同回應唔可以留空",
+                    "label": "$~儲存",
+                    "tip": "$~儲存教學指南空間設定"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~標題係 $title 嘅教學指南移咗去 $x $y",
+                "canvasPosition": "$~畫布移咗去 $x, $y",
+                "moveActivated": "$~移動功能已啟動。你可以用滑鼠、鍵盤或者觸控螢幕移動 $target",
+                "moveDeactivated": "$~移動功能已停用。"
+            },
+            "error": {
+                "unknown": "$~呢個教學指南空間唔存在，或者未公開。"
+            }
+        },
+        "translation": {
+            "used": "$~你今日已經翻譯咗 $used 個字元，上限係 $#limit[$limit 個字元]",
+            "meter": "$~今日已用嘅翻譯量",
+            "exhaustedHours": "$~你今日嘅翻譯量已經用晒。大約 $#hours[$hours 個鐘]之後再試吖。",
+            "exhaustedMinutes": "$~你今日嘅翻譯量已經用晒。大約 $#minutes[$minutes 分鐘]之後再試吖。",
+            "signIn": "$~翻譯需要帳戶，咁先可以公平畀大家用。<登入或者加入@://login>就可以翻譯你嘅專案。",
+            "progressLabel": "$~翻譯進度",
+            "analyzing": "$~睇緊你嘅程式…",
+            "revising": "$~放緊新嘅字詞入去…",
+            "started": "$~將 $#count[$count 句]翻譯成 $language…",
+            "progress": "$~已經翻譯咗 $done 句，一共 $#total[$total 句]",
+            "finished": "$~你嘅專案而家識講 $language 喇。",
+            "finishedPartial": "$~你嘅專案而家識講 $language，不過有 $#kept[$kept 句]仲係原本嘅字詞。"
+        },
+        "source": {
+            "label": "$~源檔",
+            "title": "$~程式碼",
+            "add": {
+                "header": "$~加入程式碼",
+                "explanation": "$~一個專案可以有多過一個程式碼檔案。你可以開一個空白嘅嚟寫，或者用圖片或者歌曲整一個。你可以用 @Borrow 嚟用呢啲值。",
+                "ways": {
+                    "label": "$~新程式碼用乜嘢整成",
+                    "labels": ["$~空白", "$~圖片", "$~表格", "$~歌曲"],
+                    "tips": [
+                        "$~一個暫時咩都冇嘅檔案",
+                        "$~一張圖片，或者你部相機睇到嘅畫面嘅顏色",
+                        "$~由試算表貼上嚟嘅逗號分隔值（CSV）",
+                        "$~呢部裝置上面一個 MIDI 檔案嘅音符"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$~一個空白檔案，用嚟放你想同主程式碼分開嘅程式碼。",
+                    "button": {
+                        "label": "$~加入",
+                        "tip": "$~加一個空白嘅程式碼檔案"
+                    }
+                },
+                "image": {
+                    "name": "$~顏色",
+                    "explanation": "$~新檔案係一個 @Color 嘅列表，圖片每一格都有一行。你可以借用佢，再畀 @Image 畫出嚟，或者用嗰啲顏色做其他嘢。",
+                    "source": {
+                        "label": "$~圖片從邊度嚟",
+                        "labels": ["$~呢部裝置", "$~相機"],
+                        "tips": [
+                            "$~呢部裝置入面嘅圖片檔案",
+                            "$~你部相機而家睇到嘅嘢"
+                        ]
+                    },
+                    "instructions": "$~拖動個框就可以移動佢，或者拖動佢嘅其中一個角嚟改變大小。*闊度*同*高度*滑桿都可以做到同樣嘅嘢，而*顏色*滑桿就揀圖片變成幾多種顏色。用鍵盤嘅話，㩒 *enter* 開始移動個框，再用*方向*鍵，搞掂就再㩒一次 *enter*。",
+                    "size": {
+                        "label": "$~顏色",
+                        "tip": "$~成幅圖片會變成幾多種顏色"
+                    },
+                    "crop": {
+                        "width": {
+                            "label": "$~闊度",
+                            "tip": "$~要保留圖片幾闊嘅一部分"
+                        },
+                        "height": {
+                            "label": "$~高度",
+                            "tip": "$~要保留圖片幾高嘅一部分"
+                        }
+                    },
+                    "budget": "$~$columns × $rows 種顏色，大約 $size KB，佔專案可以放嘅容量嘅 $percent",
+                    "tooBig": "$~顏色太多，呢個專案嘅剩餘空間放唔晒",
+                    "button": {
+                        "label": "$~加入",
+                        "tip": "$~將呢啲顏色加做一個程式碼檔案"
+                    },
+                    "doc": "$~$name，$columns × $rows 種顏色",
+                    "cameraDoc": "$~一幅相機圖片，$columns × $rows 種顏色",
+                    "added": "$~已加入 $name，$#count[$count 種顏色]",
+                    "camera": {
+                        "feed": "$~你部相機睇到嘅嘢",
+                        "capture": {
+                            "label": "$~影低做源檔",
+                            "tip": "$~儲存而家顯示緊嘅圖片"
+                        },
+                        "retake": {
+                            "label": "$~再嚟一次",
+                            "tip": "$~返去即時嘅圖片"
+                        },
+                        "starting": "$~開緊鏡頭…",
+                        "denied": "$~連唔到你嘅鏡頭。請檢查呢一頁有冇獲准使用鏡頭。"
+                    }
+                },
+                "table": {
+                    "name": "$~列",
+                    "explanation": "$~貼上以逗號分隔嘅值（CSV），例如由試算表複製嚟嘅幾行資料，佢哋就會變成一個你可以睇同改嘅 @Table。第一行係欄嘅名稱。",
+                    "paste": {
+                        "label": "$~以逗號分隔嘅值（CSV）",
+                        "placeholder": "$~name, legs\ncat, 4\nbird, 2"
+                    },
+                    "summary": "$~$#rows[$rows 行]，$columns 欄",
+                    "notTable": "$~呢個仲未係以逗號分隔嘅值（CSV）",
+                    "button": {
+                        "label": "$~加入",
+                        "tip": "$~將呢幾行加做一個程式碼檔案"
+                    },
+                    "doc": "$~$#rows[$rows 行]，$columns 欄",
+                    "added": "$~已加入 $name，$#rows[$rows 行]"
+                },
+                "song": {
+                    "explanation": "$~一個 MIDI 檔案（.mid 或者 .midi，最大 2 MB）會變成一個載有音符嘅新檔案，而你嘅程式會得到一個可以播放呢啲音符嘅 @Music。最多 10,000 個音符同 128 條音軌；任何 @Music 載唔落嘅嘢，會喺匯入完成之後列出嚟。"
+                }
+            },
+            "empty": [
+                "$~我哋開始啦！你可以……",
+                "• 打開 📕 再用 🖱️ 將我哋拖入呢個程式。",
+                "• 打 $symbol 然後喺選單揀我哋。",
+                "• 用 ⌨️ 打我哋出嚟。",
+                "• 去睇下<作品展覽館@://galleries>搵啲靈感。",
+                "如果你卡住咗，可以<了解更多@://learn>。"
+            ],
+            "confirm": {
+                "delete": {
+                    "description": "$~刪除呢個 @Source",
+                    "prompt": "$~刪除"
+                }
+            },
+            "toggle": {
+                "blocks": {
+                    "on": "$~用文字編輯"
+                },
+                "characters": {
+                    "on": "$~隱藏表情符號同符號選擇器",
+                    "off": "$~顯示表情符號同符號選擇器"
+                },
+                "expandSequence": {
+                    "on": "$~收埋項目",
+                    "off": "$~展開項目"
+                },
+                "search": {
+                    "on": "$~隱藏搜尋",
+                    "off": "$~搜尋程式碼"
+                }
+            },
+            "fold": {
+                "collapse": "$~收埋 $name",
+                "expand": "$~展開 $name",
+                "all": "$~全部摺埋",
+                "none": "$~全部展開",
+                "collapsed": "$~$name 已收埋",
+                "expanded": "$~$name 已展開"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$~源檔慣用嘅語言",
+                    "all": "$~$#count[$count 種語言]",
+                    "viewing": "$~用 $language"
+                }
+            },
+            "feedback": {
+                "cantDrop": "$~唔可以放喺嗰度：",
+                "dropWarning": "$~放喺嗰度會造成：",
+                "noDropTarget": "$~呢度冇嘢可以接受佢",
+                "cantPaste": "$~唔可以貼上喺嗰度："
+            },
+            "clipboard": {
+                "label": "$~剪貼簿"
+            },
+            "notice": {
+                "dismiss": "$~關閉呢個通知"
+            },
+            "button": {
+                "selectOutput": "$~喺舞台顯示呢個輸出",
+                "selectOutputError": "$~喺舞台顯示呢個輸出；呢個源檔運行嘅時候出咗錯",
+                "zoomIn": "$~將程式碼放大",
+                "zoomOut": "$~將程式碼縮細",
+                "replace": "$~取代所有符合嘅部分",
+                "addView": "$~喺第二個視圖顯示呢段程式碼",
+                "closeView": "$~關閉呢個視圖"
+            },
+            "field": {
+                "name": {
+                    "description": "$~編輯源檔名稱",
+                    "placeholder": "$~名稱"
+                },
+                "search": "$~文字",
+                "replace": "$~取代"
+            },
+            "view": {
+                "added": "$~加咗 $name 嘅第二個視圖",
+                "closed": "$~關閉咗 $name 嘅第二個視圖"
+            },
+            "menu": {
+                "label": "$~自動完成選單",
+                "show": "$~顯示自動完成選單",
+                "empty": "$~冇建議。",
+                "item": "$~$code，$description"
+            },
+            "cursor": {
+                "priorLine": "$~將游標移去上一行",
+                "nextLine": "$~將游標移去下一行",
+                "priorInline": "$~將游標移去前面一個位置",
+                "nextInline": "$~將游標移去後面一個位置",
+                "expandBeforeInline": "$~向前面擴大選取範圍",
+                "expandAfterInline": "$~向後面擴大選取範圍",
+                "expandPriorLine": "$~擴大選取範圍去上一行",
+                "expandNextLine": "$~擴大選取範圍去下一行",
+                "lineStart": "$~將游標移去行首",
+                "lineEnd": "$~將游標移去行尾",
+                "sourceStart": "$~將游標移去源檔開頭",
+                "sourceEnd": "$~將游標移去源檔結尾",
+                "priorNode": "$~選取前面嗰個相鄰元素",
+                "nextNode": "$~選取後面嗰個相鄰元素",
+                "parent": "$~選取外層包住嘅部分",
+                "matchDelimiter": "$~將游標移去配對嘅分隔符號",
+                "selectAll": "$~選取整個程式",
+                "search": "$~搜尋要插入嘅特殊字元",
+                "findText": "$~搜尋程式碼",
+                "nextMatch": "$~跳去下一個搜尋結果",
+                "incrementLiteral": "$~加大數字、文字或者布林值",
+                "decrementLiteral": "$~減細數字、文字或者布林值",
+                "insertTab": "$~插入跳位字元",
+                "insertTrue": "$~插入真",
+                "insertFalse": "$~插入假",
+                "insertNone": "$~插入空值符號",
+                "insertNotEqual": "$~插入不等於符號",
+                "insertProduct": "$~插入乘號",
+                "insertDot": "$~插入點積符號",
+                "insertQuotient": "$~插入商符號",
+                "insertDegree": "$~插入度數符號",
+                "insertFunction": "$~插入函數",
+                "insertLessOrEqual": "$~插入小於或等於",
+                "insertGreaterOrEqual": "$~插入大於或等於",
+                "insertType": "$~插入類型符號",
+                "insertDocs": "$~插入說明符號",
+                "insertStream": "$~插入串流符號",
+                "insertInitial": "$~插入起始符號",
+                "insertTranslateRTL": "$~插入由右至左翻譯符號",
+                "insertMatch": "$~插入配對符號",
+                "insertPatternRange": "$~插入字元範圍符號",
+                "insertRange": "$~插入範圍符號",
+                "insertChange": "$~插入變更符號",
+                "insertConvert": "$~插入轉換符號",
+                "insertTranslate": "$~插入翻譯符號",
+                "insertThis": "$~插入「呢個」符號",
+                "insertPrevious": "$~插入「上一個」符號",
+                "insertTable": "$~插入表格開始符號",
+                "insertPattern": "$~插入模式",
+                "insertSearch": "$~插入模式搜尋符號",
+                "insertPatternAny": "$~插入任何字素模式符號",
+                "insertPatternSpace": "$~插入空格模式符號",
+                "insertPatternStart": "$~插入模式起點符號",
+                "insertPatternEnd": "$~插入模式終點符號",
+                "insertPatternFold": "$~插入模式唔分大細寫符號",
+                "insertPatternAhead": "$~插入模式向前查看符號",
+                "insertPatternBehind": "$~插入模式向後查看符號",
+                "insertPatternWord": "$~插入模式單字符號",
+                "insertPatternWordEdge": "$~插入模式單字邊界符號",
+                "insertWholeNote": "$~插入全音符，長四拍",
+                "insertDottedWholeNote": "$~插入附點全音符，長六拍",
+                "insertHalfNote": "$~插入二分音符，長兩拍",
+                "insertDottedHalfNote": "$~插入附點二分音符，長三拍",
+                "insertQuarterNote": "$~插入四分音符，長一拍",
+                "insertDottedQuarterNote": "$~插入附點四分音符，長一拍半",
+                "insertEighthNote": "$~插入八分音符，長半拍",
+                "insertDottedEighthNote": "$~插入附點八分音符，長四分之三拍",
+                "insertSixteenthNote": "$~插入十六分音符，長四分之一拍",
+                "insertDottedSixteenthNote": "$~插入附點十六分音符，長八分之三拍",
+                "insertBorrow": "$~插入借用",
+                "insertShare": "$~插入分享",
+                "insertLine": "$~插入換行",
+                "backspace": "$~刪除選取內容或者前一個符號",
+                "delete": "$~刪除選取內容或者下一個符號",
+                "cut": "$~剪下選取內容",
+                "copy": "$~複製選取內容",
+                "paste": "$~貼上剪貼簿嘅內容",
+                "parenthesize": "$~將選取嘅部分加上括號",
+                "enumerate": "$~將選取嘅部分編上號碼",
+                "moveBefore": "$~將選取嘅部分移去隔離嗰個前面",
+                "moveAfter": "$~將選取嘅部分移去隔離嗰個後面",
+                "moveOut": "$~將選取嘅部分移出包住佢嘅地方",
+                "moveIn": "$~將選取嘅部分移入隔離嗰個入面",
+                "type": "$~打字",
+                "undo": "$~還原上一個編輯",
+                "redo": "$~重做已還原嘅編輯",
+                "tidy": "$~整理空格",
+                "elide": "$~切換省略",
+                "largeDelete": "$~你肯定要刪除呢個選取嘅部分嗎？如果你改變主意，可以㩒還原按鈕（↺）。",
+                "tab": "$~Tab 鍵會移動鍵盤焦點。如果想插入 Tab，可以用下面嘅插入按鈕，或者喺設定入面改 Tab 鍵嘅功能。",
+                "ignored": {
+                    "readOnly": "$~源檔係唯讀嘅",
+                    "blockSpace": "$~呢度唔准用 Tab",
+                    "noDelete": "$~刪除唔到呢個",
+                    "noInsert": "$~呢度插入唔到",
+                    "noError": "$~呢個編輯會造成衝突",
+                    "noEditor": "$~冇啟用中嘅編輯器",
+                    "noClipboard": "$~用唔到剪貼簿",
+                    "noClipboardItem": "$~剪貼簿入面冇嘢",
+                    "noSelection": "$~冇選取任何嘢",
+                    "noMove": "$~唔可以再移遠啲喇",
+                    "noMoveTarget": "$~嗰度冇嘢可以放呢個",
+                    "noElideInBlocks": "$~省略只可以喺文字模式用",
+                    "unhandled": "$~呢個鍵喺呢度冇用"
+                },
+                "echo": {
+                    "space": "$~空格",
+                    "newline": "$~換行",
+                    "tab": "$~跳格"
+                },
+                "selected": "$~揀咗 $#count[$count 個字元]：$text",
+                "selectedNodes": "$~揀咗 $#count[$count 個節點]，由 $first 到 $last",
+                "unknownPosition": "$~喺程式碼入面"
+            },
+            "error": {
+                "invalidName": "$~呢個一定要係有效嘅 Wordplay 名稱。",
+                "invalidWords": "$~文字唔可以係空嘅，亦唔可以包含保留符號。"
+            },
+            "tour": {
+                "launch": "$~睇下編輯器點用",
+                "editor": "$~你所有 /程式碼/ 都寫喺*編輯器*入面。每個 @wordplay 程式都會*計算出一個值*，而呢個值就係喺*舞台*上面顯示嘅嘢。",
+                "textBlocks": "$~呢個開關可以喺兩種編輯方式之間切換：/文字/ 同 /積木/。*文字*更加靈活，但係易啲出錯。*積木*唔易出錯，但係慢啲同死板啲。",
+                "toolbar": "$~呢啲 /工具列/ 控制項可以畀你*全選*、*放大*同*縮小*、*復原*、*重做*、*剪下*、*複製*同*貼上*。",
+                "expand": "$~/展開/ 開關會顯示更多*進階*編輯工具。",
+                "shortcuts": "$~/快速鍵/ 按鈕會打開一個*鍵盤快速鍵*清單，你可以用嚟編輯得快啲。"
+            }
+        },
+        "markup": {
+            "description": "$~寫有格式嘅文字",
+            "placeholder": "$~寫啲嘢",
+            "mode": {
+                "prose": "$~睇下佢會係點樣",
+                "source": "$~顯示格式標記"
+            },
+            "command": {
+                "italic": "$~斜體",
+                "bold": "$~粗體",
+                "extra": "$~特粗",
+                "underline": "$~底線",
+                "light": "$~幼體",
+                "example": "$~程式碼例子",
+                "link": "$~網絡連結",
+                "concept": "$~連去一個概念嘅連結",
+                "bullet": "$~項目符號",
+                "highlight": "$~突出顯示呢個例子",
+                "defect": "$~呢個例子係特登有錯嘅",
+                "docs": "$~例子入面嘅解說",
+                "attention": "$~提醒大家留意呢一行",
+                "undo": "$~還原",
+                "redo": "$~重做",
+                "mode": "$~喺文字同格式符號之間切換"
+            },
+            "feedback": {
+                "formatOn": "$~$format 開",
+                "formatOff": "$~$format 關",
+                "example": "$~整咗一個程式碼例子",
+                "link": "$~整咗一個網絡連結",
+                "concept": "$~連去咗 $name",
+                "bulletOn": "$~整咗一個項目符號",
+                "bulletOff": "$~移除咗項目符號",
+                "highlightOn": "$~呢個例子會突出顯示",
+                "highlightOff": "$~呢個例子唔會突出顯示",
+                "defectOn": "$~呢個例子係特登有錯嘅",
+                "defectOff": "$~呢個例子唔應該有錯",
+                "docs": "$~加咗一段解說",
+                "attention": "$~提示你留意呢一行",
+                "undid": "$~已經還原咗",
+                "redid": "$~已經重做咗",
+                "notInExample": "$~請先將游標放入一段程式碼範例入面",
+                "mode": "$~$mode"
+            }
+        },
+        "feedback": {
+            "copied": "$~已複製 $text",
+            "cut": "$~已剪下 $text",
+            "pasted": "$~已貼上 $text",
+            "deleted": "$~已刪除 $text",
+            "foldedAll": "$~已摺埋所有程式碼",
+            "unfoldedAll": "$~已展開所有程式碼",
+            "editMode": "$~$mode",
+            "fullscreenOn": "$~已進入全螢幕",
+            "fullscreenOff": "$~已離開全螢幕",
+            "restarted": "$~已重新開始輸入",
+            "step": "$~第 $step 步，$node",
+            "stepAtStart": "$~喺最開頭",
+            "searchOpened": "$~喺程式碼入面搜尋",
+            "searchClosed": "$~已閂咗搜尋",
+            "searchMatch": "$~第 $index 個符合，共 $count 個",
+            "searchNoMatches": "$~冇符合嘅結果",
+            "menuOpened": "$~選單，$#count[有 $count 個建議]",
+            "menuEmpty": "$~冇建議",
+            "menuClosed": "$~已閂咗選單",
+            "tidyNoop": "$~已經好整齊"
+        },
+        "annotations": {
+            "label": "$~衝突同幫助",
+            "cursor": "$~呢個係 *$node*$type[，而且佢係一個 $type|]。",
+            "cursorDoc": "$~佢哋話：「$description」",
+            "cursorParent": "$~佢哋喺一個 *$node*$type[ 入面，呢個運算出嚟係一個 $type|]。",
+            "learn": "$~/了解更多/",
+            "evaluating": "$~好玩喎，我哋嚟運算吖！",
+            "space": "$~呢個係空白！邊個估到咩都冇，都可以講到咁多嘢呢？",
+            "nodeDescription": "$~佢哋 $description。",
+            "severity": {
+                "major": "$~錯誤",
+                "minor": "$~警告"
+            },
+            "conflictLabel": "$~$severity：$conflict",
+            "button": {
+                "resolution": "$~解決呢個衝突",
+                "elsewhere": "$~打開可以修正呢個問題嘅地方",
+                "toggle": "$~顯示同隱藏註解",
+                "highlightMajor": "$~喺編輯器入面顯示呢個錯誤嘅程式碼",
+                "highlightMinor": "$~喺編輯器入面顯示呢個警告嘅程式碼",
+                "highlightStep": "$~喺編輯器入面顯示呢個運算步驟嘅程式碼"
+            }
+        },
+        "wellspring": {
+            "label": "$~程式碼調色盤",
+            "recycle": "$~拖到呢度就可以刪除",
+            "empty": "$~冇專案概念",
+            "field": {
+                "search": "$~搜尋想拖入嚟嘅程式碼"
+            },
+            "button": {
+                "toggle": "$~顯示同隱藏程式碼調色盤",
+                "clear": "$~清除搜尋"
+            }
+        },
+        "export": {
+            "label": "$~將呢個值儲存成檔案",
+            "header": "$~儲存成檔案",
+            "explanation": "$~將呢啲資料帶出 Wordplay。/逗號分隔/ 檔案可以喺試算表入面打開，而 /JSON/ 檔案係大部分其他程式都讀到嘅格式。你亦都可以複製文字，之後再貼返入程式度。",
+            "formats": {
+                "label": "$~檔案類型",
+                "labels": ["$~試算表", "$~JSON"],
+                "tips": [
+                    "$~一個用逗號分隔嘅檔案，可以喺試算表入面打開",
+                    "$~一個 JSON 檔案，大部分其他程式都讀到"
+                ]
+            },
+            "download": "$~儲存",
+            "downloaded": "$~已儲存 $name",
+            "copy": "$~複製",
+            "copied": "$~已經複製成 $format",
+            "filename": "$~檔案名稱",
+            "truncated": "$~顯示頭 $#count[$count 行]。",
+            "unavailable": "$~呢個值有啲部分唔係資料，所以唔可以儲存成檔案。",
+            "selectSomething": "$~請先揀一個有值嘅嘢。",
+            "noValue": "$~先暫停程式嚟睇呢個值，然後再試一次。",
+            "notData": "$~呢種值唔值得儲存成檔案。",
+            "droppedUnits": "$~單位已經略去：JSON 嘅數字帶唔到單位。",
+            "droppedNumbers": "$~非有限嘅數字已經略去：JSON 寫唔到佢哋。"
+        },
+        "image": {
+            "button": {
+                "label": "$~上載",
+                "tip": "$~喺呢部裝置揀一個圖片檔案"
+            },
+            "crop": {
+                "label": "$~裁剪框",
+                "tip": "$~圖片要保留嘅部分"
+            },
+            "preview": "$~會加入嘅內容",
+            "feedback": {
+                "tooBig": "$~嗰張圖片有 $size MB。請揀細過 $limit MB 嘅圖片。",
+                "unreadable": "$~我哋讀唔到嗰個檔案係圖片。"
+            },
+            "announce": {
+                "cropped": "$~裁剪框闊 $width%、高 $height%，喺橫向 $x%、直向 $y% 嘅位置",
+                "moving": "$~移動緊裁剪框",
+                "done": "$~裁剪框已放置"
+            }
+        },
+        "output": {
+            "label": "$~舞台",
+            "multiselect": "$~用 Tab 鍵加 Alt 鍵同方向鍵，喺各個輸出之間移動。㩒空白鍵，就可以將目前揀咗嘅輸出加入或者移走出你嘅選取範圍。㩒 Enter 鍵，就只揀嗰個輸出，同時打開調色盤。㩒 Esc 鍵，就清除你嘅選取。㩒 Control 鍵或者 Command 鍵加 A，就可以揀晒所有輸出。",
+            "selected": "$~已揀 $name，而家揀咗 $count 個",
+            "deselected": "$~已取消揀 $name，而家揀咗 $count 個",
+            "allSelected": "$~已揀晒所有輸出，而家揀咗 $count 個",
+            "cleared": "$~已清除選取",
+            "removed": "$~$#count[已刪除 $#count 個輸出]",
+            "drew": "$~$#count[畫咗一條有 $#count 個點嘅路徑，繪畫已關閉]",
+            "drawing": "$~$#count[有 $#count 個點，最後一個喺 $place]",
+            "point": {
+                "label": "$~第 $number 個點，共 $#count 個，喺 $place",
+                "moved": "$~第 $number 個點移去 $place",
+                "added": "$~已加入第 $number 個點",
+                "removed": "$~已移除第 $number 個點",
+                "last": "$~一條路徑至少要有兩個點"
+            },
+            "notRemovable": "$~嗰樣嘢唔可以單獨刪除",
+            "moved": "$~$name 向$direction $place",
+            "directions": [
+                "$~上",
+                "$~右上",
+                "$~右",
+                "$~右下",
+                "$~下",
+                "$~左下",
+                "$~左",
+                "$~左上"
+            ],
+            "closer": "$~更近",
+            "farther": "$~再遠啲",
+            "turned": "$~轉咗",
+            "manyChanged": "$~$#count[$count 個輸出]喺 $container 入面變咗，例如 $example",
+            "snap": {
+                "anchors": [
+                    "$~水平中心",
+                    "$~左邊",
+                    "$~右邊",
+                    "$~垂直中心",
+                    "$~底邊",
+                    "$~頂邊",
+                    "$~基線"
+                ],
+                "withOutput": "$~$anchor 同 $target 嘅 $targetAnchor",
+                "withGrid": "$~格線上嘅 $anchor",
+                "aligned": "$~$constraints，喺 $place",
+                "none": "$~$direction 冇嘢可以對齊"
+            },
+            "selectedOnly": "$~已揀 $name，打開調色盤",
+            "selectedSuffix": "$~已揀",
+            "toggle": {
+                "grid": {
+                    "on": "$~收埋格線",
+                    "off": "$~顯示格線"
+                },
+                "fit": {
+                    "on": "$~自己控制縮放",
+                    "off": "$~縮放到啱晒內容"
+                }
+            },
+            "field": {
+                "key": {
+                    "description": "$~聽緊㩒鍵"
+                },
+                "chat": {
+                    "description": "$~傳送聊天訊息",
+                    "placeholder": "$~訊息"
+                }
+            },
+            "button": {
+                "submit": "$~遞交呢個聊天訊息",
+                "zoomIn": "$~放大舞台",
+                "zoomOut": "$~拉遠舞台",
+                "resetZoom": "$~清除平移同縮放",
+                "resetZoomAt": "$~清除平移同縮放，而家係專案本身視野嘅 $percent %",
+                "perform": "$~演出：重新開始程式，播放佢，等舞台填滿螢幕",
+                "rotate": "$~旋轉 $name",
+                "resize": "$~調整 $name 嘅大細"
+            },
+            "announce": {
+                "zoom": "$~舞台縮放 $percent %",
+                "hidden": "$~縮放到 $percent % 嘅時候，舞台上面乜都冇；清除縮放就可以睇晒所有嘢",
+                "shown": "$~所有嘢都返到舞台上面"
+            },
+            "hidden": {
+                "message": "$~所有嘢都喺舞台以外。",
+                "show": "$~顯示所有嘢"
+            },
+            "options": {
+                "locale": "$~輸出時偏好用嘅語言",
+                "default": "$~$#count[$count 種語言]"
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~評估模式",
+                    "labels": ["$~編輯", "$~除錯", "$~播放"],
+                    "tips": [
+                        "$~切換去編輯模式：將程式暫停喺而家嘅位置，然後修改；改完會重播，等你睇到喺呢個位置嘅效果",
+                        "$~切換去除錯模式：一步一步行過程式嘅評估，值會顯示喺程式碼旁邊同調色盤度",
+                        "$~切換去播放模式：由而家嘅位置即時執行程式，即時回應輸入"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~評估模式",
+                    "labels": ["$~檢視", "$~除錯", "$~播放"],
+                    "tips": [
+                        "$~切換去檢視模式：將程式暫停喺而家嘅位置，然後閱讀",
+                        "$~切換去除錯模式：一步一步行過程式嘅評估，值會顯示喺程式碼旁邊同調色盤度",
+                        "$~切換去播放模式：由而家嘅位置即時執行程式，即時回應輸入"
+                    ]
+                },
+                "announce": "$~$mode 模式",
+                "resuming": "$~由第 $position 步繼續",
+                "performing": "$~第 $number 次演出，由頭開始",
+                "exception": "$~程式出咗錯，所以自動切換去除錯模式，等你可以檢查吓。",
+                "toggle": "$~喺編輯模式同播放模式之間切換"
+            },
+            "tour": {
+                "launch": "$~參觀一下舞台",
+                "stage": "$~/舞台/ 會顯示你程式嘅 *目前值*。呢個值可以係數字或者清單呢類 *原始值*，亦可以係你睇得到嘅 *視覺輸出*，甚至係你聽得到嘅 *聲音*。",
+                "reset": "$~/重設/ 按鈕會喺任何模式下，由 *頭* 重新開始執行你嘅程式：喺 ▶️ *播放* 模式會由頭再執行過，喺 ✏️ *編輯* 模式會喺第一次執行完就暫停，等你睇到修改對最初輸出嘅影響，喺 ⏸️ *除錯* 模式就會喺最頭嘅第一步暫停。",
+                "zoom": "$~/縮放/ 按鈕可以 *放大* 同 *縮小* 舞台，等你睇輸出睇得更清楚或者更仔細。",
+                "grid": "$~/格線/ 按鈕會喺舞台上面顯示 *格線*，設計嘅時候可以幫你準確擺放嘢。",
+                "lock": "$~/鎖定/ 按鈕會將舞台嘅視角固定。 *鎖定* 嗰陣，舞台會企定唔郁；*解鎖* 嗰陣，你就可以自由平移同縮放。",
+                "animationSpeed": "$~/動畫速度/ 控制項決定動畫播放得幾快。 *設定* 入面都有同一個控制項，所以你喺邊度改都得。"
+            },
+            "permission": {
+                "title": "$~呢個專案需要權限",
+                "microphone": "$~麥克風",
+                "camera": "$~相機",
+                "note": "$~分享之前，你嘅瀏覽器會先問你。",
+                "retry": "$~再試一次"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~起點",
+                    "tip": "$~顯示專案"
+                }
+            },
+            "download": {
+                "title": "$~準備緊……",
+                "note": "$~只會下載一次，下次就即刻載入。",
+                "percent": "$~$percent%",
+                "hand": "$~手部追蹤器",
+                "face": "$~面部追蹤器",
+                "objects": "$~物件辨識器",
+                "loading": "$~載入緊 $model……"
+            },
+            "sensor": {
+                "microphone": {
+                    "on": "$~隱藏麥克風波形",
+                    "off": "$~顯示麥克風波形"
+                },
+                "camera": {
+                    "on": "$~隱藏鏡頭預覽",
+                    "off": "$~顯示鏡頭預覽"
+                }
+            },
+            "sound": {
+                "enable": "$~撳一下就有聲",
+                "explanation": "$~呢個專案有音樂，不過你嘅瀏覽器要等你同頁面互動之後，先會播放聲音。",
+                "loading": "$~preparing $instruments 緊……",
+                "synthesized": "$~$instruments 載入唔到，所以聽落係合成出嚟嘅聲音。"
+            },
+            "keypad": {
+                "label": "$~呢個專案用到嘅鍵",
+                "any": "$~撳一下就播放"
+            }
+        },
+        "timeline": {
+            "slider": "$~時間滑桿",
+            "button": {
+                "play": "$~執行程式，即時回應輸入",
+                "backStep": "$~退後一步",
+                "backNode": "$~跳去游標上一次嘅執行",
+                "backInput": "$~退後一個輸入",
+                "out": "$~跳出呢個函數",
+                "forwardStep": "$~向前行一步",
+                "forwardNode": "$~行去游標下一次求值",
+                "forwardInput": "$~向前行去下一個串流輸入",
+                "present": "$~去到最尾",
+                "start": "$~返去最頭",
+                "reset": "$~重新開始演出"
+            },
+            "tour": {
+                "timeline": "$~/時間軸/ 等你一步一步咁向 *前* 同向 *後* 行過你個程式嘅運算。喺 ✏️ *編輯* 同 ⏸️ *除錯* 模式入面，佢會出現喺舞台嘅工具列度。用佢可以睇到你個程式 *點樣* 計出個值，亦都幫你明白 @wordplay 程式係點運算㗎，特別係當你見到個效果唔似預期嗰陣。",
+                "modes": "$~/模式切換/ 揀你個程式點樣運算。喺 ✏️ *編輯* 模式，個程式會停喺而家嗰度，你可以改佢，你改嘅嘢會重播，等你睇到喺嗰一點嘅效果。喺 ⏸️ *除錯* 模式，程式碼係唯讀，你程式每一部分嘅 *目前值* 會喺編輯器同面板入面，顯示喺佢隔離。喺 ▶️ *播放* 模式，你個程式會由而家呢度即時運行，即時回應輸入。切換旁邊嘅 /演出/ 按鈕，係一個被全螢幕角包住嘅播放三角形，會由頭開始演出，並且令舞台佈滿成個螢幕。↻ 喺任何模式都可以重設個程式。",
+                "annotations": "$~/註解/ 視窗會顯示每一步嘅解釋。你逐步行過個程式嗰陣，就喺呢度睇到啱啱發生咗乜嘢事。",
+                "editor": "$~/編輯器/ 顯示你嘅程式碼。逐步行嗰陣，你程式每一部分嘅 *值* 會喺嗰部分運算完 *之後*，顯示喺佢隔離，咁你就可以睇住啲值喺程式運行時一步步形成。",
+                "history": "$~/歷史/ 顯示你個程式收過嘅每一個 *輸入*，例如按鍵、時間跳動同指標事件。佢可以 *拖曳*，所以你只要拖一拖，就可以返去程式運算歷史入面任何一刻。如果你想 *聽* 呢啲輸入多過睇，可以喺設定打開 /求值提示音/，@wordplay 就會為每個輸入播一段短聲音，每種輸入嘅聲音都唔同。",
+                "stepControls": "$~/步進控制/ 等你準確咁行過運算。你可以跳去 *起點* 或者 *終點*，一步一步 *向前* 或者 *向後* 行，跳過 *一個輸入*，跳 *出* 一個函數，或者跳去程式碼 *而家揀咗* 嘅部分。"
+            }
+        },
+        "tour": {
+            "label": "$~導覽",
+            "close": "$~關閉導覽",
+            "previous": "$~上一步",
+            "next": "$~下一步",
+            "offscreen": "$~介面呢個部分而家喺螢幕上睇唔到。",
+            "overflowed": "$~呢個控制項收埋咗喺標示咗嘅選單入面，打開佢就搵到。"
+        },
+        "docs": {
+            "kits": {
+                "header": "$~工具包",
+                "yours": "$~你冇列出嘅工具包",
+                "prompt": "$~工具包係有人發佈出嚟，畀其他人用嚟建立作品嘅程式碼。複製其中一個嘅嗰行，貼喺你程式嘅最頂，佢分享嘅嘢就全部可以畀你用。",
+                "empty": "$~仲未有人發佈過工具包。你可以係第一個！用 ↑ 分享啲嘢，再喺專案嘅分享設定發佈佢。",
+                "none": "$~呢度冇嘢配到。",
+                "kinds": {
+                    "label": "$~工具包分享啲乜",
+                    "all": "$~任何嘢"
+                },
+                "shares": "$~分享 $names",
+                "missing": "$~搵唔到呢個名稱嘅工具包。佢可能已經改咗名，或者從來都未發佈過。",
+                "missingVersion": "$~呢個版本唔喺度。試吓下面其他版本啦。",
+                "nothing": "$~呢個工具包冇分享任何嘢",
+                "versions": "$~呢個工具包嘅所有版本",
+                "version": {
+                    "tip": "$~睇呢個版本嘅工具包"
+                },
+                "open": "$~睇呢個工具包嘅說明文件"
+            },
+            "label": "$~指南",
+            "link": "$~喺說明文件入面顯示「$name」",
+            "tutorial": "$~教學",
+            "nodoc": "$~我係邊個？我係咩嚟㗎？我嘅目的係乜嘢？",
+            "button": {
+                "home": "$~返去主頁",
+                "back": "$~返去上一頁",
+                "toggle": "$~展開同收埋呢個概念組"
+            },
+            "field": {
+                "search": "$~關鍵字"
+            },
+            "breadcrumb": {
+                "label": "$~瀏覽記錄",
+                "home": "$~主頁"
+            },
+            "header": {
+                "names": {
+                    "header": "$~名稱",
+                    "explanation": "$~/呢個概念嘅名稱。/"
+                },
+                "inputs": {
+                    "header": "$~輸入",
+                    "explanation": "$~/必須同可選嘅值。/"
+                },
+                "interfaces": {
+                    "header": "$~介面",
+                    "explanation": "$~/呢個結構所根據嘅結構。/"
+                },
+                "properties": {
+                    "header": "$~屬性",
+                    "explanation": "$~/呢個概念儲存嘅值。/"
+                },
+                "functions": {
+                    "header": "$~函數",
+                    "explanation": "$~/呢個概念可以計算出嘅值。/"
+                },
+                "conversions": {
+                    "header": "$~轉換",
+                    "explanation": "$~/將呢個值轉換成其他類型嘅值嘅方法。/"
+                },
+                "arrangements": {
+                    "header": "$~排列",
+                    "explanation": "$~/喺一組入面排列短語嘅方法。/"
+                },
+                "forms": {
+                    "header": "$~形狀",
+                    "explanation": "$~/可以放喺舞台上嘅形狀。/"
+                },
+                "appearance": {
+                    "header": "$~外觀",
+                    "explanation": "$~/改變輸出外觀嘅方法。/"
+                },
+                "animation": {
+                    "header": "$~動畫",
+                    "explanation": "$~/喺舞台上令輸出郁動嘅方法。/"
+                },
+                "effects": {
+                    "header": "$~效果",
+                    "explanation": "$~/改變成個舞台外觀嘅方法。/"
+                },
+                "sound": {
+                    "header": "$~聲音",
+                    "explanation": "$~/製作音樂同語音嘅方法。/"
+                },
+                "location": {
+                    "header": "$~位置",
+                    "explanation": "$~/決定輸出喺舞台邊度嘅方法。/"
+                },
+                "physics": {
+                    "header": "$~物理",
+                    "explanation": "$~/輸出係由乜嘢造成，郁動時就用得著。/"
+                },
+                "time": {
+                    "header": "$~時間",
+                    "explanation": "$~/知道而家幾點，同埋交畀運氣嘅方法。/"
+                },
+                "audience": {
+                    "header": "$~觀眾",
+                    "explanation": "$~/你嘅觀眾撳啲乜、指向邊度、揀啲乜同打啲乜。/"
+                },
+                "motion": {
+                    "header": "$~動態",
+                    "explanation": "$~/移動輸出，同埋知道幾時撞到嘢嘅方法。/"
+                },
+                "listening": {
+                    "header": "$~聆聽",
+                    "explanation": "$~/咪高峰聽到嘅聲音，同播放緊嘅音樂節拍。/"
+                },
+                "camera": {
+                    "header": "$~相機",
+                    "explanation": "$~/相機睇到嘅嘢：手、面同物件。/"
+                },
+                "scenes": {
+                    "header": "$~場景",
+                    "explanation": "$~/逐樣嘢逐樣嘢咁顯示嘅方法，同埋知道自己喺邊度。/"
+                },
+                "text": {
+                    "header": "$~文字",
+                    "explanation": "$~/嚟自網絡嘅文字，同字母嘅形狀。/"
+                },
+                "reactions": {
+                    "header": "$~反應",
+                    "explanation": "$~/對輸入串流作出反應或者分析嘅方法。/"
+                }
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~章節",
+                    "labels": [
+                        "$~程式碼",
+                        "$~工具包",
+                        "$~教學指南",
+                        "$~詞彙表"
+                    ],
+                    "tips": [
+                        "$~程式語言概念",
+                        "$~其他人發佈畀你用嚟創作嘅程式碼",
+                        "$~製作專案可以重複使用嘅模式",
+                        "$~重要詞語嘅解釋"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~程式碼",
+                    "labels": [
+                        "$~專案",
+                        "$~工具包",
+                        "$~輸出",
+                        "$~輸入",
+                        "$~決定",
+                        "$~名稱",
+                        "$~文字",
+                        "$~模式",
+                        "$~數字",
+                        "$~真假",
+                        "$~清單",
+                        "$~集合",
+                        "$~表格",
+                        "$~說明文件",
+                        "$~類型",
+                        "$~等等"
+                    ],
+                    "tips": [
+                        "$~專案層面嘅概念",
+                        "$~呢個專案借用嘅工具包提供咗啲乜嘢",
+                        "$~短語、群組、舞台、排版同更多",
+                        "$~時間、按鈕、鍵、場景同更多",
+                        "$~根據其他值嚟揀值",
+                        "$~幫值、函數同資料結構改名稱，之後可以再用",
+                        "$~純文字同有格式嘅文字",
+                        "$~描述文字嘅形狀，用嚟測試或者搵文字",
+                        "$~數字同數學運算",
+                        "$~真、假同無值",
+                        "$~列表同列表運算",
+                        "$~集合、對照表同相關運算",
+                        "$~表格同表格運算",
+                        "$~說明文件同註解",
+                        "$~資料類型、轉換同類型檢查",
+                        "$~進階嘅語言概念"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~用戶自己整嘅教學指南",
+                    "labels": ["$~全部", "$~作品展覽館同書籤"],
+                    "tips": [
+                        "$~睇晒所有用戶自己整嘅教學指南",
+                        "$~只睇呢個專案嘅作品展覽館同所有書籤入面，用戶自己整嘅教學指南"
+                    ]
+                }
+            },
+            "note": {
+                "empty": "$~你喺專案入面定義嘅名稱會喺呢度出現。",
+                "keepTyping": "$~繼續打字嚟搜尋……",
+                "noMatches": "$~冇配對結果"
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~專案",
+                    "explanation": "$~/你專案入面定義嘅概念。/"
+                },
+                "Kit": {
+                    "header": "$~工具包",
+                    "explanation": "$~呢個專案借用嘅工具包同佢分享嘅嘢。"
+                },
+                "Outputs": {
+                    "header": "$~輸出",
+                    "explanation": "$~/可以放喺舞台上面嘅各種輸出。/"
+                },
+                "Inputs": {
+                    "header": "$~輸入",
+                    "explanation": "$~/嚟自外面世界、會隨時間變化嘅輸入串流，每次變化都會令程式重新計算。/"
+                },
+                "Decisions": {
+                    "header": "$~決定",
+                    "explanation": "$~/根據條件喺唔同嘅值之間作出選擇嘅方法。/"
+                },
+                "Definitions": {
+                    "header": "$~定義",
+                    "explanation": "$~/為值、函數同資料結構命名，方便之後使用嘅方法。/"
+                },
+                "Numbers": {
+                    "header": "$~數字",
+                    "explanation": "$~/數字、單位同數學運算。/"
+                },
+                "Text": {
+                    "header": "$~文字",
+                    "explanation": "$~/普通文字同有格式嘅文字，以及處理佢哋嘅方法。/"
+                },
+                "Patterns": {
+                    "header": "$~模式",
+                    "explanation": "$~/用一個由 \\⣿\\ 包住嘅模式嚟描述文字嘅形狀，然後測試文字啱唔啱呢個形狀（\\≈\\），或者搵出佢出現嘅每個位置（\\⌕\\）。/"
+                },
+                "Truth": {
+                    "header": "$~真假",
+                    "explanation": "$~/真、假同冇值，以及用佢哋嚟做邏輯判斷嘅方法。/"
+                },
+                "Lists": {
+                    "header": "$~列表",
+                    "explanation": "$~/列表同列表運算，適合按特定次序儲存值。/"
+                },
+                "Maps": {
+                    "header": "$~對應表",
+                    "explanation": "$~/集合、對應表同佢哋嘅運算，適合儲存一組組嘅值，或者由一個值對應去其他值。/"
+                },
+                "Tables": {
+                    "header": "$~表格",
+                    "explanation": "$~/表格同表格運算，適合用行同欄儲存有結構嘅資料。/"
+                },
+                "Types": {
+                    "header": "$~類型",
+                    "explanation": "$~/宣告有名稱嘅值應該係某種資料類型，並且檢查係咪真係咁嘅方法。/"
+                },
+                "Documentation": {
+                    "header": "$~說明文件",
+                    "explanation": "$~/喺程式碼加註解同解釋嘅方法。/"
+                },
+                "Advanced": {
+                    "header": "$~進階",
+                    "explanation": "$~/你可能用唔着嘅進階語言概念同功能。/"
+                },
+                "Hidden": {
+                    "header": "$~隱藏",
+                    "explanation": "$~/喺主要說明文件入面隱藏咗嘅概念。/"
+                },
+                "How": {
+                    "header": "$~教學指南",
+                    "explanation": "$~/整唔同種類專案嘅常用做法。/"
+                },
+                "GalleryHow": {
+                    "header": "$~作品展覽館教學指南",
+                    "explanation": "$~/整唔同種類專案嘅常用做法，來自你嘅作品展覽館。/"
+                }
+            },
+            "how": {
+                "explain": {
+                    "header": "$~教學指南",
+                    "explanation": "$~/簡短嘅例子，教你喺 @wordplay 入面點樣做嘢。撳任何預覽嘅播放掣就可以睇佢行，再打開佢就可以睇佢點運作。/"
+                },
+                "category": {
+                    "characters": "$~建立同控制角色",
+                    "styling": "$~設計角色同文字嘅樣式",
+                    "animation": "$~令角色同文字郁起上嚟",
+                    "layout": "$~排列角色同文字",
+                    "music": "$~製作音樂同聲音",
+                    "randomization": "$~令啲嘢隨機出現",
+                    "remembering": "$~記錄變化同選擇",
+                    "stories": "$~講故仔",
+                    "motion": "$~用物理效果",
+                    "video": "$~用鏡頭",
+                    "organizing": "$~整理大啲嘅專案",
+                    "gallery": "$~由你哋 Wordplay 嘅導演同伴整嘅"
+                },
+                "bookmarked": "$~已加書籤",
+                "community": "$~來自創作者",
+                "galleries": "$~你嘅作品展覽館",
+                "wordplay": "$~Wordplay 精選",
+                "related": "$~唔係你想搵嘅嘢？",
+                "conceptHowTos": "$~教學指南",
+                "howToGalleryButton": {
+                    "label": "$~去睇呢個空間入面嘅教學指南",
+                    "tip": "$~去睇呢個空間入面嘅教學指南"
+                }
+            },
+            "glossary": {
+                "explain": {
+                    "header": "$~詞彙表",
+                    "explanation": "$~/成個 @wordplay 程式語言同平台用到嘅詞語同概念。/"
+                }
+            },
+            "tour": {
+                "launch": "$~一齊睇吓指南",
+                "guide": "$~/指南/載有 @wordplay 所有*程式語言*概念同*功能*嘅*說明文件*。",
+                "code": "$~呢度係/程式碼/部分。入面有*程式語言*嘅說明文件，即係你可以砌埋一齊整成程式嘅積木。",
+                "howto": "$~呢度係/教學指南/部分。入面有*實用嘅做法*，等你喺專案入面做到某啲效果。",
+                "mode": "$~你可以用呢個/切換掣/自己喺*程式碼*同*教學指南*兩部分之間轉換。",
+                "search": "$~/搜尋/欄可以幫你*發掘*功能，或者*用名稱*好快搵到想要嘅嘢。"
+            }
+        },
+        "dialog": {
+            "share": {
+                "header": "$~分享",
+                "explanation": "$~將呢個專案分享畀作品展覽館或者全世界。",
+                "subheader": {
+                    "gallery": {
+                        "explanation": "$~你可以將呢個專案加入作品展覽館，同其他創作者嘅作品一齊展示，或者喺你嘅<專案@://projects>頁面開一個新嘅作品展覽館。如果你將專案加入公開嘅作品展覽館，你嘅專案就會變成公開。"
+                    },
+                    "public": {
+                        "header": "$~公開／私人",
+                        "explanation": "$~全世界任何人都睇到公開嘅專案同作品展覽館。我哋希望呢啲內容可以帶嚟肯定同快樂，公開分享就係一個方法。不過咁樣都要跟啲規則。你要保證你嘅專案唔會："
+                    },
+                    "pii": {
+                        "explanation": "$~公開分享可以識別到個人身份嘅資料（PII）會令創作者有風險，所以我哋會偵測可能係 PII 嘅內容，提醒創作者刪走敏感資料，或者標記為非敏感。\n\n下面係呢個專案入面，你已經標記為非敏感嘅可能 PII 清單。你可以㩒旁邊嘅按鈕，再標記為敏感，不過咁樣做，你嘅專案就唔會再儲存喺網上。"
+                    },
+                    "preview": {
+                        "explanation": "$~呢個係喺清單同作品展覽館入面代表你專案嘅細小圖案。自動會根據你專案顯示嘅內容揀一個；自訂就可以讓你固定用一個字元或者表情符號。"
+                    },
+                    "remix": {
+                        "explanation": "$~/改編版/係指某人將一個專案複製嚟再修改，變成自己嘅版本。我哋會記住改編版係邊度嚟，咁原本做嗰個人就仲有功勞。"
+                    },
+                    "research": {
+                        "header": "$~研究",
+                        "explanation": "$~有時我哋會寫文章同傾講 Wordplay，例如喺研究論文、演講，同埋展示畀老師同家庭睇嘅內容入面。如果你開咗呢個，我哋就可以將呢個專案當例子展示，但唔會顯示你嘅名、用戶名，或者任何顯示呢個帳戶係你嘅資料。\n\n你隨時都可以關閉。關閉就代表我哋唔會再喺任何新嘅內容入面用你嘅專案，不過已經發表或者展示過嘅，就收唔返㗎喇。"
+                    },
+                    "kit": {
+                        "explanation": "$~工具包係你發佈畀其他人用嚟砌嘢嘅一個源檔。你用 ↑ 標記嘅嘢，都會成為工具包嘅一部分。"
+                    }
+                },
+                "tab": {
+                    "label": "$~分享設定",
+                    "labels": [
+                        "$~作品展覽館",
+                        "$~公開",
+                        "$~預覽",
+                        "$~私隱",
+                        "$~改編版本",
+                        "$~工具包"
+                    ],
+                    "tips": [
+                        "$~揀一個作品展覽館嚟展示呢個專案",
+                        "$~揀邊個可以睇到呢個專案",
+                        "$~揀一個字符，喺列表入面代表呢個專案",
+                        "$~檢查呢個專案入面搵到嘅個人資料",
+                        "$~睇下呢個專案係由邊個專案改編出嚟，同埋有邊啲專案改編自佢",
+                        "$~發布呢個專案嘅一部分，畀其他人使用"
+                    ]
+                },
+                "pii": {
+                    "none": "$~搵唔到任何個人資料。"
+                },
+                "remix": {
+                    "source": "$~呢個專案係改編自：",
+                    "remixes": "$~以下呢啲專案係改編自呢個專案：",
+                    "none": "$~暫時未有人分享呢個專案嘅改編版本。改編版本一開始係私人嘅，要等製作佢嘅人決定公開之後，先會喺呢度出現。",
+                    "unknown": "$~搵唔到呢個專案原本改編自邊個專案。佢可能已經被刪除咗，或者唔係公開嘅。"
+                },
+                "field": {
+                    "emailOrUsername": {
+                        "placeholder": "$~電郵／用戶名稱",
+                        "description": "$~你想畀佢編輯權限嘅人嘅電郵或者用戶名稱"
+                    },
+                    "preview": {
+                        "placeholder": "$~預覽字符",
+                        "description": "$~用嚟做呢個專案預覽字符嘅單一字元或者表情符號"
+                    }
+                },
+                "mode": {
+                    "public": {
+                        "label": "$~可見度",
+                        "labels": ["$~私人", "$~公開"],
+                        "tips": [
+                            "$~淨係得你同協作者睇到呢個專案",
+                            "$~任何人都睇到呢個專案"
+                        ]
+                    },
+                    "preview": {
+                        "tips": [
+                            "$~等專案根據自己展示嘅內容，自動揀預覽字符",
+                            "$~固定用你揀嘅字符"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~研究",
+                        "labels": ["$~冇分享", "$~匿名分享"],
+                        "tips": [
+                            "$~唔好喺有關 Wordplay 嘅研究或者宣傳入面展示呢個專案",
+                            "$~俾 Wordplay 喺有關 Wordplay 嘅研究同宣傳入面，匿名展示呢個專案"
+                        ]
+                    }
+                },
+                "error": {
+                    "unknown": "$~我哋唔認識用呢個電郵嘅創作者。",
+                    "anonymous": "$~你要先<登入@://login>先可以分享。",
+                    "self": "$~你唔可以加自己。",
+                    "invalidPreview": "$~揀啱一個字元或者表情符號。"
+                },
+                "button": {
+                    "submit": "$~將個專案分享畀呢個電郵地址",
+                    "sensitive": {
+                        "tip": "$~再次將呢段文字標記為敏感",
+                        "label": "$~敏感"
+                    }
+                },
+                "options": {
+                    "gallery": "$~作品展覽館選擇器",
+                    "source": "$~要發佈嘅源檔"
+                },
+                "kit": {
+                    "nothing": "$~呢度暫時未有嘢分享。喺名稱、函數或者結構前面加 ↑ 就可以分享佢，例如 \\↑ sunset/en: 🔴\\，之後就可以變成工具包。",
+                    "heading": {
+                        "name": "$~名稱",
+                        "exports": "$~呢個工具包分享啲咩",
+                        "versions": "$~版本",
+                        "listing": "$~邊個搵到佢"
+                    },
+                    "unpublished": "$~你仲未發佈呢個。",
+                    "name": {
+                        "placeholder": "$~名稱",
+                        "description": "$~畀呢個工具包起個名"
+                    },
+                    "derived": "$~你個工具包嘅描述同搜尋字詞，係取自呢個源檔說明文件嘅第一句。",
+                    "undescribed": "$~呢個源檔仲未有說明文件",
+                    "discovery": "$~管理員可以取消列出已發佈嘅版本。就算取消列出，其他人已經借用嘅嘢都照樣用得。",
+                    "listing": {
+                        "label": "$~列出狀態",
+                        "labels": ["$~未列出", "$~已列出"],
+                        "tips": [
+                            "$~冇人可以喺指南入面搵到呢個工具包，而已經借用緊佢嘅嘢會照常運作",
+                            "$~管理員審核過之後，任何人都可以喺指南入面搵到呢個工具包"
+                        ]
+                    },
+                    "remedy": "$~改咗源檔再發佈新版本，管理員就會再睇一次。",
+                    "moderation": {
+                        "unrequested": "$~未要求列出",
+                        "pending": "$~等緊管理員審核",
+                        "approved": "$~已審核同列出",
+                        "denied": "$~有管理員要求你修改"
+                    },
+                    "publish": {
+                        "label": "$~發佈",
+                        "tip": "$~發佈呢個工具包嘅新版本"
+                    },
+                    "version": "$~版本 $version",
+                    "problem": {
+                        "exports": "$~呢度暫時未有分享嘅嘢",
+                        "invalid": "$~呢個名稱我睇唔明"
+                    },
+                    "unreviewed": "$~冇人會審核未列出嘅工具包。不過，你畀咗借用行嘅人，仍然可以睇到佢。",
+                    "permanent": "$~發佈版本係冇得反悔嘅：其他人嘅程式會用版本號碼借用佢，收返嘅話就會整壞佢哋。",
+                    "confirm": "$~發佈佢",
+                    "withdraw": {
+                        "label": "$~撤回",
+                        "tip": "$~撤回呢個版本，只有喺工具包未列出嗰陣先做得到"
+                    },
+                    "withdrawable": "$~呢個工具包從來未列出過，所以未有人搵到佢，你仍然可以撤回最新嘅版本。",
+                    "unpublishable": "$~呢個工具包暫時未可以發佈：",
+                    "failed": "$~我發佈唔到你嘅工具包。請檢查下有冇連線，然後再試一次。"
+                }
+            },
+            "settings": {
+                "header": "$~設定",
+                "explanation": "$~改變 Wordplay 嘅外觀、你寫程式碼嘅方式，同埋程式點樣用你嘅裝置。",
+                "button": {
+                    "show": "$~顯示設定視窗"
+                },
+                "tab": {
+                    "label": "$~設定組別",
+                    "labels": [
+                        "$~外觀",
+                        "$~程式碼",
+                        "$~相機同咪高峰",
+                        "$~聲音同音樂"
+                    ],
+                    "tips": [
+                        "$~Wordplay 本身嘅外觀同感覺：字體、顏色、面板同動畫",
+                        "$~你寫程式碼嗰陣，程式碼嘅外觀同感覺",
+                        "$~程式會用邊個相機同咪高峰讀取資料",
+                        "$~程式嘅音樂、語音同字幕點樣傳畀你"
+                    ]
+                },
+                "season": {
+                    "auto": "$~$season，今個月你所在地方嘅典型季節",
+                    "unplaced": "$~你部裝置嘅時區唔能夠話畀我哋知你喺邊度，所以冇顯示季節"
+                },
+                "subheader": {
+                    "music": "$~音樂",
+                    "say": "$~講嘢",
+                    "cues": "$~提示"
+                },
+                "mode": {
+                    "layout": {
+                        "label": "$~版面配置",
+                        "labels": [
+                            "$~自動",
+                            "$~橫排",
+                            "$~直疊",
+                            "$~兩個",
+                            "$~一個",
+                            "$~自由"
+                        ],
+                        "tips": [
+                            "$~根據視窗嘅大小同形狀，自動排列圖塊",
+                            "$~橫向嘅螢幕版面",
+                            "$~直向嘅螢幕版面",
+                            "$~最近嘅兩個圖塊，並排顯示",
+                            "$~只顯示最近嘅一個圖塊",
+                            "$~畫布上可以移動同調整大小嘅圖塊"
+                        ]
+                    },
+                    "placement": {
+                        "label": "$~舞台位置",
+                        "labels": ["$~左上", "$~右上", "$~左下", "$~右下"],
+                        "tips": [
+                            "$~將舞台放喺左上角，其他圖塊就喺佢周圍配對嘅位置",
+                            "$~將舞台放喺右上角，其他圖塊就喺佢周圍配對嘅位置",
+                            "$~將舞台放喺左下角，其他圖塊就喺佢周圍配對嘅位置",
+                            "$~將舞台放喺右下角，其他分頁就喺佢四周啱啱好嘅位置擺好"
+                        ]
+                    },
+                    "animate": {
+                        "label": "$~動畫速度",
+                        "labels": [
+                            "$~關閉",
+                            "$~1/4",
+                            "$~1/3 倍",
+                            "$~1/2 倍",
+                            "$~1 倍",
+                            "$~2 倍",
+                            "$~5 倍",
+                            "$~10 倍",
+                            "$~自動"
+                        ],
+                        "tips": [
+                            "$~關閉動畫",
+                            "$~四分之一速度",
+                            "$~三分之一速度",
+                            "$~一半速度",
+                            "$~正常速度",
+                            "$~兩倍速度",
+                            "$~五倍速度",
+                            "$~十倍速度",
+                            "$~用返裝置而家嘅設定"
+                        ]
+                    },
+                    "dark": {
+                        "label": "$~主題",
+                        "labels": ["$~幼體", "$~深色", "$~自動"],
+                        "tips": [
+                            "$~較淺嘅顏色",
+                            "$~較深嘅顏色",
+                            "$~用返裝置而家嘅設定"
+                        ]
+                    },
+                    "season": {
+                        "label": "$~季節",
+                        "labels": [
+                            "$~自動",
+                            "$~冇",
+                            "$~濕",
+                            "$~乾",
+                            "$~熱",
+                            "$~涼",
+                            "$~春天",
+                            "$~夏天",
+                            "$~秋天",
+                            "$~冬天",
+                            "$~極晝",
+                            "$~極夜"
+                        ],
+                        "tips": [
+                            "$~按你所在嘅季節，用日期同你部裝置嘅時區嚟裝飾網站，完全唔會將任何資料傳去其他地方",
+                            "$~冇季節：Wordplay 自己嘅顏色",
+                            "$~雨季：綠色頁面上有雨點、漣漪同蓮花",
+                            "$~旱季：羊皮紙色頁面上有草原嘅草同塵土",
+                            "$~熱季：沙色頁面上有猛烈嘅太陽同飄移嘅沙丘",
+                            "$~涼季：黃昏色頁面上有沙漠星星同彎彎嘅月亮",
+                            "$~春天：花色頁面上有飄落嘅花瓣同嫩芽",
+                            "$~夏天：暖色頁面上有螢火蟲同風鈴",
+                            "$~秋天：楓葉色頁面上有飄落嘅樹葉同飛過嘅雁",
+                            "$~冬天：冰冷嘅頁面上有用你自己嘅字母砌成嘅雪花，仲有雪人",
+                            "$~極晝：淺色頁面上有永遠唔會落山嘅午夜太陽",
+                            "$~極夜：夜藍色頁面上有極光同星星"
+                        ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~專案顏色",
+                        "labels": ["$~保留", "$~反轉"],
+                        "tips": [
+                            "$~即使喺深色螢幕上，都照專案寫嘅顏色原樣顯示",
+                            "$~喺深色螢幕上，將明亮專案嘅顏色轉做深色：每種顏色保持原本嘅色相，而顏色之間嘅距離都同專案原本一樣"
+                        ]
+                    },
+                    "blocks": {
+                        "label": "$~編輯器",
+                        "labels": ["$~文字", "$~積木"],
+                        "tips": ["$~用文字編輯程式碼", "$~用積木編輯程式碼"]
+                    },
+                    "blockDensity": {
+                        "label": "$~積木間距",
+                        "labels": ["$~緊密", "$~正常", "$~寬鬆"],
+                        "tips": [
+                            "$~積木排得密啲，螢幕可以放多啲程式碼",
+                            "$~預設積木間距",
+                            "$~積木排得鬆啲，更易揀同拖"
+                        ]
+                    },
+                    "space": {
+                        "label": "$~空格標記",
+                        "labels": ["$~隱藏", "$~顯示"],
+                        "tips": [
+                            "$~唔顯示空格同 Tab 標記",
+                            "$~清楚顯示空格同 Tab 標記"
+                        ]
+                    },
+                    "lines": {
+                        "label": "$~行號",
+                        "labels": ["$~隱藏", "$~顯示"],
+                        "tips": [
+                            "$~文字模式下唔顯示行號",
+                            "$~文字模式下顯示行號"
+                        ]
+                    },
+                    "wrap": {
+                        "label": "$~自動換行",
+                        "labels": ["$~關閉", "$~開"],
+                        "tips": [
+                            "$~文字模式下，長行會向左右捲動",
+                            "$~文字模式下，長行會跟住編輯器視窗自動換行"
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~Tab 鍵",
+                        "labels": ["$~轉換焦點", "$~插入跳位字元"],
+                        "tips": [
+                            "$~按 Tab 鍵會將鍵盤焦點移去下一個控制項",
+                            "$~按 Tab 鍵會喺編輯器入面插入一個 Tab 空格"
+                        ]
+                    },
+                    "writing": {
+                        "label": "$~書寫排版",
+                        "labels": [
+                            "$~橫向",
+                            "$~直向，由右至左",
+                            "$~直向，由左至右",
+                            "$~自動"
+                        ],
+                        "tips": [
+                            "$~橫向文字，由左至右讀",
+                            "$~直向文字，由右至左讀",
+                            "$~直向文字，由左至右讀",
+                            "$~跟隨語言嘅書寫排版"
+                        ]
+                    },
+                    "words": {
+                        "label": "$~關鍵字",
+                        "labels": ["$~符號", "$~文字"],
+                        "tips": [
+                            "$~用符號顯示內置關鍵字",
+                            "$~用你嘅語言文字顯示內置關鍵字"
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~視覺化",
+                        "labels": [
+                            "$~管弦樂團",
+                            "$~燈光騷",
+                            "$~心情",
+                            "$~樂譜",
+                            "$~關閉"
+                        ],
+                        "tips": [
+                            "$~將音樂顯示成一個樂器管弦樂團",
+                            "$~將音樂顯示成會變化嘅燈光",
+                            "$~將音樂顯示成一團顏色同形狀，會跟住音樂嘅感覺而變化",
+                            "$~將音符寫喺五線譜上面顯示，播放嗰陣音符會向前捲動",
+                            "$~唔顯示音樂"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~音量",
+                        "labels": ["$~關閉", "$~細聲", "$~最大聲"],
+                        "tips": [
+                            "$~所有音樂靜音",
+                            "$~細聲播放音樂",
+                            "$~用最大音量播放音樂"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~講嘢嗰陣",
+                        "labels": ["$~細聲", "$~再細聲啲", "$~冇聲"],
+                        "tips": [
+                            "$~有嘢讀出嚟嗰陣，將音樂調細少少",
+                            "$~有嘢讀出嚟嗰陣，將音樂調細好多",
+                            "$~有嘢讀出嚟嗰陣，關咗音樂"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~震動",
+                        "labels": ["$~關閉", "$~開"],
+                        "tips": [
+                            "$~唔跟住音樂震動",
+                            "$~跟住音樂震動，喺會震嘅手機或者遊戲手掣上面"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~評估提示音",
+                        "labels": ["$~關閉", "$~開"],
+                        "tips": [
+                            "$~程式重新評估嗰陣唔出聲",
+                            "$~程式每次重新評估都播一個短短嘅聲音，每種輸入都有自己嘅聲"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~碰撞提示音",
+                        "labels": ["$~關閉", "$~開"],
+                        "tips": [
+                            "$~輸出碰撞嗰陣唔出聲",
+                            "$~輸出碰撞嗰陣播一個短短嘅聲音，撞得越大力就越大聲"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~動畫提示音",
+                        "labels": ["$~關閉", "$~開"],
+                        "tips": [
+                            "$~輸出做動畫嗰陣唔出聲",
+                            "$~動畫每次去到一個姿勢就播一個短短嘅聲音，聲音跟住個姿勢做緊乜嘢"
+                        ]
+                    },
+                    "readAloud": {
+                        "label": "$~朗讀教學",
+                        "labels": ["$~關閉", "$~開"],
+                        "tips": [
+                            "$~淨係喺撳咗朗讀掣嗰陣，先朗讀嗰行教學",
+                            "$~每行新嘅教學一出現就朗讀出嚟"
+                        ]
+                    },
+                    "readAloudRate": {
+                        "label": "$~朗讀速度",
+                        "labels": ["$~¾", "$~1 倍", "$~1¼", "$~1½"],
+                        "tips": [
+                            "$~朗讀慢啲",
+                            "$~用聲音平時嘅速度朗讀",
+                            "$~朗讀快少少",
+                            "$~朗讀再快啲"
+                        ]
+                    },
+                    "announcementVerbosity": {
+                        "label": "$~螢幕閱讀器詳細程度",
+                        "labels": ["$~簡短", "$~正常", "$~詳細"],
+                        "tips": [
+                            "$~只講插入點喺邊度",
+                            "$~講插入點喺邊度、分隔符號嘅配對、衝突，同每次編輯做咗啲乜",
+                            "$~仲會講插入點喺乜嘢入面，同每個結果嘅類型"
+                        ]
+                    },
+                    "captionSize": {
+                        "label": "$~字幕大小",
+                        "labels": ["$~¾", "$~1 倍", "$~1½", "$~2 倍", "$~3 倍"],
+                        "tips": [
+                            "$~顯示細啲嘅字幕",
+                            "$~用標準大小顯示字幕",
+                            "$~顯示大一半嘅字幕",
+                            "$~顯示大兩倍嘅字幕",
+                            "$~顯示大三倍嘅字幕"
+                        ]
+                    }
+                },
+                "options": {
+                    "face": "$~字體",
+                    "mic": "$~麥克風",
+                    "camera": "$~相機",
+                    "voice": "$~朗讀嘅聲音",
+                    "default": "$~預設"
+                }
+            },
+            "notifications": {
+                "header": "$~通知",
+                "explanation": "$~嚟自新聊天同已發布教學指南嘅通知",
+                "open": "$~打開通知視窗",
+                "howToNotifications": {
+                    "label": "$~新教學指南嘅通知",
+                    "labels": ["$~關閉", "$~開"],
+                    "tips": [
+                        "$~有新教學指南嗰時唔好通知我",
+                        "$~有新教學指南嗰時通知我"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~清除所有通知",
+                    "tip": "$~清除所有通知"
+                },
+                "notification": {
+                    "howToHeader": "$~有一份新教學指南「$title」已經發布咗",
+                    "projectChatHeader": "$~專案「$name」入面有新訊息",
+                    "howToChatHeader": "$~教學指南「$title」入面有新訊息",
+                    "moderationHeader": "$~「$name」入面有一則訊息需要審核處理",
+                    "link": "$~詳情",
+                    "reportedHeader": "$~你喺「$title」入面整嘅嘢被人舉報咗，而家正喺度審核",
+                    "reportReceivedHeader": "$~你對「$title」嘅舉報已經送咗畀負責嘅人",
+                    "decisionHeader": "$~對於你喺「$title」入面整嘅嘢，已經有咗決定",
+                    "outcomeHeader": "$~對於你喺「$title」入面舉報嘅嘢，已經有咗決定",
+                    "because": "$~原因係佢：",
+                    "note": "$~佢哋話：",
+                    "reviewPending": "$~有 $#count[$count] 件嘢等你審查"
+                },
+                "delete": "$~刪除呢個通知",
+                "popup": "$~$#count[$count 個通知]",
+                "moderate": {
+                    "label": "$~睇下有咩等緊審核",
+                    "tip": "$~去睇下有咩等你審核"
+                }
+            },
+            "locale": {
+                "header": "$~語言",
+                "choose": "$~揀一種語言",
+                "explanation": "$~揀介面、教學同說明文件用嘅語言。有 🤖 標記嘅語言仲主要係機器翻譯，所以有啲字可能睇唔明或者唔啱。",
+                "localizeHelp": "$~/想幫手改善你嘅語言嘅翻譯，㩒*頁面底部*嘅 ✎ 鉛筆圖示，就可以開啟本地化模式，提出改善建議。/",
+                "subheader": {
+                    "selected": "$~已揀",
+                    "supported": "$~可揀"
+                },
+                "search": {
+                    "description": "$~按名稱或者地區篩選語言",
+                    "placeholder": "$~語言或者地區"
+                },
+                "button": {
+                    "show": "$~揀網站用嘅語言",
+                    "replace": "$~用呢種語言",
+                    "add": "$~用呢種語言同現時嘅語言",
+                    "remove": "$~移除呢種語言",
+                    "menu": "$~其他語言"
+                },
+                "request": {
+                    "header": "$~搵唔到你嘅語言？",
+                    "explanation": "$~揀一種語言同地區，我哋就會喺 GitHub 開一個議題，討論加入呢種語言。",
+                    "searchPlaceholder": "$~語言或者國家",
+                    "searchDescription": "$~篩選語言同國家選單",
+                    "languageLabel": "$~語言",
+                    "regionLabel": "$~地區",
+                    "submit": "$~提出要求",
+                    "submitting": "$~發送緊要求……",
+                    "success": "$~嚟 GitHub 同我哋一齊討論呢個要求啦！",
+                    "alreadyRequested": "$~已經有人要求過呢種語言。嚟 GitHub 加入討論啦！",
+                    "error": "$~出咗問題。請再試一次。",
+                    "alreadySupported": "$~呢種語言同地區已經支援咗。",
+                    "requiresLogin": "$~你要登入先可以要求加入語言。"
+                }
+            },
+            "help": {
+                "header": "$~快捷鍵",
+                "explanation": "$~用呢啲鍵盤指令，編輯起上嚟更有效率。",
+                "subheader": {
+                    "moveCursor": "$~移動",
+                    "editCode": "$~編輯",
+                    "insertCode": "$~插入",
+                    "debug": "$~除錯",
+                    "format": "$~格式",
+                    "help": "$~幫助"
+                },
+                "column": {
+                    "symbol": "$~符號",
+                    "shortcut": "$~快速鍵",
+                    "action": "$~動作",
+                    "change": "$~更改"
+                },
+                "change": {
+                    "on": "$~唔再更改呢個快速鍵",
+                    "off": "$~更改呢個快速鍵"
+                },
+                "capture": "$~撳你想要嘅鍵",
+                "reset": "$~用預設快速鍵",
+                "resetAll": "$~用晒所有預設快速鍵",
+                "custom": "$~已更改",
+                "fallback": "$~如果上面嗰個用唔到",
+                "fixed": "$~唔可以更改",
+                "feedback": {
+                    "bound": "$~$command 而家係 $shortcut",
+                    "conflict": "$~$shortcut 已經用嚟做 $command 喇",
+                    "reserved": "$~你部電腦自己留咗 $shortcut 嚟用",
+                    "unmodified": "$~快捷鍵要用 Control 或者 Alt，否則就變咗係打字",
+                    "reset": "$~$command 已經改返用平時嘅快捷鍵"
+                },
+                "via": {
+                    "toolbar": "$~工具列",
+                    "chooser": "$~字元選擇器"
+                }
+            },
+            "feedback": {
+                "header": "$~意見回饋",
+                "explanation": "$~幫手改善 @wordplay，話畀我哋知有咩 🪲 *問題*，同分享你嘅 💡 *點子*啦！",
+                "button": {
+                    "show": "$~顯示意見回饋表格。",
+                    "submit": {
+                        "tip": "$~提交你嘅意見",
+                        "label": "$~提交"
+                    },
+                    "delete": {
+                        "description": "$~刪除你嘅意見。",
+                        "prompt": "$~刪除"
+                    },
+                    "like": "$~讚好呢個意見",
+                    "close": {
+                        "label": "$~關閉",
+                        "tip": "$~以管理員身份關閉呢個意見"
+                    },
+                    "comment": {
+                        "label": "$~提交",
+                        "tip": "$~提交對呢個意見嘅留言。"
+                    }
+                },
+                "mode": {
+                    "label": "$~意見回饋",
+                    "labels": ["$~問題", "$~點子"],
+                    "tips": ["$~報告啲似係壞咗嘅嘢", "$~建議新功能或者改進"]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~你嘅意見標題",
+                        "placeholder": "$~標題"
+                    },
+                    "defect": {
+                        "description": "$~你發現嘅問題嘅描述",
+                        "placeholder": "$~你做咗啲咩步驟？之後發生咗咩事？寫得愈清楚愈好。"
+                    },
+                    "idea": {
+                        "description": "$~你發現嘅問題嘅描述",
+                        "placeholder": "$~你想做啲咩，但係做唔到？"
+                    },
+                    "comment": {
+                        "description": "$~留言",
+                        "placeholder": "$~喺呢個意見度加一則留言"
+                    },
+                    "github": {
+                        "description": "$~GitHub 問題",
+                        "placeholder": "$~連結去 GitHub 問題"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~錯誤",
+                    "idea": "$~點子",
+                    "moderator": "$~管理員"
+                },
+                "prompt": {
+                    "defect": "$~冇見到你遇到嘅問題？喺呢度回報啦。寫得越詳細越好！",
+                    "idea": "$~冇見到你想到嘅點子？提出嚟吖。"
+                },
+                "error": {
+                    "login": "$~你要<登入@://login>先可以提交意見",
+                    "empty": "$~暫時冇意見可以顯示。",
+                    "url": "$~呢個唔係有效嘅 GitHub 網址。"
+                }
+            }
+        },
+        "collaborate": {
+            "label": "$~一齊合作",
+            "translate": {
+                "label": "$~將訊息翻譯成",
+                "none": "$~唔好翻譯",
+                "off": "$~停止翻譯",
+                "dismiss": "$~關閉",
+                "writingIn": "$~我寫緊嘅語言係",
+                "translating": "$~翻譯緊訊息……",
+                "downloading": "$~為你嘅瀏覽器攞緊$language……",
+                "translated": "$~$#count[已經將 $count 則訊息翻譯成$language。]",
+                "direction": "$~$from → $to",
+                "onDevice": "$~你嘅瀏覽器喺你部裝置上翻譯咗呢啲訊息，所以冇訊息傳畀我哋。",
+                "error": "$~我哋未能夠將呢啲訊息翻譯成$to。過一陣再試吓啦。",
+                "messageError": "$~我哋未能夠翻譯呢則訊息。",
+                "messageErrors": "$~$#count[我哋未能夠翻譯 $count 則訊息。]"
+            },
+            "field": {
+                "message": {
+                    "description": "$~要送出嘅聊天訊息",
+                    "placeholder": "$~輸入訊息"
+                }
+            },
+            "thread": {
+                "reply": "$~回覆",
+                "replies": "$~$#count[$count 個回覆]",
+                "unseen": "$~$#count[$count 個新回覆]",
+                "header": "$~討論串",
+                "back": "$~返去對話",
+                "empty": "$~暫時未有回覆。講啲嘢啦！",
+                "placeholder": "$~回覆⋯"
+            },
+            "reaction": {
+                "add": "$~回應",
+                "close": "$~閂咗啲回應",
+                "more": "$~更多⋯",
+                "label": "$~揀一個回應",
+                "pick": "$~用 $emoji 回應",
+                "give": "$~$#count[加你嘅 $emoji — 已經有 $count 個人用咗]",
+                "take": "$~$#count[收回你嘅 $emoji — 有 $count 個人用咗]",
+                "full": "$~呢個訊息嘅回應已經滿晒喇。"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~唔再討論呢段程式碼",
+                    "off": "$~討論我游標所在嘅程式碼"
+                },
+                "prompt": "$~你嘅訊息係關於 $location。",
+                "line": "$~第 $line 行",
+                "lines": "$~第 $first 至 $last 行",
+                "label": "$~關於 $location：$code",
+                "invalid": "$~呢段程式碼已經冇咗",
+                "marker": "$~$#count[睇有關呢段程式碼嘅 $count 個訊息]"
+            },
+            "prompt": "$~加入協作者、留言者同觀看者",
+            "role": {
+                "owner": "$~擁有者",
+                "collaborate": "$~一齊合作",
+                "comment": "$~留言",
+                "view": "$~檢視",
+                "curate": "$~策展"
+            },
+            "table": {
+                "label": "$~邊個可以進入呢個專案",
+                "choose": "$~$name 可以做啲乜",
+                "adding": "$~佢哋可以做啲乜",
+                "audience": "$~邊個可以睇到呢個聊天室",
+                "add": "$~加人",
+                "cancel": "$~算啦，唔加人喇"
+            },
+            "button": {
+                "submit": {
+                    "label": "$~傳送",
+                    "tip": "$~傳送訊息畀你嘅協作者同"
+                },
+                "delete": "$~刪除呢則訊息",
+                "confirmDelete": "$~確定要刪除？",
+                "transfer": {
+                    "description": "$~將呢位變成專案嘅擁有者",
+                    "prompt": "$~要將佢變成擁有者嗎？",
+                    "consequence": "$~你會繼續做協作者，仲可以編輯，但係你以後唔可以刪除呢個專案㗎喇。"
+                }
+            },
+            "moderation": {
+                "header": "$~舉報呢則訊息",
+                "explanation": "$~如果呢則訊息唔符合我哋嘅<社群守則@://rights>，或者唔係你要求嘅回饋類型，你可以舉報。舉報之後，訊息會傳畀作品展覽館嘅策展人，並且會先被移除，等審核完先再決定。",
+                "report": {
+                    "tip": "$~舉報呢則訊息",
+                    "label": "$~舉報"
+                },
+                "moderate": {
+                    "tip": "$~去管理儀表板",
+                    "label": "$~管理"
+                },
+                "pending": "$~呢則訊息暫時被移除，等緊審核處理。",
+                "removed": "$~呢則訊息因為違反社群或者回饋守則而被移除咗。",
+                "inGallery": "$~呢個聊天室喺作品展覽館入面，會由作品展覽館嘅策展人管理。如果有訊息違反我哋嘅<社群守則@://rights>，你可以舉報，等人審核。"
+            },
+            "error": {
+                "unowned": "$~呢個專案冇儲存喺網上，所以唔可以有聊天或者協作者。",
+                "offline": "$~載入唔到呢個聊天。",
+                "empty": "$~冇訊息。",
+                "deleted": "$~呢則訊息已經被刪除咗。",
+                "transferGallery": "$~呢個專案喺一個作品展覽館入面。將佢畀其他人，唔會令對方加入嗰個作品展覽館，所以對方可能喺嗰度睇唔到。"
+            },
+            "announce": {
+                "transferred": "$~$name 而家係 $project 嘅擁有者",
+                "privilege": "$~$name 而家可以 $privilege",
+                "removed": "$~$name 再唔可以接觸呢個專案",
+                "thread": "$~$#count[$name 嘅訊息嘅討論串，有 $count 個回覆]",
+                "reacted": "$~$#count[呢則訊息有 $emoji，共 $count 個人]",
+                "unreacted": "$~$#count[收回咗 $emoji，剩低 $count 個人]",
+                "attached": "$~而家講緊 $location。",
+                "found": "$~$name 話：$opening"
+            },
+            "restrictGalleryCreatorAccess": {
+                "mode": {
+                    "label": "$~限制專案存取",
+                    "labels": ["$~唔限制", "$~限制"],
+                    "tips": [
+                        "$~任何睇得到呢個作品展覽館嘅人都睇得到你嘅專案",
+                        "$~只有作品展覽館嘅策展人睇得到你嘅專案"
+                    ]
+                }
+            },
+            "tour": {
+                "launch": "$~睇下協作係點樣",
+                "collaborate": "$~所有可以接觸呢個專案嘅人都列喺度，你可以同獲准嘅人*聊天*。只有 /擁有者/、/協作者/ 同 /留言者/ 先睇得到聊天。",
+                "collaborators": "$~每個人都有一個 /權限/。*協作* 即係佢哋可以編輯專案同埋喺度聊天。*留言* 即係佢哋可以聊天，但係唔可以編輯。*檢視* 即係佢哋可以睇，但係唔可以聊天。*擁有者* 即係將專案交畀佢哋。作品展覽館嘅 /策展人/ 永遠都接觸到，所以你改唔到佢哋嘅權限。",
+                "add": "$~㩒一下列表尾嘅 *+* 就可以加人。打佢哋嘅*電郵*或者*用戶名稱*，揀佢哋可以做咩，佢哋就會加入列表。",
+                "restrict": "$~當專案喺一個*作品展覽館*入面，預設係睇得到呢個作品展覽館嘅*所有人*都睇得到你嘅專案。/限制/ 開關會將佢*隱藏*，除咗你同作品展覽館嘅策展人之外，其他人都睇唔到。"
+            }
+        },
+        "presence": {
+            "peersLabel": "$~協作者正在編輯呢個專案",
+            "joined": "$~$name 加入咗。",
+            "left": "$~$name 走咗。",
+            "waitingForSlot": "$~等緊編輯位——已經有四位協作者喺度編輯。等其中一位走咗，你就可以一齊編輯㗎喇。"
+        },
+        "palette": {
+            "label": "$~調色盤",
+            "labels": {
+                "mixed": "$~混合",
+                "computed": "$~計算出嚟",
+                "default": "$~預設",
+                "inherited": "$~繼承",
+                "notSequence": "$~唔係序列",
+                "format": "$~格式",
+                "weight": "$~粗幼",
+                "light": "$~幼體",
+                "normal": "$~正常",
+                "bold": "$~粗體",
+                "extra": "$~額外",
+                "italic": "$~斜體",
+                "underline": "$~底線"
+            },
+            "button": {
+                "revert": "$~還原做預設值",
+                "set": "$~編輯呢個屬性",
+                "addPhrase": "$~喺呢個後面加一個詞組",
+                "addGroup": "$~喺呢個後面加一個群組",
+                "addShape": "$~喺呢個後面加一個形狀",
+                "addMotion": "$~將位置設做動作串流",
+                "addPlacement": "$~將位置設做擺放串流",
+                "remove": "$~刪除呢個內容",
+                "up": "$~將呢個內容向上移",
+                "down": "$~將呢個內容向下移",
+                "edit": "$~編輯呢個內容",
+                "sequence": "$~轉換做序列",
+                "previousTrack": "$~顯示上一個@Track",
+                "nextTrack": "$~顯示下一個@Track",
+                "addTrack": "$~加一個@Track",
+                "removeTrack": "$~刪除呢個@Track",
+                "clearTrack": "$~移除呢個 @Track 入面所有音符",
+                "rewind": "$~返去最開頭",
+                "playTrack": "$~由游標開始，單獨聽呢個 @Track",
+                "pauseTrack": "$~停止播放呢個 @Track",
+                "playMusic": "$~由游標開始聽呢個 @Music",
+                "pauseMusic": "$~停止播放",
+                "importMIDI": "$~將 MIDI 檔案匯入成 @Music",
+                "record": "$~哼一段旋律，加落呢個 @Track",
+                "stopRecording": "$~停低，同埋記低你哼咗啲乜",
+                "makeChord": "$~將呢個音符變成和弦",
+                "unmakeChord": "$~將呢個和弦簡化成一個音符",
+                "editMode": "$~轉去編輯模式"
+            },
+            "toolbar": {
+                "label": "$~加輸出",
+                "addPhrase": "$~加一句文字",
+                "wrapPhrase": "$~將呢個值顯示成一句文字",
+                "addRectangle": "$~加一個長方形",
+                "addCircle": "$~加一個圓形",
+                "addPolygon": "$~加一個多邊形",
+                "addPath": "$~加一條可以彎曲同畫畫嘅線",
+                "draw": {
+                    "off": "$~喺舞台上畫一條路徑",
+                    "on": "$~停止畫畫"
+                },
+                "wrapForm": "$~用一個形狀包住呢個形體，咁就可以喺舞台上顯示",
+                "group": "$~將你揀咗嘅嘢收集成一個群組",
+                "groupEmpty": "$~揀一啲輸出，將佢哋收集成一個群組",
+                "groupScattered": "$~群組只可以收集喺同一個位置嘅輸出",
+                "groupKind": "$~一個群組可以放短語、群組、語音或者音樂，但係唔可以放形狀或者舞台",
+                "addStage": "$~用舞台包住所有嘢，咁你就可以控制燈光、顏色同畫面",
+                "stageExists": "$~已經有舞台喇",
+                "addMusic": "$~加入音樂，由幾個音符開始玩吓",
+                "addSay": "$~加入語音，會大聲讀出嚟"
+            },
+            "prompt": {
+                "select": "$~想編輯嘢，就喺你嘅程式碼或者 @Stage 度揀咗佢。想加新嘢，就㩒上面嘅 + 按鈕。",
+                "editing": "$~編輯我吖！",
+                "readonly": "$~喺呢個模式入面，調色盤係*唯讀*嘅。切換去 ✏️ *編輯*模式先可以做修改。"
+            },
+            "music": {
+                "staff": "$~呢條音軌嘅音符",
+                "cursor": "$~拖動嚟揀由邊一拍開始播",
+                "findings": {
+                    "tracksSplit": "$~有 $#count[$#count 條音軌]同一時間播多過一個音符，所以加多咗 $extra 條嚟放多出嚟嘅聲部。",
+                    "percussionDropped": "$~有 $#count[$#count 個鼓聲]喺我哋嘅鼓組入面搵唔到對應嘅，所以冇用到。",
+                    "tracksTruncated": "$~超過 $cap 條嘅上限，有 $#count[$#count 條音軌]冇用到。",
+                    "pitchesSnapped": "$~有 $#count[$#count 個音符]唔屬於 $scale 音階，已經移去最近嘅音，最多移咗 $semitones 個半音。",
+                    "beatsRounded": "$~有 $#count[$#count 個音符長度]被四捨五入咗，最多差 $error 拍。",
+                    "tempoFolded": "$~有 $#count[$#count 個速度變化]已經加入咗音符長度入面，所以音樂仍然會變快變慢。一個 @Music 只有一個速度，而呢個係 $using，所以 @Beat 會同啲音符對唔上。",
+                    "meterChanges": "$~有 $#count[$#count 個拍號變化]冇保留：@Music 冇拍號。",
+                    "velocityRange": "$~音軌 $track 有 $#count[$#count 種音量]。每個音符都保留自己嘅音量，但係冇漸強漸弱。",
+                    "outOfRange": "$~有 $#count[$#count 個音符]同音階嘅第一個音相差超過三個八度。佢哋會播得到，但唔係用真實錄音播。"
+                },
+                "importing": "$~$step… $percent%",
+                "steps": {
+                    "label": "$~匯入緊啲咩",
+                    "labels": [
+                        "$~讀取檔案",
+                        "$~計算音符",
+                        "$~幫音軌改名",
+                        "$~將佢哋寫入你嘅程式",
+                        "$~檢查你嘅程式"
+                    ],
+                    "tips": [
+                        "$~讀取檔案",
+                        "$~計算音符",
+                        "$~幫音軌改名",
+                        "$~將佢哋寫入你嘅程式",
+                        "$~檢查你嘅程式"
+                    ]
+                },
+                "tooBig": "$~嗰個檔案有 $#count[$#count 個音符]，多過專案可以放嘅 $cap 個。試吓用短啲嘅樂曲，或者用少啲樂器。",
+                "notMIDI": "$~嗰個唔似係 MIDI 檔案",
+                "badMIDI": "$~我讀唔到嗰個 MIDI 檔案",
+                "listening": "$~我喺度聽緊！你哼或者唱一段旋律，然後停低。我會將聽到嘅音符寫低，再加入呢條音軌。",
+                "heardNothing": "$~我冇聽到任何音符。試吓哼大聲啲，或者再埋啲咪高峰。",
+                "transcribed": "$~我喺 $scale 聽到 $#count[$#count 個音符]，速度大約每分鐘 $tempo 拍。",
+                "noMicrophone": "$~我聽唔到你嘅咪高峰",
+                "imported": "$~加咗 $#count[$#count 條音軌]同 $notes 個音符",
+                "choose": "$~揀一首歌",
+                "report": "$~我匯入咗啲咩",
+                "reportExplanation": "$~@Music 可以載到 MIDI 檔案入面大部分嘅內容，但係唔係全部。以下係匯入嗰時有變嘅嘢。",
+                "chooser": "$~要編輯邊段音樂",
+                "unnamed": "$~音樂 $count",
+                "track": "$~第 $count 條音軌，共 $total 條",
+                "duration": {
+                    "label": "$~新音符維持幾耐",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~全音符，四拍",
+                        "$~二分音符，兩拍",
+                        "$~四分音符，一拍",
+                        "$~八分音符，半拍",
+                        "$~十六分音符，四分之一拍"
+                    ]
+                },
+                "computed": "$~呢條音軌嘅音符係計出嚟嘅，所以喺度郁唔到",
+                "note": "$~音符 $degree，第 $beat 拍",
+                "rest": "$~休止符，第 $beat 拍",
+                "added": "$~喺第 $beat 拍加咗音符 $degree，而家有 $#count[$#count 個音符]",
+                "removed": "$~喺第 $beat 拍刪咗音符 $degree，而家有 $#count[$#count 個音符]",
+                "moved": "$~音符 $degree，第 $beat 拍"
+            },
+            "field": {
+                "coordinate": "$~編輯座標",
+                "text": "$~編輯文字"
+            },
+            "sequence": {
+                "button": {
+                    "add": "$~加姿勢",
+                    "remove": "$~移除姿勢",
+                    "up": "$~將姿勢向上移",
+                    "down": "$~將姿勢向下移"
+                },
+                "field": {
+                    "percent": "$~編輯百分比"
+                },
+                "preset": {
+                    "label": "$~預設序列",
+                    "custom": "$~自訂"
+                }
+            },
+            "error": {
+                "nan": "$~呢個唔係數字。",
+                "percent": "$~一定要係 0 至 100 之間嘅百分比。",
+                "lessThanNext": "$~呢個數值一定要細過下一個項目。",
+                "moreThanPrevious": "$~呢個數值一定要大過上一個項目。"
+            },
+            "tour": {
+                "launch": "$~參觀一下調色板",
+                "palette": "$~你可以喺 ✏️ *編輯* 模式用 /調色板/ 嚟編輯 *詞句*、*群組* 同 *舞台*；喺其他模式，調色板嘅控制項只可以睇，唔可以改。喺 ⏸️ *除錯* 模式，每個屬性仲會顯示 *目前嘅值*。",
+                "text": "$~詞句嘅所有 /屬性/ 都可以喺呢度編輯。呢個係詞句嘅 *文字*，其他屬性有各自嘅控制項。",
+                "set": "$~當一個屬性正在用 /預設/ 值嘅時候，*鉛筆* 按鈕可以畀你為佢設定一個 *明確* 嘅值。",
+                "unset": "$~當一個屬性設咗 /明確/ 值，*X* 按鈕會移除嗰個值，等屬性返去用 *預設* 值。",
+                "editor": "$~你喺調色板做嘅所有更改，都會反映喺 *編輯器* 顯示嘅 /程式碼/ 度。",
+                "stage": "$~詞句都可以直接喺 *舞台* 上面 /移動/、/縮放/ 同 /旋轉/。"
+            }
+        },
+        "save": {
+            "saving": "$~儲存緊",
+            "saved": "$~已儲存",
+            "local": "$~已儲存",
+            "unsaved": "$~未儲存",
+            "sync": {
+                "projects": "$~專案",
+                "galleries": "$~作品展覽館",
+                "characters": "$~角色",
+                "howtos": "$~教學指南",
+                "chats": "$~聊天",
+                "kits": "$~工具包"
+            },
+            "status": {
+                "header": "$~儲存狀態",
+                "intro": "$~你嘅作品會保存喺呢部裝置，同時儲存咗喺雲端。",
+                "columns": {
+                    "device": "$~喺呢部裝置",
+                    "cloud": "$~喺雲端",
+                    "unsaved": "$~未儲存",
+                    "state": "$~狀態"
+                },
+                "state": {
+                    "synced": "$~已同步",
+                    "loading": "$~載入緊",
+                    "syncing": "$~儲存緊",
+                    "offline": "$~離線",
+                    "failed": "$~失敗",
+                    "local": "$~淨係喺呢部裝置"
+                },
+                "conversation": "$~一個對話",
+                "legend": "$~「未儲存」即係已經儲存咗喺呢度，但係未上載到網上。你重新連線之後就會儲存。",
+                "errorsHeader": "$~有啲嘢儲存唔到上網：",
+                "local": {
+                    "intro": "$~你嘅作品淨係儲存咗喺呢部裝置嘅呢個瀏覽器。如果呢個瀏覽器嘅資料被清除，作品就會冇咗。<登入@://login>就可以儲存上網，喺邊度都用得。",
+                    "legend": "$~橫線代表要登入之後先用得。"
+                }
+            }
+        },
+        "connection": {
+            "offline": "$~你而家離線。有啲功能要連線之後先用得。",
+            "unreachable": "$~我哋連唔到資料庫，所以有啲功能用唔到。可能係 VPN、瀏覽器擴充功能或者網絡過濾器擋住咗。"
+        },
+        "banner": {
+            "deleteFailed": "$~我哋刪除唔到。",
+            "saveFailed": "$~我哋儲存唔到",
+            "submitFailed": "$~我哋提交唔到",
+            "loadFailed": "$~我哋載入唔到。請等一陣再試吓。",
+            "storageFull": "$~呢部裝置嘅儲存空間滿咗，所以我哋喺度儲存唔到副本。你嘅作品仍然喺雲端。",
+            "storageNearFull": "$~呢部裝置嘅儲存空間差唔多用晒，所以 Wordplay 可能好快就儲存唔到喺度。儲存咗喺雲端嘅作品係安全嘅；清出啲空間畀你嘅裝置或者瀏覽器，佢就可以繼續儲存喺度。",
+            "saveTooLarge": "$~呢個太大，儲存唔到。試吓刪走啲內容。"
+        },
+        "update": {
+            "message": "$~我哋推出咗新版本。",
+            "refresh": "$~重新整理",
+            "updates": "$~睇吓有咩更新",
+            "dismiss": "$~關閉"
+        },
+        "proxy": {
+            "banner": "$~你而家用緊其他人嘅身份睇 Wordplay。呢度嘅嘢全部都唔會儲存，佢哋亦睇唔到你喺度。",
+            "as": "$~以 $name 身份",
+            "remaining": "$~$#minutes[仲有 $minutes 分鐘]",
+            "stop": {
+                "label": "$~停止",
+                "tip": "$~閂咗呢個分頁，唔再以佢哋嘅身份睇"
+            },
+            "starting": "$~開始緊…",
+            "ended": "$~呢個工作階段完咗，你亦已經登出咗。請閂咗呢個分頁。如果想再睇，請由權限頁面重新開始。",
+            "failed": "$~我哋開始唔到嗰個工作階段。你仲有冇以管理員身份登入呀？",
+            "expired": "$~嗰條連結已經用過，或者已經過咗期。請由<權限頁面@://admin>重新開始。"
+        },
+        "localize": {
+            "header": "$~本地化",
+            "reference": "$~英文參考",
+            "guidance": "$~呢種語言嘅指引",
+            "guidanceToggle": {
+                "on": "$~收埋呢種語言嘅指引",
+                "off": "$~顯示呢種語言嘅指引"
+            },
+            "guidanceEmpty": "$~暫時未有指引。寫低翻譯成呢種語言嘅人需要知道啲咩。",
+            "terms": {
+                "header": "$~詞彙表",
+                "description": "$~喺度為呢種語言定義詞語同短語，之後你可以喺任何地方寫 $$ 加上個詞嘅鍵嚟重複使用，例如 $$program。喺呢度改咗一個詞，所有用到佢嘅地方都會跟住改，所以你嘅翻譯會保持一致。呢個只係用嚟重複使用詞語；如果想向學習者解釋一個術語，請用詞彙解釋。",
+                "empty": "$~暫時未有詞語。加一個，就可以喺呢種語言嘅文字入面重複使用。",
+                "key": {
+                    "description": "$~呢個詞嘅鍵，寫喺 $ 後面就可以用",
+                    "placeholder": "$~鍵"
+                },
+                "phrase": {
+                    "description": "$~呢個鍵代表嘅詞語或者短語",
+                    "placeholder": "$~詞語"
+                },
+                "add": "$~將呢個詞加入列表",
+                "remove": "$~將呢個詞由列表移除",
+                "invalidKey": "$~鍵一定要以字母開頭，而且只可以用字母同數字，任何語言都得。",
+                "duplicateKey": "$~呢種語言已經有一個用咗呢個鍵嘅詞語。",
+                "reservedKey": "$~呢個鍵已經用咗喺範本值度，所以唔可以做詞語。"
+            },
+            "glossary": {
+                "header": "$~其他寫法",
+                "description": "$~詞彙表會解釋學習者會遇到嘅詞語。每個詞語都有一個主要寫法，喺呢度你可以加返呢個詞語喺呢種語言入面嘅其他寫法，例如眾數、其他詞尾，或者意思一樣嘅另一個詞。寫文字嘅時候，你可以用 @ 加上個詞去連結佢哋，成個詞都會係連結嘅一部分。每種語言都有自己嘅清單，所以你嘅語言需要幾多就加幾多。",
+                "reference": "$~用英文",
+                "empty": "$~暫時未有其他寫法。",
+                "form": {
+                    "description": "$~呢個詞語嘅另一種寫法",
+                    "placeholder": "$~寫法"
+                },
+                "add": "$~將呢個寫法加入個詞語度",
+                "remove": "$~將呢個寫法由個詞語度移除",
+                "ownWord": "$~呢個係個詞語本身嘅寫法，已經可以單獨使用。",
+                "otherWord": "$~呢個係 $term 嘅詞語，所以會唔清楚你指邊個詞語。",
+                "conceptName": "$~說明文件已經定義咗呢個詞語，所以連結會去嗰度，而唔係呢度。",
+                "alreadyUsed": "$~呢個已經係 $term 嘅一種寫法，所以會唔清楚你指邊個詞語。",
+                "searchOnly": "$~連結會喺空格或者符號嗰度完結，所以呢個寫法只會幫到搜尋。"
+            },
+            "description": "$~歡迎嚟到在地化模式！你可以喺 @wordplay 介面建議點樣改善文字。揀任何一段文字就可以提出修改建議。你嘅建議會經過審閱，如果通過，就會成為平台嘅一部分，畀所有人睇到。多謝你幫手令 Wordplay 啲世界各地嘅人都更容易使用！",
+            "toggle": {
+                "mode": {
+                    "on": "$~離開在地化模式",
+                    "off": "$~進入在地化模式，為平台而家用緊嘅語言嘅文字建議修改。"
+                }
+            },
+            "button": {
+                "edit": "$~為呢段文字建議修改",
+                "editTip": "$~為呢個控制項嘅提示建議修改",
+                "submit": "$~提交建議嘅修改",
+                "cancel": "$~放棄建議嘅修改",
+                "revert": "$~還原做官方文字",
+                "prev": "$~編輯上一個項目",
+                "next": "$~編輯下一個項目"
+            },
+            "field": {
+                "plain": {
+                    "description": "$~建議嘅替換文字",
+                    "placeholder": "$~輸入替換文字⋯⋯"
+                },
+                "formatted": {
+                    "description": "$~建議嘅替換文字（支援標記文字格式）",
+                    "placeholder": "$~輸入有格式嘅替換文字⋯⋯"
+                },
+                "name": {
+                    "description": "$~建議嘅名稱（一定要係有效嘅 Wordplay 名稱）",
+                    "placeholder": "$~輸入名稱⋯⋯"
+                },
+                "filter": {
+                    "description": "$~用路徑或者描述篩選翻譯字串",
+                    "placeholder": "$~篩選⋯⋯"
+                }
+            },
+            "inputs": {
+                "header": "$~呢個範本接受嘅輸入",
+                "usedTip": "$~㩒一下，喺游標位置再插入一個參照",
+                "unusedTip": "$~㩒一下，喺游標位置插入呢個參照",
+                "missing": "$~欠咗嘅輸入：",
+                "legacy": "$~將呢啲舊式按位置嘅參照改成有名稱嘅參照：",
+                "unknown": "$~呢啲參照對唔上任何已宣告嘅輸入或者術語，所以唔會被替換：",
+                "submitBlocked": "$~提交之前，每個輸入都要有參照",
+                "plural": {
+                    "header": "$~呢種語言需要嘅版本",
+                    "tip": "$~一個數量：㩒一下，就會為呢種語言嘅 $forms 個複數形式，各插入一個句子版本",
+                    "arity": "$~$name 有 $found 個版本，但呢種語言需要 $expected 個。",
+                    "missing": "$~$name 係一個數量，所以要為每個複數形式揀一個句子版本。",
+                    "example": "$~例如"
+                }
+            },
+            "strings": "$~翻譯字串",
+            "emotion": "$~揀一種情緒",
+            "invalidName": "$~唔係有效嘅 Wordplay 名稱",
+            "invalidConceptLinks": "$~呢啲概念連結喺而家嘅語言搵唔到。係咪串錯咗字，定係你特登刪咗佢？"
+        },
+        "edit": {
+            "node": "$~$node$type[, $type|]",
+            "before": "$~喺 $after[$after|最後] 之前",
+            "inside": "$~喺 $token 入面，喺 $before[$before|開頭] 同 $after[$after|最後] 之間",
+            "between": "$~喺 $before[$before|開頭] 同 $after[$after|最後] 之間",
+            "line": "$~喺 $before[$before|開頭] 同 $after[$after|最後] 之間嘅空行",
+            "conflicts": "$~$#count[$count 個衝突]",
+            "delimiterMatchedSameLine": "$~同一行有相配嘅 $name",
+            "delimiterMatchedBelow": "$~下面 $#lines[$lines 行]有相配嘅 $name",
+            "delimiterMatchedAbove": "$~上面 $#lines[$lines 行]有相配嘅 $name",
+            "delimiterUnmatched": "$~冇相配嘅分隔符號",
+            "assign": "$~/$name[好想加入|考慮離開]…/",
+            "append": "$~/好想插入…/",
+            "remove": "$~/考慮離開…/",
+            "replace": "$~/想介入…/",
+            "area": "$~打程式碼",
+            "parent": "$~喺 $parent 入面",
+            "inserted": "$~插入咗 $node",
+            "removed": "$~移除咗 $node",
+            "moved": "$~移動咗 $node$target[ 去 $target 入面|]",
+            "copied": "$~複製咗 $node$target[ 去 $target 入面|]",
+            "pickedUp": "$~拎起咗 $node",
+            "cannotPickUp": "$~$node 唔可以由呢度移走",
+            "dropCancelled": "$~乜都冇放低",
+            "replacedAll": "$~用 $text 取代咗 $#count[$count 個相符項目]",
+            "undone": "$~已還原$added[，$added 返嚟咗|]$removed[，$removed 冇咗|]",
+            "redone": "$~已重做$added[，$added 返嚟咗|]$removed[，$removed 冇咗|]",
+            "movedBefore": "$~將 $node 移到 $sibling 前面",
+            "movedAfter": "$~將 $node 移到 $sibling 後面"
+        },
+        "template": {
+            "unwritten": "$~待定",
+            "unparsable": "$~睇唔明嘅範本：$template",
+            "machineTranslated": "$~呢段係機器翻譯嘅，所以可能睇唔明，或者唔啱。",
+            "locallyRevised": "$~呢段文字喺本地改過，同官方翻譯唔同。"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~收埋聲音可以唱嘅音",
+                "off": "$~顯示聲音可以唱嘅音"
+            },
+            "groups": [
+                "$~元音",
+                "$~近音",
+                "$~l 音",
+                "$~鼻音",
+                "$~嘶嘶聲",
+                "$~顫音",
+                "$~塞音",
+                "$~嘖音"
+            ],
+            "examples": [
+                "$~see",
+                "$~法文 tu",
+                "$~俄文 ты",
+                "$~蘇格蘭英文 boot",
+                "$~日文 fuku",
+                "$~boot",
+                "$~bit",
+                "$~德文 hübsch",
+                "$~book",
+                "$~西班牙文 qué",
+                "$~法文 peu",
+                "$~威爾斯文 tu",
+                "$~瑞典文 full",
+                "$~越南文 tơ",
+                "$~西班牙文 no",
+                "$~about",
+                "$~head",
+                "$~法文 neuf",
+                "$~英式英文 bird",
+                "$~愛爾蘭英文 colour",
+                "$~杯",
+                "$~買咗",
+                "$~貓",
+                "$~德文 bitte",
+                "$~爸爸",
+                "$~瑞典文 öra",
+                "$~手掌",
+                "$~英式英文 lot",
+                "$~牛油",
+                "$~鳥",
+                "$~我",
+                "$~舒適",
+                "$~冇",
+                "$~印地文 वर्ण",
+                "$~西班牙文 señor",
+                "$~唱歌",
+                "$~日文 さん",
+                "$~畀",
+                "$~最大聲",
+                "$~瑞典文 sorl",
+                "$~意大利文 figlio",
+                "$~韓文 달",
+                "$~紅色",
+                "$~泰米爾文 தமிழ்",
+                "$~西班牙文 fuego",
+                "$~係",
+                "$~我哋",
+                "$~法文 huit",
+                "$~印度文 वह",
+                "$~日文 ふ",
+                "$~西班牙文 haber",
+                "$~少數",
+                "$~檢視",
+                "$~薄",
+                "$~呢個",
+                "$~海",
+                "$~動物園",
+                "$~佢",
+                "$~量度",
+                "$~普通話 shān",
+                "$~普通話 rén",
+                "$~普通話 xī",
+                "$~波蘭文 ziemia",
+                "$~德文 ich",
+                "$~西班牙文 ayudar",
+                "$~蘇格蘭文 loch",
+                "$~希臘文 γάλα",
+                "$~德文 Bach",
+                "$~法文 rouge",
+                "$~阿拉伯文 حال",
+                "$~阿拉伯文 عين",
+                "$~威爾斯文 llan",
+                "$~蒙古文 долоо",
+                "$~帽",
+                "$~捷克文 hlava",
+                "$~批",
+                "$~買",
+                "$~領帶",
+                "$~死",
+                "$~印地文 टब",
+                "$~印地文 डर",
+                "$~匈牙利文 tyúk",
+                "$~匈牙利文 gyár",
+                "$~鍵",
+                "$~去",
+                "$~阿拉伯文 قلب",
+                "$~因紐特文 nanuq",
+                "$~嗄嗚",
+                "$~越南文 bà",
+                "$~越南文 đi",
+                "$~信德文 ॼ",
+                "$~信德文 ॻ",
+                "$~馬姆文 qʼa",
+                "$~一個吻",
+                "$~嘖嘖",
+                "$~嘭一聲開酒塞",
+                "$~彈舌嘅聲",
+                "$~駕！駕！",
+                "$~西班牙文 perro",
+                "$~法文 Paris",
+                "$~噗噗聲（吐舌頭嘅聲）",
+                "$~西班牙文 pero",
+                "$~印度文 बड़ा"
+            ],
+            "play": "$~聽 $symbol",
+            "insert": "$~輸入 $symbol"
+        },
+        "emoji": {
+            "noCharacters": "$~造一個自訂字元",
+            "skinTone": "$~膚色",
+            "script": "$~文字系統",
+            "scriptLabel": "$~按文字系統篩選",
+            "presentation": {
+                "label": "$~表情符號顏色",
+                "labels": ["$~彩色", "$~黑白"],
+                "tips": ["$~插入彩色表情符號", "$~插入黑白表情符號"]
+            },
+            "moreLanguages": "$~仲有 $count 個",
+            "pickFilter": "$~揀一個類別或者文字系統",
+            "moreGlyphs": "$~顯示緊 $count 個，搜尋就可以搵到更多",
+            "groups": {
+                "label": "$~組別",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰",
+                    "$~🔍"
+                ],
+                "tips": [
+                    "$~自訂",
+                    "$~笑臉同情緒",
+                    "$~人物同身體",
+                    "$~動物同大自然",
+                    "$~飲食",
+                    "$~活動",
+                    "$~旅遊同地方",
+                    "$~物品",
+                    "$~符號",
+                    "$~旗幟",
+                    "$~小寫",
+                    "$~大寫",
+                    "$~數學",
+                    "$~形狀",
+                    "$~箭咀",
+                    "$~數字",
+                    "$~字母數字",
+                    "$~貨幣",
+                    "$~搜尋結果"
+                ]
+            }
+        }
+    }
+}

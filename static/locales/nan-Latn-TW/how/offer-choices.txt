@@ -1,0 +1,54 @@
+Hián-sī ē-tàng kéng ê sûn-hāng
+
+Ū-sî lí beh tī pīnn-bīn hián-sī tsin-tsē sûn-hāng, ánn-ná kuan-tsiòng kéng tó-tsi̍t-ê, tsiah tuì in kéng ê tsò tsi̍t-kuá tāi-tsì. Beh án-ne tsò, tio̍h ài nn̄g-khuán mih-kiāⁿ:
+
+• Tsi̍t-ê á-sī koh-khah tsē-ê @Phrase tsiah-ê ū tó-tsi̍t-ê ē-tàng kéng, koh ū bô-kāng ê miâ (tsīnn-lē, \Kù('suán-hāng 1' ētàngkíng miâ: 'tsi̍t')\)
+• Tsi̍t-ê @Choice, ē piàn-tshéng tsōe-kīn kéng ê hit-ê @Phrase miâ.
+
+Tsīnn-lē, tsia lán hián-sī saⁿ-ê sûn-hāng, múi-ê lóng ū bô-kāng ê miâ.
+
+\
+option: Suánti̍k()
+
+Kûntsoo(
+	Tha̍h() [
+		Kù('suán-hāng 1' ētàngkíng miâ: 'tsi̍t')
+		Kù('suán-hāng 2' ētàngkíng miâ: 'nn̄g')
+		Kù('suán-hāng 3' ētàngkíng miâ: 'sann')
+		Kù(option)
+	]
+)
+\
+
+ Múi-pái ū lâng kéng tsi̍t-ê, tsōe-kīn ê @Phrase tō ē hián-sī hőng kéng-tio̍h ê miâ.
+
+Lí ē-sái iōng tsit-ê pān-huat, tuì kéng ê sûn-hāng tsò tsi̍t-kuá tāi-tsì. Tsīnn-lē, lán ē-sái kái téng-bīn ê tsuan-àn, ànn-tshuè kéng ê sûn-hāng hián-sī pì-bi̍t ê emoji:
+
+\
+option: Suánti̍k()
+
+option = '' ?
+	Kûntsoo(
+		Tha̍h() [
+			Kù('suán-hāng 1' ētàngkíng: ⊤ miâ: 'one')
+			Kù('suán-hāng 2' ētàngkíng: ⊤ miâ: 'two')
+			Kù('suán-hāng 3' ētàngkíng: ⊤ miâ: 'three')
+		]
+	)
+	Kù(
+		{
+			'one': '😡'
+			'two': '🏀'
+			'three': '❤'
+		}{option} ?? '?'
+	)
+\
+
+ Tsit ê @Choice khai-sí ê sî sī khang-khang ê @Text, số-í tsuan-àn khai-sí ê sî, lán tsiân khuànn-māi án-ne, jiân-āu hián-sī saⁿ-ê sûn-hāng.
+Tsi̍t-ē kéng-hó, tō ē piàn-tsò tsit saⁿ-ê @Phrase miâ tiong-ê tsi̍t-ê.
+
+Beh ànn-tshuè kéng ê sûn-hāng hián-sī emoji, lán ē-sái iōng @Map kā miâ tsuán-tsò pì-bi̍t ê emoji.
+Tsāi lán uì @Map thàu tit-tio̍h tsi̍t-ê ta̍t ê sî, nā-sī tshuē-bô sio-tùi ê, kiat-kó ē-sī \ø\, số-í lán iōng \??\ lâi seh-tīng, nā-sī sûn-hāng bô tī map nāi-té, tō iōng \'?'\ 。 
+Tsit-ê tsōng-hóng lāi-té, sī bē-tàng huat-sing ê, m̄-koh lán bô hiah-nī thiaⁿ-bîng, bē-hiáu-tit tsit-tiám!
+
+move-phrase

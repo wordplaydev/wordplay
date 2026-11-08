@@ -1,0 +1,57 @@
+Tsò tsi̍t-ê bûn-jī ba̍k-hiám iû-hì
+
+Ū tsi̍t-lia̍p tshiànn-tshiūnn hó-tshit ê iû-hì sī / ka-kī kéng ba̍k-hiám lōo / iû-hì, ú-á ài tsiūnn-bīn tsiok-tsē kéng-te̍h, tshuē-tsióh tsi̍t-tiâu kàu hó kiat-kio̍k ê lōo. 
+
+Beh tsò tsit-lia̍p iû-hì, lí ē-sái ēng @Structure、 @Key、 @Reaction、kap @List tsò-hué, tsò tsi̍t-tsoo koat-tīng, múi tsi̍t-ê koat-tīng lóng ū kúi-ê suán-hāng, tshiūnn án-ne:
+
+\
+¶ This makes a data structure that stores a choice and which decision it will navigate to ¶
+•Option(text•'' decision•#)
+
+¶ This data structure stores a list of choices ¶
+•Decision(options: [Option])
+
+¶ This is the game content! Change the text in the Options to create atmosphere and tough choices.
+Add options to create a web of tricky choices. ¶
+decisions: [
+		Decision([Option('start' 2)])
+		Decision([
+				Option('left' 3)
+				Option('straight' 4)
+				Option('right' 4)
+			])
+		Decision([Option('win' 1)])
+		Decision([Option('lose' 1)])
+	]
+
+¶ Convert the key to a number, if it is one ¶
+key: Kiān()
+choice: key → #
+
+¶ This value represents the current decision in the list above.
+When the key is pressed, we do one of the following.
+If there's only one choice for this decision, then we change the current decision
+to the option's target decision no matter what key was pressed.
+If the key pressed is between 1 and the number of options, then we go to that option's target decision.
+Otherwise, we just keep the current decision the same. ¶
+current•#: 1 …
+	∆ key …
+		decisions[current].options.tn̂gtō() = 1 ?
+			decisions[current].options[1].decision
+			((1‥decisions[current].options.tn̂gtō()) ∋ choice) ?
+				decisions[current].options[choice].decision
+				current
+
+¶ This just shows the options as a stack of phrases. You can change this to add instructions, animations, and other spiciness! ¶
+Bútâi([
+		Kûntsoo(
+			Tha̍h()
+			decisions[current].options.huani̍k(ƒ(option) Kù(option.text))
+		)
+	])
+
+\
+
+ Tsit-ê khuán-sik khuànn-khí-lâi gâu-khiat, m̄-koh in tsiòng-sī teh khòaⁿ bo̍k-chiân ê suán-hāng, múi pái kiān piàn-tāng, tō khì suán-tio̍h ê hāng ê koat-tīng. Siat-kè iû-hì, tō sī kái téng-bīn ê lāi-iông!
+
+offer-choices

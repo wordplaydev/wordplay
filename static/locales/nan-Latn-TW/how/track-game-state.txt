@@ -1,0 +1,39 @@
+Kì-lo̍k iû-hì ê tsōng-thāi
+
+Ta̍k-ê iû-hì tsiok-tsē lóng ài kì-lo̍k tsiok-tsē tāi-tsì: hun-sòo, ũ-giân ê uī-tì, kap kî-thaʼ ê sè-tsiat lóng tsin tiōng-iàu.
+Múi-pái ū sin ê su-ji̍p, tsōng-thāi tō ē piàn, liân-tsiūnn lán ài tshut-hiān sin ê su-tshut lâi hôe-ìng.
+
+Siánn-mih iû-hì ê it-poaⁿ kè-sik lóng tsò saⁿ-hāng tāi-tsì:
+
+• Tīng-gī tsi̍t-ê iû-hì tsōng-thāi ê tsu-liāu kiat-kò, lâi khǹg kui-ê iû-hì tsōng-thāi
+• Tīng-gī tsi̍t-ê hôe-ìng, múi-pái ū sin ê su-ji̍p, tō iōng tsíng-á ê iû-hì tsōng-thāi tsò tsi̍t-ê sin ê iû-hì tsōng-thāi
+• Tsò tsi̍t-ê @Stage kap @Group kap @Phrase lâi khòaⁿ iû-hì tsōng-thāi
+
+Pí-phong kóng, siūnn-khòaⁿ-māi tsi̍t-ê kán-tan ê iû-hì: tī bûn-jī khuh lāi-té phah bi-bi̍t ê tuann-gí, múi-pái tshāi tióh tsi̍t-ê bi-bi̍t ê tuann-gí tō tit tsi̍t-hun:
+
+\
+•Game(secrets•[''] points•#)
+
+state: Game(['cat' 'dog'] 0) … state.secrets.ū(Khaikáng()) … state.points: state.points + 1
+
+Bútâi(
+    state.points = state.secrets.tn̂gtō() ? 
+        [ Kù("you win!")]
+        [ Kûntsoo(Tha̍h() [ Kù("guess my secret words") Kù(`\state.secrets.length() - state.points\ more secrets`)])]
+)
+\
+
+ Lán lâi hun-hōo khòaⁿ-māi.
+
+• Tē-it-kâng, \•Game(secrets•[''] tiám2•#)\ kóng, / Tsò tsi̍t-ê tsu-liāu kiat-kò, miâ kiò \Game\ , lāi-té khǹg tsi̍t-tīng bi-bi̍t kap hun-sòo /. Hit-ê \['']\ ê ì-sù sī / sī tsi̍t-tīng ū gōng-hōng-á tsē ê tuann-gí /. Nā-sī lí beh iōng tsi̍t-tīng tīng-tīng ê tn̂g-tō, ē-sái ūi múi-ê uī-tì kóng tsi̍t-ê luī-hîng: \[# '']\ sī tsi̍t-tīng ū nn̄g-hāng ê tāi-tsì, sing tsi̍t-ê sò-jī, āu-pinn tsi̍t-ê tuann-gí.
+• Tē-jī-kâng kóng / Iû-hì tsōng-thāi tùi tsi̍t-tīng bi-bi̍t kap 0 hun khai-sí. Múi-pái \Khaikáng\ piàn, nā-sī phah ji̍p-khì ê tuann-gí tī bi-bi̍t ê tīng-tīng lāi-té, tō tsò tsi̍t-ê sin ê iû-hì tsōng-thāi, hun-sòo ke tsi̍t-hun /.
+• Múi-pái tsheng-sik tsuân-sìng-sik koh sǹg tsi̍t-pái (tng \Khaikáng\ piàn), tō tshut-hiān tsi̍t-ê bú-tâi. Nā-sī hun-sòo ê sò-liōng kap bi-bi̍t ê sò-liōng sio-tông, tō tshut-hiān sing-lī ê bú-tâi. Nā-bô, tō tshut-hiān tsi̍t-ê thê-sī kap kah-bē-tsāi ê bi-bi̍t sò-liōng.
+
+Tsit-ê lē-tsú ū kuá būn-tê:
+
+• Nā-sī in tshāi tsi̍t-ê bi-bi̍t tuann-gí tsiok-tsē pái, in tō ē tit khah-tsē hun-sòo! Lán ê iû-hì tsōng-thāi ē-sái ia̍h ài kì-tit tshāi kuè siánn-mih, án-ni múi-ê tuann-gí tsí ē sǹg nn̄g-pái.
+• Nā-sī tshiánn-lâng su-ji̍p kuí-ê tshù, wah ài kè-sǹg bô?
+
+Khah ku-tsa̍p ê iû-hì tsōng-thāi kap iû-hì ê keng-sin, ē pang-tsō lán tshú-lí khuànn-tio̍h ê tsia-ê tsîng-hîng.
+
+track-points

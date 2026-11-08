@@ -1059,6 +1059,9 @@
         "eff192c2e6b21": "$~Giờ bạn có thể gõ một màu vào bộ chọn màu, bằng tên của màu hoặc bằng bất kỳ mã nào mà một trang web sẽ dùng. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
         "edd342aefe00f": "$~Chúng tôi đã thêm một bản dịch máy cho ngôn ngữ vùng tiếng Do Thái (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
         "ee9e6be8c1dfa": "$~*Người xem và người bình luận*. Giờ bạn có thể cho ai đó xem dự án của bạn, hoặc xem và trò chuyện về dự án, mà không cho họ chỉnh sửa. Một dự án trong phòng trưng bày cũng có thể chỉ hiện cho những người phụ trách của nó (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
-        "eba572ebe4c3f": "$~Các phòng trưng bày giờ có một không gian làm cách nào để, nơi người phụ trách và người sáng tạo có thể chia sẻ với nhau những điều họ đã tìm ra (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
+        "eba572ebe4c3f": "$~Các phòng trưng bày giờ có một không gian làm cách nào để, nơi người phụ trách và người sáng tạo có thể chia sẻ với nhau những điều họ đã tìm ra (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
+        "e559bcfa865df": "$~Chúng tôi đã thêm tiếng Nga, tiếng Ukraina, tiếng Malayalam, tiếng Quảng Đông và tiếng Mân Nam của Đài Loan (viết bằng chữ Tâi-lô), để nhiều bạn hơn có thể dùng Wordplay bằng ngôn ngữ mà các bạn nói ở nhà!",
+        "e53524c65f4f2": "$~Trên màn hình nhỏ, sân khấu và mã số không còn đổi chỗ cho nhau khi bạn chuyển giữa soạn thảo và chạy. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
+        "ee481670339a2": "$~Các dự án mượn một bộ dụng cụ, như ví dụ Conductor với \\@wordplay/instruments\\, không còn dừng lại vì lỗi ngay khi máy quay thấy một bàn tay hoặc khi một đầu vào khác thay đổi."
     }
 }

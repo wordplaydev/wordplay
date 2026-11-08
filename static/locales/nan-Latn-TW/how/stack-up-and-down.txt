@@ -1,0 +1,28 @@
+Kā jī-hu tshōng tuì téng kàu ē
+
+Nā-sī @Row sī ànn kīn-kīn pâi, án-ne @Stack tō sī tuì téng kàu ē pâi.
+@Stack kā múi-ê jī-hu tsāi tsîng-tsi̍t-ê ê ē-kha, tshiūnn tsi̍t tsō tháp.
+
+\
+Kûntsoo(Tha̍h() [
+    Kù('tsi̍t')
+    Kù('nn̄g')
+    Kù('sann')
+])
+\
+
+ Kah @Row kâng-khuán, @Stack mā ē-tsiah tsò tuì-tsé kap tsu-pinn ê khang-phiàn.
+Lí tshì-khuànn kā sing-khuá lóng tuì-tsé tī tsó-pinn:
+
+\
+Kûntsoo(Tha̍h('<' 0.25m) [
+    Kù('🐣 sè')
+    Kù('🐥 tiong')
+    Kù('🐔 tuā')
+])
+\
+
+ Tsit ê \'<'\ ê ì-sù sī / kā sing-khuá lóng tuì-tsé tī tsó-pinn ê pinn-á /.
+Lí mā ē-tsiah tshì \'|'\ lâi tuì tiong-ng, á-sī \'>'\ lâi tuì iū-pinn ê pinn-á.
+
+arrange-in-a-row, make-a-grid

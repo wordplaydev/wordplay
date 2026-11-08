@@ -1,0 +1,51 @@
+Beh kā lí ê bûn-jī siūnn-hāu sik-tsiòh
+
+Ū-sî lán kah-ì beh hōo bûn-jī khah kheh-ták. Lán ē-sái ēng / tshuā-uat-tshiù /、 * ta̍uh-tuā *，iû-koh koh-khah-pah ê hong-sik！
+
+Pí-lūn kóng, beh kā bûn-jī tshuā-uat-tshiù, lí ē-sái ēng tsing-siòng-sòo-suann // pau-khí-lâi, tshiūnn //Hello//. Pí-lūn:
+
+
+\
+Kûntsoo(Tha̍h() [
+        Kù(`Lí beh tī lí ê bûn-jī lāi-té iōng /tshè-thé/ bô?`)
+        Kù(`Beh kiông-tiāu tsit-ê ù-tsú, ia̍h-sī beh hō lí ê ōe ke tsit-tiám /tuè-tsiàu/, tsiūnn tse tsin hó-iōng.`)
+        Kù(`Tī tsit-ê tsu ia̍h-sī tsit-kù ōe ê tsîng-āu, tèng tsi̍t-ê siōng-suànn (//), /án-ne/.`)
+    ]
+)
+\
+
+
+@Phrase mā ē-sái kā bûn-jī ta̍uh-tuā. Lí ē-sái ēng ping-tsînn **, pau-khí-lâi, tshiūnn **Hello**. Pí-lūn:
+
+\
+Kûntsoo(Tha̍h() [
+        Kù(`Lí beh hō lí ê bûn-jī *tsió-khuá-tshù* bô?`)
+        Kù(`Lí beh *tuā-siann kiò* ê sî-tsūn, tse tsin sik-hap.`)
+        Kù(`Tī lí ê ōe ê tsîng-āu, tèng tsi̍t-ê sing-hō (**), tshiūnn *uī!*, tō ē khuànn-tio̍h hāi-kuè.`)
+      ]
+)
+\
+
+@Phrase mā ē-sái hōo bûn-jī koh-khah ta̍uh-tuā. Án-ne, ēng ^^ pau-khí-lâi, tshiūnn ^^Hello^^. Pí-lūn:
+
+\
+Kûntsoo(Tha̍h() [
+        Kù(`Beh hō khuànn-tio̍h ê kám-kak kàu siōng-tuā, ^tsin-tsiàⁿ-hó^ ê tsò-huat tō-sī iōng tsit-ê.`)
+        Kù(`Tse kâng-khuán sī tshù-thé, ták-ê khah ^huann-hí^, tsiāu-tsiāu tī tsîng-āu tèng tsi̍t-ê khiā-hî (^^)`)
+        Kù(`Ē-sái iōng tī ^piau-tê^ ia̍h-sī ^tuā ì-tsuh^.`)
+    ]
+)
+\
+
+ Siūnn-bué, @Phrase ē-sái kā bûn-jī ê ē-kha hua-suànn. Án-ne, ēng __ pau-khí-lâi, tshiūnn __Hello__. Pí-lūn:
+
+\
+Kûntsoo(Tha̍h() [
+        Kù(`Beh hō bûn-jī kiān-tsí, tsiūnn-sī iáu-sī ē tshut-khuè, _ē-té-sòaⁿ_ tsin hó-iōng.`)
+        Kù(`Tī lí ê bûn-jī ê tsîng-āu, tèng tsi̍t-ê ē-té-sòaⁿ (__), _án-ne_, tō ē ū tshing-tshó ê kiông-tiāu.`)
+        Kù(`Beh kóng lí ê ì-sù, m̄-koh m̄-bián siuⁿ-kuè, _tsiok-tsiàⁿ_ sik-hap, m̄-bián _siuⁿ-kuè-tsio̍h_.`)
+    ]
+)
+\
+
+custom-characters

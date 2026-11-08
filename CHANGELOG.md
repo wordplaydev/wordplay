@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.41.0 - 2026-11-07
+
+### Added
+
+- 🌐 We added Russian, Ukrainian, Malayalam, Cantonese, and Taiwanese Hokkien (written in Tâi-lô), so more of you can use Wordplay in the language you speak at home!
+
 ## 0.40.1 - 2026-10-31
 
 ### Fixed

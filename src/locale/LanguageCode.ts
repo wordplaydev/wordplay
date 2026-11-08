@@ -226,6 +226,7 @@ export const Translatable: LanguageCode[] = [
     'crh', // Crimean Tatar — UA, RU, TR, UZ, RO, BG
     'mhr', // Eastern Mari — RU
     'bua', // Buryat — RU, MN, CN
+    'yue', // Cantonese — HK, MO, CN
 ];
 
 /** Wordplay codes that Google supports but under a different code. We send the
@@ -2008,6 +2009,17 @@ export const Languages = {
         regions: ['BD', 'MM', 'IN'],
         speakers: 0.08,
     },
+    nan: {
+        name: '臺語',
+        en: 'Taiwanese Hokkien',
+        scripts: ['Hant', 'Latn'],
+        nameByScript: { Latn: 'Tâi-gí' },
+        regions: ['TW', 'CN', 'MY', 'SG', 'PH', 'ID'],
+        speakers: 49,
+        // CLDR has no Hokkien at all, so date and time structure comes from
+        // English and every name is translated (see scriptVariantNames.ts).
+        cldr: 'en',
+    },
     new: {
         name: 'नेपाल भाषा',
         en: 'Newari',
@@ -2168,6 +2180,15 @@ export const Languages = {
         scripts: ['Latn'],
         regions: ['PH'],
         speakers: 3.4,
+    },
+    yue: {
+        name: '廣東話',
+        en: 'Cantonese',
+        quote: '「',
+        secondary: '『',
+        scripts: ['Hant', 'Hans'],
+        regions: ['HK', 'MO', 'CN', 'MY', 'US', 'CA', 'GB', 'AU'],
+        speakers: 86,
     },
     zza: {
         name: 'Zazaki',

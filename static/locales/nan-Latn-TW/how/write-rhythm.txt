@@ -1,0 +1,32 @@
+Siá lia̍t-tsik ê tsiat-phài, m̄-nā-sī im-hû
+
+Tsit tsâng kan-tan ê sòo-jī tsu-liāu ē hōo múi ê im-hû lóng sio-kâng tn̂g, thiann khí-lai kah-ná siū-khuànn ê iû-hì. Tsiok-tsiânn ê tsiat-phài lâi-tsū nn̄g-ê tē-hng: @Track ê keh-á, kap lí siá tī tsi̍t-ê sòo-jī téng-tsiah ê im-hû tn̂g-té.
+
+@Track/beat tīng-hó keh-á. Múi-ê kan-tan ê hāng-bo̍k lóng hiah-nī tn̂g — \ø\ mā-sī án-ni, tse tō-sī tshóng-bîn tshiân-tshiân kā im-hû lia̍t-tn̂g ê siōng khuài hong-hhuat:
+
+\
+Imga̍k([
+	Imkuí([1 ø ø ø 5 ø 8 ø] ga̍kkhì: Ga̍kkhì.kongkhîm)
+	Imkuí([1 1 1 1 1 1 1 1] ga̍kkhì: Ga̍kkhì.kóo phik: 0.5beats)
+])
+\
+
+ Pian-ò ê tē-it-ê im-hû ê āu-piah ê sann-ê hioh-khuè, sóo-í i tsia̍h-tsiok sì phài. Kó͘ ê keh-á sī puànn phài, sóo-í i ê peh-hāng tsiok-kuè sì phài, ah pian-ò ê peh-hāng tō-sī peh phài — kó͘ ē huê-lâi nn̄g-pái, pian-ò chiah tsi̍t-pái. Múi-tsâng im-kui tō-tuè-tio̍h ka-tī ê tn̂g-té tī-hia huê-khuan, án-ni tsi̍t-ê sòo-jī tō-ē tsò-tshut to-tsông tsiat-phài.
+
+Teh-ta̍t hioh-khuè ē-tshiām, sóo-í lí thang kā tn̂g-té siá tī sòo-jī ê téng-bīn. Kan-tan ê sòo-jī iáu-sī kóng "tsi̍t-ê keh-á"; ū im-hû ta̍t-tsiok ê, tō-ē ka-tī kóng ka-tī ê tn̂g-té:
+
+\
+Imga̍k(
+	Imkuí(
+		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
+		ga̍kkhì: Ga̍kkhì.lápah
+		phik: 1𝅘𝅥
+	)
+)
+\
+
+ Tse sī nn̄g-ê siáu-tsiat, múi-ê siáu-tsiat sì phài. \𝅝\ sī tsi̍t-ê tsuân im-hû, \𝅗𝅥\ sī puànn-ê, \𝅘𝅥\ sī sì-hun-tsi-it, \𝅘𝅥𝅮\ sī peh-hun-tsi-it, \𝅘𝅥𝅯\ sī tsa̍p-lio̍k-hun-tsi-it, mā ū tsi̍t-tiám \𝅭\ ē hōo in múi-ê koh tn̂g puànn-pōe — sóo-í \𝅘𝅥𝅮𝅭\ tō-sī ū tiám ê peh-hun-im-hû, kā tsit-ê tsìn-hîng-khik thuè-khì-tsiân. Pian-tsi̍p-khì ē-bīn ê hû-hō-lia̍t, tī lí ìn sòo-jī liáu-āu, ē thê-kiong in.
+
+Tsit-tsióng im-hû bē-tàng tsò ê, tō-sī hioh-khuè: \ø\ m̄-sī sòo-jī, sóo-í bô-uī-tī thang siá tn̂g-té. Kái-sit kā hioh-khuè tsiòng nn̄g-pōe, ah-nā tshiúnn @Note, tse mā ē ta̍t-tio̍h bô im-hû tn̂g-té thang siá ê tn̂g-té — \Imphù(1 2beats ÷ 3)\ sī sann-lién-im, sann-ê im-hû tī nn̄g-ê ê khong-kan.
+
+layer-an-arrangement, draw-the-music

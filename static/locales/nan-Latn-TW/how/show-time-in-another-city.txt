@@ -1,0 +1,17 @@
+Kā kî-thaʼn tsit-ê tsuí-tshī ê sî-kan hōo lâng khuànn
+
+@Now ē ta̍k-tsiah kā hiān-sî ê ji̍t-kî kap sî-kan tshut-lâi, tsò @Moment, koh kā Moment tsuán-tsò bûn-jī, tō ē ǹg-tio̍h lí ê tē-khu ê pán-sik. án-ne, tsit-ê sî-tsiong tō tsí-ū tsi̍t-hâng code niā-niā:
+
+\Kù(Tsitmá() → '')\
+
+ Siūnn beh khuànn pa̍t-uī ê sî-kan hioh? Hōo @Now tsi̍t-ê sî-khu. Sî-khu ê miâ sī iōng tsi̍t-ê tē-khu kap tsi̍t-ê tsuí-tshī ê miâ, pí-lūn \'America/New_York'\、 \'Europe/Paris'\, mài-sī \'Asia/Tokyo'\. Lí mā ē tī bûn-jī luī-hîng ê āu-piah ke tsi̍t-ê gí-giân, pí-lūn \''/ja\ sī Ji̍t-pún-ōe, ē iōng hit-ê tsuí-tshī ê gí-giân lâi hián-sī sî-tsiong:
+
+\Kù(Tsitmá(1s 'Asia/Tokyo') → ''/ja)\
+
+ M̄ tsai sî-khu ê miâ hioh? Tō siá tsi̍t-ê lí bat ê tsuí-tshī — @wordplay ē thê-sìn lí, kóng hit m̄-sī sî-khu, koh kā lí kiàn-gī tsòng-kīn ê hit-ê, lí tsi̍t-ē tshíh tō ē-sái kái-hó.
+
+Lí mā ē-sái kéng tsi̍t-ê lia̍t-lik, pí-lūn Ji̍t-pún ê lia̍t-lik, koh iōng tsū-thé lâi pâi-pán sî-tsiong:
+
+\Kù(Tsitmá(1s 'Asia/Tokyo' 'japanese') → '' jīthé: 'Doto')\
+
+count-with-time

@@ -1,0 +1,31 @@
+Kā tsuan-àn tshiah-hun tsò guân-sí-tóng
+
+Tsi̍t-ê tsuan-àn ē-sái khǹg tsió-kuá @Source. Kā tn̂g-tn̂g ê tsu-liāu tsu̍t-lia̍t khǹg tī tong-àn
+ka-kī ê hia, tsū-iū lí ê tsú thîng-sik tsiah ē-tàng tsió-tsió-á, tsi̍t-ba̍k-liáu-jiân.
+
+Ká-sú lí siūnn-beh ū tsi̍t-ê sik-tsai ê lia̍t-piáu thang kéng. Tsò tē-jī-ê @Source, kā i khuà-miâ 
+/ sik-thái /, kā lia̍t-piáu khǹg tī hia. Miâ thâu-tsiân ê \↑\ ê ì-sù sī / kā tse hun-hióng
+hōo tsuan-àn lāi-té ê lēng-guā ê /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ Tsit ê / en / tuà tī miâ ê āu-piah, kóng-bîng tsit-ê miâ sī ēng tó-tsi̍t-ê gí-giân siá ê, hōo
+ēng pa̍t-ê gí-giân khuànn lí ê tsuan-àn ê lâng, tsai-iánn i khuànn ē-hiáu bē.
+
+Taⁿ tńg-khì lí ê tsú @Source , ēng @Borrow kā lia̍t-piáu giáp lâi. Siá 
+\↓\ liân-tsiòng lēng-guā tsit-ê guân-sí-tóng ê miâ:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ Tī tsit-ê @Source、 / sik-thái / lāi-té, taⁿ ê ì-sù sī lí hun-hióng ê hit-ê lia̍t-piáu. Kìnn-nuā lí ēng
+tsò-ē piau-kì ê, lóng ē-sái án-ne tsioh: lia̍t-piáu, sò-jī, hâm-sǹg, ia̍h-sī kuat-kò. \↑\ ê tsò-huat, lóng ē-sái án-ne tsioh: lia̍t-piáu, sò-jī, hâm-sǹg, ia̍h-sī kiat-kò.
+
+Beh tsò sin ê @Source, ēng tī tsuan-àn kui-ê té-pōo ê / ka-ji̍p guân-sí-tóng / liú-á.
+
+pick-from-a-list, your-own-template

@@ -1,0 +1,24 @@
+Tuì tsi̍t-ê tsua̍h-liāu lāi-té gûn-ki̍t tshú-khuán
+
+Lí tshiūnn-beh ròo tsuan-àn mî-mî-á ê kiat-kó lóng put-tông--bô? Tsò tsi̍t-ê tsá-tsok ê tsua̍h-liāu, jiân-āu ēng @Random.
+
+@Random ē-sái hōo lán tsi̍t-ê lōo-thé ê sòo-jī, iáu-koh ē-sái ēng sòo-jī lâi tshē tsua̍h-liāu \[n]\.
+Kā in kap-tsò-hué, tō ē-sái gûn-ki̍t tshú-khuán tsi̍t-ê emoji:
+
+\
+emoji: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Kù(emoji.tshìntshái())
+\
+
+ Lí mā ē-sái ēng @Random kap nn̄g-ê sòo-jī, ē tuì in tsūn-tiong tshú-khuán tsi̍t-ê tsíng-sòo.
+Pí-lē, beh tshú-khuán tsi̍t-ê / sin / ê emoji, múi tsi̍t-miā lóng kā tsit-ê kap @Time kap tsi̍t-ê @Reaction:
+
+\
+emoji: ['🌈' '🌟' '🎈' '🦄' '🍩']
+kéng: emoji[1] … ∆ Sîkan(1000ms) … emoji[Suîki(1 emoji.tn̂gtō())]
+Kù(kéng)
+\
+
+ Múi tsi̍t-pái @Time, tsit-ê @Reaction lóng ē khioh tsi̍t-ê sin ê kah-kî.
+
+shake-phrase, count-with-time

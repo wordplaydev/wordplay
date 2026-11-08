@@ -1,0 +1,33 @@
+Hō tsit-ê jī-hu̍t lo̍h-lòh-lâi koh thiāu
+
+Nā-sī lí kah-ì hō jī-hu̍t lo̍h-lòh-lâi, tuì tē-pîng thiāu khí-lâi, iā-sī tsiâu-tsiânn ê mi̍h-kiānn hō lâng thuh--khì, tio̍h án-tsuánn?
+Che tō-sī @Motion kap @Matter ê iōng-tô — in tsò-hué lâi kā @Phrase.
+
+@Motion ê bu̍t-lí ting-tsuē khuànn-tsiânn. In khòng-tsè / tī tó-uī / ê jī-hu̍t, tuè sî-kan piàn. Guán kā tsit-ê iōng lâi tsò \place\ ê @Phrase, tuì ko-ko ê tē-hng khai-sí, hō i ē-tàng lo̍h-lòh-lâi.
+Lán mā-ài tshun-tsāi-sî ū mi̍h-kiānn hō i lo̍h-tī-tsiūnn, kiânn bô, lán ê jī-hu̍t ē it-ti̍t lo̍h bô thêng! Tsit-ê @Shape ê @Rectangle tshiânn khuah, tsò tē-pîng tsiok sik-ha̍p:
+
+\
+Bútâi([
+    Kù('🍎' uītì: Tíntāng(Uītì(0m 5m)) bu̍ttsit: Bu̍ttsit())
+    Hîngtsōng(Tn̂ghonghîng(-10m 0m 10m -5m))
+])
+\
+
+ Phōng-kó tuì gōo-bé koh-ê ko-tōo khai-sí, tuè tē-sim-li̍k lo̍h-lòh-lâi.
+I tuà-tiôo tē-pîng ê sî, ē thiāu khí-lâi tsit-tsiah-á, in-uī @Phrase ū i-ê bîng-bîng ê @Matter , ē khòng-tsè i ê tîng kap thiāu-lik.
+
+Nā beh kái-piàn / thiāu-lik / iā-sī / tîng-liōng / ê jī-hu̍t, tio̍h hō i lí ka-tī ê @Matter.
+@Matter tsiap-siū tsit-ê tîng-liōng, tsit-ê thiāu-lik, kap tsit-ê muâ-tshat:
+
+\
+Bútâi([
+    Kù('⚽' uītì: Tíntāng(Uītì(-2m 5m)) bu̍ttsit: Bu̍ttsit(1kg 0.9 0.2))
+    Kù('🪨' uītì: Tíntāng(Uītì(2m 5m)) bu̍ttsit: Bu̍ttsit(5kg 0.1 0.8))
+    Hîngtsōng(Tn̂ghonghîng(-10m 0m 10m -5m))
+])
+\
+
+ Kiû kuân-kuân koh ū thiāu-lik, in-ūi án-ne ē thiāu tńg-khì.
+Tsit-ê tshân-tsio̍h tîng koh bô thiāu-lik, in-ūi án-ne tsí-ē khok-tsit-sia̍p lo̍h-tī.
+
+follow-the-pointer, move-phrase

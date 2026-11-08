@@ -1,0 +1,67 @@
+Tsò tsi̍t-tsūn ē-sái hù-tōng ê tióng-kéng
+
+Ū-sî lán bê-ài kóng ê kó͘-sū, ài thèng khuànn ê lâng uân-sing tsi̍t-ê tōng-tsok, tsiah tsiū kàu ē-tsi̍t-ê lōo-iông.
+
+Beh án-ne tsò, lán ē-sái iōng @Scene, m̄-koh ài tī lán beh hō lâng khuànn ê lōo-iông tiong-kan hē @Boolean ê ta̍t. Pí-lūn kóng, tsia ū tsi̍t-ê, ǹg-tsiah tshi̍h tsi̍t-ē tō ē tsìn kàu ē-tsi̍t-ê lōo-iông, iōng @Button:
+
+\
+Tiûnnkíng([
+		Kù('Tshi̍h guá')
+		Button()
+		Kù('Koh tshi̍h guá chit-kái' sîtn̂g: 1s)
+		Button()
+		Kù('Bô lah, tsin-tsiàn tshi̍h guá, ēng lí kiâm-pān-ê la̍t tshi̍h!!' sîtn̂g: 1s)
+		Button()
+		Kù('Lí ū tshi̍h-kuè guá--bô?' sîtn̂g: 1s)
+	])
+\
+
+ Tsit ê @Scene khai-sí sak-tshut tē-it-ê @Phrase, jiân-āu tán @Button piàn-sîng tsiann, tsiann ê sî-tsūn tō tsìn kàu ē-tsi̍t-ê @Phrase.
+
+Lí ū-ê khuànn-ài ê mih-kiānn lóng ē-sái iōng lâi tsìn-kiânn, nā-sī tsiann ia̍h-sī m̄-tsiann tō hó. 
+Pí-lūn kóng, lán ē-sái iōng lán ê siann-im! 
+Nā lán huah kàu kàu-tsió-tuā-siann, tióng-kéng tō ē tsìn-kiânn:
+
+\
+Tiûnnkíng([
+		Kù('Ū lâng tī-hia--bô?')
+		Imliōng() > .5
+		Kù('Guá thiann-bô lí kóng--ê, koh kóng chit-piàn?' sîtn̂g: 1s)
+		Imliōng() > .7
+		Kù('Khiáng-siann-tsit-tiám lah...' sîtn̂g: 1s)
+		Imliōng() > .9
+		Kù('Ah, lí-hó!' sîtn̂g: 1s)
+	])
+\
+
+ Tsa̍p-ê @Phrase lóng tio̍h tán sio-kâng ê tāi-tsì ê sî, @Scene/until tsí-ài kóng tsi̍t-pái, m̄-bián tī múi-ê tiong-kan lóng siá. Tse ê kiat-kó kap téng-bin tē-it-ê pí-lūn sio-kâng:
+
+\
+Tiûnnkíng([
+		Kù('Tshi̍h guá')
+		Kù('Koh tshi̍h guá chit-kái' sîtn̂g: 1s)
+		Kù('Bô lah, tsin-tsiàn tshi̍h guá, ēng lí kiâm-pān-ê la̍t tshi̍h!!' sîtn̂g: 1s)
+		Kù('Lí ū tshi̍h-kuè guá--bô?' sîtn̂g: 1s)
+	] ti̍tkàu: Button())
+\
+
+ Tī tsit-ê lia̍h-pió lāi-té siá @Boolean , tng múi-ê tán ê tāi-tsì / bô-kâng /, tō-sī huah ê pí-lūn, nā lóng sio-kâng tō iōng @Scene/until .
+Lí ē-sái nn̄g-hāng lóng iōng: lia̍h-pió lāi-té ê @Boolean ka-tī tō-sī tsi̍t-ê tán, koh-khah ke @Scene/until iàu-kiû ê hit-ê.
+
+Chù-ì: @Scene/until tán / liáu-āu / kok-ê @Phrase í-king ū tsit-ê @Phrase/duration, m̄-sī thè-tāi i.
+
+Nā-sī lí bô-ài @Scene ka-kī sió-sió-á tín-tāng, tsí-ū kā i sàng khì ê tē-hng tsiah khì, tio̍h iōng @Scene/pause kap @Scene/step:
+
+\
+kiān2: Kiān()
+Tiûnnkíng([
+		Kù('tsi̍t')
+		Kù('nn̄g')
+		Kù('sann')
+	] thîngtùn pōo: ∆ kiān2 ? ((kiān2 = 'Hiòng-tsò') ? -1 (kiān2 = 'Hiòng-iū') ? 1 ø) ø)
+\
+
+@Scene/step tín-tāng tsit-ê sòo-bo̍k ê @Phrase — \1\ ng-tsîng, \-1\ ng-āu — kàu-bé ê sî-tsūn in ē tsū-tōng khùn-khì.
+@Scene/go sī kâng-khuán ê ì-sù, m̄-koh sī kóng tsit-ê uī-tì, bô-sī kóng kiu-lī: lí beh ê @Phrase ê hō-bé, ùi 1 khai-sí sǹg, a̍h-sī lí kā i tsāi ê @Phrase/name .
+
+animated-scene, repeat-a-round, move-between-content

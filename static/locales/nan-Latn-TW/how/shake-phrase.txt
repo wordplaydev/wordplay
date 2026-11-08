@@ -1,0 +1,29 @@
+Kiò tsı̍t-ê jī-hu̍t tín-tāng
+
+Ū-sî-tsūn, ráng jī-hu̍t khòaʼn-khí-lâi teh tín-tāng, ē-tàng ûn-tāng ū-iōng.
+Ū kuí-nā-khuán pān-huat ē-tàng tsò.
+
+Lán ē-tàng iōng @Phrase/offset kap @Random kap @Time lâi tsò.
+
+\
+offset: 0m … ∆ Sîkan() … Suîki(-0.1m 0.1m)
+Kù('hāi' phianî: Uītì(offset 0m))
+\
+
+ Án-ni ē tsò-tshut tsı̍t-ê ta̍t, miâ kiò \offset\ , múi-pái sî-tsung tshuā tsa̍p-tshuā, i tō ē piàn-sêng sin ê lām-sò ta̍t.
+Jiân-āu, i iōng hit-ê suá-uī lâi hōo @Phrase suá-uī hiah-nī-kú ê khuì.
+
+Nā-sī beh khah tsing-tsún-leh khòng-tsè tín-tāng, lán ē-tàng iōng @Sequence lâi tsò lām-sò tín-tāng ê tāng-uē, mā ē tsiàu-tsîng tsiông-pok.
+
+\
+Kù('hāi' hiohkhùn: Sūnsū({
+			0%: Tsusè(phianî: Uītì(Suîki(-.2m .2m)))
+			15%: Tsusè(phianî: Uītì(Suîki(-.2m .2m)))
+			60%: Tsusè(phianî: Uītì(Suîki(-.2m .2m)))
+			75%: Tsusè(phianî: Uītì(Suîki(-.2m .2m)))
+		} 0.1s))
+\
+
+ Tsit-ê é-thé tsí sī sûi-sî the-tshut lām-sò ta̍t tsı̍t-pái, jiân-āu piàn-sêng tsiông-pok ê sūn-sū.
+
+move-phrase

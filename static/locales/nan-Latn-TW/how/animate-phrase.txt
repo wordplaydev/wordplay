@@ -1,0 +1,24 @@
+Hō tsit-ê kak-sik tsò-tōng-ōe
+
+Kak-sik ē-sái ū tsit-ê hioh-khùn ê tōng-ōe, tī i bô teh suá-tāng ê sî-tsūn ē tsiōng-hok.
+
+Pí-lē kóng, lán lâi hō tsit-tsiah niau-á thiàu-bú, hō i píng-tńg kap suá-uī:
+
+\
+Kù(
+    '🐈' 
+    hiohkhùn: Sūnsū({
+        0%: Tsusè(suântsuán: 0°)
+        15%: Tsusè(suântsuán: 15°)
+        30%: Tsusè(suântsuán: 0°)
+        45%: Tsusè(phianî: Uītì(-0.25m))
+        60%: Tsusè(phianî: Uītì(0.25m))
+        75%: Tsusè(phianî: Uītì(-0.25m))
+        90%: Tsusè(phianî: Uītì(0m))
+    } 2s)
+)
+\
+
+ Tsit-ê lē-tsí ū iōng tsit-ê @Sequence , ū kuí-nā-khuán bô-kâng ê @Pose.
+
+move-phrase, shake-phrase

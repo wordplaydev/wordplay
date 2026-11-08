@@ -1,0 +1,53 @@
+Hōo thiann-tsiòng ka-tī kéng lâng-khì
+
+Kuān-hē @Music ê tsok-sū lóng ē-sái tī iân-tsàu ê sî-tsūn tsiah koat-tīng, kàu-ūi sī siáng lâi iân-tsàu. Hōo @Track tsi̍h-tsit-ê put-tông ê @Instrument ê sî, khit-tiāu ê uī-tì bô piàn, kan-tan tshiùnn-siann tshiūnn-tsiah piàn.
+
+@Choice ē kā \name\ tse thiann-tsiòng kéng--ê hit-ê ē-sái kéng ê su-tshut tsò-kuè pun-khì, hō lí iōng tsit-ê tiâu-kiānn tō ē-sái pun-tsò lâng-khì:
+
+\
+picked: Suánti̍k()
+
+Bútâi([
+	Kûntsoo(Tsuā() [
+		Kù('🎹' ētàngkíng miâ: 'káng-khîm')
+		Kù('🎻' ētàngkíng miâ: 'violin')
+	])
+	Imga̍k(
+		Imkuí(
+			[1 3 5 6 5 3]
+			ga̍kkhì: (picked = 'violin') ? Ga̍kkhì.sióthêkhîm Ga̍kkhì.kongkhîm
+		)
+	)
+])
+\
+
+ Hit nn̄g-ê ē-sái kéng ê phrase tsiū-sī tse ē-tit sûn-lîng ê guân-in — @Choice tī bú-tâi-téng nā-bô ē-sái kéng ê mi̍h tō tshap-bē-tio̍h, tshap-bē-tio̍h \thangTshíng: ⊤\.
+
+Nn̄g-ê lâng-khì ē-sái tsīng tī tsit-ê tiâu-kiānn. Nā-sī tsi̍t-tsūn ke ê tsiòng-bîn tō bē-tit-sái, lí ē tsit-ê miâ-tuann siá nn̄g-pái: tsi̍t-pái siá hō àn-niú, tsi̍t-pái siá hō siann-im. Ká-tshiūnn kā in kàu-tsi̍p tī lí ka-tī ê kiàn-tsō-tsiok, tsiah tùi hit-ê kiàn-tsō lâi tsò nn̄g-ê:
+
+\
+•Voice(icon•'' sound•Ga̍kkhì)
+
+voices•[Voice]: [
+	Voice('🎹' Ga̍kkhì.kongkhîm)
+	Voice('🎺' Ga̍kkhì.lápah)
+	Voice('🔔' Ga̍kkhì.lînglông)
+]
+
+picked: Suánti̍k()
+found: voices.tshuē(ƒ(voice•Voice) voice.icon = picked)
+current•Voice: found•ø ? voices[1] found
+
+Bútâi([
+	Kûntsoo(Tsuā() [
+		:voices.huani̍k(
+			ƒ(voice•Voice) Kù(voice.icon ētàngkíng miâ: voice.icon)
+		)
+	])
+	Imga̍k(Imkuí([1 3 5 6 5 3] ga̍kkhì: current.sound))
+])
+\
+
+ Ta̍h tsi̍t-ê tē-sì-ê siann-im tō kan-tan tsiū-sī tsi̍t-hâng, àn-niú ē ka-tī tshut-hiān. Chù-ì \found•ø ?\ ê hông-tsi: @List/find tī bô tīng-tio̍h ê sî ē kā \ø\ thiann-tsiòng, tse tō-sī tī lâng-khì iáu-bē kéng ê sî ê tsōng-thāi — ē thiann-tsiòng tsit-ê iá-tio̍h sī tsit-ê tsiânn-tsîng ê \Kónguē\, in-uī \current\ tō-sī án-ne tsú-thè ê.
+
+music-follows-the-action, offer-choices, layer-an-arrangement

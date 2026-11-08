@@ -1,0 +1,33 @@
+Hō tsit ê jī-hu khó-í suá-tāng
+
+Ū-sî-á hō @Phrase ēng khí-poo, tsuán-kiû, ia̍h-sī ji̍p-tsí lâi suá-tāng, ē kài ū-ìng.
+
+Beh án-ne tsò, lán thang kā @Phrase kap @Placement:
+
+\
+Bútâi(
+	[Kù('suá guá' uītì: Pâipàng())]
+	uītì: Uītì(0m 0m -10m)
+)
+\
+
+ Ēng khí-poo ê ìng-bué-kiānn, ia̍h-sī ân tī @Stage ē kái-piàn @Placement, hō @Phrase ìng hit ê hong-hiòng suá-tāng.
+
+Lí ū-tsai-iánn bô, @Placement mā thang kap / sím-mi lóng ē-sái / tsham-ka, hit ê @Place? 
+Pí-ū kóng, @Stage ū tsit ê @Place tsú-tīng sian-ki ê khuànn-ê tsí tī toh-uī.
+Lán lâi sè-sī siat-tīng @Placement ê @Stage ê uī-tì, khuànn ē án-tsuánn.
+
+\
+Bútâi(
+  [
+	Kù('🐈' uītì: Uītì(-2m 2m))
+	Kù('🐈' uītì: Uītì(2m -2m))
+	Kù('🐈' uītì: Uītì(-1m 3m))
+  ]
+  uītì: Pâipàng(Uītì(0m 0m -10m))
+)
+\
+
+ Sian-ki tō suá-tāng--lah! (Chù-ì: lán ài tī khai-sí ê sî-tsūn kā @Placement ê \z\ ta̍t siat-tīng ǹg \10m\ , án-ne sian-ki tsiah ē tuì-kái-uī-tsú, kah ta̍uh-ta̍uh ê sè-ê pâi-lia̍t-khí.)
+
+animated-scene

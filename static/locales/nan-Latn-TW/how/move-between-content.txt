@@ -1,0 +1,75 @@
+Iōng ê-ia̍h kiān tī lōo-ia̍h tiong-kan suá-tāng
+
+Ū-sî lí ǹg-bāng khuànn-tsiông ê lâng tsi̍t-kiánn tsi̍t-kiánn khuànn lōo-ia̍h, kah-ná huan-hiòng-tsiah-kuè hōo-á, ê-ia̍h-kiān tsiàu-lām hiòng-tsîng / kap / hiòng-āu.
+
+Tsit-ê tsōo-ki ê múa-tsia lóng-sī iōng kāng-khuán ê sann-ê pōo-hūn:
+
+• Tsi̍t-ê @List ê lōo-ia̍h lōo-iông, sī lí beh hōo lâng khuànn ê
+• Tsi̍t-ê @Key tsu-liāu-liû, múi-pái ū kiān hōo lâng ânn, tō ē piàn
+• Tsi̍t-ê @Reaction ē kì-tit lí taⁿ tī tsiah-kuè ê lōo-ia̍h
+
+Tsia sī siōng sió ê pán-pún. Tāi-seng tshiám bú-tâi, hōo i thiann-tio̍h, tsiah ânn tsò-pên kah tsiàu-pên ê ê-ia̍h-kiān:
+
+\
+slides: ['tē-it' 'tē-jī' 'tē-saⁿ']
+
+kiān2: Kiān()
+
+index•#: 1 … ∆ kiān2 …
+	(kiān2 = 'Hiòng-iū') ? ((index < slides.tn̂gtō()) ? index + 1 index)
+		(kiān2 = 'Hiòng-tsò') ? ((index > 1) ? index - 1 index)
+			index
+
+Kù(slides[index])
+\
+
+ Tsit ê @Reaction sī tsia ê sim-tsiōng. I tùi \1\ khai-sí, múi-pái @Key piàn, i tō ē koat-tīng sin ê sò͘-jī sī gōo-kuí.
+Nā ânn tiàm-pên ê ê-ia̍h-kiān, tō ke tsi̍t; nā ânn tsò-pên ê, tō kiám tsi̍t; bô--ê, tō put-piàn.
+
+Hit-ê koh-tshiânn ê \?\ kiám-tsa, sī beh hōo sò͘-jī m̄-thang tshut-khì lōo-ia̍h-tsiáu ê thâu kah bé.
+Nā bô hit-ê, lí tō khì kuè-thâu, bô lōo-ia̍h thang khuànn.
+Nā lí kah-ì tùi siōng-āu-tsi̍t-ia̍h tńg-khì tē-it-ia̍h, mā ē-sái án-ne tsò.
+
+Chù-ì: ê-ia̍h-kiān ê miâ sī \'Hiòng-tsò'\、 \'Hiòng-iū'\、 \'Hiòng-téng'\、kap \'Hiòng-ē'\.
+Lí mā ē-sái tshiáⁿ siá \'Tsò'\ kap \'Iū'\, kiān ê miâ iōng lí ka-kī ê gí-giân siá mā ē-sái.
+
+Khuànn tio̍h \index\ tsí-sī tsi̍t-ê sò͘-jī, in-uī án-ne tse tùi / sím-mih lóng ū thang / tsióng ê lōo-iông lóng ē-sái, m̄-nā sī bûn-jī.
+Pua̍h-tsūn @List huānn-tsò tsi̍t-ê ê @Group á-sī kui-tsâng tsîng-kéng, kî-tha ê hîng-iūnn lóng bô piàn:
+
+\
+slides: [
+	Kù('saⁿ tsūn ê kò-sū' tuātsè: 3m)
+	Kûntsoo(Tha̍h() [Kù('🐈') Kù('tsit-tsiah niau tshut-hiān')])
+	Kù('kiat-sok 🎉')
+]
+
+kiān2: Kiān()
+
+index•#: 1 … ∆ kiān2 …
+	(kiān2 = 'Hiòng-iū') ? ((index < slides.tn̂gtō()) ? index + 1 index)
+		(kiān2 = 'Hiòng-tsò') ? ((index > 1) ? index - 1 index)
+			index
+
+slides[index]
+\
+
+ Tsi̍t ê @Scene mā ē-tàng án-ne tsò, koh khah bē-tsio sǹg.
+Hō͘ i @Scene/pause án-ne i tsiū bē ka-tī tín-tāng, koh @Scene/step lâi tsiàu tsit-ê hong-hiòng suá tsi̍t-tè:
+
+\
+kiān2: Kiān()
+Tiûnnkíng([
+		Kù('saⁿ tsūn ê kò-sū' tuātsè: 3m)
+		Kûntsoo(Tha̍h() [Kù('🐈') Kù('tsit-tsiah niau tshut-hiān')])
+		Kù('kiat-sok 🎉')
+	] thîngtùn pōo: ∆ kiān2 ? ((kiān2 = 'Hiòng-tsò') ? -1 (kiān2 = 'Hiòng-iū') ? 1 ø) ø)
+\
+
+ Tsia bô-ài siá \?\ kiám-tsa, in-uī @Scene ē ka-tī tī i ê thâu-bué soah-tsiām, mā bô-tsi̍t-ê-lâng ài kì-tsù tsit-má teh khuànn tó tsi̍t-tè.
+Mn̄g @Spotlight nā-sī lí beh kóng / 10 tsi̍t 3 / tī bú-tâi-téng.
+
+Chù-ì: tī tián-lám-kuán khuànn tsit-ê tsuan-àn kui-ê ê iūnn-á: < huan-tēng-phiàn @https://wordplay.dev/project/example-SlideShow?play>
+
+ Tsit ê @Reaction téng-bīn khah kàu ê tsò-huat iáu-sī án-ne, nā-sī lí teh tsi̍t-tè tsi̍t-tè kuè ê m̄-sī Output — sī tsi̍t-tsūn-á jī, sik-tshái, á-sī sòo-jī, á-sī lí iōng lâi kiàn-tsō-tsit-tè ê lāi-té tāi-tsì.
+
+interactive-scene, choose-adventure, offer-choices, repeat-a-round
