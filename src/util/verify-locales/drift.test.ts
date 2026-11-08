@@ -479,6 +479,21 @@ describe('driftSince', () => {
         expect(since(fixture, 'HEAD')).toEqual(['.a']);
     });
 
+    test('ignores a change of case in English when the translation has no case', () => {
+        // Lowercasing a label can't leave a caseless script behind, and
+        // re-translating it writes the same bytes, so flagging it never clears.
+        const fixture = makeFixture();
+        fixture.commit({
+            'en.json': { a: 'Delete this class' },
+            'xx.json': { a: '$~このクラスを削除する' },
+        });
+        fs.writeFileSync(
+            path.join(fixture.dir, 'en.json'),
+            JSON.stringify({ a: 'delete this class' }, null, 4),
+        );
+        expect(since(fixture, 'HEAD')).toEqual([]);
+    });
+
     test('passes when the translation moved along with it', () => {
         const fixture = makeFixture();
         fixture.commit({
