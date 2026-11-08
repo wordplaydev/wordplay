@@ -31,6 +31,20 @@ test('skips a term inside a \\code\\ block', () => {
     expect(scanLiteralGlossaryTerms('run \\value\\ now', glossary)).toEqual([]);
 });
 
+test('skips a term interpolated in a text literal inside a \\code\\ block', () => {
+    // Pairing backslashes by alternation ended the example at the
+    // interpolation's opening `\`, so `at.value` read as prose and was linked
+    // to `at.@value`, which broke the example (yue-HK's Spotlight doc).
+    expect(
+        scanLiteralGlossaryTerms(
+            '\\at: Spotlight()\nPhrase(`\\at.value\\ of \\at.total\\`)\\ then the value',
+            glossary,
+        ).map((finding) => finding.suggestion),
+    ).toEqual([
+        '\\at: Spotlight()\nPhrase(`\\at.value\\ of \\at.total\\`)\\ then the @value',
+    ]);
+});
+
 test('matches whole words only', () => {
     // "values" should not match the term "value", which declares no forms here.
     expect(scanLiteralGlossaryTerms('many values exist', glossary)).toEqual([]);

@@ -38,3 +38,17 @@ test('a locale in its language’s own script is not checked', () => {
     checkScriptLeak(log, DefaultLocale, target, true);
     expect(lines).toEqual([]);
 });
+
+test('Han leaking into romanized Hokkien is reported, though Hant names no Unicode script', () => {
+    const { log, lines } = collectingLog();
+    const target = structuredClone(DefaultLocale);
+    target.language = 'nan';
+    target.regions = ['TW'];
+    target.script = 'Latn';
+    target.ui.page.login.prompt.name = '$~Siá lí ê miâ';
+    target.ui.page.login.prompt.join = '$~寫你的名';
+    const fixed = checkScriptLeak(log, DefaultLocale, target, true);
+    expect(lines.join(' ')).toContain('ui.page.login.prompt.join');
+    expect(lines.join(' ')).not.toContain('ui.page.login.prompt.name');
+    expect(fixed.ui.page.login.prompt.join).toBe('$!寫你的名');
+});

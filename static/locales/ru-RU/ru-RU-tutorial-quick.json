@@ -1,0 +1,340 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "ru",
+    "regions": ["RU"],
+    "acts": [
+        {
+            "title": "$~Wordplay — это по-другому",
+            "performance": { "fit": "#Symbol 💬", "theme": "Quick" },
+            "scenes": [
+                {
+                    "title": "$~Программы — это значения",
+                    "subtitle": "$~Выражения, а не операторы",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ", "theme": "Program" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~Добро пожаловать в @wordplay! Слышал, ты немного знаешь о программировании? Отлично! Этот короткий тур покажет, что в Wordplay похоже на другие языки, а что нет.",
+                            "$~Чтобы ты знал всё на этом экране: на странице есть диалог @tutorial и вид @project. Ты видишь *сцену* @UI/stage, которая показывает результат программы, и *@editor* @UI/editor, то есть @code программы.",
+                            "$~Эта программа пуста, поэтому на экране только подсказка написать программу.",
+                            "$~Есть и другие кнопки, чтобы останавливать и запускать программу и менять код, но пока о них можно не беспокоиться."
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~В большинстве @languages программирования программа — это список команд, которые говорят компьютеру, что *делать*, например вывести @value:",
+                            "$~\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
+                            "$~В @wordplay программы — это *выражения*, которые говорят, каким должен быть /результат/ программы, а не как его получить.",
+                            "$~Эта программа вычисляется в значение \\'привет'\\, и оно показывается на сцене. Нет команды вывода, есть только @expression, которое говорит, какое значение получить."
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~В других языках *переменная* — это именованный контейнер для @value, и её значение может меняться:",
+                            "$~\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
+                            "$~В @wordplay именованные значения никогда не меняются. Они «неизменяемые»: им нельзя присвоить новое значение. Поэтому мы называем их @Bind, а не @variable, ведь они не изменяются.",
+                            "$~Скоро мы расскажем, как писать интерактивные программы без изменяемых переменных."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Проверка условий",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": {
+                        "fit": "#Symbol ?",
+                        "theme": "Conditional"
+                    },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~В других @languages программирования обычно есть команда *if*, чтобы делать разное в зависимости от @condition:",
+                            "$~\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
+                            "$~В @wordplay всё является @expression, поэтому @Conditional — это *выражение*: сначала условие, потом \\?\\, затем выражение для «истина» и выражение для «ложь». Никаких ключевых слов не нужно."
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~В некоторых языках есть команда *switch*, чтобы делать разное в зависимости от @value:",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
+                            "$~В @wordplay есть @Match, которое выбирает результат по значению."
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~В некоторых языках есть ещё *оператор объединения с null* @operator, чтобы задать @value по умолчанию, когда @variable равно null или не определено:",
+                            "$~\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
+                            "$~В @wordplay есть оператор @Otherwise, который даёт тот же результат."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Значения и типы",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣", "theme": "Number" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~В большинстве языков много «простых» типов @value.",
+                            "$~\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
+                            "$~В @wordplay для этих типов похожий синтаксис, но можно добавлять и другую информацию, например метки @language для текста на разных языках и единицы измерения у чисел."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~В языках программирования есть и способы создавать наборы значений, например списки, множества и словари (их часто называют словарями или хешами):",
+                            "$~\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
+                            "$~В @wordplay для этих наборов другой синтаксис. Главное отличие: значения разделяются пробелами, а не запятыми."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]",
+                                "pair•[# '']: [1 'hi']"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~В некоторых языках программирования можно указать @type для @variable, чтобы быть уверенным, что все способы использовать переменную допустимы:",
+                            "$~\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
+                            "$~В @wordplay тоже есть типы, но типы *определяются сами*. Обычно их не нужно объявлять, но иногда это придётся сделать, если тип нельзя определить сам. Тип списка может также называть тип для каждого места в списке, например \\[# '']\\ для списка ровно из двух элементов: сначала число, потом слово."
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~В языках программирования обычно можно создавать и свои типы данных, чтобы собрать несколько значений в одну структуру данных:",
+                            "$~\\py| class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv| public class Pet {\n    private String name;\n    private int age;\n    public Pet(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\",
+                            "$~В @wordplay структура объявляется по-другому: \\•\\ обозначает тип данных, потом идёт @name, а затем поля структуры. Так объявляется @Structure."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Преобразования, коллекции и функции",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →", "theme": "Convert" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~В программировании часто нужно преобразовать данные из одного @type в другой. Например, мы можем захотеть преобразовать число в текст @value:",
+                            "$~\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
+                            "$~У всех значений в @wordplay есть конструкция @Convert, которая позволяет преобразовывать типы. Этот пример переводит \\1m\\ в футы, а потом в @Text. У каждого типа значений есть целый набор поддерживаемых преобразований."
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Для коллекций значений, таких как списки и массивы, другие @languages программирования используют конструкции вроде циклов *for* и *while*, чтобы построить новую коллекцию из значений уже существующей.",
+                            "$~\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
+                            "$~В @wordplay есть простая конструкция @Translate* с символом \\↦\\: она строит новый @List, @Set или @Map и заменяет каждый @element (его обозначает \\⬚\\ @placeholder) на новый @value. Здесь каждый элемент удваивается, и получается \\[2 4 6]\\.",
+                            "$~Есть и более мощные средства, такие как @List.translate и @List.combine, на случай, если тебе нужны более сложные операции."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~В каждом языке программирования есть функции. Они позволяют объявить многоразовые @blocks из @code, которые принимают входные данные и выдают по ним результат любой сложности:",
+                            "$~\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
+                            "$~@wordplay тоже поддерживает определения функций, но с символом ƒ. Как и все программы на Wordplay, функции должны вычисляться в @value."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Вывод — это буквы, ввод — это реакция",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬", "theme": "Stage" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~Другие @languages программирования печатают текст в консоль, рисуют на холсте или меняют веб-страницу:",
+                            "$~\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
+                            "$~Вывод в @wordplay — это буквы и текст: @Phrase, @Group или @Stage. Он показывает на экране текст со стилем, анимацией и интерактивностью или читается программой чтения с экрана.",
+                            "$~В примере ниже показан @Stage с одним @Phrase, у которого есть анимация изменения размера в состоянии покоя."
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~В большинстве языков программирования есть способ получить ввод от пользователя:",
+                            "$~\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
+                            "$~Ввод в @wordplay приходит из *@streams* — особых значений, которые меняются со временем в ответ на ввод и заставляют программу Wordplay заново вычислиться с новым значением потока.",
+                            "$~Например, эта программа использует поток @Time, чтобы вращать эмодзи земного шара. Каждый раз, когда поток @Time() переходит к новому @value, программа заново вычисляется с новым значением и обновляет значение программы на @Stage."
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~В большинстве других языков программирования интерактивность значит регистрацию обработчиков событий и обратных вызовов:",
+                            "$~\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
+                            "$~В @wordplay для интерактивности можно просто использовать потоки, такие как @Button, @Key и @Pointer, чтобы создавать интерактивные @elements. Текст этого @Phrase зависит от того, нажат ли @Button: @Conditional проверяет, есть ли у потока @Button значение @Changed."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Другие языки программирования позволяют менять значения @variables во время работы программы. Это полезно для динамичных и интерактивных приложений. Но нужно не забыть обновить значения в нужных местах и обновить то, что показано на экране, когда значения меняются:",
+                            "$~\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
+                            "$~@wordplay упрощает это с помощью @Reaction @expression: она начинается с начального значения, проверяет @condition, который ссылается на потоки ввода, и обновляет значение выражения, когда меняются потоки. В этом примере каждый раз, когда поток @Button меняется, мы обновляем значение count, и это обновляет @Phrase, показанный на @Stage."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Конфликты и отладка",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": {
+                        "fit": "#Symbol ‼️",
+                        "theme": "UnparsableExpression"
+                    },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~Другие @languages выдают *ошибки* — знак того, что программа сделала что-то недопустимое:",
+                            "$~\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
+                            "$~@wordplay называет ошибки *@conflicts*: две вещи, которые не могут быть правдой одновременно, например сложение числа и текста в программе ниже.",
+                            "$~Wordplay подчёркивает конфликты и показывает их на боковой панели @UI/conflict. Он также предлагает варианты, как решить конфликт и исправить проблему."
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~В большинстве языков программирования есть средства отладки, которые помогают понять и исправить проблемы в @code. Но многие просто используют вывод в консоль, чтобы проверить @values у @variables:",
+                            "$~\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
+                            "$~@wordplay предлагает более удобную отладку: ты можешь идти по выполнению программы *вперёд* и *назад*. Нажми кнопку отладки ⏸️ в переключателе режимов @UI/modeSwitcher над сценой, чтобы включить режим *отладки*: значение каждого @expression появится рядом с ним в коде, а @UI/stepControls выполняют шаги в любом направлении, так что ты можешь увидеть, как строится значение. Вот экскурсия по всем возможностям: @Tour/stage",
+                            "$~Другие режимы тоже важны: режим ✏️ *редактирования* нужен, чтобы менять программу, пока сцена стоит на месте, а режим ▶️ *игры* запускает программу вживую, и она сразу отвечает на ввод.",
+                            "$~Нужна подсказка? Кнопка @UI/stageTourLaunch рядом с названием сцены запускает экскурсию по этим элементам управления."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Собираем всё вместе",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨", "theme": "Stage" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Давай сделаем маленький интерактивный @project за три шага.",
+                            "$~*Первый шаг:* объяви свои данные и *@streams*. Здесь поток @Time с именем elapsed сообщает, сколько времени уже работает программа."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*Второй шаг:* *реагируй* на поток, получая новые @Bind @values. Здесь turn переводит прошедшее время в градусы и пересчитывает их каждый раз, когда elapsed меняется."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*Третий шаг:* *вывод* — превратить данные в @Phrase, @Group или @Stage. Теперь звезда вращается сама!"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Можно сделать проект ещё интереснее, добавив ввод от пользователя для управления вращением, например @Volume звука с микрофона. Это значение от 0 до 1, поэтому мы можем растянуть его на 360 градусов.",
+                            "$~Так устроено большинство проектов: объявления, потом реакции, потом вывод. В <справочнике@://guide> есть раздел @how, полный рецептов, которые можно изучать, копировать и менять.",
+                            "$~Приятного творчества!"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

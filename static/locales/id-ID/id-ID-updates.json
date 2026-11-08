@@ -1059,6 +1059,9 @@
         "eff192c2e6b21": "$~Sekarang kamu bisa mengetik warna ke pemilih warna, dengan namanya atau dengan kode apa pun yang dipakai halaman web. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
         "edd342aefe00f": "$~Kami menambahkan terjemahan mesin untuk lokal bahasa Ibrani (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
         "ee9e6be8c1dfa": "$~*Pelihat dan pengomentar*. Sekarang kamu bisa mengizinkan seseorang melihat proyekmu, atau melihat dan mengobrol tentangnya, tanpa mengizinkan mereka mengeditnya. Proyek di galeri juga bisa ditampilkan hanya untuk pengelolanya (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
-        "eba572ebe4c3f": "$~Galeri sekarang punya ruang panduan cara, tempat pengelola dan pembuat bisa saling berbagi hal yang mereka temukan (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
+        "eba572ebe4c3f": "$~Galeri sekarang punya ruang panduan cara, tempat pengelola dan pembuat bisa saling berbagi hal yang mereka temukan (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
+        "e559bcfa865df": "$~Kami menambahkan bahasa Rusia, Ukraina, Malayalam, Kanton, dan Hokkien Taiwan (ditulis dalam Tâi-lô), supaya lebih banyak dari kalian bisa memakai Wordplay dalam bahasa yang kalian gunakan di rumah!",
+        "e53524c65f4f2": "$~Di layar yang lebih kecil, panggung dan kode tidak lagi bertukar sisi saat kalian berpindah antara mengedit dan memainkan. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
+        "ee481670339a2": "$~Proyek yang meminjam perkakas, seperti contoh Conductor dengan \\@wordplay/instruments\\, tidak lagi berhenti karena kesalahan saat kamera melihat tangan atau masukan lain berubah."
     }
 }

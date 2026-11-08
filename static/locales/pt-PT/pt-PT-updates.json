@@ -1059,6 +1059,9 @@
         "eff192c2e6b21": "$~Agora pode escrever uma cor no seletor de cores, pelo seu nome ou por qualquer código que uma página web use. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
         "edd342aefe00f": "$~Adicionámos uma tradução automática de uma localização em hebraico (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
         "ee9e6be8c1dfa": "$~*Visualizadores e comentadores*. Agora pode deixar alguém ver o seu projeto, ou vê-lo e conversar sobre ele, sem lhe permitir editá-lo, e um projeto numa galeria pode ser mostrado apenas aos seus curadores (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
-        "eba572ebe4c3f": "$~As galerias passam a ter um espaço de guias práticos, onde os curadores e os criadores podem partilhar entre si o que descobriram. (<825@https://github.com/wordplaydev/wordplay/issues/825>)"
+        "eba572ebe4c3f": "$~As galerias passam a ter um espaço de guias práticos, onde os curadores e os criadores podem partilhar entre si o que descobriram. (<825@https://github.com/wordplaydev/wordplay/issues/825>)",
+        "e559bcfa865df": "$~Adicionámos o russo, o ucraniano, o malaiala, o cantonês e o hokkien de Taiwan (escrito em Tâi-lô), para que mais pessoas possam usar o Wordplay no idioma que falam em casa!",
+        "e53524c65f4f2": "$~Em ecrãs mais pequenos, o palco e o código já não trocam de lado quando muda entre editar e atuar. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
+        "ee481670339a2": "$~Os projetos que pedem emprestado um conjunto, como o exemplo Conductor com \\@wordplay/instruments\\, já não param com um erro no momento em que a câmara vê uma mão ou quando outra entrada muda."
     }
 }

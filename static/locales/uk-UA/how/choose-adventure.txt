@@ -1,0 +1,57 @@
+Створи текстову пригоду
+
+Один із веселих видів ігор — це гра / обери свою пригоду / , де гравець робить низку виборів і намагається дійти до щасливого кінця. 
+
+Щоб зробити таку гру, ми можемо використати разом @Structure, @Key, @Reaction і @List , щоб створити набір рішень, у кожного з яких є кілька варіантів, ось так:
+
+\
+¶ This makes a data structure that stores a choice and which decision it will navigate to ¶
+•Option(text•'' decision•#)
+
+¶ This data structure stores a list of choices ¶
+•Decision(options: [Option])
+
+¶ This is the game content! Change the text in the Options to create atmosphere and tough choices.
+Add options to create a web of tricky choices. ¶
+decisions: [
+		Decision([Option('start' 2)])
+		Decision([
+				Option('left' 3)
+				Option('straight' 4)
+				Option('right' 4)
+			])
+		Decision([Option('win' 1)])
+		Decision([Option('lose' 1)])
+	]
+
+¶ Convert the key to a number, if it is one ¶
+key: Ключ()
+choice: key → #
+
+¶ This value represents the current decision in the list above.
+When the key is pressed, we do one of the following.
+If there's only one choice for this decision, then we change the current decision
+to the option's target decision no matter what key was pressed.
+If the key pressed is between 1 and the number of options, then we go to that option's target decision.
+Otherwise, we just keep the current decision the same. ¶
+current•#: 1 …
+	∆ key …
+		decisions[current].options.довжина() = 1 ?
+			decisions[current].options[1].decision
+			((1‥decisions[current].options.довжина()) ∋ choice) ?
+				decisions[current].options[choice].decision
+				current
+
+¶ This just shows the options as a stack of phrases. You can change this to add instructions, animations, and other spiciness! ¶
+Підмостки([
+		Група(
+			Стос()
+			decisions[current].options.перетворити(ƒ(option) Фраза(option.text))
+		)
+	])
+
+\
+
+ Цей візерунок здається складним, але насправді він лише показує поточні варіанти, а щойно ключ змінюється, переходить до рішення за обраним варіантом. Створення гри — це переважно зміна вмісту нагорі!
+
+offer-choices

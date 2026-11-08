@@ -1864,7 +1864,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Je montre du @code avec coloration syntaxique écrit dans d'autres langages de programmation, pour que les créateurs qui codent déjà puissent comparer.",
-                "Écrivez une variante par langage sous la forme d'une étiquette de deux lettres, une barre, puis le code, comme \\py| a = 5\\js| let a = 5;\\. Le lecteur voit celle qui correspond à la langue qu'il a choisie. Python (py), JavaScript (js) et Java (jv) sont pris en charge."
+                "Écrivez une variante par langage sous la forme d'une étiquette de deux lettres, une barre, puis le code, comme \\py| a = 5\\js| let a = 5;\\. Le lecteur voit celle qui correspond à la @language qu'il a choisie. Python (py), JavaScript (js) et Java (jv) sont pris en charge."
             ]
         },
         "Localized": {

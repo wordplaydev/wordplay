@@ -1,0 +1,47 @@
+Kā im-ga̍k teh pho̍k ê tshiūnn-tshuā ê ōe--tshut-lâi
+
+Im-ga̍k lí thiann-tio̍h ê, tsí-ū tsi̍t-puànn niā. @Beat tsu-liāu-liû múi pái tsi̍t-kuá phik-sia̍p-siann tō kā lí hō͘ pho̍k-tshut-ki̍h ê tsōng-thāi, án-ne lí tō ē-sái ōe--tshut-lâi sím-mih teh huat-sing.
+
+@Beat lóng ū tsi̍t-ê @Downbeat ē-sái hō lí, lí ē-sái tsiàm-tsiàm khuànn. Im-ga̍k iáu-buē khai-sí ê sî, i tsū tī tē-khòng phik, sím-mih to bô teh pho̍k:
+
+\
+beat: Phah()
+count: beat.kuípái
+
+Bútâi([
+	Kù('🥁' tuātsè: ((count % 4) = 0) ? 2m 1m)
+	Imga̍k(Imkuí([1 1 1 1] ga̍kkhì: Ga̍kkhì.kóo))
+])
+\
+
+ Tsit ê \count\ múi phik ka tsi̍t, \count % 4\ tsiū sī \0\ tī múi tē-sì phik — tō-sī tē-it phik — kóo tsiū tiô.
+
+Án-ne tsit-ê im-ga̍k tō sī tsi̍t-ê sò͘-jī. Ká-sī @Downbeat mā ū tsi̍t-ê \parts\ lia̍h-pió, múi tsi̍t-ê @Part ū tsi̍t-ê @Track, koh @Part tsāi-iánn i ka-kī ê siann-im tsit-má teh tsò sím-mih: i ê \pitch\, i ê \volume\, i ê \pan\, kah i sī-m̄-sī \sounding\. Kā che ōe--tshut-lâi, lí tō ē khuànn-tio̍h múi tsi̍t-ê siann-im pia̍t-pia̍t, m̄-sī hun-bē ê hōo-hap:
+
+\
+beat: Phah()
+parts•[Pōohūn]: beat.pōohūntsi̍p.kuèlū(ƒ(p•Pōohūn) p.huatsiann)
+
+ƒ height(p•Pōohūn)•# p.imko[1] ÷ 1semitones
+
+ƒ dot(p•Pōohūn)•Kù
+	Kù(
+		'⬤'
+		0.4m + (p.imliōng · 1m)
+		uītì: Uītì((p.tsóoiū · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
+	)
+
+Bútâi([
+	:parts.huani̍k(ƒ(p•Pōohūn) dot(p))
+	Imga̍k([
+		Imkuí([1 ø 5 ø] ga̍kkhì: Ga̍kkhì.kongkhîm tsóoiū: -1)
+		Imkuí([ø 8 ø 12] ga̍kkhì: Ga̍kkhì.lînglông tsóoiū: 1)
+	])
+])
+\
+
+ Múi tsi̍t-ê tiám tsū tī i ê im-kui só͘-tsāi: \pan\ kā i hòo tī tsó-pîng ia̍h-sī iū-pîng, \pitch\ kā i hòo tī koân ia̍h-sī kē. In-uī \sounding\ tī tn̂g-im iáu teh hiáng ê sî lóng sī tsin, só͘-í tshî-siòng-ê im ê tiám kú-kú mā ē iân-kúi, bē tsi̍t-ē tō bô--khì.
+
+Lí tsù-ì khuànn tsit-ê sió \height\ ha̍m-sòo. \pitch\ sī tsi̍t-ê / tsheh-tuann /, in-uī hô-hiân tsi̍t-kuá im tsò-hué hiáng, só͘-í \p.pitch[1]\ ē ná kah teh hưn ê siong-kài-ê im, kā siōng-kē-ê hit-ê im ê sò-tsì lia̍h--lâi. Hit-ê sò-tsì tī \semitones\, koh iōng \1semitones\ lâi tûn, tō ē piàn-tsò pâng-thong ê sò-jī, ē-tàng kap ē-bīn ê \0.2\ kap \1m\ kau-hôo-tsò-hóe. Kan-tan kā hâm-sò siá-tsò \#\ mā bē-iōng-tit: kan-tan ê \#\ ê ì-sù sī / sím-mih lóng ū thang / ê tan-uī, m̄-sī / bô / ê tan-uī, só-í i ē ta̍k-kâng kā pòaⁿ-im siu-lo̍k, koh tī ē-tsa̍p tsit-hâng ê sî-tsūn tsiah koh phah-sìn.
+
+play-a-sound-effect, react-to-sound, count-with-time

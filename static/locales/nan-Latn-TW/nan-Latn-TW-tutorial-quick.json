@@ -1,0 +1,341 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "nan",
+    "regions": ["TW"],
+    "acts": [
+        {
+            "title": "$~Wordplay kap pa̍t-kâng bô-kâng",
+            "performance": { "fit": "#Symbol 💬", "theme": "Quick" },
+            "scenes": [
+                {
+                    "title": "$~Program to̍h-sī ta̍t",
+                    "subtitle": "$~Piáu-ta̍t-sik, m̄-sī kù-á",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ", "theme": "Program" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~Hoan-gîng lâi-kàu @wordplay! Guá thiann-kóng lí tsiām-sî ū ha̍k-kòe tsió-khuá siá thîng-sik. Hó-tsiah! Tsit-ê té-té ê sing-sī, ōe kā lí kóng Wordplay kap pa̍t-ê siánn-tsè sio-kâng, siánn-tsè bô-kâng.",
+                            "$~Kā lí kóng tsit-ê hua-bīn ê mi̍h-kiānn, tsit-tsiah hia̍h-bīn ū @tutorial tuì-ōe-khuànn kap @project khuànn-hôo. Lí thang khuànn-tio̍h *bú-tâi* @UI/stage, tsiah-ê ē tshut-hiān program ê kiat-kó, ê-tsāi *@editor* @UI/editor, tō-sī program @code.",
+                            "$~Tsit-ê program sī khang-khang ê, in-ūi án-ne kiat-kó tsí-sī kiò lí khì siá program ê thê-sī.",
+                            "$~Iáu-ū tsin-tsē pa̍t-khuán ê khòng-tsè, thang khòng-tsè program ê tsāi-khai kap tsam-thîng, mā thang pian-tsi̍p code, m̄-koh tsit-má bián siūnn."
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Tsin-tsē thîng-sik @languages, program sī it-tsuā kù-á, kā tiān-náu kóng *tsò* siánn, pí-lūn kóng tá̍k-tshut @value:",
+                            "$~\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
+                            "$~Tī @wordplay, program sī *piáu-ta̍t-sik*, kóng program ê /kiat-kó/ tio̍h-sī siánn, m̄-sī kóng án-nuá tsò-tshut-lâi.",
+                            "$~Tsit-ê program ê kiat-kó sī ta̍t \\'hāi'\\, jiân-āu ē tī bú-tâi khuànn-tio̍h. Bô tá̍k-ìn ê bīng-līng, tsí-ū tsi̍t-ê @expression kóng ài sǹg-tshut siánn-ta̍t."
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~Tī pa̍t-ê gí-giân, *piàn-sòo* sī tsi̍t-ê ū miâ ê ki-tsiah, ê-tsāi @value, in ê ta̍t thang piàn:",
+                            "$~\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
+                            "$~Tī @wordplay, ū miâ ê ta̍t bē-tàng piàn. In sī 'bē-piàn-tit' ê, ì-sù sī bē-tàng koh hōo sin ê ta̍t. Tse tō-sī guán kiò in @Bind, m̄-sī @variable, in-ūi in bē-piàn.",
+                            "$~Guán tsi̍t-ē-á ē kóng, án-nuá bô-iōng ē-piàn ê piàn-sòo, tō thang siá ē-tàng hù-tōng ê program."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Kiám-tsa tiâu-kiānn",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": {
+                        "fit": "#Symbol ?",
+                        "theme": "Conditional"
+                    },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~Pa̍t-ê thîng-sik @languages lóng ū *if* kù-á, ūi-tio̍h @condition tsò bô-kâng ê tāi-tsì:",
+                            "$~\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
+                            "$~Tī @wordplay, tsit-tsuā lóng sī @expression, in-ūi án-ne @Conditional sī tsi̍t-ê *piáu-ta̍t-sik*, sian siá tiâu-kiānn, jiân-āu \\?\\, koh siá tio̍h ê piáu-ta̍t-sik kap m̄-tio̍h ê piáu-ta̍t-sik. Bián siánn-mih koan-kiàn-jī."
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Ū-ê gí-giân mā ū *switch* kù-á, ūi-tio̍h @value tsò bô-kâng ê tāi-tsì:",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
+                            "$~@wordplay ū @Match, ē ēng ta̍t lâi kéng kiat-kó."
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Ū-ê gí-giân mā ū *null coalescing* @operator, tng @variable sī null á-sī bô tīng-gī, ē hōo tsi̍t-ê siông-sî ê @value:",
+                            "$~\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
+                            "$~@wordplay ū @Otherwise ūn-sǹg-hû, thang tit-tio̍h kāng-khuán ê kiat-kó."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Ta̍t kap luī-hîng",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣", "theme": "Number" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Tsin-tsē gí-giân ū tsin-tsē 'ki-pún' @value luī-hîng.",
+                            "$~\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
+                            "$~@wordplay tuì-tsia-ê luī-hîng ū sio-kāng ê siá-huat, m̄-koh mā thang ka-ìn pa̍t-khuán sin-sik, ê-tsāi tuì to-gí bûn-jī ê @language @markup, kap sò-jī ê tan-uī."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Thîng-sik gí-giân mā ū tsò ta̍t ê tsi̍p-ha̍p ê pān-huat, ê-tsāi List, set, kap map (tsia̍p-tsia̍p kiò-tsò dictionary á-sī hash):",
+                            "$~\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
+                            "$~@wordplay tuì-tsia-ê tsi̍p-ha̍p ēng bô-kâng ê siá-huat, siōng ū miâ-sī ēng khang-keh lâi hun-khui ta̍t, m̄-sī ēng tāu-hō."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]",
+                                "pair•[# '']: [1 'hi']"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Ū-kuá thîng-sik gí-giân ē-sái lí kā @variable ê @type tsí-tīng, án-ne lí tō ē-tàng khak-tīng lí iōng piàn-sòo ê múi-tsi̍t-khuán pān-huat lóng sī tio̍h ê:",
+                            "$~\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
+                            "$~@wordplay mā ū luī-hîng, m̄-koh luī-hîng sī *tuī-lūn* ê. Lí piàn-siông bián sian-kóng, put-guân ū-sî-á nā tuī-lūn bô-tit, lí tio̍h ka-kī siá. List luī-hîng mā ē-sái kā list lāi-té múi-ê uī-tì ê luī-hîng kóng-tshut-lâi, ná-tshiūnn \\[# '']\\ tō sī kóng list ê tsi̍t-tsióng sī tsiām-tsiām nn̄g-ê tāi-tsì: tsi̍t-ê sò͘-bo̍k, ê-ni̍h tsi̍t-ê tsu."
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Thîng-sik gí-giân siông-siông mā ē-sái lí ka-kī tsò sū-liāu luī-hîng, kā tsiok-tsē ta̍t ha̍p-tsò-hóe, piàn-tsò tsi̍t-ê sū-liāu kiat-kò:",
+                            "$~\\py| class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv| public class Pet {\n    private String name;\n    private int age;\n    public Pet(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\",
+                            "$~@wordplay iōng put-tông ê kí-huat lâi siá @Structure, iōng \\•\\ lâi tāi-piáu sū-liāu luī-hîng, jiân-āu sī @name, āu-piah sī kiat-kò lāi-té ê lân-uī."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Tsuán-uānn, tsip-ha̍p, kah hâm-sòo",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →", "theme": "Convert" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Thîng-sik siá-tsok siông-siông ū tsi̍t-ê tsok-tsō, tō sī kā sū-liāu uì tsi̍t-ê @type tsuán-uānn kàu lēng-gua̍h tsi̍t-ê. Pí-uí-kóng, lán khó-lêng beh kā sò͘-bo̍k tsuán-uānn tsò @value tsu:",
+                            "$~\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
+                            "$~@wordplay ê ta̍t lóng ū @Convert ê kiat-kò, ē-sái lí tī luī-hîng tsiong-kan tsuán-uānn. Tsit-ê é-tsú kā \\1m\\ tsuán-uānn kàu ing-tshioh, jiân-āu koh tsuán-uānn kàu @Text. Múi-tsi̍t-tsióng luī-hîng ê ta̍t lóng ū tsi̍t-tsūn ê tsuán-uānn thang iōng."
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Tuì list kah array hit-lō ta̍t ê tsip-ha̍p, pa̍t-ê thîng-sik @languages iōng *for* kah *while* huê-khuan hit-lō kiat-kò, uì í-keng ū ê tsip-ha̍p ê ta̍t tsò-tshut sin ê tsip-ha̍p.",
+                            "$~\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
+                            "$~@wordplay ū tsi̍t-ê kán-tan ê @Translate* kiat-kò, iōng \\↦\\ hû-hō: i tsò-tshut sin ê @List, @Set á-sī @Map, kā múi-tsi̍t-hāng (iōng \\⬚\\ @placeholder lâi tāi-piáu) thè-tsò sin ê @value. Tse kā múi-hāng ka-pē, tsò-tshut \\[2 4 6]\\.",
+                            "$~Mā ū koh khah kiông ê hāng-bo̍k, ná-tshiūnn @List.translate kah @List.combine, nā lí tshuì-iàu khah hok-tsap ê tsok-tsō."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Múi-tsi̍t-ê thîng-sik gí-giân lóng ū hâm-sòo, ē-sái lí siá-tshut ē-tàng tsiông-iōng ê @blocks ê @code, siu-tio̍h ìn-ji̍p, jiân-āu uì i sán-seng ìn-tshut, hok-tsap tshing-tō bô hān-tsè:",
+                            "$~\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
+                            "$~@wordplay mā ū hâm-sòo ê tīng-gī, m̄-koh iōng ƒ hû-hō. Kap Wordplay ê ta̍k-ê thîng-sik tsiâu-kâng, hâm-sòo tio̍h kè-sǹg tsò tsi̍t-ê @value."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Ìn-tshut sī bûn-jī ê, ìn-ji̍p ē huán-ìng",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬", "theme": "Stage" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~Pa̍t-ê thîng-sik @languages kā bûn-jī ìn kàu console, tī canvas tsiūnn-bīn tô-tshut-lâi, á-sī kái-piàn bāng-ia̍h:",
+                            "$~\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
+                            "$~@wordplay ê ìn-tshut sī bûn-jī ê: @Phrase, @Group, á-sī @Stage, tī phiann-á-bīn khòaⁿ-tio̍h ū iūnn-sik, ē tín-tāng, ē hōo lâng ka-tsi̍p ê bûn-jī, á-sī hōo phiann-á tha̍k-khì thūn lâi thiann.",
+                            "$~Ē-té ê é-tsú ū tsi̍t-ê @Stage, lāi-té ū tsi̍t-ê @Phrase, i ū tsi̍t-ê pn̄g-khiā ê sak-hòng tín-tāng."
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Tsiok-tsē thîng-sik gí-giân lóng ū pān-huat uì ēng-tsiá siu ìn-ji̍p:",
+                            "$~\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
+                            "$~@wordplay ê ìn-ji̍p lâi-uân sī *@streams*, i sī ē tuè sî-kan piàn-hòa ê tsin-tsiânn-sī ta̍t, in-uī ìn-ji̍p ê huán-ìng ê guân-in, hōo Wordplay thîng-sik iōng tsu-liāu-liû ê sin ta̍t tsài-lài kè-sǹg tsi̍t-piàn.",
+                            "$~Pí-uí-kóng, tsit-ê thîng-sik iōng @Time tsu-liāu-liû lâi khuànn-tāng tē-kiû emoji ê soân-tīng. Múi-pái @Time() tsu-liāu-liû tin kàu sin ê @value, thîng-sik tō iōng sin ta̍t tsài-lài kè-sǹg, kā thîng-sik tī @Stage ê ta̍t keng-sin."
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Tsiok-tsē pa̍t-ê thîng-sik gí-giân, beh ū @sideEffect ê ī-tōng, tio̍h tsù-tsheh event handler kah callback:",
+                            "$~\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
+                            "$~Tī @wordplay lāi-té, lán kan-nā iōng tsu-liāu-liû, ná-tshiūnn @Button, @Key, kah @Pointer, tō ē-sái tsò-tshut ē huán-ìng ê @elements. Tsit-ê @Phrase ê bûn-jī sī kin-tsù @Button ū-tio̍h-bô hőo lâng tshi̍h, iōng @Conditional lâi khuànn @Button tsu-liāu-liû ū-bô @Changed."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Pa̍t-ê thîng-sik gí-giân ē-sái lí tī ūn-hîng ê sî-tsūn kái @variables ê ta̍t, tse tsò-tshut ē-tàng tín-tāng ê, ē huán-ìng ê ìng-iōng thîng-sik ū-iōng. M̄-koh in iau-kuè lí tio̍h kì-tit tī tio̍h ê tē-hng keng-sin ta̍t, ma̍h ta̍t piàn-hòa ê sî, mā tio̍h keng-sin phiann-á-bīn ê hián-sī:",
+                            "$~\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
+                            "$~@wordplay iōng @Reaction @expression lâi kán-tan-hòa tse, i uì tsi̍t-ê khai-sí ta̍t khai-sí, tshâ tsi̍t-ê tsíng-tio̍h tsu-liāu-liû ìn-ji̍p ê @condition, jiân-āu uì tsu-liāu-liû ê piàn-hòa lâi keng-sin piáu-ta̍t-sik ê ta̍t. Tsit-ê é-tsú, múi-pái @Button tsu-liāu-liû piàn-hòa, lán tō keng-sin count ê ta̍t, án-ne tī @Stage hián-sī ê @Phrase tō ē tuè-tio̍h piàn."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Tshiong-tu̍t kah tī-bāng (debug)",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": {
+                        "fit": "#Symbol ‼️",
+                        "theme": "UnparsableExpression"
+                    },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~Pa̍t-ê @languages ē tshut *tsò-gō* — tse sī thîng-sik tsò-tshut put-tsún ê tāi-tsì ê kì-hō:",
+                            "$~\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
+                            "$~@wordplay kā tshò-gō kiò-tsò *@conflicts*: nn̄g-kiānn bē-sái tsò-hué sī tsin ê tāi-tsì, tsiū-nái lí khuànn ē-bīn ê tsîng-sik, ka-tsuē bé-sòo kap bûn-jī.",
+                            "$~Wordplay ē tī tshiong-tu̍t ê tē-hng liàm-sion-sènn, koh tī pinn-á-lán @UI/conflict khuànn-tio̍h. I mā ē kā lí kiàn-gī án-ni khah-hó kái-kuat būn-tê."
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Tsin-tsuē thîng-sik gí-giân lóng ū tsi̍t-kuá tiāu-tshì ke-tsu̍t, tshòng lí hó-khuànn ê-tsiah-kah @code ê būn-tê. Put-kò ū-ê tsí-sī iōng print ê kì-liông, tī console khuànn @variables ê @values:",
+                            "$~\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
+                            "$~@wordplay ū khah-tsiok ê tiāu-tshì ke-tsu̍t, hōo lí kā i ê tsiânn-sū *tńg-tsîng* kap *tńg-āu* tsi̍t-pōo-tsi̍t-pōo kiâⁿ. Tshiánn tī bú-tâi téng-bīn ê mô-tsik-sûn-suh @UI/modeSwitcher ê ⏸️ tiāu-tshì khoàinn-ǹg, tsìn-ji̍p *tiāu-tshì* mô-tsik: múi-ê @expression ê ta̍t ē tī thîng-sik-bé piⁿ-á hián-sī, @UI/stepControls ē kiâⁿ hōo lí khuànn, lí tō khuànn-tit ta̍t sī án-tsuànn khí-kiàn ê. Tsia ū ji̍t-á ê tsí-lō-tsuā: @Tour/stage",
+                            "$~Tshun-ê mô-tsik mā tsin tiōng-iàu: ✏️ *pian-tsi̍p* mô-tsik thang kái thîng-sik, bú-tâi lóng bô tín-tāng; ▶️ *khan-sī* mô-tsik tō ē sìn-sì-kan ūn-sing, tsiàu lí ê su-ji̍p lâi hôe-ìng.",
+                            "$~Siūnn beh khah-tsē tsí-tsuā? Bú-tâi miâ-á piⁿ-á ê @UI/stageTourLaunch khoàinn-ǹg ē kā lí sú-iōng tsiah-ê khóng-tsè ê tsí-lō-tsuā."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~Ha̍p-tsò-hué",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨", "theme": "Stage" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Lán ēng saⁿ-pōo lâi tsò tsi̍t-ê sió-sió ê @project ē kah-tī hôe-ìng ê.",
+                            "$~*Tē-it:* sing-bîng lí ê tsu-liāu kap *@streams*. Tsia ū tsi̍t-ê miâ-tsò elapsed ê @Time tsu-liāu-liû, kā lí kóng thîng-sik ūn-sing tsin-kú ah."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*Tē-jī:* tuì tsu-liāu-liû *hôe-ìng*, khí-kiàn sin ê @Bind @values. Tsia turn kā elapsed ê sî-kan tsuán-tsò tō-sòo, elapsed ū piàn ê sî tō koh-tsài sǹg."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*Tē-saⁿ:* *su-tshut* — kā lí ê tsu-liāu tuì-ìng kàu tsi̍t-ê @Phrase, @Group, ia-sī @Stage. Tsit-má sing-á ē ka-kī tńg-tsuan lah!"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Lán mā thang ke-thiam iōng-tsiá ê su-ji̍p lâi khóng-tsè tńg-tsuan, tsiūnn-nái @Volume ê mài-khuè-hong su-ji̍p. I sī 0 kàu 1 tsiong-kan ê ta̍t, sóo-í lán thang kā i tuì-ìng kàu 360 tō.",
+                            "$~Tse tō sī tsin-tsuē tsuan-àn ê hîng-sik: sing-bîng, jiân-āu hôe-ìng, siōng-āu su-tshut. <Tsí-lâm@://guide> ū tsi̍t-ê @how tuānn-lo̍h, kâng-tsuā lóng sī hó-khuànn ê tsò-huat, thang ha̍k, khóo-pih, kap kái.",
+                            "$~Khuài-lo̍k tsòng-tsok!"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "script": "Latn"
+}

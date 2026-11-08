@@ -1,0 +1,31 @@
+{
+    "id": "/",
+    "name": "Wordplay",
+    "short_name": "Wordplay",
+    "description": "人人都用得到、支援多種語言、可以用程式控制嘅文字設計。",
+    "lang": "yue",
+    "dir": "ltr",
+    "start_url": "/yue-HK",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/icons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/maskable-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

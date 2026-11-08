@@ -1059,6 +1059,9 @@
         "eff192c2e6b21": "$~Acum poți scrie o culoare în selectorul de culori, după nume sau după orice cod folosit într-o pagină web. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
         "edd342aefe00f": "$~Am adăugat o traducere automată pentru o localizare în ebraică (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
         "ee9e6be8c1dfa": "$~*Spectatori și comentatori*. Acum poți lăsa pe cineva să îți vadă proiectul, sau să îl vadă și să discute despre el, fără să îl poată modifica. Un proiect dintr-o galerie poate fi arătat doar curatorilor săi (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
-        "eba572ebe4c3f": "$~Galeriile au acum un spațiu de instrucțiuni, unde curatorii și creatorii pot împărtăși unii cu alții ce au descoperit (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
+        "eba572ebe4c3f": "$~Galeriile au acum un spațiu de instrucțiuni, unde curatorii și creatorii pot împărtăși unii cu alții ce au descoperit (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
+        "e559bcfa865df": "$~Am adăugat rusa, ucraineana, malayalam, cantoneza și hokkien taiwaneză (scrisă în Tâi-lô), ca mai mulți dintre voi să poată folosi Wordplay în limba pe care o vorbesc acasă!",
+        "e53524c65f4f2": "$~Pe ecranele mai mici, scena și codul nu mai schimbă locurile între ele când treci de la editare la joc. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
+        "ee481670339a2": "$~Proiectele care împrumută o trusă, ca exemplul Conductor cu \\@wordplay/instruments\\, nu se mai opresc cu o eroare în clipa în care camera vede o mână sau când se schimbă altă intrare."
     }
 }

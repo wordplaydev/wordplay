@@ -1,0 +1,51 @@
+Стилізуй свій текст
+
+Іноді нам потрібно, щоб текст впадав в око. Ми можемо зробити це за допомогою / курсиву /, * жирного шрифту * та інших способів!
+
+Наприклад, щоб зробити текст курсивом, візьми його в похилі риски //, як-от //Привіт//. Наприклад:
+
+
+\
+Група(Стос() [
+        Фраза(`Want to flex some /italics/ in your text?`)
+        Фраза(`It's good for emphasis or to give your words that /extra jazz/.`)
+        Фраза(`Just put a slash (//) before and after the word or phrase, /like this/.`)
+    ]
+)
+\
+
+
+@Phrase також може робити текст жирним. Для цього візьми текст у зірочки **, як-от **Привіт**. Наприклад:
+
+\
+Група(Стос() [
+        Фраза(`Want to make your text pop with *bold*?`)
+        Фраза(`It’s perfect for when you need to *shout somethin’ loud*.`)
+        Фраза(`Just throw single asterisks (**) around your words, like *hey!*, and watch it hit different.`)
+      ]
+)
+\
+
+@Phrase також може робити текст ДУЖЕ жирним. Для цього візьми текст у знаки вставки ^^, як-от ^^Привіт^^. Наприклад:
+
+\
+Група(Стос() [
+        Фраза(`Extra bold is the ^GOAT^ when you need to turn the vibe to the max.`)
+        Фраза(`It’s like bold but more ^fire^, usually done with single carrots around (^^)`)
+        Фраза(`Use it to flex on ^headers^ or ^big ideas^.`)
+    ]
+)
+\
+
+ Нарешті, @Phrase може підкреслювати текст. Для цього візьми текст у підкреслення __, як-от __Привіт__. Наприклад:
+
+\
+Група(Стос() [
+        Фраза(`Underline is _lowkey fire_ for when you want to keep text sleek but still stand out.`)
+        Фраза(`Drop a single underscore (__) before and after your text, _like this_, and it’s giving clean emphasis.`)
+        Фраза(`It’s _perfect_ for making your point without being too _extra_.`)
+    ]
+)
+\
+
+custom-characters

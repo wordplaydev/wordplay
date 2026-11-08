@@ -1044,7 +1044,8 @@ test.each([
     ['src/components/app/Page.svelte', 564, 4.48],
     ['src/routes/[[locale]]/+page.svelte', 579, 4.57],
     ['src/routes/[[locale]]/galleries/+page.svelte', 584, 4.58],
-    ['src/routes/[[locale]]/projects/+page.svelte', 593, 4.61],
+    // Raised from 4.61 for the yue and nan entries in LanguageCode.ts, which every page carries.
+    ['src/routes/[[locale]]/projects/+page.svelte', 593, 4.62],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

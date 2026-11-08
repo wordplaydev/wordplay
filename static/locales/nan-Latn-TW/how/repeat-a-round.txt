@@ -1,0 +1,42 @@
+Tshiāu-tāi iû-hì ê tsi̍t-ûn
+
+Tsin-tsē iû-hì lóng sī hiah-nī-kuá sî-kan tsiòng-tsāi tsiòng-tsāi: kóng beh tsò siánn, tán ūi-tap, hōo lâng khuànn kiat-kó án-tsuánn, tsiah koh tuì thâu khai-sí.
+Tsi̍t ê @Scene ē-sái sī tsit-ê kui-ûn, mā ē-sái @Scene/loop tō-sī hōo i tńg-khì thâu-chiân.
+
+Hiah-ê sî-kan tō-sī lia̍t-piáu--lāi-té ê mi̍h-kiānn, in tsiong-kan ê @Boolean tō-sī @Scene tán ûn-tōng-uân ê tē-hng.
+
+\
+tshuē2: Khaikáng()
+right: tshuē2 = 'cat'
+Tiûnnkíng([
+	Kù('Tshuē khuànn tse sī sím-mih tshíng-tsiū!' sîtn̂g: 2s)
+	∆ tshuē2
+	Kù(right ? 'Tio̍h!' 'Bô tio̍h!' sîtn̂g: 2s)
+] huêkhuan: ~right)
+\
+
+ Tsit ê \∆ guess\ tō-sī teh tán: tsí-ū siūnn-ê sin ê tsāi-tshái lâi ê sî-tsūn tsiah sī tsiânn, àu @Scene tō tiām tsia, tán tsit-ê lâng phah-tsu̍t tsi̍t-kuá mi̍h.
+Koh-ū \loop: ~right\ tō-sī teh tsiōng-hók: @Scene ê tsū-sū tsiāu-tsiāu loo̍h-lâi, tán i tuì tsiah soo̍t-tsiām, ànn tī siōng-āu-tsi̍t-ê @Phrase.
+
+Chù-ì: @Scene/loop tiām--loh-lâi. Múi-tsiah lí ê Program piàn-tōng, lóng ē tshun-tuā tshut ê, lí ē-sái huê-khuan kap khai-sí, kap kiat-sok, tō-sī \~right\ tú-tsiah tsò ê.
+
+Beh tsai-iánn tsi̍t-ûn kàu tó-ūi, lí thang mn̄g @Spotlight.
+I ē kā lí kóng tsit-ê @Phrase tse teh hián-sī, ū guā-tsē, @Scene soo̍t-khì guā-tsē-tsiah, kap tsit-ē sī-m̄-sī teh tán lâng.
+
+\
+guess: Khaikáng()
+at: Tsūkngting()
+Bútâi([
+	Tiûnnkíng([
+		Kù('Guess the animal!' sîtn̂g: 2s)
+		∆ guess
+		Kù('Nope!' sîtn̂g: 2s)
+	] huêkhuan: ⊤)
+	Kù(at.tánthāi ? 'type a guess' `round \at.lap + 1\` tuātsè: 0.4m uītì: Uītì(0m -2m))
+])
+\
+
+@Scene/replay sī tsi̍t-ê pān-huat, ē-sái sī-tsūn beh, lóng ē kā tsi̍t-ûn tuì thâu khai-sí, bē-su sī kàu tó-ūi.
+Hōo i tsi̍t-ê tsí-ū tsi̍t-ē tsiânn ê mi̍h-kiānn, tī-hun \∆ Button()\.
+
+interactive-scene, animated-scene, track-game-state

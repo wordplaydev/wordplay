@@ -1,0 +1,73 @@
+Hō khuànn-tio̍h kui ê bú-tâi pê-pí lāu tiān-iánn, tiān-sī, á-sī tsuí
+
+Tiān-iánn ē piàn-hōa kui tsâng tshiùnn-kínn ê khuànn-huat: siūnn-khí-lâi ê tsîng-tsíng ē ńg koh kng, lāu sin-bûn-phìnn ē khat-hûn koh hue-sik, tiān-sī ē tsuann sian-tsuann tsiuann-kuân, tī tsuí-lāi ê mi̍h-kiānn ē tsūn-tāng koh piàn-tshenn-sik.
+Lán mā ē án-ne tsò, hō @Stage tsi̍t tsâng lia̍t-piáu, lāi-té ū @Effect.
+
+Tse sī thàu-kuè tsuí khuànn ê tsi̍t tsâng tshiùnn-kínn.
+
+\
+Bútâi(
+	[Kù('🐠') Kù('🌿' uītì: Uītì(1m -1m))]
+	hāukó: [Íng(0.15m) Jiámsik(Siktshái(55% 45 220°) 70%) Bū(40% Siktshái(70% 30 200°))]
+)
+\
+
+ Múi tsi̍t ê hāu-kó tsí tsò tsi̍t-kiānn tāi-tsì. @Wave ē tsūn-tāng, @Tint ē hō sốo-ū ê mi̍h-kiānn tsiah-tio̍h tsi̍t-khuá sik-tshái, koh @Haze ē tī téng-bīn phah tsi̍t tsâng phiau-phiau ê bū.
+Tsia ê hāu-kó hiah tsò-hué, khuànn-khí-lâi tō-sī tsuí. Hāu-kó ē tòe lia̍t-piáu ê sūn-sī tsi̍t-ê tsi̍t-ê sú-iōng, sóo-í āu-bīn ê ē kái-piàn tsîng-bīn ê kiat-kó.
+
+Ū tsha̍p-khuá ē-sái tsò-hué: @Blur、 @Grade、 @Tint、 @Haze、 @Grain、 @Scanlines、 @Wave、 @Damage、 @Flicker、kap @Vignette.
+Tse sī tsi̍t-ê lāu tiān-iánn: @Grade kā sik-tshái tshú-tiāu, jiân-āu @Damage、 @Grain、kap @Flicker hō i khuànn-khí-lâi phòo-phòo koh bô-ūn.
+
+\
+Bútâi(
+	[Kù('Kiat-sok')]
+	hāukó: [Tiâusik(tuìpí: 130% páhôtōo: 0%) Súnhuāi(70% 50%) Kholia̍p(25%) Siámsih(15% 2) Àmkak(60%)]
+)
+\
+
+ Koh ū tse sī tsi̍t-tsâng tiān-sī sì-hō tiāu-khì ê iūnn-á.
+
+\
+Bútâi(
+	[Kù('tē 3 tsînn-tō')]
+	hāukó: [Sàubiâusuànn(40% soktōo: 1) Kholia̍p(50% tuātsè: 2) Siámsih(20%)]
+)
+\
+
+ Nā beh tsiāu-kòo tsi̍t-ê khuànn-huat tsiânn-tsiânn sú-iōng, khai-sí tsò tsi̍t-ê hâm-sòo, hō i kā hāu-kó ê lia̍t-piáu tńg lâi hō lí.
+I ê ín-sòo ē piàn-tsò khuànn-huat ka-kī ê siat-tīng. Tsit-ê ē tuì-lo̍h-khì iû-guân kàu-tshù, iû-guân thang-tshái-bak-bak.
+
+\
+ƒ underwater(depth•%) [
+	Íng(0.2m · depth)
+	Jiámsik(Siktshái(55% 45 220°) depth)
+	Bôohôo(0.03m · depth)
+]
+
+Bútâi([Kù('🐠')] hāukó: underwater(80%))
+\
+
+ Khuànn-huat mā ē tòe iū-hì ê tsōng-thāi piàn-hōa.
+Tsia ê bú-tâi, tī ūi-ka-ê kan-nā-ū tsi̍t-ê miā ê sî-chūn, piî-piân ē bô-lâng-khuànn-tio̍h koh àm, tsiah iū-koh ū koh-khah-tsōng ê sî-chūn tō ē kng tńg-lâi.
+
+\
+miâ2: 3 … ∆ Kiān() … miâ2 - 1
+
+Bútâi(
+	[Kù(miâ2 → '')]
+	hāukó: miâ2 < 2 ? [Bôohôo(0.05m) Àmkak(70% Siktshái(30% 80 30°))] []
+)
+\
+
+ Hāu-kó tsí tsia̍h-tio̍h bú-tâi téng ê mi̍h-kiānn, bô-tsia̍h-tio̍h i ê @Stage.overlay, sóo-í hun-sòo á-sī àn-nǐu iû-guân khuànn-tit tshing-tshó.
+
+Kā kui ê bú-tâi iông, tâng-khuán tòe tē-tsūn, tsiah-sī m̄-sī hāu-kó: tsi̍t-ê @Stage ē-sái kap kî-thaʼ ê su-tshut tsiūnn-tsiūnn tsūn-tāng, sóo-í hō i tsi̍t-ê @Sequence.
+
+\
+Bútâi([Kù('🏠')] hiohkhùn: Sūnsū.tsùn(0.5s kuípái: 4x))
+\
+
+ Ū-ê hāu-kó tsūn-tāng kài khuài. Nā-sī lâng í-keng iau-kiû i ê tsim-khì kiám-sió tsūn-tāng, sóo-ū ê hāu-kó lóng ē tshun-tiām-tiām.
+@Flicker bô-lūn lí iau-kiû tsiânn-kuài, mā bē siánn-sih kuè tsi̍t-ê tsiap-tsiap-ê kuài-sòo, in-uī siánn-sih siunn-kuài ē hō lâng sin-khóo.
+
+track-game-state

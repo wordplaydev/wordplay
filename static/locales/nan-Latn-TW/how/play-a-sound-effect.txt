@@ -1,0 +1,44 @@
+Tī sū-tsîng huat-seng ê sî-tsūn pàng siann-im
+
+Tap-tap tuì ê sî tsit siann "ting", mih-kiānn lo̍h-tsuè tsit siann "phok" — siann-im-hāu-kó sī tsi̍t ê sió-sió ê @Music , tsí pàng tsi̍t kái, tsiū lī-khui.
+
+Ū nn̄g khuán tāi-tsì ōo-lâi, tsiah ē-hiáu pìⁿ-tsò siann-im-hāu-kó, m̄-sī koa. \loop: ⊥\ kā @Track , kiò i ê im-hu tsí pàng tsi̍t kái, m̄-sī tsi̍t-ta̍k pàng. Koh-ū, im-hu ê tsîng-tan sī uì hit ê sî-tsūn lâi ê: tsiah-tsāi huat-seng sū-tsîng ê sî ū im-hu, kî-thuànn ê sî-tsūn sī khang ê.
+
+\
+tapped: ∆ Button()
+
+Bútâi([
+	Kù('👆 khok guá' ētàngkíng miâ: 'khok')
+	Imga̍k(
+		Imkuí(tapped ? [1 5 8] [] ga̍kkhì: Ga̍kkhì.lînglông huêkhuan: ⊥)
+		tîngpàng: tapped
+	)
+])
+\
+
+ Mài tshuán-kiàn tsîng-tan tī lī-pái-ê ti̍t-tāi koh pìⁿ khang, in-uī í-king khai-sí ê im-hu tio̍h ē pàng kàu soah. Bē-sái bô-ê sī \replay\. Lí tshi̍h nn̄g kái, tē-jī kái tsa̍p-tsò ê im-io̍k kap tē-it kái it-iūnn, ná-ū piàn-hua, mā bô siann-im ē koh hioh; \replay\ tsiū-sī iōng lâi kóng / koh-lâi, tsit-má /.
+
+@Music iáu-tio̍h tsi̍t ê * tsi̍t-sî * ê tiâu-kiānn — tsí tī sū-tsîng iân-sin ê hit pái ti̍t-tāi sī tsiàn, ná-kâng téng-bīn ê \∆ Button()\ . Tn̂g-kú ê, ná-kâng \score > 10\, ē ìn-kî tsiàn-kàu āu-piah, mā ē tī múi pái ti̍t-tāi tsiū koh-khai-sí siann-im.
+
+Im-hu tsí sī tsi̍t ê tsîng-tan, lí thang uì * sián-mih * huat-seng lâi koat-tīng, m̄-bián tsi̍t-ti̍t pàng kāng-khuán ê mih:
+
+\
+kiān2: Kiān()
+struck: ∆ kiān2
+
+Bútâi([
+	Kù(struck ? kiān2 '⌨ ânn kiān' 1m)
+	Imga̍k(
+		Imkuí(
+			struck ? [((kiān2 = ' ') ? 1 8)] []
+			ga̍kkhì: Ga̍kkhì.kongkhîm
+			huêkhuan: ⊥
+		)
+		tîngpàng: struck
+	)
+])
+\
+
+ Khuànn tio̍h \∆ key\ tī ka-tī ê tsi̍t-hâng sûn-tsuè, tah ta̍t ê tshìn-tsāi \key = ' '\ tō-lī-ê huat-seng. Nā kā in tàu-tsò tsi̍t ê tiâu-kiānn, tī lī-lâi bô-koan ê kiān ê sî, siann-im ē koh-pàng, in-uī \key\ iáu-sī khuànn-tsò khang-keh.
+
+draw-the-music, music-follows-the-action, offer-choices

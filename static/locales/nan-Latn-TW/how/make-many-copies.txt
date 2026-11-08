@@ -1,0 +1,23 @@
+Tsò tsiok-tsē tsi̍t-ê jī-hū ê hu-pún
+
+Nā-sī lí beh tsap tsiah māo, ia̍h-sī pah tsiah sing, ǹg-hó kā in lóng ìn-tshut-lâi, tio̍h-án-tsuánn?
+Lí ē-sái kiò tsi̍t-ê list tàu lí tsò hu-pún, ēng @List/translate.
+
+Nā-sī lí tuì kàu-ha̍k-sòo-jī \10\ khai-sí, koh ēng \→ []\ kā i tuann-tshiūnn, tō ē tit-tio̍h tsi̍t-ê ū tsa̍p-ê sòo-jī ê list, uì 1 kàu 10.
+Ná-ē ēng @List/translate kā múi-ê sòo-jī piàn-tsò @Phrase:
+
+\
+Kûntsoo(Tsuā() (10 → []).huani̍k(ƒ() Kù('🐈')))
+\
+
+@List/translate tuì múi-ê hāng-bo̍k kiò tsi̍t-pái guán ê sió-hâm-sòo, ták-ê ê kiat-kó tō kui-tsò-hóo sin ê list.
+
+Nā-sī beh hōo múi-ê hu-pún bô-kâng-tsíng, tō ēng translate hōo lán ê sòo-jī:
+
+\
+Kûntsoo(Tsuā('|' 0.2m) [:1‥8].huani̍k(ƒ(n2) Kù('⭐' tuātsè: n2 × 0.5m)))
+\
+
+ Múi-ê sing lóng pí téng-tsi̍t-ê koh-khah tuā, in-uī \n\ uì \1\ kàu \8\.
+
+make-a-grid, arrange-in-a-row

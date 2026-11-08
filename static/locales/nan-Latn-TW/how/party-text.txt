@@ -1,0 +1,52 @@
+Hō͘ múi ê jī ū ka-kī ê sik-tshái
+
+Tsi̍t ê @Phrase ē-sái hō͘ múi ê jī-hîng bô-kāng ê @Pose kap @Phrase/poses.
+Tē-it ê jī-hîng tiòh tē-it ê tsū-sè, tē-jī ê jī-hîng tiòh tē-jī ê, tsū-sè iōng-uân ê sî-tsūn, tuì tē-it ê koh-tsài khai-sí.
+
+Tsia ū tsi̍t-kuá phah-sǹg-thuànn ê bûn-jī, ū sann khoán sik-tshái lûn-liû:
+
+\
+Kù(
+	'phah-piàn sî-kan!'
+	jīthé: 'Luckiest Guy'
+	tsusè: [
+		Tsusè(sik: Siktshái(25% 70 250°))
+		Tsusè(sik: Siktshái(50% 80 300°))
+		Tsusè(sik: Siktshái(58% 90 60°))
+	]
+)
+\
+
+ Khang-keh mā tsuàn-sǹg jī-hîng, in-uī án-ne sik-tshái ē uì tsit ê sû liân-tsiap lûn-liû.
+Tsiah ê sik-tshái ê bîng-àm kah sik-siōng lóng bô-kāng, in-uī án-ne khuànn-sik-tshái bô-kāng ê lâng mā ē-tàng hun-piàt in.
+
+Tsū-sè m̄-nā ē-tàng pìⁿ sik-tshái. Múi ê jī-hîng ē khi-tsiah, ōe-tuā, tshiám-tn̂g, koh uì ka-kī ê tiong-sim suá-tāng, án-ne lán tō ē-tàng hō͘ jī tiô:
+
+\
+Kù(
+	'pia̍k'
+	jīthé: 'Luckiest Guy'
+	tsusè: [
+		Tsusè(sik: Siktshái(25% 70 250°) suântsuán: -10° phianî: Uītì(0m 0.1m))
+		Tsusè(sik: Siktshái(58% 90 60°) suântsuán: 10° putthàumîng: 0.6)
+	]
+)
+\
+
+ Tsū-sè mā ē-tàng kap ū-keh-sik ê bûn-jī tsò-hóe iōng, kap kî-thaʼ ê ji̍p-liāu kāng-khoán, ē uì kî-thaʼ ê ta̍t piàn-uānn.
+Tsit tiunn kóng-tsiok-sìn múi sì-hun-ê-tsi̍t ê sî-kan tō tsú-tsāi sin ê khi-tsiah:
+
+\
+khi2: 0° … ∆ Sîkan(250ms) … Suîki(-15° 15°)
+Kù(
+	`*sàu-tsînn* /kì-sū/`
+	jīthé: 'Courier Prime'
+	tsusè: [
+		Tsusè(suântsuán: khi2 phianî: Uītì(0m 0.05m))
+		Tsusè(suântsuán: -khi2 imkai: 1.2)
+		Tsusè(suântsuán: khi2 ÷ 2 phianî: Uītì(0m -0.05m))
+	]
+)
+\
+
+styling-text, your-own-template, animate-phrase

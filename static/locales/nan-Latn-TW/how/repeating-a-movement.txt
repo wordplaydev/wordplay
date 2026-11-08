@@ -1,0 +1,21 @@
+Tshòng-hok tsi̍t-ê tōng-tsok
+
+Ū-sî lán siūnn beh hōo tsi̍t-ê kak-sik tsò kāng-iūnn ê tōng-tsok tsuā-kuí-ê pái! 
+Kā kāng-iūnn ê kui-tsi̍t-tsūn tsiām-tsiām kiat-kiat phah, ē hōo lâng pîn-tsiū.
+
+Lán ē-sái iōng @Sequence kap @Phrase lâi hōo tsi̍t-ê mih-kiānn tsóng-kiat tsiòng-khuàn tsuā-kuí-ê pái! Kui-té-kuí-tsāi,
+lán ē-sái iōng @Sequence ê sǹg-sòo, koh kéng tsi̍t-tsoo tsu-sè ài tsò kuí-pái. Pí-lūn, 
+tse sī tsi̍t-ê lâm-kiû tī téng-hā phah-tiōng nn̄g-pái. 
+
+\
+Bútâi([
+	Kù('🏀' ji̍plâi: Sūnsū({
+				0%: Tsusè(phianî: Uītì(y: 0.25m))
+				25%: Tsusè(phianî: Uītì(y: 0m))
+				50%: Tsusè(phianî: Uītì(y: -0.25m))
+				75%: Tsusè(phianî: Uītì(y: 0m))
+				100%: Tsusè(phianî: Uītì(y: 0.25m))} kuípái:2x sîtn̂g:2s))
+])
+\
+
+animate-phrase, shake-phrase

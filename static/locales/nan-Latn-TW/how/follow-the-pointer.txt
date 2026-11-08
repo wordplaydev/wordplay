@@ -1,0 +1,22 @@
+Hō tsit-ê jī-hu̍t kuè lí ê tsháu-tsí
+
+Lí kám beh tshuē tsit-ê jī-hu̍t, tsiok-tsiok tuè lí ê buē-sú á-sī tsháu-tsí tī @Stage?
+Lán ē-tàng ēng @Pointer ê input lâi tsò.
+
+@Pointer tsiok-tsiok hō lán tsit-ê sin ê @Place nā-sī tsí-puê suá-tāng.
+Nā lán ēng hit-ê @Place tsò @Phrase ê \place\, jī-hu̍t tō ē khì lán tsí ê tē-hng.
+
+\
+Bútâi([Kù('🐈' uītì: Tsípiau())] uītì: Uītì(0m 0m -10m))
+\
+
+ Án-ni tō hó. Suá lí ê buē-sú á-sī thòo lí ê tsháu-tsí, khuànn niau-á tuè-tsit.
+
+Lí ē-tàng kā \x\ kap \y\ tùi @Place.
+Tsia-ê sī tsit-tsiah ia̍h-á, it-tit phiau tī tsí-puê ê téng-bīn tsit-kong-tshiá.
+
+\
+Bútâi([Kù('🦆' uītì: Uītì(Tsípiau().x Tsípiau().y + 1m))] uītì: Uītì(0m 0m -10m))
+\
+
+move-phrase, count-with-time

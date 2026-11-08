@@ -4,7 +4,6 @@
     import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import { getFunctionsInstance } from '#db/firebase.ts';
     import { locales } from '#db/Database.ts';
-    import scanLiteralGlossaryTerms from '#locale/glossaryScan.ts';
     import { toLocaleString } from '#locale/LocaleText.ts';
     import { withoutAnnotations } from '#locale/withoutAnnotations.ts';
     import type { Functions } from 'firebase/functions';
@@ -62,14 +61,25 @@
         void getFunctionsInstance().then((f) => (functions = f));
     });
 
-    // Debounced glossary scan: ~0.8s after the contributor stops typing.
+    // Debounced glossary scan: ~0.8s after the contributor stops typing. The
+    // scanner is imported on demand because it needs the markup splitter, which
+    // would otherwise land on every page's import graph.
     $effect(() => {
         const draft = text;
         const words = glossaryWords;
+        let cancelled = false;
         const timer = setTimeout(() => {
-            literalTerms = scanLiteralGlossaryTerms(draft, words);
+            void import('#locale/glossaryScan.ts').then(
+                ({ default: scanLiteralGlossaryTerms }) => {
+                    if (!cancelled)
+                        literalTerms = scanLiteralGlossaryTerms(draft, words);
+                },
+            );
         }, 800);
-        return () => clearTimeout(timer);
+        return () => {
+            cancelled = true;
+            clearTimeout(timer);
+        };
     });
 
     // A reading-level result is only valid for the text it was computed from.

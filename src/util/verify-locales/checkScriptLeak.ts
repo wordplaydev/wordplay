@@ -65,12 +65,38 @@ export function otherScriptsPattern(
     script: Script,
     locale: Pick<LocaleText, 'language'>,
 ): RegExp | undefined {
-    const others = getLanguageScripts(locale.language).filter(
-        (other) => other !== script && other !== 'Emoj',
-    );
+    const own = new Set(unicodeScripts(script));
+    const others = [
+        ...new Set(
+            getLanguageScripts(locale.language)
+                .filter((other) => other !== script && other !== 'Emoj')
+                .flatMap(unicodeScripts),
+        ),
+    ].filter((other) => !own.has(other));
     return others.length === 0
         ? undefined
         : new RegExp(others.map((other) => `\\p{sc=${other}}`).join('|'), 'u');
+}
+
+/** ISO 15924's composite codes name no Unicode script (`\p{sc=Hant}` is a
+ *  syntax error), so they are resolved to the scripts their text is written in:
+ *  Taiwanese Hokkien in Latin must still notice Traditional Han leaking in. */
+const CompositeScripts: Partial<Record<Script, string[]>> = {
+    Hans: ['Hani'],
+    Hant: ['Hani'],
+    Kore: ['Hang', 'Hani'],
+};
+
+/** The Unicode script values a code stands for, omitting any Unicode lacks. */
+function unicodeScripts(script: Script): string[] {
+    return (CompositeScripts[script] ?? [script]).filter((code) => {
+        try {
+            new RegExp(`\\p{sc=${code}}`, 'u');
+            return true;
+        } catch {
+            return false;
+        }
+    });
 }
 
 function flatten(value: unknown): string | undefined {

@@ -1,0 +1,340 @@
+{
+    "$schema": "../../schemas/Tutorial.json",
+    "language": "ml",
+    "regions": ["IN"],
+    "acts": [
+        {
+            "title": "$~വേഡ്‌പ്ലേ വ്യത്യസ്തമാണ്",
+            "performance": { "fit": "#Symbol 💬", "theme": "Quick" },
+            "scenes": [
+                {
+                    "title": "$~പ്രോഗ്രാമുകൾ മൂല്യങ്ങളാണ്",
+                    "subtitle": "$~പ്രയോഗങ്ങൾ, നിർദ്ദേശങ്ങളല്ല",
+                    "concept": "Program",
+                    "performance": { "fit": "#Symbol ƒ", "theme": "Program" },
+                    "lines": [
+                        { "edit": "" },
+                        [
+                            "FunctionDefinition",
+                            "cheerful",
+                            "$~@wordplay-ലേക്ക് സ്വാഗതം! നിങ്ങൾക്ക് പ്രോഗ്രാമിങ്ങിനെക്കുറിച്ച് കുറച്ച് അറിയാമെന്ന് കേട്ടു. നല്ലത്! വേഡ്‌പ്ലേയിൽ എന്തൊക്കെ സമാനമാണെന്നും എന്തൊക്കെ വ്യത്യസ്തമാണെന്നും ഈ ചെറിയ യാത്ര കാണിച്ചുതരും.",
+                            "$~ഈ സ്ക്രീനിലെ എല്ലാം നിങ്ങൾ അറിയാൻ വേണ്ടി പറയട്ടെ: ഈ പേജ് @tutorial ഡയലോഗും @project കാഴ്ചയും കാണിക്കുന്നു. പ്രോഗ്രാമിന്റെ ഔട്ട്പുട്ട് കാണിക്കുന്ന *വേദി* @UI/stage നിങ്ങൾക്ക് കാണാം. പ്രോഗ്രാം @code ആയ *@editor* @UI/editor അതിനൊപ്പം ഉണ്ട്.",
+                            "$~ഈ പ്രോഗ്രാം ശൂന്യമാണ്, അതിനാൽ ഇതിന്റെ ഔട്ട്പുട്ട് ഒരു പ്രോഗ്രാം എഴുതാനുള്ള ക്ഷണം മാത്രമാണ്.",
+                            "$~പ്രോഗ്രാം നിർത്താനും ഓടിക്കാനും കോഡ് എഴുതാനും മറ്റ് പല നിയന്ത്രണങ്ങളും ഉണ്ട്. ഇപ്പോൾ അവയെക്കുറിച്ച് വിഷമിക്കേണ്ട."
+                        ],
+                        null,
+                        { "edit": "'hi'" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~മിക്ക പ്രോഗ്രാമിങ് @languages-ലും, ഒരു പ്രോഗ്രാം എന്നത് കമ്പ്യൂട്ടറിനോട് എന്തു *ചെയ്യണം* എന്ന് പറയുന്ന നിർദ്ദേശങ്ങളുടെ പട്ടികയാണ്, ഉദാഹരണത്തിന് @value പ്രിന്റ് ചെയ്യുന്നത്:",
+                            "$~\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
+                            "$~@wordplay-ൽ, പ്രോഗ്രാമുകൾ *പ്രയോഗങ്ങളാണ്*. പ്രോഗ്രാമിന്റെ /ഫലം/ എന്തായിരിക്കണം എന്നാണ് അവ പറയുന്നത്, അത് എങ്ങനെ ഉണ്ടാക്കണം എന്നല്ല.",
+                            "$~ഈ പ്രോഗ്രാം \\'ഹായ്'\\ എന്ന മൂല്യത്തിലേക്ക് എത്തുന്നു, അത് വേദിയിൽ കാണിക്കുന്നു. പ്രിന്റ് കമാൻഡ് ഇല്ല; ഏത് മൂല്യത്തിലേക്ക് എത്തണം എന്ന് പറയുന്ന ഒരു @expression മാത്രം."
+                        ],
+                        null,
+                        { "edit": ["message: 'hi'", "message"] },
+                        [
+                            "Bind",
+                            "neutral",
+                            "$~മറ്റ് ഭാഷകളിൽ, *ചരം* എന്നത് @value സൂക്ഷിക്കുന്ന പേരുള്ള ഒരു പാത്രമാണ്, അതിന്റെ മൂല്യം മാറാം:",
+                            "$~\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
+                            "$~@wordplay-ൽ, പേരിട്ട മൂല്യങ്ങൾ ഒരിക്കലും മാറില്ല. അവ 'മാറ്റാനാവാത്തവ' ആണ്, അതായത് അവയ്ക്ക് പുതിയ മൂല്യം നൽകാൻ കഴിയില്ല. അതുകൊണ്ടാണ് അവയെ @variable എന്നതിനു പകരം @Bind എന്ന് വിളിക്കുന്നത്, കാരണം അവ മാറുന്നില്ല.",
+                            "$~മാറാവുന്ന ചരങ്ങൾ ഇല്ലാതെ സംവദിക്കുന്ന പ്രോഗ്രാമുകൾ എങ്ങനെ എഴുതാമെന്ന് ഉടൻ പറയാം."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~വ്യവസ്ഥകൾ പരിശോധിക്കൽ",
+                    "subtitle": null,
+                    "concept": "Conditional",
+                    "performance": {
+                        "fit": "#Symbol ?",
+                        "theme": "Conditional"
+                    },
+                    "lines": [
+                        { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
+                        [
+                            "Conditional",
+                            "neutral",
+                            "$~മറ്റ് പ്രോഗ്രാമിങ് @languages-ൽ സാധാരണയായി ഒരു @condition അടിസ്ഥാനമാക്കി വ്യത്യസ്ത കാര്യങ്ങൾ ചെയ്യാൻ *if* നിർദ്ദേശം ഉണ്ടാകും:",
+                            "$~\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
+                            "$~@wordplay-ൽ എല്ലാം ഒരു @expression ആണ്, അതിനാൽ @Conditional ഒരു *പ്രയോഗമാണ്*: ഒരു വ്യവസ്ഥ, പിന്നെ \\?\\, പിന്നെ ശരിയാണെങ്കിലുള്ള പ്രയോഗവും തെറ്റാണെങ്കിലുള്ള പ്രയോഗവും. പ്രത്യേക വാക്കുകൾ ഒന്നും വേണ്ട"
+                        ],
+                        null,
+                        { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ചില ഭാഷകളിൽ @value അടിസ്ഥാനമാക്കി വ്യത്യസ്ത കാര്യങ്ങൾ ചെയ്യാൻ *switch* നിർദ്ദേശവും ഉണ്ട്:",
+                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
+                            "$~@wordplay-ൽ @Match ഉണ്ട്, അത് മൂല്യം നോക്കി ഒരു ഫലം തിരഞ്ഞെടുക്കുന്നു."
+                        ],
+                        null,
+                        { "edit": ["val: ø", "val ?? 0"] },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~ചില ഭാഷകളിൽ @variable ശൂന്യമോ നിർവചിക്കാത്തതോ ആയിരിക്കുമ്പോൾ ഒരു സ്ഥിരമൂല്യം @value നൽകാൻ *null coalescing* @operator ഉണ്ട്:",
+                            "$~\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
+                            "$~അതേ ഫലം കിട്ടാൻ @wordplay-ൽ @Otherwise ഓപ്പറേറ്റർ ഉണ്ട്."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~മൂല്യങ്ങളും തരങ്ങളും",
+                    "subtitle": null,
+                    "concept": "Number",
+                    "performance": { "fit": "#Symbol 0️⃣", "theme": "Number" },
+                    "lines": [
+                        {
+                            "edit": [
+                                "number: 1",
+                                "numberWithUnit: 1.5m",
+                                "text: 'hi'",
+                                "textWithTranslations: 'hi'/en'hola'/es",
+                                "boolean: ⊤",
+                                "none: ø"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~മിക്ക ഭാഷകളിലും പല 'അടിസ്ഥാന' @value തരങ്ങൾ ഉണ്ട്.",
+                            "$~\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
+                            "$~@wordplay ഈ തരങ്ങൾക്ക് സമാനമായ രീതിയാണ് ഉപയോഗിക്കുന്നത്. കൂടാതെ, പല ഭാഷകളിലുള്ള എഴുത്തിനുള്ള @language ടാഗുകൾ, സംഖ്യകളിലെ യൂണിറ്റുകൾ തുടങ്ങിയ മറ്റ് വിവരങ്ങളും ചേർക്കാൻ അനുവദിക്കുന്നു."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "list: [1 2 3]",
+                                "set: {1 2 3}",
+                                "map: {'a': 1}"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~ലിസ്റ്റുകൾ, സെറ്റുകൾ, മാപ്പുകൾ (ഡിക്ഷണറികൾ അല്ലെങ്കിൽ ഹാഷുകൾ എന്നും അറിയപ്പെടുന്നു) പോലെ മൂല്യങ്ങളുടെ ശേഖരം ഉണ്ടാക്കാനുള്ള വഴികളും പ്രോഗ്രാമിങ് ഭാഷകളിൽ ഉണ്ട്:",
+                            "$~\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
+                            "$~@wordplay ഈ ശേഖരങ്ങൾക്ക് വ്യത്യസ്തമായ രീതിയാണ് ഉപയോഗിക്കുന്നത്. മൂല്യങ്ങളെ വേർതിരിക്കാൻ കോമയ്ക്ക് പകരം സ്പേസ് ഉപയോഗിക്കുന്നതാണ് പ്രധാന വ്യത്യാസം."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "inferredType: [1 2 3]",
+                                "declaredType•[#]: [1 2 3]",
+                                "pair•[# '']: [1 'hi']"
+                            ],
+                            "conflicts": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ചില പ്രോഗ്രാമിംഗ് ഭാഷകൾ ഒരു @variable-ന്റെ @type വ്യക്തമാക്കാൻ അനുവദിക്കുന്നു. അതിനാൽ ചരം ഉപയോഗിക്കുന്ന എല്ലാ വഴികളും ശരിയാണെന്ന് ഉറപ്പാക്കാം:",
+                            "$~\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
+                            "$~@wordplay-നും തരം ഉണ്ട്, പക്ഷേ തരങ്ങൾ *അനുമാനിക്കപ്പെടുന്നു*. സാധാരണയായി നിങ്ങൾ അവ പറയേണ്ടതില്ല. അനുമാനിക്കാൻ കഴിയുന്നില്ലെങ്കിൽ ചിലപ്പോൾ പറയേണ്ടി വരും. ഒരു ലിസ്റ്റ് തരത്തിൽ ഓരോ സ്ഥാനത്തിനും ഒരു തരം പറയാനും കഴിയും. ഉദാഹരണത്തിന്, \\[# '']\\ എന്നാൽ കൃത്യമായി രണ്ട് കാര്യങ്ങളുള്ള ലിസ്റ്റ്: ഒരു സംഖ്യ, പിന്നെ ഒരു വാക്ക്."
+                        ],
+                        null,
+                        { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ഒന്നിലധികം മൂല്യങ്ങൾ ചേർത്ത് ഒരൊറ്റ ഡാറ്റ ഘടന ഉണ്ടാക്കാൻ, സ്വന്തം ഡാറ്റ തരങ്ങൾ ഉണ്ടാക്കാനുള്ള വഴിയും പ്രോഗ്രാമിംഗ് ഭാഷകൾ സാധാരണയായി നൽകുന്നു:",
+                            "$~\\py| class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv| public class Pet {\n    private String name;\n    private int age;\n    public Pet(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\",
+                            "$~@Structure പ്രഖ്യാപിക്കാൻ @wordplay വ്യത്യസ്തമായ ഒരു രീതി ഉപയോഗിക്കുന്നു. ഡാറ്റ തരത്തെ സൂചിപ്പിക്കാൻ \\•\\ ഉപയോഗിക്കുന്നു, പിന്നെ @name, പിന്നെ ഘടനയിലെ ഫീൽഡുകൾ."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~പരിവർത്തനങ്ങൾ, ശേഖരങ്ങൾ, ഫംഗ്ഷനുകൾ",
+                    "subtitle": null,
+                    "concept": "Convert",
+                    "performance": { "fit": "#Symbol →", "theme": "Convert" },
+                    "lines": [
+                        { "edit": ["1m → #ft → ''"] },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~ഒരു @type-ൽ നിന്ന് മറ്റൊന്നിലേക്ക് ഡാറ്റ മാറ്റുന്നത് പ്രോഗ്രാമിംഗിലെ സാധാരണ പ്രവർത്തനമാണ്. ഉദാഹരണത്തിന്, ഒരു സംഖ്യയെ ടെക്സ്റ്റ് @value ആക്കി മാറ്റണമെന്ന് വരാം:",
+                            "$~\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
+                            "$~@wordplay മൂല്യങ്ങൾക്കെല്ലാം തരങ്ങൾ തമ്മിൽ മാറ്റാൻ അനുവദിക്കുന്ന @Convert ഘടനയുണ്ട്. ഈ ഉദാഹരണം \\1m\\-നെ അടിയിലേക്കും പിന്നെ @Text-ലേക്കും മാറ്റുന്നു. ഓരോ തരം മൂല്യത്തിനും പിന്തുണയുള്ള പരിവർത്തനങ്ങളുടെ ഒരു ശേഖരം തന്നെയുണ്ട്"
+                        ],
+                        null,
+                        { "edit": "[1 2 3] ↦ ⬚ × 2" },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~ലിസ്റ്റുകൾ, അറേകൾ പോലുള്ള മൂല്യങ്ങളുടെ ശേഖരങ്ങൾക്ക്, നിലവിലുള്ള ശേഖരത്തിലെ മൂല്യങ്ങളിൽ നിന്ന് പുതിയ ശേഖരം ഉണ്ടാക്കാൻ മറ്റ് പ്രോഗ്രാമിംഗ് @languages *for*, *while* ലൂപ്പുകൾ പോലുള്ള ഘടനകൾ ഉപയോഗിക്കുന്നു.",
+                            "$~\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
+                            "$~@wordplay-ൽ \\↦\\ ചിഹ്നം ഉപയോഗിക്കുന്ന ലളിതമായ @Translate* ഘടനയുണ്ട്: ഇത് പുതിയ @List, @Set അല്ലെങ്കിൽ @Map ഉണ്ടാക്കുന്നു. ഓരോ ഇനത്തെയും (\\⬚\\ @placeholder കൊണ്ട് സൂചിപ്പിക്കുന്നു) പുതിയ @value കൊണ്ട് മാറ്റുന്നു. ഇത് ഓരോ ഇനവും ഇരട്ടിയാക്കി \\[2 4 6]\\ ഉണ്ടാക്കുന്നു.",
+                            "$~കൂടുതൽ സങ്കീർണ്ണമായ പ്രവർത്തനങ്ങൾ വേണമെങ്കിൽ @List.translate, @List.combine പോലുള്ള കൂടുതൽ ശക്തമായ കാര്യങ്ങളുമുണ്ട്."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "ƒ greet(name•'') 'hi ' + name",
+                                "greet('Verse')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~എല്ലാ പ്രോഗ്രാമിംഗ് ഭാഷകളിലും ഫംഗ്ഷനുകൾ ഉണ്ട്. ഇൻപുട്ട് സ്വീകരിച്ച് അതിനനുസരിച്ച് ഔട്ട്പുട്ട് നൽകുന്ന, എത്ര സങ്കീർണ്ണമായ കാര്യങ്ങളും ചെയ്യുന്ന, വീണ്ടും ഉപയോഗിക്കാവുന്ന @blocks (@code) ഉണ്ടാക്കാൻ ഇവ അനുവദിക്കുന്നു:",
+                            "$~\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
+                            "$~@wordplay-ഉം ഫംഗ്ഷൻ നിർവചനങ്ങളെ പിന്തുണയ്ക്കുന്നു, പക്ഷേ ƒ ചിഹ്നം ഉപയോഗിച്ച്. എല്ലാ വേഡ്‌പ്ലേ പ്രോഗ്രാമുകളെയും പോലെ, ഫംഗ്ഷനുകളും ഒരു @value ആയി മാറണം."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~ഔട്ട്പുട്ട് അക്ഷരരൂപത്തിലാണ്, ഇൻപുട്ട് പ്രതികരിക്കുന്നതാണ്",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 💬", "theme": "Stage" },
+                    "lines": [
+                        {
+                            "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
+                        },
+                        [
+                            "Stage",
+                            "neutral",
+                            "$~മറ്റ് പ്രോഗ്രാമിംഗ് @languages കൺസോളിൽ ടെക്സ്റ്റ് പ്രിന്റ് ചെയ്യുന്നു, ക്യാൻവാസിൽ വരയ്ക്കുന്നു, അല്ലെങ്കിൽ വെബ്‌പേജ് മാറ്റുന്നു:",
+                            "$~\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
+                            "$~@wordplay-ന്റെ ഔട്ട്പുട്ട് അക്ഷരരൂപത്തിലാണ്: @Phrase, @Group, അല്ലെങ്കിൽ @Stage. ഇത് സ്ക്രീനിൽ ശൈലിയും ചലനവും പ്രതികരണവും ഉള്ള ടെക്സ്റ്റ് കാണിക്കുന്നു, അല്ലെങ്കിൽ സ്ക്രീൻ റീഡർ വായിക്കുന്നു.",
+                            "$~താഴെയുള്ള ഉദാഹരണം, വിശ്രമാവസ്ഥയിൽ വലുപ്പം മാറുന്ന ചലനമുള്ള ഒരൊറ്റ @Phrase ഉള്ള @Stage കാണിക്കുന്നു."
+                        ],
+                        null,
+                        {
+                            "edit": "Phrase('🌎' rotation: Time(100ms) × 0.05°/ms)"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~മിക്ക പ്രോഗ്രാമിംഗ് ഭാഷകളിലും ഉപയോക്താവിൽ നിന്ന് ഇൻപുട്ട് എടുക്കാൻ ഒരു വഴിയുണ്ട്:",
+                            "$~\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
+                            "$~@wordplay-ന്റെ ഇൻപുട്ട് വരുന്നത് *@streams* എന്നതിൽ നിന്നാണ്. ഇവ ഇൻപുട്ടിന് അനുസരിച്ച് കാലക്രമേണ മാറുന്ന പ്രത്യേക മൂല്യങ്ങളാണ്. ഇവ മാറുമ്പോൾ വേഡ്‌പ്ലേ പ്രോഗ്രാം പ്രവാഹത്തിന്റെ പുതിയ മൂല്യം ഉപയോഗിച്ച് വീണ്ടും പ്രവർത്തിക്കുന്നു.",
+                            "$~ഉദാഹരണത്തിന്, ഈ പ്രോഗ്രാം ഭൂഗോള ഇമോജിയുടെ കറക്കം നിയന്ത്രിക്കാൻ @Time പ്രവാഹം ഉപയോഗിക്കുന്നു. @Time() പ്രവാഹം ഓരോ തവണയും പുതിയ @value-ലേക്ക് മാറുമ്പോൾ, പ്രോഗ്രാം പുതിയ മൂല്യം ഉപയോഗിച്ച് വീണ്ടും പ്രവർത്തിച്ച് @Stage-ലെ പ്രോഗ്രാമിന്റെ മൂല്യം പുതുക്കുന്നു."
+                        ],
+                        null,
+                        { "edit": "Phrase(∆ Button() ? 'hi' 'click me')" },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~മറ്റ് മിക്ക പ്രോഗ്രാമിംഗ് ഭാഷകളിലും പ്രതികരണം എന്നാൽ ഇവന്റ് ഹാൻഡ്‌ലറുകളും കോൾബാക്കുകളും രജിസ്റ്റർ ചെയ്യുക എന്നാണ് അർത്ഥം:",
+                            "$~\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
+                            "$~@wordplay-ൽ, @Button, @Key, @Pointer പോലുള്ള പ്രവാഹങ്ങൾ ഉപയോഗിച്ച് പ്രതികരിക്കുന്ന @elements ഉണ്ടാക്കാം. ഈ @Phrase-ന്റെ ടെക്സ്റ്റ് @Button ക്ലിക്ക് ചെയ്തോ എന്നതിനെ ആശ്രയിച്ചിരിക്കുന്നു. @Button പ്രവാഹത്തിന് @Changed ഉണ്ടോ എന്ന് നോക്കാൻ @Conditional ഉപയോഗിക്കുന്നു."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "button: Button()",
+                                "count: 1 … ∆ button … count + 1",
+                                "Phrase(count → '')"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~മറ്റ് പ്രോഗ്രാമിംഗ് ഭാഷകൾ പ്രവർത്തന സമയത്ത് @variables-ന്റെ മൂല്യങ്ങൾ മാറ്റാൻ അനുവദിക്കുന്നു. ഇത് മാറുന്നതും പ്രതികരിക്കുന്നതുമായ ആപ്പുകൾ ഉണ്ടാക്കാൻ ഉപകാരപ്പെടും. പക്ഷേ ശരിയായ സ്ഥലങ്ങളിൽ മൂല്യങ്ങൾ പുതുക്കാനും, ആ മൂല്യങ്ങൾ മാറുമ്പോൾ സ്ക്രീനിൽ കാണിക്കുന്നത് പുതുക്കാനും നിങ്ങൾ ഓർക്കണം:",
+                            "$~\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
+                            "$~@wordplay ഇത് ലളിതമാക്കുന്നത് @Reaction @expression ഉപയോഗിച്ചാണ്. ഇത് ഒരു തുടക്ക മൂല്യത്തിൽ തുടങ്ങുന്നു, പ്രവാഹ ഇൻപുട്ടുകളെ സൂചിപ്പിക്കുന്ന @condition പരിശോധിക്കുന്നു, പ്രവാഹത്തിന്റെ മാറ്റങ്ങൾക്ക് അനുസരിച്ച് പ്രയോഗത്തിന്റെ മൂല്യം പുതുക്കുന്നു. ഈ ഉദാഹരണത്തിൽ, @Button പ്രവാഹം മാറുമ്പോഴെല്ലാം count-ന്റെ മൂല്യം പുതുക്കുന്നു, അങ്ങനെ @Stage-ൽ കാണിക്കുന്ന @Phrase പുതുക്കപ്പെടുന്നു."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~പിഴവുകളും ഡീബഗ്ഗിംഗും",
+                    "subtitle": null,
+                    "concept": "UnparsableExpression",
+                    "performance": {
+                        "fit": "#Symbol ‼️",
+                        "theme": "UnparsableExpression"
+                    },
+                    "lines": [
+                        {
+                            "edit": "1 + 'hello'",
+                            "conflicts": true,
+                            "sidebar": true
+                        },
+                        [
+                            "FunctionDefinition",
+                            "angry",
+                            "$~മറ്റ് @languages *പിശകുകൾ* ഉണ്ടാക്കുന്നു — പ്രോഗ്രാം അനുവദനീയമല്ലാത്ത എന്തോ ചെയ്തു എന്നതിന്റെ സൂചന:",
+                            "$~\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
+                            "$~@wordplay പിഴവുകളെ *@conflicts* എന്ന് വിളിക്കുന്നു: രണ്ടും ഒരുമിച്ച് ശരിയാകാൻ കഴിയാത്ത കാര്യങ്ങൾ. ഉദാഹരണത്തിന്, താഴത്തെ പ്രോഗ്രാമിലെപ്പോലെ ഒരു സംഖ്യയും എഴുത്തും കൂട്ടിച്ചേർക്കുന്നത്.",
+                            "$~വേഡ്‌പ്ലേ പിഴവുകൾക്ക് അടിവരയിടുകയും സൈഡ്ബാറിൽ അവ കാണിക്കുകയും ചെയ്യും @UI/conflict. പ്രശ്നം പരിഹരിക്കാനുള്ള നിർദ്ദേശങ്ങളും അത് നൽകും."
+                        ],
+                        null,
+                        { "edit": "(1 + 2) × 3" },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~മിക്ക പ്രോഗ്രാമിംഗ് ഭാഷകളിലും ഡീബഗ്ഗിംഗ് ഉപകരണങ്ങൾ ഉണ്ട്. അവ നിങ്ങളുടെ @code ലെ പ്രശ്നങ്ങൾ മനസ്സിലാക്കാനും പരിഹരിക്കാനും സഹായിക്കുന്നു. എന്നാൽ പലരും ഒരു കൺസോളിൽ @variables ന്റെ @values പരിശോധിക്കാൻ പ്രിന്റ് വരികൾ മാത്രമാണ് ഉപയോഗിക്കുന്നത്:",
+                            "$~\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
+                            "$~@wordplay കൂടുതൽ മികച്ച ഡീബഗ്ഗിംഗ് അനുഭവം നൽകുന്നു. ഇതിന്റെ മൂല്യനിർണ്ണയത്തിലൂടെ *മുന്നോട്ടും* *പിന്നോട്ടും* ചുവടുകളായി നീങ്ങാം. വേദിക്ക് മുകളിലുള്ള മോഡ് സ്വിച്ചറിലെ @UI/modeSwitcher ⏸️ ഡീബഗ് ബട്ടൺ അമർത്തി *ഡീബഗ്* മോഡിൽ പ്രവേശിക്കുക: ഓരോ @expression ന്റെയും മൂല്യം കോഡിൽ അതിനടുത്ത് കാണിക്കും. @UI/stepControls ഏത് ദിശയിലും ചുവടുകളായി നീങ്ങും. അതിനാൽ ഒരു മൂല്യം എങ്ങനെ ഉണ്ടാകുന്നു എന്ന് നിങ്ങൾക്ക് കാണാം. ഇതെല്ലാം കാണിക്കുന്ന ഒരു വഴികാട്ടി പര്യടനം ഇതാ: @Tour/stage",
+                            "$~മറ്റ് മോഡുകളും പ്രധാനമാണ്: ✏️ *എഡിറ്റ്* മോഡ് വേദി നിശ്ചലമായി നിർത്തി പ്രോഗ്രാം മാറ്റാനുള്ളതാണ്. ▶️ *പ്ലേ* മോഡ് പ്രോഗ്രാം തത്സമയം ഓടിക്കുകയും ഇൻപുട്ടുകൾക്ക് അപ്പോൾത്തന്നെ പ്രതികരിക്കുകയും ചെയ്യുന്നു.",
+                            "$~കൂടുതൽ സഹായം വേണോ? വേദിയുടെ പേരിനടുത്തുള്ള @UI/stageTourLaunch ബട്ടൺ ഈ നിയന്ത്രണങ്ങളുടെ ഒരു വഴികാട്ടി പര്യടനം നൽകുന്നു."
+                        ]
+                    ]
+                },
+                {
+                    "title": "$~എല്ലാം ഒരുമിച്ച് ചേർക്കാം",
+                    "subtitle": null,
+                    "concept": "Stage",
+                    "performance": { "fit": "#Symbol 🔨", "theme": "Stage" },
+                    "lines": [
+                        { "edit": ["elapsed: Time(100ms)", "elapsed"] },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~മൂന്ന് ഘട്ടങ്ങളിലായി ഒരു ചെറിയ ഇന്ററാക്ടീവ് @project ഉണ്ടാക്കാം.",
+                            "$~*ഒന്ന്:* നിങ്ങളുടെ ഡാറ്റയും *@streams* ഉം പ്രഖ്യാപിക്കുക. ഇവിടെ elapsed എന്ന പേരുള്ള @Time പ്രവാഹം പ്രോഗ്രാം എത്ര നേരം ഓടി എന്ന് അറിയിക്കുന്നു."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "turn"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~*രണ്ട്:* പ്രവാഹത്തോട് *പ്രതികരിച്ച്* പുതിയ @Bind @values ഉണ്ടാക്കുക. ഇവിടെ turn കഴിഞ്ഞ സമയത്തെ ഡിഗ്രിയാക്കി മാറ്റുന്നു. elapsed മാറുമ്പോഴെല്ലാം അത് വീണ്ടും കണക്കാക്കും."
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "elapsed: Time(100ms)",
+                                "turn: elapsed × 0.05°/ms",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~*മൂന്ന്:* *ഔട്ട്പുട്ട്* — നിങ്ങളുടെ ഡാറ്റയെ @Phrase, @Group, അല്ലെങ്കിൽ @Stage ആക്കി മാറ്റുക. ഇപ്പോൾ നക്ഷത്രം തനിയെ കറങ്ങുന്നു!"
+                        ],
+                        null,
+                        {
+                            "edit": [
+                                "volume: Volume()",
+                                "turn: volume × 360°",
+                                "Stage([Phrase('✨' rotation: turn)] background: Color(25% 0 0°))"
+                            ]
+                        },
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~കറക്കം നിയന്ത്രിക്കാൻ ഉപയോക്താവിന്റെ ഇൻപുട്ട് ചേർത്ത് ഇതിനെ കൂടുതൽ ഇന്ററാക്ടീവ് ആക്കാം. ഉദാഹരണത്തിന്, മൈക്രോഫോൺ ഇൻപുട്ടിന്റെ @Volume. അത് 0 നും 1 നും ഇടയിലുള്ള ഒരു മൂല്യമാണ്. അതിനാൽ അതിനെ 360 ഡിഗ്രിയിലേക്ക് മാറ്റാം.",
+                            "$~മിക്ക പദ്ധതികളുടെയും രൂപം ഇതാണ്: പ്രഖ്യാപനങ്ങൾ, പിന്നെ പ്രതികരണങ്ങൾ, പിന്നെ ഔട്ട്പുട്ട്. <സഹായഗ്രന്ഥം@://guide> ത്തിൽ പഠിക്കാനും പകർത്താനും തിരുത്താനും കഴിയുന്ന മാതൃകകൾ നിറഞ്ഞ @how ഭാഗം ഉണ്ട്.",
+                            "$~സന്തോഷത്തോടെ സൃഷ്ടിക്കൂ!"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -449,6 +449,7 @@ export const Scripts = {
         direction: 'ltr',
         layout: 'horizontal-tb',
         verticalLayout: 'vertical-rl',
+        glyph: '文',
     },
     Hatr: {
         name: 'Hatran',
@@ -697,6 +698,7 @@ export const Scripts = {
         en: 'Malayalam',
         direction: 'ltr',
         layout: 'horizontal-tb',
+        glyph: 'മ',
     },
     Modi: {
         name: 'Modi',

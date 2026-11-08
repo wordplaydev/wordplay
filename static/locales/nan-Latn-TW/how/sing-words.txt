@@ -1,0 +1,66 @@
+Hō sia̍h-siaⁿ tshiùnn-kua
+
+Tī tiāu-sik-pán lāi-té ê múi tsit ê @Instrument tiong-kan, \Ga̍kkhì.siann\ sī it-ê khó-ì kóng-uē ê. Hō i @Track tsi̍t-ê @Track/words , i tō ēng tsit-ê im-tsuat tsit-ê im, tsit-ê im-tsuat tsit-ê im-hû lâi tshiùnn:
+
+\
+Imga̍k(
+	Imkuí([1 2 3 5 3 1] jī: 'la la la la la la' ga̍kkhì: Ga̍kkhì.siann)
+	soktōo: 120beats/min
+)
+\
+
+ Lio̍k ê im-tsuat, lio̍k ê im. Khang-keh tsiū-sī tsia ê bûn-huat—i kā lí kóng tsit ê im-tsuat tī toh-uī soah, loh-tsit ê tī toh-uī khai-sí. Hioh-khùi bô ēng im-tsuat, in-ūi án-ni, uē-bé ē tuè-tiàm lí chin-chiàⁿ thiaⁿ-tio̍h ê im-hû. Nā-sī lí siá ê im-tsuat khah-tsió, in tō ē tùi thâu koh khai-sí; nā-sī lí lóng bô siá, siaⁿ-im tō ē thêng tī tsit ê / uh / ê siaⁿ, in-ūi án-ni i kèng-sī ē tshiùnn tsi̍t-kuá siaⁿ.
+
+Tsia ê phing-im bô-sī Eng-bûn. Sī < Kok-tsè Im-piau @https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, múi tsi̍t ê jī tō-sī tsi̍t ê siaⁿ, múi tsi̍t ê siaⁿ tō-sī tsi̍t ê jī. Eng-bûn ê phing-hoat bô-hoat-tōo án-ni— \o\ tī / go /、 / do / kap / women / ū saⁿ-khuan put-tông ê siaⁿ—in-ūi án-ni, ná kā Eng-bûn phing-hoat tha̍k, tō ài tshuē, mā ē tshuē m̄-tio̍h. Án-ni mā-tsiū-sī kóng, bô-lūn lí ēng tì-tsit gí-giân siá, kua-tsû lóng sio-kâng, in-ūi jī-bó sī siá lí ê tshuì, m̄-sī lí ê jī-bó.
+
+Lí ê kiān-pán-á tsiok-tsē ê siaⁿ lóng bô kiān thang tī, hō lí ài àn pian-tsi̍p-khì ē-kha ê 🤖. I ē lia̍t-tshut tsit ê siaⁿ-im ē-tàng-sih ê múi tsi̍t ê siaⁿ, ū tsi̍t ê ū hit ê siaⁿ ê jī, koh ū tsi̍t ê button thang pàng—ná-sī àn jī-bó pún-sin tō ē kā i phah jip lí ê code. Thiaⁿ-kìnn tsit ê siaⁿ, tsiū-sī tsin-chiàⁿ jīn-siàu i ê tsi̍t-ê hong-hoat, hit ê pán-bīn tō-sī tsham-khó; āu-bīn ê tsiok-kàu lí khai-sí.
+
+Tùi bóo-im khai-sí. Tsit 12 ê tō kau-kài tsiok-tsē lí beh ēng ê, múi ê lóng tī Eng-bûn ê tsi̍t ê jī lāi-té khòaⁿ-tio̍h:
+
+\a\ f / a / ther, \e\ b / e / d, \i\ s / ee /、 \o\ g / o /、 \u\ b / oo / t, \ɛ\ h / ea / d, \ɪ\ b / i / t, \ɔ\ b / ou / ght, \ʊ\ b / oo / k, \æ\ c / a / t, \ʌ\ c / u / p, \ə\ / a / bout
+
+Tsi̍t-ê guân-im ka-kī tō-sī tsi̍t-ê tsiânn hó ê im-tsiat. Liân-sòo tsūn kuânn, tse sī thiaⁿ-tshut kok-ê tsi̍t-ê bô-kâng ê siōng-bêng-pe̍h ê ê hong-hoat:
+
+\
+Imga̍k(
+	Imkuí([1 2 3 4 5] jī: 'a e i o u' ga̍kkhì: Ga̍kkhì.siann)
+	soktōo: 90beats/min
+)
+\
+
+ Tsú-im tsia̍p-tsia̍p khuànn-khí-lai kap lí siūnn ê kâng: \p b t d k m n s f l r w\ lóng kap tī Eng-gí ê tha̍k-im ōo-sè-ōo-sè kâng-khuán. Ū-kah-ài ha̍k ê, sī Eng-gí ēng nn̄g-ê jī-bóo siá ê im, koh-ū tsi̍t-ê jī-bóo suá-uī ê. \ʃ\ tsiū sī / sh /、 \ʒ\ sī / s / tī / liông /、 \θ\ sī / th / tī / phoh /、 \ð\ sī / th / tī / tsit-ê /、 \ŋ\ sī / ng / tī / sing /、kap \j\ sī / y / tī / sī /. Kā tsi̍t-ê tshàng tī guân-im ê tsîng-bīn, tō sī tsi̍t-ê jī:
+
+\
+Imga̍k(
+	Imkuí([5 5 3 3 1] jī: 'ʃi si mi lo ʌp' ga̍kkhì: Ga̍kkhì.siann)
+	soktōo: 100beats/min
+)
+\
+
+ Tsi̍t-ê im-tsiat mā ē-sái thiàⁿ kuè lóng-tsóng kuí-ê im. Tī im-tsiat ê āu-bīn ka-tī lián-jī-hû, múi-ê lián-jī-hû tō koh thiàⁿ tsi̍t-ê im — tsit-ê tsi̍t-ê im-tsiat tsiū-sī sing-kua kap iû-lâm-kua ê hîng-sìng:
+
+\
+Imga̍k(
+	Imkuí([1 2 3 2 1] jī: 'glo--- ri' ga̍kkhì: Ga̍kkhì.siann)
+	soktōo: 140beats/min
+)
+\
+
+ Sann-ê lián-jī-hû tshōa \glo\ kuè sì-ê im, jiân-āu \ri\ tsiah lo̍h tī siōng-bué-ê tsi̍t-ê. Siánn-mih siaⁿ-im bô-tsiap-tsio̍h, tō tiàm-kuè, m̄-tsiū-sī pàng-khì, in-uī án-ne lí ē-sái tshì-khuànn bô phò-huāi khik-tiāu.
+
+Beh ānn-tshut tsiah-ê jī sī án-ne tshut-siaⁿ, tioh tuì @Beat tha̍k tńg-lâi. @Downbeat/words tsiok-tsāi tsit-tsūn teh tshiùnn ê tāi-tsì, số-í tsi̍t-kù huah-bûn tō-sī tsi̍t-ê uân-tsíng ê karaoke hián-sī:
+
+\
+beat: Phah()
+Bútâi([
+	Kù(((beat.jī.tn̂gtō() = 0) ? '' beat.jī[1]) 3m)
+	Imga̍k(
+		Imkuí([1 2 3 5 3 1] jī: 'ðɪs ɪz ə soŋ tə si' ga̍kkhì: Ga̍kkhì.siann)
+		soktōo: 100beats/min
+	)
+])
+\
+
+@Downbeat/parts mā-sī iû-tsāi sio-kâng ê im-tsiat, tsi̍t-tiâu tsi̍t-tiâu hun-khui, nā-sī lí beh kā nn̄g-ê tshiùnn-kua ê lâng hun-khui, m̄-tsū-sī hē-tsò-hué.
+
+choose-an-instrument, write-rhythm, draw-the-music

@@ -28,6 +28,11 @@ export const DraftLocales = [
     'ne-NP',
     'fa-AF',
     'ur-Latn-PK',
+    'ru-RU',
+    'uk-UA',
+    'ml-IN',
+    'yue-HK',
+    'nan-Latn-TW',
 ];
 
 /** Supported locale names. Put a locale in this list when it's no longer a draft. */

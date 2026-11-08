@@ -1,0 +1,35 @@
+Tshiánn kâng-tsi̍t-tīn ê khoo-hūn tīn-tsòe-tsi̍t-tīn
+
+Tsi̍t-ê @Track ū-sī tsi̍t-tsiah khik-á. Kuí-ê tâng-sî tsò, tō-sī tsi̍t-tīn ê ng̍-ha̍k-tuân. Siá ng̍-ha̍k-tuân ê bi̍t-kuat, tō-sī: kok-ê khoo-hūn bē-sái lóng-tio̍h-sī put-kâng ê im-ga̍k.
+
+In-uī to̍h-tō sī im-kai ê kuí-kuân, m̄-sī kò-tīng ê im-kô, só-í tsi̍t-kuá khoo-hūn ê pē-suh sī kā khik-á ê sòo-jī lóng tshiah-tshing-tsi̍t-ê pat-tō-bú. @Track/key ē-tàng kā tsi̍t-ê im-kuè suá kuí-ê pòaⁿ-im, tsa̍p-jī-ê pòaⁿ-im tō-sī tsi̍t-ê pat-tō-bú:
+
+\
+tune: [1 5 8 5 6 3 1 ø]
+
+Imga̍k([
+	Imkuí(tune ga̍kkhì: Ga̍kkhì.ti̍ká)
+	Imkuí(tune ga̍kkhì: Ga̍kkhì.hapsîngtēim kiān: -12semitones imliōng: 60%)
+])
+\
+
+ Nn̄g-ê siann-im, tsi̍t-ê lia̍p-piáu. Kái khik-á, pē-suh mā ē tòe-leh kái, in-uī tsí ū tsi̍t-ê khik-á ài kái.
+
+Tsit-má lâi kā tsiong-uî thiⁿ-khuè. Ho-sîn-im ài ka-tī ê tsiat-phà, m̄-sī khik-á ê tsiat-phà. Tsi̍t-ê im-kuè ka-tī ê @Track/beat tō ē hō i tsi̍t-ê; \pan\ ē kā siann-im hun-khai tsò tsó-ping kap iū-ping, hō hīnn-nâ ē-tàng hun-piàt:
+
+\
+tune: [1 5 8 5 6 3 1 ø]
+
+Imga̍k([
+	Imkuí(tune ga̍kkhì: Ga̍kkhì.ti̍ká tsóoiū: 0)
+	Imkuí(tune ga̍kkhì: Ga̍kkhì.hapsîngtēim kiān: -12semitones imliōng: 60%)
+	Imkuí([{1 3 5} ø {1 4 6} ø] ga̍kkhì: Ga̍kkhì.hapsîngpuēkíng phik: 2beats imliōng: 35%)
+	Imkuí([1 ø 2 ø 1 ø 2 3] ga̍kkhì: Ga̍kkhì.kóo phik: 0.5beats imliōng: 45%)
+])
+\
+
+ Khuànn tsit-kuá im-liōng: tsí-ū tshing-ing ê im-liōng sī tsi̍t-tsiok-tsiok. Kui-tīn im-liōng lóng khai-kah siōng-tuā, bē hō ng̍-ha̍k-tuân khah tuā-siann, kan-ta ē khah tâm-tsiap, in-uī lóng tsi̍t-sî tshut-siann, tio̍h tsuan-kuè tsi̍t-ê lah-bá. Kā khik-á ùi \100%\ khai-sí, kî-thuànn ê lóng tī i ê ē-kha.
+
+Ho-sîn-im ê sì-ê hāng-bo̍k tī \beat: 2beats\ tsiong-buán poeh-phah, ku-tóng ê poeh-ê tī \0.5beats\ tsiong-buán sì-phah — só-í ku-tóng tsi̍t-ê ho-sîn-im ê khuân-tsiu ē tsiūnn-lâi nn̄g-pái, siōng-ûi lóng tī tsi̍t-tsiah tsiū-tsiūnn tsi̍h-tsò-hóe. Tsiah-ê khoo-hūn lī-khui tsi̍t-kuá, tsiū-sī in ê tn̂g-té bē-tàng tsiùⁿ-khuân.
+
+write-rhythm, choose-an-instrument, music-follows-the-action

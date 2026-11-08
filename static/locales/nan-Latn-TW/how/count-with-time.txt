@@ -1,0 +1,26 @@
+Tsiah sî-kan kuè, tsiah khai-sí kè-sǹg
+
+Kuí-nā-ê tsuan-àn lóng ài ū tāi-tsì ē tuà sî-kan tsiūnn-tuā, pí-lūn kóng sī tsuán-sik-khì, hun-sòo, ia̍h-sī tuì-sǹg.
+Lí ē-sái khìng @Time tsu-liāu-liû kap @Reaction.
+
+Tsi̍t ê @Reaction ū sann-ê pō͘-hūn: it-ê khai-sí ê ta̍t, it-ê ài khuànn ê tāi-tsì, kap hit-ê tāi-tsì piàn-tāng ê sî ê sin ta̍t.
+Tsit-ê, lán uì \0\ khai-sí, khuànn @Time, mn̄g-tsit-ê sî-tsing tsi̍t-pái tshuê, tō ka-it:
+
+\
+count: 0 … ∆ Sîkan(1000ms) … count + 1
+Kù(count → '')
+\
+
+ Múi tsi̍t-bió, @Time tshut-lâi, @Reaction tsiok-tsāi kám-kak-tio̍h ka \∆ Sîkan(1000ms)\、kap \count\ piàn-tsò \count + 1\.
+Tsit ê \→ ''\ tī siong-āu, ka sò͘-jī piàn-tsò bûn-jī, án-ne @Phrase tsiah ē-sái hián-sī.
+
+Lí ē-sái iōng lí siūnn-beh iōng ê sím-mih ji̍p-ōe, bē-tsí-kuí sī sî-kan. Tsit-ê kè-sǹg-khì kè-sǹg Button() ànn kuí-ē:
+
+\
+count: 0 … ∆ Button() … count + 1
+Kù(count → '')
+\
+
+ Múi-pái @Button tsu-liāu-liû ná tshit-lak ia̍h-sī tshiann ànn piàn-tāng, kè-sǹg tō ka-it.
+
+track-points, pick-from-a-list

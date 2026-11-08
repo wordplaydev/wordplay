@@ -1,0 +1,27 @@
+Uî-tio̍h tsi̍t-ê ta̍t lâi hián-sī put-tông ê tāi-tsì
+
+Nā lí beh ài tsi̍t-ê @Phrase uî-tio̍h tsi̍t-tsūn tāi-tsì lâi piàn, ná-sī hun-sòo, ia̍h-sī ànn tsi̍t-ê kiān, tio̍h án-tsuànn?
+
+Lán ē-sái iōng tiâu-kiānn \?\ lâi tuì nn̄g-ê tāi-tsì tiong-kan kéng tsi̍t-ê.
+Seh tiâu-kiānn, jiân-āu seh tsi̍t-ê \?\, jiân-āu seh tiâu-kiānn sī tsiànn ê sî-tsūn iōng ê ta̍t, siōng-āu seh tiâu-kiānn sī ká ê sî-tsūn iōng ê ta̍t.
+
+Tse sī tsi̍t-ê hoann-hí ê bīn, múi-pái lí ànn khòng-keh-kiān, i tō piàn-sêng pi-ai, koh ànn tsi̍t-pái tō piàn tńg-lâi:
+
+\
+happy: ⊤ … ∆ Kiān(' ') … ~happy
+Kù(happy ? '😊' '😢')
+\
+
+ Tsit ê @Reaction khai-sí sî \happy\ sī \⊤\ (tsiànn), jiân-āu iōng \~\ múi-pái ànn khòng-keh-kiān tō hoān-tńg tsi̍t-pái.
+Jiân-āu tiâu-kiānn \?\ tō kéng tio̍h ê bīn.
+
+Lí ē-sái kā tiâu-kiānn liân-tsi̍t-lia̍p, tuì kòe nn̄g-ê í-siōng ê tāi-tsì tiong-kan kéng tsi̍t-ê:
+
+\
+score: 0 … ∆ Kiān('a') … score + 1
+Kù(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+\
+
+ Ànn \a\ kuí-pái, khuànn-māi nn̄g-á khai-sí huē-tsiânn siáu-ke-á!
+
+track-points, offer-choices

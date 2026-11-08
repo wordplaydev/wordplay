@@ -1059,6 +1059,9 @@
         "eff192c2e6b21": "$~Du kan nu skriva in en färg i färgväljaren, med dess namn eller med vilken kod som helst som en webbsida kan använda. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
         "edd342aefe00f": "$~Vi har lagt till en maskinöversättning av ett hebreiskt språkpaket (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
         "ee9e6be8c1dfa": "$~*Tittare och kommentatorer*. Du kan nu låta någon se ditt projekt, eller se det och chatta om det, utan att låta personen redigera det. Ett projekt i ett galleri kan också visas bara för galleriets kuratorer (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
-        "eba572ebe4c3f": "$~Gallerier har nu ett utrymme för instruktioner, där kuratorer och skapare kan dela med sig av vad de har kommit på (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
+        "eba572ebe4c3f": "$~Gallerier har nu ett utrymme för instruktioner, där kuratorer och skapare kan dela med sig av vad de har kommit på (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
+        "e559bcfa865df": "$~Vi har lagt till ryska, ukrainska, malayalam, kantonesiska och taiwanesisk hokkien (skriven med Tâi-lô), så att fler av er kan använda Wordplay på det språk ni pratar hemma!",
+        "e53524c65f4f2": "$~På mindre skärmar byter scenen och koden inte längre plats när du växlar mellan att redigera och att spela. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
+        "ee481670339a2": "$~Projekt som lånar en sats, som exemplet Conductor med \\@wordplay/instruments\\, stoppar inte längre med ett fel i samma stund som kameran ser en hand eller en annan inmatning ändras."
     }
 }

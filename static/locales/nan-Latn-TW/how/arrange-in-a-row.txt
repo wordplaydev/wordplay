@@ -1,0 +1,28 @@
+Kā bûn-jī pâi tī sio-piah
+
+Ū-sî lán ài kā bûn-jī pâi tsò tsi̍t tsua, khiā tī sio-piah, kap-kap-á.
+Lán ē-sái án-ne tsò: iōng @Row，ē kā í-tsiáu ê mi̍h-kiānn pâi tī @Group lāi-té, uì tsīnn-pêng pâi kàu ūi-pêng.
+
+\
+Kûntsoo(Tsuā() [
+    Kù('🍎')
+    Kù('🍌')
+    Kù('🍇')
+])
+\
+
+ Tsi̍t ê @Row mā ē-sái kā jī-guân uì téng-piah, tiong-kan, ia̍h-sī té-piah tuì-tsê, koh ē-sái tī in tsi̍t-ê tsi̍t-ê tsiong-kan thiam khang-uī.
+Tsia sī kāng-khuán ê tsuí-kó, m̄-koh uì té-piah tuì-tsê, koh liú-tsi̍t-kuá khang-uī:
+
+\
+Kûntsoo(Tsuā('>' 0.5m) [
+    Kù('🍎' tuātsè: 2m)
+    Kù('🍌' tuātsè: 1m)
+    Kù('🍇' tuātsè: 3m)
+])
+\
+
+ Tsit ê \'>'\ kā @Row kóng, mi̍h-kiānn lóng uì té-piah tuì-tsê. Lí ē-sái tshì \'<'\ (téng-piah) ia̍h-sī \'|'\ (tiong-kan).
+Tsit ê \0.5m\ tsiū-sī múi ê jī-guân tsi̍t-ê tsi̍t-ê tsiong-kan ê khang-uī.
+
+stack-up-and-down, make-a-grid

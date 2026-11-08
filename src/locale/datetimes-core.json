@@ -1155,5 +1155,187 @@
             }
         },
         "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "ru-RU": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" },
+                    { "l": " г." }
+                ],
+                "months": {
+                    "M01": "января",
+                    "M02": "февраля",
+                    "M03": "марта",
+                    "M04": "апреля",
+                    "M05": "мая",
+                    "M06": "июня",
+                    "M07": "июля",
+                    "M08": "августа",
+                    "M09": "сентября",
+                    "M10": "октября",
+                    "M11": "ноября",
+                    "M12": "декабря"
+                }
+            }
+        }
+    },
+    "uk-UA": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" },
+                    { "l": " р." }
+                ],
+                "months": {
+                    "M01": "січня",
+                    "M02": "лютого",
+                    "M03": "березня",
+                    "M04": "квітня",
+                    "M05": "травня",
+                    "M06": "червня",
+                    "M07": "липня",
+                    "M08": "серпня",
+                    "M09": "вересня",
+                    "M10": "жовтня",
+                    "M11": "листопада",
+                    "M12": "грудня"
+                }
+            }
+        }
+    },
+    "ml-IN": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "year" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "day" }
+                ],
+                "months": {
+                    "M01": "ജനുവരി",
+                    "M02": "ഫെബ്രുവരി",
+                    "M03": "മാർച്ച്",
+                    "M04": "ഏപ്രിൽ",
+                    "M05": "മേയ്",
+                    "M06": "ജൂൺ",
+                    "M07": "ജൂലൈ",
+                    "M08": "ഓഗസ്റ്റ്",
+                    "M09": "സെപ്റ്റംബർ",
+                    "M10": "ഒക്‌ടോബർ",
+                    "M11": "നവംബർ",
+                    "M12": "ഡിസംബർ"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "yue-HK": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "dayPeriod" },
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "year" },
+                    { "l": "年" },
+                    { "f": "month" },
+                    { "l": "月" },
+                    { "f": "day" },
+                    { "l": "日" }
+                ]
+            }
+        },
+        "dayPeriods": { "am": "上晝", "pm": "下晝" }
+    },
+    "nan-Latn-TW": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "day" },
+                    { "l": ", " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "It-guia̍h",
+                    "M02": "Jī-guia̍h",
+                    "M03": "Sann-guia̍h",
+                    "M04": "Sì-guia̍h",
+                    "M05": "Gōo-guia̍h",
+                    "M06": "La̍k-guia̍h",
+                    "M07": "Tshit-guia̍h",
+                    "M08": "Peh-guia̍h",
+                    "M09": "Káu-guia̍h",
+                    "M10": "Tsa̍p-guia̍h",
+                    "M11": "Tsa̍p-it-guia̍h",
+                    "M12": "Tsa̍p-jī-guia̍h"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
     }
 }

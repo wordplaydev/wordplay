@@ -155,8 +155,33 @@ Mỗi tên ở đây là một danh sách gồm các ký tự đơn lẻ, để 
 Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se koi bhi ek chun sakte hain, un par ek ek kar ke chal sakte hain, ya unhein stage par bikher sakte hain.
 
 \Phrase(hiragana.random() 5m)\⭐¶/ur
+¶അക്ഷരങ്ങളും ചിഹ്നങ്ങളും, ഉപയോഗിക്കാൻ തയ്യാർ.
 
-ƒ chars,caracteres/es,حروف/ar,আখৰ2/as,অক্ষর2/bn,zeichen/de,χαρακτήρες/el,نویسه‌ها2/fa,caractères/fr,અક્ષરો/gu,תווים2/he,अक्षर/hi,karakter/id,文字2/ja,ಅಕ್ಷರಗಳು/kn,문자/ko,अक्षरे2/mr,अक्षरहरू/ne,ਅੱਖਰ/pa,znaki2/pl,carateres/pt,caractere/ro,знакови2/sr,tecken2/sv,எழுத்துக்கள்/ta,అక్షరాలు/te,mgaKarakter/tl,karakterler/tr,kýTự/vi,字符/zh,huroof/ur(text,texto2/es,نص2/ar,পাঠ2/as,লেখা2/bn,text2/de,κείμενο2/el,متن2/fa,texte2/fr,લખાણ2/gu,טקסט2/he,टेक्स्ट2/hi,teks2/id,テキスト2/ja,ಪಠ್ಯ2/kn,텍스트2/ko,मजकूर2/mr,पाठ2/ne,ਲਿਖਤ2/pa,tekst2/pl,texto3/pt,text3/ro,текст2/sr,text4/sv,உரை2/ta,పాఠ్యం/te,teksto2/tl,metin2/tr,vănBản2/vi,文本2/zh,matn/ur•'') text → ['']
+ഇവിടെയുള്ള ഓരോ പേരും ഒറ്റ അക്ഷരങ്ങളുടെ ഒരു ലിസ്റ്റാണ്. അതിനാൽ നിങ്ങൾക്ക് ഒന്ന് ഇഷ്ടം പോലെ തിരഞ്ഞെടുക്കാം, ഓരോന്നായി കടന്നുപോകാം, അല്ലെങ്കിൽ വേദിയിൽ വിതറാം.
+
+\Phrase(hiragana.random() 5m)\⭐¶/ml
+¶Jī-bó kap jī-hu-hō, sûn-pī hó-á thang iōng.
+
+Tsia múi-ê miâ lóng sī tsi̍t-tsuā tak-ê jī, lí thang ka-tī tshiau-tshuē tsi̍t-ê, tsi̍t-ê tsi̍t-ê kiânn, iah-sī sǎn-tsāi bú-tâi-téng.
+
+\Phrase(hiragana.random() 5m)\⭐¶/nan
+¶Буквы и символы — бери и используй.
+
+Каждое имя здесь — это список из отдельных символов. Ты можешь выбрать один наугад, пройтись по всем по очереди или разбросать их по сцене.
+
+\Phrase(hiragana.random() 5m)\⭐¶/ru
+¶Літери та символи, готові до використання.
+
+Кожне імʼя тут — це список окремих символів. Ти можеш вибрати один навмання, пройтися по всіх або розкидати їх по сцені.
+
+\Phrase(hiragana.random() 5m)\⭐¶/uk
+¶準備好用嘅字母同字元。
+
+呢度每個名稱都係一個單一字元嘅清單，所以你可以隨機揀一個、逐個行過，或者將佢哋撒喺舞台上面。
+
+\Phrase(hiragana.random() 5m)\⭐¶/yue
+
+ƒ chars,caracteres/es,حروف/ar,আখৰ2/as,অক্ষর2/bn,zeichen/de,χαρακτήρες/el,نویسه‌ها2/fa,caractères/fr,અક્ષરો/gu,תווים2/he,अक्षर/hi,karakter/id,文字2/ja,ಅಕ್ಷರಗಳು/kn,문자/ko,अक्षरे2/mr,अक्षरहरू/ne,ਅੱਖਰ/pa,znaki2/pl,carateres/pt,caractere/ro,знакови2/sr,tecken2/sv,எழுத்துக்கள்/ta,అక్షరాలు/te,mgaKarakter/tl,karakterler/tr,kýTự/vi,字符/zh,huroof/ur,അക്ഷരങ്ങൾ/ml,jī2/nan,символы2/ru,символи2/uk,字元/yue(text,texto2/es,نص2/ar,পাঠ2/as,লেখা2/bn,text2/de,κείμενο2/el,متن2/fa,texte2/fr,લખાણ2/gu,טקסט2/he,टेक्स्ट2/hi,teks2/id,テキスト2/ja,ಪಠ್ಯ2/kn,텍스트2/ko,मजकूर2/mr,पाठ2/ne,ਲਿਖਤ2/pa,tekst2/pl,texto3/pt,text3/ro,текст2/sr,text4/sv,உரை2/ta,పాఠ్యం/te,teksto2/tl,metin2/tr,vănBản2/vi,文本2/zh,matn/ur,ടെക്സ്റ്റ്/ml,текст3/ru,текст4/uk,文字3/yue•'') text → ['']
 
 ¶The 26 letters of the English alphabet, in lower case.¶
 ¶Las 26 letras del alfabeto inglés, en minúscula.¶/es
@@ -189,7 +214,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶26 chữ cái của bảng chữ cái tiếng Anh, viết thường.¶/vi
 ¶英语字母表的 26 个字母，小写形式。¶/zh
 ¶Angrezi huroof-e-tahajji ke 26 huroof, chhote huroof mein.¶/ur
-↑ latin/en,latín/es,لاتيني/ar,লেটিন/as,লাতিন/bn,latein/de,λατινικά/el,لاتین/fa,latin2/fr,લેટિન/gu,לטינית/he,लैटिन/hi,latin3/id,ラテン文字/ja,ಲ್ಯಾಟಿನ್/kn,라틴문자/ko,लॅटिन/mr,ल्याटिन/ne,ਲਾਤੀਨੀ/pa,łacińskie/pl,latim/pt,latină/ro,латиница/sr,latin4/sv,லத்தீன்/ta,లాటిన్/te,latin5/tl,latin6/tr,laTinh/vi,拉丁字母/zh,latin7/ur: chars(
+¶ഇംഗ്ലീഷ് അക്ഷരമാലയിലെ 26 അക്ഷരങ്ങൾ, ചെറിയക്ഷരത്തിൽ.¶/ml
+¶Eng-gí jī-bó ê 26 ê jī, sió-siá.¶/nan
+¶26 букв английского алфавита, строчные.¶/ru
+¶26 літер англійського алфавіту, малими літерами.¶/uk
+¶英文字母嘅 26 個小寫字母。¶/yue
+↑ latin/en,latín/es,لاتيني/ar,লেটিন/as,লাতিন/bn,latein/de,λατινικά/el,لاتین/fa,latin2/fr,લેટિન/gu,לטינית/he,लैटिन/hi,latin3/id,ラテン文字/ja,ಲ್ಯಾಟಿನ್/kn,라틴문자/ko,लॅटिन/mr,ल्याटिन/ne,ਲਾਤੀਨੀ/pa,łacińskie/pl,latim/pt,latină/ro,латиница/sr,latin4/sv,லத்தீன்/ta,లాటిన్/te,latin5/tl,latin6/tr,laTinh/vi,拉丁字母/zh,latin7/ur,ലാറ്റിൻ/ml,latin8/nan,латиница2/ru,латиниця/uk,拉丁字母2/yue: chars(
 		'abcdefghijklmnopqrstuvwxyz'/en
 	)
 
@@ -224,7 +254,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶26 chữ cái của bảng chữ cái tiếng Anh, viết hoa.¶/vi
 ¶英语字母表的 26 个字母，大写形式。¶/zh
 ¶Angrezi huroof-e-tahajji ke 26 huroof, bade huroof mein.¶/ur
-↑ latinUpper/en,latínMayúsculas/es,لاتينيكبير/ar,লেটিনডাঙৰআখৰ/as,লাতিনবড়হাতের/bn,lateinGroßbuchstaben/de,λατινικάΚεφαλαία/el,لاتینبزرگ/fa,latinMajuscule/fr,લેટિનમોટાઅક્ષરો/gu,לטיניתרישיות/he,लैटिनबड़ेअक्षर/hi,latinKapital/id,ラテン大文字/ja,ಲ್ಯಾಟಿನ್ದೊಡ್ಡಕ್ಷರ/kn,라틴대문자/ko,लॅटिनमोठीअक्षरे/mr,ल्याटिनठूलोअक्षर/ne,ਲਾਤੀਨੀਵੱਡੇ/pa,łacińskieWielkie/pl,latimMaiúsculo/pt,latinăMajusculă/ro,латиницаВеликаСлова/sr,latinVersaler/sv,லத்தீன்பெரியஎழுத்து/ta,లాటిన్పెద్దఅక్షరాలు/te,latinMalaki/tl,latinBüyükHarf/tr,laTinhHoa/vi,拉丁大写字母/zh,latinBadeHuroof/ur: chars(
+¶ഇംഗ്ലീഷ് അക്ഷരമാലയിലെ 26 അക്ഷരങ്ങൾ, വലിയക്ഷരത്തിൽ.¶/ml
+¶Eng-gí jī-bó ê 26 ê jī, tuā-siá.¶/nan
+¶26 букв английского алфавита, заглавные.¶/ru
+¶26 літер англійського алфавіту, великими літерами.¶/uk
+¶英文字母嘅 26 個大寫字母。¶/yue
+↑ latinUpper/en,latínMayúsculas/es,لاتينيكبير/ar,লেটিনডাঙৰআখৰ/as,লাতিনবড়হাতের/bn,lateinGroßbuchstaben/de,λατινικάΚεφαλαία/el,لاتینبزرگ/fa,latinMajuscule/fr,લેટિનમોટાઅક્ષરો/gu,לטיניתרישיות/he,लैटिनबड़ेअक्षर/hi,latinKapital/id,ラテン大文字/ja,ಲ್ಯಾಟಿನ್ದೊಡ್ಡಕ್ಷರ/kn,라틴대문자/ko,लॅटिनमोठीअक्षरे/mr,ल्याटिनठूलोअक्षर/ne,ਲਾਤੀਨੀਵੱਡੇ/pa,łacińskieWielkie/pl,latimMaiúsculo/pt,latinăMajusculă/ro,латиницаВеликаСлова/sr,latinVersaler/sv,லத்தீன்பெரியஎழுத்து/ta,లాటిన్పెద్దఅక్షరాలు/te,latinMalaki/tl,latinBüyükHarf/tr,laTinhHoa/vi,拉丁大写字母/zh,latinBadeHuroof/ur,ലാറ്റിൻവലിയക്ഷരം/ml,латиницаЗаглавные/ru,латиницяВелика/uk,拉丁大寫字母/yue: chars(
 		'ABCDEFGHIJKLMNOPQRSTUVWXYZ'/en
 	)
 
@@ -259,10 +294,15 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶Mười chữ số, từ không đến chín, dưới dạng ký tự chứ không phải số. Được tạo ra từ một khoảng thay vì gõ trực tiếp, vì mười chữ số liền nhau đọc giống như một số điện thoại.¶/vi
 ¶零到九这十个数字，是以字符形式而不是数字形式给出的。它们是用一个范围生成的，而不是一个个打出来的，因为连续十个数字排在一起看起来像电话号码。¶/zh
 ¶Zero se nau tak ke das hindsay, adad ki bajaye huroof ki shakal mein. Yeh ek silsile se banaye gaye hain, haath se nahin likhe gaye, kyunki das hindsay ek saath likhein to phone number lagte hain.¶/ur
-↑ digits/en,dígitos/es,أرقام2/ar,অঙ্ক/as,অঙ্ক2/bn,ziffern/de,ψηφία/el,رقم‌ها/fa,chiffres/fr,અંકો/gu,ספרות/he,अंक/hi,angka2/id,数字/ja,ಅಂಕಿಗಳು/kn,숫자2/ko,अंक2/mr,अंकहरू/ne,ਅੰਕ2/pa,cyfry/pl,dígitos2/pt,cifre/ro,цифре/sr,siffror/sv,இலக்கங்கள்/ta,అంకెలు/te,mgaDigit/tl,rakamlar/tr,chữSố/vi,数字2/zh,ankon/ur: [
+¶പൂജ്യം മുതൽ ഒമ്പത് വരെയുള്ള പത്ത് അക്കങ്ങൾ, സംഖ്യകളായല്ല, അക്ഷരങ്ങളായി. ഇവ ടൈപ്പ് ചെയ്യുന്നതിന് പകരം ഒരു ശ്രേണിയിൽ നിന്നാണ് ഉണ്ടാക്കിയത്, കാരണം പത്ത് അക്കങ്ങൾ തുടർച്ചയായി എഴുതിയാൽ ഒരു ഫോൺ നമ്പർ പോലെ തോന്നും.¶/ml
+¶Tsa̍p ê sòo-jī, tuì khòng kàu káu, sī jī, m̄-sī sòo-liōng. Sī iōng tsi̍t-ê huān-uî khí--ê, m̄-sī tsi̍t-ê tsi̍t-ê phah--ê, in-uī tsa̍p ê sòo-jī liân-teh tsiū khuànn-khí-lâi ná-tshiūnn tiān-uē hō-mà.¶/nan
+¶Десять цифр, от нуля до девяти, как символы, а не как числа. Они созданы из диапазона, а не набраны вручную, потому что десять цифр подряд похожи на номер телефона.¶/ru
+¶Десять цифр, від нуля до дев’яти, як символи, а не числа. Їх створено з діапазону, а не набрано вручну, бо десять цифр підряд схожі на номер телефону.¶/uk
+¶十個數字，由零到九，係字元而唔係數目。呢個清單係用範圍造出嚟，而唔係逐個打出嚟，因為十個數字連埋一齊會好似電話號碼。¶/yue
+↑ digits/en,dígitos/es,أرقام2/ar,অঙ্ক/as,অঙ্ক2/bn,ziffern/de,ψηφία/el,رقم‌ها/fa,chiffres/fr,અંકો/gu,ספרות/he,अंक/hi,angka2/id,数字/ja,ಅಂಕಿಗಳು/kn,숫자2/ko,अंक2/mr,अंकहरू/ne,ਅੰਕ2/pa,cyfry/pl,dígitos2/pt,cifre/ro,цифре/sr,siffror/sv,இலக்கங்கள்/ta,అంకెలు/te,mgaDigit/tl,rakamlar/tr,chữSố/vi,数字2/zh,ankon/ur,അക്കങ്ങൾ/ml,цифры/ru,цифри/uk,數字3/yue: [
 		:0 ‥ 9
 	].translate(
-		ƒ(n,n3/es,ن3/ar,n4/as,n5/bn,n6/de,ν/el,n7/fa,n8/fr,n9/gu,n10/he,n11/hi,n12/id,n13/ja,n14/kn,n15/ko,n16/mr,n17/ne,n18/pa,n19/pl,n20/pt,n21/ro,н3/sr,n22/sv,n23/ta,n24/te,n25/tl,n26/tr,n27/vi,n28/zh,n2/ur•#) n → ''
+		ƒ(n,n3/es,ن3/ar,n4/as,n5/bn,n6/de,ν/el,n7/fa,n8/fr,n9/gu,n10/he,n11/hi,n12/id,n13/ja,n14/kn,n15/ko,n16/mr,n17/ne,n18/pa,n19/pl,n20/pt,n21/ro,н3/sr,n22/sv,n23/ta,n24/te,n25/tl,n26/tr,n27/vi,n28/zh,n2/ur,n29/ml,n30/nan,н2/ru,n31/uk,n32/yue•#) n → ''
 	)
 
 ¶The 24 letters of the Greek alphabet, in lower case.¶
@@ -296,7 +336,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶24 chữ cái của bảng chữ cái Hy Lạp, viết thường.¶/vi
 ¶希腊字母表的 24 个字母，小写形式。¶/zh
 ¶Yooni huroof-e-tahajji ke 24 huroof, chhote huroof mein.¶/ur
-↑ greek/en,griego/es,يوناني/ar,গ্ৰীক/as,গ্রিক/bn,griechisch/de,ελληνικά/el,یونانی/fa,grec/fr,ગ્રીક/gu,יוונית/he,ग्रीक/hi,yunani/id,ギリシャ文字/ja,ಗ್ರೀಕ್/kn,그리스문자/ko,ग्रीक2/mr,ग्रीक3/ne,ਯੂਨਾਨੀ/pa,greckie/pl,grego/pt,greacă/ro,грчки/sr,grekiska/sv,கிரேக்கம்/ta,గ్రీక్/te,griyego/tl,yunanca/tr,hyLạp/vi,希腊字母/zh,yooni/ur: chars(
+¶ഗ്രീക്ക് അക്ഷരമാലയിലെ 24 അക്ഷരങ്ങൾ, ചെറിയക്ഷരത്തിൽ.¶/ml
+¶Hi-lia̍p jī-bó ê 24 ê jī, sió-siá.¶/nan
+¶24 буквы греческого алфавита, строчные.¶/ru
+¶24 літери грецького алфавіту, малими літерами.¶/uk
+¶希臘字母嘅 24 個小寫字母。¶/yue
+↑ greek/en,griego/es,يوناني/ar,গ্ৰীক/as,গ্রিক/bn,griechisch/de,ελληνικά/el,یونانی/fa,grec/fr,ગ્રીક/gu,יוונית/he,ग्रीक/hi,yunani/id,ギリシャ文字/ja,ಗ್ರೀಕ್/kn,그리스문자/ko,ग्रीक2/mr,ग्रीक3/ne,ਯੂਨਾਨੀ/pa,greckie/pl,grego/pt,greacă/ro,грчки/sr,grekiska/sv,கிரேக்கம்/ta,గ్రీక్/te,griyego/tl,yunanca/tr,hyLạp/vi,希腊字母/zh,yooni/ur,ഗ്രീക്ക്/ml,греческий/ru,грецька/uk,希臘字母/yue: chars(
 		'αβγδεζηθικλμνξοπρστυφχψω'/el
 	)
 
@@ -331,7 +376,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶33 chữ cái của bảng chữ cái tiếng Nga, viết thường.¶/vi
 ¶俄语字母表的 33 个字母，小写形式。¶/zh
 ¶Roosi huroof-e-tahajji ke 33 huroof, chhote huroof mein.¶/ur
-↑ cyrillic/en,cirílico/es,سيريلي/ar,চিৰিলিক/as,সিরিলিক/bn,kyrillisch/de,κυριλλικά/el,سیریلیک/fa,cyrillique/fr,સિરિલિક/gu,קירילית/he,सिरिलिक/hi,sirilik/id,キリル文字/ja,ಸಿರಿಲಿಕ್/kn,키릴문자/ko,सिरिलिक2/mr,सिरिलिक3/ne,ਸਿਰਿਲਿਕ/pa,cyrylica/pl,cirílico2/pt,chirilică/ro,ћирилица/sr,kyrilliska/sv,சிரிலிக்/ta,సిరిలిక్/te,cyrillic2/tl,kiril/tr,kirin/vi,西里尔字母/zh,sirilik2/ur: chars(
+¶റഷ്യൻ അക്ഷരമാലയിലെ 33 അക്ഷരങ്ങൾ, ചെറിയക്ഷരത്തിൽ.¶/ml
+¶Ngó-gí jī-bó ê 33 ê jī, sió-siá.¶/nan
+¶33 буквы русского алфавита, строчные.¶/ru
+¶33 літери російського алфавіту, малими літерами.¶/uk
+¶俄文字母嘅 33 個小寫字母。¶/yue
+↑ cyrillic/en,cirílico/es,سيريلي/ar,চিৰিলিক/as,সিরিলিক/bn,kyrillisch/de,κυριλλικά/el,سیریلیک/fa,cyrillique/fr,સિરિલિક/gu,קירילית/he,सिरिलिक/hi,sirilik/id,キリル文字/ja,ಸಿರಿಲಿಕ್/kn,키릴문자/ko,सिरिलिक2/mr,सिरिलिक3/ne,ਸਿਰਿਲਿਕ/pa,cyrylica/pl,cirílico2/pt,chirilică/ro,ћирилица/sr,kyrilliska/sv,சிரிலிக்/ta,సిరిలిక్/te,cyrillic2/tl,kiril/tr,kirin/vi,西里尔字母/zh,sirilik2/ur,സിറിലിക്/ml,kirill/nan,кириллица/ru,кирилиця/uk,西里爾字母/yue: chars(
 		'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'/ru
 	)
 
@@ -366,7 +416,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶28 chữ cái của bảng chữ cái Ả Rập, viết từ phải sang trái.¶/vi
 ¶阿拉伯字母表的 28 个字母，从右向左书写。¶/zh
 ¶Arabi huroof-e-tahajji ke 28 huroof, jo daayein se baayein likhe jate hain.¶/ur
-↑ arabic/en,árabe/es,عربي/ar,আৰবী/as,আরবি/bn,arabisch/de,αραβικά/el,عربی/fa,arabe/fr,અરબી/gu,ערבית/he,अरबी/hi,arab/id,アラビア文字/ja,ಅರಬ್ಬಿ/kn,아랍문자/ko,अरबी2/mr,अरबी3/ne,ਅਰਬੀ/pa,arabskie/pl,árabe2/pt,arabă/ro,арапски/sr,arabiska/sv,அரபு/ta,అరబిక్/te,arabik/tl,arapça/tr,ảRập/vi,阿拉伯字母/zh,arabi/ur: chars(
+¶അറബി അക്ഷരമാലയിലെ 28 അക്ഷരങ്ങൾ, വലത്തുനിന്ന് ഇടത്തോട്ട് എഴുതിയത്.¶/ml
+¶A-la-pik jī-bó ê 28 ê jī, tuì tsiànn-pîng siá khì tsó-pîng.¶/nan
+¶28 букв арабского алфавита, они пишутся справа налево.¶/ru
+¶28 літер арабського алфавіту, які пишуться справа наліво.¶/uk
+¶阿拉伯字母嘅 28 個字母，由右至左書寫。¶/yue
+↑ arabic/en,árabe/es,عربي/ar,আৰবী/as,আরবি/bn,arabisch/de,αραβικά/el,عربی/fa,arabe/fr,અરબી/gu,ערבית/he,अरबी/hi,arab/id,アラビア文字/ja,ಅರಬ್ಬಿ/kn,아랍문자/ko,अरबी2/mr,अरबी3/ne,ਅਰਬੀ/pa,arabskie/pl,árabe2/pt,arabă/ro,арапски/sr,arabiska/sv,அரபு/ta,అరబిక్/te,arabik/tl,arapça/tr,ảRập/vi,阿拉伯字母/zh,arabi/ur,അറബിക്/ml,арабский/ru,арабська/uk,阿拉伯字母2/yue: chars(
 		'ابتثجحخدذرزسشصضطظعغفقكلمنهوي'/ar
 	)
 
@@ -401,7 +456,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶22 chữ cái của bảng chữ cái Do Thái, viết từ phải sang trái.¶/vi
 ¶希伯来字母表的 22 个字母，从右向左书写。¶/zh
 ¶Ibrani huroof-e-tahajji ke 22 huroof, jo daayein se baayein likhe jate hain.¶/ur
-↑ hebrew/en,hebreo/es,عبري/ar,হিব্ৰু/as,হিব্রু/bn,hebräisch/de,εβραϊκά/el,عبری/fa,hébreu/fr,હિબ્રૂ/gu,עברית/he,हिब्रू/hi,ibrani/id,ヘブライ文字/ja,ಹೀಬ್ರೂ/kn,히브리문자/ko,हिब्रू2/mr,हिब्रू3/ne,ਹਿਬਰੂ/pa,hebrajskie/pl,hebraico/pt,ebraică/ro,хебрејски/sr,hebreiska/sv,எபிரேயம்/ta,హీబ్రూ/te,hebreo2/tl,ibranice/tr,hebrew2/vi,希伯来字母/zh,ibrani2/ur: chars(
+¶ഹീബ്രു അക്ഷരമാലയിലെ 22 അക്ഷരങ്ങൾ, വലത്തുനിന്ന് ഇടത്തോട്ട് എഴുതിയത്.¶/ml
+¶Hebrew tsû-bóo ê 22 ê jī, tùi tsiàⁿ-pinn siá khì tsó-pinn.¶/nan
+¶22 буквы еврейского алфавита. Их пишут справа налево.¶/ru
+¶22 літери єврейського алфавіту. Їх пишуть справа наліво.¶/uk
+¶希伯來字母嘅 22 個字母，由右寫去左。¶/yue
+↑ hebrew/en,hebreo/es,عبري/ar,হিব্ৰু/as,হিব্রু/bn,hebräisch/de,εβραϊκά/el,عبری/fa,hébreu/fr,હિબ્રૂ/gu,עברית/he,हिब्रू/hi,ibrani/id,ヘブライ文字/ja,ಹೀಬ್ರೂ/kn,히브리문자/ko,हिब्रू2/mr,हिब्रू3/ne,ਹਿਬਰੂ/pa,hebrajskie/pl,hebraico/pt,ebraică/ro,хебрејски/sr,hebreiska/sv,எபிரேயம்/ta,హీబ్రూ/te,hebreo2/tl,ibranice/tr,hebrew2/vi,希伯来字母/zh,ibrani2/ur,ഹീബ്രു/ml,иврит/ru,іврит/uk,希伯來字母/yue: chars(
 		'אבגדהוזחטיכלמנסעפצקרשת'/he
 	)
 
@@ -436,7 +496,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶46 chữ hiragana cơ bản, một trong hai bảng chữ cái âm tiết của tiếng Nhật.¶/vi
 ¶46 个基本平假名，是日语两种音节文字之一。¶/zh
 ¶46 buniyadi hiragana, jo Japani zubaan ke do huroof ke silsilon mein se ek hai.¶/ur
-↑ hiragana/en,hiragana2/es,هيراغانا/ar,হিৰাগানা/as,হিরাগানা/bn,hiragana3/de,χιραγκάνα/el,هیراگانا/fa,hiragana4/fr,હિરાગાના/gu,היראגנה/he,हिरागाना/hi,hiragana5/id,ひらがな/ja,ಹಿರಗಾನ/kn,히라가나/ko,हिरागाना2/mr,हिरागाना3/ne,ਹੀਰਾਗਾਨਾ/pa,hiragana6/pl,hiragana7/pt,hiragana8/ro,хирагана/sr,hiragana9/sv,ஹிரகனா/ta,హిరగన/te,hiragana10/tl,hiragana11/tr,hiragana12/vi,平假名/zh,hiragana13/ur: chars(
+¶ജാപ്പനീസ് ഭാഷയിലെ രണ്ട് അക്ഷരമാലകളിൽ ഒന്നായ ഹിരാഗാനയിലെ 46 അടിസ്ഥാന അക്ഷരങ്ങൾ.¶/ml
+¶46 ê ki-pún ê hiragana, Ji̍t-pún lióng-tsióng im-tsat-jī ê tsi̍t-tsióng.¶/nan
+¶46 основных знаков хираганы. Это одна из двух японских слоговых азбук.¶/ru
+¶46 основних знаків гіраґани — однієї з двох японських складових абеток.¶/uk
+¶46 個基本平假名，係日文兩種音節文字之一。¶/yue
+↑ hiragana/en,hiragana2/es,هيراغانا/ar,হিৰাগানা/as,হিরাগানা/bn,hiragana3/de,χιραγκάνα/el,هیراگانا/fa,hiragana4/fr,હિરાગાના/gu,היראגנה/he,हिरागाना/hi,hiragana5/id,ひらがな/ja,ಹಿರಗಾನ/kn,히라가나/ko,हिरागाना2/mr,हिरागाना3/ne,ਹੀਰਾਗਾਨਾ/pa,hiragana6/pl,hiragana7/pt,hiragana8/ro,хирагана/sr,hiragana9/sv,ஹிரகனா/ta,హిరగన/te,hiragana10/tl,hiragana11/tr,hiragana12/vi,平假名/zh,hiragana13/ur,ഹിരഗാന/ml,хирагана2/ru,хірагана/uk,平假名2/yue: chars(
 		'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'/ja
 	)
 
@@ -471,7 +536,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶46 chữ katakana cơ bản, bảng chữ cái âm tiết của tiếng Nhật dùng cho các từ mượn từ ngôn ngữ khác.¶/vi
 ¶46 个基本片假名，是用来书写外来词的日语音节文字。¶/zh
 ¶46 buniyadi katakana, jo Japani huroof ka woh silsila hai jo doosri zubaanon se liye gaye alfaaz ke liye istemaal hota hai.¶/ur
-↑ katakana/en,katakana2/es,كاتاكانا/ar,কাটাকানা/as,কাতাকানা/bn,katakana3/de,κατακάνα/el,کاتاکانا/fa,katakana4/fr,કાટાકાના/gu,קטקנה/he,कातकाना/hi,katakana5/id,カタカナ/ja,ಕಟಕಾನ/kn,가타카나/ko,काताकाना/mr,काताकाना2/ne,ਕਾਟਾਕਾਨਾ/pa,katakana6/pl,katakana7/pt,katakana8/ro,катакана/sr,katakana9/sv,கடகனா/ta,కటకన/te,katakana10/tl,katakana11/tr,katakana12/vi,片假名/zh,katakana13/ur: chars(
+¶മറ്റു ഭാഷകളിൽ നിന്നെടുത്ത വാക്കുകൾക്ക് ഉപയോഗിക്കുന്ന ജാപ്പനീസ് അക്ഷരമാലയായ കറ്റകാനയിലെ 46 അടിസ്ഥാന അക്ഷരങ്ങൾ.¶/ml
+¶46 ê ki-pún ê katakana, Ji̍t-pún ê im-tsat-jī, ēng-lâi siá tuì pa̍t-tsióng gí-giân tsioh--lâi ê sû.¶/nan
+¶46 основных знаков катаканы. Это японская слоговая азбука для слов, взятых из других языков.¶/ru
+¶46 основних знаків катакани — японської складової абетки для слів, запозичених з інших мов.¶/uk
+¶46 個基本片假名，係日文用嚟寫外來語嘅音節文字。¶/yue
+↑ katakana/en,katakana2/es,كاتاكانا/ar,কাটাকানা/as,কাতাকানা/bn,katakana3/de,κατακάνα/el,کاتاکانا/fa,katakana4/fr,કાટાકાના/gu,קטקנה/he,कातकाना/hi,katakana5/id,カタカナ/ja,ಕಟಕಾನ/kn,가타카나/ko,काताकाना/mr,काताकाना2/ne,ਕਾਟਾਕਾਨਾ/pa,katakana6/pl,katakana7/pt,katakana8/ro,катакана/sr,katakana9/sv,கடகனா/ta,కటకన/te,katakana10/tl,katakana11/tr,katakana12/vi,片假名/zh,katakana13/ur,കട്ടകാന/ml,катакана2/ru,катакана3/uk,片假名2/yue: chars(
 		'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン'/ja
 	)
 
@@ -506,7 +576,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶24 chữ cái của bảng chữ cái tiếng Hàn: 14 phụ âm, sau đó là 10 nguyên âm.¶/vi
 ¶韩语字母表的 24 个字母：先是 14 个辅音，再是 10 个元音。¶/zh
 ¶Korean huroof-e-tahajji ke 24 huroof: 14 sakin huroof, phir 10 harkat wale huroof.¶/ur
-↑ hangul/en,hangul2/es,هانغول/ar,হাংগুল/as,হাঙ্গুল/bn,hangul3/de,χανγκούλ/el,هانگول/fa,hangeul/fr,હાનગુલ/gu,האנגול/he,हांगुल/hi,hangul4/id,ハングル/ja,ಹಂಗುಲ್/kn,한글/ko,हांगुल2/mr,हान्गुल/ne,ਹਾਂਗੁਲ/pa,hangul5/pl,hangul6/pt,hangul7/ro,хангул/sr,hangul8/sv,ஹங்குல்/ta,హంగుల్/te,hangul9/tl,hangul10/tr,hangul11/vi,韩文字母/zh,hangul12/ur: chars(
+¶കൊറിയൻ അക്ഷരമാലയിലെ 24 അക്ഷരങ്ങൾ: 14 വ്യഞ്ജനങ്ങളും പിന്നെ 10 സ്വരങ്ങളും.¶/ml
+¶Hân-gí tsû-bóo ê 24 ê jī: 14 ê hu-im, liáu-āu 10 ê buí-im.¶/nan
+¶24 буквы корейского алфавита: 14 согласных и 10 гласных.¶/ru
+¶24 літери корейського алфавіту: 14 приголосних, а потім 10 голосних.¶/uk
+¶韓文字母嘅 24 個字母：先有 14 個子音，再有 10 個母音。¶/yue
+↑ hangul/en,hangul2/es,هانغول/ar,হাংগুল/as,হাঙ্গুল/bn,hangul3/de,χανγκούλ/el,هانگول/fa,hangeul/fr,હાનગુલ/gu,האנגול/he,हांगुल/hi,hangul4/id,ハングル/ja,ಹಂಗುಲ್/kn,한글/ko,हांगुल2/mr,हान्गुल/ne,ਹਾਂਗੁਲ/pa,hangul5/pl,hangul6/pt,hangul7/ro,хангул/sr,hangul8/sv,ஹங்குல்/ta,హంగుల్/te,hangul9/tl,hangul10/tr,hangul11/vi,韩文字母/zh,hangul12/ur,ഹാൻഗുൽ/ml,хангыль/ru,хангиль/uk,諺文/yue: chars(
 		'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ'/ko
 	)
 
@@ -541,7 +616,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶44 phụ âm của bảng chữ cái tiếng Thái.¶/vi
 ¶泰语字母表的 44 个辅音。¶/zh
 ¶Thai huroof-e-tahajji ke 44 sakin huroof.¶/ur
-↑ thai/en,tailandés/es,تايلاندي/ar,থাই/as,থাই2/bn,thai2/de,ταϊλανδικά/el,تایلندی/fa,thaï/fr,થાઈ/gu,תאית/he,थाई/hi,thai3/id,タイ文字/ja,ಥಾಯ್/kn,태국문자/ko,थाई2/mr,थाई3/ne,ਥਾਈ/pa,tajskie/pl,tailandês/pt,thailandeză/ro,тајландски/sr,thailändska/sv,தாய்/ta,థాయ్/te,thai4/tl,tayca/tr,thái/vi,泰文字母/zh,thai5/ur: chars(
+¶തായ് അക്ഷരമാലയിലെ 44 വ്യഞ്ജനങ്ങൾ.¶/ml
+¶Thái-gí tsû-bóo ê 44 ê hu-im.¶/nan
+¶44 согласные тайского алфавита.¶/ru
+¶44 приголосні тайського алфавіту.¶/uk
+¶泰文字母嘅 44 個子音。¶/yue
+↑ thai/en,tailandés/es,تايلاندي/ar,থাই/as,থাই2/bn,thai2/de,ταϊλανδικά/el,تایلندی/fa,thaï/fr,થાઈ/gu,תאית/he,थाई/hi,thai3/id,タイ文字/ja,ಥಾಯ್/kn,태국문자/ko,थाई2/mr,थाई3/ne,ਥਾਈ/pa,tajskie/pl,tailandês/pt,thailandeză/ro,тајландски/sr,thailändska/sv,தாய்/ta,థాయ్/te,thai4/tl,tayca/tr,thái/vi,泰文字母/zh,thai5/ur,തായ്/ml,тайский/ru,тайська/uk,泰文/yue: chars(
 		'กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ'/th
 	)
 
@@ -576,7 +656,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶Những khuôn mặt để dùng làm nhân vật trong một câu chuyện hay một trò chơi.¶/vi
 ¶可以用作故事或游戏里角色的面孔。¶/zh
 ¶Chehre jo aap kisi kahani ya khel mein kirdaar ke taur par istemaal kar sakte hain.¶/ur
-↑ faces/en,caras/es,وجوه/ar,মুখমণ্ডল/as,মুখ2/bn,gesichter/de,πρόσωπα/el,چهره‌ها/fa,visages/fr,ચહેરાઓ/gu,פרצופים/he,चेहरे/hi,wajah2/id,顔2/ja,ಮುಖಗಳು/kn,얼굴2/ko,चेहरे2/mr,अनुहारहरू/ne,ਚਿਹਰੇ/pa,twarze/pl,rostos/pt,fețe/ro,лица/sr,ansikten/sv,முகங்கள்/ta,ముఖాలు/te,mgaMukha/tl,yüzler/tr,khuônMặt2/vi,表情2/zh,chehre/ur: chars(
+¶കഥയിലോ കളിയിലോ കഥാപാത്രങ്ങളായി ഉപയോഗിക്കാൻ മുഖങ്ങൾ.¶/ml
+¶Bīn-khóng, ē-sái ēng-lâi tòng-tsò kò-sū á-sī iû-hì lāi-té ê kak-sik.¶/nan
+¶Лица, которые можно использовать как героев в истории или игре.¶/ru
+¶Обличчя для персонажів в історії або грі.¶/uk
+¶可以喺故事或者遊戲入面當角色用嘅表情臉孔。¶/yue
+↑ faces/en,caras/es,وجوه/ar,মুখমণ্ডল/as,মুখ2/bn,gesichter/de,πρόσωπα/el,چهره‌ها/fa,visages/fr,ચહેરાઓ/gu,פרצופים/he,चेहरे/hi,wajah2/id,顔2/ja,ಮುಖಗಳು/kn,얼굴2/ko,चेहरे2/mr,अनुहारहरू/ne,ਚਿਹਰੇ/pa,twarze/pl,rostos/pt,fețe/ro,лица/sr,ansikten/sv,முகங்கள்/ta,ముఖాలు/te,mgaMukha/tl,yüzler/tr,khuônMặt2/vi,表情2/zh,chehre/ur,മുഖങ്ങൾ/ml,bīn2/nan,лица2/ru,обличчя/uk,表情臉孔/yue: chars(
 		'😀😃😄😁😆😅😂🙂🙃😉😊😇🥰😍🤩😘😋😜🤪🤨😐😶😏😒🙄😬😮😯😲😳🥺😢😭😤😠😡🤯😱😨😰😥'
 	)
 
@@ -611,7 +696,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶Những con vật để dùng làm nhân vật trong một câu chuyện hay một trò chơi.¶/vi
 ¶可以用作故事或游戏里角色的动物。¶/zh
 ¶Janwar jo aap kisi kahani ya khel mein kirdaar ke taur par istemaal kar sakte hain.¶/ur
-↑ animals/en,animales/es,حيوانات/ar,প্রাণী2/bn,tiere/de,ζώα/el,حیوانات/fa,animaux/fr,પ્રાણીઓ/gu,חיות/he,जानवर2/hi,hewan2/id,動物/ja,ಪ್ರಾಣಿಗಳು/kn,동물2/ko,प्राणी2/mr,जनावरहरू/ne,ਜਾਨਵਰ2/pa,zwierzęta/pl,animais/pt,animale/ro,животиње/sr,djur2/sv,விலங்குகள்/ta,జంతువులు/te,mgaHayop/tl,hayvanlar/tr,độngVật2/vi,动物2/zh,জন্তু2/as,janwar/ur: chars(
+¶കഥയിലോ കളിയിലോ കഥാപാത്രങ്ങളായി ഉപയോഗിക്കാൻ മൃഗങ്ങൾ.¶/ml
+¶Tōng-bu̍t, ē-sái ēng-lâi tòng-tsò kò-sū á-sī iû-hì lāi-té ê kak-sik.¶/nan
+¶Животные, которых можно использовать как героев в истории или игре.¶/ru
+¶Тварини для персонажів в історії або грі.¶/uk
+¶可以喺故事或者遊戲入面當角色用嘅動物。¶/yue
+↑ animals/en,animales/es,حيوانات/ar,প্রাণী2/bn,tiere/de,ζώα/el,حیوانات/fa,animaux/fr,પ્રાણીઓ/gu,חיות/he,जानवर2/hi,hewan2/id,動物/ja,ಪ್ರಾಣಿಗಳು/kn,동물2/ko,प्राणी2/mr,जनावरहरू/ne,ਜਾਨਵਰ2/pa,zwierzęta/pl,animais/pt,animale/ro,животиње/sr,djur2/sv,விலங்குகள்/ta,జంతువులు/te,mgaHayop/tl,hayvanlar/tr,độngVật2/vi,动物2/zh,জন্তু2/as,janwar/ur,മൃഗങ്ങൾ/ml,животные/ru,тварини/uk,動物2/yue: chars(
 		'🐶🐱🐭🐹🐰🦊🐻🐼🐨🐯🦁🐮🐷🐸🐵🐔🐧🐦🐤🦆🦅🦉🦇🐺🐗🐴🦄🐝🐛🦋🐌🐞🐢🐍🐙🦀🐠🐟🐬🐳'
 	)
 
@@ -646,7 +736,12 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶Những món ăn để dùng làm nhân vật trong một câu chuyện hay một trò chơi.¶/vi
 ¶可以用作故事或游戏里角色的食物。¶/zh
 ¶Khaane peene ki cheezein jo aap kisi kahani ya khel mein kirdaar ke taur par istemaal kar sakte hain.¶/ur
-↑ food/en,comida/es,طعام/ar,খাদ্য/as,খাবার/bn,essen/de,φαγητό/el,خوراکی/fa,nourriture/fr,ખોરાક/gu,אוכל/he,खाना/hi,makanan/id,食べ物/ja,ಆಹಾರ/kn,음식/ko,अन्न/mr,खाना2/ne,ਖਾਣਾ/pa,jedzenie/pl,comida2/pt,mâncare/ro,храна/sr,mat/sv,உணவு/ta,ఆహారం/te,pagkain/tl,yiyecek/tr,thứcĂn/vi,食物/zh,khaana/ur: chars(
+¶കഥയിലോ കളിയിലോ കഥാപാത്രങ്ങളായി ഉപയോഗിക്കാൻ ഭക്ഷണസാധനങ്ങൾ.¶/ml
+¶Tsia̍h-ê, ē-sái ēng-lâi tòng-tsò kò-sū á-sī iû-hì lāi-té ê kak-sik.¶/nan
+¶Еда, которую можно использовать как героев в истории или игре.¶/ru
+¶Їжа для персонажів в історії або грі.¶/uk
+¶可以喺故事或者遊戲入面當角色用嘅食物。¶/yue
+↑ food/en,comida/es,طعام/ar,খাদ্য/as,খাবার/bn,essen/de,φαγητό/el,خوراکی/fa,nourriture/fr,ખોરાક/gu,אוכל/he,खाना/hi,makanan/id,食べ物/ja,ಆಹಾರ/kn,음식/ko,अन्न/mr,खाना2/ne,ਖਾਣਾ/pa,jedzenie/pl,comida2/pt,mâncare/ro,храна/sr,mat/sv,உணவு/ta,ఆహారం/te,pagkain/tl,yiyecek/tr,thứcĂn/vi,食物/zh,khaana/ur,ഭക്ഷണം/ml,еда/ru,їжа/uk,食物2/yue: chars(
 		'🍎🍐🍊🍋🍌🍉🍇🍓🫐🍈🍒🍑🥭🍍🥥🥝🍅🥑🥦🥬🥒🌽🥕🧄🧅🥔🍠🥐🥯🍞🥖🧀🥚🍳🧈🥞🧇🥓🍔🍕'
 	)
 
@@ -681,6 +776,11 @@ Yahan har naam ek fehrist hai jis mein sirf ek ek harf hota hai. Aap un mein se 
 ¶Thời tiết và bầu trời để dựng nên một khung cảnh.¶/vi
 ¶用来布置场景的天气和天空。¶/zh
 ¶Mausam aur aasmaan, jin se aap koi manzar sajaa sakte hain.¶/ur
-↑ weather/en,clima/es,طقس/ar,বতৰ/as,আবহাওয়া/bn,wetter/de,καιρός/el,آب‌وهوا/fa,météo/fr,હવામાન/gu,מזגאוויר/he,मौसम/hi,cuaca/id,天気/ja,ಹವಾಮಾನ/kn,날씨/ko,हवामान/mr,मौसम2/ne,ਮੌਸਮ/pa,pogoda/pl,tempo2/pt,vreme/ro,време/sr,väder/sv,வானிலை/ta,వాతావరణం/te,panahon2/tl,havaDurumu/tr,thờiTiết/vi,天气/zh,mausam/ur: chars(
+¶ഒരു രംഗം ഒരുക്കാൻ കാലാവസ്ഥയും ആകാശവും.¶/ml
+¶Thinn-khuì kap thinn-khong, ēng-lâi pâi-tsūn tsi̍t-ê tshiúnn-bīn.¶/nan
+¶Погода и небо, чтобы создать нужную обстановку.¶/ru
+¶Погода й небо, щоб створити сцену.¶/uk
+¶用嚟佈置場景嘅天氣同天空。¶/yue
+↑ weather/en,clima/es,طقس/ar,বতৰ/as,আবহাওয়া/bn,wetter/de,καιρός/el,آب‌وهوا/fa,météo/fr,હવામાન/gu,מזגאוויר/he,मौसम/hi,cuaca/id,天気/ja,ಹವಾಮಾನ/kn,날씨/ko,हवामान/mr,मौसम2/ne,ਮੌਸਮ/pa,pogoda/pl,tempo2/pt,vreme/ro,време/sr,väder/sv,வானிலை/ta,వాతావరణం/te,panahon2/tl,havaDurumu/tr,thờiTiết/vi,天气/zh,mausam/ur,കാലാവസ്ഥ/ml,погода/ru,погода2/uk,天氣/yue: chars(
 		'☀🌤⛅🌥☁🌦🌧⛈🌩🌨❄☃⛄🌬💨🌪🌫🌈☔💧🌊🌙⭐🌟✨⚡🔥'
 	)

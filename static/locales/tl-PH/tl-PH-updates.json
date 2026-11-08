@@ -1059,6 +1059,9 @@
         "eff192c2e6b21": "$~Maaari ka nang mag-type ng kulay sa tagapili ng kulay, gamit ang pangalan nito o anumang kodigo na ginagamit ng isang web page. (<443@https://github.com/wordplaydev/wordplay/issues/443>)",
         "edd342aefe00f": "$~Nagdagdag kami ng salin ng makina para sa isang Hebreong locale (<441@https://github.com/wordplaydev/wordplay/issues/441>).",
         "ee9e6be8c1dfa": "$~*Mga tagatingin at nagkokomento*. Maaari mo nang hayaan ang isang tao na makita ang proyekto mo, o makita ito at makipag-usap tungkol dito, nang hindi sila pinapayagang mag-edit. Ang isang proyekto sa isang gallery ay maaari ding ipakita sa mga kurador lamang nito (<819@https://github.com/wordplaydev/wordplay/issues/819>, <738@https://github.com/wordplaydev/wordplay/issues/738>).",
-        "eba572ebe4c3f": "$~May espasyo na ngayon ang mga gallery para sa paano-gawin, kung saan maaaring ibahagi ng mga kurador at mga gumawa sa isa't isa ang mga natutunan nila (<825@https://github.com/wordplaydev/wordplay/issues/825>)."
+        "eba572ebe4c3f": "$~May espasyo na ngayon ang mga gallery para sa paano-gawin, kung saan maaaring ibahagi ng mga kurador at mga gumawa sa isa't isa ang mga natutunan nila (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
+        "e559bcfa865df": "$~Nagdagdag kami ng Russian, Ukrainian, Malayalam, Cantonese, at Taiwanese Hokkien (isinulat sa Tâi-lô), para mas marami sa inyo ang makagamit ng Wordplay sa wikang ginagamit ninyo sa bahay!",
+        "e53524c65f4f2": "$~Sa mas maliliit na screen, hindi na nagpapalit ng puwesto ang entablado at ang kodigo kapag lumilipat kayo sa pag-edit at pagpapatugtog. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
+        "ee481670339a2": "$~Ang mga proyektong humihiram ng kit, tulad ng halimbawang Conductor na may \\@wordplay/instruments\\, ay hindi na humihinto na may error sa oras na makita ng camera ang isang kamay o magbago ang isa pang input."
     }
 }

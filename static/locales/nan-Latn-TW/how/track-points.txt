@@ -1,0 +1,23 @@
+Kì-lȯk hun-sòo
+
+Tī iu-hì lāi-té, ū-sî ē ài kì-lȯk hun-sòo, tsit-má ū tāi-tsì huat-sing. Nā-sī @wordplay put-tsún piàn-sòo kái sin ê ta̍t, án-nuá lán beh án-tsuánn tsò?
+
+Hit ê khiàu-bāng sī iōng @Reaction lâi tīng-gī @Bind ê ta̍t, koh tsiok-sè sé-kò: siánn-mih tāi-tsì huat-sing, tsiah ē hōo @Bind.
+
+Pí-phuēnn, siūnn-khuànn-māi tsit ê gâu kán-tan ê iu-hì: ta̍k-pái ū-lâng tī kiān-poàn kā bì-bi̍t ê kiān ā-lòng, in tō ē tit-tio̍h koh-khah-chē hun-sòo. 
+
+\
+tiám2: 0 … ['a' 'e' 'i' 'o' 'u'].ū(Kiān()) … tiám2 + 1
+\
+
+ Tsit ê lē-tsú kóng, / Hun-sòo tùi 0 khai-sí, liân-suà ta̍k-pái ū kiān hōo lâng ā-lòng, nā-sī hit ê kiān tī guân-im ê lia̍t-pió lāi-té, hun-sòo tō piàn-tsò hiān-tsāi ê hun-sòo ke 1./ Ta̍k-pái \Kiān()\ tsu-liāu-liû piàn-huà, tshiāⁿ-sik tō tsài-pió-ta̍t, kiám-tsa tiâu-kiānn, nā-sī tsiànn, tō hōo \points\ tsi̍h-tio̍h sin ê ta̍t.
+
+Tsit ê hān-ìng ū saⁿ ê pō-hūn:
+
+• Hun-sòo ê khai-sí ta̍t (\0\)
+• Tiâu-kiānn, nā-sī tsiànn, tō sán-seng sin ê ta̍t (\['a' 'e' 'i' 'o' 'u'].ū(Kiān())\)
+• Sin ê ta̍t, nā-sī tiâu-kiānn piàn-tsò tsiànn (\points + 1\)
+
+Nā-beh tsò koh-khah ho̍k-tsa̍p ê hun-sòo kì-lȯk, tsí-tio̍h tsò koh-khah ho̍k-tsa̍p ê tiâu-kiānn á-sī sin ê ta̍t. Khuànn tsi̍t-ē sî-kan siūnn-khuànn-māi hia ê tiâu-kiānn kap sin ta̍t ê kui-tsik, ju-āu koh iōng thîng-sik-bé lâi piáu-ta̍t.
+
+track-points

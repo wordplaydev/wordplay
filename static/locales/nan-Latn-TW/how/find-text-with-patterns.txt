@@ -1,0 +1,23 @@
+Iōng tông-giàn lâi tshuē kah kiám-tsa bûn-jī
+
+Tông-giàn sī teh suat-bîng bûn-jī ê hîng-tsōng, án-ne lí ē-sái kiám-tsa bûn-jī ū hap hit ê hîng-tsōng á-bô, iah-sī tshuē kàu-uā ū tshut-hiān ê só-tsāi. Tông-giàn pàng tī \⣿ ⣿\ ê lāi-té, ùi tsó-pîng tuà kàu tsiàh-pîng, tsi̍t-pha tsi̍t-pha thak. \_\ sī tsi̍t ê jī-bó, \#\ sī tsi̍t ê sò-jī, \␣\ sī tsi̍t ê khang-keh, ka-ī ū ìn-hō ê bûn-jī, \"-"\ tsiok-tsiok-hó tio̍h-ài kāng-khuán.
+
+Nā beh kiám-tsa tsi̍t-ê uân-tsíng ê bûn-jī ū hap tông-giàn á-bô, ēng \≈\, ē hōo lí tsi̍t ê \?\:
+
+\
+'AB-1234' ≈ ⣿2 _ "-" 4 #⣿
+\
+
+ Che sī teh mn̄g “nn̄g ê jī-bó, tsi̍t ê tsṳ̄-sûn, liân-tsiūnn sì ê sò-jī buē?” — tap-àn sī \⊤\.
+
+Sò-liōng pàng tī ài tsiông-hok ê mih-kiānn ê thâu-tsiàn: \4 #\ ê ì-sù sī sì ê sò-jī. Lí iā ē-sái kóng \>0 #\ (tsi̍t ê á-sī koh-khah-to), \≥0 #\ (khòng ê á-sī koh-khah-to), \≤1 #\ (ē-sái bô), á-sī tsi̍t ê hān-uî, tsū-sī \2–4 #\.
+
+Nā beh tshuē kàu-uā ū tshut-hiān tông-giàn ê só-tsāi, ēng \⌕\, ē hōo lí tsi̍t ê ū @Structure kiat-kó ê lia̍t-piáu. Ēng \miâ2:( … )\ kā tsi̍t-pha miâ-tsîng, tō ē-sái pa̍k-khí-lâi:
+
+\
+'2026-06-15 tshut-sì' ⌕ ⣿y:(4 #) "-" m:(2 #) "-" d:(2 #)⣿
+\
+
+ Múi tsi̍t ê kiat-kó ē kā lí kóng hap-tio̍h ê \text\, i tuà tòh-uī \start\ kah \end\, kah pa̍k-khí-lâi ê \groups\ — tsia sī \y\、 \m\、kap \d\. In-uī tông-tsāi kui-lu̍t sī ēng grapheme lâi tui, in tsiâu-tsāi múi-tsióng gí-giân kap tsû-tsū lóo-tsiū sio-kāng ê khuànn-huat.
+
+mix-languages-in-text

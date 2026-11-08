@@ -1059,6 +1059,9 @@
         "eff192c2e6b21": "$~你现在可以在颜色选择器里输入颜色，可以输入颜色的名字，也可以输入网页使用的任意颜色代码。（<443@https://github.com/wordplaydev/wordplay/issues/443>）",
         "edd342aefe00f": "$~我们添加了希伯来语地区版本的机器翻译。（<441@https://github.com/wordplaydev/wordplay/issues/441>）",
         "ee9e6be8c1dfa": "$~*查看者和评论者*。你现在可以让别人查看你的项目，或者查看并聊天讨论，但不让他们编辑。作品库里的项目也可以只展示给策展人看。（<819@https://github.com/wordplaydev/wordplay/issues/819>，<738@https://github.com/wordplaydev/wordplay/issues/738>）",
-        "eba572ebe4c3f": "$~作品库现在有了如何空间，策展人和创作者可以在这里互相分享自己琢磨出来的方法。（<825@https://github.com/wordplaydev/wordplay/issues/825>）"
+        "eba572ebe4c3f": "$~作品库现在有了如何空间，策展人和创作者可以在这里互相分享自己琢磨出来的方法。（<825@https://github.com/wordplaydev/wordplay/issues/825>）",
+        "e559bcfa865df": "$~我们新增了俄语、乌克兰语、马拉雅拉姆语、粤语和台湾闽南语（用台罗拼音书写），这样更多的你就能用在家里说的语言来使用 Wordplay 啦！",
+        "e53524c65f4f2": "$~在较小的屏幕上，当你在编辑和表演之间切换时，舞台和代码不再互换位置了。（<1477@https://github.com/wordplaydev/wordplay/issues/1477>）",
+        "ee481670339a2": "$~借用了工具包的项目，比如带有 \\@wordplay/instruments\\ 的指挥家示例，在摄像头看到手或其他输入发生变化时，不会再立刻因为出错而停止了。"
     }
 }

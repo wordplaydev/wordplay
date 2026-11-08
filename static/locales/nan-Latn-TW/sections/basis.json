@@ -1,0 +1,1978 @@
+{
+    "$schema": "../../../static/schemas/sections/basis.json",
+    "basis": {
+        "Boolean": {
+            "doc": [
+                "$~Lán sī \\⊤\\ kap \\⊥\\. \\⊤\\ sī tsiàn. \\⊥\\ sī ké. \\⊤\\ m̄-sī \\⊥\\; \\⊥\\ m̄-sī \\⊤\\. Tō sī án-ne.",
+                "Àn-tsuánn tsò lán? Tsí-ū \\⊤\\ kap \\⊥\\, bián koh-ke, mài tsió-khuá.",
+                "Û ê lâng iōng kiān-pán khuài-tsiap-kiān phah lán; /Khuài-sok-kiān/ ê tsiah-á ē kóng sī tó-ê kiān, mā thang kái. Ū ê lâng iōng @editor ē-té ê button kap jī-goân tshuē. Iā thang tùi tsia tshuá lán lâi.",
+                "Khuànn lán ē-bīn ê @FunctionDefinition. In tsiok ū lō-tsi̍p."
+            ],
+            "name": ["$~Tsinké"],
+            "function": {
+                "and": {
+                    "doc": [
+                        "$~Tsí-ū @values lóng sī \\⊤\\ ê sî, góa tsiah ē pìⁿ-tsò \\⊤\\. Ū-iōng tī phòaⁿ-tuān tsiok-tsē tāi-tsì sī m̄-sī lóng tsiàn. Tsí-ū sì-khuán kiat-kó",
+                        "\\⊤ & ⊤\\",
+                        "\\⊤ & ⊥\\",
+                        "\\⊥ & ⊤\\",
+                        "\\⊥ & ⊥\\"
+                    ],
+                    "names": ["$~kah", "$~kap"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tshun-lo̍h ê hit-ê @Boolean ài kiám-tsa. Nā-sī tē-it-ê sī \\⊥\\, hit-ê sī siánn-mih bô koan-hē, hâm-sòo ê kiat-kó tō sī \\⊥\\.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "or": {
+                    "doc": [
+                        "$~*Ūi-tio̍h* @value ê tsit-ê sī \\⊤\\ ê sî, góa tō pìⁿ-tsò \\⊤\\. Ū-iōng tī phòaⁿ-tuān tsiok-tsē tāi-tsì tiong-kan ū tsit-ê sī tsiàn. Tsí-ū sì-khuán kiat-kó",
+                        "\\⊤ | ⊤\\",
+                        "\\⊤ | ⊥\\",
+                        "\\⊥ | ⊤\\",
+                        "\\⊥ | ⊥\\"
+                    ],
+                    "names": ["$~ásī", "$~iáhsī"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tshun-lo̍h ê hit-ê @Boolean ài kiám-tsa. Nā-sī tē-it-ê sī \\⊥\\, tsit-ê sī \\⊤\\ ê sî, hâm-sòo tsiah ē pìⁿ-tsò \\⊤\\.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "not": {
+                    "doc": "$~Góa ē ná-tsò tsiàu-kòo ê tùi-bīn: nā-sī \\⊤\\, tō hō \\⊥\\, nā-sī \\⊥\\, tō hō \\⊤\\.",
+                    "names": ["$~m̄sī"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~Nā nn̄g-ê lóng sī \\⊤\\ ia̍h-sī lóng sī \\⊥\\, tō sī \\⊤\\.",
+                    "names": ["$~siokâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tshun-lo̍h ê hit-ê @value ài kiám-tsa.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Nā nn̄g-ê sī sio-hóng ê, tō sī \\⊤\\.",
+                    "names": ["$~bôkâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tshun-lo̍h ê hit-ê @value ài kiám-tsa.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Tsiong @Boolean póa-tsò tāng-khuán ê @Text ta̍t, \\'⊤'\\ kap \\'⊥'\\",
+                "number": "$~Tsiong @Boolean póa-tsò @Number, \\1\\ tīng-tī \\⊤\\, \\0\\ tīng-tī \\⊥\\"
+            }
+        },
+        "None": {
+            "doc": [
+                "$~Góa tsú-piáu @value bô-tī, siá-tsò \\ø\\.",
+                "Góa sī @None. Iōng \\ø\\ lâi kiò góa."
+            ],
+            "name": ["$~Bô"],
+            "function": {
+                "equals": {
+                    "doc": "$~Kah-ê @value mā sī bô-mih mah? Tio̍h án-ne, nā-bô, \\⊥\\.",
+                    "names": ["$~siokâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kah-ê @value.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~Kah-ê @value /m̄-sī/ bô-mih mah?",
+                    "names": ["$~bôkâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kah-ê @value.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Siūnn-beh tsiong \\ø\\ pìⁿ-tsò \\'ø'\\? Tsit-ê tō sī lí ê ki-huē."
+            }
+        },
+        "Text": {
+            "doc": [
+                "$~Góa thang tsú-piáu pái-ê ê bûn-jī, bô lūn sī @language ê. Tsí-ū tsiong bûn-jī hōo tī khai-sí kap kuann-pit ê bûn-jī hû-hō tiong-kan: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, ia̍h-sī \\『』\\.",
+                "Khuànn tsia ê súi ê ōe-kù lâi sī-hān",
+                "\\'Lâng khí-tsíng tsí-ū nn̄g-khuán ê oa̍h-huat. Tsit khuán sī kā tsi̍t-tshè lóng khuànn-tsò bô kî-tsik. Lēng-gōa tsit khuán sī kā tsi̍t-tshè lóng khuànn-tsò kî-tsik.'\\",
+                "\\'一日三秋'\\",
+                "Kì-tit nā khai-sí tō ài kuann-pit, mā ài iōng sio-tùi ê hû-hō. Nā-bô góa tō m̄ tsai lí ê ōe í-king kóng-uân.",
+                "\\'lí-hó'/nan'hola'/es-MX\\",
+                "Lí mā thang kā góa tah gí-giân ê @markup, thang kā gī-su ê hoan-ik tsiok-tsē-khuán. Góa ē pìⁿ-tsò bo̍k-chiân sián-ê gí-giân ê hit-tsióng, nā-sī ū sio-tùi ê.",
+                "Nā-sī siūnn-beh iōng kî-thâ @values lâi tsò góa, thang án-ne:",
+                "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
+                "Khuànn góa tsiok kuân-sè ê kā hia ê ha̍p-kè sǹg-tsiânn, koh khǹg tī @Text lāi-bīn?",
+                "Góa koh ū tsit-ê siáu-siáu ê bi-bi̍t: lí ū tsai lán lóng ū tsi̍t-ê to̍k-te̍k ê hō-bé? Sī tsiàn ê! Lí thang siá @U/ kap lán ê hō-bé lâi kiò lán. Pí-tshú, @FunctionDefinition sī 192:",
+                "\\'@U/192'\\",
+                "Khuànn @U/192 án-tsuánn pìⁿ-tsò @FunctionDefinition? Góa thiann lí kā tsia ê hō-bé kiò-tsò 'Unicode'.",
+                "Kî-thâ ê, @FunctionDefinition ûi góa tsò-tsiânn hiah-tsē koh sió-khuá ê hâm-sòo, thang tī bûn-jī siōng tsò khah-tsē tāi-tsì!"
+            ],
+            "name": ["$~Bûnjī"],
+            "function": {
+                "length": {
+                    "doc": [
+                        "$~Góa pìⁿ-tsò bûn-jī lāi-bīn thang khuànn-tsiânn ê jī-goân ê sò-bo̍k; tsi̍t-ê jī-bó sī tsi̍t-ê jī-goân, tsi̍t-ê emoji sī tsi̍t-ê jī-goân, téng-téng. Pí-tshú:",
+                        "\\'lí-hó'.tn̂gtō()\\",
+                        "\\'🐈📚'.tn̂gtō()\\"
+                    ],
+                    "names": ["$~tn̂gtō"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ nā-sī guá kap hōo ê @Text ê jī-hu sūn-sī ká-sī tsiok-tsit.",
+                    "names": ["$~siokâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh pí-kàu ê @Text.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ nā-sī guá /m̄-sī/ kap hōo ê @Text ê jī-hu sūn-sī tsiok-tsit.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Beh pí-kàu ê @Text",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ nā-sī hōo ê @Text ū tshut-hiān tī guá lāi-té.",
+                        "\\'lí ū tshuē-tio̍h lí beh tshuē ê mih bô?'.ū('lí')\\"
+                    ],
+                    "names": ["$~ū"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tī guá lāi-té tshiau-tshuē ê @Text.",
+                            "names": "$~bûnjī"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": [
+                        "$~\\⊤\\ nā-sī guá ùi hōo ê @Text khai-sí.",
+                        "\\'lí-hó, sik-kuá!'.khaisí('lí-hó')\\",
+                        "\\'lí-hó, sik-kuá!'.khaisí('sik-kuá')\\"
+                    ],
+                    "names": ["$~khaisí"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kiám-tsa guá khai-thâu ê @Text.",
+                            "names": "$~bûnjī"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": [
+                        "$~\\⊤\\ nā-sī guá í hōo ê @Text kiat-sok.",
+                        "\\'guá sī tsi̍t ê būn-tuê--má?'.kiatbué('?')\\",
+                        "\\'Guá m̄-sī būn-tuê.'.kiatbué('?')\\"
+                    ],
+                    "names": ["$~kiatbué"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kiám-tsa guá boé-bóe ê @Text.",
+                            "names": "$~bûnjī"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Guá tsò tsi̍t-ê sin ê @Text, sī guá, mā-sī múi-ê jī-bó lóng piàn tāi-siá:",
+                        "\\'lí-hó'.tuāsiá()\\",
+                        "Tsi̍t-kuá siá-hhuat tsiah ū tāi-sió-siá, ánne bô tāi-sió-siá ê siá-hhuat, tshiūnn-sī Ji̍t-bûn á-sī A-la-pik-bûn, mā bē piàn.",
+                        "Guá ê @language @markup ē koh-tsāi sím-mih kui-tsik lâi iōng. Thóo-ni-kí-gí ū ū tiám kap bô tiám ê i, tsí-ū piau-kì sī Thóo-ni-kí-gí ê bûn-jī tsiah ē ùi Thóo-ni-kí ê pòo-huat piàn tāi-siá:",
+                        "\\'iyi'/tr.tuāsiá()\\",
+                        "\\'iyi'.tuāsiá()\\"
+                    ],
+                    "names": ["$~tuāsiá"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Guá tsò tsi̍t-ê sin ê @Text, sī guá, mā-sī múi-ê jī-bó lóng piàn sió-siá:",
+                        "\\'LÍ-HÓ'.sèsiá()\\",
+                        "Beh pí-kàu nn̄g-ê bûn-jī m̄-bián kuân-tsiú tāi-sió-siá, thang kā in lóng piàn sió-siá. Tsit-ê ē kā múi-ê ùi a khai-sí ê tuann-jī lóng pó-liû, bô-lūn tāi-siá á-sī sió-siá:",
+                        "\\['phōng-kó' 'kîn-tsí' 'kim-tsio'].kuèlū(\n\tƒ(sû•'') sû.sèsiá().khaisí('a')\n)\\",
+                        "Kap @Text/uppercase kāng-khuán, tsi̍t-kuá siá-hhuat tsiah ū tāi-sió-siá, guá ê @language @markup ē koh-tsāi sím-mih kui-tsik lâi iōng."
+                    ],
+                    "names": ["$~sèsiá"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Guá ùi guá ê tsi̍t-pōo-hūn tsò tsi̍t-ê sin ê @Text. Ùi 1 khai-sí sǹg, thâu-boé lóng ū kau-tsāi:",
+                        "\\'lí-hó'.pōohūn(2 4)\\",
+                        "Nā bô siá boé-tsing, guá tō kàu guá siāng-bué ê hu-hō:",
+                        "\\'lí-hó'.pōohūn(3)\\",
+                        "Guá sǹg hu-hō sī iōng lí khuànn--tio̍h ê ūi, só-í tsi̍t-ê iōng tsiok-tsōo-hūn tsò ê emoji iū-guân sī tsi̍t-ê hu-hō, bē hōo lâng tsit-ê tsit-puànn:",
+                        "\\'🐈📚!'.pōohūn(1 2)\\",
+                        "Nā lí iàu ê khah-tsē guá ū ê, guá tō hōo lí guá ū ê."
+                    ],
+                    "names": ["$~pōohūn"],
+                    "inputs": [
+                        {
+                            "doc": "$~Khai-sí ê tē-tiám, ùi 1 khai-sí sǹg.",
+                            "names": "$~khaisí"
+                        },
+                        {
+                            "doc": "$~Kiat-sok ê tē-tiám, ùi 1 khai-sí sǹg. Bô siá tō kàu boé.",
+                            "names": "$~bué"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Guá kā lí kóng hōo ê @Text tē-it-kái tī guá lāi-té tshut-hiān tī tá-uī, ùi 1 khai-sí sǹg:",
+                        "\\'lí-hó'.sikín('ll')\\",
+                        "Nā-sī bô tī guá lāi-té, guá tō hōo @None:",
+                        "\\'lí-hó'.sikín('z')\\",
+                        "Kap @Text/subsequence tsò-hóe, guá thang tshú-tsiūnn tāi-ke tsíng-ke — tse sī tē-it-ê jī:",
+                        "\\phrase: 'lí-hó, sè-kài'\nphrase.pōohūn(1 (phrase.sikín(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~sikín"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tī guá lāi-té tshiau-tshuē ê @Text.",
+                            "names": "$~bûnjī"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Guá ē tsò tsi̍t-ê sin @Text, kā tsi̍t-ê @Text múi-pái tshut-hiān ê tāi-tsì lóng hōo līng-gua̍h tsi̍t-ê thè-tsò:",
+                        "\\'2026-08-21'.uānn('-' '/')\\",
+                        "Múi-pái tshut-hiān ê lóng ē piàn, m̄-sī tsí-ū tē-it-pái:",
+                        "\\'ha ha ha'.uānn('ha' 'ho')\\",
+                        "Lí nā kiò guá thè-tsò tsi̍t-ê khang-khang ê @Text, guá ē kā ka-kī án-ne hóe-tńg-lâi, bô piàn."
+                    ],
+                    "names": ["$~uānn"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tī guá lāi-té tshiau-tshuē ê @Text.",
+                            "names": "$~ê"
+                        },
+                        {
+                            "doc": "$~Beh pàng tī i ê uī-tì ê @Text.",
+                            "names": "$~uānnê"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Guá tsò tsi̍t-ê sin ê @Text, kā guá nn̄g-piah ê khang-pe̍h lóng tshú-tiāu. Tiong-kan ê khang-pe̍h ē pó-liû:",
+                        "\\'  lí-hó  '.khìkhang()\\",
+                        "Tse tsiok ū iōng, in-ūi lâng-kah ká-sī-tshiànn ê bûn-jī sio-siōng ū lí bô iàu ê khang-pe̍h."
+                    ],
+                    "names": ["$~khìkhang"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Guá tsò tsi̍t-ê sin ê @Text, guá ê hu-hō sūn-sī tò-tńg:",
+                        "\\'lí-hó'.tòtńgê()\\",
+                        "Guá tī lí khuànn--tio̍h ê ūi, kā hu-hō ê sūn-sī tò-tńg, só-í emoji ē pó-tshî uân-tsíng, jī-bó ê im-piàu mā ē pó-liû:",
+                        "\\'🐈📚'.tòtńgê()\\"
+                    ],
+                    "names": ["$~tòtńgê", "$~tòtńg"],
+                    "inputs": []
+                },
+                "repeat": {
+                    "doc": [
+                        "$~Guá tsò tsi̍t-ê sin ê @Text, sī guá, tāi-khuán \\count\\ tsiūnn-kái tsiūnn-kái:",
+                        "\\'hai ' × 5\\",
+                        "Nā lí hōo guá siáu-sòo ê @Number, guá bē lí siáu-sòo ê pōo-hūn:",
+                        "\\'hai ' × 5.5\\",
+                        "Nā lí hōo guá hù-sòo á-sī 0 ê @Number, guá tō hōo khang ê @Text.",
+                        "\\'hai ' × -5\\",
+                        "Guá tsòe-tn̂g thang tsò ê bûn-jī sī 65,535 ê jī-hu. Nā lí beh tsò khah tn̂g ê, guá tō tsiūnn-kái kàu tsòe-tsē thang tsiūnn ê."
+                    ],
+                    "names": ["$~tîngho̍kê", "$~tîngho̍k"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tī sin ê bûn-jī-lāi tsiūnn-kái ka-kī ê tsuā-sòo.",
+                            "names": "$~kuípái"
+                        }
+                    ]
+                },
+                "segment": {
+                    "doc": [
+                        "$~Guá kā ka-kī hun-khui tsò tsi̍t-ê @List ê @Text, iōng hōo ê @Text tsò hun-keh, tsiah-ê hun-keh lóng tshú-tiāu. Pí-lūn:",
+                        "\\'phōng-kó, kam-á, phû-tô' ÷ ', '\\",
+                        "Nā hun-keh sī khang ê @Text, guá tō kā ka-kī hun tsò jī-hu:",
+                        "\\'🖌️🏠🥸' ÷ ''\\"
+                    ],
+                    "names": ["$~hunkhuiê", "$~hunkhui"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tsò hun-keh ê @Text.",
+                            "names": "$~kehjī"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Ū-sî-hōo @Text kah-tsò-hóo tsiah ū iōng. Lí hōo guá lēng-guā tsi̍t ê @Text, guá tō ē tsò tsi̍t ê sin ê bûn-jī, kā lán lióng ê kah tī tsi̍t-kuè:",
+                        "\\'lí-hó ' + 'sik-kuá'\\"
+                    ],
+                    "names": ["$~kiatha̍pê", "$~kiatha̍p"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah-tsiūnn-khì ê @Text.",
+                            "names": "$~bûnjī"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~Nā-sī tsi̍t-ê bûn-jī lóng kah hōo--ê ê iūⁿ-tsāi sio-kâng, tō ē tsuán \\⊤\\.",
+                        "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
+                    ],
+                    "names": ["$~hûha̍p"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tuì ê iūⁿ-tsāi.",
+                            "names": "$~bôosik"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Tī guá lāi-té tshuē-tshut múi tsi̍t ê kah-tio̍h iūⁿ-tsāi ê uī-tì, tsò tsi̍t ê @Result ê lia̍t-pió.",
+                        "\\'a1 b2' ⌕ ⣿ _ #⣿\\"
+                    ],
+                    "names": ["$~tshuē"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tshuē ê iūⁿ-tsāi.",
+                            "names": "$~bôosik"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "$~Kā bûn-jī tshiah-khui, tsò tsi̍t ê tsi̍t-ê-tsi̍t-ê ê jī-guân ê lia̍t-pió.",
+                "number": [
+                    "$~Kā bûn-jī piàn-tsò @Number; nā-sī m̄-sī sò-jī, tō piàn-tsò m̄-sī sò-jī ê ta̍t, ē hián-sī tsò \\!#\\:",
+                    "\\'hāi' → #\\"
+                ],
+                "formatted": "$~Kā bûn-jī piàn-tsò ū keh-sik ê bûn-jī, tsiū-sī ē khuànn-hiān lāi-té ê piau-kì."
+            }
+        },
+        "Formatted": {
+            "doc": [
+                "$~Guá sī ū keh-sik ê bûn-jī: ū iūⁿ-á ê jī, pái-thóng ū tshám-tsháu-thé, siòng-tshiūnn-thé kah liân-kiat. Lí kā guá khǹg tī nn̄g ê tsiām-tsiām-hû tiong-kan:",
+                "\\`Guá sī **tshu** koh /khiāng/`\\",
+                "Guá kah @Text tsiok-sio-siâng, m̄-kú guá ē tsāi-tio̍h keh-sik. Lí ē-sái kā guá kah-tsò-hóo, tāi-kè, kiám-tsa guá ê lāi-iông, koh-ū kā guá piàn-tsò pîng-tshiūnn ê @Text."
+            ],
+            "name": ["$~Kiksik"],
+            "function": {
+                "length": {
+                    "doc": "$~Guá ê @value sī guá bûn-jī lāi-té khuànn ē-hiáu ê jī-guân ê sò-bo̍k, bē-kì keh-sik kah tuānn-lo̍h ê hun-khuì.",
+                    "names": ["$~tn̂gtō"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~Nā-sī guá kah hōo--ê ê @value sī kâng ê ū keh-sik ê bûn-jī, tō tsuán \\⊤\\.",
+                    "names": ["$~siokâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh pí-kàu ê ū keh-sik ê bûn-jī.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~Nā-sī guá kah hōo--ê ê @value /m̄-sī/ kâng ê ū keh-sik ê bûn-jī, tō tsuán \\⊤\\.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Beh pí-kàu ê ū keh-sik ê bûn-jī.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$~Nā-sī guá ê pîng-tshiūnn bûn-jī ū pau-hâm hōo--ê ê @Text, tō tsuán \\⊤\\. Guá tshuē ê sî bē-kì keh-sik kah tuānn-lo̍h ê hun-khuì.",
+                    "names": ["$~ū"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tī guá ê bûn-jī lāi-té tshuē ê @Text.",
+                            "names": "$~bûnjī"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$~Nā-sī guá ê pîng-tshiūnn bûn-jī tùi hōo--ê ê @Text khai-sí, tō tsuán \\⊤\\. Guá kiám-tsa ê sî bē-kì keh-sik kah tuānn-lo̍h ê hun-khuì.",
+                    "names": ["$~khaisí"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kiám-tsa guá ê bûn-jī khai-thâu ê @Text.",
+                            "names": "$~bûnjī"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$~Nā-sī guá ê pîng-tshiūnn bûn-jī ē-kuí hōo--ê ê @Text kiat-sok, tō tsuán \\⊤\\. Guá kiám-tsa ê sî bē-kì keh-sik kah tuānn-lo̍h ê hun-khuì.",
+                    "names": ["$~kiatbué"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kiám-tsa guá ê bûn-jī kiat-bé ê @Text.",
+                            "names": "$~bûnjī"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Guá ē tsò tsi̍t ê sin ê ū keh-sik ê bûn-jī, tsiū-sī guá, m̄-kú múi ê jī lóng piàn-tsò tuā-siá. Tsí-ū guá ê jī ē piàn; guá ê keh-sik, liân-kiat kah lē-tsú lóng put-piàn:",
+                        "\\`*Hi* lí-hó`.tuāsiá()\\",
+                        "Kah @Text/uppercase siâng-iūnn, tsí-ū tsi̍t-kuá-á su-siá-hē-thóng ê jī ū tuā-sè-siá, guá ê @language @markup ē koat-tīng iōng siáng ê kui-tik."
+                    ],
+                    "names": ["$~tuāsiá"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Guá ē tsò tsi̍t ê sin ê ū keh-sik ê bûn-jī, tsiū-sī guá, m̄-kú múi ê jī lóng piàn-tsò sió-siá. Tsí-ū guá ê jī ē piàn; guá ê keh-sik, liân-kiat kah lē-tsú lóng put-piàn:",
+                        "\\`*HI* LÍ-HÓ`.sèsiá()\\",
+                        "Kah @Text/lowercase siâng-iūnn, tsí-ū tsi̍t-kuá-á su-siá-hē-thóng ê jī ū tuā-sè-siá, guá ê @language @markup ē koat-tīng iōng siáng ê kui-tik."
+                    ],
+                    "names": ["$~sèsiá"],
+                    "inputs": []
+                },
+                "repeat": {
+                    "doc": "$~Guá ē tsò tsi̍t ê sin ê ū keh-sik ê bûn-jī, tsiū-sī guá tsiông-hok hōo--ê ê tsū-sò. Nā-sī guá ū tsiok-kuí ê tuānn-lo̍h, huê-pún kan ê hun-khuì ē pó-liû.",
+                    "names": ["$~tîngho̍kê", "$~tîngho̍k"],
+                    "inputs": [
+                        {
+                            "doc": "$~Guá beh tsiông-hok ê tsū-sò.",
+                            "names": "$~kuípái"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$~Hōo guá lēng-guā tsi̍t ê ū keh-sik ê bûn-jī, guá tō ē kā lán lióng ê kah-tsò tsi̍t ê. Nā-sī lán lióng ê tó-tsi̍t ê ū tsiok-kuí ê tuānn-lo̍h, tuānn-lo̍h ê hun-khuì ē pó-liû.",
+                    "names": ["$~kiatha̍pê", "$~kiatha̍p"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kiat-ha̍p ê ke-kiat ê iân-tsò-sik bûn-jī.",
+                            "names": "$~kiksik"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Kā iân-tsò-sik bûn-jī pìⁿ-tsò tsun-tsún ê @Text, kā ta̍k-hāng ê sik-iūnn lóng khí-tiāu.",
+                "list": "$~Kā iân-tsò-sik bûn-jī pìⁿ-tsò tsi̍t-ê @List, lāi-bīn ê ta̍k-ê @Text tùi-èng guá ê uē ê tsi̍t-ê hû-hō. Sik-iūnn bē-tàng pau tī tak-ê hû-hō lāi-té, in-uī án-ne tio̍h khí-tiāu.",
+                "number": [
+                    "$~Kā guá ê uē pìⁿ-tsò @Number; nā-sī m̄-sī sò-jī, tō pìⁿ-tsò m̄-sī sò-jī ê ta̍t, ē hián-sī \\!#\\:",
+                    "\\`hāi` → #\\"
+                ]
+            }
+        },
+        "Number": {
+            "doc": [
+                "$~Guá tsò-tshut @Number, tshiūnn-siōng ê tan-uī lóng ē-sái!",
+                "Lí khuànn, che sī guá siōng pang-bîn ê 5 ê:",
+                "\\0\\",
+                "\\1story\\",
+                "\\πpie\\",
+                "\\∞rock\\",
+                "\\1000000hugs\\",
+                "Â-iah-sī kóng, sò-jī ū bô-hān tsē.",
+                "Tan-uī mā ū bô-hān tsē!",
+                "Sò-jī kah tan-uī ê phuè-tuì mā ū bô-hān tsē…",
+                "Guá ē-sái sī tsíng-sò, si̍t-sò, hu-sò, tsìng-sò, hun-sò, siáu-sò-tiám, mā ē-sái m̄-sī sò-jī.",
+                "Lí mā ē-sái iōng tsē-tsē ê sò-jī hôo-hāu siá guá, pau-kuat Arabia \\123\\, Lô-má \\ⅩⅩⅩⅠⅩ\\, Ji̍t-pún \\二十\\, kah khah-tsē:",
+                "\\1 + Ⅰ + 一\\",
+                "Lí mā ē-sái iōng 2 kàu 16 ê tuì-sò (base) siá guá, kā tuì-sò án-ne siá:",
+                "\\2;11111111\\",
+                "\\10;255\\",
+                "\\16;FF\\",
+                "Ù tsi̍t-ê tn̄g-tshiūnn ê sò-jī kiò NaN, nā-sī lí siá ê m̄-sī sò-jī, tō ē tshut-hiān:",
+                "\\2;22\\",
+                "Tī 2 tsìn-uī lāi-té bô '2' tsit-ê sò-jī, in-uī án-ne m̄-sī ū-hāu ê sò-jī. Nā-sī kā m̄-sī sò-jī ê bûn-jī pìⁿ-tsò sò-jī, mā ē tshut-hiān NaN",
+                "\\'hāi' → #\\"
+            ],
+            "name": ["$~Sòojī"],
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Guá kā siâng-khuán @Unit ê @Number ka-tsiūnn tī ka-kī, tsò-tshut sin ê @Number, @Unit it-iūnn.",
+                        "Tse-sī lē:",
+                        "\\1 + 1\\",
+                        "\\3cat + 5cat\\",
+                        "Nā-sī tan-uī bô sio-kâng, guá tō khùn-khuànn thîng-tsí.",
+                        "\\3cat + 5dog\\🪲"
+                    ],
+                    "names": ["$~ka"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh ka-tsiūnn ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "subtract": {
+                    "doc": [
+                        "$~Guá kā lí hōo guá ê @Number tùi ka-kī kiám-tiāu, tsò-tshut sin ê @Number, @Unit it-iūnn.",
+                        "Tse-sī lē:",
+                        "\\1 - 1\\",
+                        "\\3cat - 5cat\\",
+                        "Nā-sī tan-uī bô sio-kâng, guá tō khùn-khuànn thîng-tsí.",
+                        "\\3cat - 5dog\\🪲"
+                    ],
+                    "names": ["$~kiám"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tùi guá kiám-tiāu ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "multiply": {
+                    "doc": [
+                        "$~Guá kā ka-kī tshîng-tsiūnn hōo guá ê @Number, tsò-tshut guá ê @Unit kah hit-ê sò-jī ê @Unit ê tsîng-ki:",
+                        "\\5 × 5\\",
+                        "\\5m × 5m\\",
+                        "\\5m × 1/s\\"
+                    ],
+                    "names": ["$~sîng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tshîng ê sò-jī.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "divide": {
+                    "doc": [
+                        "$~Guá kā ka-kī tî-tshuē hōo guá ê @Number, tsò-tshut guá ê @Unit kah hit-ê sò-jī ê @Unit ê siong-pí:",
+                        "\\5 ÷ 5\\",
+                        "\\5m ÷ 5m\\",
+                        "\\5m ÷ 5s\\"
+                    ],
+                    "names": ["$~tû"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh iōng lâi tî guá ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "remainder": {
+                    "doc": [
+                        "$~Guá kā ka-kī tî-tshuē hōo guá ê @Number, put-kuè sī ták ê ê-kiat-ê iân-sò:",
+                        "\\10 % 2\\",
+                        "\\10m % 2\\",
+                        "\\10m/s % 3\\"
+                    ],
+                    "names": ["$~îsòo"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh iōng lâi tî guá ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "positive": {
+                    "doc": [
+                        "$~Guá tsò-tshut sin ê @Number, nā-sī hu-sò, tō pìⁿ-tsò tsìng-sò.",
+                        "\\-200.tsìng()\\"
+                    ],
+                    "names": ["$~tsìng"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": [
+                        "$~Guá tsò-tshut sin ê @Number, kā guá sì-siá-ngóo-ji̍p kàu siōng-kīn ê tsíng-sò.",
+                        "\\9.4.tsíngsòo()\\",
+                        "\\9.5.tsíngsòo()\\",
+                        "\\9.6.tsíngsòo()\\"
+                    ],
+                    "names": ["$~tsíngsòo"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": [
+                        "$~Guá tsò-tshut sin ê @Number, kā guá khì-tiāu kàu pí guá khah sió ê siōng-tuā tsíng-sò.",
+                        "\\10.5.tsíngsòoLo̍h()\\",
+                        "\\10.1.tsíngsòoLo̍h()\\",
+                        "\\10.01.tsíngsòoLo̍h()\\"
+                    ],
+                    "names": ["$~tsíngsòoLo̍h"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": [
+                        "$~Guá tsò-tshut sin ê @Number, kā guá ka-tsiūnn kàu pí guá khah tuā ê siōng-sió tsíng-sò.",
+                        "\\10.5.tsíngsòoKhí()\\",
+                        "\\10.9.tsíngsòoKhí()\\",
+                        "\\10.99.tsíngsòoKhí()\\"
+                    ],
+                    "names": ["$~tsíngsòoKhí"],
+                    "inputs": []
+                },
+                "power": {
+                    "doc": [
+                        "$~Guá kā ka-kī tsìn kàu hōo guá ê @Number ê tsû-kuì. Hun-sò ê tsû-kuì mā ē-sái!",
+                        "\\2 ^ 8\\",
+                        "\\10 ^ -2\\",
+                        "\\5 ^ -.5\\"
+                    ],
+                    "names": ["$~tshùhong"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kā guá tsìn ê tsû-kuì.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "root": {
+                    "doc": [
+                        "$~Guá iōng hōo guá ê kin-sò, tsò-tshut ka-kī ê kin.",
+                        "\\4 √ 2\\",
+                        "\\1000 √ 3\\"
+                    ],
+                    "names": ["$~kin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh sǹg ê kin-sò.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "lessThan": {
+                    "doc": [
+                        "$~Nā-sī guá pí hōo guá ê @Number khah sió, tō sī \\⊤\\:",
+                        "\\1 < 2\\",
+                        "\\2 < 1\\"
+                    ],
+                    "names": ["$~khahsè"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "lessOrEqual": {
+                    "doc": [
+                        "$~Nā-sī guá pí hōo guá ê @Number khah sió, a̍h-sī kah i sio-kâng, tō sī \\⊤\\:",
+                        "\\1 ≤ 2\\",
+                        "\\2 ≤ 1\\",
+                        "\\2 ≤ 2\\"
+                    ],
+                    "names": ["$~bôkhahtuā"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "greaterThan": {
+                    "doc": [
+                        "$~\\⊤\\ nā-sī guá khah tuā-ê kî-tshù @Number:",
+                        "\\1 > 2\\",
+                        "\\2 > 1\\"
+                    ],
+                    "names": ["$~khahtuā"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "greaterOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ nā-sī guá khah tuā iah-sī kāng-khuán tsò kî-tshù @Number:",
+                        "\\1 ≥ 2\\",
+                        "\\2 ≥ 1\\",
+                        "\\2 ≥ 2\\"
+                    ],
+                    "names": ["$~bôkhahsè"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Uì guá kàu ê @Number ê @Range, nn̄g-pîng lóng ài. Lí ē-tàng iōng @Spread kā i thián-khui tsò list, mn̄g i ū-bô khǹg sò-jī, iah-sī kā i tsò @Match ê kiān:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Nā-sī guá ê boé-té ke̍k-á khah sè-ê khai-sí, guá ē tùi-tsiàu-lâi sǹg:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~kàu"],
+                    "inputs": [
+                        {
+                            "doc": "$~Guá ê @Number kàu tsia kiat-sok. I tio̍h-ài kap guá ū kāng-khuán ê tan-uī.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "equal": {
+                    "doc": [
+                        "$~\\⊤\\ nā-sī guá kap kî-tshù @Number sio-kāng:",
+                        "\\1 = 2\\",
+                        "\\2 = 2\\"
+                    ],
+                    "names": ["$~siokâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": [
+                        "$~\\⊤\\ nā-sī guá kap kî-tshù @Number bô sio-kāng:",
+                        "\\1 ≠ 2\\",
+                        "\\2 ≠ 2\\"
+                    ],
+                    "names": ["$~bôkâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "cos": {
+                    "doc": ["$~Kā guá sǹg tsò cosine.", "\\π.îhiân()\\"],
+                    "names": ["$~îhiân"],
+                    "inputs": []
+                },
+                "sin": {
+                    "doc": ["$~Kā guá sǹg tsò sine.", "\\π.îhiân()\\"],
+                    "names": ["$~tsìnghiân"],
+                    "inputs": []
+                },
+                "tan": {
+                    "doc": ["$~Kā guá sǹg tsò tangent.", "\\π.tsìngtshiat()\\"],
+                    "names": ["$~tsìngtshiat"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Kā guá sǹg tsò arcsine (sine ê tăn-tò).",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Kā guá sǹg tsò arccosine (cosine ê tăn-tò).",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Kā guá sǹg tsò arctangent (tangent ê tăn-tò).",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": ["$~Kā sò-jī _e_ ê guá tsū-pái-kuá.", "\\1.exp()\\"],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Sǹg guá tī kî-tshù ê tè-sò, nā-sī bô kî-tshù tè-sò, tō sǹg guá ê tsū-jiân tè-sò.",
+                        "\\8.tuìsòo(2)\\",
+                        "\\100.tuìsòo(10)\\",
+                        "\\1.tuìsòo()\\"
+                    ],
+                    "names": ["$~tuìsòo"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tè-sò ê tè. Nā-sī beh sǹg tsū-jiân tè-sò (tè _e_), tō mài siá.",
+                            "names": "$~tésòo"
+                        }
+                    ]
+                },
+                "min": {
+                    "doc": [
+                        "$~Tī guá kap kî-thaʼ ê sò-jī tiong-kan, tshōe tsuè sè ê.",
+                        "\\1.siōngsió(2 3 -1)\\"
+                    ],
+                    "names": "$~siōngsió",
+                    "inputs": [
+                        {
+                            "doc": "$~Lí beh kho guá guā-nuā sò-jī lóng ē-sái!",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "max": {
+                    "doc": [
+                        "$~Tī guá kap kî-thaʼ ê sò-jī tiong-kan, tshōe tsuè tuā ê.",
+                        "\\1.siōngtuā(2 3 4)\\"
+                    ],
+                    "names": "$~siōngtuā",
+                    "inputs": [
+                        {
+                            "doc": "$~Lí beh kho guá guā-nuā sò-jī lóng ē-sái!",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Kā guá khǹg tī tshòng-kuân kap ke̍k-á khah kuân ê sò-jī tiong-kan: nā-sī guá khah sè-ê, lí tō tit-tio̍h hit ê khah sè-ê; nā-sī guá khah tuā hit ê khah kuân-ê, lí tō tit-tio̍h hit ê khah kuân-ê.",
+                        "\\12.hāntsè(0 10)\\"
+                    ],
+                    "names": "$~hāntsè",
+                    "inputs": [
+                        {
+                            "doc": "$~Guá siōng-kē ē-sái tsiok-sè.",
+                            "names": "$~kē"
+                        },
+                        {
+                            "doc": "$~Guá siōng-kē ē-sái tsiok-tuā.",
+                            "names": "$~kuân"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Uì guá khah kīn kàu lēng-gua̍h tsit ê sò-jī, suá tsit tsūn lō. 0% tit-tio̍h guá, 100% tit-tio̍h hit ê lēng-gua̍h, tiong-kan ê tsit-puànn tō tit-tio̍h tiong-kan ê sò-jī.",
+                        "\\0m.hiòng(10m 30%)\\"
+                    ],
+                    "names": "$~hiòng",
+                    "inputs": [
+                        {
+                            "doc": "$~Beh suá khì ê sò-jī.",
+                            "names": "$~pa̍tê"
+                        },
+                        {
+                            "doc": "$~Beh kiânn guā-tīn, 100% tō kàu-uī.",
+                            "names": "$~sòoliōng"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Tshōe guá tī tsit tsóo sò-jī ê tī-tá, jiân-āu kā tī lēng-gua̍h tsit tsóo ê kāng-khuán uī-tì ê sò-jī hôo lí. Tsin pān-piàn, ē-sái kā lí liâu-liâu ê kiat-kó pìⁿ-tsò ē-sái hiàn-sī ê tsit-kuá.",
+                        "\\300hz.káipílē(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~káipílē",
+                    "inputs": [
+                        {
+                            "doc": "$~Guá sóo-tsāi ê @scope ê khé-té.",
+                            "names": "$~tuìkē"
+                        },
+                        {
+                            "doc": "$~Guá sóo-tsāi ê @scope ê kuân-té.",
+                            "names": "$~tuìkuân"
+                        },
+                        {
+                            "doc": "$~Lí beh ê @scope ê khé-té.",
+                            "names": "$~kàukē"
+                        },
+                        {
+                            "doc": "$~Lí beh ê @scope ê kuân-té.",
+                            "names": "$~kàukuân"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Guá ê sò-jī ê A-la-pik @Text piáu-sī-huat.",
+                "list": [
+                    "$~Guá ē kā tsi̍t ê sò-jī piàn-tsò tuì \\1\\ kàu hőng-tsò ê sò-jī ê tsi̍t-tsūn lie̍h-piáu. Pí-lūn:",
+                    "\\10→[]\\"
+                ],
+                "unit": "$~$from → $to"
+            },
+            "unit": {
+                "ns": "$~ná-nó-bió",
+                "us": "$~bî-khuh-lo-bió",
+                "ms": "$~hâm-bió",
+                "s": "$~bió",
+                "min": "$~hun-tsiong",
+                "h": "$~tiám-tsiong",
+                "day": "$~ji̍t",
+                "wk": "$~lé-pài",
+                "yr": "$~nî",
+                "pm": "$~phi-khuh-bé",
+                "nm": "$~ná-nó-bé",
+                "um": "$~bî-khuh-lo-bé",
+                "mm": "$~hâm-bé",
+                "cm": "$~kong-hun",
+                "dm": "$~kong-tshùn",
+                "m": "$~kong-tshioh",
+                "hm": "$~pah-kong-tshioh",
+                "km": "$~kong-lí",
+                "Mm": "$~pah-bān-kong-tshioh",
+                "Gm": "$~kiga-kong-tshioh",
+                "Tm": "$~thera-kong-tshioh",
+                "in": "$~in-tshùn",
+                "ft": "$~ing-tshioh",
+                "yd": "$~ngá-tē",
+                "mi": "$~ing-lí",
+                "nmi": "$~hái-lí",
+                "au": "$~thian-bûn tan-uī",
+                "ly": "$~kng-nî",
+                "ug": "$~bái-khuh-kuh-lám",
+                "mg": "$~hó-kuh-lám",
+                "g": "$~kuh-lám",
+                "kg": "$~kong-kin",
+                "t": "$~kong-tun",
+                "oz": "$~ing-liang",
+                "lb": "$~ing-pháng",
+                "st": "$~suh-tong",
+                "uston": "$~bí-kok tuán-tun",
+                "ukton": "$~eng-kok tn̂g-tun",
+                "degC": "$~siā-sik-tōo",
+                "degF": "$~huâ-sik-tōo",
+                "K": "$~khai-ē-bûn",
+                "deg": "$~kak-tōo",
+                "rad": "$~hôo-tōo",
+                "mm2": "$~kong-hun pîng-hong",
+                "cm2": "$~pîng-hong kong-hun",
+                "m2": "$~pîng-hong kong-tshioh",
+                "km2": "$~pîng-hong kong-lí",
+                "in2": "$~pîng-hong ìng-tshùn",
+                "ft2": "$~pîng-hong ìng-tshioh",
+                "yd2": "$~pîng-hong ma-tè",
+                "mi2": "$~pîng-hong ìng-lí",
+                "ha": "$~kong-khoo",
+                "acre": "$~ìng-bé",
+                "mL": "$~hô-sing",
+                "cL": "$~kong-hun-sing",
+                "dL": "$~kong-hun-sing (sip hun-tsi it)",
+                "L": "$~kong-sing",
+                "kL": "$~tshian-kong-sing",
+                "cm3": "$~li̍p-hong kong-hun",
+                "m3": "$~li̍p-hong kong-tshioh",
+                "tsp": "$~tshài-tshì (teaspoon)",
+                "tbsp": "$~thng-tshì (tablespoon)",
+                "cup": "$~pue (cup)",
+                "usfloz": "$~Bí-kok liû-thé ìng-sṳ",
+                "uspt": "$~Bí-kok phinn-tuh",
+                "usqt": "$~Bí-kok kuat-tuh",
+                "usgal": "$~Bí-kok ka-lûn",
+                "ukfloz": "$~Eng-kok liû-thé ìng-sṳ",
+                "ukpt": "$~Eng-kok phinn-tuh",
+                "ukqt": "$~Eng-kok kuat-tuh",
+                "ukgal": "$~Eng-kok ka-lûn",
+                "mps": "$~múi-tsiah-tsong kong-tshioh",
+                "kmph": "$~múi-tiám-tsong kong-lí",
+                "miph": "$~múi-tiám-tsong ìng-lí",
+                "ftps": "$~múi-tsiah-tsong ìng-tshioh",
+                "kn": "$~tsiat (knot)",
+                "Pa": "$~pa-su-kah (pascal)",
+                "hPa": "$~pik-pa-su-kah (hectopascal)",
+                "kPa": "$~tshian-pa-su-kah (kilopascal)",
+                "bar": "$~bar",
+                "atm": "$~piau-tsún ta̍k-khuì-ap",
+                "psi": "$~pang kui pîng-hong ìng-tshun",
+                "mmHg": "$~kong-hun tshuî-gîn-ta̍t",
+                "J": "$~jiû-ĕ",
+                "kJ": "$~kiló-jiû-ĕ",
+                "cal": "$~ka-lô-lí",
+                "kcal": "$~kiló-ka-lô-lí",
+                "Wh": "$~uat-sî",
+                "kWh": "$~kiló-uat-sî",
+                "BTU": "$~Eng-tsè jia̍t-liōng tan-uī",
+                "eV": "$~tiān-tsú-hu̍k-thuê",
+                "mW": "$~bi-li-uat",
+                "W": "$~uat",
+                "kW": "$~kiló-uat",
+                "MW": "$~méga-uat",
+                "GW": "$~gíga-uat",
+                "hp": "$~má-le̍k",
+                "uA": "$~bî-an-pe",
+                "mA": "$~bi-li-an-pe",
+                "A": "$~an-pe",
+                "kA": "$~kiló-an-pe",
+                "mV": "$~bi-li-hu̍k-thuê",
+                "V": "$~hu̍k-thuê",
+                "kV": "$~kiló-hu̍k-thuê",
+                "mohm": "$~mili-ōm",
+                "ohm": "$~ōm",
+                "kohm": "$~kiló-ōm",
+                "Mohm": "$~mega-ōm",
+                "Hz": "$~hér-tsú",
+                "kHz": "$~kiló-hér-tsú",
+                "MHz": "$~mega-hér-tsú",
+                "GHz": "$~giga-hér-tsú",
+                "bpm": "$~múi hun-tsing ê phik-sòo",
+                "bit": "$~uī-guân",
+                "B": "$~pài-tuh",
+                "kB": "$~kiló-pài-tuh",
+                "MB": "$~mega-pài-tuh",
+                "GB": "$~giga-pài-tuh",
+                "TB": "$~tera-pài-tuh",
+                "KiB": "$~kibi-pài-tuh",
+                "MiB": "$~mebi-pài-tuh",
+                "GiB": "$~gibi-pài-tuh",
+                "TiB": "$~tebi-pài-tuh",
+                "lux": "$~lak-sù",
+                "fc": "$~ping-tshiah-kng"
+            },
+            "category": {
+                "time": "$~Sî-kan",
+                "length": "$~tn̂g-tō͘",
+                "weight": "$~tāng-liōng",
+                "temperature": "$~un-tō͘",
+                "angle": "$~kak-tō͘",
+                "area": "$~Bīn-tsi̍k",
+                "volume": "$~Thé-tsi̍k",
+                "speed": "$~Sok-tō͘",
+                "pressure": "$~Ap-le̍k",
+                "energy": "$~Lîng-liōng",
+                "power": "$~Kong-lio̍k",
+                "electricity": "$~Tiān",
+                "frequency": "$~Phín-lī̍k",
+                "data": "$~Tsu-liāu",
+                "brightness": "$~Liāng-tō͘",
+                "other": "$~Kî-thaʼ"
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Guá sī tsi̍t-ê sò-jī ê hān-uî! Guá ū khai-sí kah kiat-sok, nn̄g-ê lóng sǹg-ji̍p-khì, tiong-kan ê sò-jī mā lóng ū. Lí ēng \\‥\\ khǹg tī nn̄g-ê sò-jī tiong-kan tō ē-sái tsò guá:",
+                "\\1‥10\\",
+                "Lí ē-sái mn̄g guá ū-ū tsi̍t-ê sò-jī:",
+                "\\(1‥10) ∋ 7\\",
+                "Lí ē-sái kā guá khui-khui-lâi, piàn-tsò tsi̍t-tsūn tsia̍p-ê sò-jī ê list:",
+                "\\[:1‥10]\\",
+                "Lí mā ē-sái ēng guá tsò @Match ê kiān, guá ē tùi-tio̍h guá ū ê múi-ê sò-jī:",
+                "\\7 ???\n\t1 ‥ 9: 'sè'\n\t'tuā'\\",
+                "Guá ê khai-sí kah kiat-sok lóng tio̍h-ài ū saⁿ-kâng ê tan-uī, kap @Number pí-kàu ê sî-tsūn saⁿ-kâng."
+            ],
+            "name": ["$~Khukan"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~Nā-sī hō-ê @Range ê khai-sí kap kiat-sok kap guá saⁿ-kâng, \\⊤\\:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @Range.",
+                            "names": "$~khukan"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~Nā-sī hō-ê @Range ê khai-sí á-sī kiat-sok kap guá bô-saⁿ-kâng, \\⊤\\:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @Range.",
+                            "names": "$~khukan"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~Nā-sī hō-ê @Number tī guá ê khai-sí kap kiat-sok tiong-kan, á-sī tō sī in tsi̍t-ê, \\⊤\\:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Guá sī án-nuá siá ê, bô kan-hē:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~ū"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tī guá lāi-té tshiau-tshuē ê @Number.",
+                            "names": "$~sòojī"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Guá ē kā tsi̍t-ê hān-uî piàn-tsò list, lāi-té ū múi-ê sò-jī, tsi̍t-ê tsi̍t-ê kè. Phì-lūn:",
+                    "\\(1‥5)→[]\\"
+                ]
+            }
+        },
+        "List": {
+            "doc": [
+                "$~Guá sī tsi̍t-sūn ta̍t, siáⁿ-mih lūi-hîng lóng ē-sái!",
+                "Lí ē-sái kā siáⁿ-mih lóng khǹg ji̍p-lâi guá: @Boolean, @Number, @Text, @None, liân kî-thaʼ ê @List, @Set, @Map, á-sī @expression mā ē-sái. Tsia ū tsi̍t-ê kán-tan ê:",
+                "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng']\\",
+                "Guá ê te̍k-sik tsāi-uī sī guá ē kā mi̍h-kiānn khǹg tsiânn sūn-sī, mā ē kā múi-hāng tiàm tuì 1 khai-sí hōo hō-bé, tsiah-kàu guá lāi-té ū gōa-tsōe hāng.",
+                "Guá ê hāng-bo̍k ū hō-bé, tuì 1 khai-sí. Lí ē-sái ēng @ListAccess, kiò hō-bé, lâi tshú guá khǹg ê ta̍t:",
+                "Phì-lūn, tsit-ê list ê tē-jī-ê @value sī \\['kin-ta-á']\\",
+                "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'][2]\\",
+                "Guá lāi-té siáⁿ-mih lóng ē-sái khǹg. Khuànn tsit-ê list, ū @Text, @Number, kap @Time!",
+                "\\['phōng-kó' 10 + 10 Sîkan()]\\",
+                "Lí hō guá tsi̍t-ê ū tsiok-tsōe mi̍h-kiānn ê list, nā-sī in ū kāng-khoán @type, guá ē kā in tsóng-koat. Put-kò ū-sî lí sī tek-khak ài hit-kuá te̍k-pia̍t ê mi̍h-kiānn. Án-ne tō tī guá ê āu-bīn ka tsi̍t-ê !, guá tō ē kì-tit guá tsí-sī kan-tan hia-ê ta̍t ê list.",
+                "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng']!\\",
+                "Tsiah-ni niā-niā. Put-kò guá ēng guá ê @FunctionDefinition ē-sái tsò tsiok-tsōe ū-iàn ê tāi-tsì!"
+            ],
+            "name": ["$~Lia̍tpiáu"],
+            "kind": "$~Tsióngluī",
+            "out": "$~Kiatkó",
+            "outofbounds": "$~tshutkài",
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Guá ē tsò tsi̍t-ê sin @List, kā hō-ê hāng-bo̍k ka tī бé-bóe.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].kah('sai-kue')\\"
+                    ],
+                    "names": ["$~kah", "$~ka"],
+                    "inputs": [
+                        {
+                            "doc": "$~Guá sī lí beh ka-ji̍p ê @value.",
+                            "names": "$~hāngbo̍k"
+                        }
+                    ]
+                },
+                "append": {
+                    "doc": [
+                        "$~Guá ē tsò tsi̍t-ê sin @List, thâu-sian sī guá ê @values, āu-bīn koh ka hō-ê @List ê lóng-tsóng ta̍t.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].kapTshingtuann(\n\t['sai-kue' 'iûnn-thô']\n)\\",
+                        "In-ūi ēng @Spread khah ìnn-ī, án-ne:",
+                        "\\[\n\t'phōng-kó'\n\t'kin-ta-á'\n\t'suann-á-lâng'\n\t:['sai-kue' 'iûnn-thô']\n]\\"
+                    ],
+                    "names": ["$~kapTshingtuann", "$~kathiam"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh ka-ji̍p ê @values ê list.",
+                            "names": "$~tshingtuann"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Guá ē tsò tsi̍t-ê sin list, kā tī hō-ê @index ê @value ēng hō-ê ta̍t thè-tāi.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].uānn(1 'kí-uī')\\"
+                    ],
+                    "names": ["$~uānn"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh thè-tāi ê @value ê @index",
+                            "names": "$~sikín"
+                        },
+                        {
+                            "doc": "$~Thè-tāi ê @value",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "length": {
+                    "doc": "$~Guá lāi-té ê hāng-bo̍k ê @Number.",
+                    "names": ["$~tn̂gtō"],
+                    "inputs": []
+                },
+                "random": {
+                    "doc": [
+                        "$~Guá ê tsit hāng sûi-ki kéng--ê. Nā guá khang-khang, tō sī @None.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].tshìntshái()\\"
+                    ],
+                    "names": "$~tshìntshái",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "$~Iōng lia̍p-piáu lāi-té ê hāng-ba̍k, sûi-ki phài-ha̍h, tsò tsi̍t-ê sin ê lia̍p-piáu.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].lāngluān()\\"
+                    ],
+                    "names": "$~lāngluān",
+                    "inputs": []
+                },
+                "first": {
+                    "doc": [
+                        "$~Guá ê tē-it hāng. Nā guá khang-khang, tō sī @None.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].tēit()\\"
+                    ],
+                    "names": "$~tēit",
+                    "inputs": []
+                },
+                "last": {
+                    "doc": [
+                        "$~Guá ê tsuè-āu tsi̍t hāng. Nā guá khang-khang, tō sī @None.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].siōngbué()\\"
+                    ],
+                    "names": "$~siōngbué",
+                    "inputs": []
+                },
+                "has": {
+                    "doc": [
+                        "$~Nā guá lāi-té ū hāng kap hōo--ê hāng sio-kâng, tō sī \\⊤\\.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].ū('kin-ta-á')\\"
+                    ],
+                    "names": "$~ū",
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tshuē ê @value.",
+                            "names": "$~hāngbo̍k"
+                        }
+                    ]
+                },
+                "join": {
+                    "doc": [
+                        "$~Guá ê lia̍p-piáu lāi-té ê hāng-ba̍k, ē iōng lí hōo ê hun-kuè-hû @Text liân-tsiap tsò @Text.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].liânkiat(', ')\\"
+                    ],
+                    "names": "$~liânkiat",
+                    "inputs": [
+                        {
+                            "doc": "$~Iōng lâi hun-khui hāng-ba̍k ê bûn-jī, khó-lîng sī khang-khang.",
+                            "names": "$~kehkhuihû"
+                        }
+                    ]
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Guá ē tùi lí hōo ê @index khai-sí, tsiok-kàu tsuè-āu tsi̍t hāng, á-sī lí kā guá kóng ê tó tsi̍t hāng, tsuā-tsuā tsit-ê lia̍p-piáu lāi-té ê iī-ê lia̍p-piáu.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].pōohūn(2)\\",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].pōohūn(1 2)\\",
+                        "Khuànn! Nā lí hōo ê sòo-jī sūn-sī pháinn-khuànn, guá ē hōo lí tòo-tńg-lâi ê sūn-sī.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].pōohūn(3 1)\\",
+                        "Nā lí hōo guá sió-jū 1 ê sik-ín, guá tō ē sī lí beh 1.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].pōohūn(-1003243 2)\\",
+                        "Nā lí hōo guá khah-tuā-jū tsuè-tuā ê sik-ín, guá tō ē sī lí beh tsuè-āu.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].pōohūn(3 2304032432)\\"
+                    ],
+                    "names": "$~pōohūn",
+                    "inputs": [
+                        {
+                            "doc": "$~Lí beh ê hāng-ba̍k tē-it hāng ê @index.",
+                            "names": "$~khaisí"
+                        },
+                        {
+                            "doc": "$~Lí beh ê hāng-ba̍k tsuè-āu tsi̍t hāng ê @index, thang bô-tsi̍t. Nā lí bô hōo, lia̍p-piáu tō ē kàu tsuè-āu tsi̍t hāng.",
+                            "names": "$~bué"
+                        }
+                    ]
+                },
+                "sansFirst": {
+                    "doc": [
+                        "$~Guá ē tsò tsi̍t-ê bô guá tē-it hāng ê lia̍p-piáu.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].tûkhìTēit()\\"
+                    ],
+                    "names": ["$~tûkhìTēit", "$~thehtiāuTēit"],
+                    "inputs": []
+                },
+                "sansLast": {
+                    "doc": [
+                        "$~Guá ē tsò tsi̍t-ê bô guá tsuè-āu tsi̍t hāng ê lia̍p-piáu.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].tûkhìSiōngbué()\\"
+                    ],
+                    "names": ["$~tûkhìSiōngbué", "$~thehtiāuSiōngbué"],
+                    "inputs": []
+                },
+                "sansAll": {
+                    "doc": [
+                        "$~Guá, put-kò bô hōo--ê @value. Múi tsi̍t-ê hú-pún lóng ē khì, m̄-nā tē-it-ê, lí iōng guá ê tó tsi̍t-ê miâ lóng sio-kâng:",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng' 'phōng-kó'].tûkhì(\n\t'phōng-kó'\n)\\"
+                    ],
+                    "names": [
+                        "$~tûkhì",
+                        "$~thehtiāu",
+                        "$~tûkhìTsuânpōo",
+                        "$~thehtiāuTsuânpōo"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tùi lia̍p-piáu lāi-té kā tsuân-pōo thâi-tiāu ê @value.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Guá, put-kò tòo-tńg-lâi!",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'].tòtńgê()\\"
+                    ],
+                    "names": ["$~tòtńgê", "$~tòtńg"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~Nā guá ê hāng-ba̍k kap sūn-sī, kap hōo--ê @List tsiânn-tsiânn sio-kâng, tō sī \\⊤\\.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'] = [\n\t\t'phōng-kó'\n\t\t'suann-á-lâng'\n\t\t'kin-ta-á'\n\t]\\"
+                    ],
+                    "names": ["$~siokâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @List.",
+                            "names": "$~tshingtuann"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~Nā guá ê hāng-ba̍k kap sūn-sī, kap hōo--ê @List /m̄/ sio-kâng, tō sī \\⊤\\.",
+                        "\\['phōng-kó' 'kin-ta-á' 'suann-á-lâng'] ≠ [\n\t\t'phōng-kó'\n\t\t'suann-á-lâng'\n\t\t'kin-ta-á'\n\t]\\"
+                    ],
+                    "names": ["$~bôkâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @List.",
+                            "names": "$~tshingtuann"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Hōo guá tsi̍t-ê @FunctionDefinition, i ài ē-tàng the̍h tsi̍t-ê @value kah @index (bô-it-tīng ài) tsò jip-lâi ê tsu-liāu, koh ē sán-sing tsi̍t-ê ta̍t. Guá ē the̍h i lâi tsò guá ê muí tsi̍t-ê mi̍h-kiānn, kā guá ê ta̍t piàn-tsò sin ê ta̍t.",
+                        "Pí-luī kóng, siūnn-khuàn-māi guá sī tsi̍t-ê @Number ê lia̍t-pió, lí siūnn beh kā in tsuân-pōo piàn nn̄g-puē:",
+                        "\\[2 4 6 8].huani̍k(ƒ(num•#) num × 2)\\"
+                    ],
+                    "names": "$~huani̍k",
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kā múi tsi̍t hāng piàn-huān ê @FunctionDefinition.",
+                            "names": "$~huani̍ktsiá"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Tng-teh piàn-huān ê hāng.",
+                            "names": "$~hāngbo̍k"
+                        },
+                        {
+                            "doc": "$~Tng-teh piàn-huān ê hāng ê @index.",
+                            "names": "$~sikín"
+                        },
+                        {
+                            "doc": "$~Tng-teh piàn-huān ê lia̍p-piáu.",
+                            "names": "$~tshingtuann"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Hō͘ guá tsi̍t-ê @FunctionDefinition, i ài @value kap ē-tàng bô ê @index tsò ji̍p-lâi ê ta̍t, koh ē sán-sing tsi̍t-ê @Boolean. Guá tō ē tsò tsi̍t-ê sin ê lí-sū-tò, kan-na khǹg kiat-kó sī \\⊤\\ ê hāng-bo̍k.",
+                        "Pí-lūn kóng, siūnn-khuànn-māi guá sī tsi̍t-ê @Number ê lí-sū-tò, lí kan-na beh tiânn-sòo:",
+                        "\\[2 -4 8 -16].kuèlū(ƒ(num•#) num ≥ 0)\\"
+                    ],
+                    "names": "$~kuèlū",
+                    "inputs": [
+                        {
+                            "doc": "$~Tsi̍t-ê @FunctionDefinition ē kiám-tsa múi tsi̍t hāng, nā ài pó-liú tō sán-seng \\⊤\\.",
+                            "names": "$~kiámtsatsiá"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Tsit hāng teh khuànn-ū-bô tiòh.",
+                            "names": "$~hāngbo̍k"
+                        },
+                        {
+                            "doc": "$~Teh khuànn-ū-bô tiòh ê hāng ê @index.",
+                            "names": "$~sikín"
+                        },
+                        {
+                            "doc": "$~Teh kuè-lūi ê tsit tsâng lia̍t-piáu.",
+                            "names": "$~tshingtuann"
+                        }
+                    ]
+                },
+                "all": {
+                    "doc": [
+                        "$~Hō· guá tsi̍t-ê @FunctionDefinition, ē-sái ná @value tsò su-ji̍p, nā-sī ū tùi-tiòh @condition tō sán-seng @Boolean. Nā-sī suè-tsa̍p ê hāng lóng kah tiâu-kiānn sio-tùi, guá tō tsò \\⊤\\.",
+                        "Pí-lām kóng, siūnn-khuànn-māi guá sī tsi̍t-tsâng @Number ê lia̍t-piáu, lí siūnn beh tsai-iánn lóng-sī tsìng-sòo bô:",
+                        "\\[2 -4 8 -16].tsuânpōo(ƒ(num•#) num ≥ 0)\\"
+                    ],
+                    "names": "$~tsuânpōo",
+                    "inputs": [
+                        {
+                            "doc": "$~Nā-sī tsi̍t hāng bóe-tsoo lí ê @condition, tō sán-seng \\⊤\\ ê tsit ê @FunctionDefinition.",
+                            "names": "$~kiámtsatsiá"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Tsit hāng teh khuànn-ū-bô tiòh.",
+                            "names": "$~hāngbo̍k"
+                        },
+                        {
+                            "doc": "$~Teh khuànn-ū-bô tiòh ê hāng ê @index.",
+                            "names": "$~sikín"
+                        },
+                        {
+                            "doc": "$~Teh khuànn-ū-bô tiòh ê lia̍t-piáu.",
+                            "names": "$~tshingtuann"
+                        }
+                    ]
+                },
+                "until": {
+                    "doc": [
+                        "$~Hō· guá tsi̍t-ê @FunctionDefinition, ē-sái ná @value tsò su-ji̍p, nā-sī ū tùi-tiòh @condition tō sán-seng @Boolean. Guá ē tsò tsi̍t-ê sin @List, pau-hâm só·-ū ê hāng, kàu tiâu-kiānn bô bóe-tsoo uī-tsí.",
+                        "Pí-lām kóng, siūnn-khuànn-māi guá sī tsi̍t-tsâng @Text tōng-bu̍t ê lia̍t-piáu, lí siūnn beh tsa̍p kàu khuànn-tio̍h \\'niáu-tshú'\\ tsiūnn-tsîng:",
+                        "\\['cat' 'káu' 'rat' 'niáu-tshú' 'sió-bé'].ti̍tkàu(\n\tƒ(animal•'') animal = 'rat'\n)\\🪲"
+                    ],
+                    "names": "$~ti̍tkàu",
+                    "inputs": [
+                        {
+                            "doc": "$~Nā-sī tio̍h-ài thêng-tsí kā hāng kah-ji̍p-khì, tō sán-seng \\⊤\\ ê tsit ê @FunctionDefinition.",
+                            "names": "$~kiámtsatsiá"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Tsit hāng teh khuànn-ū-bô tiòh.",
+                            "names": "$~hāngbo̍k"
+                        },
+                        {
+                            "doc": "$~Teh khuànn-ū-bô tiòh ê hāng ê @index.",
+                            "names": "$~sikín"
+                        },
+                        {
+                            "doc": "$~Teh khioh-tshut tsi̍t tsuā ê lia̍t-piáu.",
+                            "names": "$~tshingtuann"
+                        }
+                    ]
+                },
+                "find": {
+                    "doc": [
+                        "$~Hō· guá tsi̍t-ê @FunctionDefinition, ē-sái ná @value tsò su-ji̍p, nā-sī ū tùi-tiòh siánn @condition tō sán-seng @Boolean, guá tō tsa̍p-tsáu hit hāng tùi-tiòh ê.",
+                        "Pí-lām kóng, siūnn-khuànn-māi lí siūnn beh tshē tē-it tsiah ū bóo-im \\'e'\\ ê tōng-bu̍t:",
+                        "\\['cat' 'káu' 'niáu-tshú' 'niáu-tshú' 'sió-bé'].tshuē(\n\tƒ(animal•'') animal.ū('e')\n)\\🪲"
+                    ],
+                    "names": "$~tshuē",
+                    "inputs": [
+                        {
+                            "doc": "$~Nā-sī tsi̍t hāng tùi-tiòh lí ê tshē-tshuē @condition, tō sán-seng \\⊤\\ ê tsit ê @FunctionDefinition.",
+                            "names": "$~kiámtsatsiá"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Tsit hāng teh khuànn-ū-bô tiòh.",
+                            "names": "$~hāngbo̍k"
+                        },
+                        {
+                            "doc": "$~Teh khuànn-ū-bô tiòh ê hāng ê @index.",
+                            "names": "$~sikín"
+                        },
+                        {
+                            "doc": "$~Teh tshē ê lia̍t-piáu.",
+                            "names": "$~tshingtuann"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Hō· guá tsi̍t-ê @FunctionDefinition, ē-sái ná tsòng tsáng-ê tsòo-ha̍p kah ē-tsi̍t-ê @value, tsò-tshut ē-tsi̍t-ê tsòo-ha̍p. Guá ē tùi tē-it hāng kàu tsòe-bóe hāng, tsi̍t-ê tsi̍t-ê tsòo-ha̍p, tsòe-bóe tō-tsiàu lí ê @FunctionDefinition ê tsòe-bóe tsòo-ha̍p.",
+                        "Tsit ē-sái kā guá lāi-té ê hāng lóng ha̍p-tsòe tsi̍t-ê ta̍t. Pí-lām kóng, siūnn-khuànn-māi lí siūnn beh kā tsi̍t-tsâng sòo-jī ka-tsò-hē:",
+                        "\\[3 9 2 8 1 4].kiatha̍pê(0 ƒ(sum•# number•#) sum + number)\\"
+                    ],
+                    "names": ["$~kiatha̍pê", "$~kiatha̍p"],
+                    "inputs": [
+                        {
+                            "doc": "$~Khai-sí ê tsòo-ha̍p.",
+                            "names": "$~tshoota̍t"
+                        },
+                        {
+                            "doc": "$~Ná @value ê tsit ê @FunctionDefinition ná siōng sin ê tsòo-ha̍p kah ē-tsi̍t-ê, tsò-tshut ē-tsi̍t-ê tsòo-ha̍p.",
+                            "names": "$~tsooha̍pkhì"
+                        }
+                    ],
+                    "combiner": [
+                        {
+                            "doc": "$~Hiān-tsāi ê tsòo-ha̍p",
+                            "names": "$~tsooha̍p"
+                        },
+                        {
+                            "doc": "$~Ē-tsi̍t-ê beh tsòo-ha̍p ê hāng.",
+                            "names": "$~āutsi̍tê"
+                        },
+                        {
+                            "doc": "$~Ē-tsi̍t-ê hāng ê @index",
+                            "names": "$~sikín"
+                        },
+                        {
+                            "doc": "$~Teh tsòo-ha̍p ê lia̍t-piáu.",
+                            "names": "$~tshingtuann"
+                        }
+                    ]
+                },
+                "sorted": {
+                    "doc": [
+                        "$~Guá ē-sái ná tsi̍t-tsâng lia̍t-piáu, tsò-tshut tsi̍t-tsâng sin lia̍t-piáu, @values pâi-sūn kuè. Án-ne:",
+                        "\\[1 5 8 0 2].pâihó()\\",
+                        "Guá mā ē-sái kā @Text ê ta̍t, àn jī-bóo-sūn-sū pâi. Tuā-siá ê jī-bóo ē tòa tī sió-siá ê pâng-pinn, ū-ê jī-á bē-tsú iōng tuā-siá khai-thâu tō khì-tsuā bóe-tsiah:",
+                        "\\['Kam-á' 'kí-uī' 'kim-tsio' 'phōng-kó'].pâihó()\\",
+                        "Nā-sī lí ū tsi̍t-tsâng bô-sī @Number ia-bô-sī @Text ê ta̍t, ē-sái hō· guá tsi̍t-ê @FunctionDefinition, kā múi tsi̍t hāng piàn-tsò @Number ia-sī @Text, guá tsiah ē-tàng pâi. Pí-lām kóng, tsia ū tsi̍t-tsâng tn̂g-té bô-kâng ê lia̍t-piáu; nā-sī lí hō· guá tsi̍t-ê hâm-sòo, kā múi tsi̍t-tsâng lia̍t-piáu piàn-tsò i ê tn̂g-té, guá tō ē-tàng àn tn̂g-té pâi.",
+                        "\\[[1] [2 3] [4 8 12] [8]].pâihó(ƒ(list) list.tn̂gtō())\\",
+                        "Tsi̍t-ê tsò-tshut @Text ê hâm-sòo, tō sī lí án-nuá àn tsi̍t-ê ka-kī sǹg-tshut-lâi ê jī-á pâi, m̄-sī àn ta̍t pún-sin pâi. Tsia guá àn siōng-bóe tsi̍t-ê miâ pâi miâ-tsuā:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].pâihó(\n\tƒ(miâ2•'') (miâ2 ÷ ' ').siōngbué()\n)\\"
+                    ],
+                    "names": "$~pâihó",
+                    "inputs": [
+                        {
+                            "doc": "$~Ē-sái ū ē-sái bô ê @FunctionDefinition, iōng lâi pâi lia̍t-piáu @value. I tio̍h-ài kā ta̍t piàn-tsò @Number ia-sī @Text, tsiah ē-tàng iōng lâi pâi lia̍t-piáu.",
+                            "names": "$~pâisūkhì"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": "$~Beh piàn-tsò @Number ia-sī @Text ê @value.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Kā guá ê só͘-ū sòo-jī ka--khí-lâi. Nā guá sī khang--ê, tō sī 0. Nā guá ê sòo-jī m̄-sī lóng iōng kâng-khuán ê tan-uī lâi niū, guá ē kā lí kóng, bē loān-luān ioh.",
+                        "\\[1m 2m 3m].tsónghô()\\"
+                    ],
+                    "names": "$~tsónghô",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Kā guá ê sòo-jī lóng ka-tsò-hē, koh pun-tsò sòo-bak. Nā-sī guá khang-khang, bô-@value thang tsiâⁿ pîng-kin, lí tō tit-tio̍h @None.",
+                        "\\[1m 2m 3m].pîngkin()\\"
+                    ],
+                    "names": "$~pîngkin",
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Piàn-tsò lia̍t-piáu ê @Text piáu-sī.",
+                "set": "$~Ǹg @Set, ūi-tióh khì-tiāu tsiông-hok ê tshiong-tâng tsu-liāu ū-ìn-tsāi."
+            }
+        },
+        "Set": {
+            "doc": [
+                "$~Guá sī tsi̍p-hap ê ta̍t! Tse ê ì-sù sī guá ē-tàng tsia̍h-tsāi sīm-mih tsīng-sòo ê ta̍t, mā ē-sái bô tsíng-tsāi. Lí ē-tàng án-ne tsò guá:",
+                "\\{1 2 3}\\",
+                "Ná-sī lí beh pàng tsi̍t-tsūn mi̍h-kiānn, mā m̄-beh tshiong-tâng ê, guá siōng hó.",
+                "Tse ê ì-sù sī, nā-sī lí hō guá ū-ê ta̍t, guá ē put-kò kuè.",
+                "Ko-tshiūnn tsit-ê tsi̍p-hap ū tsiok-tsōo tshiong-tâng ê:",
+                "\\{1 1 2 2 3 3}\\",
+                "Guá tshiân-hôo tsi̍t-ē tsîng-ke, tsí ū \\{1 2 3}\\.",
+                "Ná-sī lí beh khuànn guá ū @value bô, @SetOrMapAccess ē-sái pang-tsān:",
+                "\\{'kuànn-á' 'ping-á' 'po-lê-ê'}{'cup'}\\",
+                "Tsiông-tsiông, nā-sī lí hō guá tsi̍t-tsōo kāng @type ê ta̍t, guá ē siūnn sī hit-ê luī-hîng ê tsi̍p-hap. Tsiòng tsit-ê tsi̍p-hap sī \\{''}\\, in-uī lóng sī @Text.",
+                "\\{'hoo' 'hāi' 'lí-hó'}\\",
+                "M̄-koh lí ē-sái beh tsí-bîng guá /tsí-ū/ hit-kuí-ê ta̍t, án-ne lí beh iōng m̄-tio̍h ê, guá ē kā lí kóng. Án-ne, tī guá ê āu-bīn ka-tsit ! tō hó.",
+                "\\{'hoo' 'hāi' 'lí-hó'}!{'ê'}\\🪲",
+                "Lí iáu-beh kap guá tsò sīm-mih? Lâi khuànn guá ū ê hó-tsiok @FunctionDefinition!"
+            ],
+            "name": ["$~Tsi̍pha̍p"],
+            "kind": "$~Tsióngluī",
+            "out": "$~Kiatkó",
+            "function": {
+                "size": {
+                    "doc": "$~Guá ē kā lí kóng guá lāi-bīn ū guā-tsē @values.",
+                    "names": "$~tuātsè",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~Nā-sī hō ê @Set kap guá ū tsiânn-tsin-kāng ê @values, guá tō sī \\⊤\\:",
+                        "\\{1 2 3} = {2 3 4}\\"
+                    ],
+                    "names": ["$~siokâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh pí-kàu ê @Set.",
+                            "names": "$~siattīng"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~Nā-sī hō ê @Set kap guá bô tsiânn-tsin-kāng ê @values, guá tō sī \\⊤\\:",
+                        "\\{1 2 3} ≠ {2 3 4}\\"
+                    ],
+                    "names": ["$~bôkâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh pí-kàu ê @Set.",
+                            "names": "$~siattīng"
+                        }
+                    ]
+                },
+                "add": {
+                    "doc": [
+                        "$~Hō guá tsi̍t-ê beh ka-ji̍p ê hāng-bo̍k, guá ē iōng guá ê hāng-bo̍k kap hit-ê hāng-bo̍k tsò tsi̍t-ê sin @Set.",
+                        "\\{1 2 3} + 4\\"
+                    ],
+                    "names": ["$~kah", "$~ka"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh ka-ji̍p ê hāng-bo̍k",
+                            "names": "$~hāngbo̍k"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Hō guá tsi̍t-ê beh tshú-tiāu ê hāng-bo̍k, guá ē tsò tsi̍t-ê bô hit-ê hāng-bo̍k ê sin @Set.",
+                        "\\{1 2 3} - 2\\",
+                        "Ná-sī guá bô hit-ê hāng-bo̍k, guá tō kā ka-kī pìnn-tńg-lâi."
+                    ],
+                    "names": ["$~the̍htiāu"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh tshú-tiāu ê hāng-bo̍k.",
+                            "names": "$~hāngbo̍k"
+                        }
+                    ]
+                },
+                "union": {
+                    "doc": [
+                        "$~Hō guá @Set, guá ē tsò tsi̍t-ê sin @Set, ū guá ê hāng-bo̍k kap hit-ê tsi̍p-hap ê hāng-bo̍k.",
+                        "\\{1 2 3} ∪ {3 4 5}\\"
+                    ],
+                    "names": ["$~ha̍ppīng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kap guá ha̍p-tsò-hóe ê @Set.",
+                            "names": "$~siattīng"
+                        }
+                    ]
+                },
+                "intersection": {
+                    "doc": [
+                        "$~Hō guá @Set, guá ē tsò tsi̍t-ê sin @Set, tsí ū lán nn̄g-ê kāng-ê ê hāng-bo̍k.",
+                        "\\{1 2 3} ∩ {3 4 5}\\"
+                    ],
+                    "names": ["$~kautsi̍p"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kap guá pí-phīnn ê tsi̍p-hap.",
+                            "names": "$~siattīng"
+                        }
+                    ]
+                },
+                "difference": {
+                    "doc": [
+                        "$~Hō guá @Set, guá ē tsò tsi̍t-ê sin @Set, tsí ū guá ū, mā-sī hit-ê tsi̍p-hap bô ê hāng-bo̍k.",
+                        "\\{1 2 3}.tshatsi̍p({3 4 5})\\"
+                    ],
+                    "names": "$~tshatsi̍p",
+                    "inputs": [
+                        {
+                            "doc": "$~Hit-ê tsi̍p-hap, i ê hāng-bo̍k tio̍h tuì guá tsit-ê tshú-tiāu.",
+                            "names": "$~siattīng"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Hō guá @FunctionDefinition, i tsiúnn tsi̍t-ê hāng-bo̍k, nā-sī beh pó-liû tō tńg \\⊤\\, guá ē tsò tsi̍t-ê @Set, tsí ū ha̍p lí ê @condition ê hāng-bo̍k.",
+                        "Pí-phuánn, lán lâi tshē guá lāi-bīn ê kuá-sòo:",
+                        "\\{1 2 3 4 5 6 7 8 9}.kuèlū(ƒ(num•#) (num % 2) = 1)\\"
+                    ],
+                    "names": "$~kuèlū",
+                    "inputs": [
+                        {
+                            "doc": "$~Kiám-tsa hāng-bo̍k beh pó-liû á-bô ê @FunctionDefinition.",
+                            "names": "$~kiámtsatsiá"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Tsit hāng teh khuànn-ū-bô tiòh.",
+                            "names": "$~ta̍t"
+                        },
+                        {
+                            "doc": "$~Tng-teh kuè-lī ê tsi̍p-hap",
+                            "names": "$~siattīng"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Hō guá @FunctionDefinition, i tsiúnn tsi̍t-ê hāng-bo̍k, ēng i tsò tsi̍t-ê sin hāng-bo̍k, án-ne guá tō kā guá lāi-bīn ê hāng-bo̍k lóng piàn-tsò tsi̍t-ê sin @Set (khì-tiāu tsiông-hok ê).",
+                        "Pí-phuánn, lán kā guá ê @Number lóng piàn-tsò @Text:",
+                        "\\{1 2 3 4 5 6 7 8 9}.huani̍k(ƒ(num•#) num → '')\\"
+                    ],
+                    "names": "$~huani̍k",
+                    "inputs": [
+                        {
+                            "doc": "$~Kā guá ê hāng-bo̍k piàn-tsò lí beh ê sin hāng-bo̍k ê @FunctionDefinition.",
+                            "names": "$~siattīng"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Tng-teh piàn-huān ê hāng.",
+                            "names": "$~ta̍t"
+                        },
+                        {
+                            "doc": "$~Tng-teh piàn-uānn ê tsi̍p-hap",
+                            "names": "$~siattīng"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Tsi̍t-ê @Set ê @Text piáu-sī",
+                "list": "$~Tsi̍p-hap lāi-bīn hāng-bo̍k ê @List piáu-sī."
+            }
+        },
+        "Map": {
+            "doc": [
+                "$~Guá kā ta̍t tsi̍p-tsò-hóe, kā *kiān* tuì-ìng kàu *ta̍t*. Pí-phuánn:",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}\\",
+                "Guá ê kiān ē-sái sī sím-mih @value, guá ê ta̍t mā ē-sái sī sím-mih ta̍t.",
+                "U-ê lâng ē siūnn guá kah @index, á-sī sû-tián, lí hō guá tsi̍t-ê mi̍h, guá hō lí i tuì-ìng ê mi̍h.",
+                "Ná-sī lí beh khuànn tsi̍t-ê mi̍h tuì-ìng sím-mih, ē-sái hō @SetOrMapAccess tsi̍t-ê @key, i ē hō lí hit-ê ta̍t:",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'amy'}\\",
+                "Ná-sī bô ha̍p ê kiān, guá ē hō lí @None.",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'jen'}\\",
+                "Lí mā ē-sái án-ne tsò tsi̍t-ê khang ê tuì-ìng-piáu:",
+                "\\{:}\\",
+                "Tsiông-tsiông, lí hō guá sím-mih luī ê kiān kap ta̍t, guá tō siūnn tsi̍t-ê @type lâi tsit-piáu in lóng. Pí-phuánn tse sī tsi̍t-ê tuì sò-jī kàu sò-jī ê tuì-ìng-piáu:",
+                "\\{1:1 2:2 3:3}\\",
+                "M̄-koh nā-sī lí beh khak-tīng tsí-ū hit-kuí-ê ta̍t, ka-tsit ! tī guá āu-bīn, guá tō bē tsóng-kiat. Án-ne nā-sī lí beh khuànn m̄-sī lí beh ê ta̍t, lí tō ē tsai.",
+                "\\{1:1 2:2 3:3}!{4}\\🪲",
+                "Guá ē-hiáu iōng guá ê tuì-ìng tsò tsiok-tsē hó-tsiok ê tāi-tsì."
+            ],
+            "name": ["$~Tuììng"],
+            "key": "$~Kiān",
+            "value": "$~Ta̍t",
+            "result": "$~Kiatkó",
+            "function": {
+                "size": {
+                    "doc": "$~Guá ē kā lí kóng guá lāi-bīn ū guā-tsē @values.",
+                    "names": "$~tuātsè",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~Nā-sī guá ê tuì-ìng kap hō ê @Map ê tsiânn-tsin-kāng, tō tńg \\{⊤}\\.",
+                        "\\{1:1 2:2} = {1:1 2:3}\\"
+                    ],
+                    "names": ["$~siokâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @Map.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\{⊤}\\ nā-sī guá ê phuè-tuì kap hō͘ guá ê @Map ê /bô/ tsuân-tâng.",
+                        "\\{1:1 2:2} ≠ {1:1 2:3}\\"
+                    ],
+                    "names": ["$~bôkâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kah guá pí-kàu ê @Map.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "set": {
+                    "doc": [
+                        "$~Guá ē tsò chi̍t ê sin ê @Map, phuè-tuì kap luā-té tsit ê sio-kāng, kan-nā ke lí hō͘ guá ê sin phuè-tuì. Nā-sī guá í-king ū @key, guá tō kā i kap sin ê @value phuè-tuì.",
+                        "\\{'amy': 6points 'tony': 3points}.phuètuì('jen' 0points)\\"
+                    ],
+                    "names": "$~phuètuì",
+                    "inputs": [
+                        {
+                            "doc": "$~@key lâi kap chi̍t ê @value phuè-tuì.",
+                            "names": "$~kiān"
+                        },
+                        {
+                            "doc": "$~Beh kap @key phuè-tuì ê @value",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "unset": {
+                    "doc": [
+                        "$~Guá ē tsò chi̍t ê sin ê @Map, bô lí hō͘ guá ê @key, kā i ê phuè-tuì khì-tiāu.",
+                        "\\{'amy': 6points 'tony': 3points}.hunkhui('amy')\\"
+                    ],
+                    "names": "$~hunkhui",
+                    "inputs": [
+                        {
+                            "doc": "$~Beh bē-kì-tit ê @key.",
+                            "names": "$~kiān"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Guá ē tshòng-tsō tsi̍t-ê sin @Map, tshun-lo̍h ê kiān lóng bô @value.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.the̍htiāu(\n\t0points\n)\\"
+                    ],
+                    "names": "$~the̍htiāu",
+                    "inputs": [
+                        {
+                            "doc": "$~Beh uì guá tsia ùi-tiāu ê @value, kap i sio-phué ê kiān.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Hō guá tsi̍t-ê @FunctionDefinition, i ē siu tsi̍t-ê @key kap @value, nā-sī beh kā tsit-tsūn pòo-tuì lâu-lo̍h-lâi, tō khuànn-kiàn \\⊤\\. Guá ē tshòng-tsō tsi̍t-ê sin @Map, hâp lí ê @condition.",
+                        "Pí-phong kóng, tsia lán beh lâu-lo̍h Amy, ia-sī hun-sòo koh-khah-tsōo ê pòo-tuì.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.kuèlū(\n\tƒ(kiān2•'' ta̍t2•#points) (kiān2 = 'amy') | (ta̍t2 > 0points)\n)\\"
+                    ],
+                    "names": "$~kuèlū",
+                    "inputs": [
+                        {
+                            "doc": "$~Kuat-tīng beh lâu tsit-tsūn pòo-tuì bô ê @FunctionDefinition.",
+                            "names": "$~kiámtsatsiá"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Teh kiám-tsa ê @key.",
+                            "names": "$~kiān"
+                        },
+                        {
+                            "doc": "$~Teh kiám-tsa ê @value.",
+                            "names": "$~ta̍t"
+                        },
+                        {
+                            "doc": "$~Teh kuè-līn ê map.",
+                            "names": "$~tsuánuānn"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Hō guá tsi̍t-ê @FunctionDefinition, i ē siu tsi̍t-ê @key kap @value, lâi kā ta̍t ūn-sǹg-tshéng sin ê ta̍t. Guá ē tshòng-tsō tsi̍t-ê sin @Map, kiān kāng-khuán, ta̍t sin-ê.",
+                        "Pí-phong kóng, lán hō ta̍k-ê lâng tsi̍t hun, in tsiah hó-sim.",
+                        "\\{'amy': 5points 'jen': 3points 'tony': 0points}.huani̍k(\n\tƒ(kiān2•'' ta̍t2•#points) ta̍t2 + 1points\n)\\🪲"
+                    ],
+                    "names": "$~huani̍k",
+                    "inputs": [
+                        {
+                            "doc": "$~Kā múi-ê @FunctionDefinition hoān-ik ê @value.",
+                            "names": "$~huani̍ktsiá"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Teh hoān-ik ê @value ê @key.",
+                            "names": "$~kiān"
+                        },
+                        {
+                            "doc": "$~Teh hoān-ik ê @value.",
+                            "names": "$~ta̍t"
+                        },
+                        {
+                            "doc": "$~Teh hoān-ik ê map.",
+                            "names": "$~tsuánuānn"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Tsit-ê tuì-ìng ê @Text piáu-sī.",
+                "set": "$~@Map ê kiān",
+                "list": "$~@Map lāi-té ê ta̍t ê list"
+            }
+        },
+        "Table": {
+            "doc": [
+                "$~Guá sī tsi̍t-tsoo table ê hâng! Guá thang kā lí kì-lo̍k tsiok-tsē kāng-khuán kiat-kò ê @values.",
+                "Pí-phong kóng, siūnn-khuànn-māi lí beh kì-lo̍k tsi̍t-tsoo tsiùnn-thâu:",
+                "\\⎡miâ2•'' color•''⎦\n⎡'huê-suann-pho-lê' 'o͘'⎦\n⎡'hú-suann-tsio̍h' 'hue'⎦\n⎡'huân-tsio̍h' 'n̂g'⎦\\",
+                "@Bind thang pang lí kiò-miâ! Liân-sin lí ē-sái tsò-tsit-kuá sū-tsíng, pí-phong kóng tsò tsi̍t-ê sin table, ke tsi̍t-hâng sin ê @Insert:",
+                "\\rocks: ⎡miâ2•'' color•''⎦\n\t⎡'huê-suann-pho-lê' 'o͘'⎦\n\t⎡'hú-suann-tsio̍h' 'hue'⎦\n\t⎡'huân-tsio̍h' 'n̂g'⎦\nrocks ⎡+'suí-tsing' 'peh'⎦\\",
+                "Nā beh tshuē hâp ê hâng, lí thang @Select hâp tsi̍t-ê @condition ê hâng:",
+                "\\rocks: ⎡miâ2•'' color•''⎦\n\t⎡'huê-suann-pho-lê' 'o͘'⎦\n\t⎡'hú-suann-tsio̍h' 'grey'⎦\n\t⎡'huân-tsio̍h' 'n̂g'⎦\nrocks ⎡?⎦ color = 'grey'\\",
+                "Ia-sī lí beh tsò tsi̍t-ê sin table, hâp tiâu-kiānn ê hâng ta̍t bô-kāng:",
+                "\\rocks: ⎡miâ2•'' color•''⎦\n\t⎡'huê-suann-pho-lê' 'o͘'⎦\n\t⎡'pumice' 'hue'⎦\n\t⎡'huân-tsio̍h' 'n̂g'⎦\nrocks ⎡:color: 'o͘'⎦ miâ2 = 'pumice'\\",
+                "Ia-sī lí beh thâi-tiāu hâp tiâu-kiānn ê hâng:",
+                "\\rocks: ⎡miâ2•'' color•''⎦\n\t⎡'huê-suann-pho-lê' 'o͘'⎦\n\t⎡'hú-suann-tsio̍h' 'hue'⎦\n\t⎡'huân-tsio̍h' 'n̂g'⎦\nrocks ⎡- miâ2.ū('i')\\",
+                "Nā-sī lí beh uì guá tsia thàu-tshut tē-tīng ê ta̍t, lí ē-sái kā tsi̍t-ê table tsuán-tsò list, ēng @PropertyReference lâi thàu-tshut tak-hâng",
+                "\\rocks: ⎡miâ2•'' color•''⎦\n\t⎡'huê-suann-pho-lê' 'o͘'⎦\n\t⎡'hú-suann-tsio̍h' 'hue'⎦\n\t⎡'huân-tsio̍h' 'n̂g'⎦\n(rocks → [])[1].miâ2\\"
+            ],
+            "name": ["$~Pió"],
+            "row": "$~Tsuā",
+            "function": {
+                "equals": {
+                    "doc": "$~Guá kiám-tsa guá ê @cells kap lēng-gua̍h tsi̍t-ê @Table sī-m̄-sī lóng kāng-khuán, sūn-sī mā kāng-khuán.",
+                    "names": ["$~siokâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kiám-tsa ê lēng-gua̍h tsi̍t-ê table.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Guá kiám-tsa guá ê @cells kap lēng-gua̍h tsi̍t-ê @Table ū-bô bô-kāng, ia-sī sūn-sī bô-kāng.",
+                    "names": ["$~bôkāng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kiám-tsa ê lēng-gua̍h tsi̍t-ê table.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "$~Guá kā @Table tsuán-tsò tsi̍t-tsoo hâng ê list, múi-hâng sī tsi̍t-ê @Structure, lân-uī miâ tsò sio̍k-sìng.",
+                "text": "$~Guá kan-tan kā @Table tsuán-tsò bûn-jī."
+            }
+        },
+        "Structure": {
+            "doc": "$~Guá sī tsi̍t-ê ū kiat-kò ê @value, ū miâ-tsheng, ū luī-hîng ê lân-uī, tsuè @StructureDefinition tshòng-tsō. Khuànn @StructureDefinition.",
+            "name": ["$~Kiatkòo"],
+            "function": {
+                "equals": {
+                    "doc": "$~Guá kiám-tsa guá ê @properties kap lēng-gua̍h tsi̍t-ê kiat-kò ê sio̍k-sìng, miâ kap @values sī-m̄-sī kāng-khuán.",
+                    "names": ["$~siokâng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kiám-tsa ê lēng-gua̍h tsi̍t-ê kiat-kò.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Guá kiám-tsa guá ê @properties kap lēng-gua̍h tsi̍t-ê kiat-kò ê miâ kap @values ū-bô tó-ūi bô-kāng.",
+                    "names": ["$~bôkāng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beh kiám-tsa ê lēng-gua̍h tsi̍t-ê kiat-kò.",
+                            "names": "$~ta̍t"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Guá kā ka-kī tsuán-tsò @Text."
+            }
+        }
+    }
+}
