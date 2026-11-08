@@ -1,0 +1,68 @@
+🐈
+"Cat Walk"/en
+=== start
+¶A choose-your-own-adventure where you are a cat going out for a walk; click a choice to decide what you do next.¶
+
+¶A choice at the bottom of a page: the words to click, and the name of the page it leads to.¶
+•Pick(words•'' goto•'')
+
+¶A page of the story: its name, a picture of where you are, how the cat feels, what happens, and the choices. A page with no choices is an ending.¶
+•Page(name•'' scene•'' mood•'' story•'' picks•[Pick]: [])
+
+¶Your story! Change the words to tell your own. The first page is where the story starts. The second part of every pick must be the name of a page, spelled exactly the same. Try 😺 😸 😹 😻 😼 😽 🙀 😿 😾 for the cat's mood.¶
+pages: [
+	Page('start' '🪟' '😺' "I stretch on the warm windowsill. Behind me, the back door is open, just a crack." [
+		Pick('Squeeze through the door' 'yard')
+		Pick('Take another nap' 'nap')
+	])
+	Page('nap' '😴' '😽' "I curl up and sleep for three more hours. Being a cat is hard work." [
+		Pick('Wake up and stretch' 'start')
+	])
+	Page('yard' '🌿' '😸' "The yard smells like grass and mystery. A butterfly floats by. A bird sits on the fence." [
+		Pick('Chase the butterfly' 'butterfly')
+		Pick('Climb onto the fence' 'fence')
+		Pick('Roll in the sunny dirt' 'dirt')
+	])
+	Page('butterfly' '🦋' '😹' "I leap! I miss. I land in the flowers. I look around to make sure nobody saw." [
+		Pick('Pretend I meant to do that' 'yard')
+	])
+	Page('fence' '🐦' '😼' "I walk along the top of the fence like a tightrope star. The bird stares at me. A flowerpot sits at the very edge." [
+		Pick('Stare back at the bird' 'bird')
+		Pick('Push the flowerpot, just a little' 'pot')
+	])
+	Page('bird' '👀' '😾' "I stare. The bird stares. I make a tiny chattering noise. The bird decides it has somewhere else to be." [
+		Pick('Hop back down to the yard' 'yard')
+	])
+	Page('pot' '💥' '🙀' "The flowerpot falls. CRASH. Next door, a big dog starts barking." [
+		Pick('Puff up my fur and hiss' 'tree')
+		Pick('Run home as fast as I can' 'dinner')
+	])
+	Page('dirt' '☀️' '😻' "I roll in the warm dirt until I am dusty all over. Perfect. Then I spot a cardboard box by the steps." [
+		Pick('Check out the box' 'box')
+		Pick('Go back to the yard' 'yard')
+	])
+	Page('tree' '🌳' '😼' "I puff up to twice my size and race up the tallest tree. The dog cannot climb. I will come down when I feel like it. Maybe tomorrow.")
+	Page('dinner' '🍽️' '😻' "I zoom through the door just as I hear the can opener. Dinner! Best walk ever.")
+	Page('box' '📦' '😽' "The box is exactly my size. I climb in. I live here now.")
+]
+
+¶Choice() is the name of whatever you clicked last. Each pick is named after the page it leads to, so that name is the page to show. Before the first click it is empty, so the first page shows.¶
+chosen: Choice()
+here: pages.find(ƒ(page•Page) page.name = chosen) ?? pages[1]
+
+¶The picks on this page, or a way to start over when this page is an ending.¶
+picks: here.picks.length() > 0 ? here.picks [Pick('The end. Walk again?' 'start')]
+
+Stage(
+	[
+		Group(Stack('|' 0.5m) [
+			Phrase(here.scene size: 2m)
+			Group(Row('>' 0.5m) [
+				Phrase(here.mood size: 1.5m)
+				Phrase(here.story size: 0.6m wrap: 12m alignment: '<')
+			])
+			:picks.translate(ƒ(pick•Pick) Phrase(`*\pick.words\*` size: 0.5m name: pick.goto selectable))
+		])
+	]
+	face: 'Carter One'
+)

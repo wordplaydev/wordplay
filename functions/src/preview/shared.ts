@@ -33,6 +33,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'ShowAndTell',
             'BuildingBlocks',
             'Adventure',
+            'CatWalk',
             'BasketballStar',
             'HummingBird',
             'Maze',
