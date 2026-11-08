@@ -9,6 +9,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - 🌐 We added Russian, Ukrainian, Malayalam, Cantonese, and Taiwanese Hokkien (written in Tâi-lô), so more of you can use Wordplay in the language you speak at home!
+- 🏫 Teachers can now make an account for a student who joins a class late, right from the class page.
+
+### Fixed
+
+- 🔑 Joining with a username and password no longer says it failed when it actually made your account, and trying again now signs you in.
 
 ## 0.40.1 - 2026-10-31
 
