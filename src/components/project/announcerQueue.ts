@@ -80,6 +80,8 @@ const Lanes = {
     // to a press, and none may be dropped. Each names what it saved, so two in
     // a row differ and the second is not dropped as a duplicate.
     export: 'queued',
+    // A teacher made a student account; varies by the username.
+    'class-student': 'queued',
     'project-mode': 'queued',
     'tutorial-dialog': 'queued',
     // Music that can't be heard — no audio context, or the viewer muted it —

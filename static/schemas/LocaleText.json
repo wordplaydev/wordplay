@@ -24336,8 +24336,16 @@
                                         "error": {
                                             "additionalProperties": false,
                                             "properties": {
+                                                "create": {
+                                                    "description": "[plain] A new student account couldn't be created",
+                                                    "type": "string"
+                                                },
                                                 "gallery": {
                                                     "description": "[plain]Couldn't create a gallery",
+                                                    "type": "string"
+                                                },
+                                                "limit": {
+                                                    "description": "[plain] The class already has as many students as a class may have",
                                                     "type": "string"
                                                 },
                                                 "notfound": {
@@ -24345,12 +24353,21 @@
                                                     "type": "string"
                                                 }
                                             },
-                                            "required": ["notfound", "gallery"],
+                                            "required": [
+                                                "notfound",
+                                                "gallery",
+                                                "limit",
+                                                "create"
+                                            ],
                                             "type": "object"
                                         },
                                         "field": {
                                             "additionalProperties": false,
                                             "properties": {
+                                                "create": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Create a new student account in this class"
+                                                },
                                                 "delete": {
                                                     "$ref": "#/definitions/ButtonText",
                                                     "description": "Delete class"
@@ -24367,7 +24384,8 @@
                                             "required": [
                                                 "name",
                                                 "description",
-                                                "delete"
+                                                "delete",
+                                                "create"
                                             ],
                                             "type": "object"
                                         },
@@ -24378,23 +24396,49 @@
                                         "prompt": {
                                             "additionalProperties": false,
                                             "properties": {
+                                                "created": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22username%22%5D%3E",
+                                                    "description": "[formatted] Confirm a new student account, and say to write its password down now"
+                                                },
                                                 "delete": {
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Explain deletion"
                                                 },
+                                                "existing": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explain adding a student who already has an account, by username or email"
+                                                },
                                                 "gallery": {
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Encourage galleries"
+                                                },
+                                                "newstudent": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explain creating an account for a student who joins the class late"
                                                 }
                                             },
-                                            "required": ["gallery", "delete"],
+                                            "required": [
+                                                "gallery",
+                                                "delete",
+                                                "existing",
+                                                "newstudent",
+                                                "created"
+                                            ],
                                             "type": "object"
                                         },
                                         "subheader": {
                                             "additionalProperties": false,
                                             "properties": {
+                                                "existing": {
+                                                    "description": "[plain] Header over adding a student who already has an account",
+                                                    "type": "string"
+                                                },
                                                 "galleries": {
                                                     "description": "[plain] The galleries header",
+                                                    "type": "string"
+                                                },
+                                                "new": {
+                                                    "description": "[plain] Header over creating an account for a student who has none",
                                                     "type": "string"
                                                 },
                                                 "students": {
@@ -24409,7 +24453,9 @@
                                             "required": [
                                                 "teachers",
                                                 "students",
-                                                "galleries"
+                                                "galleries",
+                                                "existing",
+                                                "new"
                                             ],
                                             "type": "object"
                                         }
@@ -24904,8 +24950,8 @@
                                                     "description": "[plain] The account couldn't be created",
                                                     "type": "string"
                                                 },
-                                                "taken": {
-                                                    "description": "[plain] Someone else claimed this username while it was being typed",
+                                                "signin": {
+                                                    "description": "[plain] The account was created, but signing in to it afterward failed",
                                                     "type": "string"
                                                 },
                                                 "throttled": {
@@ -24915,9 +24961,9 @@
                                             },
                                             "required": [
                                                 "birthday",
-                                                "taken",
                                                 "throttled",
-                                                "failed"
+                                                "failed",
+                                                "signin"
                                             ],
                                             "type": "object"
                                         },
@@ -32983,6 +33029,9 @@
             "type": "string"
         },
         "Template<[\"used\",\"#limit\"]>": {
+            "type": "string"
+        },
+        "Template<[\"username\"]>": {
             "type": "string"
         },
         "Template<[\"value\",\"#count\"]>": {

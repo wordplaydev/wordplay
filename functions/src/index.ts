@@ -34,6 +34,8 @@ import type {
     SwitchToPasswordOutput,
     UsernameAvailableInputs,
     UsernameAvailableOutput,
+    AddClassStudentInputs,
+    AddClassStudentOutput,
     CreateClassInputs,
     CreateClassOutput,
     GetLLMTranslationsInputs,
@@ -64,6 +66,7 @@ import switchToPasswordHandler from './switchToPassword.js';
 import galleryPathAvailableHandler from './galleryPathAvailable.js';
 import usernameAvailableHandler from './usernameAvailable.js';
 import compactProjectUpdatesHandler from './compactProjectUpdates.js';
+import addClassStudentHandler from './addClassStudent.js';
 import createClassHandler from './createClass.js';
 import moderateGalleryHandler from './moderateGallery.js';
 import moderateHandler from './moderate.js';
@@ -360,6 +363,13 @@ export const createClass = onCall<
     CreateClassInputs,
     Promise<CreateClassOutput>
 >({ ...cors, ...appcheck }, noProxy(createClassHandler));
+
+/** One more student account in an existing password class. App Check, like
+ *  every other account-minting callable. */
+export const addClassStudent = onCall<
+    AddClassStudentInputs,
+    Promise<AddClassStudentOutput>
+>({ ...cors, ...appcheck }, noProxy(addClassStudentHandler));
 
 /** Fetches all GitHub contributors and opens a PR with the updated JSON every Friday at 2 am PT. */
 export const refreshContributors = onSchedule(

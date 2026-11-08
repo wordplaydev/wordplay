@@ -200,3 +200,54 @@ test('a creator too young for an email address is not offered one on their profi
     ).toBeVisible();
     await expect(page.getByText(/add an email address above/i)).toHaveCount(0);
 });
+
+test('joining again with the same username and password signs in rather than saying the name is taken', async ({
+    browser,
+}) => {
+    test.setTimeout(120000);
+    const username = `again${Date.now().toString().slice(-7)}`;
+
+    // Each attempt in its own context, as a retry from a fresh window would be.
+    async function join(password: string) {
+        const context = await browser.newContext();
+        const page = await context.newPage();
+        await page.goto('/en-US/join');
+        await expect(page.locator('#region-field')).toBeVisible({
+            timeout: 15000,
+        });
+        await page.selectOption('#region-field', 'DE');
+        await page.getByTestId('join-next').click();
+        await page
+            .locator('#birth-year-field')
+            .fill(String(new Date().getUTCFullYear() - 14));
+        await page.selectOption('#birth-month-field', '1');
+        await page.locator('#birth-day-field').fill('1');
+        await page.getByTestId('join-next').click();
+        await page.getByTestId('username-field').fill(username);
+        await page.getByTestId('password-field').fill(password);
+        await page.getByTestId('password-repeat-field').fill(password);
+        await page.getByTestId('join-button').click();
+        return { context, page };
+    }
+
+    const first = await join('password');
+    await first.page.waitForURL(/\/profile$/, {
+        waitUntil: 'domcontentloaded',
+    });
+    await first.context.close();
+
+    // A teacher told it had failed when the account existed retried and was
+    // told the name was taken; the same credentials are the same person.
+    const second = await join('password');
+    await second.page.waitForURL(/\/profile$/, {
+        waitUntil: 'domcontentloaded',
+    });
+    await second.context.close();
+
+    // A different password is someone else, and still told the name is taken.
+    const third = await join('different');
+    await expect(
+        third.page.getByText(/username is already taken/i),
+    ).toBeVisible({ timeout: 20000 });
+    await third.context.close();
+});

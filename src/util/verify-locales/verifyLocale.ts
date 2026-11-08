@@ -48,6 +48,7 @@ import classifyLocalePath, {
     isEmotionPath,
     isGlossaryFormsPath,
     isNameTextPath,
+    isLocaleScriptPath,
     isTermPhrasePath,
 } from '#util/verify-locales/classifyLocalePath.ts';
 import LocalePath, {
@@ -1227,6 +1228,9 @@ export function removeExtraKeys(
         // key any locale writes is "extra" by this measure, and deleting them
         // silently destroys words no other locale can supply.
         if (isTermPhrasePath([...segments, key])) continue;
+        // And a script-variant locale's `script`, which en-US, written in its
+        // language's own script, never declares.
+        if (isLocaleScriptPath([...segments, key])) continue;
         // Key not in the source? Delete it from the target.
         if (typeof source === 'object' && !(key in source)) {
             log.bad(`Removing extra key ${key}`);

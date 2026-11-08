@@ -792,6 +792,11 @@ export function findLostConceptLinks(
     return lost;
 }
 
+/** Whether any character in the text has an upper and a lower case. */
+function hasLetterCase(text: string): boolean {
+    return text.toLowerCase() !== text.toUpperCase();
+}
+
 /**
  * Drift a change *introduces*: en-US pairs it reworded whose translations it
  * left behind.
@@ -842,6 +847,14 @@ export function driftSince(
                 ? undefined
                 : entry.pair.resolve(targetText);
         if (value !== undefined && alreadyQueued(value)) continue;
+        // English changed only its letter case, and the translation has no case
+        // to change: lowercasing "Delete this class" leaves このクラスを削除する
+        // exactly right, and re-translating it would write the same bytes.
+        if (
+            wasSource.toLowerCase() === current.toLowerCase() &&
+            !hasLetterCase(JSON.stringify(value ?? ''))
+        )
+            continue;
         drifted.push({ locale, file: targetFile, id, kind: entry.kind });
     }
     return drifted;

@@ -684,13 +684,34 @@ export type JoinAccountError =
      *  the handler. */
     | 'unverified';
 export type JoinAccountOutput = {
-    /** The password path only: hand to signInWithCustomToken. */
-    token?: string;
+    /** The password path only: the account exists, and the client signs in
+     *  with the password it already holds. */
+    created?: true;
     /** The email path only. Always true when a link was requested, whether or
      *  not the address already had an account — this endpoint never says which. */
     sent?: boolean;
     error?: JoinAccountError;
 };
+
+// FUNCTION addClassStudent
+/** Create one more student account in an existing password class, for a
+ *  student who arrives after the class was made. */
+export type AddClassStudentInputs = {
+    classid: string;
+    username: string;
+    password: string;
+};
+export type AddClassStudentError =
+    | 'not-teacher'
+    | 'not-password-class'
+    | 'limit'
+    | 'invalid'
+    | 'taken'
+    | 'failed'
+    /** The client's own reading of a refused App Check token. */
+    | 'unverified';
+export type AddClassStudentOutput =
+    { username: string; error?: undefined } | { error: AddClassStudentError };
 
 // FUNCTION sendSigninLink
 /** Email a sign-in link to an existing account (#628). */

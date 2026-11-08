@@ -4,7 +4,12 @@ import { Domain } from '#db/Domains.ts';
 // more transactional model.
 
 import { DB, Galleries } from '#db/Database.ts';
-import { firestore as db } from '#db/firebase.ts';
+import { firestore as db, getFunctionsInstance } from '#db/firebase.ts';
+import { isAttestationFailure } from '#db/firebaseErrorDetail.ts';
+import type {
+    AddClassStudentInputs,
+    AddClassStudentOutput,
+} from 'shared-types';
 
 import {
     arrayRemove,
@@ -211,6 +216,29 @@ export async function removeTeacher(
         if (galleryData) await Galleries.removeCurator(galleryData, uid);
     }
     return true;
+}
+
+/** Create a new student account in a password class, for a student who arrives
+ *  after the class was made. The server adds it to the class and its
+ *  galleries; the class listener shows the new row. */
+export async function createStudent(
+    classid: string,
+    username: string,
+    password: string,
+): Promise<AddClassStudentOutput> {
+    const functions = await getFunctionsInstance();
+    if (functions === undefined) return { error: 'failed' };
+    const { httpsCallable } = await import('firebase/functions');
+    const add = httpsCallable<AddClassStudentInputs, AddClassStudentOutput>(
+        functions,
+        'addClassStudent',
+    );
+    try {
+        return (await add({ classid, username, password })).data;
+    } catch (error) {
+        console.error(error);
+        return { error: isAttestationFailure(error) ? 'unverified' : 'failed' };
+    }
 }
 
 /** Add the learner to the class document and all galleries associated with the

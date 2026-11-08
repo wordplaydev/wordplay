@@ -432,11 +432,16 @@
                 "subheader": {
                     "teachers": "$~Lāu-su",
                     "students": "$~Ha̍k-sing",
-                    "galleries": "$~Tián-lám-kuán"
+                    "galleries": "$~Tián-lám-kuán",
+                    "existing": "$~Thiam tsi̍t ê í-king ū ê tsiòng-hōo",
+                    "new": "$~Khui tsi̍t ê sin ê tsiòng-hōo"
                 },
                 "prompt": {
                     "gallery": "$~Ūi lí ê pān-kip tshòng-tshú tsi̍t-ê tián-lám-kuán, lâi tsíng-lí tsok-gia̍p á-sī tsuan-àn. Tsuan-àn lāi-té ê lóng-sī lāu-su ē tsò tián-lám-kuán ê kuán-lí-lâng, lóng-sī ha̍k-sing ē tsò tián-lám-kuán ê tsòe-tsiá.",
-                    "delete": "$~Kā tsit-ê pān-kip thâi-tiāu ē éng-oán sái-tiāu pān-kip ê sìn-sik, m̄-koh pān-kip ê tsuan-àn, tián-lám-kuán, ha̍k-sing ê tiāu-hō bē tsiu-tiāu."
+                    "delete": "$~Kā tsit-ê pān-kip thâi-tiāu ē éng-oán sái-tiāu pān-kip ê sìn-sik, m̄-koh pān-kip ê tsuan-àn, tián-lám-kuán, ha̍k-sing ê tiāu-hō bē tsiu-tiāu.",
+                    "newstudent": "$~Iáu-bē ū tsiòng-hōo? Tuì in kéng tsi̍t ê īng-hōo-miâ kap bi̍t-bé, ánn-ni sòng hō hak-sing. Īng-hōo-miâ m̄-thang ū hak-sing ê miâ iah-sī pa̍t-hāng ē tsāi-tsi̍t-tsūn ta̍k-ê ê tsu-sìn.",
+                    "created": "$~*$username* í-king chún-pī hó-sè, mā tī tsit pan lāi-té. Tshiánn tsit-má kā īng-hōo-miâ kap bi̍t-bé siá--lo̍h-lâi, sòng hō hak-sing: liáu-āu bô-hoat-tōo koh khuànn tio̍h iah-sī tshuē tńg-lâi tsit ê bi̍t-bé.",
+                    "existing": "$~Í-king ū Wordplay tsiòng-hōo ê hak-sing, ē-sái iōng in tng-teh tsāi-ji̍p ê īng-hōo-miâ lâi thiam; nā-sī in iōng email tsāi-ji̍p, mā ē-sái iōng in ê email tsū-tsí lâi thiam."
                 },
                 "field": {
                     "name": {
@@ -449,12 +454,18 @@
                     },
                     "delete": {
                         "tip": "$~éng-oán thâi-tiāu tsit-ê pān-kip",
-                        "label": "$~Thâi-tiāu tsit-ê pān-kip"
+                        "label": "$~Thâi-tiāu tsit pan"
+                    },
+                    "create": {
+                        "tip": "$~tī tsit pan khui tsi̍t ê sin ê hak-sing tsiòng-hōo",
+                        "label": "$~khui tsiòng-hōo"
                     }
                 },
                 "error": {
                     "notfound": "$~Guá tshē bô tsit-ê pān-kip, á-sī lí bô-khuànn--tio̍h ê khuân-hān.",
-                    "gallery": "$~Guá bô-hāin ūi tsit-ê pān-kip tshòng-tshú tián-lám-kuán."
+                    "gallery": "$~Guá bô-hāin ūi tsit-ê pān-kip tshòng-tshú tián-lám-kuán.",
+                    "limit": "$~Tsit pan í-king ū 50 ê hak-sing, tsit-sī tsi̍t pan siōng-tsē ē-sái ū ê.",
+                    "create": "$~Guán khui bô tsit ê tsiòng-hōo. Tán tsi̍t-ē koh tshì khuànn-māi."
                 }
             },
             "guide": {
@@ -1246,9 +1257,9 @@
                 },
                 "error": {
                     "birthday": "$~Hit-ê bô-sī tsió ê ji̍t-kî. Khuànn-māi ji̍t kap guā̍t.",
-                    "taken": "$~Ū lâng tú-tsiah kā hit-ê iōng-tsiá miâ iōng khì--ah. Kái pa̍t-ê khuànn-māi.",
                     "throttled": "$~Tshù-ji̍p ê liân-kiat tâi-kài tsiok tsē--ah. Ànn-tsuā tán--tsi̍t-ē, koh tshì-khuànn-māi.",
-                    "failed": "$~Bô-hoat-tī khui tsuè tsiàu-hō. Tán--tsi̍t-ē, koh tshì-khuànn-māi."
+                    "failed": "$~Bô-hoat-tī khui tsuè tsiàu-hō. Tán--tsi̍t-ē, koh tshì-khuànn-māi.",
+                    "signin": "$~Lí ê tsiòng-hōo í-king chún-pī hó-sè, m̄-koh bô-hoat-tōo tsāi-ji̍p. Tshiánn iōng sio-kâng ê īng-hōo-miâ kap bi̍t-bé koh ka-ji̍p tsi̍t-pái, iah-sī tsāi-ji̍p."
                 }
             },
             "rights": {

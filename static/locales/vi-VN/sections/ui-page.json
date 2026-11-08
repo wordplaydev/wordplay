@@ -317,11 +317,16 @@
                 "subheader": {
                     "teachers": "$~Giáo viên",
                     "students": "$~Sinh viên",
-                    "galleries": "$~Phòng trưng bày"
+                    "galleries": "$~Phòng trưng bày",
+                    "existing": "$~Thêm một tài khoản đã có",
+                    "new": "$~Tạo một tài khoản mới"
                 },
                 "prompt": {
                     "gallery": "$~Hãy tạo một thư viện ảnh cho lớp học để sắp xếp bài tập hoặc dự án. Tất cả giáo viên tham gia dự án sẽ là người quản lý thư viện và tất cả học sinh sẽ là người tạo ảnh.",
-                    "delete": "$~Việc xóa lớp học này sẽ xóa vĩnh viễn thông tin về lớp học, nhưng sẽ giữ lại các dự án, thư viện ảnh hoặc tài khoản học viên của lớp đó."
+                    "delete": "$~Việc xóa lớp học này sẽ xóa vĩnh viễn thông tin về lớp học, nhưng sẽ giữ lại các dự án, thư viện ảnh hoặc tài khoản học viên của lớp đó.",
+                    "newstudent": "$~Chưa có tài khoản? Hãy chọn một tên người dùng và mật khẩu cho học sinh, rồi đưa cả hai cho học sinh. Tên người dùng không nên chứa tên của học sinh hoặc thông tin nhận dạng khác.",
+                    "created": "$~*$username* đã sẵn sàng và đang ở trong lớp này. Hãy viết lại tên người dùng và mật khẩu ngay bây giờ rồi đưa cho học sinh: sau này không có cách nào để xem hoặc lấy lại mật khẩu này.",
+                    "existing": "$~Một học sinh đã có tài khoản Wordplay có thể được thêm bằng tên người dùng mà em ấy dùng để đăng nhập, hoặc bằng địa chỉ email nếu em ấy đăng nhập bằng email."
                 },
                 "field": {
                     "name": {
@@ -334,12 +339,18 @@
                     },
                     "delete": {
                         "tip": "$~Xóa lớp này vĩnh viễn",
-                        "label": "$~Xóa lớp này"
+                        "label": "$~xóa lớp này"
+                    },
+                    "create": {
+                        "tip": "$~tạo tài khoản học sinh mới trong lớp này",
+                        "label": "$~tạo tài khoản"
                     }
                 },
                 "error": {
                     "notfound": "$~Chúng tôi không tìm thấy lớp học này hoặc bạn không có quyền xem.",
-                    "gallery": "$~Chúng tôi không thể tạo thư viện ảnh cho lớp học này."
+                    "gallery": "$~Chúng tôi không thể tạo thư viện ảnh cho lớp học này.",
+                    "limit": "$~Lớp này đã có 50 học sinh, là số lượng nhiều nhất mà một lớp có thể có.",
+                    "create": "$~Chúng tôi không tạo được tài khoản đó. Hãy thử lại sau một lát."
                 }
             },
             "guide": {
@@ -1131,9 +1142,9 @@
                 },
                 "error": {
                     "birthday": "$~Đó không phải là ngày có thật. Hãy kiểm tra lại ngày và tháng.",
-                    "taken": "$~Vừa có người khác dùng tên đăng nhập đó rồi. Hãy thử một tên khác.",
                     "throttled": "$~Có quá nhiều liên kết đăng nhập được gửi rồi. Hãy đợi một chút rồi thử lại.",
-                    "failed": "$~Chúng tôi không thể tạo tài khoản. Hãy thử lại sau một lát."
+                    "failed": "$~Chúng tôi không thể tạo tài khoản. Hãy thử lại sau một lát.",
+                    "signin": "$~Tài khoản của bạn đã sẵn sàng, nhưng chúng tôi không thể đăng nhập cho bạn. Hãy thử tham gia lại với cùng tên người dùng và mật khẩu, hoặc đăng nhập."
                 }
             },
             "rights": {

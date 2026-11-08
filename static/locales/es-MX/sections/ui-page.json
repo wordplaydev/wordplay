@@ -634,9 +634,9 @@
                 },
                 "error": {
                     "birthday": "$~Esa no es una fecha real. Revisa el día y el mes.",
-                    "taken": "$~Alguien tomó ese nombre de usuaria hace un momento. Intenta con otro.",
                     "throttled": "$~Son demasiados enlaces de inicio de sesión. Espera un poco e intenta de nuevo.",
-                    "failed": "$~No pudimos crear la cuenta. Intenta de nuevo en un momento."
+                    "failed": "$~No pudimos crear la cuenta. Intenta de nuevo en un momento.",
+                    "signin": "$~Tu cuenta está lista, pero no pudimos iniciar tu sesión. Intenta unirte otra vez con el mismo nombre de usuaria y la misma contraseña, o inicia sesión."
                 }
             },
             "rights": {
@@ -823,11 +823,16 @@
                 "subheader": {
                     "teachers": "$~Maestras",
                     "students": "$~Estudiantes",
-                    "galleries": "$~Galerías"
+                    "galleries": "$~Galerías",
+                    "existing": "$~Agregar una cuenta existente",
+                    "new": "$~Crear una cuenta nueva"
                 },
                 "prompt": {
                     "gallery": "$~Crea una galería para tu clase y organiza una tarea o un proyecto. Todas las maestras del proyecto serán curadoras de la galería y todas las estudiantes serán creadoras.",
-                    "delete": "$~Borrar esta clase eliminará de forma permanente la información sobre la clase, pero no sus proyectos, galerías ni cuentas de las estudiantes."
+                    "delete": "$~Borrar esta clase eliminará de forma permanente la información sobre la clase, pero no sus proyectos, galerías ni cuentas de las estudiantes.",
+                    "newstudent": "$~¿Aún no tiene cuenta? Elige un nombre de usuaria y una contraseña, y luego entrégaselos al estudiante. Los nombres de usuaria no deben incluir el nombre del estudiante ni otra información que lo identifique.",
+                    "created": "$~*$username* está lista y en esta clase. Anota ahora el nombre de usuaria y la contraseña, y entrégaselos al estudiante: no hay forma de ver ni recuperar esta contraseña después.",
+                    "existing": "$~Un estudiante que ya tiene una cuenta de Wordplay se puede agregar con el nombre de usuaria con el que inicia sesión, o con su correo electrónico si inicia sesión con uno."
                 },
                 "field": {
                     "name": {
@@ -840,12 +845,18 @@
                     },
                     "delete": {
                         "tip": "$~borrar esta clase para siempre",
-                        "label": "$~Borrar esta clase"
+                        "label": "$~eliminar esta clase"
+                    },
+                    "create": {
+                        "tip": "$~crear una cuenta de estudiante nueva en esta clase",
+                        "label": "$~crear cuenta"
                     }
                 },
                 "error": {
                     "notfound": "$~No pudimos encontrar esta clase o no tienes permiso para verla.",
-                    "gallery": "$~No pudimos crear una galería para esta clase."
+                    "gallery": "$~No pudimos crear una galería para esta clase.",
+                    "limit": "$~Esta clase ya tiene 50 estudiantes, el máximo que puede tener una clase.",
+                    "create": "$~No pudimos crear esa cuenta. Intenta de nuevo en un momento."
                 }
             },
             "characters": {

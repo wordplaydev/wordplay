@@ -129,8 +129,9 @@ At most one link per bullet — multiple links inside a single sentence read as 
 ### 6. Insert into CHANGELOG.md
 
 - Open [CHANGELOG.md](../../../CHANGELOG.md).
-- Find the **top** `## <version> - <date>` section. If a new version section is appropriate (e.g., a release just happened), ask the user before creating one — version bumps belong to the release process, not the skill.
+- Find the **top** `## <version> - <date>` section. If a new version section is appropriate (e.g., the top one has already shipped), ask the user which version number to use before creating it.
 - Place the bullet under the right `### Added | Changed | Fixed | Removed` subsection.
+- **A new version section bumps the package version in the same change.** Set `"version"` in `package.json` and both top-level `"version"` fields in `package-lock.json` (the root and `packages[""]`) to the section's number, editing only those lines; `npm` must not rewrite the lockfile. A mismatch left "for release time" means a second commit, which re-runs the whole CI suite.
 
 ### 7. Regenerate the in-app JSON
 
@@ -159,7 +160,7 @@ npm run test:run
 Both must pass. Show the user:
 
 - The new bullet text (rendered, including any link target).
-- Files modified (CHANGELOG.md; `static/updates.json` is generated and gitignored).
+- Files modified (CHANGELOG.md, plus `package.json` and `package-lock.json` if a version section was added; `static/updates.json` is generated and gitignored).
 
 **Do not commit.** Leave the working tree dirty for the user to review.
 

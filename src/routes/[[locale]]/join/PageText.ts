@@ -52,12 +52,12 @@ type PageText = {
     error: {
         /** [plain] The birthday given isn't a real date */
         birthday: string;
-        /** [plain] Someone else claimed this username while it was being typed */
-        taken: string;
         /** [plain] Too many sign-in links have been requested; wait and try again */
         throttled: string;
         /** [plain] The account couldn't be created */
         failed: string;
+        /** [plain] The account was created, but signing in to it afterward failed */
+        signin: string;
     };
 };
 

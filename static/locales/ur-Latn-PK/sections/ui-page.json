@@ -432,11 +432,16 @@
                 "subheader": {
                     "teachers": "$~Ustaad",
                     "students": "$~Talib-ilm",
-                    "galleries": "$~Numaish gahein"
+                    "galleries": "$~Numaish gahein",
+                    "existing": "$~Pehle se maujood account shamil karein",
+                    "new": "$~Naya account banayein"
                 },
                 "prompt": {
                     "gallery": "$~Apni jamaat ke liye ek numaish gah banayein taake koi kaam ya mansooba tarteeb se rakha ja sake. Mansoobe ke tamam ustaad numaish gah ke nigehbaan honge aur tamam talib-ilm numaish gah ke banane wale.",
-                    "delete": "$~Is class ko mitaane se class ki maloomaat hamesha ke liye mit jaayengi, lekin us ki mansoobay, numaish gahein, ya talib-e-ilm ke account nahin mitenge."
+                    "delete": "$~Is class ko mitaane se class ki maloomaat hamesha ke liye mit jaayengi, lekin us ki mansoobay, numaish gahein, ya talib-e-ilm ke account nahin mitenge.",
+                    "newstudent": "$~Abhi tak account nahin hai? Un ke liye ek sarf-kaar ka naam aur password chunein, phir dono talib-e-ilm ko de dein. Sarf-kaar ke naam mein talib-e-ilm ka naam ya pehchaan ki doosri maloomat nahin honi chahiye.",
+                    "created": "$~*$username* tayyar hai aur is jamaat mein hai. Sarf-kaar ka naam aur password abhi likh lein aur talib-e-ilm ko de dein: baad mein yeh password dekhne ya wapas hasil karne ka koi tareeqa nahin hai.",
+                    "existing": "$~Jis talib-e-ilm ka Wordplay account pehle se hai, usay us sarf-kaar ke naam se shamil kiya ja sakta hai jis se woh sign in karta hai, ya us ke email address se agar woh email se sign in karta hai."
                 },
                 "field": {
                     "name": {
@@ -449,12 +454,18 @@
                     },
                     "delete": {
                         "tip": "$~is class ko hamesha ke liye mitaayein",
-                        "label": "$~Is class ko mitaayein"
+                        "label": "$~is jamaat ko mita dein"
+                    },
+                    "create": {
+                        "tip": "$~is jamaat mein talib-e-ilm ka naya account banayein",
+                        "label": "$~account banayein"
                     }
                 },
                 "error": {
                     "notfound": "$~Hum yeh class nahin dhoond sake, ya aap ko ise dekhne ki ijaazat nahin hai.",
-                    "gallery": "$~Hum is class ke liye numaish gah nahin bana sake."
+                    "gallery": "$~Hum is class ke liye numaish gah nahin bana sake.",
+                    "limit": "$~Is jamaat mein pehle hi 50 talib-e-ilm hain, aur ek jamaat mein is se zyada nahin ho sakte.",
+                    "create": "$~Hum woh account nahin bana sake. Thori der baad dobara koshish karein."
                 }
             },
             "guide": {
@@ -1250,9 +1261,9 @@
                 },
                 "error": {
                     "birthday": "$~Yeh asli taareekh nahin hai. Din aur mahine ko dobara dekhein.",
-                    "taken": "$~Kisi ne abhi abhi yeh username le liya hai. Koi doosra try karein.",
                     "throttled": "$~Sign in ke bahut zyada link ban chuke hain. Thodi der intezaar karein aur phir koshish karein.",
-                    "failed": "$~Hum account nahin bana sake. Thodi der mein dobara koshish karein."
+                    "failed": "$~Hum account nahin bana sake. Thodi der mein dobara koshish karein.",
+                    "signin": "$~Aap ka account tayyar hai, lekin hum aap ko sign in nahin kar sake. Wohi sarf-kaar ka naam aur password istemaal kar ke dobara shamil hone ki koshish karein, ya log in karein."
                 }
             },
             "rights": {

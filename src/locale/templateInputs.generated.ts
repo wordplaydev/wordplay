@@ -819,6 +819,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.page.character.announce.undone': ['step', 'total'],
     'ui.page.character.instructions.selected': ['control'],
     'ui.page.character.instructions.unselected': ['control'],
+    'ui.page.class.prompt.created': ['username'],
     'ui.page.join.prompt.tooYoung': ['#age'],
     'ui.page.learn.says': ['character'],
     'ui.page.localize.oneLocaleNote': ['locale'],
