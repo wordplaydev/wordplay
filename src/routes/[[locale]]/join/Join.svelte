@@ -32,7 +32,8 @@
     import { RegionNames } from '#locale/regionNames.generated.ts';
     import { SEARCH_SYMBOL } from '#parser/Symbols.ts';
     import { localeGoto } from '#util/localeGoto.ts';
-    import { signInWithCustomToken } from 'firebase/auth';
+    import { Creator } from '#db/creators/CreatorDatabase.ts';
+    import { signInWithEmailAndPassword } from 'firebase/auth';
     import isValidPassword from '../login/IsValidPassword';
     import LoginForm from '../login/LoginForm.svelte';
 
@@ -175,6 +176,29 @@
                 : isValidEmail(email)),
     );
 
+    /**
+     * Sign in with the username and password just typed. Used after creation,
+     * and also before saying a name is taken or that joining failed: if an
+     * earlier attempt made the account and its answer was lost, this is that
+     * creator, and the right response is their account, not an error.
+     */
+    async function signInWithPassword(): Promise<boolean> {
+        await ensureAppCheck();
+        const auth = await ensureAuth();
+        if (auth === undefined) return false;
+        try {
+            await signInWithEmailAndPassword(
+                auth,
+                Creator.usernameEmail(username),
+                password,
+            );
+        } catch {
+            return false;
+        }
+        localeGoto('/profile');
+        return true;
+    }
+
     async function submit() {
         if (!credentialsComplete || !birthdayReal) return;
         loading = true;
@@ -187,34 +211,38 @@
                 ...(method === 'password' ? { password } : { email }),
                 locale: $locales.getLocaleString(),
             });
-            if (result.error !== undefined) {
-                feedback =
-                    result.error === 'username-taken'
-                        ? (l) => l.ui.page.join.error.taken
-                        : result.error === 'throttled'
-                          ? (l) => l.ui.page.join.error.throttled
-                          : result.error === 'birthdate-invalid'
-                            ? (l) => l.ui.page.join.error.birthday
-                            : // Shared with the login page: the browser is what
-                              // wasn't verified, so the advice is the same
-                              // wherever it happened.
-                              result.error === 'unverified'
-                              ? (l) => l.ui.page.login.error.unverified
-                              : (l) => l.ui.page.join.error.failed;
-                available =
-                    result.error === 'username-taken' ? false : available;
+            if (
+                method === 'password' &&
+                (result.created === true ||
+                    result.error === 'username-taken' ||
+                    result.error === 'failed') &&
+                (await signInWithPassword())
+            )
+                return;
+            // A taken name is said by the username field itself; a notice too
+            // would say it twice.
+            if (result.error === 'username-taken') {
+                available = false;
                 return;
             }
-            if (result.token !== undefined) {
-                await ensureAppCheck();
-                const auth = await ensureAuth();
-                if (auth === undefined) {
-                    feedback = (l) => l.ui.page.join.error.failed;
-                    return;
-                }
-                await signInWithCustomToken(auth, result.token);
-                localeGoto('/profile');
-            } else step = 'sent';
+            if (result.error !== undefined) {
+                feedback =
+                    result.error === 'throttled'
+                        ? (l) => l.ui.page.join.error.throttled
+                        : result.error === 'birthdate-invalid'
+                          ? (l) => l.ui.page.join.error.birthday
+                          : // Shared with the login page: the browser is what
+                            // wasn't verified, so the advice is the same
+                            // wherever it happened.
+                            result.error === 'unverified'
+                            ? (l) => l.ui.page.login.error.unverified
+                            : (l) => l.ui.page.join.error.failed;
+                return;
+            }
+            // Created, but the sign-in that should have followed did not work.
+            if (result.created === true)
+                feedback = (l) => l.ui.page.join.error.signin;
+            else step = 'sent';
         } catch (error) {
             console.error(error);
             feedback = isAttestationFailure(error)

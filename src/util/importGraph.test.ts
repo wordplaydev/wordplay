@@ -1039,10 +1039,14 @@ test('resolving a color needs no basis', () => {
 // leaf with no imports that `Button`, `Toggle`, `Switch` and `Annotation` use to
 // lead their tip-derived names with the words they show. Page and galleries
 // had the least byte slack, so their budgets move by a hundredth.
+//
+// Creating a late student from the class page is **+0 files** and moves the layout
+// and home budgets by a hundredth: its labels, explanations and messages are in
+// en-US.json, which every page carries.
 test.each([
-    ['src/routes/+layout.svelte', 541, 4.22],
+    ['src/routes/+layout.svelte', 541, 4.23],
     ['src/components/app/Page.svelte', 564, 4.48],
-    ['src/routes/[[locale]]/+page.svelte', 579, 4.57],
+    ['src/routes/[[locale]]/+page.svelte', 579, 4.58],
     ['src/routes/[[locale]]/galleries/+page.svelte', 584, 4.58],
     // Raised from 4.61 for the yue and nan entries in LanguageCode.ts, which every page carries.
     ['src/routes/[[locale]]/projects/+page.svelte', 593, 4.62],

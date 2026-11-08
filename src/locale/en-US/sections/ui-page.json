@@ -423,11 +423,16 @@
                 "subheader": {
                     "teachers": "Teachers",
                     "students": "Students",
-                    "galleries": "Galleries"
+                    "galleries": "Galleries",
+                    "existing": "Add an existing account",
+                    "new": "Create a new account"
                 },
                 "prompt": {
                     "gallery": "Create a gallery for your class to organize an assignment or project. All teachers on the project will be gallery curators and all students gallery creators.",
-                    "delete": "Deleting this class will permanently delete information about the class, but its projects, galleries, or student accounts."
+                    "delete": "Deleting this class will permanently delete information about the class, but its projects, galleries, or student accounts.",
+                    "newstudent": "No account yet? Choose a username and password for them, then give both to the student. Usernames shouldn't contain the student's name or other identifying information.",
+                    "created": "*$username* is ready and in this class. Write down the username and password now and give them to the student: there is no way to see or recover this password later.",
+                    "existing": "A student who already has a Wordplay account can be added by the username they sign in with, or by their email address if they sign in with one."
                 },
                 "field": {
                     "name": {
@@ -440,12 +445,18 @@
                     },
                     "delete": {
                         "tip": "delete this class forever",
-                        "label": "Delete this class"
+                        "label": "delete this class"
+                    },
+                    "create": {
+                        "tip": "create a new student account in this class",
+                        "label": "create account"
                     }
                 },
                 "error": {
                     "notfound": "We couldn't find this class or you don't have permission to view it.",
-                    "gallery": "We couldn't create a gallery for this class."
+                    "gallery": "We couldn't create a gallery for this class.",
+                    "limit": "This class already has 50 students, the most a class can have.",
+                    "create": "We couldn't make that account. Try again in a moment."
                 }
             },
             "guide": {
@@ -1233,9 +1244,9 @@
                 },
                 "error": {
                     "birthday": "That isn't a real date. Check the day and month.",
-                    "taken": "Someone claimed that username just now. Try another one.",
                     "throttled": "That's a lot of sign-in links. Wait a little and try again.",
-                    "failed": "We couldn't make the account. Try again in a moment."
+                    "failed": "We couldn't make the account. Try again in a moment.",
+                    "signin": "Your account is ready, but we couldn't sign you in. Try joining again with the same username and password, or log in."
                 }
             },
             "rights": {

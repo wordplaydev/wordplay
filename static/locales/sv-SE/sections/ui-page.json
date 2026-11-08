@@ -317,11 +317,16 @@
                 "subheader": {
                     "teachers": "$~Lärare",
                     "students": "$~Studenter",
-                    "galleries": "$~Gallerier"
+                    "galleries": "$~Gallerier",
+                    "existing": "$~Lägg till ett befintligt konto",
+                    "new": "$~Skapa ett nytt konto"
                 },
                 "prompt": {
                     "gallery": "$~Skapa ett galleri för din klass för att organisera en uppgift eller ett projekt. Alla lärare i projektet kommer att vara gallerikuratorer och alla studenter galleriskapare.",
-                    "delete": "$~Om du tar bort den här klassen raderas information om klassen permanent, men dess projekt, gallerier eller studentkonton."
+                    "delete": "$~Om du tar bort den här klassen raderas information om klassen permanent, men dess projekt, gallerier eller studentkonton.",
+                    "newstudent": "$~Inget konto än? Välj ett användarnamn och ett lösenord åt eleven och ge båda till eleven. Användarnamn ska inte innehålla elevens namn eller annan information som visar vem eleven är.",
+                    "created": "$~*$username* är klar och finns i den här klassen. Skriv ner användarnamnet och lösenordet nu och ge dem till eleven: det går inte att se eller få tillbaka det här lösenordet senare.",
+                    "existing": "$~En elev som redan har ett Wordplay-konto kan läggas till med det användarnamn som eleven loggar in med, eller med sin e-postadress om eleven loggar in med en sådan."
                 },
                 "field": {
                     "name": {
@@ -334,12 +339,18 @@
                     },
                     "delete": {
                         "tip": "$~ta bort denna klass för alltid",
-                        "label": "$~Ta bort den här klassen"
+                        "label": "$~ta bort den här klassen"
+                    },
+                    "create": {
+                        "tip": "$~skapa ett nytt elevkonto i den här klassen",
+                        "label": "$~skapa konto"
                     }
                 },
                 "error": {
                     "notfound": "$~Vi kunde inte hitta den här klassen eller så har du inte behörighet att se den.",
-                    "gallery": "$~Vi kunde inte skapa ett galleri för den här klassen."
+                    "gallery": "$~Vi kunde inte skapa ett galleri för den här klassen.",
+                    "limit": "$~Den här klassen har redan 50 elever, det är så många som en klass kan ha.",
+                    "create": "$~Vi kunde inte skapa det kontot. Försök igen om en stund."
                 }
             },
             "guide": {
@@ -774,9 +785,9 @@
                 },
                 "error": {
                     "birthday": "$~Det där är inget riktigt datum. Kontrollera dag och månad.",
-                    "taken": "$~Någon tog just det användarnamnet. Prova ett annat.",
                     "throttled": "$~Det är väldigt många inloggningslänkar. Vänta lite och försök igen.",
-                    "failed": "$~Vi kunde inte skapa kontot. Försök igen om en liten stund."
+                    "failed": "$~Vi kunde inte skapa kontot. Försök igen om en liten stund.",
+                    "signin": "$~Ditt konto är klart, men vi kunde inte logga in dig. Försök gå med igen med samma användarnamn och lösenord, eller logga in."
                 }
             },
             "rights": {

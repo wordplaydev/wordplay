@@ -317,11 +317,16 @@
                 "subheader": {
                     "teachers": "$~Öğretmenler",
                     "students": "$~Öğrenciler",
-                    "galleries": "$~Galeriler"
+                    "galleries": "$~Galeriler",
+                    "existing": "$~Var olan bir hesabı ekle",
+                    "new": "$~Yeni bir hesap oluştur"
                 },
                 "prompt": {
                     "gallery": "$~Sınıfınız için bir ödev veya proje düzenlemek üzere bir galeri oluşturun. Projedeki tüm öğretmenler galeri küratörleri ve tüm öğrenciler galeri yaratıcıları olacak.",
-                    "delete": "$~Bu dersi silmek, dersle ilgili bilgilerin yanı sıra, projelerin, galerilerin veya öğrenci hesaplarının kalıcı olarak silinmesine neden olur."
+                    "delete": "$~Bu dersi silmek, dersle ilgili bilgilerin yanı sıra, projelerin, galerilerin veya öğrenci hesaplarının kalıcı olarak silinmesine neden olur.",
+                    "newstudent": "$~Henüz hesabı yok mu? Öğrenci için bir kullanıcı adı ve parola seç, sonra ikisini de öğrenciye ver. Kullanıcı adları öğrencinin adını veya kimliğini belli eden başka bilgiler içermemelidir.",
+                    "created": "$~*$username* hazır ve bu sınıfta. Kullanıcı adını ve parolayı şimdi yaz ve öğrenciye ver: Bu parolayı daha sonra görmenin veya geri almanın hiçbir yolu yok.",
+                    "existing": "$~Zaten bir Wordplay hesabı olan öğrenci, giriş yaparken kullandığı kullanıcı adıyla eklenebilir. E-posta adresiyle giriş yapıyorsa e-posta adresiyle de eklenebilir."
                 },
                 "field": {
                     "name": {
@@ -334,12 +339,18 @@
                     },
                     "delete": {
                         "tip": "$~bu sınıfı kalıcı olarak sil",
-                        "label": "$~Bu sınıfı sil"
+                        "label": "$~bu sınıfı sil"
+                    },
+                    "create": {
+                        "tip": "$~bu sınıfta yeni bir öğrenci hesabı oluştur",
+                        "label": "$~hesap oluştur"
                     }
                 },
                 "error": {
                     "notfound": "$~Bu dersi bulamadık veya görüntüleme yetkiniz yok.",
-                    "gallery": "$~Bu ders için bir galeri oluşturamadık."
+                    "gallery": "$~Bu ders için bir galeri oluşturamadık.",
+                    "limit": "$~Bu sınıfta zaten 50 öğrenci var. Bir sınıfta olabilecek en fazla sayı bu.",
+                    "create": "$~Bu hesabı oluşturamadık. Biraz sonra tekrar dene."
                 }
             },
             "guide": {
@@ -774,9 +785,9 @@
                 },
                 "error": {
                     "birthday": "$~Bu gerçek bir tarih değil. Günü ve ayı kontrol et.",
-                    "taken": "$~Az önce birisi bu kullanıcı adını aldı. Başka bir tane dene.",
                     "throttled": "$~Bu çok fazla giriş bağlantısı. Biraz bekleyip tekrar dene.",
-                    "failed": "$~Hesabı oluşturamadık. Biraz sonra tekrar dene."
+                    "failed": "$~Hesabı oluşturamadık. Biraz sonra tekrar dene.",
+                    "signin": "$~Hesabın hazır ama seni giriş yaptıramadık. Aynı kullanıcı adı ve parolayla yeniden katılmayı dene veya giriş yap."
                 }
             },
             "rights": {

@@ -317,11 +317,16 @@
                 "subheader": {
                     "teachers": "$~Mga Guro",
                     "students": "$~mga Mag-aaral",
-                    "galleries": "$~Mga Galeriya"
+                    "galleries": "$~Mga Galeriya",
+                    "existing": "$~Magdagdag ng umiiral na account",
+                    "new": "$~Gumawa ng bagong account"
                 },
                 "prompt": {
                     "gallery": "$~Gumawa ng gallery para sa iyong klase upang isaayos ang isang takdang-aralin o proyekto. Lahat ng guro sa proyekto ay magiging mga tagapangasiwa ng gallery at lahat ng estudyante ay magiging mga tagalikha ng gallery.",
-                    "delete": "$~Ang pagbura sa klaseng ito ay permanenteng magbubura ng impormasyon tungkol sa klase, ngunit ang mga proyekto, gallery, o student account nito."
+                    "delete": "$~Ang pagbura sa klaseng ito ay permanenteng magbubura ng impormasyon tungkol sa klase, ngunit ang mga proyekto, gallery, o student account nito.",
+                    "newstudent": "$~Wala pang account? Pumili ng username at password para sa kanila, at ibigay ang dalawa sa mag-aaral. Hindi dapat nasa username ang pangalan ng mag-aaral o iba pang impormasyong nakakakilala sa kanya.",
+                    "created": "$~Handa na ang *$username* at nasa klaseng ito. Isulat na ngayon ang username at password at ibigay sa mag-aaral: walang paraan para makita o mabawi ang password na ito sa susunod.",
+                    "existing": "$~Ang mag-aaral na may Wordplay account na ay maaaring idagdag gamit ang username na ginagamit niya sa pag-sign in, o ang kanyang email address kung email ang ginagamit niya sa pag-sign in."
                 },
                 "field": {
                     "name": {
@@ -334,12 +339,18 @@
                     },
                     "delete": {
                         "tip": "$~burahin ang klaseng ito magpakailanman",
-                        "label": "$~Burahin ang klaseng ito"
+                        "label": "$~burahin ang klaseng ito"
+                    },
+                    "create": {
+                        "tip": "$~gumawa ng bagong account ng mag-aaral sa klaseng ito",
+                        "label": "$~gumawa ng account"
                     }
                 },
                 "error": {
                     "notfound": "$~Hindi namin mahanap ang klaseng ito o wala kang pahintulot na tingnan ito.",
-                    "gallery": "$~Hindi kami makagawa ng gallery para sa klaseng ito."
+                    "gallery": "$~Hindi kami makagawa ng gallery para sa klaseng ito.",
+                    "limit": "$~May 50 mag-aaral na ang klaseng ito, ang pinakamarami na puwedeng mapasok sa isang klase.",
+                    "create": "$~Hindi namin nagawa ang account na iyon. Subukan ulit sa ilang sandali."
                 }
             },
             "guide": {
@@ -1131,9 +1142,9 @@
                 },
                 "error": {
                     "birthday": "$~Hindi iyan totoong petsa. Suriin ang araw at buwan.",
-                    "taken": "$~May kumuha na ng username na iyan ngayon lang. Sumubok ng iba.",
                     "throttled": "$~Sobrang dami na ng mga link para sa pagpasok. Maghintay muna at subukan ulit.",
-                    "failed": "$~Hindi namin nagawa ang account. Subukan ulit mamaya."
+                    "failed": "$~Hindi namin nagawa ang account. Subukan ulit mamaya.",
+                    "signin": "$~Handa na ang iyong account, pero hindi ka namin nagawang i-sign in. Subukang sumali ulit gamit ang parehong username at password, o mag-log in."
                 }
             },
             "rights": {

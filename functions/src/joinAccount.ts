@@ -11,6 +11,7 @@ import {
     assignUsername,
     releaseReservation,
     reserveUsername,
+    unassignUsername,
 } from './handles.js';
 import { sendSigninEmail } from './signinEmail.js';
 import { allowSigninLink } from './signinThrottle.js';
@@ -34,6 +35,19 @@ import { signinLinkSettings } from './signinEmail.js';
  */
 
 const MinimumPasswordLength = 6;
+
+/**
+ * Undo a half-made account, so a failure leaves nothing behind. Releasing the
+ * reservation alone left the account standing, and the creator was told it
+ * failed and then, on retry, that their own name was taken.
+ */
+async function undo(username: string, uid: string | undefined) {
+    if (uid === undefined) return releaseReservation(username);
+    await getAuth()
+        .deleteUser(uid)
+        .catch((error) => console.error('Could not undo an account', error));
+    await unassignUsername(uid, username);
+}
 
 function fail(error: JoinAccountError): JoinAccountOutput {
     return { error };
@@ -66,19 +80,25 @@ export default async function joinAccount(
         if (held !== 'reserved')
             return fail(held === 'taken' ? 'username-taken' : 'failed');
 
+        // No custom token: the client holds the password and signs in with it,
+        // which is also what lets a retry after a lost response find the
+        // account instead of being told the name is taken.
+        let uid: string | undefined;
         try {
-            const user = await auth.createUser({
-                email: usernameEmail(username),
-                password,
-            });
-            await assignUsername(user.uid, username, {
+            uid = (
+                await auth.createUser({
+                    email: usernameEmail(username),
+                    password,
+                })
+            ).uid;
+            await assignUsername(uid, username, {
                 emailEligibleOn: eligible,
             });
-            return { token: await auth.createCustomToken(user.uid) };
+            return { created: true };
         } catch (error) {
             // Never include the request in the message: it carries a password.
             console.error('Could not create a password account', error);
-            await releaseReservation(username);
+            await undo(username, uid);
             return fail('failed');
         }
     }
@@ -109,15 +129,16 @@ export default async function joinAccount(
             );
             if (held !== 'reserved')
                 return fail(held === 'taken' ? 'username-taken' : 'failed');
+            let made: string | undefined;
             try {
-                const user = await auth.createUser({ email });
-                uid = user.uid;
-                await assignUsername(uid, username, {
+                made = (await auth.createUser({ email })).uid;
+                await assignUsername(made, username, {
                     emailEligibleOn: eligible,
                 });
+                uid = made;
             } catch (error) {
                 console.error('Could not create an email account', error);
-                await releaseReservation(username);
+                await undo(username, made);
                 return fail('failed');
             }
         }

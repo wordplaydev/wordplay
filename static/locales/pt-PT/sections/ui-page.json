@@ -317,11 +317,16 @@
                 "subheader": {
                     "teachers": "Professores",
                     "students": "Estudantes",
-                    "galleries": "Galerias"
+                    "galleries": "Galerias",
+                    "existing": "$~Adicionar uma conta existente",
+                    "new": "$~Criar uma conta nova"
                 },
                 "prompt": {
                     "gallery": "Crie uma galeria para a sua turma organizar uma tarefa ou projeto. Todos os professores envolvidos no projeto serão curadores da galeria e todos os alunos, criadores.",
-                    "delete": "Apagar esta turma apagará permanentemente a informação sobre ela, mas não os seus projetos, galerias ou contas de aluno."
+                    "delete": "Apagar esta turma apagará permanentemente a informação sobre ela, mas não os seus projetos, galerias ou contas de aluno.",
+                    "newstudent": "$~Ainda não tem conta? Escolha um nome de utilizador e uma palavra-passe, e depois entregue ambos ao aluno. Os nomes de utilizador não devem conter o nome do aluno nem outras informações que o identifiquem.",
+                    "created": "$~*$username* está pronta e faz parte desta turma. Anote já o nome de utilizador e a palavra-passe e entregue-os ao aluno: não há forma de ver ou recuperar esta palavra-passe mais tarde.",
+                    "existing": "$~Um aluno que já tenha uma conta Wordplay pode ser adicionado através do nome de utilizador com que inicia sessão, ou do endereço de email, se iniciar sessão com um."
                 },
                 "field": {
                     "name": {
@@ -334,12 +339,18 @@
                     },
                     "delete": {
                         "tip": "apague esta classe para sempre.",
-                        "label": "Apague esta classe"
+                        "label": "$~eliminar esta turma"
+                    },
+                    "create": {
+                        "tip": "$~criar uma conta de aluno nova nesta turma",
+                        "label": "$~criar conta"
                     }
                 },
                 "error": {
                     "notfound": "Não foi possível encontrar esta aula ou não tem permissão para a visualizar.",
-                    "gallery": "Não foi possível criar uma galeria para esta aula."
+                    "gallery": "Não foi possível criar uma galeria para esta aula.",
+                    "limit": "$~Esta turma já tem 50 alunos, o máximo que uma turma pode ter.",
+                    "create": "$~Não foi possível criar essa conta. Tente novamente dentro de instantes."
                 }
             },
             "guide": {
@@ -1127,9 +1138,9 @@
                 },
                 "error": {
                     "birthday": "$~Essa não é uma data real. Verifique o dia e o mês.",
-                    "taken": "$~Alguém acabou de reclamar esse nome de utilizador. Tente outro.",
                     "throttled": "$~São demasiadas ligações de início de sessão. Aguarde um pouco e tente novamente.",
-                    "failed": "$~Não foi possível criar a conta. Tente novamente daqui a pouco."
+                    "failed": "$~Não foi possível criar a conta. Tente novamente daqui a pouco.",
+                    "signin": "$~A sua conta está pronta, mas não foi possível iniciar a sessão. Tente entrar outra vez com o mesmo nome de utilizador e palavra-passe, ou inicie sessão."
                 }
             },
             "rights": {

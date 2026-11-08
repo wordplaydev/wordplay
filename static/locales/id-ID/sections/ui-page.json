@@ -428,11 +428,16 @@
                 "subheader": {
                     "teachers": "$~Guru",
                     "students": "$~Siswa",
-                    "galleries": "$~Galeri"
+                    "galleries": "$~Galeri",
+                    "existing": "$~Tambahkan akun yang sudah ada",
+                    "new": "$~Buat akun baru"
                 },
                 "prompt": {
                     "gallery": "$~Buatlah galeri untuk kelas Anda guna mengorganisir tugas atau proyek. Semua guru yang terlibat dalam proyek ini akan menjadi kurator galeri dan semua siswa akan menjadi pembuat galeri.",
-                    "delete": "$~Menghapus kelas ini akan menghapus informasi tentang kelas tersebut secara permanen, tetapi tidak akan menghapus proyek, galeri, atau akun siswa."
+                    "delete": "$~Menghapus kelas ini akan menghapus informasi tentang kelas tersebut secara permanen, tetapi tidak akan menghapus proyek, galeri, atau akun siswa.",
+                    "newstudent": "$~Belum punya akun? Pilih nama pengguna dan kata sandi untuk siswa, lalu berikan keduanya kepada siswa. Nama pengguna sebaiknya tidak berisi nama siswa atau informasi pribadi lainnya.",
+                    "created": "$~*$username* sudah siap dan ada di kelas ini. Tulis nama pengguna dan kata sandinya sekarang, lalu berikan kepada siswa: kata sandi ini tidak bisa dilihat atau dipulihkan nanti.",
+                    "existing": "$~Siswa yang sudah punya akun Wordplay bisa ditambahkan dengan nama pengguna yang dipakai untuk masuk, atau dengan alamat email jika siswa masuk memakai email."
                 },
                 "field": {
                     "name": {
@@ -445,12 +450,18 @@
                     },
                     "delete": {
                         "tip": "$~hapus kelas ini selamanya",
-                        "label": "$~Hapus kelas ini"
+                        "label": "$~hapus kelas ini"
+                    },
+                    "create": {
+                        "tip": "$~buat akun siswa baru di kelas ini",
+                        "label": "$~buat akun"
                     }
                 },
                 "error": {
                     "notfound": "$~Kami tidak dapat menemukan kelas ini atau Anda tidak memiliki izin untuk melihatnya.",
-                    "gallery": "$~Kami tidak dapat membuat galeri untuk kelas ini."
+                    "gallery": "$~Kami tidak dapat membuat galeri untuk kelas ini.",
+                    "limit": "$~Kelas ini sudah punya 50 siswa, jumlah paling banyak untuk satu kelas.",
+                    "create": "$~Kami tidak bisa membuat akun itu. Coba lagi sebentar lagi."
                 }
             },
             "guide": {
@@ -1238,9 +1249,9 @@
                 },
                 "error": {
                     "birthday": "$~Itu bukan tanggal yang benar. Periksa lagi hari dan bulannya.",
-                    "taken": "$~Ada orang lain yang baru saja memakai nama pengguna itu. Coba nama lain.",
                     "throttled": "$~Sudah terlalu banyak tautan masuk yang diminta. Tunggu sebentar, lalu coba lagi.",
-                    "failed": "$~Kami tidak bisa membuat akunnya. Coba lagi sebentar lagi."
+                    "failed": "$~Kami tidak bisa membuat akunnya. Coba lagi sebentar lagi.",
+                    "signin": "$~Akunmu sudah siap, tetapi kami tidak bisa memasukkanmu. Coba bergabung lagi dengan nama pengguna dan kata sandi yang sama, atau masuk."
                 }
             },
             "rights": {

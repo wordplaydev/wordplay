@@ -317,11 +317,16 @@
                 "subheader": {
                     "teachers": "$~Nauczycielstwo",
                     "students": "$~Studenci",
-                    "galleries": "$~Galerie"
+                    "galleries": "$~Galerie",
+                    "existing": "$~Dodaj istniejące konto",
+                    "new": "$~Utwórz nowe konto"
                 },
                 "prompt": {
                     "gallery": "$~Utwórz galerię dla swojej klasy, aby zorganizować zadanie lub projekt. Wszyscy nauczyciele w projekcie będą kuratorami galerii, a wszyscy uczniowie twórcami galerii.",
-                    "delete": "$~Usunięcie tych zajęć spowoduje trwałe usunięcie informacji o zajęciach, ale także ich projektów, galerii i kont uczniów."
+                    "delete": "$~Usunięcie tych zajęć spowoduje trwałe usunięcie informacji o zajęciach, ale także ich projektów, galerii i kont uczniów.",
+                    "newstudent": "$~Nie ma jeszcze konta? Wybierz dla ucznia nazwę użytkownika i hasło, a potem przekaż je uczniowi. Nazwa użytkownika nie powinna zawierać imienia ucznia ani innych danych, po których można go rozpoznać.",
+                    "created": "$~Konto *$username* jest gotowe i należy do tej klasy. Zapisz teraz nazwę użytkownika i hasło i przekaż je uczniowi. Nie ma sposobu, aby później zobaczyć lub odzyskać to hasło.",
+                    "existing": "$~Ucznia, który ma już konto w Wordplay, można dodać po nazwie użytkownika, której używa do logowania, albo po adresie e-mail, jeśli loguje się za jego pomocą."
                 },
                 "field": {
                     "name": {
@@ -334,12 +339,18 @@
                     },
                     "delete": {
                         "tip": "$~usuń tę klasę na zawsze",
-                        "label": "$~Usuń tę klasę"
+                        "label": "$~usuń tę klasę"
+                    },
+                    "create": {
+                        "tip": "$~utwórz nowe konto ucznia w tej klasie",
+                        "label": "$~utwórz konto"
                     }
                 },
                 "error": {
                     "notfound": "$~Nie znaleźliśmy tych zajęć lub nie masz uprawnień do ich przeglądania.",
-                    "gallery": "$~Nie udało się utworzyć galerii dla tej klasy."
+                    "gallery": "$~Nie udało się utworzyć galerii dla tej klasy.",
+                    "limit": "$~W tej klasie jest już 50 uczniów. Tyle to największa możliwa liczba uczniów w klasie.",
+                    "create": "$~Nie udało się utworzyć tego konta. Spróbuj ponownie za chwilę."
                 }
             },
             "guide": {
@@ -774,9 +785,9 @@
                 },
                 "error": {
                     "birthday": "$~To nie jest prawdziwa data. Sprawdź dzień i miesiąc.",
-                    "taken": "$~Ktoś przed chwilą zajął tę nazwę użytkownika. Wybierz inną.",
                     "throttled": "$~To bardzo dużo linków do logowania. Poczekaj chwilę i spróbuj ponownie.",
-                    "failed": "$~Nie udało się założyć konta. Spróbuj ponownie za chwilę."
+                    "failed": "$~Nie udało się założyć konta. Spróbuj ponownie za chwilę.",
+                    "signin": "$~Twoje konto jest gotowe, ale nie udało się Cię zalogować. Spróbuj dołączyć ponownie z tą samą nazwą użytkownika i tym samym hasłem albo zaloguj się."
                 }
             },
             "rights": {

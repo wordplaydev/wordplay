@@ -28,6 +28,9 @@
     import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
     import { getTeachData } from '#db/teachers/TeachData.svelte.ts';
     import { localeGoto } from '#util/localeGoto.ts';
+    import Nested from '#components/app/Nested.svelte';
+    import AddCreator from '#components/project/AddCreator.svelte';
+    import NewStudent from './NewStudent.svelte';
 
     let teach = getTeachData();
     let classData = $derived(
@@ -121,12 +124,7 @@
     <Subheader text={(l) => l.ui.page.class.subheader.students} />
 
     <CreatorList
-        id="student-to-add"
         uids={classData.learners}
-        add={(uid, username) =>
-            classData.learners.includes(uid)
-                ? undefined
-                : addStudent(classData, uid, username)}
         remove={(uid) => removeStudent(classData, uid)}
         removable={() => classData.learners.length > 1}
         editable={true}
@@ -171,6 +169,41 @@
             });
         }}
     ></CreatorList>
+
+    <!-- Two ways to add a student, side by side so each is explained. Creating
+         one is offered only in a password class: an email-class student can
+         make their own account, which the first then adds. -->
+    {#if editable}
+        <div class="adding">
+            <Nested>
+                <section class="stack">
+                    <Subheader
+                        spaced
+                        text={(l) => l.ui.page.class.subheader.existing}
+                    />
+                    <MarkupHTMLView
+                        markup={(l) => l.ui.page.class.prompt.existing}
+                    />
+                    <AddCreator
+                        id="student-to-add"
+                        add={(uid, username) =>
+                            classData.learners.includes(uid)
+                                ? undefined
+                                : addStudent(classData, uid, username)}
+                    />
+                </section>
+                {#if classData.affirmation === undefined}
+                    <section class="stack">
+                        <Subheader
+                            spaced
+                            text={(l) => l.ui.page.class.subheader.new}
+                        />
+                        <NewStudent classy={classData} />
+                    </section>
+                {/if}
+            </Nested>
+        </div>
+    {/if}
 
     <Subheader text={(l) => l.ui.page.class.subheader.galleries} />
 
@@ -225,6 +258,15 @@
 {/if}
 
 <style>
+    /* Apart from the table above, so adding reads as its own step; two columns
+       when there is room, one when there isn't. */
+    .adding {
+        margin-block-start: var(--wordplay-spacing-double);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 22em), 1fr));
+        gap: var(--wordplay-spacing-double);
+        align-items: start;
+    }
     /* A grid so that when the page is wide enough for multiple columns,
        previews share a consistent inline-start across rows. */
     .previews {

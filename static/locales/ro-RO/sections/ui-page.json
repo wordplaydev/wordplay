@@ -425,11 +425,16 @@
                 "subheader": {
                     "teachers": "$~Profesori",
                     "students": "$~Studenți",
-                    "galleries": "$~Galerii"
+                    "galleries": "$~Galerii",
+                    "existing": "$~Adaugă un cont existent",
+                    "new": "$~Creează un cont nou"
                 },
                 "prompt": {
                     "gallery": "$~Creează o galerie pentru clasa ta pentru a organiza o temă sau un proiect. Toți profesorii implicați în proiect vor fi curatori de galerii, iar toți elevii vor fi creatori de galerii.",
-                    "delete": "$~Ștergerea acestui curs va șterge definitiv informațiile despre el, dar nu și proiectele, galeriile sau conturile de elevi ale acestuia."
+                    "delete": "$~Ștergerea acestui curs va șterge definitiv informațiile despre el, dar nu și proiectele, galeriile sau conturile de elevi ale acestuia.",
+                    "newstudent": "$~Încă nu are cont? Alege un nume de utilizator și o parolă pentru elev, apoi dă-le ambele elevului. Numele de utilizator nu trebuie să conțină numele elevului sau alte informații care îl identifică.",
+                    "created": "$~*$username* este gata și face parte din această clasă. Notează acum numele de utilizator și parola și dă-le elevului: nu există nicio cale de a vedea sau recupera această parolă mai târziu.",
+                    "existing": "$~Un elev care are deja un cont Wordplay poate fi adăugat după numele de utilizator cu care se conectează sau după adresa de e-mail, dacă se conectează cu una."
                 },
                 "field": {
                     "name": {
@@ -442,12 +447,18 @@
                     },
                     "delete": {
                         "tip": "$~ștergeți această clasă pentru totdeauna",
-                        "label": "$~Ștergeți această clasă"
+                        "label": "$~șterge această clasă"
+                    },
+                    "create": {
+                        "tip": "$~creează un cont nou de elev în această clasă",
+                        "label": "$~creează cont"
                     }
                 },
                 "error": {
                     "notfound": "$~Nu am putut găsi acest curs sau nu aveți permisiunea de a-l vizualiza.",
-                    "gallery": "$~Nu am putut crea o galerie pentru acest curs."
+                    "gallery": "$~Nu am putut crea o galerie pentru acest curs.",
+                    "limit": "$~Această clasă are deja 50 de elevi, cel mai mare număr pe care îl poate avea o clasă.",
+                    "create": "$~Nu am putut crea acel cont. Încearcă din nou peste puțin timp."
                 }
             },
             "guide": {
@@ -1235,9 +1246,9 @@
                 },
                 "error": {
                     "birthday": "$~Aceasta nu este o dată reală. Verifică ziua și luna.",
-                    "taken": "$~Cineva a luat acest nume de utilizator chiar acum. Încearcă altul.",
                     "throttled": "$~Sunt prea multe legături de intrare cerute. Așteaptă puțin și încearcă din nou.",
-                    "failed": "$~Nu am putut crea contul. Încearcă din nou peste puțin timp."
+                    "failed": "$~Nu am putut crea contul. Încearcă din nou peste puțin timp.",
+                    "signin": "$~Contul tău este gata, dar nu am putut să te conectăm. Încearcă din nou să te alături cu același nume de utilizator și aceeași parolă sau conectează-te."
                 }
             },
             "rights": {

@@ -630,9 +630,9 @@
                 },
                 "error": {
                     "birthday": "$~Das ist kein echtes Datum. Prüfe den Tag und den Monat.",
-                    "taken": "$~Diesen Benutzernamen hat gerade jemand anderes genommen. Versuch es mit einem anderen.",
                     "throttled": "$~Das sind schon sehr viele Anmelde-Links. Warte kurz und versuch es dann noch einmal.",
-                    "failed": "$~Wir konnten das Konto nicht anlegen. Versuch es gleich noch einmal."
+                    "failed": "$~Wir konnten das Konto nicht anlegen. Versuch es gleich noch einmal.",
+                    "signin": "$~Dein Konto ist bereit, aber wir konnten dich nicht anmelden. Versuche es noch einmal mit demselben Benutzernamen und Passwort oder melde dich an."
                 }
             },
             "rights": {
@@ -823,11 +823,16 @@
                 "subheader": {
                     "teachers": "$~Lehrer",
                     "students": "$~Studenten",
-                    "galleries": "$~Galerien"
+                    "galleries": "$~Galerien",
+                    "existing": "$~Ein vorhandenes Konto hinzufügen",
+                    "new": "$~Ein neues Konto erstellen"
                 },
                 "prompt": {
                     "gallery": "$~Erstellen Sie für Ihre Klasse eine Galerie, um eine Aufgabe oder ein Projekt zu organisieren. Alle am Projekt beteiligten Lehrer sind Kuratoren der Galerie und alle Schüler sind Galerie-Ersteller.",
-                    "delete": "$~Durch das Löschen dieses Kurses werden die Informationen zum Kurs, aber seine Projekte, Galerien oder Schülerkonten dauerhaft gelöscht."
+                    "delete": "$~Durch das Löschen dieses Kurses werden die Informationen zum Kurs, aber seine Projekte, Galerien oder Schülerkonten dauerhaft gelöscht.",
+                    "newstudent": "$~Noch kein Konto? Wähle einen Benutzernamen und ein Passwort aus und gib beides dem Schüler. Der Benutzername sollte nicht den Namen des Schülers oder andere persönliche Angaben enthalten.",
+                    "created": "$~*$username* ist bereit und in dieser Klasse. Schreibe den Benutzernamen und das Passwort jetzt auf und gib sie dem Schüler: Das Passwort kann später nicht mehr angezeigt oder wiederhergestellt werden.",
+                    "existing": "$~Ein Schüler, der schon ein Wordplay-Konto hat, kann über den Benutzernamen hinzugefügt werden, mit dem er sich anmeldet, oder über seine E-Mail-Adresse, wenn er sich damit anmeldet."
                 },
                 "field": {
                     "name": {
@@ -840,12 +845,18 @@
                     },
                     "delete": {
                         "tip": "$~lösche diese Klasse für immer",
-                        "label": "$~Diese Klasse löschen"
+                        "label": "$~diese Klasse löschen"
+                    },
+                    "create": {
+                        "tip": "$~ein neues Schülerkonto in dieser Klasse erstellen",
+                        "label": "$~Konto erstellen"
                     }
                 },
                 "error": {
                     "notfound": "$~Wir konnten diesen Kurs nicht finden oder Sie haben keine Berechtigung, ihn anzuzeigen.",
-                    "gallery": "$~Wir konnten für diese Klasse keine Galerie erstellen."
+                    "gallery": "$~Wir konnten für diese Klasse keine Galerie erstellen.",
+                    "limit": "$~Diese Klasse hat schon 50 Schüler. Mehr sind in einer Klasse nicht möglich.",
+                    "create": "$~Wir konnten dieses Konto nicht erstellen. Versuche es gleich noch einmal."
                 }
             },
             "characters": {
