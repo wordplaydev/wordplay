@@ -311,7 +311,6 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'ShowAndTell',
                 'BuildingBlocks',
                 'Adventure',
-                'CatWalk',
                 'BasketballStar',
                 'HummingBird',
                 'Maze',
@@ -420,6 +419,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             ),
             [
                 'Pears',
+                'CatWalk',
                 'Dialog',
                 'JapaneseClass',
                 'PersonalMap',

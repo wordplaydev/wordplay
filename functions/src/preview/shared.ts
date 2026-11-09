@@ -33,7 +33,6 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'ShowAndTell',
             'BuildingBlocks',
             'Adventure',
-            'CatWalk',
             'BasketballStar',
             'HummingBird',
             'Maze',
@@ -131,6 +130,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
         description: 'Interactive stories and narratives.',
         projects: [
             'Pears',
+            'CatWalk',
             'Dialog',
             'JapaneseClass',
             'PersonalMap',
