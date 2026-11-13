@@ -23,6 +23,11 @@ name: Nightly WebKit e2e
 # So: Linux by default, and `runner` is kept as an input so the comparison can
 # be run again rather than argued about. One run each is not a large sample; if
 # Linux turns out to rotate its own failures, this is where to say so.
+#
+# 2026-11-10 to 11-13: every test failed in ~1ms again, on a commit that had
+# passed the day before. ubuntu-latest had moved to 26.04 and the browser cache,
+# keyed only by OS, restored the 24.04 WebKit build. playwright.yml now keys it
+# by ImageOS.
 on:
     schedule:
         # 08:00 UTC daily.
