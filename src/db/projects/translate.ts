@@ -60,6 +60,8 @@ export default async function translateProject(
             plan: (strings) => plan?.(strings),
             // Never hand back a program the translation broke (#1276).
             validate: true,
+            // The dialog can only say that it failed; this says why.
+            report: (reason) => console.warn(`Translation refused: ${reason}`),
         },
     );
 }

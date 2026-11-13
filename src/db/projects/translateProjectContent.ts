@@ -377,17 +377,24 @@ export default async function translateProjectContent(
                             const targetName = name.getName();
                             if (targetName) existingNames.add(targetName);
                         }
+                    // Adding keeps every name the project already declares,
+                    // and an untagged one binds in every language. A
+                    // translation landing on another definition's name is a
+                    // `DuplicateName`, which `validate` then refuses, costing
+                    // the whole translation — `•Pick` handed back as `pick`
+                    // beside a `pick` parameter did exactly that. Rewriting
+                    // removes the source names, and its shadow guard covers
+                    // the ones that stay.
                     // Preserved tagged names in ANY language stay in the
-                    // program, so a translation that lands on one of them is a
-                    // duplicate name inside its own bind — which `validate`
-                    // would then refuse, costing the whole file. Reserving them
-                    // up front costs at most a numeric suffix.
-                    if (preserveTagged)
-                        for (const name of names.names)
-                            if (name.hasLanguage()) {
-                                const tagged = name.getName();
-                                if (tagged) existingNames.add(tagged);
-                            }
+                    // program too, so they are reserved for the same reason.
+                    for (const name of names.names)
+                        if (
+                            !replace ||
+                            (preserveTagged && name.hasLanguage())
+                        ) {
+                            const written = name.getName();
+                            if (written) existingNames.add(written);
+                        }
                 });
         });
 
@@ -830,11 +837,16 @@ export default async function translateProjectContent(
                 // translator may snake_case a name; `_` is the reserved
                 // placeholder symbol, never a valid name character), and drop
                 // empties so leading/trailing separators don't add stray casing.
+                // A name that starts with a capital keeps one: a type is
+                // told from a value by it, and `Page` lowered to `page` lands
+                // on the variable creators so often name after its type.
+                const initial = original.charAt(0);
+                const capitalized = initial !== initial.toLowerCase();
                 translation = translated
                     .split(/[ _]+/u)
                     .filter((word) => word.length > 0)
                     .map((word, i) =>
-                        i === 0
+                        i === 0 && !capitalized
                             ? word.toLowerCase()
                             : word.charAt(0).toUpperCase() + word.slice(1),
                     )
@@ -844,6 +856,10 @@ export default async function translateProjectContent(
                 const sanitized = sanitizeTranslatedName(translation);
                 if (sanitized === undefined) continue;
                 translation = sanitized;
+                // The definition's own name handed back: there is nothing to
+                // add, and suffixing it would invent `pick2` beside `pick`.
+                if (names.names.some((name) => name.getName() === translation))
+                    continue;
                 if (existingNames.has(translation)) {
                     let counter = 2;
                     // Increment the counter until a unique name is found

@@ -840,3 +840,63 @@ test('a translation that comes back wrapped keeps a space where it wrapped', asy
     const out = result?.getSources()[0]?.toWordplay() ?? '';
     expect(out).toContain('larga, envuelta');
 });
+
+/** A type and a variable that differ only by case, as Cat Walk declares them. */
+const TypeAndVariable =
+    "•Pick(words•'')\npicks: [Pick('a')]\npicks.translate(ƒ(pick•Pick) pick.words)";
+
+test.each([
+    ['handed back unchanged', { Pick: 'Pick' }],
+    ["given another definition's name", { Pick: 'picks' }],
+])(
+    'a translated name %s never lands on a name the project already has',
+    async (_, dictionary) => {
+        if (en === undefined || es === undefined) throw new Error('bad locale');
+
+        for (const replace of [false, true]) {
+            const project = Project.make(
+                null,
+                'test',
+                new Source('start', TypeAndVariable),
+                [],
+                DefaultLocale,
+            );
+            const result = await translateProjectContent(
+                project,
+                en,
+                es,
+                fakeTranslator(dictionary),
+                undefined,
+                replace,
+                // Refuses a translation that adds a conflict, which a
+                // duplicated name is.
+                { validate: true },
+            );
+            expect(result).not.toBeNull();
+        }
+    },
+);
+
+test("a type's translated name keeps its capital", async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    const project = Project.make(
+        null,
+        'test',
+        new Source('start', TypeAndVariable),
+        [],
+        DefaultLocale,
+    );
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        fakeTranslator({ Pick: 'Elección', pick: 'elección' }),
+        undefined,
+        false,
+        { validate: true },
+    );
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
+    expect(out).toContain('Elección/es');
+    expect(out).toContain('elección/es');
+});
