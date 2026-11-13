@@ -50,17 +50,25 @@ jobs:
                   postinstall: 'false'
             - name: Resolve Playwright version
               id: playwright-version
-              run: echo "version=$(npx playwright --version | tr ' ' '-')" >> "$GITHUB_OUTPUT"
+              # ImageOS (ubuntu24, ubuntu26, macos15, …) is a runner machine
+              # variable, which the `env` context can't see, so it travels as an output.
+              run: |
+                  echo "version=$(npx playwright --version | tr ' ' '-')" >> "$GITHUB_OUTPUT"
+                  echo "image=${ImageOS:-unknown}" >> "$GITHUB_OUTPUT"
             - name: Cache Playwright browsers
               uses: actions/cache@v5
               with:
                   # The browser cache lives at a different path on Linux vs macOS;
-                  # list both so the same step works on either runner (the key
-                  # includes runner.os, so each OS keeps a separate entry).
+                  # list both so the same step works on either runner.
+                  # The key names the image, not just the OS: Playwright downloads
+                  # a different build per distro release and `install` skips a
+                  # browser directory that already exists, so when ubuntu-latest
+                  # became 26.04 a cached 24.04 WebKit was restored and could not
+                  # launch (libicudata.so.74 missing), failing every test.
                   path: |
                       ~/.cache/ms-playwright
                       ~/Library/Caches/ms-playwright
-                  key: ${{ runner.os }}-ms-playwright-${{ inputs.browser }}-${{ steps.playwright-version.outputs.version }}
+                  key: ${{ runner.os }}-${{ steps.playwright-version.outputs.image }}-ms-playwright-${{ inputs.browser }}-${{ steps.playwright-version.outputs.version }}
             - name: Install Playwright browsers
               # On a cache hit the browser binary is already present, so this is
               # a near-no-op; on a miss it downloads the binary. We omit
