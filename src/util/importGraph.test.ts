@@ -1043,11 +1043,16 @@ test('resolving a color needs no basis', () => {
 // Creating a late student from the class page is **+0 files** and moves the layout
 // and home budgets by a hundredth: its labels, explanations and messages are in
 // en-US.json, which every page carries.
+//
+// Listing only the signed-in creator's own projects, and merging a gallery's
+// membership lists rather than replacing them, is +1 file: `isListedFor.ts`, a
+// leaf that imports nothing, so the rule can be tested without the database.
+// `galleries` had no byte slack, so it moves by a hundredth.
 test.each([
     ['src/routes/+layout.svelte', 541, 4.23],
     ['src/components/app/Page.svelte', 564, 4.48],
     ['src/routes/[[locale]]/+page.svelte', 579, 4.58],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 584, 4.58],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 584, 4.59],
     // Raised from 4.61 for the yue and nan entries in LanguageCode.ts, which every page carries.
     ['src/routes/[[locale]]/projects/+page.svelte', 593, 4.62],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
