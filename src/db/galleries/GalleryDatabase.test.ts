@@ -341,6 +341,28 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             expect(data).toHaveProperty('curators');
         });
 
+        it('adds to its membership lists rather than replacing them', async () => {
+            // A copy that stopped receiving snapshots (a dirty gallery skips
+            // them) wrote a class gallery's 29 projects back as 14.
+            await db.edit(
+                makeGallery('g-lists', {
+                    projects: ['p1', 'p2'],
+                    characters: [],
+                }),
+            );
+
+            const [, data] = must(
+                vi.mocked(setDoc).mock.calls[0],
+                'the setDoc call asserted above',
+            );
+            expect(data).toHaveProperty('projects', {
+                _op: 'arrayUnion',
+                elements: ['p1', 'p2'],
+            });
+            // An empty list has nothing to add; sending it would be a no-op union.
+            expect(data).not.toHaveProperty('characters');
+        });
+
         it('writes the whole document when creating', async () => {
             // `allow create` has no unchanged-fields test, and a gallery has to
             // be born with the fields its own schema requires — `words` among

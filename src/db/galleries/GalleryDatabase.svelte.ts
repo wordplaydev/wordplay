@@ -68,6 +68,26 @@ export type GalleryResult =
     { kind: 'found'; gallery: Gallery } | { kind: GalleryFailure };
 
 /** The in-memory representation of a Gallery, for type safe manipulation and analysis. */
+/** The lists that index what belongs to a gallery. Each member's own document
+ *  is what says it belongs, and every deliberate change to these lists is an
+ *  arrayUnion/arrayRemove, so an update only ever adds what it knows of. */
+const GalleryIndexFields = ['projects', 'characters', 'howTos'] as const;
+
+/** A gallery as a merge update: without the server's fields, and with each index
+ *  list as a union rather than a replacement. Sent whole, a list is only as fresh
+ *  as this client's copy, and a copy that had stopped receiving snapshots wrote a
+ *  class gallery's 29 projects back as 14. */
+export function toMergeUpdate(gallery: Gallery): Record<string, unknown> {
+    const data: Record<string, unknown> = { ...gallery.data };
+    for (const field of GalleryServerOwnedFields) delete data[field];
+    for (const field of GalleryIndexFields) {
+        const ids = gallery.data[field];
+        if (ids.length > 0) data[field] = arrayUnion(...ids);
+        else delete data[field];
+    }
+    return data;
+}
+
 export default class GalleryDatabase {
     /** The main database that manages this gallery database */
     readonly database: Database;
@@ -881,8 +901,7 @@ export default class GalleryDatabase {
         const db = firestore;
         const gallery = this.accessibleGalleries.get(id);
         if (gallery === undefined) return undefined;
-        const data: Record<string, unknown> = { ...gallery.data };
-        for (const field of GalleryServerOwnedFields) delete data[field];
+        const data = toMergeUpdate(gallery);
         return {
             name: gallery.getName(this.database.Locales.getLocaleSet()),
             write: setDoc(doc(db, GalleriesCollection, id), data, {
@@ -926,10 +945,9 @@ export default class GalleryDatabase {
                 // comparison is trivially satisfied, and preserved on the
                 // document because merge only replaces the keys it is given.
                 if (creating) return setDoc(reference, gallery.data);
-                const data: Record<string, unknown> = { ...gallery.data };
-                for (const field of GalleryServerOwnedFields)
-                    delete data[field];
-                return setDoc(reference, data, { merge: true });
+                return setDoc(reference, toMergeUpdate(gallery), {
+                    merge: true,
+                });
             });
         this.writing.set(id, queued);
         try {

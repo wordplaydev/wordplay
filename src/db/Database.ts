@@ -162,6 +162,9 @@ export function authIdentityChanged(
     return (user === null ? null : user.uid) !== lastUid;
 }
 
+/** The localStorage key holding the uid of whoever last signed in here. */
+const DeviceUserKey = 'wordplay.deviceUser';
+
 export class Database {
     /** The database of local persisted settings */
     readonly Settings: SettingsDatabase;
@@ -405,6 +408,32 @@ export class Database {
             window.localStorage.setItem(key, id);
         }
         return id;
+    }
+
+    /** Whoever last signed in on this device, kept across reloads so local
+     *  data can be attributed to an account while nobody is signed in. Null if
+     *  nobody has, or after a deliberate sign-out wiped that data. */
+    getDeviceUser(): string | null {
+        if (typeof window === 'undefined') return null;
+        try {
+            return window.localStorage.getItem(
+                `${proxyPrefix()}${DeviceUserKey}`,
+            );
+        } catch {
+            return null;
+        }
+    }
+
+    private setDeviceUser(uid: string | null) {
+        if (typeof window === 'undefined') return;
+        try {
+            const key = `${proxyPrefix()}${DeviceUserKey}`;
+            if (uid === null) window.localStorage.removeItem(key);
+            else window.localStorage.setItem(key, uid);
+        } catch {
+            // Storage refused (private window, blocked site data): the only
+            // cost is the in-session comparison updateUser always had.
+        }
     }
 
     /** Update the saving status and broadcast via the store. Save status is
@@ -1083,11 +1112,19 @@ export class Database {
         // a flaky connection that can't refresh the ID token), and erasing a
         // creator's local projects on a transient blip is data loss. A deliberate
         // sign-out clears local data explicitly via Database.logout().
+        //
+        // "Different" is measured against whoever last signed in on this
+        // device, not only in this page session: a page that loads signed out
+        // (an expired session, a shared classroom Chromebook) starts with no
+        // user, and comparing against that kept the previous person's cached
+        // projects for the next one to see.
+        const previous = this.user?.uid ?? this.getDeviceUser();
         const remove =
-            this.user !== null && user !== null && user.uid !== this.user.uid;
+            previous !== null && user !== null && user.uid !== previous;
 
         // Update the user ID
         this.user = user;
+        if (user !== null) this.setDeviceUser(user.uid);
 
         // Always tear down the prior galleries listener before re-evaluating.
         this.Galleries.clean();
@@ -1267,6 +1304,8 @@ export class Database {
         await this.Chats.clearLocal();
         await this.Galleries.clearLocal();
         await this.HowTos.clearLocal();
+        // Nothing local belongs to anyone now.
+        this.setDeviceUser(null);
         // The local wipe above is the privacy-critical part and is already
         // done; a failing signOut (rare — token refresh hiccup) must not throw
         // out of logout and leave the caller hanging. Worst case the Firebase

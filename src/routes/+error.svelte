@@ -6,6 +6,7 @@
     import Speech from '#components/lore/Speech.svelte';
     import { HOME_SYMBOL } from '#parser/Symbols.ts';
     import Characters from '../lore/BasisCharacters';
+    import { page } from '$app/state';
 </script>
 
 <Writing>
@@ -16,6 +17,11 @@
                 <LocalizedText path={(l) => l.ui.page.unknown.message} />
                 <Link to="/">{HOME_SYMBOL}</Link></p
             >
+            <!-- What failed, untranslated on purpose: it is for whoever is
+                 asked to fix it, usually from a photo of this page. -->
+            {#if page.status !== 404 && page.error}
+                <p><code>{page.status} {page.error.message}</code></p>
+            {/if}
         {/snippet}</Speech
     >
 </Writing>

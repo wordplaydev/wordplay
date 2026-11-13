@@ -4245,7 +4245,19 @@
 
         <!-- Render the menu on top of the annotations -->
         {#if menu && menuPosition}
-            <Menu bind:menu hide={hideMenu} position={menuPosition} />
+            <!-- Outside every tile's boundary, so a menu item that fails to
+                 render would otherwise take the whole page to the error page. -->
+            <svelte:boundary
+                onerror={(error) => {
+                    console.error(
+                        '[menu-render-error]',
+                        error instanceof Error ? (error.stack ?? error) : error,
+                    );
+                    hideMenu();
+                }}
+            >
+                <Menu bind:menu hide={hideMenu} position={menuPosition} />
+            </svelte:boundary>
         {/if}
 
         <!-- Saving a value as a file, asked for by the editor's menu or the
@@ -4276,15 +4288,27 @@
             >
                 <!-- One view per dragged node: a run is contiguous siblings, so
                      they read as the run they are when stacked in order. -->
-                {#each dragged as node (node.id)}
-                    <RootView
-                        {node}
-                        inline
-                        spaces={project.getSourceOf(node)?.spaces}
-                        locale={$locales.getLocale()}
-                        blocks={$blocks}
-                    />
-                {/each}
+                <!-- Outside every tile's boundary too: a dragged node that fails
+                     to render should cost its preview, not the page. -->
+                <svelte:boundary
+                    onerror={(error) =>
+                        console.error(
+                            '[drag-render-error]',
+                            error instanceof Error
+                                ? (error.stack ?? error)
+                                : error,
+                        )}
+                >
+                    {#each dragged as node (node.id)}
+                        <RootView
+                            {node}
+                            inline
+                            spaces={project.getSourceOf(node)?.spaces}
+                            locale={$locales.getLocale()}
+                            blocks={$blocks}
+                        />
+                    {/each}
+                </svelte:boundary>
             </div>
         {/if}
     {/if}
