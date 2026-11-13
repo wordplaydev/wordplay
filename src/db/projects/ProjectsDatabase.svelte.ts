@@ -14,7 +14,6 @@ import { ensureAuth, firestore } from '#db/firebase.ts';
 import { isProxySession } from '#db/proxySession.ts';
 import firebaseErrorDetail from '#db/firebaseErrorDetail.ts';
 import { GALLERY_CHUNK_SIZE } from '#db/firestoreLimits.ts';
-import type Gallery from '#db/galleries/Gallery.ts';
 import isQuotaError from '#db/isQuotaError.ts';
 import { chunkWrites, serializedByteSize } from '#db/projects/chunkWrites.ts';
 import nextSaveRetryDelay from '#db/projects/saveRetry.ts';
@@ -2700,29 +2699,6 @@ export default class ProjectsDatabase {
         } catch (_) {
             console.error(_);
             return undefined;
-        }
-    }
-
-    /** When a gallery changes, stop tracking any of its projects we were
-     *  tracking that are no longer in it.
-     *
-     *  We deliberately do NOT fetch newly-added gallery projects here. The
-     *  realtime projects query (the `gallery in` chunk listeners in `syncUser`)
-     *  already streams every project in the user's accessible galleries, so
-     *  fetching them here too meant one `getDoc` per gallery project on every
-     *  galleries snapshot — a redundant read burst on login that scaled with
-     *  galleries × projects-per-gallery (e.g. ~180 reads for a teacher in 10
-     *  galleries of ~18 projects). The realtime listener supplies them instead. */
-    async refreshGallery(gallery: Gallery) {
-        // Drop locally-tracked projects that are no longer in this gallery.
-        for (const [projectID, history] of this.projectHistories.entries()) {
-            const current = history.getCurrent();
-            if (
-                current.getGallery() === gallery.getID() &&
-                !gallery.getProjects().includes(projectID)
-            ) {
-                this.deleteLocalProject(projectID);
-            }
         }
     }
 }

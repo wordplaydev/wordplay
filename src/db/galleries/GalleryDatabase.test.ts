@@ -230,7 +230,6 @@ type DatabaseFakeWithDomains = DatabaseFake & {
         edit: ReturnType<typeof vi.fn>;
         getHistory: ReturnType<typeof vi.fn>;
         get: ReturnType<typeof vi.fn>;
-        refreshGallery: ReturnType<typeof vi.fn>;
         saveSoon: ReturnType<typeof vi.fn>;
         syncUser: ReturnType<typeof vi.fn>;
     };
@@ -283,7 +282,6 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 edit: projectsEditMock,
                 getHistory: getHistoryMock,
                 get: vi.fn(async () => undefined),
-                refreshGallery: vi.fn(),
                 saveSoon: vi.fn(),
                 syncUser: vi.fn(),
             },
