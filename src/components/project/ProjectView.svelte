@@ -264,7 +264,7 @@
     } from '#db/settings/AnimationFactorSetting.ts';
     import type MenuInfo from '#edit/menu/Menu.ts';
     import { anchorMenu } from '#components/editor/menu/menuAnchor.ts';
-    import { must } from '#util/nullable.ts';
+    import { isDefined, must } from '#util/nullable.ts';
 
     interface Props {
         project: Project;
@@ -884,10 +884,11 @@
 
     /** The last project rendered. `onDestroy` runs after the parent has already
      * updated its state, so the `project` prop can read undefined there — which
-     * is exactly what it did when the page unmounted the view. */
+     * is exactly what it did when the page unmounted the view. The effect
+     * reruns with that undefined too, so it must not take it. */
     let lastProject = project;
     $effect(() => {
-        lastProject = project;
+        if (isDefined(project)) lastProject = project;
     });
 
     /** Clean up the evaluator when unmounting. */
@@ -963,11 +964,11 @@
         // saves a no-op history.edit + saveSoon.
         if (
             extracted.text === lastWrittenText &&
-            project.getPreview()?.mode === 'auto'
+            lastProject.getPreview()?.mode === 'auto'
         )
             return;
         lastWrittenText = extracted.text;
-        Projects.setAutoPreview(project.getID(), extracted);
+        Projects.setAutoPreview(lastProject.getID(), extracted);
     }
 
     $effect(() => {

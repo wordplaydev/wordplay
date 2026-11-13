@@ -451,10 +451,11 @@ export default class GalleryDatabase {
                                 gallery,
                             );
 
-                            // Notify the project's database that gallery permissions changed, requring a reload of the any projects in the gallery to see new permissions.
-                            this.database.MaybeProjects?.refreshGallery(
-                                gallery,
-                            );
+                            // A project is never dropped from this device
+                            // because this list omits it: the list is an index
+                            // that can lag or lose entries, and doing so deleted
+                            // creators' own open projects. A real removal clears
+                            // the project's `gallery`, which its listener sees.
                         } else {
                             // user is only a how-to viewer, which means they have expanded scope access only
                             this.expandedScopeGalleries.set(
