@@ -22,7 +22,7 @@
         deleteClass,
         removeStudent,
         removeTeacher,
-        setClass,
+        updateClass,
         type Class,
     } from '#db/teachers/TeacherDatabase.svelte.ts';
     import { CANCEL_SYMBOL } from '#parser/Symbols.ts';
@@ -63,11 +63,11 @@
     // Class writes raise the top banner on failure from the TeacherDatabase
     // layer, so these handlers don't need their own error UI.
     function updateName(name: string) {
-        if (classData) setClass({ ...classData, name: name });
+        if (classData) updateClass(classData.id, { name });
     }
 
     function updateDescription(description: string) {
-        if (classData) setClass({ ...classData, description: description });
+        if (classData) updateClass(classData.id, { description });
     }
 </script>
 
@@ -132,8 +132,7 @@
         metadata={new Map(classData.info.map((info) => [info.uid, info.meta]))}
         cell={(uid, column, text) => {
             // Copy the student metadata, but update the column of the corresponding user
-            setClass({
-                ...classData,
+            updateClass(classData.id, {
                 info: classData.info.map((student) =>
                     student.uid === uid
                         ? {
@@ -147,8 +146,7 @@
             });
         }}
         addcolumn={(index) => {
-            setClass({
-                ...classData,
+            updateClass(classData.id, {
                 info: classData.info.map((student) => ({
                     ...student,
                     meta: [
@@ -160,8 +158,7 @@
             });
         }}
         removecolumn={(index) => {
-            setClass({
-                ...classData,
+            updateClass(classData.id, {
                 info: classData.info.map((student) => ({
                     ...student,
                     meta: student.meta.filter((_, i) => i !== index),

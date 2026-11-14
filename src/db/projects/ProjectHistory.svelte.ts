@@ -3,6 +3,19 @@ import type { SerializedProject } from '#db/projects/ProjectSchemas.ts';
 import Project from '#db/projects/Project.ts';
 import { must } from '#util/nullable.ts';
 
+/** What is known about the code a history currently holds, which decides
+ *  whether another copy's code may replace it (see reconcileSources). Declared
+ *  here rather than there so that module stays off the pages that only need a
+ *  history's type. */
+export type CodeState =
+    /** The cloud has confirmed it. */
+    | 'saved'
+    /** Unconfirmed, and it came from this device's storage: an edit whose
+     *  save had not finished when the page last closed. */
+    | 'adopted'
+    /** Unconfirmed, and it was changed in this tab. */
+    | 'typed';
+
 // Remember this many project edits.
 const PROJECT_HISTORY_LIMIT = 1000;
 
@@ -68,6 +81,12 @@ export class ProjectHistory {
      *  saves complete or edits mark it unsaved. */
     private saved = $state(false);
 
+    /** Whether the code held here has reached the cloud, and if not, where it
+     *  came from. Separate from `saved`, which a change of name or folder also
+     *  clears: this is what decides whether another copy's code may replace
+     *  ours (see reconcileSources). */
+    private code: CodeState = 'saved';
+
     /** True if this should be persisted locally in databases. `$state` so
      *  save-status counts react to persistence-mode changes too. */
     private persist: PersistenceType = $state(PersistenceType.None);
@@ -87,6 +106,7 @@ export class ProjectHistory {
         persist: PersistenceType,
         saved: boolean,
         locales: LocalesDatabase,
+        code: CodeState = saved ? 'saved' : 'typed',
     ) {
         this.id = project.getID();
         this.current = $state.raw(project);
@@ -95,6 +115,7 @@ export class ProjectHistory {
         this.persist = persist;
         this.saved = saved;
         this.locales = locales;
+        this.code = code;
     }
 
     getCurrent() {
@@ -176,14 +197,19 @@ export class ProjectHistory {
         // No more history? Do nothing.
         else if (direction < 0 && this.index === 0) return undefined;
 
-        // Move the index back a step in time
-        this.index += direction;
-
+        // Read the version a step away, and only then step. Reading takes a
+        // moment, and an edit made during it truncates the history and appends
+        // itself: stepping first let the undo land on top of that edit, which
+        // put freshly typed code out of sight.
+        const before = this.current;
+        const target = this.index + direction;
         const newProject: Project = await Project.deserialize(
             this.locales,
             // The two guards above keep the index inside the history.
-            must(this.history[this.index], 'a project in the history'),
+            must(this.history[target], 'a project in the history'),
         );
+        if (this.current !== before) return undefined;
+        this.index = target;
         this.lastRestore = { direction, from: this.current };
 
         // Change the current project to the historical project. Bump
@@ -196,8 +222,9 @@ export class ProjectHistory {
         // Set the change type to undo/redo.
         this.change = ChangeType.UndoRedo;
 
-        // Mark unsaved
+        // Mark unsaved, and the code as this tab's: an undo is an edit.
         this.saved = false;
+        this.code = 'typed';
 
         return newProject;
     }
@@ -208,6 +235,16 @@ export class ProjectHistory {
 
     markSaved() {
         this.saved = true;
+        this.code = 'saved';
+    }
+
+    getCodeState() {
+        return this.code;
+    }
+
+    /** Note that the code held here is not in the cloud yet. */
+    markCode(code: 'adopted' | 'typed') {
+        this.code = code;
     }
 
     /** Mark the history as unsaved without going through {@link edit}.

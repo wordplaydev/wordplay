@@ -134,6 +134,7 @@
     import { editorAxes } from '#components/editor/util/axes.ts';
     import eligibleWritingLayouts from '#edit/eligibleWritingLayouts.ts';
     import type { WritingLayout } from '#locale/Scripts.ts';
+    import { MAX_PROJECT_BYTE_SIZE } from '#db/projects/ProjectsDatabase.svelte.ts';
     import { Projects } from '#db/projects/Projects.ts';
     import {
         type RemoteCaret,
@@ -3020,18 +3021,23 @@
         // mode-based (step/play) implicitly switches to edit mode when an edit is
         // attempted — wanting to edit *is* the request to edit.
         if (newSource) {
-            if (editable || (requestEditable?.() ?? false)) {
-                Projects.reviseProject(
-                    newSource instanceof Project
-                        ? newSource
-                        : project
-                              .withSource(source, newSource)
-                              .withCaret(
-                                  newSource,
-                                  newCaret.position,
-                                  newCaret.anchor,
-                              ),
-                );
+            const revised =
+                newSource instanceof Project
+                    ? newSource
+                    : project
+                          .withSource(source, newSource)
+                          .withCaret(
+                              newSource,
+                              newCaret.position,
+                              newCaret.anchor,
+                          );
+            // An edit that makes the project too large is refused by the
+            // database. Say so, and leave the caret where it is: moving it
+            // onto code that was never kept made the typing vanish silently.
+            if (revised.getSourceByteSize() > MAX_PROJECT_BYTE_SIZE)
+                setIgnored((l) => l.ui.banner.saveTooLarge);
+            else if (editable || (requestEditable?.() ?? false)) {
+                Projects.reviseProject(revised);
                 caret.set(
                     newSource instanceof Project
                         ? newCaret

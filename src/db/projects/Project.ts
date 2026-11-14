@@ -2148,8 +2148,24 @@ export default class Project {
         return this.revised({ flags: unknownFlags() });
     }
 
+    /** Whether every merged metadata field has the value `other` has, which
+     *  after a merge with `other` means this side contributed none of them. */
+    sameMetadataAs(other: Project): boolean {
+        return StampedMetadataFields.every(
+            (field) =>
+                JSON.stringify(this.data[field]) ===
+                JSON.stringify(other.data[field]),
+        );
+    }
+
     withNewTime() {
         return this.revised({ timestamp: Date.now() });
+    }
+
+    /** A copy that reads as later than `time` whatever this device's clock
+     *  says, for a version that has to win over one it was merged with. */
+    withTimeAfter(time: number) {
+        return this.revised({ timestamp: Math.max(Date.now(), time + 1) });
     }
 
     getTimestamp() {

@@ -213,6 +213,25 @@ export type SerializedChatUnknownVersion = z.infer<
     typeof SerializedChatUnknownVersionSchema
 >;
 
+/**
+ * The messages to send when a conversation's save is tried again later.
+ *
+ * The retry used to send this device's whole list, which was right only if
+ * nobody else had written in the meantime. Someone who sent a message offline
+ * and reloaded would, on reconnecting, replace whatever had been said since
+ * with the list as they last saw it. So the retry starts from what the cloud
+ * holds and adds only the messages it has never seen. A message both sides
+ * have is left as the cloud has it: this device's copy may predate an edit, a
+ * deletion or a moderator's decision.
+ */
+export function replayedMessages<Message extends { id: string }>(
+    stored: readonly Message[],
+    local: readonly Message[],
+): Message[] {
+    const known = new Set(stored.map((message) => message.id));
+    return [...stored, ...local.filter((message) => !known.has(message.id))];
+}
+
 /** A stored chat of any known version, or undefined if the data is not one. */
 export function parseUnknownChat(
     data: unknown,
@@ -812,6 +831,12 @@ export class ChatDatabase {
         );
     }
 
+    /** Whether a message could be sent at all: someone is signed in and there
+     *  is a cloud to send it to. Asked before a composer clears itself. */
+    canSend(): boolean {
+        return firestore !== undefined && this.db.getUser() !== null;
+    }
+
     /** Wrap a cloud write so the save-status dialog reflects it; see
      *  {@link SaveTracker.trackSave}. Conversations have no title, so failures
      *  surface with a generic name in the dialog (no `name`). */
@@ -846,22 +871,34 @@ export class ChatDatabase {
      * born complete enough for the next reader to parse. A read that itself
      * fails means we don't know, and not knowing must never create.
      *
-     * The replayed `messages` array is a whole-array replace, so a client that
-     * was offline while a moderator hid a message can put its text back. That
-     * predates this replay and is not expressible as a rule (see the `it.skip`
-     * in chatRules.test.ts); the fix is appending only local-only messages, or
-     * messages as a subcollection.
+     * The replayed `messages` are what the cloud holds plus the ones it has
+     * never seen (see {@link replayedMessages}), so a client that was offline
+     * neither erases what was said meanwhile nor puts back a message that was
+     * edited, deleted or hidden.
      */
     private rePush(id: string): RePush {
         if (firestore === undefined) return undefined;
         const chat = this.chats.get(id);
         if (chat === undefined) return undefined;
         const reference = doc(firestore, ChatsCollection, id);
+        const replay = async () => {
+            const fields = ChatDatabase.writableChatFields(chat);
+            // Start from the messages the cloud holds and add ours to them
+            // (see replayedMessages). If that cannot be read, nothing is sent:
+            // sending our list blind is what erased other people's messages.
+            const stored = await getDoc(reference);
+            if (stored.exists()) {
+                const parsed = parseUnknownChat(stored.data());
+                if (parsed !== undefined)
+                    fields.messages = replayedMessages(
+                        parsed.messages,
+                        chat.getMessages(),
+                    );
+            }
+            return updateDoc(reference, fields);
+        };
         return {
-            write: updateDoc(
-                reference,
-                ChatDatabase.writableChatFields(chat),
-            ).catch(async (error: unknown) => {
+            write: replay().catch(async (error: unknown) => {
                 let exists = true;
                 try {
                     exists = (await getDoc(reference)).exists();
@@ -1340,6 +1377,10 @@ export class ChatDatabase {
             galleryID === null
                 ? undefined
                 : await this.db.Galleries.get(galleryID);
+
+        // A gallery that could not be read is not a gallery with no curators:
+        // rebuilding the participants without it removed them from the chat.
+        if (galleryID !== null && gallery === undefined) return;
 
         // Ensure the chat has the correct eligible participants based on the project and gallery.
         this.syncParticipants(project, gallery);

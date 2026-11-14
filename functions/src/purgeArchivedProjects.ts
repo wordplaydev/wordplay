@@ -27,7 +27,6 @@ export default async function purgeArchivedProjects(): Promise<void> {
     // Don't delete all at once; we'll hit a request limit on large purges.
     await PromisePool.for(projectIDs)
         .withConcurrency(3)
-        .process(async (id) => {
-            projectsRef.doc(id).delete();
-        });
+        // Awaited, or the function can return, and be frozen, mid-delete.
+        .process((id) => projectsRef.doc(id).delete());
 }

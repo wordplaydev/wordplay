@@ -1,6 +1,8 @@
+import type { Page } from '@playwright/test';
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
 import { createTestCharacter } from '../helpers/createCharacter';
+import { joinViaUI } from '../helpers/joinViaUI';
 import { waitForDocumentUpdate, getTestDocument } from '../helpers/firestore';
 import {
     cutFirestore,
@@ -91,6 +93,107 @@ test.describe('offline edits replay after reload + reconnect', () => {
             50000,
         );
         expect(updated?.name).toBe(offlineName);
+    });
+
+    test('signing out deletes this device’s copies, unsaved ones included', async ({
+        page,
+    }) => {
+        const projectId = await createTestProject(page);
+        await waitForDocumentUpdate(page, 'projects', projectId, (d) => !!d);
+
+        await cutOffFromCloud(page);
+        const offlineName = 'Edited Before Signing Out';
+        await page.locator('#project-name').fill(offlineName);
+        await waitForDirty(page, `projects:${projectId}`);
+        await waitForCachedProjectName(page, projectId, offlineName);
+
+        // The profile page says there is unsaved work before the button that
+        // deletes it.
+        await page.goto('/en-US/profile');
+        await expect(page.getByTestId('logout')).toBeVisible({
+            timeout: 20000,
+        });
+        await expect(page.getByText(/aren't saved online yet/)).toBeVisible();
+        await page.getByTestId('logout').click();
+        await page.getByTestId('logout-confirm').click();
+        await page.waitForURL(/\/login$/, { waitUntil: 'domcontentloaded' });
+
+        // Signing out is how someone makes sure nothing of theirs stays on a
+        // device, so nothing does: not in the cache, and not set aside.
+        await expect
+            .poll(() => storedProjectIDs(page, 'projects'))
+            .not.toContain(projectId);
+        expect(await storedProjectIDs(page, 'setaside')).not.toContain(
+            projectId,
+        );
+    });
+
+    test('a different account signing in sets unsaved work aside for its owner', async ({
+        page,
+        loggedInUsername,
+    }) => {
+        const projectId = await createTestProject(page);
+        await waitForDocumentUpdate(page, 'projects', projectId, (d) => !!d);
+
+        await cutOffFromCloud(page);
+        const offlineName = 'Edited Before The Session Lapsed';
+        await page.locator('#project-name').fill(offlineName);
+        await waitForDirty(page, `projects:${projectId}`);
+        await waitForCachedProjectName(page, projectId, offlineName);
+
+        // The session lapses without a sign-out, as it does on a classroom
+        // laptop that goes back in the cart: the account is gone, the device
+        // still remembers whose projects it holds.
+        await page.evaluate(
+            () =>
+                new Promise<void>((resolve) => {
+                    const request = indexedDB.deleteDatabase(
+                        'firebaseLocalStorageDb',
+                    );
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => resolve();
+                    request.onblocked = () => resolve();
+                }),
+        );
+        await restoreFirestore(page);
+
+        // Someone else signs in. They must not see the project, and the edit
+        // must not be deleted: it exists nowhere else.
+        await joinViaUI(page, `next${Date.now().toString(36)}`, 'password');
+        await expect
+            .poll(() => storedProjectIDs(page, 'setaside'), { timeout: 20000 })
+            .toContain(projectId);
+        expect(await storedProjectIDs(page, 'projects')).not.toContain(
+            projectId,
+        );
+        await page.goto('/en-US/projects');
+        await expect(
+            page.locator('[data-testid="addproject"][aria-disabled="false"]'),
+        ).toBeVisible({ timeout: 20000 });
+        await expect(page.getByText(offlineName)).toHaveCount(0);
+
+        // They sign out, the first person signs back in, and the edit that
+        // was held for them reaches the cloud.
+        await page.goto('/en-US/profile');
+        await page.getByTestId('logout').click();
+        await page.getByTestId('logout-confirm').click();
+        await page.waitForURL(/\/login$/, { waitUntil: 'domcontentloaded' });
+        await page.locator('#login-username-field').fill(loggedInUsername);
+        await page.locator('#login-password-field').fill('password');
+        await page.getByTestId('login-button').click();
+        await page.waitForURL(/\/profile$/, { waitUntil: 'domcontentloaded' });
+
+        const updated = await waitForDocumentUpdate(
+            page,
+            'projects',
+            projectId,
+            (d) => d?.name === offlineName,
+            50000,
+        );
+        expect(updated?.name).toBe(offlineName);
+        expect(await storedProjectIDs(page, 'setaside')).not.toContain(
+            projectId,
+        );
     });
 
     test('a character edited while offline reaches the cloud on reconnect', async ({
@@ -238,3 +341,50 @@ test.describe('offline edits replay after reload + reconnect', () => {
         await restoreFirestore(page);
     });
 });
+
+/** Cut the page off from the cloud for certain. Blocking new requests is not
+ *  enough on its own: a write stream opened before the cut stays open, and an
+ *  edit made straight afterwards can still reach the cloud through it. A
+ *  reload closes it, and the project comes back from this device's copy. */
+async function cutOffFromCloud(page: Page): Promise<void> {
+    await cutFirestore(page);
+    await page.reload();
+    await page.locator('#project-name:not([disabled])').waitFor({
+        timeout: 20000,
+    });
+}
+
+/** The ids in one of the local database's project stores. */
+async function storedProjectIDs(
+    page: Page,
+    store: 'projects' | 'setaside',
+): Promise<string[]> {
+    return page.evaluate(
+        (name) =>
+            new Promise<string[]>((resolve) => {
+                const open = indexedDB.open('wordplay');
+                open.onerror = () => resolve([]);
+                open.onsuccess = () => {
+                    const db = open.result;
+                    if (!db.objectStoreNames.contains(name)) {
+                        db.close();
+                        resolve([]);
+                        return;
+                    }
+                    const keys = db
+                        .transaction(name, 'readonly')
+                        .objectStore(name)
+                        .getAllKeys();
+                    keys.onerror = () => {
+                        db.close();
+                        resolve([]);
+                    };
+                    keys.onsuccess = () => {
+                        db.close();
+                        resolve(keys.result.map(String));
+                    };
+                };
+            }),
+        store,
+    );
+}

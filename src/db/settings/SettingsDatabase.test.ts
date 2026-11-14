@@ -169,3 +169,33 @@ test('evaluation cues are off until asked for', () => {
         setting.set(DB, original);
     }
 });
+
+/**
+ * What an upload sends. The creator document used to be replaced whole by
+ * whichever device changed a setting last, so a device open since morning
+ * erased the folders made on another that afternoon by marking a chat read.
+ */
+test('nothing is uploaded until the cloud’s copy has been read', async () => {
+    // What this device holds before then is defaults, and sending them is how
+    // a fresh sign-in overwrote a creator's settings.
+    await Settings.syncUser();
+    expect(Settings.getUpload()).toBeUndefined();
+});
+
+test('an upload sends only the settings that differ from the cloud’s', async () => {
+    // Stand in for a read: the cloud has exactly what this device has.
+    Settings.confirmUpload({ ...Settings.toObject() });
+    expect(Settings.getUpload()).toEqual({ fields: {} });
+
+    const original = Settings.settings.animationFactor.get();
+    Settings.settings.animationFactor.set(DB, 0.25);
+    try {
+        expect(Settings.getUpload()).toEqual({
+            fields: { animationFactor: 0.25 },
+        });
+    } finally {
+        Settings.settings.animationFactor.set(DB, original);
+        // Back to "not read", so no later test uploads against this copy.
+        await Settings.syncUser();
+    }
+});

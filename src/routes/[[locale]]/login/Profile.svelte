@@ -12,6 +12,7 @@
     import { DB } from '#db/Database.ts';
     import { localeGoto } from '#util/localeGoto.ts';
     import { updateProfile, type User } from 'firebase/auth';
+    import { onMount } from 'svelte';
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
     import Subheader from '#components/app/Subheader.svelte';
@@ -37,7 +38,19 @@
     // Items (across every domain) with edits not yet saved online. Logout wipes
     // the local cache, so it discards them; warn when there are any, but never
     // block, since a save that keeps failing would trap someone signed in.
-    let unsaved = $derived(DB.getUnsavedCount());
+    //
+    // The projects database is loaded lazily, and nothing reactive says when
+    // it arrives: computed before then, the count was zero and stayed zero, so
+    // someone who opened this page directly was never warned. Load it, read
+    // this device's projects, and count again.
+    let projectsRead = $state(false);
+    onMount(() => {
+        void DB.startProjectWork().then(() => (projectsRead = true));
+    });
+    let unsaved = $derived.by(() => {
+        void projectsRead;
+        return DB.getUnsavedCount();
+    });
 
     /** Writable holding the current Firebase user. We need a handle on the
      *  store (not just the unwrapped value via props) so we can republish

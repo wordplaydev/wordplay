@@ -277,8 +277,15 @@
         const folder = chosenFolder;
         if (folder === undefined) return;
         const projects = await DB.loadProjects();
+        // Only what is this creator's to archive. A project someone shared
+        // with them just leaves the folder: archiving it archived it for its
+        // owner too, and an archived project is eventually deleted.
         for (const project of folder.projects)
-            await projects.archiveProject(project.getID(), true);
+            if (
+                project.getOwner() === null ||
+                project.isOwner($user?.uid ?? '')
+            )
+                await projects.archiveProject(project.getID(), true);
         Settings.removeProjectFolder(folder.id);
         choice = undefined;
         speak(describeDeletion($locales, folder.name, folder.projects.length));
@@ -823,9 +830,9 @@
                               action: async () => {
                                   deleteError = false;
                                   try {
-                                      (await DB.loadProjects()).deleteProject(
-                                          project.getID(),
-                                      );
+                                      await (
+                                          await DB.loadProjects()
+                                      ).deleteProject(project.getID());
                                   } catch (error) {
                                       deleteError = true;
                                       console.error(error);
@@ -871,9 +878,9 @@
                               action: async () => {
                                   deleteError = false;
                                   try {
-                                      (await DB.loadProjects()).deleteProject(
-                                          project.getID(),
-                                      );
+                                      await (
+                                          await DB.loadProjects()
+                                      ).deleteProject(project.getID());
                                   } catch (error) {
                                       deleteError = true;
                                       console.error(error);

@@ -127,10 +127,13 @@ export default async function sweepReservations(): Promise<SweepReport> {
             }
             if (held.uid === null) return;
 
+            // Only "there is no such account" retires a name. Any other
+            // failure to ask (a quota, a timeout) used to count as the account
+            // being gone, which took a live creator's username away.
             const exists = await getAuth()
                 .getUser(held.uid)
                 .then(() => true)
-                .catch(() => false);
+                .catch((error: unknown) => !isUserNotFound(error));
             if (exists) {
                 report.kept++;
                 return;
@@ -164,4 +167,15 @@ export default async function sweepReservations(): Promise<SweepReport> {
 
     console.log('Username reservation sweep:', JSON.stringify(report));
     return report;
+}
+
+/** Whether an Auth error says the account does not exist, as opposed to the
+ *  question not having been answered. */
+export function isUserNotFound(error: unknown): boolean {
+    return (
+        typeof error === 'object' &&
+        error !== null &&
+        'code' in error &&
+        error.code === 'auth/user-not-found'
+    );
 }

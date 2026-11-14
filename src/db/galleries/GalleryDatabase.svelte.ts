@@ -43,7 +43,7 @@ import {
     ClassesCollection,
     ClassSchema,
     getClass,
-    setClass,
+    updateClass,
 } from '#db/teachers/TeacherDatabase.svelte.ts';
 import Gallery, {
     deserializeGallery,
@@ -77,9 +77,30 @@ const GalleryIndexFields = ['projects', 'characters', 'howTos'] as const;
  *  list as a union rather than a replacement. Sent whole, a list is only as fresh
  *  as this client's copy, and a copy that had stopped receiving snapshots wrote a
  *  class gallery's 29 projects back as 14. */
-export function toMergeUpdate(gallery: Gallery): Record<string, unknown> {
+/** The lists of who is in a gallery. */
+const GalleryMemberFields = ['curators', 'creators'] as const;
+
+export function toMergeUpdate(
+    gallery: Gallery,
+    /** The gallery as it stood before this edit, when that is known. */
+    previous?: Gallery,
+): Record<string, unknown> {
     const data: Record<string, unknown> = { ...gallery.data };
     for (const field of GalleryServerOwnedFields) delete data[field];
+    // Who is in a gallery is sent only as the change this edit made to it.
+    // Sent whole, the lists were this client's copy of them, so renaming a
+    // gallery a moment after a student joined took the student back out.
+    if (previous !== undefined)
+        for (const field of GalleryMemberFields) {
+            const before = previous.data[field];
+            const after = gallery.data[field];
+            const added = after.filter((uid) => !before.includes(uid));
+            const removed = before.filter((uid) => !after.includes(uid));
+            if (added.length === 0 && removed.length === 0) delete data[field];
+            else if (removed.length === 0) data[field] = arrayUnion(...added);
+            else if (added.length === 0) data[field] = arrayRemove(...removed);
+            // Both at once cannot be said as one change, so the list goes whole.
+        }
     for (const field of GalleryIndexFields) {
         const ids = gallery.data[field];
         if (ids.length > 0) data[field] = arrayUnion(...ids);
@@ -91,6 +112,9 @@ export function toMergeUpdate(gallery: Gallery): Record<string, unknown> {
 export default class GalleryDatabase {
     /** The main database that manages this gallery database */
     readonly database: Database;
+
+    /** Each gallery with unsaved edits, as it stood before the first of them. */
+    private readonly unsavedFrom = new Map<string, Gallery>();
 
     /**
      * A reactive map of the galleries that have been loaded from the database because this creator is a creator or curator of the gallery.
@@ -615,10 +639,7 @@ export default class GalleryDatabase {
         if (classid) {
             const group = await getClass(classid);
             if (group) {
-                await setClass({
-                    ...group,
-                    galleries: [...group.galleries, id],
-                });
+                await updateClass(group.id, { galleries: arrayUnion(id) });
             } else console.error("Couldn't find class to update.");
         }
 
@@ -902,7 +923,7 @@ export default class GalleryDatabase {
         const db = firestore;
         const gallery = this.accessibleGalleries.get(id);
         if (gallery === undefined) return undefined;
-        const data = toMergeUpdate(gallery);
+        const data = toMergeUpdate(gallery, this.unsavedFrom.get(id));
         return {
             name: gallery.getName(this.database.Locales.getLocaleSet()),
             write: setDoc(doc(db, GalleriesCollection, id), data, {
@@ -932,6 +953,12 @@ export default class GalleryDatabase {
         // earlier write is swallowed here so it can't block this one (its own
         // caller has already been told, through trackSave).
         const id = gallery.getID();
+        // What the gallery was before the edits not yet saved, so that this
+        // write and any retry of it can say what changed.
+        const known = this.accessibleGalleries.get(id);
+        if (!creating && known !== undefined && !this.unsavedFrom.has(id))
+            this.unsavedFrom.set(id, known);
+        const previous = this.unsavedFrom.get(id);
         // Captured because the guard above doesn't narrow inside the callback,
         // the same reason `flushUnsaved` takes its own `db`.
         const db = firestore;
@@ -946,17 +973,18 @@ export default class GalleryDatabase {
                 // comparison is trivially satisfied, and preserved on the
                 // document because merge only replaces the keys it is given.
                 if (creating) return setDoc(reference, gallery.data);
-                return setDoc(reference, toMergeUpdate(gallery), {
+                return setDoc(reference, toMergeUpdate(gallery, previous), {
                     merge: true,
                 });
             });
         this.writing.set(id, queued);
         try {
-            await this.trackSave(
+            const saved = await this.trackSave(
                 id,
                 gallery.getName(this.database.Locales.getLocaleSet()),
                 queued,
             );
+            if (saved) this.unsavedFrom.delete(id);
         } finally {
             // Only clear it if nothing else has queued behind us in the interim.
             if (this.writing.get(id) === queued) this.writing.delete(id);
@@ -1075,9 +1103,8 @@ export default class GalleryDatabase {
         }
         for (const classDoc of classes.docs) {
             const group = ClassSchema.parse(classDoc.data());
-            await setClass({
-                ...group,
-                galleries: group.galleries.filter((g) => g !== gallery.getID()),
+            await updateClass(group.id, {
+                galleries: arrayRemove(gallery.getID()),
             });
         }
 
@@ -1113,7 +1140,7 @@ export default class GalleryDatabase {
         const editResult = await (
             await this.database.loadProjects()
         ).edit(
-            project.withGallery(galleryID),
+            this.latest(project).withGallery(galleryID),
             false,
             false,
             false,
@@ -1167,12 +1194,20 @@ export default class GalleryDatabase {
             ?.getName(this.database.Locales.getLocaleSet());
         void this.trackSave(galleryID, galleryName, batch.commit()).then(
             (ok) => {
-                if (ok)
-                    this.database.MaybeProjects?.getHistory(
-                        projectID,
-                    )?.markSaved();
+                if (ok) this.database.MaybeProjects?.confirmSent(updated);
                 else this.database.MaybeProjects?.saveSoon();
             },
+        );
+    }
+
+    /** The version of a project being edited here, if there is one. A caller's
+     *  copy can be older than it, and editing from an older copy would put its
+     *  code back over whatever was typed since. */
+    private latest(project: Project): Project {
+        return (
+            this.database.MaybeProjects?.getHistory(
+                project.getID(),
+            )?.getCurrent() ?? project
         );
     }
 
@@ -1186,7 +1221,13 @@ export default class GalleryDatabase {
         // Update the in-memory project to clear its gallery field (no persist; batched below).
         const editResult = await (
             await this.database.loadProjects()
-        ).edit(project.withGallery(null), false, false, false, 'immediate');
+        ).edit(
+            this.latest(project).withGallery(null),
+            false,
+            false,
+            false,
+            'immediate',
+        );
         if (editResult !== undefined) return;
 
         const updated =
@@ -1222,10 +1263,7 @@ export default class GalleryDatabase {
                 galleryName,
                 batch.commit(),
             ).then((ok) => {
-                if (ok)
-                    this.database.MaybeProjects?.getHistory(
-                        projectID,
-                    )?.markSaved();
+                if (ok) this.database.MaybeProjects?.confirmSent(updated);
                 else this.database.MaybeProjects?.saveSoon();
             });
         } else {
@@ -1233,11 +1271,7 @@ export default class GalleryDatabase {
             // project's own persistence replay it on failure.
             void this.database
                 .track(batch.commit())
-                .then(() =>
-                    this.database.MaybeProjects?.getHistory(
-                        projectID,
-                    )?.markSaved(),
-                )
+                .then(() => this.database.MaybeProjects?.confirmSent(updated))
                 .catch(() => this.database.MaybeProjects?.saveSoon());
         }
     }
@@ -1247,7 +1281,13 @@ export default class GalleryDatabase {
     async removeProjectFromGallery(project: Project) {
         await (
             await this.database.loadProjects()
-        ).edit(project.withGallery(null), false, true, false, 'immediate');
+        ).edit(
+            this.latest(project).withGallery(null),
+            false,
+            true,
+            false,
+            'immediate',
+        );
     }
 
     /**

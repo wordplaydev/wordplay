@@ -1260,8 +1260,15 @@ export default class Evaluator {
                 const name = nameValue.text;
                 // Convert the value to text
                 const valueText = value.toWordplay();
+                // Write into the version being edited, not the one this
+                // evaluator started from: it keeps running while its creator
+                // types, and revising from its own project put the code back
+                // to what it was before they did.
+                const latest =
+                    Projects.getHistory(this.project.getID())?.getCurrent() ??
+                    this.project;
                 // See if there's an existing source with this name.
-                const current = this.project.getSourceWithName(name);
+                const current = latest.getSourceWithName(name);
                 // If the name is empty, exception
                 if (name.length === 0) {
                     // Override the final value to a limit exception.
@@ -1280,11 +1287,11 @@ export default class Evaluator {
                     // Revise the project with the new or overwritten source.
                     const result = await Projects.reviseProject(
                         current
-                            ? this.project.withSource(
+                            ? latest.withSource(
                                   current,
                                   current.withCode(valueText),
                               )
-                            : this.project.withNewSource(name, valueText),
+                            : latest.withNewSource(name, valueText),
                         true,
                         true,
                     );

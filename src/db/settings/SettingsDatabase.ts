@@ -144,9 +144,8 @@ export type SettingsSchemaV4 = Omit<SettingsSchemaV3, 'v' | 'tutorial'> & {
  * halves across a synced field and a device-local one would show a creator
  * their projects filed into folders that don't exist on that device.
  *
- * The document this becomes is overwritten wholesale by uploadSettings, so
- * anything added here has to be read in syncUser and written in toObject in
- * the same change, or the next write of any other setting silently drops it.
+ * Anything added here has to be read in syncUser (applyCloud) and written in
+ * toObject in the same change, or it never reaches another device.
  */
 export type SettingsSchemaV5 = Omit<SettingsSchemaV4, 'v'> & {
     v: 5;
@@ -329,6 +328,9 @@ function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
 }
 
 /** Enscapsulates settings stored in localStorage. */
+/** How long to wait before reading the creator document again after a failure. */
+const SETTINGS_RETRY_MS = 30_000;
+
 export default class SettingsDatabase {
     readonly database: Database;
 
@@ -384,6 +386,51 @@ export default class SettingsDatabase {
         chatThreads: ChatThreadsSetting,
     };
 
+    /**
+     * The creator document as the cloud last had it, as far as this device
+     * knows: `undefined` until it has been read, `null` when there is none yet.
+     *
+     * An upload sends only the settings that differ from it. The document used
+     * to be replaced whole by whichever device changed a setting last, so a
+     * device that had been open since morning erased the folders made on
+     * another that afternoon just by marking a chat read. And until it has
+     * been read nothing is sent at all, since what this device holds then is
+     * defaults.
+     */
+    private cloud: Record<string, unknown> | null | undefined = undefined;
+
+    /** Each setting's value when the read of the cloud's copy began, while
+     *  that copy is being applied. */
+    private before: Map<unknown, string> | undefined = undefined;
+
+    /** True while the cloud's values are being copied in, each of which is a
+     *  settings change that would otherwise upload the ones not yet copied. */
+    private applying = false;
+
+    /** What an upload should send now, or nothing if it should not happen. */
+    getUpload():
+        | { whole: SettingsSchema }
+        | { fields: Record<string, unknown> }
+        | undefined {
+        if (this.cloud === undefined || this.applying) return undefined;
+        const whole = this.toObject();
+        const cloud = this.cloud;
+        if (cloud === null) return { whole };
+        return {
+            fields: Object.fromEntries(
+                Object.entries(whole).filter(
+                    ([key, value]) =>
+                        JSON.stringify(value) !== JSON.stringify(cloud[key]),
+                ),
+            ),
+        };
+    }
+
+    /** Note that these settings reached the cloud. */
+    confirmUpload(sent: Record<string, unknown>) {
+        this.cloud = { ...this.cloud, ...sent };
+    }
+
     constructor(database: Database, locales: SupportedLocale[]) {
         this.database = database;
 
@@ -424,9 +471,22 @@ export default class SettingsDatabase {
     }
 
     async syncUser() {
+        // Whoever was signed in before, their document is not this one.
+        this.cloud = undefined;
         if (firestore === undefined) return;
         const user = this.database.getUser();
         if (user === null) return;
+
+        // What each setting is as the read begins. One changed while it is in
+        // flight is this person's latest word, so the cloud's value must not
+        // replace it: nothing is uploaded until the read is back, and without
+        // this a folder opened in that moment snapped shut again.
+        const before = new Map<unknown, string>(
+            Object.values(this.settings).map((setting) => [
+                setting,
+                JSON.stringify(setting.get()),
+            ]),
+        );
 
         // Get the config from the database. Wrap in read() so an unreachable
         // backend fails fast (and feeds the connection state, which reports
@@ -439,9 +499,33 @@ export default class SettingsDatabase {
             );
         } catch (err) {
             this.database.reportLoadFailure(err);
+            // Try again shortly, for as long as the same person is signed in:
+            // until this read succeeds no setting they change is uploaded.
+            setTimeout(() => {
+                if (this.database.getUser()?.uid === user.uid)
+                    void this.syncUser();
+            }, SETTINGS_RETRY_MS);
             return;
         }
+        // Someone else signed in while this was being read.
+        if (this.database.getUser()?.uid !== user.uid) return;
         const stored = config.data();
+        this.cloud = stored === undefined ? null : { ...stored };
+        this.applying = true;
+        this.before = before;
+        try {
+            this.applyCloud(stored);
+        } finally {
+            this.applying = false;
+            this.before = undefined;
+        }
+        // Send whatever this device has that the cloud lacks: a newer schema
+        // version, or a setting changed while the read was in flight.
+        this.database.uploadSettings();
+    }
+
+    /** Copy the creator document's values into memory and the local store. */
+    private applyCloud(stored: unknown) {
         if (isSettingsDocument(stored)) {
             const data = upgradeSettings(stored);
             // Copy each key/value pair from the database to memory and the local store.
@@ -495,6 +579,12 @@ export default class SettingsDatabase {
      *  validator accepts it, exactly as a value read from local storage is;
      *  the document names its version, and its fields are checked here. */
     private setValidated<Type>(setting: Setting<Type>, value: unknown) {
+        // Changed here while the cloud's copy was being read: keep it.
+        if (
+            this.before !== undefined &&
+            this.before.get(setting) !== JSON.stringify(setting.get())
+        )
+            return;
         const valid = setting.validator(value);
         if (valid !== undefined) setting.set(this.database, valid);
     }
