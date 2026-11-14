@@ -413,9 +413,16 @@
                                         changed={handleRename}
                                     />
                                 {:else}
-                                    <LocalizedText
-                                        path={(l) => l.glossary.editor.word}
-                                    />
+                                    <!-- A split halves the tile, so the word yields its room to the
+                                         toolbar's language chooser; screen readers still hear it. -->
+                                    <span
+                                        class:visually-hidden={layout.isSplit(
+                                            tile,
+                                        )}
+                                        ><LocalizedText
+                                            path={(l) => l.glossary.editor.word}
+                                        /></span
+                                    >
                                 {/if}
                             {:else}
                                 <Emoji
