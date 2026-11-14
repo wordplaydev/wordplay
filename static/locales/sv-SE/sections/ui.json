@@ -1253,7 +1253,7 @@
             "tour": {
                 "launch": "$~ta en rundtur med guiden",
                 "guide": "$~/guiden/ innehåller *dokumentation* för alla @wordplay:s begrepp och *förmågor* i *programmeringsspråket*.",
-                "mode": "$~Använd denna /toggle/ för att själv växla mellan *kod*- och *instruktioner*-avsnitten.",
+                "mode": "$~Använd denna /växlaren/ för att själv växla mellan *kod*- och *instruktioner*-avsnitten.",
                 "search": "$~Sökrutan är användbar för att *upptäcka* funktioner, eller för att snabbt hitta en *med namn*.",
                 "code": "$~Detta är /kod/-avsnittet. Det innehåller dokumentation för *programmeringsspråk* — byggstenarna du kan kombinera för att skapa program.",
                 "howto": "$~Detta är avsnittet /hur-gör-det-själv/. Det innehåller *användbara mönster* för att uppnå specifika beteenden i dina projekt."
@@ -2314,7 +2314,7 @@
             "unwritten": "$~TBD",
             "unparsable": "$~Oparserbar mall: $template",
             "machineTranslated": "$~Detta är maskinöversatt, så det kanske inte är läsbart eller korrekt.",
-            "locallyRevised": "$~Denna text har reviderats lokalt och skiljer sig från den officiella översättningen."
+            "locallyRevised": "$~Du har redigerat detta. Din ändring sparas på den här enheten tills du skickar in den från lokaliseringsarbetsytan."
         },
         "howto": {
             "galleryView": {
@@ -2639,7 +2639,7 @@
             },
             "button": {
                 "edit": "$~Föreslå en redigering av den här texten",
-                "submit": "$~Skicka in föreslagen redigering",
+                "submit": "$~Spara den här ändringen på den här enheten",
                 "cancel": "$~Ignorera föreslagen redigering",
                 "revert": "$~Återgå till officiell text",
                 "editTip": "$~Föreslå en redigering av den här kontrollens verktygstips",
@@ -2725,6 +2725,14 @@
                 "conceptName": "$~Dokumentationen definierar redan detta ord, så en länk till det skulle gå dit istället.",
                 "alreadyUsed": "$~Detta är redan en form av $term, så det skulle vara otydligt vilken term du menade.",
                 "searchOnly": "$~En länk slutar vid ett mellanslag eller en symbol, så denna form hjälper bara vid sökning."
+            },
+            "drafts": "$~Dina ändringar sparas på den här enheten. När du är redo skickar du in dem från lokaliseringsarbetsytan så att alla kan se dem.",
+            "save": {
+                "saved": "$~Sparad på den här enheten",
+                "reverted": "$~Den officiella texten är återställd",
+                "failed": "$~Ändringen kunde inte sparas. Försök igen.",
+                "savedAnnouncement": "$~Sparad på den här enheten: $text",
+                "revertedAnnouncement": "$~Den officiella texten är återställd: $text"
             }
         },
         "tour": {

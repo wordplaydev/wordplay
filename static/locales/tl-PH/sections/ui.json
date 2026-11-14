@@ -2553,7 +2553,7 @@
             },
             "button": {
                 "edit": "$~Magmungkahi ng pag-edit sa tekstong ito",
-                "submit": "$~Isumite ang iminungkahing pag-edit",
+                "submit": "$~I-save ang pagbabagong ito sa device na ito",
                 "cancel": "$~Itapon ang iminungkahing pag-edit",
                 "revert": "$~Ibalik sa opisyal na teksto",
                 "editTip": "$~Magmungkahi ng pag-edit sa tooltip ng kontrol na ito",
@@ -2638,6 +2638,14 @@
                 "conceptName": "$~Naipaliwanag na ng dokumentasyon ang salitang ito, kaya ang link dito ay dun na magtutungo.",
                 "alreadyUsed": "$~Ito ay isa na sa mga paraan ng pagsulat ng $term, kaya hindi magiging malinaw kung aling termino ang ibig mong sabihin.",
                 "searchOnly": "$~Natatapos ang link sa isang espasyo o simbolo, kaya ang paraan ng pagsulat na ito ay makakatulong lang sa paghahanap."
+            },
+            "drafts": "$~Naka-save sa device na ito ang iyong mga pagbabago. Kapag handa ka na, isumite ang mga ito mula sa workspace ng lokalisasyon para makita ng lahat.",
+            "save": {
+                "saved": "$~Naka-save sa device na ito",
+                "reverted": "$~Naibalik ang opisyal na teksto",
+                "failed": "$~Hindi na-save ang pagbabagong ito. Subukan ulit.",
+                "savedAnnouncement": "$~Naka-save sa device na ito: $text",
+                "revertedAnnouncement": "$~Naibalik ang opisyal na teksto: $text"
             }
         },
         "edit": {
@@ -2674,7 +2682,7 @@
             "unwritten": "$~Ipapaalam na",
             "unparsable": "$~Hindi mapaparadang template: $template",
             "machineTranslated": "$~Ito ay isinalin gamit ang makina, kaya maaaring hindi ito mabasa o hindi tama.",
-            "locallyRevised": "$~Ang tekstong ito ay binago nang lokal at naiiba sa opisyal na salin."
+            "locallyRevised": "$~Binago mo ito. Naka-save sa device na ito ang iyong pagbabago hanggang isumite mo ito mula sa workspace ng lokalisasyon."
         },
         "emoji": {
             "noCharacters": "$~Gumawa ng pasadyang karakter",

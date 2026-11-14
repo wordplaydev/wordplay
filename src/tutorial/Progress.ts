@@ -13,6 +13,7 @@ import {
     type Scene,
 } from './Tutorial';
 import { last, must } from '#util/nullable.ts';
+import { localeToString } from '#locale/Locale.ts';
 import type { AppPath } from '#util/appPath.ts';
 
 /**
@@ -75,7 +76,7 @@ export default class Progress {
     }
 
     getLocale() {
-        return `${this.tutorial.language}${this.tutorial.regions.map((r) => `-${r}`).join('')}`;
+        return localeToString(this.tutorial);
     }
 
     getAct(): Act | undefined {

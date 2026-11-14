@@ -85,6 +85,7 @@
         </span>
     </div>
     <MarkupHTMLView markup={(l) => l.ui.localize.description} />
+    <MarkupHTMLView markup={(l) => l.ui.localize.drafts} />
     <div class="guidance">
         <div class="guidance-toggle">
             <Switch

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import type LocaleText from '../../src/locale/LocaleText';
 import { expect, test } from '../../playwright/fixtures';
-import { editPersisted } from '../helpers/localize';
+import { editPersisted, localizeOff } from '../helpers/localize';
 
 /**
  * A glossary term's other written forms are that locale's own — the plurals,
@@ -190,8 +190,30 @@ test('an edit made on the guide’s glossary reaches the submission bundle', asy
     // started before it commits drops the edit.
     await editPersisted(page, 'glossary.abstraction.word');
 
+    // A save says it saved, to the eye and to a screen reader: without that, contributors
+    // went looking for a save button and found the project's (#1495).
+    await expect(entry).toContainText(text(enUS.ui.localize.save.saved));
+    await expect(page.locator('.announcements.paced')).toContainText(
+        'abstraction (revised)',
+    );
+
+    // Localization mode is remembered across a reload, so the draft is still on screen
+    // rather than looking lost (#1495).
+    await page.reload();
+    await expect(
+        page.getByRole('button', {
+            name: text(enUS.ui.localize.toggle.mode.on),
+        }),
+    ).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('.entry').first().locator('h3')).toContainText(
+        'abstraction (revised)',
+    );
+
     // The workspace is where every edit is reviewed and submitted, wherever it
     // was made, so this one is queued there under its own locale path.
+    // Leave localization mode first: it is remembered now, and in it every tab label is
+    // an edit button, so the tab below couldn't be chosen.
+    await localizeOff(page);
     await page.goto('/en-US/localize');
     await page.getByRole('tab', { name: tabLabel(enUS, 4) }).click();
     await expect(page.locator('.bundle-key')).toHaveText(

@@ -17,9 +17,9 @@
     import TextField from '#components/widgets/TextField.svelte';
     import { locales } from '#db/Database.ts';
     import {
-        deleteLocaleEdit,
+        commitLocaleEdit,
         localeEdits,
-        saveLocaleEdit,
+        type LocaleEditResult,
     } from '#db/locales/LocalizationDexie.ts';
     import type LocaleText from '#locale/LocaleText.ts';
     import {
@@ -211,11 +211,25 @@
         fieldView?.focus();
     }
 
-    function commitEdit(text: string) {
+    /** What became of the last edit, shown and announced beside the field. */
+    let lastResult = $state<LocaleEditResult | undefined>(undefined);
+
+    async function commitEdit(text: string) {
         if (storageKey === undefined) return;
-        if (text === withoutAnnotationsText)
-            deleteLocaleEdit(activeLocaleString, storageKey);
-        else saveLocaleEdit(activeLocaleString, storageKey, text);
+        const result = await commitLocaleEdit(
+            activeLocaleString,
+            storageKey,
+            text,
+            withoutAnnotationsText,
+            override,
+        );
+        if (result === undefined) return;
+        lastResult = result;
+        // A failed save keeps the draft open, rather than closing as though it had saved.
+        if (result.kind === 'failed') {
+            editedText = text;
+            editing = true;
+        }
     }
 
     function handleKeydown(e: KeyboardEvent) {
@@ -228,6 +242,11 @@
         }
     }
 </script>
+
+<!-- Loaded only once something has been saved, so no page carries it until then. -->
+{#snippet status()}{#if lastResult}{#await import('#components/localization/LocaleEditStatus.svelte') then { default: LocaleEditStatus }}<LocaleEditStatus
+                result={lastResult}
+            />{/await}{/if}{/snippet}
 
 {#snippet editor()}
     <TextField
@@ -266,8 +285,7 @@
         >{#if override}<Button
                 tip={(l) => l.ui.localize.button.revert}
                 action={() => {
-                    if (storageKey !== undefined)
-                        deleteLocaleEdit(activeLocaleString, storageKey);
+                    commitEdit(withoutAnnotationsText);
                     cancelled = true;
                     fieldView?.blur();
                 }}
@@ -292,6 +310,7 @@
                 size="inherit">{EDIT_SYMBOL}</Button
             >
         {/if}
+        {@render status()}
     {/if}
 {:else if linkLocalize !== undefined}
     <!-- Inside a Link: render plain text only. The parent Link renders the
@@ -328,6 +347,7 @@
                     />{/if}</Button
             >
         {/if}
+        {@render status()}
     </span>
 {:else}
     <span class="localized" lang={shownLanguage?.lang} dir={shownLanguage?.dir}

@@ -36,7 +36,7 @@
         scrollDuration,
         scrollPosition,
     } from '#components/app/scrollKeys.ts';
-    import { animationFactor } from '#db/Database.ts';
+    import { animationFactor, Settings as SettingsDB } from '#db/Database.ts';
     import { localeGoto } from '#util/localeGoto.ts';
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
@@ -414,7 +414,10 @@
                     <Toggle
                         on={localizing.on}
                         tips={(l) => l.ui.localize.toggle.mode}
-                        toggle={() => (localizing.on = !localizing.on)}
+                        toggle={() => {
+                            localizing.on = !localizing.on;
+                            SettingsDB.setLocalizing(localizing.on);
+                        }}
                         highlight={page.route.id?.endsWith('/localize') ===
                             true && !localizing.on}>✎</Toggle
                     >

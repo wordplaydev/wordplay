@@ -2552,7 +2552,7 @@
             "button": {
                 "edit": "$~Sarankan pengeditan pada teks ini",
                 "editTip": "$~Sarankan pengeditan pada tooltip kontrol ini.",
-                "submit": "$~Kirim saran pengeditan",
+                "submit": "$~Simpan suntingan ini di perangkat ini",
                 "cancel": "$~Abaikan saran pengeditan.",
                 "revert": "$~Kembali ke teks resmi",
                 "prev": "$~Edit item sebelumnya",
@@ -2636,6 +2636,14 @@
                 "conceptName": "$~Dokumentasi sudah menjelaskan kata ini, jadi tautan ke kata ini akan mengarah ke sana.",
                 "alreadyUsed": "$~Ini sudah menjadi salah satu bentuk dari $term, jadi tidak akan jelas istilah mana yang kamu maksud.",
                 "searchOnly": "$~Tautan berakhir pada spasi atau simbol, jadi bentuk ini hanya akan membantu pencarian."
+            },
+            "drafts": "$~Suntinganmu disimpan di perangkat ini. Kalau sudah siap, kirim dari ruang kerja lokalisasi supaya semua orang bisa melihatnya.",
+            "save": {
+                "saved": "$~Disimpan di perangkat ini",
+                "reverted": "$~Teks resmi dikembalikan",
+                "failed": "$~Suntingan ini tidak bisa disimpan. Coba lagi.",
+                "savedAnnouncement": "$~Disimpan di perangkat ini: $text",
+                "revertedAnnouncement": "$~Teks resmi dikembalikan: $text"
             }
         },
         "edit": {
@@ -2672,7 +2680,7 @@
             "unwritten": "$~Akan ditentukan kemudian",
             "unparsable": "$~Templat yang tidak dapat diuraikan: $template",
             "machineTranslated": "$~Ini adalah terjemahan mesin, jadi mungkin tidak mudah dibaca atau tidak akurat.",
-            "locallyRevised": "$~Teks ini telah direvisi secara lokal dan berbeda dari terjemahan resmi."
+            "locallyRevised": "$~Kamu menyunting ini. Suntinganmu disimpan di perangkat ini sampai kamu mengirimnya dari ruang kerja lokalisasi."
         },
         "emoji": {
             "noCharacters": "$~Buat karakter kustom",

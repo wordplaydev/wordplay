@@ -35,10 +35,10 @@ export async function settled(page: Page) {
 }
 
 /**
- * Localization mode is per page load. Returns once the mode is on.
+ * Turn localization mode on. Returns once the mode is on.
  *
- * Idempotent: these specs share an authenticated account, so the mode may already be on from
- * a sibling test and clicking again would turn it off. Waits for the toggle in either state
+ * Idempotent: the mode is remembered on the device, so it may already be on from earlier in
+ * the test, and clicking again would turn it off. Waits for the toggle in either state
  * first — `count()` doesn't wait, so asking before the footer renders reads zero and skips
  * the click.
  */

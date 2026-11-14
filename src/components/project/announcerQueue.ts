@@ -129,6 +129,9 @@ const Lanes = {
     /** A discrete result in the character editor — a point added, a segment
      *  straightened, an edit undone. Never dropped, since each is its own event. */
     'character-edit': 'queued',
+    /** A localization edit saved on this device or removed, naming the text, so two saves in a
+     *  row differ. A failed save goes on `ignored` instead, which re-presents identical text. */
+    'locale-edit': 'queued',
     /** What a discrete edit in the code editor did — a menu choice, a paste, a
      *  drop, a keyboard move, an undo — named by what it inserted, removed or
      *  moved and where. Each is its own event, so none may be dropped; each

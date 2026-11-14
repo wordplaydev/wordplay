@@ -54,3 +54,15 @@ test('the hash is stable and changes with the program', () => {
         hashPerformance({ fix: 'Music(Track([1 3 5]))' }),
     );
 });
+
+/** A tutorial in a script-variant locale names its script, or its link asks for the
+ *  language's dominant script instead: Roman Urdu became `ur-PK` (#1495). */
+test('a tutorial link keeps the locale’s script', () => {
+    const urdu = new Progress(
+        { ...tutorial, language: 'ur', script: 'Latn', regions: ['PK'] },
+        1,
+        1,
+        0,
+    );
+    expect(urdu.getURL()).toContain('locale=ur-Latn-PK&');
+});

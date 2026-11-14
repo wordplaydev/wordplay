@@ -20,9 +20,9 @@
         locales,
     } from '#db/Database.ts';
     import {
-        deleteLocaleEdit,
+        commitLocaleEdit,
         localeEdits,
-        saveLocaleEdit,
+        type LocaleEditResult,
     } from '#db/locales/LocalizationDexie.ts';
     import type Locales from '#locale/Locales.ts';
     import type {
@@ -442,13 +442,29 @@
         editing = false;
     }
 
-    function confirmEditing() {
-        if (storageKey !== undefined) {
-            if (editedText === rawText)
-                deleteLocaleEdit(activeLocaleString, storageKey);
-            else saveLocaleEdit(activeLocaleString, storageKey, editedText);
+    /** What became of the last edit, shown and announced beside the markup. */
+    let lastResult = $state<LocaleEditResult | undefined>(undefined);
+
+    /** Save the draft, or restore the official text when `text` is it, and keep the editor
+     *  open if the save failed, rather than closing as though it had worked. */
+    async function commit(text: string) {
+        if (storageKey === undefined) {
+            editing = false;
+            return;
         }
-        editing = false;
+        const result = await commitLocaleEdit(
+            activeLocaleString,
+            storageKey,
+            text,
+            rawText,
+            override,
+        );
+        if (result !== undefined) lastResult = result;
+        editing = result?.kind === 'failed';
+    }
+
+    function confirmEditing() {
+        commit(editedText);
     }
 
     /** Names of concept links found in the current draft that don't resolve in the
@@ -577,14 +593,7 @@
                 >
                 {#if override}<Button
                         tip={(l) => l.ui.localize.button.revert}
-                        action={() => {
-                            if (storageKey !== undefined)
-                                deleteLocaleEdit(
-                                    activeLocaleString,
-                                    storageKey,
-                                );
-                            cancelEditing();
-                        }}
+                        action={() => commit(rawText)}
                         background>{REVERT_SYMBOL}</Button
                     >{/if}
             </div>
@@ -621,6 +630,10 @@
                 ></span
             >
         {/if}
+        <!-- Loaded only once something has been saved, so no page carries it until then. -->
+        {#if lastResult}{#await import('#components/localization/LocaleEditStatus.svelte') then { default: LocaleEditStatus }}<LocaleEditStatus
+                    result={lastResult}
+                />{/await}{/if}
     </span>
 {:else if spaces}
     {#if inline}

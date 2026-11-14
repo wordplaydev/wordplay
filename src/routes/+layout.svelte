@@ -87,6 +87,11 @@
     setAnnouncer(announcerStore);
 
     setLocalizing(localizing);
+    // Remembered per device, so a reload keeps a contributor's drafts on screen (#1495). Read
+    // after mount: settings live in localStorage, and the server renders the mode off.
+    onMount(() => {
+        if (Settings.getLocalizing()) localizing.on = true;
+    });
 
     /** Keep the page's language and direction up to date. */
     $effect(() => {

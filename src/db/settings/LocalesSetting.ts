@@ -20,3 +20,12 @@ export const LocalesSetting = new Setting<SupportedLocale[]>(
         current.length === value.length &&
         current.every((locale, index) => value[index] === locale),
 );
+
+/** Whether localization mode is on, kept per device so a reload keeps drafts on screen (#1495). */
+export const LocalizingSetting = new Setting<boolean>(
+    'localizing',
+    true,
+    false,
+    (value) => (typeof value === 'boolean' ? value : false),
+    (current, value) => current === value,
+);

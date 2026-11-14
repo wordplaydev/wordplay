@@ -15,11 +15,10 @@ import { registerDateTimeData } from '#locale/dateTimeData.ts';
 import DefaultLocale from '#locale/DefaultLocale.ts';
 import DefaultLocales from '#locale/DefaultLocales.ts';
 import type LanguageCode from '#locale/LanguageCode.ts';
-import { localeToString } from '#locale/Locale.ts';
+import { type Locale, localeToString } from '#locale/Locale.ts';
 import Locales from '#locale/Locales.ts';
 import type LocaleText from '#locale/LocaleText.ts';
 import { isLocaleText } from '#locale/isLocaleText.ts';
-import type { RegionCode } from '#locale/Regions.ts';
 import {
     SupportedLocales,
     type SupportedLocale,
@@ -539,13 +538,14 @@ export default class LocalesDatabase {
     }
 
     async getTutorial(
-        language: LanguageCode,
-        regions: RegionCode[],
+        locale: Locale,
         mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
         /** Bypass and refresh the cache; used by tutorial-file hot reloading in dev. */
         refresh = false,
     ): Promise<Tutorial | undefined> {
-        const localeString = `${language}${regions.map((r) => `-${r}`).join('')}`;
+        // The file is named by the whole locale, script included: built from language and
+        // regions alone, Roman Urdu asked for `ur-PK`, found nothing, and fell back to English.
+        const localeString = localeToString(locale);
         const cacheKey = `${localeString}:${mode}`;
 
         if (!refresh && cacheKey in this.tutorialsLoaded)

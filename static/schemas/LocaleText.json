@@ -22127,6 +22127,10 @@
                                     "$ref": "#/definitions/FormattedText",
                                     "description": "[formatted] An explanation of the localization editor"
                                 },
+                                "drafts": {
+                                    "$ref": "#/definitions/FormattedText",
+                                    "description": "[formatted] Says that edits are kept on this device until they are submitted from the localization workspace"
+                                },
                                 "emotion": {
                                     "description": "[plain] The ARIA label for the emotion dropdown",
                                     "type": "string"
@@ -22335,6 +22339,40 @@
                                     "description": "[plain] Label for the English reference text shown when an editor is focused",
                                     "type": "string"
                                 },
+                                "save": {
+                                    "additionalProperties": false,
+                                    "description": "Feedback after a localization edit is saved, removed, or fails to save",
+                                    "properties": {
+                                        "failed": {
+                                            "description": "[plain] Shown beside a field when its edit could not be saved",
+                                            "type": "string"
+                                        },
+                                        "reverted": {
+                                            "description": "[plain] Shown beside a field after its edit is removed and the official text is back",
+                                            "type": "string"
+                                        },
+                                        "revertedAnnouncement": {
+                                            "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
+                                            "description": "[plain] Announced after an edit is removed, naming the text that is back"
+                                        },
+                                        "saved": {
+                                            "description": "[plain] Shown beside a field after its edit is saved on this device",
+                                            "type": "string"
+                                        },
+                                        "savedAnnouncement": {
+                                            "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
+                                            "description": "[plain] Announced after an edit is saved, naming the saved text"
+                                        }
+                                    },
+                                    "required": [
+                                        "saved",
+                                        "reverted",
+                                        "failed",
+                                        "savedAnnouncement",
+                                        "revertedAnnouncement"
+                                    ],
+                                    "type": "object"
+                                },
                                 "strings": {
                                     "description": "[plain] The ARIA label for the dropdown that lists all locale strings available to review and edit",
                                     "type": "string"
@@ -22419,6 +22457,8 @@
                                 "terms",
                                 "glossary",
                                 "description",
+                                "drafts",
+                                "save",
                                 "toggle",
                                 "button",
                                 "field",

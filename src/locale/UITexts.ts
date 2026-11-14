@@ -2866,6 +2866,21 @@ type UITexts = {
         };
         /** [formatted] An explanation of the localization editor */
         description: FormattedText;
+        /** [formatted] Says that edits are kept on this device until they are submitted from the localization workspace */
+        drafts: FormattedText;
+        /** Feedback after a localization edit is saved, removed, or fails to save */
+        save: {
+            /** [plain] Shown beside a field after its edit is saved on this device */
+            saved: string;
+            /** [plain] Shown beside a field after its edit is removed and the official text is back */
+            reverted: string;
+            /** [plain] Shown beside a field when its edit could not be saved */
+            failed: string;
+            /** [plain] Announced after an edit is saved, naming the saved text */
+            savedAnnouncement: Template<['text']>;
+            /** [plain] Announced after an edit is removed, naming the text that is back */
+            revertedAnnouncement: Template<['text']>;
+        };
         toggle: {
             /** The on/off switch for the localization editor */
             mode: ToggleText;

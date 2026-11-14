@@ -1248,7 +1248,7 @@
             "tour": {
                 "launch": "$~Rehbere bir göz atın.",
                 "guide": "$~/guide/ klasörü, @wordplay'in tüm *programlama dili* kavramları ve *özellikleri* için *belgeler* içermektedir.",
-                "mode": "$~Bu /toggle/ özelliğini kullanarak *kod* ve *nasıl yapılır* bölümleri arasında kendiniz geçiş yapabilirsiniz.",
+                "mode": "$~Bu /anahtar/ özelliğini kullanarak *kod* ve *nasıl yapılır* bölümleri arasında kendiniz geçiş yapabilirsiniz.",
                 "search": "$~/Arama/ kutusu, özellikleri *keşfetmek* veya bir özelliği *ismiyle* hızlıca bulmak için faydalıdır.",
                 "code": "$~Bu, /kod/ bölümüdür. Programlama dili belgelerini içerir; yani programlar oluşturmak için birleştirebileceğiniz yapı taşlarını.",
                 "howto": "$~Bu, \"nasıl yapılır\" bölümüdür. Projelerinizde belirli davranışları elde etmek için *yararlı kalıplar* içerir."
@@ -2312,7 +2312,7 @@
             "unwritten": "$~Belirsiz",
             "unparsable": "$~Ayrıştırılamayan şablon: $template",
             "machineTranslated": "$~Bu metin makine çevirisiyle oluşturulmuştur, bu nedenle okunabilir veya doğru olmayabilir.",
-            "locallyRevised": "$~Bu metin yerel olarak gözden geçirilmiştir ve resmi çeviriden farklıdır."
+            "locallyRevised": "$~Bunu sen düzenledin. Düzenlemen, yerelleştirme çalışma alanından gönderene kadar bu cihazda kayıtlı kalır."
         },
         "howto": {
             "galleryView": {
@@ -2637,7 +2637,7 @@
             },
             "button": {
                 "edit": "$~Bu metne bir düzenleme önerin.",
-                "submit": "$~Önerilen düzenlemeyi gönder",
+                "submit": "$~Bu düzenlemeyi bu cihaza kaydet",
                 "cancel": "$~Önerilen düzenlemeyi iptal et",
                 "revert": "$~Resmi metne geri dön",
                 "editTip": "$~Bu denetimin ipucu metnine bir düzenleme önerin.",
@@ -2723,6 +2723,14 @@
                 "conceptName": "$~Dokümantasyon bu kelimeyi zaten tanımlıyor, bu yüzden ona verilecek bir bağlantı oraya gider.",
                 "alreadyUsed": "$~Bu, $term'in zaten bir biçimi, bu yüzden hangi terimi kastettiğin belirsiz olur.",
                 "searchOnly": "$~Bir bağlantı bir boşlukta veya sembolde sona erer, bu yüzden bu biçim sadece arama yaparken işe yarar."
+            },
+            "drafts": "$~Düzenlemelerin bu cihaza kaydedildi. Hazır olduğunda, herkes görebilsin diye onları yerelleştirme çalışma alanından gönder.",
+            "save": {
+                "saved": "$~Bu cihaza kaydedildi",
+                "reverted": "$~Resmi metin geri yüklendi",
+                "failed": "$~Bu düzenleme kaydedilemedi. Tekrar dene.",
+                "savedAnnouncement": "$~Bu cihaza kaydedildi: $text",
+                "revertedAnnouncement": "$~Resmi metin geri yüklendi: $text"
             }
         },
         "tour": {

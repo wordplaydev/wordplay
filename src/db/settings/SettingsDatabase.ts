@@ -64,7 +64,10 @@ import {
     ContactCuesSetting,
     CuesSetting,
 } from '#db/settings/CuesSetting.ts';
-import { LocalesSetting } from '#db/settings/LocalesSetting.ts';
+import {
+    LocalesSetting,
+    LocalizingSetting,
+} from '#db/settings/LocalesSetting.ts';
 import { MicSetting } from '#db/settings/MicSetting.ts';
 import type { MusicVisualization } from '#db/settings/MusicSettings.ts';
 import {
@@ -353,6 +356,7 @@ export default class SettingsDatabase {
         chatLanguage: ChatLanguageSetting,
         mic: MicSetting,
         blocks: BlocksSetting,
+        localizing: LocalizingSetting,
         words: WordsSetting,
         blockDensity: BlockDensitySetting,
         dark: DarkSetting,
@@ -1089,6 +1093,14 @@ export default class SettingsDatabase {
 
     getBlocks() {
         return this.settings.blocks.get();
+    }
+
+    setLocalizing(on: boolean) {
+        this.settings.localizing.set(this.database, on);
+    }
+
+    getLocalizing() {
+        return this.settings.localizing.get();
     }
 
     setWords(on: boolean) {

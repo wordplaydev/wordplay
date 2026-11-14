@@ -1,10 +1,6 @@
 <script lang="ts">
     import { Faces, getFaceDescription } from '#basis/faces/Fonts.ts';
-    import {
-        getLocalizing,
-        getUser,
-        isAuthenticated,
-    } from '#components/project/Contexts.ts';
+    import { getLocalizing, getUser } from '#components/project/Contexts.ts';
     import Subheader from '#components/app/Subheader.svelte';
     import {
         LayoutIcons,
@@ -182,9 +178,14 @@
 
     // Force localizing mode off whenever the visitor is signed out, so badges
     // and inline editors disappear on sign-out and don't reappear for an
-    // anonymous session that has no way to submit edits.
+    // anonymous session that has no way to submit edits. Only a known sign-out
+    // (null): while the user is still unknown, as on every reload, turning the
+    // mode off would forget it (#1495).
     $effect(() => {
-        if (!isAuthenticated($user) && localizing.on) localizing.on = false;
+        if ($user === null && localizing.on) {
+            localizing.on = false;
+            Settings.setLocalizing(false);
+        }
     });
 
     /** The season setting's choices, in the order of its mode's labels. */

@@ -2163,7 +2163,7 @@
             "unwritten": "Por determinar",
             "unparsable": "Plantilla no analizable: $template",
             "machineTranslated": "$~Esto se tradujo con una máquina, así que puede que no se lea bien o no sea correcto.",
-            "locallyRevised": "$~Este texto se revisó de forma local y es diferente de la traducción oficial."
+            "locallyRevised": "$~Editaste esto. Tu edición se guarda en este dispositivo hasta que la envíes desde el espacio de localización."
         },
         "collaborate": {
             "label": "$~colaborar",
@@ -2648,7 +2648,7 @@
             },
             "button": {
                 "edit": "$~sugerir un cambio a este texto",
-                "submit": "$~enviar el cambio sugerido",
+                "submit": "$~guardar esta edición en este dispositivo",
                 "cancel": "$~descartar el cambio sugerido",
                 "revert": "$~volver al texto oficial",
                 "editTip": "$~sugerir un cambio a la ayuda de este control",
@@ -2734,6 +2734,14 @@
                 "conceptName": "$~La documentación ya define esta palabra, así que un enlace a ella iría ahí en su lugar.",
                 "alreadyUsed": "$~Esta ya es una forma de $term, así que no quedaría claro a qué término te refieres.",
                 "searchOnly": "$~Un enlace termina en un espacio o un símbolo, así que esta forma solo ayudará en las búsquedas."
+            },
+            "drafts": "$~Tus ediciones se guardan en este dispositivo. Cuando estés listo, envíalas desde el espacio de localización para que todas las personas puedan verlas.",
+            "save": {
+                "saved": "$~Guardado en este dispositivo",
+                "reverted": "$~Texto oficial restaurado",
+                "failed": "$~No se pudo guardar esta edición. Inténtalo otra vez.",
+                "savedAnnouncement": "$~Guardado en este dispositivo: $text",
+                "revertedAnnouncement": "$~Texto oficial restaurado: $text"
             }
         },
         "tour": {
