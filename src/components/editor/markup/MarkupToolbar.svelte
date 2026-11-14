@@ -64,9 +64,18 @@
     >
 {/snippet}
 
-<OverflowToolbar items={{ count: shown.length, render: renderItem }} />
+<div class="markup-toolbar">
+    <OverflowToolbar items={{ count: shown.length, render: renderItem }} />
+</div>
 
 <style>
+    /* The toolbar takes the editor's width rather than setting it. A no-wrap row of buttons
+       is as wide as its buttons, so in a box sized to its content (a tutorial bubble) it
+       stretched the editor past its column, and then measured that width as room to spare. */
+    .markup-toolbar {
+        contain: inline-size;
+    }
+
     .item {
         display: inline-flex;
         align-items: stretch;

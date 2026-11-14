@@ -13,6 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - 🌐 Localization edits now say when they're saved, stay on screen after a reload, and the Learn page shows the tutorial in Roman Urdu and Taiwanese Hokkien. (#1495)
+- ✍️ Editing a tutorial's text in localization mode now fits inside its speech bubble, so long text wraps instead of being cut off.
 - 🤝 Projects shared to a gallery no longer vanish from it when a computer with an old copy of the gallery saves it.
 - 💾 The [Projects](https://wordplay.dev/projects) page no longer shows other people's projects that were saved on the same computer.
 - 🐛 A project you have open no longer closes with an error when its gallery changes.
