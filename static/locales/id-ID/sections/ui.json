@@ -119,15 +119,15 @@
                     "off": "$~tampilkan $name"
                 },
                 "showSource": {
-                    "on": "$~sembunyikan sumber $name",
-                    "off": "$~tampilkan sumber $name"
+                    "on": "$~sembunyikan editor untuk $name",
+                    "off": "$~tampilkan editor untuk $name"
                 }
             },
             "label": {
                 "output": "$~panggung",
                 "palette": "$~palet",
                 "docs": "$~memandu",
-                "source": "$~sumber",
+                "source": "$~editor",
                 "collaborate": "$~berkolaborasi"
             },
             "button": {
@@ -159,7 +159,7 @@
                 "addSource": "$~tambah satu lagi @Source: yang kosong, atau yang dibuat dari gambar atau lagu",
                 "revert": "$~kembali ke kode asli",
                 "focusOutput": "$~fokus keyboard di atas panggung",
-                "focusSource": "$~fokus pada sumber berikutnya",
+                "focusSource": "$~pindah fokus ke editor berikutnya",
                 "focusDocs": "$~fokus pada dokumentasi",
                 "focusPalette": "$~fokus pada palet warna",
                 "focusCycle": "$~fokus pada ubin berikutnya",
@@ -272,7 +272,7 @@
                 "launch": "$~ikuti tur kontrol proyek",
                 "controls": "$~Kontrol-kontrol di bagian bawah ini berlaku untuk *proyek secara keseluruhan*, terlepas dari ubin mana yang sedang Anda kerjakan.",
                 "name": "$~Kolom /nama/ adalah nama proyekmu. Nama muncul di tampilan *proyek* dan *galeri*.",
-                "sourceToggle": "$~Tombol ini menampilkan atau menyembunyikan *file sumber*. *Tombol lainnya* pada baris ini melakukan hal yang sama untuk ubin lainnya.",
+                "sourceToggle": "$~/Sakelar/ ini menampilkan atau menyembunyikan *editor* untuk sebuah *berkas sumber*. *Sakelar lainnya* di baris ini melakukan hal yang sama untuk ubin yang lain.",
                 "addSource": "$~Beberapa proyek lebih baik memakai *banyak* sumber, di mana data disimpan di satu sumber lalu diambil ke sumber *utama*. Tombol /tambah sumber/ menawarkan beberapa cara membuatnya: berkas kosong, gambar, lagu, atau data.",
                 "share": "$~Dialog /share/ memungkinkan Anda untuk membagikan proyek Anda dengan *galeri*, dengan *publik*, atau menyalinnya sebagai *teks* untuk dibagikan di tempat lain.",
                 "checkpoints": "$~Panel /revisi/ memungkinkan Anda untuk kembali ke versi proyek sebelumnya, dan mengambil snapshot versi yang ingin Anda simpan.",
@@ -685,8 +685,6 @@
             }
         },
         "source": {
-            "label": "$~sumber",
-            "title": "$~kode",
             "empty": [
                 "$~Mari kita mulai! Anda bisa…",
                 "• Buka 📕 dan seret 🖱️ kami ke program ini.",

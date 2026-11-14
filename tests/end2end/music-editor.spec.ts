@@ -461,7 +461,7 @@ test('importing a large MIDI file finishes rather than hanging', async ({
     // reach ProjectView's `syncTiles`, which an importer revising the project on
     // its own does not — the file existed with no way into it until a reload.
     await expect(
-        page.getByRole('button', { name: /source song/ }),
+        page.getByRole('button', { name: /editor for song/ }),
         'the notes need a tile of their own',
     ).toBeVisible();
 

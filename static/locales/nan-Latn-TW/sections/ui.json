@@ -171,15 +171,15 @@
                     "off": "$~khui $name"
                 },
                 "showSource": {
-                    "on": "$~khàm-khí-lâi guân-sí-tóng $name",
-                    "off": "$~khui guân-sí-tóng $name"
+                    "on": "$~khàm-khí-lâi $name ê pian-tsi̍p-khì",
+                    "off": "$~khui $name ê pian-tsi̍p-khì"
                 }
             },
             "label": {
                 "output": "$~bú-tâi",
                 "palette": "$~tiāu-sik-pân",
                 "docs": "$~tsí-lâm",
-                "source": "$~guân-sí-tóng",
+                "source": "$~pian-tsi̍p-khì",
                 "collaborate": "$~kāng-tsò"
             },
             "button": {
@@ -217,7 +217,7 @@
                 },
                 "revert": "$~khùi tńg-khì guân-pún ê code",
                 "focusOutput": "$~kā kiān-pan tsiùⁿ-tiōng tī bú-tâi",
-                "focusSource": "$~tsiùⁿ-tiōng tī í-hā ê guân-sí-tóng",
+                "focusSource": "$~suá khì loh-tsi̍t-ê pian-tsi̍p-khì",
                 "focusDocs": "$~tsiùⁿ-tiōng tī suat-bîng bûn-kiānn",
                 "focusPalette": "$~tsiùⁿ-tiōng tī sik-tshái-pang",
                 "focusCycle": "$~tsiùⁿ-tiōng tī í-hā ê tsiah-á",
@@ -335,7 +335,7 @@
                 "launch": "$~kā tsuan-àn ê khòng-tsè-khuè kā lí kái-siūnn",
                 "controls": "$~Ē-kha chiah-ê /khòng-tsè/ sī kā *tsuân-pōo tsuan-àn* iōng--ê, bô-lūn lí tī tá-ī̍t-ê tsik-bo̍k leh tsò-khang.",
                 "name": "$~/Miâ/ chit-ê lân-uī sī lí ê tsuan-àn ê miâ. Miâ ē tī *tsuan-àn* kah *tián-lám-kuán* ê hián-sī lāi-té tshut-hiān.",
-                "sourceToggle": "$~Chit-ê /khai-kuan/ ē hián-sī a̍h-sī khàm-khì *guân-sí-tóng*. Chit-hàng ê *kî-thuh khai-kuan* mā-sī tuì kî-thuh ê tsik-bo̍k tsit-khuán tsò-huat.",
+                "sourceToggle": "$~Tsit-ê /khai-kuan/ ē-sái khui iah-sī khàm-khí-lâi *guân-sí-tóng* ê *pian-tsi̍p-khì*. Tsit-tsi̍t-lia̍p--ni̍h ê *kî-thaⁿ khai-kuan* mā-sī án-ni kóng ê, thàu-tsuè kî-thaⁿ ê khuài-á.",
                 "addSource": "$~Ū-ê tsuan-àn ē tshiūnn *tsió-kuá* guân-sí-tóng khah hó, ū tsu-liāu tī tsi̍t-ê, koh ji̍p-khì *tsú* guân-sí-tóng. /Thiam guân-sí-tóng/ ê khòng-tsè ē thê-kiōng kuí-khuán tsò-huat: khang-ê tóng-àn, siōng-phìⁿ, kua, a̍h-sī tsu-liāu.",
                 "share": "$~/Hun-hióng/ ê tuì-uē-khuh ē hōo lí kā tsuan-àn hun-hióng kàu *tián-lám-kuán*, kàu *kong-khai*, a̍h-sī khóo-pih tsò *bûn-jī*, tsiūⁿ-ê só-tsāi hun-hióng.",
                 "languages": "$~/Gí-giân/ ê khòng-tsè ē hián-sī lí ê tsuan-àn sī iōng tá-ī̍t-kuá gí-giân siá--ê, ē-tàng thiam a̍h-sī thê-tiāu tsi̍t-ê, mā ē-tàng kā lí ê tsuan-àn ê *miâ*, *bûn-jī*, hām *suat-bîng bûn-kiānn* huan-ik tsìn sin ê gí-giân.",
@@ -754,8 +754,6 @@
             "finishedPartial": "$~Lí ê tsuan-àn lín-á ē kóng $language, m̄-koh ū $#kept[$kept kù|$kept kù] iáu-sī guân-pún ê jī."
         },
         "source": {
-            "label": "$~guân-sí-tóng",
-            "title": "$~thîng-sik-bé",
             "add": {
                 "header": "$~ka thîng-sik-bé",
                 "explanation": "$~Tsit-ê tsuan-àn ē-sái ū tsit-ê í-siōng ê thîng-sik-bé tóng-àn. Lí ē-sái khai khang-khang ê lâi siá, mā ē-sái iōng tsit-tiunn tôo á-sī tsit-tsiah koa lâi khai. Lí ē-sái iōng @Borrow lâi iōng hia ê ta̍t.",

@@ -119,15 +119,15 @@
                     "off": "$~ipakita $name"
                 },
                 "showSource": {
-                    "on": "$~itago ang pinagmulan $name",
-                    "off": "$~ipakita ang pinagmulan $name"
+                    "on": "$~itago ang editor para sa $name",
+                    "off": "$~ipakita ang editor para sa $name"
                 }
             },
             "label": {
                 "output": "$~entablado",
                 "palette": "$~paleta",
                 "docs": "$~gabay",
-                "source": "$~pinagmulan",
+                "source": "$~editor",
                 "collaborate": "$~makipagtulungan"
             },
             "button": {
@@ -158,7 +158,7 @@
                 "addSource": "$~magdagdag ng isa pang @Source: isang walang laman, o isang gawa mula sa larawan o awit",
                 "revert": "$~bumalik sa orihinal na code",
                 "focusOutput": "$~itutok ang keyboard sa entablado",
-                "focusSource": "$~tumuon sa susunod na mapagkukunan",
+                "focusSource": "$~ituon sa susunod na editor",
                 "focusDocs": "$~tumuon sa dokumentasyon",
                 "focusPalette": "$~tumuon sa paleta",
                 "focusCycle": "$~tumuon sa susunod na tile",
@@ -272,7 +272,7 @@
                 "launch": "$~maglibot sa mga kontrol ng proyekto",
                 "controls": "$~Ang mga /controls/ na ito sa ibaba ay nalalapat sa *kabuuang proyekto*, kahit anong tile ang gamitin mo.",
                 "name": "$~Ang /pangalan/ na field ay ang pangalan ng iyong proyekto. Lumalabas ang mga pangalan sa *project* at *gallery* na mga view.",
-                "sourceToggle": "$~Ipinapakita o itinatago ng /toggle/ na ito ang *source file*. Ganito rin ang gagawin ng *iba pang mga toggle* sa row na ito para sa iba pang mga tile.",
+                "sourceToggle": "$~Ipinapakita o itinatago ng /toggle/ na ito ang *editor* para sa isang *source file*. Ginagawa rin ng *iba pang toggle* sa hanay na ito ang pareho para sa ibang mga tile.",
                 "addSource": "$~May mga proyekto na mas mainam kung may *maramihang* file ng pinagmulan, kung saan ang datos ay naka-imbak sa isa at inilipat papunta sa *pangunahing* pinagmulan. Ang buton na /magdagdag ng pinagmulan/ ay nag-aalok ng mga paraan para gumawa ng isa: isang walang laman na file, isang larawan, isang awit, o ilang datos.",
                 "share": "$~Ang dialog na /share/ ay nagbibigay-daan sa iyong ibahagi ang iyong proyekto sa mga *gallery*, sa *publiko*, o kopyahin ito bilang *text* upang ibahagi sa ibang lugar.",
                 "checkpoints": "$~Ang panel na /revisions/ ay nagbibigay-daan sa iyong *bumalik* sa mga nakaraang bersyon ng iyong proyekto, at mga *snapshot* na bersyong gusto mong matandaan.",
@@ -685,8 +685,6 @@
             }
         },
         "source": {
-            "label": "$~pinagmulan",
-            "title": "$~kodigo",
             "empty": [
                 "$~Simulan na natin! Kaya mo na...",
                 "• Buksan ang 📕 at i-drag 🖱️ kami papunta sa programang ito.",

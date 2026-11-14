@@ -119,15 +119,15 @@
                     "off": "$~hiện $name"
                 },
                 "showSource": {
-                    "on": "$~ẩn nguồn $name",
-                    "off": "$~hiện nguồn $name"
+                    "on": "$~ẩn trình soạn thảo của $name",
+                    "off": "$~hiện trình soạn thảo của $name"
                 }
             },
             "label": {
                 "output": "$~sân khấu",
                 "palette": "$~bảng màu",
                 "docs": "$~hướng dẫn",
-                "source": "$~nguồn",
+                "source": "$~trình soạn thảo",
                 "collaborate": "$~cộng tác"
             },
             "button": {
@@ -158,7 +158,7 @@
                 "addSource": "$~thêm @Source khác: một cái trống, hoặc một cái tạo từ một bức ảnh hay một bài hát",
                 "revert": "$~khôi phục lại mã gốc",
                 "focusOutput": "$~tập trung bàn phím trên sân khấu",
-                "focusSource": "$~tập trung vào nguồn tiếp theo",
+                "focusSource": "$~chuyển sang trình soạn thảo tiếp theo",
                 "focusDocs": "$~tập trung vào tài liệu",
                 "focusPalette": "$~tập trung vào bảng màu",
                 "focusCycle": "$~tập trung vào ô tiếp theo",
@@ -272,7 +272,7 @@
                 "launch": "$~Hãy tham quan hệ thống điều khiển dự án.",
                 "controls": "$~Các nút điều khiển ở phía dưới này áp dụng cho *toàn bộ dự án*, bất kể bạn đang làm việc trên ô nào.",
                 "name": "$~Trường /tên/ là tên của dự án của bạn. Tên hiện ra trong các chế độ xem *dự án* và *phòng trưng bày*.",
-                "sourceToggle": "$~Nút /toggle/ này hiển thị hoặc ẩn *tệp nguồn*. *Các nút toggle khác* trên hàng này thực hiện chức năng tương tự đối với các ô khác.",
+                "sourceToggle": "$~/Nút bật tắt/ này hiện hoặc ẩn *trình soạn thảo* của một *tệp nguồn*. Các *nút bật tắt khác* trên hàng này làm điều tương tự cho các ô còn lại.",
                 "addSource": "$~Một số dự án cần *nhiều* nguồn, nơi dữ liệu được lưu trong một nguồn và được đưa vào nguồn *chính*. Nút /thêm nguồn/ đưa ra các cách để tạo một nguồn: một tệp trống, một bức ảnh, một bài hát, hoặc một dữ liệu.",
                 "share": "$~Hộp thoại /share/ cho phép bạn chia sẻ dự án của mình với *các thư viện ảnh*, với *công chúng*, hoặc sao chép nó dưới dạng *văn bản* để chia sẻ ở nơi khác.",
                 "checkpoints": "$~Mục /revisions/ cho phép bạn quay lại các phiên bản trước đó của dự án và chụp ảnh màn hình các phiên bản mà bạn muốn lưu lại.",
@@ -685,7 +685,6 @@
             }
         },
         "source": {
-            "label": "$~nguồn",
             "empty": [
                 "$~Bắt đầu nào! Bạn có thể…",
                 "• Mở 📕 và kéo 🖱️ chúng tôi vào chương trình này.",
@@ -867,7 +866,6 @@
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
                 "invalidWords": "$~Từ ngữ không được trống rỗng hoặc chứa các ký hiệu dành riêng."
             },
-            "title": "$~mã số",
             "tour": {
                 "launch": "$~Hãy cùng khám phá trình chỉnh sửa.",
                 "editor": "$~Tất cả mã của bạn đều nằm trong trình soạn thảo. Mỗi chương trình @wordplay đều được đánh giá thành một giá trị, và giá trị đó sẽ hiển thị trên màn hình.",

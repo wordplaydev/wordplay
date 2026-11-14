@@ -35,9 +35,7 @@ export type TourName = {
     subheader: LocaleTextAccessor;
     /** The tour's own invitation ("take a tour of the editor"), which is both
      * the tip on the ⓘ button that opens it and the label wherever a
-     * `@Tour/<id>` reference offers it. It names the tile the way the tutorial
-     * does, which the tile label doesn't always (the source tile's label is
-     * "source"; a learner has been taught the word "editor"). */
+     * `@Tour/<id>` reference offers it. */
     launch: LocaleTextAccessor;
 };
 
@@ -47,7 +45,9 @@ export const Tours: Record<TourID, TourName> = {
         launch: (l) => l.ui.output.tour.launch,
     },
     source: {
-        subheader: (l) => l.ui.tile.label.source,
+        // The glossary's word, so the heading names the window the way the
+        // tutorial taught it; "source" is a file, which an editor edits.
+        subheader: (l) => l.glossary.editor.word,
         launch: (l) => l.ui.source.tour.launch,
     },
     docs: {

@@ -1303,7 +1303,7 @@
             "description": "$~källa $name",
             "emotion": "curious",
             "doc": [
-                "$~Jag är det namngivna fönstret runt en @Program — jag ger den ett namn och håller dess @code. Åh, känner du till @Program? Jag hjälper dig att namnge dem.",
+                "$~Jag är en fil med namn som innehåller @Program — jag ger den ett namn och håller dess @code, som du ändrar i en @editor. Åh, du känner till @Program? Jag hjälper dig att namnge dem.",
                 "Du kan också göra andra @Source @UI/addSource, med andra @Program, och @Borrow saker från de andra @Program för att använda i ett annat program.",
                 "Detta kan vara ett bra sätt att organisera ett stort framträdande i separata dokument."
             ]

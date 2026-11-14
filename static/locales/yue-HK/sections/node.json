@@ -1645,7 +1645,7 @@
             "description": "$~源檔 $name",
             "emotion": "curious",
             "doc": [
-                "$~我係圍住一個 @Program 嘅命名視窗，會畀佢一個名稱，同埋放住佢嘅 @code。哦，你識 @Program 㗎？我會幫你噉樣命名佢哋。",
+                "$~我係一個有名嘅檔案，入面放住 @Program — 我會畀佢一個名，同埋存住佢嘅 @code，你可以喺 @editor 入面改佢。咦，你識 @Program 嗎？我會幫你命名。",
                 "你仲可以整其他 @Source @UI/addSource，用其他 @Program，再分享嗰啲其他 @Program 入面嘅 @Borrow 嘢，畀另一個程式用。",
                 "噉樣可以幫你將一個大型演出整理成幾份獨立嘅文件，好好用㗎。"
             ]

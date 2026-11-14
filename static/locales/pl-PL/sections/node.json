@@ -1303,7 +1303,7 @@
             "description": "$~źródło $name",
             "emotion": "curious",
             "doc": [
-                "$~Jestem nazwanym oknem wokół @Program — nadaję mu nazwę i trzymam jego @code. Aha, znasz @Program? Pomagam ci je nazywać.",
+                "$~Jestem plikiem z nazwą, który przechowuje @Program — nadaję mu nazwę i przechowuję jego @code, którą zmieniasz w @editor. Och, znasz @Program? Pomagam je nazywać.",
                 "Możesz też tworzyć inne @Source @UI/addSource, z innymi @Program, i @Borrow rzeczy z tych innych @Program, aby użyć ich w innym programie.",
                 "To może być dobry sposób na uporządkowanie dużego przedstawienia w osobne dokumenty."
             ]

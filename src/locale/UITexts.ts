@@ -646,10 +646,6 @@ type UITexts = {
     };
     /** Source file controls */
     source: {
-        /** [plain] The ARIA label for the source file section */
-        label: string;
-        /** [plain] The label for the code editor toolbar */
-        title: string;
         /** The dialog that makes a new source file — from nothing, or from
          *  something a creator already has. One dialog, so there is exactly one
          *  place in the app that turns data into code. */

@@ -130,6 +130,17 @@
 
     let fullscreen = $derived(tile.id === fullscreenID);
 
+    /** Whether this tile's source is also shown in another expanded tile, which halves it. */
+    let split = $derived(
+        tile.isSource() &&
+            layout.tiles.some(
+                (other) =>
+                    other.id !== tile.id &&
+                    !other.isCollapsed() &&
+                    other.getSource(project) === tile.getSource(project),
+            ),
+    );
+
     let view: HTMLElement | undefined = $state();
     let resizeDirection: ResizeDirection | null = $state(null);
     let mounted = $state(false);
@@ -413,9 +424,13 @@
                                         changed={handleRename}
                                     />
                                 {:else}
-                                    <LocalizedText
-                                        path={(l) => l.ui.source.title}
-                                    />
+                                    <!-- A split halves the tile, so the word yields its room to the
+                                         toolbar's language chooser; screen readers still hear it. -->
+                                    <span class:visually-hidden={split}
+                                        ><LocalizedText
+                                            path={(l) => l.glossary.editor.word}
+                                        /></span
+                                    >
                                 {/if}
                             {:else}
                                 <Emoji

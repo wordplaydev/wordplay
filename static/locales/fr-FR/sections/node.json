@@ -1303,7 +1303,7 @@
             "description": "$~source $name",
             "emotion": "curious",
             "doc": [
-                "$~Je suis la fenêtre nommée autour d'une @Program — je lui donne un nom et je garde sa @code. Ah, tu connais @Program ? Je t'aide à les nommer.",
+                "$~Je suis un fichier nommé qui contient un @Program — je lui donne un nom et je garde son @code, que tu changes dans un @editor. Ah, tu connais @Program ? Je t'aide à les nommer.",
                 "Tu peux aussi faire d'autres @Source @UI/addSource, avec d'autres @Program, et @Borrow des choses de ces autres @Program pour les utiliser dans un autre programme.",
                 "C'est une bonne façon d'organiser une grande performance en documents séparés."
             ]

@@ -1302,7 +1302,7 @@
             "name": "fonte",
             "emotion": "curious",
             "doc": [
-                "$~Sou a janela com nome à volta de um @Program — dou-lhe um nome e guardo o seu @code. Ah, conhece @Program? Eu ajudo a dar-lhes nomes.",
+                "$~Sou um ficheiro com nome que guarda um @Program — dou-lhe um nome e guardo o seu @code, que pode alterar num @editor. Ah, conhece @Program? Ajudo a dar-lhes nome.",
                 "Também pode criar outros @Source @UI/addSource, com outros @Program, e @Borrow coisas desses outros @Program para usar noutro programa.",
                 "Esta pode ser uma boa forma de organizar uma grande atuação em documentos separados."
             ],

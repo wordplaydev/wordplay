@@ -119,15 +119,15 @@
                     "off": "$~mostrar $name"
                 },
                 "showSource": {
-                    "on": "$~ocultar fuente $name",
-                    "off": "$~mostrar fuente $name"
+                    "on": "$~ocultar el editor de $name",
+                    "off": "$~mostrar el editor de $name"
                 }
             },
             "label": {
                 "output": "escenario",
                 "palette": "paleta",
                 "docs": "guía",
-                "source": "@Source",
+                "source": "$~editor",
                 "collaborate": "$~colaborar"
             },
             "button": {
@@ -151,7 +151,7 @@
                 "addSource": "$~agrega otra @Source: una vacía, o una hecha a partir de una imagen o una canción",
                 "revert": "volver al código original ",
                 "focusOutput": "enfoque el teclado en el escenario",
-                "focusSource": "enfoque en la siguiente fuente ",
+                "focusSource": "$~enfocar el siguiente editor",
                 "focusDocs": "enfoque en la documentación",
                 "focusPalette": "enfoque en la paleta",
                 "focusCycle": "enfoque en la siguiente teja ",
@@ -272,7 +272,7 @@
                 "launch": "$~hacer un recorrido por los controles del proyecto",
                 "controls": "$~Estos /controles/ de abajo se aplican al *proyecto completo*, sin importar en qué teja estés trabajando.",
                 "name": "$~El campo de /nombre/ es el nombre de tu proyecto. Los nombres aparecen en las vistas de *proyecto* y de *galería*.",
-                "sourceToggle": "$~Este /interruptor/ muestra u oculta la *fuente*. Los *demás interruptores* de esta fila hacen lo mismo con las otras tejas.",
+                "sourceToggle": "$~Este /interruptor/ muestra u oculta el *editor* de un *archivo fuente*. Los *otros interruptores* de esta fila hacen lo mismo con las demás tejas.",
                 "addSource": "$~Algunos proyectos se benefician de *varias* fuentes, donde los datos se guardan en una y se importan a la fuente *principal*. El botón /agregar fuente/ ofrece las formas de crear una: un archivo vacío, una imagen, una canción o algunos datos.",
                 "share": "$~El diálogo de /compartir/ te deja compartir tu proyecto con *galerías*, con el *público*, o copiarlo como *texto* para compartirlo en otro lugar.",
                 "checkpoints": "$~El panel de /revisiones/ te deja *volver* a versiones anteriores de tu proyecto, y tomar una *foto* de las versiones que quieras recordar.",
@@ -408,7 +408,6 @@
             }
         },
         "source": {
-            "label": "$~fuente",
             "empty": [
                 "$~¡Vamos a comenzar! Puedes …",
                 "• Abrir 📕 y arrastrarnos 🖱️ hasta este programa.",
@@ -590,7 +589,6 @@
                 "invalidName": "$~Esto debe ser un nombre de Wordplay válido.",
                 "invalidWords": "$~Las palabras no pueden estar vacías ni contener símbolos reservados."
             },
-            "title": "$~código",
             "tour": {
                 "launch": "$~hacer un recorrido por el editor",
                 "editor": "$~Todo tu /código/ va en el *editor*. Cada programa @wordplay *se evalúa a un valor*, y ese valor es lo que aparece en el *escenario*.",

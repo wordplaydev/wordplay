@@ -1645,7 +1645,7 @@
             "description": "$~guân-sí-tóng $name",
             "emotion": "curious",
             "doc": [
-                "$~Guá sī @Program ê ū miâ ê thang-á — guá ĉhōo i tsi̍t ê miâ, koh kuán i ê @code. Ah, lí tsai-iánn @Program bô? Guá lâi kàu lí tsāi-án-tsuánn kā in khì-miâ.",
+                "$~Guá sī tsi̍t-ê ū miâ ê tóng-àn, ē khǹg tsi̍t-ê @Program — guá hōo i tsi̍t-ê miâ, koh khǹg i ê @code, he lí ē-sái tī @editor kái. Ah, lí ū bat @Program bô? Guá ē tàu lí hōo in miâ.",
                 "Lí mā ē-sái tsò khah-tsōng ê @Source @UI/addSource, ū khah-tsōng ê @Program, koh tùi hit-kuá khah-tsōng ê @Program hun-hióng @Borrow ê tāi-tsì, hōo kah-ī ê thîng-sik tsioh-iōng.",
                 "Tse ē-sái pang lí kā tsi̍t ê tuā ê piáu-ián tsiông-lí sûn-sī̍t, hun-khui tsò put-tông ê bûn-kiānn."
             ]

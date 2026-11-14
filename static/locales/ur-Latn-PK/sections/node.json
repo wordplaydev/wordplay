@@ -1645,7 +1645,7 @@
             "description": "$~maakhaz $name",
             "emotion": "curious",
             "doc": [
-                "$~Main @Program ke aas paas ka naam wala dareecha hoon. Main use naam deta hoon aur uski @code sambhaalta hoon. Arre, aap @Program jaante hain? Main unhein naam dene mein madad karta hoon.",
+                "$~Main ek naam wali file hoon jo ek @Program rakhti hai. Main usay ek naam deti hoon aur uski @code sambhalti hoon, jise aap ek @editor mein badal sakte hain. Arey, aap @Program jaante hain? Main unhein naam dene mein aap ki madad karti hoon.",
                 "Aap doosre @Source @UI/addSource bhi bana sakte hain, doosre @Program ke saath, aur un doosre @Program se cheezein @Borrow taake kisi aur program mein istemaal ho saken.",
                 "Yeh ek bade program ko alag alag documents mein tarteeb dene ka achha tareeqa hai."
             ]

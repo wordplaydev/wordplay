@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.42.0 - 2026-11-12
 
+### Changed
+
+- 🧭 The window where you write code is now called the editor everywhere, including the title of the editor tour, which used to say "source." (#1498)
+
 ### Fixed
 
 - 🤝 Projects shared to a gallery no longer vanish from it when a computer with an old copy of the gallery saves it.

@@ -29,7 +29,7 @@ test('a source a program writes gets a tile without a reload', async ({
     // By name rather than position: the source toggle's accessible name is its
     // tip, and the tip names the source.
     await expect(
-        page.getByRole('button', { name: /source saved/ }).first(),
+        page.getByRole('button', { name: /editor for saved/ }).first(),
         'the source the program wrote needs a tile of its own',
     ).toBeVisible({ timeout: 15000 });
 });

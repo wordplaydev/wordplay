@@ -1303,7 +1303,7 @@
             "description": "$~kaynak $name",
             "emotion": "curious",
             "doc": [
-                "$~Ben bir @Program'in etrafındaki isimli pencereyim — ona bir isim veririm ve @code'sini tutarım. Ah, @Program'yi bilir misin? Onlara isim vermene yardım ederim.",
+                "$~Ben bir @Program tutan adlandırılmış bir dosyayım. Ona bir isim verir ve @code içeriğini tutarım. Onu bir @editor içinde değiştirirsin. Ah, @Program biliyor musun? Onlara isim vermene yardım ederim.",
                 "Başka @Program ile başka @Source @UI/addSource da yapabilir, o başka @Program'den bazı şeyleri başka bir programda kullanmak için @Borrow edebilirsin.",
                 "Bu, büyük bir gösteriyi ayrı belgelere bölerek düzenlemenin güzel bir yolu olabilir."
             ]
