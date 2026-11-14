@@ -564,7 +564,11 @@
                 overwriteAccess,
                 isPublic,
             );
-            if (created) computeAndSavePreview(created).catch(() => {});
+            // Not created (too large, signed out, no connection to make it
+            // on): keep the form as it is. Clearing it threw away everything
+            // just written, with nothing saved anywhere.
+            if (!created) return;
+            computeAndSavePreview(created).catch(() => {});
 
             [cameraX, cameraY] = [-writeX, -writeY];
             show = false;

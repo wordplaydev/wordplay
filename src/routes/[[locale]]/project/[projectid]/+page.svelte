@@ -67,8 +67,13 @@
                         loading = false;
                         error = false;
 
-                        // Update the project.
-                        project = proj;
+                        // Update the project. If it is being edited here it
+                        // may have moved on while this load was in flight, and
+                        // showing the loaded copy would put the next keystroke
+                        // on top of code older than what was just typed.
+                        project =
+                            Projects.getHistory(projectID)?.getCurrent() ??
+                            proj;
                     })
                     .catch(() => {
                         if (generation !== loadGeneration) return;

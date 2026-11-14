@@ -21,6 +21,8 @@ import { shouldReplayRemotePlainCode } from '#db/projects/crdtFold.ts';
 import { EditFailure } from '#db/projects/EditFailure.ts';
 import { withNameSuffix } from '#db/projects/getLocalizedProjectName.ts';
 import isSweepable from '#db/projects/isSweepable.ts';
+import { reconcileSources } from '#db/projects/reconcileSources.ts';
+import { planWipe } from '#db/projects/setAside.ts';
 import { unknownFlags } from '#db/projects/Moderation.ts';
 import { buildKeywordIndex } from '#parser/Keywords.ts';
 import { PresenceTracker } from '#db/projects/PresenceTracker.svelte.ts';
@@ -431,11 +433,17 @@ export default class ProjectsDatabase {
         ));
     }
 
+    /** Declared before the promise that sets it, and with no initializer.
+     *  Field initializers run in order, so declared after it with
+     *  `= undefined` this was reset the moment it was stored: the promise
+     *  never resolved, `start()` never returned, and the handlers that save
+     *  on tab close, which wait for it, were never installed. */
+    private resolveFirstHydration: (() => void) | undefined;
+
     /** Resolves once the first hydration pass has put projects in memory. */
     private readonly firstHydration: Promise<void> = new Promise((resolve) => {
         this.resolveFirstHydration = resolve;
     });
-    private resolveFirstHydration: (() => void) | undefined = undefined;
 
     async hydrate() {
         // Local DB support?
@@ -449,15 +457,27 @@ export default class ProjectsDatabase {
                 // can stop showing its loading indicator. Subsequent
                 // emissions (cross-tab updates) leave the flag alone.
                 let firstEmission = true;
-                this.editableProjects.subscribe((projects) => {
-                    void this.trackLocal(projects).finally(() => {
-                        if (firstEmission) {
-                            firstEmission = false;
-                            this.hydrated = true;
-                            this.resolveFirstHydration?.();
-                        }
-                    });
-                });
+                this.editableProjects.subscribe(
+                    (projects) => {
+                        void this.trackLocal(projects, firstEmission).finally(
+                            () => {
+                                if (firstEmission) {
+                                    firstEmission = false;
+                                    this.hydrated = true;
+                                    this.resolveFirstHydration?.();
+                                }
+                            },
+                        );
+                    },
+                    // The local database could not be read (a private window,
+                    // a blocked upgrade). Nothing is coming, so stop waiting:
+                    // left unresolved, this kept the whole projects database
+                    // from starting, save-on-close handlers included.
+                    () => {
+                        this.hydrated = true;
+                        this.resolveFirstHydration?.();
+                    },
+                );
             } else {
                 // Observable didn't materialize — nothing to wait for.
                 this.hydrated = true;
@@ -474,7 +494,7 @@ export default class ProjectsDatabase {
         // We don't pull projects from the cloud. That's handled by syncUser() when the user changes.
     }
 
-    async trackLocal(serialized: SerializedProject[]) {
+    async trackLocal(serialized: SerializedProject[], initial = false) {
         // Get all the projects from disk, deserialize them.
         const projects = await this.deserializeAll(serialized);
 
@@ -519,6 +539,7 @@ export default class ProjectsDatabase {
                 // negation: only "saved" when neither applies.
                 !upgraded && !dirty.has(project.getID()),
                 false,
+                { initial, dirty: dirty.has(project.getID()) },
             );
         }
     }
@@ -606,9 +627,10 @@ export default class ProjectsDatabase {
     }
 
     /** When the user changes, update the realtime query for projects. */
-    syncUser(remove: boolean) {
+    syncUser(remove: boolean, previous: string | null = null) {
         // If we're supposed to remove local, do it before syncing the user.
-        if (remove) this.deleteLocal();
+        // Unsaved work is held for whoever was signed in before.
+        if (remove) void this.deleteLocal(previous);
 
         const user = this.database.getUser();
         this.listUser = user?.uid ?? this.database.getDeviceUser();
@@ -902,6 +924,12 @@ export default class ProjectsDatabase {
         persist: PersistenceType,
         saved: boolean,
         fromCloud: boolean = true,
+        /** For a row read from this device: whether it is the read a page
+         *  load starts with, and whether its last cloud save went unconfirmed. */
+        device: { initial: boolean; dirty: boolean } = {
+            initial: false,
+            dirty: false,
+        },
     ): ProjectHistory | undefined {
         if (editable) {
             // If we're not tracking this yet, create a history and store the version given.
@@ -913,7 +941,22 @@ export default class ProjectsDatabase {
                     project = project.withOwner(userID);
 
                 // Make a new history and remember it, then save soon.
-                history = new ProjectHistory(project, persist, saved, Locales);
+                // A row whose save was never confirmed holds code the cloud
+                // has not seen; a row that is only at an older schema does not.
+                history = new ProjectHistory(
+                    project,
+                    persist,
+                    saved,
+                    Locales,
+                    fromCloud
+                        ? // A project the cloud has never held was made here.
+                          project.isPersisted()
+                            ? 'saved'
+                            : 'typed'
+                        : device.dirty
+                          ? 'adopted'
+                          : 'saved',
+                );
                 this.projectHistories.set(project.getID(), history);
 
                 // A view already asked to go live on this project before its
@@ -959,40 +1002,80 @@ export default class ProjectsDatabase {
                 const localTimestampBeforeMerge = current.getTimestamp();
                 let merged = current.mergeWith(project);
 
-                // mergeWith deliberately keeps local sources because
-                // the Yjs CRDT is supposed to be the authoritative
-                // merge for source code. But that only works while the
-                // CRDT is *active* — i.e., the user has the project
-                // open in a ProjectView. For an inactive project,
-                // there's no Y.Doc to fold the remote's bytes into,
-                // and a backend rewrite (Cloud Function, character
-                // rename, admin-side edit) would never reach the local
-                // source. Fall back to the legacy "later timestamp
-                // wins" rule for sources in that case so the project
-                // doesn't silently render the pre-rewrite text the
-                // next time it's opened.
-                if (
-                    fromCloud &&
-                    !this.projectCRDTs.has(project.getID()) &&
-                    project.getTimestamp() > current.getTimestamp()
-                ) {
+                // mergeWith keeps our sources, because for an open project
+                // the live session merges code. For one that is not open, one
+                // copy's code has to replace the other's, and reconcileSources
+                // decides which: a newer copy replaces ours only when ours has
+                // nothing the cloud lacks. It used to be "later timestamp
+                // wins", which let another device that had merely opened the
+                // project replace edits made here offline.
+                const open = this.projectCRDTs.has(project.getID());
+                const decision = reconcileSources({
+                    from: fromCloud ? 'cloud' : 'device',
+                    initial: device.initial,
+                    dirty: device.dirty,
+                    open,
+                    code: history.getCodeState(),
+                    age:
+                        project.getTimestamp() > current.getTimestamp()
+                            ? 'newer'
+                            : project.getTimestamp() < current.getTimestamp()
+                              ? 'older'
+                              : 'same',
+                    same: sameCode(project, current),
+                });
+                if (decision.sources === 'arriving')
                     merged = merged.withSourcesFrom(project);
+                // The code that lost may be about to exist nowhere else.
+                if (decision.checkpoint) {
+                    const lost =
+                        decision.sources === 'arriving' ? current : project;
+                    merged = merged.withCheckpoint({
+                        time: lost.getTimestamp(),
+                        sources: lost.getSerializedSources(),
+                    });
                 }
 
-                // Edit if anything user-visible changed, OR if the
-                // remote bumped our timestamp. Project.equals only
-                // compares id/name/sources, so a stamp-merge that
-                // updated `timestamp` (Math.max of both sides) goes
-                // unnoticed otherwise — and the next save would
-                // write our project back to the cloud with the
-                // pre-merge timestamp, looking older than the doc
-                // that's already there. That's how a backend
-                // rewrite's fresh timestamp gets reverted to ours.
+                // Edit if anything changed, or if the arriving copy raised
+                // our timestamp: Project.equals compares only id, name and
+                // sources, and a merged project saved with the older
+                // timestamp would look older than the document it merged.
                 if (
+                    decision.checkpoint ||
                     !merged.equals(current) ||
                     merged.getTimestamp() > current.getTimestamp()
                 ) {
+                    const wasSaved = !history.isUnsaved();
+                    // A live session has to be given the code it now holds.
+                    if (open && decision.sources === 'arriving')
+                        this.applyCRDTDiff(merged);
+                    // What we send has to read as later than the copy it
+                    // was merged with, or devices holding that copy keep it.
+                    // Later by the timestamps themselves, not by this device's
+                    // clock, which may be behind the one that wrote the other.
+                    if (decision.push)
+                        merged = merged.withTimeAfter(merged.getTimestamp());
                     history.edit(merged, true);
+                    if (decision.push) {
+                        if (history.getCodeState() === 'saved')
+                            history.markCode('adopted');
+                        this.saveSoon();
+                    }
+                    // We held nothing the cloud lacked and now hold exactly
+                    // what it sent, so there is nothing to send back. Marking
+                    // this unsaved made every device that could edit a project
+                    // rewrite the whole document after anyone else saved it,
+                    // and a rewrite that lands late replaces newer work.
+                    else if (
+                        wasSaved &&
+                        (fromCloud
+                            ? merged.sameMetadataAs(project) &&
+                              sameCode(merged, project)
+                            : decision.sources === 'arriving')
+                    ) {
+                        history.markSaved();
+                        if (fromCloud) this.cacheLocally(history);
+                    }
                 }
                 // If live coediting is active for this project, also
                 // fold the incoming remote CRDT snapshot into our
@@ -1702,15 +1785,24 @@ export default class ProjectsDatabase {
             if (localProject !== undefined) {
                 const proj = await this.deserialize(localProject);
                 if (proj) {
-                    this.track(
+                    // A row from this device, read ahead of hydration: say so,
+                    // and say whether it holds an edit the cloud never
+                    // confirmed, so that a cloud copy arriving next is merged
+                    // with it by the same rule hydration uses.
+                    const dirty = (
+                        await this.localDB.getDirty(Domain.Projects)
+                    ).includes(id);
+                    const history = this.track(
                         proj,
                         true,
                         proj.isLocalOnly()
                             ? PersistenceType.Local
                             : PersistenceType.Online,
                         false,
+                        false,
+                        { initial: true, dirty },
                     );
-                    return proj;
+                    return history?.getCurrent() ?? proj;
                 }
             }
         }
@@ -1890,8 +1982,12 @@ export default class ProjectsDatabase {
             // encoded into the project doc at persist() time.
             this.applyCRDTDiff(stamped);
 
+            // Code changed here is this tab's to protect until it is saved.
+            const typed = !sameCode(stamped, history.getCurrent());
+
             // Save the project with a new time.
             const success = history.edit(stamped, remember, dynamic);
+            if (typed) history.markCode('typed');
 
             // If the save was successful, update the projects and persist if asked.
             if (success === true) {
@@ -1956,7 +2052,21 @@ export default class ProjectsDatabase {
         const history = this.projectHistories.get(id);
         if (!history) return;
         const current = history.getCurrent();
-        if (current.getPreview()?.mode === 'manual') return;
+        const preview = current.getPreview();
+        if (preview?.mode === 'manual') return;
+        // Opening a project computes the preview it already has. Writing it
+        // again would send this device's whole copy of the project, with a
+        // new timestamp, before the cloud's copy has necessarily arrived —
+        // so merely looking at a project could replace newer work elsewhere.
+        if (
+            preview !== undefined &&
+            preview.text === extracted.text &&
+            preview.foreground === extracted.foreground &&
+            preview.background === extracted.background &&
+            preview.face === extracted.face &&
+            preview.characterName === extracted.characterName
+        )
+            return;
         this.edit(
             current.withPreview({ mode: 'auto', ...extracted }),
             false,
@@ -2022,13 +2132,19 @@ export default class ProjectsDatabase {
         if (history) {
             const current = history.getCurrent();
 
+            // Archiving is the owner's decision: an archived project is
+            // deleted after a month, and it is archived for everyone.
+            const owner = current.getOwner();
+            if (owner !== null && owner !== this.database.getUserID()) return;
+
             // If the project is in a gallery, remove it.
             const gallery = current.getGallery();
             if (gallery)
                 await this.database.Galleries.removeProject(current, gallery);
 
             // Mark the project archived after its removed from the gallery.
-            this.edit(current.asArchived(archive), false, true);
+            // Read it again: the removal changed it, and so may have typing.
+            this.edit(history.getCurrent().asArchived(archive), false, true);
         }
     }
 
@@ -2164,6 +2280,34 @@ export default class ProjectsDatabase {
         if (skipped) this.saveSoon();
     }
 
+    /** Write a project the cloud just sent to this device's storage, so a
+     *  reload offline shows it. Not a save: nothing here is owed to the cloud. */
+    private cacheLocally(history: ProjectHistory) {
+        if (
+            !this.IndexedDBSupported ||
+            history.getPersisted() === PersistenceType.None
+        )
+            return;
+        void this.localDB
+            .saveProjects([
+                this.withCRDTSnapshot(history.getCurrent()).serialize(),
+            ])
+            .catch(() => undefined);
+    }
+
+    /** Note that a write made outside {@link persist} reached the cloud. Only
+     *  the version that was sent counts as saved; anything typed while the
+     *  write was in flight still has to be sent. */
+    confirmSent(sent: Project) {
+        const history = this.projectHistories.get(sent.getID());
+        if (history === undefined) return;
+        if (history.getCurrent() === sent) {
+            history.markSaved();
+            if (this.IndexedDBSupported)
+                void this.localDB.markClean(Domain.Projects, sent.getID());
+        } else this.saveSoon();
+    }
+
     /** Persist in storage */
     async persist() {
         // Nothing a proxy session holds is theirs to save (#1313). Returned
@@ -2274,6 +2418,25 @@ export default class ProjectsDatabase {
                     ),
                 );
         }
+
+        // Remember, durably, every account's project that still owes the
+        // cloud a save. Without this an edit made while the session had
+        // lapsed, or one held back for possible personal information, read as
+        // saved after a reload: never sent, free to be replaced by the cloud's
+        // copy, and wiped without warning. A project nobody owns is left out:
+        // it was made signed out, and has no cloud to owe anything to.
+        if (this.IndexedDBSupported)
+            await Promise.all(
+                online
+                    .filter(
+                        (history) =>
+                            history.isUnsaved() &&
+                            history.getCurrent().getOwner() !== null,
+                    )
+                    .map((history) =>
+                        this.localDB.markDirty(Domain.Projects, history.id),
+                    ),
+            ).catch(() => undefined);
 
         // Then, try to save them in Firebase if we have a user ID.
         if (firestore && userID) {
@@ -2676,10 +2839,95 @@ export default class ProjectsDatabase {
     }
 
     /** Deletes the local database (usually on logout, for privacy), and removes any projects from memory. */
-    async deleteLocal() {
-        this.localDB.deleteAllProjects();
-        void this.localDB.clearDirty(Domain.Projects);
-        this.projectHistories.clear();
+    async deleteLocal(holder: string | null = null) {
+        // Forget everything that belongs to an account, at once: nothing of
+        // the last person's may be on screen for the next. A project made
+        // signed out belongs to nobody yet, so it stays for whoever signs in.
+        for (const [id, history] of this.projectHistories)
+            if (history.getCurrent().getOwner() !== null)
+                this.projectHistories.delete(id);
+        // Projects whose last save never reached the cloud exist nowhere else,
+        // so they are set aside for `holder` rather than deleted.
+        // One transaction, so a wipe interrupted by the page closing either
+        // happened or did not: nothing is deleted without being set aside.
+        if (!this.IndexedDBSupported) return;
+        const local = this.localDB;
+        await local.transaction(
+            'rw',
+            local.projects,
+            local.dirty,
+            local.setaside,
+            async () => {
+                const dirty = new Set(await local.getDirty(Domain.Projects));
+                const plan = planWipe(
+                    await local.projects.toArray(),
+                    dirty,
+                    holder,
+                );
+                if (holder !== null)
+                    await local.setaside.bulkPut(
+                        plan.setAside.map((project) => ({
+                            id: project.id,
+                            holder,
+                            project,
+                        })),
+                    );
+                await local.projects.bulkDelete(
+                    [...plan.setAside, ...plan.deleted].map(
+                        (project) => project.id,
+                    ),
+                );
+                // What is kept still owes the cloud a save; nothing else does.
+                const kept = new Set(plan.kept.map((project) => project.id));
+                await local.dirty.bulkDelete(
+                    [...dirty]
+                        .filter((id) => !kept.has(id))
+                        .map((id) => local.dirtyKey(Domain.Projects, id)),
+                );
+            },
+        );
+    }
+
+    /**
+     * Bring back the unsaved projects that were set aside for this person the
+     * last time this device's local data was wiped, and send them.
+     *
+     * Called once the cloud's copies have arrived, because a set-aside project
+     * can be weeks old: a shared laptop goes back in the cart. If the cloud's
+     * copy is the later one, the work done since wins and what was set aside is
+     * kept as a checkpoint; otherwise what was set aside is the latest there is.
+     */
+    async restoreSetAside(holder: string) {
+        if (!this.IndexedDBSupported) return;
+        const rows = await this.localDB.takeSetAside(holder);
+        if (rows.length === 0) return;
+        for (const { project } of await this.deserializeAll(rows)) {
+            const history = this.projectHistories.get(project.getID());
+            const current = history?.getCurrent();
+            if (
+                history !== undefined &&
+                current !== undefined &&
+                current.getTimestamp() > project.getTimestamp()
+            ) {
+                if (!sameCode(current, project))
+                    history.edit(
+                        current.withCheckpoint({
+                            time: project.getTimestamp(),
+                            sources: project.getSerializedSources(),
+                        }),
+                        true,
+                    );
+            } else
+                this.track(
+                    project,
+                    true,
+                    PersistenceType.Online,
+                    false,
+                    false,
+                    { initial: true, dirty: true },
+                );
+        }
+        this.saveSoon();
     }
 
     /** Attempt to parse a seralized project into a project. */
@@ -2701,4 +2949,17 @@ export default class ProjectsDatabase {
             return undefined;
         }
     }
+}
+
+/** Whether two versions of a project have the same code in the same sources. */
+function sameCode(a: Project, b: Project): boolean {
+    const these = a.getSources();
+    const those = b.getSources();
+    return (
+        these.length === those.length &&
+        these.every((source, index) => {
+            const other = those[index];
+            return other !== undefined && source.isEqualTo(other);
+        })
+    );
 }

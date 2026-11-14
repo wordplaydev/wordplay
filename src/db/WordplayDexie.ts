@@ -25,13 +25,18 @@ import Dexie, { type Observable, type Table, liveQuery } from 'dexie';
  * migration so users upgrade once rather than once per domain). v10 adds the
  * `dirty` table tracking items with edits not yet confirmed in the cloud, so
  * unsaved work survives a reload and gets replayed. v11 adds kits (#8) and
- * their versions.
+ * their versions. v12 adds `setaside`, where unsaved projects are held for the
+ * person who made them when the device's local data is wiped.
  */
-const WordplayDBVersion = 11;
+const WordplayDBVersion = 12;
 
 /** A locally-cached item with edits not yet confirmed saved in the cloud.
  *  Keyed by `${domain}:${id}` so one table covers every domain. */
 type DirtyRow = { key: string; domain: SyncDomain; id: string };
+
+/** An unsaved project held for `holder`, the account that was signed in when
+ *  this device's local data was wiped. Never read for anyone else. */
+type SetAsideRow = { id: string; holder: string; project: SerializedProject };
 
 /** The IndexedDB cache mirroring the user's Firebase data, one table per
  *  domain. A single shared instance is owned by `Database`; do not construct
@@ -56,6 +61,7 @@ export class WordplayDexie extends Dexie {
      */
     kitversions!: Table<SerializedKitVersion>;
     dirty!: Table<DirtyRow>;
+    setaside!: Table<SetAsideRow>;
 
     /** The database name is a parameter so a proxy tab can keep its own
      *  ([proxySession.ts](src/db/proxySession.ts)). Nothing else in the app
@@ -95,7 +101,7 @@ export class WordplayDexie extends Dexie {
         // v11: add kits and their versions (#8). Kits are indexed by `name` because a
         // borrow names a kit by `username/name` and has to resolve it locally before
         // asking the cloud; versions by `kit` so a version history is one query.
-        this.version(WordplayDBVersion).stores({
+        this.version(11).stores({
             projects: '++id, name, locales, owner, collabators',
             galleries: 'id',
             characters: 'id',
@@ -105,11 +111,16 @@ export class WordplayDexie extends Dexie {
             kitversions: 'id, kit',
             dirty: 'key, domain',
         });
+        // v12: unsaved projects held across a wipe. Indexed by `holder` because
+        // the only question ever asked is "what is being held for this person".
+        this.version(WordplayDBVersion).stores({
+            setaside: 'id, holder',
+        });
     }
 
     // --- Dirty tracking (items with edits not yet confirmed in the cloud) ---
 
-    private dirtyKey(domain: SyncDomain, id: string): string {
+    dirtyKey(domain: SyncDomain, id: string): string {
         return `${domain}:${id}`;
     }
 
@@ -143,6 +154,18 @@ export class WordplayDexie extends Dexie {
 
     async deleteAllProjects(): Promise<void> {
         return await this.projects.clear();
+    }
+
+    /** Take back the projects being held for this person, if any. */
+    async takeSetAside(holder: string): Promise<SerializedProject[]> {
+        return await this.transaction('rw', this.setaside, async () => {
+            const rows = await this.setaside
+                .where('holder')
+                .equals(holder)
+                .toArray();
+            await this.setaside.bulkDelete(rows.map((row) => row.id));
+            return rows.map((row) => row.project);
+        });
     }
 
     async deleteProject(id: string): Promise<void> {

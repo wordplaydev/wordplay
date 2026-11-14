@@ -14,6 +14,7 @@
 export const MockingTests = [
     'src/db/SaveTracker.test.ts',
     'src/db/characters/CharacterDatabase.test.ts',
+    'src/db/characters/characterResend.test.ts',
     'src/db/chats/ChatDatabase.test.ts',
     'src/db/export/exportAccount.test.ts',
     'src/db/feedback/FeedbackDatabase.test.ts',

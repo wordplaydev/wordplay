@@ -571,9 +571,16 @@ export class CharactersDatabase {
         ) {
             this.byID.set(character.id, character);
 
-            if (existingCharacter) {
-                this.byName.delete(existingCharacter.name);
+            if (existingCharacter) this.byName.delete(existingCharacter.name);
 
+            // Only a rename has projects to rewrite. Without this check every
+            // stroke rewrote each project that uses the character, with a
+            // link to the same name — and if one of those projects could not
+            // be saved, the drawing itself was never saved either.
+            if (
+                existingCharacter &&
+                existingCharacter.name !== character.name
+            ) {
                 // Collect failures from project updates
                 const failedProjects: Project[] = [];
 
@@ -661,16 +668,23 @@ export class CharactersDatabase {
         // Each write tracks its own save state (unsaved / saved / failed) via
         // trackSave, so one failure doesn't hide the others.
         const results = await Promise.all(
-            Array.from(this.unsaved.values()).map((character) =>
-                this.trackSave(
+            Array.from(this.unsaved.values()).map(async (character) => {
+                const ok = await this.trackSave(
                     character.id,
                     character.name,
                     setDoc(
                         doc(db, CharactersCollection, character.id),
                         character,
                     ),
-                ),
-            ),
+                );
+                // Saved, so it no longer needs sending. Left in the list, it
+                // was sent again with every later save of any character, as
+                // it stood then: over a collaborator's newer drawing, and
+                // over its having since been shared to a gallery.
+                if (ok && this.unsaved.get(character.id) === character)
+                    this.unsaved.delete(character.id);
+                return ok;
+            }),
         );
         this.db.setStatus(
             results.every((ok) => ok) ? SaveStatus.Saved : SaveStatus.Error,

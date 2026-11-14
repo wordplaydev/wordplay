@@ -166,6 +166,7 @@ import Chat, {
     ChatDatabase,
     MAX_REACTIONS_PER_MESSAGE,
     upgradeChat,
+    replayedMessages,
 } from './ChatDatabase.svelte';
 
 function makeChat(
@@ -820,6 +821,10 @@ describe('ChatDatabase granular message operations', () => {
     describe('writes only the fields the rule admits', () => {
         /** Leave a conversation unsaved without latching it: an ordinary
          *  failure is retryable, so it stays queued for the replay. */
+        /** The replay reads the stored chat before it writes, and
+         *  flushUnsaved does not wait for it, so let it run to its end. */
+        const settled = () => new Promise((resolve) => setTimeout(resolve, 0));
+
         async function leaveUnsaved(chat: Chat) {
             vi.mocked(updateDoc).mockRejectedValueOnce(new Error('offline'));
             await db.updateChat(chat, true);
@@ -845,6 +850,7 @@ describe('ChatDatabase granular message operations', () => {
             await leaveUnsaved(makeChat({ language: 'en-US' }));
 
             await db.flushUnsaved();
+            await settled();
 
             expect(vi.mocked(updateDoc)).toHaveBeenCalledTimes(1);
             const [, data] = must(
@@ -874,6 +880,7 @@ describe('ChatDatabase granular message operations', () => {
             chatDocRead = { exists: () => false };
 
             await db.flushUnsaved();
+            await settled();
 
             expect(vi.mocked(setDoc)).toHaveBeenCalledTimes(1);
             const [, data, options] = must(
@@ -896,6 +903,7 @@ describe('ChatDatabase granular message operations', () => {
             chatDocRead = { exists: () => true };
 
             await db.flushUnsaved();
+            await settled();
 
             expect(vi.mocked(setDoc)).not.toHaveBeenCalled();
         });
@@ -910,6 +918,7 @@ describe('ChatDatabase granular message operations', () => {
             chatDocRead = new FirebaseError('unavailable', 'Offline');
 
             await db.flushUnsaved();
+            await settled();
 
             expect(vi.mocked(setDoc)).not.toHaveBeenCalled();
         });
@@ -1193,5 +1202,41 @@ describe('upgradeChat (upgrade-on-load)', () => {
     it('throws on an unknown version', () => {
         // @ts-expect-error — deliberately invalid version for the test.
         expect(() => upgradeChat({ v: 999, project: 'p1' })).toThrow();
+    });
+});
+
+describe('the messages a retry sends', () => {
+    it('a retry adds what the cloud lacks and keeps what it has', () => {
+        const stored = [
+            { id: 'a', text: 'hello' },
+            { id: 'c', text: 'said while the other was offline' },
+        ];
+        const local = [
+            { id: 'a', text: 'hello' },
+            { id: 'b', text: 'sent offline' },
+        ];
+        expect(replayedMessages(stored, local).map((m) => m.id)).toEqual([
+            'a',
+            'c',
+            'b',
+        ]);
+    });
+
+    it('a message both have stays as the cloud has it', () => {
+        // The cloud's copy may be a later edit, a deletion, or what a moderator
+        // left; this device's is whatever it last saw.
+        type Message = { id: string; text: string | null };
+        const stored: Message[] = [{ id: 'a', text: null }];
+        const local: Message[] = [
+            { id: 'a', text: 'what it said before it was removed' },
+        ];
+        expect(replayedMessages(stored, local)).toEqual(stored);
+    });
+
+    it('a retry never sends fewer messages than the cloud holds', () => {
+        // The update rule refuses a shorter list, and a refused retry is retried
+        // forever.
+        const stored = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+        expect(replayedMessages(stored, [{ id: 'a' }]).length).toBe(3);
     });
 });

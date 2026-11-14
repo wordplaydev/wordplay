@@ -757,6 +757,8 @@
      *  tile look broken. */
     function submitMessage() {
         if (newMessage.trim() === '' && pendingReference === undefined) return;
+        // Nothing can be sent right now, so keep what was written.
+        if (!Chats.canSend()) return;
         if (chat)
             Chats.addMessage(
                 chat,

@@ -13,6 +13,14 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 A project you have open no longer closes with an error when its gallery changes.
 - 🌐 Translating a project no longer fails when it has a type and a value with the same name, like `Page` and `page`.
 - ✍️ Putting a custom character inside quotes no longer changes the quotes, so the character shows on stage right away.
+- 💾 Changes you make to a project while offline are no longer replaced by an older copy when you open it on another computer or in another tab.
+- 🔑 Signing in to a different account on a shared computer no longer loses the last person's changes that had not been saved online yet.
+- 🌐 Translating a project no longer undoes what you typed while it was translating.
+- ✍️ Typing that would make a project too big now tells you, when before the typing just disappeared.
+- 🤝 Renaming a class or gallery no longer removes someone who was added to it at the same moment.
+- 💾 Folders and other settings you change on one computer are no longer erased by another computer you left open.
+- 🐛 Chat messages that others sent while you were offline are no longer erased when you reconnect.
+- 🎨 Saving one custom character no longer undoes newer changes to another one.
 
 ## 0.41.0 - 2026-11-07
 

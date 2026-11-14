@@ -420,7 +420,13 @@
                                 created: Date.now(),
                                 moderator,
                             };
-                            await addFeedbackComment(feed.id, comment);
+                            // Keep the comment in the box unless it was
+                            // posted: a failure has already said so.
+                            if (
+                                (await addFeedbackComment(feed.id, comment)) !==
+                                true
+                            )
+                                return;
                             loadFeedback();
                             newComments[feed.id] = '';
                         }}

@@ -3,11 +3,10 @@ import { expect, test } from 'vitest';
 
 /**
  * Every synced setting must be both written by `toObject` and read by
- * `syncUser`, in the same change that adds it.
+ * `syncUser` (in `applyCloud`), in the same change that adds it.
  *
- * The creator document is overwritten *wholesale* by `uploadSettings`, so a
- * field written but never read comes back and is discarded on the next write of
- * any other setting — and a field read but never written is silently absent.
+ * A field written but never read is uploaded and then never reaches another
+ * device — and a field read but never written is silently absent.
  * Either way the creator's choice vanishes on a second device with nothing
  * failing. `SettingsSchemaV5`'s own comment warns about this, the folders work
  * hit it, and v6 exists because four settings had been flagged synced while
@@ -41,7 +40,8 @@ function bodyOf(name: string): string {
 
 test('every synced setting is both written and read', () => {
     const written = bodyOf('toObject(): SettingsSchema {');
-    const read = bodyOf('async syncUser(');
+    // syncUser reads the document; applyCloud is where it copies each field in.
+    const read = bodyOf('private applyCloud(');
     const missing = schemaFields().filter(
         (field) => !written.includes(field) || !read.includes(field),
     );

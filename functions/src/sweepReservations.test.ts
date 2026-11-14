@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { isReservation, type Reservation } from './handles.js';
-import { reservationAction } from './sweepReservations.js';
+import { isUserNotFound, reservationAction } from './sweepReservations.js';
 
 const Hour = 60 * 60 * 1000;
 const NOW = Date.parse('2026-09-04T00:00:00Z');
@@ -118,5 +118,20 @@ describe('refusing a reservation the sweep cannot read', () => {
         expect(isReservation(null)).toBe(false);
         expect(isReservation([])).toBe(false);
         expect(isReservation('alice')).toBe(false);
+    });
+});
+
+describe('deciding whether an account is gone', () => {
+    test('only the account not existing says so', () => {
+        expect(isUserNotFound({ code: 'auth/user-not-found' })).toBe(true);
+    });
+
+    test('a question that went unanswered does not', () => {
+        // Retiring a name on any error took a live creator's username away
+        // whenever Auth was slow or over quota.
+        expect(isUserNotFound({ code: 'auth/quota-exceeded' })).toBe(false);
+        expect(isUserNotFound({ code: 'auth/internal-error' })).toBe(false);
+        expect(isUserNotFound(new Error('socket hang up'))).toBe(false);
+        expect(isUserNotFound(undefined)).toBe(false);
     });
 });

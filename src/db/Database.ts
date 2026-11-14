@@ -17,6 +17,7 @@ import {
     getDoc,
     getDocFromServer,
     setDoc,
+    updateDoc,
 } from 'firebase/firestore';
 import {
     derived,
@@ -257,6 +258,10 @@ export class Database {
      *  worse than one that took twelve seconds. The cost is that a one-off write
      *  a person is watching can now take 20s to report a failure. */
     private static WRITE_TIMEOUT_MS = 20_000;
+
+    /** How long a sign-out waits for unsaved work to reach the cloud before
+     *  deleting this device's copy of it. */
+    private static LOGOUT_SAVE_MS = 3_000;
     /** How long the top-of-page banner ({@link reportBanner}) stays up before it
      *  auto-dismisses. Long enough to read a short failure message. */
     private static BANNER_TIMEOUT_MS = 8_000;
@@ -1024,17 +1029,32 @@ export class Database {
             return;
         }
 
+        // Only what changed is sent, and nothing until the cloud's copy has
+        // been read (see SettingsDatabase.getUpload).
+        const upload = this.Settings.getUpload();
+        if (
+            upload === undefined ||
+            ('fields' in upload && Object.keys(upload.fields).length === 0)
+        ) {
+            this.setStatus(SaveStatus.Saved, undefined);
+            return;
+        }
+        const reference = doc(firestore, CreatorCollection, this.user.uid);
+        const sent = 'fields' in upload ? upload.fields : upload.whole;
+
         // Drive the status off the actual write outcome. Fire-and-forget so a
         // poor connection can't hang; the previous code set Saved synchronously
         // (before the write resolved) and left a rejected setDoc as an unhandled
         // rejection — reporting success even on failure.
         this.track(
-            setDoc(
-                doc(firestore, CreatorCollection, this.user.uid),
-                this.Settings.toObject(),
-            ),
+            'fields' in upload
+                ? updateDoc(reference, upload.fields)
+                : setDoc(reference, upload.whole),
         )
-            .then(() => this.setStatus(SaveStatus.Saved, undefined))
+            .then(() => {
+                this.Settings.confirmUpload(sent);
+                this.setStatus(SaveStatus.Saved, undefined);
+            })
             .catch(() =>
                 this.setStatus(
                     SaveStatus.Error,
@@ -1159,7 +1179,7 @@ export class Database {
         }
 
         // Signed in: bring each domain online serially, in priority order.
-        this.startSync(remove);
+        this.startSync(remove, previous);
     }
 
     /** Monotonic token identifying the current serial-sync run. A new run (a
@@ -1179,7 +1199,7 @@ export class Database {
      *  slow/offline domain can't stall the rest. Serializing the listener
      *  setup avoids the concurrent-subscription burst that churned the
      *  Firestore WebChannel session ("Unknown SID") on heavy accounts. */
-    private async startSync(remove: boolean) {
+    private async startSync(remove: boolean, previous: string | null) {
         const sequence = ++this.syncSequence;
         this.resetSync();
 
@@ -1193,7 +1213,7 @@ export class Database {
         // skipping would mean a creator's projects never arrive from the
         // cloud. It does NOT wait for local hydration: reading the cache is a
         // separate concern, and blocking sync behind it stalls every domain.
-        (await this.loadProjects()).syncUser(remove);
+        (await this.loadProjects()).syncUser(remove, previous);
         // Now that the user is known, flush any project edits whose cloud write
         // didn't confirm before the last reload (durable dirty flag → unsaved on
         // hydrate). persist() only writes unsaved histories, so this is a no-op
@@ -1201,6 +1221,11 @@ export class Database {
         this.projects?.saveSoon();
         await this.domainSettled(Domain.Projects);
         if (superseded()) return;
+        // Unsaved projects held for this person from the last time they used
+        // this device come back now that the cloud's copies are here to
+        // compare them with.
+        if (this.user !== null)
+            void this.projects?.restoreSetAside(this.user.uid);
 
         if (remove) await this.Galleries.clearLocal();
         this.Galleries.registerRealtimeUpdates();
@@ -1299,7 +1324,20 @@ export class Database {
      *  a null user, so an involuntary auth drop (a flaky connection that can't
      *  refresh the token) can't erase a creator's local projects. */
     async logout() {
-        await (await this.loadProjects()).deleteLocal();
+        const projects = await this.loadProjects();
+        // Save first, so that signing out costs as little as it can. The
+        // cloud gets a few seconds and no more: signing out must not hang
+        // offline.
+        await Promise.race([
+            projects.persist().catch(() => undefined),
+            new Promise((resolve) =>
+                setTimeout(resolve, Database.LOGOUT_SAVE_MS),
+            ),
+        ]);
+        // Then delete, unsaved work included. Signing out is how someone
+        // makes sure nothing of theirs stays on a device, so nothing is set
+        // aside here; the profile page warns when there is unsaved work.
+        await projects.deleteLocal();
         await this.Characters.clearLocal();
         await this.Chats.clearLocal();
         await this.Galleries.clearLocal();

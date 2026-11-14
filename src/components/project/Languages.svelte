@@ -217,7 +217,12 @@
     async function addLocale(code: SupportedLocale) {
         const text = await LocalesDB.loadLocale(code, false);
         if (text === undefined) return;
-        Projects.reviseProject(project.withLocales([text]));
+        // The text took a moment to load; add to the project as it is now.
+        Projects.reviseProject(
+            (
+                Projects.getHistory(project.getID())?.getCurrent() ?? project
+            ).withLocales([text]),
+        );
         addQuery = '';
     }
 
@@ -227,6 +232,10 @@
         if (functions === undefined || !untaggedLocale || !targetLocale) return;
 
         const target = targetLocale;
+        // What is being translated. Translating takes long enough to keep
+        // typing, here or on another device, and the result is this version
+        // rewritten.
+        const started = project;
 
         error = false;
         resetTranslationRefusal();
@@ -236,7 +245,7 @@
 
         const revisedProject = await translateProject(
             functions,
-            project,
+            started,
             untaggedLocale,
             target,
             mode === RewriteMode,
@@ -256,8 +265,29 @@
         translating = false;
         progress = undefined;
 
-        if (revisedProject) {
-            Projects.reviseProject(revisedProject);
+        // Applying it now would put the code back to what it was when
+        // translating began, so a translation of code that has since changed
+        // is discarded rather than applied.
+        const latest =
+            Projects.getHistory(started.getID())?.getCurrent() ?? started;
+        const unchanged =
+            latest.getSources().length === started.getSources().length &&
+            latest
+                .getSources()
+                .every(
+                    (source, index) =>
+                        started.getSources()[index]?.isEqualTo(source) === true,
+                );
+
+        if (revisedProject && unchanged) {
+            // Translating rewrites names and text throughout, so keep the
+            // version it started from where the creator can get back to it.
+            Projects.reviseProject(
+                revisedProject.withCheckpoint({
+                    time: Date.now(),
+                    sources: started.getSerializedSources(),
+                }),
+            );
             announceDone(target);
             showAll();
             show = false;

@@ -21,10 +21,10 @@ import {
     getDocs,
     query,
     runTransaction,
-    setDoc,
     updateDoc,
     where,
     writeBatch,
+    type UpdateData,
 } from 'firebase/firestore';
 import z from 'zod';
 
@@ -149,15 +149,23 @@ export async function getClass(id: string) {
     } else return undefined;
 }
 
-/** Update the class document with the given class, using its ID. Returns
- *  whether the write reached the cloud, so callers can surface an inline error
- *  and keep the teacher's edit instead of dropping it silently. write() (not
- *  track()) makes the outcome definitive and fail-fast. */
-export async function setClass(group: Class): Promise<boolean> {
+/**
+ * Change some of a class's fields, leaving the rest as the cloud has them.
+ *
+ * Replacing the whole document with the caller's copy meant a teacher renaming
+ * a class a moment after a student was added to it removed that student: the
+ * copy on screen did not have them yet. An edit names what it changes, and
+ * nothing else is sent. Returns whether the write reached the cloud, so
+ * callers can surface a failure.
+ */
+export async function updateClass(
+    id: string,
+    fields: UpdateData<Class>,
+): Promise<boolean> {
     if (db === undefined) return false;
 
     try {
-        await DB.write(setDoc(doc(db, ClassesCollection, group.id), group));
+        await DB.write(updateDoc(doc(db, ClassesCollection, id), fields));
         return true;
     } catch (err) {
         DB.reportBanner((l) => l.ui.banner.saveFailed, err);

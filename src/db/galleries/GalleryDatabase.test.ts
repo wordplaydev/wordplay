@@ -133,14 +133,14 @@ vi.mock('#db/teachers/TeacherDatabase.svelte.ts', () => ({
     ClassesCollection: 'classes',
     ClassSchema: { parse: (x: unknown) => x },
     getClass: vi.fn(),
-    setClass: vi.fn(),
+    updateClass: vi.fn(),
 }));
 
 vi.mock('#db/projects/ProjectsDatabase.svelte.ts', () => ({
     ProjectsCollection: 'projects',
 }));
 
-import GalleryDatabase from './GalleryDatabase.svelte';
+import GalleryDatabase, { toMergeUpdate } from './GalleryDatabase.svelte';
 import type { SerializedGallery } from './Gallery';
 import { getDoc, setDoc } from 'firebase/firestore';
 
@@ -229,6 +229,7 @@ type DatabaseFakeWithDomains = DatabaseFake & {
     projectsFake: {
         edit: ReturnType<typeof vi.fn>;
         getHistory: ReturnType<typeof vi.fn>;
+        confirmSent: ReturnType<typeof vi.fn>;
         get: ReturnType<typeof vi.fn>;
         saveSoon: ReturnType<typeof vi.fn>;
         syncUser: ReturnType<typeof vi.fn>;
@@ -250,9 +251,12 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
     let mockDatabase: DatabaseFakeWithDomains;
     let projectsEditMock: ReturnType<typeof vi.fn>;
     let getHistoryMock: ReturnType<typeof vi.fn>;
-    let markSavedMock: ReturnType<typeof vi.fn>;
+    let markSavedMock: ReturnType<typeof vi.fn<() => void>>;
+
+    let historyCurrent: Project | undefined;
 
     function setHistoryCurrent(project: Project) {
+        historyCurrent = project;
         getHistoryMock.mockReturnValue({
             getCurrent: () => project,
             markSaved: markSavedMock,
@@ -263,7 +267,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
         vi.clearAllMocks();
         lastBatchOps = [];
 
-        markSavedMock = vi.fn();
+        markSavedMock = vi.fn<() => void>();
         getHistoryMock = vi.fn();
         projectsEditMock = vi.fn(async () => undefined);
 
@@ -281,6 +285,10 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             projectsFake: {
                 edit: projectsEditMock,
                 getHistory: getHistoryMock,
+                // As the real one does: only the version sent counts as saved.
+                confirmSent: vi.fn((sent: Project) => {
+                    if (historyCurrent === sent) markSavedMock();
+                }),
                 get: vi.fn(async () => undefined),
                 saveSoon: vi.fn(),
                 syncUser: vi.fn(),
@@ -924,5 +932,45 @@ describe('watching a public gallery (#1375)', () => {
         second();
         expect(gallerySubscription().unsubscribed).toBe(true);
         expect(releasedHowTos).toEqual(['g1']);
+    });
+});
+
+describe('who is in a gallery is sent as a change', () => {
+    const before = makeGallery('g1', {
+        curators: ['teacher'],
+        creators: ['amy'],
+    });
+
+    it('says nothing about membership when an edit left it alone', () => {
+        // A rename sent with this client's copy of the lists removed whoever
+        // had joined since that copy was made.
+        const renamed = makeGallery('g1', {
+            curators: ['teacher'],
+            creators: ['amy'],
+            public: true,
+        });
+        const update = toMergeUpdate(renamed, before);
+        expect(update).not.toHaveProperty('curators');
+        expect(update).not.toHaveProperty('creators');
+        expect(update).toHaveProperty('public', true);
+    });
+
+    it('adds a new member without restating the others', () => {
+        const joined = makeGallery('g1', {
+            curators: ['teacher'],
+            creators: ['amy', 'ben'],
+        });
+        expect(toMergeUpdate(joined, before).creators).toEqual({
+            _op: 'arrayUnion',
+            elements: ['ben'],
+        });
+    });
+
+    it('removes a member without restating the others', () => {
+        const left = makeGallery('g1', { curators: ['teacher'], creators: [] });
+        expect(toMergeUpdate(left, before).creators).toEqual({
+            _op: 'arrayRemove',
+            elements: ['amy'],
+        });
     });
 });
