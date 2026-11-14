@@ -400,20 +400,6 @@ export default class Layout {
         return digits === undefined ? undefined : Number.parseInt(digits, 10);
     }
 
-    /** Whether the source this tile shows is also shown in another expanded tile. */
-    isSplit(tile: Tile) {
-        const index = Layout.getSourceIndexFromID(tile.id);
-        return (
-            index !== undefined &&
-            this.tiles.some(
-                (other) =>
-                    other.id !== tile.id &&
-                    !other.isCollapsed() &&
-                    Layout.getSourceIndexFromID(other.id) === index,
-            )
-        );
-    }
-
     getSource(index: number) {
         return this.getTileWithID(Layout.getSourceID(index));
     }
