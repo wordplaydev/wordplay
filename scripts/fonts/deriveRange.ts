@@ -82,16 +82,13 @@ export async function readCharacterSet(fontPath: string): Promise<number[]> {
     return font.characterSet;
 }
 
-/**
- * fontkit is a CommonJS package. Under tsx its namespace may carry `create`
- * itself or only on `default`, so both are tried; the types come from
- * @types/fontkit plus the Uint8Array overload in src/input/fontkit.d.ts.
- */
+/** Imported lazily so commands that never read a font don't load fontkit; the
+ * types come from @types/fontkit plus the Uint8Array overload in
+ * src/input/fontkit.d.ts. */
 export async function loadFontkit(): Promise<
     Pick<typeof import('fontkit'), 'create'>
 > {
-    const mod = await import('fontkit');
-    return typeof mod.create === 'function' ? mod : mod.default;
+    return import('fontkit');
 }
 
 /** Parse a CSS unicode-range string (as produced by toRangeString or captured

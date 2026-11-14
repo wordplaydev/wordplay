@@ -3047,11 +3047,7 @@
                             "excited",
                             "$~Yesssss, পৰিৱৰ্তন আহি আছে! মই কি কৰো দেখুৱাব পাৰিমনে?"
                         ],
-                        [
-                            "FunctionDefinition",
-                            "eager",
-                            "$~হয়, অনুগ্ৰহ কৰি কৰক!"
-                        ],
+                        ["FunctionDefinition", "eager", "$~হয়, অনুগ্ৰহ কৰি কৰক!"],
                         null,
                         [
                             "Reaction",
@@ -3104,11 +3100,7 @@
                             "bored",
                             "$~মানে এটা ধাৰা সলনি হ’লে মাত্ৰ কওঁ। মোক এটা ষ্ট্ৰিম দিয়ক, মই চেক কৰিম। সেইটোৱেই হ’ল।"
                         ],
-                        [
-                            "Reaction",
-                            "confused",
-                            "$~বাৰু, ইয়াতকৈও বেছি। শুদ্ধ?"
-                        ],
+                        ["Reaction", "confused", "$~বাৰু, ইয়াতকৈও বেছি। শুদ্ধ?"],
                         [
                             "Changed",
                             "bored",
@@ -3237,11 +3229,7 @@
                             "happy",
                             "$~বাৰু, তুমি সঠিক ঠাইত আহিলা। মঞ্চ জীৱনৰ সকলো কথাৰ কথা ক’লে ভাল লাগে। আমি ইয়াত মঞ্চত কৰা সকলোবোৰ আচৰিত সৰু সৰু কাম আপোনালোকক দেখুৱাবলৈ ৰৈ থাকিব নোৱাৰিলোঁ!"
                         ],
-                        [
-                            "FunctionDefinition",
-                            "excited",
-                            "$~শ্ব’টো আৰম্ভ হওক!"
-                        ],
+                        ["FunctionDefinition", "excited", "$~শ্ব’টো আৰম্ভ হওক!"],
                         null,
                         [
                             "Phrase",
@@ -4046,11 +4034,7 @@
                         ],
                         null,
                         ["Music", "serious", "$~মই সংখ্যাক শব্দলৈ পৰিণত কৰোঁ।"],
-                        [
-                            "FunctionDefinition",
-                            "curious",
-                            "$~সংখ্যা? সুৰ নহয়?"
-                        ],
+                        ["FunctionDefinition", "curious", "$~সংখ্যা? সুৰ নহয়?"],
                         ["Music", "kind", "$~চোৱা। আঠটা সংখ্যা, এটা কণ্ঠ।"],
                         { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
                         [
@@ -5011,11 +4995,7 @@
                             "kind",
                             "$~আপুনি কি ভাবে, সকলোৰে সৈতে পুনৰ মিলিত হ’বলৈ সাজু নেকি? আমাৰ চেপলিং ডাইৰেক্টৰৰ মনত যি অভিনয় আছে সেইটো ৰাখিবলৈ?"
                         ],
-                        [
-                            "StructureDefinition",
-                            "eager",
-                            "$~মই তেনেকৈয়ে ভাবো।"
-                        ],
+                        ["StructureDefinition", "eager", "$~মই তেনেকৈয়ে ভাবো।"],
                         {
                             "fit": "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))"
                         },
@@ -5826,11 +5806,7 @@
                         ],
                         null,
                         ["Evaluate", "sad", "$~..."],
-                        [
-                            "FunctionDefinition",
-                            "happy",
-                            "$~মই সহায় কৰিব পাৰো।"
-                        ],
+                        ["FunctionDefinition", "happy", "$~মই সহায় কৰিব পাৰো।"],
                         ["Evaluate", "happy", "$~..."],
                         [
                             "FunctionDefinition",

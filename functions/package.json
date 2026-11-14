@@ -13,7 +13,7 @@
         "outdated": "npx check-outdated --ignore-pre-releases --columns name,type,current,latest,changes"
     },
     "engines": {
-        "node": "^22.0.0 || ^24.0.0"
+        "node": "^24.0.0"
     },
     "main": "lib/index.js",
     "dependencies": {

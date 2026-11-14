@@ -40,60 +40,15 @@ const FORMAT: [number, number][] = [
 ];
 const inBlocks = (cp: number) => BLOCKS.some(([a, b]) => cp >= a && cp <= b);
 
-type Fontkit = { create(data: Uint8Array): unknown };
-
-function isFontkit(value: unknown): value is Fontkit {
-    return (
-        typeof value === 'object' &&
-        value !== null &&
-        'create' in value &&
-        typeof value.create === 'function'
-    );
-}
-
-/** fontkit ships both a namespace and a default export, depending on how it is
- * resolved; Fonts.ts checks for both and so does this. */
-function fontkitOf(mod: unknown): Fontkit {
-    if (isFontkit(mod)) return mod;
-    if (
-        typeof mod === 'object' &&
-        mod !== null &&
-        'default' in mod &&
-        isFontkit(mod.default)
-    )
-        return mod.default;
-    throw new Error('fontkit exposes no create()');
-}
-
-function isCollection(value: unknown): value is { fonts: unknown[] } {
-    return (
-        typeof value === 'object' &&
-        value !== null &&
-        'fonts' in value &&
-        Array.isArray(value.fonts)
-    );
-}
-
-function isFont(value: unknown): value is { characterSet: number[] } {
-    return (
-        typeof value === 'object' &&
-        value !== null &&
-        'characterSet' in value &&
-        Array.isArray(value.characterSet)
-    );
-}
-
 /** Every codepoint the font has a cmap glyph for (no emoji-block filtering) —
  * for keycap bases (#, *, 0-9), which live below the emoji blocks. Loads the
  * font with fontkit the same way Fonts.ts does (dynamic import + collection
  * check). */
 async function rawCodepoints(fontPath: string): Promise<Set<number>> {
-    const mod: unknown = await import('fontkit');
-    const created: unknown = fontkitOf(mod).create(
-        new Uint8Array(fs.readFileSync(fontPath)),
-    );
-    const font = isCollection(created) ? created.fonts[0] : created;
-    if (!isFont(font)) throw new Error(`No character set in ${fontPath}`);
+    const { create } = await import('fontkit');
+    const created = create(new Uint8Array(fs.readFileSync(fontPath)));
+    const font = 'fonts' in created ? created.fonts[0] : created;
+    if (font === undefined) throw new Error(`No font in ${fontPath}`);
     return new Set(font.characterSet);
 }
 

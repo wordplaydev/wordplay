@@ -85,7 +85,7 @@ function vendorChunk(id) {
             'node_modules/restructure/',
             'node_modules/unicode-properties/',
             'node_modules/unicode-trie/',
-            'node_modules/tiny-inflate/',
+            'node_modules/fflate/',
             'node_modules/dfa/',
         ].some((lazy) => id.includes(lazy))
     )
