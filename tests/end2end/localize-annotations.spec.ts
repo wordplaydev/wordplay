@@ -119,3 +119,43 @@ test('the sidebar is unchanged when localization mode is off', async ({
     await expect(row).toContainText(conflictName);
     await expect(row.getByRole('button', { name: editTip })).toHaveCount(0);
 });
+
+/**
+ * The markup editor's toolbar is a no-wrap row, so it used to set the width of whatever held
+ * it: in a tutorial bubble it stretched the editor past the dialog column, which a flipped
+ * bubble overflows toward its start, out of reach — hiding the start of the text and the
+ * save status beside it. The toolbar must fold its buttons into its menu instead.
+ */
+test('a tutorial bubble’s editor fits the dialog column', async ({ page }) => {
+    test.setTimeout(90000);
+
+    await page.goto('/en-US/learn?tutorial=complete&act=1&scene=2&pause=5');
+    await localizeOn(page);
+    const card = page.locator('button.card').nth(1);
+    if (await card.isVisible()) await card.click({ position: { x: 8, y: 8 } });
+
+    const column = page.locator('.dialog[role="article"]');
+    const bubble = column.locator('.markup-localizing').first();
+    await expect(bubble).toBeVisible({ timeout: 30000 });
+    await bubble.getByRole('button', { name: editTip }).first().click();
+
+    const editor = bubble.locator('.markup-editor').first();
+    await expect(editor).toBeVisible();
+    // Buttons that don't fit go into the menu rather than widening the bubble.
+    await expect(
+        bubble.getByRole('button', {
+            name: text(enUS.ui.widget.overflow.button.off),
+        }),
+    ).toBeVisible();
+
+    const columnBox = await column.boundingBox();
+    const editorBox = await editor.boundingBox();
+    if (columnBox === null || editorBox === null)
+        throw new Error('No box for the column or the editor.');
+    expect(editorBox.x).toBeGreaterThanOrEqual(columnBox.x - 1);
+    expect(editorBox.x + editorBox.width).toBeLessThanOrEqual(
+        columnBox.x + columnBox.width + 1,
+    );
+
+    await localizeOff(page);
+});
