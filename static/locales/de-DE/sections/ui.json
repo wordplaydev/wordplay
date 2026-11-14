@@ -2159,7 +2159,7 @@
             "unwritten": "$~Wird noch bekannt gegeben",
             "unparsable": "$~Nicht analysierbare Vorlage: $template",
             "machineTranslated": "$~Dies wurde maschinell übersetzt, daher ist der Text möglicherweise nicht lesbar oder korrekt.",
-            "locallyRevised": "$~Dieser Text wurde lokal überarbeitet und weicht von der offiziellen Übersetzung ab."
+            "locallyRevised": "$~Du hast das bearbeitet. Deine Änderung bleibt auf diesem Gerät gespeichert, bis du sie im Lokalisierungsbereich einreichst."
         },
         "collaborate": {
             "label": "$~zusammenarbeiten",
@@ -2644,7 +2644,7 @@
             },
             "button": {
                 "edit": "$~Schlagen Sie eine Änderung an diesem Text vor",
-                "submit": "$~Vorschlag zur Bearbeitung einreichen",
+                "submit": "$~Diese Änderung auf diesem Gerät speichern",
                 "cancel": "$~Vorgeschlagene Bearbeitung verwerfen",
                 "revert": "$~Zum offiziellen Text zurückkehren",
                 "editTip": "$~Schlagen Sie eine Änderung am Tooltip dieses Steuerelements vor.",
@@ -2730,6 +2730,14 @@
                 "conceptName": "$~Die Dokumentation erklärt dieses Wort schon. Ein Link dazu würde also dorthin führen.",
                 "alreadyUsed": "$~Das ist bereits eine Form von $term. Es wäre also unklar, welchen Begriff du gemeint hast.",
                 "searchOnly": "$~Ein Link endet an einem Leerzeichen oder einem Symbol. Diese Form hilft also nur bei der Suche."
+            },
+            "drafts": "$~Deine Änderungen sind auf diesem Gerät gespeichert. Wenn du bereit bist, reiche sie im Lokalisierungsbereich ein, damit alle sie sehen können.",
+            "save": {
+                "saved": "$~Auf diesem Gerät gespeichert",
+                "reverted": "$~Offizieller Text wiederhergestellt",
+                "failed": "$~Diese Änderung konnte nicht gespeichert werden. Versuche es noch einmal.",
+                "savedAnnouncement": "$~Auf diesem Gerät gespeichert: $text",
+                "revertedAnnouncement": "$~Offizieller Text wiederhergestellt: $text"
             }
         },
         "tour": {

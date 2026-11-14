@@ -18,9 +18,11 @@
     import Note from '#components/widgets/Note.svelte';
     import TextField from '#components/widgets/TextField.svelte';
     import { locales } from '#db/Database.ts';
+    import LocaleEditStatus from '#components/localization/LocaleEditStatus.svelte';
     import {
         deleteLocaleEdit,
         localeEdits,
+        type LocaleEditResult,
         saveLocaleEdit,
     } from '#db/locales/LocalizationDexie.ts';
     import DefaultLocale from '#locale/DefaultLocale.ts';
@@ -110,13 +112,28 @@
 
     /** Save a term's whole list, or drop the override when it matches what the
      *  locale already has (nothing left to suggest). */
-    function save(id: string, forms: string[], committed: string[]) {
+    async function save(id: string, forms: string[], committed: string[]) {
         const same =
             forms.length === committed.length &&
             forms.every((form, index) => form === committed[index]);
-        if (same) deleteLocaleEdit(activeLocaleString, pathFor(id));
-        else saveLocaleEdit(activeLocaleString, pathFor(id), forms);
+        const text = forms.join(', ');
+        try {
+            if (same) await deleteLocaleEdit(activeLocaleString, pathFor(id));
+            else await saveLocaleEdit(activeLocaleString, pathFor(id), forms);
+            results[id] = {
+                kind: same ? 'reverted' : 'saved',
+                text,
+                at: Date.now(),
+            };
+            return true;
+        } catch {
+            results[id] = { kind: 'failed', text, at: Date.now() };
+            return false;
+        }
     }
+
+    /** What became of each term's last edit. */
+    let results = $state<Record<string, LocaleEditResult>>({});
 
     /** The term whose add field is being typed in, and what's in it. Only one
      *  draft at a time, so the problem below belongs to an unambiguous field. */
@@ -138,10 +155,13 @@
             (problem === undefined || problem.kind === 'unreferenceable'),
     );
 
-    function add(row: (typeof rows)[number]) {
+    async function add(row: (typeof rows)[number]) {
         if (!canAdd || draftId !== row.id) return;
-        save(row.id, [...row.forms, draft.trim()], row.committed);
+        const form = draft.trim();
         draft = '';
+        // A failed save puts the draft back, so trying again needs no retyping.
+        if (!(await save(row.id, [...row.forms, form], row.committed)))
+            draft = form;
     }
 
     function remove(row: (typeof rows)[number], form: string) {
@@ -159,6 +179,7 @@
 
     <ul class="terms">
         {#each rows as row (row.id)}
+            {@const result = results[row.id]}
             <li class="term">
                 <GlossaryEntry id={row.id} />
 
@@ -217,13 +238,11 @@
                         <Button
                             tip={(l) => l.ui.localize.button.revert}
                             action={() =>
-                                deleteLocaleEdit(
-                                    activeLocaleString,
-                                    pathFor(row.id),
-                                )}
+                                save(row.id, row.committed, row.committed)}
                             background>{REVERT_SYMBOL}</Button
                         >
                     {/if}
+                    {#if result}<LocaleEditStatus {result} />{/if}
                 </div>
 
                 {#if draftId === row.id && problem !== undefined}

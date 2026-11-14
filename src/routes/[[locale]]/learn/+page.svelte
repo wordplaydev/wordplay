@@ -59,11 +59,7 @@
     /** Load the tutorial when locales or mode change. */
     $effect(() => {
         if (browser && $locales && mode) {
-            Locales.getTutorial(
-                $locales.getLocale().language,
-                $locales.getLocale().regions,
-                mode,
-            ).then((t) => {
+            Locales.getTutorial($locales.getLocale(), mode).then((t) => {
                 tutorial = t;
                 if (initial && tutorial) {
                     navigate(
@@ -85,8 +81,7 @@
     if (import.meta.hot) {
         import.meta.hot.on('locales-update', async () => {
             tutorial = await Locales.getTutorial(
-                $locales.getLocale().language,
-                $locales.getLocale().regions,
+                $locales.getLocale(),
                 mode ?? DEFAULT_TUTORIAL_MODE,
                 true,
             );

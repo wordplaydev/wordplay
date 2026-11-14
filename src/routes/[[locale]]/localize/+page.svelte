@@ -30,11 +30,13 @@
     import Title from '#components/widgets/Title.svelte';
     import { locales } from '#db/Database.ts';
     import { getFunctionsInstance } from '#db/firebase.ts';
+    import LocaleEditStatus from '#components/localization/LocaleEditStatus.svelte';
     import {
+        commitLocaleEdit,
         deleteAllLocaleEdits,
         deleteLocaleEdit,
         localeEdits,
-        saveLocaleEdit,
+        type LocaleEditResult,
     } from '#db/locales/LocalizationDexie.ts';
     import DefaultLocale from '#locale/DefaultLocale.ts';
     import {
@@ -705,12 +707,21 @@
 
     /** Persist the contributor's edited text. If it matches the source, drop the
      *  override entry; otherwise upsert it under the currently-targeted cell's key. */
-    async function saveEdit() {
-        if (currentKey === undefined) return;
-        if (editedText === currentSourceText)
-            await deleteLocaleEdit(activeLocaleString, currentKey);
-        else await saveLocaleEdit(activeLocaleString, currentKey, editedText);
+    async function saveEdit(text: string = editedText) {
+        if (currentKey === undefined) return true;
+        const result = await commitLocaleEdit(
+            activeLocaleString,
+            currentKey,
+            text,
+            currentSourceText,
+            currentOverride,
+        );
+        if (result !== undefined) lastResult = result;
+        return result?.kind !== 'failed';
     }
+
+    /** What became of the last edit, shown beside the editor's actions. */
+    let lastResult = $state<LocaleEditResult | undefined>(undefined);
 
     /** Discard any in-progress changes and snap the editor back to the saved value
      *  (override if any, otherwise the source). */
@@ -720,8 +731,7 @@
 
     /** Remove the override for the current cell entirely, restoring the source text. */
     async function revertEdit() {
-        if (currentKey === undefined) return;
-        await deleteLocaleEdit(activeLocaleString, currentKey);
+        await saveEdit(currentSourceText);
     }
 
     /** Within a tuple-typed value, move the editor to a sibling element after
@@ -730,7 +740,8 @@
         if (arrayLength === 0) return;
         const clamped = Math.max(0, Math.min(arrayLength - 1, next));
         if (clamped === selectedIndex) return;
-        await saveEdit();
+        // A failed save stays put, so the draft isn't left behind unsaved.
+        if (!(await saveEdit())) return;
         manualIndex = clamped;
     }
 
@@ -744,7 +755,7 @@
      *  any pending edit before switching. */
     async function moveEntry(delta: -1 | 1) {
         if (filteredOptions.length === 0) return;
-        await saveEdit();
+        if (!(await saveEdit())) return;
         const next = Math.max(
             0,
             Math.min(
@@ -1228,7 +1239,7 @@
                                                 editedText !==
                                                     (currentOverride ??
                                                         currentSourceText)}
-                                            action={saveEdit}
+                                            action={() => saveEdit()}
                                             background>{CONFIRM_SYMBOL}</Button
                                         >
                                         <Button
@@ -1249,6 +1260,9 @@
                                                 >{REVERT_SYMBOL}</Button
                                             >
                                         {/if}
+                                        {#if lastResult}<LocaleEditStatus
+                                                result={lastResult}
+                                            />{/if}
                                     </div>
                                 {/if}
                             {/if}

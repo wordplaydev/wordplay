@@ -2557,7 +2557,7 @@
             "button": {
                 "edit": "$~Sugerează o modificare a acestui text",
                 "editTip": "$~Sugerați o modificare a tooltip-ului acestui control",
-                "submit": "$~Trimiteți editarea sugerată",
+                "submit": "$~Salvează această modificare pe acest dispozitiv",
                 "cancel": "$~Renunță la editarea sugerată",
                 "revert": "$~Reveniți la textul oficial",
                 "prev": "$~Editați elementul anterior",
@@ -2641,6 +2641,14 @@
                 "conceptName": "$~Documentarea definește deja acest cuvânt, așa că o legătură la el ar duce acolo în schimb.",
                 "alreadyUsed": "$~Aceasta este deja o formă a $term, așa că nu ar fi clar la ce termen te referi.",
                 "searchOnly": "$~O legătură se termină la un spațiu sau un simbol, așa că această formă va ajuta doar la căutare."
+            },
+            "drafts": "$~Modificările tale sunt salvate pe acest dispozitiv. Când ești gata, trimite-le din spațiul de lucru pentru localizare, ca să le poată vedea toată lumea.",
+            "save": {
+                "saved": "$~Salvat pe acest dispozitiv",
+                "reverted": "$~Textul oficial a fost restaurat",
+                "failed": "$~Această modificare nu a putut fi salvată. Încearcă din nou.",
+                "savedAnnouncement": "$~Salvat pe acest dispozitiv: $text",
+                "revertedAnnouncement": "$~Textul oficial a fost restaurat: $text"
             }
         },
         "edit": {
@@ -2677,7 +2685,7 @@
             "unwritten": "$~De stabilit",
             "unparsable": "$~Șablon neanalizabil: $template",
             "machineTranslated": "$~Aceasta a fost tradusă automat, deci este posibil să nu fie lizibilă sau corectă.",
-            "locallyRevised": "$~Acest text a fost revizuit local și diferă de traducerea oficială."
+            "locallyRevised": "$~Ai modificat acest text. Modificarea ta este salvată pe acest dispozitiv până o trimiți din spațiul de lucru pentru localizare."
         },
         "emoji": {
             "noCharacters": "$~Creați un personaj personalizat",

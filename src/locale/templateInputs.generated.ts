@@ -762,6 +762,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.localize.inputs.plural.arity': ['name', 'found', 'expected'],
     'ui.localize.inputs.plural.missing': ['name'],
     'ui.localize.inputs.plural.tip': ['forms'],
+    'ui.localize.save.revertedAnnouncement': ['text'],
+    'ui.localize.save.savedAnnouncement': ['text'],
     'ui.markup.feedback.concept': ['name'],
     'ui.markup.feedback.formatOff': ['format'],
     'ui.markup.feedback.formatOn': ['format'],

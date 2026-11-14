@@ -1506,7 +1506,7 @@
             "tour": {
                 "launch": "$~tham quan hướng dẫn viên.",
                 "guide": "$~Tệp /guide/ chứa *tài liệu* hướng dẫn về tất cả các khái niệm và *khả năng* của *ngôn ngữ lập trình* @wordplay.",
-                "mode": "$~Sử dụng nút /toggle/ này để tự chuyển đổi giữa phần *mã nguồn* và phần *hướng dẫn*.",
+                "mode": "$~Sử dụng nút /Nút bật tắt/ này để tự chuyển đổi giữa phần *mã nguồn* và phần *hướng dẫn*.",
                 "search": "$~Hộp tìm kiếm rất hữu ích để *khám phá* các tính năng, hoặc tìm kiếm nhanh một tính năng *theo tên*.",
                 "code": "$~Đây là phần /mã số/. Nó chứa tài liệu về *ngôn ngữ lập trình* — những khối xây dựng mà bạn có thể kết hợp để tạo ra các chương trình.",
                 "howto": "$~Đây là phần hướng dẫn. Nó chứa các *mẫu hữu ích* để đạt được các hành vi cụ thể trong dự án của bạn."
@@ -2567,7 +2567,7 @@
             "unwritten": "$~Sẽ được xác định sau.",
             "unparsable": "$~Mẫu không thể phân tích cú pháp: $template",
             "machineTranslated": "$~Đây là bản dịch máy, vì vậy có thể không dễ đọc hoặc không chính xác.",
-            "locallyRevised": "$~Văn bản này đã được chỉnh sửa cục bộ và khác với bản dịch chính thức."
+            "locallyRevised": "$~Bạn đã sửa phần này. Bản sửa của bạn được lưu trên thiết bị này cho đến khi bạn gửi nó từ không gian làm việc bản địa hóa."
         },
         "emoji": {
             "noCharacters": "$~Tạo nhân vật tùy chỉnh",
@@ -2642,7 +2642,7 @@
             },
             "button": {
                 "edit": "$~Hãy đề xuất chỉnh sửa cho văn bản này.",
-                "submit": "$~Gửi đề xuất chỉnh sửa",
+                "submit": "$~Lưu bản sửa này trên thiết bị này",
                 "cancel": "$~Bỏ đề xuất chỉnh sửa",
                 "revert": "$~Trở lại văn bản chính thức",
                 "editTip": "$~Đề xuất chỉnh sửa chú thích công cụ của điều khiển này.",
@@ -2728,6 +2728,14 @@
                 "conceptName": "$~Tài liệu đã giải thích từ này rồi, nên một liên kết đến nó sẽ dẫn đến đó thay vì đây.",
                 "alreadyUsed": "$~Đây đã là một dạng viết của $term rồi, nên sẽ không rõ bạn muốn nói đến thuật ngữ nào.",
                 "searchOnly": "$~Một liên kết kết thúc ở dấu cách hoặc ký hiệu, nên dạng viết này chỉ giúp cho việc tìm kiếm."
+            },
+            "drafts": "$~Các bản sửa của bạn được lưu trên thiết bị này. Khi sẵn sàng, hãy gửi chúng từ không gian làm việc bản địa hóa để mọi người có thể xem.",
+            "save": {
+                "saved": "$~Đã lưu trên thiết bị này",
+                "reverted": "$~Đã khôi phục văn bản chính thức",
+                "failed": "$~Không thể lưu bản sửa này. Hãy thử lại.",
+                "savedAnnouncement": "$~Đã lưu trên thiết bị này: $text",
+                "revertedAnnouncement": "$~Đã khôi phục văn bản chính thức: $text"
             }
         },
         "tour": {

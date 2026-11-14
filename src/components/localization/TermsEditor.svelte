@@ -12,9 +12,12 @@
     import Note from '#components/widgets/Note.svelte';
     import TextField from '#components/widgets/TextField.svelte';
     import { locales } from '#db/Database.ts';
+    import LocaleEditStatus from '#components/localization/LocaleEditStatus.svelte';
     import {
+        commitLocaleEdit,
         deleteLocaleEdit,
         localeEdits,
+        type LocaleEditResult,
         saveLocaleEdit,
     } from '#db/locales/LocalizationDexie.ts';
     import type { LocaleTextAccessor } from '#locale/Locales.ts';
@@ -74,11 +77,24 @@
 
     /** Save an edit to an existing term, or drop the override if it matches the
      *  committed source (nothing to suggest). */
-    function savePhrase(key: string, text: string, source: string | undefined) {
-        if (source !== undefined && text === source)
-            deleteLocaleEdit(activeLocaleString, pathFor(key));
-        else saveLocaleEdit(activeLocaleString, pathFor(key), text);
+    async function savePhrase(
+        key: string,
+        text: string,
+        source: string | undefined,
+    ) {
+        const result = await commitLocaleEdit(
+            activeLocaleString,
+            pathFor(key),
+            text,
+            source,
+            termOverrides.get(key),
+        );
+        if (result !== undefined) results[key] = result;
     }
+
+    /** What became of each term's last edit, and of the last term added. */
+    let results = $state<Record<string, LocaleEditResult>>({});
+    let added = $state<LocaleEditResult | undefined>(undefined);
 
     // New-term draft.
     let newKey = $state('');
@@ -103,11 +119,22 @@
             newPhrase.trim().length > 0,
     );
 
-    function addTerm() {
+    async function addTerm() {
         if (!canAdd) return;
-        saveLocaleEdit(activeLocaleString, pathFor(newKey.trim()), newPhrase);
-        newKey = '';
-        newPhrase = '';
+        const phrase = newPhrase;
+        try {
+            await saveLocaleEdit(
+                activeLocaleString,
+                pathFor(newKey.trim()),
+                phrase,
+            );
+            added = { kind: 'saved', text: phrase, at: Date.now() };
+            newKey = '';
+            newPhrase = '';
+        } catch {
+            // The draft stays in the fields, so trying again needs no retyping.
+            added = { kind: 'failed', text: phrase, at: Date.now() };
+        }
     }
 </script>
 
@@ -120,6 +147,7 @@
     {:else}
         <ul class="list">
             {#each rows as row (row.key)}
+                {@const result = results[row.key]}
                 <li class="term">
                     <span class="key">${row.key}</span>
                     <TextField
@@ -157,13 +185,19 @@
                         <Button
                             tip={(l) => l.ui.localize.button.revert}
                             action={() =>
-                                deleteLocaleEdit(
-                                    activeLocaleString,
-                                    pathFor(row.key),
+                                savePhrase(
+                                    row.key,
+                                    sourceTerms.find(
+                                        ([k]) => k === row.key,
+                                    )?.[1] ?? '',
+                                    sourceTerms.find(
+                                        ([k]) => k === row.key,
+                                    )?.[1],
                                 )}
                             background>{REVERT_SYMBOL}</Button
                         >
                     {/if}
+                    {#if result}<LocaleEditStatus {result} />{/if}
                 </li>
             {/each}
         </ul>
@@ -190,6 +224,7 @@
             action={addTerm}
             background>+</Button
         >
+        {#if added}<LocaleEditStatus result={added} />{/if}
     </div>
 </section>
 

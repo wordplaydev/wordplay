@@ -2805,7 +2805,7 @@
             "button": {
                 "edit": "$~為呢段文字建議修改",
                 "editTip": "$~為呢個控制項嘅提示建議修改",
-                "submit": "$~提交建議嘅修改",
+                "submit": "$~將呢個修改儲存喺呢部裝置度",
                 "cancel": "$~放棄建議嘅修改",
                 "revert": "$~還原做官方文字",
                 "prev": "$~編輯上一個項目",
@@ -2848,7 +2848,15 @@
             "strings": "$~翻譯字串",
             "emotion": "$~揀一種情緒",
             "invalidName": "$~唔係有效嘅 Wordplay 名稱",
-            "invalidConceptLinks": "$~呢啲概念連結喺而家嘅語言搵唔到。係咪串錯咗字，定係你特登刪咗佢？"
+            "invalidConceptLinks": "$~呢啲概念連結喺而家嘅語言搵唔到。係咪串錯咗字，定係你特登刪咗佢？",
+            "drafts": "$~你嘅修改已經儲存喺呢部裝置度。準備好嘅時候，喺在地化工作區提交，咁大家就睇到喇。",
+            "save": {
+                "saved": "$~已儲存喺呢部裝置",
+                "reverted": "$~已還原官方文字",
+                "failed": "$~呢個修改儲存唔到。請再試一次。",
+                "savedAnnouncement": "$~已儲存喺呢部裝置：$text",
+                "revertedAnnouncement": "$~已還原官方文字：$text"
+            }
         },
         "edit": {
             "node": "$~$node$type[, $type|]",
@@ -2884,7 +2892,7 @@
             "unwritten": "$~待定",
             "unparsable": "$~睇唔明嘅範本：$template",
             "machineTranslated": "$~呢段係機器翻譯嘅，所以可能睇唔明，或者唔啱。",
-            "locallyRevised": "$~呢段文字喺本地改過，同官方翻譯唔同。"
+            "locallyRevised": "$~你改過呢段文字。你嘅修改會先儲存喺呢部裝置度，直到你喺在地化工作區提交為止。"
         },
         "phonemes": {
             "toggle": {

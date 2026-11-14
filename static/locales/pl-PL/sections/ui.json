@@ -1243,7 +1243,7 @@
             "tour": {
                 "launch": "$~weź udział w wycieczce z przewodnikiem",
                 "guide": "$~/Przewodnik/ zawiera *dokumentację* wszystkich koncepcji i *możliwości* *języka programowania* @wordplay.",
-                "mode": "$~Użyj tego przełącznika /toggle/, aby samodzielnie przełączać się pomiędzy sekcją *kodu* a sekcją *jak to zrobić*.",
+                "mode": "$~Użyj tego przełącznika /przełącznik/, aby samodzielnie przełączać się pomiędzy sekcją *kodu* a sekcją *jak to zrobić*.",
                 "search": "$~Pole wyszukiwania /szukaj/ jest przydatne do *odkrywania* funkcji lub szybkiego znajdowania ich *po nazwie*.",
                 "code": "$~To jest sekcja /zamiar/. Zawiera dokumentację *języka programowania* — elementy składowe, które można łączyć, aby tworzyć programy.",
                 "howto": "$~To jest sekcja /jak-zrobić/. Zawiera *przydatne wzorce* do osiągnięcia określonych zachowań w Twoich projektach."
@@ -2311,7 +2311,7 @@
             "unwritten": "$~Do ustalenia",
             "unparsable": "$~Niemożliwy do przeanalizowania szablon: $template",
             "machineTranslated": "$~Tekst został przetłumaczony maszynowo, więc może być nieczytelny lub niepoprawny.",
-            "locallyRevised": "$~Tekst ten został lokalnie zrewidowany i różni się od oficjalnego tłumaczenia."
+            "locallyRevised": "$~Edytowano ten tekst. Twoja zmiana jest zapisana na tym urządzeniu, dopóki nie wyślesz jej z obszaru roboczego lokalizacji."
         },
         "howto": {
             "galleryView": {
@@ -2639,7 +2639,7 @@
             },
             "button": {
                 "edit": "$~Zaproponuj edycję tego tekstu",
-                "submit": "$~Prześlij sugerowaną edycję",
+                "submit": "$~Zapisz tę zmianę na tym urządzeniu",
                 "cancel": "$~Odrzuć sugerowaną edycję",
                 "revert": "$~Powrót do oficjalnego tekstu",
                 "editTip": "$~Zaproponuj edycję podpowiedzi tego elementu sterującego",
@@ -2725,6 +2725,14 @@
                 "conceptName": "$~Dokumentacja już wyjaśnia to słowo, więc odnośnik do niego prowadziłby tam.",
                 "alreadyUsed": "$~To jest już forma $term, więc nie byłoby jasne, który termin masz na myśli.",
                 "searchOnly": "$~Odnośnik kończy się na spacji lub symbolu, więc ta forma pomoże tylko w wyszukiwaniu."
+            },
+            "drafts": "$~Twoje zmiany są zapisane na tym urządzeniu. Gdy będziesz gotowy, wyślij je z obszaru roboczego lokalizacji, aby wszyscy mogli je zobaczyć.",
+            "save": {
+                "saved": "$~Zapisano na tym urządzeniu",
+                "reverted": "$~Przywrócono oficjalny tekst",
+                "failed": "$~Nie udało się zapisać tej zmiany. Spróbuj ponownie.",
+                "savedAnnouncement": "$~Zapisano na tym urządzeniu: $text",
+                "revertedAnnouncement": "$~Przywrócono oficjalny tekst: $text"
             }
         },
         "tour": {

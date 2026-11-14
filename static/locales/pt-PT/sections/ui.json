@@ -2540,7 +2540,7 @@
             },
             "button": {
                 "edit": "Sugira uma alteração para este texto.",
-                "submit": "Enviar sugestão de edição",
+                "submit": "$~guardar esta edição neste dispositivo",
                 "cancel": "Descartar edição sugerida",
                 "revert": "Voltar ao texto oficial",
                 "editTip": "Sugira uma alteração na dica de ferramenta deste controlo.",
@@ -2626,6 +2626,14 @@
                 "conceptName": "$~A documentação já define esta palavra, por isso uma ligação a ela iria antes para lá.",
                 "alreadyUsed": "$~Isto já é uma forma de $term, por isso não ficaria claro a que termo se referia.",
                 "searchOnly": "$~Uma ligação termina num espaço ou num símbolo, por isso esta forma só vai ajudar na pesquisa."
+            },
+            "drafts": "$~As suas edições ficam guardadas neste dispositivo. Quando estiver pronto(a), submeta-as a partir do espaço de trabalho de localização para que todos as possam ver.",
+            "save": {
+                "saved": "$~guardado neste dispositivo",
+                "reverted": "$~texto oficial restaurado",
+                "failed": "$~Não foi possível guardar esta edição. Tente novamente.",
+                "savedAnnouncement": "$~Guardado neste dispositivo: $text",
+                "revertedAnnouncement": "$~Texto oficial restaurado: $text"
             }
         },
         "edit": {
@@ -2662,7 +2670,7 @@
             "unwritten": "A definir",
             "unparsable": "Modelo não analisável: $template",
             "machineTranslated": "Este texto foi traduzido automaticamente, pelo que pode não ser legível ou correto.",
-            "locallyRevised": "Este texto foi revisto localmente e difere da tradução oficial."
+            "locallyRevised": "$~Editou isto. A sua edição fica guardada neste dispositivo até a submeter a partir do espaço de trabalho de localização."
         },
         "emoji": {
             "noCharacters": "Crie um personagem personalizado",

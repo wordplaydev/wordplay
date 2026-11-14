@@ -46,10 +46,7 @@
     async function getConceptTutorial(locale: LocaleText) {
         const character = concept.getCharacterName($locales);
         if (character) {
-            const tutorial = await Locales.getTutorial(
-                locale.language,
-                locale.regions,
-            );
+            const tutorial = await Locales.getTutorial(locale);
             if (tutorial) {
                 for (const [actIndex, act] of tutorial.acts.entries()) {
                     for (const [sceneIndex, scene] of act.scenes.entries()) {

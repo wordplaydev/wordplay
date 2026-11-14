@@ -753,9 +753,7 @@
         const others = $locales.getPreferredLocales().slice(1);
         let cancelled = false;
         Promise.all(
-            others.map((l) =>
-                Locales.getTutorial(l.language, l.regions, progress.mode),
-            ),
+            others.map((l) => Locales.getTutorial(l, progress.mode)),
         ).then((loaded) => {
             if (!cancelled)
                 extraTutorials = loaded.filter(

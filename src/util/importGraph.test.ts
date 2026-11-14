@@ -1052,13 +1052,19 @@ test('resolving a color needs no basis', () => {
 // the databases every page carries: settings and gallery membership sent as
 // changes rather than whole documents, a chat retry that reads before it
 // writes, and unsaved projects set aside across a sign-out.
+//
+// Localization feedback (#1495) is **+0 files** and moves Page, home and projects by a
+// hundredth. Remembering localization mode lives in `LocalesSetting.ts`, and the
+// confirmation shown after a save (`LocaleEditStatus`) is dynamically imported the first
+// time something is saved; the bytes are the save-and-report logic in the two text
+// components every page renders and six new strings in en-US.json.
 test.each([
     ['src/routes/+layout.svelte', 541, 4.24],
-    ['src/components/app/Page.svelte', 564, 4.49],
-    ['src/routes/[[locale]]/+page.svelte', 579, 4.59],
+    ['src/components/app/Page.svelte', 564, 4.5],
+    ['src/routes/[[locale]]/+page.svelte', 579, 4.6],
     ['src/routes/[[locale]]/galleries/+page.svelte', 584, 4.6],
     // Raised from 4.61 for the yue and nan entries in LanguageCode.ts, which every page carries.
-    ['src/routes/[[locale]]/projects/+page.svelte', 593, 4.63],
+    ['src/routes/[[locale]]/projects/+page.svelte', 593, 4.64],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

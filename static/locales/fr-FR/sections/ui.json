@@ -1229,7 +1229,7 @@
             "tour": {
                 "launch": "$~faire une visite guidée",
                 "guide": "$~Le /guide/ contient la *documentation* pour tous les concepts et *capacités* du *langage de programmation* de @wordplay.",
-                "mode": "$~Utilisez ce bouton /toggle/ pour basculer vous-même entre les sections *code* et *tutoriel*.",
+                "mode": "$~Utilisez ce bouton /interrupteur/ pour basculer vous-même entre les sections *code* et *tutoriel*.",
                 "search": "$~La zone /recherche/ est utile pour *découvrir* des fonctionnalités ou en trouver rapidement une *par son nom*.",
                 "code": "$~Voici la section /but/. Elle contient la documentation du *langage de programmation* — les éléments de base que vous pouvez combiner pour créer des programmes.",
                 "howto": "$~Voici la section /Comment faire/. Elle contient des *modèles utiles* pour obtenir des comportements spécifiques dans vos projets."
@@ -2163,7 +2163,7 @@
             "unwritten": "$~À déterminer",
             "unparsable": "$~Modèle non analysable:$template",
             "machineTranslated": "$~Ce texte a été traduit automatiquement, il peut donc être illisible ou incorrect.",
-            "locallyRevised": "$~Ce texte a été révisé localement et diffère de la traduction officielle."
+            "locallyRevised": "$~Vous avez modifié ce texte. Votre modification est enregistrée sur cet appareil jusqu'à ce que vous l'envoyiez depuis l'espace de localisation."
         },
         "collaborate": {
             "label": "$~collaborer",
@@ -2648,7 +2648,7 @@
             },
             "button": {
                 "edit": "$~Suggérer une modification à ce texte",
-                "submit": "$~Soumettre une modification suggérée",
+                "submit": "$~Enregistrer cette modification sur cet appareil",
                 "cancel": "$~Rejeter la modification suggérée",
                 "revert": "$~Retour au texte officiel",
                 "editTip": "$~Suggérer une modification de l'infobulle de cette commande",
@@ -2734,6 +2734,14 @@
                 "conceptName": "$~La documentation définit déjà ce mot, donc un lien vers lui irait plutôt là-bas.",
                 "alreadyUsed": "$~C'est déjà une forme de $term, donc on ne saurait pas clairement quel terme tu voulais dire.",
                 "searchOnly": "$~Un lien se termine à une espace ou un symbole, donc cette forme aidera seulement la recherche."
+            },
+            "drafts": "$~Vos modifications sont enregistrées sur cet appareil. Quand vous êtes prêt, envoyez-les depuis l'espace de localisation pour que tout le monde puisse les voir.",
+            "save": {
+                "saved": "$~Enregistré sur cet appareil",
+                "reverted": "$~Texte officiel rétabli",
+                "failed": "$~Cette modification n'a pas pu être enregistrée. Réessayez.",
+                "savedAnnouncement": "$~Enregistré sur cet appareil : $text",
+                "revertedAnnouncement": "$~Texte officiel rétabli : $text"
             }
         },
         "tour": {

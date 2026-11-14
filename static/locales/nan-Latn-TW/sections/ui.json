@@ -2843,7 +2843,7 @@
             "button": {
                 "edit": "$~Thê-ì siu-kái tsit-ê bûn-jī",
                 "editTip": "$~Thê-ì siu-kái tsit-ê khòng-tsè ê thê-sī",
-                "submit": "$~Sàng-tshut thê-ì ê siu-kái",
+                "submit": "$~Kā tsit-ê kái-tsi̍p khǹg tī tsit-tsut tsí-tsāi-tsū",
                 "cancel": "$~Pàng-sak thê-ì ê siu-kái",
                 "revert": "$~Huê-kàu kuan-hong ê bûn-jī",
                 "prev": "$~Siu-kái téng tsi̍t-hāng",
@@ -2886,7 +2886,15 @@
             "strings": "$~Huan-ik ê bûn-jī",
             "emotion": "$~Kéng tsi̍t-ê tsîng-tsuí",
             "invalidName": "$~Bô-sī ū-hāu ê Wordplay miâ",
-            "invalidConceptLinks": "$~Chia ê khuan-liām liân-kiat tī hiān-tsāi ê gí-giân bô tshuē-tio̍h. Lí kì-chhò, á-sī lí kò-ì sak-tiāu?"
+            "invalidConceptLinks": "$~Chia ê khuan-liām liân-kiat tī hiān-tsāi ê gí-giân bô tshuē-tio̍h. Lí kì-chhò, á-sī lí kò-ì sak-tiāu?",
+            "drafts": "$~Lí ê kái-tsi̍p tio̍h khǹg tī tsit-tsut tsí-tsāi-tsū. Lí chún-pī hó ê sî, tuì localization workspace sàng-tshut-khì, ta̍k-ê tio̍h ē khuànn--tio̍h.",
+            "save": {
+                "saved": "$~Í-king khǹg tī tsit-tsut tsí-tsāi-tsū",
+                "reverted": "$~Kuan-hong ê bûn-jī í-king huê-ho̍k",
+                "failed": "$~Tsit-ê kái-tsi̍p khǹg bô-sêng. Koh tshì-khuànn-māi.",
+                "savedAnnouncement": "$~Í-king khǹg tī tsit-tsut tsí-tsāi-tsū: $text",
+                "revertedAnnouncement": "$~Kuan-hong ê bûn-jī í-king huê-ho̍k: $text"
+            }
         },
         "edit": {
             "node": "$~$node$type[, $type|]",
@@ -2922,7 +2930,7 @@
             "unwritten": "$~iáu-bē koh-tīng",
             "unparsable": "$~Bô-hoat-tōo kái-sik ê bô̍k-pán: $template",
             "machineTranslated": "$~Tsit-ê sī ki-khì hoan-ik ê, tsú-iàu khó-lîng khuànn bô, iā khó-lîng bô tio̍h.",
-            "locallyRevised": "$~Tsit-ê bûn-jī tī pún-tē ū kái-kuè, kah kuann-hong ê hoan-ik bô kāng."
+            "locallyRevised": "$~Tse sī lí kái--ê. Lí ê kái-tsi̍p khǹg tī tsit-tsut tsí-tsāi-tsū, tán lí tuì localization workspace sàng-tshut-khì."
         },
         "phonemes": {
             "toggle": {

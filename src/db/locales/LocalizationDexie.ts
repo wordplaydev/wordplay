@@ -1,6 +1,6 @@
 import { browser } from '$app/env';
 import Dexie, { type Table } from 'dexie';
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
 interface LocaleEdit {
     /** BCP-47 locale string the edit targets (e.g. "fr-FR"). */
@@ -89,11 +89,36 @@ export async function deleteAllLocaleEdits(locale?: string): Promise<void> {
     }
 }
 
+/** What became of a localization edit, for the feedback beside the field that made it. `at`
+ *  tells two identical results apart, so saving the same text twice still confirms twice. */
+export type LocaleEditResult = {
+    kind: 'saved' | 'reverted' | 'failed';
+    /** The text that was saved, or that is back after a revert. */
+    text: string;
+    at: number;
+};
+
+/** Run a durable write after an optimistic store update, and put the store back if the write
+ *  fails, so the page never shows an edit that a reload would lose. */
+export async function durably(
+    write: () => Promise<unknown>,
+    before: Map<string, Map<string, string | string[]>>,
+): Promise<void> {
+    try {
+        await write();
+    } catch (error) {
+        localeEdits.set(before);
+        throw error;
+    }
+}
+
 export async function deleteLocaleEdit(
     locale: string,
     path: string,
 ): Promise<void> {
     if (!db) return;
+    const edits = db.edits;
+    const before = get(localeEdits);
     localeEdits.update((map) => {
         const next = new Map(map);
         const inner = next.get(locale);
@@ -105,7 +130,7 @@ export async function deleteLocaleEdit(
         }
         return next;
     });
-    await db.edits.delete([locale, path]);
+    await durably(() => edits.delete([locale, path]), before);
 }
 
 export async function saveLocaleEdit(
@@ -114,6 +139,8 @@ export async function saveLocaleEdit(
     value: string | string[],
 ): Promise<void> {
     if (!db) return;
+    const edits = db.edits;
+    const before = get(localeEdits);
     // Update the store immediately so the UI reacts without waiting for Dexie.
     localeEdits.update((map) => {
         const next = new Map(map);
@@ -124,5 +151,29 @@ export async function saveLocaleEdit(
         next.set(locale, inner);
         return next;
     });
-    await db.edits.put({ locale, path, value });
+    await durably(() => edits.put({ locale, path, value }), before);
+}
+
+/**
+ * Save `text` as the edit at `path`, or remove the edit when `text` is the official text again,
+ * and say what happened. Undefined means nothing changed, which a field that commits on blur
+ * hits constantly and should not confirm.
+ */
+export async function commitLocaleEdit(
+    locale: string,
+    path: string,
+    text: string,
+    /** The official text, or undefined when the locale has none (a term it added itself). */
+    official: string | undefined,
+    current: string | undefined,
+): Promise<LocaleEditResult | undefined> {
+    const reverting = official !== undefined && text === official;
+    if (text === (current ?? official)) return undefined;
+    try {
+        if (reverting) await deleteLocaleEdit(locale, path);
+        else await saveLocaleEdit(locale, path, text);
+        return { kind: reverting ? 'reverted' : 'saved', text, at: Date.now() };
+    } catch {
+        return { kind: 'failed', text, at: Date.now() };
+    }
 }

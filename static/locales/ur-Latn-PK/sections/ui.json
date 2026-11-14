@@ -2832,7 +2832,7 @@
             "button": {
                 "edit": "$~is matn mein tabdeeli ka mashwara dein",
                 "editTip": "$~is control ke tooltip mein tabdeeli ka mashwara dein",
-                "submit": "$~mashware ki hui tabdeeli jama karwayein",
+                "submit": "$~Is tabdeeli ko is device par mehfooz karein",
                 "cancel": "$~mashware ki hui tabdeeli radd karein",
                 "revert": "$~sarkari matn par wapas jaayein",
                 "prev": "$~pichhli cheez mein tabdeeli karein",
@@ -2875,7 +2875,15 @@
             "strings": "$~Tarjume ke jumle",
             "emotion": "$~Ek jazba chunein",
             "invalidName": "$~Yeh Wordplay ka durust naam nahin hai",
-            "invalidConceptLinks": "$~Yeh concept links maujooda zubaan mein nahin milte. Kya aap ne kisi ke hijje ghalat likhe, ya jaan boojh kar hata diya?"
+            "invalidConceptLinks": "$~Yeh concept links maujooda zubaan mein nahin milte. Kya aap ne kisi ke hijje ghalat likhe, ya jaan boojh kar hata diya?",
+            "drafts": "$~Aap ki tabdeeliyan is device par mehfooz hain. Jab aap tayyar hon, inhein localization workspace se jama karein taake sab dekh sakein.",
+            "save": {
+                "saved": "$~Is device par mehfooz",
+                "reverted": "$~Sarkari matn wapas bahaal ho gaya",
+                "failed": "$~Yeh tabdeeli mehfooz nahin ho saki. Dobara koshish karein.",
+                "savedAnnouncement": "$~Is device par mehfooz: $text",
+                "revertedAnnouncement": "$~Sarkari matn wapas bahaal ho gaya: $text"
+            }
         },
         "edit": {
             "node": "$~$node$type[, $type|]",
@@ -2911,7 +2919,7 @@
             "unwritten": "$~baad mein tay hoga",
             "unparsable": "$~namoona nahin parha ja saka: $template",
             "machineTranslated": "$~yeh mashin se tarjuma hua hai, is liye ho sakta hai ke samajh na aaye ya ghalat ho.",
-            "locallyRevised": "$~is matn ko yahan badla gaya hai aur yeh sarkari tarjume se mukhtalif hai."
+            "locallyRevised": "$~Aap ne ise badla hai. Aap ki tabdeeli is device par mehfooz hai, jab tak aap ise localization workspace se jama nahin karte."
         },
         "phonemes": {
             "toggle": {
