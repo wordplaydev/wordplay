@@ -119,15 +119,15 @@
                     "off": "$~göster $name"
                 },
                 "showSource": {
-                    "on": "$~kaynağı gizle $name",
-                    "off": "$~kaynağı göster $name"
+                    "on": "$~$name için düzenleyiciyi gizle",
+                    "off": "$~$name için düzenleyiciyi göster"
                 }
             },
             "label": {
                 "output": "$~sahne",
                 "palette": "$~palet",
                 "docs": "$~rehber",
-                "source": "$~kaynak",
+                "source": "$~düzenleyici",
                 "collaborate": "$~işbirliği yapmak"
             },
             "button": {
@@ -155,7 +155,7 @@
                 "addSource": "$~başka bir @Source ekle: boş bir tane, ya da bir resimden veya bir şarkıdan yapılmış bir tane",
                 "revert": "$~orijinal koda geri dön",
                 "focusOutput": "$~sahnede klavyeye odaklan",
-                "focusSource": "$~bir sonraki kaynağa odaklan",
+                "focusSource": "$~sonraki düzenleyiciye odaklan",
                 "focusDocs": "$~belgelere odaklanın",
                 "focusPalette": "$~palete odaklan",
                 "focusCycle": "$~bir sonraki karoya odaklan",
@@ -272,7 +272,7 @@
                 "launch": "$~Proje kontrollerini inceleyin.",
                 "controls": "$~Alttaki bu kontroller, hangi kutucukta çalışıyor olursanız olun, *projenin tamamı* için geçerlidir.",
                 "name": "$~/isim/ alanı projenizin ismidir. İsimler *proje* ve *galeri* görünümlerinde görünür.",
-                "sourceToggle": "$~Bu /toggle/ düğmesi *kaynak dosyayı* gösterir veya gizler. Bu satırdaki *diğer /toggle/ düğmeleri* diğer kutucuklar için de aynı işlevi görür.",
+                "sourceToggle": "$~Bu /anahtar/, bir *kaynak dosyasının* *düzenleyicisini* gösterir veya gizler. Bu satırdaki *diğer anahtarlar* da diğer kutucuklar için aynısını yapar.",
                 "addSource": "$~Bazı projeler *birden fazla* kaynak dosyasından yararlanır. Bu dosyalardan birinde veriler saklanır ve *ana* kaynağa aktarılır. /kaynak ekle/ düğmesi, bunu yapmanın yollarını sunar: boş bir dosya, bir resim, bir şarkı ya da bazı veriler.",
                 "share": "$~/paylaş/ iletişim kutusu, projenizi *galerilerle*, *herkesle* paylaşmanıza veya başka bir yerde paylaşmak üzere *metin* olarak kopyalamanıza olanak tanır.",
                 "checkpoints": "$~/revisions/ paneli, projenizin önceki sürümlerine *geri dönmenizi* ve hatırlamak istediğiniz sürümlerin *anlık görüntüsünü* almanızı sağlar.",
@@ -432,7 +432,6 @@
             }
         },
         "source": {
-            "label": "$~kaynak",
             "empty": [
                 "$~Hadi başlayalım! Şunları yapabilirsiniz…",
                 "• 📕 uygulamasını açın ve bizi bu programa sürükleyin 🖱️.",
@@ -614,7 +613,6 @@
                 "invalidName": "$~Bu geçerli bir Wordplay adı olmalıdır.",
                 "invalidWords": "$~Kelimeler boş olamaz veya ayrılmış semboller içeremez."
             },
-            "title": "$~kod",
             "tour": {
                 "launch": "$~Editörün ofisini gezin.",
                 "editor": "$~Tüm kodunuz *editöre* yazılır. Her @wordplay programı *bir değere dönüşür* ve bu değer *sahneye* yansıtılır.",

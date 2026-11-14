@@ -32,7 +32,7 @@ test('a picture and a pasted table each become a source main borrows', async ({
     // The tile toggle draws the picture in place of the file icon.
     await expect(
         page
-            .getByRole('button', { name: /source colors/ })
+            .getByRole('button', { name: /editor for colors/ })
             .first()
             .locator('canvas.thumbnail'),
     ).toBeVisible({ timeout: 15000 });
@@ -49,6 +49,6 @@ test('a picture and a pasted table each become a source main borrows', async ({
     await expect(dialog).toBeHidden();
     await expect(main).toContainText('↓ rows');
     await expect(
-        page.getByRole('button', { name: /source rows/ }).first(),
+        page.getByRole('button', { name: /editor for rows/ }).first(),
     ).toBeVisible();
 });

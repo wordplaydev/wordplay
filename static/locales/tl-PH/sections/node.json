@@ -1303,7 +1303,7 @@
             "description": "$~pinagmulan $name",
             "emotion": "curious",
             "doc": [
-                "$~Ako ang may pangalang bintana sa paligid ng isang @Program — binibigyan ko ito ng pangalan at hinahawakan ang @code nito. O, alam mo ba ang @Program? Tinutulungan kitang pangalanan sila.",
+                "$~Ako ay isang file na may pangalan na may hawak na @Program — binibigyan ko ito ng pangalan at hawak ko ang @code nito, na maaari mong baguhin sa isang @editor. Ah, alam mo ang @Program? Tinutulungan kitang pangalanan ang mga ito.",
                 "Maaari ka ring gumawa ng iba pang @Source @UI/addSource, na may iba pang @Program, at @Borrow na mga bagay mula sa ibang @Program para magamit sa ibang programa.",
                 "Maaaring ito ay isang magandang paraan ng pag-aayos ng malaking palabas sa magkakahiwalay na dokumento."
             ]

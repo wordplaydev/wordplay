@@ -1303,7 +1303,7 @@
             "description": "$~sursă $name",
             "emotion": "curious",
             "doc": [
-                "$~Eu sunt fereastra cu nume din jurul unui @Program — îi dau un nume și îi păstrez @code. A, știi @Program? Eu te ajut să le dai nume.",
+                "$~Sunt un fișier cu nume care conține un @Program — îi dau un nume și păstrez @code, pe care îl schimbi într-un @editor. Ah, îl cunoști pe @Program? Te ajut să le dai nume.",
                 "Poți face și alte @Source @UI/addSource, cu alte @Program, și să @Borrow lucruri din acele alte @Program pentru folosire în alt program.",
                 "Aceasta poate fi o modalitate frumoasă de a organiza un spectacol mare în documente separate."
             ]

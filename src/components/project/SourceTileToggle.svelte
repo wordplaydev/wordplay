@@ -100,10 +100,10 @@
             ></canvas>{:else}<Emoji
                 text={Characters.Program.symbols}
             />{/if}{/if}
-    <!-- Only one source? Use a label to indicate that this is where the code is. Otherwise, use the source names. -->
+    <!-- Only one source? Name the window, as the other tile toggles do. Otherwise, use the source names. -->
     <span class="toggle-label" class:named
         >{#if named}{$locales.getName(source.names)}{:else}<em
-                ><LocalizedText path={(locale) => locale.glossary.code.word}
+                ><LocalizedText path={(locale) => locale.glossary.editor.word}
                 ></LocalizedText></em
             >{/if}</span
     >

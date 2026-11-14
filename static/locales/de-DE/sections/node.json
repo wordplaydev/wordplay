@@ -1291,7 +1291,7 @@
             "description": "$~Quelle $name",
             "emotion": "curious",
             "doc": [
-                "$~Ich bin das benannte Fenster um eine @Program — ich gebe ihr einen Namen und halte ihre @code. Oh, du kennst @Program? Ich helfe dir, sie zu benennen.",
+                "$~Ich bin eine benannte Datei, die ein @Program enthält. Ich gebe ihm einen Namen und halte seinen @code, den du in einem @editor änderst. Ach, du kennst @Program? Ich helfe dir, sie zu benennen.",
                 "Du kannst auch andere @Source @UI/addSource machen, mit anderen @Program, und Dinge aus diesen anderen @Program @Borrow, um sie in einem anderen Programm zu benutzen.",
                 "Das kann eine schöne Art sein, eine große Aufführung in getrennte Dokumente zu ordnen."
             ]

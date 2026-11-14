@@ -119,15 +119,15 @@
                     "off": "$~mostrar $name"
                 },
                 "showSource": {
-                    "on": "$~esconder o código $name",
-                    "off": "$~mostrar o código $name"
+                    "on": "$~ocultar o editor de $name",
+                    "off": "$~mostrar o editor de $name"
                 }
             },
             "label": {
                 "output": "palco",
                 "palette": "paleta",
                 "docs": "guia",
-                "source": "fonte",
+                "source": "$~editor",
                 "collaborate": "colaborar"
             },
             "button": {
@@ -158,7 +158,7 @@
                 "addSource": "$~adicionar outro(a) @Source: um vazio, ou um feito a partir de uma imagem ou de uma música",
                 "revert": "reverter para o código original",
                 "focusOutput": "teclado de foco no palco",
-                "focusSource": "concentre-se na próxima fonte",
+                "focusSource": "$~focar o editor seguinte",
                 "focusDocs": "Foque-se na documentação",
                 "focusPalette": "foco na paleta",
                 "focusCycle": "concentre-se no próximo azulejo",
@@ -272,7 +272,7 @@
                 "launch": "Faça um tour pelos controlos do projeto.",
                 "controls": "Estes /controlos/ na parte inferior aplicam-se ao *projecto como um todo*, independentemente do bloco em que está a trabalhar.",
                 "name": "O campo /nome/ é o nome do seu projeto. Os nomes aparecem nas vistas *projecto* e *galeria*.",
-                "sourceToggle": "Este botão /toggle/ mostra ou oculta o *ficheiro de origem*. Os *outros botões /toggle* desta linha fazem o mesmo para os outros blocos.",
+                "sourceToggle": "$~Este /interruptor/ mostra ou oculta o *editor* de um *ficheiro de fonte*. Os *outros interruptores* desta linha fazem o mesmo para os outros mosaicos.",
                 "addSource": "$~Alguns projetos beneficiam de *vários* ficheiros de fonte, onde os dados são guardados num deles e importados para a fonte *principal*. O botão /adicionar fonte/ oferece as formas de criar um: um ficheiro vazio, uma imagem, uma música, ou alguns dados.",
                 "share": "A caixa de diálogo /partilhar/ permite-lhe partilhar o seu projeto com *galerias*, com o *público* ou copiá-lo como *texto* para partilhar noutro local.",
                 "checkpoints": "O painel /revisions/ permite-lhe voltar às versões anteriores do seu projeto e guardar versões que pretende guardar.",
@@ -683,8 +683,6 @@
             }
         },
         "source": {
-            "label": "editor de programas",
-            "title": "código",
             "empty": [
                 "Vamos começar! Você pode…",
                 "• Abra 📕 e arraste 🖱️ para este programa.",

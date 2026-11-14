@@ -414,7 +414,7 @@
                                     />
                                 {:else}
                                     <LocalizedText
-                                        path={(l) => l.ui.source.title}
+                                        path={(l) => l.glossary.editor.word}
                                     />
                                 {/if}
                             {:else}

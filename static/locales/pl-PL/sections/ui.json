@@ -119,15 +119,15 @@
                     "off": "$~pokaż $name"
                 },
                 "showSource": {
-                    "on": "$~ukryj źródło $name",
-                    "off": "$~pokaż źródło $name"
+                    "on": "$~ukryj edytor dla $name",
+                    "off": "$~pokaż edytor dla $name"
                 }
             },
             "label": {
                 "output": "$~scena",
                 "palette": "$~paleta",
                 "docs": "$~przewodnik",
-                "source": "$~źródło",
+                "source": "$~edytor",
                 "collaborate": "$~współpracować"
             },
             "button": {
@@ -155,7 +155,7 @@
                 "addSource": "$~dodaj kolejne @Source: puste albo zrobione ze zdjęcia lub piosenki",
                 "revert": "$~powrót do oryginalnego kodu",
                 "focusOutput": "$~skup klawiaturę na scenie",
-                "focusSource": "$~skup się na następnym źródle",
+                "focusSource": "$~przejdź do następnego edytora",
                 "focusDocs": "$~skup się na dokumentacji",
                 "focusPalette": "$~skup się na palecie",
                 "focusCycle": "$~skup się na następnym kafelku",
@@ -272,7 +272,7 @@
                 "launch": "$~obejrzyj sterowanie projektem",
                 "controls": "$~Te /elementy sterujące/ na dole dotyczą *całego projektu*, niezależnie od tego, w którym kafelku pracujesz.",
                 "name": "$~Pole /nazwa/ to nazwa twojego projektu. Nazwy pokazują się w widokach *projektu* i *galerii*.",
-                "sourceToggle": "$~Ten przełącznik pokazuje lub ukrywa *plik źródłowy*. *Pozostałe przełączniki* w tym wierszu działają tak samo dla pozostałych kafelków.",
+                "sourceToggle": "$~Ten /przełącznik/ pokazuje lub ukrywa *edytor* dla *pliku źródłowego*. *Inne przełączniki* w tym rzędzie robią to samo dla pozostałych kafelków.",
                 "addSource": "$~Niektóre projekty korzystają z *wielu* plików źródłowych, gdzie dane są przechowywane w jednym, a potem wczytywane do *głównego* źródła. Przycisk /dodaj źródło/ pokazuje sposoby, jak je zrobić: pusty plik, zdjęcie, piosenkę albo dane.",
                 "share": "$~Okno dialogowe /share/ umożliwia udostępnianie projektu w *galeriach*, *publicznie* lub kopiowanie go jako *tekst* w celu udostępnienia gdzie indziej.",
                 "checkpoints": "$~Panel /revisions/ umożliwia powrót do poprzednich wersji projektu oraz zapisanie *migawek* wersji, które chcesz zapamiętać.",
@@ -427,7 +427,6 @@
             }
         },
         "source": {
-            "label": "$~źródło",
             "empty": [
                 "$~Zaczynajmy! Możesz…",
                 "• Otwórz 📕 i przeciągnij 🖱️ nas do tego programu.",
@@ -609,7 +608,6 @@
                 "invalidName": "$~Musi to być prawidłowa nazwa Wordplay.",
                 "invalidWords": "$~Słowa nie mogą być puste ani zawierać zarezerwowanych symboli."
             },
-            "title": "$~kod",
             "tour": {
                 "launch": "$~obejrzyj edytor",
                 "editor": "$~Cały Twój kod trafia do *edytora*. Każdy program @wordplay *ocenia wartość*, a ta wartość pojawia się na *scenie*.",
@@ -1247,7 +1245,7 @@
                 "guide": "$~/Przewodnik/ zawiera *dokumentację* wszystkich koncepcji i *możliwości* *języka programowania* @wordplay.",
                 "mode": "$~Użyj tego przełącznika /toggle/, aby samodzielnie przełączać się pomiędzy sekcją *kodu* a sekcją *jak to zrobić*.",
                 "search": "$~Pole wyszukiwania /szukaj/ jest przydatne do *odkrywania* funkcji lub szybkiego znajdowania ich *po nazwie*.",
-                "code": "$~To jest sekcja /code/. Zawiera dokumentację *języka programowania* — elementy składowe, które można łączyć, aby tworzyć programy.",
+                "code": "$~To jest sekcja /zamiar/. Zawiera dokumentację *języka programowania* — elementy składowe, które można łączyć, aby tworzyć programy.",
                 "howto": "$~To jest sekcja /jak-zrobić/. Zawiera *przydatne wzorce* do osiągnięcia określonych zachowań w Twoich projektach."
             },
             "breadcrumb": {
@@ -2150,7 +2148,7 @@
                 "text": "$~Tutaj można edytować wszystkie /właściwości/ frazy. To jest *tekst* frazy, ale inne właściwości mają własne kontrolki.",
                 "set": "$~Jeśli właściwość aktualnie używa swojej wartości /domyślny/, przycisk *pencil* umożliwia ustawienie dla niej *jawnej* wartości.",
                 "unset": "$~Jeśli właściwość ma ustawioną wartość /explicit/, przycisk *X* usuwa tę wartość, przywracając właściwość do jej *domyślnej* wartości.",
-                "editor": "$~Wszystkie zmiany wprowadzone na palecie zostaną odzwierciedlone w kodzie /code/ widocznym w *edytorze*.",
+                "editor": "$~Wszystkie zmiany wprowadzone na palecie zostaną odzwierciedlone w kodzie /zamiar/ widocznym w *edytorze*.",
                 "stage": "$~Frazy można również /przesuwać/, /zmieniać ich rozmiar/ i /obracać/ bezpośrednio na *scenie*."
             },
             "music": {

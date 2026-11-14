@@ -119,15 +119,15 @@
                     "off": "$~$name zeigen"
                 },
                 "showSource": {
-                    "on": "$~Quelle $name verbergen",
-                    "off": "$~Quelle $name zeigen"
+                    "on": "$~den Editor für $name ausblenden",
+                    "off": "$~den Editor für $name anzeigen"
                 }
             },
             "label": {
                 "output": "$~Bühne",
                 "palette": "$~Palette",
                 "docs": "$~Führung",
-                "source": "$~Quelle",
+                "source": "$~Editor",
                 "collaborate": "$~zusammenarbeiten"
             },
             "button": {
@@ -151,7 +151,7 @@
                 "addSource": "$~eine weitere @Source hinzufügen: eine leere, oder eine aus einem Bild oder einem Lied gemachte",
                 "revert": "$~zum Originalcode zurückkehren",
                 "focusOutput": "$~Fokus Tastatur auf der Bühne",
-                "focusSource": "$~Konzentrieren Sie sich auf die nächste Quelle",
+                "focusSource": "$~zum nächsten Editor wechseln",
                 "focusDocs": "$~Fokus auf die Dokumentation",
                 "focusPalette": "$~Konzentrieren Sie sich auf die Palette",
                 "focusCycle": "$~Konzentriere dich auf die nächste Kachel",
@@ -272,7 +272,7 @@
                 "launch": "$~Machen Sie eine Tour durch die Projektsteuerung",
                 "controls": "$~Diese /Steuerelemente/ am unteren Rand gelten für das *Projekt als Ganzes*, unabhängig davon, in welchem Bereich Sie gerade arbeiten.",
                 "name": "$~Das Feld /name/ ist der Name deines Projekts. Namen erscheinen in den Ansichten *Projekt* und *Galerie*.",
-                "sourceToggle": "$~Dieser Schalter blendet die *Quelldatei* ein oder aus. Die *anderen Schalter* in dieser Zeile bewirken dasselbe für die anderen Kacheln.",
+                "sourceToggle": "$~Dieser /Schalter/ zeigt oder versteckt den *Editor* für eine *Quelldatei*. Die *anderen Schalter* in dieser Zeile machen das Gleiche für die anderen Kacheln.",
                 "addSource": "$~Manche Projekte profitieren von *mehreren* Quelldateien, bei denen Daten in einer gespeichert und in die *Haupt*-Quelle eingebunden werden. Der Knopf /Quelle hinzufügen/ bietet mehrere Wege dafür: eine leere Datei, ein Bild, ein Lied oder Daten.",
                 "share": "$~Über den Dialog „Teilen“ können Sie Ihr Projekt mit *Galerien*, mit der *Öffentlichkeit* teilen oder es als *Text* kopieren, um es an anderer Stelle zu teilen.",
                 "checkpoints": "$~Über das Panel /revisions/ können Sie zu früheren Versionen Ihres Projekts zurückkehren und Momentaufnahmen von Versionen erstellen, die Sie sich merken möchten.",
@@ -408,7 +408,6 @@
             }
         },
         "source": {
-            "label": "$~Quelle",
             "empty": [
                 "$~Los geht's! Du kannst …",
                 "• Öffne 📕 und ziehe 🖱️ uns in dieses Programm.",
@@ -590,7 +589,6 @@
                 "invalidName": "$~Dies muss ein gültiger Wortspielname sein.",
                 "invalidWords": "$~Wörter dürfen nicht leer sein oder reservierte Symbole enthalten."
             },
-            "title": "$~Code",
             "tour": {
                 "launch": "$~Machen Sie eine Tour durch den Editor",
                 "editor": "$~Ihr gesamter Code gehört in den Editor. Jedes @wordplay-Programm wird zu einem Wert ausgewertet, und dieser Wert wird auf der Bühne angezeigt.",
@@ -1097,7 +1095,7 @@
                     ]
                 },
                 "purpose": {
-                    "label": "$~Zweck",
+                    "label": "$~Code",
                     "labels": [
                         "$~Projekt",
                         "$~Kit",
@@ -1232,7 +1230,7 @@
                 "guide": "$~Der Leitfaden enthält die Dokumentation zu allen Konzepten und Funktionen der Programmiersprache @wordplay.",
                 "mode": "$~Verwenden Sie diesen Schalter, um selbst zwischen den Abschnitten *Code* und *Anleitung* umzuschalten.",
                 "search": "$~Das Suchfeld ist hilfreich, um Funktionen zu *entdecken* oder eine Funktion schnell *anhand ihres Namens* zu finden.",
-                "code": "$~Dies ist der Abschnitt /code/. Er enthält die Dokumentation der *Programmiersprache* – die Bausteine, die Sie zu Programmen kombinieren können.",
+                "code": "$~Dies ist der Abschnitt /Code/. Er enthält die Dokumentation der *Programmiersprache* – die Bausteine, die Sie zu Programmen kombinieren können.",
                 "howto": "$~Dies ist der Abschnitt „Anleitung“. Er enthält *nützliche Muster*, um bestimmte Verhaltensweisen in Ihren Projekten zu erzielen."
             },
             "breadcrumb": {
@@ -1499,7 +1497,7 @@
                         ]
                     },
                     "blocks": {
-                        "label": "$~Bearbeitungsmodus",
+                        "label": "$~Editor",
                         "labels": ["$~Text", "$~Blöcke"],
                         "tips": [
                             "$~Code als Text bearbeiten",

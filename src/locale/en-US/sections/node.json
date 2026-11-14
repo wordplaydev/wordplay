@@ -1645,7 +1645,7 @@
             "description": "source $name",
             "emotion": "curious",
             "doc": [
-                "I'm the named window around a @Program — I give it a name and hold its @code. Oh, you know @Program? I help you name them.",
+                "I'm a named file that holds a @Program — I give it a name and hold its @code, which you change in an @editor. Oh, you know @Program? I help you name them.",
                 "You can also make other @Source @UI/addSource, with other @Program, and @Borrow things from those other @Program for use in another program.",
                 "This can be a nice way of organizing a big performance into separate documents."
             ]

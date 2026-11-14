@@ -1303,9 +1303,9 @@
             "description": "$~nguồn $name",
             "emotion": "curious",
             "doc": [
-                "$~Tôi là khung có tên bao quanh một @Program — tôi đặt cho nó một tên và giữ @code của nó. Ồ, bạn biết @Program chứ? Tôi giúp bạn đặt tên cho chúng.",
-                "Bạn cũng có thể tạo các @Source @UI/addSource khác, với các @Program khác, và @Borrow những thứ từ các @Program khác đó để dùng trong một chương trình khác.",
-                "Đây có thể là cách hay để sắp xếp một màn trình diễn lớn thành các @documentation riêng biệt."
+                "$~Mình là một tệp có tên, chứa một @Program — mình đặt tên cho nó và giữ @code của nó, mà bạn thay đổi trong một @editor. Ồ, bạn biết @Program chứ? Mình giúp bạn đặt tên cho chúng.",
+                "Bạn cũng có thể tạo thêm @Source @UI/addSource khác, với các @Program khác, và @Borrow những thứ từ các @Program khác đó để dùng trong một chương trình khác.",
+                "Đây có thể là một cách hay để sắp xếp một buổi biểu diễn lớn thành nhiều @documentation riêng."
             ]
         },
         "StreamDefinition": {

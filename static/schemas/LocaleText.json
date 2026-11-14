@@ -30201,10 +30201,6 @@
                                     ],
                                     "type": "object"
                                 },
-                                "label": {
-                                    "description": "[plain] The ARIA label for the source file section",
-                                    "type": "string"
-                                },
                                 "menu": {
                                     "additionalProperties": false,
                                     "properties": {
@@ -30280,10 +30276,6 @@
                                     },
                                     "required": ["locale"],
                                     "type": "object"
-                                },
-                                "title": {
-                                    "description": "[plain] The label for the code editor toolbar",
-                                    "type": "string"
                                 },
                                 "toggle": {
                                     "additionalProperties": false,
@@ -30370,8 +30362,6 @@
                                 }
                             },
                             "required": [
-                                "label",
-                                "title",
                                 "add",
                                 "empty",
                                 "confirm",

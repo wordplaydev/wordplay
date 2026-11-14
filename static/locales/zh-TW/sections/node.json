@@ -1303,7 +1303,7 @@
             "description": "$~來源 $name",
             "emotion": "curious",
             "doc": [
-                "$~我是圍繞著 @Program 的具名視窗——我給它一個名字，並保存它的 @code。喔，你知道 @Program 嗎？我幫你為它們命名。",
+                "$~我是一個有名字的檔案，裡面放著一個 @Program。我幫它取名字，也保存它的 @code，你可以在 @editor 裡修改它。咦，你已經知道 @Program 了嗎？我會幫你替它們命名喔。",
                 "你也可以用其他 @Program 製作其他 @Source @UI/addSource，並從那些其他的 @Program 中 @Borrow 一些東西，用在另一個程式裡。",
                 "這是把一場大型表演整理成不同文件的好方法。"
             ]

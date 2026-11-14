@@ -150,7 +150,7 @@ describe('getMultilingualMarkupFrom', () => {
         expect(entries).toHaveLength(1);
         // This flattened text becomes an aria-label, so it must read as a plain
         // sentence — no leftover template syntax or markup delimiters.
-        expect(entries[0]?.markup.toText()).toBe('show source main');
+        expect(entries[0]?.markup.toText()).toBe('show the editor for main');
     });
 
     test('a function input names the value in each locale', () => {

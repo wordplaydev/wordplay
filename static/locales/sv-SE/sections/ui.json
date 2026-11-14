@@ -119,15 +119,15 @@
                     "off": "$~visa $name"
                 },
                 "showSource": {
-                    "on": "$~dölj källa $name",
-                    "off": "$~visa källa $name"
+                    "on": "$~dölj redigeraren för $name",
+                    "off": "$~visa redigeraren för $name"
                 }
             },
             "label": {
                 "output": "$~etapp",
                 "palette": "$~palett",
                 "docs": "$~guide",
-                "source": "$~källa",
+                "source": "$~redigerare",
                 "collaborate": "$~samarbeta"
             },
             "button": {
@@ -155,7 +155,7 @@
                 "addSource": "$~lägg till en till @Source: en tom en, eller en gjord från en bild eller en sång",
                 "revert": "$~återgå till originalkoden",
                 "focusOutput": "$~fokus tangentbordet på scenen",
-                "focusSource": "$~fokusera på nästa källa",
+                "focusSource": "$~fokusera på nästa redigerare",
                 "focusDocs": "$~fokusera på dokumentationen",
                 "focusPalette": "$~fokusera på paletten",
                 "focusCycle": "$~fokusera på nästa bricka",
@@ -272,7 +272,7 @@
                 "launch": "$~ta en rundtur i projektkontrollerna",
                 "controls": "$~Dessa /controls/ längst ner gäller för *projektet som helhet*, oavsett vilken panel du arbetar i.",
                 "name": "$~Fältet /namn/ är ditt projekts namn. Namn visas i vyerna för *projekt* och *galleri*.",
-                "sourceToggle": "$~Denna /toggle/ visar eller döljer *källfilen*. De *andra växlarna* på den här raden gör detsamma för de andra panelerna.",
+                "sourceToggle": "$~Den här /växlaren/ visar eller döljer *redigeraren* för en *källfil*. *De andra växlarna* på den här raden gör samma sak för de andra rutorna.",
                 "addSource": "$~Vissa projekt mår bra av *flera* källor, där data sparas i en och hämtas in i *huvud*källan. Knappen /lägg till källa/ ger dig sätten att göra en: en tom fil, en bild, en sång, eller lite data.",
                 "share": "$~I dialogrutan /share/ kan du dela ditt projekt med *gallerier*, med *allmänheten*, eller kopiera det som *text* för att dela det någon annanstans.",
                 "checkpoints": "$~Panelen /revisions/ låter dig gå *tillbaka* till tidigare versioner av ditt projekt och *ögonblicksbilder* av versioner som du vill komma ihåg.",
@@ -432,7 +432,6 @@
             }
         },
         "source": {
-            "label": "$~källa",
             "empty": [
                 "$~Nu sätter vi igång! Du kan …",
                 "• Öppna 📕 och dra 🖱️ oss till det här programmet.",
@@ -614,7 +613,6 @@
                 "invalidName": "$~Detta måste vara ett giltigt ordspelsnamn.",
                 "invalidWords": "$~Ord får inte vara tomma eller innehålla reserverade symboler."
             },
-            "title": "$~koda",
             "tour": {
                 "launch": "$~ta en rundtur i redaktören",
                 "editor": "$~All din /kod/ hamnar i *editorn*. Varje @wordplay-program *utvärderas till ett värde*, och det värdet är vad som visas på *scenen*.",

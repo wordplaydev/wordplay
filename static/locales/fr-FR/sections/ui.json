@@ -119,15 +119,15 @@
                     "off": "$~montrer $name"
                 },
                 "showSource": {
-                    "on": "$~masquer la source $name",
-                    "off": "$~montrer la source $name"
+                    "on": "$~masquer l'éditeur pour $name",
+                    "off": "$~afficher l'éditeur pour $name"
                 }
             },
             "label": {
                 "output": "$~scène",
                 "palette": "$~palette",
                 "docs": "$~guide",
-                "source": "$~source",
+                "source": "$~éditeur",
                 "collaborate": "$~collaborer"
             },
             "button": {
@@ -151,7 +151,7 @@
                 "addSource": "$~ajouter un autre @Source : un vide, ou un fait à partir d’une image ou d’une chanson",
                 "revert": "$~revenir au code d'origine",
                 "focusOutput": "$~clavier de mise au point sur la scène",
-                "focusSource": "$~se concentrer sur la source suivante",
+                "focusSource": "$~passer à l'éditeur suivant",
                 "focusDocs": "$~se concentrer sur la documentation",
                 "focusPalette": "$~se concentrer sur la palette",
                 "focusCycle": "$~se concentrer sur la tuile suivante",
@@ -272,7 +272,7 @@
                 "launch": "$~Faites le tour des commandes du projet",
                 "controls": "$~Ces /commandes/ en bas s'appliquent à l'*ensemble du projet*, quelle que soit la tuile sur laquelle vous travaillez.",
                 "name": "$~Le champ /nom/ est le nom de ton projet. Les noms apparaissent dans les vues *projet* et *galerie*.",
-                "sourceToggle": "$~Ce bouton permet d'afficher ou de masquer le *fichier source*. Les *autres boutons* de cette ligne font de même pour les autres vignettes.",
+                "sourceToggle": "$~Cet /interrupteur/ affiche ou masque l'*éditeur* d'un *fichier source*. Les *autres interrupteurs* de cette ligne font la même chose pour les autres tuiles.",
                 "addSource": "$~Certains projets profitent de *plusieurs* fichiers source, où les données sont stockées dans l’un et importées dans la source *principale*. Le bouton /ajouter une source/ propose différentes façons d’en créer une : un fichier vide, une image, une chanson, ou des données.",
                 "share": "$~La boîte de dialogue /share/ vous permet de partager votre projet avec des *galeries*, avec le *public*, ou de le copier en tant que *texte* pour le partager ailleurs.",
                 "checkpoints": "$~Le panneau /revisions/ vous permet de revenir aux versions précédentes de votre projet et de créer des versions instantanées que vous souhaitez conserver.",
@@ -408,7 +408,6 @@
             }
         },
         "source": {
-            "label": "$~source",
             "empty": [
                 "$~Commençons ! Vous pouvez…",
                 "• Ouvrez 📕 et faites-nous glisser 🖱️ vers ce programme.",
@@ -590,10 +589,9 @@
                 "invalidName": "$~Il doit s'agir d'un nom de jeu de mots valide.",
                 "invalidWords": "$~Les mots ne peuvent pas être vides ou contenir des symboles réservés."
             },
-            "title": "$~code",
             "tour": {
                 "launch": "$~Faites le tour de l'éditeur",
-                "editor": "$~Tout ton /code/ va dans l'*éditeur*. Chaque programme @wordplay *donne une valeur*, et cette valeur est ce qui apparaît sur la *scène*.",
+                "editor": "$~Tout ton /but/ va dans l'*éditeur*. Chaque programme @wordplay *donne une valeur*, et cette valeur est ce qui apparaît sur la *scène*.",
                 "textBlocks": "$~Ce bouton permet de basculer entre deux modes d'édition : le mode texte et le mode blocs. Le mode texte offre plus de flexibilité, mais les erreurs y sont plus fréquentes. Le mode blocs est plus fiable, mais plus lent et plus rigide.",
                 "toolbar": "$~Ces commandes de la barre d'outils vous permettent de *tout sélectionner*, de *zoomer* et *dézoomer*, d'*annuler*, de *rétablir*, de *couper*, de *copier* et de *coller*.",
                 "expand": "$~Le bouton /expand/ affiche des outils d'édition plus *avancés*.",
@@ -1233,7 +1231,7 @@
                 "guide": "$~Le /guide/ contient la *documentation* pour tous les concepts et *capacités* du *langage de programmation* de @wordplay.",
                 "mode": "$~Utilisez ce bouton /toggle/ pour basculer vous-même entre les sections *code* et *tutoriel*.",
                 "search": "$~La zone /recherche/ est utile pour *découvrir* des fonctionnalités ou en trouver rapidement une *par son nom*.",
-                "code": "$~Voici la section /code/. Elle contient la documentation du *langage de programmation* — les éléments de base que vous pouvez combiner pour créer des programmes.",
+                "code": "$~Voici la section /but/. Elle contient la documentation du *langage de programmation* — les éléments de base que vous pouvez combiner pour créer des programmes.",
                 "howto": "$~Voici la section /Comment faire/. Elle contient des *modèles utiles* pour obtenir des comportements spécifiques dans vos projets."
             },
             "breadcrumb": {
@@ -2002,7 +2000,7 @@
                 "text": "$~Toutes les propriétés d'une phrase peuvent être modifiées ici. Ceci est le *texte* de la phrase, mais les autres propriétés possèdent leurs propres options de contrôle.",
                 "set": "$~Lorsqu'une propriété utilise actuellement sa valeur par défaut, le bouton *crayon* vous permet de définir une valeur *explicite* pour celle-ci.",
                 "unset": "$~Lorsqu'une propriété possède une valeur /explicite/ définie, le bouton *X* supprime cette valeur, rétablissant la propriété à sa valeur *par défaut*.",
-                "editor": "$~Toutes les modifications que vous apportez à la palette sont reflétées dans le /code/ affiché dans l'*éditeur*.",
+                "editor": "$~Toutes les modifications que vous apportez à la palette sont reflétées dans le /but/ affiché dans l'*éditeur*.",
                 "stage": "$~Les phrases peuvent également être /déplacées/, /redimensionnées/ et /pivotées/ directement sur la *scène*."
             },
             "music": {

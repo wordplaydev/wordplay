@@ -1303,7 +1303,7 @@
             "description": "$~sumber $name",
             "emotion": "curious",
             "doc": [
-                "$~Aku adalah jendela bernama di sekitar @Program — aku memberinya nama dan menyimpan @code-nya. Oh, kamu tahu @Program? Aku membantumu menamainya.",
+                "$~Aku adalah berkas bernama yang menyimpan @Program — aku memberinya nama dan menyimpan @code-nya, yang kamu ubah dalam @editor. Oh, kamu tahu @Program? Aku membantumu memberi nama untuk semuanya.",
                 "Kamu juga bisa membuat @Source @UI/addSource lain, dengan @Program lain, dan @Borrow hal-hal dari @Program lain itu untuk digunakan di program lain.",
                 "Ini bisa menjadi cara yang bagus untuk mengatur pertunjukan besar menjadi beberapa dokumen terpisah."
             ]

@@ -119,15 +119,15 @@
                     "off": "$~arată $name"
                 },
                 "showSource": {
-                    "on": "$~ascunde sursa $name",
-                    "off": "$~arată sursa $name"
+                    "on": "$~ascunde editorul pentru $name",
+                    "off": "$~arată editorul pentru $name"
                 }
             },
             "label": {
                 "output": "$~etapă",
                 "palette": "$~paletă",
                 "docs": "$~ghid",
-                "source": "$~sursă",
+                "source": "$~editor",
                 "collaborate": "$~colabora"
             },
             "button": {
@@ -159,7 +159,7 @@
                 "addSource": "$~adaugă un alt @Source: unul gol, sau unul făcut dintr-o poză sau un cântec",
                 "revert": "$~reveniți la codul original",
                 "focusOutput": "$~tastatură concentrată pe scenă",
-                "focusSource": "$~concentrați-vă pe următoarea sursă",
+                "focusSource": "$~mută atenția pe următorul editor",
                 "focusDocs": "$~concentrați-vă pe documentație",
                 "focusPalette": "$~concentrați-vă pe paletă",
                 "focusCycle": "$~concentrați-vă pe următoarea placă",
@@ -272,7 +272,7 @@
                 "launch": "$~faceți un tur al controalelor proiectului",
                 "controls": "$~Aceste /comenzi/ din partea de jos se aplică întregului *proiect*, indiferent de dala în care lucrați.",
                 "name": "$~Câmpul /nume/ este numele proiectului tău. Numele apar în vizualizările *project* și *gallery*.",
-                "sourceToggle": "$~Această /comutare/ afișează sau ascunde *fișierul sursă*. *Celelalte comenzi* de pe acest rând fac același lucru și pentru celelalte plăci.",
+                "sourceToggle": "$~Acest /comutator/ arată sau ascunde *editorul* pentru un *fișier sursă*. *Celelalte comutatoare* de pe acest rând fac același lucru pentru celelalte panouri.",
                 "addSource": "$~Unele proiecte au nevoie de *mai multe* fișiere sursă, unde datele sunt păstrate într-unul și importate în sursa *principală*. Butonul /adaugă sursă/ oferă moduri de a face unul: un fișier gol, o poză, un cântec sau niște date.",
                 "share": "$~Caseta de dialog /share/ vă permite să partajați proiectul cu *galerii*, cu *publicul* sau să îl copiați ca *text* pentru a-l partaja în altă parte.",
                 "checkpoints": "$~Panoul /revisions/ vă permite să *reveniți* la versiunile anterioare ale proiectului și la versiunile *snapshot* pe care doriți să le rețineți.",
@@ -685,8 +685,6 @@
             }
         },
         "source": {
-            "label": "$~sursă",
-            "title": "$~cod",
             "empty": [
                 "$~Să începem! Poți…",
                 "• Deschideți 📕 și trageți-ne 🖱️ în acest program.",

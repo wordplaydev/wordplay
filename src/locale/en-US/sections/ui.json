@@ -171,15 +171,15 @@
                     "off": "show $name"
                 },
                 "showSource": {
-                    "on": "hide source $name",
-                    "off": "show source $name"
+                    "on": "hide the editor for $name",
+                    "off": "show the editor for $name"
                 }
             },
             "label": {
                 "output": "stage",
                 "palette": "palette",
                 "docs": "guide",
-                "source": "source",
+                "source": "editor",
                 "collaborate": "collaborate"
             },
             "button": {
@@ -217,7 +217,7 @@
                 },
                 "revert": "revert to original code",
                 "focusOutput": "focus keyboard on the stage",
-                "focusSource": "focus on the next source",
+                "focusSource": "focus on the next editor",
                 "focusDocs": "focus on the documentation",
                 "focusPalette": "focus on the palette",
                 "focusCycle": "focus on the next tile",
@@ -335,7 +335,7 @@
                 "launch": "take a tour of the project controls",
                 "controls": "These /controls/ at the bottom apply to the *project as a whole*, no matter which tile you're working in.",
                 "name": "The /name/ field is your project's name. Names show up in the *project* and *gallery* views.",
-                "sourceToggle": "This /toggle/ shows or hides the *source file*. The *other toggles* on this row do the same for the other tiles.",
+                "sourceToggle": "This /toggle/ shows or hides the *editor* for a *source file*. The *other toggles* on this row do the same for the other tiles.",
                 "addSource": "Some projects benefit from *multiple* source files, where data is stored in one and imported into the *main* source. The /add source/ button offers the ways of making one: an empty file, a picture, a song, or some data.",
                 "share": "The /share/ dialog lets you share your project with *galleries*, with the *public*, or copy it as *text* to share elsewhere.",
                 "languages": "The /languages/ button shows which languages your project is written in, lets you add or remove one, and can *translate* your project's *names*, *text*, and *documentation* into a new language.",
@@ -746,8 +746,6 @@
             "finishedPartial": "Your project now speaks $language, but $#kept[$kept phrase|$kept phrases] kept the original words."
         },
         "source": {
-            "label": "source",
-            "title": "code",
             "add": {
                 "header": "add code",
                 "explanation": "A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture or a song. You can use the values with @Borrow.",

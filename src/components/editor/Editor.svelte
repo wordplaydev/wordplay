@@ -4675,7 +4675,7 @@
     data-uiid="editor"
     role="application"
     style:--zoom={`${zoom}pt`}
-    aria-label={`${$locales.getPrimaryPlainText((l) => l.ui.source.label)} ${$locales.getName(
+    aria-label={`${$locales.getPrimaryPlainText((l) => l.glossary.editor.word)} ${$locales.getName(
         source.names,
     )}${viewingLabel}, ${$locales.getPrimaryPlainText((l) =>
         $blocks

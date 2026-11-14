@@ -171,15 +171,15 @@
                     "off": "$~$name dikhayein"
                 },
                 "showSource": {
-                    "on": "$~maakhaz $name chhupayein",
-                    "off": "$~maakhaz $name dikhayein"
+                    "on": "$~$name ka editor chhupayein",
+                    "off": "$~$name ka editor dikhayein"
                 }
             },
             "label": {
                 "output": "$~stage",
                 "palette": "$~palette",
                 "docs": "$~rehnuma",
-                "source": "$~maakhaz",
+                "source": "$~editor",
                 "collaborate": "$~mil kar kaam karein"
             },
             "button": {
@@ -217,7 +217,7 @@
                 },
                 "revert": "$~asal code par wapas jayein",
                 "focusOutput": "$~keyboard ko stage par laayein",
-                "focusSource": "$~agli maakhaz par dhyan dein",
+                "focusSource": "$~agle editor par tawajjoh dein",
                 "focusDocs": "$~wazahati tehreer par dhyan dein",
                 "focusPalette": "$~palette par dhyan dein",
                 "focusCycle": "$~agli tile par dhyan dein",
@@ -335,7 +335,7 @@
                 "launch": "$~mansooba ke controls ka daura karein",
                 "controls": "$~Neeche maujood yeh /controls/ *poori mansooba* par lagoo hote hain, chahe aap kisi bhi tile mein kaam kar rahe hon.",
                 "name": "$~/naam/ ka khaana aapki mansooba ka naam hai. Naam *mansooba* aur *numaish gah* ke manzar mein nazar aate hain.",
-                "sourceToggle": "$~Yeh /toggle/ *maakhaz file* ko dikhata ya chhupata hai. Is qatar ke *dusre toggles* baaqi tiles ke liye yehi kaam karte hain.",
+                "sourceToggle": "$~Yeh /toggle/ ek *maakhaz file* ka *editor* dikhata ya chhupata hai. Is qatar ke *doosre toggles* baqi tiles ke liye yehi kaam karte hain.",
                 "addSource": "$~Kuch mansoobon ko *kayi* maakhaz files se faida hota hai, jahan data ek mein rakha jaye aur *asli* maakhaz mein import kiya jaye. /maakhaz shamil karein/ ka button naya maakhaz banane ke tareeqe deta hai: khaali file, tasveer, gaana, ya kuch data.",
                 "share": "$~/baantein/ ka dialog aapko apni mansooba *numaish gaahon* ke saath, *sab ke saath* baantne deta hai, ya usay *matn* ke taur par copy karne deta hai taake kahin aur baant sakein.",
                 "languages": "$~/zubaan/ button batata hai ke aapki mansooba kin zubaanon mein likhi gayi hai. Is se aap koi zubaan shamil ya khatam kar sakte hain, aur apni mansooba ke *naam*, *matn* aur *wazahati tehreer* ko nayi zubaan mein *tarjuma* bhi kar sakte hain.",
@@ -751,8 +751,6 @@
             "finishedPartial": "$~aap ka mansooba ab $language bolta hai, lekin $#kept[$kept jumle mein|$kept jumlon mein] asal alfaaz rahe."
         },
         "source": {
-            "label": "$~maakhaz",
-            "title": "$~code",
             "add": {
                 "header": "$~code shaamil karein",
                 "explanation": "$~ek mansooba mein code ki ek se zyada file ho sakti hain. Likhne ke liye khaali file banayein, ya kisi tasveer ya gaane se banayein. Aap @Borrow ke saath qeematein istemaal kar sakte hain.",
