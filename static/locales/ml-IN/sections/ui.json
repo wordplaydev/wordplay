@@ -1114,7 +1114,7 @@
             "stepAtStart": "$~തുടക്കത്തിൽ",
             "searchOpened": "$~കോഡിൽ തിരയുക",
             "searchClosed": "$~തിരയൽ അടച്ചു",
-            "searchMatch": "$~$index-ൽ $count-ാമത്തെ പൊരുത്തം",
+            "searchMatch": "$~$count-ൽ $index-ാമത്തെ പൊരുത്തം",
             "searchNoMatches": "$~പൊരുത്തങ്ങളില്ല",
             "menuOpened": "$~മെനു, $#count[$count നിർദ്ദേശം|$count നിർദ്ദേശങ്ങൾ]",
             "menuEmpty": "$~നിർദ്ദേശങ്ങളില്ല",
@@ -1244,9 +1244,9 @@
                     "$~മുകളിലെ അറ്റം",
                     "$~അടിവര"
                 ],
-                "withOutput": "$~$anchor-ന്റെ $target-മായി $targetAnchor",
+                "withOutput": "$~$target-ന്റെ $targetAnchor-മായി $anchor",
                 "withGrid": "$~ഗ്രിഡിൽ $anchor",
-                "aligned": "$~$constraints-ൽ, $place",
+                "aligned": "$~$place-ൽ, $constraints",
                 "none": "$~$direction ദിശയിൽ ഒപ്പം നിരത്താൻ ഒന്നുമില്ല"
             },
             "selectedOnly": "$~$name തിരഞ്ഞെടുത്തു, പാലറ്റ് തുറക്കുന്നു",

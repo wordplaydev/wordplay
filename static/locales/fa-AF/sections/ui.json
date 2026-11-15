@@ -1028,7 +1028,7 @@
             "label": "$~تضادها و راهنمایی",
             "cursor": "$~این *$node*$type[ است و از نوع $type است|].",
             "cursorDoc": "$~او می‌گوید: «$description»",
-            "cursorParent": "$~آن‌ها داخل یک *$node*$type[هستند| هستند که به یک $type ارزش‌یابی می‌شود].",
+            "cursorParent": "$~آن‌ها داخل یک *$node*$type[، که به یک $type ارزیابی می‌شود|] هستند.",
             "learn": "$~/بیشتر بدان/",
             "evaluating": "$~چه جالب، بیایید اجرایش کنیم!",
             "space": "$~این فضاست! چه کسی می‌دانست هیچ می‌تواند این‌قدر بگوید؟",
@@ -1091,7 +1091,7 @@
             "closer": "$~نزدیک‌تر",
             "farther": "$~دورتر",
             "turned": "$~چرخید",
-            "manyChanged": "$~$#count[یک خروجی در $#count تغییر کرد، مانند $count|$count خروجی در $container تغییر کردند، مانند $example]",
+            "manyChanged": "$~$#count[$count خروجی|$count خروجی] در $container تغییر کرد، مثل $example",
             "snap": {
                 "anchors": [
                     "$~مرکز افقی",
@@ -1102,7 +1102,7 @@
                     "$~لبهٔ بالایی",
                     "$~خط پایه"
                 ],
-                "withOutput": "$~$anchor با $target از $targetAnchor",
+                "withOutput": "$~$anchor با $targetAnchor از $target",
                 "withGrid": "$~$anchor روی شبکه",
                 "aligned": "$~$constraints، در $place",
                 "none": "$~چیزی برای هم‌ردیف شدن با $direction نیست"
@@ -1340,7 +1340,7 @@
                 },
                 "location": {
                     "header": "$~جای‌گاه",
-                    "explanation": "$!/راه‌هایی برای تعیین جای خروجی روی صحنه./"
+                    "explanation": "$~/راه‌های تعیین اینکه خروجی کجای صحنه است./"
                 },
                 "reactions": {
                     "header": "$~واکنش‌ها",

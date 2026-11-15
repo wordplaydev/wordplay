@@ -276,7 +276,7 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~असमर्थित फॉन्ट स्वरूप",
-                    "explanation": "$~माझ्या मित्राला *$face* ला $format कसे व्हावे हे माहीत नाही.",
+                    "explanation": "$~माझा मित्र *$face* ला $format कसे व्हायचे हे माहीत नाही.",
                     "resolution": "$~स्वरूपण काढून टाका"
                 }
             }
@@ -313,7 +313,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~द्विमान मूल्यमापन",
-            "description": "$~$operator आणि $left वर क्रिया $right",
+            "description": "$~$left आणि $right वर क्रिया $operator",
             "emotion": "insecure",
             "doc": [
                 "$~मी @Evaluate आहे, पण सोप्या स्वरूपात, जेव्हा तुम्हाला दोन इनपुट घेणारे @FunctionDefinition वापरायचे असते तेव्हा उपयुक्त.",
@@ -335,8 +335,8 @@
                 "OrderOfOperations": {
                     "name": "$~संदिग्ध क्रम",
                     "explanation": "$~मी डावीकडून उजवीकडे मूल्यमापन करतो, पण गणित सहसा + − आधी × ÷ चे, आणि × ÷ आधी ^ चे मूल्यमापन करते. त्या क्रमाला PEMDAS म्हणतात. मी हे कसे मूल्यमापन करावे ते निवडा.",
-                    "resolutionPEMDAS": "$~PEMDAS गणित क्रम लावा: $higher आधी $lower चे मूल्यमापन करा",
-                    "resolutionReading": "$~वाचनाचा क्रम ठेवा: $lower आधी $higher चे मूल्यमापन करा",
+                    "resolutionPEMDAS": "$~PEMDAS गणित क्रम लावा: $lower आधी $higher चे मूल्यमापन करा",
+                    "resolutionReading": "$~वाचनाचा क्रम ठेवा: $higher आधी $lower चे मूल्यमापन करा",
                     "resolutionWrap": "$~क्रम स्पष्ट करण्यासाठी कंस जोडा"
                 }
             },
@@ -491,7 +491,7 @@
                 "$~तुमच्या सादरीकरणातील इतर @Source ने सामायिक केलेल्या @Bind मी @borrow करतो — फक्त त्यांचे नाव वापरा आणि मी त्यांचे नाव आणि @value आणीन.",
                 "लिहा \\↓\\ आणि नंतर त्या दुसऱ्या @Source चे नाव. त्या @Source ने काय सामायिक करते ते खूण करावी लागते \\↑\\, जसे की \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
             ],
-            "start": "$~$name कडून $source उसने घेत आहे",
+            "start": "$~$source कडून $name उसने घेत आहे",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~अज्ञात उसनवारी",
@@ -659,7 +659,7 @@
         },
         "Delete": {
             "name": "$~हटवा",
-            "description": "$~$table शी जुळणाऱ्या ओळी $query मधून काढून टाका",
+            "description": "$~$query शी जुळणाऱ्या ओळी $table मधून काढून टाका",
             "emotion": "angry",
             "doc": [
                 "$~मी @Table च्या त्या ओळी काढून टाकतो ज्या एका @condition शी जुळतात. कधीकधी तक्त्यात खूपच जास्त गोष्टी असतात!",
@@ -727,7 +727,7 @@
                 },
                 "MissingInput": {
                     "name": "$~हरवलेला अंतर्भाग",
-                    "explanation": "$~$name या अंतर्भागाशिवाय मी $input चे मूल्यमापन करू शकत नाही :(",
+                    "explanation": "$~$input या अंतर्भागाशिवाय मी $name चे मूल्यमापन करू शकत नाही :(",
                     "resolutionAddInput": "$~हरवलेला $input त्याच्या मूलभूत मूल्यासह जोडा",
                     "resolutionPlaceholder": "$~हरवलेला $input राखीव जागा म्हणून जोडा, मग स्वयंपूर्ती मेनूमधून एक मूल्य निवडा"
                 },
@@ -930,7 +930,7 @@
         },
         "ListAccess": {
             "name": "$~यादी प्रवेश",
-            "description": "$~$index चा अनुक्रमांक $list मिळवा",
+            "description": "$~$list चा अनुक्रमांक $index मिळवा",
             "emotion": "cheerful",
             "doc": [
                 "$~मी @List सोबत जवळून काम करते, ज्यामुळे त्यांना एका ठराविक स्थानावरील मूल्ये मिळायला मदत होते. जसे की, जर तुमच्याकडे एक यादी होती, आणि तुम्हाला तिचा दुसरा @element हवा होता, तर तुम्ही असे लिहाल:",
@@ -1039,7 +1039,7 @@
         },
         "Previous": {
             "name": "$~मागील",
-            "description": "$~$number ची मागील $range मूल्य$stream[े|]",
+            "description": "$~$stream ची मागील $number मूल्य$range[े|]",
             "emotion": "serious",
             "doc": [
                 "$~मी प्रवाहाच्या इतिहासात मागे पाहतो आणि तुम्हाला त्याच्या भूतकाळातील एक @value सांगतो. तुम्हाला कधी भूतकाळ आठवायचा वाटला आहे का?",
@@ -1215,7 +1215,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~अज्ञात नाव",
-                        "explanation": "$~$name[$name[$scope|या @Block] मध्ये $scope नावाचे कोणी मला माहीत नाही|मला एक नाव देशील का?]"
+                        "explanation": "$~$name[$scope[$scope|या @Block] मध्ये $name नावाचे कोणी मला माहीत नाही|मला एक नाव देशील का?]"
                     },
                     "resolution": "$~तुला *$suggestion?* म्हणायचे होते का?",
                     "staticResolution": "$~तुम्हाला *$owner.$suggestion?* असे म्हणायचे होते का?",
@@ -1235,13 +1235,13 @@
             "exception": {
                 "NameException": {
                     "description": "$~अज्ञात नाव",
-                    "explanation": "$~$name[$name[$scope|या @Block] मध्ये $scope नावाचे कोणी मला माहीत नाही…|अरेरे, नाव नाही!]"
+                    "explanation": "$~$name[$scope[$scope|या @Block] मध्ये $name नावाचे कोणी मला माहीत नाही…|अरेरे, नाव नाही!]"
                 }
             }
         },
         "Select": {
             "name": "$~निवडा",
-            "description": "$~$table शी जुळणारे $query मधून निवडा",
+            "description": "$~$query शी जुळणारे $table मधून निवडा",
             "emotion": "excited",
             "doc": [
                 "$~मी @Table च्या त्या ओळी निवडतो ज्या एका @condition शी जुळतात. कधीकधी तुला तक्त्याचा फक्त एक भाग हवा असतो — मी तो तुझ्यासाठी मिळवू शकतो!",
@@ -1269,7 +1269,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~संच/नकाशा प्रवेश",
-            "description": "$~$key मध्ये $setOrMap मिळवा",
+            "description": "$~$setOrMap मध्ये $key मिळवा",
             "emotion": "kind",
             "doc": [
                 "$~एखाद्या @Set किंवा @Map मध्ये @value किंवा @key आहे का ते मी पाहू शकतो.",
@@ -1527,7 +1527,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~न बंद केलेला विभाजक",
-                    "explanation": "$~$expected नंतर कधीतरी मला $unclosed अपेक्षित होते",
+                    "explanation": "$~$unclosed नंतर कधीतरी मला $expected अपेक्षित होते",
                     "resolution": "$~गहाळ *$expected* जोडा"
                 }
             },
@@ -1540,7 +1540,7 @@
         },
         "Update": {
             "name": "$~अद्यतन",
-            "description": "$~$table शी जुळणाऱ्या $query मधील ओळी अद्ययावत करा",
+            "description": "$~$query शी जुळणाऱ्या $table मधील ओळी अद्ययावत करा",
             "emotion": "kind",
             "doc": [
                 "$~मी एखादे @Table सुधारण्यास मदत करतो, एखाद्या @condition शी जुळणाऱ्या ओळी शोधतो, आणि मग नवीन मूल्यांसह सुधारित ओळी तयार करतो.",
@@ -1912,8 +1912,8 @@
                 "search": "$~चला मजकुरात हा नमुना दिसणारी प्रत्येक जागा शोधू.",
                 "test": "$~चला हा संपूर्ण मजकूर नमुन्याशी बसतो का ते तपासू.",
                 "scan": "$~$position स्थानापासून सुरू होणारा नमुना शोधत आहोत.",
-                "match": "$~$pattern हा $glyph स्थानावरील $position शी जुळतो.",
-                "miss": "$~$pattern हा $glyph स्थानावरील $position शी जुळत नाही.",
+                "match": "$~$pattern हा $position स्थानावरील $glyph शी जुळतो.",
+                "miss": "$~$pattern हा $position स्थानावरील $glyph शी जुळत नाही.",
                 "end": "$~$pattern ला अजून एक अक्षर हवे आहे, पण आपण $position स्थानावर मजकुराच्या शेवटी पोहोचलो आहोत.",
                 "repeat": "$~$pattern हा $count शी जुळला — पुढे चालू ठेवण्यासाठी पुरेसे.",
                 "short": "$~$pattern हा फक्त $count शी जुळला — पुरेसे नाही.",

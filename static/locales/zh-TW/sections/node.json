@@ -48,7 +48,7 @@
         },
         "KeyValue": {
             "name": "映射",
-            "description": "$~鑰匙 $key 對應價值 $value",
+            "description": "$~鑰匙 $key 對應到價值 $value",
             "emotion": "kind",
             "doc": [
                 "$~我是一個從*鑰匙*對應到*價值*的對照，總是在 @Map 裡。",
@@ -313,7 +313,7 @@
         },
         "BinaryEvaluate": {
             "name": "二進位評估",
-            "description": "$~對 $operator 和 $left 進行 $right 運算",
+            "description": "$~對 $left 和 $right 進行 $operator 運算",
             "emotion": "insecure",
             "doc": [
                 "$~我是 @Evaluate，但形式更簡單，當你想使用一個接受兩個輸入的 @FunctionDefinition 時很有幫助。",
@@ -491,7 +491,7 @@
                 "$~我@borrow其他@Source在你的表演裡分享的@Bind——只要用它們的名稱，我就會把名稱和@value帶進來。",
                 "寫下 \\↓\\ 然後接上另一個@Source的名稱。那個@Source必須用 \\↑\\ 標記它分享的東西，像是 \\↑ colors/en: ['🔴' '🟠' '🟡']\\。"
             ],
-            "start": "向 $name 借用 $source",
+            "start": "向 $source 借用 $name",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~未知的借用",
@@ -727,7 +727,7 @@
                 },
                 "MissingInput": {
                     "name": "$~缺少輸入",
-                    "explanation": "$~沒有輸入 $name，我就沒辦法評估 $input :(",
+                    "explanation": "$~沒有輸入 $input，我就沒辦法評估 $name :(",
                     "resolutionAddInput": "$~加上缺少的 $input，並用它的預設值",
                     "resolutionPlaceholder": "$~把缺少的 $input 當作佔位符加上，然後從自動完成選單中挑選一個價值"
                 },
@@ -900,7 +900,7 @@
                 "當你需要知道某個 @Name 是不是某種型別的值時，我真的很有用。"
             ],
             "start": "首先讓我們取得 $expression 的值",
-            "finish": "$~$value[value is $type|value is not $type]",
+            "finish": "$~$value[價值是 $type|價值不是 $type]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~不可能的型別",
@@ -912,7 +912,7 @@
             "exception": {
                 "TypeException": {
                     "description": "不相容的值",
-                    "explanation": "我預期得到一個 $expected $given"
+                    "explanation": "我預期得到一個 $expected，但收到了一個 $given"
                 }
             }
         },
@@ -930,7 +930,7 @@
         },
         "ListAccess": {
             "name": "清單存取",
-            "description": "$~存取 $index 的索引 $list",
+            "description": "$~存取 $list 的索引 $index",
             "emotion": "cheerful",
             "doc": [
                 "$~我和 @List 密切合作，幫他們取得某個位置的值。所以說，如果你有一個清單，而你想要它的第二個項目，你可以寫：",
@@ -1039,7 +1039,7 @@
         },
         "Previous": {
             "name": "之前",
-            "description": "$~$number 的前 $range 個價值$stream[|]",
+            "description": "$~$stream 的前 $number 個價值$range[|]",
             "emotion": "serious",
             "doc": [
                 "$~我回顧一條串流的歷史，告訴你它過去的其中一個值。你曾經想過要記住過去嗎？",
@@ -1215,7 +1215,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~未知的姓名",
-                        "explanation": "$~$name[我在 $name[$scope|這個 @Block] 裡不認識任何叫 $scope 的|你可以給我一個姓名嗎？]"
+                        "explanation": "$~$name[我在 $scope[$scope|這個 @Block] 裡不認識任何叫 $name 的|你可以給我一個姓名嗎？]"
                     },
                     "resolution": "$~你是不是指 *$suggestion？*",
                     "staticResolution": "$~你是不是要說 *$owner.$suggestion？*",
@@ -1235,7 +1235,7 @@
             "exception": {
                 "NameException": {
                     "description": "未知名字",
-                    "explanation": "$~$name[我在 $name[$scope|這個 @Block] 裡不認識任何叫 $scope 的……|哎呀，沒有姓名！]"
+                    "explanation": "$~$name[我在 $scope[$scope|這個 @Block] 裡不認識任何叫 $name 的……|哎呀，沒有姓名！]"
                 }
             }
         },
@@ -1269,7 +1269,7 @@
         },
         "SetOrMapAccess": {
             "name": "群組/映射群組的存取",
-            "description": "$~存取 $key 中的 $setOrMap",
+            "description": "$~存取 $setOrMap 中的 $key",
             "emotion": "kind",
             "doc": [
                 "$~我可以看看一個 @Set 或 @Map 有沒有某個 @value 或 @key。",
@@ -1525,7 +1525,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~未閉合的分隔符號",
-                    "explanation": "$~我原本預期在 $expected 之後某處會有 $unclosed",
+                    "explanation": "$~我原本預期在 $unclosed 之後某處會有 $expected",
                     "resolution": "$~加上缺少的 *$expected*"
                 }
             },
@@ -1910,8 +1910,8 @@
                 "search": "$~我們來找出這個模式在文字中出現的每個地方。",
                 "test": "$~我們來檢查這整段文字是否符合這個模式。",
                 "scan": "$~從位置 $position 開始尋找這個模式。",
-                "match": "$~$pattern 在位置 $glyph 比對到 $position。",
-                "miss": "$~$pattern 在位置 $glyph 沒有比對到 $position。",
+                "match": "$~$pattern 在位置 $position 比對到 $glyph。",
+                "miss": "$~$pattern 在位置 $position 沒有比對到 $glyph。",
                 "end": "$~$pattern 還需要一個字元，但我們在位置 $position 已經到了文字的結尾。",
                 "repeat": "$~$pattern 比對到 $count — 足夠繼續下去。",
                 "short": "$~$pattern 只比對到 $count — 不夠。",

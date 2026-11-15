@@ -276,7 +276,7 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~desteklenmeyen yazı tipi biçimi",
-                    "explanation": "$~Arkadaşım * $face * $format olmayı bilmiyor.",
+                    "explanation": "$~Arkadaşım *$face*, $format nasıl olunacağını bilmiyor.",
                     "resolution": "$~Biçimlendirmeyi kaldır"
                 }
             }
@@ -313,7 +313,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~ikili değerlendirme",
-            "description": "$~$operator ve $left üzerinde $right işlemi",
+            "description": "$~$left ve $right üzerinde $operator işlemi",
             "emotion": "insecure",
             "doc": [
                 "$~Ben @Evaluate'im, ancak daha basit bir biçimde, iki girdi alan bir @FunctionDefinition kullanmak istediğinizde faydalı olur.",
@@ -391,7 +391,7 @@
                 },
                 "IncompatibleType": {
                     "name": "$~uyumsuz tip",
-                    "explanation": "$~Ben normalde $expected tipinde olmam gerekirken, $given tipindeyim.",
+                    "explanation": "$~$expected bekliyordum ama $given tipini aldım",
                     "resolution": "$~$expected gerekli olduğu için, onu $expected tipine dönüştür",
                     "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
                     "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
@@ -491,7 +491,7 @@
                 "$~Performansındaki diğer @Source tarafından paylaşılan @Bind'leri @borrow ederim — sadece isimlerini kullan, ben de onların ismini ve @value'ini getiririm.",
                 "Şunu yaz \\↓\\ ve ardından diğer @Source'ın ismini yaz. O @Source neyi paylaştığını şununla işaretlemiş olmalı \\↑\\, şunun gibi \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
             ],
-            "start": "$~$name'tan $source ödünç alınıyor",
+            "start": "$~$source'tan $name ödünç alınıyor",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~bilinmeyen ödünç alma",
@@ -659,7 +659,7 @@
         },
         "Delete": {
             "name": "$~silmek",
-            "description": "$~$table ile eşleşen satırları $query tablosundan sil",
+            "description": "$~$query ile eşleşen satırları $table tablosundan sil",
             "emotion": "angry",
             "doc": [
                 "$~Bir @condition ile eşleşen @Table satırlarını kaldırırım. Bazen bir tabloda ÇOK FAZLA ŞEY OLUR!",
@@ -706,7 +706,7 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~uyumsuz girdi",
-                    "explanation": "$~$expected bekliyordum, ancak $given aldım.",
+                    "explanation": "$~$expected bekliyordum ama $given aldım",
                     "resolution": "$~$expected gerekli olduğu için, onu $expected tipine dönüştür",
                     "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
                     "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
@@ -727,7 +727,7 @@
                 },
                 "MissingInput": {
                     "name": "$~eksik girdi",
-                    "explanation": "$~$name girdisi olmadan $input'i değerlendiremiyorum :(",
+                    "explanation": "$~$input girdisi olmadan $name'i değerlendiremiyorum :(",
                     "resolutionAddInput": "$~Eksik olan $input varsayılan değeriyle ekleyin.",
                     "resolutionPlaceholder": "$~Eksik olan $input değişkenini yer tutucu olarak ekleyin, ardından otomatik tamamlama menüsünden bir değer seçin."
                 },
@@ -759,7 +759,7 @@
                 "UnknownTimeZone": {
                     "name": "$~bilinmeyen saat dilimi",
                     "explanation": "$~*$zone* adında bir saat dilimi bilmiyorum. Saat dilimleri bölgelerin ve şehirlerin adını taşır, örneğin \\'America/New_York'\\. Bildiğin bir şehri yazmayı dene, ben de bir tane önereyim!",
-                    "resolution": "$~Onu $zone şehrinin saat dilimi olan *$city* olarak değiştir"
+                    "resolution": "$~Onu $city şehrinin saat dilimi olan *$zone* olarak değiştir"
                 }
             },
             "exception": {
@@ -930,7 +930,7 @@
         },
         "ListAccess": {
             "name": "$~liste erişimi",
-            "description": "$~$index listesinin $list dizinine eriş",
+            "description": "$~$list listesinin $index dizinine eriş",
             "emotion": "cheerful",
             "doc": [
                 "$~@List ile yakın bir şekilde çalışarak belirli bir konumdaki değerleri almalarına yardımcı oluyorum. Yani, bir listeniz varsa ve ikinci öğesini istiyorsanız şunu yazardınız:",
@@ -1039,7 +1039,7 @@
         },
         "Previous": {
             "name": "$~öncesi",
-            "description": "$~$number akışının önceki $range değer$stream[i|i]",
+            "description": "$~$stream akışının önceki $number değer$range[i|i]",
             "emotion": "serious",
             "doc": [
                 "$~Bir akarsuyun tarihine bakıyorum ve size geçmişteki değerlerinden birini anlatıyorum. Hiç geçmişi hatırlamak istediniz mi?",
@@ -1215,7 +1215,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~bilinmeyen isim",
-                        "explanation": "$~$name[Bu @Block'ta $name adında kimseyi tanımıyorum[$scope|bana bir isim verebilir misin?]"
+                        "explanation": "$~$name[$name adında kimseyi tanımıyorum, $scope[$scope|bu @Block] içinde|Bana bir isim verir misin?]"
                     },
                     "resolution": "$~*$suggestion* mı demek istediniz?",
                     "staticResolution": "$~Şunu mu demek istedin *$owner.$suggestion?*",
@@ -1235,13 +1235,13 @@
             "exception": {
                 "NameException": {
                     "description": "$~bilinmeyen isim",
-                    "explanation": "$~$name[$name[$scope|Bu @Block'ta $scope adında birini tanımıyorum]…|Eep, isim yok!]"
+                    "explanation": "$~$name[$name adında kimseyi tanımıyorum, $scope[$scope|bu @Block] içinde…|Eyvah, isim yok!]"
                 }
             }
         },
         "Select": {
             "name": "$~seçme",
-            "description": "$~$table ile eşleşen $query tablosundan seç",
+            "description": "$~$query ile eşleşen $table tablosundan seç",
             "emotion": "excited",
             "doc": [
                 "$~Bir @condition ile eşleşen @Table satırlarını seçerim. Bazen bir tablonun sadece bir kısmını istersin — ben onu senin için alabilirim!",
@@ -1269,7 +1269,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~küme/harita erişimi",
-            "description": "$~$key içinde $setOrMap anahtarına eriş",
+            "description": "$~$setOrMap içinde $key anahtarına eriş",
             "emotion": "kind",
             "doc": [
                 "$~Bir @Set ya da @Map'in bir @value ya da @key'e sahip olup olmadığını görebilirim.",
@@ -1540,7 +1540,7 @@
         },
         "Update": {
             "name": "$~güncelleme",
-            "description": "$~$table ile eşleşen $query tablosundaki satırları güncelle",
+            "description": "$~$query ile eşleşen $table tablosundaki satırları güncelle",
             "emotion": "kind",
             "doc": [
                 "$~Bir @Table'i gözden geçirmene yardım ederim, bir @condition'a uyan satırları bulur ve sonra yeni değerlerle gözden geçirilmiş satırlar oluştururum.",
@@ -1912,8 +1912,8 @@
                 "search": "$~Bu kalıbın metinde geçtiği her yeri bulalım.",
                 "test": "$~Bu metnin tamamının kalıba uyup uymadığını kontrol edelim.",
                 "scan": "$~$position konumundan başlayan deseni arıyoruz.",
-                "match": "$~$pattern $glyph konumundaki $position ile eşleşir.",
-                "miss": "$~$pattern $glyph konumundaki $position ile eşleşmiyor.",
+                "match": "$~$pattern $position konumundaki $glyph ile eşleşir.",
+                "miss": "$~$pattern $position konumundaki $glyph ile eşleşmiyor.",
                 "end": "$~$pattern hala bir karakter gerekiyor, ancak $position konumunda metnin sonuna ulaştık.",
                 "repeat": "$~$pattern $count eşleşti; bu da devam etmek için yeterli.",
                 "short": "$~$pattern yalnızca $count eşleşti - yeterli değil.",

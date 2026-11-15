@@ -235,7 +235,7 @@
                 "doc": "$~Sahnede farklı bir yere geçerken kullanılacak animasyon stili.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
+            "defaultDescription": "$~$size[$size metre |]ifade $text $name[adı $name|] $face[$face|] $animation $color[$color|] $bubble[şunu diyor: $bubble|]",
             "changing": {
                 "doc": "$~Metnim değiştiğinde oynatılacak bir etkinin ismi. Bu etki @Phrase.duration süremce sürer ve @Phrase.style ile yumuşatılır. Eğer \\ø\\, metnim anında değişir. Eğer 'edit' (düzenle) ise, eski metni geriye doğru silerim; eski ve yeni metnin ortak olan kısmına kadar sildikten sonra yeni metni yazarım. Eğer 'rewrite' (yeniden yaz) ise, yeni metni eskinin üzerine yazarım; her seferinde rastgele bir sırayla bir sembolü değiştiririm. Eğer 'random' (rastgele) ise, her sembolüm metnimin dilinden (@language bilinmiyorsa yazısından) rastgele semboller arasında döner; metnimin büyük-küçük harf düzenine uyar ve bir çekiliş makinesi gibi yeni metnin üzerine iner. @FormattedLiteral metni ile, değişen semboller etki sırasında yeni metnin biçimini alır.",
                 "names": "$~değişiyor"
@@ -526,7 +526,7 @@
                 "doc": "$~@Output'un varsayılanı yerine y ekseninde yansıtılıp yansıtılmayacağı.",
                 "names": "$~tersyüz"
             },
-            "description": "$~$opacity[şeffaf $opacity|] $rotation[2 derece döndürülmüş|] $scale[ölçeklenmiş $scale|] $flipx[yatay olarak çevrilmiş|] $flipy[dikey olarak çevrilmiş|] $blur[gölge bulanık $blur piksel|]",
+            "description": "$~$opacity[saydam $opacity|] $rotation[$rotation derece döndürülmüş|] $scale[$scale ölçeğinde|] $flipx[yatay çevrilmiş|] $flipy[dikey çevrilmiş|] $blur[gölge $blur piksel bulanık|]",
             "music": {
                 "doc": "$~Animasyon durumum başladığında veya bir @Sequence bana ulaştığında çalmam gereken @Music. Amaç kısa bir ses; sadece bir kez baştan sona çalarım.",
                 "names": "$~müzik"
@@ -1625,7 +1625,7 @@
                     "names": "$~eksiltilmiş"
                 }
             },
-            "defaultDescription": "$~$#tracks[bir parça|$tracks parça] ile $tempo dakikada vuruşta müzik",
+            "defaultDescription": "$~dakikada $tempo vuruşluk, $#tracks[tek parçalı|$tracks parçalı] müzik",
             "pause": {
                 "doc": [
                     "$~Bu \\⊤\\ iken yerinde dururum ve tekrar \\⊥\\ olduğunda durduğum vuruştan itibaren devam ederim.",

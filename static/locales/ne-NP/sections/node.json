@@ -16,7 +16,7 @@
         },
         "Doc": {
             "name": "$~व्याख्या",
-            "description": "$~documentation$language[ $language मा|], $#words[$words शब्द|$words शब्दहरू]",
+            "description": "$~कागजात$language[ $language मा|], $#words[$words शब्द|$words शब्दहरू]",
             "emotion": "serious",
             "doc": [
                 "$~म @Markup प्रयोग गरेर कुराहरूलाई राम्रोसँग सजाउँछु, जस्तै तिम्रा केही @Program का व्याख्या, वा तिमीले @Phrase मार्फत मञ्चमा राखेका शब्दहरू पनि।",
@@ -37,7 +37,7 @@
         },
         "Docs": {
             "name": "$~व्याख्या सूची",
-            "description": "$~documentation सूची$languages[ $languages मा| $count को]",
+            "description": "$~कागजात सूची$languages[ $languages मा| $count मध्ये]",
             "emotion": "serious",
             "doc": [
                 "$~म @Doc को एउटा सूची हुँ, जुन तपाईंसँग विभिन्न भाषाहरूमा @Doc का धेरै अनुवादहरू हुँदा उपयोगी हुन्छ।",
@@ -48,7 +48,7 @@
         },
         "KeyValue": {
             "name": "$~मानचित्रण",
-            "description": "$~key $key बाट value $value सम्म",
+            "description": "$~स्वर $key देखि मान $value सम्म",
             "emotion": "kind",
             "doc": [
                 "$~म एउटा *की* बाट *मूल्य* मा गरिने मानचित्रण हुँ, सधैं @Map भित्र हुन्छु।",
@@ -322,7 +322,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~द्विआधारी मूल्याङ्कन",
-            "description": "$~$operator र $left मा operation $right",
+            "description": "$~$left र $right मा $operator सञ्चालन",
             "emotion": "insecure",
             "doc": [
                 "$~म @Evaluate हुँ, तर सरल रूपमा, जब तपाईं दुईवटा inputs लिने @FunctionDefinition प्रयोग गर्न चाहनुहुन्छ तब उपयोगी हुन्छु।",
@@ -347,15 +347,15 @@
                 "OrderOfOperations": {
                     "name": "$~अस्पष्ट क्रम",
                     "explanation": "$~म बायाँबाट दायाँ मूल्यांकन गर्छु, तर गणितले प्रायः ^ लाई × ÷ भन्दा पहिले, र × ÷ लाई + − भन्दा पहिले मूल्यांकन गर्छ। त्यो क्रमलाई PEMDAS भनिन्छ। म यसलाई कसरी मूल्यांकन गरूँ छान्नुहोस्।",
-                    "resolutionPEMDAS": "$~PEMDAS गणित क्रम लागू गर: $higher भन्दा पहिले $lower मूल्यांकन गर",
-                    "resolutionReading": "$~पढ्ने क्रम राख: $lower भन्दा पहिले $higher मूल्यांकन गर",
+                    "resolutionPEMDAS": "$~PEMDAS गणित क्रम लागू गर: $lower भन्दा पहिले $higher मूल्यांकन गर",
+                    "resolutionReading": "$~पढ्ने क्रम राख: $higher भन्दा पहिले $lower मूल्यांकन गर",
                     "resolutionWrap": "$~क्रम स्पष्ट बनाउन कोष्ठक थप"
                 }
             }
         },
         "Bind": {
             "name": "$~बाँध",
-            "description": "$~bind $name[$name|नाम नभएको]$value[ $value सँग|]",
+            "description": "$~बाँध्नुहोस् $name[$name|नाम नभएको]$value[ $value सँग|]",
             "emotion": "excited",
             "doc": [
                 "$~म *values* लाई नाम दिन्छु।",
@@ -505,7 +505,7 @@
                 "$~तिम्रो प्रस्तुतिमा अरू @Source ले साझा गरेका @Bind हरू म @borrow गर्छु — बस तिनको नाम प्रयोग गर, र म तिनको नाम र @value ल्याइदिनेछु।",
                 "लेख्नुहोस् \\↓\\ र त्यसपछि अर्को @Source को नाम। त्यो @Source ले के साझा गर्छ भनेर चिन्ह लगाएको हुनुपर्छ \\↑\\, जस्तै \\↑ colors/en: ['🔴' '🟠' '🟡']\\।"
             ],
-            "start": "$~$name बाट $source ऋण लिँदै",
+            "start": "$~$source बाट $name ऋण लिँदै",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~अज्ञात उधारो",
@@ -694,7 +694,7 @@
         },
         "Delete": {
             "name": "$~मेट्नुहोस्",
-            "description": "$~$table मिल्ने $query बाट पङ्क्ति मेट्नुहोस्",
+            "description": "$~$query मिल्ने $table बाट पङ्क्ति मेट्नुहोस्",
             "emotion": "angry",
             "doc": [
                 "$~म @condition सँग मिल्ने @Table का पङ्क्तिहरू हटाउँछु। कहिलेकाहीँ तालिकामा धेरै कुरा हुन्छ!",
@@ -767,7 +767,7 @@
                 },
                 "MissingInput": {
                     "name": "$~हराइरहेको इनपुट",
-                    "explanation": "$~म $name इनपुट बिना $input मूल्याङ्कन गर्न सक्दिनँ :(",
+                    "explanation": "$~म $input इनपुट बिना $name मूल्याङ्कन गर्न सक्दिनँ :(",
                     "resolutionAddInput": "$~हराइरहेको $input यसको पूर्वनिर्धारित मानसहित थप्नुहोस्",
                     "resolutionPlaceholder": "$~हराइरहेको $input लाई प्लेसहोल्डरको रूपमा थप्नुहोस्, त्यसपछि स्वतः-पूरा मेनुबाट एउटा मान छनोट गर्नुहोस्"
                 },
@@ -811,7 +811,7 @@
         },
         "Input": {
             "name": "$~इनपुट",
-            "description": "$~input $name, $type",
+            "description": "$~इनपुट $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~म @Evaluate लाई दिइएको इनपुट हुँ। मेरो नाम मूल्याङ्कन भइरहेको @FunctionDefinition वा @StructureDefinition मा भएको इनपुटको नामसँग मिल्छ।",
@@ -964,7 +964,7 @@
         },
         "ListAccess": {
             "name": "$~सूची पहुँच",
-            "description": "$~$index को index $list पहुँच गर्नुहोस्",
+            "description": "$~$list को सूचकाङ्क $index पहुँच गर्नुहोस्",
             "emotion": "cheerful",
             "doc": [
                 "$~म @List सँग नजिकबाट काम गर्छु ताकि उनीहरूलाई कुनै निश्चित स्थानमा भएका @value लिन मद्दत गरौं। त्यसैले, यदि तपाईंसँग एउटा सूची थियो, र तपाईं त्यसको दोस्रो वस्तु चाहनुहुन्थ्यो भने, तपाईं यसरी लेख्नुहुन्थ्यो:",
@@ -1028,8 +1028,8 @@
                 "search": "$~यो ढाँचा पाठमा देखा पर्ने हरेक ठाउँ खोजौं।",
                 "test": "$~यो सम्पूर्ण पाठ ढाँचासँग मिल्छ कि मिल्दैन जाँच गरौं।",
                 "scan": "$~स्थान $position बाट सुरु हुने ढाँचा खोज्दै।",
-                "match": "$~$pattern ले स्थान $glyph मा $position सँग मिल्छ।",
-                "miss": "$~$pattern ले स्थान $glyph मा $position सँग मिल्दैन।",
+                "match": "$~$pattern ले स्थान $position मा $glyph सँग मिल्छ।",
+                "miss": "$~$pattern ले स्थान $position मा $glyph सँग मिल्दैन।",
                 "end": "$~$pattern लाई अझै एउटा अक्षर चाहिन्छ, तर हामी स्थान $position मा पाठको अन्त्यमा पुगिसक्यौं।",
                 "here": "$~$pattern स्थान $position मा मिल्छ।",
                 "nothere": "$~$pattern स्थान $position मा मिल्दैन।",
@@ -1380,7 +1380,7 @@
         },
         "Previous": {
             "name": "$~अघिल्लो",
-            "description": "$~$number को अघिल्लो $range value$stream[हरू|]",
+            "description": "$~$stream को अघिल्लो $number मान$range[हरू|]",
             "emotion": "serious",
             "doc": [
                 "$~म स्ट्रिमको इतिहासमा फर्केर हेर्छु र तपाईंलाई यसको विगतका valueहरूमध्ये एउटा बताउँछु। के तपाईंले कहिल्यै विगत सम्झन चाहनुभएको छ?",
@@ -1556,7 +1556,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~अज्ञात नाम",
-                        "explanation": "$~$name[$name[$scope|यो @Block] मा $scope नामको कसैलाई म चिन्दिनँ|के तपाईं मलाई एउटा name दिन सक्नुहुन्छ?]"
+                        "explanation": "$~$name[म $scope[$scope|यो @Block] मा $name नाम गरेको कसैलाई चिन्दिनँ|के तपाईं मलाई नाम दिन सक्नुहुन्छ?]"
                     },
                     "resolution": "$~तपाईंको मतलब *$suggestion?* थियो?",
                     "staticResolution": "$~के तपाईंले भन्न खोज्नुभएको *$owner.$suggestion?*",
@@ -1576,13 +1576,13 @@
             "exception": {
                 "NameException": {
                     "description": "$~अज्ञात name",
-                    "explanation": "$~$name[$name[$scope|यो @Block] मा $scope नामको कसैलाई म चिन्दिनँ…|ओहो, कुनै name छैन!]"
+                    "explanation": "$~$name[म $scope[$scope|यो @Block] मा $name नाम गरेको कसैलाई चिन्दिनँ…|अरे, नाम छैन!]"
                 }
             }
         },
         "Select": {
             "name": "$~छान्नुहोस्",
-            "description": "$~$table मिल्ने $query बाट छान्नुहोस्",
+            "description": "$~$query मिल्ने $table बाट छान्नुहोस्",
             "emotion": "excited",
             "doc": [
                 "$~म @Table का ती पङ्क्तिहरू छान्छु जुन @condition सँग मिल्छन्। कहिलेकाहीं तपाईंलाई तालिकाको एउटा भाग मात्र चाहिन्छ — म तपाईंका लागि त्यो लिन सक्छु!",
@@ -1610,7 +1610,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~सेट/नक्सा पहुँच",
-            "description": "$~$key मा $setOrMap पहुँच गर्नुहोस्",
+            "description": "$~$setOrMap मा $key पहुँच गर्नुहोस्",
             "emotion": "kind",
             "doc": [
                 "$~@Set वा @Map सँग कुनै @value वा @key छ कि छैन म हेर्न सक्छु।",
@@ -1868,7 +1868,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~बन्द नगरिएको सीमांकक",
-                    "explanation": "$~मैले $expected पछि कुनै बेला $unclosed आशा गरेको थिएँ",
+                    "explanation": "$~मैले $unclosed पछि कुनै बेला $expected आशा गरेको थिएँ",
                     "resolution": "$~हराएको *$expected* थप्नुहोस्"
                 }
             },
@@ -1881,7 +1881,7 @@
         },
         "Update": {
             "name": "$~अपडेट",
-            "description": "$~$table मिल्ने $query मा पङ्क्ति अद्यावधिक गर्नुहोस्",
+            "description": "$~$query मिल्ने $table मा पङ्क्ति अद्यावधिक गर्नुहोस्",
             "emotion": "kind",
             "doc": [
                 "$~म एउटा @Table परिमार्जन गर्न मद्दत गर्छु, @condition सँग मिल्ने पङ्क्तिहरू भेट्टाएर, अनि नयाँ @value भएका परिमार्जित पङ्क्तिहरू बनाएर।",

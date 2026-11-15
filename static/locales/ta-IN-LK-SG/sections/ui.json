@@ -910,9 +910,9 @@
                     "$~மேல் ஓரம்",
                     "$~அடிக்கோடு"
                 ],
-                "withOutput": "$~$anchor-இன் $target உடன் $targetAnchor",
+                "withOutput": "$~$target-இன் $targetAnchor உடன் $anchor",
                 "withGrid": "$~கட்டத்தில் $anchor",
-                "aligned": "$~$constraints இல் $place",
+                "aligned": "$~$place இல் $constraints",
                 "none": "$~$direction திசையில் ஒழுங்குபடுத்த ஒன்றுமில்லை"
             },
             "removed": "$~$#count[$#count வெளியீடு நீக்கப்பட்டது|$#count வெளியீடுகள் நீக்கப்பட்டன]",
@@ -2159,7 +2159,7 @@
             },
             "music": {
                 "staff": "$~இந்தத் தடத்தின் இசைக்குறிப்புகள்",
-                "track": "$~$count இல் $total ஆவது தடம்",
+                "track": "$~$total இல் $count ஆவது தடம்",
                 "duration": {
                     "label": "$~ஒரு புதிய இசைக்குறிப்பு எவ்வளவு நேரம் நீடிக்கும்",
                     "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
@@ -2535,7 +2535,7 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~$title என்ற தலைப்பை எப்படி $x $y மாற்றுவது",
+                "howToPosition": "$~$title என்ற தலைப்புள்ள செய்முறை வழிகாட்டி $x $y இடத்துக்கு நகர்த்தப்பட்டது",
                 "canvasPosition": "$~கேன்வாஸ் $x, $y க்கு நகர்த்தப்பட்டது.",
                 "moveActivated": "$~இயக்கம் செயல்படுத்தப்பட்டது. $target ஐ சுட்டி, விசைப்பலகை அல்லது தொடுதிரையைப் பயன்படுத்தி நகர்த்தலாம்.",
                 "moveDeactivated": "$~இயக்கம் முடக்கப்பட்டது."
@@ -2801,7 +2801,7 @@
             "stepAtStart": "$~தொடக்கத்தில்",
             "searchOpened": "$~குறியீட்டில் கண்டுபிடி",
             "searchClosed": "$~கண்டுபிடிப்பு மூடப்பட்டது",
-            "searchMatch": "$~$index இல் $count பொருத்தம்",
+            "searchMatch": "$~$count இல் $index பொருத்தம்",
             "searchNoMatches": "$~பொருத்தங்கள் இல்லை",
             "menuOpened": "$~பட்டி, $#count[$count பரிந்துரை|$count பரிந்துரைகள்]",
             "menuEmpty": "$~பரிந்துரைகள் இல்லை",

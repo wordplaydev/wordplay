@@ -694,7 +694,7 @@
         },
         "Delete": {
             "name": "$~حذف",
-            "description": "$~سطرهایی که با $table مطابقت دارند را از $query حذف کن",
+            "description": "$~سطرهایی که با $query مطابقت دارند را از $table حذف کن",
             "emotion": "angry",
             "doc": [
                 "$~من سطرهای یک @Table را که با یک @condition مطابقت دارند حذف می‌کنم. گاهی یک جدول فقط چیزهای زیادی توی خودش دارد!",
@@ -1369,7 +1369,7 @@
         },
         "Otherwise": {
             "name": "$~در غیر این صورت",
-            "description": "$~$left otherwise $right",
+            "description": "$~$left در غیر این صورت $right",
             "emotion": "curious",
             "doc": [
                 "$~من بررسی می‌کنم که آیا یک @value برابر با @None است یا نه، و اگر باشد، یک ارزش پشتیبان به تو می‌دهم.",
@@ -2095,7 +2095,7 @@
         },
         "UnionType": {
             "name": "$~گزینه",
-            "description": "$~یکی از $first یا $second را بنویس",
+            "description": "$~نوع یکی از $first یا $second",
             "elidedSuffix": "$~یا $omitted گزینهٔ دیگر",
             "emotion": "curious",
             "doc": [

@@ -1114,7 +1114,7 @@
             "stepAtStart": "$~shuru mein",
             "searchOpened": "$~code mein talaash karein",
             "searchClosed": "$~talaash band ho gayi",
-            "searchMatch": "$~$index mein se $count mel",
+            "searchMatch": "$~$count mein se $index mel",
             "searchNoMatches": "$~koi mel nahin mila",
             "menuOpened": "$~menu, $#count[$count mashwara|$count mashwaray]",
             "menuEmpty": "$~koi mashwara nahin",

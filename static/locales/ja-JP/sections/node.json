@@ -16,7 +16,7 @@
         },
         "Doc": {
             "name": "$~説明",
-            "description": "$~ドキュメント$language[ 言語 $language|], $#words[$words 語]",
+            "description": "$~ドキュメント$language[ ($language)|]、$#words[$words語]",
             "emotion": "serious",
             "doc": [
                 "$~わたしは@Markupを使って、あなたの@Programの説明や、@Phraseでステージに出す言葉などを、豊かに飾りつけます。",
@@ -37,7 +37,7 @@
         },
         "Docs": {
             "name": "$~説明のリスト",
-            "description": "$~ドキュメントの一覧$languages[ $languages| $count]",
+            "description": "$~ドキュメントの一覧$languages[ ($languages)| ($count件)]",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Doc のリストです。@Doc をいくつかの言語で訳したいときに役立ちます。",
@@ -313,7 +313,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~二項評価",
-            "description": "$~$operator と $left に対する演算子 $right の演算",
+            "description": "$~$left と $right に対する演算子 $operator の演算",
             "emotion": "insecure",
             "doc": [
                 "$~わたしは @Evaluate ですが、もっと簡単な形をしています。2つの入力を取る @FunctionDefinition を使いたいときに役立ちます。",
@@ -335,8 +335,8 @@
                 "OrderOfOperations": {
                     "name": "$~あいまいな順序",
                     "explanation": "$~わたしは左から右へ評価します。でも数学ではふつう、+ − より先に × ÷ を、× ÷ より先に ^ を評価します。この順序をPEMDASと呼びます。わたしがこれをどう評価するか選んでください。",
-                    "resolutionPEMDAS": "$~PEMDASの数学の順序を使う:$higher より先に $lower を評価する",
-                    "resolutionReading": "$~読む順序のままにする:$lower より先に $higher を評価する",
+                    "resolutionPEMDAS": "$~PEMDASの数学の順序を使う:$lower より先に $higher を評価する",
+                    "resolutionReading": "$~読む順序のままにする:$higher より先に $lower を評価する",
                     "resolutionWrap": "$~かっこを追加して順序をはっきりさせる"
                 }
             },
@@ -491,7 +491,7 @@
                 "$~あなたの作品の中で、他の@Sourceが共有している@Bindを私は@borrowします。名前を使うだけで、私がその名前と@valueを取り込みます。",
                 "次のように書いてください: \\↓\\、そのあとにもう一方の@Sourceの名前を書きます。その@Sourceは、何を共有するかを\\↑\\のようにマークしておく必要があります。例えば\\↑ colors/en: ['🔴' '🟠' '🟡']\\。"
             ],
-            "start": "$~$name から $source を借りています",
+            "start": "$~$source から $name を借りています",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~分からない借用",
@@ -520,8 +520,8 @@
                 },
                 "DuplicateBorrow": {
                     "name": "$~重複した借用",
-                    "explanation": "$~上ですでに借用したものが、$name。そのため、どちらのことか分かりません",
-                    "resolution": "$~代わりに$name、その名前が邪魔になりません"
+                    "explanation": "$~上ですでに借用したものが、$nameが持ち込む名前を使っています。そのため、どちらのことか分かりません",
+                    "resolution": "$~代わりに$nameとして借用してください。そうすれば、その名前が邪魔になりません"
                 },
                 "UnavailableKit": {
                     "name": "$~使えないキット",
@@ -659,7 +659,7 @@
         },
         "Delete": {
             "name": "$~削除する",
-            "description": "$~$table に一致する行を $query から削除",
+            "description": "$~$query に一致する行を $table から削除",
             "emotion": "angry",
             "doc": [
                 "$~私は @condition に一致する @Table の行を取り除くよ。テーブルに中身が多すぎることがあるからね！",
@@ -727,7 +727,7 @@
                 },
                 "MissingInput": {
                     "name": "$~入力が足りません",
-                    "explanation": "$~入力 $name なしでは $input を評価できません :(",
+                    "explanation": "$~入力 $input なしでは $name を評価できません :(",
                     "resolutionAddInput": "$~足りない $input を、その既定の値と一緒に追加する",
                     "resolutionPlaceholder": "$~足りない $input をプレースホルダーとして追加し、それから自動補完メニューから値を選ぶ"
                 },
@@ -759,7 +759,7 @@
                 "UnknownTimeZone": {
                     "name": "$~不明なタイムゾーン",
                     "explanation": "$~*$zone* というタイムゾーンは知りません。タイムゾーンは地域や都市の名前で呼ばれます。たとえば \\'America/New_York'\\。知っている都市を書いてみてください。私が候補を教えます！",
-                    "resolution": "$~$zone のタイムゾーンである *$city* に変えてください"
+                    "resolution": "$~$city のタイムゾーンである *$zone* に変えてください"
                 }
             },
             "exception": {
@@ -930,7 +930,7 @@
         },
         "ListAccess": {
             "name": "$~リストアクセス",
-            "description": "$~$index のインデックス $list にアクセス",
+            "description": "$~$list のインデックス $index にアクセス",
             "emotion": "cheerful",
             "doc": [
                 "$~私は @List と密に協力して、特定の位置にある値を取るのを手伝います。たとえば、リストがあってその2番目の項目がほしいなら、こう書きます。",
@@ -1039,7 +1039,7 @@
         },
         "Previous": {
             "name": "$~前の",
-            "description": "$~$number の前の $range 個の値$stream[|]",
+            "description": "$~$stream の前の $number 個の値$range[|]",
             "emotion": "serious",
             "doc": [
                 "$~わたしはストリームの歴史をさかのぼって、過去の値のひとつを教えます。過去を思い出したいと思ったことはありませんか？",
@@ -1052,8 +1052,8 @@
                 "ひとつの時刻ではなく、前の5つの時刻になっているのがわかりますか？",
                 "わたしは、過去にもとづく演技を作りたいときに役立ちます。"
             ],
-            "start": "$~まず$stream",
-            "finish": "$~ストリームの値$value",
+            "start": "$~まず$streamを取得します",
+            "finish": "$~ストリームの値$valueに評価されました",
             "label": {
                 "range": "$~範囲"
             }
@@ -1072,9 +1072,9 @@
                 "そして、きみの公演が*@stream*に頼っているなら、そのストリームが変わるたびに、ぼくはもう一度評価するんだ。"
             ],
             "unevaluated": "$~あなたが選んだノードは評価されませんでした",
-            "start": "$~$stream[$stream$value！|これは最初の評価です]",
+            "start": "$~$stream[$streamストリームが$valueに変わりました！|これは最初の評価です]",
             "halt": "$~例外が起きたので停止します",
-            "finish": "$~全部終わり、$value",
+            "finish": "$~全部終わり、$valueに評価されました",
             "done": "$~評価しているものがありません",
             "exception": {
                 "BlankException": {
@@ -1083,7 +1083,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "$~評価の上限",
-                    "explanation": "$~@Evaluate。特に$function。\n\n$function、止まらずに自分をずっと評価し続けているのではありませんか？"
+                    "explanation": "$~@Evaluateとわたしは評価するのに疲れました。特に$functionには。\n\n$functionが、止まらずに自分をずっと評価し続けているのではありませんか？"
                 },
                 "StepLimitException": {
                     "description": "$~ステップの上限",
@@ -1099,7 +1099,7 @@
                 },
                 "PermissionException": {
                     "description": "$~許可が拒否されました",
-                    "explanation": "$~実行するには$permission、許可がありません。「再試行」をクリックしてもう一度ためしてください。それでもだめなら、ブラウザの設定でこのサイトの$permission。"
+                    "explanation": "$~実行するには$permissionが必要ですが、許可がありません。「再試行」をクリックしてもう一度ためしてください。それでもだめなら、ブラウザの設定でこのサイトの$permissionを許可してください。"
                 }
             },
             "label": {
@@ -1135,11 +1135,11 @@
                 "これは、まったく新しいものを作るよりずっと簡単です \\Cat\\を趣味以外は同じ値で作るより簡単でしょう？"
             ],
             "start": "$~まず値を取得しよう",
-            "finish": "$~構造をコピーしましたが、$property$value",
+            "finish": "$~構造をコピーしましたが、$propertyを$valueにしました",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~知らないプロパティ",
-                    "explanation": "$~わたしは構造$structure、作りかえられません。",
+                    "explanation": "$~わたしは構造$structureの中の名前ではないので、作りかえられません。",
                     "resolution": "$~*$name*に名前を変える"
                 }
             },
@@ -1158,7 +1158,7 @@
                 "\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
             "start": "$~まず値を取得しよう",
-            "finish": "$~プロパティ$property、それは$value",
+            "finish": "$~プロパティ$propertyが見つかりました、それは$valueです",
             "label": {
                 "property": "$~プロパティ"
             }
@@ -1175,11 +1175,11 @@
                 "だからわたしもストリームのようなものですが、他のストリームにもとづくものです。すごいでしょう？"
             ],
             "start": "$~ストリームを更新すべきか見てみよう",
-            "finish": "$~新しいストリームの値は$value",
+            "finish": "$~新しいストリームの値は$valueです",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~ストリームを期待しました",
-                    "explanation": "$~$condition、わたしは決して反応しません！",
+                    "explanation": "$~$conditionはストリームを参照していないので、わたしは決して反応しません！",
                     "resolution": "$~反応を捨て、最初の値だけを残す"
                 },
                 "ExpectedCondition": {
@@ -1215,7 +1215,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~知らない名前",
-                        "explanation": "$~$name[$name[$scope|この@Block]の中に$scope|名前を教えてくれますか？]"
+                        "explanation": "$~$name[$scope[$scope|この@Block]の中に$name|名前を教えてくれますか？]"
                     },
                     "resolution": "$~もしかして*$suggestion?*のことですか？",
                     "staticResolution": "$~*$owner.$suggestion?* のことですか？",
@@ -1223,7 +1223,7 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~自分自身を参照する値",
-                    "explanation": "$~えっと、$name。だからどんな値にすればいいか分かりません。",
+                    "explanation": "$~えっと、$nameの値は自分自身に依存しています。だからどんな値にすればいいか分かりません。",
                     "resolution": "$~*$name*をプレースホルダーに置き換えて、この繰り返しを断ち切りましょう"
                 },
                 "UnexpectedTypeVariable": {
@@ -1235,13 +1235,13 @@
             "exception": {
                 "NameException": {
                     "description": "$~知らない名前",
-                    "explanation": "$~$name[$name[$scope|この@Block]の中に$scope…|うわ、名前がありません！]"
+                    "explanation": "$~$name[$scope[$scope|この@Block]の中に$name…|うわ、名前がありません！]"
                 }
             }
         },
         "Select": {
             "name": "$~選ぶ",
-            "description": "$~$table に一致する行を $query から選択",
+            "description": "$~$query に一致する行を $table から選択",
             "emotion": "excited",
             "doc": [
                 "$~わたしは@Table@condition。表の一部だけが欲しいときがありますよね。わたしがそれを取ってきますよ！",
@@ -1265,11 +1265,11 @@
             "emotion": "eager",
             "doc": "$~わたしは特定の値の特定の@Setです。わたしの使い方をもっと知るには@Set。",
             "start": "$~まず値を計算しましょう！",
-            "finish": "$~集合$value！"
+            "finish": "$~集合$valueを作りました！"
         },
         "SetOrMapAccess": {
             "name": "$~集合／マップへのアクセス",
-            "description": "$~$key の $setOrMap にアクセス",
+            "description": "$~$setOrMap の $key にアクセス",
             "emotion": "kind",
             "doc": [
                 "$~わたしは@Set@Mapが@value@key。",
@@ -1279,22 +1279,22 @@
                 "\\faves: {'mac and cheese': 5stars 'cereal': 2stars 'gruel': 1stars}\nfaves{'gruel'}\\"
             ],
             "start": "$~集合やマップは何ですか？",
-            "finish": "$~値は$value",
+            "finish": "$~値は$valueです",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~合わないキー",
-                    "explanation": "$~型$expected、$given",
-                    "resolution": "$~$expected、それを$expected",
-                    "resolutionLiteral": "$~リストや集合、マップに!を付けてリテラルとして印を付けてください。そうすれば値が一般化されず、そのまま特定の値のままになります。$expected",
-                    "resolutionOtherwise": "$~$expected、??で値がないときの処理をしてください",
-                    "resolutionGuard": "$~$expected、まず型ガードでそれが$expected",
-                    "resolutionDeclaration": "$~$expected、型をはっきりと宣言してください",
-                    "resolutionWrap": "$~$expected、それをリストや集合、マップに入れてください",
-                    "resolutionStructure": "$~この場所には$expected、それを$expected",
-                    "resolutionDefault": "$~ここでは$expected、この束縛に開始の値を与えてください",
-                    "resolutionWiden": "$~$expected、この束縛でその値の型を許してください",
-                    "resolutionReorder": "$~型は逆の順番のほうがよく合うので、入力を入れ替えてください。$expected",
-                    "resolutionPlaceholder": "$~$expected、今はプレースホルダーに置き換えてください。それから自動補完メニューから値を選んでください"
+                    "explanation": "$~型$expectedのキーを期待していましたが、$givenを受け取りました",
+                    "resolution": "$~$expectedが必要なので、それを$expectedに変換してください",
+                    "resolutionLiteral": "$~リストや集合、マップに!を付けてリテラルとして印を付けてください。そうすれば値が一般化されず、そのまま特定の値のままになります。$expectedには正確な値が必要です",
+                    "resolutionOtherwise": "$~$expectedはøを許さないので、??で値がないときの処理をしてください",
+                    "resolutionGuard": "$~$expectedはほかの型にはなれないので、まず型ガードでそれが$expectedであることを確認してください",
+                    "resolutionDeclaration": "$~$expectedにはリテラルの値を保つ必要があるので、型をはっきりと宣言してください",
+                    "resolutionWrap": "$~$expectedには値のコレクションが必要なので、それをリストや集合、マップに入れてください",
+                    "resolutionStructure": "$~この場所には$expectedの値が必要なので、それを$expectedで包んでください",
+                    "resolutionDefault": "$~ここでは$expectedが欠けてはいけないので、この束縛に開始の値を与えてください",
+                    "resolutionWiden": "$~$expectedは実際に保存されているものには狭すぎるので、この束縛でその値の型を許してください",
+                    "resolutionReorder": "$~型は逆の順番のほうがよく合うので、入力を入れ替えてください。$expectedは別の場所に入ります",
+                    "resolutionPlaceholder": "$~$expectedが必要なので、今はプレースホルダーに置き換えてください。それから自動補完メニューから値を選んでください"
                 }
             }
         },
@@ -1351,7 +1351,7 @@
                 },
                 "UnimplementedInterface": {
                     "name": "$~未実装",
-                    "explanation": "$~わたしは$interface、$function",
+                    "explanation": "$~わたしは$interfaceを実装していますが、$functionを実装していません",
                     "resolution": "$~この構造体に足りない*$function*の骨組みを作る"
                 }
             },
@@ -1384,7 +1384,7 @@
             "emotion": "angry",
             "doc": "$~わたしは特定の行を持つ特定の表です。わたしがどう役立つかは@Table。",
             "start": "$~まず行を計算する",
-            "finish": "$~新しい表$value"
+            "finish": "$~新しい表$valueに評価されました"
         },
         "TextLiteral": {
             "name": "$~テキストリテラル",
@@ -1527,7 +1527,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~閉じていない区切り記号",
-                    "explanation": "$~$expected のあとに $unclosed を期待していました",
+                    "explanation": "$~$unclosed のあとに $expected を期待していました",
                     "resolution": "$~足りない *$expected* を追加する"
                 }
             },
@@ -1540,7 +1540,7 @@
         },
         "Update": {
             "name": "$~更新",
-            "description": "$~$table に一致する行を $query で更新",
+            "description": "$~$query に一致する行を $table で更新",
             "emotion": "kind",
             "doc": [
                 "$~私は @Table を書き直すのを助けます。@condition に合う行を見つけて、新しい値で書き直した行を作ります。",
@@ -1844,7 +1844,7 @@
                 "ぼくは @List、@Set、@Map（ぼくはマップの値を変えるよ。キーはそのままの場所にいるんだ！）、それに @Table でも動くよ！",
                 "もっと手のこんだこと、たとえば各項目の @index や、いろんな場所で再利用できる関数がほしい？それなら、@List.translate みたいなもっと落ち着いた大人のいとこたちを訪ねてね。でも、日々のちょっとした変換には、ぼくがいるよ！！"
             ],
-            "start": "$~ちょっと待って、$expression！",
+            "start": "$~ちょっと待って、$expressionの中身を全部取ってくるね！",
             "finish": "$~ジャジャーン！これがあなたのできたてのコレクションだよ： $value",
             "next": "$~次の要素： $value！",
             "conflict": {
@@ -1912,8 +1912,8 @@
                 "search": "$~このパターンがテキストの中に現れる場所を全部見つけよう。",
                 "test": "$~このテキスト全体がパターンに合うか確かめよう。",
                 "scan": "$~位置 $position から始まるパターンをさがしているよ。",
-                "match": "$~$pattern は位置 $glyph で $position に合うよ。",
-                "miss": "$~$pattern は位置 $glyph で $position に合わないよ。",
+                "match": "$~$pattern は位置 $position で $glyph に合うよ。",
+                "miss": "$~$pattern は位置 $position で $glyph に合わないよ。",
                 "end": "$~$pattern はまだ1文字必要だけど、位置 $position でテキストの終わりに着いたよ。",
                 "repeat": "$~$pattern は $count に合ったよ — 続けるのに十分だよ。",
                 "short": "$~$pattern は $count しか合わなかったよ — 十分ではないよ。",
@@ -2011,8 +2011,8 @@
             "conflict": {
                 "DuplicateCaptureName": {
                     "name": "$~名前が重なるキャプチャ",
-                    "explanation": "$~別のキャプチャがすでに名前$name。このキャプチャはそれを上書きしてしまいます。",
-                    "resolution": "$~このキャプチャの名前を$replacement"
+                    "explanation": "$~別のキャプチャがすでに名前$nameを使っています。このキャプチャはそれを上書きしてしまいます。",
+                    "resolution": "$~このキャプチャの名前を$replacementに変えてください"
                 }
             }
         },

@@ -313,7 +313,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~बाइनरी मूल्यांकन",
-            "description": "$~$operator और $left पर $right संक्रिया",
+            "description": "$~$left और $right पर $operator संक्रिया",
             "emotion": "insecure",
             "doc": [
                 "$~मैं @Evaluate हूँ, लेकिन एक सरल रूप में, जो तब मददगार है जब आप ऐसा @FunctionDefinition उपयोग करना चाहते हैं जो दो इनपुट लेता है।",
@@ -335,8 +335,8 @@
                 "OrderOfOperations": {
                     "name": "$~अस्पष्ट क्रम",
                     "explanation": "$~मैं बाएँ से दाएँ मूल्यांकन करता हूँ, लेकिन गणित आमतौर पर × ÷ से पहले ^ का, और + − से पहले × ÷ का मूल्यांकन करता है। उस क्रम को PEMDAS कहते हैं। चुनें कि आप मुझसे इसका मूल्यांकन कैसे करवाना चाहते हैं।",
-                    "resolutionPEMDAS": "$~PEMDAS गणित क्रम लगाएँ: $higher से पहले $lower का मूल्यांकन करें",
-                    "resolutionReading": "$~पढ़ने का क्रम रखें: $lower से पहले $higher का मूल्यांकन करें",
+                    "resolutionPEMDAS": "$~PEMDAS गणित क्रम लगाएँ: $lower से पहले $higher का मूल्यांकन करें",
+                    "resolutionReading": "$~पढ़ने का क्रम रखें: $higher से पहले $lower का मूल्यांकन करें",
                     "resolutionWrap": "$~क्रम को स्पष्ट करने के लिए कोष्ठक जोड़ें"
                 }
             },
@@ -491,7 +491,7 @@
                 "$~मैं वे @Bind @borrow लाता हूँ जिन्हें आपके प्रदर्शन में दूसरे @Source ने साझा किया है — बस उनका नाम इस्तेमाल करें और मैं उनका नाम और @value ले आऊँगा।",
                 "लिखें \\↓\\ और फिर उस दूसरे @Source का नाम। उस @Source को यह चिह्नित करना होगा कि वह क्या साझा करता है \\↑\\, जैसे \\↑ colors/en: ['🔴' '🟠' '🟡']\\।"
             ],
-            "start": "$~$name से $source उधार ले रहा हूँ",
+            "start": "$~$source से $name उधार ले रहा हूँ",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~अनजान उधार",
@@ -726,7 +726,7 @@
                 },
                 "MissingInput": {
                     "name": "$~गायब $inputTerm",
-                    "explanation": "$~मैं इनपुट $name के बिना $input का मूल्यांकन नहीं कर सकता :(",
+                    "explanation": "$~मैं इनपुट $input के बिना $name का मूल्यांकन नहीं कर सकता :(",
                     "resolutionAddInput": "$~गायब $input को उसके डिफ़ॉल्ट मान के साथ जोड़ो",
                     "resolutionPlaceholder": "$~गायब $input को एक प्लेसहोल्डर के रूप में जोड़ो, फिर ऑटोकम्प्लीट मेनू से एक चीज़ चुनो"
                 },
@@ -899,7 +899,7 @@
                 "मैं तब बहुत मददगार हूँ जब आपको यह जानना हो कि किसी @Name का मान किसी खास प्रकार का है या नहीं।"
             ],
             "start": "$~पहले $expression का मान निकालें",
-            "finish": "$~$value[value is $type|value is not $type]",
+            "finish": "$~$value[मान $type है|मान $type नहीं है]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~असंभव प्रकार",
@@ -929,7 +929,7 @@
         },
         "ListAccess": {
             "name": "$~सूची पहुँच",
-            "description": "$~$index की अनुक्रमणिका $list तक पहुँच",
+            "description": "$~$list की अनुक्रमणिका $index तक पहुँच",
             "emotion": "cheerful",
             "doc": [
                 "$~मैं @List के साथ मिलकर उन्हें किसी खास स्थान पर @value पाने में मदद करता हूँ। तो, अगर आपके पास एक सूची है और आप उसकी दूसरी वस्तु चाहते हैं, तो आप लिखेंगे:",
@@ -1038,7 +1038,7 @@
         },
         "Previous": {
             "name": "$~पिछला",
-            "description": "$~$number की पिछली $range चीज़$stream[ें|]",
+            "description": "$~$stream की पिछली $number चीज़$range[ें|]",
             "emotion": "serious",
             "doc": [
                 "$~मैं किसी स्ट्रीम के इतिहास में पीछे देखता हूँ और आपको उसका कोई पुराना @value बताता हूँ। क्या आपने कभी अतीत को याद रखना चाहा है?",
@@ -1214,7 +1214,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~अनजान नाम",
-                        "explanation": "$~$name[मुझे $name[$scope|इस @Block] में $scope नाम का कोई नहीं पता|क्या तुम मुझे एक नाम दे सकते हो?]"
+                        "explanation": "$~$name[मुझे $scope[$scope|इस @Block] में $name नाम का कोई नहीं पता|क्या तुम मुझे एक नाम दे सकते हो?]"
                     },
                     "resolution": "$~क्या तुम्हारा मतलब *$suggestion?* था",
                     "staticResolution": "$~क्या आपका मतलब *$owner.$suggestion?* था",
@@ -1234,7 +1234,7 @@
             "exception": {
                 "NameException": {
                     "description": "$~अनजान नाम",
-                    "explanation": "$~$name[मुझे $name[$scope|इस @Block] में $scope नाम का कोई नहीं पता…|अरे, कोई नाम नहीं!]"
+                    "explanation": "$~$name[मुझे $scope[$scope|इस @Block] में $name नाम का कोई नहीं पता…|अरे, कोई नाम नहीं!]"
                 }
             }
         },
@@ -1268,7 +1268,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~सेट/मैप पहुँच",
-            "description": "$~$key में $setOrMap तक पहुँच",
+            "description": "$~$setOrMap में $key तक पहुँच",
             "emotion": "kind",
             "doc": [
                 "$~मैं देख सकता हूँ कि किसी @Set या @Map में कोई @value या @key है या नहीं।",
@@ -1526,7 +1526,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~बंद न किया गया सीमांकक",
-                    "explanation": "$~मुझे $expected के कुछ समय बाद $unclosed की उम्मीद थी",
+                    "explanation": "$~मुझे $unclosed के कुछ समय बाद $expected की उम्मीद थी",
                     "resolution": "$~गायब *$expected* जोड़ें"
                 }
             },
@@ -1911,8 +1911,8 @@
                 "search": "$~आओ हर जगह ढूंढें जहां यह पैटर्न पाठ में आता है।",
                 "test": "$~आओ जांचें कि क्या यह पूरा पाठ पैटर्न में बैठता है।",
                 "scan": "$~$position स्थिति से शुरू करके पैटर्न ढूंढ रहे हैं।",
-                "match": "$~$pattern ने स्थिति $glyph पर $position का मिलान किया।",
-                "miss": "$~$pattern ने स्थिति $glyph पर $position का मिलान नहीं किया।",
+                "match": "$~$pattern ने स्थिति $position पर $glyph का मिलान किया।",
+                "miss": "$~$pattern ने स्थिति $position पर $glyph का मिलान नहीं किया।",
                 "end": "$~$pattern को अभी भी एक अक्षर चाहिए, पर हम स्थिति $position पर पाठ के अंत तक पहुंच गए हैं।",
                 "repeat": "$~$pattern ने $count का मिलान किया — आगे बढ़ने के लिए काफ़ी है।",
                 "short": "$~$pattern ने केवल $count का मिलान किया — काफ़ी नहीं है।",

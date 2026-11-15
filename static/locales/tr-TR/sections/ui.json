@@ -85,7 +85,7 @@
             "color": {
                 "field": "$~renk alanı",
                 "instructions": "$~Renk tonunu değiştirmek için sol ve sağ ok tuşlarını, renk canlılığını değiştirmek için yukarı ve aşağı ok tuşlarını, açıklığı değiştirmek için ise sayfa yukarı ve sayfa aşağı tuşlarını kullan. Daha küçük adımlar için shift tuşunu basılı tut. Ekran okuyucuyla, önce bu kontrolü kullan ya da altındaki açıklık, renk canlılığı ve renk tonu kaydırıcılarını kullan.",
-                "value": "$~$color , LCH $l , $c , $h",
+                "value": "$~$color, LCH $l, $c, $h",
                 "input": {
                     "description": "$~Herhangi bir web formatında bir renk girin",
                     "placeholder": "$~#f00, rgb(), hsl(), kırmızı",
@@ -739,7 +739,7 @@
             "label": "$~çatışmalar ve yardım",
             "cursor": "$~Bu bir *$node*$type[ ve o bir $type|].",
             "cursorDoc": "$~Şöyle diyorlar: “$description”",
-            "cursorParent": "$~Bunlar bir *$node*$type[içindedir, bu da bir $type olarak değerlendirilir.| içindedir.]",
+            "cursorParent": "$~Onlar bir *$node*$type[, ve bu bir $type değerine dönüşür|] içinde.",
             "learn": "$~/Daha fazla bilgi edin/",
             "evaluating": "$~Aman ne güzel, değerlendirelim!",
             "space": "$~Burası uzay! Hiçbir şeyin bu kadar çok şey söyleyebileceğini kim bilebilirdi?",
@@ -2154,7 +2154,7 @@
             },
             "music": {
                 "staff": "$~bu parçanın notaları",
-                "track": "$~parça $count içinden $total",
+                "track": "$~parça $total içinden $count",
                 "duration": {
                     "label": "$~yeni bir nota ne kadar sürer",
                     "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
@@ -2793,7 +2793,7 @@
             "stepAtStart": "$~başlangıçta",
             "searchOpened": "$~kodda bul",
             "searchClosed": "$~bulma kapatıldı",
-            "searchMatch": "$~$index içinden eşleşme $count",
+            "searchMatch": "$~$count içinden eşleşme $index",
             "searchNoMatches": "$~eşleşme yok",
             "menuOpened": "$~menü, $#count[$count öneri|$count öneri]",
             "menuEmpty": "$~öneri yok",

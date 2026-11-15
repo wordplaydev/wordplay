@@ -313,7 +313,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~দ্বিমাত্রিক মান নির্ণয়",
-            "description": "$~$operator এবং $left এর উপর $right অপারেশন",
+            "description": "$~$left এবং $right এর উপর $operator অপারেশন",
             "emotion": "insecure",
             "doc": [
                 "$~আমি @Evaluate, তবে সহজতর রূপে, যখন তুমি এমন একটি @FunctionDefinition ব্যবহার করতে চাও যা দুটি ইনপুট নেয় তখন কাজে লাগি।",
@@ -338,8 +338,8 @@
                 "OrderOfOperations": {
                     "name": "$~অস্পষ্ট ক্রম",
                     "explanation": "$~আমি বাম থেকে ডানে মান নির্ণয় করি, কিন্তু গণিত সাধারণত + − এর আগে × ÷, আর × ÷ এর আগে ^ নির্ণয় করে। সেই ক্রমকে PEMDAS বলা হয়। আমি কীভাবে এর মান নির্ণয় করব তা বেছে নাও।",
-                    "resolutionPEMDAS": "$~PEMDAS গণিতের ক্রম প্রয়োগ করো: $higher-এর আগে $lower নির্ণয় করো",
-                    "resolutionReading": "$~পড়ার ক্রম রাখো: $lower-এর আগে $higher নির্ণয় করো",
+                    "resolutionPEMDAS": "$~PEMDAS গণিতের ক্রম প্রয়োগ করো: $lower-এর আগে $higher নির্ণয় করো",
+                    "resolutionReading": "$~পড়ার ক্রম রাখো: $higher-এর আগে $lower নির্ণয় করো",
                     "resolutionWrap": "$~ক্রমটি স্পষ্ট করতে বন্ধনী যোগ করো"
                 }
             }
@@ -496,7 +496,7 @@
                 "$~তোমার পারফরম্যান্সে অন্য @Source যেসব @Bind ভাগ করেছে, আমি সেগুলো @borrow করি — শুধু তাদের নাম ব্যবহার করো, আর আমি তাদের নাম আর @value নিয়ে আসব।",
                 "লেখো \\↓\\ আর তারপর অন্য @Source-এর নাম। সেই @Source-কে অবশ্যই চিহ্নিত করতে হবে যে সে কী ভাগ করছে, যেমন \\↑\\, যেমন \\↑ colors/en: ['🔴' '🟠' '🟡']\\।"
             ],
-            "start": "$~$name থেকে $source ধার নিচ্ছি",
+            "start": "$~$source থেকে $name ধার নিচ্ছি",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~অজানা ধার",
@@ -659,7 +659,7 @@
         },
         "Delete": {
             "name": "$~মুছে ফেলো",
-            "description": "$~$table এর সাথে মিলে যাওয়া সারি $query থেকে মুছে ফেলা",
+            "description": "$~$query এর সাথে মিলে যাওয়া সারি $table থেকে মুছে ফেলা",
             "emotion": "angry",
             "doc": [
                 "$~আমি একটি @Table-এর সেই সারিগুলো সরাই যেগুলো একটি @condition-এর সাথে মেলে। কখনো কখনো একটি টেবিলে অনেক বেশি জিনিস থাকে!",
@@ -732,7 +732,7 @@
                 },
                 "MissingInput": {
                     "name": "$~অনুপস্থিত ইনপুট",
-                    "explanation": "$~ইনপুট $name ছাড়া আমি $input মূল্যায়ন করতে পারি না :(",
+                    "explanation": "$~ইনপুট $input ছাড়া আমি $name মূল্যায়ন করতে পারি না :(",
                     "resolutionAddInput": "$~অনুপস্থিত $input, তার ডিফল্ট মান সহ যোগ করো",
                     "resolutionPlaceholder": "$~অনুপস্থিত $input-কে একটি স্থানধারক হিসেবে যোগ করো, তারপর স্বয়ংসম্পূর্ণ তালিকা থেকে একটি মান বেছে নাও"
                 },
@@ -930,7 +930,7 @@
         },
         "ListAccess": {
             "name": "$~তালিকা অ্যাক্সেস",
-            "description": "$~$index এর সূচক $list এ প্রবেশ",
+            "description": "$~$list এর সূচক $index এ প্রবেশ",
             "emotion": "cheerful",
             "doc": [
                 "$~আমি @List-এর সাথে ঘনিষ্ঠভাবে কাজ করি, একটা নির্দিষ্ট অবস্থানের @value বের করতে সাহায্য করি। তাই ধরো, তোমার একটা তালিকা আছে, আর তুমি এর দ্বিতীয় উপাদানটা চাও, তখন লিখবে:",
@@ -1039,7 +1039,7 @@
         },
         "Previous": {
             "name": "$~পূর্ববর্তী",
-            "description": "$~$number এর আগের $range মান$stream[|]",
+            "description": "$~$stream এর আগের $number মান$range[|]",
             "emotion": "serious",
             "doc": [
                 "$~আমি একটি স্ট্রিমের ইতিহাসের দিকে ফিরে তাকাই এবং তোমাকে তার অতীতের একটি @value জানাই। তুমি কি কখনো অতীত মনে রাখতে চেয়েছ?",
@@ -1215,7 +1215,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~অজানা নাম",
-                        "explanation": "$~$name[$name[$scope|এই @Block]-এ $scope নামে কাউকে আমি চিনি না|তুমি কি আমাকে একটা নাম দিতে পারবে?]"
+                        "explanation": "$~$name[$scope[$scope|এই @Block]-এ $name নামে কাউকে আমি চিনি না|তুমি কি আমাকে একটা নাম দিতে পারবে?]"
                     },
                     "resolution": "$~তুমি কি *$suggestion?* বলতে চেয়েছিলে?",
                     "staticResolution": "$~তুমি কি *$owner.$suggestion?* বোঝাতে চেয়েছ?",
@@ -1235,13 +1235,13 @@
             "exception": {
                 "NameException": {
                     "description": "$~অজানা নাম",
-                    "explanation": "$~$name[$name[$scope|এই @Block]-এ $scope নামে কাউকে আমি চিনি না…|উফ, কোনো নাম নেই!]"
+                    "explanation": "$~$name[$scope[$scope|এই @Block]-এ $name নামে কাউকে আমি চিনি না…|উফ, কোনো নাম নেই!]"
                 }
             }
         },
         "Select": {
             "name": "$~নির্বাচন",
-            "description": "$~$table এর সাথে মিলে যাওয়া $query থেকে নির্বাচন",
+            "description": "$~$query এর সাথে মিলে যাওয়া $table থেকে নির্বাচন",
             "emotion": "excited",
             "doc": [
                 "$~আমি একটি @Table-এর সেই সারিগুলো বেছে নিই যেগুলো একটি @condition-এর সাথে মেলে। কখনও কখনও তুমি টেবিলের শুধু একটি অংশ চাও — আমি তোমার জন্য সেটা এনে দিতে পারি!",
@@ -1269,7 +1269,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~সেট/ম্যাপ অ্যাক্সেস",
-            "description": "$~$key এ $setOrMap প্রবেশ",
+            "description": "$~$setOrMap এ $key প্রবেশ",
             "emotion": "kind",
             "doc": [
                 "$~একটি @Set বা @Map-এ কোনো @value বা @key আছে কিনা আমি দেখতে পারি।",
@@ -1527,7 +1527,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~বন্ধ না করা ডিলিমিটার",
-                    "explanation": "$~আমি $expected-এর পরে কোনো এক সময়ে $unclosed আশা করেছিলাম",
+                    "explanation": "$~আমি $unclosed-এর পরে কোনো এক সময়ে $expected আশা করেছিলাম",
                     "resolution": "$~অনুপস্থিত *$expected* যোগ করো"
                 }
             },
@@ -1540,7 +1540,7 @@
         },
         "Update": {
             "name": "$~আপডেট",
-            "description": "$~$table এর সাথে মিলে যাওয়া সারি $query এ হালনাগাদ",
+            "description": "$~$query এর সাথে মিলে যাওয়া সারি $table এ হালনাগাদ",
             "emotion": "kind",
             "doc": [
                 "$~আমি একটি @Table সংশোধন করতে সাহায্য করি, একটি @condition-এর সাথে মিলে যাওয়া সারিগুলো খুঁজে বের করি, এবং তারপর নতুন @value দিয়ে সংশোধিত সারি তৈরি করি।",
@@ -1912,8 +1912,8 @@
                 "search": "$~চলো টেক্সটে এই প্যাটার্ন যেখানে যেখানে আছে সব জায়গা খুঁজি।",
                 "test": "$~চলো দেখি এই পুরো টেক্সটটা প্যাটার্নের সঙ্গে মেলে কিনা।",
                 "scan": "$~$position অবস্থান থেকে শুরু করে প্যাটার্ন খুঁজছি।",
-                "match": "$~$pattern $glyph অবস্থানে $position-এর সঙ্গে মেলে।",
-                "miss": "$~$pattern $glyph অবস্থানে $position-এর সঙ্গে মেলে না।",
+                "match": "$~$pattern $position অবস্থানে $glyph-এর সঙ্গে মেলে।",
+                "miss": "$~$pattern $position অবস্থানে $glyph-এর সঙ্গে মেলে না।",
                 "end": "$~$pattern-এর এখনও একটা অক্ষর দরকার, কিন্তু আমরা $position অবস্থানে টেক্সটের শেষে পৌঁছে গেছি।",
                 "repeat": "$~$pattern $count মিলিয়েছে — চালিয়ে যাওয়ার মতো যথেষ্ট।",
                 "short": "$~$pattern শুধু $count মিলিয়েছে — যথেষ্ট নয়।",

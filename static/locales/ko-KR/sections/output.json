@@ -243,7 +243,7 @@
                 "또한 @Output 이 할 수 있는 모든 기능을 저에게 부여할 수도 있습니다. 여기에는 크기, 글꼴, 회전 변경은 물론 @Pose 와 @Sequence 사용한 멋진 동작까지 포함됩니다.",
                 "@Stage 에서 저를 선택하고 옆에 있는 팔레트 🎨를 사용하여 편집할 수도 있습니다. 다양한 글꼴을 시험해보고 @Text 에 딱 맞는 글꼴을 고르는 데 아주 좋은 방법입니다."
             ],
-            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
+            "defaultDescription": "$~$size[$size 미터 |]문구 $text $name[이름: $name|] $face[$face|] $animation $color[$color|] $bubble[말풍선: $bubble|]",
             "text": {
                 "doc": "$~@Stage 에 보여 줄 글자들입니다. @TextLiteral 또는 @FormattedLiteral 입니다.",
                 "names": "$~텍스트"

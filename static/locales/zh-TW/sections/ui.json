@@ -993,7 +993,7 @@
                 },
                 "location": {
                     "header": "$~位置",
-                    "explanation": "$!/決定輸出在舞台上位置的方法。/"
+                    "explanation": "$~/決定輸出內容在舞台上位置的方法。/"
                 },
                 "reactions": {
                     "header": "$~反應",

@@ -925,7 +925,7 @@
                     "moved": "$~移咗去 $x $y",
                     "drew": "$~喺 $x $y 畫咗嘢",
                     "erased": "$~喺 $x $y 擦咗嘢",
-                    "finished": "$~喺 $shape $x 整咗 $y",
+                    "finished": "$~喺 $x $y 整咗 $shape",
                     "deleted": "$~刪咗，剩返 $#count[$count 個形狀]",
                     "undone": "$~還原咗第 $step 步，共 $total 步",
                     "redone": "$~重做咗第 $step 步，共 $total 步",
