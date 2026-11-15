@@ -807,7 +807,13 @@
                 "microphone": "$~mikrofon",
                 "camera": "$~kamera",
                 "note": "$~Paylaşmadan önce tarayıcınız size soracaktır.",
-                "retry": "$~Tekrar dene"
+                "retry": "$~Tekrar dene",
+                "blocked": {
+                    "chromium": "$~Tarayıcın burada $permission iznini engelledi, bu yüzden tekrar soramıyorum. Web adresinin solundaki simgeye tıkla, $permission iznini aç, sonra $retry seçeneğini seç.",
+                    "safari": "$~Tarayıcın burada $permission iznini engelledi, bu yüzden tekrar soramıyorum. Web Sitesi Ayarları'nı aç (Mac'te Safari menüsünde, iPhone veya iPad'de adresin yanındaki sayfa menüsünde), $permission iznine izin ver, sonra $retry seçeneğini seç.",
+                    "firefox": "$~Tarayıcın burada $permission iznini engelledi, bu yüzden tekrar soramıyorum. Adres çubuğundaki üstü çizili $permission simgesine tıkla, engeli kaldır, sonra $retry seçeneğini seç.",
+                    "other": "$~Tarayıcın burada $permission iznini engelledi, bu yüzden tekrar soramıyorum. Tarayıcının ayarlarında bu site için $permission iznine izin ver, sonra $retry seçeneğini seç."
+                }
             },
             "multiselect": "$~Çıktılar arasında geçiş yapmak için Tab, Alt ve ok tuşlarını kullanın. Odaklanmış çıktıyı seçime eklemek veya seçimden kaldırmak için Boşluk tuşuna basın. Yalnızca o çıktıyı seçmek ve paleti açmak için Enter tuşuna basın. Seçimi temizlemek için Escape tuşuna basın. Tüm çıktıları seçmek için Control veya Command ve A tuşlarına basın.",
             "selected": "$~$name seçildi, $count seçildi",

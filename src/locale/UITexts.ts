@@ -1512,6 +1512,19 @@ type UITexts = {
             note: string;
             /** [plain] Label of the button that retries permission after a denial */
             retry: string;
+            /** Shown in place of the denial's explanation when the browser has
+             *  blocked the permission and will no longer ask. One per browser
+             *  family, since each keeps the setting somewhere different. */
+            blocked: {
+                /** [formatted] How to allow a blocked permission in Chrome, Edge, and other Chromium browsers */
+                chromium: Template<['permission', 'retry']>;
+                /** [formatted] How to allow a blocked permission in Safari on a Mac, iPhone, or iPad */
+                safari: Template<['permission', 'retry']>;
+                /** [formatted] How to allow a blocked permission in Firefox */
+                firefox: Template<['permission', 'retry']>;
+                /** [formatted] How to allow a blocked permission in any other browser */
+                other: Template<['permission', 'retry']>;
+            };
         };
         /** The unified start gate (permissions, moderation, and photosensitivity warnings). */
         gate: {

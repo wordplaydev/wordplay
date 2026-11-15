@@ -1060,7 +1060,13 @@
                 "microphone": "$~microfon",
                 "camera": "$~cameră",
                 "note": "$~Browserul tău te va întreba înainte de partajare.",
-                "retry": "$~Reîncercați"
+                "retry": "$~Reîncercați",
+                "blocked": {
+                    "chromium": "$~Browserul tău a blocat $permission aici, așa că nu pot cere din nou. Apasă pe pictograma din stânga adresei web, activează $permission, apoi alege $retry.",
+                    "safari": "$~Browserul tău a blocat $permission aici, așa că nu pot cere din nou. Deschide Setările site-ului (în meniul Safari pe un Mac sau în meniul paginii, lângă adresă, pe un iPhone sau iPad), permite $permission, apoi alege $retry.",
+                    "firefox": "$~Browserul tău a blocat $permission aici, așa că nu pot cere din nou. Apasă pe pictograma tăiată $permission din bara de adrese, elimină blocarea, apoi alege $retry.",
+                    "other": "$~Browserul tău a blocat $permission aici, așa că nu pot cere din nou. Permite $permission în setările browserului pentru acest site, apoi alege $retry."
+                }
             },
             "multiselect": "$~Folosește Tab și tastele Alt și săgeată pentru a te deplasa între ieșiri. Apăsă Space pentru a adăuga sau elimina ieșirea focalizată din selecție. Apăsă Enter pentru a selecta doar acea ieșire și a deschide paleta. Apăsă Escape pentru a șterge selecția. Apăsă Control sau Command și A pentru a selecta toate ieșirile.",
             "selected": "$~$name selectat, $count selectat",

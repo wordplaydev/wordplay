@@ -1060,7 +1060,13 @@
                 "microphone": "$~mikropon",
                 "camera": "$~kamera",
                 "note": "$~Browser Anda akan meminta izin sebelum berbagi.",
-                "retry": "$~Mencoba kembali"
+                "retry": "$~Mencoba kembali",
+                "blocked": {
+                    "chromium": "$~Browser kamu memblokir $permission di sini, jadi aku tidak bisa meminta lagi. Klik ikon di sebelah kiri alamat web, aktifkan $permission, lalu pilih $retry.",
+                    "safari": "$~Browser kamu memblokir $permission di sini, jadi aku tidak bisa meminta lagi. Buka Pengaturan Situs Web (di menu Safari pada Mac, atau menu halaman di dekat alamat pada iPhone atau iPad), izinkan $permission, lalu pilih $retry.",
+                    "firefox": "$~Browser kamu memblokir $permission di sini, jadi aku tidak bisa meminta lagi. Klik ikon $permission yang dicoret di bilah alamat, hapus pemblokirannya, lalu pilih $retry.",
+                    "other": "$~Browser kamu memblokir $permission di sini, jadi aku tidak bisa meminta lagi. Izinkan $permission di pengaturan browser kamu untuk situs ini, lalu pilih $retry."
+                }
             },
             "multiselect": "$~Gunakan tombol Tab, Alt, dan panah untuk berpindah antar output. Tekan spasi untuk menambah atau menghapus output yang sedang aktif dari pilihan Anda. Tekan Enter untuk memilih hanya output tersebut dan membuka palet. Tekan Escape untuk menghapus pilihan Anda. Tekan Control atau Command dan A untuk memilih semua output.",
             "selected": "$~$name terpilih, $count terpilih",

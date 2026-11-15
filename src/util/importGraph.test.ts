@@ -1058,8 +1058,13 @@ test('resolving a color needs no basis', () => {
 // confirmation shown after a save (`LocaleEditStatus`) is dynamically imported the first
 // time something is saved; the bytes are the save-and-report logic in the two text
 // components every page renders and six new strings in en-US.json.
+//
+// Explaining a blocked camera or microphone (#1476) is **+0 files** and moves the
+// layout by a hundredth: four strings in en-US.json saying where each browser keeps
+// the setting, and the watcher in `permissions.ts` that starts the project when
+// it is allowed.
 test.each([
-    ['src/routes/+layout.svelte', 541, 4.24],
+    ['src/routes/+layout.svelte', 541, 4.25],
     ['src/components/app/Page.svelte', 564, 4.5],
     ['src/routes/[[locale]]/+page.svelte', 579, 4.6],
     ['src/routes/[[locale]]/galleries/+page.svelte', 584, 4.6],

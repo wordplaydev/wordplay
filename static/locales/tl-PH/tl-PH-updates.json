@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~May espasyo na ngayon ang mga gallery para sa paano-gawin, kung saan maaaring ibahagi ng mga kurador at mga gumawa sa isa't isa ang mga natutunan nila (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Nagdagdag kami ng Russian, Ukrainian, Malayalam, Cantonese, at Taiwanese Hokkien (isinulat sa Tâi-lô), para mas marami sa inyo ang makagamit ng Wordplay sa wikang ginagamit ninyo sa bahay!",
         "e53524c65f4f2": "$~Sa mas maliliit na screen, hindi na nagpapalit ng puwesto ang entablado at ang kodigo kapag lumilipat kayo sa pag-edit at pagpapatugtog. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Ang mga proyektong humihiram ng kit, tulad ng halimbawang Conductor na may \\@wordplay/instruments\\, ay hindi na humihinto na may error sa oras na makita ng camera ang isang kamay o magbago ang isa pang input."
+        "ee481670339a2": "$~Ang mga proyektong humihiram ng kit, tulad ng halimbawang Conductor na may \\@wordplay/instruments\\, ay hindi na humihinto na may error sa oras na makita ng camera ang isang kamay o magbago ang isa pang input.",
+        "e58694c474d80": "$~Ang bintanang pinagsusulatan mo ng kodigo ay tinatawag nang editor sa lahat ng lugar, kasama ang pamagat ng tour ng editor, na dating nagsasabing \"pinagmulan.\" (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Kung hinarang ng browser mo ang mikropono o kamera, sasabihin na ngayon ng entablado kung paano ito papayagan, at magsisimula ang proyekto pagkatapos mo itong payagan. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Sinasabi na ngayon ng mga pag-edit sa lokalisasyon kung kailan ito nai-save, nananatili ang mga ito sa screen pagkatapos mag-reload, at ipinapakita ng pahinang Learn ang tutorial sa Roman Urdu at Taiwanese Hokkien. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Ang pag-edit ng teksto ng tutorial sa mode ng lokalisasyon ay kasya na ngayon sa loob ng speech bubble nito, kaya bumabalot ang mahabang teksto sa halip na maputol.",
+        "e8a02bf7b4904": "$~Hindi na naglalaho sa isang gallery ang mga proyektong ibinahagi dito kapag may computer na may lumang kopya ng gallery ang nag-save nito.",
+        "e652035ee645c": "$~Hindi na ipinapakita ng pahinang <Projects@https://wordplay.dev/projects> ang mga proyekto ng ibang tao na na-save sa parehong computer.",
+        "ebde922fe9dc2": "$~Hindi na nagsasara nang may error ang proyektong nakabukas mo kapag nagbago ang gallery nito.",
+        "ed736c0457952": "$~Hindi na pumapalya ang pagsasalin ng proyekto kapag may uri at halaga itong magkapareho ang pangalan, tulad ng \\Page\\ at \\page\\.",
+        "ed5a84645d6ff": "$~Hindi na nagbabago ang mga panipi kapag naglagay ka ng custom na karakter sa loob nito, kaya agad na lumalabas ang karakter sa entablado.",
+        "ebdd5cd1fe53a": "$~Hindi na napapalitan ng mas lumang kopya ang mga pagbabagong ginawa mo sa isang proyekto habang offline kapag binuksan mo ito sa ibang computer o sa ibang tab.",
+        "e5996d70bd7cd": "$~Hindi na nawawala ang mga pagbabago ng huling tao na hindi pa nai-save online kapag nag-sign in ka sa ibang account sa isang pinagsasaluhang computer.",
+        "ec0c11cb3cae9": "$~Hindi na binabawi ng pagsasalin ng proyekto ang mga tinype mo habang nagsasalin ito.",
+        "e8a3144598e4a": "$~Sinasabi na ngayon sa iyo kapag ang pagta-type ay magpapalaki nang sobra sa proyekto, dahil dati ay basta na lang nawawala ang tinype.",
+        "e3b7a19e44392": "$~Hindi na natatanggal ang taong sabay na idinagdag kapag pinalitan ang pangalan ng isang klase o gallery.",
+        "e64f54009f821": "$~Hindi na binubura ng ibang computer na iniwan mong nakabukas ang mga folder at iba pang setting na binago mo sa isang computer.",
+        "e42ff6b707cdc": "$~Hindi na nabubura ang mga mensahe sa chat na ipinadala ng iba habang offline ka kapag muli kang kumonekta.",
+        "e4420e66c0d11": "$~Hindi na binabawi ng pag-save ng isang custom na karakter ang mas bagong pagbabago sa isa pa."
     }
 }

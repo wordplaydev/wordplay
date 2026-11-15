@@ -783,7 +783,13 @@
                 "microphone": "$~micrófono",
                 "camera": "$~cámara",
                 "note": "$~Tu navegador preguntará antes de compartir.",
-                "retry": "$~reintentar"
+                "retry": "$~reintentar",
+                "blocked": {
+                    "chromium": "$~Tu navegador bloqueó $permission aquí, así que no puedo pedirlo de nuevo. Haz clic en el ícono que está a la izquierda de la dirección web, activa $permission y luego elige $retry.",
+                    "safari": "$~Tu navegador bloqueó $permission aquí, así que no puedo pedirlo de nuevo. Abre la configuración del sitio web (en el menú de Safari en una Mac, o en el menú de la página junto a la dirección en un iPhone o iPad), permite $permission y luego elige $retry.",
+                    "firefox": "$~Tu navegador bloqueó $permission aquí, así que no puedo pedirlo de nuevo. Haz clic en el ícono tachado de $permission en la barra de direcciones, quita el bloqueo y luego elige $retry.",
+                    "other": "$~Tu navegador bloqueó $permission aquí, así que no puedo pedirlo de nuevo. Permite $permission en la configuración de tu navegador para este sitio y luego elige $retry."
+                }
             },
             "multiselect": "$~Usa la tecla de tabulación y las teclas alt y de flechas para moverte entre las salidas. Presiona la barra espaciadora para agregar o quitar de tu selección la salida enfocada. Presiona enter para seleccionar solo esa salida y abrir la paleta. Presiona escape para borrar tu selección. Presiona control o comando y A para seleccionar todas las salidas.",
             "selected": "$~$name seleccionado, $count seleccionados",

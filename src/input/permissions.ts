@@ -53,6 +53,33 @@ export function denyConsent(name: PermissionName) {
     consent.update((c) => ({ ...c, [name]: ConsentState.Denied }));
 }
 
+/** Undefined where the Permissions API can't answer for this permission. */
+async function getPermissionStatus(
+    name: PermissionName,
+): Promise<PermissionStatus | undefined> {
+    if (
+        typeof navigator === 'undefined' ||
+        typeof navigator.permissions === 'undefined' ||
+        typeof navigator.permissions.query !== 'function'
+    )
+        return undefined;
+    try {
+        // sound: the DOM lib's PermissionName omits camera and microphone,
+        // though the Permissions API lists both and every engine answers them.
+        return await navigator.permissions.query({
+            name,
+        } as PermissionDescriptor);
+    } catch {
+        return undefined;
+    }
+}
+
+function toConsent(state: PermissionState): ConsentState {
+    if (state === 'granted') return ConsentState.Granted;
+    if (state === 'denied') return ConsentState.Denied;
+    return ConsentState.Unknown;
+}
+
 /**
  * Query the browser's current permission state, without prompting.
  * Returns 'unsupported' if the Permissions API does not recognize the name
@@ -61,24 +88,8 @@ export function denyConsent(name: PermissionName) {
 export async function queryPermission(
     name: PermissionName,
 ): Promise<ConsentState | 'unsupported'> {
-    if (
-        typeof navigator === 'undefined' ||
-        typeof navigator.permissions === 'undefined' ||
-        typeof navigator.permissions.query !== 'function'
-    )
-        return 'unsupported';
-    try {
-        // sound: the DOM lib's PermissionName omits camera and microphone,
-        // though the Permissions API lists both and every engine answers them.
-        const status = await navigator.permissions.query({
-            name,
-        } as PermissionDescriptor);
-        if (status.state === 'granted') return ConsentState.Granted;
-        if (status.state === 'denied') return ConsentState.Denied;
-        return ConsentState.Unknown;
-    } catch {
-        return 'unsupported';
-    }
+    const status = await getPermissionStatus(name);
+    return status === undefined ? 'unsupported' : toConsent(status.state);
 }
 
 /**
@@ -114,4 +125,38 @@ export function requestAccess(name: PermissionName): Promise<boolean> {
             return true;
         })
         .catch(() => false);
+}
+
+/** Report changes to a permission, such as allowing it in site settings
+ *  after blocking it. Returns a function that stops watching. */
+export function watchPermission(
+    name: PermissionName,
+    onChange: (state: ConsentState) => void,
+): () => void {
+    let status: PermissionStatus | undefined = undefined;
+    let stopped = false;
+    const listener = () => {
+        if (status !== undefined) onChange(toConsent(status.state));
+    };
+    getPermissionStatus(name).then((result) => {
+        if (stopped || result === undefined) return;
+        status = result;
+        status.addEventListener('change', listener);
+    });
+    return () => {
+        stopped = true;
+        status?.removeEventListener('change', listener);
+    };
+}
+
+export type BrowserFamily = 'chromium' | 'safari' | 'firefox' | 'other';
+
+/** Which browser's settings steps to show. Non-Safari iOS browsers keep access
+ *  in the system Settings app, so they get the general steps. */
+export function getBrowserFamily(userAgent: string): BrowserFamily {
+    if (/CriOS|FxiOS|EdgiOS/.test(userAgent)) return 'other';
+    if (/Firefox\//.test(userAgent)) return 'firefox';
+    if (/Chrome\/|Chromium\/|Edg\//.test(userAgent)) return 'chromium';
+    if (/Safari\//.test(userAgent)) return 'safari';
+    return 'other';
 }

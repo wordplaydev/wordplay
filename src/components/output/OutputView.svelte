@@ -80,10 +80,15 @@
     import { objectDetectorStatus } from '#input/Objects/ObjectDetectorLoader.svelte.ts';
     import Objects from '#input/Objects/Objects.ts';
     import {
+        ConsentState,
         consent,
         denyConsent,
+        getBrowserFamily,
         grantConsent,
+        queryPermission,
         requestAccess,
+        watchPermission,
+        type BrowserFamily,
         type PermissionName,
     } from '#input/permissions.ts';
     import Pitch from '#input/Pitch/Pitch.ts';
@@ -160,6 +165,7 @@
     import ExceptionValue from '#values/ExceptionValue.ts';
     import NoneValue from '#values/NoneValue.ts';
     import NumberValue from '#values/NumberValue.ts';
+    import type { LocaleTextAccessor } from '#locale/Locales.ts';
     import PermissionException from '#values/PermissionException.ts';
     import StructureValue from '#values/StructureValue.ts';
     import TextValue from '#values/TextValue.ts';
@@ -917,6 +923,59 @@
             ),
         ).then(() => onacknowledge?.());
     }
+
+    /** What the browser currently says about the permission a denial is
+     *  about, so a block it will no longer prompt for can be explained. */
+    let deniedPermissionState = $state<
+        ConsentState | 'unsupported' | undefined
+    >(undefined);
+
+    /** While a denial shows, watch its permission, so allowing it in the
+     *  browser's site settings starts the project without another click. */
+    $effect(() => {
+        const permission = permissionException?.permission;
+        // Untracked, since hosts pass a new closure on every render.
+        if (permission === undefined || untrack(() => onretry) === undefined)
+            return;
+        let live = true;
+        deniedPermissionState = undefined;
+        queryPermission(permission).then((state) => {
+            if (live) deniedPermissionState = state;
+        });
+        const stop = watchPermission(permission, (state) => {
+            deniedPermissionState = state;
+            if (state === ConsentState.Granted) {
+                grantConsent(permission);
+                onretry?.();
+            }
+        });
+        return () => {
+            live = false;
+            stop();
+        };
+    });
+
+    /** Each family keeps the setting somewhere else; chosen outside the
+     *  accessor so the locale path stays reflectable. */
+    const BlockedSteps: Record<BrowserFamily, LocaleTextAccessor> = {
+        chromium: (l) => l.ui.output.permission.blocked.chromium,
+        safari: (l) => l.ui.output.permission.blocked.safari,
+        firefox: (l) => l.ui.output.permission.blocked.firefox,
+        other: (l) => l.ui.output.permission.blocked.other,
+    };
+
+    const blockedSteps = $derived(
+        permissionException !== undefined &&
+            deniedPermissionState === ConsentState.Denied
+            ? BlockedSteps[
+                  getBrowserFamily(
+                      typeof navigator === 'undefined'
+                          ? ''
+                          : navigator.userAgent,
+                  )
+              ]
+            : undefined,
+    );
 
     function handleRetry() {
         const permission = permissionException?.permission;
@@ -3100,12 +3159,35 @@
                         invert
                     >
                         {#snippet content()}
-                            <MarkupHTMLView
-                                markup={{
-                                    perLocale: (l) =>
-                                        exception.getExplanation(l),
-                                }}
-                            />
+                            {#if blockedSteps !== undefined && permissionException !== undefined}
+                                {@const permission =
+                                    permissionException.permission}
+                                <MarkupHTMLView
+                                    markup={[
+                                        blockedSteps,
+                                        {
+                                            permission: $locales.getPlainText(
+                                                (l) =>
+                                                    l.ui.output.permission[
+                                                        permission
+                                                    ],
+                                            ),
+                                            retry: $locales.getPlainText(
+                                                (l) =>
+                                                    l.ui.output.permission
+                                                        .retry,
+                                            ),
+                                        },
+                                    ]}
+                                />
+                            {:else}
+                                <MarkupHTMLView
+                                    markup={{
+                                        perLocale: (l) =>
+                                            exception.getExplanation(l),
+                                    }}
+                                />
+                            {/if}
                             {#if permissionException !== undefined && onretry !== undefined}
                                 <div class="permission-retry">
                                     <ButtonUI

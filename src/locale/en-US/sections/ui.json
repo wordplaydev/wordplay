@@ -1327,7 +1327,13 @@
                 "microphone": "microphone",
                 "camera": "camera",
                 "note": "Your browser will ask before sharing.",
-                "retry": "Retry"
+                "retry": "Retry",
+                "blocked": {
+                    "chromium": "Your browser blocked the $permission here, so I can't ask again. Click the icon left of the web address, turn on $permission, then choose $retry.",
+                    "safari": "Your browser blocked the $permission here, so I can't ask again. Open Website Settings (in the Safari menu on a Mac, or the page menu by the address on an iPhone or iPad), allow $permission, then choose $retry.",
+                    "firefox": "Your browser blocked the $permission here, so I can't ask again. Click the crossed-out $permission icon in the address bar, remove the block, then choose $retry.",
+                    "other": "Your browser blocked the $permission here, so I can't ask again. Allow $permission in your browser's settings for this site, then choose $retry."
+                }
             },
             "gate": {
                 "start": {
