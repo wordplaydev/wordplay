@@ -942,13 +942,13 @@
                     "moved": "$~$x $y par le gaye",
                     "drew": "$~$x $y par banaya",
                     "erased": "$~$x $y par mitaya",
-                    "finished": "$~$shape $x par $y banayi",
+                    "finished": "$~$x $y par $shape banayi",
                     "deleted": "$~hata diya, $#count[ek shakal|$count shakalein] baaqi",
-                    "undone": "$~qadam $step of $total wapas kiya",
-                    "redone": "$~qadam $step of $total dobara kiya",
+                    "undone": "$~$total mein se qadam $step waapas kiya gaya",
+                    "redone": "$~$total mein se qadam $step dobara kiya gaya",
                     "copied": "$~$#count[$shapes ki nakal li|$count shakalon ki nakal li: $shapes]",
                     "pasted": "$~$x $y par chipka diya",
-                    "arranged": "$~tah $index of $total",
+                    "arranged": "$~$total mein se parat $index",
                     "flipped": "$~ulta kiya, ab $x $y par hai",
                     "fitted": "$~shakalein barha kar canvas bhar diya"
                 }

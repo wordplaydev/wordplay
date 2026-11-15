@@ -16,7 +16,7 @@
         },
         "Doc": {
             "name": "설명",
-            "description": "$~선적 서류 비치$language[ ($language)|], $#words[단어 $words개]",
+            "description": "$~문서$language[ ($language)|], $#words[$words개 단어]",
             "emotion": "serious",
             "doc": [
                 "$~저는 @Markup로 내용을 꾸며서 보여줘요. 여러분의 @Program을 설명하거나, @Phrase로 무대에 올린 글도 꾸며줄 수 있어요.",
@@ -37,7 +37,7 @@
         },
         "Docs": {
             "name": "설명 목록",
-            "description": "$~선적 서류 비치 목록$languages[ $languages(으)로| $count]",
+            "description": "$~문서 목록$languages[ ($languages)| (총 $count개)]",
             "emotion": "serious",
             "doc": [
                 "$~저는 @Doc의 목록이에요. 여러 언어로 된 @Doc 번역이 여러 개 있을 때 유용해요.",
@@ -276,7 +276,7 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~지원하지 않는 글꼴 형식",
-                    "explanation": "$~내 친구 * $face *는 $format 되는 방법을 모릅니다.",
+                    "explanation": "$~내 친구 *$face*은(는) $format 방법을 모릅니다.",
                     "resolution": "$~서식을 제거하세요"
                 }
             }
@@ -312,7 +312,7 @@
         },
         "BinaryEvaluate": {
             "name": "이진 평가",
-            "description": "$~$operator $left 대한 $right 연산",
+            "description": "$~$left와 $right에 대한 $operator 연산",
             "emotion": "insecure",
             "doc": [
                 "$~나는 @Evaluate 더 단순한 형태입니다, 두 입력을 취하는 @FunctionDefinition 사용하고 싶을 때 유용합니다.",
@@ -335,7 +335,7 @@
                     "name": "$~모호한 순서",
                     "explanation": "$~저는 왼쪽에서 오른쪽으로 평가하지만, 수학은 보통 × ÷ 보다 ^ 를 먼저, + − 보다 × ÷ 를 먼저 계산합니다. 그 순서를 PEMDAS라고 부릅니다. 제가 이것을 어떻게 평가할지 골라 주세요.",
                     "resolutionPEMDAS": "$~PEMDAS 계산 순서를 적용하세요: $higher 먼저 계산한 다음 $lower 계산하세요.",
-                    "resolutionReading": "$~읽는 순서를 계속 지켜주세요: $lower 평가하기 전에 $higher 평가하세요.",
+                    "resolutionReading": "$~읽는 순서를 계속 지켜주세요: $higher 평가하기 전에 $lower 평가하세요.",
                     "resolutionWrap": "$~순서를 명확히 하려면 괄호를 추가하세요."
                 }
             },
@@ -490,7 +490,7 @@
                 "$~저는 여러분의 공연에서 다른 @Source 이 공유한 @borrow @Bind 을 가져옵니다. 그냥 그 이름만 쓰면, 제가 그 이름과 @value 을 가져올게요.",
                 "이렇게 쓰세요: \\↓\\ 그런 다음 다른 @Source 의 이름을 적으세요. 그 @Source 은 무엇을 공유하는지 \\↑\\ 처럼 표시해야 합니다, 예를 들면 \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
             ],
-            "start": "$name $source 빌리기",
+            "start": "$~$source에서 $name 빌리는 중",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~알 수 없는 가져오기",
@@ -658,7 +658,7 @@
         },
         "Delete": {
             "name": "삭제",
-            "description": "$~$table 일치하는 행을 $query 삭제",
+            "description": "$~$query와 일치하는 행을 $table에서 삭제",
             "emotion": "angry",
             "doc": [
                 "$~저는 @condition 에 맞는 @Table 의 행을 지웁니다. 가끔 표에 너무 많은 게 들어 있을 때가 있잖아요!",
@@ -726,7 +726,7 @@
                 },
                 "MissingInput": {
                     "name": "$~누락된 입력",
-                    "explanation": "$~입력값 $name 없이는 $input 평가할 수 없습니다 :(",
+                    "explanation": "$~입력값 $input 없이는 $name 평가할 수 없어요 :(",
                     "resolutionAddInput": "$~누락된 $input 변수와 해당 기본값을 추가합니다.",
                     "resolutionPlaceholder": "$~누락된 $input 자리 표시자로 추가한 다음 자동 완성 메뉴에서 값을 선택하세요."
                 },
@@ -758,13 +758,13 @@
                 "UnknownTimeZone": {
                     "name": "$~알 수 없는 시간대",
                     "explanation": "$~저는 *$zone*라는 시간대를 몰라요. 시간대는 지역과 도시의 이름을 따서 지어요. 예를 들면 \\'America/New_York'\\. 아는 도시를 적어 보세요. 그러면 제가 하나 추천해 드릴게요!",
-                    "resolution": "$~$zone 시간대인 *$city*(으)로 바꾸세요"
+                    "resolution": "$~$city 시간대인 *$zone*(으)로 바꾸세요"
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "$~알 수 없는 함수",
-                    "explanation": "$~oh no, $name isn't a function in $scope[$scope|this @Block ]!"
+                    "explanation": "$~앗, $name은(는) $scope[$scope|이 @Block] 안에 있는 함수가 아닙니다!"
                 }
             },
             "label": {
@@ -929,7 +929,7 @@
         },
         "ListAccess": {
             "name": "리스트 접근",
-            "description": "$~$index 인덱스 $list 접근",
+            "description": "$~$list의 인덱스 $index에 접근",
             "emotion": "cheerful",
             "doc": [
                 "$~@List 긴밀하게 협력해서 특정 위치의 값을 얻는 데 도움을 줘. 예를 들면, 리스트가 있고 그 중 두 번째 아이템을 원한다면 이렇게 쓸 수 있어:",
@@ -1038,7 +1038,7 @@
         },
         "Previous": {
             "name": "이전",
-            "description": "$~$number 이전 $range 값$stream[|]",
+            "description": "$~$stream 이전 $number 값$range[|]",
             "emotion": "serious",
             "doc": [
                 "$~저는 어떤 하천의 역사를 되짚어보며 과거의 가치 중 하나를 이야기해 드립니다. 여러분은 과거를 기억하고 싶었던 적이 있나요?",
@@ -1157,7 +1157,7 @@
                 "\\•도시(이름•'' 인구•#people)\n\n포틀랜드: 도시('포틀랜드' 800000people)\n\n포틀랜드.인구\\"
             ],
             "start": "$~먼저 값을 가져오자",
-            "finish": "구조를 복사했지만 $property $value 사용했어",
+            "finish": "$~속성 $property 찾았습니다. 값은 $value입니다",
             "label": {
                 "property": "$~재산"
             }
@@ -1214,7 +1214,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~알 수 없는 이름",
-                        "explanation": "$~$name[저는 $name[$scope|이 @Block]에 $scope 이름을 가진 사람을 모릅니다. 이름을 알려주시겠어요?|]"
+                        "explanation": "$~$name[저는 $scope[$scope|이 @Block]에 $name 이름을 가진 사람을 모릅니다. 이름을 알려주시겠어요?|]"
                     },
                     "resolution": "$~*$suggestion*을 말씀하셨나요?",
                     "staticResolution": "$~혹시 *$owner.$suggestion?* 를 말한 건가요?",
@@ -1240,7 +1240,7 @@
         },
         "Select": {
             "name": "선택",
-            "description": "$~$table 일치하는 것을 $query 선택",
+            "description": "$~$query와 일치하는 행을 $table에서 선택",
             "emotion": "excited",
             "doc": [
                 "$~저는 @condition 과 일치하는 @Table 의 행들을 고릅니다. 때로는 표의 일부만 원하실 때가 있죠 — 제가 가져다 드릴 수 있어요!",
@@ -1268,7 +1268,7 @@
         },
         "SetOrMapAccess": {
             "name": "세트/맵 접근",
-            "description": "$~$key $setOrMap 접근",
+            "description": "$~$setOrMap에서 $key에 접근",
             "emotion": "kind",
             "doc": [
                 "$~저는 어떤 @Set 나 @Map 가 @value 나 @key 를 가졌는지 볼 수 있습니다.",
@@ -1539,7 +1539,7 @@
         },
         "Update": {
             "name": "업데이트",
-            "description": "$~$table 일치하는 행을 $query 갱신",
+            "description": "$~$query와 일치하는 $table의 행을 갱신",
             "emotion": "kind",
             "doc": [
                 "$~나는 @Table 을 고치는 걸 도와줘. @condition 에 맞는 행을 찾고, 새 값으로 고친 행을 만들지.",
@@ -1911,8 +1911,8 @@
                 "search": "$~본문에서 이 패턴이 나타나는 모든 곳을 찾아봅시다.",
                 "test": "$~이 텍스트 전체가 패턴에 맞는지 확인해 봅시다.",
                 "scan": "$~$position 위치에서 시작하는 패턴을 찾고 있습니다.",
-                "match": "$~$pattern $glyph 위치에서 $position 와 일치합니다.",
-                "miss": "$~$pattern 이 $glyph 위치의 $position 와 일치하지 않습니다.",
+                "match": "$~$pattern $position 위치에서 $glyph 와 일치합니다.",
+                "miss": "$~$pattern 이 $position 위치의 $glyph 와 일치하지 않습니다.",
                 "end": "$~$pattern 아직 문자가 필요하지만, $position 위치에서 텍스트의 끝에 도달했습니다.",
                 "repeat": "$~$pattern $count 와 일치했습니다. 계속 진행하기에 충분합니다.",
                 "short": "$~$pattern $count 와만 일치했습니다. 충분하지 않습니다.",
@@ -1933,7 +1933,7 @@
             "conflict": {
                 "OverlappingAlternatives": {
                     "name": "$~겹치는 선택",
-                    "explanation": "$~$shorter 는 $longer 의 시작 부분이며, 가장 긴 선택이 항상 우선시되므로 $shorter 일치하지 않을 때만 $longer 일치합니다. 제가 제대로 이해한 건가요?"
+                    "explanation": "$~$shorter 는 $longer 의 시작 부분이며, 가장 긴 선택이 항상 우선시되므로 $longer 일치하지 않을 때만 $shorter 일치합니다. 제가 제대로 이해한 건가요?"
                 }
             }
         },

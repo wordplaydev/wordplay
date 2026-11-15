@@ -313,7 +313,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~દ્વિસંખ્યક મૂલ્યાંકન",
-            "description": "$~$operator અને $left પર $right ક્રિયા",
+            "description": "$~$left અને $right પર $operator ક્રિયા",
             "emotion": "insecure",
             "doc": [
                 "$~હું @Evaluate છું, પરંતુ એક સરળ સ્વરૂપમાં, જ્યારે તમે @FunctionDefinition નો ઉપયોગ કરવા માંગતા હો ત્યારે મદદરૂપ થાય છે જે બે ઇનપુટ લે છે.",
@@ -335,8 +335,8 @@
                 "OrderOfOperations": {
                     "name": "$~અસ્પષ્ટ ક્રમ",
                     "explanation": "$~હું ડાબેથી જમણે મૂલ્યાંકન કરું છું, પણ ગણિત સામાન્ય રીતે × ÷ પહેલા ^, અને + − પહેલા × ÷ નું મૂલ્યાંકન કરે છે. તે ક્રમને PEMDAS કહેવાય છે. તમે કેવી રીતે મને આનું મૂલ્યાંકન કરાવવા માંગો છો તે પસંદ કરો.",
-                    "resolutionPEMDAS": "$~PEMDAS ગણિત ક્રમ લાગુ કરો: $ $higher પહેલાં $lower નું મૂલ્યાંકન કરો",
-                    "resolutionReading": "$~ક્રમ વાંચતા રહો: $lower પહેલાં $higher નું મૂલ્યાંકન કરો",
+                    "resolutionPEMDAS": "$~PEMDAS ગણિતનો ક્રમ લાગુ કરો: $lower પહેલાં $higher નું મૂલ્યાંકન કરો",
+                    "resolutionReading": "$~ક્રમ વાંચતા રહો: $higher પહેલાં $lower નું મૂલ્યાંકન કરો",
                     "resolutionWrap": "$~ક્રમ સ્પષ્ટ બનાવવા માટે કૌંસ ઉમેરો"
                 }
             },
@@ -391,7 +391,7 @@
                 },
                 "IncompatibleType": {
                     "name": "$~અસંગત પ્રકાર",
-                    "explanation": "$~હું ટાઇપ $expected નો છું, પણ હું ટાઇપ $given છું.",
+                    "explanation": "$~મને $expected ની અપેક્ષા હતી, પણ $given પ્રકાર મળ્યો",
                     "resolution": "$~તેને $expected માં રૂપાંતરિત કરો, કારણ કે $expected જરૂરી છે",
                     "resolutionLiteral": "$~યાદી, સમૂહ અથવા નકશાને ! વડે શાબ્દિક તરીકે ચિહ્નિત કરો, જેથી તેના મૂલ્યો સામાન્યકૃત થવાને બદલે ચોક્કસ રહે — $expected ચોક્કસ મૂલ્યોની જરૂર હોય છે.",
                     "resolutionOtherwise": "$~ખૂટતા મૂલ્યને ?? વડે હેન્ડલ કરો, કારણ કે $expected ø ને મંજૂરી આપતું નથી.",
@@ -491,7 +491,7 @@
                 "$~તમારા પ્રદર્શનમાં બીજા @Source દ્વારા વહેંચાયેલા @Bind @borrow — ફક્ત તેમનું નામ વાપરો અને હું તેમનું નામ અને @value લાવીશ.",
                 "લખો \\↓\\ અને પછી બીજા @Sourceનું નામ. તે @Sourceએ \\↑\\સાથે શું વહેંચે છે તે ચિહ્નિત કરવું જ પડે, જેમ કે \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
             ],
-            "start": "$~$name થી $source ઉધાર",
+            "start": "$~$source થી $name ઉધાર",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~અજ્ઞાત બોરો",
@@ -659,7 +659,7 @@
         },
         "Delete": {
             "name": "$~કાઢીનાખો",
-            "description": "$~$table સાથે મળતી $query માંથી હરોળ કાઢી નાખો",
+            "description": "$~$query સાથે મળતી $table માંથી હરોળ કાઢી નાખો",
             "emotion": "angry",
             "doc": [
                 "$~હું @Table ની તે હરોળો દૂર કરું છું જે @condition સાથે મળે છે. ક્યારેક એક ટેબલમાં બહુ બધું જ હોય છે!",
@@ -706,7 +706,7 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~અસંગત ઇનપુટ",
-                    "explanation": "$~હું ટાઇપ $expected હોવાનો છું, પણ હું ટાઇપ $given છું.",
+                    "explanation": "$~મને $expected ની અપેક્ષા હતી, પણ $given મળ્યું",
                     "resolution": "$~તેને $expected માં રૂપાંતરિત કરો, કારણ કે $expected જરૂરી છે",
                     "resolutionLiteral": "$~યાદી, સમૂહ અથવા નકશાને ! વડે શાબ્દિક તરીકે ચિહ્નિત કરો, જેથી તેના મૂલ્યો સામાન્યકૃત થવાને બદલે ચોક્કસ રહે — $expected ચોક્કસ મૂલ્યોની જરૂર હોય છે.",
                     "resolutionOtherwise": "$~ખૂટતા મૂલ્યને ?? વડે હેન્ડલ કરો, કારણ કે $expected ø ને મંજૂરી આપતું નથી.",
@@ -727,7 +727,7 @@
                 },
                 "MissingInput": {
                     "name": "$~ગુમ ઇનપુટ",
-                    "explanation": "$~$name ઇનપુટ વગર હું $input નું મૂલ્યાંકન કરી શકતો નથી :(",
+                    "explanation": "$~$input ઇનપુટ વગર હું $name નું મૂલ્યાંકન કરી શકતો નથી :(",
                     "resolutionAddInput": "$~ગુમ થયેલ $input તેના ડિફોલ્ટ મૂલ્ય સાથે ઉમેરો.",
                     "resolutionPlaceholder": "$~ખૂટતું $input પ્લેસહોલ્ડર તરીકે ઉમેરો, પછી સ્વતઃપૂર્ણ મેનૂમાંથી મૂલ્ય પસંદ કરો."
                 },
@@ -930,7 +930,7 @@
         },
         "ListAccess": {
             "name": "$~યાદી પ્રવેશ",
-            "description": "$~$index ની અનુક્રમણિકા $list મેળવો",
+            "description": "$~$list ની અનુક્રમણિકા $index મેળવો",
             "emotion": "cheerful",
             "doc": [
                 "$~હું તેમને ચોક્કસ સ્થાન પર મૂલ્યો મેળવવામાં મદદ કરવા @List સાથે નજીકથી કામ કરું છું. તો જેમ કે, જો તમારી પાસે સૂચિ હોય, અને તમને તેની બીજી આઇટમ જોઈતી હોય, તો તમે લખશો:",
@@ -1039,7 +1039,7 @@
         },
         "Previous": {
             "name": "$~અગાઉના",
-            "description": "$~$number ના પાછલા $range મૂલ્ય$stream[ો|]",
+            "description": "$~$stream ના પાછલા $number મૂલ્ય$range[ો|]",
             "emotion": "serious",
             "doc": [
                 "$~હું એક પ્રવાહના ઇતિહાસમાં પાછું જોઉં છું અને તમને તેના ભૂતકાળના મૂલ્યોમાંથી એક કહું છું. શું તમે ક્યારેય ભૂતકાળને યાદ કરવા માંગો છો?",
@@ -1215,7 +1215,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~અજ્ઞાત નામ",
-                        "explanation": "$~$name[હું કોઈને જાણતો નથી કે $name માં $scope નામ આપ્યું હોય[$scope|આ @Block]|શું તમે મને નામ આપી શકો છો?]"
+                        "explanation": "$~$name[હું $scope[$scope|આ @Block] માં $name નામના કોઈને ઓળખતો નથી|શું તમે મને નામ આપી શકો?]"
                     },
                     "resolution": "$~શું તમારો મતલબ છે *$suggestion?*",
                     "staticResolution": "$~શું તમારો મતલબ *$owner.$suggestion?* હતો",
@@ -1235,13 +1235,13 @@
             "exception": {
                 "NameException": {
                     "description": "$~અજ્ઞાત નામ",
-                    "explanation": "$~$name[હું $name માં $scope નામના કોઈને જાણતો નથી[$scope|આ @Block]…|Eep, કોઈ નામ નથી!]"
+                    "explanation": "$~$name[હું $scope[$scope|આ @Block] માં $name નામના કોઈને ઓળખતો નથી…|અરે, નામ નથી!]"
                 }
             }
         },
         "Select": {
             "name": "$~પસંદકરો",
-            "description": "$~$table સાથે મળતી $query માંથી પસંદ કરો",
+            "description": "$~$query સાથે મળતી $table માંથી પસંદ કરો",
             "emotion": "excited",
             "doc": [
                 "$~હું એક @Table ની એ પંક્તિઓ પસંદ કરું છું જે @condition સાથે મેળ ખાય છે. ક્યારેક તમને ટેબલનો ફક્ત એક ભાગ જોઈએ છે — હું તે તમારા માટે મેળવી શકું છું!",
@@ -1269,7 +1269,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~સેટ/નકશો પ્રવેશ",
-            "description": "$~$key માં $setOrMap મેળવો",
+            "description": "$~$setOrMap માં $key મેળવો",
             "emotion": "kind",
             "doc": [
                 "$~હું જોઈ શકું છું કે @Set અથવા @Map પાસે @value અથવા @key છે કે નહીં.",
@@ -1527,7 +1527,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~બંધ ન કરેલ સીમાચિહ્ન",
-                    "explanation": "$~મને $expected પછી ક્યારેક $unclosed ની અપેક્ષા હતી.",
+                    "explanation": "$~મને $unclosed પછી ક્યારેક $expected ની અપેક્ષા હતી.",
                     "resolution": "$~ખૂટતું * $expected * ઉમેરો"
                 }
             },
@@ -1540,7 +1540,7 @@
         },
         "Update": {
             "name": "$~અપડેટ",
-            "description": "$~$table સાથે મળતી $query માં હરોળ અપડેટ કરો",
+            "description": "$~$query સાથે મળતી $table માં હરોળ અપડેટ કરો",
             "emotion": "kind",
             "doc": [
                 "$~હું એક @Table ને ફરીથી બદલવામાં મદદ કરું છું, @condition સાથે મળતી પંક્તિઓ શોધીને, અને પછી નવા મૂલ્યો સાથે બદલાયેલી પંક્તિઓ બનાવીને.",
@@ -1912,9 +1912,9 @@
                 "search": "$~ચાલો ટેક્સ્ટમાં આ પેટર્ન જ્યાં દેખાય છે તે દરેક જગ્યાએ શોધીએ.",
                 "test": "$~ચાલો તપાસીએ કે આ આખું લખાણ પેટર્નમાં બંધબેસે છે કે નહીં.",
                 "scan": "$~position $position થી શરૂ થતી પેટર્ન શોધી રહ્યા છીએ.",
-                "match": "$~$pattern $glyph પોઝિશન પર $position સાથે મેળ ખાય છે.",
-                "miss": "$~$pattern $glyph પોઝિશન પર $position સાથે મેળ ખાતું નથી.",
-                "end": "$~$pattern હજુ પણ એક અક્ષરની જરૂર છે, પરંતુ આપણે $position position પર ટેક્સ્ટના અંતમાં પહોંચી ગયા છીએ.",
+                "match": "$~$pattern $position પોઝિશન પર $glyph સાથે મેળ ખાય છે.",
+                "miss": "$~$pattern $position પોઝિશન પર $glyph સાથે મેળ ખાતું નથી.",
+                "end": "$~$pattern ને હજુ એક અક્ષર જોઈએ છે, પણ આપણે સ્થાન $position પર લખાણના અંતે પહોંચી ગયા છીએ.",
                 "repeat": "$~$pattern $count સાથે મેળ ખાય છે — ચાલુ રાખવા માટે પૂરતું છે.",
                 "short": "$~$pattern ફક્ત $count સાથે મેળ ખાતું હતું — પૂરતું નથી.",
                 "here": "$~$pattern $position પોઝિશન પર ધરાવે છે.",

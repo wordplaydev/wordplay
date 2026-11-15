@@ -251,7 +251,7 @@
                 "doc": "$~سبک پویانمایی‌ای که هنگام رفتن به جای دیگری روی صحنه به‌کار می‌رود.",
                 "names": "$~سبک"
             },
-            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
+            "defaultDescription": "$~$size[عبارت $size متری |]$text $name[با نام $name|] $face[$face|] $animation $color[$color|] $bubble[که می‌گوید $bubble|]",
             "poses": {
                 "doc": [
                     "$~@Pose برای هر کدام از حرف‌های من، یکی پس از دیگری. حرف اول حالت اول را می‌گیرد، حرف دوم حالت دوم را، و وقتی حالت‌هایم تمام شود، دوباره از حالت اول شروع می‌کنم. فاصله‌ها هم حرف حساب می‌شوند.",
@@ -296,7 +296,7 @@
         "Grid": {
             "doc": "$~من شبکه‌ای از @Output هستم. یک شمار ردیف و @column به من بده و من یک چیدمان مرتب با فاصلهٔ اختیاری و اندازه‌های @cell می‌سازم. من هر دو جهت را تصمیم می‌گیرم، پس یک @Place چیزی را نه به کنار و نه بالا و پایین جابه‌جا نمی‌کند — هرچند z آن هنوز می‌گوید چقدر نزدیک است.",
             "names": ["$~شبکه"],
-            "description": "$~$rows row $columns column grid",
+            "description": "$~شبکهٔ $rows سطر و $columns ستون",
             "rows": {
                 "doc": "$~چند ردیف باید در شبکه ساخته شود.",
                 "names": "$~سطرها"

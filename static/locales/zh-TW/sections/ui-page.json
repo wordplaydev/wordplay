@@ -1134,7 +1134,7 @@
                     "moved": "$~移動到 $x $y",
                     "drew": "$~畫在 $x $y",
                     "erased": "$~擦除於 $x $y",
-                    "finished": "$~在 $shape $x 建立了 $y",
+                    "finished": "$~在 $x $y 建立了 $shape",
                     "deleted": "$~已刪除，剩下 $#count[$count 個形狀]",
                     "undone": "$~復原了第 $step 步，共 $total 步",
                     "redone": "$~重做了第 $step 步，共 $total 步",

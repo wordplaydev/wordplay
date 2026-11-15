@@ -1212,7 +1212,7 @@
                 "last": "$~一條路徑至少要有兩個點"
             },
             "notRemovable": "$~嗰樣嘢唔可以單獨刪除",
-            "moved": "$~$name 向$direction $place",
+            "moved": "$~$name 向$direction移咗去 $place",
             "directions": [
                 "$~上",
                 "$~右上",

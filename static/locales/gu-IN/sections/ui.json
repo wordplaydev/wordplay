@@ -2157,7 +2157,7 @@
             },
             "music": {
                 "staff": "$~આ ટ્રેકના સૂર",
-                "track": "$~$count માંથી ટ્રેક $total",
+                "track": "$~$total માંથી ટ્રેક $count",
                 "duration": {
                     "label": "$~નવો સૂર કેટલો સમય ચાલે છે",
                     "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
@@ -2797,7 +2797,7 @@
             "stepAtStart": "$~શરૂઆતમાં",
             "searchOpened": "$~કોડમાં શોધો",
             "searchClosed": "$~શોધ બંધ કરી",
-            "searchMatch": "$~$index માંથી $count મેળ",
+            "searchMatch": "$~$count માંથી $index મેળ",
             "searchNoMatches": "$~કોઈ મેળ નથી",
             "menuOpened": "$~મેનૂ, $#count[$count સૂચન|$count સૂચનો]",
             "menuEmpty": "$~કોઈ સૂચનો નથી",
@@ -2928,7 +2928,7 @@
             "insert": "$~$symbol લખો"
         },
         "translation": {
-            "used": "$~તમે આજે $used માંથી $#limit અક્ષરોનો ઉપયોગ કર્યો છે $#limit[($limit અક્ષર)|($limit અક્ષરો)]",
+            "used": "$~આજે તમે $#limit[$limit અક્ષર|$limit અક્ષરો] માંથી $used અનુવાદ કર્યા છે",
             "meter": "$~આજે વપરાયેલ અનુવાદ",
             "exhaustedHours": "$~તમે આજનો અનુવાદ ઉપયોગ પૂરો કરી લીધો છે. લગભગ $#hours[$hours કલાક|$hours કલાક] પછી ફરી પ્રયત્ન કરો.",
             "exhaustedMinutes": "$~તમે આજનો અનુવાદ ઉપયોગ પૂરો કરી લીધો છે. લગભગ $#minutes[$minutes મિનિટ|$minutes મિનિટ] પછી ફરી પ્રયત્ન કરો.",

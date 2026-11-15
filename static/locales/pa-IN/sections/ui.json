@@ -2155,7 +2155,7 @@
             },
             "music": {
                 "staff": "$~ਇਸ ਟ੍ਰੈਕ ਦੀਆਂ ਸੁਰਾਂ",
-                "track": "$~$count ਵਿੱਚੋਂ ਟ੍ਰੈਕ $total",
+                "track": "$~$total ਵਿੱਚੋਂ ਟ੍ਰੈਕ $count",
                 "duration": {
                     "label": "$~ਇੱਕ ਨਵੀਂ ਸੁਰ ਕਿੰਨੀ ਦੇਰ ਚੱਲਦੀ ਹੈ",
                     "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
@@ -2794,7 +2794,7 @@
             "stepAtStart": "$~ਸ਼ੁਰੂਆਤ ਵਿੱਚ",
             "searchOpened": "$~ਕੋਡ ਵਿੱਚ ਲੱਭੋ",
             "searchClosed": "$~ਲੱਭਣਾ ਬੰਦ ਕੀਤਾ",
-            "searchMatch": "$~$index ਵਿੱਚੋਂ $count ਮੇਲ",
+            "searchMatch": "$~$count ਵਿੱਚੋਂ $index ਮੇਲ",
             "searchNoMatches": "$~ਕੋਈ ਮੇਲ ਨਹੀਂ",
             "menuOpened": "$~ਮੇਨੂ, $#count[$count ਸੁਝਾਅ|$count ਸੁਝਾਅ]",
             "menuEmpty": "$~ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ",

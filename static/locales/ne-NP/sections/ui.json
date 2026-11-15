@@ -2439,7 +2439,7 @@
             },
             "music": {
                 "staff": "$~यो ट्र्याकका स्वरहरू",
-                "track": "$~$count मध्ये $total ट्र्याक",
+                "track": "$~$total मध्ये $count ट्र्याक",
                 "duration": {
                     "label": "$~नयाँ स्वर कति लामो चल्छ",
                     "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
@@ -2630,7 +2630,7 @@
                 "plural": {
                     "header": "$~यस languageलाई चाहिने संस्करणहरू",
                     "tip": "$~एक count: यस languageका $forms बहुवचन रूपहरू प्रत्येकका लागि वाक्यको एक संस्करण घुसाउन क्लिक गर्नुहोस्",
-                    "arity": "$~$name सँग $found संस्करण छ, तर यस languageलाई $expected चाहिन्छ।",
+                    "arity": "$~$name मा $found संस्करण छ, तर यो भाषालाई $expected चाहिन्छ।",
                     "missing": "$~$name एक count हो, त्यसैले प्रत्येक बहुवचन रूपका लागि वाक्यको एक संस्करण छान्नुहोस्।",
                     "example": "$~उदाहरणका लागि"
                 }
@@ -2802,7 +2802,7 @@
             "stepAtStart": "$~सुरुमा",
             "searchOpened": "$~कोडमा खोज्नुहोस्",
             "searchClosed": "$~खोज बन्द गरियो",
-            "searchMatch": "$~$index मध्ये $count मिल्यो",
+            "searchMatch": "$~$count मध्ये $index मिल्यो",
             "searchNoMatches": "$~कुनै मिल्दो छैन",
             "menuOpened": "$~मेनु, $#count[$count सुझाव|$count सुझावहरू]",
             "menuEmpty": "$~कुनै सुझाव छैन",

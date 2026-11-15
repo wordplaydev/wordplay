@@ -230,7 +230,7 @@
                 "doc": "移动到舞台上不同位置时使用的动画风格。",
                 "names": "风格"
             },
-            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
+            "defaultDescription": "$~$size[$size 米 |]短语 $text $name[名为 $name|] $face[$face|] $animation $color[$color|] $bubble[说：$bubble|]",
             "changing": {
                 "doc": "$~当我的文本改变时要播放的一种效果的名字，效果会持续我的 @Phrase.duration，并按我的 @Phrase.style 缓动。如果 \\ø\\，我的文本会立刻改变。如果是 'edit'（编辑），我会把旧文本擦掉，退回到旧文本和新文本相同的部分，然后打出新文本。如果是 'rewrite'（重写），我会把新文本打在旧文本上面，以随机顺序一次替换一个符号。如果是 'random'（随机），我的每个符号都会像老虎机一样，飞快地转过我文本语言（如果语言未知，则用它的文字系统）中的随机符号，并保持我文本的大小写，直到停在新文本上。使用 @FormattedLiteral 文本时，变化中的符号在效果进行期间会采用新文本的格式。",
                 "names": "$~正在改变"
@@ -291,7 +291,7 @@
         "Grid": {
             "doc": "$~我是 @Output 组成的网格。给我一个行数和 @column 的数量，我就会做出一个整齐的排列，中间可以选择性地加padding（内边距）和 @cell 的大小。两个方向都由我决定，所以 @Place 不会让任何东西左右或上下移动——不过它的 z 仍然决定着它离我们有多近。",
             "names": ["网格"],
-            "description": "$~$rows row $columns column grid",
+            "description": "$~$rows 行 $columns 列的网格",
             "rows": {
                 "doc": "$~网格里要做出多少行。",
                 "names": "行数"
@@ -519,7 +519,7 @@
                 "doc": "@Output 是否应该y轴对称，代替默认值。",
                 "names": "垂直翻转"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]",
+            "description": "$~$opacity[透明 $opacity|] $rotation[旋转 $rotation 度|] $scale[缩放 $scale|] $flipx[水平翻转|] $flipy[垂直翻转|] $blur[阴影模糊 $blur 像素|]",
             "music": {
                 "doc": "$~当我的动画状态开始时，或者当一个 @Sequence 碰到我时，我应该播放的 @Music。它是一段很短的声音，我只会完整播放一遍。",
                 "names": "$~音乐"

@@ -561,7 +561,7 @@
                 "insertDottedEighthNote": "$~점 8분음표 삽입하기, 길이는 0.75박자",
                 "insertSixteenthNote": "$~16분음표 삽입하기, 길이는 0.25박자",
                 "insertDottedSixteenthNote": "$~점 16분음표 삽입하기, 길이는 0.375박자",
-                "selectedNodes": "$~노드 $#count[$count개]개 선택됨, $first 부터 $last 까지",
+                "selectedNodes": "$~노드 $#count[$count개]가 선택되었습니다. $first부터 $last까지입니다",
                 "insertRange": "$~range 기호 넣기",
                 "findText": "$~코드 검색하기",
                 "moveBefore": "$~선택한 것을 옆에 있는 것의 앞으로 옮기기",
@@ -889,7 +889,7 @@
                 ],
                 "withOutput": "$~$anchor 을(를) $target 의 $targetAnchor 와(과) 맞춤",
                 "withGrid": "$~격자 위의 $anchor",
-                "aligned": "$~$constraints 에서의 $place",
+                "aligned": "$~$place 에서의 $constraints",
                 "none": "$~$direction 방향으로 맞출 대상이 없음"
             },
             "removed": "$~$#count[출력 $#count개 삭제됨]",
@@ -1995,7 +1995,7 @@
             },
             "music": {
                 "staff": "$~이 트랙의 음들",
-                "track": "$~전체 $count 중 트랙 $total",
+                "track": "$~전체 $total 중 트랙 $count",
                 "duration": {
                     "label": "$~새 음이 얼마나 오래 지속되는지",
                     "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
@@ -2791,7 +2791,7 @@
             "stepAtStart": "$~맨 처음에",
             "searchOpened": "$~코드에서 찾기",
             "searchClosed": "$~찾기 닫음",
-            "searchMatch": "$~$index 중 $count 일치",
+            "searchMatch": "$~$count 중 $index 일치",
             "searchNoMatches": "$~일치하는 것 없음",
             "menuOpened": "$~메뉴, $#count[제안 $count개]",
             "menuEmpty": "$~제안 없음",

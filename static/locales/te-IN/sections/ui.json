@@ -647,7 +647,7 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~$title అనే శీర్షిక ఎలా ఉండాలో $x $y కి మార్చబడింది",
+                "howToPosition": "$~$title పేరుతో ఉన్న ఎలా చేయాలి $x $y కి తరలించబడింది",
                 "canvasPosition": "$~కాన్వాస్ $x, $y కి తరలించబడింది",
                 "moveActivated": "$~కదలిక సక్రియం చేయబడింది. $target ను మౌస్, కీబోర్డ్ లేదా టచ్‌స్క్రీన్ ఉపయోగించి తరలించవచ్చు.",
                 "moveDeactivated": "$~ఉద్యమం నిష్క్రియం చేయబడింది."
@@ -2382,7 +2382,7 @@
             },
             "music": {
                 "staff": "$~ఈ ట్రాక్ యొక్క నోట్లు",
-                "track": "$~$count లో $total ట్రాక్",
+                "track": "$~$total లో $count ట్రాక్",
                 "duration": {
                     "label": "$~ఒక కొత్త నోట్ ఎంతసేపు ఉంటుంది",
                     "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
@@ -2796,7 +2796,7 @@
             "stepAtStart": "$~ప్రారంభంలో",
             "searchOpened": "$~కోడ్‌లో వెతకండి",
             "searchClosed": "$~వెతకడం మూసివేయబడింది",
-            "searchMatch": "$~$index లో $count సరిపోలిక",
+            "searchMatch": "$~$count లో $index సరిపోలిక",
             "searchNoMatches": "$~సరిపోలికలు లేవు",
             "menuOpened": "$~మెనూ, $#count[$count సూచన|$count సూచనలు]",
             "menuEmpty": "$~సూచనలు లేవు",

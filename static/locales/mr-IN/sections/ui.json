@@ -734,7 +734,7 @@
             "label": "$~संघर्ष आणि मदत",
             "cursor": "$~हे *$node*$type[ आहे आणि तो एक $type|] आहे.",
             "cursorDoc": "$~ते म्हणतात: “$description”",
-            "cursorParent": "$~ते एका *$node*$type[ च्या आत आहेत, ज्याचे मूल्य $type होते.|]",
+            "cursorParent": "$~ते *$node*$type[ च्या आत आहेत, जो $type मध्ये मोजला जातो|] आहेत.",
             "learn": "$~/अधिक जाणून घ्या/",
             "evaluating": "$~अरे मजा, चला मोजू या!",
             "space": "$~ही मोकळी जागा आहे! काहीही इतके सांगू शकते हे कोणाला माहीत होते?",
@@ -2155,7 +2155,7 @@
             },
             "music": {
                 "staff": "$~या पट्ट्याचे सूर",
-                "track": "$~$count पैकी पट्टी $total",
+                "track": "$~$total पैकी पट्टी $count",
                 "duration": {
                     "label": "$~नवीन सूर किती वेळ टिकतो",
                     "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
@@ -2792,7 +2792,7 @@
             "stepAtStart": "$~सुरुवातीला",
             "searchOpened": "$~संकेतात शोधा",
             "searchClosed": "$~शोध बंद केला",
-            "searchMatch": "$~$index पैकी $count जुळणी",
+            "searchMatch": "$~$count पैकी $index जुळणी",
             "searchNoMatches": "$~कोणतीही जुळणी नाही",
             "menuOpened": "$~सूची, $#count[$count सूचना|$count सूचना]",
             "menuEmpty": "$~कोणतीही सूचना नाही",
