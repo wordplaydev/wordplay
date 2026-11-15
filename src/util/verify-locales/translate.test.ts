@@ -156,6 +156,38 @@ describe('repairMentionsPositional', () => {
         expect(repairMentionsPositional(before, after)).toBe(after);
     });
 
+    test('keeps the words a script without spaces writes after a name', () => {
+        const before =
+            'Your browser blocked the $permission, then choose $retry.';
+        const after =
+            'ブラウザーが$permissionをブロックしました。$retryを選んでください。';
+        expect(repairMentionsPositional(before, after)).toBe(after);
+    });
+
+    test('renames a misspelled name without losing the words after it', () => {
+        const before =
+            'Your browser blocked the $permission, then choose $retry.';
+        const after =
+            'ブラウザーが$permissionsをブロックしました。$retryを選んでください。';
+        expect(repairMentionsPositional(before, after)).toBe(
+            'ブラウザーが$permissionをブロックしました。$retryを選んでください。',
+        );
+    });
+
+    test('keeps inputs a translation reordered', () => {
+        const before = 'Evaluate $higher before $lower';
+        const after = '在 $lower 之前求值 $higher';
+        expect(repairMentionsPositional(before, after)).toBe(after);
+    });
+
+    test('repairs only the name that was mangled, wherever it is', () => {
+        const before = 'I expected $expected, got $given';
+        const after = '$given を受け取りましたが $المتوقع を期待しました';
+        expect(repairMentionsPositional(before, after)).toBe(
+            '$given を受け取りましたが $expected を期待しました',
+        );
+    });
+
     test('is a no-op when the source has no mentions', () => {
         expect(repairMentionsPositional('plain', 'plano')).toBe('plano');
     });
