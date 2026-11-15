@@ -1062,6 +1062,23 @@
         "efb149acb1fbf": "$~Guá-lán kái-liông tī thîng-sik-bé pian-tsi̍p-khì lāi-té, tsu-sió-á-tsò thang pian-tsi̍p ê bûn-jī ê hóo-sik hôe-tài (<901@https://github.com/wordplaydev/wordplay/issues/901>).",
         "e40c803e33442": "$~Guá-lán kái-tsìng kàu-ha̍k lāi-té tsik-khuài tāi-sè-á ê tsò-hoat (<912@https://github.com/wordplaydev/wordplay/issues/912>).",
         "e559bcfa865df": "$~Guán ka Ngó͘-lo-su-gí, Ukraina-gí, Malayalam-gí, Ia̍t-gí, kap Tâi-gí (iōng Tâi-lô siá) thiam--ji̍p-lâi, hō͘ koh-khah-tsē lâng ē-tàng iōng in tsāi-tshù kóng ê uē lâi iōng Wordplay!",
-        "ee481670339a2": "$~Tsioh thò-kiānn ê tsuan-àn, ná-tsùn Conductor ê li-tsú \\@wordplay/instruments\\, bē koh tsiūnn-á kám-kak-khuànn-tio̍h tshiú, ia̍h-sī kî-thaⁿ su-ji̍p piàn-huà, tō khí tshò-gō͘ tsíng-tsí lah."
+        "ee481670339a2": "$~Tsioh thò-kiānn ê tsuan-àn, ná-tsùn Conductor ê li-tsú \\@wordplay/instruments\\, bē koh tsiūnn-á kám-kak-khuànn-tio̍h tshiú, ia̍h-sī kî-thaⁿ su-ji̍p piàn-huà, tō khí tshò-gō͘ tsíng-tsí lah.",
+        "e58694c474d80": "$~Lí siá code ê thang-á, tann tsiah-kuè tsit-tsūn tsióng-tsiok lóng kiò-tsò pian-tsi̍p-khì, pau-koat pian-tsi̍p-khì kàu-ha̍k ê piau-tê, í-á-tsìng kiò \"guân-sí-tóng.\" (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Nā lí ê liû-lám-khì kā bài-khuh-hong á-sī siòng-siōng-ki tsū-tuàn, bú-tâi tsit-tsūn ē kā lí kóng án-tsuánn khai-hòng, lí khai-hòng liáu, tsuan-àn tō lâi khai-sí. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Pián-i-ê pian-tsi̍p tsit-tsūn ē kóng-tshut siánn-sî ū khǹg-hó, tsài-ji̍p liáu iáu ē tshun tī hōo-bīn, Koh khah liáu-kái ê hit-tsiah iā ē kā kàu-ha̍k ēng Roman Urdu kap Tâi-uân Hō-ló-uē lâi hián-sī. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Tī pián-i-ê mō͘-sik pian-tsi̍p kàu-ha̍k ê bûn-jī, tsit-tsūn ē tsiâⁿ-tī tuì-uē-khuànn ê lāi-bīn, tn̂g ê bûn-jī ē suann-hâng, bē koh hōo lâng tshiát-tuàn.",
+        "e8a02bf7b4904": "$~Hun-hióng kàu tián-lám-kuán ê tsuan-àn, nā ū tsi̍t-tsiah ēng kū-pán tián-lám-kuán ê tiān-náu lâi khǹg, tsuan-àn bē koh tuì tián-lám-kuán tsiūⁿ-bô.",
+        "e652035ee645c": "$~<Tsuan-àn@https://wordplay.dev/projects> hit-ia̍h bē koh hián-sī khǹg tī kāng-tsi̍t-tsiah tiān-náu ê pa̍t-lâng ê tsuan-àn.",
+        "ebde922fe9dc2": "$~Lí khui-tio̍h ê tsuan-àn, tī i ê tián-lám-kuán piàn-uānn ê sî, bē koh tshut-tsʻo-ngō khuann-tiāu.",
+        "ed736c0457952": "$~Nā-sī tsuan-àn ū luī-hîng kap ta̍t ê miâ sio-kâng, mā ē-sái hhuan-ik, bē koh sit-pāi, tī-ná \\Page\\ kap \\page\\.",
+        "ed5a84645d6ff": "$~Kā ka-tsū tsè-tsò ê jī khǹg tī ìnn-hō lāi-bīn, bē koh kái-piàn ìnn-hō, jī ē liâm-mà tī bú-tâi hián-sī.",
+        "ebdd5cd1fe53a": "$~Lí bô liân-sòo-ua̍t ê sî tùi tsuan-àn kái ê, bē koh hōo khah kū ê pún-pún thè-tāi, tsia̍h-sī tī pa̍t-tsiah tiān-náu á-sī pa̍t-ê piáu-tsiap khui ê sî.",
+        "e5996d70bd7cd": "$~Tī kâng-tsi̍t-tsiah tiān-náu tēng-ji̍p pa̍t-ê tsiu-hō, bē koh sit-khì téng-tsi̍t-ê lâng iáu-bē tī bāng-lō͘ khǹg-hó ê kái-piàn.",
+        "ec0c11cb3cae9": "$~Huan-ik tsuan-àn ê sî, lí siá ê, bē koh hōo i tsit-ê huan-ik kā phau-tiāu.",
+        "e8a3144598e4a": "$~Nā-sī tshiânn-ji̍p ē hōo tsuan-àn siunn tuā, tsit-tsūn ē kā lí kóng, bô-beh tī-á chhiânn ê sî, siá ê jī tō lōng bô-khì.",
+        "e3b7a19e44392": "$~Kái pan-kip á-sī tián-lám-kuán ê miâ, bē koh kā kāng-sî ū thiam-ji̍p ê lâng sak-tiāu.",
+        "e64f54009f821": "$~Lí tī tsi̍t-tsiah tiān-náu kái ê tsū-liāu-kuánn kap pa̍t-hāng siat-tīng, bē koh hōo lí khui-tio̍h ê pa̍t-tsiah tiān-náu tshap-tiāu.",
+        "e42ff6b707cdc": "$~Pa̍t-lâng tī lí bô liân-sòo-ua̍t ê sî sái ê liâu-thian sìn-sit, lí tsài-liân-sòo ê sî bē koh hōo lâng tshat-tiāu.",
+        "e4420e66c0d11": "$~Khǹg tsi̍t-ê ka-tsū tsè-tsò ê jī, bē koh kā pa̍t-ê jī khah sin ê kái-piàn khìg-tiāu."
     }
 }

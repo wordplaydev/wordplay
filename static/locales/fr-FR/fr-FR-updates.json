@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~Les galeries ont maintenant un espace « comment faire », où les organisateurs et les créateurs peuvent partager ce qu'ils ont découvert (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Nous avons ajouté le russe, l'ukrainien, le malayalam, le cantonais et le hokkien taïwanais (écrit en Tâi-lô). Ainsi, plus d'entre vous peuvent utiliser Wordplay dans la langue qu'ils parlent à la maison !",
         "e53524c65f4f2": "$~Sur les petits écrans, la scène et le code n'échangent plus leurs places quand tu passes de l'édition au jeu. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Les projets qui empruntent un kit, comme l'exemple Conductor avec \\@wordplay/instruments\\, ne s'arrêtent plus avec une erreur dès que la caméra voit une main ou qu'une autre entrée change."
+        "ee481670339a2": "$~Les projets qui empruntent un kit, comme l'exemple Conductor avec \\@wordplay/instruments\\, ne s'arrêtent plus avec une erreur dès que la caméra voit une main ou qu'une autre entrée change.",
+        "e58694c474d80": "$~La fenêtre où tu écris du code s'appelle maintenant l'éditeur partout, y compris dans le titre de la visite de l'éditeur, qui disait avant « source ». (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Si ton navigateur a bloqué le microphone ou la caméra, la scène t'explique maintenant comment les autoriser, et le projet démarre dès que tu le fais. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Les modifications de traduction indiquent maintenant quand elles sont enregistrées, restent à l'écran après un rechargement, et la page Apprendre montre le tutoriel en ourdou romanisé et en hokkien taïwanais. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Quand tu modifies le texte d'un tutoriel en mode de traduction, il tient maintenant dans sa bulle, et un long texte passe à la ligne au lieu d'être coupé.",
+        "e8a02bf7b4904": "$~Les projets partagés dans une galerie ne disparaissent plus de cette galerie quand un ordinateur qui a une ancienne copie de la galerie l'enregistre.",
+        "e652035ee645c": "$~La page <Projets@https://wordplay.dev/projects> n'affiche plus les projets d'autres personnes qui ont été enregistrés sur le même ordinateur.",
+        "ebde922fe9dc2": "$~Un projet que tu as ouvert ne se ferme plus avec une erreur quand sa galerie change.",
+        "ed736c0457952": "$~Traduire un projet n'échoue plus quand il contient un type et une valeur qui portent le même nom, comme \\Page\\ et \\page\\.",
+        "ed5a84645d6ff": "$~Mettre un caractère personnalisé entre guillemets ne change plus les guillemets, donc le caractère s'affiche tout de suite sur la scène.",
+        "ebdd5cd1fe53a": "$~Les changements que tu fais à un projet hors ligne ne sont plus remplacés par une copie plus ancienne quand tu l'ouvres sur un autre ordinateur ou dans un autre onglet.",
+        "e5996d70bd7cd": "$~Se connecter à un autre compte sur un ordinateur partagé ne fait plus perdre les changements de la personne précédente qui n'étaient pas encore enregistrés en ligne.",
+        "ec0c11cb3cae9": "$~Traduire un projet n'efface plus ce que tu as tapé pendant la traduction.",
+        "e8a3144598e4a": "$~Une saisie qui rendrait un projet trop gros te prévient maintenant, alors qu'avant le texte tapé disparaissait simplement.",
+        "e3b7a19e44392": "$~Renommer une classe ou une galerie ne retire plus une personne qui y a été ajoutée au même moment.",
+        "e64f54009f821": "$~Les dossiers et les autres réglages que tu changes sur un ordinateur ne sont plus effacés par un autre ordinateur que tu as laissé ouvert.",
+        "e42ff6b707cdc": "$~Les messages de discussion que d'autres ont envoyés pendant que tu étais hors ligne ne sont plus effacés quand tu te reconnectes.",
+        "e4420e66c0d11": "$~Enregistrer un caractère personnalisé n'annule plus les changements plus récents faits à un autre."
     }
 }

@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~Galeri sekarang punya ruang panduan cara, tempat pengelola dan pembuat bisa saling berbagi hal yang mereka temukan (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Kami menambahkan bahasa Rusia, Ukraina, Malayalam, Kanton, dan Hokkien Taiwan (ditulis dalam Tâi-lô), supaya lebih banyak dari kalian bisa memakai Wordplay dalam bahasa yang kalian gunakan di rumah!",
         "e53524c65f4f2": "$~Di layar yang lebih kecil, panggung dan kode tidak lagi bertukar sisi saat kalian berpindah antara mengedit dan memainkan. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Proyek yang meminjam perkakas, seperti contoh Conductor dengan \\@wordplay/instruments\\, tidak lagi berhenti karena kesalahan saat kamera melihat tangan atau masukan lain berubah."
+        "ee481670339a2": "$~Proyek yang meminjam perkakas, seperti contoh Conductor dengan \\@wordplay/instruments\\, tidak lagi berhenti karena kesalahan saat kamera melihat tangan atau masukan lain berubah.",
+        "e58694c474d80": "$~Jendela tempat kamu menulis kode sekarang disebut editor di mana-mana, termasuk pada judul tur editor, yang dulu menyebutnya \"sumber\". (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Jika browser kamu memblokir mikrofon atau kamera, panggung sekarang memberi tahu cara mengizinkannya, dan proyek langsung mulai begitu kamu mengizinkannya. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Perubahan lokalisasi sekarang memberi tahu saat tersimpan, tetap ada di layar setelah dimuat ulang, dan halaman Belajar menampilkan tutorial dalam bahasa Urdu Romawi dan Hokkien Taiwan. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Mengedit teks tutorial dalam mode lokalisasi sekarang muat di dalam balon ucapannya, sehingga teks yang panjang turun ke baris berikutnya dan tidak terpotong.",
+        "e8a02bf7b4904": "$~Proyek yang dibagikan ke galeri tidak lagi hilang dari galeri itu ketika komputer yang memiliki salinan galeri yang lama menyimpannya.",
+        "e652035ee645c": "$~Halaman <Proyek@https://wordplay.dev/projects> tidak lagi menampilkan proyek milik orang lain yang disimpan di komputer yang sama.",
+        "ebde922fe9dc2": "$~Proyek yang sedang kamu buka tidak lagi tertutup dengan kesalahan ketika galerinya berubah.",
+        "ed736c0457952": "$~Menerjemahkan proyek tidak lagi gagal ketika proyek itu punya jenis dan nilai dengan nama yang sama, seperti \\Page\\ dan \\page\\.",
+        "ed5a84645d6ff": "$~Menaruh karakter khusus di dalam tanda kutip tidak lagi mengubah tanda kutipnya, sehingga karakter itu langsung tampil di panggung.",
+        "ebdd5cd1fe53a": "$~Perubahan yang kamu buat pada proyek saat offline tidak lagi diganti oleh salinan yang lebih lama ketika kamu membukanya di komputer lain atau di tab lain.",
+        "e5996d70bd7cd": "$~Masuk ke akun lain di komputer bersama tidak lagi menghilangkan perubahan orang sebelumnya yang belum tersimpan secara online.",
+        "ec0c11cb3cae9": "$~Menerjemahkan proyek tidak lagi membatalkan apa yang kamu ketik selama proses penerjemahan.",
+        "e8a3144598e4a": "$~Ketikan yang akan membuat proyek terlalu besar sekarang memberi tahu kamu, padahal sebelumnya ketikan itu langsung hilang begitu saja.",
+        "e3b7a19e44392": "$~Mengganti nama kelas atau galeri tidak lagi menghapus orang yang ditambahkan ke sana pada saat yang sama.",
+        "e64f54009f821": "$~Folder dan pengaturan lain yang kamu ubah di satu komputer tidak lagi terhapus oleh komputer lain yang kamu biarkan terbuka.",
+        "e42ff6b707cdc": "$~Pesan obrolan yang dikirim orang lain saat kamu offline tidak lagi terhapus ketika kamu tersambung kembali.",
+        "e4420e66c0d11": "$~Menyimpan satu karakter khusus tidak lagi membatalkan perubahan yang lebih baru pada karakter khusus yang lain."
     }
 }

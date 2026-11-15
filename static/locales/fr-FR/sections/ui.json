@@ -783,7 +783,13 @@
                 "microphone": "$~microphone",
                 "camera": "$~caméra",
                 "note": "$~Votre navigateur vous demandera votre autorisation avant de partager.",
-                "retry": "$~Réessayer"
+                "retry": "$~Réessayer",
+                "blocked": {
+                    "chromium": "$~Votre navigateur a bloqué $permission ici, donc je ne peux pas redemander. Cliquez sur l'icône à gauche de l'adresse web, activez $permission, puis choisissez $retry.",
+                    "safari": "$~Votre navigateur a bloqué $permission ici, donc je ne peux pas redemander. Ouvrez les réglages du site web (dans le menu Safari sur un Mac, ou dans le menu de la page à côté de l'adresse sur un iPhone ou un iPad), autorisez $permission, puis choisissez $retry.",
+                    "firefox": "$~Votre navigateur a bloqué $permission ici, donc je ne peux pas redemander. Cliquez sur l'icône $permission barrée dans la barre d'adresse, retirez le blocage, puis choisissez $retry.",
+                    "other": "$~Votre navigateur a bloqué $permission ici, donc je ne peux pas redemander. Autorisez $permission dans les réglages de votre navigateur pour ce site, puis choisissez $retry."
+                }
             },
             "multiselect": "$~Utilisez la touche Tabulation, Alt et les flèches directionnelles pour naviguer entre les sorties. Appuyez sur la barre d'espace pour ajouter ou supprimer la sortie sélectionnée. Appuyez sur Entrée pour sélectionner uniquement cette sortie et ouvrir la palette. Appuyez sur Échap pour annuler la sélection. Appuyez sur Ctrl ou Commande et A pour sélectionner toutes les sorties.",
             "selected": "$~$name sélectionné, $count sélectionné",

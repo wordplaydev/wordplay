@@ -1325,7 +1325,13 @@
                 "microphone": "$~麥克風",
                 "camera": "$~相機",
                 "note": "$~分享之前，你嘅瀏覽器會先問你。",
-                "retry": "$~再試一次"
+                "retry": "$~再試一次",
+                "blocked": {
+                    "chromium": "$~你嘅瀏覽器喺呢度擋咗$permission，所以我冇辦法再問。㩒一下網址左邊嘅圖示，開啟$permission，然後揀$retry。",
+                    "safari": "$~你嘅瀏覽器喺呢度擋咗$permission，所以我冇辦法再問。打開網站設定（Mac 就喺 Safari 選單入面，iPhone 或者 iPad 就喺網址旁邊嘅頁面選單），允許$permission，然後揀$retry。",
+                    "firefox": "$~你嘅瀏覽器喺呢度擋咗$permission，所以我冇辦法再問。㩒一下網址列入面打咗交叉嘅$permission圖示，移除封鎖，然後揀$retry。",
+                    "other": "$~你嘅瀏覽器喺呢度擋咗$permission，所以我冇辦法再問。喺瀏覽器嘅設定入面，為呢個網站允許$permission，然後揀$retry。"
+                }
             },
             "gate": {
                 "start": {

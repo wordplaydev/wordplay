@@ -22987,6 +22987,35 @@
                                     "additionalProperties": false,
                                     "description": "The pre-evaluation splash shown when a project requires a browser permission.",
                                     "properties": {
+                                        "blocked": {
+                                            "additionalProperties": false,
+                                            "description": "Shown in place of the denial's explanation when the browser has blocked the permission and will no longer ask. One per browser family, since each keeps the setting somewhere different.",
+                                            "properties": {
+                                                "chromium": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22permission%22%2C%22retry%22%5D%3E",
+                                                    "description": "[formatted] How to allow a blocked permission in Chrome, Edge, and other Chromium browsers"
+                                                },
+                                                "firefox": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22permission%22%2C%22retry%22%5D%3E",
+                                                    "description": "[formatted] How to allow a blocked permission in Firefox"
+                                                },
+                                                "other": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22permission%22%2C%22retry%22%5D%3E",
+                                                    "description": "[formatted] How to allow a blocked permission in any other browser"
+                                                },
+                                                "safari": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22permission%22%2C%22retry%22%5D%3E",
+                                                    "description": "[formatted] How to allow a blocked permission in Safari on a Mac, iPhone, or iPad"
+                                                }
+                                            },
+                                            "required": [
+                                                "chromium",
+                                                "safari",
+                                                "firefox",
+                                                "other"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "camera": {
                                             "description": "[plain] Camera permission label on the splash",
                                             "type": "string"
@@ -23013,7 +23042,8 @@
                                         "microphone",
                                         "camera",
                                         "note",
-                                        "retry"
+                                        "retry",
+                                        "blocked"
                                     ],
                                     "type": "object"
                                 },
@@ -32920,6 +32950,9 @@
             "type": "string"
         },
         "Template<[\"percent\"]>": {
+            "type": "string"
+        },
+        "Template<[\"permission\",\"retry\"]>": {
             "type": "string"
         },
         "Template<[\"permission\"]>": {

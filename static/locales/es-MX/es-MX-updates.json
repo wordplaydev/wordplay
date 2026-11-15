@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~Ahora las galerías tienen un espacio de guías prácticas, donde las curadoras y las creadoras pueden compartir entre sí lo que descubrieron (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Agregamos ruso, ucraniano, malayalam, cantonés y hokkien taiwanés (escrito en Tâi-lô), ¡para que más de ustedes puedan usar Wordplay en el idioma que hablan en casa!",
         "e53524c65f4f2": "$~En pantallas más pequeñas, el escenario y el código ya no cambian de lado cuando pasas de editar a actuar. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Los proyectos que prestan un kit, como el ejemplo del Conductor con \\@wordplay/instruments\\, ya no se detienen con un error en cuanto la cámara ve una mano o cambia otra entrada."
+        "ee481670339a2": "$~Los proyectos que prestan un kit, como el ejemplo del Conductor con \\@wordplay/instruments\\, ya no se detienen con un error en cuanto la cámara ve una mano o cambia otra entrada.",
+        "e58694c474d80": "$~La ventana donde escribes código ahora se llama editor en todas partes, incluso en el título del recorrido del editor, que antes decía «fuente». (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Si tu navegador bloqueó el micrófono o la cámara, el escenario ahora te explica cómo permitirlo, y el proyecto comienza en cuanto lo haces. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Las ediciones de localización ahora avisan cuando se guardan, siguen en pantalla después de recargar, y la página Aprender muestra el tutorial en urdu romano y en hokkien taiwanés. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Al editar el texto de un tutorial en el modo de localización, ahora cabe dentro de su globo de diálogo, así que el texto largo se ajusta en lugar de cortarse.",
+        "e8a02bf7b4904": "$~Los proyectos compartidos en una galería ya no desaparecen de ella cuando una computadora con una copia vieja de la galería la guarda.",
+        "e652035ee645c": "$~La página <Proyectos@https://wordplay.dev/projects> ya no muestra los proyectos de otras personas que se guardaron en la misma computadora.",
+        "ebde922fe9dc2": "$~Un proyecto que tienes abierto ya no se cierra con un error cuando cambia su galería.",
+        "ed736c0457952": "$~Traducir un proyecto ya no falla cuando tiene un tipo y un valor con el mismo nombre, como \\Page\\ y \\page\\.",
+        "ed5a84645d6ff": "$~Poner un carácter personalizado entre comillas ya no cambia las comillas, así que el carácter se ve en el escenario de inmediato.",
+        "ebdd5cd1fe53a": "$~Los cambios que haces a un proyecto sin conexión ya no se reemplazan por una copia más vieja cuando lo abres en otra computadora o en otra pestaña.",
+        "e5996d70bd7cd": "$~Iniciar sesión en otra cuenta en una computadora compartida ya no pierde los cambios de la persona anterior que aún no se habían guardado en línea.",
+        "ec0c11cb3cae9": "$~Traducir un proyecto ya no deshace lo que escribiste mientras se traducía.",
+        "e8a3144598e4a": "$~Ahora te avisa cuando lo que escribes haría el proyecto demasiado grande; antes, lo escrito simplemente desaparecía.",
+        "e3b7a19e44392": "$~Cambiar el nombre de una clase o de una galería ya no quita a una persona que se agregó en el mismo momento.",
+        "e64f54009f821": "$~Las carpetas y otros ajustes que cambias en una computadora ya no se borran por otra computadora que dejaste abierta.",
+        "e42ff6b707cdc": "$~Los mensajes de chat que otras personas enviaron mientras estabas sin conexión ya no se borran cuando te vuelves a conectar.",
+        "e4420e66c0d11": "$~Guardar un carácter personalizado ya no deshace los cambios más recientes de otro."
     }
 }

@@ -783,7 +783,13 @@
                 "microphone": "$~Mikrofon",
                 "camera": "$~Kamera",
                 "note": "$~Ihr Browser fragt Sie vor dem Teilen.",
-                "retry": "$~Wiederholen"
+                "retry": "$~Wiederholen",
+                "blocked": {
+                    "chromium": "$~Dein Browser hat $permission hier blockiert, deshalb kann ich nicht noch einmal fragen. Klicke auf das Symbol links neben der Webadresse, schalte $permission ein und wähle dann $retry.",
+                    "safari": "$~Dein Browser hat $permission hier blockiert, deshalb kann ich nicht noch einmal fragen. Öffne die Website-Einstellungen (im Safari-Menü auf einem Mac oder im Seitenmenü neben der Adresse auf einem iPhone oder iPad), erlaube $permission und wähle dann $retry.",
+                    "firefox": "$~Dein Browser hat $permission hier blockiert, deshalb kann ich nicht noch einmal fragen. Klicke in der Adressleiste auf das durchgestrichene Symbol für $permission, hebe die Blockierung auf und wähle dann $retry.",
+                    "other": "$~Dein Browser hat $permission hier blockiert, deshalb kann ich nicht noch einmal fragen. Erlaube $permission in den Einstellungen deines Browsers für diese Website und wähle dann $retry."
+                }
             },
             "multiselect": "$~Verwenden Sie die Tabulatortaste, die Alt-Taste und die Pfeiltasten, um zwischen den Ausgängen zu wechseln. Drücken Sie die Leertaste, um den ausgewählten Ausgang hinzuzufügen oder zu entfernen. Drücken Sie die Eingabetaste, um nur diesen Ausgang auszuwählen und die Palette zu öffnen. Drücken Sie die Esc-Taste, um die Auswahl aufzuheben. Drücken Sie Strg oder Befehl + A, um alle Ausgänge auszuwählen.",
             "selected": "$~$name ausgewählt, $count ausgewählt",

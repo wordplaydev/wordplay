@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~Galeriile au acum un spațiu de instrucțiuni, unde curatorii și creatorii pot împărtăși unii cu alții ce au descoperit (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Am adăugat rusa, ucraineana, malayalam, cantoneza și hokkien taiwaneză (scrisă în Tâi-lô), ca mai mulți dintre voi să poată folosi Wordplay în limba pe care o vorbesc acasă!",
         "e53524c65f4f2": "$~Pe ecranele mai mici, scena și codul nu mai schimbă locurile între ele când treci de la editare la joc. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Proiectele care împrumută o trusă, ca exemplul Conductor cu \\@wordplay/instruments\\, nu se mai opresc cu o eroare în clipa în care camera vede o mână sau când se schimbă altă intrare."
+        "ee481670339a2": "$~Proiectele care împrumută o trusă, ca exemplul Conductor cu \\@wordplay/instruments\\, nu se mai opresc cu o eroare în clipa în care camera vede o mână sau când se schimbă altă intrare.",
+        "e58694c474d80": "$~Fereastra în care scrii cod se numește acum peste tot editorul, inclusiv în titlul turului editorului, care înainte spunea „sursă”. (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Dacă browserul tău a blocat microfonul sau camera, scena îți spune acum cum să le permiți, iar proiectul pornește imediat ce o faci. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Modificările de localizare spun acum când sunt salvate, rămân pe ecran după reîncărcare, iar pagina Învață arată tutorialul în urdu romanizat și în hokkien taiwanez. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Editarea textului unui tutorial în modul de localizare se potrivește acum în balonul de vorbire, așa că textul lung trece pe rândul următor în loc să fie tăiat.",
+        "e8a02bf7b4904": "$~Proiectele partajate într-o galerie nu mai dispar din ea atunci când un computer cu o copie veche a galeriei o salvează.",
+        "e652035ee645c": "$~Pagina <Proiecte@https://wordplay.dev/projects> nu mai arată proiectele altor persoane care au fost salvate pe același computer.",
+        "ebde922fe9dc2": "$~Un proiect pe care îl ai deschis nu se mai închide cu o eroare atunci când se schimbă galeria lui.",
+        "ed736c0457952": "$~Traducerea unui proiect nu mai eșuează când acesta are un tip și o valoare cu același nume, precum \\Page\\ și \\page\\.",
+        "ed5a84645d6ff": "$~Punerea unui caracter personalizat între ghilimele nu mai schimbă ghilimelele, așa că tipul de caracter apare imediat pe scenă.",
+        "ebdd5cd1fe53a": "$~Modificările pe care le faci unui proiect fără conexiune la internet nu mai sunt înlocuite de o copie mai veche când îl deschizi pe alt computer sau în altă filă.",
+        "e5996d70bd7cd": "$~Conectarea la un alt cont pe un computer folosit în comun nu mai pierde modificările ultimei persoane care nu fuseseră încă salvate online.",
+        "ec0c11cb3cae9": "$~Traducerea unui proiect nu mai anulează ceea ce ai scris cât timp se traducea.",
+        "e8a3144598e4a": "$~Scrisul care ar face un proiect prea mare te anunță acum, în timp ce înainte textul pur și simplu dispărea.",
+        "e3b7a19e44392": "$~Redenumirea unei clase sau a unei galerii nu mai elimină o persoană care a fost adăugată în același moment.",
+        "e64f54009f821": "$~Dosarele și alte setări pe care le schimbi pe un computer nu mai sunt șterse de un alt computer pe care l-ai lăsat deschis.",
+        "e42ff6b707cdc": "$~Mesajele de chat trimise de alții cât timp ai fost deconectat nu mai sunt șterse când te reconectezi.",
+        "e4420e66c0d11": "$~Salvarea unui caracter personalizat nu mai anulează modificările mai noi făcute altuia."
     }
 }

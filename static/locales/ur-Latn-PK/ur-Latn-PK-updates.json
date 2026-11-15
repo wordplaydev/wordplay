@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~Numaish gahon mein ab tareeqa guide ki jagah hai, jahan nigraan aur banane walay ek doosre ke saath woh baantein jo unhon ne seekha hai (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Humne Russian, Ukrainian, Malayalam, Cantonese, aur Taiwanese Hokkien (Tâi-lô mein likhi hui) shamil ki hain, taake aap mein se zyada log Wordplay ko us zubaan mein istemaal kar sakein jo woh ghar par bolte hain!",
         "e53524c65f4f2": "$~Chhoti screens par, jab aap editing aur khelne ke beech badalte hain, to stage aur code ab apni jagah nahin badalte. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Jo mansoobe koi kit udhaar lete hain, jaise Conductor ki misaal jis mein \\@wordplay/instruments\\ hai, woh ab us waqt masla de kar ruk nahin jaate jab camera koi haath dekhta hai ya koi aur input badalta hai."
+        "ee481670339a2": "$~Jo mansoobe koi kit udhaar lete hain, jaise Conductor ki misaal jis mein \\@wordplay/instruments\\ hai, woh ab us waqt masla de kar ruk nahin jaate jab camera koi haath dekhta hai ya koi aur input badalta hai.",
+        "e58694c474d80": "$~Jis window mein aap code likhte hain, ab usay har jagah editor kaha jaata hai, editor tour ke unwaan mein bhi, jahan pehle \"source\" likha hota tha. (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Agar aap ke browser ne microphone ya camera band kar diya hai, to stage ab batati hai ke ijazat kaise dein, aur aap ke ijazat dete hi mansooba shuru ho jaata hai. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Localization ki tabdeeliyan ab batati hain ke kab mehfooz hui hain, page dobara load karne ke baad bhi screen par rehti hain, aur Learn page par sabaq ab Roman Urdu aur Taiwanese Hokkien mein dikhta hai. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Localization mode mein sabaq ka matn badalte waqt ab woh bolne wale bubble ke andar poora aata hai, is liye lamba matn kat'ne ke bajaye agli line mein chala jaata hai.",
+        "e8a02bf7b4904": "$~Jo mansoobe numaish gah mein baante gaye hon, ab woh wahan se gaib nahin hote, chahe numaish gah ki purani copy wala computer usay mehfooz kare.",
+        "e652035ee645c": "$~<Mansoobe@https://wordplay.dev/projects> page ab doosre logon ke woh mansoobe nahin dikhata jo usi computer par mehfooz hue the.",
+        "ebde922fe9dc2": "$~Jo mansooba aap ne khola ho, ab uski numaish gah badalne par woh kharabi ke saath band nahin hota.",
+        "ed736c0457952": "$~Mansoobe ka tarjuma ab nakaam nahin hota jab usmein ek qism aur ek qeemat ka naam ek hi ho, jaise \\Page\\ aur \\page\\.",
+        "ed5a84645d6ff": "$~Apna banaya hua harf quotes ke andar rakhne se ab quotes nahin badalte, is liye harf foran stage par nazar aata hai.",
+        "ebdd5cd1fe53a": "$~Offline rehte hue aap mansoobe mein jo tabdeeliyan karein, woh ab kisi doosre computer ya doosre tab mein kholne par purani copy se badli nahin jaatin.",
+        "e5996d70bd7cd": "$~Shared computer par kisi doosre account mein dakhil hone se ab pichhle shakhs ki woh tabdeeliyan zaaya nahin hotin jo abhi online mehfooz nahin hui thin.",
+        "ec0c11cb3cae9": "$~Mansoobe ka tarjuma ab woh cheez mita nahin deta jo aap ne tarjume ke dauran likhi thi.",
+        "e8a3144598e4a": "$~Agar likhne se mansooba bohat bada ho jaye, to ab aap ko bataya jaata hai, jabke pehle likha hua bas gaib ho jaata tha.",
+        "e3b7a19e44392": "$~Jamaat ya numaish gah ka naam badalne se ab woh shakhs nahin hat'ta jo usi lamhe usmein shamil kiya gaya ho.",
+        "e64f54009f821": "$~Folders aur doosri settings jo aap ek computer par badlein, ab woh kisi doosre computer se nahin mitti jo aap ne khula chhor diya ho.",
+        "e42ff6b707cdc": "$~Jo chat paighaam doosron ne aap ke offline rehte hue bheje, woh ab dobara judne par nahin mit'te.",
+        "e4420e66c0d11": "$~Ek apna banaya hua harf mehfooz karne se ab doosre harf ki nayi tabdeeliyan khatam nahin hotin."
     }
 }

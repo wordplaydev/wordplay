@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~Các phòng trưng bày giờ có một không gian làm cách nào để, nơi người phụ trách và người sáng tạo có thể chia sẻ với nhau những điều họ đã tìm ra (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Chúng tôi đã thêm tiếng Nga, tiếng Ukraina, tiếng Malayalam, tiếng Quảng Đông và tiếng Mân Nam của Đài Loan (viết bằng chữ Tâi-lô), để nhiều bạn hơn có thể dùng Wordplay bằng ngôn ngữ mà các bạn nói ở nhà!",
         "e53524c65f4f2": "$~Trên màn hình nhỏ, sân khấu và mã số không còn đổi chỗ cho nhau khi bạn chuyển giữa soạn thảo và chạy. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Các dự án mượn một bộ dụng cụ, như ví dụ Conductor với \\@wordplay/instruments\\, không còn dừng lại vì lỗi ngay khi máy quay thấy một bàn tay hoặc khi một đầu vào khác thay đổi."
+        "ee481670339a2": "$~Các dự án mượn một bộ dụng cụ, như ví dụ Conductor với \\@wordplay/instruments\\, không còn dừng lại vì lỗi ngay khi máy quay thấy một bàn tay hoặc khi một đầu vào khác thay đổi.",
+        "e58694c474d80": "$~Cửa sổ nơi bạn viết mã số giờ đây được gọi là trình soạn thảo ở mọi nơi, kể cả trong tiêu đề của chuyến tham quan trình soạn thảo, nơi trước đây ghi là \"nguồn\". (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Nếu trình duyệt của bạn đã chặn micrô hoặc máy ảnh, sân khấu giờ sẽ hướng dẫn bạn cách cho phép, và dự án sẽ bắt đầu ngay khi bạn cho phép. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Các chỉnh sửa bản địa hóa giờ cho biết khi nào chúng được lưu, vẫn còn trên màn hình sau khi tải lại trang, và trang Học hiển thị bài học bằng tiếng Urdu La-tinh và tiếng Mân Nam Đài Loan. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Khi chỉnh sửa văn bản của một bài học trong chế độ bản địa hóa, văn bản giờ nằm gọn trong bong bóng thoại, nên văn bản dài sẽ xuống dòng thay vì bị cắt mất.",
+        "e8a02bf7b4904": "$~Các dự án được chia sẻ vào một phòng trưng bày sẽ không còn biến mất khỏi đó khi một máy tính giữ bản cũ của phòng trưng bày lưu lại.",
+        "e652035ee645c": "$~Trang <Dự án@https://wordplay.dev/projects> không còn hiển thị dự án của người khác được lưu trên cùng một máy tính.",
+        "ebde922fe9dc2": "$~Một dự án bạn đang mở sẽ không còn tự đóng kèm lỗi khi phòng trưng bày của nó thay đổi.",
+        "ed736c0457952": "$~Việc dịch một dự án không còn thất bại khi dự án có một kiểu và một giá trị trùng tên, như \\Page\\ và \\page\\.",
+        "ed5a84645d6ff": "$~Việc đặt một ký tự tùy chỉnh bên trong dấu ngoặc kép không còn làm thay đổi dấu ngoặc kép, nên ký tự hiện ngay trên sân khấu.",
+        "ebdd5cd1fe53a": "$~Những thay đổi bạn thực hiện với một dự án khi ngoại tuyến không còn bị thay bằng một bản cũ hơn khi bạn mở nó trên máy tính khác hoặc trong thẻ khác.",
+        "e5996d70bd7cd": "$~Đăng nhập vào một tài khoản khác trên máy tính dùng chung không còn làm mất những thay đổi của người trước chưa kịp lưu trực tuyến.",
+        "ec0c11cb3cae9": "$~Việc dịch một dự án không còn xóa mất những gì bạn đã gõ trong lúc đang dịch.",
+        "e8a3144598e4a": "$~Khi gõ làm dự án quá lớn, giờ bạn sẽ được thông báo, thay vì phần vừa gõ cứ biến mất như trước.",
+        "e3b7a19e44392": "$~Việc đổi tên một lớp học hoặc phòng trưng bày không còn xóa mất người vừa được thêm vào cùng lúc.",
+        "e64f54009f821": "$~Các thư mục và những cài đặt khác bạn đổi trên một máy tính không còn bị xóa bởi một máy tính khác bạn để mở.",
+        "e42ff6b707cdc": "$~Các tin nhắn trò chuyện mà người khác gửi khi bạn ngoại tuyến không còn bị xóa khi bạn kết nối lại.",
+        "e4420e66c0d11": "$~Việc lưu một ký tự tùy chỉnh không còn làm mất những thay đổi mới hơn của ký tự khác."
     }
 }

@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~Galerien haben jetzt einen Anleitungs-Bereich. Dort können Kuratoren und Ersteller einander zeigen, was sie herausgefunden haben (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Wir haben Russisch, Ukrainisch, Malayalam, Kantonesisch und Taiwanesisch-Hokkien (geschrieben in Tâi-lô) hinzugefügt. So können noch mehr von euch Wordplay in der Sprache nutzen, die ihr zu Hause sprecht!",
         "e53524c65f4f2": "$~Auf kleineren Bildschirmen tauschen die Bühne und der Code nicht mehr die Seiten, wenn du zwischen Bearbeiten und Abspielen wechselst. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Projekte, die einen Baukasten leihen, wie das Dirigenten-Beispiel mit \\@wordplay/instruments\\, brechen nicht mehr mit einem Fehler ab, sobald die Kamera eine Hand sieht oder sich eine andere Eingabe ändert."
+        "ee481670339a2": "$~Projekte, die einen Baukasten leihen, wie das Dirigenten-Beispiel mit \\@wordplay/instruments\\, brechen nicht mehr mit einem Fehler ab, sobald die Kamera eine Hand sieht oder sich eine andere Eingabe ändert.",
+        "e58694c474d80": "$~Das Fenster, in dem du Code schreibst, heißt jetzt überall Editor, auch im Titel der Editor-Tour, in dem früher „Quelle“ stand. (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Wenn dein Browser das Mikrofon oder die Kamera gesperrt hat, zeigt dir die Bühne jetzt, wie du den Zugriff erlaubst. Das Projekt startet, sobald du ihn erlaubt hast. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Änderungen an Übersetzungen zeigen jetzt an, wann sie gespeichert sind, und bleiben nach dem Neuladen auf dem Bildschirm. Die Seite „Lernen“ zeigt das Tutorial jetzt auch auf Roman-Urdu und taiwanischem Hokkien. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Wenn du den Text eines Tutorials im Übersetzungsmodus bearbeitest, passt er jetzt in die Sprechblase. Langer Text wird umgebrochen und nicht mehr abgeschnitten.",
+        "e8a02bf7b4904": "$~Projekte, die in einer Galerie geteilt wurden, verschwinden nicht mehr daraus, wenn ein Computer mit einer alten Kopie der Galerie sie speichert.",
+        "e652035ee645c": "$~Die Seite <Projekte@https://wordplay.dev/projects> zeigt keine Projekte anderer Personen mehr an, die auf demselben Computer gespeichert wurden.",
+        "ebde922fe9dc2": "$~Ein Projekt, das du geöffnet hast, schließt sich nicht mehr mit einem Fehler, wenn sich seine Galerie ändert.",
+        "ed736c0457952": "$~Das Übersetzen eines Projekts schlägt nicht mehr fehl, wenn es einen Typ und einen Wert mit demselben Namen hat, zum Beispiel \\Page\\ und \\page\\.",
+        "ed5a84645d6ff": "$~Ein eigenes Zeichen in Anführungszeichen verändert die Anführungszeichen nicht mehr, sodass das Zeichen sofort auf der Bühne erscheint.",
+        "ebdd5cd1fe53a": "$~Änderungen, die du offline an einem Projekt machst, werden nicht mehr durch eine ältere Kopie ersetzt, wenn du es auf einem anderen Computer oder in einem anderen Tab öffnest.",
+        "e5996d70bd7cd": "$~Wenn du dich auf einem gemeinsam genutzten Computer bei einem anderen Konto anmeldest, gehen die Änderungen der letzten Person, die noch nicht online gespeichert waren, nicht mehr verloren.",
+        "ec0c11cb3cae9": "$~Das Übersetzen eines Projekts macht nicht mehr rückgängig, was du während der Übersetzung getippt hast.",
+        "e8a3144598e4a": "$~Wenn eine Eingabe ein Projekt zu groß machen würde, wirst du jetzt darauf hingewiesen. Vorher verschwand die Eingabe einfach.",
+        "e3b7a19e44392": "$~Wenn du eine Klasse oder Galerie umbenennst, wird niemand mehr entfernt, der im selben Moment hinzugefügt wurde.",
+        "e64f54009f821": "$~Ordner und andere Einstellungen, die du auf einem Computer änderst, werden nicht mehr von einem anderen Computer gelöscht, den du offen gelassen hast.",
+        "e42ff6b707cdc": "$~Chatnachrichten, die andere gesendet haben, während du offline warst, werden nicht mehr gelöscht, wenn du dich wieder verbindest.",
+        "e4420e66c0d11": "$~Wenn du ein eigenes Zeichen speicherst, werden neuere Änderungen an einem anderen Zeichen nicht mehr rückgängig gemacht."
     }
 }

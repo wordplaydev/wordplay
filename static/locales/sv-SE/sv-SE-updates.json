@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~Gallerier har nu ett utrymme för instruktioner, där kuratorer och skapare kan dela med sig av vad de har kommit på (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Vi har lagt till ryska, ukrainska, malayalam, kantonesiska och taiwanesisk hokkien (skriven med Tâi-lô), så att fler av er kan använda Wordplay på det språk ni pratar hemma!",
         "e53524c65f4f2": "$~På mindre skärmar byter scenen och koden inte längre plats när du växlar mellan att redigera och att spela. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Projekt som lånar en sats, som exemplet Conductor med \\@wordplay/instruments\\, stoppar inte längre med ett fel i samma stund som kameran ser en hand eller en annan inmatning ändras."
+        "ee481670339a2": "$~Projekt som lånar en sats, som exemplet Conductor med \\@wordplay/instruments\\, stoppar inte längre med ett fel i samma stund som kameran ser en hand eller en annan inmatning ändras.",
+        "e58694c474d80": "$~Fönstret där du skriver kod heter nu redigerare överallt, även i rubriken på redigerarrundturen, som tidigare sa \"källa\". (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Om din webbläsare har blockerat mikrofonen eller kameran visar scenen nu hur du tillåter den, och projektet startar så fort du gör det. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Ändringar i översättningar visar nu när de är sparade och finns kvar på skärmen efter en omladdning, och sidan Lär dig visar handledningen på romaniserad urdu och taiwanesisk hokkien. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~När du redigerar texten i en handledning i översättningsläget ryms den nu i pratbubblan, så lång text bryts på flera rader i stället för att klippas av.",
+        "e8a02bf7b4904": "$~Projekt som delats i ett galleri försvinner inte längre från det när en dator med en gammal kopia av galleriet sparar det.",
+        "e652035ee645c": "$~Sidan <Projekt@https://wordplay.dev/projects> visar inte längre andra personers projekt som sparats på samma dator.",
+        "ebde922fe9dc2": "$~Ett projekt som du har öppet stängs inte längre med ett fel när dess galleri ändras.",
+        "ed736c0457952": "$~Det går nu att översätta ett projekt som har en typ och ett värde med samma namn, som \\Page\\ och \\page\\.",
+        "ed5a84645d6ff": "$~Om du sätter ett eget tecken inuti citationstecken ändras inte längre citationstecknen, så tecknet syns direkt på scenen.",
+        "ebdd5cd1fe53a": "$~Ändringar du gör i ett projekt när du är offline ersätts inte längre av en äldre kopia när du öppnar det på en annan dator eller i en annan flik.",
+        "e5996d70bd7cd": "$~Om du loggar in på ett annat konto på en delad dator försvinner inte längre den förra personens ändringar som ännu inte hade sparats online.",
+        "ec0c11cb3cae9": "$~Översättningen av ett projekt ångrar inte längre det du skrev medan det översattes.",
+        "e8a3144598e4a": "$~Om det du skriver skulle göra ett projekt för stort får du nu veta det, medan texten förut bara försvann.",
+        "e3b7a19e44392": "$~Om du byter namn på en klass eller ett galleri tas inte längre någon bort som lades till i just det ögonblicket.",
+        "e64f54009f821": "$~Mappar och andra inställningar som du ändrar på en dator raderas inte längre av en annan dator som du lämnade öppen.",
+        "e42ff6b707cdc": "$~Chattmeddelanden som andra skickade medan du var offline raderas inte längre när du ansluter igen.",
+        "e4420e66c0d11": "$~Om du sparar ett eget tecken ångras inte längre nyare ändringar i ett annat."
     }
 }
