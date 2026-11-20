@@ -1340,7 +1340,13 @@
                 "microphone": "$~mài-khuh-hông",
                 "camera": "$~siòng-ki",
                 "note": "$~Lí ê liû-lám-khì ē tī hun-hióng chìn-á sian mn̄g.",
-                "retry": "$~Koh tshì"
+                "retry": "$~Koh tshì",
+                "blocked": {
+                    "chromium": "$~Lí ê liû-lám-khì tsit-tsūn kā $permission tsó-tuann--khì, in-uī án-ne guá bē-tàng koh mn̄g. Tshi̍h-tshi̍h bāng-tsí tò-pîng ê tsik-á-tô, khui $permission, jiân-āu kéng $retry.",
+                    "safari": "$~Lí ê liû-lám-khì tsit-tsūn kā $permission tsó-tuann--khì, in-uī án-ne guá bē-tàng koh mn̄g. Khui bāng-tsām siat-tīng (Mac tī Safari ê tsàiⁿ-tuann, iah-sī iPhone kap iPad tī tsi̍t-tsiunn ê tsàiⁿ-tuann), khuan-tsún $permission, jiân-āu kéng $retry.",
+                    "firefox": "$~Lí ê liû-lám-khì tsit-tsūn kā $permission tsó-tuann--khì, in-uī án-ne guá bē-tàng koh mn̄g. Tshi̍h-tshi̍h tī tē-tsí-lán ū-khiat-tshá ê $permission tsik-á-tô, khí-tshú tsó-tuann, jiân-āu kéng $retry.",
+                    "other": "$~Lí ê liû-lám-khì tsit-tsūn kā $permission tsó-tuann--khì, in-uī án-ne guá bē-tàng koh mn̄g. Tī lí ê liû-lám-khì siat-tīng lāi-té, tuì tsit-ê bāng-tsām khuan-tsún $permission, jiân-āu kéng $retry."
+                }
             },
             "gate": {
                 "start": {

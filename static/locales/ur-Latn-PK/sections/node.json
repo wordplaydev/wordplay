@@ -322,7 +322,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~do-tarfa chalana",
-            "description": "$~$operator aur $left par amal $right",
+            "description": "$~$left aur $right par amal $operator",
             "emotion": "insecure",
             "doc": [
                 "$~Main @Evaluate hoon, lekin ek aasaan shakal mein, jo us waqt kaam aati hai jab aap aisa @FunctionDefinition istemaal karna chahein jo do input leta hai.",
@@ -505,7 +505,7 @@
                 "$~Main woh @borrow @Bind udhaar leta hoon jo aapki performance ke doosre @Source baant rahe hon, bas unka naam istemaal karein aur main unka naam aur @value le aaunga.",
                 "\\↓\\ likhein aur phir doosre @Source ka naam. Us @Source ko woh cheez nishaan karni hogi jo woh \\↑\\ ke saath baantta hai, jaise \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
             ],
-            "start": "$~$name se $source udhaar liya ja raha hai",
+            "start": "$~$source se $name udhaar liya ja raha hai",
             "conflict": {
                 "KitCannotBorrow": {
                     "name": "$~kit udhaar nahin le sakta",
@@ -965,7 +965,7 @@
         },
         "ListAccess": {
             "name": "$~list tak rasai",
-            "description": "$~$index ka index $list hasil karein",
+            "description": "$~$list ka index $index hasil karein",
             "emotion": "cheerful",
             "doc": [
                 "$~Main @List ke saath milkar unhein ek khaas jagah par @values dilane mein madad karta hoon. Jaise, agar aap ke paas ek list ho aur aap uska doosra @element chahte hon, to aap likhenge:",
@@ -1029,8 +1029,8 @@
                 "search": "$~Is matn mein woh sab jagahein dhoondhte hain jahan yeh namoona aata hai.",
                 "test": "$~Jaanchte hain ke kya poora matn is namoone se milta hai.",
                 "scan": "$~Namoone ko maqam $position se dhoondh rahe hain.",
-                "match": "$~$pattern maqam $glyph par $position se milta hai.",
-                "miss": "$~$pattern maqam $glyph par $position se nahin milta.",
+                "match": "$~$pattern maqam $position par $glyph se milta hai.",
+                "miss": "$~$pattern maqam $position par $glyph se nahin milta.",
                 "end": "$~$pattern ko abhi ek harf chahiye, lekin hum maqam $position par matn ke aakhir tak pahunch gaye hain.",
                 "here": "$~$pattern maqam $position par sahi hai.",
                 "nothere": "$~$pattern maqam $position par sahi nahin hai.",
@@ -1381,7 +1381,7 @@
         },
         "Previous": {
             "name": "$~pichhla",
-            "description": "$~$number ki pichhli $range qeemat$stream[ein|]",
+            "description": "$~$stream ki pichhli $number qeemat$range[ein|]",
             "emotion": "serious",
             "doc": [
                 "$~Main @stream ki tareekh mein peeche dekhta hoon aur aapko us ki guzri hui @values mein se ek batata hoon. Kya aapne kabhi maazi yaad rakhna chaha hai?",
@@ -1611,7 +1611,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~set/map tak rasai",
-            "description": "$~$key mein $setOrMap tak pahunchein",
+            "description": "$~$setOrMap mein $key tak pahunchein",
             "emotion": "kind",
             "doc": [
                 "$~Main dekh sakta hoon ke kya @Set ya @Map mein @value ya @key maujood hai.",
@@ -1869,7 +1869,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~band na kiya gaya nishaan",
-                    "explanation": "$~Mujhe $expected ke baad kahin $unclosed ki umeed thi",
+                    "explanation": "$~Mujhe $unclosed ke baad kahin $expected ki umeed thi",
                     "resolution": "$~Gum shuda *$expected* shaamil karein"
                 }
             },

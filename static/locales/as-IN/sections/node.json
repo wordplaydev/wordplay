@@ -313,7 +313,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~বাইনেৰী মূল্যায়ন",
-            "description": "$~$operator আৰু $left ত $right অপাৰেচন",
+            "description": "$~$left আৰু $right ত $operator অপাৰেচন",
             "emotion": "insecure",
             "doc": [
                 "$~মই @Evaluate, কিন্তু এটা সহজ ৰূপত, সহায়ক যেতিয়া আপুনি এটা @FunctionDefinition ব্যৱহাৰ কৰিব বিচাৰে যিয়ে দুটা ইনপুট লয়।",
@@ -338,8 +338,8 @@
                 "OrderOfOperations": {
                     "name": "$~অস্পষ্ট ক্ৰম",
                     "explanation": "$~মই বাওঁফালৰ পৰা সোঁফাললৈ মূল্যায়ন কৰোঁ, কিন্তু গণিতে সাধাৰণতে × ÷ ৰ আগত ^ মূল্যায়ন কৰে, আৰু + − ৰ আগত × ÷ মূল্যায়ন কৰে। সেই ক্ৰমটোক PEMDAS বোলা হয়। মই ইয়াক কেনেকৈ মূল্যায়ন কৰাটো বিচাৰে বাছি লওক।",
-                    "resolutionPEMDAS": "$~PEMDAS গণিতৰ ক্ৰম প্ৰয়োগ কৰক: $higher আগত $lower মূল্যায়ন কৰক",
-                    "resolutionReading": "$~পঢ়াৰ ক্ৰম ৰাখক: $lower আগত $higher মূল্যায়ন কৰক",
+                    "resolutionPEMDAS": "$~PEMDAS গণিতৰ ক্ৰম প্ৰয়োগ কৰক: $lower আগত $higher মূল্যায়ন কৰক",
+                    "resolutionReading": "$~পঢ়াৰ ক্ৰম ৰাখক: $higher আগত $lower মূল্যায়ন কৰক",
                     "resolutionWrap": "$~ক্ৰমটো স্পষ্ট কৰিবলৈ বন্ধনী যোগ কৰক"
                 }
             }
@@ -396,7 +396,7 @@
                 },
                 "IncompatibleType": {
                     "name": "$~অসংগত প্ৰকাৰ",
-                    "explanation": "$~মই টাইপ $expected হোৱাৰ কথা, কিন্তু মই টাইপ $given",
+                    "explanation": "$~মই $expected আশা কৰিছিলো, কিন্তু $given প্ৰকাৰ পালো",
                     "resolution": "$~ইয়াক $expected লৈ সলনি কৰক, কিয়নো $expected প্ৰয়োজন",
                     "resolutionLiteral": "$~তালিকা, ছেট, বা মেপটোক ! ৰাখি লিটাৰেল হিচাপে চিহ্নিত কৰক, যাতে ইয়াৰ মানবোৰ নিৰ্দিষ্ট হৈ থাকে, সাধাৰণীকৰণ নহয় — $expected ৰ বাবে সঠিক মানবোৰেই লাগিব",
                     "resolutionOtherwise": "$~অনুপস্থিত মানটো ?? ৰ সৈতে নিয়ন্ত্ৰণ কৰক, যিহেতু $expected এ ø ৰ অনুমতি নিদিয়ে",
@@ -496,7 +496,7 @@
                 "$~তোমাৰ পৰিৱেশনত আন @Sourceএ ভাগ কৰা @Bindবোৰ মই @borrow লওঁ — কেৱল তেওঁলোকৰ নাম ব্যৱহাৰ কৰা, আৰু মই তেওঁলোকৰ নাম আৰু @value লৈ আহিম।",
                 "লিখা \\↓\\ আৰু তাৰ পিছত আন @Sourceৰ নাম। সেই @Sourceএ কি ভাগ কৰে তাক চিহ্নিত কৰিবই লাগিব \\↑\\, যেনে \\↑ colors/en: ['🔴' '🟠' '🟡']\\।"
             ],
-            "start": "$~$name ৰ পৰা $source ধাৰ লৈছে",
+            "start": "$~$source ৰ পৰা $name ধাৰ লৈছে",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~অজ্ঞাত বৰো",
@@ -659,7 +659,7 @@
         },
         "Delete": {
             "name": "$~বিলোপ",
-            "description": "$~$table ৰ সৈতে মিল খোৱা শাৰীবোৰ $query ৰ পৰা মচক",
+            "description": "$~$query ৰ সৈতে মিল খোৱা শাৰীবোৰ $table ৰ পৰা মচক",
             "emotion": "angry",
             "doc": [
                 "$~এটা @condition ৰ সৈতে মিলা এটা @Table ৰ শাৰীবোৰ মই আঁতৰাওঁ। কেতিয়াবা এখন টেবুলত অতি বেছি বস্তু থাকে!",
@@ -711,7 +711,7 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~অসংগত ইনপুট",
-                    "explanation": "$~মই টাইপ $expected হোৱাৰ কথা, কিন্তু মই টাইপ $given",
+                    "explanation": "$~মই $expected আশা কৰিছিলো, কিন্তু $given পালো",
                     "resolution": "$~ইয়াক $expected লৈ সলনি কৰক, কিয়নো $expected প্ৰয়োজন",
                     "resolutionLiteral": "$~তালিকা, ছেট, বা মেপটোক ! ৰাখি লিটাৰেল হিচাপে চিহ্নিত কৰক, যাতে ইয়াৰ মানবোৰ নিৰ্দিষ্ট হৈ থাকে, সাধাৰণীকৰণ নহয় — $expected ৰ বাবে সঠিক মানবোৰেই লাগিব",
                     "resolutionOtherwise": "$~অনুপস্থিত মানটো ?? ৰ সৈতে নিয়ন্ত্ৰণ কৰক, যিহেতু $expected এ ø ৰ অনুমতি নিদিয়ে",
@@ -732,7 +732,7 @@
                 },
                 "MissingInput": {
                     "name": "$~ইনপুট নাই",
-                    "explanation": "$~মই ইনপুট $name অবিহনে $input মূল্যায়ন কৰিব নোৱাৰো :(",
+                    "explanation": "$~মই ইনপুট $input অবিহনে $name মূল্যায়ন কৰিব নোৱাৰো :(",
                     "resolutionAddInput": "$~অনুপস্থিত $input যোগ কৰক, ইয়াৰ অবিকল্পিত মানৰ সৈতে",
                     "resolutionPlaceholder": "$~অনুপস্থিত $input এটা প্লেচহোল্ডাৰ হিচাপে যোগ কৰক, তাৰ পিছত স্বয়ংসম্পূৰ্ণ মেনুৰ পৰা এটা মান বাছক"
                 },
@@ -930,7 +930,7 @@
         },
         "ListAccess": {
             "name": "$~তালিকা প্ৰৱেশ",
-            "description": "$~$index ৰ সূচী $list অভিগম কৰক",
+            "description": "$~$list ৰ সূচী $index অভিগম কৰক",
             "emotion": "cheerful",
             "doc": [
                 "$~মই @List ৰ সৈতে ঘনিষ্ঠভাৱে কাম কৰি তেওঁলোকক এটা বিশেষ পদত মূল্যবোধ লাভ কৰাত সহায় কৰোঁ। গতিকে যেনে, যদি আপোনাৰ এখন তালিকা থাকে, আৰু আপুনি ইয়াৰ দ্বিতীয়টো বস্তু বিচাৰে, তেন্তে আপুনি লিখিব:",
@@ -1039,7 +1039,7 @@
         },
         "Previous": {
             "name": "$~পূৰ্ৱবৰ্তী",
-            "description": "$~$number ৰ পূৰ্বৱৰ্তী $range মান$stream[সমূহ|]",
+            "description": "$~$stream ৰ পূৰ্বৱৰ্তী $number মান$range[সমূহ|]",
             "emotion": "serious",
             "doc": [
                 "$~মই এটা ধাৰা এটাৰ ইতিহাসলৈ উভতি চাওঁ আৰু ইয়াৰ এটা অতীতৰ মূল্যবোধ কওঁ। কেতিয়াবা অতীতৰ কথা মনত পেলাবলৈ মন গৈছেনে?",
@@ -1215,7 +1215,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~অজ্ঞাত নাম",
-                        "explanation": "$~$name[$name ত $scope নাম থকা কাকো চিনি নাপাওঁ[$scope|এই @Block]|আপুনি মোক এটা নাম দিব পাৰেনে?]"
+                        "explanation": "$~$name[মই $scope[$scope|এই @Block]ত $name নামৰ কাকো নাজানো|তুমি মোক এটা নাম দিব পাৰিবানে?]"
                     },
                     "resolution": "$~আপুনি *$suggestion? বুজাইছিল নেকি?*",
                     "staticResolution": "$~আপুনি *$owner.$suggestion?* বুজাইছিলনে",
@@ -1235,13 +1235,13 @@
             "exception": {
                 "NameException": {
                     "description": "$~অজ্ঞাত নাম",
-                    "explanation": "$~$name[$name ত $scope নাম থকা কাকো নাজানো[$scope|এই @Block]...|Eep, নাম নাই!]"
+                    "explanation": "$~$name[মই $scope[$scope|এই @Block]ত $name নামৰ কাকো নাজানো…|ইস, নাম নাই!]"
                 }
             }
         },
         "Select": {
             "name": "$~চয়নকৰা",
-            "description": "$~$table ৰ সৈতে মিল খোৱা $query ৰ পৰা বাছক",
+            "description": "$~$query ৰ সৈতে মিল খোৱা $table ৰ পৰা বাছক",
             "emotion": "excited",
             "doc": [
                 "$~এটা @condition ৰ সৈতে মিলা এটা @Table ৰ শাৰীবোৰ মই বাছি লওঁ। কেতিয়াবা আপুনি এখন টেবুলৰ কেৱল কিছু অংশ বিচাৰে — মই সেয়া আপোনাৰ বাবে আনি দিব পাৰোঁ!",
@@ -1269,7 +1269,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~ছেট/মেপ প্ৰৱেশ",
-            "description": "$~$key ত $setOrMap অভিগম কৰক",
+            "description": "$~$setOrMap ত $key অভিগম কৰক",
             "emotion": "kind",
             "doc": [
                 "$~এটা @Set বা @Map ত এটা @value বা @key আছে নেকি সেয়া মই চাব পাৰোঁ।",
@@ -1523,11 +1523,11 @@
                         "name": "$~পঢ়িব নোৱৰা ক'ড",
                         "explanation": "$~@FunctionDefinition ইয়াত, @UnparsableExpression এ নাজানে কেনেধৰণৰ $expression[ এক্সপ্ৰেচন | type ] এইটো হৈছে।"
                     },
-                    "resolution": "$~আপুনি $first, $second টাইপ কৰিব বিচাৰিছিল নেকি?"
+                    "resolution": "$~তুমি $first, $second প্ৰকাৰ বুজাইছিলানে?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~বন্ধ নকৰা বিভাজক",
-                    "explanation": "$~$expected ৰ পিছত কেতিয়াবা $unclosed বুলি আশা কৰিছিলোঁ",
+                    "explanation": "$~$unclosed ৰ পিছত কেতিয়াবা $expected বুলি আশা কৰিছিলোঁ",
                     "resolution": "$~অনুপস্থিত * $expected * যোগ কৰক"
                 }
             },
@@ -1540,7 +1540,7 @@
         },
         "Update": {
             "name": "$~নবীকৰণ",
-            "description": "$~$table ৰ সৈতে মিল খোৱা শাৰীবোৰ $query ত আপডেট কৰক",
+            "description": "$~$query ৰ সৈতে মিল খোৱা শাৰীবোৰ $table ত আপডেট কৰক",
             "emotion": "kind",
             "doc": [
                 "$~মই এটা @Table সংশোধন কৰাত সহায় কৰোঁ, এটা @condition ৰ সৈতে মিল খোৱা শাৰীবোৰ বিচাৰি উলিয়াওঁ, আৰু তাৰ পিছত নতুন মানেৰে সংশোধিত শাৰী তৈয়াৰ কৰোঁ।",

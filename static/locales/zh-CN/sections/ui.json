@@ -778,7 +778,13 @@
                 "microphone": "$~麦克风",
                 "camera": "$~相机",
                 "note": "$~你的浏览器会在分享前询问。",
-                "retry": "$~重试"
+                "retry": "$~重试",
+                "blocked": {
+                    "chromium": "$~你的浏览器在这里禁止了$permission，所以我没法再问一次。请点击网址左边的图标，打开$permission，然后选择$retry。",
+                    "safari": "$~你的浏览器在这里禁止了$permission，所以我没法再问一次。请打开“网站设置”（在 Mac 上位于 Safari 菜单里，在 iPhone 或 iPad 上位于地址旁边的页面菜单里），允许$permission，然后选择$retry。",
+                    "firefox": "$~你的浏览器在这里禁止了$permission，所以我没法再问一次。请点击地址栏里带斜线的$permission图标，解除禁止，然后选择$retry。",
+                    "other": "$~你的浏览器在这里禁止了$permission，所以我没法再问一次。请在浏览器的设置里，为这个网站允许$permission，然后选择$retry。"
+                }
             },
             "multiselect": "$~用 Tab 键、Alt 键和方向键在输出之间移动。按空格键把焦点输出加入或移出你的选择。按回车键只选择那个输出并打开调色板。按 Esc 键清除你的选择。按 Control 或 Command 加 A 选择所有输出。",
             "selected": "$~已选择 $name，已选择 $count 个",
@@ -2275,7 +2281,7 @@
                 "now": "$~返回当前版本"
             },
             "diff": {
-                "summary": "$~恢复这个版本会找回 $#back[$back 项内容] 个内容，并去掉 $#gone[$gone 项内容] 个内容。",
+                "summary": "$~恢复这个版本会带回 $#back[$back 项内容]，并去掉 $#gone[$gone 项内容]。",
                 "unchanged": "$~恢复这个版本不会改变任何东西。",
                 "atReturns": "$~如果你恢复，它会回来",
                 "atLeaves": "$~如果你恢复，$code 会消失",

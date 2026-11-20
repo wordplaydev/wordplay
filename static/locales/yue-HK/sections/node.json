@@ -322,7 +322,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~二元求值",
-            "description": "$~對 $operator 同 $left 做運算 $right",
+            "description": "$~對 $left 同 $right 做運算 $operator",
             "emotion": "insecure",
             "doc": [
                 "$~我係 @Evaluate，不過形式簡單啲，當你想用一個要兩個輸入嘅 @FunctionDefinition 嘅時候就好有用。",
@@ -505,7 +505,7 @@
                 "$~我會 @borrow @Bind，呢啲係你嘅表演入面其他 @Source 分享出嚟嘅，你淨係要寫佢哋嘅名稱，我就會帶入佢哋嘅名稱同 @value。",
                 "寫 \\↓\\，然後再寫另一個 @Source 嘅名稱。嗰個 @Source 要用 \\↑\\ 標記好佢分享咗啲乜，例如 \\↑ colors/en: ['🔴' '🟠' '🟡']\\。"
             ],
-            "start": "$~由 $name 借用 $source",
+            "start": "$~由 $source 借用 $name",
             "conflict": {
                 "KitCannotBorrow": {
                     "name": "$~工具包唔可以借用",
@@ -767,7 +767,7 @@
                 },
                 "MissingInput": {
                     "name": "$~欠咗輸入",
-                    "explanation": "$~冇咗輸入 $name，我運算唔到 $input 喎 :(",
+                    "explanation": "$~冇咗輸入 $input，我運算唔到 $name 喎 :(",
                     "resolutionAddInput": "$~用預設值補返欠咗嘅 $input",
                     "resolutionPlaceholder": "$~加一個佔位符做欠咗嘅 $input，然後喺自動完成選單揀一個值"
                 },
@@ -805,7 +805,7 @@
             "exception": {
                 "FunctionException": {
                     "description": "$~未知嘅函數",
-                    "explanation": "$~哎呀，$name 喺 $scope[$scope|這個 @Block] 入面唔係一個函數！"
+                    "explanation": "$~咦，$name 喺 $scope[$scope|呢個 @Block] 入面唔係函數喎！"
                 }
             }
         },
@@ -965,7 +965,7 @@
         },
         "ListAccess": {
             "name": "$~列表存取",
-            "description": "$~存取 $index 嘅索引 $list",
+            "description": "$~存取 $list 嘅索引 $index",
             "emotion": "cheerful",
             "doc": [
                 "$~我同 @List 緊密合作，幫佢哋攞到某個位置嘅 @values。例如你有一個清單，想攞第二個項目，就可以咁寫：",
@@ -1029,8 +1029,8 @@
                 "search": "$~我哋喺文字入面搵出呢個樣式出現嘅每個位置。",
                 "test": "$~我哋檢查吓成段文字夾唔夾呢個樣式。",
                 "scan": "$~由位置 $position 開始搵呢個樣式。",
-                "match": "$~$pattern 配對到位置 $glyph 嘅 $position。",
-                "miss": "$~$pattern 配對唔到位置 $glyph 嘅 $position。",
+                "match": "$~$pattern 配對到位置 $position 嘅 $glyph。",
+                "miss": "$~$pattern 配對唔到位置 $position 嘅 $glyph。",
                 "end": "$~$pattern 仲需要一個字元，但係我哋喺位置 $position 已經去到文字嘅尾。",
                 "here": "$~$pattern 喺位置 $position 成立。",
                 "nothere": "$~$pattern 喺位置 $position 唔成立。",
@@ -1058,7 +1058,7 @@
             "conflict": {
                 "OverlappingAlternatives": {
                     "name": "$~重疊嘅選擇",
-                    "explanation": "$~$shorter 係 $longer 嘅開頭，而最長嘅選擇永遠贏，所以淨係當 $shorter 配對唔到嗰陣，$longer 先會配對到。你係咪想咁呢？"
+                    "explanation": "$~$shorter 係 $longer 嘅開頭，而最長嘅選擇永遠贏，所以淨係當 $longer 配對唔到嗰陣，$shorter 先會配對到。你係咪想咁呢？"
                 }
             }
         },
@@ -1557,7 +1557,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~未知名稱",
-                        "explanation": "$~$name[我喺$name[$scope|呢個@Block]入面唔認識有邊個叫 $scope|你可唔可以畀個名我呀？]"
+                        "explanation": "$~$name[我喺$scope[$scope|呢個@Block]入面唔認識有邊個叫 $name|你可唔可以畀個名我呀？]"
                     },
                     "resolution": "$~你係咪想寫 *$suggestion？*",
                     "staticResolution": "$~你係咪想寫 *$owner.$suggestion？*",
@@ -1577,7 +1577,7 @@
             "exception": {
                 "NameException": {
                     "description": "$~未知名稱",
-                    "explanation": "$~$name[我喺 $name[$scope|呢個 @Block] 入面搵唔到有邊個叫 $scope…|哎呀，冇名稱！]"
+                    "explanation": "$~$name[我喺 $scope[$scope|呢個 @Block] 入面搵唔到有邊個叫 $name…|哎呀，冇名稱！]"
                 }
             }
         },
@@ -1611,7 +1611,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~集合／對應表存取",
-            "description": "$~喺 $key 入面存取 $setOrMap",
+            "description": "$~喺 $setOrMap 入面存取 $key",
             "emotion": "kind",
             "doc": [
                 "$~我可以睇吓 @Set 或者 @Map 有冇 @value 或者 @key。",
@@ -1867,7 +1867,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~未關閉嘅分隔符號",
-                    "explanation": "$~我預咗喺 $expected 之後會見到 $unclosed",
+                    "explanation": "$~我預咗喺 $unclosed 之後會見到 $expected",
                     "resolution": "$~補返漏咗嘅 *$expected*"
                 }
             },

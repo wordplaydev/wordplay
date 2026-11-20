@@ -1114,7 +1114,7 @@
             "stepAtStart": "$~shuru mein",
             "searchOpened": "$~code mein talaash karein",
             "searchClosed": "$~talaash band ho gayi",
-            "searchMatch": "$~$index mein se $count mel",
+            "searchMatch": "$~$count mein se $index mel",
             "searchNoMatches": "$~koi mel nahin mila",
             "menuOpened": "$~menu, $#count[$count mashwara|$count mashwaray]",
             "menuEmpty": "$~koi mashwara nahin",
@@ -1332,7 +1332,13 @@
                 "microphone": "$~microphone",
                 "camera": "$~camera",
                 "note": "$~aap ka browser baantne se pehle poochhega.",
-                "retry": "$~dobara koshish karein"
+                "retry": "$~dobara koshish karein",
+                "blocked": {
+                    "chromium": "$~Aap ke browser ne yahan $permission ko roak diya hai, is liye main dobara nahin pooch sakta. Web address ke baayein taraf wale icon par click karein, $permission ko on karein, phir $retry chunein.",
+                    "safari": "$~Aap ke browser ne yahan $permission ko roak diya hai, is liye main dobara nahin pooch sakta. Website Settings kholein (Mac par Safari menu mein, ya iPhone ya iPad par address ke paas wale page menu mein), $permission ki ijaazat dein, phir $retry chunein.",
+                    "firefox": "$~Aap ke browser ne yahan $permission ko roak diya hai, is liye main dobara nahin pooch sakta. Address bar mein kati hui $permission wali icon par click karein, roak hata dein, phir $retry chunein.",
+                    "other": "$~Aap ke browser ne yahan $permission ko roak diya hai, is liye main dobara nahin pooch sakta. Apne browser ki settings mein is site ke liye $permission ki ijaazat dein, phir $retry chunein."
+                }
             },
             "gate": {
                 "start": {

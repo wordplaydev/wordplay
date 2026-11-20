@@ -778,7 +778,13 @@
                 "microphone": "$~麥克風",
                 "camera": "$~相機",
                 "note": "$~你的瀏覽器在分享前會先詢問。",
-                "retry": "$~重試"
+                "retry": "$~重試",
+                "blocked": {
+                    "chromium": "$~你的瀏覽器在這裡封鎖了 $permission，所以我沒辦法再問一次。請點選網址左邊的圖示，開啟 $permission，然後選擇 $retry。",
+                    "safari": "$~你的瀏覽器在這裡封鎖了 $permission，所以我沒辦法再問一次。請開啟網站設定（在 Mac 上是 Safari 選單，在 iPhone 或 iPad 上是網址旁邊的頁面選單），允許 $permission，然後選擇 $retry。",
+                    "firefox": "$~你的瀏覽器在這裡封鎖了 $permission，所以我沒辦法再問一次。請點選網址列中畫了斜線的 $permission 圖示，解除封鎖，然後選擇 $retry。",
+                    "other": "$~你的瀏覽器在這裡封鎖了 $permission，所以我沒辦法再問一次。請在瀏覽器中針對這個網站的設定裡允許 $permission，然後選擇 $retry。"
+                }
             },
             "multiselect": "$~使用 tab 鍵和 alt 鍵、方向鍵在各個輸出之間移動。按空白鍵可將目前聚焦的輸出加入或移出你的選取範圍。按 enter 鍵只選取那個輸出並打開調色盤。按 escape 鍵可清除你的選取。按 control 或 command 鍵加上 A 鍵可選取全部輸出。",
             "selected": "$~已選取 $name，已選取 $count 個",
@@ -993,7 +999,7 @@
                 },
                 "location": {
                     "header": "$~位置",
-                    "explanation": "$!/決定輸出在舞台上位置的方法。/"
+                    "explanation": "$~/決定輸出內容在舞台上位置的方法。/"
                 },
                 "reactions": {
                     "header": "$~反應",

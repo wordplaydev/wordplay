@@ -1060,7 +1060,13 @@
                 "microphone": "$~micro",
                 "camera": "$~máy ảnh",
                 "note": "$~Trình duyệt của bạn sẽ hỏi trước khi chia sẻ.",
-                "retry": "$~Thử lại"
+                "retry": "$~Thử lại",
+                "blocked": {
+                    "chromium": "$~Trình duyệt của bạn đã chặn $permission ở đây, nên mình không thể hỏi lại. Hãy nhấp vào biểu tượng bên trái địa chỉ web, bật $permission, rồi chọn $retry.",
+                    "safari": "$~Trình duyệt của bạn đã chặn $permission ở đây, nên mình không thể hỏi lại. Hãy mở Cài đặt trang web (trong menu Safari trên máy Mac, hoặc menu trang cạnh địa chỉ trên iPhone hay iPad), cho phép $permission, rồi chọn $retry.",
+                    "firefox": "$~Trình duyệt của bạn đã chặn $permission ở đây, nên mình không thể hỏi lại. Hãy nhấp vào biểu tượng $permission bị gạch chéo trên thanh địa chỉ, gỡ bỏ việc chặn, rồi chọn $retry.",
+                    "other": "$~Trình duyệt của bạn đã chặn $permission ở đây, nên mình không thể hỏi lại. Hãy cho phép $permission trong phần cài đặt trình duyệt cho trang web này, rồi chọn $retry."
+                }
             },
             "multiselect": "$~Sử dụng phím Tab, Alt và các phím mũi tên để di chuyển giữa các đầu ra. Nhấn phím Space để thêm hoặc xóa đầu ra đang được chọn khỏi vùng chọn của bạn. Nhấn Enter để chỉ chọn đầu ra đó và mở bảng công cụ. Nhấn Escape để xóa vùng chọn của bạn. Nhấn Control hoặc Command và A để chọn tất cả các đầu ra.",
             "selected": "$~$name đã được chọn, $count đã được chọn",

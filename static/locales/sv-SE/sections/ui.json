@@ -807,7 +807,13 @@
                 "microphone": "$~mikrofon",
                 "camera": "$~kamera",
                 "note": "$~Din webbläsare kommer att fråga innan delning.",
-                "retry": "$~Försöka igen"
+                "retry": "$~Försöka igen",
+                "blocked": {
+                    "chromium": "$~Din webbläsare blockerade $permission här, så jag kan inte fråga igen. Klicka på ikonen till vänster om webbadressen, slå på $permission och välj sedan $retry.",
+                    "safari": "$~Din webbläsare blockerade $permission här, så jag kan inte fråga igen. Öppna webbplatsinställningar (i Safari-menyn på en Mac, eller i sidmenyn vid adressen på en iPhone eller iPad), tillåt $permission och välj sedan $retry.",
+                    "firefox": "$~Din webbläsare blockerade $permission här, så jag kan inte fråga igen. Klicka på den överstrukna ikonen för $permission i adressfältet, ta bort blockeringen och välj sedan $retry.",
+                    "other": "$~Din webbläsare blockerade $permission här, så jag kan inte fråga igen. Tillåt $permission i webbläsarens inställningar för den här webbplatsen och välj sedan $retry."
+                }
             },
             "multiselect": "$~Använd tabbtangenten, alt- och piltangenterna för att flytta mellan utdata. Tryck på mellanslag för att lägga till eller ta bort den fokuserade utdatan från ditt val. Tryck på enter för att välja endast den utdatan och öppna paletten. Tryck på escape för att rensa ditt val. Tryck på ctrl eller command och A för att välja alla utdata.",
             "selected": "$~$name valt, $count valt",

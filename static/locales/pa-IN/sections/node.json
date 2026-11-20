@@ -276,7 +276,7 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~ਗੈਰ-ਸਹਾਇਤ ਫੌਂਟ ਰੂਪ",
-                    "explanation": "$~ਮੇਰਾ ਦੋਸਤ * $face * ਨਹੀਂ ਜਾਣਦਾ ਕਿ $format ਕਿਵੇਂ ਬਣਨਾ ਹੈ।",
+                    "explanation": "$~ਮੇਰਾ ਦੋਸਤ *$face* ਨੂੰ ਨਹੀਂ ਪਤਾ ਕਿ $format ਕਿਵੇਂ ਹੁੰਦਾ ਹੈ।",
                     "resolution": "$~ਫਾਰਮੈਟਿੰਗ ਹਟਾਓ"
                 }
             }
@@ -313,7 +313,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~ਦੋ-ਪੱਖੀ ਗਿਣਤੀ",
-            "description": "$~$operator ਅਤੇ $left ਉੱਤੇ $right ਦਾ ਕੰਮ",
+            "description": "$~$left ਅਤੇ $right ਉੱਤੇ $operator ਦਾ ਕੰਮ",
             "emotion": "insecure",
             "doc": [
                 "$~ਮੈਂ @Evaluate ਹਾਂ, ਪਰ ਇੱਕ ਸਧਾਰਨ ਰੂਪ ਵਿੱਚ, ਮਦਦਗਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ @FunctionDefinition ਦੀ ਵਰਤੋਂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ ਜੋ ਦੋ ਇਨਪੁਟਸ ਲੈਂਦਾ ਹੈ।",
@@ -335,8 +335,8 @@
                 "OrderOfOperations": {
                     "name": "$~ਅਸਪਸ਼ਟ ਤਰਤੀਬ",
                     "explanation": "$~ਮੈਂ ਖੱਬੇ ਤੋਂ ਸੱਜੇ ਗਿਣਦਾ ਹਾਂ, ਪਰ ਗਣਿਤ ਆਮ ਤੌਰ 'ਤੇ ^ ਨੂੰ × ÷ ਤੋਂ ਪਹਿਲਾਂ, ਅਤੇ × ÷ ਨੂੰ + − ਤੋਂ ਪਹਿਲਾਂ ਗਿਣਦਾ ਹੈ। ਉਸ ਕ੍ਰਮ ਨੂੰ PEMDAS ਕਿਹਾ ਜਾਂਦਾ ਹੈ। ਚੁਣੋ ਕਿ ਤੁਸੀਂ ਮੈਨੂੰ ਇਹ ਕਿਵੇਂ ਗਿਣਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ।",
-                    "resolutionPEMDAS": "$~PEMDAS ਗਣਿਤ ਕ੍ਰਮ ਲਾਗੂ ਕਰੋ: $higher ਤੋਂ ਪਹਿਲਾਂ $lower ਮੁਲਾਂਕਣ ਕਰੋ",
-                    "resolutionReading": "$~ਕ੍ਰਮ ਪੜ੍ਹਨਾ ਜਾਰੀ ਰੱਖੋ: $lower ਤੋਂ ਪਹਿਲਾਂ $higher ਮੁਲਾਂਕਣ ਕਰੋ",
+                    "resolutionPEMDAS": "$~PEMDAS ਗਣਿਤ ਕ੍ਰਮ ਲਾਗੂ ਕਰੋ: $lower ਤੋਂ ਪਹਿਲਾਂ $higher ਮੁਲਾਂਕਣ ਕਰੋ",
+                    "resolutionReading": "$~ਕ੍ਰਮ ਪੜ੍ਹਨਾ ਜਾਰੀ ਰੱਖੋ: $higher ਤੋਂ ਪਹਿਲਾਂ $lower ਮੁਲਾਂਕਣ ਕਰੋ",
                     "resolutionWrap": "$~ਕ੍ਰਮ ਨੂੰ ਸਪਸ਼ਟ ਬਣਾਉਣ ਲਈ ਬਰੈਕਟ ਸ਼ਾਮਲ ਕਰੋ"
                 }
             },
@@ -346,7 +346,7 @@
         },
         "Bind": {
             "name": "$~ਬੰਨ੍ਹਣਾ",
-            "description": "$~ਬੰਨ੍ਹੋ $name[$name|ਬਿਨਾਂ ਨਾਮ]$value[ ਨੂੰ $value|]",
+            "description": "$~ਜੋੜੋ $name[$name|ਬਿਨਾਂ ਨਾਮ]$value[ ਨੂੰ $value|]",
             "emotion": "excited",
             "doc": [
                 "$~ਮੈਂ *ਮੁੱਲਾਂ* ਨੂੰ ਨਾਮ ਦਿੰਦਾ ਹਾਂ।",
@@ -491,7 +491,7 @@
                 "$~ਮੈਂ ਉਹ @Bind @borrow ਕਰਦਾ ਹਾਂ ਜੋ ਤੁਹਾਡੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਹੋਰ @Source ਦੁਆਰਾ ਸਾਂਝੇ ਕੀਤੇ ਗਏ ਹਨ — ਬੱਸ ਉਹਨਾਂ ਦਾ ਨਾਮ ਵਰਤੋ ਅਤੇ ਮੈਂ ਉਹਨਾਂ ਦਾ ਨਾਮ ਅਤੇ @value ਲੈ ਆਵਾਂਗਾ।",
                 "ਲਿਖੋ \\↓\\ ਅਤੇ ਫਿਰ ਦੂਜੇ @Source ਦਾ ਨਾਮ। ਉਸ @Source ਨੂੰ ਇਹ ਨਿਸ਼ਾਨ ਲਾਉਣਾ ਪਵੇਗਾ ਕਿ ਉਹ ਕੀ ਸਾਂਝਾ ਕਰਦਾ ਹੈ \\↑\\, ਜਿਵੇਂ ਕਿ \\↑ colors/en: ['🔴' '🟠' '🟡']\\।"
             ],
-            "start": "$~$name ਤੋਂ $source ਉਧਾਰ ਲੈਣਾ",
+            "start": "$~$source ਤੋਂ $name ਉਧਾਰ ਲੈਣਾ",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~ਅਣਜਾਣ ਉਧਾਰ",
@@ -659,7 +659,7 @@
         },
         "Delete": {
             "name": "$~ਮਿਟਾਓ",
-            "description": "$~$table ਨਾਲ ਮੇਲ ਖਾਂਦੀਆਂ ਕਤਾਰਾਂ $query ਤੋਂ ਮਿਟਾਓ",
+            "description": "$~$query ਨਾਲ ਮੇਲ ਖਾਂਦੀਆਂ ਕਤਾਰਾਂ $table ਤੋਂ ਮਿਟਾਓ",
             "emotion": "angry",
             "doc": [
                 "$~ਮੈਂ ਇੱਕ @Table ਦੀਆਂ ਉਹ ਕਤਾਰਾਂ ਹਟਾ ਦਿੰਦਾ ਹਾਂ ਜੋ ਇੱਕ @condition ਨਾਲ ਮੇਲ ਖਾਂਦੀਆਂ ਹਨ। ਕਈ ਵਾਰ ਇੱਕ ਸਾਰਣੀ ਵਿੱਚ ਬਹੁਤ ਜ਼ਿਆਦਾ ਹੁੰਦਾ ਹੈ!",
@@ -930,7 +930,7 @@
         },
         "ListAccess": {
             "name": "$~ਸੂਚੀ ਪਹੁੰਚ",
-            "description": "$~$index ਦਾ ਸੂਚਕਾਂਕ $list ਵੇਖੋ",
+            "description": "$~$list ਦਾ ਸੂਚਕਾਂਕ $index ਵੇਖੋ",
             "emotion": "cheerful",
             "doc": [
                 "$~ਮੈਂ ਉਹਨਾਂ ਨੂੰ ਕਿਸੇ ਖਾਸ ਸਥਿਤੀ 'ਤੇ @value ਪ੍ਰਾਪਤ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਨ ਲਈ @List ਨਾਲ ਮਿਲ ਕੇ ਕੰਮ ਕਰਦਾ ਹਾਂ। ਇਸ ਲਈ, ਜੇ ਤੁਹਾਡੇ ਕੋਲ ਇੱਕ ਸੂਚੀ ਸੀ, ਅਤੇ ਤੁਸੀਂ ਇਸਦੀ ਦੂਜੀ ਆਈਟਮ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਲਿਖੋਗੇ:",
@@ -1039,7 +1039,7 @@
         },
         "Previous": {
             "name": "$~ਪਿਛਲਾ",
-            "description": "$~$number ਦੇ ਪਿਛਲੇ $range ਮੁੱਲ$stream[|]",
+            "description": "$~$stream ਦੇ ਪਿਛਲੇ $number ਮੁੱਲ$range[|]",
             "emotion": "serious",
             "doc": [
                 "$~ਮੈਂ ਇੱਕ @stream ਦੇ ਇਤਿਹਾਸ ਵੱਲ ਮੁੜ ਕੇ ਦੇਖਦਾ ਹਾਂ ਅਤੇ ਤੁਹਾਨੂੰ ਇਸਦੇ ਪੁਰਾਣੇ ਮੁੱਲਾਂ ਵਿੱਚੋਂ ਇੱਕ ਦੱਸਦਾ ਹਾਂ। ਕੀ ਤੁਸੀਂ ਕਦੇ ਭੂਤਕਾਲ ਨੂੰ ਯਾਦ ਕਰਨਾ ਚਾਹਿਆ ਹੈ?",
@@ -1135,7 +1135,7 @@
                 "ਸ਼ੌਕ ਤੋਂ ਸਿਵਾਏ ਇੱਕੋ ਜਿਹੇ ਮੁੱਲਾਂ ਨਾਲ ਇੱਕ ਬਿਲਕੁਲ ਨਵਾਂ \\Cat\\ ਬਣਾਉਣ ਨਾਲੋਂ ਇਹ ਬਹੁਤ ਸੌਖਾ ਹੈ, ਹੈ ਨਾ?"
             ],
             "start": "$~ਪਹਿਲਾਂ ਆਓ ਮੁੱਲ ਪ੍ਰਾਪਤ ਕਰੀਏ",
-            "finish": "$~ਮੈਂ ਢਾਂਚੇ ਦੀ ਨਕਲ ਕੀਤੀ, ਪਰ $property ਦੇ ਨਾਲ $value",
+            "finish": "$~ਮੈਂ ਬਣਤਰ ਦੀ ਨਕਲ ਕੀਤੀ, ਪਰ $property ਨੂੰ $value ਬਣਾ ਕੇ",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~ਅਣਜਾਣ ਵਿਸ਼ੇਸ਼ਤਾ",
@@ -1215,7 +1215,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~ਅਣਜਾਣ ਨਾਮ",
-                        "explanation": "$~$name[ਮੈਂ ਕਿਸੇ ਨੂੰ ਨਹੀਂ ਜਾਣਦਾ ਜਿਸਨੇ $name ਵਿੱਚ $scope ਨਾਮ ਦਿੱਤਾ ਹੋਵੇ[$scope|ਇਸ @Block]|ਕੀ ਤੁਸੀਂ ਮੈਨੂੰ ਇੱਕ ਨਾਮ ਦੇ ਸਕਦੇ ਹੋ?]"
+                        "explanation": "$~$name[ਮੈਂ $scope[$scope|ਇਸ @Block] ਵਿੱਚ $name ਨਾਮ ਦੇ ਕਿਸੇ ਨੂੰ ਨਹੀਂ ਜਾਣਦਾ|ਕੀ ਤੁਸੀਂ ਮੈਨੂੰ ਕੋਈ ਨਾਮ ਦੇ ਸਕਦੇ ਹੋ?]"
                     },
                     "resolution": "$~ਕੀ ਤੁਹਾਡਾ ਮਤਲਬ ਹੈ *$suggestion?*",
                     "staticResolution": "$~ਕੀ ਤੁਹਾਡਾ ਮਤਲਬ *$owner.$suggestion?* ਸੀ",
@@ -1235,13 +1235,13 @@
             "exception": {
                 "NameException": {
                     "description": "$~ਅਗਿਆਤ ਨਾਮ",
-                    "explanation": "$~$name[ਮੈਂ $name ਵਿੱਚ $scope ਨਾਮ ਵਾਲੇ ਕਿਸੇ ਨੂੰ ਨਹੀਂ ਜਾਣਦਾ[$scope|ਇਸ @Block]…|Eep, ਕੋਈ ਨਾਮ ਨਹੀਂ!]"
+                    "explanation": "$~$name[ਮੈਂ $scope[$scope|ਇਸ @Block] ਵਿੱਚ $name ਨਾਮ ਦੇ ਕਿਸੇ ਨੂੰ ਨਹੀਂ ਜਾਣਦਾ…|ਓਹ, ਕੋਈ ਨਾਮ ਨਹੀਂ!]"
                 }
             }
         },
         "Select": {
             "name": "$~ਚੁਣੋ",
-            "description": "$~$table ਨਾਲ ਮੇਲ ਖਾਂਦੀਆਂ $query ਤੋਂ ਚੁਣੋ",
+            "description": "$~$query ਨਾਲ ਮੇਲ ਖਾਂਦੀਆਂ $table ਤੋਂ ਚੁਣੋ",
             "emotion": "excited",
             "doc": [
                 "$~ਮੈਂ @Table ਦੀਆਂ ਉਹ ਕਤਾਰਾਂ ਚੁਣਦਾ ਹਾਂ ਜੋ @condition ਨਾਲ ਮੇਲ ਖਾਂਦੀਆਂ ਹਨ। ਕਈ ਵਾਰ ਤੁਸੀਂ ਸਿਰਫ਼ ਇੱਕ ਟੇਬਲ ਦਾ ਹਿੱਸਾ ਚਾਹੁੰਦੇ ਹੋ — ਮੈਂ ਤੁਹਾਡੇ ਲਈ ਇਹ ਲੈ ਸਕਦਾ ਹਾਂ!",
@@ -1269,7 +1269,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~ਸੈੱਟ/ਨਕਸ਼ਾ ਪਹੁੰਚ",
-            "description": "$~$key ਵਿੱਚ $setOrMap ਵੇਖੋ",
+            "description": "$~$setOrMap ਵਿੱਚ $key ਵੇਖੋ",
             "emotion": "kind",
             "doc": [
                 "$~ਮੈਂ ਦੇਖ ਸਕਦਾ ਹਾਂ ਕਿ ਕੀ @Set ਜਾਂ @Map ਕੋਲ @value ਜਾਂ @key ਹੈ।",
@@ -1527,7 +1527,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~ਬੰਦ ਨਾ ਹੋਇਆ ਵੱਖਰੇਵਾਂ ਨਿਸ਼ਾਨ",
-                    "explanation": "$~ਮੈਨੂੰ $expected ਤੋਂ ਬਾਅਦ ਕਿਸੇ ਸਮੇਂ $unclosed ਦੀ ਉਮੀਦ ਸੀ।",
+                    "explanation": "$~ਮੈਨੂੰ $unclosed ਤੋਂ ਬਾਅਦ ਕਿਸੇ ਸਮੇਂ $expected ਦੀ ਉਮੀਦ ਸੀ।",
                     "resolution": "$~ਗੁੰਮ * $expected * ਸ਼ਾਮਲ ਕਰੋ"
                 }
             },
@@ -1540,7 +1540,7 @@
         },
         "Update": {
             "name": "$~ਅੱਪਡੇਟ",
-            "description": "$~$table ਨਾਲ ਮੇਲ ਖਾਂਦੀਆਂ ਕਤਾਰਾਂ $query ਵਿੱਚ ਅੱਪਡੇਟ ਕਰੋ",
+            "description": "$~$query ਨਾਲ ਮੇਲ ਖਾਂਦੀਆਂ ਕਤਾਰਾਂ $table ਵਿੱਚ ਅੱਪਡੇਟ ਕਰੋ",
             "emotion": "kind",
             "doc": [
                 "$~ਮੈਂ @Table ਨੂੰ ਸੋਧਣ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹਾਂ, @condition ਨਾਲ ਮੇਲ ਖਾਂਦੀਆਂ ਕਤਾਰਾਂ ਲੱਭਦਾ ਹਾਂ, ਅਤੇ ਫਿਰ ਨਵੇਂ ਮੁੱਲਾਂ ਨਾਲ ਸੋਧੀਆਂ ਕਤਾਰਾਂ ਬਣਾਉਂਦਾ ਹਾਂ।",
@@ -1912,8 +1912,8 @@
                 "search": "$~ਆਓ ਟੈਕਸਟ ਵਿੱਚ ਹਰ ਉਸ ਥਾਂ ਨੂੰ ਲੱਭੀਏ ਜਿੱਥੇ ਇਹ ਪੈਟਰਨ ਦਿਖਾਈ ਦਿੰਦਾ ਹੈ।",
                 "test": "$~ਆਓ ਜਾਂਚ ਕਰੀਏ ਕਿ ਕੀ ਇਹ ਪੂਰਾ ਟੈਕਸਟ ਪੈਟਰਨ ਦੇ ਅਨੁਕੂਲ ਹੈ।",
                 "scan": "$~position $position ਤੋਂ ਸ਼ੁਰੂ ਹੋਣ ਵਾਲੇ ਪੈਟਰਨ ਦੀ ਭਾਲ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ।",
-                "match": "$~$pattern $glyph ਸਥਿਤੀ 'ਤੇ $position ਨਾਲ ਮੇਲ ਖਾਂਦਾ ਹੈ।",
-                "miss": "$~$pattern $glyph ਸਥਿਤੀ 'ਤੇ $position ਨਾਲ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ।",
+                "match": "$~$pattern $position ਸਥਿਤੀ 'ਤੇ $glyph ਨਾਲ ਮੇਲ ਖਾਂਦਾ ਹੈ।",
+                "miss": "$~$pattern $position ਸਥਿਤੀ 'ਤੇ $glyph ਨਾਲ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ।",
                 "end": "$~$pattern ਅਜੇ ਵੀ ਇੱਕ ਅੱਖਰ ਦੀ ਲੋੜ ਹੈ, ਪਰ ਅਸੀਂ $position ਸਥਿਤੀ 'ਤੇ ਟੈਕਸਟ ਦੇ ਅੰਤ 'ਤੇ ਪਹੁੰਚ ਗਏ ਹਾਂ।",
                 "repeat": "$~$pattern $count ਨਾਲ ਮੇਲ ਖਾਂਦਾ ਹੈ — ਜਾਰੀ ਰੱਖਣ ਲਈ ਕਾਫ਼ੀ ਹੈ।",
                 "short": "$~$pattern ਸਿਰਫ਼ $count ਨਾਲ ਮੇਲ ਖਾਂਦਾ ਹੈ — ਕਾਫ਼ੀ ਨਹੀਂ।",

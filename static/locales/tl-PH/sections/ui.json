@@ -1065,7 +1065,13 @@
                 "microphone": "$~mikropono",
                 "camera": "$~kamera",
                 "note": "$~Magtatanong ang iyong browser bago magbahagi.",
-                "retry": "$~Subukan muli"
+                "retry": "$~Subukan muli",
+                "blocked": {
+                    "chromium": "$~Hinarang ng iyong browser ang $permission dito, kaya hindi na ako makakapagtanong ulit. I-click ang icon sa kaliwa ng web address, i-on ang $permission, at piliin ang $retry.",
+                    "safari": "$~Hinarang ng iyong browser ang $permission dito, kaya hindi na ako makakapagtanong ulit. Buksan ang Website Settings (sa menu ng Safari sa Mac, o sa menu ng pahina sa tabi ng address sa iPhone o iPad), payagan ang $permission, at piliin ang $retry.",
+                    "firefox": "$~Hinarang ng iyong browser ang $permission dito, kaya hindi na ako makakapagtanong ulit. I-click ang may guhit na icon ng $permission sa address bar, alisin ang harang, at piliin ang $retry.",
+                    "other": "$~Hinarang ng iyong browser ang $permission dito, kaya hindi na ako makakapagtanong ulit. Payagan ang $permission sa mga setting ng iyong browser para sa site na ito, at piliin ang $retry."
+                }
             },
             "multiselect": "$~Gamitin ang tab at ang alt at arrow keys para lumipat sa pagitan ng mga output. Pindutin ang space para idagdag o alisin ang naka-focus na output mula sa iyong selection. Pindutin ang enter para piliin lang ang output na iyon at buksan ang palette. Pindutin ang escape para i-clear ang iyong selection. Pindutin ang control o command at A para piliin ang lahat ng output.",
             "selected": "$~Napili $name , napili $count",

@@ -15,6 +15,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - 🧭 The window where you write code is now called the editor everywhere, including the title of the editor tour, which used to say "source." (#1498)
+- 🔑 If your browser has blocked the microphone or camera, the stage now tells you how to allow it, and the project starts as soon as you do. (#1476)
 
 ### Fixed
 

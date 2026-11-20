@@ -85,7 +85,7 @@
             "color": {
                 "field": "$~renk alanı",
                 "instructions": "$~Renk tonunu değiştirmek için sol ve sağ ok tuşlarını, renk canlılığını değiştirmek için yukarı ve aşağı ok tuşlarını, açıklığı değiştirmek için ise sayfa yukarı ve sayfa aşağı tuşlarını kullan. Daha küçük adımlar için shift tuşunu basılı tut. Ekran okuyucuyla, önce bu kontrolü kullan ya da altındaki açıklık, renk canlılığı ve renk tonu kaydırıcılarını kullan.",
-                "value": "$~$color , LCH $l , $c , $h",
+                "value": "$~$color, LCH $l, $c, $h",
                 "input": {
                     "description": "$~Herhangi bir web formatında bir renk girin",
                     "placeholder": "$~#f00, rgb(), hsl(), kırmızı",
@@ -739,7 +739,7 @@
             "label": "$~çatışmalar ve yardım",
             "cursor": "$~Bu bir *$node*$type[ ve o bir $type|].",
             "cursorDoc": "$~Şöyle diyorlar: “$description”",
-            "cursorParent": "$~Bunlar bir *$node*$type[içindedir, bu da bir $type olarak değerlendirilir.| içindedir.]",
+            "cursorParent": "$~Onlar bir *$node*$type[, ve bu bir $type değerine dönüşür|] içinde.",
             "learn": "$~/Daha fazla bilgi edin/",
             "evaluating": "$~Aman ne güzel, değerlendirelim!",
             "space": "$~Burası uzay! Hiçbir şeyin bu kadar çok şey söyleyebileceğini kim bilebilirdi?",
@@ -807,7 +807,13 @@
                 "microphone": "$~mikrofon",
                 "camera": "$~kamera",
                 "note": "$~Paylaşmadan önce tarayıcınız size soracaktır.",
-                "retry": "$~Tekrar dene"
+                "retry": "$~Tekrar dene",
+                "blocked": {
+                    "chromium": "$~Tarayıcın burada $permission iznini engelledi, bu yüzden tekrar soramıyorum. Web adresinin solundaki simgeye tıkla, $permission iznini aç, sonra $retry seçeneğini seç.",
+                    "safari": "$~Tarayıcın burada $permission iznini engelledi, bu yüzden tekrar soramıyorum. Web Sitesi Ayarları'nı aç (Mac'te Safari menüsünde, iPhone veya iPad'de adresin yanındaki sayfa menüsünde), $permission iznine izin ver, sonra $retry seçeneğini seç.",
+                    "firefox": "$~Tarayıcın burada $permission iznini engelledi, bu yüzden tekrar soramıyorum. Adres çubuğundaki üstü çizili $permission simgesine tıkla, engeli kaldır, sonra $retry seçeneğini seç.",
+                    "other": "$~Tarayıcın burada $permission iznini engelledi, bu yüzden tekrar soramıyorum. Tarayıcının ayarlarında bu site için $permission iznine izin ver, sonra $retry seçeneğini seç."
+                }
             },
             "multiselect": "$~Çıktılar arasında geçiş yapmak için Tab, Alt ve ok tuşlarını kullanın. Odaklanmış çıktıyı seçime eklemek veya seçimden kaldırmak için Boşluk tuşuna basın. Yalnızca o çıktıyı seçmek ve paleti açmak için Enter tuşuna basın. Seçimi temizlemek için Escape tuşuna basın. Tüm çıktıları seçmek için Control veya Command ve A tuşlarına basın.",
             "selected": "$~$name seçildi, $count seçildi",
@@ -2154,7 +2160,7 @@
             },
             "music": {
                 "staff": "$~bu parçanın notaları",
-                "track": "$~parça $count içinden $total",
+                "track": "$~parça $total içinden $count",
                 "duration": {
                     "label": "$~yeni bir nota ne kadar sürer",
                     "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
@@ -2793,7 +2799,7 @@
             "stepAtStart": "$~başlangıçta",
             "searchOpened": "$~kodda bul",
             "searchClosed": "$~bulma kapatıldı",
-            "searchMatch": "$~$index içinden eşleşme $count",
+            "searchMatch": "$~$count içinden eşleşme $index",
             "searchNoMatches": "$~eşleşme yok",
             "menuOpened": "$~menü, $#count[$count öneri|$count öneri]",
             "menuEmpty": "$~öneri yok",

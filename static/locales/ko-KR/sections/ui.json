@@ -561,7 +561,7 @@
                 "insertDottedEighthNote": "$~점 8분음표 삽입하기, 길이는 0.75박자",
                 "insertSixteenthNote": "$~16분음표 삽입하기, 길이는 0.25박자",
                 "insertDottedSixteenthNote": "$~점 16분음표 삽입하기, 길이는 0.375박자",
-                "selectedNodes": "$~노드 $#count[$count개]개 선택됨, $first 부터 $last 까지",
+                "selectedNodes": "$~노드 $#count[$count개]가 선택되었습니다. $first부터 $last까지입니다",
                 "insertRange": "$~range 기호 넣기",
                 "findText": "$~코드 검색하기",
                 "moveBefore": "$~선택한 것을 옆에 있는 것의 앞으로 옮기기",
@@ -778,7 +778,13 @@
                 "microphone": "$~마이크로폰",
                 "camera": "$~카메라",
                 "note": "$~공유하기 전에 브라우저에서 확인 메시지를 표시합니다.",
-                "retry": "$~다시 해 보다"
+                "retry": "$~다시 해 보다",
+                "blocked": {
+                    "chromium": "$~브라우저가 여기서 $permission 사용을 막아서 제가 다시 물어볼 수 없습니다. 웹 주소 왼쪽에 있는 아이콘을 누르고 $permission 을(를) 켠 다음 $retry 을(를) 선택하세요.",
+                    "safari": "$~브라우저가 여기서 $permission 사용을 막아서 제가 다시 물어볼 수 없습니다. 웹사이트 설정을 열고(맥에서는 Safari 메뉴, 아이폰이나 아이패드에서는 주소 옆의 페이지 메뉴) $permission 을(를) 허용한 다음 $retry 을(를) 선택하세요.",
+                    "firefox": "$~브라우저가 여기서 $permission 사용을 막아서 제가 다시 물어볼 수 없습니다. 주소 표시줄에서 가위표가 그려진 $permission 아이콘을 누르고 차단을 풀어 준 다음 $retry 을(를) 선택하세요.",
+                    "other": "$~브라우저가 여기서 $permission 사용을 막아서 제가 다시 물어볼 수 없습니다. 브라우저 설정에서 이 사이트의 $permission 을(를) 허용한 다음 $retry 을(를) 선택하세요."
+                }
             },
             "multiselect": "$~탭 키와 Alt 키, 화살표 키를 사용하여 출력 간에 이동할 수 있습니다. 스페이스 키를 누르면 선택된 출력을 선택 항목에 추가하거나 제거할 수 있습니다. Enter 키를 누르면 해당 출력만 선택되고 팔레트가 열립니다. Esc 키를 누르면 선택 항목이 모두 해제됩니다. Control 또는 Command 키와 A 키를 누르면 모든 출력이 선택됩니다.",
             "selected": "$~$name 선택됨, $count 선택됨",
@@ -883,7 +889,7 @@
                 ],
                 "withOutput": "$~$anchor 을(를) $target 의 $targetAnchor 와(과) 맞춤",
                 "withGrid": "$~격자 위의 $anchor",
-                "aligned": "$~$constraints 에서의 $place",
+                "aligned": "$~$place 에서의 $constraints",
                 "none": "$~$direction 방향으로 맞출 대상이 없음"
             },
             "removed": "$~$#count[출력 $#count개 삭제됨]",
@@ -1989,7 +1995,7 @@
             },
             "music": {
                 "staff": "$~이 트랙의 음들",
-                "track": "$~전체 $count 중 트랙 $total",
+                "track": "$~전체 $total 중 트랙 $count",
                 "duration": {
                     "label": "$~새 음이 얼마나 오래 지속되는지",
                     "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
@@ -2785,7 +2791,7 @@
             "stepAtStart": "$~맨 처음에",
             "searchOpened": "$~코드에서 찾기",
             "searchClosed": "$~찾기 닫음",
-            "searchMatch": "$~$index 중 $count 일치",
+            "searchMatch": "$~$count 중 $index 일치",
             "searchNoMatches": "$~일치하는 것 없음",
             "menuOpened": "$~메뉴, $#count[제안 $count개]",
             "menuEmpty": "$~제안 없음",

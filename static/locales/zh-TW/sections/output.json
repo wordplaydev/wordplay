@@ -412,7 +412,7 @@
         "Grid": {
             "doc": "$~我是 @Output 的網格。給我一個列數和 @column 的數量，我就會排出整齊的排列，中間可以選擇加上間距和 @cell 大小。我同時決定兩個方向，所以 @Place 不會讓任何東西左右或上下移動──不過它的 z 值仍然會決定它有多靠近。",
             "names": ["$~網格", "格紋"],
-            "description": "$~$rows row $columns column grid",
+            "description": "$~$rows 列 $columns 欄的格線",
             "rows": {
                 "doc": "$~要在網格中做出多少列。",
                 "names": "行數"
@@ -640,7 +640,7 @@
                 "doc": "@Output 是否應該y軸對稱,取代預設值。",
                 "names": "垂直翻轉"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]",
+            "description": "$~$opacity[透明度 $opacity|] $rotation[旋轉 $rotation 度|] $scale[縮放 $scale|] $flipx[水平翻轉|] $flipy[垂直翻轉|] $blur[陰影模糊 $blur 像素|]",
             "music": {
                 "doc": "$~當我的動畫狀態開始，或是有 @Sequence 傳到我這裡時，我應該播放的 @Music。重點是一段短短的聲音，我只會播放一次而已。",
                 "names": "$~音樂"

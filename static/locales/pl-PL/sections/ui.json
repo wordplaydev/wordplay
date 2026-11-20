@@ -802,7 +802,13 @@
                 "microphone": "$~mikrofon",
                 "camera": "$~kamera",
                 "note": "$~Przed udostępnieniem Twoja przeglądarka zapyta.",
-                "retry": "$~Spróbować ponownie"
+                "retry": "$~Spróbować ponownie",
+                "blocked": {
+                    "chromium": "$~Twoja przeglądarka zablokowała $permission w tym miejscu, więc nie mogę zapytać ponownie. Kliknij ikonę po lewej stronie adresu strony, włącz $permission, a potem wybierz $retry.",
+                    "safari": "$~Twoja przeglądarka zablokowała $permission w tym miejscu, więc nie mogę zapytać ponownie. Otwórz ustawienia witryny (w menu Safari na komputerze Mac albo w menu strony obok adresu na iPhonie lub iPadzie), zezwól na $permission, a potem wybierz $retry.",
+                    "firefox": "$~Twoja przeglądarka zablokowała $permission w tym miejscu, więc nie mogę zapytać ponownie. Kliknij przekreśloną ikonę $permission na pasku adresu, usuń blokadę, a potem wybierz $retry.",
+                    "other": "$~Twoja przeglądarka zablokowała $permission w tym miejscu, więc nie mogę zapytać ponownie. Zezwól na $permission w ustawieniach przeglądarki dla tej witryny, a potem wybierz $retry."
+                }
             },
             "multiselect": "$~Użyj klawisza Tab oraz klawiszy Alt i strzałek, aby poruszać się między wyjściami. Naciśnij spację, aby dodać lub usunąć zaznaczone wyjście z zaznaczenia. Naciśnij Enter, aby zaznaczyć tylko to wyjście i otworzyć paletę. Naciśnij Esc, aby wyczyścić zaznaczenie. Naciśnij Ctrl lub Command i A, aby zaznaczyć wszystkie wyjścia.",
             "selected": "$~Wybrano $name , wybrano $count",

@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~Galerie mają teraz przestrzeń na poradniki, w której kuratorzy i twórcy mogą dzielić się tym, czego się nauczyli (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Dodaliśmy rosyjski, ukraiński, malajalam, kantoński i tajwański hokkien (zapisany w Tâi-lô), żeby więcej osób mogło używać Wordplay w języku, którym mówi w domu!",
         "e53524c65f4f2": "$~Na mniejszych ekranach scena i kod nie zamieniają się już stronami, gdy przełączasz się między edytowaniem a odtwarzaniem. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Projekty, które pożyczają zestaw, jak przykład Conductor z \\@wordplay/instruments\\, nie zatrzymują się już z błędem w chwili, gdy kamera zobaczy dłoń albo zmieni się inne wejście."
+        "ee481670339a2": "$~Projekty, które pożyczają zestaw, jak przykład Conductor z \\@wordplay/instruments\\, nie zatrzymują się już z błędem w chwili, gdy kamera zobaczy dłoń albo zmieni się inne wejście.",
+        "e58694c474d80": "$~Okno, w którym piszesz kod, wszędzie nazywa się teraz edytor. Dotyczy to też tytułu wycieczki po edytorze, w którym wcześniej było słowo „źródło”. (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Jeśli przeglądarka zablokowała mikrofon lub kamerę, scena pokazuje teraz, jak je odblokować. Projekt rusza od razu, gdy to zrobisz. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Zmiany w lokalizacji informują teraz, kiedy zostały zapisane, i po odświeżeniu strony nadal są widoczne. Strona nauki pokazuje też samouczek w romanizowanym urdu i tajwańskim hokkien. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Edytowany w trybie lokalizacji tekst samouczka mieści się teraz w dymku, więc długi tekst zawija się i nie jest obcinany.",
+        "e8a02bf7b4904": "$~Projekty udostępnione w galerii nie znikają już z niej, gdy komputer ze starą kopią galerii ją zapisze.",
+        "e652035ee645c": "$~Strona <Projekty@https://wordplay.dev/projects> nie pokazuje już cudzych projektów zapisanych na tym samym komputerze.",
+        "ebde922fe9dc2": "$~Otwarty projekt nie zamyka się już z błędem, gdy zmieni się jego galeria.",
+        "ed736c0457952": "$~Tłumaczenie projektu nie kończy się już błędem, gdy ma on typ i wartość o tej samej nazwie, na przykład \\Page\\ i \\page\\.",
+        "ed5a84645d6ff": "$~Wpisanie własnego znaku w cudzysłowie nie zmienia już cudzysłowu, więc znak od razu pokazuje się na scenie.",
+        "ebdd5cd1fe53a": "$~Zmiany w projekcie wykonane bez internetu nie są już zastępowane starszą kopią, gdy otworzysz projekt na innym komputerze lub w innej karcie.",
+        "e5996d70bd7cd": "$~Zalogowanie się na inne konto na wspólnym komputerze nie powoduje już utraty zmian poprzedniej osoby, które nie zostały jeszcze zapisane online.",
+        "ec0c11cb3cae9": "$~Tłumaczenie projektu nie cofa już tego, co wpisałeś w czasie tłumaczenia.",
+        "e8a3144598e4a": "$~Gdy pisanie sprawiłoby, że projekt byłby za duży, dostajesz teraz o tym informację. Wcześniej wpisany tekst po prostu znikał.",
+        "e3b7a19e44392": "$~Zmiana nazwy klasy lub galerii nie usuwa już osoby, która została do niej dodana w tej samej chwili.",
+        "e64f54009f821": "$~Foldery i inne ustawienia zmienione na jednym komputerze nie są już kasowane przez inny komputer, który został otwarty.",
+        "e42ff6b707cdc": "$~Wiadomości czatu wysłane przez innych, gdy byłeś offline, nie są już kasowane po ponownym połączeniu.",
+        "e4420e66c0d11": "$~Zapisanie jednego własnego znaku nie cofa już nowszych zmian w innym własnym znaku."
     }
 }

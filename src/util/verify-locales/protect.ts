@@ -249,17 +249,38 @@ export function repairMentionsPositional(
     // classes cover script-specific punctuation like Arabic comma `،`,
     // Chinese 。, etc.
     const looseRe = /(?<!\$)\$[^\s\p{P}\p{S}]+/gu;
-    const afterMentions = Array.from(after.matchAll(looseRe)).map(
-        (m) => matchGroups(m)[0],
-    );
+    // In a script written without spaces the loose match runs on into the
+    // sentence (`$permissionをブロック`), so only the ASCII name the tokenizer
+    // reads is the mention; replacing the whole match deleted the words after it.
+    const nameRe = new RegExp(`^${MentionRegEx}`, 'u');
+    const afterMentions = Array.from(after.matchAll(looseRe)).map((m) => {
+        const loose = matchGroups(m)[0];
+        const name = loose.match(nameRe)?.[0];
+        return name === undefined
+            ? { name: loose, rest: '' }
+            : { name, rest: loose.slice(name.length) };
+    });
     if (afterMentions.length !== sourceMentions.length) return after;
-    // If every mention already matches the source order, nothing to do.
-    if (afterMentions.every((m, i) => m === sourceMentions[i])) return after;
+    // A translation may put inputs in another order, as its grammar needs, so
+    // only a name the source lacks is repaired; rewriting every mention into
+    // source order swapped correctly reordered inputs (`$lower`/`$higher`).
+    const missing = [...sourceMentions];
+    for (const { name } of afterMentions) {
+        const index = missing.indexOf(name);
+        if (index >= 0) missing.splice(index, 1);
+    }
+    if (missing.length === 0) return after;
+    const unknown = afterMentions.filter(
+        ({ name }) => !sourceMentions.includes(name),
+    );
+    if (unknown.length !== missing.length) return after;
     let i = 0;
     // One replacement per match, and the two mention lists are the same length.
-    return after.replace(looseRe, () =>
-        must(sourceMentions[i++], 'a source mention'),
-    );
+    return after.replace(looseRe, (loose) => {
+        const mention = must(afterMentions[i++], 'a translated mention');
+        if (sourceMentions.includes(mention.name)) return loose;
+        return must(missing.shift(), 'a missing mention') + mention.rest;
+    });
 }
 
 /**

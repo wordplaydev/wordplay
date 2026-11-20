@@ -1062,6 +1062,23 @@
         "eba572ebe4c3f": "$~Galerilerde artık bir nasıl yapılır kılavuzu alanı var. Düzenleyiciler ve yaratıcılar burada öğrendiklerini birbirleriyle paylaşabilir (<825@https://github.com/wordplaydev/wordplay/issues/825>).",
         "e559bcfa865df": "$~Rusça, Ukraynaca, Malayalamca, Kantonca ve Tayvan Hokkienini (Tâi-lô yazısıyla) ekledik. Böylece daha çok kişi Wordplay'i evde konuştuğu dilde kullanabilir!",
         "e53524c65f4f2": "$~Küçük ekranlarda, düzenleme ve oynatma arasında geçiş yaptığında sahne ve kod artık yer değiştirmiyor. (<1477@https://github.com/wordplaydev/wordplay/issues/1477>)",
-        "ee481670339a2": "$~Bir set ödünç alan projeler, örneğin \\@wordplay/instruments\\ ile yazılan Conductor örneği, kamera bir el gördüğü anda ya da başka bir girdi değiştiğinde artık hata verip durmuyor."
+        "ee481670339a2": "$~Bir set ödünç alan projeler, örneğin \\@wordplay/instruments\\ ile yazılan Conductor örneği, kamera bir el gördüğü anda ya da başka bir girdi değiştiğinde artık hata verip durmuyor.",
+        "e58694c474d80": "$~Kod yazdığın pencerenin adı artık her yerde editör. Buna editör turunun başlığı da dahil; orada eskiden \"kaynak\" yazıyordu. (<1498@https://github.com/wordplaydev/wordplay/issues/1498>)",
+        "e276b0b6054f9": "$~Tarayıcın mikrofonu veya kamerayı engellediyse sahne artık sana izni nasıl vereceğini söylüyor. İzin verdiğin anda proje başlıyor. (<1476@https://github.com/wordplaydev/wordplay/issues/1476>)",
+        "ea87ef9b7fc80": "$~Yerelleştirme değişiklikleri artık ne zaman kaydedildiğini söylüyor ve sayfa yenilendikten sonra da ekranda kalıyor. Öğren sayfası da öğreticiyi Romanize Urduca ve Tayvan Hokkiencesi olarak gösteriyor. (<1495@https://github.com/wordplaydev/wordplay/issues/1495>)",
+        "e86d5349f0891": "$~Yerelleştirme modunda bir öğreticinin metnini düzenlerken metin artık konuşma balonunun içine sığıyor. Uzun metin kesilmek yerine alt satıra geçiyor.",
+        "e8a02bf7b4904": "$~Bir galeriye paylaşılan projeler, galerinin eski bir kopyasına sahip bir bilgisayar galeriyi kaydettiğinde artık galeriden kaybolmuyor.",
+        "e652035ee645c": "$~<Projeler@https://wordplay.dev/projects> sayfası artık aynı bilgisayarda kaydedilmiş başka kişilerin projelerini göstermiyor.",
+        "ebde922fe9dc2": "$~Açık olan bir proje, galerisi değiştiğinde artık hata verip kapanmıyor.",
+        "ed736c0457952": "$~Bir projeyi çevirmek, aynı ada sahip bir tip ve bir değer olduğunda artık başarısız olmuyor. Örneğin \\Page\\ ve \\page\\ gibi.",
+        "ed5a84645d6ff": "$~Özel bir karakteri tırnak işaretlerinin içine koymak artık tırnakları değiştirmiyor. Böylece karakter hemen sahnede görünüyor.",
+        "ebdd5cd1fe53a": "$~Çevrimdışıyken bir projede yaptığın değişiklikler, projeyi başka bir bilgisayarda veya başka bir sekmede açtığında artık eski bir kopyayla değiştirilmiyor.",
+        "e5996d70bd7cd": "$~Ortak kullanılan bir bilgisayarda başka bir hesaba giriş yapmak, önceki kişinin henüz çevrimiçi kaydedilmemiş değişikliklerini artık kaybettirmiyor.",
+        "ec0c11cb3cae9": "$~Bir projeyi çevirmek, çeviri sürerken yazdıklarını artık geri almıyor.",
+        "e8a3144598e4a": "$~Bir projeyi çok büyük yapacak yazı artık sana haber veriyor. Eskiden yazdıkların sadece kayboluyordu.",
+        "e3b7a19e44392": "$~Bir sınıfın veya galerinin adını değiştirmek, aynı anda eklenen kişiyi artık silmiyor.",
+        "e64f54009f821": "$~Bir bilgisayarda değiştirdiğin klasörler ve diğer ayarlar, açık bıraktığın başka bir bilgisayar tarafından artık silinmiyor.",
+        "e42ff6b707cdc": "$~Sen çevrimdışıyken başkalarının gönderdiği sohbet mesajları, yeniden bağlandığında artık silinmiyor.",
+        "e4420e66c0d11": "$~Bir özel karakteri kaydetmek, başka bir özel karakterdeki daha yeni değişiklikleri artık geri almıyor."
     }
 }

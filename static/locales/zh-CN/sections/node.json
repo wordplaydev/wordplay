@@ -191,7 +191,7 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "重复类型变量",
-                    "explanation": "我的名字和$duplicate",
+                    "explanation": "我的名字和$duplicate一样",
                     "resolution": "$~删除重复的类型变量"
                 }
             },
@@ -313,7 +313,7 @@
         },
         "BinaryEvaluate": {
             "name": "二进制评估",
-            "description": "$~对 $operator 和 $left 执行运算 $right",
+            "description": "$~对 $left 和 $right 执行运算 $operator",
             "emotion": "insecure",
             "doc": [
                 "$~我是 @Evaluate，但形式更简单，当你想用一个接受两个输入的 @FunctionDefinition 时很有用。",
@@ -335,8 +335,8 @@
                 "OrderOfOperations": {
                     "name": "模糊的顺序",
                     "explanation": "$~我从左到右求值，但数学通常先算 ^，再算 × ÷，最后算 + −。这个顺序叫做 PEMDAS。请选择你想让我怎样求值。",
-                    "resolutionPEMDAS": "$~应用 PEMDAS 数学顺序：在 $higher 之前求值 $lower",
-                    "resolutionReading": "$~保持阅读顺序：在 $lower 之前求值 $higher",
+                    "resolutionPEMDAS": "$~应用 PEMDAS 数学顺序：在 $lower 之前求值 $higher",
+                    "resolutionReading": "$~保持阅读顺序：在 $higher 之前求值 $lower",
                     "resolutionWrap": "$~添加括号让顺序明确"
                 }
             },
@@ -391,7 +391,7 @@
                 },
                 "IncompatibleType": {
                     "name": "不相容类型",
-                    "explanation": "我应该是 $expected 的，但现在我是 $given",
+                    "explanation": "$~我期望的是 $expected，但收到的类型是 $given",
                     "resolution": "$~把它转换成 $expected，因为需要 $expected",
                     "resolutionLiteral": "$~用 ! 把列表、集合或映射标记为字面量，这样它的值保持具体而不被泛化——$expected 需要确切的值",
                     "resolutionOtherwise": "$~用 ?? 处理缺失的值，因为 $expected 不允许 ø",
@@ -491,7 +491,7 @@
                 "$~我 @borrow @Bind，它们由你表演中的其他 @Source 分享——只要用它们的名字，我就会把它们的名字和 @value 带进来。",
                 "写 \\↓\\，然后写另一个 @Source 的名字。那个 @Source 必须标出它用 \\↑\\ 分享了什么，就像 \\↑ colors/en: ['🔴' '🟠' '🟡']\\。"
             ],
-            "start": "向 $name 借用 $source",
+            "start": "向 $source 借用 $name",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "未知借用",
@@ -706,7 +706,7 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~不兼容的输入",
-                    "explanation": "$~我期望 $expected，但收到了 $given",
+                    "explanation": "$~我期望的是 $expected，但收到的是 $given",
                     "resolution": "$~把它转换为 $expected，因为 $expected 是必需的",
                     "resolutionLiteral": "$~用 ! 把列表、集合或映射标记为字面值，这样它的值就保持具体，而不会被泛化——$expected 需要确切的值",
                     "resolutionOtherwise": "$~用 ?? 处理缺失的值，因为 $expected 不允许 ø",
@@ -727,7 +727,7 @@
                 },
                 "MissingInput": {
                     "name": "$~缺少输入",
-                    "explanation": "$~没有输入 $name 我无法计算 $input :(",
+                    "explanation": "$~没有输入 $input 我无法计算 $name :(",
                     "resolutionAddInput": "$~添加缺少的 $input，并用它的默认值",
                     "resolutionPlaceholder": "$~把缺少的 $input 添加为占位符，然后从自动补全菜单里挑一个值"
                 },
@@ -900,7 +900,7 @@
                 "当你需要知道某个 @Name 的值是不是某种特定类型时，我就很有用。"
             ],
             "start": "首先让我们获取 $expression 的值",
-            "finish": "$~$value[value 是 $type|value 不是 $type]",
+            "finish": "$~$value[值的类型是 $type|值的类型不是 $type]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~不可能的类型",
@@ -912,7 +912,7 @@
             "exception": {
                 "TypeException": {
                     "description": "不兼容的值",
-                    "explanation": "我预期得到一个 $expected $given"
+                    "explanation": "我预期得到一个 $expected，但收到了 $given"
                 }
             }
         },
@@ -930,7 +930,7 @@
         },
         "ListAccess": {
             "name": "列表访问",
-            "description": "$~访问 $index 的索引 $list",
+            "description": "$~访问 $list 的索引 $index",
             "emotion": "cheerful",
             "doc": [
                 "$~我和 @List 紧密合作，帮它们取某个特定位置的值。所以，如果你有一个列表，想要它的第二个项目，你会写：",
@@ -1039,7 +1039,7 @@
         },
         "Previous": {
             "name": "之前",
-            "description": "$~$number 之前的 $range 个值$stream[|]",
+            "description": "$~$stream 之前的 $number 个值$range[|]",
             "emotion": "serious",
             "doc": [
                 "$~我回看一个流的历史，告诉你它过去的某个值。你有没有想过记住过去？",
@@ -1215,7 +1215,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~未知名字",
-                        "explanation": "$~$name[在 $name[$scope|这个 @Block] 里我不认识叫 $scope 的人|你能给我一个名字吗？]"
+                        "explanation": "$~$name[在 $scope[$scope|这个 @Block] 里我不认识叫 $name 的人|你能给我一个名字吗？]"
                     },
                     "resolution": "$~你是想说 *$suggestion？*",
                     "staticResolution": "$~你是不是想说 *$owner.$suggestion？*",
@@ -1235,7 +1235,7 @@
             "exception": {
                 "NameException": {
                     "description": "未知名字",
-                    "explanation": "$~$name[在 $name[$scope|这个 @Block] 里我不认识叫 $scope 的人…|哎呀，没有名字！]"
+                    "explanation": "$~$name[在 $scope[$scope|这个 @Block] 里我不认识叫 $name 的人…|哎呀，没有名字！]"
                 }
             }
         },
@@ -1269,7 +1269,7 @@
         },
         "SetOrMapAccess": {
             "name": "组/映射组的访问",
-            "description": "$~访问 $key 中的 $setOrMap",
+            "description": "$~访问 $setOrMap 中的 $key",
             "emotion": "kind",
             "doc": [
                 "$~我可以查看一个 @Set 或 @Map 里是否有某个 @value 或 @key。",
@@ -1525,7 +1525,7 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~未闭合的分隔符",
-                    "explanation": "$~我本来期望在 $expected 之后某处出现 $unclosed",
+                    "explanation": "$~我本来期望在 $unclosed 之后某处出现 $expected",
                     "resolution": "$~添加缺失的 *$expected*"
                 }
             },
@@ -1910,8 +1910,8 @@
                 "search": "$~让我们找出这个模式在文本里出现的每个地方。",
                 "test": "$~让我们检查整段文本是否符合这个模式。",
                 "scan": "$~从位置 $position 开始查找模式。",
-                "match": "$~$pattern 在位置 $glyph 匹配了 $position。",
-                "miss": "$~$pattern 在位置 $glyph 没有匹配 $position。",
+                "match": "$~$pattern 在位置 $position 匹配了 $glyph。",
+                "miss": "$~$pattern 在位置 $position 没有匹配 $glyph。",
                 "end": "$~$pattern 还需要一个字符，但我们已经在位置 $position 到达文本的末尾。",
                 "repeat": "$~$pattern 匹配了 $count ——足够继续下去。",
                 "short": "$~$pattern 只匹配了 $count ——不够。",
