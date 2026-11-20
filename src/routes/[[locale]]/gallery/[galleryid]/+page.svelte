@@ -335,7 +335,7 @@
                                 l.ui.gallery.field.name.description}
                             placeholder={(l) =>
                                 l.ui.gallery.field.name.placeholder}
-                            max="8em"
+                            max="100%"
                             maxlength={MAX_NAME_LENGTH}
                             done={(text) =>
                                 gallery
@@ -350,30 +350,34 @@
                             path={(l) => l.ui.gallery.field.name.placeholder}
                         />{/if}{/snippet}</PageHeader
             >
-            {#if !editable}<MarkupHTMLView
-                    markup={description
-                        ? description.split('\n').join('\n\n')
-                        : (l) => l.ui.gallery.field.description.placeholder}
-                />{:else}
-                <TextBox
-                    id="gallery-description"
-                    text={description ?? ''}
-                    maxlength={MAX_DESCRIPTION_LENGTH}
-                    description={(l) =>
-                        l.ui.gallery.field.description.description}
-                    placeholder={(l) =>
-                        l.ui.gallery.field.description.placeholder}
-                    done={(text) =>
-                        gallery
-                            ? Galleries.edit(
-                                  gallery.withDescription(
-                                      text,
-                                      $locales.getLocale(),
-                                  ),
-                              )
-                            : undefined}
-                />
-            {/if}
+            <!-- Held clear of the header: its rotation dips the name field's
+                 underline into whatever sits right below it. -->
+            <div class="description">
+                {#if !editable}<MarkupHTMLView
+                        markup={description
+                            ? description.split('\n').join('\n\n')
+                            : (l) => l.ui.gallery.field.description.placeholder}
+                    />{:else}
+                    <TextBox
+                        id="gallery-description"
+                        text={description ?? ''}
+                        maxlength={MAX_DESCRIPTION_LENGTH}
+                        description={(l) =>
+                            l.ui.gallery.field.description.description}
+                        placeholder={(l) =>
+                            l.ui.gallery.field.description.placeholder}
+                        done={(text) =>
+                            gallery
+                                ? Galleries.edit(
+                                      gallery.withDescription(
+                                          text,
+                                          $locales.getLocale(),
+                                      ),
+                                  )
+                                : undefined}
+                    />
+                {/if}
+            </div>
 
             <HeaderAndExplanation
                 text={(l) => l.ui.gallery.subheader.projects}
@@ -703,6 +707,10 @@
 {/if}
 
 <style>
+    .description {
+        margin-block-start: var(--wordplay-spacing);
+    }
+
     /* Settings follow the last content section, so they need the space above
        them that a section header gives itself. */
     .settings {

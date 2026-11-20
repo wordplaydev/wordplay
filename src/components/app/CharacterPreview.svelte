@@ -100,9 +100,13 @@
         white-space: nowrap;
     }
 
+    /* Wrapped within the drawing's width, so a tile's buttons never run under
+       its neighbor's in a gallery grid and get mistaken for its own. */
     .tools {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
+        max-inline-size: 128px;
         align-items: start;
         gap: var(--wordplay-spacing);
     }
