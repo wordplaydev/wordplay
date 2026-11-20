@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.42.1 - 2026-11-20
+
+### Fixed
+
+- 🤝 The buttons under each character in a gallery no longer overlap the next character's, and a gallery's name is no longer cut off.
+
 ## 0.42.0 - 2026-11-12
 
 ### Changed
