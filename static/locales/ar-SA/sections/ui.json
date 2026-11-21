@@ -976,7 +976,8 @@
                 "major": "$~خطأ",
                 "minor": "$~تحذير"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~إنه نفسه في $#count[لا أماكن أخرى|مكان آخر واحد|مكانين آخرين|$count أماكن أخرى|$count مكانًا آخر|$count مكان آخر]."
         },
         "output": {
             "label": "$~المسرح",

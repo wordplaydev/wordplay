@@ -1871,6 +1871,16 @@
                     "name": "$~bô koh-tsiūnn ê hun-kâi hû-hō",
                     "explanation": "$~Guá siūnn-beh tī $expected ê āu-bīn khuànn-tio̍h $unclosed",
                     "resolution": "$~Kā khuà-tio̍h ê *$expected* kha-jip"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~khui-thâu ê hun-keh-hû bô--khui",
+                    "explanation": "$~Guá siūnn-beh tī $unopened í-tsiânn khuànn-tio̍h $expected",
+                    "resolution": "$~Kā khah-tshuì ê *$expected* thiam--ji̍p-khì"
+                },
+                "StrayDelimiter": {
+                    "name": "$~khah-tsē ê hun-keh-hû",
+                    "explanation": "$~Tsit-ê $delimiter kap lia̍h-tsit-ê lóng bô tùi-tshiūnn. Bô lâng khui, mā bô lâng kuann.",
+                    "resolution": "$~Kā tsit-ê khah-tsē ê *$delimiter* tshú-tiāu"
                 }
             },
             "exception": {

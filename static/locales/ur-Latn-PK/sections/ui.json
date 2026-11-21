@@ -1142,7 +1142,8 @@
                 "highlightMajor": "$~is ghalti ka code editor mein dikhayein",
                 "highlightMinor": "$~is khabardaar ka code editor mein dikhayein",
                 "highlightStep": "$~is chalane ke marhale ka code editor mein dikhayein"
-            }
+            },
+            "places": "$~Yeh $#count[$count doosri jagah|$count doosri jagahon] mein bhi aisa hi hai."
         },
         "wellspring": {
             "label": "$~code ki palette",

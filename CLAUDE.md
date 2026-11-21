@@ -93,6 +93,14 @@ Text input → **Parser** ([src/parser/](src/parser/)) → AST nodes ([src/nodes
 - Under `.member` access, callee's members are in scope so a bare name may resolve to the very input it fills; treated as implicit ⊤.
 - The implicit ⊤ is pushed by a [Push](src/runtime/Push.ts) step at compile time; `Reference.evaluate` has no `Context` and is the hottest node in the runtime.
 
+**One slip is a handful of conflicts, and recovery is consulted only for code that is already unbalanced (#1146).** One deleted `)` was 36 conflicts and one deleted `¶` 293. The rules are LANGUAGE.md's *Missing delimiters* and *One mistake, one conflict*; [editCascade.test.ts](src/parser/editCascade.test.ts) makes every single-character edit to three programs and holds each to a ceiling that only goes down. Load-bearing:
+- **Nothing here may change a well-formed program.** The tokenizer rereads only a source that left something open, and the delimiter pre-pass is empty for balanced code; `delimiterCorpus.test.ts` (sweep) holds every shipped example to both. Only `Source` asks to `recover`: locale tooling depends on seeing markup mis-parse.
+- **What the tokenizer decides reaches the parser by token position, never by token** (`Lexical` on `TokenList`): `Source.reparse` swaps in the last parse's equal tokens. For the same reason `tryTextOnlyEdit` is skipped for a damaged source.
+- **A program's text is written back from its tree**, so a token the parser never reads is the creator's work deleted. Two things did that: an `End` token pushed mid-list when a repair ended a context in whitespace, and a `\` outside any example left unread.
+- **Echoes are filtered by the *types* a conflict names, never its nodes** (`withoutEchoes` in [causes.ts](src/conflicts/causes.ts)): an operator nothing defines is a node of unknown type, and is the cause. Counting is by cause (`groupByCause`), but every conflict stays in the list, so every use is still underlined.
+- A node with delimiters asks `getDelimiterConflicts`; a recovered opening delimiter is a token with **no text**.
+- Run `npm run updates` before `locales-fix`: with a stale `static/updates.json` it deletes valid changelog translations.
+
 **A leading doc documents what it touches, and the blank line under a source's doc is load-bearing.** `parseProgram` took every leading doc as the *program's*, so the first definition in a source could not be documented at all (#1374) — the defect kits made unignorable, since a kit's first export is exactly what a reader needs explained. A leading doc group now documents the statement it is adjacent to (≤1 newline), and is the program's own only when nothing adjacent can take it: a blank line, a `↓` borrow, or the end of the source.
 
 - The unit is the **group**, not the doc: `parseDocs` already groups docs separated by ≤1 newline as locale variants of one doc, so "let the last doc attach" would take a translation off a source's own doc.

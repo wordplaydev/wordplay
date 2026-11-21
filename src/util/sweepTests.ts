@@ -27,6 +27,8 @@ const SweepTests = [
     'src/edit/markup/markupCorpus.test.ts',
     'src/examples/corpusPreamble.test.ts',
     'src/examples/localizedExamples.test.ts',
+    'src/parser/delimiterCorpus.test.ts',
+    'src/parser/editCensusCorpus.test.ts',
     'src/util/verify-locales/exampleNamesSync.test.ts',
     'src/util/verify-locales/howToStructureSync.test.ts',
     'src/util/verify-locales/keyNamesSync.test.ts',

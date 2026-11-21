@@ -1,5 +1,5 @@
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
 import type Conflict from '#conflicts/Conflict.ts';
-import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import type LocaleText from '#locale/LocaleText.ts';
 import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import type Evaluator from '#runtime/Evaluator.ts';
@@ -204,10 +204,13 @@ export default class ListLiteral extends CompositeLiteral {
     }
 
     computeConflicts(): Conflict[] {
-        if (this.close === undefined)
-            return [new UnclosedDelimiter(this, this.open, ListCloseToken())];
-
-        return [];
+        return getDelimiterConflicts(
+            this,
+            this.open,
+            this.close,
+            ListOpenToken,
+            ListCloseToken,
+        );
     }
 
     getDependencies(): Expression[] {

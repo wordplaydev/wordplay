@@ -1529,6 +1529,16 @@
                     "name": "$~বন্ধ নকৰা বিভাজক",
                     "explanation": "$~$unclosed ৰ পিছত কেতিয়াবা $expected বুলি আশা কৰিছিলোঁ",
                     "resolution": "$~অনুপস্থিত * $expected * যোগ কৰক"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~নখোলা সীমাচিহ্ন",
+                    "explanation": "$~মই $unopened আগতে কোনোবা সময়ত $expected আশা কৰিছিলোঁ",
+                    "resolution": "$~বাদ পৰি যোৱা *$expected* যোগ কৰক"
+                },
+                "StrayDelimiter": {
+                    "name": "$~অতিৰিক্ত সীমাচিহ্ন",
+                    "explanation": "$~এই $delimiter কোনো কিছুৰ লগত খাপ খোৱা নাই। একোৱে ইয়াক খোলা বা বন্ধ কৰা নাই।",
+                    "resolution": "$~অতিৰিক্ত *$delimiter* আঁতৰাওক"
                 }
             },
             "exception": {

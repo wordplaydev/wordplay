@@ -552,11 +552,24 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.UnknownNameType.description': ['name'],
     'node.UnknownType.description': [],
     'node.UnknownVariableType.description': [],
+    'node.UnparsableExpression.conflict.StrayDelimiter.explanation': [
+        'delimiter',
+    ],
+    'node.UnparsableExpression.conflict.StrayDelimiter.resolution': [
+        'delimiter',
+    ],
     'node.UnparsableExpression.conflict.UnclosedDelimiter.explanation': [
         'unclosed',
         'expected',
     ],
     'node.UnparsableExpression.conflict.UnclosedDelimiter.resolution': [
+        'expected',
+    ],
+    'node.UnparsableExpression.conflict.UnopenedDelimiter.explanation': [
+        'unopened',
+        'expected',
+    ],
+    'node.UnparsableExpression.conflict.UnopenedDelimiter.resolution': [
         'expected',
     ],
     'node.UnparsableExpression.conflict.UnparsableConflict.conflict.explanation':
@@ -651,6 +664,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.annotations.cursorDoc': ['description'],
     'ui.annotations.cursorParent': ['node', 'type'],
     'ui.annotations.nodeDescription': ['description'],
+    'ui.annotations.places': ['#count'],
     'ui.checkpoints.diff.atBoth': ['code'],
     'ui.checkpoints.diff.atLeaves': ['code'],
     'ui.checkpoints.diff.summary': ['#back', '#gone'],

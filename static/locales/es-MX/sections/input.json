@@ -506,7 +506,7 @@
                 "\\🖋('a' \"Noto Sans\")\\",
                 "Da esos valores @Place a un @List de @Phrase para ver el contorno dibujado como puntos:",
                 "\\Escenario(\n\t🖋('a' \"Noto Sans\" 10m).traducir(\n\t\tƒ(punto) Frase('•' lugar: punto)\n\t)\n)\\",
-                "Puedes escalar el contorno con un @Number de metros, mover su origen con un @Place, elegir un grosor de fuente, activar la cursiva y definir el `spacing` entre puntos como una distancia en metros. Un `spacing` más pequeño traza el contorno con más detalle, con puntos separados de forma pareja tanto en las líneas como en las curvas.",
+                "Puedes escalar el contorno con un @Number de metros, mover su origen con un @Place, elegir un grosor de fuente, activar la cursiva y definir el /Espaciado/ entre puntos como una distancia en metros. Un /Espaciado/ más pequeño traza el contorno con más detalle, con puntos separados de forma pareja tanto en las líneas como en las curvas.",
                 "Algunos glifos, como los emoji de color, no tienen contorno, así que no agregan puntos. Mientras obtiene la fuente, te dará un @List vacío, y luego lo llenará cuando esté listo."
             ],
             "names": ["$~Contorno"],
@@ -676,7 +676,7 @@
                 "Muestra algo a la cámara y @Objects tratará de nombrarlo.",
                 "Detrás de escena, @Objects usa un modelo de aprendizaje automático que conoce 80 tipos de cosas cotidianas.",
                 "En cada cuadro, @Objects te da un @List de @Thing, ordenados según qué tan seguro está el modelo, con el más seguro primero. Mira @Thing para ver qué te dice cada uno.",
-                "El modelo solo adivina, así que a veces se equivocará, o no verá nada en absoluto. Pide una `confidence` más alta para escuchar solo las suposiciones de las que está más seguro.",
+                "El modelo solo adivina, así que a veces se equivocará, o no verá nada en absoluto. Pide una /confianza/ más alta para escuchar solo las suposiciones de las que está más seguro.",
                 "Aquí hay un ejemplo que etiqueta todo lo que ve la cámara:",
                 "\\Escenario(📦() ↦ Frase(⬚.nombre lugar: ⬚.lugar))\\",
                 "También puedes buscar solo un tipo de cosa e ignorar el resto:",

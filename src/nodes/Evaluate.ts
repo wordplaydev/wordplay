@@ -1,3 +1,4 @@
+import { isDamaged } from '#nodes/damage.ts';
 import conciseRef from '#nodes/conciseRef.ts';
 import { Purpose } from '#concepts/Purpose.ts';
 import type Conflict from '#conflicts/Conflict.ts';
@@ -79,6 +80,7 @@ import type Token from '#nodes/Token.ts';
 import type Type from '#nodes/Type.ts';
 import NoneType from '#nodes/NoneType.ts';
 import TypeInputs from '#nodes/TypeInputs.ts';
+import UnparsableExpression from '#nodes/UnparsableExpression.ts';
 import type TypeSet from '#nodes/TypeSet.ts';
 import TypeVariable from '#nodes/TypeVariable.ts';
 import UnionType from '#nodes/UnionType.ts';
@@ -689,6 +691,19 @@ export default class Evaluate extends Expression {
         if (getEvaluationInputConflicts(expectedInputs).length > 0)
             return conflicts;
 
+        // Nor when where the inputs begin and end was a guess, here or where they are
+        // defined: an evaluate that was never closed, or a definition holding something
+        // unparsable. Each has a conflict saying so, and the inputs can't be judged until
+        // it is resolved.
+        if (
+            this.close === undefined ||
+            expectedInputs.some((input) => isDamaged(input)) ||
+            (!(fun instanceof StreamDefinition) &&
+                fun.open !== undefined &&
+                fun.close === undefined)
+        )
+            return conflicts;
+
         // To verify that this evaluation's given inputs match the target inputs,
         // we get the mapping from expected to given, then look for various conflicts in the mapping,
         // one expected input at a time.
@@ -805,7 +820,10 @@ export default class Evaluate extends Expression {
                     )
                 ) {
                     conflicts.push(new UnknownInput(fun, this, given));
-                } else {
+                }
+                // What couldn't be parsed already says so, and isn't an input too many.
+                else if (given instanceof UnparsableExpression) continue;
+                else {
                     conflicts.push(new UnexpectedInput(fun, this, given));
                 }
             }
@@ -918,8 +936,15 @@ export default class Evaluate extends Expression {
 
     /** The inputs this call is mapped and compiled against, from whichever it has. */
     getExpectedInputs(context: Context): Bind[] | undefined {
-        return (this.getFunction(context) ?? this.getFunctionType(context))
-            ?.inputs;
+        const inputs = (
+            this.getFunction(context) ?? this.getFunctionType(context)
+        )?.inputs;
+        // An input with no name is something among a definition's inputs that couldn't
+        // be parsed. It isn't an input to give anything to, and counting it as one would
+        // give every input after it the value meant for the one before.
+        return inputs?.some((input) => input.names.names.length === 0)
+            ? inputs.filter((input) => input.names.names.length > 0)
+            : inputs;
     }
 
     is(def: StructureDefinition | StreamDefinition, context: Context) {

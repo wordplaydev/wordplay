@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Redenumirea unei clase sau a unei galerii nu mai elimină o persoană care a fost adăugată în același moment.",
         "e64f54009f821": "$~Dosarele și alte setări pe care le schimbi pe un computer nu mai sunt șterse de un alt computer pe care l-ai lăsat deschis.",
         "e42ff6b707cdc": "$~Mesajele de chat trimise de alții cât timp ai fost deconectat nu mai sunt șterse când te reconectezi.",
-        "e4420e66c0d11": "$~Salvarea unui caracter personalizat nu mai anulează modificările mai noi făcute altuia."
+        "e4420e66c0d11": "$~Salvarea unui caracter personalizat nu mai anulează modificările mai noi făcute altuia.",
+        "ee7ad9a6b11e5": "$~O paranteză, o acoladă, un ghilimel sau \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶ lipsă sau în plus",
+        "e834452260d8f": "$~Un nume care nu este definit este acum un singur conflict, care spune în câte alte locuri este folosit, iar reparația lui le redenumește pe toate odată.",
+        "e7f51c8353c3a": "$~Paginile din <Ghid@https://wordplay.dev/guide> pentru \\Obiecte\\ și \\Contur\\ nu se mai opresc la jumătate.",
+        "ef8844bd76bc9": "$~Butoanele de sub fiecare caracter dintr-o galerie nu se mai suprapun peste cele ale caracterului următor, iar numele unei galerii nu mai este tăiat.",
+        "e148a40c1fbbb": "$~Profesorii pot acum să creeze un cont pentru un elev care se alătură târziu unei clase, direct din pagina clasei.",
+        "e361f5cf3dffa": "$~În modul /blocuri/, \\+\\ de după o listă adaugă acum un loc gol în care poți scrie, meniul lui sugerează mai multe lucruri asemănătoare cu ce conține deja lista, iar fiecare număr arată un singur meniu de unități în loc de două. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Înscrierea cu un nume de utilizator și o parolă nu mai spune că a eșuat atunci când ți-a creat de fapt contul, iar dacă încerci din nou, ești acum conectat.",
+        "ecc16fa29a890": "$~Paleta de cod din modul /blocuri/ nu se mai închide când ratezi un bloc, nu mai arată blocuri care arată la fel și oferă blocurilor mici o casetă mai ușor de apucat. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

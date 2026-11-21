@@ -206,6 +206,14 @@
         )}
         <aside class="stack" aria-label={explain($locales).toText()}>
             <MarkupHTMLView markup={{ perLocale: explain }} />
+            {#if annotation.places}
+                <MarkupHTMLView
+                    markup={[
+                        (l) => l.ui.annotations.places,
+                        { count: annotation.places },
+                    ]}
+                />
+            {/if}
             {#each elsewhere as resolution}
                 <!-- svelte-ignore a11y_no_static_element_interactions -->
                 <!-- Stop propagation so opening the dialog doesn't also toggle the row. -->

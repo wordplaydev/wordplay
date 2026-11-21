@@ -751,7 +751,8 @@
                 "major": "$~ਗਲਤੀ",
                 "minor": "$~ਚੇਤਾਵਨੀ"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~ਇਹ $#count[ਹੋਰ $count ਥਾਂ|ਹੋਰ $count ਥਾਵਾਂ] ਵਿੱਚ ਵੀ ਇਹੀ ਹੈ।"
         },
         "output": {
             "label": "$~ਮੰਚ",

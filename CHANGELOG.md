@@ -4,6 +4,17 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.43.0 - 2026-11-21
+
+### Changed
+
+- 🚦 A missing or extra parenthesis, bracket, quote or `¶` is now one conflict where the mistake is, with a repair that adds or removes it, instead of conflicts on every line after it. (#1146)
+- 🚦 A name that isn't defined is now one conflict that says how many other places use it, and its repair renames all of them at once.
+
+### Fixed
+
+- 📖 The [Guide](https://wordplay.dev/guide) pages for `Objects` and `Contour` no longer stop partway through.
+
 ## 0.42.1 - 2026-11-20
 
 ### Fixed

@@ -9,5 +9,9 @@ import Tokens from '#parser/Tokens.ts';
  */
 export function toTokens(code: string, keywords?: KeywordIndex): Tokens {
     const tokens = tokenize(code, keywords);
-    return new Tokens(tokens.getTokens(), tokens.getSpaces());
+    return new Tokens(
+        tokens.getTokens(),
+        tokens.getSpaces(),
+        tokens.getLexical(),
+    );
 }

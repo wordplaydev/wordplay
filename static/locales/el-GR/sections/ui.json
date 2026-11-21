@@ -986,7 +986,8 @@
                 "major": "$~σφάλμα",
                 "minor": "$~προειδοποίηση"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~Είναι το ίδιο σε $#count[$count άλλο μέρος|$count άλλα μέρη]."
         },
         "output": {
             "label": "$~σκηνή",

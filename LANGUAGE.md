@@ -857,6 +857,8 @@ laugh()
 
 Inputs must conform to the types defined in a function's definition. (We'll talk more about how to define functions later).
 
+The `(` must immediately follow the function, with no space or line break between them: `laugh ()` is the function `laugh` followed by an empty block, not an evaluation of it.
+
 Inputs may be given positionally or by name (`name: value`). A named input whose value is missing — because the tokens after its `:` begin another named input or close the evaluation — parses with an empty unparsable value rather than consuming what follows, so the inputs after an in-progress input remain intact (and editing tools can offer values for it).
 
 A **boolean input may be given as its bare name**. Writing the name of an input whose type is `?` (or a union of `?` and `ø`) fills that input, so these two are the same:
@@ -1524,7 +1526,63 @@ The combined set of all of the expressions above mean that most of Wordplay is e
 
 A `LOCALIZED` expression is an atomic expression immediately followed (no space) by a `LANGUAGE` tag, e.g. `(greeting + name)/en`. It applies the locale to the computed text value, overriding any locale the text would otherwise carry. The tag binds tightly to the atomic expression, so `a + b/en` tags only `b`; wrap a binary expression in parentheses to tag the whole. It is only valid on `Text` or formatted (`Markup`) values; applying it to any other type is a conflict. (Text and number literals consume their own trailing `/` tag and unit, so `LOCALIZED` applies only to computed expressions.)
 
-If any sequences of tokens cannot be parsed according to this grammar, all of the tokens on the line are converted into an `UNPARSABLE` node.
+If any sequences of tokens cannot be parsed according to this grammar, all of the tokens on the line are converted into an `UNPARSABLE` node. Inside a delimited construct, the unparsable tokens stop before that construct's closing delimiter, so `f(1 : 2)` is still a closed evaluation.
+
+### Missing delimiters
+
+A program in the middle of being written often has a delimiter without its partner, and a parse that read on to the end of the program looking for it would turn one missing `)` into a conflict on nearly every line that follows. So before parsing, the `(` `)`, `[` `]` and `{` `}` in code are paired (those inside text, documentation and patterns are not delimiters), and the ones without a partner are handled by three rules:
+
+- **An opening delimiter that is never closed** makes its construct unclosed, which is a conflict on that construct. Its contents end at the closing delimiter of whatever encloses it, or, if one comes sooner, at the first later line indented no deeper than the line the delimiter is on. In the program below, the first `Phrase` is unclosed and has one input, the list still has two items, and `count` is still a bind:
+
+    ```
+    Stage([
+        Phrase('hello'
+        Phrase('world')
+    ])
+    count: 2
+    ```
+
+- **A closing delimiter that leads a line, with nothing to close,** closes the lines above it that are indented past it, and the opening delimiter it lacks is taken to stand before the first of them. The construct is read as if it were there, and reports that it is unopened. Deleting the `[` below leaves a list of two phrases, not two stray phrases and a stray `]`:
+
+    ```
+    phrases:
+        Phrase('hello')
+        Phrase('world')
+    ]
+    ```
+
+- **Any other closing delimiter that closes nothing** is an `UNPARSABLE` node of its own, and nothing continues from it, so the rest of its line is parsed normally.
+- **A closing delimiter that would leave others unclosed** is either the close of an enclosing construct or one whose own opening delimiter is missing. Layout decides which: code is written with a close either on the line of its open or leading a later line at that line's indentation, so a close trailing a later line (`Pick 'a' 'b')`), or one leading a line indented like a delimiter it would leave unclosed, closes nothing. A close that leads a line and finds its delimiter already closed from the end of a later line takes it back, and the one that took it closes nothing.
+
+Line breaks and indentation are consulted only by these rules. They never change the meaning of a program whose delimiters all pair.
+
+A `STRUCTURE` or `FUNCTION` missing the `)` after its inputs is still a definition, and is unclosed in the same way; a name in its inputs that an expression continues from (`ƒ(a•# a + 1`) is where the inputs ended. A `•` or `:` in its inputs with no name before it, when the `)` is there, is kept as an input that couldn't be parsed, with the inputs after it. A `STRUCTURE`'s inputs hold nothing but inputs, so anything before its `)` that isn't one is kept the same way.
+
+A `STRUCTURE` or `FUNCTION` whose `(` is missing has its name run into its first input's, since nothing else was between them: `•Pick(words•'')` without it is `•Pickwords•'')`. Where a line begins a definition that has a `)` and no `(`, the name is split at the longest beginning of it that is a name used elsewhere in the program, or failing that the longest end of it, and the `(` is taken to stand between the two. The definition reports that it is unopened. If no part of the name is used anywhere, the line is unparsable. Nothing continues from a definition: a `.`, an operator or a `(` after one begins something else.
+
+### Missing text and documentation delimiters
+
+Text (`'…'`), documentation (`¶…¶`), formatted text (`` `…` ``), patterns (`⣿…⣿`) and the examples and interpolations inside them (`\…\`) open and close with the same character, so they are told apart only by taking turns. With one missing, every later one would swap roles: to the end of the line for text, and to the end of the program for the rest, turning prose into code and code into prose.
+
+So when tokenizing leaves any of these open, the program is tokenized again with a repair for the first delimiter whose turn contradicts how it is written. An opening delimiter is written with space, or the delimiter of what it is given to, before it and its contents right after it; a closing one the other way around. Documentation is also written on lines of its own, so a `¶` that leads its line opens, and one that ends its line closes.
+
+- **Unclosed text** ends before the next text on its line, or before the closing delimiters that end its line, or with its line. **Unclosed formatted text** ends before the closing delimiters that end its line. **An unclosed pattern** ends with its line.
+- **Unclosed documentation** ends with its line, and goes on through the lines and paragraphs after it that read as prose: a line that begins with three plain words in a row.
+- **Text with no opening delimiter** begins after the text before it on its line, or after the delimiter of what it was given to. **Text broken by a line break** is two halves: the first unclosed, the second beginning with its line.
+- **Documentation with no opening delimiter** begins where its line does, and with the lines of prose above it.
+- **An unclosed example or interpolation** ends where the text or documentation around it does.
+- **A quote in the inputs of a definition** that would be repaired in any of these ways is instead left to open and close nothing. Text there is only ever a type or a default value, complete on its line, and making text of the inputs around a quote would unmake the inputs that the rest of the program refers to.
+- A delimiter that none of this can place is `UNPARSABLE` alone.
+
+Text is repaired only on a line with an odd number of quotes. A line with an even number has nothing missing, however its quotes are spaced: `'hello '` closes after a space, as an opening would be written, and is not one.
+
+Each of these is a conflict on what was left unclosed or unopened. None of it is consulted for a program in which everything that opens also closes.
+
+### One mistake, one conflict
+
+A conflict that follows from another is not reported. A comparison of types says nothing when one of them is unknown, because of a name that isn't defined or code that couldn't be parsed; an evaluation's inputs are not judged against a definition that is itself unclosed or holds something unparsable, nor when the evaluation is unclosed; a use of a name whose definition couldn't be parsed is not also an unknown name; and a name bound with `:` to no value has no type yet, rather than any type.
+
+What is left is counted by cause. A name that isn't defined is one conflict however many places use it, and so are inputs that don't fit a definition the program itself makes. Each place is still marked in the code.
 
 #### _conflicts_
 

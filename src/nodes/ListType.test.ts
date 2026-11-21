@@ -1,3 +1,4 @@
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import IncompatibleType from '#conflicts/IncompatibleType.ts';
 import { testConflict } from '#conflicts/TestUtilities.ts';
 import Project from '#db/projects/Project.ts';
@@ -201,4 +202,10 @@ test('An inferred length survives cloning, so it can still be checked', () => {
             TextType.make(),
         ]).accepts(type, context),
     ).toBe(false);
+});
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test('an unclosed ListType says so', () => {
+    testConflict('a•[#]: [1]', 'a•[#: [1]', ListType, UnclosedDelimiter);
 });

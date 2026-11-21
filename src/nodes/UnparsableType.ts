@@ -1,6 +1,6 @@
 import { Purpose } from '#concepts/Purpose.ts';
 import type Conflict from '#conflicts/Conflict.ts';
-import { UnparsableConflict } from '#conflicts/UnparsableConflict.ts';
+import { getUnparsableConflict } from '#conflicts/UnparsableConflict.ts';
 import type LocaleText from '#locale/LocaleText.ts';
 import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import type { BasisTypeName } from '#basis/BasisConstants.ts';
@@ -71,7 +71,7 @@ export default class UnparsableType extends Type {
                 if (allUnparsables[0] !== this) return [];
             }
         }
-        return [new UnparsableConflict(this, context)];
+        return [getUnparsableConflict(this, context)];
     }
 
     clone(replace?: Replacement): this {

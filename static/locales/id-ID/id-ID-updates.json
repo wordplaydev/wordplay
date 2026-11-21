@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Mengganti nama kelas atau galeri tidak lagi menghapus orang yang ditambahkan ke sana pada saat yang sama.",
         "e64f54009f821": "$~Folder dan pengaturan lain yang kamu ubah di satu komputer tidak lagi terhapus oleh komputer lain yang kamu biarkan terbuka.",
         "e42ff6b707cdc": "$~Pesan obrolan yang dikirim orang lain saat kamu offline tidak lagi terhapus ketika kamu tersambung kembali.",
-        "e4420e66c0d11": "$~Menyimpan satu karakter khusus tidak lagi membatalkan perubahan yang lebih baru pada karakter khusus yang lain."
+        "e4420e66c0d11": "$~Menyimpan satu karakter khusus tidak lagi membatalkan perubahan yang lebih baru pada karakter khusus yang lain.",
+        "ee7ad9a6b11e5": "$~Tanda kurung, kurung siku, tanda kutip, atau \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶ yang hilang atau berlebih",
+        "e834452260d8f": "$~Nama yang belum didefinisikan sekarang menjadi satu konflik yang menunjukkan berapa banyak tempat lain yang memakainya, dan perbaikannya mengganti nama di semuanya sekaligus.",
+        "e7f51c8353c3a": "$~Halaman <Panduan@https://wordplay.dev/guide> untuk \\Objek\\ dan \\Kontur\\ tidak lagi berhenti di tengah jalan.",
+        "ef8844bd76bc9": "$~Tombol di bawah setiap karakter di galeri tidak lagi menumpuk dengan tombol karakter di sebelahnya, dan nama galeri tidak lagi terpotong.",
+        "e148a40c1fbbb": "$~Guru sekarang bisa membuat akun untuk murid yang bergabung ke kelas terlambat, langsung dari halaman kelas.",
+        "e361f5cf3dffa": "$~Di mode blok, \\+\\ setelah daftar sekarang menambahkan tempat kosong yang bisa kamu isi, menunya menyarankan lebih banyak hal seperti isi daftar tersebut, dan setiap angka menampilkan satu menu satuan, bukan dua. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Bergabung dengan nama pengguna dan kata sandi tidak lagi menampilkan pesan gagal padahal akunmu sebenarnya sudah dibuat, dan mencoba lagi sekarang akan memasukkanmu ke akun.",
+        "ecc16fa29a890": "$~Palet kode di mode blok tidak lagi tertutup saat kamu meleset dari sebuah blok, tidak lagi menampilkan blok yang tampak sama, dan memberi blok kecil kotak yang lebih mudah dipegang. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

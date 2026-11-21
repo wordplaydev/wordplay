@@ -1,6 +1,6 @@
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
 import type Conflict from '#conflicts/Conflict.ts';
 import { NotAKeyValue } from '#conflicts/NotAKeyValue.ts';
-import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import type LocaleText from '#locale/LocaleText.ts';
 import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import KeyValue from '#nodes/KeyValue.ts';
@@ -139,10 +139,17 @@ export default class MapLiteral extends CompositeLiteral {
         ))
             conflicts.push(new NotAKeyValue(this, expression));
 
-        if (this.close === undefined)
-            return [new UnclosedDelimiter(this, this.open, SetCloseToken())];
-
-        return conflicts;
+        const delimiters = getDelimiterConflicts(
+            this,
+            this.open,
+            this.close,
+            SetOpenToken,
+            SetCloseToken,
+        );
+        // An unclosed map says only that: which of its values are pairs isn't known yet.
+        return this.close === undefined
+            ? delimiters
+            : [...conflicts, ...delimiters];
     }
 
     getConstantLength(): number {

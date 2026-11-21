@@ -506,7 +506,7 @@
                 "\\🖋('a' \"Noto Sans\")\\",
                 "Gib diese @Place-Werte an eine @List von @Phrase, um den Umriss als Punkte gezeichnet zu sehen:",
                 "\\🎭(🖋('a' \"Noto Sans\" 10m).übersetzen(ƒ(punkt) 💬('•' Ort: punkt)))\\",
-                "Du kannst den Umriss mit einer @Number von Metern skalieren, seinen Ursprung mit einem @Place verschieben, eine Schriftstärke wählen, Kursivschrift einschalten und den `spacing` zwischen Punkten als Abstand in Metern festlegen. Ein kleinerer `spacing` zeichnet den Umriss genauer nach, mit gleichmäßig verteilten Punkten entlang von Linien und Kurven.",
+                "Du kannst den Umriss mit einer @Number von Metern skalieren, seinen Ursprung mit einem @Place verschieben, eine Schriftstärke wählen, Kursivschrift einschalten und den /Abstand/ zwischen Punkten als Abstand in Metern festlegen. Ein kleinerer /Abstand/ zeichnet den Umriss genauer nach, mit gleichmäßig verteilten Punkten entlang von Linien und Kurven.",
                 "Manche Schriftzeichen, wie farbige Emojis, haben keinen Umriss, also fügen sie keine Punkte hinzu. Während es die Schriftart abruft, gibt es dir eine leere @List und füllt sie auf, wenn es bereit ist."
             ],
             "names": ["$~Kontur"],
@@ -676,7 +676,7 @@
                 "Halte etwas vor die Kamera, und @Objects wird versuchen, es zu benennen.",
                 "Im Hintergrund benutzt @Objects ein Modell für maschinelles Lernen, das 80 Arten von Alltagsdingen kennt.",
                 "Bei jedem Bild gibt dir @Objects eine @List von @Thing, sortiert danach, wie sicher das Modell ist, mit dem sichersten zuerst. Schau dir @Thing an, um zu sehen, was dir jedes einzelne sagt.",
-                "Das Modell rät nur, deshalb liegt es manchmal falsch oder sieht gar nichts. Frage nach einer höheren `confidence`, um nur die Vermutungen zu hören, bei denen es am sichersten ist.",
+                "Das Modell rät nur, deshalb liegt es manchmal falsch oder sieht gar nichts. Frage nach einer höheren /Zuversicht/, um nur die Vermutungen zu hören, bei denen es am sichersten ist.",
                 "Hier ist ein Beispiel, das alles beschriftet, was die Kamera sieht:",
                 "\\🎭(📦() ↦ 💬(⬚.Name Ort: ⬚.Ort))\\",
                 "Du kannst auch nur nach einer einzigen Art von Ding suchen und den Rest ignorieren:",

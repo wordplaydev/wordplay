@@ -506,7 +506,7 @@
                 "\\Đườngviền('a' \"Noto Sans\")\\",
                 "Hãy đưa các @value @Place đó vào một @List gồm @Phrase để thấy đường viền được vẽ dưới dạng các chấm:",
                 "\\Sânkhấu(Đườngviền('a' \"Noto Sans\" 10m).biếnĐổi(ƒ(point) Cụmtừ('•' vịTrí: point)))\\",
-                "Bạn có thể điều chỉnh kích thước đường viền bằng @Number of meters, di chuyển điểm gốc bằng @Place , chọn độ đậm phông chữ, bật chế độ in nghiêng và đặt `spacing` giữa các điểm theo khoảng cách tính bằng mét. `spacing` nhỏ hơn sẽ vẽ đường viền sát hơn, với các điểm cách đều nhau dọc theo cả đường thẳng và đường cong.",
+                "Bạn có thể điều chỉnh kích thước đường viền bằng @Number of meters, di chuyển điểm gốc bằng @Place , chọn độ đậm phông chữ, bật chế độ in nghiêng và đặt /Khoảng cách/ giữa các điểm theo khoảng cách tính bằng mét. /Khoảng cách/ nhỏ hơn sẽ vẽ đường viền sát hơn, với các điểm cách đều nhau dọc theo cả đường thẳng và đường cong.",
                 "Một số ký tự, như biểu tượng cảm xúc màu sắc, không có đường viền, vì vậy chúng không được tính điểm. Trong khi tải phông chữ, nó sẽ trả về một @List trống, sau đó sẽ điền thông tin vào khi hoàn tất."
             ],
             "names": ["$~Đườngviền"],
@@ -676,7 +676,7 @@
                 "Đưa một thứ gì đó lên trước máy ảnh và @Objects sẽ cố gắng gọi tên nó.",
                 "Bên trong, @Objects dùng một mô hình học máy biết 80 loại đồ vật hằng ngày.",
                 "Mỗi khung hình, @Objects đưa cho bạn một @List gồm @Thing, được sắp xếp theo mức độ chắc chắn của mô hình, thứ chắc chắn nhất đứng đầu. Hãy xem @Thing để biết mỗi thứ cho bạn biết điều gì.",
-                "Mô hình chỉ đang đoán, nên đôi khi nó sẽ sai, hoặc không thấy gì cả. Hãy yêu cầu `confidence` cao hơn để chỉ nghe những phán đoán mà nó chắc chắn nhất.",
+                "Mô hình chỉ đang đoán, nên đôi khi nó sẽ sai, hoặc không thấy gì cả. Hãy yêu cầu /độTinCậy/ cao hơn để chỉ nghe những phán đoán mà nó chắc chắn nhất.",
                 "Đây là một ví dụ ghi nhãn mọi thứ mà máy ảnh nhìn thấy:",
                 "\\🎭(📦() ↦ Cụmtừ(⬚.tên vịTrí: ⬚.vịTrí))\\",
                 "Bạn cũng có thể chỉ tìm một loại đồ vật, và bỏ qua những thứ còn lại:",

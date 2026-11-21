@@ -1,3 +1,4 @@
+import { isUnknowable } from '#nodes/damage.ts';
 import type Project from '#db/projects/Project.ts';
 import CycleType from '#nodes/CycleType.ts';
 import type Definition from '#nodes/Definition.ts';
@@ -150,13 +151,14 @@ export default class Context {
      * cause gets re-reported by every consumer of the corrupt type, drowning
      * learners in cascading errors. See issue #1146: `a ? ??` would otherwise
      * yield UnknownName + UnparsableConflict + ExpectedBooleanCondition, where
-     * the third is purely a consequence of the first.
+     * the third is purely a consequence of the first. Unparsable code is the
+     * same: it has a conflict of its own, and no type to be wrong about.
      *
      * Accepts `Input` as well as `Expression` so callers iterating over table
      * cells / call arguments don't need to unwrap first; `Input.getType`
      * delegates to its underlying value's type.
      */
     isUnknownDownstream(expression: Expression | Input): boolean {
-        return expression.getType(this) instanceof UnknownType;
+        return isUnknowable(expression.getType(this));
     }
 }

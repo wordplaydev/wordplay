@@ -1529,6 +1529,16 @@
                     "name": "$~மூடப்படாத பிரிப்பான்",
                     "explanation": "$~$unclosed க்குப் பிறகு எப்போதாவது $expected எதிர்பார்த்தேன்.",
                     "resolution": "$~விடுபட்ட * $expected * ஐச் சேர்க்கவும்"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~திறக்கப்படாத பிரிப்பான்",
+                    "explanation": "$~$unopened க்கு முன் எங்காவது $expected வரும் என்று எதிர்பார்த்தேன்",
+                    "resolution": "$~விடுபட்ட *$expected* ஐச் சேர்க்கவும்"
+                },
+                "StrayDelimiter": {
+                    "name": "$~கூடுதல் பிரிப்பான்",
+                    "explanation": "$~இந்த $delimiter எதனுடனும் பொருந்தவில்லை. இதை எதுவும் திறக்கவில்லை, மூடவும் இல்லை.",
+                    "resolution": "$~கூடுதல் *$delimiter* ஐ நீக்கு"
                 }
             },
             "exception": {

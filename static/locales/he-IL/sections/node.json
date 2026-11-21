@@ -1529,6 +1529,16 @@
                     "name": "$~מפריד לא סגור",
                     "explanation": "$~ציפיתי ש-$expected מתישהו אחרי $unclosed",
                     "resolution": "$~הוסף את ה-* $expected * החסר"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~מפריד שלא נפתח",
+                    "explanation": "$~ציפיתי ל$expected מתישהו לפני $unopened",
+                    "resolution": "$~הוסיפו את *$expected* החסר"
+                },
+                "StrayDelimiter": {
+                    "name": "$~מפריד מיותר",
+                    "explanation": "$~ה$delimiter הזה לא קשור לשום דבר. שום דבר לא פותח אותו וגם לא סוגר אותו.",
+                    "resolution": "$~הסירו את ה*$delimiter* המיותר"
                 }
             },
             "exception": {

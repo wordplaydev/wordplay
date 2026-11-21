@@ -1,3 +1,4 @@
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
 import { CharacterWarning } from '#conflicts/CharacterWarning.ts';
 import type Conflict from '#conflicts/Conflict.ts';
 import { PossiblePII } from '#conflicts/PossiblePII.ts';
@@ -139,6 +140,28 @@ export default class Translation extends LanguageTagged {
 
     computeConflicts(context: Context): Conflict[] {
         const conflicts: Conflict[] = PossiblePII.analyze(this, context);
+
+        // Text ends with its line whether or not it was closed, and this is what says it
+        // wasn't. What closes it is decided by what opened it, and the other way around.
+        const open = this.open.getText();
+        const close = this.close?.getText();
+        conflicts.push(
+            ...getDelimiterConflicts(
+                this,
+                this.open,
+                this.close,
+                () =>
+                    new Token(
+                        Object.keys(TextCloseByTextOpen).find(
+                            (opener) => TextCloseByTextOpen[opener] === close,
+                        ) ??
+                            close ??
+                            open,
+                        Sym.Text,
+                    ),
+                () => new Token(TextCloseByTextOpen[open] ?? open, Sym.Text),
+            ),
+        );
 
         // Custom characters (CharacterName) and codepoints (CodepointName) now
         // render in plain text (#773). Other references (concept/UI/how doc

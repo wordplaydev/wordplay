@@ -727,7 +727,8 @@
                 "major": "$~错误",
                 "minor": "$~警告"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~在另外 $#count[$count 个地方]也是一样的。"
         },
         "output": {
             "label": "$~舞台",

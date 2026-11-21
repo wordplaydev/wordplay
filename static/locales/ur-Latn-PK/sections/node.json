@@ -1871,6 +1871,16 @@
                     "name": "$~band na kiya gaya nishaan",
                     "explanation": "$~Mujhe $unclosed ke baad kahin $expected ki umeed thi",
                     "resolution": "$~Gum shuda *$expected* shaamil karein"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~na khula hua hadd-band",
+                    "explanation": "$~Mujhe $unopened se pehle kahin $expected ki umeed thi",
+                    "resolution": "$~Gum shuda *$expected* shamil karein"
+                },
+                "StrayDelimiter": {
+                    "name": "$~faaltu hadd bandi",
+                    "explanation": "$~Yeh $delimiter kisi cheez ke saath nahin judta. Isay na koi kholta hai, na koi band karta hai.",
+                    "resolution": "$~Faaltu *$delimiter* hata dein"
                 }
             },
             "exception": {

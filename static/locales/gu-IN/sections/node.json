@@ -1529,6 +1529,16 @@
                     "name": "$~બંધ ન કરેલ સીમાચિહ્ન",
                     "explanation": "$~મને $unclosed પછી ક્યારેક $expected ની અપેક્ષા હતી.",
                     "resolution": "$~ખૂટતું * $expected * ઉમેરો"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~ખોલ્યા વગરનું વિભાજક ચિહ્ન",
+                    "explanation": "$~મને $unopened પહેલાં ક્યાંક $expected અપેક્ષિત હતું",
+                    "resolution": "$~ખૂટતું *$expected* ઉમેરો"
+                },
+                "StrayDelimiter": {
+                    "name": "$~વધારાનું સીમાચિહ્ન",
+                    "explanation": "$~આ $delimiter કશા સાથે બંધબેસતું નથી. તેને કંઈ ખોલતું નથી કે બંધ કરતું નથી.",
+                    "resolution": "$~વધારાનું *$delimiter* કાઢી નાખો"
                 }
             },
             "exception": {

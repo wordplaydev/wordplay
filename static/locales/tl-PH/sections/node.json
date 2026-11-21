@@ -1529,6 +1529,16 @@
                     "name": "$~hindi nasarang delimiter",
                     "explanation": "$~Inaasahan ko ang $expected ilang sandali pagkatapos ng $unclosed",
                     "resolution": "$~Idagdag ang nawawalang * $expected *"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~hindi nabuksang panghati",
+                    "explanation": "$~Inaasahan ko ang $expected bago ang $unopened",
+                    "resolution": "$~Idagdag ang nawawalang *$expected*"
+                },
+                "StrayDelimiter": {
+                    "name": "$~sobrang delimiter",
+                    "explanation": "$~Itong $delimiter ay walang kapares. Walang nagbubukas o nagsasara nito.",
+                    "resolution": "$~Alisin ang sobrang *$delimiter*"
                 }
             },
             "exception": {

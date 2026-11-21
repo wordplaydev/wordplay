@@ -107,6 +107,13 @@ import {
     UPDATE_SYMBOL,
 } from '#parser/Symbols.ts';
 import TokenList from '#parser/TokenList.ts';
+import {
+    MaxRepairs,
+    noRepairs,
+    repair,
+    type Repairs,
+    type Toggle,
+} from '#parser/lexicalRecovery.ts';
 import { toTokens } from '#parser/toTokens.ts';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
@@ -1003,7 +1010,159 @@ export function tokens(source: string): Token[] {
     return tokenize(source).getTokens();
 }
 
-export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
+/**
+ * Segment source into tokens. With `recover`, a source that leaves text, documentation,
+ * formatted text or an example open is read again with that repaired (see lexicalRecovery.ts),
+ * so that one missing delimiter doesn't change what every later one means. That is for
+ * programs being edited: text that is all markup, like a locale's, is read as written,
+ * since what checks it depends on seeing what is wrong with it.
+ */
+export function tokenize(
+    source: string,
+    keywords?: KeywordIndex,
+    recover = false,
+): TokenList {
+    const first = scan(source, keywords);
+    if (!recover) return first;
+    if (!first.getLexical().damaged) return withSplitNames(first, keywords);
+
+    // Read it again, noting each delimiter, then once more for each repair those suggest.
+    const repairs = noRepairs();
+    let toggles: Toggle[] = [];
+    let repaired = scan(source, keywords, repairs, toggles);
+    for (let count = 0; count < MaxRepairs; count++) {
+        if (!repair(clean(source), toggles, repairs)) break;
+        toggles = [];
+        repaired = scan(source, keywords, repairs, toggles);
+    }
+    return withSplitNames(repaired, keywords);
+}
+
+/**
+ * A definition whose `(` was deleted has its name run into its first input's:
+ * `•Pick(words•'')` becomes `•Pickwords•'')`. Where a line begins a definition that has a
+ * `)` and no `(`, and part of its name is a name used elsewhere in the program, the name
+ * is two names, and the missing `(` goes between them (see `analyzeDelimiters`).
+ *
+ * This is done to the tokens rather than while parsing, since the space before the name is
+ * kept by token, and a token made later would have none when the program is written back.
+ */
+function withSplitNames(list: TokenList, keywords?: KeywordIndex): TokenList {
+    const tokens = list.getTokens();
+    const spaces = list.getSpaces();
+    const lexical = list.getLexical();
+
+    const startsLine = (index: number) => {
+        const token = tokens[index];
+        return (
+            index === 0 ||
+            (token !== undefined && spaces.getSpace(token).includes('\n'))
+        );
+    };
+
+    let names: Set<string> | undefined = undefined;
+    let split: { index: number; first: Token; second: Token } | undefined =
+        undefined;
+    for (let index = 0; index < tokens.length - 2 && !split; index++) {
+        const begins = tokens[index];
+        const name = tokens[index + 1];
+        const after = tokens[index + 2];
+        if (
+            !begins ||
+            !name ||
+            !after ||
+            !startsLine(index) ||
+            !(begins.isSymbol(Sym.Type) || begins.isSymbol(Sym.Function)) ||
+            !name.isSymbol(Sym.Name) ||
+            after.isSymbol(Sym.EvalOpen) ||
+            (lexical.contexts[index] ?? 0) < 0
+        )
+            continue;
+        // Is there a `)` on this line that nothing on the line opened?
+        let depth = 0;
+        let unopened = false;
+        for (let at = index + 2; at < tokens.length && !startsLine(at); at++) {
+            const token = tokens[at];
+            if (token?.isSymbol(Sym.EvalOpen)) depth++;
+            else if (token?.isSymbol(Sym.EvalClose)) {
+                if (depth === 0) {
+                    unopened = true;
+                    break;
+                }
+                depth--;
+            }
+        }
+        if (!unopened) continue;
+
+        // The longest beginning of the name that is a name elsewhere, or else the
+        // longest end of it.
+        names ??= new Set(
+            tokens
+                .filter((token) => token.isSymbol(Sym.Name))
+                .map((token) => token.getText()),
+        );
+        const characters = [...name.getText()];
+        let cut = -1;
+        for (
+            let length = characters.length - 1;
+            length > 0 && cut < 0;
+            length--
+        )
+            if (names.has(characters.slice(0, length).join(''))) cut = length;
+        for (let start = 1; start < characters.length && cut < 0; start++)
+            if (names.has(characters.slice(start).join(''))) cut = start;
+        if (cut < 0) continue;
+        const first = scan(characters.slice(0, cut).join(''), keywords)
+            .getTokens()
+            .at(0);
+        const second = scan(characters.slice(cut).join(''), keywords)
+            .getTokens()
+            .at(0);
+        // Only if each half is a name by itself.
+        if (first?.isSymbol(Sym.Name) && second?.isSymbol(Sym.Name))
+            split = { index: index + 1, first, second };
+    }
+    if (!split) return list;
+
+    const { index, first, second } = split;
+    const map = new Map<Token, string>();
+    for (const [at, token] of tokens.entries()) {
+        const space = spaces.getSpace(token);
+        if (space.length > 0) map.set(at === index ? first : token, space);
+    }
+    // What was learned by position, with a position for the token that was added.
+    const shifted = (positions: readonly number[]) =>
+        positions.map((position) =>
+            position > index ? position + 1 : position,
+        );
+    // One split at a time, since a second would need positions that have since moved.
+    return withSplitNames(
+        new TokenList(
+            [
+                ...tokens.slice(0, index),
+                first,
+                second,
+                ...tokens.slice(index + 1),
+            ],
+            map,
+            {
+                contexts: [
+                    ...lexical.contexts.slice(0, index + 1),
+                    lexical.contexts[index] ?? 0,
+                    ...lexical.contexts.slice(index + 1),
+                ],
+                strays: shifted(lexical.strays),
+                unclosed: shifted(lexical.unclosed),
+                ends: shifted(lexical.ends),
+                damaged: true,
+            },
+        ),
+        keywords,
+    );
+}
+
+/** What is never tokenized. */
+function clean(source: string) {
     // First, strip any carriage returns. We only work with line feeds.
     source = source.replaceAll('\r', '');
 
@@ -1016,7 +1175,34 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
     // presentation, so it has to reach the token text and the rendered value.
     // Names strip both (see NameToken), since a name must be presentation-
     // insensitive: 💬 and 💬️ have to resolve to the same definition.
-    source = withoutColorSelector(source);
+    return withoutColorSelector(source);
+}
+
+/** The lexical context a repair ends. */
+const RepairedSym = {
+    doc: Sym.Doc,
+    formatted: Sym.Formatted,
+    text: Sym.Text,
+    pattern: Sym.PatternDelimiter,
+    code: Sym.Code,
+} as const;
+
+/** What closes text that a repair began without a delimiter, which has no text to say. */
+const ImpliedClose = new WeakMap<Token, string>();
+
+/** The delimiter that closes text opened with the given one. */
+function closeOfText(open: Token): string | undefined {
+    return ImpliedClose.get(open) ?? TextCloseByTextOpen[open.getText()];
+}
+
+function scan(
+    source: string,
+    keywords?: KeywordIndex,
+    repairs?: Repairs,
+    toggles?: Toggle[],
+): TokenList {
+    source = clean(source);
+    const length = source.length;
 
     // Start with an empty list
     const tokens: Token[] = [];
@@ -1027,6 +1213,23 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
     // Maintain a stack of context tokens, helping us know when we are opening and closing text, docs, and code, as each has different tokenization rules.
     const context: Token[] = [];
 
+    // Where each token was read; see Lexical in TokenList.
+    const contexts: number[] = [];
+    // Whether anything was left open by the end of its line or of the source.
+    let damaged = false;
+    // The positions of the delimiters a repair decided open and close nothing.
+    const strays: number[] = [];
+    // The positions of the tokens after each example a repair ended.
+    const exampleEnds: number[] = [];
+    // The positions of the delimiters whose contexts a repair ended.
+    const unclosed: number[] = [];
+    // Space read on the way to where a repair ended something, for the token after it.
+    let carried = '';
+    // Where documentation has been begun without a delimiter, so that it is begun once.
+    const begun = new Set<number>();
+    // Which noted delimiter opened each context that is open.
+    const opened = new Map<Token, number>();
+
     // Track markup-only state: how many mention branches ($name[yes|no]) are open, and whether
     // a web link tag (<description@url>) is open. Branch and tag delimiters only tokenize as
     // delimiters in those contexts; elsewhere they are ordinary words.
@@ -1035,6 +1238,45 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
     while (source.length > 0) {
         // Initialize possible elisions and preceding space.
         let space = '';
+
+        if (repairs) {
+            // End what a repair says ends here, and whatever is open inside of it.
+            const ends = repairs.closes.get(length - source.length);
+            const ended =
+                ends === undefined
+                    ? -1
+                    : context.findIndex((open) =>
+                          open.isSymbol(RepairedSym[ends]),
+                      );
+            if (ended >= 0) {
+                for (const open of context.slice(0, ended + 1))
+                    unclosed.push(tokens.lastIndexOf(open));
+                // The parser reads an example as code until its close, so it has to be
+                // told where one without a close stopped being code.
+                if (
+                    context
+                        .slice(0, ended + 1)
+                        .some((open) => open.isSymbol(Sym.Code))
+                )
+                    exampleEnds.push(tokens.length);
+                context.splice(0, ended + 1);
+            }
+            // An interpolation is no longer than the text it is in, which ends with its line.
+            const text = context.findIndex((open) => open.isSymbol(Sym.Text));
+            if (text > 0 && /^[ \t]*\n/.test(source)) {
+                exampleEnds.push(tokens.length);
+                context.splice(0, text + 1);
+            }
+            // Text with nothing more on its line ends here, rather than in the reading of
+            // the token after it, so that a repair can begin something on the next line.
+            const ending = context[0];
+            if (ending?.isSymbol(Sym.Text) && source.startsWith('\n')) {
+                context.shift();
+                damaged = true;
+                const open = toggles?.[opened.get(ending) ?? -1];
+                if (open) open.endedByLine = true;
+            }
+        }
 
         const container = context.length > 0 && context[0];
         const tokenizingMarkup =
@@ -1064,10 +1306,55 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
         // Trim the space we found.
         source = source.substring(space.length);
 
+        // Remember where this token is read, before it changes that.
+        let depth = 0;
+        for (const open of context) if (open.isSymbol(Sym.Code)) depth++;
+        contexts.push(
+            !container || container.isSymbol(Sym.Code) ? depth : -1 - depth,
+        );
+        const inText = container && container.isSymbol(Sym.Text);
+        const offset = length - source.length;
+
+        // Documentation a repair says begins here has no delimiter to begin it, so it
+        // gets one with no text, which is what its missing `¶` is reported on.
+        const begins = begun.has(offset)
+            ? undefined
+            : repairs?.opens.get(offset);
+        if (begins && contexts.at(-1) === depth) {
+            begun.add(offset);
+            const open = new Token(
+                '',
+                begins.kind === 'doc' ? Sym.Doc : Sym.Text,
+            );
+            if (begins.kind === 'text') ImpliedClose.set(open, begins.close);
+            tokens.push(open);
+            if (space.length > 0) spaces.set(open, space);
+            context.unshift(open);
+            opened.set(open, toggles?.length ?? 0);
+            toggles?.push({
+                kind: begins.kind,
+                offset,
+                length: 0,
+                role: 'open',
+                opener: undefined,
+                inExample: false,
+                closer: begins.kind === 'text' ? begins.close : undefined,
+                endedByLine: false,
+                unclosed: false,
+            });
+            continue;
+        }
+
+        // Nothing is read past where a repair ends what it is in.
+        let limit = source.length;
+        if (repairs)
+            for (const end of repairs.closes.keys())
+                if (end > offset && end - offset < limit) limit = end - offset;
+
         // Tokenize the next token. We tokenize in documentation mode if we're inside a doc and the eval depth
         // has not changed since we've entered.
         const stuff = getNextToken(
-            source,
+            limit < source.length ? source.substring(0, limit) : source,
             context,
             { previous: tokens[tokens.length - 1], branchDepth, inTag },
             keywords,
@@ -1080,6 +1367,30 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
             const extraSpace = stuff[1];
             source = source.substring(extraSpace.length);
             space = extraSpace;
+        }
+        // Reading only as far as a repair ends something can come to the end of that with
+        // nothing read but space. That is not the end of the source: the space belongs to
+        // whatever comes after what ends there.
+        if (
+            nextToken.isSymbol(Sym.End) &&
+            limit < length - offset &&
+            source.length > 0
+        ) {
+            contexts.pop();
+            carried += space;
+            continue;
+        }
+        space = carried + space;
+        carried = '';
+
+        // Where the token itself is, now that any space before it is known.
+        const at = length - source.length;
+
+        // Text that ended with its line, rather than with its close, was left open.
+        if (inText && context[0] !== container) {
+            damaged = true;
+            const open = toggles?.[opened.get(container) ?? -1];
+            if (open) open.endedByLine = true;
         }
 
         // Add the new token to the list
@@ -1101,8 +1412,13 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
             else if (nextToken.isSymbol(Sym.TagClose)) inTag = false;
         }
 
+        // What was open before this token, to tell whether it opened or closed.
+        const was = toggles ? [...context] : undefined;
+
+        // A delimiter that a repair decided is neither stays out of it.
+        if (repairs?.inert.has(at)) strays.push(tokens.length - 1);
         // If the token was a code open symbol...
-        if (nextToken.isSymbol(Sym.Code)) {
+        else if (nextToken.isSymbol(Sym.Code)) {
             // Walk down to the nearest Code, skipping an unclosed pattern
             // context (`⣿…`) on the way: a pattern is a lexical mode like text,
             // so an Example span may close (`\`) while a pattern inside it is
@@ -1166,7 +1482,7 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
             const openText = context[0];
             if (
                 openText?.isSymbol(Sym.Text) === true &&
-                nextToken.getText() === TextCloseByTextOpen[openText.getText()]
+                nextToken.getText() === closeOfText(openText)
             )
                 context.shift();
             // Otherwise open one
@@ -1179,16 +1495,67 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
             if (context[0]?.isSymbol(Sym.PatternDelimiter)) context.shift();
             else context.unshift(nextToken);
         }
+
+        // Note each delimiter that takes turns, and which turn it took.
+        const kind = nextToken.isSymbol(Sym.Doc)
+            ? 'doc'
+            : nextToken.isSymbol(Sym.Formatted)
+              ? 'formatted'
+              : nextToken.isSymbol(Sym.Text)
+                ? 'text'
+                : nextToken.isSymbol(Sym.PatternDelimiter)
+                  ? 'pattern'
+                  : undefined;
+        if (toggles && was && kind && !strays.includes(tokens.length - 1)) {
+            const opens = context[0] === nextToken;
+            // What it closed is the outermost of what is no longer open.
+            const closed = was[was.length - context.length - 1];
+            const code = was.findIndex((open) => open.isSymbol(Sym.Code));
+            if (opens) opened.set(nextToken, toggles.length);
+            toggles.push({
+                kind,
+                offset: at,
+                length: nextToken.getText().length,
+                role: opens ? 'open' : 'close',
+                opener: closed ? opened.get(closed) : undefined,
+                inExample:
+                    code >= 0 &&
+                    was
+                        .slice(code)
+                        .some((open) =>
+                            open.isSymbol(kind === 'doc' ? Sym.Doc : Sym.Text),
+                        ),
+                closer:
+                    kind === 'text' && opens
+                        ? closeOfText(nextToken)
+                        : undefined,
+                endedByLine: false,
+                unclosed: false,
+            });
+        }
     }
 
     // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one, and remember the space before it.
     if (tokens.at(-1)?.isSymbol(Sym.End) !== true) {
         const end = new Token('', Sym.End);
         tokens.push(end);
+        contexts.push(0);
         if (source.length > 0) spaces.set(end, source);
     }
+    if (context.length > 0) damaged = true;
+    for (const open of context) {
+        const toggle = toggles?.[opened.get(open) ?? -1];
+        if (toggle) toggle.unclosed = true;
+    }
 
-    return new TokenList(tokens, spaces);
+    return new TokenList(tokens, spaces, {
+        contexts,
+        strays,
+        unclosed,
+        ends: exampleEnds,
+        // A source that needed repairs was damaged, however well they went.
+        damaged: damaged || repairs !== undefined,
+    });
 }
 
 function getNextToken(
@@ -1215,7 +1582,7 @@ function getNextToken(
             const codeIndex = source.match(/(?<!\\)\\(?!\\)/)?.index ?? -1;
             // A delimiter that opens nothing — a right curly quote used as an
             // opener, say — has no close to look for, so nothing closes it.
-            const close = TextCloseByTextOpen[container.getText()];
+            const close = closeOfText(container);
             const closeIndex = close === undefined ? -1 : source.indexOf(close);
             const lineIndex = source.indexOf('\n');
             // Custom-character references (e.g. @amy/cat or @U/1F600) are tokenized as

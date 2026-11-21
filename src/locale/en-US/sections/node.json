@@ -1871,6 +1871,16 @@
                     "name": "unclosed delimiter",
                     "explanation": "I expected $expected sometime after $unclosed",
                     "resolution": "Add the missing *$expected*"
+                },
+                "StrayDelimiter": {
+                    "name": "extra delimiter",
+                    "explanation": "This $delimiter doesn't go with anything. Nothing opens it or closes it.",
+                    "resolution": "Remove the extra *$delimiter*"
+                },
+                "UnopenedDelimiter": {
+                    "name": "unopened delimiter",
+                    "explanation": "I expected $expected sometime before $unopened",
+                    "resolution": "Add the missing *$expected*"
                 }
             },
             "exception": {

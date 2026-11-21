@@ -732,7 +732,8 @@
                 "major": "$~error",
                 "minor": "$~advertencia"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~Es igual en $#count[$count otro lugar|$count de otros lugares|$count otros lugares]."
         },
         "output": {
             "label": "$~escenario",

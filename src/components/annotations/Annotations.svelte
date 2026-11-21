@@ -12,6 +12,9 @@
         messages: ((locales: Locales) => Markup)[];
         kind: 'step' | 'major' | 'minor';
         context: Context;
+        /** How many other places have the same conflict for the same reason, which this one
+         *  stands for. Said after the explanation, and before what can be done about it. */
+        places?: number;
         /**
          * A thunk that returns the conflict's resolutions. `readonly Resolution[]`
          * lets us accept both the non-empty `Resolutions` tuple from new
@@ -43,6 +46,7 @@
     import CommandButton from '#components/widgets/CommandButton.svelte';
     import Sidebar from '#components/widgets/Sidebar.svelte';
     import Templates from '#concepts/Templates.ts';
+    import { getCauseResolutions, groupByCause } from '#conflicts/causes.ts';
     import type Conflict from '#conflicts/Conflict.ts';
     import type {
         ConflictLocaleAccessor,
@@ -197,32 +201,55 @@
             await loadLocaleNameIndex();
         if (destroyed) return;
 
-        // Map source conflicts to annotation infos.
-        const infos: AnnotationInfo[] = sourceConflicts.map(
-            (conflict: Conflict) => {
-                // getMessage is cheap (no inference) — explanation needed eagerly for the speech bubble.
-                // Resolutions are wrapped in a thunk and only computed when the annotation renders.
-                const nodes = conflict.getMessage(context, Templates);
-                const messageContext =
-                    project.getNodeContext(nodes.node) ??
-                    project.getContext(project.getMain());
-                return {
-                    node: nodes.node,
-                    element: getNodeView(nodes.node),
-                    messages: [
-                        (locales: Locales) =>
-                            nodes.explanation(locales, messageContext),
-                    ],
-                    kind: conflict.isMinor()
-                        ? ('minor' as const)
-                        : ('major' as const),
-                    context,
-                    resolutions: () =>
-                        conflict.getResolutions(context, Templates),
-                    conflict: conflict.getLocalePath(),
-                };
-            },
+        // One annotation for each mistake, not each place it shows up: thirty uses of a
+        // name that isn't defined are one thing to fix, and listing all thirty buries it.
+        // In order of appearance, so the one shown is the first; every place is still
+        // underlined in the code.
+        const firstPosition = (conflict: Conflict) =>
+            source.getNodeFirstPosition(
+                conflict.getMessage(context, Templates).node,
+            ) ?? 0;
+        const causes = groupByCause(
+            sourceConflicts
+                .map((conflict) => ({
+                    conflict,
+                    position: firstPosition(conflict),
+                }))
+                .sort((a, b) => a.position - b.position)
+                .map(({ conflict }) => conflict),
+            (node) => source.root.has(node),
         );
+
+        // Map those to annotation infos.
+        const infos: AnnotationInfo[] = causes.map(({ conflict, echoes }) => {
+            // getMessage is cheap (no inference) — explanation needed eagerly for the speech bubble.
+            // Resolutions are wrapped in a thunk and only computed when the annotation renders.
+            const nodes = conflict.getMessage(context, Templates);
+            const messageContext =
+                project.getNodeContext(nodes.node) ??
+                project.getContext(project.getMain());
+            return {
+                node: nodes.node,
+                element: getNodeView(nodes.node),
+                messages: [
+                    (locales: Locales) =>
+                        nodes.explanation(locales, messageContext),
+                ],
+                places: echoes.length,
+                kind: conflict.isMinor()
+                    ? ('minor' as const)
+                    : ('major' as const),
+                context,
+                // For the cause, so that what repairs one place repairs them all.
+                resolutions: () =>
+                    getCauseResolutions(
+                        { conflict, echoes },
+                        context,
+                        Templates,
+                    ),
+                conflict: conflict.getLocalePath(),
+            };
+        });
 
         // Sort by order of appearance in the source (the conflict node's first
         // position). Analysis order is usually but not always source order.

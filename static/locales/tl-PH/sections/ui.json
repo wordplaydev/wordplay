@@ -1014,7 +1014,8 @@
                 "major": "$~error",
                 "minor": "$~babala"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~Pareho lang ito sa $#count[$count ibang lugar|$count na ibang lugar]."
         },
         "output": {
             "label": "$~entablado",

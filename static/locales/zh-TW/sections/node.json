@@ -1527,6 +1527,16 @@
                     "name": "$~未閉合的分隔符號",
                     "explanation": "$~我原本預期在 $unclosed 之後某處會有 $expected",
                     "resolution": "$~加上缺少的 *$expected*"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~沒有配對的起始符號",
+                    "explanation": "$~我預期在 $unopened 之前會出現 $expected",
+                    "resolution": "$~加上缺少的 *$expected*"
+                },
+                "StrayDelimiter": {
+                    "name": "$~多餘的分隔符號",
+                    "explanation": "$~這個 $delimiter 沒有搭配的對象。沒有東西開啟它，也沒有東西關閉它。",
+                    "resolution": "$~移除多餘的 *$delimiter*"
                 }
             },
             "exception": {

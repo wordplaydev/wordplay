@@ -29,18 +29,14 @@ function getRepairs(code: string): Node[] {
             `Expected an UnparsableConflict for code "${code}" but found none — input parses cleanly.`,
         );
     }
-    const resolutions = conflict.getResolutions(context, Templates);
-    return resolutions
-        .filter(
-            (r): r is Extract<typeof r, { kind: 'repair' }> =>
-                r.kind === 'repair',
-        )
-        .map((r) => {
-            const { newNode } = r.mediator(context, project.getLocales());
-            if (newNode === undefined)
-                throw new Error('Resolution mediator returned no newNode');
-            return newNode;
-        });
+    // What it infers from the code around it, which is what these tests are about. A
+    // stray delimiter also offers to be taken out, which replaces it with nothing.
+    return conflict.getLikelyIntentions(Templates).map((r) => {
+        const { newNode } = r.mediator(context, project.getLocales());
+        if (newNode === undefined)
+            throw new Error('Resolution mediator returned no newNode');
+        return newNode;
+    });
 }
 
 /**

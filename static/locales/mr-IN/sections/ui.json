@@ -751,7 +751,8 @@
                 "major": "$~त्रुटी",
                 "minor": "$~इशारा"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~हे $#count[इतर $count ठिकाणीही|इतर $count ठिकाणीही] तसेच आहे."
         },
         "output": {
             "label": "$~रंगमंच",

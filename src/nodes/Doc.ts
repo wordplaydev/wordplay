@@ -1,3 +1,4 @@
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
 import type Conflict from '#conflicts/Conflict.ts';
 import { PossiblePII } from '#conflicts/PossiblePII.ts';
 import type { InsertContext } from '#edit/revision/EditContext.ts';
@@ -150,7 +151,19 @@ export default class Doc extends LanguageTagged {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        return PossiblePII.analyze(this, context);
+        const delimiter = () => new Token(DOCS_SYMBOL, Sym.Doc);
+        return [
+            ...PossiblePII.analyze(this, context),
+            // Recovery ends unclosed documentation, and begins unopened documentation,
+            // by its lines, and this is what says that it did.
+            ...getDelimiterConflicts(
+                this,
+                this.open,
+                this.close,
+                delimiter,
+                delimiter,
+            ),
+        ];
     }
 
     /**

@@ -149,8 +149,10 @@ function parseWords(tokens: Tokens): Words {
 
 export function parseExample(tokens: Tokens): Example {
     const open = tokens.read(Sym.Code);
+    tokens.enterExample();
     const program = parseProgram(tokens, true);
-    const close = tokens.readIf(Sym.Code);
+    tokens.leaveExample();
+    const close = tokens.readCloseOf(open, Sym.Code);
 
     // An example may carry trailing annotation suffixes after its closing `\`:
     // `⭐`/`highlight` (highlight in tutorials) and `🪲` (expected-to-have-conflicts).

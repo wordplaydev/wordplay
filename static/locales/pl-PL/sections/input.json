@@ -506,7 +506,7 @@
                 "\\🖋('a' \"Noto Sans\")\\",
                 "Podaj te wartości @Place do @List elementów @Phrase, aby zobaczyć kontur narysowany jako kropki:",
                 "\\🎭(🖋('a' \"Noto Sans\" 10m).przekształć(ƒ(punkt) 💬('•' miejsce: punkt)))\\",
-                "Możesz skalować kontur za pomocą @Number metrów, przesunąć jego początek za pomocą @Place, wybrać grubość pisma, włączyć kursywę i ustawić `spacing` między punktami jako odległość w metrach. Mniejszy `spacing` śledzi kontur dokładniej, z równomiernie rozmieszczonymi punktami zarówno na liniach, jak i na krzywych.",
+                "Możesz skalować kontur za pomocą @Number metrów, przesunąć jego początek za pomocą @Place, wybrać grubość pisma, włączyć kursywę i ustawić /Rozstaw/ między punktami jako odległość w metrach. Mniejszy /Rozstaw/ śledzi kontur dokładniej, z równomiernie rozmieszczonymi punktami zarówno na liniach, jak i na krzywych.",
                 "Niektóre kształty, jak kolorowe emoji, nie mają konturu, więc nie dodają punktów. Podczas pobierania kroju pisma da ci pustą @List, a potem wypełni ją, gdy będzie gotowa."
             ],
             "names": ["$~Kontur"],
@@ -676,7 +676,7 @@
                 "Podnieś coś do kamery, a @Objects spróbuje to nazwać.",
                 "Za kulisami @Objects używa modelu uczenia maszynowego, który zna 80 rodzajów codziennych rzeczy.",
                 "W każdej klatce @Objects daje ci @List z @Thing, uporządkowaną według tego, jak bardzo model jest pewny, z najpewniejszą na początku. Zajrzyj do @Thing, aby zobaczyć, co mówi ci każda z nich.",
-                "Model tylko zgaduje, więc czasem się pomyli albo nic nie zobaczy. Poproś o wyższą @value `confidence`, aby usłyszeć tylko te odpowiedzi, których jest najbardziej pewny.",
+                "Model tylko zgaduje, więc czasem się pomyli albo nic nie zobaczy. Poproś o wyższą @value /pewność/, aby usłyszeć tylko te odpowiedzi, których jest najbardziej pewny.",
                 "Oto przykład, który nazywa wszystko, co widzi kamera:",
                 "\\🎭(📦() ↦ 💬(⬚.nazwa miejsce: ⬚.miejsce))\\",
                 "Możesz też szukać tylko jednego rodzaju rzeczy i pominąć resztę:",

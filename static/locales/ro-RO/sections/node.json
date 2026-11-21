@@ -1529,6 +1529,16 @@
                     "name": "$~delimitator neînchis",
                     "explanation": "$~Mă așteptam $expected cândva după $unclosed",
                     "resolution": "$~Adăugați elementul lipsă * $expected *"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~delimitator neînchis",
+                    "explanation": "$~Mă așteptam la $expected undeva înainte de $unopened",
+                    "resolution": "$~Adaugă *$expected* care lipsește"
+                },
+                "StrayDelimiter": {
+                    "name": "$~delimitator în plus",
+                    "explanation": "$~Acest $delimiter nu se potrivește cu nimic. Nimic nu îl deschide și nimic nu îl închide.",
+                    "resolution": "$~Elimină *$delimiter* în plus"
                 }
             },
             "exception": {

@@ -1528,6 +1528,16 @@
                     "name": "$~닫히지 않은 구분 기호",
                     "explanation": "$~저는 $expected $unclosed 이후 어느 시점에 나올 거라고 예상했습니다.",
                     "resolution": "$~누락된 * $expected *를 추가하세요"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~열리지 않은 구분 기호",
+                    "explanation": "$~$unopened 앞 어딘가에 $expected 이(가) 있어야 합니다.",
+                    "resolution": "$~빠진 *$expected* 을(를) 추가하세요"
+                },
+                "StrayDelimiter": {
+                    "name": "$~불필요한 구분 기호",
+                    "explanation": "$~이 $delimiter 는 어디에도 짝이 없습니다. 이것을 여는 기호도, 닫는 기호도 없습니다.",
+                    "resolution": "$~불필요한 *$delimiter* 를 지우세요"
                 }
             },
             "exception": {

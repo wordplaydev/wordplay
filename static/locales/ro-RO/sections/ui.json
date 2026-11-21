@@ -1009,7 +1009,8 @@
                 "major": "$~eroare",
                 "minor": "$~avertizare"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~Este la fel în $#count[$count alt loc|$count alte locuri|$count de alte locuri]."
         },
         "output": {
             "label": "$~etapă",

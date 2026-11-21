@@ -218,7 +218,8 @@ function parsePatternGroup(tokens: Tokens): PatternGroup {
 
 function parsePatternLook(tokens: Tokens): PatternLook {
     const direction = tokens.read();
-    const open = tokens.read(Sym.EvalOpen);
+    // Not `read`, which throws when the `(` isn't there, as it isn't while one is being typed.
+    const open = readOr(tokens, Sym.EvalOpen);
     const body = parsePatternSequence(tokens);
     const close = tokens.readIf(Sym.EvalClose);
     return new PatternLook(direction, open, body, close);
@@ -229,7 +230,7 @@ function parsePatternCaseFold(tokens: Tokens): PatternCaseFold {
     const language = tokens.nextIs(Sym.Language)
         ? parseLanguage(tokens)
         : undefined;
-    const open = tokens.read(Sym.EvalOpen);
+    const open = readOr(tokens, Sym.EvalOpen);
     const body = parsePatternSequence(tokens);
     const close = tokens.readIf(Sym.EvalClose);
     return new PatternCaseFold(fold, language, open, body, close);

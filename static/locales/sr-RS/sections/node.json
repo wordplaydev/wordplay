@@ -1529,6 +1529,16 @@
                     "name": "$~незатворен граничник",
                     "explanation": "$~Очекивао/ла сам $expected некада након $unclosed",
                     "resolution": "$~Додајте недостајућу * $expected *"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~неотворени граничник",
+                    "explanation": "$~Очекивао сам $expected негде пре $unopened",
+                    "resolution": "$~Додај недостајуће *$expected*"
+                },
+                "StrayDelimiter": {
+                    "name": "$~вишак graničника",
+                    "explanation": "$~Овај $delimiter не одговара ничему. Ништа га не отвара нити затвара.",
+                    "resolution": "$~Уклони вишак *$delimiter*"
                 }
             },
             "exception": {

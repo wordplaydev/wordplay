@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Zmiana nazwy klasy lub galerii nie usuwa już osoby, która została do niej dodana w tej samej chwili.",
         "e64f54009f821": "$~Foldery i inne ustawienia zmienione na jednym komputerze nie są już kasowane przez inny komputer, który został otwarty.",
         "e42ff6b707cdc": "$~Wiadomości czatu wysłane przez innych, gdy byłeś offline, nie są już kasowane po ponownym połączeniu.",
-        "e4420e66c0d11": "$~Zapisanie jednego własnego znaku nie cofa już nowszych zmian w innym własnym znaku."
+        "e4420e66c0d11": "$~Zapisanie jednego własnego znaku nie cofa już nowszych zmian w innym własnym znaku.",
+        "ee7ad9a6b11e5": "$~Brakujący lub dodatkowy nawias okrągły, nawias kwadratowy, cudzysłów lub \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶",
+        "e834452260d8f": "$~Nazwa, która nie jest zdefiniowana, jest teraz jednym konfliktem, który mówi, w ilu innych miejscach jest użyta, a jego naprawa zmienia nazwę we wszystkich naraz.",
+        "e7f51c8353c3a": "$~Strony <Przewodnika@https://wordplay.dev/guide> dla \\Obiekty\\ i \\Kontur\\ nie urywają się już w połowie.",
+        "ef8844bd76bc9": "$~Przyciski pod każdą postacią w galerii nie nachodzą już na przyciski następnej postaci, a nazwa galerii nie jest już ucinana.",
+        "e148a40c1fbbb": "$~Nauczyciele mogą teraz założyć konto uczniowi, który dołącza do klasy później, prosto ze strony klasy.",
+        "e361f5cf3dffa": "$~W trybie /bloki/ \\+\\ po liście dodaje teraz puste miejsce, w którym można pisać, jego menu podpowiada więcej tego, co lista już zawiera, a przy każdej liczbie widać jedno menu jednostek zamiast dwóch. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Dołączanie za pomocą nazwy użytkownika i hasła nie pokazuje już błędu, gdy konto zostało naprawdę utworzone, a ponowna próba teraz cię loguje.",
+        "ecc16fa29a890": "$~Paleta kodu w trybie /bloki/ nie zamyka się już, gdy nie trafisz w blok, nie pokazuje już bloków, które wyglądają tak samo, i daje malutkim blokom ramkę, którą łatwiej chwycić. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

@@ -1529,6 +1529,16 @@
                     "name": "$~kapatılmamış ayraç",
                     "explanation": "$~$expected'ın $unclosed'dan bir süre sonra olmasını bekliyordum.",
                     "resolution": "$~Eksik olan * $expected * öğesini ekleyin."
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~açılmamış sınırlayıcı",
+                    "explanation": "$~$unopened öncesinde bir yerde $expected bekliyordum",
+                    "resolution": "$~Eksik olan *$expected* ifadesini ekle"
+                },
+                "StrayDelimiter": {
+                    "name": "$~fazladan ayırıcı",
+                    "explanation": "$~Bu $delimiter hiçbir şeyle eşleşmiyor. Onu açan ya da kapatan hiçbir şey yok.",
+                    "resolution": "$~Fazladan *$delimiter* öğesini kaldır"
                 }
             },
             "exception": {

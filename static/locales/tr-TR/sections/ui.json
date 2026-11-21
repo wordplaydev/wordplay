@@ -756,7 +756,8 @@
                 "major": "$~hata",
                 "minor": "$~uyarı"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~Aynısı $#count[$count başka yerde|$count başka yerde] de var."
         },
         "output": {
             "label": "$~sahne",

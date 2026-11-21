@@ -751,7 +751,8 @@
                 "major": "$~エラー",
                 "minor": "$~警告"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~ほかの$#count[$count か所]でも同じです。"
         },
         "output": {
             "label": "$~ステージ",

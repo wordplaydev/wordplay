@@ -397,7 +397,7 @@
                 "Camera ke saamne koi cheez pakdein aur @Objects uska naam batane ki koshish karega.",
                 "Pardey ke peechhe, @Objects ek machine-learning model istemaal karta hai jo rozmarra ki 80 qism ki cheezein pehchanta hai.",
                 "Har frame mein, @Objects aapko @Thing ki ek @List deta hai, jo is tarteeb se hoti hai ke model jis par sabse zyada yaqeen rakhta hai woh pehle aata hai. Har ek se kya pata chalta hai, yeh dekhne ke liye @Thing dekhein.",
-                "Model sirf andaza lagata hai, is liye kabhi woh ghalat hota hai ya kuch bhi nahin dekhta. Sirf woh andaze sunne ke liye jin par usay sabse zyada yaqeen ho, zyada `confidence` maangein.",
+                "Model sirf andaza lagata hai, is liye kabhi woh ghalat hota hai ya kuch bhi nahin dekhta. Sirf woh andaze sunne ke liye jin par usay sabse zyada yaqeen ho, zyada /yaqeen/ maangein.",
                 "Yeh ek misaal hai jo camera ki dekhi hui har cheez ko naam deti hai:",
                 "\\Stage(Cheezein() ↦ Jumla(⬚.naam jagah: ⬚.jagah))\\",
                 "Aap sirf ek qism ki cheez bhi @query kar sakte hain, aur baqi ko nazar andaaz kar sakte hain:",
@@ -671,7 +671,7 @@
                 "\\Khaaka('a' \"Noto Sans\")\\",
                 "In @Place @values ko @Phrase ke @List mein dein taake outline nuqton ki shakal mein dikhe:",
                 "\\Stage(\n\tKhaaka('a' \"Noto Sans\" 10m).badlo(\n\t\tƒ(nuqta) Jumla('•' jagah: nuqta)\n\t)\n)\\",
-                "Aap outline ko meters ke @Number se chhota bada kar sakte hain, uski origin ko @Place se hila sakte hain, font ka wazan chun sakte hain, italics laga sakte hain, aur nuqton ke beech `spacing` ko meters mein faasle ke taur par rakh sakte hain. Chhoti `spacing` outline ko zyada qareeb se banati hai, lakeeron aur mudaaron dono par barabar faasle ke nuqton ke saath.",
+                "Aap outline ko meters ke @Number se chhota bada kar sakte hain, uski origin ko @Place se hila sakte hain, font ka wazan chun sakte hain, italics laga sakte hain, aur nuqton ke beech /Faasla/ ko meters mein faasle ke taur par rakh sakte hain. Chhoti /Faasla/ outline ko zyada qareeb se banati hai, lakeeron aur mudaaron dono par barabar faasle ke nuqton ke saath.",
                 "Kuch glyphs, jaise rangeen emoji, ki outline nahin hoti, is liye woh koi nuqta nahin jodte. Jab tak yeh font laata hai, yeh aapko ek khaali @List dega, phir tayyar hone par use bhar dega."
             ],
             "names": ["$~Khaaka"],

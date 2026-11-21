@@ -1529,6 +1529,16 @@
                     "name": "$~pembatas tidak tertutup",
                     "explanation": "$~Saya memperkirakan $expected beberapa saat setelah $unclosed",
                     "resolution": "$~Tambahkan * $expected * yang hilang"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~pembatas yang belum dibuka",
+                    "explanation": "$~Saya mengharapkan $expected sebelum $unopened",
+                    "resolution": "$~Tambahkan *$expected* yang hilang"
+                },
+                "StrayDelimiter": {
+                    "name": "$~pembatas berlebih",
+                    "explanation": "$~$delimiter ini tidak cocok dengan apa pun. Tidak ada yang membukanya atau menutupnya.",
+                    "resolution": "$~Hapus *$delimiter* yang berlebih"
                 }
             },
             "exception": {

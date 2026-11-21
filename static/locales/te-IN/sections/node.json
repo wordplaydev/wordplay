@@ -1529,6 +1529,16 @@
                     "name": "$~మూయని డీలిమిటర్",
                     "explanation": "$~$unclosed తర్వాత ఎప్పుడైనా $expected వస్తుందని నేను ఆశించాను.",
                     "resolution": "$~లోపించిన * $expected * ను జోడించండి"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~తెరవని డిలిమిటర్",
+                    "explanation": "$~$unopened కంటే ముందు ఎక్కడైనా $expected వస్తుందని నేను ఊహించాను",
+                    "resolution": "$~లేని *$expected* ను చేర్చండి"
+                },
+                "StrayDelimiter": {
+                    "name": "$~అదనపు డిలిమిటర్",
+                    "explanation": "$~ఈ $delimiter దేనితోనూ సరిపోవడం లేదు. దీన్ని ఏదీ తెరవదు, ఏదీ మూసివేయదు.",
+                    "resolution": "$~అదనపు *$delimiter* ను తీసివేయండి"
                 }
             },
             "exception": {

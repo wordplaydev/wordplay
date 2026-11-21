@@ -1,3 +1,5 @@
+import UnopenedDelimiter from '#conflicts/UnopenedDelimiter.ts';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import DuplicateName from '#conflicts/DuplicateName.ts';
 import DuplicateTypeVariable from '#conflicts/DuplicateTypeVariable.ts';
 import { MisplacedShare } from '#conflicts/MisplacedShare.ts';
@@ -58,4 +60,26 @@ test('A declared structure output type resolves to the structure', () => {
 test('A declared output that is a type variable stays a type variable', () => {
     testTypes('ƒ id⸨T⸩(x•T)•T x\nid(1)', NumberType);
     testTypes("ƒ id⸨T⸩(x•T)•T x\nid('hi')", TextType);
+});
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test('an unclosed FunctionDefinition says so', () => {
+    testConflict(
+        'ƒ double(n•#) n · 2',
+        'ƒ double(n•# n · 2',
+        FunctionDefinition,
+        UnclosedDelimiter,
+    );
+});
+
+test('a FunctionDefinition whose ( was deleted is still one, and says so', () => {
+    // Deleting it runs the name into the first input's, and they are told apart by
+    // the name's being used elsewhere.
+    testConflict(
+        'ƒ double(n•#) n · 2\ndouble(1)',
+        'ƒ doublen•#) n · 2\ndouble(1)',
+        FunctionDefinition,
+        UnopenedDelimiter,
+    );
 });

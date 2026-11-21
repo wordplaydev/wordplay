@@ -1,3 +1,4 @@
+import { analyzeDelimiters } from '#parser/delimiterRecovery.ts';
 import type { TemplateInput } from '#locale/Locales.ts';
 import type Locales from '#locale/Locales.ts';
 import type LocaleText from '#locale/LocaleText.ts';
@@ -130,13 +131,19 @@ export default class Source extends Expression {
 
         if (typeof code === 'string' || code instanceof UnicodeString) {
             // Generate the AST from the provided code.
+            // Recovering, since this is a program someone may be in the middle of writing.
             const tokens = tokenize(
                 code instanceof UnicodeString ? code.getText() : code,
                 keywords,
+                true,
             );
             this.tokens = tokens.getTokens();
             this.expression = parseProgram(
-                new Tokens(this.tokens, tokens.getSpaces()),
+                new Tokens(
+                    this.tokens,
+                    tokens.getSpaces(),
+                    tokens.getLexical(),
+                ),
             );
             this.root = new Root(this);
             this.spaces = tokens.getSpaces().withRoot(this);
@@ -432,7 +439,7 @@ export default class Source extends Expression {
      * */
     reparse(newCode: string): Source {
         // Tokenize the new text with this source's keyword index so typed keyword words keep parsing.
-        const tokenList = tokenize(newCode, this.keywords);
+        const tokenList = tokenize(newCode, this.keywords, true);
         const newTokens = tokenList.getTokens();
         const newSpaces = tokenList.getSpaces();
 
@@ -447,7 +454,16 @@ export default class Source extends Expression {
         // string, name, number, comment, or doc, where a single token's text
         // changes but no boundary moves. tryTextOnlyEdit returns undefined
         // if the edit doesn't qualify, falling through to the slow path.
-        const fast = this.tryTextOnlyEdit(newTokens, newSpaces);
+        // Not for a program with a delimiter missing: how that is read depends on its
+        // layout as well as its tokens, so the same tokens can be a different tree.
+        const lexical = tokenList.getLexical();
+        const recovery = analyzeDelimiters(newTokens, newSpaces, lexical);
+        const fast =
+            lexical.damaged ||
+            recovery.stray.size > 0 ||
+            recovery.boundary.size > 0
+                ? undefined
+                : this.tryTextOnlyEdit(newTokens, newSpaces);
         if (fast !== undefined) return fast;
 
         // Make a mutable list of the old tokens
@@ -486,7 +502,9 @@ export default class Source extends Expression {
         // Try to reuse as many Nodes as possible by parsing the program with revised tokens, then identifying
         // subtrees that are equivalent in the old and new tree, then recycling them in the new tree. Equivalence is defined as any node
         // that has an referentially identical sequence of Tokens and is of the same type.
-        let newProgram = parseProgram(new Tokens(newTokens, newSpaces));
+        let newProgram = parseProgram(
+            new Tokens(newTokens, newSpaces, tokenList.getLexical()),
+        );
 
         // Make an empty list of replacements.
         const replacements: [Node, Node][] = [];

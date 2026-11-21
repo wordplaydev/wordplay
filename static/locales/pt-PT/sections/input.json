@@ -506,7 +506,7 @@
                 "\\Contorno('a' \"Noto Sans\")\\",
                 "Forneça estes valores @Place a uma @List de @Phrase para ver o contorno desenhado como pontos:",
                 "\\Palco(Contorno('a' \"Noto Sans\" 10m).traduzir(ƒ(point) Frase('•' local: point)))\\",
-                "Pode dimensionar o contorno com um @Number de metros, mover a sua origem com um @Place , escolher uma espessura de fonte, ativar o itálico e definir o `espaçamento` entre os pontos como uma distância em metros. Um `espaçamento` mais pequeno traça o contorno mais de perto, com pontos uniformemente espaçados ao longo de linhas e curvas.",
+                "Pode dimensionar o contorno com um @Number de metros, mover a sua origem com um @Place , escolher uma espessura de fonte, ativar o itálico e definir o /espaçamento/ entre os pontos como uma distância em metros. Um /espaçamento/ mais pequeno traça o contorno mais de perto, com pontos uniformemente espaçados ao longo de linhas e curvas.",
                 "Alguns glifos, como os emojis coloridos, não têm contorno, pelo que não acrescentam pontos. Enquanto a fonte é carregada, esta irá apresentar uma lista vazia @List ) e preenchê-la quando estiver pronta."
             ],
             "names": ["Contorno"],
@@ -676,7 +676,7 @@
                 "Mostra algo à câmara e o @Objects vai tentar dar-lhe um nome.",
                 "Nos bastidores, o @Objects usa um modelo de aprendizagem automática que conhece 80 tipos de coisas do dia a dia.",
                 "Em cada imagem, o @Objects dá-te uma @List de @Thing, ordenada pela certeza do modelo, com a mais certa primeiro. Vê @Thing para saber o que cada uma te diz.",
-                "O modelo está apenas a adivinhar, por isso às vezes vai errar, ou não ver nada. Pede uma `confidence` maior para ouvires só as suposições de que tem mais certeza.",
+                "O modelo está apenas a adivinhar, por isso às vezes vai errar, ou não ver nada. Pede uma /confiança/ maior para ouvires só as suposições de que tem mais certeza.",
                 "Aqui está um exemplo que rotula tudo o que a câmara vê:",
                 "\\🎭(📦() ↦ 💬(⬚.nome local: ⬚.local))\\",
                 "Também podes procurar apenas um tipo de coisa e ignorar as restantes:",

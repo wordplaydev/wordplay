@@ -1,3 +1,4 @@
+import UnopenedDelimiter from '#conflicts/UnopenedDelimiter.ts';
 import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import SetLiteral from '#nodes/SetLiteral.ts';
 import { testConflict } from '#conflicts/TestUtilities.ts';
@@ -54,3 +55,12 @@ test.each([['{1 2}', '{1 2', SetLiteral, UnclosedDelimiter, 0]])(
         testConflict(good, bad, node, conflict, index);
     },
 );
+
+test('a SetLiteral with no opening delimiter says so', () => {
+    testConflict(
+        'a: {\n\t1\n}\na',
+        'a: \n\t1\n}\na',
+        SetLiteral,
+        UnopenedDelimiter,
+    );
+});

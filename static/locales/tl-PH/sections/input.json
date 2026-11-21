@@ -506,7 +506,7 @@
                 "\\Kontur('a' \"Noto Sans\")\\",
                 "Ipakain ang mga halagang @Place na iyon sa isang @List of @Phrase upang makita ang balangkas na iginuhit bilang mga tuldok:",
                 "\\Entablado(Kontur('a' \"Noto Sans\" 10m).isalin(ƒ(point) Parirala('•' lugar: point)))\\",
-                "Maaari mong i-scale ang outline gamit ang @Number of meters, ilipat ang pinagmulan nito gamit ang @Place , pumili ng font weight, i-on ang italics, at itakda ang `spacing` sa pagitan ng mga punto bilang distansya sa metro. Ang mas maliit na `spacing` ay mas malapit na sumusubaybay sa outline, na may pantay na pagitan ng mga punto sa parehong linya at kurba.",
+                "Maaari mong i-scale ang outline gamit ang @Number of meters, ilipat ang pinagmulan nito gamit ang @Place , pumili ng font weight, i-on ang italics, at itakda ang /Pag-iisa/ sa pagitan ng mga punto bilang distansya sa metro. Ang mas maliit na /Pag-iisa/ ay mas malapit na sumusubaybay sa outline, na may pantay na pagitan ng mga punto sa parehong linya at kurba.",
                 "Ang ilang mga glyph, tulad ng color emoji, ay walang outline, kaya wala silang dinadagdag na mga point. Habang kinukuha nito ang font, bibigyan ka nito ng isang blangkong @List , pagkatapos ay pupunan ito kapag handa na ito."
             ],
             "names": ["$~Kontur"],
@@ -676,7 +676,7 @@
                 "Magtaas ng isang bagay sa harap ng kamera at susubukan ng @Objects na pangalanan ito.",
                 "Sa likod ng eksena, gumagamit ang @Objects ng isang modelong natututo ng makina na nakakaalam ng 80 uri ng pang-araw-araw na bagay.",
                 "Sa bawat frame, binibigyan ka ng @Objects ng isang @List ng @Thing, na inayos ayon sa kung gaano kasigurado ang modelo, na may pinakasigurado sa unahan. Tingnan ang @Thing para sa kung ano ang sinasabi sa iyo ng bawat isa.",
-                "Naghuhula lamang ang modelo, kaya kung minsan ay magkakamali ito, o walang makikita. Humingi ng mas mataas na `confidence` upang marinig lamang ang mga hulang pinakasigurado ito.",
+                "Naghuhula lamang ang modelo, kaya kung minsan ay magkakamali ito, o walang makikita. Humingi ng mas mataas na /tiwala/ upang marinig lamang ang mga hulang pinakasigurado ito.",
                 "Narito ang isang halimbawa na nilalagyan ng label ang lahat ng nakikita ng kamera:",
                 "\\🎭(📦() ↦ 💬(⬚.pangalan lugar: ⬚.lugar))\\",
                 "Maaari ka ring maghanap ng iisang uri lamang ng bagay, at balewalain ang iba:",

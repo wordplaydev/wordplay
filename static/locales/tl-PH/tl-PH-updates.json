@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Hindi na natatanggal ang taong sabay na idinagdag kapag pinalitan ang pangalan ng isang klase o gallery.",
         "e64f54009f821": "$~Hindi na binubura ng ibang computer na iniwan mong nakabukas ang mga folder at iba pang setting na binago mo sa isang computer.",
         "e42ff6b707cdc": "$~Hindi na nabubura ang mga mensahe sa chat na ipinadala ng iba habang offline ka kapag muli kang kumonekta.",
-        "e4420e66c0d11": "$~Hindi na binabawi ng pag-save ng isang custom na karakter ang mas bagong pagbabago sa isa pa."
+        "e4420e66c0d11": "$~Hindi na binabawi ng pag-save ng isang custom na karakter ang mas bagong pagbabago sa isa pa.",
+        "ee7ad9a6b11e5": "$~Isang kulang o sobrang panaklong, bracket, panipi o \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶",
+        "e834452260d8f": "$~Ang pangalang hindi pa naitatakda ay isa na ngayong conflict na nagsasabi kung ilang ibang lugar ang gumagamit nito, at ang ayos nito ay pinapalitan ang lahat ng pangalan nang sabay-sabay.",
+        "e7f51c8353c3a": "$~Ang mga pahina ng <Gabay@https://wordplay.dev/guide> para sa \\MgaBagay\\ at \\Kontur\\ ay hindi na humihinto sa kalagitnaan.",
+        "ef8844bd76bc9": "$~Ang mga button sa ilalim ng bawat karakter sa isang gallery ay hindi na nagpapatong sa susunod na karakter, at ang pangalan ng gallery ay hindi na naputol.",
+        "e148a40c1fbbb": "$~Maaari nang gumawa ang mga guro ng account para sa estudyanteng huling sumali sa klase, direkta mula sa pahina ng klase.",
+        "e361f5cf3dffa": "$~Sa blocks mode, ang \\+\\ pagkatapos ng isang listahan ay nagdaragdag na ngayon ng walang lamang puwang na maaari mong tipahan, ang menu nito ay nagmumungkahi ng higit pa sa laman na ng listahan, at ang bawat numero ay nagpapakita ng isang menu ng yunit sa halip na dalawa. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Ang pagsali gamit ang username at password ay hindi na nagsasabing nabigo ito kahit nagawa na pala nito ang iyong account, at ang pagsubok muli ay magpapapasok na sa iyo.",
+        "ecc16fa29a890": "$~Ang palette ng kodigo sa blocks mode ay hindi na nagsasara kapag nakaligtaan mo ang isang block, hindi na nagpapakita ng mga block na magkamukha, at binibigyan ang maliliit na block ng kahong mas madaling hawakan. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

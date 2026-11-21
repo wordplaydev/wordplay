@@ -1529,6 +1529,16 @@
                     "name": "$~فاصل غير مغلق",
                     "explanation": "$~توقعت $expected في وقت ما بعد $unclosed",
                     "resolution": "$~أضف *$expected* المفقود"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~فاصل غير مفتوح",
+                    "explanation": "$~كنت أتوقع $expected في مكان ما قبل $unopened",
+                    "resolution": "$~أضف *$expected* المفقود"
+                },
+                "StrayDelimiter": {
+                    "name": "$~فاصل زائد",
+                    "explanation": "$~هذا الـ$delimiter لا يرتبط بأي شيء. لا شيء يفتحه ولا شيء يغلقه.",
+                    "resolution": "$~احذف الـ*$delimiter* الزائد"
                 }
             },
             "exception": {

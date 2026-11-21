@@ -1,3 +1,4 @@
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
 import type Conflict from '#conflicts/Conflict.ts';
 import type { TemplateInput } from '#locale/Locales.ts';
 import type LocaleText from '#locale/LocaleText.ts';
@@ -81,7 +82,14 @@ export default class Example extends Content {
     }
 
     computeConflicts(): Conflict[] {
-        return [];
+        const delimiter = () => new Token(this.open.getText(), Sym.Code);
+        return getDelimiterConflicts(
+            this,
+            this.open,
+            this.close,
+            delimiter,
+            delimiter,
+        );
     }
 
     clone(replace?: Replacement | undefined): this {

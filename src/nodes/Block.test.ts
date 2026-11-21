@@ -1,3 +1,4 @@
+import UnopenedDelimiter from '#conflicts/UnopenedDelimiter.ts';
 import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import { ExpectedEndingExpression } from '#conflicts/ExpectedEndingExpression.ts';
 import { testConflict } from '#conflicts/TestUtilities.ts';
@@ -44,3 +45,7 @@ test.each([['(1)', '(1', Block, UnclosedDelimiter, 0]])(
         testConflict(good, bad, node, conflict, index);
     },
 );
+
+test('a Block with no opening delimiter says so', () => {
+    testConflict('a: (\n\t1\n)\na', 'a: \n\t1\n)\na', Block, UnopenedDelimiter);
+});
