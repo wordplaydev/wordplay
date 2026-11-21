@@ -140,7 +140,7 @@
         "prettier": "^3",
         "prettier-plugin-svelte": "^4",
         "run-script-os": "^1",
-        "svelte": "^5.57.3",
+        "svelte": "5.58.0",
         "svelte-check": "^4",
         "svelte-jester": "^5",
         "ts-json-schema-generator": "^2",
