@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page } from '../../playwright/pageErrors';
 
 /**
  * The guide navigates like a browser: every move is one history entry, Back and

@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page } from '../../playwright/pageErrors';
 
 /**
  * The guide's navigation history holds the concept you are reading as an

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/pageErrors';
 
 /**
  * The app-wide banner is for failures the user can act on, raised by something

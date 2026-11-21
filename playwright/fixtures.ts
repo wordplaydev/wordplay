@@ -1,9 +1,9 @@
-import { test as baseTest } from '@playwright/test';
+import { test as baseTest } from './pageErrors';
 import fs from 'fs';
 import path from 'path';
 import { joinViaUI } from '../tests/helpers/joinViaUI';
 
-export * from '@playwright/test';
+export * from './pageErrors';
 
 /** Generates a worker-specific username based on parallelIndex */
 function getUsernameForWorker(): string {

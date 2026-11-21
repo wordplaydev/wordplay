@@ -223,14 +223,20 @@
         // Load the renderable-ranges table (lazy — see renderable.ts) together
         // with the codepoints, so isCodepointRenderable has its data before the
         // grid (gated on `codepoints`) renders.
-        Promise.all([getCodepoints(), loadRenderableRanges()]).then(([cp]) => {
-            codepoints = cp;
-        });
+        // Both loads are fetches that a navigation can cut off; neither caches a failure,
+        // so the next mount tries again.
+        Promise.all([getCodepoints(), loadRenderableRanges()])
+            .then(([cp]) => {
+                codepoints = cp;
+            })
+            .catch((error: unknown) => console.error(error));
         // Load English names for non-emoji glyphs (Han, letters, symbols) so
         // they're searchable and tooltipped.
-        getGlyphNames().then((names) => {
-            glyphNames = names;
-        });
+        getGlyphNames()
+            .then((names) => {
+                glyphNames = names;
+            })
+            .catch((error: unknown) => console.error(error));
         // Kick off emoji-translation loading for the currently selected
         // locales so cross-language search works without blocking the
         // picker. New translations will arrive via the emojiMaps store.

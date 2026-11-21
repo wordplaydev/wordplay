@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/pageErrors';
 
 /**
  * The content-warning gate has to fit whatever output view it covers. The

@@ -160,6 +160,9 @@ export default class CreatorDatabase {
                     for (const id of missing)
                         if (!found.has(id)) this.unknownUIDs.add(id);
                 })
+                // A failed lookup leaves the ids uncached, so the next call retries; rejecting
+                // instead reached every caller, and most await this without a catch.
+                .catch((error: unknown) => console.error(error))
                 .finally(() => {
                     for (const id of missing) this.pendingByUID.delete(id);
                 });

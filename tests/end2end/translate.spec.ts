@@ -1,4 +1,4 @@
-import { test as anyone, expect } from '@playwright/test';
+import { test as anyone, expect } from '../../playwright/pageErrors';
 import { test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
 

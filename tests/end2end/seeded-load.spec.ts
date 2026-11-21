@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/pageErrors';
 import { enUS, text } from '../helpers/localize';
 import { cutFirestore, restoreFirestore } from '../helpers/firestoreOffline';
 import { loginNewContext } from '../helpers/loginNewContext';
