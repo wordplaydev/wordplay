@@ -1529,6 +1529,16 @@
                     "name": "$~閉じていない区切り記号",
                     "explanation": "$~$unclosed のあとに $expected を期待していました",
                     "resolution": "$~足りない *$expected* を追加する"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~開かれていない区切り文字",
+                    "explanation": "$~$unopened の前のどこかに $expected があるはずです",
+                    "resolution": "$~足りない*$expected*を追加しましょう"
+                },
+                "StrayDelimiter": {
+                    "name": "$~余分な区切り",
+                    "explanation": "$~この$delimiterは、どれとも対応していません。開くものも、閉じるものもありません。",
+                    "resolution": "$~余分な*$delimiter*を取りのぞく"
                 }
             },
             "exception": {

@@ -1,3 +1,4 @@
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
 import type Conflict from '#conflicts/Conflict.ts';
 import { getKeywordShadowConflicts } from '#conflicts/ShadowsKeyword.ts';
 import NoExpression from '#conflicts/NoExpression.ts';
@@ -432,6 +433,16 @@ export default class FunctionDefinition extends DefinitionExpression {
         // Advisory if the function name shadows a localized keyword (no-op without keyword input).
         conflicts = conflicts.concat(
             getKeywordShadowConflicts(this, this.names),
+        );
+
+        conflicts = conflicts.concat(
+            getDelimiterConflicts(
+                this,
+                this.open,
+                this.close,
+                EvalOpenToken,
+                EvalCloseToken,
+            ),
         );
 
         // What a `↑` owes its readers, once this source is published (#8).

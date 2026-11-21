@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Cambiar el nombre de una clase o de una galería ya no quita a una persona que se agregó en el mismo momento.",
         "e64f54009f821": "$~Las carpetas y otros ajustes que cambias en una computadora ya no se borran por otra computadora que dejaste abierta.",
         "e42ff6b707cdc": "$~Los mensajes de chat que otras personas enviaron mientras estabas sin conexión ya no se borran cuando te vuelves a conectar.",
-        "e4420e66c0d11": "$~Guardar un carácter personalizado ya no deshace los cambios más recientes de otro."
+        "e4420e66c0d11": "$~Guardar un carácter personalizado ya no deshace los cambios más recientes de otro.",
+        "ee7ad9a6b11e5": "$~Falta un paréntesis, un corchete o una comilla, o sobra alguno, o \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶",
+        "e834452260d8f": "$~Un nombre que no está definido ahora es un solo conflicto que dice cuántos otros lugares lo usan, y su reparación cambia el nombre en todos a la vez.",
+        "e7f51c8353c3a": "$~Las páginas de la <guía@https://wordplay.dev/guide> para \\Objetos\\ y \\Contorno\\ ya no se cortan a la mitad.",
+        "ef8844bd76bc9": "$~Los botones debajo de cada personaje en una galería ya no se encimarán con los del siguiente personaje, y el nombre de una galería ya no se corta.",
+        "e148a40c1fbbb": "$~Ahora las maestras pueden crear una cuenta para una estudiante que se une tarde a una clase, directo desde la página de la clase.",
+        "e361f5cf3dffa": "$~En el modo de /bloques/, el \\+\\ después de una lista ahora agrega un espacio vacío donde puedes escribir, su menú sugiere más de lo que la lista ya contiene, y cada número muestra un solo menú de unidades en lugar de dos. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Unirte con un nombre de usuaria y una contraseña ya no dice que falló cuando en realidad sí creó tu cuenta, y si lo intentas de nuevo, ahora inicias sesión.",
+        "ecc16fa29a890": "$~La paleta de código en el modo de /bloques/ ya no se cierra cuando fallas al tomar un bloque, ya no muestra bloques que se ven iguales, y da a los bloques pequeños una caja más fácil de agarrar. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

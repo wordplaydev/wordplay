@@ -1009,7 +1009,8 @@
                 "major": "$~lỗi",
                 "minor": "$~cảnh báo"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~Nó cũng giống vậy ở $#count[$count nơi khác]."
         },
         "output": {
             "label": "$~sân khấu",

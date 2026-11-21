@@ -1,6 +1,8 @@
+import Names from '#nodes/Names.ts';
+import UnparsableType from '#nodes/UnparsableType.ts';
 import BinaryEvaluate from '#nodes/BinaryEvaluate.ts';
 import { must } from '#util/nullable.ts';
-import type Bind from '#nodes/Bind.ts';
+import Bind from '#nodes/Bind.ts';
 import Block, { BlockKind } from '#nodes/Block.ts';
 import BooleanLiteral from '#nodes/BooleanLiteral.ts';
 import Changed from '#nodes/Changed.ts';
@@ -47,7 +49,7 @@ import { Sym, type SymType } from '#nodes/Sym.ts';
 import TableLiteral from '#nodes/TableLiteral.ts';
 import TextLiteral from '#nodes/TextLiteral.ts';
 import This from '#nodes/This.ts';
-import type Token from '#nodes/Token.ts';
+import Token from '#nodes/Token.ts';
 import Translate from '#nodes/Translate.ts';
 import Translation, { type TranslationSegment } from '#nodes/Translation.ts';
 import type Type from '#nodes/Type.ts';
@@ -91,8 +93,30 @@ export function parseDocs(tokens: Tokens): Docs {
     return new Docs([must(first, 'a doc'), ...rest]);
 }
 
+/**
+ * The delimiters read as unparsable because they open or close nothing. Nothing goes on
+ * from one: a `)` before `•Cat(…)` is not the left side of an "is", and reading it as one
+ * turns the definition after it into an evaluation.
+ */
+const Strays = new WeakSet<Expression>();
+
+/**
+ * True if nothing goes on from an expression: a stray delimiter, or a definition. A `.`,
+ * an operator or a `(` after `•Cat(name)` begins something else, however it is spaced;
+ * read as going on from it, the definition is part of that, and `Cat` is defined nowhere.
+ */
+function isComplete(expression: Expression): boolean {
+    return (
+        Strays.has(expression) ||
+        expression instanceof StructureDefinition ||
+        expression instanceof FunctionDefinition ||
+        expression instanceof ConversionDefinition
+    );
+}
+
 export default function parseExpression(tokens: Tokens): Expression {
     let left = parseBinaryEvaluate(tokens);
+    if (isComplete(left)) return left;
 
     // Is it a translate expression?
     if (tokens.nextIs(Sym.Translate)) left = parseTranslate(left, tokens);
@@ -129,6 +153,7 @@ export function parseBlock(
         : tokens.nextIs(Sym.EvalOpen)
           ? tokens.read(Sym.EvalOpen)
           : undefined;
+    if (open) tokens.enter(open, Sym.EvalClose);
 
     const statements: (Bind | Expression)[] = [];
     // Keep reading binds and expressions while there are tokens AND:
@@ -140,16 +165,22 @@ export function parseBlock(
     //    (`\(\`) stop there instead of swallowing the rest up to a later `)`.
     //    The nested parser isn't told it's in a doc, so this `\` stop is what
     //    bounds bracketed examples like \(◌ | #)\ and \year:(4 #)\.
+    //    It also stops wherever an enclosing construct's contents end (see
+    //    Tokens.nextEndsContents), so a block missing its `)` ends with what it is in.
     tokens.whileDo(
         () =>
             tokens.hasNext() &&
             (root
                 ? !doc || tokens.nextIsnt(Sym.Code)
-                : tokens.nextIsnt(Sym.EvalClose) && tokens.nextIsnt(Sym.Code)),
+                : open
+                  ? !tokens.nextEndsContents()
+                  : tokens.nextIsnt(Sym.EvalClose) &&
+                    tokens.nextIsnt(Sym.Code)),
         () => {
-            const next = nextIsBind(tokens, true)
-                ? parseBind(tokens)
-                : parseExpression(tokens);
+            const next =
+                !tokens.nextIsStray() && nextIsBind(tokens, true)
+                    ? parseBind(tokens)
+                    : parseExpression(tokens);
             statements.push(next);
             // Did we get an unparsable expression with no tokens? Read until we get to the block close,
             // the end of the program, or an example boundary `\`. If we don't do this, the we will stop
@@ -170,11 +201,12 @@ export function parseBlock(
         },
     );
 
+    if (open) tokens.leave();
     const close = root
         ? undefined
-        : tokens.nextIs(Sym.EvalClose)
-          ? tokens.read(Sym.EvalClose)
-          : undefined;
+        : open
+          ? tokens.readClose(Sym.EvalClose)
+          : tokens.readIf(Sym.EvalClose);
 
     return new Block(statements, kind, open, close, docs);
 }
@@ -229,6 +261,7 @@ export function parseMatch(value: Expression, tokens: Tokens): Match {
 
 export function parseBinaryEvaluate(tokens: Tokens): Expression {
     let left = parseAtomicExpression(tokens);
+    if (isComplete(left)) return left;
 
     tokens.whileDo(
         () =>
@@ -265,117 +298,125 @@ export function parseBinaryEvaluate(tokens: Tokens): Expression {
 function parseAtomicExpression(tokens: Tokens): Expression {
     // All expressions must start with one of the following
     let left: Expression =
-        // This
-        tokens.nextIs(Sym.This)
-            ? new This(tokens.read(Sym.This))
-            : // Placeholder
-              tokens.nextIs(Sym.Placeholder)
-              ? parsePlaceholder(tokens)
-              : // Start
-                tokens.nextIs(Sym.Initial)
-                ? parseInitial(tokens)
-                : // Change
-                  tokens.nextIs(Sym.Change)
-                  ? parseChanged(tokens)
-                  : // Nones
-                    tokens.nextIs(Sym.None)
-                    ? parseNone(tokens)
-                    : // Unary expressions are a unary operator and then any expression.
-                      // The only exception is if it's immediately followed except for an eval open and close. This allows functions with operator names to be evaluated.
-                      // A typed keyword word for ~ also starts a unary (nextIsUnaryWord), with a
-                      // same-line rule instead of the symbol's no-space rule, since a word needs
-                      // the space before its operand. See LANGUAGE.md.
-                      (tokens.nextIsUnary() || tokens.nextIsUnaryWord()) &&
-                        !tokens.nextAre(
-                            Sym.Operator,
-                            Sym.EvalOpen,
-                            Sym.EvalClose,
-                        )
-                      ? new UnaryEvaluate(
-                            parseReference(tokens),
-                            parseAtomicExpression(tokens),
-                        )
-                      : // References can be names or binary operators. A dual-typed keyword word
-                        // (carrying both Sym.Name and a construct Sym, from localized-keyword input)
-                        // defers to its construct branch below, so a typed construct keyword parses as
-                        // the construct rather than a reference. Pure tokens never carry both, so this
-                        // is a no-op unless a keyword index is active. See LANGUAGE.md.
-                        tokens.nextIsOneOf(Sym.Name, Sym.Operator) &&
-                          !tokens.nextIsOneOf(
-                              Sym.Function,
-                              Sym.Type,
-                              Sym.Convert,
-                              Sym.Boolean,
+        // A delimiter that opens and closes nothing is unparsable alone, whatever kind it is.
+        tokens.nextIsStray()
+            ? parseUnparsable(tokens)
+            : // This
+              tokens.nextIs(Sym.This)
+              ? new This(tokens.read(Sym.This))
+              : // Placeholder
+                tokens.nextIs(Sym.Placeholder)
+                ? parsePlaceholder(tokens)
+                : // Start
+                  tokens.nextIs(Sym.Initial)
+                  ? parseInitial(tokens)
+                  : // Change
+                    tokens.nextIs(Sym.Change)
+                    ? parseChanged(tokens)
+                    : // Nones
+                      tokens.nextIs(Sym.None)
+                      ? parseNone(tokens)
+                      : // Unary expressions are a unary operator and then any expression.
+                        // The only exception is if it's immediately followed except for an eval open and close. This allows functions with operator names to be evaluated.
+                        // A typed keyword word for ~ also starts a unary (nextIsUnaryWord), with a
+                        // same-line rule instead of the symbol's no-space rule, since a word needs
+                        // the space before its operand. See LANGUAGE.md.
+                        (tokens.nextIsUnary() || tokens.nextIsUnaryWord()) &&
+                          !tokens.nextAre(
+                              Sym.Operator,
+                              Sym.EvalOpen,
+                              Sym.EvalClose,
                           )
-                        ? parseReference(tokens)
-                        : // Booleans
-                          tokens.nextIs(Sym.Boolean)
-                          ? new BooleanLiteral(tokens.read(Sym.Boolean))
-                          : // Numbers with units
-                            tokens.nextIs(Sym.Number)
-                            ? parseNumber(tokens)
-                            : // Text with optional formats
-                              tokens.nextIs(Sym.Text)
-                              ? parseText(tokens)
-                              : // A list
-                                tokens.nextIs(Sym.ListOpen)
-                                ? parseList(tokens)
-                                : // A set or map
-                                  tokens.nextIs(Sym.SetOpen)
-                                  ? parseSetOrMap(tokens)
-                                  : // Table literals
-                                    tokens.nextIs(Sym.TableOpen)
-                                    ? parseTable(tokens)
-                                    : // A pattern literal ⣿ … ⣿
-                                      tokens.nextIs(Sym.PatternDelimiter)
-                                      ? parsePattern(tokens)
-                                      : // A block expression
-                                        nextAreOptionalDocsThen(tokens, [
-                                              Sym.EvalOpen,
-                                          ])
-                                        ? parseBlock(tokens, BlockKind.Block)
-                                        : // A structure definition
+                        ? new UnaryEvaluate(
+                              parseReference(tokens),
+                              parseAtomicExpression(tokens),
+                          )
+                        : // References can be names or binary operators. A dual-typed keyword word
+                          // (carrying both Sym.Name and a construct Sym, from localized-keyword input)
+                          // defers to its construct branch below, so a typed construct keyword parses as
+                          // the construct rather than a reference. Pure tokens never carry both, so this
+                          // is a no-op unless a keyword index is active. See LANGUAGE.md.
+                          tokens.nextIsOneOf(Sym.Name, Sym.Operator) &&
+                            !tokens.nextIsOneOf(
+                                Sym.Function,
+                                Sym.Type,
+                                Sym.Convert,
+                                Sym.Boolean,
+                            )
+                          ? parseReference(tokens)
+                          : // Booleans
+                            tokens.nextIs(Sym.Boolean)
+                            ? new BooleanLiteral(tokens.read(Sym.Boolean))
+                            : // Numbers with units
+                              tokens.nextIs(Sym.Number)
+                              ? parseNumber(tokens)
+                              : // Text with optional formats
+                                tokens.nextIs(Sym.Text)
+                                ? parseText(tokens)
+                                : // A list
+                                  tokens.nextIs(Sym.ListOpen)
+                                  ? parseList(tokens)
+                                  : // A set or map
+                                    tokens.nextIs(Sym.SetOpen)
+                                    ? parseSetOrMap(tokens)
+                                    : // Table literals
+                                      tokens.nextIs(Sym.TableOpen)
+                                      ? parseTable(tokens)
+                                      : // A pattern literal ⣿ … ⣿
+                                        tokens.nextIs(Sym.PatternDelimiter)
+                                        ? parsePattern(tokens)
+                                        : // A block expression
                                           nextAreOptionalDocsThen(tokens, [
-                                                Sym.Type,
-                                            ]) ||
-                                            nextAreOptionalDocsThen(tokens, [
-                                                Sym.Share,
-                                                Sym.Type,
+                                                Sym.EvalOpen,
                                             ])
-                                          ? parseStructure(tokens)
-                                          : // A function function
+                                          ? parseBlock(tokens, BlockKind.Block)
+                                          : // A structure definition
                                             nextAreOptionalDocsThen(tokens, [
-                                                  Sym.Function,
+                                                  Sym.Type,
                                               ]) ||
                                               nextAreOptionalDocsThen(tokens, [
                                                   Sym.Share,
-                                                  Sym.Function,
+                                                  Sym.Type,
                                               ])
-                                            ? parseFunction(tokens)
-                                            : // A conversion function.
+                                            ? parseStructure(tokens)
+                                            : // A function function
                                               nextAreOptionalDocsThen(tokens, [
-                                                    Sym.Convert,
+                                                    Sym.Function,
                                                 ]) ||
                                                 nextAreOptionalDocsThen(
                                                     tokens,
-                                                    [Sym.Share, Sym.Convert],
+                                                    [Sym.Share, Sym.Function],
                                                 )
-                                              ? parseConversion(tokens)
-                                              : tokens.nextIs(Sym.Previous)
-                                                ? parsePrevious(tokens)
-                                                : tokens.nextIs(Sym.Formatted)
-                                                  ? parseFormattedLiteral(
-                                                        tokens,
-                                                    )
-                                                  : tokens.nextIs(Sym.Locale)
-                                                    ? parseIsLocale(tokens)
-                                                    : // A documented expression is a doc followed by an expression
-                                                      tokens.nextIs(Sym.Doc)
-                                                      ? parseDocumentedExpression(
-                                                            tokens,
-                                                        )
-                                                      : // Unknown expression? Parse until the end of the line or code block.
-                                                        parseUnparsable(tokens);
+                                              ? parseFunction(tokens)
+                                              : // A conversion function.
+                                                nextAreOptionalDocsThen(
+                                                      tokens,
+                                                      [Sym.Convert],
+                                                  ) ||
+                                                  nextAreOptionalDocsThen(
+                                                      tokens,
+                                                      [Sym.Share, Sym.Convert],
+                                                  )
+                                                ? parseConversion(tokens)
+                                                : tokens.nextIs(Sym.Previous)
+                                                  ? parsePrevious(tokens)
+                                                  : tokens.nextIs(Sym.Formatted)
+                                                    ? parseFormattedLiteral(
+                                                          tokens,
+                                                      )
+                                                    : tokens.nextIs(Sym.Locale)
+                                                      ? parseIsLocale(tokens)
+                                                      : // A documented expression is a doc followed by an expression
+                                                        tokens.nextIs(Sym.Doc)
+                                                        ? parseDocumentedExpression(
+                                                              tokens,
+                                                          )
+                                                        : // Unknown expression? Parse until the end of the line or code block.
+                                                          parseUnparsable(
+                                                              tokens,
+                                                          );
+
+    if (isComplete(left)) return left;
 
     // But wait! Is it one or more infix expressions? Slurp them up.
     let match = false;
@@ -465,7 +506,10 @@ function parseIsLocale(tokens: Tokens): IsLocale {
 function parseDocumentedExpression(tokens: Tokens): Expression {
     const docs = parseDocs(tokens);
     const expression = parseExpression(tokens);
-    return new DocumentedExpression(docs, expression);
+    const documented = new DocumentedExpression(docs, expression);
+    // Nothing goes on from a stray delimiter, documented or not.
+    if (Strays.has(expression)) Strays.add(documented);
+    return documented;
 }
 
 function parseNone(tokens: Tokens): NoneLiteral {
@@ -559,7 +603,10 @@ function parseTranslation(tokens: Tokens): Translation {
                 segments.push(parseConceptLink(tokens));
         },
     );
-    const close = tokens.nextIs(Sym.Text) ? tokens.read(Sym.Text) : undefined;
+    // Text ends with its line, so a quote on a later line opens other text.
+    const close = tokens.nextHasPrecedingLineBreak()
+        ? undefined
+        : tokens.readCloseOf(text, Sym.Text);
     const language = tokens.nextIs(Sym.Language)
         ? parseLanguage(tokens)
         : undefined;
@@ -573,27 +620,23 @@ function parseList(tokens: Tokens): ListLiteral {
     const open = tokens.read(Sym.ListOpen);
     const values: (Spread | Expression)[] = [];
 
+    tokens.enter(open, Sym.ListClose);
     tokens.whileDo(
-        () =>
-            tokens.hasNext() &&
-            tokens.nextIsnt(Sym.ListClose) &&
-            tokens.nextIsnt(Sym.Code),
+        () => !tokens.nextEndsContents(),
         () => {
             // Is there a spread next? Parse it.
             if (tokens.nextIs(Sym.Bind)) {
                 const dots = tokens.read(Sym.Bind);
-                const value =
-                    tokens.hasNext() &&
-                    tokens.nextIsnt(Sym.ListClose) &&
-                    tokens.nextIsnt(Sym.Code)
-                        ? parseExpression(tokens)
-                        : undefined;
+                const value = !tokens.nextEndsContents()
+                    ? parseExpression(tokens)
+                    : undefined;
                 values.push(new Spread(dots, value));
             } else values.push(parseExpression(tokens));
         },
     );
+    tokens.leave();
 
-    const close = tokens.readIf(Sym.ListClose);
+    const close = tokens.readClose(Sym.ListClose);
 
     const literal = tokens.readIf(Sym.Literal);
 
@@ -629,11 +672,9 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
         return new MapLiteral(open, [], bind, tokens.read(Sym.SetClose));
     }
 
+    tokens.enter(open, Sym.SetClose);
     tokens.whileDo(
-        () =>
-            tokens.hasNext() &&
-            tokens.nextIsnt(Sym.SetClose) &&
-            tokens.nextIsnt(Sym.Code),
+        () => !tokens.nextEndsContents(),
         () => {
             const key = parseExpression(tokens);
             if (tokens.nextIs(Sym.Bind)) {
@@ -643,8 +684,9 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
             } else values.push(key);
         },
     );
+    tokens.leave();
 
-    const close = tokens.readIf(Sym.SetClose);
+    const close = tokens.readClose(Sym.SetClose);
 
     const literal = tokens.readIf(Sym.Literal);
 
@@ -777,6 +819,66 @@ function parseReaction(initial: Expression, tokens: Tokens): Reaction {
     return new Reaction(initial, dots, condition, nextdots, next);
 }
 
+/**
+ * The inputs of a function or structure, which are binds up to its close.
+ *
+ * Unclosed inputs end where layout says they do, or the binds after them would be inputs
+ * too. And what isn't a bind, before a close that is there, is kept as an input that
+ * couldn't be parsed, with the inputs after it: stopping at it would leave the definition
+ * unclosed, its close orphaned, and whatever follows the close misread.
+ */
+function parseDefinitionInputs(
+    tokens: Tokens,
+    open: Token | undefined,
+    body: boolean,
+): Bind[] {
+    const inputs: Bind[] = [];
+    if (open) tokens.enter(open, Sym.EvalClose);
+    tokens.doWhile(
+        () => {
+            tokens.whileDo(
+                () =>
+                    tokens.hasNext() &&
+                    tokens.nextIsnt(Sym.Code) &&
+                    tokens.nextIsnt(Sym.EvalClose) &&
+                    !(open && tokens.nextEndsContents()) &&
+                    nextIsBind(tokens, false),
+                () => inputs.push(parseBind(tokens)),
+            );
+            const unparsable: Token[] = [];
+            // For a structure, that is anything: nothing but inputs comes before its
+            // close. For a function, only what begins as part of a bind, a `•` or `:`
+            // with no name before it, or a delimiter that opens and closes nothing.
+            // Anything else may be the body of a function whose inputs weren't closed.
+            while (
+                open &&
+                tokens.nextIsBeforeCloseOf(open) &&
+                (unparsable.length === 0
+                    ? !body ||
+                      tokens.nextIsOneOf(Sym.Type, Sym.Bind) ||
+                      tokens.nextIsStray()
+                    : !nextIsBind(tokens, false))
+            )
+                unparsable.push(tokens.read());
+            if (unparsable.length === 0) return false;
+            // An input with no name, and no `•` before what stands where its type would.
+            inputs.push(
+                new Bind(
+                    undefined,
+                    undefined,
+                    new Names([]),
+                    undefined,
+                    new Token('', Sym.Type),
+                    new UnparsableType(unparsable),
+                ),
+            );
+        },
+        () => true,
+    );
+    if (open) tokens.leave();
+    return inputs;
+}
+
 export function parseFunction(tokens: Tokens): FunctionDefinition {
     const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
     const share = tokens.nextIs(Sym.Share) ? tokens.read(Sym.Share) : undefined;
@@ -795,22 +897,13 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
     // Don't allow reactions on input binds values.
     tokens.pushReactionAllowed(false);
 
-    const inputs: Bind[] = [];
-    tokens.whileDo(
-        () =>
-            tokens.hasNext() &&
-            tokens.nextIsnt(Sym.Code) &&
-            tokens.nextIsnt(Sym.EvalClose) &&
-            nextIsBind(tokens, false),
-        () => inputs.push(parseBind(tokens)),
-    );
+    const inputs = parseDefinitionInputs(tokens, open, true);
 
     // Restore
     tokens.popReactionAllowed();
 
-    const close = tokens.nextIs(Sym.EvalClose)
-        ? tokens.read(Sym.EvalClose)
-        : undefined;
+    // Without an open, a close here is whatever this function is inside of's.
+    const close = open ? tokens.readIf(Sym.EvalClose) : undefined;
 
     let dot;
     let output;
@@ -820,7 +913,9 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
     }
 
     let expression =
-        !tokens.hasNext() || tokens.nextHasMoreThanOneLineBreak()
+        !tokens.hasNext() ||
+        tokens.nextHasMoreThanOneLineBreak() ||
+        tokens.nextIsAwaitedClose()
             ? undefined
             : parseExpression(tokens);
 
@@ -894,21 +989,14 @@ export function parseStructure(
     // Don't allow reactions on structure input binds
     tokens.pushReactionAllowed(false);
 
-    const inputs: Bind[] = [];
-    tokens.whileDo(
-        () => tokens.nextIsnt(Sym.EvalClose) && nextIsBind(tokens, false),
-        () => inputs.push(parseBind(tokens)),
-    );
+    const inputs = parseDefinitionInputs(tokens, open, false);
 
     // Restore
     tokens.popReactionAllowed();
 
-    if (!tokens.nextIs(Sym.EvalClose)) {
-        tokens.unreadTo(firstToken);
-        return parseUnparsable(tokens);
-    }
-
-    const close = tokens.read(Sym.EvalClose);
+    // A structure missing its close is still a structure: were it unparsable instead,
+    // every use of its name would be a conflict of its own.
+    const close = tokens.readIf(Sym.EvalClose);
     const block = nextAreOptionalDocsThen(tokens, [Sym.EvalOpen])
         ? parseBlock(tokens, BlockKind.Structure)
         : undefined;
@@ -951,12 +1039,11 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
     const open = tokens.read(Sym.EvalOpen);
     const inputs: (Expression | Input)[] = [];
 
-    // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
+    // Read inputs until they end, which is at this evaluate's close, or wherever an enclosing
+    // construct's contents end, so that an evaluate missing its `)` doesn't take everything after it.
+    tokens.enter(open, Sym.EvalClose);
     tokens.whileDo(
-        () =>
-            tokens.hasNext() &&
-            tokens.nextIsnt(Sym.Code) &&
-            tokens.nextIsnt(Sym.EvalClose),
+        () => !tokens.nextEndsContents(),
         () =>
             inputs.push(
                 nextIsInput(tokens)
@@ -964,8 +1051,9 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
                     : parseExpression(tokens),
             ),
     );
+    tokens.leave();
 
-    const close = tokens.readIf(Sym.EvalClose);
+    const close = tokens.readClose(Sym.EvalClose);
 
     return new Evaluate(left, types, open, inputs, close);
 }
@@ -1102,7 +1190,17 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
 }
 
 function parseUnparsable(tokens: Tokens): UnparsableExpression {
-    return new UnparsableExpression(tokens.readLine());
+    // A close that closes nothing is unparsable alone, so that what follows it still parses.
+    // And where the construct this is in closes, nothing is here to read: taking the close
+    // would leave that construct unclosed, to go on and read whatever follows it.
+    if (tokens.nextIsStray()) {
+        const stray = new UnparsableExpression([tokens.read()]);
+        Strays.add(stray);
+        return stray;
+    }
+    return new UnparsableExpression(
+        tokens.nextIsAwaitedClose() ? [] : tokens.readLine(),
+    );
 }
 
 export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {
@@ -1119,7 +1217,7 @@ export function parseFormattedTranslation(
 ): FormattedTranslation {
     const open = tokens.read(Sym.Formatted);
     const content = parseMarkup(tokens);
-    const close = tokens.readIf(Sym.Formatted);
+    const close = tokens.readCloseOf(open, Sym.Formatted);
     const lang = tokens.nextIs(Sym.Language)
         ? parseLanguage(tokens)
         : undefined;

@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Mudar o nome de uma turma ou de uma galeria já não remove alguém que foi adicionado(a) ao mesmo tempo.",
         "e64f54009f821": "$~As pastas e outras definições que altera num computador já não são apagadas por outro computador que deixou aberto.",
         "e42ff6b707cdc": "$~As mensagens de conversa que outras pessoas enviaram enquanto estava sem ligação já não são apagadas quando volta a ligar-se.",
-        "e4420e66c0d11": "$~Guardar um carácter personalizado já não desfaz as alterações mais recentes de outro."
+        "e4420e66c0d11": "$~Guardar um carácter personalizado já não desfaz as alterações mais recentes de outro.",
+        "ee7ad9a6b11e5": "$~Um parêntese, parêntese reto, aspas ou \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶ em falta ou a mais",
+        "e834452260d8f": "$~Um nome que não está definido passa a ser um único conflito que indica em quantos outros locais é usado, e a sua correção muda o nome em todos de uma só vez.",
+        "e7f51c8353c3a": "$~As páginas do <Guia@https://wordplay.dev/guide> para \\Objetos\\ e \\Contorno\\ já não terminam a meio.",
+        "ef8844bd76bc9": "$~Os botões por baixo de cada personagem numa galeria já não se sobrepõem aos da personagem seguinte, e o nome de uma galeria já não aparece cortado.",
+        "e148a40c1fbbb": "$~Os professores(as) já podem criar uma conta para um(a) aluno(a) que entra numa turma mais tarde, diretamente na página da turma.",
+        "e361f5cf3dffa": "$~No modo de blocos, o \\+\\ depois de uma lista passa a adicionar um espaço vazio onde pode escrever, o seu menu sugere mais do que a lista já contém, e cada número mostra um só menu de unidades em vez de dois. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Entrar com um nome de utilizador e uma palavra-passe já não indica uma falha quando, na verdade, a sua conta foi criada, e tentar outra vez passa a iniciar a sessão.",
+        "ecc16fa29a890": "$~A paleta de código no modo de blocos já não fecha quando falha um bloco, já não mostra blocos que parecem iguais e dá aos blocos pequenos uma caixa mais fácil de agarrar. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

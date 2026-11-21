@@ -26,10 +26,11 @@ export default function parseBind(tokens: Tokens): Bind {
     if (tokens.nextIs(Sym.Bind)) {
         colon = tokens.read(Sym.Bind);
 
-        const next = tokens.peekText();
-        // If there's a next token and it's not a close delimiter, parse a value.
+        // If there's a next token and it's not a close delimiter, parse a value. A token
+        // with no text is one, since that is what a missing delimiter is read as.
+        const next = tokens.peek();
         value =
-            next && !PairedCloseDelimiters.has(next)
+            next && !PairedCloseDelimiters.has(next.getText())
                 ? parseExpression(tokens)
                 : undefined;
     }
@@ -69,8 +70,21 @@ export function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
     const bind = parseBind(tokens);
     if (tokens.peek() === rollbackToken) return false;
 
+    // A bare name that an expression goes on from is not an input, but where inputs missing
+    // their close gave way to what follows them: the `page` of `ƒ(page•Page page.name)`.
+    const continues =
+        !expectValue &&
+        bind.dot === undefined &&
+        bind.colon === undefined &&
+        bind.etc === undefined &&
+        (tokens.nextIs(Sym.Access) ||
+            tokens.nextIs(Sym.Operator) ||
+            (tokens.nextIsOneOf(Sym.EvalOpen, Sym.ListOpen) &&
+                tokens.nextLacksPrecedingSpace()));
+
     // Rollback
     tokens.unreadTo(rollbackToken);
+    if (continues) return false;
 
     // It's a bind if it has a name and either doesn't expect a value, or has one, or has a name with a language tag
     return (

@@ -1,3 +1,4 @@
+import { UnparsableConflict } from '#conflicts/UnparsableConflict.ts';
 import Project from '#db/projects/Project.ts';
 import DefaultLocale from '#locale/DefaultLocale.ts';
 import Source from '#nodes/Source.ts';
@@ -42,7 +43,7 @@ test('unparsable code blocks', () => {
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const unparsable = project
         .getMajorConflictsNow()
-        .find((conflict) => conflict.constructor.name === 'UnparsableConflict');
+        .find((conflict) => conflict instanceof UnparsableConflict);
     expect(unparsable).toBeDefined();
     expect(unparsable?.isBlocking()).toBe(true);
 });

@@ -1009,7 +1009,8 @@
                 "major": "$~ত্রুটি",
                 "minor": "$~সতর্কতা"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~এটি আরও $#count[$count টি জায়গায়|$count টি জায়গায়] একই।"
         },
         "output": {
             "label": "$~মঞ্চ",

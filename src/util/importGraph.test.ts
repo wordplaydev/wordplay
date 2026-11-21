@@ -1063,13 +1063,26 @@ test('resolving a color needs no basis', () => {
 // layout by a hundredth: four strings in en-US.json saying where each browser keeps
 // the setting, and the watcher in `permissions.ts` that starts the project when
 // it is allowed.
+//
+// Keeping one slip from being many conflicts (#1146) is **+3 files** on every entry,
+// because every page parses markup and so carries the parser and the nodes: two leaves
+// that import nothing that wasn't here, and a conflict. `delimiterRecovery.ts` pairs
+// delimiters before a parse (it took the one file each budget had to spare),
+// `lexicalRecovery.ts` decides where unclosed text and documentation end, and
+// `damage.ts` is the one place that says when a type or a definition is too broken to
+// judge anything by. `UnopenedDelimiter` is raised by the nodes that can lack an open,
+// synchronously, so they import it statically, as every conflict's nodes do. The bytes
+// are those four, the stops in `Tokens` and `parseExpression` that use them, the
+// tokenizer's rereading of a damaged source and its splitting of a definition's name
+// from the input it ran into when their `(` was deleted, and three strings in `en-US.json`. `causes.ts`, which groups and filters conflicts and imports a
+// dozen of them, is reached only by the project and the editor, and is on none of these.
 test.each([
-    ['src/routes/+layout.svelte', 541, 4.25],
-    ['src/components/app/Page.svelte', 564, 4.5],
-    ['src/routes/[[locale]]/+page.svelte', 579, 4.6],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 584, 4.6],
+    ['src/routes/+layout.svelte', 544, 4.32],
+    ['src/components/app/Page.svelte', 567, 4.57],
+    ['src/routes/[[locale]]/+page.svelte', 582, 4.67],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 587, 4.68],
     // Raised from 4.61 for the yue and nan entries in LanguageCode.ts, which every page carries.
-    ['src/routes/[[locale]]/projects/+page.svelte', 593, 4.64],
+    ['src/routes/[[locale]]/projects/+page.svelte', 596, 4.71],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

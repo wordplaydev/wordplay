@@ -1009,7 +1009,8 @@
                 "major": "$~kesalahan",
                 "minor": "$~peringatan"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~Sama juga di $#count[$count tempat lain]."
         },
         "output": {
             "label": "$~panggung",

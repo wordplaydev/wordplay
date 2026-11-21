@@ -1,3 +1,5 @@
+import UnopenedDelimiter from '#conflicts/UnopenedDelimiter.ts';
+import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import { DisallowedInputs } from '#conflicts/DisallowedInputs.ts';
 import DuplicateName from '#conflicts/DuplicateName.ts';
 import DuplicateTypeVariable from '#conflicts/DuplicateTypeVariable.ts';
@@ -321,4 +323,26 @@ test('autocomplete on Definition.| does not suggest a non-static instance bind',
         .map((t) => t.getNewNode(DefaultLocales)?.toWordplay() ?? '')
         .filter((s) => s.length > 0);
     expect(suggested).not.toContain('pi');
+});
+
+// One case per conflict this node raises, so a conflict reachable from several
+// nodes is covered from each of them; see conflictCoverage.test.ts.
+test('an unclosed StructureDefinition says so', () => {
+    testConflict(
+        "•Cat(name•'')",
+        "•Cat(name•''",
+        StructureDefinition,
+        UnclosedDelimiter,
+    );
+});
+
+test('a StructureDefinition whose ( was deleted is still one, and says so', () => {
+    // Deleting it runs the name into the first input's, and they are told apart by
+    // the name's being used elsewhere.
+    testConflict(
+        "•Cat(name•'')\nCat('a')",
+        "•Catname•'')\nCat('a')",
+        StructureDefinition,
+        UnopenedDelimiter,
+    );
 });

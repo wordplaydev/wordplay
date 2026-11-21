@@ -31,40 +31,50 @@ import parseLanguage from '#parser/parseLanguage.ts';
 import type Tokens from '#parser/Tokens.ts';
 
 export default function parseType(tokens: Tokens, isExpression = false): Type {
-    let left: Type = tokens.nextIs(Sym.Placeholder)
-        ? new TypePlaceholder(tokens.read(Sym.Placeholder))
-        : tokens.nextIs(Sym.Name)
-          ? parseNameType(tokens)
-          : tokens.nextIs(Sym.BooleanType)
-            ? new BooleanType(tokens.read(Sym.BooleanType))
-            : tokens.nextIs(Sym.Percent) ||
-                tokens.nextIsOneOf(Sym.Number, Sym.NumberType)
-              ? parseNumberType(tokens)
-              : tokens.nextIs(Sym.Range)
-                ? parseRangeType(tokens)
-                : tokens.nextIs(Sym.Text)
-                  ? parseTextType(tokens)
-                  : tokens.nextIs(Sym.None)
-                    ? parseNoneType(tokens)
-                    : tokens.nextIs(Sym.ListOpen)
-                      ? parseListType(tokens)
-                      : tokens.nextIs(Sym.SetOpen)
-                        ? parseSetOrMapType(tokens)
-                        : tokens.nextIs(Sym.TableOpen)
-                          ? parseTableType(tokens)
-                          : tokens.nextIs(Sym.PatternDelimiter)
-                            ? new PatternType(
-                                  tokens.read(Sym.PatternDelimiter),
-                                  tokens.read(Sym.PatternDelimiter),
-                              )
-                            : tokens.nextIs(Sym.Function)
-                              ? parseFunctionType(tokens)
-                              : tokens.nextIs(Sym.Stream)
-                                ? parseStreamType(tokens)
-                                : // We use the doc symbol because it looks like an empty formatted
-                                  tokens.nextIs(Sym.FormattedType)
-                                  ? parseFormattedType(tokens)
-                                  : new UnparsableType(tokens.readLine());
+    // A delimiter that opens and closes nothing is no type, whatever kind it is: a
+    // quote left to be a stray would otherwise be an unclosed text type, silently.
+    let left: Type = tokens.nextIsStray()
+        ? new UnparsableType([tokens.read()])
+        : tokens.nextIs(Sym.Placeholder)
+          ? new TypePlaceholder(tokens.read(Sym.Placeholder))
+          : tokens.nextIs(Sym.Name)
+            ? parseNameType(tokens)
+            : tokens.nextIs(Sym.BooleanType)
+              ? new BooleanType(tokens.read(Sym.BooleanType))
+              : tokens.nextIs(Sym.Percent) ||
+                  tokens.nextIsOneOf(Sym.Number, Sym.NumberType)
+                ? parseNumberType(tokens)
+                : tokens.nextIs(Sym.Range)
+                  ? parseRangeType(tokens)
+                  : tokens.nextIs(Sym.Text)
+                    ? parseTextType(tokens)
+                    : tokens.nextIs(Sym.None)
+                      ? parseNoneType(tokens)
+                      : tokens.nextIs(Sym.ListOpen)
+                        ? parseListType(tokens)
+                        : tokens.nextIs(Sym.SetOpen)
+                          ? parseSetOrMapType(tokens)
+                          : tokens.nextIs(Sym.TableOpen)
+                            ? parseTableType(tokens)
+                            : tokens.nextIs(Sym.PatternDelimiter)
+                              ? new PatternType(
+                                    tokens.read(Sym.PatternDelimiter),
+                                    tokens.read(Sym.PatternDelimiter),
+                                )
+                              : tokens.nextIs(Sym.Function)
+                                ? parseFunctionType(tokens)
+                                : tokens.nextIs(Sym.Stream)
+                                  ? parseStreamType(tokens)
+                                  : // We use the doc symbol because it looks like an empty formatted
+                                    tokens.nextIs(Sym.FormattedType)
+                                    ? parseFormattedType(tokens)
+                                    : // Where what this is in closes, there is no type
+                                      // to read, and the close isn't one.
+                                      new UnparsableType(
+                                          tokens.nextIsAwaitedClose()
+                                              ? []
+                                              : tokens.readLine(),
+                                      );
 
     tokens.whileDo(
         () => tokens.nextIs(Sym.Union) && tokens.nextLacksPrecedingSpace(),

@@ -1529,6 +1529,16 @@
                     "name": "$~dấu phân cách chưa đóng",
                     "explanation": "$~Tôi dự kiến $expected sẽ xuất hiện vào một thời điểm nào đó sau khi $unclosed",
                     "resolution": "$~Thêm phần tử * $expected * bị thiếu"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~dấu phân cách chưa được mở",
+                    "explanation": "$~Tôi mong thấy $expected ở đâu đó trước $unopened",
+                    "resolution": "$~Hãy thêm *$expected* còn thiếu"
+                },
+                "StrayDelimiter": {
+                    "name": "$~dấu phân cách thừa",
+                    "explanation": "$~$delimiter này không đi cùng với gì cả. Không có gì mở hoặc đóng nó.",
+                    "resolution": "$~Xóa *$delimiter* thừa"
                 }
             },
             "exception": {

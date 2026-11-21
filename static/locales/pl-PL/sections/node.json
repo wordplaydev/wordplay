@@ -1529,6 +1529,16 @@
                     "name": "$~niezamknięty ogranicznik",
                     "explanation": "$~Spodziewałem się $expected jakiś czas po $unclosed",
                     "resolution": "$~Dodaj brakujące * $expected *"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~nieotwarty ogranicznik",
+                    "explanation": "$~Spodziewałem się $expected gdzieś przed $unopened",
+                    "resolution": "$~Dodaj brakujące *$expected*"
+                },
+                "StrayDelimiter": {
+                    "name": "$~dodatkowy ogranicznik",
+                    "explanation": "$~Ten $delimiter do niczego nie pasuje. Nic go nie otwiera ani nie zamyka.",
+                    "resolution": "$~Usuń dodatkowy *$delimiter*"
                 }
             },
             "exception": {

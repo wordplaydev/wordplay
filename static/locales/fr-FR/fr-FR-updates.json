@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Renommer une classe ou une galerie ne retire plus une personne qui y a été ajoutée au même moment.",
         "e64f54009f821": "$~Les dossiers et les autres réglages que tu changes sur un ordinateur ne sont plus effacés par un autre ordinateur que tu as laissé ouvert.",
         "e42ff6b707cdc": "$~Les messages de discussion que d'autres ont envoyés pendant que tu étais hors ligne ne sont plus effacés quand tu te reconnectes.",
-        "e4420e66c0d11": "$~Enregistrer un caractère personnalisé n'annule plus les changements plus récents faits à un autre."
+        "e4420e66c0d11": "$~Enregistrer un caractère personnalisé n'annule plus les changements plus récents faits à un autre.",
+        "ee7ad9a6b11e5": "$~Une parenthèse, un crochet, un guillemet ou un \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶ manquant ou en trop",
+        "e834452260d8f": "$~Un nom qui n'est pas défini est maintenant un seul conflit qui indique combien d'autres endroits l'utilisent, et sa correction les renomme tous en une seule fois.",
+        "e7f51c8353c3a": "$~Les pages du <guide@https://wordplay.dev/guide> pour \\Objets\\ et \\Contour\\ ne s'arrêtent plus au milieu.",
+        "ef8844bd76bc9": "$~Les boutons sous chaque personnage dans une galerie ne chevauchent plus ceux du personnage suivant, et le nom d'une galerie n'est plus coupé.",
+        "e148a40c1fbbb": "$~Les enseignants peuvent maintenant créer un compte pour un élève qui rejoint une classe en retard, directement depuis la page de la classe.",
+        "e361f5cf3dffa": "$~En mode /blocs/, le \\+\\ après une liste ajoute maintenant un espace vide où l'on peut écrire, son menu propose davantage de ce que la liste contient déjà, et chaque nombre affiche un seul menu d'unité au lieu de deux. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Rejoindre avec un nom d'utilisateur et un mot de passe n'indique plus un échec alors que ton compte a bien été créé, et si tu réessaies, tu es maintenant connecté.",
+        "ecc16fa29a890": "$~La palette de code en mode /blocs/ ne se ferme plus quand tu rates un bloc, n'affiche plus de blocs qui se ressemblent, et donne aux très petits blocs une zone plus facile à attraper. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

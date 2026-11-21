@@ -1529,6 +1529,16 @@
                     "name": "$~ಮುಚ್ಚದ ವಿಭಜಕ",
                     "explanation": "$~$unclosed ನಂತರ ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ನಾನು $expected ನಿರೀಕ್ಷಿಸಿದ್ದೆ.",
                     "resolution": "$~ಕಾಣೆಯಾದ * $expected * ಅನ್ನು ಸೇರಿಸಿ"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~ತೆರೆಯದ ಸೀಮಾಚಿಹ್ನೆ",
+                    "explanation": "$~$unopened ಗಿಂತ ಮೊದಲು ಎಲ್ಲಾದರೂ $expected ಇರಬೇಕೆಂದು ನಾನು ನಿರೀಕ್ಷಿಸಿದ್ದೆ",
+                    "resolution": "$~ಕಾಣೆಯಾದ *$expected* ಅನ್ನು ಸೇರಿಸಿ"
+                },
+                "StrayDelimiter": {
+                    "name": "$~ಹೆಚ್ಚುವರಿ ವಿಭಾಜಕ",
+                    "explanation": "$~ಈ $delimiter ಯಾವುದರ ಜೊತೆಗೂ ಹೊಂದುವುದಿಲ್ಲ. ಇದನ್ನು ಯಾವುದೂ ತೆರೆಯುವುದಿಲ್ಲ, ಮುಚ್ಚುವುದೂ ಇಲ್ಲ.",
+                    "resolution": "$~ಹೆಚ್ಚುವರಿ *$delimiter* ಅನ್ನು ತೆಗೆದುಹಾಕಿ"
                 }
             },
             "exception": {

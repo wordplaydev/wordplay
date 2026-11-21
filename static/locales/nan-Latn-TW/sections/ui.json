@@ -1150,7 +1150,8 @@
                 "highlightMajor": "$~tī pian-tsi̍p-khì hiánn-sī tsit ê tshò-gū ê thîng-sik-bé",
                 "highlightMinor": "$~tī pian-tsi̍p-khì hiánn-sī tsit ê kéng-kò ê thîng-sik-bé",
                 "highlightStep": "$~tī pian-tsi̍p-khì hiánn-sī tsit ê sǹg-tsuè pōo-tsiù ê thîng-sik-bé"
-            }
+            },
+            "places": "$~Tī $#count[$count ê khah-ê tē-hng|$count ê khah-ê tē-hng] mā sio-kāng."
         },
         "wellspring": {
             "label": "$~thîng-sik-bé tiāu-sik-pán",

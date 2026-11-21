@@ -1,6 +1,6 @@
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
 import type Conflict from '#conflicts/Conflict.ts';
 import { ExpectedEndingExpression } from '#conflicts/ExpectedEndingExpression.ts';
-import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import type {
     InsertContext,
     ReplaceContext,
@@ -326,12 +326,16 @@ export default class Block extends Expression {
         )
             conflicts.push(new ExpectedEndingExpression(this));
 
-        if (this.open && this.close === undefined)
-            conflicts.push(
-                new UnclosedDelimiter(this, this.open, EvalCloseToken()),
-            );
-
-        return conflicts;
+        return [
+            ...conflicts,
+            ...getDelimiterConflicts(
+                this,
+                this.open,
+                this.close,
+                EvalOpenToken,
+                EvalCloseToken,
+            ),
+        ];
     }
 
     getStatementIndexContaining(

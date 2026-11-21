@@ -1529,6 +1529,16 @@
                     "name": "$~বন্ধ না করা ডিলিমিটার",
                     "explanation": "$~আমি $unclosed-এর পরে কোনো এক সময়ে $expected আশা করেছিলাম",
                     "resolution": "$~অনুপস্থিত *$expected* যোগ করো"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~খোলা হয়নি এমন সীমানা-চিহ্ন",
+                    "explanation": "$~আমি আশা করেছিলাম $unopened-এর আগে কোথাও $expected থাকবে",
+                    "resolution": "$~যে *$expected* নেই, সেটি যোগ করো"
+                },
+                "StrayDelimiter": {
+                    "name": "$~বাড়তি বিভাজক",
+                    "explanation": "$~এই $delimiter কোনো কিছুর সাথে মেলে না। কিছুই এটিকে খোলে না, আবার বন্ধও করে না।",
+                    "resolution": "$~বাড়তি *$delimiter* সরিয়ে দাও"
                 }
             },
             "exception": {

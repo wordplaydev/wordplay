@@ -1529,6 +1529,16 @@
                     "name": "$~délimiteur non fermé",
                     "explanation": "$~Je m'attendais à ce que $expected soit quelque temps après $unclosed",
                     "resolution": "$~Ajoutez les valeurs manquantes * $expected *"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~délimiteur non ouvert",
+                    "explanation": "$~Je m'attendais à $expected avant $unopened",
+                    "resolution": "$~Ajoute le *$expected* manquant"
+                },
+                "StrayDelimiter": {
+                    "name": "$~délimiteur en trop",
+                    "explanation": "$~Ce $delimiter ne va avec rien. Rien ne l'ouvre ni ne le ferme.",
+                    "resolution": "$~Retire le *$delimiter* en trop"
                 }
             },
             "exception": {

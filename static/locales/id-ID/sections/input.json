@@ -506,7 +506,7 @@
                 "\\Kontur('a' \"Noto Sans\")\\",
                 "Masukkan @value @Place tersebut ke dalam @List of @Phrase untuk melihat garis luarnya digambar sebagai titik-titik:",
                 "\\Panggung(Kontur('a' \"Noto Sans\" 10m).petakan(ƒ(point) Frasa('•' tempat: point)))\\",
-                "Anda dapat mengubah ukuran garis luar dengan @Number of meters, memindahkan titik asalnya dengan @Place , memilih ketebalan font, mengaktifkan huruf miring, dan mengatur `spacing` antar titik sebagai jarak dalam meter. `spacing` yang lebih kecil akan menelusuri garis luar dengan lebih akurat, dengan titik-titik yang berjarak sama di sepanjang garis dan kurva.",
+                "Anda dapat mengubah ukuran garis luar dengan @Number of meters, memindahkan titik asalnya dengan @Place , memilih ketebalan font, mengaktifkan huruf miring, dan mengatur /Jarak/ antar titik sebagai jarak dalam meter. /Jarak/ yang lebih kecil akan menelusuri garis luar dengan lebih akurat, dengan titik-titik yang berjarak sama di sepanjang garis dan kurva.",
                 "Beberapa glif, seperti emoji warna, tidak memiliki garis luar, sehingga tidak menambahkan titik. Saat mengambil font, ia akan memberi Anda @List kosong, lalu mengisinya saat sudah siap."
             ],
             "names": ["$~Kontur"],
@@ -676,7 +676,7 @@
                 "Angkat sesuatu ke depan kamera dan @Objects akan mencoba menamainya.",
                 "Di balik layar, @Objects memakai model pembelajaran mesin yang mengenal 80 jenis benda sehari-hari.",
                 "Setiap bingkai, @Objects memberimu sebuah @List dari @Thing, diurutkan berdasarkan seberapa yakin modelnya, dengan yang paling yakin lebih dulu. Lihat @Thing untuk mengetahui apa yang diberitahukan masing-masing.",
-                "Model ini hanya menebak, jadi kadang ia salah, atau tidak melihat apa pun. Minta `confidence` yang lebih tinggi untuk mendengar hanya tebakan yang paling ia yakini.",
+                "Model ini hanya menebak, jadi kadang ia salah, atau tidak melihat apa pun. Minta /keyakinan/ yang lebih tinggi untuk mendengar hanya tebakan yang paling ia yakini.",
                 "Berikut contoh yang memberi label pada semua yang dilihat kamera:",
                 "\\🎭(📦() ↦ 💬(⬚.nama tempat: ⬚.tempat))\\",
                 "Kamu juga bisa mencari hanya satu jenis benda, dan mengabaikan yang lain:",

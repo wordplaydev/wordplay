@@ -1,3 +1,4 @@
+import { Sym } from '#nodes/Sym.ts';
 import type LocaleText from '#locale/LocaleText.ts';
 import { toResolutions } from '#conflicts/Conflict.ts';
 import NodeRef from '#locale/NodeRef.ts';
@@ -13,6 +14,7 @@ import { toTokens } from '#parser/toTokens.ts';
 import type Locales from '#locale/Locales.ts';
 import Conflict, {
     ConflictSeverity,
+    type ConflictLocaleAccessor,
     type Repair,
     type Resolutions,
 } from '#conflicts/Conflict.ts';
@@ -71,7 +73,7 @@ export class UnparsableConflict extends Conflict {
         );
     }
 
-    getLocalePath() {
+    getLocalePath(): ConflictLocaleAccessor {
         return UnparsableConflict.LocalePath;
     }
 
@@ -252,4 +254,98 @@ export class UnparsableConflict extends Conflict {
             },
         };
     }
+}
+
+/** The kinds of token that open or close something, and so can be left with nothing to go with. */
+const Delimiters = [
+    Sym.EvalClose,
+    Sym.ListClose,
+    Sym.SetClose,
+    Sym.TableClose,
+    Sym.TypeClose,
+    Sym.Text,
+    Sym.Formatted,
+    Sym.Doc,
+    Sym.Code,
+    Sym.PatternDelimiter,
+];
+
+/**
+ * A delimiter that goes with nothing: a `)` that nothing opened, a quote with no other
+ * quote. It is unparsable, and blocks what unparsable code blocks, but "I don't know what
+ * kind of expression this is" says nothing a creator can act on. This names the delimiter,
+ * and offers to take it out.
+ */
+export class StrayDelimiter extends UnparsableConflict {
+    readonly delimiter: Token;
+
+    constructor(
+        unparsable: UnparsableType | UnparsableExpression,
+        delimiter: Token,
+        context: Context,
+    ) {
+        super(unparsable, context);
+        this.delimiter = delimiter;
+    }
+
+    static readonly StrayPath = (locales: LocaleText) =>
+        locales.node.UnparsableExpression.conflict.StrayDelimiter;
+
+    override getMessage() {
+        return {
+            node: this.unparsable,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => StrayDelimiter.StrayPath(l).explanation,
+                    { delimiter: this.delimiter.getText() },
+                ),
+        };
+    }
+
+    override getResolutions(_context: Context, nodes: Node[]): Resolutions {
+        // An input with no name is what holds a stray among a definition's inputs,
+        // and goes with it.
+        const parent = this.context
+            .getRoot(this.unparsable)
+            ?.getParent(this.unparsable);
+        const extra =
+            parent instanceof Bind && parent.names.names.length === 0
+                ? parent
+                : this.unparsable;
+        return [
+            // Taking it out comes first: it is the one repair that is always right about
+            // the delimiter. What the code around it might have been meant as follows.
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => StrayDelimiter.StrayPath(l).resolution,
+                        { delimiter: this.delimiter.getText() },
+                    ),
+                mediator: (ctx) => ({
+                    newProject: ctx.project.withRevisedNodes([
+                        [extra, undefined],
+                    ]),
+                }),
+            },
+            ...this.getLikelyIntentions(nodes),
+        ];
+    }
+
+    override getLocalePath(): ConflictLocaleAccessor {
+        return StrayDelimiter.StrayPath;
+    }
+}
+
+/** The conflict for code that couldn't be parsed, which is more specific when it can be. */
+export function getUnparsableConflict(
+    unparsable: UnparsableType | UnparsableExpression,
+    context: Context,
+): UnparsableConflict {
+    const [only, ...others] = unparsable.unparsables;
+    return only !== undefined &&
+        others.length === 0 &&
+        Delimiters.some((kind) => only.isSymbol(kind))
+        ? new StrayDelimiter(unparsable, only, context)
+        : new UnparsableConflict(unparsable, context);
 }

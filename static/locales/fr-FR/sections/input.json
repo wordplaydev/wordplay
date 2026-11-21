@@ -506,7 +506,7 @@
                 "\\🖋('un' \"Noto Sans\")\\",
                 "Donne ces valeurs @Place à une @List de @Phrase pour voir le contour dessiné en points :",
                 "\\🎭(🖋('un' \"Noto Sans\" 10m).transformer(ƒ(point) 💬('•' lieu: point)))\\",
-                "Tu peux mettre le contour à l'échelle avec un @Number de mètres, déplacer son origine avec un @Place, choisir l'épaisseur de la police, activer l'italique, et définir l'espacement `spacing` entre les points comme une distance en mètres. Un `spacing` plus petit suit le contour de plus près, avec des points régulièrement espacés le long des lignes et des courbes.",
+                "Tu peux mettre le contour à l'échelle avec un @Number de mètres, déplacer son origine avec un @Place, choisir l'épaisseur de la police, activer l'italique, et définir l'espacement /Espacement/ entre les points comme une distance en mètres. Un /Espacement/ plus petit suit le contour de plus près, avec des points régulièrement espacés le long des lignes et des courbes.",
                 "Certains glyphes, comme les émojis en couleur, n'ont pas de contour, donc ils n'ajoutent aucun point. Pendant qu'il récupère la police, il te donnera une @List vide, puis la remplira quand elle sera prête."
             ],
             "names": ["$~🖋️", "$~Contour"],
@@ -676,7 +676,7 @@
                 "Montre quelque chose à la caméra et @Objects essaiera de le nommer.",
                 "En coulisses, @Objects utilise un modèle d'apprentissage automatique qui connaît 80 sortes de choses de tous les jours.",
                 "À chaque image, @Objects te donne une @List de @Thing, triée selon la certitude du modèle, la plus sûre en premier. Regarde @Thing pour voir ce que chacune t'indique.",
-                "Le modèle ne fait que deviner, donc il se trompera parfois, ou ne verra rien du tout. Demande une `confidence` plus élevée pour n'entendre que les suppositions dont il est le plus sûr.",
+                "Le modèle ne fait que deviner, donc il se trompera parfois, ou ne verra rien du tout. Demande une /confiance/ plus élevée pour n'entendre que les suppositions dont il est le plus sûr.",
                 "Voici un exemple qui étiquette tout ce que la caméra voit :",
                 "\\🎭(📦() ↦ 💬(⬚.nom lieu: ⬚.lieu))\\",
                 "Tu peux aussi chercher une seule sorte de chose, et ignorer le reste :",

@@ -506,7 +506,7 @@
                 "\\Contur('a' \"Noto Sans\")\\",
                 "Introduceți acele valori @Place într-o @List de @Phrase pentru a vedea conturul desenat ca puncte:",
                 "\\Estradă(Contur('a' \"Noto Sans\" 10m).transformă(ƒ(point) Fraza('•' loc: point)))\\",
-                "Puteți scala conturul cu un @Number de metri, puteți muta originea acestuia cu un @Place , puteți alege o grosime a fontului, puteți activa italic și puteți seta `spațierea` dintre puncte ca distanță în metri. O `spațiere` mai mică trasează conturul mai îndeaproape, cu puncte distanțate uniform atât de-a lungul liniilor, cât și de-a lungul curbelor.",
+                "Puteți scala conturul cu un @Number de metri, puteți muta originea acestuia cu un @Place , puteți alege o grosime a fontului, puteți activa italic și puteți seta /spațierea/ dintre puncte ca distanță în metri. O /spațiere/ mai mică trasează conturul mai îndeaproape, cu puncte distanțate uniform atât de-a lungul liniilor, cât și de-a lungul curbelor.",
                 "Unele glife, cum ar fi emoji-urile colorate, nu au contur, deci nu adaugă puncte. În timp ce preia fontul, îți va oferi o @List goală, apoi o va completa când este gata."
             ],
             "names": ["$~Contur"],
@@ -676,7 +676,7 @@
                 "Ține ceva în fața camerei și @Objects va încerca să îi dea un nume.",
                 "În spatele scenei, @Objects folosește un model de învățare automată care cunoaște 80 de feluri de lucruri de zi cu zi.",
                 "La fiecare cadru, @Objects îți dă o @List de @Thing, ordonate după cât de sigur este modelul, cu cel mai sigur primul. Uită-te la @Thing pentru ce îți spune fiecare.",
-                "Modelul doar ghicește, așa că uneori va greși sau nu va vedea nimic. Cere o @value `confidence` mai mare ca să auzi doar presupunerile de care este cel mai sigur.",
+                "Modelul doar ghicește, așa că uneori va greși sau nu va vedea nimic. Cere o @value /încredere/ mai mare ca să auzi doar presupunerile de care este cel mai sigur.",
                 "Iată un exemplu care etichetează tot ce vede camera:",
                 "\\🎭(📦() ↦ 💬(⬚.nume loc: ⬚.loc))\\",
                 "Poți de asemenea să cauți doar un singur fel de lucru și să ignori restul:",

@@ -1529,6 +1529,16 @@
                     "name": "$~οριοθέτης που δεν έκλεισε",
                     "explanation": "$~Περίμενα $expected κάποια στιγμή μετά το $unclosed",
                     "resolution": "$~Προσθέστε το * $expected * που λείπει"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~διαχωριστικό που δεν άνοιξε",
+                    "explanation": "$~Περίμενα $expected κάποια στιγμή πριν από $unopened",
+                    "resolution": "$~Πρόσθεσε το *$expected* που λείπει"
+                },
+                "StrayDelimiter": {
+                    "name": "$~επιπλέον οριοθέτης",
+                    "explanation": "$~Αυτός ο $delimiter δεν ταιριάζει με τίποτα. Τίποτα δεν τον ανοίγει ή τον κλείνει.",
+                    "resolution": "$~Αφαίρεσε τον επιπλέον *$delimiter*"
                 }
             },
             "exception": {

@@ -1,3 +1,4 @@
+import { withoutEchoes } from '#conflicts/causes.ts';
 import Templates from '#concepts/Templates.ts';
 import type Conflict from '#conflicts/Conflict.ts';
 import { Permission, type PermissionName } from '#input/permissions.ts';
@@ -955,8 +956,9 @@ export default class Project {
     /** Phase C for one source: its conflicts, and the nodes they point at. */
     private analyzeSourceConflicts(source: Source, share: SourceAnalysis) {
         const context = this.getContext(source);
-        share.conflicts = dedupeConflicts(
-            source.expression.getAllConflicts(context),
+        share.conflicts = withoutEchoes(
+            dedupeConflicts(source.expression.getAllConflicts(context)),
+            context,
         );
         for (const conflict of share.conflicts) {
             const node = conflict.getConflictingNode(context, Templates);

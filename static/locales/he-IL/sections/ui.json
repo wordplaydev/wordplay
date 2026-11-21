@@ -1002,7 +1002,8 @@
                 "major": "$~שגיאה",
                 "minor": "$~אזהרה"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~זה אותו דבר ב$#count[מקום אחר אחד|$count מקומות אחרים|$count מקומות אחרים]."
         },
         "output": {
             "label": "$~במה",

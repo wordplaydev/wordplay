@@ -1317,6 +1317,22 @@ type NodeTexts = {
                 /** [formatted] Action description for the repair this conflict offers */
                 resolution: Template<['expected']>;
             };
+            /**
+             * When a delimiter (a parenthesis, bracket, quote, etc.) goes with nothing: there is no delimiter that it opens or closes.
+             * Description inputs: $delimiter: the delimiter
+             * */
+            StrayDelimiter: ConflictText<['delimiter']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<['delimiter']>;
+            };
+            /**
+             * When a closing delimiter has no delimiter that opened it.
+             * Description inputs: $unopened: the closing delimiter, $expected: the missing opening delimiter
+             * */
+            UnopenedDelimiter: ConflictText<['unopened', 'expected']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<['expected']>;
+            };
         }> &
         Exceptions<{
             /** When an unparsable thing is evaluated */

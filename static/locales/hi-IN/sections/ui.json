@@ -727,7 +727,8 @@
                 "major": "$errorTerm",
                 "minor": "चेतावनी"
             },
-            "conflictLabel": "$severity: $conflict"
+            "conflictLabel": "$severity: $conflict",
+            "places": "$~यह $#count[$count और जगह|$count और जगहों] में भी ऐसा ही है।"
         },
         "output": {
             "label": "$~मंच",

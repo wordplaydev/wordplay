@@ -1007,7 +1007,8 @@
                 "major": "$~erro",
                 "minor": "$~aviso"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~É igual em $#count[$count outro lugar|$count outros lugares|$count outros lugares]."
         },
         "output": {
             "label": "saída do programa",

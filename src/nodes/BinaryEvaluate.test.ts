@@ -21,7 +21,7 @@ test.each([
         IncompatibleInput,
         1,
     ],
-    ['1 + 1', '1 + !', BinaryEvaluate, IncompatibleInput],
+    ['1 + 1', "1 + 'a'", BinaryEvaluate, IncompatibleInput],
     ['1m + 1m', '1m + 1s', BinaryEvaluate, IncompatibleInput],
     [
         `${FALSE_SYMBOL} ${OR_SYMBOL} ${FALSE_SYMBOL}`,
@@ -118,4 +118,14 @@ test.each([
     ],
 ])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
     testConflict(good, bad, node, conflict, index);
+});
+
+test('An unparsable operand is reported once, not also as the wrong type', () => {
+    const source = new Source('test', '1 + !');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const conflicts = source.expression.getAllConflicts(
+        project.getContext(source),
+    );
+    expect(conflicts.some((c) => c instanceof IncompatibleInput)).toBe(false);
+    expect(conflicts.length).toBe(1);
 });

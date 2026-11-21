@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Wenn du eine Klasse oder Galerie umbenennst, wird niemand mehr entfernt, der im selben Moment hinzugefügt wurde.",
         "e64f54009f821": "$~Ordner und andere Einstellungen, die du auf einem Computer änderst, werden nicht mehr von einem anderen Computer gelöscht, den du offen gelassen hast.",
         "e42ff6b707cdc": "$~Chatnachrichten, die andere gesendet haben, während du offline warst, werden nicht mehr gelöscht, wenn du dich wieder verbindest.",
-        "e4420e66c0d11": "$~Wenn du ein eigenes Zeichen speicherst, werden neuere Änderungen an einem anderen Zeichen nicht mehr rückgängig gemacht."
+        "e4420e66c0d11": "$~Wenn du ein eigenes Zeichen speicherst, werden neuere Änderungen an einem anderen Zeichen nicht mehr rückgängig gemacht.",
+        "ee7ad9a6b11e5": "$~Eine fehlende oder zusätzliche Klammer, eckige Klammer, ein Anführungszeichen oder \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶",
+        "e834452260d8f": "$~Ein Name, der nicht festgelegt ist, ist jetzt ein einziger Konflikt. Er zeigt an, an wie vielen anderen Stellen der Name benutzt wird, und seine Reparatur benennt alle auf einmal um.",
+        "e7f51c8353c3a": "$~Die <Leitfaden@https://wordplay.dev/guide>-Seiten für \\Objekte\\ und \\Kontur\\ hören nicht mehr mittendrin auf.",
+        "ef8844bd76bc9": "$~Die Schaltflächen unter jeder Figur in einer Galerie überdecken nicht mehr die der nächsten Figur, und der Name einer Galerie wird nicht mehr abgeschnitten.",
+        "e148a40c1fbbb": "$~Lehrkräfte können jetzt direkt auf der Klassenseite ein Konto für eine Schülerin oder einen Schüler anlegen, die oder der später in eine Klasse kommt.",
+        "e361f5cf3dffa": "$~Im Blöcke-Modus fügt das \\+\\ nach einer Liste jetzt eine leere Stelle hinzu, in die du tippen kannst. Sein Menü schlägt mehr von dem vor, was die Liste schon enthält, und jede Zahl zeigt ein Einheitenmenü statt zwei. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Wenn du dich mit Benutzername und Passwort anmeldest, wird nicht mehr gemeldet, dass es fehlgeschlagen ist, obwohl dein Konto erstellt wurde. Wenn du es noch einmal versuchst, wirst du jetzt angemeldet.",
+        "ecc16fa29a890": "$~Die Code-Palette im Blöcke-Modus schließt sich nicht mehr, wenn du einen Block verfehlst. Sie zeigt keine Blöcke mehr, die gleich aussehen, und gibt winzigen Blöcken ein Feld, das sich leichter greifen lässt. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

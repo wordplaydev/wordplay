@@ -727,7 +727,8 @@
                 "major": "$~오류",
                 "minor": "$~경고"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~다른 $#count[$count곳]에서도 똑같습니다."
         },
         "output": {
             "label": "$~무대",

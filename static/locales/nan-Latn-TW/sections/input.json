@@ -397,7 +397,7 @@
                 "Khioh tsi̍t-ê mi̍h-kiānn kàu siòng-tau-thâu tsîng-bīn, @Objects ē khuànn-māi kā i kiò miâ.",
                 "Bóe-nn̄g-bīn, @Objects iōng tsi̍t-ê ki-khì ha̍k-si̍p ê môo-hîng, tsai-iánn 80 tsióng pîng-sî ê mi̍h-kiānn.",
                 "Múi-ê-hôo, @Objects ē hōo lí tsi̍t-ê @List, lāi-bīn ê @Thing, ūi môo-hîng tuā-tsiūnn ê tsūn-suànn, siōng-tsiàu ê tsāi siōng-tsîng. Khuànn @Thing tsiah ē-tsai múi tsi̍t-ê kā lí kóng siánn.",
-                "Môo-hîng tsí-sī leh tsâi, só·í ū-sî ē tsâi-m̄-tio̍h, á-sī siánn mi̍h to khuànn-bô. Ài khah koân ê `confidence`, tsiah ē tsí thiann môo-hîng siōng tsai-iánn ê tsâi-tsháu.",
+                "Môo-hîng tsí-sī leh tsâi, só·í ū-sî ē tsâi-m̄-tio̍h, á-sī siánn mi̍h to khuànn-bô. Ài khah koân ê /khósìntōo/, tsiah ē tsí thiann môo-hîng siōng tsai-iánn ê tsâi-tsháu.",
                 "Tsit-ê lē-tsú ē kā siòng-tau-thâu khuànn-tio̍h ê mi̍h-kiānn lóng tah-miâ:",
                 "\\Bútâi(Mi̍hkiānn() ↦ Kù(⬚.miâ uītì: ⬚.uītì))\\",
                 "Lí mā ē tsí tshiau-tshuē tsi̍t-tsióng mi̍h-kiānn, kî-thuà ê lóng bo̍h-tshap:",
@@ -671,7 +671,7 @@
                 "\\Lûnkhok('a' \"Noto Sans\")\\",
                 "Kā tsiah-ê @Place @values sàng hōo @List ê @Phrase, tō ē khuànn tio̍h lún-khuàt iōng tiám lâi uē:",
                 "\\Bútâi(\n\tLûnkhok('a' \"Noto Sans\" 10m).huani̍k(\n\t\tƒ(tiám2) Kù('•' uītì: tiám2)\n\t)\n)\\",
-                "Lí ē-sái iōng @Number ê kong-chhioh lâi sok-hòo lún-khuàt, iōng @Place suá i ê guân-tiám, sûn jī-thé tshû-tshái, khui sió-khuê-thé, koh iōng kong-chhioh siat-tīng tiám kap tiám tsiong-kan ê `spacing`. `spacing` ná sió, lún-khuàt tō liàn ê ná sè-jī, tiám tī ti̍t-sòaⁿ kap khiau-sòaⁿ téng lóng ē pênn-kin.",
+                "Lí ē-sái iōng @Number ê kong-chhioh lâi sok-hòo lún-khuàt, iōng @Place suá i ê guân-tiám, sûn jī-thé tshû-tshái, khui sió-khuê-thé, koh iōng kong-chhioh siat-tīng tiám kap tiám tsiong-kan ê /Kan-kik/. /Kan-kik/ ná sió, lún-khuàt tō liàn ê ná sè-jī, tiám tī ti̍t-sòaⁿ kap khiau-sòaⁿ téng lóng ē pênn-kin.",
                 "U-kuá jī-hîng, ná-ū sik-tsái ê emoji, bô lún-khuàt, in tō bô ke tiám. Tng-teh khioh jī-thé ê sî, i ē hōo lí khang-khang ê @List, āu-lâi chiah thinn-hōo."
             ],
             "names": ["$~Lûnkhok"],

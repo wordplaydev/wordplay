@@ -756,7 +756,8 @@
                 "major": "$~ભૂલ",
                 "minor": "$~ચેતવણી"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~એ જ બીજા $#count[$count સ્થળે|$count સ્થળોએ] પણ સરખું છે."
         },
         "output": {
             "label": "$~સ્ટેજ",

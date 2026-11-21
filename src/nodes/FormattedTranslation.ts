@@ -1,3 +1,4 @@
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
 import type Conflict from '#conflicts/Conflict.ts';
 import { PossiblePII } from '#conflicts/PossiblePII.ts';
 import type {
@@ -161,7 +162,17 @@ export default class FormattedTranslation extends LanguageTagged {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        return PossiblePII.analyze(this, context);
+        const delimiter = () => new Token(this.open.getText(), Sym.Formatted);
+        return [
+            ...PossiblePII.analyze(this, context),
+            ...getDelimiterConflicts(
+                this,
+                this.open,
+                this.close,
+                delimiter,
+                delimiter,
+            ),
+        ];
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.FormattedTranslation;

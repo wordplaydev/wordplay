@@ -397,7 +397,7 @@
                 "Hold something up to the camera and @Objects will try to name it.",
                 "Behind the scenes, @Objects uses a machine-learning model that knows 80 kinds of everyday things.",
                 "Each frame, @Objects gives you a @List of @Thing, sorted by how sure the model is, with the surest first. Look at @Thing for what each one tells you.",
-                "The model is only guessing, so it will sometimes be wrong, or see nothing at all. Ask for a higher `confidence` to hear only the guesses it's surest about.",
+                "The model is only guessing, so it will sometimes be wrong, or see nothing at all. Ask for a higher /confidence/ to hear only the guesses it's surest about.",
                 "Here's an example that labels everything the camera sees:",
                 "\\Stage(Objects() ↦ Phrase(⬚.name place: ⬚.place))\\",
                 "You can also look for just one kind of thing, and ignore the rest:",
@@ -667,7 +667,7 @@
                 "\\Contour('a' \"Noto Sans\")\\",
                 "Feed those @Place @values to a @List of @Phrase to see the outline drawn as dots:",
                 "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
-                "You can scale the outline with a @Number of meters, move its origin with a @Place, choose a font weight, turn on italics, and set the `spacing` between points as a distance in meters. A smaller `spacing` traces the outline more closely, with evenly spaced points along both lines and curves.",
+                "You can scale the outline with a @Number of meters, move its origin with a @Place, choose a font weight, turn on italics, and set the /spacing/ between points as a distance in meters. A smaller /spacing/ traces the outline more closely, with evenly spaced points along both lines and curves.",
                 "Some glyphs, like color emoji, have no outline, so they add no points. While it fetches the font, it'll give you an empty @List, then fill it in when it's ready."
             ],
             "names": ["🖋️", "Contour"],

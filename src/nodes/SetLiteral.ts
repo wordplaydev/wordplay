@@ -1,3 +1,5 @@
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
+import SetOpenToken from '#nodes/SetOpenToken.ts';
 import type LocaleText from '#locale/LocaleText.ts';
 import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '#parser/Symbols.ts';
@@ -10,7 +12,6 @@ import type Value from '#values/Value.ts';
 import type { BasisTypeName } from '#basis/BasisConstants.ts';
 import { Purpose } from '#concepts/Purpose.ts';
 import type Conflict from '#conflicts/Conflict.ts';
-import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import type Locales from '#locale/Locales.ts';
 import Characters from '../lore/BasisCharacters';
 import AnyType from '#nodes/AnyType.ts';
@@ -114,9 +115,13 @@ export default class SetLiteral extends CompositeLiteral {
     }
 
     computeConflicts(): Conflict[] {
-        return this.close === undefined
-            ? [new UnclosedDelimiter(this, this.open, SetCloseToken())]
-            : [];
+        return getDelimiterConflicts(
+            this,
+            this.open,
+            this.close,
+            SetOpenToken,
+            SetCloseToken,
+        );
     }
 
     getItemType(context: Context) {

@@ -1501,6 +1501,16 @@
                     "name": "$~delimitador sin cerrar",
                     "explanation": "$~esperaba $expected en algún momento después de $unclosed",
                     "resolution": "$~agrega el *$expected* que falta"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~delimitador sin abrir",
+                    "explanation": "$~Esperaba $expected en algún momento antes de $unopened",
+                    "resolution": "$~Agregar el *$expected* que falta"
+                },
+                "StrayDelimiter": {
+                    "name": "$~delimitador de más",
+                    "explanation": "$~Este $delimiter no va con nada. Nada lo abre ni lo cierra.",
+                    "resolution": "$~Quitar el *$delimiter* de más"
                 }
             },
             "exception": {

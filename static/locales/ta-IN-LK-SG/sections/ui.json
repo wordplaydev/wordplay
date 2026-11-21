@@ -756,7 +756,8 @@
                 "major": "$~பிழை",
                 "minor": "$~எச்சரிக்கை"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~இது மற்ற $#count[$count இடத்திலும்|$count இடங்களிலும்] அதே போலத்தான்."
         },
         "output": {
             "label": "$~மேடை",

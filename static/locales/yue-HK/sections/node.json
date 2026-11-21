@@ -1869,6 +1869,16 @@
                     "name": "$~未關閉嘅分隔符號",
                     "explanation": "$~我預咗喺 $unclosed 之後會見到 $expected",
                     "resolution": "$~補返漏咗嘅 *$expected*"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~未開嘅分隔符號",
+                    "explanation": "$~我預期喺 $unopened 之前會見到 $expected",
+                    "resolution": "$~加返漏咗嘅 *$expected*"
+                },
+                "StrayDelimiter": {
+                    "name": "$~多咗個分隔符",
+                    "explanation": "$~呢個 $delimiter 配唔到任何嘢。冇嘢開頭，亦冇嘢收尾。",
+                    "resolution": "$~刪走多出嚟嘅 *$delimiter*"
                 }
             },
             "exception": {

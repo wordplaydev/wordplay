@@ -15,7 +15,9 @@ export default class UnclosedDelimiter extends Conflict {
     readonly expected: Token;
 
     constructor(node: Node, open: Token, expected: Token) {
-        super(ConflictSeverity.Minor);
+        // Not minor: this is the cause of whatever else its node now reports, so it is
+        // the one to count and to show first.
+        super(ConflictSeverity.Warning);
 
         this.open = open;
         this.node = node;

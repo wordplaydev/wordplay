@@ -976,7 +976,8 @@
                 "major": "$~ದೋಷ",
                 "minor": "$~ಎಚ್ಚರಿಕೆ"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~ಇದು $#count[ಇನ್ನೊಂದು $count ಸ್ಥಳದಲ್ಲಿಯೂ|ಇತರ $count ಸ್ಥಳಗಳಲ್ಲಿಯೂ] ಹಾಗೆಯೇ ಇದೆ."
         },
         "output": {
             "label": "$~ವೇದಿಕೆ",

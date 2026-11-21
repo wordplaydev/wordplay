@@ -981,7 +981,8 @@
                 "major": "$~లోపం",
                 "minor": "$~హెచ్చరిక"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~ఇది ఇతర $#count[$count చోట్ల|$count చోట్ల] కూడా అదే విధంగా ఉంది."
         },
         "output": {
             "label": "$~స్టేజ్",

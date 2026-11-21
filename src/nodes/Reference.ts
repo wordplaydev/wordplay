@@ -1,3 +1,4 @@
+import { isUnknowable } from '#nodes/damage.ts';
 import type Conflict from '#conflicts/Conflict.ts';
 import ReferenceCycle from '#conflicts/ReferenceCycle.ts';
 import { UnexpectedTypeVariable } from '#conflicts/UnexpectedTypeVariable.ts';
@@ -66,7 +67,6 @@ import {
 } from '#nodes/typeGuards.ts';
 import UnaryEvaluate from '#nodes/UnaryEvaluate.ts';
 import UnionType from '#nodes/UnionType.ts';
-import UnknownType from '#nodes/UnknownType.ts';
 import BooleanType from '#nodes/BooleanType.ts';
 import {
     getImplicitInputBind,
@@ -396,7 +396,7 @@ export default class Reference extends SimpleExpression {
             // `missing + 10` would yield UnknownName twice: once for `missing`
             // and once for `+`, because resolving `+` on UnknownNameType also
             // fails. #1146
-            if (!(scope instanceof UnknownType))
+            if (!(scope instanceof Type && isUnknowable(scope)))
                 conflicts.push(
                     new UnknownName(
                         this,

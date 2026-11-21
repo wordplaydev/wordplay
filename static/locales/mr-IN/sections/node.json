@@ -1529,6 +1529,16 @@
                     "name": "$~न बंद केलेला विभाजक",
                     "explanation": "$~$unclosed नंतर कधीतरी मला $expected अपेक्षित होते",
                     "resolution": "$~गहाळ *$expected* जोडा"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~न उघडलेले सीमाचिन्ह",
+                    "explanation": "$~मला $unopened च्या आधी कधीतरी $expected अपेक्षित होते",
+                    "resolution": "$~हरवलेले *$expected* जोडा"
+                },
+                "StrayDelimiter": {
+                    "name": "$~अतिरिक्त सीमाचिन्ह",
+                    "explanation": "$~हे $delimiter कोणत्याही गोष्टीशी जुळत नाही. ते कोणी उघडत नाही आणि कोणी बंद करत नाही.",
+                    "resolution": "$~अतिरिक्त *$delimiter* काढून टाका"
                 }
             },
             "exception": {

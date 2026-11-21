@@ -1528,6 +1528,16 @@
                     "name": "$~बंद न किया गया सीमांकक",
                     "explanation": "$~मुझे $unclosed के कुछ समय बाद $expected की उम्मीद थी",
                     "resolution": "$~गायब *$expected* जोड़ें"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~बिना खुला हुआ सीमांकक",
+                    "explanation": "$~मुझे $unopened से पहले कहीं $expected की उम्मीद थी",
+                    "resolution": "$~छूटा हुआ *$expected* जोड़ें"
+                },
+                "StrayDelimiter": {
+                    "name": "$~अतिरिक्त सीमाचिह्न",
+                    "explanation": "$~यह $delimiter किसी चीज़ से मेल नहीं खाता। इसे न कोई खोलता है, न कोई बंद करता है।",
+                    "resolution": "$~अतिरिक्त *$delimiter* हटाएँ"
                 }
             },
             "exception": {

@@ -506,7 +506,7 @@
                 "\\Kontur('a' \"Noto Sans\")\\",
                 "@Place değerlerini bir @Phrase @List besleyerek ana hatların noktalar halinde çizildiğini görebilirsiniz:",
                 "\\Sahne(Kontur('a' \"Noto Sans\" 10m).dönüştür(ƒ(point) Yazı('•' yer: point)))\\",
-                "Anahatı @Number metre ile ölçeklendirebilir, başlangıç noktasını @Place ile taşıyabilir, yazı tipi kalınlığı seçebilir, italik yazı tipini açabilir ve noktalar arasındaki `aralığı` metre cinsinden mesafe olarak ayarlayabilirsiniz. Daha küçük bir `aralık`, anahatı daha yakından takip eder ve hem çizgiler hem de eğriler boyunca eşit aralıklı noktalar oluşturur.",
+                "Anahatı @Number metre ile ölçeklendirebilir, başlangıç noktasını @Place ile taşıyabilir, yazı tipi kalınlığı seçebilir, italik yazı tipini açabilir ve noktalar arasındaki /aralığı/ metre cinsinden mesafe olarak ayarlayabilirsiniz. Daha küçük bir /aralık/, anahatı daha yakından takip eder ve hem çizgiler hem de eğriler boyunca eşit aralıklı noktalar oluşturur.",
                 "Renk emojileri gibi bazı karakterlerin kenar çizgisi yoktur, bu nedenle puan eklemezler. Yazı tipini getirirken size boş bir @List verecek, hazır olduğunda ise dolduracaktır."
             ],
             "names": ["$~Kontur"],
@@ -676,7 +676,7 @@
                 "Kameraya bir şey tut, @Objects onu isimlendirmeye çalışacak.",
                 "Perde arkasında @Objects, 80 çeşit günlük eşyayı bilen bir makine öğrenmesi modeli kullanır.",
                 "Her karede @Objects sana bir @List of @Thing verir. Bu liste, modelin ne kadar emin olduğuna göre sıralanır ve en emin olduğu ilk sırada olur. Her birinin sana ne söylediğini görmek için @Thing kısmına bak.",
-                "Model sadece tahmin yürütür, bu yüzden bazen yanılır ya da hiçbir şey görmez. Sadece en emin olduğu tahminleri duymak için daha yüksek bir `confidence` iste.",
+                "Model sadece tahmin yürütür, bu yüzden bazen yanılır ya da hiçbir şey görmez. Sadece en emin olduğu tahminleri duymak için daha yüksek bir /güven/ iste.",
                 "İşte kameranın gördüğü her şeyi etiketleyen bir örnek:",
                 "\\🎭(📦() ↦ 💬(⬚.isim yer: ⬚.yer))\\",
                 "Ayrıca sadece tek bir çeşit şeyi arayıp geri kalanını yok sayabilirsin:",

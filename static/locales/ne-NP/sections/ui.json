@@ -1009,7 +1009,8 @@
                 "major": "$~त्रुटि",
                 "minor": "$~चेतावनी"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~यो अरू $#count[$count ठाउँमा|$count ठाउँहरूमा] पनि उस्तै छ।"
         },
         "wellspring": {
             "label": "$~कोड प्यालेट",

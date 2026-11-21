@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Việc đổi tên một lớp học hoặc phòng trưng bày không còn xóa mất người vừa được thêm vào cùng lúc.",
         "e64f54009f821": "$~Các thư mục và những cài đặt khác bạn đổi trên một máy tính không còn bị xóa bởi một máy tính khác bạn để mở.",
         "e42ff6b707cdc": "$~Các tin nhắn trò chuyện mà người khác gửi khi bạn ngoại tuyến không còn bị xóa khi bạn kết nối lại.",
-        "e4420e66c0d11": "$~Việc lưu một ký tự tùy chỉnh không còn làm mất những thay đổi mới hơn của ký tự khác."
+        "e4420e66c0d11": "$~Việc lưu một ký tự tùy chỉnh không còn làm mất những thay đổi mới hơn của ký tự khác.",
+        "ee7ad9a6b11e5": "$~Thiếu hoặc thừa một dấu ngoặc đơn, dấu ngoặc vuông, dấu nháy hoặc \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶",
+        "e834452260d8f": "$~Một tên chưa được định nghĩa giờ chỉ là một xung đột, cho biết có bao nhiêu chỗ khác dùng nó, và cách sửa sẽ đổi tên tất cả các chỗ đó cùng một lúc.",
+        "e7f51c8353c3a": "$~Các trang <Sổ tay hướng dẫn@https://wordplay.dev/guide> về \\ĐốiTượng\\ và \\Đườngviền\\ không còn bị dừng giữa chừng nữa.",
+        "ef8844bd76bc9": "$~Các nút dưới mỗi nhân vật trong phòng trưng bày không còn chồng lên nút của nhân vật bên cạnh, và tên của phòng trưng bày không còn bị cắt mất.",
+        "e148a40c1fbbb": "$~Giáo viên giờ có thể tạo tài khoản cho học sinh vào lớp muộn, ngay từ trang của lớp.",
+        "e361f5cf3dffa": "$~Trong chế độ khối, \\+\\ sau một danh sách giờ thêm một chỗ trống để bạn gõ vào, menu của nó gợi ý thêm những thứ danh sách đã có, và mỗi số chỉ hiện một menu đơn vị thay vì hai. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Khi tham gia bằng tên người dùng và mật khẩu, hệ thống không còn báo thất bại khi thật ra đã tạo tài khoản cho bạn, và thử lại giờ sẽ đăng nhập cho bạn.",
+        "ecc16fa29a890": "$~Bảng mã trong chế độ khối không còn đóng lại khi bạn bấm trượt một khối, không còn hiện những khối trông giống nhau, và cho các khối nhỏ một ô dễ nắm hơn. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

@@ -7,7 +7,7 @@ import parseMarkup from '#parser/parseMarkup.ts';
 export default function parseDoc(tokens: Tokens): Doc {
     const open = tokens.read(Sym.Doc);
     const content = parseMarkup(tokens);
-    const close = tokens.readIf(Sym.Doc);
+    const close = tokens.readCloseOf(open, Sym.Doc);
     const lang = tokens.nextIs(Sym.Language)
         ? parseLanguage(tokens)
         : undefined;

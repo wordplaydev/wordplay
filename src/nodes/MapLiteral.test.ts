@@ -1,3 +1,4 @@
+import UnopenedDelimiter from '#conflicts/UnopenedDelimiter.ts';
 import UnclosedDelimiter from '#conflicts/UnclosedDelimiter.ts';
 import { NotAKeyValue } from '#conflicts/NotAKeyValue.ts';
 import { testConflict } from '#conflicts/TestUtilities.ts';
@@ -19,3 +20,12 @@ test.each([['{1:2}', '{1:2', MapLiteral, UnclosedDelimiter, 0]])(
         testConflict(good, bad, node, conflict, index);
     },
 );
+
+test('a MapLiteral with no opening delimiter says so', () => {
+    testConflict(
+        'a: {\n\t1: 2\n}\na',
+        'a: \n\t1: 2\n}\na',
+        MapLiteral,
+        UnopenedDelimiter,
+    );
+});

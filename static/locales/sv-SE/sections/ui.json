@@ -756,7 +756,8 @@
                 "major": "$~fel",
                 "minor": "$~varning"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~Det är likadant på $#count[$count annan plats|$count andra platser]."
         },
         "output": {
             "label": "$~scen",

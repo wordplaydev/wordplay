@@ -1135,7 +1135,8 @@
                 "highlightMajor": "$~喺編輯器入面顯示呢個錯誤嘅程式碼",
                 "highlightMinor": "$~喺編輯器入面顯示呢個警告嘅程式碼",
                 "highlightStep": "$~喺編輯器入面顯示呢個運算步驟嘅程式碼"
-            }
+            },
+            "places": "$~喺 $#count[其他 $count 個地方]都係咁。"
         },
         "wellspring": {
             "label": "$~程式碼調色盤",

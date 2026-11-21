@@ -1235,6 +1235,8 @@ type UITexts = {
         cursorDoc: Template<['description']>;
         /** [formatted] The description fo the cursor position's parent */
         cursorParent: Template<['node', 'type']>;
+        /** [formatted] Added to a conflict that is the same mistake in several places, such as a name that isn't defined and is used many times. $count is how many places other than this one. */
+        places: Template<['#count']>;
         /** [formatted] The prompt to line more about the cursor node */
         learn: FormattedText;
         /** [formatted] What function should say when evaluating */

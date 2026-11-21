@@ -1,5 +1,5 @@
 import type Conflict from '#conflicts/Conflict.ts';
-import { UnparsableConflict } from '#conflicts/UnparsableConflict.ts';
+import { getUnparsableConflict } from '#conflicts/UnparsableConflict.ts';
 import type LocaleText from '#locale/LocaleText.ts';
 import type { NodeDescriptor } from '#locale/NodeTexts.ts';
 import type Evaluator from '#runtime/Evaluator.ts';
@@ -77,7 +77,7 @@ export default class UnparsableExpression extends SimpleExpression {
                 if (allUnparsables[0] !== this) return [];
             }
         }
-        return [new UnparsableConflict(this, context)];
+        return [getUnparsableConflict(this, context)];
     }
 
     clone(replace?: Replacement): this {

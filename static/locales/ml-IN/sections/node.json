@@ -1871,6 +1871,16 @@
                     "name": "$~അടയ്ക്കാത്ത അതിർത്തിചിഹ്നം",
                     "explanation": "$~$unclosed ന് ശേഷം എപ്പോഴെങ്കിലും $expected പ്രതീക്ഷിച്ചിരുന്നു",
                     "resolution": "$~വിട്ടുപോയ *$expected* ചേർക്കുക"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~തുറക്കാത്ത വേർതിരിക്കൽ ചിഹ്നം",
+                    "explanation": "$~$unopened എന്നതിന് മുമ്പ് എവിടെയെങ്കിലും $expected പ്രതീക്ഷിച്ചിരുന്നു",
+                    "resolution": "$~വിട്ടുപോയ *$expected* ചേർക്കുക"
+                },
+                "StrayDelimiter": {
+                    "name": "$~അധികമുള്ള വിഭാജകം",
+                    "explanation": "$~ഈ $delimiter മറ്റൊന്നിനോടും ചേരുന്നില്ല. ഇതിനെ തുറക്കുന്നതോ അടയ്ക്കുന്നതോ ഒന്നുമില്ല.",
+                    "resolution": "$~അധികമുള്ള *$delimiter* നീക്കം ചെയ്യുക"
                 }
             },
             "exception": {

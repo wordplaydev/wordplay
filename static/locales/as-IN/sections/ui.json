@@ -981,7 +981,8 @@
                 "major": "$~ভুল",
                 "minor": "$~সতৰ্কবাণী"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~এইটো $#count[আন $count ঠাইতো একে|আন $count ঠাইতো একে]।"
         },
         "output": {
             "label": "$~মঞ্চ",

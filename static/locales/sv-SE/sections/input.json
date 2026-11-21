@@ -506,7 +506,7 @@
                 "\\Kontur('a' \"Noto Sans\")\\",
                 "Mata in dessa @Place -värden till en @List med @Phrase för att se konturen ritad som punkter:",
                 "\\Estrad(Kontur('a' \"Noto Sans\" 10m).omvandla(ƒ(point) Fras('•' plats: point)))\\",
-                "Du kan skala konturen med ett @Number of meters, flytta dess origo med ett @Place , välja en teckensnittsvikt, aktivera kursiv stil och ställa in `spacing` mellan punkter som ett avstånd i meter. Ett mindre `spacing` följer konturen närmare, med jämnt fördelade punkter längs både linjer och kurvor.",
+                "Du kan skala konturen med ett @Number of meters, flytta dess origo med ett @Place , välja en teckensnittsvikt, aktivera kursiv stil och ställa in /Mellanrum/ mellan punkter som ett avstånd i meter. Ett mindre /Mellanrum/ följer konturen närmare, med jämnt fördelade punkter längs både linjer och kurvor.",
                 "Vissa tecken, som färgemoji, har ingen kontur, så de lägger inte till några punkter. Medan den hämtar teckensnittet ger den dig en tom @List och fyller sedan i den när den är klar."
             ],
             "names": ["$~Kontur"],
@@ -676,7 +676,7 @@
                 "Håll upp något framför kameran så försöker @Objects namnge det.",
                 "Bakom kulisserna använder @Objects en maskininlärningsmodell som känner till 80 sorters vardagliga saker.",
                 "För varje bildruta ger @Objects dig en @List av @Thing, sorterad efter hur säker modellen är, med den säkraste först. Titta på @Thing för att se vad var och en berättar för dig.",
-                "Modellen gissar bara, så ibland har den fel eller ser ingenting alls. Be om en högre `confidence` för att bara höra de gissningar den är säkrast på.",
+                "Modellen gissar bara, så ibland har den fel eller ser ingenting alls. Be om en högre /säkerhet/ för att bara höra de gissningar den är säkrast på.",
                 "Här är ett exempel som märker allt kameran ser:",
                 "\\🎭(📦() ↦ 💬(⬚.namn plats: ⬚.plats))\\",
                 "Du kan också leta efter bara en sorts sak och strunta i resten:",

@@ -1,3 +1,4 @@
+import { withoutEchoes } from '#conflicts/causes.ts';
 import { conflictsIn } from '#conflicts/TestUtilities.ts';
 import Project from '#db/projects/Project.ts';
 import DefaultLocale from '#locale/DefaultLocale.ts';
@@ -207,8 +208,12 @@ describe('the shipped examples', () => {
                 .analyze()
                 .conflicts.map((c) => c.constructor.name)
                 .sort();
-            const after = source.expression
-                .getAllConflicts(p.getContext(source))
+            // Less the conflicts that only repeat another, as an analysis reports them.
+            const context = p.getContext(source);
+            const after = withoutEchoes(
+                source.expression.getAllConflicts(context),
+                context,
+            )
                 .map((c) => c.constructor.name)
                 .sort();
             expect(during).toEqual(after);

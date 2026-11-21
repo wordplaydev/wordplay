@@ -1870,6 +1870,16 @@
                     "name": "$~جداکننده بسته نشده",
                     "explanation": "$~من انتظار داشتم $expected کمی بعد از $unclosed بیاید",
                     "resolution": "$~این *$expected* گم‌شده را اضافه کن"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~جداکنندهٔ باز نشده",
+                    "explanation": "$~من انتظار داشتم $expected را قبل از $unopened ببینم",
+                    "resolution": "$~*$expected* را که جا افتاده اضافه کن"
+                },
+                "StrayDelimiter": {
+                    "name": "$~جداکنندهٔ اضافی",
+                    "explanation": "$~این $delimiter به هیچ چیز نمی‌خورد. چیزی آن را باز نمی‌کند و چیزی آن را نمی‌بندد.",
+                    "resolution": "$~*$delimiter* اضافی را پاک کن"
                 }
             },
             "exception": {

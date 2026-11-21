@@ -751,7 +751,8 @@
                 "major": "$~грешка",
                 "minor": "$~упозорење"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~Исто је и на $#count[$count другом месту|$count друга места|$count других места]."
         },
         "output": {
             "label": "$~сцена",

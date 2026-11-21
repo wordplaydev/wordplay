@@ -1870,6 +1870,16 @@
                     "name": "$~बन्द नगरिएको सीमांकक",
                     "explanation": "$~मैले $unclosed पछि कुनै बेला $expected आशा गरेको थिएँ",
                     "resolution": "$~हराएको *$expected* थप्नुहोस्"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~नखोलिएको सीमाचिन्ह",
+                    "explanation": "$~मैले $unopened अघि कुनै बेला $expected आउने आशा गरेको थिएँ",
+                    "resolution": "$~छुटेको *$expected* थप्नुहोस्"
+                },
+                "StrayDelimiter": {
+                    "name": "$~अतिरिक्त सीमाचिह्न",
+                    "explanation": "$~यो $delimiter कुनै कुरासँग मिल्दैन। यसलाई कुनैले खोल्दैन र बन्द पनि गर्दैन।",
+                    "resolution": "$~अतिरिक्त *$delimiter* हटाउनुहोस्"
                 }
             },
             "exception": {

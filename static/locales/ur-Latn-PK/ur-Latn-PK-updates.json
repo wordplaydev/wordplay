@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Jamaat ya numaish gah ka naam badalne se ab woh shakhs nahin hat'ta jo usi lamhe usmein shamil kiya gaya ho.",
         "e64f54009f821": "$~Folders aur doosri settings jo aap ek computer par badlein, ab woh kisi doosre computer se nahin mitti jo aap ne khula chhor diya ho.",
         "e42ff6b707cdc": "$~Jo chat paighaam doosron ne aap ke offline rehte hue bheje, woh ab dobara judne par nahin mit'te.",
-        "e4420e66c0d11": "$~Ek apna banaya hua harf mehfooz karne se ab doosre harf ki nayi tabdeeliyan khatam nahin hotin."
+        "e4420e66c0d11": "$~Ek apna banaya hua harf mehfooz karne se ab doosre harf ki nayi tabdeeliyan khatam nahin hotin.",
+        "ee7ad9a6b11e5": "$~Ek bracket, parenthesis, quote ya \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶ jo kam ho ya zyada ho",
+        "e834452260d8f": "$~Jis naam ki tareef nahin hoti, woh ab ek masla hai jo batata hai ke aur kitni jagah isay istemaal kiya gaya hai, aur uski marammat un sab ka naam ek saath badal deti hai.",
+        "e7f51c8353c3a": "$~\\Cheezein\\ aur \\Khaaka\\ ke <Rehnuma@https://wordplay.dev/guide> ke safhe ab beech mein nahin ruktay.",
+        "ef8844bd76bc9": "$~Numaish gah mein har kirdaar ke neeche ke button ab agle kirdaar ke buttons par nahin chadhte, aur numaish gah ka naam ab kat kar nahin dikhta.",
+        "e148a40c1fbbb": "$~Ustaad ab jamaat ke safhe se hi us talib-e-ilm ka account bana saktay hain jo der se jamaat mein shamil hota hai.",
+        "e361f5cf3dffa": "$~Blocks mode mein, list ke baad \\+\\ ab ek khaali jagah shamil karta hai jis mein aap likh saktay hain, uska menu woh cheezein zyada sujhata hai jo list mein pehle se hain, aur har number ab do ki jagah ek ikai ka menu dikhata hai. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Sarf-kaar ke naam aur password se shamil hotay waqt ab yeh nahin kaha jata ke nakaami hui jab ke account ban chuka hota hai, aur dobara koshish karne par ab aap andar aa jaate hain.",
+        "ecc16fa29a890": "$~Blocks mode mein code palette ab block se chook jaane par band nahin hota, ek jaise nazar aane waale blocks ab nahin dikhata, aur chhote blocks ko pakadne ke liye bada khaana deta hai. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

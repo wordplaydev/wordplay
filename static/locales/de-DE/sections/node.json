@@ -1501,6 +1501,16 @@
                     "name": "$~nicht geschlossenes Trennzeichen",
                     "explanation": "$~Ich erwartete $expected irgendwann nach $unclosed.",
                     "resolution": "$~Füge das fehlende * $expected * hinzu."
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~nicht geöffnetes Trennzeichen",
+                    "explanation": "$~Ich habe $expected irgendwann vor $unopened erwartet",
+                    "resolution": "$~Füge das fehlende *$expected* hinzu"
+                },
+                "StrayDelimiter": {
+                    "name": "$~überflüssiges Trennzeichen",
+                    "explanation": "$~Dieses $delimiter passt zu nichts. Nichts öffnet es und nichts schließt es.",
+                    "resolution": "$~Entferne das überflüssige *$delimiter*"
                 }
             },
             "exception": {

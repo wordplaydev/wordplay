@@ -1,6 +1,7 @@
 <script lang="ts">
     import Emoji from '#components/app/Emoji.svelte';
     import LocalizedText from '#components/widgets/LocalizedText.svelte';
+    import { groupByCause } from '#conflicts/causes.ts';
     import Templates from '#concepts/Templates.ts';
     import type Project from '#db/projects/Project.ts';
     import type Source from '#nodes/Source.ts';
@@ -59,25 +60,24 @@
      *  only thing distinguishing identical emoji, so the tile row keeps it. */
     const named = $derived(project.getSources().length > 1);
 
-    // The number of conflicts is the number of nodes in the source involved in conflicts
+    // The number of conflicts is the number of mistakes in the source, not the number of
+    // places they show up: a name that isn't defined is one, however many times it is used.
     let conflictCount = $state(0);
 
     // Derive counts from sources.
     $effect(() => {
-        let newCount = 0;
-        if ($conflicts) {
-            for (const conflict of $conflicts) {
-                const node = conflict.getConflictingNode(
-                    project.getContext(source),
-                    Templates,
-                );
-                if (source.has(node)) {
-                    if (!conflict.isMinor()) newCount++;
-                }
-            }
-        }
-
-        conflictCount = newCount;
+        const major =
+            $conflicts?.filter(
+                (conflict) =>
+                    !conflict.isMinor() &&
+                    source.has(
+                        conflict.getConflictingNode(
+                            project.getContext(source),
+                            Templates,
+                        ),
+                    ),
+            ) ?? [];
+        conflictCount = groupByCause(major, (node) => source.has(node)).length;
     });
 </script>
 

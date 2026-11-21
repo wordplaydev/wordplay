@@ -1,3 +1,4 @@
+import NoExpressionType from '#nodes/NoExpressionType.ts';
 import conciseRef from '#nodes/conciseRef.ts';
 import type Node from '#nodes/Node.ts';
 import type Conflict from '#conflicts/Conflict.ts';
@@ -507,8 +508,11 @@ export default class Bind extends Expression {
         ) {
             const references = context.project.getReferences(this);
             // Don't warn on placeholder symbols.
+            // Nor on an input with no name, which is what couldn't be parsed
+            // among a definition's inputs, and already says so.
             if (
                 references.length === 0 &&
+                this.names.names.length > 0 &&
                 !this.names.hasName(PLACEHOLDER_SYMBOL)
             )
                 conflicts.push(new UnusedBind(this));
@@ -612,6 +616,15 @@ export default class Bind extends Expression {
         // type is corrupt (UnknownType), propagate that corruption so
         // downstream consumers can suppress cascading conflicts via
         // {@link Context.isUnknownDownstream}. (#1146)
+        // A name given a `:` and then no value has no type yet, which is not the same as
+        // having any type: every use of it would otherwise be held to that.
+        if (
+            type === undefined &&
+            this.colon !== undefined &&
+            this.value === undefined
+        )
+            return new NoExpressionType(this);
+
         if (type === undefined) type = this.getExpectedType(context);
 
         // If the type is a name, and it refers to a structure, resolve it.

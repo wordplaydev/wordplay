@@ -1,3 +1,4 @@
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
 import type Conflict from '#conflicts/Conflict.ts';
 import { getKeywordShadowConflicts } from '#conflicts/ShadowsKeyword.ts';
 import { DisallowedInputs } from '#conflicts/DisallowedInputs.ts';
@@ -70,7 +71,7 @@ export default class StructureDefinition extends DefinitionExpression {
     readonly types: TypeVariables | undefined;
     readonly open: Token;
     readonly inputs: Bind[];
-    readonly close: Token;
+    readonly close: Token | undefined;
     readonly expression: Block | undefined;
 
     // PERF: Cache definitions to avoid having to recreate the list.
@@ -99,7 +100,7 @@ export default class StructureDefinition extends DefinitionExpression {
         types: TypeVariables | undefined,
         open: Token,
         inputs: Bind[],
-        close: Token,
+        close: Token | undefined,
         block?: Block,
     ) {
         super();
@@ -451,6 +452,18 @@ export default class StructureDefinition extends DefinitionExpression {
         // place it means anything.
         conflicts = conflicts.concat(
             getMisplacedShareConflicts(this, this.share, false, context),
+        );
+
+        // Unclosed or unopened inputs still define the structure, so that every use of
+        // it isn't unknown too.
+        conflicts = conflicts.concat(
+            getDelimiterConflicts(
+                this,
+                this.open,
+                this.close,
+                EvalOpenToken,
+                EvalCloseToken,
+            ),
         );
 
         // Inputs must be valid.

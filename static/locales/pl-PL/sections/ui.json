@@ -751,7 +751,8 @@
                 "major": "$~błąd",
                 "minor": "$~ostrzeżenie"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$~$severity: $conflict",
+            "places": "$~To samo jest w $#count[$count innym miejscu|$count innych miejscach|$count innych miejscach|$count innych miejscach]."
         },
         "output": {
             "label": "$~scena",

@@ -1871,6 +1871,16 @@
                     "name": "$~незакрытый разделитель",
                     "explanation": "$~Я ждал $expected где-то после $unclosed",
                     "resolution": "$~Добавить пропущенное *$expected*"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~незакрытый разделитель",
+                    "explanation": "$~Я ожидал $expected перед $unopened",
+                    "resolution": "$~Добавь пропущенное: *$expected*"
+                },
+                "StrayDelimiter": {
+                    "name": "$~лишний разделитель",
+                    "explanation": "$~Этот $delimiter ни к чему не подходит. Его ничто не открывает и ничто не закрывает.",
+                    "resolution": "$~Убрать лишний *$delimiter*"
                 }
             },
             "exception": {

@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Om du byter namn på en klass eller ett galleri tas inte längre någon bort som lades till i just det ögonblicket.",
         "e64f54009f821": "$~Mappar och andra inställningar som du ändrar på en dator raderas inte längre av en annan dator som du lämnade öppen.",
         "e42ff6b707cdc": "$~Chattmeddelanden som andra skickade medan du var offline raderas inte längre när du ansluter igen.",
-        "e4420e66c0d11": "$~Om du sparar ett eget tecken ångras inte längre nyare ändringar i ett annat."
+        "e4420e66c0d11": "$~Om du sparar ett eget tecken ångras inte längre nyare ändringar i ett annat.",
+        "ee7ad9a6b11e5": "$~En parentes, hakparentes, citattecken eller \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶ som saknas eller är en för mycket",
+        "e834452260d8f": "$~Ett namn som inte är definierat är nu en enda konflikt som visar hur många andra ställen som använder det, och dess reparation byter namn på alla på en gång.",
+        "e7f51c8353c3a": "$~Sidorna i <guiden@https://wordplay.dev/guide> för \\Objekt\\ och \\Kontur\\ stannar inte längre halvvägs.",
+        "ef8844bd76bc9": "$~Knapparna under varje figur i ett galleri överlappar inte längre nästa figurs knappar, och galleriets namn skärs inte längre av.",
+        "e148a40c1fbbb": "$~Lärare kan nu skapa ett konto åt en elev som går med i en klass sent, direkt från klasssidan.",
+        "e361f5cf3dffa": "$~I blockläget lägger \\+\\ efter en lista nu till en tom plats som du kan skriva i, dess meny föreslår mer av det som listan redan innehåller, och varje tal visar en enhetsmeny i stället för två. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Att gå med med användarnamn och lösenord säger inte längre att det misslyckades när det i själva verket skapade ditt konto, och om du försöker igen loggas du nu in.",
+        "ecc16fa29a890": "$~Kodpaletten i blockläget stängs inte längre när du missar ett block, visar inte längre block som ser likadana ut, och ger små block en ruta som är lättare att ta tag i. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

@@ -1,3 +1,7 @@
+import ListOpenToken from '#nodes/ListOpenToken.ts';
+import { getDelimiterConflicts } from '#conflicts/UnopenedDelimiter.ts';
+import type Conflict from '#conflicts/Conflict.ts';
+import ListCloseToken from '#nodes/ListCloseToken.ts';
 import type {
     InsertContext,
     ReplaceContext,
@@ -111,8 +115,14 @@ export default class ListType extends BasisType {
         );
     }
 
-    computeConflicts() {
-        return [];
+    computeConflicts(): Conflict[] {
+        return getDelimiterConflicts(
+            this,
+            this.open,
+            this.close,
+            ListOpenToken,
+            ListCloseToken,
+        );
     }
 
     /** True if this type specifies a type for each position, and therefore a length. */

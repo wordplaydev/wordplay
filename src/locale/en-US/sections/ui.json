@@ -1121,6 +1121,7 @@
             "cursor": "This is *$node*$type[ and they are a $type|].",
             "cursorDoc": "They say: “$description”",
             "cursorParent": "They're inside a *$node*$type[, which evaluates to a $type|].",
+            "places": "It's the same in $#count[$count other place|$count other places].",
             "learn": "/Learn more/",
             "evaluating": "Oh fun, let's evaluate!",
             "space": "This is space! Who knew nothing could say so much?",

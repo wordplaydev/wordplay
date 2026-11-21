@@ -1079,6 +1079,14 @@
         "e3b7a19e44392": "$~Bir sınıfın veya galerinin adını değiştirmek, aynı anda eklenen kişiyi artık silmiyor.",
         "e64f54009f821": "$~Bir bilgisayarda değiştirdiğin klasörler ve diğer ayarlar, açık bıraktığın başka bir bilgisayar tarafından artık silinmiyor.",
         "e42ff6b707cdc": "$~Sen çevrimdışıyken başkalarının gönderdiği sohbet mesajları, yeniden bağlandığında artık silinmiyor.",
-        "e4420e66c0d11": "$~Bir özel karakteri kaydetmek, başka bir özel karakterdeki daha yeni değişiklikleri artık geri almıyor."
+        "e4420e66c0d11": "$~Bir özel karakteri kaydetmek, başka bir özel karakterdeki daha yeni değişiklikleri artık geri almıyor.",
+        "ee7ad9a6b11e5": "$~Eksik ya da fazla bir parantez, köşeli parantez, tırnak işareti veya \\¶\\is\nnow\none\nconflict\nwhere\nthe\nmistake\nis\n,witharepairthataddsorremovesit,insteadofconflictsoneverylineafterit.(<1146@https://github.com/wordplaydev/wordplay/issues/1146>)¶¶",
+        "e834452260d8f": "$~Tanımlanmamış bir isim artık tek bir çakışma olarak gösteriliyor. Bu çakışma, o ismi başka kaç yerin kullandığını söylüyor. Onarım ise hepsinin ismini tek seferde değiştiriyor.",
+        "e7f51c8353c3a": "$~\\Nesneler\\ ve \\Kontur\\ için <Rehber@https://wordplay.dev/guide> sayfaları artık yarıda kesilmiyor.",
+        "ef8844bd76bc9": "$~Galerideki her karakterin altındaki düğmeler artık bir sonraki karakterin düğmeleriyle üst üste binmiyor. Galerinin ismi de artık kesilmiyor.",
+        "e148a40c1fbbb": "$~Öğretmenler artık bir sınıfa geç katılan öğrenci için doğrudan sınıf sayfasından hesap açabilir.",
+        "e361f5cf3dffa": "$~Bloklar modunda, bir listeden sonra gelen \\+\\ artık içine yazabileceğiniz boş bir yer ekliyor. Menüsü listenin zaten içerdiği öğelerden daha fazlasını öneriyor. Her sayı da iki yerine tek bir birim menüsü gösteriyor. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)",
+        "efc7f487b7fb7": "$~Kullanıcı adı ve parolayla katılırken, hesabınız aslında açıldığı halde artık başarısız oldu denmiyor. Tekrar denerseniz oturumunuz açılıyor.",
+        "ecc16fa29a890": "$~Bloklar modundaki kod paleti artık bir bloğu ıskaladığınızda kapanmıyor. Artık birbirine benzeyen blokları göstermiyor. Küçük bloklara da tutması daha kolay bir kutu veriyor. (<1484@https://github.com/wordplaydev/wordplay/issues/1484>)"
     }
 }

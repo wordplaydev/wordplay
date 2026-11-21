@@ -1529,6 +1529,16 @@
                     "name": "$~ਬੰਦ ਨਾ ਹੋਇਆ ਵੱਖਰੇਵਾਂ ਨਿਸ਼ਾਨ",
                     "explanation": "$~ਮੈਨੂੰ $unclosed ਤੋਂ ਬਾਅਦ ਕਿਸੇ ਸਮੇਂ $expected ਦੀ ਉਮੀਦ ਸੀ।",
                     "resolution": "$~ਗੁੰਮ * $expected * ਸ਼ਾਮਲ ਕਰੋ"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~ਨਾ ਖੋਲ੍ਹਿਆ ਗਿਆ ਵੱਖਰੇਵਾ",
+                    "explanation": "$~ਮੈਨੂੰ $unopened ਤੋਂ ਪਹਿਲਾਂ ਕਿਤੇ $expected ਦੀ ਉਮੀਦ ਸੀ",
+                    "resolution": "$~ਗੁੰਮ ਹੋਇਆ *$expected* ਜੋੜੋ"
+                },
+                "StrayDelimiter": {
+                    "name": "$~ਵਾਧੂ ਵੱਖਰੇਵਾਂ-ਚਿੰਨ੍ਹ",
+                    "explanation": "$~ਇਹ $delimiter ਕਿਸੇ ਚੀਜ਼ ਨਾਲ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ। ਇਸ ਨੂੰ ਨਾ ਕੋਈ ਖੋਲ੍ਹਦਾ ਹੈ ਅਤੇ ਨਾ ਕੋਈ ਬੰਦ ਕਰਦਾ ਹੈ।",
+                    "resolution": "$~ਵਾਧੂ *$delimiter* ਹਟਾਓ"
                 }
             },
             "exception": {

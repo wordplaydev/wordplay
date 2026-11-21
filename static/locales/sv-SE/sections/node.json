@@ -1529,6 +1529,16 @@
                     "name": "$~oavslutad avgränsare",
                     "explanation": "$~Jag förväntade mig $expected någon gång efter $unclosed",
                     "resolution": "$~Lägg till den saknade * $expected *"
+                },
+                "UnopenedDelimiter": {
+                    "name": "$~oöppnad avgränsare",
+                    "explanation": "$~Jag väntade mig $expected någon gång före $unopened",
+                    "resolution": "$~Lägg till det som saknas: *$expected*"
+                },
+                "StrayDelimiter": {
+                    "name": "$~extra avgränsare",
+                    "explanation": "$~Den här $delimiter hör inte ihop med något. Inget öppnar den och inget stänger den.",
+                    "resolution": "$~Ta bort den extra *$delimiter*"
                 }
             },
             "exception": {
