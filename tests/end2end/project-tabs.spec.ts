@@ -1,4 +1,4 @@
-import { expect, type Page, test } from '@playwright/test';
+import { expect, type Page, test } from '../../playwright/pageErrors';
 
 // A phone, where the responsive arrangement shows one tile at a time and the tile
 // toggles become a tab bar above the project row instead of collapsing into the

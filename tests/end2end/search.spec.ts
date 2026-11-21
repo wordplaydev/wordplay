@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/pageErrors';
 
 /**
  * The projects page's search field. One navigation, since both claims are about

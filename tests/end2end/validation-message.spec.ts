@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/pageErrors';
 
 /**
  * When a field's validation message is on screen, and how many can be.

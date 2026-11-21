@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page } from '../../playwright/pageErrors';
 import { SeasonPalettes } from '../../src/seasons/palettes';
 import { Seasons } from '../../src/seasons/Season';
 import {

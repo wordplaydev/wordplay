@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/pageErrors';
 
 test.describe('Editor → Output cross-component flow', () => {
     // Smoke check of the home page: window title and the "Wordplay" header.

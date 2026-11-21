@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Page } from '../../playwright/pageErrors';
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
 import { waitForDocumentUpdate } from '../helpers/firestore';

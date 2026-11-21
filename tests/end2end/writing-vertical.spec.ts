@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/pageErrors';
 import { expectNoAxeViolations } from '../helpers/checkAccessibility';
 import { grantClipboard } from '../helpers/clipboard';
 import { createTestProject } from '../helpers/createProject';

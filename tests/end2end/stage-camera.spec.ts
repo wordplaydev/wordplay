@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import type { Locator, Page } from '../../playwright/pageErrors';
 import { expect, test } from '../../playwright/fixtures';
 import { expectNoAxeViolations } from '../helpers/checkAccessibility';
 import { grantClipboard } from '../helpers/clipboard';

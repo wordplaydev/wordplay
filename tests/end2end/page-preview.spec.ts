@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/pageErrors';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { getTestFirestore } from '../helpers/firestore';

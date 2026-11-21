@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page } from '../../playwright/pageErrors';
 
 /**
  * Two things about the landing page's scrolling, which have twice been wrong in

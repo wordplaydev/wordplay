@@ -1,4 +1,9 @@
-import { expect, test, type Browser, type Page } from '@playwright/test';
+import {
+    expect,
+    test,
+    type Browser,
+    type Page,
+} from '../../playwright/pageErrors';
 
 /**
  * Interface chrome is not selectable; content is.

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/pageErrors';
 import { createTestCharacter } from '../helpers/createCharacter';
 import { joinViaUI } from '../helpers/joinViaUI';
 

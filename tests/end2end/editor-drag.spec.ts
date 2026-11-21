@@ -1,4 +1,9 @@
-import { expect, test, type Locator, type Page } from '@playwright/test';
+import {
+    expect,
+    test,
+    type Locator,
+    type Page,
+} from '../../playwright/pageErrors';
 import { grantClipboard } from '../helpers/clipboard';
 import { createTestProject } from '../helpers/createProject';
 

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../../playwright/pageErrors';
 import { createTestProject } from '../helpers/createProject';
 
 /** Strip layout whitespace and the zero-width separators between tokens. */
