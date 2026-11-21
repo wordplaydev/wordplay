@@ -1,20 +1,110 @@
 {
-    "created": "2026-11-13T10:05:43.568Z",
+    "created": "2026-11-20T10:05:22.398Z",
     "contributors": [
+        {
+            "login": "BlmmToidi",
+            "name": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/67756347?v=4",
+            "html_url": "https://github.com/BlmmToidi",
+            "counts": {
+                "commit": 0,
+                "issue": 3,
+                "pull_request": 0,
+                "issue_comment": 1,
+                "pr_review": 0,
+                "pr_review_comment": 0
+            },
+            "latest": "2026-11-17T02:14:39Z"
+        },
+        {
+            "login": "aamush2",
+            "name": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/205994253?v=4",
+            "html_url": "https://github.com/aamush2",
+            "counts": {
+                "commit": 0,
+                "issue": 2,
+                "pull_request": 0,
+                "issue_comment": 1,
+                "pr_review": 0,
+                "pr_review_comment": 0
+            },
+            "latest": "2026-11-17T02:04:49Z"
+        },
+        {
+            "login": "Frecesca",
+            "name": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/166247320?v=4",
+            "html_url": "https://github.com/Frecesca",
+            "counts": {
+                "commit": 0,
+                "issue": 0,
+                "pull_request": 0,
+                "issue_comment": 3,
+                "pr_review": 0,
+                "pr_review_comment": 0
+            },
+            "latest": "2026-11-16T16:33:17Z"
+        },
         {
             "login": "amyjko",
             "name": "Amy J. Ko",
             "avatar_url": "https://avatars.githubusercontent.com/u/552276?v=4",
             "html_url": "https://github.com/amyjko",
             "counts": {
-                "commit": 7189,
+                "commit": 7216,
                 "issue": 487,
-                "pull_request": 223,
-                "issue_comment": 2166,
+                "pull_request": 235,
+                "issue_comment": 2171,
                 "pr_review": 346,
                 "pr_review_comment": 80
             },
-            "latest": "2026-11-13T06:50:51Z"
+            "latest": "2026-11-15T17:00:14Z"
+        },
+        {
+            "login": "thomassinn24",
+            "name": "thomassinn24",
+            "avatar_url": "https://avatars.githubusercontent.com/u/116250555?v=4",
+            "html_url": "https://github.com/thomassinn24",
+            "counts": {
+                "commit": 1,
+                "issue": 4,
+                "pull_request": 2,
+                "issue_comment": 11,
+                "pr_review": 0,
+                "pr_review_comment": 0
+            },
+            "latest": "2026-11-15T02:28:47Z"
+        },
+        {
+            "login": "Lin5588",
+            "name": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/200559253?v=4",
+            "html_url": "https://github.com/Lin5588",
+            "counts": {
+                "commit": 0,
+                "issue": 1,
+                "pull_request": 0,
+                "issue_comment": 0,
+                "pr_review": 0,
+                "pr_review_comment": 0
+            },
+            "latest": "2026-11-14T01:27:36Z"
+        },
+        {
+            "login": "ellipsis7449",
+            "name": "Aditi K",
+            "avatar_url": "https://avatars.githubusercontent.com/u/210096731?v=4",
+            "html_url": "https://github.com/ellipsis7449",
+            "counts": {
+                "commit": 20,
+                "issue": 33,
+                "pull_request": 7,
+                "issue_comment": 44,
+                "pr_review": 0,
+                "pr_review_comment": 0
+            },
+            "latest": "2026-11-14T00:55:57Z"
         },
         {
             "login": "yanchengw",
@@ -47,21 +137,6 @@
             "latest": "2026-11-08T02:00:18Z"
         },
         {
-            "login": "BlmmToidi",
-            "name": null,
-            "avatar_url": "https://avatars.githubusercontent.com/u/67756347?v=4",
-            "html_url": "https://github.com/BlmmToidi",
-            "counts": {
-                "commit": 0,
-                "issue": 2,
-                "pull_request": 0,
-                "issue_comment": 0,
-                "pr_review": 0,
-                "pr_review_comment": 0
-            },
-            "latest": "2026-11-07T00:28:52Z"
-        },
-        {
             "login": "susan4syw",
             "name": "Susan Wu",
             "avatar_url": "https://avatars.githubusercontent.com/u/174283294?v=4",
@@ -75,21 +150,6 @@
                 "pr_review_comment": 0
             },
             "latest": "2026-11-06T05:34:41Z"
-        },
-        {
-            "login": "Frecesca",
-            "name": null,
-            "avatar_url": "https://avatars.githubusercontent.com/u/166247320?v=4",
-            "html_url": "https://github.com/Frecesca",
-            "counts": {
-                "commit": 0,
-                "issue": 0,
-                "pull_request": 0,
-                "issue_comment": 2,
-                "pr_review": 0,
-                "pr_review_comment": 0
-            },
-            "latest": "2026-11-05T21:18:36Z"
         },
         {
             "login": "claude",
@@ -107,21 +167,6 @@
             "latest": "2026-10-31T20:36:48Z"
         },
         {
-            "login": "ellipsis7449",
-            "name": "Aditi K",
-            "avatar_url": "https://avatars.githubusercontent.com/u/210096731?v=4",
-            "html_url": "https://github.com/ellipsis7449",
-            "counts": {
-                "commit": 20,
-                "issue": 32,
-                "pull_request": 7,
-                "issue_comment": 43,
-                "pr_review": 0,
-                "pr_review_comment": 0
-            },
-            "latest": "2026-10-31T06:32:57Z"
-        },
-        {
             "login": "spoorthip06",
             "name": null,
             "avatar_url": "https://avatars.githubusercontent.com/u/234116957?v=4",
@@ -135,36 +180,6 @@
                 "pr_review_comment": 0
             },
             "latest": "2026-10-23T19:11:50Z"
-        },
-        {
-            "login": "thomassinn24",
-            "name": "thomassinn24",
-            "avatar_url": "https://avatars.githubusercontent.com/u/116250555?v=4",
-            "html_url": "https://github.com/thomassinn24",
-            "counts": {
-                "commit": 1,
-                "issue": 4,
-                "pull_request": 2,
-                "issue_comment": 10,
-                "pr_review": 0,
-                "pr_review_comment": 0
-            },
-            "latest": "2026-10-18T18:52:34Z"
-        },
-        {
-            "login": "aamush2",
-            "name": null,
-            "avatar_url": "https://avatars.githubusercontent.com/u/205994253?v=4",
-            "html_url": "https://github.com/aamush2",
-            "counts": {
-                "commit": 0,
-                "issue": 1,
-                "pull_request": 0,
-                "issue_comment": 0,
-                "pr_review": 0,
-                "pr_review_comment": 0
-            },
-            "latest": "2026-10-10T00:10:53Z"
         },
         {
             "login": "tiaL-ops",
