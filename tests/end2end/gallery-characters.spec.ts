@@ -1,6 +1,7 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestCharacter } from '../helpers/createCharacter';
 import { createTestGallery } from '../helpers/createGallery';
+import { continueInFreshTab } from '../helpers/freshTab';
 import { drawTriangle } from '../helpers/drawCharacterPath';
 import { uniqueCharacterName } from '../helpers/uniqueCharacterName';
 import { waitForDocumentUpdate } from '../helpers/firestore';
@@ -22,25 +23,25 @@ import { waitForDocumentUpdate } from '../helpers/firestore';
 async function openShareDialog(
     page: import('@playwright/test').Page,
     characterId: string,
-) {
-    const picker = page.locator('#character-gallery-chooser');
-    if (!(await picker.isVisible())) {
-        await page.goto(
-            `/en-US/character/${characterId}?dialog=character-share`,
-        );
-        // Sharing settings are grouped into tabs; the gallery chooser is on
-        // its own, and Public is what opens first.
-        await page.getByRole('tab', { name: 'Gallery' }).click();
-        await picker.waitFor();
-    }
+): Promise<import('@playwright/test').Page> {
+    if (await page.locator('#character-gallery-chooser').isVisible())
+        return page;
+    // This leaves the character editor for another character page.
+    const tab = await continueInFreshTab(page);
+    await tab.goto(`/en-US/character/${characterId}?dialog=character-share`);
+    // Sharing settings are grouped into tabs; the gallery chooser is on
+    // its own, and Public is what opens first.
+    await tab.getByRole('tab', { name: 'Gallery' }).click();
+    await tab.locator('#character-gallery-chooser').waitFor();
+    return tab;
 }
 
 async function shareCharacterToGallery(
-    page: import('@playwright/test').Page,
+    from: import('@playwright/test').Page,
     characterId: string,
     galleryId: string,
-) {
-    await openShareDialog(page, characterId);
+): Promise<import('@playwright/test').Page> {
+    const page = await openShareDialog(from, characterId);
     // Wait for the gallery to reach this page's dropdown before choosing it.
     // The galleries listener re-establishes on every full page load, and
     // selectOption's own retry reports only "did not find some options",
@@ -49,6 +50,7 @@ async function shareCharacterToGallery(
         .locator(`#character-gallery-chooser option[value="${galleryId}"]`)
         .waitFor({ state: 'attached' });
     await page.locator('#character-gallery-chooser').selectOption(galleryId);
+    return page;
 }
 
 test('sharing a character to a gallery writes both character.gallery and gallery.characters', async ({
@@ -57,10 +59,10 @@ test('sharing a character to a gallery writes both character.gallery and gallery
     const galleryId = await createTestGallery(page, 'Character Gallery');
     const characterId = await createTestCharacter(page);
 
-    await shareCharacterToGallery(page, characterId, galleryId);
+    const tab = await shareCharacterToGallery(page, characterId, galleryId);
 
     const character = await waitForDocumentUpdate(
-        page,
+        tab,
         'characters',
         characterId,
         (data) => data?.gallery === galleryId,
@@ -69,7 +71,7 @@ test('sharing a character to a gallery writes both character.gallery and gallery
 
     // The half a single-document write would lose.
     const gallery = await waitForDocumentUpdate(
-        page,
+        tab,
         'galleries',
         galleryId,
         (data) =>
@@ -83,20 +85,20 @@ test('unsharing a character clears both sides', async ({ page }) => {
     const galleryId = await createTestGallery(page, 'Unshare Gallery');
     const characterId = await createTestCharacter(page);
 
-    await shareCharacterToGallery(page, characterId, galleryId);
+    const shared = await shareCharacterToGallery(page, characterId, galleryId);
     await waitForDocumentUpdate(
-        page,
+        shared,
         'characters',
         characterId,
         (data) => data?.gallery === galleryId,
     );
 
     // The "—" entry is first and carries an undefined value.
-    await openShareDialog(page, characterId);
-    await page.locator('#character-gallery-chooser').selectOption({ index: 0 });
+    const tab = await openShareDialog(shared, characterId);
+    await tab.locator('#character-gallery-chooser').selectOption({ index: 0 });
 
     const character = await waitForDocumentUpdate(
-        page,
+        tab,
         'characters',
         characterId,
         (data) => data?.gallery === null,
@@ -104,7 +106,7 @@ test('unsharing a character clears both sides', async ({ page }) => {
     expect(character?.gallery).toBe(null);
 
     const gallery = await waitForDocumentUpdate(
-        page,
+        tab,
         'galleries',
         galleryId,
         (data) =>
@@ -139,21 +141,23 @@ test('a shared character appears in the gallery page’s character list', async 
             typeof data?.name === 'string' && data.name.endsWith(`/${listed}`),
     );
 
-    await shareCharacterToGallery(page, characterId, galleryId);
+    const shared = await shareCharacterToGallery(page, characterId, galleryId);
     await waitForDocumentUpdate(
-        page,
+        shared,
         'characters',
         characterId,
         (data) => data?.gallery === galleryId,
     );
 
-    await page.goto(`/en-US/gallery/${galleryId}`);
+    // This leaves the character editor for a page of character tiles.
+    const tab = await continueInFreshTab(shared);
+    await tab.goto(`/en-US/gallery/${galleryId}`);
     // The section header, then the drawing itself — which is inert, so it's
     // found by its role rather than as a link.
     await expect(
-        page.getByRole('heading', { name: 'Characters' }),
+        tab.getByRole('heading', { name: 'Characters' }),
     ).toBeVisible();
-    await expect(page.getByRole('img', { name: listed })).toBeVisible();
+    await expect(tab.getByRole('img', { name: listed })).toBeVisible();
 });
 
 test('a colliding name is not saved, but the drawing still is', async ({
@@ -181,17 +185,19 @@ test('a colliding name is not saved, but the drawing still is', async ({
             typeof data?.name === 'string' && data.name.endsWith(`/${twin}`),
     );
 
-    const secondId = await createTestCharacter(page);
-    const secondName = page.locator('#character-name');
+    // This leaves the character editor for the characters page.
+    const tab = await continueInFreshTab(page);
+    const secondId = await createTestCharacter(tab);
+    const secondName = tab.locator('#character-name');
     await secondName.waitFor();
     await secondName.fill(twin);
     await secondName.press('Tab');
 
     // Drawing is an edit to something other than the name.
-    await drawTriangle(page);
+    await drawTriangle(tab);
 
     const character = await waitForDocumentUpdate(
-        page,
+        tab,
         'characters',
         secondId,
         (data) => Array.isArray(data?.shapes) && data.shapes.length > 0,
