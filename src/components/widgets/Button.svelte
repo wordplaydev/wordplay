@@ -16,14 +16,15 @@
     import { withMonoEmoji } from '#unicode/emoji.ts';
     import {
         getNameWithShownWords,
+        getSpokenWords,
         observeShownWords,
     } from '#components/widgets/labelInName.ts';
 
     interface Props {
         /** Tooltip for the button, and its ARIA label after any words it shows. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */
         tip: LocaleTextAccessor | (() => string);
-        /** Optional label; if children provided, they override */
-        label?: LocaleTextAccessor | undefined;
+        /** Optional label, localized or already text; if children provided, they override */
+        label?: LocaleTextAccessor | string | undefined;
         /** What to do when pressed */
         action: Action;
         /** Whether the button should be clickable */
@@ -141,6 +142,13 @@
     let pressed = $state(false);
     // The words the button shows, which must lead its name (WCAG 2.5.3).
     let shown = $state('');
+    // The words its own icon and label show, known before there is a DOM to measure,
+    // so the prerendered name already leads with them; measurement then takes over.
+    let declared = $derived(
+        getSpokenWords(
+            `${icon ?? ''} ${children || label === undefined ? '' : typeof label === 'string' ? label : $locales.getPrimaryPlainText(label)}`,
+        ),
+    );
 
     let hint = getTip();
     let localizing = getLocalizing();
@@ -195,7 +203,7 @@
     data-uiid={uiid}
     class={classes}
     type={submit ? 'submit' : 'button'}
-    aria-label={getNameWithShownWords(shown, tooltip)}
+    aria-label={getNameWithShownWords(shown || declared, tooltip)}
     aria-disabled={!active}
     aria-keyshortcuts={ariaShortcut}
     aria-expanded={expanded}
@@ -275,7 +283,7 @@
         />{:else}{#if icon}{#if spinIcon}<span class="spin-icon"
                     >{withMonoEmoji(icon)}</span
                 >{:else}{withMonoEmoji(icon)}{/if}{/if}
-        {#if children}{@render children()}{:else if label && !tipEditing}<LocalizedText
+        {#if children}{@render children()}{:else if typeof label === 'string'}{label}{:else if label && !tipEditing}<LocalizedText
                 path={label}
                 onEditingChange={(e) => (labelEditing = e)}
             />{/if}{#if !children && localizing?.on && !isComputedTooltip(tip) && !labelEditing}<LocalizedText

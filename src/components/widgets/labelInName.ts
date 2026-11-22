@@ -32,6 +32,11 @@ export function getShownWords(element: Element): string {
     );
     for (let node = walker.nextNode(); node; node = walker.nextNode())
         if (node instanceof Text) text += node.data;
+    return getSpokenWords(text);
+}
+
+/** The words in some text, without symbols or emoji, or '' if it has none. */
+export function getSpokenWords(text: string): string {
     const words = text.replace(Unspoken, ' ').replace(/\s+/g, ' ').trim();
     return Spoken.test(words) ? words : '';
 }

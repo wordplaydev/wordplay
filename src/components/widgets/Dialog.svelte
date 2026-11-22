@@ -5,7 +5,6 @@
     import setKeyboardFocus from '#components/util/setKeyboardFocus.ts';
     import Button from '#components/widgets/Button.svelte';
     import Hint from '#components/widgets/Hint.svelte';
-    import LocalizedText from '#components/widgets/LocalizedText.svelte';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
@@ -160,11 +159,6 @@
 </script>
 
 {#if button}
-    {#snippet buttonLabel()}
-        {#if typeof button?.label === 'string'}{button.label}{:else if button?.label}<LocalizedText
-                path={button.label}
-            />{/if}
-    {/snippet}
     <Button
         tip={button.tip}
         shortcut={button.shortcut}
@@ -175,7 +169,7 @@
         loading={button.loading ?? false}
         background={button.background ?? false}
         testid={button.testid}
-        children={button.label !== undefined ? buttonLabel : undefined}
+        label={button.label}
     />
 {/if}
 <!-- The keydown catches Escape so the `show` state stays in sync with the

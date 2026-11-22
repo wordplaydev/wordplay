@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { getNameWithShownWords } from './labelInName';
+import { getNameWithShownWords, getSpokenWords } from './labelInName';
 
 describe('getNameWithShownWords', () => {
     test.each([
@@ -35,4 +35,18 @@ describe('getNameWithShownWords', () => {
     ])('%s + %s', (shown, tip, name) =>
         expect(getNameWithShownWords(shown, tip)).toBe(name),
     );
+});
+
+describe('getSpokenWords', () => {
+    test.each([
+        // A count beside a symbol is a word; the symbol and its selector are not.
+        ['🔔︎ 0', '0'],
+        ['🔔 0', '0'],
+        ['🖥︎ saved', 'saved'],
+        ['🌎︎ English', 'English'],
+        // A glyph alone, or punctuation alone, shows no word.
+        ['⚙︎', ''],
+        ['💡︎/🪲︎', ''],
+        [' ', ''],
+    ])('%s', (text, words) => expect(getSpokenWords(text)).toBe(words));
 });

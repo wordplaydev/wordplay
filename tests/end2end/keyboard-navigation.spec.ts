@@ -59,11 +59,14 @@ test('notifications dialog traps focus and Escape restores it to the opener', as
     await expect(opener).toBeVisible();
     // Activate with the keyboard: Buttons deliberately don't take focus from
     // pointer clicks, and the restore-focus contract is about keyboard users.
-    await opener.focus();
-    await page.keyboard.press('Enter');
-
+    // The button is prerendered, so a press that lands before hydration does
+    // nothing (WebKit hydrates late enough to lose it); press until it opens.
     const dialog = page.locator('dialog[open]');
-    await expect(dialog).toBeVisible();
+    await expect(async () => {
+        await opener.focus();
+        await page.keyboard.press('Enter');
+        await expect(dialog).toBeVisible({ timeout: 1000 });
+    }).toPass();
     // Focus lands inside the (native, modal) dialog…
     await expect
         .poll(() =>
